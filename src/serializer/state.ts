@@ -87,13 +87,15 @@ export class State {
      * @returns State instance.
      */
     flushClose(size = 1) {
-        if (!this.closed || size < 1) return this;
+        if (!this.closed) return this;
 
         if (!this.atBlank) this.out += '\n';
 
-        const prefix = this.utils.removeWhiteSpaceAfter(this.delimitation);
-        const delimitations = this.utils.repeat(prefix + '\n', size);
-        this.out += delimitations;
+        if (size >= 1) {
+            const prefix = this.utils.removeWhiteSpaceAfter(this.delimitation);
+            const delimitations = this.utils.repeat(prefix + '\n', size);
+            this.out += delimitations;
+        }
         this.closed = false;
 
         return this;
@@ -212,5 +214,15 @@ export class State {
         cleanUp();
 
         return this;
+    }
+
+    renderList(node: Node, delimitation: string, getFirstDelimitation: (index: number) => string) {
+        if (this.closed && this.closed.type === node.type) {
+            this.flushClose(2);
+        }
+
+        node.forEach((child, _, i) => {
+            this.wrapBlock(delimitation, node, () => this.render(child, node, i), getFirstDelimitation(i));
+        });
     }
 }

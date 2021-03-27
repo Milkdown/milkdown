@@ -3,7 +3,7 @@ import type { State } from './state';
 
 export type TokenHandler = (state: State, currentToken: Token, tokens: Token[], index: number) => void;
 
-export type Attrs = Record<string, string | number | null>;
+export type Attrs = Record<string, string | number | boolean | null>;
 
 type ParserSpecFactory<T> = {
     getAttrs?: (currentToken: Token, tokens: Token[], index: number) => Attrs;
