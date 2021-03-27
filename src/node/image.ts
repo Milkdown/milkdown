@@ -45,7 +45,7 @@ export class Image extends Node {
         state.write(`![${alt}](${link}) `);
     };
     inputRules = (nodeType: NodeType) => [
-        new InputRule(/!\[(?<alt>.*?)]\((?<filename>.*?)(?=“|\))“?(?<title>[^”]+)?”?\)/, (state, match, start, end) => {
+        new InputRule(/!\[(?<alt>.*?)]\((?<filename>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
             const [okay, alt, src, title] = match;
             const { tr } = state;
             if (okay) {

@@ -18,7 +18,7 @@ Hello, ***milkdown* nice \`to\` meet *you***!
 
 ---
 
-**Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1)**
+**Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1 "kitty")**
 `;
 
 new Editor(root, markdown);
