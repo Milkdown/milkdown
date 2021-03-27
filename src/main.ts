@@ -16,6 +16,8 @@ const markdown = `
 
 Hello, ***milkdown* nice \`to\` meet *you***!
 
+---
+
 **Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1)**
 `;
 
