@@ -21,6 +21,8 @@ Hello, ***milkdown* nice \`to\` meet *you***!
 **Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1 "kitty")**
 
 * list item 1
+    1. is this the real life
+    2. is this just fantasy
 * list item 2
     * sub list item 1
       som explain
