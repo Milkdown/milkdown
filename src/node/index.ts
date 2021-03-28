@@ -6,9 +6,11 @@ import { Hr } from './hr';
 import { BulletList } from './bullet-list';
 import { ListItem } from './list-item';
 import { OrderedList } from './ordered-list';
+import { HardBreak } from './hard-break';
 
 export const nodes = [
     new Paragraph(),
+    new HardBreak(),
     new Blockquote(),
     new OrderedList(),
     new BulletList(),

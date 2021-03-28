@@ -11,12 +11,13 @@ export function createTokenHandlers(schema: Schema, specMap: Record<string, Pars
         if (isBlockSpec(spec)) {
             const nodeType = schema.nodes[spec.block];
             if (!nodeType) throw new Error();
-            if (['hr'].includes(type)) {
+            if (['hr', 'hardbreak'].includes(type)) {
                 handlers[type] = (state, tok, tokens, i) => {
                     state.stack.openNode(nodeType, attrs(spec, tok, tokens, i));
                     state.addText(tok.content);
                     state.stack.closeNode();
                 };
+                return;
             }
             handlers[type + '_open'] = (state, tok, tokens, i) =>
                 state.stack.openNode(nodeType, attrs(spec, tok, tokens, i));

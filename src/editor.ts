@@ -82,9 +82,11 @@ export class Editor {
     }
 
     private createEditor(root: Element, defaultValue: string) {
+        const doc = this.parser(defaultValue);
+        console.log('---doc---', doc);
         const state = EditorState.create({
             schema: this.schema,
-            doc: this.parser(defaultValue),
+            doc,
             plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap)],
         });
         const view = new EditorView(root, {

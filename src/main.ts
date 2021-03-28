@@ -14,7 +14,8 @@ const markdown = `
 
 > Milkdown is an editor.
 
-Hello, ***milkdown* nice \`to\` meet *you***!
+Hello, ***milkdown* nice \`to\` meet *you***!  
+wtf
 
 ---
 
@@ -28,6 +29,10 @@ Hello, ***milkdown* nice \`to\` meet *you***!
       som explain
     * sub list item 2
 * list item 3
+
+---
+
+Link is here
 `;
 
 new Editor(root, markdown);
