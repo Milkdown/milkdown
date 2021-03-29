@@ -4,6 +4,7 @@
         "inputrules",
         "milkdown",
         "prosemirror",
+        "textblock",
         "textbox",
         "vite"
     ]
