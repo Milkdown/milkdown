@@ -12,14 +12,24 @@ if (!root) {
 const markdown = `
 # Milkdown Test
 
+## Blockquote
+
 > Milkdown is an editor.
 
+## Marks Paragraph
+
 Hello, ***milkdown* nice \`to\` meet *you***!  
-wtf
+There should be a line break before this.
 
 ---
 
+## Image and Link
+
 **Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1 "kitty")**
+
+Your *[link is here](https://bing.com "bing")*, have a look.
+
+## Lists
 
 * list item 1
     1. is this the real life
@@ -30,9 +40,17 @@ wtf
     * sub list item 2
 * list item 3
 
+## Code
+
+\`\`\`javascript
+const milkdown = new Milkdown();
+
+milkdown.create();
+\`\`\`
+
 ---
 
-[Link is here](https://bing.com "bing")
+Now you can play!
 `;
 
 new Editor(root, markdown);
