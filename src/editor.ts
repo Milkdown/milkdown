@@ -70,12 +70,12 @@ export class Editor {
         const nodesInputRules = this.nodes.reduce((acc, cur) => {
             const node = this.schema.nodes[cur.name];
             if (!node) return acc;
-            return [...acc, ...cur.inputRules(node)];
+            return [...acc, ...cur.inputRules(node, this.schema)];
         }, [] as InputRule[]);
         const marksInputRules = this.marks.reduce((acc, cur) => {
             const mark = this.schema.marks[cur.name];
             if (!mark) return acc;
-            return [...acc, ...cur.inputRules(mark)];
+            return [...acc, ...cur.inputRules(mark, this.schema)];
         }, [] as InputRule[]);
 
         return [...nodesInputRules, ...marksInputRules];

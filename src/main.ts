@@ -32,7 +32,7 @@ wtf
 
 ---
 
-Link is here
+[Link is here](https://bing.com "bing")
 `;
 
 new Editor(root, markdown);
