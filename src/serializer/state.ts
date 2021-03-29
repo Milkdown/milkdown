@@ -188,6 +188,11 @@ export class State {
 
             this.write(clearMarks);
         };
+        const comparePriority = (desc = false) => (l: Mark, r: Mark) => {
+            const pL = this.marks[l.type.name]?.priority ?? 0;
+            const pR = this.marks[r.type.name]?.priority ?? 0;
+            return desc ? pL - pR : pR - pL;
+        };
 
         parent.forEach((node, _, index) => {
             if (!hasText(node)) {
@@ -197,9 +202,9 @@ export class State {
 
             const marks: Mark[] = node.marks || [];
             // Find marks not closed and not exists in current node
-            const marksToBeClosed = marksNotClosed.filter((mark) => !marks.includes(mark));
+            const marksToBeClosed = marksNotClosed.filter((mark) => !marks.includes(mark)).sort(comparePriority());
             // Find new added marks
-            const marksToBeOpened = marks.filter((mark) => !marksNotClosed.includes(mark));
+            const marksToBeOpened = marks.filter((mark) => !marksNotClosed.includes(mark)).sort(comparePriority(true));
 
             marksToBeOpened.forEach((mark) => marksNotClosed.push(mark));
             marksNotClosed = marksNotClosed.filter((mark) => !marksToBeClosed.includes(mark));

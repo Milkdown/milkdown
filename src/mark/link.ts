@@ -36,6 +36,7 @@ export class Link extends Mark {
 
             return `](${link}${title})`;
         },
+        priority: 1,
     };
     inputRules = (markType: MarkType, schema: Schema) => [
         new InputRule(/\[(?<text>.+?)]\((?<href>.+?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {

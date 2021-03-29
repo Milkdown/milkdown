@@ -9,6 +9,7 @@ export type SerializerNode = (state: State, node: Node, parent: Node, index: num
 export type SerializerMark = {
     open: MarkFactory | string;
     close: MarkFactory | string;
+    priority?: number;
 };
 
 type MarkFactory = (state: State, mark: Mark, parent: Node, index: number) => string;
