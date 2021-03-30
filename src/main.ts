@@ -57,4 +57,8 @@ milkdown.create();
 Now you can play!
 `;
 
-new Editor(root, markdown);
+new Editor({
+    root,
+    defaultValue: markdown,
+    onChange: value => console.log(value()),
+});

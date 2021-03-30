@@ -14,7 +14,15 @@ import { marks } from './mark';
 import { nodes } from './node';
 import { buildObject } from './utility/buildObject';
 
-const md = new MarkdownIt();
+type OnChange = (getValue: () => string) => void;
+
+interface Options {
+    root: Element;
+    defaultValue?: string;
+    markdownIt?: MarkdownIt;
+    onChange?: OnChange;
+}
+
 export class Editor {
     private schema: Schema;
     private parser: (text: string) => ProsemirrorNode | null;
@@ -22,16 +30,27 @@ export class Editor {
     private nodes: Node[];
     private marks: Mark[];
     private inputRules: InputRule[];
+    private markdownIt: MarkdownIt;
+    private view: EditorView;
+    private onChange?: OnChange;
 
-    constructor(root: Element, defaultValue = '') {
+    constructor({ root, defaultValue = '', markdownIt = new MarkdownIt('commonmark'), onChange }: Options) {
+        this.markdownIt = markdownIt;
+        this.onChange = onChange;
+
         this.nodes = nodes;
         this.marks = marks;
+
         this.schema = this.createSchema();
         this.parser = this.createParser();
         this.serializer = this.createSerializer();
         this.inputRules = this.createInputRules();
 
-        this.createEditor(root, defaultValue);
+        this.view = this.createView(root, defaultValue);
+    }
+
+    public get value() {
+        return this.serializer(this.view.state.doc);
     }
 
     private createSchema() {
@@ -51,7 +70,7 @@ export class Editor {
     private createParser() {
         const children = [...this.nodes, ...this.marks];
         const spec = buildObject(children, (child) => [child.name, child.parser]);
-        return createParser(this.schema, md, spec);
+        return createParser(this.schema, this.markdownIt, spec);
     }
 
     private createSerializer() {
@@ -81,9 +100,8 @@ export class Editor {
         return [...nodesInputRules, ...marksInputRules];
     }
 
-    private createEditor(root: Element, defaultValue: string) {
+    private createView(root: Element, defaultValue: string) {
         const doc = this.parser(defaultValue);
-        console.log('---doc---', doc);
         const state = EditorState.create({
             schema: this.schema,
             doc,
@@ -94,12 +112,11 @@ export class Editor {
             dispatchTransaction: (tr) => {
                 const nextState = view.state.apply(tr);
                 view.updateState(nextState);
-                console.log(nextState.doc);
 
-                // onChange
-                console.log(this.serializer(nextState.doc));
+                this.onChange?.(() => this.value);
             },
         });
         view.dom.setAttribute('role', 'textbox');
+        return view;
     }
 }
