@@ -31,7 +31,9 @@ Your *[link is here](https://bing.com "bing")*, have a look.
     2. is this just fantasy
 * list item 2
     * sub list item 1
-      som explain
+
+        some explain
+
     * sub list item 2
 * list item 3
 
