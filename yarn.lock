@@ -673,9 +673,10 @@ __metadata:
     prosemirror-keymap: ^1.1.4
     prosemirror-model: ^1.13.3
     prosemirror-state: ^1.3.4
-    prosemirror-view: ^1.17.8
+    prosemirror-view: ^1.18.2
     ts-jest: ^26.5.4
     typescript: ^4.2.3
+    vite: ^2.1.4
   languageName: unknown
   linkType: soft
 
@@ -737,13 +738,6 @@ __metadata:
   dependencies:
     defer-to-connect: ^2.0.0
   checksum: 13d8f71dbd792b620b2cd13d72d086ef031ebefd5263a9db2f34693a32e4d90920fa1d7075cd59bf0c9810b2b1b93ad36d89fc88aba4cd3b8022df7ecc5ffdec
-  languageName: node
-  linkType: hard
-
-"@type-config/strict@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@type-config/strict@npm:1.1.1"
-  checksum: 1c2b6ee02837b6804a4e1adc6bb6fd7d49fb13837549f4f0987e62b8b47592ee6b7fdc002eaee44bde30556f4157e8ae07277d54d3ba285db7d0eb7b71911584
   languageName: node
   linkType: hard
 
@@ -2081,7 +2075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^1.2.1":
+"colorette@npm:^1.2.1, colorette@npm:^1.2.2":
   version: 1.2.2
   resolution: "colorette@npm:1.2.2"
   checksum: e240f0c94b8d9f34b52bd17b50fc13a3b74f9e662edeaa2b0c65e06ec6b1fc6367fb42b834ec5a1d819d68b74a3d850f3bd3e284f9e614d6c4ffa122f83c6ec5
@@ -2469,6 +2463,15 @@ __metadata:
   dependencies:
     is-arrayish: ^0.2.1
   checksum: 6c6c9187429ae867d145bc64c682c7c137b1f8373a406dc3b605c0d92f15b85bfcea02b461dc55ae11b10d013377e1eaf3d469d2861b2f94703c743620a9c08c
+  languageName: node
+  linkType: hard
+
+"esbuild@npm:^0.9.3":
+  version: 0.9.7
+  resolution: "esbuild@npm:0.9.7"
+  bin:
+    esbuild: bin/esbuild
+  checksum: 78a45e561156d8ecedfdbccddb83486b14f892a2624c100ff4a5150353a416b85a881d298a11da3447d3a2655571237dc9049a011ca10f4fedded2ffaab397c9
   languageName: node
   linkType: hard
 
@@ -2990,7 +2993,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-fsevents@^2.1.2:
+"fsevents@^2.1.2, fsevents@~2.3.1":
   version: 2.3.2
   resolution: "fsevents@npm:2.3.2"
   dependencies:
@@ -2999,7 +3002,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@^2.1.2#builtin<compat/fsevents>":
+"fsevents@patch:fsevents@^2.1.2#builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.1#builtin<compat/fsevents>":
   version: 2.3.2
   resolution: "fsevents@patch:fsevents@npm%3A2.3.2#builtin<compat/fsevents>::version=2.3.2&hash=11e9ea"
   dependencies:
@@ -4659,7 +4662,6 @@ fsevents@^2.1.2:
   version: 0.0.0-use.local
   resolution: "milkdown@workspace:."
   dependencies:
-    "@type-config/strict": ^1.1.1
     "@types/jest": ^26.0.20
     "@typescript-eslint/eslint-plugin": ^4.15.2
     "@typescript-eslint/parser": ^4.15.2
@@ -4789,6 +4791,15 @@ fsevents@^2.1.2:
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
   checksum: 9b65fb709bc30c0c07289dcbdb61ca032acbb9ea5698b55fa62e2cebb04c5953f1876a1f3f7f4bc2e91d4bf4d86003f3e207c3bc6ee2f716f99827e62389cd0e
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:^3.1.20":
+  version: 3.1.22
+  resolution: "nanoid@npm:3.1.22"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 6a38c799816de388cd67233a9fad6216e0ad2abda3ce5b34eb126afbef6905924507223dc65797e2bcbc513f9cd7e078ea7e69448d59f434a6206b491278ae24
   languageName: node
   linkType: hard
 
@@ -5273,6 +5284,17 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"postcss@npm:^8.2.1":
+  version: 8.2.8
+  resolution: "postcss@npm:8.2.8"
+  dependencies:
+    colorette: ^1.2.2
+    nanoid: ^3.1.20
+    source-map: ^0.6.1
+  checksum: 6e17d28833cf918a5ab306bfc7ec66b236dc51ed0f3de959491d40f6a171f5bd5f26de12f74e6bfeebaad44b0ac92b9f477a669d5f1fc07a27d67d8147a4bf6f
+  languageName: node
+  linkType: hard
+
 "prelude-ls@npm:^1.2.1":
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
@@ -5445,7 +5467,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"prosemirror-view@npm:^1.17.8":
+"prosemirror-view@npm:^1.18.2":
   version: 1.18.2
   resolution: "prosemirror-view@npm:1.18.2"
   dependencies:
@@ -5705,7 +5727,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"resolve@^1.10.0, resolve@^1.18.1":
+"resolve@^1.10.0, resolve@^1.18.1, resolve@^1.19.0":
   version: 1.20.0
   resolution: "resolve@npm:1.20.0"
   dependencies:
@@ -5715,7 +5737,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.10.0#builtin<compat/resolve>, resolve@patch:resolve@^1.18.1#builtin<compat/resolve>":
+"resolve@patch:resolve@^1.10.0#builtin<compat/resolve>, resolve@patch:resolve@^1.18.1#builtin<compat/resolve>, resolve@patch:resolve@^1.19.0#builtin<compat/resolve>":
   version: 1.20.0
   resolution: "resolve@patch:resolve@npm%3A1.20.0#builtin<compat/resolve>::version=1.20.0&hash=3388aa"
   dependencies:
@@ -5756,6 +5778,20 @@ fsevents@^2.1.2:
   bin:
     rimraf: bin.js
   checksum: f0de3e445581e64a8a077af476cc30708e659f5779ec2ca2a161556d0792aa318a685923798ae22055b4ecd02b9aff444ef619578f7af53cf8e0e248031e3dee
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^2.38.5":
+  version: 2.44.0
+  resolution: "rollup@npm:2.44.0"
+  dependencies:
+    fsevents: ~2.3.1
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 8142c058b297e478b4b0a1fcf114aac26a3ac2b9bb18b15af3895751a4c161708789f6a72f3bc02148cff8482a8dc69c303bd052cb56f2e61fcb4218c734cb11
   languageName: node
   linkType: hard
 
@@ -6749,6 +6785,24 @@ fsevents@^2.1.2:
     core-util-is: 1.0.2
     extsprintf: ^1.2.0
   checksum: 38ea80312cb42e5e8b4ac562d108d675b2354a79f8f125d363671f692657461b9181fd26f4fc9acdca433f8afee099cb78058806e1303e6b15b8fb022affba94
+  languageName: node
+  linkType: hard
+
+"vite@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "vite@npm:2.1.4"
+  dependencies:
+    esbuild: ^0.9.3
+    fsevents: ~2.3.1
+    postcss: ^8.2.1
+    resolve: ^1.19.0
+    rollup: ^2.38.5
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: e23bc550213f987627924ef708f42d7a95e2ebbb9c5e7933af5276d2df92bea993b0b8d81ad980d712d4256486b232221129225a8748a512451d523113bed0e6
   languageName: node
   linkType: hard
 

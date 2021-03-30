@@ -271,10 +271,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:4.0.5"
       ],
       [
-        "@type-config/strict",
-        "npm:1.1.1"
-      ],
-      [
         "@types/babel__core",
         "npm:7.1.14"
       ],
@@ -933,6 +929,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "error-ex",
         "npm:1.3.2"
+      ],
+      [
+        "esbuild",
+        "npm:0.9.7"
       ],
       [
         "escalade",
@@ -1723,6 +1723,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:2.1.2"
       ],
       [
+        "nanoid",
+        "npm:3.1.22"
+      ],
+      [
         "nanomatch",
         "npm:1.2.13"
       ],
@@ -1919,6 +1923,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:0.1.1"
       ],
       [
+        "postcss",
+        "npm:8.2.8"
+      ],
+      [
         "prelude-ls",
         "npm:1.2.1"
       ],
@@ -2113,6 +2121,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "rimraf",
         "npm:3.0.2"
+      ],
+      [
+        "rollup",
+        "npm:2.44.0"
       ],
       [
         "rsvp",
@@ -2463,6 +2475,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:1.10.0"
       ],
       [
+        "vite",
+        "npm:2.1.4"
+      ],
+      [
         "w3c-hr-time",
         "npm:1.0.2"
       ],
@@ -2558,7 +2574,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
-            ["@type-config/strict", "npm:1.1.1"],
             ["@types/jest", "npm:26.0.22"],
             ["@typescript-eslint/eslint-plugin", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:4.20.0"],
             ["@typescript-eslint/parser", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:4.20.0"],
@@ -3442,7 +3457,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prosemirror-state", "npm:1.3.4"],
             ["prosemirror-view", "npm:1.18.2"],
             ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.4"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
+            ["vite", "npm:2.1.4"]
           ],
           "linkType": "SOFT",
         }]
@@ -3513,15 +3529,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@szmarczak/http-timer", "npm:4.0.5"],
             ["defer-to-connect", "npm:2.0.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@type-config/strict", [
-        ["npm:1.1.1", {
-          "packageLocation": "./.yarn/cache/@type-config-strict-npm-1.1.1-34e9082201-1c2b6ee028.zip/node_modules/@type-config/strict/",
-          "packageDependencies": [
-            ["@type-config/strict", "npm:1.1.1"]
           ],
           "linkType": "HARD",
         }]
@@ -5599,6 +5606,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["error-ex", "npm:1.3.2"],
             ["is-arrayish", "npm:0.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["esbuild", [
+        ["npm:0.9.7", {
+          "packageLocation": "./.yarn/unplugged/esbuild-npm-0.9.7-6b1d054429/node_modules/esbuild/",
+          "packageDependencies": [
+            ["esbuild", "npm:0.9.7"]
           ],
           "linkType": "HARD",
         }]
@@ -8054,7 +8070,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["milkdown", "workspace:."],
-            ["@type-config/strict", "npm:1.1.1"],
             ["@types/jest", "npm:26.0.22"],
             ["@typescript-eslint/eslint-plugin", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:4.20.0"],
             ["@typescript-eslint/parser", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:4.20.0"],
@@ -8196,6 +8211,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ms-npm-2.1.2-ec0c1512ff-9b65fb709b.zip/node_modules/ms/",
           "packageDependencies": [
             ["ms", "npm:2.1.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["nanoid", [
+        ["npm:3.1.22", {
+          "packageLocation": "./.yarn/cache/nanoid-npm-3.1.22-e0ab44a9c0-6a38c79981.zip/node_modules/nanoid/",
+          "packageDependencies": [
+            ["nanoid", "npm:3.1.22"]
           ],
           "linkType": "HARD",
         }]
@@ -8746,6 +8770,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/posix-character-classes-npm-0.1.1-3e228a6e15-984f83c2d4.zip/node_modules/posix-character-classes/",
           "packageDependencies": [
             ["posix-character-classes", "npm:0.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["postcss", [
+        ["npm:8.2.8", {
+          "packageLocation": "./.yarn/cache/postcss-npm-8.2.8-51dc071914-6e17d28833.zip/node_modules/postcss/",
+          "packageDependencies": [
+            ["postcss", "npm:8.2.8"],
+            ["colorette", "npm:1.2.2"],
+            ["nanoid", "npm:3.1.22"],
+            ["source-map", "npm:0.6.1"]
           ],
           "linkType": "HARD",
         }]
@@ -9326,6 +9362,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["rimraf", "npm:3.0.2"],
             ["glob", "npm:7.1.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["rollup", [
+        ["npm:2.44.0", {
+          "packageLocation": "./.yarn/cache/rollup-npm-2.44.0-933a5cc29a-8142c058b2.zip/node_modules/rollup/",
+          "packageDependencies": [
+            ["rollup", "npm:2.44.0"],
+            ["fsevents", "patch:fsevents@npm%3A2.3.2#builtin<compat/fsevents>::version=2.3.2&hash=11e9ea"]
           ],
           "linkType": "HARD",
         }]
@@ -10443,6 +10489,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["assert-plus", "npm:1.0.0"],
             ["core-util-is", "npm:1.0.2"],
             ["extsprintf", "npm:1.4.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["vite", [
+        ["npm:2.1.4", {
+          "packageLocation": "./.yarn/cache/vite-npm-2.1.4-b6e8a47b99-e23bc55021.zip/node_modules/vite/",
+          "packageDependencies": [
+            ["vite", "npm:2.1.4"],
+            ["esbuild", "npm:0.9.7"],
+            ["fsevents", "patch:fsevents@npm%3A2.3.2#builtin<compat/fsevents>::version=2.3.2&hash=11e9ea"],
+            ["postcss", "npm:8.2.8"],
+            ["resolve", "patch:resolve@npm%3A1.20.0#builtin<compat/resolve>::version=1.20.0&hash=3388aa"],
+            ["rollup", "npm:2.44.0"]
           ],
           "linkType": "HARD",
         }]

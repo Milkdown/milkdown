@@ -14,13 +14,15 @@ import { marks } from './mark';
 import { nodes } from './node';
 import { buildObject } from './utility/buildObject';
 
-type OnChange = (getValue: () => string) => void;
+export type OnChange = (getValue: () => string) => void;
 
-interface Options {
+export interface Options {
     root: Element;
     defaultValue?: string;
     markdownIt?: MarkdownIt;
     onChange?: OnChange;
+    getNodes?: (preset: Node[]) => Node[];
+    getMarks?: (preset: Mark[]) => Mark[];
 }
 
 export class Editor {
@@ -34,12 +36,12 @@ export class Editor {
     private view: EditorView;
     private onChange?: OnChange;
 
-    constructor({ root, defaultValue = '', markdownIt = new MarkdownIt('commonmark'), onChange }: Options) {
+    constructor({ root, defaultValue = '', markdownIt = new MarkdownIt('commonmark'), onChange, getNodes, getMarks }: Options) {
         this.markdownIt = markdownIt;
         this.onChange = onChange;
 
-        this.nodes = nodes;
-        this.marks = marks;
+        this.nodes = getNodes?.(nodes) ?? nodes;
+        this.marks = getMarks?.(marks) ?? marks;
 
         this.schema = this.createSchema();
         this.parser = this.createParser();

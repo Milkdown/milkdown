@@ -1,7 +1,21 @@
-
 {
-    "extends": "@type-config/strict/tsconfig.json",
     "compilerOptions": {
-        "lib": ["dom", "es2017", "es2018", "es2019"]
+        "target": "esnext",
+        "lib": ["dom", "es2017", "es2018", "es2019"],
+        "module": "commonjs",
+        "noEmitOnError": true,
+
+        "declaration": true,
+        "sourceMap": true,
+
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+
+        "strict": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true
     }
 }
