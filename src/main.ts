@@ -60,5 +60,5 @@ Now you can play!
 new Editor({
     root,
     defaultValue: markdown,
-    onChange: value => console.log(value()),
+    onChange: (value) => console.log(value()),
 });
