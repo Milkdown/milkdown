@@ -1,14 +1,6 @@
 {
-    "extends": "@type-config/strict/tsconfig.json",
+    "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "outDir": "lib",
-        "lib": ["dom", "es2017", "es2018", "es2019"]
-    },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "lib",
-        "node_modules"
-    ]
+        "noEmit": true
+    }
 }

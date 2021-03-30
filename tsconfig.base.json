@@ -1,0 +1,7 @@
+
+{
+    "extends": "@type-config/strict/tsconfig.json",
+    "compilerOptions": {
+        "lib": ["dom", "es2017", "es2018", "es2019"]
+    }
+}

@@ -1,5 +1,15 @@
+lib
 node_modules
 .DS_Store
 dist
 dist-ssr
 *.local
+
+# yarn zero installs
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
