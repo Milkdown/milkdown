@@ -1,4 +1,5 @@
 import { Editor } from '../src';
+import './style.css';
 
 const markdown = `
 # Milkdown Test
