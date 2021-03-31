@@ -19,7 +19,7 @@ export class Link extends Mark {
                 getAttrs: (dom: any) => ({ href: dom.getAttribute('href'), title: dom.getAttribute('title') }),
             },
         ],
-        toDOM: (node) => ['a', node.attrs],
+        toDOM: (node) => ['a', { ...node.attrs, class: 'link' }],
     };
     parser: ParserSpec = {
         mark: 'link',

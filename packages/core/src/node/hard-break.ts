@@ -8,7 +8,7 @@ export class HardBreak extends Node {
         group: 'inline',
         selectable: false,
         parseDOM: [{ tag: 'br' }],
-        toDOM: () => ['br'] as const,
+        toDOM: () => ['br', { class: 'bard-break' }] as const,
     };
     parser = {
         block: this.name,

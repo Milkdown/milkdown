@@ -20,7 +20,8 @@ export class OrderedList extends Node {
                 getAttrs: (dom: any) => ({ order: dom.hasAttribute('start') ? Number(dom.getAttribute('start')) : 1 }),
             },
         ],
-        toDOM: (node) => (node.attrs.order === 1 ? ['ol', 0] : ['ol', { start: node.attrs.order }, 0]),
+        // toDOM: (node) => (node.attrs.order === 1 ? ['ol', 0] : ['ol', { start: node.attrs.order }, 0]),
+        toDOM: (node) => ['ol', { ...(node.attrs.order === 1 ? {} : node.attrs.order), class: 'ol' }, 0],
     };
     parser = {
         block: this.name,

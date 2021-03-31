@@ -11,7 +11,7 @@ export class Strong extends Mark {
             { tag: 'strong' },
             { style: 'font-style', getAttrs: (value) => (value === 'bold') as false },
         ],
-        toDOM: () => ['strong'],
+        toDOM: () => ['strong', { class: 'strong' }],
     };
     parser = {
         mark: this.name,

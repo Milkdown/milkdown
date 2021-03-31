@@ -26,7 +26,7 @@ export class Image extends Node {
                 }),
             },
         ],
-        toDOM: (node) => ['img', node.attrs],
+        toDOM: (node) => ['img', { ...node.attrs, class: 'image' }],
     };
     parser: ParserSpec = {
         node: 'image',

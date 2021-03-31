@@ -7,7 +7,7 @@ export class Paragraph extends Node {
         content: 'inline*',
         group: 'block',
         parseDOM: [{ tag: 'p' }],
-        toDOM: () => ['p', 0] as const,
+        toDOM: () => ['p', { class: 'paragraph' }, 0] as const,
     };
     parser = {
         block: this.name,

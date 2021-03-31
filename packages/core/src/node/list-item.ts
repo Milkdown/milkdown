@@ -7,7 +7,7 @@ export class ListItem extends Node {
         content: 'paragraph block*',
         defining: true,
         parseDOM: [{ tag: 'li' }],
-        toDOM: () => ['li', 0] as const,
+        toDOM: () => ['li', { class: 'list-item' }, 0] as const,
     };
     parser = {
         block: this.name,

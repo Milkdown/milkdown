@@ -9,7 +9,7 @@ export class BulletList extends Node {
         content: 'list_item+',
         group: 'block',
         parseDOM: [{ tag: 'ul' }],
-        toDOM: () => ['ul', 0] as const,
+        toDOM: () => ['ul', { class: 'bullet-list' }, 0] as const,
     };
     parser = {
         block: this.name,

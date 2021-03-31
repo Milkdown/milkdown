@@ -23,8 +23,11 @@ export class CodeFence extends Node {
         ],
         toDOM: (node) => [
             'div',
-            { 'data-language': node.attrs.language },
-            ['div', { contentEditable: 'false' }],
+            {
+                'data-language': node.attrs.language,
+                class: 'code-fence',
+                contentEditable: 'false',
+            },
             ['pre', ['code', { spellCheck: 'false' }, 0]],
         ],
     };

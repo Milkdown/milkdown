@@ -11,7 +11,7 @@ export class Em extends Mark {
             { tag: 'em' },
             { style: 'font-style', getAttrs: (value) => (value === 'italic') as false },
         ],
-        toDOM: () => ['em'],
+        toDOM: () => ['em', { class: 'em' }],
     };
     parser = {
         mark: 'em',

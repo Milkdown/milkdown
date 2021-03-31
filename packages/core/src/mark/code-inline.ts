@@ -8,7 +8,7 @@ export class CodeInline extends Mark {
     schema: MarkSpec = {
         excludes: '_',
         parseDOM: [{ tag: 'code' }],
-        toDOM: () => ['code'],
+        toDOM: () => ['code', { class: 'code-inline' }],
     };
     parser = {
         mark: 'code_inline',

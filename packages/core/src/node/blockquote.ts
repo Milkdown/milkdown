@@ -11,7 +11,7 @@ export class Blockquote extends Node {
         group: 'block',
         defining: true,
         parseDOM: [{ tag: 'blockquote' }],
-        toDOM: () => ['blockquote', 0],
+        toDOM: () => ['blockquote', { class: 'blockquote' }, 0],
     };
     parser = {
         block: this.name,

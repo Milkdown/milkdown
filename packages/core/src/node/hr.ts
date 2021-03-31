@@ -9,7 +9,7 @@ export class Hr extends Node {
     schema: NodeSpec = {
         group: 'block',
         parseDOM: [{ tag: 'hr' }],
-        toDOM: () => ['hr'],
+        toDOM: () => ['hr', { class: 'hr' }],
     };
     parser = {
         block: this.name,
