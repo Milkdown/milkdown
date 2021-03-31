@@ -8,11 +8,11 @@ import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
 import { createParser } from './parser';
 import { createSerializer } from './serializer';
 import { keymap } from 'prosemirror-keymap';
-import { Node } from './abstract/node';
-import { Mark } from './abstract/mark';
+import { Node, Mark } from './abstract';
 import { marks } from './mark';
 import { nodes } from './node';
 import { buildObject } from './utility/buildObject';
+import { tooltip } from './tooltip';
 
 export type OnChange = (getValue: () => string) => void;
 
@@ -114,7 +114,7 @@ export class Editor {
         const state = EditorState.create({
             schema: this.schema,
             doc,
-            plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap)],
+            plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap), tooltip],
         });
         const view = new EditorView(root, {
             state,
