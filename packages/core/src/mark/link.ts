@@ -1,8 +1,9 @@
+import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
+import type { ParserSpec } from '../parser/types';
+import type { SerializerMark } from '../serializer/types';
+
 import { InputRule } from 'prosemirror-inputrules';
-import { MarkSpec, MarkType, Schema } from 'prosemirror-model';
 import { Mark } from '../abstract';
-import { ParserSpec } from '../parser/types';
-import { SerializerMark } from '../serializer/types';
 
 export class Link extends Mark {
     name = 'link';

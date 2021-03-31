@@ -1,6 +1,7 @@
-import { MarkSpec, MarkType } from 'prosemirror-model';
+import type { MarkSpec, MarkType } from 'prosemirror-model';
+import type { SerializerMark } from '../serializer/types';
+
 import { Mark } from '../abstract';
-import { SerializerMark } from '../serializer/types';
 import { markRule } from '../utility/markRule';
 
 export class CodeInline extends Mark {
