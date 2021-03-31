@@ -1,5 +1,5 @@
 import { Node, Mark, Schema } from 'prosemirror-model';
-import { EditorState } from 'prosemirror-state';
+import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 
 export function hasText(node: Node): node is Node & { text: string } {
@@ -13,7 +13,9 @@ export function maybeMerge(a: Node, b: Node) {
     return;
 }
 
-export interface ViewPlugin<S extends Schema = Schema> {
-    update?: ((view: EditorView<S>, prevState: EditorState<S>) => void) | null;
+export interface ViewPlugin {
+    update?: ((view: EditorView<Schema>, prevState: EditorState<Schema>) => void) | null;
     destroy?: (() => void) | null;
 }
+
+export type Command = (state: EditorState<Schema>, dispatch?: (tr: Transaction<Schema>) => void) => void;
