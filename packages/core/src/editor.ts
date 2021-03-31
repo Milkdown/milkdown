@@ -110,13 +110,16 @@ export class Editor {
     }
 
     private createView(root: Element, defaultValue: string) {
+        const container = document.createElement('div');
+        container.className = 'milkdown';
+        root.appendChild(container);
         const doc = this.parser(defaultValue);
         const state = EditorState.create({
             schema: this.schema,
             doc,
             plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap), tooltip],
         });
-        const view = new EditorView(root, {
+        const view = new EditorView(container, {
             state,
             dispatchTransaction: (tr) => {
                 const nextState = view.state.apply(tr);
@@ -125,6 +128,7 @@ export class Editor {
                 this.onChange?.(() => this.value);
             },
         });
+        view.dom.setAttribute('class', 'editor');
         view.dom.setAttribute('role', 'textbox');
         return view;
     }
