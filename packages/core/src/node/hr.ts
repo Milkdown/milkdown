@@ -2,7 +2,7 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import type { SerializerNode } from '../serializer/types';
 
 import { InputRule } from 'prosemirror-inputrules';
-import { Node } from '../abstract/node';
+import { Node } from '../abstract';
 
 export class Hr extends Node {
     name = 'hr';

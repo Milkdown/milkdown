@@ -1,5 +1,6 @@
-import { Node } from '../abstract/node';
-import { SerializerNode } from '../serializer/types';
+import type { SerializerNode } from '../serializer/types';
+
+import { Node } from '../abstract';
 
 export class Paragraph extends Node {
     name = 'paragraph';

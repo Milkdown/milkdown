@@ -1,7 +1,8 @@
+import type { NodeSpec, NodeType } from 'prosemirror-model';
+import type { SerializerNode } from '../serializer/types';
+
 import { wrappingInputRule } from 'prosemirror-inputrules';
-import { NodeSpec, NodeType } from 'prosemirror-model';
-import { Node } from '../abstract/node';
-import { SerializerNode } from '../serializer/types';
+import { Node } from '../abstract';
 
 export class OrderedList extends Node {
     name = 'ordered_list';
@@ -20,7 +21,6 @@ export class OrderedList extends Node {
                 getAttrs: (dom: any) => ({ order: dom.hasAttribute('start') ? Number(dom.getAttribute('start')) : 1 }),
             },
         ],
-        // toDOM: (node) => (node.attrs.order === 1 ? ['ol', 0] : ['ol', { start: node.attrs.order }, 0]),
         toDOM: (node) => ['ol', { ...(node.attrs.order === 1 ? {} : node.attrs.order), class: 'ol' }, 0],
     };
     parser = {

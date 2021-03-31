@@ -3,7 +3,7 @@ import type { ParserSpec } from '../parser/types';
 import type { SerializerNode } from '../serializer/types';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { Node } from '../abstract/node';
+import { Node } from '../abstract';
 
 const headingIndex = Array(5)
     .fill(0)

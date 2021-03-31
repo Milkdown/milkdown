@@ -1,6 +1,6 @@
 import { InputRule } from 'prosemirror-inputrules';
 import { MarkSpec, MarkType, Schema } from 'prosemirror-model';
-import { Mark } from '../abstract/mark';
+import { Mark } from '../abstract';
 import { ParserSpec } from '../parser/types';
 import { SerializerMark } from '../serializer/types';
 

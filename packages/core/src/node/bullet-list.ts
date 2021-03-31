@@ -1,7 +1,8 @@
+import type { NodeType } from 'prosemirror-model';
+import type { SerializerNode } from '../serializer/types';
+
 import { wrappingInputRule } from 'prosemirror-inputrules';
-import { NodeType } from 'prosemirror-model';
-import { Node } from '../abstract/node';
-import { SerializerNode } from '../serializer/types';
+import { Node } from '../abstract';
 
 export class BulletList extends Node {
     name = 'bullet_list';

@@ -1,5 +1,5 @@
 import { MarkSpec, MarkType } from 'prosemirror-model';
-import { Mark } from '../abstract/mark';
+import { Mark } from '../abstract';
 import { SerializerMark } from '../serializer/types';
 import { markRule } from '../utility/markRule';
 

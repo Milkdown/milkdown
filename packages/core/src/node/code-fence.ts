@@ -1,8 +1,9 @@
+import type { NodeSpec, NodeType } from 'prosemirror-model';
+import type { ParserSpec } from '../parser/types';
+import type { SerializerNode } from '../serializer/types';
+
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { NodeSpec, NodeType } from 'prosemirror-model';
-import { Node } from '../abstract/node';
-import { ParserSpec } from '../parser/types';
-import { SerializerNode } from '../serializer/types';
+import { Node } from '../abstract';
 
 export class CodeFence extends Node {
     name = 'fence';

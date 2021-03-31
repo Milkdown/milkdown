@@ -1,5 +1,5 @@
-import { Node } from '../abstract/node';
-import { SerializerNode } from '../serializer/types';
+import type { SerializerNode } from '../serializer/types';
+import { Node } from '../abstract';
 
 export class HardBreak extends Node {
     name = 'hardbreak';
