@@ -36,7 +36,14 @@ export class Editor {
     private view: EditorView;
     private onChange?: OnChange;
 
-    constructor({ root, defaultValue = '', markdownIt = new MarkdownIt('commonmark'), onChange, getNodes, getMarks }: Options) {
+    constructor({
+        root,
+        defaultValue = '',
+        markdownIt = new MarkdownIt('commonmark'),
+        onChange,
+        getNodes,
+        getMarks,
+    }: Options) {
         this.markdownIt = markdownIt;
         this.onChange = onChange;
 
