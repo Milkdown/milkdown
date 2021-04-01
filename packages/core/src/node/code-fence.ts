@@ -7,7 +7,7 @@ import { Node } from '../abstract';
 import { LoadState } from '../editor';
 
 const languageOptions = [
-    '--',
+    '',
     'javascript',
     'typescript',
     'bash',
