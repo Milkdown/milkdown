@@ -1,4 +1,4 @@
-import type { NodeSpec, NodeType } from 'prosemirror-model';
+import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
 import type { ParserSpec } from '../parser/types';
 import type { SerializerNode } from '../serializer/types';
 
@@ -38,29 +38,14 @@ export class CodeFence extends Node {
             { tag: 'pre', preserveWhitespace: 'full', getAttrs: (dom: any) => ({ language: dom.dataset.language }) },
         ],
         toDOM: (node) => {
-            const select = document.createElement('select');
-            select.addEventListener('change', (e) => {
-                const el = e.target;
-                if (!el) return;
-                const value = (el as HTMLSelectElement).value;
-                console.log(value);
-            });
-            languageOptions.forEach((lang) => {
-                const option = document.createElement('option');
-                option.value = lang;
-                option.innerText = lang;
-                option.selected = node.attrs.language === languageOptions;
-                select.appendChild(option);
-            });
+            const select = this.createSelectElement(node.attrs.language) as unknown;
             return [
                 'div',
                 {
                     'data-language': node.attrs.language,
                     class: 'code-fence',
-                    contentEditable: 'false',
                 },
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                select as any,
+                ['div', { contentEditable: 'false' }, select as DOMOutputSpec],
                 ['pre', ['code', { spellCheck: 'false' }, 0]],
             ];
         },
@@ -77,4 +62,37 @@ export class CodeFence extends Node {
         state.closeBlock(node);
     };
     inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
+
+    private onChangeLanguage(top: number, left: number, language: string) {
+        const { view } = this.editor;
+        const result = view.posAtCoords({ top, left });
+
+        if (!result) {
+            return;
+        }
+        const transaction = view.state.tr.setNodeMarkup(result.inside, void 0, {
+            language,
+        });
+        view.dispatch(transaction);
+    }
+
+    private createSelectElement(currentLanguage: string) {
+        const select = document.createElement('select');
+        select.className = 'code-fence_select';
+        select.addEventListener('change', (e) => {
+            const el = e.target as HTMLSelectElement | null;
+            if (!el) return;
+            const { top, left } = el.getBoundingClientRect();
+            this.onChangeLanguage(top, left, el.value);
+        });
+        languageOptions.forEach((lang) => {
+            const option = document.createElement('option');
+            option.className = 'code-fence_select-option';
+            option.value = lang;
+            option.innerText = lang;
+            option.selected = currentLanguage === lang;
+            select.appendChild(option);
+        });
+        return select;
+    }
 }

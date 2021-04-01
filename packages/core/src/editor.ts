@@ -21,19 +21,20 @@ export interface Options {
     defaultValue?: string;
     markdownIt?: MarkdownIt;
     onChange?: OnChange;
-    getNodes?: (preset: Node[]) => Node[];
-    getMarks?: (preset: Mark[]) => Mark[];
+    getNodes?: (preset: typeof Node[]) => typeof Node[];
+    getMarks?: (preset: typeof Mark[]) => typeof Mark[];
 }
 
 export class Editor {
-    private schema: Schema;
+    public readonly schema: Schema;
+    public readonly view: EditorView;
+
     private parser: (text: string) => ProsemirrorNode | null;
     private serializer: (node: ProsemirrorNode) => string;
     private nodes: Node[];
     private marks: Mark[];
     private inputRules: InputRule[];
     private markdownIt: MarkdownIt;
-    private view: EditorView;
     private onChange?: OnChange;
 
     constructor({
@@ -47,8 +48,8 @@ export class Editor {
         this.markdownIt = markdownIt;
         this.onChange = onChange;
 
-        this.nodes = getNodes?.(nodes) ?? nodes;
-        this.marks = getMarks?.(marks) ?? marks;
+        this.nodes = (getNodes?.(nodes) ?? nodes).map((N: any) => new N(this));
+        this.marks = (getMarks?.(marks) ?? marks).map((M: any) => new M(this));
 
         this.schema = this.createSchema();
         this.parser = this.createParser();
