@@ -4,6 +4,7 @@ import type { SerializerNode } from '../serializer/types';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Node } from '../abstract';
+import { LoadState } from '../editor';
 
 const languageOptions = [
     'javascript',
@@ -80,6 +81,10 @@ export class CodeFence extends Node {
         const select = document.createElement('select');
         select.className = 'code-fence_select';
         select.addEventListener('change', (e) => {
+            if (this.editor.loadState !== LoadState.Complete) {
+                throw new Error('Should not trigger event before milkdown ready.');
+            }
+
             const el = e.target as HTMLSelectElement | null;
             if (!el) return;
             const { top, left } = el.getBoundingClientRect();

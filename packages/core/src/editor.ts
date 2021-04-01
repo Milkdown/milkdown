@@ -24,9 +24,15 @@ export interface Options {
     getMarks?: (preset: typeof Mark[]) => typeof Mark[];
 }
 
+export enum LoadState {
+    Idle,
+    Complete,
+}
+
 export class Editor {
     public readonly schema: Schema;
     public readonly view: EditorView;
+    public readonly loadState: LoadState;
 
     private parser: (text: string) => ProsemirrorNode | null;
     private serializer: (node: ProsemirrorNode) => string;
@@ -44,6 +50,7 @@ export class Editor {
         getNodes,
         getMarks,
     }: Options) {
+        this.loadState = LoadState.Idle;
         this.markdownIt = markdownIt;
         this.onChange = onChange;
 
@@ -56,6 +63,7 @@ export class Editor {
         this.inputRules = this.createInputRules();
 
         this.view = this.createView(root, defaultValue);
+        this.loadState = LoadState.Complete;
     }
 
     public get value() {
