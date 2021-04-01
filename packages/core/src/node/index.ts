@@ -10,14 +10,14 @@ import { HardBreak } from './hard-break';
 import { CodeFence } from './code-fence';
 
 export const nodes = [
-    new Paragraph(),
-    new HardBreak(),
-    new Blockquote(),
-    new CodeFence(),
-    new OrderedList(),
-    new BulletList(),
-    new ListItem(),
-    new Heading(),
-    new Hr(),
-    new Image(),
+    Paragraph,
+    HardBreak,
+    Blockquote,
+    CodeFence,
+    OrderedList,
+    BulletList,
+    ListItem,
+    Heading,
+    Hr,
+    Image,
 ];

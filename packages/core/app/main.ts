@@ -40,7 +40,7 @@ Your *[link is here](https://bing.com "bing")*, have a look.
 
 ## Code
 
-\`\`\`javascript
+\`\`\`typescript
 const milkdown = new Milkdown();
 milkdown.create();
 \`\`\`

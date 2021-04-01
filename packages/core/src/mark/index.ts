@@ -3,4 +3,4 @@ import { Em } from './em';
 import { Link } from './link';
 import { Strong } from './strong';
 
-export const marks = [new Link(), new Strong(), new CodeInline(), new Em()];
+export const marks = [Link, Strong, CodeInline, Em];
