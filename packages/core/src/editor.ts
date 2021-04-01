@@ -8,11 +8,10 @@ import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
 import { createParser } from './parser';
 import { createSerializer } from './serializer';
 import { keymap } from 'prosemirror-keymap';
-import { Node, Mark } from './abstract';
+import { Node, Mark, Base } from './abstract';
 import { marks } from './mark';
 import { nodes } from './node';
 import { buildObject } from './utility/buildObject';
-import { tooltip } from './tooltip';
 
 export type OnChange = (getValue: () => string) => void;
 
@@ -48,8 +47,8 @@ export class Editor {
         this.markdownIt = markdownIt;
         this.onChange = onChange;
 
-        this.nodes = (getNodes?.(nodes) ?? nodes).map((N: any) => new N(this));
-        this.marks = (getMarks?.(marks) ?? marks).map((M: any) => new M(this));
+        this.nodes = (getNodes?.(nodes) ?? nodes).map((N: unknown) => new (N as typeof Base)(this) as Node);
+        this.marks = (getMarks?.(marks) ?? marks).map((M: unknown) => new (M as typeof Base)(this) as Mark);
 
         this.schema = this.createSchema();
         this.parser = this.createParser();
@@ -118,7 +117,7 @@ export class Editor {
         const state = EditorState.create({
             schema: this.schema,
             doc,
-            plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap), tooltip],
+            plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap)],
         });
         const view = new EditorView(container, {
             state,
