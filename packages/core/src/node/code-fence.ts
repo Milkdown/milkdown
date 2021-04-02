@@ -95,7 +95,7 @@ export class CodeFence extends Node {
             const option = document.createElement('option');
             option.className = 'code-fence_select-option';
             option.value = lang;
-            option.innerText = lang;
+            option.innerText = lang || '--';
             option.selected = currentLanguage === lang;
             select.appendChild(option);
         });
