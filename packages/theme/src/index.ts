@@ -12,20 +12,11 @@ interface ThemeUnit {
 
 type PThemeUnit = Partial<ThemeUnit>;
 
-export interface ThemeOptions extends ThemeUnit {
-    quote?: PThemeUnit;
-    codeFence?: PThemeUnit;
-    li?: PThemeUnit;
-    list?: PThemeUnit;
-    ol?: PThemeUnit;
-    ul?: PThemeUnit;
-    heading?: PThemeUnit;
+type Headings = `h${1 | 2 | 3 | 4 | 5}`;
+type Nodes = 'quote' | 'codeFence' | 'li' | 'list' | 'ol' | 'ul' | 'heading' | Headings;
+type Marks = 'link' | 'strong' | 'codeInline' | 'em';
 
-    link?: PThemeUnit;
-    strong?: PThemeUnit;
-    codeInline?: PThemeUnit;
-    emInline?: PThemeUnit;
-}
+type ThemeOptions = ThemeUnit & Partial<Record<Nodes | Marks, PThemeUnit>>;
 
 export function createTheme(element: HTMLElement, options: ThemeOptions) {
     const theme = Object.entries(options).reduce((acc, [key, value]) => {
@@ -48,6 +39,6 @@ export function createTheme(element: HTMLElement, options: ThemeOptions) {
     }, {} as Record<string, unknown>);
 
     Object.entries(theme).forEach(([key, value]) => {
-        element.style.setProperty(key, value as string);
+        element.style.setProperty('--' + key, value as string);
     });
 }

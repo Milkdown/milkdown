@@ -64,6 +64,18 @@ new Editor({
 createTheme(root, {
     bg: '#fff',
     font: '',
-    textSize: '16px',
+    textSize: '1rem',
     textColor: '#000',
+    h1: {
+        textSize: '2.5rem',
+    },
+    h2: {
+        textSize: '2rem',
+    },
+    h3: {
+        textSize: '1.75rem',
+    },
+    h4: {
+        textSize: '1.5rem',
+    },
 });

@@ -47,6 +47,41 @@
     color: var(--heading-textColor, var(--textColor));
 }
 
+.milkdown .h1 {
+    font-size: var(--h1-textSize, var(--textSize));
+    font-family: var(--h1-font, var(--font));
+    background-color: var(--h1-bg, var(--bg));
+    color: var(--h1-textColor, var(--textColor));
+}
+
+.milkdown .h2 {
+    font-size: var(--h2-textSize, var(--textSize));
+    font-family: var(--h2-font, var(--font));
+    background-color: var(--h2-bg, var(--bg));
+    color: var(--h2-textColor, var(--textColor));
+}
+
+.milkdown .h3 {
+    font-size: var(--h3-textSize, var(--textSize));
+    font-family: var(--h3-font, var(--font));
+    background-color: var(--h3-bg, var(--bg));
+    color: var(--h3-textColor, var(--textColor));
+}
+
+.milkdown .h4 {
+    font-size: var(--h4-textSize, var(--textSize));
+    font-family: var(--h4-font, var(--font));
+    background-color: var(--h4-bg, var(--bg));
+    color: var(--h4-textColor, var(--textColor));
+}
+
+.milkdown .h5 {
+    font-size: var(--h5-textSize, var(--textSize));
+    font-family: var(--h5-font, var(--font));
+    background-color: var(--h5-bg, var(--bg));
+    color: var(--h5-textColor, var(--textColor));
+}
+
 .milkdown .link {
     font-size: var(--link-textSize, var(--textSize));
     font-family: var(--link-font, var(--font));
