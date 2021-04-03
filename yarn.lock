@@ -653,7 +653,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@milkdown/core@workspace:packages/core":
+"@milkdown/core@workspace:*, @milkdown/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@milkdown/core@workspace:packages/core"
   dependencies:
@@ -674,6 +674,19 @@ __metadata:
     prosemirror-model: ^1.13.3
     prosemirror-state: ^1.3.4
     prosemirror-view: ^1.18.2
+    ts-jest: ^26.5.4
+    typescript: ^4.2.3
+    vite: ^2.1.4
+  languageName: unknown
+  linkType: soft
+
+"@milkdown/theme@workspace:packages/theme":
+  version: 0.0.0-use.local
+  resolution: "@milkdown/theme@workspace:packages/theme"
+  dependencies:
+    "@milkdown/core": "workspace:*"
+    "@types/jest": ^26.0.22
+    jest: ^26.6.3
     ts-jest: ^26.5.4
     typescript: ^4.2.3
     vite: ^2.1.4

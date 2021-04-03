@@ -20,7 +20,7 @@ export class Heading extends Node {
             },
         },
         parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
-        toDOM: (node) => [`h${node.attrs.level}`, { class: `h${node.attrs.level}` }, 0],
+        toDOM: (node) => [`h${node.attrs.level}`, { class: `heading h${node.attrs.level}` }, 0],
     };
     parser: ParserSpec = {
         block: this.name,

@@ -33,6 +33,7 @@ export class Editor {
     public readonly schema: Schema;
     public readonly view: EditorView;
     public readonly loadState: LoadState;
+    public readonly root: Element;
 
     private parser: (text: string) => ProsemirrorNode | null;
     private serializer: (node: ProsemirrorNode) => string;
@@ -53,6 +54,7 @@ export class Editor {
         this.loadState = LoadState.Idle;
         this.markdownIt = markdownIt;
         this.onChange = onChange;
+        this.root = root;
 
         this.nodes = (getNodes?.(nodes) ?? nodes).map((N: unknown) => new (N as typeof Base)(this) as Node);
         this.marks = (getMarks?.(marks) ?? marks).map((M: unknown) => new (M as typeof Base)(this) as Mark);

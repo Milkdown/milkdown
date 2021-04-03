@@ -25,12 +25,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@milkdown/core",
         "reference": "workspace:packages/core"
+      },
+      {
+        "name": "@milkdown/theme",
+        "reference": "workspace:packages/theme"
       }
     ],
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
       ["@milkdown/core", ["workspace:packages/core"]],
+      ["@milkdown/theme", ["workspace:packages/theme"]],
       ["milkdown", ["workspace:."]]
     ],
     "fallbackPool": [
@@ -241,6 +246,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "@milkdown/core",
         "workspace:packages/core"
+      ],
+      [
+        "@milkdown/theme",
+        "workspace:packages/theme"
       ],
       [
         "@nodelib/fs.scandir",
@@ -3456,6 +3465,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prosemirror-model", "npm:1.13.3"],
             ["prosemirror-state", "npm:1.3.4"],
             ["prosemirror-view", "npm:1.18.2"],
+            ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.4"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
+            ["vite", "npm:2.1.4"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@milkdown/theme", [
+        ["workspace:packages/theme", {
+          "packageLocation": "./packages/theme/",
+          "packageDependencies": [
+            ["@milkdown/theme", "workspace:packages/theme"],
+            ["@milkdown/core", "workspace:packages/core"],
+            ["@types/jest", "npm:26.0.22"],
+            ["jest", "npm:26.6.3"],
             ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.4"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
             ["vite", "npm:2.1.4"]
