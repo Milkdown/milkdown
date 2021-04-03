@@ -1,5 +1,6 @@
 import { Editor } from '@milkdown/core';
 import { createTheme } from '../src';
+import './style.css';
 import '../style/theme.css';
 
 const markdown = `
