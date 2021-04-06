@@ -1,0 +1,1 @@
+export { Prism } from './prism';

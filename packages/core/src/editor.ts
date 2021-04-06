@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
-import { EditorState } from 'prosemirror-state';
+import { EditorState, Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { baseKeymap } from 'prosemirror-commands';
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
@@ -22,6 +22,7 @@ export interface Options {
     onChange?: OnChange;
     getNodes?: (preset: typeof Node[]) => typeof Node[];
     getMarks?: (preset: typeof Mark[]) => typeof Mark[];
+    plugins?: Plugin[];
 }
 
 export enum LoadState {
@@ -41,6 +42,7 @@ export class Editor {
     private marks: Mark[];
     private inputRules: InputRule[];
     private markdownIt: MarkdownIt;
+    private plugins: Plugin[];
     private onChange?: OnChange;
 
     constructor({
@@ -50,6 +52,7 @@ export class Editor {
         onChange,
         getNodes,
         getMarks,
+        plugins = [],
     }: Options) {
         this.loadState = LoadState.Idle;
         this.markdownIt = markdownIt;
@@ -63,6 +66,8 @@ export class Editor {
         this.parser = this.createParser();
         this.serializer = this.createSerializer();
         this.inputRules = this.createInputRules();
+
+        this.plugins = plugins;
 
         this.view = this.createView(root, defaultValue);
         this.loadState = LoadState.Complete;
@@ -127,7 +132,7 @@ export class Editor {
         const state = EditorState.create({
             schema: this.schema,
             doc,
-            plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap)],
+            plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap), ...this.plugins],
         });
         const view = new EditorView(container, {
             state,
