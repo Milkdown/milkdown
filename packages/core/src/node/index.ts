@@ -9,6 +9,17 @@ import { OrderedList } from './ordered-list';
 import { HardBreak } from './hard-break';
 import { CodeFence } from './code-fence';
 
+export { Paragraph } from './paragraph';
+export { Blockquote } from './blockquote';
+export { Heading } from './heading';
+export { Image } from './image';
+export { Hr } from './hr';
+export { BulletList } from './bullet-list';
+export { ListItem } from './list-item';
+export { OrderedList } from './ordered-list';
+export { HardBreak } from './hard-break';
+export { CodeFence } from './code-fence';
+
 export const nodes = [
     Paragraph,
     HardBreak,

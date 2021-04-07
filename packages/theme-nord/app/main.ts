@@ -1,5 +1,4 @@
 import { Editor } from '@milkdown/core';
-import { createTheme } from '../src';
 import './style.css';
 import '../style/theme.css';
 
@@ -60,23 +59,4 @@ new Editor({
     root,
     defaultValue: markdown,
     onChange: (getValue) => console.log(getValue()),
-});
-
-createTheme(root, {
-    bg: '#fff',
-    font: '',
-    textSize: '1rem',
-    textColor: '#000',
-    h1: {
-        textSize: '2.5rem',
-    },
-    h2: {
-        textSize: '2rem',
-    },
-    h3: {
-        textSize: '1.75rem',
-    },
-    h4: {
-        textSize: '1.5rem',
-    },
 });

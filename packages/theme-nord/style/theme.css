@@ -1,0 +1,29 @@
+@import './nord.css';
+
+.milkdown {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 42rem;
+    padding: 2.6rem 1.3rem;
+    background-color: var(--nord6);
+    color: var(--nord0);
+
+    .editor {
+        outline: none;
+    }
+
+    .blockquote {
+        margin-left: -1.75rem;
+        margin-right: 1.75rem;
+        margin-top: 0;
+        padding-bottom: 0;
+        padding-left: 1.4rem;
+        padding-right: 0;
+        padding-top: 0;
+        margin-bottom: 1.75rem;
+        line-height: 1.75rem;
+        border-left: 0.32rem solid;
+        border-left-color: var(nord0);
+        opacity: 0.8;
+    }
+}
