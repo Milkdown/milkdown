@@ -25,4 +25,5 @@ export class Em extends Mark {
         markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),
         markRule(/(?:^|[^*])(\*([^*]+)\*)$/, markType),
     ];
+    keymap = () => ({});
 }

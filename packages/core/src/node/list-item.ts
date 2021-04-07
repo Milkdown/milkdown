@@ -16,4 +16,5 @@ export class ListItem extends Node {
         state.renderContent(node);
     };
     inputRules = () => [];
+    keymap = () => ({});
 }

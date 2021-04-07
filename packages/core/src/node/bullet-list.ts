@@ -19,4 +19,5 @@ export class BulletList extends Node {
         state.renderList(node, '  ', () => '* ');
     };
     inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)];
+    keymap = () => ({});
 }

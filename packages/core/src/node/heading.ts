@@ -37,4 +37,5 @@ export class Heading extends Node {
                 level: x,
             })),
         );
+    keymap = () => ({});
 }

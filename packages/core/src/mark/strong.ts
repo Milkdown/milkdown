@@ -25,4 +25,5 @@ export class Strong extends Mark {
         markRule(/(?:__)([^_]+)(?:__)$/, markType),
         markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),
     ];
+    keymap = () => ({});
 }

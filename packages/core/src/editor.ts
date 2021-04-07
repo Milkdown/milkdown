@@ -2,13 +2,13 @@ import MarkdownIt from 'markdown-it';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
 import { EditorState, Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { baseKeymap } from 'prosemirror-commands';
+import { baseKeymap, Keymap } from 'prosemirror-commands';
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
 
 import { createParser } from './parser';
 import { createSerializer } from './serializer';
 import { keymap } from 'prosemirror-keymap';
-import { Node, Mark, Base } from './abstract';
+import { Node, Mark } from './abstract';
 import { marks } from './mark';
 import { nodes } from './node';
 import { buildObject } from './utility/buildObject';
@@ -30,6 +30,8 @@ export enum LoadState {
     Complete,
 }
 
+type Constructor = { new (x: unknown): unknown };
+
 export class Editor {
     public readonly schema: Schema;
     public readonly view: EditorView;
@@ -41,6 +43,7 @@ export class Editor {
     private nodes: Node[];
     private marks: Mark[];
     private inputRules: InputRule[];
+    private keymap: Keymap;
     private markdownIt: MarkdownIt;
     private plugins: Plugin[];
     private onChange?: OnChange;
@@ -59,13 +62,14 @@ export class Editor {
         this.onChange = onChange;
         this.root = root;
 
-        this.nodes = (getNodes?.(nodes) ?? nodes).map((N: unknown) => new (N as typeof Base)(this) as Node);
-        this.marks = (getMarks?.(marks) ?? marks).map((M: unknown) => new (M as typeof Base)(this) as Mark);
+        this.nodes = (getNodes?.(nodes) ?? nodes).map((N: unknown) => new (N as Constructor)(this) as Node);
+        this.marks = (getMarks?.(marks) ?? marks).map((M: unknown) => new (M as Constructor)(this) as Mark);
 
         this.schema = this.createSchema();
         this.parser = this.createParser();
         this.serializer = this.createSerializer();
         this.inputRules = this.createInputRules();
+        this.keymap = this.createKeymap();
 
         this.plugins = plugins;
 
@@ -124,15 +128,38 @@ export class Editor {
         return [...nodesInputRules, ...marksInputRules];
     }
 
+    private createKeymap() {
+        const nodesKeymap = this.nodes.reduce((acc, cur) => {
+            const node = this.schema.nodes[cur.name];
+            if (!node) return acc;
+            return { ...acc, ...cur.keymap(node) };
+        }, {} as Keymap);
+        const marksKeymap = this.marks.reduce((acc, cur) => {
+            const mark = this.schema.marks[cur.name];
+            if (!mark) return acc;
+            return { ...acc, ...cur.keymap(mark) };
+        }, {} as Keymap);
+
+        return {
+            ...nodesKeymap,
+            ...marksKeymap,
+        };
+    }
+
     private createView(root: Element, defaultValue: string) {
         const container = document.createElement('div');
         container.className = 'milkdown';
         root.appendChild(container);
         const doc = this.parser(defaultValue);
+        console.log(this.keymap);
         const state = EditorState.create({
             schema: this.schema,
             doc,
-            plugins: [inputRules({ rules: this.inputRules }), keymap(baseKeymap), ...this.plugins],
+            plugins: [
+                inputRules({ rules: this.inputRules }),
+                keymap({ ...baseKeymap, ...this.keymap }),
+                ...this.plugins,
+            ],
         });
         const view = new EditorView(container, {
             state,

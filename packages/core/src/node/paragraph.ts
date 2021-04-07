@@ -17,4 +17,5 @@ export class Paragraph extends Node {
         state.renderInline(node).closeBlock(node);
     };
     inputRules = () => [];
+    keymap = () => ({});
 }

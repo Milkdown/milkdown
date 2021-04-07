@@ -1,3 +1,5 @@
+import type { Keymap } from 'prosemirror-commands';
+import type { NodeType } from 'prosemirror-model';
 import type { SerializerNode } from '../serializer/types';
 import { Node } from '../abstract';
 
@@ -17,4 +19,10 @@ export class HardBreak extends Node {
         state.write('  \n');
     };
     inputRules = () => [];
+    keymap = (nodeType: NodeType): Keymap => ({
+        'Shift-Enter': (state, dispatch) => {
+            dispatch?.(state.tr.replaceSelectionWith(nodeType.create()).scrollIntoView());
+            return true;
+        },
+    });
 }

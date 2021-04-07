@@ -20,4 +20,5 @@ export class Blockquote extends Node {
         state.wrapBlock('> ', node, () => state.renderContent(node));
     };
     inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
+    keymap = () => ({});
 }

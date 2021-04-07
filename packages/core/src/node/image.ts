@@ -56,4 +56,5 @@ export class Image extends Node {
             return tr;
         }),
     ];
+    keymap = () => ({});
 }

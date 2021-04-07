@@ -29,4 +29,5 @@ export class Hr extends Node {
             return tr;
         }),
     ];
+    keymap = () => ({});
 }
