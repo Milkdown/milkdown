@@ -3696,7 +3696,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@milkdown/core", "workspace:packages/core"],
             ["@milkdown/plugin-prism", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#workspace:packages/plugin-prism"],
             ["@types/jest", "npm:26.0.22"],
-            ["@types/prismjs", "npm:1.16.4"],
             ["autoprefixer", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:10.2.5"],
             ["jest", "npm:26.6.3"],
             ["postcss", "npm:8.2.9"],

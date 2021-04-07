@@ -718,7 +718,6 @@ __metadata:
     "@milkdown/core": "workspace:*"
     "@milkdown/plugin-prism": "workspace:*"
     "@types/jest": ^26.0.22
-    "@types/prismjs": ^1.16.4
     autoprefixer: ^10.2.5
     jest: ^26.6.3
     postcss: ^8.2.9
