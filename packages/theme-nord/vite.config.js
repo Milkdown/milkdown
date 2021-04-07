@@ -1,6 +1,6 @@
 export default {
     root: 'app',
     optimizeDeps: {
-        include: ['@milkdown/core'],
+        include: ['@milkdown/core', '@milkdown/plugin-prism'],
     },
 };
