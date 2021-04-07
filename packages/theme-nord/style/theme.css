@@ -50,19 +50,24 @@
         border-radius: 4px;
 
         select {
+            cursor: pointer;
             color: var(--nord5);
             font-family: var(--font);
             border: 0;
+            width: 6rem;
             outline: none;
             margin: 0.4rem 0;
+            padding: 0 0.4rem;
             background-color: var(--nord1);
             font-size: 0.85rem;
-            option {
-                padding: 0;
+            transition: all 0.2s ease-in;
+            appearance: none;
+            &:hover {
+                background-color: var(--nord3);
             }
         }
         pre {
-            margin: 0 0.4rem;
+            margin: 0 1rem;
         }
         code {
             font-family: var(--font);
