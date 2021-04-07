@@ -19,7 +19,7 @@ export function getDecorations(doc: Node, name: string) {
         const language = block.node.attrs.language;
         if (!language) return;
 
-        if (!cache[block.pos] || !cache[block.pos].node.eq(block.node)) {
+        if (!cache[block.pos]?.node.eq(block.node)) {
             const nodes: RefractorNode[] = highlight(block.node.textContent, language);
             const flatNodes = (nodes: RefractorNode[], className: string[] = []) =>
                 nodes.flatMap((node): FlattedNode[] =>
@@ -44,9 +44,7 @@ export function getDecorations(doc: Node, name: string) {
         });
     });
     Object.keys(cache)
-        .filter((pos) => {
-            return !blocks.find((block) => block.pos === Number(pos));
-        })
+        .filter((pos) => !blocks.find((block) => block.pos === Number(pos)))
         .forEach((pos) => {
             delete cache[Number(pos)];
         });
