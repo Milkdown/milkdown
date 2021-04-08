@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "target": "esnext",
+        "module": "esnext",
         "lib": ["dom", "es2017", "es2018", "es2019"],
-        "module": "commonjs",
         "noEmitOnError": true,
 
         "declaration": true,
