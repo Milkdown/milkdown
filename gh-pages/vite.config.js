@@ -1,9 +1,10 @@
 export default {
+    base: '/milkdown/',
     build: {
         commonjsOptions: {
             input: ['@milkdown/core', '@milkdown/plugin-prism'],
         },
-        assetsDir: 'milkdown/assets',
+        assetsDir: 'assets',
         outDir: '../docs',
         emptyOutDir: true,
     },
