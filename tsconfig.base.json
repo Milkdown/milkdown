@@ -12,6 +12,8 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
 
+        "importHelpers": true,
+
         "strict": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,

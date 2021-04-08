@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/plugin-prism",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
@@ -25,7 +25,7 @@
         "prosemirror-view": "^1.18.2",
         "ts-jest": "^26.5.4",
         "typescript": "^4.2.3",
-        "vite": "^2.1.4"
+        "vite": "^2.1.5"
     },
     "peerDependencies": {
         "@milkdown/core": "*",
@@ -38,6 +38,7 @@
     },
     "dependencies": {
         "@types/refractor": "^3.0.0",
-        "refractor": "^3.3.1"
+        "refractor": "^3.3.1",
+        "tslib": "^2.2.0"
     }
 }

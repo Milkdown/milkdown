@@ -151,7 +151,6 @@ export class Editor {
         container.className = 'milkdown';
         root.appendChild(container);
         const doc = this.parser(defaultValue);
-        console.log(this.keymap);
         const state = EditorState.create({
             schema: this.schema,
             doc,

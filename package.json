@@ -4,7 +4,7 @@
     "private": true,
     "workspaces": [
         "packages/*",
-        "integration"
+        "gh-pages"
     ],
     "scripts": {
         "lint": "eslint **/src/**/*.ts",
