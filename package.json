@@ -7,7 +7,8 @@
         "integration"
     ],
     "scripts": {
-        "lint": "eslint **/src/**/*.ts"
+        "lint": "eslint **/src/**/*.ts",
+        "build": "yarn workspaces foreach run build"
     },
     "devDependencies": {
         "@types/jest": "^26.0.20",

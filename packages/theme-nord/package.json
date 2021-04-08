@@ -2,9 +2,7 @@
     "name": "@milkdown/theme-nord",
     "version": "0.0.0",
     "scripts": {
-        "start": "vite",
-        "test": "jest",
-        "build": "tsc"
+        "start": "vite"
     },
     "files": [
         "style"
