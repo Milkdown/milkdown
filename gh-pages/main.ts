@@ -7,6 +7,8 @@ const markdown = `
 # Milkdown
 
 > Milkdown is a WYSIWYG markdown editor.
+>
+> Here is the [repo](https://github.com/Saul-Mirone/milkdown) (*right click to open link*).
 
 You can check the output markdown text in **developer tool**.
 `;
