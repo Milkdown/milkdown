@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
-import { EditorState, Plugin } from 'prosemirror-state';
+import { EditorState, Plugin, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { baseKeymap, Keymap } from 'prosemirror-commands';
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
@@ -50,11 +50,11 @@ export class Editor {
 
     constructor({
         root,
+        onChange,
         defaultValue = '',
         markdownIt = new MarkdownIt('commonmark'),
-        onChange,
-        getNodes,
-        getMarks,
+        getNodes = (x) => x,
+        getMarks = (x) => x,
         plugins = [],
     }: Options) {
         this.loadState = LoadState.Idle;
@@ -62,8 +62,8 @@ export class Editor {
         this.onChange = onChange;
         this.root = root;
 
-        this.nodes = (getNodes?.(nodes) ?? nodes).map((N: unknown) => new (N as Constructor)(this) as Node);
-        this.marks = (getMarks?.(marks) ?? marks).map((M: unknown) => new (M as Constructor)(this) as Mark);
+        this.nodes = getNodes(nodes).map<Node>(this.createInstance);
+        this.marks = getMarks(marks).map<Mark>(this.createInstance);
 
         this.schema = this.createSchema();
         this.parser = this.createParser();
@@ -79,6 +79,10 @@ export class Editor {
 
     public get value() {
         return this.serializer(this.view.state.doc);
+    }
+
+    private createInstance<T>(Cons: unknown): T {
+        return new (Cons as Constructor)(this) as T;
     }
 
     private createSchema() {
@@ -147,19 +151,8 @@ export class Editor {
     }
 
     private createView(root: Element, defaultValue: string) {
-        const container = document.createElement('div');
-        container.className = 'milkdown';
-        root.appendChild(container);
-        const doc = this.parser(defaultValue);
-        const state = EditorState.create({
-            schema: this.schema,
-            doc,
-            plugins: [
-                inputRules({ rules: this.inputRules }),
-                keymap({ ...baseKeymap, ...this.keymap }),
-                ...this.plugins,
-            ],
-        });
+        const container = this.createViewContainer(root);
+        const state = this.createEditorState(defaultValue);
         const view = new EditorView(container, {
             state,
             dispatchTransaction: (tr) => {
@@ -169,8 +162,37 @@ export class Editor {
                 this.onChange?.(() => this.value);
             },
         });
-        view.dom.setAttribute('class', 'editor');
-        view.dom.setAttribute('role', 'textbox');
+        this.prepareViewDom(view.dom);
         return view;
+    }
+
+    private createDispatcher(view: EditorView) {
+        return (tr: Transaction) => {};
+    }
+
+    private createEditorState(defaultValue: string) {
+        const doc = this.parser(defaultValue);
+        return EditorState.create({
+            schema: this.schema,
+            doc,
+            plugins: [
+                inputRules({ rules: this.inputRules }),
+                keymap({ ...baseKeymap, ...this.keymap }),
+                ...this.plugins,
+            ],
+        });
+    }
+
+    private createViewContainer(root: Element) {
+        const container = document.createElement('div');
+        container.className = 'milkdown';
+        root.appendChild(container);
+
+        return container;
+    }
+
+    private prepareViewDom(dom: Element) {
+        dom.setAttribute('class', 'editor');
+        dom.setAttribute('role', 'textbox');
     }
 }
