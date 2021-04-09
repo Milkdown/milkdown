@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
-import { EditorState, Plugin, Transaction } from 'prosemirror-state';
+import { EditorState, Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { baseKeymap, Keymap } from 'prosemirror-commands';
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
@@ -164,10 +164,6 @@ export class Editor {
         });
         this.prepareViewDom(view.dom);
         return view;
-    }
-
-    private createDispatcher(view: EditorView) {
-        return (tr: Transaction) => {};
     }
 
     private createEditorState(defaultValue: string) {
