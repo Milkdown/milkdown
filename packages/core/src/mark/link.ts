@@ -40,7 +40,7 @@ export class Link extends Mark {
         priority: 1,
     };
     inputRules = (markType: MarkType, schema: Schema) => [
-        new InputRule(/\[(?<text>.+?)]\((?<href>.+?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
+        new InputRule(/\[(?<text>.+?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
             const [okay, text = '', href, title] = match;
             const { tr } = state;
             if (okay) {
