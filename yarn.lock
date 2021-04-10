@@ -741,6 +741,7 @@ __metadata:
     postcss-cli: ^8.3.1
     postcss-import: ^14.0.1
     postcss-nested: ^5.0.5
+    prosemirror-view: ^1.18.2
     ts-jest: ^26.5.4
     typescript: ^4.2.3
     vite: ^2.1.5

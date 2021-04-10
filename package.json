@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "lint": "eslint **/src/**/*.ts",
-        "build": "yarn workspaces foreach run build"
+        "build": "yarn workspaces foreach -pt run build"
     },
     "devDependencies": {
         "@types/jest": "^26.0.20",

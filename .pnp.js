@@ -3780,7 +3780,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/milkdown__core",
             "@types/types__prosemirror-model",
             "@types/types__prosemirror-state",
-            "@types/types__prosemirror-view"
+            "@types/types__prosemirror-view",
+            "prosemirror-view"
           ],
           "linkType": "SOFT",
         }],
@@ -3823,6 +3824,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["postcss-cli", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:8.3.1"],
             ["postcss-import", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:14.0.1"],
             ["postcss-nested", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:5.0.5"],
+            ["prosemirror-view", "npm:1.18.2"],
             ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.4"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
             ["vite", "npm:2.1.5"]
