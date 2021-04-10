@@ -6,7 +6,7 @@ import './style.css';
 const markdown = `
 # Milkdown
 
-![logo](public/milkdown-mini.svg)
+![logo](/milkdown/milkdown-mini.svg)
 
 > Milkdown is a WYSIWYG markdown editor.
 >

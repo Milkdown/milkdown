@@ -11,4 +11,4 @@ Here is a [live demo](https://saul-mirone.github.io/milkdown/) for preview.
 
 # License
 
-[MIT]()
+[MIT](/LICENSE)
