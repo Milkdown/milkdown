@@ -188,7 +188,7 @@ export class Editor {
     }
 
     private prepareViewDom(dom: Element) {
-        dom.setAttribute('class', 'editor');
+        dom.classList.add('editor');
         dom.setAttribute('role', 'textbox');
     }
 }
