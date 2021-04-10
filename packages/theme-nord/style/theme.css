@@ -56,8 +56,9 @@
     }
 
     .image {
-        display: inline-block;
-        width: 100%;
+        display: block;
+        margin: 0 auto;
+        object-fit: contain;
     }
 
     .code-fence {
