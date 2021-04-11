@@ -81,9 +81,9 @@ export class Editor {
         return this.serializer(this.view.state.doc);
     }
 
-    private createInstance<T>(Cons: unknown): T {
+    private createInstance = <T>(Cons: unknown): T => {
         return new (Cons as Constructor)(this) as T;
-    }
+    };
 
     private createSchema() {
         const nodes = buildObject(this.nodes, (node) => [node.name, node.schema]);
