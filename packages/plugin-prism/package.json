@@ -5,8 +5,9 @@
     "types": "lib/index.d.ts",
     "scripts": {
         "start": "vite",
+        "watch": "tsc -w",
         "test": "jest",
-        "test:tsc": "tsc --noEmit",
+        "tsc": "tsc --noEmit",
         "build": "tsc"
     },
     "files": [

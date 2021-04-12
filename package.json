@@ -8,7 +8,10 @@
     ],
     "scripts": {
         "lint": "yarn eslint **/src/**/*.ts",
-        "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -ptv run test:tsc",
+        "watch": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/gh-pages' -ptvi run watch",
+        "integration": "yarn workspace @milkdown/gh-pages start",
+        "preview": "yarn workspace @milkdown/gh-pages preview",
+        "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -ptv run tsc",
         "build": "yarn workspaces foreach -pt run build",
         "postinstall": "husky install"
     },

@@ -6,6 +6,6 @@ export default {
         emptyOutDir: true,
     },
     optimizeDeps: {
-        include: ['@milkdown/core', '@milkdown/plugin-prism'],
+        exclude: ['@milkdown/core', '@milkdown/plugin-prism'],
     },
 };

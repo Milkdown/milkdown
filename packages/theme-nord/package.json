@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "scripts": {
         "start": "vite",
+        "watch": "postcss style/theme.css --watch --verbose -o lib/theme.css",
         "build": "postcss style/theme.css -o lib/theme.css"
     },
     "files": [
