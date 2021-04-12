@@ -171,11 +171,7 @@ export class Editor {
         return EditorState.create({
             schema: this.schema,
             doc,
-            plugins: [
-                inputRules({ rules: this.inputRules }),
-                keymap({ ...baseKeymap, ...this.keymap }),
-                ...this.plugins,
-            ],
+            plugins: [inputRules({ rules: this.inputRules }), keymap(this.keymap), keymap(baseKeymap), ...this.plugins],
         });
     }
 
