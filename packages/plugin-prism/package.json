@@ -6,6 +6,7 @@
     "scripts": {
         "start": "vite",
         "test": "jest",
+        "test:tsc": "tsc --noEmit",
         "build": "tsc"
     },
     "files": [
