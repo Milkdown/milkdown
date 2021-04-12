@@ -19,7 +19,7 @@ export class ListItem extends Node {
         state.renderContent(node);
     };
     inputRules = () => [];
-    keymap = (_type: NodeType): Keymap => ({
-        Enter: splitListItem(_type),
+    keymap = (type: NodeType): Keymap => ({
+        Enter: splitListItem(type),
     });
 }
