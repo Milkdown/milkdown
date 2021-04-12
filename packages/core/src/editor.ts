@@ -88,7 +88,7 @@ export class Editor {
     private createSchema() {
         const nodes = buildObject(this.nodes, (node) => [node.name, node.schema]);
         const marks = buildObject(this.marks, (mark) => [mark.name, mark.schema]);
-
+        console.log(nodes);
         return new Schema({
             nodes: {
                 doc: { content: 'block+' },
