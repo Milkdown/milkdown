@@ -5,6 +5,7 @@
     "scripts": {
         "start": "vite",
         "build": "vite build",
+        "tsc": "tsc --noEmit",
         "preview": "vite preview"
     },
     "files": [

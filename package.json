@@ -7,10 +7,17 @@
         "gh-pages"
     ],
     "scripts": {
-        "lint": "eslint **/src/**/*.ts",
-        "build": "yarn workspaces foreach -pt run build"
+        "lint": "yarn eslint **/src/**/*.ts",
+        "watch": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/gh-pages' -ptvi run watch",
+        "integration": "yarn workspace @milkdown/gh-pages start",
+        "preview": "yarn workspace @milkdown/gh-pages preview",
+        "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -ptv run tsc",
+        "build": "yarn workspaces foreach -pt run build",
+        "postinstall": "husky install"
     },
     "devDependencies": {
+        "@commitlint/cli": "^12.1.1",
+        "@commitlint/config-conventional": "^12.1.1",
         "@types/jest": "^26.0.20",
         "@typescript-eslint/eslint-plugin": "^4.15.2",
         "@typescript-eslint/parser": "^4.15.2",
@@ -19,6 +26,7 @@
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-prettier": "^3.3.1",
         "eslint-plugin-promise": "^4.3.1",
+        "husky": "^6.0.0",
         "jest": "^26.6.3",
         "prettier": "^2.2.1",
         "prettier-plugin-organize-imports": "^1.1.1",
