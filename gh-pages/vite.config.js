@@ -6,6 +6,16 @@ export default {
         emptyOutDir: true,
     },
     optimizeDeps: {
-        exclude: ['@milkdown/core', '@milkdown/plugin-prism'],
+        exclude: [
+            '@milkdown/core',
+            '@milkdown/plugin-prism',
+            'prosemirror-model',
+            'prosemirror-view',
+            'prosemirror-state',
+            'prosemirror-commands',
+            'prosemirror-inputrules',
+            'prosemirror-keymap',
+            'prosemirror-schema-list',
+        ],
     },
 };
