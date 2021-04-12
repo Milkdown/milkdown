@@ -21,7 +21,7 @@ export class ListItem extends Node {
     inputRules = () => [];
     keymap = (type: NodeType): Keymap => ({
         Enter: splitListItem(type),
-        Tab: sinkListItem(type),
-        'Shift-Tab': liftListItem(type),
+        'Mod-]': sinkListItem(type),
+        'Mod-[': liftListItem(type),
     });
 }
