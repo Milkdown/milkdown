@@ -1,4 +1,6 @@
 import type { MarkSpec, MarkType } from 'prosemirror-model';
+import type { Keymap } from 'prosemirror-commands';
+import { toggleMark } from 'prosemirror-commands';
 import type { SerializerMark } from '../serializer/types';
 
 import { Mark } from '../abstract';
@@ -25,5 +27,7 @@ export class Strong extends Mark {
         markRule(/(?:__)([^_]+)(?:__)$/, markType),
         markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),
     ];
-    keymap = () => ({});
+    keymap = (markType: MarkType): Keymap => ({
+        'Mod-b': toggleMark(markType),
+    });
 }
