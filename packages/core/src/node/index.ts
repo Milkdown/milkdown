@@ -8,6 +8,7 @@ import { ListItem } from './list-item';
 import { OrderedList } from './ordered-list';
 import { HardBreak } from './hard-break';
 import { CodeFence } from './code-fence';
+import { TabIndent } from './tab-indent';
 
 export { Paragraph } from './paragraph';
 export { Blockquote } from './blockquote';
@@ -19,6 +20,7 @@ export { ListItem } from './list-item';
 export { OrderedList } from './ordered-list';
 export { HardBreak } from './hard-break';
 export { CodeFence } from './code-fence';
+export { TabIndent } from './tab-indent';
 
 export const nodes = [
     Paragraph,
@@ -31,4 +33,5 @@ export const nodes = [
     Heading,
     Hr,
     Image,
+    TabIndent,
 ];
