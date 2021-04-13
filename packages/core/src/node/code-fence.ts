@@ -5,6 +5,8 @@ import type { SerializerNode } from '../serializer/types';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Node } from '../abstract';
 import { LoadState } from '../editor';
+import { Keymap } from 'prosemirror-commands';
+import { EditorState } from 'prosemirror-state';
 
 const languageOptions = [
     '',
@@ -64,6 +66,16 @@ export class CodeFence extends Node {
         state.closeBlock(node);
     };
     inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
+    keymap = (): Keymap => ({
+        Tab: (state: EditorState, dispatch) => {
+            const { tr, selection } = state;
+            if (!dispatch) {
+                return false;
+            }
+            dispatch(tr.insertText('  ', selection.from, selection.to));
+            return true;
+        },
+    });
 
     private onChangeLanguage(top: number, left: number, language: string) {
         const { view } = this.editor;
