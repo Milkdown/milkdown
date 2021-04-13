@@ -2,7 +2,7 @@ import MarkdownIt from 'markdown-it';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
 import { EditorState, Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { baseKeymap, Keymap } from 'prosemirror-commands';
+import { baseKeymap } from 'prosemirror-commands';
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
 
 import { createParser } from './parser';
@@ -43,7 +43,7 @@ export class Editor {
     private nodes: Node[];
     private marks: Mark[];
     private inputRules: InputRule[];
-    private keymap: Keymap;
+    private keymap: Plugin[];
     private markdownIt: MarkdownIt;
     private plugins: Plugin[];
     private onChange?: OnChange;
@@ -139,23 +139,20 @@ export class Editor {
     private createKeymap() {
         const nodesKeymap = this.nodes
             .filter((node) => Boolean(node.keymap))
-            .reduce((acc, cur) => {
+            .map((cur) => {
                 const node = this.schema.nodes[cur.name];
-                if (!node) return acc;
-                return { ...acc, ...(cur as Required<Node>).keymap(node) };
-            }, {} as Keymap);
+                if (!node) throw new Error();
+                return (cur as Required<Node>).keymap(node);
+            });
         const marksKeymap = this.marks
             .filter((mark) => Boolean(mark.keymap))
-            .reduce((acc, cur) => {
+            .map((cur) => {
                 const mark = this.schema.marks[cur.name];
-                if (!mark) return acc;
-                return { ...acc, ...(cur as Required<Mark>).keymap(mark) };
-            }, {} as Keymap);
+                if (!mark) throw new Error();
+                return (cur as Required<Mark>).keymap(mark);
+            });
 
-        return {
-            ...nodesKeymap,
-            ...marksKeymap,
-        };
+        return [...nodesKeymap, ...marksKeymap].map((keys) => keymap(keys));
     }
 
     private createView(root: Element, defaultValue: string) {
@@ -179,7 +176,7 @@ export class Editor {
         return EditorState.create({
             schema: this.schema,
             doc,
-            plugins: [inputRules({ rules: this.inputRules }), keymap(this.keymap), keymap(baseKeymap), ...this.plugins],
+            plugins: [inputRules({ rules: this.inputRules }), ...this.keymap, keymap(baseKeymap), ...this.plugins],
         });
     }
 

@@ -1,6 +1,5 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
-import { Fragment } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 
 import { Node } from '../abstract';
@@ -31,9 +30,7 @@ export class TabIndent extends Node {
             const { from, to } = selection;
             if (from !== to || !nodeType) return result;
 
-            const node = nodeType.create();
-            const frag = Fragment.from([node]);
-            const tr = state.tr.insert(from, frag);
+            const tr = state.tr.replaceSelectionWith(nodeType.create()).scrollIntoView();
             dispatch?.(tr);
 
             return Boolean(tr);
