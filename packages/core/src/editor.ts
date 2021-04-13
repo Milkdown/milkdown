@@ -4,6 +4,7 @@ import { EditorState, Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { baseKeymap } from 'prosemirror-commands';
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
+import { history, redo, undo } from 'prosemirror-history';
 
 import { createParser } from './parser';
 import { createSerializer } from './serializer';
@@ -151,8 +152,12 @@ export class Editor {
                 if (!mark) throw new Error();
                 return (cur as Required<Mark>).keymap(mark);
             });
+        const historyKeymap = {
+            'Mod-z': undo,
+            'Shift-Mod-z': redo,
+        };
 
-        return [...nodesKeymap, ...marksKeymap].map((keys) => keymap(keys));
+        return [...nodesKeymap, ...marksKeymap, historyKeymap].map((keys) => keymap(keys));
     }
 
     private createView(root: Element, defaultValue: string) {
@@ -176,7 +181,13 @@ export class Editor {
         return EditorState.create({
             schema: this.schema,
             doc,
-            plugins: [inputRules({ rules: this.inputRules }), ...this.keymap, keymap(baseKeymap), ...this.plugins],
+            plugins: [
+                history(),
+                inputRules({ rules: this.inputRules }),
+                ...this.keymap,
+                keymap(baseKeymap),
+                ...this.plugins,
+            ],
         });
     }
 
