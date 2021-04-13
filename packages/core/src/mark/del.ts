@@ -6,27 +6,26 @@ import type { SerializerMark } from '../serializer/types';
 import { Mark } from '../abstract';
 import { markRule } from '../utility/markRule';
 
-export class Strong extends Mark {
-    name = 'strong';
+export class Del extends Mark {
+    name = 'del';
     schema: MarkSpec = {
         parseDOM: [
-            { tag: 'b' },
-            { tag: 'strong' },
-            { style: 'font-style', getAttrs: (value) => (value === 'bold') as false },
+            { tag: 'del' },
+            { style: 'text-decoration', getAttrs: (value) => (value === 'line-through') as false },
         ],
-        toDOM: () => ['strong', { class: 'strong' }],
+        toDOM: () => ['del', { class: 'line-through' }],
     };
     parser = {
         mark: this.name,
     };
     serializer: SerializerMark = {
-        open: '**',
-        close: '**',
+        open: '~~',
+        close: '~~',
     };
     inputRules = (markType: MarkType) => [
-        markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),
+        markRule(/(?:~~)([^_]+)(?:~~)$/, markType),
     ];
     keymap = (markType: MarkType): Keymap => ({
-        'Mod-b': toggleMark(markType),
+        'Mod-d': toggleMark(markType),
     });
 }
