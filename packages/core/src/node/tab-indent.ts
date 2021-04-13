@@ -13,7 +13,7 @@ export class TabIndent extends Node {
         inline: true,
         selectable: false,
         parseDOM: [{ tag: `span[class='tab-indent']` }],
-        toDOM: () => ['span', { class: 'tab-indent', style: 'letter-spacing: 20px; display: inline-block' }, ' '],
+        toDOM: () => ['span', { class: 'tab-indent' }, ' '],
     };
     parser = {
         block: this.name,

@@ -117,4 +117,8 @@
             line-height: 1.5;
         }
     }
+    .tab-indent {
+        letter-spacing: 20px;
+        display: inline-block;
+    }
 }
