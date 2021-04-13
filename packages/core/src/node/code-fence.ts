@@ -64,7 +64,6 @@ export class CodeFence extends Node {
         state.closeBlock(node);
     };
     inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
-    keymap = () => ({});
 
     private onChangeLanguage(top: number, left: number, language: string) {
         const { view } = this.editor;

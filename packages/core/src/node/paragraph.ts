@@ -16,6 +16,4 @@ export class Paragraph extends Node {
     serializer: SerializerNode = (state, node) => {
         state.renderInline(node).closeBlock(node);
     };
-    inputRules = () => [];
-    keymap = () => ({});
 }

@@ -54,5 +54,4 @@ export class Link extends Mark {
             return tr;
         }),
     ];
-    keymap = () => ({});
 }

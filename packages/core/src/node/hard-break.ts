@@ -18,7 +18,6 @@ export class HardBreak extends Node {
     serializer: SerializerNode = (state) => {
         state.write('  \n');
     };
-    inputRules = () => [];
     keymap = (nodeType: NodeType): Keymap => ({
         'Shift-Enter': (state, dispatch) => {
             dispatch?.(state.tr.replaceSelectionWith(nodeType.create()).scrollIntoView());

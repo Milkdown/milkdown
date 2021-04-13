@@ -43,5 +43,4 @@ export class OrderedList extends Node {
             (match, node) => node.childCount + node.attrs.order === Number(match[1]),
         ),
     ];
-    keymap = () => ({});
 }

@@ -118,31 +118,39 @@ export class Editor {
     }
 
     private createInputRules() {
-        const nodesInputRules = this.nodes.reduce((acc, cur) => {
-            const node = this.schema.nodes[cur.name];
-            if (!node) return acc;
-            return [...acc, ...cur.inputRules(node, this.schema)];
-        }, [] as InputRule[]);
-        const marksInputRules = this.marks.reduce((acc, cur) => {
-            const mark = this.schema.marks[cur.name];
-            if (!mark) return acc;
-            return [...acc, ...cur.inputRules(mark, this.schema)];
-        }, [] as InputRule[]);
+        const nodesInputRules = this.nodes
+            .filter((node) => Boolean(node.inputRules))
+            .reduce((acc, cur) => {
+                const node = this.schema.nodes[cur.name];
+                if (!node) return acc;
+                return [...acc, ...(cur as Required<Node>).inputRules(node, this.schema)];
+            }, [] as InputRule[]);
+        const marksInputRules = this.marks
+            .filter((mark) => Boolean(mark.inputRules))
+            .reduce((acc, cur) => {
+                const mark = this.schema.marks[cur.name];
+                if (!mark) return acc;
+                return [...acc, ...(cur as Required<Mark>).inputRules(mark, this.schema)];
+            }, [] as InputRule[]);
 
         return [...nodesInputRules, ...marksInputRules];
     }
 
     private createKeymap() {
-        const nodesKeymap = this.nodes.reduce((acc, cur) => {
-            const node = this.schema.nodes[cur.name];
-            if (!node) return acc;
-            return { ...acc, ...cur.keymap(node) };
-        }, {} as Keymap);
-        const marksKeymap = this.marks.reduce((acc, cur) => {
-            const mark = this.schema.marks[cur.name];
-            if (!mark) return acc;
-            return { ...acc, ...cur.keymap(mark) };
-        }, {} as Keymap);
+        const nodesKeymap = this.nodes
+            .filter((node) => Boolean(node.keymap))
+            .reduce((acc, cur) => {
+                const node = this.schema.nodes[cur.name];
+                if (!node) return acc;
+                return { ...acc, ...(cur as Required<Node>).keymap(node) };
+            }, {} as Keymap);
+        const marksKeymap = this.marks
+            .filter((mark) => Boolean(mark.keymap))
+            .reduce((acc, cur) => {
+                const mark = this.schema.marks[cur.name];
+                if (!mark) return acc;
+                return { ...acc, ...(cur as Required<Mark>).keymap(mark) };
+            }, {} as Keymap);
 
         return {
             ...nodesKeymap,

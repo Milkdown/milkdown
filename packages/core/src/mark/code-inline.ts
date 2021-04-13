@@ -19,5 +19,4 @@ export class CodeInline extends Mark {
         close: '`',
     };
     inputRules = (markType: MarkType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
-    keymap = () => ({});
 }

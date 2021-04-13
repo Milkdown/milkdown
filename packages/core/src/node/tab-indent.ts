@@ -21,7 +21,6 @@ export class TabIndent extends Node {
     serializer: SerializerNode = (state, node) => {
         state.renderInline(node).closeBlock(node);
     };
-    inputRules = () => [];
     keymap = (nodeType: NodeType): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
             const { selection } = state.tr;

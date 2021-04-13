@@ -18,7 +18,6 @@ export class ListItem extends Node {
     serializer: SerializerNode = (state, node) => {
         state.renderContent(node);
     };
-    inputRules = () => [];
     keymap = (type: NodeType): Keymap => ({
         Enter: splitListItem(type),
         'Mod-]': sinkListItem(type),
