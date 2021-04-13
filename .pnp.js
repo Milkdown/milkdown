@@ -1117,6 +1117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:26.0.22"],
             ["@types/markdown-it", "npm:12.0.1"],
             ["@types/prosemirror-commands", "npm:1.0.4"],
+            ["@types/prosemirror-history", "npm:1.0.2"],
             ["@types/prosemirror-inputrules", "npm:1.0.4"],
             ["@types/prosemirror-keymap", "npm:1.0.4"],
             ["@types/prosemirror-model", "npm:1.13.0"],
@@ -1127,6 +1128,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "npm:26.6.3"],
             ["markdown-it", "npm:12.0.4"],
             ["prosemirror-commands", "npm:1.1.7"],
+            ["prosemirror-history", "npm:1.1.3"],
             ["prosemirror-inputrules", "npm:1.1.3"],
             ["prosemirror-keymap", "npm:1.1.4"],
             ["prosemirror-model", "npm:1.14.0"],
@@ -1606,6 +1608,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prosemirror-model", "npm:1.13.0"],
             ["@types/prosemirror-state", "npm:1.2.6"],
             ["@types/prosemirror-view", "npm:1.17.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/prosemirror-history", [
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/@types-prosemirror-history-npm-1.0.2-93f8658119-fc32f1459c.zip/node_modules/@types/prosemirror-history/",
+          "packageDependencies": [
+            ["@types/prosemirror-history", "npm:1.0.2"],
+            ["@types/prosemirror-model", "npm:1.13.0"],
+            ["@types/prosemirror-state", "npm:1.2.6"]
           ],
           "linkType": "HARD",
         }]
@@ -7993,6 +8006,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["prosemirror-history", [
+        ["npm:1.1.3", {
+          "packageLocation": "./.yarn/cache/prosemirror-history-npm-1.1.3-45c1c5e7a3-62437ec882.zip/node_modules/prosemirror-history/",
+          "packageDependencies": [
+            ["prosemirror-history", "npm:1.1.3"],
+            ["prosemirror-state", "npm:1.3.4"],
+            ["prosemirror-transform", "npm:1.3.2"],
+            ["rope-sequence", "npm:1.3.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["prosemirror-inputrules", [
         ["npm:1.1.3", {
           "packageLocation": "./.yarn/cache/prosemirror-inputrules-npm-1.1.3-1006d2d553-fddaf86ae4.zip/node_modules/prosemirror-inputrules/",
@@ -8513,6 +8538,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["rollup", "npm:2.45.1"],
             ["fsevents", "patch:fsevents@npm%3A2.3.2#builtin<compat/fsevents>::version=2.3.2&hash=11e9ea"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["rope-sequence", [
+        ["npm:1.3.2", {
+          "packageLocation": "./.yarn/cache/rope-sequence-npm-1.3.2-cc341e8423-a4ab304045.zip/node_modules/rope-sequence/",
+          "packageDependencies": [
+            ["rope-sequence", "npm:1.3.2"]
           ],
           "linkType": "HARD",
         }]
