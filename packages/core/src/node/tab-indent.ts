@@ -13,28 +13,30 @@ export class TabIndent extends Node {
         inline: true,
         selectable: false,
         parseDOM: [{ tag: `span[class='tab-indent']` }],
-        toDOM: () => ['span', { class: 'tab-indent' }, ' '],
+        toDOM: () => ['span', { class: 'tab-indent' }, '  '],
     };
     parser = {
         block: this.name,
     };
-    serializer: SerializerNode = (state, node) => {
-        state.renderInline(node).closeBlock(node);
+    serializer: SerializerNode = (state) => {
+        state.write('  ');
     };
     keymap = (nodeType: NodeType): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
             const { selection } = state.tr;
-            if (!selection) return !!state.tr;
+            const result = Boolean(state.tr);
+
+            if (!selection) return result;
+
             const { from, to } = selection;
-            if (from !== to) return !!state.tr;
-            if (!nodeType) return !!state.tr;
-            const node = nodeType.create({});
+            if (from !== to || !nodeType) return result;
+
+            const node = nodeType.create();
             const frag = Fragment.from([node]);
-            const _tr = state.tr.insert(from, frag);
-            if (dispatch) {
-                dispatch(_tr);
-            }
-            return !!_tr;
+            const tr = state.tr.insert(from, frag);
+            dispatch?.(tr);
+
+            return Boolean(tr);
         },
     });
 }

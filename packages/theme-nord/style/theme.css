@@ -109,16 +109,14 @@
                 font-family: var(--font-code);
             }
         }
+
         pre {
             margin: 0 1.2rem;
         }
+
         code {
             font-family: var(--font-code);
             line-height: 1.5;
         }
-    }
-    .tab-indent {
-        letter-spacing: 20px;
-        display: inline-block;
     }
 }
