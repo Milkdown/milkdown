@@ -14,6 +14,7 @@ import { Node, Mark } from '../abstract';
 import { marks } from '../mark';
 import { nodes } from '../node';
 import { buildObject } from '../utility/buildObject';
+import { MarkView, NodeView } from '../utility/prosemirror';
 import { View } from './view';
 
 export type OnChange = (getValue: () => string) => void;
@@ -49,6 +50,7 @@ export class Editor {
     private keymap: ProsemirrorPlugin[];
     private markdownIt: MarkdownIt;
     private pluginLoader: PluginLoader;
+    public nodeViews: Record<string, NodeView | MarkView>;
     private onChange?: OnChange;
 
     constructor({
@@ -77,6 +79,7 @@ export class Editor {
         this.serializer = this.createSerializer();
         this.inputRules = this.createInputRules();
         this.keymap = this.createKeymap();
+        this.nodeViews = this.createNodeViews();
         this.view = this.createView(root, defaultValue);
         this.loadState = LoadState.Complete;
     }
@@ -159,9 +162,35 @@ export class Editor {
         return [...nodesKeymap, ...marksKeymap].map((keys) => keymap(keys));
     }
 
+    private createNodeViews() {
+        const nodeViews = this.nodes
+            .filter((node) => Boolean(node.view))
+            .reduce((acc, cur) => {
+                const node = this.schema.nodes[cur.name];
+                if (!node) throw new Error();
+                return {
+                    ...acc,
+                    [cur.name]: (...args: Parameters<NodeView>) => (cur as Required<Node>).view(this, node, ...args),
+                };
+            }, {});
+
+        const markViews = this.marks
+            .filter((mark) => Boolean(mark.view))
+            .reduce((acc, cur) => {
+                const mark = this.schema.marks[cur.name];
+                if (!mark) throw new Error();
+                return {
+                    ...acc,
+                    [cur.name]: (...args: Parameters<MarkView>) => (cur as Required<Mark>).view(this, mark, ...args),
+                };
+            }, {});
+
+        return { ...nodeViews, ...markViews };
+    }
+
     private createView(root: Element, defaultValue: string) {
         const state = this.createEditorState(defaultValue);
-        const { view } = new View(root, state, (v) => {
+        const { view } = new View(root, state, this.nodeViews, (v) => {
             this.onChange?.(() => this.serializer(v.state.doc));
         });
         return view;
