@@ -152,12 +152,8 @@ export class Editor {
                 if (!mark) throw new Error();
                 return (cur as Required<Mark>).keymap(mark);
             });
-        const historyKeymap = {
-            'Mod-z': undo,
-            'Shift-Mod-z': redo,
-        };
 
-        return [...nodesKeymap, ...marksKeymap, historyKeymap].map((keys) => keymap(keys));
+        return [...nodesKeymap, ...marksKeymap].map((keys) => keymap(keys));
     }
 
     private createView(root: Element, defaultValue: string) {
@@ -183,6 +179,10 @@ export class Editor {
             doc,
             plugins: [
                 history(),
+                keymap({
+                    'Mod-z': undo,
+                    'Shift-Mod-z': redo,
+                }),
                 inputRules({ rules: this.inputRules }),
                 ...this.keymap,
                 keymap(baseKeymap),
