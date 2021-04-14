@@ -175,12 +175,12 @@ export class Editor {
             plugins: [
                 history(),
                 inputRules({ rules: this.inputRules }),
+                ...this.keymap,
                 keymap({
                     'Mod-z': undo,
                     'Shift-Mod-z': redo,
                 }),
                 keymap(baseKeymap),
-                ...this.keymap,
                 ...this.pluginLoader.loadProsemirrorPlugin(this.schema, this.view),
             ],
         });
