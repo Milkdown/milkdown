@@ -1,5 +1,5 @@
 import { Editor } from '@milkdown/core';
-import { Prism } from '@milkdown/plugin-prism';
+import { prismPlugin } from '@milkdown/plugin-prism';
 import '@milkdown/theme-nord/lib/theme.css';
 import './style.css';
 
@@ -23,5 +23,5 @@ new Editor({
     root,
     defaultValue: markdown,
     onChange: (getValue) => console.log(getValue()),
-    plugins: [Prism('fence')],
+    plugins: [prismPlugin],
 });

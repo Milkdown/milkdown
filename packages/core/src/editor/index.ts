@@ -1,18 +1,20 @@
 import MarkdownIt from 'markdown-it';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
-import { EditorState, Plugin } from 'prosemirror-state';
+import { EditorState, Plugin as ProsemirrorPlugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { baseKeymap } from 'prosemirror-commands';
 import { Schema, Node as ProsemirrorNode } from 'prosemirror-model';
 import { history, redo, undo } from 'prosemirror-history';
 
-import { createParser } from './parser';
-import { createSerializer } from './serializer';
+import { Plugin, PluginLoader } from './plugin';
+import { createParser } from '../parser';
+import { createSerializer } from '../serializer';
 import { keymap } from 'prosemirror-keymap';
-import { Node, Mark } from './abstract';
-import { marks } from './mark';
-import { nodes } from './node';
-import { buildObject } from './utility/buildObject';
+import { Node, Mark } from '../abstract';
+import { marks } from '../mark';
+import { nodes } from '../node';
+import { buildObject } from '../utility/buildObject';
+import { View } from './view';
 
 export type OnChange = (getValue: () => string) => void;
 
@@ -44,9 +46,9 @@ export class Editor {
     private nodes: Node[];
     private marks: Mark[];
     private inputRules: InputRule[];
-    private keymap: Plugin[];
+    private keymap: ProsemirrorPlugin[];
     private markdownIt: MarkdownIt;
-    private plugins: Plugin[];
+    private pluginLoader: PluginLoader;
     private onChange?: OnChange;
 
     constructor({
@@ -59,21 +61,22 @@ export class Editor {
         plugins = [],
     }: Options) {
         this.loadState = LoadState.Idle;
-        this.markdownIt = markdownIt;
         this.onChange = onChange;
         this.root = root;
 
-        this.nodes = getNodes(nodes).map<Node>(this.createInstance);
-        this.marks = getMarks(marks).map<Mark>(this.createInstance);
+        this.pluginLoader = new PluginLoader(plugins);
+
+        this.nodes = this.pluginLoader.loadNodes(getNodes, nodes).map<Node>(this.createInstance);
+        this.marks = this.pluginLoader.loadMarks(getMarks, marks).map<Mark>(this.createInstance);
+
+        this.markdownIt = markdownIt;
+        this.pluginLoader.loadMarkdownPlugin(markdownIt);
 
         this.schema = this.createSchema();
         this.parser = this.createParser();
         this.serializer = this.createSerializer();
         this.inputRules = this.createInputRules();
         this.keymap = this.createKeymap();
-
-        this.plugins = plugins;
-
         this.view = this.createView(root, defaultValue);
         this.loadState = LoadState.Complete;
     }
@@ -157,18 +160,10 @@ export class Editor {
     }
 
     private createView(root: Element, defaultValue: string) {
-        const container = this.createViewContainer(root);
         const state = this.createEditorState(defaultValue);
-        const view = new EditorView(container, {
-            state,
-            dispatchTransaction: (tr) => {
-                const nextState = view.state.apply(tr);
-                view.updateState(nextState);
-
-                this.onChange?.(() => this.value);
-            },
+        const { view } = new View(root, state, (v) => {
+            this.onChange?.(() => this.serializer(v.state.doc));
         });
-        this.prepareViewDom(view.dom);
         return view;
     }
 
@@ -179,28 +174,17 @@ export class Editor {
             doc,
             plugins: [
                 history(),
+                inputRules({ rules: this.inputRules }),
                 keymap({
                     'Mod-z': undo,
                     'Shift-Mod-z': redo,
                 }),
-                inputRules({ rules: this.inputRules }),
-                ...this.keymap,
                 keymap(baseKeymap),
-                ...this.plugins,
+                ...this.keymap,
+                ...this.pluginLoader.loadProsemirrorPlugin(this.schema, this.view),
             ],
         });
     }
-
-    private createViewContainer(root: Element) {
-        const container = document.createElement('div');
-        container.className = 'milkdown';
-        root.appendChild(container);
-
-        return container;
-    }
-
-    private prepareViewDom(dom: Element) {
-        dom.classList.add('editor');
-        dom.setAttribute('role', 'textbox');
-    }
 }
+
+export { createPlugin, Plugin, PluginConfig } from './plugin';
