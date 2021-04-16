@@ -77,6 +77,7 @@ export class Editor {
         this.schema = this.createSchema();
         this.parser = this.createParser();
         this.serializer = this.createSerializer();
+
         this.inputRules = this.createInputRules();
         this.keymap = this.createKeymap();
         this.nodeViews = this.createNodeViews();
