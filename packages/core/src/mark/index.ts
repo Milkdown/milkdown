@@ -8,4 +8,4 @@ export { Em } from './em';
 export { Link } from './link';
 export { Strong } from './strong';
 
-export const marks = [Link, Strong, CodeInline, Em];
+export const marks = [new Link(), new Strong(), new CodeInline(), new Em()];

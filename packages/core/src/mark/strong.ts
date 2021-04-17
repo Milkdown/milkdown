@@ -7,7 +7,7 @@ import { Mark } from '../abstract';
 import { markRule } from '../utility/markRule';
 
 export class Strong extends Mark {
-    name = 'strong';
+    id = 'strong';
     schema: MarkSpec = {
         parseDOM: [
             { tag: 'b' },
@@ -17,7 +17,7 @@ export class Strong extends Mark {
         toDOM: () => ['strong', { class: 'strong' }],
     };
     parser = {
-        mark: this.name,
+        mark: this.id,
     };
     serializer: SerializerMark = {
         open: '**',

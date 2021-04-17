@@ -1,5 +1,5 @@
-import { Editor } from '@milkdown/core';
-import { prismPlugin } from '@milkdown/plugin-prism';
+import { Editor, marks, nodes, ProsemirrorPluginLoader } from '@milkdown/core';
+import { Prism } from '@milkdown/plugin-prism';
 import '@milkdown/theme-nord/lib/theme.css';
 import './style.css';
 
@@ -22,6 +22,11 @@ if (!root) throw new Error();
 new Editor({
     root,
     defaultValue: markdown,
-    onChange: (getValue) => console.log(getValue()),
-    plugins: [prismPlugin],
-});
+    listener: {
+        markdown: [(getValue) => console.log(getValue())],
+    },
+})
+    .use(nodes)
+    .use(marks)
+    .use(new ProsemirrorPluginLoader({ plugins: [Prism('fence')] }))
+    .create();

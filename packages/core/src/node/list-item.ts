@@ -5,7 +5,7 @@ import type { SerializerNode } from '../serializer/types';
 import { Node } from '../abstract';
 
 export class ListItem extends Node {
-    name = 'list_item';
+    id = 'list_item';
     schema = {
         content: 'paragraph block*',
         defining: true,
@@ -13,7 +13,7 @@ export class ListItem extends Node {
         toDOM: () => ['li', { class: 'list-item' }, 0] as const,
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state, node) => {
         state.renderContent(node);

@@ -5,14 +5,14 @@ import { InputRule } from 'prosemirror-inputrules';
 import { Node } from '../abstract';
 
 export class Hr extends Node {
-    name = 'hr';
+    id = 'hr';
     schema: NodeSpec = {
         group: 'block',
         parseDOM: [{ tag: 'hr' }],
         toDOM: () => ['hr', { class: 'hr' }],
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state, node) => {
         state.write('---');

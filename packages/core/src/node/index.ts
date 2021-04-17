@@ -23,15 +23,15 @@ export { CodeFence } from './code-fence';
 export { TabIndent } from './tab-indent';
 
 export const nodes = [
-    Paragraph,
-    HardBreak,
-    Blockquote,
-    CodeFence,
-    OrderedList,
-    BulletList,
-    ListItem,
-    Heading,
-    Hr,
-    Image,
-    TabIndent,
+    new Paragraph(),
+    new HardBreak(),
+    new Blockquote(),
+    new CodeFence(),
+    new OrderedList(),
+    new BulletList(),
+    new ListItem(),
+    new Heading(),
+    new Hr(),
+    new Image(),
+    new TabIndent(),
 ];

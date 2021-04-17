@@ -7,7 +7,7 @@ import { Mark } from '../abstract';
 import { markRule } from '../utility/markRule';
 
 export class Em extends Mark {
-    name = 'em';
+    id = 'em';
     schema: MarkSpec = {
         parseDOM: [
             { tag: 'i' },

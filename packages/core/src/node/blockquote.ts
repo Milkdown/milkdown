@@ -5,7 +5,7 @@ import { wrappingInputRule } from 'prosemirror-inputrules';
 import { Node } from '../abstract';
 
 export class Blockquote extends Node {
-    name = 'blockquote';
+    id = 'blockquote';
     schema: NodeSpec = {
         content: 'block+',
         group: 'block',
@@ -14,7 +14,7 @@ export class Blockquote extends Node {
         toDOM: () => ['blockquote', { class: 'blockquote' }, 0],
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state, node) => {
         state.wrapBlock('> ', node, () => state.renderContent(node));

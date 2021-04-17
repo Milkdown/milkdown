@@ -6,7 +6,7 @@ import { InputRule } from 'prosemirror-inputrules';
 import { Mark } from '../abstract';
 
 export class Link extends Mark {
-    name = 'link';
+    id = 'link';
     schema: MarkSpec = {
         attrs: {
             href: {},
