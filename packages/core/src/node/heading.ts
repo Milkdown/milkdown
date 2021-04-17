@@ -10,7 +10,7 @@ const headingIndex = Array(5)
     .map((_, i) => i + 1);
 
 export class Heading extends Node {
-    name = 'heading';
+    id = 'heading';
     schema: NodeSpec = {
         content: 'text*',
         group: 'block',
@@ -23,7 +23,7 @@ export class Heading extends Node {
         toDOM: (node) => [`h${node.attrs.level}`, { class: `heading h${node.attrs.level}` }, 0],
     };
     parser: ParserSpec = {
-        block: this.name,
+        block: this.id,
         getAttrs: (tok) => ({ level: Number(tok.tag.slice(1)) }),
     };
     serializer: SerializerNode = (state, node) => {

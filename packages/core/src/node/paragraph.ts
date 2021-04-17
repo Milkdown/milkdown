@@ -3,7 +3,7 @@ import type { SerializerNode } from '../serializer/types';
 import { Node } from '../abstract';
 
 export class Paragraph extends Node {
-    name = 'paragraph';
+    id = 'paragraph';
     schema = {
         content: 'inline*',
         group: 'block',
@@ -11,7 +11,7 @@ export class Paragraph extends Node {
         toDOM: () => ['p', { class: 'paragraph' }, 0] as const,
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state, node) => {
         state.renderInline(node).closeBlock(node);

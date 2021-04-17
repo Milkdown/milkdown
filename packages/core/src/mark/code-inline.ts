@@ -5,7 +5,7 @@ import { Mark } from '../abstract';
 import { markRule } from '../utility/markRule';
 
 export class CodeInline extends Mark {
-    name = 'code_inline';
+    id = 'code_inline';
     schema: MarkSpec = {
         excludes: '_',
         parseDOM: [{ tag: 'code' }],

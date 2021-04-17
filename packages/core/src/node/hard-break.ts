@@ -4,7 +4,7 @@ import type { SerializerNode } from '../serializer/types';
 import { Node } from '../abstract';
 
 export class HardBreak extends Node {
-    name = 'hardbreak';
+    id = 'hardbreak';
     schema = {
         inline: true,
         group: 'inline',
@@ -13,7 +13,7 @@ export class HardBreak extends Node {
         toDOM: () => ['br', { class: 'bard-break' }] as const,
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state) => {
         state.write('  \n');

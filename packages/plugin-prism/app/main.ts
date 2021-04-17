@@ -1,5 +1,5 @@
-import { Editor } from '@milkdown/core';
-import { prismPlugin } from '../src';
+import { Editor, marks, nodes, ProsemirrorPluginLoader } from '@milkdown/core';
+import { Prism } from '../src';
 import 'prismjs/themes/prism.css';
 import './style.css';
 
@@ -60,5 +60,8 @@ new Editor({
     root,
     defaultValue: markdown,
     // onChange: (getValue) => console.log(getValue()),
-    plugins: [prismPlugin],
-});
+})
+    .use(nodes)
+    .use(marks)
+    .use(new ProsemirrorPluginLoader({ plugins: [Prism('fence')] }))
+    .create();

@@ -6,7 +6,7 @@ import { Node } from '../abstract';
 import { SerializerNode } from '../serializer/types';
 
 export class TabIndent extends Node {
-    name = 'tab_indent';
+    id = 'tab_indent';
     schema: NodeSpec = {
         group: 'inline',
         inline: true,
@@ -15,7 +15,7 @@ export class TabIndent extends Node {
         toDOM: () => ['span', { class: 'tab-indent' }, '  '],
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state) => {
         state.write('  ');

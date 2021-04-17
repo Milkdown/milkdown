@@ -1,4 +1,4 @@
-import { Editor } from '../src';
+import { Editor, nodes, marks } from '../src';
 import './style.css';
 
 const markdown = `
@@ -50,8 +50,15 @@ milkdown.create();
 Now you can play!
 `;
 
+const app = document.getElementById('app');
+
 new Editor({
-    root: document.getElementById('app')!,
+    root: app,
     defaultValue: markdown,
-    onChange: (getValue) => console.log(getValue()),
-});
+    listener: {
+        markdown: [(x) => console.log(x())],
+    },
+})
+    .use(nodes)
+    .use(marks)
+    .create();

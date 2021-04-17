@@ -1,36 +1,21 @@
-enum AtomType {
-    ProsemirrorSpec,
-    ProsemirrorPlugin,
-    MarkdownItOption,
-    MarkdownItPlugin,
-    Theme,
-    Listener,
-}
-
-export enum LoadState {
-    Idle,
-    SchemaReady,
-    TransformerReady,
-    PluginReady,
-    EditorReady,
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyRecord = Record<string, any>;
+import { AtomType, LoadState } from '../constant';
+import { AnyRecord } from '../utility';
 
 export abstract class Atom<
-    CurrentContext extends AnyRecord,
+    CurrentContext extends AnyRecord = AnyRecord,
     NextContext extends AnyRecord = CurrentContext,
     Options extends AnyRecord = AnyRecord
 > {
-    constructor(
-        protected readonly context: CurrentContext,
-        protected readonly updateContext: () => Partial<NextContext>,
-        protected readonly option: Options,
-    ) {}
+    context!: CurrentContext;
+    updateContext!: (next: Partial<NextContext>) => void;
+    constructor(public readonly options: Options = {} as Options) {}
+    injectContext(context: CurrentContext, updateContext: (next: Partial<NextContext>) => void) {
+        this.context = context;
+        this.updateContext = updateContext;
+    }
 
-    abstract readonly id: string | symbol;
-    abstract type: AtomType;
-    abstract loadAfter: LoadState;
+    abstract readonly id: string;
+    abstract readonly type: AtomType;
+    abstract readonly loadAfter: LoadState;
     abstract main(): void;
 }

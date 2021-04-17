@@ -6,7 +6,7 @@ import { InputRule } from 'prosemirror-inputrules';
 import { Node } from '../abstract';
 
 export class Image extends Node {
-    name = 'image';
+    id = 'image';
     schema: NodeSpec = {
         inline: true,
         attrs: {

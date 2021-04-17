@@ -5,7 +5,7 @@ import { wrappingInputRule } from 'prosemirror-inputrules';
 import { Node } from '../abstract';
 
 export class BulletList extends Node {
-    name = 'bullet_list';
+    id = 'bullet_list';
     schema = {
         content: 'list_item+',
         group: 'block',
@@ -13,7 +13,7 @@ export class BulletList extends Node {
         toDOM: () => ['ul', { class: 'bullet-list' }, 0] as const,
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state, node) => {
         state.renderList(node, '  ', () => '* ');

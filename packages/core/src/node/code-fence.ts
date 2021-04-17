@@ -3,10 +3,11 @@ import type { ParserSpec } from '../parser/types';
 import type { SerializerNode } from '../serializer/types';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { Node } from '../abstract';
-import { LoadState } from '../editor';
 import { Keymap } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
+import { Node } from '../abstract';
+import { LoadState } from '../constant';
+import { ProsemirrorReadyContext } from '../editor/context';
 
 const languageOptions = [
     '',
@@ -25,7 +26,7 @@ const languageOptions = [
 ];
 
 export class CodeFence extends Node {
-    name = 'fence';
+    id = 'fence';
     schema: NodeSpec = {
         content: 'text*',
         group: 'block',
@@ -55,7 +56,7 @@ export class CodeFence extends Node {
         },
     };
     parser: ParserSpec = {
-        block: this.name,
+        block: this.id,
         getAttrs: (tok) => ({ language: tok.info }),
     };
     serializer: SerializerNode = (state, node) => {
@@ -78,23 +79,23 @@ export class CodeFence extends Node {
     });
 
     private onChangeLanguage(top: number, left: number, language: string) {
-        const { view } = this.editor;
-        const result = view.posAtCoords({ top, left });
+        const { editorView } = this.context as ProsemirrorReadyContext;
+        const result = editorView.posAtCoords({ top, left });
 
         if (!result) {
             return;
         }
-        const transaction = view.state.tr.setNodeMarkup(result.inside, void 0, {
+        const transaction = editorView.state.tr.setNodeMarkup(result.inside, void 0, {
             language,
         });
-        view.dispatch(transaction);
+        editorView.dispatch(transaction);
     }
 
     private createSelectElement(currentLanguage: string) {
         const select = document.createElement('select');
         select.className = 'code-fence_select';
         select.addEventListener('change', (e) => {
-            if (this.editor.loadState !== LoadState.Complete) {
+            if (this.context.loadState !== LoadState.Complete) {
                 throw new Error('Should not trigger event before milkdown ready.');
             }
 

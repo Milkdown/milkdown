@@ -5,7 +5,7 @@ import { wrappingInputRule } from 'prosemirror-inputrules';
 import { Node } from '../abstract';
 
 export class OrderedList extends Node {
-    name = 'ordered_list';
+    id = 'ordered_list';
     schema: NodeSpec = {
         content: 'list_item+',
         group: 'block',
@@ -24,7 +24,7 @@ export class OrderedList extends Node {
         toDOM: (node) => ['ol', { ...(node.attrs.order === 1 ? {} : node.attrs.order), class: 'ordered-list' }, 0],
     };
     parser = {
-        block: this.name,
+        block: this.id,
     };
     serializer: SerializerNode = (state, node) => {
         const { order = 1 } = node.attrs;
