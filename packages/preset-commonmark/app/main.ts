@@ -1,8 +1,5 @@
 import { Editor } from '@milkdown/core';
-import { marks, nodes } from '@milkdown/preset-commonmark';
-import 'prismjs/themes/prism.css';
-
-import { prism } from '../src';
+import { nodes, marks } from '../src';
 import './style.css';
 
 const markdown = `
@@ -44,7 +41,7 @@ Your *[link is here](https://bing.com "bing")*, have a look.
 
 ## Code
 
-\`\`\`javascript
+\`\`\`typescript
 const milkdown = new Milkdown();
 milkdown.create();
 \`\`\`
@@ -54,16 +51,15 @@ milkdown.create();
 Now you can play!
 `;
 
-const root = document.getElementById('app');
-
-if (!root) throw new Error();
+const app = document.getElementById('app');
 
 new Editor({
-    root,
+    root: app,
     defaultValue: markdown,
-    // onChange: (getValue) => console.log(getValue()),
+    listener: {
+        markdown: [(x) => console.log(x())],
+    },
 })
     .use(nodes)
     .use(marks)
-    .use(prism)
     .create();

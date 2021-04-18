@@ -11,3 +11,5 @@ export function createParser(schema: Schema, tokenizer: MarkdownIt, specMap: Rec
         return state.transformTokensToDoc(tokenizer.parse(text, {}));
     };
 }
+
+export * from './types';

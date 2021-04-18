@@ -8,13 +8,6 @@ import type { LoadState } from '../constant';
 import type { Mark, Node } from '../abstract';
 import type { Editor } from '.';
 
-export type DocListener = (doc: Node) => void;
-export type MarkdownListener = (getMarkdown: () => string) => void;
-export type Listener = {
-    doc?: DocListener[];
-    markdown?: MarkdownListener[];
-};
-
 export interface IdleContext {
     markdownIt: MarkdownIt;
     loadState: LoadState;

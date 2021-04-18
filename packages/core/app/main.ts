@@ -1,4 +1,5 @@
-import { Editor, nodes, marks } from '../src';
+import { nodes, marks } from '@milkdown/preset-commonmark';
+import { Editor } from '../src';
 import './style.css';
 
 const markdown = `

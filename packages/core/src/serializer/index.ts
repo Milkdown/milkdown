@@ -10,3 +10,5 @@ export function createSerializer(nodes: NodeMap, marks: MarkMap) {
         return state.output;
     };
 }
+
+export * from './types';
