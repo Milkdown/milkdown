@@ -147,6 +147,7 @@
                 background-color: var(--nord2);
                 border: 0;
                 font-family: var(--font-code);
+                margin: 0;
             }
         }
 
