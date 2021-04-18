@@ -4,9 +4,20 @@ body {
 }
 
 #app {
-    margin: 20px 0;
+    margin: 0;
 }
 
 .milkdown {
+    min-height: 100vh;
     border-radius: 4px;
+}
+
+@media only screen and (min-width: 42rem) {
+    #app {
+        margin: 20px 0;
+    }
+
+    .milkdown {
+        min-height: auto;
+    }
 }
