@@ -12,11 +12,15 @@
     font-family: var(--font);
     margin-left: auto;
     margin-right: auto;
-    max-width: 42rem;
-    padding: 3.125rem 7.25rem;
+    padding: 3.125rem 1.25rem;
     background-color: #fff;
     color: var(--nord1);
     box-shadow: var(--nord4) 0px 4px 6px, var(--nord4) 0px 5px 7px;
+
+    @media only screen and (min-width: 42rem) {
+        max-width: 42rem;
+        padding: 3.125rem 7.25rem;
+    }
 
     * {
         margin: 1.875rem 0;
