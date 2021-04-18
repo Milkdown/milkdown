@@ -1,8 +1,12 @@
 body {
     margin: 0;
-    background: #fff;
+    background: #edeff3;
 }
 
 #app {
     margin: 20px 0;
+}
+
+.milkdown {
+    border-radius: 4px;
 }

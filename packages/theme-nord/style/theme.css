@@ -3,7 +3,7 @@
 @import './prism.css';
 
 :root {
-    --font: baloo\2, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
+    --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
         sans-serif;
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
 }
@@ -13,13 +13,38 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 42rem;
-    padding: 1.2rem;
-    background-color: var(--nord6);
+    padding: 7.25rem;
+    background-color: #fff;
     color: var(--nord1);
     box-shadow: var(--nord4) 0px 4px 6px, var(--nord4) 0px 5px 7px;
 
+    * {
+        margin: 1.875rem 0;
+    }
+
     .paragraph {
-        margin: 0.8rem 0;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .heading {
+        margin: 2.5rem 0;
+        font-weight: 400;
+    }
+
+    .h1 {
+        font-size: 3rem;
+        line-height: 3.5rem;
+    }
+
+    .h2 {
+        font-size: 2.125rem;
+        line-height: 2.25rem;
+    }
+
+    .h3 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
     }
 
     .editor {
@@ -27,12 +52,27 @@
     }
 
     .blockquote {
-        padding-left: 1.5rem;
-        margin: 1rem 0;
+        padding-left: 1.875rem;
         line-height: 1.75rem;
-        border-left: 0.2rem solid;
-        border-left-color: var(--nord3);
-        color: var(--nord3);
+        border-left: 4px solid;
+        border-left-color: var(--nord10);
+        * {
+            font-size: 1rem;
+            line-height: 1.5rem;
+        }
+    }
+
+    .list-item {
+        &,
+        * {
+            margin: 0;
+        }
+    }
+
+    .hr {
+        height: 1px;
+        background-color: var(--nord6);
+        border-width: 0;
     }
 
     .link {
@@ -48,12 +88,12 @@
     }
 
     .code-inline {
-        background-color: var(--nord4);
-        font-size: 0.8rem;
+        background-color: #2f343f;
+        color: #fff;
         border-radius: 4px;
         font-weight: 500;
         font-family: var(--font-code);
-        padding: 0.2rem 0.4rem;
+        padding: 0.2rem;
     }
 
     .image {
