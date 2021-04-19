@@ -41,6 +41,15 @@ export class Editor {
             });
     }
 
+    private addAtom(atom: Atom) {
+        const i = this.atoms.findIndex((a) => a.id === atom.id);
+        if (i >= 0) {
+            console.warn(`Atom: ${atom.id} is conflicted with previous atom, the previous one will be override.`);
+            this.atoms.splice(i, 1);
+        }
+        this.atoms.push(atom);
+    }
+
     constructor(options: Partial<ViewLoaderOptions>) {
         const viewOptions: ViewLoaderOptions = {
             root: document.body,
@@ -62,11 +71,11 @@ export class Editor {
     use(atom: Atom | Atom[]) {
         if (Array.isArray(atom)) {
             atom.forEach((a) => {
-                this.atoms.push(a);
+                this.addAtom(a);
             });
             return this;
         }
-        this.atoms.push(atom);
+        this.addAtom(atom);
         return this;
     }
 
