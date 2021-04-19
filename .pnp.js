@@ -35,6 +35,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/plugin-prism"
       },
       {
+        "name": "@milkdown/plugin-tooltip",
+        "reference": "workspace:packages/plugin-tooltip"
+      },
+      {
         "name": "@milkdown/preset-commonmark",
         "reference": "workspace:packages/preset-commonmark"
       },
@@ -49,6 +53,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@milkdown/core", ["workspace:packages/core"]],
       ["@milkdown/gh-pages", ["workspace:gh-pages"]],
       ["@milkdown/plugin-prism", ["virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#workspace:packages/plugin-prism", "workspace:packages/plugin-prism"]],
+      ["@milkdown/plugin-tooltip", ["workspace:packages/plugin-tooltip"]],
       ["@milkdown/preset-commonmark", ["virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark", "workspace:packages/preset-commonmark"]],
       ["@milkdown/theme-nord", ["workspace:packages/theme-nord"]],
       ["milkdown", ["workspace:."]]
@@ -1221,6 +1226,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prosemirror-state", "npm:1.3.4"],
             ["prosemirror-view", "npm:1.18.2"],
             ["refractor", "npm:3.3.1"],
+            ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.4"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
+            ["vite", "npm:2.1.5"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@milkdown/plugin-tooltip", [
+        ["workspace:packages/plugin-tooltip", {
+          "packageLocation": "./packages/plugin-tooltip/",
+          "packageDependencies": [
+            ["@milkdown/plugin-tooltip", "workspace:packages/plugin-tooltip"],
+            ["@milkdown/core", "workspace:packages/core"],
+            ["@milkdown/preset-commonmark", "virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/prismjs", "npm:1.16.5"],
+            ["@types/prosemirror-model", "npm:1.13.0"],
+            ["@types/prosemirror-state", "npm:1.2.6"],
+            ["@types/prosemirror-view", "npm:1.17.1"],
+            ["jest", "npm:26.6.3"],
+            ["prismjs", "npm:1.23.0"],
+            ["prosemirror-model", "npm:1.14.0"],
+            ["prosemirror-state", "npm:1.3.4"],
+            ["prosemirror-view", "npm:1.18.2"],
             ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.4"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
