@@ -22,6 +22,7 @@ class SelectionMarksTooltip {
         }
 
         this.$.style.display = '';
+        console.log(state.selection);
         const { from, to } = state.selection;
 
         const box = this.$.offsetParent?.getBoundingClientRect();
@@ -43,4 +44,4 @@ const selectionMarksTooltipPlugin = new Plugin({
     view: (editorView) => new SelectionMarksTooltip(editorView),
 });
 
-export const tooltip = createProsemirrorPlugin('tooltip', [selectionMarksTooltipPlugin]);
+export const tooltip = createProsemirrorPlugin('tooltip', () => [selectionMarksTooltipPlugin]);
