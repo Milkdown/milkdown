@@ -1,5 +1,5 @@
 import { Editor } from '@milkdown/core';
-import { nodes, marks } from '../src';
+import { commonmark } from '../src';
 import './style.css';
 
 const markdown = `
@@ -60,6 +60,5 @@ new Editor({
         markdown: [(x) => console.log(x())],
     },
 })
-    .use(nodes)
-    .use(marks)
+    .use(commonmark)
     .create();
