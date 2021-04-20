@@ -21,7 +21,7 @@ const root = document.getElementById('app');
 
 if (!root) throw new Error();
 
-new Editor({
+const editor = new Editor({
     root,
     defaultValue: markdown,
     listener: {
@@ -30,6 +30,13 @@ new Editor({
 })
     .use(nodes)
     .use(marks)
-    .use(prism)
-    .use(tooltip)
-    .create();
+    .use(prism);
+
+const isMobile = /Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+);
+if (isMobile) {
+    editor.use(tooltip);
+}
+
+editor.create();
