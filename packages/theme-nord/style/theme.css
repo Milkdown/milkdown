@@ -168,6 +168,7 @@
 
     .tooltip {
         display: flex;
+        cursor: pointer;
         justify-content: space-around;
         position: absolute;
         transform: translateX(-50%);
@@ -191,6 +192,12 @@
         .icon {
             width: 1.8rem;
             text-align: center;
+            border-radius: 4px;
+            background: var(--nord0);
+            transition: all 0.2s ease-in;
+            &:hover {
+                background: var(--nord2);
+            }
         }
         .strong {
             font-weight: bold;
