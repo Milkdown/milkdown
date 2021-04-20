@@ -5,11 +5,6 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import '@milkdown/theme-nord/lib/theme.css';
 import './style.css';
 
-document.body.requestFullscreen().catch((e) => {
-    console.error('Error attempting to enable full-screen');
-    console.error(e.toString());
-});
-
 const markdown = `
 # Milkdown
 
