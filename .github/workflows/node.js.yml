@@ -18,17 +18,14 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: 15.x
-            - name: install
+
+            - name: Build milkdown
               run: |
                 yarn install --immutable
-            - name: build
-              run: |
                 yarn workspace @milkdown/gh-pages workspaces foreach --topological-dev --recursive run build
+
             - name: Deploy to GitHub Pages
-              if: success()
-              uses: crazy-max/ghaction-github-pages@v2
+              uses: peaceiris/actions-gh-pages@v3
               with:
-                  target_branch: gh-pages
-                  build_dir: docs
-              env:
-                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                  github_token: ${{ secrets.ACCESS_TOKEN }}
+                  publish_dir: docs
