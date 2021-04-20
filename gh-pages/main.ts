@@ -32,9 +32,7 @@ const editor = new Editor({
     .use(marks)
     .use(prism);
 
-const isMobile = /Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-);
+const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 if (!isMobile) {
     editor.use(tooltip);
 }
