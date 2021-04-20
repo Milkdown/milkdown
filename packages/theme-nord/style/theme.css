@@ -9,6 +9,7 @@
 }
 
 .milkdown {
+    position: relative;
     font-family: var(--font);
     margin-left: auto;
     margin-right: auto;
@@ -22,7 +23,7 @@
         padding: 3.125rem 7.25rem;
     }
 
-    * {
+    .editor * {
         margin: 1.875rem 0;
     }
 
@@ -92,7 +93,7 @@
     }
 
     .code-inline {
-        background-color: #2f343f;
+        background-color: var(--nord0);
         color: var(--nord6);
         border-radius: 4px;
         font-weight: 500;
@@ -162,6 +163,43 @@
         code {
             font-family: var(--font-code);
             line-height: 1.5;
+        }
+    }
+
+    .tooltip {
+        display: flex;
+        justify-content: space-around;
+        position: absolute;
+        transform: translateX(-50%);
+        margin-bottom: 8px;
+        background: var(--nord0);
+        border-radius: 4px;
+        color: var(--nord6);
+        padding: 4px 8px;
+        &:before {
+            content: '';
+            position: absolute;
+            height: 0;
+            width: 0;
+            left: 50%;
+            margin-left: -6px;
+            bottom: -6px;
+            border: 6px solid transparent;
+            border-bottom-width: 0;
+            border-top-color: var(--nord0);
+        }
+        .icon {
+            width: 20px;
+            text-align: center;
+        }
+        .strong {
+            font-weight: bold;
+        }
+        .italic {
+            font-style: italic;
+        }
+        &.hide {
+            display: none;
         }
     }
 }

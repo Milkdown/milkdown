@@ -53,8 +53,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@milkdown/core", ["workspace:packages/core"]],
       ["@milkdown/gh-pages", ["workspace:gh-pages"]],
       ["@milkdown/plugin-prism", ["virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#workspace:packages/plugin-prism", "workspace:packages/plugin-prism"]],
-      ["@milkdown/plugin-tooltip", ["workspace:packages/plugin-tooltip"]],
-      ["@milkdown/preset-commonmark", ["virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark", "workspace:packages/preset-commonmark"]],
+      ["@milkdown/plugin-tooltip", ["virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-tooltip", "workspace:packages/plugin-tooltip"]],
+      ["@milkdown/preset-commonmark", ["virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark", "workspace:packages/preset-commonmark"]],
       ["@milkdown/theme-nord", ["workspace:packages/theme-nord"]],
       ["milkdown", ["workspace:."]]
     ],
@@ -1124,7 +1124,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/core/",
           "packageDependencies": [
             ["@milkdown/core", "workspace:packages/core"],
-            ["@milkdown/preset-commonmark", "virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/markdown-it", "npm:12.0.1"],
             ["@types/prosemirror-commands", "npm:1.0.4"],
@@ -1159,7 +1158,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@milkdown/gh-pages", "workspace:gh-pages"],
             ["@milkdown/core", "workspace:packages/core"],
             ["@milkdown/plugin-prism", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#workspace:packages/plugin-prism"],
-            ["@milkdown/preset-commonmark", "virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark"],
+            ["@milkdown/plugin-tooltip", "virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-tooltip"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
             ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
             ["postcss", "npm:8.2.10"],
             ["postcss-import", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:14.0.1"],
@@ -1176,7 +1176,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@milkdown/plugin-prism", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#workspace:packages/plugin-prism"],
             ["@milkdown/core", "workspace:packages/core"],
-            ["@milkdown/preset-commonmark", "virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/milkdown__core", null],
             ["@types/prismjs", "npm:1.16.5"],
@@ -1213,7 +1213,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@milkdown/plugin-prism", "workspace:packages/plugin-prism"],
             ["@milkdown/core", "workspace:packages/core"],
-            ["@milkdown/preset-commonmark", "virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/prismjs", "npm:1.16.5"],
             ["@types/prosemirror-model", "npm:1.13.0"],
@@ -1235,19 +1235,59 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@milkdown/plugin-tooltip", [
+        ["virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-tooltip", {
+          "packageLocation": "./.yarn/$$virtual/@milkdown-plugin-tooltip-virtual-ba85eed2d3/1/packages/plugin-tooltip/",
+          "packageDependencies": [
+            ["@milkdown/plugin-tooltip", "virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-tooltip"],
+            ["@milkdown/core", "workspace:packages/core"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
+            ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/milkdown__core", null],
+            ["@types/prismjs", "npm:1.16.5"],
+            ["@types/prosemirror-commands", "npm:1.0.4"],
+            ["@types/prosemirror-model", "npm:1.13.0"],
+            ["@types/prosemirror-state", "npm:1.2.6"],
+            ["@types/prosemirror-view", "npm:1.17.1"],
+            ["@types/types__prosemirror-model", null],
+            ["@types/types__prosemirror-state", null],
+            ["@types/types__prosemirror-view", null],
+            ["jest", "npm:26.6.3"],
+            ["prismjs", "npm:1.23.0"],
+            ["prosemirror-commands", "npm:1.1.7"],
+            ["prosemirror-model", "npm:1.14.0"],
+            ["prosemirror-state", "npm:1.3.4"],
+            ["prosemirror-view", "npm:1.18.2"],
+            ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.4"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
+            ["vite", "npm:2.1.5"]
+          ],
+          "packagePeers": [
+            "@milkdown/core",
+            "@types/milkdown__core",
+            "@types/types__prosemirror-model",
+            "@types/types__prosemirror-state",
+            "@types/types__prosemirror-view"
+          ],
+          "linkType": "SOFT",
+        }],
         ["workspace:packages/plugin-tooltip", {
           "packageLocation": "./packages/plugin-tooltip/",
           "packageDependencies": [
             ["@milkdown/plugin-tooltip", "workspace:packages/plugin-tooltip"],
             ["@milkdown/core", "workspace:packages/core"],
-            ["@milkdown/preset-commonmark", "virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
+            ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/prismjs", "npm:1.16.5"],
+            ["@types/prosemirror-commands", "npm:1.0.4"],
             ["@types/prosemirror-model", "npm:1.13.0"],
             ["@types/prosemirror-state", "npm:1.2.6"],
             ["@types/prosemirror-view", "npm:1.17.1"],
             ["jest", "npm:26.6.3"],
             ["prismjs", "npm:1.23.0"],
+            ["prosemirror-commands", "npm:1.1.7"],
             ["prosemirror-model", "npm:1.14.0"],
             ["prosemirror-state", "npm:1.3.4"],
             ["prosemirror-view", "npm:1.18.2"],
@@ -1260,10 +1300,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@milkdown/preset-commonmark", [
-        ["virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark", {
-          "packageLocation": "./.yarn/$$virtual/@milkdown-preset-commonmark-virtual-592bc24dc2/1/packages/preset-commonmark/",
+        ["virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark", {
+          "packageLocation": "./.yarn/$$virtual/@milkdown-preset-commonmark-virtual-5f63863f60/1/packages/preset-commonmark/",
           "packageDependencies": [
-            ["@milkdown/preset-commonmark", "virtual:a6f8b0c646df8a1dd63c7a6c231db4b8cb1728dca781c2cbda8f1e8a7310bd504f45c93800a96d41953ec51de26a3b50bcf1d0229c2c76ff462475fa29646420#workspace:packages/preset-commonmark"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
             ["@milkdown/core", "workspace:packages/core"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/milkdown__core", null],
@@ -1296,8 +1336,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@milkdown/core",
             "@types/milkdown__core",
-            "@types/prosemirror-commands",
-            "@types/prosemirror-inputrules",
             "@types/prosemirror-model",
             "@types/prosemirror-state",
             "@types/prosemirror-view",
@@ -1307,8 +1345,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/types__prosemirror-schema-list",
             "@types/types__prosemirror-state",
             "@types/types__prosemirror-view",
-            "prosemirror-commands",
-            "prosemirror-inputrules",
             "prosemirror-model",
             "prosemirror-state",
             "prosemirror-view"

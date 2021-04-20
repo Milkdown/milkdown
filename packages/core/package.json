@@ -35,7 +35,6 @@
         "tslib": "^2.2.0"
     },
     "devDependencies": {
-        "@milkdown/preset-commonmark": "workspace:*",
         "@types/jest": "^26.0.22",
         "jest": "^26.6.3",
         "ts-jest": "^26.5.4",
