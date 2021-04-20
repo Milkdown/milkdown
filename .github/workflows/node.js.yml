@@ -19,7 +19,7 @@ jobs:
               with:
                   node-version: 15.x
             - run: yarn
-            - run: yarn build
+            - run: yarn workspace @milkdown/gh-pages workspaces foreach --topological-dev --recursive run build
             - name: Deploy to GitHub Pages
               if: success()
               uses: crazy-max/ghaction-github-pages@v2
