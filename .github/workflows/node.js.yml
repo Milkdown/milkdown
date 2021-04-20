@@ -19,11 +19,7 @@ jobs:
               with:
                   node-version: 15.x
             - run: yarn
-            - run: yarn workspace @milkdown/core build
-            - run: yarn workspace @milkdown/preset-commonmark build
-            - run: yarn workspace @milkdown/plugin-prism build
-            - run: yarn workspace @milkdown/theme-nord build
-            - run: yarn workspace @milkdown/gh-pages build
+            - run: yarn build
             - name: Deploy to GitHub Pages
               if: success()
               uses: crazy-max/ghaction-github-pages@v2

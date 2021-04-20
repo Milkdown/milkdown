@@ -8,11 +8,11 @@
     ],
     "scripts": {
         "lint": "yarn eslint **/src/**/*.ts",
-        "watch": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/gh-pages' -ptvi run watch",
+        "watch": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/gh-pages' -iptv run watch",
         "integration": "yarn workspace @milkdown/gh-pages start",
         "preview": "yarn workspace @milkdown/gh-pages preview",
-        "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -ptv run tsc",
-        "build": "yarn workspaces foreach -pt run build",
+        "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -pv --topological-dev run tsc",
+        "build": "yarn workspaces foreach -pv --topological-dev run build",
         "postinstall": "husky install"
     },
     "devDependencies": {

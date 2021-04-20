@@ -2,6 +2,8 @@ import { Editor } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 
 import { tooltip } from '../src';
+import '@milkdown/theme-nord/lib/theme.css';
+
 import './style.css';
 
 const markdown = `
@@ -60,7 +62,9 @@ if (!root) throw new Error();
 new Editor({
     root,
     defaultValue: markdown,
-    // onChange: (getValue) => console.log(getValue()),
+    listener: {
+        // markdown: [(x) => console.log(x())],
+    },
 })
     .use(nodes)
     .use(marks)

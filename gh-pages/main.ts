@@ -1,6 +1,7 @@
 import { Editor } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 import { prism } from '@milkdown/plugin-prism';
+import { tooltip } from '@milkdown/plugin-tooltip';
 import '@milkdown/theme-nord/lib/theme.css';
 import './style.css';
 
@@ -30,4 +31,5 @@ new Editor({
     .use(nodes)
     .use(marks)
     .use(prism)
+    .use(tooltip)
     .create();

@@ -829,7 +829,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@milkdown/core@workspace:packages/core"
   dependencies:
-    "@milkdown/preset-commonmark": "workspace:*"
     "@types/jest": ^26.0.22
     "@types/markdown-it": ^12.0.1
     "@types/prosemirror-commands": ^1.0.4
@@ -862,6 +861,7 @@ __metadata:
   dependencies:
     "@milkdown/core": "workspace:*"
     "@milkdown/plugin-prism": "workspace:*"
+    "@milkdown/plugin-tooltip": "workspace:*"
     "@milkdown/preset-commonmark": "workspace:*"
     "@milkdown/theme-nord": "workspace:*"
     postcss: ^8.2.9
@@ -905,19 +905,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@milkdown/plugin-tooltip@workspace:packages/plugin-tooltip":
+"@milkdown/plugin-tooltip@workspace:*, @milkdown/plugin-tooltip@workspace:packages/plugin-tooltip":
   version: 0.0.0-use.local
   resolution: "@milkdown/plugin-tooltip@workspace:packages/plugin-tooltip"
   dependencies:
     "@milkdown/core": "workspace:*"
     "@milkdown/preset-commonmark": "workspace:*"
+    "@milkdown/theme-nord": "workspace:*"
     "@types/jest": ^26.0.22
     "@types/prismjs": ^1.16.4
+    "@types/prosemirror-commands": ^1.0.4
     "@types/prosemirror-model": ^1.13.0
     "@types/prosemirror-state": ^1.2.6
     "@types/prosemirror-view": ^1.17.1
     jest: ^26.6.3
     prismjs: ^1.23.0
+    prosemirror-commands: ^1.1.7
     prosemirror-model: ^1.13.3
     prosemirror-state: ^1.3.4
     prosemirror-view: ^1.18.2
