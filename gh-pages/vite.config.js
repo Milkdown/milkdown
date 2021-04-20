@@ -9,6 +9,7 @@ export default {
         exclude: [
             '@milkdown/core',
             '@milkdown/plugin-prism',
+            '@milkdown/plugin-tooltip',
             'prosemirror-model',
             'prosemirror-view',
             'prosemirror-state',
