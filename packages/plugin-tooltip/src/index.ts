@@ -10,7 +10,7 @@ type Item = {
 
 class SelectionMarksTooltip {
     private $: HTMLDivElement;
-    constructor(private items: Item[], private view: EditorView) {
+    constructor(public ctx: PluginReadyContext, private items: Item[], private view: EditorView) {
         this.$ = document.createElement('div');
         this.$.className = 'tooltip';
         items.forEach(({ $ }) => this.$.appendChild($));
@@ -26,12 +26,18 @@ class SelectionMarksTooltip {
         if (prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection)) return;
 
         if (state.selection.empty) {
-            this.$.classList.add('hide');
+            this.hide();
             return;
         }
 
-        this.$.classList.remove('hide');
+        if (this.isImage()) {
+            this.hide();
+            return;
+        }
+
         const { from, to } = state.selection;
+
+        this.$.classList.remove('hide');
 
         const box = this.$.offsetParent?.getBoundingClientRect();
         if (!box) return;
@@ -48,6 +54,10 @@ class SelectionMarksTooltip {
         this.$.remove();
     }
 
+    private hide() {
+        this.$.classList.add('hide');
+    }
+
     private listener = (e: Event) => {
         const { view } = this;
         if (!view) return;
@@ -58,6 +68,18 @@ class SelectionMarksTooltip {
             }
         });
     };
+
+    private isImage() {
+        let result = false;
+
+        this.view.state.selection.content().content.forEach((x) => {
+            if (x.type === this.ctx.schema.nodes.image) {
+                result = true;
+            }
+        });
+
+        return result;
+    }
 }
 
 export const key = 'MILKDOWN_PLUGIN_TOOLTIP';
@@ -75,6 +97,7 @@ const selectionMarksTooltipPlugin = (ctx: PluginReadyContext) =>
         key: new PluginKey(key),
         view: (editorView) =>
             new SelectionMarksTooltip(
+                ctx,
                 [
                     { $: icon('B', 'strong'), command: toggleMark(ctx.schema.marks.strong) },
                     { $: icon('I', 'italic'), command: toggleMark(ctx.schema.marks.em) },

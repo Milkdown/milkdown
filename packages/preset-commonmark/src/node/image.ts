@@ -14,6 +14,7 @@ export class Image extends Node {
         },
         group: 'inline',
         draggable: true,
+        marks: '',
         parseDOM: [
             {
                 tag: 'img[src]',
