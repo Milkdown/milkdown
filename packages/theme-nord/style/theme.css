@@ -189,19 +189,32 @@
             border-bottom-width: 0;
             border-top-color: var(--nord0);
         }
+        .group {
+            display: inline-flex;
+        }
+        .hide {
+            display: none;
+        }
         .icon {
             width: 1.8rem;
             text-align: center;
             background: var(--nord0);
             transition: all 0.2s ease-in;
-            &.hide {
-                display: none;
-            }
             &.active {
-                background: var(--nord2);
+                color: var(--nord0);
+                background: var(--nord4);
             }
             &:hover {
+                color: var(--nord5);
                 background: var(--nord10);
+            }
+            &.input {
+                text-align: left;
+                background: var(--nord6);
+                width: 10rem;
+                &:hover {
+                    color: var(--nord0);
+                }
             }
         }
         .strong {

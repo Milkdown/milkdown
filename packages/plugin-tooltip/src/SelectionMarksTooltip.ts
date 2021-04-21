@@ -48,6 +48,8 @@ export class SelectionMarksTooltip {
             }
             item.$.classList.remove('hide');
 
+            item.update?.(view, item.$);
+
             const active = item.active(view);
             if (active) {
                 item.$.classList.add('active');
@@ -74,10 +76,10 @@ export class SelectionMarksTooltip {
     private listener = (e: Event) => {
         const { view } = this;
         if (!view) return;
-        e.preventDefault();
+        e.stopPropagation();
         Object.values(this.items).forEach(({ $, command }) => {
             if ($.contains(e.target as Element)) {
-                command(view.state, view.dispatch);
+                command(e, view)(view.state, view.dispatch);
             }
         });
     };
