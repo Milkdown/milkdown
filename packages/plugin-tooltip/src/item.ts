@@ -1,11 +1,13 @@
 import { PluginReadyContext } from '@milkdown/core';
 import { toggleMark } from 'prosemirror-commands';
+import { MarkType } from 'prosemirror-model';
 import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 
 export type Item = {
     $: HTMLElement;
     command: (state: EditorState, dispatch?: (tr: Transaction) => void) => boolean;
+    active: (view: EditorView) => boolean;
     disable?: (view: EditorView) => boolean;
 };
 
@@ -26,17 +28,32 @@ export enum Action {
 
 export type ItemMap = Record<Action, Item>;
 
-export const itemMap = (ctx: PluginReadyContext): ItemMap => ({
-    [Action.Bold]: { $: icon('format_bold'), command: toggleMark(ctx.schema.marks.strong) },
-    [Action.Italic]: { $: icon('format_italic'), command: toggleMark(ctx.schema.marks.em) },
-    [Action.Code]: {
-        $: icon('code'),
-        command: toggleMark(ctx.schema.marks.code_inline),
-        disable: (view: EditorView) => {
-            const { $from } = view.state.selection;
-            const { link } = ctx.schema.marks;
+function hasMark(view: EditorView, type: MarkType) {
+    const { from, to } = view.state.selection;
 
-            return Boolean(link.isInSet($from.nodeAfter?.marks || []));
+    return view.state.doc.rangeHasMark(from, to, type);
+}
+
+export const itemMap = (ctx: PluginReadyContext): ItemMap => {
+    const { marks } = ctx.schema;
+    return {
+        [Action.Bold]: {
+            $: icon('format_bold'),
+            command: toggleMark(marks.strong),
+            active: (view: EditorView) => hasMark(view, marks.strong),
+            disable: (view: EditorView) => hasMark(view, marks.code_inline),
         },
-    },
-});
+        [Action.Italic]: {
+            $: icon('format_italic'),
+            command: toggleMark(marks.em),
+            active: (view: EditorView) => hasMark(view, marks.em),
+            disable: (view: EditorView) => hasMark(view, marks.code_inline),
+        },
+        [Action.Code]: {
+            $: icon('code'),
+            command: toggleMark(marks.code_inline),
+            active: (view: EditorView) => hasMark(view, marks.code_inline),
+            disable: (view: EditorView) => hasMark(view, marks.link),
+        },
+    };
+};

@@ -175,7 +175,7 @@
         margin-bottom: 8px;
         background: var(--nord0);
         border-radius: 4px;
-        color: var(--nord6);
+        color: var(--nord5);
         padding: 4px 8px;
         &:before {
             content: '';
@@ -192,11 +192,16 @@
         .icon {
             width: 1.8rem;
             text-align: center;
-            border-radius: 4px;
             background: var(--nord0);
             transition: all 0.2s ease-in;
-            &:hover {
+            &.hide {
+                display: none;
+            }
+            &.active {
                 background: var(--nord2);
+            }
+            &:hover {
+                background: var(--nord10);
             }
         }
         .strong {

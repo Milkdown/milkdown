@@ -43,12 +43,17 @@ export class SelectionMarksTooltip {
         Object.values(this.items).forEach((item) => {
             const disable = item.disable?.(view);
             if (disable) {
-                item.$.style.display = 'none';
+                item.$.classList.add('hide');
                 return;
             }
-            if (item.$.style.display) {
-                item.$.style.display = '';
+            item.$.classList.remove('hide');
+
+            const active = item.active(view);
+            if (active) {
+                item.$.classList.add('active');
+                return;
             }
+            item.$.classList.remove('active');
         });
     }
 
