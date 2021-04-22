@@ -1,7 +1,7 @@
 import { PluginReadyContext } from '@milkdown/core';
 import { toggleMark } from 'prosemirror-commands';
 import { Node, MarkType, Mark } from 'prosemirror-model';
-import { EditorState, Transaction } from 'prosemirror-state';
+import { EditorState, TextSelection, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 
 export type Item = {
@@ -24,7 +24,7 @@ function input() {
     div.className = 'group';
     const inputEl = document.createElement('input');
     inputEl.className = 'icon input';
-    const confirm = icon('done');
+    const confirm = icon('check_circle');
     div.appendChild(inputEl);
     div.appendChild(confirm);
 
@@ -140,6 +140,7 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
                                 href: (el.parentNode?.firstChild as HTMLInputElement).value,
                             }),
                         );
+                        tr.setSelection(new TextSelection(tr.selection.$anchor));
                         dispatch(tr.scrollIntoView());
 
                         return true;
