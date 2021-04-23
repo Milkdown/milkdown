@@ -6,12 +6,14 @@ export default {
         emptyOutDir: true,
     },
     optimizeDeps: {
-        exclude: [
+        include: [
             '@milkdown/core',
             '@milkdown/plugin-prism',
             '@milkdown/plugin-tooltip',
             '@milkdown/plugin-math',
             '@milkdown/preset-commonmark',
+        ],
+        exclude: [
             'prosemirror-model',
             'prosemirror-view',
             'prosemirror-state',

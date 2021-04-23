@@ -886,7 +886,7 @@ __metadata:
     postcss-import: ^14.0.1
     tslib: ^2.2.0
     typescript: ^4.2.3
-    vite: ^2.1.5
+    vite: ^2.2.1
   languageName: unknown
   linkType: soft
 
@@ -8620,7 +8620,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.1.5":
+"vite@npm:^2.1.5, vite@npm:^2.2.1":
   version: 2.2.1
   resolution: "vite@npm:2.2.1"
   dependencies:
