@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "lint": "yarn eslint **/src/**/*.ts",
-        "watch": "yarn workspaces foreach --include '@milkdown/**' --exclude '*/gh-pages' -ipv run watch",
+        "watch": "yarn workspaces foreach --include '@milkdown/**' --exclude '*/gh-pages' -j 10 -ipv run watch",
         "integration": "yarn workspace @milkdown/gh-pages start",
         "preview": "yarn workspace @milkdown/gh-pages preview",
         "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -pv --topological-dev run tsc",
