@@ -3,6 +3,7 @@ import { Atom } from '../abstract';
 import { AtomType, LoadState } from '../constant';
 import { IdleContext } from '../editor';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MarkdownItPlugin = PluginSimple | [PluginWithOptions, any] | [PluginWithParams, ...any[]];
 
 const markdownItPluginLoader = (id: string) => {
