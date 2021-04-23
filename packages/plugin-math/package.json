@@ -9,7 +9,7 @@
         "watch": "concurrently -n ts,css 'tsc -w' 'postcss style/style.css --watch --verbose -o lib/style.css'",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "tsc"
+        "build": "tsc && postcss style/style.css --verbose -o lib/style.css"
     },
     "files": [
         "lib"
