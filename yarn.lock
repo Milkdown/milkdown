@@ -898,8 +898,10 @@ __metadata:
     "@milkdown/core": "workspace:*"
     "@milkdown/preset-commonmark": "workspace:*"
     "@milkdown/theme-nord": "workspace:*"
+    "@traptitech/markdown-it-katex": ^3.4.0
     "@types/jest": ^26.0.22
     "@types/katex": ^0.11.0
+    "@types/markdown-it": ^12.0.1
     "@types/prosemirror-commands": ^1.0.4
     "@types/prosemirror-gapcursor": ^1.0.3
     "@types/prosemirror-history": ^1.0.2
@@ -913,7 +915,7 @@ __metadata:
     concurrently: ^6.0.2
     jest: ^26.6.3
     katex: ^0.13.2
-    markdown-it-katex: ^2.0.3
+    markdown-it: ^12.0.6
     postcss: ^8.2.12
     postcss-cli: ^8.3.1
     postcss-import: ^14.0.1
@@ -1161,6 +1163,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@traptitech/markdown-it-katex@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@traptitech/markdown-it-katex@npm:3.4.0"
+  dependencies:
+    katex: ^0.13.0
+  checksum: 78be41e895ffae08f9e3bebf86edb8171237b2af6f3fcc484caaf8a6f2366838b976994ab40e75765fa2fde8ffa829e90fe62e51e7c1b481651c54f69fef1e18
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.7":
   version: 7.1.14
   resolution: "@types/babel__core@npm:7.1.14"
@@ -1295,7 +1306,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/katex@npm:^0.11.0":
+"@types/katex@npm:*, @types/katex@npm:^0.11.0":
   version: 0.11.0
   resolution: "@types/katex@npm:0.11.0"
   checksum: e6b034cc055d68a7931201d9c91bac936a8f6e98fc39dff813602f3f23416ca8a6c7df1bff596748a7164096e66e308d115447869d78aa88aa5bf13867adc931
@@ -5542,7 +5553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"katex@npm:^0.13.2":
+"katex@npm:^0.13.0, katex@npm:^0.13.2":
   version: 0.13.2
   resolution: "katex@npm:0.13.2"
   dependencies:
@@ -5550,17 +5561,6 @@ __metadata:
   bin:
     katex: cli.js
   checksum: 1c8894177fb8715041639fbfe30d2d08367e62b7fc72ed48c3d81ba49cf4952924e0807244d0ac97f017987cc4a0aef84f77e5d9d874a77b28c925390185e963
-  languageName: node
-  linkType: hard
-
-"katex@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "katex@npm:0.6.0"
-  dependencies:
-    match-at: ^0.1.0
-  bin:
-    katex: cli.js
-  checksum: f51c33d2579273c38cf0f135db3da5d87ada6e340d24fcf9d9d3a4a505b246fbfd47b1c3dd4847fb1818e113d65346d9a51ea8259499da2cf39d3769c5959e9b
   languageName: node
   linkType: hard
 
@@ -5830,16 +5830,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it-katex@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "markdown-it-katex@npm:2.0.3"
-  dependencies:
-    katex: ^0.6.0
-  checksum: 6d8264f598306ba25f9244c9dfca6bd684f61c6799f01b51195f9d6e701bd3940aee248669d45a5f32fef79c9b3b46cf62cee7e0e4c21a9392f0a49fa38692d7
-  languageName: node
-  linkType: hard
-
-"markdown-it@npm:*, markdown-it@npm:^12.0.4":
+"markdown-it@npm:^12.0.4, markdown-it@npm:^12.0.6":
   version: 12.0.6
   resolution: "markdown-it@npm:12.0.6"
   dependencies:
@@ -5851,13 +5842,6 @@ __metadata:
   bin:
     markdown-it: bin/markdown-it.js
   checksum: f63b5ddb9102877fc76310aadad391f58a974914c28d562026b2d51f1c479236af52729aae44939503f9a6ff6b4a184045537539e69b1fa28217154ea2fe83e8
-  languageName: node
-  linkType: hard
-
-"match-at@npm:^0.1.0":
-  version: 0.1.1
-  resolution: "match-at@npm:0.1.1"
-  checksum: b5380f195e471a96ba1e1b34c040027c5e576063c8bcc4c40295a279e847b38d68504e085b5c14bdf0853395b08c3ff03da64b8e574e970d62e5f34b954bb060
   languageName: node
   linkType: hard
 

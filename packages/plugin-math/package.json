@@ -19,6 +19,7 @@
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@types/jest": "^26.0.22",
+        "@types/markdown-it": "^12.0.1",
         "@types/prosemirror-commands": "^1.0.4",
         "@types/prosemirror-gapcursor": "^1.0.3",
         "@types/prosemirror-history": "^1.0.2",
@@ -30,6 +31,7 @@
         "@types/prosemirror-view": "^1.17.1",
         "autoprefixer": "^10.2.5",
         "jest": "^26.6.3",
+        "markdown-it": "^12.0.6",
         "postcss": "^8.2.12",
         "postcss-cli": "^8.3.1",
         "postcss-import": "^14.0.1",
@@ -70,10 +72,10 @@
     },
     "dependencies": {
         "@benrbray/prosemirror-math": "^0.1.4",
+        "@traptitech/markdown-it-katex": "^3.4.0",
         "@types/katex": "^0.11.0",
         "concurrently": "^6.0.2",
         "katex": "^0.13.2",
-        "markdown-it-katex": "^2.0.3",
         "tslib": "^2.2.0"
     }
 }

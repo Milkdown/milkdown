@@ -8,7 +8,7 @@ import {
     REGEX_BLOCK_MATH_DOLLARS,
     mathBackspaceCmd,
 } from '@benrbray/prosemirror-math';
-import markdownItMath from 'markdown-it-katex';
+import markdownItMath from '@traptitech/markdown-it-katex';
 import { keymap } from 'prosemirror-keymap';
 import {
     chainCommands,
@@ -22,6 +22,7 @@ import {
     selectNodeForward,
     splitBlock,
 } from 'prosemirror-commands';
+import type { PluginSimple } from 'markdown-it';
 
 class MathInline extends Node {
     id = 'math_inline';
@@ -73,5 +74,5 @@ export const math = [
     new MathInline(),
     new MathDisplay(),
     createProsemirrorPlugin('mathProsemirrorPlugin', () => [mathPlugin, keys]),
-    createMarkdownItPlugin('mathMarkdownItPlugin', () => [markdownItMath]),
+    createMarkdownItPlugin('mathMarkdownItPlugin', () => [markdownItMath as PluginSimple]),
 ];

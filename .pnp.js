@@ -1242,6 +1242,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@milkdown/core", "workspace:packages/core"],
             ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
             ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
+            ["@traptitech/markdown-it-katex", "npm:3.4.0"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/katex", "npm:0.11.0"],
             ["@types/markdown-it", "npm:12.0.1"],
@@ -1269,7 +1270,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "npm:26.6.3"],
             ["katex", "npm:0.13.2"],
             ["markdown-it", "npm:12.0.6"],
-            ["markdown-it-katex", "npm:2.0.3"],
             ["postcss", "npm:8.2.12"],
             ["postcss-cli", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:8.3.1"],
             ["postcss-import", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:14.0.1"],
@@ -1311,6 +1311,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@milkdown/core", "workspace:packages/core"],
             ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
             ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
+            ["@traptitech/markdown-it-katex", "npm:3.4.0"],
             ["@types/jest", "npm:26.0.22"],
             ["@types/katex", "npm:0.11.0"],
             ["@types/markdown-it", "npm:12.0.1"],
@@ -1328,7 +1329,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "npm:26.6.3"],
             ["katex", "npm:0.13.2"],
             ["markdown-it", "npm:12.0.6"],
-            ["markdown-it-katex", "npm:2.0.3"],
             ["postcss", "npm:8.2.12"],
             ["postcss-cli", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:8.3.1"],
             ["postcss-import", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:14.0.1"],
@@ -1668,6 +1668,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@tootallnate-once-npm-1.1.2-0517220057-d030f3fb14.zip/node_modules/@tootallnate/once/",
           "packageDependencies": [
             ["@tootallnate/once", "npm:1.1.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@traptitech/markdown-it-katex", [
+        ["npm:3.4.0", {
+          "packageLocation": "./.yarn/cache/@traptitech-markdown-it-katex-npm-3.4.0-aa8f3432f7-78be41e895.zip/node_modules/@traptitech/markdown-it-katex/",
+          "packageDependencies": [
+            ["@traptitech/markdown-it-katex", "npm:3.4.0"],
+            ["@types/katex", "npm:0.11.0"],
+            ["@types/markdown-it", "npm:12.0.1"],
+            ["katex", "npm:0.13.2"]
           ],
           "linkType": "HARD",
         }]
@@ -6741,14 +6753,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["commander", "npm:6.2.1"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:0.6.0", {
-          "packageLocation": "./.yarn/cache/katex-npm-0.6.0-33fc865a82-f51c33d257.zip/node_modules/katex/",
-          "packageDependencies": [
-            ["katex", "npm:0.6.0"],
-            ["match-at", "npm:0.1.1"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["keyv", [
@@ -7066,25 +7070,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["linkify-it", "npm:3.0.2"],
             ["mdurl", "npm:1.0.1"],
             ["uc.micro", "npm:1.0.6"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["markdown-it-katex", [
-        ["npm:2.0.3", {
-          "packageLocation": "./.yarn/cache/markdown-it-katex-npm-2.0.3-59fa4f24c2-6d8264f598.zip/node_modules/markdown-it-katex/",
-          "packageDependencies": [
-            ["markdown-it-katex", "npm:2.0.3"],
-            ["katex", "npm:0.6.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["match-at", [
-        ["npm:0.1.1", {
-          "packageLocation": "./.yarn/cache/match-at-npm-0.1.1-51350716c1-b5380f195e.zip/node_modules/match-at/",
-          "packageDependencies": [
-            ["match-at", "npm:0.1.1"]
           ],
           "linkType": "HARD",
         }]
