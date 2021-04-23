@@ -62,14 +62,14 @@ export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext
             doc,
             plugins: [
                 history(),
-                createInputRules({ rules: inputRules }),
-                ...keymap,
                 createKeymap({
                     'Mod-z': undo,
                     'Shift-Mod-z': redo,
                 }),
-                createKeymap(baseKeymap),
+                ...keymap,
                 ...prosemirrorPlugins,
+                createKeymap(baseKeymap),
+                createInputRules({ rules: inputRules }),
             ],
         });
     }

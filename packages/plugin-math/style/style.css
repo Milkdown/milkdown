@@ -1,0 +1,3 @@
+@import '@benrbray/prosemirror-math/style/math.css';
+@import 'katex/dist/katex.min.css';
+@import 'prosemirror-gapcursor/style/gapcursor.css';

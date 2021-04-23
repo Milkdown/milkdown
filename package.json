@@ -3,11 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "workspaces": [
-        "packages/core",
-        "packages/plugin-prism",
-        "packages/plugin-tooltip",
-        "packages/preset-commonmark",
-        "packages/theme-nord",
+        "packages/*",
         "gh-pages"
     ],
     "scripts": {

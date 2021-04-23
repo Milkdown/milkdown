@@ -19,13 +19,14 @@ jobs:
 
             - name: Build milkdown
               run: |
-                yarn install --immutable
-                yarn workspace @milkdown/core build
-                yarn workspace @milkdown/preset-commonmark build
-                yarn workspace @milkdown/plugin-prism build
-                yarn workspace @milkdown/plugin-tooltip build
-                yarn workspace @milkdown/theme-nord build
-                yarn workspace @milkdown/gh-pages build
+                  yarn install --immutable
+                  yarn workspace @milkdown/core build
+                  yarn workspace @milkdown/preset-commonmark build
+                  yarn workspace @milkdown/plugin-prism build
+                  yarn workspace @milkdown/plugin-tooltip build
+                  yarn workspace @milkdown/plugin-math build
+                  yarn workspace @milkdown/theme-nord build
+                  yarn workspace @milkdown/gh-pages build
 
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3

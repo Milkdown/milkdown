@@ -13,6 +13,7 @@
     ],
     "devDependencies": {
         "@milkdown/core": "workspace:*",
+        "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",

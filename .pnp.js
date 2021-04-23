@@ -31,6 +31,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core"
       },
       {
+        "name": "@milkdown/plugin-math",
+        "reference": "workspace:packages/plugin-math"
+      },
+      {
         "name": "@milkdown/plugin-prism",
         "reference": "workspace:packages/plugin-prism"
       },
@@ -52,6 +56,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "fallbackExclusionList": [
       ["@milkdown/core", ["workspace:packages/core"]],
       ["@milkdown/gh-pages", ["workspace:gh-pages"]],
+      ["@milkdown/plugin-math", ["virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-math", "workspace:packages/plugin-math"]],
       ["@milkdown/plugin-prism", ["virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#workspace:packages/plugin-prism", "workspace:packages/plugin-prism"]],
       ["@milkdown/plugin-tooltip", ["virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-tooltip", "workspace:packages/plugin-tooltip"]],
       ["@milkdown/preset-commonmark", ["virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark", "workspace:packages/preset-commonmark"]],
@@ -674,6 +679,64 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@benrbray/prosemirror-math", [
+        ["npm:0.1.4", {
+          "packageLocation": "./.yarn/cache/@benrbray-prosemirror-math-npm-0.1.4-2868290d83-921b5262ca.zip/node_modules/@benrbray/prosemirror-math/",
+          "packageDependencies": [
+            ["@benrbray/prosemirror-math", "npm:0.1.4"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:ebe6c1ef92d2e67945ec9d7629e9cf04527ee35245faa00dc1d52ee1804c6c61b49d2abb6bc29c7c68308252c46c73ef834545cd1c380a90ee94c2a6b6e59dcb#npm:0.1.4", {
+          "packageLocation": "./.yarn/$$virtual/@benrbray-prosemirror-math-virtual-28bc556311/0/cache/@benrbray-prosemirror-math-npm-0.1.4-2868290d83-921b5262ca.zip/node_modules/@benrbray/prosemirror-math/",
+          "packageDependencies": [
+            ["@benrbray/prosemirror-math", "virtual:ebe6c1ef92d2e67945ec9d7629e9cf04527ee35245faa00dc1d52ee1804c6c61b49d2abb6bc29c7c68308252c46c73ef834545cd1c380a90ee94c2a6b6e59dcb#npm:0.1.4"],
+            ["@types/katex", "npm:0.11.0"],
+            ["@types/prosemirror-commands", "npm:1.0.4"],
+            ["@types/prosemirror-gapcursor", "npm:1.0.3"],
+            ["@types/prosemirror-history", "npm:1.0.2"],
+            ["@types/prosemirror-inputrules", "npm:1.0.4"],
+            ["@types/prosemirror-keymap", "npm:1.0.4"],
+            ["@types/prosemirror-model", "npm:1.13.0"],
+            ["@types/prosemirror-state", "npm:1.2.6"],
+            ["@types/prosemirror-transform", "npm:1.1.2"],
+            ["@types/prosemirror-view", "npm:1.17.1"],
+            ["katex", "npm:0.13.2"],
+            ["prosemirror-commands", "npm:1.1.7"],
+            ["prosemirror-gapcursor", "npm:1.1.5"],
+            ["prosemirror-history", "npm:1.1.3"],
+            ["prosemirror-inputrules", "npm:1.1.3"],
+            ["prosemirror-keymap", "npm:1.1.4"],
+            ["prosemirror-model", "npm:1.14.0"],
+            ["prosemirror-state", "npm:1.3.4"],
+            ["prosemirror-transform", "npm:1.3.2"],
+            ["prosemirror-view", "npm:1.18.3"]
+          ],
+          "packagePeers": [
+            "@types/katex",
+            "@types/prosemirror-commands",
+            "@types/prosemirror-gapcursor",
+            "@types/prosemirror-history",
+            "@types/prosemirror-inputrules",
+            "@types/prosemirror-keymap",
+            "@types/prosemirror-model",
+            "@types/prosemirror-state",
+            "@types/prosemirror-transform",
+            "@types/prosemirror-view",
+            "katex",
+            "prosemirror-commands",
+            "prosemirror-gapcursor",
+            "prosemirror-history",
+            "prosemirror-inputrules",
+            "prosemirror-keymap",
+            "prosemirror-model",
+            "prosemirror-state",
+            "prosemirror-transform",
+            "prosemirror-view"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@cnakazawa/watch", [
         ["npm:1.0.4", {
           "packageLocation": "./.yarn/cache/@cnakazawa-watch-npm-1.0.4-ee43493884-7909f89bbe.zip/node_modules/@cnakazawa/watch/",
@@ -1156,12 +1219,130 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@milkdown/gh-pages", "workspace:gh-pages"],
             ["@milkdown/core", "workspace:packages/core"],
+            ["@milkdown/plugin-math", "virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-math"],
             ["@milkdown/plugin-prism", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#workspace:packages/plugin-prism"],
             ["@milkdown/plugin-tooltip", "virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-tooltip"],
             ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
             ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
             ["postcss", "npm:8.2.12"],
             ["postcss-import", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:14.0.1"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
+            ["vite", "npm:2.2.1"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@milkdown/plugin-math", [
+        ["virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-math", {
+          "packageLocation": "./.yarn/$$virtual/@milkdown-plugin-math-virtual-ebe6c1ef92/1/packages/plugin-math/",
+          "packageDependencies": [
+            ["@milkdown/plugin-math", "virtual:bb0604d387087f0630a734ae5b3d003b4e2c012cb20f967ae9208641e1af0516fc0d2a692f4c538e14b02e4fdf0233d2c667c53f39b05ea6f1729e922661c953#workspace:packages/plugin-math"],
+            ["@benrbray/prosemirror-math", "virtual:ebe6c1ef92d2e67945ec9d7629e9cf04527ee35245faa00dc1d52ee1804c6c61b49d2abb6bc29c7c68308252c46c73ef834545cd1c380a90ee94c2a6b6e59dcb#npm:0.1.4"],
+            ["@milkdown/core", "workspace:packages/core"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
+            ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/katex", "npm:0.11.0"],
+            ["@types/markdown-it", "npm:12.0.1"],
+            ["@types/milkdown__core", null],
+            ["@types/prosemirror-commands", "npm:1.0.4"],
+            ["@types/prosemirror-gapcursor", "npm:1.0.3"],
+            ["@types/prosemirror-history", "npm:1.0.2"],
+            ["@types/prosemirror-inputrules", "npm:1.0.4"],
+            ["@types/prosemirror-keymap", "npm:1.0.4"],
+            ["@types/prosemirror-model", "npm:1.13.0"],
+            ["@types/prosemirror-state", "npm:1.2.6"],
+            ["@types/prosemirror-transform", "npm:1.1.2"],
+            ["@types/prosemirror-view", "npm:1.17.1"],
+            ["@types/types__markdown-it", null],
+            ["@types/types__prosemirror-gapcursor", null],
+            ["@types/types__prosemirror-history", null],
+            ["@types/types__prosemirror-inputrules", null],
+            ["@types/types__prosemirror-keymap", null],
+            ["@types/types__prosemirror-model", null],
+            ["@types/types__prosemirror-state", null],
+            ["@types/types__prosemirror-transform", null],
+            ["@types/types__prosemirror-view", null],
+            ["autoprefixer", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:10.2.5"],
+            ["concurrently", "npm:6.0.2"],
+            ["jest", "npm:26.6.3"],
+            ["katex", "npm:0.13.2"],
+            ["markdown-it", "npm:12.0.6"],
+            ["markdown-it-katex", "npm:2.0.3"],
+            ["postcss", "npm:8.2.12"],
+            ["postcss-cli", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:8.3.1"],
+            ["postcss-import", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:14.0.1"],
+            ["postcss-nested", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:5.0.5"],
+            ["prosemirror-commands", "npm:1.1.7"],
+            ["prosemirror-gapcursor", "npm:1.1.5"],
+            ["prosemirror-history", "npm:1.1.3"],
+            ["prosemirror-inputrules", "npm:1.1.3"],
+            ["prosemirror-keymap", "npm:1.1.4"],
+            ["prosemirror-model", "npm:1.14.0"],
+            ["prosemirror-state", "npm:1.3.4"],
+            ["prosemirror-transform", "npm:1.3.2"],
+            ["prosemirror-view", "npm:1.18.3"],
+            ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.5"],
+            ["tslib", "npm:2.2.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
+            ["vite", "npm:2.2.1"]
+          ],
+          "packagePeers": [
+            "@milkdown/core",
+            "@types/milkdown__core",
+            "@types/types__markdown-it",
+            "@types/types__prosemirror-gapcursor",
+            "@types/types__prosemirror-history",
+            "@types/types__prosemirror-inputrules",
+            "@types/types__prosemirror-keymap",
+            "@types/types__prosemirror-model",
+            "@types/types__prosemirror-state",
+            "@types/types__prosemirror-transform",
+            "@types/types__prosemirror-view"
+          ],
+          "linkType": "SOFT",
+        }],
+        ["workspace:packages/plugin-math", {
+          "packageLocation": "./packages/plugin-math/",
+          "packageDependencies": [
+            ["@milkdown/plugin-math", "workspace:packages/plugin-math"],
+            ["@benrbray/prosemirror-math", "virtual:ebe6c1ef92d2e67945ec9d7629e9cf04527ee35245faa00dc1d52ee1804c6c61b49d2abb6bc29c7c68308252c46c73ef834545cd1c380a90ee94c2a6b6e59dcb#npm:0.1.4"],
+            ["@milkdown/core", "workspace:packages/core"],
+            ["@milkdown/preset-commonmark", "virtual:efc3dc26bfa4956211659da624ffd92782842d35293077cbe284708bf52038067d28505fb80ffa25005c8c7af1ff690f5fafa7fa907baf0a19464a00c4e9e274#workspace:packages/preset-commonmark"],
+            ["@milkdown/theme-nord", "workspace:packages/theme-nord"],
+            ["@types/jest", "npm:26.0.22"],
+            ["@types/katex", "npm:0.11.0"],
+            ["@types/markdown-it", "npm:12.0.1"],
+            ["@types/prosemirror-commands", "npm:1.0.4"],
+            ["@types/prosemirror-gapcursor", "npm:1.0.3"],
+            ["@types/prosemirror-history", "npm:1.0.2"],
+            ["@types/prosemirror-inputrules", "npm:1.0.4"],
+            ["@types/prosemirror-keymap", "npm:1.0.4"],
+            ["@types/prosemirror-model", "npm:1.13.0"],
+            ["@types/prosemirror-state", "npm:1.2.6"],
+            ["@types/prosemirror-transform", "npm:1.1.2"],
+            ["@types/prosemirror-view", "npm:1.17.1"],
+            ["autoprefixer", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:10.2.5"],
+            ["concurrently", "npm:6.0.2"],
+            ["jest", "npm:26.6.3"],
+            ["katex", "npm:0.13.2"],
+            ["markdown-it", "npm:12.0.6"],
+            ["markdown-it-katex", "npm:2.0.3"],
+            ["postcss", "npm:8.2.12"],
+            ["postcss-cli", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:8.3.1"],
+            ["postcss-import", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:14.0.1"],
+            ["postcss-nested", "virtual:599489ebcfa7381fbaaa4cb75fc2c0c42f000629175aa78a3c9a93e61ff747b40d11286b724604f2c147288a283c550a782700def5a783083c737e339f8576a1#npm:5.0.5"],
+            ["prosemirror-commands", "npm:1.1.7"],
+            ["prosemirror-gapcursor", "npm:1.1.5"],
+            ["prosemirror-history", "npm:1.1.3"],
+            ["prosemirror-inputrules", "npm:1.1.3"],
+            ["prosemirror-keymap", "npm:1.1.4"],
+            ["prosemirror-model", "npm:1.14.0"],
+            ["prosemirror-state", "npm:1.3.4"],
+            ["prosemirror-transform", "npm:1.3.2"],
+            ["prosemirror-view", "npm:1.18.3"],
+            ["ts-jest", "virtual:0e0ba0bd575b06c006983ac58c67cddf003c41afd12698e0d9eae6da3938061d65044a40e91494ff99f13873e232e6c7ce214d6d1d101da5646f66278bffb431#npm:26.5.5"],
             ["tslib", "npm:2.2.0"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
             ["vite", "npm:2.2.1"]
@@ -1645,6 +1826,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/katex", [
+        ["npm:0.11.0", {
+          "packageLocation": "./.yarn/cache/@types-katex-npm-0.11.0-84c3099905-e6b034cc05.zip/node_modules/@types/katex/",
+          "packageDependencies": [
+            ["@types/katex", "npm:0.11.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/keyv", [
         ["npm:3.1.1", {
           "packageLocation": "./.yarn/cache/@types-keyv-npm-3.1.1-779a80f2c7-3aaf557d5b.zip/node_modules/@types/keyv/",
@@ -1765,6 +1955,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/prosemirror-model", "npm:1.13.0"],
             ["@types/prosemirror-state", "npm:1.2.6"],
             ["@types/prosemirror-view", "npm:1.17.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/prosemirror-gapcursor", [
+        ["npm:1.0.3", {
+          "packageLocation": "./.yarn/cache/@types-prosemirror-gapcursor-npm-1.0.3-785f8cfb94-8b7fea76d3.zip/node_modules/@types/prosemirror-gapcursor/",
+          "packageDependencies": [
+            ["@types/prosemirror-gapcursor", "npm:1.0.3"],
+            ["@types/prosemirror-model", "npm:1.13.0"],
+            ["@types/prosemirror-state", "npm:1.2.6"]
           ],
           "linkType": "HARD",
         }]
@@ -3429,6 +3630,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["commander", [
+        ["npm:6.2.1", {
+          "packageLocation": "./.yarn/cache/commander-npm-6.2.1-d5b635f237-47856aae6f.zip/node_modules/commander/",
+          "packageDependencies": [
+            ["commander", "npm:6.2.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["comment-json", [
         ["npm:2.4.2", {
           "packageLocation": "./.yarn/cache/comment-json-npm-2.4.2-ad40caa02b-80bc181741.zip/node_modules/comment-json/",
@@ -3467,6 +3677,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/concat-map-npm-0.0.1-85a921b7ee-554e28d9ee.zip/node_modules/concat-map/",
           "packageDependencies": [
             ["concat-map", "npm:0.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["concurrently", [
+        ["npm:6.0.2", {
+          "packageLocation": "./.yarn/cache/concurrently-npm-6.0.2-f267b33683-2bb8892c89.zip/node_modules/concurrently/",
+          "packageDependencies": [
+            ["concurrently", "npm:6.0.2"],
+            ["chalk", "npm:4.1.1"],
+            ["date-fns", "npm:2.21.1"],
+            ["lodash", "npm:4.17.21"],
+            ["read-pkg", "npm:5.2.0"],
+            ["rxjs", "npm:6.6.7"],
+            ["spawn-command", "npm:0.0.2"],
+            ["supports-color", "npm:8.1.1"],
+            ["tree-kill", "npm:1.2.2"],
+            ["yargs", "npm:16.2.0"]
           ],
           "linkType": "HARD",
         }]
@@ -3647,6 +3875,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["abab", "npm:2.0.5"],
             ["whatwg-mimetype", "npm:2.3.0"],
             ["whatwg-url", "npm:8.5.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["date-fns", [
+        ["npm:2.21.1", {
+          "packageLocation": "./.yarn/cache/date-fns-npm-2.21.1-a333d4fe93-00a2ddea10.zip/node_modules/date-fns/",
+          "packageDependencies": [
+            ["date-fns", "npm:2.21.1"]
           ],
           "linkType": "HARD",
         }]
@@ -6496,6 +6733,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["katex", [
+        ["npm:0.13.2", {
+          "packageLocation": "./.yarn/cache/katex-npm-0.13.2-21f2744f3f-1c8894177f.zip/node_modules/katex/",
+          "packageDependencies": [
+            ["katex", "npm:0.13.2"],
+            ["commander", "npm:6.2.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.6.0", {
+          "packageLocation": "./.yarn/cache/katex-npm-0.6.0-33fc865a82-f51c33d257.zip/node_modules/katex/",
+          "packageDependencies": [
+            ["katex", "npm:0.6.0"],
+            ["match-at", "npm:0.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["keyv", [
         ["npm:4.0.3", {
           "packageLocation": "./.yarn/cache/keyv-npm-4.0.3-4018fb536e-63527e3d01.zip/node_modules/keyv/",
@@ -6811,6 +7066,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["linkify-it", "npm:3.0.2"],
             ["mdurl", "npm:1.0.1"],
             ["uc.micro", "npm:1.0.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["markdown-it-katex", [
+        ["npm:2.0.3", {
+          "packageLocation": "./.yarn/cache/markdown-it-katex-npm-2.0.3-59fa4f24c2-6d8264f598.zip/node_modules/markdown-it-katex/",
+          "packageDependencies": [
+            ["markdown-it-katex", "npm:2.0.3"],
+            ["katex", "npm:0.6.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["match-at", [
+        ["npm:0.1.1", {
+          "packageLocation": "./.yarn/cache/match-at-npm-0.1.1-51350716c1-b5380f195e.zip/node_modules/match-at/",
+          "packageDependencies": [
+            ["match-at", "npm:0.1.1"]
           ],
           "linkType": "HARD",
         }]
@@ -8124,6 +8398,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["prosemirror-gapcursor", [
+        ["npm:1.1.5", {
+          "packageLocation": "./.yarn/cache/prosemirror-gapcursor-npm-1.1.5-4f4961ab8d-870a81e140.zip/node_modules/prosemirror-gapcursor/",
+          "packageDependencies": [
+            ["prosemirror-gapcursor", "npm:1.1.5"],
+            ["prosemirror-keymap", "npm:1.1.4"],
+            ["prosemirror-model", "npm:1.14.0"],
+            ["prosemirror-state", "npm:1.3.4"],
+            ["prosemirror-view", "npm:1.18.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["prosemirror-history", [
         ["npm:1.1.3", {
           "packageLocation": "./.yarn/cache/prosemirror-history-npm-1.1.3-45c1c5e7a3-62437ec882.zip/node_modules/prosemirror-history/",
@@ -8688,6 +8975,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["rxjs", [
+        ["npm:6.6.7", {
+          "packageLocation": "./.yarn/cache/rxjs-npm-6.6.7-055046ea3c-1146975cbd.zip/node_modules/rxjs/",
+          "packageDependencies": [
+            ["rxjs", "npm:6.6.7"],
+            ["tslib", "npm:1.14.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["safe-buffer", [
         ["npm:5.1.2", {
           "packageLocation": "./.yarn/cache/safe-buffer-npm-5.1.2-c27fedf6c4-2708587c1b.zip/node_modules/safe-buffer/",
@@ -9025,6 +9322,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["spawn-command", [
+        ["npm:0.0.2", {
+          "packageLocation": "./.yarn/cache/spawn-command-npm-0.0.2-014d4d5d9f-961fb1551f.zip/node_modules/spawn-command/",
+          "packageDependencies": [
+            ["spawn-command", "npm:0.0.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["spdx-correct", [
         ["npm:3.1.1", {
           "packageLocation": "./.yarn/cache/spdx-correct-npm-3.1.1-47f574c27a-f3413eb225.zip/node_modules/spdx-correct/",
@@ -9331,6 +9637,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["has-flag", "npm:4.0.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:8.1.1", {
+          "packageLocation": "./.yarn/cache/supports-color-npm-8.1.1-289e937149-0219f5c917.zip/node_modules/supports-color/",
+          "packageDependencies": [
+            ["supports-color", "npm:8.1.1"],
+            ["has-flag", "npm:4.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["supports-hyperlinks", [
@@ -9562,6 +9876,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["tr46", "npm:2.0.2"],
             ["punycode", "npm:2.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["tree-kill", [
+        ["npm:1.2.2", {
+          "packageLocation": "./.yarn/cache/tree-kill-npm-1.2.2-3da0e5a759-967643efa4.zip/node_modules/tree-kill/",
+          "packageDependencies": [
+            ["tree-kill", "npm:1.2.2"]
           ],
           "linkType": "HARD",
         }]
