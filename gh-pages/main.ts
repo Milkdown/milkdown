@@ -30,7 +30,7 @@ function main() {
 
 ---
 
-Math is also supported:
+Math is supported by [TeX expression](https://en.wikipedia.org/wiki/TeX).
 
 Now we have some inline math: $V \\times W \\stackrel{\\otimes}{\\rightarrow} V \\otimes W$. You can click to edit it.
 
@@ -40,7 +40,7 @@ $$
 \\mathcal{L}(V \\otimes W, Z) \\cong \\big\\{ \\substack{\\text{bilinear maps}\\\\{V \\times W \\rightarrow Z}} \\big\\}
 $$
 
-You can also type \`$$\` and a \`space\` to create a math block.
+You can type \`$$\` and a \`space\` to create a math block.
 
 ---
 

@@ -13,7 +13,8 @@
         "preview": "yarn workspace @milkdown/gh-pages preview",
         "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -pv --topological-dev run tsc",
         "build": "yarn workspaces foreach -v --topological-dev run build",
-        "postinstall": "husky install"
+        "postinstall": "husky install",
+        "sdk": "yarn pnpify --sdk vscode"
     },
     "devDependencies": {
         "@commitlint/cli": "^12.1.1",
