@@ -3,12 +3,16 @@
     "version": "0.0.0",
     "private": true,
     "workspaces": [
-        "packages/*",
+        "packages/core",
+        "packages/plugin-prism",
+        "packages/plugin-tooltip",
+        "packages/preset-commonmark",
+        "packages/theme-nord",
         "gh-pages"
     ],
     "scripts": {
         "lint": "yarn eslint **/src/**/*.ts",
-        "watch": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/gh-pages' -iptv run watch",
+        "watch": "yarn workspaces foreach --include '@milkdown/**' --exclude '*/gh-pages' -ipv run watch",
         "integration": "yarn workspace @milkdown/gh-pages start",
         "preview": "yarn workspace @milkdown/gh-pages preview",
         "tsc": "yarn workspaces foreach --include '@milkdown/*' --exclude '*/theme-*' -pv --topological-dev run tsc",
