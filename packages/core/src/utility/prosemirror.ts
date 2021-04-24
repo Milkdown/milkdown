@@ -25,9 +25,9 @@ export type Command = (state: EditorState<Schema>, dispatch?: (tr: Transaction<S
 type NodeViewParams = [node: Node, view: EditorView, getPos: () => number, decorations: Decoration[]];
 type MarkViewParams = [mark: Mark, view: EditorView, getPos: boolean, decorations: Decoration[]];
 
-export type NodeView = (...params: NodeViewParams[]) => void;
+export type NodeView = (...params: NodeViewParams) => void;
 
-export type MarkView = (...params: MarkViewParams[]) => void;
+export type MarkView = (...params: MarkViewParams) => void;
 
 export type NodeViewFactory = (editor: Editor, nodeType: NodeType, ...params: NodeViewParams) => NodeView;
 
