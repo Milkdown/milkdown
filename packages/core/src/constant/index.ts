@@ -1,2 +1,2 @@
-export * from './atomType';
-export * from './loadState';
+export * from './atom-type';
+export * from './load-state';
