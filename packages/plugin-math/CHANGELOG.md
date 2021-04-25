@@ -1,5 +1,13 @@
 # @milkdown/plugin-math
 
+## 2.0.2
+
+### Patch Changes
+
+-   901f126: Release to github packages
+-   Updated dependencies [901f126]
+    -   @milkdown/core@1.0.2
+
 ## 2.0.1
 
 ### Patch Changes
