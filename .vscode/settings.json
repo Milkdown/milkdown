@@ -1,26 +1,18 @@
 {
-  "cSpell.words": [
-    "benrbray",
-    "commitlint",
-    "commonmark",
-    "gapcursor",
-    "hardbreak",
-    "inputrules",
-    "katex",
-    "milkdown",
-    "nord",
-    "prosemirror",
-    "textblock",
-    "textbox",
-    "vite"
-  ],
-  "search.exclude": {
-    "**/.yarn": true,
-    "**/.pnp.*": true
-  },
-  "eslint.nodePath": ".yarn/sdks",
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
-  "typescript.tsdk": ".yarn/sdks/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "editor.formatOnSave": true
+    "cSpell.words": [
+        "benrbray",
+        "commitlint",
+        "commonmark",
+        "gapcursor",
+        "hardbreak",
+        "inputrules",
+        "katex",
+        "milkdown",
+        "nord",
+        "prosemirror",
+        "textblock",
+        "textbox",
+        "vite"
+    ],
+    "editor.formatOnSave": true
 }

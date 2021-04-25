@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "lint": "eslint **/src/**/*.ts",
-        "watch": "pnpm run watch --recursive --parallel --filter ...{packages} -w",
+        "watch": "pnpm run watch --recursive --parallel -w",
         "integration": "pnpm run start --filter @milkdown/gh-pages",
         "preview": "pnpm run preview --filter '@milkdown/gh-pages'",
         "tsc": "pnpm run tsc -r",
@@ -20,7 +20,6 @@
         "@commitlint/config-conventional": "^12.1.1",
         "@typescript-eslint/eslint-plugin": "^4.15.2",
         "@typescript-eslint/parser": "^4.15.2",
-        "@yarnpkg/pnpify": "^2.4.0",
         "eslint": "^7.21.0",
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-prettier": "^3.3.1",
