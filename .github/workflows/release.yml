@@ -35,6 +35,8 @@ jobs:
                   EOF
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+            - name: check status
+              run: git status
             - name: create versions
               uses: changesets/action@master
               with:
