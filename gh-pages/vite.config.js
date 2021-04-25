@@ -7,18 +7,6 @@ export default {
     },
     optimizeDeps: {
         include: [
-            '@milkdown/core',
-            '@milkdown/plugin-prism',
-            '@milkdown/plugin-tooltip',
-            '@milkdown/plugin-math',
-            '@milkdown/preset-commonmark',
-        ],
-        exclude: [
-            '@milkdown/core',
-            '@milkdown/preset-commonmark',
-            '@milkdown/plugin-prism',
-            '@milkdown/plugin-tooltip',
-            '@milkdown/plugin-math',
             'prosemirror-model',
             'prosemirror-view',
             'prosemirror-state',
