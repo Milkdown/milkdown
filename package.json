@@ -13,7 +13,8 @@
         "preview": "pnpm run preview --filter '@milkdown/gh-pages'",
         "tsc": "pnpm run tsc -r",
         "build": "pnpm run build -r",
-        "postinstall": "husky install"
+        "postinstall": "husky install",
+        "version": "changeset"
     },
     "devDependencies": {
         "@changesets/cli": "^2.16.0",
