@@ -1,5 +1,17 @@
 # @milkdown/gh-pages
 
+## 0.0.4
+
+### Patch Changes
+
+-   Updated dependencies [5807b2f]
+    -   @milkdown/core@1.0.1
+    -   @milkdown/plugin-math@2.0.1
+    -   @milkdown/plugin-prism@2.0.1
+    -   @milkdown/plugin-tooltip@2.0.1
+    -   @milkdown/preset-commonmark@2.0.1
+    -   @milkdown/theme-nord@1.0.1
+
 ## 0.0.3
 
 ### Patch Changes

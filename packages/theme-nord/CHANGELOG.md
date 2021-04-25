@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 1.0.1
+
+### Patch Changes
+
+-   5807b2f: Release to github packages.
+
 ## 1.0.0
 
 ### Major Changes
