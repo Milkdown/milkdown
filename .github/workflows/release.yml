@@ -22,10 +22,12 @@ jobs:
                   node-version: 14
             - name: creating .npmrc
               run: |
-                  cat << EOF > "$HOME/.npmrc"
+                  cat << EOF > "./.npmrc"
                   //registry.npmjs.org/:_authToken=${NPM_TOKEN}
                   //npm.pkg.github.com/:_authToken=${NPM_TOKEN}
                   EOF
+            - name: cat .npmrc
+              run: cat .npmrc
             - name: install pnpm
               run: npm i pnpm@latest -g
             - name: setup pnpm config
