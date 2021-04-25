@@ -14,7 +14,7 @@
         "tsc": "pnpm run tsc -r",
         "build": "pnpm run build -r",
         "postinstall": "husky install",
-        "version": "changeset"
+        "changeset": "changeset"
     },
     "devDependencies": {
         "@changesets/cli": "^2.16.0",

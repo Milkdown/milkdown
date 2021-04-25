@@ -35,35 +35,19 @@ jobs:
               run: pnpm install
             - name: build
               run: pnpm build
-            - name: create versions
+            - name: create versions or publish to npm registry
               uses: changesets/action@master
               with:
                   publish: pnpm publish -r --access public
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    gh-packages:
-        runs-on: ubuntu-latest
-        needs: release
-        steps:
-            - name: checkout code repository
-              uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0
-            - name: setup node.js
+            - name: setup node.js for github packages
               uses: actions/setup-node@v2
               with:
                   node-version: 14
                   registry-url: 'https://npm.pkg.github.com'
-            - name: install pnpm
-              run: npm i pnpm@latest -g
-            - name: setup pnpm config
-              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+            - name: publish to github packages
+              run: pnpm publish -r
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: install dependencies
-              run: pnpm install
-            - name: build
-              run: pnpm build
-            - name: publish
-              run: pnpm publish -r
