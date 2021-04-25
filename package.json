@@ -10,7 +10,7 @@
         "lint": "eslint **/src/**/*.ts",
         "watch": "pnpm run watch --recursive --parallel -w",
         "integration": "pnpm run start --filter @milkdown/gh-pages",
-        "preview": "pnpm run preview --filter '@milkdown/gh-pages'",
+        "preview": "pnpm run preview --filter @milkdown/gh-pages",
         "tsc": "pnpm run tsc -r",
         "build": "pnpm run build -r",
         "postinstall": "husky install",

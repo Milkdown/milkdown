@@ -34,7 +34,7 @@ jobs:
             - name: install dependencies
               run: pnpm install
             - name: build
-              run: pnpm build
+              run: pnpm run build -r --filter "packages/"
             - name: create versions or publish to npm registry
               uses: changesets/action@master
               with:
@@ -47,6 +47,8 @@ jobs:
               with:
                   node-version: 14
                   registry-url: 'https://npm.pkg.github.com'
+            - name: echo .npmrc
+              run: cat .npmrc
             - name: publish to github packages
               run: pnpm publish -r
               env:
