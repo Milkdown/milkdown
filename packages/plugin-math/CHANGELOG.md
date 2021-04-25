@@ -1,5 +1,13 @@
 # @milkdown/plugin-math
 
+## 2.0.3
+
+### Patch Changes
+
+-   3b8ae8b: Publish to GHP
+-   Updated dependencies [3b8ae8b]
+    -   @milkdown/core@2.0.3
+
 ## 2.0.2
 
 ### Patch Changes
