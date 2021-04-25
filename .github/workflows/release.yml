@@ -24,7 +24,7 @@ jobs:
               run: |
                   cat << EOF > "./.npmrc"
                   //registry.npmjs.org/:_authToken=\${NPM_TOKEN}
-                  //npm.pkg.github.com/:_authToken=\${NPM_TOKEN}
+                  //npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
                   EOF
             - name: cat .npmrc
               run: cat .npmrc
@@ -34,6 +34,7 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: install dependencies
               run: pnpm install
             - name: build
