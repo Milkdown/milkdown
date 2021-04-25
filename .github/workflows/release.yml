@@ -23,8 +23,8 @@ jobs:
             - name: creating .npmrc
               run: |
                   cat << EOF > "./.npmrc"
-                  //registry.npmjs.org/:_authToken=\$\{NPM_TOKEN\}
-                  //npm.pkg.github.com/:_authToken=\$\{NPM_TOKEN\}
+                  //registry.npmjs.org/:_authToken=\${NPM_TOKEN}
+                  //npm.pkg.github.com/:_authToken=\${NPM_TOKEN}
                   EOF
             - name: cat .npmrc
               run: cat .npmrc
