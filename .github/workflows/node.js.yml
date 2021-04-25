@@ -21,6 +21,7 @@ jobs:
               run: |
                   npm i -g pnpm
                   pnpm install
+                  pnpm run build --filter '@milkdown/core'
                   pnpm run build
             - name: Deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
