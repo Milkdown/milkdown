@@ -3,12 +3,12 @@ name: release
 on:
     push:
         branches:
-            - release
+            - main
 env:
     CI: true
     PNPM_CACHE_FOLDER: .pnpm-store
 jobs:
-    version:
+    release:
         timeout-minutes: 15
         runs-on: ubuntu-latest
         steps:
