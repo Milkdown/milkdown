@@ -47,6 +47,13 @@ jobs:
               with:
                   node-version: 14
                   registry-url: 'https://npm.pkg.github.com'
+            - name: reset .npmrc
+              run: rm .npmrc
+            - name: creating .npmrc
+              run: |
+                  cat << EOF > "./.npmrc"
+                  //https://npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
+                  EOF
             - name: echo .npmrc
               run: cat .npmrc
             - name: publish to github packages
