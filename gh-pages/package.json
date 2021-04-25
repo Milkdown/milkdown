@@ -10,18 +10,5 @@
     },
     "files": [
         "style"
-    ],
-    "devDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/plugin-math": "workspace:*",
-        "@milkdown/plugin-prism": "workspace:*",
-        "@milkdown/plugin-tooltip": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*",
-        "postcss": "^8.2.9",
-        "postcss-import": "^14.0.1",
-        "tslib": "^2.2.0",
-        "typescript": "^4.2.3",
-        "vite": "^2.2.1"
-    }
+    ]
 }

@@ -1,5 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn lint
-yarn tsc
+pnpm run lint
+pnpm run tsc
+pnpm run build

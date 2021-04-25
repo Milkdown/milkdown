@@ -14,23 +14,6 @@
     "files": [
         "lib"
     ],
-    "devDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@types/jest": "^26.0.22",
-        "@types/prismjs": "^1.16.4",
-        "@types/prosemirror-model": "^1.13.0",
-        "@types/prosemirror-state": "^1.2.6",
-        "@types/prosemirror-view": "^1.17.1",
-        "jest": "^26.6.3",
-        "prismjs": "^1.23.0",
-        "prosemirror-model": "^1.13.3",
-        "prosemirror-state": "^1.3.4",
-        "prosemirror-view": "^1.18.2",
-        "ts-jest": "^26.5.4",
-        "typescript": "^4.2.3",
-        "vite": "^2.1.5"
-    },
     "peerDependencies": {
         "@milkdown/core": "*",
         "@types/prosemirror-model": "*",
