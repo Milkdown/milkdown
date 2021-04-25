@@ -19,6 +19,7 @@ jobs:
 
             - name: Build milkdown
               run: |
+                  npm i -g pnpm
                   pnpm install
                   pnpm run build
             - name: Deploy to GitHub Pages
