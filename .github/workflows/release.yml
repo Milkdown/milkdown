@@ -59,4 +59,4 @@ jobs:
             - name: publish to github packages
               run: pnpm publish -r
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
