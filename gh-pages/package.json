@@ -10,5 +10,13 @@
     },
     "files": [
         "style"
-    ]
+    ],
+    "dependencies": {
+        "@milkdown/core": "workspace:*",
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/plugin-tooltip": "workspace:*",
+        "@milkdown/plugin-math": "workspace:*",
+        "@milkdown/plugin-prism": "workspace:*",
+        "@milkdown/theme-nord": "workspace:*"
+    }
 }
