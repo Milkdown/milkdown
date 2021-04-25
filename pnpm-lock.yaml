@@ -161,6 +161,7 @@ importers:
   packages/plugin-math:
     specifiers:
       '@benrbray/prosemirror-math': ^0.1.4
+      '@milkdown/core': '*'
       '@traptitech/markdown-it-katex': ^3.4.0
       '@types/katex': ^0.11.0
       concurrently: ^6.0.2
@@ -173,9 +174,12 @@ importers:
       concurrently: 6.0.2
       katex: 0.13.2
       tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/plugin-prism:
     specifiers:
+      '@milkdown/core': '*'
       '@types/refractor': ^3.0.0
       refractor: ^3.3.1
       tslib: ^2.2.0
@@ -183,15 +187,21 @@ importers:
       '@types/refractor': 3.0.0
       refractor: 3.3.1
       tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/plugin-tooltip:
     specifiers:
+      '@milkdown/core': '*'
       tslib: ^2.2.0
     dependencies:
       tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/preset-commonmark:
     specifiers:
+      '@milkdown/core': '*'
       '@types/prosemirror-schema-list': ^1.0.3
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.2.0
@@ -199,6 +209,8 @@ importers:
       '@types/prosemirror-schema-list': 1.0.3
       prosemirror-schema-list: 1.1.4
       tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/theme-nord:
     specifiers: {}
