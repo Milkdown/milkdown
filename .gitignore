@@ -7,6 +7,7 @@ dist
 dist-ssr
 docs
 coverage
+.pnpm-store
 
 .env
 *.local
