@@ -1,9 +1,13 @@
-lib
 node_modules
 .DS_Store
+.idea
+
+lib
 dist
 dist-ssr
-*.local
-.idea
 docs
-.npmrc
+coverage
+
+.env
+*.local
+*error.log
