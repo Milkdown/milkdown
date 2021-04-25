@@ -1,0 +1,36 @@
+name: release
+
+on:
+    push:
+        branches:
+            - release
+env:
+    CI: true
+    PNPM_CACHE_FOLDER: .pnpm-store
+jobs:
+    version:
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 14
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+            - name: install dependencies
+              run: pnpm install
+            - name: create versions
+              uses: changesets/action@master
+              with:
+                  version: pnpm ci:version
+                  commit: 'chore: update versions'
+                  title: 'chore: update versions'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
