@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 2.0.3
+
+### Patch Changes
+
+-   3b8ae8b: Publish to GHP
+
 ## 1.0.2
 
 ### Patch Changes
