@@ -61,6 +61,7 @@ function findMarkByType(editorState: EditorState, type: MarkType) {
 
     return found;
 }
+
 function findMarkPosition(mark: Mark, doc: Node, from: number, to: number) {
     let markPos = { start: -1, end: -1 };
     doc.nodesBetween(from, to, (node, pos) => {
@@ -80,6 +81,18 @@ function findMarkPosition(mark: Mark, doc: Node, from: number, to: number) {
     return markPos;
 }
 
+function isTextSelection(editorState: EditorState) {
+    return editorState.selection instanceof TextSelection;
+}
+
+function isInCodeFence(editorState: EditorState) {
+    return editorState.selection.$head.parent.type.name === 'fence';
+}
+
+function isTextAndNotHasMark(view: EditorView, mark: MarkType) {
+    return !isTextSelection(view.state) || isInCodeFence(view.state) || hasMark(view, mark);
+}
+
 export const itemMap = (ctx: PluginReadyContext): ItemMap => {
     const { marks } = ctx.schema;
     return {
@@ -87,25 +100,25 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
             $: icon('format_bold'),
             command: () => toggleMark(marks.strong),
             active: (view: EditorView) => hasMark(view, marks.strong),
-            disable: (view: EditorView) => hasMark(view, marks.code_inline),
+            disable: (view: EditorView) => isTextAndNotHasMark(view, marks.code_inline),
         },
         [Action.ToggleItalic]: {
             $: icon('format_italic'),
             command: () => toggleMark(marks.em),
             active: (view: EditorView) => hasMark(view, marks.em),
-            disable: (view: EditorView) => hasMark(view, marks.code_inline),
+            disable: (view: EditorView) => isTextAndNotHasMark(view, marks.code_inline),
         },
         [Action.ToggleCode]: {
             $: icon('code'),
             command: () => toggleMark(marks.code_inline),
             active: (view: EditorView) => hasMark(view, marks.code_inline),
-            disable: (view: EditorView) => hasMark(view, marks.link),
+            disable: (view: EditorView) => isTextAndNotHasMark(view, marks.link),
         },
         [Action.ToggleLink]: {
             $: icon('link'),
             command: () => toggleMark(marks.link, { href: '' }),
             active: (view: EditorView) => hasMark(view, marks.link),
-            disable: (view: EditorView) => hasMark(view, marks.code_inline),
+            disable: (view: EditorView) => isTextAndNotHasMark(view, marks.code_inline),
         },
         [Action.ModifyLink]: {
             $: input(),

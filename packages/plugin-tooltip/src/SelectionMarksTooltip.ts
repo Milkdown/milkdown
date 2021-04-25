@@ -1,5 +1,5 @@
 import { PluginReadyContext } from '@milkdown/core';
-import { EditorState, TextSelection } from 'prosemirror-state';
+import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { ItemMap } from './item';
 
@@ -20,12 +20,15 @@ export class SelectionMarksTooltip {
 
         if (prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection)) return;
 
-        if (state.selection.empty || !(state.selection instanceof TextSelection)) {
+        if (state.selection.empty) {
             this.hide();
             return;
         }
 
         this.calculateItem(view);
+        if (Object.values(this.items).every(({ $ }) => $.classList.contains('hide'))) {
+            return;
+        }
         this.$.classList.remove('hide');
         this.calculatePosition(view);
     }
