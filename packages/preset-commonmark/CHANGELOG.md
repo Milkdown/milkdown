@@ -1,5 +1,13 @@
 # @milkdown/preset-commonmark
 
+## 2.0.1
+
+### Patch Changes
+
+-   5807b2f: Release to github packages.
+-   Updated dependencies [5807b2f]
+    -   @milkdown/core@1.0.1
+
 ## 2.0.0
 
 ### Patch Changes
