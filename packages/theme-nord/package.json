@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/theme-nord",
-    "version": "2.0.4",
+    "version": "0.0.1",
     "scripts": {
         "start": "vite",
         "watch": "postcss style/theme.css --watch --verbose -o lib/theme.css",

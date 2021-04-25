@@ -42,15 +42,3 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-            - name: setup node.js for github packages
-              uses: actions/setup-node@v2
-              with:
-                  node-version: 14
-                  registry-url: 'https://npm.pkg.github.com'
-                  scope: '@Saul-Mirone'
-            - name: reset .npmrc
-              run: rm .npmrc
-            - name: publish to github packages
-              run: pnpm publish -r
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
