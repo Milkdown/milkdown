@@ -54,17 +54,13 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: 14
-            - name: creating .npmrc
-              run: |
-                  cat << EOF > "./.npmrc"
-                  //npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
-                  EOF
+                  registry-url: 'https://npm.pkg.github.com'
             - name: install pnpm
               run: npm i pnpm@latest -g
             - name: setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: install dependencies
               run: pnpm install
             - name: build
