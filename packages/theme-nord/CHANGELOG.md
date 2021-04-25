@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 2.0.4
+
+### Patch Changes
+
+-   d5e08ef: Use GHP
+
 ## 2.0.3
 
 ### Patch Changes

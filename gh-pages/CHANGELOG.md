@@ -1,5 +1,18 @@
 # @milkdown/gh-pages
 
+## 0.0.7
+
+### Patch Changes
+
+-   d5e08ef: Use GHP
+-   Updated dependencies [d5e08ef]
+    -   @milkdown/core@2.0.4
+    -   @milkdown/plugin-math@2.0.4
+    -   @milkdown/plugin-prism@2.0.4
+    -   @milkdown/plugin-tooltip@2.0.4
+    -   @milkdown/preset-commonmark@2.0.4
+    -   @milkdown/theme-nord@2.0.4
+
 ## 0.0.6
 
 ### Patch Changes
