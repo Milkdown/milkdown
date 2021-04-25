@@ -23,7 +23,7 @@ jobs:
             - name: creating .npmrc
               run: |
                   cat << EOF > "./.npmrc"
-                  //npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
+                  //registry.npmjs.org/:_authToken=\${NPM_TOKEN}
                   EOF
             - name: install pnpm
               run: npm i pnpm@latest -g
