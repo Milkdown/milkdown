@@ -36,6 +36,7 @@ class MathInline extends Node {
     };
     parser = {
         block: this.id,
+        isAtom: true,
     };
     serializer: SerializerNode = (state, node) => {
         state.write('$');
@@ -57,6 +58,7 @@ class MathDisplay extends Node {
     };
     parser = {
         block: 'math_block',
+        isAtom: true,
     };
     serializer: SerializerNode = (state, node) => {
         state.write('$$').ensureNewLine().renderContent(node).ensureNewLine().write('$$').closeBlock(node);

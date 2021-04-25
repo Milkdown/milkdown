@@ -12,6 +12,7 @@ export class Hr extends Node {
     };
     parser = {
         block: this.id,
+        isAtom: true,
     };
     serializer: SerializerNode = (state, node) => {
         state.write('---');

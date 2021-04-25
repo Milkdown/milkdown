@@ -13,6 +13,7 @@ export class HardBreak extends Node {
     };
     parser = {
         block: this.id,
+        isAtom: true,
     };
     serializer: SerializerNode = (state) => {
         state.write('  \n');

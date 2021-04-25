@@ -8,6 +8,7 @@ export type Attrs = Record<string, string | number | boolean | null>;
 type ParserSpecFactory<T> = {
     getAttrs?: (currentToken: Token, tokens: Token[], index: number) => Attrs;
     attrs?: Attrs;
+    isAtom?: boolean;
 } & T;
 
 export type ParserSpecBlock = ParserSpecFactory<{

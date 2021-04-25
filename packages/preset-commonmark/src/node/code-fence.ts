@@ -54,6 +54,7 @@ export class CodeFence extends Node {
     parser: ParserSpec = {
         block: this.id,
         getAttrs: (tok) => ({ language: tok.info }),
+        isAtom: true,
     };
     serializer: SerializerNode = (state, node) => {
         state.write('```' + node.attrs.language + '\n');

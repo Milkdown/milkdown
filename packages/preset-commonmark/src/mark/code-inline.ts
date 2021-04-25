@@ -12,6 +12,7 @@ export class CodeInline extends Mark {
     };
     parser = {
         mark: 'code_inline',
+        isAtom: true,
     };
     serializer: SerializerMark = {
         open: '`',
