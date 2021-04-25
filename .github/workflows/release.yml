@@ -28,13 +28,6 @@ jobs:
               run: pnpm install
             - name: build
               run: pnpm build
-            - name: creating .npmrc
-              run: |
-                  cat << EOF > "$HOME/.npmrc"
-                  //npm.pkg.github.com/:_authToken=$NPM_TOKEN
-                  EOF
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - name: create versions
               uses: changesets/action@master
               with:
