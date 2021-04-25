@@ -28,6 +28,8 @@ jobs:
               run: pnpm install
             - name: build
               run: pnpm build
+            - name: echo
+              run: echo "$NPM_TOKEN"
             - name: create versions
               uses: changesets/action@master
               with:
