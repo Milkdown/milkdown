@@ -1,4 +1,4 @@
-import { Mark, Node } from 'prosemirror-model';
+import { Node } from 'prosemirror-model';
 import { State } from './state';
 
 type StateParams = ConstructorParameters<typeof State>;
@@ -31,20 +31,6 @@ const setup = (params: Params = {}) => {
         setDelimitation,
     };
 };
-
-test('#atBlank', () => {
-    const { state, setOutput } = setup();
-    expect(state.atBlank).toBeTruthy();
-
-    setOutput('abc');
-    expect(state.atBlank).toBeFalsy();
-
-    setOutput('abc\n');
-    expect(state.atBlank).toBeTruthy();
-
-    setOutput('abc\nd');
-    expect(state.atBlank).toBeFalsy();
-});
 
 test('.ensureNewLine', () => {
     const { state, setOutput } = setup();
@@ -149,57 +135,4 @@ test('.wrapBlock', () => {
     );
 
     expect(state.output).toBe('$ abc\n> def\n> foo');
-});
-
-test('.markString', () => {
-    const open = jest.fn();
-    const close = jest.fn();
-    const { state } = setup({
-        stateParams: [{}, { mark1: { open, close } }],
-    });
-
-    const mark1 = ({ type: { name: 'mark1' } } as unknown) as Mark;
-    const parent = new Node();
-
-    state.markString(mark1, true, parent, 0);
-    expect(open).toBeCalledWith(state, mark1, parent, 0);
-
-    state.markString(mark1, false, parent, 0);
-    expect(close).toBeCalledWith(state, mark1, parent, 0);
-
-    const mark2 = ({ type: { name: 'mark2' } } as unknown) as Mark;
-
-    expect(() => state.markString(mark2, true, parent, 0)).toThrowError();
-});
-
-test('.wrapWithMark', () => {
-    const open = jest.fn(() => '*');
-    const close = jest.fn(() => '*');
-    const { state } = setup({
-        stateParams: [{}, { mark1: { open, close } }],
-    });
-
-    const mark1 = ({ type: { name: 'mark1' } } as unknown) as Mark;
-    const parent = new Node();
-
-    state.wrapWithMark(mark1, parent, 0, 'test');
-    expect(open).toBeCalledWith(state, mark1, parent, 0);
-    expect(close).toBeCalledWith(state, mark1, parent, 1);
-    expect(state.output).toBe('*test*');
-});
-
-test('.serializeMarks', () => {
-    const { state } = setup();
-    const markStringSpy = jest
-        .spyOn(state, 'markString')
-        .mockImplementation((mark) => '[mock-result-' + mark.type.name + ']');
-
-    const mark1 = ({ type: { name: 'mark1' } } as unknown) as Mark;
-    const mark2 = ({ type: { name: 'mark2' } } as unknown) as Mark;
-    const parent = new Node();
-
-    const result = state.serializeMarks([mark1, mark2], parent, 0, true);
-
-    expect(markStringSpy).toBeCalledTimes(2);
-    expect(result).toBe('[mock-result-mark1]' + '[mock-result-mark2]');
 });

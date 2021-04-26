@@ -20,14 +20,6 @@ export class State {
     }
 
     /**
-     * Check whether the output string is at blank.
-     */
-    get atBlank() {
-        const emptyOrNewline = /(^|\n)$/;
-        return emptyOrNewline.test(this.out);
-    }
-
-    /**
      * Render the contents of a given node.
      *
      * @param parent The parent of the contents to be rendered.
@@ -35,22 +27,6 @@ export class State {
      */
     renderContent(parent: Node) {
         parent.forEach((node: Node, _: unknown, i: number) => this.render(node, parent, i));
-
-        return this;
-    }
-
-    /**
-     * Render a node.
-     *
-     * @param node The node to be rendered.
-     * @param parent The parent of the node.
-     * @param index The index of the node in the contents of it's parent.
-     * @returns State instance.
-     */
-    render(node: Node, parent: Node, index: number) {
-        const renderer = this.nodes[node.type.name];
-        if (!renderer) throw new Error();
-        renderer(this, node, parent, index);
 
         return this;
     }
@@ -121,6 +97,7 @@ export class State {
 
     /**
      * Add a text line by line use `write` method.
+     * Respect line break.
      *
      * @param text Text need to be added.
      * @param escape Whether to escaped the special chars.
@@ -139,6 +116,17 @@ export class State {
         return this;
     }
 
+    /**
+     * Wrap a block with a `delimitation` as the prefix for each line.
+     * If firstDelimitation provided, used as the prefix for the **first line**.
+     * The serialize of node will be executed by the callback function.
+     *
+     * @param delimitation Prefix of each line.
+     * @param node Node need to be wrapped.
+     * @param f Callback function to render the node.
+     * @param firstDelimitation Prefix of the first line.
+     * @returns State instance.
+     */
     wrapBlock(delimitation: string, node: Node, f: () => void, firstDelimitation = delimitation) {
         this.write(firstDelimitation);
 
@@ -153,33 +141,12 @@ export class State {
     }
 
     /**
-     *  Get the markdown string for a given opening or closing mark.
+     * Render the contents of a given node as inline text.
+     * Organize marks in it.
      *
-     * @param mark Mark type.
-     * @param isOpen Mark is open or close.
-     * @param parent Parent node.
-     * @param index The index of current node.
-     * @returns result string.
+     * @param parent The parent of the contents to be rendered.
+     * @returns State instance.
      */
-    markString(mark: Mark, isOpen: boolean, parent: Node, index: number) {
-        const markInfo = this.marks[mark.type.name];
-        if (!markInfo) throw new Error();
-        const value = isOpen ? markInfo.open : markInfo.close;
-        return typeof value === 'string' ? value : value(this, mark, parent, index);
-    }
-
-    wrapWithMark(mark: Mark, parent: Node, index: number, text: string) {
-        const left = this.markString(mark, true, parent, index);
-        const right = this.markString(mark, false, parent, index + 1);
-        this.text(left + text + right);
-
-        return this;
-    }
-
-    serializeMarks(marks: Mark[], parent: Node, index: number, isOpen = false) {
-        return marks.map((mark) => this.markString(mark, isOpen, parent, index)).join('');
-    }
-
     renderInline(parent: Node) {
         let marksNotClosed: Mark[] = [];
 
@@ -187,11 +154,6 @@ export class State {
             const clearMarks = this.serializeMarks(marksNotClosed, parent, parent.childCount + 1);
 
             this.write(clearMarks);
-        };
-        const comparePriority = (desc = false) => (l: Mark, r: Mark) => {
-            const pL = this.marks[l.type.name]?.priority ?? 0;
-            const pR = this.marks[r.type.name]?.priority ?? 0;
-            return desc ? pL - pR : pR - pL;
         };
 
         parent.forEach((node, _, index) => {
@@ -202,9 +164,13 @@ export class State {
 
             const marks: Mark[] = node.marks || [];
             // Find marks not closed and not exists in current node
-            const marksToBeClosed = marksNotClosed.filter((mark) => !marks.includes(mark)).sort(comparePriority());
+            const marksToBeClosed = marksNotClosed
+                .filter((mark) => !marks.includes(mark))
+                .sort(this.compareMarkPriority());
             // Find new added marks
-            const marksToBeOpened = marks.filter((mark) => !marksNotClosed.includes(mark)).sort(comparePriority(true));
+            const marksToBeOpened = marks
+                .filter((mark) => !marksNotClosed.includes(mark))
+                .sort(this.compareMarkPriority(true));
 
             marksToBeOpened.forEach((mark) => marksNotClosed.push(mark));
             marksNotClosed = marksNotClosed.filter((mark) => !marksToBeClosed.includes(mark));
@@ -221,13 +187,51 @@ export class State {
         return this;
     }
 
-    renderList(node: Node, delimitation: string, getFirstDelimitation: (index: number) => string) {
-        if (this.closed && this.closed.type === node.type) {
+    /**
+     * Render the contents of a given node as a list.
+     * Add prefix for each content.
+     *
+     * @param parent The parent of the contents to be rendered.
+     * @param delimitation The prefix for each content.
+     * @param getFirstDelimitation The first line prefix for each content.
+     */
+    renderList(parent: Node, delimitation: string, getFirstDelimitation: (index: number) => string) {
+        if (this.closed && this.closed.type === parent.type) {
             this.flushClose(2);
         }
 
-        node.forEach((child, _, i) => {
-            this.wrapBlock(delimitation, node, () => this.render(child, node, i), getFirstDelimitation(i));
+        parent.forEach((child, _, i) => {
+            this.wrapBlock(delimitation, parent, () => this.render(child, parent, i), getFirstDelimitation(i));
         });
+    }
+
+    private get atBlank() {
+        const emptyOrNewline = /(^|\n)$/;
+        return emptyOrNewline.test(this.out);
+    }
+
+    private serializeMarks(marks: Mark[], parent: Node, index: number, isOpen = false) {
+        return marks.map((mark) => this.markString(mark, parent, index, isOpen)).join('');
+    }
+
+    private markString(mark: Mark, parent: Node, index: number, isOpen = false) {
+        const markInfo = this.marks[mark.type.name];
+        if (!markInfo) throw new Error();
+        const value = isOpen ? markInfo.open : markInfo.close;
+        return typeof value === 'string' ? value : value(this, mark, parent, index);
+    }
+
+    private render(node: Node, parent: Node, index: number) {
+        const renderer = this.nodes[node.type.name];
+        if (!renderer) throw new Error();
+        renderer(this, node, parent, index);
+    }
+
+    private compareMarkPriority(desc = false) {
+        return (l: Mark, r: Mark) => {
+            const pL = this.marks[l.type.name]?.priority ?? 0;
+            const pR = this.marks[r.type.name]?.priority ?? 0;
+            return desc ? pL - pR : pR - pL;
+        };
     }
 }
