@@ -1,9 +1,12 @@
 name: release
 
 on:
-    push:
-        branches:
-            - main
+    workflow_run:
+        workflows: test
+        branches: main
+        types:
+            - completed
+
 env:
     CI: true
     PNPM_CACHE_FOLDER: .pnpm-store

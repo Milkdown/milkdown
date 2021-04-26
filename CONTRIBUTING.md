@@ -24,6 +24,7 @@ Before you create a pull request, please check the following todo:
 -   `pnpm tsc` passed.
 -   `pnpm build:packs` passed.
 -   `pnpm build:integration` passed.
+-   `pnpm test` passed.
 -   `pnpm preview` works as you expected.
 
 # License

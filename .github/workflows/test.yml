@@ -1,11 +1,8 @@
-name: gh-pages
+name: test
 
 on:
-    workflow_run:
-        workflows: test
+    push:
         branches: main
-        types:
-            - completed
 
 jobs:
     build:
@@ -21,9 +18,7 @@ jobs:
               run: |
                   npm i -g pnpm
                   pnpm install
-                  pnpm build:integration
-            - name: deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: docs
+            - name: run test
+              run: |
+                  pnpm tsc
+                  pnpm test

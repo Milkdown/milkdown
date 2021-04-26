@@ -187,3 +187,19 @@ test('.wrapWithMark', () => {
     expect(close).toBeCalledWith(state, mark1, parent, 1);
     expect(state.output).toBe('*test*');
 });
+
+test('.serializeMarks', () => {
+    const { state } = setup();
+    const markStringSpy = jest
+        .spyOn(state, 'markString')
+        .mockImplementation((mark) => '[mock-result-' + mark.type.name + ']');
+
+    const mark1 = ({ type: { name: 'mark1' } } as unknown) as Mark;
+    const mark2 = ({ type: { name: 'mark2' } } as unknown) as Mark;
+    const parent = new Node();
+
+    const result = state.serializeMarks([mark1, mark2], parent, 0, true);
+
+    expect(markStringSpy).toBeCalledTimes(2);
+    expect(result).toBe('[mock-result-mark1]' + '[mock-result-mark2]');
+});
