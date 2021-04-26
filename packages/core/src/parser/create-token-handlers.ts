@@ -13,7 +13,6 @@ export function createTokenHandlers(schema: Schema, specMap: Record<string, Pars
             mapping[spec.block] = type;
             const nodeType = schema.nodes[spec.block] || schema.nodes[type];
             if (!nodeType) throw new Error();
-            // if (['hr', 'hardbreak', 'fence', 'math_inline', 'math_display'].includes(type)) {
             if (spec.isAtom) {
                 handlers[type] = (state, tok, tokens, i) => {
                     state.stack.openNode(nodeType, attrs(spec, tok, tokens, i));
@@ -38,7 +37,6 @@ export function createTokenHandlers(schema: Schema, specMap: Record<string, Pars
             mapping[spec.mark] = type;
             const markType = schema.marks[spec.mark] || schema.marks[type];
             if (!markType) throw new Error();
-            // if (['code_inline'].includes(type)) {
             if (spec.isAtom) {
                 handlers[type] = (state, tok, tokens, i) => {
                     state.stack.openMark(markType.create(attrs(spec, tok, tokens, i)));
