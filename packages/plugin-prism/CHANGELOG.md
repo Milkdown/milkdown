@@ -1,6 +1,6 @@
 # @milkdown/plugin-prism
 
-## 0.1.0
+## 3.0.0
 
 ### Minor Changes
 
@@ -11,4 +11,4 @@
 -   First release
 -   Updated dependencies [804890b]
 -   Updated dependencies [undefined]
-    -   @milkdown/core@0.1.0
+    -   @milkdown/core@3.0.0
