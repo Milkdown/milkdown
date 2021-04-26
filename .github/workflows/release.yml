@@ -33,8 +33,6 @@ jobs:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - name: install dependencies
               run: pnpm install
-            - name: build
-              run: pnpm run build -r --filter "packages/"
             - name: create versions or publish to npm registry
               uses: changesets/action@master
               with:

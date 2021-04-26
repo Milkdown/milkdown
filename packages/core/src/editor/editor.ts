@@ -83,7 +83,7 @@ export class Editor {
         this.injectCtx();
         [
             LoadState.Idle,
-            LoadState.BuildSchema,
+            LoadState.LoadSchema,
             LoadState.SchemaReady,
             LoadState.PluginReady,
             LoadState.Complete,

@@ -1,6 +1,6 @@
 export enum LoadState {
     Idle,
-    BuildSchema,
+    LoadSchema,
     SchemaReady,
     PluginReady,
     Complete,

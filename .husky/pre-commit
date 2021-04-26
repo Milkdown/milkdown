@@ -3,4 +3,5 @@
 
 pnpm run lint
 pnpm run tsc
-pnpm run build
+pnpm run build:packs
+pnpm run build:integration

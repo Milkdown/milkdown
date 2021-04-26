@@ -8,7 +8,7 @@ import { buildObject } from '../utility';
 export class SchemaLoader extends Atom<IdleContext, SchemaReadyContext> {
     id = 'schemaLoader';
     type = AtomType.Internal;
-    loadAfter = LoadState.BuildSchema;
+    loadAfter = LoadState.LoadSchema;
     main() {
         const nodes = buildObject(this.context.nodes, (node) => [node.id, node.schema]);
         const marks = buildObject(this.context.marks, (mark) => [mark.id, mark.schema]);

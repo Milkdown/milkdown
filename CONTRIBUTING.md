@@ -1,29 +1,30 @@
 # Development Workflow
 
-> We use yarn@2 for development.
-> Please make sure you have node.js, npm and yarn installed on your machine.
+> We use pnpm for development.
+> Please make sure you have node.js, npm and pnpm installed on your machine.
 
-After cloning Milkdown, run `yarn` to install dependencies. Then, you can run several commands:
+After cloning Milkdown, run `pnpm install` to install dependencies. Then, you can run several commands:
 
--   `yarn watch` watches all packages except gh-pages.
--   `yarn lint` checks the code style.
--   `yarn tsc` runs typescript type checks.
--   `yarn build` runs build for all packages.
--   `yarn preview` runs preview for gh-pages.
--   `yarn integration` runs develop mode for gh-pages package.
--   `yarn workspace @milkdown/<package-name> run <command>` run command for a particular package.
+-   `pnpm watch` watches all packages except gh-pages.
+-   `pnpm lint` checks the code style.
+-   `pnpm tsc` runs typescript type checks.
+-   `pnpm preview` runs preview for gh-pages.
+-   `pnpm integration` runs develop mode for gh-pages package.
+-   `pnpm build:packs` runs build for all packages.
+-   `pnpm build:integration` runs build for gh-pages package.
 
-The easiest way to get started is to run `yarn watch` in one command line and `yarn integration` in another.
+The easiest way to get started is to run `pnpm watch` in one command line and `pnpm integration` in another.
 Then you can make some modify you want to see the change.
 
 # Pre Check
 
 Before you create a pull request, please check the following todo:
 
--   `yarn lint` passed.
--   `yarn tsc` passed.
--   `yarn build` passed.
--   `yarn preview` works as you expected.
+-   `pnpm lint` passed.
+-   `pnpm tsc` passed.
+-   `pnpm build:packs` passed.
+-   `pnpm build:integration` passed.
+-   `pnpm preview` works as you expected.
 
 # License
 

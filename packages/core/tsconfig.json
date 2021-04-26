@@ -4,5 +4,6 @@
         "baseUrl": ".",
         "outDir": "lib"
     },
-    "include": ["src"]
+    "include": ["src"],
+    "exclude": ["*.spec.ts"]
 }
