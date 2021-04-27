@@ -136,3 +136,21 @@ test('.wrapBlock', () => {
 
     expect(state.output).toBe('$ abc\n> def\n> foo');
 });
+
+test('.renderInline', () => {
+    const { state } = setup();
+    const node = {} as Node;
+    const contents = [] as Node[];
+    node.forEach = (callback) => {
+        contents.forEach((content, i) => {
+            callback(content, 0, i);
+        });
+    };
+    contents.push({
+        isText: true,
+        text: 'inline text',
+    } as Node);
+    state.renderInline(node);
+
+    expect(state.output).toBe('inline text');
+});
