@@ -50,3 +50,30 @@ describe('wrapBlock', () => {
         expect(state.output).toBe(':prefix:\n>> abc');
     });
 });
+
+describe('text', () => {
+    test('single line not escape', () => {
+        const state = new State({}, {});
+        state.text('**abc**');
+        expect(state.output).toBe('**abc**');
+    });
+
+    test('multi line not escape', () => {
+        const state = new State({}, {});
+        state.text('**abc**\n__def__\n');
+        expect(state.output).toBe('**abc**\n__def__\n');
+    });
+
+    test('single line with escape', () => {
+        const state = new State({}, {});
+        state.text('**abc**', true);
+        expect(state.output).toBe('\\*\\*abc\\*\\*');
+    });
+
+    test('multi line with escape', () => {
+        const state = new State({}, {});
+        state.closeBlock(new Node());
+        state.text('**abc**\n__def--', true);
+        expect(state.output).toBe('\n\\*\\*abc\\*\\*\n__def--');
+    });
+});
