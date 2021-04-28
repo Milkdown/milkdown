@@ -6,7 +6,7 @@ import { State } from './state';
 export function createSerializer(nodes: NodeMap, marks: MarkMap) {
     return (content: Node) => {
         const state = new State(nodes, marks);
-        state.renderContent(content);
+        state.exec(content);
         return state.output;
     };
 }

@@ -5,18 +5,24 @@ import type { MarkMap, NodeMap } from './types';
 import { Utility } from './utility';
 
 export class State {
-    private out = '';
-    private delimitation = '';
-    private closed: false | Node = false;
+    #out = '';
+    #delimitation = '';
+    #toBeClosed: false | Node = false;
+    #nodes: NodeMap;
+    #marks: MarkMap;
     public utils = Utility;
 
-    constructor(private nodes: NodeMap, private marks: MarkMap) {
-        this.nodes = nodes;
-        this.marks = marks;
+    constructor(nodes: NodeMap, marks: MarkMap) {
+        this.#nodes = nodes;
+        this.#marks = marks;
     }
 
     get output() {
-        return this.out;
+        return this.#out;
+    }
+
+    exec(doc: Node) {
+        return this.renderContent(doc);
     }
 
     /**
@@ -37,7 +43,7 @@ export class State {
      * @returns State instance.
      */
     ensureNewLine() {
-        if (!this.atBlank) this.out += '\n';
+        if (!this.atBlank) this.#out += '\n';
 
         return this;
     }
@@ -49,30 +55,7 @@ export class State {
      * @returns State instance.
      */
     closeBlock(node: Node) {
-        this.closed = node;
-
-        return this;
-    }
-
-    /**
-     * Close the node to be closed.
-     * Add some newline.
-     * Respect delimitation.
-     *
-     * @param size Size of newline to be added after.
-     * @returns State instance.
-     */
-    flushClose(size = 1) {
-        if (!this.closed) return this;
-
-        if (!this.atBlank) this.out += '\n';
-
-        if (size >= 1) {
-            const prefix = this.utils.removeWhiteSpaceAfter(this.delimitation);
-            const delimitations = this.utils.repeat(prefix + '\n', size);
-            this.out += delimitations;
-        }
-        this.closed = false;
+        this.#toBeClosed = node;
 
         return this;
     }
@@ -89,8 +72,8 @@ export class State {
         this.flushClose();
         if (!content) return this;
 
-        if (this.delimitation && this.atBlank) this.out += this.delimitation;
-        this.out += content;
+        if (this.#delimitation && this.atBlank) this.#out += this.#delimitation;
+        this.#out += content;
 
         return this;
     }
@@ -106,11 +89,11 @@ export class State {
     text(text: string, escape = false) {
         const lines = text.split('\n');
         lines.forEach((line, i) => {
-            const nextLine = escape ? this.utils.escape(line, Boolean(this.atBlank || this.closed)) : line;
+            const nextLine = escape ? this.utils.escape(line, Boolean(this.atBlank || this.#toBeClosed)) : line;
             this.write(nextLine);
 
             const isLastLine = i === lines.length - 1;
-            if (!isLastLine) this.out += '\n';
+            if (!isLastLine) this.#out += '\n';
         });
 
         return this;
@@ -130,10 +113,10 @@ export class State {
     wrapBlock(delimitation: string, node: Node, f: () => void, firstDelimitation = delimitation) {
         this.write(firstDelimitation);
 
-        const old = this.delimitation;
-        this.delimitation += delimitation;
+        const old = this.#delimitation;
+        this.#delimitation += delimitation;
         f();
-        this.delimitation = old;
+        this.#delimitation = old;
 
         this.closeBlock(node);
 
@@ -196,7 +179,7 @@ export class State {
      * @param getFirstDelimitation The first line prefix for each content.
      */
     renderList(parent: Node, delimitation: string, getFirstDelimitation: (index: number) => string) {
-        if (this.closed && this.closed.type === parent.type) {
+        if (this.#toBeClosed && this.#toBeClosed.type === parent.type) {
             this.flushClose(2);
         }
 
@@ -207,31 +190,55 @@ export class State {
 
     private get atBlank() {
         const emptyOrNewline = /(^|\n)$/;
-        return emptyOrNewline.test(this.out);
+        return emptyOrNewline.test(this.#out);
     }
 
     private serializeMarks(marks: Mark[], parent: Node, index: number, isOpen = false) {
         return marks.map((mark) => this.markString(mark, parent, index, isOpen)).join('');
     }
 
+    private flushClose(size = 1) {
+        if (!this.#toBeClosed) return this;
+
+        if (!this.atBlank) this.#out += '\n';
+
+        if (size >= 1) {
+            const prefix = this.utils.removeWhiteSpaceAfter(this.#delimitation);
+            this.#out += this.utils.repeat(prefix + '\n', size);
+        }
+        this.#toBeClosed = false;
+
+        return this;
+    }
+
     private markString(mark: Mark, parent: Node, index: number, isOpen = false) {
-        const markInfo = this.marks[mark.type.name];
-        if (!markInfo) throw new Error();
+        const markInfo = this.getMark(mark);
         const value = isOpen ? markInfo.open : markInfo.close;
         return typeof value === 'string' ? value : value(this, mark, parent, index);
     }
 
     private render(node: Node, parent: Node, index: number) {
-        const renderer = this.nodes[node.type.name];
-        if (!renderer) throw new Error();
+        const renderer = this.getNode(node);
         renderer(this, node, parent, index);
     }
 
     private compareMarkPriority(desc = false) {
         return (l: Mark, r: Mark) => {
-            const pL = this.marks[l.type.name]?.priority ?? 0;
-            const pR = this.marks[r.type.name]?.priority ?? 0;
+            const pL = this.getMark(l)?.priority ?? 0;
+            const pR = this.getMark(r)?.priority ?? 0;
             return desc ? pL - pR : pR - pL;
         };
+    }
+
+    private getMark(mark: Mark) {
+        const markInfo = this.#marks[mark.type.name];
+        if (!markInfo) throw new Error(`Fail to get mark ${mark.type.name} from mark map.`);
+        return markInfo;
+    }
+
+    private getNode(node: Node) {
+        const nodeInfo = this.#nodes[node.type.name];
+        if (!nodeInfo) throw new Error(`Fail to get node ${node.type.name} from node map.`);
+        return nodeInfo;
     }
 }
