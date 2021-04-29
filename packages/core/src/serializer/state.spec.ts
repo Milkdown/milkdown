@@ -66,8 +66,9 @@ describe('text', () => {
 
     test('single line with escape', () => {
         const state = new State({}, {});
+        state.write('*abc');
         state.text('**abc**', true);
-        expect(state.output).toBe('\\*\\*abc\\*\\*');
+        expect(state.output).toBe('*abc\\*\\*abc\\*\\*');
     });
 
     test('multi line with escape', () => {
