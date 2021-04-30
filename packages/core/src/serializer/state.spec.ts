@@ -93,6 +93,9 @@ describe('renderInline', () => {
         };
         return parent;
     };
+    const strongMark = { type: { name: 'strong' } } as Mark;
+    const italicMark = { type: { name: 'italic' } } as Mark;
+
     test('renderInline without marks', () => {
         const state = new State({}, {});
         const parent = parentFactory([textNodeFactory('This'), textNodeFactory(' is '), textNodeFactory('test')]);
@@ -100,7 +103,7 @@ describe('renderInline', () => {
         expect(state.output).toBe('This is test');
     });
 
-    test('renderInline with marks', () => {
+    test('renderInline with single marks', () => {
         const state = new State(
             {},
             {
@@ -109,12 +112,11 @@ describe('renderInline', () => {
                     close: '**',
                 },
                 italic: {
-                    open: '_',
-                    close: '_',
+                    open: '*',
+                    close: '*',
                 },
             },
         );
-        const strongMark = { type: { name: 'strong' } } as Mark;
         const parent = parentFactory([
             textNodeFactory('This '),
             textNodeFactory('is ', [strongMark]),
@@ -122,5 +124,28 @@ describe('renderInline', () => {
         ]);
         state.renderInline(parent);
         expect(state.output).toBe('This **is test**');
+    });
+
+    test('renderInline with multiple marks', () => {
+        const state = new State(
+            {},
+            {
+                strong: {
+                    open: '**',
+                    close: '**',
+                },
+                italic: {
+                    open: '*',
+                    close: '*',
+                },
+            },
+        );
+        const parent = parentFactory([
+            textNodeFactory('This '),
+            textNodeFactory('is ', [strongMark]),
+            textNodeFactory('test', [italicMark, strongMark]),
+        ]);
+        state.renderInline(parent);
+        expect(state.output).toBe('This **is *test***');
     });
 });
