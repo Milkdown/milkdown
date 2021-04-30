@@ -78,3 +78,24 @@ describe('text', () => {
         expect(state.output).toBe('\n\\*\\*abc\\*\\*\n__def--');
     });
 });
+
+describe('renderInline', () => {
+    const textNodeFactory = (text: string) =>
+        ({
+            isText: true,
+            text,
+        } as Node);
+    const parentFactory = (content: Node[]) => {
+        const parent = {} as Node;
+        parent.forEach = (fn: (node: Node, offset: number, index: number) => void) => {
+            content.forEach((node, i) => fn(node, 0, i));
+        };
+        return parent;
+    };
+    test('renderInline without marks', () => {
+        const state = new State({}, {});
+        const parent = parentFactory([textNodeFactory('This'), textNodeFactory(' is '), textNodeFactory('test')]);
+        state.renderInline(parent);
+        expect(state.output).toBe('This is test');
+    });
+});
