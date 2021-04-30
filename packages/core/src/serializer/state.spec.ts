@@ -1,4 +1,4 @@
-import { Node } from 'prosemirror-model';
+import { Mark, Node } from 'prosemirror-model';
 import { State } from './state';
 
 test('.ensureNewLine', () => {
@@ -80,10 +80,11 @@ describe('text', () => {
 });
 
 describe('renderInline', () => {
-    const textNodeFactory = (text: string) =>
+    const textNodeFactory = (text: string, marks: Mark[] = []) =>
         ({
             isText: true,
             text,
+            marks,
         } as Node);
     const parentFactory = (content: Node[]) => {
         const parent = {} as Node;
@@ -97,5 +98,29 @@ describe('renderInline', () => {
         const parent = parentFactory([textNodeFactory('This'), textNodeFactory(' is '), textNodeFactory('test')]);
         state.renderInline(parent);
         expect(state.output).toBe('This is test');
+    });
+
+    test('renderInline with marks', () => {
+        const state = new State(
+            {},
+            {
+                strong: {
+                    open: '**',
+                    close: '**',
+                },
+                italic: {
+                    open: '_',
+                    close: '_',
+                },
+            },
+        );
+        const strongMark = { type: { name: 'strong' } } as Mark;
+        const parent = parentFactory([
+            textNodeFactory('This '),
+            textNodeFactory('is ', [strongMark]),
+            textNodeFactory('test', [strongMark]),
+        ]);
+        state.renderInline(parent);
+        expect(state.output).toBe('This **is test**');
     });
 });
