@@ -1,6 +1,29 @@
 import { Mark, Node } from 'prosemirror-model';
 import { State } from './state';
 
+const textNodeFactory = (name: string, text: string, marks?: Mark[]) =>
+    ({
+        type: {
+            name,
+        },
+        isText: true,
+        text,
+        marks,
+    } as Node);
+const parentFactory = (name: string, content: Node[]) => {
+    const parent = {
+        type: {
+            name,
+        },
+    } as Node;
+    parent.forEach = (fn: (node: Node, offset: number, index: number) => void) => {
+        content.forEach((node, i) => fn(node, 0, i));
+    };
+    return parent;
+};
+const strongMark = { type: { name: 'strong' } } as Mark;
+const italicMark = { type: { name: 'italic' } } as Mark;
+
 test('.ensureNewLine', () => {
     const state = new State({}, {});
     state.ensureNewLine();
@@ -80,25 +103,13 @@ describe('text', () => {
 });
 
 describe('renderInline', () => {
-    const textNodeFactory = (text: string, marks?: Mark[]) =>
-        ({
-            isText: true,
-            text,
-            marks,
-        } as Node);
-    const parentFactory = (content: Node[]) => {
-        const parent = {} as Node;
-        parent.forEach = (fn: (node: Node, offset: number, index: number) => void) => {
-            content.forEach((node, i) => fn(node, 0, i));
-        };
-        return parent;
-    };
-    const strongMark = { type: { name: 'strong' } } as Mark;
-    const italicMark = { type: { name: 'italic' } } as Mark;
-
     test('renderInline without marks', () => {
         const state = new State({}, {});
-        const parent = parentFactory([textNodeFactory('This'), textNodeFactory(' is '), textNodeFactory('test')]);
+        const parent = parentFactory('', [
+            textNodeFactory('text', 'This'),
+            textNodeFactory('text', ' is '),
+            textNodeFactory('text', 'test'),
+        ]);
         state.renderInline(parent);
         expect(state.output).toBe('This is test');
     });
@@ -117,10 +128,10 @@ describe('renderInline', () => {
                 },
             },
         );
-        const parent = parentFactory([
-            textNodeFactory('This '),
-            textNodeFactory('is ', [strongMark]),
-            textNodeFactory('test', [strongMark]),
+        const parent = parentFactory('', [
+            textNodeFactory('text', 'This '),
+            textNodeFactory('text', 'is ', [strongMark]),
+            textNodeFactory('text', 'test', [strongMark]),
         ]);
         state.renderInline(parent);
         expect(state.output).toBe('This **is test**');
@@ -140,12 +151,36 @@ describe('renderInline', () => {
                 },
             },
         );
-        const parent = parentFactory([
-            textNodeFactory('This '),
-            textNodeFactory('is ', [strongMark]),
-            textNodeFactory('test', [italicMark, strongMark]),
+        const parent = parentFactory('', [
+            textNodeFactory('text', 'This '),
+            textNodeFactory('text', 'is ', [strongMark]),
+            textNodeFactory('text', 'test', [italicMark, strongMark]),
         ]);
         state.renderInline(parent);
         expect(state.output).toBe('This **is *test***');
+    });
+});
+
+describe('renderList', () => {
+    test('renderList with same delimitation', () => {
+        const state = new State(
+            {
+                text: (state, node) => {
+                    if (node.text) {
+                        state.text(node.text);
+                    }
+                },
+            },
+            {},
+        );
+        const parent = parentFactory('parent', [
+            textNodeFactory('text', 'list item 1\nparagraph1'),
+            textNodeFactory('text', 'list item 2\nparagraph2'),
+            textNodeFactory('text', 'list item 3\nparagraph3'),
+        ]);
+        state.renderList(parent, '>>', () => '_');
+        expect(state.output).toBe(
+            '_list item 1\n>>paragraph1\n\n_list item 2\n>>paragraph2\n\n_list item 3\n>>paragraph3',
+        );
     });
 });
