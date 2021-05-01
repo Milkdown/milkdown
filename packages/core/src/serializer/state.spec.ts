@@ -80,7 +80,7 @@ describe('text', () => {
 });
 
 describe('renderInline', () => {
-    const textNodeFactory = (text: string, marks: Mark[] = []) =>
+    const textNodeFactory = (text: string, marks?: Mark[]) =>
         ({
             isText: true,
             text,
