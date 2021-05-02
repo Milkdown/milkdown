@@ -144,20 +144,22 @@ describe('renderInline', () => {
                 strong: {
                     open: '**',
                     close: '**',
+                    priority: 0,
                 },
                 italic: {
-                    open: '*',
-                    close: '*',
+                    open: '_',
+                    close: '_',
+                    priority: 1,
                 },
             },
         );
         const parent = parentFactory('', [
             textNodeFactory('text', 'This '),
             textNodeFactory('text', 'is ', [strongMark]),
-            textNodeFactory('text', 'test', [italicMark, strongMark]),
+            textNodeFactory('text', 'test', [strongMark, italicMark]),
         ]);
         state.renderInline(parent);
-        expect(state.output).toBe('This **is *test***');
+        expect(state.output).toBe('This **is _test_**');
     });
 });
 
@@ -181,6 +183,32 @@ describe('renderList', () => {
         state.renderList(parent, '>>', () => '_');
         expect(state.output).toBe(
             '_list item 1\n>>paragraph1\n\n_list item 2\n>>paragraph2\n\n_list item 3\n>>paragraph3',
+        );
+    });
+
+    test('renderList with node not closed and same delimitation', () => {
+        const state = new State(
+            {
+                text: (state, node) => {
+                    if (node.text) {
+                        state.text(node.text);
+                    }
+                },
+            },
+            {},
+        );
+        const parent = parentFactory('parent', [
+            textNodeFactory('text', 'list item 1\nparagraph1'),
+            textNodeFactory('text', 'list item 2\nparagraph2'),
+            textNodeFactory('text', 'list item 3\nparagraph3'),
+        ]);
+        const node = {
+            type: parent.type,
+        } as Node;
+        state.closeBlock(node);
+        state.renderList(parent, '>>', (i) => i.toString());
+        expect(state.output).toBe(
+            '\n\n0list item 1\n>>paragraph1\n\n1list item 2\n>>paragraph2\n\n2list item 3\n>>paragraph3',
         );
     });
 });

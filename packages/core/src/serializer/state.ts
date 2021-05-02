@@ -156,7 +156,9 @@ export class State {
                 .sort(this.compareMarkPriority(true));
 
             marksToBeOpened.forEach((mark) => marksNotClosed.push(mark));
-            marksNotClosed = marksNotClosed.filter((mark) => !marksToBeClosed.includes(mark));
+            marksNotClosed = marksNotClosed
+                .filter((mark) => !marksToBeClosed.includes(mark))
+                .sort(this.compareMarkPriority());
 
             const openMark = this.serializeMarks(marksToBeOpened, parent, index, true);
 
@@ -202,10 +204,8 @@ export class State {
 
         if (!this.atBlank) this.#out += '\n';
 
-        if (size >= 1) {
-            const prefix = this.utils.removeWhiteSpaceAfter(this.#delimitation);
-            this.#out += this.utils.repeat(prefix + '\n', size);
-        }
+        const prefix = this.utils.removeWhiteSpaceAfter(this.#delimitation);
+        this.#out += this.utils.repeat(prefix + '\n', size);
         this.#toBeClosed = false;
 
         return this;
