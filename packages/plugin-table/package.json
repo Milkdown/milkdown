@@ -1,0 +1,33 @@
+{
+    "name": "@milkdown/plugin-table",
+    "version": "3.0.0",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "tsc -w",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc"
+    },
+    "files": [
+        "lib"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*",
+        "@types/prosemirror-model": "*",
+        "@types/prosemirror-state": "*",
+        "@types/prosemirror-view": "*",
+        "prosemirror-model": "*",
+        "prosemirror-state": "*",
+        "prosemirror-view": "*"
+    },
+    "dependencies": {
+        "tslib": "^2.2.0",
+        "prosemirror-tables": "*"
+    },
+    "devDependencies": {
+        "@milkdown/core": "*"
+    }
+}
