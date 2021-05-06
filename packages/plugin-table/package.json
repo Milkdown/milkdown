@@ -16,9 +16,11 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
+        "@types/prosemirror-inputrules": "*",
         "@types/prosemirror-model": "*",
         "@types/prosemirror-state": "*",
         "@types/prosemirror-view": "*",
+        "prosemirror-inputrules": "*",
         "prosemirror-model": "*",
         "prosemirror-state": "*",
         "prosemirror-view": "*"
