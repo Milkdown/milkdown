@@ -1,8 +1,8 @@
 import { createProsemirrorPlugin, Node } from '@milkdown/core';
 import { NodeSpec, NodeType, Schema, Node as ProsemirrorNode } from 'prosemirror-model';
-import { tableEditing, tableNodeTypes } from 'prosemirror-tables';
+import { isInTable, tableEditing, TableMap, tableNodes, tableNodeTypes } from 'prosemirror-tables';
 import { InputRule } from 'prosemirror-inputrules';
-import { TextSelection } from 'prosemirror-state';
+import { Plugin, PluginKey, TextSelection, Selection } from 'prosemirror-state';
 
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
@@ -11,29 +11,28 @@ const createTable = (schema: Schema, rowsCount = 3, colsCount = 3) => {
 
     const cells = Array(colsCount)
         .fill(0)
-        .map(() => tableCell.createAndFill() as ProsemirrorNode);
+        .map(() => tableCell.createAndFill(null) as ProsemirrorNode);
 
     const headerCells = Array(colsCount)
         .fill(0)
-        .map(() => tableHeader.createAndFill() as ProsemirrorNode);
+        .map(() => tableHeader.createAndFill(null) as ProsemirrorNode);
 
     const rows = Array(rowsCount)
         .fill(0)
-        .map((_, i) => tableRow.createChecked(null, i === 0 ? headerCells : cells));
+        .map((_, i) => tableRow.create(null, i === 0 ? headerCells : cells));
 
-    return table.createChecked(null, rows);
+    return table.create(null, rows);
 };
+
+const tableNodesSpec = tableNodes({
+    tableGroup: 'block',
+    cellContent: 'block+',
+    cellAttributes: {},
+});
 
 class Table extends Node {
     id = 'table';
-    schema: NodeSpec = {
-        content: 'table_row+',
-        tableRole: 'table',
-        isolating: true,
-        group: 'block',
-        parseDOM: [{ tag: 'table' }],
-        toDOM: () => ['table', ['tbody', 0]],
-    };
+    schema: NodeSpec = tableNodesSpec.table;
     parser = {
         block: this.id,
     };
@@ -54,12 +53,7 @@ class Table extends Node {
 
 class TableRow extends Node {
     id = 'table_row';
-    schema: NodeSpec = {
-        content: '(table_cell | table_header)*',
-        tableRole: 'row',
-        parseDOM: [{ tag: 'tr' }],
-        toDOM: () => ['tr', 0],
-    };
+    schema: NodeSpec = tableNodesSpec.table_row;
     parser = {
         block: this.id,
     };
@@ -70,12 +64,7 @@ class TableRow extends Node {
 
 class TableCell extends Node {
     id = 'table_cell';
-    schema: NodeSpec = {
-        content: 'block+',
-        tableRole: 'cell',
-        parseDOM: [{ tag: 'td' }],
-        toDOM: () => ['td', 0],
-    };
+    schema: NodeSpec = tableNodesSpec.table_cell;
     parser = {
         block: this.id,
     };
@@ -86,12 +75,7 @@ class TableCell extends Node {
 
 class TableHeader extends Node {
     id = 'table_header';
-    schema: NodeSpec = {
-        content: 'block+',
-        tableRole: 'header_cell',
-        parseDOM: [{ tag: 'th' }],
-        toDOM: () => ['th', 0],
-    };
+    schema: NodeSpec = tableNodesSpec.table_header;
     parser = {
         block: this.id,
     };
@@ -100,6 +84,62 @@ class TableHeader extends Node {
     };
 }
 
-const plugin = createProsemirrorPlugin(key, () => [tableEditing()]);
+const findParentNode = (predicate: (node: ProsemirrorNode) => boolean) => (selection: Selection) => {
+    const { $from } = selection;
+    for (let i = $from.depth; i > 0; i--) {
+        const node = $from.node(i);
+        if (predicate(node)) {
+            return {
+                pos: i > 0 ? $from.before(i) : 0,
+                start: $from.start(i),
+                depth: i,
+                node,
+            };
+        }
+    }
+    return undefined;
+};
+
+const findTable = (selection: Selection) => findParentNode((node) => node.type.spec.tableRole === 'table')(selection);
+
+export const getCellsInColumn = (columnIndex: number) => (selection: Selection) => {
+    const table = findTable(selection);
+    if (!table) return undefined;
+    const map = TableMap.get(table.node);
+    if (columnIndex < 0 || columnIndex >= map.width) {
+        return undefined;
+    }
+
+    return (
+        map
+            .cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height })
+            // .filter((x) => x)
+            .map((pos) => {
+                const node = table.node.nodeAt(pos);
+                const start = pos + table.start;
+                return {
+                    pos: start,
+                    start: start + 1,
+                    node,
+                };
+            })
+    );
+};
+
+const plugin = createProsemirrorPlugin(key, () => [
+    tableEditing(),
+    new Plugin({
+        key: new PluginKey('TABLE_OP'),
+        props: {
+            decorations: (state) => {
+                const status = isInTable(state);
+                if (!status) return null;
+                console.log(getCellsInColumn(0)(state.selection));
+
+                return null;
+            },
+        },
+    }),
+]);
 
 export const table = [new Table(), new TableRow(), new TableCell(), new TableHeader(), plugin];
