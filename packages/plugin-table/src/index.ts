@@ -155,16 +155,16 @@ const plugin = createProsemirrorPlugin(key, () => [
                 if (!topCells) return null;
 
                 const decorations: Decoration[] = [];
-                const [topLeft, ...restLeftCells] = leftCells;
+                const [topLeft] = leftCells;
 
                 const { pos } = topLeft;
                 const widget = Decoration.widget(pos + 1, () => {
                     const div = document.createElement('div');
-                    div.className = 'milkdown-cell-left milkdown-cell-top';
+                    div.className = 'milkdown-table-point';
                     return div;
                 });
                 decorations.push(widget);
-                restLeftCells.forEach((cell) => {
+                leftCells.forEach((cell) => {
                     const { pos } = cell;
                     const widget = Decoration.widget(pos + 1, () => {
                         const div = document.createElement('div');
@@ -173,7 +173,7 @@ const plugin = createProsemirrorPlugin(key, () => [
                     });
                     decorations.push(widget);
                 });
-                topCells.slice(1).forEach((cell) => {
+                topCells.forEach((cell) => {
                     const { pos } = cell;
                     const widget = Decoration.widget(pos + 1, () => {
                         const div = document.createElement('div');

@@ -24,8 +24,61 @@ table td {
     padding: 4px 8px;
     border: 1px solid #c5ccd3;
     text-align: left;
+    position: relative;
 }
 
 table .selectedCell {
+    background: #88c0d0;
+}
+
+table .milkdown-cell-left::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    left: -16px;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    background: #5e81ac;
+    border-right: 2px solid #fff;
+    display: block;
+    transition: all 0.2s ease-in;
+}
+table .milkdown-cell-left:hover::after {
+    background: #88c0d0;
+}
+
+table .milkdown-cell-top::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: -16px;
+    width: 100%;
+    height: 8px;
+    background: #5e81ac;
+    border-bottom: 2px solid #fff;
+    display: block;
+    transition: all 0.2s ease-in;
+}
+table .milkdown-cell-top:hover::after {
+    background: #88c0d0;
+}
+
+table .milkdown-table-point::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    left: -20px;
+    top: -20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #5e81ac;
+    border: 2px solid #fff;
+    display: block;
+    transition: all 0.2s ease-in;
+}
+table .milkdown-table-point:hover::after {
     background: #88c0d0;
 }
