@@ -25,3 +25,7 @@ table td {
     border: 1px solid #c5ccd3;
     text-align: left;
 }
+
+table .selectedCell {
+    background: #88c0d0;
+}

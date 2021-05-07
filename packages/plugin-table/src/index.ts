@@ -1,8 +1,9 @@
 import { createProsemirrorPlugin, Node } from '@milkdown/core';
 import { NodeSpec, NodeType, Schema, Node as ProsemirrorNode } from 'prosemirror-model';
-import { isInTable, tableEditing, TableMap, tableNodes, tableNodeTypes } from 'prosemirror-tables';
+import { tableEditing, TableMap, tableNodes, tableNodeTypes } from 'prosemirror-tables';
 import { InputRule } from 'prosemirror-inputrules';
 import { Plugin, PluginKey, TextSelection, Selection } from 'prosemirror-state';
+import { Decoration, DecorationSet } from 'prosemirror-view';
 
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
@@ -102,7 +103,7 @@ const findParentNode = (predicate: (node: ProsemirrorNode) => boolean) => (selec
 
 const findTable = (selection: Selection) => findParentNode((node) => node.type.spec.tableRole === 'table')(selection);
 
-export const getCellsInColumn = (columnIndex: number) => (selection: Selection) => {
+const getCellsInColumn = (columnIndex: number) => (selection: Selection) => {
     const table = findTable(selection);
     if (!table) return undefined;
     const map = TableMap.get(table.node);
@@ -110,20 +111,34 @@ export const getCellsInColumn = (columnIndex: number) => (selection: Selection) 
         return undefined;
     }
 
-    return (
-        map
-            .cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height })
-            // .filter((x) => x)
-            .map((pos) => {
-                const node = table.node.nodeAt(pos);
-                const start = pos + table.start;
-                return {
-                    pos: start,
-                    start: start + 1,
-                    node,
-                };
-            })
-    );
+    return map.cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height }).map((pos) => {
+        const node = table.node.nodeAt(pos);
+        const start = pos + table.start;
+        return {
+            pos: start,
+            start: start + 1,
+            node,
+        };
+    });
+};
+
+const getCellsInRow = (rowIndex: number) => (selection: Selection) => {
+    const table = findTable(selection);
+    if (!table) return undefined;
+    const map = TableMap.get(table.node);
+    if (rowIndex < 0 || rowIndex >= map.height) {
+        return undefined;
+    }
+
+    return map.cellsInRect({ left: 0, right: map.width, top: rowIndex, bottom: rowIndex + 1 }).map((pos) => {
+        const node = table.node.nodeAt(pos);
+        const start = pos + table.start;
+        return {
+            pos: start,
+            start: start + 1,
+            node,
+        };
+    });
 };
 
 const plugin = createProsemirrorPlugin(key, () => [
@@ -132,11 +147,43 @@ const plugin = createProsemirrorPlugin(key, () => [
         key: new PluginKey('TABLE_OP'),
         props: {
             decorations: (state) => {
-                const status = isInTable(state);
-                if (!status) return null;
-                console.log(getCellsInColumn(0)(state.selection));
+                // const status = isInTable(state);
+                // if (!status) return null;
+                const leftCells = getCellsInColumn(0)(state.selection);
+                if (!leftCells) return null;
+                const topCells = getCellsInRow(0)(state.selection);
+                if (!topCells) return null;
 
-                return null;
+                const decorations: Decoration[] = [];
+                const [topLeft, ...restLeftCells] = leftCells;
+
+                const { pos } = topLeft;
+                const widget = Decoration.widget(pos + 1, () => {
+                    const div = document.createElement('div');
+                    div.className = 'milkdown-cell-left milkdown-cell-top';
+                    return div;
+                });
+                decorations.push(widget);
+                restLeftCells.forEach((cell) => {
+                    const { pos } = cell;
+                    const widget = Decoration.widget(pos + 1, () => {
+                        const div = document.createElement('div');
+                        div.className = 'milkdown-cell-left';
+                        return div;
+                    });
+                    decorations.push(widget);
+                });
+                topCells.slice(1).forEach((cell) => {
+                    const { pos } = cell;
+                    const widget = Decoration.widget(pos + 1, () => {
+                        const div = document.createElement('div');
+                        div.className = 'milkdown-cell-top';
+                        return div;
+                    });
+                    decorations.push(widget);
+                });
+
+                return DecorationSet.create(state.doc, decorations);
             },
         },
     }),
