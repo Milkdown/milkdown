@@ -1,9 +1,28 @@
-import { NodeSpec, NodeType } from 'prosemirror-model';
 import { createProsemirrorPlugin, Node } from '@milkdown/core';
-import { tableEditing } from 'prosemirror-tables';
-import { wrappingInputRule } from 'prosemirror-inputrules';
+import { NodeSpec, NodeType, Schema, Node as ProsemirrorNode } from 'prosemirror-model';
+import { tableEditing, tableNodeTypes } from 'prosemirror-tables';
+import { InputRule } from 'prosemirror-inputrules';
+import { TextSelection } from 'prosemirror-state';
 
 export const key = 'MILKDOWN_PLUGIN_TABLE';
+
+const createTable = (schema: Schema, rowsCount = 3, colsCount = 3) => {
+    const { cell: tableCell, header_cell: tableHeader, row: tableRow, table } = tableNodeTypes(schema);
+
+    const cells = Array(colsCount)
+        .fill(0)
+        .map(() => tableCell.createAndFill() as ProsemirrorNode);
+
+    const headerCells = Array(colsCount)
+        .fill(0)
+        .map(() => tableHeader.createAndFill() as ProsemirrorNode);
+
+    const rows = Array(rowsCount)
+        .fill(0)
+        .map((_, i) => tableRow.createChecked(null, i === 0 ? headerCells : cells));
+
+    return table.createChecked(null, rows);
+};
 
 class Table extends Node {
     id = 'table';
@@ -21,7 +40,16 @@ class Table extends Node {
     serializer = () => {
         // TODO
     };
-    inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*<\s$/, nodeType)];
+    inputRules = (nodeType: NodeType, schema: Schema) => [
+        new InputRule(/^\|\|\s$/, (state, _match, start, end) => {
+            const $start = state.doc.resolve(start);
+            if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)) return null;
+
+            const tableNode = createTable(schema);
+            const tr = state.tr.replaceRangeWith(start, end, tableNode).scrollIntoView();
+            return tr.setSelection(TextSelection.create(tr.doc, start));
+        }),
+    ];
 }
 
 class TableRow extends Node {
