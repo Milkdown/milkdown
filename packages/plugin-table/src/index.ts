@@ -72,6 +72,6 @@ class TableHeader extends Node {
     };
 }
 
-const plugin = createProsemirrorPlugin('table-plugin', () => [tableEditing()]);
+const plugin = createProsemirrorPlugin(key, () => [tableEditing()]);
 
 export const table = [new Table(), new TableRow(), new TableCell(), new TableHeader(), plugin];
