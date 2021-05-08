@@ -10,10 +10,10 @@ import './style.css';
 const markdown = `
 # Milkdown Test
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| First Header  | Second Header     |
+| ------------- | :---------------: |
+| Content Cell  | \`Content\` Cell  |
+| Content Cell  | __Content__ Cell  |
 
 `;
 
