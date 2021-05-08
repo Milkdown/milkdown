@@ -41,6 +41,10 @@ table tr {
     border-bottom: 1px solid #c5ccd3;
 }
 
+table th {
+    background: #edeff3;
+}
+
 table th,
 table td {
     min-width: 100px;
@@ -88,7 +92,7 @@ table .milkdown-cell-top:hover::after {
     background: #88c0d0;
 }
 
-table .milkdown-table-point::after {
+table .milkdown-cell-point::after {
     content: '';
     cursor: pointer;
     position: absolute;
@@ -102,6 +106,84 @@ table .milkdown-table-point::after {
     display: block;
     transition: all 0.2s ease-in;
 }
-table .milkdown-table-point:hover::after {
+table .milkdown-cell-point:hover::after {
     background: #88c0d0;
+}
+
+.table-tooltip {
+    display: flex;
+    cursor: pointer;
+    justify-content: space-evenly;
+    position: absolute;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    background: var(--nord0);
+    border-radius: 4px;
+    color: var(--nord5);
+    padding: 4px 8px;
+    &:before {
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 0;
+        left: 50%;
+        margin-left: -6px;
+        bottom: -6px;
+        border: 6px solid transparent;
+        border-bottom-width: 0;
+        border-top-color: var(--nord0);
+    }
+    .icon {
+        width: 1.8rem;
+        text-align: center;
+        background: var(--nord0);
+        transition: all 0.2s ease-in;
+        &.active {
+            color: var(--nord0);
+            background: var(--nord4);
+        }
+        &:hover {
+            color: var(--nord5);
+            background: var(--nord10);
+        }
+    }
+    .group {
+        display: inline-flex;
+        justify-content: center;
+        outline: none;
+        background: var(--nord6);
+        .input {
+            font-family: var(--font);
+            text-align: left;
+            background: var(--nord6);
+            width: 12rem;
+            padding: 0 4px;
+            border: 0;
+            &:hover {
+                color: var(--nord0);
+            }
+            &:focus {
+                outline: none;
+            }
+        }
+        .material-icons {
+            color: var(--nord10);
+            background: var(--nord6);
+            &:hover {
+                color: var(--nord14);
+            }
+        }
+    }
+    .hide {
+        display: none;
+    }
+    .strong {
+        font-weight: bold;
+    }
+    .italic {
+        font-style: italic;
+    }
+    &.hide {
+        display: none;
+    }
 }
