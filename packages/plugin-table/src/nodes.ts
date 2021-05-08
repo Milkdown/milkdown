@@ -1,4 +1,4 @@
-import { Node } from '@milkdown/core';
+import { Node, ParserSpec } from '@milkdown/core';
 import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
 import { tableNodes } from 'prosemirror-tables';
 import { InputRule } from 'prosemirror-inputrules';
@@ -44,7 +44,7 @@ export class TableRow extends Node {
     id = 'table_row';
     schema: NodeSpec = tableNodesSpec.table_row;
     parser = {
-        block: this.id,
+        block: 'tr',
     };
     serializer = () => {
         // TODO
@@ -54,8 +54,9 @@ export class TableRow extends Node {
 export class TableCell extends Node {
     id = 'table_cell';
     schema: NodeSpec = tableNodesSpec.table_cell;
-    parser = {
-        block: this.id,
+    parser: ParserSpec = {
+        block: 'td',
+        getAttrs: (tok) => ({ alignment: tok.info }),
     };
     serializer = () => {
         // TODO
@@ -65,8 +66,9 @@ export class TableCell extends Node {
 export class TableHeader extends Node {
     id = 'table_header';
     schema: NodeSpec = tableNodesSpec.table_header;
-    parser = {
-        block: this.id,
+    parser: ParserSpec = {
+        block: 'th',
+        getAttrs: (tok) => ({ alignment: tok.info }),
     };
     serializer = () => {
         // TODO

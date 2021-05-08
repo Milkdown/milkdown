@@ -64,7 +64,7 @@ new Editor({
     root,
     defaultValue: markdown,
     listener: {
-        // markdown: [(x) => console.log(x())],
+        markdown: [(x) => console.log(x())],
     },
 })
     .use(nodes)
