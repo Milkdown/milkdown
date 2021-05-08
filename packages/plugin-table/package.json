@@ -20,10 +20,12 @@
         "@types/prosemirror-model": "*",
         "@types/prosemirror-state": "*",
         "@types/prosemirror-view": "*",
+        "@types/prosemirror-keymap": "*",
         "prosemirror-inputrules": "*",
         "prosemirror-model": "*",
         "prosemirror-state": "*",
-        "prosemirror-view": "*"
+        "prosemirror-view": "*",
+        "prosemirror-keymap": "*"
     },
     "dependencies": {
         "tslib": "^2.2.0",
