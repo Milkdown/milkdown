@@ -7,7 +7,7 @@ import { createTokenHandlers } from './create-token-handlers';
 
 export function createParser(schema: Schema, tokenizer: MarkdownIt, specMap: Record<string, ParserSpec>) {
     return (text: string) => {
-        const state = new State(new Stack(schema.topNodeType), schema, ...createTokenHandlers(schema, specMap));
+        const state = new State(new Stack(schema.topNodeType), schema, createTokenHandlers(schema, specMap));
         return state.transformTokensToDoc(tokenizer.parse(text, {}));
     };
 }

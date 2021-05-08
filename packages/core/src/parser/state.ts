@@ -8,12 +8,11 @@ export class State {
         public readonly stack: Stack,
         private readonly schema: Schema,
         private readonly tokenHandlers: Record<string, TokenHandler>,
-        private readonly mapping: Record<string, string>,
     ) {}
 
     parseTokens(tokens: Token[]) {
         tokens.forEach((token, i) => {
-            const handler = this.tokenHandlers[token.type] || this.tokenHandlers[this.mapping[token.type]];
+            const handler = this.tokenHandlers[token.type];
             if (!handler) throw new Error('Token type `' + token.type + '` not supported by Markdown parser');
             handler(this, token, tokens, i);
         });
