@@ -1,5 +1,14 @@
-import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
-import { CellSelection } from 'prosemirror-tables';
+import { EditorState, Plugin, PluginKey, PluginSpec, Transaction } from 'prosemirror-state';
+import {
+    addColumnAfter,
+    addColumnBefore,
+    addRowAfter,
+    addRowBefore,
+    CellSelection,
+    deleteColumn,
+    deleteRow,
+    deleteTable,
+} from 'prosemirror-tables';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { CellPos, getCellsInColumn, getCellsInRow, select, selectTable } from './utils';
 
@@ -11,10 +20,74 @@ enum ToolTipPos {
     Point = 'Point',
 }
 
+export type Item = {
+    $: HTMLElement;
+    command: (e: Event, view: EditorView) => (state: EditorState, dispatch?: (tr: Transaction) => void) => boolean;
+    disable?: (view: EditorView) => boolean;
+};
+
+export enum Action {
+    AddColLeft,
+    AddColRight,
+    AddRowTop,
+    AddRowBottom,
+    Delete,
+}
+
+function icon(text: string) {
+    const span = document.createElement('span');
+    span.textContent = text;
+    span.className = 'icon material-icons material-icons-outlined';
+    return span;
+}
+
+const getCellSelection = (view: EditorView) => (view.state.selection as unknown) as CellSelection;
+
 export class PluginProps implements PluginSpec {
     #decorations: Decoration[] = [];
     #tooltip: HTMLDivElement;
     #view?: EditorView;
+    #items: Record<Action, Item> = {
+        [Action.AddColLeft]: {
+            $: icon('chevron_left'),
+            command: () => addColumnBefore,
+            disable: (view) => !getCellSelection(view).isColSelection(),
+        },
+        [Action.AddColRight]: {
+            $: icon('chevron_right'),
+            command: () => addColumnAfter,
+            disable: (view) => !getCellSelection(view).isColSelection(),
+        },
+        [Action.AddRowTop]: {
+            $: icon('expand_less'),
+            command: () => addRowBefore,
+            disable: (view) =>
+                !getCellSelection(view).isRowSelection() ||
+                getCellSelection(view).$head.parent.type.name === 'table_header',
+        },
+        [Action.AddRowBottom]: {
+            $: icon('expand_more'),
+            command: () => addRowAfter,
+            disable: (view) => !getCellSelection(view).isRowSelection(),
+        },
+        [Action.Delete]: {
+            $: icon('delete'),
+            command: (_, view) => {
+                const selection = getCellSelection(view);
+                const isCol = selection.isColSelection();
+                const isRow = selection.isRowSelection();
+                if (isCol && isRow) {
+                    return deleteTable;
+                }
+
+                if (isCol) {
+                    return deleteColumn;
+                }
+
+                return deleteRow;
+            },
+        },
+    };
 
     key = new PluginKey('TABLE_OP');
 
@@ -52,6 +125,11 @@ export class PluginProps implements PluginSpec {
             return;
         }
 
+        this.calculateItem(view);
+        if (Object.values(this.#items).every(({ $ }) => $.classList.contains('hide'))) {
+            this.hide();
+            return;
+        }
         this.#tooltip.classList.remove('hide');
         this.calculatePosition(view);
     };
@@ -62,11 +140,14 @@ export class PluginProps implements PluginSpec {
 
     view = (editorView: EditorView) => {
         this.#view = editorView;
+        Object.values(this.#items).forEach(({ $ }) => this.#tooltip.appendChild($));
         editorView.dom.parentNode?.appendChild(this.#tooltip);
         this.update(editorView);
+        this.#tooltip.addEventListener('mousedown', this.listener);
         return {
             update: this.update,
             destroy: () => {
+                this.#tooltip.removeEventListener('mousedown', this.listener);
                 this.#tooltip.remove();
             },
         };
@@ -80,22 +161,22 @@ export class PluginProps implements PluginSpec {
             const div = document.createElement('div');
             div.classList.add(this.calculateClassName(pos));
             div.addEventListener('mousedown', (e) => {
-                e.preventDefault();
                 if (!this.#view) return;
 
-                if (pos === ToolTipPos.Point) {
-                    this.#view.dispatch(selectTable(this.#view.state.tr));
-                    return;
-                }
-
-                if (pos === ToolTipPos.Left) {
-                    this.#view.dispatch(select('row')(index)(this.#view.state.tr));
-                    return;
-                }
-
-                if (pos === ToolTipPos.Top) {
-                    this.#view.dispatch(select('col')(index)(this.#view.state.tr));
-                    return;
+                e.preventDefault();
+                switch (pos) {
+                    case ToolTipPos.Point: {
+                        this.#view.dispatch(selectTable(this.#view.state.tr));
+                        return;
+                    }
+                    case ToolTipPos.Left: {
+                        this.#view.dispatch(select('row')(index)(this.#view.state.tr));
+                        return;
+                    }
+                    case ToolTipPos.Top: {
+                        this.#view.dispatch(select('col')(index)(this.#view.state.tr));
+                        return;
+                    }
                 }
             });
             return div;
@@ -147,9 +228,31 @@ export class PluginProps implements PluginSpec {
         this.#tooltip.style.bottom = bottomPx + 'px';
     }
 
+    private calculateItem(view: EditorView) {
+        Object.values(this.#items).forEach((item) => {
+            const disable = item.disable?.(view);
+            if (disable) {
+                item.$.classList.add('hide');
+                return;
+            }
+            item.$.classList.remove('hide');
+        });
+    }
+
     private hide() {
         this.#tooltip.classList.add('hide');
     }
+
+    private listener = (e: Event) => {
+        const view = this.#view;
+        if (!view) return;
+        e.stopPropagation();
+        Object.values(this.#items).forEach(({ $, command }) => {
+            if ($.contains(e.target as Element)) {
+                command(e, view)(view.state, view.dispatch);
+            }
+        });
+    };
 }
 
 export const tableOperatorPlugin = () => new Plugin(new PluginProps());
