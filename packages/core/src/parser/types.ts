@@ -24,7 +24,7 @@ export type ParserSpecMark = ParserSpecFactory<{
 }>;
 
 export type ParserSpecIgnore = ParserSpecFactory<{
-    mark: string;
+    ignore: string;
 }>;
 
 export type ParserSpec = ParserSpecBlock | ParserSpecNode | ParserSpecMark | ParserSpecIgnore;

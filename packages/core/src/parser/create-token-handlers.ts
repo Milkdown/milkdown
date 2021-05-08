@@ -47,8 +47,8 @@ export function createTokenHandlers(schema: Schema, specMap: Record<string, Pars
             return;
         }
         if (isIgnoreSpec(spec)) {
-            handlers[type + '_open'] = noOp;
-            handlers[type + '_close'] = noOp;
+            handlers[spec.ignore + '_open'] = noOp;
+            handlers[spec.ignore + '_close'] = noOp;
             return;
         }
         throw new RangeError('Unrecognized parsing spec ' + JSON.stringify(spec));
