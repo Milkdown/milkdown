@@ -1,6 +1,6 @@
 import { createProsemirrorPlugin, Node } from '@milkdown/core';
 import { NodeSpec, NodeType, Schema, Node as ProsemirrorNode } from 'prosemirror-model';
-import { tableEditing, TableMap, tableNodes, tableNodeTypes } from 'prosemirror-tables';
+import { columnResizing, tableEditing, TableMap, tableNodes, tableNodeTypes } from 'prosemirror-tables';
 import { InputRule } from 'prosemirror-inputrules';
 import { Plugin, PluginKey, TextSelection, Selection } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
@@ -33,10 +33,7 @@ const tableNodesSpec = tableNodes({
 
 class Table extends Node {
     id = 'table';
-    schema: NodeSpec = {
-        ...tableNodesSpec.table,
-        toDOM: () => ['div', { class: 'milkdown-table-scroll' }, ['table', { class: 'milkdown-table' }, ['tbody', 0]]],
-    };
+    schema: NodeSpec = tableNodesSpec.table;
     parser = {
         block: this.id,
     };
@@ -50,7 +47,7 @@ class Table extends Node {
 
             const tableNode = createTable(schema);
             const tr = state.tr.replaceRangeWith(start, end, tableNode).scrollIntoView();
-            return tr.setSelection(TextSelection.create(tr.doc, start));
+            return tr.setSelection(TextSelection.create(tr.doc, start + 3));
         }),
     ];
 }
@@ -145,6 +142,7 @@ const getCellsInRow = (rowIndex: number) => (selection: Selection) => {
 };
 
 const plugin = createProsemirrorPlugin(key, () => [
+    columnResizing({}),
     tableEditing(),
     new Plugin({
         key: new PluginKey('TABLE_OP'),

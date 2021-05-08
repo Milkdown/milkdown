@@ -4,6 +4,7 @@ import { marks, nodes } from '@milkdown/preset-commonmark';
 import { table } from '../src';
 
 import '@milkdown/theme-nord/lib/theme.css';
+import 'prosemirror-tables/style/tables.css';
 import './style.css';
 
 const markdown = `

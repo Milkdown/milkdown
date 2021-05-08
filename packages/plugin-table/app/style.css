@@ -2,23 +2,22 @@ body {
     margin: 0;
 }
 
-.milkdown-table-scroll {
+.tableWrapper {
     margin: 0 !important;
     width: 100%;
-    overflow-x: auto;
 }
-.milkdown-table-scroll::-webkit-scrollbar {
+.tableWrapper::-webkit-scrollbar {
     height: 8px;
 }
-.milkdown-table-scroll::-webkit-scrollbar-track {
+.tableWrapper::-webkit-scrollbar-track {
     border-radius: 4px;
     background: #e5e9f0;
 }
-.milkdown-table-scroll::-webkit-scrollbar-thumb {
+.tableWrapper::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background: #5e81ac;
 }
-.milkdown-table-scroll::-webkit-scrollbar-thumb:hover {
+.tableWrapper::-webkit-scrollbar-thumb:hover {
     background: #88c0d0;
 }
 
@@ -28,14 +27,14 @@ table * {
 }
 
 table {
-    width: calc(100% - 20px);
-    border-collapse: collapse;
+    width: calc(100% - 20px) !important;
     border-radius: 4px;
     box-sizing: border-box;
     margin: 0 !important;
     margin-left: 20px !important;
     margin-top: 26px !important;
     margin-bottom: 10px !important;
+    overflow: auto !important;
 }
 
 table tr {
