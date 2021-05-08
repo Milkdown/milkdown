@@ -1,4 +1,4 @@
-import { Node, ParserSpec } from '@milkdown/core';
+import { Node, ParserSpec, SerializerNode } from '@milkdown/core';
 import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
 import { tableNodes } from 'prosemirror-tables';
 import { InputRule } from 'prosemirror-inputrules';
@@ -47,7 +47,7 @@ export class TableRow extends Node {
         block: 'tr',
     };
     serializer = () => {
-        // TODO
+        // do nothing
     };
 }
 
@@ -58,8 +58,8 @@ export class TableCell extends Node {
         block: 'td',
         getAttrs: (tok) => ({ alignment: tok.info }),
     };
-    serializer = () => {
-        // TODO
+    serializer: SerializerNode = (state, node) => {
+        state.renderContent(node);
     };
 }
 
@@ -70,8 +70,8 @@ export class TableHeader extends Node {
         block: 'th',
         getAttrs: (tok) => ({ alignment: tok.info }),
     };
-    serializer = () => {
-        // TODO
+    serializer: SerializerNode = (state, node) => {
+        state.renderContent(node);
     };
 }
 
