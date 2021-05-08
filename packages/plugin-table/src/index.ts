@@ -33,7 +33,10 @@ const tableNodesSpec = tableNodes({
 
 class Table extends Node {
     id = 'table';
-    schema: NodeSpec = tableNodesSpec.table;
+    schema: NodeSpec = {
+        ...tableNodesSpec.table,
+        toDOM: () => ['div', { class: 'milkdown-table-scroll' }, ['table', { class: 'milkdown-table' }, ['tbody', 0]]],
+    };
     parser = {
         block: this.id,
     };

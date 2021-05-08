@@ -2,16 +2,40 @@ body {
     margin: 0;
 }
 
-table {
+.milkdown-table-scroll {
+    margin: 0 !important;
     width: 100%;
-    border-collapse: collapse;
+    overflow-x: auto;
+}
+.milkdown-table-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+.milkdown-table-scroll::-webkit-scrollbar-track {
     border-radius: 4px;
-    box-sizing: border-box;
+    background: #e5e9f0;
+}
+.milkdown-table-scroll::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #5e81ac;
+}
+.milkdown-table-scroll::-webkit-scrollbar-thumb:hover {
+    background: #88c0d0;
 }
 
 table * {
     margin: 0 !important;
     box-sizing: border-box;
+}
+
+table {
+    width: calc(100% - 20px);
+    border-collapse: collapse;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0 !important;
+    margin-left: 20px !important;
+    margin-top: 26px !important;
+    margin-bottom: 10px !important;
 }
 
 table tr {
