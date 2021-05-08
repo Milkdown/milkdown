@@ -8,6 +8,7 @@ import {
     deleteColumn,
     deleteRow,
     deleteTable,
+    setCellAttr,
 } from 'prosemirror-tables';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { CellPos, getCellsInColumn, getCellsInRow, select, selectTable } from './utils';
@@ -31,6 +32,9 @@ export enum Action {
     AddColRight,
     AddRowTop,
     AddRowBottom,
+    AlignLeft,
+    AlignCenter,
+    AlignRight,
     Delete,
 }
 
@@ -69,6 +73,21 @@ export class PluginProps implements PluginSpec {
             $: icon('expand_more'),
             command: () => addRowAfter,
             disable: (view) => !getCellSelection(view).isRowSelection(),
+        },
+        [Action.AlignLeft]: {
+            $: icon('format_align_left'),
+            command: () => setCellAttr('alignment', 'left'),
+            disable: (view) => !getCellSelection(view).isColSelection(),
+        },
+        [Action.AlignCenter]: {
+            $: icon('format_align_center'),
+            command: () => setCellAttr('alignment', 'center'),
+            disable: (view) => !getCellSelection(view).isColSelection(),
+        },
+        [Action.AlignRight]: {
+            $: icon('format_align_right'),
+            command: () => setCellAttr('alignment', 'right'),
+            disable: (view) => !getCellSelection(view).isColSelection(),
         },
         [Action.Delete]: {
             $: icon('delete'),

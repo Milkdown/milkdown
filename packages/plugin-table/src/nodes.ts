@@ -8,7 +8,15 @@ import { createTable } from './utils';
 const tableNodesSpec = tableNodes({
     tableGroup: 'block',
     cellContent: 'block+',
-    cellAttributes: {},
+    cellAttributes: {
+        alignment: {
+            default: 'left',
+            getFromDOM: (dom) => (dom as HTMLElement).style.textAlign || 'left',
+            setDOMAttr: (value, attrs) => {
+                attrs.style = `text-align: ${value}`;
+            },
+        },
+    },
 });
 
 export class Table extends Node {
