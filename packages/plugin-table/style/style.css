@@ -1,0 +1,187 @@
+@import 'prosemirror-tables/style/tables.css';
+
+.tableWrapper {
+    margin: 0 !important;
+    width: 100%;
+}
+.tableWrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.tableWrapper::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background: #e5e9f0;
+}
+.tableWrapper::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #5e81ac;
+}
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+    background: #88c0d0;
+}
+
+table * {
+    margin: 0 !important;
+    box-sizing: border-box;
+}
+
+table {
+    width: calc(100% - 20px) !important;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0 !important;
+    margin-left: 20px !important;
+    margin-top: 26px !important;
+    margin-bottom: 10px !important;
+    overflow: auto !important;
+}
+
+table tr {
+    border-bottom: 1px solid #c5ccd3;
+}
+
+table th {
+    background: #edeff3;
+}
+
+table th,
+table td {
+    min-width: 100px;
+    padding: 4px 8px;
+    border: 1px solid #c5ccd3;
+    text-align: left;
+    position: relative;
+}
+
+table .selectedCell {
+    background: #88c0d0;
+}
+
+table .milkdown-cell-left::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    left: -16px;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    background: #5e81ac;
+    border-right: 2px solid #fff;
+    display: block;
+    transition: all 0.2s ease-in;
+}
+table .milkdown-cell-left:hover::after {
+    background: #88c0d0;
+}
+
+table .milkdown-cell-top::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: -16px;
+    width: 100%;
+    height: 8px;
+    background: #5e81ac;
+    border-bottom: 2px solid #fff;
+    display: block;
+    transition: all 0.2s ease-in;
+}
+table .milkdown-cell-top:hover::after {
+    background: #88c0d0;
+}
+
+table .milkdown-cell-point::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    left: -20px;
+    top: -20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #5e81ac;
+    border: 2px solid #fff;
+    display: block;
+    transition: all 0.2s ease-in;
+}
+table .milkdown-cell-point:hover::after {
+    background: #88c0d0;
+}
+
+.table-tooltip {
+    display: flex;
+    cursor: pointer;
+    justify-content: space-evenly;
+    position: absolute;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    background: var(--nord0);
+    border-radius: 4px;
+    color: var(--nord5);
+    padding: 4px 8px;
+    &:before {
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 0;
+        left: 50%;
+        margin-left: -6px;
+        bottom: -6px;
+        border: 6px solid transparent;
+        border-bottom-width: 0;
+        border-top-color: var(--nord0);
+    }
+    .icon {
+        width: 1.8rem;
+        text-align: center;
+        background: var(--nord0);
+        transition: all 0.2s ease-in;
+        &.active {
+            color: var(--nord0);
+            background: var(--nord4);
+        }
+        &:hover {
+            color: var(--nord5);
+            background: var(--nord10);
+        }
+    }
+    .group {
+        display: inline-flex;
+        justify-content: center;
+        outline: none;
+        background: var(--nord6);
+        .input {
+            font-family: var(--font);
+            text-align: left;
+            background: var(--nord6);
+            width: 12rem;
+            padding: 0 4px;
+            border: 0;
+            &:hover {
+                color: var(--nord0);
+            }
+            &:focus {
+                outline: none;
+            }
+        }
+        .material-icons {
+            color: var(--nord10);
+            background: var(--nord6);
+            &:hover {
+                color: var(--nord14);
+            }
+        }
+    }
+    .hide {
+        display: none;
+    }
+    .strong {
+        font-weight: bold;
+    }
+    .italic {
+        font-style: italic;
+    }
+    &.hide {
+        display: none;
+    }
+}

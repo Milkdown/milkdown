@@ -17,6 +17,7 @@
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
+        "@milkdown/plugin-table": "workspace:*",
         "@milkdown/theme-nord": "workspace:*"
     }
 }

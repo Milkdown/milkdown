@@ -13,7 +13,7 @@ const tableNodesSpec = tableNodes({
             default: 'left',
             getFromDOM: (dom) => (dom as HTMLElement).style.textAlign || 'left',
             setDOMAttr: (value, attrs) => {
-                attrs.style = `text-align: ${value}`;
+                attrs.style = `text-align: ${value || 'left'}`;
             },
         },
     },

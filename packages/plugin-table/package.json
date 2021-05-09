@@ -6,10 +6,10 @@
     "types": "lib/index.d.ts",
     "scripts": {
         "start": "vite",
-        "watch": "tsc -w",
+        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "tsc"
+        "build": "tsc && postcss style/style.css --verbose -o lib/style.css"
     },
     "files": [
         "lib"
@@ -34,6 +34,7 @@
         "prosemirror-tables": "*"
     },
     "devDependencies": {
-        "@milkdown/core": "*"
+        "@milkdown/core": "*",
+        "concurrently": "^6.0.2"
     }
 }

@@ -3,7 +3,9 @@ import { marks, nodes } from '@milkdown/preset-commonmark';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
+import { table } from '@milkdown/plugin-table';
 import '@milkdown/plugin-math/lib/style.css';
+import '@milkdown/plugin-table/lib/style.css';
 import '@milkdown/theme-nord/lib/theme.css';
 import './style.css';
 
@@ -27,6 +29,15 @@ function main() {
     console.log('Hello milkdown!');
 }
 \`\`\`
+
+---
+
+You can type \`||\` and a \`space\` to create a table:
+
+| First Header   | Second Header      |
+| -------------- | :----------------: |
+| Content Cell 1 | \`Content\` Cell 1 |
+| Content Cell 2 | __Content__ Cell 2 |
 
 ---
 
@@ -61,6 +72,7 @@ const editor = new Editor({
     .use(nodes)
     .use(marks)
     .use(prism)
+    .use(table)
     .use(math);
 
 const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);

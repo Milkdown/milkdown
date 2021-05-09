@@ -48,7 +48,7 @@ export function markdownItTablePlugin(md: MarkdownIt) {
             }
 
             if (['th_open', 'td_open'].includes(tokens[i].type)) {
-                tokens.splice(i + 1, 0, new Token('table_inline_open', 'p', 1));
+                tokens.splice(i + 1, 0, new Token('table_inline_open', 'span', 1));
 
                 // markdown-it table parser stores alignment as html styles, convert
                 // to a simple string here
@@ -60,7 +60,7 @@ export function markdownItTablePlugin(md: MarkdownIt) {
             }
 
             if (['th_close', 'td_close'].includes(tokens[i].type)) {
-                tokens.splice(i, 0, new Token('table_inline_close', 'p', -1));
+                tokens.splice(i, 0, new Token('table_inline_close', 'span', -1));
             }
         }
 
