@@ -21,11 +21,13 @@
         "@types/prosemirror-state": "*",
         "@types/prosemirror-view": "*",
         "@types/prosemirror-keymap": "*",
+        "@types/prosemirror-commands": "*",
         "prosemirror-inputrules": "*",
         "prosemirror-model": "*",
         "prosemirror-state": "*",
         "prosemirror-view": "*",
-        "prosemirror-keymap": "*"
+        "prosemirror-keymap": "*",
+        "prosemirror-commands": "*"
     },
     "dependencies": {
         "tslib": "^2.2.0",
