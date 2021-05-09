@@ -41,17 +41,14 @@ export function markdownItTablePlugin(md: MarkdownIt) {
                 });
             }
 
-            // filter out incompatible tokens from markdown-it that we don't need
-            // in prosemirror. thead/tbody do nothing.
+            // filter out incompatible tokens from markdown-it that we don't need in prosemirror
             if (['thead_open', 'thead_close', 'tbody_open', 'tbody_close'].includes(tokens[i].type)) {
                 inside = !inside;
                 tokens.splice(i, 1);
             }
 
             if (['th_open', 'td_open'].includes(tokens[i].type)) {
-                // markdown-it table parser does not return paragraphs inside the cells
-                // but prosemirror requires them, so we add 'em in here.
-                tokens.splice(i + 1, 0, new Token('paragraph_open', 'p', 1));
+                tokens.splice(i + 1, 0, new Token('table_inline_open', 'p', 1));
 
                 // markdown-it table parser stores alignment as html styles, convert
                 // to a simple string here
@@ -63,7 +60,7 @@ export function markdownItTablePlugin(md: MarkdownIt) {
             }
 
             if (['th_close', 'td_close'].includes(tokens[i].type)) {
-                tokens.splice(i, 0, new Token('paragraph_close', 'p', -1));
+                tokens.splice(i, 0, new Token('table_inline_close', 'p', -1));
             }
         }
 

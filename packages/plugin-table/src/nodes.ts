@@ -7,7 +7,7 @@ import { createTable } from './utils';
 
 const tableNodesSpec = tableNodes({
     tableGroup: 'block',
-    cellContent: 'block+',
+    cellContent: 'table_inline',
     cellAttributes: {
         alignment: {
             default: 'left',
@@ -25,8 +25,37 @@ export class Table extends Node {
     parser = {
         block: this.id,
     };
-    serializer = () => {
-        // TODO
+    serializer: SerializerNode = (state, node) => {
+        let headerBuffer = '';
+        state.ensureNewLine();
+        node.forEach((row, _, i) => {
+            if (headerBuffer) {
+                state.write(`${headerBuffer}|\n`);
+                headerBuffer = '';
+            }
+
+            row.forEach((cell, _, j) => {
+                state.write(j === 0 ? '| ' : ' | ');
+                cell.forEach((para) => {
+                    state.renderInline(para);
+                });
+
+                if (i === 0) {
+                    if (cell.attrs.alignment === 'center') {
+                        headerBuffer += '|:---:';
+                    } else if (cell.attrs.alignment === 'left') {
+                        headerBuffer += '|:---';
+                    } else if (cell.attrs.alignment === 'right') {
+                        headerBuffer += '|---:';
+                    } else {
+                        headerBuffer += '|----';
+                    }
+                }
+            });
+
+            state.write(' |\n');
+        });
+        state.closeBlock(node);
     };
     inputRules = (nodeType: NodeType, schema: Schema) => [
         new InputRule(/^\|\|\s$/, (state, _match, start, end) => {
@@ -58,8 +87,8 @@ export class TableCell extends Node {
         block: 'td',
         getAttrs: (tok) => ({ alignment: tok.info }),
     };
-    serializer: SerializerNode = (state, node) => {
-        state.renderContent(node);
+    serializer = () => {
+        // do nothing
     };
 }
 
@@ -70,9 +99,25 @@ export class TableHeader extends Node {
         block: 'th',
         getAttrs: (tok) => ({ alignment: tok.info }),
     };
-    serializer: SerializerNode = (state, node) => {
-        state.renderContent(node);
+    serializer = () => {
+        // do nothing
     };
 }
 
-export const nodes = [new Table(), new TableRow(), new TableCell(), new TableHeader()];
+export class TableInline extends Node {
+    id = 'table_inline';
+    schema = {
+        content: 'inline*',
+        group: 'block',
+        parseDOM: [{ tag: 'span' }],
+        toDOM: () => ['span', { class: 'table-inline' }, 0] as const,
+    };
+    parser: ParserSpec = {
+        block: this.id,
+    };
+    serializer = () => {
+        // do nothing
+    };
+}
+
+export const nodes = [new Table(), new TableRow(), new TableCell(), new TableHeader(), new TableInline()];

@@ -13,8 +13,7 @@ const markdown = `
 | First Header  | Second Header     |
 | ------------- | :---------------: |
 | Content Cell  | \`Content\` Cell  |
-| Content Cell  | __Content__ Cell  |
-
+|               | __Content__ Cell  |
 `;
 
 const root = document.getElementById('app');
