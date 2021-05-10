@@ -21,6 +21,10 @@
     --table_selector-color: var(--nord10);
     --table_selector-color-hover: var(--nord8);
     --table_env-bg-color: #fff;
+    --table_tooltip-color: var(--nord5);
+    --table_tooltip-bg-color: var(--nord0);
+    --table_tooltip-color-hover: var(--nord5);
+    --table_tooltip-bg-color-hover: var(--nord10);
 }
 
 .milkdown {

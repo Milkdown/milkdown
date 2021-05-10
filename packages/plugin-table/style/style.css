@@ -120,9 +120,9 @@ table {
     position: absolute;
     transform: translateX(-50%);
     margin-bottom: 8px;
-    background: var(--nord0);
+    background: var(--table_tooltip-bg-color);
     border-radius: 4px;
-    color: var(--nord5);
+    color: var(--table_tooltip-color);
     padding: 4px 8px;
     &:before {
         content: '';
@@ -134,47 +134,16 @@ table {
         bottom: -6px;
         border: 6px solid transparent;
         border-bottom-width: 0;
-        border-top-color: var(--nord0);
+        border-top-color: var(--table_tooltip-bg-color);
     }
     .icon {
         width: 1.8rem;
         text-align: center;
-        background: var(--nord0);
+        background: var(--table_tooltip-bg-color);
         transition: all 0.2s ease-in;
-        &.active {
-            color: var(--nord0);
-            background: var(--nord4);
-        }
         &:hover {
-            color: var(--nord5);
-            background: var(--nord10);
-        }
-    }
-    .group {
-        display: inline-flex;
-        justify-content: center;
-        outline: none;
-        background: var(--nord6);
-        .input {
-            font-family: var(--font);
-            text-align: left;
-            background: var(--nord6);
-            width: 12rem;
-            padding: 0 4px;
-            border: 0;
-            &:hover {
-                color: var(--nord0);
-            }
-            &:focus {
-                outline: none;
-            }
-        }
-        .material-icons {
-            color: var(--nord10);
-            background: var(--nord6);
-            &:hover {
-                color: var(--nord14);
-            }
+            color: var(--table_tooltip-color-hover);
+            background: var(--table_tooltip-bg-color-hover);
         }
     }
     &.hide,
