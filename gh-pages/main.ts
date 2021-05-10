@@ -4,9 +4,10 @@ import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
 import { table } from '@milkdown/plugin-table';
+
+import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/plugin-math/lib/style.css';
 import '@milkdown/plugin-table/lib/style.css';
-import '@milkdown/theme-nord/lib/theme.css';
 import './style.css';
 
 const markdown = `

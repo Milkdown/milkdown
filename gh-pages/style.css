@@ -21,3 +21,10 @@ body {
         min-height: auto;
     }
 }
+
+:root {
+    --math_font-code: var(--font-code);
+    --math_color: var(--nord9);
+    --math_bg-color: var(--nord5);
+    --math_out-line: var(--nord8);
+}

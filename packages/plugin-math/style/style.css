@@ -1,3 +1,37 @@
 @import '@benrbray/prosemirror-math/style/math.css';
 @import 'katex/dist/katex.min.css';
 @import 'prosemirror-gapcursor/style/gapcursor.css';
+
+.math-node {
+    &,
+    * {
+        margin: 0 !important;
+        padding: 0;
+    }
+}
+
+.math-render {
+    padding: 0 4px;
+}
+
+.math-src > div {
+    padding: 4px;
+    outline: none !important;
+    border-radius: 4px;
+    font-weight: 500;
+    font-family: var(--math_font-code);
+    box-sizing: border-box;
+}
+
+.math-src,
+math-display.ProseMirror-selectednode {
+    color: var(--math_color);
+    background-color: var(--math_bg-color);
+}
+
+.ProseMirror-selectednode {
+    outline: 2px solid var(--math_out-line);
+    &.math-node {
+        outline: none;
+    }
+}

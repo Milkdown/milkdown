@@ -170,13 +170,6 @@
         font-weight: 600;
     }
 
-    .ProseMirror-selectednode {
-        outline: 2px solid var(--nord8);
-        &.math-node {
-            outline: none;
-        }
-    }
-
     .tooltip {
         display: flex;
         cursor: pointer;
@@ -244,40 +237,8 @@
         .hide {
             display: none;
         }
-        .strong {
-            font-weight: bold;
-        }
-        .italic {
-            font-style: italic;
-        }
         &.hide {
             display: none;
         }
-    }
-
-    .math-node {
-        &,
-        * {
-            margin: 0 !important;
-        }
-    }
-
-    .math-render {
-        padding: 0 4px;
-    }
-
-    .math-src > div {
-        padding: 4px;
-        outline: none !important;
-        border-radius: 4px;
-        font-weight: 500;
-        font-family: var(--font-code);
-        box-sizing: border-box;
-    }
-
-    .math-src,
-    math-display.ProseMirror-selectednode {
-        color: var(--nord9);
-        background-color: var(--nord5);
     }
 }
