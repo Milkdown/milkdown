@@ -8,6 +8,7 @@ import { table } from '@milkdown/plugin-table';
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/plugin-math/lib/style.css';
 import '@milkdown/plugin-table/lib/style.css';
+import '@milkdown/plugin-tooltip/lib/style.css';
 import './style.css';
 
 const markdown = `

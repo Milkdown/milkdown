@@ -6,6 +6,7 @@
     --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
         sans-serif;
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+    --bg: #fff;
 
     --math_font-code: var(--font-code);
     --math_color: var(--nord9);
@@ -20,7 +21,7 @@
     --table_selected-cell-bg-color: var(--nord8);
     --table_selector-color: var(--nord10);
     --table_selector-color-hover: var(--nord8);
-    --table_env-bg-color: #fff;
+    --table_env-bg-color: var(--bg);
     --table_tooltip-color: var(--nord5);
     --table_tooltip-bg-color: var(--nord0);
     --table_tooltip-color-hover: var(--nord5);
@@ -33,7 +34,7 @@
     margin-left: auto;
     margin-right: auto;
     padding: 3.125rem 1.25rem;
-    background-color: #fff;
+    background-color: var(--bg);
     color: var(--nord1);
     box-shadow: var(--nord4) 0px 4px 6px, var(--nord4) 0px 5px 7px;
 
@@ -187,77 +188,5 @@
 
     .strong {
         font-weight: 600;
-    }
-
-    .tooltip {
-        display: flex;
-        cursor: pointer;
-        justify-content: space-evenly;
-        position: absolute;
-        transform: translateX(-50%);
-        margin-bottom: 8px;
-        background: var(--nord0);
-        border-radius: 4px;
-        color: var(--nord5);
-        padding: 4px 8px;
-        &:before {
-            content: '';
-            position: absolute;
-            height: 0;
-            width: 0;
-            left: 50%;
-            margin-left: -6px;
-            bottom: -6px;
-            border: 6px solid transparent;
-            border-bottom-width: 0;
-            border-top-color: var(--nord0);
-        }
-        .icon {
-            width: 1.8rem;
-            text-align: center;
-            background: var(--nord0);
-            transition: all 0.2s ease-in;
-            &.active {
-                color: var(--nord0);
-                background: var(--nord4);
-            }
-            &:hover {
-                color: var(--nord5);
-                background: var(--nord10);
-            }
-        }
-        .group {
-            display: inline-flex;
-            justify-content: center;
-            outline: none;
-            background: var(--nord6);
-            .input {
-                font-family: var(--font);
-                text-align: left;
-                background: var(--nord6);
-                width: 12rem;
-                padding: 0 4px;
-                border: 0;
-                &:hover {
-                    color: var(--nord0);
-                }
-                &:focus {
-                    outline: none;
-                }
-            }
-            .material-icons {
-                color: var(--nord10);
-                background: var(--nord6);
-                &:hover {
-                    color: var(--nord14);
-                }
-            }
-        }
-        .hide {
-            display: none;
-        }
-        &.hide {
-            display: none;
-        }
     }
 }

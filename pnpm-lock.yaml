@@ -208,11 +208,13 @@ importers:
   packages/plugin-tooltip:
     specifiers:
       '@milkdown/core': '*'
+      concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
+      concurrently: 6.0.2
 
   packages/preset-commonmark:
     specifiers:
