@@ -6,6 +6,11 @@
     --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
         sans-serif;
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+
+    --math_font-code: var(--font-code);
+    --math_color: var(--nord9);
+    --math_bg-color: var(--nord5);
+    --math_out-line: var(--nord8);
 }
 
 .milkdown {
