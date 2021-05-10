@@ -5,9 +5,9 @@
     position: absolute;
     transform: translateX(-50%);
     margin-bottom: 8px;
-    background: var(--nord0);
+    background: var(--tooltip_bg-color);
     border-radius: 4px;
-    color: var(--nord5);
+    color: var(--tooltip_color);
     padding: 4px 8px;
     &:before {
         content: '';
@@ -19,53 +19,51 @@
         bottom: -6px;
         border: 6px solid transparent;
         border-bottom-width: 0;
-        border-top-color: var(--nord0);
+        border-top-color: var(--tooltip_bg-color);
     }
     .icon {
         width: 1.8rem;
         text-align: center;
-        background: var(--nord0);
+        background: var(--tooltip_bg-color);
         transition: all 0.2s ease-in;
         &.active {
-            color: var(--nord0);
-            background: var(--nord4);
+            color: var(--tooltip_color-active);
+            background: var(--tooltip_bg-color-active);
         }
         &:hover {
-            color: var(--nord5);
-            background: var(--nord10);
+            color: var(--tooltip_color-hover);
+            background: var(--tooltip_bg-color-hover);
         }
     }
     .group {
         display: inline-flex;
         justify-content: center;
         outline: none;
-        background: var(--nord6);
+        background: var(--tooltip_group-bg-color);
         .input {
-            font-family: var(--font);
+            font-family: var(--tooltip_input-font);
             text-align: left;
-            background: var(--nord6);
+            background: var(--tooltip_input-bg-color);
             width: 12rem;
             padding: 0 4px;
             border: 0;
             &:hover {
-                color: var(--nord0);
+                color: var(--tooltip_input-color-hover);
             }
             &:focus {
                 outline: none;
             }
         }
         .material-icons {
-            color: var(--nord10);
-            background: var(--nord6);
+            color: var(--tooltip_group-icon-color);
+            background: var(--tooltip_group-icon-bg-color);
             &:hover {
-                color: var(--nord14);
+                color: var(--tooltip_group-icon-color-hover);
             }
         }
     }
+    &.hide,
     .hide {
-        display: none;
-    }
-    &.hide {
         display: none;
     }
 }
