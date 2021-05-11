@@ -219,7 +219,6 @@ export class State {
 
     private render(node: Node, parent: Node, index: number) {
         const renderer = this.getNode(node);
-        console.log(node.type.name);
         renderer(this, node, parent, index);
     }
 
