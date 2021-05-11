@@ -1,61 +1,80 @@
 import { createProsemirrorPlugin, PluginReadyContext } from '@milkdown/core/lib';
-import { Plugin } from 'prosemirror-state';
+import { EditorState, Plugin, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
-import { createDropdown, findParentNode } from './utility';
+import { createDropdown, createPlaceholder, findParentNode } from './utility';
 
 export const slashPlugin = createProsemirrorPlugin('slash', (ctx) => [plugin(ctx)]);
 
-const plugin = (ctx: PluginReadyContext) =>
-    new Plugin({
-        view: (editorView) => new SlashPlugin(editorView, ctx),
-        props: {
-            decorations: (state) => {
-                const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
-                if (!parent) return null;
+const plugin = (ctx: PluginReadyContext) => new Plugin(new SlashPlugin(ctx));
 
-                const isEmpty = parent.node.content.size === 0;
-                const isSlash = parent.node.textContent === '/';
-                if (isEmpty) {
-                    return DecorationSet.create(state.doc, [
-                        Decoration.widget(parent.pos + 1, document.createTextNode('Enter something')),
-                    ]);
-                }
+enum CursorStatus {
+    None,
+    Empty,
+    Slash,
+}
 
-                if (isSlash) {
-                    return DecorationSet.create(state.doc, [
-                        Decoration.widget(parent.pos + 2, document.createTextNode('Enter command')),
-                    ]);
-                }
+class SlashPlugin implements PluginSpec {
+    constructor(private ctx: PluginReadyContext) {}
 
-                return null;
-            },
-        },
-    });
+    status = new Status();
 
-class SlashPlugin {
-    #element: HTMLDivElement;
+    props = new Props(this.status);
+
+    view = (editorView: EditorView) => new View(this.status, editorView, this.ctx);
+}
+
+class Status {
+    cursorStatus: CursorStatus = CursorStatus.None;
+}
+
+class Props {
+    constructor(private status: Status) {}
+    decorations = (state: EditorState) => {
+        const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
+        if (!parent) return null;
+
+        const isTopLevel = state.selection.$from.depth === 1;
+        const isEmpty = parent.node.content.size === 0;
+        const isSlash = parent.node.textContent === '/';
+        const placeholder = (pos: number, text: string) =>
+            DecorationSet.create(state.doc, [Decoration.widget(pos, createPlaceholder(text))]);
+
+        if (!isTopLevel) {
+            return null;
+        }
+
+        if (isEmpty) {
+            this.status.cursorStatus = CursorStatus.Empty;
+            return placeholder(parent.pos + 1, 'Enter something');
+        }
+
+        if (isSlash) {
+            this.status.cursorStatus = CursorStatus.Slash;
+            return placeholder(parent.pos + 2, 'Enter command');
+        }
+
+        return null;
+    };
+}
+
+class View {
+    #dropdownElement: HTMLDivElement;
     #ctx: PluginReadyContext;
-    constructor(editorView: EditorView, ctx: PluginReadyContext) {
-        this.#element = createDropdown();
+    constructor(private status: Status, editorView: EditorView, ctx: PluginReadyContext) {
+        this.#dropdownElement = createDropdown();
         this.#ctx = ctx;
 
-        editorView.dom.parentNode?.appendChild(this.#element);
+        editorView.dom.parentNode?.appendChild(this.#dropdownElement);
     }
 
     update(view: EditorView) {
-        const { state } = view;
+        this.#ctx;
+        view;
 
-        const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
-
-        if (!parent) return;
-
-        const isEmpty = parent.node.content.size === 0;
-        const isSlash = parent.node.textContent === '/';
-
-        console.log(isEmpty, isSlash, this.#ctx);
+        console.log(this.status);
     }
 
     destroy() {
-        this.#element.remove();
+        this.#dropdownElement.remove();
     }
 }

@@ -22,3 +22,7 @@ export const createDropdown = () => {
 
     return div;
 };
+
+export const createPlaceholder = (text: string) => {
+    return document.createTextNode(text);
+};
