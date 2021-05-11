@@ -36,19 +36,26 @@ export class Table extends Node {
 
             row.forEach((cell, _, j) => {
                 state.write(j === 0 ? '| ' : ' | ');
-                cell.forEach((para) => {
-                    state.renderInline(para);
-                });
+                state.renderContent(cell);
 
-                if (i === 0) {
-                    if (cell.attrs.alignment === 'center') {
+                if (i !== 0) return;
+
+                switch (cell.attrs.alignment) {
+                    case 'center': {
                         headerBuffer += '|:---:';
-                    } else if (cell.attrs.alignment === 'left') {
+                        return;
+                    }
+                    case 'left': {
                         headerBuffer += '|:---';
-                    } else if (cell.attrs.alignment === 'right') {
+                        return;
+                    }
+                    case 'right': {
                         headerBuffer += '|---:';
-                    } else {
+                        return;
+                    }
+                    default: {
                         headerBuffer += '|----';
+                        return;
                     }
                 }
             });
@@ -115,8 +122,8 @@ export class TableInline extends Node {
     parser: ParserSpec = {
         block: this.id,
     };
-    serializer = () => {
-        // do nothing
+    serializer: SerializerNode = (state, node) => {
+        state.renderInline(node);
     };
 }
 
