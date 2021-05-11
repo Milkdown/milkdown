@@ -18,13 +18,13 @@ export class SelectionMarksTooltip {
         if (prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection)) return;
 
         if (state.selection.empty) {
-            this.hide();
+            this.$.classList.add('hide');
             return;
         }
 
         this.calculateItem(view);
-        const noActive = Object.values(this.items).every(({ $ }) => $.classList.contains('hide'));
-        if (noActive) return;
+        const noActiveItem = Object.values(this.items).every(({ $ }) => $.classList.contains('hide'));
+        if (noActiveItem) return;
 
         this.$.classList.remove('hide');
         this.calculatePosition(view);
@@ -33,10 +33,6 @@ export class SelectionMarksTooltip {
     destroy() {
         this.$.removeEventListener('mousedown', this.listener);
         this.$.remove();
-    }
-
-    private hide() {
-        this.$.classList.add('hide');
     }
 
     private createTooltip() {
