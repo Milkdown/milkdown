@@ -70,7 +70,7 @@ export class CodeFence extends Node {
             if (!dispatch) {
                 return false;
             }
-            dispatch(tr.insertText('  ', selection.from, selection.to));
+            dispatch(tr.insertText('\t', selection.from, selection.to));
             return true;
         },
     });

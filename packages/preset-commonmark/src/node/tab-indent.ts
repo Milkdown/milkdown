@@ -10,13 +10,13 @@ export class TabIndent extends Node {
         inline: true,
         selectable: false,
         parseDOM: [{ tag: `span[class='tab-indent']` }],
-        toDOM: () => ['span', { class: 'tab-indent' }, '  '],
+        toDOM: () => ['span', { class: 'tab-indent' }, '\t'],
     };
     parser = {
         block: this.id,
     };
     serializer: SerializerNode = (state) => {
-        state.write('  ');
+        state.write('\t');
     };
     keymap = (nodeType: NodeType): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
