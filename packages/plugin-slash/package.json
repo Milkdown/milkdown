@@ -1,0 +1,39 @@
+{
+    "name": "@milkdown/plugin-slash",
+    "version": "3.0.0",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc && postcss style/style.css --verbose -o lib/style.css"
+    },
+    "files": [
+        "lib"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*",
+        "@types/prosemirror-inputrules": "*",
+        "@types/prosemirror-model": "*",
+        "@types/prosemirror-state": "*",
+        "@types/prosemirror-view": "*",
+        "@types/prosemirror-keymap": "*",
+        "@types/prosemirror-commands": "*",
+        "prosemirror-inputrules": "*",
+        "prosemirror-model": "*",
+        "prosemirror-state": "*",
+        "prosemirror-view": "*",
+        "prosemirror-keymap": "*",
+        "prosemirror-commands": "*"
+    },
+    "dependencies": {
+        "tslib": "^2.2.0"
+    },
+    "devDependencies": {
+        "@milkdown/core": "*",
+        "concurrently": "^6.0.2"
+    }
+}

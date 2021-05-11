@@ -192,6 +192,17 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
 
+  packages/plugin-slash:
+    specifiers:
+      '@milkdown/core': '*'
+      concurrently: ^6.0.2
+      tslib: ^2.2.0
+    dependencies:
+      tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
+      concurrently: 6.0.2
+
   packages/plugin-table:
     specifiers:
       '@milkdown/core': '*'
