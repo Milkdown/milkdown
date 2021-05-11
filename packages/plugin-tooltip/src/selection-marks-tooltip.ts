@@ -6,10 +6,7 @@ import { ItemMap } from './item';
 export class SelectionMarksTooltip {
     private $: HTMLDivElement;
     constructor(public ctx: PluginReadyContext, private items: ItemMap, private view: EditorView) {
-        this.$ = document.createElement('div');
-        this.$.className = 'tooltip';
-        Object.values(items).forEach(({ $ }) => this.$.appendChild($));
-        view.dom.parentNode?.appendChild(this.$);
+        this.$ = this.createTooltip();
         this.update(view);
 
         this.$.addEventListener('mousedown', this.listener);
@@ -26,9 +23,9 @@ export class SelectionMarksTooltip {
         }
 
         this.calculateItem(view);
-        if (Object.values(this.items).every(({ $ }) => $.classList.contains('hide'))) {
-            return;
-        }
+        const noActive = Object.values(this.items).every(({ $ }) => $.classList.contains('hide'));
+        if (noActive) return;
+
         this.$.classList.remove('hide');
         this.calculatePosition(view);
     }
@@ -40,6 +37,15 @@ export class SelectionMarksTooltip {
 
     private hide() {
         this.$.classList.add('hide');
+    }
+
+    private createTooltip() {
+        const div = document.createElement('div');
+        div.className = 'tooltip';
+        Object.values(this.items).forEach(({ $ }) => div.appendChild($));
+        this.view.dom.parentNode?.appendChild(div);
+
+        return div;
     }
 
     private calculateItem(view: EditorView) {

@@ -1,32 +1,12 @@
-import { Command } from 'prosemirror-commands';
-import type { Node, MarkType, Mark } from 'prosemirror-model';
+import type { Command } from 'prosemirror-commands';
+import type { Mark, MarkType, Node, Schema } from 'prosemirror-model';
 import { EditorState, TextSelection } from 'prosemirror-state';
+import type { Event2Command } from '../item';
+import { elementIsTag } from './element';
 
 export type Position = {
     start: number;
     end: number;
-};
-
-export const elementIsTag = (element: HTMLElement, tagName: string): boolean =>
-    element.tagName === tagName.toUpperCase();
-
-export const icon = (text: string): HTMLSpanElement => {
-    const span = document.createElement('span');
-    span.textContent = text;
-    span.className = 'icon material-icons material-icons-outlined';
-    return span;
-};
-
-export const input = (): HTMLDivElement => {
-    const div = document.createElement('div');
-    div.className = 'group';
-    const inputEl = document.createElement('input');
-    inputEl.className = 'icon input';
-    const confirm = icon('check_circle');
-    div.appendChild(inputEl);
-    div.appendChild(confirm);
-
-    return div;
 };
 
 export const hasMark = (editorState: EditorState, type: MarkType): boolean => {
@@ -56,9 +36,7 @@ export const findMarkPosition = (editorState: EditorState, mark: Mark): Position
     let markPos = { start: -1, end: -1 };
     doc.nodesBetween(from, to, (node, pos) => {
         // stop recursing if result is found
-        if (markPos.start > -1) {
-            return false;
-        }
+        if (markPos.start > -1) return false;
         if (markPos.start === -1 && mark.isInSet(node.marks)) {
             markPos = {
                 start: pos,
@@ -90,4 +68,30 @@ export const modifyLinkCommand = (mark: Mark, markType: MarkType, link: string):
     dispatch(tr.scrollIntoView());
 
     return true;
+};
+
+export const modifyLink = (schema: Schema): Event2Command => (e, view) => {
+    const { target } = e;
+    const { marks } = schema;
+    const { link } = marks;
+    if (!(target instanceof HTMLElement)) {
+        return () => true;
+    }
+    if (elementIsTag(target, 'input')) {
+        target.focus();
+        return () => false;
+    }
+    if (!elementIsTag(target, 'span')) {
+        return () => false;
+    }
+    const node = findMarkByType(view.state, link);
+    if (!node) return () => false;
+
+    const mark = node.marks.find(({ type }) => type === link);
+    if (!mark) return () => false;
+
+    const inputEl = target.parentNode?.firstChild;
+    if (!(inputEl instanceof HTMLInputElement)) return () => false;
+
+    return modifyLinkCommand(mark, marks.link, inputEl.value);
 };

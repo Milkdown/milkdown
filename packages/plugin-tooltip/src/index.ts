@@ -1,7 +1,7 @@
 import { createProsemirrorPlugin, PluginReadyContext } from '@milkdown/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { itemMap } from './item';
-import { SelectionMarksTooltip } from './SelectionMarksTooltip';
+import { SelectionMarksTooltip } from './selection-marks-tooltip';
 
 export const key = 'MILKDOWN_PLUGIN_TOOLTIP';
 
