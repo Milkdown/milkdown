@@ -1,6 +1,6 @@
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { DecorationSet } from 'prosemirror-view';
-import { getDecorations } from './getDecorations';
+import { getDecorations } from './get-decorations';
 
 export const key = 'MILKDOWN_PLUGIN_PRISM';
 
