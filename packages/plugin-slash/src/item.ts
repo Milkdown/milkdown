@@ -23,7 +23,7 @@ export type Action = {
 export const items: Array<Action> = [
     {
         type: ActionType.H1,
-        $: createDropdownItem('h1', 'Heading'),
+        $: createDropdownItem('h1', 'looks_one'),
         command: (ctx) => (state, dispatch) => {
             if (!dispatch) return false;
 
