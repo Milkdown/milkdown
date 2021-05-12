@@ -1,6 +1,7 @@
 import { createProsemirrorPlugin, PluginReadyContext } from '@milkdown/core/lib';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+import { items } from './item';
 import { createDropdown, createPlaceholder, findParentNode } from './utility';
 
 export const slashPlugin = createProsemirrorPlugin('slash', (ctx) => [plugin(ctx)]);
@@ -25,8 +26,26 @@ class SlashPlugin implements PluginSpec {
 }
 
 class Status {
-    cursorStatus: CursorStatus = CursorStatus.Empty;
-    filter = '';
+    #cursorStatus: CursorStatus = CursorStatus.Empty;
+    #filter = '';
+
+    clearStatus() {
+        this.#cursorStatus = CursorStatus.Empty;
+        this.#filter = '';
+    }
+
+    setSlash(filter = '') {
+        this.#cursorStatus = CursorStatus.Slash;
+        this.#filter = filter;
+    }
+
+    get cursorStatus() {
+        return this.#cursorStatus;
+    }
+
+    get filter() {
+        return this.#filter;
+    }
 }
 
 class Props {
@@ -43,30 +62,26 @@ class Props {
             DecorationSet.create(state.doc, [Decoration.widget(pos, createPlaceholder(text))]);
 
         if (!isTopLevel) {
-            this.status.cursorStatus = CursorStatus.Empty;
-            this.status.filter = '';
+            this.status.clearStatus();
             return null;
         }
 
         if (isEmpty) {
-            this.status.cursorStatus = CursorStatus.Empty;
-            this.status.filter = '';
+            this.status.clearStatus();
             return placeholder(parent.pos + 1, 'Enter something');
         }
 
         if (isSlash) {
-            this.status.cursorStatus = CursorStatus.Slash;
+            this.status.setSlash();
             return placeholder(parent.pos + 2, 'Enter command');
         }
 
         if (isSearch) {
-            this.status.cursorStatus = CursorStatus.Slash;
-            this.status.filter = parent.node.textContent.slice(1);
+            this.status.setSlash(parent.node.textContent.slice(1));
             return null;
         }
 
-        this.status.cursorStatus = CursorStatus.Empty;
-        this.status.filter = '';
+        this.status.clearStatus();
         return null;
     };
 }
@@ -74,26 +89,34 @@ class Props {
 class View {
     #dropdownElement: HTMLDivElement;
     #ctx: PluginReadyContext;
-    constructor(private status: Status, editorView: EditorView, ctx: PluginReadyContext) {
+    #status: Status;
+    #view: EditorView;
+    constructor(status: Status, editorView: EditorView, ctx: PluginReadyContext) {
+        this.#status = status;
         this.#dropdownElement = createDropdown();
         this.#ctx = ctx;
+        this.#view = editorView;
 
         editorView.dom.parentNode?.appendChild(this.#dropdownElement);
+        items.forEach(({ $ }) => {
+            this.#dropdownElement.appendChild($);
+        });
+        this.#dropdownElement.addEventListener('mousedown', this.listener);
     }
 
     update(view: EditorView) {
-        this.#ctx;
-        view;
-
         this.renderDropdown();
+        view;
+        console.log(this.#ctx);
     }
 
     destroy() {
+        this.#dropdownElement.removeEventListener('mousedown', this.listener);
         this.#dropdownElement.remove();
     }
 
     private renderDropdown() {
-        const { cursorStatus } = this.status;
+        const { cursorStatus } = this.#status;
 
         if (cursorStatus === CursorStatus.Slash) {
             this.#dropdownElement.classList.remove('hide');
@@ -101,4 +124,16 @@ class View {
         }
         this.#dropdownElement.classList.add('hide');
     }
+
+    private listener = (e: Event) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const view = this.#view;
+        if (!view) return;
+        Object.values(items).forEach(({ $, command }) => {
+            if ($.contains(e.target as Element)) {
+                command(this.#ctx)(view.state, view.dispatch);
+            }
+        });
+    };
 }
