@@ -40,7 +40,8 @@ export const createDropdownItem = (text: string, icon: string) => {
     textSpan.textContent = text;
     textSpan.className = 'text';
 
-    div.appendChild(iconSpan).appendChild(textSpan);
+    div.appendChild(iconSpan);
+    div.appendChild(textSpan);
 
     return div;
 };
