@@ -16,6 +16,7 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
+        "@milkdown/plugin-table": "*",
         "@types/prosemirror-inputrules": "*",
         "@types/prosemirror-model": "*",
         "@types/prosemirror-state": "*",
@@ -33,7 +34,9 @@
         "tslib": "^2.2.0"
     },
     "devDependencies": {
-        "@milkdown/core": "*",
+        "@milkdown/core": "workspace:*",
+        "@milkdown/plugin-prism": "workspace:*",
+        "@milkdown/plugin-table": "workspace:*",
         "concurrently": "^6.0.2"
     }
 }

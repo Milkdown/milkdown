@@ -194,13 +194,17 @@ importers:
 
   packages/plugin-slash:
     specifiers:
-      '@milkdown/core': '*'
+      '@milkdown/core': workspace:*
+      '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-table': workspace:*
       concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/plugin-prism': link:../plugin-prism
+      '@milkdown/plugin-table': link:../plugin-table
       concurrently: 6.0.2
 
   packages/plugin-table:
