@@ -105,9 +105,21 @@ class View {
     }
 
     update(view: EditorView) {
-        this.renderDropdown();
+        const show = this.renderDropdown();
+
+        if (!show) {
+            return;
+        }
+        const { filter } = this.#status;
+        items.forEach((item) => {
+            if (item.keyword.some((key) => key.includes(filter))) {
+                item.$.classList.remove('hide');
+                return;
+            }
+            item.$.classList.add('hide');
+        });
         view;
-        console.log(this.#ctx);
+        console.log(filter);
     }
 
     destroy() {
@@ -115,14 +127,15 @@ class View {
         this.#dropdownElement.remove();
     }
 
-    private renderDropdown() {
+    private renderDropdown(): boolean {
         const { cursorStatus } = this.#status;
 
         if (cursorStatus === CursorStatus.Slash) {
             this.#dropdownElement.classList.remove('hide');
-            return;
+            return true;
         }
         this.#dropdownElement.classList.add('hide');
+        return false;
     }
 
     private listener = (e: Event) => {

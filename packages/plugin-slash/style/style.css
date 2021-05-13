@@ -1,5 +1,18 @@
 .slash-dropdown-item {
     display: flex;
+    padding: 0 4px;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    line-height: 2;
+    font-size: 0.875rem;
+
+    &.hide {
+        display: none;
+    }
+
+    &:hover {
+        background: var(--nord7);
+    }
 }
