@@ -9,6 +9,9 @@ export enum ActionType {
     H1,
     H2,
     H3,
+    BulletList,
+    OrderedList,
+    Quote,
 }
 
 export type Divider = {
@@ -52,5 +55,20 @@ export const items: Array<Action> = [
         type: ActionType.H3,
         $: createDropdownItem('Small Heading', 'looks_3'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.heading.create({ level: 3 })),
+    },
+    {
+        type: ActionType.BulletList,
+        $: createDropdownItem('Bullet List', 'format_list_bulleted'),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.bullet_list.createAndFill(null) as Node),
+    },
+    {
+        type: ActionType.OrderedList,
+        $: createDropdownItem('Ordered List', 'format_list_numbered'),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.ordered_list.createAndFill(null) as Node),
+    },
+    {
+        type: ActionType.Quote,
+        $: createDropdownItem('Quote', 'format_quote'),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.blockquote.createAndFill(null) as Node),
     },
 ];
