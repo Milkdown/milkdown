@@ -52,7 +52,10 @@ class Props {
     constructor(private status: Status) {}
     decorations = (state: EditorState) => {
         const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
-        if (!parent) return null;
+        if (!parent) {
+            this.status.clearStatus();
+            return null;
+        }
 
         const isTopLevel = state.selection.$from.depth === 1;
         const isEmpty = parent.node.content.size === 0;
@@ -152,8 +155,6 @@ class View {
         Object.values(items).forEach(({ $, command }) => {
             if ($.contains(e.target as Element)) {
                 command(this.#ctx)(view.state, view.dispatch);
-                this.#status.clearStatus();
-                this.update(view);
             }
         });
     };
