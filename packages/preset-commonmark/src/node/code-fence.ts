@@ -4,6 +4,7 @@ import { ParserSpec, SerializerNode, Node, LoadState, ProsemirrorReadyContext } 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Keymap } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
+import { findParentNodeOfType } from 'prosemirror-utils';
 
 const languageOptions = [
     '',
@@ -64,13 +65,16 @@ export class CodeFence extends Node {
         state.closeBlock(node);
     };
     inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
-    keymap = (): Keymap => ({
+    keymap = (nodeType: NodeType): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
             const { tr, selection } = state;
+            if (!findParentNodeOfType(nodeType)(selection)) {
+                return false;
+            }
             if (!dispatch) {
                 return false;
             }
-            dispatch(tr.insertText('\t', selection.from, selection.to));
+            dispatch(tr.insertText('  ', selection.from, selection.to));
             return true;
         },
     });
