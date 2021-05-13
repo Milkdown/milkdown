@@ -110,16 +110,8 @@ class View {
         if (!show) {
             return;
         }
-        const { filter } = this.#status;
-        items.forEach((item) => {
-            if (item.keyword.some((key) => key.includes(filter))) {
-                item.$.classList.remove('hide');
-                return;
-            }
-            item.$.classList.add('hide');
-        });
-        view;
-        console.log(filter);
+
+        this.calculatePosition(view);
     }
 
     destroy() {
@@ -128,14 +120,28 @@ class View {
     }
 
     private renderDropdown(): boolean {
-        const { cursorStatus } = this.#status;
+        const { cursorStatus, filter } = this.#status;
 
-        if (cursorStatus === CursorStatus.Slash) {
-            this.#dropdownElement.classList.remove('hide');
-            return true;
+        if (cursorStatus !== CursorStatus.Slash) {
+            this.#dropdownElement.classList.add('hide');
+            return false;
         }
-        this.#dropdownElement.classList.add('hide');
-        return false;
+
+        items.forEach((item) => {
+            if (item.keyword.some((key) => key.includes(filter.toLocaleLowerCase()))) {
+                item.$.classList.remove('hide');
+                return;
+            }
+            item.$.classList.add('hide');
+        });
+
+        if (items.every(({ $ }) => $.classList.contains('hide'))) {
+            this.#dropdownElement.classList.add('hide');
+            return false;
+        }
+
+        this.#dropdownElement.classList.remove('hide');
+        return true;
     }
 
     private listener = (e: Event) => {
@@ -146,7 +152,21 @@ class View {
         Object.values(items).forEach(({ $, command }) => {
             if ($.contains(e.target as Element)) {
                 command(this.#ctx)(view.state, view.dispatch);
+                this.#status.clearStatus();
+                this.update(view);
             }
         });
     };
+
+    private calculatePosition(view: EditorView) {
+        const state = view.state;
+        const { from } = state.selection;
+        const start = view.coordsAtPos(from);
+
+        const box = this.#dropdownElement.offsetParent?.getBoundingClientRect();
+        if (!box) return;
+
+        this.#dropdownElement.style.left = start.left - box.left + 'px';
+        this.#dropdownElement.style.top = start.top - box.top + 20 + 'px';
+    }
 }
