@@ -28,6 +28,7 @@ class SlashPlugin implements PluginSpec {
 class Status {
     #cursorStatus: CursorStatus = CursorStatus.Empty;
     #filter = '';
+    cleanupFn?: () => void;
 
     clearStatus() {
         this.#cursorStatus = CursorStatus.Empty;
@@ -50,10 +51,6 @@ class Status {
 
 class Props {
     constructor(private status: Status) {}
-    handleClick = () => {
-        this.status.clearStatus();
-        return false;
-    };
     handleKeyDown = (_: EditorView, event: Event) => {
         const { cursorStatus } = this.status;
         if (cursorStatus !== CursorStatus.Slash) {
