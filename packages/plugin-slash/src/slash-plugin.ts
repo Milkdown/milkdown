@@ -50,6 +50,25 @@ class Status {
 
 class Props {
     constructor(private status: Status) {}
+    handleClick = () => {
+        this.status.clearStatus();
+        return false;
+    };
+    handleKeyDown = (_: EditorView, event: Event) => {
+        const { cursorStatus } = this.status;
+        if (cursorStatus !== CursorStatus.Slash) {
+            return false;
+        }
+        if (!(event instanceof KeyboardEvent)) {
+            return false;
+        }
+
+        if (!['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
+            return false;
+        }
+
+        return true;
+    };
     decorations = (state: EditorState) => {
         const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
         if (!parent) {
@@ -91,34 +110,66 @@ class Props {
 
 class View {
     #dropdownElement: HTMLDivElement;
+    #wrapper: HTMLElement;
     #ctx: PluginReadyContext;
     #status: Status;
     #view: EditorView;
+
+    #handleClick = (e: Event) => {
+        const { target } = e;
+        if (!(target instanceof HTMLElement)) {
+            return;
+        }
+        e.stopPropagation();
+        e.preventDefault();
+        const view = this.#view;
+        if (!view) return;
+        Object.values(items).forEach(({ $, command }) => {
+            if ($.contains(target)) {
+                command(this.#ctx)(view.state, view.dispatch);
+            }
+        });
+    };
+
+    #handleKeydown = (e: Event) => {
+        if (!(e instanceof KeyboardEvent)) {
+            return;
+        }
+        const { key } = e;
+        console.log(key);
+    };
+
     constructor(status: Status, editorView: EditorView, ctx: PluginReadyContext) {
         this.#status = status;
         this.#dropdownElement = createDropdown();
         this.#ctx = ctx;
         this.#view = editorView;
 
-        editorView.dom.parentNode?.appendChild(this.#dropdownElement);
+        const { parentNode } = editorView.dom;
+        if (!parentNode) {
+            throw new Error();
+        }
+        this.#wrapper = parentNode as HTMLElement;
+
+        parentNode.appendChild(this.#dropdownElement);
         items.forEach(({ $ }) => {
             this.#dropdownElement.appendChild($);
         });
-        this.#dropdownElement.addEventListener('mousedown', this.listener);
+        this.#dropdownElement.addEventListener('mousedown', this.#handleClick);
+        this.#wrapper.addEventListener('keydown', this.#handleKeydown);
     }
 
     update(view: EditorView) {
         const show = this.renderDropdown();
 
-        if (!show) {
-            return;
-        }
+        if (!show) return;
 
         this.calculatePosition(view);
     }
 
     destroy() {
-        this.#dropdownElement.removeEventListener('mousedown', this.listener);
+        this.#dropdownElement.removeEventListener('mousedown', this.#handleClick);
+        this.#wrapper.removeEventListener('keydown', this.#handleKeydown);
         this.#dropdownElement.remove();
     }
 
@@ -146,18 +197,6 @@ class View {
         this.#dropdownElement.classList.remove('hide');
         return true;
     }
-
-    private listener = (e: Event) => {
-        e.stopPropagation();
-        e.preventDefault();
-        const view = this.#view;
-        if (!view) return;
-        Object.values(items).forEach(({ $, command }) => {
-            if ($.contains(e.target as Element)) {
-                command(this.#ctx)(view.state, view.dispatch);
-            }
-        });
-    };
 
     private calculatePosition(view: EditorView) {
         const state = view.state;
