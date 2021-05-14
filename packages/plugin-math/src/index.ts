@@ -10,18 +10,7 @@ import {
 } from '@benrbray/prosemirror-math';
 import markdownItMath from '@traptitech/markdown-it-katex';
 import { keymap } from 'prosemirror-keymap';
-import {
-    chainCommands,
-    createParagraphNear,
-    deleteSelection,
-    joinBackward,
-    joinForward,
-    liftEmptyBlock,
-    newlineInCode,
-    selectNodeBackward,
-    selectNodeForward,
-    splitBlock,
-} from 'prosemirror-commands';
+import { chainCommands, deleteSelection, joinBackward, selectNodeBackward } from 'prosemirror-commands';
 import type { PluginSimple } from 'markdown-it';
 
 class MathInline extends Node {
@@ -68,8 +57,6 @@ class MathDisplay extends Node {
 
 const keys = keymap({
     Backspace: chainCommands(deleteSelection, mathBackspaceCmd, joinBackward, selectNodeBackward),
-    'Mod-Enter': chainCommands(newlineInCode, createParagraphNear, liftEmptyBlock, splitBlock),
-    Delete: chainCommands(deleteSelection, joinForward, selectNodeForward),
 });
 
 export const math = [
