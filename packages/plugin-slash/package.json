@@ -17,20 +17,21 @@
     "peerDependencies": {
         "@milkdown/core": "*",
         "@milkdown/plugin-table": "*",
+        "@types/prosemirror-commands": "*",
         "@types/prosemirror-inputrules": "*",
+        "@types/prosemirror-keymap": "*",
         "@types/prosemirror-model": "*",
         "@types/prosemirror-state": "*",
         "@types/prosemirror-view": "*",
-        "@types/prosemirror-keymap": "*",
-        "@types/prosemirror-commands": "*",
+        "prosemirror-commands": "*",
         "prosemirror-inputrules": "*",
+        "prosemirror-keymap": "*",
         "prosemirror-model": "*",
         "prosemirror-state": "*",
-        "prosemirror-view": "*",
-        "prosemirror-keymap": "*",
-        "prosemirror-commands": "*"
+        "prosemirror-view": "*"
     },
     "dependencies": {
+        "smooth-scroll-into-view-if-needed": "^1.1.32",
         "tslib": "^2.2.0"
     },
     "devDependencies": {

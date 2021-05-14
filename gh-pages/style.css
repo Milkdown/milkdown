@@ -10,6 +10,7 @@ body {
 .milkdown {
     min-height: 100vh;
     border-radius: 4px;
+    overflow: hidden;
 }
 
 @media only screen and (min-width: 42rem) {

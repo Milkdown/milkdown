@@ -1,7 +1,8 @@
 import { createProsemirrorPlugin, PluginReadyContext } from '@milkdown/core/lib';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
-import { items } from './item';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+import { Action, items } from './item';
 import { createDropdown, createPlaceholder, findParentNode } from './utility';
 
 export const slashPlugin = createProsemirrorPlugin('slash', (ctx) => [plugin(ctx)]);
@@ -28,7 +29,7 @@ class SlashPlugin implements PluginSpec {
 class Status {
     #cursorStatus: CursorStatus = CursorStatus.Empty;
     #filter = '';
-    cleanupFn?: () => void;
+    activeActions: Action[] = items;
 
     clearStatus() {
         this.#cursorStatus = CursorStatus.Empty;
@@ -52,8 +53,8 @@ class Status {
 class Props {
     constructor(private status: Status) {}
     handleKeyDown = (_: EditorView, event: Event) => {
-        const { cursorStatus } = this.status;
-        if (cursorStatus !== CursorStatus.Slash) {
+        const { cursorStatus, activeActions } = this.status;
+        if (cursorStatus !== CursorStatus.Slash || activeActions.length === 0) {
             return false;
         }
         if (!(event instanceof KeyboardEvent)) {
@@ -87,12 +88,12 @@ class Props {
 
         if (isEmpty) {
             this.status.clearStatus();
-            return placeholder(parent.pos + 1, 'Enter something');
+            return placeholder(parent.pos + 1, 'Type / to use the slash commands...');
         }
 
         if (isSlash) {
             this.status.setSlash();
-            return placeholder(parent.pos + 2, 'Enter command');
+            return placeholder(parent.pos + 2, 'Type to filter...');
         }
 
         if (isSearch) {
@@ -117,8 +118,6 @@ class View {
         if (!(target instanceof HTMLElement)) {
             return;
         }
-        e.stopPropagation();
-        e.preventDefault();
 
         const view = this.#view;
         if (!view) return;
@@ -126,15 +125,65 @@ class View {
         const el = Object.values(items).find(({ $ }) => $.contains(target));
         if (!el) return;
 
+        e.stopPropagation();
+        e.preventDefault();
+
         el.command(this.#ctx)(view.state, view.dispatch);
     };
 
-    #handleKeydown = (e: Event) => {
-        if (!(e instanceof KeyboardEvent)) {
+    #handleKeydown = (e: KeyboardEvent) => {
+        const { key } = e;
+        if (this.#status.cursorStatus !== CursorStatus.Slash) {
             return;
         }
-        const { key } = e;
-        console.log(key);
+        if (!['ArrowDown', 'ArrowUp', 'Enter'].includes(key)) {
+            return;
+        }
+        let active = this.#status.activeActions.findIndex((x) => x.$.classList.contains('active'));
+        if (active < 0) active = 0;
+
+        if (key === 'ArrowDown') {
+            const next = active === this.#status.activeActions.length - 1 ? 0 : active + 1;
+
+            this.#status.activeActions[active].$.classList.remove('active');
+            this.#status.activeActions[next].$.classList.add('active');
+            scrollIntoView(this.#status.activeActions[next].$, {
+                scrollMode: 'if-needed',
+                block: 'nearest',
+                inline: 'nearest',
+            });
+            return;
+        }
+        if (key === 'ArrowUp') {
+            const next = active === 0 ? this.#status.activeActions.length - 1 : active - 1;
+
+            this.#status.activeActions[active].$.classList.remove('active');
+            this.#status.activeActions[next].$.classList.add('active');
+            scrollIntoView(this.#status.activeActions[next].$, {
+                scrollMode: 'if-needed',
+                block: 'nearest',
+                inline: 'nearest',
+            });
+            return;
+        }
+        this.#status.activeActions[active].command(this.#ctx)(this.#view.state, this.#view.dispatch);
+        this.#status.activeActions[active].$.classList.remove('active');
+    };
+
+    #handleMouseEnter = (e: MouseEvent) => {
+        const active = this.#status.activeActions.findIndex((x) => x.$.classList.contains('active'));
+        if (active >= 0) {
+            this.#status.activeActions[active].$.classList.remove('active');
+        }
+        const { target } = e;
+        if (!(target instanceof HTMLElement)) return;
+        target.classList.add('active');
+    };
+
+    #handleMouseLeave = (e: MouseEvent) => {
+        const { target } = e;
+        if (!(target instanceof HTMLElement)) return;
+        target.classList.remove('active');
     };
 
     constructor(status: Status, editorView: EditorView, ctx: PluginReadyContext) {
@@ -151,9 +200,11 @@ class View {
 
         parentNode.appendChild(this.#dropdownElement);
         items.forEach(({ $ }) => {
+            $.addEventListener('mouseenter', this.#handleMouseEnter);
+            $.addEventListener('mouseleave', this.#handleMouseLeave);
             this.#dropdownElement.appendChild($);
         });
-        this.#dropdownElement.addEventListener('mousedown', this.#handleClick);
+        this.#wrapper.addEventListener('mousedown', this.#handleClick);
         this.#wrapper.addEventListener('keydown', this.#handleKeydown);
     }
 
@@ -166,7 +217,7 @@ class View {
     }
 
     destroy() {
-        this.#dropdownElement.removeEventListener('mousedown', this.#handleClick);
+        this.#wrapper.removeEventListener('mousedown', this.#handleClick);
         this.#wrapper.removeEventListener('keydown', this.#handleKeydown);
         this.#dropdownElement.remove();
     }
@@ -179,18 +230,29 @@ class View {
             return false;
         }
 
-        items.forEach((item) => {
-            if (item.keyword.some((key) => key.includes(filter.toLocaleLowerCase()))) {
+        const activeList = items
+            .filter((item) => {
+                item.$.classList.remove('active');
+                const result = item.keyword.some((key) => key.includes(filter.toLocaleLowerCase()));
+                if (result) {
+                    return true;
+                }
+                item.$.classList.add('hide');
+                return false;
+            })
+            .map((item) => {
                 item.$.classList.remove('hide');
-                return;
-            }
-            item.$.classList.add('hide');
-        });
+                return item;
+            });
 
-        if (items.every(({ $ }) => $.classList.contains('hide'))) {
+        this.#status.activeActions = activeList;
+
+        if (activeList.length === 0) {
             this.#dropdownElement.classList.add('hide');
             return false;
         }
+
+        activeList[0].$.classList.add('active');
 
         this.#dropdownElement.classList.remove('hide');
         return true;
@@ -204,7 +266,17 @@ class View {
         const box = this.#dropdownElement.offsetParent?.getBoundingClientRect();
         if (!box) return;
 
+        const rect = this.#dropdownElement.getBoundingClientRect();
+
         this.#dropdownElement.style.left = start.left - box.left + 'px';
-        this.#dropdownElement.style.top = start.top - box.top + 20 + 'px';
+        if (Math.abs(start.bottom - box.bottom) > 100) {
+            this.#dropdownElement.style.top = start.top - box.top + 20 + 'px';
+            return;
+        }
+        console.log(start);
+        console.log(box);
+
+        this.#dropdownElement.style.top = '';
+        this.#dropdownElement.style.bottom = start.bottom - box.bottom + rect.height + 'px';
     }
 }

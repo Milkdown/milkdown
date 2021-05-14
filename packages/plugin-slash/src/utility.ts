@@ -25,7 +25,10 @@ export const createDropdown = () => {
 };
 
 export const createPlaceholder = (text: string) => {
-    return document.createTextNode(text);
+    const span = document.createElement('span');
+    span.textContent = text;
+    span.classList.add('slash-placeholder');
+    return span;
 };
 
 export const createDropdownItem = (text: string, icon: string) => {

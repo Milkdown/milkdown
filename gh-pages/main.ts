@@ -4,11 +4,13 @@ import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
 import { table } from '@milkdown/plugin-table';
+import { slash } from '@milkdown/plugin-slash';
 
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/plugin-math/lib/style.css';
 import '@milkdown/plugin-table/lib/style.css';
 import '@milkdown/plugin-tooltip/lib/style.css';
+import '@milkdown/plugin-slash/lib/style.css';
 import './style.css';
 
 const markdown = `
@@ -77,4 +79,5 @@ new Editor({
     .use(tooltip)
     .use(table)
     .use(math)
+    .use(slash)
     .create();
