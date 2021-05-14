@@ -119,13 +119,14 @@ class View {
         }
         e.stopPropagation();
         e.preventDefault();
+
         const view = this.#view;
         if (!view) return;
-        Object.values(items).forEach(({ $, command }) => {
-            if ($.contains(target)) {
-                command(this.#ctx)(view.state, view.dispatch);
-            }
-        });
+
+        const el = Object.values(items).find(({ $ }) => $.contains(target));
+        if (!el) return;
+
+        el.command(this.#ctx)(view.state, view.dispatch);
     };
 
     #handleKeydown = (e: Event) => {
