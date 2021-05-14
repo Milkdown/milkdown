@@ -2,7 +2,16 @@ import { PluginReadyContext } from '@milkdown/core';
 import { Command, toggleMark } from 'prosemirror-commands';
 import { MarkType } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { icon, input, hasMark, isTextAndNotHasMark, findMarkByType, modifyLink } from './utility';
+import {
+    icon,
+    input,
+    hasMark,
+    isTextAndNotHasMark,
+    findMarkByType,
+    modifyLink,
+    findChildNode,
+    modifyImage,
+} from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -22,6 +31,7 @@ export enum Action {
     ToggleCode,
     ToggleLink,
     ModifyLink,
+    ModifyImage,
 }
 
 export type ItemMap = Record<Action, Item>;
@@ -39,7 +49,7 @@ const createToggleIcon = (
 });
 
 export const itemMap = (ctx: PluginReadyContext): ItemMap => {
-    const { marks } = ctx.schema;
+    const { marks, nodes } = ctx.schema;
     return {
         [Action.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
         [Action.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),
@@ -61,6 +71,21 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
                 if (!mark) return;
 
                 firstChild.value = mark.attrs.href;
+            },
+        },
+        [Action.ModifyImage]: {
+            $: input(),
+            command: modifyImage(ctx.schema),
+            active: () => false,
+            disable: (view) => !findChildNode(view.state.selection, nodes.image),
+            update: (view, $) => {
+                const { firstChild } = $;
+                if (!(firstChild instanceof HTMLInputElement)) return;
+
+                const node = findChildNode(view.state.selection, nodes.image);
+                if (!node) return;
+
+                firstChild.value = node.node.attrs.src;
             },
         },
     };

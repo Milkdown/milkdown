@@ -1,6 +1,6 @@
 import type { Command } from 'prosemirror-commands';
-import type { Mark, MarkType, Node, Schema } from 'prosemirror-model';
-import { EditorState, TextSelection } from 'prosemirror-state';
+import type { Mark, MarkType, Node, NodeType, Schema } from 'prosemirror-model';
+import { EditorState, TextSelection, Selection, NodeSelection } from 'prosemirror-state';
 import type { Event2Command } from '../item';
 import { elementIsTag } from './element';
 
@@ -94,4 +94,50 @@ export const modifyLink = (schema: Schema): Event2Command => (e, view) => {
     if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
     return modifyLinkCommand(mark, marks.link, inputEl.value);
+};
+
+export const modifyImage = (schema: Schema): Event2Command => (e, view) => {
+    const { target } = e;
+    const { nodes } = schema;
+    const { image } = nodes;
+    if (!(target instanceof HTMLElement)) {
+        return () => true;
+    }
+    if (elementIsTag(target, 'input')) {
+        target.focus();
+        return () => false;
+    }
+    if (!elementIsTag(target, 'span')) {
+        return () => false;
+    }
+    const node = findChildNode(view.state.selection, image);
+    if (!node) return () => false;
+
+    const inputEl = target.parentNode?.firstChild;
+    if (!(inputEl instanceof HTMLInputElement)) return () => false;
+
+    return (state, dispatch) => {
+        if (!dispatch) return false;
+
+        const { tr } = state;
+        tr.setNodeMarkup(node.pos, undefined, { src: inputEl.value });
+        dispatch(tr.scrollIntoView());
+
+        return true;
+    };
+};
+
+export const equalNodeType = (nodeType: NodeType, node: Node) => {
+    return (Array.isArray(nodeType) && nodeType.indexOf(node.type) > -1) || node.type === nodeType;
+};
+
+export const findChildNode = (selection: Selection, nodeType: NodeType) => {
+    if (!(selection instanceof NodeSelection)) {
+        return;
+    }
+    const { node, $from } = selection;
+    if (equalNodeType(nodeType, node)) {
+        return { node, pos: $from.pos, depth: $from.depth };
+    }
+    return undefined;
 };

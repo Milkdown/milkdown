@@ -70,7 +70,7 @@ new Editor({
     root,
     defaultValue: markdown,
     listener: {
-        markdown: [(getValue) => console.log(getValue())],
+        // markdown: [(getValue) => console.log(getValue())],
     },
 })
     .use(nodes)
