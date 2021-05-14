@@ -269,14 +269,13 @@ class View {
         const rect = this.#dropdownElement.getBoundingClientRect();
 
         this.#dropdownElement.style.left = start.left - box.left + 'px';
-        if (Math.abs(start.bottom - box.bottom) > 100) {
+        if (Math.abs(start.bottom - box.bottom) > rect.height) {
+            this.#dropdownElement.style.bottom = '';
             this.#dropdownElement.style.top = start.top - box.top + 20 + 'px';
             return;
         }
-        console.log(start);
-        console.log(box);
 
         this.#dropdownElement.style.top = '';
-        this.#dropdownElement.style.bottom = start.bottom - box.bottom + rect.height + 'px';
+        this.#dropdownElement.style.bottom = start.bottom - box.bottom + 190 + 'px';
     }
 }
