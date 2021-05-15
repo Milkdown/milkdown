@@ -255,6 +255,11 @@ class View {
         activeList[0].$.classList.add('active');
 
         this.#dropdownElement.classList.remove('hide');
+        scrollIntoView(activeList[0].$, {
+            scrollMode: 'if-needed',
+            block: 'nearest',
+            inline: 'nearest',
+        });
         return true;
     }
 

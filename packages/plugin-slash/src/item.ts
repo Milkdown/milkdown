@@ -16,6 +16,7 @@ export enum ActionType {
     CodeFence,
     Table,
     DivideLine,
+    Image,
 }
 
 export type Divider = {
@@ -75,6 +76,12 @@ export const items: Array<Action> = [
         $: createDropdownItem('Ordered List', 'format_list_numbered'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.ordered_list.createAndFill(null) as Node),
         keyword: ['ordered list', 'ol'],
+    },
+    {
+        type: ActionType.Image,
+        $: createDropdownItem('Image', 'image'),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.image.createAndFill({ src: '' }) as Node),
+        keyword: ['image'],
     },
     {
         type: ActionType.Quote,
