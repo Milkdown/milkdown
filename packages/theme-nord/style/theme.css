@@ -145,6 +145,12 @@
         display: block;
         margin: 0 auto;
         object-fit: contain;
+        max-width: 100%;
+        min-width: 2rem;
+        &[src=''] {
+            height: 2rem;
+            background: var(--nord4);
+        }
     }
 
     .code-fence {
