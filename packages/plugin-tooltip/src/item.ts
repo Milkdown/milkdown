@@ -80,6 +80,7 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
             active: () => false,
             disable: (view) => !findChildNode(view.state.selection, nodes.image),
             update: (view, $) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const [_, input] = Array.from($.children);
                 if (!(input instanceof HTMLInputElement)) return;
 
@@ -95,6 +96,7 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
             active: () => false,
             disable: (view) => !findChildNode(view.state.selection, nodes.image),
             update: (view, $) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const [_, input] = Array.from($.children);
                 if (!(input instanceof HTMLInputElement)) return;
 
