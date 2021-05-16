@@ -40,6 +40,17 @@
         justify-content: center;
         outline: none;
         background: var(--tooltip_group-bg-color);
+        .label {
+            color: var(--tooltip_input-bg-color);
+            padding: 0 4px;
+            cursor: default;
+            display: flex;
+            font-size: 0.875rem;
+            align-items: center;
+            &:hover {
+                background: var(--tooltip_bg-color);
+            }
+        }
         .input {
             font-family: var(--tooltip_input-font);
             text-align: left;

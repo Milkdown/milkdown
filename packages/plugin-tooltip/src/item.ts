@@ -31,7 +31,8 @@ export enum Action {
     ToggleCode,
     ToggleLink,
     ModifyLink,
-    ModifyImage,
+    ModifyImageSrc,
+    ModifyImageAlt,
 }
 
 export type ItemMap = Record<Action, Item>;
@@ -73,19 +74,34 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
                 firstChild.value = mark.attrs.href;
             },
         },
-        [Action.ModifyImage]: {
-            $: input(),
+        [Action.ModifyImageSrc]: {
+            $: input('link'),
             command: modifyImage(ctx.schema),
             active: () => false,
             disable: (view) => !findChildNode(view.state.selection, nodes.image),
             update: (view, $) => {
-                const { firstChild } = $;
-                if (!(firstChild instanceof HTMLInputElement)) return;
+                const [_, input] = Array.from($.children);
+                if (!(input instanceof HTMLInputElement)) return;
 
                 const node = findChildNode(view.state.selection, nodes.image);
                 if (!node) return;
 
-                firstChild.value = node.node.attrs.src;
+                input.value = node.node.attrs.src;
+            },
+        },
+        [Action.ModifyImageAlt]: {
+            $: input('alt'),
+            command: modifyImage(ctx.schema),
+            active: () => false,
+            disable: (view) => !findChildNode(view.state.selection, nodes.image),
+            update: (view, $) => {
+                const [_, input] = Array.from($.children);
+                if (!(input instanceof HTMLInputElement)) return;
+
+                const node = findChildNode(view.state.selection, nodes.image);
+                if (!node) return;
+
+                input.value = node.node.attrs.alt;
             },
         },
     };
