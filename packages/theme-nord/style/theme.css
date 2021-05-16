@@ -147,9 +147,36 @@
         object-fit: contain;
         max-width: 100%;
         min-width: 2rem;
-        &[src=''] {
-            height: 2rem;
-            background: var(--nord4);
+        position: relative;
+        min-height: 2rem;
+        height: auto;
+        text-align: center;
+        &:before {
+            content: '' ' Broken Image of ' attr(alt);
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            z-index: 2;
+            background-color: var(--nord4);
+            text-align: left;
+            line-height: 2;
+        }
+        &:after {
+            content: 'image';
+            font-family: 'Material Icons';
+            display: block;
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 100%;
+            line-height: 2;
+            background-color: var(--nord4);
+            text-align: right;
         }
     }
 
