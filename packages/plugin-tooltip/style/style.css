@@ -1,5 +1,5 @@
 .tooltip {
-    display: flex;
+    display: inline-flex;
     cursor: pointer;
     justify-content: space-evenly;
     position: absolute;
@@ -70,6 +70,11 @@
             background: var(--tooltip_group-icon-bg-color);
             &:hover {
                 color: var(--tooltip_group-icon-color-hover);
+            }
+        }
+        &[data-label='alt'] {
+            .input {
+                width: 4rem;
             }
         }
     }

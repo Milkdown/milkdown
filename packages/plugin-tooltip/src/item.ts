@@ -76,7 +76,7 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
         },
         [Action.ModifyImageSrc]: {
             $: input('link'),
-            command: modifyImage(ctx.schema),
+            command: modifyImage(ctx.schema, 'src'),
             active: () => false,
             disable: (view) => !findChildNode(view.state.selection, nodes.image),
             update: (view, $) => {
@@ -92,7 +92,7 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
         },
         [Action.ModifyImageAlt]: {
             $: input('alt'),
-            command: modifyImage(ctx.schema),
+            command: modifyImage(ctx.schema, 'alt'),
             active: () => false,
             disable: (view) => !findChildNode(view.state.selection, nodes.image),
             update: (view, $) => {

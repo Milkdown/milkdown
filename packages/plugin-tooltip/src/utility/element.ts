@@ -12,7 +12,8 @@ export const input = (label?: string): HTMLDivElement => {
     const div = document.createElement('div');
     div.className = 'group';
     if (label) {
-        const labelEl = document.createElement('span');
+        div.dataset.label = label;
+        const labelEl = document.createElement('div');
         labelEl.textContent = label;
         labelEl.className = 'icon label';
         div.appendChild(labelEl);

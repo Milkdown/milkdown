@@ -96,7 +96,7 @@ export const modifyLink = (schema: Schema): Event2Command => (e, view) => {
     return modifyLinkCommand(mark, marks.link, inputEl.value);
 };
 
-export const modifyImage = (schema: Schema): Event2Command => (e, view) => {
+export const modifyImage = (schema: Schema, attr: string): Event2Command => (e, view) => {
     const { target } = e;
     const { nodes } = schema;
     const { image } = nodes;
@@ -113,14 +113,17 @@ export const modifyImage = (schema: Schema): Event2Command => (e, view) => {
     const node = findChildNode(view.state.selection, image);
     if (!node) return () => false;
 
-    const inputEl = target.parentNode?.firstChild;
+    const parent = target.parentNode;
+    if (!parent) return () => false;
+
+    const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
     if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
     return (state, dispatch) => {
         if (!dispatch) return false;
 
         const { tr } = state;
-        tr.setNodeMarkup(node.pos, undefined, { src: inputEl.value });
+        tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, [attr]: inputEl.value });
         dispatch(tr.scrollIntoView());
 
         return true;

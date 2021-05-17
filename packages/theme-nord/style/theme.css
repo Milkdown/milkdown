@@ -162,7 +162,7 @@
             z-index: 2;
             background-color: var(--nord4);
             text-align: left;
-            line-height: 2;
+            line-height: 2rem;
         }
         &:after {
             content: 'image';
@@ -174,7 +174,7 @@
             left: 0;
             width: 40%;
             height: 100%;
-            line-height: 2;
+            line-height: 2rem;
             background-color: var(--nord4);
             text-align: right;
         }
