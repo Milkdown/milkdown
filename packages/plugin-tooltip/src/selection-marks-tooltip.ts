@@ -82,7 +82,6 @@ export class SelectionMarksTooltip {
         const { view } = this;
         if (!view) return;
         e.stopPropagation();
-        e.preventDefault();
         Object.values(this.items).forEach(({ $, command }) => {
             if ($.contains(e.target as Element)) {
                 command(e, view)(view.state, view.dispatch);
