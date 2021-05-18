@@ -30,6 +30,7 @@
         "prosemirror-commands": "*"
     },
     "dependencies": {
+        "@milkdown/utils": "workspace:*",
         "tslib": "^2.2.0",
         "prosemirror-tables": "*"
     },

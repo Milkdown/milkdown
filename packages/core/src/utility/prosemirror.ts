@@ -15,20 +15,12 @@ export function maybeMerge(a: Node, b: Node) {
     return;
 }
 
-export interface ViewPlugin {
-    update?: ((view: EditorView<Schema>, prevState: EditorState<Schema>) => void) | null;
-    destroy?: (() => void) | null;
-}
-
 export type Command = (state: EditorState<Schema>, dispatch?: (tr: Transaction<Schema>) => void) => void;
 
 type NodeViewParams = [node: Node, view: EditorView, getPos: () => number, decorations: Decoration[]];
 type MarkViewParams = [mark: Mark, view: EditorView, getPos: boolean, decorations: Decoration[]];
 
 export type NodeView = (...params: NodeViewParams) => void;
-
 export type MarkView = (...params: MarkViewParams) => void;
-
 export type NodeViewFactory = (editor: Editor, nodeType: NodeType, ...params: NodeViewParams) => NodeView;
-
 export type MarkViewFactory = (editor: Editor, markType: MarkType, ...params: MarkViewParams) => NodeView;

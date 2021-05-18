@@ -1,15 +1,15 @@
 {
-    "name": "@milkdown/plugin-slash",
+    "name": "@milkdown/utils",
     "version": "3.0.0",
     "main": "lib/index.js",
     "module": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
         "start": "vite",
-        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
+        "watch": "tsc -w",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "tsc && postcss style/style.css --verbose -o lib/style.css"
+        "build": "tsc"
     },
     "files": [
         "lib"
@@ -31,14 +31,9 @@
         "prosemirror-view": "*"
     },
     "dependencies": {
-        "@milkdown/utils": "workspace:*",
-        "smooth-scroll-into-view-if-needed": "^1.1.32",
         "tslib": "^2.2.0"
     },
     "devDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/plugin-prism": "workspace:*",
-        "@milkdown/plugin-table": "workspace:*",
-        "concurrently": "^6.0.2"
+        "@milkdown/core": "workspace:*"
     }
 }

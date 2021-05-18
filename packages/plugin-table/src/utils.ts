@@ -1,27 +1,12 @@
+import { findParentNode, cloneTr } from '@milkdown/utils';
 import { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
-import { CellSelection, TableMap, tableNodeTypes } from 'prosemirror-tables';
 import { Selection, Transaction } from 'prosemirror-state';
+import { CellSelection, TableMap, tableNodeTypes } from 'prosemirror-tables';
 
 export type CellPos = {
     pos: number;
     start: number;
     node: ProsemirrorNode;
-};
-
-export const findParentNode = (predicate: (node: ProsemirrorNode) => boolean) => (selection: Selection) => {
-    const { $from } = selection;
-    for (let i = $from.depth; i > 0; i--) {
-        const node = $from.node(i);
-        if (predicate(node)) {
-            return {
-                pos: i > 0 ? $from.before(i) : 0,
-                start: $from.start(i),
-                depth: i,
-                node,
-            };
-        }
-    }
-    return undefined;
 };
 
 export const findTable = (selection: Selection) =>
@@ -83,10 +68,6 @@ export const createTable = (schema: Schema, rowsCount = 3, colsCount = 3) => {
         .map((_, i) => tableRow.create(null, i === 0 ? headerCells : cells));
 
     return table.create(null, rows);
-};
-
-export const cloneTr = (tr: Transaction) => {
-    return Object.assign(Object.create(tr), tr).setTime(Date.now());
 };
 
 export const select = (type: 'row' | 'col') => (index: number) => (tr: Transaction) => {

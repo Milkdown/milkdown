@@ -12,6 +12,7 @@
         "prosemirror",
         "textblock",
         "textbox",
+        "traptitech",
         "vite"
     ],
     "editor.formatOnSave": true

@@ -1,9 +1,10 @@
-import { createProsemirrorPlugin, PluginReadyContext } from '@milkdown/core/lib';
+import { createProsemirrorPlugin, PluginReadyContext } from '@milkdown/core';
+import { findParentNode } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import { Action, items } from './item';
-import { createDropdown, createPlaceholder, findParentNode } from './utility';
+import { createDropdown, createPlaceholder } from './utility';
 
 export const slashPlugin = createProsemirrorPlugin('slash', (ctx) => [plugin(ctx)]);
 

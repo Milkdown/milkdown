@@ -184,10 +184,12 @@ importers:
   packages/plugin-prism:
     specifiers:
       '@milkdown/core': '*'
+      '@milkdown/utils': workspace:*
       '@types/refractor': ^3.0.0
       refractor: ^3.3.1
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       '@types/refractor': 3.0.0
       refractor: 3.3.1
       tslib: 2.2.0
@@ -199,10 +201,12 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-table': workspace:*
+      '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       smooth-scroll-into-view-if-needed: ^1.1.32
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.2.0
     devDependencies:
@@ -214,10 +218,12 @@ importers:
   packages/plugin-table:
     specifiers:
       '@milkdown/core': '*'
+      '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       prosemirror-tables: '*'
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       prosemirror-tables: 1.1.1
       tslib: 2.2.0
     devDependencies:
@@ -227,9 +233,11 @@ importers:
   packages/plugin-tooltip:
     specifiers:
       '@milkdown/core': '*'
+      '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
@@ -250,6 +258,15 @@ importers:
 
   packages/theme-nord:
     specifiers: {}
+
+  packages/utils:
+    specifiers:
+      '@milkdown/core': workspace:*
+      tslib: ^2.2.0
+    dependencies:
+      tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
 packages:
 
