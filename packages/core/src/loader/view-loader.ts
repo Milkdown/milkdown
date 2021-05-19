@@ -21,6 +21,7 @@ export type ViewLoaderOptions = {
     root: Element;
     defaultValue: string;
     listener: Listener;
+    editable?: (editorState: EditorState) => boolean;
 };
 
 export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext, ViewLoaderOptions> {
@@ -29,12 +30,13 @@ export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext
     loadAfter = LoadState.PluginReady;
     main() {
         const { nodeViews, serializer } = this.context;
-        const { listener } = this.options;
+        const { listener, editable } = this.options;
         const state = this.createState();
         const container = this.createViewContainer();
         const view = new EditorView(container, {
             state,
             nodeViews: nodeViews as EditorProps['nodeViews'],
+            editable,
             dispatchTransaction: (tr) => {
                 const nextState = view.state.apply(tr);
                 view.updateState(nextState);
