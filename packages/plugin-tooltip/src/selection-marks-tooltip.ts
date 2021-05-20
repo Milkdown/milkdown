@@ -13,6 +13,11 @@ export class SelectionMarksTooltip {
     }
 
     update(view: EditorView, prevState?: EditorState) {
+        if (!view.editable) {
+            this.$.classList.add('hide');
+            return;
+        }
+
         const state = view.state;
 
         if (prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection)) return;

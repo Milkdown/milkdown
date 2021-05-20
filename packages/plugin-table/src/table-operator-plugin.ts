@@ -139,7 +139,9 @@ export class PluginProps implements PluginSpec {
 
         if (prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection)) return;
 
-        if (!(state.selection instanceof CellSelection)) {
+        const isCellSelection = state.selection instanceof CellSelection;
+
+        if (!isCellSelection || !view.editable) {
             this.hide();
             return;
         }
