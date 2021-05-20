@@ -112,6 +112,7 @@ importers:
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
+      '@rollup/pluginutils': '*'
     dependencies:
       '@milkdown/core': link:../packages/core
       '@milkdown/plugin-math': link:../packages/plugin-math
@@ -121,6 +122,8 @@ importers:
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/theme-nord': link:../packages/theme-nord
+    devDependencies:
+      '@rollup/pluginutils': 4.1.0
 
   packages/core:
     specifiers:
@@ -1176,6 +1179,16 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.4
       fastq: 1.11.0
+    dev: true
+
+  /@rollup/pluginutils/4.1.0:
+    resolution: {integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      estree-walker: 2.0.2
+      picomatch: 2.2.3
     dev: true
 
   /@sinonjs/commons/1.8.3:
@@ -2701,6 +2714,10 @@ packages:
   /estraverse/5.2.0:
     resolution: {integrity: sha512-BxbNGGNm0RyRYvUdHpIwv9IWzeM9XClbOxwoATuFdOE7ZE6wHL+HQ5T8hoPM+zHvmKzzsEqhgy0GrQ5X13afiQ==}
     engines: {node: '>=4.0'}
+    dev: true
+
+  /estree-walker/2.0.2:
+    resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
     dev: true
 
   /esutils/2.0.3:

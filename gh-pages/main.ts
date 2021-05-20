@@ -13,54 +13,7 @@ import '@milkdown/plugin-tooltip/lib/style.css';
 import '@milkdown/plugin-slash/lib/style.css';
 import './style.css';
 
-const markdown = `
-# Milkdown
-
-![logo](/milkdown/milkdown-mini.svg)
-
-> Milkdown is a WYSIWYG markdown editor.
->
-> Here is the [repo](https://github.com/Saul-Mirone/milkdown) (*right click to open link*).
-
-You can check the output markdown text in **developer tool**.
-
----
-
-You can add \`inline code\` and code block:
-
-\`\`\`javascript
-function main() {
-    console.log('Hello milkdown!');
-}
-\`\`\`
-
----
-
-You can type \`||\` and a \`space\` to create a table:
-
-| First Header   | Second Header      |
-| -------------- | :----------------: |
-| Content Cell 1 | \`Content\` Cell 1 |
-| Content Cell 2 | __Content__ Cell 2 |
-
----
-
-Math is supported by [TeX expression](https://en.wikipedia.org/wiki/TeX).
-
-Now we have some inline math: $V \\times W \\stackrel{\\otimes}{\\rightarrow} V \\otimes W$. You can click to edit it.
-
-Math block is also supported. 
-
-$$
-\\mathcal{L}(V \\otimes W, Z) \\cong \\big\\{ \\substack{\\text{bilinear maps}\\\\{V \\times W \\rightarrow Z}} \\big\\}
-$$
-
-You can type \`$$\` and a \`space\` to create a math block.
-
----
-
-Have fun!
-`;
+import markdown from './example.md';
 
 const root = document.getElementById('app');
 
