@@ -8,6 +8,9 @@
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
     --bg: #fff;
 
+    --text: var(--nord0);
+    --text-lighter: var(--nord1);
+
     --math_font-code: var(--font-code);
     --math_color: var(--nord9);
     --math_bg-color: var(--nord5);
@@ -19,7 +22,7 @@
     --table_line-color: var(--nord4);
     --table_header-bg-color: var(--nord6);
     --table_selected-cell-bg-color: var(--nord8);
-    --table_selector-color: var(--nord10);
+    --table_selector-color: var(--nord9);
     --table_selector-color-hover: var(--nord8);
     --table_env-bg-color: var(--bg);
     --table_tooltip-color: var(--nord5);

@@ -72,7 +72,6 @@ new Editor({
     listener: {
         markdown: [(getValue) => console.log(getValue())],
     },
-    editable: () => false,
 })
     .use(nodes)
     .use(marks)
