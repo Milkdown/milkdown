@@ -7,24 +7,20 @@
     margin-bottom: 8px;
     background: var(--tooltip_bg-color);
     border-radius: 4px;
+
+    border: 1px solid palette(line);
+
     color: var(--tooltip_color);
-    padding: 4px 8px;
-    &:before {
-        content: '';
-        position: absolute;
-        height: 0;
-        width: 0;
-        left: 50%;
-        margin-left: -6px;
-        bottom: -6px;
-        border: 6px solid transparent;
-        border-bottom-width: 0;
-        border-top-color: var(--tooltip_bg-color);
-    }
+    overflow: hidden;
+
     .icon {
-        width: 1.8rem;
+        position: relative;
+        background: palette(surface);
+        color: palette(solid, 0.87);
+
+        width: 3rem;
+        line-height: 3rem;
         text-align: center;
-        background: var(--tooltip_bg-color);
         transition: all 0.2s ease-in;
         &.active {
             color: var(--tooltip_color-active);
@@ -32,7 +28,16 @@
         }
         &:hover {
             color: var(--tooltip_color-hover);
-            background: var(--tooltip_bg-color-hover);
+            background: palette(secondary, 0.12);
+        }
+        &:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0px;
+            top: 0;
+            width: 1px;
+            bottom: 0;
+            background: palette(line);
         }
     }
     .group {

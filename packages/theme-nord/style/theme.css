@@ -5,11 +5,10 @@
 @import './nodes.css';
 @import './code.css';
 
-:root {
+@define-mixin theme {
     --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
         sans-serif;
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
-
     --neutral: var(--nord0-rgb);
     --solid: var(--nord3-rgb);
     --primary: var(--nord10-rgb);
@@ -17,9 +16,10 @@
     --line: var(--nord4-rgb);
     --background: var(--nord6-rgb);
     --surface: 255, 255, 255;
+}
 
-    --text: var(--nord0);
-    --text-lighter: var(--nord1);
+:root {
+    @mixin theme;
 
     --math_font-code: var(--font-code);
     --math_color: var(--nord9);
@@ -70,7 +70,7 @@
     margin-left: auto;
     margin-right: auto;
     padding: 3.125rem 1.25rem;
-    box-shadow: var(--nord4) 0px 4px 6px, var(--nord4) 0px 5px 7px;
+    box-shadow: palette(line) 0px 4px 6px, palette(line) 0px 5px 7px;
 
     @media only screen and (min-width: 42rem) {
         max-width: 42rem;
