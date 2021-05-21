@@ -11,6 +11,7 @@
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
     --neutral: var(--nord0-rgb);
     --solid: var(--nord3-rgb);
+    --shadow: var(--nord1-rgb);
     --primary: var(--nord10-rgb);
     --secondary: var(--nord9-rgb);
     --line: var(--nord4-rgb);

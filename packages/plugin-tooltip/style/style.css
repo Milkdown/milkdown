@@ -5,30 +5,29 @@
     position: absolute;
     transform: translateX(-50%);
     margin-bottom: 8px;
-    background: var(--tooltip_bg-color);
+    /* background: var(--tooltip_bg-color); */
     border-radius: 4px;
 
     border: 1px solid palette(line);
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
 
     color: var(--tooltip_color);
     overflow: hidden;
+    background: palette(surface);
 
     .icon {
         position: relative;
-        background: palette(surface);
         color: palette(solid, 0.87);
 
         width: 3rem;
         line-height: 3rem;
         text-align: center;
         transition: all 0.2s ease-in;
+        &:hover,
+        &:active,
         &.active {
-            color: var(--tooltip_color-active);
-            background: var(--tooltip_bg-color-active);
-        }
-        &:hover {
-            color: var(--tooltip_color-hover);
-            background: palette(secondary, 0.12);
+            color: palette(primary);
+            background-color: palette(secondary, 0.12);
         }
         &:not(:last-child)::after {
             content: '';
