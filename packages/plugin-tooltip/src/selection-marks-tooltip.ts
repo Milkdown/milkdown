@@ -1,5 +1,5 @@
 import { PluginReadyContext } from '@milkdown/core';
-import { EditorState } from 'prosemirror-state';
+import { EditorState, NodeSelection, TextSelection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { ItemMap } from './item';
 
@@ -13,6 +13,11 @@ export class SelectionMarksTooltip {
     }
 
     update(view: EditorView, prevState?: EditorState) {
+        if (!view.editable) {
+            this.$.classList.add('hide');
+            return;
+        }
+
         const state = view.state;
 
         if (prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection)) return;
@@ -67,15 +72,33 @@ export class SelectionMarksTooltip {
     private calculatePosition(view: EditorView) {
         const state = view.state;
         const { from, to } = state.selection;
-        const start = view.coordsAtPos(from);
-        const end = view.coordsAtPos(to);
-        const left = Math.max((start.left + end.left) / 2, start.left + 3);
+        if (state.selection instanceof TextSelection) {
+            const start = view.coordsAtPos(from);
+            const end = view.coordsAtPos(to);
+            const left = Math.max((start.left + end.left) / 2, start.left + 3);
 
-        const box = this.$.offsetParent?.getBoundingClientRect();
-        if (!box) return;
+            const box = this.$.offsetParent?.getBoundingClientRect();
+            if (!box) return;
 
-        this.$.style.left = left - box.left + 'px';
-        this.$.style.bottom = box.bottom - start.top + 'px';
+            this.$.style.left = left - box.left + 'px';
+            this.$.style.bottom = box.bottom - start.top + 'px';
+            return;
+        }
+        if (state.selection instanceof NodeSelection) {
+            const start = view.coordsAtPos(from);
+            const end = view.coordsAtPos(to);
+            const left = Math.max((start.left + end.left) / 2, start.left + 3);
+
+            const box = this.$.getBoundingClientRect();
+            const parent = this.$.offsetParent?.getBoundingClientRect();
+            if (!parent) return;
+
+            const leftPx = left - parent.left;
+
+            this.$.style.left = (leftPx < box.width / 2 ? box.width / 2 : leftPx) + 'px';
+            this.$.style.bottom = parent.bottom - start.top + 'px';
+            return;
+        }
     }
 
     private listener = (e: Event) => {

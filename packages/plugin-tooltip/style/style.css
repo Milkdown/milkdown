@@ -1,5 +1,5 @@
 .tooltip {
-    display: flex;
+    display: inline-flex;
     cursor: pointer;
     justify-content: space-evenly;
     position: absolute;
@@ -40,6 +40,17 @@
         justify-content: center;
         outline: none;
         background: var(--tooltip_group-bg-color);
+        .label {
+            color: var(--tooltip_input-color-hover);
+            background: var(--tooltip_input-bg-color);
+            padding: 0 4px;
+            cursor: default;
+            display: flex;
+            font-size: 0.875rem;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
         .input {
             font-family: var(--tooltip_input-font);
             text-align: left;
@@ -59,6 +70,11 @@
             background: var(--tooltip_group-icon-bg-color);
             &:hover {
                 color: var(--tooltip_group-icon-color-hover);
+            }
+        }
+        &[data-label='alt'] {
+            .input {
+                width: 4rem;
             }
         }
     }

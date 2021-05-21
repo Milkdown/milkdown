@@ -21,3 +21,5 @@ const rule = createMarkdownItRule('milkdown-table-rule', () => ['table']);
 const markdownItPlugin = createMarkdownItPlugin('milkdown-table-markdown', () => [markdownItTablePlugin]);
 
 export const table = [...nodes, rule, markdownItPlugin, plugin];
+
+export { createTable } from './utils';

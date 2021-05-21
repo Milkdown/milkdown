@@ -2,7 +2,16 @@ import { PluginReadyContext } from '@milkdown/core';
 import { Command, toggleMark } from 'prosemirror-commands';
 import { MarkType } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { icon, input, hasMark, isTextAndNotHasMark, findMarkByType, modifyLink } from './utility';
+import {
+    icon,
+    input,
+    hasMark,
+    isTextAndNotHasMark,
+    findMarkByType,
+    modifyLink,
+    findChildNode,
+    modifyImage,
+} from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -22,6 +31,8 @@ export enum Action {
     ToggleCode,
     ToggleLink,
     ModifyLink,
+    ModifyImageSrc,
+    ModifyImageAlt,
 }
 
 export type ItemMap = Record<Action, Item>;
@@ -39,7 +50,7 @@ const createToggleIcon = (
 });
 
 export const itemMap = (ctx: PluginReadyContext): ItemMap => {
-    const { marks } = ctx.schema;
+    const { marks, nodes } = ctx.schema;
     return {
         [Action.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
         [Action.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),
@@ -61,6 +72,38 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
                 if (!mark) return;
 
                 firstChild.value = mark.attrs.href;
+            },
+        },
+        [Action.ModifyImageSrc]: {
+            $: input('link'),
+            command: modifyImage(ctx.schema, 'src'),
+            active: () => false,
+            disable: (view) => !findChildNode(view.state.selection, nodes.image),
+            update: (view, $) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const [_, input] = Array.from($.children);
+                if (!(input instanceof HTMLInputElement)) return;
+
+                const node = findChildNode(view.state.selection, nodes.image);
+                if (!node) return;
+
+                input.value = node.node.attrs.src;
+            },
+        },
+        [Action.ModifyImageAlt]: {
+            $: input('alt'),
+            command: modifyImage(ctx.schema, 'alt'),
+            active: () => false,
+            disable: (view) => !findChildNode(view.state.selection, nodes.image),
+            update: (view, $) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const [_, input] = Array.from($.children);
+                if (!(input instanceof HTMLInputElement)) return;
+
+                const node = findChildNode(view.state.selection, nodes.image);
+                if (!node) return;
+
+                input.value = node.node.attrs.alt;
             },
         },
     };

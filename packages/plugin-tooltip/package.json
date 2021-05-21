@@ -24,6 +24,7 @@
         "prosemirror-view": "*"
     },
     "dependencies": {
+        "@milkdown/utils": "workspace:*",
         "tslib": "^2.2.0"
     },
     "devDependencies": {

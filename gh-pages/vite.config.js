@@ -1,3 +1,5 @@
+import { markdownPlugin } from './markdown-plugin';
+
 export default {
     base: '/milkdown/',
     build: {
@@ -19,4 +21,5 @@ export default {
             'prosemirror-gapcursor',
         ],
     },
+    plugins: [markdownPlugin()],
 };

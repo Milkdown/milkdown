@@ -95,6 +95,12 @@ export class CodeFence extends Node {
     private createSelectElement(currentLanguage: string) {
         const select = document.createElement('select');
         select.className = 'code-fence_select';
+        select.addEventListener('mousedown', (e) => {
+            const { editorView } = this.context as ProsemirrorReadyContext;
+            if (editorView.editable) return;
+
+            e.preventDefault();
+        });
         select.addEventListener('change', (e) => {
             if (this.context.loadState !== LoadState.Complete) {
                 throw new Error('Should not trigger event before milkdown ready.');

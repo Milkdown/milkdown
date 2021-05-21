@@ -36,7 +36,9 @@ importers:
       markdown-it: ^12.0.6
       postcss: ^8.2.12
       postcss-cli: ^8.3.1
+      postcss-functions: ^4.0.2
       postcss-import: ^14.0.1
+      postcss-mixins: ^8.0.0
       postcss-nested: ^5.0.5
       prettier: ^2.2.1
       prettier-plugin-organize-imports: ^1.1.1
@@ -86,7 +88,9 @@ importers:
       markdown-it: 12.0.6
       postcss: 8.2.12
       postcss-cli: 8.3.1_postcss@8.2.12
+      postcss-functions: 4.0.2_postcss@8.2.12
       postcss-import: 14.0.1_postcss@8.2.12
+      postcss-mixins: 8.0.0_postcss@8.2.12
       postcss-nested: 5.0.5_postcss@8.2.12
       prettier: 2.2.1
       prettier-plugin-organize-imports: 1.1.1_prettier@2.2.1+typescript@4.2.4
@@ -109,18 +113,23 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-slash': workspace:*
       '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
+      '@rollup/pluginutils': '*'
     dependencies:
       '@milkdown/core': link:../packages/core
       '@milkdown/plugin-math': link:../packages/plugin-math
       '@milkdown/plugin-prism': link:../packages/plugin-prism
+      '@milkdown/plugin-slash': link:../packages/plugin-slash
       '@milkdown/plugin-table': link:../packages/plugin-table
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/theme-nord': link:../packages/theme-nord
+    devDependencies:
+      '@rollup/pluginutils': 4.1.0
 
   packages/core:
     specifiers:
@@ -184,10 +193,12 @@ importers:
   packages/plugin-prism:
     specifiers:
       '@milkdown/core': '*'
+      '@milkdown/utils': workspace:*
       '@types/refractor': ^3.0.0
       refractor: ^3.3.1
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       '@types/refractor': 3.0.0
       refractor: 3.3.1
       tslib: 2.2.0
@@ -196,22 +207,32 @@ importers:
 
   packages/plugin-slash:
     specifiers:
-      '@milkdown/core': '*'
+      '@milkdown/core': workspace:*
+      '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-table': workspace:*
+      '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
+      smooth-scroll-into-view-if-needed: ^1.1.32
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
+      smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/plugin-prism': link:../plugin-prism
+      '@milkdown/plugin-table': link:../plugin-table
       concurrently: 6.0.2
 
   packages/plugin-table:
     specifiers:
       '@milkdown/core': '*'
+      '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       prosemirror-tables: '*'
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       prosemirror-tables: 1.1.1
       tslib: 2.2.0
     devDependencies:
@@ -221,9 +242,11 @@ importers:
   packages/plugin-tooltip:
     specifiers:
       '@milkdown/core': '*'
+      '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
@@ -244,6 +267,15 @@ importers:
 
   packages/theme-nord:
     specifiers: {}
+
+  packages/utils:
+    specifiers:
+      '@milkdown/core': workspace:*
+      tslib: ^2.2.0
+    dependencies:
+      tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
 packages:
 
@@ -1155,6 +1187,16 @@ packages:
       fastq: 1.11.0
     dev: true
 
+  /@rollup/pluginutils/4.1.0:
+    resolution: {integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      estree-walker: 2.0.2
+      picomatch: 2.2.3
+    dev: true
+
   /@sinonjs/commons/1.8.3:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}
     dependencies:
@@ -1928,6 +1970,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /camelcase-css/2.0.1:
+    resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==}
+    engines: {node: '>= 6'}
+    dev: true
+
   /camelcase-keys/6.2.2:
     resolution: {integrity: sha512-YrwaA0vEKazPBkn0ipTiMpSajYDSe+KjQfrjhcBMxJt/znbvlHd8Pw/Vamaz5EB4Wfhs3SUR3Z9mwRu/P3s3Yg==}
     engines: {node: '>=8'}
@@ -2149,6 +2196,10 @@ packages:
   /component-emitter/1.3.0:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
     dev: true
+
+  /compute-scroll-into-view/1.0.17:
+    resolution: {integrity: sha512-j4dx+Fb0URmzbwwMUrhqWM2BEWHdFGx+qZ9qqASHRPqvTYdqvWnHg0H1hIbcyLnvgnoNAVMlwkepyqM3DaIFUg==}
+    dev: false
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
@@ -2674,6 +2725,10 @@ packages:
   /estraverse/5.2.0:
     resolution: {integrity: sha512-BxbNGGNm0RyRYvUdHpIwv9IWzeM9XClbOxwoATuFdOE7ZE6wHL+HQ5T8hoPM+zHvmKzzsEqhgy0GrQ5X13afiQ==}
     engines: {node: '>=4.0'}
+    dev: true
+
+  /estree-walker/2.0.2:
+    resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
     dev: true
 
   /esutils/2.0.3:
@@ -4491,6 +4546,12 @@ packages:
     hasBin: true
     dev: true
 
+  /nanoid/3.1.23:
+    resolution: {integrity: sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: true
+
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
     engines: {node: '>=0.10.0'}
@@ -4852,6 +4913,15 @@ packages:
       yargs: 16.2.0
     dev: true
 
+  /postcss-functions/4.0.2_postcss@8.2.12:
+    resolution: {integrity: sha512-htDZN6t97uW4GBXquTsz/DVaNVAHtHx5tLCALquVM2u58UwHki+RwHbANKiiI0ImA8T7Iml2MnvLUM7aGtlpqA==}
+    peerDependencies:
+      postcss: ^8.0.0
+    dependencies:
+      postcss: 8.2.12
+      postcss-value-parser: 4.1.0
+    dev: true
+
   /postcss-import/14.0.1_postcss@8.2.12:
     resolution: {integrity: sha512-Xn2+z++vWObbEPhiiKO1a78JiyhqipyrXHBb3AHpv0ks7Cdg+GxQQJ24ODNMTanldf7197gSP3axppO9yaG0lA==}
     engines: {node: '>=10.0.0'}
@@ -4864,12 +4934,33 @@ packages:
       resolve: 1.20.0
     dev: true
 
+  /postcss-js/3.0.3:
+    resolution: {integrity: sha512-gWnoWQXKFw65Hk/mi2+WTQTHdPD5UJdDXZmX073EY/B3BWnYjO4F4t0VneTCnCGQ5E5GsCdMkzPaTXwl3r5dJw==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      camelcase-css: 2.0.1
+      postcss: 8.3.0
+    dev: true
+
   /postcss-load-config/3.0.1:
     resolution: {integrity: sha512-/pDHe30UYZUD11IeG8GWx9lNtu1ToyTsZHnyy45B4Mrwr/Kb6NgYl7k753+05CJNKnjbwh4975amoPJ+TEjHNQ==}
     engines: {node: '>= 10'}
     dependencies:
       cosmiconfig: 7.0.0
       import-cwd: 3.0.0
+    dev: true
+
+  /postcss-mixins/8.0.0_postcss@8.2.12:
+    resolution: {integrity: sha512-HHpxAs3MfwwwAyd7Mu/+lFTQXb+04VoGPogEwFbzKxAFlCDumjd6y8xixyPDpC5qihzaoKfk7aDdz11NbVxepg==}
+    engines: {node: '>=12.0'}
+    peerDependencies:
+      postcss: ^8.2.14
+    dependencies:
+      globby: 11.0.3
+      postcss: 8.2.12
+      postcss-js: 3.0.3
+      postcss-simple-vars: 6.0.3_postcss@8.2.12
+      sugarss: 3.0.3
     dev: true
 
   /postcss-nested/5.0.5_postcss@8.2.12:
@@ -4905,6 +4996,15 @@ packages:
       util-deprecate: 1.0.2
     dev: true
 
+  /postcss-simple-vars/6.0.3_postcss@8.2.12:
+    resolution: {integrity: sha512-fkNn4Zio8vN4vIig9IFdb8lVlxWnYR769RgvxCM6YWlFKie/nQaOcaMMMFz/s4gsfHW4/5bJW+i57zD67mQU7g==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      postcss: ^8.2.1
+    dependencies:
+      postcss: 8.2.12
+    dev: true
+
   /postcss-value-parser/4.1.0:
     resolution: {integrity: sha512-97DXOFbQJhk71ne5/Mt6cOu6yxsSfM0QGQyl0L25Gca4yGWEGJaig7l7gbCX623VqTBNGLRLaVUCnNkcedlRSQ==}
     dev: true
@@ -4916,6 +5016,15 @@ packages:
       colorette: 1.2.2
       nanoid: 3.1.22
       source-map: 0.6.1
+    dev: true
+
+  /postcss/8.3.0:
+    resolution: {integrity: sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==}
+    engines: {node: ^10 || ^12 || >=14}
+    dependencies:
+      colorette: 1.2.2
+      nanoid: 3.1.23
+      source-map-js: 0.6.2
     dev: true
 
   /preferred-pm/3.0.3:
@@ -5421,6 +5530,12 @@ packages:
       xmlchars: 2.2.0
     dev: true
 
+  /scroll-into-view-if-needed/2.2.28:
+    resolution: {integrity: sha512-8LuxJSuFVc92+0AdNv4QOxRL4Abeo1DgLnGNkn1XlaujPH/3cCFz3QI60r2VNu4obJJROzgnIUw5TKQkZvZI1w==}
+    dependencies:
+      compute-scroll-into-view: 1.0.17
+    dev: false
+
   /select/1.1.2:
     resolution: {integrity: sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=}
     dev: false
@@ -5521,6 +5636,12 @@ packages:
       yargs: 15.4.1
     dev: true
 
+  /smooth-scroll-into-view-if-needed/1.1.32:
+    resolution: {integrity: sha512-1/Ui1kD/9U4E6B6gYvJ6qhEiZPHMT9ZHi/OKJVEiCFhmcMqPm7y4G15pIl/NhuPTkDF/u57eEOK4Frh4721V/w==}
+    dependencies:
+      scroll-into-view-if-needed: 2.2.28
+    dev: false
+
   /snapdragon-node/2.1.1:
     resolution: {integrity: sha512-O27l4xaMYt/RSQ5TR3vpWCAB5Kb/czIcqUFOM/C4fYcLnbZUc1PkjTAMjof2pBWaSTwOUd6qUHcFGVGj7aIwnw==}
     engines: {node: '>=0.10.0'}
@@ -5549,6 +5670,11 @@ packages:
       source-map: 0.5.7
       source-map-resolve: 0.5.3
       use: 3.1.1
+    dev: true
+
+  /source-map-js/0.6.2:
+    resolution: {integrity: sha512-/3GptzWzu0+0MBQFrDKzw/DvvMTUORvgY6k6jd/VS6iCR4RDTKWH6v6WPwQoUO8667uQEf9Oe38DxAYWY5F/Ug==}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /source-map-resolve/0.5.3:
@@ -5758,6 +5884,13 @@ packages:
   /strip-json-comments/3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+    dev: true
+
+  /sugarss/3.0.3:
+    resolution: {integrity: sha512-uxa2bbuc+w7ov7DyYIhF6bM0qZF3UkFT5/nE8AJgboiVnKsBDbwxs++dehEIe1JNhpMaGJc37wGQ2QrrWey2Sg==}
+    engines: {node: '>=10.0'}
+    dependencies:
+      postcss: 8.3.0
     dev: true
 
   /supports-color/5.5.0:

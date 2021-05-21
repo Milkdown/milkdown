@@ -8,7 +8,7 @@ export class Image extends Node {
     schema: NodeSpec = {
         inline: true,
         attrs: {
-            src: {},
+            src: { default: '' },
             alt: { default: null },
             title: { default: null },
         },
@@ -20,7 +20,7 @@ export class Image extends Node {
                 tag: 'img[src]',
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 getAttrs: (dom: any) => ({
-                    src: dom.getAttribute('src'),
+                    src: dom.getAttribute('src') || '',
                     alt: dom.getAttribute('alt'),
                     title: dom.getAttribute('title'),
                 }),
@@ -32,7 +32,7 @@ export class Image extends Node {
         node: 'image',
         getAttrs: (token) => {
             return {
-                src: token.attrGet('src'),
+                src: token.attrGet('src') || '',
                 alt: token.children?.[0]?.content || null,
                 title: token.attrGet('title'),
             };
@@ -46,7 +46,7 @@ export class Image extends Node {
     };
     inputRules = (nodeType: NodeType) => [
         new InputRule(/!\[(?<alt>.*?)]\((?<filename>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
-            const [okay, alt, src, title] = match;
+            const [okay, alt, src = '', title] = match;
             const { tr } = state;
             if (okay) {
                 tr.replaceWith(start, end, nodeType.create({ src, alt, title }));

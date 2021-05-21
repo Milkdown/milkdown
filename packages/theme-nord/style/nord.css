@@ -1,183 +1,49 @@
-/*
- * Copyright (c) 2016-present Arctic Ice Studio <development@arcticicestudio.com>
- * Copyright (c) 2016-present Sven Greb <development@svengreb.de>
- *
- * Project:    Nord
- * Version:    0.2.0
- * Repository: https://github.com/arcticicestudio/nord
- * License:    MIT
- * References:
- *   https://www.w3.org/TR/css-variables
- *   https://www.w3.org/TR/selectors/#root-pseudo
- *   https://drafts.csswg.org/css-variables
- *   https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
- *   http://warpspire.com/kss
- *   https://github.com/kss-node/kss-node
- */
-
-/*
-An arctic, north-bluish color palette.
-Created for the clean- and minimal flat design pattern to achieve a optimal focus and readability for code syntax
-highlighting and UI.
-It consists of a total of sixteen, carefully selected, dimmed pastel colors for a eye-comfortable, but yet colorful
-ambiance.
-Styleguide Nord
-*/
-
 :root {
-    /*
-  Base component color of "Polar Night".
-  Used for texts, backgrounds, carets and structuring characters like curly- and square brackets.
-  Markup:
-  <div style="background-color:#2e3440; width=60; height=60"></div>
-  Styleguide Nord - Polar Night
-  */
     --nord0: #2e3440;
+    --nord0-rgb: 46, 52, 64;
 
-    /*
-  Lighter shade color of the base component color.
-  Used as a lighter background color for UI elements like status bars.
-  Markup:
-  <div style="background-color:#3b4252; width=60; height=60"></div>
-  Styleguide Nord - Polar Night
-  */
     --nord1: #3b4252;
+    --nord1-rgb: 59, 66, 82;
 
-    /*
-  Lighter shade color of the base component color.
-  Used as line highlighting in the editor.
-  In the UI scope it may be used as selection- and highlight color.
-  Markup:
-  <div style="background-color:#434c5e; width=60; height=60"></div>
-  Styleguide Nord - Polar Night
-  */
     --nord2: #434c5e;
+    --nord2-rgb: 67, 76, 94;
 
-    /*
-  Lighter shade color of the base component color.
-  Used for comments, invisibles, indent- and wrap guide marker.
-  In the UI scope used as pseudoclass color for disabled elements.
-  Markup:
-  <div style="background-color:#4c566a; width=60; height=60"></div>
-  Styleguide Nord - Polar Night
-  */
     --nord3: #4c566a;
+    --nord3-rgb: 76, 86, 106;
 
-    /*
-  Base component color of "Snow Storm".
-  Main color for text, variables, constants and attributes.
-  In the UI scope used as semi-light background depending on the theme shading design.
-  Markup:
-  <div style="background-color:#d8dee9; width=60; height=60"></div>
-  Styleguide Nord - Snow Storm
-  */
     --nord4: #d8dee9;
+    --nord4-rgb: 216, 222, 233;
 
-    /*
-  Lighter shade color of the base component color.
-  Used as a lighter background color for UI elements like status bars.
-  Used as semi-light background depending on the theme shading design.
-  Markup:
-  <div style="background-color:#e5e9f0; width=60; height=60"></div>
-  Styleguide Nord - Snow Storm
-  */
     --nord5: #e5e9f0;
+    --nord5-rgb: 229, 233, 240;
 
-    /*
-  Lighter shade color of the base component color.
-  Used for punctuations, carets and structuring characters like curly- and square brackets.
-  In the UI scope used as background, selection- and highlight color depending on the theme shading design.
-  Markup:
-  <div style="background-color:#eceff4; width=60; height=60"></div>
-  Styleguide Nord - Snow Storm
-  */
     --nord6: #eceff4;
+    --nord6-rgb: 236, 239, 244;
 
-    /*
-  Bluish core color.
-  Used for classes, types and documentation tags.
-  Markup:
-  <div style="background-color:#8fbcbb; width=60; height=60"></div>
-  Styleguide Nord - Frost
-  */
     --nord7: #8fbcbb;
+    --nord7-rgb: 143, 188, 187;
 
-    /*
-  Bluish core accent color.
-  Represents the accent color of the color palette.
-  Main color for primary UI elements and methods/functions.
-  Can be used for
-    - Markup quotes
-    - Markup link URLs
-  Markup:
-  <div style="background-color:#88c0d0; width=60; height=60"></div>
-  Styleguide Nord - Frost
-  */
     --nord8: #88c0d0;
+    --nord8-rgb: 136, 192, 208;
 
-    /*
-  Bluish core color.
-  Used for language-specific syntactic/reserved support characters and keywords, operators, tags, units and
-  punctuations like (semi)colons,commas and braces.
-  Markup:
-  <div style="background-color:#81a1c1; width=60; height=60"></div>
-  Styleguide Nord - Frost
-  */
     --nord9: #81a1c1;
+    --nord9-rgb: 129, 161, 193;
 
-    /*
-  Bluish core color.
-  Used for markup doctypes, import/include/require statements, pre-processor statements and at-rules (`@`).
-  Markup:
-  <div style="background-color:#5e81ac; width=60; height=60"></div>
-  Styleguide Nord - Frost
-  */
     --nord10: #5e81ac;
+    --nord10-rgb: 94, 129, 172;
 
-    /*
-  Colorful component color.
-  Used for errors, git/diff deletion and linter marker.
-  Markup:
-  <div style="background-color:#bf616a; width=60; height=60"></div>
-  Styleguide Nord - Aurora
-  */
     --nord11: #bf616a;
+    --nord11-rgb: 191, 97, 106;
 
-    /*
-  Colorful component color.
-  Used for annotations.
-  Markup:
-  <div style="background-color:#d08770; width=60; height=60"></div>
-  Styleguide Nord - Aurora
-  */
     --nord12: #d08770;
+    --nord12-rgb: 208, 135, 112;
 
-    /*
-  Colorful component color.
-  Used for escape characters, regular expressions and markup entities.
-  In the UI scope used for warnings and git/diff renamings.
-  Markup:
-  <div style="background-color:#ebcb8b; width=60; height=60"></div>
-  Styleguide Nord - Aurora
-  */
     --nord13: #ebcb8b;
+    --nord13-rgb: 235, 203, 139;
 
-    /*
-  Colorful component color.
-  Main color for strings and attribute values.
-  In the UI scope used for git/diff additions and success visualizations.
-  Markup:
-  <div style="background-color:#a3be8c; width=60; height=60"></div>
-  Styleguide Nord - Aurora
-  */
     --nord14: #a3be8c;
+    --nord14-rgb: 163, 190, 140;
 
-    /*
-  Colorful component color.
-  Used for numbers.
-  Markup:
-  <div style="background-color:#b48ead; width=60; height=60"></div>
-  Styleguide Nord - Aurora
-  */
     --nord15: #b48ead;
+    --nord15-rgb: 180, 142, 173;
 }

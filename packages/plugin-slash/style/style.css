@@ -1,1 +1,62 @@
-/* TODO: add style */
+.slash-dropdown {
+    width: 12rem;
+    max-height: 12rem;
+    overflow-y: auto;
+    /* border: 1px solid var(--nord4); */
+    border: 1px solid var(--slash_border-color);
+    border-radius: 4px;
+    position: absolute;
+    z-index: 9;
+    &.hide {
+        display: none;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 4px;
+        /* background: var(--nord6); */
+        background: var(--slash_bg-color);
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: var(--slash_scrollbar-color);
+        /* background: var(--nord10); */
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--slash_bg-color-active);
+        /* background: var(--nord8); */
+    }
+}
+
+.slash-dropdown-item {
+    display: flex;
+    padding: 0 4px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    line-height: 2;
+    font-family: var(--slash_font);
+    font-size: 0.875rem;
+
+    /* background: var(--nord6); */
+    background: var(--slash_bg-color);
+    transition: all 0.2s ease-in-out;
+
+    &.hide {
+        display: none;
+    }
+
+    &.active {
+        /* background: var(--nord8); */
+        background: var(--slash_bg-color-active);
+    }
+}
+
+.slash-placeholder {
+    font-family: var(--slash_font);
+    font-size: 0.8rem;
+    /* color: var(--nord9); */
+    color: var(--slash_placeholder-color);
+}

@@ -1,0 +1,91 @@
+@define-mixin lines {
+    .paragraph {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .heading {
+        margin: 2.5rem 0;
+        font-weight: 400;
+    }
+
+    .h1 {
+        font-size: 3rem;
+        line-height: 3.5rem;
+    }
+
+    .h2 {
+        font-size: 2.125rem;
+        line-height: 2.25rem;
+    }
+
+    .h3 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+
+    .hr {
+        height: 1px;
+        background-color: palette(line);
+        border-width: 0;
+    }
+
+    .list-item {
+        &,
+        * {
+            margin: 0;
+        }
+    }
+}
+
+@define-mixin blocks {
+    .blockquote {
+        padding-left: 1.875rem;
+        line-height: 1.75rem;
+        border-left: 4px solid;
+        border-left-color: palette(primary);
+        * {
+            font-size: 1rem;
+            line-height: 1.5rem;
+        }
+    }
+
+    .image {
+        display: block;
+        margin: 0 auto;
+        object-fit: contain;
+        max-width: 100%;
+        min-width: 2rem;
+        position: relative;
+        min-height: 2rem;
+        height: auto;
+        text-align: center;
+        &:before {
+            content: '' ' Broken Image of ' attr(alt);
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            z-index: 2;
+            background-color: palette(line);
+            text-align: left;
+            line-height: 2rem;
+        }
+        &:after {
+            content: 'image';
+            font-family: 'Material Icons';
+            display: block;
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 100%;
+            line-height: 2rem;
+            background-color: palette(line);
+            text-align: right;
+        }
+    }
+}
