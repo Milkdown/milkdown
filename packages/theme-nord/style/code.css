@@ -1,0 +1,71 @@
+@define-mixin code {
+    .code-inline {
+        background-color: palette(neutral);
+        color: palette(background);
+        border-radius: 4px;
+        font-weight: 500;
+        font-family: var(--font-code);
+        padding: 0.2rem;
+    }
+
+    .code-fence {
+        background-color: palette(neutral);
+        color: palette(background);
+        font-size: 0.85rem;
+        padding: 0 0.4rem 0.4rem;
+        border-radius: 4px;
+        overflow: hidden;
+
+        * {
+            font-family: var(--font-code);
+        }
+
+        > div:first-child {
+            width: 100%;
+            min-width: 15ch;
+            max-width: 30ch;
+            border-radius: 4px;
+            cursor: pointer;
+            line-height: 1.5;
+            margin: 0.4rem 0;
+            display: grid;
+            grid-template-areas: 'select';
+            align-items: center;
+
+            &::after {
+                content: '';
+                width: 0.8rem;
+                height: 0.5rem;
+                margin-right: 0.5rem;
+                clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+                grid-area: select;
+                justify-self: end;
+                background-color: palette(line);
+            }
+
+            select {
+                background-color: palette(solid);
+                color: palette(line);
+                grid-area: select;
+                font-size: 0.85rem;
+                padding: 0 0.4rem;
+                outline: none;
+                appearance: none;
+                width: 100%;
+                height: 100%;
+                height: 26px;
+                line-height: 26px;
+                border: 0;
+                margin: 0;
+            }
+        }
+
+        pre {
+            margin: 0 1.2rem;
+        }
+
+        code {
+            line-height: 1.5;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+@define-mixin marks {
+    .strong {
+        font-weight: 600;
+    }
+
+    .link {
+        color: palette(secondary);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        font-weight: 500;
+        outline: 0.2rem solid transparent;
+        &:hover {
+            background-color: palette(line);
+            outline: 0.2rem solid palette(line);
+        }
+    }
+
+    .em {
+        font-style: italic;
+    }
+}

@@ -24,7 +24,7 @@ You can type `||` and a `space` to create a table:
 
 | First Header   |   Second Header    |
 | -------------- | :----------------: |
-| Content Cell 1 | \`Content\` Cell 1 |
+| Content Cell 1 |  `Content` Cell 1  |
 | Content Cell 2 | **Content** Cell 2 |
 
 ---

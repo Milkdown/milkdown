@@ -1,12 +1,22 @@
 @import 'prosemirror-view/style/prosemirror.css';
 @import './nord.css';
 @import './prism.css';
+@import './marks.css';
+@import './nodes.css';
+@import './code.css';
 
 :root {
     --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
         sans-serif;
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
-    --bg: #fff;
+
+    --neutral: var(--nord0-rgb);
+    --solid: var(--nord3-rgb);
+    --primary: var(--nord10-rgb);
+    --secondary: var(--nord9-rgb);
+    --line: var(--nord4-rgb);
+    --background: var(--nord6-rgb);
+    --surface: 255, 255, 255;
 
     --text: var(--nord0);
     --text-lighter: var(--nord1);
@@ -52,13 +62,14 @@
 }
 
 .milkdown {
+    color: palette(neutral, 0.87);
+    background: palette(surface);
+
     position: relative;
     font-family: var(--font);
     margin-left: auto;
     margin-right: auto;
     padding: 3.125rem 1.25rem;
-    background-color: var(--bg);
-    color: var(--nord1);
     box-shadow: var(--nord4) 0px 4px 6px, var(--nord4) 0px 5px 7px;
 
     @media only screen and (min-width: 42rem) {
@@ -66,183 +77,15 @@
         padding: 3.125rem 7.25rem;
     }
 
-    .editor * {
-        margin: 1.875rem 0;
-    }
-
-    .paragraph {
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-    }
-
-    .heading {
-        margin: 2.5rem 0;
-        font-weight: 400;
-    }
-
-    .h1 {
-        font-size: 3rem;
-        line-height: 3.5rem;
-    }
-
-    .h2 {
-        font-size: 2.125rem;
-        line-height: 2.25rem;
-    }
-
-    .h3 {
-        font-size: 1.5rem;
-        line-height: 1.5rem;
-    }
-
     .editor {
         outline: none;
-    }
-
-    .blockquote {
-        padding-left: 1.875rem;
-        line-height: 1.75rem;
-        border-left: 4px solid;
-        border-left-color: var(--nord10);
-        * {
-            font-size: 1rem;
-            line-height: 1.5rem;
+        & * {
+            margin: 1.875rem 0;
         }
     }
 
-    .list-item {
-        &,
-        * {
-            margin: 0;
-        }
-    }
-
-    .hr {
-        height: 1px;
-        background-color: var(--nord6);
-        border-width: 0;
-    }
-
-    .link {
-        color: var(--nord9) !important;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-        font-weight: 500;
-        outline: 0.2rem solid transparent;
-        &:hover {
-            background-color: var(--nord4);
-            outline: 0.2rem solid var(--nord4);
-        }
-    }
-
-    .code-inline {
-        background-color: var(--nord0);
-        color: var(--nord6);
-        border-radius: 4px;
-        font-weight: 500;
-        font-family: var(--font-code);
-        padding: 0.2rem;
-    }
-
-    .image {
-        display: block;
-        margin: 0 auto;
-        object-fit: contain;
-        max-width: 100%;
-        min-width: 2rem;
-        position: relative;
-        min-height: 2rem;
-        height: auto;
-        text-align: center;
-        &:before {
-            content: '' ' Broken Image of ' attr(alt);
-            display: block;
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60%;
-            height: 100%;
-            z-index: 2;
-            background-color: var(--nord4);
-            text-align: left;
-            line-height: 2rem;
-        }
-        &:after {
-            content: 'image';
-            font-family: 'Material Icons';
-            display: block;
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            width: 40%;
-            height: 100%;
-            line-height: 2rem;
-            background-color: var(--nord4);
-            text-align: right;
-        }
-    }
-
-    .code-fence {
-        background-color: var(--nord1);
-        color: var(--nord5);
-        font-size: 0.85rem;
-        padding: 0 0.4rem 0.4rem;
-        border-radius: 4px;
-        overflow: hidden;
-
-        > div:first-child {
-            width: 100%;
-            min-width: 15ch;
-            max-width: 30ch;
-            border-radius: 4px;
-            cursor: pointer;
-            line-height: 1.5;
-            margin: 0.4rem 0;
-            display: grid;
-            grid-template-areas: 'select';
-            align-items: center;
-
-            &::after {
-                content: '';
-                width: 0.8rem;
-                height: 0.5rem;
-                margin-right: 0.5rem;
-                clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-                grid-area: select;
-                justify-self: end;
-                background-color: var(--nord4);
-            }
-
-            select {
-                grid-area: select;
-                font-size: 0.85rem;
-                padding: 0 0.4rem;
-                color: var(--nord4);
-                outline: none;
-                appearance: none;
-                width: 100%;
-                height: 100%;
-                height: 26px;
-                line-height: 26px;
-                background-color: var(--nord2);
-                border: 0;
-                font-family: var(--font-code);
-                margin: 0;
-            }
-        }
-
-        pre {
-            margin: 0 1.2rem;
-        }
-
-        code {
-            font-family: var(--font-code);
-            line-height: 1.5;
-        }
-    }
-
-    .strong {
-        font-weight: 600;
-    }
+    @mixin marks;
+    @mixin blocks;
+    @mixin lines;
+    @mixin code;
 }
