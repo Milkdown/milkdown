@@ -5,81 +5,80 @@
     position: absolute;
     transform: translateX(-50%);
     margin-bottom: 8px;
-    background: var(--tooltip_bg-color);
     border-radius: 4px;
-    color: var(--tooltip_color);
-    padding: 4px 8px;
-    &:before {
-        content: '';
-        position: absolute;
-        height: 0;
-        width: 0;
-        left: 50%;
-        margin-left: -6px;
-        bottom: -6px;
-        border: 6px solid transparent;
-        border-bottom-width: 0;
-        border-top-color: var(--tooltip_bg-color);
-    }
+
+    border: 1px solid palette(line);
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+
+    overflow: hidden;
+    background: palette(surface);
+
     .icon {
-        width: 1.8rem;
+        position: relative;
+        color: palette(solid, 0.87);
+
+        width: 3rem;
+        line-height: 3rem;
         text-align: center;
-        background: var(--tooltip_bg-color);
         transition: all 0.2s ease-in;
-        &.active {
-            color: var(--tooltip_color-active);
-            background: var(--tooltip_bg-color-active);
-        }
         &:hover {
-            color: var(--tooltip_color-hover);
-            background: var(--tooltip_bg-color-hover);
+            background-color: palette(secondary, 0.12);
         }
-    }
-    .group {
-        display: inline-flex;
-        justify-content: center;
-        outline: none;
-        background: var(--tooltip_group-bg-color);
-        .label {
-            color: var(--tooltip_input-color-hover);
-            background: var(--tooltip_input-bg-color);
-            padding: 0 4px;
-            cursor: default;
-            display: flex;
-            font-size: 0.875rem;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
+        &.active {
+            color: palette(primary);
         }
-        .input {
-            font-family: var(--tooltip_input-font);
-            text-align: left;
-            background: var(--tooltip_input-bg-color);
-            width: 12rem;
-            padding: 0 4px;
-            border: 0;
-            &:hover {
-                color: var(--tooltip_input-color-hover);
-            }
-            &:focus {
-                outline: none;
-            }
-        }
-        .material-icons {
-            color: var(--tooltip_group-icon-color);
-            background: var(--tooltip_group-icon-bg-color);
-            &:hover {
-                color: var(--tooltip_group-icon-color-hover);
-            }
-        }
-        &[data-label='alt'] {
-            .input {
-                width: 4rem;
-            }
+        &:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0px;
+            top: 0;
+            width: 1px;
+            bottom: 0;
+            background: palette(line);
         }
     }
     &.hide,
     .hide {
+        display: none;
+    }
+}
+
+.tooltip-input {
+    border: 1px solid palette(line);
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    background: palette(surface);
+    border-radius: 4px;
+    font-size: 1rem;
+
+    height: 3.5rem;
+    width: 20.5rem;
+    padding: 0 1rem;
+    gap: 1rem;
+
+    input,
+    button {
+        all: unset;
+    }
+
+    input {
+        flex-grow: 1;
+    }
+
+    button {
+        cursor: pointer;
+        height: 2.25rem;
+        color: palette(primary);
+        padding: 0 0.5rem;
+        &:hover {
+            background-color: palette(secondary, 0.12);
+        }
+    }
+
+    &.hide {
         display: none;
     }
 }

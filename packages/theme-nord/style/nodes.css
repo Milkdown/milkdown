@@ -35,6 +35,13 @@
         * {
             margin: 0;
         }
+
+        &,
+        li {
+            &::marker {
+                color: palette(primary);
+            }
+        }
     }
 }
 

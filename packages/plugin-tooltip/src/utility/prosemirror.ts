@@ -1,9 +1,9 @@
-import type { Command } from 'prosemirror-commands';
-import type { Mark, MarkType, Node, NodeType, Schema } from 'prosemirror-model';
-import { EditorState, TextSelection, Selection, NodeSelection } from 'prosemirror-state';
 import { findNodeInSelection, findParentNode } from '@milkdown/utils';
-import type { Event2Command } from '../item';
-import { elementIsTag } from './element';
+import { Command, toggleMark } from 'prosemirror-commands';
+import type { Mark, MarkType, Node, NodeType, Schema } from 'prosemirror-model';
+import { EditorState, NodeSelection, Selection, TextSelection } from 'prosemirror-state';
+import type { Event2Command, ButtonItem } from '../item';
+import { elementIsTag, icon } from './element';
 
 export type Position = {
     start: number;
@@ -70,9 +70,7 @@ export const modifyLink = (schema: Schema): Event2Command => (e, view) => {
         target.focus();
         return () => false;
     }
-    if (!elementIsTag(target, 'span')) {
-        return () => false;
-    }
+
     const node = findMarkByType(view.state, link);
     if (!node) return () => false;
 
@@ -94,9 +92,6 @@ export const modifyImage = (schema: Schema, attr: string): Event2Command => (e, 
     }
     if (elementIsTag(target, 'input')) {
         target.focus();
-        return () => false;
-    }
-    if (!elementIsTag(target, 'span')) {
         return () => false;
     }
     const node = findChildNode(view.state.selection, image);
@@ -133,3 +128,15 @@ export const findChildNode = (selection: Selection, nodeType: NodeType) => {
     }
     return undefined;
 };
+
+export const createToggleIcon = (
+    iconName: string,
+    mark: MarkType,
+    disableForMark: MarkType,
+    attrs?: Record<string, unknown>,
+): ButtonItem => ({
+    $: icon(iconName),
+    command: () => toggleMark(mark, attrs),
+    active: (view) => hasMark(view.state, mark),
+    disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
+});
