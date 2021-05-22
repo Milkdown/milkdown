@@ -23,11 +23,11 @@
         line-height: 3rem;
         text-align: center;
         transition: all 0.2s ease-in;
-        &:hover,
-        &:active,
+        &:hover {
+            background-color: palette(secondary, 0.12);
+        }
         &.active {
             color: palette(primary);
-            background-color: palette(secondary, 0.12);
         }
         &:not(:last-child)::after {
             content: '';

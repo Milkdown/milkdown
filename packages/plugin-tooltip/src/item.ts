@@ -32,10 +32,9 @@ export enum Action {
     ToggleLink,
     // ModifyLink,
     // ModifyImageSrc,
-    // ModifyImageAlt,
 }
 
-export type ItemMap = Record<Action, Item>;
+export type ButtonMap = Record<Action, Item>;
 
 const createToggleIcon = (
     iconName: string,
@@ -49,7 +48,7 @@ const createToggleIcon = (
     disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
 });
 
-export const itemMap = (ctx: PluginReadyContext): ItemMap => {
+export const buttonMap = (ctx: PluginReadyContext): ButtonMap => {
     // const { marks, nodes } = ctx.schema;
     const { marks } = ctx.schema;
     return {
@@ -89,22 +88,6 @@ export const itemMap = (ctx: PluginReadyContext): ItemMap => {
         //         if (!node) return;
 
         //         input.value = node.node.attrs.src;
-        //     },
-        // },
-        // [Action.ModifyImageAlt]: {
-        //     $: input('alt'),
-        //     command: modifyImage(ctx.schema, 'alt'),
-        //     active: () => false,
-        //     disable: (view) => !findChildNode(view.state.selection, nodes.image),
-        //     update: (view, $) => {
-        //         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        //         const [_, input] = Array.from($.children);
-        //         if (!(input instanceof HTMLInputElement)) return;
-
-        //         const node = findChildNode(view.state.selection, nodes.image);
-        //         if (!node) return;
-
-        //         input.value = node.node.attrs.alt;
         //     },
         // },
     };

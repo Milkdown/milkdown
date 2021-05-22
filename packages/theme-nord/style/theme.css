@@ -86,7 +86,7 @@
     }
 
     @mixin marks;
-    @mixin blocks;
     @mixin lines;
+    @mixin blocks;
     @mixin code;
 }
