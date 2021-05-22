@@ -1,79 +1,85 @@
 import { PluginReadyContext } from '@milkdown/core';
-import { Command, toggleMark } from 'prosemirror-commands';
-import { MarkType } from 'prosemirror-model';
+import { Command } from 'prosemirror-commands';
 import { EditorView } from 'prosemirror-view';
-import {
-    icon,
-    // input,
-    hasMark,
-    isTextAndNotHasMark,
-    // findMarkByType,
-    // modifyLink,
-    // findChildNode,
-    // modifyImage,
-} from './utility';
+import { createToggleIcon, hasMark, modifyLink, findMarkByType, findChildNode, modifyImage } from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
 export type Event2Command = (e: Event, view: EditorView) => Command;
 
-export type Item = {
+export type ButtonItem = {
     $: HTMLElement;
     command: Event2Command;
     active: Pred;
     disable?: Pred;
-    update?: Updater;
 };
 
-export enum Action {
+export type InputItem = {
+    command: Event2Command;
+    display: Pred;
+    placeholder: string;
+    update: Updater;
+};
+
+export enum ButtonAction {
     ToggleBold,
     ToggleItalic,
     ToggleCode,
     ToggleLink,
-    // ModifyLink,
-    // ModifyImageSrc,
 }
 
-export type ButtonMap = Record<Action, Item>;
+export enum InputAction {
+    ModifyLink,
+    ModifyImage,
+}
 
-const createToggleIcon = (
-    iconName: string,
-    mark: MarkType,
-    disableForMark: MarkType,
-    attrs?: Record<string, unknown>,
-): Item => ({
-    $: icon(iconName),
-    command: () => toggleMark(mark, attrs),
-    active: (view) => hasMark(view.state, mark),
-    disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
-});
+export type ButtonMap = Record<ButtonAction, ButtonItem>;
+export type InputMap = Record<InputAction, InputItem>;
+
+export const inputMap = (ctx: PluginReadyContext): InputMap => {
+    const { marks, nodes } = ctx.schema;
+    return {
+        [InputAction.ModifyLink]: {
+            display: (view) => hasMark(view.state, marks.link),
+            command: modifyLink(ctx.schema),
+            placeholder: 'Input Web Link',
+            update: (view, $) => {
+                const { firstChild } = $;
+                if (!(firstChild instanceof HTMLInputElement)) return;
+
+                const node = findMarkByType(view.state, marks.link);
+                if (!node) return;
+
+                const mark = node.marks.find((m) => m.type === marks.link);
+                if (!mark) return;
+
+                firstChild.value = mark.attrs.href;
+            },
+        },
+        [InputAction.ModifyImage]: {
+            display: (view) => Boolean(findChildNode(view.state.selection, nodes.image)),
+            command: modifyImage(ctx.schema, 'src'),
+            placeholder: 'Input Image Link',
+            update: (view, $) => {
+                const { firstChild } = $;
+                if (!(firstChild instanceof HTMLInputElement)) return;
+
+                const node = findChildNode(view.state.selection, nodes.image);
+                if (!node) return;
+
+                firstChild.value = node.node.attrs.src;
+            },
+        },
+    };
+};
 
 export const buttonMap = (ctx: PluginReadyContext): ButtonMap => {
-    // const { marks, nodes } = ctx.schema;
     const { marks } = ctx.schema;
     return {
-        [Action.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
-        [Action.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),
-        [Action.ToggleCode]: createToggleIcon('code', marks.code_inline, marks.link),
-        [Action.ToggleLink]: createToggleIcon('link', marks.link, marks.code_inline, { href: '' }),
-        // [Action.ModifyLink]: {
-        //     $: input(),
-        //     command: modifyLink(ctx.schema),
-        //     active: () => false,
-        //     disable: (view) => !hasMark(view.state, marks.link),
-        //     update: (view, $) => {
-        //         const { firstChild } = $;
-        //         if (!(firstChild instanceof HTMLInputElement)) return;
-
-        //         const node = findMarkByType(view.state, marks.link);
-        //         if (!node) return;
-
-        //         const mark = node.marks.find((m) => m.type === marks.link);
-        //         if (!mark) return;
-
-        //         firstChild.value = mark.attrs.href;
-        //     },
-        // },
+        [ButtonAction.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
+        [ButtonAction.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),
+        [ButtonAction.ToggleCode]: createToggleIcon('code', marks.code_inline, marks.link),
+        [ButtonAction.ToggleLink]: createToggleIcon('link', marks.link, marks.code_inline, { href: '' }),
         // [Action.ModifyImageSrc]: {
         //     $: input('link'),
         //     command: modifyImage(ctx.schema, 'src'),
