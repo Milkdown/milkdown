@@ -55,6 +55,7 @@
     font-size: 1rem;
 
     height: 3.5rem;
+    box-sizing: border-box;
     width: 20.5rem;
     padding: 0 1rem;
     gap: 1rem;
@@ -72,6 +73,7 @@
         cursor: pointer;
         height: 2.25rem;
         color: palette(primary);
+        font-size: 0.875rem;
         padding: 0 0.5rem;
         &:hover {
             background-color: palette(secondary, 0.12);

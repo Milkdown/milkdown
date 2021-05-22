@@ -18,15 +18,29 @@ export class Image extends Node {
         parseDOM: [
             {
                 tag: 'img[src]',
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                getAttrs: (dom: any) => ({
-                    src: dom.getAttribute('src') || '',
-                    alt: dom.getAttribute('alt'),
-                    title: dom.getAttribute('title'),
-                }),
+                getAttrs: (dom) => {
+                    if (!(dom instanceof HTMLElement)) {
+                        throw new Error();
+                    }
+                    return {
+                        src: dom.getAttribute('src') || '',
+                        alt: dom.getAttribute('alt'),
+                        title: dom.getAttribute('title'),
+                    };
+                },
             },
         ],
-        toDOM: (node) => ['img', { ...node.attrs, class: 'image' }],
+        toDOM: (node) => {
+            if (node.attrs.src?.length > 0) {
+                return ['img', { ...node.attrs, class: 'image' }];
+            }
+            return [
+                'div',
+                { ...node.attrs, class: 'image empty' },
+                ['span', { contentEditable: 'false', class: 'icon' }],
+                ['span', { contentEditable: 'false', class: 'placeholder' }],
+            ];
+        },
     };
     parser: ParserSpec = {
         node: 'image',
