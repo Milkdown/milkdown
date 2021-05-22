@@ -94,17 +94,6 @@
                     color: palette(neutral, 0.6);
                 }
             }
-            /* content: 'image';
-            font-family: 'Material Icons';
-            display: block;
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            line-height: 2rem;
-            text-align: left; */
         }
     }
 }
