@@ -137,7 +137,7 @@
                 color: palette(solid, 0.87);
             }
             &:hover::after {
-                color: var(--table_selector-color-hover);
+                color: palette(primary);
             }
         }
     }

@@ -21,25 +21,6 @@
 
 :root {
     @mixin theme;
-
-    --math_font-code: var(--font-code);
-    --math_color: var(--nord9);
-    --math_bg-color: var(--nord5);
-    --math_out-line: var(--nord8);
-
-    --table_scrollbar-bg-color: var(--nord5);
-    --table_scrollbar-color: var(--nord10);
-    --table_scrollbar-color-hover: var(--nord8);
-    --table_line-color: var(--nord4);
-    --table_header-bg-color: var(--nord6);
-    --table_selected-cell-bg-color: var(--nord8);
-    --table_selector-color: var(--nord9);
-    --table_selector-color-hover: var(--nord8);
-    --table_env-bg-color: var(--bg);
-    --table_tooltip-color: var(--nord5);
-    --table_tooltip-bg-color: var(--nord0);
-    --table_tooltip-color-hover: var(--nord5);
-    --table_tooltip-bg-color-hover: var(--nord10);
 }
 
 .milkdown {

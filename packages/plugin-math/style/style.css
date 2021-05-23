@@ -19,18 +19,18 @@
     outline: none !important;
     border-radius: 4px;
     font-weight: 500;
-    font-family: var(--math_font-code);
+    font-family: var(--font-code);
     box-sizing: border-box;
 }
 
 .math-src,
 math-display.ProseMirror-selectednode {
-    color: var(--math_color);
-    background-color: var(--math_bg-color);
+    color: palette(secondary);
+    background-color: palette(background);
 }
 
 .ProseMirror-selectednode {
-    outline: 2px solid var(--math_out-line);
+    outline: 2px solid palette(line);
     &.math-node {
         outline: none;
     }
