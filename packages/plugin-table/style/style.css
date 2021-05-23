@@ -133,8 +133,26 @@
                 @mixin operator-after;
                 content: 'select_all';
                 font-family: 'Material Icons Outlined';
-                top: -1rem;
                 color: palette(solid, 0.87);
+
+                /* Support for all WebKit browsers. */
+                -webkit-font-smoothing: antialiased;
+                /* Support for Safari and Chrome. */
+                text-rendering: optimizeLegibility;
+
+                /* Support for Firefox. */
+                -moz-osx-font-smoothing: grayscale;
+
+                /* Support for IE. */
+                font-feature-settings: 'liga';
+
+                display: inline-block;
+                line-height: 1;
+                text-transform: none;
+                letter-spacing: normal;
+                word-wrap: normal;
+                white-space: nowrap;
+                direction: ltr;
             }
             &:hover::after {
                 color: palette(primary);
