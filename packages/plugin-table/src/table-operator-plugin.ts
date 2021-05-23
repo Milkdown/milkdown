@@ -227,7 +227,6 @@ export class PluginProps implements PluginSpec {
 
         const isCol = selection.isColSelection();
         const isRow = selection.isRowSelection();
-        const isAll = isCol && isRow;
 
         if (!isCol && !isRow) return;
 
@@ -242,8 +241,8 @@ export class PluginProps implements PluginSpec {
         const leftPx =
             left -
             box.left -
-            (isRow ? 23 : -(view.domAtPos(from).node as HTMLElement).getBoundingClientRect().width / 2 + 16);
-        const bottomPx = box.bottom - start.top + (isAll ? 22 : isCol ? 20 : 4);
+            (isRow ? 8 : -(view.domAtPos(from).node as HTMLElement).getBoundingClientRect().width / 2 + 16);
+        const bottomPx = box.bottom - start.bottom;
 
         this.#tooltip.style.left = leftPx + 'px';
         this.#tooltip.style.bottom = bottomPx + 'px';

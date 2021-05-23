@@ -143,36 +143,43 @@
     }
 
     .table-tooltip {
-        display: flex;
+        display: inline-flex;
         cursor: pointer;
         justify-content: space-evenly;
         position: absolute;
         transform: translateX(-50%);
         margin-bottom: 8px;
-        background: var(--table_tooltip-bg-color);
         border-radius: 4px;
-        color: var(--table_tooltip-color);
-        padding: 4px 8px;
-        &:before {
-            content: '';
-            position: absolute;
-            height: 0;
-            width: 0;
-            left: 50%;
-            margin-left: -6px;
-            bottom: -6px;
-            border: 6px solid transparent;
-            border-bottom-width: 0;
-            border-top-color: var(--table_tooltip-bg-color);
-        }
+
+        border: 1px solid palette(line);
+        box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
+            0px 1px 3px palette(shadow, 0.2);
+
+        overflow: hidden;
+        background: palette(surface);
+
         .icon {
-            width: 1.8rem;
+            position: relative;
+            color: palette(solid, 0.87);
+
+            width: 3rem;
+            line-height: 3rem;
             text-align: center;
-            background: var(--table_tooltip-bg-color);
             transition: all 0.2s ease-in;
             &:hover {
-                color: var(--table_tooltip-color-hover);
-                background: var(--table_tooltip-bg-color-hover);
+                background-color: palette(secondary, 0.12);
+            }
+            &.active {
+                color: palette(primary);
+            }
+            &:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                right: 0px;
+                top: 0;
+                width: 1px;
+                bottom: 0;
+                background: palette(line);
             }
         }
         &.hide,
