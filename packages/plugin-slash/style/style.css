@@ -1,62 +1,73 @@
 .slash-dropdown {
-    width: 12rem;
-    max-height: 12rem;
+    width: 20.5rem;
+    max-height: 20.5rem;
     overflow-y: auto;
-    /* border: 1px solid var(--nord4); */
-    border: 1px solid var(--slash_border-color);
+    border: 1px solid palette(line);
     border-radius: 4px;
     position: absolute;
     z-index: 9;
+    background: palette(surface);
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
     &.hide {
         display: none;
     }
 
     &::-webkit-scrollbar {
-        width: 8px;
+        padding: 0 2px;
+        width: 6px;
+        background: palette(surface);
     }
     &::-webkit-scrollbar-track {
+        width: 4px;
+        border-right: 2px solid palette(surface);
         border-radius: 4px;
-        /* background: var(--nord6); */
-        background: var(--slash_bg-color);
+        background: palette(secondary, 0.12);
     }
     &::-webkit-scrollbar-thumb {
+        width: 4px;
+        border-right: 2px solid palette(surface);
         border-radius: 4px;
-        background: var(--slash_scrollbar-color);
-        /* background: var(--nord10); */
+        background: palette(secondary, 0.38);
     }
     &::-webkit-scrollbar-thumb:hover {
-        background: var(--slash_bg-color-active);
-        /* background: var(--nord8); */
+        background: palette(secondary);
     }
 }
 
 .slash-dropdown-item {
     display: flex;
-    padding: 0 4px;
+    gap: 2rem;
+    height: 3rem;
+    padding: 0 1rem;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     cursor: pointer;
     line-height: 2;
-    font-family: var(--slash_font);
+    font-family: var(--font);
     font-size: 0.875rem;
 
-    /* background: var(--nord6); */
-    background: var(--slash_bg-color);
     transition: all 0.2s ease-in-out;
+
+    &,
+    .icon {
+        color: palette(neutral, 0.87);
+    }
 
     &.hide {
         display: none;
     }
 
     &.active {
-        /* background: var(--nord8); */
-        background: var(--slash_bg-color-active);
+        background: palette(secondary, 0.12);
+        &,
+        .icon {
+            color: palette(primary);
+        }
     }
 }
 
 .slash-placeholder {
-    font-family: var(--slash_font);
-    font-size: 0.8rem;
-    /* color: var(--nord9); */
-    color: var(--slash_placeholder-color);
+    font-family: var(--font);
+    font-size: 0.875rem;
+    color: palette(neutral, 0.6);
 }

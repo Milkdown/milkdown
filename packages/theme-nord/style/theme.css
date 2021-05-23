@@ -40,12 +40,6 @@
     --table_tooltip-bg-color: var(--nord0);
     --table_tooltip-color-hover: var(--nord5);
     --table_tooltip-bg-color-hover: var(--nord10);
-
-    --slash_border-color: var(--nord4);
-    --slash_bg-color: var(--nord6);
-    --slash_bg-color-active: var(--nord8);
-    --slash_placeholder-color: var(--nord9);
-    --slash_scrollbar-color: var(--nord10);
 }
 
 .milkdown {

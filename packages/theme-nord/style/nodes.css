@@ -79,7 +79,13 @@
                 height: 1.5rem;
                 margin: 0;
                 margin-left: 1rem;
+                position: relative;
                 &:before {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
                     content: 'image';
                     font-family: 'Material Icons Outlined';
                     font-size: 1.5rem;

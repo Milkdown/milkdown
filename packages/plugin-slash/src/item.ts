@@ -97,7 +97,7 @@ export const items: Array<Action> = [
     },
     {
         type: ActionType.CodeFence,
-        $: createDropdownItem('Code Fence', 'developer_mode'),
+        $: createDropdownItem('Code Fence', 'code'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.fence.createAndFill(null) as Node),
         keyword: ['code'],
     },
