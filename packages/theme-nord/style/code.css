@@ -9,8 +9,8 @@
     }
 
     .code-fence {
-        background-color: palette(neutral);
-        color: palette(background);
+        background-color: palette(background);
+        color: palette(neutral);
         font-size: 0.85rem;
         padding: 0 0.4rem 0.4rem;
         border-radius: 4px;
@@ -44,8 +44,8 @@
             }
 
             select {
-                background-color: palette(solid);
-                color: palette(line);
+                background-color: palette(surface);
+                color: palette(neutral, 0.87);
                 grid-area: select;
                 font-size: 0.85rem;
                 padding: 0 0.4rem;

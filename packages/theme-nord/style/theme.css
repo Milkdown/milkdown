@@ -1,6 +1,5 @@
 @import 'prosemirror-view/style/prosemirror.css';
 @import './nord.css';
-@import './prism.css';
 @import './marks.css';
 @import './nodes.css';
 @import './code.css';
@@ -17,6 +16,20 @@
     --line: var(--nord4-rgb);
     --background: var(--nord6-rgb);
     --surface: 255, 255, 255;
+}
+
+@define-mixin theme-dark {
+    --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
+        sans-serif;
+    --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+    --neutral: var(--nord6-rgb);
+    --solid: var(--nord4-rgb);
+    --shadow: var(--nord1-rgb);
+    --primary: var(--nord10-rgb);
+    --secondary: var(--nord9-rgb);
+    --line: var(--nord2-rgb);
+    --background: 37, 41, 50;
+    --surface: var(--nord0-rgb);
 }
 
 :root {

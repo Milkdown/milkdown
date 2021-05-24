@@ -11,6 +11,7 @@ import '@milkdown/plugin-math/lib/style.css';
 import '@milkdown/plugin-table/lib/style.css';
 import '@milkdown/plugin-tooltip/lib/style.css';
 import '@milkdown/plugin-slash/lib/style.css';
+import 'prism-themes/themes/prism-material-light.css';
 import './style.css';
 
 import markdown from './example.md';

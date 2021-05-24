@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background: #edeff3;
+    background: palette(background);
 }
 
 #app {
