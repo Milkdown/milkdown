@@ -11,6 +11,7 @@ export const Header: React.FC = () => {
         let target = document.querySelector('#prism-theme');
         if (!target) {
             const link = document.createElement('link');
+            link.id = 'prism-theme';
             link.setAttribute('rel', 'stylesheet');
             document.head.appendChild(link);
             target = link;
