@@ -1,0 +1,66 @@
+.doc-header {
+    a {
+        color: unset;
+        text-decoration: unset;
+    }
+
+    color: palette(neutral, 0.87);
+
+    background: palette(surface);
+    box-sizing: border-box;
+    display: flex;
+    height: 4.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+
+    &_right,
+    &_left {
+        display: flex;
+        gap: 2rem;
+        > .icon {
+            width: 3rem;
+            line-height: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in;
+            border-radius: 50%;
+            &:hover {
+                background: palette(secondary, 0.12);
+            }
+        }
+    }
+
+    &_icon {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+
+        .logo,
+        .title {
+            line-height: 3rem;
+        }
+
+        .logo {
+            height: 2.5rem;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            color: palette(netural, 0.87);
+        }
+    }
+
+    &_github {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in;
+
+        &:hover {
+            color: palette(secondary);
+        }
+    }
+}

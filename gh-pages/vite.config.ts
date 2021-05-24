@@ -1,6 +1,7 @@
+import { defineConfig } from 'vite';
 import { markdownPlugin } from './markdown-plugin';
 
-export default {
+export default defineConfig({
     base: '/milkdown/',
     build: {
         assetsDir: 'assets',
@@ -22,4 +23,4 @@ export default {
         ],
     },
     plugins: [markdownPlugin()],
-};
+});

@@ -19,10 +19,16 @@
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*"
+        "@milkdown/theme-nord": "workspace:*",
+        "tslib": "^2.2.0"
     },
     "devDependencies": {
         "@rollup/pluginutils": "*",
-        "prism-themes": "^1.7.0"
+        "@types/estree": "^0.0.47",
+        "@types/react": "^17.0.6",
+        "@types/react-dom": "^17.0.5",
+        "prism-themes": "^1.7.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
     }
 }

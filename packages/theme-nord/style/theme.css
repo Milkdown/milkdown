@@ -33,8 +33,11 @@
 }
 
 :root {
-    /* @mixin theme-dark; */
     @mixin theme-light;
+}
+
+[data-theme='dark'] {
+    @mixin theme-dark;
 }
 
 .milkdown {

@@ -1,6 +1,8 @@
 body {
     margin: 0;
     background: palette(background);
+    font-family: var(--font);
+    transition: all 0.2s easy-in;
 }
 
 #app {
@@ -14,7 +16,7 @@ body {
 }
 
 @media only screen and (min-width: 42rem) {
-    #app {
+    .milkdown-demo {
         margin: 20px 0;
     }
 
