@@ -45,7 +45,20 @@ function icon(text: string) {
     return span;
 }
 
-const getCellSelection = (view: EditorView) => (view.state.selection as unknown) as CellSelection;
+const getCellSelection = (view: EditorView): CellSelection => (view.state.selection as unknown) as CellSelection;
+
+enum SelectionType {
+    Col = 'Col',
+    Row = 'Row',
+    All = 'All',
+}
+
+const getSelectType = (view: EditorView): SelectionType => {
+    const select = getCellSelection(view);
+    const isRow = select.isRowSelection();
+    const isCol = select.isColSelection();
+    return isRow && isCol ? SelectionType.All : isRow ? SelectionType.Row : SelectionType.Col;
+};
 
 export class PluginProps implements PluginSpec {
     #decorations: Decoration[] = [];
@@ -55,24 +68,24 @@ export class PluginProps implements PluginSpec {
         [Action.AddColLeft]: {
             $: icon('chevron_left'),
             command: () => addColumnBefore,
-            disable: (view) => !getCellSelection(view).isColSelection(),
+            disable: (view) => getSelectType(view) !== SelectionType.Col,
         },
         [Action.AddColRight]: {
             $: icon('chevron_right'),
             command: () => addColumnAfter,
-            disable: (view) => !getCellSelection(view).isColSelection(),
+            disable: (view) => getSelectType(view) !== SelectionType.Col,
         },
         [Action.AddRowTop]: {
             $: icon('expand_less'),
             command: () => addRowBefore,
             disable: (view) =>
-                !getCellSelection(view).isRowSelection() ||
+                getSelectType(view) !== SelectionType.Row ||
                 getCellSelection(view).$head.parent.type.name === 'table_header',
         },
         [Action.AddRowBottom]: {
             $: icon('expand_more'),
             command: () => addRowAfter,
-            disable: (view) => !getCellSelection(view).isRowSelection(),
+            disable: (view) => getSelectType(view) !== SelectionType.Row,
         },
         [Action.AlignLeft]: {
             $: icon('format_align_left'),
