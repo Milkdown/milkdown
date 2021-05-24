@@ -21,6 +21,7 @@
     font-weight: 500;
     font-family: var(--font-code);
     box-sizing: border-box;
+    color: palette(secondary);
 }
 
 .math-src,

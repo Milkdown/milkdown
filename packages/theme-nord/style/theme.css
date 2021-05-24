@@ -45,7 +45,7 @@
     margin-left: auto;
     margin-right: auto;
     padding: 3.125rem 1.25rem;
-    box-shadow: palette(line) 0px 4px 6px, palette(line) 0px 5px 7px;
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
 
     @media only screen and (min-width: 42rem) {
         max-width: 42rem;
