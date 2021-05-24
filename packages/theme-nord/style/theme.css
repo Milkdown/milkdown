@@ -4,7 +4,7 @@
 @import './nodes.css';
 @import './code.css';
 
-@define-mixin theme {
+@define-mixin theme-light {
     --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
         sans-serif;
     --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
@@ -33,7 +33,8 @@
 }
 
 :root {
-    @mixin theme;
+    /* @mixin theme-dark; */
+    @mixin theme-light;
 }
 
 .milkdown {
