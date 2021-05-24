@@ -64,3 +64,15 @@
         }
     }
 }
+
+.doc-header_icon,
+.doc-header_github > span:last-child {
+    display: none;
+}
+
+@media only screen and (min-width: 42rem) {
+    .doc-header_icon,
+    .doc-header_github > span:last-child {
+        display: flex;
+    }
+}
