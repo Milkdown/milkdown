@@ -2,16 +2,15 @@ body {
     margin: 0;
     background: palette(background);
     font-family: var(--font);
-    transition: all 0.2s easy-in;
+    transition: all 0.2s ease-in;
 }
 
-#app {
+.milkdown-demo {
     margin: 0;
 }
 
 .milkdown {
     min-height: 100vh;
-    border-radius: 4px;
     overflow: hidden;
 }
 
@@ -22,5 +21,6 @@ body {
 
     .milkdown {
         min-height: auto;
+        border-radius: 4px;
     }
 }
