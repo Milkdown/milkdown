@@ -2,7 +2,11 @@ import React from 'react';
 
 import './style.css';
 
-export const Header: React.FC = () => {
+type Props = {
+    showToggle: boolean;
+};
+
+export const Header: React.FC<Props> = ({ showToggle }) => {
     const [isDarkMode, setIsDarkMode] = React.useState(false);
 
     React.useEffect(() => {
@@ -28,7 +32,7 @@ export const Header: React.FC = () => {
     return (
         <header className="doc-header">
             <div className="doc-header_left">
-                <span className="icon material-icons-outlined">menu</span>
+                {showToggle && <span className="icon material-icons-outlined">menu</span>}
                 <a href="/milkdown/" className="doc-header_icon">
                     <img className="logo" src="/milkdown/milkdown-mini.svg" />
                     <span className="title">Milkdown</span>
