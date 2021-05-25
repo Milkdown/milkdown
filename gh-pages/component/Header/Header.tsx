@@ -20,7 +20,7 @@ export const Header: React.FC<Props> = ({ onToggle }) => {
             return;
         }
         setShowToggle(true);
-    }, [location]);
+    }, [isIndex]);
 
     React.useEffect(() => {
         document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');

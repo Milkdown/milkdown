@@ -8,8 +8,7 @@ import { data } from './data';
 
 import className from './style.module.css';
 import example from '../example.md';
-
-const copyright = 'MIT Licensed | Copyright © 2021-present Mirone Saul';
+import { Footer } from './Footer/Footer';
 
 const pages = data.flatMap((section) => section.items);
 
@@ -38,7 +37,7 @@ export const App: React.FC = () => {
                             ))}
                         </Switch>
                     </article>
-                    <footer className={className.footer}>{copyright}</footer>
+                    <Footer />
                 </div>
             </main>
         </HashRouter>

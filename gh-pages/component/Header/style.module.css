@@ -73,13 +73,13 @@
     }
 }
 
-.logo,
+.logo > span,
 .github > span:last-child {
     display: none;
 }
 
 @media only screen and (min-width: 42rem) {
-    .logo,
+    .logo > span,
     .github > span:last-child {
         display: flex;
     }

@@ -36,13 +36,3 @@
     display: flex;
     flex-direction: column;
 }
-
-.footer {
-    flex-shrink: 0;
-    font-size: 0.875rem;
-    color: palette(neutral, 0.6);
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
