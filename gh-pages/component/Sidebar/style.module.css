@@ -1,0 +1,47 @@
+.sidebar {
+    width: 16rem;
+    background: palette(surface);
+    z-index: 1;
+    box-shadow: 0 1px 2px 0 palette(shadow, 0.3), 0 1px 3px 1px palette(shadow, 0.15);
+    position: fixed;
+    height: 100%;
+}
+
+@media only screen and (min-width: 42rem) {
+    .sidebar {
+        position: relative;
+    }
+}
+
+.hr {
+    height: 1px;
+    border-width: 0;
+    background: palette(line);
+}
+
+.section {
+    padding: 1rem;
+}
+
+.sectionTitle {
+    color: palette(primary);
+    font-size: 1.5rem;
+    line-height: 2;
+}
+
+.link {
+    display: flex;
+    padding-left: 1.875rem;
+    border-left: 4px solid transparent;
+    font-size: 1rem;
+    line-height: 2;
+    color: palette(neutral, 0.87);
+    text-decoration: none;
+    &:hover {
+        color: palette(secondary);
+    }
+}
+
+.active {
+    border-color: palette(primary);
+}

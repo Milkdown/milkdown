@@ -5,20 +5,12 @@ body {
     transition: all 0.2s ease-in;
 }
 
-.milkdown-demo {
-    margin: 0;
-}
-
 .milkdown {
     min-height: 100vh;
     overflow: hidden;
 }
 
 @media only screen and (min-width: 42rem) {
-    .milkdown-demo {
-        margin: 20px 0;
-    }
-
     .milkdown {
         min-height: auto;
         border-radius: 4px;

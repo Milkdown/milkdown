@@ -1,0 +1,86 @@
+.header {
+    a {
+        color: unset;
+        text-decoration: unset;
+    }
+
+    color: palette(neutral, 0.87);
+    background: palette(surface);
+    box-sizing: border-box;
+    display: flex;
+    height: 4.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    z-index: 2;
+    position: relative;
+}
+
+.part {
+    display: flex;
+    gap: 2rem;
+    > .icon {
+        width: 3rem;
+        line-height: 3rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease-in;
+        border-radius: 50%;
+        &:hover {
+            background: palette(secondary, 0.12);
+        }
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+
+    img,
+    span {
+        line-height: 3rem;
+    }
+
+    img {
+        height: 1.6rem;
+    }
+
+    span {
+        font-size: 1.5rem;
+        color: palette(netural, 0.87);
+    }
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.github {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+
+    &:hover {
+        color: palette(secondary);
+    }
+}
+
+.logo > span,
+.github > span:last-child {
+    display: none;
+}
+
+@media only screen and (min-width: 42rem) {
+    .logo > span,
+    .github > span:last-child {
+        display: flex;
+    }
+}
