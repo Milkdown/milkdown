@@ -15,4 +15,8 @@ With this pattern you can enable or disable any custom syntax you like, such as 
 
 -   📝 WYSIWYG Markdown - write markdown in an elegant way
 -   🎨 Themable - theme can be shared and used with npm packages
--   🧮 LaTeX - built-in LaTeX math equations support
+-   🎮 Hackable - support your awesome idea by plugin
+-   🦾 Reliable - built on top of [prosemirror](https://prosemirror.net/) and [markdown-it](https://markdown-it.github.io/)
+-   ⚡️ Slash & Tooltip - write fast for everyone, driven by plugin
+-   🧮 Math - LaTeX math equations support, driven by plugin
+-   📊 Table - table with awesome ui, driven by plugin
