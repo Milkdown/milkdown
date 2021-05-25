@@ -19,7 +19,7 @@ export const App: React.FC = () => {
         <HashRouter>
             <Header onToggle={() => setDisplaySidebar(!displaySidebar)} />
             <main className={className.main}>
-                {displaySidebar && <Sidebar sections={data} />}
+                <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={data} />
                 <div className={className.container}>
                     <article>
                         <Switch>

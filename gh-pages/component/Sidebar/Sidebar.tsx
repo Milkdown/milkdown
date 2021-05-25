@@ -1,6 +1,5 @@
 import React from 'react';
-import { NavLink as Link } from 'react-router-dom';
-import { useIsIndex } from '../useIsIndex';
+import { NavLink as Link, useLocation } from 'react-router-dom';
 
 import className from './style.module.css';
 
@@ -31,11 +30,27 @@ export type Section = {
 
 type SidebarProps = {
     sections: Section[];
+    display: boolean;
+    setDisplay: (display: boolean) => void;
 };
 
-export const Sidebar: React.FC<SidebarProps> = ({ sections }) => {
-    const isIndex = useIsIndex();
-    if (isIndex) return null;
+export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display }) => {
+    const location = useLocation();
+
+    React.useEffect(() => {
+        if (location.pathname === '/' || location.pathname === '/online-demo') {
+            setDisplay(false);
+            return;
+        }
+        if (/Android|iPhone|iPod|Opera Mini/i.test(navigator.userAgent)) {
+            setDisplay(false);
+        }
+    }, [location.pathname]);
+
+    if (!display) {
+        return null;
+    }
+
     return (
         <nav className={className.sidebar}>
             {sections.map((section, i) => (
