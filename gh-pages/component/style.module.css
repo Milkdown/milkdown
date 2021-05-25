@@ -8,6 +8,7 @@
     flex: 1;
     flex-grow: 1;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     &::-webkit-scrollbar {
         padding: 0 2px;
         width: 6px;
