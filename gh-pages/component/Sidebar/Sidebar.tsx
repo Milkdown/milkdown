@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink as Link } from 'react-router-dom';
+import { useIsIndex } from '../useIsIndex';
 
 import className from './style.module.css';
 
@@ -32,13 +33,17 @@ type SidebarProps = {
     sections: Section[];
 };
 
-export const Sidebar: React.FC<SidebarProps> = ({ sections }) => (
-    <nav className={className.sidebar}>
-        {sections.map((section, i) => (
-            <>
-                <NavSection key={i.toString()} {...section} />
-                {i < sections.length - 1 && <hr className={className.hr} />}
-            </>
-        ))}
-    </nav>
-);
+export const Sidebar: React.FC<SidebarProps> = ({ sections }) => {
+    const isIndex = useIsIndex();
+    if (isIndex) return null;
+    return (
+        <nav className={className.sidebar}>
+            {sections.map((section, i) => (
+                <section key={i.toString()}>
+                    <NavSection key={i.toString()} {...section} />
+                    {i < sections.length - 1 && <hr className={className.hr} />}
+                </section>
+            ))}
+        </nav>
+    );
+};

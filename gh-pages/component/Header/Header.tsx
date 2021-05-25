@@ -1,16 +1,26 @@
 import React from 'react';
+import { useIsIndex } from '../useIsIndex';
 
 import className from './style.module.css';
 
 type Props = {
-    showToggle: boolean;
-    onToggle?: () => void;
+    onToggle: () => void;
 };
 
 const materialIcon = `${className.icon} material-icons-outlined`;
 
-export const Header: React.FC<Props> = ({ showToggle, onToggle }) => {
+export const Header: React.FC<Props> = ({ onToggle }) => {
     const [isDarkMode, setIsDarkMode] = React.useState(false);
+    const [showToggle, setShowToggle] = React.useState(true);
+    const isIndex = useIsIndex();
+
+    React.useEffect(() => {
+        if (isIndex) {
+            setShowToggle(false);
+            return;
+        }
+        setShowToggle(true);
+    }, [location]);
 
     React.useEffect(() => {
         document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');

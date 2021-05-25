@@ -1,0 +1,67 @@
+.body {
+    background: palette(surface);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+}
+
+.title {
+    font-size: 3rem;
+    margin: 0;
+    margin-top: 2rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: palette(neutral);
+}
+
+.desc {
+    line-height: 1.2;
+    font-size: 1.5rem;
+    margin: 0;
+    margin-top: 0.25rem;
+    color: palette(neutral, 0.87);
+}
+
+.logo {
+    img {
+        height: 12.5rem;
+        max-width: 100%;
+    }
+}
+
+.buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    a {
+        display: inline-block;
+        box-sizing: border-box;
+        padding: 0 1rem;
+        line-height: 3rem;
+        font-size: 1.2rem;
+        border-radius: 6px;
+        border: 2px solid palette(secondary, 0.12);
+        color: palette(solid, 0.87);
+        cursor: pointer;
+        transition: all 0.2s ease-in;
+        text-decoration: none;
+        &:hover {
+            background: palette(secondary, 0.12);
+            color: palette(primary);
+        }
+
+        &:first-child {
+            background: palette(secondary, 0.12);
+            color: palette(primary);
+            &:hover {
+                background: palette(secondary, 0.36);
+            }
+        }
+    }
+}
