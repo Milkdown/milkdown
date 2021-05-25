@@ -1,12 +1,15 @@
 import React from 'react';
 
-import './style.css';
+import className from './style.module.css';
 
 type Props = {
     showToggle: boolean;
+    onToggle?: () => void;
 };
 
-export const Header: React.FC<Props> = ({ showToggle }) => {
+const materialIcon = `${className.icon} material-icons-outlined`;
+
+export const Header: React.FC<Props> = ({ showToggle, onToggle }) => {
     const [isDarkMode, setIsDarkMode] = React.useState(false);
 
     React.useEffect(() => {
@@ -30,20 +33,24 @@ export const Header: React.FC<Props> = ({ showToggle }) => {
     }, [isDarkMode]);
 
     return (
-        <header className="doc-header">
-            <div className="doc-header_left">
-                {showToggle && <span className="icon material-icons-outlined">menu</span>}
-                <a href="/milkdown/" className="doc-header_icon">
-                    <img className="logo" src="/milkdown/milkdown-mini.svg" />
-                    <span className="title">Milkdown</span>
+        <header className={className.header}>
+            <div className={className.part}>
+                {showToggle && (
+                    <span className={materialIcon} onClick={() => onToggle?.()}>
+                        menu
+                    </span>
+                )}
+                <a href="/milkdown/" className={className.logo}>
+                    <img src="/milkdown/milkdown-mini.svg" />
+                    <span>Milkdown</span>
                 </a>
             </div>
-            <div className="doc-header_right">
-                <span onClick={() => setIsDarkMode(!isDarkMode)} className="icon material-icons-outlined">
+            <div className={className.part}>
+                <span onClick={() => setIsDarkMode(!isDarkMode)} className={materialIcon}>
                     {isDarkMode ? 'light_mode' : 'dark_mode'}
                 </span>
-                <a href="https://github.com/Saul-Mirone/milkdown" className="doc-header_github">
-                    <span className="icon material-icons-outlined">open_in_new</span>
+                <a href="https://github.com/Saul-Mirone/milkdown" className={className.github}>
+                    <span className={materialIcon}>open_in_new</span>
                     <span>Open in Github</span>
                 </a>
             </div>

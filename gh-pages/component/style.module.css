@@ -1,0 +1,37 @@
+.main {
+    display: flex;
+    height: calc(100vh - 4.5rem);
+    overflow: hidden;
+
+    article {
+        flex-grow: 1;
+        overflow: auto;
+        &::-webkit-scrollbar {
+            padding: 0 2px;
+            width: 6px;
+            background: palette(surface);
+        }
+        &::-webkit-scrollbar-track {
+            width: 4px;
+            border-right: 2px solid palette(surface);
+            border-radius: 4px;
+            background: palette(secondary, 0.12);
+        }
+        &::-webkit-scrollbar-thumb {
+            width: 4px;
+            border-right: 2px solid palette(surface);
+            border-radius: 4px;
+            background: palette(secondary, 0.38);
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background: palette(secondary);
+        }
+    }
+}
+
+.footer {
+    text-align: center;
+    font-size: 0.875rem;
+    color: palette(neutral, 0.6);
+    margin: 2rem 0;
+}
