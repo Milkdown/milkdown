@@ -44,7 +44,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display 
         }
         if (/Android|iPhone|iPod|Opera Mini/i.test(navigator.userAgent)) {
             setDisplay(false);
+            return;
         }
+        setDisplay(true);
     }, [location.pathname]);
 
     if (!display) {
