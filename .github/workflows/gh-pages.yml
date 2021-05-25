@@ -21,7 +21,7 @@ jobs:
               run: |
                   npm i -g pnpm
                   pnpm install
-                  pnpm build:integration
+                  pnpm build:doc
             - name: deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:

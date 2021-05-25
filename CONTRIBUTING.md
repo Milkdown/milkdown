@@ -9,11 +9,11 @@ After cloning Milkdown, run `pnpm install` to install dependencies. Then, you ca
 -   `pnpm lint` checks the code style.
 -   `pnpm tsc` runs typescript type checks.
 -   `pnpm preview` runs preview for gh-pages.
--   `pnpm integration` runs develop mode for gh-pages package.
+-   `pnpm doc` runs develop mode for gh-pages package.
 -   `pnpm build:packs` runs build for all packages.
--   `pnpm build:integration` runs build for gh-pages package.
+-   `pnpm build:doc` runs build for gh-pages package.
 
-The easiest way to get started is to run `pnpm watch` in one command line and `pnpm integration` in another.
+The easiest way to get started is to run `pnpm watch` in one command line and `pnpm doc` in another.
 Then you can make some modify you want to see the change.
 
 # Pre Check
@@ -23,7 +23,7 @@ Before you create a pull request, please check the following todo:
 -   `pnpm lint` passed.
 -   `pnpm tsc` passed.
 -   `pnpm build:packs` passed.
--   `pnpm build:integration` passed.
+-   `pnpm build:doc` passed.
 -   `pnpm test` passed.
 -   `pnpm preview` works as you expected.
 
