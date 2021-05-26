@@ -1,6 +1,6 @@
 import React from 'react';
 import { Editor } from '@milkdown/core';
-import { marks, nodes } from '@milkdown/preset-commonmark';
+import { commonmark } from '@milkdown/preset-commonmark';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
@@ -20,8 +20,7 @@ export const editor = (root: HTMLElement, content: string, readOnly = false) => 
         defaultValue: content,
         editable: () => !readOnly,
     })
-        .use(nodes)
-        .use(marks)
+        .use(commonmark)
         .use(prism)
         .use(tooltip)
         .use(table)
