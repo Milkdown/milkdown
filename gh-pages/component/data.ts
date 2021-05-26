@@ -1,11 +1,7 @@
 import { Section } from './Sidebar/Sidebar';
 
 import whyMilkdown from '../pages/why-milkdown.md';
-import features from '../pages/features.md';
 import getStarted from '../pages/get-started.md';
-import usingPlugins from '../pages/using-plugins.md';
-
-import example from '../example.md';
 
 export const data: Section[] = [
     {
@@ -13,16 +9,13 @@ export const data: Section[] = [
         items: [
             { title: 'Why Milkdown', link: '/why-milkdown', content: whyMilkdown },
             { title: 'Get Started', link: '/get-started', content: getStarted },
-            { title: 'Features', link: '/features', content: features },
-            { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
-            { title: 'Test', link: '/test', content: example },
         ],
     },
     {
         title: 'APIs',
         items: [
-            { title: 'Core API', link: '/core-api', content: '' },
-            { title: 'Plugin API', link: '/plugin-api', content: '' },
+            { title: 'Core API', link: '/core-api', content: '# Core API\n\n Coming soon...' },
+            { title: 'Plugin API', link: '/plugin-api', content: '# Plugin API\n\n Coming soon...' },
         ],
     },
 ];

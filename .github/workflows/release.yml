@@ -40,6 +40,7 @@ jobs:
               uses: changesets/action@master
               with:
                   publish: pnpm publish -r --access public
+                  commit: 'ci(changeset): prepare release'
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

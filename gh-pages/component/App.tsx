@@ -7,7 +7,7 @@ import { Sidebar } from './Sidebar/Sidebar';
 import { data } from './data';
 
 import className from './style.module.css';
-import example from '../example.md';
+import demo from '../pages/demo.md';
 import { Footer } from './Footer/Footer';
 
 const pages = data.flatMap((section) => section.items);
@@ -27,7 +27,7 @@ export const App: React.FC = () => {
                                 <Home />
                             </Route>
                             <Route exact path="/online-demo">
-                                <MilkdownEditor content={example} />
+                                <MilkdownEditor content={demo} />
                             </Route>
 
                             {pages.map((page, i) => (
