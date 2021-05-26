@@ -50,6 +50,19 @@ const root = document.body;
 new Editor({ root }).use(commonmark).create();
 ```
 
+**We use [material icon](https://fonts.google.com/icons) and [Roboto Font](https://fonts.google.com/specimen/Roboto) in our theme**.
+Make sure to include them for best experience. For example:
+
+```html
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
+```
+
 ## Taste the plugin
 
 In fact, all features in milkdown are supported by plugin.
