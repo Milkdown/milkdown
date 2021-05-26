@@ -1,5 +1,11 @@
 # @milkdown/core
 
+## 4.0.0
+
+### Minor Changes
+
+-   f73794a: Add support for table, theme, slash commands and more optimization.
+
 ## 3.0.0
 
 ### Major Changes
