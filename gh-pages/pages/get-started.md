@@ -4,7 +4,7 @@
 
 Milkdown is a lightweight but powerful WYSIWYG markdown editor. It's made up by two parts:
 
--   A tiny core witch provide markdown parser, serializer and kinds of plugin loader.
+-   A tiny core which provide markdown parser, serializer and kinds of plugin loader.
 -   Lots of plugins provide syntax, commands and components.
 
 With this pattern you can enable or disable any custom syntax you like, such as table, latex and slash commands.
@@ -14,13 +14,13 @@ You can even create your own plugin to support your awesome idea.
 
 ## Features
 
--   📝 WYSIWYG Markdown - Write markdown in an elegant way
--   🎨 Themable - Theme can be shared and used with npm packages
--   🎮 Hackable - Support your awesome idea by plugin
--   🦾 Reliable - Built on top of [prosemirror](https://prosemirror.net/) and [markdown-it](https://markdown-it.github.io/)
--   ⚡️ Slash & Tooltip - Write fast for everyone, driven by plugin
--   🧮 Math - LaTeX math equations support, driven by plugin
--   📊 Table - Table support with fluent ui, driven by plugin
+-   📝 **WYSIWYG Markdown** - Write markdown in an elegant way
+-   🎨 **Themable** - Theme can be shared and used with npm packages
+-   🎮 **Hackable** - Support your awesome idea by plugin
+-   🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [markdown-it](https://markdown-it.github.io/)
+-   ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
+-   🧮 **Math** - LaTeX math equations support, driven by plugin
+-   📊 **Table** - Table support with fluent ui, driven by plugin
 
 ## Tech Stack
 
