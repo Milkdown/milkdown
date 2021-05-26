@@ -12,6 +12,8 @@ const languageOptions = [
     'bash',
     'sql',
     'json',
+    'html',
+    'css',
     'c',
     'cpp',
     'java',

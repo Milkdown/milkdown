@@ -39,6 +39,9 @@ Milkdown is built on top of these tools:
 
 We have some pieces for you to create a very minimal editor:
 
+> **We use [material icon](https://fonts.google.com/icons) and [Roboto Font](https://fonts.google.com/specimen/Roboto) in our theme**.
+> Make sure to include them for having the best experience.
+
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -48,19 +51,6 @@ import '@milkdown/theme-nord/lib/theme.css';
 
 const root = document.body;
 new Editor({ root }).use(commonmark).create();
-```
-
-**We use [material icon](https://fonts.google.com/icons) and [Roboto Font](https://fonts.google.com/specimen/Roboto) in our theme**.
-Make sure to include them for best experience. For example:
-
-```html
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
-<link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-<link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
 ```
 
 ## Taste the plugin
