@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@1.6.0/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "linked": [],
+  "linked": [["@milkdown/*"]],
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
