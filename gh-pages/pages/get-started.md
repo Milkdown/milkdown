@@ -22,8 +22,6 @@ You can even create your own plugin to support your awesome idea.
 -   🧮 Math - LaTeX math equations support, driven by plugin
 -   📊 Table - Table support with fluent ui, driven by plugin
 
----
-
 ## Tech Stack
 
 Milkdown is built on top of these tools:
