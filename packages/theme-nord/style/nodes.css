@@ -1,7 +1,8 @@
 @define-mixin lines {
     .paragraph {
-        font-size: 0.875rem;
-        line-height: 1.25rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        letter-spacing: 0.5px;
         white-space: normal;
     }
 
