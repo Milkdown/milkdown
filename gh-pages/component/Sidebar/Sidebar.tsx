@@ -47,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display 
             return;
         }
         setDisplay(true);
-    }, [location.pathname]);
+    }, [location.pathname, setDisplay]);
 
     if (!display) {
         return null;

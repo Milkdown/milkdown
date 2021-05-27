@@ -31,6 +31,7 @@ importers:
       eslint-config-prettier: ^8.1.0
       eslint-plugin-prettier: ^3.3.1
       eslint-plugin-promise: ^4.3.1
+      eslint-plugin-react-hooks: ^4.2.0
       husky: ^6.0.0
       jest: ^26.6.3
       markdown-it: ^12.0.6
@@ -82,6 +83,7 @@ importers:
       eslint-config-prettier: 8.3.0_eslint@7.25.0
       eslint-plugin-prettier: 3.4.0_ed07edc0d33fb90bb2bebf56b9b5e0f9
       eslint-plugin-promise: 4.3.1
+      eslint-plugin-react-hooks: 4.2.0_eslint@7.25.0
       husky: 6.0.0
       jest: 26.6.3
       markdown-it: 12.0.6
@@ -2686,6 +2688,15 @@ packages:
   /eslint-plugin-promise/4.3.1:
     resolution: {integrity: sha512-bY2sGqyptzFBDLh/GMbAxfdJC+b0f23ME63FOE4+Jao0oZ3E1LEwFtWJX/1pGMJLiTtrSSern2CRM/g+dfc0eQ==}
     engines: {node: '>=6'}
+    dev: true
+
+  /eslint-plugin-react-hooks/4.2.0_eslint@7.25.0:
+    resolution: {integrity: sha512-623WEiZJqxR7VdxFCKLI6d6LLpwJkGPYKODnkH3D7WpOG5KM8yWueBd8TLsNAetEJNF5iJmolaAKO3F8yzyVBQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+    dependencies:
+      eslint: 7.25.0
     dev: true
 
   /eslint-scope/5.1.1:

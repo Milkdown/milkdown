@@ -41,14 +41,15 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly }) => {
     const divRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-        if (!divRef.current) {
+        const ref = divRef.current;
+        if (!ref) {
             throw new Error();
         }
-        editor(divRef.current, content, readOnly);
+        editor(ref, content, readOnly);
         return () => {
-            divRef.current?.remove();
+            ref.remove();
         };
-    }, [content]);
+    }, [content, readOnly]);
 
     return <div className={className.editor} ref={divRef} />;
 };
