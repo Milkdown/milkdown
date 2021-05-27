@@ -19,7 +19,7 @@
 
 .part {
     display: flex;
-    gap: 2rem;
+    gap: 0.8rem;
     > .icon {
         width: 3rem;
         line-height: 3rem;
