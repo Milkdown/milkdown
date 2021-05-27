@@ -1,7 +1,6 @@
-import { useDarkMode } from 'component/hooks/useDarkMode';
 import React from 'react';
+import { useDarkMode } from '../hooks/useDarkMode';
 import { LocationType, useLocationType } from '../hooks/useLocationType';
-
 import className from './style.module.css';
 
 type Props = {
