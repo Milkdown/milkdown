@@ -1,5 +1,6 @@
+import { LocationType, useLocationType } from '../hooks/useLocationType';
 import React from 'react';
-import { NavLink as Link, useLocation } from 'react-router-dom';
+import { NavLink as Link } from 'react-router-dom';
 
 import className from './style.module.css';
 
@@ -35,10 +36,10 @@ type SidebarProps = {
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display }) => {
-    const location = useLocation();
+    const locationType = useLocationType();
 
     React.useEffect(() => {
-        if (location.pathname === '/' || location.pathname === '/online-demo') {
+        if (locationType !== LocationType.Page) {
             setDisplay(false);
             return;
         }
@@ -47,7 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display 
             return;
         }
         setDisplay(true);
-    }, [location.pathname, setDisplay]);
+    }, [locationType, setDisplay]);
 
     if (!display) {
         return null;

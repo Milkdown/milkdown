@@ -1,5 +1,6 @@
+import { useDarkMode } from 'component/hooks/useDarkMode';
 import React from 'react';
-import { useIsIndex } from '../useIsIndex';
+import { LocationType, useLocationType } from '../hooks/useLocationType';
 
 import className from './style.module.css';
 
@@ -12,35 +13,17 @@ const materialIcon = `${className.icon} material-icons-outlined`;
 export const Header: React.FC<Props> = ({ onToggle }) => {
     const [isDarkMode, setIsDarkMode] = React.useState(false);
     const [showToggle, setShowToggle] = React.useState(true);
-    const isIndex = useIsIndex();
+    const locationType = useLocationType();
 
     React.useEffect(() => {
-        if (isIndex) {
+        if (locationType !== LocationType.Page) {
             setShowToggle(false);
             return;
         }
         setShowToggle(true);
-    }, [isIndex]);
+    }, [locationType]);
 
-    React.useEffect(() => {
-        document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-
-        let target = document.querySelector('#prism-theme');
-        if (!target) {
-            const link = document.createElement('link');
-            link.id = 'prism-theme';
-            link.setAttribute('rel', 'stylesheet');
-            document.head.appendChild(link);
-            target = link;
-        }
-
-        target.setAttribute(
-            'href',
-            isDarkMode
-                ? 'https://cdn.jsdelivr.net/npm/prism-themes@1.7.0/themes/prism-nord.css'
-                : 'https://cdn.jsdelivr.net/npm/prism-themes@1.7.0/themes/prism-material-light.css',
-        );
-    }, [isDarkMode]);
+    useDarkMode(isDarkMode);
 
     return (
         <header className={className.header}>
