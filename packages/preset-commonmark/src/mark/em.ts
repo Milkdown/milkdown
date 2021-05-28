@@ -1,5 +1,6 @@
 import type { MarkSpec, MarkType } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
+import type { InputRule } from 'prosemirror-inputrules';
 import { toggleMark } from 'prosemirror-commands';
 import { SerializerMark, Mark } from '@milkdown/core';
 import { markRule } from '../utility';
@@ -21,11 +22,11 @@ export class Em extends Mark {
         open: '*',
         close: '*',
     };
-    inputRules = (markType: MarkType) => [
+    override inputRules = (markType: MarkType): InputRule[] => [
         markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),
         markRule(/(?:^|[^*])(\*([^*]+)\*)$/, markType),
     ];
-    keymap = (markType: MarkType): Keymap => ({
+    override keymap = (markType: MarkType): Keymap => ({
         'Mod-i': toggleMark(markType),
     });
 }

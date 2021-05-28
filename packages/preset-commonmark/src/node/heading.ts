@@ -28,7 +28,7 @@ export class Heading extends Node {
         state.renderInline(node);
         state.closeBlock(node);
     };
-    inputRules = (nodeType: NodeType) =>
+    override inputRules = (nodeType: NodeType) =>
         headingIndex.map((x) =>
             textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), nodeType, () => ({
                 level: x,

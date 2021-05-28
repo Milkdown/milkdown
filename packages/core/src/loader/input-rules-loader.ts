@@ -1,5 +1,4 @@
 import type { InputRule } from 'prosemirror-inputrules';
-import type { Node, Mark } from '../abstract';
 import type { SchemaReadyContext, PluginReadyContext } from '../editor';
 
 import { Atom } from '../abstract';
@@ -11,20 +10,16 @@ export class InputRulesLoader extends Atom<SchemaReadyContext, PluginReadyContex
     loadAfter = LoadState.SchemaReady;
     main() {
         const { nodes, marks, schema } = this.context;
-        const nodesInputRules = nodes
-            .filter((node) => Boolean(node.inputRules))
-            .reduce((acc, cur) => {
-                const node = schema.nodes[cur.id];
-                if (!node) return acc;
-                return [...acc, ...(cur as Required<Node>).inputRules(node, schema)];
-            }, [] as InputRule[]);
-        const marksInputRules = marks
-            .filter((mark) => Boolean(mark.inputRules))
-            .reduce((acc, cur) => {
-                const mark = schema.marks[cur.id];
-                if (!mark) return acc;
-                return [...acc, ...(cur as Required<Mark>).inputRules(mark, schema)];
-            }, [] as InputRule[]);
+        const nodesInputRules = nodes.reduce((acc, cur) => {
+            const node = schema.nodes[cur.id];
+            if (!node || !cur.inputRules) return acc;
+            return [...acc, ...cur.inputRules(node, schema)];
+        }, [] as InputRule[]);
+        const marksInputRules = marks.reduce((acc, cur) => {
+            const mark = schema.marks[cur.id];
+            if (!mark || !cur.inputRules) return acc;
+            return [...acc, ...cur.inputRules(mark, schema)];
+        }, [] as InputRule[]);
 
         const inputRules = [...nodesInputRules, ...marksInputRules];
         this.updateContext({ inputRules });

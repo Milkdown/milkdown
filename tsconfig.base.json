@@ -17,6 +17,7 @@
         "strict": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
+        "noImplicitOverride": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
         "preserveWatchOutput": true

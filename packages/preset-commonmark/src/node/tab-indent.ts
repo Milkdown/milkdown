@@ -18,7 +18,7 @@ export class TabIndent extends Node {
     serializer: SerializerNode = (state) => {
         state.write('  ');
     };
-    keymap = (nodeType: NodeType): Keymap => ({
+    override keymap = (nodeType: NodeType): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
             const { selection } = state.tr;
             const result = Boolean(state.tr);

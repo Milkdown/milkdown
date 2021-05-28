@@ -15,8 +15,10 @@ export class Blockquote extends Node {
     parser = {
         block: this.id,
     };
+
     serializer: SerializerNode = (state, node) => {
         state.wrapBlock('> ', node, () => state.renderContent(node));
     };
-    inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
+
+    override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)]
 }

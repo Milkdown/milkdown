@@ -9,13 +9,17 @@ import { Atom } from './atom';
 import { AtomType, LoadState } from '../constant';
 import { NodeViewFactory } from '../utility';
 
-export interface Node {
+interface NodeOptional {
     readonly view?: NodeViewFactory;
     keymap?(nodeType: NodeType): Keymap;
-    inputRules?(markType: NodeType, schema: Schema): InputRule[];
+    inputRules?(nodeType: NodeType, schema: Schema): InputRule[];
 }
 
-export abstract class Node extends Atom<IdleContext> {
+export abstract class Node extends Atom<IdleContext> implements NodeOptional {
+    view: NodeOptional['view'];
+    keymap: NodeOptional['keymap'];
+    inputRules: NodeOptional['inputRules'];
+
     abstract readonly schema: NodeSpec;
     abstract readonly serializer: SerializerNode;
     abstract readonly parser: ParserSpec;

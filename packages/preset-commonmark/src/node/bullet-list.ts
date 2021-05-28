@@ -16,5 +16,5 @@ export class BulletList extends Node {
     serializer: SerializerNode = (state, node) => {
         state.renderList(node, '  ', () => '* ');
     };
-    inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)];
+    override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)];
 }

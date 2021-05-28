@@ -17,7 +17,7 @@ export class ListItem extends Node {
     serializer: SerializerNode = (state, node) => {
         state.renderContent(node);
     };
-    keymap = (type: NodeType): Keymap => ({
+    override keymap = (type: NodeType): Keymap => ({
         Enter: splitListItem(type),
         'Mod-]': sinkListItem(type),
         'Mod-[': liftListItem(type),

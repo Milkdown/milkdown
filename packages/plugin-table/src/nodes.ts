@@ -64,7 +64,7 @@ export class Table extends Node {
         });
         state.closeBlock(node);
     };
-    inputRules = (nodeType: NodeType, schema: Schema) => [
+    override inputRules = (nodeType: NodeType, schema: Schema): InputRule[] => [
         new InputRule(/^\|\|\s$/, (state, _match, start, end) => {
             const $start = state.doc.resolve(start);
             if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)) return null;

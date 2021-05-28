@@ -1,5 +1,6 @@
 import type { MarkSpec, MarkType } from 'prosemirror-model';
 import { SerializerMark, Mark } from '@milkdown/core';
+import type { InputRule } from 'prosemirror-inputrules';
 
 import { markRule } from '../utility';
 
@@ -18,5 +19,5 @@ export class CodeInline extends Mark {
         open: '`',
         close: '`',
     };
-    inputRules = (markType: MarkType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
+    override inputRules = (markType: MarkType): InputRule[] => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
 }

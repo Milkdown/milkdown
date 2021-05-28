@@ -1,4 +1,3 @@
-import type { Node, Mark } from '../abstract';
 import type { SchemaReadyContext, PluginReadyContext } from '../editor';
 
 import { Atom } from '../abstract';
@@ -14,22 +13,24 @@ export class NodeViewsLoader extends Atom<SchemaReadyContext, PluginReadyContext
         const nodeViewMap = nodes
             .filter((node) => Boolean(node.view))
             .reduce((acc, cur) => {
+                const { view } = cur;
                 const node = schema.nodes[cur.id];
-                if (!node) throw new Error();
+                if (!node || !view) return acc;
                 return {
                     ...acc,
-                    [cur.id]: (...args: Parameters<NodeView>) => (cur as Required<Node>).view(editor, node, ...args),
+                    [cur.id]: (...args: Parameters<NodeView>) => view(editor, node, ...args),
                 };
             }, {});
 
         const markViewMap = marks
             .filter((mark) => Boolean(mark.view))
             .reduce((acc, cur) => {
+                const { view } = cur;
                 const mark = schema.marks[cur.id];
-                if (!mark) throw new Error();
+                if (!mark || !view) return acc;
                 return {
                     ...acc,
-                    [cur.id]: (...args: Parameters<MarkView>) => (cur as Required<Mark>).view(editor, mark, ...args),
+                    [cur.id]: (...args: Parameters<MarkView>) => view(editor, mark, ...args),
                 };
             }, {});
 

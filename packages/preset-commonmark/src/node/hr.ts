@@ -18,7 +18,7 @@ export class Hr extends Node {
         state.write('---');
         state.closeBlock(node);
     };
-    inputRules = (nodeType: NodeType) => [
+    override inputRules = (nodeType: NodeType) => [
         new InputRule(/^(?:---|___\s|\*\*\*\s)$/, (state, match, start, end) => {
             const { tr } = state;
 

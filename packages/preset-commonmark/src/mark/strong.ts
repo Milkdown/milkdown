@@ -1,7 +1,8 @@
-import type { MarkSpec, MarkType } from 'prosemirror-model';
+import { Mark, SerializerMark } from '@milkdown/core';
 import type { Keymap } from 'prosemirror-commands';
 import { toggleMark } from 'prosemirror-commands';
-import { SerializerMark, Mark } from '@milkdown/core';
+import type { InputRule } from 'prosemirror-inputrules';
+import type { MarkSpec, MarkType } from 'prosemirror-model';
 import { markRule } from '../utility';
 
 export class Strong extends Mark {
@@ -21,11 +22,11 @@ export class Strong extends Mark {
         open: '**',
         close: '**',
     };
-    inputRules = (markType: MarkType) => [
+    override inputRules = (markType: MarkType): InputRule[] => [
         markRule(/(?:__)([^_]+)(?:__)$/, markType),
         markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),
     ];
-    keymap = (markType: MarkType): Keymap => ({
+    override keymap = (markType: MarkType): Keymap => ({
         'Mod-b': toggleMark(markType),
     });
 }

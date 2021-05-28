@@ -65,8 +65,10 @@ export class CodeFence extends Node {
         state.write('```');
         state.closeBlock(node);
     };
-    inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
-    keymap = (): Keymap => ({
+
+    override inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
+
+    override keymap = (): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
             const { tr, selection } = state;
             if (!dispatch) {

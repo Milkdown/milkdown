@@ -33,7 +33,7 @@ export class OrderedList extends Node {
             return state.utils.repeat(' ', maxWidth - n.length) + n + '. ';
         });
     };
-    inputRules = (nodeType: NodeType) => [
+    override inputRules = (nodeType: NodeType) => [
         wrappingInputRule(
             /^(\d+)\.\s$/,
             nodeType,

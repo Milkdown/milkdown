@@ -9,13 +9,17 @@ import { Atom } from './atom';
 import { AtomType, LoadState } from '../constant';
 import { MarkViewFactory } from '../utility';
 
-export interface Mark {
+interface MarkOptional {
     readonly view?: MarkViewFactory;
     keymap?(markType: MarkType): Keymap;
     inputRules?(markType: MarkType, schema: Schema): InputRule[];
 }
 
-export abstract class Mark extends Atom<IdleContext> {
+export abstract class Mark extends Atom<IdleContext> implements MarkOptional {
+    view: MarkOptional['view'];
+    keymap: MarkOptional['keymap'];
+    inputRules: MarkOptional['inputRules'];
+
     abstract readonly schema: MarkSpec;
     abstract readonly serializer: SerializerMark;
     abstract readonly parser: ParserSpec;
