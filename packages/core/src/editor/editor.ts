@@ -15,8 +15,8 @@ import {
 } from '../loader';
 
 export class Editor {
-    private atoms: Atom[] = [];
-    private ctx: AnyRecord = {
+    #atoms: Atom[] = [];
+    #ctx: AnyRecord = {
         loadState: LoadState.Idle,
         markdownIt: new MarkdownIt('commonmark'),
         nodes: [],
@@ -25,29 +25,29 @@ export class Editor {
         prosemirrorPlugins: [],
     };
 
-    private updateCtx = (value: AnyRecord) => {
-        Object.assign(this.ctx, value);
+    #updateCtx = (value: AnyRecord) => {
+        Object.assign(this.#ctx, value);
     };
 
-    private injectCtx() {
-        this.atoms.forEach((atom) => atom.injectContext(this.ctx, this.updateCtx));
+    #injectCtx() {
+        this.#atoms.forEach((atom) => atom.injectContext(this.#ctx, this.#updateCtx));
     }
 
-    private runAtomByLoadState(loadState: LoadState) {
-        this.atoms
+    #runAtomByLoadState(loadState: LoadState) {
+        this.#atoms
             .filter((atom) => atom.loadAfter === loadState)
             .forEach((atom) => {
                 atom.main();
             });
     }
 
-    private addAtom(atom: Atom) {
-        const i = this.atoms.findIndex((a) => a.id === atom.id);
+    #addAtom(atom: Atom) {
+        const i = this.#atoms.findIndex((a) => a.id === atom.id);
         if (i >= 0) {
             console.warn(`Atom: ${atom.id} is conflicted with previous atom, the previous one will be override.`);
-            this.atoms.splice(i, 1);
+            this.#atoms.splice(i, 1);
         }
-        this.atoms.push(atom);
+        this.#atoms.push(atom);
     }
 
     constructor(options: Partial<ViewLoaderOptions>) {
@@ -71,16 +71,16 @@ export class Editor {
     use(atom: Atom | Atom[]) {
         if (Array.isArray(atom)) {
             atom.forEach((a) => {
-                this.addAtom(a);
+                this.#addAtom(a);
             });
             return this;
         }
-        this.addAtom(atom);
+        this.#addAtom(atom);
         return this;
     }
 
     create() {
-        this.injectCtx();
+        this.#injectCtx();
         [
             LoadState.Idle,
             LoadState.LoadSchema,
@@ -88,8 +88,8 @@ export class Editor {
             LoadState.PluginReady,
             LoadState.Complete,
         ].forEach((state) => {
-            this.ctx.loadState = state;
-            this.runAtomByLoadState(state);
+            this.#ctx.loadState = state;
+            this.#runAtomByLoadState(state);
         });
     }
 }

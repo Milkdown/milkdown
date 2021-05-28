@@ -6,8 +6,8 @@ import { IdleContext } from '../editor';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MarkdownItPlugin = PluginSimple | [PluginWithOptions, any] | [PluginWithParams, ...any[]];
 
-const markdownItPluginLoader = (id: string) => {
-    return class ProsemirrorPluginLoader extends Atom<
+const markdownItPluginLoader = (id: string) =>
+    class ProsemirrorPluginLoader extends Atom<
         IdleContext,
         IdleContext,
         { plugins: (ctx: IdleContext) => MarkdownItPlugin[] }
@@ -29,7 +29,6 @@ const markdownItPluginLoader = (id: string) => {
             });
         }
     };
-};
 
 export const createMarkdownItPlugin = (id: string, plugins: (ctx: IdleContext) => MarkdownItPlugin[]) => {
     const Factory = markdownItPluginLoader(id);

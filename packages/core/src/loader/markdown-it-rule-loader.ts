@@ -2,12 +2,8 @@ import { Atom } from '../abstract';
 import { AtomType, LoadState } from '../constant';
 import { IdleContext } from '../editor';
 
-const markdownItRuleLoader = (id: string) => {
-    return class ProsemirrorPluginLoader extends Atom<
-        IdleContext,
-        IdleContext,
-        { rules: (ctx: IdleContext) => string[] }
-    > {
+const markdownItRuleLoader = (id: string) =>
+    class ProsemirrorPluginLoader extends Atom<IdleContext, IdleContext, { rules: (ctx: IdleContext) => string[] }> {
         id = id;
         type = AtomType.ProsemirrorPlugin;
         loadAfter = LoadState.SchemaReady;
@@ -19,7 +15,6 @@ const markdownItRuleLoader = (id: string) => {
             });
         }
     };
-};
 
 export const createMarkdownItRule = (id: string, rules: (ctx: IdleContext) => string[]) => {
     const Factory = markdownItRuleLoader(id);

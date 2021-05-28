@@ -11,20 +11,20 @@ type StackElement = {
 
 export class Stack {
     public readonly els: StackElement[];
-    private marks: Mark[];
+    #marks: Mark[];
 
     constructor(nodeType: NodeType) {
         this.els = [{ type: nodeType, content: [] }];
-        this.marks = Mark.none;
+        this.#marks = Mark.none;
     }
 
-    private top() {
+    #top() {
         const { els } = this;
         return els[els.length - 1];
     }
 
-    private pushInTopEl(el: Node) {
-        this.top()?.content.push(el);
+    #pushInTopEl(el: Node) {
+        this.#top()?.content.push(el);
     }
 
     get length() {
@@ -32,20 +32,20 @@ export class Stack {
     }
 
     openMark(mark: Mark) {
-        this.marks = mark.addToSet(this.marks);
+        this.#marks = mark.addToSet(this.#marks);
     }
 
     closeMark(mark: MarkType) {
-        this.marks = mark.removeFromSet(this.marks);
+        this.#marks = mark.removeFromSet(this.#marks);
     }
 
     addText(createTextNode: (marks: Mark[]) => Node) {
-        const top = this.top();
+        const top = this.#top();
         if (!top) throw new Error();
 
         const nodes = top.content;
         const last = nodes[nodes.length - 1];
-        const node = createTextNode(this.marks);
+        const node = createTextNode(this.#marks);
 
         const merged = last && maybeMerge(last, node);
         if (merged) {
@@ -61,16 +61,16 @@ export class Stack {
     }
 
     addNode(nodeType: NodeType, attrs?: Attrs, content?: Node[]) {
-        const node = nodeType.createAndFill(attrs, content, this.marks);
+        const node = nodeType.createAndFill(attrs, content, this.#marks);
 
         if (!node) return null;
 
-        this.pushInTopEl(node);
+        this.#pushInTopEl(node);
         return node;
     }
 
     closeNode() {
-        if (this.marks.length) this.marks = Mark.none;
+        if (this.#marks.length) this.#marks = Mark.none;
 
         const info = this.els.pop();
         if (!info) throw new Error();

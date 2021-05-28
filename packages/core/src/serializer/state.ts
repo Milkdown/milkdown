@@ -32,7 +32,7 @@ export class State {
      * @returns State instance.
      */
     renderContent(parent: Node) {
-        parent.forEach((node: Node, _: unknown, i: number) => this.render(node, parent, i));
+        parent.forEach((node: Node, _: unknown, i: number) => this.#render(node, parent, i));
 
         return this;
     }
@@ -43,7 +43,7 @@ export class State {
      * @returns State instance.
      */
     ensureNewLine() {
-        if (!this.atBlank) this.#out += '\n';
+        if (!this.#atBlank) this.#out += '\n';
 
         return this;
     }
@@ -69,10 +69,10 @@ export class State {
      * @returns State instance.
      */
     write(content?: string) {
-        this.flushClose();
+        this.#flushClose();
         if (!content) return this;
 
-        if (this.#delimitation && this.atBlank) this.#out += this.#delimitation;
+        if (this.#delimitation && this.#atBlank) this.#out += this.#delimitation;
         this.#out += content;
 
         return this;
@@ -89,7 +89,7 @@ export class State {
     text(text: string, escape = false) {
         const lines = text.split('\n');
         lines.forEach((line, i) => {
-            const nextLine = escape ? this.utils.escape(line, Boolean(this.atBlank || this.#toBeClosed)) : line;
+            const nextLine = escape ? this.utils.escape(line, Boolean(this.#atBlank || this.#toBeClosed)) : line;
             this.write(nextLine);
 
             const isLastLine = i === lines.length - 1;
@@ -134,14 +134,14 @@ export class State {
         let marksNotClosed: Mark[] = [];
 
         const cleanUp = () => {
-            const clearMarks = this.serializeMarks(marksNotClosed, parent, parent.childCount + 1);
+            const clearMarks = this.#serializeMarks(marksNotClosed, parent, parent.childCount + 1);
 
             this.write(clearMarks);
         };
 
         parent.forEach((node, _, index) => {
             if (!hasText(node)) {
-                this.render(node, parent, index);
+                this.#render(node, parent, index);
                 return;
             }
 
@@ -149,20 +149,20 @@ export class State {
             // Find marks not closed and not exists in current node
             const marksToBeClosed = marksNotClosed
                 .filter((mark) => !marks.includes(mark))
-                .sort(this.compareMarkPriority());
+                .sort(this.#compareMarkPriority());
             // Find new added marks
             const marksToBeOpened = marks
                 .filter((mark) => !marksNotClosed.includes(mark))
-                .sort(this.compareMarkPriority(true));
+                .sort(this.#compareMarkPriority(true));
 
             marksToBeOpened.forEach((mark) => marksNotClosed.push(mark));
             marksNotClosed = marksNotClosed
                 .filter((mark) => !marksToBeClosed.includes(mark))
-                .sort(this.compareMarkPriority());
+                .sort(this.#compareMarkPriority());
 
-            const openMark = this.serializeMarks(marksToBeOpened, parent, index, true);
+            const openMark = this.#serializeMarks(marksToBeOpened, parent, index, true);
 
-            const closePreviousNodeMark = this.serializeMarks(marksToBeClosed, parent, index + 1);
+            const closePreviousNodeMark = this.#serializeMarks(marksToBeClosed, parent, index + 1);
 
             this.write(closePreviousNodeMark + openMark + node.text);
         });
@@ -182,27 +182,27 @@ export class State {
      */
     renderList(parent: Node, delimitation: string, getFirstDelimitation: (index: number) => string) {
         if (this.#toBeClosed && this.#toBeClosed.type === parent.type) {
-            this.flushClose(2);
+            this.#flushClose(2);
         }
 
         parent.forEach((child, _, i) => {
-            this.wrapBlock(delimitation, parent, () => this.render(child, parent, i), getFirstDelimitation(i));
+            this.wrapBlock(delimitation, parent, () => this.#render(child, parent, i), getFirstDelimitation(i));
         });
     }
 
-    private get atBlank() {
+    get #atBlank() {
         const emptyOrNewline = /(^|\n)$/;
         return emptyOrNewline.test(this.#out);
     }
 
-    private serializeMarks(marks: Mark[], parent: Node, index: number, isOpen = false) {
-        return marks.map((mark) => this.markString(mark, parent, index, isOpen)).join('');
+    #serializeMarks(marks: Mark[], parent: Node, index: number, isOpen = false) {
+        return marks.map((mark) => this.#markString(mark, parent, index, isOpen)).join('');
     }
 
-    private flushClose(size = 1) {
+    #flushClose(size = 1) {
         if (!this.#toBeClosed) return this;
 
-        if (!this.atBlank) this.#out += '\n';
+        if (!this.#atBlank) this.#out += '\n';
 
         const prefix = this.utils.removeWhiteSpaceAfter(this.#delimitation);
         this.#out += this.utils.repeat(prefix + '\n', size);
@@ -211,32 +211,32 @@ export class State {
         return this;
     }
 
-    private markString(mark: Mark, parent: Node, index: number, isOpen = false) {
-        const markInfo = this.getMark(mark);
+    #markString(mark: Mark, parent: Node, index: number, isOpen = false) {
+        const markInfo = this.#getMark(mark);
         const value = isOpen ? markInfo.open : markInfo.close;
         return typeof value === 'string' ? value : value(this, mark, parent, index);
     }
 
-    private render(node: Node, parent: Node, index: number) {
-        const renderer = this.getNode(node);
+    #render(node: Node, parent: Node, index: number) {
+        const renderer = this.#getNode(node);
         renderer(this, node, parent, index);
     }
 
-    private compareMarkPriority(desc = false) {
+    #compareMarkPriority(desc = false) {
         return (l: Mark, r: Mark) => {
-            const pL = this.getMark(l)?.priority ?? 0;
-            const pR = this.getMark(r)?.priority ?? 0;
+            const pL = this.#getMark(l)?.priority ?? 0;
+            const pR = this.#getMark(r)?.priority ?? 0;
             return desc ? pL - pR : pR - pL;
         };
     }
 
-    private getMark(mark: Mark) {
+    #getMark(mark: Mark) {
         const markInfo = this.#marks[mark.type.name];
         if (!markInfo) throw new Error(`Fail to get mark ${mark.type.name} from mark map.`);
         return markInfo;
     }
 
-    private getNode(node: Node) {
+    #getNode(node: Node) {
         const nodeInfo = this.#nodes[node.type.name];
         if (!nodeInfo) throw new Error(`Fail to get node ${node.type.name} from node map.`);
         return nodeInfo;
