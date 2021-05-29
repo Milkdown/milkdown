@@ -41,9 +41,8 @@ export const Header: React.FC<Props> = ({ onToggle }) => {
                 <span onClick={() => setIsDarkMode(!isDarkMode)} className={materialIcon}>
                     {isDarkMode ? 'light_mode' : 'dark_mode'}
                 </span>
-                <a href="https://github.com/Saul-Mirone/milkdown" className={className.github}>
+                <a href="https://github.com/Saul-Mirone/milkdown" target="_blank" className={className.github}>
                     <span className={materialIcon}>open_in_new</span>
-                    {/* <span>Open in Github</span> */}
                 </a>
             </div>
         </header>
