@@ -75,6 +75,7 @@
         color: palette(primary);
         font-size: 0.875rem;
         padding: 0 0.5rem;
+        font-weight: 500;
         &:hover {
             background-color: palette(secondary, 0.12);
         }
