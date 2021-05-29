@@ -1,5 +1,5 @@
 .body {
-    background: palette(surface);
+    /* background: palette(surface); */
     text-align: center;
     height: 100%;
     display: flex;
