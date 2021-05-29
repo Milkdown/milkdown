@@ -43,7 +43,7 @@ export const Header: React.FC<Props> = ({ onToggle }) => {
                 </span>
                 <a href="https://github.com/Saul-Mirone/milkdown" className={className.github}>
                     <span className={materialIcon}>open_in_new</span>
-                    <span>Open in Github</span>
+                    {/* <span>Open in Github</span> */}
                 </a>
             </div>
         </header>

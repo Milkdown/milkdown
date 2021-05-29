@@ -1,14 +1,19 @@
 .sidebar {
     width: 16rem;
-    background: palette(surface);
+    background: palette(background);
     z-index: 1;
-    box-shadow: 0 1px 2px 0 palette(shadow, 0.3), 0 1px 3px 1px palette(shadow, 0.15);
     position: fixed;
     top: 4.5rem;
     bottom: 0;
+    border-right: 1px solid palette(line);
+    transform: translateX(0);
+    &.fold {
+        width: 0;
+        transform: translateX(-16rem);
+    }
 }
 
-@media only screen and (min-width: 42rem) {
+@media only screen and (min-width: 67.5rem) {
     .sidebar {
         position: relative;
         height: unset;
@@ -23,28 +28,28 @@
 }
 
 .section {
-    padding: 1rem;
+    padding: 0 1.5rem;
 }
 
 .sectionTitle {
-    color: palette(primary);
-    font-size: 1.5rem;
-    line-height: 2;
+    color: palette(neutral);
+    margin-top: 2.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .link {
     display: flex;
-    padding-left: 1.875rem;
-    border-left: 4px solid transparent;
-    font-size: 1rem;
-    line-height: 2;
-    color: palette(neutral, 0.87);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: palette(neutral, 0.6);
     text-decoration: none;
+    margin: 1.5rem 0;
     &:hover {
-        color: palette(secondary);
+        color: palette(neutral, 0.87);
     }
 }
 
 .active {
-    border-color: palette(primary);
+    color: palette(primary);
 }

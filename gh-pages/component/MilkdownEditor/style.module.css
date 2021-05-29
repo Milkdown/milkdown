@@ -2,7 +2,7 @@
     margin: 0;
 }
 
-@media only screen and (min-width: 42rem) {
+@media only screen and (min-width: 67.5rem) {
     .editor {
         margin: 20px 0;
     }

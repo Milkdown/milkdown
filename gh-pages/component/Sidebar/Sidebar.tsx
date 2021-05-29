@@ -43,19 +43,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display 
             setDisplay(false);
             return;
         }
-        if (/Android|iPhone|iPod|Opera Mini/i.test(navigator.userAgent)) {
+        if (document.documentElement.clientWidth < 1080) {
             setDisplay(false);
             return;
         }
         setDisplay(true);
     }, [locationType, setDisplay]);
 
-    if (!display) {
-        return null;
-    }
+    const navClassName = `${className.sidebar} ${display ? '' : className.fold}`;
 
     return (
-        <nav className={className.sidebar}>
+        <nav className={navClassName}>
             {sections.map((section, i) => (
                 <section key={i.toString()}>
                     <NavSection key={i.toString()} {...section} />

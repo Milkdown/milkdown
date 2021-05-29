@@ -5,7 +5,7 @@
     }
 
     color: palette(neutral, 0.87);
-    background: palette(surface);
+    background: palette(background);
     box-sizing: border-box;
     display: flex;
     height: 4.5rem;
@@ -20,13 +20,15 @@
 .part {
     display: flex;
     gap: 0.8rem;
-    > .icon {
-        width: 3rem;
-        line-height: 3rem;
+    align-items: center;
+    .icon {
+        width: 2rem;
+        line-height: 2rem;
+        height: 2rem;
         text-align: center;
         cursor: pointer;
         transition: all 0.2s ease-in;
-        border-radius: 50%;
+        /* border-radius: 50%; */
         &:hover {
             background: palette(secondary, 0.12);
         }
@@ -34,6 +36,7 @@
 }
 
 .logo {
+    padding: 0 0.4rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -61,26 +64,12 @@
     cursor: pointer;
 }
 
-.github {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    transition: all 0.2s ease-in;
-
-    &:hover {
-        color: palette(secondary);
-    }
-}
-
-.logo > span,
-.github > span:last-child {
+.logo > span {
     display: none;
 }
 
-@media only screen and (min-width: 42rem) {
-    .logo > span,
-    .github > span:last-child {
+@media only screen and (min-width: 67.5rem) {
+    .logo > span {
         display: flex;
     }
 }
