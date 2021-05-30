@@ -52,22 +52,3 @@ import '@milkdown/theme-nord/lib/theme.css';
 const root = document.body;
 new Editor({ root }).use(commonmark).create();
 ```
-
-## Taste the plugin
-
-In fact, all features in milkdown are supported by plugin.
-The `commonmark` we use is a plugin. Now we can try more plugins:
-
-```typescript
-import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
-
-import '@milkdown/theme-nord/lib/theme.css';
-
-import { tooltip } from '@milkdown/plugin-tooltip';
-// don't forget to import style!
-import '@milkdown/plugin-tooltip/lib/style.css';
-
-const root = document.body;
-new Editor({ root }).use(commonmark).use(tooltip).create();
-```

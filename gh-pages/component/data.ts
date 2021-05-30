@@ -1,8 +1,8 @@
 import { Section } from './Sidebar/Sidebar';
 
-import whyMilkdown from '../pages/why-milkdown.md';
-import getStarted from '../pages/get-started.md';
-import coreConcepts from '../pages/core-concepts.md';
+import whyMilkdown from '../pages/guide/why-milkdown.md';
+import getStarted from '../pages/guide/get-started.md';
+import usingPlugins from '../pages/guide/using-plugins.md';
 
 export const data: Section[] = [
     {
@@ -10,7 +10,7 @@ export const data: Section[] = [
         items: [
             { title: 'Why Milkdown', link: '/why-milkdown', content: whyMilkdown },
             { title: 'Get Started', link: '/get-started', content: getStarted },
-            { title: 'Core Concepts', link: '/core-concepts', content: coreConcepts },
+            { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
         ],
     },
     {
