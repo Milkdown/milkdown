@@ -35,7 +35,7 @@ export const Header: React.FC<Props> = ({ onToggle, scrolled }) => {
                 )}
                 <a href="/milkdown/" className={className.logo}>
                     <img src="/milkdown/milkdown-mini.svg" />
-                    <span>Milkdown</span>
+                    <span style={{ opacity: scrolled ? 0 : 1, transition: 'all 0.2s ease-in' }}>Milkdown</span>
                 </a>
             </div>
             <div className={className.part}>

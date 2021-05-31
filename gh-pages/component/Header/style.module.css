@@ -16,7 +16,7 @@
     background: palette(background);
 }
 .scrolled {
-    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    box-shadow: 0px 4px 5px palette(shadow, 0.14), 0px 1px 10px palette(shadow, 0.12), 0px 2px 4px palette(shadow, 0.2);
 }
 
 .part {
