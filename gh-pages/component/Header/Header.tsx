@@ -4,12 +4,13 @@ import { LocationType, useLocationType } from '../hooks/useLocationType';
 import className from './style.module.css';
 
 type Props = {
+    scrolled: boolean;
     onToggle: () => void;
 };
 
 const materialIcon = `${className.icon} material-icons-outlined`;
 
-export const Header: React.FC<Props> = ({ onToggle }) => {
+export const Header: React.FC<Props> = ({ onToggle, scrolled }) => {
     const [isDarkMode, setIsDarkMode] = React.useState(false);
     const [showToggle, setShowToggle] = React.useState(true);
     const locationType = useLocationType();
@@ -25,7 +26,7 @@ export const Header: React.FC<Props> = ({ onToggle }) => {
     useDarkMode(isDarkMode, setIsDarkMode);
 
     return (
-        <header className={className.header}>
+        <header className={[className.header, scrolled ? className.scrolled : ''].join(' ')}>
             <div className={className.part}>
                 {showToggle && (
                     <span className={materialIcon} onClick={() => onToggle?.()}>

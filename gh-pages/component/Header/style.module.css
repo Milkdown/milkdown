@@ -5,16 +5,18 @@
     }
 
     color: palette(neutral, 0.87);
-    background: palette(background);
     box-sizing: border-box;
     display: flex;
     height: 4.5rem;
     align-items: center;
     justify-content: space-between;
     padding: 0 2rem;
-    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
     z-index: 2;
     position: relative;
+    background: palette(background);
+}
+.scrolled {
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
 }
 
 .part {

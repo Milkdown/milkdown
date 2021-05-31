@@ -14,13 +14,36 @@ const pages = pageRouter.flatMap((section) => section.items);
 
 export const App: React.FC = () => {
     const [displaySidebar, setDisplaySidebar] = React.useState(true);
+    const [scrolled, setScrolled] = React.useState(false);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (!containerRef.current) return;
+
+        const { current } = containerRef;
+
+        const scroll = (e: Event) => {
+            const { target } = e;
+            if (!(target instanceof HTMLDivElement)) {
+                return;
+            }
+            const { scrollTop } = target;
+            setScrolled(scrollTop > 0);
+        };
+
+        current.addEventListener('scroll', scroll);
+
+        return () => {
+            current.removeEventListener('scroll', scroll);
+        };
+    }, []);
 
     return (
         <HashRouter>
-            <Header onToggle={() => setDisplaySidebar(!displaySidebar)} />
+            <Header onToggle={() => setDisplaySidebar(!displaySidebar)} scrolled={scrolled} />
             <main className={className.main}>
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
-                <div className={className.container}>
+                <div ref={containerRef} className={className.container}>
                     <article>
                         <Switch>
                             <Route exact path="/">
