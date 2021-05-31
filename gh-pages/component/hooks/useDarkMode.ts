@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 const code = {
-    light: 'https://cdn.jsdelivr.net/npm/prism-themes@1.7.0/themes/prism-material-light.css',
-    dark: 'https://cdn.jsdelivr.net/npm/prism-themes@1.7.0/themes/prism-nord.css',
+    light: 'https://unpkg.com/prism-themes/themes/prism-material-light.css',
+    dark: 'https://unpkg.com/prism-themes/themes/prism-nord.css',
 };
 
 const getStyleLink = () => {

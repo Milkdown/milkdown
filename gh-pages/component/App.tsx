@@ -4,13 +4,13 @@ import { Home } from './Home/Home';
 import { MilkdownEditor } from './MilkdownEditor/MilkdownEditor';
 import { Header } from './Header/Header';
 import { Sidebar } from './Sidebar/Sidebar';
-import { data } from './data';
+import { pageRouter } from './page-router';
 
 import className from './style.module.css';
 import demo from '../pages/demo.md';
 import { Footer } from './Footer/Footer';
 
-const pages = data.flatMap((section) => section.items);
+const pages = pageRouter.flatMap((section) => section.items);
 
 export const App: React.FC = () => {
     const [displaySidebar, setDisplaySidebar] = React.useState(true);
@@ -19,7 +19,7 @@ export const App: React.FC = () => {
         <HashRouter>
             <Header onToggle={() => setDisplaySidebar(!displaySidebar)} />
             <main className={className.main}>
-                <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={data} />
+                <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
                 <div className={className.container}>
                     <article>
                         <Switch>

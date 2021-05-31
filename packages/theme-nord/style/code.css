@@ -27,7 +27,7 @@
             border-radius: 4px;
             cursor: pointer;
             line-height: 1.5;
-            margin: 0.4rem 0;
+            margin: 1.2rem;
             display: grid;
             grid-template-areas: 'select';
             align-items: center;

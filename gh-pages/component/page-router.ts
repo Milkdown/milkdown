@@ -1,16 +1,22 @@
 import { Section } from './Sidebar/Sidebar';
 
 import whyMilkdown from '../pages/guide/why-milkdown.md';
-import getStarted from '../pages/guide/get-started.md';
+import gettingStarted from '../pages/guide/getting-started.md';
 import usingPlugins from '../pages/guide/using-plugins.md';
+import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
 
-export const data: Section[] = [
+export const pageRouter: Section[] = [
     {
         title: 'Guide',
         items: [
             { title: 'Why Milkdown', link: '/why-milkdown', content: whyMilkdown },
-            { title: 'Get Started', link: '/get-started', content: getStarted },
+            { title: 'Getting Started', link: '/getting-started', content: gettingStarted },
             { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
+            {
+                title: 'Interacting with Editor',
+                link: '/interacting-with-editor',
+                content: interactingWithEditor,
+            },
         ],
     },
     {
