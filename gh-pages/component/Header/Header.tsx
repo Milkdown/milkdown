@@ -9,10 +9,8 @@ type Props = {
 
 const materialIcon = `${className.icon} material-icons-outlined`;
 
-const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
-
 export const Header: React.FC<Props> = ({ onToggle }) => {
-    const [isDarkMode, setIsDarkMode] = React.useState(darkMode);
+    const [isDarkMode, setIsDarkMode] = React.useState(false);
     const [showToggle, setShowToggle] = React.useState(true);
     const locationType = useLocationType();
 
@@ -24,7 +22,7 @@ export const Header: React.FC<Props> = ({ onToggle }) => {
         setShowToggle(true);
     }, [locationType]);
 
-    useDarkMode(isDarkMode);
+    useDarkMode(isDarkMode, setIsDarkMode);
 
     return (
         <header className={className.header}>

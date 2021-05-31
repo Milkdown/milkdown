@@ -19,7 +19,12 @@ const getStyleLink = () => {
     return link;
 };
 
-export const useDarkMode = (isDarkMode: boolean): void => {
+export const useDarkMode = (isDarkMode: boolean, setIsDarkMode: (isDarkMode: boolean) => void): void => {
+    useEffect(() => {
+        const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+        setIsDarkMode(darkMode);
+    }, [setIsDarkMode]);
+
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
 
