@@ -68,4 +68,8 @@
     @mixin lines;
     @mixin blocks;
     @mixin code;
+
+    ::selection {
+        background: palette(secondary, 0.38);
+    }
 }

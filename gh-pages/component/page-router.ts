@@ -5,6 +5,8 @@ import gettingStarted from '../pages/guide/getting-started.md';
 import usingPlugins from '../pages/guide/using-plugins.md';
 import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
 
+import core from '../pages/architecture/core.md';
+
 export const pageRouter: Section[] = [
     {
         title: 'Guide',
@@ -18,6 +20,10 @@ export const pageRouter: Section[] = [
                 content: interactingWithEditor,
             },
         ],
+    },
+    {
+        title: 'Architecture',
+        items: [{ title: 'Core', link: '/core', content: core }],
     },
     {
         title: 'APIs',
