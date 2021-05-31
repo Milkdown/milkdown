@@ -12,7 +12,7 @@ export const Home: React.FC = () => {
                 <h1 className={className.title}>Milkdown</h1>
                 <p className={className.desc}>Plugin Based WYSIWYG Markdown Editor</p>
                 <section className={className.buttons}>
-                    <Link to="/get-started">Get Started</Link>
+                    <Link to="/getting-started">Get Started</Link>
                     <Link to="/online-demo">Online Demo</Link>
                 </section>
             </section>

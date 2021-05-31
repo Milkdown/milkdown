@@ -32,9 +32,16 @@
 
     article {
         flex-grow: 1;
-        padding: 0 2.5rem;
     }
 
     display: flex;
     flex-direction: column;
+}
+
+@media only screen and (min-width: 67.5rem) {
+    .container {
+        article {
+            padding: 0 2.5rem;
+        }
+    }
 }
