@@ -37,7 +37,7 @@
         flex-direction: column;
         justify-content: center;
         position: relative;
-        padding: 0 2.5rem;
+        padding: 0;
         &::before {
             content: '';
             position: absolute;
