@@ -1,10 +1,14 @@
 import React from 'react';
+import { LocationType, useLocationType } from '../hooks/useLocationType';
 
 import className from './style.module.css';
 
 const copyright = 'MIT Licensed | Copyright © 2021-present Mirone Saul';
 
 export const Footer: React.FC = () => {
+    const [locationType] = useLocationType();
 
-    return <footer className={className.footer}>{copyright}</footer>;
+    const classes = [className.footer, locationType === LocationType.Home ? className.homepage : ''].join(' ');
+
+    return <footer className={classes}>{copyright}</footer>;
 };

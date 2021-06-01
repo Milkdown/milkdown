@@ -9,13 +9,15 @@ import { pageRouter } from './page-router';
 import className from './style.module.css';
 import demo from '../pages/demo.md';
 import { Footer } from './Footer/Footer';
+import { useLocationType, LocationType } from './hooks/useLocationType';
 
 const pages = pageRouter.flatMap((section) => section.items);
 
-export const App: React.FC = () => {
-    const [displaySidebar, setDisplaySidebar] = React.useState(true);
-    const [scrolled, setScrolled] = React.useState(false);
+export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void }> = ({ setScrolled }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const [locationType] = useLocationType();
+
+    const classes = [className.container, locationType === LocationType.Home ? className.homepage : ''].join(' ');
 
     React.useEffect(() => {
         if (!containerRef.current) return;
@@ -36,32 +38,41 @@ export const App: React.FC = () => {
         return () => {
             current.removeEventListener('scroll', scroll);
         };
-    }, []);
+    }, [setScrolled]);
+
+    return (
+        <div ref={containerRef} className={classes}>
+            <article>
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route exact path="/online-demo">
+                        <MilkdownEditor content={demo} />
+                    </Route>
+
+                    {pages.map((page, i) => (
+                        <Route key={i.toString()} path={page.link}>
+                            <MilkdownEditor content={page.content} readOnly />
+                        </Route>
+                    ))}
+                </Switch>
+            </article>
+            <Footer />
+        </div>
+    );
+};
+
+export const App: React.FC = () => {
+    const [displaySidebar, setDisplaySidebar] = React.useState(true);
+    const [scrolled, setScrolled] = React.useState(false);
 
     return (
         <HashRouter>
             <Header onToggle={() => setDisplaySidebar(!displaySidebar)} scrolled={scrolled} />
             <main className={className.main}>
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
-                <div ref={containerRef} className={className.container}>
-                    <article>
-                        <Switch>
-                            <Route exact path="/">
-                                <Home />
-                            </Route>
-                            <Route exact path="/online-demo">
-                                <MilkdownEditor content={demo} />
-                            </Route>
-
-                            {pages.map((page, i) => (
-                                <Route key={i.toString()} path={page.link}>
-                                    <MilkdownEditor content={page.content} readOnly />
-                                </Route>
-                            ))}
-                        </Switch>
-                    </article>
-                    <Footer />
-                </div>
+                <Main setScrolled={setScrolled} />
             </main>
         </HashRouter>
     );

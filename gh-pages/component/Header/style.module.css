@@ -51,11 +51,12 @@
 
     img {
         height: 1.6rem;
+        width: auto;
     }
 
     span {
         font-size: 1.5rem;
-        color: palette(netural, 0.87);
+        color: palette(neutral, 0.87);
     }
 }
 

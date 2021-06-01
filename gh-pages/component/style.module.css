@@ -32,6 +32,22 @@
 
     article {
         flex-grow: 1;
+        background: palette(background);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        padding: 0 2.5rem;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: palette(background);
+            z-index: 0;
+        }
     }
 
     display: flex;
@@ -42,6 +58,23 @@
     .container {
         article {
             padding: 0 2.5rem;
+        }
+    }
+}
+
+.homepage {
+    article {
+        padding: 0;
+        background: palette(surface);
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: palette(background);
+            z-index: 0;
         }
     }
 }

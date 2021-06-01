@@ -8,3 +8,6 @@
     justify-content: center;
     clear: both;
 }
+.homepage {
+    background: palette(surface);
+}
