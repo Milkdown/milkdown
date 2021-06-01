@@ -6,7 +6,7 @@ import type { IdleContext } from '../editor/context';
 import type { SerializerNode } from '../serializer/types';
 
 import { Atom } from './atom';
-import { AtomType, LoadState } from '../constant';
+import { LoadState } from '../constant';
 import { NodeViewFactory } from '../utility';
 
 interface NodeOptional {
@@ -24,9 +24,8 @@ export abstract class Node extends Atom<IdleContext> implements NodeOptional {
     abstract readonly serializer: SerializerNode;
     abstract readonly parser: ParserSpec;
 
-    loadAfter = LoadState.Idle;
-    type = AtomType.ProsemirrorSpec;
-    main() {
+    override loadAfter = LoadState.Idle;
+    override main() {
         this.updateContext({
             nodes: this.context.nodes.concat(this),
         });

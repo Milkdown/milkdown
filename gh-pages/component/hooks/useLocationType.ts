@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { Location } from 'history';
 
 export enum LocationType {
     Home,
@@ -6,9 +7,7 @@ export enum LocationType {
     Page,
 }
 
-export function useLocationType(): LocationType {
-    const location = useLocation();
-
+const getType = (location: Location) => {
     if (location.pathname === '/') {
         return LocationType.Home;
     }
@@ -18,4 +17,10 @@ export function useLocationType(): LocationType {
     }
 
     return LocationType.Page;
+};
+
+export function useLocationType(): [LocationType, Location] {
+    const location = useLocation();
+
+    return [getType(location), location];
 }

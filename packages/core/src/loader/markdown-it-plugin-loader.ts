@@ -1,6 +1,6 @@
 import { PluginSimple, PluginWithOptions, PluginWithParams } from 'markdown-it';
 import { Atom } from '../abstract';
-import { AtomType, LoadState } from '../constant';
+import { LoadState } from '../constant';
 import { IdleContext } from '../editor';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,10 +12,9 @@ const markdownItPluginLoader = (id: string) =>
         IdleContext,
         { plugins: (ctx: IdleContext) => MarkdownItPlugin[] }
     > {
-        id = id;
-        type = AtomType.ProsemirrorPlugin;
-        loadAfter = LoadState.SchemaReady;
-        main() {
+        override id = id;
+        override loadAfter = LoadState.SchemaReady;
+        override main() {
             const plugins = this.options.plugins(this.context);
             const md = plugins.reduce((instance, plugin) => {
                 if (Array.isArray(plugin)) {

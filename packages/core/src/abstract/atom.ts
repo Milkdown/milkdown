@@ -1,12 +1,12 @@
-import { AtomType, LoadState } from '../constant';
+import { LoadState } from '../constant';
 import { AnyRecord } from '../utility';
 
 export abstract class Atom<
     CurrentContext extends AnyRecord = AnyRecord,
     NextContext extends AnyRecord = CurrentContext,
-    Options extends AnyRecord = AnyRecord
+    Options extends AnyRecord = AnyRecord,
 > {
-    context!: CurrentContext;
+    context!: Readonly<CurrentContext>;
     updateContext!: (next: Partial<NextContext>) => void;
     constructor(public readonly options: Options = {} as Options) {}
     injectContext(context: CurrentContext, updateContext: (next: Partial<NextContext>) => void) {
@@ -15,7 +15,6 @@ export abstract class Atom<
     }
 
     abstract readonly id: string;
-    abstract readonly type: AtomType;
     abstract readonly loadAfter: LoadState;
     abstract main(): void;
 }

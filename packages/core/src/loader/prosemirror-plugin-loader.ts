@@ -1,6 +1,6 @@
 import { Plugin } from 'prosemirror-state';
 import { Atom } from '../abstract';
-import { AtomType, LoadState } from '../constant';
+import { LoadState } from '../constant';
 import { PluginReadyContext } from '../editor';
 
 const prosemirrorPluginLoader = (id: string) => {
@@ -9,10 +9,9 @@ const prosemirrorPluginLoader = (id: string) => {
         PluginReadyContext,
         { plugins: (ctx: PluginReadyContext) => Plugin[] }
     > {
-        id = id;
-        type = AtomType.ProsemirrorPlugin;
-        loadAfter = LoadState.SchemaReady;
-        main() {
+        override id = id;
+        override loadAfter = LoadState.SchemaReady;
+        override main() {
             this.updateContext({
                 prosemirrorPlugins: this.context.prosemirrorPlugins.concat(...this.options.plugins(this.context)),
             });

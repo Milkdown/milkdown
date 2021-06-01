@@ -6,6 +6,7 @@ import usingPlugins from '../pages/guide/using-plugins.md';
 import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
 
 import core from '../pages/architecture/core.md';
+import atom from '../pages/architecture/atom.md';
 
 export const pageRouter: Section[] = [
     {
@@ -23,7 +24,10 @@ export const pageRouter: Section[] = [
     },
     {
         title: 'Architecture',
-        items: [{ title: 'Core', link: '/core', content: core }],
+        items: [
+            { title: 'Core', link: '/core', content: core },
+            { title: 'Atom', link: '/atom', content: atom },
+        ],
     },
     {
         title: 'APIs',

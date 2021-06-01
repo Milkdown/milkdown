@@ -7,7 +7,7 @@ import { history, redo, undo } from 'prosemirror-history';
 import { EditorProps, EditorView } from 'prosemirror-view';
 
 import { Atom } from '../abstract';
-import { AtomType, LoadState } from '../constant';
+import { LoadState } from '../constant';
 import { PluginReadyContext, ProsemirrorReadyContext } from '../editor';
 
 export type DocListener = (doc: Node) => void;
@@ -25,10 +25,9 @@ export type ViewLoaderOptions = {
 };
 
 export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext, ViewLoaderOptions> {
-    id = 'viewLoader';
-    type = AtomType.Internal;
-    loadAfter = LoadState.PluginReady;
-    main() {
+    override id = 'viewLoader';
+    override loadAfter = LoadState.PluginReady;
+    override main() {
         const { nodeViews, serializer } = this.context;
         const { listener, editable } = this.options;
         const state = this.createState();

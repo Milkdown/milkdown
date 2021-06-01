@@ -13,7 +13,7 @@ const materialIcon = `${className.icon} material-icons-outlined`;
 export const Header: React.FC<Props> = ({ onToggle, scrolled }) => {
     const [isDarkMode, setIsDarkMode] = React.useState(false);
     const [showToggle, setShowToggle] = React.useState(true);
-    const locationType = useLocationType();
+    const [locationType] = useLocationType();
 
     React.useEffect(() => {
         if (locationType !== LocationType.Page) {

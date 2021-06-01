@@ -36,21 +36,22 @@ type SidebarProps = {
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display }) => {
-    const locationType = useLocationType();
+    const [locationType, location] = useLocationType();
 
     React.useEffect(() => {
         if (locationType !== LocationType.Page) {
             setDisplay(false);
             return;
         }
+        console.log(document.documentElement.clientWidth);
         if (document.documentElement.clientWidth < 1080) {
             setDisplay(false);
             return;
         }
         setDisplay(true);
-    }, [locationType, setDisplay]);
+    }, [locationType, setDisplay, location]);
 
-    const navClassName = `${className.sidebar} ${display ? '' : className.fold}`;
+    const navClassName = React.useMemo(() => `${className.sidebar} ${display ? '' : className.fold}`, [display]);
 
     return (
         <nav className={navClassName}>

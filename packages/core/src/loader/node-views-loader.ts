@@ -1,14 +1,13 @@
 import type { SchemaReadyContext, PluginReadyContext } from '../editor';
 
 import { Atom } from '../abstract';
-import { AtomType, LoadState } from '../constant';
+import { LoadState } from '../constant';
 import { MarkView, NodeView } from '../utility';
 
 export class NodeViewsLoader extends Atom<SchemaReadyContext, PluginReadyContext> {
-    id = 'nodeViewsLoader';
-    type = AtomType.Internal;
-    loadAfter = LoadState.SchemaReady;
-    main() {
+    override id = 'nodeViewsLoader';
+    override loadAfter = LoadState.SchemaReady;
+    override main() {
         const { nodes, marks, schema, editor } = this.context;
         const nodeViewMap = nodes
             .filter((node) => Boolean(node.view))

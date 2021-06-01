@@ -6,7 +6,7 @@ import type { SerializerMark } from '../serializer/types';
 import type { IdleContext } from '../editor/context';
 
 import { Atom } from './atom';
-import { AtomType, LoadState } from '../constant';
+import { LoadState } from '../constant';
 import { MarkViewFactory } from '../utility';
 
 interface MarkOptional {
@@ -24,9 +24,8 @@ export abstract class Mark extends Atom<IdleContext> implements MarkOptional {
     abstract readonly serializer: SerializerMark;
     abstract readonly parser: ParserSpec;
 
-    loadAfter = LoadState.Idle;
-    type = AtomType.ProsemirrorSpec;
-    main() {
+    override loadAfter = LoadState.Idle;
+    override main() {
         this.updateContext({
             marks: this.context.marks.concat(this),
         });
