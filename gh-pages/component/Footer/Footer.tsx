@@ -3,7 +3,7 @@ import { LocationType, useLocationType } from '../hooks/useLocationType';
 
 import className from './style.module.css';
 
-const copyright = 'MIT Licensed | Copyright © 2021-present Mirone Saul';
+const copyright = 'MIT Licensed | Copyright © 2021-present Mirone ♡ Meo';
 
 export const Footer: React.FC = () => {
     const [locationType] = useLocationType();
