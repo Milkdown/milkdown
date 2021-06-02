@@ -43,7 +43,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display 
             setDisplay(false);
             return;
         }
-        console.log(document.documentElement.clientWidth);
         if (document.documentElement.clientWidth < 1080) {
             setDisplay(false);
             return;

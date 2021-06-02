@@ -69,11 +69,22 @@ export const App: React.FC = () => {
 
     return (
         <HashRouter>
-            <Header onToggle={() => setDisplaySidebar(!displaySidebar)} scrolled={scrolled} />
-            <main className={className.main}>
+            <div className={className.body}>
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
-                <Main setScrolled={setScrolled} />
-            </main>
+                <div className={className.right}>
+                    <Header onToggle={() => setDisplaySidebar(!displaySidebar)} scrolled={scrolled} />
+                    <main
+                        className={className.main}
+                        onClick={() => {
+                            if (document.documentElement.clientWidth < 1080) {
+                                setDisplaySidebar(false);
+                            }
+                        }}
+                    >
+                        <Main setScrolled={setScrolled} />
+                    </main>
+                </div>
+            </div>
         </HashRouter>
     );
 };

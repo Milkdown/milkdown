@@ -1,3 +1,12 @@
+.body {
+    display: flex;
+    width: 100%;
+}
+
+.right {
+    flex: 1;
+}
+
 .main {
     overflow: hidden;
     display: flex;
@@ -38,16 +47,6 @@
         justify-content: center;
         position: relative;
         padding: 0;
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: palette(background);
-            z-index: 0;
-        }
     }
 
     display: flex;
@@ -57,7 +56,8 @@
 @media only screen and (min-width: 67.5rem) {
     .container {
         article {
-            padding: 0 2.5rem;
+            /* padding: 0 2.5rem; */
+            padding: 0 5.25rem;
         }
     }
 }

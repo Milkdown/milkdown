@@ -17,6 +17,7 @@ body {
 }
 
 .milkdown {
+    max-width: 72rem;
     overflow: hidden;
 }
 
