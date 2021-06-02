@@ -100,12 +100,12 @@
 }
 
 .curve {
-    height: 10rem;
     overflow: hidden;
     width: 100%;
     background: palette(surface);
     margin-top: 4.125rem;
     position: relative;
+    flex-shrink: 0;
 
     svg {
         width: 100%;
