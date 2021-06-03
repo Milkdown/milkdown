@@ -1,12 +1,11 @@
 import type { InputRule } from 'prosemirror-inputrules';
-import type { SchemaReadyContext, PluginReadyContext } from '../editor';
 
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
 
-export class InputRulesLoader extends Atom<SchemaReadyContext, PluginReadyContext> {
-    override id = 'inputRulesLoader';
-    override loadAfter = LoadState.SchemaReady;
+export class InputRulesLoader extends Atom<LoadState.SchemaReady> {
+    override readonly id = 'inputRulesLoader';
+    override readonly loadAfter = LoadState.SchemaReady;
     override main() {
         const { nodes, marks, schema } = this.context;
         const nodesInputRules = nodes.reduce((acc, cur) => {

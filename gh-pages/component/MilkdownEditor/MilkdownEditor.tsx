@@ -21,9 +21,9 @@ export const editor = (root: HTMLElement, content: string, readOnly = false) => 
         editable: () => !readOnly,
     })
         .use(commonmark)
+        .use(table)
         .use(prism)
         .use(tooltip)
-        .use(table)
         .use(math);
 
     if (!readOnly) {

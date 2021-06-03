@@ -1,4 +1,4 @@
-import { createProsemirrorPlugin, PluginReadyContext } from '@milkdown/core';
+import { createProsemirrorPlugin, LoadPluginContext } from '@milkdown/core';
 import { findParentNode } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
@@ -8,7 +8,7 @@ import { createDropdown, createPlaceholder } from './utility';
 
 export const slashPlugin = createProsemirrorPlugin('slash', (ctx) => [plugin(ctx)]);
 
-const plugin = (ctx: PluginReadyContext) => new Plugin(new SlashPlugin(ctx));
+const plugin = (ctx: LoadPluginContext) => new Plugin(new SlashPlugin(ctx));
 
 enum CursorStatus {
     Empty,
@@ -16,7 +16,7 @@ enum CursorStatus {
 }
 
 class SlashPlugin implements PluginSpec {
-    constructor(private ctx: PluginReadyContext) {}
+    constructor(private ctx: LoadPluginContext) {}
 
     key = new PluginKey('milkdown-prosemirror-slash-plugin');
 
@@ -110,7 +110,7 @@ class Props {
 class View {
     #dropdownElement: HTMLDivElement;
     #wrapper: HTMLElement;
-    #ctx: PluginReadyContext;
+    #ctx: LoadPluginContext;
     #status: Status;
     #view: EditorView;
 
@@ -187,7 +187,7 @@ class View {
         target.classList.remove('active');
     };
 
-    constructor(status: Status, editorView: EditorView, ctx: PluginReadyContext) {
+    constructor(status: Status, editorView: EditorView, ctx: LoadPluginContext) {
         this.#status = status;
         this.#dropdownElement = createDropdown();
         this.#ctx = ctx;

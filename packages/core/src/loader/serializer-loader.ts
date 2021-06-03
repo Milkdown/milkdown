@@ -2,11 +2,10 @@ import { Atom } from '../abstract';
 import { LoadState } from '../constant';
 import { createSerializer } from '../serializer';
 import { buildObject } from '../utility';
-import { SchemaReadyContext, PluginReadyContext } from '../editor';
 
-export class SerializerLoader extends Atom<SchemaReadyContext, PluginReadyContext> {
-    override id = 'serializerLoader';
-    override loadAfter = LoadState.SchemaReady;
+export class SerializerLoader extends Atom<LoadState.SchemaReady> {
+    override readonly id = 'serializerLoader';
+    override readonly loadAfter = LoadState.SchemaReady;
     override main() {
         const nodes = buildObject(this.context.nodes, (node) => [node.id, node.serializer], {
             text(state, node) {

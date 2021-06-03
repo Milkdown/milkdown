@@ -2,7 +2,6 @@ import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { Schema, NodeSpec, NodeType } from 'prosemirror-model';
 import type { ParserSpec } from '../parser/types';
-import type { IdleContext } from '../editor/context';
 import type { SerializerNode } from '../serializer/types';
 
 import { Atom } from './atom';
@@ -15,7 +14,7 @@ interface NodeOptional {
     inputRules?(nodeType: NodeType, schema: Schema): InputRule[];
 }
 
-export abstract class Node extends Atom<IdleContext> implements NodeOptional {
+export abstract class Node extends Atom<LoadState.Idle> implements NodeOptional {
     view: NodeOptional['view'];
     keymap: NodeOptional['keymap'];
     inputRules: NodeOptional['inputRules'];
@@ -24,7 +23,7 @@ export abstract class Node extends Atom<IdleContext> implements NodeOptional {
     abstract readonly serializer: SerializerNode;
     abstract readonly parser: ParserSpec;
 
-    override loadAfter = LoadState.Idle;
+    override readonly loadAfter = LoadState.Idle;
     override main() {
         this.updateContext({
             nodes: this.context.nodes.concat(this),

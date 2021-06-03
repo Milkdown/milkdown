@@ -8,7 +8,6 @@ import { EditorProps, EditorView } from 'prosemirror-view';
 
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
-import { PluginReadyContext, ProsemirrorReadyContext } from '../editor';
 
 export type DocListener = (doc: Node) => void;
 export type MarkdownListener = (getMarkdown: () => string) => void;
@@ -24,14 +23,14 @@ export type ViewLoaderOptions = {
     editable?: (editorState: EditorState) => boolean;
 };
 
-export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext, ViewLoaderOptions> {
-    override id = 'viewLoader';
-    override loadAfter = LoadState.PluginReady;
+export class ViewLoader extends Atom<LoadState.Complete, ViewLoaderOptions> {
+    override readonly id = 'viewLoader';
+    override readonly loadAfter = LoadState.Complete;
     override main() {
         const { nodeViews, serializer } = this.context;
         const { listener, editable } = this.options;
-        const state = this.createState();
-        const container = this.createViewContainer();
+        const state = this.#createState();
+        const container = this.#createViewContainer();
         const view = new EditorView(container, {
             state,
             nodeViews: nodeViews as EditorProps['nodeViews'],
@@ -47,13 +46,13 @@ export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext
                 });
             },
         });
-        this.prepareViewDom(view.dom);
+        this.#prepareViewDom(view.dom);
         this.updateContext({
             editorView: view,
         });
     }
 
-    private createState() {
+    #createState() {
         const { parser, schema, inputRules, keymap, prosemirrorPlugins } = this.context;
         const { defaultValue } = this.options;
 
@@ -75,7 +74,7 @@ export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext
         });
     }
 
-    private createViewContainer() {
+    #createViewContainer() {
         const { root } = this.options;
         const container = document.createElement('div');
         container.className = 'milkdown';
@@ -84,7 +83,7 @@ export class ViewLoader extends Atom<PluginReadyContext, ProsemirrorReadyContext
         return container;
     }
 
-    private prepareViewDom(dom: Element) {
+    #prepareViewDom(dom: Element) {
         dom.classList.add('editor');
         dom.setAttribute('role', 'textbox');
     }

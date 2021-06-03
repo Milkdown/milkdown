@@ -1,5 +1,5 @@
 import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
-import { ParserSpec, SerializerNode, Node, LoadState, ProsemirrorReadyContext } from '@milkdown/core';
+import { ParserSpec, SerializerNode, Node, LoadState, CompleteContext } from '@milkdown/core';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Keymap } from 'prosemirror-commands';
@@ -80,7 +80,7 @@ export class CodeFence extends Node {
     });
 
     private onChangeLanguage(top: number, left: number, language: string) {
-        const { editorView } = this.context as ProsemirrorReadyContext;
+        const { editorView } = this.context as CompleteContext;
         const result = editorView.posAtCoords({ top, left });
 
         if (!result) {
@@ -96,7 +96,7 @@ export class CodeFence extends Node {
         const select = document.createElement('select');
         select.className = 'code-fence_select';
         select.addEventListener('mousedown', (e) => {
-            const { editorView } = this.context as ProsemirrorReadyContext;
+            const { editorView } = this.context as CompleteContext;
             if (editorView.editable) return;
 
             e.preventDefault();

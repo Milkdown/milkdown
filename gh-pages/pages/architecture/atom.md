@@ -1,7 +1,7 @@
 # Atom
 
 In the world of milkdown, everything are `Atom`s.
-The only thing the core part of milkdown do is execute theses atoms one by one.
+The only thing the core part of milkdown do is execute these atoms one by one.
 
 Atom has the shape of the following structure:
 

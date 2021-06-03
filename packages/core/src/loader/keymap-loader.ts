@@ -2,11 +2,10 @@ import type { Keymap } from 'prosemirror-commands';
 import { keymap } from 'prosemirror-keymap';
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
-import type { PluginReadyContext, SchemaReadyContext } from '../editor';
 
-export class KeymapLoader extends Atom<SchemaReadyContext, PluginReadyContext> {
-    override id = 'keymapLoader';
-    override loadAfter = LoadState.SchemaReady;
+export class KeymapLoader extends Atom<LoadState.SchemaReady> {
+    override readonly id = 'keymapLoader';
+    override readonly loadAfter = LoadState.SchemaReady;
     override main() {
         const { nodes, marks, schema } = this.context;
 

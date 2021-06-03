@@ -18,17 +18,17 @@ export interface IdleContext {
 
 export interface SchemaReadyContext extends Readonly<IdleContext> {
     schema: Schema;
-}
-
-export interface PluginReadyContext extends Readonly<SchemaReadyContext> {
     parser: (text: string) => ProsemirrorNode | null;
     serializer: (node: ProsemirrorNode) => string;
-    inputRules: InputRule[];
     keymap: ProsemirrorPlugin[];
+    inputRules: InputRule[];
     nodeViews: Record<string, NodeView | MarkView>;
+}
+
+export interface LoadPluginContext extends Readonly<SchemaReadyContext> {
     prosemirrorPlugins: ProsemirrorPlugin[];
 }
 
-export interface ProsemirrorReadyContext extends Readonly<PluginReadyContext> {
+export interface CompleteContext extends Readonly<LoadPluginContext> {
     editorView: EditorView;
 }

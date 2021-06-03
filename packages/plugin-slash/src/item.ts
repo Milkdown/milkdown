@@ -1,4 +1,4 @@
-import { PluginReadyContext } from '@milkdown/core';
+import { LoadPluginContext } from '@milkdown/core';
 import { createTable } from '@milkdown/plugin-table';
 import type { Command } from 'prosemirror-commands';
 import type { Node } from 'prosemirror-model';
@@ -27,24 +27,24 @@ export type Action = {
     type: Omit<ActionType, ActionType.Divider>;
     $: HTMLElement;
     keyword: string[];
-    command: (ctx: PluginReadyContext) => Command;
+    command: (ctx: LoadPluginContext) => Command;
 };
 
-const cleanUpAndCreateNode = (fn: (ctx: PluginReadyContext) => Node): Action['command'] => (ctx) => (
-    state,
-    dispatch,
-) => {
-    if (!dispatch) return false;
+const cleanUpAndCreateNode =
+    (fn: (ctx: LoadPluginContext) => Node): Action['command'] =>
+    (ctx) =>
+    (state, dispatch) => {
+        if (!dispatch) return false;
 
-    const { selection } = state;
-    const { $head } = selection;
-    const start = $head.pos - 1 - $head.parent.content.size;
-    const tr = state.tr.replaceWith(start, $head.pos, fn(ctx));
-    const pos = $head.pos - 1 - $head.parent.content.size + 1;
-    const sel = TextSelection.create(tr.doc, pos);
-    dispatch(tr.setSelection(sel));
-    return true;
-};
+        const { selection } = state;
+        const { $head } = selection;
+        const start = $head.pos - 1 - $head.parent.content.size;
+        const tr = state.tr.replaceWith(start, $head.pos, fn(ctx));
+        const pos = $head.pos - 1 - $head.parent.content.size + 1;
+        const sel = TextSelection.create(tr.doc, pos);
+        dispatch(tr.setSelection(sel));
+        return true;
+    };
 
 export const items: Array<Action> = [
     {

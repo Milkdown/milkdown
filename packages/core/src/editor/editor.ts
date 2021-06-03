@@ -1,18 +1,18 @@
-import type { Atom } from '../abstract';
-import type { AnyRecord } from '../utility';
-
 import MarkdownIt from 'markdown-it';
+import type { Atom } from '../abstract';
 import { LoadState } from '../constant';
 import {
-    KeymapLoader,
-    SchemaLoader,
-    SerializerLoader,
     InputRulesLoader,
+    KeymapLoader,
     NodeViewsLoader,
     ParserLoader,
+    SchemaLoader,
+    SerializerLoader,
     ViewLoader,
     ViewLoaderOptions,
 } from '../loader';
+import type { AnyRecord } from '../utility';
+import type { CompleteContext } from './context';
 
 export class Editor {
     #atoms: Atom[] = [];
@@ -30,7 +30,7 @@ export class Editor {
     };
 
     #injectCtx() {
-        this.#atoms.forEach((atom) => atom.injectContext(this.#ctx, this.#updateCtx));
+        this.#atoms.forEach((atom) => atom.injectContext(this.#ctx as CompleteContext, this.#updateCtx));
     }
 
     #runAtomByLoadState(loadState: LoadState) {
@@ -81,15 +81,11 @@ export class Editor {
 
     create() {
         this.#injectCtx();
-        [
-            LoadState.Idle,
-            LoadState.LoadSchema,
-            LoadState.SchemaReady,
-            LoadState.PluginReady,
-            LoadState.Complete,
-        ].forEach((state) => {
-            this.#ctx.loadState = state;
-            this.#runAtomByLoadState(state);
-        });
+        [LoadState.Idle, LoadState.LoadSchema, LoadState.SchemaReady, LoadState.LoadPlugin, LoadState.Complete].forEach(
+            (state) => {
+                this.#ctx.loadState = state;
+                this.#runAtomByLoadState(state);
+            },
+        );
     }
 }

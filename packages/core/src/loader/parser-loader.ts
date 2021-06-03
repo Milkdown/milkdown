@@ -2,11 +2,10 @@ import { Atom } from '../abstract';
 import { LoadState } from '../constant';
 import { createParser } from '../parser';
 import { buildObject } from '../utility';
-import { SchemaReadyContext, PluginReadyContext } from '../editor';
 
-export class ParserLoader extends Atom<SchemaReadyContext, PluginReadyContext> {
-    override id = 'parserLoader';
-    override loadAfter = LoadState.SchemaReady;
+export class ParserLoader extends Atom<LoadState.SchemaReady> {
+    override readonly id = 'parserLoader';
+    override readonly loadAfter = LoadState.SchemaReady;
     override main() {
         const children = [...this.context.nodes, ...this.context.marks];
         const spec = buildObject(children, (child) => [child.id, child.parser]);

@@ -7,13 +7,10 @@ import { IdleContext } from '../editor';
 type MarkdownItPlugin = PluginSimple | [PluginWithOptions, any] | [PluginWithParams, ...any[]];
 
 const markdownItPluginLoader = (id: string) =>
-    class ProsemirrorPluginLoader extends Atom<
-        IdleContext,
-        IdleContext,
-        { plugins: (ctx: IdleContext) => MarkdownItPlugin[] }
+    class ProsemirrorPluginLoader extends Atom<LoadState.Idle, { plugins: (ctx: IdleContext) => MarkdownItPlugin[] }
     > {
-        override id = id;
-        override loadAfter = LoadState.SchemaReady;
+        override readonly id = id;
+        override readonly loadAfter = LoadState.Idle;
         override main() {
             const plugins = this.options.plugins(this.context);
             const md = plugins.reduce((instance, plugin) => {
@@ -29,7 +26,7 @@ const markdownItPluginLoader = (id: string) =>
         }
     };
 
-export const createMarkdownItPlugin = (id: string, plugins: (ctx: IdleContext) => MarkdownItPlugin[]) => {
+export const createMarkdownItPlugin = (id: string, plugins: (ctx: IdleContext) => MarkdownItPlugin[]): Atom => {
     const Factory = markdownItPluginLoader(id);
-    return new Factory({ plugins });
+    return new Factory({ plugins }) as Atom;
 };

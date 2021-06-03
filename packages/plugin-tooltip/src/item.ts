@@ -1,4 +1,4 @@
-import { PluginReadyContext } from '@milkdown/core';
+import { LoadPluginContext } from '@milkdown/core';
 import { Command } from 'prosemirror-commands';
 import { EditorView } from 'prosemirror-view';
 import { createToggleIcon, hasMark, modifyLink, findMarkByType, findChildNode, modifyImage } from './utility';
@@ -36,7 +36,7 @@ export enum InputAction {
 export type ButtonMap = Record<ButtonAction, ButtonItem>;
 export type InputMap = Record<InputAction, InputItem>;
 
-export const inputMap = (ctx: PluginReadyContext): InputMap => {
+export const inputMap = (ctx: LoadPluginContext): InputMap => {
     const { marks, nodes } = ctx.schema;
     return {
         [InputAction.ModifyLink]: {
@@ -73,28 +73,12 @@ export const inputMap = (ctx: PluginReadyContext): InputMap => {
     };
 };
 
-export const buttonMap = (ctx: PluginReadyContext): ButtonMap => {
+export const buttonMap = (ctx: LoadPluginContext): ButtonMap => {
     const { marks } = ctx.schema;
     return {
         [ButtonAction.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
         [ButtonAction.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),
         [ButtonAction.ToggleCode]: createToggleIcon('code', marks.code_inline, marks.link),
         [ButtonAction.ToggleLink]: createToggleIcon('link', marks.link, marks.code_inline, { href: '' }),
-        // [Action.ModifyImageSrc]: {
-        //     $: input('link'),
-        //     command: modifyImage(ctx.schema, 'src'),
-        //     active: () => false,
-        //     disable: (view) => !findChildNode(view.state.selection, nodes.image),
-        //     update: (view, $) => {
-        //         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        //         const [_, input] = Array.from($.children);
-        //         if (!(input instanceof HTMLInputElement)) return;
-
-        //         const node = findChildNode(view.state.selection, nodes.image);
-        //         if (!node) return;
-
-        //         input.value = node.node.attrs.src;
-        //     },
-        // },
     };
 };
