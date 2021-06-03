@@ -8,6 +8,7 @@ import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
 import core from '../pages/architecture/core.md';
 import atom from '../pages/architecture/atom.md';
 import ordering from '../pages/architecture/ordering.md';
+import nodeAndMark from '../pages/architecture/node&mark.md';
 
 export const pageRouter: Section[] = [
     {
@@ -29,6 +30,7 @@ export const pageRouter: Section[] = [
             { title: 'Core', link: '/core', content: core },
             { title: 'Atom', link: '/atom', content: atom },
             { title: 'Ordering', link: '/ordering', content: ordering },
+            { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
         ],
     },
     {
