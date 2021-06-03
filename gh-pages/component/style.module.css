@@ -42,9 +42,9 @@
     article {
         flex-grow: 1;
         background: palette(background);
+        justify-content: flex-start;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         position: relative;
         padding: 0;
     }
@@ -64,6 +64,7 @@
 
 .homepage {
     article {
+        justify-content: center;
         padding: 0;
         background: palette(surface);
         &::before {
