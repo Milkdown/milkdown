@@ -7,6 +7,7 @@
     bottom: 0;
     border-right: 1px solid palette(line);
     transform: translateX(0);
+    transition: all 0.2s ease-in-out;
     &.fold {
         width: 0;
         transform: translateX(-16rem);
