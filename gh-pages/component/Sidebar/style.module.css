@@ -27,26 +27,26 @@
     height: 1px;
     border-width: 0;
     background: palette(line);
-}
-
-.section {
-    padding: 0 1.5rem;
+    margin: 0;
 }
 
 .sectionTitle {
+    padding: 0 1.5rem;
     color: palette(neutral);
     margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
 }
 
 .link {
+    padding: 0.75rem 1.5rem;
     display: flex;
     font-size: 0.875rem;
     line-height: 1.5;
     color: palette(neutral, 0.6);
     text-decoration: none;
-    margin: 1.5rem 0;
+    /* margin: 1.5rem 0; */
     &:hover {
         color: palette(neutral, 0.87);
     }
@@ -54,4 +54,5 @@
 
 .active {
     color: palette(primary);
+    background: palette(line);
 }
