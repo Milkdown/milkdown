@@ -17,7 +17,6 @@ export const pageRouter: Section[] = [
         items: [
             { title: 'Why Milkdown', link: '/why-milkdown', content: whyMilkdown },
             { title: 'Getting Started', link: '/getting-started', content: gettingStarted },
-            { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
             {
                 title: 'Interacting with Editor',
                 link: '/interacting-with-editor',
@@ -26,20 +25,19 @@ export const pageRouter: Section[] = [
         ],
     },
     {
+        title: 'Plugins',
+        items: [
+            { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
+            { title: 'Building Plugins', link: '/building-plugins', content: buildingPlugins },
+            { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
+        ],
+    },
+    {
         title: 'Architecture',
         items: [
             { title: 'Core', link: '/core', content: core },
             { title: 'Atom', link: '/atom', content: atom },
             { title: 'Ordering', link: '/ordering', content: ordering },
-            { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
-            { title: 'Building Plugins', link: '/building-plugins', content: buildingPlugins },
-        ],
-    },
-    {
-        title: 'APIs',
-        items: [
-            { title: 'Core API', link: '/core-api', content: '# Core API\n\n Coming soon...' },
-            { title: 'Plugin API', link: '/plugin-api', content: '# Plugin API\n\n Coming soon...' },
         ],
     },
 ];
