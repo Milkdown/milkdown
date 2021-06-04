@@ -1,5 +1,11 @@
 # @milkdown/core
 
+## 4.1.0
+
+### Minor Changes
+
+-   964b518: Optimize load state for all loaders.
+
 ## 4.0.0
 
 ### Minor Changes

@@ -1,5 +1,23 @@
 # @milkdown/gh-pages
 
+## 4.1.0
+
+### Minor Changes
+
+-   964b518: Optimize load state for all loaders.
+
+### Patch Changes
+
+-   Updated dependencies [964b518]
+    -   @milkdown/core@4.1.0
+    -   @milkdown/plugin-math@4.1.0
+    -   @milkdown/plugin-prism@4.1.0
+    -   @milkdown/plugin-slash@4.1.0
+    -   @milkdown/plugin-table@4.1.0
+    -   @milkdown/plugin-tooltip@4.1.0
+    -   @milkdown/preset-commonmark@4.1.0
+    -   @milkdown/theme-nord@4.1.0
+
 ## 4.0.0
 
 ### Minor Changes
