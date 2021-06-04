@@ -36,6 +36,9 @@ jobs:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - name: install dependencies
               run: pnpm install
+            - name: debug
+              run: |
+                  cat "./.npmrc"
             - name: create versions or publish to npm registry
               uses: changesets/action@master
               with:
