@@ -54,5 +54,5 @@
 
 .active {
     color: palette(primary);
-    background: palette(line);
+    /* background: palette(line); */
 }
