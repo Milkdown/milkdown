@@ -23,17 +23,10 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: 14
-            - name: creating .npmrc
-              run: |
-                  cat << EOF > "./.npmrc"
-                  //registry.npmjs.org/:_authToken=\${NPM_TOKEN}
-                  EOF
             - name: install pnpm
               run: npm i pnpm@latest -g
             - name: setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - name: install dependencies
               run: pnpm install
             - name: create versions or publish to npm registry
