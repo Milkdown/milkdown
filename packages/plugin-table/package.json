@@ -35,7 +35,7 @@
         "prosemirror-tables": "*"
     },
     "devDependencies": {
-        "@milkdown/core": "*",
+        "@milkdown/core": "workspace:*",
         "concurrently": "^6.0.2"
     }
 }

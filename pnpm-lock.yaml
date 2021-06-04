@@ -10,9 +10,12 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-slash': workspace:*
+      '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
+      '@milkdown/utils': workspace:*
       '@types/jest': ^26.0.22
       '@types/markdown-it': ^12.0.1
       '@types/prosemirror-commands': ^1.0.4
@@ -61,9 +64,12 @@ importers:
       '@milkdown/core': link:packages/core
       '@milkdown/plugin-math': link:packages/plugin-math
       '@milkdown/plugin-prism': link:packages/plugin-prism
+      '@milkdown/plugin-slash': link:packages/plugin-slash
+      '@milkdown/plugin-table': link:packages/plugin-table
       '@milkdown/plugin-tooltip': link:packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:packages/preset-commonmark
       '@milkdown/theme-nord': link:packages/theme-nord
+      '@milkdown/utils': link:packages/utils
       '@types/jest': 26.0.22
       '@types/markdown-it': 12.0.1
       '@types/prosemirror-commands': 1.0.4
@@ -208,7 +214,7 @@ importers:
 
   packages/plugin-prism:
     specifiers:
-      '@milkdown/core': '*'
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       '@types/refractor': ^3.0.0
       refractor: ^3.3.1
@@ -242,7 +248,7 @@ importers:
 
   packages/plugin-table:
     specifiers:
-      '@milkdown/core': '*'
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       prosemirror-tables: '*'
@@ -257,7 +263,7 @@ importers:
 
   packages/plugin-tooltip:
     specifiers:
-      '@milkdown/core': '*'
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       tslib: ^2.2.0
@@ -270,7 +276,7 @@ importers:
 
   packages/preset-commonmark:
     specifiers:
-      '@milkdown/core': '*'
+      '@milkdown/core': workspace:*
       '@types/prosemirror-schema-list': ^1.0.3
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.2.0

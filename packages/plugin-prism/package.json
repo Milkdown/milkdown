@@ -30,6 +30,6 @@
         "tslib": "^2.2.0"
     },
     "devDependencies": {
-        "@milkdown/core": "*"
+        "@milkdown/core": "workspace:*"
     }
 }

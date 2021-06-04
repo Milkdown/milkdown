@@ -33,6 +33,6 @@
         "prosemirror-schema-list": "^1.1.4"
     },
     "devDependencies": {
-        "@milkdown/core": "*"
+        "@milkdown/core": "workspace:*"
     }
 }
