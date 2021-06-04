@@ -1,8 +1,13 @@
-# Milkdown
+# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown
 
-![logo](/gh-pages/public/milkdown-mini.svg)
+<div align="center">
+    <img src="/gh-pages/public/milkdown-homepage.svg" />
+</div>
+
 
 A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/), built on top of [prosemirror](https://prosemirror.net/) and [markdown-it](https://github.com/markdown-it/markdown-it).
+
+Designed by Meo.
 
 # Documentation
 
