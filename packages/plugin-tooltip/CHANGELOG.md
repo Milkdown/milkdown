@@ -1,5 +1,16 @@
 # @milkdown/plugin-tooltip
 
+## 4.1.0
+
+### Minor Changes
+
+-   964b518: Optimize load state for all loaders.
+
+### Patch Changes
+
+-   Updated dependencies [964b518]
+    -   @milkdown/utils@4.1.0
+
 ## 4.0.0
 
 ### Minor Changes
