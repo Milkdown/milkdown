@@ -34,7 +34,7 @@ jobs:
             - name: create versions or publish to npm registry
               uses: changesets/action@master
               with:
-                  publish: pnpm ci:publish --access public
+                  publish: pnpm publish -r --access public
                   commit: 'ci(changeset): prepare release'
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
