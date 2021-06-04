@@ -24,7 +24,7 @@ jobs:
               with:
                   node-version: 14
             - name: install pnpm
-              run: npm i pnpm@latest -g
+              run: npm i pnpm@6.6 -g
             - name: creating .npmrc
               run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
             - name: setup pnpm config
