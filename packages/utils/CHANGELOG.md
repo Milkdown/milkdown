@@ -1,5 +1,11 @@
 # @milkdown/utils
 
+## 4.1.2
+
+### Patch Changes
+
+-   ed365e5: Add readme and fix some issues.
+
 ## 4.1.1
 
 ### Patch Changes

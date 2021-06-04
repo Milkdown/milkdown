@@ -1,5 +1,20 @@
 # @milkdown/gh-pages
 
+## 4.1.2
+
+### Patch Changes
+
+-   ed365e5: Add readme and fix some issues.
+-   Updated dependencies [ed365e5]
+    -   @milkdown/core@4.1.2
+    -   @milkdown/plugin-math@4.1.2
+    -   @milkdown/plugin-prism@4.1.2
+    -   @milkdown/plugin-slash@4.1.2
+    -   @milkdown/plugin-table@4.1.2
+    -   @milkdown/plugin-tooltip@4.1.2
+    -   @milkdown/preset-commonmark@4.1.2
+    -   @milkdown/theme-nord@4.1.2
+
 ## 4.1.1
 
 ### Patch Changes

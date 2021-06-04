@@ -1,5 +1,13 @@
 # @milkdown/plugin-tooltip
 
+## 4.1.2
+
+### Patch Changes
+
+-   ed365e5: Add readme and fix some issues.
+-   Updated dependencies [ed365e5]
+    -   @milkdown/utils@4.1.2
+
 ## 4.1.1
 
 ### Patch Changes
