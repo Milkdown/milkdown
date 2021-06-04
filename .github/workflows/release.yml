@@ -27,6 +27,8 @@ jobs:
               run: npm i pnpm@latest -g
             - name: setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - name: install dependencies
               run: pnpm install
             - name: create versions or publish to npm registry
