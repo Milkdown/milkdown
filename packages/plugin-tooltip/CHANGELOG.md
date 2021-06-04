@@ -1,5 +1,13 @@
 # @milkdown/plugin-tooltip
 
+## 4.1.1
+
+### Patch Changes
+
+-   77ed566: Fix some issues.
+-   Updated dependencies [77ed566]
+    -   @milkdown/utils@4.1.1
+
 ## 4.1.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @milkdown/preset-commonmark
 
+## 4.1.1
+
+### Patch Changes
+
+-   77ed566: Fix some issues.
+
 ## 4.1.0
 
 ### Minor Changes

@@ -1,5 +1,20 @@
 # @milkdown/gh-pages
 
+## 4.1.1
+
+### Patch Changes
+
+-   77ed566: Fix some issues.
+-   Updated dependencies [77ed566]
+    -   @milkdown/core@4.1.1
+    -   @milkdown/plugin-math@4.1.1
+    -   @milkdown/plugin-prism@4.1.1
+    -   @milkdown/plugin-slash@4.1.1
+    -   @milkdown/plugin-table@4.1.1
+    -   @milkdown/plugin-tooltip@4.1.1
+    -   @milkdown/preset-commonmark@4.1.1
+    -   @milkdown/theme-nord@4.1.1
+
 ## 4.1.0
 
 ### Minor Changes
