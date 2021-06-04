@@ -46,7 +46,6 @@
     line-height: 1.5;
     color: palette(neutral, 0.6);
     text-decoration: none;
-    /* margin: 1.5rem 0; */
     &:hover {
         color: palette(neutral, 0.87);
     }
@@ -54,5 +53,4 @@
 
 .active {
     color: palette(primary);
-    /* background: palette(line); */
 }
