@@ -24,7 +24,8 @@ jobs:
               with:
                   node-version: 14
             - name: install pnpm
-              run: npm i pnpm@6.6 -g
+              # pnpm has bugs in @6.7, lock to wait the fix
+              run: npm i pnpm@6.4 -g
             - name: creating .npmrc
               run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
             - name: setup pnpm config
