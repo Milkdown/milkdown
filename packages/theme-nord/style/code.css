@@ -18,6 +18,7 @@
 
         * {
             font-family: var(--font-code);
+            margin: 0;
         }
 
         > div:first-child {
