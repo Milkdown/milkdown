@@ -27,7 +27,7 @@ jobs:
               run: npm i pnpm@latest -g
             - name: creating .npmrc
               run: |
-                  cat << EOF > "~/.npmrc"
+                  cat << EOF > "./.npmrc"
                   //registry.npmjs.org/:_authToken=\${NPM_TOKEN}
                   EOF
             - name: setup pnpm config
