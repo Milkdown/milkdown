@@ -13,6 +13,10 @@ Designed by Meo.
 
 For more information, please check our [official documentation](https://saul-mirone.github.io/milkdown/).
 
+# What's Next
+
+You can check our [Milkdown TODO](https://github.com/Saul-Mirone/milkdown/projects/1) project page to know what's on the plan.
+
 # Contributor
 
 <a title="Saul-Mirone" href="https://github.com/Saul-Mirone"><img src="https://avatars.githubusercontent.com/u/10047788?v=4" width="100" alt="profile picture of Saul Mirone"></a>
