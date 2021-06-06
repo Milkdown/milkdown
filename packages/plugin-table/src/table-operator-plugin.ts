@@ -45,7 +45,7 @@ function icon(text: string) {
     return span;
 }
 
-const getCellSelection = (view: EditorView): CellSelection => (view.state.selection as unknown) as CellSelection;
+const getCellSelection = (view: EditorView): CellSelection => view.state.selection as unknown as CellSelection;
 
 enum SelectionType {
     Col = 'Col',
@@ -236,7 +236,7 @@ export class PluginProps implements PluginSpec {
     }
 
     private calculatePosition(view: EditorView) {
-        const selection = (view.state.selection as unknown) as CellSelection;
+        const selection = view.state.selection as unknown as CellSelection;
 
         const isCol = selection.isColSelection();
         const isRow = selection.isRowSelection();

@@ -20,8 +20,10 @@ const flatten = (node: Node, descend = true): Position[] => {
     return result;
 };
 
-export const findChildren = (predicate: Predicate<Node>) => (node: Node, descend?: boolean): Position[] =>
-    flatten(node, descend).filter((child) => predicate(child.node));
+export const findChildren =
+    (predicate: Predicate<Node>) =>
+    (node: Node, descend?: boolean): Position[] =>
+        flatten(node, descend).filter((child) => predicate(child.node));
 
 export const findParentNode = (predicate: Predicate<Node>) => (selection: Selection) => {
     const { $from } = selection;
@@ -39,25 +41,24 @@ export const findParentNode = (predicate: Predicate<Node>) => (selection: Select
     return undefined;
 };
 
-export const findNodeInSelection = (predicate: Predicate<Node>) => (
-    selection: Selection,
-    doc: Node,
-): Position | undefined => {
-    let found: Position | undefined;
-    const { from, to } = selection;
-    doc.nodesBetween(from, to, (node, pos) => {
-        if (found) return false;
-        if (predicate(node)) {
-            found = {
-                node,
-                pos,
-            };
-        }
-        return;
-    });
+export const findNodeInSelection =
+    (predicate: Predicate<Node>) =>
+    (selection: Selection, doc: Node): Position | undefined => {
+        let found: Position | undefined;
+        const { from, to } = selection;
+        doc.nodesBetween(from, to, (node, pos) => {
+            if (found) return false;
+            if (predicate(node)) {
+                found = {
+                    node,
+                    pos,
+                };
+            }
+            return;
+        });
 
-    return found;
-};
+        return found;
+    };
 
 export const cloneTr = (tr: Transaction) => {
     return Object.assign(Object.create(tr), tr).setTime(Date.now());

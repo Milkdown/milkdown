@@ -44,7 +44,7 @@ importers:
       postcss-import: ^14.0.1
       postcss-mixins: ^8.0.0
       postcss-nested: ^5.0.5
-      prettier: ^2.3.0
+      prettier: ^2.3.1
       prosemirror-commands: ^1.1.7
       prosemirror-gapcursor: ^1.1.5
       prosemirror-history: ^1.1.3
@@ -86,7 +86,7 @@ importers:
       autoprefixer: 10.2.5_postcss@8.2.12
       eslint: 7.25.0
       eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-prettier: 3.4.0_51dcc4ffadc0b22f95bdcffb607eca51
+      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
       eslint-plugin-promise: 4.3.1
       eslint-plugin-react-hooks: 4.2.0_eslint@7.25.0
       husky: 6.0.0
@@ -98,7 +98,7 @@ importers:
       postcss-import: 14.0.1_postcss@8.2.12
       postcss-mixins: 8.0.0_postcss@8.2.12
       postcss-nested: 5.0.5_postcss@8.2.12
-      prettier: 2.3.0
+      prettier: 2.3.1
       prosemirror-commands: 1.1.7
       prosemirror-gapcursor: 1.1.5
       prosemirror-history: 1.1.3
@@ -2672,7 +2672,7 @@ packages:
       eslint: 7.25.0
     dev: true
 
-  /eslint-plugin-prettier/3.4.0_51dcc4ffadc0b22f95bdcffb607eca51:
+  /eslint-plugin-prettier/3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00:
     resolution: {integrity: sha512-UDK6rJT6INSfcOo545jiaOwB701uAIt2/dR7WnFQoGCVl1/EMqdANBmwUaqqQ45aXprsTGzSa39LI1PyuRBxxw==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -2685,7 +2685,7 @@ packages:
     dependencies:
       eslint: 7.25.0
       eslint-config-prettier: 8.3.0_eslint@7.25.0
-      prettier: 2.3.0
+      prettier: 2.3.1
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -5196,8 +5196,8 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier/2.3.0:
-    resolution: {integrity: sha512-kXtO4s0Lz/DW/IJ9QdWhAf7/NmPWQXkFr/r/WkR3vyI+0v8amTDxiaQSLzs8NBlytfLWX/7uQUMIW677yLKl4w==}
+  /prettier/2.3.1:
+    resolution: {integrity: sha512-p+vNbgpLjif/+D+DwAZAbndtRrR0md0MwfmOVN9N+2RgyACMT+7tfaRnT+WDPkqnuVwleyuBIG2XBxKDme3hPA==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true

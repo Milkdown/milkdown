@@ -12,45 +12,49 @@ export type CellPos = {
 export const findTable = (selection: Selection) =>
     findParentNode((node) => node.type.spec.tableRole === 'table')(selection);
 
-export const getCellsInColumn = (columnIndex: number) => (selection: Selection): CellPos[] | undefined => {
-    const table = findTable(selection);
-    if (!table) return undefined;
-    const map = TableMap.get(table.node);
-    if (columnIndex < 0 || columnIndex >= map.width) {
-        return undefined;
-    }
+export const getCellsInColumn =
+    (columnIndex: number) =>
+    (selection: Selection): CellPos[] | undefined => {
+        const table = findTable(selection);
+        if (!table) return undefined;
+        const map = TableMap.get(table.node);
+        if (columnIndex < 0 || columnIndex >= map.width) {
+            return undefined;
+        }
 
-    return map.cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height }).map((pos) => {
-        const node = table.node.nodeAt(pos);
-        if (!node) throw new Error();
-        const start = pos + table.start;
-        return {
-            pos: start,
-            start: start + 1,
-            node,
-        };
-    });
-};
+        return map.cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height }).map((pos) => {
+            const node = table.node.nodeAt(pos);
+            if (!node) throw new Error();
+            const start = pos + table.start;
+            return {
+                pos: start,
+                start: start + 1,
+                node,
+            };
+        });
+    };
 
-export const getCellsInRow = (rowIndex: number) => (selection: Selection): CellPos[] | undefined => {
-    const table = findTable(selection);
-    if (!table) return undefined;
-    const map = TableMap.get(table.node);
-    if (rowIndex < 0 || rowIndex >= map.height) {
-        return undefined;
-    }
+export const getCellsInRow =
+    (rowIndex: number) =>
+    (selection: Selection): CellPos[] | undefined => {
+        const table = findTable(selection);
+        if (!table) return undefined;
+        const map = TableMap.get(table.node);
+        if (rowIndex < 0 || rowIndex >= map.height) {
+            return undefined;
+        }
 
-    return map.cellsInRect({ left: 0, right: map.width, top: rowIndex, bottom: rowIndex + 1 }).map((pos) => {
-        const node = table.node.nodeAt(pos);
-        if (!node) throw new Error();
-        const start = pos + table.start;
-        return {
-            pos: start,
-            start: start + 1,
-            node,
-        };
-    });
-};
+        return map.cellsInRect({ left: 0, right: map.width, top: rowIndex, bottom: rowIndex + 1 }).map((pos) => {
+            const node = table.node.nodeAt(pos);
+            if (!node) throw new Error();
+            const start = pos + table.start;
+            return {
+                pos: start,
+                start: start + 1,
+                node,
+            };
+        });
+    };
 
 export const createTable = (schema: Schema, rowsCount = 3, colsCount = 3) => {
     const { cell: tableCell, header_cell: tableHeader, row: tableRow, table } = tableNodeTypes(schema);
@@ -89,7 +93,7 @@ export const select = (type: 'row' | 'col') => (index: number) => (tr: Transacti
 
             const firstCell = map.positionAt(isRowSelection ? index : 0, isRowSelection ? 0 : index, table.node);
             const $firstCell = tr.doc.resolve(table.start + firstCell);
-            return cloneTr(tr.setSelection((createCellSelection($lastCell, $firstCell) as unknown) as Selection));
+            return cloneTr(tr.setSelection(createCellSelection($lastCell, $firstCell) as unknown as Selection));
         }
     }
     return tr;
@@ -119,7 +123,7 @@ export const selectTable = (tr: Transaction) => {
     if (cells) {
         const $firstCell = tr.doc.resolve(cells[0].pos);
         const $lastCell = tr.doc.resolve(cells[cells.length - 1].pos);
-        return cloneTr(tr.setSelection((new CellSelection($lastCell, $firstCell) as unknown) as Selection));
+        return cloneTr(tr.setSelection(new CellSelection($lastCell, $firstCell) as unknown as Selection));
     }
     return tr;
 };

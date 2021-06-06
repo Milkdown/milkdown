@@ -7,8 +7,7 @@ import { IdleContext } from '../editor';
 type MarkdownItPlugin = PluginSimple | [PluginWithOptions, any] | [PluginWithParams, ...any[]];
 
 const markdownItPluginLoader = (id: string) =>
-    class ProsemirrorPluginLoader extends Atom<LoadState.Idle, { plugins: (ctx: IdleContext) => MarkdownItPlugin[] }
-    > {
+    class ProsemirrorPluginLoader extends Atom<LoadState.Idle, { plugins: (ctx: IdleContext) => MarkdownItPlugin[] }> {
         override readonly id = id;
         override readonly loadAfter = LoadState.Idle;
         override main() {

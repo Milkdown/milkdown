@@ -20,5 +20,5 @@ export class Blockquote extends Node {
         state.wrapBlock('> ', node, () => state.renderContent(node));
     };
 
-    override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)]
+    override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
 }

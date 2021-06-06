@@ -2,7 +2,7 @@ import {
     makeBlockMathInputRule,
     makeInlineMathInputRule,
     REGEX_BLOCK_MATH_DOLLARS,
-    REGEX_INLINE_MATH_DOLLARS
+    REGEX_INLINE_MATH_DOLLARS,
 } from '@benrbray/prosemirror-math';
 import { Node, SerializerNode } from '@milkdown/core';
 import type { InputRule } from 'prosemirror-inputrules';
@@ -27,7 +27,9 @@ export class MathInline extends Node {
         state.renderContent(node);
         state.write('$');
     };
-    override inputRules = (nodeType: NodeType): InputRule[] => [makeInlineMathInputRule(REGEX_INLINE_MATH_DOLLARS, nodeType)];
+    override inputRules = (nodeType: NodeType): InputRule[] => [
+        makeInlineMathInputRule(REGEX_INLINE_MATH_DOLLARS, nodeType),
+    ];
 }
 
 export class MathDisplay extends Node {
@@ -47,7 +49,9 @@ export class MathDisplay extends Node {
     serializer: SerializerNode = (state, node) => {
         state.write('$$').ensureNewLine().renderContent(node).ensureNewLine().write('$$').closeBlock(node);
     };
-    override inputRules = (nodeType: NodeType): InputRule[] => [makeBlockMathInputRule(REGEX_BLOCK_MATH_DOLLARS, nodeType)];
+    override inputRules = (nodeType: NodeType): InputRule[] => [
+        makeBlockMathInputRule(REGEX_BLOCK_MATH_DOLLARS, nodeType),
+    ];
 }
 
 export const nodes = [new MathInline(), new MathDisplay()];

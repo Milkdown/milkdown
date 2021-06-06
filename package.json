@@ -60,7 +60,7 @@
         "postcss-import": "^14.0.1",
         "postcss-mixins": "^8.0.0",
         "postcss-nested": "^5.0.5",
-        "prettier": "^2.3.0",
+        "prettier": "^2.3.1",
         "prosemirror-commands": "^1.1.7",
         "prosemirror-gapcursor": "^1.1.5",
         "prosemirror-history": "^1.1.3",
