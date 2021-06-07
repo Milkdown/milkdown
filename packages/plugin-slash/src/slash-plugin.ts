@@ -113,6 +113,7 @@ class View {
     #ctx: LoadPluginContext;
     #status: Status;
     #view: EditorView;
+    #mouseLock: boolean;
 
     #handleClick = (e: Event) => {
         const { target } = e;
@@ -133,6 +134,9 @@ class View {
     };
 
     #handleKeydown = (e: KeyboardEvent) => {
+        if (!this.#mouseLock) {
+            this.#mouseLock = true;
+        }
         const { key } = e;
         if (this.#status.cursorStatus !== CursorStatus.Slash) {
             return;
@@ -172,6 +176,7 @@ class View {
     };
 
     #handleMouseEnter = (e: MouseEvent) => {
+        if (this.#mouseLock) return;
         const active = this.#status.activeActions.findIndex((x) => x.$.classList.contains('active'));
         if (active >= 0) {
             this.#status.activeActions[active].$.classList.remove('active');
@@ -187,11 +192,18 @@ class View {
         target.classList.remove('active');
     };
 
+    #handleMouseMove = () => {
+        if (this.#mouseLock) {
+            this.#mouseLock = false;
+        }
+    };
+
     constructor(status: Status, editorView: EditorView, ctx: LoadPluginContext) {
         this.#status = status;
         this.#dropdownElement = createDropdown();
         this.#ctx = ctx;
         this.#view = editorView;
+        this.#mouseLock = false;
 
         const { parentNode } = editorView.dom;
         if (!parentNode) {
@@ -200,6 +212,7 @@ class View {
         this.#wrapper = parentNode as HTMLElement;
 
         parentNode.appendChild(this.#dropdownElement);
+        this.#wrapper.addEventListener('mousemove', this.#handleMouseMove);
         items.forEach(({ $ }) => {
             $.addEventListener('mouseenter', this.#handleMouseEnter);
             $.addEventListener('mouseleave', this.#handleMouseLeave);

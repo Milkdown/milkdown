@@ -1,5 +1,7 @@
 export const createDropdown = () => {
     const div = document.createElement('div');
+    div.setAttribute('role', 'listbox');
+    div.setAttribute('tabindex', '-1');
     div.classList.add('slash-dropdown');
 
     return div;
@@ -14,6 +16,7 @@ export const createPlaceholder = (text: string) => {
 
 export const createDropdownItem = (text: string, icon: string) => {
     const div = document.createElement('div');
+    div.setAttribute('role', 'option');
     div.classList.add('slash-dropdown-item');
 
     const iconSpan = document.createElement('span');
