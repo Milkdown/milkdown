@@ -28,6 +28,7 @@ export type Action = {
     $: HTMLElement;
     keyword: string[];
     command: (ctx: LoadPluginContext) => Command;
+    enable: (ctx: LoadPluginContext) => boolean;
 };
 
 const cleanUpAndCreateNode =
@@ -46,65 +47,77 @@ const cleanUpAndCreateNode =
         return true;
     };
 
+const nodeExists = (name: string) => (ctx: LoadPluginContext) => Boolean(ctx.schema.nodes[name]);
+
 export const items: Array<Action> = [
     {
         type: ActionType.H1,
         $: createDropdownItem('Large Heading', 'looks_one'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.heading.create({ level: 1 })),
         keyword: ['h1', 'large heading'],
+        enable: nodeExists('heading'),
     },
     {
         type: ActionType.H2,
         $: createDropdownItem('Medium Heading', 'looks_two'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.heading.create({ level: 2 })),
         keyword: ['h2', 'medium heading'],
+        enable: nodeExists('heading'),
     },
     {
         type: ActionType.H3,
         $: createDropdownItem('Small Heading', 'looks_3'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.heading.create({ level: 3 })),
         keyword: ['h3', 'small heading'],
+        enable: nodeExists('heading'),
     },
     {
         type: ActionType.BulletList,
         $: createDropdownItem('Bullet List', 'format_list_bulleted'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.bullet_list.createAndFill(null) as Node),
         keyword: ['bullet list', 'ul'],
+        enable: nodeExists('bullet_list'),
     },
     {
         type: ActionType.OrderedList,
         $: createDropdownItem('Ordered List', 'format_list_numbered'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.ordered_list.createAndFill(null) as Node),
         keyword: ['ordered list', 'ol'],
+        enable: nodeExists('ordered_list'),
     },
     {
         type: ActionType.Image,
         $: createDropdownItem('Image', 'image'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.image.createAndFill({ src: '' }) as Node),
         keyword: ['image'],
+        enable: nodeExists('image'),
     },
     {
         type: ActionType.Quote,
         $: createDropdownItem('Quote', 'format_quote'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.blockquote.createAndFill(null) as Node),
         keyword: ['quote', 'blockquote'],
+        enable: nodeExists('blockquote'),
     },
     {
         type: ActionType.Table,
         $: createDropdownItem('Table', 'table_chart'),
         command: cleanUpAndCreateNode((ctx) => createTable(ctx.schema)),
         keyword: ['table'],
+        enable: nodeExists('table'),
     },
     {
         type: ActionType.CodeFence,
         $: createDropdownItem('Code Fence', 'code'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.fence.createAndFill(null) as Node),
         keyword: ['code'],
+        enable: nodeExists('fence'),
     },
     {
         type: ActionType.DivideLine,
         $: createDropdownItem('Divide Line', 'horizontal_rule'),
         command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.hr.create()),
         keyword: ['divider', 'hr'],
+        enable: nodeExists('hr'),
     },
 ];

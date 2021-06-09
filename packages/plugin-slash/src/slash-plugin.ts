@@ -213,11 +213,13 @@ class View {
 
         parentNode.appendChild(this.#dropdownElement);
         this.#wrapper.addEventListener('mousemove', this.#handleMouseMove);
-        items.forEach(({ $ }) => {
-            $.addEventListener('mouseenter', this.#handleMouseEnter);
-            $.addEventListener('mouseleave', this.#handleMouseLeave);
-            this.#dropdownElement.appendChild($);
-        });
+        items
+            .filter((item) => item.enable(this.#ctx))
+            .forEach(({ $ }) => {
+                $.addEventListener('mouseenter', this.#handleMouseEnter);
+                $.addEventListener('mouseleave', this.#handleMouseLeave);
+                this.#dropdownElement.appendChild($);
+            });
         this.#wrapper.addEventListener('mousedown', this.#handleClick);
         this.#wrapper.addEventListener('keydown', this.#handleKeydown);
     }
