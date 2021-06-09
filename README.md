@@ -27,6 +27,8 @@ You can check our [Milkdown TODO](https://github.com/Saul-Mirone/milkdown/projec
 
 If you like this project, please consider fund me to help the maintenance.
 
+No sponsors yet 😅.
+
 # License
 
 [MIT](/LICENSE)
