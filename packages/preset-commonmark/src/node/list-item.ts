@@ -1,23 +1,24 @@
-import type { NodeType } from 'prosemirror-model';
+import type { NodeType, NodeSpec } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
-import { SerializerNode, Node } from '@milkdown/core';
+import { SerializerNode } from '@milkdown/core';
+import { CommonMarkNode } from '../utility';
 
-export class ListItem extends Node {
-    id = 'list_item';
-    schema = {
+export class ListItem extends CommonMarkNode {
+    override readonly id = 'list_item';
+    override readonly schema: NodeSpec = {
         content: 'paragraph block*',
         defining: true,
         parseDOM: [{ tag: 'li' }],
-        toDOM: () => ['li', { class: 'list-item' }, 0] as const,
+        toDOM: (node) => ['li', { class: this.getClassName(node.attrs, 'list-item') }, 0],
     };
-    parser = {
+    override readonly parser = {
         block: this.id,
     };
-    serializer: SerializerNode = (state, node) => {
+    override readonly serializer: SerializerNode = (state, node) => {
         state.renderContent(node);
     };
-    override keymap = (type: NodeType): Keymap => ({
+    override readonly keymap = (type: NodeType): Keymap => ({
         Enter: splitListItem(type),
         'Mod-]': sinkListItem(type),
         'Mod-[': liftListItem(type),

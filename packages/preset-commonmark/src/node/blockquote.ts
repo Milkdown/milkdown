@@ -1,24 +1,23 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { SerializerNode, Node } from '@milkdown/core';
+import { SerializerNode } from '@milkdown/core';
 
 import { wrappingInputRule } from 'prosemirror-inputrules';
+import { CommonMarkNode } from '../utility';
 
-export class Blockquote extends Node {
-    id = 'blockquote';
-    schema: NodeSpec = {
+export class Blockquote extends CommonMarkNode {
+    override readonly id = 'blockquote';
+    override readonly schema: NodeSpec = {
         content: 'block+',
         group: 'block',
         defining: true,
         parseDOM: [{ tag: 'blockquote' }],
-        toDOM: () => ['blockquote', { class: 'blockquote' }, 0],
+        toDOM: (node) => ['blockquote', { class: this.getClassName(node.attrs) }, 0],
     };
-    parser = {
+    override readonly parser = {
         block: this.id,
     };
-
-    serializer: SerializerNode = (state, node) => {
+    override readonly serializer: SerializerNode = (state, node) => {
         state.wrapBlock('> ', node, () => state.renderContent(node));
     };
-
-    override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
+    override readonly inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
 }

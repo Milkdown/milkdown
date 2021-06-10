@@ -1,17 +1,19 @@
-import { SerializerNode, Node } from '@milkdown/core';
+import type { NodeSpec } from 'prosemirror-model';
+import { SerializerNode } from '@milkdown/core';
+import { CommonMarkNode } from '../utility/base';
 
-export class Paragraph extends Node {
-    id = 'paragraph';
-    schema = {
+export class Paragraph extends CommonMarkNode {
+    override readonly id = 'paragraph';
+    override readonly schema: NodeSpec = {
         content: 'inline*',
         group: 'block',
         parseDOM: [{ tag: 'p' }],
-        toDOM: () => ['p', { class: 'paragraph' }, 0] as const,
+        toDOM: (node) => ['p', { class: this.getClassName(node.attrs) }, 0],
     };
-    parser = {
+    override readonly parser = {
         block: this.id,
     };
-    serializer: SerializerNode = (state, node) => {
+    override readonly serializer: SerializerNode = (state, node) => {
         state.renderInline(node).closeBlock(node);
     };
 }

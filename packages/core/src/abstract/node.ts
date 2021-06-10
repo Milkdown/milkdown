@@ -6,7 +6,7 @@ import type { SerializerNode } from '../serializer/types';
 
 import { Atom } from './atom';
 import { LoadState } from '../constant';
-import { NodeViewFactory } from '../utility';
+import { AnyRecord, NodeViewFactory } from '../utility';
 
 interface NodeOptional {
     readonly view?: NodeViewFactory;
@@ -14,7 +14,7 @@ interface NodeOptional {
     inputRules?(nodeType: NodeType, schema: Schema): InputRule[];
 }
 
-export abstract class Node extends Atom<LoadState.Idle> implements NodeOptional {
+export abstract class Node<Options = AnyRecord> extends Atom<LoadState.Idle, Options> implements NodeOptional {
     view: NodeOptional['view'];
     keymap: NodeOptional['keymap'];
     inputRules: NodeOptional['inputRules'];

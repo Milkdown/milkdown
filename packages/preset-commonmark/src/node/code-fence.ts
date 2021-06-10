@@ -1,9 +1,10 @@
 import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
-import { ParserSpec, SerializerNode, Node, LoadState, CompleteContext } from '@milkdown/core';
+import { ParserSpec, SerializerNode, LoadState, CompleteContext } from '@milkdown/core';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Keymap } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
+import { CommonMarkNode } from '../utility';
 
 const languageOptions = [
     '',
@@ -23,9 +24,13 @@ const languageOptions = [
     'rust',
 ];
 
-export class CodeFence extends Node {
-    id = 'fence';
-    schema: NodeSpec = {
+type CodeFenceOptions = {
+    languageList?: string[];
+};
+
+export class CodeFence extends CommonMarkNode<CodeFenceOptions> {
+    override readonly id = 'fence';
+    override readonly schema: NodeSpec = {
         content: 'text*',
         group: 'block',
         marks: '',
@@ -37,28 +42,37 @@ export class CodeFence extends Node {
             },
         },
         parseDOM: [
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            { tag: 'pre', preserveWhitespace: 'full', getAttrs: (dom: any) => ({ language: dom.dataset.language }) },
+            {
+                tag: 'pre',
+                preserveWhitespace: 'full',
+                getAttrs: (dom) => {
+                    if (!(dom instanceof HTMLElement)) {
+                        throw new Error();
+                    }
+                    return { language: dom.dataset.language };
+                },
+            },
         ],
         toDOM: (node) => {
-            const select = this.createSelectElement(node.attrs.language) as unknown;
+            const select = this.#createSelectElement(node.attrs.language) as unknown;
+            const className = this.getClassName(node.attrs, 'code-fence');
             return [
                 'div',
                 {
-                    'data-language': node.attrs.language,
-                    class: 'code-fence',
+                    'data-language': '',
+                    class: className,
                 },
                 ['div', { contentEditable: 'false' }, select as DOMOutputSpec],
                 ['pre', ['code', { spellCheck: 'false' }, 0]],
             ];
         },
     };
-    parser: ParserSpec = {
+    override readonly parser: ParserSpec = {
         block: this.id,
         getAttrs: (tok) => ({ language: tok.info }),
         isAtom: true,
     };
-    serializer: SerializerNode = (state, node) => {
+    override readonly serializer: SerializerNode = (state, node) => {
         state.write('```' + node.attrs.language + '\n');
         state.text(node.textContent);
         state.ensureNewLine();
@@ -66,9 +80,9 @@ export class CodeFence extends Node {
         state.closeBlock(node);
     };
 
-    override inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
+    override readonly inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
 
-    override keymap = (): Keymap => ({
+    override readonly keymap = (): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
             const { tr, selection } = state;
             if (!dispatch) {
@@ -79,7 +93,7 @@ export class CodeFence extends Node {
         },
     });
 
-    private onChangeLanguage(top: number, left: number, language: string) {
+    #onChangeLanguage(top: number, left: number, language: string) {
         const { editorView } = this.context as CompleteContext;
         const result = editorView.posAtCoords({ top, left });
 
@@ -92,7 +106,7 @@ export class CodeFence extends Node {
         editorView.dispatch(transaction);
     }
 
-    private createSelectElement(currentLanguage: string) {
+    #createSelectElement(currentLanguage: string) {
         const select = document.createElement('select');
         select.className = 'code-fence_select';
         select.addEventListener('mousedown', (e) => {
@@ -109,9 +123,10 @@ export class CodeFence extends Node {
             const el = e.target as HTMLSelectElement | null;
             if (!el) return;
             const { top, left } = el.getBoundingClientRect();
-            this.onChangeLanguage(top, left, el.value);
+            this.#onChangeLanguage(top, left, el.value);
         });
-        languageOptions.forEach((lang) => {
+
+        languageOptions.concat(this.options.languageList || []).forEach((lang) => {
             const option = document.createElement('option');
             option.className = 'code-fence_select-option';
             option.value = lang;

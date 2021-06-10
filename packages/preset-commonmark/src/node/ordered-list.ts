@@ -1,10 +1,11 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { SerializerNode, Node } from '@milkdown/core';
+import { SerializerNode } from '@milkdown/core';
 import { wrappingInputRule } from 'prosemirror-inputrules';
+import { CommonMarkNode } from '../utility/base';
 
-export class OrderedList extends Node {
-    id = 'ordered_list';
-    schema: NodeSpec = {
+export class OrderedList extends CommonMarkNode {
+    override readonly id = 'ordered_list';
+    override readonly schema: NodeSpec = {
         content: 'list_item+',
         group: 'block',
         attrs: {
@@ -15,16 +16,27 @@ export class OrderedList extends Node {
         parseDOM: [
             {
                 tag: 'ol',
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                getAttrs: (dom: any) => ({ order: dom.hasAttribute('start') ? Number(dom.getAttribute('start')) : 1 }),
+                getAttrs: (dom) => {
+                    if (!(dom instanceof HTMLElement)) {
+                        throw new Error();
+                    }
+                    return { order: dom.hasAttribute('start') ? Number(dom.getAttribute('start')) : 1 };
+                },
             },
         ],
-        toDOM: (node) => ['ol', { ...(node.attrs.order === 1 ? {} : node.attrs.order), class: 'ordered-list' }, 0],
+        toDOM: (node) => [
+            'ol',
+            {
+                ...(node.attrs.order === 1 ? {} : node.attrs.order),
+                class: this.getClassName(node.attrs, 'ordered-list'),
+            },
+            0,
+        ],
     };
-    parser = {
+    override readonly parser = {
         block: this.id,
     };
-    serializer: SerializerNode = (state, node) => {
+    override readonly serializer: SerializerNode = (state, node) => {
         const { order = 1 } = node.attrs;
         const maxWidth = `${order + node.childCount - 1}`.length;
         const space = state.utils.repeat(' ', maxWidth + 2);
@@ -33,7 +45,7 @@ export class OrderedList extends Node {
             return state.utils.repeat(' ', maxWidth - n.length) + n + '. ';
         });
     };
-    override inputRules = (nodeType: NodeType) => [
+    override readonly inputRules = (nodeType: NodeType) => [
         wrappingInputRule(
             /^(\d+)\.\s$/,
             nodeType,

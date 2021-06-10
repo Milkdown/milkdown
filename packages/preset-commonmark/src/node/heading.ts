@@ -1,12 +1,13 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { ParserSpec, SerializerNode, Node } from '@milkdown/core';
+import { ParserSpec, SerializerNode } from '@milkdown/core';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
+import { CommonMarkNode } from '../utility/base';
 
 const headingIndex = Array(5)
     .fill(0)
     .map((_, i) => i + 1);
 
-export class Heading extends Node {
+export class Heading extends CommonMarkNode {
     id = 'heading';
     schema: NodeSpec = {
         content: 'text*',
@@ -17,7 +18,11 @@ export class Heading extends Node {
             },
         },
         parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
-        toDOM: (node) => [`h${node.attrs.level}`, { class: `heading h${node.attrs.level}` }, 0],
+        toDOM: (node) => [
+            `h${node.attrs.level}`,
+            { class: this.getClassName(node.attrs, `heading h${node.attrs.level}`) },
+            0,
+        ],
     };
     parser: ParserSpec = {
         block: this.id,
