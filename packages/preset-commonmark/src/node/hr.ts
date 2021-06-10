@@ -2,9 +2,9 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 
 import { SerializerNode } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
-import { CommonMarkNode } from '../utility';
+import { CommonNode } from '../utility';
 
-export class Hr extends CommonMarkNode {
+export class Hr extends CommonNode {
     override readonly id = 'hr';
     override readonly schema: NodeSpec = {
         group: 'block',

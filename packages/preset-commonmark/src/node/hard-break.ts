@@ -1,9 +1,9 @@
 import type { Keymap } from 'prosemirror-commands';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SerializerNode } from '@milkdown/core';
-import { CommonMarkNode } from '../utility';
+import { CommonNode } from '../utility';
 
-export class HardBreak extends CommonMarkNode {
+export class HardBreak extends CommonNode {
     override readonly id = 'hardbreak';
     override readonly schema: NodeSpec = {
         inline: true,

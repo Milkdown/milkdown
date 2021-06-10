@@ -1,23 +1,23 @@
 import type { MarkSpec, MarkType } from 'prosemirror-model';
-import { SerializerMark, Mark } from '@milkdown/core';
+import { SerializerMark } from '@milkdown/core';
 import type { InputRule } from 'prosemirror-inputrules';
 
-import { markRule } from '../utility';
+import { CommonMark, markRule } from '../utility';
 
-export class CodeInline extends Mark {
-    id = 'code_inline';
-    schema: MarkSpec = {
+export class CodeInline extends CommonMark {
+    override readonly id = 'code_inline';
+    override readonly schema: MarkSpec = {
         excludes: '_',
         parseDOM: [{ tag: 'code' }],
-        toDOM: () => ['code', { class: 'code-inline' }],
+        toDOM: (mark) => ['code', { class: this.getClassName(mark.attrs, 'code-inline') }],
     };
-    parser = {
+    override readonly parser = {
         mark: 'code_inline',
         isAtom: true,
     };
-    serializer: SerializerMark = {
+    override readonly serializer: SerializerMark = {
         open: '`',
         close: '`',
     };
-    override inputRules = (markType: MarkType): InputRule[] => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
+    override readonly inputRules = (markType: MarkType): InputRule[] => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
 }

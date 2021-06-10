@@ -2,9 +2,9 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SerializerNode } from '@milkdown/core';
 
 import { wrappingInputRule } from 'prosemirror-inputrules';
-import { CommonMarkNode } from '../utility';
+import { CommonNode } from '../utility';
 
-export class Blockquote extends CommonMarkNode {
+export class Blockquote extends CommonNode {
     override readonly id = 'blockquote';
     override readonly schema: NodeSpec = {
         content: 'block+',

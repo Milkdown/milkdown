@@ -1,10 +1,11 @@
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
-import { SerializerMark, Mark, ParserSpec } from '@milkdown/core';
+import { SerializerMark, ParserSpec } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
+import { CommonMark } from '../utility';
 
-export class Link extends Mark {
-    id = 'link';
-    schema: MarkSpec = {
+export class Link extends CommonMark {
+    override readonly id = 'link';
+    override readonly schema: MarkSpec = {
         attrs: {
             href: {},
             title: { default: null },
@@ -13,20 +14,24 @@ export class Link extends Mark {
         parseDOM: [
             {
                 tag: 'a[href]',
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                getAttrs: (dom: any) => ({ href: dom.getAttribute('href'), title: dom.getAttribute('title') }),
+                getAttrs: (dom) => {
+                    if (!(dom instanceof HTMLElement)) {
+                        throw new Error();
+                    }
+                    return { href: dom.getAttribute('href'), title: dom.getAttribute('title') };
+                },
             },
         ],
-        toDOM: (node) => ['a', { ...node.attrs, class: 'link' }],
+        toDOM: (mark) => ['a', { ...mark.attrs, class: this.getClassName(mark.attrs) }],
     };
-    parser: ParserSpec = {
+    override readonly parser: ParserSpec = {
         mark: 'link',
         getAttrs: (tok) => ({
             href: tok.attrGet('href'),
             title: tok.attrGet('title') || null,
         }),
     };
-    serializer: SerializerMark = {
+    override readonly serializer: SerializerMark = {
         open: () => '[',
         close: (state, mark) => {
             const link = state.utils.escape(mark.attrs.href);
@@ -36,7 +41,7 @@ export class Link extends Mark {
         },
         priority: 1,
     };
-    override inputRules = (markType: MarkType, schema: Schema) => [
+    override readonly inputRules = (markType: MarkType, schema: Schema) => [
         new InputRule(/\[(?<text>.+?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
             const [okay, text = '', href, title] = match;
             const { tr } = state;

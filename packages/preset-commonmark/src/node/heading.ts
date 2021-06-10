@@ -1,13 +1,13 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { ParserSpec, SerializerNode } from '@milkdown/core';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { CommonMarkNode } from '../utility/base';
+import { CommonNode } from '../utility/base';
 
 const headingIndex = Array(5)
     .fill(0)
     .map((_, i) => i + 1);
 
-export class Heading extends CommonMarkNode {
+export class Heading extends CommonNode {
     id = 'heading';
     schema: NodeSpec = {
         content: 'text*',

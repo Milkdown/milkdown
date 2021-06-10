@@ -6,7 +6,7 @@ import type { SerializerMark } from '../serializer/types';
 
 import { Atom } from './atom';
 import { LoadState } from '../constant';
-import { MarkViewFactory } from '../utility';
+import { AnyRecord, MarkViewFactory } from '../utility';
 
 interface MarkOptional {
     readonly view?: MarkViewFactory;
@@ -14,7 +14,7 @@ interface MarkOptional {
     inputRules?(markType: MarkType, schema: Schema): InputRule[];
 }
 
-export abstract class Mark extends Atom<LoadState.Idle> implements MarkOptional {
+export abstract class Mark<Options = AnyRecord> extends Atom<LoadState.Idle, Options> implements MarkOptional {
     view: MarkOptional['view'];
     keymap: MarkOptional['keymap'];
     inputRules: MarkOptional['inputRules'];

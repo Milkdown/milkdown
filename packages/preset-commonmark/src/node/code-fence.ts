@@ -4,7 +4,7 @@ import { ParserSpec, SerializerNode, LoadState, CompleteContext } from '@milkdow
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Keymap } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
-import { CommonMarkNode } from '../utility';
+import { CommonNode } from '../utility';
 
 const languageOptions = [
     '',
@@ -28,7 +28,7 @@ type CodeFenceOptions = {
     languageList?: string[];
 };
 
-export class CodeFence extends CommonMarkNode<CodeFenceOptions> {
+export class CodeFence extends CommonNode<CodeFenceOptions> {
     override readonly id = 'fence';
     override readonly schema: NodeSpec = {
         content: 'text*',

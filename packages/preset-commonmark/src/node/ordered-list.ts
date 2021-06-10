@@ -1,9 +1,9 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SerializerNode } from '@milkdown/core';
 import { wrappingInputRule } from 'prosemirror-inputrules';
-import { CommonMarkNode } from '../utility/base';
+import { CommonNode } from '../utility/base';
 
-export class OrderedList extends CommonMarkNode {
+export class OrderedList extends CommonNode {
     override readonly id = 'ordered_list';
     override readonly schema: NodeSpec = {
         content: 'list_item+',

@@ -1,8 +1,8 @@
 import type { NodeSpec } from 'prosemirror-model';
 import { SerializerNode } from '@milkdown/core';
-import { CommonMarkNode } from '../utility/base';
+import { CommonNode } from '../utility/base';
 
-export class Paragraph extends CommonMarkNode {
+export class Paragraph extends CommonNode {
     override readonly id = 'paragraph';
     override readonly schema: NodeSpec = {
         content: 'inline*',

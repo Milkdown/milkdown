@@ -2,9 +2,9 @@ import type { NodeType, NodeSpec } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { SerializerNode } from '@milkdown/core';
-import { CommonMarkNode } from '../utility';
+import { CommonNode } from '../utility';
 
-export class ListItem extends CommonMarkNode {
+export class ListItem extends CommonNode {
     override readonly id = 'list_item';
     override readonly schema: NodeSpec = {
         content: 'paragraph block*',

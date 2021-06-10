@@ -1,9 +1,9 @@
 import type { NodeType, NodeSpec } from 'prosemirror-model';
 import { SerializerNode } from '@milkdown/core';
 import { wrappingInputRule } from 'prosemirror-inputrules';
-import { CommonMarkNode } from '../utility';
+import { CommonNode } from '../utility';
 
-export class BulletList extends CommonMarkNode {
+export class BulletList extends CommonNode {
     override readonly id = 'bullet_list';
     override readonly schema: NodeSpec = {
         content: 'list_item+',
