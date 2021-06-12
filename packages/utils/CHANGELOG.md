@@ -1,5 +1,11 @@
 # @milkdown/utils
 
+## 4.2.0
+
+### Minor Changes
+
+-   f614070: Add the ability to configure the commonmark nodes.
+
 ## 4.1.2
 
 ### Patch Changes

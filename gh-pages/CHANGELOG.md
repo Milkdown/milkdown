@@ -1,5 +1,23 @@
 # @milkdown/gh-pages
 
+## 4.2.0
+
+### Minor Changes
+
+-   f614070: Add the ability to configure the commonmark nodes.
+
+### Patch Changes
+
+-   Updated dependencies [f614070]
+    -   @milkdown/core@4.2.0
+    -   @milkdown/plugin-math@4.2.0
+    -   @milkdown/plugin-prism@4.2.0
+    -   @milkdown/plugin-slash@4.2.0
+    -   @milkdown/plugin-table@4.2.0
+    -   @milkdown/plugin-tooltip@4.2.0
+    -   @milkdown/preset-commonmark@4.2.0
+    -   @milkdown/theme-nord@4.2.0
+
 ## 4.1.2
 
 ### Patch Changes

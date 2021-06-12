@@ -1,5 +1,16 @@
 # @milkdown/plugin-tooltip
 
+## 4.2.0
+
+### Minor Changes
+
+-   f614070: Add the ability to configure the commonmark nodes.
+
+### Patch Changes
+
+-   Updated dependencies [f614070]
+    -   @milkdown/utils@4.2.0
+
 ## 4.1.2
 
 ### Patch Changes
