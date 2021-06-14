@@ -27,7 +27,7 @@ You can check our [Milkdown TODO](https://github.com/Saul-Mirone/milkdown/projec
 
 If you like this project, please consider fund me to help the maintenance.
 
-No sponsors yet 😅.
+<a title="Johno Scott" href="https://github.com/johnoscott"><img src="https://avatars.githubusercontent.com/u/291958?v=4" width="100" alt="profile picture of Johno Scott"></a>
 
 # License
 
