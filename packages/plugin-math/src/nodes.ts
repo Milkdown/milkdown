@@ -9,8 +9,8 @@ import type { InputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 
 export class MathInline extends Node {
-    id = 'math_inline';
-    schema: NodeSpec = {
+    override id = 'math_inline';
+    override schema: NodeSpec = {
         group: 'inline math',
         content: 'text*',
         inline: true,
@@ -18,11 +18,11 @@ export class MathInline extends Node {
         parseDOM: [{ tag: 'math-inline' }],
         toDOM: () => ['math-inline', { class: 'math-node' }, 0],
     };
-    parser = {
+    override parser = {
         block: this.id,
         isAtom: true,
     };
-    serializer: SerializerNode = (state, node) => {
+    override serializer: SerializerNode = (state, node) => {
         state.write('$');
         state.renderContent(node);
         state.write('$');
@@ -33,8 +33,8 @@ export class MathInline extends Node {
 }
 
 export class MathDisplay extends Node {
-    id = 'math_display';
-    schema: NodeSpec = {
+    override id = 'math_display';
+    override schema: NodeSpec = {
         group: 'block math',
         content: 'text*',
         atom: true,
@@ -42,11 +42,11 @@ export class MathDisplay extends Node {
         parseDOM: [{ tag: 'math-display' }],
         toDOM: () => ['math-display', { class: 'math-node' }, 0],
     };
-    parser = {
+    override parser = {
         block: 'math_block',
         isAtom: true,
     };
-    serializer: SerializerNode = (state, node) => {
+    override serializer: SerializerNode = (state, node) => {
         state.write('$$').ensureNewLine().renderContent(node).ensureNewLine().write('$$').closeBlock(node);
     };
     override inputRules = (nodeType: NodeType): InputRule[] => [

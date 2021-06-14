@@ -14,6 +14,7 @@ importers:
       '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
       '@types/jest': ^26.0.22
@@ -29,6 +30,7 @@ importers:
       '@types/prosemirror-view': ^1.17.1
       '@typescript-eslint/eslint-plugin': ^4.25.0
       '@typescript-eslint/parser': ^4.25.0
+      '@vitejs/plugin-react-refresh': ^1.3.3
       autoprefixer: ^10.2.5
       eslint: ^7.21.0
       eslint-config-prettier: ^8.3.0
@@ -68,6 +70,7 @@ importers:
       '@milkdown/plugin-table': link:packages/plugin-table
       '@milkdown/plugin-tooltip': link:packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:packages/preset-commonmark
+      '@milkdown/react': link:packages/react
       '@milkdown/theme-nord': link:packages/theme-nord
       '@milkdown/utils': link:packages/utils
       '@types/jest': 26.0.22
@@ -83,6 +86,7 @@ importers:
       '@types/prosemirror-view': 1.17.1
       '@typescript-eslint/eslint-plugin': 4.25.0_2bc8243bcc123598c4839f4e8d036bcc
       '@typescript-eslint/parser': 4.25.0_eslint@7.25.0+typescript@4.3.2
+      '@vitejs/plugin-react-refresh': 1.3.3
       autoprefixer: 10.2.5_postcss@8.2.12
       eslint: 7.25.0
       eslint-config-prettier: 8.3.0_eslint@7.25.0
@@ -196,7 +200,7 @@ importers:
   packages/plugin-math:
     specifiers:
       '@benrbray/prosemirror-math': ^0.1.4
-      '@milkdown/core': '*'
+      '@milkdown/core': workspace:*
       '@traptitech/markdown-it-katex': ^3.4.0
       '@types/katex': ^0.11.0
       concurrently: ^6.0.2
@@ -286,6 +290,23 @@ importers:
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
+
+  packages/react:
+    specifiers:
+      '@milkdown/core': '*'
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: '*'
+      react-dom: '*'
+      tslib: ^2.2.0
+    dependencies:
+      tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': 4.2.0
+      '@types/react': 17.0.6
+      '@types/react-dom': 17.0.5
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
 
   packages/theme-nord:
     specifiers: {}
@@ -409,6 +430,11 @@ packages:
 
   /@babel/helper-plugin-utils/7.13.0:
     resolution: {integrity: sha512-ZPafIPSwzUlAoWT8DKs1W2VyF2gOWthGd5NGFMsBcMMol+ZhK+EQY/e6V96poa6PA/Bh+C9plWN0hXO1uB8AfQ==}
+    dev: true
+
+  /@babel/helper-plugin-utils/7.14.5:
+    resolution: {integrity: sha512-/37qQCE3K0vvZKwoK4XU/irIJQdIfCJuhU5eKnNxpFDsOkgFaUAwbv+RYw6eYgsC0E4hS7r5KqGULUogqui0fQ==}
+    engines: {node: '>=6.9.0'}
     dev: true
 
   /@babel/helper-replace-supers/7.13.12:
@@ -572,6 +598,26 @@ packages:
     dependencies:
       '@babel/core': 7.13.16
       '@babel/helper-plugin-utils': 7.13.0
+    dev: true
+
+  /@babel/plugin-transform-react-jsx-self/7.14.5_@babel+core@7.13.16:
+    resolution: {integrity: sha512-M/fmDX6n0cfHK/NLTcPmrfVAORKDhK8tyjDhyxlUjYyPYYO8FRWwuxBA3WBx8kWN/uBUuwGa3s/0+hQ9JIN3Tg==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.13.16
+      '@babel/helper-plugin-utils': 7.14.5
+    dev: true
+
+  /@babel/plugin-transform-react-jsx-source/7.14.5_@babel+core@7.13.16:
+    resolution: {integrity: sha512-1TpSDnD9XR/rQ2tzunBVPThF5poaYT9GqP+of8fAtguYuI/dm2RkrMBDemsxtY0XBzvW7nXjYM0hRyKX9QYj7Q==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.13.16
+      '@babel/helper-plugin-utils': 7.14.5
     dev: true
 
   /@babel/runtime/7.13.17:
@@ -1194,6 +1240,29 @@ packages:
       read-yaml-file: 1.1.0
     dev: true
 
+  /@milkdown/core/4.2.0:
+    resolution: {integrity: sha512-dvVuPKPqDVSghNJ7BvEsmKPSsjr1usNevAH7Z/79C2xvHtAgt9bHmEW7gSDcg80Me7uFKPS60lrC1uayLy8psQ==}
+    dependencies:
+      '@types/markdown-it': 12.0.1
+      '@types/prosemirror-commands': 1.0.4
+      '@types/prosemirror-history': 1.0.2
+      '@types/prosemirror-inputrules': 1.0.4
+      '@types/prosemirror-keymap': 1.0.4
+      '@types/prosemirror-model': 1.13.0
+      '@types/prosemirror-state': 1.2.6
+      '@types/prosemirror-view': 1.17.1
+      '@types/punycode': 2.1.0
+      markdown-it: 12.0.6
+      prosemirror-commands: 1.1.7
+      prosemirror-history: 1.1.3
+      prosemirror-inputrules: 1.1.3
+      prosemirror-keymap: 1.1.4
+      prosemirror-model: 1.14.0
+      prosemirror-state: 1.3.4
+      prosemirror-view: 1.18.3
+      tslib: 2.2.0
+    dev: true
+
   /@nodelib/fs.scandir/2.1.4:
     resolution: {integrity: sha512-33g3pMJk3bg5nXbL/+CY6I2eJDzZAni49PfJnL5fghPTggPvBd/pFNSgJsdAgWptuFu7qq/ERvOYFlhvsLTCKA==}
     engines: {node: '>= 8'}
@@ -1442,7 +1511,6 @@ packages:
 
   /@types/punycode/2.1.0:
     resolution: {integrity: sha512-PG5aLpW6PJOeV2fHRslP4IOMWn+G+Uq8CfnyJ+PDS8ndCbU+soO+fB3NKCKo0p/Jh2Y4aPaiQZsrOXFdzpcA6g==}
-    dev: false
 
   /@types/react-dom/17.0.5:
     resolution: {integrity: sha512-ikqukEhH4H9gr4iJCmQVNzTB307kROe3XFfHAOTxOXPOw7lAoEXnM5KWTkzeANGL5Ce6ABfiMl/zJBYNi7ObmQ==}
@@ -1609,6 +1677,18 @@ packages:
     dependencies:
       '@typescript-eslint/types': 4.25.0
       eslint-visitor-keys: 2.0.0
+    dev: true
+
+  /@vitejs/plugin-react-refresh/1.3.3:
+    resolution: {integrity: sha512-J3KFwSQKrEK7fgOwTx0PMTlsolZORUch6BswjsM50q+Y7zSvX1ROIRn+tK2VE8SCvbYRHtzEKFlYW3vsWyTosQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@babel/core': 7.13.16
+      '@babel/plugin-transform-react-jsx-self': 7.14.5_@babel+core@7.13.16
+      '@babel/plugin-transform-react-jsx-source': 7.14.5_@babel+core@7.13.16
+      react-refresh: 0.9.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /JSONStream/1.3.5:
@@ -4447,7 +4527,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: false
 
   /lru-cache/4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
@@ -4788,7 +4867,6 @@ packages:
   /object-assign/4.1.1:
     resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /object-copy/0.1.0:
     resolution: {integrity: sha1-fn2Fi3gb18mRpBupde04EnVOmYw=}
@@ -5377,7 +5455,6 @@ packages:
       object-assign: 4.1.1
       react: 17.0.2
       scheduler: 0.20.2
-    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -5385,6 +5462,11 @@ packages:
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+    dev: true
+
+  /react-refresh/0.9.0:
+    resolution: {integrity: sha512-Gvzk7OZpiqKSkxsQvO/mbTN1poglhmAV7gR/DdIrRrSMXraRQQlfikRJOr3Nb9GTMPC5kof948Zy6jJZIFtDvQ==}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /react-router-dom/5.2.0_react@17.0.2:
@@ -5426,7 +5508,6 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha1-5mTvMRYRZsl1HNvo28+GtftY93Q=}
@@ -5721,7 +5802,6 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-    dev: false
 
   /scroll-into-view-if-needed/2.2.28:
     resolution: {integrity: sha512-8LuxJSuFVc92+0AdNv4QOxRL4Abeo1DgLnGNkn1XlaujPH/3cCFz3QI60r2VNu4obJJROzgnIUw5TKQkZvZI1w==}
@@ -6312,7 +6392,6 @@ packages:
 
   /tslib/2.2.0:
     resolution: {integrity: sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==}
-    dev: false
 
   /tsutils/3.21.0_typescript@4.3.2:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

@@ -1,5 +1,5 @@
 import type { NodeSpec } from 'prosemirror-model';
-import { SerializerNode } from '@milkdown/core';
+import { SerializerNode, NodeViewFactory } from '@milkdown/core';
 import { CommonNode } from '../utility/base';
 
 export class Paragraph extends CommonNode {
@@ -15,5 +15,9 @@ export class Paragraph extends CommonNode {
     };
     override readonly serializer: SerializerNode = (state, node) => {
         state.renderInline(node).closeBlock(node);
+    };
+    override readonly view: NodeViewFactory = (...args) => {
+        console.log(args);
+        return null as any;
     };
 }
