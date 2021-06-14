@@ -293,7 +293,6 @@ importers:
 
   packages/react:
     specifiers:
-      '@milkdown/core': '*'
       '@types/react': '*'
       '@types/react-dom': '*'
       react: '*'
@@ -302,7 +301,6 @@ importers:
     dependencies:
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': 4.2.0
       '@types/react': 17.0.6
       '@types/react-dom': 17.0.5
       react: 17.0.2
@@ -1240,29 +1238,6 @@ packages:
       read-yaml-file: 1.1.0
     dev: true
 
-  /@milkdown/core/4.2.0:
-    resolution: {integrity: sha512-dvVuPKPqDVSghNJ7BvEsmKPSsjr1usNevAH7Z/79C2xvHtAgt9bHmEW7gSDcg80Me7uFKPS60lrC1uayLy8psQ==}
-    dependencies:
-      '@types/markdown-it': 12.0.1
-      '@types/prosemirror-commands': 1.0.4
-      '@types/prosemirror-history': 1.0.2
-      '@types/prosemirror-inputrules': 1.0.4
-      '@types/prosemirror-keymap': 1.0.4
-      '@types/prosemirror-model': 1.13.0
-      '@types/prosemirror-state': 1.2.6
-      '@types/prosemirror-view': 1.17.1
-      '@types/punycode': 2.1.0
-      markdown-it: 12.0.6
-      prosemirror-commands: 1.1.7
-      prosemirror-history: 1.1.3
-      prosemirror-inputrules: 1.1.3
-      prosemirror-keymap: 1.1.4
-      prosemirror-model: 1.14.0
-      prosemirror-state: 1.3.4
-      prosemirror-view: 1.18.3
-      tslib: 2.2.0
-    dev: true
-
   /@nodelib/fs.scandir/2.1.4:
     resolution: {integrity: sha512-33g3pMJk3bg5nXbL/+CY6I2eJDzZAni49PfJnL5fghPTggPvBd/pFNSgJsdAgWptuFu7qq/ERvOYFlhvsLTCKA==}
     engines: {node: '>= 8'}
@@ -1511,6 +1486,7 @@ packages:
 
   /@types/punycode/2.1.0:
     resolution: {integrity: sha512-PG5aLpW6PJOeV2fHRslP4IOMWn+G+Uq8CfnyJ+PDS8ndCbU+soO+fB3NKCKo0p/Jh2Y4aPaiQZsrOXFdzpcA6g==}
+    dev: false
 
   /@types/react-dom/17.0.5:
     resolution: {integrity: sha512-ikqukEhH4H9gr4iJCmQVNzTB307kROe3XFfHAOTxOXPOw7lAoEXnM5KWTkzeANGL5Ce6ABfiMl/zJBYNi7ObmQ==}
@@ -6392,6 +6368,7 @@ packages:
 
   /tslib/2.2.0:
     resolution: {integrity: sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==}
+    dev: false
 
   /tsutils/3.21.0_typescript@4.3.2:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

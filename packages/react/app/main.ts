@@ -1,5 +1,5 @@
 import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
+import { commonmark, Paragraph } from '@milkdown/preset-commonmark';
 
 import '@milkdown/theme-nord/lib/theme.css';
 
@@ -65,5 +65,5 @@ new Editor({
         // markdown: [(x) => console.log(x())],
     },
 })
-    .use(commonmark)
+    .use(commonmark.configure(Paragraph, { view: (...args) => console.log(args) as any }))
     .create();
