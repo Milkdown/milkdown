@@ -1,4 +1,4 @@
-import { Editor } from '@milkdown/core';
+import { Editor, NodeViewFactory } from '@milkdown/core';
 import { commonmark, Paragraph } from '@milkdown/preset-commonmark';
 
 import '@milkdown/theme-nord/lib/theme.css';
@@ -58,6 +58,22 @@ const root = document.getElementById('app');
 
 if (!root) throw new Error();
 
+const paragraphView: NodeViewFactory = (...args) => {
+    console.log(args);
+    const [_editor, _type, node] = args;
+    const dom = document.createElement('div');
+
+    const contentDOM = node.isLeaf ? null : document.createElement(node.isInline ? 'span' : 'div');
+    if (contentDOM) {
+        dom.appendChild(contentDOM);
+    }
+
+    return {
+        dom,
+        contentDOM,
+    };
+};
+
 new Editor({
     root,
     defaultValue: markdown,
@@ -65,5 +81,5 @@ new Editor({
         // markdown: [(x) => console.log(x())],
     },
 })
-    .use(commonmark.configure(Paragraph, { view: (...args) => console.log(args) as any }))
+    .use(commonmark.configure(Paragraph, { view: paragraphView }))
     .create();

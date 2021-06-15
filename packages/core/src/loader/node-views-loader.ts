@@ -1,6 +1,6 @@
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
-import { MarkView, NodeView } from '../utility';
+import { MarkViewParams, NodeViewParams } from '../utility';
 
 export class NodeViewsLoader extends Atom<LoadState.SchemaReady> {
     override readonly id = 'nodeViewsLoader';
@@ -15,7 +15,7 @@ export class NodeViewsLoader extends Atom<LoadState.SchemaReady> {
                 if (!node || !view) return acc;
                 return {
                     ...acc,
-                    [cur.id]: (...args: Parameters<NodeView>) => view(editor, node, ...args),
+                    [cur.id]: (...args: NodeViewParams) => view(editor, node, ...args),
                 };
             }, {});
 
@@ -27,7 +27,7 @@ export class NodeViewsLoader extends Atom<LoadState.SchemaReady> {
                 if (!mark || !view) return acc;
                 return {
                     ...acc,
-                    [cur.id]: (...args: Parameters<MarkView>) => view(editor, mark, ...args),
+                    [cur.id]: (...args: MarkViewParams) => view(editor, mark, ...args),
                 };
             }, {});
 
