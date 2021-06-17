@@ -1,11 +1,7 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "noEmit": true,
-        "paths": {
-            "@milkdown/*": ["packages/*/src", "packages/*/dist"]
-        }
+        "noEmit": true
     },
-    "include": ["**/*.ts", "**/*.tsx"],
-    "exclude": ["**/node_modules", "**/dist"]
+    "include": ["packages/**/*.ts"]
 }
