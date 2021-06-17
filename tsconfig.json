@@ -3,5 +3,5 @@
     "compilerOptions": {
         "noEmit": true
     },
-    "include": ["packages/**/*.ts"]
+    "exclude": ["node_modules", "lib"]
 }

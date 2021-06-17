@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it';
+import type { EditorView } from 'prosemirror-view';
 import type { Atom } from '../abstract';
 import { LoadState } from '../constant';
 import {
@@ -87,5 +88,10 @@ export class Editor {
                 this.#runAtomByLoadState(state);
             },
         );
+    }
+
+    get view(): EditorView {
+        const ctx = this.#ctx as CompleteContext;
+        return ctx.editorView;
     }
 }

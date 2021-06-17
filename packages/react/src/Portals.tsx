@@ -1,15 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import type { NodeViewFactory } from '@milkdown/core';
 
-export type Renderer = {
-    reactElement: React.ReactNode;
-    element: HTMLElement;
-};
+export const portalContext = React.createContext<(Component: React.FC) => NodeViewFactory>(() => {
+    return () => {
+        throw new Error();
+    };
+});
 
-export const Portals: React.FC<{ renderers: Record<string, Renderer> }> = ({ renderers }) => (
-    <>
-        {Object.entries(renderers).map(([key, renderer]) =>
-            ReactDOM.createPortal(renderer.reactElement, renderer.element, key),
-        )}
-    </>
+export const Portals: React.FC<{ portals: React.ReactPortal[] }> = React.memo(
+    ({ portals }) => {
+        return <>{...portals}</>;
+    },
+    (prev, next) => {
+        const getId = (portals: React.ReactPortal[]) => portals.map((x) => x.key).join(',');
+        return getId(prev.portals) === getId(next.portals);
+    },
 );

@@ -4,9 +4,10 @@ import { render } from 'react-dom';
 import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
-import { ReactEditor, useGetEditor, useNodeCtx } from './nodes';
-import { commonmark, Paragraph } from '@milkdown/preset-commonmark';
+import { ReactEditor, useGetEditor } from '../src';
+import { commonmark, Paragraph, Image } from '@milkdown/preset-commonmark';
 import { Editor } from '@milkdown/core';
+import { useNodeCtx } from '../src/ReactNode';
 
 const markdown = `
 # Milkdown Test
@@ -57,21 +58,28 @@ milkdown.create();
 Now you can play!
 `;
 
-const Component: React.FC = ({ children }) => {
-    const { node } = useNodeCtx();
-    console.log(node.content);
+const ReactParagraph: React.FC = ({ children }) => {
+    // const { node } = useNodeCtx();
+    // console.log(node.content);
     return <div className="react-renderer paragraph">{children}</div>;
+};
+
+const ReactImage: React.FC = () => {
+    const { node } = useNodeCtx();
+    console.log(node);
+    return <img className="image" src={node.attrs.src} alt={node.attrs.alt} title={node.attrs.tittle} />;
 };
 
 const Div: React.FC = () => {
     const editor = useGetEditor((root, renderReact) => {
-        console.log(renderReact);
-        const nodes = commonmark.configure(Paragraph, { view: renderReact(Component) });
+        const nodes = commonmark
+            .configure(Paragraph, { view: renderReact(ReactParagraph) })
+            .configure(Image, { view: renderReact(ReactImage) });
         return new Editor({
             root,
             defaultValue: markdown,
             listener: {
-                // markdown: [(x) => console.log(x())],
+                markdown: [(x) => console.log(x())],
             },
         }).use(nodes);
     });
