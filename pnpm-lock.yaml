@@ -293,12 +293,14 @@ importers:
 
   packages/react:
     specifiers:
+      '@milkdown/core': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
       react: '*'
       react-dom: '*'
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/core': link:../core
       tslib: 2.2.0
     devDependencies:
       '@types/react': 17.0.6
