@@ -5,7 +5,7 @@ import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
 import { ReactEditor, useGetEditor } from '../src';
-import { commonmark, Paragraph, Image } from '@milkdown/preset-commonmark';
+import { commonmark, Paragraph, Image, Blockquote } from '@milkdown/preset-commonmark';
 import { Editor } from '@milkdown/core';
 import { useNodeCtx } from '../src/ReactNode';
 
@@ -70,10 +70,15 @@ const ReactImage: React.FC = () => {
     return <img className="image" src={node.attrs.src} alt={node.attrs.alt} title={node.attrs.tittle} />;
 };
 
+const ReactBlockquote: React.FC = ({ children }) => {
+    return <div className="react-renderer blockquote">{children}</div>;
+};
+
 const Div: React.FC = () => {
     const editor = useGetEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(Paragraph, { view: renderReact(ReactParagraph) })
+            .configure(Blockquote, { view: renderReact(ReactBlockquote) })
             .configure(Image, { view: renderReact(ReactImage) });
         return new Editor({
             root,
