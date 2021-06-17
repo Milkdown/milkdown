@@ -15,9 +15,9 @@ interface NodeOptional {
 }
 
 export abstract class Node<Options = AnyRecord> extends Atom<LoadState.Idle, Options> implements NodeOptional {
-    view: NodeOptional['view'];
-    keymap: NodeOptional['keymap'];
-    inputRules: NodeOptional['inputRules'];
+    view?: NodeOptional['view'];
+    keymap?: NodeOptional['keymap'];
+    inputRules?: NodeOptional['inputRules'];
 
     abstract readonly schema: NodeSpec;
     abstract readonly serializer: SerializerNode;

@@ -15,9 +15,9 @@ interface MarkOptional {
 }
 
 export abstract class Mark<Options = AnyRecord> extends Atom<LoadState.Idle, Options> implements MarkOptional {
-    view: MarkOptional['view'];
-    keymap: MarkOptional['keymap'];
-    inputRules: MarkOptional['inputRules'];
+    view?: MarkOptional['view'];
+    keymap?: MarkOptional['keymap'];
+    inputRules?: MarkOptional['inputRules'];
 
     abstract readonly schema: MarkSpec;
     abstract readonly serializer: SerializerMark;

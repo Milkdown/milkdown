@@ -2,10 +2,10 @@ import type MarkdownIt from 'markdown-it';
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
 import type { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
 import type { InputRule } from 'prosemirror-inputrules';
-import type { EditorView } from 'prosemirror-view';
-import type { MarkView, NodeView } from '../utility';
+import type { EditorView, NodeView } from 'prosemirror-view';
 import type { LoadState } from '../constant';
 import type { Mark, Node } from '../abstract';
+import type { MarkViewParams, NodeViewParams } from '../utility';
 import type { Editor } from '.';
 
 export interface IdleContext {
@@ -22,7 +22,7 @@ export interface SchemaReadyContext extends Readonly<IdleContext> {
     serializer: (node: ProsemirrorNode) => string;
     keymap: ProsemirrorPlugin[];
     inputRules: InputRule[];
-    nodeViews: Record<string, NodeView | MarkView>;
+    nodeViews: Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>;
 }
 
 export interface LoadPluginContext extends Readonly<SchemaReadyContext> {

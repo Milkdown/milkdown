@@ -4,3 +4,4 @@ export * from './loader';
 export * from './parser';
 export * from './serializer';
 export * from './constant';
+export * from './utility';

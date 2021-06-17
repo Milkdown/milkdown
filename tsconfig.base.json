@@ -6,6 +6,7 @@
         "noEmitOnError": true,
 
         "declaration": true,
+        "declarationMap": true,
         "sourceMap": true,
 
         "moduleResolution": "node",

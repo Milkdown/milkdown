@@ -9,6 +9,7 @@ docs
 coverage
 .pnpm-store
 .npmrc
+tsconfig.tsbuildinfo
 
 .env
 *.local

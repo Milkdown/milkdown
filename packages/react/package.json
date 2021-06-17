@@ -1,0 +1,31 @@
+{
+    "name": "@milkdown/react",
+    "version": "4.1.2",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "tsc -w",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc"
+    },
+    "files": [
+        "lib"
+    ],
+    "dependencies": {
+        "tslib": "^2.2.0"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "*",
+        "react": "*",
+        "react-dom": "*"
+    },
+    "devDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "*",
+        "react-dom": "*"
+    }
+}
