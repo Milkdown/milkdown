@@ -7,10 +7,10 @@ import { createPortal } from 'react-dom';
 import { Content, ReactNodeContainer } from './ReactNode';
 
 export const createReactView =
-    (setPortals: React.Dispatch<React.SetStateAction<React.ReactPortal[]>>) =>
+    (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
     (component: React.FC): NodeViewFactory =>
     (editor, _type, node, view, getPos, decorations) =>
-        new ReactNodeView(component, setPortals, editor, node, view, getPos, decorations);
+        new ReactNodeView(component, addPortal, removePortalByKey, editor, node, view, getPos, decorations);
 
 export class ReactNodeView implements NodeView {
     dom: HTMLElement | undefined;
@@ -19,7 +19,8 @@ export class ReactNodeView implements NodeView {
 
     constructor(
         private component: React.FC,
-        private setPortal: React.Dispatch<React.SetStateAction<React.ReactPortal[]>>,
+        private addPortal: (portal: React.ReactPortal) => void,
+        private removePortalByKey: (key: string) => void,
         private editor: Editor,
         private node: Node,
         private view: EditorView,
@@ -58,16 +59,12 @@ export class ReactNodeView implements NodeView {
             this.dom,
             this.key,
         );
-        this.setPortal((x) => [...x, portal]);
+        this.addPortal(portal);
     }
 
     destroy() {
         this.dom = undefined;
         this.contentDOM = undefined;
-        this.setPortal((x) => {
-            const prev = x.findIndex((p) => p.key === this.key);
-
-            return [...x.slice(0, prev), ...x.slice(prev + 1)];
-        });
+        this.removePortalByKey(this.key);
     }
 }

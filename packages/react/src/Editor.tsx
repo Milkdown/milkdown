@@ -31,7 +31,20 @@ export const EditorComponent: React.FC<{ editor: GetEditor }> = ({ editor }) => 
 
 export const ReactEditor: React.FC<{ editor: GetEditor }> = ({ editor }) => {
     const [portals, setPortals] = React.useState<React.ReactPortal[]>([]);
-    const renderReact = React.useCallback((Component: React.FC) => createReactView(setPortals)(Component), []);
+    const addPortal = React.useCallback((portal: React.ReactPortal) => {
+        setPortals((ps) => [...ps, portal]);
+    }, []);
+    const removePortalByKey = React.useCallback((key: string) => {
+        setPortals((x) => {
+            const prev = x.findIndex((p) => p.key === key);
+
+            return [...x.slice(0, prev), ...x.slice(prev + 1)];
+        });
+    }, []);
+    const renderReact = React.useCallback(
+        (Component: React.FC) => createReactView(addPortal, removePortalByKey)(Component),
+        [addPortal, removePortalByKey],
+    );
 
     return (
         <portalContext.Provider value={renderReact}>

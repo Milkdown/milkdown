@@ -7,12 +7,12 @@ export const portalContext = React.createContext<(Component: React.FC) => NodeVi
     };
 });
 
+const getId = (portals: React.ReactPortal[]) => portals.map((x) => x.key).join(',');
 export const Portals: React.FC<{ portals: React.ReactPortal[] }> = React.memo(
     ({ portals }) => {
         return <>{...portals}</>;
     },
     (prev, next) => {
-        const getId = (portals: React.ReactPortal[]) => portals.map((x) => x.key).join(',');
         return getId(prev.portals) === getId(next.portals);
     },
 );
