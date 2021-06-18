@@ -15,7 +15,8 @@
         "lib"
     ],
     "dependencies": {
-        "tslib": "^2.2.0"
+        "tslib": "^2.2.0",
+        "@milkdown/utils": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "*",

@@ -294,15 +294,17 @@ importers:
   packages/react:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
       react: '*'
       react-dom: '*'
       tslib: ^2.2.0
     dependencies:
-      '@milkdown/core': link:../core
+      '@milkdown/utils': link:../utils
       tslib: 2.2.0
     devDependencies:
+      '@milkdown/core': link:../core
       '@types/react': 17.0.6
       '@types/react-dom': 17.0.5
       react: 17.0.2
@@ -316,6 +318,17 @@ importers:
       '@milkdown/core': workspace:*
       tslib: ^2.2.0
     dependencies:
+      tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
+
+  packages/vue:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/utils': workspace:*
+      tslib: ^2.2.0
+    dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
