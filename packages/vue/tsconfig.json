@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "lib",
+        "jsx": "react",
+        "jsxFactory": "h"
+    },
+    "include": ["src"]
+}

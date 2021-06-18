@@ -1,5 +1,5 @@
 {
-    "name": "@milkdown/react",
+    "name": "@milkdown/vue",
     "version": "4.1.2",
     "main": "lib/index.js",
     "module": "lib/index.js",
@@ -15,18 +15,10 @@
         "lib"
     ],
     "dependencies": {
+        "@milkdown/core": "workspace:*",
         "tslib": "^2.2.0"
     },
     "peerDependencies": {
-        "@milkdown/core": "*",
-        "react": "*",
-        "react-dom": "*"
-    },
-    "devDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@types/react": "*",
-        "@types/react-dom": "*",
-        "react": "*",
-        "react-dom": "*"
+        "@milkdown/core": "*"
     }
 }
