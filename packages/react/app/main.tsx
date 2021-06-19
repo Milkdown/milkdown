@@ -4,10 +4,9 @@ import { render } from 'react-dom';
 import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
-import { ReactEditor, useGetEditor } from '../src';
+import { ReactEditor, useGetEditor, useNodeCtx } from '../src';
 import { commonmark, Paragraph, Image, Blockquote } from '@milkdown/preset-commonmark';
 import { Editor } from '@milkdown/core';
-import { useNodeCtx } from '../src/ReactNode';
 
 const markdown = `
 # Milkdown Test

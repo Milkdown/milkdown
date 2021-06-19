@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 export default defineConfig({
     root: 'app',
@@ -15,5 +16,10 @@ export default defineConfig({
             'prosemirror-transform',
             'prosemirror-gapcursor',
         ],
+    },
+    plugins: [vueJsx()],
+    esbuild: {
+        jsxFactory: 'h',
+        jsxFragment: 'Fragment',
     },
 });
