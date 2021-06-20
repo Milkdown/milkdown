@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { VueEditor } from './VueEditor';
+import { MyEditor } from './VueEditor';
 
 import '@milkdown/theme-nord/lib/theme.css';
 
@@ -56,8 +56,7 @@ Now you can play!
 
 const app = createApp({
     render() {
-        return <vue-editor markdown={markdown} />;
+        return <MyEditor markdown={markdown} />;
     },
 });
-app.component('vue-editor', VueEditor);
 app.mount('#app');

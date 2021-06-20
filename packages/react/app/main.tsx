@@ -73,7 +73,7 @@ const ReactBlockquote: React.FC = ({ children }) => {
     return <div className="react-renderer blockquote">{children}</div>;
 };
 
-const Div: React.FC = () => {
+const App: React.FC = () => {
     const editor = useGetEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(Paragraph, { view: renderReact(ReactParagraph) })
@@ -91,4 +91,4 @@ const Div: React.FC = () => {
     return <ReactEditor editor={editor} />;
 };
 
-render(<Div />, document.getElementById('app'));
+render(<App />, document.getElementById('app'));

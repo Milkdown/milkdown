@@ -1,23 +1,33 @@
-import { ref, defineComponent, onMounted } from 'vue';
-import { commonmark } from '@milkdown/preset-commonmark';
+import { DefineComponent, defineComponent } from 'vue';
+import { commonmark, Paragraph } from '@milkdown/preset-commonmark';
 import { Editor } from '@milkdown/core';
+import { useGetEditor, VueEditor } from '../src';
 
-export const VueEditor = defineComponent({
-    props: {
-        markdown: String,
-    },
-    setup(props) {
-        const root = ref(null);
-
-        onMounted(() => {
-            new Editor({
-                root: root.value,
-                defaultValue: props.markdown || '',
-            })
-                .use(commonmark)
-                .create();
-        });
-
-        return () => <div ref={root} />;
+const MyParagraph = defineComponent({
+    name: 'my-paragraph',
+    setup(_, { slots }) {
+        return () => <div class="my-paragraph">{slots.default?.()}</div>;
     },
 });
+// const MyParagraph = defineComponent((_, ctx) => {
+//     return () => (
+//         <div class="my-paragraph">
+//             <div class="lalala">{ctx.slots.default?.() ?? []}</div>
+//         </div>
+//     );
+// });
+
+export const MyEditor = defineComponent((props: { markdown: string }) => {
+    const editor = useGetEditor((root, renderVue) => {
+        const nodes = commonmark.configure(Paragraph, {
+            view: renderVue(MyParagraph as DefineComponent),
+        });
+        return new Editor({
+            root,
+            defaultValue: props.markdown || '',
+        }).use(nodes);
+    });
+
+    return () => <VueEditor editor={editor} />;
+});
+MyEditor.props = ['markdown'];

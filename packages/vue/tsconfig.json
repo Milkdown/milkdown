@@ -4,7 +4,9 @@
         "baseUrl": ".",
         "outDir": "lib",
         "jsx": "preserve",
-        "jsxFactory": "h"
+        "jsxFactory": "h",
+        "types": ["vue", "@milkdown/core"],
+        "lib": ["dom", "es2020"]
     },
     "include": ["src"]
 }

@@ -36,9 +36,9 @@ export const ReactEditor: React.FC<{ editor: GetEditor }> = ({ editor }) => {
     }, []);
     const removePortalByKey = React.useCallback((key: string) => {
         setPortals((x) => {
-            const prev = x.findIndex((p) => p.key === key);
+            const index = x.findIndex((p) => p.key === key);
 
-            return [...x.slice(0, prev), ...x.slice(prev + 1)];
+            return [...x.slice(0, index), ...x.slice(index + 1)];
         });
     }, []);
     const renderReact = React.useCallback(
