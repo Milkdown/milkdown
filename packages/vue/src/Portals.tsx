@@ -1,60 +1,30 @@
-import { defineComponent, DefineComponent, ref, watch, computed, shallowRef, Teleport } from 'vue';
-export type PortalPair = [key: string, component: DefineComponent, dom: HTMLElement];
+import { defineComponent, DefineComponent, ref, watch, shallowRef, nextTick } from 'vue';
+export type PortalPair = [key: string, component: DefineComponent];
 
 const getId = (pairs: PortalPair[]) => pairs.map((p) => p[0]).join('\n');
 
 export const Portals = defineComponent((props: { portals: PortalPair[] }) => {
-    const portalComponents = shallowRef<Array<[Component: DefineComponent, dom: HTMLElement]>>([]);
+    const portalComponents = shallowRef<Array<DefineComponent>>([]);
     const prev = ref<string>('');
+    const renderList = shallowRef<() => JSX.Element[] | null>(() => null);
 
     watch(
         () => getId(props.portals),
         (ids) => {
-            console.log('prev', prev.value);
-            console.log('next', ids);
-            if (prev.value === '') {
-                prev.value = ids;
-                // portalComponents = [...props.portals].map((p) => [p[1], p[2]]);
-                const next = props.portals.map(([_, p, d]) => [p, d] as [DefineComponent, HTMLElement]);
-                // portalComponents.splice(0, portalComponents.length, ...next);
-                portalComponents.value = next;
-                return;
-            }
-            console.log('prev', prev.value);
-            console.log('next', ids);
             if (ids !== prev.value) {
                 prev.value = ids;
-                // nextTick(() => {
-                //     portalComponents.value = [...props.portals].map((p) => [p[1], p[2]]);
-                // });
-                // portalComponents.value.splice(
-                //     0,
-                //     portalComponents.value.length,
-                //     ...portals.map((portalPair) => portalPair[1]),
-                // );
+                const next = props.portals.map(([_, p]) => p);
+                portalComponents.value = next;
             }
         },
     );
 
-    const renderList = computed(() => {
-        return () =>
-            portalComponents.value.map(([P, dom]) => (
-                <Teleport to={dom}>
-                    <P />
-                </Teleport>
-            ));
+    nextTick(() => {
+        renderList.value = () => portalComponents.value.map((P) => <P />);
     });
 
     return () => {
-        return (
-            <>
-                {/* {next} */}
-                {renderList.value()}
-                {/* {portalComponents.map((P) => (
-                <P />
-            ))} */}
-            </>
-        );
+        return <>{renderList.value()}</>;
     };
 });
 Portals.props = ['portals'];

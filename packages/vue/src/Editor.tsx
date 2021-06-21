@@ -46,8 +46,8 @@ EditorComponent.props = ['editor'];
 
 export const VueEditor = defineComponent((props: { editor: GetEditor }) => {
     const portals = shallowReactive<PortalPair[]>([]);
-    const addPortal = markRaw((component: DefineComponent, key: string, dom: HTMLElement) => {
-        portals.push([key, component, dom]);
+    const addPortal = markRaw((component: DefineComponent, key: string) => {
+        portals.push([key, component]);
     });
     const removePortalByKey = markRaw((key: string) => {
         const index = portals.findIndex((p) => p[0] === key);

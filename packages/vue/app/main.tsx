@@ -21,7 +21,7 @@ There should be a line break before this.
 
 ## Image and Link
 
-**Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1 "kitty")**
+**Of course you can add image! ![cat](https://images.news18.com/ibnlive/uploads/2021/06/1623900306_untitled-design-2021-06-17t085747.057.png "kitty")**
 
 Your *[link is here](https://bing.com "bing")*, have a look.
 
