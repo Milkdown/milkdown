@@ -23,6 +23,8 @@ export type ViewLoaderOptions = {
     editable?: (editorState: EditorState) => boolean;
 };
 
+const hasKey = <T>(obj: T, k: string | number | symbol): k is keyof T => k in obj;
+
 export class ViewLoader extends Atom<LoadState.Complete, ViewLoaderOptions> {
     override readonly id = 'viewLoader';
     override readonly loadAfter = LoadState.Complete;
@@ -46,9 +48,20 @@ export class ViewLoader extends Atom<LoadState.Complete, ViewLoaderOptions> {
                 });
             },
         });
+        const viewProxy = new Proxy(view, {
+            get: (target, prop) => {
+                if (prop === 'destroy') {
+                    return () => {
+                        target.destroy();
+                        container.remove();
+                    };
+                }
+                return hasKey(target, prop) ? target[prop] : undefined;
+            },
+        });
         this.#prepareViewDom(view.dom);
         this.updateContext({
-            editorView: view,
+            editorView: viewProxy,
         });
     }
 

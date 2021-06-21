@@ -5,6 +5,7 @@ import gettingStarted from '../pages/guide/getting-started.md';
 import usingPlugins from '../pages/guide/using-plugins.md';
 import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
 import styling from '../pages/guide/styling.md';
+import react from '../pages/guide/react.md';
 
 import core from '../pages/architecture/core.md';
 import atom from '../pages/architecture/atom.md';
@@ -27,6 +28,11 @@ export const pageRouter: Section[] = [
                 title: 'Styling',
                 link: '/styling',
                 content: styling,
+            },
+            {
+                title: 'React',
+                link: '/react',
+                content: react,
             },
         ],
     },

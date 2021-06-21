@@ -13,7 +13,7 @@ export const Portals = defineComponent((props: { portals: PortalPair[] }) => {
         (ids) => {
             if (ids !== prev.value) {
                 prev.value = ids;
-                const next = props.portals.map(([_, p]) => p);
+                const next = props.portals.map((p) => p[1]);
                 portalComponents.value = next;
             }
         },
