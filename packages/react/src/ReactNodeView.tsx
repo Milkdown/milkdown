@@ -67,4 +67,11 @@ export class ReactNodeView implements NodeView {
         this.contentDOM = undefined;
         this.removePortalByKey(this.key);
     }
+
+    ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+        if (!this.contentDOM) {
+            return true;
+        }
+        return !this.contentDOM.contains(mutation.target);
+    }
 }
