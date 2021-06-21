@@ -1,6 +1,6 @@
 import React from 'react';
 import { Editor } from '@milkdown/core';
-import { ReactEditor, useGetEditor } from '@milkdown/react';
+import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
@@ -15,31 +15,13 @@ import '@milkdown/plugin-table/lib/style.css';
 import '@milkdown/plugin-tooltip/lib/style.css';
 import '@milkdown/plugin-slash/lib/style.css';
 
-export const editor = (root: HTMLElement, content: string, readOnly = false) => {
-    let editor = new Editor({
-        root,
-        defaultValue: content,
-        editable: () => !readOnly,
-    })
-        .use(commonmark)
-        .use(table)
-        .use(prism)
-        .use(tooltip)
-        .use(math);
-
-    if (!readOnly) {
-        editor = editor.use(slash);
-    }
-    return editor.create();
-};
-
 type Props = {
     content: string;
     readOnly?: boolean;
 };
 
 export const MilkdownEditor: React.FC<Props> = ({ content, readOnly }) => {
-    const editor = useGetEditor(
+    const editor = useEditor(
         (root) => {
             const editor = new Editor({
                 root,

@@ -5,7 +5,7 @@ import { createReactView } from './ReactNodeView';
 
 type GetEditor = (container: HTMLDivElement, renderReact: (Component: React.FC) => NodeViewFactory) => Editor;
 
-const useEditor = (getEditor: GetEditor) => {
+const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = React.useContext(portalContext);
     const div = React.useRef<HTMLDivElement>(null);
 
@@ -25,7 +25,7 @@ const useEditor = (getEditor: GetEditor) => {
 };
 
 export const EditorComponent: React.FC<{ editor: GetEditor }> = ({ editor }) => {
-    const ref = useEditor(editor);
+    const ref = useGetEditor(editor);
     return <div ref={ref} />;
 };
 
@@ -54,7 +54,7 @@ export const ReactEditor: React.FC<{ editor: GetEditor }> = ({ editor }) => {
     );
 };
 
-export const useGetEditor = (getEditor: GetEditor, deps: DependencyList = []) => {
+export const useEditor = (getEditor: GetEditor, deps: DependencyList = []) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     return React.useCallback<GetEditor>((...args) => getEditor(...args), deps);
 };

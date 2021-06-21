@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
-import { ReactEditor, useGetEditor, useNodeCtx } from '../src';
+import { ReactEditor, useEditor, useNodeCtx } from '../src';
 import { commonmark, Paragraph, Image, Blockquote } from '@milkdown/preset-commonmark';
 import { Editor } from '@milkdown/core';
 
@@ -57,15 +57,10 @@ milkdown.create();
 Now you can play!
 `;
 
-const ReactParagraph: React.FC = ({ children }) => {
-    // const { node } = useNodeCtx();
-    // console.log(node.content);
-    return <div className="react-renderer paragraph">{children}</div>;
-};
+const ReactParagraph: React.FC = ({ children }) => <div className="react-renderer paragraph">{children}</div>;
 
 const ReactImage: React.FC = () => {
     const { node } = useNodeCtx();
-    console.log(node);
     return <img className="image" src={node.attrs.src} alt={node.attrs.alt} title={node.attrs.tittle} />;
 };
 
@@ -74,7 +69,7 @@ const ReactBlockquote: React.FC = ({ children }) => {
 };
 
 const App: React.FC = () => {
-    const editor = useGetEditor((root, renderReact) => {
+    const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(Paragraph, { view: renderReact(ReactParagraph) })
             .configure(Blockquote, { view: renderReact(ReactBlockquote) })
