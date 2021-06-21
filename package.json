@@ -31,6 +31,7 @@
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/react": "workspace:*",
+        "@milkdown/vue": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/utils": "workspace:*",
         "@types/jest": "^26.0.22",

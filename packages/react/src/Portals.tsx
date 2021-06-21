@@ -8,7 +8,6 @@ export const portalContext = React.createContext<(Component: React.FC) => NodeVi
 const getId = (portals: React.ReactPortal[]) => portals.map((x) => x.key).join(',');
 export const Portals: React.FC<{ portals: React.ReactPortal[] }> = React.memo(
     ({ portals }) => {
-        console.log('---portals---');
         return <>{...portals}</>;
     },
     (prev, next) => {
