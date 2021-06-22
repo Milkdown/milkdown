@@ -1,5 +1,11 @@
 # @milkdown/core
 
+## 4.3.0
+
+### Minor Changes
+
+-   de11ad1: Add vue and react integration ability.
+
 ## 4.2.0
 
 ### Minor Changes
