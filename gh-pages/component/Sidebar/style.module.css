@@ -12,13 +12,35 @@
         width: 0;
         transform: translateX(-16rem);
     }
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        padding: 0 2px;
+        width: 6px;
+        background: palette(surface);
+    }
+    &::-webkit-scrollbar-track {
+        width: 4px;
+        border-right: 2px solid palette(surface);
+        border-radius: 4px;
+        background: palette(secondary, 0.12);
+    }
+    &::-webkit-scrollbar-thumb {
+        width: 4px;
+        border-right: 2px solid palette(surface);
+        border-radius: 4px;
+        background: palette(secondary, 0.38);
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: palette(secondary);
+    }
 }
 
 @media only screen and (min-width: 67.5rem) {
     .sidebar {
         z-index: 3;
         position: relative;
-        height: unset;
+        height: 100vh;
         top: 0;
     }
 }
