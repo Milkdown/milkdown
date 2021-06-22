@@ -36,7 +36,7 @@
         "prosemirror-view": "*"
     },
     "dependencies": {
-        "@benrbray/prosemirror-math": "^0.1.4",
+        "@benrbray/prosemirror-math": "^0.2.0",
         "@traptitech/markdown-it-katex": "^3.4.0",
         "@types/katex": "^0.11.0",
         "katex": "^0.13.2",
