@@ -1,5 +1,24 @@
 # @milkdown/gh-pages
 
+## 4.3.0
+
+### Minor Changes
+
+-   de11ad1: Add vue and react integration ability.
+
+### Patch Changes
+
+-   Updated dependencies [de11ad1]
+    -   @milkdown/core@4.3.0
+    -   @milkdown/plugin-math@4.3.0
+    -   @milkdown/plugin-prism@4.3.0
+    -   @milkdown/plugin-slash@4.3.0
+    -   @milkdown/plugin-table@4.3.0
+    -   @milkdown/plugin-tooltip@4.3.0
+    -   @milkdown/preset-commonmark@4.3.0
+    -   @milkdown/react@4.3.0
+    -   @milkdown/theme-nord@4.3.0
+
 ## 4.2.0
 
 ### Minor Changes
