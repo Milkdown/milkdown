@@ -72,3 +72,29 @@ export const MilkdownEditor: React.FC = () => {
     return <ReactEditor editor={editor} />;
 };
 ```
+
+Values can be get by `useNodeCtx`:
+
+-   _editor_:
+
+    Instance of current milkdown editor.
+
+-   _node_:
+
+    Current prosemirror node need to be rendered.
+    Equal to [node parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).
+
+-   _view_:
+
+    Current prosemirror editor view.
+    Equal to [view parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).
+
+-   _getPos_:
+
+    Method to get position of current prosemirror node.
+    Equal to [getPos parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).
+
+-   _decorations_:
+
+    Decorations of current prosemirror node.
+    Equal to [decorations parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).

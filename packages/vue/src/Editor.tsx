@@ -16,7 +16,7 @@ import { createVueView } from './VueNodeView';
 
 type GetEditor = (container: HTMLDivElement, renderVue: (Component: DefineComponent) => NodeViewFactory) => Editor;
 
-export const useEditor = (getEditor: GetEditor) => {
+const useGetEditor = (getEditor: GetEditor) => {
     const divRef = ref<HTMLDivElement | null>(null);
     const renderVue = inject<(Component: DefineComponent) => NodeViewFactory>('renderVue', () => {
         throw new Error();
@@ -38,7 +38,7 @@ export const useEditor = (getEditor: GetEditor) => {
 };
 
 export const EditorComponent = defineComponent((props: { editor: GetEditor }) => {
-    const ref = useEditor(props.editor);
+    const ref = useGetEditor(props.editor);
 
     return () => <div ref={ref} />;
 });
@@ -65,6 +65,6 @@ export const VueEditor = defineComponent((props: { editor: GetEditor }) => {
 });
 VueEditor.props = ['editor'];
 
-export const useGetEditor = (getEditor: GetEditor) => {
+export const useEditor = (getEditor: GetEditor) => {
     return (...args: Parameters<GetEditor>) => getEditor(...args);
 };
