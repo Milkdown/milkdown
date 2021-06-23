@@ -29,7 +29,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly }) => {
                 editable: () => !readOnly,
             })
                 .use(commonmark)
-                .use(table)
+                .use(table())
                 .use(prism)
                 .use(tooltip)
                 .use(math);
