@@ -18,15 +18,19 @@ import '@milkdown/plugin-slash/lib/style.css';
 type Props = {
     content: string;
     readOnly?: boolean;
+    onChange?: (getMarkdown: () => string) => void;
 };
 
-export const MilkdownEditor: React.FC<Props> = ({ content, readOnly }) => {
+export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange }) => {
     const editor = useEditor(
         (root) => {
             const editor = new Editor({
                 root,
                 defaultValue: content,
                 editable: () => !readOnly,
+                listener: {
+                    markdown: onChange ? [onChange] : [],
+                },
             })
                 .use(commonmark)
                 .use(table())

@@ -2,26 +2,35 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { LocationType, useLocationType } from '../hooks/useLocationType';
+import { Mode } from '../Demo/Demo';
 import className from './style.module.css';
 
 type Props = {
     scrolled: boolean;
     onToggle: () => void;
+    editorMode: Mode;
+    onEditorModeToggle: () => void;
 };
 
 const materialIcon = `${className.icon} material-icons-outlined`;
 
-export const Header: React.FC<Props> = ({ onToggle, scrolled }) => {
+export const Header: React.FC<Props> = ({ onToggle, scrolled, editorMode, onEditorModeToggle }) => {
     const [isDarkMode, setIsDarkMode] = React.useState(false);
     const [showToggle, setShowToggle] = React.useState(true);
+    const [showEditorToggle, setShowEditorToggle] = React.useState(false);
     const [locationType] = useLocationType();
 
     React.useEffect(() => {
-        if (locationType !== LocationType.Page) {
-            setShowToggle(false);
+        if (locationType === LocationType.Page) {
+            setShowToggle(true);
             return;
         }
-        setShowToggle(true);
+        setShowToggle(false);
+        if (locationType === LocationType.Demo) {
+            setShowEditorToggle(true);
+            return;
+        }
+        setShowEditorToggle(false);
     }, [locationType]);
 
     useDarkMode(isDarkMode, setIsDarkMode);
@@ -43,6 +52,11 @@ export const Header: React.FC<Props> = ({ onToggle, scrolled }) => {
                     </Link>
                 </div>
                 <div className={className.part}>
+                    {showEditorToggle && (
+                        <span onClick={() => onEditorModeToggle()} className={materialIcon}>
+                            {editorMode === Mode.Default ? 'chrome_reader_mode' : 'wysiwyg'}
+                        </span>
+                    )}
                     <span onClick={() => setIsDarkMode(!isDarkMode)} className={materialIcon}>
                         {isDarkMode ? 'light_mode' : 'dark_mode'}
                     </span>

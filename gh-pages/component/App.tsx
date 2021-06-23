@@ -9,11 +9,15 @@ import { pageRouter } from './page-router';
 import className from './style.module.css';
 import demo from '../pages/demo.md';
 import { Footer } from './Footer/Footer';
+import { Demo, Mode } from './Demo/Demo';
 import { useLocationType, LocationType } from './hooks/useLocationType';
 
 const pages = pageRouter.flatMap((section) => section.items);
 
-export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void }> = ({ setScrolled }) => {
+export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMode: Mode }> = ({
+    setScrolled,
+    editorMode,
+}) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [locationType] = useLocationType();
 
@@ -48,7 +52,7 @@ export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void }> = ({ s
                         <Home />
                     </Route>
                     <Route exact path="/online-demo">
-                        <MilkdownEditor content={demo} />
+                        <Demo mode={editorMode} content={demo} />
                     </Route>
 
                     {pages.map((page, i) => (
@@ -66,13 +70,21 @@ export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void }> = ({ s
 export const App: React.FC = () => {
     const [displaySidebar, setDisplaySidebar] = React.useState(true);
     const [scrolled, setScrolled] = React.useState(false);
+    const [editorMode, setEditorMode] = React.useState(Mode.Default);
 
     return (
         <HashRouter>
             <div className={className.body}>
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
                 <div className={className.right}>
-                    <Header onToggle={() => setDisplaySidebar(!displaySidebar)} scrolled={scrolled} />
+                    <Header
+                        onEditorModeToggle={() =>
+                            setEditorMode(editorMode === Mode.Default ? Mode.TwoSide : Mode.Default)
+                        }
+                        onToggle={() => setDisplaySidebar(!displaySidebar)}
+                        scrolled={scrolled}
+                        editorMode={editorMode}
+                    />
                     <main
                         className={className.main}
                         onClick={() => {
@@ -81,7 +93,7 @@ export const App: React.FC = () => {
                             }
                         }}
                     >
-                        <Main setScrolled={setScrolled} />
+                        <Main setScrolled={setScrolled} editorMode={editorMode} />
                     </main>
                 </div>
             </div>

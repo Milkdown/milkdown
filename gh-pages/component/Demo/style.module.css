@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    & > textarea {
+        transition: all 0.2s ease-in;
+        resize: none;
+        border: none;
+        flex: 0 0 0;
+        width: 0;
+        box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
+            0px 1px 3px palette(shadow, 0.2);
+        border-radius: 4px;
+        color: palette(neutral, 0.87);
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        overflow: hidden;
+        padding: 0;
+
+        &:focus-visible {
+            outline: none;
+            border: 1px solid palette(secondary);
+        }
+    }
+
+    & > div {
+        flex-grow: 1;
+    }
+}
+
+.twoSide {
+    & > textarea {
+        flex: 0 0 33.33%;
+        padding: 3.125rem 2rem;
+        border: 1px solid transparent;
+    }
+}
+
+@media only screen and (min-width: 67.5rem) {
+    .container {
+        flex-direction: row;
+        & > textarea {
+            margin: 1.25rem 0;
+        }
+    }
+}
