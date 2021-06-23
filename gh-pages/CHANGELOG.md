@@ -1,5 +1,16 @@
 # @milkdown/gh-pages
 
+## 4.3.1
+
+### Patch Changes
+
+-   Updated dependencies [6b1d6fc]
+    -   @milkdown/plugin-table@4.3.1
+    -   @milkdown/plugin-slash@4.3.1
+    -   @milkdown/plugin-prism@4.3.1
+    -   @milkdown/plugin-tooltip@4.3.1
+    -   @milkdown/react@4.3.1
+
 ## 4.3.0
 
 ### Minor Changes

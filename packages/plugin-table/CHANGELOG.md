@@ -1,5 +1,12 @@
 # @milkdown/plugin-table
 
+## 4.3.1
+
+### Patch Changes
+
+-   6b1d6fc: Add ability to custom keymap.
+    -   @milkdown/utils@4.3.1
+
 ## 4.3.0
 
 ### Minor Changes
