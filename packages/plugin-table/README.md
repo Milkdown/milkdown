@@ -17,5 +17,32 @@ import { table } from '@milkdown/plugin-table';
 import '@milkdown/plugin-table/lib/style.css';
 
 const root = document.body;
-new Editor({ root }).use(commonmark).use(table).create();
+new Editor({ root }).use(commonmark).use(table()).create();
 ```
+
+## Custom Keymap
+
+```typescript
+import { table, SupportedKeys } from '@milkdown/plugin-table';
+// import style
+import '@milkdown/plugin-table/lib/style.css';
+
+const root = document.body;
+new Editor({ root })
+    .use(commonmark)
+    .use(
+        table({
+            keymap: {
+                [SupportedKeys.NextCell]: 'Enter',
+                [SupportedKeys.PrevCell]: 'Alt-Enter',
+            },
+        }),
+    )
+    .create();
+```
+
+Keymap supported:
+
+-   NextCell: go to next cell of table.
+-   PrevCell: go to prev cell of table.
+-   ExitTable: exist current table.
