@@ -30,6 +30,9 @@
 }
 
 .twoSide {
+    max-width: 72rem;
+    margin: 0 auto;
+
     & > textarea {
         flex: 0 0 33.33%;
         padding: 3.125rem 2rem;

@@ -14,7 +14,6 @@ type DemoProps = {
 };
 
 export const Demo = ({ content, mode }: DemoProps): JSX.Element => {
-    // return mode === Mode.Default ? <MilkdownEditor content={content} /> : <TwoSide defaultValue={content} />;
     const [value, setValue] = React.useState(content);
     const defaultValueForMilkdown = React.useRef(content);
     const lock = React.useRef(false);
