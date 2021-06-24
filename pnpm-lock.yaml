@@ -122,6 +122,8 @@ importers:
 
   gh-pages:
     specifiers:
+      '@codemirror/basic-setup': ^0.18.2
+      '@codemirror/lang-markdown': ^0.18.4
       '@milkdown/core': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
@@ -142,6 +144,8 @@ importers:
       react-router-dom: ^5.2.0
       tslib: ^2.2.0
     dependencies:
+      '@codemirror/basic-setup': 0.18.2
+      '@codemirror/lang-markdown': 0.18.4
       '@milkdown/core': link:../packages/core
       '@milkdown/plugin-math': link:../packages/plugin-math
       '@milkdown/plugin-prism': link:../packages/plugin-prism
@@ -1162,6 +1166,237 @@ packages:
       exec-sh: 0.3.6
       minimist: 1.2.5
     dev: true
+
+  /@codemirror/autocomplete/0.18.7:
+    resolution: {integrity: sha512-4x6xH2jDuJzweB0Wdx3VQrFUvZF0V7RAHoomQOCq3NxUOZd/UXcSXrj3LXItFAxi6K4OlTLayFuI3z4k3UKUQQ==}
+    dependencies:
+      '@codemirror/language': 0.18.2
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      '@codemirror/tooltip': 0.18.4
+      '@codemirror/view': 0.18.17
+      lezer-tree: 0.13.2
+    dev: false
+
+  /@codemirror/basic-setup/0.18.2:
+    resolution: {integrity: sha512-4UNFQ4jhU7wKxJH23AJcZW6Ho54VXUpmbtFnN5amIdtGci4ZLvci4M7JKgKFraHmKfDIYQnSzN8d8ohXR7CRhw==}
+    dependencies:
+      '@codemirror/autocomplete': 0.18.7
+      '@codemirror/closebrackets': 0.18.0
+      '@codemirror/commands': 0.18.3
+      '@codemirror/comment': 0.18.1
+      '@codemirror/fold': 0.18.1
+      '@codemirror/gutter': 0.18.4
+      '@codemirror/highlight': 0.18.4
+      '@codemirror/history': 0.18.1
+      '@codemirror/language': 0.18.2
+      '@codemirror/lint': 0.18.4
+      '@codemirror/matchbrackets': 0.18.0
+      '@codemirror/rectangular-selection': 0.18.0
+      '@codemirror/search': 0.18.4
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/closebrackets/0.18.0:
+    resolution: {integrity: sha512-O1RAgUkzF4nq/B8IyXenZKZ1rJi2Mc7I6y4IhWhELiTnjyQy7YdAthTsJ40mNr8kZ6gRbasYe3K7TraITElZJA==}
+    dependencies:
+      '@codemirror/language': 0.18.2
+      '@codemirror/rangeset': 0.18.3
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/commands/0.18.3:
+    resolution: {integrity: sha512-nHYDG13qOirioXTAKmjl10W2L0eZ1ftvmTwvUTNY27UWVBPFSpk5zDXP3WqJ0mgMhQ4AOFLJaTjJEO3hmPComg==}
+    dependencies:
+      '@codemirror/language': 0.18.2
+      '@codemirror/matchbrackets': 0.18.0
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      '@codemirror/view': 0.18.17
+      lezer-tree: 0.13.2
+    dev: false
+
+  /@codemirror/comment/0.18.1:
+    resolution: {integrity: sha512-Inhqs0F24WE28Fcp1dBZghwixBGv1HDwY9MjE0d5tpMY/IPGI6uT30fGyHAXrir6hUqk7eJRkO4UYnODGOnoIA==}
+    dependencies:
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/fold/0.18.1:
+    resolution: {integrity: sha512-vvMUgDeSmeVow7/75YoNTERxPsdnIBeEw1JL2YVpLyscsUlalqwuxdhiHDLT5zjAu6JvMoTC103mwqgAYwM9tA==}
+    dependencies:
+      '@codemirror/gutter': 0.18.4
+      '@codemirror/language': 0.18.2
+      '@codemirror/rangeset': 0.18.3
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/gutter/0.18.4:
+    resolution: {integrity: sha512-Sf2IWshMi9zwVVqpGmd2NRplY0qfrE2IiBEII9n2gB9M8hgIMg5GCyhdnsUDsOm0gcSut65W62vV7/DfYJHQCA==}
+    dependencies:
+      '@codemirror/rangeset': 0.18.3
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/highlight/0.18.4:
+    resolution: {integrity: sha512-3azJntqWrShOIq/0kVcdMc9k7ACL0LQErgK+A6aWXmCj5Mx0gShq+Iajy8AMQ2zB0v3nhCBgFaniL1LLD5m5hQ==}
+    dependencies:
+      '@codemirror/language': 0.18.2
+      '@codemirror/rangeset': 0.18.3
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+      lezer-tree: 0.13.2
+      style-mod: 4.0.0
+    dev: false
+
+  /@codemirror/history/0.18.1:
+    resolution: {integrity: sha512-Aad3p4zs6UYKCUMXYjh7cvPK0ajuL+rMib9yBZ61w81LLl6OkM31Xrn9J6CLJmPxCwP3OJFiqBmNSBQ05oIsTw==}
+    dependencies:
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/lang-css/0.18.0:
+    resolution: {integrity: sha512-kkU4Ug387eJoCTDDkMbXrcPBMiJ0lFWbvDaFHIuJtrMgDXJzSQ/ehx6Ife5PUBfuLU/x1JQUBdmXhW1TJzfHug==}
+    dependencies:
+      '@codemirror/autocomplete': 0.18.7
+      '@codemirror/highlight': 0.18.4
+      '@codemirror/language': 0.18.2
+      '@codemirror/state': 0.18.7
+      lezer-css: 0.13.1
+    dev: false
+
+  /@codemirror/lang-html/0.18.1:
+    resolution: {integrity: sha512-NF/QkSiGiDQGF99x/gcr1oybLQRqspQ+N8HH1SSihkKjmrQBOi7yZ4jUHAmmDEU43ujDqueGZfdqg0WhyOx2CA==}
+    dependencies:
+      '@codemirror/autocomplete': 0.18.7
+      '@codemirror/highlight': 0.18.4
+      '@codemirror/lang-css': 0.18.0
+      '@codemirror/lang-javascript': 0.18.0
+      '@codemirror/language': 0.18.2
+      '@codemirror/state': 0.18.7
+      lezer-html: 0.13.6
+      lezer-tree: 0.13.2
+    dev: false
+
+  /@codemirror/lang-javascript/0.18.0:
+    resolution: {integrity: sha512-4KOkwXED9v39c17pIWoy+WKrNAYaKnAR/RRF8QZIqpuYjnMwGTe7GxMKKdq7E557fGzCVr7m34Qy7Gkhr5B41g==}
+    dependencies:
+      '@codemirror/autocomplete': 0.18.7
+      '@codemirror/highlight': 0.18.4
+      '@codemirror/language': 0.18.2
+      '@codemirror/lint': 0.18.4
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+      lezer-javascript: 0.13.4
+    dev: false
+
+  /@codemirror/lang-markdown/0.18.4:
+    resolution: {integrity: sha512-2f9frJehGlcUjbaZ17Nmsukrob/wT371sxIlXq71RVlZSyt6D665LcKXWMqHmUdg11BeuMU/A7eRfmUed984pQ==}
+    dependencies:
+      '@codemirror/highlight': 0.18.4
+      '@codemirror/lang-html': 0.18.1
+      '@codemirror/language': 0.18.2
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+      lezer-markdown: 0.14.5
+      lezer-tree: 0.13.2
+    dev: false
+
+  /@codemirror/language/0.18.2:
+    resolution: {integrity: sha512-2Kz0Xyfvt1Ex2KfTUcYZ3IBxpnFCqHaJijwZknGBT7JXv9dwbOPs9SfPfL4oxVuDIHZx8JTPfoV3LTTJrm8M3Q==}
+    dependencies:
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      '@codemirror/view': 0.18.17
+      lezer: 0.13.5
+      lezer-tree: 0.13.2
+    dev: false
+
+  /@codemirror/lint/0.18.4:
+    resolution: {integrity: sha512-H77qYfZOmo1kKf0ZQagzk/JRGVhIpwP0hq1TSO6DFC1WLjW6gcsFJO5NDMS86enm0KX0w4/IkA7PItz2mjmHhQ==}
+    dependencies:
+      '@codemirror/panel': 0.18.2
+      '@codemirror/state': 0.18.7
+      '@codemirror/tooltip': 0.18.4
+      '@codemirror/view': 0.18.17
+      crelt: 1.0.5
+    dev: false
+
+  /@codemirror/matchbrackets/0.18.0:
+    resolution: {integrity: sha512-dPDopnZVkD54sSYdmQbyQbPdiuIA83p7XxX6Hp1ScEkOjukwCiFXiA/84x10FUTsQpUYp8bDzm7gwII119bGIw==}
+    dependencies:
+      '@codemirror/language': 0.18.2
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+      lezer-tree: 0.13.2
+    dev: false
+
+  /@codemirror/panel/0.18.2:
+    resolution: {integrity: sha512-ea/g2aAKtfmie1kD7C8GDutD/5u+uzRJr/varUiAbHKr1sAdjtz5xYvC3GBAMYMan1GOh0vD5zP1yEupJl3b3Q==}
+    dependencies:
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/rangeset/0.18.3:
+    resolution: {integrity: sha512-p6bPVr6Cw0yh/QSelsg0RoNaG4btuzZo7YMT+WFwZsjbr7+X0dVpd2vqLAHIeDUfvOzrEI/dXXPKLpZZgYeU+g==}
+    dependencies:
+      '@codemirror/state': 0.18.7
+    dev: false
+
+  /@codemirror/rectangular-selection/0.18.0:
+    resolution: {integrity: sha512-BQ4pp2zhXCVZNqct5LtLR3AOWVseENBF/3oOgBmwsCKH7c11NfTqIqgWG5EW8NLOXp8HP8cDm3np8eWez0VkGQ==}
+    dependencies:
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/search/0.18.4:
+    resolution: {integrity: sha512-3chVkMPzl+pTUSqtimTicebhti4SLpvkj03pQx2aPZScXxIiYuDk4cLdIJK9omjmO1+oycRKbOrqvG7iZJJwMg==}
+    dependencies:
+      '@codemirror/panel': 0.18.2
+      '@codemirror/rangeset': 0.18.3
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      '@codemirror/view': 0.18.17
+      crelt: 1.0.5
+    dev: false
+
+  /@codemirror/state/0.18.7:
+    resolution: {integrity: sha512-cVyTiAC9vv90NKmGOfNtBjyIem3BqKui1L5Hfcxurp8K9votQj2oH9COcgWPnQ2Xs64yC70tEuTt9DF1pj5PFQ==}
+    dependencies:
+      '@codemirror/text': 0.18.0
+    dev: false
+
+  /@codemirror/text/0.18.0:
+    resolution: {integrity: sha512-HMzHNIAbjCiCf3tEJMRg6ul01KPuXxQGNiHlHgAnqPguq/CX+L4Nvj5JlWQAI91Pupk18zhmM1c6eaazX4YeTg==}
+    dev: false
+
+  /@codemirror/tooltip/0.18.4:
+    resolution: {integrity: sha512-LDlDOSEfjoG24uapLN7exK3Z3JchYFKUwWqo1x/9YdlAkmD1ik7cMSQZboCquP1uJVcXhtbpKmaO6vENGVaarg==}
+    dependencies:
+      '@codemirror/state': 0.18.7
+      '@codemirror/view': 0.18.17
+    dev: false
+
+  /@codemirror/view/0.18.17:
+    resolution: {integrity: sha512-AneqrYFgQJFZY5CdIRvllaLWL7r966JZK64d05PrScYhhRT6y5iiq0VBO9nxX5Y2gbTXBdO1/eZdtJlhwa6hww==}
+    dependencies:
+      '@codemirror/rangeset': 0.18.3
+      '@codemirror/state': 0.18.7
+      '@codemirror/text': 0.18.0
+      style-mod: 4.0.0
+      w3c-keyname: 2.2.4
+    dev: false
 
   /@commitlint/cli/12.1.1:
     resolution: {integrity: sha512-SB67/s6VJ50seoPx/Sr2gj1fMzKrx+udgarecGdr8h43ah+M2e22gjQJ7xHv5KwyPQ+6ug1YOMCL34ubT4zupQ==}
@@ -2809,6 +3044,10 @@ packages:
       path-type: 4.0.0
       yaml: 1.10.2
     dev: true
+
+  /crelt/1.0.5:
+    resolution: {integrity: sha512-+BO9wPPi+DWTDcNYhr/W90myha8ptzftZT+LwcmUbbok0rcP/fequmFYCw8NMoH7pkAZQzU78b3kYrlua5a9eA==}
+    dev: false
 
   /cross-spawn/5.1.0:
     resolution: {integrity: sha1-6L0O/uWPz/b4+UUQoKVUu/ojVEk=}
@@ -4845,6 +5084,41 @@ packages:
       type-check: 0.4.0
     dev: true
 
+  /lezer-css/0.13.1:
+    resolution: {integrity: sha512-ke56tjG17IZ+EFiY50P2WinjhgZQB7OecRVZmYQbVuwv5iUdLemA4vLjaFsAbgoSg+4pfOms7Ns9nItoJcmFpg==}
+    dependencies:
+      lezer: 0.13.5
+    dev: false
+
+  /lezer-html/0.13.6:
+    resolution: {integrity: sha512-FY8ULPsyrbxSCre95hqU69ydCIbjRKoAwWSYbuBL7om6XmQ0C/M9PxV2NToWIgYGK5Yr5MzrsK/H7vsdJGpB2g==}
+    dependencies:
+      lezer: 0.13.5
+    dev: false
+
+  /lezer-javascript/0.13.4:
+    resolution: {integrity: sha512-nhRbeSwPZo2xVYq6TWyUhi/r9j0CFSUpkuA5J992Az2AYZFw2HnGVjixfP43DKufL+npJwSy0qcCcAHFQ2bFOQ==}
+    dependencies:
+      lezer: 0.13.5
+    dev: false
+
+  /lezer-markdown/0.14.5:
+    resolution: {integrity: sha512-Fk5cGiHk2gHB7HLBjcPHaXEtnYOO4GPwzmx1ApknrmiVldz8QsqmYqF7+TQA/PSFJx1g+ajjVOVHXQGp5rFlGg==}
+    dependencies:
+      lezer-html: 0.13.6
+      lezer-tree: 0.13.2
+    dev: false
+
+  /lezer-tree/0.13.2:
+    resolution: {integrity: sha512-15ZxW8TxVNAOkHIo43Iouv4zbSkQQ5chQHBpwXcD2bBFz46RB4jYLEEww5l1V0xyIx9U2clSyyrLes+hAUFrGQ==}
+    dev: false
+
+  /lezer/0.13.5:
+    resolution: {integrity: sha512-cAiMQZGUo2BD8mpcz7Nv1TlKzWP7YIdIRrX41CiP5bk5t4GHxskOxWUx2iAOuHlz8dO+ivbuXr0J1bfHsWD+lQ==}
+    dependencies:
+      lezer-tree: 0.13.2
+    dev: false
+
   /lines-and-columns/1.1.6:
     resolution: {integrity: sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=}
     dev: true
@@ -6563,6 +6837,10 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
     dev: true
+
+  /style-mod/4.0.0:
+    resolution: {integrity: sha512-OPhtyEjyyN9x3nhPsu76f52yUGXiZcgvsrFVtvTkyGRQJ0XK+GPc6ov1z+lRpbeabka+MYEQxOYRnt5nF30aMw==}
+    dev: false
 
   /sugarss/3.0.3:
     resolution: {integrity: sha512-uxa2bbuc+w7ov7DyYIhF6bM0qZF3UkFT5/nE8AJgboiVnKsBDbwxs++dehEIe1JNhpMaGJc37wGQ2QrrWey2Sg==}

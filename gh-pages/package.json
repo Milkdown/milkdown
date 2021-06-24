@@ -12,14 +12,16 @@
         "style"
     ],
     "dependencies": {
+        "@codemirror/basic-setup": "^0.18.2",
+        "@codemirror/lang-markdown": "^0.18.4",
         "@milkdown/core": "workspace:*",
-        "@milkdown/react": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/plugin-slash": "workspace:*",
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/react": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "prism-themes": "^1.7.0",
         "react": "^17.0.2",

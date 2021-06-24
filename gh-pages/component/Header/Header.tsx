@@ -10,12 +10,20 @@ type Props = {
     onToggle: () => void;
     editorMode: Mode;
     onEditorModeToggle: () => void;
+    isDarkMode: boolean;
+    setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const materialIcon = `${className.icon} material-icons-outlined`;
 
-export const Header: React.FC<Props> = ({ onToggle, scrolled, editorMode, onEditorModeToggle }) => {
-    const [isDarkMode, setIsDarkMode] = React.useState(false);
+export const Header: React.FC<Props> = ({
+    onToggle,
+    scrolled,
+    editorMode,
+    onEditorModeToggle,
+    isDarkMode,
+    setIsDarkMode,
+}) => {
     const [showToggle, setShowToggle] = React.useState(true);
     const [showEditorToggle, setShowEditorToggle] = React.useState(false);
     const [locationType] = useLocationType();

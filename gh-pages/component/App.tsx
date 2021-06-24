@@ -14,8 +14,9 @@ import { useLocationType, LocationType } from './hooks/useLocationType';
 
 const pages = pageRouter.flatMap((section) => section.items);
 
-export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMode: Mode }> = ({
+export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMode: Mode; isDarkMode: boolean }> = ({
     setScrolled,
+    isDarkMode,
     editorMode,
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -52,7 +53,7 @@ export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMo
                         <Home />
                     </Route>
                     <Route exact path="/online-demo">
-                        <Demo mode={editorMode} content={demo} />
+                        <Demo mode={editorMode} content={demo} isDarkMode={isDarkMode} />
                     </Route>
 
                     {pages.map((page, i) => (
@@ -71,6 +72,7 @@ export const App: React.FC = () => {
     const [displaySidebar, setDisplaySidebar] = React.useState(true);
     const [scrolled, setScrolled] = React.useState(false);
     const [editorMode, setEditorMode] = React.useState(Mode.Default);
+    const [isDarkMode, setIsDarkMode] = React.useState(false);
 
     return (
         <HashRouter>
@@ -78,6 +80,8 @@ export const App: React.FC = () => {
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
                 <div className={className.right}>
                     <Header
+                        isDarkMode={isDarkMode}
+                        setIsDarkMode={setIsDarkMode}
                         onEditorModeToggle={() =>
                             setEditorMode(editorMode === Mode.Default ? Mode.TwoSide : Mode.Default)
                         }
@@ -93,7 +97,7 @@ export const App: React.FC = () => {
                             }
                         }}
                     >
-                        <Main setScrolled={setScrolled} editorMode={editorMode} />
+                        <Main isDarkMode={isDarkMode} setScrolled={setScrolled} editorMode={editorMode} />
                     </main>
                 </div>
             </div>

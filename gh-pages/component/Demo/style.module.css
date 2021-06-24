@@ -3,7 +3,8 @@
     flex-direction: column;
     gap: 1.25rem;
 
-    & > textarea {
+    & > .code {
+        background: palette(surface);
         transition: all 0.2s ease-in;
         resize: none;
         border: none;
@@ -22,6 +23,10 @@
             outline: none;
             border: 1px solid palette(secondary);
         }
+
+        ::selection {
+            background: palette(secondary, 0.38) !important;
+        }
     }
 
     & > div {
@@ -33,18 +38,25 @@
     max-width: 72rem;
     margin: 0 auto;
 
-    & > textarea {
-        flex: 0 0 33.33%;
+    & > .code {
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 30rem;
         padding: 3.125rem 2rem;
         border: 1px solid transparent;
+        overflow: auto;
     }
 }
 
 @media only screen and (min-width: 67.5rem) {
     .container {
         flex-direction: row;
-        & > textarea {
+    }
+
+    .twoSide {
+        & > .code {
             margin: 1.25rem 0;
+            flex: 0 0 33.33%;
         }
     }
 }
