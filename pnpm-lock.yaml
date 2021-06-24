@@ -205,7 +205,7 @@ importers:
 
   packages/plugin-math:
     specifiers:
-      '@benrbray/prosemirror-math': ^0.2.0
+      '@benrbray/prosemirror-math': ^0.2.2
       '@milkdown/core': workspace:*
       '@traptitech/markdown-it-katex': ^3.4.0
       '@types/katex': ^0.11.0
@@ -213,7 +213,7 @@ importers:
       katex: ^0.13.2
       tslib: ^2.2.0
     dependencies:
-      '@benrbray/prosemirror-math': 0.2.0_katex@0.13.2
+      '@benrbray/prosemirror-math': 0.2.2_katex@0.13.2
       '@traptitech/markdown-it-katex': 3.4.0
       '@types/katex': 0.11.0
       katex: 0.13.2
@@ -967,8 +967,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@benrbray/prosemirror-math/0.2.0_katex@0.13.2:
-    resolution: {integrity: sha512-ZYCVmVp2zdUSJ8qYNyprrMHdkjSZFA7stT98sEQ6b1XF/fTbB+YRu77877HgvsbWl/BnyKvns7kIwxVFVnVYSw==}
+  /@benrbray/prosemirror-math/0.2.2_katex@0.13.2:
+    resolution: {integrity: sha512-n+V8MNKaQ9HtA1IASzoBFwthFY55kpu2I+0aF103AbqUw5eM8YlxHeltnLqjnYRVY4/a6A9t9YlBMBQOli5jgw==}
     peerDependencies:
       katex: ^0.13.0
       prosemirror-commands: ^1.1.7
