@@ -5,7 +5,7 @@
 
     & > .code {
         background: palette(surface);
-        transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in-out;
         resize: none;
         border: none;
         flex: 0 0 0;
@@ -26,6 +26,27 @@
 
         ::selection {
             background: palette(secondary, 0.38) !important;
+        }
+        -webkit-overflow-scrolling: touch;
+        &::-webkit-scrollbar {
+            padding: 0 2px;
+            width: 6px;
+            background: palette(surface);
+        }
+        &::-webkit-scrollbar-track {
+            width: 4px;
+            border-right: 2px solid palette(surface);
+            border-radius: 4px;
+            background: palette(secondary, 0.12);
+        }
+        &::-webkit-scrollbar-thumb {
+            width: 4px;
+            border-right: 2px solid palette(surface);
+            border-radius: 4px;
+            background: palette(secondary, 0.38);
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background: palette(secondary);
         }
     }
 
@@ -56,7 +77,7 @@
     .twoSide {
         & > .code {
             margin: 1.25rem 0;
-            flex: 0 0 33.33%;
+            flex: 0 0 40%;
         }
     }
 }
