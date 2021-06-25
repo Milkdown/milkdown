@@ -5,7 +5,7 @@
         border-radius: 4px;
         font-weight: 500;
         font-family: var(--font-code);
-        padding: 0.2rem;
+        padding: 0 0.2rem;
     }
 
     .code-fence {
