@@ -69,7 +69,7 @@ export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMo
 };
 
 export const App: React.FC = () => {
-    const [displaySidebar, setDisplaySidebar] = React.useState(true);
+    const [displaySidebar, setDisplaySidebar] = React.useState(false);
     const [scrolled, setScrolled] = React.useState(false);
     const [editorMode, setEditorMode] = React.useState(Mode.Default);
     const [isDarkMode, setIsDarkMode] = React.useState(false);
