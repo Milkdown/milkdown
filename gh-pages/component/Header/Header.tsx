@@ -61,7 +61,7 @@ export const Header: React.FC<Props> = ({
                 </div>
                 <div className={className.part}>
                     {showEditorToggle && (
-                        <span onClick={() => onEditorModeToggle()} className={materialIcon}>
+                        <span onClick={() => onEditorModeToggle()} className={[materialIcon, className.mode].join(' ')}>
                             {editorMode === Mode.Default ? 'chrome_reader_mode' : 'wysiwyg'}
                         </span>
                     )}

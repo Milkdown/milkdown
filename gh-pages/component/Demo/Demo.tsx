@@ -77,7 +77,11 @@ const CodeMirror = ({
         };
     }, [onChange, value, lock, dark]);
 
-    return <div className={className.code} ref={ref} />;
+    return (
+        <div className={className.code}>
+            <div ref={ref} />
+        </div>
+    );
 };
 
 export const Demo = ({ content, mode, isDarkMode }: DemoProps): JSX.Element => {
@@ -115,11 +119,13 @@ export const Demo = ({ content, mode, isDarkMode }: DemoProps): JSX.Element => {
 
     return (
         <div className={classes}>
-            <MilkdownEditor
-                key={'milkdown' + stateCountMilkdown.toString()}
-                content={defaultValueForMilkdown.current}
-                onChange={milkdownListener}
-            />
+            <div className={className.milk}>
+                <MilkdownEditor
+                    key={'milkdown' + stateCountMilkdown.toString()}
+                    content={defaultValueForMilkdown.current}
+                    onChange={milkdownListener}
+                />
+            </div>
             <CodeMirror
                 key={'code' + stateCountCode.toString()}
                 value={defaultValueForCode.current}

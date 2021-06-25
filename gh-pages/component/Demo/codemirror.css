@@ -9,3 +9,7 @@
 .cm-activeLineGutter {
     background: palette(background) !important;
 }
+
+.cm-content {
+    min-width: 0rem !important;
+}

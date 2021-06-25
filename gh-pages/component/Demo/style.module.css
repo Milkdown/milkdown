@@ -1,83 +1,80 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+    max-width: 72rem;
+    display: block;
+    margin: 0 auto;
+}
 
-    & > .code {
-        background: palette(surface);
-        transition: all 0.2s ease-in-out;
-        resize: none;
-        border: none;
-        flex: 0 0 0;
-        width: 0;
-        box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
-            0px 1px 3px palette(shadow, 0.2);
-        border-radius: 4px;
-        color: palette(neutral, 0.87);
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-        overflow: hidden;
-        padding: 0;
+.milk {
+    flex-grow: 1;
+    transition: flex 0.2s ease-in;
+}
 
-        &:focus-visible {
-            outline: none;
-            border: 1px solid palette(secondary);
-        }
+.code {
+    margin: 1.25rem 0;
+    background: palette(surface);
+    transition: flex-basis 0.2s ease-in;
+    resize: none;
+    border: none;
+    width: 0;
+    flex: 0;
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    border-radius: 4px;
+    color: palette(neutral, 0.87);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    overflow: hidden;
+    padding: 0;
 
-        ::selection {
-            background: palette(secondary, 0.38) !important;
-        }
-        -webkit-overflow-scrolling: touch;
-        &::-webkit-scrollbar {
-            padding: 0 2px;
-            width: 6px;
-            background: palette(surface);
-        }
-        &::-webkit-scrollbar-track {
-            width: 4px;
-            border-right: 2px solid palette(surface);
-            border-radius: 4px;
-            background: palette(secondary, 0.12);
-        }
-        &::-webkit-scrollbar-thumb {
-            width: 4px;
-            border-right: 2px solid palette(surface);
-            border-radius: 4px;
-            background: palette(secondary, 0.38);
-        }
-        &::-webkit-scrollbar-thumb:hover {
-            background: palette(secondary);
-        }
+    &:focus-visible {
+        outline: none;
+        border: 1px solid palette(secondary);
     }
 
-    & > div {
-        flex-grow: 1;
+    ::selection {
+        background: palette(secondary, 0.38) !important;
+    }
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+        padding: 0 2px;
+        width: 6px;
+        background: palette(surface);
+    }
+    &::-webkit-scrollbar-track {
+        width: 4px;
+        border-right: 2px solid palette(surface);
+        border-radius: 4px;
+        background: palette(secondary, 0.12);
+    }
+    &::-webkit-scrollbar-thumb {
+        width: 4px;
+        border-right: 2px solid palette(surface);
+        border-radius: 4px;
+        background: palette(secondary, 0.38);
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: palette(secondary);
     }
 }
 
 .twoSide {
-    max-width: 72rem;
-    margin: 0 auto;
-
-    & > .code {
-        width: 100%;
+    gap: 1.25rem;
+    .code {
+        width: unset;
         box-sizing: border-box;
         min-height: 30rem;
         padding: 3.125rem 2rem;
         border: 1px solid transparent;
         overflow: auto;
+        flex: 0 0 40%;
+        transition: flex-basis 0.2s ease-in;
     }
 }
 
 @media only screen and (min-width: 67.5rem) {
     .container {
+        display: flex;
         flex-direction: row;
-    }
-
-    .twoSide {
-        & > .code {
-            margin: 1.25rem 0;
-            flex: 0 0 40%;
-        }
+        justify-content: center;
+        width: calc(100vw - 10rem);
     }
 }
