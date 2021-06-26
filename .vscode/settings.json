@@ -16,6 +16,7 @@
         "textblock",
         "textbox",
         "traptitech",
+        "unist",
         "vite"
     ],
     "editor.formatOnSave": true,

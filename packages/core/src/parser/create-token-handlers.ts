@@ -35,14 +35,14 @@ export function createTokenHandlers(schema: Schema, specMap: Record<string, Pars
             if (!markType) throw new Error();
             if (spec.isAtom) {
                 handlers[spec.mark] = (state, tok, tokens, i) => {
-                    state.stack.openMark(markType.create(attrs(spec, tok, tokens, i)));
+                    state.stack.openMark(markType, attrs(spec, tok, tokens, i));
                     state.addText(tok.content);
                     state.stack.closeMark(markType);
                 };
                 return;
             }
             handlers[spec.mark + '_open'] = (state, tok, tokens, i) =>
-                state.stack.openMark(markType.create(attrs(spec, tok, tokens, i)));
+                state.stack.openMark(markType, attrs(spec, tok, tokens, i));
             handlers[spec.mark + '_close'] = (state) => state.stack.closeMark(markType);
             return;
         }

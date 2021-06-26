@@ -1,7 +1,6 @@
-import type { Attrs } from './types';
 import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
-
 import { maybeMerge } from '../utility/prosemirror';
+import type { Attrs } from './types';
 
 type StackElement = {
     type: NodeType;
@@ -10,71 +9,85 @@ type StackElement = {
 };
 
 export class Stack {
-    public readonly els: StackElement[];
     #marks: Mark[];
 
-    constructor(nodeType: NodeType) {
-        this.els = [{ type: nodeType, content: [] }];
+    readonly #els: StackElement[];
+
+    constructor(rootNodeType: NodeType) {
+        this.#els = [{ type: rootNodeType, content: [] }];
         this.#marks = Mark.none;
     }
 
-    #top() {
-        const { els } = this;
-        return els[els.length - 1];
+    get length() {
+        return this.#els.length;
     }
 
-    #pushInTopEl(el: Node) {
+    // get element at top position in current stack
+    #top = () => {
+        return this.#els[this.length - 1];
+    };
+
+    #pushInTopEl(el: Node): void {
         this.#top()?.content.push(el);
     }
 
-    get length() {
-        return this.els.length;
+    buildDoc(): Node {
+        let doc: Node | null = null;
+        do {
+            doc = this.closeNode();
+        } while (this.length);
+
+        return doc;
     }
 
-    openMark(mark: Mark) {
+    openMark(markType: MarkType, attrs?: Attrs): void {
+        const mark = markType.create(attrs);
+
         this.#marks = mark.addToSet(this.#marks);
     }
 
-    closeMark(mark: MarkType) {
-        this.#marks = mark.removeFromSet(this.#marks);
+    closeMark(markType: MarkType): void {
+        this.#marks = markType.removeFromSet(this.#marks);
     }
 
-    addText(createTextNode: (marks: Mark[]) => Node) {
+    addText(createTextNode: (marks: Mark[]) => Node): void {
         const top = this.#top();
         if (!top) throw new Error();
 
         const nodes = top.content;
-        const last = nodes[nodes.length - 1];
-        const node = createTextNode(this.#marks);
+        const previousNode = nodes[nodes.length - 1];
+        const currentNode = createTextNode(this.#marks);
 
-        const merged = last && maybeMerge(last, node);
-        if (merged) {
-            nodes[nodes.length - 1] = merged;
-            return;
+        if (previousNode) {
+            const merged = maybeMerge(previousNode, currentNode);
+            if (merged) {
+                nodes[nodes.length - 1] = merged;
+                return;
+            }
         }
 
-        nodes.push(node);
+        nodes.push(currentNode);
     }
 
-    openNode(nodeType: NodeType, attrs?: Attrs) {
-        this.els.push({ type: nodeType, attrs, content: [] });
+    openNode(nodeType: NodeType, attrs?: Attrs): void {
+        this.#els.push({ type: nodeType, attrs, content: [] });
     }
 
-    addNode(nodeType: NodeType, attrs?: Attrs, content?: Node[]) {
+    addNode(nodeType: NodeType, attrs?: Attrs, content?: Node[]): Node {
         const node = nodeType.createAndFill(attrs, content, this.#marks);
 
-        if (!node) return null;
-
+        if (!node) throw new Error();
         this.#pushInTopEl(node);
+
         return node;
     }
 
-    closeNode() {
+    closeNode(): Node {
         if (this.#marks.length) this.#marks = Mark.none;
 
-        const info = this.els.pop();
-        if (!info) throw new Error();
+        const node = this.#els.pop();
+        if (!node) throw new Error();
 
-        return this.addNode(info.type, info.attrs, info.content);
+        return this.addNode(node.type, node.attrs, node.content);
     }
 }
