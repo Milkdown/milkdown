@@ -76,6 +76,6 @@
         "prosemirror-view": "^1.18.2",
         "ts-jest": "^26.5.4",
         "typescript": "^4.3.2",
-        "vite": "^2.2.2"
+        "vite": "^2.3.8"
     }
 }

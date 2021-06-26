@@ -1,5 +1,5 @@
 import type Token from 'markdown-it/lib/token';
-import type { Node, Schema } from 'prosemirror-model';
+import type { Schema } from 'prosemirror-model';
 import type { TokenHandler } from './types';
 import type { Stack } from './stack';
 
@@ -26,11 +26,6 @@ export class State {
 
     transformTokensToDoc(tokens: Token[]) {
         this.parseTokens(tokens);
-        let doc: Node | null = null;
-        do {
-            doc = this.stack.closeNode();
-        } while (this.stack.length);
-
-        return doc;
+        return this.stack.build();
     }
 }

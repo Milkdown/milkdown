@@ -1,5 +1,5 @@
 import type { MarkType, NodeType, Mark, Node } from 'prosemirror-model';
-import { Stack } from './stack';
+import { createStack, Stack } from './stack';
 import type { AnyRecord } from '../utility';
 import type { Attrs } from './types';
 
@@ -57,7 +57,7 @@ describe('Parser/Stack', () => {
     let stack: Stack;
 
     beforeEach(() => {
-        stack = new Stack(rootNodeType);
+        stack = createStack(rootNodeType);
     });
 
     it('add to top node', () => {
@@ -66,7 +66,7 @@ describe('Parser/Stack', () => {
         const childNode = stack.addNode(childNodeType);
         expect(childNode.type.name).toBe('child');
 
-        const doc = stack.buildDoc();
+        const doc = stack.build();
         expect(doc.type.name).toEqual('root');
         expect(doc.content).toEqual([childNode]);
     });
@@ -81,7 +81,7 @@ describe('Parser/Stack', () => {
         const middleNode = stack.closeNode();
         expect(middleNode.content).toEqual([childNode]);
 
-        const doc = stack.buildDoc();
+        const doc = stack.build();
         expect(doc.content).toEqual([middleNode]);
     });
 
@@ -92,7 +92,7 @@ describe('Parser/Stack', () => {
         const strongMarkType = createMockMarkType('strong');
         stack.openMark(strongMarkType);
         stack.addText(createText('foo'));
-        const doc = stack.buildDoc();
+        const doc = stack.build();
 
         const children: Node[] = doc.content as unknown as Node[];
         expect(children[0].type.name).toEqual('child');
@@ -109,7 +109,7 @@ describe('Parser/Stack', () => {
         stack.openMark(strongMarkType);
         stack.addText(createText('foo'));
         stack.addText(createText('bar'));
-        const doc = stack.buildDoc();
+        const doc = stack.build();
 
         const firstChild: Node = (doc.content as unknown as Node[])[0];
         expect(firstChild.type.name).toEqual('child');
