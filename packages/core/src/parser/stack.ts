@@ -2,39 +2,42 @@ import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
 import { maybeMerge } from '../utility/prosemirror';
 import type { Attrs } from './types';
 
-class StackElement {
-    constructor(public type: NodeType, public content: Node[], public attrs?: Attrs) {}
+type StackElement = {
+    type: NodeType;
+    content: Node[];
+    attrs?: Attrs;
+};
 
-    static create(type: NodeType, content: Node[], attrs?: Attrs) {
-        return new this(type, content, attrs);
-    }
+const createElement = (type: NodeType, content: Node[], attrs?: Attrs): StackElement => ({
+    type,
+    content,
+    attrs,
+});
 
-    get length(): number {
-        return this.content.length;
-    }
+const pushElement = (element: StackElement, node: Node, ...rest: Node[]) => {
+    element.content.push(node, ...rest);
+};
 
-    push(node: Node, ...rest: Node[]): void {
-        this.content.push(node, ...rest);
-    }
-
-    pop(): Node | undefined {
-        return this.content.pop();
-    }
-}
+const popElement = (element: StackElement): Node | undefined => element.content.pop();
 
 type Ctx = {
     marks: Mark[];
-    readonly elementStack: StackElement[];
+    readonly elements: StackElement[];
 };
 
-const size = (ctx: Ctx): number => ctx.elementStack.length;
+const size = (ctx: Ctx): number => ctx.elements.length;
 
-const top = (ctx: Ctx): StackElement | undefined => ctx.elementStack[size(ctx) - 1];
+const top = (ctx: Ctx): StackElement | undefined => ctx.elements[size(ctx) - 1];
 
-const push = (ctx: Ctx) => (node: Node) => top(ctx)?.push(node);
+const push = (ctx: Ctx) => (node: Node) => {
+    const element = top(ctx);
+    if (element) {
+        pushElement(element, node);
+    }
+};
 
 const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) =>
-    ctx.elementStack.push(StackElement.create(nodeType, [], attrs));
+    ctx.elements.push(createElement(nodeType, [], attrs));
 
 const addNode =
     (ctx: Ctx) =>
@@ -50,7 +53,7 @@ const addNode =
 
 const closeNode = (ctx: Ctx) => () => {
     ctx.marks = Mark.none;
-    const element = ctx.elementStack.pop();
+    const element = ctx.elements.pop();
 
     if (!element) throw new Error();
 
@@ -71,20 +74,20 @@ const addText = (ctx: Ctx) => (createTextNode: (marks: Mark[]) => Node) => {
     const topElement = top(ctx);
     if (!topElement) throw new Error();
 
-    const prevNode = topElement.pop();
+    const prevNode = popElement(topElement);
     const currNode = createTextNode(ctx.marks);
 
     if (!prevNode) {
-        topElement.push(currNode);
+        pushElement(topElement, currNode);
         return;
     }
 
     const merged = maybeMerge(prevNode, currNode);
     if (merged) {
-        topElement.push(merged);
+        pushElement(topElement, merged);
         return;
     }
-    topElement.push(prevNode, currNode);
+    pushElement(topElement, prevNode, currNode);
 };
 
 const build = (ctx: Ctx) => () => {
@@ -97,10 +100,10 @@ const build = (ctx: Ctx) => () => {
 };
 
 export const createStack = (rootNodeType: NodeType) => {
-    const topNode = StackElement.create(rootNodeType, []);
+    const topNode = createElement(rootNodeType, []);
     const ctx: Ctx = {
         marks: [],
-        elementStack: [topNode],
+        elements: [topNode],
     };
 
     return {
