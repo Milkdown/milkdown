@@ -1,21 +1,38 @@
-import type Token from 'markdown-it/lib/token';
-import type { Schema } from 'prosemirror-model';
-import type { TokenHandler } from './types';
+import type { Schema, NodeType, MarkType } from 'prosemirror-model';
 import type { Stack } from './stack';
+import remark from 'remark';
+import type { Node as MarkdownNode } from 'unist';
+import { SpecMap, Value } from '.';
 
 export class State {
-    constructor(
-        public readonly stack: Stack,
-        private readonly schema: Schema,
-        private readonly tokenHandlers: Record<string, TokenHandler>,
-    ) {}
+    constructor(public readonly stack: Stack, public readonly schema: Schema, private readonly specMap: SpecMap) {}
 
-    parseTokens(tokens: Token[]) {
-        tokens.forEach((token, i) => {
-            const handler = this.tokenHandlers[token.type];
-            if (!handler) throw new Error('Token type `' + token.type + '` not supported by Markdown parser');
-            handler(this, token, tokens, i);
-        });
+    #matchTarget(node: MarkdownNode): Value & { key: string } {
+        const result = Object.entries(this.specMap)
+            .map(([key, spec]) => ({
+                key,
+                ...spec,
+            }))
+            .find((x) => x.match(node));
+
+        if (!result) throw new Error();
+
+        return result;
+    }
+
+    #runNode(node: MarkdownNode) {
+        const { key, runner, is } = this.#matchTarget(node);
+
+        const proseType: NodeType | MarkType = this.schema[is === 'node' ? 'nodes' : 'marks'][key];
+        runner(proseType as NodeType & MarkType, this, node);
+    }
+
+    runParser(markdown: string) {
+        const tree = remark().parse(markdown);
+
+        this.next(tree);
+
+        return this;
     }
 
     addText(text: string) {
@@ -24,8 +41,15 @@ export class State {
         this.stack.addText((marks) => this.schema.text(text, marks));
     }
 
-    transformTokensToDoc(tokens: Token[]) {
-        this.parseTokens(tokens);
+    toDoc() {
         return this.stack.build();
+    }
+
+    next(nodes: MarkdownNode | MarkdownNode[] = []) {
+        if (Array.isArray(nodes)) {
+            nodes.forEach((node) => this.#runNode(node));
+            return;
+        }
+        this.#runNode(nodes);
     }
 }

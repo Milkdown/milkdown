@@ -1,30 +1,17 @@
-import type Token from 'markdown-it/lib/token';
+import type { NodeType, MarkType } from 'prosemirror-model';
 import type { State } from './state';
-
-export type TokenHandler = (state: State, currentToken: Token, tokens: Token[], index: number) => void;
+import type { Node } from 'unist';
 
 export type Attrs = Record<string, string | number | boolean | null>;
 
-type ParserSpecFactory<T> = {
-    getAttrs?: (currentToken: Token, tokens: Token[], index: number) => Attrs;
-    attrs?: Attrs;
-    isAtom?: boolean;
-} & T;
-
-export type ParserSpecBlock = ParserSpecFactory<{
-    block: string;
-}>;
-
-export type ParserSpecNode = ParserSpecFactory<{
-    node: string;
-}>;
-
-export type ParserSpecMark = ParserSpecFactory<{
-    mark: string;
-}>;
-
-export type ParserSpecIgnore = ParserSpecFactory<{
-    ignore: string;
-}>;
-
-export type ParserSpec = ParserSpecBlock | ParserSpecNode | ParserSpecMark | ParserSpecIgnore;
+export type Runner<T extends NodeType | MarkType = NodeType | MarkType> = (
+    proseType: T,
+    state: State,
+    Node: Node & { children?: Node[] },
+) => void;
+export type ParserSpec<T extends NodeType | MarkType = NodeType | MarkType> = {
+    match: (node: Node) => boolean;
+    runner: Runner<T>;
+};
+export type NodeParserSpec = ParserSpec<NodeType>;
+export type MarkParserSpec = ParserSpec<MarkType>;

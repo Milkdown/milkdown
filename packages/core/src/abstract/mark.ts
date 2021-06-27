@@ -1,7 +1,7 @@
 import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
-import type { ParserSpec } from '../parser/types';
+import type { MarkParserSpec } from '../parser';
 import type { SerializerMark } from '../serializer/types';
 
 import { Atom } from './atom';
@@ -21,7 +21,7 @@ export abstract class Mark<Options = AnyRecord> extends Atom<LoadState.Idle, Opt
 
     abstract readonly schema: MarkSpec;
     abstract readonly serializer: SerializerMark;
-    abstract readonly parser: ParserSpec;
+    abstract readonly parser: MarkParserSpec;
 
     override readonly loadAfter = LoadState.Idle;
     override main() {

@@ -12,9 +12,8 @@ export class SchemaLoader extends Atom<LoadState.LoadSchema> {
 
         const schema = new Schema({
             nodes: {
-                doc: { content: 'block+' },
                 ...nodes,
-                text: { group: 'inline' },
+                // text: { group: 'inline' },
             },
             marks,
         });

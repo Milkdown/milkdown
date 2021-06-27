@@ -1,14 +1,16 @@
-import type MarkdownIt from 'markdown-it';
 import type { Schema } from 'prosemirror-model';
-import type { ParserSpec } from './types';
+import type { MarkParserSpec, NodeParserSpec } from './types';
 import { State } from './state';
 import { createStack } from './stack';
-import { createTokenHandlers } from './create-token-handlers';
 
-export function createParser(schema: Schema, tokenizer: MarkdownIt, specMap: Record<string, ParserSpec>) {
+export type Value = (NodeParserSpec & { is: 'node' }) | (MarkParserSpec & { is: 'mark' });
+export type SpecMap = Record<string, Value>;
+
+export function createParser(schema: Schema, specMap: SpecMap) {
     return (text: string) => {
-        const state = new State(createStack(schema.topNodeType), schema, createTokenHandlers(schema, specMap));
-        return state.transformTokensToDoc(tokenizer.parse(text, {}));
+        const state = new State(createStack(), schema, specMap);
+        state.runParser(text);
+        return state.toDoc();
     };
 }
 

@@ -1,5 +1,5 @@
 import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
-import { ParserSpec, SerializerNode, LoadState, CompleteContext } from '@milkdown/core';
+import { SerializerNode, LoadState, CompleteContext, NodeParserSpec } from '@milkdown/core';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Keymap } from 'prosemirror-commands';
@@ -67,10 +67,15 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
             ];
         },
     };
-    override readonly parser: ParserSpec = {
-        block: this.id,
-        getAttrs: (tok) => ({ language: tok.info }),
-        isAtom: true,
+    override readonly parser: NodeParserSpec = {
+        match: ({ type }) => type === 'code',
+        runner: (type, state, node) => {
+            const lang = node.lang as string;
+            const value = node.value as string;
+            state.stack.openNode(type, { language: lang });
+            state.addText(value);
+            state.stack.closeNode();
+        },
     };
     override readonly serializer: SerializerNode = (state, node) => {
         state.write('```' + node.attrs.language + '\n');

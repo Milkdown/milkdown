@@ -1,7 +1,7 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
-import { SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, SerializerNode } from '@milkdown/core';
 import { CommonNode } from '../utility/base';
 
 export class TabIndent extends CommonNode {
@@ -13,8 +13,11 @@ export class TabIndent extends CommonNode {
         parseDOM: [{ tag: `span[class='tab-indent']` }],
         toDOM: (node) => ['span', { class: this.getClassName(node.attrs, 'tab-indent') }, '  '],
     };
-    override readonly parser = {
-        block: this.id,
+    override readonly parser: NodeParserSpec = {
+        match: ({ type }) => type === 'tab',
+        runner: (type, state) => {
+            state.stack.addNode(type);
+        },
     };
     override readonly serializer: SerializerNode = (state) => {
         state.write('  ');

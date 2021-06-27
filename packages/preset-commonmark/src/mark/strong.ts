@@ -1,4 +1,4 @@
-import { SerializerMark } from '@milkdown/core';
+import { MarkParserSpec, SerializerMark } from '@milkdown/core';
 import type { Keymap } from 'prosemirror-commands';
 import { toggleMark } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
@@ -15,8 +15,13 @@ export class Strong extends CommonMark {
         ],
         toDOM: (mark) => ['strong', { class: this.getClassName(mark.attrs) }],
     };
-    override readonly parser = {
-        mark: this.id,
+    override readonly parser: MarkParserSpec = {
+        match: (node) => node.type === 'strong',
+        runner: (markType, state, node) => {
+            state.stack.openMark(markType);
+            state.next(node.children);
+            state.stack.closeMark(markType);
+        },
     };
     override readonly serializer: SerializerMark = {
         open: '**',

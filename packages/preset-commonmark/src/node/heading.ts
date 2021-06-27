@@ -1,5 +1,5 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { ParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, SerializerNode } from '@milkdown/core';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { CommonNode } from '../utility/base';
 
@@ -24,9 +24,14 @@ export class Heading extends CommonNode {
             0,
         ],
     };
-    parser: ParserSpec = {
-        block: this.id,
-        getAttrs: (tok) => ({ level: Number(tok.tag.slice(1)) }),
+    override readonly parser: NodeParserSpec = {
+        match: ({ type }) => type === this.id,
+        runner: (type, state, node) => {
+            const depth = node.depth as number;
+            state.stack.openNode(type, { level: depth });
+            state.next(node.children);
+            state.stack.closeNode();
+        },
     };
     serializer: SerializerNode = (state, node) => {
         state.write(`${state.utils.repeat('#', node.attrs.level)} `);

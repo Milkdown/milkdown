@@ -1,6 +1,6 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
+import type { NodeParserSpec, SerializerNode } from '@milkdown/core';
 
-import { SerializerNode } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 import { CommonNode } from '../utility';
 
@@ -11,9 +11,11 @@ export class Hr extends CommonNode {
         parseDOM: [{ tag: 'hr' }],
         toDOM: (node) => ['hr', { class: this.getClassName(node.attrs) }],
     };
-    override readonly parser = {
-        block: this.id,
-        isAtom: true,
+    override readonly parser: NodeParserSpec = {
+        match: ({ type }) => type === 'thematicBreak',
+        runner: (type, state) => {
+            state.stack.addNode(type);
+        },
     };
     override readonly serializer: SerializerNode = (state, node) => {
         state.write('---');

@@ -1,6 +1,6 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 
-import { ParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, SerializerNode } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 import { CommonNode } from '../utility';
 
@@ -43,13 +43,20 @@ export class Image extends CommonNode {
             ];
         },
     };
-    override readonly parser: ParserSpec = {
-        node: 'image',
-        getAttrs: (token) => ({
-            src: token.attrGet('src') || '',
-            alt: token.children?.[0]?.content || null,
-            title: token.attrGet('title'),
-        }),
+    override readonly parser: NodeParserSpec = {
+        match: ({ type }) => type === this.id,
+        runner: (type, state, node) => {
+            const url = node.url as string;
+            const alt = node.alt as string;
+            const title = node.title as string;
+            state.stack.openNode(type, {
+                src: url,
+                alt,
+                title,
+            });
+            state.next(node.children);
+            state.stack.closeNode();
+        },
     };
     override readonly serializer: SerializerNode = (state, node) => {
         const alt = state.utils.escape(node.attrs.alt || '');

@@ -1,5 +1,5 @@
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
-import { SerializerMark, ParserSpec } from '@milkdown/core';
+import { SerializerMark, MarkParserSpec } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 import { CommonMark } from '../utility';
 
@@ -24,12 +24,15 @@ export class Link extends CommonMark {
         ],
         toDOM: (mark) => ['a', { ...mark.attrs, class: this.getClassName(mark.attrs) }],
     };
-    override readonly parser: ParserSpec = {
-        mark: 'link',
-        getAttrs: (tok) => ({
-            href: tok.attrGet('href'),
-            title: tok.attrGet('title') || null,
-        }),
+    override readonly parser: MarkParserSpec = {
+        match: (node) => node.type === 'link',
+        runner: (markType, state, node) => {
+            const url = node.url as string;
+            const title = node.title as string;
+            state.stack.openMark(markType, { href: url, title });
+            state.next(node.children);
+            state.stack.closeMark(markType);
+        },
     };
     override readonly serializer: SerializerMark = {
         open: () => '[',

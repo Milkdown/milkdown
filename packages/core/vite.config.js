@@ -1,8 +1,8 @@
 export default {
     root: 'app',
     optimizeDeps: {
-        include: ['@milkdown/preset-commonmark'],
         exclude: [
+            '@milkdown/preset-commonmark',
             'prosemirror-model',
             'prosemirror-view',
             'prosemirror-state',

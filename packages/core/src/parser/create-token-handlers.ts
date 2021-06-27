@@ -1,3 +1,4 @@
+/*
 import type { Schema } from 'prosemirror-model';
 import type { ParserSpec, TokenHandler } from './types';
 
@@ -59,3 +60,5 @@ export function createTokenHandlers(schema: Schema, specMap: Record<string, Pars
 
     return handlers;
 }
+
+*/

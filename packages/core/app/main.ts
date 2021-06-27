@@ -22,10 +22,6 @@ There should be a line break before this.
 
 Your *[link is here](https://bing.com "bing")*, have a look.
 
-![Alt text][id]
-
-[id]: https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1  "The Cat"
-
 ## Lists
 
 * list item 1

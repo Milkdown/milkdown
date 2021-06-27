@@ -1,24 +1,7 @@
 import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
 import { maybeMerge } from '../utility/prosemirror';
+import { createElement, StackElement } from './stack-element';
 import type { Attrs } from './types';
-
-type StackElement = {
-    type: NodeType;
-    content: Node[];
-    attrs?: Attrs;
-};
-
-const createElement = (type: NodeType, content: Node[], attrs?: Attrs): StackElement => ({
-    type,
-    content,
-    attrs,
-});
-
-const pushElement = (element: StackElement, node: Node, ...rest: Node[]) => {
-    element.content.push(node, ...rest);
-};
-
-const popElement = (element: StackElement): Node | undefined => element.content.pop();
 
 type Ctx = {
     marks: Mark[];
@@ -29,15 +12,11 @@ const size = (ctx: Ctx): number => ctx.elements.length;
 
 const top = (ctx: Ctx): StackElement | undefined => ctx.elements[size(ctx) - 1];
 
-const push = (ctx: Ctx) => (node: Node) => {
-    const element = top(ctx);
-    if (element) {
-        pushElement(element, node);
-    }
-};
+const push = (ctx: Ctx) => (node: Node) => top(ctx)?.push(node);
 
-const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) =>
-    ctx.elements.push(createElement(nodeType, [], attrs));
+const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) => {
+    return ctx.elements.push(createElement(nodeType, [], attrs));
+};
 
 const addNode =
     (ctx: Ctx) =>
@@ -51,7 +30,7 @@ const addNode =
         return node;
     };
 
-const closeNode = (ctx: Ctx) => () => {
+const closeNode = (ctx: Ctx) => (): Node => {
     ctx.marks = Mark.none;
     const element = ctx.elements.pop();
 
@@ -60,35 +39,41 @@ const closeNode = (ctx: Ctx) => () => {
     return addNode(ctx)(element.type, element.attrs, element.content);
 };
 
-const openMark = (ctx: Ctx) => (markType: MarkType, attrs?: Attrs) => {
-    const mark = markType.create(attrs);
+const openMark =
+    (ctx: Ctx) =>
+    (markType: MarkType, attrs?: Attrs): void => {
+        const mark = markType.create(attrs);
 
-    ctx.marks = mark.addToSet(ctx.marks);
-};
+        ctx.marks = mark.addToSet(ctx.marks);
+    };
 
-const closeMark = (ctx: Ctx) => (markType: MarkType) => {
-    ctx.marks = markType.removeFromSet(ctx.marks);
-};
+const closeMark =
+    (ctx: Ctx) =>
+    (markType: MarkType): void => {
+        ctx.marks = markType.removeFromSet(ctx.marks);
+    };
 
-const addText = (ctx: Ctx) => (createTextNode: (marks: Mark[]) => Node) => {
-    const topElement = top(ctx);
-    if (!topElement) throw new Error();
+const addText =
+    (ctx: Ctx) =>
+    (createTextNode: (marks: Mark[]) => Node): void => {
+        const topElement = top(ctx);
+        if (!topElement) throw new Error();
 
-    const prevNode = popElement(topElement);
-    const currNode = createTextNode(ctx.marks);
+        const prevNode = topElement.pop();
+        const currNode = createTextNode(ctx.marks);
 
-    if (!prevNode) {
-        pushElement(topElement, currNode);
-        return;
-    }
+        if (!prevNode) {
+            topElement.push(currNode);
+            return;
+        }
 
-    const merged = maybeMerge(prevNode, currNode);
-    if (merged) {
-        pushElement(topElement, merged);
-        return;
-    }
-    pushElement(topElement, prevNode, currNode);
-};
+        const merged = maybeMerge(prevNode, currNode);
+        if (merged) {
+            topElement.push(merged);
+            return;
+        }
+        topElement.push(prevNode, currNode);
+    };
 
 const build = (ctx: Ctx) => () => {
     let doc: Node | null = null;
@@ -99,11 +84,10 @@ const build = (ctx: Ctx) => () => {
     return doc;
 };
 
-export const createStack = (rootNodeType: NodeType) => {
-    const topNode = createElement(rootNodeType, []);
+export const createStack = () => {
     const ctx: Ctx = {
         marks: [],
-        elements: [topNode],
+        elements: [],
     };
 
     return {
