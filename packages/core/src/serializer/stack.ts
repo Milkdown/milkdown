@@ -1,6 +1,6 @@
+import { Mark } from 'prosemirror-model';
 import { Node as MarkdownNode } from 'unist';
-import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
-import { maybeMerge } from '../utility/prosemirror';
+
 import { createElement, StackElement } from './stack-element';
 import { AnyRecord } from '../utility';
 
@@ -47,7 +47,6 @@ const addNode =
     };
 
 const closeNode = (ctx: Ctx) => (): MarkdownNode => {
-    ctx.marks = Mark.none;
     const element = ctx.elements.pop();
 
     if (!element) throw new Error();
@@ -55,8 +54,27 @@ const closeNode = (ctx: Ctx) => (): MarkdownNode => {
     return addNode(ctx)(element.type, element.children, element.value, element.props);
 };
 
+const openMark =
+    (ctx: Ctx) =>
+    (mark: Mark, type: string, value?: string, props?: AnyRecord): void => {
+        const isIn = mark.isInSet(ctx.marks);
+
+        if (isIn) {
+            return;
+        }
+        ctx.marks = mark.addToSet(ctx.marks);
+        openNode(ctx)(type, value, props);
+    };
+
+const closeMark =
+    (ctx: Ctx) =>
+    (mark: Mark): MarkdownNode => {
+        ctx.marks = mark.type.removeFromSet(ctx.marks);
+        return closeNode(ctx)();
+    };
+
 const build = (ctx: Ctx) => () => {
-    let doc: Node | null = null;
+    let doc: MarkdownNode | null = null;
     do {
         doc = closeNode(ctx)();
     } while (size(ctx));
@@ -77,6 +95,7 @@ export const createStack = () => {
         openNode: openNode(ctx),
         addNode: addNode(ctx),
         closeNode: closeNode(ctx),
+        top: () => top(ctx),
     };
 };
 

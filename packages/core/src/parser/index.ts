@@ -6,7 +6,7 @@ import { createStack } from './stack';
 export function createParser(schema: Schema, specMap: InnerParserSpecMap) {
     return (text: string) => {
         const state = new State(createStack(), schema, specMap);
-        state.runParser(text);
+        state.run(text);
         return state.toDoc();
     };
 }

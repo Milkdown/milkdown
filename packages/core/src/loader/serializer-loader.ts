@@ -24,7 +24,7 @@ export class SerializerLoader extends Atom<LoadState.SchemaReady> {
             child.id,
             { ...child.serializer, is: child.is },
         ]) as InnerSerializerSpecMap;
-        const serializer = createSerializer(spec);
+        const serializer = createSerializer(this.context.schema, spec);
         this.updateContext({ serializer });
     }
 }
