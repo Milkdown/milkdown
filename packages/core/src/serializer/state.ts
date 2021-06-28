@@ -1,27 +1,43 @@
-import type { Mark, Node } from 'prosemirror-model';
+import type { Mark as ProseMark, Node as ProseNode, Schema } from 'prosemirror-model';
 import { hasText } from '../utility/prosemirror';
-import type { MarkMap, NodeMap } from './types';
+import type { InnerSerializerSpecMap, SerializerSpec, SerializerSpecWithType } from './types';
 
 import { Utility } from './utility';
 
 export class State {
     #out = '';
     #delimitation = '';
-    #toBeClosed: false | Node = false;
-    #nodes: NodeMap;
-    #marks: MarkMap;
+    #toBeClosed: false | ProseNode = false;
+    #specMap: InnerSerializerSpecMap;
     public utils = Utility;
 
-    constructor(nodes: NodeMap, marks: MarkMap) {
-        this.#nodes = nodes;
-        this.#marks = marks;
+    constructor(public readonly schema: Schema, specMap: InnerSerializerSpecMap) {
+        this.#specMap = specMap;
+    }
+
+    #matchTarget(node: ProseMark | ProseNode): SerializerSpecWithType & { key: string } {
+        const result = Object.entries(this.#specMap)
+            .map(([key, spec]) => ({
+                key,
+                ...spec,
+            }))
+            .find((x) => x.match(node as ProseMark & ProseNode));
+
+        if (!result) throw new Error();
+
+        return result;
+    }
+
+    #runNode(node: ProseMark | ProseNode) {
+        const { runner } = this.#matchTarget(node);
+        runner(node as ProseNode & ProseMark, this);
     }
 
     get output() {
         return this.#out;
     }
 
-    exec(doc: Node) {
+    exec(doc: ProseNode) {
         return this.renderContent(doc);
     }
 
@@ -31,8 +47,8 @@ export class State {
      * @param parent The parent of the contents to be rendered.
      * @returns State instance.
      */
-    renderContent(parent: Node) {
-        parent.forEach((node: Node, _: unknown, i: number) => this.#render(node, parent, i));
+    renderContent(parent: ProseNode) {
+        parent.forEach((node: ProseNode, _: unknown, i: number) => this.#render(node, parent, i));
 
         return this;
     }
@@ -54,7 +70,7 @@ export class State {
      * @param node A given node.
      * @returns State instance.
      */
-    closeBlock(node: Node) {
+    closeBlock(node: ProseNode) {
         this.#toBeClosed = node;
 
         return this;
@@ -110,7 +126,7 @@ export class State {
      * @param firstDelimitation Prefix of the first line.
      * @returns State instance.
      */
-    wrapBlock(delimitation: string, node: Node, f: () => void, firstDelimitation = delimitation) {
+    wrapBlock(delimitation: string, node: ProseNode, f: () => void, firstDelimitation = delimitation) {
         this.write(firstDelimitation);
 
         const old = this.#delimitation;
@@ -130,8 +146,8 @@ export class State {
      * @param parent The parent of the contents to be rendered.
      * @returns State instance.
      */
-    renderInline(parent: Node) {
-        let marksNotClosed: Mark[] = [];
+    renderInline(parent: ProseNode) {
+        let marksNotClosed: ProseMark[] = [];
 
         const cleanUp = () => {
             const clearMarks = this.#serializeMarks(marksNotClosed, parent, parent.childCount + 1);
@@ -145,7 +161,7 @@ export class State {
                 return;
             }
 
-            const marks: Mark[] = node.marks || [];
+            const marks: ProseMark[] = node.marks || [];
             // Find marks not closed and not exists in current node
             const marksToBeClosed = marksNotClosed
                 .filter((mark) => !marks.includes(mark))
@@ -180,7 +196,7 @@ export class State {
      * @param delimitation The prefix for each content.
      * @param getFirstDelimitation The first line prefix for each content.
      */
-    renderList(parent: Node, delimitation: string, getFirstDelimitation: (index: number) => string) {
+    renderList(parent: ProseNode, delimitation: string, getFirstDelimitation: (index: number) => string) {
         if (this.#toBeClosed && this.#toBeClosed.type === parent.type) {
             this.#flushClose(2);
         }
@@ -195,7 +211,7 @@ export class State {
         return emptyOrNewline.test(this.#out);
     }
 
-    #serializeMarks(marks: Mark[], parent: Node, index: number, isOpen = false) {
+    #serializeMarks(marks: ProseMark[], parent: ProseNode, index: number, isOpen = false) {
         return marks.map((mark) => this.#markString(mark, parent, index, isOpen)).join('');
     }
 
@@ -211,32 +227,32 @@ export class State {
         return this;
     }
 
-    #markString(mark: Mark, parent: Node, index: number, isOpen = false) {
+    #markString(mark: ProseMark, parent: ProseNode, index: number, isOpen = false) {
         const markInfo = this.#getMark(mark);
         const value = isOpen ? markInfo.open : markInfo.close;
         return typeof value === 'string' ? value : value(this, mark, parent, index);
     }
 
-    #render(node: Node, parent: Node, index: number) {
+    #render(node: ProseNode, parent: ProseNode, index: number) {
         const renderer = this.#getNode(node);
         renderer(this, node, parent, index);
     }
 
     #compareMarkPriority(desc = false) {
-        return (l: Mark, r: Mark) => {
+        return (l: ProseMark, r: ProseMark) => {
             const pL = this.#getMark(l)?.priority ?? 0;
             const pR = this.#getMark(r)?.priority ?? 0;
             return desc ? pL - pR : pR - pL;
         };
     }
 
-    #getMark(mark: Mark) {
+    #getMark(mark: ProseMark) {
         const markInfo = this.#marks[mark.type.name];
         if (!markInfo) throw new Error(`Fail to get mark ${mark.type.name} from mark map.`);
         return markInfo;
     }
 
-    #getNode(node: Node) {
+    #getNode(node: ProseNode) {
         const nodeInfo = this.#nodes[node.type.name];
         if (!nodeInfo) throw new Error(`Fail to get node ${node.type.name} from node map.`);
         return nodeInfo;

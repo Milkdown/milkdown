@@ -4,17 +4,17 @@ import type { Node } from 'unist';
 
 export type Attrs = Record<string, string | number | boolean | null>;
 
-export type Runner<T extends NodeType | MarkType = NodeType | MarkType> = (
+export type ParserRunner<T extends NodeType | MarkType = NodeType | MarkType> = (
     proseType: T,
     state: State,
     Node: Node & { children?: Node[] },
 ) => void;
 export type ParserSpec<T extends NodeType | MarkType = NodeType | MarkType> = {
     match: (node: Node) => boolean;
-    runner: Runner<T>;
+    runner: ParserRunner<T>;
 };
 export type NodeParserSpec = ParserSpec<NodeType>;
 export type MarkParserSpec = ParserSpec<MarkType>;
 
-export type SpecWithType = (NodeParserSpec & { is: 'node' }) | (MarkParserSpec & { is: 'mark' });
-export type InnerSpecMap = Record<string, SpecWithType>;
+export type ParserSpecWithType = (NodeParserSpec & { is: 'node' }) | (MarkParserSpec & { is: 'mark' });
+export type InnerParserSpecMap = Record<string, ParserSpecWithType>;

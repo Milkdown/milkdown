@@ -2,7 +2,7 @@ import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
 import type { MarkParserSpec } from '../parser';
-import type { SerializerMark } from '../serializer/types';
+import type { MarkSerializerSpec } from '../serializer';
 
 import { Atom } from './atom';
 import { LoadState } from '../constant';
@@ -20,7 +20,7 @@ export abstract class Mark<Options = AnyRecord> extends Atom<LoadState.Idle, Opt
     inputRules?: MarkOptional['inputRules'];
 
     abstract readonly schema: MarkSpec;
-    abstract readonly serializer: SerializerMark;
+    abstract readonly serializer: MarkSerializerSpec;
     abstract readonly parser: MarkParserSpec;
 
     override readonly loadAfter = LoadState.Idle;

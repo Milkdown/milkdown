@@ -1,11 +1,11 @@
 import type { Node } from 'prosemirror-model';
-import type { MarkMap, NodeMap } from './types';
+import type { InnerSerializerSpecMap } from './types';
 
 import { State } from './state';
 
-export function createSerializer(nodes: NodeMap, marks: MarkMap) {
+export function createSerializer(specMap: InnerSerializerSpecMap) {
     return (content: Node) => {
-        const state = new State(nodes, marks);
+        const state = new State(specMap);
         state.exec(content);
         return state.output;
     };

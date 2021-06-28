@@ -2,16 +2,16 @@ import type { Schema, NodeType, MarkType } from 'prosemirror-model';
 import type { Stack } from './stack';
 import remark from 'remark';
 import type { Node as MarkdownNode } from 'unist';
-import { Attrs, InnerSpecMap, SpecWithType } from '.';
+import { Attrs, InnerParserSpecMap, ParserSpecWithType } from '.';
 
 export class State {
     constructor(
         private readonly stack: Stack,
         public readonly schema: Schema,
-        private readonly specMap: InnerSpecMap,
+        private readonly specMap: InnerParserSpecMap,
     ) {}
 
-    #matchTarget(node: MarkdownNode): SpecWithType & { key: string } {
+    #matchTarget(node: MarkdownNode): ParserSpecWithType & { key: string } {
         const result = Object.entries(this.specMap)
             .map(([key, spec]) => ({
                 key,

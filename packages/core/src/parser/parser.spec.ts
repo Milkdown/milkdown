@@ -2,7 +2,7 @@ import remark from 'remark';
 import { parse } from './parser';
 import { Node } from 'unist';
 
-const markdown = `*my* paragraph`;
+const markdown = `***my* QAQ** paragraph`;
 
 test('Parser/Test', () => {
     const node: Node = parse(markdown);
@@ -22,7 +22,8 @@ test('Parser/Test', () => {
 
     const nextNode = omitPosition(node);
 
-    console.log(nextNode);
+    // console.log(nextNode);
+    console.log(JSON.stringify(nextNode, null, 4));
 
     console.log(remark.stringify(nextNode));
     // console.log((node.children as Node[])[0]);
