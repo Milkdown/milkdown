@@ -14,9 +14,8 @@ const top = (ctx: Ctx): StackElement | undefined => ctx.elements[size(ctx) - 1];
 
 const push = (ctx: Ctx) => (node: Node) => top(ctx)?.push(node);
 
-const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) => {
-    return ctx.elements.push(createElement(nodeType, [], attrs));
-};
+const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) =>
+    ctx.elements.push(createElement(nodeType, [], attrs));
 
 const addNode =
     (ctx: Ctx) =>

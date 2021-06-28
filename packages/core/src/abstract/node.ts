@@ -1,7 +1,6 @@
 import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { Schema, NodeSpec, NodeType } from 'prosemirror-model';
-// import type { ParserSpec } from '../parser/types';
 import type { SerializerNode } from '../serializer/types';
 
 import { Atom } from './atom';
@@ -11,8 +10,8 @@ import { NodeParserSpec } from '../parser';
 
 interface NodeOptional {
     readonly view?: NodeViewFactory;
-    keymap?(nodeType: NodeType): Keymap;
-    inputRules?(nodeType: NodeType, schema: Schema): InputRule[];
+    readonly keymap?: (nodeType: NodeType) => Keymap;
+    readonly inputRules?: (nodeType: NodeType, schema: Schema) => InputRule[];
 }
 
 export abstract class Node<Options = AnyRecord> extends Atom<LoadState.Idle, Options> implements NodeOptional {

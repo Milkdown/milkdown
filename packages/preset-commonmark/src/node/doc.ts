@@ -10,8 +10,7 @@ export class Doc extends CommonNode {
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === 'root',
         runner: (type, state, node) => {
-            state.stack.openNode(type);
-            state.next(node.children);
+            state.injectRoot(type, node);
         },
     };
     override readonly serializer: SerializerNode = (state, node) => {

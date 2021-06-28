@@ -15,3 +15,6 @@ export type ParserSpec<T extends NodeType | MarkType = NodeType | MarkType> = {
 };
 export type NodeParserSpec = ParserSpec<NodeType>;
 export type MarkParserSpec = ParserSpec<MarkType>;
+
+export type SpecWithType = (NodeParserSpec & { is: 'node' }) | (MarkParserSpec & { is: 'mark' });
+export type InnerSpecMap = Record<string, SpecWithType>;

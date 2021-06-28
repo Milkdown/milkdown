@@ -10,8 +10,8 @@ import { AnyRecord, MarkViewFactory } from '../utility';
 
 interface MarkOptional {
     readonly view?: MarkViewFactory;
-    keymap?(markType: MarkType): Keymap;
-    inputRules?(markType: MarkType, schema: Schema): InputRule[];
+    readonly keymap?: (markType: MarkType) => Keymap;
+    readonly inputRules?: (markType: MarkType, schema: Schema) => InputRule[];
 }
 
 export abstract class Mark<Options = AnyRecord> extends Atom<LoadState.Idle, Options> implements MarkOptional {

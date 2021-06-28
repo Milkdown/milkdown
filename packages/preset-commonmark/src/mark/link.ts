@@ -29,9 +29,9 @@ export class Link extends CommonMark {
         runner: (markType, state, node) => {
             const url = node.url as string;
             const title = node.title as string;
-            state.stack.openMark(markType, { href: url, title });
+            state.openMark(markType, { href: url, title });
             state.next(node.children);
-            state.stack.closeMark(markType);
+            state.closeMark(markType);
         },
     };
     override readonly serializer: SerializerMark = {

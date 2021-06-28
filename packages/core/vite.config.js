@@ -1,8 +1,7 @@
 export default {
     root: 'app',
     optimizeDeps: {
-        exclude: [
-            '@milkdown/preset-commonmark',
+        include: [
             'prosemirror-model',
             'prosemirror-view',
             'prosemirror-state',
@@ -10,5 +9,6 @@ export default {
             'prosemirror-inputrules',
             'prosemirror-keymap',
         ],
+        exclude: ['@milkdown/preset-commonmark'],
     },
 };

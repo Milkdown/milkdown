@@ -15,7 +15,7 @@ export class HardBreak extends CommonNode {
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === 'break',
         runner: (type, state) => {
-            state.stack.addNode(type);
+            state.addNode(type);
         },
     };
     override readonly serializer: SerializerNode = (state) => {

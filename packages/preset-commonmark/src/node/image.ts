@@ -49,13 +49,13 @@ export class Image extends CommonNode {
             const url = node.url as string;
             const alt = node.alt as string;
             const title = node.title as string;
-            state.stack.openNode(type, {
+            state.openNode(type, {
                 src: url,
                 alt,
                 title,
             });
             state.next(node.children);
-            state.stack.closeNode();
+            state.closeNode();
         },
     };
     override readonly serializer: SerializerNode = (state, node) => {

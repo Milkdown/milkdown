@@ -14,9 +14,9 @@ export class CodeInline extends CommonMark {
     override readonly parser: MarkParserSpec = {
         match: (node) => node.type === 'inlineCode',
         runner: (markType, state, node) => {
-            state.stack.openMark(markType);
+            state.openMark(markType);
             state.addText(node.value as string);
-            state.stack.closeMark(markType);
+            state.closeMark(markType);
         },
     };
     override readonly serializer: SerializerMark = {

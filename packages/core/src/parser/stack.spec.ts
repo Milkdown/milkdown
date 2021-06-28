@@ -57,7 +57,8 @@ describe('Parser/Stack', () => {
     let stack: Stack;
 
     beforeEach(() => {
-        stack = createStack(rootNodeType);
+        stack = createStack();
+        stack.openNode(rootNodeType);
     });
 
     it('add to top node', () => {

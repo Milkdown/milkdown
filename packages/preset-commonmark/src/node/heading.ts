@@ -28,9 +28,9 @@ export class Heading extends CommonNode {
         match: ({ type }) => type === this.id,
         runner: (type, state, node) => {
             const depth = node.depth as number;
-            state.stack.openNode(type, { level: depth });
+            state.openNode(type, { level: depth });
             state.next(node.children);
-            state.stack.closeNode();
+            state.closeNode();
         },
     };
     serializer: SerializerNode = (state, node) => {

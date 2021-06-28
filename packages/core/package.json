@@ -9,7 +9,7 @@
         "watch": "tsc -w",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "tsc"
+        "build": "tsc --project tsconfig.build.json"
     },
     "files": [
         "lib"

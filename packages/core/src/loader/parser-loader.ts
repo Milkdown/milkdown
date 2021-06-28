@@ -1,6 +1,6 @@
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
-import { createParser, SpecMap } from '../parser';
+import { createParser, InnerSpecMap } from '../parser';
 import { buildObject } from '../utility';
 
 export class ParserLoader extends Atom<LoadState.SchemaReady> {
@@ -11,10 +11,10 @@ export class ParserLoader extends Atom<LoadState.SchemaReady> {
             ...this.context.nodes.map((node) => ({ ...node, is: 'node' })),
             ...this.context.marks.map((node) => ({ ...node, is: 'mark' })),
         ];
-        const spec: SpecMap = buildObject(children, (child) => [
+        const spec: InnerSpecMap = buildObject(children, (child) => [
             child.id,
             { ...child.parser, is: child.is },
-        ]) as SpecMap;
+        ]) as InnerSpecMap;
         const parser = createParser(this.context.schema, spec);
         this.updateContext({ parser });
     }

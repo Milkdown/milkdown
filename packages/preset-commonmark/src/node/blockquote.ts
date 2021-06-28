@@ -16,9 +16,9 @@ export class Blockquote extends CommonNode {
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === this.id,
         runner: (type, state, node) => {
-            state.stack.openNode(type);
+            state.openNode(type);
             state.next(node.children);
-            state.stack.closeNode();
+            state.closeNode();
         },
     };
     override readonly serializer: SerializerNode = (state, node) => {

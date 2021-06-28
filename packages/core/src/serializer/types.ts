@@ -1,10 +1,10 @@
-import type { Mark, Node } from 'prosemirror-model';
+import type { Mark as ProseMark, Node as ProseNode } from 'prosemirror-model';
 import type { State } from './state';
 
 export type NodeMap = Record<string, SerializerNode>;
 export type MarkMap = Record<string, SerializerMark>;
 
-export type SerializerNode = (state: State, node: Node, parent: Node, index: number) => void;
+export type SerializerNode = (state: State, node: ProseNode, parent: ProseNode, index: number) => void;
 
 export type SerializerMark = {
     open: MarkFactory | string;
@@ -12,4 +12,8 @@ export type SerializerMark = {
     priority?: number;
 };
 
-type MarkFactory = (state: State, mark: Mark, parent: Node, index: number) => string;
+type MarkFactory = (state: State, mark: ProseMark, parent: ProseNode, index: number) => string;
+
+export type NodeSerializerSpec = {
+    match: (node: ProseNode) => boolean;
+};

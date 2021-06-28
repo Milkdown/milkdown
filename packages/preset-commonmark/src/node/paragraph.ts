@@ -13,13 +13,13 @@ export class Paragraph extends CommonNode {
     override readonly parser: NodeParserSpec = {
         match: (node) => node.type === this.id,
         runner: (type, state, node) => {
-            state.stack.openNode(type);
+            state.openNode(type);
             if (node.children) {
                 state.next(node.children);
             } else {
                 state.addText(node.value as string);
             }
-            state.stack.closeNode();
+            state.closeNode();
         },
     };
     override readonly serializer: SerializerNode = (state, node) => {

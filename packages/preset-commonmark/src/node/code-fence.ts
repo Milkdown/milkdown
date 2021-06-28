@@ -72,9 +72,9 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
         runner: (type, state, node) => {
             const lang = node.lang as string;
             const value = node.value as string;
-            state.stack.openNode(type, { language: lang });
+            state.openNode(type, { language: lang });
             state.addText(value);
-            state.stack.closeNode();
+            state.closeNode();
         },
     };
     override readonly serializer: SerializerNode = (state, node) => {

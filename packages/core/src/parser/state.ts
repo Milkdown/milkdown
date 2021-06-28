@@ -2,12 +2,16 @@ import type { Schema, NodeType, MarkType } from 'prosemirror-model';
 import type { Stack } from './stack';
 import remark from 'remark';
 import type { Node as MarkdownNode } from 'unist';
-import { SpecMap, Value } from '.';
+import { Attrs, InnerSpecMap, SpecWithType } from '.';
 
 export class State {
-    constructor(public readonly stack: Stack, public readonly schema: Schema, private readonly specMap: SpecMap) {}
+    constructor(
+        private readonly stack: Stack,
+        public readonly schema: Schema,
+        private readonly specMap: InnerSpecMap,
+    ) {}
 
-    #matchTarget(node: MarkdownNode): Value & { key: string } {
+    #matchTarget(node: MarkdownNode): SpecWithType & { key: string } {
         const result = Object.entries(this.specMap)
             .map(([key, spec]) => ({
                 key,
@@ -35,21 +39,30 @@ export class State {
         return this;
     }
 
-    addText(text: string) {
-        if (!text) return;
+    injectRoot = (nodeType: NodeType, node: MarkdownNode, attrs?: Attrs) => {
+        this.stack.openNode(nodeType, attrs);
+        this.next(node.children as MarkdownNode[]);
+    };
 
-        this.stack.addText((marks) => this.schema.text(text, marks));
-    }
+    addText = (text = '') => this.stack.addText((marks) => this.schema.text(text, marks));
 
-    toDoc() {
-        return this.stack.build();
-    }
+    addNode = this.stack.addNode;
 
-    next(nodes: MarkdownNode | MarkdownNode[] = []) {
+    openNode = this.stack.openNode;
+
+    closeNode = this.stack.closeNode;
+
+    openMark = this.stack.openMark;
+
+    closeMark = this.stack.closeMark;
+
+    toDoc = () => this.stack.build();
+
+    next = (nodes: MarkdownNode | MarkdownNode[] = []) => {
         if (Array.isArray(nodes)) {
             nodes.forEach((node) => this.#runNode(node));
             return;
         }
         this.#runNode(nodes);
-    }
+    };
 }
