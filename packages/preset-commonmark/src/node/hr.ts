@@ -1,5 +1,5 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import type { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 
 import { InputRule } from 'prosemirror-inputrules';
 import { CommonNode } from '../utility';
@@ -17,9 +17,11 @@ export class Hr extends CommonNode {
             state.addNode(type);
         },
     };
-    override readonly serializer: SerializerNode = (state, node) => {
-        state.write('---');
-        state.closeBlock(node);
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (_, state) => {
+            state.addNode('thematicBreak');
+        },
     };
     override readonly inputRules = (nodeType: NodeType) => [
         new InputRule(/^(?:---|___\s|\*\*\*\s)$/, (state, match, start, end) => {

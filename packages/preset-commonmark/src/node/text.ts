@@ -1,5 +1,5 @@
 import type { NodeSpec } from 'prosemirror-model';
-import { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { CommonNode } from '../utility/base';
 
 export class Text extends CommonNode {
@@ -13,7 +13,10 @@ export class Text extends CommonNode {
             state.addText(node.value as string);
         },
     };
-    override readonly serializer: SerializerNode = (state, node) => {
-        state.renderInline(node).closeBlock(node);
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === 'text',
+        runner: (node, state) => {
+            state.addNode('text', undefined, node.text as string);
+        },
     };
 }

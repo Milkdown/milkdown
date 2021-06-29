@@ -1,7 +1,7 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
-import { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { CommonNode } from '../utility/base';
 
 export class TabIndent extends CommonNode {
@@ -19,8 +19,11 @@ export class TabIndent extends CommonNode {
             state.addNode(type);
         },
     };
-    override readonly serializer: SerializerNode = (state) => {
-        state.write('  ');
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (_, state) => {
+            state.addNode('tab');
+        },
     };
     override readonly keymap = (nodeType: NodeType): Keymap => ({
         Tab: (state: EditorState, dispatch) => {

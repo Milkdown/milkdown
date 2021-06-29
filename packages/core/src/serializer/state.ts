@@ -34,6 +34,7 @@ export class State {
         const { marks } = node;
         marks.forEach((mark) => this.#runProse(mark));
         this.#runProse(node);
+        marks.forEach((mark) => this.stack.closeMark(mark));
     }
 
     run(tree: ProseNode) {
@@ -60,7 +61,5 @@ export class State {
 
     toString = (): string => remark().stringify(this.stack.build());
 
-    openMark: Stack['openMark'] = this.stack.openMark;
-
-    closeMark: Stack['closeMark'] = this.stack.closeMark;
+    withMark: Stack['openMark'] = this.stack.openMark;
 }

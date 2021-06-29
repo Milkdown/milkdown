@@ -1,7 +1,7 @@
 import type { NodeType, NodeSpec } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
-import { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { CommonNode } from '../utility';
 
 export class ListItem extends CommonNode {
@@ -20,8 +20,13 @@ export class ListItem extends CommonNode {
             state.closeNode();
         },
     };
-    override readonly serializer: SerializerNode = (state, node) => {
-        state.renderContent(node);
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('listItem', undefined);
+            state.next(node.content);
+            state.closeNode();
+        },
     };
     override readonly keymap = (type: NodeType): Keymap => ({
         Enter: splitListItem(type),

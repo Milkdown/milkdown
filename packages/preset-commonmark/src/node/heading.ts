@@ -1,5 +1,5 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { CommonNode } from '../utility/base';
 
@@ -33,10 +33,13 @@ export class Heading extends CommonNode {
             state.closeNode();
         },
     };
-    serializer: SerializerNode = (state, node) => {
-        state.write(`${state.utils.repeat('#', node.attrs.level)} `);
-        state.renderInline(node);
-        state.closeBlock(node);
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('heading', undefined, { depth: node.attrs.level });
+            state.next(node.content);
+            state.closeNode();
+        },
     };
     override inputRules = (nodeType: NodeType) =>
         headingIndex.map((x) =>

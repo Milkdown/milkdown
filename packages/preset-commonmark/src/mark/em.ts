@@ -2,7 +2,7 @@ import type { MarkSpec, MarkType } from 'prosemirror-model';
 import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import { toggleMark } from 'prosemirror-commands';
-import { MarkParserSpec, SerializerMark } from '@milkdown/core';
+import { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
 import { CommonMark, markRule } from '../utility';
 
 export class Em extends CommonMark {
@@ -23,9 +23,11 @@ export class Em extends CommonMark {
             state.closeMark(markType);
         },
     };
-    override readonly serializer: SerializerMark = {
-        open: '*',
-        close: '*',
+    override readonly serializer: MarkSerializerSpec = {
+        match: (mark) => mark.type.name === this.id,
+        runner: (mark, state) => {
+            state.withMark(mark, 'emphasis');
+        },
     };
     override readonly inputRules = (markType: MarkType): InputRule[] => [
         markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),

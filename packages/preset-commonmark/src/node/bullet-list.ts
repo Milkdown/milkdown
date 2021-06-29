@@ -1,5 +1,5 @@
 import type { NodeType, NodeSpec } from 'prosemirror-model';
-import { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { CommonNode } from '../utility';
 
@@ -21,8 +21,13 @@ export class BulletList extends CommonNode {
             state.closeNode();
         },
     };
-    override readonly serializer: SerializerNode = (state, node) => {
-        state.renderList(node, '  ', () => '* ');
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('list', undefined, { ordered: false });
+            state.next(node.content);
+            state.closeNode();
+        },
     };
     override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)];
 }

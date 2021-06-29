@@ -1,5 +1,5 @@
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
-import { SerializerMark, MarkParserSpec } from '@milkdown/core';
+import { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 import { CommonMark } from '../utility';
 
@@ -34,15 +34,14 @@ export class Link extends CommonMark {
             state.closeMark(markType);
         },
     };
-    override readonly serializer: SerializerMark = {
-        open: () => '[',
-        close: (state, mark) => {
-            const link = state.utils.escape(mark.attrs.href);
-            const title = mark.attrs.title ? ` ${state.utils.quote(mark.attrs.title)}` : '';
-
-            return `](${link}${title})`;
+    override readonly serializer: MarkSerializerSpec = {
+        match: (mark) => mark.type.name === this.id,
+        runner: (mark, state) => {
+            state.withMark(mark, 'link', undefined, {
+                title: mark.attrs.title,
+                url: mark.attrs.href,
+            });
         },
-        priority: 1,
     };
     override readonly inputRules = (markType: MarkType, schema: Schema) => [
         new InputRule(/\[(?<text>.+?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {

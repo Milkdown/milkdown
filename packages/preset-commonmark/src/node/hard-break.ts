@@ -1,6 +1,6 @@
 import type { Keymap } from 'prosemirror-commands';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { CommonNode } from '../utility';
 
 export class HardBreak extends CommonNode {
@@ -18,8 +18,11 @@ export class HardBreak extends CommonNode {
             state.addNode(type);
         },
     };
-    override readonly serializer: SerializerNode = (state) => {
-        state.write('  \n');
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (_, state) => {
+            state.addNode('break');
+        },
     };
     override readonly keymap = (nodeType: NodeType): Keymap => ({
         'Shift-Enter': (state, dispatch) => {

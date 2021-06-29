@@ -2,7 +2,10 @@ import remark from 'remark';
 import { parse } from './parser';
 import { Node } from 'unist';
 
-const markdown = `***my* QAQ** paragraph`;
+const markdown = `#h1
+
+next
+`;
 
 test('Parser/Test', () => {
     const node: Node = parse(markdown);

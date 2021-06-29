@@ -53,6 +53,7 @@ new Editor({
     root: app,
     defaultValue: markdown,
     listener: {
+        doc: [(x) => console.log(x)],
         markdown: [(x) => console.log(x())],
     },
 })

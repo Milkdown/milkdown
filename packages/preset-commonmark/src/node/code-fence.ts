@@ -1,5 +1,5 @@
 import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
-import { SerializerNode, LoadState, CompleteContext, NodeParserSpec } from '@milkdown/core';
+import { LoadState, CompleteContext, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Keymap } from 'prosemirror-commands';
@@ -77,12 +77,11 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
             state.closeNode();
         },
     };
-    override readonly serializer: SerializerNode = (state, node) => {
-        state.write('```' + node.attrs.language + '\n');
-        state.text(node.textContent);
-        state.ensureNewLine();
-        state.write('```');
-        state.closeBlock(node);
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: node.attrs.language });
+        },
     };
 
     override readonly inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];

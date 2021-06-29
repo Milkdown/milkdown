@@ -1,5 +1,5 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { NodeParserSpec, SerializerNode } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { CommonNode } from '../utility';
@@ -21,8 +21,13 @@ export class Blockquote extends CommonNode {
             state.closeNode();
         },
     };
-    override readonly serializer: SerializerNode = (state, node) => {
-        state.wrapBlock('> ', node, () => state.renderContent(node));
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('blockquote');
+            state.next(node.content);
+            state.closeNode();
+        },
     };
     override readonly inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
 }

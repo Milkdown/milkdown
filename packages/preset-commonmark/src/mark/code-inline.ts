@@ -1,5 +1,5 @@
 import type { MarkSpec, MarkType } from 'prosemirror-model';
-import { MarkParserSpec, SerializerMark } from '@milkdown/core';
+import { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
 import type { InputRule } from 'prosemirror-inputrules';
 
 import { CommonMark, markRule } from '../utility';
@@ -19,9 +19,11 @@ export class CodeInline extends CommonMark {
             state.closeMark(markType);
         },
     };
-    override readonly serializer: SerializerMark = {
-        open: '`',
-        close: '`',
+    override readonly serializer: MarkSerializerSpec = {
+        match: (mark) => mark.type.name === this.id,
+        runner: (mark, state) => {
+            state.withMark(mark, 'emphasis');
+        },
     };
     override readonly inputRules = (markType: MarkType): InputRule[] => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
 }
