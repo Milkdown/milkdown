@@ -3,8 +3,9 @@
     "compilerOptions": {
         "baseUrl": ".",
         "outDir": "lib",
-        "jsx": "preserve",
+        "jsx": "react",
         "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
         "types": ["vue", "@milkdown/core"],
         "lib": ["dom", "es2020"]
     },

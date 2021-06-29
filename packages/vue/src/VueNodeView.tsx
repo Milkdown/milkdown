@@ -1,5 +1,5 @@
 import type { Editor, NodeViewFactory } from '@milkdown/core';
-import { defineComponent, DefineComponent, Teleport } from 'vue';
+import { defineComponent, DefineComponent, Teleport, h } from 'vue';
 import { getId } from '@milkdown/utils';
 import type { Node } from 'prosemirror-model';
 import type { Decoration, EditorView, NodeView } from 'prosemirror-view';

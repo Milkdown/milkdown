@@ -15,6 +15,7 @@ module.exports = {
     rules: {
         'import/prefer-default-export': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
     },
     settings: {
         react: {

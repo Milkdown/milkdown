@@ -10,6 +10,8 @@ import {
     inject,
     shallowReactive,
     markRaw,
+    h,
+    Fragment,
 } from 'vue';
 import { PortalPair, Portals } from './Portals';
 import { createVueView } from './VueNodeView';

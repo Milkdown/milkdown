@@ -1,4 +1,4 @@
-import { provide, defineComponent, watchEffect, ref } from 'vue';
+import { provide, defineComponent, watchEffect, ref, h, Fragment } from 'vue';
 
 import { Editor } from '@milkdown/core';
 import { Node } from 'prosemirror-model';

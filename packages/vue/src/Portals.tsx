@@ -1,4 +1,4 @@
-import { defineComponent, DefineComponent, ref, watch, shallowRef, nextTick } from 'vue';
+import { defineComponent, DefineComponent, ref, watch, shallowRef, nextTick, h, Fragment } from 'vue';
 export type PortalPair = [key: string, component: DefineComponent];
 
 const getId = (pairs: PortalPair[]) => pairs.map((p) => p[0]).join('\n');
