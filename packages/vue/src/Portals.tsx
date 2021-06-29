@@ -6,7 +6,7 @@ const getId = (pairs: PortalPair[]) => pairs.map((p) => p[0]).join('\n');
 export const Portals = defineComponent((props: { portals: PortalPair[] }) => {
     const portalComponents = shallowRef<Array<DefineComponent>>([]);
     const prev = ref<string>('');
-    const renderList = shallowRef<() => JSX.Element[] | null>(() => null);
+    const renderList = shallowRef<() => JSX.Element[]>(() => []);
 
     watch(
         () => getId(props.portals),
