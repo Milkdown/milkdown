@@ -1,5 +1,11 @@
 # @milkdown/vue
 
+## 4.3.2
+
+### Patch Changes
+
+-   4700f95: Fix vue build issue.
+
 ## 4.3.1
 
 ### Patch Changes
