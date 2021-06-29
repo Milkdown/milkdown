@@ -1,5 +1,11 @@
 # @milkdown/vue
 
+## 4.3.3
+
+### Patch Changes
+
+-   02d6917: Fix runtime vue issue.
+
 ## 4.3.2
 
 ### Patch Changes
