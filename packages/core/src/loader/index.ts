@@ -7,5 +7,4 @@ export * from './node-views-loader';
 export * from './view-loader';
 
 export * from './prosemirror-plugin-loader';
-export * from './markdown-it-plugin-loader';
-export * from './markdown-it-rule-loader';
+export * from './remark-plugin-loader';

@@ -1,4 +1,6 @@
-import type MarkdownIt from 'markdown-it';
+// import type MarkdownIt from 'markdown-it';
+import type { Processor } from 'unified';
+import type { RemarkOptions } from 'remark';
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
 import type { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
 import type { InputRule } from 'prosemirror-inputrules';
@@ -9,7 +11,7 @@ import type { MarkViewParams, NodeViewParams } from '../utility';
 import type { Editor } from '.';
 
 export interface IdleContext {
-    markdownIt: MarkdownIt;
+    remark: Processor<RemarkOptions>;
     loadState: LoadState;
     nodes: Node[];
     marks: Mark[];

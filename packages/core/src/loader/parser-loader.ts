@@ -15,7 +15,7 @@ export class ParserLoader extends Atom<LoadState.SchemaReady> {
             child.id,
             { ...child.parser, is: child.is },
         ]) as InnerParserSpecMap;
-        const parser = createParser(this.context.schema, spec);
+        const parser = createParser(this.context.schema, spec, this.context.remark);
         this.updateContext({ parser });
     }
 }

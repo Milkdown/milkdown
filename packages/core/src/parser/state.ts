@@ -1,5 +1,6 @@
 import type { MarkType, NodeType, Schema } from 'prosemirror-model';
-import remark from 'remark';
+import type { Processor } from 'unified';
+import type { RemarkOptions } from 'remark';
 import type { Node as MarkdownNode } from 'unist';
 import type { Attrs, InnerParserSpecMap, ParserSpecWithType } from '.';
 import type { Stack } from './stack';
@@ -31,8 +32,8 @@ export class State {
         runner(proseType as NodeType & MarkType, this, node);
     }
 
-    run = (markdown: string) => {
-        const tree = remark().parse(markdown);
+    run = (remark: Processor<RemarkOptions>, markdown: string) => {
+        const tree = remark.parse(markdown);
 
         this.next(tree);
 
