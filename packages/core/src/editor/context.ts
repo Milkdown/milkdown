@@ -1,4 +1,3 @@
-// import type MarkdownIt from 'markdown-it';
 import type { Processor } from 'unified';
 import type { RemarkOptions } from 'remark';
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';

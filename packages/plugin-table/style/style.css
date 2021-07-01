@@ -80,6 +80,9 @@
         th,
         td {
             padding: 0 1rem;
+            p {
+                line-height: unset !important;
+            }
         }
 
         .milkdown-cell-left,

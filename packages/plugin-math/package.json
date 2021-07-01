@@ -16,7 +16,6 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
-        "@types/markdown-it": "*",
         "@types/prosemirror-gapcursor": "*",
         "@types/prosemirror-history": "*",
         "@types/prosemirror-inputrules": "*",
@@ -25,7 +24,6 @@
         "@types/prosemirror-state": "*",
         "@types/prosemirror-transform": "*",
         "@types/prosemirror-view": "*",
-        "markdown-it": "*",
         "prosemirror-gapcursor": "*",
         "prosemirror-history": "*",
         "prosemirror-inputrules": "*",

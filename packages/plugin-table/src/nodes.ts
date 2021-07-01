@@ -9,7 +9,7 @@ import { createTable } from './utils';
 
 const tableNodesSpec = tableNodes({
     tableGroup: 'block',
-    cellContent: 'text*',
+    cellContent: 'paragraph',
     cellAttributes: {
         alignment: {
             default: 'left',
@@ -100,7 +100,9 @@ export class TableCell extends Node {
         runner: (type, state, node) => {
             const align = node.align as string;
             state.openNode(type, { alignment: align });
+            state.openNode(state.schema.nodes.paragraph);
             state.next(node.children);
+            state.closeNode();
             state.closeNode();
         },
     };
@@ -122,7 +124,9 @@ export class TableHeader extends Node {
         runner: (type, state, node) => {
             const align = node.align as string;
             state.openNode(type, { alignment: align });
+            state.openNode(state.schema.nodes.paragraph);
             state.next(node.children);
+            state.closeNode();
             state.closeNode();
         },
     };
