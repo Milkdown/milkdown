@@ -209,17 +209,15 @@ importers:
     specifiers:
       '@benrbray/prosemirror-math': ^0.2.2
       '@milkdown/core': workspace:*
-      '@traptitech/markdown-it-katex': ^3.4.0
       '@types/katex': ^0.11.0
       concurrently: ^6.0.2
       katex: ^0.13.2
       remark-math: ^4.0.0
       tslib: ^2.2.0
     dependencies:
-      '@benrbray/prosemirror-math': 0.2.2_katex@0.13.2
-      '@traptitech/markdown-it-katex': 3.4.0
+      '@benrbray/prosemirror-math': 0.2.2_0d7f02fe743b283b4ff112411ae90ad0
       '@types/katex': 0.11.0
-      katex: 0.13.2
+      katex: 0.13.11
       remark-math: 4.0.0
       tslib: 2.2.0
     devDependencies:
@@ -971,7 +969,7 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@benrbray/prosemirror-math/0.2.2_katex@0.13.2:
+  /@benrbray/prosemirror-math/0.2.2_0d7f02fe743b283b4ff112411ae90ad0:
     resolution: {integrity: sha512-n+V8MNKaQ9HtA1IASzoBFwthFY55kpu2I+0aF103AbqUw5eM8YlxHeltnLqjnYRVY4/a6A9t9YlBMBQOli5jgw==}
     peerDependencies:
       katex: ^0.13.0
@@ -985,7 +983,16 @@ packages:
       prosemirror-transform: ^1.2.12
       prosemirror-view: ^1.18.2
     dependencies:
-      katex: 0.13.2
+      katex: 0.13.11
+      prosemirror-commands: 1.1.7
+      prosemirror-gapcursor: 1.1.5
+      prosemirror-history: 1.1.3
+      prosemirror-inputrules: 1.1.3
+      prosemirror-keymap: 1.1.4
+      prosemirror-model: 1.14.0
+      prosemirror-state: 1.3.4
+      prosemirror-transform: 1.3.2
+      prosemirror-view: 1.18.3
     dev: false
 
   /@changesets/apply-release-plan/5.0.0:
@@ -1818,12 +1825,6 @@ packages:
     dependencies:
       '@sinonjs/commons': 1.8.3
     dev: true
-
-  /@traptitech/markdown-it-katex/3.4.0:
-    resolution: {integrity: sha512-Zy/LV0nbrOXPV+jCUEWIhR6226+DzYp310Kd9J1qFsquwKBefvz6V8Gs5ooUqlMHEdqU09fZN319/PhucIplmg==}
-    dependencies:
-      katex: 0.13.2
-    dev: false
 
   /@types/babel__core/7.1.14:
     resolution: {integrity: sha512-zGZJzzBUVDo/eV6KgbE0f0ZI7dInEYvo12Rb70uNQDshC3SkRMb67ja0GgRHZgAX3Za6rhaWlvbDO8rrGyAb1g==}
@@ -5058,8 +5059,8 @@ packages:
       commander: 2.20.3
     dev: false
 
-  /katex/0.13.2:
-    resolution: {integrity: sha512-u/KhjFDhyPr+70aiBn9SL/9w/QlLagIXBi2NZSbNnBUp2tR8dCjQplyEMkEzniem5gOeSCBjlBUg4VaiWs1JJg==}
+  /katex/0.13.11:
+    resolution: {integrity: sha512-yJBHVIgwlAaapzlbvTpVF/ZOs8UkTj/sd46Fl8+qAf2/UiituPYVeapVD8ADZtqyRg/qNWUKt7gJoyYVWLrcXw==}
     hasBin: true
     dependencies:
       commander: 6.2.1

@@ -37,7 +37,6 @@
     },
     "dependencies": {
         "@benrbray/prosemirror-math": "^0.2.2",
-        "@traptitech/markdown-it-katex": "^3.4.0",
         "@types/katex": "^0.11.0",
         "katex": "^0.13.2",
         "remark-math": "^4.0.0",
