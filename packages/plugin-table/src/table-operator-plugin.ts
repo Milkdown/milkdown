@@ -90,12 +90,12 @@ export class PluginProps implements PluginSpec {
         [Action.AddColLeft]: {
             $: icon('chevron_left'),
             command: () => addColumnBefore,
-            disable: (view) => getSelectType(view) !== SelectionType.Col,
+            disable: (view) => !getCellSelection(view).isColSelection(),
         },
         [Action.AddColRight]: {
             $: icon('chevron_right'),
             command: () => addColumnAfter,
-            disable: (view) => getSelectType(view) !== SelectionType.Col,
+            disable: (view) => !getCellSelection(view).isColSelection(),
         },
         [Action.AddRowTop]: {
             $: icon('expand_less'),
@@ -143,6 +143,9 @@ export class PluginProps implements PluginSpec {
             disable: (view) => {
                 const selection = getCellSelection(view);
                 if (selection.isRowSelection()) {
+                    if (selection.isColSelection()) {
+                        return false;
+                    }
                     return isFirstRowSelected(selection);
                 }
                 return false;
@@ -267,33 +270,24 @@ export class PluginProps implements PluginSpec {
     private calculatePosition(view: EditorView) {
         const selection = view.state.selection as unknown as CellSelection;
 
-        // const isCol = selection.isColSelection();
+        const isCol = selection.isColSelection();
         const isRow = selection.isRowSelection();
 
-        // if (!isCol && !isRow) return;
-
         const { from } = selection;
-        // const start = view.coordsAtPos(from);
-        // const end = view.coordsAtPos(to);
-        // const left = Math.max((start.left + end.left) / 2, start.left + 3);
-
-        const box = this.#tooltip.offsetParent?.getBoundingClientRect();
         const bound = this.#tooltip.getBoundingClientRect();
-        if (!box) return;
 
         const node = view.domAtPos(from).node as HTMLElement;
-        console.group('size');
-        console.log(node);
         const rect = node.getBoundingClientRect();
-        console.log(rect);
-        console.log(node.offsetTop);
 
-        console.log(this.#tooltip.offsetParent);
-        console.log(box);
-        console.groupEnd();
+        let leftPx = !isRow ? rect.left + (rect.width - bound.width) / 2 : rect.left - bound.width / 2 - 8;
+        let topPx = rect.top - bound.height - (isCol ? 18 : 4);
 
-        const leftPx = isRow ? rect.left - bound.width : rect.left + rect.width / 2 - bound.width / 2;
-        const topPx = node.offsetTop;
+        if (leftPx < 0) {
+            leftPx = 0;
+        }
+        if (topPx < bound.height) {
+            topPx = rect.top;
+        }
 
         this.#tooltip.style.left = leftPx + 'px';
         this.#tooltip.style.top = topPx + 'px';
