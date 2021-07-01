@@ -1,15 +1,10 @@
-import {
-    createProsemirrorPlugin,
-    createMarkdownItPlugin,
-    createMarkdownItRule,
-    LoadPluginContext,
-} from '@milkdown/core';
+import { createProsemirrorPlugin, createRemarkPlugin, LoadPluginContext } from '@milkdown/core';
 import { columnResizing, goToNextCell, tableEditing } from 'prosemirror-tables';
+import gfm from 'remark-gfm';
 import { keymap } from 'prosemirror-keymap';
 import { Keymap, Command } from 'prosemirror-commands';
 import { nodes } from './nodes';
 import { tableOperatorPlugin } from './table-operator-plugin';
-import { markdownItTablePlugin } from './markdown-it-table-plugin';
 import { exitTable } from './command';
 
 export enum SupportedKeys {
@@ -50,9 +45,8 @@ const plugin = (options: PluginOptions = {}) =>
         return [columnResizing({}), tableEditing(), tableOperatorPlugin(), keymap(keymapValue)];
     });
 
-const rule = createMarkdownItRule('milkdown-table-rule', () => ['table']);
-const markdownItPlugin = createMarkdownItPlugin('milkdown-table-markdown', () => [markdownItTablePlugin]);
+const remarkGFMPlugin = createRemarkPlugin('remark-table-markdown', () => [gfm]);
 
-export const table = (options: PluginOptions = {}) => [...nodes, rule, markdownItPlugin, plugin(options)];
+export const table = (options: PluginOptions = {}) => [...nodes, remarkGFMPlugin, plugin(options)];
 
 export { createTable } from './utils';

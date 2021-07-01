@@ -9,6 +9,7 @@ import {
     deleteRow,
     deleteTable,
     setCellAttr,
+    TableMap,
 } from 'prosemirror-tables';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { CellPos, getCellsInColumn, getCellsInRow, select, selectTable } from './utils';
@@ -58,6 +59,27 @@ const getSelectType = (view: EditorView): SelectionType => {
     const isRow = select.isRowSelection();
     const isCol = select.isColSelection();
     return isRow && isCol ? SelectionType.All : isRow ? SelectionType.Row : SelectionType.Col;
+};
+
+export const isFirstRowSelected = (selection: CellSelection) => {
+    const map = TableMap.get(selection.$anchorCell.node(-1));
+    const start = selection.$anchorCell.start(-1);
+    const cells = map.cellsInRect({
+        left: 0,
+        right: map.width,
+        top: 0,
+        bottom: 1,
+    });
+    const selectedCells = map.cellsInRect(
+        map.rectBetween(selection.$anchorCell.pos - start, selection.$headCell.pos - start),
+    );
+
+    for (let i = 0, count = cells.length; i < count; i++) {
+        if (selectedCells.indexOf(cells[i]) === -1) {
+            return false;
+        }
+    }
+    return true;
 };
 
 export class PluginProps implements PluginSpec {
@@ -117,6 +139,13 @@ export class PluginProps implements PluginSpec {
                 }
 
                 return deleteRow;
+            },
+            disable: (view) => {
+                const selection = getCellSelection(view);
+                if (selection.isRowSelection()) {
+                    return isFirstRowSelected(selection);
+                }
+                return false;
             },
         },
     };

@@ -29,5 +29,5 @@ new Editor({
 })
     .use(nodes)
     .use(marks)
-    .use(table)
+    .use(table())
     .create();

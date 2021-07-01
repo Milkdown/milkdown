@@ -16,23 +16,24 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
+        "@types/prosemirror-commands": "*",
         "@types/prosemirror-inputrules": "*",
+        "@types/prosemirror-keymap": "*",
         "@types/prosemirror-model": "*",
         "@types/prosemirror-state": "*",
         "@types/prosemirror-view": "*",
-        "@types/prosemirror-keymap": "*",
-        "@types/prosemirror-commands": "*",
+        "prosemirror-commands": "*",
         "prosemirror-inputrules": "*",
+        "prosemirror-keymap": "*",
         "prosemirror-model": "*",
         "prosemirror-state": "*",
-        "prosemirror-view": "*",
-        "prosemirror-keymap": "*",
-        "prosemirror-commands": "*"
+        "prosemirror-view": "*"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
-        "tslib": "^2.2.0",
-        "prosemirror-tables": "*"
+        "prosemirror-tables": "*",
+        "remark-gfm": "^1.0.0",
+        "tslib": "^2.2.0"
     },
     "devDependencies": {
         "@milkdown/core": "workspace:*",
