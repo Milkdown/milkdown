@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
     makeBlockMathInputRule,
     makeInlineMathInputRule,
     REGEX_BLOCK_MATH_DOLLARS,
     REGEX_INLINE_MATH_DOLLARS,
 } from '@benrbray/prosemirror-math';
-import { Node, SerializerNode } from '@milkdown/core';
+import { Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 
@@ -18,14 +19,24 @@ export class MathInline extends Node {
         parseDOM: [{ tag: 'math-inline' }],
         toDOM: () => ['math-inline', { class: 'math-node' }, 0],
     };
-    override parser = {
-        block: this.id,
-        isAtom: true,
+    override parser: NodeParserSpec = {
+        match: (node) => node.type === 'inlineMath',
+        runner: (type, state, node) => {
+            state.openNode(type);
+            state.addText(node.value as string);
+            state.closeNode();
+        },
     };
-    override serializer: SerializerNode = (state, node) => {
-        state.write('$');
-        state.renderContent(node);
-        state.write('$');
+    override serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            let text = '';
+            node.forEach((n) => {
+                text += n.text as string;
+            });
+            console.log(text);
+            state.addNode('inlineMath', undefined, text);
+        },
     };
     override inputRules = (nodeType: NodeType): InputRule[] => [
         makeInlineMathInputRule(REGEX_INLINE_MATH_DOLLARS, nodeType),
@@ -42,12 +53,24 @@ export class MathDisplay extends Node {
         parseDOM: [{ tag: 'math-display' }],
         toDOM: () => ['math-display', { class: 'math-node' }, 0],
     };
-    override parser = {
-        block: 'math_block',
-        isAtom: true,
+    override parser: NodeParserSpec = {
+        match: (node) => node.type === 'math',
+        runner: (type, state, node) => {
+            state.openNode(type);
+            state.addText(node.value as string);
+            state.closeNode();
+        },
     };
-    override serializer: SerializerNode = (state, node) => {
-        state.write('$$').ensureNewLine().renderContent(node).ensureNewLine().write('$$').closeBlock(node);
+    override serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            let text = '';
+            node.forEach((n) => {
+                text += n.text as string;
+            });
+            console.log(text);
+            state.addNode('math', undefined, text);
+        },
     };
     override inputRules = (nodeType: NodeType): InputRule[] => [
         makeBlockMathInputRule(REGEX_BLOCK_MATH_DOLLARS, nodeType),

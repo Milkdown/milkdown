@@ -1,9 +1,8 @@
 import { mathBackspaceCmd, mathPlugin } from '@benrbray/prosemirror-math';
-import { createMarkdownItPlugin, createProsemirrorPlugin } from '@milkdown/core';
-import markdownItMath from '@traptitech/markdown-it-katex';
-import type { PluginSimple } from 'markdown-it';
+import { createProsemirrorPlugin, createRemarkPlugin } from '@milkdown/core';
 import { chainCommands, deleteSelection, joinBackward, selectNodeBackward } from 'prosemirror-commands';
 import { keymap } from 'prosemirror-keymap';
+import remarkMath from 'remark-math';
 import { nodes } from './nodes';
 
 const keys = keymap({
@@ -13,5 +12,5 @@ const keys = keymap({
 export const math = [
     ...nodes,
     createProsemirrorPlugin('mathProsemirrorPlugin', () => [mathPlugin, keys]),
-    createMarkdownItPlugin('mathMarkdownItPlugin', () => [markdownItMath as PluginSimple]),
+    createRemarkPlugin('mathRemarkPlugin', () => [remarkMath]),
 ];

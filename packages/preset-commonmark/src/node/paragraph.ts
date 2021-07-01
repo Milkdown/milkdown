@@ -25,7 +25,7 @@ export class Paragraph extends CommonNode {
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
         runner: (node, state) => {
-            state.openNode('paragraph', undefined);
+            state.openNode('paragraph');
             state.next(node.content);
             state.closeNode();
         },

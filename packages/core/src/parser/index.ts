@@ -9,7 +9,9 @@ export function createParser(schema: Schema, specMap: InnerParserSpecMap, remark
     return (text: string) => {
         const state = new State(createStack(), schema, specMap);
         state.run(remark, text);
-        return state.toDoc();
+        const doc = state.toDoc();
+        console.log('doc', doc);
+        return doc;
     };
 }
 

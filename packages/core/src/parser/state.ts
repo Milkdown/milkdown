@@ -34,6 +34,7 @@ export class State {
 
     run = (remark: Processor<RemarkOptions>, markdown: string) => {
         const tree = remark.parse(markdown);
+        console.log('tree', tree);
 
         this.next(tree);
 

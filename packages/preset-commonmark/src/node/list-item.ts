@@ -23,7 +23,7 @@ export class ListItem extends CommonNode {
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
         runner: (node, state) => {
-            state.openNode('listItem', undefined);
+            state.openNode('listItem');
             state.next(node.content);
             state.closeNode();
         },

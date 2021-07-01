@@ -1,4 +1,4 @@
-import MarkdownIt from 'markdown-it';
+import remark from 'remark';
 import type { EditorView } from 'prosemirror-view';
 import type { Atom } from '../abstract';
 import { LoadState } from '../constant';
@@ -19,7 +19,7 @@ export class Editor {
     #atoms: Atom[] = [];
     #ctx: AnyRecord = {
         loadState: LoadState.Idle,
-        markdownIt: new MarkdownIt('commonmark'),
+        remark: remark(),
         nodes: [],
         marks: [],
         editor: this,

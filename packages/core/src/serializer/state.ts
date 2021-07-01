@@ -60,7 +60,11 @@ export class State {
 
     closeNode: Stack['closeNode'] = this.stack.closeNode;
 
-    toString = (remark: Processor<RemarkOptions>): string => remark().stringify(this.stack.build());
+    toString = (remark: Processor<RemarkOptions>): string => {
+        const tree = this.stack.build();
+        console.log(tree);
+        return remark.stringify(tree);
+    };
 
     withMark: Stack['openMark'] = this.stack.openMark;
 }

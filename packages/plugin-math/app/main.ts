@@ -16,6 +16,7 @@ $$
 \\mathcal{L}(V \\otimes W, Z) \\cong \\big\\{ \\substack{\\text{bilinear maps}\\\\{V \\times W \\rightarrow Z}} \\big\\}
 $$
 
+math
 `;
 
 const root = document.getElementById('app');
