@@ -16,6 +16,7 @@
     resize: none;
     border: none;
     width: 0;
+    height: 0;
     flex: 0;
     box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
     border-radius: 4px;
@@ -60,6 +61,7 @@
     gap: 1.25rem;
     .code {
         width: unset;
+        height: unset;
         box-sizing: border-box;
         min-height: 30rem;
         padding: 3.125rem 2rem;
