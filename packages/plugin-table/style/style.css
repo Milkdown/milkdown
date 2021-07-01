@@ -77,8 +77,8 @@
             width: 1px;
         }
 
-        .table-inline {
-            all: unset;
+        th,
+        td {
             padding: 0 1rem;
         }
 
@@ -166,7 +166,6 @@
         justify-content: space-evenly;
         position: absolute;
         transform: translateX(-50%);
-        margin-bottom: 8px;
         border-radius: 4px;
 
         border: 1px solid palette(line);

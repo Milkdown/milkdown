@@ -267,27 +267,36 @@ export class PluginProps implements PluginSpec {
     private calculatePosition(view: EditorView) {
         const selection = view.state.selection as unknown as CellSelection;
 
-        const isCol = selection.isColSelection();
+        // const isCol = selection.isColSelection();
         const isRow = selection.isRowSelection();
 
-        if (!isCol && !isRow) return;
+        // if (!isCol && !isRow) return;
 
-        const { from, to } = selection;
-        const start = view.coordsAtPos(from);
-        const end = view.coordsAtPos(to);
-        const left = Math.max((start.left + end.left) / 2, start.left + 3);
+        const { from } = selection;
+        // const start = view.coordsAtPos(from);
+        // const end = view.coordsAtPos(to);
+        // const left = Math.max((start.left + end.left) / 2, start.left + 3);
 
         const box = this.#tooltip.offsetParent?.getBoundingClientRect();
+        const bound = this.#tooltip.getBoundingClientRect();
         if (!box) return;
 
-        const leftPx =
-            left -
-            box.left -
-            (isRow ? 8 : -(view.domAtPos(from).node as HTMLElement).getBoundingClientRect().width / 2 + 16);
-        const bottomPx = box.bottom - start.bottom;
+        const node = view.domAtPos(from).node as HTMLElement;
+        console.group('size');
+        console.log(node);
+        const rect = node.getBoundingClientRect();
+        console.log(rect);
+        console.log(node.offsetTop);
+
+        console.log(this.#tooltip.offsetParent);
+        console.log(box);
+        console.groupEnd();
+
+        const leftPx = isRow ? rect.left - bound.width : rect.left + rect.width / 2 - bound.width / 2;
+        const topPx = node.offsetTop;
 
         this.#tooltip.style.left = leftPx + 'px';
-        this.#tooltip.style.bottom = bottomPx + 'px';
+        this.#tooltip.style.top = topPx + 'px';
     }
 
     private calculateItem(view: EditorView) {
