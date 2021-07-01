@@ -33,7 +33,6 @@ export class MathInline extends Node {
             node.forEach((n) => {
                 text += n.text as string;
             });
-            console.log(text);
             state.addNode('inlineMath', undefined, text);
         },
     };
@@ -67,7 +66,6 @@ export class MathDisplay extends Node {
             node.forEach((n) => {
                 text += n.text as string;
             });
-            console.log(text);
             state.addNode('math', undefined, text);
         },
     };

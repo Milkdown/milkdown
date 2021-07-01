@@ -40,7 +40,18 @@ export class Table extends Node {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: () => {},
+        runner: (node, state) => {
+            const firstLine = node.content.firstChild?.content;
+            if (!firstLine) return;
+
+            const align: (string | null)[] = [];
+            firstLine.forEach((cell) => {
+                align.push(cell.attrs.alignment);
+            });
+            state.openNode('table', undefined, { align });
+            state.next(node.content);
+            state.closeNode();
+        },
     };
     override inputRules = (nodeType: NodeType, schema: Schema): InputRule[] => [
         new InputRule(/^\|\|\s$/, (state, _match, start, end) => {
@@ -63,7 +74,7 @@ export class TableRow extends Node {
             const align = node.align as (string | null)[];
             const children = (node.children as MarkdownNode[]).map((x, i) => ({
                 ...x,
-                align: align[i] || 'left',
+                align: align[i],
                 isHeader: node.isHeader,
             }));
             state.openNode(type);
@@ -72,8 +83,12 @@ export class TableRow extends Node {
         },
     };
     serializer: NodeSerializerSpec = {
-        match: () => false,
-        runner: () => {},
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('tableRow');
+            state.next(node.content);
+            state.closeNode();
+        },
     };
 }
 
@@ -90,8 +105,12 @@ export class TableCell extends Node {
         },
     };
     serializer: NodeSerializerSpec = {
-        match: () => false,
-        runner: () => {},
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('tableCell');
+            state.next(node.content);
+            state.closeNode();
+        },
     };
 }
 
@@ -108,8 +127,12 @@ export class TableHeader extends Node {
         },
     };
     serializer: NodeSerializerSpec = {
-        match: () => false,
-        runner: () => {},
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('tableCell');
+            state.next(node.content);
+            state.closeNode();
+        },
     };
 }
 
