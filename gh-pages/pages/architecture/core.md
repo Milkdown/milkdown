@@ -14,14 +14,16 @@ Milkdown core is composed mainly by three parts:
 
 It is mainly used by transforming the default value, and can be used in features like paste markdown strings.
 
-The parser will parse the markdown strings into tokens by [markdown-it](https://github.com/markdown-it/markdown-it),
-and transform the tokens into the prosemirror node.
+The parser will parse the markdown strings into ast by [remark](https://github.com/remarkjs/remark),
+and transform the ast into the prosemirror node.
 
 ## Markdown Serializer
 
 > The serializer can **transform a prosemirror node into a markdown string**.
 
 It is mainly used by listeners, and can be used in features like export to file.
+The serializer will parse the prosemirror node tree and transform it into markdown ast,
+then the ast can be serialized into markdown string.
 
 ## Prosemirror
 

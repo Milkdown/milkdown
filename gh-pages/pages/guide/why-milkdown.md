@@ -22,8 +22,8 @@ Developers can extends the plugin to satisfy their habit such as define a vim ke
 
 ## Reliable
 
-Milkdown is powered by [Prosemirror](https://prosemirror.net/) and [Markdown-It](https://markdown-it.github.io/), which has large community and stands the test of industry.
-What's more, plugins in prosemirror and markdown-it community can be easily reused to build a Milkdown plugin.
+Milkdown is powered by [Prosemirror](https://prosemirror.net/) and [Remark](https://github.com/remarkjs/remark), which has large community and stands the test of industry.
+What's more, plugins in prosemirror and remark community can be easily reused to build a Milkdown plugin.
 
 ## Themable & Hackable
 

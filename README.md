@@ -4,8 +4,7 @@
     <img src="/gh-pages/public/milkdown-homepage.svg" />
 </div>
 
-
-A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/), built on top of [prosemirror](https://prosemirror.net/) and [markdown-it](https://github.com/markdown-it/markdown-it).
+A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/), built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).
 
 Designed by Meo.
 

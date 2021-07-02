@@ -17,7 +17,7 @@ You can even create your own plugin to support your awesome idea.
 -   📝 **WYSIWYG Markdown** - Write markdown in an elegant way
 -   🎨 **Themable** - Theme can be shared and used with npm packages
 -   🎮 **Hackable** - Support your awesome idea by plugin
--   🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [markdown-it](https://markdown-it.github.io/)
+-   🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark)
 -   ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
 -   🧮 **Math** - LaTeX math equations support, driven by plugin
 -   📊 **Table** - Table support with fluent ui, driven by plugin
@@ -27,7 +27,7 @@ You can even create your own plugin to support your awesome idea.
 Milkdown is built on top of these tools:
 
 -   [Prosemirror](https://prosemirror.net/) and it's community - A toolkit for building rich-text editors on the web
--   [Markdown-it](https://markdown-it.github.io/) and it's community - Markdown parser done right
+-   [Remark](https://github.com/remarkjs/remark) and it's community - Markdown parser done right
 -   [Postcss](https://postcss.org/) - Powerful css tool to build theme
 -   [TypeScript](https://www.typescriptlang.org/) - Developed by typescript
 -   [Prism](https://prismjs.com/) - Code snippets support

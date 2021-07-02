@@ -4,36 +4,19 @@ We provide some methods for users to build different types of plugins.
 
 ---
 
-## MarkdownIt Rule
+## Remark Plugin
 
-Used to enable markdown-it plugin.
-
-```typescript
-import { createMarkdownItRule } from '@milkdown/core';
-
-// equal to
-// markdownIt.enable('table');
-const rule = createMarkdownItRule('my-plugin', () => ['table']);
-
-// use
-milkdown.use(rule);
-```
-
----
-
-## MarkdownIt Plugin
-
-Used to enable rules for markdown-it.
+Used to enable remark plugin.
 
 ```typescript
-import { createMarkdownItPlugin } from '@milkdown/core';
+import { createRemarkPlugin } from '@milkdown/core';
 
 // equal to
-// markdownIt.use(markdownItTablePlugin);
-const markdownItPlugin = createMarkdownItPlugin('milkdown-table', () => [someMarkdownItPlugin]);
+// remark.use(someRemarkPlugin);
+const remarkPlugin = createRemarkPlugin('milkdown-some-remark-plugin', () => [someMarkdownItPlugin]);
 
 // use
-milkdown.use(markdownItPlugin);
+milkdown.use(remarkPlugin);
 ```
 
 ---

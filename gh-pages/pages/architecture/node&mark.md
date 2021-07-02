@@ -7,7 +7,7 @@ Node and Mark are two special atoms that used to define prosemirror [Node](https
 Users can easily define a node by the following code:
 
 ```typescript
-import { SerializerNode, Node } from '@milkdown/core';
+import { NodeParserSpec, NodeSerializerSpec, Node } from '@milkdown/core';
 
 export class Paragraph extends Node {
     id = 'paragraph';
@@ -17,11 +17,25 @@ export class Paragraph extends Node {
         parseDOM: [{ tag: 'p' }],
         toDOM: () => ['p', { class: 'paragraph' }, 0] as const,
     };
-    parser = {
-        block: this.id,
+    override readonly parser: NodeParserSpec = {
+        match: (node) => node.type === this.id,
+        runner: (type, state, node) => {
+            state.openNode(type);
+            if (node.children) {
+                state.next(node.children);
+            } else {
+                state.addText(node.value as string);
+            }
+            state.closeNode();
+        },
     };
-    serializer: SerializerNode = (state, node) => {
-        state.renderInline(node).closeBlock(node);
+    override readonly serializer: NodeSerializerSpec = {
+        match: (node) => node.type.name === this.id,
+        runner: (node, state) => {
+            state.openNode('paragraph');
+            state.next(node.content);
+            state.closeNode();
+        },
     };
 }
 ```
@@ -50,7 +64,7 @@ export class Paragraph extends Node {
 
 ### serializer
 
-**Required.** The serializer method, used to serialize the node/mark into string in serializer.
+**Required.** The serializer specification, used to serialize the node/mark into string in serializer.
 
 ### inputRules?
 
