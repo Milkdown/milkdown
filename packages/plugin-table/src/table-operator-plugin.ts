@@ -48,19 +48,6 @@ function icon(text: string) {
 
 const getCellSelection = (view: EditorView): CellSelection => view.state.selection as unknown as CellSelection;
 
-enum SelectionType {
-    Col = 'Col',
-    Row = 'Row',
-    All = 'All',
-}
-
-const getSelectType = (view: EditorView): SelectionType => {
-    const select = getCellSelection(view);
-    const isRow = select.isRowSelection();
-    const isCol = select.isColSelection();
-    return isRow && isCol ? SelectionType.All : isRow ? SelectionType.Row : SelectionType.Col;
-};
-
 export const isFirstRowSelected = (selection: CellSelection) => {
     const map = TableMap.get(selection.$anchorCell.node(-1));
     const start = selection.$anchorCell.start(-1);
@@ -101,13 +88,13 @@ export class PluginProps implements PluginSpec {
             $: icon('expand_less'),
             command: () => addRowBefore,
             disable: (view) =>
-                getSelectType(view) !== SelectionType.Row ||
+                !getCellSelection(view).isRowSelection() ||
                 getCellSelection(view).$head.parent.type.name === 'table_header',
         },
         [Action.AddRowBottom]: {
             $: icon('expand_more'),
             command: () => addRowAfter,
-            disable: (view) => getSelectType(view) !== SelectionType.Row,
+            disable: (view) => !getCellSelection(view).isRowSelection(),
         },
         [Action.AlignLeft]: {
             $: icon('format_align_left'),
