@@ -26,7 +26,7 @@ export class Heading extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === this.id,
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             const depth = node.depth as number;
             state.openNode(type, { level: depth });
             state.next(node.children);
@@ -35,7 +35,7 @@ export class Heading extends CommonNode {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('heading', undefined, { depth: node.attrs.level });
             state.next(node.content);
             state.closeNode();

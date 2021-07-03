@@ -17,7 +17,7 @@ export class Em extends CommonMark {
     };
     override readonly parser: MarkParserSpec = {
         match: (node) => node.type === 'emphasis',
-        runner: (markType, state, node) => {
+        runner: (state, node, markType) => {
             state.openMark(markType);
             state.next(node.children);
             state.closeMark(markType);
@@ -25,7 +25,7 @@ export class Em extends CommonMark {
     };
     override readonly serializer: MarkSerializerSpec = {
         match: (mark) => mark.type.name === this.id,
-        runner: (mark, state) => {
+        runner: (state, mark) => {
             state.withMark(mark, 'emphasis');
         },
     };

@@ -13,13 +13,13 @@ export class Hr extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === 'thematicBreak',
-        runner: (type, state) => {
+        runner: (state, _, type) => {
             state.addNode(type);
         },
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (_, state) => {
+        runner: (state) => {
             state.addNode('thematicBreak');
         },
     };

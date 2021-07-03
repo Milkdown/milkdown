@@ -9,13 +9,13 @@ export class Text extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === 'text',
-        runner: (_, state, node) => {
+        runner: (state, node) => {
             state.addText(node.value as string);
         },
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === 'text',
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.addNode('text', undefined, node.text as string);
         },
     };

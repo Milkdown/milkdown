@@ -9,13 +9,13 @@ export class Doc extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === 'root',
-        runner: (type, state, node) => {
-            state.injectRoot(type, node);
+        runner: (state, node, type) => {
+            state.injectRoot(node, type);
         },
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === 'doc',
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('root');
             state.next(node.content);
         },

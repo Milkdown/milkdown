@@ -12,7 +12,7 @@ export class Paragraph extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: (node) => node.type === this.id,
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             state.openNode(type);
             if (node.children) {
                 state.next(node.children);
@@ -24,7 +24,7 @@ export class Paragraph extends CommonNode {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('paragraph');
             state.next(node.content);
             state.closeNode();

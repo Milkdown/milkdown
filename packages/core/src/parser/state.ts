@@ -29,7 +29,7 @@ export class State {
         const { key, runner, is } = this.#matchTarget(node);
 
         const proseType: NodeType | MarkType = this.schema[is === 'node' ? 'nodes' : 'marks'][key];
-        runner(proseType as NodeType & MarkType, this, node);
+        runner(this, node, proseType as NodeType & MarkType);
     }
 
     run = (remark: Processor<RemarkOptions>, markdown: string) => {
@@ -40,7 +40,7 @@ export class State {
         return this;
     };
 
-    injectRoot = (nodeType: NodeType, node: MarkdownNode, attrs?: Attrs) => {
+    injectRoot = (node: MarkdownNode, nodeType: NodeType, attrs?: Attrs) => {
         this.stack.openNode(nodeType, attrs);
         this.next(node.children as MarkdownNode[]);
 

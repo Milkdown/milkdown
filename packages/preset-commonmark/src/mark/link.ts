@@ -26,7 +26,7 @@ export class Link extends CommonMark {
     };
     override readonly parser: MarkParserSpec = {
         match: (node) => node.type === 'link',
-        runner: (markType, state, node) => {
+        runner: (state, node, markType) => {
             const url = node.url as string;
             const title = node.title as string;
             state.openMark(markType, { href: url, title });
@@ -36,7 +36,7 @@ export class Link extends CommonMark {
     };
     override readonly serializer: MarkSerializerSpec = {
         match: (mark) => mark.type.name === this.id,
-        runner: (mark, state) => {
+        runner: (state, mark) => {
             state.withMark(mark, 'link', undefined, {
                 title: mark.attrs.title,
                 url: mark.attrs.href,

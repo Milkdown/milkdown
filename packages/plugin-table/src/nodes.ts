@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Node as MarkdownNode } from 'unist';
 import { Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
@@ -26,7 +25,7 @@ export class Table extends Node {
     override readonly schema: NodeSpec = tableNodesSpec.table;
     override readonly parser: NodeParserSpec = {
         match: (node) => node.type === 'table',
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             const align = node.align as (string | null)[];
             const children = (node.children as MarkdownNode[]).map((x, i) => ({
                 ...x,
@@ -40,7 +39,7 @@ export class Table extends Node {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             const firstLine = node.content.firstChild?.content;
             if (!firstLine) return;
 
@@ -70,7 +69,7 @@ export class TableRow extends Node {
     schema: NodeSpec = tableNodesSpec.table_row;
     parser: NodeParserSpec = {
         match: (node) => node.type === 'tableRow',
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             const align = node.align as (string | null)[];
             const children = (node.children as MarkdownNode[]).map((x, i) => ({
                 ...x,
@@ -84,7 +83,7 @@ export class TableRow extends Node {
     };
     serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('tableRow');
             state.next(node.content);
             state.closeNode();
@@ -97,7 +96,7 @@ export class TableCell extends Node {
     schema: NodeSpec = tableNodesSpec.table_cell;
     parser: NodeParserSpec = {
         match: (node) => node.type === 'tableCell' && !node.isHeader,
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             const align = node.align as string;
             state
                 .openNode(type, { alignment: align })
@@ -109,7 +108,7 @@ export class TableCell extends Node {
     };
     serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('tableCell').next(node.content).closeNode();
         },
     };
@@ -120,7 +119,7 @@ export class TableHeader extends Node {
     schema: NodeSpec = tableNodesSpec.table_header;
     parser: NodeParserSpec = {
         match: (node) => node.type === 'tableCell' && !!node.isHeader,
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             const align = node.align as string;
             state.openNode(type, { alignment: align });
             state.openNode(state.schema.nodes.paragraph);
@@ -131,7 +130,7 @@ export class TableHeader extends Node {
     };
     serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('tableCell');
             state.next(node.content);
             state.closeNode();

@@ -69,7 +69,7 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === 'code',
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             const lang = node.lang as string;
             const value = node.value as string;
             state.openNode(type, { language: lang });
@@ -79,7 +79,7 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: node.attrs.language });
         },
     };

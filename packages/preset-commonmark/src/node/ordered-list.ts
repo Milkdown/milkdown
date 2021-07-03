@@ -35,7 +35,7 @@ export class OrderedList extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type, ordered }) => type === 'list' && !!ordered,
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             state.openNode(type);
             state.next(node.children);
             state.closeNode();
@@ -43,7 +43,7 @@ export class OrderedList extends CommonNode {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('list', undefined, { ordered: true, start: 1 });
             state.next(node.content);
             state.closeNode();

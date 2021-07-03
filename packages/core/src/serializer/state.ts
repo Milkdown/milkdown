@@ -30,7 +30,7 @@ export class State {
 
     #runProse(node: ProseMark | ProseNode) {
         const { runner } = this.#matchTarget(node);
-        runner(node as ProseNode & ProseMark, this);
+        runner(this, node as ProseNode & ProseMark);
     }
 
     #runNode(node: ProseNode) {

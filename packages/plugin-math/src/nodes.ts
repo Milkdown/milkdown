@@ -20,7 +20,7 @@ export class MathInline extends Node {
     };
     override parser: NodeParserSpec = {
         match: (node) => node.type === 'inlineMath',
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             state.openNode(type);
             state.addText(node.value as string);
             state.closeNode();
@@ -28,7 +28,7 @@ export class MathInline extends Node {
     };
     override serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             let text = '';
             node.forEach((n) => {
                 text += n.text as string;
@@ -53,7 +53,7 @@ export class MathDisplay extends Node {
     };
     override parser: NodeParserSpec = {
         match: (node) => node.type === 'math',
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             state.openNode(type);
             state.addText(node.value as string);
             state.closeNode();
@@ -61,7 +61,7 @@ export class MathDisplay extends Node {
     };
     override serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             let text = '';
             node.forEach((n) => {
                 text += n.text as string;

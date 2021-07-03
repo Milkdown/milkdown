@@ -19,22 +19,14 @@ export class Paragraph extends Node {
     };
     override readonly parser: NodeParserSpec = {
         match: (node) => node.type === this.id,
-        runner: (type, state, node) => {
-            state.openNode(type);
-            if (node.children) {
-                state.next(node.children);
-            } else {
-                state.addText(node.value as string);
-            }
-            state.closeNode();
+        runner: (state, node, type) => {
+            state.openNode(type).next(node.children).closeNode();
         },
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
-            state.openNode('paragraph');
-            state.next(node.content);
-            state.closeNode();
+        runner: (state, node) => {
+            state.openNode('paragraph').next(node.content).closeNode();
         },
     };
 }

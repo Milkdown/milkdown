@@ -14,7 +14,7 @@ export class ListItem extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === 'listItem',
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             state.openNode(type);
             state.next(node.children);
             state.closeNode();
@@ -22,7 +22,7 @@ export class ListItem extends CommonNode {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.openNode('listItem');
             state.next(node.content);
             state.closeNode();

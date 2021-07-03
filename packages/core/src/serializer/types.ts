@@ -3,11 +3,11 @@ import type { State } from './state';
 
 export type NodeSerializerSpec = {
     match: (node: ProseNode) => boolean;
-    runner: (node: ProseNode, state: State) => void;
+    runner: (state: State, node: ProseNode) => void;
 };
 export type MarkSerializerSpec = {
     match: (mark: ProseMark) => boolean;
-    runner: (mark: ProseMark, state: State) => void;
+    runner: (state: State, mark: ProseMark) => void;
 };
 export type SerializerSpec = NodeSerializerSpec | MarkSerializerSpec;
 

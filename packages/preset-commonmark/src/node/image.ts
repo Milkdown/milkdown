@@ -45,7 +45,7 @@ export class Image extends CommonNode {
     };
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === this.id,
-        runner: (type, state, node) => {
+        runner: (state, node, type) => {
             const url = node.url as string;
             const alt = node.alt as string;
             const title = node.title as string;
@@ -60,7 +60,7 @@ export class Image extends CommonNode {
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
-        runner: (node, state) => {
+        runner: (state, node) => {
             state.addNode('image', undefined, undefined, {
                 title: node.attrs.title,
                 url: node.attrs.src,
