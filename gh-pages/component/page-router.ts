@@ -2,18 +2,19 @@ import { Section } from './Sidebar/Sidebar';
 
 import whyMilkdown from '../pages/guide/why-milkdown.md';
 import gettingStarted from '../pages/guide/getting-started.md';
-import usingPlugins from '../pages/guide/using-plugins.md';
 import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
 import styling from '../pages/guide/styling.md';
 
 import react from '../pages/integrations/react.md';
 import vue from '../pages/integrations/vue.md';
 
+import usingPlugins from '../pages/plugins/using-plugins.md';
+import nodeAndMark from '../pages/plugins/node&mark.md';
+import buildingPlugins from '../pages/plugins/building-plugins.md';
+
 import core from '../pages/architecture/core.md';
 import atom from '../pages/architecture/atom.md';
 import ordering from '../pages/architecture/ordering.md';
-import nodeAndMark from '../pages/architecture/node&mark.md';
-import buildingPlugins from '../pages/architecture/building-plugins.md';
 
 export const pageRouter: Section[] = [
     {
