@@ -1,5 +1,24 @@
 # @milkdown/gh-pages
 
+## 4.4.0
+
+### Minor Changes
+
+-   892909e: Use remark to replace markdown-it.
+
+### Patch Changes
+
+-   Updated dependencies [892909e]
+    -   @milkdown/core@4.4.0
+    -   @milkdown/plugin-math@4.4.0
+    -   @milkdown/plugin-prism@4.4.0
+    -   @milkdown/plugin-slash@4.4.0
+    -   @milkdown/plugin-table@4.4.0
+    -   @milkdown/plugin-tooltip@4.4.0
+    -   @milkdown/preset-commonmark@4.4.0
+    -   @milkdown/react@4.4.0
+    -   @milkdown/theme-nord@4.4.0
+
 ## 4.3.1
 
 ### Patch Changes

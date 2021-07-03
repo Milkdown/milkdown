@@ -1,5 +1,16 @@
 # @milkdown/vue
 
+## 4.4.0
+
+### Minor Changes
+
+-   892909e: Use remark to replace markdown-it.
+
+### Patch Changes
+
+-   Updated dependencies [892909e]
+    -   @milkdown/utils@4.4.0
+
 ## 4.3.3
 
 ### Patch Changes

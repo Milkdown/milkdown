@@ -1,5 +1,11 @@
 # @milkdown/utils
 
+## 4.4.0
+
+### Minor Changes
+
+-   892909e: Use remark to replace markdown-it.
+
 ## 4.3.1
 
 ## 4.3.0
