@@ -6,6 +6,8 @@ import type { InnerSerializerSpecMap, SerializerSpecWithType } from './types';
 
 const isFragment = (x: ProseNode | Fragment): x is Fragment => Object.prototype.hasOwnProperty.call(x, 'size');
 
+type StateMethod<T extends keyof Stack> = (...args: Parameters<Stack[T]>) => State;
+
 export class State {
     constructor(
         private readonly stack: Stack,
@@ -49,18 +51,31 @@ export class State {
             node.forEach((n) => {
                 this.#runNode(n);
             });
-            return;
+            return this;
         }
         this.#runNode(node);
+        return this;
     };
 
-    addNode: Stack['addNode'] = this.stack.addNode;
+    addNode: StateMethod<'addNode'> = (...args) => {
+        this.stack.addNode(...args);
+        return this;
+    };
 
-    openNode: Stack['openNode'] = this.stack.openNode;
+    openNode: StateMethod<'openNode'> = (...args) => {
+        this.stack.openNode(...args);
+        return this;
+    };
 
-    closeNode: Stack['closeNode'] = this.stack.closeNode;
+    closeNode: StateMethod<'closeNode'> = (...args) => {
+        this.stack.closeNode(...args);
+        return this;
+    };
 
     toString = (remark: Processor<RemarkOptions>): string => remark.stringify(this.stack.build());
 
-    withMark: Stack['openMark'] = this.stack.openMark;
+    withMark: StateMethod<'openMark'> = (...args) => {
+        this.stack.openMark(...args);
+        return this;
+    };
 }

@@ -43,27 +43,48 @@ export class State {
     injectRoot = (nodeType: NodeType, node: MarkdownNode, attrs?: Attrs) => {
         this.stack.openNode(nodeType, attrs);
         this.next(node.children as MarkdownNode[]);
+
+        return this;
     };
 
-    addText = (text = '') => this.stack.addText((marks) => this.schema.text(text, marks));
+    addText = (text = '') => {
+        this.stack.addText((marks) => this.schema.text(text, marks));
+        return this;
+    };
 
-    addNode = this.stack.addNode;
+    addNode = (...args: Parameters<Stack['addNode']>) => {
+        this.stack.addNode(...args);
+        return this;
+    };
 
-    openNode = this.stack.openNode;
+    openNode = (...args: Parameters<Stack['openNode']>) => {
+        this.stack.openNode(...args);
+        return this;
+    };
 
-    closeNode = this.stack.closeNode;
+    closeNode = (...args: Parameters<Stack['closeNode']>) => {
+        this.stack.closeNode(...args);
+        return this;
+    };
 
-    openMark = this.stack.openMark;
+    openMark = (...args: Parameters<Stack['openMark']>) => {
+        this.stack.openMark(...args);
+        return this;
+    };
 
-    closeMark = this.stack.closeMark;
+    closeMark = (...args: Parameters<Stack['closeMark']>) => {
+        this.stack.closeMark(...args);
+        return this;
+    };
 
     toDoc = () => this.stack.build();
 
     next = (nodes: MarkdownNode | MarkdownNode[] = []) => {
         if (Array.isArray(nodes)) {
             nodes.forEach((node) => this.#runNode(node));
-            return;
+        } else {
+            this.#runNode(nodes);
         }
-        this.#runNode(nodes);
+        return this;
     };
 }

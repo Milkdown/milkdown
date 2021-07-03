@@ -16,17 +16,13 @@ export class Blockquote extends CommonNode {
     override readonly parser: NodeParserSpec = {
         match: ({ type }) => type === this.id,
         runner: (type, state, node) => {
-            state.openNode(type);
-            state.next(node.children);
-            state.closeNode();
+            state.openNode(type).next(node.children).closeNode();
         },
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
         runner: (node, state) => {
-            state.openNode('blockquote');
-            state.next(node.content);
-            state.closeNode();
+            state.openNode('blockquote').next(node.content).closeNode();
         },
     };
     override readonly inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];

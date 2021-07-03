@@ -1,12 +1,11 @@
 import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
-import type { Schema, NodeSpec, NodeType } from 'prosemirror-model';
-import type { NodeSerializerSpec } from '../serializer';
-
-import { Atom } from './atom';
+import type { NodeSpec, NodeType, Schema } from 'prosemirror-model';
 import { LoadState } from '../constant';
-import { AnyRecord, NodeViewFactory } from '../utility';
-import { NodeParserSpec } from '../parser';
+import type { NodeParserSpec } from '../parser';
+import type { NodeSerializerSpec } from '../serializer';
+import type { AnyRecord, NodeViewFactory } from '../utility';
+import { Atom } from './atom';
 
 interface NodeOptional {
     readonly view?: NodeViewFactory;

@@ -99,19 +99,18 @@ export class TableCell extends Node {
         match: (node) => node.type === 'tableCell' && !node.isHeader,
         runner: (type, state, node) => {
             const align = node.align as string;
-            state.openNode(type, { alignment: align });
-            state.openNode(state.schema.nodes.paragraph);
-            state.next(node.children);
-            state.closeNode();
-            state.closeNode();
+            state
+                .openNode(type, { alignment: align })
+                .openNode(state.schema.nodes.paragraph)
+                .next(node.children)
+                .closeNode()
+                .closeNode();
         },
     };
     serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
         runner: (node, state) => {
-            state.openNode('tableCell');
-            state.next(node.content);
-            state.closeNode();
+            state.openNode('tableCell').next(node.content).closeNode();
         },
     };
 }

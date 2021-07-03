@@ -16,17 +16,13 @@ export class BulletList extends CommonNode {
     override readonly parser: NodeParserSpec = {
         match: ({ type, ordered }) => type === 'list' && !ordered,
         runner: (type, state, node) => {
-            state.openNode(type);
-            state.next(node.children);
-            state.closeNode();
+            state.openNode(type).next(node.children).closeNode();
         },
     };
     override readonly serializer: NodeSerializerSpec = {
         match: (node) => node.type.name === this.id,
         runner: (node, state) => {
-            state.openNode('list', undefined, { ordered: false });
-            state.next(node.content);
-            state.closeNode();
+            state.openNode('list', undefined, { ordered: false }).next(node.content).closeNode();
         },
     };
     override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)];

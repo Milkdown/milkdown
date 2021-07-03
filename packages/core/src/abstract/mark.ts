@@ -1,12 +1,11 @@
 import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
+import { LoadState } from '../constant';
 import type { MarkParserSpec } from '../parser';
 import type { MarkSerializerSpec } from '../serializer';
-
+import type { AnyRecord, MarkViewFactory } from '../utility';
 import { Atom } from './atom';
-import { LoadState } from '../constant';
-import { AnyRecord, MarkViewFactory } from '../utility';
 
 interface MarkOptional {
     readonly view?: MarkViewFactory;
