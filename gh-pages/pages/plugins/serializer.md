@@ -27,3 +27,72 @@ class MyNode extends Node {
     };
 }
 ```
+
+## Serializer Specification
+
+The serializer specification has 2 props:
+
+-   _match_: match the target prosemirror node that need to be handled by this runner.
+
+-   _runner_: the function that transform the prosemirror node into remark AST, it has 2 parameters:
+
+    -   _state_: tools used to generate the remark AST.
+    -   _node_: the prosemirror node that need to be handled.
+
+## Serializer State
+
+The serializer state is used to generate the remark AST,
+it provides several useful methods to make the transformation pretty simple.
+
+### openNode & closeNode
+
+`openNode` method will open a node, and all nodes created after this method will be set as the children of the node until a `closeNode` been called.
+
+You can imagine `openNode` as the left half of parenthesis and `closeNode` as the right half. For nodes have children, your runner should just take care of the node itself and let other runners to handle the children.
+
+Parameters:
+
+-   _type_: the type of the AST.
+-   _value_: the value of the remark AST.
+-   _props_: the properties of the AST.
+
+The props will be spread, for example:
+
+```typescript
+openNode('my-node', undefined, { foo: true, bar: 0 });
+// will generate:
+const generatedCode = {
+    type: 'my-node',
+    foo: true,
+    bar: 0,
+    children: [
+        /* some children */
+    ],
+};
+```
+
+### addNode
+
+`addNode` means just add a node without open or close it. It's useful for nodes which don't have content.
+
+Parameters:
+
+-   _type_: the type of the AST.
+-   _children_: a markdown node list as the children of the AST.
+-   _value_: the value of the remark AST.
+-   _props_: the properties of the AST.
+
+### next
+
+`next` give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
+
+### withMark
+
+`withMark` is used when current node has marks, the serializer will auto combine marks nearby.
+
+Parameters:
+
+-   _mark_: the mark of current node.
+-   _type_: the type of the AST.
+-   _value_: the value of the remark AST.
+-   _props_: the properties of the AST.

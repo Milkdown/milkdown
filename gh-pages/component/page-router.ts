@@ -12,6 +12,7 @@ import usingPlugins from '../pages/plugins/using-plugins.md';
 import nodeAndMark from '../pages/plugins/node&mark.md';
 import buildingPlugins from '../pages/plugins/building-plugins.md';
 import parser from '../pages/plugins/parser.md';
+import serializer from '../pages/plugins/serializer.md';
 
 import core from '../pages/architecture/core.md';
 import atom from '../pages/architecture/atom.md';
@@ -57,6 +58,7 @@ export const pageRouter: Section[] = [
             { title: 'Building Plugins', link: '/building-plugins', content: buildingPlugins },
             { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
             { title: 'Parser', link: '/parser', content: parser },
+            { title: 'Serializer', link: '/serializer', content: serializer },
         ],
     },
     {

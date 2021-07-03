@@ -29,7 +29,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
                 defaultValue: content,
                 editable: () => !readOnly,
                 listener: {
-                    markdown: onChange ? [onChange, (x) => console.log(x())] : [],
+                    markdown: onChange ? [onChange] : [],
                 },
             })
                 .use(commonmark)
