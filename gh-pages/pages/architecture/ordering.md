@@ -22,7 +22,7 @@ This state means the editor is preparing, nothing has been loaded.
 Property in context that available at this moment:
 
 -   _loadState_: Current load status.
--   _markdownIt_: The markdownIt parser instance.
+-   _remark_: The remark parser instance.
 -   _nodes_: The nodes has been loaded at this moment.
 -   _marks_: The marks has been loaded at this moment.
 
