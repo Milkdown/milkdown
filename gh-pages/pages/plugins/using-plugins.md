@@ -45,4 +45,4 @@ Milkdown provides the following official plugins:
 
 ### Community plugins
 
-Check out [awesome-milkdown]() to find community plugins - you can also submit a PR to list your plugins there.
+Check out [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) to find community plugins - you can also submit a PR to list your plugins there.

@@ -13,6 +13,7 @@ import nodeAndMark from '../pages/plugins/node&mark.md';
 import buildingPlugins from '../pages/plugins/building-plugins.md';
 import parser from '../pages/plugins/parser.md';
 import serializer from '../pages/plugins/serializer.md';
+import exampleCustomSyntax from '../pages/plugins/example-custom-syntax.md';
 
 import core from '../pages/architecture/core.md';
 import atom from '../pages/architecture/atom.md';
@@ -59,6 +60,7 @@ export const pageRouter: Section[] = [
             { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
             { title: 'Parser', link: '/parser', content: parser },
             { title: 'Serializer', link: '/serializer', content: serializer },
+            { title: 'Example: Custom Syntax', link: '/example-custom-syntax', content: exampleCustomSyntax },
         ],
     },
     {
