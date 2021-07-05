@@ -43,7 +43,6 @@
         text-align: center;
         cursor: pointer;
         transition: all 0.2s ease-in;
-        /* border-radius: 50%; */
         &:hover {
             background: palette(secondary, 0.12);
         }

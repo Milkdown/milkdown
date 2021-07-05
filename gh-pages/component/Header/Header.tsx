@@ -43,7 +43,10 @@ export const Header: React.FC<Props> = ({
 
     useDarkMode(isDarkMode, setIsDarkMode);
 
-    const headerClass = [className.container, locationType === LocationType.Home ? className.homepage : ''].join(' ');
+    const headerClass = [
+        className.container,
+        locationType === LocationType.Home || !scrolled ? className.homepage : '',
+    ].join(' ');
 
     return (
         <div className={headerClass}>
