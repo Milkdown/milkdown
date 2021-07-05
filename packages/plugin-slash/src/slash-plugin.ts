@@ -71,53 +71,47 @@ class Props {
     decorations = (state: EditorState) => {
         const { status } = this;
         const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
-
         const isTopLevel = state.selection.$from.depth === 1;
+
         if (!parent || !isTopLevel) {
             status.clearStatus();
             return;
         }
-        const decorations = [] as Decoration[];
 
+        const pos = parent.pos;
         const isEmpty = parent.node.content.size === 0;
         const isSlash = parent.node.textContent === '/';
+        const isSearch = parent.node.textContent.startsWith('/');
 
-        state.doc.descendants((node, pos) => {
-            if (node.type.name === 'paragraph' && (node.textContent.startsWith('/') || node.textContent.length === 0)) {
-                if (node.textContent.length > 1 && node.textContent.startsWith('/')) {
-                    status.setSlash(parent.node.textContent.slice(1));
-                    return;
-                }
+        if (isEmpty) {
+            status.clearStatus();
+            const text = 'Type / to use the slash commands...';
+            return DecorationSet.create(state.doc, [
+                Decoration.node(pos, pos + parent.node.nodeSize, {
+                    class: 'empty-node',
+                    'data-text': text,
+                }),
+            ]);
+        }
 
-                if (isEmpty) {
-                    status.clearStatus();
-                    const text = 'Type / to use the slash commands...';
-                    decorations.push(
-                        Decoration.node(pos, pos + node.nodeSize, {
-                            class: 'empty-node',
-                            'data-text': text,
-                        }),
-                    );
-                    return;
-                }
+        if (isSlash) {
+            status.setSlash();
+            const text = 'Type to filter...';
+            return DecorationSet.create(state.doc, [
+                Decoration.node(pos, pos + parent.node.nodeSize, {
+                    class: 'empty-node is-slash',
+                    'data-text': text,
+                }),
+            ]);
+        }
 
-                if (isSlash) {
-                    status.setSlash();
-                    const text = 'Type to filter...';
-                    decorations.push(
-                        Decoration.node(pos, pos + node.nodeSize, {
-                            class: 'empty-node is-slash',
-                            'data-text': text,
-                        }),
-                    );
-                    return;
-                }
+        if (isSearch) {
+            status.setSlash(parent.node.textContent.slice(1));
+            return null;
+        }
 
-                status.clearStatus();
-            }
-        });
-
-        return DecorationSet.create(state.doc, decorations);
+        status.clearStatus();
+        return null;
     };
 }
 
@@ -285,32 +279,29 @@ class View {
         activeList[0].$.classList.add('active');
 
         this.#dropdownElement.classList.remove('hide');
-        scrollIntoView(activeList[0].$, {
-            scrollMode: 'if-needed',
-            block: 'nearest',
-            inline: 'nearest',
-        });
         return true;
     }
 
     private calculatePosition(view: EditorView) {
         const state = view.state;
         const { from } = state.selection;
-        const start = view.coordsAtPos(from);
 
-        const box = this.#dropdownElement.offsetParent?.getBoundingClientRect();
-        if (!box) return;
+        const node = view.domAtPos(from).node as HTMLElement;
+        const rect = node.getBoundingClientRect();
+        const bound = this.#dropdownElement.getBoundingClientRect();
+        const win = document.body.getBoundingClientRect();
 
-        const rect = this.#dropdownElement.getBoundingClientRect();
+        let leftPx = rect.left;
+        let topPx = rect.top + rect.height;
 
-        this.#dropdownElement.style.left = start.left - box.left + 'px';
-        if (Math.abs(start.bottom - box.bottom) > rect.height) {
-            this.#dropdownElement.style.bottom = '';
-            this.#dropdownElement.style.top = start.top - box.top + 20 + 'px';
-            return;
+        if (leftPx < 0) {
+            leftPx = 0;
+        }
+        if (win.height - rect.bottom < bound.height) {
+            topPx = rect.top - bound.height;
         }
 
-        this.#dropdownElement.style.top = '';
-        this.#dropdownElement.style.bottom = start.bottom - box.bottom + 190 + 'px';
+        this.#dropdownElement.style.left = leftPx + 'px';
+        this.#dropdownElement.style.top = topPx + 'px';
     }
 }
