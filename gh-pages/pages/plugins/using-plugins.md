@@ -31,15 +31,19 @@ Milkdown provides the following official plugins:
 
     Add table syntax support.
 
--   [@milkdown/Plugin-prism](https://www.npmjs.com/package/@milkdown/plugin-prism)
+-   [@milkdown/plugin-prism](https://www.npmjs.com/package/@milkdown/plugin-prism)
 
     Add [prism](https://prismjs.com/) support for code block highlight.
 
--   [@milkdown/Plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)
+-   [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)
+
+    Add [LaTeX](https://en.wikipedia.org/wiki/LaTeX) support for math.
+
+-   [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)
 
     Add selected tooltip for text.
 
--   [@milkdown/Plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)
+-   [@milkdown/plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)
 
     Add slash commands support.
 
