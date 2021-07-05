@@ -22,6 +22,7 @@ const languageOptions = [
     'python',
     'go',
     'rust',
+    'markdown',
 ];
 
 type CodeFenceOptions = {

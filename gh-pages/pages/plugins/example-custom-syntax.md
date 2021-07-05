@@ -35,7 +35,7 @@ const directiveRemarkPlugin = createRemarkPlugin('iframe-remark-plugin', () => [
 ## Define Schema
 
 Next, we need to define the schema of an iframe node,
-our iframe should be an inline node because it don't have and children,
+our iframe should be an inline node because it doesn't have and children,
 and have a `src` attribute to connect to the source.
 
 ```typescript
