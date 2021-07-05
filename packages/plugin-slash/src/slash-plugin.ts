@@ -4,7 +4,7 @@ import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import { Action, items } from './item';
-import { createDropdown, createPlaceholder } from './utility';
+import { createDropdown } from './utility';
 
 export const slashPlugin = createProsemirrorPlugin('slash', (ctx) => [plugin(ctx)]);
 
@@ -69,41 +69,55 @@ class Props {
         return true;
     };
     decorations = (state: EditorState) => {
+        const { status } = this;
         const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
-        if (!parent) {
-            this.status.clearStatus();
-            return null;
-        }
 
         const isTopLevel = state.selection.$from.depth === 1;
+        if (!parent || !isTopLevel) {
+            status.clearStatus();
+            return;
+        }
+        const decorations = [] as Decoration[];
+
         const isEmpty = parent.node.content.size === 0;
         const isSlash = parent.node.textContent === '/';
-        const isSearch = parent.node.textContent.startsWith('/');
-        const placeholder = (pos: number, text: string) =>
-            DecorationSet.create(state.doc, [Decoration.widget(pos, createPlaceholder(text))]);
 
-        if (!isTopLevel) {
-            this.status.clearStatus();
-            return null;
-        }
+        state.doc.descendants((node, pos) => {
+            if (node.type.name === 'paragraph' && (node.textContent.startsWith('/') || node.textContent.length === 0)) {
+                if (node.textContent.length > 1 && node.textContent.startsWith('/')) {
+                    status.setSlash(parent.node.textContent.slice(1));
+                    return;
+                }
 
-        if (isEmpty) {
-            this.status.clearStatus();
-            return placeholder(parent.pos + 1, 'Type / to use the slash commands...');
-        }
+                if (isEmpty) {
+                    status.clearStatus();
+                    const text = 'Type / to use the slash commands...';
+                    decorations.push(
+                        Decoration.node(pos, pos + node.nodeSize, {
+                            class: 'empty-node',
+                            'data-text': text,
+                        }),
+                    );
+                    return;
+                }
 
-        if (isSlash) {
-            this.status.setSlash();
-            return placeholder(parent.pos + 2, 'Type to filter...');
-        }
+                if (isSlash) {
+                    status.setSlash();
+                    const text = 'Type to filter...';
+                    decorations.push(
+                        Decoration.node(pos, pos + node.nodeSize, {
+                            class: 'empty-node is-slash',
+                            'data-text': text,
+                        }),
+                    );
+                    return;
+                }
 
-        if (isSearch) {
-            this.status.setSlash(parent.node.textContent.slice(1));
-            return null;
-        }
+                status.clearStatus();
+            }
+        });
 
-        this.status.clearStatus();
-        return null;
+        return DecorationSet.create(state.doc, decorations);
     };
 }
 

@@ -7,13 +7,6 @@ export const createDropdown = () => {
     return div;
 };
 
-export const createPlaceholder = (text: string) => {
-    const span = document.createElement('span');
-    span.textContent = text;
-    span.classList.add('slash-placeholder');
-    return span;
-};
-
 export const createDropdownItem = (text: string, icon: string) => {
     const div = document.createElement('div');
     div.setAttribute('role', 'option');
