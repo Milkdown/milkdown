@@ -1,7 +1,7 @@
 import { Plugin } from 'prosemirror-state';
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
-import { LoadPluginContext } from '../editor';
+import { LoadPluginContext } from '../context';
 
 const prosemirrorPluginLoader = (id: string) => {
     return class ProsemirrorPluginLoader extends Atom<

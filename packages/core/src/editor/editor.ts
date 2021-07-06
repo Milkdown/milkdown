@@ -13,7 +13,7 @@ import {
     ViewLoaderOptions,
 } from '../loader';
 import type { AnyRecord } from '../utility';
-import type { CompleteContext } from './context';
+import type { CompleteContext } from '../context';
 
 export class Editor {
     #atoms: Atom[] = [];

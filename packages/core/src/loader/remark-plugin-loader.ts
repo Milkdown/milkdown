@@ -1,7 +1,7 @@
 import type { Plugin } from 'unified';
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
-import type { IdleContext } from '../editor';
+import type { IdleContext } from '../context';
 
 const remarkPluginLoader = (id: string) =>
     class ProsemirrorPluginLoader extends Atom<LoadState.Idle, { plugins: (ctx: IdleContext) => Plugin[] }> {
