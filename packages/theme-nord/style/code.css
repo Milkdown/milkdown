@@ -92,10 +92,10 @@
                 margin: 0;
                 background-color: transparent;
             }
-        }
 
-        option:hover {
-            background-color: yellow;
+            option {
+                background-color: palette(surface);
+            }
         }
 
         pre {
