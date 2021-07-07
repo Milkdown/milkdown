@@ -1,0 +1,47 @@
+{
+    "name": "@milkdown/design-system",
+    "version": "4.4.0",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc && postcss style/style.css --verbose -o lib/style.css"
+    },
+    "files": [
+        "lib"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*",
+        "@types/prosemirror-gapcursor": "*",
+        "@types/prosemirror-history": "*",
+        "@types/prosemirror-inputrules": "*",
+        "@types/prosemirror-keymap": "*",
+        "@types/prosemirror-model": "*",
+        "@types/prosemirror-state": "*",
+        "@types/prosemirror-transform": "*",
+        "@types/prosemirror-view": "*",
+        "prosemirror-gapcursor": "*",
+        "prosemirror-history": "*",
+        "prosemirror-inputrules": "*",
+        "prosemirror-keymap": "*",
+        "prosemirror-model": "*",
+        "prosemirror-state": "*",
+        "prosemirror-transform": "*",
+        "prosemirror-view": "*"
+    },
+    "dependencies": {
+        "@benrbray/prosemirror-math": "^0.2.2",
+        "@types/katex": "^0.11.0",
+        "katex": "^0.13.2",
+        "remark-math": "^4.0.0",
+        "tslib": "^2.2.0"
+    },
+    "devDependencies": {
+        "@milkdown/core": "workspace:*",
+        "concurrently": "^6.0.2"
+    }
+}

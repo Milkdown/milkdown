@@ -8,6 +8,7 @@ importers:
       '@commitlint/cli': ^12.1.1
       '@commitlint/config-conventional': ^12.1.1
       '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-slash': workspace:*
@@ -64,6 +65,7 @@ importers:
       '@commitlint/cli': 12.1.1
       '@commitlint/config-conventional': 12.1.1
       '@milkdown/core': link:packages/core
+      '@milkdown/design-system': link:packages/design-system
       '@milkdown/plugin-math': link:packages/plugin-math
       '@milkdown/plugin-prism': link:packages/plugin-prism
       '@milkdown/plugin-slash': link:packages/plugin-slash
@@ -200,6 +202,25 @@ importers:
       remark: 13.0.0
       tslib: 2.2.0
       unified: 9.2.1
+
+  packages/design-system:
+    specifiers:
+      '@benrbray/prosemirror-math': ^0.2.2
+      '@milkdown/core': workspace:*
+      '@types/katex': ^0.11.0
+      concurrently: ^6.0.2
+      katex: ^0.13.2
+      remark-math: ^4.0.0
+      tslib: ^2.2.0
+    dependencies:
+      '@benrbray/prosemirror-math': 0.2.2_0d7f02fe743b283b4ff112411ae90ad0
+      '@types/katex': 0.11.0
+      katex: 0.13.11
+      remark-math: 4.0.0
+      tslib: 2.2.0
+    devDependencies:
+      '@milkdown/core': link:../core
+      concurrently: 6.0.2
 
   packages/plugin-math:
     specifiers:

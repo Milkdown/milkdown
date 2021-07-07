@@ -1,49 +1,33 @@
 :root {
     --nord0: #2e3440;
-    --nord0-rgb: 46, 52, 64;
 
     --nord1: #3b4252;
-    --nord1-rgb: 59, 66, 82;
 
     --nord2: #434c5e;
-    --nord2-rgb: 67, 76, 94;
 
     --nord3: #4c566a;
-    --nord3-rgb: 76, 86, 106;
 
     --nord4: #d8dee9;
-    --nord4-rgb: 216, 222, 233;
 
     --nord5: #e5e9f0;
-    --nord5-rgb: 229, 233, 240;
 
     --nord6: #eceff4;
-    --nord6-rgb: 236, 239, 244;
 
     --nord7: #8fbcbb;
-    --nord7-rgb: 143, 188, 187;
 
     --nord8: #88c0d0;
-    --nord8-rgb: 136, 192, 208;
 
     --nord9: #81a1c1;
-    --nord9-rgb: 129, 161, 193;
 
     --nord10: #5e81ac;
-    --nord10-rgb: 94, 129, 172;
 
     --nord11: #bf616a;
-    --nord11-rgb: 191, 97, 106;
 
     --nord12: #d08770;
-    --nord12-rgb: 208, 135, 112;
 
     --nord13: #ebcb8b;
-    --nord13-rgb: 235, 203, 139;
 
     --nord14: #a3be8c;
-    --nord14-rgb: 163, 190, 140;
 
     --nord15: #b48ead;
-    --nord15-rgb: 180, 142, 173;
 }

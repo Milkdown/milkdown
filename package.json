@@ -34,6 +34,7 @@
         "@milkdown/vue": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/utils": "workspace:*",
+        "@milkdown/design-system": "workspace:*",
         "@types/jest": "^26.0.22",
         "@types/prosemirror-commands": "^1.0.4",
         "@types/prosemirror-gapcursor": "^1.0.3",

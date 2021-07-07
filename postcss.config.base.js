@@ -1,8 +1,8 @@
-const palette = (key, frac = 1) => `rgba(var(--${key}), ${frac})`;
+const { functions } = require('@milkdown/design-system');
 
 module.exports = {
     plugins: [
-        require('postcss-functions')({ functions: { palette } }),
+        require('postcss-functions')({ functions }),
         require('postcss-mixins'),
         require('autoprefixer'),
         require('postcss-import'),
