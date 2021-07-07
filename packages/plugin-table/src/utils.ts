@@ -1,7 +1,7 @@
 import { findParentNode, cloneTr } from '@milkdown/utils';
 import { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
 import { Selection, Transaction } from 'prosemirror-state';
-import { CellSelection, TableMap, tableNodeTypes } from 'prosemirror-tables';
+import { CellSelection, TableMap, tableNodeTypes, TableRect } from 'prosemirror-tables';
 
 export type CellPos = {
     pos: number;
@@ -127,3 +127,23 @@ export const selectTable = (tr: Transaction) => {
     }
     return tr;
 };
+
+export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }: TableRect, row: number) {
+    const rowPos = Array(row)
+        .fill(0)
+        .reduce((acc, _, i) => {
+            return acc + table.child(i).nodeSize;
+        }, tableStart);
+
+    const { cell: cellType, row: rowType } = tableNodeTypes(table.type.schema);
+
+    const cells = Array(map.width)
+        .fill(0)
+        .map((_, col) => {
+            const headerCol = table.nodeAt(map.map[col]);
+            return cellType.createAndFill({ alignment: headerCol?.attrs.alignment }) as ProsemirrorNode;
+        });
+
+    tr.insert(rowPos, rowType.create(null, cells));
+    return tr;
+}

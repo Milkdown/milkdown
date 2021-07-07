@@ -2,17 +2,17 @@ import { EditorState, Plugin, PluginKey, PluginSpec, Transaction } from 'prosemi
 import {
     addColumnAfter,
     addColumnBefore,
-    addRowAfter,
-    addRowBefore,
     CellSelection,
     deleteColumn,
     deleteRow,
     deleteTable,
     setCellAttr,
     TableMap,
+    isInTable,
+    selectedRect,
 } from 'prosemirror-tables';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
-import { CellPos, getCellsInColumn, getCellsInRow, select, selectTable } from './utils';
+import { addRowWithAlignment, CellPos, getCellsInColumn, getCellsInRow, select, selectTable } from './utils';
 
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
@@ -86,14 +86,28 @@ export class PluginProps implements PluginSpec {
         },
         [Action.AddRowTop]: {
             $: icon('expand_less'),
-            command: () => addRowBefore,
+            command: () => (state, dispatch) => {
+                if (!isInTable(state)) return false;
+                if (dispatch) {
+                    const rect = selectedRect(state);
+                    dispatch(addRowWithAlignment(state.tr, rect, rect.top));
+                }
+                return true;
+            },
             disable: (view) =>
                 !getCellSelection(view).isRowSelection() ||
                 getCellSelection(view).$head.parent.type.name === 'table_header',
         },
         [Action.AddRowBottom]: {
             $: icon('expand_more'),
-            command: () => addRowAfter,
+            command: () => (state, dispatch) => {
+                if (!isInTable(state)) return false;
+                if (dispatch) {
+                    const rect = selectedRect(state);
+                    dispatch(addRowWithAlignment(state.tr, rect, rect.bottom));
+                }
+                return true;
+            },
             disable: (view) => !getCellSelection(view).isRowSelection(),
         },
         [Action.AlignLeft]: {
