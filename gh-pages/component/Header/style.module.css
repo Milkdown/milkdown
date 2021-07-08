@@ -87,7 +87,7 @@
     display: none;
 }
 
-@media only screen and (min-width: 67.5rem) {
+@mixin query 67.5rem {
     .logo > span {
         display: flex;
     }

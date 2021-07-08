@@ -9,6 +9,7 @@ export enum Theme {
     line = 'line',
     background = 'background',
     surface = 'surface',
+    radius = 'radius',
 }
 
 export type ThemePack = {

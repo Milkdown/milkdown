@@ -70,7 +70,7 @@
             box-sizing: border-box;
             height: 3rem;
             background-color: palette(background);
-            border-radius: 4px;
+            border-radius: var(--radius);
             display: flex;
             gap: 2rem;
             justify-content: flex-start;

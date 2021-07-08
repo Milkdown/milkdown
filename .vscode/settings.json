@@ -11,6 +11,7 @@
         "inputrules",
         "katex",
         "milkdown",
+        "mixins",
         "nord",
         "prosemirror",
         "textblock",

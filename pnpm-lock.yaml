@@ -328,7 +328,10 @@ importers:
       react-dom: 17.0.2_react@17.0.2
 
   packages/theme-nord:
-    specifiers: {}
+    specifiers:
+      '@milkdown/design-system': workspace:*
+    devDependencies:
+      '@milkdown/design-system': link:../design-system
 
   packages/utils:
     specifiers:

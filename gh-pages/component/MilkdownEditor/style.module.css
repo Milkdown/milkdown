@@ -1,9 +1,6 @@
 .editor {
     margin: 0;
-}
-
-@media only screen and (min-width: 67.5rem) {
-    .editor {
+    @mixin query 67.5rem {
         margin: 20px 0;
     }
 }

@@ -13,7 +13,7 @@ const hex2rgb = (hex: string) => {
     return ok ? [r, g, b].map(parse16) : null;
 };
 
-const themeColor = (hex: string) => {
+export const themeColor = (hex: string) => {
     const rgb = hex2rgb(hex);
     if (!rgb) {
         console.warn(`Invalid hex: ${hex}`);
@@ -21,11 +21,4 @@ const themeColor = (hex: string) => {
     }
 
     return rgb.join(', ');
-};
-
-const palette = (key: string, frac = 1) => `rgba(var(--${key}), ${frac})`;
-
-export const functions = {
-    themeColor,
-    palette,
 };

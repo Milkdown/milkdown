@@ -16,7 +16,7 @@
 .math-src > div {
     padding: 4px;
     outline: none !important;
-    border-radius: 4px;
+    border-radius: var(--radius);
     font-weight: 500;
     font-family: var(--font-code);
     box-sizing: border-box;

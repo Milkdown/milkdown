@@ -1,13 +1,3 @@
-import { theme } from './theme';
-
-export const query = (_: unknown, width: string) => {
-    return {
-        [`@media only screen and (min-width: ${width})`]: {
-            '@mixin-content': {},
-        },
-    };
-};
-
 export const icon = (_: unknown, type?: string) => {
     return {
         'font-family': `Material Icons${type && type.length > 0 ? ` ${type}` : ''}`,
@@ -31,12 +21,4 @@ export const icon = (_: unknown, type?: string) => {
         /* Support for IE. */
         'font-feature-settings': 'liga',
     };
-};
-
-export { theme, Theme, ThemePack } from './theme';
-
-export const mixins = {
-    query,
-    theme,
-    icon,
 };

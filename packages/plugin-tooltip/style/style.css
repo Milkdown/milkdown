@@ -5,7 +5,7 @@
     position: absolute;
     transform: translateX(-50%);
     margin-bottom: 8px;
-    border-radius: 4px;
+    border-radius: var(--radius);
 
     border: 1px solid palette(line);
     box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
@@ -51,7 +51,7 @@
     align-items: center;
     position: absolute;
     background: palette(surface);
-    border-radius: 4px;
+    border-radius: var(--radius);
     font-size: 1rem;
 
     height: 3.5rem;

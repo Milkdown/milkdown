@@ -19,11 +19,8 @@ body {
 .milkdown {
     max-width: 72rem;
     overflow: hidden;
-}
-
-@media only screen and (min-width: 67.5rem) {
-    .milkdown {
+    @mixin query 67.5rem {
         min-height: auto;
-        border-radius: 4px;
+        border-radius: var(--radius);
     }
 }

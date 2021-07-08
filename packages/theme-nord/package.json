@@ -6,6 +6,9 @@
         "watch": "postcss style/theme.css --watch --verbose -o lib/theme.css",
         "build": "postcss style/theme.css -o lib/theme.css"
     },
+    "devDependencies": {
+        "@milkdown/design-system": "workspace:*"
+    },
     "files": [
         "lib"
     ]
