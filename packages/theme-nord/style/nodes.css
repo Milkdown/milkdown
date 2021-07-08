@@ -82,34 +82,15 @@
                 margin-left: 1rem;
                 position: relative;
                 &:before {
+                    @mixin icon Outlined;
                     position: absolute;
                     top: 0;
                     bottom: 0;
                     left: 0;
                     right: 0;
                     content: 'image';
-                    font-family: 'Material Icons Outlined';
                     font-size: 1.5rem;
                     line-height: 1.5rem;
-
-                    /* Support for all WebKit browsers. */
-                    -webkit-font-smoothing: antialiased;
-                    /* Support for Safari and Chrome. */
-                    text-rendering: optimizeLegibility;
-
-                    /* Support for Firefox. */
-                    -moz-osx-font-smoothing: grayscale;
-
-                    /* Support for IE. */
-                    font-feature-settings: 'liga';
-
-                    display: inline-block;
-                    line-height: 1;
-                    text-transform: none;
-                    letter-spacing: normal;
-                    word-wrap: normal;
-                    white-space: nowrap;
-                    direction: ltr;
                 }
             }
             .placeholder {

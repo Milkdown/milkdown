@@ -4,6 +4,7 @@
 
 :root {
     @mixin theme light;
+    --breakpoint: 67.5rem;
 }
 
 [data-theme='dark'] {
@@ -22,7 +23,7 @@
     box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
     box-sizing: border-box;
 
-    @media only screen and (min-width: 67.5rem) {
+    @query var(--breakpoint) {
         max-width: 57.375rem;
         padding: 3.125rem 7.25rem;
     }

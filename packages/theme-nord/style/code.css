@@ -38,6 +38,8 @@
             position: relative;
 
             &::after {
+                @mixin icon Outlined;
+
                 position: absolute;
                 right: 0;
                 top: 0;
@@ -47,28 +49,9 @@
                 justify-content: center;
                 align-items: center;
                 content: 'expand_more';
-                font-family: 'Material Icons Outlined';
                 color: palette(solid, 0.87);
                 font-size: 1.2rem;
                 border-left: 1px solid palette(line);
-
-                /* Support for all WebKit browsers. */
-                -webkit-font-smoothing: antialiased;
-                /* Support for Safari and Chrome. */
-                text-rendering: optimizeLegibility;
-
-                /* Support for Firefox. */
-                -moz-osx-font-smoothing: grayscale;
-
-                /* Support for IE. */
-                font-feature-settings: 'liga';
-
-                line-height: 1;
-                text-transform: none;
-                letter-spacing: normal;
-                word-wrap: normal;
-                white-space: nowrap;
-                direction: ltr;
             }
             &:hover::after {
                 background: palette(background);
