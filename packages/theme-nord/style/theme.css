@@ -1,43 +1,13 @@
-@import '@milkdown/design-system/style/style.css';
-@import './nord.css';
 @import './marks.css';
 @import './nodes.css';
 @import './code.css';
 
-@define-mixin theme-light {
-    --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
-        sans-serif;
-    --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
-    --neutral: themeColor(#2e3440);
-    --solid: themeColor(#4c566a);
-    --shadow: themeColor(#3b4252);
-    --primary: themeColor(#5e81ac);
-    --secondary: themeColor(#81a1c1);
-    --line: themeColor(#d8dee9);
-    --background: themeColor(#eceff4);
-    --surface: themeColor(#fff);
-}
-
-@define-mixin theme-dark {
-    --font: Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande,
-        sans-serif;
-    --font-code: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
-    --neutral: themeColor(#eceff4);
-    --solid: themeColor(#d8dee9);
-    --shadow: themeColor(#3b4252);
-    --primary: themeColor(#5e81ac);
-    --secondary: themeColor(#81a1c1);
-    --line: themeColor(#434c5e);
-    --background: themeColor(#252932);
-    --surface: themeColor(#2e3440);
-}
-
 :root {
-    @mixin theme-light;
+    @mixin theme light;
 }
 
 [data-theme='dark'] {
-    @mixin theme-dark;
+    @mixin theme dark;
 }
 
 .milkdown {

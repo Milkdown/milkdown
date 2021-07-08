@@ -1,11 +1,8 @@
 const { functions } = require('@milkdown/design-system');
 
+const noConfigPlugin = [require('autoprefixer'), require('postcss-import'), require('postcss-nested')];
+
 module.exports = {
-    plugins: [
-        require('postcss-functions')({ functions }),
-        require('postcss-mixins'),
-        require('autoprefixer'),
-        require('postcss-import'),
-        require('postcss-nested'),
-    ],
+    noConfigPlugin,
+    plugins: [...noConfigPlugin, require('postcss-functions')({ functions }), require('postcss-mixins')],
 };
