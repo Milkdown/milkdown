@@ -17,13 +17,15 @@
         "build:doc": "pnpm run build -r --filter @milkdown/gh-pages",
         "postinstall": "husky install && pnpm run build:packs",
         "changeset": "changeset",
-        "release": "changeset publish"
+        "release": "changeset publish",
+        "clear": "rimraf packages/*/lib"
     },
     "devDependencies": {
         "@changesets/cli": "^2.16.0",
         "@commitlint/cli": "^12.1.1",
         "@commitlint/config-conventional": "^12.1.1",
         "@milkdown/core": "workspace:*",
+        "@milkdown/design-system": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/plugin-slash": "workspace:*",
@@ -31,10 +33,9 @@
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/react": "workspace:*",
-        "@milkdown/vue": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/utils": "workspace:*",
-        "@milkdown/design-system": "workspace:*",
+        "@milkdown/vue": "workspace:*",
         "@types/jest": "^26.0.22",
         "@types/prosemirror-commands": "^1.0.4",
         "@types/prosemirror-gapcursor": "^1.0.3",
@@ -73,6 +74,7 @@
         "prosemirror-state": "^1.3.4",
         "prosemirror-transform": "^1.3.2",
         "prosemirror-view": "^1.18.2",
+        "rimraf": "^3.0.2",
         "ts-jest": "^26.5.4",
         "typescript": "^4.3.2",
         "vite": "^2.3.8"
