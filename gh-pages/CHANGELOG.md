@@ -1,5 +1,25 @@
 # @milkdown/gh-pages
 
+## 4.5.0
+
+### Minor Changes
+
+-   f0b957a: Make some improvements and add history plugin.
+
+### Patch Changes
+
+-   Updated dependencies [f0b957a]
+    -   @milkdown/core@4.5.0
+    -   @milkdown/plugin-history@4.5.0
+    -   @milkdown/plugin-math@4.5.0
+    -   @milkdown/plugin-prism@4.5.0
+    -   @milkdown/plugin-slash@4.5.0
+    -   @milkdown/plugin-table@4.5.0
+    -   @milkdown/plugin-tooltip@4.5.0
+    -   @milkdown/preset-commonmark@4.5.0
+    -   @milkdown/react@4.5.0
+    -   @milkdown/theme-nord@4.5.0
+
 ## 4.4.0
 
 ### Minor Changes
