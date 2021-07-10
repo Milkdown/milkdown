@@ -20,6 +20,7 @@
         "@milkdown/plugin-slash": "workspace:*",
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
+        "@milkdown/plugin-history": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/react": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",

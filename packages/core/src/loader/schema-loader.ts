@@ -13,7 +13,6 @@ export class SchemaLoader extends Atom<LoadState.LoadSchema> {
         const schema = new Schema({
             nodes: {
                 ...nodes,
-                // text: { group: 'inline' },
             },
             marks,
         });

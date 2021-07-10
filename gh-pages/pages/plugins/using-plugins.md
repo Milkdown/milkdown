@@ -27,6 +27,10 @@ new Editor({ root }).use(commonmark).use(tooltip).create();
 
 Milkdown provides the following official plugins:
 
+-   [@milkdown/plugin-history](https://www.npmjs.com/package/@milkdown/plugin-history)
+
+    Add undo & redo support.
+
 -   [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)
 
     Add table syntax support.

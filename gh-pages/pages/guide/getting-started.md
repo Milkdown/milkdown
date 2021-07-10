@@ -52,3 +52,24 @@ import '@milkdown/theme-nord/lib/theme.css';
 const root = document.body;
 new Editor({ root }).use(commonmark).create();
 ```
+
+## Taste the plugin
+
+Now let's add an **undo & redo** support for our editor:
+
+```typescript
+import { Editor } from '@milkdown/core';
+import { commonmark } from '@milkdown/preset-commonmark';
+
+import { history } from '@milkdown/plugin-history';
+
+// import theme
+import '@milkdown/theme-nord/lib/theme.css';
+
+const root = document.body;
+new Editor({ root }).use(commonmark).use(history).create();
+```
+
+> `Mod` is `Cmd` for mac and `Ctrl` for other platforms.
+
+Now we can undo a editor by using `Mod-z` and redo it by using `Mod-y` or `Shift-Mod-Z`.

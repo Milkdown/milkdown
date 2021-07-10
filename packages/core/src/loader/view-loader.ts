@@ -3,7 +3,6 @@ import { EditorState } from 'prosemirror-state';
 import { Node } from 'prosemirror-model';
 import { baseKeymap } from 'prosemirror-commands';
 import { keymap as createKeymap } from 'prosemirror-keymap';
-import { history, redo, undo } from 'prosemirror-history';
 import { EditorProps, EditorView } from 'prosemirror-view';
 
 import { Atom } from '../abstract';
@@ -74,11 +73,6 @@ export class ViewLoader extends Atom<LoadState.Complete, ViewLoaderOptions> {
             schema,
             doc,
             plugins: [
-                history(),
-                createKeymap({
-                    'Mod-z': undo,
-                    'Shift-Mod-z': redo,
-                }),
                 ...keymap,
                 ...prosemirrorPlugins,
                 createKeymap(baseKeymap),

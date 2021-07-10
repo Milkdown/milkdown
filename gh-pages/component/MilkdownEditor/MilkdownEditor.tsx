@@ -2,6 +2,7 @@ import React from 'react';
 import { Editor } from '@milkdown/core';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
+import { history } from '@milkdown/plugin-history';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
@@ -33,6 +34,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
                 },
             })
                 .use(commonmark)
+                .use(history)
                 .use(table())
                 .use(prism)
                 .use(tooltip)
