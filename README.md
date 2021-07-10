@@ -16,6 +16,10 @@ For more information, please check our [official documentation](https://saul-mir
 
 You can check our [Milkdown TODO](https://github.com/Saul-Mirone/milkdown/projects/1) project page to know what's on the plan.
 
+# Contributing
+
+Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/main/CONTRIBUTING.md) to learn how to contribute to milkdown.
+
 # Contributor
 
 <a title="Saul-Mirone" href="https://github.com/Saul-Mirone"><img src="https://avatars.githubusercontent.com/u/10047788?v=4" width="100" alt="profile picture of Saul Mirone"></a>

@@ -30,7 +30,6 @@ const addNode =
     };
 
 const closeNode = (ctx: Ctx) => (): Node => {
-    // TODO: check wether this can be deleted
     ctx.marks = Mark.none;
     const element = ctx.elements.pop();
 
