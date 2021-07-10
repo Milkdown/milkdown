@@ -2,6 +2,8 @@
 
 ## Setting Default Value
 
+### Markdown
+
 You can set a markdown string as the default value of the editor.
 
 ```typescript
@@ -12,6 +14,63 @@ new Editor({
 ```
 
 And then the editor will be rendered with default value.
+
+### Dom
+
+You can also use HTML as default value.
+
+Let's assume that we have following html snippets:
+
+```html
+<div id="pre">
+    <h1>Hello milkdown!</h1>
+</div>
+```
+
+Then we can use it as defaultValue with a `type` specification:
+
+```typescript
+new Editor({
+    ...
+    defaultValue: {
+        type: 'html',
+        dom: document.querySelector('#pre'),
+    }
+});
+```
+
+### JSON
+
+We can also use JSON object as default value.
+
+This JSON object can be get by listener, for example:
+
+```typescript
+let jsonOutput;
+new Editor({
+    ...
+    listener: {
+        docs: [
+            (node) => {
+                jsonOutput = node.toJSON();
+            },
+        ]
+
+    },
+});
+```
+
+Then we can use this `jsonOutput` as default Value:
+
+```typescript
+new Editor({
+    ...
+    defaultValue: {
+        type: 'json',
+        value: jsonOutput,
+    }
+});
+```
 
 ---
 

@@ -1,12 +1,13 @@
 import { inputRules as createInputRules } from 'prosemirror-inputrules';
 import { EditorState } from 'prosemirror-state';
-import { Node } from 'prosemirror-model';
+import { Node, DOMParser } from 'prosemirror-model';
 import { baseKeymap } from 'prosemirror-commands';
 import { keymap as createKeymap } from 'prosemirror-keymap';
 import { EditorProps, EditorView } from 'prosemirror-view';
 
 import { Atom } from '../abstract';
 import { LoadState } from '../constant';
+import { AnyRecord } from '../utility';
 
 export type DocListener = (doc: Node) => void;
 export type MarkdownListener = (getMarkdown: () => string) => void;
@@ -17,7 +18,7 @@ export type Listener = {
 
 export type ViewLoaderOptions = {
     root: Element;
-    defaultValue: string;
+    defaultValue: string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: AnyRecord };
     listener: Listener;
     editable?: (editorState: EditorState) => boolean;
 };
@@ -64,11 +65,31 @@ export class ViewLoader extends Atom<LoadState.Complete, ViewLoaderOptions> {
         });
     }
 
-    #createState() {
-        const { parser, schema, inputRules, keymap, prosemirrorPlugins } = this.context;
+    #getDoc() {
+        const { parser, schema } = this.context;
         const { defaultValue } = this.options;
 
-        const doc = parser(defaultValue);
+        if (typeof defaultValue === 'string') {
+            return parser(defaultValue);
+        }
+
+        if (defaultValue.type === 'html') {
+            const domParser = DOMParser.fromSchema(schema);
+            console.log(domParser);
+            return domParser.parse(defaultValue.dom as unknown as Node);
+        }
+
+        if (defaultValue.type === 'json') {
+            return Node.fromJSON(schema, defaultValue.value);
+        }
+
+        throw new Error();
+    }
+
+    #createState() {
+        const { schema, inputRules, keymap, prosemirrorPlugins } = this.context;
+        const doc = this.#getDoc();
+        console.log(doc);
         return EditorState.create({
             schema,
             doc,
