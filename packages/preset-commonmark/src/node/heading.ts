@@ -1,6 +1,7 @@
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
+import { Keymap, setBlockType } from 'prosemirror-commands';
 import { CommonNode } from '../utility/base';
 
 const headingIndex = Array(5)
@@ -46,5 +47,13 @@ export class Heading extends CommonNode {
             textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), nodeType, () => ({
                 level: x,
             })),
+        );
+    override keymap = (nodeType: NodeType): Keymap =>
+        headingIndex.reduce(
+            (acc: Keymap, cur) => ({
+                ...acc,
+                [`Mod-Alt-${cur}`]: setBlockType(nodeType, { level: cur }),
+            }),
+            {} as Keymap,
         );
 }

@@ -1,6 +1,7 @@
-import type { NodeType, NodeSpec } from 'prosemirror-model';
 import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { Keymap, wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
+import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { CommonNode } from '../utility';
 
 export class BulletList extends CommonNode {
@@ -26,4 +27,7 @@ export class BulletList extends CommonNode {
         },
     };
     override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)];
+    override readonly keymap = (nodeType: NodeType): Keymap => ({
+        'Mod-Shift-8': wrapIn(nodeType),
+    });
 }

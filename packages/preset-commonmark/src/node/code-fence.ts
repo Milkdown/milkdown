@@ -2,7 +2,7 @@ import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
 import { LoadState, CompleteContext, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { Keymap } from 'prosemirror-commands';
+import { Keymap, setBlockType } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
 import { CommonNode } from '../utility';
 
@@ -87,7 +87,7 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
 
     override readonly inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
 
-    override readonly keymap = (): Keymap => ({
+    override readonly keymap = (nodeType: NodeType): Keymap => ({
         Tab: (state: EditorState, dispatch) => {
             const { tr, selection } = state;
             if (!dispatch) {
@@ -96,6 +96,7 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
             dispatch(tr.insertText('  ', selection.from, selection.to));
             return true;
         },
+        'Mod-Alt-c': setBlockType(nodeType),
     });
 
     #onChangeLanguage(top: number, left: number, language: string) {

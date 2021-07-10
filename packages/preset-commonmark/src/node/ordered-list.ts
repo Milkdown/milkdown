@@ -1,6 +1,7 @@
-import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { Keymap, wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
+import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { CommonNode } from '../utility/base';
 
 export class OrderedList extends CommonNode {
@@ -57,4 +58,7 @@ export class OrderedList extends CommonNode {
             (match, node) => node.childCount + node.attrs.order === Number(match[1]),
         ),
     ];
+    override readonly keymap = (nodeType: NodeType): Keymap => ({
+        'Mod-Shift-7': wrapIn(nodeType),
+    });
 }

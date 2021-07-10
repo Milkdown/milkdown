@@ -1,4 +1,6 @@
-import type { Node } from 'prosemirror-model';
+import type { AnyRecord } from '@milkdown/core';
+import type { Node, Schema, NodeType, MarkType } from 'prosemirror-model';
+import type { EditorState } from 'prosemirror-state';
 import type { Selection, Transaction } from 'prosemirror-state';
 
 export type Position = {
@@ -62,4 +64,32 @@ export const findNodeInSelection =
 
 export const cloneTr = (tr: Transaction) => {
     return Object.assign(Object.create(tr), tr).setTime(Date.now());
+};
+
+export const getNodeFromSchema = (type: string, schema: Schema): NodeType => {
+    const target = schema.nodes[type];
+
+    if (!target) {
+        throw new Error();
+    }
+
+    return target;
+};
+
+export const getMarkFromSchema = (type: string, schema: Schema): MarkType => {
+    const target = schema.marks[type];
+
+    if (!target) {
+        throw new Error();
+    }
+
+    return target;
+};
+
+export const isNodeActive = (type: NodeType, state: EditorState, attrs: AnyRecord = {}) => {
+    const node =
+        findNodeInSelection((node) => node.type === type)(state.selection, state.doc) ||
+        findParentNode((node) => node.type === type)(state.selection);
+
+    return Boolean(node?.node.hasMarkup(type, { ...node.node.attrs, ...attrs }));
 };

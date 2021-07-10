@@ -1,8 +1,9 @@
-import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { wrappingInputRule } from 'prosemirror-inputrules';
+import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { CommonNode } from '../utility';
+import type { Keymap } from 'prosemirror-commands';
+import { wrapIn } from 'prosemirror-commands';
 
 export class Blockquote extends CommonNode {
     override readonly id = 'blockquote';
@@ -26,4 +27,7 @@ export class Blockquote extends CommonNode {
         },
     };
     override readonly inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
+    override readonly keymap = (nodeType: NodeType): Keymap => ({
+        'Mod-Shift-b': wrapIn(nodeType),
+    });
 }

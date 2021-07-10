@@ -1,6 +1,7 @@
-import type { NodeSpec } from 'prosemirror-model';
+import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { CommonNode } from '../utility/base';
+import { Keymap, setBlockType } from 'prosemirror-commands';
 
 export class Paragraph extends CommonNode {
     override readonly id = 'paragraph';
@@ -30,4 +31,7 @@ export class Paragraph extends CommonNode {
             state.closeNode();
         },
     };
+    override readonly keymap = (nodeType: NodeType): Keymap => ({
+        'Mod-Alt-0': setBlockType(nodeType),
+    });
 }

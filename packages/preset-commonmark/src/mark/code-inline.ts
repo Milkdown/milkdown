@@ -1,7 +1,8 @@
-import type { MarkSpec, MarkType } from 'prosemirror-model';
-import { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
+import type { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
+import type { Keymap } from 'prosemirror-commands';
+import { toggleMark } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
-
+import type { MarkSpec, MarkType } from 'prosemirror-model';
 import { CommonMark, markRule } from '../utility';
 
 export class CodeInline extends CommonMark {
@@ -26,4 +27,7 @@ export class CodeInline extends CommonMark {
         },
     };
     override readonly inputRules = (markType: MarkType): InputRule[] => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
+    override readonly keymap = (markType: MarkType): Keymap => ({
+        'Mod-e': toggleMark(markType),
+    });
 }

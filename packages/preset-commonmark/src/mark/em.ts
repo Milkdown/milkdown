@@ -1,8 +1,8 @@
-import type { MarkSpec, MarkType } from 'prosemirror-model';
+import type { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
 import type { Keymap } from 'prosemirror-commands';
-import type { InputRule } from 'prosemirror-inputrules';
 import { toggleMark } from 'prosemirror-commands';
-import { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
+import type { InputRule } from 'prosemirror-inputrules';
+import type { MarkSpec, MarkType } from 'prosemirror-model';
 import { CommonMark, markRule } from '../utility';
 
 export class Em extends CommonMark {
