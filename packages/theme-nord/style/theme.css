@@ -23,7 +23,7 @@
     box-sizing: border-box;
 
     @mixin query 67.5rem {
-        max-width: 57.375rem !important;
+        max-width: 57.375rem;
         padding: 3.125rem 7.25rem;
     }
 

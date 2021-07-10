@@ -17,7 +17,6 @@ body {
 }
 
 .milkdown {
-    max-width: 72rem;
     overflow: hidden;
     @mixin query 67.5rem {
         min-height: auto;

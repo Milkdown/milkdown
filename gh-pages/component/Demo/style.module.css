@@ -4,11 +4,6 @@
     margin: 0 auto;
 }
 
-.milk {
-    flex-grow: 1;
-    transition: flex 0.2s ease-in;
-}
-
 .code {
     margin: 1.25rem 0;
     background: palette(surface);

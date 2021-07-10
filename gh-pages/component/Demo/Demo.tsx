@@ -119,7 +119,7 @@ export const Demo = ({ content, mode, isDarkMode }: DemoProps): JSX.Element => {
 
     return (
         <div className={classes}>
-            <div className={className.milk}>
+            <div className="milk">
                 <MilkdownEditor
                     key={'milkdown' + stateCountMilkdown.toString()}
                     content={defaultValueForMilkdown.current}
