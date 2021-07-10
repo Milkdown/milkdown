@@ -41,5 +41,5 @@ export const keymapPlugin = (options: KeymapPluginOptions = {}) =>
                     [key]: commands[name],
                 };
             }, {} as Record<string, Command>);
-        return [columnResizing({}), tableEditing(), tableOperatorPlugin(), keymap(keymapValue)];
+        return [columnResizing({}), tableOperatorPlugin(), keymap(keymapValue), tableEditing()];
     });
