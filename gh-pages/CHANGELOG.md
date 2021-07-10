@@ -1,5 +1,22 @@
 # @milkdown/gh-pages
 
+## 4.5.1
+
+### Patch Changes
+
+-   e5bc443: Add default value type for html and json.
+-   Updated dependencies [e5bc443]
+    -   @milkdown/core@4.5.1
+    -   @milkdown/plugin-history@4.5.1
+    -   @milkdown/plugin-math@4.5.1
+    -   @milkdown/plugin-prism@4.5.1
+    -   @milkdown/plugin-slash@4.5.1
+    -   @milkdown/plugin-table@4.5.1
+    -   @milkdown/plugin-tooltip@4.5.1
+    -   @milkdown/preset-commonmark@4.5.1
+    -   @milkdown/react@4.5.1
+    -   @milkdown/theme-nord@4.5.1
+
 ## 4.5.0
 
 ### Minor Changes

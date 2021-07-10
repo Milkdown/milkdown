@@ -1,5 +1,11 @@
 # @milkdown/preset-commonmark
 
+## 4.5.1
+
+### Patch Changes
+
+-   e5bc443: Add default value type for html and json.
+
 ## 4.5.0
 
 ### Minor Changes
