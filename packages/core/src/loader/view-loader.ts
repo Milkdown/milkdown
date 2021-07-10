@@ -74,9 +74,7 @@ export class ViewLoader extends Atom<LoadState.Complete, ViewLoaderOptions> {
         }
 
         if (defaultValue.type === 'html') {
-            const domParser = DOMParser.fromSchema(schema);
-            console.log(domParser);
-            return domParser.parse(defaultValue.dom as unknown as Node);
+            return DOMParser.fromSchema(schema).parse(defaultValue.dom as unknown as Node);
         }
 
         if (defaultValue.type === 'json') {
@@ -89,7 +87,6 @@ export class ViewLoader extends Atom<LoadState.Complete, ViewLoaderOptions> {
     #createState() {
         const { schema, inputRules, keymap, prosemirrorPlugins } = this.context;
         const doc = this.#getDoc();
-        console.log(doc);
         return EditorState.create({
             schema,
             doc,
