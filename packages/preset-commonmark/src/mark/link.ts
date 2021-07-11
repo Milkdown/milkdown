@@ -1,9 +1,9 @@
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
 import { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
-import { CommonMark } from '../utility';
+import { BaseMark } from '../utility';
 
-export class Link extends CommonMark {
+export class Link extends BaseMark {
     override readonly id = 'link';
     override readonly schema: MarkSpec = {
         attrs: {

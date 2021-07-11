@@ -1,10 +1,9 @@
-import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
-import { LoadState, CompleteContext, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-
+import { CompleteContext, LoadState, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { Keymap, setBlockType } from 'prosemirror-commands';
-import { EditorState } from 'prosemirror-state';
-import { CommonNode } from '../utility';
+import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
+import { SupportedKeys } from '../supported-keys';
+import { BaseNode } from '../utility';
 
 const languageOptions = [
     '',
@@ -29,7 +28,9 @@ type CodeFenceOptions = {
     languageList?: string[];
 };
 
-export class CodeFence extends CommonNode<CodeFenceOptions> {
+type Keys = SupportedKeys.CodeFence;
+
+export class CodeFence extends BaseNode<Keys, CodeFenceOptions> {
     override readonly id = 'fence';
     override readonly schema: NodeSpec = {
         content: 'text*',
@@ -87,16 +88,23 @@ export class CodeFence extends CommonNode<CodeFenceOptions> {
 
     override readonly inputRules = (nodeType: NodeType) => [textblockTypeInputRule(/^```$/, nodeType)];
 
-    override readonly keymap = (nodeType: NodeType): Keymap => ({
-        Tab: (state: EditorState, dispatch) => {
-            const { tr, selection } = state;
-            if (!dispatch) {
-                return false;
-            }
-            dispatch(tr.insertText('  ', selection.from, selection.to));
-            return true;
+    // override readonly keymap = (nodeType: NodeType): Keymap => ({
+    //     Tab: (state: EditorState, dispatch) => {
+    //         const { tr, selection } = state;
+    //         if (!dispatch) {
+    //             return false;
+    //         }
+    //         dispatch(tr.insertText('  ', selection.from, selection.to));
+    //         return true;
+    //     },
+    //     'Mod-Alt-c': setBlockType(nodeType),
+    // });
+
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.CodeFence]: {
+            defaultKey: 'Mod-Alt-c',
+            command: setBlockType(nodeType),
         },
-        'Mod-Alt-c': setBlockType(nodeType),
     });
 
     #onChangeLanguage(top: number, left: number, language: string) {

@@ -1,8 +1,8 @@
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import type { NodeSpec } from 'prosemirror-model';
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { CommonNode } from '../utility/base';
+import { BaseNode } from '../utility';
 
-export class Text extends CommonNode {
+export class Text extends BaseNode {
     override readonly id = 'text';
     override readonly schema: NodeSpec = {
         group: 'inline',

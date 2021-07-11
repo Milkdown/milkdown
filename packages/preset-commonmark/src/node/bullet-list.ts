@@ -1,10 +1,13 @@
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { Keymap, wrapIn } from 'prosemirror-commands';
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { CommonNode } from '../utility';
+import { SupportedKeys } from '../supported-keys';
+import { BaseNode } from '../utility';
 
-export class BulletList extends CommonNode {
+type Keys = SupportedKeys.BulletList;
+
+export class BulletList extends BaseNode<Keys> {
     override readonly id = 'bullet_list';
     override readonly schema: NodeSpec = {
         content: 'list_item+',
@@ -27,7 +30,10 @@ export class BulletList extends CommonNode {
         },
     };
     override inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)];
-    override readonly keymap = (nodeType: NodeType): Keymap => ({
-        'Mod-Shift-8': wrapIn(nodeType),
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.BulletList]: {
+            defaultKey: 'Mod-Shift-8',
+            command: wrapIn(nodeType),
+        },
     });
 }

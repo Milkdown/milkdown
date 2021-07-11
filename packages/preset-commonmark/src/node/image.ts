@@ -1,10 +1,9 @@
-import type { NodeSpec, NodeType } from 'prosemirror-model';
-
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
-import { CommonNode } from '../utility';
+import type { NodeSpec, NodeType } from 'prosemirror-model';
+import { BaseNode } from '../utility';
 
-export class Image extends CommonNode {
+export class Image extends BaseNode {
     override readonly id = 'image';
     override readonly schema: NodeSpec = {
         inline: true,

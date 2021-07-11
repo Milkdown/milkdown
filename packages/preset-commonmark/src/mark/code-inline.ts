@@ -1,11 +1,13 @@
 import type { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
-import type { Keymap } from 'prosemirror-commands';
 import { toggleMark } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType } from 'prosemirror-model';
-import { CommonMark, markRule } from '../utility';
+import { SupportedKeys } from '../supported-keys';
+import { BaseMark, markRule } from '../utility';
 
-export class CodeInline extends CommonMark {
+type Keys = SupportedKeys.CodeInline;
+
+export class CodeInline extends BaseMark<Keys> {
     override readonly id = 'code_inline';
     override readonly schema: MarkSpec = {
         excludes: '_',
@@ -27,7 +29,10 @@ export class CodeInline extends CommonMark {
         },
     };
     override readonly inputRules = (markType: MarkType): InputRule[] => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)];
-    override readonly keymap = (markType: MarkType): Keymap => ({
-        'Mod-e': toggleMark(markType),
+    override readonly commands: BaseMark<Keys>['commands'] = (markType: MarkType) => ({
+        [SupportedKeys.CodeInline]: {
+            defaultKey: 'Mod-e',
+            command: toggleMark(markType),
+        },
     });
 }

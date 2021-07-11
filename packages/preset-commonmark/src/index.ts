@@ -4,6 +4,7 @@ import { nodes } from './node';
 
 export * from './node';
 export * from './mark';
+export * from './supported-keys';
 
 type Cls = new (...args: unknown[]) => unknown;
 type ConstructorOf<T> = T extends InstanceType<infer U> ? U : T;

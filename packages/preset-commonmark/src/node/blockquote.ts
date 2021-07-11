@@ -1,11 +1,13 @@
 import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { CommonNode } from '../utility';
-import type { Keymap } from 'prosemirror-commands';
-import { wrapIn } from 'prosemirror-commands';
+import { SupportedKeys } from '../supported-keys';
+import { BaseNode } from '../utility';
 
-export class Blockquote extends CommonNode {
+type Keys = SupportedKeys.Blockquote;
+
+export class Blockquote extends BaseNode<Keys> {
     override readonly id = 'blockquote';
     override readonly schema: NodeSpec = {
         content: 'block+',
@@ -27,7 +29,10 @@ export class Blockquote extends CommonNode {
         },
     };
     override readonly inputRules = (nodeType: NodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)];
-    override readonly keymap = (nodeType: NodeType): Keymap => ({
-        'Mod-Shift-b': wrapIn(nodeType),
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.Blockquote]: {
+            defaultKey: 'Mod-Shift-b',
+            command: wrapIn(nodeType),
+        },
     });
 }

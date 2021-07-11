@@ -1,10 +1,12 @@
-import type { NodeType, NodeSpec } from 'prosemirror-model';
-import type { Keymap } from 'prosemirror-commands';
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { CommonNode } from '../utility';
+import { SupportedKeys } from '../supported-keys';
+import { BaseNode } from '../utility';
 
-export class ListItem extends CommonNode {
+type Keys = SupportedKeys.SinkListItem | SupportedKeys.LiftListItem | SupportedKeys.NextListItem;
+
+export class ListItem extends BaseNode<Keys> {
     override readonly id = 'list_item';
     override readonly schema: NodeSpec = {
         content: 'paragraph block*',
@@ -28,9 +30,18 @@ export class ListItem extends CommonNode {
             state.closeNode();
         },
     };
-    override readonly keymap = (type: NodeType): Keymap => ({
-        Enter: splitListItem(type),
-        'Mod-]': sinkListItem(type),
-        'Mod-[': liftListItem(type),
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.NextListItem]: {
+            defaultKey: 'Enter',
+            command: splitListItem(nodeType),
+        },
+        [SupportedKeys.SinkListItem]: {
+            defaultKey: 'Mod-]',
+            command: sinkListItem(nodeType),
+        },
+        [SupportedKeys.LiftListItem]: {
+            defaultKey: 'Mod-[',
+            command: liftListItem(nodeType),
+        },
     });
 }

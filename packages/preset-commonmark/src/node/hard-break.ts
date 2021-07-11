@@ -1,9 +1,11 @@
-import type { Keymap } from 'prosemirror-commands';
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { CommonNode } from '../utility';
+import { SupportedKeys } from '../supported-keys';
+import { BaseNode } from '../utility';
 
-export class HardBreak extends CommonNode {
+type Keys = SupportedKeys.HardBreak;
+
+export class HardBreak extends BaseNode<Keys> {
     override readonly id = 'hardbreak';
     override readonly schema: NodeSpec = {
         inline: true,
@@ -24,10 +26,13 @@ export class HardBreak extends CommonNode {
             state.addNode('break');
         },
     };
-    override readonly keymap = (nodeType: NodeType): Keymap => ({
-        'Shift-Enter': (state, dispatch) => {
-            dispatch?.(state.tr.replaceSelectionWith(nodeType.create()).scrollIntoView());
-            return true;
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.HardBreak]: {
+            defaultKey: 'Shift-Enter',
+            command: (state, dispatch) => {
+                dispatch?.(state.tr.replaceSelectionWith(nodeType.create()).scrollIntoView());
+                return true;
+            },
         },
     });
 }

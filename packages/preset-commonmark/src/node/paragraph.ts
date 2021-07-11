@@ -1,9 +1,12 @@
+import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { setBlockType } from 'prosemirror-commands';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { CommonNode } from '../utility/base';
-import { Keymap, setBlockType } from 'prosemirror-commands';
+import { SupportedKeys } from '../supported-keys';
+import { BaseNode } from '../utility';
 
-export class Paragraph extends CommonNode {
+type Keys = SupportedKeys.Text;
+
+export class Paragraph extends BaseNode<Keys> {
     override readonly id = 'paragraph';
     override readonly schema: NodeSpec = {
         content: 'inline*',
@@ -31,7 +34,10 @@ export class Paragraph extends CommonNode {
             state.closeNode();
         },
     };
-    override readonly keymap = (nodeType: NodeType): Keymap => ({
-        'Mod-Alt-0': setBlockType(nodeType),
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.Text]: {
+            defaultKey: 'Mod-Alt-0',
+            command: setBlockType(nodeType),
+        },
     });
 }

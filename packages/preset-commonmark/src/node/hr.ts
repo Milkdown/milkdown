@@ -1,10 +1,9 @@
-import type { NodeSpec, NodeType } from 'prosemirror-model';
 import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-
 import { InputRule } from 'prosemirror-inputrules';
-import { CommonNode } from '../utility';
+import type { NodeSpec, NodeType } from 'prosemirror-model';
+import { BaseNode } from '../utility';
 
-export class Hr extends CommonNode {
+export class Hr extends BaseNode {
     override readonly id = 'hr';
     override readonly schema: NodeSpec = {
         group: 'block',

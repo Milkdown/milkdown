@@ -1,11 +1,13 @@
 import { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
-import type { Keymap } from 'prosemirror-commands';
 import { toggleMark } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType } from 'prosemirror-model';
-import { CommonMark, markRule } from '../utility';
+import { SupportedKeys } from '../supported-keys';
+import { BaseMark, markRule } from '../utility';
 
-export class Strong extends CommonMark {
+type Keys = SupportedKeys.Bold;
+
+export class Strong extends BaseMark<Keys> {
     override readonly id = 'strong';
     override readonly schema: MarkSpec = {
         parseDOM: [
@@ -33,7 +35,10 @@ export class Strong extends CommonMark {
         markRule(/(?:__)([^_]+)(?:__)$/, markType),
         markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),
     ];
-    override readonly keymap = (markType: MarkType): Keymap => ({
-        'Mod-b': toggleMark(markType),
+    override readonly commands: BaseMark<Keys>['commands'] = (markType: MarkType) => ({
+        [SupportedKeys.Bold]: {
+            defaultKey: 'Mod-b',
+            command: toggleMark(markType),
+        },
     });
 }

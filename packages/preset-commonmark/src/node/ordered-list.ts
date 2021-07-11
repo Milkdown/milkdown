@@ -1,10 +1,13 @@
 import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { Keymap, wrapIn } from 'prosemirror-commands';
+import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { CommonNode } from '../utility/base';
+import { SupportedKeys } from '../supported-keys';
+import { BaseNode } from '../utility';
 
-export class OrderedList extends CommonNode {
+type Keys = SupportedKeys.OrderedList;
+
+export class OrderedList extends BaseNode<Keys> {
     override readonly id = 'ordered_list';
     override readonly schema: NodeSpec = {
         content: 'list_item+',
@@ -58,7 +61,10 @@ export class OrderedList extends CommonNode {
             (match, node) => node.childCount + node.attrs.order === Number(match[1]),
         ),
     ];
-    override readonly keymap = (nodeType: NodeType): Keymap => ({
-        'Mod-Shift-7': wrapIn(nodeType),
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.OrderedList]: {
+            defaultKey: 'Mod-Shift-7',
+            command: wrapIn(nodeType),
+        },
     });
 }
