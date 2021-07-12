@@ -1,10 +1,18 @@
-import { createRemarkPlugin } from '@milkdown/core';
+import { createProsemirrorPlugin, createRemarkPlugin } from '@milkdown/core';
+import { columnResizing, tableEditing } from 'prosemirror-tables';
 import gfm from 'remark-gfm';
-import { keymapPlugin, KeymapPluginOptions } from './keymap';
-import { nodes } from './nodes';
+import { tableNodes } from './nodes';
+import { tableOperatorPlugin } from './table-operator-plugin';
 
-const remarkGFMPlugin = createRemarkPlugin('remark-table-markdown', () => [gfm]);
+export const remarkGFMPlugin = createRemarkPlugin('remark-table-markdown', () => [gfm]);
+export const tableEditPlugin = createProsemirrorPlugin('prosemirror-table-edit', () => [
+    columnResizing({}),
+    tableOperatorPlugin(),
+    tableEditing(),
+]);
 
-export const table = (options: KeymapPluginOptions = {}) => [...nodes, remarkGFMPlugin, keymapPlugin(options)];
+export const tablePlugin = [remarkGFMPlugin, tableEditPlugin];
+export const table = [...tablePlugin, ...tableNodes];
 
-export { createTable } from './utils';
+export * from './nodes';
+export * from './utils';

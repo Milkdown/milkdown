@@ -7,7 +7,7 @@ type Empty = Record<string, unknown>;
 
 type CommonOptions<SupportedKeys extends string> = {
     className?: (attrs: AnyRecord) => string;
-    keymap?: Record<SupportedKeys, string | string[]>;
+    keymap?: Partial<Record<SupportedKeys, string | string[]>>;
 };
 
 type CommandValue = {
@@ -58,7 +58,8 @@ export abstract class BaseNode<SupportedKeys extends string = string, Options = 
     protected getKeymap(key: SupportedKeys, defaultKey: string, command: Command): Record<string, Command> {
         const { keymap } = this.options;
         if (!keymap) return { [defaultKey]: command };
-        const value: string | string[] = keymap[key];
+        const value: string | string[] | undefined = keymap[key];
+        if (!value) return { [defaultKey]: command };
         if (Array.isArray(value)) {
             return value.reduce(
                 (acc, cur) => ({
@@ -107,7 +108,8 @@ export abstract class BaseMark<SupportedKeys extends string = never, Options = E
     protected getKeymap(key: SupportedKeys, defaultKey: string, command: Command): Record<string, Command> {
         const { keymap } = this.options;
         if (!keymap) return { [defaultKey]: command };
-        const value: string | string[] = keymap[key];
+        const value: string | string[] | undefined = keymap[key];
+        if (!value) return { [defaultKey]: command };
         if (Array.isArray(value)) {
             return value.reduce(
                 (acc, cur) => ({

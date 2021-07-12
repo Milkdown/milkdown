@@ -74,7 +74,7 @@ export const createTable = (schema: Schema, rowsCount = 3, colsCount = 3) => {
     return table.create(null, rows);
 };
 
-export const select = (type: 'row' | 'col') => (index: number) => (tr: Transaction) => {
+export const selectLine = (type: 'row' | 'col') => (index: number) => (tr: Transaction) => {
     const table = findTable(tr.selection);
     const isRowSelection = type === 'row';
     if (table) {

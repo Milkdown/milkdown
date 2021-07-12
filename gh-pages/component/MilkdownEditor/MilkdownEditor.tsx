@@ -35,7 +35,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
             })
                 .use(commonmark)
                 .use(history)
-                .use(table())
+                .use(table)
                 .use(prism)
                 .use(tooltip)
                 .use(math);

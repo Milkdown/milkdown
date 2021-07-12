@@ -12,7 +12,7 @@ import {
     selectedRect,
 } from 'prosemirror-tables';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
-import { addRowWithAlignment, CellPos, getCellsInColumn, getCellsInRow, select, selectTable } from './utils';
+import { addRowWithAlignment, CellPos, getCellsInColumn, getCellsInRow, selectLine, selectTable } from './utils';
 
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
@@ -237,11 +237,11 @@ export class PluginProps implements PluginSpec {
                         return;
                     }
                     case ToolTipPos.Left: {
-                        this.#view.dispatch(select('row')(index)(this.#view.state.tr));
+                        this.#view.dispatch(selectLine('row')(index)(this.#view.state.tr));
                         return;
                     }
                     case ToolTipPos.Top: {
-                        this.#view.dispatch(select('col')(index)(this.#view.state.tr));
+                        this.#view.dispatch(selectLine('col')(index)(this.#view.state.tr));
                         return;
                     }
                 }

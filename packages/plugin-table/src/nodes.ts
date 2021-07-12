@@ -1,12 +1,14 @@
 import { Node as MarkdownNode } from 'unist';
-import { Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { Atom, Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
-import { tableNodes } from 'prosemirror-tables';
+import { tableNodes as tableNodesSpecCreator, goToNextCell } from 'prosemirror-tables';
 import { InputRule } from 'prosemirror-inputrules';
 import { TextSelection } from 'prosemirror-state';
 import { createTable } from './utils';
+import { BaseNode } from './base-node';
+import { exitTable } from './command';
 
-const tableNodesSpec = tableNodes({
+const tableNodesSpec = tableNodesSpecCreator({
     tableGroup: 'block',
     cellContent: 'paragraph',
     cellAttributes: {
@@ -20,7 +22,13 @@ const tableNodesSpec = tableNodes({
     },
 });
 
-export class Table extends Node {
+export enum SupportedKeys {
+    NextCell = 'NextCell',
+    PrevCell = 'PrevCell',
+    ExitTable = 'ExitTable',
+}
+type Keys = SupportedKeys.NextCell | SupportedKeys.PrevCell | SupportedKeys.ExitTable;
+export class Table extends BaseNode<Keys> {
     override readonly id = 'table';
     override readonly schema: NodeSpec = tableNodesSpec.table;
     override readonly parser: NodeParserSpec = {
@@ -62,6 +70,20 @@ export class Table extends Node {
             return tr.setSelection(TextSelection.create(tr.doc, start + 3));
         }),
     ];
+    override readonly commands: BaseNode<Keys>['commands'] = (_, schema: Schema) => ({
+        [SupportedKeys.NextCell]: {
+            defaultKey: 'Mod-]',
+            command: goToNextCell(1),
+        },
+        [SupportedKeys.PrevCell]: {
+            defaultKey: 'Mod-[',
+            command: goToNextCell(-1),
+        },
+        [SupportedKeys.ExitTable]: {
+            defaultKey: 'Mod-Enter',
+            command: exitTable(schema.nodes.paragraph),
+        },
+    });
 }
 
 export class TableRow extends Node {
@@ -138,4 +160,22 @@ export class TableHeader extends Node {
     };
 }
 
-export const nodes = [new Table(), new TableRow(), new TableCell(), new TableHeader()];
+type Cls = new (...args: unknown[]) => unknown;
+type ConstructorOf<T> = T extends InstanceType<infer U> ? U : T;
+
+class NodeList<T extends Atom = Atom> extends Array<T> {
+    configure<U extends ConstructorOf<T>>(Target: U, config: ConstructorParameters<U>[0]): this {
+        const index = this.findIndex((x) => x.constructor === Target);
+        if (index < 0) return this;
+
+        this.splice(index, 1, new (Target as Cls & U)(config));
+
+        return this;
+    }
+
+    static create<T extends Atom = Atom>(from: T[]): NodeList {
+        return new NodeList(...from);
+    }
+}
+
+export const tableNodes = NodeList.create([new Table(), new TableRow(), new TableCell(), new TableHeader()]);

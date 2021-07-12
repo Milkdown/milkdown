@@ -9,7 +9,7 @@ import { Atom } from './atom';
 
 interface MarkOptional {
     readonly view?: MarkViewFactory;
-    readonly keymap?: (markType: MarkType) => Keymap;
+    readonly keymap?: (markType: MarkType, schema: Schema) => Keymap;
     readonly inputRules?: (markType: MarkType, schema: Schema) => InputRule[];
 }
 

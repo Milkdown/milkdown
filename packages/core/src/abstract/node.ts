@@ -9,7 +9,7 @@ import { Atom } from './atom';
 
 interface NodeOptional {
     readonly view?: NodeViewFactory;
-    readonly keymap?: (nodeType: NodeType) => Keymap;
+    readonly keymap?: (nodeType: NodeType, schema: Schema) => Keymap;
     readonly inputRules?: (nodeType: NodeType, schema: Schema) => InputRule[];
 }
 
