@@ -19,7 +19,7 @@ new Editor({ root }).use(commonmark).create();
 ## Custom Keymap
 
 ```typescript
-import { commonmark, Blockquote, SupportedKeys } from '@milkdown/plugin-table';
+import { commonmark, Blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
 
 const nodes = commonmark
     .configure(Blockquote, {

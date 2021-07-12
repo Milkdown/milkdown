@@ -4,6 +4,7 @@ import whyMilkdown from '../pages/guide/why-milkdown.md';
 import gettingStarted from '../pages/guide/getting-started.md';
 import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
 import styling from '../pages/guide/styling.md';
+import keyboardShortcuts from '../pages/guide/keyboard-shortcuts.md';
 
 import react from '../pages/integrations/react.md';
 import vue from '../pages/integrations/vue.md';
@@ -34,6 +35,11 @@ export const pageRouter: Section[] = [
                 title: 'Styling',
                 link: '/styling',
                 content: styling,
+            },
+            {
+                title: 'Keyboard Shortcuts',
+                link: '/keyboard-shortcuts',
+                content: keyboardShortcuts,
             },
         ],
     },
