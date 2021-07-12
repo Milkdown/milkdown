@@ -1,5 +1,22 @@
 # @milkdown/gh-pages
 
+## 4.5.2
+
+### Patch Changes
+
+-   0dd0320: Add configurable keyboard shortcuts feature.
+-   Updated dependencies [0dd0320]
+    -   @milkdown/core@4.5.2
+    -   @milkdown/plugin-history@4.5.2
+    -   @milkdown/plugin-math@4.5.2
+    -   @milkdown/plugin-prism@4.5.2
+    -   @milkdown/plugin-slash@4.5.2
+    -   @milkdown/plugin-table@4.5.2
+    -   @milkdown/plugin-tooltip@4.5.2
+    -   @milkdown/preset-commonmark@4.5.2
+    -   @milkdown/react@4.5.2
+    -   @milkdown/theme-nord@4.5.2
+
 ## 4.5.1
 
 ### Patch Changes

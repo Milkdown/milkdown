@@ -1,5 +1,11 @@
 # @milkdown/plugin-math
 
+## 4.5.2
+
+### Patch Changes
+
+-   0dd0320: Add configurable keyboard shortcuts feature.
+
 ## 4.5.1
 
 ### Patch Changes
