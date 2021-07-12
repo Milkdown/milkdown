@@ -1,5 +1,5 @@
 const { noConfigPlugin } = require('../../postcss.config.base');
-const { functions, theme, Theme, query, icon } = require('@milkdown/design-system');
+const { functions, theme, Theme, query, icon, scrollbar } = require('@milkdown/design-system');
 
 const font =
     'Roboto, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif';
@@ -33,6 +33,7 @@ module.exports = {
             mixins: {
                 query,
                 icon,
+                scrollbar,
                 theme: theme({
                     [Theme.font]: font,
                     [Theme.fontCode]: fontCode,

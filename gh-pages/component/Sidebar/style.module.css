@@ -2,7 +2,7 @@
     box-sizing: border-box;
     width: 16rem;
     background: palette(background);
-    z-index: 1;
+    z-index: 999;
     position: fixed;
     top: 4.5rem;
     bottom: 0;

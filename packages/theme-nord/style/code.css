@@ -14,7 +14,9 @@
         font-size: 0.85rem;
         padding: 0 0.4rem 1.4rem;
         border-radius: var(--radius);
-        overflow: hidden;
+        overflow-x: scroll;
+
+        @mixin scrollbar row;
 
         * {
             margin: 0;
