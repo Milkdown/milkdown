@@ -55,3 +55,8 @@
         width: calc(100vw - 10rem);
     }
 }
+
+.milk {
+    flex-grow: 1;
+    transition: flex 0.2s ease-in;
+}

@@ -23,6 +23,8 @@
         height: 100vh;
         top: 0;
     }
+
+    flex-shrink: 0;
 }
 
 .hr {

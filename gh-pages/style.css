@@ -21,5 +21,6 @@ body {
     @mixin query 67.5rem {
         min-height: auto;
         border-radius: var(--radius);
+        max-width: 72rem;
     }
 }
