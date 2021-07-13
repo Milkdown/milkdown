@@ -2,6 +2,7 @@
     max-width: 72rem;
     display: block;
     margin: 0 auto;
+    width: 100%;
 }
 
 .code {
@@ -32,6 +33,12 @@
     @mixin scrollbar;
 }
 
+.milk {
+    flex-grow: 1;
+    transition: flex 0.2s ease-in;
+    flex-shrink: 2;
+}
+
 .twoSide {
     gap: 1.25rem;
     .code {
@@ -42,8 +49,11 @@
         padding: 3.125rem 2rem;
         border: 1px solid transparent;
         overflow: auto;
-        flex: 0 0 40%;
         transition: flex-basis 0.2s ease-in;
+        flex: 1 1 40%;
+    }
+    .milk {
+        width: 50%;
     }
 }
 
@@ -52,11 +62,5 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        width: calc(100vw - 10rem);
     }
-}
-
-.milk {
-    flex-grow: 1;
-    transition: flex 0.2s ease-in;
 }
