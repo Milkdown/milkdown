@@ -27,6 +27,7 @@ import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 
 import '@milkdown/theme-nord/lib/theme.css';
+import '@milkdown/preset-commonmark/lib/style.css';
 
 export const MilkdownEditor: React.FC = () => {
     const editor = useEditor((root) => new Editor({ root }).use(commonmark));

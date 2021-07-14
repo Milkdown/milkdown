@@ -314,6 +314,7 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@types/prosemirror-schema-list': ^1.0.3
+      concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.2.0
     dependencies:
@@ -322,6 +323,7 @@ importers:
       tslib: 2.2.0
     devDependencies:
       '@milkdown/core': link:../core
+      concurrently: 6.0.2
 
   packages/react:
     specifiers:

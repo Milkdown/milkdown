@@ -29,6 +29,7 @@ import { VueEditor, useEditor } from '@milkdown/vue';
 import { commonmark } from '@milkdown/preset-commonmark';
 
 import '@milkdown/theme-nord/lib/theme.css';
+import '@milkdown/preset-commonmark/lib/style.css';
 
 export const MilkdownEditor = defineComponent(() => {
     const editor = useEditor((root) => new Editor({ root }).use(commonmark));

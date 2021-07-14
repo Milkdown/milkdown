@@ -11,6 +11,7 @@ import { slash } from '@milkdown/plugin-slash';
 import className from './style.module.css';
 
 import '@milkdown/theme-nord/lib/theme.css';
+import '@milkdown/preset-commonmark/lib/style.css';
 import '@milkdown/plugin-math/lib/style.css';
 import '@milkdown/plugin-table/lib/style.css';
 import '@milkdown/plugin-tooltip/lib/style.css';

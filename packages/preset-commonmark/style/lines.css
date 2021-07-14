@@ -1,0 +1,47 @@
+@define-mixin lines {
+    .paragraph {
+        font-size: 1rem;
+        line-height: 1.5;
+        letter-spacing: 0.5px;
+    }
+
+    .heading {
+        margin: 2.5rem 0;
+        font-weight: 400;
+    }
+
+    .h1 {
+        font-size: 3rem;
+        line-height: 3.5rem;
+    }
+
+    .h2 {
+        font-size: 2.125rem;
+        line-height: 2.25rem;
+    }
+
+    .h3 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+
+    .hr {
+        height: 1px;
+        background-color: palette(line);
+        border-width: 0;
+    }
+
+    .list-item {
+        &,
+        & > * {
+            margin: 0.5rem 0;
+        }
+
+        &,
+        li {
+            &::marker {
+                color: palette(primary);
+            }
+        }
+    }
+}

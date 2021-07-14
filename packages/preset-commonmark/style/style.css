@@ -1,0 +1,13 @@
+@import './doc.css';
+@import './marks.css';
+@import './lines.css';
+@import './blocks.css';
+@import './code.css';
+
+.milkdown {
+    @mixin doc;
+    @mixin marks;
+    @mixin lines;
+    @mixin blocks;
+    @mixin code;
+}

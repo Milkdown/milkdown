@@ -46,8 +46,9 @@ We have some pieces for you to create a very minimal editor:
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-// import theme
+// import theme and plugin style
 import '@milkdown/theme-nord/lib/theme.css';
+import '@milkdown/preset-commonmark/lib/style.css';
 
 const root = document.body;
 new Editor({ root }).use(commonmark).create();
@@ -60,11 +61,11 @@ Now let's add an **undo & redo** support for our editor:
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
-
 import { history } from '@milkdown/plugin-history';
 
-// import theme
+// import theme and plugin style
 import '@milkdown/theme-nord/lib/theme.css';
+import '@milkdown/preset-commonmark/lib/style.css';
 
 const root = document.body;
 new Editor({ root }).use(commonmark).use(history).create();

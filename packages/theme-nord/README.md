@@ -8,10 +8,12 @@ Designed by Meo, a talented designer.
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
 
 // import theme
 import '@milkdown/theme-nord/lib/theme.css';
+
+import { commonmark } from '@milkdown/preset-commonmark';
+import '@milkdown/preset-commonmark/lib/style.css';
 
 const root = document.body;
 new Editor({ root }).use(commonmark).create();

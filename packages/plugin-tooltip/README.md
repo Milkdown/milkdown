@@ -9,8 +9,9 @@ Add support for tooltip commands.
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-// import theme
+// import theme and style
 import '@milkdown/theme-nord/lib/theme.css';
+import '@milkdown/preset-commonmark/lib/style.css';
 
 import { tooltip } from '@milkdown/plugin-tooltip';
 // import style
