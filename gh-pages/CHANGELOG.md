@@ -1,5 +1,22 @@
 # @milkdown/gh-pages
 
+## 4.5.3
+
+### Patch Changes
+
+-   9311f7c: Styles for preset commonmark.
+-   Updated dependencies [9311f7c]
+    -   @milkdown/core@4.5.3
+    -   @milkdown/plugin-history@4.5.3
+    -   @milkdown/plugin-math@4.5.3
+    -   @milkdown/plugin-prism@4.5.3
+    -   @milkdown/plugin-slash@4.5.3
+    -   @milkdown/plugin-table@4.5.3
+    -   @milkdown/plugin-tooltip@4.5.3
+    -   @milkdown/preset-commonmark@4.5.3
+    -   @milkdown/react@4.5.3
+    -   @milkdown/theme-nord@4.5.3
+
 ## 4.5.2
 
 ### Patch Changes
