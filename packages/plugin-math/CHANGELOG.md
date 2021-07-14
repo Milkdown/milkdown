@@ -1,5 +1,11 @@
 # @milkdown/plugin-math
 
+## 4.5.3
+
+### Patch Changes
+
+-   9311f7c: Styles for preset commonmark.
+
 ## 4.5.2
 
 ### Patch Changes

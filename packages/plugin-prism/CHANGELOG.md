@@ -1,5 +1,13 @@
 # @milkdown/plugin-prism
 
+## 4.5.3
+
+### Patch Changes
+
+-   9311f7c: Styles for preset commonmark.
+-   Updated dependencies [9311f7c]
+    -   @milkdown/utils@4.5.3
+
 ## 4.5.2
 
 ### Patch Changes
