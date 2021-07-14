@@ -6,7 +6,7 @@
 
 A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/), built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).
 
-Designed by Meo.
+The website is designed by Meo. Powered by [Theme Nord](https://www.nordtheme.com/) and [Material Design](https://material.io/design).
 
 # Documentation
 
