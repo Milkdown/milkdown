@@ -312,9 +312,15 @@ importers:
 
   packages/preset-gfm:
     specifiers:
+      '@milkdown/plugin-table': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/plugin-table': link:../plugin-table
+      '@milkdown/preset-commonmark': link:../preset-commonmark
+      '@milkdown/utils': link:../utils
       tslib: 2.3.0
     devDependencies:
       concurrently: 6.2.0
