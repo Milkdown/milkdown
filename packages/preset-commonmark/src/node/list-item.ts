@@ -9,13 +9,14 @@ type Keys = SupportedKeys.SinkListItem | SupportedKeys.LiftListItem | SupportedK
 export class ListItem extends BaseNode<Keys> {
     override readonly id = 'list_item';
     override readonly schema: NodeSpec = {
+        group: 'listItem',
         content: 'paragraph block*',
         defining: true,
         parseDOM: [{ tag: 'li' }],
         toDOM: (node) => ['li', { class: this.getClassName(node.attrs, 'list-item') }, 0],
     };
     override readonly parser: NodeParserSpec = {
-        match: ({ type }) => type === 'listItem',
+        match: ({ type, checked }) => type === 'listItem' && checked === null,
         runner: (state, node, type) => {
             state.openNode(type);
             state.next(node.children);

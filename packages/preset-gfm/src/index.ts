@@ -1,13 +1,17 @@
 import type { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
 import { table } from '@milkdown/plugin-table';
-import { toggleMark } from 'prosemirror-commands';
+import { commonmark } from '@milkdown/preset-commonmark';
 import { BaseMark, markRule } from '@milkdown/utils';
-import type { MarkSpec, MarkType } from 'prosemirror-model';
+import { toggleMark } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
+import type { MarkSpec } from 'prosemirror-model';
+import { TaskListItem } from './task-list-item';
 
 export enum SupportedKeys {
     StrikeThrough = 'StrikeThrough',
+    NextListItem = 'NextListItem',
+    SinkListItem = 'SinkListItem',
+    LiftListItem = 'LiftListItem',
 }
 
 type Keys = SupportedKeys.StrikeThrough;
@@ -22,9 +26,7 @@ export class StrikeThrough extends BaseMark<Keys> {
         toDOM: (mark) => ['del', { class: this.getClassName(mark.attrs) }],
     };
     override readonly parser: MarkParserSpec = {
-        match: (node) => {
-            return node.type === 'delete';
-        },
+        match: (node) => node.type === 'delete',
         runner: (state, node, markType) => {
             state.openMark(markType);
             state.next(node.children);
@@ -37,11 +39,11 @@ export class StrikeThrough extends BaseMark<Keys> {
             state.withMark(mark, 'delete');
         },
     };
-    override readonly inputRules = (markType: MarkType): InputRule[] => [
+    override readonly inputRules: BaseMark<Keys>['inputRules'] = (markType): InputRule[] => [
         markRule(/(?:~~)([^~]+)(?:~~)$/, markType),
         markRule(/(?:^|[^~])(~([^~]+)~)$/, markType),
     ];
-    override readonly commands: BaseMark<Keys>['commands'] = (markType: MarkType) => ({
+    override readonly commands: BaseMark<Keys>['commands'] = (markType) => ({
         [SupportedKeys.StrikeThrough]: {
             defaultKey: 'Mod-Shift-x',
             command: toggleMark(markType),
@@ -49,4 +51,4 @@ export class StrikeThrough extends BaseMark<Keys> {
     });
 }
 
-export const gfm = [...commonmark, ...table, new StrikeThrough()];
+export const gfm = [...commonmark, ...table, new StrikeThrough(), new TaskListItem()];

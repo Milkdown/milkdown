@@ -21,7 +21,7 @@
         "@milkdown/plugin-slash": "workspace:*",
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/preset-gfm": "workspace:*",
         "@milkdown/react": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "prism-themes": "^1.7.0",

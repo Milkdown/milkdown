@@ -10,7 +10,7 @@ type Keys = SupportedKeys.OrderedList;
 export class OrderedList extends BaseNode<Keys> {
     override readonly id = 'ordered_list';
     override readonly schema: NodeSpec = {
-        content: 'list_item+',
+        content: 'listItem+',
         group: 'block',
         attrs: {
             order: {

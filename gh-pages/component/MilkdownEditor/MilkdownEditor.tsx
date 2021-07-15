@@ -1,7 +1,7 @@
 import React from 'react';
 import { Editor } from '@milkdown/core';
 import { ReactEditor, useEditor } from '@milkdown/react';
-import { commonmark } from '@milkdown/preset-commonmark';
+import { gfm } from '@milkdown/preset-gfm';
 import { history } from '@milkdown/plugin-history';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
@@ -11,7 +11,7 @@ import { slash } from '@milkdown/plugin-slash';
 import className from './style.module.css';
 
 import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
+import '@milkdown/preset-gfm/lib/style.css';
 import '@milkdown/plugin-math/lib/style.css';
 import '@milkdown/plugin-table/lib/style.css';
 import '@milkdown/plugin-tooltip/lib/style.css';
@@ -34,7 +34,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
                     markdown: onChange ? [onChange] : [],
                 },
             })
-                .use(commonmark)
+                .use(gfm)
                 .use(history)
                 .use(table)
                 .use(prism)

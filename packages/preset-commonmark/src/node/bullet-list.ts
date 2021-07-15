@@ -10,7 +10,7 @@ type Keys = SupportedKeys.BulletList;
 export class BulletList extends BaseNode<Keys> {
     override readonly id = 'bullet_list';
     override readonly schema: NodeSpec = {
-        content: 'list_item+',
+        content: 'listItem+',
         group: 'block',
         parseDOM: [{ tag: 'ul' }],
         toDOM: (node) => {
@@ -20,6 +20,7 @@ export class BulletList extends BaseNode<Keys> {
     override readonly parser: NodeParserSpec = {
         match: ({ type, ordered }) => type === 'list' && !ordered,
         runner: (state, node, type) => {
+            console.log(node);
             state.openNode(type).next(node.children).closeNode();
         },
     };

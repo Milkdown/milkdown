@@ -133,7 +133,7 @@ importers:
       '@milkdown/plugin-slash': workspace:*
       '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@rollup/pluginutils': '*'
@@ -156,7 +156,7 @@ importers:
       '@milkdown/plugin-slash': link:../packages/plugin-slash
       '@milkdown/plugin-table': link:../packages/plugin-table
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
-      '@milkdown/preset-commonmark': link:../packages/preset-commonmark
+      '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/react': link:../packages/react
       '@milkdown/theme-nord': link:../packages/theme-nord
       prism-themes: 1.7.0
@@ -315,12 +315,16 @@ importers:
       '@milkdown/plugin-table': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/utils': workspace:*
+      '@types/prosemirror-schema-list': ^1.0.3
       concurrently: ^6.0.2
+      prosemirror-schema-list: ^1.1.4
       tslib: ^2.2.0
     dependencies:
       '@milkdown/plugin-table': link:../plugin-table
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/utils': link:../utils
+      '@types/prosemirror-schema-list': 1.0.3
+      prosemirror-schema-list: 1.1.4
       tslib: 2.3.0
     devDependencies:
       concurrently: 6.2.0
