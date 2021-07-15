@@ -3,7 +3,7 @@ import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import type { DOMOutputSpec, NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
-import { BaseNode } from '../utility';
+import { BaseNode } from '@milkdown/utils';
 
 const languageOptions = [
     '',

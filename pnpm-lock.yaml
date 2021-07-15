@@ -216,7 +216,6 @@ importers:
 
   packages/plugin-history:
     specifiers:
-      '@milkdown/core': workspace:*
       '@types/prosemirror-history': ^1.0.2
       prosemirror-history: ^1.1.3
       tslib: ^2.2.0
@@ -224,13 +223,10 @@ importers:
       '@types/prosemirror-history': 1.0.2
       prosemirror-history: 1.1.3
       tslib: 2.2.0
-    devDependencies:
-      '@milkdown/core': link:../core
 
   packages/plugin-math:
     specifiers:
       '@benrbray/prosemirror-math': ^0.2.2
-      '@milkdown/core': workspace:*
       '@types/katex': ^0.11.0
       concurrently: ^6.0.2
       katex: ^0.13.2
@@ -243,7 +239,6 @@ importers:
       remark-math: 4.0.0
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': link:../core
       concurrently: 6.0.2
 
   packages/plugin-prism:
@@ -263,9 +258,6 @@ importers:
 
   packages/plugin-slash:
     specifiers:
-      '@milkdown/core': workspace:*
-      '@milkdown/plugin-prism': workspace:*
-      '@milkdown/plugin-table': workspace:*
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       smooth-scroll-into-view-if-needed: ^1.1.32
@@ -275,14 +267,10 @@ importers:
       smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/plugin-prism': link:../plugin-prism
-      '@milkdown/plugin-table': link:../plugin-table
       concurrently: 6.0.2
 
   packages/plugin-table:
     specifiers:
-      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       prosemirror-tables: '*'
@@ -294,12 +282,10 @@ importers:
       remark-gfm: 1.0.0
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': link:../core
       concurrently: 6.0.2
 
   packages/plugin-tooltip:
     specifiers:
-      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       tslib: ^2.2.0
@@ -307,23 +293,31 @@ importers:
       '@milkdown/utils': link:../utils
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': link:../core
       concurrently: 6.0.2
 
   packages/preset-commonmark:
     specifiers:
-      '@milkdown/core': workspace:*
+      '@milkdown/utils': workspace:*
       '@types/prosemirror-schema-list': ^1.0.3
       concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/utils': link:../utils
       '@types/prosemirror-schema-list': 1.0.3
       prosemirror-schema-list: 1.1.4
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': link:../core
       concurrently: 6.0.2
+
+  packages/preset-gfm:
+    specifiers:
+      concurrently: ^6.0.2
+      tslib: ^2.2.0
+    dependencies:
+      tslib: 2.3.0
+    devDependencies:
+      concurrently: 6.2.0
 
   packages/react:
     specifiers:
@@ -352,12 +346,13 @@ importers:
 
   packages/utils:
     specifiers:
-      '@milkdown/core': workspace:*
+      '@types/lodash-es': ^4.17.4
+      lodash-es: ^4.17.21
       tslib: ^2.2.0
     dependencies:
+      '@types/lodash-es': 4.17.4
+      lodash-es: 4.17.21
       tslib: 2.2.0
-    devDependencies:
-      '@milkdown/core': link:../core
 
   packages/vue:
     specifiers:
@@ -1935,6 +1930,16 @@ packages:
     resolution: {integrity: sha512-27BfE8zASRLYfSBNMk5/+KIjr2CBBrH0i5lhsO04fca4TGirIIMay73v3zNkzqmsaeIa/Mi5kejWDcxPLAmkvA==}
     dev: false
 
+  /@types/lodash-es/4.17.4:
+    resolution: {integrity: sha512-BBz79DCJbD2CVYZH67MBeHZRX++HF+5p8Mo5MzjZi64Wac39S3diedJYHZtScbRVf4DjZyN6LzA0SB0zy+HSSQ==}
+    dependencies:
+      '@types/lodash': 4.14.171
+    dev: false
+
+  /@types/lodash/4.14.171:
+    resolution: {integrity: sha512-7eQ2xYLLI/LsicL2nejW9Wyko3lcpN6O/z0ZLHrEQsg280zIdCv1t/0m6UtBjUHokCGBQ3gYTbHzDkZ1xOBwwg==}
+    dev: false
+
   /@types/mdast/3.0.3:
     resolution: {integrity: sha512-SXPBMnFVQg1s00dlMCc/jCdvPqdE4mXaMMCeRlxLDmTAEoegHT53xKtkDnzDTOcmMHUfcjyf36/YYZ6SxRdnsw==}
     dependencies:
@@ -1953,8 +1958,8 @@ packages:
     resolution: {integrity: sha512-dueRKfaJL4RTtSa7bWeTK1M+VH+Gns73oCgzvYfHZywRCoPSd8EkXBL0mZ9unPTveBn+D9phZBaxuzpwjWkW0g==}
     dev: true
 
-  /@types/normalize-package-data/2.4.0:
-    resolution: {integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==}
+  /@types/normalize-package-data/2.4.1:
+    resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
 
   /@types/orderedmap/1.0.0:
@@ -3007,6 +3012,22 @@ packages:
       yargs: 16.2.0
     dev: true
 
+  /concurrently/6.2.0:
+    resolution: {integrity: sha512-v9I4Y3wFoXCSY2L73yYgwA9ESrQMpRn80jMcqMgHx720Hecz2GZAvTI6bREVST6lkddNypDKRN22qhK0X8Y00g==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.1
+      date-fns: 2.22.1
+      lodash: 4.17.21
+      read-pkg: 5.2.0
+      rxjs: 6.6.7
+      spawn-command: 0.0.2-1
+      supports-color: 8.1.1
+      tree-kill: 1.2.2
+      yargs: 16.2.0
+    dev: true
+
   /conventional-changelog-angular/5.0.12:
     resolution: {integrity: sha512-5GLsbnkR/7A89RyHLvvoExbiGbd9xKdKqDTrArnPbOqBqG/2wIosu0fHwpeIRI8Tl94MhVNBXcLJZl92ZQ5USw==}
     engines: {node: '>=10'}
@@ -3176,6 +3197,11 @@ packages:
 
   /date-fns/2.21.1:
     resolution: {integrity: sha512-m1WR0xGiC6j6jNFAyW4Nvh4WxAi4JF4w9jRJwSI8nBmNcyZXPcP9VUQG+6gHQXAmqaGEKDKhOqAtENDC941UkA==}
+    engines: {node: '>=0.11'}
+    dev: true
+
+  /date-fns/2.22.1:
+    resolution: {integrity: sha512-yUFPQjrxEmIsMqlHhAhmxkuH769baF21Kk+nZwZGyrMoyLA+LugaQtC0+Tqf9CBUUULWwUJt6Q5ySI3LJDDCGg==}
     engines: {node: '>=0.11'}
     dev: true
 
@@ -4280,8 +4306,8 @@ packages:
       ci-info: 2.0.0
     dev: true
 
-  /is-core-module/2.2.0:
-    resolution: {integrity: sha512-XRAfAdyyY5F5cOXn7hYQDqh2Xmii+DEfIcQGxK/uNwMHhIkPWO0g8msXcbzLe+MpGoR951MlqM/2iIlU4vKDdQ==}
+  /is-core-module/2.5.0:
+    resolution: {integrity: sha512-TXCMSDsEHMEEZ6eCA8rwRDbLu55MRGmrctljsBX/2v1d9/GzqHOxW5c5oPSgrUt2vBFXebu9rGqckXGPWOlYpg==}
     dependencies:
       has: 1.0.3
     dev: true
@@ -5200,6 +5226,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.clonedeep/4.5.0:
     resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
     dev: true
@@ -5886,7 +5916,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.12.13
+      '@babel/code-frame': 7.14.5
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.1.6
@@ -5921,8 +5951,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /path-parse/1.0.6:
-    resolution: {integrity: sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==}
+  /path-parse/1.0.7:
+    resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
     dev: true
 
   /path-to-regexp/1.8.0:
@@ -6411,7 +6441,7 @@ packages:
     resolution: {integrity: sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==}
     engines: {node: '>=8'}
     dependencies:
-      '@types/normalize-package-data': 2.4.0
+      '@types/normalize-package-data': 2.4.1
       normalize-package-data: 2.5.0
       parse-json: 5.2.0
       type-fest: 0.6.0
@@ -6630,8 +6660,8 @@ packages:
   /resolve/1.20.0:
     resolution: {integrity: sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==}
     dependencies:
-      is-core-module: 2.2.0
-      path-parse: 1.0.6
+      is-core-module: 2.5.0
+      path-parse: 1.0.7
     dev: true
 
   /ret/0.1.15:
@@ -6929,7 +6959,7 @@ packages:
     resolution: {integrity: sha512-cOYcUWwhCuHCXi49RhFRCyJEK3iPj1Ziz9DpViV3tbZOwXD49QzIN3MpOLJNxh2qwq2lJJZaKMVw9qNi4jTC0w==}
     dependencies:
       spdx-expression-parse: 3.0.1
-      spdx-license-ids: 3.0.7
+      spdx-license-ids: 3.0.9
     dev: true
 
   /spdx-exceptions/2.3.0:
@@ -6940,11 +6970,11 @@ packages:
     resolution: {integrity: sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==}
     dependencies:
       spdx-exceptions: 2.3.0
-      spdx-license-ids: 3.0.7
+      spdx-license-ids: 3.0.9
     dev: true
 
-  /spdx-license-ids/3.0.7:
-    resolution: {integrity: sha512-U+MTEOO0AiDzxwFvoa4JVnMV6mZlJKk2sBLt90s7G0Gd0Mlknc7kxEn3nuDPNZRta7O2uy8oLcZLVT+4sqNZHQ==}
+  /spdx-license-ids/3.0.9:
+    resolution: {integrity: sha512-Ki212dKK4ogX+xDo4CtOZBVIwhsKBEfsEEcwmJfLQzirgc2jIWdzg40Unxz/HzEUqM1WFzVlQSMF9kZZ2HboLQ==}
     dev: true
 
   /split-string/3.1.0:
@@ -7328,6 +7358,10 @@ packages:
 
   /tslib/2.2.0:
     resolution: {integrity: sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==}
+    dev: false
+
+  /tslib/2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
     dev: false
 
   /tsutils/3.21.0_typescript@4.3.2:
@@ -7769,6 +7803,11 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /yargs-parser/20.2.9:
+    resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
+    engines: {node: '>=10'}
+    dev: true
+
   /yargs/15.4.1:
     resolution: {integrity: sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==}
     engines: {node: '>=8'}
@@ -7796,7 +7835,7 @@ packages:
       require-directory: 2.1.1
       string-width: 4.2.2
       y18n: 5.0.8
-      yargs-parser: 20.2.7
+      yargs-parser: 20.2.9
     dev: true
 
   /yocto-queue/0.1.0:

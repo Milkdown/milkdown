@@ -15,24 +15,11 @@
         "lib"
     ],
     "peerDependencies": {
-        "@milkdown/core": "*",
-        "@types/prosemirror-commands": "*",
-        "@types/prosemirror-inputrules": "*",
-        "@types/prosemirror-model": "*",
-        "@types/prosemirror-state": "*",
-        "@types/prosemirror-view": "*",
-        "prosemirror-commands": "*",
-        "prosemirror-inputrules": "*",
-        "prosemirror-model": "*",
-        "prosemirror-state": "*",
-        "prosemirror-view": "*"
+        "@milkdown/core": "*"
     },
     "dependencies": {
         "@types/prosemirror-history": "^1.0.2",
-        "tslib": "^2.2.0",
-        "prosemirror-history": "^1.1.3"
-    },
-    "devDependencies": {
-        "@milkdown/core": "workspace:*"
+        "prosemirror-history": "^1.1.3",
+        "tslib": "^2.2.0"
     }
 }

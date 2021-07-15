@@ -1,6 +1,6 @@
 import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import type { NodeSpec } from 'prosemirror-model';
-import { BaseNode } from '../utility/base';
+import { BaseNode } from '@milkdown/utils';
 
 export class Doc extends BaseNode {
     override readonly id = 'doc';

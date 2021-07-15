@@ -2,7 +2,7 @@ import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { SupportedKeys } from '../supported-keys';
-import { BaseNode } from '../utility';
+import { BaseNode } from '@milkdown/utils';
 
 type Keys = SupportedKeys.SinkListItem | SupportedKeys.LiftListItem | SupportedKeys.NextListItem;
 

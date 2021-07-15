@@ -1,9 +1,9 @@
 import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { BaseNode } from '@milkdown/utils';
 import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
-import { BaseNode } from '../utility';
 
 const headingIndex = Array(5)
     .fill(0)

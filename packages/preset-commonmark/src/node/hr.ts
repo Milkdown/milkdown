@@ -1,7 +1,7 @@
 import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { BaseNode } from '../utility';
+import { BaseNode } from '@milkdown/utils';
 
 export class Hr extends BaseNode {
     override readonly id = 'hr';

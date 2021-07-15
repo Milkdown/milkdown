@@ -3,7 +3,7 @@ import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
-import { BaseNode } from '../utility';
+import { BaseNode } from '@milkdown/utils';
 
 type Keys = SupportedKeys.BulletList;
 

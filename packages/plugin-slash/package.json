@@ -16,19 +16,7 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
-        "@milkdown/plugin-table": "*",
-        "@types/prosemirror-commands": "*",
-        "@types/prosemirror-inputrules": "*",
-        "@types/prosemirror-keymap": "*",
-        "@types/prosemirror-model": "*",
-        "@types/prosemirror-state": "*",
-        "@types/prosemirror-view": "*",
-        "prosemirror-commands": "*",
-        "prosemirror-inputrules": "*",
-        "prosemirror-keymap": "*",
-        "prosemirror-model": "*",
-        "prosemirror-state": "*",
-        "prosemirror-view": "*"
+        "@milkdown/plugin-table": "*"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
@@ -36,9 +24,6 @@
         "tslib": "^2.2.0"
     },
     "devDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/plugin-prism": "workspace:*",
-        "@milkdown/plugin-table": "workspace:*",
         "concurrently": "^6.0.2"
     }
 }

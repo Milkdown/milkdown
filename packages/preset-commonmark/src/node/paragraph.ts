@@ -2,7 +2,7 @@ import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import { setBlockType } from 'prosemirror-commands';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
-import { BaseNode } from '../utility';
+import { BaseNode } from '@milkdown/utils';
 
 type Keys = SupportedKeys.Text;
 

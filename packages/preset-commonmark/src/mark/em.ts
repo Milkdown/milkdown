@@ -2,8 +2,9 @@ import type { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
 import { toggleMark } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType } from 'prosemirror-model';
+import { BaseMark } from '@milkdown/utils';
 import { SupportedKeys } from '../supported-keys';
-import { BaseMark, markRule } from '../utility';
+import { markRule } from '../utility';
 
 type Keys = SupportedKeys.Em;
 

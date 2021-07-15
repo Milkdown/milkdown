@@ -15,19 +15,7 @@
         "lib"
     ],
     "peerDependencies": {
-        "@milkdown/core": "*",
-        "@types/prosemirror-commands": "*",
-        "@types/prosemirror-inputrules": "*",
-        "@types/prosemirror-keymap": "*",
-        "@types/prosemirror-model": "*",
-        "@types/prosemirror-state": "*",
-        "@types/prosemirror-view": "*",
-        "prosemirror-commands": "*",
-        "prosemirror-inputrules": "*",
-        "prosemirror-keymap": "*",
-        "prosemirror-model": "*",
-        "prosemirror-state": "*",
-        "prosemirror-view": "*"
+        "@milkdown/core": "*"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
@@ -36,7 +24,6 @@
         "tslib": "^2.2.0"
     },
     "devDependencies": {
-        "@milkdown/core": "workspace:*",
         "concurrently": "^6.0.2"
     }
 }

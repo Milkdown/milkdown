@@ -1,12 +1,12 @@
-import { Node as MarkdownNode } from 'unist';
 import { Atom, Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
-import { tableNodes as tableNodesSpecCreator, goToNextCell } from 'prosemirror-tables';
+import { BaseNode } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
+import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
 import { TextSelection } from 'prosemirror-state';
-import { createTable } from './utils';
-import { BaseNode } from './base-node';
+import { goToNextCell, tableNodes as tableNodesSpecCreator } from 'prosemirror-tables';
+import { Node as MarkdownNode } from 'unist';
 import { exitTable } from './command';
+import { createTable } from './utils';
 
 const tableNodesSpec = tableNodesSpecCreator({
     tableGroup: 'block',

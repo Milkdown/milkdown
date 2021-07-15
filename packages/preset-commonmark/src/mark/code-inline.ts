@@ -1,9 +1,10 @@
 import type { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
+import { BaseMark } from '@milkdown/utils';
 import { toggleMark } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
-import { BaseMark, markRule } from '../utility';
+import { markRule } from '../utility';
 
 type Keys = SupportedKeys.CodeInline;
 

@@ -15,23 +15,7 @@
         "lib"
     ],
     "peerDependencies": {
-        "@milkdown/core": "*",
-        "@types/prosemirror-gapcursor": "*",
-        "@types/prosemirror-history": "*",
-        "@types/prosemirror-inputrules": "*",
-        "@types/prosemirror-keymap": "*",
-        "@types/prosemirror-model": "*",
-        "@types/prosemirror-state": "*",
-        "@types/prosemirror-transform": "*",
-        "@types/prosemirror-view": "*",
-        "prosemirror-gapcursor": "*",
-        "prosemirror-history": "*",
-        "prosemirror-inputrules": "*",
-        "prosemirror-keymap": "*",
-        "prosemirror-model": "*",
-        "prosemirror-state": "*",
-        "prosemirror-transform": "*",
-        "prosemirror-view": "*"
+        "@milkdown/core": "*"
     },
     "dependencies": {
         "@benrbray/prosemirror-math": "^0.2.2",
@@ -41,7 +25,6 @@
         "tslib": "^2.2.0"
     },
     "devDependencies": {
-        "@milkdown/core": "workspace:*",
         "concurrently": "^6.0.2"
     }
 }
