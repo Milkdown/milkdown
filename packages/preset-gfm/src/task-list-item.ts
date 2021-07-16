@@ -4,6 +4,7 @@ import { BaseNode } from '@milkdown/utils';
 import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { SupportedKeys } from '.';
+import { wrapIn } from 'prosemirror-commands';
 
 type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem'>;
 
@@ -62,7 +63,7 @@ export class TaskListItem extends BaseNode<Keys> {
             checked: match[match.length - 1] === 'x',
         })),
     ];
-    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType) => ({
         [SupportedKeys.NextListItem]: {
             defaultKey: 'Enter',
             command: splitListItem(nodeType),
@@ -74,6 +75,10 @@ export class TaskListItem extends BaseNode<Keys> {
         [SupportedKeys.LiftListItem]: {
             defaultKey: 'Mod-[',
             command: liftListItem(nodeType),
+        },
+        [SupportedKeys.TaskList]: {
+            defaultKey: 'Mod-Shift-9',
+            command: wrapIn(nodeType),
         },
     });
 

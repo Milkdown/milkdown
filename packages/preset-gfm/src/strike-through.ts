@@ -36,7 +36,7 @@ export class StrikeThrough extends BaseMark<Keys> {
     ];
     override readonly commands: BaseMark<Keys>['commands'] = (markType) => ({
         [SupportedKeys.StrikeThrough]: {
-            defaultKey: 'Mod-Shift-x',
+            defaultKey: 'Mod-Alt-x',
             command: toggleMark(markType),
         },
     });

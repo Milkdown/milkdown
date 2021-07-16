@@ -12,6 +12,7 @@ export enum ActionType {
     H3,
     BulletList,
     OrderedList,
+    TaskList,
     Quote,
     CodeFence,
     Table,
@@ -32,7 +33,7 @@ export type Action = {
 };
 
 const cleanUpAndCreateNode =
-    (fn: (ctx: LoadPluginContext) => Node): Action['command'] =>
+    (fn: (ctx: LoadPluginContext) => Node, offset = 1): Action['command'] =>
     (ctx) =>
     (state, dispatch) => {
         if (!dispatch) return false;
@@ -41,7 +42,7 @@ const cleanUpAndCreateNode =
         const { $head } = selection;
         const start = $head.pos - 1 - $head.parent.content.size;
         const tr = state.tr.replaceWith(start, $head.pos, fn(ctx));
-        const pos = $head.pos - 1 - $head.parent.content.size + 1;
+        const pos = start + offset;
         const sel = TextSelection.create(tr.doc, pos);
         dispatch(tr.setSelection(sel));
         return true;
@@ -74,35 +75,42 @@ export const items: Array<Action> = [
     {
         type: ActionType.BulletList,
         $: createDropdownItem('Bullet List', 'format_list_bulleted'),
-        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.bullet_list.createAndFill(null) as Node),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.bullet_list.createAndFill(null) as Node, 3),
         keyword: ['bullet list', 'ul'],
         enable: nodeExists('bullet_list'),
     },
     {
         type: ActionType.OrderedList,
         $: createDropdownItem('Ordered List', 'format_list_numbered'),
-        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.ordered_list.createAndFill(null) as Node),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.ordered_list.createAndFill(null) as Node, 3),
         keyword: ['ordered list', 'ol'],
         enable: nodeExists('ordered_list'),
     },
     {
+        type: ActionType.TaskList,
+        $: createDropdownItem('Task List', 'checklist'),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.task_list_item.createAndFill(null) as Node, 3),
+        keyword: ['task list', 'task'],
+        enable: nodeExists('task_list_item'),
+    },
+    {
         type: ActionType.Image,
         $: createDropdownItem('Image', 'image'),
-        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.image.createAndFill({ src: '' }) as Node),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.image.createAndFill({ src: '' }) as Node, 3),
         keyword: ['image'],
         enable: nodeExists('image'),
     },
     {
         type: ActionType.Quote,
         $: createDropdownItem('Quote', 'format_quote'),
-        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.blockquote.createAndFill(null) as Node),
+        command: cleanUpAndCreateNode((ctx) => ctx.schema.nodes.blockquote.createAndFill(null) as Node, 2),
         keyword: ['quote', 'blockquote'],
         enable: nodeExists('blockquote'),
     },
     {
         type: ActionType.Table,
         $: createDropdownItem('Table', 'table_chart'),
-        command: cleanUpAndCreateNode((ctx) => createTable(ctx.schema)),
+        command: cleanUpAndCreateNode((ctx) => createTable(ctx.schema), 4),
         keyword: ['table'],
         enable: nodeExists('table'),
     },

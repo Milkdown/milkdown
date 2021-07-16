@@ -12,6 +12,7 @@ export type ButtonItem = {
     command: Event2Command;
     active: Pred;
     disable?: Pred;
+    enable: Pred;
 };
 
 export type InputItem = {
@@ -24,6 +25,7 @@ export type InputItem = {
 export enum ButtonAction {
     ToggleBold,
     ToggleItalic,
+    ToggleStrike,
     ToggleCode,
     ToggleLink,
 }
@@ -78,6 +80,7 @@ export const buttonMap = (ctx: LoadPluginContext): ButtonMap => {
     return {
         [ButtonAction.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
         [ButtonAction.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),
+        [ButtonAction.ToggleStrike]: createToggleIcon('strikethrough_s', marks.strike_through, marks.code_inline),
         [ButtonAction.ToggleCode]: createToggleIcon('code', marks.code_inline, marks.link),
         [ButtonAction.ToggleLink]: createToggleIcon('link', marks.link, marks.code_inline, { href: '' }),
     };

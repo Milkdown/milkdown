@@ -36,7 +36,7 @@ export class Em extends BaseMark {
         markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),
         markRule(/(?:^|[^*])(\*([^*]+)\*)$/, markType),
     ];
-    override readonly commands: BaseMark<Keys>['commands'] = (markType: MarkType) => ({
+    override readonly commands: BaseMark<Keys>['commands'] = (markType) => ({
         [SupportedKeys.Em]: {
             defaultKey: 'Mod-i',
             command: toggleMark(markType),

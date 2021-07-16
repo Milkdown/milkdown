@@ -8,6 +8,7 @@ export const SupportedKeys = {
     ...CommonmarkKeys,
     ...TableKeys,
     StrikeThrough: 'StrikeThrough',
+    TaskList: 'TaskList',
 } as const;
 export type SupportedKeys = typeof SupportedKeys;
 

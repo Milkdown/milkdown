@@ -73,7 +73,9 @@ export class ButtonManager {
     private createTooltip() {
         const div = document.createElement('div');
         div.className = 'tooltip';
-        Object.values(this.#buttonMap).forEach(({ $ }) => div.appendChild($));
+        Object.values(this.#buttonMap)
+            .filter((item) => item.enable(this.view))
+            .forEach(({ $ }) => div.appendChild($));
         this.view.dom.parentNode?.appendChild(div);
 
         return div;
