@@ -24,7 +24,6 @@
         "react-dom": "*"
     },
     "devDependencies": {
-        "@milkdown/core": "workspace:*",
         "@types/react": "*",
         "@types/react-dom": "*",
         "react": "*",

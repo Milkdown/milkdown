@@ -243,7 +243,6 @@ importers:
 
   packages/plugin-prism:
     specifiers:
-      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       '@types/refractor': ^3.0.0
       refractor: ^3.3.1
@@ -253,8 +252,6 @@ importers:
       '@types/refractor': 3.0.0
       refractor: 3.3.1
       tslib: 2.2.0
-    devDependencies:
-      '@milkdown/core': link:../core
 
   packages/plugin-slash:
     specifiers:
@@ -331,7 +328,6 @@ importers:
 
   packages/react:
     specifiers:
-      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -342,7 +338,6 @@ importers:
       '@milkdown/utils': link:../utils
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': link:../core
       '@types/react': 17.0.6
       '@types/react-dom': 17.0.5
       react: 17.0.2
@@ -366,7 +361,6 @@ importers:
 
   packages/vue:
     specifiers:
-      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.2.0
       vue: ^3.0.0
@@ -374,7 +368,6 @@ importers:
       '@milkdown/utils': link:../utils
       tslib: 2.2.0
     devDependencies:
-      '@milkdown/core': link:../core
       vue: 3.1.1
 
 packages:

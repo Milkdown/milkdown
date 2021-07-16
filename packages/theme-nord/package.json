@@ -4,7 +4,9 @@
     "scripts": {
         "start": "vite",
         "watch": "postcss style/theme.css --watch --verbose -o lib/theme.css",
-        "build": "postcss style/theme.css -o lib/theme.css"
+        "watch:css": "postcss style/theme.css --watch --verbose -o lib/theme.css",
+        "build": "postcss style/theme.css -o lib/theme.css",
+        "build:css": "postcss style/theme.css --verbose -o lib/theme.css"
     },
     "devDependencies": {
         "@milkdown/design-system": "workspace:*"

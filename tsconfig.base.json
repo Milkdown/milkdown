@@ -14,6 +14,7 @@
         "forceConsistentCasingInFileNames": true,
 
         "importHelpers": true,
+        "composite": true,
 
         "strict": true,
         "noFallthroughCasesInSwitch": true,

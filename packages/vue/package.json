@@ -23,7 +23,6 @@
         "vue": "^3.0.0"
     },
     "devDependencies": {
-        "@milkdown/core": "workspace:*",
         "vue": "^3.0.0"
     }
 }

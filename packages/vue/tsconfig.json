@@ -9,5 +9,8 @@
         "types": ["vue", "@milkdown/core"],
         "lib": ["dom", "es2020"]
     },
-    "include": ["src"]
+    "include": ["src"],
+    "references": [
+        { "path": "../utils" }
+    ]
 }

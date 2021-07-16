@@ -1,7 +1,22 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "noEmit": true
+        "tsBuildInfoFile": "tsconfig.tsbuildinfo"
     },
-    "exclude": ["node_modules", "lib"]
+    "include": [],
+    "exclude": ["node_modules", "lib"],
+    "references": [
+        { "path": "./packages/core" },
+        { "path": "./packages/react" },
+        { "path": "./packages/vue" },
+        { "path": "./packages/preset-commonmark" },
+        { "path": "./packages/preset-gfm" },
+        { "path": "./packages/design-system" },
+        { "path": "./packages/plugin-history" },
+        { "path": "./packages/plugin-math" },
+        { "path": "./packages/plugin-prism" },
+        { "path": "./packages/plugin-slash" },
+        { "path": "./packages/plugin-tooltip" },
+        { "path": "./packages/plugin-table" },
+    ]
 }
