@@ -28,7 +28,7 @@ type CodeFenceOptions = {
     languageList?: string[];
 };
 
-type Keys = SupportedKeys.CodeFence;
+type Keys = SupportedKeys['CodeFence'];
 
 export class CodeFence extends BaseNode<Keys, CodeFenceOptions> {
     override readonly id = 'fence';

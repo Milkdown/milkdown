@@ -4,7 +4,7 @@ import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-li
 import { SupportedKeys } from '../supported-keys';
 import { BaseNode } from '@milkdown/utils';
 
-type Keys = SupportedKeys.SinkListItem | SupportedKeys.LiftListItem | SupportedKeys.NextListItem;
+type Keys = SupportedKeys['SinkListItem'] | SupportedKeys['LiftListItem'] | SupportedKeys['NextListItem'];
 
 export class ListItem extends BaseNode<Keys> {
     override readonly id = 'list_item';

@@ -5,7 +5,7 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
 import { BaseNode } from '@milkdown/utils';
 
-type Keys = SupportedKeys.BulletList;
+type Keys = SupportedKeys['BulletList'];
 
 export class BulletList extends BaseNode<Keys> {
     override readonly id = 'bullet_list';
@@ -20,7 +20,6 @@ export class BulletList extends BaseNode<Keys> {
     override readonly parser: NodeParserSpec = {
         match: ({ type, ordered }) => type === 'list' && !ordered,
         runner: (state, node, type) => {
-            console.log(node);
             state.openNode(type).next(node.children).closeNode();
         },
     };

@@ -5,7 +5,7 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { SupportedKeys } from '.';
 
-type Keys = SupportedKeys.SinkListItem | SupportedKeys.LiftListItem | SupportedKeys.NextListItem;
+type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem'>;
 
 export class TaskListItem extends BaseNode<Keys> {
     override readonly id = 'task_list_item';
@@ -62,7 +62,22 @@ export class TaskListItem extends BaseNode<Keys> {
             checked: match[match.length - 1] === 'x',
         })),
     ];
-    override readonly view: BaseNode['view'] = (_editor, _nodeType, node, view, getPos) => {
+    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
+        [SupportedKeys.NextListItem]: {
+            defaultKey: 'Enter',
+            command: splitListItem(nodeType),
+        },
+        [SupportedKeys.SinkListItem]: {
+            defaultKey: 'Mod-]',
+            command: sinkListItem(nodeType),
+        },
+        [SupportedKeys.LiftListItem]: {
+            defaultKey: 'Mod-[',
+            command: liftListItem(nodeType),
+        },
+    });
+
+    #nodeView: BaseNode['view'] = (_editor, _nodeType, node, view, getPos) => {
         const listItem = document.createElement('li');
         const checkboxWrapper = document.createElement('label');
         const checkboxStyler = document.createElement('span');
@@ -128,18 +143,5 @@ export class TaskListItem extends BaseNode<Keys> {
             },
         };
     };
-    override readonly commands: BaseNode<Keys>['commands'] = (nodeType: NodeType) => ({
-        [SupportedKeys.NextListItem]: {
-            defaultKey: 'Enter',
-            command: splitListItem(nodeType),
-        },
-        [SupportedKeys.SinkListItem]: {
-            defaultKey: 'Mod-]',
-            command: sinkListItem(nodeType),
-        },
-        [SupportedKeys.LiftListItem]: {
-            defaultKey: 'Mod-[',
-            command: liftListItem(nodeType),
-        },
-    });
+    override readonly view: BaseNode['view'] = this.options.view || this.#nodeView;
 }

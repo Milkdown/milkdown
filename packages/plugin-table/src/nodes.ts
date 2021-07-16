@@ -1,5 +1,5 @@
-import { Atom, Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import { BaseNode } from '@milkdown/utils';
+import { Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { AtomList, BaseNode } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
 import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
 import { TextSelection } from 'prosemirror-state';
@@ -22,12 +22,15 @@ const tableNodesSpec = tableNodesSpecCreator({
     },
 });
 
-export enum SupportedKeys {
-    NextCell = 'NextCell',
-    PrevCell = 'PrevCell',
-    ExitTable = 'ExitTable',
-}
-type Keys = SupportedKeys.NextCell | SupportedKeys.PrevCell | SupportedKeys.ExitTable;
+export const SupportedKeys = {
+    NextCell: 'NextCell',
+    PrevCell: 'PrevCell',
+    ExitTable: 'ExitTable',
+} as const;
+export type SupportedKeys = typeof SupportedKeys;
+
+type Keys = keyof SupportedKeys;
+
 export class Table extends BaseNode<Keys> {
     override readonly id = 'table';
     override readonly schema: NodeSpec = tableNodesSpec.table;
@@ -160,22 +163,4 @@ export class TableHeader extends Node {
     };
 }
 
-type Cls = new (...args: unknown[]) => unknown;
-type ConstructorOf<T> = T extends InstanceType<infer U> ? U : T;
-
-class NodeList<T extends Atom = Atom> extends Array<T> {
-    configure<U extends ConstructorOf<T>>(Target: U, config: ConstructorParameters<U>[0]): this {
-        const index = this.findIndex((x) => x.constructor === Target);
-        if (index < 0) return this;
-
-        this.splice(index, 1, new (Target as Cls & U)(config));
-
-        return this;
-    }
-
-    static create<T extends Atom = Atom>(from: T[]): NodeList {
-        return new NodeList(...from);
-    }
-}
-
-export const tableNodes = NodeList.create([new Table(), new TableRow(), new TableCell(), new TableHeader()]);
+export const tableNodes = AtomList.create([new Table(), new TableRow(), new TableCell(), new TableHeader()]);

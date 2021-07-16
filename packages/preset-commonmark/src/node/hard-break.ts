@@ -3,7 +3,7 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
 import { BaseNode } from '@milkdown/utils';
 
-type Keys = SupportedKeys.HardBreak;
+type Keys = SupportedKeys['HardBreak'];
 
 export class HardBreak extends BaseNode<Keys> {
     override readonly id = 'hardbreak';

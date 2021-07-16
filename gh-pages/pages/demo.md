@@ -5,8 +5,21 @@
 > Milkdown is a WYSIWYG markdown editor.
 >
 > Here is the [repo](https://github.com/Saul-Mirone/milkdown) (_right click to open link_).
+> We ~~only support commonmark~~. GFM is also supported!.
 
 You can check the output markdown text in **developer tool**.
+
+-   Features
+    -   [x] 📝 **WYSIWYG Markdown** - Write markdown in an elegant way
+    -   [x] 🎨 **Themable** - Theme can be shared and used with npm packages
+    -   [x] 🎮 **Hackable** - Support your awesome idea by plugin
+    -   [x] 🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark)
+    -   [x] ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
+    -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
+    -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
+-   Made by
+    -   Programmer: [Mirone](https://github.com/Saul-Mirone)
+    -   Designer: [Meo](https://github.com/Saul-Meo)
 
 ---
 

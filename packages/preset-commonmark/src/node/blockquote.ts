@@ -5,7 +5,7 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
 import { BaseNode } from '@milkdown/utils';
 
-type Keys = SupportedKeys.Blockquote;
+type Keys = SupportedKeys['Blockquote'];
 
 export class Blockquote extends BaseNode<Keys> {
     override readonly id = 'blockquote';

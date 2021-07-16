@@ -6,7 +6,7 @@ import type { MarkSpec, MarkType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
 import { markRule } from '../utility';
 
-type Keys = SupportedKeys.Bold;
+type Keys = SupportedKeys['Bold'];
 
 export class Strong extends BaseMark<Keys> {
     override readonly id = 'strong';

@@ -6,7 +6,7 @@ import type { MarkSpec, MarkType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
 import { markRule } from '../utility';
 
-type Keys = SupportedKeys.CodeInline;
+type Keys = SupportedKeys['CodeInline'];
 
 export class CodeInline extends BaseMark<Keys> {
     override readonly id = 'code_inline';

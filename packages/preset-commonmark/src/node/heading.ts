@@ -10,12 +10,12 @@ const headingIndex = Array(5)
     .map((_, i) => i + 1);
 
 type Keys =
-    | SupportedKeys.H1
-    | SupportedKeys.H2
-    | SupportedKeys.H3
-    | SupportedKeys.H4
-    | SupportedKeys.H5
-    | SupportedKeys.H6;
+    | SupportedKeys['H1']
+    | SupportedKeys['H2']
+    | SupportedKeys['H3']
+    | SupportedKeys['H4']
+    | SupportedKeys['H5']
+    | SupportedKeys['H6'];
 
 export class Heading extends BaseNode<Keys> {
     id = 'heading';

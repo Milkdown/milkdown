@@ -11,8 +11,8 @@ export const tableEditPlugin = createProsemirrorPlugin('prosemirror-table-edit',
     tableEditing(),
 ]);
 
-export const tablePlugin = [remarkGFMPlugin, tableEditPlugin];
-export const table = [...tablePlugin, ...tableNodes];
+export const tablePlugins = [remarkGFMPlugin, tableEditPlugin];
+export const table = [...tablePlugins, ...tableNodes];
 
 export * from './nodes';
 export * from './utils';

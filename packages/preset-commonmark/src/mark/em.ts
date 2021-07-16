@@ -6,7 +6,7 @@ import { BaseMark } from '@milkdown/utils';
 import { SupportedKeys } from '../supported-keys';
 import { markRule } from '../utility';
 
-type Keys = SupportedKeys.Em;
+type Keys = SupportedKeys['Em'];
 
 export class Em extends BaseMark {
     override readonly id = 'em';

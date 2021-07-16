@@ -6,7 +6,6 @@ import { history } from '@milkdown/plugin-history';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
-import { table } from '@milkdown/plugin-table';
 import { slash } from '@milkdown/plugin-slash';
 import className from './style.module.css';
 
@@ -36,7 +35,6 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
             })
                 .use(gfm)
                 .use(history)
-                .use(table)
                 .use(prism)
                 .use(tooltip)
                 .use(math);

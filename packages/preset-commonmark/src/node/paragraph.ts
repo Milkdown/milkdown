@@ -4,7 +4,7 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
 import { BaseNode } from '@milkdown/utils';
 
-type Keys = SupportedKeys.Text;
+type Keys = SupportedKeys['Text'];
 
 export class Paragraph extends BaseNode<Keys> {
     override readonly id = 'paragraph';

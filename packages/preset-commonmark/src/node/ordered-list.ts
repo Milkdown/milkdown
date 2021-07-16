@@ -5,7 +5,7 @@ import type { NodeSpec, NodeType } from 'prosemirror-model';
 import { SupportedKeys } from '../supported-keys';
 import { BaseNode } from '@milkdown/utils';
 
-type Keys = SupportedKeys.OrderedList;
+type Keys = SupportedKeys['OrderedList'];
 
 export class OrderedList extends BaseNode<Keys> {
     override readonly id = 'ordered_list';

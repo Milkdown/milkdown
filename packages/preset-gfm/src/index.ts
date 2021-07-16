@@ -1,54 +1,19 @@
-import type { MarkParserSpec, MarkSerializerSpec } from '@milkdown/core';
-import { table } from '@milkdown/plugin-table';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { BaseMark, markRule } from '@milkdown/utils';
-import { toggleMark } from 'prosemirror-commands';
-import type { InputRule } from 'prosemirror-inputrules';
-import type { MarkSpec } from 'prosemirror-model';
+import { SupportedKeys as TableKeys, tableNodes, tablePlugins } from '@milkdown/plugin-table';
+import { commonmark, SupportedKeys as CommonmarkKeys } from '@milkdown/preset-commonmark';
+import { AtomList } from '@milkdown/utils';
+import { StrikeThrough } from './strike-through';
 import { TaskListItem } from './task-list-item';
 
-export enum SupportedKeys {
-    StrikeThrough = 'StrikeThrough',
-    NextListItem = 'NextListItem',
-    SinkListItem = 'SinkListItem',
-    LiftListItem = 'LiftListItem',
-}
+export const SupportedKeys = {
+    ...CommonmarkKeys,
+    ...TableKeys,
+    StrikeThrough: 'StrikeThrough',
+} as const;
+export type SupportedKeys = typeof SupportedKeys;
 
-type Keys = SupportedKeys.StrikeThrough;
+export const gfmNodes = AtomList.create([...commonmark, ...tableNodes, new StrikeThrough(), new TaskListItem()]);
+export const gfmPlugins = [...tablePlugins];
+export const gfm = [...gfmNodes, ...gfmPlugins];
 
-export class StrikeThrough extends BaseMark<Keys> {
-    override readonly id = 'strike_through';
-    override readonly schema: MarkSpec = {
-        parseDOM: [
-            { tag: 'del' },
-            { style: 'text-decoration', getAttrs: (value) => (value === 'line-through') as false },
-        ],
-        toDOM: (mark) => ['del', { class: this.getClassName(mark.attrs) }],
-    };
-    override readonly parser: MarkParserSpec = {
-        match: (node) => node.type === 'delete',
-        runner: (state, node, markType) => {
-            state.openMark(markType);
-            state.next(node.children);
-            state.closeMark(markType);
-        },
-    };
-    override readonly serializer: MarkSerializerSpec = {
-        match: (mark) => mark.type.name === this.id,
-        runner: (state, mark) => {
-            state.withMark(mark, 'delete');
-        },
-    };
-    override readonly inputRules: BaseMark<Keys>['inputRules'] = (markType): InputRule[] => [
-        markRule(/(?:~~)([^~]+)(?:~~)$/, markType),
-        markRule(/(?:^|[^~])(~([^~]+)~)$/, markType),
-    ];
-    override readonly commands: BaseMark<Keys>['commands'] = (markType) => ({
-        [SupportedKeys.StrikeThrough]: {
-            defaultKey: 'Mod-Shift-x',
-            command: toggleMark(markType),
-        },
-    });
-}
-
-export const gfm = [...commonmark, ...table, new StrikeThrough(), new TaskListItem()];
+export * from './strike-through';
+export * from './task-list-item';
