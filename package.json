@@ -14,7 +14,7 @@
         "doc": "pnpm run start --filter @milkdown/gh-pages",
         "preview": "pnpm run preview --filter @milkdown/gh-pages",
         "test": "jest",
-        "tsc": "tsc --noEmit --verbose",
+        "tsc": "tsc --noEmit",
         "build:packs": "tsc --build --force --verbose && pnpm run build:css -r --filter \"./packages/\"",
         "build:doc": "pnpm run build -r --filter @milkdown/gh-pages",
         "postinstall": "husky install && pnpm run build:packs",
