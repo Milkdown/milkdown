@@ -23,8 +23,8 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 # Contributor
 
 <a title="Saul-Mirone" href="https://github.com/Saul-Mirone"><img src="https://avatars.githubusercontent.com/u/10047788?v=4" width="100" alt="profile picture of Saul Mirone"></a>
+<a title="Meo" href="https://github.com/Saul-Meo"><img src="https://avatars.githubusercontent.com/u/14139395?v=4" width="100" alt="profile picture of kitty"></a>
 <a title="xia" href="https://github.com/xiadd"><img src="https://avatars.githubusercontent.com/u/8351437?v=4" width="100" alt="profile picture of xiadd"></a>
-<a title="kitty" href="https://github.com/Kitty0730"><img src="https://avatars.githubusercontent.com/u/14139395?v=4" width="100" alt="profile picture of kitty"></a>
 
 # Sponsors
 
