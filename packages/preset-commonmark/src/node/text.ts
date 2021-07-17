@@ -1,22 +1,23 @@
 import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
 import type { NodeSpec } from 'prosemirror-model';
 import { BaseNode } from '@milkdown/utils';
+import { createNode } from '@milkdown/core';
 
-export class Text extends BaseNode {
-    override readonly id = 'text';
-    override readonly schema: NodeSpec = {
+export const text = createNode({
+    id: 'text',
+    schema: {
         group: 'inline',
-    };
-    override readonly parser: NodeParserSpec = {
+    },
+    parser: {
         match: ({ type }) => type === 'text',
         runner: (state, node) => {
             state.addText(node.value as string);
         },
-    };
-    override readonly serializer: NodeSerializerSpec = {
+    },
+    serializer: {
         match: (node) => node.type.name === 'text',
         runner: (state, node) => {
             state.addNode('text', undefined, node.text as string);
         },
-    };
-}
+    },
+});

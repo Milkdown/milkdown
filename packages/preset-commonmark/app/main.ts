@@ -1,4 +1,4 @@
-import { Editor } from '@milkdown/core';
+import { Editor, loadSchemaPlugin } from '@milkdown/core';
 import { commonmark } from '../src';
 import './style.css';
 
@@ -53,12 +53,4 @@ Now you can play!
 
 const app = document.getElementById('app');
 
-new Editor({
-    root: app,
-    defaultValue: markdown,
-    listener: {
-        markdown: [(x) => console.log(x())],
-    },
-})
-    .use(commonmark)
-    .create();
+new Editor().use(commonmark).use(loadSchemaPlugin).create();

@@ -296,13 +296,11 @@ importers:
 
   packages/preset-commonmark:
     specifiers:
-      '@milkdown/utils': workspace:*
       '@types/prosemirror-schema-list': ^1.0.3
       concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.2.0
     dependencies:
-      '@milkdown/utils': link:../utils
       '@types/prosemirror-schema-list': 1.0.3
       prosemirror-schema-list: 1.1.4
       tslib: 2.2.0

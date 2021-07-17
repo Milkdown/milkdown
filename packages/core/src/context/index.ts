@@ -3,57 +3,39 @@ import type { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
 import type { EditorView, NodeView } from 'prosemirror-view';
 import type { RemarkOptions } from 'remark';
+import re from 'remark';
 import type { Processor } from 'unified';
-import type { Mark, Node } from '../abstract';
-import type { LoadState } from '../constant';
 import type { Editor } from '../editor';
-import type { AnyRecord, MarkViewParams, NodeViewParams } from '../utility';
+import type { Node } from '../internal-plugin';
+import type { MarkViewParams, NodeViewParams } from '../utility';
+import { createCtx } from './container';
 
-export type GetCurrentContextByState<T extends LoadState> = T extends LoadState.Idle
-    ? IdleContext
-    : T extends LoadState.LoadSchema
-    ? IdleContext
-    : T extends LoadState.SchemaReady
-    ? SchemaReadyContext
-    : T extends LoadState.LoadPlugin
-    ? LoadPluginContext
-    : T extends LoadState.Complete
-    ? CompleteContext
-    : AnyRecord;
+export * from './container';
 
-export type GetNextContextByState<T extends LoadState> = T extends LoadState.Idle
-    ? IdleContext
-    : T extends LoadState.LoadSchema
-    ? SchemaReadyContext
-    : T extends LoadState.SchemaReady
-    ? LoadPluginContext
-    : T extends LoadState.LoadPlugin
-    ? CompleteContext
-    : T extends LoadState.Complete
-    ? CompleteContext
-    : AnyRecord;
+export const remark = createCtx<Processor<RemarkOptions>>(re());
+export const nodes = createCtx<Node[]>([]);
+export const marks = createCtx<any[]>([]);
+export const editor = createCtx<Editor>({} as Editor);
+export const prosePlugins = createCtx<ProsemirrorPlugin[]>([]);
+export const schema = createCtx<Schema>({} as Schema);
+export const parser = createCtx<(text: string) => ProsemirrorNode | null>(() => null);
+export const serializer = createCtx<(node: ProsemirrorNode) => string>(() => '');
+export const keymap = createCtx<ProsemirrorPlugin[]>([]);
+export const inputRules = createCtx<InputRule[]>([]);
+export const nodeViews = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
+export const editorView = createCtx<EditorView>({} as EditorView);
 
-export interface IdleContext {
-    remark: Processor<RemarkOptions>;
-    loadState: LoadState;
-    nodes: Node[];
-    marks: Mark[];
-    editor: Editor;
-}
-
-export interface SchemaReadyContext extends Readonly<IdleContext> {
-    schema: Schema;
-    parser: (text: string) => ProsemirrorNode | null;
-    serializer: (node: ProsemirrorNode) => string;
-    keymap: ProsemirrorPlugin[];
-    inputRules: InputRule[];
-    nodeViews: Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>;
-}
-
-export interface LoadPluginContext extends Readonly<SchemaReadyContext> {
-    prosemirrorPlugins: ProsemirrorPlugin[];
-}
-
-export interface CompleteContext extends Readonly<LoadPluginContext> {
-    editorView: EditorView;
-}
+export const contexts = [
+    remark,
+    nodes,
+    marks,
+    editor,
+    prosePlugins,
+    schema,
+    parser,
+    serializer,
+    keymap,
+    inputRules,
+    nodeViews,
+    editorView,
+];

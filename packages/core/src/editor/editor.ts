@@ -1,97 +1,44 @@
-import remark from 'remark';
-import type { EditorView } from 'prosemirror-view';
-import type { Atom } from '../abstract';
-import { LoadState } from '../constant';
-import {
-    InputRulesLoader,
-    KeymapLoader,
-    NodeViewsLoader,
-    ParserLoader,
-    SchemaLoader,
-    SerializerLoader,
-    ViewLoader,
-    ViewLoaderOptions,
-} from '../loader';
-import type { AnyRecord } from '../utility';
-import type { CompleteContext } from '../context';
+import { Context, contexts, createContainer, Meta } from '../context';
+import { parserPlugin, schemaLoader, serializerLoader, viewLoader } from '../internal-plugin';
+
+export type Ctx = {
+    get: <T>(meta: Meta<T>) => Context<T>;
+};
+
+export type Plugin = (ctx: Ctx) => void | Promise<void>;
 
 export class Editor {
-    #atoms: Atom[] = [];
-    #ctx: AnyRecord = {
-        loadState: LoadState.Idle,
-        remark: remark(),
-        nodes: [],
-        marks: [],
-        editor: this,
-        prosemirrorPlugins: [],
+    #container = createContainer();
+    #ctx: Ctx = {
+        get: this.#container.getCtx,
+    };
+    #plugins: Set<(ctx: Ctx) => void> = new Set();
+
+    constructor() {
+        [schemaLoader, parserPlugin, serializerLoader, viewLoader].forEach(this.use);
+        contexts.forEach((x) => this.ctx<unknown>(x));
+    }
+
+    ctx = <T>(meta: Meta<T>) => {
+        meta(this.#container.container);
+        return this;
     };
 
-    #updateCtx = (value: AnyRecord) => {
-        Object.assign(this.#ctx, value);
-    };
-
-    #injectCtx() {
-        this.#atoms.forEach((atom) => atom.injectContext(this.#ctx as CompleteContext, this.#updateCtx));
-    }
-
-    #runAtomByLoadState(loadState: LoadState) {
-        this.#atoms
-            .filter((atom) => atom.loadAfter === loadState)
-            .forEach((atom) => {
-                atom.main();
-            });
-    }
-
-    #addAtom(atom: Atom) {
-        const i = this.#atoms.findIndex((a) => a.id === atom.id);
-        if (i >= 0) {
-            console.warn(`Atom: ${atom.id} is conflicted with previous atom, the previous one will be override.`);
-            this.#atoms.splice(i, 1);
-        }
-        this.#atoms.push(atom);
-    }
-
-    constructor(options: Partial<ViewLoaderOptions>) {
-        const viewOptions: ViewLoaderOptions = {
-            root: document.body,
-            defaultValue: '',
-            listener: {},
-            ...options,
-        };
-        this.use([
-            new SchemaLoader(),
-            new ParserLoader(),
-            new SerializerLoader(),
-            new KeymapLoader(),
-            new InputRulesLoader(),
-            new NodeViewsLoader(),
-            new ViewLoader(viewOptions),
-        ]);
-    }
-
-    use(atom: Atom | Atom[]) {
-        if (Array.isArray(atom)) {
-            atom.forEach((a) => {
-                this.#addAtom(a);
+    use = (plugins: Plugin | Plugin[]) => {
+        if (Array.isArray(plugins)) {
+            plugins.forEach((plugin) => {
+                this.#plugins.add(plugin);
             });
             return this;
         }
-        this.#addAtom(atom);
+
+        this.#plugins.add(plugins);
         return this;
-    }
+    };
 
     create() {
-        this.#injectCtx();
-        [LoadState.Idle, LoadState.LoadSchema, LoadState.SchemaReady, LoadState.LoadPlugin, LoadState.Complete].forEach(
-            (state) => {
-                this.#ctx.loadState = state;
-                this.#runAtomByLoadState(state);
-            },
-        );
-    }
-
-    get view(): EditorView {
-        const ctx = this.#ctx as CompleteContext;
-        return ctx.editorView;
+        this.#plugins.forEach((loader) => {
+            loader(this.#ctx);
+        });
     }
 }
