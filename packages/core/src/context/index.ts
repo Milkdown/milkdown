@@ -6,7 +6,7 @@ import type { RemarkOptions } from 'remark';
 import re from 'remark';
 import type { Processor } from 'unified';
 import type { Editor } from '../editor';
-import type { Node } from '../internal-plugin';
+import type { Mark, Node } from '../internal-plugin';
 import type { MarkViewParams, NodeViewParams } from '../utility';
 import { createCtx } from './container';
 
@@ -14,7 +14,7 @@ export * from './container';
 
 export const remark = createCtx<Processor<RemarkOptions>>(re());
 export const nodes = createCtx<Node[]>([]);
-export const marks = createCtx<any[]>([]);
+export const marks = createCtx<Mark[]>([]);
 export const editor = createCtx<Editor>({} as Editor);
 export const prosePlugins = createCtx<ProsemirrorPlugin[]>([]);
 export const schema = createCtx<Schema>({} as Schema);
