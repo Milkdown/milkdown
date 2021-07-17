@@ -1,16 +1,16 @@
 import { SchemaReady } from '../constant';
-import { marks, nodes, parser, remark, schema } from '../context';
+import { marksCtx, nodesCtx, parserCtx, remarkCtx, schemaCtx } from '../context';
 import { Ctx } from '../editor';
 import { createParser, InnerParserSpecMap } from '../parser';
 import { buildObject } from '../utility';
 
 export const parserPlugin = async (ctx: Ctx) => {
     await SchemaReady();
-    const _nodes = ctx.get(nodes).get();
-    const _marks = ctx.get(marks).get();
-    const _remark = ctx.get(remark).get();
-    const _schema = ctx.get(schema).get();
-    const _parser = ctx.get(parser);
+    const _nodes = ctx.use(nodesCtx).get();
+    const _marks = ctx.use(marksCtx).get();
+    const _remark = ctx.use(remarkCtx).get();
+    const _schema = ctx.use(schemaCtx).get();
+    const _parser = ctx.use(parserCtx);
 
     const children = [
         ..._nodes.map((node) => ({ ...node, is: 'node' })),

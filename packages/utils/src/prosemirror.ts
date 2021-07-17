@@ -66,7 +66,7 @@ export const cloneTr = (tr: Transaction) => {
     return Object.assign(Object.create(tr), tr).setTime(Date.now());
 };
 
-export const getNodeFromSchema = (type: string, schema: Schema): NodeType => {
+export const getNodeFromSchema = (type: parserCtx, schema: Schema): NodeType => {
     const target = schema.nodes[type];
 
     if (!target) {
@@ -76,7 +76,7 @@ export const getNodeFromSchema = (type: string, schema: Schema): NodeType => {
     return target;
 };
 
-export const getMarkFromSchema = (type: string, schema: Schema): MarkType => {
+export const getMarkFromSchema = (type: parserCtx, schema: Schema): MarkType => {
     const target = schema.marks[type];
 
     if (!target) {

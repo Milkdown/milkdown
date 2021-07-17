@@ -1,6 +1,4 @@
-import { createNode, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import type { NodeSpec } from 'prosemirror-model';
-import { BaseNode } from '@milkdown/utils';
+import { createNode } from '@milkdown/core';
 
 export const doc = createNode({
     id: 'doc',

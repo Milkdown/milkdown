@@ -11,13 +11,13 @@ export const text = createNode({
     parser: {
         match: ({ type }) => type === 'text',
         runner: (state, node) => {
-            state.addText(node.value as string);
+            state.addText(node.value as parserCtx);
         },
     },
     serializer: {
         match: (node) => node.type.name === 'text',
         runner: (state, node) => {
-            state.addNode('text', undefined, node.text as string);
+            state.addNode('text', undefined, node.text as parserCtx);
         },
     },
 });

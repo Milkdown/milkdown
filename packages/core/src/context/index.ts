@@ -12,30 +12,30 @@ import { createCtx } from './container';
 
 export * from './container';
 
-export const remark = createCtx<Processor<RemarkOptions>>(re());
-export const nodes = createCtx<Node[]>([]);
-export const marks = createCtx<Mark[]>([]);
-export const editor = createCtx<Editor>({} as Editor);
-export const prosePlugins = createCtx<ProsemirrorPlugin[]>([]);
-export const schema = createCtx<Schema>({} as Schema);
-export const parser = createCtx<(text: string) => ProsemirrorNode | null>(() => null);
-export const serializer = createCtx<(node: ProsemirrorNode) => string>(() => '');
-export const keymap = createCtx<ProsemirrorPlugin[]>([]);
-export const inputRules = createCtx<InputRule[]>([]);
-export const nodeViews = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
-export const editorView = createCtx<EditorView>({} as EditorView);
+export const remarkCtx = createCtx<Processor<RemarkOptions>>(re());
+export const nodesCtx = createCtx<Node[]>([]);
+export const marksCtx = createCtx<Mark[]>([]);
+export const editorCtx = createCtx<Editor>({} as Editor);
+export const prosePluginsCtx = createCtx<ProsemirrorPlugin[]>([]);
+export const schemaCtx = createCtx<Schema>({} as Schema);
+export const parserCtx = createCtx<(text: string) => ProsemirrorNode | null>(() => null);
+export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => '');
+export const keymapCtx = createCtx<ProsemirrorPlugin[]>([]);
+export const inputRulesCtx = createCtx<InputRule[]>([]);
+export const nodeViewsCtx = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
+export const editorViewCtx = createCtx<EditorView>({} as EditorView);
 
 export const contexts = [
-    remark,
-    nodes,
-    marks,
-    editor,
-    prosePlugins,
-    schema,
-    parser,
-    serializer,
-    keymap,
-    inputRules,
-    nodeViews,
-    editorView,
+    remarkCtx,
+    nodesCtx,
+    marksCtx,
+    editorCtx,
+    prosePluginsCtx,
+    schemaCtx,
+    parserCtx,
+    serializerCtx,
+    keymapCtx,
+    inputRulesCtx,
+    nodeViewsCtx,
+    editorViewCtx,
 ];

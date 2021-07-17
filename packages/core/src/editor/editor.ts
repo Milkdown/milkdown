@@ -2,7 +2,7 @@ import { Context, contexts, createContainer, Meta } from '../context';
 import { parserPlugin, schemaLoader, serializerLoader, viewLoader } from '../internal-plugin';
 
 export type Ctx = {
-    get: <T>(meta: Meta<T>) => Context<T>;
+    use: <T>(meta: Meta<T>) => Context<T>;
 };
 
 export type Plugin = (ctx: Ctx) => void | Promise<void>;
@@ -10,7 +10,7 @@ export type Plugin = (ctx: Ctx) => void | Promise<void>;
 export class Editor {
     #container = createContainer();
     #ctx: Ctx = {
-        get: this.#container.getCtx,
+        use: this.#container.getCtx,
     };
     #plugins: Set<(ctx: Ctx) => void> = new Set();
 
@@ -20,7 +20,7 @@ export class Editor {
     }
 
     ctx = <T>(meta: Meta<T>) => {
-        meta(this.#container.container);
+        meta(this.#container.contextMap);
         return this;
     };
 
@@ -36,9 +36,10 @@ export class Editor {
         return this;
     };
 
-    create() {
+    create = () => {
         this.#plugins.forEach((loader) => {
             loader(this.#ctx);
         });
-    }
+        return this;
+    };
 }

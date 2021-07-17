@@ -1,18 +1,18 @@
 import { Schema } from 'prosemirror-model';
 import { LoadSchema, SchemaReady } from '../constant';
-import { marks, nodes, schema } from '../context';
+import { marksCtx, nodesCtx, schemaCtx } from '../context';
 import { Ctx } from '../editor';
 import { buildObject } from '../utility';
 
 export const schemaLoader = async (ctx: Ctx) => {
     await LoadSchema();
-    const _nodes = buildObject(ctx.get(nodes).get(), (node) => [node.id, node.schema]);
-    const _marks = buildObject(ctx.get(marks).get(), (mark) => [mark.id, mark.schema]);
-    const _schema = ctx.get(schema);
-    _schema.set(
+    const nodes = buildObject(ctx.use(nodesCtx).get(), (node) => [node.id, node.schema]);
+    const marks = buildObject(ctx.use(marksCtx).get(), (mark) => [mark.id, mark.schema]);
+    const schema = ctx.use(schemaCtx);
+    schema.set(
         new Schema({
-            nodes: _nodes,
-            marks: _marks,
+            nodes,
+            marks,
         }),
     );
     SchemaReady.done();

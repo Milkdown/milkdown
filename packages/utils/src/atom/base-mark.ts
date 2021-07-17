@@ -3,7 +3,7 @@ import type { AnyRecord, UnknownRecord } from '../type-utility';
 import { createKeymap } from './keymap';
 import type { MarkOptional, MarkOptions } from './types';
 
-export abstract class BaseMark<SupportedKeys extends string = string, Options = UnknownRecord>
+export abstract class BaseMark<SupportedKeys extends parserCtx = parserCtx, Options = UnknownRecord>
     extends Mark<MarkOptions<SupportedKeys, Options>>
     implements MarkOptional<SupportedKeys>
 {

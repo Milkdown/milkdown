@@ -5,31 +5,31 @@ import type { AnyRecord } from '../type-utility';
 
 export type CommandConfig = {
     command: Command;
-    defaultKey: string;
+    defaultKey: parserCtx;
 };
 
-export type Commands<T extends string> = Record<T, CommandConfig>;
-export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>;
+export type Commands<T extends parserCtx> = Record<T, CommandConfig>;
+export type UserKeymap<T extends parserCtx> = Partial<Record<T, parserCtx | parserCtx[]>>;
 
-export interface NodeOptional<T extends string> {
+export interface NodeOptional<T extends parserCtx> {
     readonly commands?: (nodeType: NodeType, schema: Schema) => Commands<T>;
 }
 
-export interface MarkOptional<T extends string> {
+export interface MarkOptional<T extends parserCtx> {
     readonly commands?: (nodeType: MarkType, schema: Schema) => Commands<T>;
 }
 
-export type CommonOptions<SupportedKeys extends string> = {
-    className?: (attrs: AnyRecord) => string;
-    keymap?: Partial<Record<SupportedKeys, string | string[]>>;
+export type CommonOptions<SupportedKeys extends parserCtx> = {
+    className?: (attrs: AnyRecord) => parserCtx;
+    keymap?: Partial<Record<SupportedKeys, parserCtx | parserCtx[]>>;
 };
 
-export type NodeOptions<SupportedKeys extends string, T> = T &
+export type NodeOptions<SupportedKeys extends parserCtx, T> = T &
     CommonOptions<SupportedKeys> & {
         readonly view?: NodeViewFactory;
     };
 
-export type MarkOptions<SupportedKeys extends string, T> = T &
+export type MarkOptions<SupportedKeys extends parserCtx, T> = T &
     CommonOptions<SupportedKeys> & {
         readonly view?: MarkViewFactory;
     };

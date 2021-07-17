@@ -3,7 +3,7 @@ import type { AnyRecord, UnknownRecord } from '../type-utility';
 import { createKeymap } from './keymap';
 import type { NodeOptional, NodeOptions } from './types';
 
-export abstract class BaseNode<SupportedKeys extends string = string, Options = UnknownRecord>
+export abstract class BaseNode<SupportedKeys extends parserCtx = parserCtx, Options = UnknownRecord>
     extends Node<NodeOptions<SupportedKeys, Options>>
     implements NodeOptional<SupportedKeys>
 {

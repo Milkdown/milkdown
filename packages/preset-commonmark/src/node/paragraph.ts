@@ -15,7 +15,7 @@ export const paragraph = createNode({
             if (node.children) {
                 state.next(node.children);
             } else {
-                state.addText(node.value as string);
+                state.addText(node.value as parserCtx);
             }
             state.closeNode();
         },

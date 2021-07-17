@@ -20,7 +20,7 @@
         "postinstall": "husky install && pnpm run build:packs",
         "changeset": "changeset",
         "release": "changeset publish",
-        "clear": "rimraf packages/*/lib"
+        "clear": "rimraf packages/*/{lib,tsconfig.tsbuildinfo}"
     },
     "devDependencies": {
         "@changesets/cli": "^2.16.0",

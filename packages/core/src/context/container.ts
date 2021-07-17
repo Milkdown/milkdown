@@ -36,11 +36,11 @@ export const createCtx = <T>(value: T): Meta<T> => {
 };
 
 export const createContainer = () => {
-    const container: Map<symbol, Context> = new Map();
+    const contextMap: Map<symbol, Context> = new Map();
 
     const getCtx = <T>(meta: Meta<T>): Context<T> => {
-        return container.get(meta.id) as Context<T>;
+        return contextMap.get(meta.id) as Context<T>;
     };
 
-    return { getCtx, container };
+    return { getCtx, contextMap };
 };
