@@ -7,7 +7,10 @@ export type AnyRecord = Record<string, any>;
 export type Ctx = {
     use: <T>(meta: Meta<T>) => Context<T>;
 };
+export type Pre = {
+    ctx: <T>(meta: Meta<T>) => Editor;
+};
 
 export type MilkdownPlugin = {
-    (editor: Editor): (ctx: Ctx) => void | Promise<void>;
+    (pre: Pre): (ctx: Ctx) => void | Promise<void>;
 };

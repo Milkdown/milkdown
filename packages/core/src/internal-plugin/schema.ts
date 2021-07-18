@@ -10,8 +10,8 @@ export const schemaCtx = createCtx<Schema>({} as Schema);
 export const nodesCtx = createCtx<Node[]>([]);
 export const marksCtx = createCtx<Mark[]>([]);
 
-export const schema: MilkdownPlugin = (editor) => {
-    editor.ctx(schemaCtx).ctx(nodesCtx).ctx(marksCtx);
+export const schema: MilkdownPlugin = (pre) => {
+    pre.ctx(schemaCtx).ctx(nodesCtx).ctx(marksCtx);
 
     return async (ctx) => {
         await Initialize();

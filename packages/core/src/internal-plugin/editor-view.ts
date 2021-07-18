@@ -31,8 +31,8 @@ export const editorOptions = createCtx<EditorOptions>({
     listener: {},
 });
 
-export const editorView: MilkdownPlugin = (editor) => {
-    editor.ctx(editorViewCtx).ctx(editorOptions);
+export const editorView: MilkdownPlugin = (pre) => {
+    pre.ctx(editorViewCtx).ctx(editorOptions);
 
     return async (ctx) => {
         await Complete();

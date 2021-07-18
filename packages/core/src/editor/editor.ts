@@ -1,6 +1,6 @@
 import { contexts, createContainer, Meta } from '../context';
 import { parser, schema, serializer, editorView, init, keymap, inputRules } from '../internal-plugin';
-import { Ctx, MilkdownPlugin } from '../utility';
+import { Ctx, MilkdownPlugin, Pre } from '../utility';
 
 const internalPlugins = [schema, parser, serializer, editorView, keymap, inputRules];
 
@@ -24,16 +24,19 @@ export class Editor {
         meta(this.#container.contextMap);
         return this;
     };
+    #pre: Pre = {
+        ctx: this.ctx,
+    };
 
     use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
         if (Array.isArray(plugins)) {
             plugins.forEach((plugin) => {
-                this.#plugins.add(plugin(this));
+                this.#plugins.add(plugin(this.#pre));
             });
             return this;
         }
 
-        this.#plugins.add(plugins(this));
+        this.#plugins.add(plugins(this.#pre));
         return this;
     };
 

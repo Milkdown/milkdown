@@ -10,8 +10,8 @@ import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 export const parserCtx = createCtx<(text: string) => ProsemirrorNode | null>(() => null);
 export const remarkCtx = createCtx<Processor<RemarkOptions>>(re());
 
-export const parser: MilkdownPlugin = (editor) => {
-    editor.ctx(parserCtx).ctx(remarkCtx);
+export const parser: MilkdownPlugin = (pre) => {
+    pre.ctx(parserCtx).ctx(remarkCtx);
 
     return async (ctx) => {
         await SchemaReady();

@@ -7,8 +7,8 @@ import type { MilkdownPlugin } from '../utility';
 
 export const keymapCtx = createCtx<ProsemirrorPlugin[]>([]);
 
-export const keymap: MilkdownPlugin = (editor) => {
-    editor.ctx(keymapCtx);
+export const keymap: MilkdownPlugin = (pre) => {
+    pre.ctx(keymapCtx);
 
     return async (ctx) => {
         await SchemaReady();
