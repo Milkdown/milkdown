@@ -1,6 +1,5 @@
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { marksCtx, nodesCtx, remarkCtx, schemaCtx, SchemaReady } from '..';
-import { Complete } from '../constant';
 import { createCtx } from '../context';
 import { createSerializer, InnerSerializerSpecMap } from '../serializer';
 import { buildObject, MilkdownPlugin } from '../utility';
@@ -28,7 +27,5 @@ export const serializer: MilkdownPlugin = (editor) => {
         ]) as InnerSerializerSpecMap;
 
         serializer.set(createSerializer(schema, spec, remark));
-
-        Complete.done();
     };
 };

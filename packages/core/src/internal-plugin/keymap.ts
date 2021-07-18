@@ -1,9 +1,8 @@
 import type { Keymap } from 'prosemirror-commands';
 import { keymap as proseKeymap } from 'prosemirror-keymap';
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
-import { SchemaReady } from '../constant';
 import { createCtx } from '../context';
-import { marksCtx, nodesCtx, schemaCtx } from '../internal-plugin';
+import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import type { MilkdownPlugin } from '../utility';
 
 export const keymapCtx = createCtx<ProsemirrorPlugin[]>([]);

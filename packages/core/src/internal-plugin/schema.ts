@@ -1,8 +1,10 @@
 import { Schema } from 'prosemirror-model';
-import { Initialize, SchemaReady } from '../constant';
 import { createCtx } from '../context';
 import { buildObject, MilkdownPlugin } from '../utility';
-import type { Mark, Node } from '../internal-plugin';
+import { Initialize, Mark, Node } from '../internal-plugin';
+import { createTiming } from '../timing';
+
+export const SchemaReady = createTiming('schemaReady');
 
 export const schemaCtx = createCtx<Schema>({} as Schema);
 export const nodesCtx = createCtx<Node[]>([]);

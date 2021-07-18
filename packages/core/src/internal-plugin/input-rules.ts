@@ -1,7 +1,6 @@
 import type { InputRule } from 'prosemirror-inputrules';
-import { SchemaReady } from '../constant';
 import { createCtx } from '../context';
-import { marksCtx, nodesCtx, schemaCtx } from '../internal-plugin';
+import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import type { MilkdownPlugin } from '../utility';
 
 export const inputRulesCtx = createCtx<InputRule[]>([]);

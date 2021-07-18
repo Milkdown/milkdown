@@ -2,7 +2,7 @@ import { contexts, createContainer, Meta } from '../context';
 import { parser, schema, serializer, editorView, init, keymap, inputRules } from '../internal-plugin';
 import { Ctx, MilkdownPlugin } from '../utility';
 
-const internalPlugins = [schema, parser, serializer, editorView, keymap, inputRules, init];
+const internalPlugins = [schema, parser, serializer, editorView, keymap, inputRules];
 
 export class Editor {
     #container = createContainer();
@@ -16,7 +16,8 @@ export class Editor {
     }
 
     #loadInternal = () => {
-        this.use(internalPlugins);
+        // Ensure the init plugin is the last one to be called.
+        this.use(internalPlugins.concat(init));
     };
 
     ctx = <T>(meta: Meta<T>) => {

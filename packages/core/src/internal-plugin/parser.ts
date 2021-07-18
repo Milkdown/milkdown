@@ -1,13 +1,11 @@
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
-
-import { SchemaReady } from '../constant';
-import { createCtx } from '../context';
-import { createParser, InnerParserSpecMap } from '../parser';
-import { buildObject, MilkdownPlugin } from '../utility';
-import { marksCtx, nodesCtx, schemaCtx } from './schema';
 import type { RemarkOptions } from 'remark';
 import re from 'remark';
 import type { Processor } from 'unified';
+import { createCtx } from '../context';
+import { createParser, InnerParserSpecMap } from '../parser';
+import { buildObject, MilkdownPlugin } from '../utility';
+import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export const parserCtx = createCtx<(text: string) => ProsemirrorNode | null>(() => null);
 export const remarkCtx = createCtx<Processor<RemarkOptions>>(re());
@@ -21,7 +19,6 @@ export const parser: MilkdownPlugin = (editor) => {
         const marks = ctx.use(marksCtx).get();
         const remark = ctx.use(remarkCtx).get();
         const schema = ctx.use(schemaCtx).get();
-        const parser = ctx.use(parserCtx);
 
         const children = [
             ...nodes.map((node) => ({ ...node, is: 'node' })),
@@ -32,6 +29,6 @@ export const parser: MilkdownPlugin = (editor) => {
             { ...child.parser, is: child.is },
         ]) as InnerParserSpecMap;
 
-        parser.set(createParser(schema, spec, remark));
+        ctx.use(parserCtx).set(createParser(schema, spec, remark));
     };
 };

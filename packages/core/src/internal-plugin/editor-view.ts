@@ -1,13 +1,15 @@
+import { baseKeymap } from 'prosemirror-commands';
+import { inputRules as createInputRules } from 'prosemirror-inputrules';
+import { keymap as createKeymap } from 'prosemirror-keymap';
+import { Node } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { createCtx, inputRulesCtx } from '..';
-import { Node } from 'prosemirror-model';
-import { Complete } from '../constant';
+import { Complete, createCtx, inputRulesCtx } from '..';
 import { MilkdownPlugin } from '../utility';
+import { keymapCtx } from './keymap';
 import { parserCtx } from './parser';
 import { schemaCtx } from './schema';
 import { serializerCtx } from './serializer';
-import { inputRules as createInputRules } from 'prosemirror-inputrules';
 
 export type DocListener = (doc: Node) => void;
 export type MarkdownListener = (getMarkdown: () => string) => void;
@@ -39,12 +41,13 @@ export const editorView: MilkdownPlugin = (editor) => {
         const parser = ctx.use(parserCtx).get();
         const serializer = ctx.use(serializerCtx).get();
         const rules = ctx.use(inputRulesCtx).get();
+        const keymap = ctx.use(keymapCtx).get();
         const options = ctx.use(editorOptions).get();
 
         const state = EditorState.create({
             schema,
             doc: parser(options.defaultValue),
-            plugins: [createInputRules({ rules })],
+            plugins: [...keymap, createKeymap(baseKeymap), createInputRules({ rules })],
         });
         const view = new EditorView(document.body, {
             state,
