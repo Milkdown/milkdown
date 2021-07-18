@@ -12,7 +12,7 @@ export class Editor {
     #plugins: Set<(ctx: Ctx) => void> = new Set();
     inject = <T>(meta: Meta<T>) => {
         meta(this.#container.contextMap);
-        return this;
+        return this.#pre;
     };
     #pre: Pre = {
         inject: this.inject,
