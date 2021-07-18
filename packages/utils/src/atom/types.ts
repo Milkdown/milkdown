@@ -44,7 +44,7 @@ export type Origin<
     T extends UnknownRecord = UnknownRecord,
 > = (
     options?: Partial<T & (Type extends 'Node' ? NodeOptions<SupportedKeys, T> : MarkOptions<SupportedKeys, T>)>,
-) => MilkdownPlugin;
+) => PluginWithMetadata<Type, SupportedKeys, T>;
 
 export type PluginWithMetadata<
     Type extends 'Node' | 'Mark',

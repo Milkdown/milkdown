@@ -1,4 +1,4 @@
-import { Editor, nodeFactory } from '@milkdown/core';
+import { Editor } from '@milkdown/core';
 import { commonmark } from '../src';
 import './style.css';
 
