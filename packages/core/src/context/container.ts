@@ -2,6 +2,7 @@ export type Context<T = unknown> = {
     id: symbol;
     set: (value: T) => void;
     get: () => T;
+    update: (updater: (prev: T) => T) => void;
 };
 
 export type Container = Map<symbol, Context>;
@@ -22,6 +23,9 @@ export const createCtx = <T>(value: T): Meta<T> => {
             inner = next;
         },
         get: () => inner,
+        update: (updater) => {
+            inner = updater(inner);
+        },
     };
 
     const setter = (container: Container) => {

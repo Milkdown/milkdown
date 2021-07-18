@@ -51,12 +51,11 @@ const app = document.getElementById('app');
 
 new Editor()
     .config((ctx) => {
-        const editorOptions = ctx.use(editorOptionsCtx);
-        editorOptions.set({
-            ...editorOptions.get(),
+        ctx.use(editorOptionsCtx).update((prev) => ({
+            ...prev,
             root: app,
             defaultValue: markdown,
-        });
+        }));
     })
     .use(commonmark)
     .create();
