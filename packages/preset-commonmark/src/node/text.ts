@@ -1,9 +1,6 @@
-import type { NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
-import type { NodeSpec } from 'prosemirror-model';
-import { BaseNode } from '@milkdown/utils';
-import { createNode } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
-export const text = createNode({
+export const text = createNode(() => ({
     id: 'text',
     schema: {
         group: 'inline',
@@ -11,13 +8,13 @@ export const text = createNode({
     parser: {
         match: ({ type }) => type === 'text',
         runner: (state, node) => {
-            state.addText(node.value as parserCtx);
+            state.addText(node.value as string);
         },
     },
     serializer: {
         match: (node) => node.type.name === 'text',
         runner: (state, node) => {
-            state.addNode('text', undefined, node.text as parserCtx);
+            state.addNode('text', undefined, node.text as string);
         },
     },
-});
+}));

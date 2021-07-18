@@ -1,7 +1,7 @@
 import { createTiming } from '../timing';
 
-export const Idle = createTiming();
-export const LoadSchema = createTiming();
-export const SchemaReady = createTiming();
-export const LoadPlugin = createTiming();
-export const Complete = createTiming();
+export const Idle = createTiming('idle');
+export const LoadSchema = createTiming('loadSchema');
+export const SchemaReady = createTiming('schemaReady');
+export const LoadPlugin = createTiming('loadPlugin');
+export const Complete = createTiming('complete');

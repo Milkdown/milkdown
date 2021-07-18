@@ -1,13 +1,14 @@
 import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
-import { marksCtx } from '../context';
-import type { Ctx } from '../editor';
+import { marksCtx } from '.';
 import type { MarkParserSpec } from '../parser';
 import type { MarkSerializerSpec } from '../serializer';
+import type { MarkViewFactory, MilkdownPlugin } from '../utility';
 
 export type Mark = {
     readonly id: string;
+    readonly view?: MarkViewFactory;
     readonly keymap?: (nodeType: MarkType, schema: Schema) => Keymap;
     readonly inputRules?: (nodeType: MarkType, schema: Schema) => InputRule[];
     readonly schema: MarkSpec;
@@ -15,7 +16,10 @@ export type Mark = {
     readonly parser: MarkParserSpec;
 };
 
-export const createMark = (mark: Mark) => (ctx: Ctx) => {
-    const marks = ctx.use(marksCtx);
-    marks.set(marks.get().concat(mark));
-};
+export const markFactory =
+    (mark: Mark): MilkdownPlugin =>
+    () =>
+    (ctx) => {
+        const marks = ctx.use(marksCtx);
+        marks.set(marks.get().concat(mark));
+    };

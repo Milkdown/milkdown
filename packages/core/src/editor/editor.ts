@@ -1,11 +1,6 @@
-import { Context, contexts, createContainer, Meta } from '../context';
-import { parserPlugin, schemaLoader, serializerLoader, viewLoader } from '../internal-plugin';
-
-export type Ctx = {
-    use: <T>(meta: Meta<T>) => Context<T>;
-};
-
-export type Plugin = (ctx: Ctx) => void | Promise<void>;
+import { contexts, createContainer, Meta } from '../context';
+import { parser, schema, serializer, editorView } from '../internal-plugin';
+import { Ctx, MilkdownPlugin } from '../utility';
 
 export class Editor {
     #container = createContainer();
@@ -15,7 +10,7 @@ export class Editor {
     #plugins: Set<(ctx: Ctx) => void> = new Set();
 
     constructor() {
-        [schemaLoader, parserPlugin, serializerLoader, viewLoader].forEach(this.use);
+        [schema, parser, serializer, editorView].forEach((x) => this.use(x));
         contexts.forEach((x) => this.ctx<unknown>(x));
     }
 
@@ -24,15 +19,15 @@ export class Editor {
         return this;
     };
 
-    use = (plugins: Plugin | Plugin[]) => {
+    use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
         if (Array.isArray(plugins)) {
             plugins.forEach((plugin) => {
-                this.#plugins.add(plugin);
+                this.#plugins.add(plugin(this));
             });
             return this;
         }
 
-        this.#plugins.add(plugins);
+        this.#plugins.add(plugins(this));
         return this;
     };
 

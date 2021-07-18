@@ -1,6 +1,6 @@
-import { createNode } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
-export const doc = createNode({
+export const doc = createNode(() => ({
     id: 'doc',
     schema: {
         content: 'block+',
@@ -18,4 +18,4 @@ export const doc = createNode({
             state.next(node.content);
         },
     },
-});
+}));

@@ -1,14 +1,13 @@
-import type { Atom } from '@milkdown/core';
+import { Origin, PluginWithMetadata } from './types';
 
-type Cls = new (...args: unknown[]) => unknown;
-type ConstructorOf<T> = T extends InstanceType<infer U> ? U : T;
+type Atom = PluginWithMetadata<'Node' | 'Mark'>;
 
 export class AtomList<T extends Atom = Atom> extends Array<T> {
-    configure<U extends ConstructorOf<T>>(Target: U, config: ConstructorParameters<U>[0]): this {
-        const index = this.findIndex((x) => x.constructor === Target);
+    configure<U extends Origin<'Node' | 'Mark'>>(target: U, config: Parameters<U>[0]): this {
+        const index = this.findIndex((x) => x.origin === target);
         if (index < 0) return this;
 
-        this.splice(index, 1, new (Target as Cls & U)(config));
+        this.splice(index, 1, target(config) as T);
 
         return this;
     }

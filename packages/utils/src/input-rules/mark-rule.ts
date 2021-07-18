@@ -11,9 +11,9 @@ export function markRule(regexp: RegExp, markType: MarkType): InputRule {
         let markEnd = end;
 
         if (match[matchLength - 1]) {
-            const first = match[0] as parserCtx;
-            const last = match[matchLength - 1] as parserCtx;
-            const last1 = match[matchLength - 2] as parserCtx;
+            const first = match[0] as string;
+            const last = match[matchLength - 1] as string;
+            const last1 = match[matchLength - 2] as string;
 
             const matchStart = start + first.indexOf(last1);
             const matchEnd = matchStart + last1.length - 1;

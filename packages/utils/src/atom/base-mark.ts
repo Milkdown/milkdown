@@ -1,18 +1,28 @@
-import { Mark, MarkViewFactory } from '@milkdown/core';
-import type { AnyRecord, UnknownRecord } from '../type-utility';
+import { Attrs, Mark, markFactory } from '@milkdown/core';
+import { UnknownRecord } from '../type-utility';
 import { createKeymap } from './keymap';
-import type { MarkOptional, MarkOptions } from './types';
+import { MarkOptional, MarkOptions, Origin, PluginWithMetadata, Utils } from './types';
 
-export abstract class BaseMark<SupportedKeys extends parserCtx = parserCtx, Options = UnknownRecord>
-    extends Mark<MarkOptions<SupportedKeys, Options>>
-    implements MarkOptional<SupportedKeys>
-{
-    commands?: MarkOptional<SupportedKeys>['commands'];
+export const createMark = <SupportedKeys extends string = string, T extends UnknownRecord = UnknownRecord>(
+    factory: (options: Partial<T & MarkOptions<SupportedKeys, T>> | undefined, utils: Utils) => Mark,
+    factoryOptions?: MarkOptional<SupportedKeys>,
+): Origin<'Mark', SupportedKeys, T> => {
+    const origin: Origin<'Mark', SupportedKeys, T> = (options) => {
+        const getClassName = (attrs: Attrs, defaultValue: string) => options?.className?.(attrs) ?? defaultValue;
+        const keymap = createKeymap(factoryOptions?.commands, options?.keymap);
+        const node = factory(options, {
+            getClassName,
+        });
 
-    protected getClassName = (attrs: AnyRecord, defaultValue = this.id) =>
-        this.options.className?.(attrs) ?? defaultValue;
+        const plugin: PluginWithMetadata<'Mark', SupportedKeys, T> = markFactory({
+            ...node,
+            keymap,
+            view: options?.view,
+        }) as PluginWithMetadata<'Mark', SupportedKeys, T>;
+        plugin.origin = origin;
 
-    override readonly keymap: Mark['keymap'] = (type, schema) =>
-        createKeymap(this.commands, this.options.keymap)(type, schema);
-    override readonly view?: MarkViewFactory = this.options.view;
-}
+        return plugin;
+    };
+
+    return origin;
+};

@@ -1,19 +1,28 @@
-import { Node, NodeViewFactory } from '@milkdown/core';
-import type { AnyRecord, UnknownRecord } from '../type-utility';
+import { Attrs, Node, nodeFactory } from '@milkdown/core';
+import { UnknownRecord } from '../type-utility';
 import { createKeymap } from './keymap';
-import type { NodeOptional, NodeOptions } from './types';
+import { NodeOptional, NodeOptions, Origin, PluginWithMetadata, Utils } from './types';
 
-export abstract class BaseNode<SupportedKeys extends parserCtx = parserCtx, Options = UnknownRecord>
-    extends Node<NodeOptions<SupportedKeys, Options>>
-    implements NodeOptional<SupportedKeys>
-{
-    commands?: NodeOptional<SupportedKeys>['commands'];
+export const createNode = <SupportedKeys extends string = string, T extends UnknownRecord = UnknownRecord>(
+    factory: (options: Partial<T & NodeOptions<SupportedKeys, T>> | undefined, utils: Utils) => Node,
+    factoryOptions?: NodeOptional<SupportedKeys>,
+): Origin<'Node', SupportedKeys, T> => {
+    const origin: Origin<'Node', SupportedKeys, T> = (options) => {
+        const getClassName = (attrs: Attrs, defaultValue: string) => options?.className?.(attrs) ?? defaultValue;
+        const keymap = createKeymap(factoryOptions?.commands, options?.keymap);
+        const node = factory(options, {
+            getClassName,
+        });
 
-    protected getClassName = (attrs: AnyRecord, defaultValue = this.id) =>
-        this.options.className?.(attrs) ?? defaultValue;
+        const plugin: PluginWithMetadata<'Node', SupportedKeys, T> = nodeFactory({
+            ...node,
+            keymap,
+            view: options?.view,
+        }) as PluginWithMetadata<'Node', SupportedKeys, T>;
+        plugin.origin = origin;
 
-    override readonly keymap: Node['keymap'] = (type, schema) =>
-        createKeymap(this.commands, this.options.keymap)(type, schema);
+        return plugin;
+    };
 
-    override readonly view?: NodeViewFactory = this.options.view;
-}
+    return origin;
+};

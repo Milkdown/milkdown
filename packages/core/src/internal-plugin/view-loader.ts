@@ -1,22 +1,28 @@
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
+import { createCtx } from '..';
 import { Complete } from '../constant';
-import { editorViewCtx, parserCtx, schemaCtx } from '../context';
-import { Ctx } from '../editor';
+import { MilkdownPlugin } from '../utility';
+import { parserCtx } from './parser';
+import { schemaCtx } from './schema';
 
-export const viewLoader = async (ctx: Ctx) => {
-    await Complete();
+export const editorViewCtx = createCtx<EditorView>({} as EditorView);
 
-    const _schema = ctx.use(schemaCtx).get();
-    const _parser = ctx.use(parserCtx).get();
-    // const _serializer = ctx.get(serializer).value;
+export const editorView: MilkdownPlugin = (editor) => {
+    editor.ctx(editorViewCtx);
+    return async (ctx) => {
+        await Complete();
 
-    const state = EditorState.create({
-        schema: _schema,
-        doc: _parser(''),
-    });
-    const view = new EditorView(document.body, {
-        state,
-    });
-    ctx.use(editorViewCtx).set(view);
+        const schema = ctx.use(schemaCtx).get();
+        const parser = ctx.use(parserCtx).get();
+        // const _serializer = ctx.get(serializer).value;
+        const state = EditorState.create({
+            schema,
+            doc: parser(''),
+        });
+        const view = new EditorView(document.body, {
+            state,
+        });
+        ctx.use(editorViewCtx).set(view);
+    };
 };

@@ -1,25 +1,37 @@
+import type { Node as ProsemirrorNode } from 'prosemirror-model';
+
 import { SchemaReady } from '../constant';
-import { marksCtx, nodesCtx, parserCtx, remarkCtx, schemaCtx } from '../context';
-import { Ctx } from '../editor';
+import { createCtx } from '../context';
 import { createParser, InnerParserSpecMap } from '../parser';
-import { buildObject } from '../utility';
+import { buildObject, MilkdownPlugin } from '../utility';
+import { marksCtx, nodesCtx, schemaCtx } from './schema';
+import type { RemarkOptions } from 'remark';
+import re from 'remark';
+import type { Processor } from 'unified';
 
-export const parserPlugin = async (ctx: Ctx) => {
-    await SchemaReady();
-    const _nodes = ctx.use(nodesCtx).get();
-    const _marks = ctx.use(marksCtx).get();
-    const _remark = ctx.use(remarkCtx).get();
-    const _schema = ctx.use(schemaCtx).get();
-    const _parser = ctx.use(parserCtx);
+export const parserCtx = createCtx<(text: string) => ProsemirrorNode | null>(() => null);
+export const remarkCtx = createCtx<Processor<RemarkOptions>>(re());
 
-    const children = [
-        ..._nodes.map((node) => ({ ...node, is: 'node' })),
-        ..._marks.map((mark) => ({ ...mark, is: 'mark' })),
-    ];
-    const spec: InnerParserSpecMap = buildObject(children, (child) => [
-        child.id,
-        { ...child.parser, is: child.is },
-    ]) as InnerParserSpecMap;
+export const parser: MilkdownPlugin = (editor) => {
+    editor.ctx(parserCtx).ctx(remarkCtx);
 
-    _parser.set(createParser(_schema, spec, _remark));
+    return async (ctx) => {
+        await SchemaReady();
+        const nodes = ctx.use(nodesCtx).get();
+        const marks = ctx.use(marksCtx).get();
+        const remark = ctx.use(remarkCtx).get();
+        const schema = ctx.use(schemaCtx).get();
+        const parser = ctx.use(parserCtx);
+
+        const children = [
+            ...nodes.map((node) => ({ ...node, is: 'node' })),
+            ...marks.map((mark) => ({ ...mark, is: 'mark' })),
+        ];
+        const spec: InnerParserSpecMap = buildObject(children, (child) => [
+            child.id,
+            { ...child.parser, is: child.is },
+        ]) as InnerParserSpecMap;
+
+        parser.set(createParser(schema, spec, remark));
+    };
 };
