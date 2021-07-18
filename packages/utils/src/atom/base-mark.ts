@@ -4,15 +4,17 @@ import { createKeymap } from './keymap';
 import { MarkOptional, MarkOptions, Origin, PluginWithMetadata, Utils } from './types';
 
 export const createMark = <SupportedKeys extends string = string, T extends UnknownRecord = UnknownRecord>(
-    factory: (options: Partial<T & MarkOptions<SupportedKeys, T>> | undefined, utils: Utils) => Mark,
-    factoryOptions?: MarkOptional<SupportedKeys>,
+    factory: (
+        options: Partial<T & MarkOptions<SupportedKeys, T>> | undefined,
+        utils: Utils,
+    ) => Mark & MarkOptional<SupportedKeys>,
 ): Origin<'Mark', SupportedKeys, T> => {
     const origin: Origin<'Mark', SupportedKeys, T> = (options) => {
         const getClassName = (attrs: Attrs, defaultValue: string) => options?.className?.(attrs) ?? defaultValue;
-        const keymap = createKeymap(factoryOptions?.commands, options?.keymap);
         const node = factory(options, {
             getClassName,
         });
+        const keymap = createKeymap(node.commands, options?.keymap);
 
         const plugin: PluginWithMetadata<'Mark', SupportedKeys, T> = markFactory({
             ...node,
