@@ -1,6 +1,8 @@
 import { contexts, createContainer, Meta } from '../context';
-import { parser, schema, serializer, editorView } from '../internal-plugin';
+import { parser, schema, serializer, editorView, init, keymap, inputRules } from '../internal-plugin';
 import { Ctx, MilkdownPlugin } from '../utility';
+
+const internalPlugins = [schema, parser, serializer, editorView, keymap, inputRules, init];
 
 export class Editor {
     #container = createContainer();
@@ -10,9 +12,12 @@ export class Editor {
     #plugins: Set<(ctx: Ctx) => void> = new Set();
 
     constructor() {
-        [schema, parser, serializer, editorView].forEach((x) => this.use(x));
         contexts.forEach((x) => this.ctx<unknown>(x));
     }
+
+    #loadInternal = () => {
+        this.use(internalPlugins);
+    };
 
     ctx = <T>(meta: Meta<T>) => {
         meta(this.#container.contextMap);
@@ -32,6 +37,7 @@ export class Editor {
     };
 
     create = () => {
+        this.#loadInternal();
         this.#plugins.forEach((loader) => {
             loader(this.#ctx);
         });

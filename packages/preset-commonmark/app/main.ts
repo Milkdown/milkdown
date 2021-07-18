@@ -1,4 +1,4 @@
-import { Editor, loadSchemaPlugin } from '@milkdown/core';
+import { Editor, nodeFactory } from '@milkdown/core';
 import { commonmark } from '../src';
 import './style.css';
 
@@ -53,4 +53,4 @@ Now you can play!
 
 const app = document.getElementById('app');
 
-new Editor().use(commonmark).use(loadSchemaPlugin).create();
+new Editor().use(commonmark).create();
