@@ -25,14 +25,14 @@ type EditorOptions = {
 };
 
 export const editorViewCtx = createCtx<EditorView>({} as EditorView);
-export const editorOptions = createCtx<EditorOptions>({
+export const editorOptionsCtx = createCtx<EditorOptions>({
     root: document.body,
     defaultValue: '',
     listener: {},
 });
 
 export const editorView: MilkdownPlugin = (pre) => {
-    pre.inject(editorViewCtx).inject(editorOptions);
+    pre.inject(editorViewCtx).inject(editorOptionsCtx);
 
     return async (ctx) => {
         await Complete();
@@ -42,14 +42,14 @@ export const editorView: MilkdownPlugin = (pre) => {
         const serializer = ctx.use(serializerCtx).get();
         const rules = ctx.use(inputRulesCtx).get();
         const keymap = ctx.use(keymapCtx).get();
-        const options = ctx.use(editorOptions).get();
+        const options = ctx.use(editorOptionsCtx).get();
 
         const state = EditorState.create({
             schema,
             doc: parser(options.defaultValue),
             plugins: [...keymap, createKeymap(baseKeymap), createInputRules({ rules })],
         });
-        const view = new EditorView(document.body, {
+        const view = new EditorView(options.root, {
             state,
             dispatchTransaction: (tr) => {
                 const nextState = view.state.apply(tr);

@@ -1,4 +1,4 @@
-import { Editor } from '@milkdown/core';
+import { Editor, editorOptionsCtx, editorViewCtx } from '@milkdown/core';
 import { commonmark } from '../src';
 import './style.css';
 
@@ -21,10 +21,6 @@ There should be a line break before this.
 **Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1 "kitty")**
 
 Your *[link is here](https://bing.com "bing")*, have a look.
-
-![Alt text][id]
-
-[id]: https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1  "The Cat"
 
 ## Lists
 
@@ -53,4 +49,14 @@ Now you can play!
 
 const app = document.getElementById('app');
 
-new Editor().use(commonmark).create();
+new Editor()
+    .config((ctx) => {
+        const editorOptions = ctx.use(editorOptionsCtx);
+        editorOptions.set({
+            ...editorOptions.get(),
+            root: app,
+            defaultValue: markdown,
+        });
+    })
+    .use(commonmark)
+    .create();

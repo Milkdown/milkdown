@@ -1,8 +1,8 @@
 import { createContainer, Meta } from '../context';
-import { parser, schema, serializer, editorView, init, keymap, inputRules } from '../internal-plugin';
-import { Ctx, MilkdownPlugin, Pre } from '../utility';
+import { parser, schema, serializer, editorView, init, keymap, inputRules, config } from '../internal-plugin';
+import { Configure, Ctx, MilkdownPlugin, Pre } from '../utility';
 
-const internalPlugins = [schema, parser, serializer, editorView, keymap, inputRules];
+const internalPlugins = [schema, parser, serializer, editorView, keymap, inputRules, init];
 
 export class Editor {
     #container = createContainer();
@@ -10,6 +10,7 @@ export class Editor {
         use: this.#container.getCtx,
     };
     #plugins: Set<(ctx: Ctx) => void> = new Set();
+    #configure: Configure = () => undefined;
     inject = <T>(meta: Meta<T>) => {
         meta(this.#container.contextMap);
         return this.#pre;
@@ -19,8 +20,7 @@ export class Editor {
     };
 
     #loadInternal = () => {
-        // Ensure the init plugin is the last one to be called.
-        this.use(internalPlugins.concat(init));
+        this.use(internalPlugins.concat(config(this.#configure)));
     };
 
     use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
@@ -32,6 +32,11 @@ export class Editor {
         }
 
         this.#plugins.add(plugins(this.#pre));
+        return this;
+    };
+
+    config = (configure: Configure) => {
+        this.#configure = configure;
         return this;
     };
 

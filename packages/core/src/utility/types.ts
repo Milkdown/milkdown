@@ -13,3 +13,5 @@ export type Pre = {
 export type MilkdownPlugin = {
     (pre: Pre): (ctx: Ctx) => void | Promise<void>;
 };
+
+export type Configure = (ctx: Ctx) => void | Promise<void>;

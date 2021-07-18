@@ -1,4 +1,6 @@
 export * from './init';
+export * from './config';
+
 export * from './parser';
 export * from './schema';
 export * from './serializer';
