@@ -11,7 +11,7 @@ export const parserCtx = createCtx<(text: string) => ProsemirrorNode | null>(() 
 export const remarkCtx = createCtx<Processor<RemarkOptions>>(re());
 
 export const parser: MilkdownPlugin = (pre) => {
-    pre.ctx(parserCtx).ctx(remarkCtx);
+    pre.inject(parserCtx).inject(remarkCtx);
 
     return async (ctx) => {
         await SchemaReady();

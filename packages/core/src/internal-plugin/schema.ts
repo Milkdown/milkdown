@@ -11,7 +11,7 @@ export const nodesCtx = createCtx<Node[]>([]);
 export const marksCtx = createCtx<Mark[]>([]);
 
 export const schema: MilkdownPlugin = (pre) => {
-    pre.ctx(schemaCtx).ctx(nodesCtx).ctx(marksCtx);
+    pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx);
 
     return async (ctx) => {
         await Initialize();

@@ -8,7 +8,7 @@ import type { MilkdownPlugin } from '../utility';
 export const keymapCtx = createCtx<ProsemirrorPlugin[]>([]);
 
 export const keymap: MilkdownPlugin = (pre) => {
-    pre.ctx(keymapCtx);
+    pre.inject(keymapCtx);
 
     return async (ctx) => {
         await SchemaReady();

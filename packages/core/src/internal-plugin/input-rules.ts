@@ -6,7 +6,7 @@ import type { MilkdownPlugin } from '../utility';
 export const inputRulesCtx = createCtx<InputRule[]>([]);
 
 export const inputRules: MilkdownPlugin = (pre) => {
-    pre.ctx(inputRulesCtx);
+    pre.inject(inputRulesCtx);
 
     return async (ctx) => {
         await SchemaReady();

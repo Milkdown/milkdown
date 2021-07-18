@@ -8,7 +8,7 @@ export type Ctx = {
     use: <T>(meta: Meta<T>) => Context<T>;
 };
 export type Pre = {
-    ctx: <T>(meta: Meta<T>) => Editor;
+    inject: <T>(meta: Meta<T>) => Editor;
 };
 
 export type MilkdownPlugin = {

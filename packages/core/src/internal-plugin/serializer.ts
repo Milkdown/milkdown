@@ -7,7 +7,7 @@ import { buildObject, MilkdownPlugin } from '../utility';
 export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => '');
 
 export const serializer: MilkdownPlugin = (pre) => {
-    pre.ctx(serializerCtx);
+    pre.inject(serializerCtx);
 
     return async (ctx) => {
         await SchemaReady();
