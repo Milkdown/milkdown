@@ -39,12 +39,12 @@ export const editorView: MilkdownPlugin = (pre) => {
     return async (ctx) => {
         await Render();
 
-        const schema = ctx.use(schemaCtx).get();
-        const parser = ctx.use(parserCtx).get();
-        const serializer = ctx.use(serializerCtx).get();
-        const rules = ctx.use(inputRulesCtx).get();
-        const keymap = ctx.use(keymapCtx).get();
-        const options = ctx.use(editorOptionsCtx).get();
+        const schema = ctx.get(schemaCtx);
+        const parser = ctx.get(parserCtx);
+        const serializer = ctx.get(serializerCtx);
+        const rules = ctx.get(inputRulesCtx);
+        const keymap = ctx.get(keymapCtx);
+        const options = ctx.get(editorOptionsCtx);
 
         const state = EditorState.create({
             schema,

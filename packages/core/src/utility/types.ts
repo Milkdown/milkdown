@@ -5,6 +5,8 @@ export type AnyRecord = Record<string, any>;
 
 export type Ctx = {
     use: <T>(meta: Meta<T>) => Context<T>;
+    get: <T>(meta: Meta<T>) => T;
+    set: <T>(meta: Meta<T>, value: T) => void;
 };
 
 export type Pre = {

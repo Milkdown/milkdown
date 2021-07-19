@@ -1,4 +1,4 @@
-import { Editor, editorOptionsCtx, editorViewCtx } from '@milkdown/core';
+import { Editor, editorOptionsCtx, editorViewCtx, serializerCtx } from '@milkdown/core';
 import { commonmark } from '../src';
 import './style.css';
 
@@ -61,7 +61,15 @@ async function main() {
         .use(commonmark)
         .create();
 
-    console.log(editor.action((ctx) => ctx.use(editorViewCtx).get()).dom);
+    const getMarkdown = () => {
+        return editor.action((ctx) => {
+            const editorView = ctx.get(editorViewCtx);
+            const serializer = ctx.get(serializerCtx);
+            return serializer(editorView.state.doc);
+        });
+    };
+
+    console.log(getMarkdown());
 }
 
 main();

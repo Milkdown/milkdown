@@ -8,6 +8,8 @@ export class Editor {
     #container = createContainer();
     #ctx: Ctx = {
         use: this.#container.getCtx,
+        get: (meta) => this.#container.getCtx(meta).get(),
+        set: (meta, value) => this.#container.getCtx(meta).set(value),
     };
     #plugins: Set<CtxHandler> = new Set();
     #configure: Configure = () => undefined;
@@ -50,7 +52,5 @@ export class Editor {
         return this;
     };
 
-    action = <T>(fn: (ctx: Ctx) => T) => {
-        return fn(this.#ctx);
-    };
+    action = <T>(action: (ctx: Ctx) => T) => action(this.#ctx);
 }
