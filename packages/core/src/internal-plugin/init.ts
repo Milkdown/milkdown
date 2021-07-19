@@ -3,16 +3,28 @@ import { createTiming } from '../timing';
 import { SchemaReady } from '.';
 import { Config } from './config';
 import { Complete } from './editor-view';
+import { createCtx } from '..';
+import type { Editor } from '..';
 
 export const Initialize = createTiming('Initialize');
 export const Render = createTiming('Render');
 
-export const init: MilkdownPlugin = () => async () => {
-    await Config();
-    Initialize.done();
+export const editorCtx = createCtx<Editor>({} as Editor);
 
-    await SchemaReady();
-    Render.done();
+export const init =
+    (editor: Editor): MilkdownPlugin =>
+    (pre) => {
+        pre.inject(editorCtx);
 
-    await Complete();
-};
+        return async (ctx) => {
+            ctx.set(editorCtx, editor);
+
+            await Config();
+            Initialize.done();
+
+            await SchemaReady();
+            Render.done();
+
+            await Complete();
+        };
+    };
