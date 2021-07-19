@@ -229,6 +229,7 @@ importers:
   packages/plugin-math:
     specifiers:
       '@benrbray/prosemirror-math': ^0.2.2
+      '@milkdown/utils': workspace:*
       '@types/katex': ^0.11.0
       concurrently: ^6.0.2
       katex: ^0.13.2
@@ -236,6 +237,7 @@ importers:
       tslib: ^2.2.0
     dependencies:
       '@benrbray/prosemirror-math': 0.2.2_0d7f02fe743b283b4ff112411ae90ad0
+      '@milkdown/utils': link:../utils
       '@types/katex': 0.11.0
       katex: 0.13.11
       remark-math: 4.0.0
