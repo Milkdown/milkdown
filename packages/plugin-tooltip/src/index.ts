@@ -1,14 +1,19 @@
-import { createProsemirrorPlugin, LoadPluginContext } from '@milkdown/core';
+import { prosePluginFactory } from '@milkdown/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { buttonMap, inputMap } from './item';
 import { SelectionMarksTooltip } from './selection-marks-tooltip';
 
 export const key = 'MILKDOWN_PLUGIN_TOOLTIP';
 
-const selectionMarksTooltipPlugin = (ctx: LoadPluginContext) =>
+const selectionMarksTooltipPlugin = () =>
     new Plugin({
         key: new PluginKey(key),
-        view: (editorView) => new SelectionMarksTooltip(buttonMap(ctx), inputMap(ctx), editorView),
+        view: (editorView) =>
+            new SelectionMarksTooltip(
+                buttonMap(editorView.state.schema),
+                inputMap(editorView.state.schema),
+                editorView,
+            ),
     });
 
-export const tooltip = createProsemirrorPlugin('tooltip', (ctx) => [selectionMarksTooltipPlugin(ctx)]);
+export const tooltip = prosePluginFactory(selectionMarksTooltipPlugin());

@@ -1,6 +1,5 @@
 import { prosePluginFactory } from '@milkdown/core';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
-import { Schema } from 'prosemirror-model';
 
 const urlRegex =
     /(https?:\/\/)?www\.[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/;

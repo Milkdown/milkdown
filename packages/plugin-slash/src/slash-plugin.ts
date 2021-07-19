@@ -1,4 +1,3 @@
-import { createProsemirrorPlugin, LoadPluginContext } from '@milkdown/core';
 import { findParentNode } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
@@ -6,25 +5,19 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import { Action, items } from './item';
 import { createDropdown } from './utility';
 
-export const slashPlugin = createProsemirrorPlugin('slash', (ctx) => [plugin(ctx)]);
-
-const plugin = (ctx: LoadPluginContext) => new Plugin(new SlashPlugin(ctx));
-
 enum CursorStatus {
     Empty,
     Slash,
 }
 
 class SlashPlugin implements PluginSpec {
-    constructor(private ctx: LoadPluginContext) {}
-
     key = new PluginKey('milkdown-prosemirror-slash-plugin');
 
     status = new Status();
 
     props = new Props(this.status);
 
-    view = (editorView: EditorView) => new View(this.status, editorView, this.ctx);
+    view = (editorView: EditorView) => new View(this.status, editorView);
 }
 
 class Status {
@@ -118,7 +111,6 @@ class Props {
 class View {
     #dropdownElement: HTMLDivElement;
     #wrapper: HTMLElement;
-    #ctx: LoadPluginContext;
     #status: Status;
     #view: EditorView;
     #mouseLock: boolean;
@@ -138,7 +130,7 @@ class View {
         e.stopPropagation();
         e.preventDefault();
 
-        el.command(this.#ctx)(view.state, view.dispatch);
+        el.command(view.state.schema)(view.state, view.dispatch);
     };
 
     #handleKeydown = (e: KeyboardEvent) => {
@@ -179,7 +171,7 @@ class View {
             });
             return;
         }
-        this.#status.activeActions[active].command(this.#ctx)(this.#view.state, this.#view.dispatch);
+        this.#status.activeActions[active].command(this.#view.state.schema)(this.#view.state, this.#view.dispatch);
         this.#status.activeActions[active].$.classList.remove('active');
     };
 
@@ -206,10 +198,9 @@ class View {
         }
     };
 
-    constructor(status: Status, editorView: EditorView, ctx: LoadPluginContext) {
+    constructor(status: Status, editorView: EditorView) {
         this.#status = status;
         this.#dropdownElement = createDropdown();
-        this.#ctx = ctx;
         this.#view = editorView;
         this.#mouseLock = false;
 
@@ -222,7 +213,7 @@ class View {
         parentNode.appendChild(this.#dropdownElement);
         this.#wrapper.addEventListener('mousemove', this.#handleMouseMove);
         items
-            .filter((item) => item.enable(this.#ctx))
+            .filter((item) => item.enable(this.#view.state.schema))
             .forEach(({ $ }) => {
                 $.addEventListener('mouseenter', this.#handleMouseEnter);
                 $.addEventListener('mouseleave', this.#handleMouseLeave);
@@ -305,3 +296,5 @@ class View {
         this.#dropdownElement.style.top = topPx + 'px';
     }
 }
+
+export const slashPlugin = new Plugin(new SlashPlugin());

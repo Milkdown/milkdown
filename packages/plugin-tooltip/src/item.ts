@@ -1,4 +1,4 @@
-import { LoadPluginContext } from '@milkdown/core';
+import type { Schema } from 'prosemirror-model';
 import { Command } from 'prosemirror-commands';
 import { EditorView } from 'prosemirror-view';
 import { createToggleIcon, hasMark, modifyLink, findMarkByType, findChildNode, modifyImage } from './utility';
@@ -38,12 +38,12 @@ export enum InputAction {
 export type ButtonMap = Record<ButtonAction, ButtonItem>;
 export type InputMap = Record<InputAction, InputItem>;
 
-export const inputMap = (ctx: LoadPluginContext): InputMap => {
-    const { marks, nodes } = ctx.schema;
+export const inputMap = (schema: Schema): InputMap => {
+    const { marks, nodes } = schema;
     return {
         [InputAction.ModifyLink]: {
             display: (view) => hasMark(view.state, marks.link),
-            command: modifyLink(ctx.schema),
+            command: modifyLink(schema),
             placeholder: 'Input Web Link',
             update: (view, $) => {
                 const { firstChild } = $;
@@ -60,7 +60,7 @@ export const inputMap = (ctx: LoadPluginContext): InputMap => {
         },
         [InputAction.ModifyImage]: {
             display: (view) => Boolean(findChildNode(view.state.selection, nodes.image)),
-            command: modifyImage(ctx.schema, 'src'),
+            command: modifyImage(schema, 'src'),
             placeholder: 'Input Image Link',
             update: (view, $) => {
                 const { firstChild } = $;
@@ -75,8 +75,8 @@ export const inputMap = (ctx: LoadPluginContext): InputMap => {
     };
 };
 
-export const buttonMap = (ctx: LoadPluginContext): ButtonMap => {
-    const { marks } = ctx.schema;
+export const buttonMap = (schema: Schema): ButtonMap => {
+    const { marks } = schema;
     return {
         [ButtonAction.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
         [ButtonAction.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),

@@ -1,3 +1,4 @@
+import { prosePluginFactory } from '@milkdown/core';
 import { slashPlugin } from './slash-plugin';
 
-export const slash = [slashPlugin];
+export const slash = prosePluginFactory(slashPlugin);
