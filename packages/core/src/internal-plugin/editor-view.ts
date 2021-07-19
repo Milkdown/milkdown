@@ -4,7 +4,8 @@ import { keymap as createKeymap } from 'prosemirror-keymap';
 import { Node } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Complete, createCtx, inputRulesCtx } from '..';
+import { Render, createCtx, inputRulesCtx } from '..';
+import { createTiming } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { keymapCtx } from './keymap';
 import { parserCtx } from './parser';
@@ -30,12 +31,13 @@ export const editorOptionsCtx = createCtx<EditorOptions>({
     defaultValue: '',
     listener: {},
 });
+export const Complete = createTiming('complete');
 
 export const editorView: MilkdownPlugin = (pre) => {
     pre.inject(editorViewCtx).inject(editorOptionsCtx);
 
     return async (ctx) => {
-        await Complete();
+        await Render();
 
         const schema = ctx.use(schemaCtx).get();
         const parser = ctx.use(parserCtx).get();
@@ -63,5 +65,6 @@ export const editorView: MilkdownPlugin = (pre) => {
             },
         });
         ctx.use(editorViewCtx).set(view);
+        Complete.done();
     };
 };

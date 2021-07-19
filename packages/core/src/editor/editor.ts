@@ -1,6 +1,6 @@
 import { createContainer, Meta } from '../context';
 import { parser, schema, serializer, editorView, init, keymap, inputRules, config } from '../internal-plugin';
-import { Configure, Ctx, MilkdownPlugin, Pre } from '../utility';
+import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
 
 const internalPlugins = [schema, parser, serializer, editorView, keymap, inputRules, init];
 
@@ -9,7 +9,7 @@ export class Editor {
     #ctx: Ctx = {
         use: this.#container.getCtx,
     };
-    #plugins: Set<(ctx: Ctx) => void> = new Set();
+    #plugins: Set<CtxHandler> = new Set();
     #configure: Configure = () => undefined;
     inject = <T>(meta: Meta<T>) => {
         meta(this.#container.contextMap);
@@ -40,11 +40,17 @@ export class Editor {
         return this;
     };
 
-    create = () => {
+    create = async () => {
         this.#loadInternal();
-        this.#plugins.forEach((loader) => {
-            loader(this.#ctx);
-        });
+        await Promise.all(
+            [...this.#plugins].map((loader) => {
+                return loader(this.#ctx);
+            }),
+        );
         return this;
+    };
+
+    action = <T>(fn: (ctx: Ctx) => T) => {
+        return fn(this.#ctx);
     };
 }

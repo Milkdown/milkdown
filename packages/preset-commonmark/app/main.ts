@@ -49,13 +49,19 @@ Now you can play!
 
 const app = document.getElementById('app');
 
-new Editor()
-    .config((ctx) => {
-        ctx.use(editorOptionsCtx).update((prev) => ({
-            ...prev,
-            root: app,
-            defaultValue: markdown,
-        }));
-    })
-    .use(commonmark)
-    .create();
+async function main() {
+    const editor = await new Editor()
+        .config((ctx) => {
+            ctx.use(editorOptionsCtx).update((prev) => ({
+                ...prev,
+                root: app,
+                defaultValue: markdown,
+            }));
+        })
+        .use(commonmark)
+        .create();
+
+    console.log(editor.action((ctx) => ctx.use(editorViewCtx).get()).dom);
+}
+
+main();
