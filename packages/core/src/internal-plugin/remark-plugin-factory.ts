@@ -1,14 +1,13 @@
 import type { Plugin as RemarkPlugin } from 'unified';
-import { MilkdownPlugin } from '..';
-import { Initialize } from './init';
-import { remarkCtx } from './parser';
+import { createCtx, MilkdownPlugin } from '..';
+
+export const remarkPluginsCtx = createCtx<RemarkPlugin[]>([]);
 
 export const remarkPluginFactory =
     (plugin: RemarkPlugin | RemarkPlugin[]): MilkdownPlugin =>
-    () =>
-    async (ctx) => {
-        await Initialize();
-        const re = ctx.get(remarkCtx);
-        const remark = [plugin].flat().reduce((instance, plug) => instance.use(plug), re);
-        ctx.set(remarkCtx, remark);
+    () => {
+        return (ctx) => {
+            const plugins = [plugin].flat();
+            ctx.update(remarkPluginsCtx, (prev) => prev.concat(plugins));
+        };
     };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Editor } from '@milkdown/core';
+import { Editor, editorOptionsCtx } from '@milkdown/core';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { gfm } from '@milkdown/preset-gfm';
 import { history } from '@milkdown/plugin-history';
@@ -25,14 +25,18 @@ type Props = {
 export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange }) => {
     const editor = useEditor(
         (root) => {
-            const editor = new Editor({
-                root,
-                defaultValue: content,
-                editable: () => !readOnly,
-                listener: {
-                    markdown: onChange ? [onChange] : [],
-                },
-            })
+            const editor = new Editor()
+                .config((ctx) => {
+                    ctx.update(editorOptionsCtx, (prev) => ({
+                        ...prev,
+                        root,
+                        defaultValue: content,
+                        editable: () => !readOnly,
+                        listener: {
+                            markdown: onChange ? [onChange] : [],
+                        },
+                    }));
+                })
                 .use(gfm)
                 .use(history)
                 .use(prism)
