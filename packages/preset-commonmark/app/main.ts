@@ -1,4 +1,4 @@
-import { Editor, editorOptionsCtx, editorViewCtx, serializerCtx } from '@milkdown/core';
+import { Editor, editorOptionsCtx, editorViewCtx, marksCtx, parserCtx, serializerCtx } from '@milkdown/core';
 import { commonmark } from '../src';
 import './style.css';
 
@@ -70,6 +70,12 @@ async function main() {
     };
 
     console.log(getMarkdown());
+
+    // const editorView = editor.action((ctx) => ctx.get(editorViewCtx));
+    // const parser = editor.action((ctx) => ctx.get(parserCtx));
+    // const tr = editorView.state.tr;
+    // tr.replaceRangeWith(0, editorView.state.doc.nodeSize - 2, parser('# New Content'));
+    // editorView.dispatch(tr);
 }
 
 main();
