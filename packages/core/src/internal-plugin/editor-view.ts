@@ -79,7 +79,6 @@ export const editorView: MilkdownPlugin = (pre) => {
         const options = ctx.get(editorOptionsCtx);
         const nodeView = ctx.get(nodeViewCtx);
         const prosePlugins = ctx.get(prosePluginsCtx);
-        console.log(prosePlugins);
 
         const state = EditorState.create({
             schema,
