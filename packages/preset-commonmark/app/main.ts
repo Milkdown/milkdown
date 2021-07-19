@@ -54,7 +54,7 @@ async function main() {
         .config((ctx) => {
             ctx.update(editorOptionsCtx, (prev) => ({
                 ...prev,
-                root: app,
+                // root: app,
                 defaultValue: markdown,
             }));
         })

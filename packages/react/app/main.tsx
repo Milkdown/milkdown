@@ -5,8 +5,8 @@ import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
 import { ReactEditor, useEditor, useNodeCtx } from '../src';
-import { commonmark, Paragraph, Image, Blockquote } from '@milkdown/preset-commonmark';
-import { Editor } from '@milkdown/core';
+import { commonmark, paragraph, image, blockquote } from '@milkdown/preset-commonmark';
+import { Editor, editorCtx, editorOptionsCtx } from '@milkdown/core';
 
 const markdown = `
 # Milkdown Test
@@ -27,10 +27,6 @@ There should be a line break before this.
 **Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1 "kitty")**
 
 Your *[link is here](https://bing.com "bing")*, have a look.
-
-![Alt text][id]
-
-[id]: https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1  "The Cat"
 
 ## Lists
 
@@ -71,16 +67,21 @@ const ReactBlockquote: React.FC = ({ children }) => {
 const App: React.FC = () => {
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
-            .configure(Paragraph, { view: renderReact(ReactParagraph) })
-            .configure(Blockquote, { view: renderReact(ReactBlockquote) })
-            .configure(Image, { view: renderReact(ReactImage) });
-        return new Editor({
-            root,
-            defaultValue: markdown,
-            listener: {
-                markdown: [(x) => console.log(x())],
-            },
-        }).use(nodes);
+            .configure(paragraph, { view: renderReact(ReactParagraph) })
+            .configure(blockquote, { view: renderReact(ReactBlockquote) })
+            .configure(image, { view: renderReact(ReactImage) });
+        return new Editor()
+            .config((ctx) => {
+                ctx.update(editorOptionsCtx, (prev) => ({
+                    ...prev,
+                    root,
+                    defaultValue: markdown,
+                    listener: {
+                        markdown: [(x) => console.log(x())],
+                    },
+                }));
+            })
+            .use(nodes);
     });
 
     return <ReactEditor editor={editor} />;

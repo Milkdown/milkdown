@@ -17,6 +17,7 @@ export const createNode = <SupportedKeys extends string = string, T extends Unkn
         const keymap = createKeymap(node.commands, options?.keymap);
 
         const plugin: PluginWithMetadata<'Node', SupportedKeys, T> = nodeFactory({
+            view: options?.view,
             ...node,
             keymap,
         }) as PluginWithMetadata<'Node', SupportedKeys, T>;

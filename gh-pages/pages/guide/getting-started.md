@@ -50,8 +50,8 @@ import { commonmark } from '@milkdown/preset-commonmark';
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).create();
+const root = document.selectElementById('editor');
+new Editor().use(commonmark).create();
 ```
 
 ## Taste the plugin
@@ -67,8 +67,7 @@ import { history } from '@milkdown/plugin-history';
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).use(history).create();
+new Editor().use(commonmark).use(history).create();
 ```
 
 > `Mod` is `Cmd` for mac and `Ctrl` for other platforms.
