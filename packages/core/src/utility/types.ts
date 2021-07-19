@@ -7,6 +7,7 @@ export type Ctx = {
     use: <T>(meta: Meta<T>) => Context<T>;
     get: <T>(meta: Meta<T>) => T;
     set: <T>(meta: Meta<T>, value: T) => void;
+    update: <T>(meta: Meta<T>, updater: (prev: T) => T) => void;
 };
 
 export type Pre = {

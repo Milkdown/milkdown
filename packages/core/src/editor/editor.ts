@@ -10,6 +10,7 @@ export class Editor {
         use: this.#container.getCtx,
         get: (meta) => this.#container.getCtx(meta).get(),
         set: (meta, value) => this.#container.getCtx(meta).set(value),
+        update: (meta, updater) => this.#container.getCtx(meta).update(updater),
     };
     #plugins: Set<CtxHandler> = new Set();
     #configure: Configure = () => undefined;

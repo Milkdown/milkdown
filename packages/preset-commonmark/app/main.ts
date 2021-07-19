@@ -52,7 +52,7 @@ const app = document.getElementById('app');
 async function main() {
     const editor = await new Editor()
         .config((ctx) => {
-            ctx.use(editorOptionsCtx).update((prev) => ({
+            ctx.update(editorOptionsCtx, (prev) => ({
                 ...prev,
                 root: app,
                 defaultValue: markdown,
