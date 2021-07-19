@@ -11,4 +11,5 @@ export * from './node-view';
 
 export * from './mark-factory';
 export * from './node-factory';
-export * from './prosemirror-factory';
+export * from './prose-plugin-factory';
+export * from './remark-plugin-factory';

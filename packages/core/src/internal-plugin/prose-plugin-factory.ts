@@ -1,12 +1,12 @@
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
 import { createCtx, MilkdownPlugin } from '..';
 
-export const prosemirrorPluginsCtx = createCtx<ProsemirrorPlugin[]>([]);
+export const prosePluginsCtx = createCtx<ProsemirrorPlugin[]>([]);
 
-export const prosemirrorFactory =
+export const prosePluginFactory =
     (plugin: ProsemirrorPlugin | ProsemirrorPlugin[]): MilkdownPlugin =>
     () =>
     (ctx) => {
         const plugins = [plugin].flat();
-        ctx.update(prosemirrorPluginsCtx, (prev) => prev.concat(plugins));
+        ctx.update(prosePluginsCtx, (prev) => prev.concat(plugins));
     };
