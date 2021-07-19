@@ -20,6 +20,5 @@ export const markFactory =
     (mark: Mark): MilkdownPlugin =>
     () =>
     (ctx) => {
-        const marks = ctx.use(marksCtx);
-        marks.set(marks.get().concat(mark));
+        ctx.update(marksCtx, (prev) => prev.concat(mark));
     };

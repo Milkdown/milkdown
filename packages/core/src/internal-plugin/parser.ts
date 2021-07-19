@@ -7,7 +7,8 @@ import { createParser, InnerParserSpecMap } from '../parser';
 import { buildObject, MilkdownPlugin } from '../utility';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export const parserCtx = createCtx<(text: string) => ProsemirrorNode | null>(() => null);
+export type Parser = (text: string) => ProsemirrorNode | null;
+export const parserCtx = createCtx<Parser>(() => null);
 export const remarkCtx = createCtx<Processor<RemarkOptions>>(re());
 
 export const parser: MilkdownPlugin = (pre) => {

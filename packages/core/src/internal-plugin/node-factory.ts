@@ -20,6 +20,5 @@ export const nodeFactory =
     (node: Node): MilkdownPlugin =>
     () =>
     (ctx) => {
-        const nodes = ctx.use(nodesCtx);
-        nodes.set(nodes.get().concat(node));
+        ctx.update(nodesCtx, (prev) => prev.concat(node));
     };

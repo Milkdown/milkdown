@@ -21,10 +21,8 @@ export const init =
 
             await Config();
             Initialize.done();
-
             await SchemaReady();
             Render.done();
-
             await Complete();
         };
     };
