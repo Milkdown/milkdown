@@ -1,7 +1,5 @@
-import { NodeParserSpec, NodeSerializerSpec, schema } from '@milkdown/core';
 import { AtomList, createNode } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
-import { NodeSpec, NodeType, Schema } from 'prosemirror-model';
 import { TextSelection } from 'prosemirror-state';
 import { goToNextCell, tableNodes as tableNodesSpecCreator } from 'prosemirror-tables';
 import { Node as MarkdownNode } from 'unist';

@@ -1,4 +1,4 @@
-import { Editor, NodeViewFactory } from '@milkdown/core';
+import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
 
 import {
     defineComponent,
@@ -27,13 +27,16 @@ const useGetEditor = (getEditor: GetEditor) => {
     onMounted(() => {
         if (!divRef.value) return;
 
-        const editor = getEditor(divRef.value, renderVue);
-
-        editor.create();
-        editorRef.editor = editor;
+        getEditor(divRef.value, renderVue)
+            .create()
+            .then((editor) => {
+                editorRef.editor = editor;
+                return;
+            })
+            .catch((e) => console.error(e));
     });
     onUnmounted(() => {
-        editorRef.editor?.view.destroy();
+        editorRef.editor?.action((ctx) => ctx.get(editorViewCtx)).destroy();
     });
 
     return divRef;

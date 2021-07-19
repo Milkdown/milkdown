@@ -2,8 +2,8 @@ import { SupportedKeys as TableKeys, tableNodes, tablePlugins } from '@milkdown/
 import { commonmark, SupportedKeys as CommonmarkKeys } from '@milkdown/preset-commonmark';
 import { AtomList } from '@milkdown/utils';
 import { urlPlugin } from './auto-link';
-import { StrikeThrough } from './strike-through';
-import { TaskListItem } from './task-list-item';
+import { strikeThrough } from './strike-through';
+import { taskListItem } from './task-list-item';
 
 export const SupportedKeys = {
     ...CommonmarkKeys,
@@ -13,7 +13,7 @@ export const SupportedKeys = {
 } as const;
 export type SupportedKeys = typeof SupportedKeys;
 
-export const gfmNodes = AtomList.create([...commonmark, ...tableNodes, new StrikeThrough(), new TaskListItem()]);
+export const gfmNodes = AtomList.create([...commonmark, ...tableNodes, strikeThrough(), taskListItem()]);
 export const gfmPlugins = [...tablePlugins, urlPlugin];
 export const gfm = [...gfmNodes, ...gfmPlugins];
 

@@ -1,14 +1,15 @@
-import { createProsemirrorPlugin } from '@milkdown/core';
+import { prosePluginFactory } from '@milkdown/core';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
 import { Schema } from 'prosemirror-model';
 
 const urlRegex =
     /(https?:\/\/)?www\.[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/;
 
-const proseUrlPlugin = (schema: Schema) =>
+const proseUrlPlugin = () =>
     inputRules({
         rules: [
             new InputRule(urlRegex, (state, match, start, end) => {
+                const { schema } = state;
                 const [text] = match;
                 if (!text) return null;
 
@@ -23,4 +24,4 @@ const proseUrlPlugin = (schema: Schema) =>
         ],
     });
 
-export const urlPlugin = createProsemirrorPlugin('auto-link-input-rule', (ctx) => [proseUrlPlugin(ctx.schema)]);
+export const urlPlugin = prosePluginFactory(proseUrlPlugin());
