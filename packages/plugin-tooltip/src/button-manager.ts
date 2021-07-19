@@ -6,6 +6,7 @@ export class ButtonManager {
     #buttonMap: ButtonMap;
     constructor(buttonMap: ButtonMap, private view: EditorView) {
         this.#buttonMap = buttonMap;
+
         this.#buttons = this.createTooltip();
         this.#buttons.addEventListener('mousedown', this.#listener);
     }
@@ -29,26 +30,30 @@ export class ButtonManager {
     }
 
     private get noActive() {
-        return Object.values(this.#buttonMap).every(({ $ }) => $.classList.contains('hide'));
+        return Object.values(this.#buttonMap)
+            .filter((item) => item.enable(this.view))
+            .every(({ $ }) => $.classList.contains('hide'));
     }
 
     private filterButton(view: EditorView) {
-        Object.values(this.#buttonMap).forEach((item) => {
-            const disable = item.disable?.(view);
-            if (disable) {
-                item.$.classList.add('hide');
-                return;
-            }
+        Object.values(this.#buttonMap)
+            .filter((item) => item.enable(this.view))
+            .forEach((item) => {
+                const disable = item.disable?.(view);
+                if (disable) {
+                    item.$.classList.add('hide');
+                    return;
+                }
 
-            item.$.classList.remove('hide');
+                item.$.classList.remove('hide');
 
-            const active = item.active(view);
-            if (active) {
-                item.$.classList.add('active');
-                return;
-            }
-            item.$.classList.remove('active');
-        });
+                const active = item.active(view);
+                if (active) {
+                    item.$.classList.add('active');
+                    return;
+                }
+                item.$.classList.remove('active');
+            });
 
         return this.noActive;
     }

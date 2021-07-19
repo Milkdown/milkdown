@@ -1,4 +1,4 @@
-import { Editor } from '@milkdown/core';
+import { Editor, editorOptionsCtx } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 import 'prismjs/themes/prism.css';
 
@@ -58,11 +58,17 @@ const root = document.getElementById('app');
 
 if (!root) throw new Error();
 
-new Editor({
-    root,
-    defaultValue: markdown,
-    // onChange: (getValue) => console.log(getValue()),
-})
+new Editor()
+    .config((ctx) => {
+        ctx.update(editorOptionsCtx, (prev) => ({
+            ...prev,
+            root,
+            defaultValue: markdown,
+            listener: {
+                markdown: [(x) => console.log(x())],
+            },
+        }));
+    })
     .use(nodes)
     .use(marks)
     .use(prism)

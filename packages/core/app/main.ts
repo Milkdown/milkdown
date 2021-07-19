@@ -1,5 +1,5 @@
 import { commonmark } from '@milkdown/preset-commonmark';
-import { Editor } from '../src';
+import { Editor, editorOptionsCtx } from '../src';
 import './style.css';
 
 const markdown = `
@@ -55,19 +55,19 @@ const app = document.getElementById('app');
 const jsonDefaultValue = {
     type: 'json',
     value: JSON.parse(json),
-};
+} as const;
 
-new Editor({
-    root: app,
-    defaultValue: {
-        type: 'html',
-        dom: document.querySelector('#editor'),
-    },
-    // defaultValue: markdown,
-    listener: {
-        // doc: [(x) => console.log(x.toJSON())],
-        markdown: [(x) => console.log(x())],
-    },
-})
+new Editor()
+    // .config((ctx) => {
+    //     ctx.update(editorOptionsCtx, (prev) => ({
+    //         ...prev,
+    //         root: app,
+    //         // defaultValue: jsonDefaultValue,
+    //         defaultValue: markdown,
+    //         listener: {
+    //             markdown: [(x) => console.log(x())],
+    //         },
+    //     }));
+    // })
     .use(commonmark)
     .create();

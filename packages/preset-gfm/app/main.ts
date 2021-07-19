@@ -1,4 +1,4 @@
-import { Editor } from '@milkdown/core';
+import { Editor, editorOptionsCtx } from '@milkdown/core';
 import { gfm } from '../src';
 import './style.css';
 
@@ -18,12 +18,16 @@ Auto link: www.github.com is a link.
 
 const app = document.getElementById('app');
 
-new Editor({
-    root: app,
-    defaultValue: markdown,
-    listener: {
-        markdown: [(x) => console.log(x())],
-    },
-})
+new Editor()
+    .config((ctx) => {
+        ctx.update(editorOptionsCtx, (prev) => ({
+            ...prev,
+            root: app,
+            defaultValue: markdown,
+            listener: {
+                markdown: [(x) => console.log(x())],
+            },
+        }));
+    })
     .use(gfm)
     .create();

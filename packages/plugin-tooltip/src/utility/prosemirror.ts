@@ -145,5 +145,5 @@ export const createToggleIcon = (
     command: () => toggleMark(mark, attrs),
     active: (view) => hasMark(view.state, mark),
     disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
-    enable: (view) => !!view.state.schema.marks[mark.name],
+    enable: (view) => !!mark && !!view.state.schema.marks[mark.name],
 });

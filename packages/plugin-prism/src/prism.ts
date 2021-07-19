@@ -21,7 +21,7 @@ export function Prism(name: string) {
                     (isNodeName ||
                         isPreviousNodeName ||
                         oldNode.length !== newNode.length ||
-                        oldNode[0].node.attrs.language !== newNode[0].node.attrs.language);
+                        oldNode[0]?.node.attrs.language !== newNode[0]?.node.attrs.language);
 
                 if (codeBlockChanged) {
                     return getDecorations(transaction.doc, name);

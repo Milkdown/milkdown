@@ -1,4 +1,4 @@
-import { Editor } from '@milkdown/core';
+import { Editor, editorOptionsCtx } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 
 import { tooltip } from '../src';
@@ -25,10 +25,6 @@ There should be a line break before this.
 **Of course you can add image! ![cat](https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1 "kitty")**
 
 Your *[link is here](https://bing.com "bing")*, have a look.
-
-![Alt text][id]
-
-[id]: https://th.bing.com/th/id/OIP.EiYMXYhAnpsXnVmwJAq1jAHaEo?pid=ImgDet&rs=1  "The Cat"
 
 ## Lists
 
@@ -59,13 +55,14 @@ const root = document.getElementById('app');
 
 if (!root) throw new Error();
 
-new Editor({
-    root,
-    defaultValue: markdown,
-    listener: {
-        // markdown: [(x) => console.log(x())],
-    },
-})
+new Editor()
+    .config((ctx) => {
+        ctx.update(editorOptionsCtx, (prev) => ({
+            ...prev,
+            root,
+            defaultValue: markdown,
+        }));
+    })
     .use(nodes)
     .use(marks)
     .use(tooltip)

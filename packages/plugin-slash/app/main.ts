@@ -1,4 +1,4 @@
-import { Editor } from '@milkdown/core';
+import { Editor, editorOptionsCtx } from '@milkdown/core';
 import { prism } from '@milkdown/plugin-prism';
 import { table } from '@milkdown/plugin-table';
 import { marks, nodes } from '@milkdown/preset-commonmark';
@@ -19,13 +19,17 @@ const root = document.getElementById('app');
 
 if (!root) throw new Error();
 
-new Editor({
-    root,
-    defaultValue: markdown,
-    listener: {
-        markdown: [(x) => console.log(x())],
-    },
-})
+new Editor()
+    .config((ctx) => {
+        ctx.update(editorOptionsCtx, (prev) => ({
+            ...prev,
+            root,
+            defaultValue: markdown,
+            listener: {
+                markdown: [(x) => console.log(x())],
+            },
+        }));
+    })
     .use(nodes)
     .use(marks)
     .use(prism)
