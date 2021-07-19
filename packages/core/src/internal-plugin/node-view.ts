@@ -4,7 +4,7 @@ import { MilkdownPlugin } from '../utility';
 import { editorCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export const nodeViewsCtx = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
+export const nodeViewCtx = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
 
 export const nodeView: MilkdownPlugin = () => async (ctx) => {
     await SchemaReady();
@@ -37,7 +37,7 @@ export const nodeView: MilkdownPlugin = () => async (ctx) => {
             };
         }, {});
 
-    const nodeViews = { ...nodeViewMap, ...markViewMap };
+    const nodeView = { ...nodeViewMap, ...markViewMap };
 
-    ctx.set(nodeViewsCtx, nodeViews);
+    ctx.set(nodeViewCtx, nodeView);
 };

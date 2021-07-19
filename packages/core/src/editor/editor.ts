@@ -27,14 +27,9 @@ export class Editor {
     };
 
     use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
-        if (Array.isArray(plugins)) {
-            plugins.forEach((plugin) => {
-                this.#plugins.add(plugin(this.#pre));
-            });
-            return this;
-        }
-
-        this.#plugins.add(plugins(this.#pre));
+        [plugins].flat().forEach((plugin) => {
+            this.#plugins.add(plugin(this.#pre));
+        });
         return this;
     };
 

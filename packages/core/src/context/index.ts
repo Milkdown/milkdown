@@ -4,8 +4,7 @@
 // import type { MarkViewParams, NodeViewParams } from '../utility';
 // import { createCtx } from './container';
 
-// export const editorCtx = createCtx<Editor>({} as Editor);
 // export const prosePluginsCtx = createCtx<ProsemirrorPlugin[]>([]);
-// export const nodeViewsCtx = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
 
 export * from './container';
+export * from './ctx';
