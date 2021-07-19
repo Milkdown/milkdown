@@ -1,17 +1,15 @@
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
-import type { RemarkOptions } from 'remark';
 import re from 'remark';
-import type { Processor } from 'unified';
-import { createCtx } from '../context';
+import { createCtx, Meta } from '../context';
 import { createParser, InnerParserSpecMap } from '../parser';
 import { buildObject, MilkdownPlugin } from '../utility';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export type Parser = (text: string) => ProsemirrorNode | null;
-export type RemarkParser = Processor<RemarkOptions>;
+export type RemarkParser = ReturnType<typeof re>;
 export const parserCtx = createCtx<Parser>(() => null);
-export const remarkCtx = createCtx<RemarkParser>(re());
+export const remarkCtx: Meta<RemarkParser> = createCtx<RemarkParser>(re());
 
 export const parser: MilkdownPlugin = (pre) => {
     pre.inject(parserCtx).inject(remarkCtx);

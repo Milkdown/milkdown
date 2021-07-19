@@ -1,6 +1,5 @@
-import type { Processor } from 'unified';
-import type { RemarkOptions } from 'remark';
 import type { Mark as ProseMark, Node as ProseNode, Fragment, Schema } from 'prosemirror-model';
+import { RemarkParser } from '../internal-plugin';
 import type { Stack } from './stack';
 import type { InnerSerializerSpecMap, SerializerSpecWithType } from './types';
 
@@ -72,7 +71,7 @@ export class State {
         return this;
     };
 
-    toString = (remark: Processor<RemarkOptions>): string => remark.stringify(this.stack.build());
+    toString = (remark: RemarkParser): string => remark.stringify(this.stack.build());
 
     withMark: StateMethod<'openMark'> = (...args) => {
         this.stack.openMark(...args);

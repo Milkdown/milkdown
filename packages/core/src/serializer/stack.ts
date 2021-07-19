@@ -1,5 +1,5 @@
 import { Mark } from 'prosemirror-model';
-import { Node as MarkdownNode } from 'unist';
+import { Node as MarkdownNode, Parent, Literal } from 'unist';
 
 import { createElement, StackElement } from './stack-element';
 import { AnyRecord } from '../utility';
@@ -16,11 +16,11 @@ const createMarkdownNode = (element: StackElement) => {
     };
 
     if (element.children) {
-        node.children = element.children;
+        (node as Parent).children = element.children;
     }
 
     if (element.value) {
-        node.value = element.value;
+        (node as Literal).value = element.value;
     }
 
     return node;
