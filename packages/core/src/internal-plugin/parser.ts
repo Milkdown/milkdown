@@ -21,7 +21,6 @@ export const parser: MilkdownPlugin = (pre) => {
         const remark = ctx.use(remarkCtx).get();
         const schema = ctx.use(schemaCtx).get();
         const remarkPlugins = ctx.get(remarkPluginsCtx);
-        console.log(remarkPlugins);
 
         const re = remarkPlugins.reduce((acc, plug) => {
             return acc.use(plug);
