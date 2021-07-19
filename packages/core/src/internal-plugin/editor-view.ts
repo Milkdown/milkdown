@@ -25,6 +25,7 @@ type EditorOptions = {
     root: Element;
     defaultValue: DefaultValue;
     listener: Listener;
+    editable?: (editorState: EditorState) => boolean;
 };
 
 export const editorViewCtx = createCtx<EditorView>({} as EditorView);
@@ -88,6 +89,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         const view = new EditorView(container, {
             state,
             nodeViews: nodeView as EditorProps['nodeViews'],
+            editable: options.editable,
             dispatchTransaction: (tr) => {
                 const nextState = view.state.apply(tr);
                 view.updateState(nextState);

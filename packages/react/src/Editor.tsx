@@ -1,5 +1,5 @@
 import React, { DependencyList } from 'react';
-import { Editor, NodeViewFactory } from '@milkdown/core';
+import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
 import { portalContext, Portals } from './Portals';
 import { createReactView } from './ReactNodeView';
 
@@ -14,10 +14,15 @@ const useGetEditor = (getEditor: GetEditor) => {
 
         const editor = getEditor(div.current, renderReact);
 
-        editor.create();
+        const createEditor = editor.create();
 
         return () => {
-            editor.view.destroy();
+            createEditor
+                .then((editor) => {
+                    editor.action((ctx) => ctx.get(editorViewCtx)).destroy();
+                    return;
+                })
+                .catch((e) => console.error(e));
         };
     }, [getEditor, renderReact]);
 
