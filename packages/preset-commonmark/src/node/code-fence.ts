@@ -106,8 +106,6 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
 
             const { tr } = view.state;
 
-            console.log(el.value);
-
             view.dispatch(
                 tr.setNodeMarkup(getPos(), undefined, {
                     language: el.value,
