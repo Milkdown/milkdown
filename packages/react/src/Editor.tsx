@@ -8,21 +8,27 @@ type GetEditor = (container: HTMLDivElement, renderReact: (Component: React.FC) 
 const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = React.useContext(portalContext);
     const div = React.useRef<HTMLDivElement>(null);
+    const editorRef = React.useRef<Editor>();
 
     React.useEffect(() => {
         if (!div.current) return;
 
         const editor = getEditor(div.current, renderReact);
 
-        const createEditor = editor.create();
+        editor
+            .create()
+            .then((editor) => {
+                editorRef.current = editor;
+                return;
+            })
+            .catch(console.error);
 
         return () => {
-            createEditor
-                .then((editor) => {
-                    editor.action((ctx) => ctx.get(editorViewCtx)).destroy();
-                    return;
-                })
-                .catch((e) => console.error(e));
+            const view = editorRef.current?.action((ctx) => ctx.get(editorViewCtx));
+            if (!view) return;
+
+            view.destroy();
+            view.dom.parentElement?.remove();
         };
     }, [getEditor, renderReact]);
 

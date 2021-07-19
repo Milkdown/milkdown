@@ -16,11 +16,9 @@ export const editorCtx = createCtx<Editor>({} as Editor);
 export const init =
     (editor: Editor): MilkdownPlugin =>
     (pre) => {
-        pre.inject(editorCtx).inject(prosePluginsCtx).inject(remarkPluginsCtx);
+        pre.inject(editorCtx, editor).inject(prosePluginsCtx).inject(remarkPluginsCtx);
 
-        return async (ctx) => {
-            ctx.set(editorCtx, editor);
-
+        return async () => {
             await Config();
             Initialize.done();
             await SchemaReady();

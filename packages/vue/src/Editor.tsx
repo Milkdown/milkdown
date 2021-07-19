@@ -36,7 +36,11 @@ const useGetEditor = (getEditor: GetEditor) => {
             .catch((e) => console.error(e));
     });
     onUnmounted(() => {
-        editorRef.editor?.action((ctx) => ctx.get(editorViewCtx)).destroy();
+        const view = editorRef.editor?.action((ctx) => ctx.get(editorViewCtx));
+        if (!view) return;
+
+        view.destroy();
+        view.dom.parentElement?.remove();
     });
 
     return divRef;

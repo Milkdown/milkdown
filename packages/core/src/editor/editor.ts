@@ -14,8 +14,8 @@ export class Editor {
     };
     #plugins: Set<CtxHandler> = new Set();
     #configure: Configure = () => undefined;
-    inject = <T>(meta: Meta<T>) => {
-        meta(this.#container.contextMap);
+    inject = <T>(meta: Meta<T>, resetValue?: T) => {
+        meta(this.#container.contextMap, resetValue);
         return this.#pre;
     };
     #pre: Pre = {

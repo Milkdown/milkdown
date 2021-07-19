@@ -11,7 +11,7 @@ export type Ctx = {
 };
 
 export type Pre = {
-    inject: <T>(meta: Meta<T>) => Pre;
+    inject: <T>(meta: Meta<T>, resetValue?: T) => Pre;
 };
 
 export type CtxHandler = (ctx: Ctx) => void | Promise<void>;

@@ -12,7 +12,7 @@ export const parserCtx = createCtx<Parser>(() => null);
 export const remarkCtx: Meta<RemarkParser> = createCtx<RemarkParser>(re());
 
 export const parser: MilkdownPlugin = (pre) => {
-    pre.inject(parserCtx).inject(remarkCtx);
+    pre.inject(parserCtx).inject(remarkCtx, re());
 
     return async (ctx) => {
         await SchemaReady();
@@ -21,6 +21,7 @@ export const parser: MilkdownPlugin = (pre) => {
         const remark = ctx.use(remarkCtx).get();
         const schema = ctx.use(schemaCtx).get();
         const remarkPlugins = ctx.get(remarkPluginsCtx);
+        console.log(remarkPlugins);
 
         const re = remarkPlugins.reduce((acc, plug) => {
             return acc.use(plug);

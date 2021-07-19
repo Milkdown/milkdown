@@ -54,6 +54,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             return [
                 'div',
                 {
+                    'data-language': node.attrs.language,
                     class: utils.getClassName(node.attrs, 'code-fence'),
                 },
                 ['pre', ['code', { spellCheck: 'false' }, 0]],
@@ -105,6 +106,8 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
 
             const { tr } = view.state;
 
+            console.log(el.value);
+
             view.dispatch(
                 tr.setNodeMarkup(getPos(), undefined, {
                     language: el.value,
@@ -129,12 +132,15 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
         container.append(selectWrapper, pre);
 
         container.setAttribute('class', utils.getClassName(node.attrs, 'code-fence'));
+        container.setAttribute('data-language', node.attrs.language);
 
         return {
             dom: container,
             contentDOM: code,
             update: (updatedNode) => {
                 if (updatedNode.type.name !== id) return false;
+
+                container.dataset.language = updatedNode.attrs.language;
 
                 return true;
             },
