@@ -20,6 +20,7 @@
         "@milkdown/core": "*"
     },
     "dependencies": {
+        "@milkdown/utils": "workspace:*",
         "@benrbray/prosemirror-math": "^0.2.2",
         "@types/katex": "^0.11.0",
         "katex": "^0.13.2",
