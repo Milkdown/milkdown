@@ -15,10 +15,10 @@ export const schema: MilkdownPlugin = (pre) => {
 
     return async (ctx) => {
         await Initialize();
-        const nodes = buildObject(ctx.use(nodesCtx).get(), (node) => [node.id, node.schema]);
-        const marks = buildObject(ctx.use(marksCtx).get(), (mark) => [mark.id, mark.schema]);
-        const schema = ctx.use(schemaCtx);
-        schema.set(
+        const nodes = buildObject(ctx.get(nodesCtx), ({ id, schema }) => [id, schema]);
+        const marks = buildObject(ctx.get(marksCtx), ({ id, schema }) => [id, schema]);
+        ctx.set(
+            schemaCtx,
             new Schema({
                 nodes,
                 marks,

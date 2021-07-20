@@ -11,9 +11,9 @@ export const inputRules: MilkdownPlugin = (pre) => {
     return async (ctx) => {
         await SchemaReady();
 
-        const nodes = ctx.use(nodesCtx).get();
-        const marks = ctx.use(marksCtx).get();
-        const schema = ctx.use(schemaCtx).get();
+        const nodes = ctx.get(nodesCtx);
+        const marks = ctx.get(marksCtx);
+        const schema = ctx.get(schemaCtx);
 
         const nodesInputRules = nodes.reduce((acc, cur) => {
             const node = schema.nodes[cur.id];
@@ -27,6 +27,6 @@ export const inputRules: MilkdownPlugin = (pre) => {
         }, [] as InputRule[]);
         const inputRules = [...nodesInputRules, ...marksInputRules];
 
-        ctx.use(inputRulesCtx).set(inputRules);
+        ctx.set(inputRulesCtx, inputRules);
     };
 };

@@ -5,9 +5,8 @@ export const remarkPluginsCtx = createCtx<Plugin<never, never>[]>([]);
 
 export const remarkPluginFactory =
     (plugin: Plugin | Plugin[]): MilkdownPlugin =>
-    () => {
-        return (ctx) => {
-            const plugins = [plugin].flat();
-            ctx.update(remarkPluginsCtx, (prev) => prev.concat(plugins));
-        };
+    () =>
+    (ctx) => {
+        const plugins = [plugin].flat();
+        ctx.update(remarkPluginsCtx, (prev) => prev.concat(plugins));
     };

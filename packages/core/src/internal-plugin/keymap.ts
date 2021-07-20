@@ -13,9 +13,9 @@ export const keymap: MilkdownPlugin = (pre) => {
     return async (ctx) => {
         await SchemaReady();
 
-        const nodes = ctx.use(nodesCtx).get();
-        const marks = ctx.use(marksCtx).get();
-        const schema = ctx.use(schemaCtx).get();
+        const nodes = ctx.get(nodesCtx);
+        const marks = ctx.get(marksCtx);
+        const schema = ctx.get(schemaCtx);
 
         const nodesKeymap = nodes.map((cur) => {
             const node = schema.nodes[cur.id];
@@ -32,6 +32,6 @@ export const keymap: MilkdownPlugin = (pre) => {
             .filter((keys): keys is Keymap => Boolean(keys))
             .map((keys) => proseKeymap(keys));
 
-        ctx.use(keymapCtx).set(keymapList);
+        ctx.set(keymapCtx, keymapList);
     };
 };

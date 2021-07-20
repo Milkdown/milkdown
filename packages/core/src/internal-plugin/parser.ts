@@ -16,15 +16,13 @@ export const parser: MilkdownPlugin = (pre) => {
 
     return async (ctx) => {
         await SchemaReady();
-        const nodes = ctx.use(nodesCtx).get();
-        const marks = ctx.use(marksCtx).get();
-        const remark = ctx.use(remarkCtx).get();
-        const schema = ctx.use(schemaCtx).get();
+        const nodes = ctx.get(nodesCtx);
+        const marks = ctx.get(marksCtx);
+        const remark = ctx.get(remarkCtx);
+        const schema = ctx.get(schemaCtx);
         const remarkPlugins = ctx.get(remarkPluginsCtx);
 
-        const re = remarkPlugins.reduce((acc, plug) => {
-            return acc.use(plug);
-        }, remark);
+        const re = remarkPlugins.reduce((acc, plug) => acc.use(plug), remark);
 
         const children = [
             ...nodes.map((node) => ({ ...node, is: 'node' })),
@@ -35,6 +33,6 @@ export const parser: MilkdownPlugin = (pre) => {
             { ...child.parser, is: child.is },
         ]) as InnerParserSpecMap;
 
-        ctx.use(parserCtx).set(createParser(schema, spec, re));
+        ctx.set(parserCtx, createParser(schema, spec, re));
     };
 };
