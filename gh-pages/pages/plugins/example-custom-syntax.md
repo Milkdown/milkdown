@@ -241,7 +241,6 @@ new Editor()
         ctx.update(editorViewOptionsCtx, (prev) => ({
             ...prev,
             defaultValue,
-            root: document.getElementById('app')!,
             listener: {
                 markdown: [(x) => console.log(x())],
             },

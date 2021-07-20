@@ -17,22 +17,20 @@ import { table } from '@milkdown/plugin-table';
 // import style
 import '@milkdown/plugin-table/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).use(table).create();
+new Editor().use(commonmark).use(table).create();
 ```
 
 ## Custom Keymap
 
 ```typescript
-import { tableNodes, tablePlugin, SupportedKeys, Table } from '@milkdown/plugin-table';
+import { tableNodes, tablePlugin, SupportedKeys, table } from '@milkdown/plugin-table';
 // import style
 import '@milkdown/plugin-table/lib/style.css';
 
-const root = document.body;
-new Editor({ root })
+new Editor()
     .use(commonmark)
     .use(
-        tableNodes.configure(Table, {
+        tableNodes.configure(table, {
             keymap: {
                 [SupportedKeys.NextCell]: 'Enter',
                 [SupportedKeys.PrevCell]: 'Alt-Enter',

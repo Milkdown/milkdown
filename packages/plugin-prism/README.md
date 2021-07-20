@@ -17,6 +17,5 @@ import { prism } from '@milkdown/plugin-prism';
 // import style
 import '@milkdown/plugin-prism/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).use(prism).create();
+new Editor().use(commonmark).use(prism).create();
 ```

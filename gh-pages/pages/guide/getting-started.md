@@ -50,7 +50,6 @@ import { commonmark } from '@milkdown/preset-commonmark';
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
-const root = document.selectElementById('editor');
 new Editor().use(commonmark).create();
 ```
 

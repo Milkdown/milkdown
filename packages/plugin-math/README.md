@@ -17,6 +17,5 @@ import { math } from '@milkdown/plugin-math';
 // import style
 import '@milkdown/plugin-math/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).use(math).create();
+new Editor().use(commonmark).use(math).create();
 ```

@@ -2,16 +2,10 @@
 
 The core module of [milkdown](https://saul-mirone.github.io/milkdown/).
 
-# Example Usage
+# Official Documentation
 
-```typescript
-import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
+Documentation can be found on the [Milkdown website](https://saul-mirone.github.io/milkdown/).
 
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
+# License
 
-const root = document.body;
-new Editor({ root }).use(commonmark).create();
-```
+Milkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).

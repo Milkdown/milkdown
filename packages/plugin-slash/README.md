@@ -17,6 +17,5 @@ import { slash } from '@milkdown/plugin-slash';
 // import style
 import '@milkdown/plugin-slash/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).use(slash).create();
+new Editor().use(commonmark).use(slash).create();
 ```

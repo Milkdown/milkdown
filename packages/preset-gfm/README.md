@@ -13,29 +13,28 @@ import { commonmark } from '@milkdown/preset-commonmark';
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).create();
+new Editor().use(commonmark).create();
 ```
 
 ## Custom Keymap
 
 ```typescript
-import { commonmark, Blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
+import { commonmark, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
 
-const nodes = commonmark
-    .configure(Blockquote, {
-        keymap: {
-            [SupportedKeys.Blockquote]: 'Mod-Shift-b',
-        },
-    });
+const nodes = commonmark.configure(blockquote, {
+    keymap: {
+        [SupportedKeys.Blockquote]: 'Mod-Shift-b',
+    },
+});
 
-new Editor({ ... }).use(nodes);
+new Editor().use(nodes);
 ```
 
 Keymap supported:
 
 -   HardBreak
 -   Blockquote
+-   TaskList
 -   BulletList
 -   OrderedList
 -   CodeFence
@@ -49,6 +48,7 @@ Keymap supported:
 -   CodeInline
 -   Em
 -   Bold
+-   StrikeThrough
 -   NextListItem
 -   SinkListItem
 -   LiftListItem
@@ -56,17 +56,15 @@ Keymap supported:
 ## Custom Style
 
 ```typescript
-import { commonmark, Paragraph, Heading } from '@milkdown/commonmark';
+import { commonmark, paragraph, heading } from '@milkdown/commonmark';
 
 const nodes = commonmark
-    .configure(Paragraph, {
-        className: () =>
-            'my-custom-paragraph'
+    .configure(paragraph, {
+        className: () => 'my-custom-paragraph',
     })
-    .configure(Heading, {
-        className: (attrs) =>
-            `my-custom-heading my-h${attrs.level}`
-    })
+    .configure(heading, {
+        className: (attrs) => `my-custom-heading my-h${attrs.level}`,
+    });
 
-new Editor({ ...  }).use(nodes);
+new Editor().use(nodes);
 ```

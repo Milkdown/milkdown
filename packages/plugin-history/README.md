@@ -14,6 +14,5 @@ import { history } from '@milkdown/plugin-history';
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).use(history).create();
+new Editor().use(commonmark).use(history).create();
 ```
