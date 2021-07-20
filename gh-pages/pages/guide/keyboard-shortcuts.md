@@ -72,18 +72,17 @@ Depending on your behavior, you might want to change them to what you like.
 You can configure shortcuts just like configure their styles:
 
 ```typescript
-import { commonmark, Blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
+import { commonmark, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
 
-const nodes = commonmark
-    .configure(Blockquote, {
-        keymap: {
-            [SupportedKeys.Blockquote]: 'Mod-Shift-b',
-            // or you may want to bind multiple keys:
-            [SupportedKeys.Blockquote]: ['Mod-Shift-b', 'Mod-b'],
-        },
-    });
+const nodes = commonmark.configure(blockquote, {
+    keymap: {
+        [SupportedKeys.Blockquote]: 'Mod-Shift-b',
+        // or you may want to bind multiple keys:
+        [SupportedKeys.Blockquote]: ['Mod-Shift-b', 'Mod-b'],
+    },
+});
 
-new Editor({ ... }).use(nodes);
+new Editor().use(nodes);
 ```
 
 You can inspect the `SupportedKeys` enum to find out the supported commands that can be configured.

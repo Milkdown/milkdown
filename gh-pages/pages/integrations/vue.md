@@ -24,7 +24,7 @@ Create a component is pretty easy.
 
 ```typescript
 import { defineComponent } from 'vue';
-import { Editor } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { VueEditor, useEditor } from '@milkdown/vue';
 import { commonmark } from '@milkdown/preset-commonmark';
 
@@ -32,7 +32,16 @@ import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
 export const MilkdownEditor = defineComponent(() => {
-    const editor = useEditor((root) => new Editor({ root }).use(commonmark));
+    const editor = useEditor((root) =>
+        new Editor()
+            .config((ctx) => {
+                ctx.update(editorViewOptionsCtx, (prev) => ({
+                    ...prev,
+                    root,
+                }));
+            })
+            .use(commonmark),
+    );
 
     return () => <VueEditor editor={editor} />;
 });
@@ -44,9 +53,9 @@ We provide custom node support out of box.
 
 ```typescript
 import { inject, defineComponent, DefineComponent } from 'vue';
-import { Editor } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { VueEditor, useEditor } from '@milkdown/vue';
-import { commonmark, Paragraph, Image } from '@milkdown/preset-commonmark';
+import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
 import { Node } from 'prosemirror-model';
 
 const CustomParagraph: DefineComponent = defineComponent({
@@ -68,13 +77,20 @@ const CustomImage: DefineComponent = defineComponent({
 export const MyEditor = defineComponent(() => {
     const editor = useEditor((root, renderVue) => {
         const nodes = commonmark
-            .configure(Paragraph, {
+            .configure(paragraph, {
                 view: renderVue(CustomParagraph),
             })
-            .configure(Image, {
+            .configure(image, {
                 view: renderVue(CustomImage),
             });
-        return new Editor({ root }).use(nodes);
+        return new Editor()
+            .config((ctx) => {
+                ctx.update(editorViewOptionsCtx, (prev) => ({
+                    ...prev,
+                    root,
+                }));
+            })
+            .use(nodes);
     });
 
     return () => <VueEditor editor={editor} />;

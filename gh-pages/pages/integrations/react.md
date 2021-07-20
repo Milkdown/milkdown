@@ -22,7 +22,7 @@ Create a component is pretty easy.
 
 ```typescript
 import React from 'react';
-import { Editor } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 
@@ -30,7 +30,16 @@ import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
 export const MilkdownEditor: React.FC = () => {
-    const editor = useEditor((root) => new Editor({ root }).use(commonmark));
+    const editor = useEditor((root) =>
+        new Editor()
+            .config((ctx) => {
+                ctx.update(editorViewOptionsCtx, (prev) => ({
+                    ...prev,
+                    root,
+                }));
+            })
+            .use(commonmark),
+    );
 
     return <ReactEditor editor={editor} />;
 };
@@ -42,9 +51,9 @@ We provide custom node support out of box.
 
 ```typescript
 import React from 'react';
-import { Editor } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
-import { commonmark, Paragraph, Image } from '@milkdown/preset-commonmark';
+import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
 
 const CustomParagraph: React.FC = ({ children }) => <div className="react-paragraph">{children}</div>;
 
@@ -64,10 +73,15 @@ const CustomImage: React.FC = ({ children }) => {
 export const MilkdownEditor: React.FC = () => {
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
-            .configure(Paragraph, { view: renderReact(CustomParagraph) })
-            .configure(Image, { view: renderReact(CustomImage) });
+            .configure(paragraph, { view: renderReact(CustomParagraph) })
+            .configure(image, { view: renderReact(CustomImage) });
 
-        return new Editor({ root }).use(nodes);
+        return new Editor.config((ctx) => {
+            ctx.update(editorViewOptionsCtx, prev => ({
+                ...prev,
+                root,
+            }))
+        }).use(nodes);
     });
 
     return <ReactEditor editor={editor} />;

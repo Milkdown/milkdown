@@ -14,13 +14,13 @@ You can even create your own plugin to support your awesome idea.
 
 ## Features
 
--   📝 **WYSIWYG Markdown** - Write markdown in an elegant way
--   🎨 **Themable** - Theme can be shared and used with npm packages
--   🎮 **Hackable** - Support your awesome idea by plugin
--   🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark)
--   ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
--   🧮 **Math** - LaTeX math equations support, driven by plugin
--   📊 **Table** - Table support with fluent ui, driven by plugin
+-   [x] 📝 **WYSIWYG Markdown** - Write markdown in an elegant way
+-   [x] 🎨 **Themable** - Theme can be shared and used with npm packages
+-   [x] 🎮 **Hackable** - Support your awesome idea by plugin
+-   [x] 🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark)
+-   [x] ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
+-   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
+-   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
 
 ## Tech Stack
 
