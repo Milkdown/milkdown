@@ -9,11 +9,14 @@ We provide some methods for users to build different types of plugins.
 Used to enable remark plugin.
 
 ```typescript
-import { createRemarkPlugin } from '@milkdown/core';
+import { remarkPluginFactory } from '@milkdown/core';
 
 // equal to
 // remark.use(someRemarkPlugin);
-const remarkPlugin = createRemarkPlugin('milkdown-some-remark-plugin', () => [someMarkdownItPlugin]);
+const remarkPlugin = remarkPluginFactory(someRemarkPlugin);
+
+// multiple
+const remarkPlugin = remarkPluginFactory([someRemarkPlugin, someOtherRemarkPlugin]);
 
 // use
 milkdown.use(remarkPlugin);
@@ -26,12 +29,14 @@ milkdown.use(remarkPlugin);
 Used to enable prosemirror plugin.
 
 ```typescript
-import { createProsemirrorPlugin } from '@milkdown/core';
+import { prosePluginFactory } from '@milkdown/core';
 
 // equal to
-// markdownIt.use(markdownItTablePlugin);
-const prosemirrorPlugin = createProsemirrorPlugin('my-plugin', () => [someProsemirrorPlugin]);
+const prosePlugin = prosePluginFactory(someProsemirrorPlugin);
+
+// multiple
+const prosePlugin = prosePluginFactory([someProsePlugin, someOtherProsePlugin]);
 
 // use
-milkdown.use(prosemirrorPlugin);
+milkdown.use(prosePlugin);
 ```

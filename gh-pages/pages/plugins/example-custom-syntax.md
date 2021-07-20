@@ -26,10 +26,10 @@ Luckily, remark provides a powerful [remark directive plugin](https://github.com
 So, what we needs to do is just install it and transform it into a milkdown plugin:
 
 ```typescript
-import { createRemarkPlugin } from '@milkdown/core';
+import { remarkPluginFactory } from '@milkdown/core';
 import directive from 'remark-directive';
 
-const directiveRemarkPlugin = createRemarkPlugin('iframe-remark-plugin', () => [directive]);
+const directiveRemarkPlugin = remarkPluginFactory(directive);
 ```
 
 ## Define Schema
@@ -39,12 +39,12 @@ our iframe should be an inline node because it doesn't have and children,
 and have a `src` attribute to connect to the source.
 
 ```typescript
-import type { NodeSpec, NodeType } from 'prosemirror-model';
-import { Node } from '@milkdown/core';
+import { nodeFactory } from '@milkdown/core';
 
-class Iframe extends Node {
-    override readonly id = 'iframe';
-    override readonly schema: NodeSpec = {
+const id = 'iframe';
+const iframe = nodeFactory({
+    id,
+    schema: {
         inline: true,
         attrs: {
             src: { default: null },
@@ -65,8 +65,8 @@ class Iframe extends Node {
             },
         ],
         toDOM: (node) => ['iframe', { ...node.attrs, class: 'iframe' }, 0],
-    };
-}
+    },
+});
 ```
 
 ## Parser
@@ -86,17 +86,15 @@ const AST = {
 So we can easily write our parser specification for it:
 
 ```typescript
-import { Node, NodeParserSpec } from '@milkdown/core';
-
-class Iframe extends Node {
+const iframe = nodeFactory({
     // ...
-    override readonly parser: NodeParserSpec = {
+    parser: {
         match: (node) => node.type === 'textDirective' && node.name === 'iframe',
         runner: (state, node, type) => {
             state.addNode(type, { src: (node.attributes as { src: string }).src });
         },
-    };
-}
+    },
+});
 ```
 
 Now, text in `defaultValue` can be parsed to iframe elements correctly.
@@ -106,12 +104,10 @@ Now, text in `defaultValue` can be parsed to iframe elements correctly.
 Then, we need to add a serializer specification to transform prosemirror node to remark AST:
 
 ```typescript
-import { Node, NodeSerializerSpec } from '@milkdown/core';
-
-class Iframe extends Node {
+const iframe = nodeFactory({
     // ...
-    override readonly serializer: NodeSerializerSpec = {
-        match: (node) => node.type.name === this.id,
+    serializer: {
+        match: (node) => node.type.name === id,
         runner: (state, node) => {
             state.addNode('textDirective', undefined, undefined, {
                 name: 'iframe',
@@ -120,8 +116,8 @@ class Iframe extends Node {
                 },
             });
         },
-    };
-}
+    },
+});
 ```
 
 Now, iframe elements can be serialized into string correctly.
@@ -135,9 +131,9 @@ We can use `inputRules` to define [prosemirror input rules](https://prosemirror.
 import { Node } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 
-class Iframe extends Node {
+const iframe = nodeFactory({
     // ...
-    override readonly inputRules = (nodeType: NodeType) => [
+    inputRules: (nodeType: NodeType) => [
         new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
             const [okay, src = ''] = match;
             const { tr } = state;
@@ -147,8 +143,8 @@ class Iframe extends Node {
 
             return tr;
         }),
-    ];
-}
+    ],
+});
 ```
 
 ## Use Plugins
@@ -159,16 +155,7 @@ Then, we can just `use` the plugins we write:
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-new Editor({
-    defaultValue: '',
-    root: document.body,
-    listener: {
-        markdown: [(x) => console.log(x())],
-    },
-})
-    .use([directiveRemarkPlugin, new Iframe()])
-    .use(commonmark)
-    .create();
+new Editor().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
 ```
 
 ---
@@ -176,18 +163,18 @@ new Editor({
 ## Full Code
 
 ```typescript
-import { NodeSpec, NodeType } from 'prosemirror-model';
-import { createRemarkPlugin, Editor, Node, NodeParserSpec, NodeSerializerSpec } from '@milkdown/core';
+import { remarkPluginFactory, Editor, nodeFactory, editorViewOptionsCtx } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { InputRule } from 'prosemirror-inputrules';
 
 import directive from 'remark-directive';
 
-const directiveRemarkPlugin = createRemarkPlugin('iframe-remark-plugin', () => [directive]);
+const directiveRemarkPlugin = remarkPluginFactory(directive);
 
-class Iframe extends Node {
-    override readonly id = 'iframe';
-    override readonly schema: NodeSpec = {
+const id = 'iframe';
+const iframe = nodeFactory({
+    id,
+    schema: {
         inline: true,
         attrs: {
             src: { default: null },
@@ -209,8 +196,8 @@ class Iframe extends Node {
             },
         ],
         toDOM: (node) => ['iframe', { ...node.attrs, class: 'iframe' }, 0],
-    };
-    override readonly parser: NodeParserSpec = {
+    },
+    parser: {
         match: (node) => {
             return node.type === 'textDirective' && node.name === 'iframe';
         },
@@ -218,9 +205,9 @@ class Iframe extends Node {
             console.log(node);
             state.addNode(type, { src: (node.attributes as { src: string }).src });
         },
-    };
-    override readonly serializer: NodeSerializerSpec = {
-        match: (node) => node.type.name === this.id,
+    },
+    serializer: {
+        match: (node) => node.type.name === id,
         runner: (state, node) => {
             state.addNode('textDirective', undefined, undefined, {
                 name: 'iframe',
@@ -229,8 +216,8 @@ class Iframe extends Node {
                 },
             });
         },
-    };
-    override readonly inputRules = (nodeType: NodeType) => [
+    },
+    inputRules: (nodeType: NodeType) => [
         new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
             const [okay, src = ''] = match;
             const { tr } = state;
@@ -240,8 +227,8 @@ class Iframe extends Node {
 
             return tr;
         }),
-    ];
-}
+    ],
+});
 
 const defaultValue = `
 # Custom Syntax
@@ -249,14 +236,18 @@ const defaultValue = `
 :iframe{src="https://saul-mirone.github.io/milkdown/"}
 `;
 
-new Editor({
-    defaultValue,
-    root: document.getElementById('app')!,
-    listener: {
-        markdown: [(x) => console.log(x())],
-    },
-})
-    .use([directiveRemarkPlugin, new Iframe()])
+new Editor()
+    .config((ctx) => {
+        ctx.update(editorViewOptionsCtx, (prev) => ({
+            ...prev,
+            defaultValue,
+            root: document.getElementById('app')!,
+            listener: {
+                markdown: [(x) => console.log(x())],
+            },
+        }));
+    })
+    .use([directiveRemarkPlugin, iframe])
     .use(commonmark)
     .create();
 ```

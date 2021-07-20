@@ -7,34 +7,31 @@ Node and Mark are two special atoms that used to define prosemirror [Node](https
 Users can easily define a node by the following code:
 
 ```typescript
-import { NodeParserSpec, NodeSerializerSpec, Node } from '@milkdown/core';
+import { nodeFactory } from '@milkdown/core';
 
-export class Paragraph extends Node {
-    id = 'paragraph';
-    schema = {
+const id = 'paragraph';
+const paragraph = nodeFactory({
+    id,
+    schema: {
         content: 'inline*',
         group: 'block',
         parseDOM: [{ tag: 'p' }],
-        toDOM: () => ['p', { class: 'paragraph' }, 0] as const,
-    };
-    override readonly parser: NodeParserSpec = {
-        match: (node) => node.type === this.id,
+        toDOM: () => ['p', { class: 'paragraph' }, 0],
+    },
+    parser: {
+        match: (node) => node.type === id,
         runner: (state, node, type) => {
             state.openNode(type).next(node.children).closeNode();
         },
-    };
-    override readonly serializer: NodeSerializerSpec = {
-        match: (node) => node.type.name === this.id,
+    },
+    serializer: {
+        match: (node) => node.type.name === id,
         runner: (state, node) => {
             state.openNode('paragraph').next(node.content).closeNode();
         },
-    };
-}
+    },
+});
 ```
-
-> You can also add `readonly override` for every properties to have a safer code.
->
-> Such as `readonly override id: 'paragraph'`.
 
 ---
 
@@ -72,4 +69,4 @@ export class Paragraph extends Node {
 
 ---
 
-> You can find more examples in the official repositories like [preset-commonmark](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-commonmark) and [plugin-table](https://github.com/Saul-Mirone/milkdown/tree/main/packages/plugin-table).
+> You can find more examples in the official repositories like [preset-commonmark](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-commonmark) and [preset-gfm](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-gfm).

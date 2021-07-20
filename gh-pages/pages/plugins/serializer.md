@@ -15,17 +15,17 @@ The transformation steps are almost opposite to the steps in parser.
 For every node, there will be a serializer specification which has the following structure:
 
 ```typescript
-import { NodeSerializerSpec, Node } from '@milkdown/core';
+import { nodeFactory } from '@milkdown/core';
 
-class MyNode extends Node {
+const MyNode = nodeFactory({
     // other props...
-    serializer: NodeSerializerSpec = {
+    serializer = {
         match: (node) => node.type.name === 'my-node',
         runner: (state, node) => {
             state.openNode('my-node').next(node.content).closeNode();
         },
-    };
-}
+    },
+});
 ```
 
 ## Serializer Specification

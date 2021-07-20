@@ -16,8 +16,7 @@ import '@milkdown/preset-commonmark/lib/style.css';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import '@milkdown/plugin-tooltip/lib/style.css';
 
-const root = document.body;
-new Editor({ root }).use(commonmark).use(tooltip).create();
+new Editor().use(commonmark).use(tooltip).create();
 ```
 
 ---

@@ -15,17 +15,17 @@ The transformation will have following steps:
 For every node, there will be a parser specification which has the following structure:
 
 ```typescript
-import { NodeParserSpec, Node } from '@milkdown/core';
+import { nodeFactory } from '@milkdown/core';
 
-class MyNode extends Node {
+const myNode = nodeFactory({
     // other props...
-    parser: NodeParserSpec = {
+    parser: {
         match: (node) => node.type === 'my-node',
         runner: (state, node, type) => {
             state.openNode(type).next(node.children).closeNode();
         },
-    };
-}
+    },
+});
 ```
 
 ## Parser Specification
