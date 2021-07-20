@@ -76,7 +76,7 @@ export const MilkdownEditor: React.FC = () => {
             .configure(paragraph, { view: renderReact(CustomParagraph) })
             .configure(image, { view: renderReact(CustomImage) });
 
-        return new Editor.config((ctx) => {
+        return new Editor().config((ctx) => {
             ctx.update(editorViewOptionsCtx, prev => ({
                 ...prev,
                 root,
