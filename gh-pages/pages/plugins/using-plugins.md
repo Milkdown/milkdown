@@ -27,6 +27,14 @@ new Editor().use(commonmark).use(tooltip).create();
 
 Milkdown provides the following official plugins:
 
+-   [@milkdown/preset-commonmark](https://www.npmjs.com/package/@milkdown/preset-commonmark)
+
+    Add [commonmark](https://commonmark.org/) syntax support.
+
+-   [@milkdown/preset-gfm](https://www.npmjs.com/package/@milkdown/preset-gfm)
+
+    Add [gfm](https://github.github.com/gfm/) syntax support.
+
 -   [@milkdown/plugin-history](https://www.npmjs.com/package/@milkdown/plugin-history)
 
     Add undo & redo support.
