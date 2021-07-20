@@ -28,11 +28,12 @@ Depending on your behavior, you might want to change them to what you like.
 
 ### Mark
 
-| Action      | Key   |
-| ----------- | ----- |
-| Bold        | Mod-b |
-| Italic      | Mod-i |
-| Inline Code | Mod-e |
+| Action         | Key       |
+| -------------- | --------- |
+| Bold           | Mod-b     |
+| Italic         | Mod-i     |
+| Inline Code    | Mod-e     |
+| Strike Through | Mod-Alt-x |
 
 ### Paragraph
 
@@ -54,6 +55,7 @@ Depending on your behavior, you might want to change them to what you like.
 | -------------- | --------- |
 | Ordered List   | Mod-Alt-7 |
 | Bullet List    | Mod-Alt-8 |
+| Task List      | Mod-Alt-9 |
 | Sink List Item | Mod-]     |
 | Lift List Item | Mod-[     |
 

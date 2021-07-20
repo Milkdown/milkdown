@@ -77,7 +77,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                 command: liftListItem(nodeType),
             },
             [SupportedKeys.TaskList]: {
-                defaultKey: 'Mod-Shift-9',
+                defaultKey: 'Mod-Alt-9',
                 command: wrapIn(nodeType),
             },
         }),
