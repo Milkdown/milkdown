@@ -11,7 +11,7 @@ import vue from './pages/integrations/vue.md';
 
 import usingPlugins from './pages/plugins/using-plugins.md';
 import nodeAndMark from './pages/plugins/node&mark.md';
-import buildingPlugins from './pages/plugins/building-plugins.md';
+import integratingPlugins from './pages/plugins/integrating-plugins.md';
 import parser from './pages/plugins/parser.md';
 import serializer from './pages/plugins/serializer.md';
 import exampleCustomSyntax from './pages/plugins/example-custom-syntax.md';
@@ -58,7 +58,7 @@ export const pageRouter: Section[] = [
         title: 'Plugins',
         items: [
             { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
-            { title: 'Building Plugins', link: '/building-plugins', content: buildingPlugins },
+            { title: 'Integrating Plugins', link: '/integrating-plugins', content: integratingPlugins },
             { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
             { title: 'Parser', link: '/parser', content: parser },
             { title: 'Serializer', link: '/serializer', content: serializer },

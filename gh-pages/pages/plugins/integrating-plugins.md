@@ -1,6 +1,6 @@
-# Building Plugins
+# Integrating Plugins
 
-We provide some methods for users to build different types of plugins.
+We provide some methods for users to integrate exists plugins of remark and prosemirror.
 
 ---
 
