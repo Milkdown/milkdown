@@ -39,8 +39,8 @@ const useGetEditor = (getEditor: GetEditor) => {
         const view = editorRef.editor?.action((ctx) => ctx.get(editorViewCtx));
         if (!view) return;
 
-        view.destroy();
         view.dom.parentElement?.remove();
+        view.destroy();
     });
 
     return divRef;
