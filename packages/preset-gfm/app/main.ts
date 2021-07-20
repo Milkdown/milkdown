@@ -1,4 +1,4 @@
-import { Editor, editorOptionsCtx } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { gfm } from '../src';
 import './style.css';
 
@@ -20,7 +20,7 @@ const app = document.getElementById('app');
 
 new Editor()
     .config((ctx) => {
-        ctx.update(editorOptionsCtx, (prev) => ({
+        ctx.update(editorViewOptionsCtx, (prev) => ({
             ...prev,
             root: app,
             defaultValue: markdown,

@@ -1,4 +1,4 @@
-import { Editor, editorOptionsCtx } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { prism } from '@milkdown/plugin-prism';
 import { table } from '@milkdown/plugin-table';
 import { marks, nodes } from '@milkdown/preset-commonmark';
@@ -21,7 +21,7 @@ if (!root) throw new Error();
 
 new Editor()
     .config((ctx) => {
-        ctx.update(editorOptionsCtx, (prev) => ({
+        ctx.update(editorViewOptionsCtx, (prev) => ({
             ...prev,
             root,
             defaultValue: markdown,

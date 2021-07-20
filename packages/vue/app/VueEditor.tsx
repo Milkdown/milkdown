@@ -1,6 +1,6 @@
 import { DefineComponent, defineComponent, inject } from 'vue';
 import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
-import { Editor, editorOptionsCtx } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
 import { useEditor, VueEditor } from '../src';
 
@@ -36,7 +36,7 @@ export const MyEditor = defineComponent((props: { markdown: string }) => {
             });
         return new Editor()
             .config((ctx) => {
-                ctx.update(editorOptionsCtx, (prev) => ({
+                ctx.update(editorViewOptionsCtx, (prev) => ({
                     ...prev,
                     root,
                     defaultValue: props.markdown,

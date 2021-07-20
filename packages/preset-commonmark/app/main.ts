@@ -1,4 +1,4 @@
-import { Editor, editorOptionsCtx, editorViewCtx, marksCtx, parserCtx, serializerCtx } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx, editorViewCtx, marksCtx, parserCtx, serializerCtx } from '@milkdown/core';
 import { commonmark } from '../src';
 import './style.css';
 
@@ -59,7 +59,7 @@ const jsonDefaultValue = {
 async function main() {
     const editor = await new Editor()
         .config((ctx) => {
-            ctx.update(editorOptionsCtx, (prev) => ({
+            ctx.update(editorViewOptionsCtx, (prev) => ({
                 ...prev,
                 root: app,
                 defaultValue: jsonDefaultValue,

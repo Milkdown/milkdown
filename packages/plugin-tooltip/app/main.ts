@@ -1,4 +1,4 @@
-import { Editor, editorOptionsCtx } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 
 import { tooltip } from '../src';
@@ -57,7 +57,7 @@ if (!root) throw new Error();
 
 new Editor()
     .config((ctx) => {
-        ctx.update(editorOptionsCtx, (prev) => ({
+        ctx.update(editorViewOptionsCtx, (prev) => ({
             ...prev,
             root,
             defaultValue: markdown,

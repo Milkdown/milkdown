@@ -6,7 +6,7 @@ import '@milkdown/theme-nord/lib/theme.css';
 import './style.css';
 import { ReactEditor, useEditor, useNodeCtx } from '../src';
 import { commonmark, paragraph, image, blockquote } from '@milkdown/preset-commonmark';
-import { Editor, editorCtx, editorOptionsCtx } from '@milkdown/core';
+import { Editor, editorCtx, editorViewOptionsCtx } from '@milkdown/core';
 
 const markdown = `
 # Milkdown Test
@@ -72,7 +72,7 @@ const App: React.FC = () => {
             .configure(image, { view: renderReact(ReactImage) });
         return new Editor()
             .config((ctx) => {
-                ctx.update(editorOptionsCtx, (prev) => ({
+                ctx.update(editorViewOptionsCtx, (prev) => ({
                     ...prev,
                     root,
                     defaultValue: markdown,

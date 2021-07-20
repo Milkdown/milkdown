@@ -1,5 +1,5 @@
 import React from 'react';
-import { Editor, editorOptionsCtx } from '@milkdown/core';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { gfm } from '@milkdown/preset-gfm';
 import { history } from '@milkdown/plugin-history';
@@ -27,7 +27,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
         (root) => {
             const editor = new Editor()
                 .config((ctx) => {
-                    ctx.update(editorOptionsCtx, (prev) => ({
+                    ctx.update(editorViewOptionsCtx, (prev) => ({
                         ...prev,
                         root,
                         defaultValue: content,
