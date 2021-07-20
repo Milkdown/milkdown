@@ -4,7 +4,7 @@ import { Home } from './Home/Home';
 import { MilkdownEditor } from './MilkdownEditor/MilkdownEditor';
 import { Header } from './Header/Header';
 import { Sidebar } from './Sidebar/Sidebar';
-import { pageRouter } from './page-router';
+import { pageRouter } from '../page-router';
 
 import className from './style.module.css';
 import demo from '../pages/demo.md';

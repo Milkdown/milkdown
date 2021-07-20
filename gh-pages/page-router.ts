@@ -1,24 +1,20 @@
-import { Section } from './Sidebar/Sidebar';
+import type { Section } from './component/Sidebar/Sidebar';
 
-import whyMilkdown from '../pages/guide/why-milkdown.md';
-import gettingStarted from '../pages/guide/getting-started.md';
-import interactingWithEditor from '../pages/guide/interacting-with-editor.md';
-import styling from '../pages/guide/styling.md';
-import keyboardShortcuts from '../pages/guide/keyboard-shortcuts.md';
+import whyMilkdown from './pages/guide/why-milkdown.md';
+import gettingStarted from './pages/guide/getting-started.md';
+import interactingWithEditor from './pages/guide/interacting-with-editor.md';
+import styling from './pages/guide/styling.md';
+import keyboardShortcuts from './pages/guide/keyboard-shortcuts.md';
 
-import react from '../pages/integrations/react.md';
-import vue from '../pages/integrations/vue.md';
+import react from './pages/integrations/react.md';
+import vue from './pages/integrations/vue.md';
 
-import usingPlugins from '../pages/plugins/using-plugins.md';
-import nodeAndMark from '../pages/plugins/node&mark.md';
-import buildingPlugins from '../pages/plugins/building-plugins.md';
-import parser from '../pages/plugins/parser.md';
-import serializer from '../pages/plugins/serializer.md';
-import exampleCustomSyntax from '../pages/plugins/example-custom-syntax.md';
-
-import core from '../pages/architecture/core.md';
-import atom from '../pages/architecture/atom.md';
-import ordering from '../pages/architecture/ordering.md';
+import usingPlugins from './pages/plugins/using-plugins.md';
+import nodeAndMark from './pages/plugins/node&mark.md';
+import buildingPlugins from './pages/plugins/building-plugins.md';
+import parser from './pages/plugins/parser.md';
+import serializer from './pages/plugins/serializer.md';
+import exampleCustomSyntax from './pages/plugins/example-custom-syntax.md';
 
 export const pageRouter: Section[] = [
     {
@@ -67,14 +63,6 @@ export const pageRouter: Section[] = [
             { title: 'Parser', link: '/parser', content: parser },
             { title: 'Serializer', link: '/serializer', content: serializer },
             { title: 'Example: Custom Syntax', link: '/example-custom-syntax', content: exampleCustomSyntax },
-        ],
-    },
-    {
-        title: 'Architecture',
-        items: [
-            { title: 'Core', link: '/core', content: core },
-            { title: 'Atom', link: '/atom', content: atom },
-            { title: 'Ordering', link: '/ordering', content: ordering },
         ],
     },
 ];
