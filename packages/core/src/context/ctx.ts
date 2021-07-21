@@ -17,20 +17,20 @@ export type Meta<T> = {
 export const createCtx = <T>(value: T): Meta<T> => {
     const id = Symbol('Context');
     const origin = cloneDeep(value);
-    let inner = value;
-
-    const context: Context<T> = {
-        id,
-        set: (next) => {
-            inner = next;
-        },
-        get: () => inner,
-        update: (updater) => {
-            inner = updater(inner);
-        },
-    };
 
     const factory = (container: Container, resetValue = origin) => {
+        let inner = value;
+
+        const context: Context<T> = {
+            id,
+            set: (next) => {
+                inner = next;
+            },
+            get: () => inner,
+            update: (updater) => {
+                inner = updater(inner);
+            },
+        };
         container.set(id, context as Context);
         context.set(resetValue);
         return context;
