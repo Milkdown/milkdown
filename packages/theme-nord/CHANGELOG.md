@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 4.6.2
+
+### Patch Changes
+
+-   bf809ed: Fix for singleton and vite.
+
 ## 4.6.1
 
 ### Patch Changes
