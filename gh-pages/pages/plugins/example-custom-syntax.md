@@ -163,7 +163,7 @@ new Editor().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
 ## Full Code
 
 ```typescript
-import { remarkPluginFactory, Editor, nodeFactory, editorViewOptionsCtx } from '@milkdown/core';
+import { remarkPluginFactory, Editor, nodeFactory, defaultValueCtx } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { InputRule } from 'prosemirror-inputrules';
 
@@ -238,13 +238,7 @@ const defaultValue = `
 
 new Editor()
     .config((ctx) => {
-        ctx.update(editorViewOptionsCtx, (prev) => ({
-            ...prev,
-            defaultValue,
-            listener: {
-                markdown: [(x) => console.log(x())],
-            },
-        }));
+        ctx.set(defaultValueCtx, defaultValue);
     })
     .use([directiveRemarkPlugin, iframe])
     .use(commonmark)

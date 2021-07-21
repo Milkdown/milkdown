@@ -7,11 +7,11 @@
 You can set a markdown string as the default value of the editor.
 
 ```typescript
-import { editorViewOptionsCtx } from '@milkdown/core';
+import { defaultValueCtx } from '@milkdown/core';
 
 const defaultValue = '# Hello milkdown';
 new Editor().config((ctx) => {
-    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, defaultValue }));
+    ctx.set(defaultValueCtx, defaultValue);
 });
 ```
 
@@ -32,14 +32,14 @@ Let's assume that we have following html snippets:
 Then we can use it as defaultValue with a `type` specification:
 
 ```typescript
-import { editorViewOptionsCtx } from '@milkdown/core';
+import { defaultValueCtx } from '@milkdown/core';
 
 const defaultValue = {
     type: 'html',
     dom: document.querySelector('#pre'),
 };
 new Editor().config((ctx) => {
-    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, defaultValue }));
+    ctx.set(defaultValueCtx, defaultValue);
 });
 ```
 
@@ -47,10 +47,10 @@ new Editor().config((ctx) => {
 
 We can also use JSON object as default value.
 
-This JSON object can be get by listener, for example:
+This JSON object can be get by listener through [lister-plugin](), for example:
 
 ```typescript
-import { editorViewOptionsCtx } from '@milkdown/core';
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let jsonOutput;
 const listener = {
@@ -61,22 +61,24 @@ const listener = {
     ],
 };
 
-new Editor().config((ctx) => {
-    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, listener }));
-});
+new Editor()
+    .config((ctx) => {
+        ctx.set(listenerCtx, listener);
+    })
+    .use(listener);
 ```
 
 Then we can use this `jsonOutput` as default Value:
 
 ```typescript
-import { editorViewOptionsCtx } from '@milkdown/core';
+import { defaultValueCtx } from '@milkdown/core';
 
 const defaultValue = {
     type: 'json',
     value: jsonOutput,
 };
 new Editor().config((ctx) => {
-    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, defaultValue }));
+    ctx.set(defaultValueCtx, defaultValue);
 });
 ```
 
@@ -84,7 +86,7 @@ new Editor().config((ctx) => {
 
 ## Adding Listener
 
-You can add listener to the editor, get values when needed.
+As mentioned above, you can add listener to the editor, get values when needed.
 
 ### Markdown Listener
 
@@ -93,6 +95,8 @@ You can add markdown listener to get the markdown string output when needed.
 You can add as many listeners as you want, all the listener will be triggered in one change.
 
 ```typescript
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
+
 let output = '';
 const listener = {
     markdown: [
@@ -109,9 +113,11 @@ const listener = {
     ],
 };
 
-new Editor().config((ctx) => {
-    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, listener }));
-});
+new Editor()
+    .config((ctx) => {
+        ctx.set(listenerCtx, listener);
+    })
+    .use(listener);
 ```
 
 ### Doc Listener
@@ -119,6 +125,8 @@ new Editor().config((ctx) => {
 You can also listen to the [raw prosemirror document node](https://prosemirror.net/docs/ref/#model.Node), and do things you want.
 
 ```typescript
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
+
 let jsonOutput;
 
 const listener = {
@@ -129,9 +137,11 @@ const listener = {
     ],
 };
 
-new Editor().config((ctx) => {
-    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, listener }));
-});
+new Editor()
+    .config((ctx) => {
+        ctx.set(listenerCtx, listener);
+    })
+    .use(listener);
 ```
 
 ---
@@ -141,12 +151,14 @@ new Editor().config((ctx) => {
 You can set the editor to readonly mode by set the `editable` property.
 
 ```typescript
+import { editorViewOptionsCtx } from '@milkdown/core';
+
 let readonly = false;
 
 const editable: () => !readonly;
 
 new Editor().config((ctx) => {
-    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, editable }));
+    ctx.set(editorViewOptionsCtx, { editable });
 });
 
 // set to readonly after 5 secs.

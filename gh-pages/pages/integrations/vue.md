@@ -24,7 +24,7 @@ Create a component is pretty easy.
 
 ```typescript
 import { defineComponent } from 'vue';
-import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { Editor, rootCtx } from '@milkdown/core';
 import { VueEditor, useEditor } from '@milkdown/vue';
 import { commonmark } from '@milkdown/preset-commonmark';
 
@@ -35,10 +35,7 @@ export const MilkdownEditor = defineComponent(() => {
     const editor = useEditor((root) =>
         new Editor()
             .config((ctx) => {
-                ctx.update(editorViewOptionsCtx, (prev) => ({
-                    ...prev,
-                    root,
-                }));
+                ctx.set(rootCtx, root);
             })
             .use(commonmark),
     );
@@ -53,7 +50,7 @@ We provide custom node support out of box.
 
 ```typescript
 import { inject, defineComponent, DefineComponent } from 'vue';
-import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { Editor, rootCtx } from '@milkdown/core';
 import { VueEditor, useEditor } from '@milkdown/vue';
 import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
 import { Node } from 'prosemirror-model';
@@ -85,10 +82,7 @@ export const MyEditor = defineComponent(() => {
             });
         return new Editor()
             .config((ctx) => {
-                ctx.update(editorViewOptionsCtx, (prev) => ({
-                    ...prev,
-                    root,
-                }));
+                ctx.set(rootCtx, root);
             })
             .use(nodes);
     });

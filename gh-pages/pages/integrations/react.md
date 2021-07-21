@@ -22,7 +22,7 @@ Create a component is pretty easy.
 
 ```typescript
 import React from 'react';
-import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { Editor, rootCtx } from '@milkdown/core';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 
@@ -33,10 +33,7 @@ export const MilkdownEditor: React.FC = () => {
     const editor = useEditor((root) =>
         new Editor()
             .config((ctx) => {
-                ctx.update(editorViewOptionsCtx, (prev) => ({
-                    ...prev,
-                    root,
-                }));
+                ctx.set(rootCtx, root);
             })
             .use(commonmark),
     );
@@ -51,7 +48,7 @@ We provide custom node support out of box.
 
 ```typescript
 import React from 'react';
-import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { Editor, rootCtx } from '@milkdown/core';
 import { ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
 import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
 
@@ -76,12 +73,11 @@ export const MilkdownEditor: React.FC = () => {
             .configure(paragraph, { view: renderReact(CustomParagraph) })
             .configure(image, { view: renderReact(CustomImage) });
 
-        return new Editor().config((ctx) => {
-            ctx.update(editorViewOptionsCtx, prev => ({
-                ...prev,
-                root,
-            }))
-        }).use(nodes);
+        return new Editor()
+            .config((ctx) => {
+                ctx.set(rootCtx, root);
+            })
+            .use(nodes);
     });
 
     return <ReactEditor editor={editor} />;
