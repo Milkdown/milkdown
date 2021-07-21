@@ -1,6 +1,6 @@
 .editor {
     margin: 0;
-    @mixin query 67.5rem {
+    @mixin query 72rem {
         margin: 20px 0;
     }
 }

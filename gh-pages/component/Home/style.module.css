@@ -125,7 +125,7 @@
     }
 }
 
-@mixin query 67.5rem {
+@mixin query 72rem {
     .container {
         flex-direction: row;
     }

@@ -10,7 +10,7 @@
     box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
     box-sizing: border-box;
 
-    @mixin query 67.5rem {
+    @mixin query 72rem {
         max-width: 57.375rem;
         padding: 3.125rem 7.25rem;
     }

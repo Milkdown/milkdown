@@ -17,7 +17,7 @@
     overflow: auto;
 
     @mixin scrollbar;
-    @mixin query 67.5rem {
+    @mixin query 72rem {
         z-index: 3;
         position: relative;
         height: 100vh;

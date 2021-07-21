@@ -31,7 +31,7 @@
         padding: 0;
         box-sizing: border-box;
 
-        @mixin query 67.5rem {
+        @mixin query 72rem {
             padding: 0 5.25rem;
         }
     }
