@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 4.6.0
+
+### Minor Changes
+
+-   e1fbf79: Refactor the plugin system to functional plugin for better extension ability.
+
 ## 4.5.3
 
 ### Patch Changes
