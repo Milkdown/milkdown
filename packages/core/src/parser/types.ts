@@ -17,5 +17,7 @@ export type ParserSpec<T extends NodeType | MarkType = NodeType | MarkType> = {
 export type NodeParserSpec = ParserSpec<NodeType>;
 export type MarkParserSpec = ParserSpec<MarkType>;
 
-export type ParserSpecWithType = (NodeParserSpec & { is: 'node' }) | (MarkParserSpec & { is: 'mark' });
+export type ParserSpecWithType =
+    | (NodeParserSpec & { is: 'node'; key: string })
+    | (MarkParserSpec & { is: 'mark'; key: string });
 export type InnerParserSpecMap = Record<string, ParserSpecWithType>;

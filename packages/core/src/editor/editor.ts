@@ -1,5 +1,16 @@
 import { createContainer, Meta } from '../context';
-import { parser, schema, serializer, editorView, init, keymap, inputRules, config, nodeView } from '../internal-plugin';
+import {
+    parser,
+    schema,
+    serializer,
+    editorView,
+    init,
+    keymap,
+    inputRules,
+    config,
+    nodeView,
+    editorState,
+} from '../internal-plugin';
 import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
 
 export class Editor {
@@ -21,7 +32,7 @@ export class Editor {
     };
 
     #loadInternal = () => {
-        const internalPlugins = [schema, parser, serializer, nodeView, keymap, inputRules, editorView];
+        const internalPlugins = [schema, parser, serializer, nodeView, keymap, inputRules, editorState, editorView];
         this.use(internalPlugins.concat(init(this)).concat(config(this.#configure)));
     };
 

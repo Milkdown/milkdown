@@ -10,6 +10,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
       '@milkdown/plugin-history': workspace:*
+      '@milkdown/plugin-listener': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-slash': workspace:*
@@ -70,6 +71,7 @@ importers:
       '@milkdown/core': link:packages/core
       '@milkdown/design-system': link:packages/design-system
       '@milkdown/plugin-history': link:packages/plugin-history
+      '@milkdown/plugin-listener': link:packages/plugin-listener
       '@milkdown/plugin-math': link:packages/plugin-math
       '@milkdown/plugin-prism': link:packages/plugin-prism
       '@milkdown/plugin-slash': link:packages/plugin-slash
@@ -130,6 +132,7 @@ importers:
       '@codemirror/lang-markdown': ^0.18.4
       '@milkdown/core': workspace:*
       '@milkdown/plugin-history': workspace:*
+      '@milkdown/plugin-listener': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-slash': workspace:*
@@ -153,6 +156,7 @@ importers:
       '@codemirror/lang-markdown': 0.18.4
       '@milkdown/core': link:../packages/core
       '@milkdown/plugin-history': link:../packages/plugin-history
+      '@milkdown/plugin-listener': link:../packages/plugin-listener
       '@milkdown/plugin-math': link:../packages/plugin-math
       '@milkdown/plugin-prism': link:../packages/plugin-prism
       '@milkdown/plugin-slash': link:../packages/plugin-slash
@@ -221,6 +225,16 @@ importers:
       concurrently: 6.2.0
 
   packages/plugin-history:
+    specifiers:
+      '@types/prosemirror-history': ^1.0.2
+      prosemirror-history: ^1.1.3
+      tslib: ^2.2.0
+    dependencies:
+      '@types/prosemirror-history': 1.0.3
+      prosemirror-history: 1.1.3
+      tslib: 2.3.0
+
+  packages/plugin-listener:
     specifiers:
       '@types/prosemirror-history': ^1.0.2
       prosemirror-history: ^1.1.3

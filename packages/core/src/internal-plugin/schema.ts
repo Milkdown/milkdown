@@ -1,6 +1,7 @@
+import { fromPairs } from 'lodash-es';
 import { Schema } from 'prosemirror-model';
 import { createCtx } from '../context';
-import { buildObject, MilkdownPlugin } from '../utility';
+import { Atom, MilkdownPlugin } from '../utility';
 import { Initialize, Mark, Node } from '../internal-plugin';
 import { createTiming } from '../timing';
 
@@ -15,8 +16,12 @@ export const schema: MilkdownPlugin = (pre) => {
 
     return async (ctx) => {
         await Initialize();
-        const nodes = buildObject(ctx.get(nodesCtx), ({ id, schema }) => [id, schema]);
-        const marks = buildObject(ctx.get(marksCtx), ({ id, schema }) => [id, schema]);
+
+        const getAtom = <T extends Atom>(x: T[]) => fromPairs<T['schema']>(x.map(({ id, schema }) => [id, schema]));
+
+        const nodes = getAtom(ctx.get(nodesCtx));
+        const marks = getAtom(ctx.get(marksCtx));
+
         ctx.set(
             schemaCtx,
             new Schema({
@@ -24,6 +29,7 @@ export const schema: MilkdownPlugin = (pre) => {
                 marks,
             }),
         );
+
         SchemaReady.done();
     };
 };

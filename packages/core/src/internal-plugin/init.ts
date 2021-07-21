@@ -9,7 +9,6 @@ import { prosePluginsCtx } from './prose-plugin-factory';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 
 export const Initialize = createTiming('Initialize');
-export const Render = createTiming('Render');
 
 export const editorCtx = createCtx<Editor>({} as Editor);
 
@@ -22,7 +21,7 @@ export const init =
             await Config();
             Initialize.done();
             await SchemaReady();
-            Render.done();
+
             await Complete();
         };
     };

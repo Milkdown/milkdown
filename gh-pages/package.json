@@ -15,6 +15,7 @@
         "@codemirror/basic-setup": "^0.18.2",
         "@codemirror/lang-markdown": "^0.18.4",
         "@milkdown/core": "workspace:*",
+        "@milkdown/plugin-listener": "workspace:*",
         "@milkdown/plugin-history": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",

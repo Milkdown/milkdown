@@ -11,5 +11,5 @@ export type MarkSerializerSpec = {
 };
 export type SerializerSpec = NodeSerializerSpec | MarkSerializerSpec;
 
-export type SerializerSpecWithType = (NodeSerializerSpec & { is: 'node' }) | (MarkSerializerSpec & { is: 'mark' });
+export type SerializerSpecWithType = NodeSerializerSpec | MarkSerializerSpec;
 export type InnerSerializerSpecMap = Record<string, SerializerSpecWithType>;

@@ -1,9 +1,11 @@
 import type { InputRule } from 'prosemirror-inputrules';
 import { createCtx } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
+import { createTiming } from '../timing';
 import type { MilkdownPlugin } from '../utility';
 
 export const inputRulesCtx = createCtx<InputRule[]>([]);
+export const InputRulesReady = createTiming('InputRulesReady');
 
 export const inputRules: MilkdownPlugin = (pre) => {
     pre.inject(inputRulesCtx);
@@ -28,5 +30,6 @@ export const inputRules: MilkdownPlugin = (pre) => {
         const inputRules = [...nodesInputRules, ...marksInputRules];
 
         ctx.set(inputRulesCtx, inputRules);
+        InputRulesReady.done();
     };
 };

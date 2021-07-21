@@ -1,4 +1,5 @@
 import type { Context, Meta } from '../context';
+import type { Mark, Node } from '../internal-plugin';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyRecord = Record<string, any>;
@@ -21,3 +22,5 @@ export type MilkdownPlugin = {
 };
 
 export type Configure = CtxHandler;
+
+export type Atom = Mark | Node;

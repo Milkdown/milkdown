@@ -3,6 +3,8 @@ import type { Attrs, InnerParserSpecMap, MarkdownNode, ParserSpecWithType } from
 import type { Stack } from './stack';
 import type { RemarkParser } from '../internal-plugin';
 
+type PS<T extends keyof Stack> = Parameters<Stack[T]>;
+
 export class State {
     constructor(
         private readonly stack: Stack,
@@ -10,13 +12,8 @@ export class State {
         private readonly specMap: InnerParserSpecMap,
     ) {}
 
-    #matchTarget(node: MarkdownNode): ParserSpecWithType & { key: string } {
-        const result = Object.entries(this.specMap)
-            .map(([key, spec]) => ({
-                key,
-                ...spec,
-            }))
-            .find((x) => x.match(node));
+    #matchTarget(node: MarkdownNode): ParserSpecWithType {
+        const result = Object.values(this.specMap).find((x) => x.match(node));
 
         if (!result) throw new Error();
 
@@ -32,7 +29,6 @@ export class State {
 
     run = (remark: RemarkParser, markdown: string) => {
         const tree = remark.parse(markdown) as MarkdownNode;
-
         this.next(tree);
 
         return this;
@@ -40,7 +36,7 @@ export class State {
 
     injectRoot = (node: MarkdownNode, nodeType: NodeType, attrs?: Attrs) => {
         this.stack.openNode(nodeType, attrs);
-        this.next(node.children as MarkdownNode[]);
+        this.next(node.children);
 
         return this;
     };
@@ -50,27 +46,27 @@ export class State {
         return this;
     };
 
-    addNode = (...args: Parameters<Stack['addNode']>) => {
+    addNode = (...args: PS<'addNode'>) => {
         this.stack.addNode(...args);
         return this;
     };
 
-    openNode = (...args: Parameters<Stack['openNode']>) => {
+    openNode = (...args: PS<'openNode'>) => {
         this.stack.openNode(...args);
         return this;
     };
 
-    closeNode = (...args: Parameters<Stack['closeNode']>) => {
+    closeNode = (...args: PS<'closeNode'>) => {
         this.stack.closeNode(...args);
         return this;
     };
 
-    openMark = (...args: Parameters<Stack['openMark']>) => {
+    openMark = (...args: PS<'openMark'>) => {
         this.stack.openMark(...args);
         return this;
     };
 
-    closeMark = (...args: Parameters<Stack['closeMark']>) => {
+    closeMark = (...args: PS<'closeMark'>) => {
         this.stack.closeMark(...args);
         return this;
     };
@@ -78,11 +74,7 @@ export class State {
     toDoc = () => this.stack.build();
 
     next = (nodes: MarkdownNode | MarkdownNode[] = []) => {
-        if (Array.isArray(nodes)) {
-            nodes.forEach((node) => this.#runNode(node));
-        } else {
-            this.#runNode(nodes);
-        }
+        [nodes].flat().forEach((node) => this.#runNode(node));
         return this;
     };
 }

@@ -28,6 +28,7 @@
         "@commitlint/config-conventional": "^12.1.1",
         "@milkdown/core": "workspace:*",
         "@milkdown/design-system": "workspace:*",
+        "@milkdown/plugin-listener": "workspace:*",
         "@milkdown/plugin-history": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",

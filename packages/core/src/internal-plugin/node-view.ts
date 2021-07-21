@@ -1,10 +1,12 @@
 import type { NodeView } from 'prosemirror-view';
 import { createCtx, MarkViewParams, NodeViewParams } from '..';
+import { createTiming } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { editorCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export const nodeViewCtx = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
+export const NodeViewReady = createTiming('NodeViewReady');
 
 export const nodeView: MilkdownPlugin = (pre) => {
     pre.inject(nodeViewCtx);
@@ -42,5 +44,6 @@ export const nodeView: MilkdownPlugin = (pre) => {
         const nodeView = { ...nodeViewMap, ...markViewMap };
 
         ctx.set(nodeViewCtx, nodeView);
+        NodeViewReady.done();
     };
 };

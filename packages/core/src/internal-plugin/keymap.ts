@@ -3,9 +3,11 @@ import { keymap as proseKeymap } from 'prosemirror-keymap';
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
 import { createCtx } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
+import { createTiming } from '../timing';
 import type { MilkdownPlugin } from '../utility';
 
 export const keymapCtx = createCtx<ProsemirrorPlugin[]>([]);
+export const KeymapReady = createTiming('KeymapReady');
 
 export const keymap: MilkdownPlugin = (pre) => {
     pre.inject(keymapCtx);
@@ -33,5 +35,6 @@ export const keymap: MilkdownPlugin = (pre) => {
             .map((keys) => proseKeymap(keys));
 
         ctx.set(keymapCtx, keymapList);
+        KeymapReady.done();
     };
 };
