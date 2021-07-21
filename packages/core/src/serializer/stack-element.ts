@@ -1,5 +1,5 @@
+import { MarkdownNode } from '..';
 import { AnyRecord } from '../utility';
-import { Node as MarkdownNode } from 'unist';
 
 export type StackElement = {
     type: string;

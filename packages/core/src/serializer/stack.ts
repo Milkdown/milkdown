@@ -1,8 +1,8 @@
 import { Mark } from 'prosemirror-model';
-import { Node as MarkdownNode, Parent, Literal } from 'unist';
 
 import { createElement, StackElement } from './stack-element';
 import { AnyRecord } from '../utility';
+import { MarkdownNode } from '..';
 
 type Ctx = {
     marks: Mark[];
@@ -16,11 +16,11 @@ const createMarkdownNode = (element: StackElement) => {
     };
 
     if (element.children) {
-        (node as Parent).children = element.children;
+        node.children = element.children;
     }
 
     if (element.value) {
-        (node as Literal).value = element.value;
+        node.value = element.value;
     }
 
     return node;
