@@ -1,13 +1,15 @@
 import { Mark } from 'prosemirror-model';
 
 import { createElement, StackElement } from './stack-element';
-import { AnyRecord } from '../utility';
+import { AnyRecord, getStackUtil } from '../utility';
 import { MarkdownNode } from '..';
 
 type Ctx = {
     marks: Mark[];
     readonly elements: StackElement[];
 };
+
+const { size, push, top, open, close } = getStackUtil<MarkdownNode, StackElement, Ctx>();
 
 const createMarkdownNode = (element: StackElement) => {
     const node: MarkdownNode = {
@@ -26,14 +28,8 @@ const createMarkdownNode = (element: StackElement) => {
     return node;
 };
 
-const size = (ctx: Ctx): number => ctx.elements.length;
-
-const top = (ctx: Ctx): StackElement | undefined => ctx.elements[size(ctx) - 1];
-
-const push = (ctx: Ctx) => (node: MarkdownNode) => top(ctx)?.push(node);
-
 const openNode = (ctx: Ctx) => (type: string, value?: string, props?: AnyRecord) =>
-    ctx.elements.push(createElement(type, [], value, props));
+    open(ctx)(createElement(type, [], value, props));
 
 const addNode =
     (ctx: Ctx) =>
@@ -47,9 +43,7 @@ const addNode =
     };
 
 const closeNode = (ctx: Ctx) => (): MarkdownNode => {
-    const element = ctx.elements.pop();
-
-    if (!element) throw new Error();
+    const element = close(ctx);
 
     return addNode(ctx)(element.type, element.children, element.value, element.props);
 };

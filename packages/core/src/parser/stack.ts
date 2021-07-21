@@ -1,4 +1,5 @@
 import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
+import { getStackUtil } from '..';
 import { maybeMerge } from '../utility/prosemirror';
 import { createElement, StackElement } from './stack-element';
 import type { Attrs } from './types';
@@ -8,14 +9,9 @@ type Ctx = {
     readonly elements: StackElement[];
 };
 
-const size = (ctx: Ctx): number => ctx.elements.length;
+const { size, push, top, open, close } = getStackUtil<Node, StackElement, Ctx>();
 
-const top = (ctx: Ctx): StackElement | undefined => ctx.elements[size(ctx) - 1];
-
-const push = (ctx: Ctx) => (node: Node) => top(ctx)?.push(node);
-
-const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) =>
-    ctx.elements.push(createElement(nodeType, [], attrs));
+const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) => open(ctx)(createElement(nodeType, [], attrs));
 
 const addNode =
     (ctx: Ctx) =>
@@ -31,9 +27,7 @@ const addNode =
 
 const closeNode = (ctx: Ctx) => (): Node => {
     ctx.marks = Mark.none;
-    const element = ctx.elements.pop();
-
-    if (!element) throw new Error();
+    const element = close(ctx);
 
     return addNode(ctx)(element.type, element.attrs, element.content);
 };
