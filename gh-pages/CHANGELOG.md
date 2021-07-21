@@ -1,5 +1,25 @@
 # @milkdown/gh-pages
 
+## 4.6.0
+
+### Minor Changes
+
+-   e1fbf79: Refactor the plugin system to functional plugin for better extension ability.
+
+### Patch Changes
+
+-   Updated dependencies [e1fbf79]
+    -   @milkdown/core@4.6.0
+    -   @milkdown/plugin-history@4.6.0
+    -   @milkdown/plugin-math@4.6.0
+    -   @milkdown/plugin-prism@4.6.0
+    -   @milkdown/plugin-slash@4.6.0
+    -   @milkdown/plugin-table@4.6.0
+    -   @milkdown/plugin-tooltip@4.6.0
+    -   @milkdown/preset-gfm@4.6.0
+    -   @milkdown/react@4.6.0
+    -   @milkdown/theme-nord@4.6.0
+
 ## 4.5.3
 
 ### Patch Changes
