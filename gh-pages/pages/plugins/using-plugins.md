@@ -43,6 +43,10 @@ Milkdown provides the following official plugins:
 
     Add drop & gap cursor.
 
+-   [@milkdown/plugin-listener](https://www.npmjs.com/package/@milkdown/plugin-listener)
+
+    Add listener support.
+
 -   [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)
 
     Add table syntax support.
