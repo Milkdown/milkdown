@@ -2,7 +2,7 @@ import type { InputRule } from 'prosemirror-inputrules';
 import { createCtx } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import { createTiming } from '../timing';
-import type { MilkdownPlugin } from '../utility';
+import { Atom, getAtom, MilkdownPlugin } from '../utility';
 
 export const inputRulesCtx = createCtx<InputRule[]>([]);
 export const InputRulesReady = createTiming('InputRulesReady');
@@ -17,17 +17,13 @@ export const inputRules: MilkdownPlugin = (pre) => {
         const marks = ctx.get(marksCtx);
         const schema = ctx.get(schemaCtx);
 
-        const nodesInputRules = nodes.reduce((acc, cur) => {
-            const node = schema.nodes[cur.id];
-            if (!node || !cur.inputRules) return acc;
-            return [...acc, ...cur.inputRules(node, schema)];
-        }, [] as InputRule[]);
-        const marksInputRules = marks.reduce((acc, cur) => {
-            const mark = schema.marks[cur.id];
-            if (!mark || !cur.inputRules) return acc;
-            return [...acc, ...cur.inputRules(mark, schema)];
-        }, [] as InputRule[]);
-        const inputRules = [...nodesInputRules, ...marksInputRules];
+        const getInputRules = <T extends Atom>(atoms: T[], isNode: boolean): InputRule[] =>
+            atoms
+                .map((x) => [getAtom(x.id, schema, isNode), x.inputRules] as const)
+                .flatMap(([atom, inputRules]) => atom && inputRules?.(atom, schema))
+                .filter((x): x is InputRule => !!x);
+
+        const inputRules = [...getInputRules(nodes, true), ...getInputRules(marks, false)];
 
         ctx.set(inputRulesCtx, inputRules);
         InputRulesReady.done();

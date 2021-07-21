@@ -7,6 +7,5 @@ export const prosePluginFactory =
     (plugin: ProsemirrorPlugin | ProsemirrorPlugin[]): MilkdownPlugin =>
     () =>
     (ctx) => {
-        const plugins = [plugin].flat();
-        ctx.update(prosePluginsCtx, (prev) => prev.concat(plugins));
+        ctx.update(prosePluginsCtx, (prev) => prev.concat([plugin].flat()));
     };

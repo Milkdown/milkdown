@@ -1,15 +1,16 @@
-import type { NodeView } from 'prosemirror-view';
-import { createCtx, MarkViewParams, NodeViewParams } from '..';
+import { fromPairs } from 'lodash-es';
+import { createCtx } from '..';
 import { createTiming } from '../timing';
-import { MilkdownPlugin } from '../utility';
+import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } from '../utility';
 import { editorCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export const nodeViewCtx = createCtx<Record<string, (...args: NodeViewParams | MarkViewParams) => NodeView>>({});
+export const nodeViewCtx = createCtx<Record<string, ProseView>>({});
 export const NodeViewReady = createTiming('NodeViewReady');
 
 export const nodeView: MilkdownPlugin = (pre) => {
     pre.inject(nodeViewCtx);
+
     return async (ctx) => {
         await SchemaReady();
         const nodes = ctx.get(nodesCtx);
@@ -17,31 +18,24 @@ export const nodeView: MilkdownPlugin = (pre) => {
         const schema = ctx.get(schemaCtx);
         const editor = ctx.get(editorCtx);
 
-        const nodeViewMap = nodes
-            .filter((node) => Boolean(node.view))
-            .reduce((acc, cur) => {
-                const { view } = cur;
-                const node = schema.nodes[cur.id];
-                if (!node || !view) return acc;
-                return {
-                    ...acc,
-                    [cur.id]: (...args: NodeViewParams) => view(editor, node, ...args),
-                };
-            }, {});
+        const getViewMap = <T extends Atom>(atoms: T[], isNode: boolean) =>
+            atoms
+                .map(
+                    (x) =>
+                        [getAtom(x.id, schema, isNode), { view: x.view as ViewFactory | undefined, id: x.id }] as const,
+                )
+                .map(([atom, { id, view }]) =>
+                    atom && view
+                        ? [id, ((...args: ViewParams) => view(editor, atom, ...args)) as ProseView]
+                        : undefined,
+                )
+                .filter((x): x is [string, ProseView] => !!x);
 
-        const markViewMap = marks
-            .filter((mark) => Boolean(mark.view))
-            .reduce((acc, cur) => {
-                const { view } = cur;
-                const mark = schema.marks[cur.id];
-                if (!mark || !view) return acc;
-                return {
-                    ...acc,
-                    [cur.id]: (...args: MarkViewParams) => view(editor, mark, ...args),
-                };
-            }, {});
+        const nodeViewMap = getViewMap(nodes, true);
 
-        const nodeView = { ...nodeViewMap, ...markViewMap };
+        const markViewMap = getViewMap(marks, false);
+
+        const nodeView = fromPairs([...nodeViewMap, ...markViewMap]);
 
         ctx.set(nodeViewCtx, nodeView);
         NodeViewReady.done();

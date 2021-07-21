@@ -22,7 +22,7 @@ export class Editor {
         update: (meta, updater) => this.#container.getCtx(meta).update(updater),
     };
     #plugins: Set<CtxHandler> = new Set();
-    #configure: Configure = () => undefined;
+    #configureList: Configure[] = [];
     inject = <T>(meta: Meta<T>, resetValue?: T) => {
         meta(this.#container.contextMap, resetValue);
         return this.#pre;
@@ -33,7 +33,10 @@ export class Editor {
 
     #loadInternal = () => {
         const internalPlugins = [schema, parser, serializer, nodeView, keymap, inputRules, editorState, editorView];
-        this.use(internalPlugins.concat(init(this)).concat(config(this.#configure)));
+        const configPlugin = config(async (x) => {
+            await Promise.all(this.#configureList.map((fn) => fn(x)));
+        });
+        this.use(internalPlugins.concat(init(this)).concat(configPlugin));
     };
 
     use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
@@ -44,7 +47,7 @@ export class Editor {
     };
 
     config = (configure: Configure) => {
-        this.#configure = configure;
+        this.#configureList.push(configure);
         return this;
     };
 

@@ -7,6 +7,5 @@ export const remarkPluginFactory =
     (plugin: Plugin | Plugin[]): MilkdownPlugin =>
     () =>
     (ctx) => {
-        const plugins = [plugin].flat();
-        ctx.update(remarkPluginsCtx, (prev) => prev.concat(plugins));
+        ctx.update(remarkPluginsCtx, (prev) => prev.concat([plugin].flat()));
     };

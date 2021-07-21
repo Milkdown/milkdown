@@ -1,12 +1,12 @@
 import type { Keymap } from 'prosemirror-commands';
 import { keymap as proseKeymap } from 'prosemirror-keymap';
-import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
+import type { Plugin as ProsePlugin } from 'prosemirror-state';
 import { createCtx } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import { createTiming } from '../timing';
-import type { MilkdownPlugin } from '../utility';
+import { Atom, getAtom, MilkdownPlugin } from '../utility';
 
-export const keymapCtx = createCtx<ProsemirrorPlugin[]>([]);
+export const keymapCtx = createCtx<ProsePlugin[]>([]);
 export const KeymapReady = createTiming('KeymapReady');
 
 export const keymap: MilkdownPlugin = (pre) => {
@@ -19,20 +19,17 @@ export const keymap: MilkdownPlugin = (pre) => {
         const marks = ctx.get(marksCtx);
         const schema = ctx.get(schemaCtx);
 
-        const nodesKeymap = nodes.map((cur) => {
-            const node = schema.nodes[cur.id];
-            if (!node) throw new Error();
-            return cur.keymap?.(node, schema);
-        });
-        const marksKeymap = marks.map((cur) => {
-            const mark = schema.marks[cur.id];
-            if (!mark) throw new Error();
-            return cur.keymap?.(mark, schema);
-        });
+        const getKeymap = <T extends Atom>(atoms: T[], isNode: boolean): ProsePlugin[] =>
+            atoms
+                .map((x) => [getAtom(x.id, schema, isNode), x.keymap] as const)
+                .map(([atom, keymap]) => atom && keymap?.(atom, schema))
+                .filter((x): x is Keymap => !!x)
+                .map(proseKeymap);
 
-        const keymapList = [...nodesKeymap, ...marksKeymap]
-            .filter((keys): keys is Keymap => Boolean(keys))
-            .map((keys) => proseKeymap(keys));
+        const nodesKeymap = getKeymap(nodes, true);
+        const marksKeymap = getKeymap(marks, false);
+
+        const keymapList = [...nodesKeymap, ...marksKeymap];
 
         ctx.set(keymapCtx, keymapList);
         KeymapReady.done();

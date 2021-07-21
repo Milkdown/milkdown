@@ -1,9 +1,10 @@
+import { fromPairs } from 'lodash-es';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import re from 'remark';
 import { createCtx, Meta } from '../context';
-import { createParser, InnerParserSpecMap } from '../parser';
+import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
 import { createTiming } from '../timing';
-import { buildObject, MilkdownPlugin } from '../utility';
+import { MilkdownPlugin } from '../utility';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
@@ -27,13 +28,12 @@ export const parser: MilkdownPlugin = (pre) => {
         const processor = remarkPlugins.reduce((acc, plug) => acc.use(plug), remark);
 
         const children = [
-            ...nodes.map((node) => ({ ...node, is: 'node' })),
-            ...marks.map((mark) => ({ ...mark, is: 'mark' })),
+            ...nodes.map((node) => ({ ...node, is: 'node' as const })),
+            ...marks.map((mark) => ({ ...mark, is: 'mark' as const })),
         ];
-        const spec: InnerParserSpecMap = buildObject(children, (child) => [
-            child.id,
-            { ...child.parser, is: child.is, key: child.id },
-        ]) as InnerParserSpecMap;
+        const spec: InnerParserSpecMap = fromPairs(
+            children.map(({ id, parser, is }) => [id, { ...parser, is, key: id } as ParserSpecWithType]),
+        );
 
         ctx.set(parserCtx, createParser(schema, spec, processor));
         ParserReady.done();

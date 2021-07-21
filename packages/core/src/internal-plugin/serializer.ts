@@ -1,9 +1,10 @@
+import { fromPairs } from 'lodash-es';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { marksCtx, nodesCtx, remarkCtx, schemaCtx, SchemaReady } from '..';
 import { createCtx } from '../context';
 import { createSerializer } from '../serializer';
 import { createTiming } from '../timing';
-import { buildObject, MilkdownPlugin } from '../utility';
+import { MilkdownPlugin } from '../utility';
 
 export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => '');
 export const SerializerReady = createTiming('SerializerReady');
@@ -19,7 +20,7 @@ export const serializer: MilkdownPlugin = (pre) => {
         const schema = ctx.get(schemaCtx);
 
         const children = [...nodes, ...marks];
-        const spec = buildObject(children, (child) => [child.id, child.serializer]);
+        const spec = fromPairs(children.map((child) => [child.id, child.serializer]));
 
         ctx.set(serializerCtx, createSerializer(schema, spec, remark));
         SerializerReady.done();

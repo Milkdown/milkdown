@@ -6,14 +6,15 @@ export const image = createNode((_, utils) => ({
     id,
     schema: {
         inline: true,
+        group: 'inline',
+        draggable: true,
+        selectable: true,
+        marks: '',
         attrs: {
             src: { default: '' },
             alt: { default: null },
             title: { default: null },
         },
-        group: 'inline',
-        draggable: true,
-        marks: '',
         parseDOM: [
             {
                 tag: 'img[src]',
