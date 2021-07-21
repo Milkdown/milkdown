@@ -24,6 +24,8 @@ const languageOptions = [
     'markdown',
 ];
 
+const inputRegex = /^```(?<language>[a-z]*)? $/;
+
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((options, utils) => ({
     id,
@@ -64,9 +66,9 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
     parser: {
         match: ({ type }) => type === 'code',
         runner: (state, node, type) => {
-            const lang = node.lang as string;
+            const language = node.lang as string;
             const value = node.value as string;
-            state.openNode(type, { language: lang });
+            state.openNode(type, { language });
             state.addText(value);
             state.closeNode();
         },
@@ -77,7 +79,12 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: node.attrs.language });
         },
     },
-    inputRules: (nodeType) => [textblockTypeInputRule(/^```$/, nodeType)],
+    inputRules: (nodeType) => [
+        textblockTypeInputRule(inputRegex, nodeType, ([ok, language]) => {
+            if (!ok) return;
+            return { language };
+        }),
+    ],
     commands: (nodeType) => ({
         [SupportedKeys.CodeFence]: {
             defaultKey: 'Mod-Alt-c',
