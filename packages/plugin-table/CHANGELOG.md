@@ -1,5 +1,13 @@
 # @milkdown/plugin-table
 
+## 4.6.1
+
+### Patch Changes
+
+-   01477a8: Update versions of dependencies and solve conflicts.
+-   Updated dependencies [01477a8]
+    -   @milkdown/utils@4.6.1
+
 ## 4.6.0
 
 ### Minor Changes
