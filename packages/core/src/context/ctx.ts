@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash-es';
+import { clone } from 'lodash-es';
 export type Context<T = unknown> = {
     id: symbol;
     set: (value: T) => void;
@@ -16,10 +16,9 @@ export type Meta<T> = {
 
 export const createCtx = <T>(value: T): Meta<T> => {
     const id = Symbol('Context');
-    const origin = cloneDeep(value);
 
-    const factory = (container: Container, resetValue = origin) => {
-        let inner = value;
+    const factory = (container: Container, resetValue = clone(value)) => {
+        let inner = resetValue;
 
         const context: Context<T> = {
             id,
@@ -32,7 +31,6 @@ export const createCtx = <T>(value: T): Meta<T> => {
             },
         };
         container.set(id, context as Context);
-        context.set(resetValue);
         return context;
     };
     factory.id = id;

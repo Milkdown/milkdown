@@ -26,7 +26,7 @@ const prepareViewDom = (dom: Element) => {
 };
 
 export const editorView: MilkdownPlugin = (pre) => {
-    pre.inject(rootCtx).inject(editorViewCtx).inject(editorViewOptionsCtx);
+    pre.inject(rootCtx, document.body).inject(editorViewCtx).inject(editorViewOptionsCtx);
 
     return async (ctx) => {
         await Promise.all([StateReady(), NodeViewReady()]);
