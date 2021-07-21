@@ -136,7 +136,7 @@ new Editor().config((ctx) => {
 
 ---
 
-## Readonly mode
+## Readonly Mode
 
 You can set the editor to readonly mode by set the `editable` property.
 
@@ -153,4 +153,30 @@ new Editor().config((ctx) => {
 setTimeout(() => {
     readonly = true;
 }, 5000);
+```
+
+---
+
+## Using Action
+
+You can use action to get the context value in a running editor on demand.
+
+For example, get the markdown string by action:
+
+```typescript
+import { Editor, editorViewCtx, serializerCtx } from '@milkdown/core';
+
+async function playWithEditor() {
+    const editor = await new Editor().use(commonmark).create();
+
+    const getMarkdown = () =>
+        editor.action((ctx) => {
+            const editorView = ctx.get(editorViewCtx);
+            const serializer = ctx.get(serializerCtx);
+            return serializer(editorView.state.doc);
+        });
+
+    // get markdown string:
+    getMarkdown();
+}
 ```
