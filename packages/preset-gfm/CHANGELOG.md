@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.6.2
+
+### Patch Changes
+
+-   bf809ed: Fix for singleton and vite.
+-   Updated dependencies [bf809ed]
+    -   @milkdown/plugin-table@4.6.2
+    -   @milkdown/preset-commonmark@4.6.2
+    -   @milkdown/utils@4.6.2
+
 ## 4.6.1
 
 ### Patch Changes

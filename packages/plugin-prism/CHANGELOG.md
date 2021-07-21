@@ -1,5 +1,13 @@
 # @milkdown/plugin-prism
 
+## 4.6.2
+
+### Patch Changes
+
+-   bf809ed: Fix for singleton and vite.
+-   Updated dependencies [bf809ed]
+    -   @milkdown/utils@4.6.2
+
 ## 4.6.1
 
 ### Patch Changes

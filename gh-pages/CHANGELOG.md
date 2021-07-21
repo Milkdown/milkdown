@@ -1,5 +1,22 @@
 # @milkdown/gh-pages
 
+## 4.6.2
+
+### Patch Changes
+
+-   bf809ed: Fix for singleton and vite.
+-   Updated dependencies [bf809ed]
+    -   @milkdown/core@4.6.2
+    -   @milkdown/plugin-history@4.6.2
+    -   @milkdown/plugin-math@4.6.2
+    -   @milkdown/plugin-prism@4.6.2
+    -   @milkdown/plugin-slash@4.6.2
+    -   @milkdown/plugin-table@4.6.2
+    -   @milkdown/plugin-tooltip@4.6.2
+    -   @milkdown/preset-gfm@4.6.2
+    -   @milkdown/react@4.6.2
+    -   @milkdown/theme-nord@4.6.2
+
 ## 4.6.1
 
 ### Patch Changes
