@@ -1,5 +1,11 @@
 # @milkdown/utils
 
+## 4.6.1
+
+### Patch Changes
+
+-   01477a8: Update versions of dependencies and solve conflicts.
+
 ## 4.6.0
 
 ### Minor Changes
