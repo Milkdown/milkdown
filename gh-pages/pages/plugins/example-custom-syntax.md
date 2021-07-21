@@ -133,7 +133,7 @@ import { InputRule } from 'prosemirror-inputrules';
 
 const iframe = nodeFactory({
     // ...
-    inputRules: (nodeType: NodeType) => [
+    inputRules: (nodeType) => [
         new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
             const [okay, src = ''] = match;
             const { tr } = state;
@@ -217,7 +217,7 @@ const iframe = nodeFactory({
             });
         },
     },
-    inputRules: (nodeType: NodeType) => [
+    inputRules: (nodeType) => [
         new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
             const [okay, src = ''] = match;
             const { tr } = state;
