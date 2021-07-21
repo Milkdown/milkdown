@@ -6,6 +6,7 @@
         "benrbray",
         "commitlint",
         "commonmark",
+        "dropcursor",
         "gapcursor",
         "hardbreak",
         "inputrules",

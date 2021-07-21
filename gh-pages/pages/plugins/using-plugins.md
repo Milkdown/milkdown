@@ -39,6 +39,10 @@ Milkdown provides the following official plugins:
 
     Add undo & redo support.
 
+-   [@milkdown/plugin-cursor](https://www.npmjs.com/package/@milkdown/plugin-cursor)
+
+    Add drop & gap cursor.
+
 -   [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)
 
     Add table syntax support.

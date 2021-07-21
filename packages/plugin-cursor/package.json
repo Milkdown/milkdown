@@ -1,0 +1,29 @@
+{
+    "name": "@milkdown/plugin-cursor",
+    "version": "4.6.4",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
+        "watch:css": "postcss style/style.css --watch --verbose -o lib/style.css",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc && postcss style/style.css --verbose -o lib/style.css",
+        "build:css": "postcss style/style.css --verbose -o lib/style.css"
+    },
+    "files": [
+        "lib"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*"
+    },
+    "dependencies": {
+        "@types/prosemirror-dropcursor": "^1.0.2",
+        "@types/prosemirror-gapcursor": "^1.0.4",
+        "prosemirror-dropcursor": "^1.3.5",
+        "prosemirror-gapcursor": "^1.1.5",
+        "tslib": "^2.2.0"
+    }
+}

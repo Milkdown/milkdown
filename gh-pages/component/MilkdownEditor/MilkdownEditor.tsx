@@ -8,6 +8,7 @@ import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
 import { slash } from '@milkdown/plugin-slash';
+import { cursor } from '@milkdown/plugin-cursor';
 import className from './style.module.css';
 
 import '@milkdown/theme-nord/lib/theme.css';
@@ -16,6 +17,7 @@ import '@milkdown/plugin-math/lib/style.css';
 import '@milkdown/plugin-table/lib/style.css';
 import '@milkdown/plugin-tooltip/lib/style.css';
 import '@milkdown/plugin-slash/lib/style.css';
+import '@milkdown/plugin-cursor/lib/style.css';
 
 type Props = {
     content: string;
@@ -36,6 +38,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
                 .use(gfm)
                 .use(listener)
                 .use(history)
+                .use(cursor())
                 .use(prism)
                 .use(tooltip)
                 .use(math);

@@ -30,6 +30,7 @@
         "@milkdown/design-system": "workspace:*",
         "@milkdown/plugin-listener": "workspace:*",
         "@milkdown/plugin-history": "workspace:*",
+        "@milkdown/plugin-cursor": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/plugin-slash": "workspace:*",
