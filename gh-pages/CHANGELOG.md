@@ -1,5 +1,22 @@
 # @milkdown/gh-pages
 
+## 4.6.1
+
+### Patch Changes
+
+-   01477a8: Update versions of dependencies and solve conflicts.
+-   Updated dependencies [01477a8]
+    -   @milkdown/core@4.6.1
+    -   @milkdown/plugin-history@4.6.1
+    -   @milkdown/plugin-math@4.6.1
+    -   @milkdown/plugin-prism@4.6.1
+    -   @milkdown/plugin-slash@4.6.1
+    -   @milkdown/plugin-table@4.6.1
+    -   @milkdown/plugin-tooltip@4.6.1
+    -   @milkdown/preset-gfm@4.6.1
+    -   @milkdown/react@4.6.1
+    -   @milkdown/theme-nord@4.6.1
+
 ## 4.6.0
 
 ### Minor Changes
