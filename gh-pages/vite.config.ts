@@ -21,6 +21,7 @@ export default defineConfig({
             'prosemirror-history',
             'prosemirror-transform',
             'prosemirror-gapcursor',
+            'prosemirror-dropcursor',
         ],
     },
     plugins: [markdownPlugin(), reactRefresh()],
