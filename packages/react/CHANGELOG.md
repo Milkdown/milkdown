@@ -1,5 +1,13 @@
 # @milkdown/react
 
+## 4.6.3
+
+### Patch Changes
+
+-   8f0ce59: Extract listener plugin.
+-   Updated dependencies [8f0ce59]
+    -   @milkdown/utils@4.6.3
+
 ## 4.6.2
 
 ### Patch Changes
