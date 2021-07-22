@@ -1,5 +1,11 @@
 # @milkdown/core
 
+## 4.6.6
+
+### Patch Changes
+
+-   361c760: Fix style issues.
+
 ## 4.6.5
 
 ### Patch Changes
