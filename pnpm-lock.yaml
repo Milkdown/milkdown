@@ -148,7 +148,6 @@ importers:
       '@milkdown/plugin-slash': workspace:*
       '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
@@ -176,7 +175,6 @@ importers:
       '@milkdown/plugin-slash': link:../packages/plugin-slash
       '@milkdown/plugin-table': link:../packages/plugin-table
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
-      '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/react': link:../packages/react
       '@milkdown/theme-nord': link:../packages/theme-nord
