@@ -1,6 +1,5 @@
 import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
-import { getStackUtil } from '..';
-import { maybeMerge } from '../utility/prosemirror';
+import { maybeMerge, getStackUtil } from '../utility';
 import { createElement, StackElement } from './stack-element';
 import type { Attrs } from './types';
 
