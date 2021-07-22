@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.6.5
+
+### Patch Changes
+
+-   58158e3: Add cursor package and fix config bug.
+-   Updated dependencies [58158e3]
+    -   @milkdown/plugin-table@4.6.5
+    -   @milkdown/preset-commonmark@4.6.5
+    -   @milkdown/utils@4.6.5
+
 ## 4.6.4
 
 ### Patch Changes
