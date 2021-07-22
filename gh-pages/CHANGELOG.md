@@ -1,5 +1,23 @@
 # @milkdown/gh-pages
 
+## 4.6.3
+
+### Patch Changes
+
+-   8f0ce59: Extract listener plugin.
+-   Updated dependencies [8f0ce59]
+    -   @milkdown/core@4.6.3
+    -   @milkdown/plugin-history@4.6.3
+    -   @milkdown/plugin-listener@4.6.3
+    -   @milkdown/plugin-math@4.6.3
+    -   @milkdown/plugin-prism@4.6.3
+    -   @milkdown/plugin-slash@4.6.3
+    -   @milkdown/plugin-table@4.6.3
+    -   @milkdown/plugin-tooltip@4.6.3
+    -   @milkdown/preset-gfm@4.6.3
+    -   @milkdown/react@4.6.3
+    -   @milkdown/theme-nord@4.6.3
+
 ## 4.6.2
 
 ### Patch Changes
