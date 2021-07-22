@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.6.4
+
+### Patch Changes
+
+-   2fec317: Fix some issues.
+-   Updated dependencies [2fec317]
+    -   @milkdown/plugin-table@4.6.4
+    -   @milkdown/preset-commonmark@4.6.4
+    -   @milkdown/utils@4.6.4
+
 ## 4.6.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 4.6.4
+
+### Patch Changes
+
+-   2fec317: Fix some issues.
+
 ## 4.6.3
 
 ### Patch Changes
