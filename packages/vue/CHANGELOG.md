@@ -1,5 +1,13 @@
 # @milkdown/vue
 
+## 4.6.5
+
+### Patch Changes
+
+-   58158e3: Add cursor package and fix config bug.
+-   Updated dependencies [58158e3]
+    -   @milkdown/utils@4.6.5
+
 ## 4.6.4
 
 ### Patch Changes
