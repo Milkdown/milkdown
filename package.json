@@ -38,6 +38,7 @@
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/preset-gfm": "workspace:*",
         "@milkdown/react": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/utils": "workspace:*",

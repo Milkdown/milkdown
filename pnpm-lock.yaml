@@ -19,6 +19,7 @@ importers:
       '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
@@ -83,6 +84,7 @@ importers:
       '@milkdown/plugin-table': link:packages/plugin-table
       '@milkdown/plugin-tooltip': link:packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:packages/preset-commonmark
+      '@milkdown/preset-gfm': link:packages/preset-gfm
       '@milkdown/react': link:packages/react
       '@milkdown/theme-nord': link:packages/theme-nord
       '@milkdown/utils': link:packages/utils
@@ -147,10 +149,10 @@ importers:
       '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
-      '@milkdown/vue': workspace:*
       '@rollup/pluginutils': '*'
       '@types/estree': ^0.0.47
       '@types/react': ^17.0.6
@@ -175,10 +177,10 @@ importers:
       '@milkdown/plugin-table': link:../packages/plugin-table
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
+      '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/react': link:../packages/react
       '@milkdown/theme-nord': link:../packages/theme-nord
       '@milkdown/utils': link:../packages/utils
-      '@milkdown/vue': link:../packages/vue
       prism-themes: 1.8.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
