@@ -1,5 +1,23 @@
 # @milkdown/gh-pages
 
+## 4.6.4
+
+### Patch Changes
+
+-   2fec317: Fix some issues.
+-   Updated dependencies [2fec317]
+    -   @milkdown/core@4.6.4
+    -   @milkdown/plugin-history@4.6.4
+    -   @milkdown/plugin-listener@4.6.4
+    -   @milkdown/plugin-math@4.6.4
+    -   @milkdown/plugin-prism@4.6.4
+    -   @milkdown/plugin-slash@4.6.4
+    -   @milkdown/plugin-table@4.6.4
+    -   @milkdown/plugin-tooltip@4.6.4
+    -   @milkdown/preset-gfm@4.6.4
+    -   @milkdown/react@4.6.4
+    -   @milkdown/theme-nord@4.6.4
+
 ## 4.6.3
 
 ### Patch Changes
