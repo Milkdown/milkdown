@@ -15,20 +15,30 @@ import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
 
 export class Editor {
     #container = createContainer();
+
     #ctx: Ctx = {
         use: this.#container.getCtx,
         get: (meta) => this.#container.getCtx(meta).get(),
         set: (meta, value) => this.#container.getCtx(meta).set(value),
         update: (meta, updater) => this.#container.getCtx(meta).update(updater),
     };
+
     #plugins: Set<CtxHandler> = new Set();
-    #configureList: Configure[] = [];
+
     inject = <T>(meta: Meta<T>, resetValue?: T) => {
         meta(this.#container.contextMap, resetValue);
         return this.#pre;
     };
+
     #pre: Pre = {
         inject: this.inject,
+    };
+
+    use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
+        [plugins].flat().forEach((plugin) => {
+            this.#plugins.add(plugin(this.#pre));
+        });
+        return this;
     };
 
     #loadInternal = () => {
@@ -39,18 +49,6 @@ export class Editor {
         this.use(internalPlugins.concat(init(this)).concat(configPlugin));
     };
 
-    use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
-        [plugins].flat().forEach((plugin) => {
-            this.#plugins.add(plugin(this.#pre));
-        });
-        return this;
-    };
-
-    config = (configure: Configure) => {
-        this.#configureList.push(configure);
-        return this;
-    };
-
     create = async () => {
         this.#loadInternal();
         await Promise.all(
@@ -58,6 +56,13 @@ export class Editor {
                 return loader(this.#ctx);
             }),
         );
+        return this;
+    };
+
+    #configureList: Configure[] = [];
+
+    config = (configure: Configure) => {
+        this.#configureList.push(configure);
         return this;
     };
 
