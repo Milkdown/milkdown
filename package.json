@@ -13,7 +13,7 @@
         "watch:css": "pnpm run watch:css -r --parallel",
         "doc": "pnpm run start --filter @milkdown/gh-pages",
         "preview": "pnpm run preview --filter @milkdown/gh-pages",
-        "test": "jest",
+        "test": "jest --passWithNoTests",
         "tsc": "tsc --noEmit",
         "build:packs": "tsc --build --force --verbose && pnpm run build:css -r --filter \"./packages/\"",
         "build:doc": "pnpm run build --filter @milkdown/gh-pages",
