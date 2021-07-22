@@ -15,7 +15,7 @@
         "preview": "pnpm run preview --filter @milkdown/gh-pages",
         "test": "jest --passWithNoTests",
         "tsc": "tsc --noEmit",
-        "build:packs": "tsc --build --verbose && pnpm run build:css -r --filter \"./packages/\"",
+        "build:packs": "tsc --build --force --verbose && pnpm run build:css -r --filter \"./packages/\"",
         "build:doc": "pnpm run build --filter @milkdown/gh-pages",
         "postinstall": "husky install && pnpm run build:packs",
         "changeset": "changeset",
