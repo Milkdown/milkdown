@@ -137,6 +137,8 @@ importers:
       '@codemirror/basic-setup': ^0.18.2
       '@codemirror/lang-markdown': ^0.18.4
       '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
+      '@milkdown/plugin-cursor': workspace:*
       '@milkdown/plugin-history': workspace:*
       '@milkdown/plugin-listener': workspace:*
       '@milkdown/plugin-math': workspace:*
@@ -144,9 +146,11 @@ importers:
       '@milkdown/plugin-slash': workspace:*
       '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
-      '@milkdown/preset-gfm': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
+      '@milkdown/utils': workspace:*
+      '@milkdown/vue': workspace:*
       '@rollup/pluginutils': '*'
       '@types/estree': ^0.0.47
       '@types/react': ^17.0.6
@@ -161,6 +165,8 @@ importers:
       '@codemirror/basic-setup': 0.18.2
       '@codemirror/lang-markdown': 0.18.4
       '@milkdown/core': link:../packages/core
+      '@milkdown/design-system': link:../packages/design-system
+      '@milkdown/plugin-cursor': link:../packages/plugin-cursor
       '@milkdown/plugin-history': link:../packages/plugin-history
       '@milkdown/plugin-listener': link:../packages/plugin-listener
       '@milkdown/plugin-math': link:../packages/plugin-math
@@ -168,9 +174,11 @@ importers:
       '@milkdown/plugin-slash': link:../packages/plugin-slash
       '@milkdown/plugin-table': link:../packages/plugin-table
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
-      '@milkdown/preset-gfm': link:../packages/preset-gfm
+      '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/react': link:../packages/react
       '@milkdown/theme-nord': link:../packages/theme-nord
+      '@milkdown/utils': link:../packages/utils
+      '@milkdown/vue': link:../packages/vue
       prism-themes: 1.8.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
