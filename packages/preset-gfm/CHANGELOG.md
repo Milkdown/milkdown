@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.6.6
+
+### Patch Changes
+
+-   361c760: Fix style issues.
+-   Updated dependencies [361c760]
+    -   @milkdown/plugin-table@4.6.6
+    -   @milkdown/preset-commonmark@4.6.6
+    -   @milkdown/utils@4.6.6
+
 ## 4.6.5
 
 ### Patch Changes

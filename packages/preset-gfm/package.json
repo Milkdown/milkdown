@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/preset-gfm",
-    "version": "4.6.5",
+    "version": "4.6.6",
     "main": "lib/index.js",
     "module": "lib/index.js",
     "types": "lib/index.d.ts",
