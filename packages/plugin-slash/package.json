@@ -16,6 +16,10 @@
     "files": [
         "lib"
     ],
+    "keywords": [
+        "milkdown",
+        "milkdown plugin"
+    ],
     "peerDependencies": {
         "@milkdown/core": "*",
         "@milkdown/plugin-table": "*"

@@ -14,6 +14,11 @@
     "files": [
         "lib"
     ],
+    "keywords": [
+        "milkdown",
+        "milkdown plugin",
+        "vue"
+    ],
     "dependencies": {
         "@milkdown/utils": "workspace:*",
         "tslib": "^2.2.0"

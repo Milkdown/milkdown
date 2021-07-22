@@ -13,6 +13,15 @@
     "files": [
         "lib"
     ],
+    "keywords": [
+        "milkdown",
+        "prosemirror",
+        "remark",
+        "markdown",
+        "wysiwyg",
+        "text editor",
+        "markdown editor"
+    ],
     "dependencies": {
         "@types/lodash-es": "^4.17.4",
         "@types/prosemirror-commands": "^1.0.4",
