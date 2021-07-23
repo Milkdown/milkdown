@@ -12,10 +12,10 @@ export const nodesCtx = createCtx<Node[]>([]);
 export const marksCtx = createCtx<Mark[]>([]);
 
 export const schema: MilkdownPlugin = (pre) => {
-    pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx);
+    pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).record(SchemaReady);
 
     return async (ctx) => {
-        await Initialize();
+        await ctx.wait(Initialize);
 
         const getAtom = <T extends Atom>(x: T[]) => fromPairs<T['schema']>(x.map(({ id, schema }) => [id, schema]));
 
@@ -30,6 +30,6 @@ export const schema: MilkdownPlugin = (pre) => {
             }),
         );
 
-        SchemaReady.done();
+        ctx.done(SchemaReady);
     };
 };

@@ -9,10 +9,10 @@ export const nodeViewCtx = createCtx<Record<string, ProseView>>({});
 export const NodeViewReady = createTiming('NodeViewReady');
 
 export const nodeView: MilkdownPlugin = (pre) => {
-    pre.inject(nodeViewCtx);
+    pre.inject(nodeViewCtx).record(NodeViewReady);
 
     return async (ctx) => {
-        await SchemaReady();
+        await ctx.wait(SchemaReady);
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const schema = ctx.get(schemaCtx);
@@ -21,8 +21,8 @@ export const nodeView: MilkdownPlugin = (pre) => {
         const getViewMap = <T extends Atom>(atoms: T[], isNode: boolean) =>
             atoms
                 .map(
-                    (x) =>
-                        [getAtom(x.id, schema, isNode), { view: x.view as ViewFactory | undefined, id: x.id }] as const,
+                    ({ id, view }) =>
+                        [getAtom(id, schema, isNode), { view: view as ViewFactory | undefined, id }] as const,
                 )
                 .map(([atom, { id, view }]) =>
                     atom && view
@@ -38,6 +38,6 @@ export const nodeView: MilkdownPlugin = (pre) => {
         const nodeView = fromPairs([...nodeViewMap, ...markViewMap]);
 
         ctx.set(nodeViewCtx, nodeView);
-        NodeViewReady.done();
+        ctx.done(NodeViewReady);
     };
 };

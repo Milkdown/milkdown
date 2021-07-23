@@ -8,10 +8,10 @@ export const inputRulesCtx = createCtx<InputRule[]>([]);
 export const InputRulesReady = createTiming('InputRulesReady');
 
 export const inputRules: MilkdownPlugin = (pre) => {
-    pre.inject(inputRulesCtx);
+    pre.inject(inputRulesCtx).record(InputRulesReady);
 
     return async (ctx) => {
-        await SchemaReady();
+        await ctx.wait(SchemaReady);
 
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
@@ -26,6 +26,6 @@ export const inputRules: MilkdownPlugin = (pre) => {
         const inputRules = [...getInputRules(nodes, true), ...getInputRules(marks, false)];
 
         ctx.set(inputRulesCtx, inputRules);
-        InputRulesReady.done();
+        ctx.done(InputRulesReady);
     };
 };

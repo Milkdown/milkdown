@@ -12,13 +12,14 @@ export type Parser = (text: string) => ProsemirrorNode | null;
 export type RemarkParser = ReturnType<typeof re>;
 export const parserCtx = createCtx<Parser>(() => null);
 export const remarkCtx: Meta<RemarkParser> = createCtx<RemarkParser>(re());
+
 export const ParserReady = createTiming('ParserReady');
 
 export const parser: MilkdownPlugin = (pre) => {
-    pre.inject(parserCtx).inject(remarkCtx, re());
+    pre.inject(parserCtx).inject(remarkCtx, re()).record(ParserReady);
 
     return async (ctx) => {
-        await SchemaReady();
+        await ctx.wait(SchemaReady);
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const remark = ctx.get(remarkCtx);
@@ -36,6 +37,6 @@ export const parser: MilkdownPlugin = (pre) => {
         );
 
         ctx.set(parserCtx, createParser(schema, spec, processor));
-        ParserReady.done();
+        ctx.done(ParserReady);
     };
 };

@@ -14,7 +14,7 @@ export const listener: MilkdownPlugin = (pre) => {
     pre.inject(listenerCtx);
 
     return async (ctx) => {
-        await SerializerReady();
+        await ctx.wait(SerializerReady);
         const listener = ctx.get(listenerCtx);
         const serializer = ctx.get(serializerCtx);
 

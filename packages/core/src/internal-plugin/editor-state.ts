@@ -19,6 +19,7 @@ type StateOptions = Parameters<typeof EditorState.create>[0];
 export const defaultValueCtx = createCtx<DefaultValue>('');
 export const editorStateCtx = createCtx<EditorState>({} as EditorState);
 export const editorStateOptionsCtx = createCtx<StateOptions>({});
+
 export const StateReady = createTiming('StateReady');
 
 const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
@@ -38,10 +39,15 @@ const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
 };
 
 export const editorState: MilkdownPlugin = (pre) => {
-    pre.inject(defaultValueCtx).inject(editorStateCtx).inject(editorStateOptionsCtx);
+    pre.inject(defaultValueCtx).inject(editorStateCtx).inject(editorStateOptionsCtx).record(StateReady);
 
     return async (ctx) => {
-        await Promise.all([KeymapReady(), InputRulesReady(), ParserReady(), SerializerReady()]);
+        await Promise.all([
+            ctx.wait(KeymapReady),
+            ctx.wait(InputRulesReady),
+            ctx.wait(ParserReady),
+            ctx.wait(SerializerReady),
+        ]);
 
         const schema = ctx.get(schemaCtx);
         const parser = ctx.get(parserCtx);
@@ -58,6 +64,6 @@ export const editorState: MilkdownPlugin = (pre) => {
             ...options,
         });
         ctx.set(editorStateCtx, state);
-        StateReady.done();
+        ctx.done(StateReady);
     };
 };

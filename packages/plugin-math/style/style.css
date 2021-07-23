@@ -11,7 +11,7 @@
 }
 
 .math-render {
-    overflow: clip;
+    overflow: visible;
     padding: 0 4px;
 }
 

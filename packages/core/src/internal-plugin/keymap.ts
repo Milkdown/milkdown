@@ -10,10 +10,10 @@ export const keymapCtx = createCtx<ProsePlugin[]>([]);
 export const KeymapReady = createTiming('KeymapReady');
 
 export const keymap: MilkdownPlugin = (pre) => {
-    pre.inject(keymapCtx);
+    pre.inject(keymapCtx).record(KeymapReady);
 
     return async (ctx) => {
-        await SchemaReady();
+        await ctx.wait(SchemaReady);
 
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
@@ -32,6 +32,6 @@ export const keymap: MilkdownPlugin = (pre) => {
         const keymapList = [...nodesKeymap, ...marksKeymap];
 
         ctx.set(keymapCtx, keymapList);
-        KeymapReady.done();
+        ctx.done(KeymapReady);
     };
 };

@@ -5,8 +5,11 @@ export const Config = createTiming('Config');
 
 export const config =
     (configure: Configure): MilkdownPlugin =>
-    () =>
-    async (ctx) => {
-        await configure(ctx);
-        Config.done();
+    (pre) => {
+        pre.record(Config);
+
+        return async (ctx) => {
+            await configure(ctx);
+            ctx.done(Config);
+        };
     };

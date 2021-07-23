@@ -1,19 +1,64 @@
-export const createTiming = (name: string, timeout = 3000) => {
-    const event = new Event(name);
+export type Timing = {
+    (): Promise<void>;
+    done: () => void;
+};
 
-    const timing = () =>
-        new Promise((resolve, reject) => {
-            setTimeout(() => {
-                reject(`Timing ${name} timeout.`);
-            }, timeout);
-            addEventListener(name, () => {
-                resolve(undefined);
-            });
-        });
+export type ClockMap = Map<symbol, Timing>;
 
-    timing.done = () => {
-        dispatchEvent(event);
+export type Timer = {
+    (store: ClockMap): Timing;
+    id: symbol;
+};
+
+export type Clock = {
+    store: ClockMap;
+    get: (timer: Timer) => Timing;
+};
+
+export const createClock = (): Clock => {
+    const store: ClockMap = new Map();
+    const get = (timer: Timer) => {
+        const meta = store.get(timer.id);
+        if (!meta) throw new Error();
+        return meta;
     };
 
-    return timing;
+    return {
+        store,
+        get,
+    };
+};
+
+export const createTiming = (name: string, timeout = 3000): Timer => {
+    const id = Symbol('Timing');
+
+    const factory = (store: ClockMap) => {
+        const data = Symbol(name);
+
+        const timing: Timing = () =>
+            new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    reject(`Timing ${name} timeout.`);
+                }, timeout);
+                addEventListener(name, (e) => {
+                    if (!(e instanceof CustomEvent)) {
+                        return;
+                    }
+                    if (e.detail.id === data) {
+                        resolve(undefined);
+                    }
+                });
+            });
+        timing.done = () => {
+            const event = new CustomEvent(name, { detail: { id: data } });
+            dispatchEvent(event);
+        };
+
+        store.set(id, timing);
+
+        return timing;
+    };
+    factory.id = id;
+
+    return factory;
 };

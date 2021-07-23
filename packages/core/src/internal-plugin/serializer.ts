@@ -10,10 +10,10 @@ export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => 
 export const SerializerReady = createTiming('SerializerReady');
 
 export const serializer: MilkdownPlugin = (pre) => {
-    pre.inject(serializerCtx);
+    pre.inject(serializerCtx).record(SerializerReady);
 
     return async (ctx) => {
-        await SchemaReady();
+        await ctx.wait(SchemaReady);
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const remark = ctx.get(remarkCtx);
@@ -23,6 +23,6 @@ export const serializer: MilkdownPlugin = (pre) => {
         const spec = fromPairs(children.map((child) => [child.id, child.serializer]));
 
         ctx.set(serializerCtx, createSerializer(schema, spec, remark));
-        SerializerReady.done();
+        ctx.done(SerializerReady);
     };
 };

@@ -10,6 +10,7 @@ type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 export const editorViewCtx = createCtx<EditorView>({} as EditorView);
 export const editorViewOptionsCtx = createCtx<EditorOptions>({});
 export const rootCtx = createCtx<Node>(document.body);
+
 export const Complete = createTiming('complete');
 
 const createViewContainer = (root: Node) => {
@@ -26,10 +27,10 @@ const prepareViewDom = (dom: Element) => {
 };
 
 export const editorView: MilkdownPlugin = (pre) => {
-    pre.inject(rootCtx, document.body).inject(editorViewCtx).inject(editorViewOptionsCtx);
+    pre.inject(rootCtx, document.body).inject(editorViewCtx).inject(editorViewOptionsCtx).record(Complete);
 
     return async (ctx) => {
-        await Promise.all([StateReady(), NodeViewReady()]);
+        await Promise.all([ctx.wait(StateReady), ctx.wait(NodeViewReady)]);
 
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
@@ -44,6 +45,6 @@ export const editorView: MilkdownPlugin = (pre) => {
         });
         prepareViewDom(view.dom);
         ctx.set(editorViewCtx, view);
-        Complete.done();
+        ctx.done(Complete);
     };
 };
