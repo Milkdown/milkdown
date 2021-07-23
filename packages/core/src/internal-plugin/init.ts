@@ -1,12 +1,12 @@
 import type { MilkdownPlugin } from '../utility';
-import { createTiming, Timer } from '../timing';
+import { createTimer, Timer } from '../timing';
 import { Config } from './config';
 import { createCtx } from '..';
 import type { Editor } from '..';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 
-export const Initialize = createTiming('Initialize');
+export const Initialize = createTimer('Initialize');
 
 export const initTimerCtx = createCtx<Timer[]>([]);
 export const editorCtx = createCtx<Editor>({} as Editor);

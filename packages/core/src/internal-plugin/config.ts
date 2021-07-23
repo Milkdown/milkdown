@@ -1,7 +1,7 @@
-import { createTiming } from '../timing';
+import { createTimer } from '../timing';
 import { Configure, MilkdownPlugin } from '../utility';
 
-export const Config = createTiming('Config');
+export const Config = createTimer('Config');
 
 export const config =
     (configure: Configure): MilkdownPlugin =>

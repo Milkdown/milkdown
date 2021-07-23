@@ -29,10 +29,10 @@ export const createClock = (): Clock => {
     };
 };
 
-export const createTiming = (name: string, timeout = 3000): Timer => {
+export const createTimer = (name: string, timeout = 3000): Timer => {
     const id = Symbol('Timing');
 
-    const factory = (store: ClockMap) => {
+    const timer = (store: ClockMap) => {
         const data = Symbol(name);
 
         const timing: Timing = () =>
@@ -58,7 +58,7 @@ export const createTiming = (name: string, timeout = 3000): Timer => {
 
         return timing;
     };
-    factory.id = id;
+    timer.id = id;
 
-    return factory;
+    return timer;
 };

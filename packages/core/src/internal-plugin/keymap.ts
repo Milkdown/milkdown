@@ -3,13 +3,13 @@ import { keymap as proseKeymap } from 'prosemirror-keymap';
 import type { Plugin as ProsePlugin } from 'prosemirror-state';
 import { createCtx } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
-import { createTiming, Timer } from '../timing';
+import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin } from '../utility';
 
 export const keymapCtx = createCtx<ProsePlugin[]>([]);
 export const keymapTimerCtx = createCtx<Timer[]>([]);
 
-export const KeymapReady = createTiming('KeymapReady');
+export const KeymapReady = createTimer('KeymapReady');
 
 export const keymap: MilkdownPlugin = (pre) => {
     pre.inject(keymapCtx).inject(keymapTimerCtx, [SchemaReady]).record(KeymapReady);

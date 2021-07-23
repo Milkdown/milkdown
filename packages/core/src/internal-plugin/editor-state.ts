@@ -4,7 +4,7 @@ import { keymap as createKeymap } from 'prosemirror-keymap';
 import { Node, Schema, DOMParser } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 import { createCtx, inputRulesCtx } from '..';
-import { createTiming, Timer } from '../timing';
+import { createTimer, Timer } from '../timing';
 import { AnyRecord, MilkdownPlugin } from '../utility';
 import { InputRulesReady } from './input-rules';
 import { keymapCtx, KeymapReady } from './keymap';
@@ -21,7 +21,7 @@ export const editorStateCtx = createCtx<EditorState>({} as EditorState);
 export const editorStateOptionsCtx = createCtx<StateOptions>({});
 export const editorStateTimerCtx = createCtx<Timer[]>([]);
 
-export const StateReady = createTiming('StateReady');
+export const StateReady = createTimer('StateReady');
 
 const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
     if (typeof defaultValue === 'string') {

@@ -1,6 +1,6 @@
 import { EditorProps, EditorView } from 'prosemirror-view';
 import { createCtx } from '..';
-import { createTiming, Timer } from '../timing';
+import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { editorStateCtx, StateReady } from './editor-state';
 import { nodeViewCtx, NodeViewReady } from './node-view';
@@ -12,7 +12,7 @@ export const editorViewOptionsCtx = createCtx<EditorOptions>({});
 export const rootCtx = createCtx<Node>(document.body);
 export const editorViewTimerCtx = createCtx<Timer[]>([]);
 
-export const Complete = createTiming('complete');
+export const Complete = createTimer('complete');
 
 const createViewContainer = (root: Node) => {
     const container = document.createElement('div');

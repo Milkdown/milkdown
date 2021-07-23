@@ -3,7 +3,7 @@ import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import re from 'remark';
 import { createCtx, Meta } from '../context';
 import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
-import { createTiming, Timer } from '../timing';
+import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
@@ -15,7 +15,7 @@ export const parserCtx = createCtx<Parser>(() => null);
 export const remarkCtx: Meta<RemarkParser> = createCtx<RemarkParser>(re());
 export const parserTimerCtx = createCtx<Timer[]>([]);
 
-export const ParserReady = createTiming('ParserReady');
+export const ParserReady = createTimer('ParserReady');
 
 export const parser: MilkdownPlugin = (pre) => {
     pre.inject(parserCtx).inject(remarkCtx, re()).inject(parserTimerCtx, [SchemaReady]).record(ParserReady);

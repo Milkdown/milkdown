@@ -3,13 +3,13 @@ import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { marksCtx, nodesCtx, remarkCtx, schemaCtx, SchemaReady } from '..';
 import { createCtx } from '../context';
 import { createSerializer } from '../serializer';
-import { createTiming, Timer } from '../timing';
+import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 
 export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => '');
 export const serializerTimerCtx = createCtx<Timer[]>([]);
 
-export const SerializerReady = createTiming('SerializerReady');
+export const SerializerReady = createTimer('SerializerReady');
 
 export const serializer: MilkdownPlugin = (pre) => {
     pre.inject(serializerCtx).inject(serializerTimerCtx, [SchemaReady]).record(SerializerReady);
