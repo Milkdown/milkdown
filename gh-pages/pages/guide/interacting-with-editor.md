@@ -1,5 +1,17 @@
 # Interacting with Editor
 
+## Register to DOM
+
+By default, milkdown will create editor on `document.body`. You can also point out which dom you want it to load on:
+
+```typescript
+import { rootCtx } from '@milkdown/core';
+
+new Editor().config((ctx) => {
+    ctx.set(rootCtx, document.querySelector('#editor'));
+});
+```
+
 ## Setting Default Value
 
 ### Markdown
