@@ -1,5 +1,13 @@
 # @milkdown/preset-commonmark
 
+## 4.6.7
+
+### Patch Changes
+
+-   c0a50be: Bug fix for CRA.
+-   Updated dependencies [c0a50be]
+    -   @milkdown/utils@4.6.7
+
 ## 4.6.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @milkdown/utils
 
+## 4.6.7
+
+### Patch Changes
+
+-   c0a50be: Bug fix for CRA.
+
 ## 4.6.6
 
 ### Patch Changes
