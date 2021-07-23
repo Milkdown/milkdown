@@ -3,23 +3,25 @@ import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import re from 'remark';
 import { createCtx, Meta } from '../context';
 import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
-import { createTiming } from '../timing';
+import { createTiming, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export type Parser = (text: string) => ProsemirrorNode | null;
 export type RemarkParser = ReturnType<typeof re>;
+
 export const parserCtx = createCtx<Parser>(() => null);
 export const remarkCtx: Meta<RemarkParser> = createCtx<RemarkParser>(re());
+export const parserTimerCtx = createCtx<Timer[]>([]);
 
 export const ParserReady = createTiming('ParserReady');
 
 export const parser: MilkdownPlugin = (pre) => {
-    pre.inject(parserCtx).inject(remarkCtx, re()).record(ParserReady);
+    pre.inject(parserCtx).inject(remarkCtx, re()).inject(parserTimerCtx, [SchemaReady]).record(ParserReady);
 
     return async (ctx) => {
-        await ctx.wait(SchemaReady);
+        await Promise.all(ctx.get(parserTimerCtx).map((x) => ctx.wait(x)));
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const remark = ctx.get(remarkCtx);

@@ -1,18 +1,20 @@
 import { fromPairs } from 'lodash-es';
 import { createCtx } from '..';
-import { createTiming } from '../timing';
+import { createTiming, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } from '../utility';
 import { editorCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export const nodeViewCtx = createCtx<Record<string, ProseView>>({});
+export const nodeViewTimerCtx = createCtx<Timer[]>([]);
+
 export const NodeViewReady = createTiming('NodeViewReady');
 
 export const nodeView: MilkdownPlugin = (pre) => {
-    pre.inject(nodeViewCtx).record(NodeViewReady);
+    pre.inject(nodeViewCtx).inject(nodeViewTimerCtx, [SchemaReady]).record(NodeViewReady);
 
     return async (ctx) => {
-        await ctx.wait(SchemaReady);
+        await Promise.all(ctx.get(nodeViewTimerCtx).map((x) => ctx.wait(x)));
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const schema = ctx.get(schemaCtx);

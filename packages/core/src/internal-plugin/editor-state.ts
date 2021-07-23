@@ -4,7 +4,7 @@ import { keymap as createKeymap } from 'prosemirror-keymap';
 import { Node, Schema, DOMParser } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 import { createCtx, inputRulesCtx } from '..';
-import { createTiming } from '../timing';
+import { createTiming, Timer } from '../timing';
 import { AnyRecord, MilkdownPlugin } from '../utility';
 import { InputRulesReady } from './input-rules';
 import { keymapCtx, KeymapReady } from './keymap';
@@ -19,6 +19,7 @@ type StateOptions = Parameters<typeof EditorState.create>[0];
 export const defaultValueCtx = createCtx<DefaultValue>('');
 export const editorStateCtx = createCtx<EditorState>({} as EditorState);
 export const editorStateOptionsCtx = createCtx<StateOptions>({});
+export const editorStateTimerCtx = createCtx<Timer[]>([]);
 
 export const StateReady = createTiming('StateReady');
 
@@ -39,15 +40,14 @@ const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
 };
 
 export const editorState: MilkdownPlugin = (pre) => {
-    pre.inject(defaultValueCtx).inject(editorStateCtx).inject(editorStateOptionsCtx).record(StateReady);
+    pre.inject(defaultValueCtx)
+        .inject(editorStateCtx)
+        .inject(editorStateOptionsCtx)
+        .inject(editorStateTimerCtx, [KeymapReady, InputRulesReady, ParserReady, SerializerReady])
+        .record(StateReady);
 
     return async (ctx) => {
-        await Promise.all([
-            ctx.wait(KeymapReady),
-            ctx.wait(InputRulesReady),
-            ctx.wait(ParserReady),
-            ctx.wait(SerializerReady),
-        ]);
+        await Promise.all(ctx.get(editorStateTimerCtx).map((x) => ctx.wait(x)));
 
         const schema = ctx.get(schemaCtx);
         const parser = ctx.get(parserCtx);

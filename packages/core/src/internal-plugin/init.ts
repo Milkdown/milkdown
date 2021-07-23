@@ -1,8 +1,6 @@
 import type { MilkdownPlugin } from '../utility';
-import { createTiming } from '../timing';
-import { SchemaReady } from '.';
+import { createTiming, Timer } from '../timing';
 import { Config } from './config';
-import { Complete } from './editor-view';
 import { createCtx } from '..';
 import type { Editor } from '..';
 import { prosePluginsCtx } from './prose-plugin-factory';
@@ -10,17 +8,21 @@ import { remarkPluginsCtx } from './remark-plugin-factory';
 
 export const Initialize = createTiming('Initialize');
 
+export const initTimerCtx = createCtx<Timer[]>([]);
 export const editorCtx = createCtx<Editor>({} as Editor);
 
 export const init =
     (editor: Editor): MilkdownPlugin =>
     (pre) => {
-        pre.inject(editorCtx, editor).inject(prosePluginsCtx).inject(remarkPluginsCtx).record(Initialize);
+        pre.inject(editorCtx, editor)
+            .inject(prosePluginsCtx)
+            .inject(remarkPluginsCtx)
+            .inject(initTimerCtx, [Config])
+            .record(Initialize);
 
         return async (ctx) => {
-            await ctx.wait(Config);
+            await Promise.all(ctx.get(initTimerCtx).map((x) => ctx.wait(x)));
+
             ctx.done(Initialize);
-            await ctx.wait(SchemaReady);
-            await ctx.wait(Complete);
         };
     };

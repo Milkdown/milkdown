@@ -1,6 +1,6 @@
 import { EditorProps, EditorView } from 'prosemirror-view';
 import { createCtx } from '..';
-import { createTiming } from '../timing';
+import { createTiming, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { editorStateCtx, StateReady } from './editor-state';
 import { nodeViewCtx, NodeViewReady } from './node-view';
@@ -10,6 +10,7 @@ type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 export const editorViewCtx = createCtx<EditorView>({} as EditorView);
 export const editorViewOptionsCtx = createCtx<EditorOptions>({});
 export const rootCtx = createCtx<Node>(document.body);
+export const editorViewTimerCtx = createCtx<Timer[]>([]);
 
 export const Complete = createTiming('complete');
 
@@ -27,10 +28,14 @@ const prepareViewDom = (dom: Element) => {
 };
 
 export const editorView: MilkdownPlugin = (pre) => {
-    pre.inject(rootCtx, document.body).inject(editorViewCtx).inject(editorViewOptionsCtx).record(Complete);
+    pre.inject(rootCtx, document.body)
+        .inject(editorViewCtx)
+        .inject(editorViewOptionsCtx)
+        .inject(editorViewTimerCtx, [StateReady, NodeViewReady])
+        .record(Complete);
 
     return async (ctx) => {
-        await Promise.all([ctx.wait(StateReady), ctx.wait(NodeViewReady)]);
+        await Promise.all(ctx.get(editorViewTimerCtx).map((x) => ctx.wait(x)));
 
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
