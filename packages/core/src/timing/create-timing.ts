@@ -30,7 +30,7 @@ export const createClock = (): Clock => {
 };
 
 export const createTimer = (name: string, timeout = 3000): Timer => {
-    const id = Symbol('Timing');
+    const id = Symbol('Timer');
 
     const timer = (store: ClockMap) => {
         const data = Symbol(name);
