@@ -11,12 +11,12 @@ import {
     nodeView,
     editorState,
 } from '../internal-plugin';
-import { createStore, Timer } from '../timing';
+import { createClock, Timer } from '../timing';
 import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
 
 export class Editor {
     #container = createContainer();
-    #clock = createStore();
+    #clock = createClock();
 
     #ctx: Ctx = {
         use: this.#container.getCtx,
@@ -24,8 +24,8 @@ export class Editor {
         set: (meta, value) => this.#container.getCtx(meta).set(value),
         update: (meta, updater) => this.#container.getCtx(meta).update(updater),
 
-        wait: (meta) => this.#clock.get(meta)(),
-        done: (meta) => this.#clock.get(meta).done(),
+        wait: (timer) => this.#clock.get(timer)(),
+        done: (timer) => this.#clock.get(timer).done(),
     };
 
     #plugins: Set<CtxHandler> = new Set();
