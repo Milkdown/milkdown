@@ -9,6 +9,7 @@ import keyboardShortcuts from './pages/guide/keyboard-shortcuts.md';
 import react from './pages/integrations/react.md';
 import vue from './pages/integrations/vue.md';
 
+import writingPlugins from './pages/plugins/writing-plugins.md';
 import usingPlugins from './pages/plugins/using-plugins.md';
 import nodeAndMark from './pages/plugins/node&mark.md';
 import integratingPlugins from './pages/plugins/integrating-plugins.md';
@@ -63,6 +64,7 @@ export const pageRouter: Section[] = [
             { title: 'Parser', link: '/parser', content: parser },
             { title: 'Serializer', link: '/serializer', content: serializer },
             { title: 'Example: Custom Syntax', link: '/example-custom-syntax', content: exampleCustomSyntax },
+            { title: 'Writing Plugins', link: '/writing-plugins', content: writingPlugins },
         ],
     },
 ];

@@ -1,5 +1,5 @@
 import { fromPairs } from 'lodash-es';
-import { createCtx } from '..';
+import { createCtx } from '../context';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } from '../utility';
 import { editorCtx } from './init';

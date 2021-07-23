@@ -1,12 +1,12 @@
 import { baseKeymap } from 'prosemirror-commands';
 import { inputRules as createInputRules } from 'prosemirror-inputrules';
 import { keymap as createKeymap } from 'prosemirror-keymap';
-import { Node, Schema, DOMParser } from 'prosemirror-model';
+import { DOMParser, Node, Schema } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
-import { createCtx, inputRulesCtx } from '..';
+import { createCtx } from '../context';
 import { createTimer, Timer } from '../timing';
 import { AnyRecord, MilkdownPlugin } from '../utility';
-import { InputRulesReady } from './input-rules';
+import { inputRulesCtx, InputRulesReady } from './input-rules';
 import { keymapCtx, KeymapReady } from './keymap';
 import { Parser, parserCtx, ParserReady } from './parser';
 import { prosePluginsCtx } from './prose-plugin-factory';

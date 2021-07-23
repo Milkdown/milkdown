@@ -2,7 +2,7 @@ import { Mark } from 'prosemirror-model';
 
 import { createElement, StackElement } from './stack-element';
 import { AnyRecord, getStackUtil } from '../utility';
-import { MarkdownNode } from '..';
+import type { MarkdownNode } from '..';
 
 type Ctx = {
     marks: Mark[];

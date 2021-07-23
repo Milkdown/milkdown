@@ -1,5 +1,6 @@
 import type { Plugin } from 'unified';
-import { createCtx, MilkdownPlugin } from '..';
+import { createCtx } from '../context';
+import type { MilkdownPlugin } from '../utility';
 
 export const remarkPluginsCtx = createCtx<Plugin<never, never>[]>([]);
 

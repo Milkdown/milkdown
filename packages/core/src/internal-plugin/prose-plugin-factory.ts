@@ -1,5 +1,6 @@
 import type { Plugin as ProsemirrorPlugin } from 'prosemirror-state';
-import { createCtx, MilkdownPlugin } from '..';
+import { createCtx } from '../context';
+import type { MilkdownPlugin } from '../utility';
 
 export const prosePluginsCtx = createCtx<ProsemirrorPlugin[]>([]);
 

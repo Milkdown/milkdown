@@ -1,6 +1,6 @@
 import { fromPairs } from 'lodash-es';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
-import { marksCtx, nodesCtx, remarkCtx, schemaCtx, SchemaReady } from '..';
+import { marksCtx, nodesCtx, remarkCtx, schemaCtx, SchemaReady } from '.';
 import { createCtx } from '../context';
 import { createSerializer } from '../serializer';
 import { createTimer, Timer } from '../timing';

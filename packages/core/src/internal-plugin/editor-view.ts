@@ -1,5 +1,5 @@
 import { EditorProps, EditorView } from 'prosemirror-view';
-import { createCtx } from '..';
+import { createCtx } from '../context';
 import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { editorStateCtx, StateReady } from './editor-state';
