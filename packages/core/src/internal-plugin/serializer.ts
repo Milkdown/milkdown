@@ -15,7 +15,7 @@ export const serializer: MilkdownPlugin = (pre) => {
     pre.inject(serializerCtx).inject(serializerTimerCtx, [SchemaReady]).record(SerializerReady);
 
     return async (ctx) => {
-        await Promise.all(ctx.get(serializerTimerCtx).map((x) => ctx.wait(x)));
+        await ctx.waitTimers(serializerTimerCtx);
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const remark = ctx.get(remarkCtx);

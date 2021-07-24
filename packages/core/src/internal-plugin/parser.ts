@@ -21,7 +21,7 @@ export const parser: MilkdownPlugin = (pre) => {
     pre.inject(parserCtx).inject(remarkCtx, re()).inject(parserTimerCtx, [SchemaReady]).record(ParserReady);
 
     return async (ctx) => {
-        await Promise.all(ctx.get(parserTimerCtx).map((x) => ctx.wait(x)));
+        await ctx.waitTimers(parserTimerCtx);
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const remark = ctx.get(remarkCtx);

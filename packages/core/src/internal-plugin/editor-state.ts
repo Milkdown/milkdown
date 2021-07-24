@@ -47,7 +47,7 @@ export const editorState: MilkdownPlugin = (pre) => {
         .record(StateReady);
 
     return async (ctx) => {
-        await Promise.all(ctx.get(editorStateTimerCtx).map((x) => ctx.wait(x)));
+        await ctx.waitTimers(editorStateTimerCtx);
 
         const schema = ctx.get(schemaCtx);
         const parser = ctx.get(parserCtx);

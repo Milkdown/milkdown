@@ -14,7 +14,7 @@ export const nodeView: MilkdownPlugin = (pre) => {
     pre.inject(nodeViewCtx).inject(nodeViewTimerCtx, [SchemaReady]).record(NodeViewReady);
 
     return async (ctx) => {
-        await Promise.all(ctx.get(nodeViewTimerCtx).map((x) => ctx.wait(x)));
+        await ctx.waitTimers(nodeViewTimerCtx);
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);
         const schema = ctx.get(schemaCtx);

@@ -21,7 +21,7 @@ export const init =
             .record(Initialize);
 
         return async (ctx) => {
-            await Promise.all(ctx.get(initTimerCtx).map((x) => ctx.wait(x)));
+            await ctx.waitTimers(initTimerCtx);
 
             ctx.done(Initialize);
         };

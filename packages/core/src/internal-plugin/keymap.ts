@@ -15,7 +15,7 @@ export const keymap: MilkdownPlugin = (pre) => {
     pre.inject(keymapCtx).inject(keymapTimerCtx, [SchemaReady]).record(KeymapReady);
 
     return async (ctx) => {
-        await Promise.all(ctx.get(keymapTimerCtx).map((x) => ctx.wait(x)));
+        await ctx.waitTimers(keymapTimerCtx);
 
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);

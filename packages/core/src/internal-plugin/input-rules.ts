@@ -13,7 +13,7 @@ export const inputRules: MilkdownPlugin = (pre) => {
     pre.inject(inputRulesCtx).inject(inputRulesTimerCtx, [SchemaReady]).record(InputRulesReady);
 
     return async (ctx) => {
-        await Promise.all(ctx.get(inputRulesTimerCtx).map((x) => ctx.wait(x)));
+        await ctx.waitTimers(inputRulesTimerCtx);
 
         const nodes = ctx.get(nodesCtx);
         const marks = ctx.get(marksCtx);

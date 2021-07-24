@@ -11,8 +11,9 @@ export type Ctx = {
     set: <T>(meta: Meta<T>, value: T) => void;
     update: <T>(meta: Meta<T>, updater: (prev: T) => T) => void;
 
-    wait: (timer: Timer) => Promise<void> | void;
+    wait: (timer: Timer) => Promise<void>;
     done: (timer: Timer) => void;
+    waitTimers: (meta: Meta<Timer[]>) => Promise<void>;
 };
 
 export type Pre = {

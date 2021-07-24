@@ -26,6 +26,10 @@ export class Editor {
 
         wait: (timer) => this.#clock.get(timer)(),
         done: (timer) => this.#clock.get(timer).done(),
+        waitTimers: async (meta) => {
+            await Promise.all(this.#ctx.get(meta).map((x) => this.#ctx.wait(x)));
+            return;
+        },
     };
 
     #plugins: Set<CtxHandler> = new Set();

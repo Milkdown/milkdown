@@ -35,7 +35,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         .record(Complete);
 
     return async (ctx) => {
-        await Promise.all(ctx.get(editorViewTimerCtx).map((x) => ctx.wait(x)));
+        await ctx.waitTimers(editorViewTimerCtx);
 
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
