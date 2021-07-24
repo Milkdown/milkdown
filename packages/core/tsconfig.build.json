@@ -1,7 +1,0 @@
-{
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "tsBuildInfoFile": "tsconfig.tsbuildinfo"
-    },
-    "exclude": ["**/*.spec.ts", "**/*.test-d.ts"]
-}

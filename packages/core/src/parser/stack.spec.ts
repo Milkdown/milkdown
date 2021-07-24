@@ -3,7 +3,7 @@ import { createStack, Stack } from './stack';
 import type { AnyRecord } from '../utility';
 import type { Attrs } from './types';
 
-const createMockNodeType = (name: string) => {
+export const createMockNodeType = (name: string) => {
     const mockNode: AnyRecord = {
         type: {
             name,
@@ -16,6 +16,9 @@ const createMockNodeType = (name: string) => {
             mockNode.content = content;
             mockNode.marks = marks;
             return { ...mockNode } as Node;
+        },
+        create() {
+            return {} as Node;
         },
     } as NodeType;
 };
@@ -53,7 +56,7 @@ const createText = (content: string) => (marks: Mark[]) => {
     return text;
 };
 
-describe('Parser/Stack', () => {
+describe('parser/stack', () => {
     let stack: Stack;
 
     beforeEach(() => {
@@ -72,7 +75,7 @@ describe('Parser/Stack', () => {
         expect(doc.content).toEqual([childNode]);
     });
 
-    it('add a node structure', () => {
+    it('add a node', () => {
         const middleNodeType = createMockNodeType('middle');
         stack.openNode(middleNodeType);
 
