@@ -1,1 +1,2 @@
-export * from './create-timing';
+export * from './timing';
+export * from './clock';
