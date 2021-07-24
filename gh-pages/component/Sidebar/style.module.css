@@ -4,7 +4,7 @@
     background: palette(background);
     z-index: 999;
     position: fixed;
-    top: 4.5rem;
+    top: 0;
     bottom: 0;
     border-right: 1px solid palette(line);
     transform: translateX(0);
@@ -19,9 +19,8 @@
     @mixin scrollbar;
     @mixin query 72rem {
         z-index: 3;
-        position: relative;
         height: 100vh;
-        top: 0;
+        top: 4.5rem;
     }
 
     flex-shrink: 0;

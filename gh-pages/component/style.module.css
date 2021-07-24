@@ -1,25 +1,27 @@
 .body {
     display: flex;
     width: 100%;
+    overflow-x: hidden;
 }
 
 .right {
+    transition: all 0.2s ease-in-out;
     flex: 1;
-    overflow: hidden;
+    margin-left: 16rem;
+    width: 100%;
+    &.fold {
+        margin-left: 0;
+    }
 }
 
 .main {
-    overflow: hidden;
     display: flex;
-    height: calc(100vh - 4.5rem);
 }
 
 .container {
     flex: 1;
     flex-grow: 1;
-    overflow-y: scroll;
-
-    @mixin scrollbar;
+    width: 100%;
 
     article {
         flex-grow: 1;
@@ -41,6 +43,12 @@
 }
 
 .homepage {
+    display: flex;
+    position: fixed;
+    top: 4.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
     article {
         justify-content: center;
         padding: 0;

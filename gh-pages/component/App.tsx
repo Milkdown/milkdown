@@ -78,7 +78,7 @@ export const App: React.FC = () => {
         <HashRouter>
             <div className={className.body}>
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
-                <div className={className.right}>
+                <div className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}>
                     <Header
                         isDarkMode={isDarkMode}
                         setIsDarkMode={setIsDarkMode}
