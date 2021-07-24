@@ -10,13 +10,14 @@ export type StackElement = {
     pop: () => MarkdownNode | undefined;
 };
 
-type StackValues = Pick<StackElement, 'children' | 'props' | 'value' | 'type'>;
-
-const pushElement = (element: StackValues, node: MarkdownNode, ...rest: MarkdownNode[]) => {
-    element.children?.push(node, ...rest);
+const pushElement = (element: StackElement, node: MarkdownNode, ...rest: MarkdownNode[]) => {
+    if (!element.children) {
+        element.children = [];
+    }
+    element.children.push(node, ...rest);
 };
 
-const popElement = (element: StackValues): MarkdownNode | undefined => element.children?.pop();
+const popElement = (element: StackElement): MarkdownNode | undefined => element.children?.pop();
 
 export const createElement = (
     type: string,
@@ -24,15 +25,13 @@ export const createElement = (
     value?: string,
     props: AnyRecord = {},
 ): StackElement => {
-    const element: StackValues = {
+    const element: StackElement = {
         type,
         children,
         props,
         value,
-    };
-    return {
-        ...element,
         push: (...args) => pushElement(element, ...args),
         pop: () => popElement(element),
     };
+    return element;
 };

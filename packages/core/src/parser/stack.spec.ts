@@ -11,22 +11,26 @@ export const createMockNodeType = (name: string) => {
     };
 
     return {
-        createAndFill(attrs: AnyRecord, content?: Node[], marks?: Mark[]) {
+        createAndFill(attrs: AnyRecord, content?: Node[], marks: Mark[] = []) {
             mockNode.attrs = attrs;
             mockNode.content = content;
             mockNode.marks = marks;
             return { ...mockNode } as Node;
         },
         create() {
-            return {} as Node;
+            mockNode.marks = [];
+            return { ...mockNode } as Node;
         },
     } as NodeType;
 };
 
-const createMockMarkType = (name: string) => {
+export const createMockMarkType = (name: string) => {
     const mockMark: AnyRecord = {
         type: {
             name,
+            removeFromSet: (marks: Mark[]) => {
+                return marks.filter((m) => m.type.name !== name);
+            },
         },
     };
     return {
@@ -34,6 +38,9 @@ const createMockMarkType = (name: string) => {
             mockMark.attrs = attrs;
             mockMark.addToSet = (marks: Mark[]) => {
                 return marks.concat(mockMark as Mark);
+            };
+            mockMark.isInSet = (marks: Mark[]) => {
+                return marks.findIndex((m) => m.type.name === name) >= 0;
             };
 
             return { ...mockMark } as Mark;
@@ -47,7 +54,7 @@ const createText = (content: string) => (marks: Mark[]) => {
     const text = textNodeType.createAndFill({}, [], marks) as Node;
     text.isText = true;
     text.text = content;
-    text.withText = (str: string) => {
+    (text as Node & { withText: (str: string) => Node }).withText = (str: string) => {
         return {
             ...text,
             text: str,

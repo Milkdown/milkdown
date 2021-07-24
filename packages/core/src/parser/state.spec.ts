@@ -4,7 +4,7 @@ import type { Stack } from './stack';
 import { RemarkParser } from '../internal-plugin';
 import { InnerParserSpecMap } from './types';
 
-const mockMarks: never[] = [];
+const mockMarks = [] as never[];
 class MockStack implements Stack {
     build = jest.fn();
 
@@ -76,7 +76,7 @@ describe('parser/state', () => {
 
     it('injectRoot', () => {
         jest.spyOn(state, 'next');
-        const children: never[] = [];
+        const children = [] as never[];
         const textNode = { type: 'text', children };
         const mockNodeType = {} as NodeType;
         const mockAttr = {};
