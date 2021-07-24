@@ -3,6 +3,7 @@ export const createDropdown = () => {
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
     div.classList.add('slash-dropdown');
+    div.classList.add('hide');
 
     return div;
 };
