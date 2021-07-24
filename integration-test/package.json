@@ -3,7 +3,8 @@
     "private": true,
     "version": "4.6.7",
     "scripts": {
-        "test": "playwright test"
+        "test": "playwright test",
+        "open": "playwright open https://saul-mirone.github.io/milkdown"
     },
     "files": [
         "style"

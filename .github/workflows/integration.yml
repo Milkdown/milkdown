@@ -1,4 +1,4 @@
-name: test
+name: integration
 
 on:
     workflow_run:
