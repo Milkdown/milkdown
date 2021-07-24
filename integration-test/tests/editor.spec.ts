@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const base = 'https://saul-mirone.github.io/milkdown/';
+// const base = 'https://saul-mirone.github.io/milkdown/';
+const base = 'http://localhost:3000/milkdown/';
 
 test('url redirect', async ({ page }) => {
     await page.goto(base);
