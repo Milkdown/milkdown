@@ -1,3 +1,4 @@
 packages:
     - 'packages/*'
     - 'gh-pages'
+    - 'integration-test'

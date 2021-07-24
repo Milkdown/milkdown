@@ -19,9 +19,11 @@ jobs:
             - name: build milkdown
               run: |
                   npm i -g pnpm
+                  npx playwright install-deps
                   pnpm install
             - name: run test
               run: |
                   pnpm lint
                   pnpm tsc
                   pnpm test
+                  pnpm pw
