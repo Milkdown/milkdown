@@ -3,6 +3,8 @@ name: test
 on:
     push:
         branches: main
+    pull_request:
+        branches: main
 
 jobs:
     build:
@@ -20,5 +22,6 @@ jobs:
                   pnpm install
             - name: run test
               run: |
+                  pnpm lint
                   pnpm tsc
                   pnpm test
