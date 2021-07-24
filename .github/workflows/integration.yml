@@ -1,10 +1,11 @@
 name: test
 
 on:
-    push:
+    workflow_run:
+        workflows: gh-pages
         branches: main
-    pull_request:
-        branches: main
+        types:
+            - completed
 
 jobs:
     build:
@@ -23,6 +24,4 @@ jobs:
                   pnpm install
             - name: run test
               run: |
-                  pnpm lint
-                  pnpm tsc
-                  pnpm test
+                  pnpm pw
