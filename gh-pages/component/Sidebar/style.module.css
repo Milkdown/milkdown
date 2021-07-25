@@ -20,7 +20,6 @@
     @mixin query 72rem {
         z-index: 3;
         height: 100vh;
-        top: 4.5rem;
     }
 
     flex-shrink: 0;
