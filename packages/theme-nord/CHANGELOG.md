@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 4.6.8
+
+### Patch Changes
+
+-   c6e6b5a: Fix some issues and improve the binding packages.
+
 ## 4.6.7
 
 ### Patch Changes
