@@ -78,7 +78,14 @@ export const App: React.FC = () => {
         <HashRouter>
             <div className={className.body}>
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
-                <div className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}>
+                <div
+                    onClick={() => {
+                        if (document.documentElement.clientWidth < 1080) {
+                            setDisplaySidebar(false);
+                        }
+                    }}
+                    className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}
+                >
                     <Header
                         isDarkMode={isDarkMode}
                         setIsDarkMode={setIsDarkMode}
@@ -89,14 +96,7 @@ export const App: React.FC = () => {
                         scrolled={scrolled}
                         editorMode={editorMode}
                     />
-                    <main
-                        className={className.main}
-                        onClick={() => {
-                            if (document.documentElement.clientWidth < 1080) {
-                                setDisplaySidebar(false);
-                            }
-                        }}
-                    >
+                    <main className={className.main}>
                         <Main isDarkMode={isDarkMode} setScrolled={setScrolled} editorMode={editorMode} />
                     </main>
                 </div>

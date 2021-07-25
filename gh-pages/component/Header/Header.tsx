@@ -53,7 +53,13 @@ export const Header: React.FC<Props> = ({
             <header className={className.header}>
                 <div className={className.part}>
                     {showToggle && (
-                        <span className={materialIcon} onClick={() => onToggle?.()}>
+                        <span
+                            className={materialIcon}
+                            onClick={(e) => {
+                                onToggle?.();
+                                e.stopPropagation();
+                            }}
+                        >
                             menu
                         </span>
                     )}

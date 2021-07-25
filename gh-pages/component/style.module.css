@@ -9,8 +9,27 @@
     flex: 1;
     margin-left: 16rem;
     width: 100%;
+    position: relative;
+    &::before {
+        content: '';
+        z-index: 9;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: palette(shadow, 0.85);
+    }
+    @mixin query 72rem {
+        &:before {
+            all: unset;
+        }
+    }
     &.fold {
         margin-left: 0;
+        &::before {
+            all: unset;
+        }
     }
 }
 
