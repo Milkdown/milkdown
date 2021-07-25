@@ -1,5 +1,13 @@
 # @milkdown/vue
 
+## 4.6.8
+
+### Patch Changes
+
+-   c6e6b5a: Fix some issues and improve the binding packages.
+-   Updated dependencies [c6e6b5a]
+    -   @milkdown/utils@4.6.8
+
 ## 4.6.7
 
 ### Patch Changes
