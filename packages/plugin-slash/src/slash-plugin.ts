@@ -280,15 +280,15 @@ class View {
         const node = view.domAtPos(from).node as HTMLElement;
         const rect = node.getBoundingClientRect();
         const bound = this.#dropdownElement.getBoundingClientRect();
-        const win = document.body.getBoundingClientRect();
 
         let leftPx = rect.left;
-        let topPx = rect.top + rect.height;
+        let topPx = rect.bottom;
 
         if (leftPx < 0) {
             leftPx = 0;
         }
-        if (win.height - rect.bottom < bound.height) {
+
+        if (window.innerHeight - rect.bottom < bound.height) {
             topPx = rect.top - bound.height;
         }
 
