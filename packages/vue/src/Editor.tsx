@@ -47,19 +47,21 @@ const useGetEditor = (getEditor: GetEditor) => {
     return { divRef, editorRef };
 };
 
-export const EditorComponent = defineComponent((props: { editor: GetEditor; editorRef: EditorRef }) => {
+export const EditorComponent = defineComponent((props: { editor: GetEditor; editorRef?: Ref<EditorRef> }) => {
     const refs = useGetEditor(props.editor);
-    props.editorRef.value = {
-        get: () => refs.editorRef.editor,
-    };
+    if (props.editorRef) {
+        props.editorRef.value = {
+            get: () => refs.editorRef.editor,
+        };
+    }
 
     return () => <div ref={refs.divRef} />;
 });
 EditorComponent.props = ['editor', 'editorRef'];
 
-export type EditorRef = Ref<{ get: () => Editor | undefined }>;
+export type EditorRef = { get: () => Editor | undefined };
 
-export const VueEditor = defineComponent((props: { editor: GetEditor; editorRef: EditorRef }) => {
+export const VueEditor = defineComponent((props: { editor: GetEditor; editorRef?: Ref<EditorRef> }) => {
     const portals = shallowReactive<PortalPair[]>([]);
     const addPortal = markRaw((component: DefineComponent, key: string) => {
         portals.push([key, component]);

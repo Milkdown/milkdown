@@ -2,7 +2,7 @@ import { DefineComponent, defineComponent, inject, ref } from 'vue';
 import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
 import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
-import { useEditor, VueEditor } from '../src';
+import { EditorRef, useEditor, VueEditor } from '../src';
 
 const MyParagraph: DefineComponent = defineComponent({
     name: 'my-paragraph',
@@ -26,7 +26,7 @@ const MyImage: DefineComponent = defineComponent({
 });
 
 export const MyEditor = defineComponent((props: { markdown: string }) => {
-    const editorRef = ref({});
+    const editorRef = ref<EditorRef>({ get: () => undefined });
     const editor = useEditor((root, renderVue) => {
         const nodes = commonmark
             .configure(paragraph, {
