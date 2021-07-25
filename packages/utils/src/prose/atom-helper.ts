@@ -1,4 +1,4 @@
-import type { AnyRecord } from '@milkdown/core';
+import type { Attrs } from '@milkdown/core';
 import type { Node, Schema, NodeType, MarkType } from 'prosemirror-model';
 import type { EditorState } from 'prosemirror-state';
 import type { Selection, Transaction } from 'prosemirror-state';
@@ -86,7 +86,7 @@ export const getMarkFromSchema = (type: string, schema: Schema): MarkType => {
     return target;
 };
 
-export const isNodeActive = (type: NodeType, state: EditorState, attrs: AnyRecord = {}) => {
+export const isNodeActive = (type: NodeType, state: EditorState, attrs: Attrs = {}) => {
     const node =
         findNodeInSelection((node) => node.type === type)(state.selection, state.doc) ||
         findParentNode((node) => node.type === type)(state.selection);

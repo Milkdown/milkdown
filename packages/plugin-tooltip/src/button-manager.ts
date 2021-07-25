@@ -1,3 +1,4 @@
+import { calculateTextPosition } from '@milkdown/utils';
 import type { EditorView } from 'prosemirror-view';
 import type { ButtonMap } from './item';
 
@@ -60,19 +61,15 @@ export class ButtonManager {
 
     private calcPos(view: EditorView) {
         this.#buttons.classList.remove('hide');
-        const state = view.state;
-        const { from, to } = state.selection;
-        const start = view.coordsAtPos(from);
-        const end = view.coordsAtPos(to);
+        calculateTextPosition(view, this.#buttons, (start, end, target) => {
+            const selectionWidth = end.left - start.left;
+            let left = start.left - (target.width - selectionWidth) / 2;
+            const top = start.top - target.height - 4;
 
-        const left = Math.max((start.left + end.left) / 2, start.left + 3);
+            if (left < 0) left = 0;
 
-        const box = this.#buttons.offsetParent?.getBoundingClientRect();
-        if (!box) return;
-
-        this.#buttons.style.left = left - box.left + 'px';
-        this.#buttons.style.bottom = box.bottom - start.top + 'px';
-        return;
+            return [top, left];
+        });
     }
 
     private createTooltip() {

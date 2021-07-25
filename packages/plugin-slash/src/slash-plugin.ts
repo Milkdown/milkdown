@@ -1,4 +1,4 @@
-import { findParentNode } from '@milkdown/utils';
+import { calculateNodePosition, findParentNode } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
@@ -274,26 +274,19 @@ class View {
     }
 
     private calculatePosition(view: EditorView) {
-        const state = view.state;
-        const { from } = state.selection;
+        calculateNodePosition(view, this.#dropdownElement, (selected, target) => {
+            let left = selected.left;
+            let top = selected.bottom;
 
-        const node = view.domAtPos(from).node as HTMLElement;
-        const rect = node.getBoundingClientRect();
-        const bound = this.#dropdownElement.getBoundingClientRect();
+            if (left < 0) {
+                left = 0;
+            }
 
-        let leftPx = rect.left;
-        let topPx = rect.bottom;
-
-        if (leftPx < 0) {
-            leftPx = 0;
-        }
-
-        if (window.innerHeight - rect.bottom < bound.height) {
-            topPx = rect.top - bound.height;
-        }
-
-        this.#dropdownElement.style.left = leftPx + 'px';
-        this.#dropdownElement.style.top = topPx + 'px';
+            if (window.innerHeight - selected.bottom < target.height) {
+                top = selected.top - target.height;
+            }
+            return [top, left];
+        });
     }
 }
 

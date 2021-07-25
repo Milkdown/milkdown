@@ -1,3 +1,4 @@
+import { calculateTextPosition } from '@milkdown/utils';
 import type { EditorView } from 'prosemirror-view';
 import type { Event2Command, InputMap } from './item';
 
@@ -30,22 +31,15 @@ export class InputManager {
     }
 
     private calcPos(view: EditorView) {
-        const state = view.state;
-        const { from, to } = state.selection;
-        const start = view.coordsAtPos(from);
-        const end = view.coordsAtPos(to);
-        const left = Math.max((start.left + end.left) / 2, start.left + 3);
-        const rect = this.#input.getBoundingClientRect();
+        calculateTextPosition(view, this.#input, (start, end, target) => {
+            const selectionWidth = end.left - start.left;
+            let left = start.left - (target.width - selectionWidth) / 2;
+            const top = start.bottom + 4;
 
-        const box = this.#input.offsetParent?.getBoundingClientRect();
-        if (!box) return;
+            if (left < 0) left = 0;
 
-        const offsetX = left - box.left - rect.width / 2;
-        const sumX = offsetX + rect.width;
-
-        this.#input.style.left =
-            (sumX > box.width ? offsetX - (sumX - box.width) : offsetX < 0 ? left - box.left : offsetX) + 'px';
-        this.#input.style.bottom = box.bottom - start.bottom - rect.height - 10 + 'px';
+            return [top, left];
+        });
         return;
     }
 

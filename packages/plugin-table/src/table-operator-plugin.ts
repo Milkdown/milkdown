@@ -1,3 +1,4 @@
+import { calculateNodePosition } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec, Transaction } from 'prosemirror-state';
 import {
     addColumnAfter,
@@ -269,29 +270,24 @@ export class PluginProps implements PluginSpec {
     }
 
     private calculatePosition(view: EditorView) {
-        const selection = view.state.selection as unknown as CellSelection;
-
+        const { selection } = view.state as unknown as { selection: CellSelection };
         const isCol = selection.isColSelection();
         const isRow = selection.isRowSelection();
 
-        const { from } = selection;
-        const bound = this.#tooltip.getBoundingClientRect();
+        calculateNodePosition(view, this.#tooltip, (selected, target) => {
+            let left = !isRow
+                ? selected.left + (selected.width - target.width) / 2
+                : selected.left - target.width / 2 - 8;
+            let top = selected.top - target.height - (isCol ? 18 : 4);
 
-        const node = view.domAtPos(from).node as HTMLElement;
-        const rect = node.getBoundingClientRect();
-
-        let leftPx = !isRow ? rect.left + (rect.width - bound.width) / 2 : rect.left - bound.width / 2 - 8;
-        let topPx = rect.top - bound.height - (isCol ? 18 : 4);
-
-        if (leftPx < 0) {
-            leftPx = 0;
-        }
-        if (topPx < bound.height) {
-            topPx = rect.top;
-        }
-
-        this.#tooltip.style.left = leftPx + 'px';
-        this.#tooltip.style.top = topPx + 'px';
+            if (left < 0) {
+                left = 0;
+            }
+            if (top < target.height) {
+                top = selected.top;
+            }
+            return [top, left];
+        });
     }
 
     private calculateItem(view: EditorView) {
