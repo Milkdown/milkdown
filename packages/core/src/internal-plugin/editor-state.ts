@@ -21,7 +21,7 @@ export const editorStateCtx = createCtx<EditorState>({} as EditorState);
 export const editorStateOptionsCtx = createCtx<StateOptions>({});
 export const editorStateTimerCtx = createCtx<Timer[]>([]);
 
-export const StateReady = createTimer('StateReady');
+export const EditorStateReady = createTimer('EditorStateReady');
 
 const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
     if (typeof defaultValue === 'string') {
@@ -44,7 +44,7 @@ export const editorState: MilkdownPlugin = (pre) => {
         .inject(editorStateCtx)
         .inject(editorStateOptionsCtx)
         .inject(editorStateTimerCtx, [KeymapReady, InputRulesReady, ParserReady, SerializerReady])
-        .record(StateReady);
+        .record(EditorStateReady);
 
     return async (ctx) => {
         await ctx.waitTimers(editorStateTimerCtx);
@@ -64,6 +64,6 @@ export const editorState: MilkdownPlugin = (pre) => {
             ...options,
         });
         ctx.set(editorStateCtx, state);
-        ctx.done(StateReady);
+        ctx.done(EditorStateReady);
     };
 };

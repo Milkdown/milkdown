@@ -1,10 +1,11 @@
 import { fromPairs } from 'lodash-es';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
-import { marksCtx, nodesCtx, remarkCtx, schemaCtx, SchemaReady } from '.';
+import { marksCtx, nodesCtx, remarkCtx, schemaCtx } from '.';
 import { createCtx } from '../context';
 import { createSerializer } from '../serializer';
 import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
+import { SchemaReady } from './schema';
 
 export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => '');
 export const serializerTimerCtx = createCtx<Timer[]>([]);

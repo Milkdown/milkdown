@@ -2,7 +2,7 @@ import { EditorProps, EditorView } from 'prosemirror-view';
 import { createCtx } from '../context';
 import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
-import { editorStateCtx, StateReady } from './editor-state';
+import { editorStateCtx, EditorStateReady } from './editor-state';
 import { nodeViewCtx, NodeViewReady } from './node-view';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
@@ -31,7 +31,7 @@ export const editorView: MilkdownPlugin = (pre) => {
     pre.inject(rootCtx, document.body)
         .inject(editorViewCtx)
         .inject(editorViewOptionsCtx)
-        .inject(editorViewTimerCtx, [StateReady, NodeViewReady])
+        .inject(editorViewTimerCtx, [EditorStateReady, NodeViewReady])
         .record(Complete);
 
     return async (ctx) => {
