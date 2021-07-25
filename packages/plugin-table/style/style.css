@@ -37,7 +37,7 @@
         }
 
         th {
-            background: palette(background);
+            background: palette(background, 0.5);
             font-weight: 400;
         }
 
