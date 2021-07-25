@@ -1,12 +1,13 @@
 export * from './init';
 export * from './config';
 
-export * from './parser';
 export * from './schema';
+export * from './parser';
 export * from './serializer';
 export * from './keymap';
 export * from './input-rules';
 export * from './node-view';
+
 export * from './editor-state';
 export * from './editor-view';
 

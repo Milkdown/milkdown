@@ -12,6 +12,7 @@ import {
     markRaw,
     h,
     Fragment,
+    Ref,
 } from 'vue';
 import { PortalPair, Portals } from './Portals';
 import { createVueView } from './VueNodeView';
@@ -43,17 +44,22 @@ const useGetEditor = (getEditor: GetEditor) => {
         view.destroy();
     });
 
-    return divRef;
+    return { divRef, editorRef };
 };
 
-export const EditorComponent = defineComponent((props: { editor: GetEditor }) => {
-    const ref = useGetEditor(props.editor);
+export const EditorComponent = defineComponent((props: { editor: GetEditor; editorRef: EditorRef }) => {
+    const refs = useGetEditor(props.editor);
+    props.editorRef.value = {
+        get: () => refs.editorRef.editor,
+    };
 
-    return () => <div ref={ref} />;
+    return () => <div ref={refs.divRef} />;
 });
-EditorComponent.props = ['editor'];
+EditorComponent.props = ['editor', 'editorRef'];
 
-export const VueEditor = defineComponent((props: { editor: GetEditor }) => {
+export type EditorRef = Ref<{ get: () => Editor | undefined }>;
+
+export const VueEditor = defineComponent((props: { editor: GetEditor; editorRef: EditorRef }) => {
     const portals = shallowReactive<PortalPair[]>([]);
     const addPortal = markRaw((component: DefineComponent, key: string) => {
         portals.push([key, component]);
@@ -68,11 +74,11 @@ export const VueEditor = defineComponent((props: { editor: GetEditor }) => {
     return () => (
         <>
             <Portals portals={portals} />
-            <EditorComponent editor={props.editor} />
+            <EditorComponent editorRef={props.editorRef} editor={props.editor} />
         </>
     );
 });
-VueEditor.props = ['editor'];
+VueEditor.props = ['editor', 'editorRef'];
 
 export const useEditor = (getEditor: GetEditor) => {
     return (...args: Parameters<GetEditor>) => getEditor(...args);

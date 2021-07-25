@@ -1,4 +1,4 @@
-import React, { DependencyList } from 'react';
+import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
 import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
 import { portalContext, Portals } from './Portals';
 import { createReactView } from './ReactNodeView';
@@ -32,15 +32,26 @@ const useGetEditor = (getEditor: GetEditor) => {
         };
     }, [getEditor, renderReact]);
 
-    return div;
+    return { div, editorRef };
 };
 
-export const EditorComponent: React.FC<{ editor: GetEditor }> = ({ editor }) => {
-    const ref = useGetEditor(editor);
-    return <div ref={ref} />;
+type EditorProps = {
+    editor: GetEditor;
 };
+export type EditorRef = {
+    get: () => Editor | undefined;
+};
+export const EditorComponent = forwardRef<EditorRef, EditorProps>(({ editor }, ref) => {
+    const refs = useGetEditor(editor);
+    useImperativeHandle(ref, () => ({
+        get: () => {
+            return refs.editorRef.current;
+        },
+    }));
+    return <div ref={refs.div} />;
+});
 
-export const ReactEditor: React.FC<{ editor: GetEditor }> = ({ editor }) => {
+export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor }, ref) => {
     const [portals, setPortals] = React.useState<React.ReactPortal[]>([]);
     const addPortal = React.useCallback((portal: React.ReactPortal) => {
         setPortals((ps) => [...ps, portal]);
@@ -60,10 +71,10 @@ export const ReactEditor: React.FC<{ editor: GetEditor }> = ({ editor }) => {
     return (
         <portalContext.Provider value={renderReact}>
             <Portals portals={portals} />
-            <EditorComponent editor={editor} />
+            <EditorComponent ref={ref} editor={editor} />
         </portalContext.Provider>
     );
-};
+});
 
 export const useEditor = (getEditor: GetEditor, deps: DependencyList = []) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps

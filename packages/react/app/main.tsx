@@ -4,9 +4,9 @@ import { render } from 'react-dom';
 import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
-import { ReactEditor, useEditor, useNodeCtx } from '../src';
+import { EditorRef, ReactEditor, useEditor, useNodeCtx } from '../src';
 import { commonmark, paragraph, image, blockquote } from '@milkdown/preset-commonmark';
-import { Editor, editorCtx, editorViewOptionsCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 
 const markdown = `
 # Milkdown Test
@@ -65,6 +65,7 @@ const ReactBlockquote: React.FC = ({ children }) => {
 };
 
 const App: React.FC = () => {
+    const ref = React.useRef<EditorRef>();
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(paragraph, { view: renderReact(ReactParagraph) })
@@ -72,19 +73,13 @@ const App: React.FC = () => {
             .configure(image, { view: renderReact(ReactImage) });
         return new Editor()
             .config((ctx) => {
-                ctx.update(editorViewOptionsCtx, (prev) => ({
-                    ...prev,
-                    root,
-                    defaultValue: markdown,
-                    listener: {
-                        markdown: [(x) => console.log(x())],
-                    },
-                }));
+                ctx.set(rootCtx, root);
+                ctx.set(defaultValueCtx, markdown);
             })
             .use(nodes);
     });
 
-    return <ReactEditor editor={editor} />;
+    return <ReactEditor ref={ref} editor={editor} />;
 };
 
 render(<App />, document.getElementById('app'));

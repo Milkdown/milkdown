@@ -1,6 +1,6 @@
-import { DefineComponent, defineComponent, inject } from 'vue';
+import { DefineComponent, defineComponent, inject, ref } from 'vue';
 import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
-import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
 import { useEditor, VueEditor } from '../src';
 
@@ -26,6 +26,7 @@ const MyImage: DefineComponent = defineComponent({
 });
 
 export const MyEditor = defineComponent((props: { markdown: string }) => {
+    const editorRef = ref({});
     const editor = useEditor((root, renderVue) => {
         const nodes = commonmark
             .configure(paragraph, {
@@ -34,17 +35,17 @@ export const MyEditor = defineComponent((props: { markdown: string }) => {
             .configure(image, {
                 view: renderVue(MyImage),
             });
+        // setTimeout(() => {
+        //     console.log(editorRef.value.get());
+        // }, 100);
         return new Editor()
             .config((ctx) => {
-                ctx.update(editorViewOptionsCtx, (prev) => ({
-                    ...prev,
-                    root,
-                    defaultValue: props.markdown,
-                }));
+                ctx.set(rootCtx, root);
+                ctx.set(defaultValueCtx, props.markdown);
             })
             .use(nodes);
     });
 
-    return () => <VueEditor editor={editor} />;
+    return () => <VueEditor editorRef={editorRef} editor={editor} />;
 });
 MyEditor.props = ['markdown'];
