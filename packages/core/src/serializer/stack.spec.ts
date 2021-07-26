@@ -36,17 +36,17 @@ describe('serializer/stack', () => {
         const italicMark = createMockMarkType('italic').create();
 
         stack.openMark(strongMark, 'strong');
-        expect(stack.closeMark(strongMark).type).toBe('strong');
+        expect(stack.closeMark(strongMark)?.type).toBe('strong');
 
         stack.openMark(strongMark, 'strong');
         stack.openMark(strongMark, 'strong');
-        expect(stack.closeMark(strongMark).type).toBe('strong');
-        expect(() => stack.closeMark(strongMark)).toThrow();
+        expect(stack.closeMark(strongMark)?.type).toBe('strong');
+        expect(() => stack.closeMark(strongMark)).not.toThrow();
 
         stack.openMark(strongMark, 'strong');
         stack.openMark(italicMark, 'italic');
-        expect(stack.closeMark(italicMark).type).toBe('italic');
-        expect(stack.closeMark(strongMark).type).toBe('strong');
+        expect(stack.closeMark(italicMark)?.type).toBe('italic');
+        expect(stack.closeMark(strongMark)?.type).toBe('strong');
     });
 
     it('build', () => {
