@@ -46,12 +46,13 @@ describe('parser/state', () => {
         state = new State(stack, schema, specMap);
     });
 
-    it('run', () => {
+    it('run', async () => {
         jest.spyOn(state, 'next');
         const result: unknown[] = [];
         const parse = jest.fn(() => result);
-        const mockRemark = { parse } as unknown as RemarkParser;
-        state.run(mockRemark, 'markdown');
+        const run = jest.fn(() => result);
+        const mockRemark = { parse, run } as unknown as RemarkParser;
+        await state.run(mockRemark, 'markdown');
 
         expect(parse).toHaveBeenCalledWith('markdown');
         expect(state.next).toHaveBeenCalledWith(result);

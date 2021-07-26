@@ -340,11 +340,13 @@ importers:
       '@types/prosemirror-schema-list': ^1.0.3
       concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
+      remark-inline-links: ^5.0.0
       tslib: ^2.2.0
     dependencies:
       '@milkdown/utils': link:../utils
       '@types/prosemirror-schema-list': 1.0.3
       prosemirror-schema-list: 1.1.5
+      remark-inline-links: 5.0.0
       tslib: 2.3.0
     devDependencies:
       concurrently: 6.2.0
@@ -6417,6 +6419,12 @@ packages:
       repeat-string: 1.6.1
     dev: false
 
+  /mdast-util-definitions/4.0.0:
+    resolution: {integrity: sha512-k8AJ6aNnUkB7IE+5azR9h81O5EQ/cTDXtWdMq9Kk5KcEW/8ritU5CeLg/9HhOC++nALHBlaogJ5jz0Ybk3kPMQ==}
+    dependencies:
+      unist-util-visit: 2.0.3
+    dev: false
+
   /mdast-util-find-and-replace/1.1.1:
     resolution: {integrity: sha512-9cKl33Y21lyckGzpSmEQnIDjEfeeWelN5s1kUW1LwdB0Fkuq2u+4GdqcGEygYxJE8GVqCl0741bYXHgamfWAZA==}
     dependencies:
@@ -7655,6 +7663,13 @@ packages:
       - supports-color
     dev: false
 
+  /remark-inline-links/5.0.0:
+    resolution: {integrity: sha512-lyo2XPBo5qxNojm49uBvBYZQMoASBhf35Gdv9VHLqBzl4Dylv4WjZYdyLWtsCgaQcKkrIG2vzEolcAIU9l1ifA==}
+    dependencies:
+      mdast-util-definitions: 4.0.0
+      unist-util-visit: 2.0.3
+    dev: false
+
   /remark-math/4.0.0:
     resolution: {integrity: sha512-lH7SoQenXtQrvL0bm+mjZbvOk//YWNuyR+MxV18Qyv8rgFmMEGNuB0TSCQDkoDaiJ40FCnG8lxErc/zhcedYbw==}
     dependencies:
@@ -8588,6 +8603,14 @@ packages:
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 4.1.0
+    dev: false
+
+  /unist-util-visit/2.0.3:
+    resolution: {integrity: sha512-iJ4/RczbJMkD0712mGktuGpm/U4By4FfDonL7N/9tATGIF4imikjOuagyMY53tnZq3NP6BcmlrHhEKAfGWjh7Q==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 4.1.0
+      unist-util-visit-parents: 3.1.1
     dev: false
 
   /universalify/0.1.2:

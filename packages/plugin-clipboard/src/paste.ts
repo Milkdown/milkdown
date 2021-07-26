@@ -1,5 +1,6 @@
 import {
     MilkdownPlugin,
+    Parser,
     parserCtx,
     ParserReady,
     prosePluginsCtx,
@@ -10,11 +11,7 @@ import {
 import { Node as ProseNode, Schema, Slice } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 
-const clipboardPlugin = (
-    schema: Schema,
-    parser: (text: string) => ProseNode | null,
-    serializer: (node: ProseNode) => string,
-) =>
+const clipboardPlugin = (schema: Schema, parser: Parser, serializer: (node: ProseNode) => string) =>
     new Plugin({
         props: {
             handlePaste: (view, event) => {
@@ -30,13 +27,18 @@ const clipboardPlugin = (
                     return false;
                 }
 
-                const slice = parser(text);
+                parser(text)
+                    .then((slice) => {
+                        if (!slice || typeof slice === 'string') return;
 
-                if (!slice || typeof slice === 'string') return false;
-
-                const { $from } = view.state.selection;
-                const depth = slice.content.childCount > 1 ? 0 : $from.depth;
-                view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, depth, depth)));
+                        const { $from } = view.state.selection;
+                        const depth = slice.content.childCount > 1 ? 0 : $from.depth;
+                        view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, depth, depth)));
+                        return;
+                    })
+                    .catch((e) => {
+                        throw e;
+                    });
 
                 return true;
             },

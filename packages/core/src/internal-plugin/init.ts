@@ -35,7 +35,6 @@ export const init =
             const processor = remarkPlugins.reduce((acc, plug) => acc.use(plug), remark);
 
             ctx.set(remarkCtx, processor);
-
             ctx.done(Initialize);
         };
     };

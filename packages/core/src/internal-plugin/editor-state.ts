@@ -56,10 +56,11 @@ export const editorState: MilkdownPlugin = (pre) => {
         const options = ctx.get(editorStateOptionsCtx);
         const prosePlugins = ctx.get(prosePluginsCtx);
         const defaultValue = ctx.get(defaultValueCtx);
+        const doc = await getDoc(defaultValue, parser, schema);
 
         const state = EditorState.create({
             schema,
-            doc: getDoc(defaultValue, parser, schema),
+            doc,
             plugins: [...keymap, ...prosePlugins, createKeymap(baseKeymap), createInputRules({ rules })],
             ...options,
         });

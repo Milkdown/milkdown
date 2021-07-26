@@ -29,6 +29,7 @@
         "@milkdown/utils": "workspace: *",
         "@types/prosemirror-schema-list": "^1.0.3",
         "prosemirror-schema-list": "^1.1.4",
+        "remark-inline-links": "^5.0.0",
         "tslib": "^2.2.0"
     },
     "devDependencies": {

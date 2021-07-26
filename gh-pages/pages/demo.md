@@ -4,7 +4,7 @@
 
 > Milkdown is a WYSIWYG markdown editor.
 >
-> Here is the [repo](https://github.com/Saul-Mirone/milkdown) (_right click to open link_).
+> Here is the [repo] (_right click to open link_).
 > We ~~only support commonmark~~. GFM is also supported!.
 
 You can check the output markdown text in **developer tool**.
@@ -13,13 +13,13 @@ You can check the output markdown text in **developer tool**.
     -   [x] 📝 **WYSIWYG Markdown** - Write markdown in an elegant way
     -   [x] 🎨 **Themable** - Theme can be shared and used with npm packages
     -   [x] 🎮 **Hackable** - Support your awesome idea by plugin
-    -   [x] 🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark)
+    -   [x] 🦾 **Reliable** - Built on top of [prosemirror] and [remark]
     -   [x] ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
     -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
     -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
 -   Made by
-    -   Programmer: [Mirone](https://github.com/Saul-Mirone)
-    -   Designer: [Meo](https://github.com/Saul-Meo)
+    -   Programmer: [Mirone][mirone]
+    -   Designer: [Meo][meo]
 
 ---
 
@@ -62,3 +62,9 @@ You can type `$$` and a `space` to create a math block.
 ---
 
 Have fun!
+
+[repo]: https://github.com/Saul-Mirone/milkdown
+[prosemirror]: https://prosemirror.net/
+[remark]: https://github.com/remarkjs/remark
+[mirone]: https://github.com/Saul-Mirone
+[meo]: https://github.com/Saul-Meo
