@@ -118,6 +118,8 @@ During this status, milkdown will create prosemirror editor state and editor vie
         -   **ParserReady**
         -   **SerializerReady**
     -   **editorStateCtx**: Save the prosemirror editor state.
+    -   **editorStateOptionsCtx**: Save the config that can be used to override the internal editor state options.
+    -   **defaultValueCtx**: Save the editor default value, can be json, node or string.
 -   timer:
     -   **EditorStateReady**: Plugin process finish.
 
@@ -130,5 +132,7 @@ During this status, milkdown will create prosemirror editor state and editor vie
         -   **NodeViewReady**
         -   **EditorStateReady**
     -   **editorViewCtx**: Save the prosemirror editor view.
+    -   **editorViewOptionsCtx**: Save the config that can be used to override the internal editor view options.
+    -   **rootCtx**: Save the root dom that milkdown should load on.
 -   timer:
     -   **Complete**: Plugin process finish.

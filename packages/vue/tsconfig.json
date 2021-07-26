@@ -6,7 +6,7 @@
         "jsx": "react",
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
-        "types": ["vue", "@milkdown/core"],
+        "types": ["vue", "@milkdown/core", "@milkdown/utils"],
         "lib": ["dom", "es2020"]
     },
     "include": ["src"],

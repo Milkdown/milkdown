@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, h } from 'vue';
 import { MyEditor } from './VueEditor';
 
 import '@milkdown/theme-nord/lib/theme.css';

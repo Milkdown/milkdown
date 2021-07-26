@@ -9,7 +9,7 @@ type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
 export const editorViewCtx = createCtx<EditorView>({} as EditorView);
 export const editorViewOptionsCtx = createCtx<EditorOptions>({});
-export const rootCtx = createCtx<Node>(document.body);
+export const rootCtx = createCtx<Node | undefined>(document.body);
 export const editorViewTimerCtx = createCtx<Timer[]>([]);
 
 export const Complete = createTimer('complete');
@@ -42,7 +42,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         const nodeView = ctx.get(nodeViewCtx);
         const root = ctx.get(rootCtx);
 
-        const container = createViewContainer(root);
+        const container = root ? createViewContainer(root) : undefined;
         const view = new EditorView(container, {
             state,
             nodeViews: nodeView as EditorProps['nodeViews'],

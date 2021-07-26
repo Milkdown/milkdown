@@ -1,6 +1,6 @@
-import { DefineComponent, defineComponent, inject, ref } from 'vue';
+import { DefineComponent, defineComponent, inject, ref, h } from 'vue';
 import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
-import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
 import { EditorRef, useEditor, VueEditor } from '../src';
 

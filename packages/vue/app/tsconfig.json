@@ -1,8 +1,10 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
+        "rootDir": "..",
         "baseUrl": ".",
-        "noEmit": true
+        "noEmit": true,
+        "types": ["vue", "@milkdown/core", "@milkdown/utils"],
     },
     "include": [".", "../src"]
 }
