@@ -22,7 +22,8 @@
         "postinstall": "husky install && pnpm run build:packs",
         "changeset": "changeset",
         "release": "changeset publish",
-        "clear": "rimraf packages/*/{lib,tsconfig.tsbuildinfo,node_modules}"
+        "clear": "rimraf node_modules && rimraf packages/*/{lib,tsconfig.tsbuildinfo,node_modules}",
+        "cz": "git-cz"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.14.8",
@@ -68,6 +69,7 @@
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-promise": "^4.3.1",
         "eslint-plugin-react-hooks": "^4.2.0",
+        "git-cz": "^4.7.6",
         "husky": "^6.0.0",
         "jest": "^26.6.3",
         "postcss": "^8.2.12",
