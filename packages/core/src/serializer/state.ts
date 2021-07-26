@@ -1,7 +1,7 @@
 import type { Mark as ProseMark, Node as ProseNode, Fragment, Schema } from 'prosemirror-model';
 import { RemarkParser } from '../internal-plugin';
 import type { Stack } from './stack';
-import type { InnerSerializerSpecMap, SerializerSpecWithType } from './types';
+import type { InnerSerializerSpecMap, MarkSerializerSpec, NodeSerializerSpec } from './types';
 
 const isFragment = (x: ProseNode | Fragment): x is Fragment => Object.prototype.hasOwnProperty.call(x, 'size');
 
@@ -14,7 +14,9 @@ export class State {
         private readonly specMap: InnerSerializerSpecMap,
     ) {}
 
-    #matchTarget(node: ProseMark | ProseNode): SerializerSpecWithType & { key: string } {
+    #matchTarget<T extends ProseMark | ProseNode>(
+        node: T,
+    ): (T extends ProseNode ? NodeSerializerSpec : MarkSerializerSpec) & { key: string } {
         const result = Object.entries(this.specMap)
             .map(([key, spec]) => ({
                 key,
@@ -24,18 +26,25 @@ export class State {
 
         if (!result) throw new Error();
 
-        return result;
+        return result as never;
     }
 
-    #runProse(node: ProseMark | ProseNode) {
+    #runProseNode(node: ProseNode) {
         const { runner } = this.#matchTarget(node);
-        runner(this, node as ProseNode & ProseMark);
+        runner(this, node);
+    }
+
+    #runProseMark(mark: ProseMark, node: ProseNode) {
+        const { runner } = this.#matchTarget(mark);
+        return runner(this, mark, node);
     }
 
     #runNode(node: ProseNode) {
         const { marks } = node;
-        marks.forEach((mark) => this.#runProse(mark));
-        this.#runProse(node);
+        const unPreventNext = marks.every((mark) => !this.#runProseMark(mark, node));
+        if (unPreventNext) {
+            this.#runProseNode(node);
+        }
         marks.forEach((mark) => this.stack.closeMark(mark));
     }
 

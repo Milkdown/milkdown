@@ -22,8 +22,10 @@ export const codeInline = createMark<Keys>((_, utils) => ({
     },
     serializer: {
         match: (mark) => mark.type.name === id,
-        runner: (state, mark) => {
-            state.withMark(mark, 'emphasis');
+        runner: (state, _, node) => {
+            state.addNode('inlineCode', undefined, node.text || '');
+
+            return true;
         },
     },
     inputRules: (markType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)],

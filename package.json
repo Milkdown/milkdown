@@ -33,6 +33,7 @@
         "@milkdown/core": "workspace:*",
         "@milkdown/design-system": "workspace:*",
         "@milkdown/plugin-cursor": "workspace:*",
+        "@milkdown/plugin-clipboard": "workspace:*",
         "@milkdown/plugin-history": "workspace:*",
         "@milkdown/plugin-listener": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",

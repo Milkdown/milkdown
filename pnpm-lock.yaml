@@ -10,6 +10,7 @@ importers:
       '@commitlint/config-conventional': ^12.1.1
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
+      '@milkdown/plugin-clipboard': workspace:*
       '@milkdown/plugin-cursor': workspace:*
       '@milkdown/plugin-history': workspace:*
       '@milkdown/plugin-listener': workspace:*
@@ -79,6 +80,7 @@ importers:
       '@commitlint/config-conventional': 12.1.4
       '@milkdown/core': link:packages/core
       '@milkdown/design-system': link:packages/design-system
+      '@milkdown/plugin-clipboard': link:packages/plugin-clipboard
       '@milkdown/plugin-cursor': link:packages/plugin-cursor
       '@milkdown/plugin-history': link:packages/plugin-history
       '@milkdown/plugin-listener': link:packages/plugin-listener
@@ -225,6 +227,12 @@ importers:
       tslib: 2.3.0
     devDependencies:
       concurrently: 6.2.0
+
+  packages/plugin-clipboard:
+    specifiers:
+      tslib: ^2.2.0
+    dependencies:
+      tslib: 2.3.0
 
   packages/plugin-cursor:
     specifiers:

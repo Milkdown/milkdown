@@ -13,6 +13,7 @@
         { "path": "./packages/preset-gfm" },
         { "path": "./packages/design-system" },
         { "path": "./packages/plugin-history" },
+        { "path": "./packages/plugin-clipboard" },
         { "path": "./packages/plugin-cursor" },
         { "path": "./packages/plugin-listener" },
         { "path": "./packages/plugin-math" },

@@ -7,9 +7,8 @@ export type NodeSerializerSpec = {
 };
 export type MarkSerializerSpec = {
     match: (mark: ProseMark) => boolean;
-    runner: (state: State, mark: ProseMark) => void;
+    runner: (state: State, mark: ProseMark, node: ProseNode) => void | boolean;
 };
 export type SerializerSpec = NodeSerializerSpec | MarkSerializerSpec;
 
-export type SerializerSpecWithType = NodeSerializerSpec | MarkSerializerSpec;
-export type InnerSerializerSpecMap = Record<string, SerializerSpecWithType>;
+export type InnerSerializerSpecMap = Record<string, SerializerSpec>;

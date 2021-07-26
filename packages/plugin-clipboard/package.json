@@ -1,0 +1,27 @@
+{
+    "name": "@milkdown/plugin-clipboard",
+    "version": "4.6.8",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "tsc -w",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc"
+    },
+    "files": [
+        "lib"
+    ],
+    "keywords": [
+        "milkdown",
+        "milkdown plugin"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*"
+    },
+    "dependencies": {
+        "tslib": "^2.2.0"
+    }
+}

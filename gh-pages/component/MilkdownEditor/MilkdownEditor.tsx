@@ -4,6 +4,7 @@ import { ReactEditor, useEditor } from '@milkdown/react';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { gfm } from '@milkdown/preset-gfm';
 import { history } from '@milkdown/plugin-history';
+import { clipboard } from '@milkdown/plugin-clipboard';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { math } from '@milkdown/plugin-math';
@@ -35,6 +36,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
                     ctx.set(editorViewOptionsCtx, { editable: () => !readOnly });
                     ctx.set(listenerCtx, { markdown: onChange ? [onChange] : [] });
                 })
+                .use(clipboard)
                 .use(gfm)
                 .use(listener)
                 .use(history)

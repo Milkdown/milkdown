@@ -62,7 +62,8 @@ const openMark =
 
 const closeMark =
     (ctx: Ctx) =>
-    (mark: Mark): MarkdownNode => {
+    (mark: Mark): MarkdownNode | null => {
+        if (!mark.isInSet(ctx.marks)) return null;
         ctx.marks = mark.type.removeFromSet(ctx.marks);
         return closeNode(ctx)();
     };

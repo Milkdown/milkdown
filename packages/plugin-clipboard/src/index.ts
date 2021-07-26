@@ -1,0 +1,1 @@
+export { clipboard } from './paste';

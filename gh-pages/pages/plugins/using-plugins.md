@@ -39,6 +39,10 @@ Milkdown provides the following official plugins:
 
     Add undo & redo support.
 
+-   [@milkdown/plugin-clipboard](https://www.npmjs.com/package/@milkdown/plugin-clipboard)
+
+    Add markdown copy & paste support.
+
 -   [@milkdown/plugin-cursor](https://www.npmjs.com/package/@milkdown/plugin-cursor)
 
     Add drop & gap cursor.
