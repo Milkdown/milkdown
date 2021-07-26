@@ -1,5 +1,11 @@
 # @milkdown/plugin-listener
 
+## 4.6.9
+
+### Patch Changes
+
+-   483093c: Fix serializer issue of inline code.
+
 ## 4.6.8
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.6.9
+
+### Patch Changes
+
+-   483093c: Fix serializer issue of inline code.
+-   Updated dependencies [483093c]
+    -   @milkdown/plugin-table@4.6.9
+    -   @milkdown/preset-commonmark@4.6.9
+    -   @milkdown/utils@4.6.9
+
 ## 4.6.8
 
 ### Patch Changes

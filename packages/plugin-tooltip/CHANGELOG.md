@@ -1,5 +1,13 @@
 # @milkdown/plugin-tooltip
 
+## 4.6.9
+
+### Patch Changes
+
+-   483093c: Fix serializer issue of inline code.
+-   Updated dependencies [483093c]
+    -   @milkdown/utils@4.6.9
+
 ## 4.6.8
 
 ### Patch Changes
