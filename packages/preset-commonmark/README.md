@@ -19,15 +19,15 @@ new Editor().use(commonmark).create();
 ## Custom Keymap
 
 ```typescript
-import { commonmark, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
+import { commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
 
-const nodes = commonmark.configure(blockquote, {
+const nodes = commonmarkNodes.configure(blockquote, {
     keymap: {
         [SupportedKeys.Blockquote]: 'Mod-Shift-b',
     },
 });
 
-new Editor().use(nodes);
+new Editor().use(commonmarkPlugins).use(nodes);
 ```
 
 Keymap supported:

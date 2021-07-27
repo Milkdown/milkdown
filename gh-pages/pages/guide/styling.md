@@ -30,17 +30,15 @@ You can also use `configure` method to add class to node/mark.
 In this way, you can use css tools like `tailwind` css.
 
 ```typescript
-import { commonmark, Paragraph, Heading } from '@milkdown/commonmark';
+import { commonmarkNodes, commonmarkPlugins, heading, paragraph } from '@milkdown/preset-commonmark';
 
 const nodes = commonmark
-    .configure(Paragraph, {
-        className: () =>
-            'my-custom-paragraph'
+    .configure(paragraph, {
+        className: () => 'my-custom-paragraph',
     })
-    .configure(Heading, {
-        className: (attrs) =>
-            `my-custom-heading my-h${attrs.level}`
-    })
+    .configure(heading, {
+        className: (attrs) => `my-custom-heading my-h${attrs.level}`,
+    });
 
-new Editor({ ...  }).use(nodes);
+new Editor().use(nodes).use(commonmarkPlugins);
 ```
