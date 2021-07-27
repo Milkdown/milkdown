@@ -50,8 +50,8 @@ describe('parser/state', () => {
         jest.spyOn(state, 'next');
         const result: unknown[] = [];
         const parse = jest.fn(() => result);
-        const run = jest.fn(() => result);
-        const mockRemark = { parse, run } as unknown as RemarkParser;
+        const runSync = jest.fn(() => result);
+        const mockRemark = { parse, runSync } as unknown as RemarkParser;
         await state.run(mockRemark, 'markdown');
 
         expect(parse).toHaveBeenCalledWith('markdown');

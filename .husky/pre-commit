@@ -3,3 +3,4 @@
 
 pnpm run lint
 pnpm run tsc
+pnpm test
