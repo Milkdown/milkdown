@@ -2,6 +2,7 @@ import type { MarkType, NodeType, Schema } from 'prosemirror-model';
 import type { Attrs, InnerParserSpecMap, MarkdownNode, ParserSpecWithType } from '.';
 import type { Stack } from './stack';
 import type { RemarkParser } from '../internal-plugin';
+import { parserMatchError } from '@milkdown/exception';
 
 type PS<T extends keyof Stack> = Parameters<Stack[T]>;
 
@@ -15,7 +16,7 @@ export class State {
     #matchTarget(node: MarkdownNode): ParserSpecWithType {
         const result = Object.values(this.specMap).find((x) => x.match(node));
 
-        if (!result) throw new Error();
+        if (!result) throw parserMatchError(node);
 
         return result;
     }

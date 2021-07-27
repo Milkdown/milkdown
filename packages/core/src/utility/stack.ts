@@ -1,3 +1,5 @@
+import { stackOverFlow } from '@milkdown/exception';
+
 type ElInstance<U> = {
     push: (node: U, ...rest: U[]) => void;
 };
@@ -17,7 +19,7 @@ export const getStackUtil = <Node, El extends ElInstance<Node>, Ctx extends Stac
 
     const close = (ctx: Ctx): El => {
         const el = ctx.elements.pop();
-        if (!el) throw new Error();
+        if (!el) throw stackOverFlow();
 
         return el;
     };

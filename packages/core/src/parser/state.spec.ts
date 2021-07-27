@@ -52,7 +52,7 @@ describe('parser/state', () => {
         const parse = jest.fn(() => result);
         const runSync = jest.fn(() => result);
         const mockRemark = { parse, runSync } as unknown as RemarkParser;
-        await state.run(mockRemark, 'markdown');
+        state.run(mockRemark, 'markdown');
 
         expect(parse).toHaveBeenCalledWith('markdown');
         expect(state.next).toHaveBeenCalledWith(result);

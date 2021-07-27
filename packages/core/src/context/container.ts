@@ -1,3 +1,4 @@
+import { contextNotFound } from '@milkdown/exception';
 import { Context, Meta } from './ctx';
 
 export const createContainer = () => {
@@ -6,7 +7,7 @@ export const createContainer = () => {
     const getCtx = <T>(meta: Meta<T>): Context<T> => {
         const context = contextMap.get(meta.id);
         if (!context) {
-            throw new Error();
+            throw contextNotFound();
         }
         return context as Context<T>;
     };

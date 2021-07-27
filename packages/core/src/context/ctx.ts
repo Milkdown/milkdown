@@ -1,3 +1,4 @@
+import { ctxCallOutOfScope } from '@milkdown/exception';
 import { clone } from 'lodash-es';
 export type Context<T = unknown> = {
     id: symbol;
@@ -35,7 +36,7 @@ export const createCtx = <T>(value: T): Meta<T> => {
     };
     factory.id = id;
     factory._typeInfo = (): T => {
-        throw new Error('Should not call a context.');
+        throw ctxCallOutOfScope();
     };
 
     return factory;

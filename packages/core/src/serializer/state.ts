@@ -1,3 +1,4 @@
+import { serializerMatchError } from '@milkdown/exception';
 import type { Mark as ProseMark, Node as ProseNode, Fragment, Schema } from 'prosemirror-model';
 import { RemarkParser } from '../internal-plugin';
 import type { Stack } from './stack';
@@ -24,7 +25,7 @@ export class State {
             }))
             .find((x) => x.match(node as ProseMark & ProseNode));
 
-        if (!result) throw new Error();
+        if (!result) throw serializerMatchError(node.type);
 
         return result as never;
     }

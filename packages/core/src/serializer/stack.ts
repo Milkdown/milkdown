@@ -9,7 +9,7 @@ type Ctx = {
     readonly elements: StackElement[];
 };
 
-const { size, push, top, open, close } = getStackUtil<MarkdownNode, StackElement, Ctx>();
+const { size, push, open, close } = getStackUtil<MarkdownNode, StackElement, Ctx>();
 
 const createMarkdownNode = (element: StackElement) => {
     const node: MarkdownNode = {
@@ -90,7 +90,6 @@ export const createStack = () => {
         openNode: openNode(ctx),
         addNode: addNode(ctx),
         closeNode: closeNode(ctx),
-        top: () => top(ctx),
     };
 };
 

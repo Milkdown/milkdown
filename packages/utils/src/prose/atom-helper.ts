@@ -2,6 +2,7 @@ import type { Attrs } from '@milkdown/core';
 import type { Node, Schema, NodeType, MarkType } from 'prosemirror-model';
 import type { EditorState } from 'prosemirror-state';
 import type { Selection, Transaction } from 'prosemirror-state';
+import { getAtomFromSchemaFail } from '../../../core/node_modules/@milkdown/exception/src';
 
 export type Position = {
     node: Node;
@@ -70,7 +71,7 @@ export const getNodeFromSchema = (type: string, schema: Schema): NodeType => {
     const target = schema.nodes[type];
 
     if (!target) {
-        throw new Error();
+        throw getAtomFromSchemaFail('node', type);
     }
 
     return target;
@@ -80,7 +81,7 @@ export const getMarkFromSchema = (type: string, schema: Schema): MarkType => {
     const target = schema.marks[type];
 
     if (!target) {
-        throw new Error();
+        throw getAtomFromSchemaFail('mark', type);
     }
 
     return target;

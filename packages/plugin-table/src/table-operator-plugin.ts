@@ -260,11 +260,9 @@ export class PluginProps implements PluginSpec {
             case ToolTipPos.Top: {
                 return 'milkdown-cell-top';
             }
-            case ToolTipPos.Point: {
-                return 'milkdown-cell-point';
-            }
+            case ToolTipPos.Point:
             default: {
-                throw new Error();
+                return 'milkdown-cell-point';
             }
         }
     }

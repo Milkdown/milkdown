@@ -1,3 +1,4 @@
+import { createNodeInParserFail, stackOverFlow } from '@milkdown/exception';
 import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
 import { maybeMerge, getStackUtil } from '../utility';
 import { createElement, StackElement } from './stack-element';
@@ -17,7 +18,7 @@ const addNode =
     (nodeType: NodeType, attrs?: Attrs, content?: Node[]): Node => {
         const node = nodeType.createAndFill(attrs, content, ctx.marks);
 
-        if (!node) throw new Error();
+        if (!node) throw createNodeInParserFail(nodeType, attrs, content);
 
         push(ctx)(node);
 
@@ -49,7 +50,7 @@ const addText =
     (ctx: Ctx) =>
     (createTextNode: (marks: Mark[]) => Node): void => {
         const topElement = top(ctx);
-        if (!topElement) throw new Error();
+        if (!topElement) throw stackOverFlow();
 
         const prevNode = topElement.pop();
         const currNode = createTextNode(ctx.marks);

@@ -1,3 +1,4 @@
+import { timerNotFound } from '@milkdown/exception';
 import { Timing } from './timing';
 
 export type ClockMap = Map<symbol, Timing>;
@@ -16,7 +17,7 @@ export const createClock = (): Clock => {
     const store: ClockMap = new Map();
     const get = (timer: Timer) => {
         const meta = store.get(timer.id);
-        if (!meta) throw new Error();
+        if (!meta) throw timerNotFound();
         return meta;
     };
 
