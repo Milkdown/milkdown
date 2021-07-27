@@ -7,9 +7,9 @@ import { MilkdownPlugin } from '../utility';
 import { remarkCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export type Parser = (text: string) => Promise<ProsemirrorNode | null>;
+export type Parser = (text: string) => ProsemirrorNode | null;
 
-export const parserCtx = createCtx<Parser>(() => Promise.resolve(null));
+export const parserCtx = createCtx<Parser>(() => null);
 export const parserTimerCtx = createCtx<Timer[]>([]);
 
 export const ParserReady = createTimer('ParserReady');

@@ -5,9 +5,9 @@ import { State } from './state';
 import { createStack } from './stack';
 
 export function createParser(schema: Schema, specMap: InnerParserSpecMap, remark: RemarkParser) {
-    return async (text: string) => {
+    return (text: string) => {
         const state = new State(createStack(), schema, specMap);
-        await state.run(remark, text);
+        state.run(remark, text);
         return state.toDoc();
     };
 }

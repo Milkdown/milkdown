@@ -27,18 +27,12 @@ const clipboardPlugin = (schema: Schema, parser: Parser, serializer: (node: Pros
                     return false;
                 }
 
-                parser(text)
-                    .then((slice) => {
-                        if (!slice || typeof slice === 'string') return;
+                const slice = parser(text);
+                if (!slice || typeof slice === 'string') return false;
 
-                        const { $from } = view.state.selection;
-                        const depth = slice.content.childCount > 1 ? 0 : $from.depth;
-                        view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, depth, depth)));
-                        return;
-                    })
-                    .catch((e) => {
-                        throw e;
-                    });
+                const { $from } = view.state.selection;
+                const depth = slice.content.childCount > 1 ? 0 : $from.depth;
+                view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, depth, depth)));
 
                 return true;
             },

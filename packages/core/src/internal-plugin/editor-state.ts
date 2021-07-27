@@ -56,7 +56,7 @@ export const editorState: MilkdownPlugin = (pre) => {
         const options = ctx.get(editorStateOptionsCtx);
         const prosePlugins = ctx.get(prosePluginsCtx);
         const defaultValue = ctx.get(defaultValueCtx);
-        const doc = await getDoc(defaultValue, parser, schema);
+        const doc = getDoc(defaultValue, parser, schema);
 
         const state = EditorState.create({
             schema,

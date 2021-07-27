@@ -27,8 +27,8 @@ export class State {
         runner(this, node, proseType as NodeType & MarkType);
     }
 
-    run = async (remark: RemarkParser, markdown: string) => {
-        const tree = (await remark.run(remark.parse(markdown))) as MarkdownNode;
+    run = (remark: RemarkParser, markdown: string) => {
+        const tree = remark.runSync(remark.parse(markdown)) as MarkdownNode;
         this.next(tree);
 
         return this;
