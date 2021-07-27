@@ -10,6 +10,7 @@ importers:
       '@commitlint/config-conventional': ^12.1.1
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
+      '@milkdown/exception': workspace:*
       '@milkdown/plugin-clipboard': workspace:*
       '@milkdown/plugin-cursor': workspace:*
       '@milkdown/plugin-history': workspace:*
@@ -80,6 +81,7 @@ importers:
       '@commitlint/config-conventional': 12.1.4
       '@milkdown/core': link:packages/core
       '@milkdown/design-system': link:packages/design-system
+      '@milkdown/exception': link:packages/exception
       '@milkdown/plugin-clipboard': link:packages/plugin-clipboard
       '@milkdown/plugin-cursor': link:packages/plugin-cursor
       '@milkdown/plugin-history': link:packages/plugin-history
@@ -183,6 +185,7 @@ importers:
 
   packages/core:
     specifiers:
+      '@milkdown/exception': 'workspace: *'
       '@types/lodash-es': ^4.17.4
       '@types/prosemirror-commands': ^1.0.4
       '@types/prosemirror-inputrules': ^1.0.4
@@ -201,6 +204,7 @@ importers:
       tslib: ^2.2.0
       unified: ^9.2.1
     dependencies:
+      '@milkdown/exception': link:../exception
       '@types/lodash-es': 4.17.4
       '@types/prosemirror-commands': 1.0.4
       '@types/prosemirror-inputrules': 1.0.4
@@ -227,6 +231,16 @@ importers:
       tslib: 2.3.0
     devDependencies:
       concurrently: 6.2.0
+
+  packages/exception:
+    specifiers:
+      '@types/lodash-es': ^4.17.4
+      lodash-es: ^4.17.21
+      tslib: ^2.2.0
+    dependencies:
+      '@types/lodash-es': 4.17.4
+      lodash-es: 4.17.21
+      tslib: 2.3.0
 
   packages/plugin-clipboard:
     specifiers:

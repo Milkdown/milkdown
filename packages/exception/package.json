@@ -1,0 +1,25 @@
+{
+    "name": "@milkdown/exception",
+    "version": "4.6.9",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "tsc -w",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc"
+    },
+    "files": [
+        "lib"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*"
+    },
+    "dependencies": {
+        "@types/lodash-es": "^4.17.4",
+        "lodash-es": "^4.17.21",
+        "tslib": "^2.2.0"
+    }
+}

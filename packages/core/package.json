@@ -23,6 +23,7 @@
         "markdown editor"
     ],
     "dependencies": {
+        "@milkdown/exception": "workspace: *",
         "@types/lodash-es": "^4.17.4",
         "@types/prosemirror-commands": "^1.0.4",
         "@types/prosemirror-inputrules": "^1.0.4",

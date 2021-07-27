@@ -1,3 +1,4 @@
+import { docTypeError } from '@milkdown/exception';
 import { baseKeymap } from 'prosemirror-commands';
 import { inputRules as createInputRules } from 'prosemirror-inputrules';
 import { keymap as createKeymap } from 'prosemirror-keymap';
@@ -36,7 +37,7 @@ const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
         return Node.fromJSON(schema, defaultValue.value);
     }
 
-    throw new Error();
+    throw docTypeError(defaultValue);
 };
 
 export const editorState: MilkdownPlugin = (pre) => {

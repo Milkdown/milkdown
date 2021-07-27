@@ -31,6 +31,7 @@
         "@commitlint/cli": "^12.1.1",
         "@commitlint/config-conventional": "^12.1.1",
         "@milkdown/core": "workspace:*",
+        "@milkdown/exception": "workspace:*",
         "@milkdown/design-system": "workspace:*",
         "@milkdown/plugin-cursor": "workspace:*",
         "@milkdown/plugin-clipboard": "workspace:*",
