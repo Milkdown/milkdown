@@ -16,7 +16,7 @@
         "test": "jest --passWithNoTests",
         "tsc": "tsc --noEmit",
         "pw": "pnpm run test --filter @milkdown/integration-test",
-        "pw:ci": "start-server-and-test doc http-get://localhost:3000/milkdown/#/ pw",
+        "pw:ci": "pnpm run start:test --filter @milkdown/integration-test",
         "build:packs": "tsc --build --force --verbose && pnpm run build:css -r --filter \"./packages/\"",
         "build:doc": "pnpm run build --filter @milkdown/gh-pages",
         "postinstall": "husky install && pnpm run build:packs",
@@ -92,7 +92,6 @@
         "prosemirror-transform": "^1.3.2",
         "prosemirror-view": "^1.18.2",
         "rimraf": "^3.0.2",
-        "start-server-and-test": "^1.13.0",
         "ts-jest": "^26.5.4",
         "typescript": "^4.3.5",
         "vite": "^2.4.3"
