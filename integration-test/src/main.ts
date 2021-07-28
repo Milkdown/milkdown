@@ -1,13 +1,12 @@
-const url = new URL(location.href);
-
 const main = async () => {
-    if (url.pathname === '/') {
+    const url = new URL(location.href);
+    if (!url.hash) {
         return;
     }
 
-    const name = '.' + url.pathname;
+    const name = '.' + url.hash.slice(1);
     const module = await import(/* @vite-ignore */ name);
-    return module.setup();
+    module.setup();
 };
 
 main();

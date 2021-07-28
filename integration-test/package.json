@@ -5,7 +5,9 @@
     "scripts": {
         "start": "vite",
         "test": "playwright test",
-        "start:test": "start-server-and-test start http-get://localhost:7000 test"
+        "test:verbose": "playwright test --headed",
+        "start:test": "start-server-and-test start http-get://localhost:7000 test",
+        "start:test:verbose": "start-server-and-test start http-get://localhost:7000 test:verbose"
     },
     "files": [
         "style"
