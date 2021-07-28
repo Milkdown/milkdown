@@ -1,3 +1,4 @@
+import { Doc } from 'yjs';
 import { Editor, editorViewCtx, serializerCtx, rootCtx, defaultValueCtx } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { WebsocketProvider } from 'y-websocket';
@@ -24,7 +25,8 @@ const options = [
 const rndInt = Math.floor(Math.random() * 4) + 1;
 
 async function main() {
-    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', collaborative.yDoc);
+    const doc = new Doc();
+    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', doc);
     wsProvider.awareness.setLocalStateField('user', options[rndInt]);
     const editor = await new Editor()
         .config((ctx) => {
@@ -32,7 +34,7 @@ async function main() {
             ctx.set(defaultValueCtx, markdown);
         })
         .use(commonmark)
-        .use(collaborative(wsProvider.awareness))
+        .use(collaborative(doc, wsProvider.awareness))
         .create();
 
     const getMarkdown = () => {
