@@ -20,7 +20,10 @@
     ],
     "keywords": [
         "milkdown",
-        "milkdown plugin"
+        "milkdown plugin",
+        "Yjs",
+        "shared-editing",
+        "collaboration"
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
