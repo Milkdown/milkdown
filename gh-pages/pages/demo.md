@@ -17,6 +17,8 @@ You can check the output markdown text in **developer tool**.
     -   [x] ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
     -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
     -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
+    -   [x] 🍻 **Collaborate** - Shared editing support with [yjs], driven by plugin
+    -   [x] 💾 **Clipboard** - Support copy content as markdown and paste markdown as content, driven by plugin.
 -   Made by
     -   Programmer: [Mirone][mirone]
     -   Designer: [Meo][meo]
@@ -65,6 +67,7 @@ Have fun!
 
 [repo]: https://github.com/Saul-Mirone/milkdown
 [prosemirror]: https://prosemirror.net/
+[yjs]: https://docs.yjs.dev/
 [remark]: https://github.com/remarkjs/remark
 [mirone]: https://github.com/Saul-Mirone
 [meo]: https://github.com/Saul-Meo

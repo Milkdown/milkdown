@@ -23,6 +23,8 @@ You can even create your own plugin to support your awesome idea.
 -   [x] ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
 -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
 -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
+-   [x] 🍻 **Collaborate** - Shared editing support with [yjs](https://docs.yjs.dev/), driven by plugin
+-   [x] 💾 **Clipboard** - Support copy content as markdown and paste markdown as content, driven by plugin.
 
 ## Tech Stack
 

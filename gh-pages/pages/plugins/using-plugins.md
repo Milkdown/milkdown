@@ -51,6 +51,10 @@ Milkdown provides the following official plugins:
 
     Add listener support.
 
+-   [@milkdown/plugin-collaborative](https://www.npmjs.com/package/@milkdown/plugin-collaborative)
+
+    Add collaborative editing support.
+
 -   [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)
 
     Add table syntax support.
