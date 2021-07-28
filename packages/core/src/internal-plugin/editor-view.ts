@@ -9,7 +9,7 @@ type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
 export const editorViewCtx = createCtx<EditorView>({} as EditorView);
 export const editorViewOptionsCtx = createCtx<EditorOptions>({});
-export const rootCtx = createCtx<Node | undefined>(document.body);
+export const rootCtx = createCtx<Node | undefined | null>(document.body);
 export const editorViewTimerCtx = createCtx<Timer[]>([]);
 
 export const Complete = createTimer('complete');

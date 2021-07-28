@@ -1,8 +1,12 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+    root: 'src',
     server: {
         port: 7000,
+        fs: {
+            strict: false,
+        },
     },
     optimizeDeps: {
         include: [
@@ -12,11 +16,7 @@ export default defineConfig({
             'prosemirror-commands',
             'prosemirror-inputrules',
             'prosemirror-keymap',
-            'prosemirror-schema-list',
-            'prosemirror-history',
             'prosemirror-transform',
-            'prosemirror-gapcursor',
-            'prosemirror-dropcursor',
         ],
     },
 });
