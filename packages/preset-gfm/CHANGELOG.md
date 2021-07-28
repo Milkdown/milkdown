@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 4.7.0
+
+### Minor Changes
+
+-   804cbb5: Add support for clipboard and collaborative abilities.
+
+### Patch Changes
+
+-   Updated dependencies [804cbb5]
+    -   @milkdown/plugin-table@4.7.0
+    -   @milkdown/preset-commonmark@4.7.0
+    -   @milkdown/utils@4.7.0
+
 ## 4.6.9
 
 ### Patch Changes
