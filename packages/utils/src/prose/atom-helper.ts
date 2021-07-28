@@ -2,7 +2,7 @@ import type { Attrs } from '@milkdown/core';
 import type { Node, Schema, NodeType, MarkType } from 'prosemirror-model';
 import type { EditorState } from 'prosemirror-state';
 import type { Selection, Transaction } from 'prosemirror-state';
-import { getAtomFromSchemaFail } from '../../../core/node_modules/@milkdown/exception/src';
+import { getAtomFromSchemaFail } from '@milkdown/exception';
 
 export type Position = {
     node: Node;
