@@ -1,0 +1,33 @@
+{
+    "name": "@milkdown/plugin-collaborative",
+    "version": "4.6.9",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "server": "HOST=localhost PORT=1234 y-websocket-server",
+        "client": "vite",
+        "start": "concurrently -n server,client \"HOST=localhost PORT=1234 y-websocket-server\" \"vite\"",
+        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
+        "watch:css": "postcss style/style.css --watch --verbose -o lib/style.css",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc && postcss style/style.css --verbose -o lib/style.css",
+        "build:css": "postcss style/style.css --verbose -o lib/style.css"
+    },
+    "files": [
+        "lib"
+    ],
+    "keywords": [
+        "milkdown",
+        "milkdown plugin"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*"
+    },
+    "dependencies": {
+        "tslib": "^2.2.0",
+        "y-prosemirror": "^1.0.9",
+        "yjs": "^13.5.11"
+    }
+}

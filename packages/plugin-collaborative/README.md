@@ -1,0 +1,20 @@
+# @milkdown/plugin-collaborative
+
+Collaborative editing support for [milkdown](https://saul-mirone.github.io/milkdown/).
+
+# Example Usage
+
+```typescript
+import { Editor } from '@milkdown/core';
+import { commonmark } from '@milkdown/preset-commonmark';
+
+import { WebsocketProvider } from 'y-websocket';
+import { collaborative } from '@milkdown/plugin-collaborative';
+
+// import theme and style
+import '@milkdown/theme-nord/lib/theme.css';
+import '@milkdown/preset-commonmark/lib/style.css';
+
+const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', collaborative.yDoc);
+new Editor().use(commonmark).use(collaborative(wsProvider.awareness)).create();
+```
