@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.7.1
+
+### Patch Changes
+
+-   7ab83ca: Fix dep list.
+-   Updated dependencies [7ab83ca]
+    -   @milkdown/plugin-table@4.7.1
+    -   @milkdown/preset-commonmark@4.7.1
+    -   @milkdown/utils@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes
