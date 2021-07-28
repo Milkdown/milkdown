@@ -76,7 +76,7 @@ export const App: React.FC = () => {
 
     return (
         <HashRouter>
-            <div className={className.body}>
+            <>
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
                 <div
                     onClick={() => {
@@ -100,7 +100,7 @@ export const App: React.FC = () => {
                         <Main isDarkMode={isDarkMode} setScrolled={setScrolled} editorMode={editorMode} />
                     </main>
                 </div>
-            </div>
+            </>
         </HashRouter>
     );
 };
