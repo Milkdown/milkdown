@@ -34,7 +34,7 @@ If you like this project, please consider fund me to help the maintenance.
 
 # Community
 
-[Discord](https://discord.gg/BgepcQNu)
+Welcome to join our [Discord community](https://discord.gg/BgepcQNu).
 
 # License
 
