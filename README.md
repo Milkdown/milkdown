@@ -32,6 +32,10 @@ If you like this project, please consider fund me to help the maintenance.
 
 <a title="Johno Scott" href="https://github.com/johnoscott"><img src="https://avatars.githubusercontent.com/u/291958?v=4" width="100" alt="profile picture of Johno Scott"></a>
 
+# Community
+
+[Discord](https://discord.gg/BgepcQNu)
+
 # License
 
 [MIT](/LICENSE)
