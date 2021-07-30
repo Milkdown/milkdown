@@ -2,7 +2,7 @@ import { calculateNodePosition, findParentNode } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
-import { Action, items } from './item';
+import { Action, transformAction, WrappedAction } from './item';
 import { createDropdown } from './utility';
 
 enum CursorStatus {
@@ -11,19 +11,28 @@ enum CursorStatus {
 }
 
 class SlashPlugin implements PluginSpec {
+    items: Action[];
+    status: Status;
+    props: Props;
+
+    constructor(items: WrappedAction[]) {
+        this.items = items.map(transformAction);
+        this.status = new Status(this.items);
+        this.props = new Props(this.status);
+    }
+
     key = new PluginKey('milkdown-prosemirror-slash-plugin');
 
-    status = new Status();
-
-    props = new Props(this.status);
-
-    view = (editorView: EditorView) => new View(this.status, editorView);
+    view = (editorView: EditorView) => new View(this.status, this.items, editorView);
 }
 
 class Status {
     #cursorStatus: CursorStatus = CursorStatus.Empty;
     #filter = '';
-    activeActions: Action[] = items;
+    activeActions: Action[];
+    constructor(items: Action[]) {
+        this.activeActions = items;
+    }
 
     clearStatus() {
         this.#cursorStatus = CursorStatus.Empty;
@@ -113,6 +122,7 @@ class View {
     #wrapper: HTMLElement;
     #status: Status;
     #view: EditorView;
+    #items: Action[];
     #mouseLock: boolean;
 
     #handleClick = (e: Event) => {
@@ -124,7 +134,7 @@ class View {
         const view = this.#view;
         if (!view) return;
 
-        const el = Object.values(items).find(({ $ }) => $.contains(target));
+        const el = Object.values(this.#items).find(({ $ }) => $.contains(target));
         if (!el) return;
 
         e.stopPropagation();
@@ -198,11 +208,12 @@ class View {
         }
     };
 
-    constructor(status: Status, editorView: EditorView) {
+    constructor(status: Status, items: Action[], editorView: EditorView) {
         this.#status = status;
         this.#dropdownElement = createDropdown();
         this.#view = editorView;
         this.#mouseLock = false;
+        this.#items = items;
 
         const { parentNode } = editorView.dom;
         if (!parentNode) {
@@ -245,7 +256,7 @@ class View {
             return false;
         }
 
-        const activeList = items
+        const activeList = this.#items
             .filter((item) => {
                 item.$.classList.remove('active');
                 const result = item.keyword.some((key) => key.includes(filter.toLocaleLowerCase()));
@@ -290,4 +301,4 @@ class View {
     }
 }
 
-export const slashPlugin = new Plugin(new SlashPlugin());
+export const slashPlugin = (items: WrappedAction[]) => new Plugin(new SlashPlugin(items));
