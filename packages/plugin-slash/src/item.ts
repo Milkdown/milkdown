@@ -31,8 +31,19 @@ export type Action = {
     enable: (schema: Schema) => boolean;
 };
 
+const getDepth = (node: Node) => {
+    let cur = node;
+    let depth = 0;
+    while (cur.childCount) {
+        cur = cur.child(0);
+        depth += 1;
+    }
+
+    return depth;
+};
+
 const cleanUpAndCreateNode =
-    (fn: (schema: Schema) => Node, offset = 1): Action['command'] =>
+    (fn: (schema: Schema) => Node): Action['command'] =>
     (schema: Schema) =>
     (state, dispatch) => {
         if (!dispatch) return false;
@@ -40,8 +51,9 @@ const cleanUpAndCreateNode =
         const { selection } = state;
         const { $head } = selection;
         const start = $head.pos - 1 - $head.parent.content.size;
-        const tr = state.tr.replaceWith(start, $head.pos, fn(schema));
-        const pos = start + offset;
+        const node = fn(schema);
+        const tr = state.tr.replaceWith(start, $head.pos, node);
+        const pos = start + getDepth(node) + 1;
         const sel = TextSelection.create(tr.doc, pos);
         dispatch(tr.setSelection(sel));
         return true;
@@ -74,49 +86,61 @@ export const items: Array<Action> = [
     {
         type: ActionType.BulletList,
         $: createDropdownItem('Bullet List', 'format_list_bulleted'),
-        command: cleanUpAndCreateNode((schema) => schema.nodes.bullet_list.createAndFill(null) as Node, 3),
+        command: cleanUpAndCreateNode((schema) => schema.nodes.bullet_list.createAndFill() as Node),
         keyword: ['bullet list', 'ul'],
         enable: nodeExists('bullet_list'),
     },
     {
         type: ActionType.OrderedList,
         $: createDropdownItem('Ordered List', 'format_list_numbered'),
-        command: cleanUpAndCreateNode((schema) => schema.nodes.ordered_list.createAndFill(null) as Node, 3),
+        command: cleanUpAndCreateNode((schema) => schema.nodes.ordered_list.createAndFill() as Node),
         keyword: ['ordered list', 'ol'],
         enable: nodeExists('ordered_list'),
     },
     {
         type: ActionType.TaskList,
         $: createDropdownItem('Task List', 'checklist'),
-        command: cleanUpAndCreateNode((schema) => schema.nodes.task_list_item.createAndFill(null) as Node, 3),
+        command: cleanUpAndCreateNode(
+            (schema) =>
+                schema.nodes.bullet_list.createAndFill(
+                    null,
+                    schema.nodes.task_list_item.createAndFill() as Node,
+                ) as Node,
+        ),
         keyword: ['task list', 'task'],
         enable: nodeExists('task_list_item'),
     },
     {
         type: ActionType.Image,
         $: createDropdownItem('Image', 'image'),
-        command: cleanUpAndCreateNode((schema) => schema.nodes.image.createAndFill({ src: '' }) as Node, 3),
+        command: cleanUpAndCreateNode(
+            (schema) =>
+                schema.nodes.paragraph.createAndFill(
+                    null,
+                    schema.nodes.image.createAndFill({ src: '' }) as Node,
+                ) as Node,
+        ),
         keyword: ['image'],
         enable: nodeExists('image'),
     },
     {
         type: ActionType.Quote,
         $: createDropdownItem('Quote', 'format_quote'),
-        command: cleanUpAndCreateNode((schema) => schema.nodes.blockquote.createAndFill(null) as Node, 2),
+        command: cleanUpAndCreateNode((schema) => schema.nodes.blockquote.createAndFill() as Node),
         keyword: ['quote', 'blockquote'],
         enable: nodeExists('blockquote'),
     },
     {
         type: ActionType.Table,
         $: createDropdownItem('Table', 'table_chart'),
-        command: cleanUpAndCreateNode((schema) => createTable(schema), 4),
+        command: cleanUpAndCreateNode((schema) => createTable(schema)),
         keyword: ['table'],
         enable: nodeExists('table'),
     },
     {
         type: ActionType.CodeFence,
         $: createDropdownItem('Code Fence', 'code'),
-        command: cleanUpAndCreateNode((schema) => schema.nodes.fence.createAndFill(null) as Node),
+        command: cleanUpAndCreateNode((schema) => schema.nodes.fence.createAndFill() as Node),
         keyword: ['code'],
         enable: nodeExists('fence'),
     },
