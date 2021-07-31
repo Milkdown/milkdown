@@ -34,10 +34,23 @@ The serializer specification has 2 props:
 
 -   _match_: match the target prosemirror node that need to be handled by this runner.
 
--   _runner_: the function that transform the prosemirror node into remark AST, it has 2 parameters:
+-   _runner_:
 
-    -   _state_: tools used to generate the remark AST.
-    -   _node_: the prosemirror node that need to be handled.
+    -   Node runner:
+        the function that transform the prosemirror node into remark AST, it has 2 parameters:
+
+        -   _state_: tools used to generate the remark AST.
+        -   _node_: the prosemirror node that need to be handled.
+
+    -   Mark runner:
+        the function that transform the prosemirror mark into remark AST, it has 3 parameters:
+
+        -   _state_: tools used to generate the remark AST.
+        -   _mark_: the prosemirror mark that need to be handled.
+        -   _node_: current mark's prosemirror node.
+
+        > If runner for mark return `true` instead of `undefined` or `void`,
+        > the mark's node will not be handled by serializer.
 
 ## Serializer State
 
