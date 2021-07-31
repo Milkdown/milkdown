@@ -12,18 +12,25 @@ export const createDropdown = () => {
     return div;
 };
 
-export const createDropdownItem = (text: string, icon: string) => {
+type ItemOptions = {
+    iconClassName: string;
+    textClassName: string;
+};
+export const createDropdownItem = (text: string, icon: string, options?: Partial<ItemOptions>) => {
+    const iconClassName = options?.iconClassName ?? 'icon material-icons material-icons-outlined';
+    const textClassName = options?.textClassName ?? 'text';
+
     const div = document.createElement('div');
     div.setAttribute('role', 'option');
     div.classList.add('slash-dropdown-item');
 
     const iconSpan = document.createElement('span');
     iconSpan.textContent = icon;
-    iconSpan.className = 'icon material-icons material-icons-outlined';
+    iconSpan.className = iconClassName;
 
     const textSpan = document.createElement('span');
     textSpan.textContent = text;
-    textSpan.className = 'text';
+    textSpan.className = textClassName;
 
     div.appendChild(iconSpan);
     div.appendChild(textSpan);
