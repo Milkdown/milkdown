@@ -1,4 +1,4 @@
-import { createCtx, Initialize, MilkdownPlugin, prosePluginsCtx } from '@milkdown/core';
+import { Config, createCtx, MilkdownPlugin, prosePluginsCtx } from '@milkdown/core';
 import { config } from './config';
 import { WrappedAction } from './item';
 import { slashPlugin } from './slash-plugin';
@@ -11,7 +11,7 @@ export const slash: MilkdownPlugin = (pre) => {
     pre.inject(slashCtx, config);
 
     return async (ctx) => {
-        await ctx.wait(Initialize);
+        await ctx.wait(Config);
         ctx.update(prosePluginsCtx, (prev) => prev.concat([slashPlugin(ctx.get(slashCtx))].flat()));
     };
 };
