@@ -1,9 +1,6 @@
 import { findNodeInSelection, findParentNode } from '@milkdown/utils';
-import { toggleMark } from 'prosemirror-commands';
 import type { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
 import { EditorState, NodeSelection, Selection, TextSelection } from 'prosemirror-state';
-import type { ButtonItem } from '../item';
-import { icon } from './element';
 
 export type Position = {
     start: number;
@@ -60,16 +57,3 @@ export const findChildNode = (selection: Selection, nodeType: NodeType) => {
     }
     return undefined;
 };
-
-export const createToggleIcon = (
-    iconName: string,
-    mark: MarkType,
-    disableForMark: MarkType,
-    attrs?: Record<string, unknown>,
-): ButtonItem => ({
-    $: icon(iconName),
-    command: () => toggleMark(mark, attrs),
-    active: (view) => hasMark(view.state, mark),
-    disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
-    enable: (view) => !!mark && !!view.state.schema.marks[mark.name],
-});
