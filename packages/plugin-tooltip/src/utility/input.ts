@@ -1,7 +1,7 @@
 import { Command } from 'prosemirror-commands';
 import type { Mark, MarkType, Schema } from 'prosemirror-model';
 import { TextSelection } from 'prosemirror-state';
-import { Event2Command } from '../item';
+import { Event2Command, Updater } from '../item';
 import { elementIsTag } from './element';
 import { findMarkByType, findChildNode, findMarkPosition } from './prosemirror';
 
@@ -78,3 +78,28 @@ export const modifyImage =
             return true;
         };
     };
+
+export const updateLink: (schema: Schema) => Updater = (schema) => (view, $) => {
+    const { marks } = schema;
+    const { firstChild } = $;
+    if (!(firstChild instanceof HTMLInputElement)) return;
+
+    const node = findMarkByType(view.state, marks.link);
+    if (!node) return;
+
+    const mark = node.marks.find((m) => m.type === marks.link);
+    if (!mark) return;
+
+    firstChild.value = mark.attrs.href;
+};
+
+export const updateImage: (schema: Schema) => Updater = (schema) => (view, $) => {
+    const { nodes } = schema;
+    const { firstChild } = $;
+    if (!(firstChild instanceof HTMLInputElement)) return;
+
+    const node = findChildNode(view.state.selection, nodes.image);
+    if (!node) return;
+
+    firstChild.value = node.node.attrs.src;
+};

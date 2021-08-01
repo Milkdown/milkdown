@@ -1,7 +1,7 @@
 import type { Schema } from 'prosemirror-model';
 import { Command } from 'prosemirror-commands';
 import { EditorView } from 'prosemirror-view';
-import { createToggleIcon, hasMark, modifyLink, findMarkByType, findChildNode, modifyImage } from './utility';
+import { createToggleIcon, hasMark, modifyLink, findChildNode, modifyImage, updateLink, updateImage } from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -45,32 +45,13 @@ export const inputMap = (schema: Schema): InputMap => {
             display: (view) => hasMark(view.state, marks.link),
             command: modifyLink(schema),
             placeholder: 'Input Web Link',
-            update: (view, $) => {
-                const { firstChild } = $;
-                if (!(firstChild instanceof HTMLInputElement)) return;
-
-                const node = findMarkByType(view.state, marks.link);
-                if (!node) return;
-
-                const mark = node.marks.find((m) => m.type === marks.link);
-                if (!mark) return;
-
-                firstChild.value = mark.attrs.href;
-            },
+            update: updateLink(schema),
         },
         [InputAction.ModifyImage]: {
             display: (view) => Boolean(findChildNode(view.state.selection, nodes.image)),
             command: modifyImage(schema, 'src'),
             placeholder: 'Input Image Link',
-            update: (view, $) => {
-                const { firstChild } = $;
-                if (!(firstChild instanceof HTMLInputElement)) return;
-
-                const node = findChildNode(view.state.selection, nodes.image);
-                if (!node) return;
-
-                firstChild.value = node.node.attrs.src;
-            },
+            update: updateImage(schema),
         },
     };
 };
