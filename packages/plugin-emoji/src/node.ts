@@ -51,19 +51,16 @@ export const emojiNode = createNode(() => ({
             state.addNode('text', undefined, title);
         },
     },
-    inputRules: (nodeType) => {
-        return [
-            new InputRule(shortEmoji, (state, match, start, end) => {
-                const content = match[0];
-                if (!content) return null;
-                const got = nodeEmoji.get(content);
-                if (!got || got === content) return null;
+    inputRules: (nodeType) => [
+        new InputRule(shortEmoji, (state, match, start, end) => {
+            const content = match[0];
+            if (!content) return null;
+            const got = nodeEmoji.get(content);
+            if (!got || got === content) return null;
 
-                const html = twemoji.parse(got, { attributes: (text) => ({ title: text }) });
+            const html = twemoji.parse(got, { attributes: (text) => ({ title: text }) });
 
-                const tr = state.tr.replaceRangeWith(start, end, nodeType.create({ html })).scrollIntoView();
-                return tr;
-            }),
-        ];
-    },
+            return state.tr.replaceRangeWith(start, end, nodeType.create({ html })).scrollIntoView();
+        }),
+    ],
 }));

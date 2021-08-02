@@ -4,3 +4,16 @@ img.emoji {
     margin: 0 0.05em 0 0.1em;
     vertical-align: -0.1em;
 }
+
+.emoji-picker {
+    --dark-search-background-color: palette(surface);
+    --dark-text-color: palette(neutral, 0.87);
+    --dark-background-color: palette(background);
+    --dark-border-color: palette(shadow);
+    --dark-hover-color: palette(secondary, 0.12);
+    --dark-blue-color: palette(primary);
+    --dark-search-icon-color: palette(primary);
+    --dark-category-button-color: palette(secondary, 0.4);
+    --font: var(--font-code);
+    --font-size: 1rem;
+}

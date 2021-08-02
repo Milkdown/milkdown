@@ -24,6 +24,7 @@
         "@milkdown/core": "*"
     },
     "dependencies": {
+        "@joeattardi/emoji-button": "^4.6.0",
         "@milkdown/utils": "workspace: *",
         "@types/node-emoji": "^1.8.1",
         "@types/twemoji": "^12.1.2",
