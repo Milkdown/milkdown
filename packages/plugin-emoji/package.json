@@ -1,0 +1,36 @@
+{
+    "name": "@milkdown/plugin-emoji",
+    "version": "4.7.1",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "start": "vite",
+        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
+        "watch:css": "postcss style/style.css --watch --verbose -o lib/style.css",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc && postcss style/style.css --verbose -o lib/style.css",
+        "build:css": "postcss style/style.css --verbose -o lib/style.css"
+    },
+    "files": [
+        "lib"
+    ],
+    "keywords": [
+        "milkdown",
+        "milkdown plugin"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*"
+    },
+    "dependencies": {
+        "@milkdown/utils": "workspace: *",
+        "@types/node-emoji": "^1.8.1",
+        "@types/twemoji": "^12.1.2",
+        "node-emoji": "^1.10.0",
+        "remark-emoji": "^2.2.0",
+        "tslib": "^2.2.0",
+        "twemoji": "^13.1.0",
+        "unist-util-visit": "^4.0.0"
+    }
+}

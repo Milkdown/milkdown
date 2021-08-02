@@ -38,6 +38,7 @@
         "@milkdown/plugin-clipboard": "workspace:*",
         "@milkdown/plugin-history": "workspace:*",
         "@milkdown/plugin-listener": "workspace:*",
+        "@milkdown/plugin-emoji": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/plugin-slash": "workspace:*",
