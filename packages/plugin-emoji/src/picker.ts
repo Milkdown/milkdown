@@ -21,6 +21,14 @@ const pickerPlugin = () => {
             handleKeyDown() {
                 if (trigger) {
                     trigger = false;
+                    emojiPicker.hidePicker();
+                }
+                return false;
+            },
+            handleClick() {
+                if (trigger) {
+                    trigger = false;
+                    emojiPicker.hidePicker();
                 }
                 return false;
             },

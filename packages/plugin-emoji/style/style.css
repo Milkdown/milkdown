@@ -6,14 +6,14 @@ img.emoji {
 }
 
 .emoji-picker {
-    --dark-search-background-color: palette(surface);
-    --dark-text-color: palette(neutral, 0.87);
-    --dark-background-color: palette(background);
-    --dark-border-color: palette(shadow);
-    --dark-hover-color: palette(secondary, 0.12);
-    --dark-blue-color: palette(primary);
-    --dark-search-icon-color: palette(primary);
-    --dark-category-button-color: palette(secondary, 0.4);
-    --font: var(--font-code);
-    --font-size: 1rem;
+    --dark-search-background-color: palette(surface) !important;
+    --dark-text-color: palette(neutral, 0.87) !important;
+    --dark-background-color: palette(background) !important;
+    --dark-border-color: palette(shadow) !important;
+    --dark-hover-color: palette(secondary, 0.12) !important;
+    --dark-blue-color: palette(primary) !important;
+    --dark-search-icon-color: palette(primary) !important;
+    --dark-category-button-color: palette(secondary, 0.4) !important;
+    --font: var(--font-code) !important;
+    --font-size: 1rem !important;
 }
