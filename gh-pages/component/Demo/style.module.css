@@ -59,7 +59,6 @@
 
 @mixin query 72rem {
     .container {
-        width: calc(100vw - 10.5rem);
         display: flex;
         flex-direction: row;
         justify-content: center;
