@@ -64,6 +64,14 @@ You can type `$$` and a `space` to create a math block.
 
 ---
 
+Use [emoji cheat sheet](https://www.webfx.com/tools/emoji-cheat-sheet/) such as `:+1:` to add emoji.
+
+You may notice the emoji filter while inputting values, try to type `:baby` to see the list.
+
+You can also type `:emoji:` to toggle the emoji picker.
+
+---
+
 Have fun!
 
 [repo]: https://github.com/Saul-Mirone/milkdown
