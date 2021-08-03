@@ -38,6 +38,7 @@ const renderDropdownList = (
     dropDown: HTMLElement,
     $active: HTMLElement | null,
     onConfirm: () => void,
+    setActive: (active: HTMLElement | null) => void,
 ) => {
     dropDown.innerHTML = '';
     list.forEach(({ emoji, key }, i) => {
@@ -58,7 +59,7 @@ const renderDropdownList = (
 
         if (i === 0) {
             container.classList.add('active');
-            $active = container;
+            setActive(container);
         }
 
         container.addEventListener('mouseenter', (e) => {
@@ -68,7 +69,7 @@ const renderDropdownList = (
             const { target } = e;
             if (!(target instanceof HTMLElement)) return;
             target.classList.add('active');
-            $active = target;
+            setActive(target);
         });
         container.addEventListener('mouseleave', () => {
             if ($active) {
@@ -194,7 +195,9 @@ const filterPlugin = () => {
                     }
 
                     dropDown.classList.remove('hide');
-                    renderDropdownList(result, dropDown, $active, replace);
+                    renderDropdownList(result, dropDown, $active, replace, (a) => {
+                        $active = a;
+                    });
                     calculateNodePosition(view, dropDown, (selected, target) => {
                         const start = view.coordsAtPos(_from);
                         let left = start.left;
