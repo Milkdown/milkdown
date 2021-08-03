@@ -8,19 +8,11 @@ const keyword = ':emoji:';
 
 const pickerPlugin = () => {
     let trigger = false;
-    const emojiPicker = new EmojiButton({
-        style: 'twemoji',
-        theme: 'dark',
-        zIndex: 99,
-    });
     const holder = document.createElement('span');
     let _from = 0;
     let _to = 0;
     const off = () => {
-        if (trigger) {
-            trigger = false;
-            emojiPicker.hidePicker();
-        }
+        trigger = false;
     };
 
     const plugin = new Plugin({
@@ -67,6 +59,16 @@ const pickerPlugin = () => {
             },
         },
         view: (editorView) => {
+            const { parentNode } = editorView.dom;
+            if (!parentNode) {
+                throw new Error();
+            }
+            const emojiPicker = new EmojiButton({
+                style: 'twemoji',
+                theme: 'dark',
+                zIndex: 99,
+                rootElement: parentNode as HTMLElement,
+            });
             emojiPicker.on('emoji', (selection) => {
                 const { emoji } = selection;
                 const html = twemoji.parse(emoji, { attributes: (text) => ({ title: text }) });
