@@ -1,5 +1,11 @@
 # @milkdown/gh-pages
 
+## 4.8.0
+
+### Minor Changes
+
+-   501ad84: Add emoji plugin
+
 ## 4.7.1
 
 ### Patch Changes
