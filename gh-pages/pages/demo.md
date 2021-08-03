@@ -18,7 +18,8 @@ You can check the output markdown text in **developer tool**.
     -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
     -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
     -   [x] 🍻 **Collaborate** - Shared editing support with [yjs], driven by plugin
-    -   [x] 💾 **Clipboard** - Support copy content as markdown and paste markdown as content, driven by plugin.
+    -   [x] 💾 **Clipboard** - Support copy and paste markdown, driven by plugin
+    -   [x] :+1: **Emoji** - Support emoji shortcut and picker, driven by plugin
 -   Made by
     -   Programmer: [Mirone][mirone]
     -   Designer: [Meo][meo]

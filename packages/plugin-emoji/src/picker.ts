@@ -15,21 +15,21 @@ const pickerPlugin = () => {
     const holder = document.createElement('span');
     let _from = 0;
     let _to = 0;
+    const off = () => {
+        if (trigger) {
+            trigger = false;
+            emojiPicker.hidePicker();
+        }
+    };
 
     const plugin = new Plugin({
         props: {
             handleKeyDown() {
-                if (trigger) {
-                    trigger = false;
-                    emojiPicker.hidePicker();
-                }
+                off();
                 return false;
             },
             handleClick() {
-                if (trigger) {
-                    trigger = false;
-                    emojiPicker.hidePicker();
-                }
+                off();
                 return false;
             },
             handleTextInput(view, from, to, text) {
@@ -69,9 +69,7 @@ const pickerPlugin = () => {
             emojiPicker.on('emoji', (selection) => {
                 const { emoji } = selection;
                 const html = twemoji.parse(emoji, { attributes: (text) => ({ title: text }) });
-
-                trigger = false;
-                emojiPicker.hidePicker();
+                off();
                 const { tr } = editorView.state;
                 const node = editorView.state.schema.node('emoji', { html });
 
