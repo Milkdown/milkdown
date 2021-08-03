@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 4.8.0
+
+### Minor Changes
+
+-   501ad84: Add emoji plugin
+
+### Patch Changes
+
+-   Updated dependencies [501ad84]
+    -   @milkdown/plugin-table@4.8.0
+    -   @milkdown/preset-commonmark@4.8.0
+    -   @milkdown/utils@4.8.0
+
 ## 4.7.1
 
 ### Patch Changes
