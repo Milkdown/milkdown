@@ -20,6 +20,7 @@ img.emoji {
 
 .milkdown-emoji-filter {
     position: fixed;
+    z-index: 9;
     &.hide {
         display: none;
     }

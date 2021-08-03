@@ -71,10 +71,10 @@ const renderDropdownList = (
             target.classList.add('active');
             setActive(target);
         });
-        container.addEventListener('mouseleave', () => {
-            if ($active) {
-                $active.classList.remove('active');
-            }
+        container.addEventListener('mouseleave', (e) => {
+            const { target } = e;
+            if (!(target instanceof HTMLElement)) return;
+            target.classList.remove('active');
         });
         container.addEventListener('mousedown', (e) => {
             onConfirm();
