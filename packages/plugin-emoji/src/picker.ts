@@ -11,6 +11,7 @@ const pickerPlugin = () => {
     const emojiPicker = new EmojiButton({
         style: 'twemoji',
         theme: 'dark',
+        zIndex: 99,
     });
     const holder = document.createElement('span');
     let _from = 0;
