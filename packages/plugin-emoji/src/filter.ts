@@ -4,7 +4,9 @@ import { search, Emoji } from 'node-emoji';
 import { Plugin } from 'prosemirror-state';
 import twemoji from 'twemoji';
 
-const pattern = /:\+1:|:-1:|:[\w-]+/;
+const pattern = /:\+1|:-1|:[\w-]+/;
+
+const full = /:\+1:|:-1:|:[\w-]+:/;
 
 const filterPlugin = () => {
     let trigger = false;
@@ -38,6 +40,9 @@ const filterPlugin = () => {
                     const textBefore =
                         $from.parent.textBetween($from.parentOffset - 10, $from.parentOffset, undefined, '\ufffc') +
                         text;
+                    if (full.test(textBefore)) {
+                        return false;
+                    }
                     const regex = textBefore.match(pattern);
                     if (regex) {
                         const match = regex[0];
