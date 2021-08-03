@@ -1,9 +1,8 @@
 import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
 import { InputRule } from 'prosemirror-inputrules';
-import twemoji from 'twemoji';
-
-const shortEmoji = /:\+1:|:-1:|:[\w-]+:/;
+import { full } from './constant';
+import { parse } from './parse';
 
 export const emojiNode = createNode(() => ({
     id: 'emoji',
@@ -52,13 +51,13 @@ export const emojiNode = createNode(() => ({
         },
     },
     inputRules: (nodeType) => [
-        new InputRule(shortEmoji, (state, match, start, end) => {
+        new InputRule(full, (state, match, start, end) => {
             const content = match[0];
             if (!content) return null;
             const got = nodeEmoji.get(content);
             if (!got || got === content) return null;
 
-            const html = twemoji.parse(got, { attributes: (text) => ({ title: text }) });
+            const html = parse(got);
 
             return state.tr.replaceRangeWith(start, end, nodeType.create({ html })).scrollIntoView();
         }),

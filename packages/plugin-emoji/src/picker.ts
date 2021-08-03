@@ -1,10 +1,31 @@
 import { EmojiButton } from '@joeattardi/emoji-button';
 import { prosePluginFactory } from '@milkdown/core';
 import { Plugin } from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
-import twemoji from 'twemoji';
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+import { parse } from './parse';
 
 const keyword = ':emoji:';
+
+const checkTrigger = (
+    view: EditorView,
+    from: number,
+    to: number,
+    text: string,
+    setRange: (from: number, to: number) => void,
+) => {
+    if (view.composing) return false;
+    const { state } = view;
+    const $from = state.doc.resolve(from);
+    if ($from.parent.type.spec.code) return false;
+    const textBefore =
+        $from.parent.textBetween($from.parentOffset - keyword.length + 1, $from.parentOffset, undefined, '\ufffc') +
+        text;
+    if (textBefore === keyword) {
+        setRange(from - keyword.length + 1, to + 1);
+        return true;
+    }
+    return false;
+};
 
 const pickerPlugin = () => {
     let trigger = false;
@@ -13,6 +34,8 @@ const pickerPlugin = () => {
     let _to = 0;
     const off = () => {
         trigger = false;
+        _from = 0;
+        _to = 0;
     };
 
     const plugin = new Plugin({
@@ -26,29 +49,13 @@ const pickerPlugin = () => {
                 return false;
             },
             handleTextInput(view, from, to, text) {
-                const checkTrigger = () => {
-                    if (view.composing) return false;
-                    const { state } = view;
-                    const $from = state.doc.resolve(from);
-                    if ($from.parent.type.spec.code) return false;
-                    const textBefore =
-                        $from.parent.textBetween(
-                            $from.parentOffset - keyword.length + 1,
-                            $from.parentOffset,
-                            undefined,
-                            '\ufffc',
-                        ) + text;
-                    if (textBefore === keyword) {
-                        _from = from - keyword.length + 1;
-                        _to = to + 1;
-                        return true;
-                    }
-                    return false;
-                };
-                trigger = checkTrigger();
+                trigger = checkTrigger(view, from, to, text, (from, to) => {
+                    _from = from;
+                    _to = to;
+                });
+
                 if (!trigger) {
-                    _from = 0;
-                    _to = 0;
+                    off();
                 }
                 return false;
             },
@@ -69,13 +76,12 @@ const pickerPlugin = () => {
                 zIndex: 99,
             });
             emojiPicker.on('emoji', (selection) => {
-                const { emoji } = selection;
-                const html = twemoji.parse(emoji, { attributes: (text) => ({ title: text }) });
-                off();
-                const { tr } = editorView.state;
+                const html = parse(selection.emoji);
                 const node = editorView.state.schema.node('emoji', { html });
+                const { tr } = editorView.state;
 
                 editorView.dispatch(tr.replaceRangeWith(_from, _to, node));
+                off();
             });
             return {
                 update: () => {

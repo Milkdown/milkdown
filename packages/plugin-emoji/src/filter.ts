@@ -2,11 +2,85 @@ import { prosePluginFactory } from '@milkdown/core';
 import { calculateNodePosition } from '@milkdown/utils';
 import { search, Emoji } from 'node-emoji';
 import { Plugin } from 'prosemirror-state';
-import twemoji from 'twemoji';
+import { EditorView } from 'prosemirror-view';
+import { full, part } from './constant';
+import { parse } from './parse';
 
-const pattern = /:\+1|:-1|:[\w-]+/;
+const checkTrigger = (
+    view: EditorView,
+    from: number,
+    to: number,
+    text: string,
+    setRange: (from: number, to: number) => void,
+    setSearch: (words: string) => void,
+) => {
+    if (view.composing) return false;
+    const { state } = view;
+    const $from = state.doc.resolve(from);
+    if ($from.parent.type.spec.code) return false;
+    const textBefore =
+        $from.parent.textBetween($from.parentOffset - 10, $from.parentOffset, undefined, '\ufffc') + text;
+    if (full.test(textBefore)) {
+        return false;
+    }
+    const regex = textBefore.match(part);
+    if (regex) {
+        const match = regex[0];
+        setRange(from - match.length + 1, to + 1);
+        setSearch(match);
+        return true;
+    }
+    return false;
+};
 
-const full = /:\+1:|:-1:|:[\w-]+:/;
+const renderDropdownList = (
+    list: Emoji[],
+    dropDown: HTMLElement,
+    $active: HTMLElement | null,
+    onConfirm: () => void,
+) => {
+    dropDown.innerHTML = '';
+    list.forEach(({ emoji, key }, i) => {
+        const container = document.createElement('div');
+        container.className = 'milkdown-emoji-filter_item';
+
+        const emojiSpan = document.createElement('span');
+        emojiSpan.innerHTML = parse(emoji);
+
+        emojiSpan.className = 'milkdown-emoji-filter_item-emoji';
+        const keySpan = document.createElement('span');
+        keySpan.textContent = ':' + key + ':';
+        keySpan.className = 'milkdown-emoji-filter_item-key';
+
+        container.appendChild(emojiSpan);
+        container.appendChild(keySpan);
+        dropDown.appendChild(container);
+
+        if (i === 0) {
+            container.classList.add('active');
+            $active = container;
+        }
+
+        container.addEventListener('mouseenter', (e) => {
+            if ($active) {
+                $active.classList.remove('active');
+            }
+            const { target } = e;
+            if (!(target instanceof HTMLElement)) return;
+            target.classList.add('active');
+            $active = target;
+        });
+        container.addEventListener('mouseleave', () => {
+            if ($active) {
+                $active.classList.remove('active');
+            }
+        });
+        container.addEventListener('mousedown', (e) => {
+            onConfirm();
+            e.preventDefault();
+        });
+    });
+};
 
 const filterPlugin = () => {
     let trigger = false;
@@ -15,13 +89,21 @@ const filterPlugin = () => {
     let _search = '';
     let $active: null | HTMLElement = null;
 
-    const plugin = new Plugin({
+    const off = () => {
+        trigger = false;
+        _from = 0;
+        _to = 0;
+        _search = '';
+        $active = null;
+    };
+
+    return new Plugin({
         props: {
             handleKeyDown(_, event) {
                 if (['Delete', 'Backspace'].includes(event.key)) {
                     _search = _search.slice(0, -1);
                     if (_search.length <= 1) {
-                        trigger = false;
+                        off();
                     }
                     return false;
                 }
@@ -32,32 +114,21 @@ const filterPlugin = () => {
                 return true;
             },
             handleTextInput(view, from, to, text) {
-                const checkTrigger = () => {
-                    if (view.composing) return false;
-                    const { state } = view;
-                    const $from = state.doc.resolve(from);
-                    if ($from.parent.type.spec.code) return false;
-                    const textBefore =
-                        $from.parent.textBetween($from.parentOffset - 10, $from.parentOffset, undefined, '\ufffc') +
-                        text;
-                    if (full.test(textBefore)) {
-                        return false;
-                    }
-                    const regex = textBefore.match(pattern);
-                    if (regex) {
-                        const match = regex[0];
-                        _from = from - match.length + 1;
-                        _to = to + 1;
-                        _search = match;
-                        return true;
-                    }
-                    return false;
-                };
-                trigger = checkTrigger();
+                trigger = checkTrigger(
+                    view,
+                    from,
+                    to,
+                    text,
+                    (from, to) => {
+                        _from = from;
+                        _to = to;
+                    },
+                    (search) => {
+                        _search = search;
+                    },
+                );
                 if (!trigger) {
-                    _from = 0;
-                    _to = 0;
-                    _search = '';
+                    off();
                 }
                 return false;
             },
@@ -67,6 +138,7 @@ const filterPlugin = () => {
             if (!parentNode) {
                 throw new Error();
             }
+
             const dropDown = document.createElement('div');
             dropDown.className = 'milkdown-emoji-filter hide';
 
@@ -77,11 +149,7 @@ const filterPlugin = () => {
                 const node = editorView.state.schema.node('emoji', { html: $active.firstElementChild?.innerHTML });
 
                 editorView.dispatch(tr.replaceRangeWith(_from, _to, node));
-                $active = null;
-                trigger = false;
-                _from = 0;
-                _to = 0;
-                _search = '';
+                off();
                 dropDown.classList.add('hide');
             };
 
@@ -91,77 +159,26 @@ const filterPlugin = () => {
 
                 const { key } = e;
 
-                if (key === 'ArrowDown') {
-                    const next = $active?.nextElementSibling || dropDown.firstElementChild;
-                    if ($active) {
-                        $active.classList.remove('active');
-                    }
-                    if (!next) return;
-                    next.classList.add('active');
-                    $active = next as HTMLElement;
-
-                    return;
-                }
-                if (key === 'ArrowUp') {
-                    const next = $active?.previousElementSibling || dropDown.lastElementChild;
-                    if ($active) {
-                        $active.classList.remove('active');
-                    }
-                    if (!next) return;
-                    next.classList.add('active');
-                    $active = next as HTMLElement;
-
-                    return;
-                }
                 if (key === 'Enter') {
                     replace();
+                    return;
+                }
+
+                if (['ArrowDown', 'ArrowUp'].includes(key)) {
+                    const next =
+                        key === 'ArrowDown'
+                            ? $active?.nextElementSibling || dropDown.firstElementChild
+                            : $active?.previousElementSibling || dropDown.lastElementChild;
+                    if ($active) {
+                        $active.classList.remove('active');
+                    }
+                    if (!next) return;
+                    next.classList.add('active');
+                    $active = next as HTMLElement;
+
+                    return;
                 }
             });
-
-            const renderDropdownList = (list: Emoji[]) => {
-                dropDown.innerHTML = '';
-                list.forEach(({ emoji, key }, i) => {
-                    const container = document.createElement('div');
-                    container.className = 'milkdown-emoji-filter_item';
-
-                    const emojiSpan = document.createElement('span');
-                    const html = twemoji.parse(emoji, { attributes: (text) => ({ title: text }) });
-                    emojiSpan.innerHTML = html;
-
-                    emojiSpan.className = 'milkdown-emoji-filter_item-emoji';
-                    const keySpan = document.createElement('span');
-                    keySpan.textContent = ':' + key + ':';
-                    keySpan.className = 'milkdown-emoji-filter_item-key';
-
-                    container.appendChild(emojiSpan);
-                    container.appendChild(keySpan);
-                    dropDown.appendChild(container);
-
-                    if (i === 0) {
-                        container.classList.add('active');
-                        $active = container;
-                    }
-
-                    container.addEventListener('mouseenter', (e) => {
-                        if ($active) {
-                            $active.classList.remove('active');
-                        }
-                        const { target } = e;
-                        if (!(target instanceof HTMLElement)) return;
-                        target.classList.add('active');
-                        $active = target;
-                    });
-                    container.addEventListener('mouseleave', () => {
-                        if ($active) {
-                            $active.classList.remove('active');
-                        }
-                    });
-                    container.addEventListener('mousedown', (e) => {
-                        replace();
-                        e.preventDefault();
-                    });
-                });
-            };
 
             return {
                 update: (view) => {
@@ -177,7 +194,7 @@ const filterPlugin = () => {
                     }
 
                     dropDown.classList.remove('hide');
-                    renderDropdownList(result);
+                    renderDropdownList(result, dropDown, $active, replace);
                     calculateNodePosition(view, dropDown, (selected, target) => {
                         const start = view.coordsAtPos(_from);
                         let left = start.left;
@@ -198,8 +215,6 @@ const filterPlugin = () => {
             };
         },
     });
-
-    return plugin;
 };
 
 export const filter = prosePluginFactory(filterPlugin());
