@@ -67,7 +67,6 @@ const pickerPlugin = () => {
                 style: 'twemoji',
                 theme: 'dark',
                 zIndex: 99,
-                rootElement: parentNode as HTMLElement,
             });
             emojiPicker.on('emoji', (selection) => {
                 const { emoji } = selection;
