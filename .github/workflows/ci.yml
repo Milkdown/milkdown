@@ -51,7 +51,7 @@ jobs:
               uses: docker/build-push-action@v2
               with:
                   context: .
-                  file: ./Dockerfile
+                  file: ./.devcontainer/Dockerfile
                   tags: milkdown:ci
                   outputs: type=docker,dest=/tmp/milkdown.tar
 
