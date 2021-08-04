@@ -24,7 +24,7 @@ const checkTrigger = (
         return false;
     }
     const regex = textBefore.match(part);
-    if (regex) {
+    if (regex && textBefore.endsWith(regex[0])) {
         const match = regex[0];
         setRange(from - match.length + 1, to + 1);
         setSearch(match);

@@ -1,6 +1,6 @@
 import { EmojiButton } from '@joeattardi/emoji-button';
 import { prosePluginFactory } from '@milkdown/core';
-import { Plugin } from 'prosemirror-state';
+import { Plugin, TextSelection } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { parse } from './parse';
 
@@ -71,6 +71,7 @@ const pickerPlugin = () => {
                 throw new Error();
             }
             const emojiPicker = new EmojiButton({
+                autoFocusSearch: false,
                 style: 'twemoji',
                 theme: 'dark',
                 zIndex: 99,
@@ -80,7 +81,9 @@ const pickerPlugin = () => {
                 const node = editorView.state.schema.node('emoji', { html });
                 const { tr } = editorView.state;
 
-                editorView.dispatch(tr.replaceRangeWith(_from, _to, node));
+                const _tr = tr.replaceRangeWith(_from, _to, node);
+                const sel = TextSelection.create(_tr.doc, _from + node.content.size);
+                editorView.dispatch(_tr.setSelection(sel).scrollIntoView());
                 off();
             });
             return {

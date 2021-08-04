@@ -1,7 +1,7 @@
 import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
 import { InputRule } from 'prosemirror-inputrules';
-import { full } from './constant';
+import { input } from './constant';
 import { parse } from './parse';
 
 export const emojiNode = createNode(() => ({
@@ -10,6 +10,7 @@ export const emojiNode = createNode(() => ({
         group: 'inline',
         inline: true,
         selectable: false,
+        marks: '',
         attrs: {
             html: {
                 default: '',
@@ -17,7 +18,7 @@ export const emojiNode = createNode(() => ({
         },
         parseDOM: [
             {
-                tag: 'span[.emoji]',
+                tag: 'span[data-type="emoji"]',
                 getAttrs: (dom) => {
                     if (!(dom instanceof HTMLElement)) {
                         throw new Error();
@@ -28,6 +29,7 @@ export const emojiNode = createNode(() => ({
         ],
         toDOM: (node) => {
             const span = document.createElement('span');
+            span.dataset.type = 'emoji';
             span.className = 'emoji';
             span.innerHTML = node.attrs.html;
             return { dom: span };
@@ -51,11 +53,11 @@ export const emojiNode = createNode(() => ({
         },
     },
     inputRules: (nodeType) => [
-        new InputRule(full, (state, match, start, end) => {
+        new InputRule(input, (state, match, start, end) => {
             const content = match[0];
             if (!content) return null;
             const got = nodeEmoji.get(content);
-            if (!got || got === content) return null;
+            if (!got || content.includes(got)) return null;
 
             const html = parse(got);
 
