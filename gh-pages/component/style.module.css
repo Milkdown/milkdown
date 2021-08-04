@@ -1,7 +1,7 @@
 .right {
     display: flex;
     flex-direction: column;
-    transition: all 0.2s ease-in-out;
+    transition: margin 0.2s ease-in;
     flex: 1;
     margin-left: 16rem;
     width: 100%;

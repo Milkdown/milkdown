@@ -8,7 +8,7 @@
     bottom: 0;
     border-right: 1px solid palette(line);
     transform: translateX(0);
-    transition: all 0.2s ease-in-out;
+    transition: transform, width 0.2s ease-in;
     padding-bottom: 2.5rem;
     &.fold {
         width: 0;

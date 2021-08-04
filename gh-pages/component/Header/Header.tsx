@@ -68,7 +68,7 @@ export const Header: React.FC<Props> = ({
                     )}
                     <Link to="/" className={className.logo}>
                         <img src="/milkdown/milkdown-mini.svg" />
-                        <span style={{ opacity: scrolled ? 0 : 1, transition: 'all 0.2s ease-in' }}>Milkdown</span>
+                        <span style={{ opacity: scrolled ? 0 : 1, transition: 'opacity 0.2s ease-in' }}>Milkdown</span>
                     </Link>
                 </div>
                 <div className={className.part}>

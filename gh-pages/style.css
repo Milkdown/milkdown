@@ -11,7 +11,6 @@ body {
     min-height: 100vh;
     background: palette(background);
     font-family: var(--font);
-    transition: all 1s ease-in-out;
 }
 
 #app {
