@@ -1,11 +1,15 @@
 .container {
     width: 100%;
+    transition: all 0.2s ease-in-out;
     box-shadow: 0px 4px 5px palette(shadow, 0.14), 0px 1px 10px palette(shadow, 0.12), 0px 2px 4px palette(shadow, 0.2);
     display: flex;
     justify-content: center;
-    position: relative;
+    position: fixed;
     z-index: 2;
     background: palette(background);
+    &.fold {
+        width: calc(100vw - 16rem);
+    }
 }
 
 .header {

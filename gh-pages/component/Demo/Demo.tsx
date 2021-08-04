@@ -66,6 +66,7 @@ const CodeMirror = ({
     dark: boolean;
 }): JSX.Element => {
     const ref = React.useRef<HTMLDivElement>(null);
+    const [focus, setFocus] = React.useState(false);
 
     React.useEffect(() => {
         if (!ref.current) return;
@@ -78,7 +79,11 @@ const CodeMirror = ({
     }, [onChange, value, lock, dark]);
 
     return (
-        <div className={className.code}>
+        <div
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
+            className={className.code + (focus ? ' ' + className.focus : '')}
+        >
             <div ref={ref} />
         </div>
     );

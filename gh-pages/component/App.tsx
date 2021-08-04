@@ -19,34 +19,24 @@ export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMo
     isDarkMode,
     editorMode,
 }) => {
-    const containerRef = React.useRef<HTMLDivElement>(null);
     const [locationType] = useLocationType();
 
     const classes = [className.container, locationType === LocationType.Home ? className.homepage : ''].join(' ');
 
     React.useEffect(() => {
-        if (!containerRef.current) return;
-
-        const { current } = containerRef;
-
-        const scroll = (e: Event) => {
-            const { target } = e;
-            if (!(target instanceof HTMLDivElement)) {
-                return;
-            }
-            const { scrollTop } = target;
-            setScrolled(scrollTop > 0);
+        const scroll = () => {
+            setScrolled(window.pageYOffset > 0);
         };
 
-        current.addEventListener('scroll', scroll);
+        document.addEventListener('scroll', scroll);
 
         return () => {
-            current.removeEventListener('scroll', scroll);
+            document.removeEventListener('scroll', scroll);
         };
     }, [setScrolled]);
 
     return (
-        <div ref={containerRef} className={classes}>
+        <div className={classes}>
             <article>
                 <Switch>
                     <Route exact path="/">
@@ -87,6 +77,7 @@ export const App: React.FC = () => {
                     className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}
                 >
                     <Header
+                        fold={displaySidebar}
                         isDarkMode={isDarkMode}
                         setIsDarkMode={setIsDarkMode}
                         onEditorModeToggle={() =>

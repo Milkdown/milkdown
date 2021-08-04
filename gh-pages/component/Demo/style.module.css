@@ -5,34 +5,6 @@
     width: 100%;
 }
 
-.code {
-    margin: 1.25rem 0;
-    background: palette(surface);
-    transition: flex-basis 0.2s ease-in;
-    resize: none;
-    border: none;
-    width: 0;
-    height: 0;
-    flex: 0;
-    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
-    border-radius: var(--radius);
-    color: palette(neutral, 0.87);
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    overflow: hidden;
-    padding: 0;
-
-    &:focus-visible {
-        outline: none;
-        border: 1px solid palette(secondary);
-    }
-
-    ::selection {
-        background: palette(secondary, 0.38) !important;
-    }
-    @mixin scrollbar;
-}
-
 .milk {
     flex-grow: 1;
     transition: flex 0.2s ease-in;
@@ -54,6 +26,34 @@
     }
     .milk {
         width: 50%;
+    }
+}
+
+.code {
+    margin: 1.25rem 0;
+    background: palette(surface);
+    transition: flex-basis 0.2s ease-in;
+    resize: none;
+    border: none;
+    width: 0;
+    height: 0;
+    flex: 0;
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    border-radius: var(--radius);
+    color: palette(neutral, 0.87);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    overflow: hidden;
+    padding: 0;
+
+    ::selection {
+        background: palette(secondary, 0.38) !important;
+    }
+    @mixin scrollbar;
+
+    &.focus {
+        outline: none;
+        border: 1px solid palette(secondary);
     }
 }
 

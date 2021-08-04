@@ -30,6 +30,7 @@
 }
 
 .main {
+    margin-top: 4.5rem;
     display: flex;
     flex: 1;
 }

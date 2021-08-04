@@ -12,6 +12,7 @@ type Props = {
     onEditorModeToggle: () => void;
     isDarkMode: boolean;
     setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+    fold: boolean;
 };
 
 const materialIcon = `${className.icon} material-icons-outlined`;
@@ -23,6 +24,7 @@ export const Header: React.FC<Props> = ({
     onEditorModeToggle,
     isDarkMode,
     setIsDarkMode,
+    fold,
 }) => {
     const [showToggle, setShowToggle] = React.useState(true);
     const [showEditorToggle, setShowEditorToggle] = React.useState(false);
@@ -46,6 +48,7 @@ export const Header: React.FC<Props> = ({
     const headerClass = [
         className.container,
         locationType === LocationType.Home || !scrolled ? className.homepage : '',
+        fold ? className.fold : '',
     ].join(' ');
 
     return (
