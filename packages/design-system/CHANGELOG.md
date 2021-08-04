@@ -1,5 +1,11 @@
 # @milkdown/design-system
 
+## 4.8.1
+
+### Patch Changes
+
+-   6d801db: Refactor for small improvements.
+
 ## 4.8.0
 
 ### Minor Changes

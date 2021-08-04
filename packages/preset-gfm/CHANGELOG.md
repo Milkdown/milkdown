@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.8.1
+
+### Patch Changes
+
+-   6d801db: Refactor for small improvements.
+-   Updated dependencies [6d801db]
+    -   @milkdown/plugin-table@4.8.1
+    -   @milkdown/preset-commonmark@4.8.1
+    -   @milkdown/utils@4.8.1
+
 ## 4.8.0
 
 ### Minor Changes
