@@ -22,9 +22,9 @@ jobs:
                   path: |
                       ~/.pnpm-store
                       ./.pnpm-store
-              key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-              restore-keys: |
-                  ${{ runner.os }}
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
 
             - name: build milkdown
               run: |
