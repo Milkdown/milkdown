@@ -75,7 +75,7 @@ class Props {
         const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
         const isTopLevel = state.selection.$from.depth === 1;
 
-        if (!parent || !isTopLevel) {
+        if (!parent || parent.node.childCount > 1 || !isTopLevel) {
             status.clearStatus();
             return;
         }
