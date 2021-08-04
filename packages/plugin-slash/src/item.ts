@@ -13,11 +13,12 @@ export type WrappedAction = Pick<Action, 'keyword'> & {
     enable: (schema: Schema) => boolean;
     onCreate: (schema: Schema) => Node;
     dom: HTMLElement;
+    selectionType?: 'node' | 'text';
 };
 
 export const transformAction = (action: WrappedAction): Action => ({
     keyword: action.keyword,
     $: action.dom,
-    command: cleanUpAndCreateNode(action.onCreate),
+    command: cleanUpAndCreateNode(action.onCreate, action.selectionType),
     enable: action.enable,
 });

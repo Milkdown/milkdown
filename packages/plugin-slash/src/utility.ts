@@ -1,5 +1,5 @@
 import type { Node, Schema } from 'prosemirror-model';
-import { TextSelection } from 'prosemirror-state';
+import { NodeSelection, TextSelection } from 'prosemirror-state';
 import type { Action } from './item';
 
 export const createDropdown = () => {
@@ -50,7 +50,7 @@ export const getDepth = (node: Node) => {
 };
 
 export const cleanUpAndCreateNode =
-    (fn: (schema: Schema) => Node): Action['command'] =>
+    (fn: (schema: Schema) => Node, selectionType: 'node' | 'text' = 'text'): Action['command'] =>
     (schema: Schema) =>
     (state, dispatch) => {
         if (!dispatch) return false;
@@ -61,7 +61,12 @@ export const cleanUpAndCreateNode =
         const node = fn(schema);
         const tr = state.tr.replaceWith(start, $head.pos, node);
         const pos = start + getDepth(node) + 1;
-        const sel = TextSelection.create(tr.doc, pos);
+        let sel;
+        if (selectionType === 'node') {
+            sel = NodeSelection.create(tr.doc, pos - 1);
+        } else {
+            sel = TextSelection.create(tr.doc, pos);
+        }
         dispatch(tr.setSelection(sel).scrollIntoView());
         return true;
     };

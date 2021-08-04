@@ -47,6 +47,7 @@ export const config: Array<WrappedAction> = [
             schema.node('paragraph', undefined, schema.nodes.image.createAndFill({ src: '' }) as Node),
         keyword: ['image'],
         enable: nodeExists('image'),
+        selectionType: 'node',
     },
     {
         dom: createDropdownItem('Quote', 'format_quote'),
