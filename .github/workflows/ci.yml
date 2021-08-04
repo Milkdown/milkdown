@@ -50,16 +50,16 @@ jobs:
             - name: build and push
               uses: docker/build-push-action@v2
               with:
-              context: .
-              file: ./Dockerfile
-              tags: milkdown:ci
-              outputs: type=docker,dest=/tmp/milkdown.tar
+                  context: .
+                  file: ./Dockerfile
+                  tags: milkdown:ci
+                  outputs: type=docker,dest=/tmp/milkdown.tar
 
             - name: Upload artifact
               uses: actions/upload-artifact@v2
               with:
-              name: milkdown
-              path: /tmp/milkdown.tar
+                  name: milkdown
+                  path: /tmp/milkdown.tar
 
     test:
         runs-on: ubuntu-latest
@@ -71,13 +71,13 @@ jobs:
             - name: Download artifact
               uses: actions/download-artifact@v2
               with:
-              name: milkdown
-              path: /tmp
+                  name: milkdown
+                  path: /tmp
 
             - name: load docker image
               run: |
-                docker load --input /tmp/milkdown.tar
-                docker image ls -a
+                  docker load --input /tmp/milkdown.tar
+                  docker image ls -a
 
             - name: build milkdown
               run: |
