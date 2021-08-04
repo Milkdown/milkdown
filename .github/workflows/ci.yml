@@ -1,33 +1,34 @@
-name: release
+name: ci
 
 on:
-    workflow_run:
-        workflows: test
+    push:
         branches: main
-        types:
-            - completed
+    pull_request:
+        branches: main
 
 env:
     CI: true
     PNPM_CACHE_FOLDER: .pnpm-store
 jobs:
-    release:
-        timeout-minutes: 15
+    build:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code repository
               uses: actions/checkout@v2
               with:
                   fetch-depth: 0
+
             - name: setup node.js
               uses: actions/setup-node@v2
               with:
-                  node-version: 14
+                  node-version: 15.x
 
             - name: install pnpm
               run: npm i pnpm@latest -g
+
             - name: creating .npmrc
               run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+
             - name: setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
 
@@ -43,6 +44,25 @@ jobs:
 
             - name: install dependencies
               run: pnpm install
+
+    test:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: build milkdown
+              run: |
+                  npx playwright install-deps
+            - name: run test
+              run: |
+                  pnpm lint
+                  pnpm tsc
+                  pnpm test
+                  pnpm pw:ci
+
+    release:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
             - name: create versions or publish to npm registry
               uses: changesets/action@master
               with:
@@ -51,3 +71,15 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    pages:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: build milkdown
+              run: pnpm build:doc
+            - name: deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: docs
