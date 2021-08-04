@@ -10,28 +10,19 @@ env:
     CI: true
     PNPM_CACHE_FOLDER: .pnpm-store
 jobs:
-    build:
+    test:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code repository
               uses: actions/checkout@v2
               with:
                   fetch-depth: 0
-
             - name: setup node.js
               uses: actions/setup-node@v2
               with:
                   node-version: 15.x
-
             - name: install pnpm
               run: npm i pnpm@latest -g
-
-            - name: creating .npmrc
-              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-
-            - name: setup pnpm config
-              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-
             - name: load cache
               uses: actions/cache@v2
               with:
@@ -40,51 +31,13 @@ jobs:
                   key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: |
                       ${{ runner.os }}
-
             - name: install dependencies
               run: pnpm install
 
-            - name: set up docker build
-              uses: docker/setup-buildx-action@v1
-
-            - name: build and push
-              uses: docker/build-push-action@v2
-              with:
-                  context: .
-                  file: ./.devcontainer/Dockerfile
-                  tags: milkdown:ci
-                  outputs: type=docker,dest=/tmp/milkdown.tar
-
-            - name: Upload artifact
-              uses: actions/upload-artifact@v2
-              with:
-                  name: milkdown
-                  path: /tmp/milkdown.tar
-
-    test:
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: set up docker build
-              uses: docker/setup-buildx-action@v1
-
-            - name: Download artifact
-              uses: actions/download-artifact@v2
-              with:
-                  name: milkdown
-                  path: /tmp
-
-            - name: load docker image
-              run: |
-                  docker load --input /tmp/milkdown.tar
-                  docker image ls -a
-
-            - name: install pnpm
-              run: npm i pnpm@latest -g
-
-            - name: build milkdown
+            - name: install playwright
               run: |
                   npx playwright install-deps
+
             - name: run test
               run: |
                   pnpm lint
@@ -96,20 +49,31 @@ jobs:
         runs-on: ubuntu-latest
         needs: test
         steps:
-            - name: set up docker build
-              uses: docker/setup-buildx-action@v1
-
-            - name: Download artifact
-              uses: actions/download-artifact@v2
+            - name: checkout code repository
+              uses: actions/checkout@v2
               with:
-                  name: milkdown
-                  path: /tmp
+                  fetch-depth: 0
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 15.x
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
 
-            - name: load docker image
-              run: |
-                  docker load --input /tmp/milkdown.tar
-                  docker image ls -a
-
+            - name: creating .npmrc
+              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+            - name: install dependencies
+              run: pnpm install
             - name: install pnpm
               run: npm i pnpm@latest -g
 
@@ -126,27 +90,31 @@ jobs:
         runs-on: ubuntu-latest
         needs: test
         steps:
-            - name: set up docker build
-              uses: docker/setup-buildx-action@v1
-
-            - name: Download artifact
-              uses: actions/download-artifact@v2
+            - name: checkout code repository
+              uses: actions/checkout@v2
               with:
-                  name: milkdown
-                  path: /tmp
-
-            - name: load docker image
-              run: |
-                  docker load --input /tmp/milkdown.tar
-                  docker image ls -a
-
+                  fetch-depth: 0
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 15.x
             - name: install pnpm
               run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
 
-            - name: build milkdown
+            - name: install dependencies
+              run: pnpm install
+            - name: build milkdown doc
               run: pnpm build:doc
 
-            - name: deploy to GitHub Pages
+            - name: deploy to pages
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
