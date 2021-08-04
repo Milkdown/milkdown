@@ -79,6 +79,9 @@ jobs:
                   docker load --input /tmp/milkdown.tar
                   docker image ls -a
 
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+
             - name: build milkdown
               run: |
                   npx playwright install-deps
@@ -93,6 +96,23 @@ jobs:
         runs-on: ubuntu-latest
         needs: test
         steps:
+            - name: set up docker build
+              uses: docker/setup-buildx-action@v1
+
+            - name: Download artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: milkdown
+                  path: /tmp
+
+            - name: load docker image
+              run: |
+                  docker load --input /tmp/milkdown.tar
+                  docker image ls -a
+
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+
             - name: create versions or publish to npm registry
               uses: changesets/action@master
               with:
@@ -106,8 +126,26 @@ jobs:
         runs-on: ubuntu-latest
         needs: test
         steps:
+            - name: set up docker build
+              uses: docker/setup-buildx-action@v1
+
+            - name: Download artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: milkdown
+                  path: /tmp
+
+            - name: load docker image
+              run: |
+                  docker load --input /tmp/milkdown.tar
+                  docker image ls -a
+
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+
             - name: build milkdown
               run: pnpm build:doc
+
             - name: deploy to GitHub Pages
               uses: peaceiris/actions-gh-pages@v3
               with:
