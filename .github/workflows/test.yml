@@ -16,6 +16,16 @@ jobs:
               with:
                   node-version: 15.x
 
+            - name: Cache .pnpm-store
+              uses: actions/cache@v2
+              with:
+              path: |
+                  ~/.pnpm-store
+                  ./.pnpm-store
+              key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+              restore-keys: |
+                  ${{ runner.os }}
+
             - name: build milkdown
               run: |
                   npm i -g pnpm
