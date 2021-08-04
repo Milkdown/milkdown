@@ -135,7 +135,16 @@ class View {
         if (!view) return;
 
         const el = Object.values(this.#items).find(({ $ }) => $.contains(target));
-        if (!el) return;
+        if (!el) {
+            if (this.#status.cursorStatus === CursorStatus.Empty) {
+                return;
+            }
+            this.#status.clearStatus();
+            this.#dropdownElement.classList.add('hide');
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
 
         e.stopPropagation();
         e.preventDefault();
