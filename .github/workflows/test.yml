@@ -16,7 +16,7 @@ jobs:
               with:
                   node-version: 15.x
 
-            - name: Cache .pnpm-store
+            - name: cache .pnpm-store
               uses: actions/cache@v2
               with:
                   path: |

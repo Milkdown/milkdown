@@ -23,13 +23,24 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: 14
+
             - name: install pnpm
-              # pnpm has bugs in @6.7, lock to wait the fix
               run: npm i pnpm@latest -g
             - name: creating .npmrc
               run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
             - name: setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+
+            - name: cache .pnpm-store
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ~/.pnpm-store
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
             - name: install dependencies
               run: pnpm install
             - name: create versions or publish to npm registry
