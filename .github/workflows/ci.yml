@@ -1,0 +1,126 @@
+name: ci
+
+on:
+    push:
+        branches: main
+    pull_request:
+        branches: main
+
+env:
+    CI: true
+    PNPM_CACHE_FOLDER: .pnpm-store
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 15.x
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+            - name: install dependencies
+              run: pnpm install
+
+            - name: install playwright
+              run: |
+                  npx playwright install-deps
+
+            - name: run test
+              run: |
+                  pnpm lint
+                  pnpm tsc
+                  pnpm test
+                  pnpm pw:ci
+
+    release:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 15.x
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - name: creating .npmrc
+              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+
+            - name: install dependencies
+              run: pnpm install
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+
+            - name: create versions or publish to npm registry
+              uses: changesets/action@master
+              with:
+                  publish: pnpm release
+                  commit: 'ci(changeset): prepare release'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    pages:
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 15.x
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+
+            - name: install dependencies
+              run: pnpm install
+            - name: build milkdown doc
+              run: pnpm build:doc
+
+            - name: deploy to pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: docs

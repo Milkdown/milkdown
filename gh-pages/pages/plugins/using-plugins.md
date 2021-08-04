@@ -75,6 +75,10 @@ Milkdown provides the following official plugins:
 
     Add slash commands support.
 
+-   [@milkdown/plugin-emoji](https://www.npmjs.com/package/@milkdown/plugin-emoji)
+
+    Add emoji support.
+
 ### Community plugins
 
 Check out [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) to find community plugins - you can also submit a PR to list your plugins there.

@@ -11,7 +11,21 @@ export const createNodeInParserFail = (...args: unknown[]) => {
         if (!arg) {
             return msg;
         }
-        return `${msg}, ${JSON.stringify(arg)}`;
+        const serialize = (x: unknown): string => {
+            if (Array.isArray(x)) {
+                return (x as unknown[]).map((y) => serialize(y)).join(', ');
+            }
+            if ((x as { toJSON(): Record<string, unknown> }).toJSON) {
+                return JSON.stringify((x as { toJSON(): Record<string, unknown> }).toJSON());
+            }
+
+            if ((x as { spec: string }).spec) {
+                return JSON.stringify((x as { spec: string }).spec);
+            }
+
+            return (x as { toString(): string }).toString();
+        };
+        return `${msg}, ${serialize(arg)}`;
     }, 'Create prosemirror node from remark failed in parser') as string;
 
     return new Error(message);

@@ -1,5 +1,17 @@
 # @milkdown/plugin-clipboard
 
+## 4.8.1
+
+### Patch Changes
+
+-   6d801db: Refactor for small improvements.
+
+## 4.8.0
+
+### Minor Changes
+
+-   501ad84: Add emoji plugin
+
 ## 4.7.1
 
 ### Patch Changes

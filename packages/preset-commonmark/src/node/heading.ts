@@ -19,7 +19,7 @@ const id = 'heading';
 export const heading = createNode<Keys>((_, utils) => ({
     id,
     schema: {
-        content: 'text*',
+        content: 'inline*',
         group: 'block',
         attrs: {
             level: {

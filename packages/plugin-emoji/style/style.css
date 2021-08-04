@@ -1,0 +1,48 @@
+img.emoji {
+    height: 1em;
+    width: 1em;
+    margin: 0 0.05em 0 0.1em;
+    vertical-align: -0.1em;
+}
+
+.emoji-picker {
+    --dark-search-background-color: palette(surface) !important;
+    --dark-text-color: palette(neutral, 0.87) !important;
+    --dark-background-color: palette(background) !important;
+    --dark-border-color: palette(shadow) !important;
+    --dark-hover-color: palette(secondary, 0.12) !important;
+    --dark-blue-color: palette(primary) !important;
+    --dark-search-icon-color: palette(primary) !important;
+    --dark-category-button-color: palette(secondary, 0.4) !important;
+    --font: var(--font-code) !important;
+    --font-size: 1rem !important;
+}
+
+.milkdown-emoji-filter {
+    position: fixed;
+    z-index: 9;
+    &.hide {
+        display: none;
+    }
+
+    border: 1px solid palette(line);
+    border-radius: var(--radius);
+    background: palette(surface);
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    &_item {
+        display: flex;
+        gap: 0.5rem;
+        height: 2.25rem;
+        padding: 0 1rem;
+        align-items: center;
+        justify-content: flex-start;
+        cursor: pointer;
+        line-height: 2;
+        font-family: var(--font);
+        font-size: 0.875rem;
+        &.active {
+            background: palette(secondary, 0.12);
+            color: palette(primary);
+        }
+    }
+}

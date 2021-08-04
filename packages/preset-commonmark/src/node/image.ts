@@ -48,13 +48,11 @@ export const image = createNode((_, utils) => ({
             const url = node.url as string;
             const alt = node.alt as string;
             const title = node.title as string;
-            state.openNode(type, {
+            state.addNode(type, {
                 src: url,
                 alt,
                 title,
             });
-            state.next(node.children);
-            state.closeNode();
         },
     },
     serializer: {

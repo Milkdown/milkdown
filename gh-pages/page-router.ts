@@ -11,12 +11,13 @@ import vue from './pages/integrations/vue.md';
 
 import writingPlugins from './pages/plugins/writing-plugins.md';
 import usingPlugins from './pages/plugins/using-plugins.md';
-import nodeAndMark from './pages/plugins/node&mark.md';
 import integratingPlugins from './pages/plugins/integrating-plugins.md';
-import parser from './pages/plugins/parser.md';
-import serializer from './pages/plugins/serializer.md';
 import exampleCustomSyntax from './pages/plugins/example-custom-syntax.md';
-import internalPlugins from './pages/plugins/internal-plugins.md';
+
+import nodeAndMark from './pages/internals/node&mark.md';
+import parser from './pages/internals/parser.md';
+import serializer from './pages/internals/serializer.md';
+import internalPlugins from './pages/internals/internal-plugins.md';
 
 export const pageRouter: Section[] = [
     {
@@ -61,11 +62,16 @@ export const pageRouter: Section[] = [
         items: [
             { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
             { title: 'Integrating Plugins', link: '/integrating-plugins', content: integratingPlugins },
+            { title: 'Example: Custom Syntax', link: '/example-custom-syntax', content: exampleCustomSyntax },
+            { title: 'Writing Plugins', link: '/writing-plugins', content: writingPlugins },
+        ],
+    },
+    {
+        title: 'Internals',
+        items: [
             { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
             { title: 'Parser', link: '/parser', content: parser },
             { title: 'Serializer', link: '/serializer', content: serializer },
-            { title: 'Example: Custom Syntax', link: '/example-custom-syntax', content: exampleCustomSyntax },
-            { title: 'Writing Plugins', link: '/writing-plugins', content: writingPlugins },
             { title: 'Internal Plugins', link: '/internal-plugins', content: internalPlugins },
         ],
     },

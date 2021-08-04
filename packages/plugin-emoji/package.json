@@ -1,5 +1,5 @@
 {
-    "name": "@milkdown/plugin-table",
+    "name": "@milkdown/plugin-emoji",
     "version": "4.8.1",
     "main": "lib/index.js",
     "module": "lib/index.js",
@@ -24,12 +24,15 @@
         "@milkdown/core": "*"
     },
     "dependencies": {
-        "@milkdown/utils": "workspace:*",
-        "prosemirror-tables": "*",
-        "remark-gfm": "^1.0.0",
-        "tslib": "^2.2.0"
-    },
-    "devDependencies": {
-        "concurrently": "^6.0.2"
+        "@joeattardi/emoji-button": "^4.6.0",
+        "@milkdown/utils": "workspace: *",
+        "@types/node-emoji": "^1.8.1",
+        "@types/twemoji": "^12.1.2",
+        "emoji-regex": "^9.2.2",
+        "node-emoji": "^1.10.0",
+        "remark-emoji": "^2.2.0",
+        "tslib": "^2.2.0",
+        "twemoji": "^13.1.0",
+        "unist-util-visit": "^4.0.0"
     }
 }
