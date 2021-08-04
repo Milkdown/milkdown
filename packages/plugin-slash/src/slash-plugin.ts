@@ -125,18 +125,6 @@ class View {
     #items: Action[];
     #mouseLock: boolean;
 
-    #disableScroll = () => {
-        Object.assign(document.body.style, {
-            overflow: 'hidden',
-            marginRight: `${window.innerWidth - document.body.clientWidth}px`,
-        });
-    };
-
-    #enableScroll = () => {
-        document.body.style.overflow = '';
-        document.body.style.marginRight = '';
-    };
-
     #handleClick = (e: Event) => {
         const { target } = e;
         if (!(target instanceof HTMLElement)) {
@@ -155,13 +143,11 @@ class View {
             this.#dropdownElement.classList.add('hide');
             e.stopPropagation();
             e.preventDefault();
-            this.#enableScroll();
             return;
         }
 
         e.stopPropagation();
         e.preventDefault();
-        this.#enableScroll();
 
         el.command(view.state.schema)(view.state, view.dispatch);
     };
@@ -206,7 +192,6 @@ class View {
         }
         this.#status.activeActions[active].command(this.#view.state.schema)(this.#view.state, this.#view.dispatch);
         this.#status.activeActions[active].$.classList.remove('active');
-        this.#enableScroll();
     };
 
     #handleMouseEnter = (e: MouseEvent) => {
@@ -265,7 +250,6 @@ class View {
             return;
         }
 
-        this.#disableScroll();
         this.calculatePosition(view);
     }
 
@@ -280,7 +264,6 @@ class View {
 
         if (cursorStatus !== CursorStatus.Slash) {
             this.#dropdownElement.classList.add('hide');
-            this.#enableScroll();
             return false;
         }
 
@@ -303,7 +286,6 @@ class View {
 
         if (activeList.length === 0) {
             this.#dropdownElement.classList.add('hide');
-            this.#enableScroll();
             return false;
         }
 
