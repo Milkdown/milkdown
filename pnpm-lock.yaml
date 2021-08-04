@@ -288,6 +288,7 @@ importers:
       '@milkdown/utils': 'workspace: *'
       '@types/node-emoji': ^1.8.1
       '@types/twemoji': ^12.1.2
+      emoji-regex: ^9.2.2
       node-emoji: ^1.10.0
       remark-emoji: ^2.2.0
       tslib: ^2.2.0
@@ -298,6 +299,7 @@ importers:
       '@milkdown/utils': link:../utils
       '@types/node-emoji': 1.8.1
       '@types/twemoji': 12.1.2
+      emoji-regex: 9.2.2
       node-emoji: 1.10.0
       remark-emoji: 2.2.0
       tslib: 2.3.0
@@ -4501,6 +4503,10 @@ packages:
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
     dev: true
+
+  /emoji-regex/9.2.2:
+    resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
+    dev: false
 
   /emoticon/3.2.0:
     resolution: {integrity: sha512-SNujglcLTTg+lDAcApPNgEdudaqQFiAbJCqzjNxJkvN9vAwCGi0uu8IUVvx+f16h+V44KCY6Y2yboroc9pilHg==}

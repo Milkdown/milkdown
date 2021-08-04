@@ -1,17 +1,56 @@
-import { visit } from 'unist-util-visit';
-import { Node, Literal } from 'unist';
+import { Node, Literal, Parent } from 'unist';
 import { parse } from './parse';
+import emojiRegex from 'emoji-regex';
 
-const EmojiRegExp =
-    /[\u{1f300}-\u{1f5ff}\u{1f900}-\u{1f9ff}\u{1f600}-\u{1f64f}\u{1f680}-\u{1f6ff}\u{2600}-\u{26ff}\u{2700}-\u{27bf}\u{1f1e6}-\u{1f1ff}\u{1f191}-\u{1f251}\u{1f004}\u{1f0cf}\u{1f170}-\u{1f171}\u{1f17e}-\u{1f17f}\u{1f18e}\u{3030}\u{2b50}\u{2b55}\u{2934}-\u{2935}\u{2b05}-\u{2b07}\u{2b1b}-\u{2b1c}\u{3297}\u{3299}\u{303d}\u{00a9}\u{00ae}\u{2122}\u{23f3}\u{24c2}\u{23e9}-\u{23ef}\u{25b6}\u{23f8}-\u{23fa}]/gu;
+const regex = emojiRegex();
+
+const isParent = (node: Node): node is Parent => !!(node as Parent).children;
+const isLiteral = (node: Node): node is Literal => !!(node as Literal).value;
+
+function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null) => Node[]) {
+    return transform(ast, 0, null)[0];
+
+    function transform(node: Node, index: number, parent: Node | null) {
+        if (isParent(node)) {
+            const out = [];
+            for (let i = 0, n = node.children.length; i < n; i++) {
+                const xs = transform(node.children[i], i, node);
+                if (xs) {
+                    for (let j = 0, m = xs.length; j < m; j++) {
+                        out.push(xs[j]);
+                    }
+                }
+            }
+            node.children = out;
+        }
+
+        return fn(node, index, parent);
+    }
+}
 
 export const twemojiPlugin = () => {
     function transformer(tree: Node) {
-        visit(tree, 'text', (node: Literal<string>) => {
-            if (EmojiRegExp.test(node.value)) {
-                node.type = 'emoji';
-                node.value = parse(node.value);
+        flatMap(tree, (node) => {
+            if (!isLiteral(node)) {
+                return [node];
             }
+            const value = node.value as string;
+            const output: Literal<string>[] = [];
+            let match;
+            let str = value;
+            while ((match = regex.exec(str))) {
+                const { index } = match;
+                const emoji = match[0];
+                if (index > 0) {
+                    output.push({ ...node, value: str.slice(0, index) });
+                }
+                output.push({ ...node, value: parse(emoji), type: 'emoji' });
+                str = str.slice(index + emoji.length);
+            }
+            if (str.length) {
+                output.push({ ...node, value: str });
+            }
+            return output;
         });
     }
     return transformer;
