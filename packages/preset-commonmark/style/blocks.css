@@ -11,10 +11,10 @@
     }
 
     .image {
-        display: block;
+        display: inline-block;
         margin: 0 auto;
         object-fit: contain;
-        max-width: 100%;
+        width: 100%;
         position: relative;
         height: auto;
         text-align: center;
@@ -23,7 +23,7 @@
             height: 3rem;
             background-color: palette(background);
             border-radius: var(--radius);
-            display: flex;
+            display: inline-flex;
             gap: 2rem;
             justify-content: flex-start;
             align-items: center;
