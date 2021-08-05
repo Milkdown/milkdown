@@ -7,7 +7,7 @@
 
 .milk {
     flex-grow: 1;
-    transition: flex 0.2s ease-in;
+    transition: all 0.4s ease-in-out;
     flex-shrink: 2;
 }
 
@@ -21,7 +21,7 @@
         padding: 3.125rem 2rem;
         border: 1px solid transparent;
         overflow: auto;
-        transition: flex-basis 0.2s ease-in;
+        transition: flex, color, background 0.4s ease-in-out;
         flex: 1 1 40%;
     }
     .milk {
@@ -32,7 +32,7 @@
 .code {
     margin: 1.25rem 0;
     background: palette(surface);
-    transition: flex-basis 0.2s ease-in;
+    transition: flex, color, background 0.4s ease-in-out;
     resize: none;
     border: none;
     width: 0;

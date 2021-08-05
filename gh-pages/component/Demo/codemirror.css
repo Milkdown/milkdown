@@ -1,13 +1,16 @@
 .ͼb {
     color: palette(secondary) !important;
+    transition: color 0.4s ease-in-out;
 }
 
 .cm-gutters {
     background: palette(background, 0.5) !important;
+    transition: background 0.4s ease-in-out;
 }
 
 .cm-activeLineGutter {
     background: palette(background) !important;
+    transition: background 0.4s ease-in-out;
 }
 
 .cm-content {

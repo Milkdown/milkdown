@@ -26,7 +26,7 @@
     font-family: var(--font);
     font-size: 0.875rem;
 
-    transition: all 0.2s ease-in-out;
+    transition: all 0.4s ease-in-out;
 
     &,
     .icon {

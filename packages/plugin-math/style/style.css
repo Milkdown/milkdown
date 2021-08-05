@@ -2,7 +2,6 @@
 @import 'katex/dist/katex.min.css';
 
 .math-node {
-    overflow: hidden;
     &,
     * {
         margin: 0 !important;
@@ -11,7 +10,6 @@
 }
 
 .math-render {
-    overflow: visible;
     padding: 0 4px;
 }
 
@@ -32,8 +30,7 @@ math-display.ProseMirror-selectednode {
 }
 
 .ProseMirror-selectednode {
-    outline: 2px solid palette(line);
     &.math-node {
-        outline: none;
+        outline: none !important;
     }
 }

@@ -52,7 +52,7 @@ export const Header: React.FC<Props> = ({
     ].join(' ');
 
     return (
-        <div className={headerClass}>
+        <div id="header" className={headerClass}>
             <header className={className.header}>
                 <div className={className.part}>
                     {showToggle && (
@@ -68,7 +68,14 @@ export const Header: React.FC<Props> = ({
                     )}
                     <Link to="/" className={className.logo}>
                         <img src="/milkdown/milkdown-mini.svg" />
-                        <span style={{ opacity: scrolled ? 0 : 1, transition: 'opacity 0.2s ease-in' }}>Milkdown</span>
+                        <span
+                            style={{
+                                opacity: scrolled ? 0 : 1,
+                                transition: 'opacity, color, background 0.4s ease-in-out',
+                            }}
+                        >
+                            Milkdown
+                        </span>
                     </Link>
                 </div>
                 <div className={className.part}>

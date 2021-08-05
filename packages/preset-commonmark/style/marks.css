@@ -6,7 +6,7 @@
     .link {
         color: palette(secondary);
         cursor: pointer;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.4s ease-in-out;
         font-weight: 500;
         &:hover {
             background-color: palette(line);

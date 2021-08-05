@@ -1,4 +1,5 @@
 .footer {
+    transition: all 0.4s ease-in-out;
     flex-shrink: 0;
     font-size: 0.875rem;
     color: palette(neutral, 0.6);

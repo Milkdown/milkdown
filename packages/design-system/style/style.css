@@ -1,1 +1,15 @@
 @import './prosemirror.css';
+
+.milkdown {
+    .ProseMirror-selectednode {
+        outline: 2px solid palette(line);
+    }
+
+    li.ProseMirror-selectednode {
+        outline: none;
+    }
+
+    li.ProseMirror-selectednode::after {
+        border: 2px solid palette(line);
+    }
+}

@@ -18,7 +18,7 @@
         width: 3rem;
         line-height: 3rem;
         text-align: center;
-        transition: all 0.2s ease-in;
+        transition: all 0.4s ease-in-out;
         &:hover {
             background-color: palette(secondary, 0.12);
         }

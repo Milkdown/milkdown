@@ -11,6 +11,7 @@ body {
     min-height: 100vh;
     background: palette(background);
     font-family: var(--font);
+    transition: all 0.4s ease-in-out;
 }
 
 #app {
@@ -29,4 +30,5 @@ body {
         border-radius: var(--radius);
         max-width: 72rem;
     }
+    transition: all 0.4s ease-in-out;
 }
