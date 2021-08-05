@@ -65,6 +65,10 @@
 
     input {
         flex-grow: 1;
+        caret-color: palette(primary);
+        &::placeholder {
+            color: palette(neutral, 0.6);
+        }
     }
 
     button {
@@ -74,8 +78,16 @@
         font-size: 0.875rem;
         padding: 0 0.5rem;
         font-weight: 500;
+        letter-spacing: 1.25px;
         &:hover {
             background-color: palette(secondary, 0.12);
+        }
+        &.disable {
+            color: palette(neutral, 0.38);
+            cursor: not-allowed;
+            &:hover {
+                background: transparent;
+            }
         }
     }
 

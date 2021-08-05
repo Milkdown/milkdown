@@ -81,8 +81,8 @@ export const modifyImage =
 
 export const updateLink: (schema: Schema) => Updater = (schema) => (view, $) => {
     const { marks } = schema;
-    const { firstChild } = $;
-    if (!(firstChild instanceof HTMLInputElement)) return;
+    const { firstChild, lastElementChild } = $;
+    if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
     const node = findMarkByType(view.state, marks.link);
     if (!node) return;
@@ -90,16 +90,32 @@ export const updateLink: (schema: Schema) => Updater = (schema) => (view, $) => 
     const mark = node.marks.find((m) => m.type === marks.link);
     if (!mark) return;
 
-    firstChild.value = mark.attrs.href;
+    const value = mark.attrs.href;
+    firstChild.value = value;
+    if (!value) {
+        lastElementChild.classList.add('disable');
+        return;
+    }
+    if (lastElementChild.classList.contains('disable')) {
+        lastElementChild.classList.remove('disable');
+    }
 };
 
 export const updateImage: (schema: Schema) => Updater = (schema) => (view, $) => {
     const { nodes } = schema;
-    const { firstChild } = $;
-    if (!(firstChild instanceof HTMLInputElement)) return;
+    const { firstChild, lastElementChild } = $;
+    if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
     const node = findChildNode(view.state.selection, nodes.image);
     if (!node) return;
 
-    firstChild.value = node.node.attrs.src;
+    const value = node.node.attrs.src;
+    firstChild.value = value;
+    if (!value) {
+        lastElementChild.classList.add('disable');
+        return;
+    }
+    if (lastElementChild.classList.contains('disable')) {
+        lastElementChild.classList.remove('disable');
+    }
 };

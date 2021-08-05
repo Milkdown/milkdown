@@ -4,19 +4,22 @@ import type { Event2Command, InputMap } from './item';
 
 export class InputManager {
     #input: HTMLDivElement;
+    #button: HTMLButtonElement;
     #inputMap: InputMap;
     #inputCommand?: Event2Command;
 
     constructor(inputMap: InputMap, private view: EditorView) {
         this.#inputMap = inputMap;
-        this.#input = this.createInput();
+        const [input, button] = this.createInput();
+        this.#input = input;
+        this.#button = button;
 
-        this.#input.addEventListener('mousedown', this.listener);
+        this.#button.addEventListener('mousedown', this.listener);
     }
 
     destroy() {
         this.#input.removeEventListener('mousedown', this.listener);
-        this.#input.remove();
+        this.#button.remove();
     }
 
     hide() {
@@ -52,8 +55,24 @@ export class InputManager {
         button.textContent = 'APPLY';
         div.appendChild(button);
         this.view.dom.parentNode?.appendChild(div);
+        input.addEventListener('input', (e) => {
+            if (!(e instanceof InputEvent)) {
+                return;
+            }
+            const { target } = e;
+            if (!(target instanceof HTMLInputElement)) {
+                return;
+            }
+            if (!target.value) {
+                button.classList.add('disable');
+                return;
+            }
+            if (button.classList.contains('disable')) {
+                button.classList.remove('disable');
+            }
+        });
 
-        return div;
+        return [div, button] as const;
     }
 
     private filterInput(view: EditorView) {
@@ -75,7 +94,7 @@ export class InputManager {
     private listener = (e: Event) => {
         const { view } = this;
         const command = this.#inputCommand;
-        if (!view || !command) return;
+        if (!view || !command || this.#button.classList.contains('disable')) return;
 
         e.stopPropagation();
         command(e, view)(view.state, view.dispatch);
