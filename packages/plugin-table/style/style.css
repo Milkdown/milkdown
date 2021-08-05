@@ -137,7 +137,7 @@
         display: inline-flex;
         cursor: pointer;
         justify-content: space-evenly;
-        position: fixed;
+        position: absolute;
         border-radius: var(--radius);
         z-index: 9;
 

@@ -61,10 +61,10 @@ export class ButtonManager {
 
     private calcPos(view: EditorView) {
         this.#buttons.classList.remove('hide');
-        calculateTextPosition(view, this.#buttons, (start, end, target) => {
+        calculateTextPosition(view, this.#buttons, (start, end, target, parent) => {
             const selectionWidth = end.left - start.left;
-            let left = start.left - (target.width - selectionWidth) / 2;
-            const top = start.top - target.height - 4;
+            let left = start.left - parent.left - (target.width - selectionWidth) / 2;
+            const top = start.top - parent.top - target.height - 4;
 
             if (left < 0) left = 0;
 

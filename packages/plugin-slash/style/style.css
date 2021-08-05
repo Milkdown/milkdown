@@ -4,7 +4,7 @@
     overflow-y: auto;
     border: 1px solid palette(line);
     border-radius: var(--radius);
-    position: fixed;
+    position: absolute;
     z-index: 9;
     background: palette(surface);
     box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);

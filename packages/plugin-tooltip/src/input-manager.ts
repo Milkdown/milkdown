@@ -31,10 +31,10 @@ export class InputManager {
     }
 
     private calcPos(view: EditorView) {
-        calculateTextPosition(view, this.#input, (start, end, target) => {
+        calculateTextPosition(view, this.#input, (start, end, target, parent) => {
             const selectionWidth = end.left - start.left;
-            let left = start.left - (target.width - selectionWidth) / 2;
-            const top = start.bottom + 4;
+            let left = start.left - parent.left - (target.width - selectionWidth) / 2;
+            const top = start.bottom - parent.top + 4;
 
             if (left < 0) left = 0;
 

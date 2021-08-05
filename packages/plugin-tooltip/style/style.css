@@ -2,7 +2,7 @@
     display: inline-flex;
     cursor: pointer;
     justify-content: space-evenly;
-    position: fixed;
+    position: absolute;
     border-radius: var(--radius);
 
     border: 1px solid palette(line);
@@ -47,7 +47,7 @@
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
+    position: absolute;
     background: palette(surface);
     border-radius: var(--radius);
     font-size: 1rem;

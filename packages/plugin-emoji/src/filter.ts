@@ -180,6 +180,13 @@ const filterPlugin = () => {
                     return;
                 }
             });
+            parentNode.addEventListener('mousedown', (e) => {
+                if (!trigger) return;
+
+                e.stopPropagation();
+                off();
+                dropDown.classList.add('hide');
+            });
 
             return {
                 update: (view) => {
@@ -198,17 +205,17 @@ const filterPlugin = () => {
                     renderDropdownList(result, dropDown, $active, replace, (a) => {
                         $active = a;
                     });
-                    calculateNodePosition(view, dropDown, (selected, target) => {
+                    calculateNodePosition(view, dropDown, (selected, target, parent) => {
                         const start = view.coordsAtPos(_from);
-                        let left = start.left;
-                        let top = selected.bottom;
+                        let left = start.left - parent.left;
+                        let top = selected.bottom - parent.top;
 
                         if (left < 0) {
                             left = 0;
                         }
 
-                        if (window.innerHeight - selected.bottom < target.height) {
-                            top = selected.top - target.height;
+                        if (window.innerHeight - start.bottom < target.height) {
+                            top = selected.top - parent.top - target.height;
                         }
                         return [top, left];
                     });

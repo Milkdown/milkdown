@@ -82,8 +82,8 @@ class Props {
 
         const pos = parent.pos;
         const isEmpty = parent.node.content.size === 0;
-        const isSlash = parent.node.textContent === '/';
-        const isSearch = parent.node.textContent.startsWith('/');
+        const isSlash = parent.node.textContent === '/' && state.selection.$from.parentOffset > 0;
+        const isSearch = parent.node.textContent.startsWith('/') && state.selection.$from.parentOffset > 1;
 
         if (isEmpty) {
             status.clearStatus();
@@ -296,16 +296,16 @@ class View {
     }
 
     private calculatePosition(view: EditorView) {
-        calculateNodePosition(view, this.#dropdownElement, (selected, target) => {
-            let left = selected.left;
-            let top = selected.bottom;
+        calculateNodePosition(view, this.#dropdownElement, (selected, target, parent) => {
+            let left = selected.left - parent.left;
+            let top = selected.bottom - parent.top;
 
             if (left < 0) {
                 left = 0;
             }
 
             if (window.innerHeight - selected.bottom < target.height) {
-                top = selected.top - target.height;
+                top = selected.top - parent.top - target.height;
             }
             return [top, left];
         });

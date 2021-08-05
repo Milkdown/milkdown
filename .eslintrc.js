@@ -13,6 +13,7 @@ module.exports = {
         node: true,
     },
     rules: {
+        'no-console': ['error', { allow: ['warn', 'error'] }],
         'import/prefer-default-export': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unused-vars': 'off',

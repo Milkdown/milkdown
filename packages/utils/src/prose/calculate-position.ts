@@ -5,7 +5,7 @@ type Result = [top: number, left: number];
 export const calculateNodePosition = (
     view: EditorView,
     target: HTMLElement,
-    handler: (selectedRect: DOMRect, targetRect: DOMRect) => Result,
+    handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Result,
 ) => {
     const state = view.state;
     const { from } = state.selection;
@@ -17,8 +17,12 @@ export const calculateNodePosition = (
 
     const selectedNodeRect = node.getBoundingClientRect();
     const targetNodeRect = target.getBoundingClientRect();
+    const parentNodeRect = target.parentElement?.getBoundingClientRect();
+    if (!parentNodeRect) {
+        throw new Error();
+    }
 
-    const [top, left] = handler(selectedNodeRect, targetNodeRect);
+    const [top, left] = handler(selectedNodeRect, targetNodeRect, parentNodeRect);
 
     target.style.top = top + 'px';
     target.style.left = left + 'px';
@@ -34,7 +38,7 @@ type Pos = {
 export const calculateTextPosition = (
     view: EditorView,
     target: HTMLElement,
-    handler: (start: Pos, end: Pos, targetRect: DOMRect) => Result,
+    handler: (start: Pos, end: Pos, targetRect: DOMRect, parentRect: DOMRect) => Result,
 ) => {
     const state = view.state;
     const { from, to } = state.selection;
@@ -42,8 +46,12 @@ export const calculateTextPosition = (
     const end = view.coordsAtPos(to);
 
     const targetNodeRect = target.getBoundingClientRect();
+    const parentNodeRect = target.parentElement?.getBoundingClientRect();
+    if (!parentNodeRect) {
+        throw new Error();
+    }
 
-    const [top, left] = handler(start, end, targetNodeRect);
+    const [top, left] = handler(start, end, targetNodeRect, parentNodeRect);
 
     target.style.top = top + 'px';
     target.style.left = left + 'px';
