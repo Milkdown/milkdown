@@ -1,7 +1,16 @@
 import type { Schema } from 'prosemirror-model';
 import { Command } from 'prosemirror-commands';
 import { EditorView } from 'prosemirror-view';
-import { createToggleIcon, hasMark, modifyLink, findChildNode, modifyImage, updateLink, updateImage } from './utility';
+import {
+    createToggleIcon,
+    hasMark,
+    modifyLink,
+    findChildNode,
+    modifyImage,
+    updateLink,
+    updateImage,
+    isTextSelection,
+} from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -42,7 +51,7 @@ export const inputMap = (schema: Schema): InputMap => {
     const { marks, nodes } = schema;
     return {
         [InputAction.ModifyLink]: {
-            display: (view) => hasMark(view.state, marks.link),
+            display: (view) => isTextSelection(view.state) && hasMark(view.state, marks.link),
             command: modifyLink(schema),
             placeholder: 'Input Web Link',
             update: updateLink(schema),
