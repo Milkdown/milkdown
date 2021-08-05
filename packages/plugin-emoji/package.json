@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/plugin-emoji",
-    "version": "4.8.1",
+    "version": "4.8.2",
     "main": "lib/index.js",
     "module": "lib/index.js",
     "types": "lib/index.d.ts",

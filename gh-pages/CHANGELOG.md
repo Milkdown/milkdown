@@ -1,5 +1,11 @@
 # @milkdown/gh-pages
 
+## 4.8.2
+
+### Patch Changes
+
+-   83ad3c9: Make performance and ux improvements.
+
 ## 4.8.1
 
 ### Patch Changes
