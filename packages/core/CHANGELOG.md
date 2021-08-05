@@ -1,5 +1,13 @@
 # @milkdown/core
 
+## 4.8.2
+
+### Patch Changes
+
+-   83ad3c9: Make performance and ux improvements.
+-   Updated dependencies [83ad3c9]
+    -   @milkdown/exception@4.8.2
+
 ## 4.8.1
 
 ### Patch Changes
