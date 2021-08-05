@@ -205,14 +205,14 @@ const filterPlugin = () => {
                     calculateNodePosition(view, dropDown, (selected, target, parent) => {
                         const start = view.coordsAtPos(_from);
                         let left = start.left - parent.left;
-                        let top = selected.bottom - parent.top;
+                        let top = selected.bottom - parent.top + 14;
 
                         if (left < 0) {
                             left = 0;
                         }
 
                         if (window.innerHeight - start.bottom < target.height) {
-                            top = selected.top - parent.top - target.height;
+                            top = selected.top - parent.top - target.height - 14;
                         }
                         return [top, left];
                     });

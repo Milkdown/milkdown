@@ -298,14 +298,14 @@ class View {
     private calculatePosition(view: EditorView) {
         calculateNodePosition(view, this.#dropdownElement, (selected, target, parent) => {
             let left = selected.left - parent.left;
-            let top = selected.bottom - parent.top;
+            let top = selected.bottom - parent.top + 14;
 
             if (left < 0) {
                 left = 0;
             }
 
             if (window.innerHeight - selected.bottom < target.height) {
-                top = selected.top - parent.top - target.height;
+                top = selected.top - parent.top - target.height - 14;
             }
             return [top, left];
         });

@@ -34,7 +34,7 @@ export class InputManager {
         calculateTextPosition(view, this.#input, (start, end, target, parent) => {
             const selectionWidth = end.left - start.left;
             let left = start.left - parent.left - (target.width - selectionWidth) / 2;
-            const top = start.bottom - parent.top + 4;
+            const top = start.bottom - parent.top + 14;
 
             if (left < 0) left = 0;
 

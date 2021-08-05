@@ -4,4 +4,5 @@ import { gapCursor } from 'prosemirror-gapcursor';
 
 type DropOptions = Parameters<typeof dropCursor>[0];
 
-export const cursor = (options?: { drop: DropOptions }) => prosePluginFactory([gapCursor(), dropCursor(options?.drop)]);
+export const cursor = (options?: { drop: DropOptions }) =>
+    prosePluginFactory([gapCursor(), dropCursor(options?.drop || { color: 'rgba(var(--secondary), 1)' })]);

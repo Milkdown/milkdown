@@ -64,7 +64,7 @@ export class ButtonManager {
         calculateTextPosition(view, this.#buttons, (start, end, target, parent) => {
             const selectionWidth = end.left - start.left;
             let left = start.left - parent.left - (target.width - selectionWidth) / 2;
-            const top = start.top - parent.top - target.height - 4;
+            const top = start.top - parent.top - target.height - 14;
 
             if (left < 0) left = 0;
 

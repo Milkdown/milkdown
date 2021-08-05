@@ -276,7 +276,7 @@ export class PluginProps implements PluginSpec {
             let left = !isRow
                 ? selected.left - parent.left + (selected.width - target.width) / 2
                 : selected.left - parent.left - target.width / 2 - 8;
-            let top = selected.top - parent.top - target.height - (isCol ? 18 : 4);
+            let top = selected.top - parent.top - target.height - (isCol ? 14 : 0) - 14;
 
             if (left < 0) {
                 left = 0;
