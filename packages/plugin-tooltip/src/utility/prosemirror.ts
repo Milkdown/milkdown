@@ -35,7 +35,17 @@ export const findMarkPosition = (editorState: EditorState, mark: Mark): Position
     return markPos;
 };
 
-export const isTextSelection = (editorState: EditorState): boolean => editorState.selection instanceof TextSelection;
+export const isTextSelection = (editorState: EditorState): boolean => {
+    const { selection } = editorState;
+    if (selection instanceof TextSelection) {
+        const text = editorState.doc.textBetween(selection.from, selection.to);
+
+        if (!text) return false;
+
+        return true;
+    }
+    return false;
+};
 
 export const isInCodeFence = (editorState: EditorState): boolean =>
     Boolean(findParentNode((node) => node.type.name === 'fence')(editorState.selection));
@@ -52,6 +62,9 @@ export const findChildNode = (selection: Selection, nodeType: NodeType) => {
         return;
     }
     const { node, $from } = selection;
+    if (!node) {
+        return;
+    }
     if (equalNodeType(nodeType, node)) {
         return { node, pos: $from.pos, depth: $from.depth };
     }
