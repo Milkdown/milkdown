@@ -19,14 +19,14 @@ const checkTrigger = (
     const $from = state.doc.resolve(from);
     if ($from.parent.type.spec.code) return false;
     const textBefore =
-        $from.parent.textBetween($from.parentOffset - 10, $from.parentOffset, undefined, '\ufffc') + text;
+        $from.parent.textBetween(Math.max(0, $from.parentOffset - 10), $from.parentOffset, undefined, '\ufffc') + text;
     if (full.test(textBefore)) {
         return false;
     }
-    const regex = textBefore.match(part);
+    const regex = part.exec(textBefore);
     if (regex && textBefore.endsWith(regex[0])) {
         const match = regex[0];
-        setRange(from - match.length + 1, to + 1);
+        setRange(from - (match.length - text.length), to);
         setSearch(match);
         return true;
     }
@@ -86,14 +86,12 @@ const renderDropdownList = (
 const filterPlugin = () => {
     let trigger = false;
     let _from = 0;
-    let _to = 0;
     let _search = '';
     let $active: null | HTMLElement = null;
 
     const off = () => {
         trigger = false;
         _from = 0;
-        _to = 0;
         _search = '';
         $active = null;
     };
@@ -120,9 +118,8 @@ const filterPlugin = () => {
                     from,
                     to,
                     text,
-                    (from, to) => {
+                    (from) => {
                         _from = from;
-                        _to = to;
                     },
                     (search) => {
                         _search = search;
@@ -149,7 +146,7 @@ const filterPlugin = () => {
                 const { tr } = editorView.state;
                 const node = editorView.state.schema.node('emoji', { html: $active.firstElementChild?.innerHTML });
 
-                editorView.dispatch(tr.replaceRangeWith(_from, _to, node));
+                editorView.dispatch(tr.delete(_from, _from + _search.length).insert(_from, node));
                 off();
                 dropDown.classList.add('hide');
             };

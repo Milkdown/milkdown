@@ -58,7 +58,6 @@
             }
 
             .code-fence_select {
-                z-index: 1;
                 font-family: var(--font);
                 font-weight: 500;
                 line-height: 1.5;

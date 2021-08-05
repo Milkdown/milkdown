@@ -139,7 +139,6 @@
         justify-content: space-evenly;
         position: absolute;
         border-radius: var(--radius);
-        z-index: 9;
 
         border: 1px solid palette(line);
         box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
