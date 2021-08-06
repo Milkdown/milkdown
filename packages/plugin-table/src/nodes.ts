@@ -72,7 +72,7 @@ export const table = createNode<Keys>(() => {
                 return tr.setSelection(TextSelection.create(tr.doc, start + 3));
             }),
         ],
-        commands: (_, schema) => ({
+        shortcuts: (_, schema) => ({
             [SupportedKeys.NextCell]: {
                 defaultKey: 'Mod-]',
                 command: goToNextCell(1),

@@ -28,7 +28,7 @@ export const blockquote = createNode<Keys>((_, utils) => ({
         },
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)],
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.Blockquote]: {
             defaultKey: 'Mod-Shift-b',
             command: wrapIn(nodeType),

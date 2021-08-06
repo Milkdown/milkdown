@@ -58,7 +58,7 @@ export const orderedList = createNode<Keys>((_, utils) => ({
             (match, node) => node.childCount + node.attrs.order === Number(match[1]),
         ),
     ],
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.OrderedList]: {
             defaultKey: 'Mod-Shift-7',
             command: wrapIn(nodeType),

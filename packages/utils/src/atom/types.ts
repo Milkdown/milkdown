@@ -8,15 +8,15 @@ export type CommandConfig = {
     defaultKey: string;
 };
 
-export type Commands<T extends string> = Record<T, CommandConfig>;
+export type Shortcuts<T extends string> = Record<T, CommandConfig>;
 export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>;
 
 export interface NodeOptional<T extends string> {
-    readonly commands?: (nodeType: NodeType, schema: Schema) => Commands<T>;
+    readonly shortcuts?: (nodeType: NodeType, schema: Schema) => Shortcuts<T>;
 }
 
 export interface MarkOptional<T extends string> {
-    readonly commands?: (nodeType: MarkType, schema: Schema) => Commands<T>;
+    readonly shortcuts?: (nodeType: MarkType, schema: Schema) => Shortcuts<T>;
 }
 
 export type CommonOptions<SupportedKeys extends string> = {

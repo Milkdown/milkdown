@@ -63,7 +63,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                 checked: match[match.length - 1] === 'x',
             })),
         ],
-        commands: (nodeType) => ({
+        shortcuts: (nodeType) => ({
             [SupportedKeys.NextListItem]: {
                 defaultKey: 'Enter',
                 command: splitListItem(nodeType),

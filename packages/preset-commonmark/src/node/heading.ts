@@ -56,7 +56,7 @@ export const heading = createNode<Keys>((_, utils) => ({
                 level: x,
             })),
         ),
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.H1]: {
             defaultKey: 'Mod-Alt-1',
             command: setBlockType(nodeType, { level: 1 }),

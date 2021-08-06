@@ -25,7 +25,7 @@ export const hardbreak = createNode<Keys>((_, utils) => ({
             state.addNode('break');
         },
     },
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.HardBreak]: {
             defaultKey: 'Shift-Enter',
             command: (state, dispatch) => {

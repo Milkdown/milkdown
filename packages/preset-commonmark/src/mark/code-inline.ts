@@ -29,7 +29,7 @@ export const codeInline = createMark<Keys>((_, utils) => ({
         },
     },
     inputRules: (markType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)],
-    commands: (markType) => ({
+    shortcuts: (markType) => ({
         [SupportedKeys.CodeInline]: {
             defaultKey: 'Mod-e',
             command: toggleMark(markType),

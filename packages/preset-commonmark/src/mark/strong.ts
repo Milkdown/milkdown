@@ -32,7 +32,7 @@ export const strong = createMark<Keys>((_, utils) => ({
         markRule(/(?:__)([^_]+)(?:__)$/, markType),
         markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),
     ],
-    commands: (markType) => ({
+    shortcuts: (markType) => ({
         [SupportedKeys.Bold]: {
             defaultKey: 'Mod-b',
             command: toggleMark(markType),

@@ -85,7 +85,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             return { language };
         }),
     ],
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.CodeFence]: {
             defaultKey: 'Mod-Alt-c',
             command: setBlockType(nodeType),

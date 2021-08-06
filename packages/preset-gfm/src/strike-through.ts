@@ -34,7 +34,7 @@ export const strikeThrough = createMark<Keys>((_, utils) => {
             markRule(/(?:~~)([^~]+)(?:~~)$/, markType),
             markRule(/(?:^|[^~])(~([^~]+)~)$/, markType),
         ],
-        commands: (markType) => ({
+        shortcuts: (markType) => ({
             [SupportedKeys.StrikeThrough]: {
                 defaultKey: 'Mod-Alt-x',
                 command: toggleMark(markType),

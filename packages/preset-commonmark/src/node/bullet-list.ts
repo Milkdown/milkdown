@@ -29,7 +29,7 @@ export const bulletList = createNode<Keys>((_, utils) => ({
         },
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.BulletList]: {
             defaultKey: 'Mod-Shift-8',
             command: wrapIn(nodeType),

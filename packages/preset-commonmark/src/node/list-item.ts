@@ -32,7 +32,7 @@ export const listItem = createNode<Keys>((_, utils) => ({
         },
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.NextListItem]: {
             defaultKey: 'Enter',
             command: splitListItem(nodeType),

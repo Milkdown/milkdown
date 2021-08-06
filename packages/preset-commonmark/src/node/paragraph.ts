@@ -33,7 +33,7 @@ export const paragraph = createNode<Keys>((_, utils) => ({
             state.closeNode();
         },
     },
-    commands: (nodeType) => ({
+    shortcuts: (nodeType) => ({
         [SupportedKeys.Text]: {
             defaultKey: 'Mod-Alt-0',
             command: setBlockType(nodeType),
