@@ -1,10 +1,8 @@
-import type { NodeViewFactory, MarkViewFactory, Attrs, MilkdownPlugin } from '@milkdown/core';
-import type { NodeType, MarkType, Schema } from 'prosemirror-model';
-import type { Command } from 'prosemirror-commands';
+import type { NodeViewFactory, MarkViewFactory, Attrs, MilkdownPlugin, CommandKey } from '@milkdown/core';
 import type { AnyRecord, UnknownRecord } from '../type-utility';
 
 export type CommandConfig = {
-    command: Command;
+    commandKey: CommandKey;
     defaultKey: string;
 };
 
@@ -12,11 +10,11 @@ export type Shortcuts<T extends string> = Record<T, CommandConfig>;
 export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>;
 
 export interface NodeOptional<T extends string> {
-    readonly shortcuts?: (nodeType: NodeType, schema: Schema) => Shortcuts<T>;
+    readonly shortcuts?: Shortcuts<T>;
 }
 
 export interface MarkOptional<T extends string> {
-    readonly shortcuts?: (nodeType: MarkType, schema: Schema) => Shortcuts<T>;
+    readonly shortcuts?: Shortcuts<T>;
 }
 
 export type CommonOptions<SupportedKeys extends string> = {

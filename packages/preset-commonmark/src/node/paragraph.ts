@@ -1,8 +1,11 @@
+import { createCommand } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { setBlockType } from 'prosemirror-commands';
 import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['Text'];
+
+export const TurnIntoText = createCommand();
 
 const id = 'paragraph';
 export const paragraph = createNode<Keys>((_, utils) => ({
@@ -33,10 +36,11 @@ export const paragraph = createNode<Keys>((_, utils) => ({
             state.closeNode();
         },
     },
-    shortcuts: (nodeType) => ({
+    commands: (nodeType) => [[TurnIntoText, setBlockType(nodeType)]],
+    shortcuts: {
         [SupportedKeys.Text]: {
             defaultKey: 'Mod-Alt-0',
-            command: setBlockType(nodeType),
+            commandKey: TurnIntoText,
         },
-    }),
+    },
 }));

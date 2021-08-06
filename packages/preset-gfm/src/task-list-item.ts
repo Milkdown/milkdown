@@ -1,3 +1,4 @@
+import { createCommand } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
@@ -5,6 +6,11 @@ import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-li
 import { SupportedKeys } from '.';
 
 type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem'>;
+
+export const SplitListItem = createCommand();
+export const SinkListItem = createCommand();
+export const LiftListItem = createCommand();
+export const TurnIntoTaskList = createCommand();
 
 export const taskListItem = createNode<Keys>((options, utils) => {
     const id = 'task_list_item';
@@ -63,24 +69,30 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                 checked: match[match.length - 1] === 'x',
             })),
         ],
-        shortcuts: (nodeType) => ({
+        commands: (nodeType) => [
+            [SplitListItem, splitListItem(nodeType)],
+            [SinkListItem, sinkListItem(nodeType)],
+            [LiftListItem, liftListItem(nodeType)],
+            [TurnIntoTaskList, wrapIn(nodeType)],
+        ],
+        shortcuts: {
             [SupportedKeys.NextListItem]: {
                 defaultKey: 'Enter',
-                command: splitListItem(nodeType),
+                commandKey: SplitListItem,
             },
             [SupportedKeys.SinkListItem]: {
                 defaultKey: 'Mod-]',
-                command: sinkListItem(nodeType),
+                commandKey: SinkListItem,
             },
             [SupportedKeys.LiftListItem]: {
                 defaultKey: 'Mod-[',
-                command: liftListItem(nodeType),
+                commandKey: LiftListItem,
             },
             [SupportedKeys.TaskList]: {
                 defaultKey: 'Mod-Alt-9',
-                command: wrapIn(nodeType),
+                commandKey: TurnIntoTaskList,
             },
-        }),
+        },
         view: (editor, nodeType, node, view, getPos, decorations) => {
             if (options?.view) {
                 return options.view(editor, nodeType, node, view, getPos, decorations);

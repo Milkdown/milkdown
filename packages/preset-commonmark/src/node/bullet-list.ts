@@ -1,9 +1,12 @@
+import { createCommand } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { SupportedKeys } from '..';
 
 type Keys = SupportedKeys['BulletList'];
+
+export const WrapInBulletList = createCommand();
 
 const id = 'bullet_list';
 export const bulletList = createNode<Keys>((_, utils) => ({
@@ -29,10 +32,11 @@ export const bulletList = createNode<Keys>((_, utils) => ({
         },
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
-    shortcuts: (nodeType) => ({
+    commands: (nodeType) => [[WrapInBulletList, wrapIn(nodeType)]],
+    shortcuts: {
         [SupportedKeys.BulletList]: {
             defaultKey: 'Mod-Shift-8',
-            command: wrapIn(nodeType),
+            commandKey: WrapInBulletList,
         },
-    }),
+    },
 }));

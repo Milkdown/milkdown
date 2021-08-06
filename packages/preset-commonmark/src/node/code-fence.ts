@@ -1,3 +1,4 @@
+import { createCommand } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
@@ -25,6 +26,8 @@ const languageOptions = [
 ];
 
 const inputRegex = /^```(?<language>[a-z]*)? $/;
+
+export const TurnIntoCodeFence = createCommand();
 
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((options, utils) => ({
@@ -85,12 +88,13 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             return { language };
         }),
     ],
-    shortcuts: (nodeType) => ({
+    commands: (nodeType) => [[TurnIntoCodeFence, setBlockType(nodeType)]],
+    shortcuts: {
         [SupportedKeys.CodeFence]: {
             defaultKey: 'Mod-Alt-c',
-            command: setBlockType(nodeType),
+            commandKey: TurnIntoCodeFence,
         },
-    }),
+    },
     view: (editor, nodeType, node, view, getPos, decorations) => {
         if (options?.view) {
             return options.view(editor, nodeType, node, view, getPos, decorations);

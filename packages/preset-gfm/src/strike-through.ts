@@ -1,8 +1,11 @@
+import { createCommand } from '@milkdown/core';
 import { createMark, markRule } from '@milkdown/utils';
 import { toggleMark } from 'prosemirror-commands';
 import { SupportedKeys } from '.';
 
 type Keys = SupportedKeys['StrikeThrough'];
+
+export const ToggleStrikeThrough = createCommand();
 
 export const strikeThrough = createMark<Keys>((_, utils) => {
     const id = 'strike_through';
@@ -34,11 +37,12 @@ export const strikeThrough = createMark<Keys>((_, utils) => {
             markRule(/(?:~~)([^~]+)(?:~~)$/, markType),
             markRule(/(?:^|[^~])(~([^~]+)~)$/, markType),
         ],
-        shortcuts: (markType) => ({
+        commands: (markType) => [[ToggleStrikeThrough, toggleMark(markType)]],
+        shortcuts: {
             [SupportedKeys.StrikeThrough]: {
                 defaultKey: 'Mod-Alt-x',
-                command: toggleMark(markType),
+                commandKey: ToggleStrikeThrough,
             },
-        }),
+        },
     };
 });

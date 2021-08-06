@@ -1,9 +1,14 @@
+import { createCommand } from '@milkdown/core';
 import { createMark, markRule } from '@milkdown/utils';
 import { toggleMark } from 'prosemirror-commands';
 import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['Em'];
+
 const id = 'em';
+
+export const ToggleItalic = createCommand();
+
 export const em = createMark<Keys>((_, utils) => ({
     id,
     schema: {
@@ -32,10 +37,11 @@ export const em = createMark<Keys>((_, utils) => ({
         markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),
         markRule(/(?:^|[^*])(\*([^*]+)\*)$/, markType),
     ],
-    shortcuts: (markType) => ({
+    commands: (markType) => [[ToggleItalic, toggleMark(markType)]],
+    shortcuts: {
         [SupportedKeys.Em]: {
             defaultKey: 'Mod-i',
-            command: toggleMark(markType),
+            commandKey: ToggleItalic,
         },
-    }),
+    },
 }));

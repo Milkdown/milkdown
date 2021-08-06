@@ -10,6 +10,7 @@ import {
     config,
     nodeView,
     editorState,
+    commands,
 } from '../internal-plugin';
 import { createClock, Timer } from '../timing';
 import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
@@ -57,7 +58,17 @@ export class Editor {
     };
 
     #loadInternal = () => {
-        const internalPlugins = [schema, parser, serializer, nodeView, keymap, inputRules, editorState, editorView];
+        const internalPlugins = [
+            schema,
+            parser,
+            serializer,
+            nodeView,
+            commands,
+            keymap,
+            inputRules,
+            editorState,
+            editorView,
+        ];
         const configPlugin = config(async (x) => {
             await Promise.all(this.#configureList.map((fn) => fn(x)));
         });

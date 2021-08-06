@@ -2,10 +2,16 @@ import { createNode } from '@milkdown/utils';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { SupportedKeys } from '..';
+import { createCommand } from '@milkdown/core';
 
 type Keys = SupportedKeys['SinkListItem'] | SupportedKeys['LiftListItem'] | SupportedKeys['NextListItem'];
 
 const id = 'list_item';
+
+export const SplitListItem = createCommand();
+export const SinkListItem = createCommand();
+export const LiftListItem = createCommand();
+
 export const listItem = createNode<Keys>((_, utils) => ({
     id,
     schema: {
@@ -32,18 +38,23 @@ export const listItem = createNode<Keys>((_, utils) => ({
         },
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
-    shortcuts: (nodeType) => ({
+    commands: (nodeType) => [
+        [SplitListItem, splitListItem(nodeType)],
+        [SinkListItem, sinkListItem(nodeType)],
+        [LiftListItem, liftListItem(nodeType)],
+    ],
+    shortcuts: {
         [SupportedKeys.NextListItem]: {
             defaultKey: 'Enter',
-            command: splitListItem(nodeType),
+            commandKey: SplitListItem,
         },
         [SupportedKeys.SinkListItem]: {
             defaultKey: 'Mod-]',
-            command: sinkListItem(nodeType),
+            commandKey: SinkListItem,
         },
         [SupportedKeys.LiftListItem]: {
             defaultKey: 'Mod-[',
-            command: liftListItem(nodeType),
+            commandKey: LiftListItem,
         },
-    }),
+    },
 }));

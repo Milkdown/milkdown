@@ -1,3 +1,4 @@
+import { createCommand } from '@milkdown/core';
 import { AtomList, createNode } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
 import { TextSelection } from 'prosemirror-state';
@@ -28,6 +29,11 @@ export const SupportedKeys = {
 export type SupportedKeys = typeof SupportedKeys;
 
 type Keys = keyof SupportedKeys;
+
+export const PrevCell = createCommand();
+export const NextCell = createCommand();
+export const BreakTable = createCommand();
+
 export const table = createNode<Keys>(() => {
     const id = 'table';
     return {
@@ -72,20 +78,25 @@ export const table = createNode<Keys>(() => {
                 return tr.setSelection(TextSelection.create(tr.doc, start + 3));
             }),
         ],
-        shortcuts: (_, schema) => ({
+        commands: (_, schema) => [
+            [PrevCell, goToNextCell(-1)],
+            [NextCell, goToNextCell(1)],
+            [BreakTable, exitTable(schema.nodes.paragraph)],
+        ],
+        shortcuts: {
             [SupportedKeys.NextCell]: {
                 defaultKey: 'Mod-]',
-                command: goToNextCell(1),
+                commandKey: NextCell,
             },
             [SupportedKeys.PrevCell]: {
                 defaultKey: 'Mod-[',
-                command: goToNextCell(-1),
+                commandKey: PrevCell,
             },
             [SupportedKeys.ExitTable]: {
                 defaultKey: 'Mod-Enter',
-                command: exitTable(schema.nodes.paragraph),
+                commandKey: BreakTable,
             },
-        }),
+        },
     };
 });
 

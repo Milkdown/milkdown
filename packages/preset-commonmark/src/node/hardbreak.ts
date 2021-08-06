@@ -1,9 +1,13 @@
+import { createCommand } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { SupportedKeys } from '..';
 
 type Keys = SupportedKeys['HardBreak'];
 
 const id = 'hardbreak';
+
+export const InsertHardbreak = createCommand();
+
 export const hardbreak = createNode<Keys>((_, utils) => ({
     id,
     schema: {
@@ -25,13 +29,19 @@ export const hardbreak = createNode<Keys>((_, utils) => ({
             state.addNode('break');
         },
     },
-    shortcuts: (nodeType) => ({
-        [SupportedKeys.HardBreak]: {
-            defaultKey: 'Shift-Enter',
-            command: (state, dispatch) => {
+    commands: (nodeType) => [
+        [
+            InsertHardbreak,
+            (state, dispatch) => {
                 dispatch?.(state.tr.replaceSelectionWith(nodeType.create()).scrollIntoView());
                 return true;
             },
+        ],
+    ],
+    shortcuts: {
+        [SupportedKeys.HardBreak]: {
+            defaultKey: 'Shift-Enter',
+            commandKey: InsertHardbreak,
         },
-    }),
+    },
 }));

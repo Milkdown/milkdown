@@ -1,3 +1,4 @@
+import { createCommand } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
@@ -6,6 +7,9 @@ import { SupportedKeys } from '../supported-keys';
 type Keys = SupportedKeys['Blockquote'];
 
 const id = 'blockquote';
+
+export const WrapInBlockquote = createCommand();
+
 export const blockquote = createNode<Keys>((_, utils) => ({
     id,
     schema: {
@@ -28,10 +32,11 @@ export const blockquote = createNode<Keys>((_, utils) => ({
         },
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)],
-    shortcuts: (nodeType) => ({
+    commands: (nodeType) => [[WrapInBlockquote, wrapIn(nodeType)]],
+    shortcuts: {
         [SupportedKeys.Blockquote]: {
             defaultKey: 'Mod-Shift-b',
-            command: wrapIn(nodeType),
+            commandKey: WrapInBlockquote,
         },
-    }),
+    },
 }));
