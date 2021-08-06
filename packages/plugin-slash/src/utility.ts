@@ -1,4 +1,4 @@
-import type { Node, Schema } from 'prosemirror-model';
+import { Node, Schema } from 'prosemirror-model';
 import { NodeSelection, TextSelection } from 'prosemirror-state';
 import type { Action } from './item';
 
@@ -57,16 +57,15 @@ export const cleanUpAndCreateNode =
 
         const { selection } = state;
         const { $head } = selection;
-        const start = $head.pos - 1 - $head.parent.content.size;
         const node = fn(schema);
-        const tr = state.tr.replaceWith(start, $head.pos, node);
-        const pos = start + getDepth(node) + 1;
-        let sel;
-        if (selectionType === 'node') {
-            sel = NodeSelection.create(tr.doc, pos - 1);
-        } else {
-            sel = TextSelection.create(tr.doc, pos);
-        }
+
+        const tr = state.tr.replaceWith($head.before(), $head.pos, node);
+        const depth = getDepth(node);
+        const sel =
+            selectionType === 'node'
+                ? NodeSelection.create(tr.doc, $head.before() + depth)
+                : TextSelection.create(tr.doc, $head.start() + depth);
+
         dispatch(tr.setSelection(sel).scrollIntoView());
         return true;
     };

@@ -9,7 +9,7 @@
     list-style-type: none;
     position: relative;
     & > div {
-        display: inline-block;
+        overflow: hidden;
     }
     label {
         position: absolute;
