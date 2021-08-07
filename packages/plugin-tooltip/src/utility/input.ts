@@ -1,35 +1,30 @@
-import { Command } from 'prosemirror-commands';
-import type { Schema } from 'prosemirror-model';
-import { TextSelection } from 'prosemirror-state';
+import { commandsCtx, Ctx } from '@milkdown/core';
+import { ModifyLink } from '@milkdown/preset-commonmark';
 import { Event2Command, Updater } from '../item';
 import { elementIsTag } from './element';
-import { findChildNode, findMarkByType, findMarkPosition } from './prosemirror';
+import { findChildNode, findMarkByType } from './prosemirror';
 
-export const modifyLinkCommand =
-    (href: string): Command =>
-    (state, dispatch) => {
-        if (!dispatch) return false;
+export const modifyLink =
+    (ctx: Ctx): Event2Command =>
+    (e) => {
+        const { target } = e;
+        if (!(target instanceof HTMLElement)) {
+            return () => true;
+        }
+        if (elementIsTag(target, 'input')) {
+            target.focus();
+            return () => false;
+        }
+        const parent = target.parentNode;
+        if (!parent) return () => false;
 
-        const { marks } = state.schema;
-        const { link } = marks;
+        const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
+        if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
-        const node = findMarkByType(state, link);
-        if (!node) return false;
-
-        const mark = node.marks.find(({ type }) => type === link);
-        if (!mark) return false;
-
-        const { start, end } = findMarkPosition(state, mark);
-        const { tr } = state;
-        const linkMark = marks.link.create({ ...mark.attrs, href });
-
-        tr.removeMark(start, end).addMark(start, end, linkMark).setSelection(new TextSelection(tr.selection.$anchor));
-        dispatch(tr.scrollIntoView());
-
-        return true;
+        return ctx.get(commandsCtx).get(ModifyLink)(inputEl.value);
     };
 
-export const modifyLink = (): Event2Command => (e) => {
+export const modifyImage = (): Event2Command => (e) => {
     const { target } = e;
     if (!(target instanceof HTMLElement)) {
         return () => true;
@@ -44,44 +39,24 @@ export const modifyLink = (): Event2Command => (e) => {
     const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
     if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
-    return modifyLinkCommand(inputEl.value);
+    return (state, dispatch) => {
+        if (!dispatch) return false;
+        const { nodes } = state.schema;
+        const { image } = nodes;
+
+        const node = findChildNode(state.selection, image);
+        if (!node) return false;
+
+        const { tr } = state;
+        tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, src: inputEl.value });
+        dispatch(tr.scrollIntoView());
+
+        return true;
+    };
 };
 
-export const modifyImage =
-    (schema: Schema, attr: string): Event2Command =>
-    (e) => {
-        const { target } = e;
-        const { nodes } = schema;
-        const { image } = nodes;
-        if (!(target instanceof HTMLElement)) {
-            return () => true;
-        }
-        if (elementIsTag(target, 'input')) {
-            target.focus();
-            return () => false;
-        }
-        const parent = target.parentNode;
-        if (!parent) return () => false;
-
-        const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
-        if (!(inputEl instanceof HTMLInputElement)) return () => false;
-
-        return (state, dispatch) => {
-            if (!dispatch) return false;
-
-            const node = findChildNode(state.selection, image);
-            if (!node) return false;
-
-            const { tr } = state;
-            tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, [attr]: inputEl.value });
-            dispatch(tr.scrollIntoView());
-
-            return true;
-        };
-    };
-
-export const updateLink: (schema: Schema) => Updater = (schema) => (view, $) => {
-    const { marks } = schema;
+export const updateLinkView: Updater = (view, $) => {
+    const { marks } = view.state.schema;
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
@@ -102,8 +77,8 @@ export const updateLink: (schema: Schema) => Updater = (schema) => (view, $) => 
     }
 };
 
-export const updateImage: (schema: Schema) => Updater = (schema) => (view, $) => {
-    const { nodes } = schema;
+export const updateImageView: Updater = (view, $) => {
+    const { nodes } = view.state.schema;
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 

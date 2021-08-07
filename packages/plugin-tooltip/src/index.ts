@@ -11,7 +11,7 @@ const selectionMarksTooltipPlugin = (ctx: Ctx) =>
         view: (editorView) =>
             new SelectionMarksTooltip(
                 buttonMap(editorView.state.schema, ctx),
-                inputMap(editorView.state.schema),
+                inputMap(editorView.state.schema, ctx),
                 editorView,
             ),
     });

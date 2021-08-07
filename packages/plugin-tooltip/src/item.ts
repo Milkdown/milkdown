@@ -7,8 +7,8 @@ import {
     modifyLink,
     findChildNode,
     modifyImage,
-    updateLink,
-    updateImage,
+    updateLinkView,
+    updateImageView,
     isTextSelection,
 } from './utility';
 import { Ctx } from '@milkdown/core';
@@ -50,20 +50,20 @@ export enum InputAction {
 export type ButtonMap = Record<ButtonAction, ButtonItem>;
 export type InputMap = Record<InputAction, InputItem>;
 
-export const inputMap = (schema: Schema): InputMap => {
+export const inputMap = (schema: Schema, ctx: Ctx): InputMap => {
     const { marks, nodes } = schema;
     return {
         [InputAction.ModifyLink]: {
             display: (view) => isTextSelection(view.state) && hasMark(view.state, marks.link),
-            command: modifyLink(),
+            command: modifyLink(ctx),
             placeholder: 'Input Web Link',
-            update: updateLink(schema),
+            update: updateLinkView,
         },
         [InputAction.ModifyImage]: {
             display: (view) => Boolean(findChildNode(view.state.selection, nodes.image)),
-            command: modifyImage(schema, 'src'),
+            command: modifyImage(),
             placeholder: 'Input Image Link',
-            update: updateImage(schema),
+            update: updateImageView,
         },
     };
 };
