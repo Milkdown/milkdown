@@ -1,6 +1,6 @@
 import type { Attrs } from '@milkdown/core';
-import type { Node, Schema, NodeType, MarkType } from 'prosemirror-model';
-import type { EditorState } from 'prosemirror-state';
+import type { Node, Mark, Schema, NodeType, MarkType } from 'prosemirror-model';
+import { EditorState, NodeSelection } from 'prosemirror-state';
 import type { Selection, Transaction } from 'prosemirror-state';
 import { getAtomFromSchemaFail } from '@milkdown/exception';
 
@@ -93,4 +93,44 @@ export const isNodeActive = (type: NodeType, state: EditorState, attrs: Attrs = 
         findParentNode((node) => node.type === type)(state.selection);
 
     return Boolean(node?.node.hasMarkup(type, { ...node.node.attrs, ...attrs }));
+};
+
+export const findMarkByType = (editorState: EditorState, type: MarkType): Node | undefined => {
+    return findNodeInSelection((node) => Boolean(type.isInSet(node.marks)))(editorState.selection, editorState.doc)
+        ?.node;
+};
+
+export const findMarkPosition = (editorState: EditorState, mark: Mark) => {
+    let markPos = { start: -1, end: -1 };
+
+    const result = findNodeInSelection((node) => Boolean(mark.isInSet(node.marks)))(
+        editorState.selection,
+        editorState.doc,
+    );
+
+    if (result) {
+        markPos = {
+            start: result.pos,
+            end: result.pos + Math.max(result.node.textContent.length, 1),
+        };
+    }
+    return markPos;
+};
+
+export const equalNodeType = (nodeType: NodeType, node: Node) => {
+    return (Array.isArray(nodeType) && nodeType.indexOf(node.type) > -1) || node.type === nodeType;
+};
+
+export const findChildNode = (selection: Selection, nodeType: NodeType) => {
+    if (!(selection instanceof NodeSelection)) {
+        return;
+    }
+    const { node, $from } = selection;
+    if (!node) {
+        return;
+    }
+    if (equalNodeType(nodeType, node)) {
+        return { node, pos: $from.pos, depth: $from.depth };
+    }
+    return undefined;
 };

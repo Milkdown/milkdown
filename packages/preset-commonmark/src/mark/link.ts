@@ -3,7 +3,7 @@ import { createMark } from '@milkdown/utils';
 import { toggleMark } from 'prosemirror-commands';
 import { InputRule } from 'prosemirror-inputrules';
 import { TextSelection } from 'prosemirror-state';
-import { findMarkByType, findMarkPosition } from '../utility';
+import { findMarkByType, findMarkPosition } from '@milkdown/utils';
 
 export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();
@@ -54,12 +54,11 @@ export const link = createMark((_, utils) => ({
             if (!dispatch) return false;
 
             const { marks } = state.schema;
-            const { link } = marks;
 
-            const node = findMarkByType(state, link);
+            const node = findMarkByType(state, markType);
             if (!node) return false;
 
-            const mark = node.marks.find(({ type }) => type === link);
+            const mark = node.marks.find(({ type }) => type === markType);
             if (!mark) return false;
 
             const { start, end } = findMarkPosition(state, mark);

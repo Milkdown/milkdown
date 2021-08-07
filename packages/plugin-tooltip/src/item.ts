@@ -5,13 +5,13 @@ import {
     createToggleIcon,
     hasMark,
     modifyLink,
-    findChildNode,
     modifyImage,
     updateLinkView,
     updateImageView,
     isTextSelection,
 } from './utility';
 import { Ctx } from '@milkdown/core';
+import { findChildNode } from '@milkdown/utils';
 import { ToggleBold, ToggleItalic, ToggleInlineCode, ToggleLink } from '@milkdown/preset-commonmark';
 import { ToggleStrikeThrough } from '@milkdown/preset-gfm';
 
@@ -21,7 +21,7 @@ export type Event2Command = (e: Event) => Command;
 
 export type ButtonItem = {
     $: HTMLElement;
-    command: Event2Command;
+    command: Command;
     active: Pred;
     disable?: Pred;
     enable: Pred;
@@ -61,7 +61,7 @@ export const inputMap = (schema: Schema, ctx: Ctx): InputMap => {
         },
         [InputAction.ModifyImage]: {
             display: (view) => Boolean(findChildNode(view.state.selection, nodes.image)),
-            command: modifyImage(),
+            command: modifyImage(ctx),
             placeholder: 'Input Image Link',
             update: updateImageView,
         },

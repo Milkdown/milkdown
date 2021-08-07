@@ -92,6 +92,6 @@ export class ButtonManager {
         if (!target) return;
         e.stopPropagation();
         e.preventDefault();
-        target.command(e)(view.state, view.dispatch);
+        target.command(view.state, view.dispatch);
     };
 }

@@ -1,6 +1,8 @@
-import { createNode } from '@milkdown/utils';
+import { createCmd, createCmdKey } from '@milkdown/core';
+import { createNode, findChildNode } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
 
+export const ModifyImage = createCmdKey<string>();
 const id = 'image';
 export const image = createNode((_, utils) => ({
     id,
@@ -65,6 +67,21 @@ export const image = createNode((_, utils) => ({
             });
         },
     },
+    commands: (nodeType) => [
+        createCmd(ModifyImage, (src = '') => {
+            return (state, dispatch) => {
+                if (!dispatch) return false;
+
+                const node = findChildNode(state.selection, nodeType);
+                if (!node) return false;
+
+                const { tr } = state;
+                dispatch(tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, src }).scrollIntoView());
+
+                return true;
+            };
+        }),
+    ],
     inputRules: (nodeType) => [
         new InputRule(/!\[(?<alt>.*?)]\((?<filename>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
             const [okay, alt, src = '', title] = match;
