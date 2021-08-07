@@ -5,7 +5,7 @@ import { strong } from './strong';
 
 export const marks = [codeInline(), em(), strong(), link()];
 
-export { codeInline } from './code-inline';
-export { em } from './em';
-export { link } from './link';
-export { strong } from './strong';
+export * from './code-inline';
+export * from './em';
+export * from './link';
+export * from './strong';

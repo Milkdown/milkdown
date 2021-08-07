@@ -1,5 +1,6 @@
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
 import { AtomList, createNode } from '@milkdown/utils';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 import { InputRule } from 'prosemirror-inputrules';
 import { TextSelection } from 'prosemirror-state';
 import { goToNextCell, tableNodes as tableNodesSpecCreator } from 'prosemirror-tables';
@@ -30,9 +31,9 @@ export type SupportedKeys = typeof SupportedKeys;
 
 type Keys = keyof SupportedKeys;
 
-export const PrevCell = createCommand();
-export const NextCell = createCommand();
-export const BreakTable = createCommand();
+export const PrevCell = createCmdKey();
+export const NextCell = createCmdKey();
+export const BreakTable = createCmdKey();
 
 export const table = createNode<Keys>(() => {
     const id = 'table';
@@ -79,23 +80,14 @@ export const table = createNode<Keys>(() => {
             }),
         ],
         commands: (_, schema) => [
-            [PrevCell, goToNextCell(-1)],
-            [NextCell, goToNextCell(1)],
-            [BreakTable, exitTable(schema.nodes.paragraph)],
+            createCmd(PrevCell, () => goToNextCell(-1)),
+            createCmd(NextCell, () => goToNextCell(1)),
+            createCmd(BreakTable, () => exitTable(schema.nodes.paragraph)),
         ],
         shortcuts: {
-            [SupportedKeys.NextCell]: {
-                defaultKey: 'Mod-]',
-                commandKey: NextCell,
-            },
-            [SupportedKeys.PrevCell]: {
-                defaultKey: 'Mod-[',
-                commandKey: PrevCell,
-            },
-            [SupportedKeys.ExitTable]: {
-                defaultKey: 'Mod-Enter',
-                commandKey: BreakTable,
-            },
+            [SupportedKeys.NextCell]: createShortcut(NextCell, 'Mod-]'),
+            [SupportedKeys.PrevCell]: createShortcut(PrevCell, 'Mod-['),
+            [SupportedKeys.ExitTable]: createShortcut(BreakTable, 'Mod-Enter'),
         },
     };
 });

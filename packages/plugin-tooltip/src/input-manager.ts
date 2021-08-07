@@ -97,6 +97,6 @@ export class InputManager {
         if (!view || !command || this.#button.classList.contains('disable')) return;
 
         e.stopPropagation();
-        command(e, view)(view.state, view.dispatch);
+        command(e)(view.state, view.dispatch);
     };
 }

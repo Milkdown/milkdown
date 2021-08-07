@@ -1,5 +1,6 @@
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
@@ -7,10 +8,10 @@ import { SupportedKeys } from '.';
 
 type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem'>;
 
-export const SplitListItem = createCommand();
-export const SinkListItem = createCommand();
-export const LiftListItem = createCommand();
-export const TurnIntoTaskList = createCommand();
+export const SplitListItem = createCmdKey();
+export const SinkListItem = createCmdKey();
+export const LiftListItem = createCmdKey();
+export const TurnIntoTaskList = createCmdKey();
 
 export const taskListItem = createNode<Keys>((options, utils) => {
     const id = 'task_list_item';
@@ -70,28 +71,16 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             })),
         ],
         commands: (nodeType) => [
-            [SplitListItem, splitListItem(nodeType)],
-            [SinkListItem, sinkListItem(nodeType)],
-            [LiftListItem, liftListItem(nodeType)],
-            [TurnIntoTaskList, wrapIn(nodeType)],
+            createCmd(SplitListItem, () => splitListItem(nodeType)),
+            createCmd(SinkListItem, () => sinkListItem(nodeType)),
+            createCmd(LiftListItem, () => liftListItem(nodeType)),
+            createCmd(TurnIntoTaskList, () => wrapIn(nodeType)),
         ],
         shortcuts: {
-            [SupportedKeys.NextListItem]: {
-                defaultKey: 'Enter',
-                commandKey: SplitListItem,
-            },
-            [SupportedKeys.SinkListItem]: {
-                defaultKey: 'Mod-]',
-                commandKey: SinkListItem,
-            },
-            [SupportedKeys.LiftListItem]: {
-                defaultKey: 'Mod-[',
-                commandKey: LiftListItem,
-            },
-            [SupportedKeys.TaskList]: {
-                defaultKey: 'Mod-Alt-9',
-                commandKey: TurnIntoTaskList,
-            },
+            [SupportedKeys.NextListItem]: createShortcut(SplitListItem, 'Enter'),
+            [SupportedKeys.SinkListItem]: createShortcut(SinkListItem, 'Mod-]'),
+            [SupportedKeys.LiftListItem]: createShortcut(LiftListItem, 'Mod-['),
+            [SupportedKeys.TaskList]: createShortcut(TurnIntoTaskList, 'Mod-Alt-9'),
         },
         view: (editor, nodeType, node, view, getPos, decorations) => {
             if (options?.view) {

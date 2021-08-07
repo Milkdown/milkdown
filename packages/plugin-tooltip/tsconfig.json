@@ -6,6 +6,8 @@
     },
     "include": ["src"],
     "references": [
-        { "path": "../utils" }
+        { "path": "../utils" },
+        { "path": "../preset-commonmark" },
+        { "path": "../preset-gfm" }
     ]
 }

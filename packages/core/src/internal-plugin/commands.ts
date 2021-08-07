@@ -4,15 +4,20 @@ import { createTimer, Timer } from '../timing';
 import { Atom, MilkdownPlugin, getAtom } from '../utility';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export type CommandKey = Meta<Command>;
+export type Cmd<T = undefined> = (info?: T) => Command;
+export type CmdKey<T = undefined> = Meta<Cmd<T>>;
 
 export type CommandManager = {
-    create: (meta: CommandKey, value: Command) => void;
-    get: (meta: CommandKey) => Command;
+    create: <T>(meta: CmdKey<T>, value: Cmd<T>) => void;
+    get: <T>(meta: CmdKey<T>) => Cmd<T>;
 };
 
+export type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>];
+
+export const createCmd = <T>(key: CmdKey<T>, value: Cmd<T>): CmdTuple => [key, value] as CmdTuple;
+
 export const commandsCtx = createCtx<CommandManager>({} as CommandManager);
-export const createCommand = (): CommandKey => createCtx<Command>((() => false) as Command);
+export const createCmdKey = <T = undefined>(): CmdKey<T> => createCtx((() => () => false) as Cmd<T>);
 
 export const commandsTimerCtx = createCtx<Timer[]>([]);
 export const CommandsReady = createTimer('KeymapReady');
@@ -33,7 +38,7 @@ export const commands: MilkdownPlugin = (pre) => {
             atoms
                 .map((x) => [getAtom(x.id, schema, isNode), x.commands] as const)
                 .map(([atom, commands]) => atom && commands?.(atom, schema))
-                .filter((x): x is [key: CommandKey, value: Command][] => !!x)
+                .filter((x): x is CmdTuple[] => !!x)
                 .flat();
 
         const commands = [...getCommands(nodes, true), ...getCommands(marks, false)];

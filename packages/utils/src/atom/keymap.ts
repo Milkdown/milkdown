@@ -1,13 +1,13 @@
 import type { NodeType, MarkType, Schema } from 'prosemirror-model';
 import type { Command, Keymap } from 'prosemirror-commands';
 import type { Shortcuts, CommandConfig, UserKeymap } from './types';
-import type { CommandKey } from '@milkdown/core';
+import type { Cmd, CmdKey } from '@milkdown/core';
 
 type KeymapTuple = [shortcut: string, command: Command];
-type KeymapConfigTuple<T extends string> = [key: T, config: CommandConfig];
+type KeymapConfigTuple<T extends string, U> = [key: T, config: CommandConfig<U>];
 
-const commands2Tuples = <K extends string>(commands: Shortcuts<K>): Array<KeymapConfigTuple<K>> =>
-    Object.entries(commands).filter((x): x is KeymapConfigTuple<K> => !!x);
+const commands2Tuples = <K extends string, U>(commands: Shortcuts<K>): Array<KeymapConfigTuple<K, U>> =>
+    Object.entries(commands).filter((x): x is KeymapConfigTuple<K, U> => !!x);
 
 const getShortCuts = <SupportedKeys extends string>(
     name: SupportedKeys,
@@ -16,25 +16,21 @@ const getShortCuts = <SupportedKeys extends string>(
 ): string | string[] => userKeymap?.[name] ?? defaultKey;
 
 const getKeymap =
-    <K extends string>(getCommand: (key: CommandKey) => Command, userKeymap?: UserKeymap<K>) =>
-    ([name, { defaultKey, commandKey }]: KeymapConfigTuple<K>): Array<KeymapTuple> =>
-        [getShortCuts(name, defaultKey, userKeymap)].flat().map((shortcut) => [shortcut, getCommand(commandKey)]);
+    <K extends string, U>(getCommand: (key: CmdKey<U>) => Cmd<U>, userKeymap?: UserKeymap<K>) =>
+    ([name, { defaultKey, commandKey, args }]: KeymapConfigTuple<K, U>): Array<KeymapTuple> =>
+        [getShortCuts(name, defaultKey, userKeymap)].flat().map((shortcut) => [shortcut, getCommand(commandKey)(args)]);
 
-const tuple2Keymap = <K extends string>(
-    tuples: Array<KeymapConfigTuple<K>>,
-    getCommand: (key: CommandKey) => Command,
+const tuple2Keymap = <K extends string, U>(
+    tuples: Array<KeymapConfigTuple<K, U>>,
+    getCommand: (key: CmdKey<U>) => Cmd<U>,
     userKeymap?: UserKeymap<K>,
 ): KeymapTuple[] => tuples.flatMap(getKeymap(getCommand, userKeymap));
 
-export const createKeymap = <SupportedKeys extends string, Type extends NodeType | MarkType>(
+export const createKeymap = <SupportedKeys extends string, Type extends NodeType | MarkType, U>(
     commands?: Shortcuts<SupportedKeys>,
     userKeymap?: UserKeymap<SupportedKeys>,
-): ((type: Type, schema: Schema, getCommand: (key: CommandKey) => Command) => Keymap) =>
-    // !commands
-    //     ? () => ({})
-    //     : (_type, _schema, getCommand) =>
-    //           flow(commands2Tuples, curryRight(tuple2Keymap)(userKeymap, getCommand), Object.fromEntries);
+): ((type: Type, schema: Schema, getCommand: (key: CmdKey<U>) => Cmd<U>) => Keymap) =>
     !commands
         ? () => ({})
         : (_type, _schema, getCommand) =>
-              Object.fromEntries(tuple2Keymap(commands2Tuples(commands), getCommand, userKeymap));
+              Object.fromEntries(tuple2Keymap(commands2Tuples<SupportedKeys, U>(commands), getCommand, userKeymap));

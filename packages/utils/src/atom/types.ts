@@ -1,10 +1,18 @@
-import type { NodeViewFactory, MarkViewFactory, Attrs, MilkdownPlugin, CommandKey } from '@milkdown/core';
+import type { NodeViewFactory, MarkViewFactory, Attrs, MilkdownPlugin, CmdKey } from '@milkdown/core';
 import type { AnyRecord, UnknownRecord } from '../type-utility';
 
-export type CommandConfig = {
-    commandKey: CommandKey;
+export type CommandConfig<T = unknown> = {
+    commandKey: CmdKey<T>;
     defaultKey: string;
+    args?: T;
 };
+
+export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, args?: T) =>
+    ({
+        commandKey,
+        defaultKey,
+        args,
+    } as CommandConfig<unknown>);
 
 export type Shortcuts<T extends string> = Record<T, CommandConfig>;
 export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>;

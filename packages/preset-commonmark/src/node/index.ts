@@ -26,15 +26,15 @@ export const nodes = [
     text(),
 ];
 
-export { blockquote } from './blockquote';
-export { bulletList } from './bullet-list';
-export { codeFence } from './code-fence';
-export { doc } from './doc';
-export { hardbreak } from './hardbreak';
-export { heading } from './heading';
-export { hr } from './hr';
-export { image } from './image';
-export { listItem } from './list-item';
-export { orderedList } from './ordered-list';
-export { paragraph } from './paragraph';
-export { text } from './text';
+export * from './blockquote';
+export * from './bullet-list';
+export * from './code-fence';
+export * from './doc';
+export * from './hardbreak';
+export * from './heading';
+export * from './hr';
+export * from './image';
+export * from './list-item';
+export * from './ordered-list';
+export * from './paragraph';
+export * from './text';

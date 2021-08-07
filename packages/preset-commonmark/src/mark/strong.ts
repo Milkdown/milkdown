@@ -1,11 +1,12 @@
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
 import { createMark, markRule } from '@milkdown/utils';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 import { toggleMark } from 'prosemirror-commands';
 import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['Bold'];
 const id = 'strong';
-export const ToggleBold = createCommand();
+export const ToggleBold = createCmdKey();
 export const strong = createMark<Keys>((_, utils) => ({
     id,
     schema: {
@@ -34,11 +35,8 @@ export const strong = createMark<Keys>((_, utils) => ({
         markRule(/(?:__)([^_]+)(?:__)$/, markType),
         markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),
     ],
-    commands: (markType) => [[ToggleBold, toggleMark(markType)]],
+    commands: (markType) => [createCmd(ToggleBold, () => toggleMark(markType))],
     shortcuts: {
-        [SupportedKeys.Bold]: {
-            defaultKey: 'Mod-b',
-            commandKey: ToggleBold,
-        },
+        [SupportedKeys.Bold]: createShortcut(ToggleBold, 'Mod-b'),
     },
 }));

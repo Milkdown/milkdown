@@ -2,15 +2,16 @@ import { createNode } from '@milkdown/utils';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { SupportedKeys } from '..';
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 
 type Keys = SupportedKeys['SinkListItem'] | SupportedKeys['LiftListItem'] | SupportedKeys['NextListItem'];
 
 const id = 'list_item';
 
-export const SplitListItem = createCommand();
-export const SinkListItem = createCommand();
-export const LiftListItem = createCommand();
+export const SplitListItem = createCmdKey();
+export const SinkListItem = createCmdKey();
+export const LiftListItem = createCmdKey();
 
 export const listItem = createNode<Keys>((_, utils) => ({
     id,
@@ -39,22 +40,13 @@ export const listItem = createNode<Keys>((_, utils) => ({
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
     commands: (nodeType) => [
-        [SplitListItem, splitListItem(nodeType)],
-        [SinkListItem, sinkListItem(nodeType)],
-        [LiftListItem, liftListItem(nodeType)],
+        createCmd(SplitListItem, () => splitListItem(nodeType)),
+        createCmd(SinkListItem, () => sinkListItem(nodeType)),
+        createCmd(LiftListItem, () => liftListItem(nodeType)),
     ],
     shortcuts: {
-        [SupportedKeys.NextListItem]: {
-            defaultKey: 'Enter',
-            commandKey: SplitListItem,
-        },
-        [SupportedKeys.SinkListItem]: {
-            defaultKey: 'Mod-]',
-            commandKey: SinkListItem,
-        },
-        [SupportedKeys.LiftListItem]: {
-            defaultKey: 'Mod-[',
-            commandKey: LiftListItem,
-        },
+        [SupportedKeys.NextListItem]: createShortcut(SplitListItem, 'Enter'),
+        [SupportedKeys.SinkListItem]: createShortcut(SinkListItem, 'Mod-]'),
+        [SupportedKeys.LiftListItem]: createShortcut(LiftListItem, 'Mod-['),
     },
 }));

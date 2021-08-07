@@ -1,12 +1,13 @@
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { SupportedKeys } from '..';
 
 type Keys = SupportedKeys['OrderedList'];
 
-export const WrapInOrderedList = createCommand();
+export const WrapInOrderedList = createCmdKey();
 
 const id = 'ordered_list';
 export const orderedList = createNode<Keys>((_, utils) => ({
@@ -61,11 +62,8 @@ export const orderedList = createNode<Keys>((_, utils) => ({
             (match, node) => node.childCount + node.attrs.order === Number(match[1]),
         ),
     ],
-    commands: (nodeType) => [[WrapInOrderedList, wrapIn(nodeType)]],
+    commands: (nodeType) => [createCmd(WrapInOrderedList, () => wrapIn(nodeType))],
     shortcuts: {
-        [SupportedKeys.OrderedList]: {
-            defaultKey: 'Mod-Shift-7',
-            commandKey: WrapInOrderedList,
-        },
+        [SupportedKeys.OrderedList]: createShortcut(WrapInOrderedList, 'Mod-Shift-7'),
     },
 }));

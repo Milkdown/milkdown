@@ -2,7 +2,8 @@ import { createNode } from '@milkdown/utils';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { setBlockType } from 'prosemirror-commands';
 import { SupportedKeys } from '..';
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 
 const headingIndex = Array(5)
     .fill(0)
@@ -18,12 +19,7 @@ type Keys =
 
 const id = 'heading';
 
-export const TurnIntoH1 = createCommand();
-export const TurnIntoH2 = createCommand();
-export const TurnIntoH3 = createCommand();
-export const TurnIntoH4 = createCommand();
-export const TurnIntoH5 = createCommand();
-export const TurnIntoH6 = createCommand();
+export const TurnIntoHeading = createCmdKey<number>();
 
 export const heading = createNode<Keys>((_, utils) => ({
     id,
@@ -65,39 +61,13 @@ export const heading = createNode<Keys>((_, utils) => ({
                 level: x,
             })),
         ),
-    commands: (nodeType) => [
-        [TurnIntoH1, setBlockType(nodeType, { level: 1 })],
-        [TurnIntoH2, setBlockType(nodeType, { level: 2 })],
-        [TurnIntoH3, setBlockType(nodeType, { level: 3 })],
-        [TurnIntoH4, setBlockType(nodeType, { level: 4 })],
-        [TurnIntoH5, setBlockType(nodeType, { level: 5 })],
-        [TurnIntoH6, setBlockType(nodeType, { level: 6 })],
-    ],
-
+    commands: (nodeType) => [createCmd(TurnIntoHeading, (level = 1) => setBlockType(nodeType, { level }))],
     shortcuts: {
-        [SupportedKeys.H1]: {
-            defaultKey: 'Mod-Alt-1',
-            commandKey: TurnIntoH1,
-        },
-        [SupportedKeys.H2]: {
-            defaultKey: 'Mod-Alt-2',
-            commandKey: TurnIntoH2,
-        },
-        [SupportedKeys.H3]: {
-            defaultKey: 'Mod-Alt-3',
-            commandKey: TurnIntoH3,
-        },
-        [SupportedKeys.H4]: {
-            defaultKey: 'Mod-Alt-4',
-            commandKey: TurnIntoH4,
-        },
-        [SupportedKeys.H5]: {
-            defaultKey: 'Mod-Alt-5',
-            commandKey: TurnIntoH5,
-        },
-        [SupportedKeys.H6]: {
-            defaultKey: 'Mod-Alt-6',
-            commandKey: TurnIntoH6,
-        },
+        [SupportedKeys.H1]: createShortcut(TurnIntoHeading, 'Mod-Alt-1', 1),
+        [SupportedKeys.H2]: createShortcut(TurnIntoHeading, 'Mod-Alt-2', 2),
+        [SupportedKeys.H3]: createShortcut(TurnIntoHeading, 'Mod-Alt-3', 3),
+        [SupportedKeys.H4]: createShortcut(TurnIntoHeading, 'Mod-Alt-4', 4),
+        [SupportedKeys.H5]: createShortcut(TurnIntoHeading, 'Mod-Alt-5', 5),
+        [SupportedKeys.H6]: createShortcut(TurnIntoHeading, 'Mod-Alt-6', 6),
     },
 }));

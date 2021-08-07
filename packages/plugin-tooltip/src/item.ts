@@ -11,10 +11,13 @@ import {
     updateImage,
     isTextSelection,
 } from './utility';
+import { Ctx } from '@milkdown/core';
+import { ToggleBold, ToggleItalic, ToggleInlineCode, ToggleLink } from '@milkdown/preset-commonmark';
+import { ToggleStrikeThrough } from '@milkdown/preset-gfm';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
-export type Event2Command = (e: Event, view: EditorView) => Command;
+export type Event2Command = (e: Event) => Command;
 
 export type ButtonItem = {
     $: HTMLElement;
@@ -52,7 +55,7 @@ export const inputMap = (schema: Schema): InputMap => {
     return {
         [InputAction.ModifyLink]: {
             display: (view) => isTextSelection(view.state) && hasMark(view.state, marks.link),
-            command: modifyLink(schema),
+            command: modifyLink(),
             placeholder: 'Input Web Link',
             update: updateLink(schema),
         },
@@ -65,13 +68,19 @@ export const inputMap = (schema: Schema): InputMap => {
     };
 };
 
-export const buttonMap = (schema: Schema): ButtonMap => {
+export const buttonMap = (schema: Schema, ctx: Ctx): ButtonMap => {
     const { marks } = schema;
     return {
-        [ButtonAction.ToggleBold]: createToggleIcon('format_bold', marks.strong, marks.code_inline),
-        [ButtonAction.ToggleItalic]: createToggleIcon('format_italic', marks.em, marks.code_inline),
-        [ButtonAction.ToggleStrike]: createToggleIcon('strikethrough_s', marks.strike_through, marks.code_inline),
-        [ButtonAction.ToggleCode]: createToggleIcon('code', marks.code_inline, marks.link),
-        [ButtonAction.ToggleLink]: createToggleIcon('link', marks.link, marks.code_inline, { href: '' }),
+        [ButtonAction.ToggleBold]: createToggleIcon(ctx, 'format_bold', ToggleBold, marks.strong, marks.code_inline),
+        [ButtonAction.ToggleItalic]: createToggleIcon(ctx, 'format_italic', ToggleItalic, marks.em, marks.code_inline),
+        [ButtonAction.ToggleStrike]: createToggleIcon(
+            ctx,
+            'strikethrough_s',
+            ToggleStrikeThrough,
+            marks.strike_through,
+            marks.code_inline,
+        ),
+        [ButtonAction.ToggleCode]: createToggleIcon(ctx, 'code', ToggleInlineCode, marks.code_inline, marks.link),
+        [ButtonAction.ToggleLink]: createToggleIcon(ctx, 'link', ToggleLink, marks.link, marks.code_inline),
     };
 };

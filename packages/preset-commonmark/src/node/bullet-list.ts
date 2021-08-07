@@ -1,12 +1,13 @@
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { SupportedKeys } from '..';
 
 type Keys = SupportedKeys['BulletList'];
 
-export const WrapInBulletList = createCommand();
+export const WrapInBulletList = createCmdKey();
 
 const id = 'bullet_list';
 export const bulletList = createNode<Keys>((_, utils) => ({
@@ -32,11 +33,8 @@ export const bulletList = createNode<Keys>((_, utils) => ({
         },
     },
     inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
-    commands: (nodeType) => [[WrapInBulletList, wrapIn(nodeType)]],
+    commands: (nodeType) => [createCmd(WrapInBulletList, () => wrapIn(nodeType))],
     shortcuts: {
-        [SupportedKeys.BulletList]: {
-            defaultKey: 'Mod-Shift-8',
-            commandKey: WrapInBulletList,
-        },
+        [SupportedKeys.BulletList]: createShortcut(WrapInBulletList, 'Mod-Shift-8'),
     },
 }));

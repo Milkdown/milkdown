@@ -1,12 +1,13 @@
-import { createCommand } from '@milkdown/core';
+import { createCmdKey, createCmd } from '@milkdown/core';
 import { createMark, markRule } from '@milkdown/utils';
+import { createShortcut } from '@milkdown/utils/src/atom/types';
 import { toggleMark } from 'prosemirror-commands';
 import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['CodeInline'];
 const id = 'code_inline';
 
-export const ToggleInlineCode = createCommand();
+export const ToggleInlineCode = createCmdKey();
 
 export const codeInline = createMark<Keys>((_, utils) => ({
     id,
@@ -32,11 +33,8 @@ export const codeInline = createMark<Keys>((_, utils) => ({
         },
     },
     inputRules: (markType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)],
-    commands: (markType) => [[ToggleInlineCode, toggleMark(markType)]],
+    commands: (markType) => [createCmd(ToggleInlineCode, () => toggleMark(markType))],
     shortcuts: {
-        [SupportedKeys.CodeInline]: {
-            defaultKey: 'Mod-e',
-            commandKey: ToggleInlineCode,
-        },
+        [SupportedKeys.CodeInline]: createShortcut(ToggleInlineCode, 'Mod-e'),
     },
 }));

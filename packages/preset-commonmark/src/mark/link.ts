@@ -1,6 +1,9 @@
+import { createCmdKey, createCmd } from '@milkdown/core';
 import { createMark } from '@milkdown/utils';
+import { toggleMark } from 'prosemirror-commands';
 import { InputRule } from 'prosemirror-inputrules';
 
+export const ToggleLink = createCmdKey<string>();
 const id = 'link';
 export const link = createMark((_, utils) => ({
     id,
@@ -42,6 +45,7 @@ export const link = createMark((_, utils) => ({
             });
         },
     },
+    commands: (markType) => [createCmd(ToggleLink, (href = '') => toggleMark(markType, { href }))],
     inputRules: (markType, schema) => [
         new InputRule(/\[(?<text>.+?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
             const [okay, text = '', href, title] = match;
