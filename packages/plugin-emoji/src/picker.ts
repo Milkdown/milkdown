@@ -1,6 +1,6 @@
 import { EmojiButton } from '@joeattardi/emoji-button';
 import { prosePluginFactory } from '@milkdown/core';
-import { Plugin, TextSelection } from 'prosemirror-state';
+import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { parse } from './parse';
 
@@ -77,14 +77,14 @@ const pickerPlugin = () => {
                 zIndex: 99,
             });
             emojiPicker.on('emoji', (selection) => {
+                const start = _from;
+                const end = _to;
+                off();
                 const html = parse(selection.emoji);
                 const node = editorView.state.schema.node('emoji', { html });
                 const { tr } = editorView.state;
 
-                const _tr = tr.replaceRangeWith(_from, _to, node);
-                const sel = TextSelection.create(_tr.doc, _from + node.content.size);
-                editorView.dispatch(_tr.setSelection(sel).scrollIntoView());
-                off();
+                editorView.dispatch(tr.replaceRangeWith(start, end, node));
             });
             return {
                 update: () => {

@@ -5,7 +5,7 @@ import { cleanUpAndCreateNode } from './utility';
 export type Action = {
     $: HTMLElement;
     keyword: string[];
-    command: (schema: Schema) => Command;
+    command: Command;
     enable: (schema: Schema) => boolean;
 };
 

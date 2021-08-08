@@ -149,7 +149,7 @@ class View {
         e.stopPropagation();
         e.preventDefault();
 
-        el.command(view.state.schema)(view.state, view.dispatch);
+        el.command(view.state, view.dispatch, view);
     };
 
     #handleKeydown = (e: KeyboardEvent) => {
@@ -190,7 +190,7 @@ class View {
             });
             return;
         }
-        this.#status.activeActions[active].command(this.#view.state.schema)(this.#view.state, this.#view.dispatch);
+        this.#status.activeActions[active].command(this.#view.state, this.#view.dispatch);
         this.#status.activeActions[active].$.classList.remove('active');
     };
 

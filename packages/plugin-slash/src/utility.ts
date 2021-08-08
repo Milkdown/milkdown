@@ -51,13 +51,12 @@ export const getDepth = (node: Node) => {
 
 export const cleanUpAndCreateNode =
     (fn: (schema: Schema) => Node, selectionType: 'node' | 'text' = 'text'): Action['command'] =>
-    (schema: Schema) =>
     (state, dispatch) => {
         if (!dispatch) return false;
 
         const { selection } = state;
         const { $head } = selection;
-        const node = fn(schema);
+        const node = fn(state.schema);
 
         const tr = state.tr.replaceWith($head.before(), $head.pos, node);
         const depth = getDepth(node);
