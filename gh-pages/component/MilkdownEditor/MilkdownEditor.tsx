@@ -27,8 +27,6 @@ import '@milkdown/preset-gfm/lib/style.css';
 
 import { ReactEditor, useEditor } from '@milkdown/react';
 
-import '@milkdown/theme-nord/lib/theme.css';
-
 import className from './style.module.css';
 
 type Props = {

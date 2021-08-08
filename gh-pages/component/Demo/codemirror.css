@@ -16,3 +16,9 @@
 .cm-content {
     min-width: 0rem !important;
 }
+
+.milkdown {
+    @mixin query 72rem {
+        max-width: 72rem;
+    }
+}

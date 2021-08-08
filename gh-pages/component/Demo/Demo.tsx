@@ -6,11 +6,7 @@ import { markdown } from '@codemirror/lang-markdown';
 import { MilkdownEditor } from '../MilkdownEditor/MilkdownEditor';
 import className from './style.module.css';
 import './codemirror.css';
-
-export enum Mode {
-    Default,
-    TwoSide,
-}
+import { Mode } from '../constant';
 
 type DemoProps = {
     content: string;

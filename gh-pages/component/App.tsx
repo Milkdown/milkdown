@@ -1,62 +1,13 @@
 import React from 'react';
-import { HashRouter, Switch, Route } from 'react-router-dom';
-import { Home } from './Home/Home';
-import { MilkdownEditor } from './MilkdownEditor/MilkdownEditor';
+import { HashRouter } from 'react-router-dom';
 import { Header } from './Header/Header';
 import { Sidebar } from './Sidebar/Sidebar';
 import { pageRouter } from '../page-router';
+import { Main } from './Route';
 
+import '@milkdown/theme-nord/lib/theme.css';
 import className from './style.module.css';
-import demo from '../pages/demo.md';
-import { Footer } from './Footer/Footer';
-import { Demo, Mode } from './Demo/Demo';
-import { useLocationType, LocationType } from './hooks/useLocationType';
-
-const pages = pageRouter.flatMap((section) => section.items);
-
-export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMode: Mode; isDarkMode: boolean }> = ({
-    setScrolled,
-    isDarkMode,
-    editorMode,
-}) => {
-    const [locationType] = useLocationType();
-
-    const classes = [className.container, locationType === LocationType.Home ? className.homepage : ''].join(' ');
-
-    React.useEffect(() => {
-        const scroll = () => {
-            setScrolled(window.pageYOffset > 0);
-        };
-
-        document.addEventListener('scroll', scroll);
-
-        return () => {
-            document.removeEventListener('scroll', scroll);
-        };
-    }, [setScrolled]);
-
-    return (
-        <div className={classes}>
-            <article>
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route exact path="/online-demo">
-                        <Demo mode={editorMode} content={demo} isDarkMode={isDarkMode} />
-                    </Route>
-
-                    {pages.map((page, i) => (
-                        <Route key={i.toString()} path={page.link}>
-                            <MilkdownEditor content={page.content} readOnly />
-                        </Route>
-                    ))}
-                </Switch>
-            </article>
-            <Footer />
-        </div>
-    );
-};
+import { Mode } from './constant';
 
 export const App: React.FC = () => {
     const [displaySidebar, setDisplaySidebar] = React.useState(false);

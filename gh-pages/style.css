@@ -28,7 +28,7 @@ body {
     @mixin query 72rem {
         min-height: auto;
         border-radius: var(--radius);
-        max-width: 72rem;
+        /* max-width: 72rem; */
     }
     transition: all 0.4s ease-in-out;
 }

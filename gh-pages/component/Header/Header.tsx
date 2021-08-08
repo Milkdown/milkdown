@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Mode } from '../constant';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { LocationType, useLocationType } from '../hooks/useLocationType';
-import { Mode } from '../Demo/Demo';
 import className from './style.module.css';
 
 type Props = {
