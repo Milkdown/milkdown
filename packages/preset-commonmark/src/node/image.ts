@@ -1,5 +1,5 @@
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { createNode, findChildNode } from '@milkdown/utils';
+import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
 
 export const ModifyImage = createCmdKey<string>();
@@ -72,7 +72,7 @@ export const image = createNode((_, utils) => ({
             return (state, dispatch) => {
                 if (!dispatch) return false;
 
-                const node = findChildNode(state.selection, nodeType);
+                const node = findSelectedNodeOfType(state.selection, nodeType);
                 if (!node) return false;
 
                 const { tr } = state;

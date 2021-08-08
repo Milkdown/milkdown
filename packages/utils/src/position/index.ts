@@ -1,11 +1,11 @@
 import type { EditorView } from 'prosemirror-view';
 
-type Result = [top: number, left: number];
+type Point = [top: number, left: number];
 
 export const calculateNodePosition = (
     view: EditorView,
     target: HTMLElement,
-    handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Result,
+    handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Point,
 ) => {
     const state = view.state;
     const { from } = state.selection;
@@ -28,7 +28,7 @@ export const calculateNodePosition = (
     target.style.left = left + 'px';
 };
 
-type Pos = {
+type Rect = {
     left: number;
     right: number;
     top: number;
@@ -38,7 +38,7 @@ type Pos = {
 export const calculateTextPosition = (
     view: EditorView,
     target: HTMLElement,
-    handler: (start: Pos, end: Pos, targetRect: DOMRect, parentRect: DOMRect) => Result,
+    handler: (start: Rect, end: Rect, targetRect: DOMRect, parentRect: DOMRect) => Point,
 ) => {
     const state = view.state;
     const { from, to } = state.selection;

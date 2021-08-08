@@ -1,6 +1,7 @@
 import { commandsCtx, Ctx } from '@milkdown/core';
 import { ModifyImage, ModifyLink } from '@milkdown/preset-commonmark';
-import { findChildNode, findMarkByType } from '@milkdown/utils';
+import { findChildren } from '@milkdown/utils';
+import { Node as ProseNode } from 'prosemirror-model';
 import { Event2Command, Updater } from '../item';
 import { elementIsTag } from './element';
 
@@ -49,7 +50,15 @@ export const updateLinkView: Updater = (view, $) => {
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
-    const node = findMarkByType(view.state, marks.link);
+    const { selection } = view.state;
+    let node: ProseNode | undefined;
+    view.state.doc.nodesBetween(selection.from, selection.to, (n) => {
+        if (marks.link.isInSet(n.marks)) {
+            node = n;
+            return false;
+        }
+        return;
+    });
     if (!node) return;
 
     const mark = node.marks.find((m) => m.type === marks.link);
@@ -71,10 +80,10 @@ export const updateImageView: Updater = (view, $) => {
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
-    const node = findChildNode(view.state.selection, nodes.image);
+    const node = findChildren((node) => node.type === nodes.image)(view.state.selection.$from.node())[0]?.node;
     if (!node) return;
 
-    const value = node.node.attrs.src;
+    const value = node.attrs.src;
     firstChild.value = value;
     if (!value) {
         lastElementChild.classList.add('disable');

@@ -1,9 +1,9 @@
-import { createCmdKey, createCmd } from '@milkdown/core';
+import { createCmd, createCmdKey } from '@milkdown/core';
 import { createMark } from '@milkdown/utils';
+import { Node as ProseNode } from 'prosemirror-model';
 import { toggleMark } from 'prosemirror-commands';
 import { InputRule } from 'prosemirror-inputrules';
 import { TextSelection } from 'prosemirror-state';
-import { findMarkByType, findMarkPosition } from '@milkdown/utils';
 
 export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();
@@ -55,19 +55,29 @@ export const link = createMark((_, utils) => ({
 
             const { marks } = state.schema;
 
-            const node = findMarkByType(state, markType);
+            let node: ProseNode | undefined;
+            let pos = -1;
+            const { selection } = state;
+            state.doc.nodesBetween(selection.from, selection.to, (n, p) => {
+                if (marks.link.isInSet(n.marks)) {
+                    node = n;
+                    pos = p;
+                    return false;
+                }
+                return;
+            });
             if (!node) return false;
 
             const mark = node.marks.find(({ type }) => type === markType);
             if (!mark) return false;
 
-            const { start, end } = findMarkPosition(state, mark);
+            const start = pos;
+            const end = pos + node.nodeSize;
             const { tr } = state;
             const linkMark = marks.link.create({ ...mark.attrs, href });
-
             dispatch(
                 tr
-                    .removeMark(start, end)
+                    .removeMark(start, end, mark)
                     .addMark(start, end, linkMark)
                     .setSelection(new TextSelection(tr.selection.$anchor))
                     .scrollIntoView(),

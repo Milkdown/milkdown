@@ -11,7 +11,7 @@ import {
     isTextSelection,
 } from './utility';
 import { Ctx } from '@milkdown/core';
-import { findChildNode } from '@milkdown/utils';
+import { findSelectedNodeOfType } from '@milkdown/utils';
 import { ToggleBold, ToggleItalic, ToggleInlineCode, ToggleLink } from '@milkdown/preset-commonmark';
 import { ToggleStrikeThrough } from '@milkdown/preset-gfm';
 
@@ -60,7 +60,7 @@ export const inputMap = (schema: Schema, ctx: Ctx): InputMap => {
             update: updateLinkView,
         },
         [InputAction.ModifyImage]: {
-            display: (view) => Boolean(findChildNode(view.state.selection, nodes.image)),
+            display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.image)),
             command: modifyImage(ctx),
             placeholder: 'Input Image Link',
             update: updateImageView,
