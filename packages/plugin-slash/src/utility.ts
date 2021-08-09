@@ -1,6 +1,5 @@
+import { Command } from 'prosemirror-commands';
 import { Node, Schema } from 'prosemirror-model';
-import { NodeSelection, TextSelection } from 'prosemirror-state';
-import type { Action } from './item';
 
 export const createDropdown = () => {
     const div = document.createElement('div');
@@ -49,23 +48,21 @@ export const getDepth = (node: Node) => {
     return depth;
 };
 
+const cleanUp: Command = (state, dispatch) => {
+    const { selection } = state;
+    const { $from } = selection;
+    const tr = state.tr.deleteRange($from.start(), $from.pos);
+    dispatch?.(tr);
+    return false;
+};
+
 export const cleanUpAndCreateNode =
-    (fn: (schema: Schema) => Node, selectionType: 'node' | 'text' = 'text'): Action['command'] =>
-    (state, dispatch) => {
-        if (!dispatch) return false;
-
-        const { selection } = state;
-        const { $head } = selection;
-        const node = fn(state.schema);
-
-        const tr = state.tr.replaceWith($head.before(), $head.pos, node);
-        const depth = getDepth(node);
-        const sel =
-            selectionType === 'node'
-                ? NodeSelection.create(tr.doc, $head.before() + depth)
-                : TextSelection.create(tr.doc, $head.start() + depth);
-
-        dispatch(tr.setSelection(sel).scrollIntoView());
+    (createCommand: Command): Command =>
+    (state, dispatch, view) => {
+        if (view) {
+            cleanUp(state, dispatch, view);
+            createCommand(view.state, view.dispatch, view);
+        }
         return true;
     };
 

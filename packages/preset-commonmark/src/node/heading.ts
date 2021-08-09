@@ -3,7 +3,7 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { setBlockType } from 'prosemirror-commands';
 import { SupportedKeys } from '..';
 import { createCmdKey, createCmd } from '@milkdown/core';
-import { createShortcut } from '@milkdown/utils/src/atom/types';
+import { createShortcut } from '@milkdown/utils';
 
 const headingIndex = Array(5)
     .fill(0)

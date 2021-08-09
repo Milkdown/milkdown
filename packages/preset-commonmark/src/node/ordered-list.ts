@@ -1,6 +1,6 @@
 import { createCmdKey, createCmd } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
-import { createShortcut } from '@milkdown/utils/src/atom/types';
+import { createShortcut } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { SupportedKeys } from '..';

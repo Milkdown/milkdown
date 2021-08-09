@@ -190,7 +190,7 @@ class View {
             });
             return;
         }
-        this.#status.activeActions[active].command(this.#view.state, this.#view.dispatch);
+        this.#status.activeActions[active].command(this.#view.state, this.#view.dispatch, this.#view);
         this.#status.activeActions[active].$.classList.remove('active');
     };
 

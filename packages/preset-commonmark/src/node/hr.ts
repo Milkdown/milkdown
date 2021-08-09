@@ -1,7 +1,10 @@
+import { createCmd, createCmdKey } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
+import { Selection } from 'prosemirror-state';
 
 const id = 'hr';
+export const CreateHr = createCmdKey<string>();
 export const hr = createNode((_, utils) => ({
     id,
     schema: {
@@ -30,6 +33,24 @@ export const hr = createNode((_, utils) => ({
             }
 
             return tr;
+        }),
+    ],
+    commands: (nodeType, schema) => [
+        createCmd(CreateHr, () => (state, dispatch) => {
+            if (!dispatch) return true;
+            const { tr, selection } = state;
+            const from = selection.from;
+            const node = nodeType.create();
+            if (!node) {
+                return true;
+            }
+            const _tr = tr.replaceSelectionWith(node).replaceSelectionWith(schema.node('paragraph'));
+            const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true);
+            if (!sel) {
+                return true;
+            }
+            dispatch(_tr.setSelection(sel).scrollIntoView());
+            return true;
         }),
     ],
 }));

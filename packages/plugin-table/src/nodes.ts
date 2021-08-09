@@ -1,8 +1,7 @@
 import { createCmdKey, createCmd } from '@milkdown/core';
-import { AtomList, createNode } from '@milkdown/utils';
-import { createShortcut } from '@milkdown/utils/src/atom/types';
+import { AtomList, createNode, createShortcut } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
-import { TextSelection } from 'prosemirror-state';
+import { TextSelection, Selection } from 'prosemirror-state';
 import { goToNextCell, tableNodes as tableNodesSpecCreator } from 'prosemirror-tables';
 import { Node as MarkdownNode } from 'unist';
 import { exitTable } from './command';
@@ -34,6 +33,7 @@ type Keys = keyof SupportedKeys;
 export const PrevCell = createCmdKey();
 export const NextCell = createCmdKey();
 export const BreakTable = createCmdKey();
+export const CreateTable = createCmdKey();
 
 export const table = createNode<Keys>(() => {
     const id = 'table';
@@ -83,6 +83,17 @@ export const table = createNode<Keys>(() => {
             createCmd(PrevCell, () => goToNextCell(-1)),
             createCmd(NextCell, () => goToNextCell(1)),
             createCmd(BreakTable, () => exitTable(schema.nodes.paragraph)),
+            createCmd(CreateTable, () => (state, dispatch) => {
+                const { selection, tr } = state;
+                const { from } = selection;
+                const table = createTable(schema);
+                const _tr = tr.replaceSelectionWith(table);
+                const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true);
+                if (sel) {
+                    dispatch?.(_tr.setSelection(sel));
+                }
+                return true;
+            }),
         ],
         shortcuts: {
             [SupportedKeys.NextCell]: createShortcut(NextCell, 'Mod-]'),

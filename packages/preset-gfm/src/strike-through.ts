@@ -1,6 +1,6 @@
 import { createCmdKey, createCmd } from '@milkdown/core';
 import { createMark, markRule } from '@milkdown/utils';
-import { createShortcut } from '@milkdown/utils/src/atom/types';
+import { createShortcut } from '@milkdown/utils';
 import { toggleMark } from 'prosemirror-commands';
 import { SupportedKeys } from '.';
 

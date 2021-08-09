@@ -7,13 +7,6 @@ export type CommandConfig<T = unknown> = {
     args?: T;
 };
 
-export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, args?: T) =>
-    ({
-        commandKey,
-        defaultKey,
-        args,
-    } as CommandConfig<unknown>);
-
 export type Shortcuts<T extends string> = Record<T, CommandConfig>;
 export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>;
 

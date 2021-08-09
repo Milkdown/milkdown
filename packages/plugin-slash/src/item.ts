@@ -1,5 +1,5 @@
 import type { Command } from 'prosemirror-commands';
-import type { Node, Schema } from 'prosemirror-model';
+import type { Schema } from 'prosemirror-model';
 import { cleanUpAndCreateNode } from './utility';
 
 export type Action = {
@@ -11,14 +11,13 @@ export type Action = {
 
 export type WrappedAction = Pick<Action, 'keyword'> & {
     enable: (schema: Schema) => boolean;
-    onCreate: (schema: Schema) => Node;
+    onCreate: Command;
     dom: HTMLElement;
-    selectionType?: 'node' | 'text';
 };
 
 export const transformAction = (action: WrappedAction): Action => ({
     keyword: action.keyword,
     $: action.dom,
-    command: cleanUpAndCreateNode(action.onCreate, action.selectionType),
+    command: cleanUpAndCreateNode(action.onCreate),
     enable: action.enable,
 });

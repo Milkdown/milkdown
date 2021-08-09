@@ -1,8 +1,10 @@
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
+import { NodeSelection } from 'prosemirror-state';
 
 export const ModifyImage = createCmdKey<string>();
+export const CreateImage = createCmdKey<string>();
 const id = 'image';
 export const image = createNode((_, utils) => ({
     id,
@@ -67,19 +69,30 @@ export const image = createNode((_, utils) => ({
             });
         },
     },
-    commands: (nodeType) => [
-        createCmd(ModifyImage, (src = '') => {
-            return (state, dispatch) => {
-                if (!dispatch) return false;
-
-                const node = findSelectedNodeOfType(state.selection, nodeType);
-                if (!node) return false;
-
-                const { tr } = state;
-                dispatch(tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, src }).scrollIntoView());
-
+    commands: (nodeType, schema) => [
+        createCmd(CreateImage, (src = '') => (state, dispatch) => {
+            if (!dispatch) return true;
+            const { tr } = state;
+            const node = nodeType.create({ src });
+            if (!node) {
                 return true;
-            };
+            }
+            const _tr = tr.replaceSelectionWith(node);
+            const { $from } = _tr.selection;
+            const start = $from.start();
+            const __tr = _tr.replaceSelectionWith(schema.node('paragraph'));
+            const sel = NodeSelection.create(__tr.doc, start);
+            dispatch(__tr.setSelection(sel));
+            return true;
+        }),
+        createCmd(ModifyImage, (src = '') => (state, dispatch) => {
+            const node = findSelectedNodeOfType(state.selection, nodeType);
+            if (!node) return false;
+
+            const { tr } = state;
+            dispatch?.(tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, src }).scrollIntoView());
+
+            return true;
         }),
     ],
     inputRules: (nodeType) => [

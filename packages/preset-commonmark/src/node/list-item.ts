@@ -3,7 +3,7 @@ import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-li
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { SupportedKeys } from '..';
 import { createCmdKey, createCmd } from '@milkdown/core';
-import { createShortcut } from '@milkdown/utils/src/atom/types';
+import { createShortcut } from '@milkdown/utils';
 
 type Keys = SupportedKeys['SinkListItem'] | SupportedKeys['LiftListItem'] | SupportedKeys['NextListItem'];
 
