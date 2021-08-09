@@ -11,7 +11,7 @@ export type Action = {
 
 export type WrappedAction = Pick<Action, 'keyword'> & {
     enable: (schema: Schema) => boolean;
-    command: Command;
+    command: () => void;
     dom: HTMLElement;
 };
 

@@ -43,3 +43,8 @@ export const getAtomFromSchemaFail = (type: 'mark' | 'node', name: string) =>
     new Error(`Cannot get ${type}: ${name} from schema.`);
 
 export const expectDomTypeError = (node: unknown) => new Error(`Expect to be a dom, but get: ${JSON.stringify(node)}.`);
+
+export const callCommandBeforeEditorView = () =>
+    new Error(
+        `You're trying to call a command before editor view initialized, make sure to get commandManager from ctx after editor view has been initialized`,
+    );

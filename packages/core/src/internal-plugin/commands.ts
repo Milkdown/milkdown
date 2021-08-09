@@ -1,7 +1,9 @@
+import { callCommandBeforeEditorView } from '@milkdown/exception';
 import type { Command } from 'prosemirror-commands';
 import { createContainer, createCtx, Meta } from '../context';
 import { createTimer, Timer } from '../timing';
 import { Atom, MilkdownPlugin, getAtom } from '../utility';
+import { Complete, editorViewCtx } from './editor-view';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export type Cmd<T = undefined> = (info?: T) => Command;
@@ -10,6 +12,7 @@ export type CmdKey<T = undefined> = Meta<Cmd<T>>;
 export type CommandManager = {
     create: <T>(meta: CmdKey<T>, value: Cmd<T>) => void;
     get: <T>(meta: CmdKey<T>) => Cmd<T>;
+    call: <T>(meta: CmdKey<T>, info?: T) => boolean;
 };
 
 export type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>];
@@ -26,6 +29,9 @@ export const commands: MilkdownPlugin = (pre) => {
     const commandManager: CommandManager = {
         create: (meta, value) => meta(container.contextMap, value),
         get: (meta) => container.getCtx(meta).get(),
+        call: () => {
+            throw callCommandBeforeEditorView();
+        },
     };
     pre.inject(commandsCtx, commandManager).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady);
     return async (ctx) => {
@@ -47,5 +53,16 @@ export const commands: MilkdownPlugin = (pre) => {
             commandManager.create(key, command);
         });
         ctx.done(CommandsReady);
+        await ctx.wait(Complete);
+
+        ctx.update(commandsCtx, (prev) => ({
+            ...prev,
+            call: (meta, info) => {
+                const cmd = commandManager.get(meta);
+                const command = cmd(info);
+                const view = ctx.get(editorViewCtx);
+                return command(view.state, view.dispatch, view);
+            },
+        }));
     };
 };

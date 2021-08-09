@@ -57,11 +57,11 @@ const cleanUp: Command = (state, dispatch) => {
 };
 
 export const cleanUpAndCreateNode =
-    (createCommand: Command): Command =>
+    (createCommand: () => void): Command =>
     (state, dispatch, view) => {
         if (view) {
             cleanUp(state, dispatch, view);
-            createCommand(view.state, view.dispatch, view);
+            createCommand();
         }
         return true;
     };

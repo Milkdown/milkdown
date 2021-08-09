@@ -12,7 +12,7 @@ export const createToggleIcon = <T>(
     disableForMark: MarkType,
 ): ButtonItem => ({
     $: icon(iconName),
-    command: ctx.get(commandsCtx).get(commandKey)(),
+    command: () => ctx.get(commandsCtx).call(commandKey),
     active: (view) => hasMark(view.state, mark),
     disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
     enable: (view) => !!mark && !!view.state.schema.marks[mark.name],

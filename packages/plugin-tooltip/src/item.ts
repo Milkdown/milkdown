@@ -1,5 +1,4 @@
 import type { Schema } from 'prosemirror-model';
-import { Command } from 'prosemirror-commands';
 import { EditorView } from 'prosemirror-view';
 import {
     createToggleIcon,
@@ -17,11 +16,11 @@ import { ToggleStrikeThrough } from '@milkdown/preset-gfm';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
-export type Event2Command = (e: Event) => Command;
+export type Event2Command = (e: Event) => void;
 
 export type ButtonItem = {
     $: HTMLElement;
-    command: Command;
+    command: () => void;
     active: Pred;
     disable?: Pred;
     enable: Pred;

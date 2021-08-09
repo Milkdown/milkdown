@@ -84,14 +84,12 @@ export class ButtonManager {
     }
 
     #listener = (e: Event) => {
-        const { view } = this;
-        if (!view) return;
         const target = Object.values(this.#buttonMap).find(
             ({ $ }) => e.target instanceof Element && $.contains(e.target),
         );
         if (!target) return;
         e.stopPropagation();
         e.preventDefault();
-        target.command(view.state, view.dispatch);
+        target.command();
     };
 }

@@ -22,7 +22,7 @@ export const modifyLink =
         const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
         if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
-        return ctx.get(commandsCtx).get(ModifyLink)(inputEl.value);
+        return ctx.get(commandsCtx).call(ModifyLink, inputEl.value);
     };
 
 export const modifyImage =
@@ -42,7 +42,7 @@ export const modifyImage =
         const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
         if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
-        return ctx.get(commandsCtx).get(ModifyImage)(inputEl.value);
+        return ctx.get(commandsCtx).call(ModifyImage, inputEl.value);
     };
 
 export const updateLinkView: Updater = (view, $) => {

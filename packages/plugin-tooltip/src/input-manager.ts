@@ -92,11 +92,10 @@ export class InputManager {
     }
 
     private listener = (e: Event) => {
-        const { view } = this;
         const command = this.#inputCommand;
-        if (!view || !command || this.#button.classList.contains('disable')) return;
+        if (!command || this.#button.classList.contains('disable')) return;
 
         e.stopPropagation();
-        command(e)(view.state, view.dispatch);
+        command(e);
     };
 }

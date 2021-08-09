@@ -11,7 +11,7 @@ export const Home: React.FC = () => (
                     <p className={className.desc}>Plugin Based WYSIWYG Markdown Editor</p>
                     <section className={className.buttons}>
                         <Link to="/getting-started">Get Started</Link>
-                        <Link to="/online-demo">Online Demo</Link>
+                        <Link to="/online-demo">Try Online</Link>
                     </section>
                 </div>
                 <section className={className.logo}>
