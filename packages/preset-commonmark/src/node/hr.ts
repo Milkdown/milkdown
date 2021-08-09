@@ -44,7 +44,7 @@ export const hr = createNode((_, utils) => ({
             if (!node) {
                 return true;
             }
-            const _tr = tr.replaceSelectionWith(node).replaceSelectionWith(schema.node('paragraph'));
+            const _tr = tr.replaceSelectionWith(node).insert(from, schema.node('paragraph'));
             const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true);
             if (!sel) {
                 return true;
