@@ -1,7 +1,6 @@
 # Keyboard Shortcuts
 
-Keyboard shortcuts are provided by default from both presets and plugins.
-Depending on your behavior, you might want to change them to what you like.
+Keyboard shortcuts are provided by default from both presets and plugins. Depending on your behavior, you might want to change them to what you like.
 
 ---
 

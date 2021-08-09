@@ -7,8 +7,7 @@ Milkdown is a lightweight but powerful WYSIWYG markdown editor. It's made up by 
 -   A tiny core which provide markdown parser, serializer and kinds of plugin loader.
 -   Lots of plugins provide syntax, commands and components.
 
-With this pattern you can enable or disable any custom syntax you like, such as table, latex and slash commands.
-You can even create your own plugin to support your awesome idea.
+With this pattern you can enable or disable any custom syntax you like, such as table, latex and slash commands. You can even create your own plugin to support your awesome idea.
 
 > :baby_bottle: Fun fact: The Milkdown documentation is rendered by milkdown.
 

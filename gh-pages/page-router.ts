@@ -3,6 +3,7 @@ import type { Section } from './component/Sidebar/Sidebar';
 import whyMilkdown from './pages/guide/why-milkdown.md';
 import gettingStarted from './pages/guide/getting-started.md';
 import interactingWithEditor from './pages/guide/interacting-with-editor.md';
+import commands from './pages/guide/commands.md';
 import styling from './pages/guide/styling.md';
 import keyboardShortcuts from './pages/guide/keyboard-shortcuts.md';
 
@@ -29,6 +30,11 @@ export const pageRouter: Section[] = [
                 title: 'Interacting with Editor',
                 link: '/interacting-with-editor',
                 content: interactingWithEditor,
+            },
+            {
+                title: 'Commands',
+                link: '/commands',
+                content: commands,
             },
             {
                 title: 'Styling',
