@@ -1,5 +1,19 @@
 # @milkdown/plugin-tooltip
 
+## 4.9.0
+
+### Minor Changes
+
+-   cbce961: Add command manager.
+
+### Patch Changes
+
+-   Updated dependencies [cbce961]
+    -   @milkdown/core@4.9.0
+    -   @milkdown/preset-commonmark@4.9.0
+    -   @milkdown/preset-gfm@4.9.0
+    -   @milkdown/utils@4.9.0
+
 ## 4.8.2
 
 ### Patch Changes
