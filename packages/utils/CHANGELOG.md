@@ -1,5 +1,13 @@
 # @milkdown/utils
 
+## 4.9.2
+
+### Patch Changes
+
+-   7c84b8e: Release for github
+-   Updated dependencies [7c84b8e]
+    -   @milkdown/exception@4.9.2
+
 ## 4.9.1
 
 ### Patch Changes
