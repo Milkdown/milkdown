@@ -1,5 +1,13 @@
 # @milkdown/plugin-prism
 
+## 4.9.1
+
+### Patch Changes
+
+-   59065b6: Fix ci issues
+-   Updated dependencies [59065b6]
+    -   @milkdown/utils@4.9.1
+
 ## 4.9.0
 
 ### Minor Changes
