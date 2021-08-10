@@ -1,4 +1,4 @@
-# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown [![ci](https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml/badge.svg)](https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml)
+# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown [![ci][ci-badge]][ci-link] ![ts][ts-badge]
 
 <div align="center">
     <img src="/gh-pages/public/milkdown-homepage.svg" />
@@ -39,3 +39,7 @@ Welcome to join our [Discord community](https://discord.gg/SdMnrSMyBX).
 # License
 
 [MIT](/LICENSE)
+
+[ci-badge]: https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml/badge.svg
+[ci-link]: https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml
+[ts-badge]: https://flat.badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555

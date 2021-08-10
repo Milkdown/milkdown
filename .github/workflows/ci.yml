@@ -60,7 +60,7 @@ jobs:
               with:
                   node-version: 15.x
             - name: install pnpm
-              run: npm i pnpm@latest -g
+              run: npm i pnpm@6.11 -g
             - name: load cache
               uses: actions/cache@v2
               with:
