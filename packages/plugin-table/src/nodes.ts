@@ -33,7 +33,7 @@ type Keys = keyof SupportedKeys;
 export const PrevCell = createCmdKey();
 export const NextCell = createCmdKey();
 export const BreakTable = createCmdKey();
-export const CreateTable = createCmdKey();
+export const InsertTable = createCmdKey();
 
 export const table = createNode<Keys>(() => {
     const id = 'table';
@@ -83,7 +83,7 @@ export const table = createNode<Keys>(() => {
             createCmd(PrevCell, () => goToNextCell(-1)),
             createCmd(NextCell, () => goToNextCell(1)),
             createCmd(BreakTable, () => exitTable(schema.nodes.paragraph)),
-            createCmd(CreateTable, () => (state, dispatch) => {
+            createCmd(InsertTable, () => (state, dispatch) => {
                 const { selection, tr } = state;
                 const { from } = selection;
                 const table = createTable(schema);

@@ -4,7 +4,7 @@ import { InputRule } from 'prosemirror-inputrules';
 import { Selection } from 'prosemirror-state';
 
 const id = 'hr';
-export const CreateHr = createCmdKey<string>();
+export const InsertHr = createCmdKey<string>();
 export const hr = createNode((_, utils) => ({
     id,
     schema: {
@@ -36,7 +36,7 @@ export const hr = createNode((_, utils) => ({
         }),
     ],
     commands: (nodeType, schema) => [
-        createCmd(CreateHr, () => (state, dispatch) => {
+        createCmd(InsertHr, () => (state, dispatch) => {
             if (!dispatch) return true;
             const { tr, selection } = state;
             const from = selection.from;

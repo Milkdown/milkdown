@@ -6,11 +6,11 @@ import { wrappingInputRule } from 'prosemirror-inputrules';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { SupportedKeys } from '.';
 
-type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem'>;
+type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem' | 'TaskList'>;
 
-export const SplitListItem = createCmdKey();
-export const SinkListItem = createCmdKey();
-export const LiftListItem = createCmdKey();
+export const SplitTaskListItem = createCmdKey();
+export const SinkTaskListItem = createCmdKey();
+export const LiftTaskListItem = createCmdKey();
 export const TurnIntoTaskList = createCmdKey();
 
 export const taskListItem = createNode<Keys>((options, utils) => {
@@ -71,15 +71,15 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             })),
         ],
         commands: (nodeType) => [
-            createCmd(SplitListItem, () => splitListItem(nodeType)),
-            createCmd(SinkListItem, () => sinkListItem(nodeType)),
-            createCmd(LiftListItem, () => liftListItem(nodeType)),
+            createCmd(SplitTaskListItem, () => splitListItem(nodeType)),
+            createCmd(SinkTaskListItem, () => sinkListItem(nodeType)),
+            createCmd(LiftTaskListItem, () => liftListItem(nodeType)),
             createCmd(TurnIntoTaskList, () => wrapIn(nodeType)),
         ],
         shortcuts: {
-            [SupportedKeys.NextListItem]: createShortcut(SplitListItem, 'Enter'),
-            [SupportedKeys.SinkListItem]: createShortcut(SinkListItem, 'Mod-]'),
-            [SupportedKeys.LiftListItem]: createShortcut(LiftListItem, 'Mod-['),
+            [SupportedKeys.NextListItem]: createShortcut(SplitTaskListItem, 'Enter'),
+            [SupportedKeys.SinkListItem]: createShortcut(SinkTaskListItem, 'Mod-]'),
+            [SupportedKeys.LiftListItem]: createShortcut(LiftTaskListItem, 'Mod-['),
             [SupportedKeys.TaskList]: createShortcut(TurnIntoTaskList, 'Mod-Alt-9'),
         },
         view: (editor, nodeType, node, view, getPos, decorations) => {

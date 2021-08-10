@@ -1,6 +1,6 @@
 import {
-    CreateHr,
-    CreateImage,
+    InsertHr,
+    InsertImage,
     TurnIntoCodeFence,
     TurnIntoHeading,
     WrapInBlockquote,
@@ -8,7 +8,7 @@ import {
     WrapInOrderedList,
 } from '@milkdown/preset-commonmark';
 import { TurnIntoTaskList } from '@milkdown/preset-gfm';
-import { CreateTable } from '@milkdown/plugin-table';
+import { InsertTable } from '@milkdown/plugin-table';
 import { SlashConfig } from '.';
 import { createDropdownItem, nodeExists } from './utility';
 import { commandsCtx } from '@milkdown/core';
@@ -52,7 +52,7 @@ export const config: SlashConfig = (ctx) => [
     },
     {
         dom: createDropdownItem('Image', 'image'),
-        command: () => ctx.get(commandsCtx).call(CreateImage),
+        command: () => ctx.get(commandsCtx).call(InsertImage),
         keyword: ['image'],
         enable: nodeExists('image'),
     },
@@ -64,7 +64,7 @@ export const config: SlashConfig = (ctx) => [
     },
     {
         dom: createDropdownItem('Table', 'table_chart'),
-        command: () => ctx.get(commandsCtx).call(CreateTable),
+        command: () => ctx.get(commandsCtx).call(InsertTable),
         keyword: ['table'],
         enable: nodeExists('table'),
     },
@@ -76,7 +76,7 @@ export const config: SlashConfig = (ctx) => [
     },
     {
         dom: createDropdownItem('Divide Line', 'horizontal_rule'),
-        command: () => ctx.get(commandsCtx).call(CreateHr),
+        command: () => ctx.get(commandsCtx).call(InsertHr),
         keyword: ['divider', 'hr'],
         enable: nodeExists('hr'),
     },

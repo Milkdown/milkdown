@@ -4,7 +4,7 @@ import { InputRule } from 'prosemirror-inputrules';
 import { NodeSelection } from 'prosemirror-state';
 
 export const ModifyImage = createCmdKey<string>();
-export const CreateImage = createCmdKey<string>();
+export const InsertImage = createCmdKey<string>();
 const id = 'image';
 export const image = createNode((_, utils) => ({
     id,
@@ -70,7 +70,7 @@ export const image = createNode((_, utils) => ({
         },
     },
     commands: (nodeType, schema) => [
-        createCmd(CreateImage, (src = '') => (state, dispatch) => {
+        createCmd(InsertImage, (src = '') => (state, dispatch) => {
             if (!dispatch) return true;
             const { tr } = state;
             const node = nodeType.create({ src });
