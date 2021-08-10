@@ -21,9 +21,9 @@
         "milkdown plugin"
     ],
     "peerDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/preset-gfm": "workspace:*"
+        "@milkdown/core": "*",
+        "@milkdown/preset-commonmark": "*",
+        "@milkdown/preset-gfm": "*"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
