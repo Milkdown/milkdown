@@ -77,8 +77,6 @@ jobs:
 
             - name: install dependencies
               run: pnpm install
-            - name: install pnpm
-              run: npm i pnpm@latest -g
 
             - name: create versions or publish to npm registry
               uses: changesets/action@master
