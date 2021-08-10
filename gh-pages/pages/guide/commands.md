@@ -17,7 +17,7 @@ async function setup() {
     const toggleItalic = () =>
         editor.action((ctx) => {
             // get command manager
-            const commandManager = ctx.get(commands);
+            const commandManager = ctx.get(commandsCtx);
 
             // call command
             commandManager.call(ToggleItalic);
