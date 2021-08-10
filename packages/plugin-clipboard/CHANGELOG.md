@@ -1,5 +1,11 @@
 # @milkdown/plugin-clipboard
 
+## 4.9.0
+
+### Minor Changes
+
+-   cbce961: Add command manager.
+
 ## 4.8.2
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @milkdown/plugin-math
 
+## 4.9.0
+
+### Minor Changes
+
+-   cbce961: Add command manager.
+
+### Patch Changes
+
+-   Updated dependencies [cbce961]
+    -   @milkdown/utils@4.9.0
+
 ## 4.8.2
 
 ### Patch Changes
