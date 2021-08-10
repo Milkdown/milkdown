@@ -1,5 +1,11 @@
 # @milkdown/plugin-listener
 
+## 4.9.3
+
+### Patch Changes
+
+-   566d83f: Release to github release packages.
+
 ## 4.9.2
 
 ### Patch Changes

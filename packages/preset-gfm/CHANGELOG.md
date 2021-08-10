@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.9.3
+
+### Patch Changes
+
+-   566d83f: Release to github release packages.
+-   Updated dependencies [566d83f]
+    -   @milkdown/plugin-table@4.9.3
+    -   @milkdown/preset-commonmark@4.9.3
+    -   @milkdown/utils@4.9.3
+
 ## 4.9.2
 
 ### Patch Changes
