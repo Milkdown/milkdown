@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';
 import { pageRouter } from '../page-router';
-import demo from '../pages/demo.md';
 import { Mode } from './constant';
 import { Footer } from './Footer/Footer';
 import { Home } from './Home/Home';
@@ -53,7 +52,7 @@ export const Main: React.FC<{ setScrolled: (scrolled: boolean) => void; editorMo
                         </Route>
 
                         <Route exact path="/online-demo">
-                            <Demo mode={editorMode} content={demo} isDarkMode={isDarkMode} />
+                            <Demo mode={editorMode} isDarkMode={isDarkMode} />
                         </Route>
 
                         {pages.map((page, i) => (

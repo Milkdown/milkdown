@@ -22,7 +22,7 @@ const NavSection: React.FC<Section> = ({ title, items }) => (
 type Item = {
     title: string;
     link: string;
-    content: string;
+    content: string | (() => Promise<{ default: string }>);
 };
 export type Section = {
     title: string;
@@ -34,6 +34,14 @@ type SidebarProps = {
     display: boolean;
     setDisplay: (display: boolean) => void;
 };
+
+const scroll = document.createElement('div');
+scroll.style.position = 'fixed';
+scroll.style.right = '0';
+scroll.style.top = '0';
+scroll.style.bottom = '0';
+scroll.style.background = 'rgba(var(--background), 1)';
+scroll.style.zIndex = '99';
 
 export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display }) => {
     const ref = React.useRef<HTMLDivElement>(null);
@@ -51,31 +59,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display 
         setDisplay(true);
         const { current } = ref;
         if (!current) return;
+        const body = document.body;
         const header = document.getElementById('header');
-        const scroll = document.createElement('div');
-        scroll.style.position = 'fixed';
-        scroll.style.right = '0';
-        scroll.style.top = '0';
-        scroll.style.bottom = '0';
-        scroll.style.background = 'rgba(var(--background), 1)';
-        scroll.style.zIndex = '99';
         const stopBodyScroll = () => {
-            const width = window.innerWidth - document.body.clientWidth;
-            document.body.style.marginRight = `${width}px`;
-            document.body.style.overflow = 'hidden';
+            const width = window.innerWidth - body.clientWidth;
+            body.style.marginRight = `${width}px`;
+            body.style.overflow = 'hidden';
             scroll.style.width = width + 'px';
-            document.body.style.transition = 'none';
+            body.style.transition = 'none';
             if (header) {
                 header.style.marginRight = `${width}px`;
                 header.style.transition = 'none';
             }
-            document.body.appendChild(scroll);
+            body.appendChild(scroll);
         };
         const resumeBodyScroll = () => {
-            document.body.style.overflow = '';
-            document.body.style.marginRight = '';
+            body.style.overflow = '';
+            body.style.marginRight = '';
             setTimeout(() => {
-                document.body.style.transition = '';
+                body.style.transition = '';
                 if (header) {
                     header.style.transition = '';
                 }
@@ -83,13 +85,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ sections, setDisplay, display 
             if (header) {
                 header.style.marginRight = '';
             }
-            document.body.removeChild(scroll);
+            body.removeChild(scroll);
         };
         current.addEventListener('mouseenter', stopBodyScroll);
         current.addEventListener('mouseleave', resumeBodyScroll);
         return () => {
-            current.removeEventListener('mouseenter', stopBodyScroll);
             current.removeEventListener('mouseleave', resumeBodyScroll);
+            current.removeEventListener('mouseenter', stopBodyScroll);
         };
     }, [locationType, setDisplay, location]);
 

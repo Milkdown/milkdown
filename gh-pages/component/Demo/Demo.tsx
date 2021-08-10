@@ -8,8 +8,9 @@ import className from './style.module.css';
 import './codemirror.css';
 import { Mode } from '../constant';
 
+import demo from '../../pages/demo.md';
+
 type DemoProps = {
-    content: string;
     mode: Mode;
     isDarkMode: boolean;
 };
@@ -85,9 +86,9 @@ const CodeMirror = ({
     );
 };
 
-export const Demo = ({ content, mode, isDarkMode }: DemoProps): JSX.Element => {
-    const defaultValueForCode = React.useRef(content);
-    const defaultValueForMilkdown = React.useRef(content);
+export const Demo = ({ mode, isDarkMode }: DemoProps): JSX.Element => {
+    const defaultValueForCode = React.useRef(demo);
+    const defaultValueForMilkdown = React.useRef(demo);
     const [stateCountMilkdown, setStateCountMilkdown] = React.useState(0);
     const [stateCountCode, setStateCountCode] = React.useState(0);
     const triggerMilkdown = React.useCallback(() => setStateCountMilkdown((x) => x + 1), []);

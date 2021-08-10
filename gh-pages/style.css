@@ -28,6 +28,7 @@ body {
         min-height: auto;
         border-radius: var(--radius);
         max-width: 72rem !important;
+        width: 100%;
     }
     transition: all 0.4s ease-in-out;
 }

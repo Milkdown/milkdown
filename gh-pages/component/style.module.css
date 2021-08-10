@@ -4,7 +4,7 @@
     transition: all 0.4s ease-out;
     flex: 1;
     margin-left: 16rem;
-    width: 100%;
+    width: calc(100% - 16rem);
     position: relative;
     &::before {
         content: '';
@@ -23,6 +23,7 @@
     }
     &.fold {
         margin-left: 0;
+        width: 100%;
         &::before {
             all: unset;
         }

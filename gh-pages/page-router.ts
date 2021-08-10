@@ -1,50 +1,34 @@
 import type { Section } from './component/Sidebar/Sidebar';
 
-import whyMilkdown from './pages/guide/why-milkdown.md';
-import gettingStarted from './pages/guide/getting-started.md';
-import interactingWithEditor from './pages/guide/interacting-with-editor.md';
-import commands from './pages/guide/commands.md';
-import styling from './pages/guide/styling.md';
-import keyboardShortcuts from './pages/guide/keyboard-shortcuts.md';
-
-import react from './pages/integrations/react.md';
-import vue from './pages/integrations/vue.md';
-
-import writingPlugins from './pages/plugins/writing-plugins.md';
-import usingPlugins from './pages/plugins/using-plugins.md';
-import integratingPlugins from './pages/plugins/integrating-plugins.md';
-import exampleCustomSyntax from './pages/plugins/example-custom-syntax.md';
-
-import nodeAndMark from './pages/internals/node&mark.md';
-import parser from './pages/internals/parser.md';
-import serializer from './pages/internals/serializer.md';
-import internalPlugins from './pages/internals/internal-plugins.md';
-
 export const pageRouter: Section[] = [
     {
         title: 'Guide',
         items: [
-            { title: 'Why Milkdown', link: '/why-milkdown', content: whyMilkdown },
-            { title: 'Getting Started', link: '/getting-started', content: gettingStarted },
+            { title: 'Why Milkdown', link: '/why-milkdown', content: () => import('./pages/guide/why-milkdown.md') },
+            {
+                title: 'Getting Started',
+                link: '/getting-started',
+                content: () => import('./pages/guide/getting-started.md'),
+            },
             {
                 title: 'Interacting with Editor',
                 link: '/interacting-with-editor',
-                content: interactingWithEditor,
+                content: () => import('./pages/guide/interacting-with-editor.md'),
             },
             {
                 title: 'Commands',
                 link: '/commands',
-                content: commands,
+                content: () => import('./pages/guide/commands.md'),
             },
             {
                 title: 'Styling',
                 link: '/styling',
-                content: styling,
+                content: () => import('./pages/guide/styling.md'),
             },
             {
                 title: 'Keyboard Shortcuts',
                 link: '/keyboard-shortcuts',
-                content: keyboardShortcuts,
+                content: () => import('./pages/guide/keyboard-shortcuts.md'),
             },
         ],
     },
@@ -54,31 +38,51 @@ export const pageRouter: Section[] = [
             {
                 title: 'React',
                 link: '/react',
-                content: react,
+                content: () => import('./pages/integrations/react.md'),
             },
             {
                 title: 'Vue',
                 link: '/vue',
-                content: vue,
+                content: () => import('./pages/integrations/vue.md'),
             },
         ],
     },
     {
         title: 'Plugins',
         items: [
-            { title: 'Using Plugins', link: '/using-plugins', content: usingPlugins },
-            { title: 'Integrating Plugins', link: '/integrating-plugins', content: integratingPlugins },
-            { title: 'Example: Custom Syntax', link: '/example-custom-syntax', content: exampleCustomSyntax },
-            { title: 'Writing Plugins', link: '/writing-plugins', content: writingPlugins },
+            {
+                title: 'Using Plugins',
+                link: '/using-plugins',
+                content: () => import('./pages/plugins/using-plugins.md'),
+            },
+            {
+                title: 'Integrating Plugins',
+                link: '/integrating-plugins',
+                content: () => import('./pages/plugins/integrating-plugins.md'),
+            },
+            {
+                title: 'Example: Custom Syntax',
+                link: '/example-custom-syntax',
+                content: () => import('./pages/plugins/example-custom-syntax.md'),
+            },
+            {
+                title: 'Writing Plugins',
+                link: '/writing-plugins',
+                content: () => import('./pages/plugins/writing-plugins.md'),
+            },
         ],
     },
     {
         title: 'Internals',
         items: [
-            { title: 'Node & Mark', link: '/node-and-mark', content: nodeAndMark },
-            { title: 'Parser', link: '/parser', content: parser },
-            { title: 'Serializer', link: '/serializer', content: serializer },
-            { title: 'Internal Plugins', link: '/internal-plugins', content: internalPlugins },
+            { title: 'Node & Mark', link: '/node-and-mark', content: () => import('./pages/internals/node&mark.md') },
+            { title: 'Parser', link: '/parser', content: () => import('./pages/internals/parser.md') },
+            { title: 'Serializer', link: '/serializer', content: () => import('./pages/internals/serializer.md') },
+            {
+                title: 'Internal Plugins',
+                link: '/internal-plugins',
+                content: () => import('./pages/internals/internal-plugins.md'),
+            },
         ],
     },
 ];

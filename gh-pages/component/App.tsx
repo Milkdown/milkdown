@@ -21,7 +21,7 @@ export const App: React.FC = () => {
                 <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
                 <div
                     onClick={() => {
-                        if (document.documentElement.clientWidth < 1080) {
+                        if (document.documentElement.clientWidth < 1142) {
                             setDisplaySidebar(false);
                         }
                     }}

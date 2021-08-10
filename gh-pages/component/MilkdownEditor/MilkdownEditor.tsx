@@ -30,18 +30,32 @@ import { ReactEditor, useEditor } from '@milkdown/react';
 import className from './style.module.css';
 
 type Props = {
-    content: string;
+    content: string | (() => Promise<{ default: string }>);
     readOnly?: boolean;
     onChange?: (getMarkdown: () => string) => void;
 };
 
 export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange }) => {
+    const [md, setMd] = React.useState('');
+    React.useEffect(() => {
+        if (typeof content === 'string') {
+            setMd(content);
+            return;
+        }
+        content()
+            .then((s) => {
+                setMd(s.default);
+                return;
+            })
+            .catch(console.error);
+    }, [content]);
+
     const editor = useEditor(
         (root) => {
             const editor = new Editor()
                 .config((ctx) => {
                     ctx.set(rootCtx, root);
-                    ctx.set(defaultValueCtx, content);
+                    ctx.set(defaultValueCtx, md);
                     ctx.set(editorViewOptionsCtx, { editable: () => !readOnly });
                     ctx.set(listenerCtx, { markdown: onChange ? [onChange] : [] });
                 })
@@ -60,7 +74,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
             }
             return editor;
         },
-        [readOnly, content],
+        [readOnly, md],
     );
 
     return (
