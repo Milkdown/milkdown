@@ -1,88 +1,52 @@
 import type { Section } from './component/Sidebar/Sidebar';
 
-export const pageRouter: Section[] = [
+const createItem = (path: string) => {
+    return {
+        title: path
+            .split('-')
+            .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1))
+            .join(' '),
+        link: '/' + path,
+        content: () => import(`./pages/guide/${path}/index.md`),
+    };
+};
+
+type ConfigItem = {
+    title: string;
+    items: string[];
+};
+
+const mapConfig = ({ title, items }: ConfigItem): Section => ({
+    title,
+    items: items.map((item) => createItem(item)),
+});
+
+const config: ConfigItem[] = [
     {
         title: 'Guide',
         items: [
-            { title: 'Why Milkdown', link: '/why-milkdown', content: () => import('./pages/guide/why-milkdown.md') },
-            {
-                title: 'Getting Started',
-                link: '/getting-started',
-                content: () => import('./pages/guide/getting-started.md'),
-            },
-            {
-                title: 'Interacting with Editor',
-                link: '/interacting-with-editor',
-                content: () => import('./pages/guide/interacting-with-editor.md'),
-            },
-            {
-                title: 'Commands',
-                link: '/commands',
-                content: () => import('./pages/guide/commands.md'),
-            },
-            {
-                title: 'Styling',
-                link: '/styling',
-                content: () => import('./pages/guide/styling.md'),
-            },
-            {
-                title: 'Keyboard Shortcuts',
-                link: '/keyboard-shortcuts',
-                content: () => import('./pages/guide/keyboard-shortcuts.md'),
-            },
+            'why-milkdown',
+            'getting-started',
+            'interacting-with-editor',
+            'commands',
+            'styling',
+            'keyboard-shortcuts',
         ],
     },
     {
         title: 'Integrations',
-        items: [
-            {
-                title: 'React',
-                link: '/react',
-                content: () => import('./pages/integrations/react.md'),
-            },
-            {
-                title: 'Vue',
-                link: '/vue',
-                content: () => import('./pages/integrations/vue.md'),
-            },
-        ],
+        items: ['react', 'vue'],
     },
     {
         title: 'Plugins',
-        items: [
-            {
-                title: 'Using Plugins',
-                link: '/using-plugins',
-                content: () => import('./pages/plugins/using-plugins.md'),
-            },
-            {
-                title: 'Integrating Plugins',
-                link: '/integrating-plugins',
-                content: () => import('./pages/plugins/integrating-plugins.md'),
-            },
-            {
-                title: 'Example: Custom Syntax',
-                link: '/example-custom-syntax',
-                content: () => import('./pages/plugins/example-custom-syntax.md'),
-            },
-            {
-                title: 'Writing Plugins',
-                link: '/writing-plugins',
-                content: () => import('./pages/plugins/writing-plugins.md'),
-            },
-        ],
+        items: ['using-plugins', 'integrating-plugins', 'example-custom-syntax', 'writing-plugins'],
     },
     {
         title: 'Internals',
-        items: [
-            { title: 'Node & Mark', link: '/node-and-mark', content: () => import('./pages/internals/node&mark.md') },
-            { title: 'Parser', link: '/parser', content: () => import('./pages/internals/parser.md') },
-            { title: 'Serializer', link: '/serializer', content: () => import('./pages/internals/serializer.md') },
-            {
-                title: 'Internal Plugins',
-                link: '/internal-plugins',
-                content: () => import('./pages/internals/internal-plugins.md'),
-            },
-        ],
+        items: ['node-and-mark', 'parser', 'serializer', 'internal-plugins'],
     },
 ];
+
+export const toRouter = (config: ConfigItem[]): Section[] => config.map(mapConfig);
+
+export const pageRouter: Section[] = toRouter(config);

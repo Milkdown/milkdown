@@ -8,7 +8,7 @@ import className from './style.module.css';
 import './codemirror.css';
 import { Mode } from '../constant';
 
-import demo from '../../pages/demo.md';
+import demo from './content/index.md';
 
 type DemoProps = {
     mode: Mode;
