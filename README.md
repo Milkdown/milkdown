@@ -1,4 +1,4 @@
-# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown
+# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown [![ci](https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml/badge.svg)](https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml)
 
 <div align="center">
     <img src="/gh-pages/public/milkdown-homepage.svg" />

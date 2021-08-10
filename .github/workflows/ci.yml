@@ -84,7 +84,7 @@ jobs:
               uses: changesets/action@master
               with:
                   publish: pnpm release
-                  commit: 'ci(changeset): prepare release'
+                  commit: 'ci(changeset): release milkdown'
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
