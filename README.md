@@ -1,6 +1,10 @@
 # <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown
 
-[![ci][ci-badge]][ci-link] ![ts][ts-badge] [![download-badge]][download-link] ![version][version-badge] ![commit][commit-badge]
+[![ci][ci-badge]][ci-link]
+![ts][ts-badge]
+[![download-badge]][download-link]
+![version][version-badge]
+![commit][commit-badge]
 
 <div align="center">
     <img src="/gh-pages/public/milkdown-homepage.svg" />
