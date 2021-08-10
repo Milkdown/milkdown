@@ -33,7 +33,7 @@ async function setup() {
 To create a command, you should follow these steps:
 
 1. Create a command key through `createCmdKey`.
-2. Create a command function.
+2. Create a command function. (They are just [prosemirror commands](https://prosemirror.net/docs/guide/#commands).)
 3. Register the created command in command manager.
 
 ### Example: Command without argument
