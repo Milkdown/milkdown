@@ -1,5 +1,13 @@
 # @milkdown/plugin-slash
 
+## 4.9.3
+
+### Patch Changes
+
+-   566d83f: Release to github release packages.
+-   Updated dependencies [566d83f]
+    -   @milkdown/utils@4.9.3
+
 ## 4.9.2
 
 ### Patch Changes
