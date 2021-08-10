@@ -22,7 +22,7 @@ const NavSection: React.FC<Section> = ({ title, items }) => (
 type Item = {
     title: string;
     link: string;
-    content: string | (() => Promise<{ default: string }>);
+    content: () => Promise<{ default: string }>;
 };
 export type Section = {
     title: string;
