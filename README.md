@@ -1,4 +1,6 @@
-# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown [![ci][ci-badge]][ci-link] ![ts][ts-badge]
+# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown
+
+[![ci][ci-badge]][ci-link] ![ts][ts-badge] [![download-badge]][download-link] ![version][version-badge] ![commit][commit-badge]
 
 <div align="center">
     <img src="/gh-pages/public/milkdown-homepage.svg" />
@@ -42,4 +44,8 @@ Welcome to join our [Discord community](https://discord.gg/SdMnrSMyBX).
 
 [ci-badge]: https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml/badge.svg
 [ci-link]: https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml
-[ts-badge]: https://flat.badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555
+[ts-badge]: https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label
+[download-badge]: https://img.shields.io/npm/dm/@milkdown/core
+[download-link]: https://www.npmjs.com/search?q=%40milkdown
+[version-badge]: https://img.shields.io/npm/v/@milkdown/core
+[commit-badge]: https://img.shields.io/github/commit-activity/m/Saul-Mirone/milkdown
