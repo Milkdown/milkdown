@@ -26,7 +26,7 @@ import { gfm } from '@milkdown/preset-gfm';
 import '@milkdown/preset-gfm/lib/style.css';
 
 import { ReactEditor, useEditor } from '@milkdown/react';
-import Skeleton from 'react-loading-skeleton';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 import className from './style.module.css';
 
@@ -88,8 +88,21 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
         <div className={className.editor}>
             {loading ? (
                 <div className="milkdown">
-                    <Skeleton height="3rem" style={{ margin: '2.5rem 0', width: '50%', lineHeight: '3.5rem' }} />
-                    <Skeleton height="1rem" count={5} style={{ lineHeight: '1.5rem' }} />
+                    <SkeletonTheme color="rgba(var(--background), 1)" highlightColor="rgba(var(--surface), 1)">
+                        <Skeleton
+                            height="3rem"
+                            style={{
+                                margin: '2.5rem 0',
+                                width: '50%',
+                                lineHeight: '3.5rem',
+                            }}
+                        />
+                        <Skeleton height="1rem" style={{ lineHeight: '1.5rem', width: '80%' }} />
+                        <Skeleton height="1rem" style={{ lineHeight: '1.5rem', width: '60%' }} />
+                        <Skeleton height="1rem" style={{ lineHeight: '1.5rem', width: '90%' }} />
+                        <Skeleton height="1rem" style={{ lineHeight: '1.5rem', width: '70%' }} />
+                        <Skeleton height="1rem" style={{ lineHeight: '1.5rem', width: '80%' }} />
+                    </SkeletonTheme>
                 </div>
             ) : (
                 <ReactEditor editor={editor} />
