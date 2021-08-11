@@ -43,7 +43,7 @@ Milkdown 基于这些工具：
 
 我们有一些代码片段来让你创建一个最简单的编辑器：
 
-> **我们在主题中使用了 [material 图标](https://fonts.google.com/icons) 和 [Roboto 字体](https://fonts.google.com/specimen/Roboto)**.
+> **我们在主题中使用了 [material 图标](https://fonts.google.com/icons) 和 [Roboto 字体](https://fonts.google.com/specimen/Roboto)**。
 > 请确保引入它们来保证最好的体验。
 
 ```typescript
@@ -73,6 +73,6 @@ import '@milkdown/preset-commonmark/lib/style.css';
 new Editor().use(commonmark).use(history).create();
 ```
 
-> `Mod` 在 mac 上为 `Cmd`， 在其它平台为 `Ctrl` .
+> `Mod` 在 mac 上为 `Cmd`， 在其它平台为 `Ctrl` 。
 
 现在我们可以通过`Mod-z`来撤销一次编辑，并通过`Mod-y`或`Shift-Mod-Z`来重做它。
