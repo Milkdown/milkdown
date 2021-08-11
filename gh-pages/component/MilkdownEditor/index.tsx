@@ -54,6 +54,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
             .catch((e) => {
                 console.error(e);
                 setLoading(false);
+                setMd('# 404 Not Found');
             });
     }, [content]);
 

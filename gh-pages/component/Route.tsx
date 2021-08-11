@@ -1,30 +1,17 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';
-import { Local } from '../route';
-import { Mode } from './constant';
-import { Footer } from './Footer/Footer';
-import { Home } from './Home/Home';
+import { editorModeCtx, isDarkModeCtx, sectionsCtx, setScrolledCtx } from './Context';
+import { Footer } from './Footer';
+import { Home } from './Home';
 import { LocationType, useLocationType } from './hooks/useLocationType';
-import { Section } from './Sidebar/Sidebar';
 import className from './style.module.css';
 
-const Editor = React.lazy(() =>
-    import('./MilkdownEditor/MilkdownEditor').then((module) => ({ default: module.MilkdownEditor })),
-);
-const Demo = React.lazy(() => import('./Demo/Demo').then((module) => ({ default: module.Demo })));
+const Editor = React.lazy(() => import('./MilkdownEditor').then((module) => ({ default: module.MilkdownEditor })));
+const Demo = React.lazy(() => import('./Demo').then((module) => ({ default: module.Demo })));
 
-export const Main: React.FC<{
-    local: Local;
-    setScrolled: (scrolled: boolean) => void;
-    editorMode: Mode;
-    isDarkMode: boolean;
-    sections: Section[];
-}> = ({ setScrolled, isDarkMode, editorMode, sections }) => {
-    const [locationType] = useLocationType();
-
-    const classes = [className.container, locationType === LocationType.Home ? className.homepage : ''].join(' ');
-
+const useScroll = () => {
+    const setScrolled = React.useContext(setScrolledCtx);
     React.useEffect(() => {
         const scroll = () => {
             setScrolled(window.pageYOffset > 0);
@@ -36,6 +23,17 @@ export const Main: React.FC<{
             document.removeEventListener('scroll', scroll);
         };
     }, [setScrolled]);
+};
+
+export const Main: React.FC = () => {
+    const [locationType] = useLocationType();
+    const editorMode = React.useContext(editorModeCtx);
+    const isDarkMode = React.useContext(isDarkModeCtx);
+    const sections = React.useContext(sectionsCtx);
+
+    const classes = [className.container, locationType === LocationType.Home ? className.homepage : ''].join(' ');
+
+    useScroll();
 
     const pages = sections.flatMap((section) => section.items);
 

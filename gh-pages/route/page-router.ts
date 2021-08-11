@@ -1,6 +1,15 @@
-import type { Section } from '../component/Sidebar/Sidebar';
 import { config } from './page-config';
 import { fromDict } from './page-dict';
+
+export type Item = {
+    title: string;
+    link: string;
+    content: () => Promise<{ default: string }>;
+};
+export type Section = {
+    title: string;
+    items: Item[];
+};
 
 export type Local = 'en' | 'zh-hans';
 

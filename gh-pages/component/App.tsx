@@ -1,60 +1,39 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
-import { Header } from './Header/Header';
-import { Sidebar } from './Sidebar/Sidebar';
-import { Local, pageRouter } from '../route';
+import { Header } from './Header';
+import { Sidebar } from './Sidebar';
 import { Main } from './Route';
 
 import '@milkdown/theme-nord/lib/theme.css';
 import className from './style.module.css';
-import { Mode } from './constant';
+import { Context, displaySidebarCtx, setDisplaySidebarCtx } from './Context';
 
-export const App: React.FC = () => {
-    const [displaySidebar, setDisplaySidebar] = React.useState(false);
-    const [scrolled, setScrolled] = React.useState(false);
-    const [editorMode, setEditorMode] = React.useState(Mode.Default);
-    const [isDarkMode, setIsDarkMode] = React.useState(false);
-    const [local, setLocal] = React.useState<Local>('en');
-
-    //FIXME
-    setLocal;
-
-    const sections = React.useMemo(() => pageRouter[local], [local]);
+const Container: React.FC = () => {
+    const setDisplaySidebar = React.useContext(setDisplaySidebarCtx);
+    const displaySidebar = React.useContext(displaySidebarCtx);
 
     return (
-        <HashRouter>
-            <>
-                <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={sections} />
-                <div
-                    onClick={() => {
-                        if (document.documentElement.clientWidth < 1142) {
-                            setDisplaySidebar(false);
-                        }
-                    }}
-                    className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}
-                >
-                    <Header
-                        fold={displaySidebar}
-                        isDarkMode={isDarkMode}
-                        setIsDarkMode={setIsDarkMode}
-                        onEditorModeToggle={() =>
-                            setEditorMode(editorMode === Mode.Default ? Mode.TwoSide : Mode.Default)
-                        }
-                        onToggle={() => setDisplaySidebar(!displaySidebar)}
-                        scrolled={scrolled}
-                        editorMode={editorMode}
-                    />
-                    <main className={className.main}>
-                        <Main
-                            local={local}
-                            sections={sections}
-                            isDarkMode={isDarkMode}
-                            setScrolled={setScrolled}
-                            editorMode={editorMode}
-                        />
-                    </main>
-                </div>
-            </>
-        </HashRouter>
+        <div
+            onClick={() => {
+                if (document.documentElement.clientWidth < 1142) {
+                    setDisplaySidebar(false);
+                }
+            }}
+            className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}
+        >
+            <Header />
+            <main className={className.main}>
+                <Main />
+            </main>
+        </div>
     );
 };
+
+export const App: React.FC = () => (
+    <HashRouter>
+        <Context>
+            <Sidebar />
+            <Container />
+        </Context>
+    </HashRouter>
+);

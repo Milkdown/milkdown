@@ -1,14 +1,12 @@
 import React from 'react';
-
 import { EditorState, EditorView, basicSetup } from '@codemirror/basic-setup';
 import { markdown } from '@codemirror/lang-markdown';
+import { MilkdownEditor } from '../MilkdownEditor';
+import { Mode } from '../constant';
+import demo from './content/index.md';
 
-import { MilkdownEditor } from '../MilkdownEditor/MilkdownEditor';
 import className from './style.module.css';
 import './codemirror.css';
-import { Mode } from '../constant';
-
-import demo from './content/index.md';
 
 type DemoProps = {
     mode: Mode;
