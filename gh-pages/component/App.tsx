@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter } from 'react-router-dom';
 import { Header } from './Header/Header';
 import { Sidebar } from './Sidebar/Sidebar';
-import { pageRouter } from '../route';
+import { Local, pageRouter } from '../route';
 import { Main } from './Route';
 
 import '@milkdown/theme-nord/lib/theme.css';
@@ -14,11 +14,17 @@ export const App: React.FC = () => {
     const [scrolled, setScrolled] = React.useState(false);
     const [editorMode, setEditorMode] = React.useState(Mode.Default);
     const [isDarkMode, setIsDarkMode] = React.useState(false);
+    const [local, setLocal] = React.useState<Local>('en');
+
+    //FIXME
+    setLocal;
+
+    const sections = React.useMemo(() => pageRouter[local], [local]);
 
     return (
         <HashRouter>
             <>
-                <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={pageRouter} />
+                <Sidebar display={displaySidebar} setDisplay={setDisplaySidebar} sections={sections} />
                 <div
                     onClick={() => {
                         if (document.documentElement.clientWidth < 1142) {
@@ -39,7 +45,13 @@ export const App: React.FC = () => {
                         editorMode={editorMode}
                     />
                     <main className={className.main}>
-                        <Main isDarkMode={isDarkMode} setScrolled={setScrolled} editorMode={editorMode} />
+                        <Main
+                            local={local}
+                            sections={sections}
+                            isDarkMode={isDarkMode}
+                            setScrolled={setScrolled}
+                            editorMode={editorMode}
+                        />
                     </main>
                 </div>
             </>

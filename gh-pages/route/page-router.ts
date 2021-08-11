@@ -1,21 +1,20 @@
 import type { Section } from '../component/Sidebar/Sidebar';
 import { config } from './page-config';
-import { titleDict } from './page-dict';
+import { fromDict } from './page-dict';
 
-export type Local = 'en';
+export type Local = 'en' | 'zh-hans';
 
 export type ConfigItem = {
     dir: string;
     items: string[];
 };
 
-const fromDict = (key: string, local: Local) => titleDict.get(key)?.[local] ?? 'Not Found';
-
 const createItem = (dir: string, path: string, local: Local) => {
+    const fileName = `index${local === 'en' ? '' : `.${local}`}`;
     return {
         title: fromDict(path, local),
-        link: '/' + path,
-        content: () => import(`../pages/${dir}/${path}/index.md`),
+        link: local === 'en' ? '/' + path : `/${local}/${path}`,
+        content: () => import(`../pages/${dir}/${path}/${fileName}.md`),
     };
 };
 
@@ -24,7 +23,11 @@ const mapConfig = ({ dir, items }: ConfigItem, local: Local): Section => ({
     items: items.map((item) => createItem(dir, item, local)),
 });
 
-export const toRouter = (config: ConfigItem[], local: Local = 'en'): Section[] =>
-    config.map((cfg) => mapConfig(cfg, local));
+const toRouter = (config: ConfigItem[], local: Local): Section[] => config.map((cfg) => mapConfig(cfg, local));
 
-export const pageRouter: Section[] = toRouter(config);
+export type Dict = Map<string, Partial<Record<Local, string>>>;
+
+export const pageRouter: Record<Local, Section[]> = {
+    en: toRouter(config, 'en'),
+    'zh-hans': toRouter(config, 'zh-hans'),
+};
