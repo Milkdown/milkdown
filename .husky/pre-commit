@@ -4,3 +4,4 @@
 pnpm run lint
 pnpm run tsc
 pnpm test
+pnpm format:doc

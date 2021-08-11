@@ -8,6 +8,7 @@
     ],
     "scripts": {
         "lint": "eslint **/{src,gh-pages}/**/*.{ts,tsx}",
+        "format:doc": "prettier --write **/*.md",
         "watch": "concurrently -n ts,css \"pnpm watch:ts\" \"pnpm watch:css\"",
         "watch:ts": "tsc --build --watch --verbose",
         "watch:css": "pnpm run watch:css -r --parallel",
