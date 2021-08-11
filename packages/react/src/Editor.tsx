@@ -7,13 +7,13 @@ type GetEditor = (container: HTMLDivElement, renderReact: (Component: React.FC) 
 
 const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = React.useContext(portalContext);
-    const div = React.useRef<HTMLDivElement>(null);
+    const divRef = React.useRef<HTMLDivElement>(null);
     const editorRef = React.useRef<Editor>();
 
     React.useEffect(() => {
-        if (!div.current) return;
+        if (!divRef.current) return;
 
-        const editor = getEditor(div.current, renderReact);
+        const editor = getEditor(divRef.current, renderReact);
 
         editor
             .create()
@@ -32,7 +32,7 @@ const useGetEditor = (getEditor: GetEditor) => {
         };
     }, [getEditor, renderReact]);
 
-    return { div, editorRef };
+    return { divRef, editorRef };
 };
 
 type EditorProps = {
@@ -40,6 +40,7 @@ type EditorProps = {
 };
 export type EditorRef = {
     get: () => Editor | undefined;
+    dom: () => HTMLDivElement | null;
 };
 export const EditorComponent = forwardRef<EditorRef, EditorProps>(({ editor }, ref) => {
     const refs = useGetEditor(editor);
@@ -47,8 +48,11 @@ export const EditorComponent = forwardRef<EditorRef, EditorProps>(({ editor }, r
         get: () => {
             return refs.editorRef.current;
         },
+        dom: () => {
+            return refs.divRef.current;
+        },
     }));
-    return <div ref={refs.div} />;
+    return <div ref={refs.divRef} />;
 });
 
 export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor }, ref) => {

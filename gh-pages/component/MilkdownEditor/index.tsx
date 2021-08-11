@@ -1,6 +1,16 @@
 import React from 'react';
+import { Slice } from 'prosemirror-model';
 
-import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
+import {
+    Complete,
+    defaultValueCtx,
+    Editor,
+    editorViewCtx,
+    editorViewOptionsCtx,
+    MilkdownPlugin,
+    parserCtx,
+    rootCtx,
+} from '@milkdown/core';
 
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { history } from '@milkdown/plugin-history';
@@ -25,10 +35,11 @@ import '@milkdown/plugin-tooltip/lib/style.css';
 import { gfm } from '@milkdown/preset-gfm';
 import '@milkdown/preset-gfm/lib/style.css';
 
-import { ReactEditor, useEditor } from '@milkdown/react';
+import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 import className from './style.module.css';
+import { forwardRef } from 'react';
 
 type Props = {
     content: string | (() => Promise<{ default: string }>);
@@ -36,9 +47,22 @@ type Props = {
     onChange?: (getMarkdown: () => string) => void;
 };
 
-export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange }) => {
+const complete =
+    (callback: () => void): MilkdownPlugin =>
+    () =>
+    async (ctx) => {
+        await ctx.wait(Complete);
+
+        callback();
+    };
+
+export type MilkdownRef = { update: (markdown: string) => void };
+export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly, onChange }, ref) => {
+    const editorRef = React.useRef<EditorRef>(null);
     const [md, setMd] = React.useState('');
     const [loading, setLoading] = React.useState(true);
+    const [editorReady, setEditorReady] = React.useState(false);
+
     React.useEffect(() => {
         if (typeof content === 'string') {
             setMd(content);
@@ -58,6 +82,22 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
             });
     }, [content]);
 
+    React.useImperativeHandle(ref, () => ({
+        update: (markdown: string) => {
+            if (!editorReady || !editorRef.current) return;
+            const editor = editorRef.current.get();
+            if (!editor) return;
+            editor.action((ctx) => {
+                const view = ctx.get(editorViewCtx);
+                const parser = ctx.get(parserCtx);
+                const doc = parser(markdown);
+                if (!doc) return;
+                const state = view.state;
+                view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)));
+            });
+        },
+    }));
+
     const editor = useEditor(
         (root) => {
             const editor = new Editor()
@@ -67,6 +107,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
                     ctx.set(editorViewOptionsCtx, { editable: () => !readOnly });
                     ctx.set(listenerCtx, { markdown: onChange ? [onChange] : [] });
                 })
+                .use(complete(() => setEditorReady(true)))
                 .use(clipboard)
                 .use(gfm)
                 .use(listener)
@@ -82,7 +123,7 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
             }
             return editor;
         },
-        [readOnly, md],
+        [readOnly, md, onChange],
     );
 
     return (
@@ -106,8 +147,8 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
                     </SkeletonTheme>
                 </div>
             ) : (
-                <ReactEditor editor={editor} />
+                <ReactEditor ref={editorRef} editor={editor} />
             )}
         </div>
     );
-};
+});
