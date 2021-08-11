@@ -7,7 +7,7 @@ Milkdown is a lightweight but powerful WYSIWYG markdown editor. It's made up by 
 -   A tiny core which provides plugin loader and kinds of internal plugins.
 -   Lots of plugins provide syntax, commands and components.
 
-With this pattern you can enable or disable any custom syntax you like, such as table, latex and slash commands. You can even create your own plugin to support your awesome idea.
+With this pattern you can enable or disable any custom syntax and feature you like, such as table, latex and slash commands. You can even create your own plugin to support your awesome idea.
 
 > :baby_bottle: Fun fact: The Milkdown documentation is rendered by milkdown.
 
@@ -41,7 +41,7 @@ Milkdown is built on top of these tools:
 
 ## First editor
 
-We have some pieces for you to create a very minimal editor:
+We have some pieces of code for you to create a very minimal editor:
 
 > **We use [material icon](https://fonts.google.com/icons) and [Roboto Font](https://fonts.google.com/specimen/Roboto) in our theme**.
 > Make sure to include them for having the best experience.
@@ -75,4 +75,4 @@ new Editor().use(commonmark).use(history).create();
 
 > `Mod` is `Cmd` for mac and `Ctrl` for other platforms.
 
-Now we can undo a editor by using `Mod-z` and redo it by using `Mod-y` or `Shift-Mod-Z`.
+Now we can undo a edit by using `Mod-z` and redo it by using `Mod-y` or `Shift-Mod-Z`.

@@ -39,40 +39,40 @@ Milkdown 基于这些工具：
 
 ---
 
-## First editor
+## 第一个编辑器
 
-We have some pieces for you to create a very minimal editor:
+我们有一些代码片段来让你创建一个最简单的编辑器：
 
-> **We use [material icon](https://fonts.google.com/icons) and [Roboto Font](https://fonts.google.com/specimen/Roboto) in our theme**.
-> Make sure to include them for having the best experience.
+> **我们在主题中使用了 [material 图标](https://fonts.google.com/icons) 和 [Roboto 字体](https://fonts.google.com/specimen/Roboto)**.
+> 请确保引入它们来保证最好的体验。
 
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-// import theme and plugin style
+// 导入主题和插件的样式
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
 new Editor().use(commonmark).create();
 ```
 
-## Taste the plugin
+## 尝试一下插件
 
-Now let's add an **undo & redo** support for our editor:
+现在让我们为编辑器添加 **撤销 & 重做** 支持：
 
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { history } from '@milkdown/plugin-history';
 
-// import theme and plugin style
+// 导入主题和插件的样式
 import '@milkdown/theme-nord/lib/theme.css';
 import '@milkdown/preset-commonmark/lib/style.css';
 
 new Editor().use(commonmark).use(history).create();
 ```
 
-> `Mod` is `Cmd` for mac and `Ctrl` for other platforms.
+> `Mod` 在 mac 上为 `Cmd`， 在其它平台为 `Ctrl` .
 
-Now we can undo a editor by using `Mod-z` and redo it by using `Mod-y` or `Shift-Mod-Z`.
+现在我们可以通过`Mod-z`来撤销一次编辑，并通过`Mod-y`或`Shift-Mod-Z`来重做它。
