@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';
-import { pageRouter } from '../page-router';
+import { pageRouter } from '../route';
 import { Mode } from './constant';
 import { Footer } from './Footer/Footer';
 import { Home } from './Home/Home';

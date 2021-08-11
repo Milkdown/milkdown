@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter } from 'react-router-dom';
 import { Header } from './Header/Header';
 import { Sidebar } from './Sidebar/Sidebar';
-import { pageRouter } from '../page-router';
+import { pageRouter } from '../route';
 import { Main } from './Route';
 
 import '@milkdown/theme-nord/lib/theme.css';

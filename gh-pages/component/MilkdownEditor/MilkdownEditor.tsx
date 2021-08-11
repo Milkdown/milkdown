@@ -31,7 +31,7 @@ import Skeleton from 'react-loading-skeleton';
 import className from './style.module.css';
 
 type Props = {
-    content: () => Promise<{ default: string }>;
+    content: string | (() => Promise<{ default: string }>);
     readOnly?: boolean;
     onChange?: (getMarkdown: () => string) => void;
 };
@@ -40,6 +40,11 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
     const [md, setMd] = React.useState('');
     const [loading, setLoading] = React.useState(true);
     React.useEffect(() => {
+        if (typeof content === 'string') {
+            setMd(content);
+            setLoading(false);
+            return;
+        }
         content()
             .then((s) => {
                 setMd(s.default);
