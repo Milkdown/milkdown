@@ -26,28 +26,30 @@ import { gfm } from '@milkdown/preset-gfm';
 import '@milkdown/preset-gfm/lib/style.css';
 
 import { ReactEditor, useEditor } from '@milkdown/react';
+import Skeleton from 'react-loading-skeleton';
 
 import className from './style.module.css';
 
 type Props = {
-    content: string | (() => Promise<{ default: string }>);
+    content: () => Promise<{ default: string }>;
     readOnly?: boolean;
     onChange?: (getMarkdown: () => string) => void;
 };
 
 export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange }) => {
     const [md, setMd] = React.useState('');
+    const [loading, setLoading] = React.useState(true);
     React.useEffect(() => {
-        if (typeof content === 'string') {
-            setMd(content);
-            return;
-        }
         content()
             .then((s) => {
                 setMd(s.default);
+                setLoading(false);
                 return;
             })
-            .catch(console.error);
+            .catch((e) => {
+                console.error(e);
+                setLoading(false);
+            });
     }, [content]);
 
     const editor = useEditor(
@@ -79,7 +81,14 @@ export const MilkdownEditor: React.FC<Props> = ({ content, readOnly, onChange })
 
     return (
         <div className={className.editor}>
-            <ReactEditor editor={editor} />
+            {loading ? (
+                <div className="milkdown">
+                    <Skeleton height="3rem" style={{ margin: '2.5rem 0', width: '50%', lineHeight: '3.5rem' }} />
+                    <Skeleton height="1rem" count={5} style={{ lineHeight: '1.5rem' }} />
+                </div>
+            ) : (
+                <ReactEditor editor={editor} />
+            )}
         </div>
     );
 };
