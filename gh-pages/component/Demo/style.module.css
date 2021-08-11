@@ -3,6 +3,7 @@
     display: block;
     margin: 0 auto;
     width: 100%;
+    transition: all 0.4s ease-in-out;
 }
 
 .milk {
@@ -13,6 +14,8 @@
 
 .twoSide {
     gap: 1.25rem;
+    margin: 0;
+    max-width: unset;
     .code {
         width: unset;
         height: unset;
@@ -26,13 +29,15 @@
     .milk {
         width: 50%;
     }
+    .milk > div > div > div {
+        max-width: unset !important;
+    }
 }
 
 .code {
     margin: 1.25rem 0;
     background: palette(surface);
     transition: all 0.4s ease-in-out, height 0s, padding 0s;
-    resize: none;
     border: none;
     width: 0;
     height: 0;
