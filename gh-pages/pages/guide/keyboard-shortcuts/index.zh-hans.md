@@ -10,12 +10,12 @@
 
 ### 必要
 
-| Action    | Key       |
-| --------- | --------- |
-| 复制      | Mod-c     |
+| Action     | Key       |
+| ---------- | --------- |
+| 复制       | Mod-c     |
 | 剪切       | Mod-x     |
-| 拷贝     | Mod-v     |
-| 换行  | Enter     |
+| 拷贝       | Mod-v     |
+| 换行       | Enter     |
 | 退出代码块 | Mod-Enter |
 
 ### 历史
@@ -23,47 +23,47 @@
 | Action | Key         |
 | ------ | ----------- |
 | 撤销   | Mod-z       |
-| 重做  | Mod-Shift-z |
+| 重做   | Mod-Shift-z |
 
 ### 标记
 
-| Action         | Key       |
-| -------------- | --------- |
-| 加粗           | Mod-b     |
-| 斜体         | Mod-i     |
-| 行内代码    | Mod-e     |
-| 删除线 | Mod-Alt-x |
+| Action   | Key       |
+| -------- | --------- |
+| 加粗     | Mod-b     |
+| 斜体     | Mod-i     |
+| 行内代码 | Mod-e     |
+| 删除线   | Mod-Alt-x |
 
 ### 段落
 
-| Action      | Key         |
-| ----------- | ----------- |
+| Action   | Key         |
+| -------- | ----------- |
 | 常规文本 | Mod-Alt-0   |
-| H1          | Mod-Alt-1   |
-| H2          | Mod-Alt-2   |
-| H3          | Mod-Alt-3   |
-| H4          | Mod-Alt-4   |
-| H5          | Mod-Alt-5   |
-| H6          | Mod-Alt-6   |
-| 代码块  | Mod-Alt-c   |
-| 删除换行  | Shift-Enter |
+| H1       | Mod-Alt-1   |
+| H2       | Mod-Alt-2   |
+| H3       | Mod-Alt-3   |
+| H4       | Mod-Alt-4   |
+| H5       | Mod-Alt-5   |
+| H6       | Mod-Alt-6   |
+| 代码块   | Mod-Alt-c   |
+| 删除换行 | Shift-Enter |
 
 ### 列表
 
-| Action         | Key       |
-| -------------- | --------- |
-| 有序列表   | Mod-Alt-7 |
-| 无需列表    | Mod-Alt-8 |
-| 任务列表      | Mod-Alt-9 |
+| Action   | Key       |
+| -------- | --------- |
+| 有序列表 | Mod-Alt-7 |
+| 无需列表 | Mod-Alt-8 |
+| 任务列表 | Mod-Alt-9 |
 | 向后缩进 | Mod-]     |
 | 向前缩进 | Mod-[     |
 
 ### 表格
 
-| Action               | Key       |
-| -------------------- | --------- |
-| 下一列            | Mod-]     |
-| 前一列            | Mod-[     |
+| Action           | Key       |
+| ---------------- | --------- |
+| 下一列           | Mod-]     |
+| 前一列           | Mod-[     |
 | 退出表格块并换行 | Mod-Enter |
 
 ---

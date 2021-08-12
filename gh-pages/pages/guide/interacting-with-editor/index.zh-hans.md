@@ -1,6 +1,7 @@
 # 与编辑器交互
 
 ## DOM 节点的注册
+
 默认情况下，Milkdown 会基于 document.body 创建一个编辑器。当然你也可以通过下面方法来指定要挂载编辑器的 DOM 节点：
 
 ```typescript
@@ -187,7 +188,6 @@ setTimeout(() => {
 你可以通过使用 Action 来获取编辑器运行时的上下文。
 
 例如，通过 Action 获取 Markdown 字符串：
-
 
 ```typescript
 import { Editor, editorViewCtx, serializerCtx } from '@milkdown/core';
