@@ -16,7 +16,9 @@ The website is designed by [Meo](https://github.com/Saul-Meo). Powered by [Theme
 
 # Documentation
 
-For more information, please check our [official documentation](https://saul-mirone.github.io/milkdown/).
+For more information, please check our official documentations:
+
+[English](https://saul-mirone.github.io/milkdown/) | [简体中文](https://saul-mirone.github.io/milkdown/#/zh-hans)
 
 # What's Next
 
@@ -28,9 +30,10 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 
 # Contributor
 
-<a title="Saul-Mirone" href="https://github.com/Saul-Mirone"><img src="https://avatars.githubusercontent.com/u/10047788?v=4" width="100" alt="profile picture of Saul Mirone"></a>
-<a title="Meo" href="https://github.com/Saul-Meo"><img src="https://avatars.githubusercontent.com/u/14139395?v=4" width="100" alt="profile picture of kitty"></a>
+<a title="Saul Mirone" href="https://github.com/Saul-Mirone"><img src="https://avatars.githubusercontent.com/u/10047788?v=4" width="100" alt="profile picture of Saul Mirone"></a>
+<a title="Meo" href="https://github.com/Saul-Meo"><img src="https://avatars.githubusercontent.com/u/14139395?v=4" width="100" alt="profile picture of Meo"></a>
 <a title="xia" href="https://github.com/xiadd"><img src="https://avatars.githubusercontent.com/u/8351437?v=4" width="100" alt="profile picture of xiadd"></a>
+<a title="EllePeng" href="https://github.com/Ele-Peng"><img src="https://avatars.githubusercontent.com/u/18499385?v=4" width="100" alt="profile picture of EllePeng"></a>
 
 # Sponsors
 

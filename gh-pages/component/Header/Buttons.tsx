@@ -41,7 +41,7 @@ const LanguageList: React.FC<{ show: boolean; setShow: (show: boolean) => void }
                 English
             </li>
             <li className={className.langItem} data-value="zh-hans">
-                Chinese
+                简体中文
             </li>
         </ul>
     );
