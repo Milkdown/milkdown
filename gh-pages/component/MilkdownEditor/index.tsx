@@ -100,7 +100,7 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
 
     const editor = useEditor(
         (root) => {
-            const editor = new Editor()
+            const editor = Editor.make()
                 .config((ctx) => {
                     ctx.set(rootCtx, root);
                     ctx.set(defaultValueCtx, md);

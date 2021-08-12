@@ -29,7 +29,7 @@ In this status, milkdown will collect nodes and marks and all the user configs.
 
 ---
 
-## Load Schema and Data
+## Load Node and Mark
 
 During this status, milkdown will generate data by nodes and marks, such as schema and keymap.
 
@@ -64,7 +64,7 @@ During this status, milkdown will generate data by nodes and marks, such as sche
     -   **serializerTimerCtx**: Decide the timing that load this plugin.
         default:
         -   **SchemaRead**
-    -   **serializerCtx**: Save the markdown parser.
+    -   **serializerCtx**: Save the markdown serializer.
 -   timer:
     -   **SerializerReady**: Plugin process finish.
 
@@ -119,7 +119,7 @@ During this status, milkdown will create prosemirror editor state and editor vie
         -   **SerializerReady**
     -   **editorStateCtx**: Save the prosemirror editor state.
     -   **editorStateOptionsCtx**: Save the config that can be used to override the internal editor state options.
-    -   **defaultValueCtx**: Save the editor default value, can be json, node or string.
+    -   **defaultValueCtx**: Save the editor default value, can be json, dom node or markdown string.
 -   timer:
     -   **EditorStateReady**: Plugin process finish.
 

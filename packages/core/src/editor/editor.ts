@@ -16,6 +16,10 @@ import { createClock, Timer } from '../timing';
 import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
 
 export class Editor {
+    static make() {
+        return new Editor();
+    }
+
     #container = createContainer();
     #clock = createClock();
 
