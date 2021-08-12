@@ -4,6 +4,7 @@
     "main": "lib/index.js",
     "module": "lib/index.js",
     "types": "lib/index.d.ts",
+    "license": "MIT",
     "scripts": {
         "start": "vite",
         "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",

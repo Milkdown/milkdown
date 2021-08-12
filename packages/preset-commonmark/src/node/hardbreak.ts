@@ -1,7 +1,7 @@
 import { createCmdKey, createCmd } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { createShortcut } from '@milkdown/utils';
-import { SupportedKeys } from '..';
+import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['HardBreak'];
 

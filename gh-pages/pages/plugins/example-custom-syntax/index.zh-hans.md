@@ -1,16 +1,16 @@
-# Example: Custom Syntax
+# 示例：自定义语法
 
-Generally, if we want to add a custom syntax, there are 5 things need to be done:
+一般而言，如果我们想添加一个自定义语法，需要完成以下 5 个步骤：
 
-1. Add a remark plugin to make sure the syntax can be parsed and serialized correctly.
-2. Define the prosemirror schema for your custom node.
-3. Write a parser specification to transform the remark AST into prosemirror node.
-4. Write a serializer specification to transform the prosemirror node into remark AST.
-5. Write prosemirror input rules to make sure user input can be handled correctly.
+1. 添加一个 remark 插件来确保我们的语法可以正确的被解析和序列化。
+2. 为自定义语法添加一个 prosemirror schema。
+3. 编写一个解析器声明来将 remark AST 转换到 prosemirror 节点。
+4. 编写一个序列化器声明来将 prosemirror 节点转换到 remark AST。
+5. 编写一个 prosemirror 输入规则（input rule）来确保用户的输入可以被正确的转换为对应的 prosemirror 节点。
 
 ---
 
-In this section, we will add a **custom iframe syntax** to insert iframe as node in milkdown.
+在这一节中，我们将添加一个**自定义 iframe 语法**来将 iframe 作为一种节点添加进 markdown。
 
 ## Remark Plugin
 
@@ -236,7 +236,7 @@ const defaultValue = `
 :iframe{src="https://saul-mirone.github.io/milkdown/"}
 `;
 
-Editor.make()
+new Editor()
     .config((ctx) => {
         ctx.set(defaultValueCtx, defaultValue);
     })

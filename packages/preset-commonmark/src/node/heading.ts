@@ -1,7 +1,7 @@
 import { createNode } from '@milkdown/utils';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { setBlockType } from 'prosemirror-commands';
-import { SupportedKeys } from '..';
+import { SupportedKeys } from '../supported-keys';
 import { createCmdKey, createCmd } from '@milkdown/core';
 import { createShortcut } from '@milkdown/utils';
 

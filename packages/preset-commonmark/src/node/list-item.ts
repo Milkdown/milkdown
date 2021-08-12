@@ -1,7 +1,7 @@
 import { createNode } from '@milkdown/utils';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 import { wrappingInputRule } from 'prosemirror-inputrules';
-import { SupportedKeys } from '..';
+import { SupportedKeys } from '../supported-keys';
 import { createCmdKey, createCmd } from '@milkdown/core';
 import { createShortcut } from '@milkdown/utils';
 
