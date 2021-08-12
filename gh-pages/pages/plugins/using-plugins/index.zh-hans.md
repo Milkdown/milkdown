@@ -1,9 +1,9 @@
-# Using Plugins
+# 使用插件
 
-## Tasting a Plugin
+## 初尝插件
 
-In fact, all features in milkdown are supported by plugin.
-The `commonmark` we use is a plugin. Now we can try more plugins:
+事实上，在 milkdown 中的所有特性都是由插件来支持的。
+我们之前使用过的`commonmark`就是一个插件，现在我们可以尝试更多插件：
 
 ```typescript
 import { Editor } from '@milkdown/core';
@@ -24,64 +24,64 @@ new Editor().use(commonmark).use(tooltip).use(slash).create();
 
 ---
 
-## Finding Plugins
+## 寻找插件
 
-### Official Plugins
+### 官方插件
 
-Milkdown provides the following official plugins:
+Milkdown 提供了下列官方插件。
 
 -   [@milkdown/preset-commonmark](https://www.npmjs.com/package/@milkdown/preset-commonmark)
 
-    Add [commonmark](https://commonmark.org/) syntax support.
+    添加[commonmark](https://commonmark.org/)语法支持。
 
 -   [@milkdown/preset-gfm](https://www.npmjs.com/package/@milkdown/preset-gfm)
 
-    Add [gfm](https://github.github.com/gfm/) syntax support.
+    添加[gfm](https://github.github.com/gfm/)语法支持。
 
 -   [@milkdown/plugin-history](https://www.npmjs.com/package/@milkdown/plugin-history)
 
-    Add undo & redo support.
+    添加撤销和重做支持。
 
 -   [@milkdown/plugin-clipboard](https://www.npmjs.com/package/@milkdown/plugin-clipboard)
 
-    Add markdown copy & paste support.
+    添加 markdown 格式的复制粘贴能力。
 
 -   [@milkdown/plugin-cursor](https://www.npmjs.com/package/@milkdown/plugin-cursor)
 
-    Add drop & gap cursor.
+    添加 drop 和 gap 光标。
 
 -   [@milkdown/plugin-listener](https://www.npmjs.com/package/@milkdown/plugin-listener)
 
-    Add listener support.
+    添加监听器支持。
 
 -   [@milkdown/plugin-collaborative](https://www.npmjs.com/package/@milkdown/plugin-collaborative)
 
-    Add collaborative editing support.
+    添加协同编辑支持。
 
 -   [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)
 
-    Add table syntax support (already included in gfm).
+    添加表格语法支持（已经包含在 gfm 中）。
 
 -   [@milkdown/plugin-prism](https://www.npmjs.com/package/@milkdown/plugin-prism)
 
-    Add [prism](https://prismjs.com/) support for code block highlight.
+    添加[prism](https://prismjs.com/) 用于支持代码块高亮。
 
 -   [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)
 
-    Add [LaTeX](https://en.wikipedia.org/wiki/LaTeX) support for math.
+    添加[LaTeX](https://en.wikipedia.org/wiki/LaTeX) 用于支持数学公式。
 
 -   [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)
 
-    Add selected tooltip for text.
+    添加选择工具条。
 
 -   [@milkdown/plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)
 
-    Add slash commands support.
+    添加斜线指令。
 
 -   [@milkdown/plugin-emoji](https://www.npmjs.com/package/@milkdown/plugin-emoji)
 
-    Add emoji support.
+    添加表情符号支持。
 
-### Community plugins
+### 社区插件
 
-Check out [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) to find community plugins - you can also submit a PR to list your plugins there.
+查看 [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) 来寻找社区插件 - 你也可以通过提交 pr 的方式将自己编写的插件添加上去。
