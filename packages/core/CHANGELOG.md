@@ -1,5 +1,13 @@
 # @milkdown/core
 
+## 4.9.4
+
+### Patch Changes
+
+-   abd6ed9: Add license and fix bugs.
+-   Updated dependencies [abd6ed9]
+    -   @milkdown/exception@4.9.4
+
 ## 4.9.3
 
 ### Patch Changes
