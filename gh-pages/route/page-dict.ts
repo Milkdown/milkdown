@@ -143,6 +143,27 @@ export const titleDict: Dict = new Map([
             'zh-hans': '内置插件',
         },
     ],
+    [
+        'get-started',
+        {
+            en: 'Get Started',
+            'zh-hans': '快速开始',
+        },
+    ],
+    [
+        'try-online',
+        {
+            en: 'Try Online',
+            'zh-hans': '在线体验',
+        },
+    ],
+    [
+        'home-describe',
+        {
+            en: 'Plugin Based WYSIWYG Markdown Editor Framework',
+            'zh-hans': '插件驱动的所见即所得的Markdown编辑器框架',
+        },
+    ],
 ]);
 
 export const fromDict = (key: string, local: Local) => titleDict.get(key)?.[local] ?? 'Not Found';

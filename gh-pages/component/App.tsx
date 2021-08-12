@@ -6,11 +6,21 @@ import { Main } from './Route';
 
 import '@milkdown/theme-nord/lib/theme.css';
 import className from './style.module.css';
-import { Context, displaySidebarCtx, setDisplaySidebarCtx } from './Context';
+import { Context, displaySidebarCtx, setDisplaySidebarCtx, setLocalCtx } from './Context';
+import { Local } from '../route';
 
 const Container: React.FC = () => {
     const setDisplaySidebar = React.useContext(setDisplaySidebarCtx);
     const displaySidebar = React.useContext(displaySidebarCtx);
+    const setLocal = React.useContext(setLocalCtx);
+
+    React.useEffect(() => {
+        const path = window.location.hash.slice(2).split('/');
+        const [first] = path;
+        if (['zh-hans'].includes(first)) {
+            setLocal(path[0] as Local);
+        }
+    }, [setLocal]);
 
     return (
         <div

@@ -2,12 +2,12 @@
 
 ![logo](https://preview.redd.it/us7w1x2zx8461.jpg?auto=webp&s=077a73d5c08aec0bc0fb48c5e5be40c928467bb6)
 
-> Milkdown is a WYSIWYG markdown editor.
+> Milkdown is a WYSIWYG markdown editor framework.
 >
 > :baby_bottle: Here is the [repo] (\_right click to open link\_).
-> We ~~only support commonmark~~. GFM is also supported!.
+> We ~~only support commonmark~~. GFM is also supported!
 
-You can check the output markdown text in **developer tool**.
+You can check the output markdown text in **two columns editing**.
 
 -   Features
     -   [x] 📝 **WYSIWYG Markdown** - Write markdown in an elegant way

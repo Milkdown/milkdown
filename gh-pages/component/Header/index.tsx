@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { isDarkModeCtx, scrolledCtx, setDisplaySidebarCtx, setIsDarkModeCtx } from '../Context';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { useHeaderInfo } from '../hooks/useHeaderInfo';
+import { useRoot } from '../hooks/useRoot';
 import { Buttons } from './Buttons';
 import className from './style.module.css';
 
@@ -10,8 +11,9 @@ const materialIcon = `${className.icon} material-icons-outlined`;
 
 const LogoLink: React.FC = () => {
     const scrolled = React.useContext(scrolledCtx);
+    const root = useRoot();
     return (
-        <Link to="/" className={className.logo}>
+        <Link to={'/' + root} className={className.logo}>
             <img src="/milkdown/milkdown-mini.svg" />
             <span
                 style={{

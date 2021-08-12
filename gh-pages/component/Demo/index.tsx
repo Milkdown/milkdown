@@ -1,8 +1,9 @@
 import React from 'react';
+import { Local } from '../../route';
 import { Mode } from '../constant';
+import { localCtx } from '../Context';
 import { MilkdownEditor, MilkdownRef } from '../MilkdownEditor';
 import { CodeMirror, CodeMirrorRef } from './CodeMirror';
-import demo from './content/index.md';
 import className from './style.module.css';
 
 type DemoProps = {
@@ -10,11 +11,27 @@ type DemoProps = {
     isDarkMode: boolean;
 };
 
-export const Demo = ({ mode, isDarkMode }: DemoProps): JSX.Element => {
+const importDemo = (local: Local) => {
+    const path = 'index' + (local === 'en' ? '' : '.' + local);
+    return import(`./content/${path}.md`);
+};
+
+export const Demo = ({ mode, isDarkMode }: DemoProps) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const lockCode = React.useRef(false);
     const milkdownRef = React.useRef<MilkdownRef>(null);
     const codeMirrorRef = React.useRef<CodeMirrorRef>(null);
+    const local = React.useContext(localCtx);
+    const [md, setMd] = React.useState('');
+
+    React.useEffect(() => {
+        importDemo(local)
+            .then((x) => {
+                setMd(x.default);
+                return;
+            })
+            .catch(console.error);
+    }, [local]);
 
     const milkdownListener = React.useCallback((getMarkdown: () => string) => {
         const lock = lockCode.current;
@@ -35,12 +52,12 @@ export const Demo = ({ mode, isDarkMode }: DemoProps): JSX.Element => {
 
     const classes = [className.container, mode === Mode.TwoSide ? className.twoSide : ''].join(' ');
 
-    return (
+    return !md.length ? null : (
         <div ref={ref} className={classes}>
             <div className={className.milk}>
-                <MilkdownEditor ref={milkdownRef} content={demo} onChange={milkdownListener} />
+                <MilkdownEditor ref={milkdownRef} content={md} onChange={milkdownListener} />
             </div>
-            <CodeMirror ref={codeMirrorRef} value={demo} onChange={onCodeChange} dark={isDarkMode} lock={lockCode} />
+            <CodeMirror ref={codeMirrorRef} value={md} onChange={onCodeChange} dark={isDarkMode} lock={lockCode} />
         </div>
     );
 };

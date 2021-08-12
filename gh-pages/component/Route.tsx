@@ -5,6 +5,7 @@ import { editorModeCtx, isDarkModeCtx, sectionsCtx, setScrolledCtx } from './Con
 import { Footer } from './Footer';
 import { Home } from './Home';
 import { LocationType, useLocationType } from './hooks/useLocationType';
+import { useRoot } from './hooks/useRoot';
 import className from './style.module.css';
 
 const Editor = React.lazy(() => import('./MilkdownEditor').then((module) => ({ default: module.MilkdownEditor })));
@@ -37,6 +38,8 @@ export const Main: React.FC = () => {
 
     const pages = sections.flatMap((section) => section.items);
 
+    const root = useRoot();
+
     return (
         <div className={classes}>
             <article>
@@ -48,11 +51,11 @@ export const Main: React.FC = () => {
                             </div>
                         }
                     >
-                        <Route exact path="/">
+                        <Route exact path={'/' + root}>
                             <Home />
                         </Route>
 
-                        <Route exact path="/online-demo">
+                        <Route exact path={'/' + [root, 'online-demo'].filter((x) => x).join('/')}>
                             <Demo mode={editorMode} isDarkMode={isDarkMode} />
                         </Route>
 

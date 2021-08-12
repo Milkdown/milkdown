@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Location } from 'history';
+import { useRoot } from './useRoot';
 
 export enum LocationType {
     Home,
@@ -7,12 +8,12 @@ export enum LocationType {
     Page,
 }
 
-const getType = (location: Location) => {
-    if (location.pathname === '/') {
+const getType = (location: Location, root: string) => {
+    if (location.pathname === '/' + root) {
         return LocationType.Home;
     }
 
-    if (location.pathname === '/online-demo') {
+    if (location.pathname === '/' + [root, 'online-demo'].filter((x) => x).join('/')) {
         return LocationType.Demo;
     }
 
@@ -20,7 +21,8 @@ const getType = (location: Location) => {
 };
 
 export function useLocationType(): [LocationType, Location] {
+    const root = useRoot();
     const location = useLocation();
 
-    return [getType(location), location];
+    return [getType(location, root), location];
 }
