@@ -74,7 +74,7 @@ interface NodeTree {
 
 ### next
 
-`next` 将节点或节点列表传回给 state，state 会找到合适的执行器（通过检查每个 node/mark 的`match`属性）来处理它。
+`next` 将节点或节点列表传回给 state，state 会找到合适的 runner（通过检查每个 node/mark 的`match`属性）来处理它。
 
 ### openMark & closeMark
 

@@ -49,7 +49,7 @@ The serializer specification has 2 props:
         -   _mark_: the prosemirror mark that need to be handled.
         -   _node_: current mark's prosemirror node.
 
-        > If runner for mark return `true` instead of `undefined` or `void`,
+        > If runner for mark return `true` instead of `undefined` or `null`,
         > the mark's node will not be handled by serializer.
 
 ## Serializer State
@@ -91,9 +91,9 @@ const generatedCode = {
 Parameters:
 
 -   _type_: the type of the AST.
--   _children_: a markdown node list as the children of the AST.
 -   _value_: the value of the remark AST.
 -   _props_: the properties of the AST.
+-   _children_: a markdown node list as the children of the AST.
 
 ### next
 
