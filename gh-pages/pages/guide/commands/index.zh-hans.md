@@ -2,7 +2,7 @@
 
 有时候，我们会想更极客地对编辑器进行一些改动，比如点击一个按钮直接可以对选中内容进行斜体样式的切换。
 
-针对这种场景，我们为用户提供了一个命令管理器，其中有许多在预设阶段定义和插件中使用的命令。
+针对这种场景，我们为用户提供了一个命令管理器，其中有许多在预设（Presets）阶段定义和插件中使用的命令。
 
 ## 运行命令
 
@@ -90,7 +90,7 @@ commandManager.call(WrapInHeading, 2); // turn to h2
 
 ## 内部命令
 
-### 基准
+### Commonmark
 
 你可以使用 `import { commands } from '@milkdown/preset-commonmark'` 来获取代码中所有的命令。
 
@@ -123,7 +123,7 @@ commandManager.call(WrapInHeading, 2); // turn to h2
 
 你可以使用 `import { commands } from '@milkdown/preset-gfm'` 来获取代码中所有的命令
 
-**GFM 包括来自基准中所有的命令**， 并额外提供:
+**GFM 包括来自 commonmark 中所有的命令**， 并额外提供:
 
 -   Toggle:
     -   ToggleStrikeThrough
