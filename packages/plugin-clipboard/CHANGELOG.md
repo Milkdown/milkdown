@@ -1,5 +1,11 @@
 # @milkdown/plugin-clipboard
 
+## 4.9.4
+
+### Patch Changes
+
+-   abd6ed9: Add license and fix bugs.
+
 ## 4.9.3
 
 ### Patch Changes
