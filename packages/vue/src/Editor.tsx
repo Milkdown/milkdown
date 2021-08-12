@@ -52,6 +52,7 @@ export const EditorComponent = defineComponent((props: { editor: GetEditor; edit
     if (props.editorRef) {
         props.editorRef.value = {
             get: () => refs.editorRef.editor,
+            dom: () => refs.divRef.value,
         };
     }
 
@@ -59,7 +60,7 @@ export const EditorComponent = defineComponent((props: { editor: GetEditor; edit
 });
 EditorComponent.props = ['editor', 'editorRef'];
 
-export type EditorRef = { get: () => Editor | undefined };
+export type EditorRef = { get: () => Editor | undefined; dom: () => HTMLDivElement | null };
 
 export const VueEditor = defineComponent((props: { editor: GetEditor; editorRef?: Ref<EditorRef> }) => {
     const portals = shallowReactive<PortalPair[]>([]);

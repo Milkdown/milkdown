@@ -1,10 +1,10 @@
 # React
 
-We provide react support out of box.
+我们提供开箱即用的 react 支持。
 
-## Install the Dependencies
+## 依赖安装
 
-Except the `@milkdown/core`, preset and theme. We need to install the `@milkdown/react`, which provide lots of abilities for react in milkdown.
+除了 `@milkdown/core`，预设和主题，我们还需要安装 `@milkdown/react`，它提供了许多让 milkdown 运行在 react 中的能力。
 
 ```bash
 # install with npm
@@ -14,9 +14,9 @@ npm install @milkdown/react @milkdown/core
 npm install @milkdown/preset-commonmark @milkdown/theme-nord
 ```
 
-## Create a Component
+## 创建一个组件
 
-Create a component is pretty easy.
+创建一个组件十分简单。
 
 ```typescript
 import React from 'react';
@@ -40,9 +40,9 @@ export const MilkdownEditor: React.FC = () => {
 };
 ```
 
-## Custom Component for Node
+## 自定义节点组件 Component
 
-We provide support of custom component for node out of box.
+我们提供开箱即用的自定义组件的支持。
 
 ```typescript
 import React from 'react';
@@ -82,28 +82,29 @@ export const MilkdownEditor: React.FC = () => {
 };
 ```
 
-Values can be get by `useNodeCtx`:
+`useNodeCtx`中可以获取到的值：
 
 -   _editor_:
 
-    Instance of current milkdown editor.
+    Milkdown 编辑器的实例。
 
 -   _node_:
 
+    需要当前组件渲染的 prosemirror 节点。
     Current prosemirror node need to be rendered.
-    Equal to [node parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).
+    等同于 [nodeViews 中的 node 参数](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews)。
 
 -   _view_:
 
-    Current prosemirror editor view.
-    Equal to [view parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).
+    当前编辑器的 prosemirror view。
+    等同于 [nodeViews 中的 view 参数](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews)。
 
 -   _getPos_:
 
-    Method or property to get position of current prosemirror node.
-    Equal to [getPos parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).
+    用于获取当前节点的位置的方法或属性。
+    等同于 [nodeViews 中的 getPos 参数](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews)。
 
 -   _decorations_:
 
-    Decorations of current prosemirror node.
-    Equal to [decorations parameter in nodeViews](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews).
+    当前节点的 prosemirror decorations。
+    等同于 [nodeViews 中的 decorations 参数](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews)。

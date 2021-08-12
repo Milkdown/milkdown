@@ -69,13 +69,13 @@ const remotePlugin: MilkdownPlugin = (pre) => {
 
 It has following steps:
 
-1. We use `createTimer` to create a timer, and use `pre.record` to register it into the plugin.
+1. We use `createTimer` to create a timer, and use `pre.record` to register it into milkdown.
 2. We update `editorStateTimerCtx` to tell the internal `editorState` plugin that before initialize editor state, it should wait our remote fetch process finished.
-3. After we get value from API, we set it as defaultValue and use `ctx.done` to mark a timer as complete.
+3. After we get value from `fetchMarkdownAPI`, we set it as `defaultValue` and use `ctx.done` to mark a timer as complete.
 
 ## Ctx
 
-We have used `ctx` several times in the above example, now we can understand what it is.
+We have used `ctx` several times in the above example, now we can try to understand what it is.
 Ctx is a piece of data that can be shared in the entire editor instance.
 
 ```typescript
