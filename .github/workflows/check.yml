@@ -1,0 +1,43 @@
+name: ci
+
+on:
+    pull_request:
+        branches: main
+
+env:
+    CI: true
+    PNPM_CACHE_FOLDER: .pnpm-store
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 15.x
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+            - name: install dependencies
+              run: pnpm install
+
+            - name: install playwright
+              run: |
+                  npx playwright install-deps
+
+            - name: run test
+              run: |
+                  pnpm test
