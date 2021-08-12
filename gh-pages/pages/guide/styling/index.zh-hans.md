@@ -6,12 +6,12 @@ Milkdown 默认不提供样式。这意味着，你可以导入甚至自定义�
 
 整个编辑器是渲染在以 `milkdown` 为类名的 HTML 容器中的，且可编辑部分 `editor` 也被包含其中。你可以像下面例子中的那样来编写编辑器样式。
 
-
 ```css
 .milkdown .editor p {
     margin: 1rem 0;
 }
 ```
+
 针对每一个 node/mark，Milkdown 都为其提供了一个默认的 css 类名，比如： 每一个 &lt;p&gt; 节点的 `paragraph` 类名：
 
 ```css
