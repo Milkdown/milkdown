@@ -12,7 +12,7 @@ The transformation will have following steps:
 
 ## Example
 
-For every node, there will be a parser specification which has the following structure:
+For every node/mark, there will be a parser specification which has the following structure:
 
 ```typescript
 import { nodeFactory } from '@milkdown/core';
@@ -38,12 +38,12 @@ The parser specification has 2 props:
 
     -   _state_: tools used to generate the prosemirror node.
     -   _node_: the remark node that need to be handled.
-    -   _type_: the prosemirror _[nodeType](https://prosemirror.net/docs/ref/#model.NodeType)_ of current node,
-        defined by `schema` property of current node.
+    -   _type_: the prosemirror _[nodeType](https://prosemirror.net/docs/ref/#model.NodeType)_ or _[markType](https://prosemirror.net/docs/ref/#model.MarkType)_ of current node,
+        defined by `schema` property of current node/mark.
 
 ## Parser State
 
-The parser state is used to generate the prosemirror node,
+The parser state is used to generate the prosemirror node/mark,
 it provides several useful methods to make the transformation pretty simple.
 
 First of all, we should keep in mind that the tree we need to handle has following structure:
@@ -68,16 +68,16 @@ You can pass the node's attributes as the second parameter for `openNode`.
 
 ### addNode
 
-`addNode` means just add a node without open or close it. It's useful for nodes which don't have children.
+`addNode` means just add a node without open or close it. It's useful for nodes which don't have children, or you want to handle children yourself.
 
 You can pass the node's attributes as the second parameter.
 
 ### next
 
-`next` give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
+`next` give the node or node list back to the state and the state will find a proper runner (by checking the `match` property of each node/mark) to handle it.
 
 ### openMark & closeMark
 
-These two APIs are pretty like `openNode` and `closeNode`, but just for marks.
+These two APIs are pretty like `openNode` and `closeNode`, but just for prosemirror marks.
 
 You can pass the marks's attributes as the second parameter for `openMark`.

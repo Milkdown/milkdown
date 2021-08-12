@@ -58,7 +58,7 @@ const IsDarkMode: React.FC = ({ children }) => {
 };
 
 const Local: React.FC = ({ children }) => {
-    const [local, setLocal] = React.useState<Localize>('en');
+    const [local, setLocal] = React.useState<Localize>('zh-hans');
     const sections = React.useMemo(() => pageRouter[local], [local]);
 
     return (

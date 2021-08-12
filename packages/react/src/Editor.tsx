@@ -3,7 +3,10 @@ import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
 import { portalContext, Portals } from './Portals';
 import { createReactView } from './ReactNodeView';
 
-type GetEditor = (container: HTMLDivElement, renderReact: (Component: React.FC) => NodeViewFactory) => Editor;
+type GetEditor = (
+    container: HTMLDivElement,
+    renderReact: (Component: React.FC) => NodeViewFactory,
+) => Editor | undefined;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = React.useContext(portalContext);
@@ -11,9 +14,12 @@ const useGetEditor = (getEditor: GetEditor) => {
     const editorRef = React.useRef<Editor>();
 
     React.useEffect(() => {
-        if (!divRef.current) return;
+        const div = divRef.current;
+        if (!div) return;
 
-        const editor = getEditor(divRef.current, renderReact);
+        const editor = getEditor(div, renderReact);
+
+        if (!editor) return;
 
         editor
             .create()

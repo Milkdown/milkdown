@@ -77,8 +77,8 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
             })
             .catch((e) => {
                 console.error(e);
-                setLoading(false);
                 setMd('# 404 Not Found');
+                setLoading(false);
             });
     }, [content]);
 
