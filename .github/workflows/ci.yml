@@ -42,10 +42,7 @@ jobs:
 
             - name: run test
               run: |
-                  pnpm lint
-                  pnpm tsc
                   pnpm test
-                  pnpm pw:ci
 
     release:
         runs-on: ubuntu-latest
