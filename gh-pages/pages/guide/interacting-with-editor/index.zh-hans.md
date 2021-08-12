@@ -79,7 +79,7 @@ new Editor()
     .use(listener);
 ```
 
-接着，我们可以使用获取到的 `jsonOutput` 作为浏览器的默认值配置：
+接着，我们可以使用获取到的 `jsonOutput` 作为编辑器的默认值配置：
 
 ```typescript
 import { defaultValueCtx } from '@milkdown/core';
