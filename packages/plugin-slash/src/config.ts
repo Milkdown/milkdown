@@ -9,7 +9,7 @@ import {
 } from '@milkdown/preset-commonmark';
 import { TurnIntoTaskList } from '@milkdown/preset-gfm';
 import { InsertTable } from '@milkdown/plugin-table';
-import { SlashConfig } from '.';
+import type { SlashConfig } from '.';
 import { createDropdownItem, nodeExists } from './utility';
 import { commandsCtx } from '@milkdown/core';
 

@@ -12,10 +12,10 @@
 
 在这一节中，我们将添加一个**自定义 iframe 语法**来将 iframe 作为一种节点添加进 markdown。
 
-## Remark Plugin
+## Remark 插件
 
-First, we need a remark plugin to support our custom syntax.
-Luckily, remark provides a powerful [remark directive plugin](https://github.com/remarkjs/remark-directive) to support custom syntax. With this plugin, we can easily define a iframe using following text:
+首先，我们需要一个 remark 插件来支持我们的自定义语法。
+幸运的是，remark 提供了一个强大的 [directive 插件](https://github.com/remarkjs/remark-directive) 来支持自定义语法。通过这个插件，我们可以轻易的通过以下语法定义一个 iframe：
 
 ```markdown
 # My Iframe
@@ -23,7 +23,7 @@ Luckily, remark provides a powerful [remark directive plugin](https://github.com
 :iframe{src="https://saul-mirone.github.io"}
 ```
 
-So, what we needs to do is just install it and transform it into a milkdown plugin:
+所以，我们需要的只是安装它并将其转换为一个 milkdown 插件：
 
 ```typescript
 import { remarkPluginFactory } from '@milkdown/core';
@@ -32,11 +32,11 @@ import directive from 'remark-directive';
 const directiveRemarkPlugin = remarkPluginFactory(directive);
 ```
 
-## Define Schema
+## 定义 Schema
 
-Next, we need to define the schema of an iframe node,
-our iframe should be an inline node because it doesn't have and children,
-and have a `src` attribute to connect to the source.
+接着，我们需要定义 iframe 节点的 schema。
+我们把 iframe 定义为一个 inline 节点，因为它没有任何的子节点，
+并且有一个`src`标签来连接到目标页面。
 
 ```typescript
 import { nodeFactory } from '@milkdown/core';
@@ -69,11 +69,10 @@ const iframe = nodeFactory({
 });
 ```
 
-## Parser
+## 解析器
 
-Then, we need to add a parser specification to transform remark AST to prosemirror node.
-You can use some inspect tools to find out the remark AST structure,
-we noticed that the iframe node have following structure:
+接着，我们需要添加一个解析器声明，来将 remark AST 转换为 prosemirror node。
+你可以使用开发者工具去检查 remark AST 的结构。我们可以发现 iframe 具有以下结构：
 
 ```typescript
 const AST = {
@@ -83,7 +82,7 @@ const AST = {
 };
 ```
 
-So we can easily write our parser specification for it:
+所以我们可以轻易写出它对应的解析器声明：
 
 ```typescript
 const iframe = nodeFactory({
@@ -97,11 +96,11 @@ const iframe = nodeFactory({
 });
 ```
 
-Now, text in `defaultValue` can be parsed to iframe elements correctly.
+现在，`defaultValue`中的文本可以被正确的解析为 iframe 元素了。
 
-## Serializer
+## 序列化器
 
-Then, we need to add a serializer specification to transform prosemirror node to remark AST:
+接着，我们需要添加序列化器来将 prosemirror 节点转回为 remark AST。
 
 ```typescript
 const iframe = nodeFactory({
@@ -120,12 +119,12 @@ const iframe = nodeFactory({
 });
 ```
 
-Now, iframe elements can be serialized into string correctly.
+现在，iframe 元素可以被正确的序列化成 markdown 字符串了。
 
-## Input Rule
+## 输入规则
 
-For user input texts that should be transformed into iframe, we also should make it work.
-We can use `inputRules` to define [prosemirror input rules](https://prosemirror.net/docs/ref/#inputrules) to implement this:
+我们也需要能够让用户的输入顺利转换为对应的 iframe。
+我们可以使用 `inputRules` 来定义 [prosemirror 用户输入](https://prosemirror.net/docs/ref/#inputrules)来实现这个功能：
 
 ```typescript
 import { Node } from '@milkdown/core';
@@ -134,7 +133,7 @@ import { InputRule } from 'prosemirror-inputrules';
 const iframe = nodeFactory({
     // ...
     inputRules: (nodeType) => [
-        new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
+        new InputRule(/:iframe\{src="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
             const [okay, src = ''] = match;
             const { tr } = state;
             if (okay) {
@@ -147,9 +146,9 @@ const iframe = nodeFactory({
 });
 ```
 
-## Use Plugins
+## 使用插件
 
-Then, we can just `use` the plugins we write:
+最后，我们只需要使用`use`来使用我们编写的插件：
 
 ```typescript
 import { Editor } from '@milkdown/core';
@@ -162,85 +161,4 @@ new Editor().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
 
 ## Full Code
 
-```typescript
-import { remarkPluginFactory, Editor, nodeFactory, defaultValueCtx } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { InputRule } from 'prosemirror-inputrules';
-
-import directive from 'remark-directive';
-
-const directiveRemarkPlugin = remarkPluginFactory(directive);
-
-const id = 'iframe';
-const iframe = nodeFactory({
-    id,
-    schema: {
-        inline: true,
-        attrs: {
-            src: { default: null },
-        },
-        group: 'inline',
-        marks: '',
-        atom: true,
-        parseDOM: [
-            {
-                tag: 'iframe',
-                getAttrs: (dom) => {
-                    if (!(dom instanceof HTMLElement)) {
-                        throw new Error();
-                    }
-                    return {
-                        src: dom.getAttribute('src'),
-                    };
-                },
-            },
-        ],
-        toDOM: (node) => ['iframe', { ...node.attrs, class: 'iframe' }, 0],
-    },
-    parser: {
-        match: (node) => {
-            return node.type === 'textDirective' && node.name === 'iframe';
-        },
-        runner: (state, node, type) => {
-            console.log(node);
-            state.addNode(type, { src: (node.attributes as { src: string }).src });
-        },
-    },
-    serializer: {
-        match: (node) => node.type.name === id,
-        runner: (state, node) => {
-            state.addNode('textDirective', undefined, undefined, {
-                name: 'iframe',
-                attributes: {
-                    src: node.attrs.src,
-                },
-            });
-        },
-    },
-    inputRules: (nodeType) => [
-        new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
-            const [okay, src = ''] = match;
-            const { tr } = state;
-            if (okay) {
-                tr.replaceWith(start, end, nodeType.create({ src }));
-            }
-
-            return tr;
-        }),
-    ],
-});
-
-const defaultValue = `
-# Custom Syntax
-
-:iframe{src="https://saul-mirone.github.io/milkdown/"}
-`;
-
-new Editor()
-    .config((ctx) => {
-        ctx.set(defaultValueCtx, defaultValue);
-    })
-    .use([directiveRemarkPlugin, iframe])
-    .use(commonmark)
-    .create();
-```
+[点击链接到 code sand box 查看。](https://codesandbox.io/s/milkdown-custom-syntax-mudgd?fontsize=14&hidenavigation=1&theme=dark)

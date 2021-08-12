@@ -1,5 +1,5 @@
-import { MarkdownNode } from '..';
-import { AnyRecord } from '../utility';
+import type { MarkdownNode } from '..';
+import type { AnyRecord } from '../utility';
 
 export type StackElement = {
     type: string;
