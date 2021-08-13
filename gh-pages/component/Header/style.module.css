@@ -135,6 +135,7 @@
     margin: 0;
     background-color: transparent;
     transition: all 0.2s ease-in-out;
+    cursor: pointer;
     &:hover {
         background: palette(primary, 0.12);
         color: palette(primary);
