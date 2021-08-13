@@ -5,6 +5,7 @@
 [![download-badge]][download-link]
 ![version][version-badge]
 ![commit][commit-badge]
+![license][license-badge]
 
 <div align="center">
     <img src="/gh-pages/public/milkdown-homepage.svg" />
@@ -56,3 +57,4 @@ Welcome to join our [Discord community](https://discord.gg/SdMnrSMyBX).
 [download-link]: https://www.npmjs.com/search?q=%40milkdown
 [version-badge]: https://img.shields.io/npm/v/@milkdown/core
 [commit-badge]: https://img.shields.io/github/commit-activity/m/Saul-Mirone/milkdown
+[license-badge]: https://img.shields.io/github/license/Saul-Mirone/milkdown
