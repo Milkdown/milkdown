@@ -14,7 +14,7 @@ You can check the output markdown text in **two columns editing**.
     -   [x] 🎨 **Themable** - Theme can be shared and used with npm packages
     -   [x] 🎮 **Hackable** - Support your awesome idea by plugin
     -   [x] 🦾 **Reliable** - Built on top of [prosemirror] and [remark]
-    -   [x] ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
+    -   [x] ⚡ **Slash & Tooltip** - Write fast for everyone, driven by plugin
     -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
     -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
     -   [x] 🍻 **Collaborate** - Shared editing support with [yjs], driven by plugin

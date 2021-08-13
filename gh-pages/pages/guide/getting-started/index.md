@@ -19,7 +19,7 @@ With this pattern you can enable or disable any custom syntax and feature you li
 -   [x] 🎨 **Themable** - Theme can be shared and used with npm packages
 -   [x] 🎮 **Hackable** - Support your awesome idea by plugin
 -   [x] 🦾 **Reliable** - Built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark)
--   [x] ⚡️ **Slash & Tooltip** - Write fast for everyone, driven by plugin
+-   [x] ⚡ **Slash & Tooltip** - Write fast for everyone, driven by plugin
 -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
 -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
 -   [x] 🍻 **Collaborate** - Shared editing support with [yjs](https://docs.yjs.dev/), driven by plugin

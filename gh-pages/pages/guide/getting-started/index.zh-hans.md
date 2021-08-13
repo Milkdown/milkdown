@@ -17,9 +17,9 @@ Milkdown 是一个轻量但强大的 WYSIWYG （所见即所得）的 markdown �
 
 -   [x] 📝 **所见即所得的 Markdown** - 以一种优雅的方式编写 markdown
 -   [x] 🎨 **可定制主题** - 主题可以通过 npm 包安装和共享
--   [x] **可交互** - 通过插件支持你的脑洞
+-   [x] 🎮 **可交互** - 通过插件支持你的脑洞
 -   [x] 🦾 **值得信赖** - 基于[prosemirror](https://prosemirror.net/) 和 [remark](https://github.com/remarkjs/remark)构建
--   [x] ⚡️ **斜线指令和工具条** - 让任何人都可以使用，通过插件
+-   [x] ⚡ **斜线指令和工具条** - 让任何人都可以使用，通过插件
 -   [x] 🧮 **数学支持** - LaTeX 数学公式支持，通过插件
 -   [x] 📊 **表格支持** - 拥有流畅的 ui 的表格支持，通过插件
 -   [x] 🍻 **协同编辑** - 基于[yjs](https://docs.yjs.dev/)的协同编辑支持，通过插件
