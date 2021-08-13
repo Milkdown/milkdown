@@ -38,18 +38,18 @@
             display: flex;
             color: palette(neutral, 0.87);
             letter-spacing: 0.5px;
+            height: 2.625rem;
+            align-items: center;
 
             > span:first-child {
-                line-height: 1.5rem;
-                padding: 0.625rem 0;
                 padding-left: 1rem;
                 flex: 1;
                 font-weight: 500;
             }
 
             .icon {
-                width: 3rem;
-                line-height: 3rem;
+                width: 2.625rem;
+                height: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -73,6 +73,7 @@
                 display: none;
             }
 
+            font-weight: 500;
             position: absolute;
             top: 3.125rem;
             box-sizing: border-box;
