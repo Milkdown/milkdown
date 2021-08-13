@@ -34,6 +34,8 @@ function main() {
 }
 ```
 
+> Tips: use `Mod-Enter` to exit blocks such as code block.
+
 ---
 
 You can type `||` and a `space` to create a table:
