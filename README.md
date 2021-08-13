@@ -25,6 +25,10 @@ For more information, please check our official documentations:
 
 You can check our [Milkdown TODO](https://github.com/Saul-Mirone/milkdown/projects/1) project page to know what's on the plan.
 
+# Community
+
+Welcome to join our [Discord community](https://discord.gg/SdMnrSMyBX).
+
 # Contributing
 
 Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/main/CONTRIBUTING.md) to learn how to contribute to milkdown.
@@ -41,10 +45,6 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 If you like this project, please consider fund me to help the maintenance.
 
 <a title="Johno Scott" href="https://github.com/johnoscott"><img src="https://avatars.githubusercontent.com/u/291958?v=4" width="100" alt="profile picture of Johno Scott"></a>
-
-# Community
-
-Welcome to join our [Discord community](https://discord.gg/SdMnrSMyBX).
 
 # License
 
