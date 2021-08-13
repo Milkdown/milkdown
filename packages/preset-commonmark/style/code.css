@@ -75,6 +75,7 @@
 
             font-weight: 500;
             position: absolute;
+            z-index: 1;
             top: 2.625rem;
             box-sizing: border-box;
             left: 1.2rem;
