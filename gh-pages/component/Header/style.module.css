@@ -85,6 +85,12 @@
     cursor: pointer;
 }
 
+.github {
+    svg {
+        fill: palette(neutral, 0.87);
+    }
+}
+
 .logo > span {
     display: none;
 }
