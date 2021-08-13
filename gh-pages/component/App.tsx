@@ -7,7 +7,7 @@ import { Main } from './Route';
 import '@milkdown/theme-nord/lib/theme.css';
 import className from './style.module.css';
 import { Context, displaySidebarCtx, setDisplaySidebarCtx, setLocalCtx } from './Context';
-import { Local } from '../route';
+import { Local, i18nConfig } from '../route';
 
 const Container: React.FC = () => {
     const setDisplaySidebar = React.useContext(setDisplaySidebarCtx);
@@ -15,10 +15,13 @@ const Container: React.FC = () => {
     const setLocal = React.useContext(setLocalCtx);
 
     React.useEffect(() => {
-        const path = window.location.hash.slice(2).split('/');
+        const path = window.location.hash.split('/').filter((x) => x && x !== '#');
         const [first] = path;
-        if (['zh-hans'].includes(first)) {
-            setLocal(path[0] as Local);
+        const list = Object.values(i18nConfig)
+            .map(({ route }) => route)
+            .filter((x) => x);
+        if (list.includes(first)) {
+            setLocal(first as Local);
         }
     }, [setLocal]);
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Local } from '../../route';
+import { Local, i18nConfig } from '../../route';
 import { Mode } from '../constant';
-import { editorModeCtx, isDarkModeCtx, localCtx, setEditorModeCtx, setIsDarkModeCtx, setLocalCtx } from '../Context';
+import { editorModeCtx, isDarkModeCtx, setEditorModeCtx, setIsDarkModeCtx, setLocalCtx } from '../Context';
 import { useEditorMode } from '../hooks/userEditorMode';
+import { useRoot } from '../hooks/useRoot';
 import className from './style.module.css';
 
 const materialIcon = `${className.icon} material-icons-outlined`;
 
 const LanguageList: React.FC<{ show: boolean; setShow: (show: boolean) => void }> = ({ show, setShow }) => {
-    const local = React.useContext(localCtx);
+    const root = useRoot();
     const setLocal = React.useContext(setLocalCtx);
     const history = useHistory();
     const location = useLocation();
@@ -20,29 +21,26 @@ const LanguageList: React.FC<{ show: boolean; setShow: (show: boolean) => void }
             onClick={(e) => {
                 e.stopPropagation();
                 const { target } = e;
-                if (!(target instanceof HTMLLIElement)) {
-                    return;
-                }
-                const { value } = target.dataset;
-                if (!value) {
-                    return;
-                }
+                if (!(target instanceof HTMLLIElement)) return;
+                const { value, route } = target.dataset;
+                if (!value) return;
+
                 const path = location.pathname
                     .split('/')
                     .filter((x) => x)
-                    .filter((x) => x !== (local === 'en' ? '' : local));
+                    .filter((x) => x !== root);
                 setLocal(value as Local);
                 setShow(false);
-                const next = [value === 'en' ? '' : value, path[0]].filter((x) => x).join('/');
+                const prefix = route;
+                const next = [prefix, ...path].filter((x) => x).join('/');
                 history.push('/' + next);
             }}
         >
-            <li className={className.langItem} data-value="en">
-                English
-            </li>
-            <li className={className.langItem} data-value="zh-hans">
-                简体中文
-            </li>
+            {Object.entries(i18nConfig).map(([key, { display, route }]) => (
+                <li className={className.langItem} data-value={key} data-route={route} key={key}>
+                    {display}
+                </li>
+            ))}
         </ul>
     );
 };

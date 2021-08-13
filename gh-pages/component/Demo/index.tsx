@@ -1,5 +1,5 @@
 import React from 'react';
-import { Local } from '../../route';
+import { Local, i18nConfig } from '../../route';
 import { Mode } from '../constant';
 import { localCtx } from '../Context';
 import { MilkdownEditor, MilkdownRef } from '../MilkdownEditor';
@@ -12,7 +12,8 @@ type DemoProps = {
 };
 
 const importDemo = (local: Local) => {
-    const path = 'index' + (local === 'en' ? '' : '.' + local);
+    const route = i18nConfig[local].route;
+    const path = ['index', route].filter((x) => x).join('.');
     return import(`./content/${path}.md`);
 };
 

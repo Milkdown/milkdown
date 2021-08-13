@@ -1,4 +1,4 @@
-import { ConfigItem } from './page-router';
+import type { ConfigItem, Local } from './page-router';
 
 export const config: ConfigItem[] = [
     {
@@ -25,3 +25,14 @@ export const config: ConfigItem[] = [
         items: ['node-and-mark', 'parser', 'serializer', 'internal-plugins'],
     },
 ];
+
+export const i18nConfig: Record<Local, { display: string; route: string }> = {
+    en: {
+        display: 'English',
+        route: '',
+    },
+    'zh-hans': {
+        display: '简体中文',
+        route: 'zh-hans',
+    },
+};
