@@ -19,7 +19,6 @@ body {
     min-height: 100vh;
     display: flex;
     width: 100%;
-    overflow-x: hidden;
     height: 100%;
 }
 

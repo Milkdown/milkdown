@@ -12,70 +12,94 @@
         background-color: palette(background);
         color: palette(neutral);
         font-size: 0.85rem;
-        padding: 0 0.4rem 1.4rem;
+        padding: 1.2rem 0.4rem 1.4rem;
         border-radius: var(--radius);
-        overflow: hidden;
+        font-family: var(--font);
 
         * {
             margin: 0;
         }
 
-        > div:first-child {
+        .code-fence_select-wrapper {
+            position: relative;
+        }
+
+        &_value {
+            width: 10.25rem;
             box-sizing: border-box;
-            width: 100%;
-            min-width: 15ch;
-            max-width: 30ch;
             border-radius: var(--radius);
-            margin: 1.2rem;
-            display: grid;
-            grid-template-areas: 'select';
-            align-items: center;
+            margin: 0 1.2rem 1.2rem;
             border: 1px solid palette(line);
             box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
                 0px 1px 3px palette(shadow, 0.2);
             cursor: pointer;
             background-color: palette(surface);
             position: relative;
+            display: flex;
+            color: palette(neutral, 0.87);
+            letter-spacing: 0.5px;
 
-            &::after {
-                @mixin icon Outlined;
-                content: 'expand_more';
-                position: absolute;
-                right: 0;
-                top: 0;
-                height: 100%;
-                width: 2.75rem;
+            > span:first-child {
+                line-height: 1.5rem;
+                padding: 0.625rem 0;
+                padding-left: 1rem;
+                flex: 1;
+                font-weight: 500;
+            }
+
+            .icon {
+                width: 3rem;
+                line-height: 3rem;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 color: palette(solid, 0.87);
-                font-size: 1.2rem;
                 border-left: 1px solid palette(line);
+
+                text-align: center;
+                transition: all 0.4s ease-in-out;
+                &:hover {
+                    background: palette(background);
+                    color: palette(primary);
+                }
+                &.active {
+                    color: palette(primary);
+                }
             }
-            &:hover::after {
-                background: palette(background);
-                color: palette(primary);
+        }
+
+        &_select {
+            &[data-fold='true'] {
+                display: none;
             }
 
-            .code-fence_select {
-                font-family: var(--font);
-                font-weight: 500;
-                line-height: 1.5;
-                color: palette(neutral, 0.87);
-                grid-area: select;
-                font-size: 0.85rem;
-                padding: 0.625rem 1rem;
-                outline: none;
-                appearance: none;
-                width: 100%;
-                height: 100%;
-                border: 0;
-                margin: 0;
-                background-color: transparent;
-            }
+            position: absolute;
+            top: 3.125rem;
+            box-sizing: border-box;
+            left: 1.2rem;
+            padding: 0.5rem 0;
+            max-height: 16.75rem;
+            width: 10.25rem;
+            border: 1px solid palette(line);
+            box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
+                0px 1px 3px palette(shadow, 0.2);
+            background-color: palette(surface);
+            border-top: none;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
 
-            option {
-                background-color: palette(surface);
+            @mixin scrollbar;
+
+            &-option {
+                list-style: none;
+                line-height: 2rem;
+                padding-left: 1rem;
+                cursor: pointer;
+                &:hover {
+                    background: palette(secondary, 0.12);
+                    color: palette(primary);
+                }
             }
         }
 
