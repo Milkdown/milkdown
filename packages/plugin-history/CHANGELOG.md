@@ -1,5 +1,11 @@
 # @milkdown/plugin-history
 
+## 4.9.5
+
+### Patch Changes
+
+-   22d5c36: UI optimize and bug fix.
+
 ## 4.9.4
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @milkdown/plugin-math
 
+## 4.9.5
+
+### Patch Changes
+
+-   22d5c36: UI optimize and bug fix.
+-   Updated dependencies [22d5c36]
+    -   @milkdown/utils@4.9.5
+
 ## 4.9.4
 
 ### Patch Changes
