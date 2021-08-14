@@ -19,6 +19,11 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: 15.x
+
+            - name: install playwright
+              run: |
+                  npx playwright install-deps
+
             - name: install pnpm
               run: npm i pnpm@latest -g
             - name: load cache
@@ -33,11 +38,6 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - name: install dependencies
               run: pnpm install
-
-            - name: install playwright
-              run: |
-                  npx playwright install-deps
-                  npx playwright install
 
             - name: run test
               run: |
