@@ -4,7 +4,7 @@
 
 ## 依赖安装
 
-除了 `@milkdown/core`，预设和主题，我们还需要安装 `@milkdown/react`，它提供了许多让 milkdown 运行在 react 中的能力。
+除了 `@milkdown/core`，预设和主题，我们还需要安装 `@milkdown/react`，它提供了让 milkdown 运行在 react 中的能力。
 
 ```bash
 # install with npm

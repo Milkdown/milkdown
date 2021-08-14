@@ -1,14 +1,14 @@
 # 解析器
 
-解析器被用于将 markdown 字符串转换为 UI 元素。
+解析器被用于将 markdown 转换为 UI 元素。
 
 ## 转换步骤
 
 整个转换过程分为以下步骤：
 
-1. Markdown 字符串将被传给 [remark-parse](https://github.com/remarkjs/remark/tree/main/packages/remark-parse)，被转换为一个 AST。
-2. 这个 remark AST 将被 milkdown 解析器遍历。milkdown 解析器通过 node 和 mark 的定义生成。milkdown 解析器会把 AST 转换为一个 prosemirror 的节点树。
-3. 生成的 prosemirror 节点树将被 prosemirror 渲染，并生成对应的 UI 元素。
+1. Markdown 将被传给 [remark-parse](https://github.com/remarkjs/remark/tree/main/packages/remark-parse) 并转换为 AST。
+2. 这个 remark AST 将被 milkdown 解析器遍历。milkdown 解析器通过 node 和 mark 的定义生成。milkdown 解析器会把 AST 转换为 prosemirror 节点树。
+3. 生成的节点树将被 prosemirror 渲染，并生成对应的 UI 元素。
 
 ## 例子
 
