@@ -4,6 +4,7 @@
 ![ts][ts-badge]
 [![download-badge]][download-link]
 ![version][version-badge]
+[![discord-badge]][discord-link]
 ![commit][commit-badge]
 ![license][license-badge]
 
@@ -27,7 +28,7 @@ You can check our [Milkdown TODO](https://github.com/Saul-Mirone/milkdown/projec
 
 # Community
 
-Welcome to join our [Discord community](https://discord.gg/SdMnrSMyBX).
+Welcome to join our [Discord community][discord-link].
 
 # Contributing
 
@@ -58,3 +59,5 @@ If you like this project, please consider fund me to help the maintenance.
 [version-badge]: https://img.shields.io/npm/v/@milkdown/core
 [commit-badge]: https://img.shields.io/github/commit-activity/m/Saul-Mirone/milkdown
 [license-badge]: https://img.shields.io/github/license/Saul-Mirone/milkdown
+[discord-badge]: https://img.shields.io/discord/870181036041060352
+[discord-link]: https://discord.gg/SdMnrSMyBX
