@@ -20,7 +20,8 @@
         "traptitech",
         "twemoji",
         "unist",
-        "vite"
+        "vite",
+        "vitejs"
     ],
     "editor.formatOnSave": true,
     "typescript.tsdk": "node_modules/typescript/lib"

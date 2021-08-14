@@ -159,6 +159,6 @@ new Editor().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
 
 ---
 
-## Full Code
+## 完整代码
 
-[点击链接到 code sand box 查看。](https://codesandbox.io/s/milkdown-custom-syntax-mudgd?fontsize=14&hidenavigation=1&theme=dark)
+!CodeSandBox{milkdown-custom-syntax-mudgd?fontsize=14&hidenavigation=1&theme=dark&view=preview}

@@ -164,6 +164,7 @@ importers:
       react-router-dom: ^5.2.0
       react-spinners: ^0.11.0
       tslib: ^2.2.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.18.2
       '@codemirror/lang-markdown': 0.18.4
@@ -174,6 +175,7 @@ importers:
       react-router-dom: 5.2.0_react@17.0.2
       react-spinners: 0.11.0_28c0df05a9559c3217649c6005b51123
       tslib: 2.3.0
+      unist-util-visit: 4.0.0
     devDependencies:
       '@rollup/pluginutils': 4.1.1
       '@types/estree': 0.0.47

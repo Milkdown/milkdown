@@ -20,7 +20,8 @@
         "react-loading-skeleton": "^2.2.0",
         "react-router-dom": "^5.2.0",
         "react-spinners": "^0.11.0",
-        "tslib": "^2.2.0"
+        "tslib": "^2.2.0",
+        "unist-util-visit": "^4.0.0"
     },
     "devDependencies": {
         "@rollup/pluginutils": "*",

@@ -162,4 +162,4 @@ new Editor().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
 
 ## Full Code
 
-[Click to view on code sand box.](https://codesandbox.io/s/milkdown-custom-syntax-mudgd?fontsize=14&hidenavigation=1&theme=dark)
+!CodeSandBox{milkdown-custom-syntax-mudgd}
