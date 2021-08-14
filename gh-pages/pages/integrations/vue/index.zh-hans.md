@@ -4,7 +4,7 @@
 
 > Vue version should be 3.x
 
-## Install the Dependencies
+## 依赖安装
 
 除了 `@milkdown/core`，预设和主题，我们还需要安装 `@milkdown/vue`，它提供了许多让 milkdown 运行在 vue 中的能力。
 
@@ -103,8 +103,7 @@ export const MyEditor = defineComponent(() => {
 
 -   _node_:
 
-    需要当前组件渲染的 prosemirror 节点。
-    Current prosemirror node need to be rendered.
+    当前需要组件渲染的 prosemirror 节点。
     等同于 [nodeViews 中的 node 参数](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews)。
 
 -   _view_:

@@ -3,7 +3,7 @@
 ## 初尝插件
 
 事实上，在 milkdown 中的所有特性都是由插件来支持的。
-我们之前使用过的`commonmark`就是一个插件，现在我们可以尝试更多插件：
+我们之前使用过的 `commonmark` 就是一个插件，现在我们可以尝试更多插件：
 
 ```typescript
 import { Editor } from '@milkdown/core';
@@ -32,11 +32,11 @@ Milkdown 提供了下列官方插件。
 
 -   [@milkdown/preset-commonmark](https://www.npmjs.com/package/@milkdown/preset-commonmark)
 
-    添加[commonmark](https://commonmark.org/)语法支持。
+    添加 [commonmark](https://commonmark.org/) 语法支持。
 
 -   [@milkdown/preset-gfm](https://www.npmjs.com/package/@milkdown/preset-gfm)
 
-    添加[gfm](https://github.github.com/gfm/)语法支持。
+    添加 [gfm](https://github.github.com/gfm/) 语法支持。
 
 -   [@milkdown/plugin-history](https://www.npmjs.com/package/@milkdown/plugin-history)
 
@@ -64,11 +64,11 @@ Milkdown 提供了下列官方插件。
 
 -   [@milkdown/plugin-prism](https://www.npmjs.com/package/@milkdown/plugin-prism)
 
-    添加[prism](https://prismjs.com/) 用于支持代码块高亮。
+    添加 [prism](https://prismjs.com/) 用于支持代码块高亮。
 
 -   [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)
 
-    添加[LaTeX](https://en.wikipedia.org/wiki/LaTeX) 用于支持数学公式。
+    添加 [LaTeX](https://en.wikipedia.org/wiki/LaTeX) 用于支持数学公式。
 
 -   [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)
 
@@ -84,4 +84,4 @@ Milkdown 提供了下列官方插件。
 
 ### 社区插件
 
-查看 [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) 来寻找社区插件 - 你也可以通过提交 pr 的方式将自己编写的插件添加上去。
+查看 [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) 来寻找社区插件。你也可以通过提交 pr 的方式将自己编写的插件添加上去。

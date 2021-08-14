@@ -6,7 +6,7 @@
 
 ## 默认的快捷键速查表
 
-> `Mod` 在 macOS 系统中指的是 `Cmd`，在 windows/linux 中指 `Ctrl`.
+> `Mod` 在 macOS 系统中指的是 `Cmd`，在 windows/linux 中指 `Ctrl`。
 
 ### 必要
 

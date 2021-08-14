@@ -88,7 +88,7 @@ export const MilkdownEditor: React.FC = () => {
 };
 ```
 
-`useNodeCtx`中可以获取到的值：
+`useNodeCtx` 中可以获取到的值：
 
 -   _editor_:
 
@@ -96,8 +96,7 @@ export const MilkdownEditor: React.FC = () => {
 
 -   _node_:
 
-    需要当前组件渲染的 prosemirror 节点。
-    Current prosemirror node need to be rendered.
+    当前需要组件渲染的 prosemirror 节点。
     等同于 [nodeViews 中的 node 参数](https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews)。
 
 -   _view_:

@@ -4,7 +4,7 @@ Node 和 Mark 是两个结构，它们被用于定义 prosemirror 的 [Node](htt
 
 ## 概览
 
-用户可以简单的用以下代码来定义一个 node:
+用户可以简单的用以下代码来定义一个 node：
 
 ```typescript
 import { nodeFactory } from '@milkdown/core';
@@ -47,7 +47,7 @@ const paragraph = nodeFactory({
 
 ### schema
 
-**必须。** 当前 node/mark 的[prosemirror schema][schema] 定义。
+**必须。** 当前 node/mark 的 [prosemirror schema][schema] 定义。
 
 ### parser
 
@@ -77,7 +77,7 @@ const paragraph = nodeFactory({
 
 > 你可以在官方仓库中找到更多例子，例如 [preset-commonmark][preset-commonmark] 和 [preset-gfm][preset-gfm]。
 >
-> 在真实世界中，我们推荐你使用[@milkdown/utils][utils]中的`createNode`和`createMark`方法，他们可以很大程度上简化 node/mark 的定义。
+> 在真实世界中，我们推荐你使用 [@milkdown/utils][utils] 中的 `createNode` 和 `createMark` 方法，他们可以很大程度上简化 node/mark 的定义。
 
 [schema]: https://prosemirror.net/docs/ref/#model.Schema
 [input-rules]: https://prosemirror.net/docs/ref/#inputrules.InputRule

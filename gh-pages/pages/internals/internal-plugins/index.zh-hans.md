@@ -11,13 +11,13 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Config
 
--   名称： **config**
+-   名称：**config**
 -   定时器：
     -   **Config**: 插件执行完毕。
 
 ### Init
 
--   名称： **init**
+-   名称：**init**
 -   上下文：
     -   **initTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -35,7 +35,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Schema
 
--   名称： **schema**
+-   名称：**schema**
 -   上下文：
     -   **schemaTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -48,7 +48,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Parser
 
--   名称： **parser**
+-   名称：**parser**
 -   上下文：
     -   **parserTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -59,7 +59,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Serializer
 
--   名称： **serializer**
+-   名称：**serializer**
 -   上下文：
     -   **serializerTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -70,7 +70,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Node View
 
--   名称： **nodeView**
+-   名称：**nodeView**
 -   上下文：
     -   **nodeViewTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -81,7 +81,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Keymap
 
--   名称： **keymap**
+-   名称：**keymap**
 -   上下文：
     -   **keymapTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -92,7 +92,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Input Rules
 
--   名称： **inputRules**
+-   名称：**inputRules**
 -   上下文：
     -   **inputRulesTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -109,7 +109,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Editor State
 
--   名称： **editorState**
+-   名称：**editorState**
 -   上下文：
     -   **editorStateTimerCtx**: 决定加载插件的时机。
         默认值：
@@ -125,7 +125,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 
 ### Editor View
 
--   名称： **editorView**
+-   名称：**editorView**
 -   上下文：
     -   **editorViewTimerCtx**: 决定加载插件的时机。
         默认值：
