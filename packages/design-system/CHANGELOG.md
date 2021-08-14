@@ -1,5 +1,11 @@
 # @milkdown/design-system
 
+## 4.9.6
+
+### Patch Changes
+
+-   f4a9bb1: Fix circular deps for preset-gfm
+
 ## 4.9.5
 
 ### Patch Changes

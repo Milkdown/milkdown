@@ -1,5 +1,13 @@
 # @milkdown/plugin-tooltip
 
+## 4.9.6
+
+### Patch Changes
+
+-   f4a9bb1: Fix circular deps for preset-gfm
+-   Updated dependencies [f4a9bb1]
+    -   @milkdown/utils@4.9.6
+
 ## 4.9.5
 
 ### Patch Changes
