@@ -76,3 +76,9 @@ new Editor().use(commonmark).use(history).create();
 > `Mod` is `Cmd` for mac and `Ctrl` for other platforms.
 
 Now we can undo a edit by using `Mod-z` and redo it by using `Mod-y` or `Shift-Mod-Z`.
+
+---
+
+## Online Demo
+
+!CodeSandBox{milkdown-vanilla-setup-8xobc?fontsize=14&hidenavigation=1&theme=dark&view=preview}

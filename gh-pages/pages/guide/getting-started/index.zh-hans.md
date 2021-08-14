@@ -76,3 +76,9 @@ new Editor().use(commonmark).use(history).create();
 > `Mod` 在 mac 上为 `Cmd`， 在其它平台为 `Ctrl` 。
 
 现在我们可以通过`Mod-z`来撤销一次编辑，并通过`Mod-y`或`Shift-Mod-Z`来重做它。
+
+---
+
+## 在线示例
+
+!CodeSandBox{milkdown-vanilla-setup-8xobc?fontsize=14&hidenavigation=1&theme=dark&view=preview}
