@@ -13,7 +13,7 @@
         "style"
     ],
     "dependencies": {
-        "@playwright/test": "^1.13.0",
+        "@playwright/test": "^1.14.0",
         "tslib": "^2.2.0"
     },
     "devDependencies": {

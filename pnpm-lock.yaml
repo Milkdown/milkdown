@@ -185,11 +185,11 @@ importers:
 
   integration-test:
     specifiers:
-      '@playwright/test': ^1.13.0
+      '@playwright/test': ^1.14.0
       start-server-and-test: ^1.13.0
       tslib: ^2.2.0
     dependencies:
-      '@playwright/test': 1.13.0
+      '@playwright/test': 1.14.0
       tslib: 2.3.0
     devDependencies:
       start-server-and-test: 1.13.0
@@ -2923,8 +2923,8 @@ packages:
       fastq: 1.11.1
     dev: true
 
-  /@playwright/test/1.13.0:
-    resolution: {integrity: sha512-pT9GTQ1eaxdxycnGg4ZANxGZsu4bzN6M8eRzcDxTprJUWZDBqZknGImOFKMRkHB+YhS8UJRuJ6YpPfZaNL2RLw==}
+  /@playwright/test/1.14.0:
+    resolution: {integrity: sha512-8jCS6fmzGZTW7e/Tri0tfxhl5bYpsQSDmCA7TtU6F4WV3CgxnOh44KOynol623p5ftVQ08Jdodu/x4WJ1dNqrg==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
