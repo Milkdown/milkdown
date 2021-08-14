@@ -19,8 +19,8 @@ const myPlugin: MilkdownPlugin = (pre) => {
 
 每个插件由两部分组成：
 
-1. _准备_: 这一阶段将在插件被通过 `use` 方法被注册进 milkdown 时执行。
-2. _执行_: 这一阶段将在插件被真实加载时执行。
+1. _准备_：这一阶段将在插件被通过 `use` 方法被注册进 milkdown 时执行。
+2. _执行_：这一阶段将在插件被真实加载时执行。
 
 ## 定时器（Timer）
 
@@ -68,9 +68,9 @@ const remotePlugin: MilkdownPlugin = (pre) => {
 
 它有如下几个步骤：
 
-1. 我们使用 `createTimer` 来创建定时器，然后使用`pre.record`来将定时器注册到 milkdown 中。
-2. 我们更新 `editorStateTimerCtx` 来告诉内置的 `editorState` 插件，它应该等我们的远程获取步骤结束后再执行。
-3. 当我们从`fetchMarkdownAPI`中取到需要的数据后，我们将它设置为`defaultValue`并调用`ctx.done`来将定时器标记为结束。
+1. 我们使用 `createTimer` 来创建定时器，然后使用 `pre.record` 来将定时器注册到 milkdown 中。
+2. 我们更新 `editorStateTimerCtx` 来告诉内置的 `editorState` 插件，它应该等我们 的远程获取步骤结束后再执行。
+3. 当我们从 `fetchMarkdownAPI`中取到需要的数据后，我们将它设置为 `defaultValue` 并调用 `ctx.done` 来将定时器标记为结束。
 
 ## 上下文（Ctx）
 
@@ -104,11 +104,9 @@ const counterPlugin: MilkdownPlugin = (pre) => {
 };
 ```
 
-我们可以使用 `createCtx` 来创建上下文，然后使用 `pre.inject` 来将其注册到编辑器中。
+我们可以使用 `createCtx` 来创建上下文，然后使用 `pre.inject` 来将其注册到编辑器中。`ctx.get` 来获取一个上下文的值，使用 `ctx.set` 来设置它的值，或是使用 `ctx.update` 来使用一个回调函数更新上下文。
 
-当插件执行时，我们可以使用`ctx.get`来获取一个上下文的值，使用`ctx.set`来设置它的值，或是使用`ctx.update`来使用一个回调函数更新上下文。
-
-所以当我们结合`timer`使用`ctx`时，我们可以决定一个插件执行的时机。
+所以当我们结合 `timer` 使用 `ctx` 时，我们可以决定一个插件执行的时机。
 
 ```typescript
 import { MilkdownPlugin, SchemaReady, Timer, createCtx } from '@milkdown/core';
@@ -127,4 +125,4 @@ const examplePlugin: MilkdownPlugin = (pre) => {
 };
 ```
 
-通过这种模式，如果其它插件想要延迟`examplePlugin`的执行，它们需要做的就是通过`ctx.update`添加一个定时器到`examplePluginTimerCtx`中。
+通过这种模式，如果其它插件想要延迟 `examplePlugin` 的执行，它们需要做的就是通过 `ctx.update` 添加一个定时器到 `examplePluginTimerCtx` 中。

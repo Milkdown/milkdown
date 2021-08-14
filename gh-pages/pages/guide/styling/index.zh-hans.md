@@ -12,7 +12,7 @@ Milkdown 默认不提供样式。这意味着，你可以导入甚至自定义�
 }
 ```
 
-针对每一个 node/mark，Milkdown 都为其提供了一个默认的 css 类名，比如： 每一个 &lt;p&gt; 节点的 `paragraph` 类名：
+针对每一个 node/mark，Milkdown 都为其提供了一个默认的 css 类名，比如：每一个 `<p>` 节点的 `paragraph` 类名：
 
 ```css
 .milkdown .editor .paragraph {

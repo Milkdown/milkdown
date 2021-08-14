@@ -41,7 +41,7 @@ new Editor().config((ctx) => {
 </div>
 ```
 
-紧接着，我们需要明确默认值的类型为 html，进行编辑器的渲染配置：
+紧接着，我们需要明确默认值的类型为 HTML，进行编辑器的渲染配置：
 
 ```typescript
 import { defaultValueCtx } from '@milkdown/core';

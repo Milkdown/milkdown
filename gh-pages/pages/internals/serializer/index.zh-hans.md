@@ -8,7 +8,7 @@
 
 1. 对于每一个当前的 UI 状态，都有一个对应的 prosemirror 节点树能够表示它。
 2. 这个 prosemirror 节点树将会被序列化器遍历。Milkdown 序列化器通过 node 和 mark 的定义生成。Milkdown 序列化器会把一个 prosemirror 节点树转换为一个 remark AST。
-3. 这个 remark AST 将会被传入 [remark-stringify](https://github.com/remarkjs/remark/tree/main/packages/remark-stringify)来转换为 markdown 字符串。
+3. 这个 remark AST 将会被传入 [remark-stringify](https://github.com/remarkjs/remark/tree/main/packages/remark-stringify) 来转换为 markdown 字符串。
 
 ## 例子
 
@@ -49,12 +49,12 @@ const MyNode = nodeFactory({
         -   _mark_: 当前 runner 要处理的 prosemirror mark。
         -   _node_: 含有当前 mark 的 node。
 
-        > 如果 mark 的 runner 的返回值为 `true` 而不是`undefined` 或 `null`,
+        > 如果 mark 的 runner 的返回值为 `true` 而不是`undefined` 或 `null`，
         > 那么拥有这个 mark 的 node 也将由当前 runner 处理，而不会交给序列化器的其它部分。
 
 ## 序列化器 state
 
-序列化器的 state 被用于生成 remark AST,
+序列化器的 state 被用于生成 remark AST，
 它提供了许多有用的方法来让转换变得十分简单。
 
 ### openNode & closeNode

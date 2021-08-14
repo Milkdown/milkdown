@@ -96,7 +96,7 @@ const iframe = nodeFactory({
 });
 ```
 
-现在，`defaultValue`中的文本可以被正确的解析为 iframe 元素了。
+现在，`defaultValue` 中的文本可以被正确的解析为 iframe 元素了。
 
 ## 序列化器
 
@@ -124,7 +124,7 @@ const iframe = nodeFactory({
 ## 输入规则
 
 我们也需要能够让用户的输入顺利转换为对应的 iframe。
-我们可以使用 `inputRules` 来定义 [prosemirror 用户输入](https://prosemirror.net/docs/ref/#inputrules)来实现这个功能：
+我们可以使用 `inputRules` 来定义 [prosemirror 用户输入](https://prosemirror.net/docs/ref/#inputrules) 来实现这个功能：
 
 ```typescript
 import { Node } from '@milkdown/core';
@@ -148,7 +148,7 @@ const iframe = nodeFactory({
 
 ## 使用插件
 
-最后，我们只需要使用`use`来使用我们编写的插件：
+最后，我们只需要使用 `use` 来使用我们编写的插件：
 
 ```typescript
 import { Editor } from '@milkdown/core';

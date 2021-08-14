@@ -34,10 +34,10 @@ async function setup() {
 你可以通过以下步骤来创建命令：
 
 1. 通过 `createCmdKey` 先创建一个 command key。
-2. 再创建对应的 command 方法。(它们也只是一些 [prosemirror commands](https://prosemirror.net/docs/guide/#commands).)
+2. 再创建对应的 command 方法。（它们也只是一些 [prosemirror commands](https://prosemirror.net/docs/guide/#commands)）
 3. 在命令管理器中对刚才创建的命令进行注册。
 
-### 例子： 不携带参数的命令
+### 例子：不携带参数的命令
 
 我们将在下面的例子中创建命令：
 
@@ -123,7 +123,7 @@ commandManager.call(WrapInHeading, 2); // turn to h2
 
 你可以使用 `import { commands } from '@milkdown/preset-gfm'` 来获取代码中所有的命令
 
-**GFM 包括来自 commonmark 中所有的命令**， 并额外提供:
+**GFM 包括来自 commonmark 中所有的命令**，并额外提供:
 
 -   Toggle:
     -   ToggleStrikeThrough
