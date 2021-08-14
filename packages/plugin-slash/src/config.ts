@@ -6,9 +6,9 @@ import {
     WrapInBlockquote,
     WrapInBulletList,
     WrapInOrderedList,
-} from '@milkdown/preset-commonmark';
-import { TurnIntoTaskList } from '@milkdown/preset-gfm';
-import { InsertTable } from '@milkdown/plugin-table';
+    TurnIntoTaskList,
+    InsertTable,
+} from '@milkdown/preset-gfm';
 import type { SlashConfig } from '.';
 import { createDropdownItem, nodeExists } from './utility';
 import { commandsCtx } from '@milkdown/core';

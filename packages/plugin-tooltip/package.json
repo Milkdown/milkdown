@@ -23,7 +23,6 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
-        "@milkdown/preset-commonmark": "*",
         "@milkdown/preset-gfm": "*"
     },
     "dependencies": {

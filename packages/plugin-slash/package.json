@@ -23,7 +23,7 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
-        "@milkdown/plugin-table": "*"
+        "@milkdown/preset-gfm": "*"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",

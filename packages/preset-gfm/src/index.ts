@@ -30,6 +30,8 @@ export const gfm = [...gfmNodes, ...gfmPlugins];
 
 export * from './strike-through';
 export * from './task-list-item';
+export * from '@milkdown/preset-commonmark';
+export * from '@milkdown/plugin-table';
 
 export const commands = {
     ...commonmarkCommands,

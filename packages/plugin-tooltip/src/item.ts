@@ -11,8 +11,7 @@ import {
 } from './utility';
 import { Ctx } from '@milkdown/core';
 import { findSelectedNodeOfType } from '@milkdown/utils';
-import { ToggleBold, ToggleItalic, ToggleInlineCode, ToggleLink } from '@milkdown/preset-commonmark';
-import { ToggleStrikeThrough } from '@milkdown/preset-gfm';
+import { ToggleStrikeThrough, ToggleBold, ToggleItalic, ToggleInlineCode, ToggleLink } from '@milkdown/preset-gfm';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
