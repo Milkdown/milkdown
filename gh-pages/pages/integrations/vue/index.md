@@ -42,6 +42,12 @@ export const MilkdownEditor = defineComponent(() => {
 });
 ```
 
+### Online Demo
+
+!CodeSandBox{milkdown-vue-setup-wjdup?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+
+---
+
 ## Custom Component for Node
 
 We provide custom node support out of box.

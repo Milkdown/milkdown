@@ -40,6 +40,12 @@ export const MilkdownEditor: React.FC = () => {
 };
 ```
 
+### 在线示例
+
+!CodeSandBox{milkdown-react-setup-ngkiq?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+
+---
+
 ## 自定义节点组件 Component
 
 我们提供开箱即用的自定义组件的支持。

@@ -40,6 +40,12 @@ export const MilkdownEditor: React.FC = () => {
 };
 ```
 
+### Online Demo
+
+!CodeSandBox{milkdown-react-setup-ngkiq?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+
+---
+
 ## Custom Component for Node
 
 We provide support of custom component for node out of box.
