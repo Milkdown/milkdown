@@ -13,15 +13,18 @@ import {
     h,
     Fragment,
     Ref,
+    InjectionKey,
 } from 'vue';
 import { PortalPair, Portals } from './Portals';
 import { createVueView } from './VueNodeView';
+
+const rendererKey: InjectionKey<(component: DefineComponent) => NodeViewFactory> = Symbol();
 
 type GetEditor = (container: HTMLDivElement, renderVue: (Component: DefineComponent) => NodeViewFactory) => Editor;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const divRef = ref<HTMLDivElement | null>(null);
-    const renderVue = inject<(Component: DefineComponent) => NodeViewFactory>('renderVue', () => {
+    const renderVue = inject<(Component: DefineComponent) => NodeViewFactory>(rendererKey, () => {
         throw new Error();
     });
     const editorRef = markRaw<{ editor?: Editor }>({});
@@ -72,7 +75,7 @@ export const VueEditor = defineComponent((props: { editor: GetEditor; editorRef?
         portals.splice(index, 1);
     });
     const renderVue = createVueView(addPortal, removePortalByKey);
-    provide('renderVue', renderVue);
+    provide(rendererKey, renderVue);
 
     return () => (
         <>
