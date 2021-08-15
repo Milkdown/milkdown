@@ -1,6 +1,9 @@
 export enum Theme {
+    // font
     font = 'font',
     fontCode = 'font-code',
+
+    // color
     neutral = 'neutral',
     solid = 'solid',
     shadow = 'shadow',
@@ -9,7 +12,10 @@ export enum Theme {
     line = 'line',
     background = 'background',
     surface = 'surface',
+
+    // style
     radius = 'radius',
+    lineWidth = 'lineWidth',
 }
 
 export type ThemePack = {

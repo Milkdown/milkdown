@@ -5,8 +5,9 @@
     position: absolute;
     border-radius: var(--radius);
 
-    border: 1px solid palette(line);
-    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    border: var(--line-width) solid palette(line);
+    box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
+        0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
 
     overflow: hidden;
     background: palette(surface);
@@ -30,7 +31,7 @@
             position: absolute;
             right: 0px;
             top: 0;
-            width: 1px;
+            width: var(--line-width);
             bottom: 0;
             background: palette(line);
         }
@@ -42,8 +43,9 @@
 }
 
 .tooltip-input {
-    border: 1px solid palette(line);
-    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    border: var(--line-width) solid palette(line);
+    box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
+        0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
     display: inline-flex;
     justify-content: space-between;
     align-items: center;

@@ -37,7 +37,6 @@ module.exports = {
                 theme: theme({
                     [Theme.font]: font,
                     [Theme.fontCode]: fontCode,
-                    [Theme.radius]: '4px',
                     [Theme.shadow]: Nord.nord1,
                     [Theme.primary]: Nord.nord10,
                     [Theme.secondary]: Nord.nord9,
@@ -55,6 +54,9 @@ module.exports = {
                         [Theme.background]: '#252932',
                         [Theme.surface]: Nord.nord0,
                     },
+
+                    [Theme.radius]: '4px',
+                    [Theme.lineWidth]: '1px',
                 }),
             },
         }),

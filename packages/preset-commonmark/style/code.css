@@ -29,9 +29,9 @@
             box-sizing: border-box;
             border-radius: var(--radius);
             margin: 0 1.2rem 1.2rem;
-            border: 1px solid palette(line);
-            box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
-                0px 1px 3px palette(shadow, 0.2);
+            border: var(--line-width) solid palette(line);
+            box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
+                0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
             cursor: pointer;
             background-color: palette(surface);
             position: relative;
@@ -50,7 +50,7 @@
                 justify-content: center;
                 align-items: center;
                 color: palette(solid, 0.87);
-                border-left: 1px solid palette(line);
+                border-left: var(--line-width) solid palette(line);
 
                 text-align: center;
                 transition: all 0.4s ease-in-out;
@@ -81,9 +81,9 @@
             padding: 0.5rem 0;
             max-height: 16.75rem;
             width: 10.25rem;
-            border: 1px solid palette(line);
-            box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12),
-                0px 1px 3px palette(shadow, 0.2);
+            border: var(--line-width) solid palette(line);
+            box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
+                0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
             background-color: palette(surface);
             border-top: none;
             overflow-y: auto;

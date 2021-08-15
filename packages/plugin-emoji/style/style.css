@@ -24,10 +24,11 @@ img.emoji {
         display: none;
     }
 
-    border: 1px solid palette(line);
+    border: var(--line-width) solid palette(line);
     border-radius: var(--radius);
     background: palette(surface);
-    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
+    box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
+        0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
     &_item {
         display: flex;
         gap: 0.5rem;

@@ -27,7 +27,7 @@
     }
 
     .hr {
-        height: 1px;
+        height: var(--line-width);
         background-color: palette(line);
         border-width: 0;
     }
