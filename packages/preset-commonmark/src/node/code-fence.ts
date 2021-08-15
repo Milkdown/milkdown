@@ -109,11 +109,11 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
         const valueWrapper = document.createElement('div');
         valueWrapper.className = 'code-fence_value';
         const value = document.createElement('span');
-        const button = document.createElement('span');
-        button.className = 'icon material-icons material-icons-outlined';
-        button.textContent = 'expand_more';
+        // const button = document.createElement('span');
+        // button.className = 'icon material-icons material-icons-outlined';
+        // button.textContent = 'expand_more';
         valueWrapper.appendChild(value);
-        valueWrapper.appendChild(button);
+        // valueWrapper.appendChild(button);
 
         select.className = 'code-fence_select';
         select.addEventListener('mousedown', (e) => {

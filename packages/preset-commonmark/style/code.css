@@ -41,13 +41,9 @@
             height: 2.625rem;
             align-items: center;
 
-            > span:first-child {
-                padding-left: 1rem;
-                flex: 1;
-                font-weight: 500;
-            }
-
-            .icon {
+            &::after {
+                content: 'expand_more';
+                @mixin icon Outlined;
                 width: 2.625rem;
                 height: 100%;
                 display: flex;
@@ -58,13 +54,16 @@
 
                 text-align: center;
                 transition: all 0.4s ease-in-out;
-                &:hover {
-                    background: palette(background);
-                    color: palette(primary);
-                }
-                &.active {
-                    color: palette(primary);
-                }
+            }
+            &:hover::after {
+                background: palette(background);
+                color: palette(primary);
+            }
+
+            > span:first-child {
+                padding-left: 1rem;
+                flex: 1;
+                font-weight: 500;
             }
         }
 
