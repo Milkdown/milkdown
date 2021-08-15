@@ -37,3 +37,9 @@ const nodes = commonmark
 
 new Editor().use(nodes).use(commonmarkPlugins);
 ```
+
+## 示例: NES 主题
+
+> 暂时只支持英文，因为没有找到合适的中文字体 CDN。
+
+!CodeSandBox{milkdown-theme-nes-0w3rx?fontsize=14&hidenavigation=1&theme=dark&view=preview}
