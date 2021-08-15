@@ -1,9 +1,8 @@
-import { provide, defineComponent, watchEffect, ref, h, Fragment } from 'vue';
+import { provide, InjectionKey, defineComponent, watchEffect, ref, h, Fragment } from 'vue';
 
 import { Editor } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
 import { Decoration, EditorView } from 'prosemirror-view';
-import { Keys } from './utils';
 
 export type NodeContext = {
     editor: Editor;
@@ -13,16 +12,10 @@ export type NodeContext = {
     decorations: Decoration[];
 };
 
-const useProvider = (nodeContext: NodeContext) => {
-    Object.entries(nodeContext).forEach(([key, value]) => {
-        provide(key, value);
-    });
-};
-
-const injectedValues: Keys<NodeContext> = ['editor', 'node', 'view', 'getPos', 'decorations'];
+export const nodeMetadata: InjectionKey<NodeContext> = Symbol();
 
 export const VueNodeContainer = defineComponent(({ editor, node, view, getPos, decorations }: NodeContext, context) => {
-    useProvider({
+    provide(nodeMetadata, {
         editor,
         node,
         view,
@@ -31,7 +24,7 @@ export const VueNodeContainer = defineComponent(({ editor, node, view, getPos, d
     });
     return () => <>{context.slots.default?.() ?? []}</>;
 });
-VueNodeContainer.props = injectedValues;
+VueNodeContainer.props = ['editor', 'node', 'view', 'getPos', 'decorations'];
 
 export const Content = defineComponent((props: { dom: HTMLElement }) => {
     const containerRef = ref<HTMLDivElement | null>(null);

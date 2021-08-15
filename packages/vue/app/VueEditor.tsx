@@ -1,8 +1,7 @@
 import { DefineComponent, defineComponent, inject, ref, h } from 'vue';
 import { commonmarkNodes, commonmarkPlugins, paragraph, image } from '@milkdown/preset-commonmark';
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
-import { Node } from 'prosemirror-model';
-import { EditorRef, useEditor, VueEditor } from '../src';
+import { EditorRef, useEditor, VueEditor, nodeMetadata } from '../src';
 
 const MyParagraph: DefineComponent = defineComponent({
     name: 'my-paragraph',
@@ -20,7 +19,7 @@ const MyParagraph: DefineComponent = defineComponent({
 const MyImage: DefineComponent = defineComponent({
     name: 'my-image',
     setup() {
-        const node: Node = inject('node', {} as Node);
+        const node = inject(nodeMetadata)?.node;
         return () => <img class="image" src={node?.attrs.src} alt={node?.attrs.alt} />;
     },
 });
