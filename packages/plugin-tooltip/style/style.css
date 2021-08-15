@@ -29,8 +29,8 @@
         &:not(:last-child)::after {
             content: '';
             position: absolute;
-            right: 0px;
             top: 0;
+            right: calc(-0.5 * var(--line-width));
             width: var(--line-width);
             bottom: 0;
             background: palette(line);
