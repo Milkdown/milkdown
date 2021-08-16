@@ -1,6 +1,5 @@
 import { MilkdownPlugin } from '../utility';
 import { createCtx } from '../context';
-import { Config } from './config';
 
 type PR<K extends string, V = string> = Partial<Record<K, V>>;
 
@@ -62,30 +61,29 @@ export const themeToolCtx = createCtx<ThemeTool>({
     fonts: () => '',
     palette: () => '',
 });
-export const themePackCtx = createCtx<ThemePack>({});
 export const isDarkCtx = createCtx(false);
 
-export const theme: MilkdownPlugin = (pre) => {
-    pre.inject(themeToolCtx).inject(isDarkCtx).inject(themePackCtx, {});
-    return async (ctx) => {
-        await ctx.wait(Config);
-        const isDark = ctx.get(isDarkCtx);
-        const themePack = ctx.get(themePackCtx);
-        const { color, font, size = {}, widget } = themePack;
-        const palette = (key: Color, alpha = 1) => {
-            const value = color?.[isDark ? 'dark' : 'light']?.[key] ?? color?.[key];
-            return value ? `rgba(${themeColor(value)}, ${alpha})` : '';
-        };
-        const fonts = (key: Font) => {
-            const value = font?.[key] ?? [];
-            return value.join(', ');
-        };
+export const themeFactory =
+    (themePack: ThemePack): MilkdownPlugin =>
+    (pre) => {
+        pre.inject(themeToolCtx).inject(isDarkCtx);
+        return (ctx) => {
+            const isDark = ctx.get(isDarkCtx);
+            const { color, font, size = {}, widget } = themePack;
+            const palette = (key: Color, alpha = 1) => {
+                const value = color?.[isDark ? 'dark' : 'light']?.[key] ?? color?.[key];
+                return value ? `rgba(${themeColor(value)}, ${alpha})` : '';
+            };
+            const fonts = (key: Font) => {
+                const value = font?.[key] ?? [];
+                return value.join(', ');
+            };
 
-        ctx.set(themeToolCtx, {
-            size,
-            widget: widget?.({ size, palette, fonts }) || {},
-            palette,
-            fonts,
-        });
+            ctx.set(themeToolCtx, {
+                size,
+                widget: widget?.({ size, palette, fonts }) || {},
+                palette,
+                fonts,
+            });
+        };
     };
-};

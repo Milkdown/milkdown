@@ -1,4 +1,4 @@
-import type { NodeViewFactory, MarkViewFactory, Attrs, MilkdownPlugin, CmdKey } from '@milkdown/core';
+import type { NodeViewFactory, MarkViewFactory, Attrs, MilkdownPlugin, CmdKey, ThemeTool } from '@milkdown/core';
 import type { AnyRecord, UnknownRecord } from '../type-utility';
 
 export type CommandConfig<T = unknown> = {
@@ -38,6 +38,7 @@ export type MarkOptions<SupportedKeys extends string, T> = T &
 
 export type Utils = {
     getClassName: (attrs: Attrs, ...defaultValue: (string | null)[]) => string;
+    themeTool: ThemeTool;
 };
 
 export type Origin<

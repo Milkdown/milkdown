@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import type { ThemePack } from '@milkdown/core';
+import { themeFactory } from '@milkdown/core';
 
 const font = [
     'Roboto',
@@ -33,7 +33,7 @@ export const Nord = {
     nord15: '#b48ead',
 };
 
-export const nord: ThemePack = {
+export const nord = themeFactory({
     font: {
         font,
         fontCode,
@@ -104,4 +104,4 @@ export const nord: ThemePack = {
             }
         `,
     }),
-};
+});

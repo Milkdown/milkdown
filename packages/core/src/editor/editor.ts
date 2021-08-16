@@ -11,7 +11,6 @@ import {
     nodeView,
     editorState,
     commands,
-    theme,
 } from '../internal-plugin';
 import { createClock, Timer } from '../timing';
 import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
@@ -64,7 +63,6 @@ export class Editor {
 
     #loadInternal = () => {
         const internalPlugins = [
-            theme,
             schema,
             parser,
             serializer,

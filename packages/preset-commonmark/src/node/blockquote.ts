@@ -18,7 +18,7 @@ export const blockquote = createNode<Keys>((options, utils) => {
         : css`
               padding-left: 1.875rem;
               line-height: 1.75rem;
-              border-left: 4px solid rgba(var(--primary), 1);
+              border-left: 4px solid ${utils.themeTool.palette('primary')};
               * {
                   font-size: 1rem;
                   line-height: 1.5rem;

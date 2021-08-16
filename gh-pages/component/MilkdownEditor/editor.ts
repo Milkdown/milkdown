@@ -3,6 +3,7 @@ import { Complete, defaultValueCtx, Editor, editorViewOptionsCtx, MilkdownPlugin
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
+import { nord } from '@milkdown/theme-nord';
 import { prism } from '@milkdown/plugin-prism';
 
 import { emoji } from '@milkdown/plugin-emoji';
@@ -48,6 +49,7 @@ export const createEditor = (
             ctx.set(editorViewOptionsCtx, { editable: () => !readOnly });
             ctx.set(listenerCtx, { markdown: onChange ? [onChange] : [] });
         })
+        .use(nord)
         .use(gfm)
         .use(codeSandBox)
         .use(complete(() => setEditorReady(true)))

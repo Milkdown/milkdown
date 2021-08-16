@@ -2,7 +2,7 @@ import re from 'remark';
 
 import type { MilkdownPlugin } from '../utility';
 import { createTimer, Timer } from '../timing';
-import { Config } from './config';
+import { ConfigReady } from './config';
 import { createCtx, Meta } from '../context';
 import type { Editor } from '../editor';
 import { prosePluginsCtx } from './prose-plugin-factory';
@@ -23,7 +23,7 @@ export const init =
             .inject(prosePluginsCtx)
             .inject(remarkPluginsCtx)
             .inject(remarkCtx, re())
-            .inject(initTimerCtx, [Config])
+            .inject(initTimerCtx, [ConfigReady])
             .record(Initialize);
 
         return async (ctx) => {

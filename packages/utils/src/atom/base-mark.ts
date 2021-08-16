@@ -1,4 +1,4 @@
-import { Attrs, Mark, markFactory } from '@milkdown/core';
+import { Attrs, Mark, markFactory, themeToolCtx } from '@milkdown/core';
 import { UnknownRecord } from '../type-utility';
 import { createKeymap } from './keymap';
 import { MarkOptional, MarkOptions, Origin, PluginWithMetadata, Utils } from './types';
@@ -14,15 +14,19 @@ export const createMark = <SupportedKeys extends string = string, T extends Unkn
             const classList = options?.className?.(attrs) ?? defaultValue;
             return Array.isArray(classList) ? classList.filter((x) => x).join(' ') : classList;
         };
-        const node = factory(options, {
-            getClassName,
-        });
-        const keymap = createKeymap(node.shortcuts, options?.keymap);
 
-        const plugin: PluginWithMetadata<'Mark', SupportedKeys, T> = markFactory({
-            ...node,
-            keymap,
-            view: options?.view,
+        const plugin: PluginWithMetadata<'Mark', SupportedKeys, T> = markFactory((ctx) => {
+            const themeTool = ctx.get(themeToolCtx);
+            const node = factory(options, {
+                getClassName,
+                themeTool,
+            });
+            const keymap = createKeymap(node.shortcuts, options?.keymap);
+            return {
+                ...node,
+                keymap,
+                view: options?.view,
+            };
         }) as PluginWithMetadata<'Mark', SupportedKeys, T>;
         plugin.origin = origin;
 
