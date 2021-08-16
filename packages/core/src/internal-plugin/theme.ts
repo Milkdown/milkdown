@@ -70,6 +70,7 @@ export const themeFactory =
         return (ctx) => {
             const isDark = ctx.get(isDarkCtx);
             const { color, font, size = {}, widget } = themePack;
+            // TODO: isDark cannot work property for colors, need to fix
             const palette = (key: Color, alpha = 1) => {
                 const value = color?.[isDark ? 'dark' : 'light']?.[key] ?? color?.[key];
                 return value ? `rgba(${themeColor(value)}, ${alpha})` : '';
