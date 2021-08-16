@@ -12,15 +12,18 @@ export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>
 
 export interface NodeOptional<T extends string> {
     readonly shortcuts?: Shortcuts<T>;
+    readonly styles?: (attrs: AnyRecord) => string;
 }
 
 export interface MarkOptional<T extends string> {
     readonly shortcuts?: Shortcuts<T>;
+    readonly styles?: (attrs: AnyRecord) => string;
 }
 
 export type CommonOptions<SupportedKeys extends string> = {
     className?: (attrs: AnyRecord) => string;
     keymap?: Partial<Record<SupportedKeys, string | string[]>>;
+    readonly headless?: boolean;
 };
 
 export type NodeOptions<SupportedKeys extends string, T> = T &
@@ -34,7 +37,7 @@ export type MarkOptions<SupportedKeys extends string, T> = T &
     };
 
 export type Utils = {
-    getClassName: (attrs: Attrs, defaultValue: string) => string;
+    getClassName: (attrs: Attrs, ...defaultValue: (string | null)[]) => string;
 };
 
 export type Origin<

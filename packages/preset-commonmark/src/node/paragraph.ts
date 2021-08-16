@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import { createCmdKey, createCmd } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { createShortcut } from '@milkdown/utils';
@@ -9,36 +10,47 @@ type Keys = SupportedKeys['Text'];
 export const TurnIntoText = createCmdKey();
 
 const id = 'paragraph';
-export const paragraph = createNode<Keys>((_, utils) => ({
-    id,
-    schema: {
-        content: 'inline*',
-        group: 'block',
-        parseDOM: [{ tag: 'p' }],
-        toDOM: (node) => ['p', { class: utils.getClassName(node.attrs, id) }, 0],
-    },
-    parser: {
-        match: (node) => node.type === 'paragraph',
-        runner: (state, node, type) => {
-            state.openNode(type);
-            if (node.children) {
-                state.next(node.children);
-            } else {
-                state.addText(node.value as string);
-            }
-            state.closeNode();
+export const paragraph = createNode<Keys>((options, utils) => {
+    const style = options?.headless
+        ? null
+        : css`
+              font-size: 1rem;
+              line-height: 1.5;
+              letter-spacing: 0.5px;
+              overflow: hidden;
+          `;
+
+    return {
+        id,
+        schema: {
+            content: 'inline*',
+            group: 'block',
+            parseDOM: [{ tag: 'p' }],
+            toDOM: (node) => ['p', { class: utils.getClassName(node.attrs, id, style) }, 0],
         },
-    },
-    serializer: {
-        match: (node) => node.type.name === 'paragraph',
-        runner: (state, node) => {
-            state.openNode('paragraph');
-            state.next(node.content);
-            state.closeNode();
+        parser: {
+            match: (node) => node.type === 'paragraph',
+            runner: (state, node, type) => {
+                state.openNode(type);
+                if (node.children) {
+                    state.next(node.children);
+                } else {
+                    state.addText(node.value as string);
+                }
+                state.closeNode();
+            },
         },
-    },
-    commands: (nodeType) => [createCmd(TurnIntoText, () => setBlockType(nodeType))],
-    shortcuts: {
-        [SupportedKeys.Text]: createShortcut(TurnIntoText, 'Mod-Alt-0'),
-    },
-}));
+        serializer: {
+            match: (node) => node.type.name === 'paragraph',
+            runner: (state, node) => {
+                state.openNode('paragraph');
+                state.next(node.content);
+                state.closeNode();
+            },
+        },
+        commands: (nodeType) => [createCmd(TurnIntoText, () => setBlockType(nodeType))],
+        shortcuts: {
+            [SupportedKeys.Text]: createShortcut(TurnIntoText, 'Mod-Alt-0'),
+        },
+    };
+});
