@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import type { ThemePack } from '@milkdown/core';
 
 const font = [
@@ -37,6 +38,10 @@ export const nord: ThemePack = {
         font,
         fontCode,
     },
+    size: {
+        radius: '4px',
+        lineWidth: '1px',
+    },
     color: {
         shadow: Nord.nord1,
         primary: Nord.nord10,
@@ -56,4 +61,47 @@ export const nord: ThemePack = {
             surface: Nord.nord0,
         },
     },
+    widget: ({ palette }) => ({
+        icon: (key: string) => css`
+            content: ${key};
+
+            font-family: Material Icons Outlined;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            display: inline-block;
+            direction: ltr;
+
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: liga;
+        `,
+        scrollbar: (direction = 'y') => css`
+            scrollbar-width: thin;
+            scrollbar-color: ${palette('secondary', 0.38)} ${palette('secondary', 0.12)};
+            -webkit-overflow-scrolling: touch;
+            &::-webkit-scrollbar: {
+                ${[direction === 'x' ? 'width' : 'height']}: 4px;
+                padding: 0 2px;
+                background: ${palette('surface')};
+            }
+            &::-webkit-scrollbar-track': {
+                border-radius: 4px;
+                background: ${palette('secondary', 0.12)};
+            }
+            &::-webkit-scrollbar-thumb': {
+                border-radius: 4px;
+                background: ${palette('secondary', 0.38)};
+            }
+            &::-webkit-scrollbar-thumb:hover': {
+                background: ${palette('secondary')},
+            }
+        `,
+    }),
 };

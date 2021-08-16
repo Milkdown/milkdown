@@ -36,17 +36,24 @@ export type Size = 'radius' | 'lineWidth';
 
 export type Widget = 'icon' | 'scrollbar' | 'shadow' | 'border';
 
+export type WidgetFactory = {
+    icon: (id: string) => string;
+    scrollbar: (direction: 'x' | 'y') => string;
+    shadow: () => string;
+    border: () => string;
+};
+
 export type ThemePack = {
     color?: { light?: PR<Color>; dark?: PR<Color> } & PR<Color>;
     font?: PR<Font, string[]>;
     size?: PR<Size>;
-    widget?: PR<Widget, string>;
+    widget?: (utils: Omit<ThemeTool, 'widget'>) => Partial<WidgetFactory>;
 };
 
 export type ThemeTool = {
-    size: Partial<Record<Size, string>>;
-    widget: Partial<Record<Widget, string>>;
-    palette: (key: Color, alpha: number) => string;
+    size: PR<Size>;
+    widget: Partial<WidgetFactory>;
+    palette: (key: Color, alpha?: number) => string;
     fonts: (key: Font) => string;
 };
 export const themeToolCtx = createCtx<ThemeTool>({
@@ -64,8 +71,8 @@ export const theme: MilkdownPlugin = (pre) => {
         await ctx.wait(Config);
         const isDark = ctx.get(isDarkCtx);
         const themePack = ctx.get(themePackCtx);
-        const { color, font, size = {}, widget = {} } = themePack;
-        const palette = (key: Color, alpha: number) => {
+        const { color, font, size = {}, widget } = themePack;
+        const palette = (key: Color, alpha = 1) => {
             const value = color?.[isDark ? 'dark' : 'light']?.[key] ?? color?.[key];
             return value ? `rgba(${themeColor(value)}, ${alpha})` : '';
         };
@@ -76,7 +83,7 @@ export const theme: MilkdownPlugin = (pre) => {
 
         ctx.set(themeToolCtx, {
             size,
-            widget,
+            widget: widget?.({ size, palette, fonts }) || {},
             palette,
             fonts,
         });

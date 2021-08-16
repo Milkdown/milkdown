@@ -26,5 +26,8 @@
         "milkdown",
         "milkdown theme",
         "nord"
-    ]
+    ],
+    "dependencies": {
+        "@emotion/css": "^11.1.3"
+    }
 }
