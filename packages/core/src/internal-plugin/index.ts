@@ -1,5 +1,6 @@
 export * from './init';
 export * from './config';
+export * from './theme';
 
 export * from './schema';
 export * from './parser';

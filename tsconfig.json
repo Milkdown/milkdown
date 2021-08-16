@@ -11,6 +11,7 @@
         { "path": "./packages/exception" },
         { "path": "./packages/react" },
         { "path": "./packages/vue" },
+        { "path": "./packages/theme-nord" },
         { "path": "./packages/preset-commonmark" },
         { "path": "./packages/preset-gfm" },
         { "path": "./packages/design-system" },

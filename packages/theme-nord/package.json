@@ -1,16 +1,23 @@
 {
     "name": "@milkdown/theme-nord",
     "version": "4.9.6",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
     "license": "MIT",
     "scripts": {
         "start": "vite",
-        "watch": "postcss style/theme.css --watch --verbose -o lib/theme.css",
+        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/theme.css --watch --verbose -o lib/theme.css\"",
         "watch:css": "postcss style/theme.css --watch --verbose -o lib/theme.css",
-        "build": "postcss style/theme.css -o lib/theme.css",
+        "tsc": "tsc --noEmit",
+        "build": "tsc && postcss style/theme.css --verbose -o lib/theme.css",
         "build:css": "postcss style/theme.css --verbose -o lib/theme.css"
     },
     "devDependencies": {
         "@milkdown/design-system": "workspace:*"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "*"
     },
     "files": [
         "lib"
