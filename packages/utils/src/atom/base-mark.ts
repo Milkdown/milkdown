@@ -10,7 +10,10 @@ export const createMark = <SupportedKeys extends string = string, T extends Unkn
     ) => Mark & MarkOptional<SupportedKeys>,
 ): Origin<'Mark', SupportedKeys, T> => {
     const origin: Origin<'Mark', SupportedKeys, T> = (options) => {
-        const getClassName = (attrs: Attrs, defaultValue: string) => options?.className?.(attrs) ?? defaultValue;
+        const getClassName = (attrs: Attrs, ...defaultValue: (string | null)[]) => {
+            const classList = options?.className?.(attrs) ?? defaultValue;
+            return Array.isArray(classList) ? classList.filter((x) => x).join(' ') : classList;
+        };
         const node = factory(options, {
             getClassName,
         });
