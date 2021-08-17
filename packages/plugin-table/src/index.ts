@@ -10,8 +10,8 @@ export const tableEditPlugin = prosePluginFactory((x) => [columnResizing({}), ta
 export const tablePlugins = [remarkGFMPlugin, tableEditPlugin];
 export const table = [...tablePlugins, ...tableNodes];
 
-export * from './nodes';
-export * from './utils';
+export { tableNodes, BreakTable, NextCell, PrevCell, InsertTable, SupportedKeys } from './nodes';
+export { createTable } from './utils';
 
 export const commands = {
     NextCell,

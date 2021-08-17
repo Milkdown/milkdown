@@ -2,7 +2,7 @@ import React from 'react';
 import { Local, i18nConfig } from '../../route';
 import { Mode } from '../constant';
 import { localCtx } from '../Context';
-import { MilkdownEditor, MilkdownRef } from '../MilkdownEditor';
+import { MilkdownEditor, MilkdownRef } from '../MilkdownEditor/MilkdownEditor';
 import { CodeMirror, CodeMirrorRef } from './CodeMirror';
 import className from './style.module.css';
 

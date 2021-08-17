@@ -8,8 +8,10 @@ import { LocationType, useLocationType } from './hooks/useLocationType';
 import { useRoot } from './hooks/useRoot';
 import className from './style.module.css';
 
-const Editor = React.lazy(() => import('./MilkdownEditor').then((module) => ({ default: module.MilkdownEditor })));
-const Demo = React.lazy(() => import('./Demo').then((module) => ({ default: module.Demo })));
+const Editor = React.lazy(() =>
+    import('./MilkdownEditor/MilkdownEditor').then((module) => ({ default: module.MilkdownEditor })),
+);
+const Demo = React.lazy(() => import('./Demo/Demo').then((module) => ({ default: module.Demo })));
 
 const useScroll = () => {
     const setScrolled = React.useContext(setScrolledCtx);

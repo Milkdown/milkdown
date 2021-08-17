@@ -11,8 +11,61 @@ import {
     TurnIntoTaskList,
 } from './task-list-item';
 
-export * from '@milkdown/plugin-table';
-export * from '@milkdown/preset-commonmark';
+export {
+    // gather
+    table,
+    tablePlugins,
+    tableNodes,
+    // command
+    createTable,
+    BreakTable,
+    NextCell,
+    PrevCell,
+    InsertTable,
+} from '@milkdown/plugin-table';
+export {
+    // command
+    InsertHardbreak,
+    InsertHr,
+    InsertImage,
+    LiftListItem,
+    ModifyImage,
+    SinkListItem,
+    SplitListItem,
+    TurnIntoCodeFence,
+    TurnIntoHeading,
+    TurnIntoText,
+    WrapInBlockquote,
+    WrapInBulletList,
+    WrapInOrderedList,
+    ModifyLink,
+    ToggleBold,
+    ToggleInlineCode,
+    ToggleItalic,
+    ToggleLink,
+    // gather
+    commonmarkNodes,
+    commonmarkPlugins,
+    commonmark,
+    // node
+    doc,
+    paragraph,
+    hardbreak,
+    blockquote,
+    codeFence,
+    bulletList,
+    orderedList,
+    listItem,
+    heading,
+    hr,
+    image,
+    text,
+    codeInline,
+    em,
+    strong,
+    link,
+} from '@milkdown/preset-commonmark';
+
 export * from './strike-through';
 export * from './task-list-item';
 export { SupportedKeys } from './supported-keys';
