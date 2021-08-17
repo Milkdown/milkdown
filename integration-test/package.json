@@ -4,17 +4,24 @@
     "version": "4.6.7",
     "scripts": {
         "start": "vite",
+        "build": "vite build",
+        "serve": "vite preview --port 7000",
+        "setup": "pnpm build && pnpm serve",
         "test": "playwright test",
         "test:verbose": "playwright test --headed",
-        "start:test": "start-server-and-test start http-get://localhost:7000 test",
-        "start:test:verbose": "start-server-and-test start http-get://localhost:7000 test:verbose"
+        "start:test": "start-server-and-test setup http-get://localhost:7000 test",
+        "start:test:verbose": "start-server-and-test setup http-get://localhost:7000 test:verbose"
     },
     "files": [
         "style"
     ],
     "dependencies": {
         "@playwright/test": "^1.14.0",
-        "tslib": "^2.2.0"
+        "tslib": "^2.2.0",
+        "@milkdown/core": "workspace:*",
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/theme-nord": "workspace:*",
+        "@milkdown/design-system": "workspace:*"
     },
     "devDependencies": {
         "start-server-and-test": "^1.13.0"

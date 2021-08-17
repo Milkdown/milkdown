@@ -9,8 +9,5 @@ export default defineConfig({
         outDir: '../docs',
         emptyOutDir: true,
     },
-    optimizeDeps: {
-        include: ['@milkdown/design-system'],
-    },
     plugins: [markdownPlugin(), reactRefresh()],
 });

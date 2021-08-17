@@ -185,10 +185,18 @@ importers:
 
   integration-test:
     specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/theme-nord': workspace:*
       '@playwright/test': ^1.14.0
       start-server-and-test: ^1.13.0
       tslib: ^2.2.0
     dependencies:
+      '@milkdown/core': link:../packages/core
+      '@milkdown/design-system': link:../packages/design-system
+      '@milkdown/preset-commonmark': link:../packages/preset-commonmark
+      '@milkdown/theme-nord': link:../packages/theme-nord
       '@playwright/test': 1.14.0
       tslib: 2.3.0
     devDependencies:
