@@ -7,6 +7,11 @@
     "include": ["src"],
     "exclude": ["src/**/*.spec.ts"],
     "references": [
-        { "path": "../exception" }
+        {
+            "path": "../exception"
+        },
+        {
+            "path": "../design-system"
+        }
     ]
 }

@@ -196,7 +196,7 @@ importers:
 
   packages/core:
     specifiers:
-      '@emotion/css': ^11.1.3
+      '@milkdown/design-system': 'workspace: *'
       '@milkdown/exception': 'workspace: *'
       '@types/lodash-es': ^4.17.4
       '@types/prosemirror-commands': ^1.0.4
@@ -216,7 +216,7 @@ importers:
       tslib: ^2.2.0
       unified: ^9.2.1
     dependencies:
-      '@emotion/css': 11.1.3
+      '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
       '@types/lodash-es': 4.17.4
       '@types/prosemirror-commands': 1.0.4
@@ -238,9 +238,11 @@ importers:
 
   packages/design-system:
     specifiers:
+      '@emotion/css': ^11.1.3
       concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
+      '@emotion/css': 11.1.3
       tslib: 2.3.0
     devDependencies:
       concurrently: 6.2.0
@@ -475,7 +477,6 @@ importers:
       '@milkdown/design-system': workspace:*
     dependencies:
       '@emotion/css': 11.1.3
-    devDependencies:
       '@milkdown/design-system': link:../design-system
 
   packages/utils:
