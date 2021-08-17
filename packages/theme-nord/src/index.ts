@@ -86,19 +86,23 @@ export const nord = themeFactory({
             scrollbar-width: thin;
             scrollbar-color: ${palette('secondary', 0.38)} ${palette('secondary', 0.12)};
             -webkit-overflow-scrolling: touch;
+
             &::-webkit-scrollbar: {
                 ${[direction === 'x' ? 'width' : 'height']}: 4px;
                 padding: 0 2px;
                 background: ${palette('surface')};
             }
+
             &::-webkit-scrollbar-track': {
                 border-radius: 4px;
                 background: ${palette('secondary', 0.12)};
             }
+
             &::-webkit-scrollbar-thumb': {
                 border-radius: 4px;
                 background: ${palette('secondary', 0.38)};
             }
+
             &::-webkit-scrollbar-thumb:hover': {
                 background: ${palette('secondary')},
             }
@@ -112,7 +116,8 @@ export const nord = themeFactory({
         },
     }),
     global: ({ palette, font, widget }) => {
-        injectGlobal`
+        const css = injectGlobal;
+        css`
             .milkdown {
                 color: ${palette('neutral', 0.87)};
                 background: ${palette('surface')};
@@ -130,6 +135,18 @@ export const nord = themeFactory({
                     & > * {
                         margin: 1.875rem 0;
                     }
+                }
+
+                .ProseMirror-selectednode {
+                    outline: var(--lineWidth) solid palette(line);
+                }
+
+                li.ProseMirror-selectednode {
+                    outline: none;
+                }
+
+                li.ProseMirror-selectednode::after {
+                    border: var(--lineWidth) solid palette(line);
                 }
 
                 @media only screen and (min-width: 72rem) {

@@ -1,3 +1,5 @@
+import { css } from '@emotion/css';
+import { Ctx, ThemeTool, themeToolCtx } from '@milkdown/core';
 import { calculateNodePosition } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec, Transaction } from 'prosemirror-state';
 import {
@@ -157,9 +159,56 @@ export class PluginProps implements PluginSpec {
 
     key = new PluginKey('TABLE_OP');
 
-    constructor() {
+    constructor(themeTool: ThemeTool) {
         this.#tooltip = document.createElement('div');
-        this.#tooltip.classList.add('table-tooltip');
+        const { size, widget, palette } = themeTool;
+        const tooltip = css`
+            display: inline-flex;
+            cursor: pointer;
+
+            justify-content: space-evenly;
+
+            position: absolute;
+
+            border-radius: ${size.radius};
+
+            border: ${size.lineWidth} solid ${palette('line')};
+
+            ${widget.shadow?.()};
+
+            overflow: hidden;
+            background: ${palette('surface')};
+
+            .icon {
+                position: relative;
+                color: ${palette('solid', 0.87)};
+
+                width: 3rem;
+                line-height: 3rem;
+                text-align: center;
+                transition: all 0.4s ease-in-out;
+                &:hover {
+                    background-color: ${palette('secondary', 0.12)};
+                }
+                &.active {
+                    color: ${palette('primary')};
+                }
+                &:not(:last-child)::after {
+                    content: '';
+                    position: absolute;
+                    right: 0px;
+                    top: 0;
+                    width: ${size.lineWidth};
+                    bottom: 0;
+                    background: ${palette('line')};
+                }
+            }
+            &.hide,
+            .hide {
+                display: none;
+            }
+        `;
+        this.#tooltip.classList.add('table-tooltip', tooltip);
     }
 
     decorations = (state: EditorState) => {
@@ -316,4 +365,4 @@ export class PluginProps implements PluginSpec {
     };
 }
 
-export const tableOperatorPlugin = () => new Plugin(new PluginProps());
+export const tableOperatorPlugin = (x: Ctx) => new Plugin(new PluginProps(x.get(themeToolCtx)));

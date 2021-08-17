@@ -128,7 +128,11 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                   display: flex;
                   flex-direction: column;
 
-                  ${scrollbar?.('y')};
+                  ${scrollbar?.('y')}
+              }
+
+              code {
+                  line-height: 1.5;
               }
 
               pre {
@@ -138,11 +142,8 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                   white-space: pre !important;
 
                   padding-bottom: 1.4rem;
-                  ${scrollbar?.('x')};
-              }
 
-              code {
-                  line-height: 1.5;
+                  ${scrollbar?.('x')}
               }
           `;
     return {

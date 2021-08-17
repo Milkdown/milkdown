@@ -376,12 +376,14 @@ importers:
 
   packages/plugin-table:
     specifiers:
+      '@emotion/css': ^11.1.3
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       prosemirror-tables: '*'
       remark-gfm: ^1.0.0
       tslib: ^2.2.0
     dependencies:
+      '@emotion/css': 11.1.3
       '@milkdown/utils': link:../utils
       prosemirror-tables: 1.1.1
       remark-gfm: 1.0.0
@@ -421,6 +423,7 @@ importers:
 
   packages/preset-gfm:
     specifiers:
+      '@emotion/css': ^11.1.3
       '@milkdown/plugin-table': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/utils': workspace:*
@@ -429,6 +432,7 @@ importers:
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.2.0
     dependencies:
+      '@emotion/css': 11.1.3
       '@milkdown/plugin-table': link:../plugin-table
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/utils': link:../utils

@@ -1,4 +1,5 @@
 import { createCmdKey, createCmd } from '@milkdown/core';
+import { css } from '@emotion/css';
 import { createMark, markRule } from '@milkdown/utils';
 import { createShortcut } from '@milkdown/utils';
 import { toggleMark } from 'prosemirror-commands';
@@ -8,8 +9,13 @@ type Keys = SupportedKeys['StrikeThrough'];
 
 export const ToggleStrikeThrough = createCmdKey();
 
-export const strikeThrough = createMark<Keys>((_, utils) => {
+export const strikeThrough = createMark<Keys>((options, utils) => {
     const id = 'strike_through';
+    const style = options?.headless
+        ? null
+        : css`
+              text-decoration-color: ${utils.themeTool.palette('secondary')};
+          `;
 
     return {
         id,
@@ -18,7 +24,7 @@ export const strikeThrough = createMark<Keys>((_, utils) => {
                 { tag: 'del' },
                 { style: 'text-decoration', getAttrs: (value) => (value === 'line-through') as false },
             ],
-            toDOM: (mark) => ['del', { class: utils.getClassName(mark.attrs, 'strike-through') }],
+            toDOM: (mark) => ['del', { class: utils.getClassName(mark.attrs, 'strike-through', style) }],
         },
         parser: {
             match: (node) => node.type === 'delete',

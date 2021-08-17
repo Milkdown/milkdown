@@ -1,16 +1,1 @@
 @import 'prosemirror-view/style/prosemirror.css';
-
-/* override prosemirror style */
-.milkdown {
-    .ProseMirror-selectednode {
-        outline: var(--lineWidth) solid palette(line);
-    }
-
-    li.ProseMirror-selectednode {
-        outline: none;
-    }
-
-    li.ProseMirror-selectednode::after {
-        border: var(--lineWidth) solid palette(line);
-    }
-}

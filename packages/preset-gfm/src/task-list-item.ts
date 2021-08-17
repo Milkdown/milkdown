@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import { createCmdKey, createCmd } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import { createShortcut } from '@milkdown/utils';
@@ -15,6 +16,57 @@ export const TurnIntoTaskList = createCmdKey();
 
 export const taskListItem = createNode<Keys>((options, utils) => {
     const id = 'task_list_item';
+    const { palette, widget, size } = utils.themeTool;
+    const style = options?.headless
+        ? null
+        : css`
+              list-style-type: none;
+              position: relative;
+
+              & > div {
+                  overflow: hidden;
+              }
+
+              label {
+                  position: absolute;
+                  top: 0;
+                  left: -2rem;
+                  display: inline-block;
+                  width: 1.5rem;
+                  height: 1.5rem;
+                  margin: 0.5rem 0;
+                  input {
+                      visibility: hidden;
+                  }
+              }
+              label:before {
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  bottom: 0;
+                  left: 0;
+                  border-radius: ${size.radius};
+              }
+              label:hover:before {
+                  background: ${palette('background')};
+              }
+              &[data-checked='true'] {
+                  label:before {
+                      ${widget.icon?.('check_box')};
+                      color: ${palette('primary')};
+                  }
+              }
+              &[data-checked='false'] {
+                  label:before {
+                      ${widget.icon?.('check_box_outline_blank')};
+                      color: ${palette('solid', 0.87)};
+                  }
+              }
+              .paragraph {
+                  margin: 0.5rem 0;
+              }
+          `;
+
     return {
         id,
         schema: {
@@ -42,7 +94,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                 {
                     'data-type': 'task-item',
                     'data-checked': node.attrs.checked ? 'true' : 'false',
-                    class: utils.getClassName(node.attrs, 'task-list-item'),
+                    class: utils.getClassName(node.attrs, 'task-list-item', style),
                 },
                 0,
             ],
@@ -125,7 +177,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             const attributes = {
                 'data-type': 'task-item',
                 'data-checked': node.attrs.checked ? 'true' : 'false',
-                class: utils.getClassName(node.attrs, 'task-list-item'),
+                class: utils.getClassName(node.attrs, 'task-list-item', style),
             };
             Object.entries(attributes).forEach(([key, value]) => {
                 listItem.setAttribute(key, value);
