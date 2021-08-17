@@ -26,7 +26,7 @@
         "postinstall": "husky install && pnpm run build:packs",
         "changeset": "changeset",
         "release": "changeset publish",
-        "clear": "rimraf node_modules && rimraf packages/*/{lib,tsconfig.tsbuildinfo,node_modules}",
+        "clear": "rimraf packages/*/{lib,tsconfig.tsbuildinfo,node_modules} && rimraf node_modules",
         "cz": "git-cz"
     },
     "devDependencies": {
