@@ -7,12 +7,10 @@
     "license": "MIT",
     "scripts": {
         "start": "vite",
-        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/style.css --watch --verbose -o lib/style.css\"",
-        "watch:css": "postcss style/style.css --watch --verbose -o lib/style.css",
+        "watch": "tsc -w",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "tsc && postcss style/style.css --verbose -o lib/style.css",
-        "build:css": "postcss style/style.css --verbose -o lib/style.css"
+        "build": "tsc"
     },
     "files": [
         "lib"
@@ -26,6 +24,7 @@
         "@milkdown/preset-gfm": "*"
     },
     "dependencies": {
+        "@emotion/css": "^11.1.3",
         "@milkdown/utils": "workspace:*",
         "smooth-scroll-into-view-if-needed": "^1.1.32",
         "tslib": "^2.2.0"

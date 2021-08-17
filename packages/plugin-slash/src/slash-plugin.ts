@@ -1,3 +1,5 @@
+import { css } from '@emotion/css';
+import { Ctx, themeToolCtx } from '@milkdown/core';
 import { calculateNodePosition, findParentNode } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
@@ -14,16 +16,18 @@ class SlashPlugin implements PluginSpec {
     items: Action[];
     status: Status;
     props: Props;
+    ctx: Ctx;
 
-    constructor(items: WrappedAction[]) {
+    constructor(ctx: Ctx, items: WrappedAction[]) {
         this.items = items.map(transformAction);
         this.status = new Status(this.items);
-        this.props = new Props(this.status);
+        this.props = new Props(this.status, ctx);
+        this.ctx = ctx;
     }
 
     key = new PluginKey('milkdown-prosemirror-slash-plugin');
 
-    view = (editorView: EditorView) => new View(this.status, this.items, editorView);
+    view = (editorView: EditorView) => new View(this.status, this.items, editorView, this.ctx);
 }
 
 class Status {
@@ -54,7 +58,7 @@ class Status {
 }
 
 class Props {
-    constructor(private status: Status) {}
+    constructor(private status: Status, private ctx: Ctx) {}
     handleKeyDown = (_: EditorView, event: Event) => {
         const { cursorStatus, activeActions } = this.status;
         if (cursorStatus !== CursorStatus.Slash || activeActions.length === 0) {
@@ -85,12 +89,33 @@ class Props {
         const isSlash = parent.node.textContent === '/' && state.selection.$from.parentOffset > 0;
         const isSearch = parent.node.textContent.startsWith('/') && state.selection.$from.parentOffset > 1;
 
+        const themeTool = this.ctx.get(themeToolCtx);
+        const emptyStyle = css`
+            position: relative;
+            &::before {
+                position: absolute;
+                cursor: text;
+                font-family: ${themeTool.font.font};
+                font-size: 0.875rem;
+                color: ${themeTool.palette('neutral', 0.6)};
+                content: attr(data-text);
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+        `;
+        const slashStyle = css`
+            &::before {
+                left: 0.5rem;
+            }
+        `;
+
         if (isEmpty) {
             status.clearStatus();
             const text = 'Type / to use the slash commands...';
             return DecorationSet.create(state.doc, [
                 Decoration.node(pos, pos + parent.node.nodeSize, {
-                    class: 'empty-node',
+                    class: emptyStyle + ' empty-node',
                     'data-text': text,
                 }),
             ]);
@@ -101,7 +126,7 @@ class Props {
             const text = 'Type to filter...';
             return DecorationSet.create(state.doc, [
                 Decoration.node(pos, pos + parent.node.nodeSize, {
-                    class: 'empty-node is-slash',
+                    class: [emptyStyle, slashStyle, 'empty-node', 'is-slash'].join(' '),
                     'data-text': text,
                 }),
             ]);
@@ -217,9 +242,9 @@ class View {
         }
     };
 
-    constructor(status: Status, items: Action[], editorView: EditorView) {
+    constructor(status: Status, items: Action[], editorView: EditorView, ctx: Ctx) {
         this.#status = status;
-        this.#dropdownElement = createDropdown();
+        this.#dropdownElement = createDropdown(ctx);
         this.#view = editorView;
         this.#mouseLock = false;
         this.#items = items;
@@ -312,4 +337,4 @@ class View {
     }
 }
 
-export const slashPlugin = (items: WrappedAction[]) => new Plugin(new SlashPlugin(items));
+export const slashPlugin = (ctx: Ctx, items: WrappedAction[]) => new Plugin(new SlashPlugin(ctx, items));

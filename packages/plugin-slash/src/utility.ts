@@ -1,12 +1,64 @@
+import { css } from '@emotion/css';
+import { Ctx, themeToolCtx } from '@milkdown/core';
 import { Command } from 'prosemirror-commands';
 import { Node, Schema } from 'prosemirror-model';
 
-export const createDropdown = () => {
+export const createDropdown = (ctx: Ctx) => {
     const div = document.createElement('div');
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
-    div.classList.add('slash-dropdown');
-    div.classList.add('hide');
+    const themeTool = ctx.get(themeToolCtx);
+    const style = css`
+        width: 20.5rem;
+        max-height: 20.5rem;
+        overflow-y: auto;
+        border: ${themeTool.size.lineWidth} solid ${themeTool.palette('line')};
+        border-radius: ${themeTool.size.radius};
+        position: absolute;
+        background: ${themeTool.palette('surface')};
+
+        ${themeTool.widget.shadow?.()};
+
+        &.hide {
+            display: none;
+        }
+
+        ${themeTool.widget.scrollbar?.()};
+
+        .slash-dropdown-item {
+            display: flex;
+            gap: 2rem;
+            height: 3rem;
+            padding: 0 1rem;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+            line-height: 2;
+            font-family: ${themeTool.font.font};
+            font-size: 0.875rem;
+
+            transition: all 0.4s ease-in-out;
+
+            &,
+            .icon {
+                color: ${themeTool.palette('neutral', 0.87)};
+                transition: all 0.4s ease-in-out;
+            }
+
+            &.hide {
+                display: none;
+            }
+
+            &.active {
+                background: ${themeTool.palette('secondary', 0.12)};
+                &,
+                .icon {
+                    color: ${themeTool.palette('primary')};
+                }
+            }
+        }
+    `;
+    div.classList.add('slash-dropdown', style, 'hide');
 
     return div;
 };

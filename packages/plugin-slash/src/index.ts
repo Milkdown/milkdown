@@ -15,6 +15,6 @@ export const slash: MilkdownPlugin = (pre) => {
     return async (ctx) => {
         await ctx.wait(CommandsReady);
         const config = ctx.get(slashCtx);
-        ctx.update(prosePluginsCtx, (prev) => prev.concat([slashPlugin(config(ctx))].flat()));
+        ctx.update(prosePluginsCtx, (prev) => prev.concat([slashPlugin(ctx, config(ctx))].flat()));
     };
 };
