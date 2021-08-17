@@ -1,4 +1,5 @@
-import { prosePluginFactory } from '@milkdown/core';
+import { css } from '@emotion/css';
+import { Ctx, prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { calculateNodePosition } from '@milkdown/utils';
 import { search, Emoji } from 'node-emoji';
 import { Plugin } from 'prosemirror-state';
@@ -83,7 +84,7 @@ const renderDropdownList = (
     });
 };
 
-const filterPlugin = () => {
+const filterPlugin = (ctx: Ctx) => {
     let trigger = false;
     let _from = 0;
     let _search = '';
@@ -138,7 +139,43 @@ const filterPlugin = () => {
             }
 
             const dropDown = document.createElement('div');
-            dropDown.className = 'milkdown-emoji-filter hide';
+            const { size, widget, palette, font } = ctx.get(themeToolCtx);
+            const style = css`
+                position: absolute;
+                &.hide {
+                    display: none;
+                }
+
+                border: ${size.lineWidth} solid ${palette('line')};
+                border-radius: ${size.radius};
+                background: ${palette('surface')};
+                ${widget.shadow?.()};
+
+                .milkdown-emoji-filter_item {
+                    display: flex;
+                    gap: 0.5rem;
+                    height: 2.25rem;
+                    padding: 0 1rem;
+                    align-items: center;
+                    justify-content: flex-start;
+                    cursor: pointer;
+                    line-height: 2;
+                    font-family: ${font.font};
+                    font-size: 0.875rem;
+                    &.active {
+                        background: ${palette('secondary', 0.12)};
+                        color: ${palette('primary')};
+                    }
+                }
+
+                .emoji {
+                    height: 1em;
+                    width: 1em;
+                    margin: 0 0.05em 0 0.1em;
+                    vertical-align: -0.1em;
+                }
+            `;
+            dropDown.classList.add('milkdown-emoji-filter', style, 'hide');
 
             const replace = () => {
                 if (!$active) return;
@@ -224,4 +261,4 @@ const filterPlugin = () => {
     });
 };
 
-export const filter = prosePluginFactory(filterPlugin());
+export const filter = prosePluginFactory((ctx) => filterPlugin(ctx));

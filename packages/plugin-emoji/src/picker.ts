@@ -1,5 +1,6 @@
+import { injectGlobal } from '@emotion/css';
 import { EmojiButton } from '@joeattardi/emoji-button';
-import { prosePluginFactory } from '@milkdown/core';
+import { Ctx, prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import { parse } from './parse';
@@ -27,7 +28,7 @@ const checkTrigger = (
     return false;
 };
 
-const pickerPlugin = () => {
+const pickerPlugin = (ctx: Ctx) => {
     let trigger = false;
     const holder = document.createElement('span');
     let _from = 0;
@@ -70,6 +71,22 @@ const pickerPlugin = () => {
             if (!parentNode) {
                 throw new Error();
             }
+            const css = injectGlobal;
+            const { palette, font } = ctx.get(themeToolCtx);
+            css`
+                .emoji-picker {
+                    --dark-search-background-color: ${palette('surface')} !important;
+                    --dark-text-color: ${palette('neutral', 0.87)} !important;
+                    --dark-background-color: ${palette('background')} !important;
+                    --dark-border-color: ${palette('shadow')} !important;
+                    --dark-hover-color: ${palette('secondary', 0.12)} !important;
+                    --dark-blue-color: ${palette('primary')} !important;
+                    --dark-search-icon-color: ${palette('primary')} !important;
+                    --dark-category-button-color: ${palette('secondary', 0.4)} !important;
+                    --font: ${font.font} !important;
+                    --font-size: 1rem !important;
+                }
+            `;
             const emojiPicker = new EmojiButton({
                 rootElement: parentNode as HTMLElement,
                 autoFocusSearch: false,
@@ -106,4 +123,4 @@ const pickerPlugin = () => {
     return plugin;
 };
 
-export const picker = prosePluginFactory(pickerPlugin());
+export const picker = prosePluginFactory((ctx) => pickerPlugin(ctx));

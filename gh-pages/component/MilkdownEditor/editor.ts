@@ -5,26 +5,17 @@ import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { nord } from '@milkdown/theme-nord';
 import { prism } from '@milkdown/plugin-prism';
-
 import { emoji } from '@milkdown/plugin-emoji';
-import '@milkdown/plugin-emoji/lib/style.css';
-
-import { cursor } from '@milkdown/plugin-cursor';
-import '@milkdown/plugin-cursor/lib/style.css';
-
-import { math } from '@milkdown/plugin-math';
-import '@milkdown/plugin-math/lib/style.css';
-
 import { slash } from '@milkdown/plugin-slash';
-import '@milkdown/plugin-slash/lib/style.css';
-
 import { tooltip } from '@milkdown/plugin-tooltip';
-import '@milkdown/plugin-tooltip/lib/style.css';
-
+import { cursor } from '@milkdown/plugin-cursor';
 import { gfm } from '@milkdown/preset-gfm';
-import '@milkdown/preset-gfm/lib/style.css';
-
+import { math } from '@milkdown/plugin-math';
 import { codeSandBox } from './codeSandBox';
+
+import '@milkdown/plugin-math/lib/style.css';
+import '@milkdown/plugin-cursor/lib/style.css';
+import '@milkdown/preset-gfm/lib/style.css';
 
 const complete =
     (callback: () => void): MilkdownPlugin =>
