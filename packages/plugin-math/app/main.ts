@@ -2,8 +2,6 @@ import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 
 import { math } from '../src';
-import '../style/style.css';
-import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
 
@@ -29,9 +27,6 @@ new Editor()
             ...prev,
             root,
             defaultValue: markdown,
-            listener: {
-                markdown: [(x) => console.log(x())],
-            },
         }));
     })
     .use(nodes)

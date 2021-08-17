@@ -76,6 +76,7 @@ async function main() {
         });
     };
 
+    // eslint-disable-next-line no-console
     console.log(getMarkdown());
 
     // const editorView = editor.action((ctx) => ctx.get(editorViewCtx));

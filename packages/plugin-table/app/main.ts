@@ -3,8 +3,6 @@ import { marks, nodes } from '@milkdown/preset-commonmark';
 
 import { table } from '../src';
 
-import '@milkdown/theme-nord/lib/theme.css';
-import '../style/style.css';
 import './style.css';
 
 const markdown = `
@@ -26,9 +24,6 @@ new Editor()
             ...prev,
             root,
             defaultValue: markdown,
-            listener: {
-                markdown: [(x) => console.log(x())],
-            },
         }));
     })
     .use(nodes)

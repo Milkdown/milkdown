@@ -1,9 +1,5 @@
 import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { gfm } from '../src';
-import './style.css';
-
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/plugin-table/lib/style.css';
 
 const markdown = `
 # Milkdown Test
@@ -24,9 +20,6 @@ new Editor()
             ...prev,
             root: app,
             defaultValue: markdown,
-            listener: {
-                markdown: [(x) => console.log(x())],
-            },
         }));
     })
     .use(gfm)

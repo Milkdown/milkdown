@@ -5,8 +5,6 @@ import { commonmark } from '@milkdown/preset-commonmark';
 import { WebsocketProvider } from 'y-websocket';
 import { collaborative } from '../src';
 
-import '@milkdown/theme-nord/lib/theme.css';
-
 const markdown = `
 # Milkdown Collaborative Example
 

@@ -2,7 +2,6 @@ import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 
 import { tooltip } from '../src';
-import '@milkdown/theme-nord/lib/theme.css';
 
 import './style.css';
 

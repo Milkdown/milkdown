@@ -1,7 +1,6 @@
-import { Editor } from '@milkdown/core';
-import { Prism } from '@milkdown/plugin-prism';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { prism } from '@milkdown/plugin-prism';
 import './style.css';
-import '../style/theme.css';
 
 const markdown = `
 # Milkdown Test
@@ -52,13 +51,13 @@ milkdown.create();
 Now you can play!
 `;
 
-const root = document.getElementById('app');
-
-if (!root) throw new Error();
-
-new Editor({
-    root,
-    defaultValue: markdown,
-    onChange: (getValue) => console.log(getValue()),
-    plugins: [Prism('fence')],
-});
+Editor.make()
+    .config((ctx) => {
+        ctx.update(editorViewOptionsCtx, (prev) => ({
+            ...prev,
+            root: document.getElementById('app'),
+            defaultValue: markdown,
+        }));
+    })
+    .use(prism)
+    .create();
