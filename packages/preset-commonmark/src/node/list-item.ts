@@ -26,7 +26,7 @@ export const listItem = createNode<Keys>((options, utils) => {
               &,
               li {
                   &::marker {
-                      color: rgba(var(--primary), 1);
+                      color: ${utils.themeTool.palette('primary')};
                   }
               }
           `;

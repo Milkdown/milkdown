@@ -2,12 +2,12 @@
     width: 20.5rem;
     max-height: 20.5rem;
     overflow-y: auto;
-    border: var(--line-width) solid palette(line);
+    border: var(--lineWidth) solid palette(line);
     border-radius: var(--radius);
     position: absolute;
     background: palette(surface);
-    box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
-        0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
+    box-shadow: 0px var(--lineWidth) var(--lineWidth) palette(shadow, 0.14),
+        0px 2px var(--lineWidth) palette(shadow, 0.12), 0px var(--lineWidth) 3px palette(shadow, 0.2);
     &.hide {
         display: none;
     }

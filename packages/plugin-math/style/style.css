@@ -18,7 +18,7 @@
     outline: none !important;
     border-radius: var(--radius);
     font-weight: 500;
-    font-family: var(--font-code);
+    font-family: var(--fontCode);
     box-sizing: border-box;
     color: palette(secondary);
 }

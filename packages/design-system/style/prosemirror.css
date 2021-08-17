@@ -3,7 +3,7 @@
 /* override prosemirror style */
 .milkdown {
     .ProseMirror-selectednode {
-        outline: var(--line-width) solid palette(line);
+        outline: var(--lineWidth) solid palette(line);
     }
 
     li.ProseMirror-selectednode {
@@ -11,6 +11,6 @@
     }
 
     li.ProseMirror-selectednode::after {
-        border: var(--line-width) solid palette(line);
+        border: var(--lineWidth) solid palette(line);
     }
 }

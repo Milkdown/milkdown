@@ -1,4 +1,3 @@
-@import '@milkdown/preset-commonmark/lib/style';
 @import '@milkdown/plugin-table/lib/style';
 
 .strike-through {

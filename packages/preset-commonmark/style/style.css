@@ -1,7 +1,0 @@
-@import './doc.css';
-@import './code.css';
-
-.milkdown {
-    @mixin doc;
-    @mixin code;
-}

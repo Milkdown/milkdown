@@ -1,9 +1,1 @@
 @import '@milkdown/design-system/lib/style.css';
-
-:root {
-    @mixin theme light;
-}
-
-[data-theme='dark'] {
-    @mixin theme dark;
-}

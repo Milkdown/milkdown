@@ -1,4 +1,4 @@
-import { css } from '@emotion/css';
+import { css, injectGlobal } from '@emotion/css';
 import { themeFactory } from '@milkdown/core';
 
 const font = [
@@ -61,14 +61,14 @@ export const nord = themeFactory({
             surface: Nord.nord0,
         },
     },
-    widget: ({ palette }) => ({
+    widget: ({ palette, size }) => ({
         icon: (key: string) => css`
-            content: ${key};
+            content: '${key}';
 
-            font-family: Material Icons Outlined;
+            font-family: 'Material Icons Outlined';
             font-weight: normal;
             font-style: normal;
-            font-size: 24px;
+            font-size: 1.5rem;
             line-height: 1;
             text-transform: none;
             letter-spacing: normal;
@@ -103,5 +103,44 @@ export const nord = themeFactory({
                 background: ${palette('secondary')},
             }
         `,
+        shadow: () => {
+            const { lineWidth } = size;
+            return css`
+                box-shadow: 0px ${lineWidth} ${lineWidth} ${palette('shadow', 0.14)},
+                    0px 2px ${lineWidth} ${palette('shadow', 0.12)}, 0px ${lineWidth} 3px ${palette('shadow', 0.2)};
+            `;
+        },
     }),
+    global: ({ palette, font, widget }) => {
+        injectGlobal`
+            .milkdown {
+                color: ${palette('neutral', 0.87)};
+                background: ${palette('surface')};
+
+                position: relative;
+                font-family: ${font.font};
+                margin-left: auto;
+                margin-right: auto;
+                ${widget.shadow?.()};
+                padding: 3.125rem 1.25rem;
+                box-sizing: border-box;
+
+                .editor {
+                    outline: none;
+                    & > * {
+                        margin: 1.875rem 0;
+                    }
+                }
+
+                @media only screen and (min-width: 72rem) {
+                    max-width: 57.375rem;
+                    padding: 3.125rem 7.25rem;
+                }
+
+                & ::selection {
+                    background: ${palette('secondary', 0.38)};
+                }
+            }
+        `;
+    },
 });

@@ -5,9 +5,9 @@
     position: absolute;
     border-radius: var(--radius);
 
-    border: var(--line-width) solid palette(line);
-    box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
-        0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
+    border: var(--lineWidth) solid palette(line);
+    box-shadow: 0px var(--lineWidth) var(--lineWidth) palette(shadow, 0.14),
+        0px 2px var(--lineWidth) palette(shadow, 0.12), 0px var(--lineWidth) 3px palette(shadow, 0.2);
 
     overflow: hidden;
     background: palette(surface);
@@ -30,8 +30,8 @@
             content: '';
             position: absolute;
             top: 0;
-            right: calc(-0.5 * var(--line-width));
-            width: var(--line-width);
+            right: calc(-0.5 * var(--lineWidth));
+            width: var(--lineWidth);
             bottom: 0;
             background: palette(line);
         }
@@ -43,9 +43,9 @@
 }
 
 .tooltip-input {
-    border: var(--line-width) solid palette(line);
-    box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
-        0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
+    border: var(--lineWidth) solid palette(line);
+    box-shadow: 0px var(--lineWidth) var(--lineWidth) palette(shadow, 0.14),
+        0px 2px var(--lineWidth) palette(shadow, 0.12), 0px var(--lineWidth) 3px palette(shadow, 0.2);
     display: inline-flex;
     justify-content: space-between;
     align-items: center;

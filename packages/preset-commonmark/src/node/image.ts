@@ -4,24 +4,6 @@ import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
 import { NodeSelection } from 'prosemirror-state';
 
-const icon = css`
-    font-family: Material Icons Outlined;
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    display: inline-block;
-    direction: ltr;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: liga;
-`;
-
 export const ModifyImage = createCmdKey<string>();
 export const InsertImage = createCmdKey<string>();
 const id = 'image';
@@ -39,8 +21,8 @@ export const image = createNode((options, utils) => {
               &.empty {
                   box-sizing: border-box;
                   height: 3rem;
-                  background-color: rgba(var(--background), 1);
-                  border-radius: var(--radius);
+                  background-color: ${utils.themeTool.palette('background')};
+                  border-radius: ${utils.themeTool.size.radius};
                   display: inline-flex;
                   gap: 2rem;
                   justify-content: flex-start;
@@ -51,16 +33,13 @@ export const image = createNode((options, utils) => {
                       margin: 0;
                       margin-left: 1rem;
                       position: relative;
-                      &:before {
-                          ${icon}
+                      &::before {
+                          ${utils.themeTool.widget.icon?.('image')}
                           position: absolute;
                           top: 0;
                           bottom: 0;
                           left: 0;
                           right: 0;
-                          content: 'image';
-                          font-size: 1.5rem;
-                          line-height: 1.5rem;
                       }
                   }
                   .placeholder {
@@ -68,7 +47,7 @@ export const image = createNode((options, utils) => {
                       &:before {
                           content: 'Add an image';
                           font-size: 0.875rem;
-                          color: rgba(var(--neutral), 0.6);
+                          color: ${utils.themeTool.palette('neutral', 0.6)};
                       }
                   }
               }

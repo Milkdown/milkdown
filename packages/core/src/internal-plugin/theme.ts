@@ -1,3 +1,4 @@
+import { injectGlobal } from '@emotion/css';
 import { MilkdownPlugin } from '../utility';
 import { createCtx } from '../context';
 
@@ -27,6 +28,14 @@ const themeColor = (hex: string) => {
     return rgb.join(', ');
 };
 
+const obj2var = <T extends string, U>(x: PR<T, U> = {}, transform = (x: U): string => `${x}`) =>
+    Object.entries(x)
+        .map(([k, v]) => {
+            return `--${k}: ${transform(v as U)};`;
+        })
+        .join('\n');
+const obj2color = (x: PR<Color> = {}) => obj2var(x, themeColor);
+
 export type Color = 'neutral' | 'solid' | 'shadow' | 'primary' | 'secondary' | 'line' | 'background' | 'surface';
 
 export type Font = 'font' | 'fontCode';
@@ -37,54 +46,76 @@ export type Widget = 'icon' | 'scrollbar' | 'shadow' | 'border';
 
 export type WidgetFactory = {
     icon: (id: string) => string;
-    scrollbar: (direction: 'x' | 'y') => string;
+    scrollbar: (direction?: 'x' | 'y') => string;
     shadow: () => string;
     border: () => string;
 };
 
 export type ThemePack = {
+    scope?: string;
     color?: { light?: PR<Color>; dark?: PR<Color> } & PR<Color>;
     font?: PR<Font, string[]>;
     size?: PR<Size>;
-    widget?: (utils: Omit<ThemeTool, 'widget'>) => Partial<WidgetFactory>;
+    widget?: (utils: Omit<ThemeTool, 'widget' | 'global'>) => Partial<WidgetFactory>;
+    global?: (utils: Omit<ThemeTool, 'global'>) => void;
 };
 
 export type ThemeTool = {
-    size: PR<Size>;
     widget: Partial<WidgetFactory>;
     palette: (key: Color, alpha?: number) => string;
-    fonts: (key: Font) => string;
+    font: PR<Font>;
+    size: PR<Size>;
 };
 export const themeToolCtx = createCtx<ThemeTool>({
-    size: {},
     widget: {},
-    fonts: () => '',
+    font: {},
+    size: {},
     palette: () => '',
 });
-export const isDarkCtx = createCtx(false);
 
 export const themeFactory =
     (themePack: ThemePack): MilkdownPlugin =>
     (pre) => {
-        pre.inject(themeToolCtx).inject(isDarkCtx);
+        pre.inject(themeToolCtx);
         return (ctx) => {
-            const isDark = ctx.get(isDarkCtx);
-            const { color, font, size = {}, widget } = themePack;
-            // TODO: isDark cannot work property for colors, need to fix
+            const { color = {}, font, size = {}, widget, global } = themePack;
+            const { light, dark, ...rest } = color;
+
             const palette = (key: Color, alpha = 1) => {
-                const value = color?.[isDark ? 'dark' : 'light']?.[key] ?? color?.[key];
-                return value ? `rgba(${themeColor(value)}, ${alpha})` : '';
+                return `rgba(var(--${key}), ${alpha})`;
             };
-            const fonts = (key: Font) => {
-                const value = font?.[key] ?? [];
-                return value.join(', ');
+            const toMap = <T extends string, U>(x: PR<T, U> = {}): PR<T> =>
+                Object.fromEntries(
+                    Object.keys(x).map((k) => {
+                        return [k, `var(--${k})`];
+                    }),
+                ) as PR<T>;
+
+            const tool = {
+                palette,
+                size: toMap(size),
+                font: toMap(font),
             };
 
+            injectGlobal`
+                :root {
+                    ${obj2color(light)}
+                    ${obj2color(rest)}
+                    ${obj2var(font, (x) => x.join(', '))}
+                    ${obj2var(size)}
+                }
+                [data-theme="dark"] {
+                    ${obj2color(dark)}
+                }
+            `;
+            global?.({
+                ...tool,
+                widget: widget?.(tool) || {},
+            });
+
             ctx.set(themeToolCtx, {
-                size,
-                widget: widget?.({ size, palette, fonts }) || {},
-                palette,
-                fonts,
+                widget: widget?.(tool) || {},
+                ...tool,
             });
         };
     };

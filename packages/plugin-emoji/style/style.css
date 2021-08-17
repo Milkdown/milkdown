@@ -14,7 +14,7 @@ img.emoji {
     --dark-blue-color: palette(primary) !important;
     --dark-search-icon-color: palette(primary) !important;
     --dark-category-button-color: palette(secondary, 0.4) !important;
-    --font: var(--font-code) !important;
+    --font: var(--fontCode) !important;
     --font-size: 1rem !important;
 }
 
@@ -24,11 +24,11 @@ img.emoji {
         display: none;
     }
 
-    border: var(--line-width) solid palette(line);
+    border: var(--lineWidth) solid palette(line);
     border-radius: var(--radius);
     background: palette(surface);
-    box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
-        0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
+    box-shadow: 0px var(--lineWidth) var(--lineWidth) palette(shadow, 0.14),
+        0px 2px var(--lineWidth) palette(shadow, 0.12), 0px var(--lineWidth) 3px palette(shadow, 0.2);
     &_item {
         display: flex;
         gap: 0.5rem;

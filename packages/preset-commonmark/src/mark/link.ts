@@ -10,16 +10,17 @@ export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();
 const id = 'link';
 export const link = createMark((options, utils) => {
+    const lineColor = utils.themeTool.palette('line');
     const style = options?.headless
         ? null
         : css`
-              color: rgba(var(--secondary), 1);
+              color: ${utils.themeTool.palette('secondary')};
               cursor: pointer;
               transition: all 0.4s ease-in-out;
               font-weight: 500;
               &:hover {
-                  background-color: rgba(var(--line), 1);
-                  box-shadow: 0 0.2rem rgba(var(--line), 1), 0 -0.2rem rgba(var(--line), 1);
+                  background-color: ${lineColor};
+                  box-shadow: 0 0.2rem ${lineColor}, 0 -0.2rem ${lineColor};
               }
           `;
     return {

@@ -33,7 +33,7 @@
             font-size: 1rem;
         }
         tr {
-            border-bottom: var(--line-width) solid palette(line);
+            border-bottom: var(--lineWidth) solid palette(line);
         }
 
         th {
@@ -44,7 +44,7 @@
         th,
         td {
             min-width: 100px;
-            border: var(--line-width) solid palette(line);
+            border: var(--lineWidth) solid palette(line);
             text-align: left;
             position: relative;
             line-height: 3rem;
@@ -62,7 +62,7 @@
         }
         .column-resize-handle {
             background: palette(primary);
-            width: var(--line-width);
+            width: var(--lineWidth);
         }
 
         th,
@@ -140,9 +140,9 @@
         position: absolute;
         border-radius: var(--radius);
 
-        border: var(--line-width) solid palette(line);
-        box-shadow: 0px var(--line-width) var(--line-width) palette(shadow, 0.14),
-            0px 2px var(--line-width) palette(shadow, 0.12), 0px var(--line-width) 3px palette(shadow, 0.2);
+        border: var(--lineWidth) solid palette(line);
+        box-shadow: 0px var(--lineWidth) var(--lineWidth) palette(shadow, 0.14),
+            0px 2px var(--lineWidth) palette(shadow, 0.12), 0px var(--lineWidth) 3px palette(shadow, 0.2);
 
         overflow: hidden;
         background: palette(surface);
@@ -166,7 +166,7 @@
                 position: absolute;
                 right: 0px;
                 top: 0;
-                width: var(--line-width);
+                width: var(--lineWidth);
                 bottom: 0;
                 background: palette(line);
             }

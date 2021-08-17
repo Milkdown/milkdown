@@ -10,8 +10,8 @@ export const hr = createNode((options, utils) => {
     const style = options?.headless
         ? null
         : css`
-              height: var(--line-width);
-              background-color: rgba(var(--line), 1);
+              height: ${utils.themeTool.size.lineWidth};
+              background-color: ${utils.themeTool.palette('line')};
               border-width: 0;
           `;
     return {
