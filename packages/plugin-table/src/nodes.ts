@@ -47,6 +47,8 @@ export const table = createNode<Keys>((options, utils) => {
               .tableWrapper {
                   margin: 0 !important;
 
+                  ${widget.scrollbar?.('x')};
+
                   width: 100%;
 
                   table {
@@ -155,8 +157,6 @@ export const table = createNode<Keys>((options, utils) => {
                           }
                       }
                   }
-
-                  ${widget.scrollbar?.('x')};
               }
           `;
 
