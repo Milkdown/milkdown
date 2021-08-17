@@ -71,6 +71,7 @@ const pickerPlugin = () => {
                 throw new Error();
             }
             const emojiPicker = new EmojiButton({
+                rootElement: parentNode as HTMLElement,
                 autoFocusSearch: false,
                 style: 'twemoji',
                 theme: 'dark',
