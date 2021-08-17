@@ -280,12 +280,14 @@ importers:
 
   packages/plugin-cursor:
     specifiers:
+      '@emotion/css': ^11.1.3
       '@types/prosemirror-dropcursor': ^1.0.2
       '@types/prosemirror-gapcursor': ^1.0.4
       prosemirror-dropcursor: ^1.3.5
       prosemirror-gapcursor: ^1.1.5
       tslib: ^2.2.0
     dependencies:
+      '@emotion/css': 11.1.3
       '@types/prosemirror-dropcursor': 1.0.2
       '@types/prosemirror-gapcursor': 1.0.4
       prosemirror-dropcursor: 1.3.5
@@ -339,20 +341,18 @@ importers:
       '@benrbray/prosemirror-math': ^0.2.2
       '@emotion/css': ^11.1.3
       '@milkdown/utils': workspace:*
-      '@types/katex': ^0.11.0
+      '@types/katex': ^0.11.1
       concurrently: ^6.0.2
-      katex: ^0.13.2
       remark-math: ^4.0.0
       tslib: ^2.2.0
     dependencies:
-      '@benrbray/prosemirror-math': 0.2.2_0693a7a93ca3d85afcac4d7231dbefdb
+      '@benrbray/prosemirror-math': 0.2.2_5f9820a327833faaf62e9a1f8c34354e
       '@emotion/css': 11.1.3
       '@milkdown/utils': link:../utils
-      '@types/katex': 0.11.1
-      katex: 0.13.13
       remark-math: 4.0.0
       tslib: 2.3.0
     devDependencies:
+      '@types/katex': 0.11.1
       concurrently: 6.2.0
 
   packages/plugin-prism:
@@ -1892,7 +1892,7 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@benrbray/prosemirror-math/0.2.2_0693a7a93ca3d85afcac4d7231dbefdb:
+  /@benrbray/prosemirror-math/0.2.2_5f9820a327833faaf62e9a1f8c34354e:
     resolution: {integrity: sha512-n+V8MNKaQ9HtA1IASzoBFwthFY55kpu2I+0aF103AbqUw5eM8YlxHeltnLqjnYRVY4/a6A9t9YlBMBQOli5jgw==}
     peerDependencies:
       katex: ^0.13.0
@@ -1906,7 +1906,6 @@ packages:
       prosemirror-transform: ^1.2.12
       prosemirror-view: ^1.18.2
     dependencies:
-      katex: 0.13.13
       prosemirror-commands: 1.1.10
       prosemirror-gapcursor: 1.1.5
       prosemirror-history: 1.1.3
@@ -3155,7 +3154,7 @@ packages:
 
   /@types/katex/0.11.1:
     resolution: {integrity: sha512-DUlIj2nk0YnJdlWgsFuVKcX27MLW0KbKmGVoUHmFr+74FYYNUDAaj9ZqTADvsbE8rfxuVmSFc7KczYn5Y09ozg==}
-    dev: false
+    dev: true
 
   /@types/lodash-es/4.17.4:
     resolution: {integrity: sha512-BBz79DCJbD2CVYZH67MBeHZRX++HF+5p8Mo5MzjZi64Wac39S3diedJYHZtScbRVf4DjZyN6LzA0SB0zy+HSSQ==}
@@ -6618,13 +6617,6 @@ packages:
     hasBin: true
     dependencies:
       commander: 2.20.3
-    dev: false
-
-  /katex/0.13.13:
-    resolution: {integrity: sha512-cCMcil4jwMm7behpXGiQfXJA29sko/Gd/26iCsr53Dv5Jn2iHbHyEb14dm9uVrIijUXx6Zz1WhlFhHE6DckvkQ==}
-    hasBin: true
-    dependencies:
-      commander: 6.2.1
     dev: false
 
   /kind-of/3.2.2:

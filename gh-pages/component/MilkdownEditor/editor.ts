@@ -13,10 +13,6 @@ import { gfm } from '@milkdown/preset-gfm';
 import { math } from '@milkdown/plugin-math';
 import { codeSandBox } from './codeSandBox';
 
-import '@milkdown/plugin-math/lib/style.css';
-import '@milkdown/plugin-cursor/lib/style.css';
-import '@milkdown/preset-gfm/lib/style.css';
-
 const complete =
     (callback: () => void): MilkdownPlugin =>
     () =>
@@ -47,7 +43,7 @@ export const createEditor = (
         .use(clipboard)
         .use(listener)
         .use(history)
-        .use(cursor())
+        .use(cursor)
         .use(prism)
         .use(emoji)
         .use(tooltip)

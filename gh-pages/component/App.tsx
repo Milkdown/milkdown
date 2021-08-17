@@ -4,7 +4,6 @@ import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { Main } from './Route';
 
-import '@milkdown/theme-nord/lib/theme.css';
 import className from './style.module.css';
 import { Context, displaySidebarCtx, setDisplaySidebarCtx, setLocalCtx } from './Context';
 import { Local, i18nConfig } from '../route';

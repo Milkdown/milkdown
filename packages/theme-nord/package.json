@@ -7,11 +7,9 @@
     "license": "MIT",
     "scripts": {
         "start": "vite",
-        "watch": "concurrently -n ts,css \"tsc -w\" \"postcss style/theme.css --watch --verbose -o lib/theme.css\"",
-        "watch:css": "postcss style/theme.css --watch --verbose -o lib/theme.css",
+        "watch": "tsc -w",
         "tsc": "tsc --noEmit",
-        "build": "tsc && postcss style/theme.css --verbose -o lib/theme.css",
-        "build:css": "postcss style/theme.css --verbose -o lib/theme.css"
+        "build": "tsc"
     },
     "devDependencies": {
         "@milkdown/design-system": "workspace:*"
