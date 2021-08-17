@@ -25,6 +25,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
 
               & > div {
                   overflow: hidden;
+                  padding: 0 2px;
               }
 
               label {

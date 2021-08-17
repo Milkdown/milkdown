@@ -1,12 +1,11 @@
 import { Doc } from 'yjs';
 import { Editor, editorViewCtx, serializerCtx, rootCtx, defaultValueCtx } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { WebsocketProvider } from 'y-websocket';
 import { collaborative } from '../src';
 
 import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-import '../style/style.css';
 
 const markdown = `
 # Milkdown Collaborative Example
@@ -33,6 +32,7 @@ async function main() {
             ctx.set(rootCtx, document.getElementById('app'));
             ctx.set(defaultValueCtx, markdown);
         })
+        .use(nord)
         .use(commonmark)
         .use(collaborative(doc, wsProvider.awareness))
         .create();

@@ -115,7 +115,7 @@ export const nord = themeFactory({
             `;
         },
     }),
-    global: ({ palette, font, widget }) => {
+    global: ({ palette, font, widget, size }) => {
         const css = injectGlobal;
         css`
             .milkdown {
@@ -138,7 +138,7 @@ export const nord = themeFactory({
                 }
 
                 .ProseMirror-selectednode {
-                    outline: var(--lineWidth) solid palette(line);
+                    outline: ${size.lineWidth} solid ${palette('line')};
                 }
 
                 li.ProseMirror-selectednode {
@@ -146,7 +146,7 @@ export const nord = themeFactory({
                 }
 
                 li.ProseMirror-selectednode::after {
-                    border: var(--lineWidth) solid palette(line);
+                    border: ${size.lineWidth} solid ${palette('line')};
                 }
 
                 @media only screen and (min-width: 72rem) {

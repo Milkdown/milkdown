@@ -1,3 +1,4 @@
+import { injectGlobal } from '@emotion/css';
 import {
     makeBlockMathInputRule,
     makeInlineMathInputRule,
@@ -6,7 +7,52 @@ import {
 } from '@benrbray/prosemirror-math';
 import { AtomList, createNode } from '@milkdown/utils';
 
-export const mathInline = createNode(() => {
+export const mathInline = createNode((options, utils) => {
+    const css = injectGlobal;
+    const { palette, size, font } = utils.themeTool;
+
+    options?.headless
+        ? null
+        : css`
+              .math-node {
+                  &,
+                  * {
+                      margin: 0 !important;
+                      padding: 0;
+                  }
+              }
+
+              math-inline .math-render {
+                  padding: 0 4px;
+                  display: inline-flex;
+                  overflow: hidden;
+                  justify-content: center;
+                  align-items: center;
+              }
+
+              .math-src > div {
+                  padding: 4px;
+                  outline: none !important;
+                  border-radius: ${size.radius};
+                  font-weight: 500;
+                  font-family: ${font.fontCode};
+                  box-sizing: border-box;
+                  color: ${palette('primary')};
+              }
+
+              .math-src,
+              math-display.ProseMirror-selectednode {
+                  color: ${palette('primary')};
+                  background-color: ${palette('background')};
+              }
+
+              .ProseMirror-selectednode {
+                  &.math-node {
+                      outline: none !important;
+                  }
+              }
+          `;
+
     const id = 'math_inline';
     return {
         id,
