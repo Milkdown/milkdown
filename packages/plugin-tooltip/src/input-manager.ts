@@ -1,3 +1,5 @@
+import { css } from '@emotion/css';
+import { Ctx, themeToolCtx } from '@milkdown/core';
 import { calculateTextPosition } from '@milkdown/utils';
 import type { EditorView } from 'prosemirror-view';
 import type { Event2Command, InputMap } from './item';
@@ -8,9 +10,9 @@ export class InputManager {
     #inputMap: InputMap;
     #inputCommand?: Event2Command;
 
-    constructor(inputMap: InputMap, private view: EditorView) {
+    constructor(inputMap: InputMap, private view: EditorView, ctx: Ctx) {
         this.#inputMap = inputMap;
-        const [input, button] = this.createInput();
+        const [input, button] = this.createInput(ctx);
         this.#input = input;
         this.#button = button;
 
@@ -46,9 +48,70 @@ export class InputManager {
         return;
     }
 
-    private createInput() {
+    private createInput(ctx: Ctx) {
         const div = document.createElement('div');
-        div.className = 'tooltip-input';
+        const themeTool = ctx.get(themeToolCtx);
+        const { palette, widget, size } = themeTool;
+
+        const style = css`
+            border: ${size.lineWidth} solid ${palette('line')};
+
+            ${widget.shadow?.()};
+
+            display: inline-flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            background: ${palette('surface')};
+            border-radius: ${size.radius};
+            font-size: 1rem;
+
+            height: 3.5rem;
+            box-sizing: border-box;
+            width: 20.5rem;
+            padding: 0 1rem;
+            gap: 1rem;
+
+            input,
+            button {
+                all: unset;
+            }
+
+            input {
+                flex-grow: 1;
+                caret-color: ${palette('primary')};
+                &::placeholder {
+                    color: ${palette('neutral', 0.6)};
+                }
+            }
+
+            button {
+                cursor: pointer;
+                height: 2.25rem;
+                color: ${palette('primary')};
+                font-size: 0.875rem;
+                padding: 0 0.5rem;
+                font-weight: 500;
+                letter-spacing: 1.25px;
+                &:hover {
+                    background-color: ${palette('secondary', 0.12)};
+                }
+                &.disable {
+                    color: ${palette('neutral', 0.38)};
+                    cursor: not-allowed;
+                    &:hover {
+                        background: transparent;
+                    }
+                }
+            }
+
+            &.hide {
+                display: none;
+            }
+        `;
+
+        div.classList.add('tooltip-input', style);
+
         const input = document.createElement('input');
         div.appendChild(input);
         const button = document.createElement('button');

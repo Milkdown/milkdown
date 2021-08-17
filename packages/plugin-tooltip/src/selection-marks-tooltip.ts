@@ -1,3 +1,4 @@
+import { Ctx } from '@milkdown/core';
 import type { EditorState } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
 import { ButtonManager } from './button-manager';
@@ -8,9 +9,9 @@ export class SelectionMarksTooltip {
     #buttonManager: ButtonManager;
     #inputManager: InputManager;
 
-    constructor(buttonMap: ButtonMap, inputMap: InputMap, view: EditorView) {
-        this.#buttonManager = new ButtonManager(buttonMap, view);
-        this.#inputManager = new InputManager(inputMap, view);
+    constructor(buttonMap: ButtonMap, inputMap: InputMap, view: EditorView, ctx: Ctx) {
+        this.#buttonManager = new ButtonManager(buttonMap, view, ctx);
+        this.#inputManager = new InputManager(inputMap, view, ctx);
         this.update(view);
     }
 

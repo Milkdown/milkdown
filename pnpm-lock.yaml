@@ -393,10 +393,12 @@ importers:
 
   packages/plugin-tooltip:
     specifiers:
+      '@emotion/css': ^11.1.3
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
+      '@emotion/css': 11.1.3
       '@milkdown/utils': link:../utils
       tslib: 2.3.0
     devDependencies:
