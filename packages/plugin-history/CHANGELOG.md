@@ -1,5 +1,11 @@
 # @milkdown/plugin-history
 
+## 4.10.0
+
+### Minor Changes
+
+-   5868165: Add design system for write theme easily.
+
 ## 4.9.6
 
 ### Patch Changes

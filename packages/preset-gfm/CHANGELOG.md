@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 4.10.0
+
+### Minor Changes
+
+-   5868165: Add design system for write theme easily.
+
+### Patch Changes
+
+-   Updated dependencies [5868165]
+    -   @milkdown/plugin-table@4.10.0
+    -   @milkdown/preset-commonmark@4.10.0
+    -   @milkdown/utils@4.10.0
+
 ## 4.9.6
 
 ### Patch Changes
