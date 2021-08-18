@@ -4,6 +4,7 @@
     "main": "lib/index.js",
     "module": "lib/index.js",
     "types": "lib/index.d.ts",
+    "sideEffects": false,
     "license": "MIT",
     "scripts": {
         "server": "HOST=localhost PORT=1234 y-websocket-server",
