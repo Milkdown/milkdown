@@ -42,4 +42,4 @@ new Editor().use(nodes).use(commonmarkPlugins);
 
 > 暂时只支持英文，因为没有找到合适的中文字体 CDN。
 
-!CodeSandBox{milkdown-theme-nes-0w3rx?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+!CodeSandBox{milkdown-theme-nes-b0zmy?fontsize=14&hidenavigation=1&theme=dark&view=preview}
