@@ -1,5 +1,13 @@
 # @milkdown/plugin-slash
 
+## 4.10.1
+
+### Patch Changes
+
+-   61d847d: Add side effect marker
+-   Updated dependencies [61d847d]
+    -   @milkdown/utils@4.10.1
+
 ## 4.10.0
 
 ### Minor Changes

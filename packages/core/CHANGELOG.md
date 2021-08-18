@@ -1,5 +1,14 @@
 # @milkdown/core
 
+## 4.10.1
+
+### Patch Changes
+
+-   61d847d: Add side effect marker
+-   Updated dependencies [61d847d]
+    -   @milkdown/design-system@4.10.1
+    -   @milkdown/exception@4.10.1
+
 ## 4.10.0
 
 ### Minor Changes
