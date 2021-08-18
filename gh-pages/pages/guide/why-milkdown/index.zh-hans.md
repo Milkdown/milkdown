@@ -19,7 +19,7 @@ Milkdown 以插件的形式提供任意功能。通过这种模式，开发者�
 
 ## 值得信赖
 
-Milkdown 基于 [Prosemirror](https://prosemirror.net/) 和 [Remark](https://github.com/remarkjs/remark) 构建，他们都有强大的社区支撑，并且久经工业的考研。
+Milkdown 基于 [Prosemirror](https://prosemirror.net/) 和 [Remark](https://github.com/remarkjs/remark) 构建，他们都有强大的社区支撑，并且久经工业的考验。
 更重要的是，prosemirror 和 remark 的社区插件也可以轻松的被制作为一个 Milkdown 插件。
 
 ## 可定制主题 & 可交互
