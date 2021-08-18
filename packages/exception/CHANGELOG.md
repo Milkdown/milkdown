@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 4.10.1
+
+### Patch Changes
+
+-   61d847d: Add side effect marker
+
 ## 4.10.0
 
 ### Minor Changes
