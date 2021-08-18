@@ -23,18 +23,17 @@ Create a component is pretty easy.
 ```typescript
 import { defineComponent } from 'vue';
 import { Editor, rootCtx } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
 import { VueEditor, useEditor } from '@milkdown/vue';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
 export const MilkdownEditor = defineComponent(() => {
     const editor = useEditor((root) =>
-        new Editor()
+        Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
             })
+            .use(nord)
             .use(commonmark),
     );
 

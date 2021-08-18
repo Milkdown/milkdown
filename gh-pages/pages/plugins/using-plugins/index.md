@@ -7,19 +7,12 @@ The `commonmark` we use is a plugin. Now we can try more plugins:
 
 ```typescript
 import { Editor } from '@milkdown/core';
-
-import '@milkdown/theme-nord/lib/theme.css';
-
+import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
-import '@milkdown/preset-commonmark/lib/style.css';
-
 import { tooltip } from '@milkdown/plugin-tooltip';
-import '@milkdown/plugin-tooltip/lib/style.css';
-
 import { slash } from '@milkdown/plugin-slash';
-import '@milkdown/plugin-slash/lib/style.css';
 
-new Editor().use(commonmark).use(tooltip).use(slash).create();
+Editor.make().use(nord).use(commonmark).use(tooltip).use(slash).create();
 ```
 
 ---

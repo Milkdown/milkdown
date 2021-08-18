@@ -48,13 +48,10 @@ Milkdown 基于这些工具：
 
 ```typescript
 import { Editor } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-// 导入主题和插件的样式
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
-new Editor().use(commonmark).create();
+Editor.make().use(nord).use(commonmark).create();
 ```
 
 ## 尝试一下插件
@@ -63,14 +60,11 @@ new Editor().use(commonmark).create();
 
 ```typescript
 import { Editor } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { history } from '@milkdown/plugin-history';
 
-// 导入主题和插件的样式
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
-new Editor().use(commonmark).use(history).create();
+Editor.make().use(nord).use(commonmark).use(history).create();
 ```
 
 > `Mod` 在 mac 上为 `Cmd`，在其它平台为 `Ctrl`。

@@ -48,13 +48,10 @@ We have some pieces of code for you to create a very minimal editor:
 
 ```typescript
 import { Editor } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-// import theme and plugin style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
-new Editor().use(commonmark).create();
+Editor.make().use(nord).use(commonmark).create();
 ```
 
 ## Taste the plugin
@@ -63,14 +60,11 @@ Now let's add an **undo & redo** support for our editor:
 
 ```typescript
 import { Editor } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { history } from '@milkdown/plugin-history';
 
-// import theme and plugin style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
-new Editor().use(commonmark).use(history).create();
+Editor.make().use(nord).use(commonmark).use(history).create();
 ```
 
 > `Mod` is `Cmd` for mac and `Ctrl` for other platforms.
