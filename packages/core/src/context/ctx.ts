@@ -1,5 +1,4 @@
 import { ctxCallOutOfScope } from '@milkdown/exception';
-import { clone } from 'lodash-es';
 export type Context<T = unknown> = {
     id: symbol;
     set: (value: T) => void;
@@ -13,6 +12,16 @@ export type Meta<T> = {
     id: symbol;
     _typeInfo: () => T;
     (container: Container, resetValue?: T): Context<T>;
+};
+
+const clone = <T>(x: T): T => {
+    if (Array.isArray(x)) {
+        return [...(x as unknown[])] as unknown as T;
+    }
+    if (typeof x === 'object') {
+        return { ...x };
+    }
+    return x;
 };
 
 export const createCtx = <T>(value: T): Meta<T> => {

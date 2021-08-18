@@ -206,14 +206,12 @@ importers:
     specifiers:
       '@milkdown/design-system': 'workspace: *'
       '@milkdown/exception': 'workspace: *'
-      '@types/lodash-es': ^4.17.4
       '@types/prosemirror-commands': ^1.0.4
       '@types/prosemirror-inputrules': ^1.0.4
       '@types/prosemirror-keymap': ^1.0.4
       '@types/prosemirror-model': ^1.12.0
       '@types/prosemirror-state': ^1.2.6
       '@types/prosemirror-view': ^1.17.1
-      lodash-es: ^4.17.21
       prosemirror-commands: ^1.1.7
       prosemirror-inputrules: ^1.1.3
       prosemirror-keymap: ^1.1.4
@@ -226,14 +224,12 @@ importers:
     dependencies:
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
-      '@types/lodash-es': 4.17.4
       '@types/prosemirror-commands': 1.0.4
       '@types/prosemirror-inputrules': 1.0.4
       '@types/prosemirror-keymap': 1.0.4
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
       '@types/prosemirror-view': 1.17.2
-      lodash-es: 4.17.21
       prosemirror-commands: 1.1.10
       prosemirror-inputrules: 1.1.3
       prosemirror-keymap: 1.1.4
@@ -257,12 +253,8 @@ importers:
 
   packages/exception:
     specifiers:
-      '@types/lodash-es': ^4.17.4
-      lodash-es: ^4.17.21
       tslib: ^2.2.0
     dependencies:
-      '@types/lodash-es': 4.17.4
-      lodash-es: 4.17.21
       tslib: 2.3.0
 
   packages/plugin-clipboard:
@@ -490,13 +482,9 @@ importers:
   packages/utils:
     specifiers:
       '@milkdown/exception': 'workspace: *'
-      '@types/lodash-es': ^4.17.4
-      lodash-es: ^4.17.21
       tslib: ^2.2.0
     dependencies:
       '@milkdown/exception': link:../exception
-      '@types/lodash-es': 4.17.4
-      lodash-es: 4.17.21
       tslib: 2.3.0
 
   packages/vue:
@@ -3164,16 +3152,6 @@ packages:
   /@types/katex/0.11.1:
     resolution: {integrity: sha512-DUlIj2nk0YnJdlWgsFuVKcX27MLW0KbKmGVoUHmFr+74FYYNUDAaj9ZqTADvsbE8rfxuVmSFc7KczYn5Y09ozg==}
     dev: true
-
-  /@types/lodash-es/4.17.4:
-    resolution: {integrity: sha512-BBz79DCJbD2CVYZH67MBeHZRX++HF+5p8Mo5MzjZi64Wac39S3diedJYHZtScbRVf4DjZyN6LzA0SB0zy+HSSQ==}
-    dependencies:
-      '@types/lodash': 4.14.171
-    dev: false
-
-  /@types/lodash/4.14.171:
-    resolution: {integrity: sha512-7eQ2xYLLI/LsicL2nejW9Wyko3lcpN6O/z0ZLHrEQsg280zIdCv1t/0m6UtBjUHokCGBQ3gYTbHzDkZ1xOBwwg==}
-    dev: false
 
   /@types/mdast/3.0.7:
     resolution: {integrity: sha512-YwR7OK8aPmaBvMMUi+pZXBNoW2unbVbfok4YRqGMJBe1dpDlzpRkJrYEYmvjxgs5JhuQmKfDexrN98u941Zasg==}
@@ -6843,10 +6821,6 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
-
-  /lodash-es/4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: false
 
   /lodash.clonedeep/4.5.0:
     resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}

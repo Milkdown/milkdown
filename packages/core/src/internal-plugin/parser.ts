@@ -1,4 +1,3 @@
-import { fromPairs } from 'lodash-es';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { createCtx } from '../context';
 import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
@@ -28,7 +27,7 @@ export const parser: MilkdownPlugin = (pre) => {
             ...nodes.map((node) => ({ ...node, is: 'node' as const })),
             ...marks.map((mark) => ({ ...mark, is: 'mark' as const })),
         ];
-        const spec: InnerParserSpecMap = fromPairs(
+        const spec: InnerParserSpecMap = Object.fromEntries(
             children.map(({ id, parser, is }) => [id, { ...parser, is, key: id } as ParserSpecWithType]),
         );
 

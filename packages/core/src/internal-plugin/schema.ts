@@ -1,4 +1,3 @@
-import { fromPairs } from 'lodash-es';
 import { Schema } from 'prosemirror-model';
 import { createCtx } from '../context';
 import { Atom, MilkdownPlugin } from '../utility';
@@ -18,7 +17,8 @@ export const schema: MilkdownPlugin = (pre) => {
     return async (ctx) => {
         await ctx.waitTimers(schemaTimerCtx);
 
-        const getAtom = <T extends Atom>(x: T[]) => fromPairs<T['schema']>(x.map(({ id, schema }) => [id, schema]));
+        const getAtom = <T extends Atom>(x: T[]) =>
+            Object.fromEntries<T['schema']>(x.map(({ id, schema }) => [id, schema]));
 
         const nodes = getAtom(ctx.get(nodesCtx));
         const marks = getAtom(ctx.get(marksCtx));

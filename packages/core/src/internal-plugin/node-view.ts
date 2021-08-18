@@ -1,4 +1,3 @@
-import { fromPairs } from 'lodash-es';
 import { createCtx } from '../context';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } from '../utility';
@@ -37,7 +36,7 @@ export const nodeView: MilkdownPlugin = (pre) => {
 
         const markViewMap = getViewMap(marks, false);
 
-        const nodeView = fromPairs([...nodeViewMap, ...markViewMap]);
+        const nodeView = Object.fromEntries([...nodeViewMap, ...markViewMap]);
 
         ctx.set(nodeViewCtx, nodeView);
         ctx.done(NodeViewReady);
