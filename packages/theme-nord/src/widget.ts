@@ -28,7 +28,7 @@ export const widget: ThemePack['widget'] = ({ palette, size }) => ({
         -webkit-overflow-scrolling: touch;
 
         &::-webkit-scrollbar {
-            ${[direction === 'x' ? 'width' : 'height']}: 4px;
+            ${direction === 'y' ? 'width' : 'height'}: 4px;
             padding: 0 2px;
             background: ${palette('surface')};
         }
