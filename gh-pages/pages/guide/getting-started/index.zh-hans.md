@@ -32,8 +32,8 @@ Milkdown 基于这些工具：
 
 -   [Prosemirror](https://prosemirror.net/) 和它的社区 - 一个用于在 web 端构建富文本编辑器的工具包
 -   [Remark](https://github.com/remarkjs/remark) 和它的社区 - 正确的 markdown 解析器
--   [Postcss](https://postcss.org/) - 用于构建主题的强大的 css 工具
 -   [TypeScript](https://www.typescriptlang.org/) - 以 TypeScript 编写
+-   [Emotion](https://emotion.sh/) - 用于构建样式的强大的 css in js 工具
 -   [Prism](https://prismjs.com/) - 代码块支持
 -   [Katex](https://katex.org/) - 高性能的渲染数学公式
 
