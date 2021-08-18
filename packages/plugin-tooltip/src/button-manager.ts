@@ -85,7 +85,7 @@ export class ButtonManager {
             position: absolute;
             border-radius: ${size.radius};
 
-            border: ${size.lineWidth} solid ${palette('line')};
+            ${widget.border?.()};
             ${widget.shadow?.()};
 
             overflow: hidden;

@@ -146,7 +146,7 @@ const filterPlugin = (ctx: Ctx) => {
                     display: none;
                 }
 
-                border: ${size.lineWidth} solid ${palette('line')};
+                ${widget.border?.()};
                 border-radius: ${size.radius};
                 background: ${palette('surface')};
                 ${widget.shadow?.()};

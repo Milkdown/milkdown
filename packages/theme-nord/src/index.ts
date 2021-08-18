@@ -114,6 +114,16 @@ export const nord = themeFactory({
                     0px 2px ${lineWidth} ${palette('shadow', 0.12)}, 0px ${lineWidth} 3px ${palette('shadow', 0.2)};
             `;
         },
+        border: (direction) => {
+            if (!direction) {
+                return css`
+                    border: ${size.lineWidth} solid ${palette('line')};
+                `;
+            }
+            return css`
+                ${`border-${direction}`}: ${size.lineWidth} solid ${palette('line')};
+            `;
+        },
     }),
     global: ({ palette, font, widget, size }) => {
         const css = injectGlobal;
@@ -200,7 +210,7 @@ export const nord = themeFactory({
                 }
 
                 li.ProseMirror-selectednode::after {
-                    border: ${size.lineWidth} solid ${palette('line')};
+                    ${widget.border?.()}
                 }
 
                 @media only screen and (min-width: 72rem) {

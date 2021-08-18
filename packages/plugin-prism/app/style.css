@@ -8,18 +8,3 @@
 .milkdown .editor {
     outline: none;
 }
-
-.blockquote {
-    margin-left: -1.75rem;
-    margin-right: 1.75rem;
-    margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 1.4rem;
-    padding-right: 0;
-    padding-top: 0;
-    margin-bottom: 1.75rem;
-    line-height: 1.75rem;
-    border-left: 0.32rem solid hsla(0, 0%, 0%, 0.9);
-    border-left-color: inherit;
-    opacity: 0.8;
-}

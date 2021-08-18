@@ -54,7 +54,7 @@ export class InputManager {
         const { palette, widget, size } = themeTool;
 
         const style = css`
-            border: ${size.lineWidth} solid ${palette('line')};
+            ${widget.border?.()};
 
             ${widget.shadow?.()};
 

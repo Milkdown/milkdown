@@ -172,7 +172,7 @@ export class PluginProps implements PluginSpec {
 
             border-radius: ${size.radius};
 
-            border: ${size.lineWidth} solid ${palette('line')};
+            ${widget.border?.()};
 
             ${widget.shadow?.()};
 

@@ -12,7 +12,7 @@ export const createDropdown = (ctx: Ctx) => {
         width: 20.5rem;
         max-height: 20.5rem;
         overflow-y: auto;
-        border: ${themeTool.size.lineWidth} solid ${themeTool.palette('line')};
+        ${themeTool.widget.border?.()};
         border-radius: ${themeTool.size.radius};
         position: absolute;
         background: ${themeTool.palette('surface')};

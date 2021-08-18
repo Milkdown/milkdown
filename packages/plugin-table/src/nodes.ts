@@ -106,7 +106,7 @@ export const table = createNode<Keys>((options, utils) => {
                           font-size: 1rem;
                       }
                       tr {
-                          border-bottom: ${size.lineWidth} solid ${palette('line')};
+                          ${widget.border?.('bottom')};
                       }
 
                       th {
@@ -117,7 +117,7 @@ export const table = createNode<Keys>((options, utils) => {
                       th,
                       td {
                           min-width: 100px;
-                          border: ${size.lineWidth} solid ${palette('line')};
+                          ${widget.border?.()};
                           text-align: left;
                           position: relative;
                           line-height: 3rem;

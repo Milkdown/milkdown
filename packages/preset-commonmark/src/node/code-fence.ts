@@ -34,7 +34,7 @@ export const TurnIntoCodeFence = createCmdKey();
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((options, utils) => {
     const { palette } = utils.themeTool;
-    const { shadow, icon, scrollbar } = utils.themeTool.widget;
+    const { shadow, icon, scrollbar, border } = utils.themeTool.widget;
     const { lineWidth } = utils.themeTool.size;
     const style = options?.headless
         ? null
@@ -59,7 +59,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                   box-sizing: border-box;
                   border-radius: ${utils.themeTool.size.radius};
                   margin: 0 1.2rem 1.2rem;
-                  border: ${utils.themeTool.size.lineWidth} solid ${palette('line')};
+                  ${border?.()};
                   ${shadow?.()};
                   cursor: pointer;
                   background-color: ${palette('surface')};
@@ -120,7 +120,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                   padding: 0.5rem 0;
                   max-height: 16.75rem;
                   width: 10.25rem;
-                  border: ${lineWidth} solid ${palette('line')};
+                  ${border?.()};
                   ${shadow?.()};
                   background-color: ${palette('surface')};
                   border-top: none;

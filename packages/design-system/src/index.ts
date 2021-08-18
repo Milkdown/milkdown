@@ -17,7 +17,7 @@ export type WidgetFactory = {
     icon: (id: string) => string;
     scrollbar: (direction?: 'x' | 'y') => string;
     shadow: () => string;
-    border: () => string;
+    border: (direction?: 'left' | 'right' | 'top' | 'bottom') => string;
 };
 
 export type ThemeTool = {
