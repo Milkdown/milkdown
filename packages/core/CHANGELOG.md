@@ -1,5 +1,17 @@
 # @milkdown/core
 
+## 4.10.0
+
+### Minor Changes
+
+-   5868165: Add design system for write theme easily.
+
+### Patch Changes
+
+-   Updated dependencies [5868165]
+    -   @milkdown/design-system@4.10.0
+    -   @milkdown/exception@4.10.0
+
 ## 4.9.6
 
 ### Patch Changes
