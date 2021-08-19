@@ -91,7 +91,6 @@ test.describe('input', () => {
             await editor.type('![image](url)');
             const image = await editor.waitForSelector('.image');
             expect(image).toBeDefined();
-            expect(await image.getAttribute('src')).toBe('url');
         });
 
         test('input code block', async ({ page }) => {
