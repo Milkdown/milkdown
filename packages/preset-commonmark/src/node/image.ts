@@ -240,7 +240,8 @@ export const image = createNode((options, utils) => {
         ],
         view: (_editor, nodeType, node, view, getPos) => {
             const container = document.createElement('div');
-            container.classList.add('image-container', containerStyle);
+            container.className = utils.getClassName(node.attrs, id, containerStyle);
+
             const content = document.createElement('img');
             container.append(content);
             const icon = document.createElement('span');
