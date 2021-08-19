@@ -8,17 +8,37 @@ export const ModifyImage = createCmdKey<string>();
 export const InsertImage = createCmdKey<string>();
 const id = 'image';
 export const image = createNode((options, utils) => {
-    const style = options?.headless
-        ? null
+    const containerStyle = options?.headless
+        ? ''
         : css`
               display: inline-block;
               margin: 0 auto;
-              object-fit: contain;
-              width: 100%;
               position: relative;
-              height: auto;
               text-align: center;
-              &.empty {
+              font-size: 0;
+              width: 100%;
+              img {
+                  width: 100%;
+                  height: auto;
+                  object-fit: contain;
+              }
+              .icon,
+              .placeholder {
+                  display: none;
+              }
+
+              &.system {
+                  img {
+                      width: 0;
+                      height: 0;
+                      visibility: hidden;
+                  }
+
+                  .icon,
+                  .placeholder {
+                      display: inline;
+                  }
+
                   box-sizing: border-box;
                   height: 3rem;
                   background-color: ${utils.themeTool.palette('background')};
@@ -34,7 +54,6 @@ export const image = createNode((options, utils) => {
                       margin-left: 1rem;
                       position: relative;
                       &::before {
-                          ${utils.themeTool.widget.icon?.('image')}
                           position: absolute;
                           top: 0;
                           bottom: 0;
@@ -44,14 +63,68 @@ export const image = createNode((options, utils) => {
                   }
                   .placeholder {
                       margin: 0;
-                      &:before {
-                          content: 'Add an image';
+                      &::before {
+                          content: '';
                           font-size: 0.875rem;
                           color: ${utils.themeTool.palette('neutral', 0.6)};
                       }
                   }
               }
+
+              &.loading {
+                  .icon {
+                      &::before {
+                          ${utils.themeTool.widget.icon?.('hourglass_empty')}
+                      }
+                  }
+
+                  .placeholder {
+                      &::before {
+                          content: 'Loading...';
+                      }
+                  }
+              }
+
+              &.empty {
+                  .icon {
+                      &::before {
+                          ${utils.themeTool.widget.icon?.('image')}
+                      }
+                  }
+                  .placeholder {
+                      &::before {
+                          content: 'Add an image';
+                      }
+                  }
+              }
+
+              &.failed {
+                  .icon {
+                      &::before {
+                          ${utils.themeTool.widget.icon?.('broken_image')}
+                      }
+                  }
+
+                  .placeholder {
+                      &::before {
+                          content: 'Image load failed';
+                      }
+                  }
+              }
           `;
+
+    const style = options?.headless
+        ? ''
+        : css`
+              display: inline-block;
+              margin: 0 auto;
+              object-fit: contain;
+              width: 100%;
+              position: relative;
+              height: auto;
+              text-align: center;
+          `;
+
     return {
         id,
         schema: {
@@ -64,6 +137,8 @@ export const image = createNode((options, utils) => {
                 src: { default: '' },
                 alt: { default: null },
                 title: { default: null },
+                failed: { default: false },
+                loading: { default: true },
             },
             parseDOM: [
                 {
@@ -73,6 +148,8 @@ export const image = createNode((options, utils) => {
                             throw new Error();
                         }
                         return {
+                            failed: dom.classList.contains('failed'),
+                            loading: dom.classList.contains('loading'),
                             src: dom.getAttribute('src') || '',
                             alt: dom.getAttribute('alt'),
                             title: dom.getAttribute('title'),
@@ -81,14 +158,18 @@ export const image = createNode((options, utils) => {
                 },
             ],
             toDOM: (node) => {
-                if (node.attrs.src?.length > 0) {
-                    return ['img', { ...node.attrs, class: utils.getClassName(node.attrs, id, style) }];
-                }
                 return [
-                    'div',
-                    { ...node.attrs, class: utils.getClassName(node.attrs, 'image', 'empty', style) },
-                    ['span', { contentEditable: 'false', class: 'icon' }],
-                    ['span', { contentEditable: 'false', class: 'placeholder' }],
+                    'img',
+                    {
+                        ...node.attrs,
+                        class: utils.getClassName(
+                            node.attrs,
+                            id,
+                            node.attrs.failed ? 'failed' : '',
+                            node.attrs.loading ? 'loading' : '',
+                            style,
+                        ),
+                    },
                 ];
             },
         },
@@ -136,7 +217,9 @@ export const image = createNode((options, utils) => {
                 if (!node) return false;
 
                 const { tr } = state;
-                dispatch?.(tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, src }).scrollIntoView());
+                dispatch?.(
+                    tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, loading: true, src }).scrollIntoView(),
+                );
 
                 return true;
             }),
@@ -155,5 +238,85 @@ export const image = createNode((options, utils) => {
                 },
             ),
         ],
+        view: (_editor, nodeType, node, view, getPos) => {
+            const container = document.createElement('div');
+            container.classList.add('image-container', containerStyle);
+            const content = document.createElement('img');
+            container.append(content);
+            const icon = document.createElement('span');
+            icon.classList.add('icon');
+            const placeholder = document.createElement('span');
+            placeholder.classList.add('placeholder');
+            container.append(icon, placeholder);
+
+            const loadImage = (src: string) => {
+                container.classList.add('system', 'loading');
+                const img = document.createElement('img');
+                img.src = src;
+
+                img.onerror = () => {
+                    const { tr } = view.state;
+                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                        ...node.attrs,
+                        src,
+                        loading: false,
+                        failed: true,
+                    });
+                    view.dispatch(_tr);
+                };
+
+                img.onload = () => {
+                    const { tr } = view.state;
+                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                        ...node.attrs,
+                        src,
+                        loading: false,
+                        failed: false,
+                    });
+                    view.dispatch(_tr);
+                };
+            };
+
+            const { src, loading, title, alt } = node.attrs;
+            content.src = src;
+            content.title = title;
+            content.alt = alt;
+
+            if (loading) {
+                loadImage(src);
+            }
+            if (src.length === 0) {
+                container.classList.add('system', 'empty');
+            }
+
+            return {
+                dom: container,
+                contentDOM: content,
+                update: (updatedNode) => {
+                    if (updatedNode.type.name !== id) return false;
+
+                    const { src, alt, title, loading, failed } = updatedNode.attrs;
+                    content.src = src;
+                    content.alt = alt;
+                    content.title = title;
+                    if (loading) {
+                        loadImage(src);
+                        return true;
+                    }
+                    if (failed) {
+                        container.classList.remove('loading', 'empty');
+                        container.classList.add('system', 'failed');
+                        return true;
+                    }
+                    if (src.length > 0) {
+                        container.classList.remove('system', 'empty', 'loading');
+                        return true;
+                    }
+
+                    container.classList.add('system', 'empty');
+                    return true;
+                },
+            };
+        },
     };
 });
