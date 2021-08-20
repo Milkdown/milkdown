@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 4.10.2
+
+### Patch Changes
+
+-   447044b: Fix list issue in gfm
+
 ## 4.10.1
 
 ### Patch Changes
