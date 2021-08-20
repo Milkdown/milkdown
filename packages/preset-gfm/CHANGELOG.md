@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.10.2
+
+### Patch Changes
+
+-   447044b: Fix list issue in gfm
+-   Updated dependencies [447044b]
+    -   @milkdown/plugin-table@4.10.2
+    -   @milkdown/preset-commonmark@4.10.2
+    -   @milkdown/utils@4.10.2
+
 ## 4.10.1
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @milkdown/core
 
+## 4.10.2
+
+### Patch Changes
+
+-   447044b: Fix list issue in gfm
+-   Updated dependencies [447044b]
+    -   @milkdown/design-system@4.10.2
+    -   @milkdown/exception@4.10.2
+
 ## 4.10.1
 
 ### Patch Changes
