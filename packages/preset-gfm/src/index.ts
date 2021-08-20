@@ -70,7 +70,7 @@ export * from './strike-through';
 export * from './task-list-item';
 export { SupportedKeys } from './supported-keys';
 
-export const gfmNodes = AtomList.create([...tableNodes, strikeThrough(), taskListItem(), ...commonmarkNodes]);
+export const gfmNodes = AtomList.create([...commonmarkNodes, ...tableNodes, strikeThrough(), taskListItem()]);
 export const gfmPlugins = [...tablePlugins, ...commonmarkPlugins, urlPlugin];
 export const gfm = [...gfmNodes, ...gfmPlugins];
 
