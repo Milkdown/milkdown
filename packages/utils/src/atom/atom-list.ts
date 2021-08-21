@@ -12,6 +12,13 @@ export class AtomList<T extends Atom = Atom> extends Array<T> {
         return this;
     }
 
+    headless(): this {
+        this.forEach((x) => {
+            this.configure(x.origin, { headless: true });
+        });
+        return this;
+    }
+
     static create<T extends Atom = Atom>(from: T[]): AtomList {
         return new AtomList(...from);
     }
