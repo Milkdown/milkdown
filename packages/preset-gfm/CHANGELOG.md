@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.10.4
+
+### Patch Changes
+
+-   3b5bbdf: Add rgb and rgba support for theme
+-   Updated dependencies [3b5bbdf]
+    -   @milkdown/plugin-table@4.10.4
+    -   @milkdown/preset-commonmark@4.10.4
+    -   @milkdown/utils@4.10.4
+
 ## 4.10.3
 
 ### Patch Changes

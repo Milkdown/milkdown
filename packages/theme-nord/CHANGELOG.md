@@ -1,5 +1,13 @@
 # @milkdown/theme-nord
 
+## 4.10.4
+
+### Patch Changes
+
+-   3b5bbdf: Add rgb and rgba support for theme
+-   Updated dependencies [3b5bbdf]
+    -   @milkdown/design-system@4.10.4
+
 ## 4.10.3
 
 ### Patch Changes
