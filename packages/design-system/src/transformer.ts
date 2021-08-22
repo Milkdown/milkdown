@@ -1,6 +1,13 @@
 import { Color, PR } from './types';
 
 export const themeColor = (hex: string) => {
+    if (hex.startsWith('rgba')) {
+        return hex.slice(5, -1);
+    }
+    if (hex.startsWith('rgb')) {
+        return hex.slice(4, -1);
+    }
+
     const hex2rgb = (hex: string) => {
         const rgbShorthandRegex = /^([a-f\d])([a-f\d])([a-f\d])$/i;
         const rgbRegex = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
