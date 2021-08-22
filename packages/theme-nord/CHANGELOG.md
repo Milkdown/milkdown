@@ -1,5 +1,13 @@
 # @milkdown/theme-nord
 
+## 4.10.3
+
+### Patch Changes
+
+-   3903547: Add HTML filter plugin
+-   Updated dependencies [3903547]
+    -   @milkdown/design-system@4.10.3
+
 ## 4.10.2
 
 ### Patch Changes
