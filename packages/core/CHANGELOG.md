@@ -1,5 +1,14 @@
 # @milkdown/core
 
+## 4.10.5
+
+### Patch Changes
+
+-   8e2d440: rgba color fix
+-   Updated dependencies [8e2d440]
+    -   @milkdown/design-system@4.10.5
+    -   @milkdown/exception@4.10.5
+
 ## 4.10.4
 
 ### Patch Changes
