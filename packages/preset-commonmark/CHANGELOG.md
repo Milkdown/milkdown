@@ -1,5 +1,13 @@
 # @milkdown/preset-commonmark
 
+## 4.10.5
+
+### Patch Changes
+
+-   8e2d440: rgba color fix
+-   Updated dependencies [8e2d440]
+    -   @milkdown/utils@4.10.5
+
 ## 4.10.4
 
 ### Patch Changes

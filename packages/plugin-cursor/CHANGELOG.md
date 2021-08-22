@@ -1,5 +1,11 @@
 # @milkdown/plugin-cursor
 
+## 4.10.5
+
+### Patch Changes
+
+-   8e2d440: rgba color fix
+
 ## 4.10.4
 
 ### Patch Changes
