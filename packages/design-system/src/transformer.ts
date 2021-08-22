@@ -2,7 +2,7 @@ import { Color, PR } from './types';
 
 export const themeColor = (hex: string) => {
     if (hex.startsWith('rgba')) {
-        return hex.slice(5, -1);
+        return hex.slice(5, -1).split(',').slice(0, -1).join(',');
     }
     if (hex.startsWith('rgb')) {
         return hex.slice(4, -1);
