@@ -1,5 +1,11 @@
 # @milkdown/gh-pages
 
+## 4.10.3
+
+### Patch Changes
+
+-   3903547: Add HTML filter plugin
+
 ## 4.10.2
 
 ### Patch Changes
