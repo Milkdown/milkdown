@@ -1,9 +1,10 @@
+import { Mark, Node } from '@milkdown/core';
 import { Origin, PluginWithMetadata } from './types';
 
-type Atom = PluginWithMetadata<'Node' | 'Mark'>;
+type Atom = PluginWithMetadata<Node | Mark>;
 
 export class AtomList<T extends Atom = Atom> extends Array<T> {
-    configure<U extends Origin<'Node' | 'Mark'>>(target: U, config: Parameters<U>[0]): this {
+    configure<U extends Origin<Node | Mark>>(target: U, config: Parameters<U>[0]): this {
         const index = this.findIndex((x) => x.origin === target);
         if (index < 0) return this;
 

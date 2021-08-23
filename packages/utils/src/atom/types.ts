@@ -1,4 +1,13 @@
-import type { NodeViewFactory, MarkViewFactory, Attrs, MilkdownPlugin, CmdKey, ThemeTool } from '@milkdown/core';
+import type {
+    Mark,
+    Node,
+    NodeViewFactory,
+    MarkViewFactory,
+    Attrs,
+    MilkdownPlugin,
+    CmdKey,
+    ThemeTool,
+} from '@milkdown/core';
 import type { AnyRecord, UnknownRecord } from '../type-utility';
 
 export type CommandConfig<T = unknown> = {
@@ -10,12 +19,7 @@ export type CommandConfig<T = unknown> = {
 export type Shortcuts<T extends string> = Record<T, CommandConfig>;
 export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>;
 
-export interface NodeOptional<T extends string> {
-    readonly shortcuts?: Shortcuts<T>;
-    readonly styles?: (attrs: AnyRecord) => string;
-}
-
-export interface MarkOptional<T extends string> {
+export interface AtomOptional<T extends string> {
     readonly shortcuts?: Shortcuts<T>;
     readonly styles?: (attrs: AnyRecord) => string;
 }
@@ -36,21 +40,30 @@ export type MarkOptions<SupportedKeys extends string, T> = T &
         readonly view?: MarkViewFactory;
     };
 
+export type Options<Type extends Mark | Node, S extends string, T extends UnknownRecord> = Partial<
+    Type extends Mark ? MarkOptions<S, T> : NodeOptions<S, T>
+>;
+export type Factory<SupportedKeys extends string, T extends UnknownRecord, Type extends Mark | Node> = (
+    options: Options<Type, SupportedKeys, T> | undefined,
+    utils: Utils,
+) => Type & AtomOptional<SupportedKeys>;
+
 export type Utils = {
     getClassName: (attrs: Attrs, ...defaultValue: (string | null)[]) => string;
     themeTool: ThemeTool;
+    getStyle: (style: string) => string;
 };
 
 export type Origin<
-    Type extends 'Node' | 'Mark',
+    Type extends Node | Mark,
     SupportedKeys extends string = string,
     T extends UnknownRecord = UnknownRecord,
 > = (
-    options?: Partial<T & (Type extends 'Node' ? NodeOptions<SupportedKeys, T> : MarkOptions<SupportedKeys, T>)>,
+    options?: Partial<T & (Type extends Node ? NodeOptions<SupportedKeys, T> : MarkOptions<SupportedKeys, T>)>,
 ) => PluginWithMetadata<Type, SupportedKeys, T>;
 
 export type PluginWithMetadata<
-    Type extends 'Node' | 'Mark',
+    Type extends Node | Mark,
     SupportedKeys extends string = string,
     T extends UnknownRecord = UnknownRecord,
 > = MilkdownPlugin & { origin: Origin<Type, SupportedKeys, T> };
