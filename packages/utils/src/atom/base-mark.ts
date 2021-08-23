@@ -7,9 +7,11 @@ export const createMark = <SupportedKeys extends string = string, T extends Unkn
     factory: Factory<SupportedKeys, T, Mark>,
 ): Origin<Mark, SupportedKeys, T> => {
     const origin: Origin<Mark, SupportedKeys, T> = (options) => {
-        const plugin: PluginWithMetadata<Mark, SupportedKeys, T> = markFactory((ctx) =>
-            commonPlugin(factory, ctx, options),
-        ) as PluginWithMetadata<Mark, SupportedKeys, T>;
+        const plugin = markFactory((ctx) => commonPlugin(factory, ctx, options)) as PluginWithMetadata<
+            Mark,
+            SupportedKeys,
+            T
+        >;
         plugin.origin = origin;
 
         return plugin;
