@@ -49,9 +49,8 @@ export type Factory<SupportedKeys extends string, T extends UnknownRecord, Type 
 ) => Type & AtomOptional<SupportedKeys>;
 
 export type Utils = {
-    getClassName: (attrs: Attrs, ...defaultValue: (string | null)[]) => string;
-    themeTool: ThemeTool;
-    getStyle: (style: string) => string;
+    getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
+    getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
 };
 
 export type Origin<

@@ -33,119 +33,119 @@ export const TurnIntoCodeFence = createCmdKey();
 
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((options, utils) => {
-    const { palette } = utils.themeTool;
-    const { shadow, icon, scrollbar, border } = utils.themeTool.widget;
-    const { lineWidth } = utils.themeTool.size;
-    const style = options?.headless
-        ? null
-        : css`
-              background-color: ${palette('background')};
-              color: ${palette('neutral')};
-              font-size: 0.85rem;
-              padding: 1.2rem 0.4rem 1.4rem;
-              border-radius: ${utils.themeTool.size.radius};
-              font-family: ${utils.themeTool.font.font};
+    const style = utils.getStyle(({ palette, widget, size, font }) => {
+        const { shadow, icon, scrollbar, border } = widget;
+        const { lineWidth, radius } = size;
+        return css`
+            background-color: ${palette('background')};
+            color: ${palette('neutral')};
+            font-size: 0.85rem;
+            padding: 1.2rem 0.4rem 1.4rem;
+            border-radius: ${radius};
+            font-family: ${font.font};
 
-              * {
-                  margin: 0;
-              }
+            * {
+                margin: 0;
+            }
 
-              .code-fence_select-wrapper {
-                  position: relative;
-              }
+            .code-fence_select-wrapper {
+                position: relative;
+            }
 
-              .code-fence_value {
-                  width: 10.25rem;
-                  box-sizing: border-box;
-                  border-radius: ${utils.themeTool.size.radius};
-                  margin: 0 1.2rem 1.2rem;
-                  ${border?.()};
-                  ${shadow?.()};
-                  cursor: pointer;
-                  background-color: ${palette('surface')};
-                  position: relative;
-                  display: flex;
-                  color: ${palette('neutral', 0.87)};
-                  letter-spacing: 0.5px;
-                  height: 2.625rem;
-                  align-items: center;
+            .code-fence_value {
+                width: 10.25rem;
+                box-sizing: border-box;
+                border-radius: ${size.radius};
+                margin: 0 1.2rem 1.2rem;
+                ${border?.()};
+                ${shadow?.()};
+                cursor: pointer;
+                background-color: ${palette('surface')};
+                position: relative;
+                display: flex;
+                color: ${palette('neutral', 0.87)};
+                letter-spacing: 0.5px;
+                height: 2.625rem;
+                align-items: center;
 
-                  &::after {
-                      ${icon?.('expand_more')};
-                      width: 2.625rem;
-                      height: 100%;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      color: ${palette('solid', 0.87)};
-                      border-left: ${lineWidth} solid ${palette('line')};
+                &::after {
+                    ${icon?.('expand_more')};
+                    width: 2.625rem;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: ${palette('solid', 0.87)};
+                    border-left: ${lineWidth} solid ${palette('line')};
 
-                      text-align: center;
-                      transition: all 0.4s ease-in-out;
-                  }
-                  &:hover::after {
-                      background: ${palette('background')};
-                      color: ${palette('primary')};
-                  }
+                    text-align: center;
+                    transition: all 0.4s ease-in-out;
+                }
+                &:hover::after {
+                    background: ${palette('background')};
+                    color: ${palette('primary')};
+                }
 
-                  > span:first-child {
-                      padding-left: 1rem;
-                      flex: 1;
-                      font-weight: 500;
-                  }
-              }
+                > span:first-child {
+                    padding-left: 1rem;
+                    flex: 1;
+                    font-weight: 500;
+                }
+            }
 
-              .code-fence_select-option {
-                  list-style: none;
-                  line-height: 2rem;
-                  padding-left: 1rem;
-                  cursor: pointer;
-                  :hover {
-                      background: ${palette('secondary', 0.12)};
-                      color: ${palette('primary')};
-                  }
-              }
+            .code-fence_select-option {
+                list-style: none;
+                line-height: 2rem;
+                padding-left: 1rem;
+                cursor: pointer;
+                :hover {
+                    background: ${palette('secondary', 0.12)};
+                    color: ${palette('primary')};
+                }
+            }
 
-              .code-fence_select {
-                  &[data-fold='true'] {
-                      display: none;
-                  }
+            .code-fence_select {
+                &[data-fold='true'] {
+                    display: none;
+                }
 
-                  font-weight: 500;
-                  position: absolute;
-                  z-index: 1;
-                  top: 2.625rem;
-                  box-sizing: border-box;
-                  left: 1.2rem;
-                  padding: 0.5rem 0;
-                  max-height: 16.75rem;
-                  width: 10.25rem;
-                  ${border?.()};
-                  ${shadow?.()};
-                  background-color: ${palette('surface')};
-                  border-top: none;
-                  overflow-y: auto;
-                  display: flex;
-                  flex-direction: column;
+                font-weight: 500;
+                position: absolute;
+                z-index: 1;
+                top: 2.625rem;
+                box-sizing: border-box;
+                left: 1.2rem;
+                padding: 0.5rem 0;
+                max-height: 16.75rem;
+                width: 10.25rem;
+                ${border?.()};
+                ${shadow?.()};
+                background-color: ${palette('surface')};
+                border-top: none;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
 
-                  ${scrollbar?.('y')}
-              }
+                ${scrollbar?.('y')}
+            }
 
-              code {
-                  line-height: 1.5;
-              }
+            code {
+                line-height: 1.5;
+            }
 
-              pre {
-                  font-family: var(--font-code);
-                  margin: 0 1.2rem !important;
-                  overflow-x: scroll;
-                  white-space: pre !important;
+            pre {
+                font-family: var(--font-code);
+                margin: 0 1.2rem !important;
+                overflow-x: scroll;
+                white-space: pre !important;
 
-                  padding-bottom: 1.4rem;
+                padding-bottom: 1.4rem;
 
-                  ${scrollbar?.('x')}
-              }
-          `;
+                ${scrollbar?.('x')}
+            }
+        `;
+    });
+
     return {
         id,
         schema: {

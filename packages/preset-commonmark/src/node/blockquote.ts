@@ -12,18 +12,19 @@ const id = 'blockquote';
 
 export const WrapInBlockquote = createCmdKey();
 
-export const blockquote = createNode<Keys>((options, utils) => {
-    const style = options?.headless
-        ? null
-        : css`
-              padding-left: 1.875rem;
-              line-height: 1.75rem;
-              border-left: 4px solid ${utils.themeTool.palette('primary')};
-              * {
-                  font-size: 1rem;
-                  line-height: 1.5rem;
-              }
-          `;
+export const blockquote = createNode<Keys>((_, utils) => {
+    const style = utils.getStyle(
+        (themeTool) =>
+            css`
+                padding-left: 1.875rem;
+                line-height: 1.75rem;
+                border-left: 4px solid ${themeTool.palette('primary')};
+                * {
+                    font-size: 1rem;
+                    line-height: 1.5rem;
+                }
+            `,
+    );
 
     return {
         id,

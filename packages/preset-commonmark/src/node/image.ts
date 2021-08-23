@@ -7,123 +7,125 @@ import { NodeSelection } from 'prosemirror-state';
 export const ModifyImage = createCmdKey<string>();
 export const InsertImage = createCmdKey<string>();
 const id = 'image';
-export const image = createNode((options, utils) => {
-    const containerStyle = options?.headless
-        ? ''
-        : css`
-              display: inline-block;
-              margin: 0 auto;
-              position: relative;
-              text-align: center;
-              font-size: 0;
-              width: 100%;
-              img {
-                  width: 100%;
-                  height: auto;
-                  object-fit: contain;
-              }
-              .icon,
-              .placeholder {
-                  display: none;
-              }
+export const image = createNode((_, utils) => {
+    const containerStyle = utils.getStyle(
+        (themeTool) =>
+            css`
+                display: inline-block;
+                margin: 0 auto;
+                position: relative;
+                text-align: center;
+                font-size: 0;
+                width: 100%;
+                img {
+                    width: 100%;
+                    height: auto;
+                    object-fit: contain;
+                }
+                .icon,
+                .placeholder {
+                    display: none;
+                }
 
-              &.system {
-                  img {
-                      width: 0;
-                      height: 0;
-                      visibility: hidden;
-                  }
+                &.system {
+                    img {
+                        width: 0;
+                        height: 0;
+                        visibility: hidden;
+                    }
 
-                  .icon,
-                  .placeholder {
-                      display: inline;
-                  }
+                    .icon,
+                    .placeholder {
+                        display: inline;
+                    }
 
-                  box-sizing: border-box;
-                  height: 3rem;
-                  background-color: ${utils.themeTool.palette('background')};
-                  border-radius: ${utils.themeTool.size.radius};
-                  display: inline-flex;
-                  gap: 2rem;
-                  justify-content: flex-start;
-                  align-items: center;
-                  .icon {
-                      width: 1.5rem;
-                      height: 1.5rem;
-                      margin: 0;
-                      margin-left: 1rem;
-                      position: relative;
-                      &::before {
-                          position: absolute;
-                          top: 0;
-                          bottom: 0;
-                          left: 0;
-                          right: 0;
-                      }
-                  }
-                  .placeholder {
-                      margin: 0;
-                      &::before {
-                          content: '';
-                          font-size: 0.875rem;
-                          color: ${utils.themeTool.palette('neutral', 0.6)};
-                      }
-                  }
-              }
+                    box-sizing: border-box;
+                    height: 3rem;
+                    background-color: ${themeTool.palette('background')};
+                    border-radius: ${themeTool.size.radius};
+                    display: inline-flex;
+                    gap: 2rem;
+                    justify-content: flex-start;
+                    align-items: center;
+                    .icon {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        margin: 0;
+                        margin-left: 1rem;
+                        position: relative;
+                        &::before {
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                        }
+                    }
+                    .placeholder {
+                        margin: 0;
+                        &::before {
+                            content: '';
+                            font-size: 0.875rem;
+                            color: ${themeTool.palette('neutral', 0.6)};
+                        }
+                    }
+                }
 
-              &.loading {
-                  .icon {
-                      &::before {
-                          ${utils.themeTool.widget.icon?.('hourglass_empty')}
-                      }
-                  }
+                &.loading {
+                    .icon {
+                        &::before {
+                            ${themeTool.widget.icon?.('hourglass_empty')}
+                        }
+                    }
 
-                  .placeholder {
-                      &::before {
-                          content: 'Loading...';
-                      }
-                  }
-              }
+                    .placeholder {
+                        &::before {
+                            content: 'Loading...';
+                        }
+                    }
+                }
 
-              &.empty {
-                  .icon {
-                      &::before {
-                          ${utils.themeTool.widget.icon?.('image')}
-                      }
-                  }
-                  .placeholder {
-                      &::before {
-                          content: 'Add an image';
-                      }
-                  }
-              }
+                &.empty {
+                    .icon {
+                        &::before {
+                            ${themeTool.widget.icon?.('image')}
+                        }
+                    }
+                    .placeholder {
+                        &::before {
+                            content: 'Add an image';
+                        }
+                    }
+                }
 
-              &.failed {
-                  .icon {
-                      &::before {
-                          ${utils.themeTool.widget.icon?.('broken_image')}
-                      }
-                  }
+                &.failed {
+                    .icon {
+                        &::before {
+                            ${themeTool.widget.icon?.('broken_image')}
+                        }
+                    }
 
-                  .placeholder {
-                      &::before {
-                          content: 'Image load failed';
-                      }
-                  }
-              }
-          `;
+                    .placeholder {
+                        &::before {
+                            content: 'Image load failed';
+                        }
+                    }
+                }
+            `,
+    );
 
-    const style = options?.headless
-        ? ''
-        : css`
-              display: inline-block;
-              margin: 0 auto;
-              object-fit: contain;
-              width: 100%;
-              position: relative;
-              height: auto;
-              text-align: center;
-          `;
+    const style = utils.getStyle(
+        () =>
+            css`
+                display: inline-block;
+                margin: 0 auto;
+                object-fit: contain;
+                width: 100%;
+                position: relative;
+                height: auto;
+                text-align: center;
+            `,
+    );
 
     return {
         id,

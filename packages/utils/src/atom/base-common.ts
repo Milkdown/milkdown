@@ -5,7 +5,7 @@ import { CommonOptions, Factory, Options, Utils } from './types';
 
 export const getClassName =
     (className: CommonOptions<never>['className']) =>
-    (attrs: Attrs, ...defaultValue: (string | null)[]) => {
+    (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => {
         const classList = className?.(attrs) ?? defaultValue;
         return Array.isArray(classList) ? classList.filter((x) => x).join(' ') : classList;
     };
@@ -18,8 +18,7 @@ export const commonPlugin = <SupportedKeys extends string, R extends UnknownReco
     const themeTool = ctx.get(themeToolCtx);
     const utils: Utils = {
         getClassName: getClassName(options?.className),
-        themeTool,
-        getStyle: (style) => (options?.headless ? '' : style),
+        getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
     };
 
     const node = factory(options, utils);

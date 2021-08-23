@@ -9,20 +9,21 @@ import { css } from '@emotion/css';
 export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();
 const id = 'link';
-export const link = createMark((options, utils) => {
-    const lineColor = utils.themeTool.palette('line');
-    const style = options?.headless
-        ? null
-        : css`
-              color: ${utils.themeTool.palette('secondary')};
-              cursor: pointer;
-              transition: all 0.4s ease-in-out;
-              font-weight: 500;
-              &:hover {
-                  background-color: ${lineColor};
-                  box-shadow: 0 0.2rem ${lineColor}, 0 -0.2rem ${lineColor};
-              }
-          `;
+export const link = createMark((_, utils) => {
+    const style = utils.getStyle((themeTool) => {
+        const lineColor = themeTool.palette('line');
+
+        return css`
+            color: ${themeTool.palette('secondary')};
+            cursor: pointer;
+            transition: all 0.4s ease-in-out;
+            font-weight: 500;
+            &:hover {
+                background-color: ${lineColor};
+                box-shadow: 0 0.2rem ${lineColor}, 0 -0.2rem ${lineColor};
+            }
+        `;
+    });
     return {
         id,
         schema: {

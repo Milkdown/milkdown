@@ -6,14 +6,14 @@ import { Selection } from 'prosemirror-state';
 
 const id = 'hr';
 export const InsertHr = createCmdKey<string>();
-export const hr = createNode((options, utils) => {
-    const style = options?.headless
-        ? null
-        : css`
-              height: ${utils.themeTool.size.lineWidth};
-              background-color: ${utils.themeTool.palette('line')};
-              border-width: 0;
-          `;
+export const hr = createNode((_, utils) => {
+    const style = utils.getStyle(
+        (themeTool) => css`
+            height: ${themeTool.size.lineWidth};
+            background-color: ${themeTool.palette('line')};
+            border-width: 0;
+        `,
+    );
     return {
         id,
         schema: {

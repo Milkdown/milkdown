@@ -9,13 +9,14 @@ type Keys = SupportedKeys['StrikeThrough'];
 
 export const ToggleStrikeThrough = createCmdKey();
 
-export const strikeThrough = createMark<Keys>((options, utils) => {
+export const strikeThrough = createMark<Keys>((_, utils) => {
     const id = 'strike_through';
-    const style = options?.headless
-        ? null
-        : css`
-              text-decoration-color: ${utils.themeTool.palette('secondary')};
-          `;
+    const style = utils.getStyle(
+        (themeTool) =>
+            css`
+                text-decoration-color: ${themeTool.palette('secondary')};
+            `,
+    );
 
     return {
         id,

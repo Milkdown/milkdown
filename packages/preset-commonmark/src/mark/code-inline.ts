@@ -9,18 +9,18 @@ const id = 'code_inline';
 
 export const ToggleInlineCode = createCmdKey();
 
-export const codeInline = createMark<Keys>((options, utils) => {
-    const { palette } = utils.themeTool;
-    const style = options?.headless
-        ? null
-        : css`
-              background-color: ${palette('neutral')};
-              color: ${palette('background')};
-              border-radius: ${utils.themeTool.size.radius};
-              font-weight: 500;
-              font-family: ${utils.themeTool.font.fontCode};
-              padding: 0 0.2rem;
-          `;
+export const codeInline = createMark<Keys>((_, utils) => {
+    const style = utils.getStyle(
+        ({ palette, size, font }) =>
+            css`
+                background-color: ${palette('neutral')};
+                color: ${palette('background')};
+                border-radius: ${size.radius};
+                font-weight: 500;
+                font-family: ${font.fontCode};
+                padding: 0 0.2rem;
+            `,
+    );
     return {
         id,
         schema: {

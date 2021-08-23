@@ -14,22 +14,23 @@ export const SplitListItem = createCmdKey();
 export const SinkListItem = createCmdKey();
 export const LiftListItem = createCmdKey();
 
-export const listItem = createNode<Keys>((options, utils) => {
-    const style = options?.headless
-        ? null
-        : css`
-              &,
-              & > * {
-                  margin: 0.5rem 0;
-              }
+export const listItem = createNode<Keys>((_, utils) => {
+    const style = utils.getStyle(
+        (themeTool) =>
+            css`
+                &,
+                & > * {
+                    margin: 0.5rem 0;
+                }
 
-              &,
-              li {
-                  &::marker {
-                      color: ${utils.themeTool.palette('primary')};
-                  }
-              }
-          `;
+                &,
+                li {
+                    &::marker {
+                        color: ${themeTool.palette('primary')};
+                    }
+                }
+            `,
+    );
 
     return {
         id,
