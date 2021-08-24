@@ -3,7 +3,7 @@ import reactRefresh from '@vitejs/plugin-react-refresh';
 import { markdownPlugin } from './markdown-plugin';
 
 export default defineConfig({
-    base: '/milkdown/',
+    base: '/',
     build: {
         assetsDir: 'assets',
         outDir: '../docs',
