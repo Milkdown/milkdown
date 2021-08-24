@@ -24,7 +24,7 @@ export const Home: React.FC = () => {
                         </section>
                     </div>
                     <section className={className.logo}>
-                        <img src="/milkdown/milkdown-homepage.svg" />
+                        <img src="/milkdown-homepage.svg" />
                     </section>
                 </div>
             </section>

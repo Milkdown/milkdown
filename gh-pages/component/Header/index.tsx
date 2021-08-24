@@ -14,7 +14,7 @@ const LogoLink: React.FC = () => {
     const root = useRoot();
     return (
         <Link to={'/' + root} className={className.logo}>
-            <img src="/milkdown/milkdown-mini.svg" />
+            <img src="/milkdown-mini.svg" />
             <span
                 style={{
                     opacity: scrolled ? 0 : 1,
