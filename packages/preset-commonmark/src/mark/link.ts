@@ -103,13 +103,14 @@ export const link = createMark((_, utils) => {
             }),
         ],
         inputRules: (markType, schema) => [
-            new InputRule(/\[(?<text>.+?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
+            new InputRule(/\[(?<text>.*?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
                 const [okay, text = '', href, title] = match;
                 const { tr } = state;
                 if (okay) {
-                    tr.replaceWith(start, end, schema.text(text)).addMark(
+                    const content = text || 'link';
+                    tr.replaceWith(start, end, schema.text(content)).addMark(
                         start,
-                        text.length + start,
+                        content.length + start,
                         markType.create({ title, href }),
                     );
                 }
