@@ -1,0 +1,4 @@
+{
+    "{packages,gh-pages,integration-test}/**/*.{js,ts,tsx,json}": ["eslint --fix"],
+    "{packages,gh-pages,integration-test}/**/*.md": ["prettier --write"]
+}
