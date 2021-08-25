@@ -4,6 +4,7 @@ import { inputRules as createInputRules } from 'prosemirror-inputrules';
 import { keymap as createKeymap } from 'prosemirror-keymap';
 import { DOMParser, Node, Schema } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
+
 import { createCtx } from '../context';
 import { createTimer, Timer } from '../timing';
 import { AnyRecord, MilkdownPlugin } from '../utility';

@@ -1,6 +1,7 @@
-import type { NodeType, MarkType } from 'prosemirror-model';
-import type { State } from './state';
+import type { MarkType, NodeType } from 'prosemirror-model';
 import type { Node } from 'unist';
+
+import type { State } from './state';
 
 export type Attrs = Record<string, string | number | boolean | null>;
 export type MarkdownNode = Node & { children?: MarkdownNode[]; [x: string]: unknown };

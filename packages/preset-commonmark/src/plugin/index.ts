@@ -1,6 +1,6 @@
 import { remarkPluginFactory } from '@milkdown/core';
 import links from 'remark-inline-links';
-import { Node, Literal, Parent } from 'unist';
+import { Literal, Node, Parent } from 'unist';
 
 const isParent = (node: Node): node is Parent => !!(node as Parent).children;
 const isHTML = (node: Node): node is Literal<string> => node.type === 'html';

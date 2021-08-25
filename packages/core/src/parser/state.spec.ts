@@ -1,7 +1,8 @@
-import type { Schema, NodeType } from 'prosemirror-model';
-import { State } from './state';
-import type { Stack } from './stack';
+import type { NodeType, Schema } from 'prosemirror-model';
+
 import { RemarkParser } from '../internal-plugin';
+import type { Stack } from './stack';
+import { State } from './state';
 import { InnerParserSpecMap } from './types';
 
 const mockMarks = [] as never[];

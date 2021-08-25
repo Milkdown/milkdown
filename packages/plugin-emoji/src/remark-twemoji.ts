@@ -1,6 +1,7 @@
-import { Node, Literal, Parent } from 'unist';
-import { parse } from './parse';
 import emojiRegex from 'emoji-regex';
+import { Literal, Node, Parent } from 'unist';
+
+import { parse } from './parse';
 
 const regex = emojiRegex();
 

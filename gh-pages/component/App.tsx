@@ -1,12 +1,12 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
-import { Header } from './Header';
-import { Sidebar } from './Sidebar';
-import { Main } from './Route';
 
-import className from './style.module.css';
+import { i18nConfig, Local } from '../route';
 import { Context, displaySidebarCtx, setDisplaySidebarCtx, setLocalCtx } from './Context';
-import { Local, i18nConfig } from '../route';
+import { Header } from './Header';
+import { Main } from './Route';
+import { Sidebar } from './Sidebar';
+import className from './style.module.css';
 
 const Container: React.FC = () => {
     const setDisplaySidebar = React.useContext(setDisplaySidebarCtx);

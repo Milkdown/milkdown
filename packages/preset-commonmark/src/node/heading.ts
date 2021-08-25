@@ -1,10 +1,10 @@
-import { createNode } from '@milkdown/utils';
-import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { setBlockType } from 'prosemirror-commands';
-import { SupportedKeys } from '../supported-keys';
-import { createCmdKey, createCmd } from '@milkdown/core';
-import { createShortcut } from '@milkdown/utils';
 import { css } from '@emotion/css';
+import { createCmd, createCmdKey } from '@milkdown/core';
+import { createNode, createShortcut } from '@milkdown/utils';
+import { setBlockType } from 'prosemirror-commands';
+import { textblockTypeInputRule } from 'prosemirror-inputrules';
+
+import { SupportedKeys } from '../supported-keys';
 
 const headingIndex = Array(5)
     .fill(0)

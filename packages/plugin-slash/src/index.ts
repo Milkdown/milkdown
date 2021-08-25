@@ -1,4 +1,5 @@
 import { CommandsReady, createCtx, Ctx, MilkdownPlugin, prosePluginsCtx } from '@milkdown/core';
+
 import { config } from './config';
 import { WrappedAction } from './item';
 import { slashPlugin } from './slash-plugin';

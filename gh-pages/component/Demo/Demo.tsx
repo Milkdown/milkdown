@@ -1,5 +1,6 @@
 import React from 'react';
-import { Local, i18nConfig } from '../../route';
+
+import { i18nConfig, Local } from '../../route';
 import { Mode } from '../constant';
 import { localCtx } from '../Context';
 import { MilkdownEditor, MilkdownRef } from '../MilkdownEditor/MilkdownEditor';

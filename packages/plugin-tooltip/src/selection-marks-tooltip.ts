@@ -1,6 +1,7 @@
 import { Ctx } from '@milkdown/core';
 import type { EditorState } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
+
 import { ButtonManager } from './button-manager';
 import { InputManager } from './input-manager';
 import type { ButtonMap, InputMap } from './item';

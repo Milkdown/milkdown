@@ -1,4 +1,5 @@
 import type { Plugin } from 'prosemirror-state';
+
 import { createCtx } from '../context';
 import type { Ctx, MilkdownPlugin } from '../utility';
 import { CommandsReady } from './commands';

@@ -1,5 +1,5 @@
 import { createMockMarkType } from '../parser/stack.spec';
-import { Stack, createStack } from './stack';
+import { createStack, Stack } from './stack';
 
 describe('serializer/stack', () => {
     let stack: Stack;

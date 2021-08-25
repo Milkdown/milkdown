@@ -1,4 +1,5 @@
 import { Mark, markFactory } from '@milkdown/core';
+
 import { UnknownRecord } from '../type-utility';
 import { commonPlugin } from './base-common';
 import { Factory, Origin, PluginWithMetadata } from './types';

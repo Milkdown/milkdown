@@ -1,4 +1,5 @@
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
+
 import { createCtx } from '../context';
 import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
 import { createTimer, Timer } from '../timing';

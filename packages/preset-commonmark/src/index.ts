@@ -1,4 +1,5 @@
 import { AtomList } from '@milkdown/utils';
+
 import { marks, ModifyLink, ToggleBold, ToggleInlineCode, ToggleItalic, ToggleLink } from './mark';
 import {
     InsertHardbreak,
@@ -18,13 +19,13 @@ import {
 } from './node';
 import { commonmarkPlugins } from './plugin';
 
-export * from './node';
 export * from './mark';
+export * from './node';
 export * from './supported-keys';
 
 export const commonmarkNodes = AtomList.create([...nodes, ...marks]);
 export { commonmarkPlugins };
-export const commonmark = [...commonmarkPlugins, ...commonmarkNodes];
+export const commonmark = AtomList.create([...commonmarkPlugins, ...commonmarkNodes]);
 
 export const commands = {
     ToggleInlineCode,

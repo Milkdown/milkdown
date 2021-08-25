@@ -1,5 +1,5 @@
 import { InputRule } from 'prosemirror-inputrules';
-import { MarkType, Mark } from 'prosemirror-model';
+import { Mark, MarkType } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 
 export function markRule(regexp: RegExp, markType: MarkType): InputRule {

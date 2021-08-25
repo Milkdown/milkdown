@@ -2,6 +2,7 @@ import { commandsCtx, Ctx } from '@milkdown/core';
 import { ModifyImage, ModifyLink } from '@milkdown/preset-commonmark';
 import { findChildren } from '@milkdown/utils';
 import { Node as ProseNode } from 'prosemirror-model';
+
 import { Event2Command, Updater } from '../item';
 import { elementIsTag } from './element';
 

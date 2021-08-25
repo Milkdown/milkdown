@@ -1,4 +1,5 @@
 import { Node, NodeType } from 'prosemirror-model';
+
 import type { Attrs } from './types';
 
 export type StackElement = {

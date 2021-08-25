@@ -1,4 +1,5 @@
 import type { InputRule } from 'prosemirror-inputrules';
+
 import { createCtx } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';

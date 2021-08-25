@@ -1,16 +1,16 @@
 import { createContainer, Meta } from '../context';
 import {
+    commands,
+    config,
+    editorState,
+    editorView,
+    init,
+    inputRules,
+    keymap,
+    nodeView,
     parser,
     schema,
     serializer,
-    editorView,
-    init,
-    keymap,
-    inputRules,
-    config,
-    nodeView,
-    editorState,
-    commands,
 } from '../internal-plugin';
 import { createClock, Timer } from '../timing';
 import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';

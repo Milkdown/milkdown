@@ -1,5 +1,5 @@
-import { Node, Literal } from 'unist';
 import { nodeFactory, remarkPluginFactory } from '@milkdown/core';
+import { Literal, Node } from 'unist';
 import { visit } from 'unist-util-visit';
 
 const regex = /!CodeSandBox\{[^\s]+\}/g;

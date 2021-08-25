@@ -1,4 +1,5 @@
 import React, { createContext } from 'react';
+
 import { Local as Localize, pageRouter, Section } from '../route';
 import { Mode } from './constant';
 

@@ -1,13 +1,14 @@
 import type {
+    Attrs,
+    CmdKey,
     Mark,
+    MarkViewFactory,
+    MilkdownPlugin,
     Node,
     NodeViewFactory,
-    MarkViewFactory,
-    Attrs,
-    MilkdownPlugin,
-    CmdKey,
     ThemeTool,
 } from '@milkdown/core';
+
 import type { AnyRecord, UnknownRecord } from '../type-utility';
 
 export type CommandConfig<T = unknown> = {

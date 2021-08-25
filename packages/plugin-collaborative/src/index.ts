@@ -1,9 +1,9 @@
 import { injectGlobal } from '@emotion/css';
+import { prosePluginFactory, themeToolCtx } from '@milkdown/core';
+import { keymap } from 'prosemirror-keymap';
+import { redo, undo, yCursorPlugin, ySyncPlugin, yUndoPlugin } from 'y-prosemirror';
 import type { Awareness } from 'y-protocols/awareness';
 import { Doc, XmlFragment } from 'yjs';
-import { prosePluginFactory, themeToolCtx } from '@milkdown/core';
-import { ySyncPlugin, yCursorPlugin, yUndoPlugin, undo, redo } from 'y-prosemirror';
-import { keymap } from 'prosemirror-keymap';
 
 const collaborative = (doc: Doc, awareness: Awareness) => {
     const type = doc.get('prosemirror', XmlFragment);

@@ -1,8 +1,8 @@
-import { createCmdKey, createCmd } from '@milkdown/core';
 import { css } from '@emotion/css';
-import { createMark, markRule } from '@milkdown/utils';
-import { createShortcut } from '@milkdown/utils';
+import { createCmd, createCmdKey } from '@milkdown/core';
+import { createMark, createShortcut, markRule } from '@milkdown/utils';
 import { toggleMark } from 'prosemirror-commands';
+
 import { SupportedKeys } from './supported-keys';
 
 type Keys = SupportedKeys['StrikeThrough'];

@@ -1,8 +1,9 @@
+import { parserMatchError } from '@milkdown/exception';
 import type { MarkType, NodeType, Schema } from 'prosemirror-model';
+
+import type { RemarkParser } from '../internal-plugin';
 import type { Attrs, InnerParserSpecMap, MarkdownNode, ParserSpecWithType } from '.';
 import type { Stack } from './stack';
-import type { RemarkParser } from '../internal-plugin';
-import { parserMatchError } from '@milkdown/exception';
 
 type PS<T extends keyof Stack> = Parameters<Stack[T]>;
 

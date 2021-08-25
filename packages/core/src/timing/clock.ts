@@ -1,4 +1,5 @@
 import { timerNotFound } from '@milkdown/exception';
+
 import { Timing } from './timing';
 
 export type ClockMap = Map<symbol, Timing>;

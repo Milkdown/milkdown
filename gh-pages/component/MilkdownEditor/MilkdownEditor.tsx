@@ -2,6 +2,7 @@ import { editorViewCtx, parserCtx } from '@milkdown/core';
 import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
 import { Slice } from 'prosemirror-model';
 import React, { forwardRef } from 'react';
+
 import { createEditor } from './editor';
 import { Loading } from './Loading';
 import className from './style.module.css';

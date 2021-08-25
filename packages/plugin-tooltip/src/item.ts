@@ -1,17 +1,18 @@
+import { Ctx } from '@milkdown/core';
+import { ToggleBold, ToggleInlineCode, ToggleItalic, ToggleLink, ToggleStrikeThrough } from '@milkdown/preset-gfm';
+import { findSelectedNodeOfType } from '@milkdown/utils';
 import type { Schema } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
+
 import {
     createToggleIcon,
     hasMark,
-    modifyLink,
-    modifyImage,
-    updateLinkView,
-    updateImageView,
     isTextSelection,
+    modifyImage,
+    modifyLink,
+    updateImageView,
+    updateLinkView,
 } from './utility';
-import { Ctx } from '@milkdown/core';
-import { findSelectedNodeOfType } from '@milkdown/utils';
-import { ToggleStrikeThrough, ToggleBold, ToggleItalic, ToggleInlineCode, ToggleLink } from '@milkdown/preset-gfm';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;

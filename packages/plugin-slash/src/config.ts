@@ -1,17 +1,18 @@
+import { commandsCtx } from '@milkdown/core';
 import {
     InsertHr,
     InsertImage,
+    InsertTable,
     TurnIntoCodeFence,
     TurnIntoHeading,
+    TurnIntoTaskList,
     WrapInBlockquote,
     WrapInBulletList,
     WrapInOrderedList,
-    TurnIntoTaskList,
-    InsertTable,
 } from '@milkdown/preset-gfm';
+
 import type { SlashConfig } from '.';
 import { createDropdownItem, nodeExists } from './utility';
-import { commandsCtx } from '@milkdown/core';
 
 export const config: SlashConfig = (ctx) => [
     {

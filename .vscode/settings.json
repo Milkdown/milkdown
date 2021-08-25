@@ -25,5 +25,8 @@
     ],
     "editor.formatOnSave": true,
     "typescript.tsdk": "node_modules/typescript/lib",
-    "npm.packageManager": "pnpm"
+    "npm.packageManager": "pnpm",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }

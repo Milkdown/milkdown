@@ -1,6 +1,7 @@
-import { ThemeTool, ThemePack, pack2Tool, injectVar } from '@milkdown/design-system';
-import { MilkdownPlugin } from '../utility';
+import { injectVar, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
+
 import { createCtx } from '../context';
+import { MilkdownPlugin } from '../utility';
 
 export const themeToolCtx = createCtx<ThemeTool>({
     widget: {},

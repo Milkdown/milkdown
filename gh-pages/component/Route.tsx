@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';
+
 import { editorModeCtx, isDarkModeCtx, sectionsCtx, setScrolledCtx } from './Context';
 import { Footer } from './Footer';
 import { Home } from './Home';

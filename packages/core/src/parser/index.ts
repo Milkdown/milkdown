@@ -1,8 +1,9 @@
-import type { RemarkParser } from '../internal-plugin';
 import type { Schema } from 'prosemirror-model';
-import type { InnerParserSpecMap } from './types';
-import { State } from './state';
+
+import type { RemarkParser } from '../internal-plugin';
 import { createStack } from './stack';
+import { State } from './state';
+import type { InnerParserSpecMap } from './types';
 
 export function createParser(schema: Schema, specMap: InnerParserSpecMap, remark: RemarkParser) {
     return (text: string) => {

@@ -1,5 +1,6 @@
-import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
 import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
+import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
+
 import { portalContext, Portals } from './Portals';
 import { createReactView } from './ReactNodeView';
 

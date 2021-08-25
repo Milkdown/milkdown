@@ -1,6 +1,7 @@
 import { createNodeInParserFail, stackOverFlow } from '@milkdown/exception';
 import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
-import { maybeMerge, getStackUtil } from '../utility';
+
+import { getStackUtil, maybeMerge } from '../utility';
 import { createElement, StackElement } from './stack-element';
 import type { Attrs } from './types';
 

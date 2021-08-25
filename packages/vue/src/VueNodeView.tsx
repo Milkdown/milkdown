@@ -1,8 +1,9 @@
 import type { Editor, NodeViewFactory } from '@milkdown/core';
-import { defineComponent, DefineComponent, Teleport, h } from 'vue';
 import { getId } from '@milkdown/utils';
 import type { Node } from 'prosemirror-model';
 import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
+import { DefineComponent, defineComponent, h, Teleport } from 'vue';
+
 import { Content, VueNodeContainer } from './VueNode';
 
 export const createVueView =

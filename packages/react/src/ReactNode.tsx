@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { Editor } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
 import { Decoration, EditorView } from 'prosemirror-view';
+import React from 'react';
 
 type NodeContext = {
     editor: Editor;

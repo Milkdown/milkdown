@@ -1,10 +1,11 @@
-import { createCmdKey, createCmd } from '@milkdown/core';
 import { injectGlobal } from '@emotion/css';
+import { createCmd, createCmdKey } from '@milkdown/core';
 import { AtomList, createNode, createShortcut } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
-import { TextSelection, Selection } from 'prosemirror-state';
+import { Selection, TextSelection } from 'prosemirror-state';
 import { goToNextCell, tableNodes as tableNodesSpecCreator } from 'prosemirror-tables';
 import { Node as MarkdownNode } from 'unist';
+
 import { exitTable } from './command';
 import { createTable } from './utils';
 

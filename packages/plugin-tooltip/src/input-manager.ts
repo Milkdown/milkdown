@@ -2,6 +2,7 @@ import { css } from '@emotion/css';
 import { Ctx, themeToolCtx } from '@milkdown/core';
 import { calculateTextPosition } from '@milkdown/utils';
 import type { EditorView } from 'prosemirror-view';
+
 import type { Event2Command, InputMap } from './item';
 
 export class InputManager {

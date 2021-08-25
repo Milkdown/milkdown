@@ -1,4 +1,5 @@
 import type { MarkType, Node as ProseNode } from 'prosemirror-model';
+
 import type { Predicate } from './types';
 
 export type NodeWithPos = { pos: number; node: ProseNode };

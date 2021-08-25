@@ -1,4 +1,5 @@
-import { Mark, Node, themeToolCtx, Attrs, Ctx } from '@milkdown/core';
+import { Attrs, Ctx, Mark, Node, themeToolCtx } from '@milkdown/core';
+
 import { UnknownRecord } from '../type-utility';
 import { createKeymap } from './keymap';
 import { CommonOptions, Factory, Options, Utils } from './types';

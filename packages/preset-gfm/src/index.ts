@@ -1,6 +1,7 @@
 import { tableNodes, tablePlugins } from '@milkdown/plugin-table';
 import { commands as commonmarkCommands, commonmarkNodes, commonmarkPlugins } from '@milkdown/preset-commonmark';
 import { AtomList } from '@milkdown/utils';
+
 import { urlPlugin } from './auto-link';
 import { strikeThrough, ToggleStrikeThrough } from './strike-through';
 import {
@@ -11,68 +12,67 @@ import {
     TurnIntoTaskList,
 } from './task-list-item';
 
+export * from './strike-through';
+export { SupportedKeys } from './supported-keys';
+export * from './task-list-item';
 export {
-    // gather
-    table,
-    tablePlugins,
-    tableNodes,
+    BreakTable,
     // command
     createTable,
-    BreakTable,
+    InsertTable,
     NextCell,
     PrevCell,
-    InsertTable,
+    // gather
+    table,
+    tableNodes,
+    tablePlugins,
 } from '@milkdown/plugin-table';
 export {
+    blockquote,
+    bulletList,
+    codeFence,
+    codeInline,
+    commonmark,
+    // gather
+    commonmarkNodes,
+    commonmarkPlugins,
+    // node
+    doc,
+    em,
+    hardbreak,
+    heading,
+    hr,
+    image,
     // command
     InsertHardbreak,
     InsertHr,
     InsertImage,
     LiftListItem,
+    link,
+    listItem,
     ModifyImage,
+    ModifyLink,
+    orderedList,
+    paragraph,
     SinkListItem,
     SplitListItem,
+    strong,
+    text,
+    ToggleBold,
+    ToggleInlineCode,
+    ToggleItalic,
+    ToggleLink,
     TurnIntoCodeFence,
     TurnIntoHeading,
     TurnIntoText,
     WrapInBlockquote,
     WrapInBulletList,
     WrapInOrderedList,
-    ModifyLink,
-    ToggleBold,
-    ToggleInlineCode,
-    ToggleItalic,
-    ToggleLink,
-    // gather
-    commonmarkNodes,
-    commonmarkPlugins,
-    commonmark,
-    // node
-    doc,
-    paragraph,
-    hardbreak,
-    blockquote,
-    codeFence,
-    bulletList,
-    orderedList,
-    listItem,
-    heading,
-    hr,
-    image,
-    text,
-    codeInline,
-    em,
-    strong,
-    link,
 } from '@milkdown/preset-commonmark';
 
-export * from './strike-through';
-export * from './task-list-item';
-export { SupportedKeys } from './supported-keys';
-
 export const gfmNodes = AtomList.create([...commonmarkNodes, ...tableNodes, strikeThrough(), taskListItem()]);
-export const gfmPlugins = [...tablePlugins, ...commonmarkPlugins, urlPlugin];
-export const gfm = [...gfmNodes, ...gfmPlugins];
+export const gfmPlugins = AtomList.create([...tablePlugins, ...commonmarkPlugins, urlPlugin]);
+export const gfm = AtomList.create([...gfmNodes, ...gfmPlugins]);
 
 export const commands = {
     ...commonmarkCommands,

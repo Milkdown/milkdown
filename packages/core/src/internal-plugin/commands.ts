@@ -1,8 +1,9 @@
 import { callCommandBeforeEditorView } from '@milkdown/exception';
 import type { Command } from 'prosemirror-commands';
+
 import { createContainer, createCtx, Meta } from '../context';
 import { createTimer, Timer } from '../timing';
-import { Atom, MilkdownPlugin, getAtom } from '../utility';
+import { Atom, getAtom, MilkdownPlugin } from '../utility';
 import { Complete, editorViewCtx } from './editor-view';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 

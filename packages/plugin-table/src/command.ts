@@ -1,6 +1,6 @@
-import { Selection } from 'prosemirror-state';
-import { Node, NodeType } from 'prosemirror-model';
 import { Command } from 'prosemirror-commands';
+import { Node, NodeType } from 'prosemirror-model';
+import { Selection } from 'prosemirror-state';
 import { isInTable } from 'prosemirror-tables';
 
 export const exitTable =

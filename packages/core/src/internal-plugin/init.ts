@@ -1,10 +1,10 @@
 import re from 'remark';
 
-import type { MilkdownPlugin } from '../utility';
-import { createTimer, Timer } from '../timing';
-import { ConfigReady } from './config';
 import { createCtx, Meta } from '../context';
 import type { Editor } from '../editor';
+import { createTimer, Timer } from '../timing';
+import type { MilkdownPlugin } from '../utility';
+import { ConfigReady } from './config';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 

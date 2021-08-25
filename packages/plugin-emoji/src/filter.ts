@@ -1,9 +1,10 @@
 import { css } from '@emotion/css';
 import { Ctx, prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { calculateNodePosition } from '@milkdown/utils';
-import { search, Emoji } from 'node-emoji';
+import { Emoji, search } from 'node-emoji';
 import { Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
+
 import { full, part } from './constant';
 import { parse } from './parse';
 

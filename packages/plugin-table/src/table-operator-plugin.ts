@@ -9,12 +9,13 @@ import {
     deleteColumn,
     deleteRow,
     deleteTable,
-    setCellAttr,
-    TableMap,
     isInTable,
     selectedRect,
+    setCellAttr,
+    TableMap,
 } from 'prosemirror-tables';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+
 import { addRowWithAlignment, CellPos, getCellsInColumn, getCellsInRow, selectLine, selectTable } from './utils';
 
 export const key = 'MILKDOWN_PLUGIN_TABLE';

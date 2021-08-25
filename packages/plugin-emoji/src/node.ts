@@ -1,23 +1,26 @@
-import { createNode } from '@milkdown/utils';
 import { css } from '@emotion/css';
+import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
 import { InputRule } from 'prosemirror-inputrules';
+
 import { input } from './constant';
 import { parse } from './parse';
 
-export const emojiNode = createNode(() => {
-    const style = css`
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
+export const emojiNode = createNode((_, utils) => {
+    const style = utils.getStyle(
+        () => css`
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
 
-        .emoji {
-            height: 1em;
-            width: 1em;
-            margin: 0 0.05em 0 0.1em;
-            vertical-align: -0.1em;
-        }
-    `;
+            .emoji {
+                height: 1em;
+                width: 1em;
+                margin: 0 0.05em 0 0.1em;
+                vertical-align: -0.1em;
+            }
+        `,
+    );
     return {
         id: 'emoji',
         schema: {
@@ -44,7 +47,7 @@ export const emojiNode = createNode(() => {
             toDOM: (node) => {
                 const span = document.createElement('span');
                 span.dataset.type = 'emoji';
-                span.classList.add('emoji-wrapper', style);
+                span.classList.add('emoji-wrapper', style || '');
                 span.innerHTML = node.attrs.html;
                 return { dom: span };
             },

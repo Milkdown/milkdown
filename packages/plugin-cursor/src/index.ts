@@ -1,5 +1,5 @@
-import { prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { injectGlobal } from '@emotion/css';
+import { prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { dropCursor } from 'prosemirror-dropcursor';
 import { gapCursor } from 'prosemirror-gapcursor';
 

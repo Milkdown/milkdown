@@ -1,5 +1,5 @@
-import type { Mark as ProseMark, Node as ProseNode } from 'prosemirror-model';
-import type { Schema } from 'prosemirror-model';
+import type { Mark as ProseMark, Node as ProseNode, Schema } from 'prosemirror-model';
+
 import type { InnerSerializerSpecMap } from '..';
 import { RemarkParser } from '../internal-plugin';
 import { createMockMarkType, createMockNodeType } from '../parser/stack.spec';

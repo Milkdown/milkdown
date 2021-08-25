@@ -1,9 +1,9 @@
 import { css } from '@emotion/css';
-import { createCmdKey, createCmd } from '@milkdown/core';
-import { createNode } from '@milkdown/utils';
-import { createShortcut } from '@milkdown/utils';
+import { createCmd, createCmdKey } from '@milkdown/core';
+import { createNode, createShortcut } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
+
 import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['Blockquote'];

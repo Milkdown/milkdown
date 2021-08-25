@@ -1,20 +1,20 @@
 import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
-
 import {
-    defineComponent,
-    provide,
     DefineComponent,
+    defineComponent,
+    Fragment,
+    h,
+    inject,
+    InjectionKey,
+    markRaw,
     onMounted,
     onUnmounted,
-    ref,
-    inject,
-    shallowReactive,
-    markRaw,
-    h,
-    Fragment,
+    provide,
     Ref,
-    InjectionKey,
+    ref,
+    shallowReactive,
 } from 'vue';
+
 import { PortalPair, Portals } from './Portals';
 import { createVueView } from './VueNodeView';
 

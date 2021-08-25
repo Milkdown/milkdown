@@ -4,6 +4,7 @@ import { calculateNodePosition, findParentNode } from '@milkdown/utils';
 import { EditorState, Plugin, PluginKey, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+
 import { Action, transformAction, WrappedAction } from './item';
 import { createDropdown } from './utility';
 

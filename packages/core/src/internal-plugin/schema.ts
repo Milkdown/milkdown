@@ -1,8 +1,9 @@
 import { Schema } from 'prosemirror-model';
+
 import { createCtx } from '../context';
-import { Atom, MilkdownPlugin } from '../utility';
 import { Initialize, Mark, Node } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';
+import { Atom, MilkdownPlugin } from '../utility';
 
 export const SchemaReady = createTimer('schemaReady');
 

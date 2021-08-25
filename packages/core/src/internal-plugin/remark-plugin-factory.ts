@@ -1,4 +1,5 @@
 import type { Plugin } from 'unified';
+
 import { createCtx } from '../context';
 import type { MilkdownPlugin } from '../utility';
 

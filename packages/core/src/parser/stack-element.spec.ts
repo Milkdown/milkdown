@@ -1,5 +1,5 @@
-import { createElement } from './stack-element';
 import { createMockNodeType } from './stack.spec';
+import { createElement } from './stack-element';
 
 const textNodeType = createMockNodeType('text');
 

@@ -1,8 +1,7 @@
-import { provide, InjectionKey, defineComponent, watchEffect, ref, h, Fragment } from 'vue';
-
 import { Editor } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
 import { Decoration, EditorView } from 'prosemirror-view';
+import { defineComponent, Fragment, h, InjectionKey, provide, ref, watchEffect } from 'vue';
 
 export type NodeContext = {
     editor: Editor;

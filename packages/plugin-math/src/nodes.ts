@@ -1,11 +1,12 @@
-import { injectGlobal } from '@emotion/css';
 import {
     makeBlockMathInputRule,
     makeInlineMathInputRule,
     REGEX_BLOCK_MATH_DOLLARS,
     REGEX_INLINE_MATH_DOLLARS,
 } from '@benrbray/prosemirror-math';
+import { injectGlobal } from '@emotion/css';
 import { AtomList, createNode } from '@milkdown/utils';
+
 import { style } from './style';
 
 export const mathInline = createNode((_, utils) => {

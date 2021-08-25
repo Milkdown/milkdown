@@ -1,5 +1,6 @@
 import { serializerMatchError } from '@milkdown/exception';
-import type { Mark as ProseMark, Node as ProseNode, Fragment, Schema } from 'prosemirror-model';
+import type { Fragment, Mark as ProseMark, Node as ProseNode, Schema } from 'prosemirror-model';
+
 import { RemarkParser } from '../internal-plugin';
 import type { Stack } from './stack';
 import type { InnerSerializerSpecMap, MarkSerializerSpec, NodeSerializerSpec } from './types';

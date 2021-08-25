@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { LocationType, useLocationType } from './useLocationType';
 
 export const useEditorMode = () => {

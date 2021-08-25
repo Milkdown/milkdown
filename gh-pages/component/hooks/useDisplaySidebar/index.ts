@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { setDisplaySidebarCtx } from '../../Context';
 import { LocationType, useLocationType } from '../useLocationType';
 import { resumeBodyScroll, scroll, stopBodyScroll } from './disable-body-scroll';

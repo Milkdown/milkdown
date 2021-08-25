@@ -1,6 +1,6 @@
 import React from 'react';
-import { LocationType, useLocationType } from '../hooks/useLocationType';
 
+import { LocationType, useLocationType } from '../hooks/useLocationType';
 import className from './style.module.css';
 
 const copyright = 'MIT Licensed | Copyright © 2021-present Mirone ♡ Meo';

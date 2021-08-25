@@ -1,10 +1,10 @@
 import { css } from '@emotion/css';
-import { createCmdKey, createCmd } from '@milkdown/core';
-import { createNode } from '@milkdown/utils';
-import { createShortcut } from '@milkdown/utils';
+import { createCmd, createCmdKey } from '@milkdown/core';
+import { createNode, createShortcut } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
 import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
+
 import { SupportedKeys } from './supported-keys';
 
 type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem' | 'TaskList'>;

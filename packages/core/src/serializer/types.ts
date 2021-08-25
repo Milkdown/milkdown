@@ -1,4 +1,5 @@
 import type { Mark as ProseMark, Node as ProseNode } from 'prosemirror-model';
+
 import type { State } from './state';
 
 export type NodeSerializerSpec = {

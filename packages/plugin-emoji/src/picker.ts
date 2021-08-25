@@ -3,6 +3,7 @@ import { EmojiButton } from '@joeattardi/emoji-button';
 import { Ctx, prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+
 import { parse } from './parse';
 
 const keyword = ':emoji:';

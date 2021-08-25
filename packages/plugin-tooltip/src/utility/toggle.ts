@@ -1,5 +1,6 @@
 import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
 import type { MarkType } from 'prosemirror-model';
+
 import type { ButtonItem } from '../item';
 import { icon } from './element';
 import { hasMark, isTextAndNotHasMark } from './prosemirror';

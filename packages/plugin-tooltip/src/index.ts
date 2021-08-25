@@ -1,5 +1,6 @@
 import { Ctx, prosePluginFactory } from '@milkdown/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
+
 import { buttonMap, inputMap } from './item';
 import { SelectionMarksTooltip } from './selection-marks-tooltip';
 

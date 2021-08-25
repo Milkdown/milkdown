@@ -1,8 +1,9 @@
 import { injectGlobal } from '@emotion/css';
 import { themeFactory } from '@milkdown/core';
+
+import { font, fontCode } from './font';
 import { color } from './nord';
 import { view } from './view';
-import { font, fontCode } from './font';
 import { widget } from './widget';
 
 export const nord = themeFactory({

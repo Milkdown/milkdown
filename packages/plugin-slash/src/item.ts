@@ -1,5 +1,6 @@
 import type { Command } from 'prosemirror-commands';
 import type { Schema } from 'prosemirror-model';
+
 import { cleanUpAndCreateNode } from './utility';
 
 export type Action = {

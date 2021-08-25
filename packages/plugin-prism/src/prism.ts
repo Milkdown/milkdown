@@ -1,5 +1,6 @@
 import { findChildren } from '@milkdown/utils';
 import { Plugin, PluginKey } from 'prosemirror-state';
+
 import { getDecorations } from './get-decorations';
 
 export const key = 'MILKDOWN_PLUGIN_PRISM';

@@ -1,6 +1,7 @@
 import type { Keymap } from 'prosemirror-commands';
 import { keymap as proseKeymap } from 'prosemirror-keymap';
 import type { Plugin as ProsePlugin } from 'prosemirror-state';
+
 import { createCtx } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';

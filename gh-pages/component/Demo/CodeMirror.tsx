@@ -1,7 +1,9 @@
+import './codemirror.css';
+
 import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup';
 import { markdown } from '@codemirror/lang-markdown';
 import React from 'react';
-import './codemirror.css';
+
 import className from './style.module.css';
 
 type StateOptions = {

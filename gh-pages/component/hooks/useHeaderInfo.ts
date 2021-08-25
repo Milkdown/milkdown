@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { displaySidebarCtx } from '../Context';
 import { LocationType, useLocationType } from './useLocationType';
 

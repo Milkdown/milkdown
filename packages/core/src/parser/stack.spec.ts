@@ -1,6 +1,7 @@
-import type { MarkType, NodeType, Mark, Node } from 'prosemirror-model';
-import { createStack, Stack } from './stack';
+import type { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
+
 import type { AnyRecord } from '../utility';
+import { createStack, Stack } from './stack';
 import type { Attrs } from './types';
 
 export const createMockNodeType = (name: string) => {

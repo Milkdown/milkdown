@@ -1,8 +1,8 @@
 import { Mark } from 'prosemirror-model';
 
-import { createElement, StackElement } from './stack-element';
-import { AnyRecord, getStackUtil } from '../utility';
 import type { MarkdownNode } from '..';
+import { AnyRecord, getStackUtil } from '../utility';
+import { createElement, StackElement } from './stack-element';
 
 type Ctx = {
     marks: Mark[];

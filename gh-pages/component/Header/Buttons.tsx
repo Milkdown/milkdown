@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Local, i18nConfig } from '../../route';
+
+import { i18nConfig, Local } from '../../route';
 import { Mode } from '../constant';
 import { editorModeCtx, isDarkModeCtx, setEditorModeCtx, setIsDarkModeCtx, setLocalCtx } from '../Context';
 import { useEditorMode } from '../hooks/userEditorMode';

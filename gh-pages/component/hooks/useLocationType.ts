@@ -1,5 +1,6 @@
-import { useLocation } from 'react-router-dom';
 import { Location } from 'history';
+import { useLocation } from 'react-router-dom';
+
 import { useRoot } from './useRoot';
 
 export enum LocationType {

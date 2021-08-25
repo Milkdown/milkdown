@@ -1,9 +1,10 @@
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
-import { marksCtx, nodesCtx, remarkCtx, schemaCtx } from '.';
+
 import { createCtx } from '../context';
 import { createSerializer } from '../serializer';
 import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
+import { marksCtx, nodesCtx, remarkCtx, schemaCtx } from '.';
 import { SchemaReady } from './schema';
 
 export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => '');

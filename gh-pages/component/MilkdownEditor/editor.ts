@@ -1,16 +1,16 @@
 import { Complete, defaultValueCtx, Editor, editorViewOptionsCtx, MilkdownPlugin, rootCtx } from '@milkdown/core';
-
 import { clipboard } from '@milkdown/plugin-clipboard';
+import { cursor } from '@milkdown/plugin-cursor';
+import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
-import { nord } from '@milkdown/theme-nord';
+import { math } from '@milkdown/plugin-math';
 import { prism } from '@milkdown/plugin-prism';
-import { emoji } from '@milkdown/plugin-emoji';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
-import { cursor } from '@milkdown/plugin-cursor';
 import { gfm } from '@milkdown/preset-gfm';
-import { math } from '@milkdown/plugin-math';
+import { nord } from '@milkdown/theme-nord';
+
 import { codeSandBox } from './codeSandBox';
 
 const complete =

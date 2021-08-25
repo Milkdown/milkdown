@@ -1,9 +1,9 @@
-import type { Editor } from '../editor';
+import type { MarkType, Node, NodeType, Schema } from 'prosemirror-model';
+import { Mark } from 'prosemirror-model';
 import type { EditorState, Transaction } from 'prosemirror-state';
 import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
-import type { Node, Schema, MarkType, NodeType } from 'prosemirror-model';
 
-import { Mark } from 'prosemirror-model';
+import type { Editor } from '../editor';
 
 export const hasText = (node: Node): node is Node & { text: string } => node.isText;
 

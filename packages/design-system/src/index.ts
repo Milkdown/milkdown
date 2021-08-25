@@ -1,4 +1,5 @@
 import { injectGlobal } from '@emotion/css';
+
 import { obj2color, obj2var } from './transformer';
 import { Color, Font, PR, Size } from './types';
 

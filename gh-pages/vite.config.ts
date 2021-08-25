@@ -1,5 +1,6 @@
-import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
+import { defineConfig } from 'vite';
+
 import { markdownPlugin } from './markdown-plugin';
 
 export default defineConfig({

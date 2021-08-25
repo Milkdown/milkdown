@@ -1,5 +1,5 @@
-import React from 'react';
 import type { NodeViewFactory } from '@milkdown/core';
+import React from 'react';
 
 export const portalContext = React.createContext<(Component: React.FC) => NodeViewFactory>(() => () => {
     throw new Error();

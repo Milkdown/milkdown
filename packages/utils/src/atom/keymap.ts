@@ -1,7 +1,8 @@
-import type { NodeType, MarkType, Schema } from 'prosemirror-model';
-import type { Command, Keymap } from 'prosemirror-commands';
-import type { Shortcuts, CommandConfig, UserKeymap } from './types';
 import type { Cmd, CmdKey } from '@milkdown/core';
+import type { Command, Keymap } from 'prosemirror-commands';
+import type { MarkType, NodeType, Schema } from 'prosemirror-model';
+
+import type { CommandConfig, Shortcuts, UserKeymap } from './types';
 
 type KeymapTuple = [shortcut: string, command: Command];
 type KeymapConfigTuple<T extends string, U> = [key: T, config: CommandConfig<U>];

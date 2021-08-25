@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink as Link } from 'react-router-dom';
+
 import type { Item, Section } from '../../route';
 import { displaySidebarCtx, sectionsCtx } from '../Context';
 import { useDisplaySidebar } from '../hooks/useDisplaySidebar';

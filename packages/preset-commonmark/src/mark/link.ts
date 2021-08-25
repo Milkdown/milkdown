@@ -1,10 +1,10 @@
+import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { createMark } from '@milkdown/utils';
-import { Node as ProseNode } from 'prosemirror-model';
 import { toggleMark } from 'prosemirror-commands';
 import { InputRule } from 'prosemirror-inputrules';
+import { Node as ProseNode } from 'prosemirror-model';
 import { TextSelection } from 'prosemirror-state';
-import { css } from '@emotion/css';
 
 export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();

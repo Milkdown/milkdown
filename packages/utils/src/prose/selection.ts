@@ -1,5 +1,6 @@
 import type { Node as ProseNode, NodeType, ResolvedPos } from 'prosemirror-model';
 import { NodeSelection, Selection } from 'prosemirror-state';
+
 import { equalNodeType } from './helper';
 import type { Predicate } from './types';
 

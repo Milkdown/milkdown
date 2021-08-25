@@ -4,6 +4,7 @@ import type { Node } from 'prosemirror-model';
 import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
 import React from 'react';
 import { createPortal } from 'react-dom';
+
 import { Content, ReactNodeContainer } from './ReactNode';
 
 export const createReactView =
