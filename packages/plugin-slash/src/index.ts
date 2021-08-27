@@ -2,7 +2,7 @@ import { CommandsReady, createCtx, Ctx, MilkdownPlugin, prosePluginsCtx } from '
 
 import { config } from './config';
 import { WrappedAction } from './item';
-import { slashPlugin } from './slash-plugin';
+import { slashPlugin } from './prose-plugin';
 
 export { createDropdownItem, nodeExists } from './utility';
 
