@@ -5,7 +5,7 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import { Action } from '../item';
 import { createDropdown } from '../utility';
-import { CursorStatus, Status } from './status';
+import { Status } from './status';
 
 const createMouseManager = () => {
     let mouseLock = false;
@@ -27,7 +27,6 @@ const handleClick =
     (e: Event): void => {
         const { target } = e;
         if (!(target instanceof HTMLElement)) return;
-
         if (!view) return;
 
         const stop = () => {
@@ -56,39 +55,38 @@ const handleKeydown =
         if (!mouseManager.isLock()) mouseManager.lock();
 
         const { key } = e;
-        if (status.get().cursorStatus !== CursorStatus.Slash) {
-            return;
-        }
-        if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(key)) {
-            return;
-        }
-        let active = status.get().activeActions.findIndex((x) => x.$.classList.contains('active'));
+        if (!status.isSlash()) return;
+        if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(key)) return;
+
+        const { activeActions } = status.get();
+
+        let active = activeActions.findIndex(({ $ }) => $.classList.contains('active'));
         if (active < 0) active = 0;
 
+        const moveActive = (next: number) => {
+            activeActions[active].$.classList.remove('active');
+            activeActions[next].$.classList.add('active');
+            scrollIntoView(activeActions[next].$, {
+                scrollMode: 'if-needed',
+                block: 'nearest',
+                inline: 'nearest',
+            });
+        };
+
         if (key === 'ArrowDown') {
-            const next = active === status.get().activeActions.length - 1 ? 0 : active + 1;
+            const next = active === activeActions.length - 1 ? 0 : active + 1;
 
-            status.get().activeActions[active].$.classList.remove('active');
-            status.get().activeActions[next].$.classList.add('active');
-            scrollIntoView(status.get().activeActions[next].$, {
-                scrollMode: 'if-needed',
-                block: 'nearest',
-                inline: 'nearest',
-            });
+            moveActive(next);
             return;
         }
+
         if (key === 'ArrowUp') {
-            const next = active === 0 ? status.get().activeActions.length - 1 : active - 1;
+            const next = active === 0 ? activeActions.length - 1 : active - 1;
 
-            status.get().activeActions[active].$.classList.remove('active');
-            status.get().activeActions[next].$.classList.add('active');
-            scrollIntoView(status.get().activeActions[next].$, {
-                scrollMode: 'if-needed',
-                block: 'nearest',
-                inline: 'nearest',
-            });
+            moveActive(next);
             return;
         }
+
         if (key === 'Escape') {
             if (status.isEmpty()) return;
 
@@ -96,8 +94,9 @@ const handleKeydown =
             dropdownElement.classList.add('hide');
             return;
         }
-        status.get().activeActions[active].command(view.state, view.dispatch, view);
-        status.get().activeActions[active].$.classList.remove('active');
+
+        activeActions[active].command(view.state, view.dispatch, view);
+        activeActions[active].$.classList.remove('active');
     };
 
 const handleMouseMove = (mouseManager: MouseManager) => () => {
@@ -122,9 +121,9 @@ const handleMouseLeave = () => (e: MouseEvent) => {
 };
 
 const renderDropdown = (status: Status, dropdownElement: HTMLElement, items: Action[]): boolean => {
-    const { cursorStatus, filter } = status.get();
+    const { filter } = status.get();
 
-    if (cursorStatus !== CursorStatus.Slash) {
+    if (!status.isSlash()) {
         dropdownElement.classList.add('hide');
         return false;
     }
@@ -151,9 +150,17 @@ const renderDropdown = (status: Status, dropdownElement: HTMLElement, items: Act
         return false;
     }
 
-    activeList[0].$.classList.add('active');
-
     dropdownElement.classList.remove('hide');
+
+    activeList[0].$.classList.add('active');
+    requestAnimationFrame(() => {
+        scrollIntoView(activeList[0].$, {
+            scrollMode: 'if-needed',
+            block: 'nearest',
+            inline: 'nearest',
+        });
+    });
+
     return true;
 };
 
@@ -174,21 +181,24 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
 };
 
 export const createView = (status: Status, items: Action[], view: EditorView, ctx: Ctx) => {
-    const dropdownElement = createDropdown(ctx);
-    const mouseManager = createMouseManager();
     const wrapper = view.dom.parentNode;
     if (!wrapper) return {};
+
+    const dropdownElement = createDropdown(ctx);
+    const mouseManager = createMouseManager();
     wrapper.appendChild(dropdownElement);
 
     const _mouseMove = handleMouseMove(mouseManager);
     const _mouseDown = handleClick(status, items, view, dropdownElement);
     const _keydown = handleKeydown(status, view, dropdownElement, mouseManager);
+    const _mouseEnter = handleMouseEnter(status, mouseManager);
+    const _mouseLeave = handleMouseLeave();
 
     items
         .filter((item) => item.enable(view.state.schema))
         .forEach(({ $ }) => {
-            $.addEventListener('mouseenter', handleMouseEnter(status, mouseManager));
-            $.addEventListener('mouseleave', handleMouseLeave());
+            $.addEventListener('mouseenter', _mouseEnter);
+            $.addEventListener('mouseleave', _mouseLeave);
             dropdownElement.appendChild($);
         });
     wrapper.addEventListener('mousemove', _mouseMove);
