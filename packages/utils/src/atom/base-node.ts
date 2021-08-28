@@ -2,17 +2,24 @@ import { Node, nodeFactory } from '@milkdown/core';
 
 import { UnknownRecord } from '../type-utility';
 import { commonPlugin } from './base-common';
+import { createKeymap } from './keymap';
 import { Factory, Origin, PluginWithMetadata } from './types';
 
 export const createNode = <SupportedKeys extends string = string, T extends UnknownRecord = UnknownRecord>(
     factory: Factory<SupportedKeys, T, Node>,
-): Origin<Node, SupportedKeys, T> => {
-    const origin: Origin<Node, SupportedKeys, T> = (options) => {
-        const plugin = nodeFactory((ctx) => commonPlugin(factory, ctx, options)) as PluginWithMetadata<
-            Node,
-            SupportedKeys,
-            T
-        >;
+): Origin<SupportedKeys, T, Node> => {
+    const origin: Origin<SupportedKeys, T, Node> = (options) => {
+        const plugin = nodeFactory((ctx) => {
+            const node = commonPlugin(factory, ctx, options);
+            const view = options?.view ?? node.view;
+            const keymap = createKeymap(node.shortcuts, options?.keymap);
+
+            return {
+                ...node,
+                view,
+                keymap,
+            };
+        }) as PluginWithMetadata<SupportedKeys, T, Node>;
         plugin.origin = origin;
 
         return plugin;

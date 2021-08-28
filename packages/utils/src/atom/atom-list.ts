@@ -1,14 +1,15 @@
 import { Mark, MilkdownPlugin, Node } from '@milkdown/core';
 
+import { UnknownRecord } from '../type-utility';
 import { Origin, PluginWithMetadata } from './types';
 
-type Atom = PluginWithMetadata<Node | Mark>;
+type Atom = PluginWithMetadata<string, UnknownRecord, Node | Mark>;
 type Plugin = Atom | MilkdownPlugin;
 
 const isAtom = (x: Plugin): x is Atom => Object.prototype.hasOwnProperty.call(x, 'origin');
 
 export class AtomList<T extends Plugin = Plugin> extends Array<T> {
-    configure<U extends Origin<Node | Mark>>(target: U, config: Parameters<U>[0]): this {
+    configure<U extends Origin>(target: U, config: Parameters<U>[0]): this {
         const index = this.findIndex((x) => isAtom(x) && x.origin === target);
         if (index < 0) return this;
 

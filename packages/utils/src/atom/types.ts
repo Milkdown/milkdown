@@ -25,7 +25,7 @@ export interface AtomOptional<T extends string> {
     readonly styles?: (attrs: AnyRecord) => string;
 }
 
-export type CommonOptions<SupportedKeys extends string> = {
+export type CommonOptions<SupportedKeys extends string = string> = {
     className?: (attrs: AnyRecord) => string;
     keymap?: Partial<Record<SupportedKeys, string | string[]>>;
     readonly headless?: boolean;
@@ -41,11 +41,11 @@ export type MarkOptions<SupportedKeys extends string, T> = T &
         readonly view?: MarkViewFactory;
     };
 
-export type Options<Type extends Mark | Node, S extends string, T extends UnknownRecord> = Partial<
+export type Options<S extends string, T extends UnknownRecord, Type extends Mark | Node> = Partial<
     Type extends Mark ? MarkOptions<S, T> : NodeOptions<S, T>
 >;
 export type Factory<SupportedKeys extends string, T extends UnknownRecord, Type extends Mark | Node> = (
-    options: Options<Type, SupportedKeys, T> | undefined,
+    options: Options<SupportedKeys, T, Type> | undefined,
     utils: Utils,
 ) => Type & AtomOptional<SupportedKeys>;
 
@@ -55,15 +55,15 @@ export type Utils = {
 };
 
 export type Origin<
-    Type extends Node | Mark,
     SupportedKeys extends string = string,
     T extends UnknownRecord = UnknownRecord,
+    Type extends Node | Mark = never,
 > = (
     options?: Partial<T & (Type extends Node ? NodeOptions<SupportedKeys, T> : MarkOptions<SupportedKeys, T>)>,
-) => PluginWithMetadata<Type, SupportedKeys, T>;
+) => PluginWithMetadata<SupportedKeys, T, Type>;
 
 export type PluginWithMetadata<
-    Type extends Node | Mark,
     SupportedKeys extends string = string,
     T extends UnknownRecord = UnknownRecord,
-> = MilkdownPlugin & { origin: Origin<Type, SupportedKeys, T> };
+    Type extends Node | Mark = never,
+> = MilkdownPlugin & { origin: Origin<SupportedKeys, T, Type> };
