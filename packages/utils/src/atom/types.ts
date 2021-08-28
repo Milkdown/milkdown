@@ -20,32 +20,35 @@ export type CommandConfig<T = unknown> = {
 export type Shortcuts<T extends string> = Record<T, CommandConfig>;
 export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>;
 
-export interface AtomOptional<T extends string> {
-    readonly shortcuts?: Shortcuts<T>;
+export interface AtomOptional<SupportedKeys extends string> {
+    readonly shortcuts?: Shortcuts<SupportedKeys>;
     readonly styles?: (attrs: AnyRecord) => string;
 }
 
-export type CommonOptions<SupportedKeys extends string = string> = {
+export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRecord> = Obj & {
     className?: (attrs: AnyRecord) => string;
     keymap?: Partial<Record<SupportedKeys, string | string[]>>;
     readonly headless?: boolean;
 };
 
-export type NodeOptions<SupportedKeys extends string, T> = T &
-    CommonOptions<SupportedKeys> & {
-        readonly view?: NodeViewFactory;
-    };
+type NodeOptions<SupportedKeys extends string, Obj> = CommonOptions<SupportedKeys, Obj> & {
+    readonly view?: NodeViewFactory;
+};
 
-export type MarkOptions<SupportedKeys extends string, T> = T &
-    CommonOptions<SupportedKeys> & {
-        readonly view?: MarkViewFactory;
-    };
+type MarkOptions<SupportedKeys extends string, Obj> = CommonOptions<SupportedKeys, Obj> & {
+    readonly view?: MarkViewFactory;
+};
 
-export type Options<S extends string, T extends UnknownRecord, Type extends Mark | Node> = Partial<
-    Type extends Mark ? MarkOptions<S, T> : NodeOptions<S, T>
+export type Options<SupportedKeys extends string, Obj extends UnknownRecord, Type> = Partial<
+    Type extends Mark
+        ? MarkOptions<SupportedKeys, Obj>
+        : Type extends Node
+        ? NodeOptions<SupportedKeys, Obj>
+        : CommonOptions<SupportedKeys, Obj>
 >;
-export type Factory<SupportedKeys extends string, T extends UnknownRecord, Type extends Mark | Node> = (
-    options: Options<SupportedKeys, T, Type> | undefined,
+
+export type Factory<SupportedKeys extends string, Obj extends UnknownRecord, Type = unknown> = (
+    options: Options<SupportedKeys, Obj, Type> | undefined,
     utils: Utils,
 ) => Type & AtomOptional<SupportedKeys>;
 
@@ -54,16 +57,12 @@ export type Utils = {
     getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
 };
 
-export type Origin<
-    SupportedKeys extends string = string,
-    T extends UnknownRecord = UnknownRecord,
-    Type extends Node | Mark = never,
-> = (
-    options?: Partial<T & (Type extends Node ? NodeOptions<SupportedKeys, T> : MarkOptions<SupportedKeys, T>)>,
-) => PluginWithMetadata<SupportedKeys, T, Type>;
+export type Origin<S extends string = string, Obj extends UnknownRecord = UnknownRecord, Type = unknown> = (
+    options?: Options<S, Obj, Type>,
+) => PluginWithMetadata<S, Obj, Type>;
 
 export type PluginWithMetadata<
     SupportedKeys extends string = string,
-    T extends UnknownRecord = UnknownRecord,
-    Type extends Node | Mark = never,
-> = MilkdownPlugin & { origin: Origin<SupportedKeys, T, Type> };
+    Obj extends UnknownRecord = UnknownRecord,
+    Type = unknown,
+> = MilkdownPlugin & { origin: Origin<SupportedKeys, Obj, Type> };
