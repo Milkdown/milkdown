@@ -158,7 +158,7 @@ export class PluginProps implements PluginSpec {
         },
     };
 
-    key = new PluginKey('TABLE_OP');
+    key = new PluginKey('MILKDOWN_TABLE_OP');
 
     constructor(themeTool: ThemeTool) {
         this.#tooltip = document.createElement('div');

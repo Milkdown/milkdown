@@ -3,46 +3,45 @@ import type { EditorState } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
 
 import { ButtonManager } from './button-manager';
-import { InputManager } from './input-manager';
+import { createInputManager } from './input-manager';
 import type { ButtonMap, InputMap } from './item';
 
-export class SelectionMarksTooltip {
-    #buttonManager: ButtonManager;
-    #inputManager: InputManager;
+export const createTooltip = (buttonMap: ButtonMap, inputMap: InputMap, view: EditorView, ctx: Ctx) => {
+    const buttonManager = new ButtonManager(buttonMap, view, ctx);
+    const inputManager = createInputManager(inputMap, view, ctx);
 
-    constructor(buttonMap: ButtonMap, inputMap: InputMap, view: EditorView, ctx: Ctx) {
-        this.#buttonManager = new ButtonManager(buttonMap, view, ctx);
-        this.#inputManager = new InputManager(inputMap, view, ctx);
-        this.update(view);
-    }
+    const hide = () => {
+        buttonManager.hide();
+        inputManager.hide();
+    };
 
-    update(view: EditorView, prevState?: EditorState) {
+    const update = (view: EditorView, prevState?: EditorState) => {
         if (!view.editable) {
-            this.hide();
+            hide();
             return;
         }
 
         const state = view.state;
 
         if (state.selection.empty) {
-            this.hide();
+            hide();
             return;
         }
 
         const isEqualSelection = prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection);
         if (isEqualSelection) return;
 
-        this.#buttonManager.update(view);
-        this.#inputManager.update(view);
-    }
+        buttonManager.update(view);
+        inputManager.update(view);
+    };
 
-    destroy() {
-        this.#buttonManager.destroy();
-        this.#inputManager.destroy();
-    }
+    update(view);
 
-    private hide() {
-        this.#buttonManager.hide();
-        this.#inputManager.hide();
-    }
-}
+    return {
+        update,
+        destroy: () => {
+            buttonManager.destroy();
+            inputManager.destroy();
+        },
+    };
+};
