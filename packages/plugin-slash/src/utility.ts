@@ -37,12 +37,12 @@ export const createDropdown = (ctx: Ctx) => {
             font-family: ${themeTool.font.font};
             font-size: 0.875rem;
 
-            transition: all 0.4s ease-in-out;
+            transition: all 0.2s ease-in-out;
 
             &,
             .icon {
                 color: ${themeTool.palette('neutral', 0.87)};
-                transition: all 0.4s ease-in-out;
+                transition: all 0.2s ease-in-out;
             }
 
             &.hide {

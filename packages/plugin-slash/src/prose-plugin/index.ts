@@ -5,7 +5,7 @@ import { EditorView } from 'prosemirror-view';
 import { Action, transformAction, WrappedAction } from '../item';
 import { createProps, Props } from './props';
 import { createStatus, Status } from './status';
-import { View } from './view';
+import { createView } from './view';
 
 class SlashPlugin implements PluginSpec {
     items: Action[];
@@ -23,7 +23,7 @@ class SlashPlugin implements PluginSpec {
 
     key = new PluginKey('milkdown-prosemirror-slash-plugin');
 
-    view = (editorView: EditorView) => new View(this.status, this.items, editorView, this.ctx);
+    view = (editorView: EditorView) => createView(this.status, this.items, editorView, this.ctx);
 }
 
 export const slashPlugin = (ctx: Ctx, items: WrappedAction[]) => new Plugin(new SlashPlugin(ctx, items));

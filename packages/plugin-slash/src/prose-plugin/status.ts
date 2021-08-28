@@ -40,5 +40,7 @@ export const createStatus = () => {
             statusCtx.activeActions = actions;
         },
         get: () => statusCtx,
+        isEmpty: () => statusCtx.cursorStatus === CursorStatus.Empty,
+        isSlash: () => statusCtx.cursorStatus === CursorStatus.Slash,
     };
 };
