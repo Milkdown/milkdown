@@ -1,4 +1,4 @@
-import { Ctx } from '@milkdown/core';
+import type { Utils } from '@milkdown/utils';
 import type { EditorView } from 'prosemirror-view';
 
 import type { ButtonMap } from '../item';
@@ -6,8 +6,8 @@ import { calcButtonPos } from './calc-button-pos';
 import { createTooltip } from './create-tooltip';
 import { filterButton } from './filter-button';
 
-export const createButtonManager = (buttonMap: ButtonMap, view: EditorView, ctx: Ctx) => {
-    const buttons = createTooltip(buttonMap, view, ctx);
+export const createButtonManager = (buttonMap: ButtonMap, view: EditorView, utils: Utils) => {
+    const buttons = createTooltip(buttonMap, view, utils);
 
     const onClick = (e: Event) => {
         const target = Object.values(buttonMap).find(({ $ }) => e.target instanceof Element && $.contains(e.target));

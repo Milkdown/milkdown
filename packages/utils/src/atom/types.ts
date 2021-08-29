@@ -1,6 +1,7 @@
 import type {
     Attrs,
     CmdKey,
+    Ctx,
     Mark,
     MarkViewFactory,
     MilkdownPlugin,
@@ -53,8 +54,9 @@ export type Factory<SupportedKeys extends string, Obj extends UnknownRecord, Typ
 ) => Type & AtomOptional<SupportedKeys>;
 
 export type Utils = {
-    getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
-    getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
+    readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
+    readonly getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
+    readonly ctx: Ctx;
 };
 
 export type Origin<S extends string = string, Obj extends UnknownRecord = UnknownRecord, Type = unknown> = (

@@ -1,12 +1,15 @@
-import type { Ctx } from '@milkdown/core';
+import type { Utils } from '@milkdown/utils';
 
 import { injectStyle } from './style';
 
-export const createInput = (ctx: Ctx) => {
+export const createInput = (utils: Utils) => {
     const div = document.createElement('div');
-    const style = injectStyle(ctx);
+    const style = utils.getStyle(injectStyle);
+    if (style) {
+        div.classList.add(style);
+    }
 
-    div.classList.add('tooltip-input', style);
+    div.classList.add('tooltip-input');
 
     const input = document.createElement('input');
     div.appendChild(input);

@@ -1,8 +1,7 @@
 import { css } from '@emotion/css';
-import { Ctx, themeToolCtx } from '@milkdown/core';
+import { ThemeTool } from '@milkdown/core';
 
-export const injectStyle = (ctx: Ctx) => {
-    const themeTool = ctx.get(themeToolCtx);
+export const injectStyle = (themeTool: ThemeTool) => {
     const { palette, widget, size } = themeTool;
 
     return css`

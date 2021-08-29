@@ -1,4 +1,4 @@
-import { Ctx } from '@milkdown/core';
+import { Utils } from '@milkdown/utils';
 import type { EditorState } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
 
@@ -6,9 +6,9 @@ import { createButtonManager } from './button-manager';
 import { createInputManager } from './input-manager';
 import type { ButtonMap, InputMap } from './item';
 
-export const createPlugin = (buttonMap: ButtonMap, inputMap: InputMap, view: EditorView, ctx: Ctx) => {
-    const buttonManager = createButtonManager(buttonMap, view, ctx);
-    const inputManager = createInputManager(inputMap, view, ctx);
+export const createPlugin = (buttonMap: ButtonMap, inputMap: InputMap, view: EditorView, utils: Utils) => {
+    const buttonManager = createButtonManager(buttonMap, view, utils);
+    const inputManager = createInputManager(inputMap, view, utils);
 
     const hide = () => {
         buttonManager.hide();

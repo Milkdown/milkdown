@@ -1,14 +1,17 @@
-import type { Ctx } from '@milkdown/core';
+import type { Utils } from '@milkdown/utils';
 import type { EditorView } from 'prosemirror-view';
 
 import type { ButtonMap } from '../item';
 import { injectStyle } from './style';
 
-export const createTooltip = (buttonMap: ButtonMap, view: EditorView, ctx: Ctx) => {
+export const createTooltip = (buttonMap: ButtonMap, view: EditorView, utils: Utils) => {
     const div = document.createElement('div');
-    const style = injectStyle(ctx);
+    const style = utils.getStyle(injectStyle) || '';
+    if (style) {
+        div.classList.add(style);
+    }
 
-    div.classList.add('tooltip', style);
+    div.classList.add('tooltip');
     Object.values(buttonMap)
         .filter((item) => item.enable(view))
         .forEach(({ $ }) => div.appendChild($));

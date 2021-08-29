@@ -16,6 +16,7 @@ export const commonPlugin = <Ret, Op extends CommonOptions>(
 ): Ret => {
     const themeTool = ctx.get(themeToolCtx);
     const utils: Utils = {
+        ctx,
         getClassName: getClassName(options?.className),
         getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
     };
