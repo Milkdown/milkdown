@@ -2,7 +2,7 @@
 import { css } from '@emotion/css';
 import { ThemePack } from '@milkdown/design-system';
 
-export const widget: ThemePack['widget'] = ({ palette, size }) => ({
+export const mixin: ThemePack['mixin'] = ({ palette, size }) => ({
     icon: (key: string) => css`
         content: '${key}';
 

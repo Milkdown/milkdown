@@ -49,14 +49,14 @@ const proseTableStyle = css`
 
 export const injectStyle = (utils: Utils) => {
     const css = injectGlobal;
-    return utils.getStyle(({ size, palette, widget }) => {
+    return utils.getStyle(({ size, palette, mixin }) => {
         css`
             ${proseTableStyle}
 
             .tableWrapper {
                 margin: 0 !important;
 
-                ${widget.scrollbar?.('x')};
+                ${mixin.scrollbar?.('x')};
 
                 width: 100%;
 
@@ -72,7 +72,7 @@ export const injectStyle = (utils: Utils) => {
                         font-size: 1rem;
                     }
                     tr {
-                        ${widget.border?.('bottom')};
+                        ${mixin.border?.('bottom')};
                     }
 
                     th {
@@ -83,7 +83,7 @@ export const injectStyle = (utils: Utils) => {
                     th,
                     td {
                         min-width: 100px;
-                        ${widget.border?.()};
+                        ${mixin.border?.()};
                         text-align: left;
                         position: relative;
                         line-height: 3rem;
@@ -156,7 +156,7 @@ export const injectStyle = (utils: Utils) => {
                         height: 1rem;
 
                         &::after {
-                            ${widget.icon?.('select_all')};
+                            ${mixin.icon?.('select_all')};
                             color: ${palette('solid', 0.87)};
                             font-size: inherit;
                         }

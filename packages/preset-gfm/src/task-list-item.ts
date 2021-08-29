@@ -18,7 +18,7 @@ export const TurnIntoTaskList = createCmdKey();
 export const taskListItem = createNode<Keys>((options, utils) => {
     const id = 'task_list_item';
     const style = utils.getStyle(
-        ({ palette, widget, size }) =>
+        ({ palette, mixin, size }) =>
             css`
                 list-style-type: none;
                 position: relative;
@@ -53,13 +53,13 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                 }
                 &[data-checked='true'] {
                     label:before {
-                        ${widget.icon?.('check_box')};
+                        ${mixin.icon?.('check_box')};
                         color: ${palette('primary')};
                     }
                 }
                 &[data-checked='false'] {
                     label:before {
-                        ${widget.icon?.('check_box_outline_blank')};
+                        ${mixin.icon?.('check_box_outline_blank')};
                         color: ${palette('solid', 0.87)};
                     }
                 }

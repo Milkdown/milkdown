@@ -75,7 +75,7 @@ export const image = createNode((_, utils) => {
                 &.loading {
                     .icon {
                         &::before {
-                            ${themeTool.widget.icon?.('hourglass_empty')}
+                            ${themeTool.mixin.icon?.('hourglass_empty')}
                         }
                     }
 
@@ -89,7 +89,7 @@ export const image = createNode((_, utils) => {
                 &.empty {
                     .icon {
                         &::before {
-                            ${themeTool.widget.icon?.('image')}
+                            ${themeTool.mixin.icon?.('image')}
                         }
                     }
                     .placeholder {
@@ -102,7 +102,7 @@ export const image = createNode((_, utils) => {
                 &.failed {
                     .icon {
                         &::before {
-                            ${themeTool.widget.icon?.('broken_image')}
+                            ${themeTool.mixin.icon?.('broken_image')}
                         }
                     }
 

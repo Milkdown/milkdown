@@ -2,17 +2,17 @@
 import { css } from '@emotion/css';
 import type { ThemeTool } from '@milkdown/core';
 
-export const injectStyle = ({ size, widget, palette, font }: ThemeTool) => {
+export const injectStyle = ({ size, mixin, palette, font }: ThemeTool) => {
     return css`
         position: absolute;
         &.hide {
             display: none;
         }
 
-        ${widget.border?.()};
+        ${mixin.border?.()};
         border-radius: ${size.radius};
         background: ${palette('surface')};
-        ${widget.shadow?.()};
+        ${mixin.shadow?.()};
 
         .milkdown-emoji-filter_item {
             display: flex;

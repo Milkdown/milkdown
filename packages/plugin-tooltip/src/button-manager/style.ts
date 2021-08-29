@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 import { ThemeTool } from '@milkdown/core';
 
 export const injectStyle = (themeTool: ThemeTool) => {
-    const { palette, widget, size } = themeTool;
+    const { palette, mixin, size } = themeTool;
     return css`
         display: inline-flex;
         cursor: pointer;
@@ -11,8 +11,8 @@ export const injectStyle = (themeTool: ThemeTool) => {
         position: absolute;
         border-radius: ${size.radius};
 
-        ${widget.border?.()};
-        ${widget.shadow?.()};
+        ${mixin.border?.()};
+        ${mixin.shadow?.()};
 
         overflow: hidden;
         background: ${palette('surface')};

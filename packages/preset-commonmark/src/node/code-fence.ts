@@ -34,8 +34,8 @@ export const TurnIntoCodeFence = createCmdKey();
 
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((options, utils) => {
-    const style = utils.getStyle(({ palette, widget, size, font }) => {
-        const { shadow, icon, scrollbar, border } = widget;
+    const style = utils.getStyle(({ palette, mixin, size, font }) => {
+        const { shadow, icon, scrollbar, border } = mixin;
         const { lineWidth, radius } = size;
         return css`
             background-color: ${palette('background')};

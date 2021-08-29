@@ -3,9 +3,9 @@ import { injectGlobal } from '@emotion/css';
 import { themeFactory } from '@milkdown/core';
 
 import { font, fontCode } from './font';
+import { mixin } from './mixin';
 import { color } from './nord';
 import { view } from './view';
-import { widget } from './widget';
 
 export const nord = themeFactory({
     font: {
@@ -17,8 +17,8 @@ export const nord = themeFactory({
         lineWidth: '1px',
     },
     color,
-    widget,
-    global: ({ palette, font, widget, size }) => {
+    mixin: mixin,
+    global: ({ palette, font, mixin, size }) => {
         const css = injectGlobal;
         css`
             ${view};
@@ -30,7 +30,7 @@ export const nord = themeFactory({
                 font-family: ${font.font};
                 margin-left: auto;
                 margin-right: auto;
-                ${widget.shadow?.()};
+                ${mixin.shadow?.()};
                 padding: 3.125rem 1.25rem;
                 box-sizing: border-box;
 
@@ -50,7 +50,7 @@ export const nord = themeFactory({
                 }
 
                 li.ProseMirror-selectednode::after {
-                    ${widget.border?.()}
+                    ${mixin.border?.()};
                 }
 
                 @media only screen and (min-width: 72rem) {

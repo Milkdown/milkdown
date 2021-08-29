@@ -39,23 +39,23 @@ const itemStyle = ({ font, palette }: ThemeTool) => {
 };
 
 export const injectStyle = (themeTool: ThemeTool) => {
-    const { widget, size, palette } = themeTool;
+    const { mixin, size, palette } = themeTool;
     const style = css`
         width: 20.5rem;
         max-height: 20.5rem;
         overflow-y: auto;
-        ${widget.border?.()};
+        ${mixin.border?.()};
         border-radius: ${size.radius};
         position: absolute;
         background: ${palette('surface')};
 
-        ${widget.shadow?.()};
+        ${mixin.shadow?.()};
 
         &.hide {
             display: none;
         }
 
-        ${widget.scrollbar?.()};
+        ${mixin.scrollbar?.()};
 
         ${itemStyle(themeTool)}
     `;

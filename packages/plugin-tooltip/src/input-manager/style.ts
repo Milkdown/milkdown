@@ -3,12 +3,11 @@ import { css } from '@emotion/css';
 import { ThemeTool } from '@milkdown/core';
 
 export const injectStyle = (themeTool: ThemeTool) => {
-    const { palette, widget, size } = themeTool;
+    const { palette, mixin, size } = themeTool;
 
     return css`
-        ${widget.border?.()};
-
-        ${widget.shadow?.()};
+        ${mixin.border?.()};
+        ${mixin.shadow?.()};
 
         display: inline-flex;
         justify-content: space-between;

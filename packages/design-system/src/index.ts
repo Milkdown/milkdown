@@ -11,11 +11,11 @@ export type ThemePack = {
     color?: { light?: PR<Color>; dark?: PR<Color> } & PR<Color>;
     font?: PR<Font, string[]>;
     size?: PR<Size>;
-    widget?: (utils: Omit<ThemeTool, 'widget' | 'global'>) => Partial<WidgetFactory>;
+    mixin?: (utils: Omit<ThemeTool, 'mixin' | 'global'>) => Partial<MixinFactory>;
     global?: (utils: Omit<ThemeTool, 'global'>) => void;
 };
 
-export type WidgetFactory = {
+export type MixinFactory = {
     icon: (id: string) => string;
     scrollbar: (direction?: 'x' | 'y') => string;
     shadow: () => string;
@@ -23,7 +23,7 @@ export type WidgetFactory = {
 };
 
 export type ThemeTool = {
-    widget: Partial<WidgetFactory>;
+    mixin: Partial<MixinFactory>;
     palette: (key: Color, alpha?: number) => string;
     font: PR<Font>;
     size: PR<Size>;
@@ -47,7 +47,7 @@ export const injectVar = (themePack: ThemePack) => {
 };
 
 export const pack2Tool = (themePack: ThemePack): ThemeTool => {
-    const { font, size = {}, widget, global } = themePack;
+    const { font, size = {}, mixin: _mixin, global } = themePack;
 
     const palette = (key: Color, alpha = 1) => {
         return `rgba(var(--${key}), ${alpha})`;
@@ -64,11 +64,11 @@ export const pack2Tool = (themePack: ThemePack): ThemeTool => {
         size: toMap(size),
         font: toMap(font),
     };
-    const widgetMap = widget?.(_tool) || {};
+    const mixin = _mixin?.(_tool) || {};
 
     const tool = {
         ..._tool,
-        widget: widgetMap,
+        mixin,
     };
 
     global?.(tool);

@@ -9,7 +9,7 @@ import { Doc, XmlFragment } from 'yjs';
 const collaborative = (doc: Doc, awareness: Awareness) => {
     const type = doc.get('prosemirror', XmlFragment);
     return prosePluginFactory((ctx) => {
-        const { size, palette, widget } = ctx.get(themeToolCtx);
+        const { size, palette, mixin } = ctx.get(themeToolCtx);
 
         const css = injectGlobal;
 
@@ -35,8 +35,8 @@ const collaborative = (doc: Doc, awareness: Awareness) => {
                 position: relative;
                 margin-left: -${size.lineWidth};
                 margin-right: -${size.lineWidth};
-                ${widget.border?.('left')};
-                ${widget.border?.('right')};
+                ${mixin.border?.('left')};
+                ${mixin.border?.('right')};
                 word-break: normal;
                 pointer-events: none;
             }
