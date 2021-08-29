@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Editor, NodeViewFactory } from '@milkdown/core';
 import { getId } from '@milkdown/utils';
 import type { Node } from 'prosemirror-model';

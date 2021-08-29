@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { AtomList } from '@milkdown/utils';
 
 import { table } from './table';

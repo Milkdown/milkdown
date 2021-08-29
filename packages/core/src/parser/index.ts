@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Schema } from 'prosemirror-model';
 
 import type { RemarkParser } from '../internal-plugin';

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import './codemirror.css';
 
 import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup';

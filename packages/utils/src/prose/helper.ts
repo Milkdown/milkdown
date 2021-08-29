@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Node as ProseNode, NodeType } from 'prosemirror-model';
 import type { Transaction } from 'prosemirror-state';
 

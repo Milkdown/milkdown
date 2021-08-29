@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Color, PR } from './types';
 
 export const themeColor = (hex: string) => {

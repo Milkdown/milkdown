@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 const commonmark = () => import('./preset-commonmark');
 
 const mapping = {

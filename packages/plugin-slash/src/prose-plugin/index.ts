@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Utils } from '@milkdown/utils';
 import { Plugin, PluginKey } from 'prosemirror-state';
 

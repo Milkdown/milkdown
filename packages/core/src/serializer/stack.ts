@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Mark } from 'prosemirror-model';
 
 import type { MarkdownNode } from '..';

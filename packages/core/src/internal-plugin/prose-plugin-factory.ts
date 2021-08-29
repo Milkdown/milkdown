@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Plugin } from 'prosemirror-state';
 
 import { createCtx } from '../context';

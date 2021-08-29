@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createCtx } from '../context';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } from '../utility';

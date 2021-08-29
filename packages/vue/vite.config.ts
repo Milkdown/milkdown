@@ -1,5 +1,6 @@
-import { defineConfig } from 'vite';
+/* Copyright 2021, Milkdown by Mirone. */
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
     root: 'app',

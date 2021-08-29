@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Attrs, Ctx, themeToolCtx } from '@milkdown/core';
 
 import { CommonOptions, Utils } from './types';

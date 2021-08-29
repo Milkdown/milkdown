@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { injectGlobal } from '@emotion/css';
 import { EmojiButton } from '@joeattardi/emoji-button';
 import { Ctx, prosePluginFactory, themeToolCtx } from '@milkdown/core';

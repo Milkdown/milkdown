@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createNodeInParserFail, stackOverFlow } from '@milkdown/exception';
 import { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
 

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { Ctx, prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { calculateNodePosition } from '@milkdown/utils';

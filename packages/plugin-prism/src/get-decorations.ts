@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { findChildren } from '@milkdown/utils';
 import { Node } from 'prosemirror-model';
 import { Decoration, DecorationSet } from 'prosemirror-view';

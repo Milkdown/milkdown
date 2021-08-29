@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 export const scroll = document.createElement('div');
 scroll.style.position = 'fixed';
 scroll.style.right = '0';

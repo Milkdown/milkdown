@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { tableNodes as tableNodesSpecCreator } from 'prosemirror-tables';
 
 export const schema = tableNodesSpecCreator({

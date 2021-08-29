@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { ConfigItem, Local } from './page-router';
 
 export const config: ConfigItem[] = [

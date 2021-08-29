@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Dict, Local } from './page-router';
 
 export const titleDict: Dict = new Map([

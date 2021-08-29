@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
 import { ToggleBold, ToggleInlineCode, ToggleItalic, ToggleLink, ToggleStrikeThrough } from '@milkdown/preset-gfm';
 import { findSelectedNodeOfType } from '@milkdown/utils';

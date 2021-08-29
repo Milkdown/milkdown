@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 export const SupportedKeys = {
     HardBreak: 'HardBreak',
     Blockquote: 'Blockquote',

@@ -47,6 +47,7 @@ importers:
       concurrently: ^6.2.0
       eslint: ^7.21.0
       eslint-config-prettier: ^8.3.0
+      eslint-plugin-header: ^3.1.1
       eslint-plugin-import: ^2.24.2
       eslint-plugin-prettier: ^3.4.0
       eslint-plugin-promise: ^4.3.1
@@ -115,6 +116,7 @@ importers:
       concurrently: 6.2.0
       eslint: 7.31.0
       eslint-config-prettier: 8.3.0_eslint@7.31.0
+      eslint-plugin-header: 3.1.1_eslint@7.31.0
       eslint-plugin-import: 2.24.2_eslint@7.31.0
       eslint-plugin-prettier: 3.4.0_19f511d6aa08b367b6cb59e8f50291ca
       eslint-plugin-promise: 4.3.1
@@ -150,6 +152,7 @@ importers:
       '@types/react-dom': ^17.0.5
       '@types/react-router-dom': ^5.1.7
       autoprefixer: ^10.2.5
+      history: ^5.0.1
       postcss: ^8.2.12
       postcss-cli: ^8.3.1
       postcss-functions: ^4.0.2
@@ -182,6 +185,7 @@ importers:
       '@types/react-dom': 17.0.9
       '@types/react-router-dom': 5.1.8
       autoprefixer: 10.3.1_postcss@8.3.6
+      history: 5.0.1
       postcss: 8.3.6
       postcss-cli: 8.3.1_postcss@8.3.6
       postcss-functions: 4.0.2_postcss@8.3.6
@@ -4925,6 +4929,14 @@ packages:
       pkg-dir: 2.0.0
     dev: true
 
+  /eslint-plugin-header/3.1.1_eslint@7.31.0:
+    resolution: {integrity: sha512-9vlKxuJ4qf793CmeeSrZUvVClw6amtpghq3CuWcB5cUNnWHQhgcqy5eF8oVKFk1G3Y/CbchGfEaw3wiIJaNmVg==}
+    peerDependencies:
+      eslint: '>=7.7.0'
+    dependencies:
+      eslint: 7.31.0
+    dev: true
+
   /eslint-plugin-import/2.24.2_eslint@7.31.0:
     resolution: {integrity: sha512-hNVtyhiEtZmpsabL4neEj+6M5DCLgpYyG9nzJY8lZQeQXEn5UPW1DpUdsMHMXsq98dbNm7nt1w9ZMSVpfJdi8Q==}
     engines: {node: '>=4'}
@@ -5718,6 +5730,12 @@ packages:
       tiny-warning: 1.0.3
       value-equal: 1.0.1
     dev: false
+
+  /history/5.0.1:
+    resolution: {integrity: sha512-5qC/tFUKfVci5kzgRxZxN5Mf1CV8NmJx9ByaPX0YTLx5Vz3Svh7NYp6eA4CpDq4iA9D0C1t8BNIfvQIrUI3mVw==}
+    dependencies:
+      '@babel/runtime': 7.14.8
+    dev: true
 
   /hoist-non-react-statics/3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}

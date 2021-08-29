@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { callCommandBeforeEditorView } from '@milkdown/exception';
 import type { Command } from 'prosemirror-commands';
 

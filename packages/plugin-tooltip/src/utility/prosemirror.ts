@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { findParentNode } from '@milkdown/utils';
 import type { MarkType, Node, NodeType } from 'prosemirror-model';
 import { EditorState, TextSelection } from 'prosemirror-state';

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { serializerMatchError } from '@milkdown/exception';
 import type { Fragment, Mark as ProseMark, Node as ProseNode, Schema } from 'prosemirror-model';
 

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Mark, markFactory } from '@milkdown/core';
 
 import { UnknownRecord } from '../type-utility';

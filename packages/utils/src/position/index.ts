@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView } from 'prosemirror-view';
 
 type Point = [top: number, left: number];

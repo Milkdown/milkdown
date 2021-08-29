@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { createMark, createShortcut, markRule } from '@milkdown/utils';

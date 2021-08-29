@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 

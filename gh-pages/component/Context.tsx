@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import React, { createContext } from 'react';
 
 import { Local as Localize, pageRouter, Section } from '../route';

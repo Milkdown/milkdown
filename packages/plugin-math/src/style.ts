@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 export const style = css`
     /* copy from https://github.com/benrbray/prosemirror-math/blob/master/style/math.css */

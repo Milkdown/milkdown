@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { calculateNodePosition, Utils } from '@milkdown/utils';
 import { EditorView } from 'prosemirror-view';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';

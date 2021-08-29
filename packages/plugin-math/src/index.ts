@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { mathBackspaceCmd, mathPlugin } from '@benrbray/prosemirror-math';
 import { prosePluginFactory, remarkPluginFactory } from '@milkdown/core';
 import { chainCommands, deleteSelection, joinBackward, selectNodeBackward } from 'prosemirror-commands';

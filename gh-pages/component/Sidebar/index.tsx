@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import React from 'react';
 import { NavLink as Link } from 'react-router-dom';
 

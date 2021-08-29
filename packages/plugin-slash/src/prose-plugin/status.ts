@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Action } from '../item';
 
 export enum CursorStatus {

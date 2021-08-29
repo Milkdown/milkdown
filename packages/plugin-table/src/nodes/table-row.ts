@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createNode } from '@milkdown/utils';
 import { Node as MarkdownNode } from 'unist';
 

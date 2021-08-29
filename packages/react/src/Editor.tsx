@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
 import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
 

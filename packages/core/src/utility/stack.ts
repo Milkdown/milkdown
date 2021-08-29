@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { stackOverFlow } from '@milkdown/exception';
 
 type ElInstance<U> = {

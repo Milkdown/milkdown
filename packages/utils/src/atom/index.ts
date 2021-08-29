@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 export * from './atom-list';
 export * from './base-mark';
 export * from './base-node';

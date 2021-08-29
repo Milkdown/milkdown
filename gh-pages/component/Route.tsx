@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';

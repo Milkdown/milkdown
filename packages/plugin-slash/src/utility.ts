@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Utils } from '@milkdown/utils';
 import { Command } from 'prosemirror-commands';
 import { Node, Schema } from 'prosemirror-model';

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { remarkPluginFactory } from '@milkdown/core';
 import links from 'remark-inline-links';
 import { Literal, Node, Parent } from 'unist';

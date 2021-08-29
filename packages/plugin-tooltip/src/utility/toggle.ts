@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
 import type { MarkType } from 'prosemirror-model';
 

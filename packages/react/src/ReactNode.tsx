@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Editor } from '@milkdown/core';
 import { Node } from 'prosemirror-model';
 import { Decoration, EditorView } from 'prosemirror-view';

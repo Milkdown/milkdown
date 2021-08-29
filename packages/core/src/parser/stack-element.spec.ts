@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createMockNodeType } from './stack.spec';
 import { createElement } from './stack-element';
 

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
 
 import type { AnyRecord } from '../utility';

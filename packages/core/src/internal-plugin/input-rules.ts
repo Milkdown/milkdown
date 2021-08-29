@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { InputRule } from 'prosemirror-inputrules';
 
 import { createCtx } from '../context';

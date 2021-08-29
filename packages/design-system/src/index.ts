@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { injectGlobal } from '@emotion/css';
 
 import { obj2color, obj2var } from './transformer';

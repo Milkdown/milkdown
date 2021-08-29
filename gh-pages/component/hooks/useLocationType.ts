@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Location } from 'history';
 import { useLocation } from 'react-router-dom';
 

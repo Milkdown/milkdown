@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import re from 'remark';
 
 import { createCtx, Meta } from '../context';

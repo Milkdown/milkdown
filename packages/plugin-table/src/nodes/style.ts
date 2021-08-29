@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { css, injectGlobal } from '@emotion/css';
 import { Utils } from '@milkdown/utils';
 

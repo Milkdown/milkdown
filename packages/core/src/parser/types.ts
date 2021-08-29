@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { MarkType, NodeType } from 'prosemirror-model';
 import type { Node } from 'unist';
 

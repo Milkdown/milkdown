@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Context, Meta } from '../context';
 import type { Mark, Node } from '../internal-plugin';
 import { Timer } from '../timing';

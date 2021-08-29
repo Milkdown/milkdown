@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { codeInline } from './code-inline';
 import { em } from './em';
 import { link } from './link';

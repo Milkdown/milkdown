@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { injectVar, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
 
 import { createCtx } from '../context';

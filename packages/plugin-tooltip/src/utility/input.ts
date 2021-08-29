@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, Ctx } from '@milkdown/core';
 import { ModifyImage, ModifyLink } from '@milkdown/preset-commonmark';
 import { findChildren } from '@milkdown/utils';

@@ -1,3 +1,5 @@
+/* Copyright 2021, Milkdown by Mirone. */
+
 module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
@@ -10,19 +12,25 @@ module.exports = {
         'plugin:prettier/recommended',
         'plugin:react-hooks/recommended',
     ],
-    plugins: ['simple-import-sort'],
+    plugins: ['simple-import-sort', 'header'],
     env: {
         browser: true,
         node: true,
     },
     rules: {
         'no-console': ['error', { allow: ['warn', 'error'] }],
+
         'import/prefer-default-export': 'off',
-        'import/no-unresolved': 'off',
+        'import/no-default-export': 'error',
+        'import/no-unresolved': ['error', { ignore: ['unist'] }],
+
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
+
+        'header/header': ['error', 'block', ' Copyright 2021, Milkdown by Mirone. '],
     },
     settings: {
         react: {
@@ -37,6 +45,13 @@ module.exports = {
                 '@typescript-eslint/no-require-imports': 'off',
                 '@typescript-eslint/no-var-requires': 'off',
                 '@typescript-eslint/naming-convention': 'off',
+                'import/no-default-export': 'off',
+            },
+        },
+        {
+            files: ['shim.d.ts', 'vite.config.ts'],
+            rules: {
+                'import/no-default-export': 'off',
             },
         },
     ],

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createElement } from './stack-element';
 
 describe('serializer/stack-element', () => {

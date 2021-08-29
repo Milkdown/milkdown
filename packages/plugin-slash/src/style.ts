@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { ThemeTool } from '@milkdown/core';
 

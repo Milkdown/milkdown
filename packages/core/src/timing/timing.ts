@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { ClockMap, Timer } from './clock';
 
 export type Timing = {

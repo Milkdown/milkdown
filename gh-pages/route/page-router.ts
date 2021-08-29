@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { config, i18nConfig } from './page-config';
 import { fromDict } from './page-dict';
 

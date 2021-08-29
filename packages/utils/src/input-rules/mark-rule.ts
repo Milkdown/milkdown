@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { InputRule } from 'prosemirror-inputrules';
 import { Mark, MarkType } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';

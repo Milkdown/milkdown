@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Node as ProseNode, NodeType, ResolvedPos } from 'prosemirror-model';
 import { NodeSelection, Selection } from 'prosemirror-state';
 

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { ctxCallOutOfScope } from '@milkdown/exception';
 export type Context<T = unknown> = {
     id: symbol;

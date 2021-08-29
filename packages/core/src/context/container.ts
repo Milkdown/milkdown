@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { contextNotFound } from '@milkdown/exception';
 
 import { Context, Meta } from './ctx';

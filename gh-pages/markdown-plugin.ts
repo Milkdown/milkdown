@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { dataToEsm } from '@rollup/pluginutils';
 
 export const markdownPlugin = () =>

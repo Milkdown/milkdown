@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Plugin } from 'unified';
 
 import { createCtx } from '../context';

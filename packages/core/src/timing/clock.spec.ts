@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createClock } from './clock';
 import { createTimer } from './timing';
 

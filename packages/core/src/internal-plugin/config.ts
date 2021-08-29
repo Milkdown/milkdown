@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createTimer } from '../timing';
 import { Configure, MilkdownPlugin } from '../utility';
 

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type {
     Attrs,
     CmdKey,
@@ -10,7 +11,7 @@ import type {
     ThemeTool,
 } from '@milkdown/core';
 
-import type { AnyRecord, UnknownRecord } from '../type-utility';
+import type { UnknownRecord } from '../type-utility';
 
 export type CommandConfig<T = unknown> = {
     commandKey: CmdKey<T>;
@@ -23,11 +24,11 @@ export type UserKeymap<T extends string> = Partial<Record<T, string | string[]>>
 
 export interface AtomOptional<SupportedKeys extends string> {
     readonly shortcuts?: Shortcuts<SupportedKeys>;
-    readonly styles?: (attrs: AnyRecord) => string;
+    readonly styles?: (attrs: Attrs) => string;
 }
 
 export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRecord> = Obj & {
-    className?: (attrs: AnyRecord) => string;
+    className?: (attrs: Attrs) => string;
     keymap?: Partial<Record<SupportedKeys, string | string[]>>;
     readonly headless?: boolean;
 };

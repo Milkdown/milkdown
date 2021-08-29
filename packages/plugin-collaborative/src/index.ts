@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { injectGlobal } from '@emotion/css';
 import { prosePluginFactory, themeToolCtx } from '@milkdown/core';
 import { keymap } from 'prosemirror-keymap';

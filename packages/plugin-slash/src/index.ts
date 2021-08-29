@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
 import { AtomList, createProsePlugin } from '@milkdown/utils';
 

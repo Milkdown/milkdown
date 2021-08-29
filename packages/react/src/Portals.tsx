@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { NodeViewFactory } from '@milkdown/core';
 import React from 'react';
 

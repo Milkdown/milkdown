@@ -29,12 +29,13 @@
         "@types/react": "^17.0.6",
         "@types/react-dom": "^17.0.5",
         "@types/react-router-dom": "^5.1.7",
+        "autoprefixer": "^10.2.5",
+        "history": "^5.0.1",
         "postcss": "^8.2.12",
         "postcss-cli": "^8.3.1",
         "postcss-functions": "^4.0.2",
         "postcss-import": "^14.0.1",
         "postcss-mixins": "^8.0.0",
-        "postcss-nested": "^5.0.5",
-        "autoprefixer": "^10.2.5"
+        "postcss-nested": "^5.0.5"
     }
 }

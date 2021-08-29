@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { docTypeError } from '@milkdown/exception';
 import { baseKeymap } from 'prosemirror-commands';
 import { inputRules as createInputRules } from 'prosemirror-inputrules';

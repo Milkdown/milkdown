@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createMockMarkType } from '../parser/stack.spec';
 import { createStack, Stack } from './stack';
 

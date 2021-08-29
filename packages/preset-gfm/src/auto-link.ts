@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { prosePluginFactory } from '@milkdown/core';
 import { InputRule, inputRules } from 'prosemirror-inputrules';
 

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { MarkdownNode } from '..';
 import type { AnyRecord } from '../utility';
 

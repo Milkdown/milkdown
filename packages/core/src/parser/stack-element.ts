@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Node, NodeType } from 'prosemirror-model';
 
 import type { Attrs } from './types';

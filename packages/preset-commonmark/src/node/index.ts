@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { blockquote } from './blockquote';
 import { bulletList } from './bullet-list';
 import { codeFence } from './code-fence';

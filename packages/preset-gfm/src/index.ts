@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { tableNodes, tablePlugins } from '@milkdown/plugin-table';
 import { commands as commonmarkCommands, commonmarkNodes, commonmarkPlugins } from '@milkdown/preset-commonmark';
 import { AtomList } from '@milkdown/utils';

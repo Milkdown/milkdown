@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import emojiRegex from 'emoji-regex';
 import { Literal, Node, Parent } from 'unist';
 

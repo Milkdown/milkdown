@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { Command } from 'prosemirror-commands';
 import { Node, NodeType } from 'prosemirror-model';
 import { Selection } from 'prosemirror-state';

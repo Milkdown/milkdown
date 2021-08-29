@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { DefineComponent, defineComponent, Fragment, h, nextTick, ref, shallowRef, watch } from 'vue';
 export type PortalPair = [key: string, component: DefineComponent];
 

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Mark as ProseMark, Node as ProseNode, Schema } from 'prosemirror-model';
 
 import type { InnerSerializerSpecMap } from '..';

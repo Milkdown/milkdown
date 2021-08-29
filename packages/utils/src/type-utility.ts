@@ -1,3 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyRecord = Record<string, any>;
+/* Copyright 2021, Milkdown by Mirone. */
+
 export type UnknownRecord = Record<string, unknown>;

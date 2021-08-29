@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Node, Schema } from 'prosemirror-model';
 import type { RemarkOptions } from 'remark';
 import type { Processor } from 'unified';

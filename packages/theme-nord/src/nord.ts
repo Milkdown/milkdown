@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { ThemePack } from '@milkdown/design-system';
 
 export const Nord = {

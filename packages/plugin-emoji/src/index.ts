@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { remarkPluginFactory } from '@milkdown/core';
 import remarkEmoji from 'remark-emoji';
 

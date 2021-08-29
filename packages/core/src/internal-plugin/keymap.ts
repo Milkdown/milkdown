@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Keymap } from 'prosemirror-commands';
 import { keymap as proseKeymap } from 'prosemirror-keymap';
 import type { Plugin as ProsePlugin } from 'prosemirror-state';

@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import type { Utils } from '@milkdown/utils';
 
 import { injectStyle } from './style';

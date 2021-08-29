@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { EditorProps, EditorView } from 'prosemirror-view';
 
 import { createCtx } from '../context';

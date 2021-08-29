@@ -1,3 +1,4 @@
+/* Copyright 2021, Milkdown by Mirone. */
 import { createContainer, createCtx } from '.';
 
 describe('context/container', () => {
