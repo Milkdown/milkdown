@@ -9,7 +9,7 @@ import { picker } from './picker';
 import { twemojiPlugin } from './remark-twemoji';
 
 export const remarkPlugin = remarkPluginFactory([remarkEmoji, twemojiPlugin]);
-export const emoji = AtomList.create([emojiNode(), remarkPlugin, picker, filter]);
+export const emoji = AtomList.create([remarkPlugin, emojiNode(), filter(), picker()]);
 
 export { filter } from './filter';
 export { emojiNode } from './node';

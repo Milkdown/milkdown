@@ -10,6 +10,7 @@
         "gapcursor",
         "hardbreak",
         "inputrules",
+        "joeattardi",
         "katex",
         "milkdown",
         "mixins",
@@ -19,6 +20,7 @@
         "textbox",
         "traptitech",
         "twemoji",
+        "ufffc",
         "unist",
         "vite",
         "vitejs"

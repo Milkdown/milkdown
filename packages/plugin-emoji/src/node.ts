@@ -48,7 +48,10 @@ export const emojiNode = createNode((_, utils) => {
             toDOM: (node) => {
                 const span = document.createElement('span');
                 span.dataset.type = 'emoji';
-                span.classList.add('emoji-wrapper', style || '');
+                if (style) {
+                    span.classList.add(style);
+                }
+                span.classList.add('emoji-wrapper');
                 span.innerHTML = node.attrs.html;
                 return { dom: span };
             },

@@ -46,9 +46,9 @@ export const createEditor = (
         .use(history)
         .use(cursor)
         .use(prism)
-        .use(emoji)
         .use(tooltip)
         .use(math)
+        .use(emoji)
         .use(slash);
 
     return editor;

@@ -1,92 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
-import { Ctx, prosePluginFactory, themeToolCtx } from '@milkdown/core';
-import { calculateNodePosition } from '@milkdown/utils';
-import { Emoji, search } from 'node-emoji';
+
+import { calculateNodePosition, createProsePlugin, Utils } from '@milkdown/utils';
+import { search } from 'node-emoji';
 import { Plugin } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
 
-import { full, part } from './constant';
-import { parse } from './parse';
+import { checkTrigger, renderDropdownList } from './helper';
+import { injectStyle } from './style';
 
-const checkTrigger = (
-    view: EditorView,
-    from: number,
-    to: number,
-    text: string,
-    setRange: (from: number, to: number) => void,
-    setSearch: (words: string) => void,
-) => {
-    if (view.composing) return false;
-    const { state } = view;
-    const $from = state.doc.resolve(from);
-    if ($from.parent.type.spec.code) return false;
-    const textBefore =
-        $from.parent.textBetween(Math.max(0, $from.parentOffset - 10), $from.parentOffset, undefined, '\ufffc') + text;
-    if (full.test(textBefore)) {
-        return false;
-    }
-    const regex = part.exec(textBefore);
-    if (regex && textBefore.endsWith(regex[0])) {
-        const match = regex[0];
-        setRange(from - (match.length - text.length), to);
-        setSearch(match);
-        return true;
-    }
-    return false;
-};
-
-const renderDropdownList = (
-    list: Emoji[],
-    dropDown: HTMLElement,
-    $active: HTMLElement | null,
-    onConfirm: () => void,
-    setActive: (active: HTMLElement | null) => void,
-) => {
-    dropDown.innerHTML = '';
-    list.forEach(({ emoji, key }, i) => {
-        const container = document.createElement('div');
-        container.className = 'milkdown-emoji-filter_item';
-
-        const emojiSpan = document.createElement('span');
-        emojiSpan.innerHTML = parse(emoji);
-
-        emojiSpan.className = 'milkdown-emoji-filter_item-emoji';
-        const keySpan = document.createElement('span');
-        keySpan.textContent = ':' + key + ':';
-        keySpan.className = 'milkdown-emoji-filter_item-key';
-
-        container.appendChild(emojiSpan);
-        container.appendChild(keySpan);
-        dropDown.appendChild(container);
-
-        if (i === 0) {
-            container.classList.add('active');
-            setActive(container);
-        }
-
-        container.addEventListener('mouseenter', (e) => {
-            if ($active) {
-                $active.classList.remove('active');
-            }
-            const { target } = e;
-            if (!(target instanceof HTMLElement)) return;
-            target.classList.add('active');
-            setActive(target);
-        });
-        container.addEventListener('mouseleave', (e) => {
-            const { target } = e;
-            if (!(target instanceof HTMLElement)) return;
-            target.classList.remove('active');
-        });
-        container.addEventListener('mousedown', (e) => {
-            onConfirm();
-            e.preventDefault();
-        });
-    });
-};
-
-const filterPlugin = (ctx: Ctx) => {
+const filterPlugin = (utils: Utils) => {
     let trigger = false;
     let _from = 0;
     let _search = '';
@@ -141,43 +62,13 @@ const filterPlugin = (ctx: Ctx) => {
             }
 
             const dropDown = document.createElement('div');
-            const { size, widget, palette, font } = ctx.get(themeToolCtx);
-            const style = css`
-                position: absolute;
-                &.hide {
-                    display: none;
-                }
+            const style = utils.getStyle(injectStyle);
 
-                ${widget.border?.()};
-                border-radius: ${size.radius};
-                background: ${palette('surface')};
-                ${widget.shadow?.()};
+            if (style) {
+                dropDown.classList.add(style);
+            }
 
-                .milkdown-emoji-filter_item {
-                    display: flex;
-                    gap: 0.5rem;
-                    height: 2.25rem;
-                    padding: 0 1rem;
-                    align-items: center;
-                    justify-content: flex-start;
-                    cursor: pointer;
-                    line-height: 2;
-                    font-family: ${font.font};
-                    font-size: 0.875rem;
-                    &.active {
-                        background: ${palette('secondary', 0.12)};
-                        color: ${palette('primary')};
-                    }
-                }
-
-                .emoji {
-                    height: 1em;
-                    width: 1em;
-                    margin: 0 0.05em 0 0.1em;
-                    vertical-align: -0.1em;
-                }
-            `;
-            dropDown.classList.add('milkdown-emoji-filter', style, 'hide');
+            dropDown.classList.add('milkdown-emoji-filter', 'hide');
 
             const replace = () => {
                 if (!$active) return;
@@ -263,4 +154,4 @@ const filterPlugin = (ctx: Ctx) => {
     });
 };
 
-export const filter = prosePluginFactory((ctx) => filterPlugin(ctx));
+export const filter = createProsePlugin((_, utils) => filterPlugin(utils));
