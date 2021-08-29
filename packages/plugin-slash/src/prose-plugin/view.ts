@@ -1,5 +1,4 @@
-import { Ctx } from '@milkdown/core';
-import { calculateNodePosition } from '@milkdown/utils';
+import { calculateNodePosition, Utils } from '@milkdown/utils';
 import { EditorView } from 'prosemirror-view';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
@@ -180,11 +179,11 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
     });
 };
 
-export const createView = (status: Status, items: Action[], view: EditorView, ctx: Ctx) => {
+export const createView = (status: Status, items: Action[], view: EditorView, utils: Utils) => {
     const wrapper = view.dom.parentNode;
     if (!wrapper) return {};
 
-    const dropdownElement = createDropdown(ctx);
+    const dropdownElement = createDropdown(utils);
     const mouseManager = createMouseManager();
     wrapper.appendChild(dropdownElement);
 

@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { Ctx, ThemeTool, themeToolCtx } from '@milkdown/core';
+import { ThemeTool } from '@milkdown/core';
 
 const itemStyle = ({ font, palette }: ThemeTool) => {
     return css`
@@ -37,8 +37,7 @@ const itemStyle = ({ font, palette }: ThemeTool) => {
             `;
 };
 
-export const injectStyle = (ctx: Ctx) => {
-    const themeTool = ctx.get(themeToolCtx);
+export const injectStyle = (themeTool: ThemeTool) => {
     const { widget, size, palette } = themeTool;
     const style = css`
         width: 20.5rem;

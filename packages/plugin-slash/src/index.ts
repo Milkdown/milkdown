@@ -1,21 +1,19 @@
-import { CommandsReady, createCtx, Ctx, MilkdownPlugin, prosePluginsCtx } from '@milkdown/core';
+import { Ctx } from '@milkdown/core';
+import { AtomList, createProsePlugin } from '@milkdown/utils';
 
 import { config } from './config';
 import { WrappedAction } from './item';
-import { slashPlugin } from './prose-plugin';
+import { createSlashPlugin } from './prose-plugin';
 
 export { createDropdownItem, nodeExists } from './utility';
 
 export type SlashConfig = (ctx: Ctx) => WrappedAction[];
 
-export const slashCtx = createCtx<SlashConfig>(() => []);
+const slashPlugin = createProsePlugin<{ config: SlashConfig }>((options, utils) => {
+    const slashConfig = options?.config ?? config;
+    const cfg = slashConfig(utils.ctx);
 
-export const slash: MilkdownPlugin = (pre) => {
-    pre.inject(slashCtx, config);
+    return createSlashPlugin(utils, cfg);
+});
 
-    return async (ctx) => {
-        await ctx.wait(CommandsReady);
-        const config = ctx.get(slashCtx);
-        ctx.update(prosePluginsCtx, (prev) => prev.concat([slashPlugin(ctx, config(ctx))].flat()));
-    };
-};
+export const slash = AtomList.create([slashPlugin()]);

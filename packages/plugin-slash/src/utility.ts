@@ -1,16 +1,21 @@
-import { Ctx } from '@milkdown/core';
+import { Utils } from '@milkdown/utils';
 import { Command } from 'prosemirror-commands';
 import { Node, Schema } from 'prosemirror-model';
 
 import { injectStyle } from './style';
 
-export const createDropdown = (ctx: Ctx) => {
+export const createDropdown = (utils: Utils) => {
     const div = document.createElement('div');
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
-    const style = injectStyle(ctx);
+    // const style = injectStyle(ctx);
+    const style = utils.getStyle(injectStyle);
 
-    div.classList.add('slash-dropdown', style, 'hide');
+    if (style) {
+        div.classList.add(style);
+    }
+
+    div.classList.add('slash-dropdown', 'hide');
 
     return div;
 };
