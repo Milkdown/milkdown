@@ -49,3 +49,9 @@ export const callCommandBeforeEditorView = () =>
     new Error(
         `You're trying to call a command before editor view initialized, make sure to get commandManager from ctx after editor view has been initialized`,
     );
+
+export const themeMustInstalled = () =>
+    new Error(
+        `It seems that no theme found in editor, please make sure you have use theme in front of all plugins.
+If you prefer to use an empty theme, you can use \`themeFactory({})\`.`,
+    );
