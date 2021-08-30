@@ -9,12 +9,13 @@ import { SupportedKeys } from '../supported-keys';
 type Keys = SupportedKeys['Bold'];
 const id = 'strong';
 export const ToggleBold = createCmdKey();
-export const strong = createMark<Keys>((options, utils) => {
-    const style = options?.headless
-        ? null
-        : css`
-              font-weight: 600;
-          `;
+export const strong = createMark<Keys>((_, utils) => {
+    const style = utils.getStyle(
+        () =>
+            css`
+                font-weight: 600;
+            `,
+    );
     return {
         id,
         schema: {

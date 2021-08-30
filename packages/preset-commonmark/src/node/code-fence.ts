@@ -58,8 +58,8 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                 box-sizing: border-box;
                 border-radius: ${size.radius};
                 margin: 0 1.2rem 1.2rem;
-                ${border?.()};
-                ${shadow?.()};
+                ${border()};
+                ${shadow()};
                 cursor: pointer;
                 background-color: ${palette('surface')};
                 position: relative;
@@ -118,15 +118,15 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                 padding: 0.5rem 0;
                 max-height: 16.75rem;
                 width: 10.25rem;
-                ${border?.()};
-                ${shadow?.()};
+                ${border()};
+                ${shadow()};
                 background-color: ${palette('surface')};
                 border-top: none;
                 overflow-y: auto;
                 display: flex;
                 flex-direction: column;
 
-                ${scrollbar?.('y')}
+                ${scrollbar('y')}
             }
 
             code {
@@ -141,7 +141,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
 
                 padding-bottom: 1.4rem;
 
-                ${scrollbar?.('x')}
+                ${scrollbar('x')}
             }
         `;
     });
