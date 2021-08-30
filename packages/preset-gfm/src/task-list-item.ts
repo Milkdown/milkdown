@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
+import type { Icon } from '@milkdown/design-system';
 import { createNode, createShortcut } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
@@ -146,9 +147,9 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             const checkbox = document.createElement('input');
             const content = document.createElement('div');
 
-            let icon = createIcon('');
+            let icon = createIcon('unchecked');
             checkboxWrapper.appendChild(icon);
-            const setIcon = (name: string) => {
+            const setIcon = (name: Icon) => {
                 const nextIcon = createIcon(name);
                 checkboxWrapper.replaceChild(nextIcon, icon);
                 icon = nextIcon;
@@ -192,7 +193,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             Object.entries(attributes).forEach(([key, value]) => {
                 listItem.setAttribute(key, value);
             });
-            setIcon(node.attrs.checked ? 'check_box' : 'check_box_outline_blank');
+            setIcon(node.attrs.checked ? 'checked' : 'unchecked');
 
             return {
                 dom: listItem,
@@ -206,7 +207,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                     } else {
                         checkbox.removeAttribute('checked');
                     }
-                    setIcon(updatedNode.attrs.checked ? 'check_box' : 'check_box_outline_blank');
+                    setIcon(updatedNode.attrs.checked ? 'checked' : 'unchecked');
 
                     return true;
                 },

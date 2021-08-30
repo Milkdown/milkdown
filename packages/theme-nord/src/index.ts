@@ -6,6 +6,7 @@ import { code, typography } from './font';
 import { mixin } from './mixin';
 import { color } from './nord';
 import { override } from './override';
+import { slots } from './slots';
 import { view } from './view';
 
 export const nord = themeFactory({
@@ -19,14 +20,7 @@ export const nord = themeFactory({
     },
     color,
     mixin,
-    slots: () => ({
-        icon: (id) => {
-            const span = document.createElement('span');
-            span.className = 'icon material-icons material-icons-outlined';
-            span.textContent = id;
-            return span;
-        },
-    }),
+    slots,
     global: (themeTool) => {
         const css = injectGlobal;
         css`

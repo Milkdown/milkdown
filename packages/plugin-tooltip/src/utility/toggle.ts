@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { CmdKey, commandsCtx, Ctx, themeToolCtx } from '@milkdown/core';
+import type { Icon } from '@milkdown/design-system';
 import type { MarkType } from 'prosemirror-model';
 
 import type { ButtonItem } from '../item';
@@ -7,7 +8,7 @@ import { hasMark, isTextAndNotHasMark } from './prosemirror';
 
 export const createToggleIcon = <T>(
     ctx: Ctx,
-    iconName: string,
+    iconName: Icon,
     commandKey: CmdKey<T>,
     mark: MarkType,
     disableForMark: MarkType,

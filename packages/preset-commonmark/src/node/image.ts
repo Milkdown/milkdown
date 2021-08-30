@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
+import type { Icon } from '@milkdown/design-system';
 import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
 import { NodeSelection } from 'prosemirror-state';
@@ -217,12 +218,12 @@ export const image = createNode((_, utils) => {
 
             const content = document.createElement('img');
             container.append(content);
-            let icon = createIcon('');
+            let icon = createIcon('image');
             const placeholder = document.createElement('span');
             placeholder.classList.add('placeholder');
             container.append(icon, placeholder);
 
-            const setIcon = (name: string) => {
+            const setIcon = (name: Icon) => {
                 const nextIcon = createIcon(name);
                 container.replaceChild(nextIcon, icon);
                 icon = nextIcon;
@@ -230,7 +231,7 @@ export const image = createNode((_, utils) => {
 
             const loadImage = (src: string) => {
                 container.classList.add('system', 'loading');
-                setIcon('hourglass_empty');
+                setIcon('loading');
                 const img = document.createElement('img');
                 img.src = src;
 
@@ -286,7 +287,7 @@ export const image = createNode((_, utils) => {
                     if (failed) {
                         container.classList.remove('loading', 'empty');
                         container.classList.add('system', 'failed');
-                        setIcon('broken_image');
+                        setIcon('brokenImage');
                         return true;
                     }
                     if (src.length > 0) {

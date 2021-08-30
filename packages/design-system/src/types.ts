@@ -7,8 +7,39 @@ export type Font = 'typography' | 'code';
 
 export type Size = 'radius' | 'lineWidth';
 
+export type Icon =
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'loading'
+    | 'quote'
+    | 'code'
+    | 'table'
+    | 'divider'
+    | 'image'
+    | 'brokenImage'
+    | 'bulletList'
+    | 'orderedList'
+    | 'taskList'
+    | 'bold'
+    | 'italic'
+    | 'inlineCode'
+    | 'strikeThrough'
+    | 'link'
+    | 'leftArrow'
+    | 'rightArrow'
+    | 'upArrow'
+    | 'downArrow'
+    | 'alignLeft'
+    | 'alignRight'
+    | 'alignCenter'
+    | 'delete'
+    | 'select'
+    | 'unchecked'
+    | 'checked';
+
 export type Slots = {
-    icon: (id: string, config?: Record<string, string | number | boolean>) => HTMLElement;
+    icon: (id: Icon, config?: Record<string, string | number | boolean>) => HTMLElement;
 };
 
 export type MixinFactory = {

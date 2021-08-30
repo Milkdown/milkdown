@@ -1,8 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { ThemeTool } from '@milkdown/core';
-import { Utils } from '@milkdown/utils';
-import { Command } from 'prosemirror-commands';
-import { Node, Schema } from 'prosemirror-model';
+import type { ThemeTool } from '@milkdown/core';
+import type { Icon } from '@milkdown/design-system';
+import type { Utils } from '@milkdown/utils';
+import type { Command } from 'prosemirror-commands';
+import type { Node, Schema } from 'prosemirror-model';
 
 import { injectStyle } from './style';
 
@@ -24,12 +25,7 @@ export const createDropdown = (utils: Utils) => {
 type ItemOptions = {
     textClassName: string;
 };
-export const createDropdownItem = (
-    themeTool: ThemeTool,
-    text: string,
-    icon: string,
-    options?: Partial<ItemOptions>,
-) => {
+export const createDropdownItem = (themeTool: ThemeTool, text: string, icon: Icon, options?: Partial<ItemOptions>) => {
     const textClassName = options?.textClassName ?? 'text';
 
     const div = document.createElement('div');

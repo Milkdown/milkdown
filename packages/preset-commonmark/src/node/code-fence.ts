@@ -225,7 +225,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             valueWrapper.className = 'code-fence_value';
             const value = document.createElement('span');
             valueWrapper.appendChild(value);
-            valueWrapper.appendChild(utils.ctx.get(themeToolCtx).slots.icon('expand_more'));
+            valueWrapper.appendChild(utils.ctx.get(themeToolCtx).slots.icon('downArrow'));
 
             select.className = 'code-fence_select';
             select.addEventListener('mousedown', (e) => {

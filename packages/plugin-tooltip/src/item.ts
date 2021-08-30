@@ -71,11 +71,11 @@ export const inputMap = (schema: Schema, ctx: Ctx): InputMap => {
 export const buttonMap = (schema: Schema, ctx: Ctx): ButtonMap => {
     const { marks } = schema;
     return {
-        [ButtonAction.ToggleBold]: createToggleIcon(ctx, 'format_bold', ToggleBold, marks.strong, marks.code_inline),
-        [ButtonAction.ToggleItalic]: createToggleIcon(ctx, 'format_italic', ToggleItalic, marks.em, marks.code_inline),
+        [ButtonAction.ToggleBold]: createToggleIcon(ctx, 'bold', ToggleBold, marks.strong, marks.code_inline),
+        [ButtonAction.ToggleItalic]: createToggleIcon(ctx, 'italic', ToggleItalic, marks.em, marks.code_inline),
         [ButtonAction.ToggleStrike]: createToggleIcon(
             ctx,
-            'strikethrough_s',
+            'strikeThrough',
             ToggleStrikeThrough,
             marks.strike_through,
             marks.code_inline,

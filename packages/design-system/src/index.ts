@@ -6,7 +6,7 @@ import { obj2color, obj2var } from './transformer';
 import { Color, PR, ThemePack, ThemeTool } from './types';
 
 export { ThemePack, ThemeTool } from './types';
-export { Color, Font, Size } from './types';
+export { Color, Font, Icon, Size } from './types';
 
 export const injectVar = (themePack: ThemePack) => {
     const { color = {}, font, size = {} } = themePack;
