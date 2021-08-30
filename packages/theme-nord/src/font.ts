@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-export const font = [
+export const typography = [
     'Roboto',
     'HelveticaNeue-Light',
     'Helvetica Neue Light',
@@ -10,4 +10,4 @@ export const font = [
     'sans-serif',
 ];
 
-export const fontCode = ['Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', 'monospace'];
+export const code = ['Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', 'monospace'];

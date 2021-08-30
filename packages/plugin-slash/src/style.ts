@@ -13,7 +13,7 @@ const itemStyle = ({ font, palette }: ThemeTool) => {
             justify-content: flex-start;
             cursor: pointer;
             line-height: 2;
-            font-family: ${font.font};
+            font-family: ${font.typography};
             font-size: 0.875rem;
 
             transition: all 0.2s ease-in-out;

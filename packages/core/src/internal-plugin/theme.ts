@@ -5,9 +5,10 @@ import { createCtx } from '../context';
 import { MilkdownPlugin } from '../utility';
 
 export const themeToolCtx = createCtx<ThemeTool>({
-    mixin: {},
-    font: {},
-    size: {},
+    mixin: {} as never,
+    font: {} as never,
+    size: {} as never,
+    slots: {} as never,
     palette: () => '',
 });
 

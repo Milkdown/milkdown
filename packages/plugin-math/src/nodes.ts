@@ -38,7 +38,7 @@ export const mathInline = createNode((_, utils) => {
                 outline: none !important;
                 border-radius: ${size.radius};
                 font-weight: 500;
-                font-family: ${font.fontCode};
+                font-family: ${font.code};
                 box-sizing: border-box;
                 color: ${palette('primary')};
             }

@@ -43,7 +43,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             font-size: 0.85rem;
             padding: 1.2rem 0.4rem 1.4rem;
             border-radius: ${radius};
-            font-family: ${font.font};
+            font-family: ${font.typography};
 
             * {
                 margin: 0;

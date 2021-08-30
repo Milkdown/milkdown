@@ -14,7 +14,7 @@ const createEmptyStyle = ({ font, palette }: ThemeTool) => css`
     &::before {
         position: absolute;
         cursor: text;
-        font-family: ${font.font};
+        font-family: ${font.typography};
         font-size: 0.875rem;
         color: ${palette('neutral', 0.6)};
         content: attr(data-text);

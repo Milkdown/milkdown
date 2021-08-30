@@ -19,7 +19,7 @@ export const codeInline = createMark<Keys>((_, utils) => {
                 color: ${palette('background')};
                 border-radius: ${size.radius};
                 font-weight: 500;
-                font-family: ${font.fontCode};
+                font-family: ${font.code};
                 padding: 0 0.2rem;
             `,
     );

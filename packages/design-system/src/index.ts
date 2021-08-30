@@ -1,33 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { injectGlobal } from '@emotion/css';
 
+import * as D from './default-value';
 import { obj2color, obj2var } from './transformer';
-import { Color, Font, PR, Size } from './types';
+import { Color, PR, ThemePack, ThemeTool } from './types';
 
+export { ThemePack, ThemeTool } from './types';
 export { Color, Font, Size } from './types';
-
-export type ThemePack = {
-    scope?: string;
-    color?: { light?: PR<Color>; dark?: PR<Color> } & PR<Color>;
-    font?: PR<Font, string[]>;
-    size?: PR<Size>;
-    mixin?: (utils: Omit<ThemeTool, 'mixin' | 'global'>) => Partial<MixinFactory>;
-    global?: (utils: Omit<ThemeTool, 'global'>) => void;
-};
-
-export type MixinFactory = {
-    icon: (id: string) => string;
-    scrollbar: (direction?: 'x' | 'y') => string;
-    shadow: () => string;
-    border: (direction?: 'left' | 'right' | 'top' | 'bottom') => string;
-};
-
-export type ThemeTool = {
-    mixin: Partial<MixinFactory>;
-    palette: (key: Color, alpha?: number) => string;
-    font: PR<Font>;
-    size: PR<Size>;
-};
 
 export const injectVar = (themePack: ThemePack) => {
     const { color = {}, font, size = {} } = themePack;
@@ -47,7 +26,7 @@ export const injectVar = (themePack: ThemePack) => {
 };
 
 export const pack2Tool = (themePack: ThemePack): ThemeTool => {
-    const { font, size = {}, mixin: _mixin, global } = themePack;
+    const { font, size = {}, mixin: _mixin, slots: _slots, global } = themePack;
 
     const palette = (key: Color, alpha = 1) => {
         return `rgba(var(--${key}), ${alpha})`;
@@ -59,16 +38,35 @@ export const pack2Tool = (themePack: ThemePack): ThemeTool => {
             }),
         ) as PR<T>;
 
-    const _tool = {
+    const mixinTool: Pick<ThemeTool, 'palette' | 'size' | 'font'> = {
         palette,
-        size: toMap(size),
-        font: toMap(font),
+        size: {
+            ...D.size,
+            ...toMap(size),
+        },
+        font: {
+            ...D.font,
+            ...toMap(font),
+        },
     };
-    const mixin = _mixin?.(_tool) || {};
+    const mixin = {
+        ...D.mixin,
+        ..._mixin?.(mixinTool),
+    };
 
-    const tool = {
-        ..._tool,
+    const slotsTool: typeof mixinTool & { mixin: typeof mixin } = {
+        ...mixinTool,
         mixin,
+    };
+
+    const slots = {
+        ...D.slots,
+        ..._slots?.(slotsTool),
+    };
+
+    const tool: ThemeTool = {
+        ...slotsTool,
+        slots,
     };
 
     global?.(tool);

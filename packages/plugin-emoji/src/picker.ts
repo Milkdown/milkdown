@@ -85,7 +85,7 @@ const pickerPlugin = (utils: Utils) => {
                         --dark-blue-color: ${palette('primary')} !important;
                         --dark-search-icon-color: ${palette('primary')} !important;
                         --dark-category-button-color: ${palette('secondary', 0.4)} !important;
-                        --font: ${font.font} !important;
+                        --font: ${font.typography} !important;
                         --font-size: 1rem !important;
                     }
                 `;
