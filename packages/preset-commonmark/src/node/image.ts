@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
 import { NodeSelection } from 'prosemirror-state';
@@ -48,20 +48,6 @@ export const image = createNode((_, utils) => {
                     gap: 2rem;
                     justify-content: flex-start;
                     align-items: center;
-                    .icon {
-                        width: 1.5rem;
-                        height: 1.5rem;
-                        margin: 0;
-                        margin-left: 1rem;
-                        position: relative;
-                        &::before {
-                            position: absolute;
-                            top: 0;
-                            bottom: 0;
-                            left: 0;
-                            right: 0;
-                        }
-                    }
                     .placeholder {
                         margin: 0;
                         &::before {
@@ -73,12 +59,6 @@ export const image = createNode((_, utils) => {
                 }
 
                 &.loading {
-                    .icon {
-                        &::before {
-                            ${themeTool.mixin.icon?.('hourglass_empty')}
-                        }
-                    }
-
                     .placeholder {
                         &::before {
                             content: 'Loading...';
@@ -87,11 +67,6 @@ export const image = createNode((_, utils) => {
                 }
 
                 &.empty {
-                    .icon {
-                        &::before {
-                            ${themeTool.mixin.icon?.('image')}
-                        }
-                    }
                     .placeholder {
                         &::before {
                             content: 'Add an image';
@@ -100,12 +75,6 @@ export const image = createNode((_, utils) => {
                 }
 
                 &.failed {
-                    .icon {
-                        &::before {
-                            ${themeTool.mixin.icon?.('broken_image')}
-                        }
-                    }
-
                     .placeholder {
                         &::before {
                             content: 'Image load failed';
@@ -242,19 +211,26 @@ export const image = createNode((_, utils) => {
             ),
         ],
         view: (_editor, nodeType, node, view, getPos) => {
+            const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
             const container = document.createElement('div');
             container.className = utils.getClassName(node.attrs, id, containerStyle);
 
             const content = document.createElement('img');
             container.append(content);
-            const icon = document.createElement('span');
-            icon.classList.add('icon');
+            let icon = createIcon('');
             const placeholder = document.createElement('span');
             placeholder.classList.add('placeholder');
             container.append(icon, placeholder);
 
+            const setIcon = (name: string) => {
+                const nextIcon = createIcon(name);
+                container.replaceChild(nextIcon, icon);
+                icon = nextIcon;
+            };
+
             const loadImage = (src: string) => {
                 container.classList.add('system', 'loading');
+                setIcon('hourglass_empty');
                 const img = document.createElement('img');
                 img.src = src;
 
@@ -286,11 +262,11 @@ export const image = createNode((_, utils) => {
             content.title = title;
             content.alt = alt;
 
-            if (loading) {
-                loadImage(src);
-            }
             if (src.length === 0) {
                 container.classList.add('system', 'empty');
+                setIcon('image');
+            } else if (loading) {
+                loadImage(src);
             }
 
             return {
@@ -310,6 +286,7 @@ export const image = createNode((_, utils) => {
                     if (failed) {
                         container.classList.remove('loading', 'empty');
                         container.classList.add('system', 'failed');
+                        setIcon('broken_image');
                         return true;
                     }
                     if (src.length > 0) {
@@ -318,6 +295,7 @@ export const image = createNode((_, utils) => {
                     }
 
                     container.classList.add('system', 'empty');
+                    setIcon('image');
                     return true;
                 },
             };

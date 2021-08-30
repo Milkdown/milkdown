@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import { createNode, createShortcut } from '@milkdown/utils';
 import { wrapIn } from 'prosemirror-commands';
 import { wrappingInputRule } from 'prosemirror-inputrules';
@@ -18,7 +18,7 @@ export const TurnIntoTaskList = createCmdKey();
 export const taskListItem = createNode<Keys>((options, utils) => {
     const id = 'task_list_item';
     const style = utils.getStyle(
-        ({ palette, mixin, size }) =>
+        ({ palette, size }) =>
             css`
                 list-style-type: none;
                 position: relative;
@@ -52,14 +52,12 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                     background: ${palette('background')};
                 }
                 &[data-checked='true'] {
-                    label:before {
-                        ${mixin.icon?.('check_box')};
+                    label {
                         color: ${palette('primary')};
                     }
                 }
                 &[data-checked='false'] {
-                    label:before {
-                        ${mixin.icon?.('check_box_outline_blank')};
+                    label {
                         color: ${palette('solid', 0.87)};
                     }
                 }
@@ -140,11 +138,21 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             if (options?.view) {
                 return options.view(editor, nodeType, node, view, getPos, decorations);
             }
+            const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
+
             const listItem = document.createElement('li');
             const checkboxWrapper = document.createElement('label');
             const checkboxStyler = document.createElement('span');
             const checkbox = document.createElement('input');
             const content = document.createElement('div');
+
+            let icon = createIcon('');
+            checkboxWrapper.appendChild(icon);
+            const setIcon = (name: string) => {
+                const nextIcon = createIcon(name);
+                checkboxWrapper.replaceChild(nextIcon, icon);
+                icon = nextIcon;
+            };
 
             checkboxWrapper.contentEditable = 'false';
             checkbox.type = 'checkbox';
@@ -184,6 +192,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             Object.entries(attributes).forEach(([key, value]) => {
                 listItem.setAttribute(key, value);
             });
+            setIcon(node.attrs.checked ? 'check_box' : 'check_box_outline_blank');
 
             return {
                 dom: listItem,
@@ -197,6 +206,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
                     } else {
                         checkbox.removeAttribute('checked');
                     }
+                    setIcon(updatedNode.attrs.checked ? 'check_box' : 'check_box_outline_blank');
 
                     return true;
                 },

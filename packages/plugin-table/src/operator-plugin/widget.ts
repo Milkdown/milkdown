@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import { Ctx, themeToolCtx } from '@milkdown/core';
 import { Decoration, WidgetDecorationSpec } from 'prosemirror-view';
 
 import { CellPos, selectLine, selectTable } from '../utils';
@@ -20,13 +21,26 @@ const calculateClassName = (pos: ToolTipPos) => {
     }
 };
 
-export function createWidget(cell: CellPos, pos: ToolTipPos.Point): Decoration<WidgetDecorationSpec>;
-export function createWidget(cell: CellPos, pos: ToolTipPos.Left, index: number): Decoration<WidgetDecorationSpec>;
-export function createWidget(cell: CellPos, pos: ToolTipPos.Top, index: number): Decoration<WidgetDecorationSpec>;
-export function createWidget(cell: CellPos, pos: ToolTipPos, index = 0) {
+export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos.Point): Decoration<WidgetDecorationSpec>;
+export function createWidget(
+    ctx: Ctx,
+    cell: CellPos,
+    pos: ToolTipPos.Left,
+    index: number,
+): Decoration<WidgetDecorationSpec>;
+export function createWidget(
+    ctx: Ctx,
+    cell: CellPos,
+    pos: ToolTipPos.Top,
+    index: number,
+): Decoration<WidgetDecorationSpec>;
+export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos, index = 0) {
     const widget = Decoration.widget(cell.pos + 1, (view) => {
         const div = document.createElement('div');
         div.classList.add(calculateClassName(pos));
+        if (pos === ToolTipPos.Point) {
+            div.appendChild(ctx.get(themeToolCtx).slots.icon('select_all'));
+        }
         div.addEventListener('mousedown', (e) => {
             if (!view) return;
 

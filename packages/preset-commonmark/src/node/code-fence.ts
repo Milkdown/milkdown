@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import { createNode, createShortcut } from '@milkdown/utils';
 import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
@@ -35,7 +35,7 @@ export const TurnIntoCodeFence = createCmdKey();
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((options, utils) => {
     const style = utils.getStyle(({ palette, mixin, size, font }) => {
-        const { shadow, icon, scrollbar, border } = mixin;
+        const { shadow, scrollbar, border } = mixin;
         const { lineWidth, radius } = size;
         return css`
             background-color: ${palette('background')};
@@ -69,8 +69,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                 height: 2.625rem;
                 align-items: center;
 
-                &::after {
-                    ${icon?.('expand_more')};
+                & > *:last-child {
                     width: 2.625rem;
                     height: 100%;
                     display: flex;
@@ -80,11 +79,11 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                     border-left: ${lineWidth} solid ${palette('line')};
 
                     text-align: center;
-                    transition: all 0.4s ease-in-out;
-                }
-                &:hover::after {
-                    background: ${palette('background')};
-                    color: ${palette('primary')};
+                    transition: all 0.2s ease-in-out;
+                    &:hover {
+                        background: ${palette('background')};
+                        color: ${palette('primary')};
+                    }
                 }
 
                 > span:first-child {
@@ -226,6 +225,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             valueWrapper.className = 'code-fence_value';
             const value = document.createElement('span');
             valueWrapper.appendChild(value);
+            valueWrapper.appendChild(utils.ctx.get(themeToolCtx).slots.icon('expand_more'));
 
             select.className = 'code-fence_select';
             select.addEventListener('mousedown', (e) => {

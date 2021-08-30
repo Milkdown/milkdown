@@ -4,13 +4,6 @@ import { EditorView } from 'prosemirror-view';
 
 import { Item } from './actions';
 
-export function icon(text: string) {
-    const span = document.createElement('span');
-    span.textContent = text;
-    span.className = 'icon material-icons material-icons-outlined';
-    return span;
-}
-
 export const getCellSelection = (view: EditorView): CellSelection => view.state.selection as unknown as CellSelection;
 
 export const isFirstRowSelected = (selection: CellSelection) => {

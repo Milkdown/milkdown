@@ -16,7 +16,7 @@ import { createWidget } from './widget';
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
 export const operatorPlugin = createProsePlugin((_, utils) => {
-    const items = createActions();
+    const items = createActions(utils);
     const tooltip = document.createElement('div');
     const style = utils.getStyle(injectStyle);
     if (style) {
@@ -36,12 +36,12 @@ export const operatorPlugin = createProsePlugin((_, utils) => {
 
                 const [topLeft] = leftCells;
 
-                decorations.push(createWidget(topLeft, ToolTipPos.Point));
+                decorations.push(createWidget(utils.ctx, topLeft, ToolTipPos.Point));
                 leftCells.forEach((cell, i) => {
-                    decorations.push(createWidget(cell, ToolTipPos.Left, i));
+                    decorations.push(createWidget(utils.ctx, cell, ToolTipPos.Left, i));
                 });
                 topCells.forEach((cell, i) => {
-                    decorations.push(createWidget(cell, ToolTipPos.Top, i));
+                    decorations.push(createWidget(utils.ctx, cell, ToolTipPos.Top, i));
                 });
 
                 return DecorationSet.create(state.doc, decorations);

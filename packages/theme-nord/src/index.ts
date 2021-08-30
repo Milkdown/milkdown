@@ -19,6 +19,14 @@ export const nord = themeFactory({
     },
     color,
     mixin,
+    slots: () => ({
+        icon: (id) => {
+            const span = document.createElement('span');
+            span.className = 'icon material-icons material-icons-outlined';
+            span.textContent = id;
+            return span;
+        },
+    }),
     global: (themeTool) => {
         const css = injectGlobal;
         css`

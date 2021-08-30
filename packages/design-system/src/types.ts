@@ -12,7 +12,6 @@ export type Slots = {
 };
 
 export type MixinFactory = {
-    icon: (id: string) => string;
     scrollbar: (direction?: 'x' | 'y') => string;
     shadow: () => string;
     border: (direction?: 'left' | 'right' | 'top' | 'bottom') => string;

@@ -13,7 +13,6 @@ export const size: ThemeTool['size'] = {
 };
 
 export const mixin: ThemeTool['mixin'] = {
-    icon: (id: string) => id,
     scrollbar: () => '',
     shadow: () => '',
     border: () => '',

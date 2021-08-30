@@ -126,7 +126,7 @@ export const injectStyle = (utils: Utils) => {
                             height: 100%;
                             width: 100%;
                             display: block;
-                            transition: all 0.4s ease-in-out;
+                            transition: all 0.2s ease-in-out;
                             background: ${palette('secondary', 0.12)};
                             content: '';
                         }
@@ -155,14 +155,12 @@ export const injectStyle = (utils: Utils) => {
                         width: 1rem;
                         height: 1rem;
 
-                        &::after {
-                            ${mixin.icon?.('select_all')};
-                            color: ${palette('solid', 0.87)};
-                            font-size: inherit;
-                        }
-                        &:hover::after {
-                            background: transparent;
-                            color: ${palette('primary')};
+                        .icon {
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
                         }
                     }
                 }

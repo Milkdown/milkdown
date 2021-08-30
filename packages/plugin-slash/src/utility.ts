@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { ThemeTool } from '@milkdown/core';
 import { Utils } from '@milkdown/utils';
 import { Command } from 'prosemirror-commands';
 import { Node, Schema } from 'prosemirror-model';
@@ -9,7 +10,6 @@ export const createDropdown = (utils: Utils) => {
     const div = document.createElement('div');
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
-    // const style = injectStyle(ctx);
     const style = utils.getStyle(injectStyle);
 
     if (style) {
@@ -22,20 +22,21 @@ export const createDropdown = (utils: Utils) => {
 };
 
 type ItemOptions = {
-    iconClassName: string;
     textClassName: string;
 };
-export const createDropdownItem = (text: string, icon: string, options?: Partial<ItemOptions>) => {
-    const iconClassName = options?.iconClassName ?? 'icon material-icons material-icons-outlined';
+export const createDropdownItem = (
+    themeTool: ThemeTool,
+    text: string,
+    icon: string,
+    options?: Partial<ItemOptions>,
+) => {
     const textClassName = options?.textClassName ?? 'text';
 
     const div = document.createElement('div');
     div.setAttribute('role', 'option');
     div.classList.add('slash-dropdown-item');
 
-    const iconSpan = document.createElement('span');
-    iconSpan.textContent = icon;
-    iconSpan.className = iconClassName;
+    const iconSpan = themeTool.slots.icon(icon);
 
     const textSpan = document.createElement('span');
     textSpan.textContent = text;
