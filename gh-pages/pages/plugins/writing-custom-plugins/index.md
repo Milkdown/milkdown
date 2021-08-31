@@ -1,4 +1,4 @@
-# Writing Plugins
+# Writing Custom Plugins
 
 Instead of using provided utils to create plugin, you can also write plugin yourself.
 You will get more access to the plugin detail in this way. And this could help you to write yourself a powerful plugin.

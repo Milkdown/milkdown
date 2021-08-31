@@ -96,17 +96,24 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
-        'example-custom-syntax',
+        'writing-syntax-plugins',
         {
-            en: 'Example: Custom Syntax',
-            'zh-hans': '示例：自定义语法',
+            en: 'Writing Syntax Plugins',
+            'zh-hans': '编写语法插件',
         },
     ],
     [
-        'writing-plugins',
+        'writing-theme-plugins',
         {
-            en: 'Writing Plugins',
-            'zh-hans': '编写插件',
+            en: 'Writing Theme Plugins',
+            'zh-hans': '编写主题插件',
+        },
+    ],
+    [
+        'writing-custom-plugins',
+        {
+            en: 'Writing Custom Plugins',
+            'zh-hans': '编写自定义插件',
         },
     ],
     [

@@ -19,7 +19,13 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'plugins',
-        items: ['using-plugins', 'integrating-plugins', 'example-custom-syntax', 'writing-plugins'],
+        items: [
+            'using-plugins',
+            'integrating-plugins',
+            'writing-syntax-plugins',
+            'writing-theme-plugins',
+            'writing-custom-plugins',
+        ],
     },
     {
         dir: 'internals',

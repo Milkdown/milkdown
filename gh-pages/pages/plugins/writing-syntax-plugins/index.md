@@ -1,6 +1,6 @@
-# Example: Custom Syntax
+# Writing Syntax Plugins
 
-Generally, if we want to add a custom syntax, there are 5 things need to be done:
+Generally, if we want to add a custom syntax plugin, there are 5 things need to be done:
 
 1. Add a remark plugin to make sure the syntax can be parsed and serialized correctly.
 2. Define the prosemirror schema for your custom node.
