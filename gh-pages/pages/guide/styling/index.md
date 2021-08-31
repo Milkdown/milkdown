@@ -37,7 +37,3 @@ const nodes = commonmark
 
 new Editor().use(nodes).use(commonmarkPlugins);
 ```
-
-## Example: NES Theme
-
-!CodeSandBox{milkdown-theme-nes-b0zmy?fontsize=14&hidenavigation=1&theme=dark&view=preview}
