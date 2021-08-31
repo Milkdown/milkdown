@@ -1,5 +1,11 @@
 # @milkdown/plugin-cursor
 
+## 4.11.0
+
+### Minor Changes
+
+-   80a0c815: Add slots in design system and headless mode for all plugins.
+
 ## 4.10.5
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @milkdown/core
 
+## 4.11.0
+
+### Minor Changes
+
+-   80a0c815: Add slots in design system and headless mode for all plugins.
+
+### Patch Changes
+
+-   Updated dependencies [80a0c815]
+    -   @milkdown/design-system@4.11.0
+    -   @milkdown/exception@4.11.0
+
 ## 4.10.5
 
 ### Patch Changes
