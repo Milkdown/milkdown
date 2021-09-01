@@ -1,5 +1,13 @@
 # @milkdown/vue
 
+## 4.11.1
+
+### Patch Changes
+
+-   fca77942: Export theme module
+-   Updated dependencies [fca77942]
+    -   @milkdown/utils@4.11.1
+
 ## 4.11.0
 
 ### Minor Changes

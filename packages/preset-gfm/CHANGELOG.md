@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.11.1
+
+### Patch Changes
+
+-   fca77942: Export theme module
+-   Updated dependencies [fca77942]
+    -   @milkdown/plugin-table@4.11.1
+    -   @milkdown/preset-commonmark@4.11.1
+    -   @milkdown/utils@4.11.1
+
 ## 4.11.0
 
 ### Minor Changes
