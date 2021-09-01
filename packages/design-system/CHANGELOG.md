@@ -1,5 +1,11 @@
 # @milkdown/design-system
 
+## 4.11.1
+
+### Patch Changes
+
+-   fca77942: Export theme module
+
 ## 4.11.0
 
 ### Minor Changes
