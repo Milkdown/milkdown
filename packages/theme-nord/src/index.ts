@@ -9,15 +9,19 @@ import { override } from './override';
 import { slots } from './slots';
 import { view } from './view';
 
+export const font = {
+    typography,
+    code,
+};
+
+export const size = {
+    radius: '4px',
+    lineWidth: '1px',
+};
+
 export const nord = themeFactory({
-    font: {
-        typography,
-        code,
-    },
-    size: {
-        radius: '4px',
-        lineWidth: '1px',
-    },
+    font,
+    size,
     color,
     mixin,
     slots,
@@ -29,3 +33,9 @@ export const nord = themeFactory({
         `;
     },
 });
+
+export { mixin } from './mixin';
+export { color } from './nord';
+export { override } from './override';
+export { slots } from './slots';
+export { view } from './view';
