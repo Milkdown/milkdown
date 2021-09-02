@@ -1,19 +1,31 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import {
-    MilkdownPlugin,
-    Parser,
-    parserCtx,
-    ParserReady,
-    prosePluginsCtx,
-    schemaCtx,
-    serializerCtx,
-    SerializerReady,
-} from '@milkdown/core';
-import { Node as ProseNode, Schema, Slice } from 'prosemirror-model';
+import { parserCtx, schemaCtx, serializerCtx } from '@milkdown/core';
+import { createProsePlugin } from '@milkdown/utils';
+import { Node, Slice } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 
-const clipboardPlugin = (schema: Schema, parser: Parser, serializer: (node: ProseNode) => string) =>
-    new Plugin({
+type R = Record<string, unknown>;
+const isPureText = (content: R | R[] | undefined | null): boolean => {
+    if (!content) return false;
+    if (Array.isArray(content)) {
+        if (content.length > 1) return false;
+        return isPureText(content[0]);
+    }
+
+    const child = content.content;
+    if (child) {
+        return isPureText(child as R[]);
+    }
+
+    return content.type === 'text';
+};
+
+export const clipboardPlugin = createProsePlugin((_, utils) => {
+    const { ctx } = utils;
+    const schema = ctx.get(schemaCtx);
+    const parser = ctx.get(parserCtx);
+    const serializer = ctx.get(serializerCtx);
+    return new Plugin({
         props: {
             handlePaste: (view, event) => {
                 const editable = view.props.editable?.(view.state);
@@ -38,6 +50,10 @@ const clipboardPlugin = (schema: Schema, parser: Parser, serializer: (node: Pros
                 return true;
             },
             clipboardTextSerializer: (slice) => {
+                const isText = isPureText(slice.content.toJSON());
+                if (isText) {
+                    return (slice.content as unknown as Node).textBetween(0, slice.content.size, '\n\n');
+                }
                 const doc = schema.topNodeType.createAndFill(undefined, slice.content);
                 if (!doc) return '';
                 const value = serializer(doc);
@@ -45,14 +61,4 @@ const clipboardPlugin = (schema: Schema, parser: Parser, serializer: (node: Pros
             },
         },
     });
-
-export const clipboard: MilkdownPlugin = () => {
-    return async (ctx) => {
-        await Promise.all([ctx.wait(ParserReady), ctx.wait(SerializerReady)]);
-        const schema = ctx.get(schemaCtx);
-        const parser = ctx.get(parserCtx);
-        const serializer = ctx.get(serializerCtx);
-        const plugin = clipboardPlugin(schema, parser, serializer);
-        ctx.update(prosePluginsCtx, (prev) => prev.concat(plugin));
-    };
-};
+});
