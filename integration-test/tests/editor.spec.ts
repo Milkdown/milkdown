@@ -1,7 +1,12 @@
-import { test, expect } from '@playwright/test';
+/* Copyright 2021, Milkdown by Mirone. */
+
+import { expect, test } from '@playwright/test';
+
+test.beforeEach(async ({ page }) => {
+    await page.goto('/#/preset-commonmark');
+});
 
 test('has editor', async ({ page }) => {
-    await page.goto('/#/preset-commonmark');
     const milkdown = await page.waitForSelector('.milkdown');
     const editor = await milkdown.waitForSelector('.editor');
     expect(await editor.getAttribute('contenteditable')).toBe('true');
@@ -9,8 +14,13 @@ test('has editor', async ({ page }) => {
 
 test.describe('input', () => {
     test.describe('node', () => {
+        test('input paragraph', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
+        });
+
         test('input heading', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('# Heading1');
@@ -23,7 +33,6 @@ test.describe('input', () => {
         });
 
         test('input blockquote ', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('> Blockquote');
@@ -41,7 +50,6 @@ test.describe('input', () => {
         });
 
         test('input bullet list ', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('* list item 1');
@@ -59,7 +67,6 @@ test.describe('input', () => {
         });
 
         test('input ordered list ', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('1. list item 1');
@@ -77,7 +84,6 @@ test.describe('input', () => {
         });
 
         test('input hr', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('---');
@@ -85,7 +91,6 @@ test.describe('input', () => {
         });
 
         test('input image', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('![image](url)');
@@ -94,7 +99,6 @@ test.describe('input', () => {
         });
 
         test('input code block', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('```markdown ');
@@ -106,7 +110,6 @@ test.describe('input', () => {
 
     test.describe('mark', () => {
         test('input bold', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is **bold test**!');
@@ -114,7 +117,6 @@ test.describe('input', () => {
         });
 
         test('input em', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is *em test*!');
@@ -122,7 +124,6 @@ test.describe('input', () => {
         });
 
         test('input inline code', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is `code test`!');
@@ -130,7 +131,6 @@ test.describe('input', () => {
         });
 
         test('input link', async ({ page }) => {
-            await page.goto('/#/preset-commonmark');
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is [link test](url)!');
@@ -142,12 +142,22 @@ test.describe('input', () => {
     });
 });
 
-test('press hard break', async ({ page }) => {
-    await page.goto('/#/preset-commonmark');
-    const editor = await page.waitForSelector('.editor');
-    await editor.type('something');
-    await editor.press('Shift+Enter');
-    await editor.type('new line');
-    await editor.press('Shift+Enter');
-    expect(await editor.$$('.hardbreak')).toHaveLength(2);
+test.describe('shortcuts', () => {
+    test('press hard break', async ({ page }) => {
+        const editor = await page.waitForSelector('.editor');
+        await editor.type('something');
+        await editor.press('Shift+Enter');
+        await editor.type('new line');
+        await editor.press('Shift+Enter');
+        expect(await editor.$$('.hardbreak')).toHaveLength(2);
+    });
+
+    test('delete', async ({ page }) => {
+        const editor = await page.waitForSelector('.editor');
+        await editor.type('The lunatic is on the grass');
+        await editor.press('Delete');
+        expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gras')).toBeTruthy();
+        await editor.press('Delete');
+        expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gra')).toBeTruthy();
+    });
 });

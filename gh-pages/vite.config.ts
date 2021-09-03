@@ -5,7 +5,6 @@ import { defineConfig } from 'vite';
 import { markdownPlugin } from './markdown-plugin';
 
 export default defineConfig({
-    base: '/',
     build: {
         assetsDir: 'assets',
         outDir: '../docs',

@@ -1,5 +1,5 @@
 {
-    "{packages,gh-pages,integration-test}/**/*.{js,ts,tsx}": ["eslint --fix"],
-    "{packages,gh-pages,integration-test}/**/*.json": ["prettier --write"],
-    "{packages,gh-pages,integration-test}/**/*.md": ["prettier --write"]
+    "**/*.{js,ts,tsx}": ["eslint --fix"],
+    "**/*.json": ["prettier --write"],
+    "**/*.md": ["prettier --write"]
 }
