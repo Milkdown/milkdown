@@ -168,4 +168,12 @@ test.describe('shortcuts', () => {
         await editor.press('Delete');
         expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gra')).toBeTruthy();
     });
+
+    test('select all', async ({ page }) => {
+        const editor = await page.waitForSelector('.editor');
+        await editor.type('The lunatic is on the grass');
+        await editor.press('Control+A');
+        await editor.type('Lunatic');
+        expect(await editor.waitForSelector('.paragraph >> text=Lunatic')).toBeTruthy();
+    });
 });
