@@ -152,6 +152,14 @@ test.describe('shortcuts', () => {
         expect(await editor.$$('.hardbreak')).toHaveLength(2);
     });
 
+    test('enter', async ({ page }) => {
+        const editor = await page.waitForSelector('.editor');
+        await editor.type('The lunatic is on the grass');
+        await editor.press('Enter');
+        await editor.type('The lunatic is in the hall');
+        expect(await editor.waitForSelector('.paragraph:nth-child(2) >> text=The lunatic is in the hall')).toBeTruthy();
+    });
+
     test('delete', async ({ page }) => {
         const editor = await page.waitForSelector('.editor');
         await editor.type('The lunatic is on the grass');
