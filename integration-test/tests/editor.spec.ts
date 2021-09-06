@@ -157,7 +157,10 @@ test.describe('shortcuts', () => {
         await editor.type('The lunatic is on the grass');
         await editor.press('Enter');
         await editor.type('The lunatic is in the hall');
-        expect(await editor.waitForSelector('.paragraph:nth-child(2) >> text=The lunatic is in the hall')).toBeTruthy();
+        expect(
+            await editor.waitForSelector(':nth-match(.paragraph, 2) >> text=The lunatic is in the hall'),
+        ).toBeTruthy();
+        await expect(page.locator('.editor > .paragraph')).toHaveCount(2);
     });
 
     test('delete', async ({ page }) => {
@@ -165,7 +168,7 @@ test.describe('shortcuts', () => {
         await editor.type('The lunatic is on the grass');
         await editor.press('Delete');
         expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gras')).toBeTruthy();
-        await editor.press('Delete');
+        await editor.press('Backspace');
         expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gra')).toBeTruthy();
     });
 
@@ -175,5 +178,35 @@ test.describe('shortcuts', () => {
         await editor.press('Control+A');
         await editor.type('Lunatic');
         expect(await editor.waitForSelector('.paragraph >> text=Lunatic')).toBeTruthy();
+    });
+
+    test('copy and paste', async ({ page }) => {
+        const editor = await page.waitForSelector('.editor');
+        await editor.type('The lunatic is on the grass');
+        await expect(page.locator('.editor > .paragraph')).toHaveCount(1);
+        await editor.press('Control+A');
+        await editor.press('Control+C');
+        await editor.press('ArrowRight');
+        await editor.type('. ');
+        await editor.press('Control+V');
+        await editor.type('!');
+        await expect(page.locator('.editor > .paragraph')).toHaveCount(1);
+        expect(
+            await editor.waitForSelector(
+                '.paragraph >> text=The lunatic is on the grass. The lunatic is on the grass!',
+            ),
+        ).toBeTruthy();
+
+        await editor.press('Control+A');
+        await editor.press('Control+X');
+        await editor.type('Lyrics:');
+        await editor.press('Enter');
+        await editor.press('Control+V');
+        await expect(page.locator('.editor > .paragraph')).toHaveCount(2);
+        expect(
+            await editor.waitForSelector(
+                ':nth-match(.paragraph, 2) >> text=The lunatic is on the grass. The lunatic is on the grass!',
+            ),
+        ).toBeTruthy();
     });
 });
