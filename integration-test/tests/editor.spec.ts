@@ -12,15 +12,15 @@ test('has editor', async ({ page }) => {
     expect(await editor.getAttribute('contenteditable')).toBe('true');
 });
 
-test.describe('input', () => {
-    test.describe('node', () => {
-        test('input paragraph', async ({ page }) => {
+test.describe('input:', () => {
+    test.describe('node:', () => {
+        test('paragraph', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
             await editor.type('The lunatic is on the grass');
             expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
         });
 
-        test('input heading', async ({ page }) => {
+        test('heading', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('# Heading1');
@@ -32,7 +32,7 @@ test.describe('input', () => {
             expect(await editor.waitForSelector('.h2 >> text=Heading2')).toBeTruthy();
         });
 
-        test('input blockquote ', async ({ page }) => {
+        test('blockquote ', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('> Blockquote');
@@ -49,7 +49,7 @@ test.describe('input', () => {
             expect(await blockquote.waitForSelector('p:last-child >> text=Next line.')).toBeTruthy();
         });
 
-        test('input bullet list ', async ({ page }) => {
+        test('bullet list ', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('* list item 1');
@@ -66,7 +66,7 @@ test.describe('input', () => {
             expect(await list.waitForSelector('.list-item:last-child >> text=list item 2')).toBeTruthy();
         });
 
-        test('input ordered list ', async ({ page }) => {
+        test('ordered list ', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('1. list item 1');
@@ -83,14 +83,14 @@ test.describe('input', () => {
             expect(await list.waitForSelector('.list-item:last-child >> text=list item 2')).toBeTruthy();
         });
 
-        test('input hr', async ({ page }) => {
+        test('hr', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('---');
             expect(await editor.waitForSelector('.hr')).toBeDefined();
         });
 
-        test('input image', async ({ page }) => {
+        test('image', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('![image](url)');
@@ -98,7 +98,7 @@ test.describe('input', () => {
             expect(image).toBeDefined();
         });
 
-        test('input code block', async ({ page }) => {
+        test('code block', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('```markdown ');
@@ -108,29 +108,29 @@ test.describe('input', () => {
         });
     });
 
-    test.describe('mark', () => {
-        test('input bold', async ({ page }) => {
+    test.describe('mark:', () => {
+        test('bold', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is **bold test**!');
             expect(await editor.waitForSelector('.strong >> text=bold test')).toBeTruthy();
         });
 
-        test('input em', async ({ page }) => {
+        test('em', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is *em test*!');
             expect(await editor.waitForSelector('.em >> text=em test')).toBeTruthy();
         });
 
-        test('input inline code', async ({ page }) => {
+        test('inline code', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is `code test`!');
             expect(await editor.waitForSelector('.code-inline >> text=code test')).toBeTruthy();
         });
 
-        test('input link', async ({ page }) => {
+        test('link', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
             await editor.type('here is [link test](url)!');
@@ -142,71 +142,94 @@ test.describe('input', () => {
     });
 });
 
-test.describe('shortcuts', () => {
-    test('press hard break', async ({ page }) => {
-        const editor = await page.waitForSelector('.editor');
-        await editor.type('something');
-        await editor.press('Shift+Enter');
-        await editor.type('new line');
-        await editor.press('Shift+Enter');
-        expect(await editor.$$('.hardbreak')).toHaveLength(2);
+test.describe('shortcuts:', () => {
+    test.describe('system:', () => {
+        test('press hard break', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('something');
+            await editor.press('Shift+Enter');
+            await editor.type('new line');
+            await editor.press('Shift+Enter');
+            expect(await editor.$$('.hardbreak')).toHaveLength(2);
+        });
+
+        test('enter', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Enter');
+            await editor.type('The lunatic is in the hall');
+            expect(
+                await editor.waitForSelector(':nth-match(.paragraph, 2) >> text=The lunatic is in the hall'),
+            ).toBeTruthy();
+            await expect(page.locator('.editor > .paragraph')).toHaveCount(2);
+        });
+
+        test('delete', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Delete');
+            expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gras')).toBeTruthy();
+            await editor.press('Backspace');
+            expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gra')).toBeTruthy();
+        });
+
+        test('select all', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+A');
+            await editor.type('Lunatic');
+            expect(await editor.waitForSelector('.paragraph >> text=Lunatic')).toBeTruthy();
+        });
+
+        test('copy and paste', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await expect(page.locator('.editor > .paragraph')).toHaveCount(1);
+            await editor.press('Control+A');
+            await editor.press('Control+C');
+            await editor.press('ArrowRight');
+            await editor.type('. ');
+            await editor.press('Control+V');
+            await editor.type('!');
+            await expect(page.locator('.editor > .paragraph')).toHaveCount(1);
+            expect(
+                await editor.waitForSelector(
+                    '.paragraph >> text=The lunatic is on the grass. The lunatic is on the grass!',
+                ),
+            ).toBeTruthy();
+
+            await editor.press('Control+A');
+            await editor.press('Control+X');
+            await editor.type('Lyrics:');
+            await editor.press('Enter');
+            await editor.press('Control+V');
+            await expect(page.locator('.editor > .paragraph')).toHaveCount(2);
+            expect(
+                await editor.waitForSelector(
+                    ':nth-match(.paragraph, 2) >> text=The lunatic is on the grass. The lunatic is on the grass!',
+                ),
+            ).toBeTruthy();
+        });
     });
 
-    test('enter', async ({ page }) => {
-        const editor = await page.waitForSelector('.editor');
-        await editor.type('The lunatic is on the grass');
-        await editor.press('Enter');
-        await editor.type('The lunatic is in the hall');
-        expect(
-            await editor.waitForSelector(':nth-match(.paragraph, 2) >> text=The lunatic is in the hall'),
-        ).toBeTruthy();
-        await expect(page.locator('.editor > .paragraph')).toHaveCount(2);
-    });
-
-    test('delete', async ({ page }) => {
-        const editor = await page.waitForSelector('.editor');
-        await editor.type('The lunatic is on the grass');
-        await editor.press('Delete');
-        expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gras')).toBeTruthy();
-        await editor.press('Backspace');
-        expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the gra')).toBeTruthy();
-    });
-
-    test('select all', async ({ page }) => {
-        const editor = await page.waitForSelector('.editor');
-        await editor.type('The lunatic is on the grass');
-        await editor.press('Control+A');
-        await editor.type('Lunatic');
-        expect(await editor.waitForSelector('.paragraph >> text=Lunatic')).toBeTruthy();
-    });
-
-    test('copy and paste', async ({ page }) => {
-        const editor = await page.waitForSelector('.editor');
-        await editor.type('The lunatic is on the grass');
-        await expect(page.locator('.editor > .paragraph')).toHaveCount(1);
-        await editor.press('Control+A');
-        await editor.press('Control+C');
-        await editor.press('ArrowRight');
-        await editor.type('. ');
-        await editor.press('Control+V');
-        await editor.type('!');
-        await expect(page.locator('.editor > .paragraph')).toHaveCount(1);
-        expect(
-            await editor.waitForSelector(
-                '.paragraph >> text=The lunatic is on the grass. The lunatic is on the grass!',
-            ),
-        ).toBeTruthy();
-
-        await editor.press('Control+A');
-        await editor.press('Control+X');
-        await editor.type('Lyrics:');
-        await editor.press('Enter');
-        await editor.press('Control+V');
-        await expect(page.locator('.editor > .paragraph')).toHaveCount(2);
-        expect(
-            await editor.waitForSelector(
-                ':nth-match(.paragraph, 2) >> text=The lunatic is on the grass. The lunatic is on the grass!',
-            ),
-        ).toBeTruthy();
+    test.describe('node:', () => {
+        test('heading', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+Alt+1');
+            expect(await editor.waitForSelector('h1 >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+Alt+2');
+            expect(await editor.waitForSelector('h2 >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+Alt+3');
+            expect(await editor.waitForSelector('h3 >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+Alt+4');
+            expect(await editor.waitForSelector('h4 >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+Alt+5');
+            expect(await editor.waitForSelector('h5 >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+Alt+6');
+            expect(await editor.waitForSelector('h6 >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+Alt+0');
+            expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
+        });
     });
 });
