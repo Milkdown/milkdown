@@ -10,9 +10,5 @@ import { commonmark } from '@milkdown/preset-commonmark';
 
 import { clipboard } from '@milkdown/plugin-clipboard';
 
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
 new Editor().use(commonmark).use(clipboard).create();
 ```

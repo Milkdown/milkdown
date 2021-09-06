@@ -1,9 +1,12 @@
-import { Doc } from 'yjs';
-import { Editor, editorViewCtx, serializerCtx, rootCtx, defaultValueCtx } from '@milkdown/core';
-import { nord } from '@milkdown/theme-nord';
+/* Copyright 2021, Milkdown by Mirone. */
+
+import { defaultValueCtx, Editor, editorViewCtx, rootCtx, serializerCtx } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 import { WebsocketProvider } from 'y-websocket';
-import { collaborative } from '../src';
+import { Doc } from 'yjs';
+
+import { collaborative, y } from '../src';
 
 const markdown = `
 # Milkdown Collaborative Example
@@ -32,7 +35,12 @@ async function main() {
         })
         .use(nord)
         .use(commonmark)
-        .use(collaborative(doc, wsProvider.awareness))
+        .use(
+            collaborative.configure(y, {
+                doc,
+                awareness: wsProvider.awareness,
+            }),
+        )
         .create();
 
     const getMarkdown = () => {

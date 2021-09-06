@@ -45,6 +45,7 @@ importers:
       '@vitejs/plugin-vue-jsx': ^1.1.5
       babel-jest: ^27.0.6
       concurrently: ^6.2.0
+      cross-env: ^7.0.3
       eslint: ^7.21.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-header: ^3.1.1
@@ -114,6 +115,7 @@ importers:
       '@vitejs/plugin-vue-jsx': 1.1.6
       babel-jest: 27.0.6
       concurrently: 6.2.0
+      cross-env: 7.0.3
       eslint: 7.31.0
       eslint-config-prettier: 8.3.0_eslint@7.31.0
       eslint-plugin-header: 3.1.1_eslint@7.31.0
@@ -278,6 +280,7 @@ importers:
   packages/plugin-collaborative:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/utils': workspace:*
       tslib: ^2.2.0
       y-prosemirror: ^1.0.9
       y-protocols: ^1.0.5
@@ -285,6 +288,7 @@ importers:
       yjs: ^13.5.11
     dependencies:
       '@emotion/css': 11.1.3
+      '@milkdown/utils': link:../utils
       tslib: 2.3.0
       y-prosemirror: 1.0.9_cc0d63b0b161f7c3eead9180b5c06751
     devDependencies:
@@ -4527,6 +4531,14 @@ packages:
   /crelt/1.0.5:
     resolution: {integrity: sha512-+BO9wPPi+DWTDcNYhr/W90myha8ptzftZT+LwcmUbbok0rcP/fequmFYCw8NMoH7pkAZQzU78b3kYrlua5a9eA==}
     dev: false
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
 
   /cross-spawn/5.1.0:
     resolution: {integrity: sha1-6L0O/uWPz/b4+UUQoKVUu/ojVEk=}

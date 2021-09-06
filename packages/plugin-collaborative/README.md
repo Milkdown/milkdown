@@ -10,13 +10,17 @@ import { commonmark } from '@milkdown/preset-commonmark';
 
 import { Doc } from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
-import { collaborative } from '@milkdown/plugin-collaborative';
-
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
+import { collaborative, y } from '@milkdown/plugin-collaborative';
 
 const doc = new Doc();
 const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', doc);
-new Editor().use(commonmark).use(collaborative(doc, wsProvider.awareness)).create();
+new Editor()
+    .use(commonmark)
+    .use(
+        collaborative.configure(y, {
+            doc,
+            awareness: wsProvider.awareness,
+        }),
+    )
+    .create();
 ```
