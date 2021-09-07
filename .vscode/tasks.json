@@ -12,6 +12,39 @@
             "problemMatcher": ["$tsc-watch"],
             "label": "npm: watch",
             "detail": "tsc --build --watch --verbose"
+        },
+        {
+            "type": "npm",
+            "script": "doc",
+            "isBackground": true,
+            "label": "npm: doc",
+            "detail": "pnpm run start --filter @milkdown/gh-pages",
+            "problemMatcher": [
+                {
+                    "owner": "typescript",
+                    "source": "esbuild",
+                    "severity": "error",
+                    "fileLocation": "absolute",
+                    "pattern": [
+                        {
+                            "regexp": "\\s+\\[vite\\]\\sInternal\\sserver\\serror\\:\\s[^\\s].([^:]+):\\s+([^\\(]+)\\((\\d+):(\\d+)\\)\\s*$",
+                            "file": 3,
+                            "message": 4,
+                            "line": 5,
+                            "column": 6
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": {
+                            "regexp": "(\\d|:)+\\s+(PM|AM)"
+                        },
+                        "endsPattern": {
+                            "regexp": "Plugin: react-refresh|ready in (\\d+m)s"
+                        }
+                    }
+                }
+            ]
         }
     ]
 }
