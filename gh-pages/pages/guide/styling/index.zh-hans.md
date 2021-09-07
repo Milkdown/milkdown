@@ -35,7 +35,7 @@ const nodes = commonmark
         className: (attrs) => `my-custom-heading my-h${attrs.level}`,
     });
 
-new Editor().use(nodes).use(commonmarkPlugins);
+Editor.make().use(nodes).use(commonmarkPlugins);
 ```
 
 ## 无头模式

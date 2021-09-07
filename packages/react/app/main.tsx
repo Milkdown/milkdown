@@ -1,12 +1,13 @@
+/* Copyright 2021, Milkdown by Mirone. */
+import './style.css';
+
+import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
+import { blockquote, commonmark, image, paragraph } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 import React from 'react';
 import { render } from 'react-dom';
 
-import '@milkdown/theme-nord/lib/theme.css';
-
-import './style.css';
 import { EditorRef, ReactEditor, useEditor, useNodeCtx } from '../src';
-import { commonmark, paragraph, image, blockquote } from '@milkdown/preset-commonmark';
-import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 
 const markdown = `
 # Milkdown Test
@@ -71,11 +72,12 @@ const App: React.FC = () => {
             .configure(paragraph, { view: renderReact(ReactParagraph) })
             .configure(blockquote, { view: renderReact(ReactBlockquote) })
             .configure(image, { view: renderReact(ReactImage) });
-        return new Editor()
+        return Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
                 ctx.set(defaultValueCtx, markdown);
             })
+            .use(nord)
             .use(nodes);
     });
 

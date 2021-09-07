@@ -28,7 +28,7 @@ async function main() {
     const doc = new Doc();
     const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', doc);
     wsProvider.awareness.setLocalStateField('user', options[rndInt]);
-    const editor = await new Editor()
+    const editor = await Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, document.getElementById('app'));
             ctx.set(defaultValueCtx, markdown);

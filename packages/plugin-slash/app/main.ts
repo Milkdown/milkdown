@@ -1,11 +1,12 @@
+/* Copyright 2021, Milkdown by Mirone. */
+import './style.css';
+
 import { Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { prism } from '@milkdown/plugin-prism';
 import { table } from '@milkdown/plugin-table';
 import { marks, nodes } from '@milkdown/preset-commonmark';
 
 import { slash } from '../src';
-
-import './style.css';
 
 const markdown = `
 # Milkdown Test
@@ -16,7 +17,7 @@ const root = document.getElementById('app');
 
 if (!root) throw new Error();
 
-new Editor()
+Editor.make()
     .config((ctx) => {
         ctx.update(editorViewOptionsCtx, (prev) => ({
             ...prev,

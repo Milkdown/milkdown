@@ -8,26 +8,19 @@ Add support for table commands.
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
-
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
+import { nord } from '@milkdown/theme-nord';
 
 import { table } from '@milkdown/plugin-table';
-// import style
-import '@milkdown/plugin-table/lib/style.css';
 
-new Editor().use(commonmark).use(table).create();
+Editor.make().use(nord).use(commonmark).use(table).create();
 ```
 
 ## Custom Keymap
 
 ```typescript
 import { tableNodes, tablePlugin, SupportedKeys, table } from '@milkdown/plugin-table';
-// import style
-import '@milkdown/plugin-table/lib/style.css';
 
-new Editor()
+Editor.make()
     .use(commonmark)
     .use(
         tableNodes.configure(table, {

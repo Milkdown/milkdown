@@ -7,20 +7,18 @@ Listener plugin for [milkdown](https://saul-mirone.github.io/milkdown/).
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 
 import { listener, listenerCtx } from '@milkdown/plugin-history';
 
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
-new Editor()
+Editor.make()
     .config((ctx) => {
         ctx.set(listenerCtx, {
             markdown: [(get) => console.log(get())],
             doc: [console.log],
         });
     })
+    .use(nord)
     .use(commonmark)
     .use(listener)
     .create();

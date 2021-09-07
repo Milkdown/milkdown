@@ -10,5 +10,5 @@ import { commonmark } from '@milkdown/preset-commonmark';
 
 import { clipboard } from '@milkdown/plugin-clipboard';
 
-new Editor().use(commonmark).use(clipboard).create();
+Editor.make().use(commonmark).use(clipboard).create();
 ```

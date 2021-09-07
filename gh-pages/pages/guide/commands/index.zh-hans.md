@@ -13,7 +13,7 @@ import { Editor, commandsCtx } from '@milkdown/core';
 import { commonmark, ToggleItalic } from '@milkdown/preset-commonmark';
 
 async function setup() {
-    const editor = await new Editor().use(commonmark).create();
+    const editor = await Editor.make().use(commonmark).create();
 
     const toggleItalic = () =>
         editor.action((ctx) => {

@@ -75,7 +75,7 @@
 ```typescript
 import { commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
 
-new Editor().use(commonmarkPlugins).use(nodes);
+Editor.make().use(commonmarkPlugins).use(nodes);
 
 const nodes = commonmarkNodes.configure(blockquote, {
     keymap: {
@@ -85,7 +85,7 @@ const nodes = commonmarkNodes.configure(blockquote, {
     },
 });
 
-new Editor().use(nodes).use(commonmarkPlugins);
+Editor.make().use(nodes).use(commonmarkPlugins);
 ```
 
 你可以通过审查 `SupportedKeys` 枚举类型来找出支持配置的命令。

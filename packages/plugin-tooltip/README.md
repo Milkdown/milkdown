@@ -8,14 +8,9 @@ Add support for tooltip commands.
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
-
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
+import { nord } from '@milkdown/theme-nord';
 
 import { tooltip } from '@milkdown/plugin-tooltip';
-// import style
-import '@milkdown/plugin-tooltip/lib/style.css';
 
-new Editor().use(commonmark).use(tooltip).create();
+Editor.make().use(nord).use(commonmark).use(tooltip).create();
 ```

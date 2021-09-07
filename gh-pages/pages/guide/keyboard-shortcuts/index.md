@@ -75,7 +75,7 @@ You can configure shortcuts just like configure their styles:
 ```typescript
 import { commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
 
-new Editor().use(commonmarkPlugins).use(nodes);
+Editor.make().use(commonmarkPlugins).use(nodes);
 
 const nodes = commonmarkNodes.configure(blockquote, {
     keymap: {
@@ -85,7 +85,7 @@ const nodes = commonmarkNodes.configure(blockquote, {
     },
 });
 
-new Editor().use(nodes).use(commonmarkPlugins);
+Editor.make().use(nodes).use(commonmarkPlugins);
 ```
 
 You can inspect the `SupportedKeys` enum to find out the supported commands that can be configured.

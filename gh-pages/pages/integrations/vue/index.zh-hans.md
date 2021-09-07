@@ -83,7 +83,7 @@ export const MyEditor = defineComponent(() => {
             .configure(image, {
                 view: renderVue(CustomImage),
             });
-        return new Editor()
+        return Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
             })

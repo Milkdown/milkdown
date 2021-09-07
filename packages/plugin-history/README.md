@@ -7,12 +7,9 @@ History undo & redo support for [milkdown](https://saul-mirone.github.io/milkdow
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 
 import { history } from '@milkdown/plugin-history';
 
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
-new Editor().use(commonmark).use(history).create();
+Editor.make().use(nord).use(commonmark).use(history).create();
 ```

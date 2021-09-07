@@ -1,7 +1,9 @@
-import { DefineComponent, defineComponent, inject, ref, h } from 'vue';
-import { commonmarkNodes, commonmarkPlugins, paragraph, image } from '@milkdown/preset-commonmark';
+/* Copyright 2021, Milkdown by Mirone. */
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
-import { EditorRef, useEditor, VueEditor, nodeMetadata } from '../src';
+import { commonmarkNodes, commonmarkPlugins, image, paragraph } from '@milkdown/preset-commonmark';
+import { DefineComponent, defineComponent, h, inject, ref } from 'vue';
+
+import { EditorRef, nodeMetadata, useEditor, VueEditor } from '../src';
 
 const MyParagraph: DefineComponent = defineComponent({
     name: 'my-paragraph',
@@ -37,7 +39,7 @@ export const MyEditor = defineComponent((props: { markdown: string }) => {
         // setTimeout(() => {
         //     console.log(editorRef.value.get());
         // }, 100);
-        return new Editor()
+        return Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
                 ctx.set(defaultValueCtx, props.markdown);

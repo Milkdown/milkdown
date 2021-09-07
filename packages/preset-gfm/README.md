@@ -7,13 +7,12 @@ Add support for commonmark.
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
+import { commonmark } from '@milkdown/preset-commonmark';
 import '@milkdown/preset-commonmark/lib/style.css';
 
-new Editor().use(commonmark).create();
+Editor.make().use(nord).use(commonmark).create();
 ```
 
 ## Custom Keymap
@@ -27,7 +26,7 @@ const nodes = commonmark.configure(blockquote, {
     },
 });
 
-new Editor().use(nodes);
+Editor.make().use(nodes);
 ```
 
 Keymap supported:
@@ -66,5 +65,5 @@ const nodes = commonmark
         className: (attrs) => `my-custom-heading my-h${attrs.level}`,
     });
 
-new Editor().use(nodes);
+Editor.make().use(nodes);
 ```

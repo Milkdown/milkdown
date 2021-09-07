@@ -8,12 +8,9 @@ Designed by [Meo](https://github.com/Saul-Meo). Powered by [Theme Nord](https://
 
 ```typescript
 import { Editor } from '@milkdown/core';
-
-// import theme
-import '@milkdown/theme-nord/lib/theme.css';
+import { nord } from '@milkdown/theme-nord';
 
 import { commonmark } from '@milkdown/preset-commonmark';
-import '@milkdown/preset-commonmark/lib/style.css';
 
-new Editor().use(commonmark).create();
+Editor.make().use(nord).use(commonmark).create();
 ```

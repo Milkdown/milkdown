@@ -1,6 +1,8 @@
-import { Editor, editorViewCtx, serializerCtx, defaultValueCtx, rootCtx } from '@milkdown/core';
-import { gfm } from '../src';
+/* Copyright 2021, Milkdown by Mirone. */
+import { defaultValueCtx, Editor, editorViewCtx, rootCtx, serializerCtx } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
+
+import { gfm } from '../src';
 
 const markdown = `
 # Milkdown Test <span style="background: yellow">QAQ</span>
@@ -17,7 +19,7 @@ Auto link: www.github.com is a link.
 
 const app = document.getElementById('app');
 
-new Editor()
+Editor.make()
     .config((ctx) => {
         ctx.set(rootCtx, app);
         ctx.set(defaultValueCtx, markdown);

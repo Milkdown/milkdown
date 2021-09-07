@@ -4,7 +4,7 @@ import { commonmark } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
 
 export const setup = () => {
-    return new Editor()
+    return Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, document.getElementById('app'));
         })

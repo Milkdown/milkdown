@@ -8,14 +8,9 @@ Add support for latex.
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
-
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
+import { nord } from '@milkdown/theme-nord';
 
 import { math } from '@milkdown/plugin-math';
-// import style
-import '@milkdown/plugin-math/lib/style.css';
 
-new Editor().use(commonmark).use(math).create();
+Editor.make().use(nord).use(commonmark).use(math).create();
 ```

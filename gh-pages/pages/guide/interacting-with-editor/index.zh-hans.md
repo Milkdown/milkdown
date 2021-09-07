@@ -7,7 +7,7 @@
 ```typescript
 import { rootCtx } from '@milkdown/core';
 
-new Editor().config((ctx) => {
+Editor.make().config((ctx) => {
     ctx.set(rootCtx, document.querySelector('#editor'));
 });
 ```
@@ -22,7 +22,7 @@ new Editor().config((ctx) => {
 import { defaultValueCtx } from '@milkdown/core';
 
 const defaultValue = '# Hello milkdown';
-new Editor().config((ctx) => {
+Editor.make().config((ctx) => {
     ctx.set(defaultValueCtx, defaultValue);
 });
 ```
@@ -50,7 +50,7 @@ const defaultValue = {
     type: 'html',
     dom: document.querySelector('#pre'),
 };
-new Editor().config((ctx) => {
+Editor.make().config((ctx) => {
     ctx.set(defaultValueCtx, defaultValue);
 });
 ```
@@ -73,7 +73,7 @@ const listener = {
     ],
 };
 
-new Editor()
+Editor.make()
     .config((ctx) => {
         ctx.set(listenerCtx, listener);
     })
@@ -89,7 +89,7 @@ const defaultValue = {
     type: 'json',
     value: jsonOutput,
 };
-new Editor().config((ctx) => {
+Editor.make().config((ctx) => {
     ctx.set(defaultValueCtx, defaultValue);
 });
 ```
@@ -127,7 +127,7 @@ const listener = {
     ],
 };
 
-new Editor()
+Editor.make()
     .config((ctx) => {
         ctx.set(listenerCtx, listener);
     })
@@ -151,7 +151,7 @@ const listener = {
     ],
 };
 
-new Editor()
+Editor.make()
     .config((ctx) => {
         ctx.set(listenerCtx, listener);
     })
@@ -171,7 +171,7 @@ let readonly = false;
 
 const editable: () => !readonly;
 
-new Editor().config((ctx) => {
+Editor.make().config((ctx) => {
     ctx.set(editorViewOptionsCtx, { editable });
 });
 
@@ -193,7 +193,7 @@ setTimeout(() => {
 import { Editor, editorViewCtx, serializerCtx } from '@milkdown/core';
 
 async function playWithEditor() {
-    const editor = await new Editor().use(commonmark).create();
+    const editor = await Editor.make().use(commonmark).create();
 
     const getMarkdown = () =>
         editor.action((ctx) => {

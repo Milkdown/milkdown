@@ -7,14 +7,9 @@ Add [drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor) and [ga
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 
 import { cursor } from '@milkdown/plugin-cursor';
 
-// import theme and style
-import '@milkdown/theme-nord/lib/theme.css';
-import '@milkdown/preset-commonmark/lib/style.css';
-
-import '@milkdown/plugin-cursor/lib/style.css';
-
-new Editor().use(commonmark).use(cursor()).create();
+Editor.make().use(nord).use(commonmark).use(cursor).create();
 ```

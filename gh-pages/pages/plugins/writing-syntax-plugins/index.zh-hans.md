@@ -154,7 +154,7 @@ const iframe = nodeFactory({
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-new Editor().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
+Editor.make().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
 ```
 
 ---

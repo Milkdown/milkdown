@@ -1,7 +1,10 @@
-import { Editor, editorViewCtx, serializerCtx, defaultValueCtx, rootCtx } from '@milkdown/core';
-import { commonmark } from '../src';
-import { nord } from '@milkdown/theme-nord';
+/* Copyright 2021, Milkdown by Mirone. */
 import './style.css';
+
+import { defaultValueCtx, Editor, editorViewCtx, rootCtx, serializerCtx } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
+
+import { commonmark } from '../src';
 
 const markdown = `
 # Milkdown Test <span>QAQ</span>
@@ -82,7 +85,7 @@ const jsonDefaultValue = {
 } as const;
 
 async function main() {
-    const editor = await new Editor()
+    const editor = await Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, app);
             ctx.set(defaultValueCtx, htmlMarkdown);
