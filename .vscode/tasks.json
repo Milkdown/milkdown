@@ -22,25 +22,23 @@
             "problemMatcher": [
                 {
                     "owner": "typescript",
-                    "source": "esbuild",
+                    "source": "vite",
                     "severity": "error",
                     "fileLocation": "absolute",
-                    "pattern": [
-                        {
-                            "regexp": "\\s+\\[vite\\]\\sInternal\\sserver\\serror\\:\\s[^\\s].([^:]+):\\s+([^\\(]+)\\((\\d+):(\\d+)\\)\\s*$",
-                            "file": 3,
-                            "message": 4,
-                            "line": 5,
-                            "column": 6
-                        }
-                    ],
+                    "pattern": {
+                        "regexp": "^(\\d|:)+\\s+(PM|AM)\\s+\\[vite\\]\\sInternal\\sserver\\serror\\:\\s[^\\s].([^:]+):\\s+([^\\(]+)\\((\\d+):(\\d+)\\)\\s*$",
+                        "file": 3,
+                        "message": 4,
+                        "line": 5,
+                        "column": 6
+                    },
                     "background": {
                         "activeOnStart": true,
                         "beginsPattern": {
-                            "regexp": "(\\d|:)+\\s+(PM|AM)"
+                            "regexp": "dev server running"
                         },
                         "endsPattern": {
-                            "regexp": "Plugin: react-refresh|ready in (\\d+m)s"
+                            "regexp": "ready"
                         }
                     }
                 }

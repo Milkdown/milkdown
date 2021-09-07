@@ -16,6 +16,8 @@
         "importHelpers": true,
         "composite": true,
 
+        "pretty": true,
+
         "strict": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
