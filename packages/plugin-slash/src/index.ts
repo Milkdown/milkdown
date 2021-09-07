@@ -9,7 +9,8 @@ export { createDropdownItem, nodeExists } from './utility';
 
 export type SlashConfig = (utils: Utils) => WrappedAction[];
 
-const slashPlugin = createProsePlugin<{ config: SlashConfig }>((options, utils) => {
+export { config } from './config';
+export const slashPlugin = createProsePlugin<{ config: SlashConfig }>((options, utils) => {
     const slashConfig = options?.config ?? config;
     const cfg = slashConfig(utils);
 
