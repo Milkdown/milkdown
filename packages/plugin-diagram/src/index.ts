@@ -7,4 +7,4 @@ import { remarkPlugin } from './remark-mermaid';
 
 export * from './remark-mermaid';
 
-export const diagrams = AtomList.create([remarkPlugin, diagramNode()]);
+export const diagram = AtomList.create([remarkPlugin, diagramNode()]);

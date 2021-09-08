@@ -14,7 +14,7 @@ importers:
       '@milkdown/plugin-clipboard': workspace:*
       '@milkdown/plugin-collaborative': workspace:*
       '@milkdown/plugin-cursor': workspace:*
-      '@milkdown/plugin-diagrams': workspace:*
+      '@milkdown/plugin-diagram': workspace:*
       '@milkdown/plugin-emoji': workspace:*
       '@milkdown/plugin-history': workspace:*
       '@milkdown/plugin-listener': workspace:*
@@ -85,7 +85,7 @@ importers:
       '@milkdown/plugin-clipboard': link:packages/plugin-clipboard
       '@milkdown/plugin-collaborative': link:packages/plugin-collaborative
       '@milkdown/plugin-cursor': link:packages/plugin-cursor
-      '@milkdown/plugin-diagrams': link:packages/plugin-diagrams
+      '@milkdown/plugin-diagram': link:packages/plugin-diagram
       '@milkdown/plugin-emoji': link:packages/plugin-emoji
       '@milkdown/plugin-history': link:packages/plugin-history
       '@milkdown/plugin-listener': link:packages/plugin-listener
@@ -314,7 +314,7 @@ importers:
       prosemirror-gapcursor: 1.1.5
       tslib: 2.3.0
 
-  packages/plugin-diagrams:
+  packages/plugin-diagram:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/utils': workspace:*

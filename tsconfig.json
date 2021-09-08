@@ -58,7 +58,7 @@
             "path": "./packages/plugin-prism"
         },
         {
-            "path": "./packages/plugin-diagrams"
+            "path": "./packages/plugin-diagram"
         },
         {
             "path": "./packages/plugin-slash"

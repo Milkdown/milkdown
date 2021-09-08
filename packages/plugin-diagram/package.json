@@ -1,5 +1,5 @@
 {
-    "name": "@milkdown/plugin-diagrams",
+    "name": "@milkdown/plugin-diagram",
     "version": "4.11.1",
     "main": "lib/index.js",
     "module": "lib/index.js",
@@ -19,7 +19,7 @@
     "keywords": [
         "milkdown",
         "milkdown plugin",
-        "diagrams"
+        "diagram"
     ],
     "peerDependencies": {
         "@milkdown/core": "*"
