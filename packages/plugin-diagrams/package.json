@@ -1,0 +1,35 @@
+{
+    "name": "@milkdown/plugin-diagrams",
+    "version": "4.11.1",
+    "main": "lib/index.js",
+    "module": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "sideEffects": false,
+    "license": "MIT",
+    "scripts": {
+        "start": "vite",
+        "watch": "tsc -w",
+        "test": "jest",
+        "tsc": "tsc --noEmit",
+        "build": "tsc"
+    },
+    "files": [
+        "lib"
+    ],
+    "keywords": [
+        "milkdown",
+        "milkdown plugin",
+        "diagrams"
+    ],
+    "peerDependencies": {
+        "@milkdown/core": "*"
+    },
+    "dependencies": {
+        "@emotion/css": "^11.1.3",
+        "@milkdown/utils": "workspace:*",
+        "@types/mermaid": "^8.2.7",
+        "mermaid": "^8.12.1",
+        "tslib": "^2.2.0",
+        "unist-util-visit": "^4.0.0"
+    }
+}

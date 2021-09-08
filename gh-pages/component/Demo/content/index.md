@@ -74,6 +74,16 @@ You can also type `:emoji:` to toggle the emoji picker.
 
 ---
 
+Diagrams
+
+```mermaid
+sequenceDiagram
+    Alice->John: Hello John, how are you?
+    Note over Alice,John: A typical interaction
+```
+
+---
+
 Have fun!
 
 [repo]: https://github.com/Saul-Mirone/milkdown

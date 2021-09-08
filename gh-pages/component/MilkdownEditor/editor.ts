@@ -2,6 +2,7 @@
 import { Complete, defaultValueCtx, Editor, editorViewOptionsCtx, MilkdownPlugin, rootCtx } from '@milkdown/core';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
+import { diagrams } from '@milkdown/plugin-diagrams';
 import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
@@ -46,6 +47,7 @@ export const createEditor = (
         .use(history)
         .use(cursor)
         .use(prism)
+        .use(diagrams)
         .use(tooltip)
         .use(math)
         .use(emoji)
