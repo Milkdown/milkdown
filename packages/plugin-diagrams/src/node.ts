@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
+import { Node } from 'prosemirror-model';
 
 let i = 0;
 
@@ -72,25 +73,31 @@ export const diagramNode = createNode((options, utils) => {
             const code = document.createElement('div');
             code.dataset.type = id;
             code.dataset.value = node.attrs.value;
-            code.contentEditable = 'true';
-            code.innerText = node.attrs.value;
 
             const rendered = document.createElement('div');
             rendered.id = node.attrs.identity;
 
             dom.append(code);
-            dom.append(rendered);
 
-            mermaid.mermaidAPI.render(node.attrs.identity, node.attrs.value, (svg) => {
-                rendered.innerHTML = svg;
-            });
+            const render = (node: Node) => {
+                mermaid.mermaidAPI.render(node.attrs.identity, node.attrs.value, (svg) => {
+                    rendered.innerHTML = svg;
+                    dom.append(rendered);
+                });
+            };
+
+            render(node);
 
             return {
                 dom: dom,
+                contentDOM: code,
                 update: (updatedNode) => {
-                    if (updatedNode.type.name !== 'code' || updatedNode.attrs.lang !== 'mermaid') return false;
+                    if (updatedNode.type.name !== id) return false;
+                    const newVal = updatedNode.content.firstChild?.text || '';
 
-                    // console.log(updatedNode);
+                    code.dataset.value = newVal;
+                    updatedNode.attrs.value = newVal;
+                    render(updatedNode);
 
                     return true;
                 },
@@ -103,6 +110,11 @@ export const diagramNode = createNode((options, utils) => {
                 deselectNode() {
                     dom.classList.remove('selected');
                     code.classList.remove('ProseMirror-selectednode');
+                },
+                destroy() {
+                    rendered.remove();
+                    code.remove();
+                    dom.remove();
                 },
             };
         },
