@@ -30,7 +30,7 @@ const createSlashStyle = () => css`
     }
 `;
 
-export const createProps = (status: Status, utils: Utils) => {
+export const createProps = (status: Status, utils: Utils, placeholder: Record<CursorStatus, string>) => {
     const emptyStyle = utils.getStyle(createEmptyStyle);
     const slashStyle = utils.getStyle(createSlashStyle);
 
@@ -75,13 +75,13 @@ export const createProps = (status: Status, utils: Utils) => {
 
             if (isEmpty) {
                 status.clearStatus();
-                const text = 'Type / to use the slash commands...';
+                const text = placeholder[CursorStatus.Empty];
                 return createDecoration(text, [emptyStyle, 'empty-node']);
             }
 
             if (isSlash) {
                 status.setSlash();
-                const text = 'Type to filter...';
+                const text = placeholder[CursorStatus.Slash];
                 return createDecoration(text, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);
             }
 
