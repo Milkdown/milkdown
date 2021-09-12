@@ -14,3 +14,26 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 
 Editor.make().use(nord).use(commonmark).use(tooltip).create();
 ```
+
+# placeholder
+
+Modify the input widgets of link and image.
+
+Example:
+
+```typescript
+import { tooltipPlugin, tooltip } from '@milkdown/plugin-tooltip';
+
+Editor.make().use(
+    tooltip.configure(tooltipPlugin, {
+        link: {
+            placeholder: 'Please input link...',
+            buttonText: 'Confirm',
+        },
+        image: {
+            placeholder: 'Please input image link...',
+            buttonText: 'OK',
+        },
+    }),
+);
+```

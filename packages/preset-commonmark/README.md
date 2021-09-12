@@ -66,3 +66,16 @@ const nodes = commonmark
 
 new Editor({ ...  }).use(nodes);
 ```
+
+## Other Options
+
+### Image
+
+-   placeholder
+    -   loading: _string_. The placeholder of loading status.
+    -   empty: _string_. The placeholder of empty status.
+    -   failed: _string_. The placeholder of failed status.
+
+### CodeFence
+
+-   languageList: _string[]_. The selectable languages list of code fence needs to be enabled.

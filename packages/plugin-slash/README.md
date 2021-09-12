@@ -14,3 +14,51 @@ import { slash } from '@milkdown/plugin-slash';
 
 Editor.make().use(nord).use(commonmark).use(slash).create();
 ```
+
+# Options
+
+## config
+
+Modify the list of slash plugin.
+
+Example:
+
+```typescript
+import { slashPlugin, slash, createDropdownItem, config, nodeExists } from '@milkdown/plugin-slash';
+
+Editor.make().use(
+    slash.configure(slashPlugin, {
+        config: (utils) =>
+            config(utils)
+                .filter((c) => !['h1', 'h2', 'h3'].includes(c.id))
+                .concat([
+                    {
+                        id: 'h1',
+                        dom: createDropdownItem(utils.ctx.get(themeToolCtx), 'My Heading Tips', 'h1'),
+                        command: () => utils.ctx.get(commandsCtx).call(TurnIntoHeading),
+                        keyword: ['h1', 'my heading', 'heading'],
+                        enable: nodeExists('heading'),
+                    },
+                ]),
+    }),
+);
+```
+
+## placeholder
+
+Modify the placeholder of slash plugin.
+
+Example:
+
+```typescript
+import { slashPlugin, slash, CursorStatus } from '@milkdown/plugin-slash';
+
+Editor.make().use(
+    slash.configure(slashPlugin, {
+        placeholder: {
+            [CursorStatus.Empty]: 'Now you need to type a / ...',
+            [CursorStatus.Slash]: 'Keep typing to search...',
+        },
+    }),
+);
+```

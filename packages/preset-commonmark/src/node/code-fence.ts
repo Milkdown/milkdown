@@ -272,7 +272,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                 );
             });
 
-            languageOptions.concat(options?.languageList || []).forEach((lang) => {
+            (options?.languageList || languageOptions).forEach((lang) => {
                 const option = document.createElement('li');
                 option.className = 'code-fence_select-option';
                 option.innerText = lang || '--';
