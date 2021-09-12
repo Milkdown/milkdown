@@ -9,7 +9,20 @@ import { NodeSelection } from 'prosemirror-state';
 export const ModifyImage = createCmdKey<string>();
 export const InsertImage = createCmdKey<string>();
 const id = 'image';
-export const image = createNode((_, utils) => {
+export type ImageOptions = {
+    placeholder: {
+        loading: string;
+        empty: string;
+        failed: string;
+    };
+};
+export const image = createNode<string, ImageOptions>((options, utils) => {
+    const placeholder = {
+        loading: 'Loading...',
+        empty: 'Add an Image',
+        failed: 'Image loads failed',
+        ...(options?.placeholder ?? {}),
+    };
     const containerStyle = utils.getStyle(
         (themeTool) =>
             css`
@@ -62,7 +75,7 @@ export const image = createNode((_, utils) => {
                 &.loading {
                     .placeholder {
                         &::before {
-                            content: 'Loading...';
+                            content: '${placeholder.loading}';
                         }
                     }
                 }
@@ -70,7 +83,7 @@ export const image = createNode((_, utils) => {
                 &.empty {
                     .placeholder {
                         &::before {
-                            content: 'Add an image';
+                            content: '${placeholder.empty}';
                         }
                     }
                 }
@@ -78,7 +91,7 @@ export const image = createNode((_, utils) => {
                 &.failed {
                     .placeholder {
                         &::before {
-                            content: 'Image load failed';
+                            content: '${placeholder.failed}';
                         }
                     }
                 }
