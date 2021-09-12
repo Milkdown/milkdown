@@ -2,8 +2,8 @@
 import { Action } from '../item';
 
 export enum CursorStatus {
-    Empty,
-    Slash,
+    Empty = 'empty',
+    Slash = 'slash',
 }
 
 export type StatusCtx = {

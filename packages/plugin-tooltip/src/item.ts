@@ -30,8 +30,9 @@ export type ButtonItem = {
 export type InputItem = {
     command: Event2Command;
     display: Pred;
-    placeholder: string;
     update: Updater;
+    placeholder: string;
+    buttonText: string;
 };
 
 export enum ButtonAction {
@@ -50,20 +51,31 @@ export enum InputAction {
 export type ButtonMap = Record<ButtonAction, ButtonItem>;
 export type InputMap = Record<InputAction, InputItem>;
 
-export const inputMap = (schema: Schema, ctx: Ctx): InputMap => {
+export type InputOptions = {
+    link: {
+        placeholder: string;
+        buttonText: string;
+    };
+    image: {
+        placeholder: string;
+        buttonText: string;
+    };
+};
+
+export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): InputMap => {
     const { marks, nodes } = schema;
     return {
         [InputAction.ModifyLink]: {
             display: (view) => isTextSelection(view.state) && hasMark(view.state, marks.link),
             command: modifyLink(ctx),
-            placeholder: 'Input Web Link',
             update: updateLinkView,
+            ...inputOptions.link,
         },
         [InputAction.ModifyImage]: {
             display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.image)),
             command: modifyImage(ctx),
-            placeholder: 'Input Image Link',
             update: updateImageView,
+            ...inputOptions.image,
         },
     };
 };

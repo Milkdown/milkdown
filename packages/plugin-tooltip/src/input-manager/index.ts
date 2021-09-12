@@ -14,8 +14,8 @@ export const createInputManager = (inputMap: InputMap, view: EditorView, utils: 
     const wrapper = view.dom.parentNode;
     if (!wrapper) throw new Error();
 
-    const [input, button] = createInput(utils);
-    wrapper.appendChild(input);
+    const { div, button, input } = createInput(utils);
+    wrapper.appendChild(div);
 
     const onClick = (e: Event) => {
         if (!inputCommand || button.classList.contains('disable')) return;
@@ -28,18 +28,18 @@ export const createInputManager = (inputMap: InputMap, view: EditorView, utils: 
 
     return {
         destroy: () => {
-            input.removeEventListener('mousedown', onClick);
+            div.removeEventListener('mousedown', onClick);
             button.remove();
         },
         hide: () => {
-            input.classList.add('hide');
+            div.classList.add('hide');
             setCommand();
         },
         update: (editorView: EditorView) => {
-            const result = filterInput(editorView, inputMap, input);
+            const result = filterInput(editorView, inputMap, div, input, button);
             if (!result) return;
             setCommand(result);
-            calcInputPos(editorView, input);
+            calcInputPos(editorView, div);
         },
     };
 };

@@ -15,7 +15,6 @@ export const createInput = (utils: Utils) => {
     const input = document.createElement('input');
     div.appendChild(input);
     const button = document.createElement('button');
-    button.textContent = 'APPLY';
     div.appendChild(button);
 
     input.addEventListener('input', (e) => {
@@ -32,5 +31,9 @@ export const createInput = (utils: Utils) => {
         button.classList.remove('disable');
     });
 
-    return [div, button] as const;
+    return {
+        div,
+        input,
+        button,
+    } as const;
 };

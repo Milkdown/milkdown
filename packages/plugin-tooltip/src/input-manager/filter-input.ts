@@ -3,16 +3,23 @@ import type { EditorView } from 'prosemirror-view';
 
 import type { InputMap } from '../item';
 
-export const filterInput = (currentView: EditorView, inputMap: InputMap, input: HTMLDivElement) => {
+export const filterInput = (
+    currentView: EditorView,
+    inputMap: InputMap,
+    div: HTMLDivElement,
+    input: HTMLInputElement,
+    button: HTMLButtonElement,
+) => {
     const target = Object.values(inputMap).find((input) => input.display(currentView));
 
     if (!target) {
-        input.classList.add('hide');
+        div.classList.add('hide');
         return;
     }
 
-    input.classList.remove('hide');
-    input.firstElementChild?.setAttribute('placeholder', target.placeholder);
-    target.update(currentView, input);
+    div.classList.remove('hide');
+    input.placeholder = target.placeholder;
+    button.textContent = target.buttonText;
+    target.update(currentView, div);
     return target.command;
 };
