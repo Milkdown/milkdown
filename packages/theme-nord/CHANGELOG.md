@@ -1,5 +1,13 @@
 # @milkdown/theme-nord
 
+## 4.11.2
+
+### Patch Changes
+
+-   dfe441db: Add config for slash, tooltip and image
+-   Updated dependencies [dfe441db]
+    -   @milkdown/design-system@4.11.2
+
 ## 4.11.1
 
 ### Patch Changes

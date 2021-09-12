@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.11.2
+
+### Patch Changes
+
+-   dfe441db: Add config for slash, tooltip and image
+-   Updated dependencies [dfe441db]
+    -   @milkdown/plugin-table@4.11.2
+    -   @milkdown/preset-commonmark@4.11.2
+    -   @milkdown/utils@4.11.2
+
 ## 4.11.1
 
 ### Patch Changes

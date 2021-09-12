@@ -1,5 +1,11 @@
 # @milkdown/plugin-history
 
+## 4.11.2
+
+### Patch Changes
+
+-   dfe441db: Add config for slash, tooltip and image
+
 ## 4.11.1
 
 ### Patch Changes
