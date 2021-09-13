@@ -81,4 +81,4 @@ Have fun!
 [yjs]: https://docs.yjs.dev/
 [remark]: https://github.com/remarkjs/remark
 [mirone]: https://github.com/Saul-Mirone
-[meo]: https://github.com/Saul-Meo
+[meo]: https://www.meo.cool/
