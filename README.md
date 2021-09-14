@@ -48,6 +48,7 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 If you like this project, please consider fund me to help the maintenance.
 
 <a title="Johno Scott" href="https://github.com/johnoscott"><img src="https://avatars.githubusercontent.com/u/291958?v=4" width="100" alt="profile picture of Johno Scott"></a>
+<a title="Inkyu Oh" href="https://github.com/gomjellie"><img src="https://avatars.githubusercontent.com/u/13645032?v=4" width="100" alt="profile picture of Inkyu Oh"></a>
 
 # License
 
