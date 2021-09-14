@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { css } from '@emotion/css';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
 import { Node } from 'prosemirror-model';
@@ -6,6 +7,24 @@ import { Node } from 'prosemirror-model';
 let i = 0;
 
 export const diagramNode = createNode((options, utils) => {
+    const codeStyle = utils.getStyle(
+        ({ palette, size, font }) => css`
+            color: ${palette('neutral', 0.87)};
+            background-color: ${palette('background')};
+            border-radius: ${size.radius};
+            padding: 1rem 2rem;
+            font-size: 0.875rem;
+            font-family: ${font.code};
+        `,
+    );
+    const previewPanelStyle = utils.getStyle(
+        () => css`
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        `,
+    );
+
     const id = 'diagram';
     return {
         id,
@@ -73,9 +92,15 @@ export const diagramNode = createNode((options, utils) => {
             const code = document.createElement('div');
             code.dataset.type = id;
             code.dataset.value = node.attrs.value;
+            if (codeStyle) {
+                code.classList.add(codeStyle);
+            }
 
             const rendered = document.createElement('div');
             rendered.id = node.attrs.identity;
+            if (previewPanelStyle) {
+                rendered.classList.add(previewPanelStyle);
+            }
 
             dom.append(code);
 
