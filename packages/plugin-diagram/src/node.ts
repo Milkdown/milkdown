@@ -4,6 +4,35 @@ import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
 import { Node } from 'prosemirror-model';
 
+function componentToHex(c: number) {
+    const hex = c.toString(16);
+    return hex.length == 1 ? '0' + hex : hex;
+}
+
+function rgbToHex(r: number, g: number, b: number) {
+    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function tryRgbToHex(maybeRgb: string) {
+    if (!maybeRgb) return '';
+
+    const result = maybeRgb.split(',').map((x) => Number(x.trim()));
+
+    if (result.length < 3) {
+        return maybeRgb;
+    }
+
+    const valid = result.every((x) => {
+        return x >= 0 && x <= 256;
+    });
+
+    if (!valid) {
+        return maybeRgb;
+    }
+
+    return rgbToHex(...(result as [number, number, number]));
+}
+
 let i = 0;
 
 export const diagramNode = createNode((options, utils) => {
@@ -15,8 +44,12 @@ export const diagramNode = createNode((options, utils) => {
             padding: 1rem 2rem;
             font-size: 0.875rem;
             font-family: ${font.code};
+            overflow: hidden;
         `,
     );
+    const hideCodeStyle = css`
+        display: none;
+    `;
     const previewPanelStyle = utils.getStyle(
         () => css`
             display: flex;
@@ -24,8 +57,31 @@ export const diagramNode = createNode((options, utils) => {
             padding: 1rem 0;
         `,
     );
+    const mermaidVariables = () => {
+        const styleRoot = getComputedStyle(document.documentElement);
+        const getColor = (v: string) => tryRgbToHex(styleRoot.getPropertyValue('--' + v));
+        const primary = getColor('primary');
+        const secondary = getColor('secondary');
+        const solid = getColor('solid');
+        const neutral = getColor('neutral');
+        const background = getColor('background');
+        const style = {
+            background,
+            primaryColor: secondary,
+            secondaryColor: primary,
+            primaryTextColor: neutral,
+            noteBkgColor: background,
+            noteTextColor: solid,
+        };
+        return Object.entries(style)
+            .filter(([_, value]) => value.length > 0)
+            .map(([key, value]) => `'${key}':'${value}'`)
+            .join(', ');
+    };
+    const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables()} }}}%%\n`;
 
     const id = 'diagram';
+
     return {
         id,
         schema: {
@@ -40,6 +96,9 @@ export const diagramNode = createNode((options, utils) => {
                 },
                 identity: {
                     default: id + i++,
+                },
+                editing: {
+                    default: false,
                 },
             },
             parseDOM: [
@@ -64,6 +123,7 @@ export const diagramNode = createNode((options, utils) => {
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
                         'data-value': node.attrs.value,
+                        'data-editing': node.attrs.editing.toString(),
                     },
                     0,
                 ];
@@ -89,6 +149,7 @@ export const diagramNode = createNode((options, utils) => {
                 return options.view(editor, nodeType, node, view, getPos, decorations);
             }
             const dom = document.createElement('div');
+            dom.classList.add('mermaid', 'diagram');
             const code = document.createElement('div');
             code.dataset.type = id;
             code.dataset.value = node.attrs.value;
@@ -104,8 +165,17 @@ export const diagramNode = createNode((options, utils) => {
 
             dom.append(code);
 
+            dom.dataset.editing = node.attrs.editing.toString();
+            if (!node.attrs.editing) {
+                code.classList.add(hideCodeStyle);
+            } else {
+                code.classList.remove(hideCodeStyle);
+            }
+
             const render = (node: Node) => {
-                mermaid.mermaidAPI.render(node.attrs.identity, node.attrs.value, (svg) => {
+                const code = header + node.attrs.value;
+
+                mermaid.mermaidAPI.render(node.attrs.identity, code, (svg) => {
                     rendered.innerHTML = svg;
                     dom.append(rendered);
                 });
@@ -113,14 +183,34 @@ export const diagramNode = createNode((options, utils) => {
 
             render(node);
 
+            dom.addEventListener('mousedown', (e) => {
+                if (node.attrs.editing) return;
+                e.preventDefault();
+                e.stopPropagation();
+                const { tr } = view.state;
+                const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                    ...node.attrs,
+                    editing: true,
+                });
+                view.dispatch(_tr);
+            });
+
             return {
-                dom: dom,
+                dom,
                 contentDOM: code,
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
+
+                    if (!updatedNode.attrs.editing) {
+                        code.classList.add(hideCodeStyle);
+                    } else {
+                        code.classList.remove(hideCodeStyle);
+                    }
+
                     const newVal = updatedNode.content.firstChild?.text || '';
 
                     code.dataset.value = newVal;
+                    dom.dataset.editing = updatedNode.attrs.editing.toString();
                     updatedNode.attrs.value = newVal;
                     render(updatedNode);
 
@@ -128,13 +218,15 @@ export const diagramNode = createNode((options, utils) => {
                 },
                 selectNode() {
                     if (!view.editable) return;
-
-                    dom.classList.add('selected');
-                    code.classList.add('ProseMirror-selectednode');
                 },
                 deselectNode() {
-                    dom.classList.remove('selected');
-                    code.classList.remove('ProseMirror-selectednode');
+                    code.classList.add(hideCodeStyle);
+                    const { tr } = view.state;
+                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                        ...node.attrs,
+                        editing: false,
+                    });
+                    view.dispatch(_tr);
                 },
                 destroy() {
                     rendered.remove();
