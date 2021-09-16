@@ -192,9 +192,14 @@ export const diagramNode = createNode((options, utils) => {
                     rendered.innerHTML = svg;
                 } catch {
                     const error = document.getElementById('d' + currentId);
-                    if (!error) return;
-                    rendered.innerHTML = error.innerHTML;
-                    error.remove();
+                    if (error) {
+                        error.remove();
+                    }
+                    if (!node.attrs.value) {
+                        rendered.innerHTML = 'Empty';
+                    } else {
+                        rendered.innerHTML = 'Syntax Error';
+                    }
                 } finally {
                     dom.appendChild(rendered);
                 }
@@ -221,11 +226,9 @@ export const diagramNode = createNode((options, utils) => {
                     return;
                 }
                 const el = e.target;
-                if (dom.contains(el as Element)) {
+                if (el === code || el === rendered) {
                     return;
                 }
-                e.preventDefault();
-                e.stopPropagation();
                 const { tr } = view.state;
                 const _tr = tr.setNodeMarkup(getPos(), nodeType, {
                     ...currentNode.attrs,
@@ -272,6 +275,8 @@ export const diagramNode = createNode((options, utils) => {
                 },
             };
         },
-        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType, () => ({ id: nanoid() }))],
+        inputRules: (nodeType) => [
+            textblockTypeInputRule(inputRegex, nodeType, () => ({ id: nanoid(), editing: true })),
+        ],
     };
 });
