@@ -224,8 +224,6 @@ export const diagramNode = createNode((options, utils) => {
                 if (dom.contains(el as Element)) {
                     return;
                 }
-                e.preventDefault();
-                e.stopPropagation();
                 const { tr } = view.state;
                 const _tr = tr.setNodeMarkup(getPos(), nodeType, {
                     ...currentNode.attrs,
