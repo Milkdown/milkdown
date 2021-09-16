@@ -27,7 +27,7 @@ export const isTextSelection = (editorState: EditorState): boolean => {
 };
 
 export const isInCodeFence = (editorState: EditorState): boolean =>
-    Boolean(findParentNode((node) => node.type.name === 'fence')(editorState.selection));
+    Boolean(findParentNode((node) => !!node.type.spec.code)(editorState.selection));
 
 export const isTextAndNotHasMark = (editorState: EditorState, mark: MarkType): boolean =>
     !isTextSelection(editorState) || isInCodeFence(editorState) || hasMark(editorState, mark);
