@@ -145,6 +145,7 @@ export const diagramNode = createNode((options, utils) => {
             },
         },
         view: (editor, nodeType, node, view, getPos, decorations) => {
+            let currentNode = node;
             if (options?.view) {
                 return options.view(editor, nodeType, node, view, getPos, decorations);
             }
@@ -170,6 +171,7 @@ export const diagramNode = createNode((options, utils) => {
                 code.classList.add(hideCodeStyle);
             } else {
                 code.classList.remove(hideCodeStyle);
+                code.focus();
             }
 
             const render = (node: Node) => {
@@ -184,12 +186,12 @@ export const diagramNode = createNode((options, utils) => {
             render(node);
 
             dom.addEventListener('mousedown', (e) => {
-                if (node.attrs.editing) return;
+                if (currentNode.attrs.editing) return;
                 e.preventDefault();
                 e.stopPropagation();
                 const { tr } = view.state;
                 const _tr = tr.setNodeMarkup(getPos(), nodeType, {
-                    ...node.attrs,
+                    ...currentNode.attrs,
                     editing: true,
                 });
                 view.dispatch(_tr);
@@ -200,11 +202,13 @@ export const diagramNode = createNode((options, utils) => {
                 contentDOM: code,
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
+                    currentNode = updatedNode;
 
                     if (!updatedNode.attrs.editing) {
                         code.classList.add(hideCodeStyle);
                     } else {
                         code.classList.remove(hideCodeStyle);
+                        code.focus();
                     }
 
                     const newVal = updatedNode.content.firstChild?.text || '';
