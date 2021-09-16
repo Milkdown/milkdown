@@ -2,7 +2,11 @@
 import { css } from '@emotion/css';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
+import { customAlphabet } from 'nanoid';
+import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Node } from 'prosemirror-model';
+
+const nanoid = customAlphabet('abcedfghicklmn', 10);
 
 function componentToHex(c: number) {
     const hex = c.toString(16);
@@ -33,7 +37,7 @@ function tryRgbToHex(maybeRgb: string) {
     return rgbToHex(...(result as [number, number, number]));
 }
 
-let i = 0;
+const inputRegex = /^```mermaid$/;
 
 export const diagramNode = createNode((options, utils) => {
     const codeStyle = utils.getStyle(
@@ -81,6 +85,8 @@ export const diagramNode = createNode((options, utils) => {
     const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables()} }}}%%\n`;
 
     const id = 'diagram';
+    mermaid.startOnLoad = false;
+    mermaid.initialize({ startOnLoad: false });
 
     return {
         id,
@@ -95,7 +101,7 @@ export const diagramNode = createNode((options, utils) => {
                     default: '',
                 },
                 identity: {
-                    default: id + i++,
+                    default: '',
                 },
                 editing: {
                     default: false,
@@ -111,15 +117,17 @@ export const diagramNode = createNode((options, utils) => {
                         }
                         return {
                             value: dom.innerHTML,
+                            id: dom.id,
                         };
                     },
                 },
             ],
             toDOM: (node) => {
+                const id = node.attrs.identity || nanoid();
                 return [
                     'div',
                     {
-                        id: node.attrs.identity,
+                        id: node.attrs.identity || nanoid(),
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
                         'data-value': node.attrs.value,
@@ -145,6 +153,7 @@ export const diagramNode = createNode((options, utils) => {
             },
         },
         view: (editor, nodeType, node, view, getPos, decorations) => {
+            const currentId = node.attrs.identity || nanoid();
             let currentNode = node;
             if (options?.view) {
                 return options.view(editor, nodeType, node, view, getPos, decorations);
@@ -159,7 +168,7 @@ export const diagramNode = createNode((options, utils) => {
             }
 
             const rendered = document.createElement('div');
-            rendered.id = node.attrs.identity;
+            rendered.id = currentId;
             if (previewPanelStyle) {
                 rendered.classList.add(previewPanelStyle);
             }
@@ -167,32 +176,60 @@ export const diagramNode = createNode((options, utils) => {
             dom.append(code);
 
             dom.dataset.editing = node.attrs.editing.toString();
-            if (!node.attrs.editing) {
-                code.classList.add(hideCodeStyle);
-            } else {
+            const updateEditing = (node: Node) => {
+                if (!node.attrs.editing) {
+                    code.classList.add(hideCodeStyle);
+                    return;
+                }
+
                 code.classList.remove(hideCodeStyle);
-                code.focus();
-            }
+            };
 
             const render = (node: Node) => {
                 const code = header + node.attrs.value;
-
-                mermaid.mermaidAPI.render(node.attrs.identity, code, (svg) => {
+                try {
+                    const svg = mermaid.render(currentId, code);
                     rendered.innerHTML = svg;
-                    dom.append(rendered);
-                });
+                } catch {
+                    const error = document.getElementById('d' + currentId);
+                    if (!error) return;
+                    rendered.innerHTML = error.innerHTML;
+                    error.remove();
+                } finally {
+                    dom.appendChild(rendered);
+                }
             };
 
+            updateEditing(node);
             render(node);
 
             dom.addEventListener('mousedown', (e) => {
-                if (currentNode.attrs.editing) return;
+                if (currentNode.attrs.editing) {
+                    return;
+                }
                 e.preventDefault();
                 e.stopPropagation();
                 const { tr } = view.state;
                 const _tr = tr.setNodeMarkup(getPos(), nodeType, {
                     ...currentNode.attrs,
                     editing: true,
+                });
+                view.dispatch(_tr);
+            });
+            view.dom.addEventListener('mousedown', (e) => {
+                if (!currentNode.attrs.editing) {
+                    return;
+                }
+                const el = e.target;
+                if (dom.contains(el as Element)) {
+                    return;
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                const { tr } = view.state;
+                const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                    ...currentNode.attrs,
+                    editing: false,
                 });
                 view.dispatch(_tr);
             });
@@ -204,18 +241,14 @@ export const diagramNode = createNode((options, utils) => {
                     if (updatedNode.type.name !== id) return false;
                     currentNode = updatedNode;
 
-                    if (!updatedNode.attrs.editing) {
-                        code.classList.add(hideCodeStyle);
-                    } else {
-                        code.classList.remove(hideCodeStyle);
-                        code.focus();
-                    }
+                    updateEditing(updatedNode);
 
                     const newVal = updatedNode.content.firstChild?.text || '';
 
                     code.dataset.value = newVal;
                     dom.dataset.editing = updatedNode.attrs.editing.toString();
                     updatedNode.attrs.value = newVal;
+
                     render(updatedNode);
 
                     return true;
@@ -239,5 +272,6 @@ export const diagramNode = createNode((options, utils) => {
                 },
             };
         },
+        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType, () => ({ id: nanoid() }))],
     };
 });

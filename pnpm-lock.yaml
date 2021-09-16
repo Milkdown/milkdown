@@ -320,6 +320,7 @@ importers:
       '@milkdown/utils': workspace:*
       '@types/mermaid': ^8.2.7
       mermaid: ^8.12.1
+      nanoid: ^3.1.25
       tslib: ^2.2.0
       unist-util-visit: ^4.0.0
     dependencies:
@@ -327,6 +328,7 @@ importers:
       '@milkdown/utils': link:../utils
       '@types/mermaid': 8.2.7
       mermaid: 8.12.1
+      nanoid: 3.1.25
       tslib: 2.3.0
       unist-util-visit: 4.0.0
 
@@ -7932,6 +7934,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: true
+
+  /nanoid/3.1.25:
+    resolution: {integrity: sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: false
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
