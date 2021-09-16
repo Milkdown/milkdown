@@ -6,10 +6,11 @@
 .cm-gutters {
     background: palette(background, 0.5) !important;
     transition: background 0.4s ease-in-out;
+    backdrop-filter: blur(5px);
 }
 
 .cm-activeLineGutter {
-    background: palette(background) !important;
+    background: palette(background, 0.5) !important;
     transition: background 0.4s ease-in-out;
 }
 
