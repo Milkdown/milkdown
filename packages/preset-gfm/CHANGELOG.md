@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 4.12.0
+
+### Minor Changes
+
+-   4207ca0e: Support diagram plugin.
+
+### Patch Changes
+
+-   Updated dependencies [4207ca0e]
+    -   @milkdown/plugin-table@4.12.0
+    -   @milkdown/preset-commonmark@4.12.0
+    -   @milkdown/utils@4.12.0
+
 ## 4.11.2
 
 ### Patch Changes

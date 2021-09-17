@@ -1,5 +1,17 @@
 # @milkdown/core
 
+## 4.12.0
+
+### Minor Changes
+
+-   4207ca0e: Support diagram plugin.
+
+### Patch Changes
+
+-   Updated dependencies [4207ca0e]
+    -   @milkdown/design-system@4.12.0
+    -   @milkdown/exception@4.12.0
+
 ## 4.11.2
 
 ### Patch Changes

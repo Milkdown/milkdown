@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 4.12.0
+
+### Minor Changes
+
+-   4207ca0e: Support diagram plugin.
+
 ## 4.11.2
 
 ### Patch Changes
