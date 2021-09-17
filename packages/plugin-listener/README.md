@@ -9,7 +9,7 @@ import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
 
-import { listener, listenerCtx } from '@milkdown/plugin-history';
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 Editor.make()
     .config((ctx) => {
