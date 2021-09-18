@@ -7,15 +7,15 @@ export type Context<T = unknown> = {
     update: (updater: (prev: T) => T) => void;
 };
 
-export type Container = Map<symbol, Context>;
+export type ContextMap = Map<symbol, Context>;
 
-export type Meta<T> = {
+export type Slice<T> = {
     id: symbol;
     _typeInfo: () => T;
-    (container: Container, resetValue?: T): Context<T>;
+    (container: ContextMap, resetValue?: T): Context<T>;
 };
 
-const clone = <T>(x: T): T => {
+const shallowClone = <T>(x: T): T => {
     if (Array.isArray(x)) {
         return [...(x as unknown[])] as unknown as T;
     }
@@ -25,10 +25,10 @@ const clone = <T>(x: T): T => {
     return x;
 };
 
-export const createCtx = <T>(value: T): Meta<T> => {
+export const createSlice = <T>(value: T): Slice<T> => {
     const id = Symbol('Context');
 
-    const factory = (container: Container, resetValue = clone(value)) => {
+    const factory = (container: ContextMap, resetValue = shallowClone(value)) => {
         let inner = resetValue;
 
         const context: Context<T> = {

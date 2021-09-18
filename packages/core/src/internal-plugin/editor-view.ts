@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { EditorProps, EditorView } from 'prosemirror-view';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { editorStateCtx, EditorStateReady } from './editor-state';
@@ -9,10 +9,10 @@ import { nodeViewCtx, NodeViewReady } from './node-view';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
-export const editorViewCtx = createCtx<EditorView>({} as EditorView);
-export const editorViewOptionsCtx = createCtx<EditorOptions>({});
-export const rootCtx = createCtx<Node | undefined | null>(document.body);
-export const editorViewTimerCtx = createCtx<Timer[]>([]);
+export const editorViewCtx = createSlice<EditorView>({} as EditorView);
+export const editorViewOptionsCtx = createSlice<EditorOptions>({});
+export const rootCtx = createSlice<Node | undefined | null>(document.body);
+export const editorViewTimerCtx = createSlice<Timer[]>([]);
 
 export const Complete = createTimer('complete');
 

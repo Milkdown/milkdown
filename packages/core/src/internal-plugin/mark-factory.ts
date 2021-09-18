@@ -3,9 +3,10 @@ import type { Keymap } from 'prosemirror-commands';
 import type { InputRule } from 'prosemirror-inputrules';
 import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
 
+import type { Ctx } from '../editor';
 import type { MarkParserSpec } from '../parser';
 import type { MarkSerializerSpec } from '../serializer';
-import type { Ctx, MarkViewFactory, MilkdownPlugin } from '../utility';
+import type { MarkViewFactory, MilkdownPlugin } from '../utility';
 import type { CmdTuple, CommandManager } from './commands';
 import { marksCtx } from './schema';
 

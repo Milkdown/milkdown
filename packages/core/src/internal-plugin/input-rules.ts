@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { InputRule } from 'prosemirror-inputrules';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin } from '../utility';
 
-export const inputRulesCtx = createCtx<InputRule[]>([]);
-export const inputRulesTimerCtx = createCtx<Timer[]>([]);
+export const inputRulesCtx = createSlice<InputRule[]>([]);
+export const inputRulesTimerCtx = createSlice<Timer[]>([]);
 
 export const InputRulesReady = createTimer('InputRulesReady');
 

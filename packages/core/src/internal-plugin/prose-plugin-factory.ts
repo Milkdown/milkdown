@@ -1,11 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Plugin } from 'prosemirror-state';
 
-import { createCtx } from '../context';
-import type { Ctx, MilkdownPlugin } from '../utility';
+import { createSlice } from '../context';
+import type { Ctx } from '../editor';
+import type { MilkdownPlugin } from '../utility';
 import { CommandsReady } from './commands';
 
-export const prosePluginsCtx = createCtx<Plugin[]>([]);
+export const prosePluginsCtx = createSlice<Plugin[]>([]);
 
 type MaybeList<T> = T | T[];
 

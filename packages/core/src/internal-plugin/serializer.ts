@@ -1,15 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { createSerializer } from '../serializer';
 import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
 import { marksCtx, nodesCtx, remarkCtx, schemaCtx } from '.';
 import { SchemaReady } from './schema';
 
-export const serializerCtx = createCtx<(node: ProsemirrorNode) => string>(() => '');
-export const serializerTimerCtx = createCtx<Timer[]>([]);
+export const serializerCtx = createSlice<(node: ProsemirrorNode) => string>(() => '');
+export const serializerTimerCtx = createSlice<Timer[]>([]);
 
 export const SerializerReady = createTimer('SerializerReady');
 

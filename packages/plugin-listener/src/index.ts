@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCtx, MilkdownPlugin, prosePluginsCtx, serializerCtx, SerializerReady } from '@milkdown/core';
+import { createSlice, MilkdownPlugin, prosePluginsCtx, serializerCtx, SerializerReady } from '@milkdown/core';
 import { Node as ProseNode } from 'prosemirror-model';
 import { Plugin as StatePlugin } from 'prosemirror-state';
 
@@ -9,7 +9,7 @@ export type Listener = {
     doc?: DocListener[];
     markdown?: MarkdownListener[];
 };
-export const listenerCtx = createCtx<Listener>({});
+export const listenerCtx = createSlice<Listener>({});
 
 export const listener: MilkdownPlugin = (pre) => {
     pre.inject(listenerCtx);

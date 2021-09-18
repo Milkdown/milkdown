@@ -78,9 +78,9 @@ const remotePlugin: MilkdownPlugin = (pre) => {
 上下文是一个可以在整个编辑器实例中共享的数据切片。
 
 ```typescript
-import { MilkdownPlugin, createCtx } from '@milkdown/core';
+import { MilkdownPlugin, createSlice } from '@milkdown/core';
 
-const counterCtx = createCtx(0);
+const counterCtx = createSlice(0);
 
 const counterPlugin: MilkdownPlugin = (pre) => {
     pre.inject(counterCtx);
@@ -104,14 +104,14 @@ const counterPlugin: MilkdownPlugin = (pre) => {
 };
 ```
 
-我们可以使用 `createCtx` 来创建上下文，然后使用 `pre.inject` 来将其注册到编辑器中。`ctx.get` 来获取一个上下文的值，使用 `ctx.set` 来设置它的值，或是使用 `ctx.update` 来使用一个回调函数更新上下文。
+我们可以使用 `createSlice` 来创建上下文，然后使用 `pre.inject` 来将其注册到编辑器中。`ctx.get` 来获取一个上下文的值，使用 `ctx.set` 来设置它的值，或是使用 `ctx.update` 来使用一个回调函数更新上下文。
 
 所以当我们结合 `timer` 使用 `ctx` 时，我们可以决定一个插件执行的时机。
 
 ```typescript
-import { MilkdownPlugin, SchemaReady, Timer, createCtx } from '@milkdown/core';
+import { MilkdownPlugin, SchemaReady, Timer, createSlice } from '@milkdown/core';
 
-const examplePluginTimersCtx = createCtx<Timer[]>([]);
+const examplePluginTimersCtx = createSlice<Timer[]>([]);
 
 const examplePlugin: MilkdownPlugin = (pre) => {
     pre.inject(counterCtx, [SchemaReady]);

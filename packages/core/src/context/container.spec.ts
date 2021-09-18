@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContainer, createCtx } from '.';
+import { createContainer, createSlice } from '.';
 
 describe('context/container', () => {
     it('contextMap', () => {
@@ -10,7 +10,7 @@ describe('context/container', () => {
 
     it('getCtx', () => {
         const container = createContainer();
-        const ctx = createCtx(0);
+        const ctx = createSlice(0);
 
         ctx(container.contextMap);
 

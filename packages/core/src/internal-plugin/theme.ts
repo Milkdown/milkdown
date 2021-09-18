@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { injectVar, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { MilkdownPlugin } from '../utility';
 
-export const themeToolCtx = createCtx<ThemeTool>({
+export const themeToolCtx = createSlice<ThemeTool>({
     mixin: {} as never,
     font: {} as never,
     size: {} as never,

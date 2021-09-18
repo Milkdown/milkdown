@@ -2,14 +2,14 @@
 import { callCommandBeforeEditorView } from '@milkdown/exception';
 import type { Command } from 'prosemirror-commands';
 
-import { createContainer, createCtx, Meta } from '../context';
+import { createContainer, createSlice, Slice } from '../context';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin } from '../utility';
 import { Complete, editorViewCtx } from './editor-view';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export type Cmd<T = undefined> = (info?: T) => Command;
-export type CmdKey<T = undefined> = Meta<Cmd<T>>;
+export type CmdKey<T = undefined> = Slice<Cmd<T>>;
 
 export type CommandManager = {
     create: <T>(meta: CmdKey<T>, value: Cmd<T>) => void;
@@ -21,10 +21,10 @@ export type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>];
 
 export const createCmd = <T>(key: CmdKey<T>, value: Cmd<T>): CmdTuple => [key, value] as CmdTuple;
 
-export const commandsCtx = createCtx<CommandManager>({} as CommandManager);
-export const createCmdKey = <T = undefined>(): CmdKey<T> => createCtx((() => () => false) as Cmd<T>);
+export const commandsCtx = createSlice<CommandManager>({} as CommandManager);
+export const createCmdKey = <T = undefined>(): CmdKey<T> => createSlice((() => () => false) as Cmd<T>);
 
-export const commandsTimerCtx = createCtx<Timer[]>([]);
+export const commandsTimerCtx = createSlice<Timer[]>([]);
 export const CommandsReady = createTimer('KeymapReady');
 export const commands: MilkdownPlugin = (pre) => {
     const container = createContainer();

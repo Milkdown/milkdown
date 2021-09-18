@@ -3,14 +3,14 @@ import type { Keymap } from 'prosemirror-commands';
 import { keymap as proseKeymap } from 'prosemirror-keymap';
 import type { Plugin as ProsePlugin } from 'prosemirror-state';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin } from '../utility';
 import { commandsCtx, CommandsReady } from './commands';
 
-export const keymapCtx = createCtx<ProsePlugin[]>([]);
-export const keymapTimerCtx = createCtx<Timer[]>([]);
+export const keymapCtx = createSlice<ProsePlugin[]>([]);
+export const keymapTimerCtx = createSlice<Timer[]>([]);
 
 export const KeymapReady = createTimer('KeymapReady');
 

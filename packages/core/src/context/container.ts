@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { contextNotFound } from '@milkdown/exception';
 
-import { Context, Meta } from './ctx';
+import { Context, Slice } from './slice';
 
 export const createContainer = () => {
     const contextMap: Map<symbol, Context> = new Map();
 
-    const getCtx = <T>(meta: Meta<T>): Context<T> => {
-        const context = contextMap.get(meta.id);
+    const getCtx = <T>(slice: Slice<T>): Context<T> => {
+        const context = contextMap.get(slice.id);
         if (!context) {
             throw contextNotFound();
         }
@@ -16,3 +16,5 @@ export const createContainer = () => {
 
     return { getCtx, contextMap };
 };
+
+export type Container = ReturnType<typeof createContainer>;

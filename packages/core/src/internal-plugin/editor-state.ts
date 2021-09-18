@@ -6,7 +6,7 @@ import { keymap as createKeymap } from 'prosemirror-keymap';
 import { DOMParser, Node, Schema } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { createTimer, Timer } from '../timing';
 import { AnyRecord, MilkdownPlugin } from '../utility';
 import { inputRulesCtx, InputRulesReady } from './input-rules';
@@ -19,10 +19,10 @@ import { SerializerReady } from './serializer';
 type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: AnyRecord };
 type StateOptions = Parameters<typeof EditorState.create>[0];
 
-export const defaultValueCtx = createCtx<DefaultValue>('');
-export const editorStateCtx = createCtx<EditorState>({} as EditorState);
-export const editorStateOptionsCtx = createCtx<StateOptions>({});
-export const editorStateTimerCtx = createCtx<Timer[]>([]);
+export const defaultValueCtx = createSlice<DefaultValue>('');
+export const editorStateCtx = createSlice<EditorState>({} as EditorState);
+export const editorStateOptionsCtx = createSlice<StateOptions>({});
+export const editorStateTimerCtx = createSlice<Timer[]>([]);
 
 export const EditorStateReady = createTimer('EditorStateReady');
 

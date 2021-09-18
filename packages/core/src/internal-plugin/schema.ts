@@ -1,17 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Schema } from 'prosemirror-model';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { Initialize, Mark, Node } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';
 import { Atom, MilkdownPlugin } from '../utility';
 
 export const SchemaReady = createTimer('schemaReady');
 
-export const schemaCtx = createCtx<Schema>({} as Schema);
-export const nodesCtx = createCtx<Node[]>([]);
-export const marksCtx = createCtx<Mark[]>([]);
-export const schemaTimerCtx = createCtx<Timer[]>([]);
+export const schemaCtx = createSlice<Schema>({} as Schema);
+export const nodesCtx = createSlice<Node[]>([]);
+export const marksCtx = createSlice<Mark[]>([]);
+export const schemaTimerCtx = createSlice<Timer[]>([]);
 
 export const schema: MilkdownPlugin = (pre) => {
     pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [Initialize]).record(SchemaReady);

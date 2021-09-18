@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContainer, Meta } from '../context';
+import { createContainer } from '../context';
 import {
     commands,
     config,
@@ -13,10 +13,20 @@ import {
     schema,
     serializer,
 } from '../internal-plugin';
-import { createClock, Timer } from '../timing';
-import { Configure, Ctx, CtxHandler, MilkdownPlugin, Pre } from '../utility';
+import { createClock } from '../timing';
+import { Configure, CtxHandler, MilkdownPlugin } from '../utility';
+import { Ctx } from './ctx';
+import { Pre } from './pre';
 
+/**
+ * Get the milkdown editor constructor
+ */
 export class Editor {
+    /**
+     * Create a new editor instance.
+     *
+     * @returns The new editor instance been created.
+     */
     static make() {
         return new Editor();
     }
@@ -24,36 +34,10 @@ export class Editor {
     #container = createContainer();
     #clock = createClock();
 
-    #ctx: Ctx = {
-        use: this.#container.getCtx,
-        get: (meta) => this.#container.getCtx(meta).get(),
-        set: (meta, value) => this.#container.getCtx(meta).set(value),
-        update: (meta, updater) => this.#container.getCtx(meta).update(updater),
-
-        wait: (timer) => this.#clock.get(timer)(),
-        done: (timer) => this.#clock.get(timer).done(),
-        waitTimers: async (meta) => {
-            await Promise.all(this.#ctx.get(meta).map((x) => this.#ctx.wait(x)));
-            return;
-        },
-    };
-
     #plugins: Set<CtxHandler> = new Set();
 
-    inject = <T>(meta: Meta<T>, resetValue?: T) => {
-        meta(this.#container.contextMap, resetValue);
-        return this.#pre;
-    };
-
-    record = (timingMeta: Timer) => {
-        timingMeta(this.#clock.store);
-        return this.#pre;
-    };
-
-    #pre: Pre = {
-        inject: this.inject,
-        record: this.record,
-    };
+    #ctx = new Ctx(this.#container, this.#clock);
+    #pre = new Pre(this.#container, this.#clock);
 
     use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
         [plugins].flat().forEach((plugin) => {

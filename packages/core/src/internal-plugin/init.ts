@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import re from 'remark';
 
-import { createCtx, Meta } from '../context';
+import { createSlice, Slice } from '../context';
 import type { Editor } from '../editor';
 import { createTimer, Timer } from '../timing';
 import type { MilkdownPlugin } from '../utility';
@@ -11,11 +11,11 @@ import { remarkPluginsCtx } from './remark-plugin-factory';
 
 export const Initialize = createTimer('Initialize');
 
-export const initTimerCtx = createCtx<Timer[]>([]);
-export const editorCtx = createCtx<Editor>({} as Editor);
+export const initTimerCtx = createSlice<Timer[]>([]);
+export const editorCtx = createSlice<Editor>({} as Editor);
 
 export type RemarkParser = ReturnType<typeof re>;
-export const remarkCtx: Meta<RemarkParser> = createCtx<RemarkParser>(re());
+export const remarkCtx: Slice<RemarkParser> = createSlice<RemarkParser>(re());
 
 export const init =
     (editor: Editor): MilkdownPlugin =>

@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCtx } from './ctx';
+import { createSlice } from './slice';
 
-describe('context/ctx', () => {
-    it('primitive ctx', () => {
-        const factory = createCtx(0);
+describe('context/slice', () => {
+    it('primitive slice', () => {
+        const factory = createSlice(0);
         const map = new Map();
         const ctx = factory(map);
 
@@ -16,8 +16,8 @@ describe('context/ctx', () => {
         expect(ctx.get()).toBe(21);
     });
 
-    it('structure ctx', () => {
-        const factory = createCtx<number[]>([]);
+    it('structure slice', () => {
+        const factory = createSlice<number[]>([]);
         const map1 = new Map();
         const ctx1 = factory(map1);
 

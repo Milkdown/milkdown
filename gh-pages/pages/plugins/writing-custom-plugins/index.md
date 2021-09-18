@@ -79,9 +79,9 @@ We have used `ctx` several times in the above example, now we can try to underst
 Ctx is a piece of data that can be shared in the entire editor instance.
 
 ```typescript
-import { MilkdownPlugin, createCtx } from '@milkdown/core';
+import { MilkdownPlugin, createSlice } from '@milkdown/core';
 
-const counterCtx = createCtx(0);
+const counterCtx = createSlice(0);
 
 const counterPlugin: MilkdownPlugin = (pre) => {
     pre.inject(counterCtx);
@@ -105,16 +105,16 @@ const counterPlugin: MilkdownPlugin = (pre) => {
 };
 ```
 
-We can use `createCtx` to create a ctx, and use `pre.inject` to inject the ctx into the editor.
+We can use `createSlice` to create a ctx, and use `pre.inject` to inject the ctx into the editor.
 
 And when plugin processing, `ctx.get` can get the value of a ctx, `ctx.set` can set the value of a ctx, and `ctx.update` can update a ctx using callback function.
 
 So, we can use `ctx` combine with `timer` to decide when should a plugin be processed.
 
 ```typescript
-import { MilkdownPlugin, SchemaReady, Timer, createCtx } from '@milkdown/core';
+import { MilkdownPlugin, SchemaReady, Timer, createSlice } from '@milkdown/core';
 
-const examplePluginTimersCtx = createCtx<Timer[]>([]);
+const examplePluginTimersCtx = createSlice<Timer[]>([]);
 
 const examplePlugin: MilkdownPlugin = (pre) => {
     pre.inject(counterCtx, [SchemaReady]);

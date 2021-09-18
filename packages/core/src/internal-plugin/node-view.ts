@@ -1,12 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } from '../utility';
 import { editorCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export const nodeViewCtx = createCtx<Record<string, ProseView>>({});
-export const nodeViewTimerCtx = createCtx<Timer[]>([]);
+export const nodeViewCtx = createSlice<Record<string, ProseView>>({});
+export const nodeViewTimerCtx = createSlice<Timer[]>([]);
 
 export const NodeViewReady = createTimer('NodeViewReady');
 

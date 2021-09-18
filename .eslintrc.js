@@ -12,7 +12,7 @@ module.exports = {
         'plugin:prettier/recommended',
         'plugin:react-hooks/recommended',
     ],
-    plugins: ['simple-import-sort', 'header'],
+    plugins: ['simple-import-sort', 'header', 'eslint-plugin-tsdoc'],
     env: {
         browser: true,
         node: true,
@@ -29,6 +29,8 @@ module.exports = {
 
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
+
+        'tsdoc/syntax': 'warn',
 
         'header/header': ['error', 'block', ' Copyright 2021, Milkdown by Mirone. '],
     },

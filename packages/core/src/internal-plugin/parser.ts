@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 
-import { createCtx } from '../context';
+import { createSlice } from '../context';
 import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
 import { createTimer, Timer } from '../timing';
 import { MilkdownPlugin } from '../utility';
@@ -10,8 +10,8 @@ import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export type Parser = (text: string) => ProsemirrorNode | null;
 
-export const parserCtx = createCtx<Parser>(() => null);
-export const parserTimerCtx = createCtx<Timer[]>([]);
+export const parserCtx = createSlice<Parser>(() => null);
+export const parserTimerCtx = createSlice<Timer[]>([]);
 
 export const ParserReady = createTimer('ParserReady');
 
