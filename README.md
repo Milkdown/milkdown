@@ -42,6 +42,8 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 <a title="EllePeng" href="https://github.com/Ele-Peng"><img src="https://avatars.githubusercontent.com/u/18499385?v=4" width="100" alt="profile picture of EllePeng"></a>
 <a title="Songhn" href="https://github.com/songhn233"><img src="https://avatars.githubusercontent.com/u/47357585?v=4" width="100" alt="profile picture of Songhn"></a>
 <a title="Emo" href="https://github.com/yobome"><img src="https://avatars.githubusercontent.com/u/26548120?v=4" width="100" alt="profile picture of Emo"></a>
+<a title="Matia" href="https://github.com/mattcroat"><img src="https://avatars.githubusercontent.com/u/38083522?v=4" width="100" alt="profile picture of Matia"></a>
+<a title="Alex Neises" href="https://github.com/AlexNeises"><img src="https://avatars.githubusercontent.com/u/1816254?v=4" width="100" alt="profile picture of Alex Neises"></a>
 
 # Sponsors
 
