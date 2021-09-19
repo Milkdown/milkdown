@@ -1,5 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-export const docTypeError = (type: unknown) => new Error(`Doc type error, unsupported type: ${JSON.stringify(type)}`);
+
+const functionReplacer = (_: string, value: unknown) => (typeof value === 'function' ? '[Function]' : value);
+
+const stringify = (x: unknown): string => JSON.stringify(x, functionReplacer);
+
+export const docTypeError = (type: unknown) => new Error(`Doc type error, unsupported type: ${stringify(type)}`);
 
 export const contextNotFound = (name: string) => new Error(`Context "${name}" not found, do you forget to inject it?`);
 
@@ -17,11 +22,11 @@ export const createNodeInParserFail = (...args: unknown[]) => {
                 return (x as unknown[]).map((y) => serialize(y)).join(', ');
             }
             if ((x as { toJSON(): Record<string, unknown> }).toJSON) {
-                return JSON.stringify((x as { toJSON(): Record<string, unknown> }).toJSON());
+                return stringify((x as { toJSON(): Record<string, unknown> }).toJSON());
             }
 
             if ((x as { spec: string }).spec) {
-                return JSON.stringify((x as { spec: string }).spec);
+                return stringify((x as { spec: string }).spec);
             }
 
             return (x as { toString(): string }).toString();
@@ -35,15 +40,15 @@ export const createNodeInParserFail = (...args: unknown[]) => {
 export const stackOverFlow = () => new Error('Stack over flow, cannot pop on an empty stack.');
 
 export const parserMatchError = (node: unknown) =>
-    new Error(`Cannot match target parser for node: ${JSON.stringify(node)}.`);
+    new Error(`Cannot match target parser for node: ${stringify(node)}.`);
 
 export const serializerMatchError = (node: unknown) =>
-    new Error(`Cannot match target serializer for node: ${JSON.stringify(node)}.`);
+    new Error(`Cannot match target serializer for node: ${stringify(node)}.`);
 
 export const getAtomFromSchemaFail = (type: 'mark' | 'node', name: string) =>
     new Error(`Cannot get ${type}: ${name} from schema.`);
 
-export const expectDomTypeError = (node: unknown) => new Error(`Expect to be a dom, but get: ${JSON.stringify(node)}.`);
+export const expectDomTypeError = (node: unknown) => new Error(`Expect to be a dom, but get: ${stringify(node)}.`);
 
 export const callCommandBeforeEditorView = () =>
     new Error(

@@ -4,8 +4,8 @@ import { contextNotFound } from '@milkdown/exception';
 import { $Slice, Slice } from './slice';
 
 export type Container = {
-    getSlice: <T>(slice: Slice<T>) => $Slice<T>;
-    sliceMap: Map<symbol, $Slice>;
+    readonly getSlice: <T>(slice: Slice<T>) => $Slice<T>;
+    readonly sliceMap: Map<symbol, $Slice>;
 };
 
 export const createContainer = (): Container => {

@@ -4,18 +4,18 @@ import { ctxCallOutOfScope } from '@milkdown/exception';
 import { shallowClone } from '../utility';
 
 export type $Slice<T = unknown> = {
-    id: symbol;
-    set: (value: T) => void;
-    get: () => T;
-    update: (updater: (prev: T) => T) => void;
+    readonly id: symbol;
+    readonly set: (value: T) => void;
+    readonly get: () => T;
+    readonly update: (updater: (prev: T) => T) => void;
 };
 
 export type SliceMap = Map<symbol, $Slice>;
 
 export type Slice<T> = {
-    id: symbol;
-    sliceName: string;
-    _typeInfo: () => T;
+    readonly id: symbol;
+    readonly sliceName: string;
+    readonly _typeInfo: () => T;
     (container: SliceMap, resetValue?: T): $Slice<T>;
 };
 

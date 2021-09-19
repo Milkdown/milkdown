@@ -18,7 +18,7 @@ export class Pre {
      * @param defaultValue - The default value of this context.
      * @returns Pre.
      */
-    inject = <T>(ctx: Slice<T>, defaultValue?: T) => {
+    readonly inject = <T>(ctx: Slice<T>, defaultValue?: T) => {
         ctx(this.#container.sliceMap, defaultValue);
         return this;
     };
@@ -29,7 +29,7 @@ export class Pre {
      * @param timer - The timer needs to be recorded.
      * @returns Pre.
      */
-    record = (timer: Timer) => {
+    readonly record = (timer: Timer) => {
         timer(this.#clock.store);
         return this;
     };
