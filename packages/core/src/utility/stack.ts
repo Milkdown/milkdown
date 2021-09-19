@@ -14,9 +14,17 @@ export const getStackUtil = <Node, El extends ElInstance<Node>, Ctx extends Stac
 
     const top = (ctx: Ctx): El | undefined => ctx.elements[size(ctx) - 1];
 
-    const push = (ctx: Ctx) => (node: Node) => top(ctx)?.push(node);
+    const push =
+        (ctx: Ctx) =>
+        (node: Node): void => {
+            top(ctx)?.push(node);
+        };
 
-    const open = (ctx: Ctx) => (node: El) => ctx.elements.push(node);
+    const open =
+        (ctx: Ctx) =>
+        (node: El): void => {
+            ctx.elements.push(node);
+        };
 
     const close = (ctx: Ctx): El => {
         const el = ctx.elements.pop();

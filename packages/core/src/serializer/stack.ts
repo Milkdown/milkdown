@@ -29,8 +29,10 @@ const createMarkdownNode = (element: StackElement) => {
     return node;
 };
 
-const openNode = (ctx: Ctx) => (type: string, value?: string, props?: AnyRecord) =>
-    open(ctx)(createElement(type, [], value, props));
+const openNode =
+    (ctx: Ctx) =>
+    (type: string, value?: string, props?: AnyRecord): void =>
+        open(ctx)(createElement(type, [], value, props));
 
 const addNode =
     (ctx: Ctx) =>
@@ -78,7 +80,66 @@ const build = (ctx: Ctx) => () => {
     return doc;
 };
 
-export const createStack = () => {
+export type Stack = {
+    /**
+     * Build the remark AST tree with current stack.
+     *
+     * @returns A remark AST tree.
+     */
+    build: () => MarkdownNode;
+
+    /**
+     * Open a mark.
+     *
+     * @param mark - The mark need to be opened.
+     * @param type - Type of this mark.
+     * @param value - Value of this mark.
+     * @param props - Additional props of this mark.
+     *
+     * @returns
+     */
+    openMark: (mark: Mark, type: string, value?: string, props?: AnyRecord) => void;
+
+    /**
+     * Close current mark.
+     * @param mark - The prosemirror mark of target mark to be closed.
+     *
+     * @returns The mark closed, will be null if not exists.
+     */
+    closeMark: (mark: Mark) => MarkdownNode | null;
+
+    /**
+     * Open a node.
+     *
+     * @param type - Type of this node.
+     * @param value - Value of this node.
+     * @param props - Additional props of this node.
+     *
+     * @returns
+     */
+    openNode: (type: string, value?: string, props?: AnyRecord) => void;
+
+    /**
+     * Add a node in current position.
+     *
+     * @param type - Type of this node.
+     * @param children - Children of this node.
+     * @param value - Value of this node.
+     * @param props - Additional props of this node.
+     *
+     * @returns The added node.
+     */
+    addNode: (type: string, children?: MarkdownNode[], value?: string, props?: AnyRecord) => MarkdownNode;
+
+    /**
+     * Close current node.
+     *
+     * @returns The node closed.
+     */
+    closeNode: () => MarkdownNode;
+};
+
+export const createStack = (): Stack => {
     const ctx: Ctx = {
         marks: [],
         elements: [],
@@ -93,5 +154,3 @@ export const createStack = () => {
         closeNode: closeNode(ctx),
     };
 };
-
-export type Stack = ReturnType<typeof createStack>;
