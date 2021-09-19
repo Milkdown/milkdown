@@ -1,20 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { contextNotFound } from '@milkdown/exception';
 
-import { Context, Slice } from './slice';
+import { $Slice, Slice } from './slice';
 
-export const createContainer = () => {
-    const contextMap: Map<symbol, Context> = new Map();
+export type Container = {
+    getSlice: <T>(slice: Slice<T>) => $Slice<T>;
+    sliceMap: Map<symbol, $Slice>;
+};
 
-    const getCtx = <T>(slice: Slice<T>): Context<T> => {
-        const context = contextMap.get(slice.id);
+export const createContainer = (): Container => {
+    const sliceMap: Map<symbol, $Slice> = new Map();
+
+    const getSlice = <T>(slice: Slice<T>): $Slice<T> => {
+        const context = sliceMap.get(slice.id);
         if (!context) {
             throw contextNotFound();
         }
-        return context as Context<T>;
+        return context as $Slice<T>;
     };
 
-    return { getCtx, contextMap };
+    return { getSlice, sliceMap };
 };
-
-export type Container = ReturnType<typeof createContainer>;

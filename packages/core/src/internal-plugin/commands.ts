@@ -29,8 +29,8 @@ export const CommandsReady = createTimer('KeymapReady');
 export const commands: MilkdownPlugin = (pre) => {
     const container = createContainer();
     const commandManager: CommandManager = {
-        create: (meta, value) => meta(container.contextMap, value),
-        get: (meta) => container.getCtx(meta).get(),
+        create: (slice, value) => slice(container.sliceMap, value),
+        get: (slice) => container.getSlice(slice).get(),
         call: () => {
             throw callCommandBeforeEditorView();
         },

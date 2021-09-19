@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Container, Context, Slice } from '../context';
+import type { $Slice, Container, Slice } from '../context';
 import type { Clock, Timer } from '../timing';
 
 export class Ctx {
@@ -17,7 +17,7 @@ export class Ctx {
      * @param slice - The slice needs to be used.
      * @returns The slice instance.
      */
-    use = <T>(slice: Slice<T>): Context<T> => this.#container.getCtx(slice);
+    use = <T>(slice: Slice<T>): $Slice<T> => this.#container.getSlice(slice);
 
     /**
      * Get the slice value.

@@ -1,37 +1,30 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { ctxCallOutOfScope } from '@milkdown/exception';
-export type Context<T = unknown> = {
+
+import { shallowClone } from '../utility';
+
+export type $Slice<T = unknown> = {
     id: symbol;
     set: (value: T) => void;
     get: () => T;
     update: (updater: (prev: T) => T) => void;
 };
 
-export type ContextMap = Map<symbol, Context>;
+export type SliceMap = Map<symbol, $Slice>;
 
 export type Slice<T> = {
     id: symbol;
     _typeInfo: () => T;
-    (container: ContextMap, resetValue?: T): Context<T>;
-};
-
-const shallowClone = <T>(x: T): T => {
-    if (Array.isArray(x)) {
-        return [...(x as unknown[])] as unknown as T;
-    }
-    if (typeof x === 'object') {
-        return { ...x };
-    }
-    return x;
+    (container: SliceMap, resetValue?: T): $Slice<T>;
 };
 
 export const createSlice = <T>(value: T): Slice<T> => {
     const id = Symbol('Context');
 
-    const factory = (container: ContextMap, resetValue = shallowClone(value)) => {
+    const factory = (container: SliceMap, resetValue = shallowClone(value)) => {
         let inner = resetValue;
 
-        const context: Context<T> = {
+        const context: $Slice<T> = {
             id,
             set: (next) => {
                 inner = next;
@@ -41,7 +34,7 @@ export const createSlice = <T>(value: T): Slice<T> => {
                 inner = updater(inner);
             },
         };
-        container.set(id, context as Context);
+        container.set(id, context as $Slice);
         return context;
     };
     factory.id = id;

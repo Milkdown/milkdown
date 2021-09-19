@@ -19,7 +19,7 @@ export class Pre {
      * @returns Pre.
      */
     inject = <T>(ctx: Slice<T>, defaultValue?: T) => {
-        ctx(this.#container.contextMap, defaultValue);
+        ctx(this.#container.sliceMap, defaultValue);
         return this;
     };
 

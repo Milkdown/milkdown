@@ -2,23 +2,23 @@
 import { createContainer, createSlice } from '.';
 
 describe('context/container', () => {
-    it('contextMap', () => {
+    it('sliceMap', () => {
         const container = createContainer();
 
-        expect(container.contextMap).toEqual(new Map());
+        expect(container.sliceMap).toEqual(new Map());
     });
 
-    it('getCtx', () => {
+    it('getSlice', () => {
         const container = createContainer();
         const ctx = createSlice(0);
 
-        ctx(container.contextMap);
+        ctx(container.sliceMap);
 
-        expect(container.getCtx(ctx).id).toBe(ctx.id);
-        expect(container.getCtx(ctx).get()).toBe(0);
+        expect(container.getSlice(ctx).id).toBe(ctx.id);
+        expect(container.getSlice(ctx).get()).toBe(0);
 
-        container.getCtx(ctx).set(10);
+        container.getSlice(ctx).set(10);
 
-        expect(container.getCtx(ctx).get()).toBe(10);
+        expect(container.getSlice(ctx).get()).toBe(10);
     });
 });
