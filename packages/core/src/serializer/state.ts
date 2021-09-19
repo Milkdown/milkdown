@@ -10,6 +10,10 @@ const isFragment = (x: ProseNode | Fragment): x is Fragment => Object.prototype.
 
 type StateMethod<T extends keyof Stack> = (...args: Parameters<Stack[T]>) => State;
 
+/**
+ * State for serializer.
+ * Transform prosemirror state into remark AST.
+ */
 export class State {
     constructor(
         private readonly stack: Stack,
@@ -75,23 +79,26 @@ export class State {
     /**
      * Give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
      *
-     * @param node - The node or node list needs to be handled.
+     * @param nodes - The node or node list needs to be handled.
      *
-     * @returns
+     * @returns The state instance.
      */
-    next = (node: ProseNode | Fragment) => {
-        if (isFragment(node)) {
-            node.forEach((n) => {
-                this.#runNode(n);
+    next = (nodes: ProseNode | Fragment) => {
+        if (isFragment(nodes)) {
+            nodes.forEach((node) => {
+                this.#runNode(node);
             });
             return this;
         }
-        this.#runNode(node);
+        this.#runNode(nodes);
         return this;
     };
 
     /**
-     * Add a node without open or close it. It's useful for nodes which don't have content.
+     * Add a node without open or close it.
+     *
+     * @remarks
+     * It's useful for nodes which don't have content.
      *
      * @param type - Type of this node.
      * @param children - Children of this node.
@@ -115,7 +122,7 @@ export class State {
      * @param value - Value of this node.
      * @param props - Additional props of this node.
      *
-     * @returns
+     * @returns The state instance.
      */
     openNode: StateMethod<'openNode'> = (...args) => {
         this.stack.openNode(...args);
@@ -140,7 +147,7 @@ export class State {
      * @param value - Value of this mark.
      * @param props - Additional props of this mark.
      *
-     * @returns
+     * @returns The state instance.
      */
     withMark: StateMethod<'openMark'> = (...args) => {
         this.stack.openMark(...args);
