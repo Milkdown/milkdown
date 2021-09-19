@@ -9,7 +9,7 @@ export type Listener = {
     doc?: DocListener[];
     markdown?: MarkdownListener[];
 };
-export const listenerCtx = createSlice<Listener>({});
+export const listenerCtx = createSlice<Listener>({}, 'listener');
 
 export const listener: MilkdownPlugin = (pre) => {
     pre.inject(listenerCtx);

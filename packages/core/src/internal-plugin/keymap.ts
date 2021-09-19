@@ -9,8 +9,8 @@ import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin } from '../utility';
 import { commandsCtx, CommandsReady } from './commands';
 
-export const keymapCtx = createSlice<ProsePlugin[]>([]);
-export const keymapTimerCtx = createSlice<Timer[]>([]);
+export const keymapCtx = createSlice<ProsePlugin[]>([], 'keymap');
+export const keymapTimerCtx = createSlice<Timer[]>([], 'keymapTimer');
 
 export const KeymapReady = createTimer('KeymapReady');
 

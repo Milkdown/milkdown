@@ -10,8 +10,8 @@ import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export type Parser = (text: string) => ProsemirrorNode | null;
 
-export const parserCtx = createSlice<Parser>(() => null);
-export const parserTimerCtx = createSlice<Timer[]>([]);
+export const parserCtx = createSlice<Parser>(() => null, 'parser');
+export const parserTimerCtx = createSlice<Timer[]>([], 'parserTimer');
 
 export const ParserReady = createTimer('ParserReady');
 

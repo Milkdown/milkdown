@@ -5,8 +5,8 @@ import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } fro
 import { editorCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export const nodeViewCtx = createSlice<Record<string, ProseView>>({});
-export const nodeViewTimerCtx = createSlice<Timer[]>([]);
+export const nodeViewCtx = createSlice<Record<string, ProseView>>({}, 'nodeView');
+export const nodeViewTimerCtx = createSlice<Timer[]>([], 'nodeViewTimer');
 
 export const NodeViewReady = createTimer('NodeViewReady');
 

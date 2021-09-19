@@ -14,11 +14,12 @@ export type SliceMap = Map<symbol, $Slice>;
 
 export type Slice<T> = {
     id: symbol;
+    sliceName: string;
     _typeInfo: () => T;
     (container: SliceMap, resetValue?: T): $Slice<T>;
 };
 
-export const createSlice = <T>(value: T): Slice<T> => {
+export const createSlice = <T>(value: T, name: string): Slice<T> => {
     const id = Symbol('Context');
 
     const factory = (container: SliceMap, resetValue = shallowClone(value)) => {
@@ -37,6 +38,7 @@ export const createSlice = <T>(value: T): Slice<T> => {
         container.set(id, context as $Slice);
         return context;
     };
+    factory.sliceName = name;
     factory.id = id;
     factory._typeInfo = (): T => {
         throw ctxCallOutOfScope();

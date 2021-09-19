@@ -4,15 +4,18 @@ import { injectVar, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-sys
 import { createSlice } from '../context';
 import { MilkdownPlugin } from '../utility';
 
-export const themeToolCtx = createSlice<ThemeTool>({
-    mixin: {} as never,
-    font: {} as never,
-    size: {} as never,
-    slots: {} as never,
-    palette: () => '',
-});
+export const themeToolCtx = createSlice<ThemeTool>(
+    {
+        mixin: {} as never,
+        font: {} as never,
+        size: {} as never,
+        slots: {} as never,
+        palette: () => '',
+    },
+    'ThemeTool',
+);
 
-export { ThemeTool } from '@milkdown/design-system';
+export type { ThemeTool } from '@milkdown/design-system';
 
 export const themeFactory =
     (themePack: ThemePack): MilkdownPlugin =>

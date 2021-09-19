@@ -6,7 +6,7 @@ import type { Ctx } from '../editor';
 import type { MilkdownPlugin } from '../utility';
 import { CommandsReady } from './commands';
 
-export const prosePluginsCtx = createSlice<Plugin[]>([]);
+export const prosePluginsCtx = createSlice<Plugin[]>([], 'prosePlugins');
 
 type MaybeList<T> = T | T[];
 

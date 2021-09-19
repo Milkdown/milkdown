@@ -14,7 +14,7 @@ export const createContainer = (): Container => {
     const getSlice = <T>(slice: Slice<T>): $Slice<T> => {
         const context = sliceMap.get(slice.id);
         if (!context) {
-            throw contextNotFound();
+            throw contextNotFound(slice.sliceName);
         }
         return context as $Slice<T>;
     };

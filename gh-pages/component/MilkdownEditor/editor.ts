@@ -1,5 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Complete, defaultValueCtx, Editor, editorViewOptionsCtx, MilkdownPlugin, rootCtx } from '@milkdown/core';
+import {
+    defaultValueCtx,
+    Editor,
+    editorViewOptionsCtx,
+    EditorViewReady,
+    MilkdownPlugin,
+    rootCtx,
+} from '@milkdown/core';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { diagram } from '@milkdown/plugin-diagram';
@@ -19,7 +26,7 @@ const complete =
     (callback: () => void): MilkdownPlugin =>
     () =>
     async (ctx) => {
-        await ctx.wait(Complete);
+        await ctx.wait(EditorViewReady);
 
         callback();
     };

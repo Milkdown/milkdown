@@ -3,7 +3,7 @@ import { createSlice } from './slice';
 
 describe('context/slice', () => {
     it('primitive slice', () => {
-        const factory = createSlice(0);
+        const factory = createSlice(0, 'primitive');
         const map = new Map();
         const ctx = factory(map);
 
@@ -17,7 +17,7 @@ describe('context/slice', () => {
     });
 
     it('structure slice', () => {
-        const factory = createSlice<number[]>([]);
+        const factory = createSlice<number[]>([], 'structure');
         const map1 = new Map();
         const ctx1 = factory(map1);
 

@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 export const docTypeError = (type: unknown) => new Error(`Doc type error, unsupported type: ${JSON.stringify(type)}`);
 
-export const contextNotFound = () => new Error('Context not found, do you forget to inject it?');
+export const contextNotFound = (name: string) => new Error(`Context "${name}" not found, do you forget to inject it?`);
 
 export const timerNotFound = () => new Error('Timer not found, do you forget to record it?');
 

@@ -2,19 +2,19 @@
 import { Schema } from 'prosemirror-model';
 
 import { createSlice } from '../context';
-import { Initialize, Mark, Node } from '../internal-plugin';
+import { InitReady, Mark, Node } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';
 import { Atom, MilkdownPlugin } from '../utility';
 
 export const SchemaReady = createTimer('schemaReady');
 
-export const schemaCtx = createSlice<Schema>({} as Schema);
-export const nodesCtx = createSlice<Node[]>([]);
-export const marksCtx = createSlice<Mark[]>([]);
-export const schemaTimerCtx = createSlice<Timer[]>([]);
+export const schemaCtx = createSlice<Schema>({} as Schema, 'schema');
+export const nodesCtx = createSlice<Node[]>([], 'nodes');
+export const marksCtx = createSlice<Mark[]>([], 'marks');
+export const schemaTimerCtx = createSlice<Timer[]>([], 'schemaTimer');
 
 export const schema: MilkdownPlugin = (pre) => {
-    pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [Initialize]).record(SchemaReady);
+    pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [InitReady]).record(SchemaReady);
 
     return async (ctx) => {
         await ctx.waitTimers(schemaTimerCtx);

@@ -10,7 +10,7 @@ describe('context/container', () => {
 
     it('getSlice', () => {
         const container = createContainer();
-        const ctx = createSlice(0);
+        const ctx = createSlice(0, 'num');
 
         ctx(container.sliceMap);
 

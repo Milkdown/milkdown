@@ -6,8 +6,8 @@ import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin } from '../utility';
 
-export const inputRulesCtx = createSlice<InputRule[]>([]);
-export const inputRulesTimerCtx = createSlice<Timer[]>([]);
+export const inputRulesCtx = createSlice<InputRule[]>([], 'inputRules');
+export const inputRulesTimerCtx = createSlice<Timer[]>([], 'inputRulesTimer');
 
 export const InputRulesReady = createTimer('InputRulesReady');
 

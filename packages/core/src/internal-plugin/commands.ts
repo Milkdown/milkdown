@@ -5,7 +5,7 @@ import type { Command } from 'prosemirror-commands';
 import { createContainer, createSlice, Slice } from '../context';
 import { createTimer, Timer } from '../timing';
 import { Atom, getAtom, MilkdownPlugin } from '../utility';
-import { Complete, editorViewCtx } from './editor-view';
+import { editorViewCtx, EditorViewReady } from './editor-view';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export type Cmd<T = undefined> = (info?: T) => Command;
@@ -21,10 +21,11 @@ export type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>];
 
 export const createCmd = <T>(key: CmdKey<T>, value: Cmd<T>): CmdTuple => [key, value] as CmdTuple;
 
-export const commandsCtx = createSlice<CommandManager>({} as CommandManager);
-export const createCmdKey = <T = undefined>(): CmdKey<T> => createSlice((() => () => false) as Cmd<T>);
+export const commandsCtx = createSlice<CommandManager>({} as CommandManager, 'commands');
 
-export const commandsTimerCtx = createSlice<Timer[]>([]);
+export const createCmdKey = <T = undefined>(): CmdKey<T> => createSlice((() => () => false) as Cmd<T>, 'cmdKey');
+
+export const commandsTimerCtx = createSlice<Timer[]>([], 'commandsTimer');
 export const CommandsReady = createTimer('KeymapReady');
 export const commands: MilkdownPlugin = (pre) => {
     const container = createContainer();
@@ -55,7 +56,7 @@ export const commands: MilkdownPlugin = (pre) => {
             commandManager.create(key, command);
         });
         ctx.done(CommandsReady);
-        await ctx.wait(Complete);
+        await ctx.wait(EditorViewReady);
 
         ctx.update(commandsCtx, (prev) => ({
             ...prev,

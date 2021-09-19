@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import re from 'remark';
+import re, { RemarkOptions } from 'remark';
+import type { Processor } from 'unified';
 
 import { createSlice, Slice } from '../context';
 import type { Editor } from '../editor';
@@ -9,13 +10,14 @@ import { ConfigReady } from './config';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 
-export const Initialize = createTimer('Initialize');
+export type RemarkParser = Processor<RemarkOptions>;
 
-export const initTimerCtx = createSlice<Timer[]>([]);
-export const editorCtx = createSlice<Editor>({} as Editor);
+export const InitReady = createTimer('InitReady');
 
-export type RemarkParser = ReturnType<typeof re>;
-export const remarkCtx: Slice<RemarkParser> = createSlice<RemarkParser>(re());
+export const initTimerCtx = createSlice<Timer[]>([], 'initTimer');
+export const editorCtx = createSlice<Editor>({} as Editor, 'editor');
+
+export const remarkCtx: Slice<RemarkParser> = createSlice<RemarkParser>(re(), 'remark');
 
 export const init =
     (editor: Editor): MilkdownPlugin =>
@@ -25,7 +27,7 @@ export const init =
             .inject(remarkPluginsCtx)
             .inject(remarkCtx, re())
             .inject(initTimerCtx, [ConfigReady])
-            .record(Initialize);
+            .record(InitReady);
 
         return async (ctx) => {
             await ctx.waitTimers(initTimerCtx);
@@ -36,6 +38,6 @@ export const init =
             const processor = remarkPlugins.reduce((acc, plug) => acc.use(plug), remark);
 
             ctx.set(remarkCtx, processor);
-            ctx.done(Initialize);
+            ctx.done(InitReady);
         };
     };

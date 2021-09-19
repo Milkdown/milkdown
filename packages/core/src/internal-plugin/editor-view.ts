@@ -9,12 +9,12 @@ import { nodeViewCtx, NodeViewReady } from './node-view';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
-export const editorViewCtx = createSlice<EditorView>({} as EditorView);
-export const editorViewOptionsCtx = createSlice<EditorOptions>({});
-export const rootCtx = createSlice<Node | undefined | null>(document.body);
-export const editorViewTimerCtx = createSlice<Timer[]>([]);
+export const editorViewCtx = createSlice<EditorView>({} as EditorView, 'editorView');
+export const editorViewOptionsCtx = createSlice<EditorOptions>({}, 'editorViewOptions');
+export const rootCtx = createSlice<Node | undefined | null>(document.body, 'root');
+export const editorViewTimerCtx = createSlice<Timer[]>([], 'editorViewTimer');
 
-export const Complete = createTimer('complete');
+export const EditorViewReady = createTimer('EditorViewReady');
 
 const createViewContainer = (root: Node) => {
     const container = document.createElement('div');
@@ -34,7 +34,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         .inject(editorViewCtx)
         .inject(editorViewOptionsCtx)
         .inject(editorViewTimerCtx, [EditorStateReady, NodeViewReady])
-        .record(Complete);
+        .record(EditorViewReady);
 
     return async (ctx) => {
         await ctx.waitTimers(editorViewTimerCtx);
@@ -52,6 +52,6 @@ export const editorView: MilkdownPlugin = (pre) => {
         });
         prepareViewDom(view.dom);
         ctx.set(editorViewCtx, view);
-        ctx.done(Complete);
+        ctx.done(EditorViewReady);
     };
 };

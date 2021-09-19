@@ -31,16 +31,16 @@ export class Editor {
         return new Editor();
     }
 
-    #container = createContainer();
-    #clock = createClock();
+    readonly #container = createContainer();
+    readonly #clock = createClock();
 
-    #plugins: Set<CtxHandler> = new Set();
-    #configureList: Configure[] = [];
+    readonly #plugins: Set<CtxHandler> = new Set();
+    readonly #configureList: Configure[] = [];
 
-    #ctx = new Ctx(this.#container, this.#clock);
-    #pre = new Pre(this.#container, this.#clock);
+    readonly #ctx = new Ctx(this.#container, this.#clock);
+    readonly #pre = new Pre(this.#container, this.#clock);
 
-    #loadInternal = () => {
+    readonly #loadInternal = () => {
         const internalPlugins = [
             schema,
             parser,
@@ -71,7 +71,7 @@ export class Editor {
      * @param plugins - A list of plugins, or one plugin.
      * @returns Editor instance.
      */
-    use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
+    readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
         [plugins].flat().forEach((plugin) => {
             this.#plugins.add(plugin(this.#pre));
         });
@@ -84,7 +84,7 @@ export class Editor {
      * @param configure - The function that configure current editor, can be async, with context as parameter.
      * @returns Editor instance.
      */
-    config = (configure: Configure) => {
+    readonly config = (configure: Configure) => {
         this.#configureList.push(configure);
         return this;
     };
@@ -99,7 +99,7 @@ export class Editor {
      *
      * @returns A promise object, will be resolved as editor instance after create finish.
      */
-    create = async () => {
+    readonly create = async () => {
         this.#loadInternal();
         await Promise.all(
             [...this.#plugins].map((loader) => {
@@ -133,5 +133,5 @@ export class Editor {
      * @param action - The function that get editor context and return the action result.
      * @returns The action result.
      */
-    action = <T>(action: (ctx: Ctx) => T) => action(this.#ctx);
+    readonly action = <T>(action: (ctx: Ctx) => T) => action(this.#ctx);
 }
