@@ -103,7 +103,7 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             view;
             getPos;
 
-            const innerEditor = createInnerEditor();
+            const innerEditor = createInnerEditor(view, getPos);
 
             const currentId = getId(node);
             let currentNode = node;
@@ -153,7 +153,6 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                     currentNode = updatedNode;
 
                     const newVal = updatedNode.content.firstChild?.text || '';
-
                     code.dataset.value = newVal;
                     updatedNode.attrs.value = newVal;
 
