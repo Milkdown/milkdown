@@ -1,92 +1,38 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
+import { createCmd, createCmdKey } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
-import { customAlphabet } from 'nanoid';
+import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Node } from 'prosemirror-model';
 
-const nanoid = customAlphabet('abcedfghicklmn', 10);
-
-function componentToHex(c: number) {
-    const hex = c.toString(16);
-    return hex.length == 1 ? '0' + hex : hex;
-}
-
-function rgbToHex(r: number, g: number, b: number) {
-    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
-function tryRgbToHex(maybeRgb: string) {
-    if (!maybeRgb) return '';
-
-    const result = maybeRgb.split(',').map((x) => Number(x.trim()));
-
-    if (result.length < 3) {
-        return maybeRgb;
-    }
-
-    const valid = result.every((x) => {
-        return x >= 0 && x <= 256;
-    });
-
-    if (!valid) {
-        return maybeRgb;
-    }
-
-    return rgbToHex(...(result as [number, number, number]));
-}
+import { getStyle } from './style';
+import { getId } from './utility';
 
 const inputRegex = /^```mermaid$/;
 
-export const diagramNode = createNode((options, utils) => {
-    const codeStyle = utils.getStyle(
-        ({ palette, size, font }) => css`
-            color: ${palette('neutral', 0.87)};
-            background-color: ${palette('background')};
-            border-radius: ${size.radius};
-            padding: 1rem 2rem;
-            font-size: 0.875rem;
-            font-family: ${font.code};
-            overflow: hidden;
-        `,
-    );
-    const hideCodeStyle = css`
-        display: none;
-    `;
-    const previewPanelStyle = utils.getStyle(
-        () => css`
-            display: flex;
-            justify-content: center;
-            padding: 1rem 0;
-        `,
-    );
-    const mermaidVariables = () => {
-        const styleRoot = getComputedStyle(document.documentElement);
-        const getColor = (v: string) => tryRgbToHex(styleRoot.getPropertyValue('--' + v));
-        const primary = getColor('primary');
-        const secondary = getColor('secondary');
-        const solid = getColor('solid');
-        const neutral = getColor('neutral');
-        const background = getColor('background');
-        const style = {
-            background,
-            primaryColor: secondary,
-            secondaryColor: primary,
-            primaryTextColor: neutral,
-            noteBkgColor: background,
-            noteTextColor: solid,
-        };
-        return Object.entries(style)
-            .filter(([_, value]) => value.length > 0)
-            .map(([key, value]) => `'${key}':'${value}'`)
-            .join(', ');
+export type Options = {
+    placeholder: {
+        empty: string;
+        error: string;
     };
+};
+
+export const TurnIntoDiagram = createCmdKey();
+
+export const diagramNode = createNode<string, Options>((options, utils) => {
+    const { mermaidVariables, codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);
     const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables()} }}}%%\n`;
 
     const id = 'diagram';
     mermaid.startOnLoad = false;
     mermaid.initialize({ startOnLoad: false });
+
+    const placeholder = {
+        empty: 'Empty',
+        error: 'Syntax Error',
+        ...(options?.placeholder ?? {}),
+    };
 
     return {
         id,
@@ -123,11 +69,11 @@ export const diagramNode = createNode((options, utils) => {
                 },
             ],
             toDOM: (node) => {
-                const id = node.attrs.identity || nanoid();
+                const id = getId(node);
                 return [
                     'div',
                     {
-                        id: node.attrs.identity || nanoid(),
+                        id,
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
                         'data-value': node.attrs.value,
@@ -152,8 +98,11 @@ export const diagramNode = createNode((options, utils) => {
                 state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: 'mermaid' });
             },
         },
+        commands: (nodeType) => [
+            createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId(), editing: true })),
+        ],
         view: (editor, nodeType, node, view, getPos, decorations) => {
-            const currentId = node.attrs.identity || nanoid();
+            const currentId = getId(node);
             let currentNode = node;
             if (options?.view) {
                 return options.view(editor, nodeType, node, view, getPos, decorations);
@@ -196,9 +145,9 @@ export const diagramNode = createNode((options, utils) => {
                         error.remove();
                     }
                     if (!node.attrs.value) {
-                        rendered.innerHTML = 'Empty';
+                        rendered.innerHTML = placeholder.empty;
                     } else {
-                        rendered.innerHTML = 'Syntax Error';
+                        rendered.innerHTML = placeholder.error;
                     }
                 } finally {
                     dom.appendChild(rendered);
@@ -276,7 +225,7 @@ export const diagramNode = createNode((options, utils) => {
             };
         },
         inputRules: (nodeType) => [
-            textblockTypeInputRule(inputRegex, nodeType, () => ({ id: nanoid(), editing: true })),
+            textblockTypeInputRule(inputRegex, nodeType, () => ({ id: getId(), editing: true })),
         ],
     };
 });

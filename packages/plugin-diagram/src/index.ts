@@ -8,3 +8,5 @@ import { remarkPlugin } from './remark-mermaid';
 export * from './remark-mermaid';
 
 export const diagram = AtomList.create([remarkPlugin, diagramNode()]);
+
+export { Options, TurnIntoDiagram } from './node';
