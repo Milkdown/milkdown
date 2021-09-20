@@ -5,12 +5,12 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import { buttonMap, inputMap, InputOptions } from './item';
 import { createPlugin } from './selection-marks-tooltip';
 
-export const key = 'MILKDOWN_PLUGIN_TOOLTIP';
+export const key = new PluginKey('MILKDOWN_PLUGIN_TOOLTIP');
 
 export const tooltipPlugin = createProsePlugin<InputOptions>(
     (options, utils) =>
         new Plugin({
-            key: new PluginKey(key),
+            key,
             view: (editorView) =>
                 createPlugin(
                     buttonMap(editorView.state.schema, utils.ctx),

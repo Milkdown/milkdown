@@ -15,6 +15,9 @@ export const getStyle = (utils: Utils) => {
             font-size: 0.875rem;
             font-family: ${font.code};
             overflow: hidden;
+            .ProseMirror {
+                outline: none;
+            }
         `,
     );
     const hideCodeStyle = css`

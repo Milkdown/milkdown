@@ -6,6 +6,7 @@ import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Node } from 'prosemirror-model';
 
+import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';
 import { getId } from './utility';
 
@@ -41,16 +42,15 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             group: 'block',
             marks: '',
             defining: true,
+            atom: true,
             code: true,
+            isolating: true,
             attrs: {
                 value: {
                     default: '',
                 },
                 identity: {
                     default: '',
-                },
-                editing: {
-                    default: false,
                 },
             },
             parseDOM: [
@@ -77,7 +77,6 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
                         'data-value': node.attrs.value,
-                        'data-editing': node.attrs.editing.toString(),
                     },
                     0,
                 ];
@@ -98,22 +97,23 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                 state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: 'mermaid' });
             },
         },
-        commands: (nodeType) => [
-            createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId(), editing: true })),
-        ],
-        view: (editor, nodeType, node, view, getPos, decorations) => {
+        commands: (nodeType) => [createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId() }))],
+        view: (_editor, nodeType, node, view, getPos) => {
+            nodeType;
+            view;
+            getPos;
+
+            const innerEditor = createInnerEditor();
+
             const currentId = getId(node);
             let currentNode = node;
-            if (options?.view) {
-                return options.view(editor, nodeType, node, view, getPos, decorations);
-            }
             const dom = document.createElement('div');
             dom.classList.add('mermaid', 'diagram');
             const code = document.createElement('div');
             code.dataset.type = id;
             code.dataset.value = node.attrs.value;
             if (codeStyle) {
-                code.classList.add(codeStyle);
+                code.classList.add(codeStyle, hideCodeStyle);
             }
 
             const rendered = document.createElement('div');
@@ -123,16 +123,6 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             }
 
             dom.append(code);
-
-            dom.dataset.editing = node.attrs.editing.toString();
-            const updateEditing = (node: Node) => {
-                if (!node.attrs.editing) {
-                    code.classList.add(hideCodeStyle);
-                    return;
-                }
-
-                code.classList.remove(hideCodeStyle);
-            };
 
             const render = (node: Node) => {
                 const code = header + node.attrs.value;
@@ -154,69 +144,40 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                 }
             };
 
-            updateEditing(node);
             render(node);
-
-            dom.addEventListener('mousedown', (e) => {
-                if (currentNode.attrs.editing) {
-                    return;
-                }
-                e.preventDefault();
-                e.stopPropagation();
-                const { tr } = view.state;
-                const _tr = tr.setNodeMarkup(getPos(), nodeType, {
-                    ...currentNode.attrs,
-                    editing: true,
-                });
-                view.dispatch(_tr);
-            });
-            view.dom.addEventListener('mousedown', (e) => {
-                if (!currentNode.attrs.editing) {
-                    return;
-                }
-                const el = e.target;
-                if (el === code || el === rendered) {
-                    return;
-                }
-                const { tr } = view.state;
-                const _tr = tr.setNodeMarkup(getPos(), nodeType, {
-                    ...currentNode.attrs,
-                    editing: false,
-                });
-                view.dispatch(_tr);
-            });
 
             return {
                 dom,
-                contentDOM: code,
                 update: (updatedNode) => {
-                    if (updatedNode.type.name !== id) return false;
+                    if (!updatedNode.sameMarkup(currentNode)) return false;
                     currentNode = updatedNode;
-
-                    updateEditing(updatedNode);
 
                     const newVal = updatedNode.content.firstChild?.text || '';
 
                     code.dataset.value = newVal;
-                    dom.dataset.editing = updatedNode.attrs.editing.toString();
                     updatedNode.attrs.value = newVal;
 
                     render(updatedNode);
 
                     return true;
                 },
-                selectNode() {
-                    if (!view.editable) return;
+                selectNode: () => {
+                    code.classList.remove(hideCodeStyle);
+                    innerEditor.openEditor(code, currentNode);
+                    dom.classList.add('ProseMirror-selectednode');
                 },
-                deselectNode() {
+                deselectNode: () => {
                     code.classList.add(hideCodeStyle);
-                    const { tr } = view.state;
-                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
-                        ...node.attrs,
-                        editing: false,
-                    });
-                    view.dispatch(_tr);
+                    innerEditor.closeEditor();
+                    dom.classList.remove('ProseMirror-selectednode');
                 },
+                stopEvent: (event) => {
+                    const innerView = innerEditor.innerView();
+                    const { target } = event;
+                    const isChild = target && innerView?.dom.contains(target as Element);
+                    return !!(innerView && isChild);
+                },
+                ignoreMutation: () => true,
                 destroy() {
                     rendered.remove();
                     code.remove();
@@ -224,8 +185,6 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                 },
             };
         },
-        inputRules: (nodeType) => [
-            textblockTypeInputRule(inputRegex, nodeType, () => ({ id: getId(), editing: true })),
-        ],
+        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType, () => ({ id: getId() }))],
     };
 });
