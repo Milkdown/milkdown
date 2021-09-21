@@ -16,7 +16,7 @@
         "style"
     ],
     "dependencies": {
-        "@playwright/test": "^1.14.0",
+        "@playwright/test": "^1.14.1",
         "tslib": "^2.2.0",
         "@milkdown/core": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
