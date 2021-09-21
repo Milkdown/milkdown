@@ -42,18 +42,21 @@ export const createInnerEditor = (outerView: EditorView, getPos: () => number) =
                 if (!innerView) return;
                 const { state, transactions } = innerView.state.applyTransaction(tr);
                 innerView.updateState(state);
-                const outerTr = outerView.state.tr,
-                    offsetMap = StepMap.offset(getPos() + 1);
-                for (let i = 0; i < transactions.length; i++) {
-                    const steps = transactions[i].steps;
-                    for (let j = 0; j < steps.length; j++) {
-                        const mapped = steps[j].map(offsetMap);
+
+                const outerTr = outerView.state.tr;
+                const offsetMap = StepMap.offset(getPos() + 1);
+
+                transactions.forEach((transaction) => {
+                    const { steps } = transaction;
+                    steps.forEach((step) => {
+                        const mapped = step.map(offsetMap);
+
                         if (!mapped) {
                             throw Error('step discarded!');
                         }
                         outerTr.step(mapped);
-                    }
-                }
+                    });
+                });
                 if (outerTr.docChanged) outerView.dispatch(outerTr);
             },
         });
