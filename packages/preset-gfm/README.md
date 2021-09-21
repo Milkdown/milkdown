@@ -1,7 +1,7 @@
-# @milkdown/preset-commonmark
+# @milkdown/preset-gfm
 
-Common mark preset for [milkdown](https://saul-mirone.github.io/milkdown/).
-Add support for commonmark.
+Github flavored markdown preset for [milkdown](https://saul-mirone.github.io/milkdown/).
+Add support for gfm.
 
 # Example Usage
 
@@ -9,16 +9,15 @@ Add support for commonmark.
 import { Editor } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
 
-import { commonmark } from '@milkdown/preset-commonmark';
-import '@milkdown/preset-commonmark/lib/style.css';
+import { gfm } from '@milkdown/preset-gfm';
 
-Editor.make().use(nord).use(commonmark).create();
+Editor.make().use(nord).use(gfm).create();
 ```
 
 ## Custom Keymap
 
 ```typescript
-import { commonmark, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
+import { commonmark, blockquote, SupportedKeys } from '@milkdown/preset-gfm';
 
 const nodes = commonmark.configure(blockquote, {
     keymap: {
@@ -51,11 +50,14 @@ Keymap supported:
 -   NextListItem
 -   SinkListItem
 -   LiftListItem
+-   NextCell
+-   PrevCell
+-   ExitTable
 
 ## Custom Style
 
 ```typescript
-import { commonmark, paragraph, heading } from '@milkdown/commonmark';
+import { commonmark, paragraph, heading } from '@milkdown/preset-gfm';
 
 const nodes = commonmark
     .configure(paragraph, {
