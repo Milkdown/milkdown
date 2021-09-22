@@ -65,7 +65,7 @@ const CustomImage: React.FC = ({ children }) => {
             className="react-image"
             src={node.attrs.src}
             alt={node.attrs.alt}
-            title={node.attrs.tittle}
+            title={node.attrs.title}
         />;
     )
 };
