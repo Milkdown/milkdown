@@ -69,11 +69,11 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                 },
             ],
             toDOM: (node) => {
-                const id = getId(node);
+                const identity = getId(node);
                 return [
                     'div',
                     {
-                        id,
+                        id: identity,
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
                         'data-value': node.attrs.value,
