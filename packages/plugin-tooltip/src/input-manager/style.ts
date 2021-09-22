@@ -19,7 +19,7 @@ export const injectStyle = (themeTool: ThemeTool) => {
 
         height: 3.5rem;
         box-sizing: border-box;
-        width: 20.5rem;
+        width: 25.5rem;
         padding: 0 1rem;
         gap: 1rem;
 
