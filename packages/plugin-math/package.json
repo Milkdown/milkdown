@@ -28,6 +28,7 @@
         "@benrbray/prosemirror-math": "^0.2.2",
         "@emotion/css": "^11.1.3",
         "@milkdown/utils": "workspace:*",
+        "katex": "^0.13.18",
         "remark-math": "^4.0.0",
         "tslib": "^2.2.0"
     },

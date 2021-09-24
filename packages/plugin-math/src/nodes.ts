@@ -8,6 +8,7 @@ import {
 import { injectGlobal } from '@emotion/css';
 import { AtomList, createNode } from '@milkdown/utils';
 
+import { mathBlock } from './math-block';
 import { style } from './style';
 
 export const mathInline = createNode((_, utils) => {
@@ -124,4 +125,4 @@ export const mathDisplay = createNode(() => {
     };
 });
 
-export const nodes = AtomList.create([mathInline(), mathDisplay()]);
+export const nodes = AtomList.create([mathInline(), mathBlock()]);

@@ -1,16 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey } from '@milkdown/core';
 import { createNode } from '@milkdown/utils';
-import mermaid from 'mermaid';
-import { setBlockType } from 'prosemirror-commands';
+import katex from 'katex';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
 import { Node } from 'prosemirror-model';
 
 import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';
-import { getId } from './utility';
 
-const inputRegex = /^```mermaid$/;
+const inputRegex = /^\$\$\s$/;
 
 export type Options = {
     placeholder: {
@@ -19,16 +16,9 @@ export type Options = {
     };
 };
 
-export const TurnIntoDiagram = createCmdKey();
-
-export const diagramNode = createNode<string, Options>((options, utils) => {
-    const { mermaidVariables, codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);
-    const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables()} }}}%%\n`;
-
-    const id = 'diagram';
-    mermaid.startOnLoad = false;
-    mermaid.initialize({ startOnLoad: false });
-
+export const mathBlock = createNode<string, Options>((options, utils) => {
+    const { codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);
+    const id = 'math_block';
     const placeholder = {
         empty: 'Empty',
         error: 'Syntax Error',
@@ -49,13 +39,10 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                 value: {
                     default: '',
                 },
-                identity: {
-                    default: '',
-                },
             },
             parseDOM: [
                 {
-                    tag: 'div[data-type="diagram"]',
+                    tag: 'div[data-type="mathBlock"]',
                     preserveWhitespace: 'full',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
@@ -63,17 +50,14 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                         }
                         return {
                             value: dom.innerHTML,
-                            id: dom.id,
                         };
                     },
                 },
             ],
             toDOM: (node) => {
-                const identity = getId(node);
                 return [
                     'div',
                     {
-                        id: identity,
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
                         'data-value': node.attrs.value,
@@ -83,7 +67,7 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             },
         },
         parser: {
-            match: ({ type }) => type === id,
+            match: ({ type }) => type === 'math',
             runner: (state, node, type) => {
                 const value = node.value as string;
                 state.openNode(type, { value });
@@ -94,14 +78,16 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
         serializer: {
             match: (node) => node.type.name === id,
             runner: (state, node) => {
-                state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: 'mermaid' });
+                let text = '';
+                node.forEach((n) => {
+                    text += n.text as string;
+                });
+                state.addNode('math', undefined, text);
             },
         },
-        commands: (nodeType) => [createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId() }))],
         view: (_editor, _nodeType, node, view, getPos) => {
             const innerEditor = createInnerEditor(view, getPos);
 
-            const currentId = getId(node);
             let currentNode = node;
             const dom = document.createElement('div');
             dom.classList.add('mermaid', 'diagram');
@@ -113,7 +99,6 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             }
 
             const rendered = document.createElement('div');
-            rendered.id = currentId;
             if (previewPanelStyle) {
                 rendered.classList.add(previewPanelStyle);
             }
@@ -121,20 +106,15 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             dom.append(code);
 
             const render = (node: Node) => {
-                const code = header + node.attrs.value;
                 try {
-                    const svg = mermaid.render(currentId, code);
-                    rendered.innerHTML = svg;
-                } catch {
-                    const error = document.getElementById('d' + currentId);
-                    if (error) {
-                        error.remove();
-                    }
-                    if (!node.attrs.value) {
+                    const code = node.attrs.value;
+                    if (!code) {
                         rendered.innerHTML = placeholder.empty;
                     } else {
-                        rendered.innerHTML = placeholder.error;
+                        katex.render(code, rendered);
                     }
+                } catch {
+                    rendered.innerHTML = placeholder.error;
                 } finally {
                     dom.appendChild(rendered);
                 }
@@ -180,6 +160,6 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                 },
             };
         },
-        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType, () => ({ id: getId() }))],
+        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType)],
     };
 });
