@@ -148,6 +148,26 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                     if (!updatedNode.sameMarkup(currentNode)) return false;
                     currentNode = updatedNode;
 
+                    const innerView = innerEditor.innerView();
+                    if (innerView) {
+                        const state = innerView.state;
+                        const start = updatedNode.content.findDiffStart(state.doc.content);
+                        if (start !== null && start !== undefined) {
+                            const diff = updatedNode.content.findDiffEnd(state.doc.content);
+                            if (diff) {
+                                let { a: endA, b: endB } = diff;
+                                const overlap = start - Math.min(endA, endB);
+                                if (overlap > 0) {
+                                    endA += overlap;
+                                    endB += overlap;
+                                }
+                                innerView.dispatch(
+                                    state.tr.replace(start, endB, node.slice(start, endA)).setMeta('fromOutside', true),
+                                );
+                            }
+                        }
+                    }
+
                     const newVal = updatedNode.content.firstChild?.text || '';
                     code.dataset.value = newVal;
                     updatedNode.attrs.value = newVal;
