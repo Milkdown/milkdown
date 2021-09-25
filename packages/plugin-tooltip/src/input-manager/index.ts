@@ -7,21 +7,18 @@ import { calcInputPos } from './calc-input-pos';
 import { createInput } from './create-input';
 import { filterInput } from './filter-input';
 
-export const createInputManager = (inputMap: InputMap, view: EditorView, utils: Utils) => {
+export const createInputManager = (inputMap: InputMap, utils: Utils) => {
     let inputCommand: Event2Command | undefined;
     const setCommand = (x?: Event2Command) => (inputCommand = x);
 
-    const wrapper = view.dom.parentNode;
-    if (!wrapper) throw new Error();
-
     const { div, button, input } = createInput(utils);
-    wrapper.appendChild(div);
 
     const onClick = (e: Event) => {
         if (!inputCommand || button.classList.contains('disable')) return;
 
         e.stopPropagation();
         inputCommand(e);
+        div.classList.add('hide');
     };
 
     button.addEventListener('mousedown', onClick);
@@ -40,6 +37,11 @@ export const createInputManager = (inputMap: InputMap, view: EditorView, utils: 
             if (!result) return;
             setCommand(result);
             calcInputPos(editorView, div);
+        },
+        render: (editorView: EditorView) => {
+            const wrapper = editorView.dom.parentNode;
+            if (!wrapper) throw new Error();
+            wrapper.appendChild(div);
         },
     };
 };
