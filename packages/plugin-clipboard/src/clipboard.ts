@@ -44,7 +44,9 @@ export const clipboardPlugin = createProsePlugin((_, utils) => {
                 if (!slice || typeof slice === 'string') return false;
 
                 const { $from } = view.state.selection;
-                const depth = slice.content.childCount > 1 ? 0 : $from.depth;
+                const isEmpty = $from.node().content.size === 0;
+                const isNestedSlice = slice.firstChild?.type.name !== 'paragraph';
+                const depth = isEmpty || isNestedSlice ? 0 : $from.depth;
                 view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, depth, depth)));
 
                 return true;
