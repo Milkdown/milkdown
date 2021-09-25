@@ -19,7 +19,7 @@ export const createPlugin = (buttonMap: ButtonMap, inputMap: InputMap, view: Edi
     const update = (view: EditorView, prevState?: EditorState) => {
         const { state } = view;
 
-        if (!view.editable || state.selection.empty) {
+        if (!view.editable) {
             hide();
             return;
         }

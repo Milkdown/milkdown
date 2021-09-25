@@ -5,15 +5,7 @@ import { findSelectedNodeOfType } from '@milkdown/utils';
 import type { Schema } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 
-import {
-    createToggleIcon,
-    hasMark,
-    isTextSelection,
-    modifyImage,
-    modifyLink,
-    updateImageView,
-    updateLinkView,
-} from './utility';
+import { createToggleIcon, hasMark, modifyImage, modifyLink, updateImageView, updateLinkView } from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -66,7 +58,9 @@ export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): 
     const { marks, nodes } = schema;
     return {
         [InputAction.ModifyLink]: {
-            display: (view) => isTextSelection(view.state) && hasMark(view.state, marks.link),
+            display: (view) => {
+                return view.state.selection.empty && hasMark(view.state, marks.link);
+            },
             command: modifyLink(ctx),
             update: updateLinkView,
             ...inputOptions.link,

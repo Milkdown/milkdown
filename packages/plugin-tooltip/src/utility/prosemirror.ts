@@ -11,7 +11,7 @@ export type Position = {
 export const hasMark = (editorState: EditorState, type: MarkType): boolean => {
     const { from, to } = editorState.selection;
 
-    return editorState.doc.rangeHasMark(from, to, type);
+    return editorState.doc.rangeHasMark(from, from === to ? to + 1 : to, type);
 };
 
 export const isTextSelection = (editorState: EditorState): boolean => {
