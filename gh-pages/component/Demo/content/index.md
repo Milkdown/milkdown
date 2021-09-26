@@ -17,7 +17,7 @@ You can check the output markdown text in **two columns editing**.
     -   [x] ⚡ **Slash & Tooltip** - Write fast for everyone, driven by plugin
     -   [x] 🧮 **Math** - LaTeX math equations support, driven by plugin
     -   [x] 📊 **Table** - Table support with fluent ui, driven by plugin
-    -   [x] 📰 **Diagram** - Diagram support with [mermaid](https://mermaid-js.github.io/mermaid/#/)，driven by plugin
+    -   [x] 📰 **Diagram** - Diagram support with [mermaid](https://mermaid-js.github.io/mermaid/#/), driven by plugin
     -   [x] 🍻 **Collaborate** - Shared editing support with [yjs], driven by plugin
     -   [x] 💾 **Clipboard** - Support copy and paste markdown, driven by plugin
     -   [x] :+1: **Emoji** - Support emoji shortcut and picker, driven by plugin
