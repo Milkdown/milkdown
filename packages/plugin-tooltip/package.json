@@ -22,7 +22,8 @@
     ],
     "peerDependencies": {
         "@milkdown/core": "*",
-        "@milkdown/preset-gfm": "*"
+        "@milkdown/preset-gfm": "*",
+        "@milkdown/plugin-math": "*"
     },
     "dependencies": {
         "@emotion/css": "^11.1.3",
