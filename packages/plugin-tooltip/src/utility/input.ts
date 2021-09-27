@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, Ctx } from '@milkdown/core';
+import { ModifyInlineMath } from '@milkdown/plugin-math';
 import { ModifyImage, ModifyLink } from '@milkdown/preset-commonmark';
 import { findChildren } from '@milkdown/utils';
 import { Node as ProseNode } from 'prosemirror-model';
@@ -25,6 +26,26 @@ export const modifyLink =
         if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
         return ctx.get(commandsCtx).call(ModifyLink, inputEl.value);
+    };
+
+export const modifyInlineMath =
+    (ctx: Ctx): Event2Command =>
+    (e) => {
+        const { target } = e;
+        if (!(target instanceof HTMLElement)) {
+            return () => true;
+        }
+        if (elementIsTag(target, 'input')) {
+            target.focus();
+            return () => false;
+        }
+        const parent = target.parentNode;
+        if (!parent) return () => false;
+
+        const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
+        if (!(inputEl instanceof HTMLInputElement)) return () => false;
+
+        return ctx.get(commandsCtx).call(ModifyInlineMath, inputEl.value);
     };
 
 export const modifyImage =
@@ -67,6 +88,25 @@ export const updateLinkView: Updater = (view, $) => {
     if (!mark) return;
 
     const value = mark.attrs.href;
+    firstChild.value = value;
+    if (!value) {
+        lastElementChild.classList.add('disable');
+        return;
+    }
+    if (lastElementChild.classList.contains('disable')) {
+        lastElementChild.classList.remove('disable');
+    }
+};
+
+export const updateMathView: Updater = (view, $) => {
+    const { nodes } = view.state.schema;
+    const { firstChild, lastElementChild } = $;
+    if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
+
+    const node = findChildren((node) => node.type === nodes.math_inline)(view.state.selection.$from.node())[0]?.node;
+    if (!node) return;
+
+    const value = node.attrs.value;
     firstChild.value = value;
     if (!value) {
         lastElementChild.classList.add('disable');

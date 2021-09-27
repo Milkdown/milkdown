@@ -50,7 +50,7 @@ function main() {
 
 数学公式通过 [TeX 表达式](https://en.wikipedia.org/wiki/TeX)支持。
 
-这里我们有行内公式： $V \times W \stackrel{\otimes}{\rightarrow} V \otimes W$，你可以点击并编辑它。
+这里我们有行内公式： $E = mc^2$，你可以点击并编辑它。
 
 数学公式块也是支持的。
 

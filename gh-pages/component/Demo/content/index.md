@@ -50,7 +50,7 @@ You can type `||` and a `space` to create a table:
 
 Math is supported by [TeX expression](https://en.wikipedia.org/wiki/TeX).
 
-Now we have some inline math: $V \times W \stackrel{\otimes}{\rightarrow} V \otimes W$. You can click to edit it.
+Now we have some inline math: $E = mc^2$. You can click to edit it.
 
 Math block is also supported.
 

@@ -5,7 +5,16 @@ import { findSelectedNodeOfType } from '@milkdown/utils';
 import type { Schema } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 
-import { createToggleIcon, hasMark, modifyImage, modifyLink, updateImageView, updateLinkView } from './utility';
+import {
+    createToggleIcon,
+    hasMark,
+    modifyImage,
+    modifyInlineMath,
+    modifyLink,
+    updateImageView,
+    updateLinkView,
+    updateMathView,
+} from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -38,6 +47,7 @@ export enum ButtonAction {
 export enum InputAction {
     ModifyLink,
     ModifyImage,
+    ModifyInlineMath,
 }
 
 export type ButtonMap = Record<ButtonAction, ButtonItem>;
@@ -63,6 +73,14 @@ export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): 
             },
             command: modifyLink(ctx),
             update: updateLinkView,
+            ...inputOptions.link,
+        },
+        [InputAction.ModifyInlineMath]: {
+            display: (view) => {
+                return Boolean(findSelectedNodeOfType(view.state.selection, nodes.math_inline));
+            },
+            command: modifyInlineMath(ctx),
+            update: updateMathView,
             ...inputOptions.link,
         },
         [InputAction.ModifyImage]: {
