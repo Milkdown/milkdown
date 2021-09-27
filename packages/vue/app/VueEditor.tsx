@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { commonmarkNodes, commonmarkPlugins, image, paragraph } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 import { DefineComponent, defineComponent, h, inject, ref } from 'vue';
 
 import { EditorRef, nodeMetadata, useEditor, VueEditor } from '../src';
@@ -44,6 +45,7 @@ export const MyEditor = defineComponent((props: { markdown: string }) => {
                 ctx.set(rootCtx, root);
                 ctx.set(defaultValueCtx, props.markdown);
             })
+            .use(nord)
             .use(nodes)
             .use(commonmarkPlugins);
     });

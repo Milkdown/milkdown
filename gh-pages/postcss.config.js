@@ -1,3 +1,5 @@
+/* Copyright 2021, Milkdown by Mirone. */
+
 const noConfigPlugin = [];
 
 const palette = (key, frac = 1) => `rgba(var(--${key}), ${frac})`;

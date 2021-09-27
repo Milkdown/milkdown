@@ -1,9 +1,9 @@
-import { createApp, h } from 'vue';
-import { MyEditor } from './VueEditor';
-
-import '@milkdown/theme-nord/lib/theme.css';
-
+/* Copyright 2021, Milkdown by Mirone. */
 import './style.css';
+
+import { createApp, h } from 'vue';
+
+import { MyEditor } from './VueEditor';
 
 const markdown = `
 # Milkdown Test
