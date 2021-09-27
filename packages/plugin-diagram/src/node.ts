@@ -4,7 +4,6 @@ import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
 import { setBlockType } from 'prosemirror-commands';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { Node } from 'prosemirror-model';
 
 import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';
@@ -120,27 +119,26 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
 
             dom.append(code);
 
-            const render = (node: Node) => {
-                const code = header + node.attrs.value;
+            const render = (code: string) => {
                 try {
-                    const svg = mermaid.render(currentId, code);
-                    rendered.innerHTML = svg;
+                    if (!code) {
+                        rendered.innerHTML = placeholder.empty;
+                    } else {
+                        const svg = mermaid.render(currentId, header + code);
+                        rendered.innerHTML = svg;
+                    }
                 } catch {
                     const error = document.getElementById('d' + currentId);
                     if (error) {
                         error.remove();
                     }
-                    if (!node.attrs.value) {
-                        rendered.innerHTML = placeholder.empty;
-                    } else {
-                        rendered.innerHTML = placeholder.error;
-                    }
+                    rendered.innerHTML = placeholder.error;
                 } finally {
                     dom.appendChild(rendered);
                 }
             };
 
-            render(node);
+            render(node.attrs.value);
 
             return {
                 dom,
@@ -170,9 +168,8 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
 
                     const newVal = updatedNode.content.firstChild?.text || '';
                     code.dataset.value = newVal;
-                    updatedNode.attrs.value = newVal;
 
-                    render(updatedNode);
+                    render(newVal);
 
                     return true;
                 },

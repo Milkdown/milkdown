@@ -18,8 +18,16 @@ export const filterInput = (
     }
 
     div.classList.remove('hide');
+
+    if (target.bind) {
+        button.classList.add('hide');
+    } else {
+        button.classList.remove('hide');
+        button.textContent = target.buttonText;
+    }
+
     input.placeholder = target.placeholder;
-    button.textContent = target.buttonText;
     target.update(currentView, div);
-    return target.command;
+
+    return target;
 };

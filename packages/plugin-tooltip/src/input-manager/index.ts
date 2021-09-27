@@ -9,6 +9,7 @@ import { filterInput } from './filter-input';
 
 export const createInputManager = (inputMap: InputMap, utils: Utils) => {
     let inputCommand: Event2Command | undefined;
+    let binding = false;
     const setCommand = (x?: Event2Command) => (inputCommand = x);
 
     const { div, button, input } = createInput(utils);
@@ -20,13 +21,19 @@ export const createInputManager = (inputMap: InputMap, utils: Utils) => {
         inputCommand(e);
         div.classList.add('hide');
     };
+    const onInput = (e: Event) => {
+        if (!binding || !inputCommand) return;
+        inputCommand(e);
+    };
 
+    input.addEventListener('input', onInput);
     button.addEventListener('mousedown', onClick);
 
     return {
         destroy: () => {
+            input.removeEventListener('input', onInput);
             div.removeEventListener('mousedown', onClick);
-            button.remove();
+            div.remove();
         },
         hide: () => {
             div.classList.add('hide');
@@ -35,7 +42,8 @@ export const createInputManager = (inputMap: InputMap, utils: Utils) => {
         update: (editorView: EditorView) => {
             const result = filterInput(editorView, inputMap, div, input, button);
             if (!result) return;
-            setCommand(result);
+            binding = !!result.bind;
+            setCommand(result.command);
             calcInputPos(editorView, div);
         },
         render: (editorView: EditorView) => {

@@ -23,6 +23,10 @@ export const tooltipPlugin = createProsePlugin<InputOptions>((options, utils) =>
                 buttonText: 'APPLY',
                 ...(options?.image ?? {}),
             },
+            inlineMath: {
+                placeholder: 'Input Math',
+                ...(options?.inlineMath ?? {}),
+            },
         }),
         utils,
     );

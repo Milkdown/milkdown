@@ -378,7 +378,6 @@ importers:
 
   packages/plugin-math:
     specifiers:
-      '@benrbray/prosemirror-math': ^0.2.2
       '@emotion/css': ^11.1.3
       '@milkdown/utils': workspace:*
       '@types/katex': ^0.11.1
@@ -387,7 +386,6 @@ importers:
       remark-math: ^4.0.0
       tslib: ^2.2.0
     dependencies:
-      '@benrbray/prosemirror-math': 0.2.2_77614572d276042781959eadb0f1a975
       '@emotion/css': 11.1.3
       '@milkdown/utils': link:../utils
       katex: 0.13.18
@@ -1928,32 +1926,6 @@ packages:
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
-
-  /@benrbray/prosemirror-math/0.2.2_77614572d276042781959eadb0f1a975:
-    resolution: {integrity: sha512-n+V8MNKaQ9HtA1IASzoBFwthFY55kpu2I+0aF103AbqUw5eM8YlxHeltnLqjnYRVY4/a6A9t9YlBMBQOli5jgw==}
-    peerDependencies:
-      katex: ^0.13.0
-      prosemirror-commands: ^1.1.7
-      prosemirror-gapcursor: ^1.1.5
-      prosemirror-history: ^1.1.3
-      prosemirror-inputrules: '>=1.1.2'
-      prosemirror-keymap: ^1.1.4
-      prosemirror-model: ^1.13.3
-      prosemirror-state: ^1.3.4
-      prosemirror-transform: ^1.2.12
-      prosemirror-view: ^1.18.2
-    dependencies:
-      katex: 0.13.18
-      prosemirror-commands: 1.1.10
-      prosemirror-gapcursor: 1.1.5
-      prosemirror-history: 1.1.3
-      prosemirror-inputrules: 1.1.3
-      prosemirror-keymap: 1.1.4
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.2
-      prosemirror-view: 1.18.11
-    dev: false
 
   /@braintree/sanitize-url/3.1.0:
     resolution: {integrity: sha512-GcIY79elgB+azP74j8vqkiXz8xLFfIzbQJdlwOPisgbKT00tviJQuEghOXSMVxJ00HoYJbGswr4kcllUc4xCcg==}

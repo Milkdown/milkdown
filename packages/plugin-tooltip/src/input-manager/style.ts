@@ -54,6 +54,9 @@ export const injectStyle = (themeTool: ThemeTool) => {
                     background: transparent;
                 }
             }
+            &.hide {
+                display: none;
+            }
         }
 
         &.hide {

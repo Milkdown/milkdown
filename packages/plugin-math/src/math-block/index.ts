@@ -2,14 +2,13 @@
 import { createNode } from '@milkdown/utils';
 import katex from 'katex';
 import { textblockTypeInputRule } from 'prosemirror-inputrules';
-import { Node } from 'prosemirror-model';
 
 import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';
 
 const inputRegex = /^\$\$\s$/;
 
-export type Options = {
+type Options = {
     placeholder: {
         empty: string;
         error: string;
@@ -105,9 +104,8 @@ export const mathBlock = createNode<string, Options>((options, utils) => {
 
             dom.append(code);
 
-            const render = (node: Node) => {
+            const render = (code: string) => {
                 try {
-                    const code = node.attrs.value;
                     if (!code) {
                         rendered.innerHTML = placeholder.empty;
                     } else {
@@ -120,7 +118,7 @@ export const mathBlock = createNode<string, Options>((options, utils) => {
                 }
             };
 
-            render(node);
+            render(node.attrs.value);
 
             return {
                 dom,
@@ -150,9 +148,8 @@ export const mathBlock = createNode<string, Options>((options, utils) => {
 
                     const newVal = updatedNode.content.firstChild?.text || '';
                     code.dataset.value = newVal;
-                    updatedNode.attrs.value = newVal;
 
-                    render(updatedNode);
+                    render(newVal);
 
                     return true;
                 },

@@ -35,10 +35,6 @@ export const modifyInlineMath =
         if (!(target instanceof HTMLElement)) {
             return () => true;
         }
-        if (elementIsTag(target, 'input')) {
-            target.focus();
-            return () => false;
-        }
         const parent = target.parentNode;
         if (!parent) return () => false;
 
@@ -98,7 +94,7 @@ export const updateLinkView: Updater = (view, $) => {
     }
 };
 
-export const updateMathView: Updater = (view, $) => {
+export const updateInlineMathView: Updater = (view, $) => {
     const { nodes } = view.state.schema;
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;

@@ -5,9 +5,22 @@ import { createCmd, createCmdKey } from '@milkdown/core';
 import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import katex from 'katex';
 import { InputRule } from 'prosemirror-inputrules';
+import { NodeSelection } from 'prosemirror-state';
+
+type Options = {
+    placeholder: {
+        empty: string;
+        error: string;
+    };
+};
 
 export const ModifyInlineMath = createCmdKey<string>();
-export const mathInline = createNode((_, utils) => {
+export const mathInline = createNode<string, Options>((options, utils) => {
+    const placeholder = {
+        empty: '(empty)',
+        error: '(error)',
+        ...(options?.placeholder ?? {}),
+    };
     const style = utils.getStyle(({ size, palette }) => {
         return css`
             font-size: 0.875rem;
@@ -44,11 +57,7 @@ export const mathInline = createNode((_, utils) => {
         serializer: {
             match: (node) => node.type.name === id,
             runner: (state, node) => {
-                let text = '';
-                node.forEach((n) => {
-                    text += n.text as string;
-                });
-                state.addNode('inlineMath', undefined, text);
+                state.addNode('inlineMath', undefined, node.attrs.value);
             },
         },
         commands: (nodeType) => [
@@ -57,7 +66,8 @@ export const mathInline = createNode((_, utils) => {
                 if (!node) return false;
 
                 const { tr } = state;
-                dispatch?.(tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, value }).scrollIntoView());
+                const _tr = tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, value });
+                dispatch?.(_tr.setSelection(NodeSelection.create(_tr.doc, node.pos)));
 
                 return true;
             }),
@@ -70,16 +80,13 @@ export const mathInline = createNode((_, utils) => {
             }
             const render = (code: string) => {
                 try {
-                    // const code = node.attrs.value;
                     if (!code) {
-                        dom.innerHTML = '(empty)';
-                        // rendered.innerHTML = placeholder.empty;
+                        dom.innerHTML = placeholder.empty;
                     } else {
                         katex.render(code, dom);
                     }
                 } catch {
-                    dom.innerHTML = '(error)';
-                    // rendered.innerHTML = placeholder.error;
+                    dom.innerHTML = placeholder.error;
                 }
             };
             render(node.attrs.value);
@@ -105,14 +112,15 @@ export const mathInline = createNode((_, utils) => {
                 if (!$start.parent.canReplaceWith(index, $end.index(), nodeType)) {
                     return null;
                 }
+                const value = match[1];
                 return state.tr.replaceRangeWith(
                     start,
                     end,
                     nodeType.create(
                         {
-                            value: match[1],
+                            value,
                         },
-                        nodeType.schema.text(match[1]),
+                        nodeType.schema.text(value),
                     ),
                 );
             }),

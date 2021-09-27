@@ -12,8 +12,8 @@ import {
     modifyInlineMath,
     modifyLink,
     updateImageView,
+    updateInlineMathView,
     updateLinkView,
-    updateMathView,
 } from './utility';
 
 export type Pred = (view: EditorView) => boolean;
@@ -33,8 +33,15 @@ export type InputItem = {
     display: Pred;
     update: Updater;
     placeholder: string;
-    buttonText: string;
-};
+} & (
+    | {
+          bind: true;
+      }
+    | {
+          bind?: false;
+          buttonText: string;
+      }
+);
 
 export enum ButtonAction {
     ToggleBold,
@@ -62,26 +69,26 @@ export type InputOptions = {
         placeholder: string;
         buttonText: string;
     };
+    inlineMath: {
+        placeholder: string;
+    };
 };
 
 export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): InputMap => {
     const { marks, nodes } = schema;
     return {
         [InputAction.ModifyLink]: {
-            display: (view) => {
-                return view.state.selection.empty && hasMark(view.state, marks.link);
-            },
+            display: (view) => view.state.selection.empty && hasMark(view.state, marks.link),
             command: modifyLink(ctx),
             update: updateLinkView,
             ...inputOptions.link,
         },
         [InputAction.ModifyInlineMath]: {
-            display: (view) => {
-                return Boolean(findSelectedNodeOfType(view.state.selection, nodes.math_inline));
-            },
+            display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.math_inline)),
             command: modifyInlineMath(ctx),
-            update: updateMathView,
-            ...inputOptions.link,
+            update: updateInlineMathView,
+            bind: true,
+            ...inputOptions.inlineMath,
         },
         [InputAction.ModifyImage]: {
             display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.image)),
