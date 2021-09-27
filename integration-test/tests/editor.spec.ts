@@ -98,6 +98,14 @@ test.describe('input:', () => {
             expect(image).toBeDefined();
         });
 
+        test('image with title', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+
+            await editor.type('![image](url "title")');
+            const image = await editor.waitForSelector('.image');
+            expect(image).toBeDefined();
+        });
+
         test('code block', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 

@@ -212,7 +212,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
         ],
         inputRules: (nodeType) => [
             new InputRule(
-                /!\[(?<alt>.*?)]\((?<filename>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/,
+                /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
                 (state, match, start, end) => {
                     const [okay, alt, src = '', title] = match;
                     const { tr } = state;
