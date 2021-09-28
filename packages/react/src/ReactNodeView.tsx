@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Editor, NodeViewFactory } from '@milkdown/core';
+import type { Editor, ViewFactory } from '@milkdown/core';
 import { getId } from '@milkdown/utils';
-import type { Node } from 'prosemirror-model';
+import { Mark, Node } from 'prosemirror-model';
 import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
 import React from 'react';
 import { createPortal } from 'react-dom';
@@ -10,7 +10,7 @@ import { Content, ReactNodeContainer } from './ReactNode';
 
 export const createReactView =
     (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
-    (component: React.FC): NodeViewFactory =>
+    (component: React.FC): ViewFactory =>
     (editor, _type, node, view, getPos, decorations) =>
         new ReactNodeView(component, addPortal, removePortalByKey, editor, node, view, getPos, decorations);
 
@@ -24,15 +24,20 @@ export class ReactNodeView implements NodeView {
         private addPortal: (portal: React.ReactPortal) => void,
         private removePortalByKey: (key: string) => void,
         private editor: Editor,
-        private node: Node,
+        private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
         private decorations: Decoration[],
     ) {
-        const dom = document.createElement('div');
+        const dom = document.createElement(node instanceof Mark ? 'span' : 'div');
+        dom.classList.add('dom-wrapper');
 
-        const contentDOM = node.isLeaf ? null : document.createElement(node.isInline ? 'span' : 'div');
+        const contentDOM =
+            node instanceof Node && node.isLeaf
+                ? undefined
+                : document.createElement(node instanceof Mark ? 'span' : 'div');
         if (contentDOM) {
+            contentDOM.classList.add('content-dom');
             dom.appendChild(contentDOM);
         }
         this.dom = dom;
@@ -55,7 +60,7 @@ export class ReactNodeView implements NodeView {
                 decorations={this.decorations}
             >
                 <Component>
-                    <Content dom={this.contentDOM} />
+                    <Content isMark={this.node instanceof Mark} dom={this.contentDOM} />
                 </Component>
             </ReactNodeContainer>,
             this.dom,

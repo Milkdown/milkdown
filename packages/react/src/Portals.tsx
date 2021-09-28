@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { NodeViewFactory } from '@milkdown/core';
+import type { ViewFactory } from '@milkdown/core';
 import React from 'react';
 
-export const portalContext = React.createContext<(Component: React.FC) => NodeViewFactory>(() => () => {
+export const portalContext = React.createContext<(Component: React.FC) => ViewFactory>(() => () => {
     throw new Error();
 });
 

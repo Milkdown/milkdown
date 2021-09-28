@@ -1,12 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Editor } from '@milkdown/core';
-import { Node } from 'prosemirror-model';
+import { Mark, Node } from 'prosemirror-model';
 import { Decoration, EditorView } from 'prosemirror-view';
 import React from 'react';
 
 type NodeContext = {
     editor: Editor;
-    node: Node;
+    node: Node | Mark;
     view: EditorView;
     getPos: boolean | (() => number);
     decorations: Decoration[];
@@ -26,7 +26,7 @@ export const ReactNodeContainer: React.FC<NodeContext> = ({ editor, node, view, 
 
 export const useNodeCtx = () => React.useContext(nodeContext);
 
-export const Content: React.FC<{ dom?: HTMLElement | null }> = ({ dom }) => {
+export const Content: React.FC<{ isMark?: boolean; dom?: HTMLElement | null }> = ({ dom, isMark }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -36,5 +36,9 @@ export const Content: React.FC<{ dom?: HTMLElement | null }> = ({ dom }) => {
         current.appendChild(dom);
     }, [dom]);
 
-    return <div ref={containerRef} />;
+    if (isMark) {
+        return <span className="content-dom-wrapper" ref={containerRef} />;
+    }
+
+    return <div className="content-dom-wrapper" ref={containerRef} />;
 };

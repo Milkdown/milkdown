@@ -2,7 +2,7 @@
 import './style.css';
 
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
-import { blockquote, commonmark, image, paragraph } from '@milkdown/preset-commonmark';
+import { blockquote, commonmark, image, link, paragraph, text } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
 import React from 'react';
 import { render } from 'react-dom';
@@ -65,13 +65,22 @@ const ReactBlockquote: React.FC = ({ children }) => {
     return <div className="react-renderer blockquote">{children}</div>;
 };
 
+const TSLink: React.FC = ({ children }) => {
+    return (
+        <a className="link" href="#">
+            {children}
+        </a>
+    );
+};
+
 const App: React.FC = () => {
     const ref = React.useRef<EditorRef>();
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(paragraph, { view: renderReact(ReactParagraph) })
             .configure(blockquote, { view: renderReact(ReactBlockquote) })
-            .configure(image, { view: renderReact(ReactImage) });
+            .configure(image, { view: renderReact(ReactImage) })
+            .configure(link, { view: renderReact(TSLink) });
         return Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);

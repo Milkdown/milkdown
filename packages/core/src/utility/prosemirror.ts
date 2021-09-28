@@ -22,7 +22,7 @@ export type MarkViewParams = [mark: Mark, view: EditorView, getPos: boolean, dec
 export type ViewParams = [
     atom: Node | Mark,
     view: EditorView,
-    getPos: () => number | boolean,
+    getPos: (() => number) | boolean,
     decorations: Decoration[],
 ];
 
