@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Editor, editorViewCtx, NodeViewFactory } from '@milkdown/core';
+import { Editor, editorViewCtx, ViewFactory } from '@milkdown/core';
 import {
     DefineComponent,
     defineComponent,
@@ -19,13 +19,13 @@ import {
 import { PortalPair, Portals } from './Portals';
 import { createVueView } from './VueNodeView';
 
-const rendererKey: InjectionKey<(component: DefineComponent) => NodeViewFactory> = Symbol();
+const rendererKey: InjectionKey<(component: DefineComponent) => ViewFactory> = Symbol();
 
-type GetEditor = (container: HTMLDivElement, renderVue: (Component: DefineComponent) => NodeViewFactory) => Editor;
+type GetEditor = (container: HTMLDivElement, renderVue: (Component: DefineComponent) => ViewFactory) => Editor;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const divRef = ref<HTMLDivElement | null>(null);
-    const renderVue = inject<(Component: DefineComponent) => NodeViewFactory>(rendererKey, () => {
+    const renderVue = inject<(Component: DefineComponent) => ViewFactory>(rendererKey, () => {
         throw new Error();
     });
     const editorRef = markRaw<{ editor?: Editor }>({});

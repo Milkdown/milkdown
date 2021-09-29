@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Editor, NodeViewFactory } from '@milkdown/core';
+import type { Editor, ViewFactory } from '@milkdown/core';
 import { getId } from '@milkdown/utils';
-import type { Node } from 'prosemirror-model';
+import { Mark, Node } from 'prosemirror-model';
 import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
 import { DefineComponent, defineComponent, h, Teleport } from 'vue';
 
@@ -9,7 +9,7 @@ import { Content, VueNodeContainer } from './VueNode';
 
 export const createVueView =
     (addPortal: (portal: DefineComponent, key: string) => void, removePortalByKey: (key: string) => void) =>
-    (component: DefineComponent): NodeViewFactory =>
+    (component: DefineComponent): ViewFactory =>
     (editor, _type, node, view, getPos, decorations) =>
         new VueNodeView(component, addPortal, removePortalByKey, editor, node, view, getPos, decorations);
 
@@ -23,16 +23,21 @@ export class VueNodeView implements NodeView {
         private addPortal: (portal: DefineComponent, key: string) => void,
         private removePortalByKey: (key: string) => void,
         private editor: Editor,
-        private node: Node,
+        private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
         private decorations: Decoration[],
     ) {
         this.key = getId();
-        const dom = document.createElement('div');
+        const dom = document.createElement(node instanceof Mark ? 'span' : 'div');
+        dom.classList.add('dom-wrapper');
 
-        const contentDOM = node.isLeaf ? undefined : document.createElement(node.isInline ? 'span' : 'div');
+        const contentDOM =
+            node instanceof Node && node.isLeaf
+                ? undefined
+                : document.createElement(node instanceof Mark ? 'span' : 'div');
         if (contentDOM) {
+            contentDOM.classList.add('content-dom');
             dom.appendChild(contentDOM);
         }
         this.dom = dom;
