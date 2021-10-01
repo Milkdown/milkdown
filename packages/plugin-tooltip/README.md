@@ -34,6 +34,9 @@ Editor.make().use(
             placeholder: 'Please input image link...',
             buttonText: 'OK',
         },
+        inlineMath: {
+            placeholder: 'Please input inline math...',
+        },
     }),
 );
 ```
