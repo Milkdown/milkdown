@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 4.13.0
+
+### Minor Changes
+
+-   2d339e90: UX and binding optimize
+
+### Patch Changes
+
+-   Updated dependencies [2d339e90]
+    -   @milkdown/plugin-table@4.13.0
+    -   @milkdown/preset-commonmark@4.13.0
+    -   @milkdown/utils@4.13.0
+
 ## 4.12.0
 
 ### Minor Changes
