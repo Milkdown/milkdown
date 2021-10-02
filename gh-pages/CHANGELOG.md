@@ -1,5 +1,11 @@
 # @milkdown/gh-pages
 
+## 4.13.0
+
+### Minor Changes
+
+-   2d339e90: UX and binding optimize
+
 ## 4.12.0
 
 ### Minor Changes
