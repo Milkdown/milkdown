@@ -14,12 +14,14 @@
         "build": "tsc"
     },
     "files": [
-        "lib"
+        "lib",
+        "src"
     ],
     "keywords": [
         "milkdown",
         "milkdown plugin",
-        "diagram"
+        "diagram",
+        "mermaid"
     ],
     "peerDependencies": {
         "@milkdown/core": "*"

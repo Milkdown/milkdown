@@ -8,9 +8,6 @@
         "tsc": "tsc --noEmit",
         "preview": "vite preview"
     },
-    "files": [
-        "style"
-    ],
     "dependencies": {
         "@codemirror/basic-setup": "^0.18.2",
         "@codemirror/lang-markdown": "^0.18.4",

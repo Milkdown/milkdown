@@ -16,7 +16,8 @@
         "@milkdown/core": "*"
     },
     "files": [
-        "lib"
+        "lib",
+        "src"
     ],
     "keywords": [
         "milkdown",

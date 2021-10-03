@@ -14,7 +14,8 @@
         "build": "tsc"
     },
     "files": [
-        "lib"
+        "lib",
+        "src"
     ],
     "peerDependencies": {
         "@milkdown/core": "*"

@@ -14,7 +14,8 @@
         "build": "tsc"
     },
     "files": [
-        "lib"
+        "lib",
+        "src"
     ],
     "dependencies": {
         "@emotion/css": "^11.1.3",
