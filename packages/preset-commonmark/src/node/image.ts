@@ -27,13 +27,13 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
         (themeTool) =>
             css`
                 display: inline-block;
-                margin: 0 auto;
                 position: relative;
                 text-align: center;
                 font-size: 0;
                 width: 100%;
+                margin: 0 auto;
                 img {
-                    width: 100%;
+                    max-width: 100%;
                     height: auto;
                     object-fit: contain;
                 }
@@ -117,14 +117,17 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
             inline: true,
             group: 'inline',
             draggable: true,
-            selectable: true,
             marks: '',
+            atom: true,
+            defining: true,
+            isolating: true,
             attrs: {
                 src: { default: '' },
                 alt: { default: null },
                 title: { default: null },
                 failed: { default: false },
                 loading: { default: true },
+                width: { default: 0 },
             },
             parseDOM: [
                 {
@@ -139,6 +142,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                             src: dom.getAttribute('src') || '',
                             alt: dom.getAttribute('alt'),
                             title: dom.getAttribute('title'),
+                            width: dom.getAttribute('width') || 0,
                         };
                     },
                 },
@@ -226,10 +230,13 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
         ],
         view: (_editor, nodeType, node, view, getPos) => {
             const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
-            const container = document.createElement('div');
+            const container = document.createElement('span');
             container.className = utils.getClassName(node.attrs, id, containerStyle);
+            container.contentEditable = 'false';
 
             const content = document.createElement('img');
+            content.contentEditable = 'true';
+
             container.append(content);
             let icon = createIcon('image');
             const placeholder = document.createElement('span');
@@ -263,6 +270,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                     const { tr } = view.state;
                     const _tr = tr.setNodeMarkup(getPos(), nodeType, {
                         ...node.attrs,
+                        width: img.width,
                         src,
                         loading: false,
                         failed: false,
@@ -271,10 +279,11 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 };
             };
 
-            const { src, loading, title, alt } = node.attrs;
+            const { src, loading, title, alt, width } = node.attrs;
             content.src = src;
             content.title = title;
             content.alt = alt;
+            content.width = width;
 
             if (src.length === 0) {
                 container.classList.add('system', 'empty');
@@ -289,10 +298,11 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
 
-                    const { src, alt, title, loading, failed } = updatedNode.attrs;
+                    const { src, alt, title, loading, failed, width } = updatedNode.attrs;
                     content.src = src;
                     content.alt = alt;
                     content.title = title;
+                    content.width = width;
                     if (loading) {
                         loadImage(src);
                         return true;

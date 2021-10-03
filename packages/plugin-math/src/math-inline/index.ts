@@ -23,7 +23,7 @@ export const mathInline = createNode<string, Options>((options, utils) => {
     };
     const style = utils.getStyle(({ size, palette }) => {
         return css`
-            font-size: 0.875rem;
+            font-size: unset;
 
             &.ProseMirror-selectednode {
                 outline: none;
