@@ -1,5 +1,14 @@
 # @milkdown/core
 
+## 4.13.1
+
+### Patch Changes
+
+-   bd5925e3: Fix sourcemap missing files issue
+-   Updated dependencies [bd5925e3]
+    -   @milkdown/design-system@4.13.1
+    -   @milkdown/exception@4.13.1
+
 ## 4.13.0
 
 ### Minor Changes

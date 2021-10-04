@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.13.1
+
+### Patch Changes
+
+-   bd5925e3: Fix sourcemap missing files issue
+-   Updated dependencies [bd5925e3]
+    -   @milkdown/plugin-table@4.13.1
+    -   @milkdown/preset-commonmark@4.13.1
+    -   @milkdown/utils@4.13.1
+
 ## 4.13.0
 
 ### Minor Changes
