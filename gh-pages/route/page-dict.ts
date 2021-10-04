@@ -73,7 +73,27 @@ export const titleDict: Dict = new Map([
             'zh-hans': 'Vue',
         },
     ],
-
+    [
+        'angular',
+        {
+            en: 'Angular',
+            'zh-hans': 'Angular',
+        },
+    ],
+    [
+        'svelte',
+        {
+            en: 'Svelte',
+            'zh-hans': 'Svelte',
+        },
+    ],
+    [
+        'vue2',
+        {
+            en: 'Vue2',
+            'zh-hans': 'Vue2',
+        },
+    ],
     [
         'plugins',
         {

@@ -15,7 +15,7 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'integrations',
-        items: ['react', 'vue'],
+        items: ['react', 'vue', 'angular', 'svelte', 'vue2'],
     },
     {
         dir: 'plugins',
