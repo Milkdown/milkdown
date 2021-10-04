@@ -10,6 +10,7 @@ export const ModifyImage = createCmdKey<string>();
 export const InsertImage = createCmdKey<string>();
 const id = 'image';
 export type ImageOptions = {
+    isBlock: boolean;
     placeholder: {
         loading: string;
         empty: string;
@@ -23,6 +24,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
         failed: 'Image loads failed',
         ...(options?.placeholder ?? {}),
     };
+    const isBlock = options?.isBlock ?? false;
     const containerStyle = utils.getStyle(
         (themeTool) =>
             css`
@@ -30,12 +32,18 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 position: relative;
                 text-align: center;
                 font-size: 0;
+                vertical-align: text-bottom;
+                ${isBlock
+                    ? `
                 width: 100%;
                 margin: 0 auto;
+                `
+                    : ''}
                 img {
                     max-width: 100%;
                     height: auto;
                     object-fit: contain;
+                    margin: 0 2px;
                 }
                 .icon,
                 .placeholder {
@@ -43,6 +51,9 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 }
 
                 &.system {
+                    width: 100%;
+                    margin: 0 auto;
+
                     img {
                         width: 0;
                         height: 0;
@@ -294,7 +305,6 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
 
             return {
                 dom: container,
-                contentDOM: content,
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
 
