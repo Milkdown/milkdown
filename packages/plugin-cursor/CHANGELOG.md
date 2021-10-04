@@ -1,5 +1,11 @@
 # @milkdown/plugin-cursor
 
+## 4.13.1
+
+### Patch Changes
+
+-   bd5925e3: Fix sourcemap missing files issue
+
 ## 4.13.0
 
 ### Minor Changes
