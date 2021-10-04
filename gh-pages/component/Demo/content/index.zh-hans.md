@@ -1,6 +1,6 @@
 # Milkdown
 
-![logo](https://preview.redd.it/us7w1x2zx8461.jpg?auto=webp&s=077a73d5c08aec0bc0fb48c5e5be40c928467bb6)
+![greeting bear](https://preview.redd.it/us7w1x2zx8461.jpg?auto=webp&s=077a73d5c08aec0bc0fb48c5e5be40c928467bb6)
 
 > Milkdown 是一个所见即所得的编辑器框架。
 >

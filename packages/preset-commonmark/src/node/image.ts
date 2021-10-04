@@ -152,7 +152,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                             loading: dom.classList.contains('loading'),
                             src: dom.getAttribute('src') || '',
                             alt: dom.getAttribute('alt'),
-                            title: dom.getAttribute('title'),
+                            title: dom.getAttribute('title') || dom.getAttribute('alt'),
                             width: dom.getAttribute('width') || 0,
                         };
                     },
@@ -292,7 +292,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
 
             const { src, loading, title, alt, width } = node.attrs;
             content.src = src;
-            content.title = title;
+            content.title = title || alt;
             content.alt = alt;
             content.width = width;
 
@@ -311,7 +311,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                     const { src, alt, title, loading, failed, width } = updatedNode.attrs;
                     content.src = src;
                     content.alt = alt;
-                    content.title = title;
+                    content.title = title || alt;
                     content.width = width;
                     if (loading) {
                         loadImage(src);
