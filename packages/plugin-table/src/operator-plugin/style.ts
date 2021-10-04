@@ -5,6 +5,7 @@ import { ThemeTool } from '@milkdown/core';
 export const injectStyle = ({ size, mixin, palette }: ThemeTool) => css`
     display: inline-flex;
     cursor: pointer;
+    z-index: 2;
 
     justify-content: space-evenly;
 

@@ -22,6 +22,7 @@ export const injectStyle = (themeTool: ThemeTool) => {
         width: 25.5rem;
         padding: 0 1rem;
         gap: 1rem;
+        z-index: 2;
 
         input,
         button {

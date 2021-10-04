@@ -10,6 +10,7 @@ export const injectStyle = (themeTool: ThemeTool) => {
         justify-content: space-evenly;
         position: absolute;
         border-radius: ${size.radius};
+        z-index: 2;
 
         ${mixin.border?.()};
         ${mixin.shadow?.()};
