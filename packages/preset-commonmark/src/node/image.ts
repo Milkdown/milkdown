@@ -4,7 +4,6 @@ import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import { InputRule } from 'prosemirror-inputrules';
-import { NodeSelection } from 'prosemirror-state';
 
 export const ModifyImage = createCmdKey<string>();
 export const InsertImage = createCmdKey<string>();
@@ -52,12 +51,12 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
 
                 &.system {
                     width: 100%;
-                    margin: 0 auto;
+                    padding: 0 2rem;
 
                     img {
                         width: 0;
                         height: 0;
-                        visibility: hidden;
+                        display: none;
                     }
 
                     .icon,
@@ -75,6 +74,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                     align-items: center;
                     .placeholder {
                         margin: 0;
+                        line-height: 1;
                         &::before {
                             content: '';
                             font-size: 0.875rem;
@@ -197,7 +197,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 });
             },
         },
-        commands: (nodeType, schema) => [
+        commands: (nodeType) => [
             createCmd(InsertImage, (src = '') => (state, dispatch) => {
                 if (!dispatch) return true;
                 const { tr } = state;
@@ -206,11 +206,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                     return true;
                 }
                 const _tr = tr.replaceSelectionWith(node);
-                const { $from } = _tr.selection;
-                const start = $from.start();
-                const __tr = _tr.replaceSelectionWith(schema.node('paragraph'));
-                const sel = NodeSelection.create(__tr.doc, start);
-                dispatch(__tr.setSelection(sel));
+                dispatch(_tr.scrollIntoView());
                 return true;
             }),
             createCmd(ModifyImage, (src = '') => (state, dispatch) => {
