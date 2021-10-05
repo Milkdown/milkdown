@@ -1,5 +1,13 @@
 # @milkdown/utils
 
+## 4.13.2
+
+### Patch Changes
+
+-   5d6ec991: Fix image command bug
+-   Updated dependencies [5d6ec991]
+    -   @milkdown/exception@4.13.2
+
 ## 4.13.1
 
 ### Patch Changes

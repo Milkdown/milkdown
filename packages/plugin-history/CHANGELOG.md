@@ -1,5 +1,11 @@
 # @milkdown/plugin-history
 
+## 4.13.2
+
+### Patch Changes
+
+-   5d6ec991: Fix image command bug
+
 ## 4.13.1
 
 ### Patch Changes
