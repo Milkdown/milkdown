@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/preset-commonmark",
-    "version": "4.13.1",
+    "version": "4.13.2",
     "main": "lib/index.js",
     "module": "lib/index.js",
     "types": "lib/index.d.ts",
