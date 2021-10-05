@@ -174,6 +174,7 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                     return true;
                 },
                 selectNode: () => {
+                    if (!view.editable) return;
                     code.classList.remove(hideCodeStyle);
                     innerEditor.openEditor(code, currentNode);
                     dom.classList.add('ProseMirror-selectednode');

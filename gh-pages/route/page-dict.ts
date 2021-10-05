@@ -144,6 +144,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'architecture',
+        {
+            en: 'Architecture',
+            'zh-hans': '架构',
+        },
+    ],
+    [
         'node-and-mark',
         {
             en: 'Node & Mark',

@@ -29,7 +29,7 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'internals',
-        items: ['node-and-mark', 'parser', 'serializer', 'internal-plugins'],
+        items: ['architecture', 'node-and-mark', 'parser', 'serializer', 'internal-plugins'],
     },
 ];
 
