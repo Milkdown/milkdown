@@ -28,6 +28,15 @@ export class AtomList<T extends Plugin = Plugin> extends Array<T> {
         return this;
     }
 
+    remove<U extends Origin>(target: U): this {
+        const index = this.findIndex((x) => isAtom(x) && x.origin === target);
+        if (index < 0) return this;
+
+        this.splice(index, 1);
+
+        return this;
+    }
+
     headless(): this {
         this.filter(isAtom).forEach((x) => {
             this.configure((x as Atom).origin, { headless: true });
