@@ -24,7 +24,7 @@ export const operatorPlugin = createProsePlugin((_, utils) => {
     }
     tooltip.classList.add('table-tooltip', 'hide');
 
-    return new Plugin({
+    const plugin = new Plugin({
         key: new PluginKey('MILKDOWN_TABLE_OP'),
         props: {
             decorations: (state) => {
@@ -96,4 +96,8 @@ export const operatorPlugin = createProsePlugin((_, utils) => {
             };
         },
     });
+    return {
+        id: 'table-operator',
+        plugin,
+    };
 });

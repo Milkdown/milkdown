@@ -7,13 +7,14 @@ import { commonPlugin } from './base-common';
 import { Factory, Origin, PluginWithMetadata } from './types';
 
 export const createProsePlugin = <Obj extends UnknownRecord = UnknownRecord>(
-    factory: Factory<string, Obj, Plugin | Plugin[]>,
+    factory: Factory<string, Obj, { plugin: Plugin | Plugin[]; id: string }>,
 ): Origin<string, Obj, Plugin> => {
     const origin: Origin<string, Obj, Plugin | Plugin[]> = (options) => {
-        const plugin = prosePluginFactory((ctx) => commonPlugin(factory, ctx, options)) as PluginWithMetadata<
-            string,
-            Obj
-        >;
+        const plugin = prosePluginFactory((ctx) => {
+            const output = commonPlugin(factory, ctx, options);
+            plugin.id = output.id;
+            return output.plugin;
+        }) as PluginWithMetadata<string, Obj>;
         plugin.origin = origin;
 
         return plugin;

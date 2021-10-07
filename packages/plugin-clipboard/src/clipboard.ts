@@ -25,7 +25,7 @@ export const clipboardPlugin = createProsePlugin((_, utils) => {
     const schema = ctx.get(schemaCtx);
     const parser = ctx.get(parserCtx);
     const serializer = ctx.get(serializerCtx);
-    return new Plugin({
+    const plugin = new Plugin({
         props: {
             handlePaste: (view, event) => {
                 const editable = view.props.editable?.(view.state);
@@ -63,4 +63,9 @@ export const clipboardPlugin = createProsePlugin((_, utils) => {
             },
         },
     });
+
+    return {
+        id: 'clipboard',
+        plugin,
+    };
 });

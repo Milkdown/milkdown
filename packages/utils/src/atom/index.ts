@@ -4,4 +4,5 @@ export * from './base-mark';
 export * from './base-node';
 export * from './base-prose-plugin';
 export * from './create-shortcut';
+export * from './keymap';
 export { CommonOptions, Utils } from './types';

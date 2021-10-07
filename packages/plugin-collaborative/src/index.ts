@@ -19,7 +19,7 @@ export const y = createProsePlugin<Options>(({ doc, awareness } = {}, utils) => 
     const type = doc.get('prosemirror', XmlFragment);
     utils.getStyle(injectStyle);
 
-    return [
+    const plugin = [
         ySyncPlugin(type),
         yCursorPlugin(awareness),
         yUndoPlugin(),
@@ -29,6 +29,11 @@ export const y = createProsePlugin<Options>(({ doc, awareness } = {}, utils) => 
             'Mod-Shift-z': redo,
         }),
     ];
+
+    return {
+        id: 'yjs',
+        plugin,
+    };
 });
 
 export const collaborative = AtomList.create([y()]);

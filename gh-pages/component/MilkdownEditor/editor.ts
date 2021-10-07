@@ -12,6 +12,7 @@ import { cursor } from '@milkdown/plugin-cursor';
 import { diagram } from '@milkdown/plugin-diagram';
 import { emoji } from '@milkdown/plugin-emoji';
 import { history } from '@milkdown/plugin-history';
+import { indent } from '@milkdown/plugin-indent';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { math } from '@milkdown/plugin-math';
 import { prism } from '@milkdown/plugin-prism';
@@ -58,6 +59,7 @@ export const createEditor = (
         .use(tooltip)
         .use(math)
         .use(emoji)
+        .use(indent)
         .use(slash);
 
     return editor;

@@ -10,7 +10,7 @@ export const key = new PluginKey('MILKDOWN_PLUGIN_TOOLTIP');
 
 export const tooltipPlugin = createProsePlugin<InputOptions>((options, utils) => {
     const schema = utils.ctx.get(schemaCtx);
-    const plugin = createPlugin(
+    const manager = createPlugin(
         buttonMap(schema, utils.ctx),
         inputMap(schema, utils.ctx, {
             link: {
@@ -30,27 +30,32 @@ export const tooltipPlugin = createProsePlugin<InputOptions>((options, utils) =>
         }),
         utils,
     );
-    return new Plugin({
+    const plugin = new Plugin({
         key,
         props: {
             handleKeyDown: () => {
-                plugin.setHide(true);
+                manager.setHide(true);
                 return false;
             },
             handleClick: (view) => {
-                plugin.setHide(false);
-                plugin.update(view);
+                manager.setHide(false);
+                manager.update(view);
                 return false;
             },
         },
         view: (editorView) => {
-            plugin.render(editorView);
+            manager.render(editorView);
             return {
-                update: plugin.update,
-                destroy: plugin.destroy,
+                update: manager.update,
+                destroy: manager.destroy,
             };
         },
     });
+
+    return {
+        id: 'tooltip',
+        plugin,
+    };
 });
 
 export const tooltip = AtomList.create([tooltipPlugin()]);

@@ -14,6 +14,7 @@ export const createMark = <SupportedKeys extends string = string, T extends Unkn
             const mark = commonPlugin(factory, ctx, options);
             const view = options?.view ?? mark.view;
             const keymap = createKeymap(mark.shortcuts, options?.keymap);
+            plugin.id = mark.id;
 
             return {
                 ...mark,

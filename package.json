@@ -34,6 +34,7 @@
         "@milkdown/core": "workspace:*",
         "@milkdown/design-system": "workspace:*",
         "@milkdown/exception": "workspace:*",
+        "@milkdown/plugin-indent": "workspace:*",
         "@milkdown/plugin-clipboard": "workspace:*",
         "@milkdown/plugin-collaborative": "workspace:*",
         "@milkdown/plugin-cursor": "workspace:*",

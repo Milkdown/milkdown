@@ -154,4 +154,9 @@ const filterPlugin = (utils: Utils) => {
     });
 };
 
-export const filter = createProsePlugin((_, utils) => filterPlugin(utils));
+export const filter = createProsePlugin((_, utils) => {
+    return {
+        id: 'emoji-filter',
+        plugin: filterPlugin(utils),
+    };
+});

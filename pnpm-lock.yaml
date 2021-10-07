@@ -17,6 +17,7 @@ importers:
       '@milkdown/plugin-diagram': workspace:*
       '@milkdown/plugin-emoji': workspace:*
       '@milkdown/plugin-history': workspace:*
+      '@milkdown/plugin-indent': workspace:*
       '@milkdown/plugin-listener': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
@@ -89,6 +90,7 @@ importers:
       '@milkdown/plugin-diagram': link:packages/plugin-diagram
       '@milkdown/plugin-emoji': link:packages/plugin-emoji
       '@milkdown/plugin-history': link:packages/plugin-history
+      '@milkdown/plugin-indent': link:packages/plugin-indent
       '@milkdown/plugin-listener': link:packages/plugin-listener
       '@milkdown/plugin-math': link:packages/plugin-math
       '@milkdown/plugin-prism': link:packages/plugin-prism
@@ -368,6 +370,16 @@ importers:
     dependencies:
       '@types/prosemirror-history': 1.0.3
       prosemirror-history: 1.1.3
+      tslib: 2.3.0
+
+  packages/plugin-indent:
+    specifiers:
+      '@emotion/css': ^11.1.3
+      '@milkdown/utils': 'workspace: *'
+      tslib: ^2.2.0
+    dependencies:
+      '@emotion/css': 11.1.3
+      '@milkdown/utils': link:../utils
       tslib: 2.3.0
 
   packages/plugin-listener:
@@ -3379,6 +3391,7 @@ packages:
 
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
+    requiresBuild: true
     dependencies:
       '@types/node': 16.4.2
     dev: false
@@ -5771,6 +5784,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -8003,6 +8017,7 @@ packages:
 
   /node-notifier/8.0.2:
     resolution: {integrity: sha512-oJP/9NAdd9+x2Q+rfphB2RJCHjod70RcRLjosiPMMu5gjIfwVnOUGq2nbTjTUbmy0DJ/tFIVT30+Qe3nzl4TJg==}
+    requiresBuild: true
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
@@ -10368,6 +10383,7 @@ packages:
 
   /ws/6.2.2:
     resolution: {integrity: sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==}
+    requiresBuild: true
     dependencies:
       async-limiter: 1.0.1
     dev: true
@@ -10399,6 +10415,7 @@ packages:
 
   /y-leveldb/0.1.0_yjs@13.5.11:
     resolution: {integrity: sha512-sMuitVrsAUNh+0b66I42nAuW3lCmez171uP4k0ePcTAJ+c+Iw9w4Yq3wwiyrDMFXBEyQSjSF86Inc23wEvWnxw==}
+    requiresBuild: true
     peerDependencies:
       yjs: ^13.0.0
     dependencies:

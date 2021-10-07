@@ -15,7 +15,7 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 Editor.make().use(nord).use(commonmark).use(tooltip).create();
 ```
 
-# placeholder
+# Placeholder
 
 Modify the input widgets of link and image.
 

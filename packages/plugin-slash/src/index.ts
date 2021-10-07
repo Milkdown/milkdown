@@ -28,7 +28,11 @@ export const slashPlugin = createProsePlugin<Options>((options, utils) => {
     };
     const cfg = slashConfig(utils);
 
-    return createSlashPlugin(utils, cfg, placeholder);
+    const plugin = createSlashPlugin(utils, cfg, placeholder);
+    return {
+        id: 'slash',
+        plugin,
+    };
 });
 
 export const slash = AtomList.create([slashPlugin()]);

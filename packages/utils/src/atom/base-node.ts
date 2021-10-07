@@ -14,6 +14,7 @@ export const createNode = <SupportedKeys extends string = string, T extends Unkn
             const node = commonPlugin(factory, ctx, options);
             const view = options?.view ?? node.view;
             const keymap = createKeymap(node.shortcuts, options?.keymap);
+            plugin.id = node.id;
 
             return {
                 ...node,

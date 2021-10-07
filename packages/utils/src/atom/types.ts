@@ -68,4 +68,4 @@ export type PluginWithMetadata<
     SupportedKeys extends string = string,
     Obj extends UnknownRecord = UnknownRecord,
     Type = unknown,
-> = MilkdownPlugin & { origin: Origin<SupportedKeys, Obj, Type> };
+> = MilkdownPlugin & { origin: Origin<SupportedKeys, Obj, Type>; id: string };

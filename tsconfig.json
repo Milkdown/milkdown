@@ -68,6 +68,9 @@
         },
         {
             "path": "./packages/plugin-table"
+        },
+        {
+            "path": "./packages/plugin-indent"
         }
     ]
 }

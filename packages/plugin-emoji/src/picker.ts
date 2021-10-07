@@ -126,4 +126,9 @@ const pickerPlugin = (utils: Utils) => {
     return plugin;
 };
 
-export const picker = createProsePlugin((_, utils) => pickerPlugin(utils));
+export const picker = createProsePlugin((_, utils) => {
+    return {
+        id: 'emoji-picker',
+        plugin: pickerPlugin(utils),
+    };
+});
