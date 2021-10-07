@@ -28,3 +28,19 @@ graph BT;
 	ast --> string;
 	string --> ast;
 ```
+
+## 生命周期
+
+在 Milkdown 内部, 它有许多[内置插件](/#/zh-hans/internal-plugins) 来控制编辑器的状态， 它可以通过下图来描述:
+
+```mermaid
+flowchart TD;
+	prepare("Nodes | Marks | Remark Plugins");
+	stage1("Parser | Serializer | Commands")
+	stage2("Prosemirror Plugins | Keymap | Input Rules")
+	Config --> Init;
+	Init --> prepare --> Schema;
+	Schema --> stage1 --> stage2;
+	stage2 --> EditorState --> EditorView;
+	EditorView --> Done;
+```

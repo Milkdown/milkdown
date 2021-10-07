@@ -28,3 +28,19 @@ graph BT;
 	ast --> string;
 	string --> ast;
 ```
+
+## Life Cycle
+
+Inside milkdown, it has a lot of [internal plugins](/#/internal-plugins) to control the load status of the editor, it can be described using following diagram:
+
+```mermaid
+flowchart TD;
+	prepare("Nodes | Marks | Remark Plugins");
+	stage1("Parser | Serializer | Commands")
+	stage2("Prosemirror Plugins | Keymap | Input Rules")
+	Config --> Init;
+	Init --> prepare --> Schema;
+	Schema --> stage1 --> stage2;
+	stage2 --> EditorState --> EditorView;
+	EditorView --> Done;
+```
