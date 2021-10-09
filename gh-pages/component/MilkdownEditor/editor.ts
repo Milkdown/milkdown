@@ -18,6 +18,7 @@ import { math } from '@milkdown/plugin-math';
 import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
+import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
 
@@ -60,6 +61,7 @@ export const createEditor = (
         .use(math)
         .use(emoji)
         .use(indent)
+        .use(upload)
         .use(slash);
 
     return editor;

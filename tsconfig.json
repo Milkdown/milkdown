@@ -71,6 +71,9 @@
         },
         {
             "path": "./packages/plugin-indent"
+        },
+        {
+            "path": "./packages/plugin-upload"
         }
     ]
 }

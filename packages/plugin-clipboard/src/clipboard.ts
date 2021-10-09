@@ -43,11 +43,12 @@ export const clipboardPlugin = createProsePlugin((_, utils) => {
                 const slice = parser(text);
                 if (!slice || typeof slice === 'string') return false;
 
-                const { $from } = view.state.selection;
-                const isEmpty = $from.node().content.size === 0;
-                const isNestedSlice = slice.firstChild?.type.name !== 'paragraph';
-                const depth = isEmpty || isNestedSlice ? 0 : $from.depth;
-                view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, depth, depth)));
+                const contentSlice = view.state.selection.content();
+                view.dispatch(
+                    view.state.tr.replaceSelection(
+                        new Slice(slice.content, contentSlice.openStart, contentSlice.openEnd),
+                    ),
+                );
 
                 return true;
             },

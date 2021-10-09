@@ -47,6 +47,7 @@
         "@milkdown/plugin-slash": "workspace:*",
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
+        "@milkdown/plugin-upload": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/preset-gfm": "workspace:*",
         "@milkdown/react": "workspace:*",
