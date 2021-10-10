@@ -1,24 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { schemaCtx } from '@milkdown/core';
+import { schemaCtx, themeToolCtx } from '@milkdown/core';
 import { createProsePlugin } from '@milkdown/utils';
-import { Fragment, Node, Schema } from 'prosemirror-model';
+import type { Fragment, Node, Schema } from 'prosemirror-model';
 import { EditorState, Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 
-type Uploader = (files: FileList, schema: Schema) => Promise<Fragment | Node | Node[]>;
-type Spec = { id: symbol; pos: number };
+import { defaultUploader } from './default-uploader';
 
-const defaultUploader: Uploader = (_files, schema) => {
-    return new Promise((resolve) =>
-        setTimeout(() => {
-            const image = schema.nodes.image.create({
-                src: 'https://preview.redd.it/us7w1x2zx8461.jpg?auto=webp&s=077a73d5c08aec0bc0fb48c5e5be40c928467bb6',
-                alt: 'example',
-            });
-            resolve(image);
-        }, 1000),
-    );
-};
+export type Uploader = (files: FileList, schema: Schema) => Promise<Fragment | Node | Node[]>;
+type Spec = { id: symbol; pos: number };
 
 export const uploadPlugin = createProsePlugin<{ uploader: Uploader }>((options, utils) => {
     const uploader = options?.uploader ?? defaultUploader;
@@ -37,13 +27,19 @@ export const uploadPlugin = createProsePlugin<{ uploader: Uploader }>((options, 
                 }
                 if (action.add) {
                     const widget = document.createElement('span');
-                    widget.innerText = 'placeholder';
+                    const { icon } = utils.ctx.get(themeToolCtx).slots;
+                    widget.appendChild(icon('loading'));
                     const decoration = Decoration.widget(action.add.pos, widget, { id: action.add.id });
                     return _set.add(tr.doc, [decoration]);
                 }
                 if (action.remove) {
                     return _set.remove(_set.find(null, null, (spec: Spec) => spec.id === action.remove.id));
                 }
+            },
+        },
+        props: {
+            decorations(state) {
+                return this.getState(state);
             },
         },
     });
