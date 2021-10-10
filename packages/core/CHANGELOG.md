@@ -1,5 +1,14 @@
 # @milkdown/core
 
+## 4.13.3
+
+### Patch Changes
+
+-   db2e3e59: Add indent plugin and upload plugin
+-   Updated dependencies [db2e3e59]
+    -   @milkdown/design-system@4.13.3
+    -   @milkdown/exception@4.13.3
+
 ## 4.13.2
 
 ### Patch Changes
