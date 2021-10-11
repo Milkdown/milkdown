@@ -19,3 +19,7 @@ import 'katex/dist/katex.min.css';
 
 Editor.make().use(nord).use(commonmark).use(math).create();
 ```
+
+# License
+
+Milkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).
