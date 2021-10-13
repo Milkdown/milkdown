@@ -59,14 +59,14 @@ Editor.make().config((ctx) => {
 
 We can also use JSON object as default value.
 
-This JSON object can be get by listener through [lister-plugin](), for example:
+This JSON object can be get by listener through [lister-plugin](https://www.npmjs.com/package/@milkdown/plugin-listener), for example:
 
 ```typescript
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let jsonOutput;
-const listener = {
-    docs: [
+const myListener = {
+    doc: [
         (node) => {
             jsonOutput = node.toJSON();
         },
@@ -75,7 +75,7 @@ const listener = {
 
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, listener);
+        ctx.set(listenerCtx, myListener);
     })
     .use(listener);
 ```
