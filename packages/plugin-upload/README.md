@@ -44,10 +44,10 @@ const uploader: Uploader = async (files, schema) => {
 
     const nodes: Node[] = await Promise.all(
         images.map(async (image) => {
-            const url = await YourUploadAPI(image);
+            const src = await YourUploadAPI(image);
             const alt = image.name;
             return schema.nodes.image.createAndFill({
-                url,
+                src,
                 alt,
             }) as Node;
         }),
