@@ -59,7 +59,7 @@ Editor.make().config((ctx) => {
 
 We can also use JSON object as default value.
 
-This JSON object can be get by listener through [lister-plugin](https://www.npmjs.com/package/@milkdown/plugin-listener), for example:
+This JSON object can be get by listener through [listener-plugin](https://www.npmjs.com/package/@milkdown/plugin-listener), for example:
 
 ```typescript
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
@@ -167,7 +167,7 @@ import { editorViewOptionsCtx } from '@milkdown/core';
 
 let readonly = false;
 
-const editable: () => !readonly;
+const editable = () => !readonly;
 
 Editor.make().config((ctx) => {
     ctx.set(editorViewOptionsCtx, { editable });

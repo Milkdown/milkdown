@@ -59,7 +59,7 @@ Editor.make().config((ctx) => {
 
 你也可以使用 JSON 对象作为默认值。
 
-这个 JSON 对象可以通过监听器 [lister-plugin](https://www.npmjs.com/package/@milkdown/plugin-listener) 进行获取，例如：
+这个 JSON 对象可以通过监听器 [listener-plugin](https://www.npmjs.com/package/@milkdown/plugin-listener) 进行获取，例如：
 
 ```typescript
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
@@ -169,7 +169,7 @@ import { editorViewOptionsCtx } from '@milkdown/core';
 
 let readonly = false;
 
-const editable: () => !readonly;
+const editable = () => !readonly;
 
 Editor.make().config((ctx) => {
     ctx.set(editorViewOptionsCtx, { editable });
