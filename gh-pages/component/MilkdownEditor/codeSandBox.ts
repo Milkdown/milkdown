@@ -5,7 +5,17 @@ import { visit } from 'unist-util-visit';
 
 const regex = /!CodeSandBox\{[^\s]+\}/g;
 
-export const remarkIframePlugin = () => {
+const replaceLineBreak = () => {
+    function transformer(tree: Node) {
+        visit(tree, 'text', (node: Literal) => {
+            const value = node.value as string;
+            node.value = value.replace(/\n{1}/g, ' ');
+        });
+    }
+    return transformer;
+};
+
+const remarkIframePlugin = () => {
     function transformer(tree: Node) {
         visit(tree, 'text', (node: Literal) => {
             const value = node.value as string;
@@ -20,7 +30,7 @@ export const remarkIframePlugin = () => {
     }
     return transformer;
 };
-const codeSandBoxRemarkPlugin = remarkPluginFactory(remarkIframePlugin);
+const codeSandBoxRemarkPlugin = remarkPluginFactory([remarkIframePlugin, replaceLineBreak]);
 
 const id = 'codeSandBox';
 const codeSandBoxNode = nodeFactory({

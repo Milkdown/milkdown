@@ -4,7 +4,7 @@
 
 > Milkdown is a WYSIWYG markdown editor framework.
 >
-> :baby_bottle: Here is the [repo] (right click to open link).
+> :baby_bottle: Here is the [repo] (right click to open link). \
 > We ~~only support commonmark~~. GFM is also supported!
 
 You can check the output markdown text in **two columns editing**.
