@@ -7,7 +7,7 @@ import { textblockTypeInputRule } from 'prosemirror-inputrules';
 
 import { SupportedKeys } from '../supported-keys';
 
-const headingIndex = Array(5)
+const headingIndex = Array(6)
     .fill(0)
     .map((_, i) => i + 1);
 
