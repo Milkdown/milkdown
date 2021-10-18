@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { themeToolCtx } from '@milkdown/core';
+import { Command, EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
-import { Command } from 'prosemirror-commands';
 import {
     addColumnAfter,
     addColumnBefore,
@@ -12,7 +12,6 @@ import {
     selectedRect,
     setCellAttr,
 } from 'prosemirror-tables';
-import { EditorView } from 'prosemirror-view';
 
 import { addRowWithAlignment } from '../utils';
 import { getCellSelection, isFirstRowSelected } from './helper';

@@ -1,7 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Keymap } from 'prosemirror-commands';
-import type { InputRule } from 'prosemirror-inputrules';
-import type { MarkSpec, MarkType, Schema } from 'prosemirror-model';
+import type { InputRule, Keymap, MarkSpec, MarkType, Schema } from '@milkdown/prose';
 
 import type { Ctx } from '../editor';
 import type { MarkParserSpec } from '../parser';

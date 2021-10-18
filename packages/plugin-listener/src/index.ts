@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, MilkdownPlugin, prosePluginsCtx, serializerCtx, SerializerReady } from '@milkdown/core';
-import { Node as ProseNode } from 'prosemirror-model';
-import { Plugin as StatePlugin } from 'prosemirror-state';
+import { Node as ProseNode, Plugin as StatePlugin } from '@milkdown/prose';
 
 export type DocListener = (doc: ProseNode) => void;
 export type MarkdownListener = (getMarkdown: () => string) => void;

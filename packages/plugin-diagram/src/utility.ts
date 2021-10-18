@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { Node } from '@milkdown/prose';
 import { customAlphabet } from 'nanoid';
-import { Node } from 'prosemirror-model';
 
 export const nanoid = customAlphabet('abcedfghicklmn', 10);
 

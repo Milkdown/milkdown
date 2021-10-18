@@ -1,8 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { InputRule, Selection, TextSelection } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
-import { InputRule } from 'prosemirror-inputrules';
-import { Selection, TextSelection } from 'prosemirror-state';
 import { goToNextCell } from 'prosemirror-tables';
 import { Node as MarkdownNode } from 'unist';
 

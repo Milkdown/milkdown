@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import 'prosemirror-model';
-declare module 'prosemirror-model' {
-    interface Node {
+import '@milkdown/prose';
+declare module '@milkdown/prose' {
+    class Node {
         withText(text: string): Node & { text: string };
     }
 }

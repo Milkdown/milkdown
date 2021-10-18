@@ -2,10 +2,9 @@
 
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { InputRule, NodeSelection } from '@milkdown/prose';
 import { createNode, findSelectedNodeOfType } from '@milkdown/utils';
 import katex from 'katex';
-import { InputRule } from 'prosemirror-inputrules';
-import { NodeSelection } from 'prosemirror-state';
 
 type Options = {
     placeholder: {

@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import { Plugin } from '@milkdown/prose';
 import { calculateNodePosition, createProsePlugin, Utils } from '@milkdown/utils';
 import { search } from 'node-emoji';
-import { Plugin } from 'prosemirror-state';
 
 import { checkTrigger, renderDropdownList } from './helper';
 import { injectStyle } from './style';

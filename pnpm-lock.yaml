@@ -27,6 +27,7 @@ importers:
       '@milkdown/plugin-upload': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/preset-gfm': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
@@ -101,6 +102,7 @@ importers:
       '@milkdown/plugin-upload': link:packages/plugin-upload
       '@milkdown/preset-commonmark': link:packages/preset-commonmark
       '@milkdown/preset-gfm': link:packages/preset-gfm
+      '@milkdown/prose': link:packages/prose
       '@milkdown/react': link:packages/react
       '@milkdown/theme-nord': link:packages/theme-nord
       '@milkdown/utils': link:packages/utils
@@ -226,36 +228,14 @@ importers:
     specifiers:
       '@milkdown/design-system': 'workspace: *'
       '@milkdown/exception': 'workspace: *'
-      '@types/prosemirror-commands': ^1.0.4
-      '@types/prosemirror-inputrules': ^1.0.4
-      '@types/prosemirror-keymap': ^1.0.4
-      '@types/prosemirror-model': ^1.12.0
-      '@types/prosemirror-state': ^1.2.6
-      '@types/prosemirror-view': ^1.17.1
-      prosemirror-commands: ^1.1.7
-      prosemirror-inputrules: ^1.1.3
-      prosemirror-keymap: ^1.1.4
-      prosemirror-model: ^1.13.3
-      prosemirror-state: ^1.3.4
-      prosemirror-view: ^1.18.2
+      '@milkdown/prose': 'workspace: *'
       remark: ^13.0.0
       tslib: ^2.2.0
       unified: ^9.2.1
     dependencies:
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
-      '@types/prosemirror-commands': 1.0.4
-      '@types/prosemirror-inputrules': 1.0.4
-      '@types/prosemirror-keymap': 1.0.4
-      '@types/prosemirror-model': 1.13.1
-      '@types/prosemirror-state': 1.2.7
-      '@types/prosemirror-view': 1.17.2
-      prosemirror-commands: 1.1.10
-      prosemirror-inputrules: 1.1.3
-      prosemirror-keymap: 1.1.4
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-view: 1.18.11
+      '@milkdown/prose': link:../prose
       remark: 13.0.0
       tslib: 2.3.0
       unified: 9.2.2
@@ -513,6 +493,38 @@ importers:
       tslib: 2.3.0
     devDependencies:
       concurrently: 6.2.0
+
+  packages/prose:
+    specifiers:
+      '@milkdown/exception': 'workspace: *'
+      '@types/prosemirror-commands': ^1.0.4
+      '@types/prosemirror-inputrules': ^1.0.4
+      '@types/prosemirror-keymap': ^1.0.4
+      '@types/prosemirror-model': ^1.12.0
+      '@types/prosemirror-state': ^1.2.6
+      '@types/prosemirror-view': ^1.17.1
+      prosemirror-commands: ^1.1.7
+      prosemirror-inputrules: ^1.1.3
+      prosemirror-keymap: ^1.1.4
+      prosemirror-model: ^1.13.3
+      prosemirror-state: ^1.3.4
+      prosemirror-view: ^1.18.2
+      tslib: ^2.2.0
+    dependencies:
+      '@milkdown/exception': link:../exception
+      '@types/prosemirror-commands': 1.0.4
+      '@types/prosemirror-inputrules': 1.0.4
+      '@types/prosemirror-keymap': 1.0.4
+      '@types/prosemirror-model': 1.13.1
+      '@types/prosemirror-state': 1.2.7
+      '@types/prosemirror-view': 1.17.2
+      prosemirror-commands: 1.1.10
+      prosemirror-inputrules: 1.1.3
+      prosemirror-keymap: 1.1.4
+      prosemirror-model: 1.14.3
+      prosemirror-state: 1.3.4
+      prosemirror-view: 1.18.11
+      tslib: 2.3.0
 
   packages/react:
     specifiers:

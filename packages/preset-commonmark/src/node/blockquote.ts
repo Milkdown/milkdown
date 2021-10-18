@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
-import { wrapIn } from 'prosemirror-commands';
-import { wrappingInputRule } from 'prosemirror-inputrules';
 
 import { SupportedKeys } from '../supported-keys';
 

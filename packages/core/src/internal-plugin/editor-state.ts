@@ -1,10 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { docTypeError } from '@milkdown/exception';
-import { baseKeymap } from 'prosemirror-commands';
-import { inputRules as createInputRules } from 'prosemirror-inputrules';
-import { keymap as createKeymap } from 'prosemirror-keymap';
-import { DOMParser, Node, Schema } from 'prosemirror-model';
-import { EditorState } from 'prosemirror-state';
+import {
+    baseKeymap,
+    DOMParser,
+    EditorState,
+    inputRules as createInputRules,
+    keymap as createKeymap,
+    Node,
+    Schema,
+} from '@milkdown/prose';
 
 import { createSlice } from '../context';
 import { createTimer, Timer } from '../timing';
@@ -32,7 +36,7 @@ const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
     }
 
     if (defaultValue.type === 'html') {
-        return DOMParser.fromSchema(schema).parse(defaultValue.dom as unknown as Node);
+        return DOMParser.fromSchema(schema).parse(defaultValue.dom);
     }
 
     if (defaultValue.type === 'json') {

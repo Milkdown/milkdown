@@ -2,9 +2,8 @@
 
 import { injectGlobal } from '@emotion/css';
 import { createCmdKey } from '@milkdown/core';
+import { AllSelection, keymap, TextSelection, Transaction } from '@milkdown/prose';
 import { AtomList, createProsePlugin, Utils } from '@milkdown/utils';
-import { keymap } from 'prosemirror-keymap';
-import { AllSelection, TextSelection, Transaction } from 'prosemirror-state';
 
 export type Options = {
     type: 'space' | 'tab';

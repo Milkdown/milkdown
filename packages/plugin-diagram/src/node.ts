@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
-import { setBlockType } from 'prosemirror-commands';
-import { textblockTypeInputRule } from 'prosemirror-inputrules';
 
 import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';

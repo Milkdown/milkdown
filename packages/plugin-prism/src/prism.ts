@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { Plugin, PluginKey } from '@milkdown/prose';
 import { findChildren } from '@milkdown/utils';
-import { Plugin, PluginKey } from 'prosemirror-state';
 
 import { getDecorations } from './get-decorations';
 

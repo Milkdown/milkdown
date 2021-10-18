@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { Plugin, PluginKey } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
-import { Plugin, PluginKey } from 'prosemirror-state';
 
 import { transformAction, WrappedAction } from '../item';
 import { createProps } from './props';

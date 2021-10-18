@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { schemaCtx } from '@milkdown/core';
+import { Plugin, PluginKey } from '@milkdown/prose';
 import { AtomList, createProsePlugin } from '@milkdown/utils';
-import { Plugin, PluginKey } from 'prosemirror-state';
 
 import { buttonMap, inputMap, InputOptions } from './item';
 import { createPlugin } from './selection-marks-tooltip';

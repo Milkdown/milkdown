@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
-import type { EditorView } from 'prosemirror-view';
 
 import type { Event2Command, InputMap } from '../item';
 import { calcInputPos } from './calc-input-pos';
