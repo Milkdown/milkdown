@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { EditorState } from '@milkdown/prose';
-import type { EditorView } from '@milkdown/prose';
+import type { EditorState, EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
 import { createButtonManager } from './button-manager';

@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Command, Node, NodeType } from '@milkdown/prose';
-import { Selection } from '@milkdown/prose';
+import { Command, Node, NodeType, Selection } from '@milkdown/prose';
 import { isInTable } from 'prosemirror-tables';
 
 export const exitTable =

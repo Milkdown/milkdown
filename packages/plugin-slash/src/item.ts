@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Command } from '@milkdown/prose';
-import type { Schema } from '@milkdown/prose';
+import type { Command, Schema } from '@milkdown/prose';
 
 import { cleanUpAndCreateNode } from './utility';
 
