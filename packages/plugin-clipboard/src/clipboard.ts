@@ -1,8 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { parserCtx, schemaCtx, serializerCtx } from '@milkdown/core';
+import { Node, Plugin, Slice } from '@milkdown/prose';
 import { createProsePlugin } from '@milkdown/utils';
-import { Node, Slice } from 'prosemirror-model';
-import { Plugin } from 'prosemirror-state';
 
 type R = Record<string, unknown>;
 const isPureText = (content: R | R[] | undefined | null): boolean => {

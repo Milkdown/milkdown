@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Editor } from '@milkdown/core';
-import { Mark, Node } from 'prosemirror-model';
-import { Decoration, EditorView } from 'prosemirror-view';
+import { Decoration, EditorView, Mark, Node } from '@milkdown/prose';
 import React from 'react';
 
 type NodeContext = {

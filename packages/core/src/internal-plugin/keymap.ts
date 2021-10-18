@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Keymap } from 'prosemirror-commands';
-import { keymap as proseKeymap } from 'prosemirror-keymap';
-import type { Plugin as ProsePlugin } from 'prosemirror-state';
+import type { Keymap, Plugin as ProsePlugin } from '@milkdown/prose';
+import { keymap as proseKeymap } from '@milkdown/prose';
 
 import { createSlice } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';

@@ -11,6 +11,9 @@
             "path": "../exception"
         },
         {
+            "path": "../prose"
+        },
+        {
             "path": "../design-system"
         }
     ]

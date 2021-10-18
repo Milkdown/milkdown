@@ -1,7 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { cloneTr, findParentNode } from '@milkdown/utils';
-import { Node as ProsemirrorNode, Schema } from 'prosemirror-model';
-import { Selection, Transaction } from 'prosemirror-state';
+import { cloneTr, findParentNode, Node as ProsemirrorNode, Schema, Selection, Transaction } from '@milkdown/prose';
 import { CellSelection, TableMap, tableNodeTypes, TableRect } from 'prosemirror-tables';
 
 export type CellPos = {

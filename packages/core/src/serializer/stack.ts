@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Mark } from 'prosemirror-model';
+import { Mark } from '@milkdown/prose';
 
 import type { MarkdownNode } from '..';
 import { AnyRecord, getStackUtil } from '../utility';

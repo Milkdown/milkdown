@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { calculateTextPosition } from '@milkdown/utils';
-import type { EditorView } from 'prosemirror-view';
+import { calculateTextPosition, EditorView } from '@milkdown/prose';
 
 export const calcButtonPos = (buttons: HTMLElement, view: EditorView) => {
     buttons.classList.remove('hide');

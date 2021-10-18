@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Command } from 'prosemirror-commands';
-import type { Schema } from 'prosemirror-model';
+import type { Command } from '@milkdown/prose';
+import type { Schema } from '@milkdown/prose';
 
 import { cleanUpAndCreateNode } from './utility';
 

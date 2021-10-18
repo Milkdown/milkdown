@@ -1,7 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { findChildren } from '@milkdown/utils';
-import { Node } from 'prosemirror-model';
-import { Decoration, DecorationSet } from 'prosemirror-view';
+import { Decoration, DecorationSet, findChildren, Node } from '@milkdown/prose';
 import { highlight, RefractorNode } from 'refractor';
 
 export type FlattedNode = {

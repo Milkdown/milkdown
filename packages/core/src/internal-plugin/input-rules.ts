@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { InputRule } from 'prosemirror-inputrules';
+import type { InputRule } from '@milkdown/prose';
 
 import { createSlice } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';

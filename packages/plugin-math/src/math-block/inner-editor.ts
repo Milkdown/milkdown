@@ -1,11 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { newlineInCode } from 'prosemirror-commands';
-import { keymap } from 'prosemirror-keymap';
-import { Node } from 'prosemirror-model';
-import { EditorState, TextSelection } from 'prosemirror-state';
-import { StepMap } from 'prosemirror-transform';
-import { EditorView } from 'prosemirror-view';
+import { EditorState, EditorView, keymap, newlineInCode, Node, StepMap, TextSelection } from '@milkdown/prose';
 
 export const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
     let isEditing = false;

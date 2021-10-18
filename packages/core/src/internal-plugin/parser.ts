@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Node as ProsemirrorNode } from 'prosemirror-model';
+import type { Node as ProsemirrorNode } from '@milkdown/prose';
 
 import { createSlice } from '../context';
 import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';

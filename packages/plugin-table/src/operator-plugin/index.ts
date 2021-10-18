@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import { Decoration, DecorationSet, Plugin, PluginKey } from '@milkdown/prose';
 import { createProsePlugin } from '@milkdown/utils';
-import { Plugin, PluginKey } from 'prosemirror-state';
 import { CellSelection } from 'prosemirror-tables';
-import { Decoration, DecorationSet } from 'prosemirror-view';
 
 import { getCellsInColumn, getCellsInRow } from '../utils';
 import { createActions } from './actions';

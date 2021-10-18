@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { EditorProps, EditorView } from 'prosemirror-view';
+import { EditorProps, EditorView } from '@milkdown/prose';
 
 import { createSlice } from '../context';
 import { createTimer, Timer } from '../timing';

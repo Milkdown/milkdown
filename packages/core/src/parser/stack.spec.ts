@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Mark, MarkType, Node, NodeType } from 'prosemirror-model';
+import type { Mark, MarkType, Node, NodeType } from '@milkdown/prose';
 
 import type { AnyRecord } from '../utility';
 import { createStack, Stack } from './stack';

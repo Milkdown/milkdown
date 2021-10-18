@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Schema } from 'prosemirror-model';
+import { Schema } from '@milkdown/prose';
 
 import { createSlice } from '../context';
 import { InitReady, Mark, Node } from '../internal-plugin';

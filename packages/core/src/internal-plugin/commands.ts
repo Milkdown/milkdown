@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { callCommandBeforeEditorView } from '@milkdown/exception';
-import type { Command } from 'prosemirror-commands';
+import type { Command } from '@milkdown/prose';
 
 import { createContainer, createSlice, Slice } from '../context';
 import { createTimer, Timer } from '../timing';

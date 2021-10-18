@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Plugin } from 'prosemirror-state';
+import type { Plugin } from '@milkdown/prose';
 
 import { createSlice } from '../context';
 import type { Ctx } from '../editor';

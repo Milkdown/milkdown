@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { InputRule, Selection } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
-import { InputRule } from 'prosemirror-inputrules';
-import { Selection } from 'prosemirror-state';
 
 const id = 'hr';
 export const InsertHr = createCmdKey<string>();

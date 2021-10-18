@@ -7,6 +7,9 @@
     "exclude": ["node_modules", "lib"],
     "references": [
         {
+            "path": "./packages/prose"
+        },
+        {
             "path": "./packages/core"
         },
         {

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { EditorView } from 'prosemirror-view';
+import { EditorView } from '@milkdown/prose';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import { Action } from '../item';

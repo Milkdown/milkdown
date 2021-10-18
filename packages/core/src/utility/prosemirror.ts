@@ -1,8 +1,16 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MarkType, Node, NodeType, Schema } from 'prosemirror-model';
-import { Mark } from 'prosemirror-model';
-import type { EditorState, Transaction } from 'prosemirror-state';
-import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
+import type {
+    Decoration,
+    EditorState,
+    EditorView,
+    MarkType,
+    Node,
+    NodeType,
+    NodeView,
+    Schema,
+    Transaction,
+} from '@milkdown/prose';
+import { Mark } from '@milkdown/prose';
 
 import type { Editor } from '../editor';
 

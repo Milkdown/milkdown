@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { parserMatchError } from '@milkdown/exception';
-import type { MarkType, NodeType, Schema } from 'prosemirror-model';
+import type { MarkType, NodeType, Schema } from '@milkdown/prose';
 
 import type { RemarkParser } from '../internal-plugin';
 import type { Attrs, InnerParserSpecMap, MarkdownNode, ParserSpecWithType } from '.';

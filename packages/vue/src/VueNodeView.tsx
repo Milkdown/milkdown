@@ -1,11 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Editor, ViewFactory } from '@milkdown/core';
-import { getId } from '@milkdown/utils';
-import { Mark, Node } from 'prosemirror-model';
-import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
+import type { Decoration, EditorView, NodeView } from '@milkdown/prose';
+import { Mark, Node } from '@milkdown/prose';
+import { customAlphabet } from 'nanoid';
 import { DefineComponent, defineComponent, h, Teleport } from 'vue';
 
 import { Content, VueNodeContainer } from './VueNode';
+
+const nanoid = customAlphabet('abcedfghicklmn', 10);
 
 export const createVueView =
     (addPortal: (portal: DefineComponent, key: string) => void, removePortalByKey: (key: string) => void) =>
@@ -28,7 +30,7 @@ export class VueNodeView implements NodeView {
         private getPos: boolean | (() => number),
         private decorations: Decoration[],
     ) {
-        this.key = getId();
+        this.key = nanoid();
         const dom = document.createElement(node instanceof Mark ? 'span' : 'div');
         dom.classList.add('dom-wrapper');
 

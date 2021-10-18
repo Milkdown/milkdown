@@ -27,21 +27,12 @@ importers:
       '@milkdown/plugin-upload': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/preset-gfm': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
       '@milkdown/vue': workspace:*
       '@types/jest': ^26.0.22
-      '@types/prosemirror-commands': ^1.0.4
-      '@types/prosemirror-dropcursor': ^1.0.2
-      '@types/prosemirror-gapcursor': ^1.0.3
-      '@types/prosemirror-history': ^1.0.2
-      '@types/prosemirror-inputrules': ^1.0.4
-      '@types/prosemirror-keymap': ^1.0.4
-      '@types/prosemirror-model': ^1.13.0
-      '@types/prosemirror-state': ^1.2.6
-      '@types/prosemirror-transform': ^1.1.2
-      '@types/prosemirror-view': ^1.17.1
       '@typescript-eslint/eslint-plugin': ^4.31.0
       '@typescript-eslint/parser': ^4.31.0
       '@vitejs/plugin-react-refresh': ^1.3.3
@@ -63,16 +54,6 @@ importers:
       jest: ^26.6.3
       lint-staged: ^11.1.2
       prettier: ^2.4.0
-      prosemirror-commands: ^1.1.7
-      prosemirror-dropcursor: ^1.3.5
-      prosemirror-gapcursor: ^1.1.5
-      prosemirror-history: ^1.1.3
-      prosemirror-inputrules: ^1.1.3
-      prosemirror-keymap: ^1.1.4
-      prosemirror-model: ^1.13.3
-      prosemirror-state: ^1.3.4
-      prosemirror-transform: ^1.3.2
-      prosemirror-view: ^1.18.2
       rimraf: ^3.0.2
       ts-jest: ^26.5.4
       typescript: ^4.4.3
@@ -101,21 +82,12 @@ importers:
       '@milkdown/plugin-upload': link:packages/plugin-upload
       '@milkdown/preset-commonmark': link:packages/preset-commonmark
       '@milkdown/preset-gfm': link:packages/preset-gfm
+      '@milkdown/prose': link:packages/prose
       '@milkdown/react': link:packages/react
       '@milkdown/theme-nord': link:packages/theme-nord
       '@milkdown/utils': link:packages/utils
       '@milkdown/vue': link:packages/vue
       '@types/jest': 26.0.24
-      '@types/prosemirror-commands': 1.0.4
-      '@types/prosemirror-dropcursor': 1.0.2
-      '@types/prosemirror-gapcursor': 1.0.4
-      '@types/prosemirror-history': 1.0.3
-      '@types/prosemirror-inputrules': 1.0.4
-      '@types/prosemirror-keymap': 1.0.4
-      '@types/prosemirror-model': 1.13.1
-      '@types/prosemirror-state': 1.2.7
-      '@types/prosemirror-transform': 1.1.4
-      '@types/prosemirror-view': 1.17.2
       '@typescript-eslint/eslint-plugin': 4.31.0_cbc248a952ba57a5cc94b8001d8fd3c0
       '@typescript-eslint/parser': 4.31.0_eslint@7.31.0+typescript@4.4.3
       '@vitejs/plugin-react-refresh': 1.3.5
@@ -137,16 +109,6 @@ importers:
       jest: 26.6.3
       lint-staged: 11.1.2
       prettier: 2.4.0
-      prosemirror-commands: 1.1.10
-      prosemirror-dropcursor: 1.3.5
-      prosemirror-gapcursor: 1.1.5
-      prosemirror-history: 1.1.3
-      prosemirror-inputrules: 1.1.3
-      prosemirror-keymap: 1.1.4
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.2
-      prosemirror-view: 1.18.11
       rimraf: 3.0.2
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.4.3
       typescript: 4.4.3
@@ -226,36 +188,14 @@ importers:
     specifiers:
       '@milkdown/design-system': 'workspace: *'
       '@milkdown/exception': 'workspace: *'
-      '@types/prosemirror-commands': ^1.0.4
-      '@types/prosemirror-inputrules': ^1.0.4
-      '@types/prosemirror-keymap': ^1.0.4
-      '@types/prosemirror-model': ^1.12.0
-      '@types/prosemirror-state': ^1.2.6
-      '@types/prosemirror-view': ^1.17.1
-      prosemirror-commands: ^1.1.7
-      prosemirror-inputrules: ^1.1.3
-      prosemirror-keymap: ^1.1.4
-      prosemirror-model: ^1.13.3
-      prosemirror-state: ^1.3.4
-      prosemirror-view: ^1.18.2
+      '@milkdown/prose': 'workspace: *'
       remark: ^13.0.0
       tslib: ^2.2.0
       unified: ^9.2.1
     dependencies:
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
-      '@types/prosemirror-commands': 1.0.4
-      '@types/prosemirror-inputrules': 1.0.4
-      '@types/prosemirror-keymap': 1.0.4
-      '@types/prosemirror-model': 1.13.1
-      '@types/prosemirror-state': 1.2.7
-      '@types/prosemirror-view': 1.17.2
-      prosemirror-commands: 1.1.10
-      prosemirror-inputrules: 1.1.3
-      prosemirror-keymap: 1.1.4
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-view: 1.18.11
+      '@milkdown/prose': link:../prose
       remark: 13.0.0
       tslib: 2.3.0
       unified: 9.2.2
@@ -263,13 +203,10 @@ importers:
   packages/design-system:
     specifiers:
       '@emotion/css': ^11.1.3
-      concurrently: ^6.0.2
       tslib: ^2.2.0
     dependencies:
       '@emotion/css': 11.1.3
       tslib: 2.3.0
-    devDependencies:
-      concurrently: 6.2.0
 
   packages/exception:
     specifiers:
@@ -298,7 +235,7 @@ importers:
       '@emotion/css': 11.1.3
       '@milkdown/utils': link:../utils
       tslib: 2.3.0
-      y-prosemirror: 1.0.9_cc0d63b0b161f7c3eead9180b5c06751
+      y-prosemirror: 1.0.9_y-protocols@1.0.5+yjs@13.5.11
     devDependencies:
       y-protocols: 1.0.5
       y-websocket: 1.3.16_yjs@13.5.11
@@ -514,16 +451,54 @@ importers:
     devDependencies:
       concurrently: 6.2.0
 
+  packages/prose:
+    specifiers:
+      '@milkdown/exception': 'workspace: *'
+      '@types/prosemirror-commands': ^1.0.4
+      '@types/prosemirror-inputrules': ^1.0.4
+      '@types/prosemirror-keymap': ^1.0.4
+      '@types/prosemirror-model': ^1.12.0
+      '@types/prosemirror-state': ^1.2.6
+      '@types/prosemirror-transform': ^1.1.2
+      '@types/prosemirror-view': ^1.17.1
+      prosemirror-commands: ^1.1.7
+      prosemirror-inputrules: ^1.1.3
+      prosemirror-keymap: ^1.1.4
+      prosemirror-model: ^1.13.3
+      prosemirror-state: ^1.3.4
+      prosemirror-transform: ^1.3.2
+      prosemirror-view: ^1.18.2
+      tslib: ^2.2.0
+    dependencies:
+      '@milkdown/exception': link:../exception
+      '@types/prosemirror-commands': 1.0.4
+      '@types/prosemirror-inputrules': 1.0.4
+      '@types/prosemirror-keymap': 1.0.4
+      '@types/prosemirror-model': 1.13.1
+      '@types/prosemirror-state': 1.2.7
+      '@types/prosemirror-transform': 1.1.4
+      '@types/prosemirror-view': 1.17.2
+      prosemirror-commands: 1.1.10
+      prosemirror-inputrules: 1.1.3
+      prosemirror-keymap: 1.1.4
+      prosemirror-model: 1.14.3
+      prosemirror-state: 1.3.4
+      prosemirror-transform: 1.3.2
+      prosemirror-view: 1.18.11
+      tslib: 2.3.0
+
   packages/react:
     specifiers:
       '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
+      nanoid: ^3.1.25
       react: '*'
       react-dom: '*'
       tslib: ^2.2.0
     dependencies:
       '@milkdown/utils': link:../utils
+      nanoid: 3.1.25
       tslib: 2.3.0
     devDependencies:
       '@types/react': 17.0.14
@@ -550,10 +525,12 @@ importers:
   packages/vue:
     specifiers:
       '@milkdown/utils': workspace:*
+      nanoid: ^3.1.25
       tslib: ^2.2.0
       vue: ^3.0.0
     dependencies:
       '@milkdown/utils': link:../utils
+      nanoid: 3.1.25
       tslib: 2.3.0
     devDependencies:
       vue: 3.1.5
@@ -3245,6 +3222,7 @@ packages:
 
   /@types/orderedmap/1.0.0:
     resolution: {integrity: sha512-dxKo80TqYx3YtBipHwA/SdFmMMyLCnP+5mkEqN0eMjcTBzHkiiX0ES118DsjDBjvD+zeSsSU9jULTZ+frog+Gw==}
+    dev: false
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -3267,29 +3245,34 @@ packages:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
       '@types/prosemirror-view': 1.17.2
+    dev: false
 
   /@types/prosemirror-dropcursor/1.0.2:
     resolution: {integrity: sha512-5Ez7yIAvHQgn5YJkuafEh0w4sHV7pksCX9LTPBFRjCuznamcKsnYCez4mR0PwIWq/WuPDvHkR+wqKb4l0t9/aQ==}
     dependencies:
       '@types/prosemirror-state': 1.2.7
+    dev: false
 
   /@types/prosemirror-gapcursor/1.0.4:
     resolution: {integrity: sha512-9xKjFIG5947dzerFvkLWp6F53JwrUYoYwh3SgcTFEp8SbSfNNrez/PFYVZKPnoqPoaK5WtTdQTaMwpCV9rXQIg==}
     dependencies:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
+    dev: false
 
   /@types/prosemirror-history/1.0.3:
     resolution: {integrity: sha512-5TloMDRavgLjOAKXp1Li8u0xcsspzbT1Cm9F2pwHOkgvQOz1jWQb2VIXO7RVNsFjLBZdIXlyfSLivro3DuMWXg==}
     dependencies:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
+    dev: false
 
   /@types/prosemirror-inputrules/1.0.4:
     resolution: {integrity: sha512-lJIMpOjO47SYozQybUkpV6QmfuQt7GZKHtVrvS+mR5UekA8NMC5HRIVMyaIauJLWhKU6oaNjpVaXdw41kh165g==}
     dependencies:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
+    dev: false
 
   /@types/prosemirror-keymap/1.0.4:
     resolution: {integrity: sha512-ycevwkqUh+jEQtPwqO7sWGcm+Sybmhu8MpBsM8DlO3+YTKnXbKA6SDz/+q14q1wK3UA8lHJyfR+v+GPxfUSemg==}
@@ -3298,11 +3281,13 @@ packages:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
       '@types/prosemirror-view': 1.17.2
+    dev: false
 
   /@types/prosemirror-model/1.13.1:
     resolution: {integrity: sha512-tA1AlI+YR2t3Ve5eeQVJnQm4yV4wVlNfeogHusD1X3OEqqMYTuPssThgIMR4PxPHtvV871Ix8a20bUiJvULDgw==}
     dependencies:
       '@types/orderedmap': 1.0.0
+    dev: false
 
   /@types/prosemirror-schema-list/1.0.3:
     resolution: {integrity: sha512-uWybOf+M2Ea7rlbs0yLsS4YJYNGXYtn4N+w8HCw3Vvfl6wBAROzlMt0gV/D/VW/7J/LlAjwMezuGe8xi24HzXA==}
@@ -3318,11 +3303,13 @@ packages:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-transform': 1.1.4
       '@types/prosemirror-view': 1.17.2
+    dev: false
 
   /@types/prosemirror-transform/1.1.4:
     resolution: {integrity: sha512-HP1PauvkqSgDquZut8HaLOTUDQ6jja/LAy4OA7tTS1XG7wqRnX3gLUyEj0mD6vFd4y8BPkNddNdOh/BeGHlUjg==}
     dependencies:
       '@types/prosemirror-model': 1.13.1
+    dev: false
 
   /@types/prosemirror-view/1.17.2:
     resolution: {integrity: sha512-1yUTQZ3yx2YvJTHZdY/rmvSiJ8tJLhUmlNgbFdkFaFcKC6LTBntg5lQvOZ53Aytadab+M/xz7/TzGX8iYB/7gw==}
@@ -3330,6 +3317,7 @@ packages:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
       '@types/prosemirror-transform': 1.1.4
+    dev: false
 
   /@types/react-dom/17.0.9:
     resolution: {integrity: sha512-wIvGxLfgpVDSAMH5utdL9Ngm5Owu0VsGmldro3ORLXV8CShrL8awVj06NuEXFQ5xyaYfdca7Sgbk/50Ri1GdPg==}
@@ -8195,6 +8183,7 @@ packages:
 
   /orderedmap/1.1.1:
     resolution: {integrity: sha512-3Ux8um0zXbVacKUkcytc0u3HgC0b0bBLT+I60r2J/En72cI0nZffqrA7Xtf2Hqs27j1g82llR5Mhbd0Z1XW4AQ==}
+    dev: false
 
   /os-tmpdir/1.0.2:
     resolution: {integrity: sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=}
@@ -8693,6 +8682,7 @@ packages:
       prosemirror-model: 1.14.3
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
+    dev: false
 
   /prosemirror-dropcursor/1.3.5:
     resolution: {integrity: sha512-tNUwcF2lPAkwKBZPZRtbxpwljnODRNZ3eiYloN1DSUqDjMT1nBZm0nejaEMS1TvNQ+3amibUSAiV4hX+jpASFA==}
@@ -8700,6 +8690,7 @@ packages:
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
       prosemirror-view: 1.18.11
+    dev: false
 
   /prosemirror-gapcursor/1.1.5:
     resolution: {integrity: sha512-SjbUZq5pgsBDuV3hu8GqgIpZR5eZvGLM+gPQTqjVVYSMUCfKW3EGXTEYaLHEl1bGduwqNC95O3bZflgtAb4L6w==}
@@ -8708,6 +8699,7 @@ packages:
       prosemirror-model: 1.14.3
       prosemirror-state: 1.3.4
       prosemirror-view: 1.18.11
+    dev: false
 
   /prosemirror-history/1.1.3:
     resolution: {integrity: sha512-zGDotijea+vnfnyyUGyiy1wfOQhf0B/b6zYcCouBV8yo6JmrE9X23M5q7Nf/nATywEZbgRLG70R4DmfSTC+gfg==}
@@ -8715,23 +8707,27 @@ packages:
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
       rope-sequence: 1.3.2
+    dev: false
 
   /prosemirror-inputrules/1.1.3:
     resolution: {integrity: sha512-ZaHCLyBtvbyIHv0f5p6boQTIJjlD6o2NPZiEaZWT2DA+j591zS29QQEMT4lBqwcLW3qRSf7ZvoKNbf05YrsStw==}
     dependencies:
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
+    dev: false
 
   /prosemirror-keymap/1.1.4:
     resolution: {integrity: sha512-Al8cVUOnDFL4gcI5IDlG6xbZ0aOD/i3B17VT+1JbHWDguCgt/lBHVTHUBcKvvbSg6+q/W4Nj1Fu6bwZSca3xjg==}
     dependencies:
       prosemirror-state: 1.3.4
       w3c-keyname: 2.2.4
+    dev: false
 
   /prosemirror-model/1.14.3:
     resolution: {integrity: sha512-yzZlBaSxfUPIIP6U5Edh5zKxJPZ5f7bwZRhiCuH3UYkWhj+P3d8swHsbuAMOu/iDatDc5J/Qs5Mb3++mZf+CvQ==}
     dependencies:
       orderedmap: 1.1.1
+    dev: false
 
   /prosemirror-schema-list/1.1.5:
     resolution: {integrity: sha512-9gadhga/wySVfb/iZ2vOpndbG0XroeLw0HkkZN5demNbOea6U5oQtJmvyYWC7ZVf3WkhmVdVsOXrllM9JcC20A==}
@@ -8745,6 +8741,7 @@ packages:
     dependencies:
       prosemirror-model: 1.14.3
       prosemirror-transform: 1.3.2
+    dev: false
 
   /prosemirror-tables/1.1.1:
     resolution: {integrity: sha512-LmCz4jrlqQZRsYRDzCRYf/pQ5CUcSOyqZlAj5kv67ZWBH1SVLP2U9WJEvQfimWgeRlIz0y0PQVqO1arRm1+woA==}
@@ -8760,6 +8757,7 @@ packages:
     resolution: {integrity: sha512-/G6d/u9Mf6Bv3H1XR8VxhpjmUO75LYmnvj+s3ZfZpakU1hnQbsvCEybml1B3f2IWUAAQRFkbO1PnsbFhLZsYsw==}
     dependencies:
       prosemirror-model: 1.14.3
+    dev: false
 
   /prosemirror-view/1.18.11:
     resolution: {integrity: sha512-KXUM8UEV+IK4JYWHNyxkPGDGbxeTEUHQv3POApfyTRN5eMcPFbY4cB0mDJr0LPelVvYPghmZDOCqfCIm9mYHtQ==}
@@ -8767,6 +8765,7 @@ packages:
       prosemirror-model: 1.14.3
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
+    dev: false
 
   /proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
@@ -9211,6 +9210,7 @@ packages:
 
   /rope-sequence/1.3.2:
     resolution: {integrity: sha512-ku6MFrwEVSVmXLvy3dYph3LAMNS0890K7fabn+0YIRQ2T96T9F4gkFf0vf0WW0JUraNWwGRtInEpH7yO4tbQZg==}
+    dev: false
 
   /rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==}
@@ -10249,6 +10249,7 @@ packages:
 
   /w3c-keyname/2.2.4:
     resolution: {integrity: sha512-tOhfEwEzFLJzf6d1ZPkYfGj+FWhIpBux9ppoP3rlclw3Z0BZv3N7b7030Z1kYth+6rDuAsXUFr+d0VE6Ed1ikw==}
+    dev: false
 
   /w3c-xmlserializer/2.0.0:
     resolution: {integrity: sha512-4tzD0mF8iSiMiNs30BiLO3EpfGLZUT2MSX/G+o7ZywDzliWQ3OPtTZ0PTC3B3ca1UAf4cJMHB+2Bf56EriJuRA==}
@@ -10435,7 +10436,7 @@ packages:
     dev: true
     optional: true
 
-  /y-prosemirror/1.0.9_cc0d63b0b161f7c3eead9180b5c06751:
+  /y-prosemirror/1.0.9_y-protocols@1.0.5+yjs@13.5.11:
     resolution: {integrity: sha512-OM12aPx04lwiIy1IOBidb6ONAof2KFxQE/Gww26SEsMQuA2dibrJkjaMwXwY1KnYY7yOpwbIFRdwecdNXLU9yQ==}
     peerDependencies:
       prosemirror-model: ^1.7.1
@@ -10445,9 +10446,6 @@ packages:
       yjs: ^13.3.2
     dependencies:
       lib0: 0.2.42
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-view: 1.18.11
       y-protocols: 1.0.5
       yjs: 13.5.11
     dev: false

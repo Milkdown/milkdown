@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { textblockTypeInputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import katex from 'katex';
-import { textblockTypeInputRule } from 'prosemirror-inputrules';
 
 import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';

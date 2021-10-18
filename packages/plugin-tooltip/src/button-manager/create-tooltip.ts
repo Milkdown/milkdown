@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { EditorView } from '@milkdown/prose';
 import type { Utils } from '@milkdown/utils';
-import type { EditorView } from 'prosemirror-view';
 
 import type { ButtonMap } from '../item';
 import { injectStyle } from './style';

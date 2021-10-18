@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
+import { InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
-import { InputRule } from 'prosemirror-inputrules';
 
 import { input } from './constant';
 import { parse } from './parse';

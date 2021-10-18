@@ -1,11 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { InputRule, Node as ProseNode, TextSelection, toggleMark } from '@milkdown/prose';
 import { createMark } from '@milkdown/utils';
-import { toggleMark } from 'prosemirror-commands';
-import { InputRule } from 'prosemirror-inputrules';
-import { Node as ProseNode } from 'prosemirror-model';
-import { TextSelection } from 'prosemirror-state';
 
 export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();

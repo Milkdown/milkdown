@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Schema } from 'prosemirror-model';
+import type { Schema } from '@milkdown/prose';
 
 import type { RemarkParser } from '../internal-plugin';
 import { createStack } from './stack';
