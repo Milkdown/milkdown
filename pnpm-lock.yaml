@@ -33,16 +33,9 @@ importers:
       '@milkdown/utils': workspace:*
       '@milkdown/vue': workspace:*
       '@types/jest': ^26.0.22
-      '@types/prosemirror-commands': ^1.0.4
       '@types/prosemirror-dropcursor': ^1.0.2
       '@types/prosemirror-gapcursor': ^1.0.3
       '@types/prosemirror-history': ^1.0.2
-      '@types/prosemirror-inputrules': ^1.0.4
-      '@types/prosemirror-keymap': ^1.0.4
-      '@types/prosemirror-model': ^1.13.0
-      '@types/prosemirror-state': ^1.2.6
-      '@types/prosemirror-transform': ^1.1.2
-      '@types/prosemirror-view': ^1.17.1
       '@typescript-eslint/eslint-plugin': ^4.31.0
       '@typescript-eslint/parser': ^4.31.0
       '@vitejs/plugin-react-refresh': ^1.3.3
@@ -64,16 +57,8 @@ importers:
       jest: ^26.6.3
       lint-staged: ^11.1.2
       prettier: ^2.4.0
-      prosemirror-commands: ^1.1.7
       prosemirror-dropcursor: ^1.3.5
       prosemirror-gapcursor: ^1.1.5
-      prosemirror-history: ^1.1.3
-      prosemirror-inputrules: ^1.1.3
-      prosemirror-keymap: ^1.1.4
-      prosemirror-model: ^1.13.3
-      prosemirror-state: ^1.3.4
-      prosemirror-transform: ^1.3.2
-      prosemirror-view: ^1.18.2
       rimraf: ^3.0.2
       ts-jest: ^26.5.4
       typescript: ^4.4.3
@@ -108,16 +93,9 @@ importers:
       '@milkdown/utils': link:packages/utils
       '@milkdown/vue': link:packages/vue
       '@types/jest': 26.0.24
-      '@types/prosemirror-commands': 1.0.4
       '@types/prosemirror-dropcursor': 1.0.2
       '@types/prosemirror-gapcursor': 1.0.4
       '@types/prosemirror-history': 1.0.3
-      '@types/prosemirror-inputrules': 1.0.4
-      '@types/prosemirror-keymap': 1.0.4
-      '@types/prosemirror-model': 1.13.1
-      '@types/prosemirror-state': 1.2.7
-      '@types/prosemirror-transform': 1.1.4
-      '@types/prosemirror-view': 1.17.2
       '@typescript-eslint/eslint-plugin': 4.31.0_cbc248a952ba57a5cc94b8001d8fd3c0
       '@typescript-eslint/parser': 4.31.0_eslint@7.31.0+typescript@4.4.3
       '@vitejs/plugin-react-refresh': 1.3.5
@@ -139,16 +117,8 @@ importers:
       jest: 26.6.3
       lint-staged: 11.1.2
       prettier: 2.4.0
-      prosemirror-commands: 1.1.10
       prosemirror-dropcursor: 1.3.5
       prosemirror-gapcursor: 1.1.5
-      prosemirror-history: 1.1.3
-      prosemirror-inputrules: 1.1.3
-      prosemirror-keymap: 1.1.4
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.2
-      prosemirror-view: 1.18.11
       rimraf: 3.0.2
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.4.3
       typescript: 4.4.3
@@ -275,7 +245,7 @@ importers:
       '@emotion/css': 11.1.3
       '@milkdown/utils': link:../utils
       tslib: 2.3.0
-      y-prosemirror: 1.0.9_cc0d63b0b161f7c3eead9180b5c06751
+      y-prosemirror: 1.0.9_y-protocols@1.0.5+yjs@13.5.11
     devDependencies:
       y-protocols: 1.0.5
       y-websocket: 1.3.16_yjs@13.5.11
@@ -499,12 +469,14 @@ importers:
       '@types/prosemirror-keymap': ^1.0.4
       '@types/prosemirror-model': ^1.12.0
       '@types/prosemirror-state': ^1.2.6
+      '@types/prosemirror-transform': ^1.1.2
       '@types/prosemirror-view': ^1.17.1
       prosemirror-commands: ^1.1.7
       prosemirror-inputrules: ^1.1.3
       prosemirror-keymap: ^1.1.4
       prosemirror-model: ^1.13.3
       prosemirror-state: ^1.3.4
+      prosemirror-transform: ^1.3.2
       prosemirror-view: ^1.18.2
       tslib: ^2.2.0
     dependencies:
@@ -514,12 +486,14 @@ importers:
       '@types/prosemirror-keymap': 1.0.4
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
+      '@types/prosemirror-transform': 1.1.4
       '@types/prosemirror-view': 1.17.2
       prosemirror-commands: 1.1.10
       prosemirror-inputrules: 1.1.3
       prosemirror-keymap: 1.1.4
       prosemirror-model: 1.14.3
       prosemirror-state: 1.3.4
+      prosemirror-transform: 1.3.2
       prosemirror-view: 1.18.11
       tslib: 2.3.0
 
@@ -3280,6 +3254,7 @@ packages:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
       '@types/prosemirror-view': 1.17.2
+    dev: false
 
   /@types/prosemirror-dropcursor/1.0.2:
     resolution: {integrity: sha512-5Ez7yIAvHQgn5YJkuafEh0w4sHV7pksCX9LTPBFRjCuznamcKsnYCez4mR0PwIWq/WuPDvHkR+wqKb4l0t9/aQ==}
@@ -3303,6 +3278,7 @@ packages:
     dependencies:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
+    dev: false
 
   /@types/prosemirror-keymap/1.0.4:
     resolution: {integrity: sha512-ycevwkqUh+jEQtPwqO7sWGcm+Sybmhu8MpBsM8DlO3+YTKnXbKA6SDz/+q14q1wK3UA8lHJyfR+v+GPxfUSemg==}
@@ -3311,6 +3287,7 @@ packages:
       '@types/prosemirror-model': 1.13.1
       '@types/prosemirror-state': 1.2.7
       '@types/prosemirror-view': 1.17.2
+    dev: false
 
   /@types/prosemirror-model/1.13.1:
     resolution: {integrity: sha512-tA1AlI+YR2t3Ve5eeQVJnQm4yV4wVlNfeogHusD1X3OEqqMYTuPssThgIMR4PxPHtvV871Ix8a20bUiJvULDgw==}
@@ -8706,6 +8683,7 @@ packages:
       prosemirror-model: 1.14.3
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
+    dev: false
 
   /prosemirror-dropcursor/1.3.5:
     resolution: {integrity: sha512-tNUwcF2lPAkwKBZPZRtbxpwljnODRNZ3eiYloN1DSUqDjMT1nBZm0nejaEMS1TvNQ+3amibUSAiV4hX+jpASFA==}
@@ -8728,12 +8706,14 @@ packages:
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
       rope-sequence: 1.3.2
+    dev: false
 
   /prosemirror-inputrules/1.1.3:
     resolution: {integrity: sha512-ZaHCLyBtvbyIHv0f5p6boQTIJjlD6o2NPZiEaZWT2DA+j591zS29QQEMT4lBqwcLW3qRSf7ZvoKNbf05YrsStw==}
     dependencies:
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.2
+    dev: false
 
   /prosemirror-keymap/1.1.4:
     resolution: {integrity: sha512-Al8cVUOnDFL4gcI5IDlG6xbZ0aOD/i3B17VT+1JbHWDguCgt/lBHVTHUBcKvvbSg6+q/W4Nj1Fu6bwZSca3xjg==}
@@ -9224,6 +9204,7 @@ packages:
 
   /rope-sequence/1.3.2:
     resolution: {integrity: sha512-ku6MFrwEVSVmXLvy3dYph3LAMNS0890K7fabn+0YIRQ2T96T9F4gkFf0vf0WW0JUraNWwGRtInEpH7yO4tbQZg==}
+    dev: false
 
   /rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==}
@@ -10448,7 +10429,7 @@ packages:
     dev: true
     optional: true
 
-  /y-prosemirror/1.0.9_cc0d63b0b161f7c3eead9180b5c06751:
+  /y-prosemirror/1.0.9_y-protocols@1.0.5+yjs@13.5.11:
     resolution: {integrity: sha512-OM12aPx04lwiIy1IOBidb6ONAof2KFxQE/Gww26SEsMQuA2dibrJkjaMwXwY1KnYY7yOpwbIFRdwecdNXLU9yQ==}
     peerDependencies:
       prosemirror-model: ^1.7.1
@@ -10458,9 +10439,6 @@ packages:
       yjs: ^13.3.2
     dependencies:
       lib0: 0.2.42
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-view: 1.18.11
       y-protocols: 1.0.5
       yjs: 13.5.11
     dev: false
