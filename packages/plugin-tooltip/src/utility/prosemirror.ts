@@ -1,7 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { findParentNode } from '@milkdown/utils';
-import type { MarkType, Node, NodeType } from 'prosemirror-model';
-import { EditorState, TextSelection } from 'prosemirror-state';
+import { EditorState, findParentNode, MarkType, Node, NodeType, TextSelection } from '@milkdown/prose';
 
 export type Position = {
     start: number;

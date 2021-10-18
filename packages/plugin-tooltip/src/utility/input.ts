@@ -2,8 +2,7 @@
 import { commandsCtx, Ctx } from '@milkdown/core';
 import { ModifyInlineMath } from '@milkdown/plugin-math';
 import { ModifyImage, ModifyLink } from '@milkdown/preset-commonmark';
-import { Node as ProseNode } from '@milkdown/prose';
-import { findChildren } from '@milkdown/utils';
+import { findChildren, Node as ProseNode } from '@milkdown/prose';
 
 import { Event2Command, Updater } from '../item';
 import { elementIsTag } from './element';

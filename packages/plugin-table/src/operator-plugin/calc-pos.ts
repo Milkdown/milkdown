@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { EditorView } from '@milkdown/prose';
-import { calculateNodePosition } from '@milkdown/utils';
+import { calculateNodePosition, EditorView } from '@milkdown/prose';
 import { CellSelection } from 'prosemirror-tables';
 
 export const calculatePosition = (view: EditorView, dom: HTMLElement) => {

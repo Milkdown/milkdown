@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { EditorView } from '@milkdown/prose';
-import { calculateNodePosition, Utils } from '@milkdown/utils';
+import { calculateNodePosition, EditorView } from '@milkdown/prose';
+import { Utils } from '@milkdown/utils';
 
 import { Action } from '../item';
 import { createDropdown } from '../utility';

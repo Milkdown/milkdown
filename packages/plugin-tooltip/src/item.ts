@@ -1,9 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
 import { ToggleBold, ToggleInlineCode, ToggleItalic, ToggleLink, ToggleStrikeThrough } from '@milkdown/preset-gfm';
-import type { Schema } from '@milkdown/prose';
-import { EditorView } from '@milkdown/prose';
-import { findSelectedNodeOfType } from '@milkdown/utils';
+import { EditorView, findSelectedNodeOfType, Schema } from '@milkdown/prose';
 
 import {
     createToggleIcon,

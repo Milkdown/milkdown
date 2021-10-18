@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { EditorView } from '@milkdown/prose';
-import { calculateTextPosition } from '@milkdown/utils';
+import { calculateTextPosition, EditorView } from '@milkdown/prose';
 
 export const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
     calculateTextPosition(view, input, (start, end, target, parent) => {
