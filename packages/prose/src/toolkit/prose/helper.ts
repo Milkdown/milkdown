@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Node as ProseNode, NodeType } from '@milkdown/prose';
-import type { Transaction } from '@milkdown/prose';
+import type { Node as ProseNode, NodeType } from 'prosemirror-model';
+import type { Transaction } from 'prosemirror-state';
 
 export const cloneTr = (tr: Transaction) => {
     return Object.assign(Object.create(tr), tr).setTime(Date.now());

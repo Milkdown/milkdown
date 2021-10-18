@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MarkType, Node as ProseNode } from '@milkdown/prose';
+import type { MarkType, Node as ProseNode } from 'prosemirror-model';
 
 import type { Predicate } from './types';
 

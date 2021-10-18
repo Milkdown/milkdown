@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { InputRule } from '@milkdown/prose';
-import { Mark, MarkType } from '@milkdown/prose';
-import { EditorState } from '@milkdown/prose';
+import { InputRule } from 'prosemirror-inputrules';
+import { Mark, MarkType } from 'prosemirror-model';
+import { EditorState } from 'prosemirror-state';
 
 export function markRule(regexp: RegExp, markType: MarkType): InputRule {
     return new InputRule(regexp, (state, match, start, end) => {

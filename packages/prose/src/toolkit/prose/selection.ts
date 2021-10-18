@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Node as ProseNode, NodeType, ResolvedPos } from '@milkdown/prose';
-import { NodeSelection, Selection } from '@milkdown/prose';
+import type { Node as ProseNode, NodeType, ResolvedPos } from 'prosemirror-model';
+import { NodeSelection, Selection } from 'prosemirror-state';
 
 import { equalNodeType } from './helper';
 import type { Predicate } from './types';

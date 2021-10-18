@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { getAtomFromSchemaFail } from '@milkdown/exception';
-import type { MarkType, NodeType, Schema } from '@milkdown/prose';
+import type { MarkType, NodeType, Schema } from 'prosemirror-model';
 
 export const getNodeFromSchema = (type: string, schema: Schema): NodeType => {
     const target = schema.nodes[type];

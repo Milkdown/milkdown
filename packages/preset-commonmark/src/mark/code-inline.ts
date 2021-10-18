@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { toggleMark } from '@milkdown/prose';
-import { createMark, createShortcut, markRule } from '@milkdown/utils';
+import { markRule, toggleMark } from '@milkdown/prose';
+import { createMark, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
 
