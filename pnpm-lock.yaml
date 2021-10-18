@@ -519,11 +519,13 @@ importers:
       '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
+      nanoid: ^3.1.25
       react: '*'
       react-dom: '*'
       tslib: ^2.2.0
     dependencies:
       '@milkdown/utils': link:../utils
+      nanoid: 3.1.25
       tslib: 2.3.0
     devDependencies:
       '@types/react': 17.0.14
@@ -550,10 +552,12 @@ importers:
   packages/vue:
     specifiers:
       '@milkdown/utils': workspace:*
+      nanoid: ^3.1.25
       tslib: ^2.2.0
       vue: ^3.0.0
     dependencies:
       '@milkdown/utils': link:../utils
+      nanoid: 3.1.25
       tslib: 2.3.0
     devDependencies:
       vue: 3.1.5

@@ -1,12 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Editor, ViewFactory } from '@milkdown/core';
-import { getId } from '@milkdown/utils';
+import { customAlphabet } from 'nanoid';
 import { Mark, Node } from 'prosemirror-model';
 import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
 import { Content, ReactNodeContainer } from './ReactNode';
+
+const nanoid = customAlphabet('abcedfghicklmn', 10);
 
 export const createReactView =
     (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
@@ -42,7 +44,7 @@ export class ReactNodeView implements NodeView {
         }
         this.dom = dom;
         this.contentDOM = contentDOM;
-        this.key = getId();
+        this.key = nanoid();
 
         this.renderPortal();
     }
