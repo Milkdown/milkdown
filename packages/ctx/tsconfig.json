@@ -9,15 +9,6 @@
     "references": [
         {
             "path": "../exception"
-        },
-        {
-            "path": "../ctx"
-        },
-        {
-            "path": "../prose"
-        },
-        {
-            "path": "../design-system"
         }
     ]
 }

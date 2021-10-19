@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { Ctx, MilkdownPlugin } from '@milkdown/ctx';
 import type { InputRule, Keymap, MarkSpec, MarkType, Schema } from '@milkdown/prose';
 
-import type { Ctx } from '../editor';
 import type { MarkParserSpec } from '../parser';
 import type { MarkSerializerSpec } from '../serializer';
-import type { MarkViewFactory, MilkdownPlugin } from '../utility';
+import type { MarkViewFactory } from '../utility';
 import type { CmdTuple, CommandManager } from './commands';
 import { marksCtx } from './schema';
 

@@ -1,10 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createContainer, createSlice, createTimer, MilkdownPlugin, Slice, Timer } from '@milkdown/ctx';
 import { callCommandBeforeEditorView } from '@milkdown/exception';
 import type { Command } from '@milkdown/prose';
 
-import { createContainer, createSlice, Slice } from '../context';
-import { createTimer, Timer } from '../timing';
-import { Atom, getAtom, MilkdownPlugin } from '../utility';
+import { Atom, getAtom } from '../utility';
 import { editorViewCtx, EditorViewReady } from './editor-view';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 

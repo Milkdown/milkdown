@@ -1,8 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice, MilkdownPlugin } from '@milkdown/ctx';
 import { injectVar, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
-
-import { createSlice } from '../context';
-import { MilkdownPlugin } from '../utility';
 
 export const themeToolCtx = createSlice<ThemeTool>(
     {

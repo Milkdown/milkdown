@@ -1,11 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createTimer } from '../timing';
-import { Configure, MilkdownPlugin } from '../utility';
+import { createTimer, CtxHandler, MilkdownPlugin } from '@milkdown/ctx';
 
 export const ConfigReady = createTimer('ConfigReady');
 
 export const config =
-    (configure: Configure): MilkdownPlugin =>
+    (configure: CtxHandler): MilkdownPlugin =>
     (pre) => {
         pre.record(ConfigReady);
 

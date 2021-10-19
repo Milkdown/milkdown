@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { ctxCallOutOfScope } from '@milkdown/exception';
 
-import { shallowClone } from '../utility';
+import { shallowClone } from './shallow-clone';
 
 export type $Slice<T = unknown> = {
     readonly id: symbol;

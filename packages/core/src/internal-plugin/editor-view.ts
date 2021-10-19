@@ -1,9 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { EditorProps, EditorView } from '@milkdown/prose';
 
-import { createSlice } from '../context';
-import { createTimer, Timer } from '../timing';
-import { MilkdownPlugin } from '../utility';
 import { editorStateCtx, EditorStateReady } from './editor-state';
 import { nodeViewCtx, NodeViewReady } from './node-view';
 

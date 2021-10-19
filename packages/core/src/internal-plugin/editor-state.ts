@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { docTypeError } from '@milkdown/exception';
 import {
     baseKeymap,
@@ -10,9 +11,7 @@ import {
     Schema,
 } from '@milkdown/prose';
 
-import { createSlice } from '../context';
-import { createTimer, Timer } from '../timing';
-import { AnyRecord, MilkdownPlugin } from '../utility';
+import { AnyRecord } from '../utility';
 import { inputRulesCtx, InputRulesReady } from './input-rules';
 import { keymapCtx, KeymapReady } from './keymap';
 import { Parser, parserCtx, ParserReady } from './parser';

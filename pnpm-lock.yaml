@@ -9,6 +9,7 @@ importers:
       '@commitlint/cli': ^12.1.1
       '@commitlint/config-conventional': ^12.1.1
       '@milkdown/core': workspace:*
+      '@milkdown/ctx': workspace:*
       '@milkdown/design-system': workspace:*
       '@milkdown/exception': workspace:*
       '@milkdown/plugin-clipboard': workspace:*
@@ -64,6 +65,7 @@ importers:
       '@commitlint/cli': 12.1.4
       '@commitlint/config-conventional': 12.1.4
       '@milkdown/core': link:packages/core
+      '@milkdown/ctx': link:packages/ctx
       '@milkdown/design-system': link:packages/design-system
       '@milkdown/exception': link:packages/exception
       '@milkdown/plugin-clipboard': link:packages/plugin-clipboard
@@ -186,6 +188,7 @@ importers:
 
   packages/core:
     specifiers:
+      '@milkdown/ctx': 'workspace: *'
       '@milkdown/design-system': 'workspace: *'
       '@milkdown/exception': 'workspace: *'
       '@milkdown/prose': 'workspace: *'
@@ -193,12 +196,21 @@ importers:
       tslib: ^2.2.0
       unified: ^9.2.1
     dependencies:
+      '@milkdown/ctx': link:../ctx
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
       '@milkdown/prose': link:../prose
       remark: 13.0.0
       tslib: 2.3.0
       unified: 9.2.2
+
+  packages/ctx:
+    specifiers:
+      '@milkdown/exception': 'workspace: *'
+      tslib: ^2.2.0
+    dependencies:
+      '@milkdown/exception': link:../exception
+      tslib: 2.3.0
 
   packages/design-system:
     specifiers:

@@ -1,10 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { Schema } from '@milkdown/prose';
 
-import { createSlice } from '../context';
 import { InitReady, Mark, Node } from '../internal-plugin';
-import { createTimer, Timer } from '../timing';
-import { Atom, MilkdownPlugin } from '../utility';
+import { Atom } from '../utility';
 
 export const SchemaReady = createTimer('schemaReady');
 

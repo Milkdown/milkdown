@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createSlice } from '../context';
-import { createTimer, Timer } from '../timing';
-import { Atom, getAtom, MilkdownPlugin, ProseView, ViewFactory, ViewParams } from '../utility';
+import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
+
+import { Atom, getAtom, ProseView, ViewFactory, ViewParams } from '../utility';
 import { editorCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 

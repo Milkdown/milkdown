@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContainer } from '../context';
+import { createClock, createContainer, Ctx, CtxHandler, MilkdownPlugin, Pre } from '@milkdown/ctx';
+
 import {
     commands,
     config,
@@ -13,10 +14,6 @@ import {
     schema,
     serializer,
 } from '../internal-plugin';
-import { createClock } from '../timing';
-import { Configure, CtxHandler, MilkdownPlugin } from '../utility';
-import { Ctx } from './ctx';
-import { Pre } from './pre';
 
 /**
  * Get the milkdown editor constructor
@@ -35,7 +32,7 @@ export class Editor {
     readonly #clock = createClock();
 
     readonly #plugins: Set<CtxHandler> = new Set();
-    readonly #configureList: Configure[] = [];
+    readonly #configureList: CtxHandler[] = [];
 
     readonly #ctx = new Ctx(this.#container, this.#clock);
     readonly #pre = new Pre(this.#container, this.#clock);
@@ -84,7 +81,7 @@ export class Editor {
      * @param configure - The function that configure current editor, can be async, with context as parameter.
      * @returns Editor instance.
      */
-    readonly config = (configure: Configure) => {
+    readonly config = (configure: CtxHandler) => {
         this.#configureList.push(configure);
         return this;
     };
@@ -101,11 +98,7 @@ export class Editor {
      */
     readonly create = async () => {
         this.#loadInternal();
-        await Promise.all(
-            [...this.#plugins].map((loader) => {
-                return loader(this.#ctx);
-            }),
-        );
+        await Promise.all([...this.#plugins].map((loader) => loader(this.#ctx)));
         return this;
     };
 

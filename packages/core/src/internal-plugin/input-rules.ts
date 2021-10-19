@@ -1,10 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import type { InputRule } from '@milkdown/prose';
 
-import { createSlice } from '../context';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from '../internal-plugin';
-import { createTimer, Timer } from '../timing';
-import { Atom, getAtom, MilkdownPlugin } from '../utility';
+import { Atom, getAtom } from '../utility';
 import { CommandsReady } from './commands';
 
 export const inputRulesCtx = createSlice<InputRule[]>([], 'inputRules');

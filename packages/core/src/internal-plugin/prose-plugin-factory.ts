@@ -1,9 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice, Ctx, MilkdownPlugin } from '@milkdown/ctx';
 import type { Plugin } from '@milkdown/prose';
 
-import { createSlice } from '../context';
-import type { Ctx } from '../editor';
-import type { MilkdownPlugin } from '../utility';
 import { CommandsReady } from './commands';
 
 export const prosePluginsCtx = createSlice<Plugin[]>([], 'prosePlugins');

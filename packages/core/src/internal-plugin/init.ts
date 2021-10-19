@@ -1,11 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice, createTimer, MilkdownPlugin, Slice, Timer } from '@milkdown/ctx';
 import re, { RemarkOptions } from 'remark';
 import type { Processor } from 'unified';
 
-import { createSlice, Slice } from '../context';
 import type { Editor } from '../editor';
-import { createTimer, Timer } from '../timing';
-import type { MilkdownPlugin } from '../utility';
 import { ConfigReady } from './config';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { remarkPluginsCtx } from './remark-plugin-factory';
