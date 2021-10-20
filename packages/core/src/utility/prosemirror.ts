@@ -1,15 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type {
-    Decoration,
-    EditorState,
-    EditorView,
-    MarkType,
-    Node,
-    NodeType,
-    NodeView,
-    Schema,
-    Transaction,
-} from '@milkdown/prose';
+import type { Decoration, EditorView, MarkType, Node, NodeType, NodeView, Schema } from '@milkdown/prose';
 import { Mark } from '@milkdown/prose';
 
 import type { Editor } from '../editor';
@@ -22,8 +12,6 @@ export const maybeMerge = (a: Node, b: Node): Node | undefined => {
     }
     return;
 };
-
-export type Command = (state: EditorState<Schema>, dispatch?: (tr: Transaction<Schema>) => void) => void;
 
 export type NodeViewParams = [node: Node, view: EditorView, getPos: () => number, decorations: Decoration[]];
 export type MarkViewParams = [mark: Mark, view: EditorView, getPos: boolean, decorations: Decoration[]];
