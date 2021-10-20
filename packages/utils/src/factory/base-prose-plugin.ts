@@ -2,9 +2,8 @@
 import { prosePluginFactory } from '@milkdown/core';
 import type { Plugin } from '@milkdown/prose';
 
-import { UnknownRecord } from '../type-utility';
+import { Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
 import { commonPlugin } from './base-common';
-import { Factory, Origin, PluginWithMetadata } from './types';
 
 export const createProsePlugin = <Obj extends UnknownRecord = UnknownRecord>(
     factory: Factory<string, Obj, { plugin: Plugin | Plugin[]; id: string }>,

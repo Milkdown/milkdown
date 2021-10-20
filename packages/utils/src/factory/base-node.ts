@@ -1,10 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Node, nodeFactory } from '@milkdown/core';
 
-import { UnknownRecord } from '../type-utility';
+import { Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
 import { commonPlugin } from './base-common';
 import { createKeymap } from './keymap';
-import { Factory, Origin, PluginWithMetadata } from './types';
 
 export const createNode = <SupportedKeys extends string = string, T extends UnknownRecord = UnknownRecord>(
     factory: Factory<SupportedKeys, T, Node>,

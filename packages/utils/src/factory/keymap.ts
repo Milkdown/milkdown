@@ -2,7 +2,7 @@
 import type { Cmd, CmdKey } from '@milkdown/core';
 import type { Command, Keymap, MarkType, NodeType, Schema } from '@milkdown/prose';
 
-import type { CommandConfig, Shortcuts, UserKeymap } from './types';
+import type { CommandConfig, Shortcuts, UserKeymap } from '../types';
 
 type KeymapTuple = [shortcut: string, command: Command];
 type KeymapConfigTuple<T extends string, U> = [key: T, config: CommandConfig<U>];

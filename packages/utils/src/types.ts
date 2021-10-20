@@ -2,7 +2,7 @@
 import type { Attrs, CmdKey, Ctx, Mark, MilkdownPlugin, Node, ThemeTool } from '@milkdown/core';
 import type { MarkViewFactory, NodeViewFactory } from '@milkdown/prose';
 
-import type { UnknownRecord } from '../type-utility';
+export type UnknownRecord = Record<string, unknown>;
 
 export type CommandConfig<T = unknown> = {
     commandKey: CmdKey<T>;

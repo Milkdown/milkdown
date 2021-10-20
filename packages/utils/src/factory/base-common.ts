@@ -2,7 +2,7 @@
 import { Attrs, Ctx, themeToolCtx } from '@milkdown/core';
 import { themeMustInstalled } from '@milkdown/exception';
 
-import { CommonOptions, Utils } from './types';
+import { CommonOptions, Utils } from '../types';
 
 export const getClassName =
     (className: CommonOptions['className']) =>
