@@ -1,10 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Editor } from '@milkdown/core';
 import { Decoration, EditorView, Mark, Node } from '@milkdown/prose';
 import { defineComponent, Fragment, h, InjectionKey, provide, ref, watchEffect } from 'vue';
 
 export type NodeContext = {
-    editor: Editor;
     node: Node | Mark;
     view: EditorView;
     getPos: boolean | (() => number);
@@ -13,9 +11,8 @@ export type NodeContext = {
 
 export const nodeMetadata: InjectionKey<NodeContext> = Symbol();
 
-export const VueNodeContainer = defineComponent(({ editor, node, view, getPos, decorations }: NodeContext, context) => {
+export const VueNodeContainer = defineComponent(({ node, view, getPos, decorations }: NodeContext, context) => {
     provide(nodeMetadata, {
-        editor,
         node,
         view,
         getPos,

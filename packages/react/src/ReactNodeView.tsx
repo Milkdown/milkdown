@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Editor, ViewFactory } from '@milkdown/core';
-import type { Decoration, EditorView, NodeView } from '@milkdown/prose';
+import type { Decoration, EditorView, NodeView, ViewFactory } from '@milkdown/prose';
 import { Mark, Node } from '@milkdown/prose';
 import { customAlphabet } from 'nanoid';
 import React from 'react';
@@ -13,8 +12,8 @@ const nanoid = customAlphabet('abcedfghicklmn', 10);
 export const createReactView =
     (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
     (component: React.FC): ViewFactory =>
-    (editor, _type, node, view, getPos, decorations) =>
-        new ReactNodeView(component, addPortal, removePortalByKey, editor, node, view, getPos, decorations);
+    (node, view, getPos, decorations) =>
+        new ReactNodeView(component, addPortal, removePortalByKey, node, view, getPos, decorations);
 
 export class ReactNodeView implements NodeView {
     dom: HTMLElement | undefined;
@@ -25,7 +24,6 @@ export class ReactNodeView implements NodeView {
         private component: React.FC,
         private addPortal: (portal: React.ReactPortal) => void,
         private removePortalByKey: (key: string) => void,
-        private editor: Editor,
         private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
@@ -54,13 +52,7 @@ export class ReactNodeView implements NodeView {
 
         const Component = this.component;
         const portal = createPortal(
-            <ReactNodeContainer
-                editor={this.editor}
-                node={this.node}
-                view={this.view}
-                getPos={this.getPos}
-                decorations={this.decorations}
-            >
+            <ReactNodeContainer node={this.node} view={this.view} getPos={this.getPos} decorations={this.decorations}>
                 <Component>
                     <Content isMark={this.node instanceof Mark} dom={this.contentDOM} />
                 </Component>

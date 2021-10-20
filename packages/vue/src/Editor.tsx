@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Editor, editorViewCtx, ViewFactory } from '@milkdown/core';
+import { Editor, editorViewCtx } from '@milkdown/core';
+import { ViewFactory } from '@milkdown/prose';
 import {
     DefineComponent,
     defineComponent,

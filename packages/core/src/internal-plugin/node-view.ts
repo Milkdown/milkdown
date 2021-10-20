@@ -1,10 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
+import { ViewFactory, ViewParams } from '@milkdown/prose';
 
-import { Atom, getAtom, ProseView, ViewFactory, ViewParams } from '../utility';
+import { Atom, getAtom } from '../utility';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export const nodeViewCtx = createSlice<Record<string, ProseView>>({}, 'nodeView');
+export const nodeViewCtx = createSlice<Record<string, ViewFactory>>({}, 'nodeView');
 export const nodeViewTimerCtx = createSlice<Timer[]>([], 'nodeViewTimer');
 
 export const NodeViewReady = createTimer('NodeViewReady');
@@ -25,9 +26,9 @@ export const nodeView: MilkdownPlugin = (pre) => {
                         [getAtom(id, schema, isNode), { view: view as ViewFactory | undefined, id }] as const,
                 )
                 .map(([atom, { id, view }]) =>
-                    atom && view ? [id, ((...args: ViewParams) => view(...args)) as ProseView] : undefined,
+                    atom && view ? [id, ((...args: ViewParams) => view(...args)) as ViewFactory] : undefined,
                 )
-                .filter((x): x is [string, ProseView] => !!x);
+                .filter((x): x is [string, ViewFactory] => !!x);
 
         const nodeViewMap = getViewMap(nodes, true);
 

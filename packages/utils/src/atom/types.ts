@@ -1,15 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type {
-    Attrs,
-    CmdKey,
-    Ctx,
-    Mark,
-    MarkViewFactory,
-    MilkdownPlugin,
-    Node,
-    NodeViewFactory,
-    ThemeTool,
-} from '@milkdown/core';
+import type { Attrs, CmdKey, Ctx, Mark, MilkdownPlugin, Node, ThemeTool } from '@milkdown/core';
+import type { MarkViewFactory, NodeViewFactory } from '@milkdown/prose';
 
 import type { UnknownRecord } from '../type-utility';
 

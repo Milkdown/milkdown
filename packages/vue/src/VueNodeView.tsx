@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Editor, ViewFactory } from '@milkdown/core';
-import type { Decoration, EditorView, NodeView } from '@milkdown/prose';
+import type { Decoration, EditorView, NodeView, ViewFactory } from '@milkdown/prose';
 import { Mark, Node } from '@milkdown/prose';
 import { customAlphabet } from 'nanoid';
 import { DefineComponent, defineComponent, h, Teleport } from 'vue';
@@ -12,8 +11,8 @@ const nanoid = customAlphabet('abcedfghicklmn', 10);
 export const createVueView =
     (addPortal: (portal: DefineComponent, key: string) => void, removePortalByKey: (key: string) => void) =>
     (component: DefineComponent): ViewFactory =>
-    (editor, _type, node, view, getPos, decorations) =>
-        new VueNodeView(component, addPortal, removePortalByKey, editor, node, view, getPos, decorations);
+    (node, view, getPos, decorations) =>
+        new VueNodeView(component, addPortal, removePortalByKey, node, view, getPos, decorations);
 
 export class VueNodeView implements NodeView {
     dom: HTMLElement | undefined;
@@ -24,7 +23,6 @@ export class VueNodeView implements NodeView {
         private component: DefineComponent,
         private addPortal: (portal: DefineComponent, key: string) => void,
         private removePortalByKey: (key: string) => void,
-        private editor: Editor,
         private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
@@ -56,7 +54,6 @@ export class VueNodeView implements NodeView {
                 <Teleport to={this.dom}>
                     <VueNodeContainer
                         key={this.key}
-                        editor={this.editor}
                         node={this.node}
                         view={this.view}
                         getPos={this.getPos}
