@@ -71,7 +71,7 @@ export const mathInline = createNode<string, Options>((options, utils) => {
                 return true;
             }),
         ],
-        view: (_editor, _nodeType, node) => {
+        view: (node) => {
             let currentNode = node;
             const dom = document.createElement('span');
             if (style) {

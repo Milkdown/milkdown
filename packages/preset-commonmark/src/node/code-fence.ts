@@ -210,10 +210,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
         shortcuts: {
             [SupportedKeys.CodeFence]: createShortcut(TurnIntoCodeFence, 'Mod-Alt-c'),
         },
-        view: (editor, nodeType, node, view, getPos, decorations) => {
-            if (options?.view) {
-                return options.view(editor, nodeType, node, view, getPos, decorations);
-            }
+        view: (node, view, getPos) => {
             const container = document.createElement('div');
             const selectWrapper = document.createElement('div');
             const select = document.createElement('ul');

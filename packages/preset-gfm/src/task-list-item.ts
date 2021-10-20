@@ -15,7 +15,7 @@ export const SinkTaskListItem = createCmdKey();
 export const LiftTaskListItem = createCmdKey();
 export const TurnIntoTaskList = createCmdKey();
 
-export const taskListItem = createNode<Keys>((options, utils) => {
+export const taskListItem = createNode<Keys>((_, utils) => {
     const id = 'task_list_item';
     const style = utils.getStyle(
         ({ palette, size }) =>
@@ -134,10 +134,7 @@ export const taskListItem = createNode<Keys>((options, utils) => {
             [SupportedKeys.LiftListItem]: createShortcut(LiftTaskListItem, 'Mod-['),
             [SupportedKeys.TaskList]: createShortcut(TurnIntoTaskList, 'Mod-Alt-9'),
         },
-        view: (editor, nodeType, node, view, getPos, decorations) => {
-            if (options?.view) {
-                return options.view(editor, nodeType, node, view, getPos, decorations);
-            }
+        view: (node, view, getPos) => {
             const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
 
             const listItem = document.createElement('li');

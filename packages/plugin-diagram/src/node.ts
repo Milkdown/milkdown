@@ -96,7 +96,7 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             },
         },
         commands: (nodeType) => [createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId() }))],
-        view: (_editor, _nodeType, node, view, getPos) => {
+        view: (node, view, getPos) => {
             const innerEditor = createInnerEditor(view, getPos);
 
             const currentId = getId(node);

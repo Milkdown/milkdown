@@ -84,7 +84,7 @@ export const mathBlock = createNode<string, Options>((options, utils) => {
                 state.addNode('math', undefined, text);
             },
         },
-        view: (_editor, _nodeType, node, view, getPos) => {
+        view: (node, view, getPos) => {
             const innerEditor = createInnerEditor(view, getPos);
 
             let currentNode = node;

@@ -235,7 +235,8 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 },
             ),
         ],
-        view: (_editor, nodeType, node, view, getPos) => {
+        view: (node, view, getPos) => {
+            const nodeType = node.type;
             const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
             const container = document.createElement('span');
             container.className = utils.getClassName(node.attrs, id, containerStyle);
