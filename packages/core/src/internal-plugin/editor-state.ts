@@ -11,7 +11,7 @@ import {
     Schema,
 } from '@milkdown/prose';
 
-import { AnyRecord } from '../utility';
+import { JSONRecord } from '../utility';
 import { inputRulesCtx, InputRulesReady } from './input-rules';
 import { keymapCtx, KeymapReady } from './keymap';
 import { Parser, parserCtx, ParserReady } from './parser';
@@ -19,7 +19,7 @@ import { prosePluginsCtx } from './prose-plugin-factory';
 import { schemaCtx } from './schema';
 import { SerializerReady } from './serializer';
 
-type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: AnyRecord };
+type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: JSONRecord };
 type StateOptions = Parameters<typeof EditorState.create>[0];
 
 export const defaultValueCtx = createSlice<DefaultValue>('', 'defaultValue');

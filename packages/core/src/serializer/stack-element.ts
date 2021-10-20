@@ -1,11 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MarkdownNode } from '..';
-import type { AnyRecord } from '../utility';
+import type { JSONRecord } from '../utility';
 
 export type StackElement = {
     type: string;
     value?: string;
-    props: AnyRecord;
+    props: JSONRecord;
     children?: MarkdownNode[];
     push: (node: MarkdownNode, ...rest: MarkdownNode[]) => void;
     pop: () => MarkdownNode | undefined;
@@ -24,7 +24,7 @@ export const createElement = (
     type: string,
     children?: MarkdownNode[],
     value?: string,
-    props: AnyRecord = {},
+    props: JSONRecord = {},
 ): StackElement => {
     const element: StackElement = {
         type,

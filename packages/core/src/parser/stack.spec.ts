@@ -1,21 +1,20 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Mark, MarkType, Node, NodeType, Schema } from '@milkdown/prose';
+import type { Fragment, Mark, MarkType, Node, NodeType, Schema } from '@milkdown/prose';
 
-import type { AnyRecord } from '../utility';
 import { createStack, Stack } from './stack';
 import type { Attrs } from './types';
 
 export const createMockNodeType = (name: string) => {
-    const mockNode: AnyRecord = {
+    const mockNode = {
         type: {
             name,
         },
-    };
+    } as Node;
 
     return {
-        createAndFill(attrs: AnyRecord, content?: Node[], marks: Mark[] = []) {
+        createAndFill(attrs: Attrs, content?: Fragment, marks: Mark[] = []) {
             mockNode.attrs = attrs;
-            mockNode.content = content;
+            mockNode.content = content as Fragment;
             mockNode.marks = marks;
             return { ...mockNode } as Node;
         },
@@ -27,14 +26,14 @@ export const createMockNodeType = (name: string) => {
 };
 
 export const createMockMarkType = (name: string) => {
-    const mockMark: AnyRecord = {
+    const mockMark = {
         type: {
             name,
             removeFromSet: (marks: Mark[]) => {
                 return marks.filter((m) => m.type.name !== name);
             },
         },
-    };
+    } as Mark;
     return {
         create(attrs: Attrs) {
             mockMark.attrs = attrs;

@@ -2,7 +2,7 @@
 import { Mark } from '@milkdown/prose';
 
 import type { MarkdownNode } from '..';
-import { AnyRecord, getStackUtil } from '../utility';
+import { getStackUtil, JSONRecord } from '../utility';
 import { createElement, StackElement } from './stack-element';
 
 type Ctx = {
@@ -31,12 +31,12 @@ const createMarkdownNode = (element: StackElement) => {
 
 const openNode =
     (ctx: Ctx) =>
-    (type: string, value?: string, props?: AnyRecord): void =>
+    (type: string, value?: string, props?: JSONRecord): void =>
         open(ctx)(createElement(type, [], value, props));
 
 const addNode =
     (ctx: Ctx) =>
-    (type: string, children?: MarkdownNode[], value?: string, props?: AnyRecord): MarkdownNode => {
+    (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord): MarkdownNode => {
         const element = createElement(type, children, value, props);
         const node: MarkdownNode = createMarkdownNode(element);
 
@@ -53,7 +53,7 @@ const closeNode = (ctx: Ctx) => (): MarkdownNode => {
 
 const openMark =
     (ctx: Ctx) =>
-    (mark: Mark, type: string, value?: string, props?: AnyRecord): void => {
+    (mark: Mark, type: string, value?: string, props?: JSONRecord): void => {
         const isIn = mark.isInSet(ctx.marks);
 
         if (isIn) {
@@ -98,7 +98,7 @@ export type Stack = {
      *
      * @returns
      */
-    openMark: (mark: Mark, type: string, value?: string, props?: AnyRecord) => void;
+    openMark: (mark: Mark, type: string, value?: string, props?: JSONRecord) => void;
 
     /**
      * Close current mark.
@@ -117,7 +117,7 @@ export type Stack = {
      *
      * @returns
      */
-    openNode: (type: string, value?: string, props?: AnyRecord) => void;
+    openNode: (type: string, value?: string, props?: JSONRecord) => void;
 
     /**
      * Add a node in current position.
@@ -129,7 +129,7 @@ export type Stack = {
      *
      * @returns The added node.
      */
-    addNode: (type: string, children?: MarkdownNode[], value?: string, props?: AnyRecord) => MarkdownNode;
+    addNode: (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord) => MarkdownNode;
 
     /**
      * Close current node.
