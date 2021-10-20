@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Mark, MarkType, Node, NodeType } from '@milkdown/prose';
+import type { Mark, MarkType, Node, NodeType, Schema } from '@milkdown/prose';
 
 import type { AnyRecord } from '../utility';
 import { createStack, Stack } from './stack';
@@ -52,24 +52,21 @@ export const createMockMarkType = (name: string) => {
 
 const textNodeType = createMockNodeType('text');
 const rootNodeType = createMockNodeType('root');
-const createText = (content: string) => (marks: Mark[]) => {
-    const text = textNodeType.createAndFill({}, [], marks) as Node;
-    text.isText = true;
-    text.text = content;
-    (text as Node & { withText: (str: string) => Node }).withText = (str: string) => {
-        return {
-            ...text,
-            text: str,
-        } as Node & { text: string };
-    };
-    return text;
-};
+
+const mockSchema = {
+    text: (text: string, marks: Mark[]) => {
+        const textNode = textNodeType.createAndFill({}, [], marks) as Node;
+        textNode.isText = true;
+        textNode.text = text;
+        return textNode;
+    },
+} as Schema;
 
 describe('parser/stack', () => {
     let stack: Stack;
 
     beforeEach(() => {
-        stack = createStack();
+        stack = createStack(mockSchema);
         stack.openNode(rootNodeType);
     });
 
@@ -104,7 +101,7 @@ describe('parser/stack', () => {
 
         const strongMarkType = createMockMarkType('strong');
         stack.openMark(strongMarkType);
-        stack.addText(createText('foo'));
+        stack.addText('foo');
         const doc = stack.build();
 
         const children: Node[] = doc.content as unknown as Node[];
@@ -120,8 +117,8 @@ describe('parser/stack', () => {
 
         const strongMarkType = createMockMarkType('strong');
         stack.openMark(strongMarkType);
-        stack.addText(createText('foo'));
-        stack.addText(createText('bar'));
+        stack.addText('foo');
+        stack.addText('bar');
         const doc = stack.build();
 
         const firstChild: Node = (doc.content as unknown as Node[])[0];

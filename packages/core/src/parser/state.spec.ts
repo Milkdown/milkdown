@@ -6,7 +6,6 @@ import type { Stack } from './stack';
 import { State } from './state';
 import { InnerParserSpecMap } from './types';
 
-const mockMarks = [] as never[];
 class MockStack implements Stack {
     build = jest.fn();
 
@@ -14,7 +13,7 @@ class MockStack implements Stack {
 
     closeMark = jest.fn();
 
-    addText = jest.fn((fn) => fn(mockMarks));
+    addText = jest.fn();
 
     openNode = jest.fn();
 
@@ -92,11 +91,9 @@ describe('parser/state', () => {
     it('addText', () => {
         state.addText();
         expect(stack.addText).toBeCalledTimes(1);
-        expect(schema.text).toHaveBeenCalledWith('', mockMarks);
 
         state.addText('foo');
         expect(stack.addText).toBeCalledTimes(2);
-        expect(schema.text).toHaveBeenCalledWith('foo', mockMarks);
     });
 
     it('addNode', () => {

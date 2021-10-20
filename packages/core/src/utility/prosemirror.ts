@@ -4,15 +4,6 @@ import { Mark } from '@milkdown/prose';
 
 import type { Editor } from '../editor';
 
-export const hasText = (node: Node): node is Node & { text: string } => node.isText;
-
-export const maybeMerge = (a: Node, b: Node): Node | undefined => {
-    if (hasText(a) && hasText(b) && Mark.sameSet(a.marks, b.marks)) {
-        return a.withText(a.text + b.text);
-    }
-    return;
-};
-
 export type NodeViewParams = [node: Node, view: EditorView, getPos: () => number, decorations: Decoration[]];
 export type MarkViewParams = [mark: Mark, view: EditorView, getPos: boolean, decorations: Decoration[]];
 export type ViewParams = [

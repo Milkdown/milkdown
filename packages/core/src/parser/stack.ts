@@ -1,17 +1,27 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createNodeInParserFail, stackOverFlow } from '@milkdown/exception';
-import { Mark, MarkType, Node, NodeType } from '@milkdown/prose';
+import { Mark, MarkType, Node, NodeType, Schema } from '@milkdown/prose';
 
-import { getStackUtil, maybeMerge } from '../utility';
+import { getStackUtil } from '../utility';
 import { createElement, StackElement } from './stack-element';
 import type { Attrs } from './types';
 
 type Ctx = {
     marks: Mark[];
+    readonly schema: Schema;
     readonly elements: StackElement[];
 };
 
 const { size, push, top, open, close } = getStackUtil<Node, StackElement, Ctx>();
+
+const hasText = (node: Node): node is Node & { text: string } => node.isText;
+
+const maybeMerge = (schema: Schema, a: Node, b: Node): Node | undefined => {
+    if (hasText(a) && hasText(b) && Mark.sameSet(a.marks, b.marks)) {
+        return schema.text(a.text + b.text, a.marks);
+    }
+    return;
+};
 
 const openNode = (ctx: Ctx) => (nodeType: NodeType, attrs?: Attrs) => open(ctx)(createElement(nodeType, [], attrs));
 
@@ -50,19 +60,19 @@ const closeMark =
 
 const addText =
     (ctx: Ctx) =>
-    (createTextNode: (marks: Mark[]) => Node): void => {
+    (text: string): void => {
         const topElement = top(ctx);
         if (!topElement) throw stackOverFlow();
 
         const prevNode = topElement.pop();
-        const currNode = createTextNode(ctx.marks);
+        const currNode = ctx.schema.text(text, ctx.marks);
 
         if (!prevNode) {
             topElement.push(currNode);
             return;
         }
 
-        const merged = maybeMerge(prevNode, currNode);
+        const merged = maybeMerge(ctx.schema, prevNode, currNode);
         if (merged) {
             topElement.push(merged);
             return;
@@ -79,10 +89,11 @@ const build = (ctx: Ctx) => () => {
     return doc;
 };
 
-export const createStack = () => {
+export const createStack = (schema: Schema) => {
     const ctx: Ctx = {
         marks: [],
         elements: [],
+        schema,
     };
 
     return {

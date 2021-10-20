@@ -8,7 +8,7 @@ import type { InnerParserSpecMap } from './types';
 
 export function createParser(schema: Schema, specMap: InnerParserSpecMap, remark: RemarkParser) {
     return (text: string) => {
-        const state = new State(createStack(), schema, specMap);
+        const state = new State(createStack(schema), schema, specMap);
         state.run(remark, text);
         return state.toDoc();
     };

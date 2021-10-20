@@ -89,7 +89,7 @@ export class State {
      * @returns The state instance.
      */
     addText = (text = '') => {
-        this.stack.addText((marks) => this.schema.text(text, marks));
+        this.stack.addText(text);
         return this;
     };
 
