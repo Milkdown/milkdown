@@ -70,6 +70,7 @@ export type InputOptions = {
     inlineMath: {
         placeholder: string;
     };
+    isFixed?: boolean;
 };
 
 export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): InputMap => {

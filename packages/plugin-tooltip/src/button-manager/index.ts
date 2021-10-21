@@ -7,8 +7,8 @@ import { calcButtonPos } from './calc-button-pos';
 import { createTooltip } from './create-tooltip';
 import { filterButton } from './filter-button';
 
-export const createButtonManager = (buttonMap: ButtonMap, utils: Utils) => {
-    const { dom: buttons, render } = createTooltip(buttonMap, utils);
+export const createButtonManager = (buttonMap: ButtonMap, utils: Utils, isFixed = false) => {
+    const { dom: buttons, render } = createTooltip(buttonMap, utils, isFixed);
 
     const onClick = (e: Event) => {
         const target = Object.values(buttonMap).find(({ $ }) => e.target instanceof Element && $.contains(e.target));
@@ -37,7 +37,7 @@ export const createButtonManager = (buttonMap: ButtonMap, utils: Utils) => {
                 hide();
                 return;
             }
-            calcButtonPos(buttons, editorView);
+            calcButtonPos(buttons, editorView, isFixed);
         },
         render,
     };

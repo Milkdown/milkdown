@@ -6,8 +6,8 @@ import { createButtonManager } from './button-manager';
 import { createInputManager } from './input-manager';
 import type { ButtonMap, InputMap } from './item';
 
-export const createPlugin = (buttonMap: ButtonMap, inputMap: InputMap, utils: Utils) => {
-    const buttonManager = createButtonManager(buttonMap, utils);
+export const createPlugin = (buttonMap: ButtonMap, inputMap: InputMap, utils: Utils, isFixed = false) => {
+    const buttonManager = createButtonManager(buttonMap, utils, isFixed);
     const inputManager = createInputManager(inputMap, utils);
     let shouldHide = false;
 

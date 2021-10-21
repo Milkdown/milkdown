@@ -17,7 +17,7 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { math } from '@milkdown/plugin-math';
 import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
-import { tooltip } from '@milkdown/plugin-tooltip';
+import { tooltip, tooltipPlugin } from '@milkdown/plugin-tooltip';
 import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
@@ -57,7 +57,11 @@ export const createEditor = (
         .use(cursor)
         .use(prism)
         .use(diagram)
-        .use(tooltip)
+        .use(
+            tooltip.configure(tooltipPlugin, {
+                isFixed: true,
+            }),
+        )
         .use(math)
         .use(emoji)
         .use(indent)

@@ -29,6 +29,7 @@ export const tooltipPlugin = createProsePlugin<InputOptions>((options, utils) =>
             },
         }),
         utils,
+        options?.isFixed,
     );
     const plugin = new Plugin({
         key,

@@ -10,7 +10,7 @@ type Tooltip = {
     render: (editorView: EditorView) => void;
 };
 
-export const createTooltip = (buttonMap: ButtonMap, utils: Utils): Tooltip => {
+export const createTooltip = (buttonMap: ButtonMap, utils: Utils, isFixed = false): Tooltip => {
     const div = document.createElement('div');
     const style = utils.getStyle(injectStyle) || '';
     if (style) {
@@ -25,8 +25,12 @@ export const createTooltip = (buttonMap: ButtonMap, utils: Utils): Tooltip => {
             Object.values(buttonMap)
                 .filter((item) => item.enable(editorView))
                 .forEach(({ $ }) => div.appendChild($));
-
-            editorView.dom.parentNode?.appendChild(div);
+            if (!isFixed) {
+                editorView.dom.parentNode?.appendChild(div);
+            } else {
+                div.style.position = 'fixed';
+                document.body?.appendChild(div);
+            }
         },
     };
 };
