@@ -2,7 +2,7 @@
 import { Mark, markFactory } from '@milkdown/core';
 
 import { Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
-import { commonPlugin } from './base-common';
+import { commonPlugin } from './common';
 import { createKeymap } from './keymap';
 
 export const createMark = <SupportedKeys extends string = string, T extends UnknownRecord = UnknownRecord>(
