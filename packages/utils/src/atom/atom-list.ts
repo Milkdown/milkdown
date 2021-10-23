@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Mark, MilkdownPlugin, Node } from '@milkdown/core';
+import { MilkdownPlugin } from '@milkdown/core';
 
 import { Origin, PluginWithMetadata, UnknownRecord } from '../types';
 
-type Atom = PluginWithMetadata<string, UnknownRecord, Node | Mark>;
+type Atom = PluginWithMetadata<string, UnknownRecord>;
 type Plugin = Atom | MilkdownPlugin;
 
 const isAtom = (x: Plugin): x is Atom => Object.prototype.hasOwnProperty.call(x, 'origin');
