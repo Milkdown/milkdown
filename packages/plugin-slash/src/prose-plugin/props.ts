@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { ThemeTool } from '@milkdown/core';
-import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
+import { Decoration, DecorationSet, EditorState, EditorView, findParentNode, NodeWithPos } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
 import { CursorStatus, Status } from './status';
@@ -29,7 +29,12 @@ const createSlashStyle = () => css`
     }
 `;
 
-export const createProps = (status: Status, utils: Utils, placeholder: Record<CursorStatus, string>) => {
+export const createProps = (
+    status: Status,
+    utils: Utils,
+    placeholder: Record<CursorStatus, string>,
+    shouldDisplay: (parent: NodeWithPos, state: EditorState) => boolean,
+) => {
     const emptyStyle = utils.getStyle(createEmptyStyle);
     const slashStyle = utils.getStyle(createSlashStyle);
 
@@ -51,9 +56,8 @@ export const createProps = (status: Status, utils: Utils, placeholder: Record<Cu
         },
         decorations: (state: EditorState) => {
             const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
-            const isTopLevel = state.selection.$from.depth === 1;
 
-            if (!parent || parent.node.childCount > 1 || !isTopLevel) {
+            if (!parent || !shouldDisplay(parent, state)) {
                 status.clearStatus();
                 return;
             }

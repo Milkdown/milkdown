@@ -63,6 +63,33 @@ Editor.make().use(
 );
 ```
 
+## shouldDisplay
+
+Control wether the slash dropdown list should be displayed.
+
+Example:
+
+```typescript
+import { slashPlugin, slash } from '@milkdown/plugin-slash';
+
+Editor.make().use(
+    slash.configure(slashPlugin, {
+        shouldDisplay: (parent, state) => {
+            const noMoreThanOne = parent.node.childCount <= 1;
+            const isTopLevel = state.selection.$from.depth === 1;
+            return noMoreThanOne && isTopLevel;
+        },
+    }),
+);
+```
+
+`shouldDisplay` will only be triggered when selection is in paragraph node.
+
+-   parent:
+    Paragraph node which holds the current text node.
+-   state:
+    Current editor state.
+
 # License
 
 Milkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).

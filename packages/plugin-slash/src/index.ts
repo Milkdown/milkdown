@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { EditorState, NodeWithPos } from '@milkdown/prose';
 import { AtomList, createProsePlugin, Utils } from '@milkdown/utils';
 
 import { config } from './config';
@@ -13,12 +14,14 @@ export { createDropdownItem, nodeExists } from './utility';
 export type SlashConfig = (utils: Utils) => WrappedAction[];
 
 export type Options = {
+    shouldDisplay: (parent: NodeWithPos, state: EditorState) => boolean;
     config: SlashConfig;
     placeholder: {
         [CursorStatus.Empty]: string;
         [CursorStatus.Slash]: string;
     };
 };
+
 export const slashPlugin = createProsePlugin<Options>((options, utils) => {
     const slashConfig = options?.config ?? config;
     const placeholder = {
@@ -27,8 +30,14 @@ export const slashPlugin = createProsePlugin<Options>((options, utils) => {
         ...(options?.placeholder ?? {}),
     };
     const cfg = slashConfig(utils);
+    const shouldDisplay =
+        options?.shouldDisplay ??
+        ((parent, state) => {
+            const isTopLevel = state.selection.$from.depth === 1;
+            return parent.node.childCount <= 1 && isTopLevel;
+        });
 
-    const plugin = createSlashPlugin(utils, cfg, placeholder);
+    const plugin = createSlashPlugin(utils, cfg, placeholder, shouldDisplay);
     return {
         id: 'slash',
         plugin,
