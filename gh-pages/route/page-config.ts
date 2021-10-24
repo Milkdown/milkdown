@@ -29,7 +29,7 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'tools',
-        items: ['prose', 'using-utils-package'],
+        items: ['prose', 'design-system', 'using-utils-package'],
     },
     {
         dir: 'internals',

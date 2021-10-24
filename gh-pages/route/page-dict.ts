@@ -158,6 +158,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'design-system',
+        {
+            en: 'Design System',
+            'zh-hans': '设计系统',
+        },
+    ],
+    [
         'internals',
         {
             en: 'Internals',
