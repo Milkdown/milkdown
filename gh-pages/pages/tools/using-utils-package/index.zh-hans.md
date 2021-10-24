@@ -51,7 +51,7 @@ Editor.use(myProsemirrorPlugin({ color: '#000' }));
 
 通过`getStyle`函数，你可以：
 
--   通过[themeTool]()访问设计系统。
+-   通过[themeTool](/#/zh-hans/design-system)访问设计系统。
 -   让你的样式自动适配**无头模式**。
 
 ```typescript

@@ -51,7 +51,7 @@ We provide some utils to make build features more easily.
 
 With the `getStyle` function, you can:
 
--   Access the design system through [themeTool]().
+-   Access the design system through [themeTool](/#/design-system).
 -   Make your style adapt the **headless mode**.
 
 ```typescript
