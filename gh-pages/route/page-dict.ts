@@ -137,6 +137,20 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'tools',
+        {
+            en: 'Tools',
+            'zh-hans': '内部',
+        },
+    ],
+    [
+        'using-utils-package',
+        {
+            en: 'Using Utils Package',
+            'zh-hans': '使用工具包',
+        },
+    ],
+    [
         'internals',
         {
             en: 'Internals',

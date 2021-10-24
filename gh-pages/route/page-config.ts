@@ -28,6 +28,10 @@ export const config: ConfigItem[] = [
         ],
     },
     {
+        dir: 'tools',
+        items: ['using-utils-package'],
+    },
+    {
         dir: 'internals',
         items: ['architecture', 'node-and-mark', 'parser', 'serializer', 'internal-plugins'],
     },
