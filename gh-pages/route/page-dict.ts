@@ -144,6 +144,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'prose',
+        {
+            en: 'Prose',
+            'zh-hans': 'Prose',
+        },
+    ],
+    [
         'using-utils-package',
         {
             en: 'Using Utils Package',
