@@ -1,6 +1,8 @@
 # @milkdown/prose
 
-Internal prosemirror toolkit for [milkdown](https://saul-mirone.github.io/milkdown/).
+Prosemirror toolkit for [milkdown](https://saul-mirone.github.io/milkdown/).
+
+Check API on [document website](https://milkdown.dev/#/prose).
 
 # License
 

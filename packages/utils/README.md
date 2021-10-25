@@ -1,6 +1,8 @@
 # @milkdown/utils
 
-Internal utils for [milkdown](https://saul-mirone.github.io/milkdown/).
+Utils package for [milkdown](https://saul-mirone.github.io/milkdown/).
+
+Check API on [document website](https://milkdown.dev/#/using-utils-package).
 
 # License
 
