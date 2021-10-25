@@ -2,7 +2,7 @@
 import { commandsCtx, Ctx } from '@milkdown/core';
 import { ModifyInlineMath } from '@milkdown/plugin-math';
 import { ModifyImage, ModifyLink } from '@milkdown/preset-commonmark';
-import { findChildren, Node as ProseNode } from '@milkdown/prose';
+import { findSelectedNodeOfType, Node as ProseNode } from '@milkdown/prose';
 
 import { Event2Command, Updater } from '../item';
 import { elementIsTag } from './element';
@@ -98,8 +98,9 @@ export const updateInlineMathView: Updater = (view, $) => {
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
-    const node = findChildren((node) => node.type === nodes.math_inline)(view.state.selection.$from.node())[0]?.node;
-    if (!node) return;
+    const result = findSelectedNodeOfType(view.state.selection, nodes.math_inline);
+    if (!result) return;
+    const { node } = result;
 
     const value = node.attrs.value;
     firstChild.value = value;
@@ -117,8 +118,9 @@ export const updateImageView: Updater = (view, $) => {
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
-    const node = findChildren((node) => node.type === nodes.image)(view.state.selection.$from.node())[0]?.node;
-    if (!node) return;
+    const result = findSelectedNodeOfType(view.state.selection, nodes.image);
+    if (!result) return;
+    const { node } = result;
 
     const value = node.attrs.src;
     firstChild.value = value;
