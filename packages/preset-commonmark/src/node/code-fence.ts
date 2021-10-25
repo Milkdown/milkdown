@@ -130,10 +130,11 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
 
             code {
                 line-height: 1.5;
+                font-family: ${font.code};
             }
 
             pre {
-                font-family: var(--font-code);
+                font-family: ${font.code};
                 margin: 0 1.2rem !important;
                 overflow-x: scroll;
                 white-space: pre !important;
