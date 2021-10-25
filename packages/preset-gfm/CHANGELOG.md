@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.14.1
+
+### Patch Changes
+
+-   b2618f24: Rollback heading slug feature.
+-   Updated dependencies [b2618f24]
+    -   @milkdown/plugin-table@4.14.1
+    -   @milkdown/preset-commonmark@4.14.1
+    -   @milkdown/utils@4.14.1
+
 ## 4.14.0
 
 ### Minor Changes

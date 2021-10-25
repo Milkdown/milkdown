@@ -1,5 +1,11 @@
 # @milkdown/design-system
 
+## 4.14.1
+
+### Patch Changes
+
+-   b2618f24: Rollback heading slug feature.
+
 ## 4.14.0
 
 ### Minor Changes

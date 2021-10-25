@@ -1,5 +1,13 @@
 # @milkdown/theme-nord
 
+## 4.14.1
+
+### Patch Changes
+
+-   b2618f24: Rollback heading slug feature.
+-   Updated dependencies [b2618f24]
+    -   @milkdown/design-system@4.14.1
+
 ## 4.14.0
 
 ### Minor Changes
