@@ -3,7 +3,6 @@ import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
-import GithubSlugger from 'github-slugger';
 
 import { SupportedKeys } from '../supported-keys';
 
@@ -23,7 +22,6 @@ export const TurnIntoHeading = createCmdKey<number>();
 
 export const heading = createNode<Keys>((options, utils) => {
     const id = 'heading';
-    const slugger = new GithubSlugger();
     const headingMap: Record<number, string> = {
         1: css`
             font-size: 3rem;
@@ -57,20 +55,15 @@ export const heading = createNode<Keys>((options, utils) => {
                 level: {
                     default: 1,
                 },
+                id: {
+                    default: '',
+                },
             },
             parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
             toDOM: (node) => {
-                const text: string[] = [];
-                node.forEach((n) => {
-                    if (n.isText) {
-                        text.push(n.text as string);
-                    }
-                });
-                const slug = slugger.slug(text.join(' '));
                 return [
                     `h${node.attrs.level}`,
                     {
-                        id: slug,
                         class: utils.getClassName(node.attrs, `heading h${node.attrs.level}`, style(node.attrs.level)),
                     },
                     0,
