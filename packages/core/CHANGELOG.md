@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 4.14.1
+
+### Patch Changes
+
+-   b2618f24: Rollback heading slug feature.
+-   Updated dependencies [b2618f24]
+    -   @milkdown/ctx@4.14.1
+    -   @milkdown/design-system@4.14.1
+    -   @milkdown/exception@4.14.1
+    -   @milkdown/prose@4.14.1
+
 ## 4.14.0
 
 ### Minor Changes
