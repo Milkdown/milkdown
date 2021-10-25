@@ -1,5 +1,11 @@
 # @milkdown/plugin-history
 
+## 4.14.0
+
+### Minor Changes
+
+-   e942946d: Add prose and ctx package, improve UX and fix bugs.
+
 ## 4.13.3
 
 ### Patch Changes
