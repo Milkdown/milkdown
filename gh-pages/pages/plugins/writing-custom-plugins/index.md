@@ -5,7 +5,7 @@ You will get more access to the plugin detail in this way. And this could help y
 
 ## Structure Overview
 
-Generally, a plugin will have following structure:
+Generally speaking, a plugin will have following structure:
 
 ```typescript
 import { MilkdownPlugin } from '@milkdown/core';
