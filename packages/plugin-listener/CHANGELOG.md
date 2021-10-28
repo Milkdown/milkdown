@@ -1,5 +1,11 @@
 # @milkdown/plugin-listener
 
+## 4.14.2
+
+### Patch Changes
+
+-   29861bee: Upgrade remark version
+
 ## 4.14.1
 
 ### Patch Changes
