@@ -3,7 +3,7 @@ import { createSlice, MilkdownPlugin } from '@milkdown/ctx';
 import type { Root } from 'mdast';
 import type { Plugin } from 'unified';
 
-export type RemarkPlugin = Plugin<unknown[], Root>;
+export type RemarkPlugin = Plugin<never[], Root>;
 
 export const remarkPluginsCtx = createSlice<RemarkPlugin[]>([], 'remarkPlugins');
 
