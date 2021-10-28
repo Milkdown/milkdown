@@ -1,9 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, MilkdownPlugin } from '@milkdown/ctx';
-import type { Root } from 'mdast';
-import type { Plugin } from 'unified';
 
-export type RemarkPlugin = Plugin<never[], Root>;
+import { RemarkPlugin } from '../utility';
 
 export const remarkPluginsCtx = createSlice<RemarkPlugin[]>([], 'remarkPlugins');
 

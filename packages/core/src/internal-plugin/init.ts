@@ -3,11 +3,10 @@ import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { remark } from 'remark';
 
 import type { Editor } from '../editor';
+import { RemarkParser } from '../utility';
 import { ConfigReady } from './config';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { remarkPluginsCtx } from './remark-plugin-factory';
-
-export type RemarkParser = ReturnType<typeof remark>;
 
 export const InitReady = createTimer('InitReady');
 

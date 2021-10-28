@@ -2,8 +2,8 @@
 import type { Mark as ProseMark, Node as ProseNode, Schema } from '@milkdown/prose';
 
 import type { InnerSerializerSpecMap } from '..';
-import { RemarkParser } from '../internal-plugin';
 import { createMockMarkType, createMockNodeType } from '../parser/stack.spec';
+import { RemarkParser } from '../utility';
 import type { Stack } from './stack';
 import { State } from './state';
 

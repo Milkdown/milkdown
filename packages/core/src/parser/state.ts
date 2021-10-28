@@ -2,7 +2,7 @@
 import { parserMatchError } from '@milkdown/exception';
 import type { MarkType, NodeType, Schema } from '@milkdown/prose';
 
-import type { RemarkParser } from '../internal-plugin';
+import { RemarkParser } from '../utility';
 import type { Attrs, InnerParserSpecMap, MarkdownNode, ParserSpecWithType } from '.';
 import type { Stack } from './stack';
 
