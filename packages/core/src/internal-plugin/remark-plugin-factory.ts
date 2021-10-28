@@ -2,10 +2,12 @@
 import { createSlice, MilkdownPlugin } from '@milkdown/ctx';
 import type { Plugin } from 'unified';
 
-export const remarkPluginsCtx = createSlice<Plugin<never, never>[]>([], 'remarkPlugins');
+type RemarkPlugin = Plugin<any[], any, any>;
+
+export const remarkPluginsCtx = createSlice<RemarkPlugin[]>([], 'remarkPlugins');
 
 export const remarkPluginFactory =
-    (plugin: Plugin | Plugin[]): MilkdownPlugin =>
+    (plugin: RemarkPlugin | RemarkPlugin[]): MilkdownPlugin =>
     () =>
     (ctx) => {
         ctx.update(remarkPluginsCtx, (prev) => prev.concat([plugin].flat()));

@@ -74,7 +74,7 @@ export class State {
      * @param remark - The remark parser needs to used.
      * @returns Result markdown string.
      */
-    toString = (remark: RemarkParser): string => remark.stringify(this.stack.build());
+    toString = (remark: RemarkParser): string => remark.stringify(this.stack.build()) as string;
 
     /**
      * Give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.

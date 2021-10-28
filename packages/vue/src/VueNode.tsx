@@ -22,7 +22,7 @@ export const VueNodeContainer = defineComponent(({ node, view, getPos, decoratio
 });
 VueNodeContainer.props = ['editor', 'node', 'view', 'getPos', 'decorations'];
 
-export const Content = defineComponent((props: { dom: HTMLElement }) => {
+export const Content = defineComponent((props: { dom?: HTMLElement }) => {
     const containerRef = ref<HTMLDivElement | null>(null);
     watchEffect(() => {
         if (!props.dom || !containerRef.value) return;

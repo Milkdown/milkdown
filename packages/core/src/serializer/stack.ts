@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Mark } from '@milkdown/prose';
+import { Root } from 'mdast';
 
 import type { MarkdownNode } from '..';
 import { getStackUtil, JSONRecord } from '../utility';
@@ -72,9 +73,9 @@ const closeMark =
     };
 
 const build = (ctx: Ctx) => () => {
-    let doc: MarkdownNode | null = null;
+    let doc: Root | null = null;
     do {
-        doc = closeNode(ctx)();
+        doc = closeNode(ctx)() as Root;
     } while (size(ctx));
 
     return doc;
@@ -86,7 +87,7 @@ export type Stack = {
      *
      * @returns A remark AST tree.
      */
-    build: () => MarkdownNode;
+    build: () => Root;
 
     /**
      * Open a mark.

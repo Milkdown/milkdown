@@ -32,7 +32,7 @@
         "@types/twemoji": "^12.1.2",
         "emoji-regex": "^9.2.2",
         "node-emoji": "^1.10.0",
-        "remark-emoji": "^2.2.0",
+        "remark-emoji": "^3.0.1",
         "tslib": "^2.2.0",
         "twemoji": "^13.1.0",
         "unist-util-visit": "^4.0.0"

@@ -27,11 +27,13 @@
     ],
     "dependencies": {
         "@milkdown/ctx": "workspace: *",
-        "@milkdown/exception": "workspace: *",
         "@milkdown/design-system": "workspace: *",
+        "@milkdown/exception": "workspace: *",
         "@milkdown/prose": "workspace: *",
-        "remark": "^13.0.0",
+        "@types/mdast": "^3.0.10",
+        "mdast": "^3.0.0",
+        "remark": "^14.0.1",
         "tslib": "^2.2.0",
-        "unified": "^9.2.1"
+        "unified": "^10.1.0"
     }
 }

@@ -1,21 +1,20 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createSlice, createTimer, MilkdownPlugin, Slice, Timer } from '@milkdown/ctx';
-import re, { RemarkOptions } from 'remark';
-import type { Processor } from 'unified';
+import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
+import { remark } from 'remark';
 
 import type { Editor } from '../editor';
 import { ConfigReady } from './config';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { remarkPluginsCtx } from './remark-plugin-factory';
 
-export type RemarkParser = Processor<RemarkOptions>;
+export type RemarkParser = ReturnType<typeof remark>;
 
 export const InitReady = createTimer('InitReady');
 
 export const initTimerCtx = createSlice<Timer[]>([], 'initTimer');
 export const editorCtx = createSlice<Editor>({} as Editor, 'editor');
 
-export const remarkCtx: Slice<RemarkParser> = createSlice<RemarkParser>(re(), 'remark');
+export const remarkCtx = createSlice(remark(), 'remark');
 
 export const init =
     (editor: Editor): MilkdownPlugin =>
@@ -23,7 +22,7 @@ export const init =
         pre.inject(editorCtx, editor)
             .inject(prosePluginsCtx)
             .inject(remarkPluginsCtx)
-            .inject(remarkCtx, re())
+            .inject(remarkCtx, remark())
             .inject(initTimerCtx, [ConfigReady])
             .record(InitReady);
 
@@ -33,7 +32,7 @@ export const init =
             const remark = ctx.get(remarkCtx);
             const remarkPlugins = ctx.get(remarkPluginsCtx);
 
-            const processor = remarkPlugins.reduce((acc, plug) => acc.use(plug), remark);
+            const processor = remarkPlugins.reduce((acc: RemarkParser, plug) => acc.use(plug), remark);
 
             ctx.set(remarkCtx, processor);
             ctx.done(InitReady);

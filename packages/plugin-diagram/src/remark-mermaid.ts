@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { remarkPluginFactory } from '@milkdown/core';
-import { Node } from 'unist';
+import { Node, Parent } from 'unist';
 import { visit } from 'unist-util-visit';
 
 const createMermaidDiv = (contents: string) => ({
@@ -10,7 +10,7 @@ const createMermaidDiv = (contents: string) => ({
 });
 
 const visitCodeBlock = (ast: Node) =>
-    visit(ast, 'code', (node, index, parent) => {
+    visit(ast, 'code', (node, index, parent: Parent) => {
         const { lang, value } = node;
 
         // If this codeblock is not mermaid, bail.
