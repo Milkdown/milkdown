@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { NodeType, Schema } from '@milkdown/prose';
 
-import { RemarkParser } from '../internal-plugin';
+import type { RemarkParser } from '../utility';
 import type { Stack } from './stack';
 import { State } from './state';
 import { InnerParserSpecMap } from './types';
