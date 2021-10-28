@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 4.14.2
+
+### Patch Changes
+
+-   29861bee: Upgrade remark version
+-   Updated dependencies [29861bee]
+    -   @milkdown/plugin-table@4.14.2
+    -   @milkdown/preset-commonmark@4.14.2
+    -   @milkdown/utils@4.14.2
+
 ## 4.14.1
 
 ### Patch Changes
