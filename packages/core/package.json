@@ -30,8 +30,6 @@
         "@milkdown/design-system": "workspace: *",
         "@milkdown/exception": "workspace: *",
         "@milkdown/prose": "workspace: *",
-        "@types/mdast": "^3.0.10",
-        "mdast": "^3.0.0",
         "remark": "^14.0.1",
         "tslib": "^2.2.0",
         "unified": "^10.1.0"

@@ -192,8 +192,6 @@ importers:
       '@milkdown/design-system': 'workspace: *'
       '@milkdown/exception': 'workspace: *'
       '@milkdown/prose': 'workspace: *'
-      '@types/mdast': ^3.0.10
-      mdast: ^3.0.0
       remark: ^14.0.1
       tslib: ^2.2.0
       unified: ^10.1.0
@@ -202,8 +200,6 @@ importers:
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
       '@milkdown/prose': link:../prose
-      '@types/mdast': 3.0.10
-      mdast: 3.0.0
       remark: 14.0.1
       tslib: 2.3.1
       unified: 10.1.0
@@ -8341,11 +8337,6 @@ packages:
 
   /mdast-util-to-string/3.1.0:
     resolution: {integrity: sha512-n4Vypz/DZgwo0iMHLQL49dJzlp7YtAJP+N07MZHpjPf/5XJuHUWstviF4Mn2jEiR/GNmtnRRqnwsXExk3igfFA==}
-    dev: false
-
-  /mdast/3.0.0:
-    resolution: {integrity: sha1-YmvOlgPtQ/tvsFMkWm5KF/RFeqg=}
-    deprecated: '`mdast` was renamed to `remark`'
     dev: false
 
   /meow/6.1.1:
