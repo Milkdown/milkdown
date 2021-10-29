@@ -51,12 +51,22 @@ export type Utils = {
     readonly ctx: Ctx;
 };
 
-export type Origin<S extends string = string, Obj extends UnknownRecord = UnknownRecord, Type = unknown> = (
-    options?: Options<S, Obj, Type>,
-) => PluginWithMetadata<S, Obj, Type>;
+export type Origin<S extends string = string, Obj extends UnknownRecord = UnknownRecord, Type = unknown> = {
+    (options?: Options<S, Obj, Type>): PluginWithMetadata<S, Obj, Type>;
+    extend: <SupportedKeysExtended extends S = S, ObjExtended extends Obj = Obj>(
+        extendFactory: (
+            options: Options<SupportedKeysExtended, ObjExtended, Type> | undefined,
+            utils: Utils,
+            original: Type & AtomOptional<S>,
+        ) => Type & AtomOptional<SupportedKeysExtended>,
+    ) => Origin<SupportedKeysExtended, ObjExtended, Type>;
+};
 
 export type PluginWithMetadata<
     SupportedKeys extends string = string,
     Obj extends UnknownRecord = UnknownRecord,
     Type = unknown,
-> = MilkdownPlugin & { origin: Origin<SupportedKeys, Obj, Type>; id: string };
+> = MilkdownPlugin & {
+    origin: Origin<SupportedKeys, Obj, Type>;
+    id: string;
+};
