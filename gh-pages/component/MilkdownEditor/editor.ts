@@ -19,7 +19,7 @@ import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { upload } from '@milkdown/plugin-upload';
-import { gfm, paragraph } from '@milkdown/preset-gfm';
+import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
 
 import { codeSandBox } from './codeSandBox';
