@@ -89,7 +89,7 @@ export const mathBlock = createNode<string, Options>((options, utils) => {
 
             let currentNode = node;
             const dom = document.createElement('div');
-            dom.classList.add('mermaid', 'diagram');
+            dom.classList.add('math-block');
             const code = document.createElement('div');
             code.dataset.type = id;
             code.dataset.value = node.attrs.value;
