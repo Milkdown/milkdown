@@ -2,7 +2,7 @@
 import { prosePluginFactory } from '@milkdown/core';
 import type { Plugin } from '@milkdown/prose';
 
-import { AtomOptional, Factory, Options, Origin, PluginWithMetadata, UnknownRecord, Utils } from '../types';
+import { ExtendFactory, Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
 import { commonPlugin } from './common';
 
 type PluginData = {
@@ -24,11 +24,7 @@ export const createProsePlugin = <Obj extends UnknownRecord = UnknownRecord>(
         return plugin;
     };
     origin.extend = <ObjExtended extends Obj = Obj>(
-        extendFactory: (
-            options: Options<string, ObjExtended, PluginData> | undefined,
-            utils: Utils,
-            original: PluginData & AtomOptional<string>,
-        ) => PluginData & AtomOptional<string>,
+        extendFactory: ExtendFactory<string, string, ObjExtended, PluginData>,
     ) => {
         return createProsePlugin<ObjExtended>((options, utils) => {
             const original = factory(options as Obj, utils);

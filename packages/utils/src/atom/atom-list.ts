@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { MilkdownPlugin } from '@milkdown/core';
 
-import { Origin, PluginWithMetadata, UnknownRecord } from '../types';
+import { Origin, PluginWithMetadata } from '../types';
 
-type Atom = PluginWithMetadata<string, UnknownRecord>;
+type Atom = PluginWithMetadata;
 type Plugin = Atom | MilkdownPlugin;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

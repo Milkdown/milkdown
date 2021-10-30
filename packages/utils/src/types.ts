@@ -51,14 +51,21 @@ export type Utils = {
     readonly ctx: Ctx;
 };
 
+export type ExtendFactory<
+    OriginalSupportedKeys extends string,
+    SupportedKeys extends OriginalSupportedKeys,
+    Obj extends UnknownRecord,
+    Type = unknown,
+> = (
+    options: Options<SupportedKeys, Obj, Type> | undefined,
+    utils: Utils,
+    original: Type & AtomOptional<OriginalSupportedKeys>,
+) => Type & AtomOptional<SupportedKeys>;
+
 export type Origin<S extends string = string, Obj extends UnknownRecord = UnknownRecord, Type = unknown> = {
     (options?: Options<S, Obj, Type>): PluginWithMetadata<S, Obj, Type>;
     extend: <SupportedKeysExtended extends S = S, ObjExtended extends Obj = Obj>(
-        extendFactory: (
-            options: Options<SupportedKeysExtended, ObjExtended, Type> | undefined,
-            utils: Utils,
-            original: Type & AtomOptional<S>,
-        ) => Type & AtomOptional<SupportedKeysExtended>,
+        extendFactory: ExtendFactory<S, SupportedKeysExtended, ObjExtended, Type>,
     ) => Origin<SupportedKeysExtended, ObjExtended, Type>;
 };
 

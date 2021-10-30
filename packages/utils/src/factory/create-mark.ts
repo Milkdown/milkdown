@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Mark, markFactory } from '@milkdown/core';
 
-import { AtomOptional, Factory, Options, Origin, PluginWithMetadata, UnknownRecord, Utils } from '../types';
+import { ExtendFactory, Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
 import { commonPlugin } from './common';
 import { createKeymap } from './keymap';
 
@@ -26,11 +26,7 @@ export const createMark = <SupportedKeys extends string = string, T extends Unkn
         return plugin;
     };
     origin.extend = <SupportedKeysExtended extends SupportedKeys = SupportedKeys, ObjExtended extends T = T>(
-        extendFactory: (
-            options: Options<SupportedKeysExtended, ObjExtended, Mark> | undefined,
-            utils: Utils,
-            original: Mark & AtomOptional<SupportedKeys>,
-        ) => Mark & AtomOptional<SupportedKeysExtended>,
+        extendFactory: ExtendFactory<SupportedKeys, SupportedKeysExtended, ObjExtended, Mark>,
     ) => {
         return createMark<SupportedKeysExtended, ObjExtended>((options, utils) => {
             const original = factory(options as T, utils);
