@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Mark, markFactory } from '@milkdown/core';
 
-import { Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
+import { ExtendFactory, Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
 import { commonPlugin } from './common';
 import { createKeymap } from './keymap';
 
@@ -24,6 +24,15 @@ export const createMark = <SupportedKeys extends string = string, T extends Unkn
         plugin.origin = origin;
 
         return plugin;
+    };
+    origin.extend = <SupportedKeysExtended extends SupportedKeys = SupportedKeys, ObjExtended extends T = T>(
+        extendFactory: ExtendFactory<SupportedKeys, SupportedKeysExtended, ObjExtended, Mark>,
+    ) => {
+        return createMark<SupportedKeysExtended, ObjExtended>((options, utils) => {
+            const original = factory(options as T, utils);
+            const extended = extendFactory(options, utils, original);
+            return extended;
+        });
     };
 
     return origin;

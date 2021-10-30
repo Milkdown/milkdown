@@ -30,6 +30,6 @@
         "@types/prosemirror-gapcursor": "^1.0.4",
         "prosemirror-dropcursor": "^1.3.5",
         "prosemirror-gapcursor": "^1.1.5",
-        "tslib": "^2.2.0"
+        "tslib": "^2.3.1"
     }
 }

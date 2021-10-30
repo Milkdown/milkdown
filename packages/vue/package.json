@@ -25,7 +25,7 @@
     "dependencies": {
         "@milkdown/utils": "workspace:*",
         "nanoid": "^3.1.25",
-        "tslib": "^2.2.0"
+        "tslib": "^2.3.1"
     },
     "peerDependencies": {
         "@milkdown/core": "*",

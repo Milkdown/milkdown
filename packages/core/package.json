@@ -31,7 +31,7 @@
         "@milkdown/exception": "workspace: *",
         "@milkdown/prose": "workspace: *",
         "remark": "^14.0.1",
-        "tslib": "^2.2.0",
+        "tslib": "^2.3.1",
         "unified": "^10.1.0"
     }
 }

@@ -11,10 +11,11 @@ export const getClassName =
         return Array.isArray(classList) ? classList.filter((x) => x).join(' ') : classList;
     };
 
-export const commonPlugin = <Ret, Op extends CommonOptions>(
-    factory: (options: Op | undefined, utils: Utils) => Ret,
+export const commonPlugin = <Ret, Op extends CommonOptions, Args extends unknown[]>(
+    factory: (options: Op | undefined, utils: Utils, ...args: Args) => Ret,
     ctx: Ctx,
     options?: Op,
+    ...args: Args
 ): Ret => {
     try {
         const themeTool = ctx.get(themeToolCtx);
@@ -24,7 +25,7 @@ export const commonPlugin = <Ret, Op extends CommonOptions>(
             getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
         };
 
-        return factory(options, utils);
+        return factory(options, utils, ...args);
     } catch {
         throw themeMustInstalled();
     }
