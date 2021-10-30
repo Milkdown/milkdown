@@ -32,7 +32,7 @@
         "@types/mermaid": "^8.2.7",
         "mermaid": "^8.12.1",
         "nanoid": "^3.1.25",
-        "tslib": "^2.2.0",
+        "tslib": "^2.3.1",
         "unist-util-visit": "^4.0.0"
     }
 }

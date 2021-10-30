@@ -29,7 +29,7 @@
         "@milkdown/utils": "workspace:*",
         "prosemirror-tables": "*",
         "remark-gfm": "^3.0.0",
-        "tslib": "^2.2.0"
+        "tslib": "^2.3.1"
     },
     "devDependencies": {
         "concurrently": "^6.0.2"

@@ -139,7 +139,7 @@ importers:
       react-loading-skeleton: ^2.2.0
       react-router-dom: ^5.2.0
       react-spinners: ^0.11.0
-      tslib: ^2.2.0
+      tslib: ^2.3.1
       unist-util-visit: ^4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.18.2
@@ -175,7 +175,7 @@ importers:
       '@milkdown/theme-nord': workspace:*
       '@playwright/test': ^1.16.0
       start-server-and-test: ^1.13.0
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/core': link:../packages/core
       '@milkdown/design-system': link:../packages/design-system
@@ -193,7 +193,7 @@ importers:
       '@milkdown/exception': 'workspace: *'
       '@milkdown/prose': 'workspace: *'
       remark: ^14.0.1
-      tslib: ^2.2.0
+      tslib: ^2.3.1
       unified: ^10.1.0
     dependencies:
       '@milkdown/ctx': link:../ctx
@@ -207,7 +207,7 @@ importers:
   packages/ctx:
     specifiers:
       '@milkdown/exception': 'workspace: *'
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/exception': link:../exception
       tslib: 2.3.1
@@ -215,21 +215,21 @@ importers:
   packages/design-system:
     specifiers:
       '@emotion/css': ^11.1.3
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       tslib: 2.3.1
 
   packages/exception:
     specifiers:
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
 
   packages/plugin-clipboard:
     specifiers:
       '@milkdown/utils': 'workspace: *'
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
@@ -238,7 +238,7 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/utils': workspace:*
-      tslib: ^2.2.0
+      tslib: ^2.3.1
       y-prosemirror: ^1.0.9
       y-protocols: ^1.0.5
       y-websocket: ^1.3.16
@@ -260,7 +260,7 @@ importers:
       '@types/prosemirror-gapcursor': ^1.0.4
       prosemirror-dropcursor: ^1.3.5
       prosemirror-gapcursor: ^1.1.5
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@types/prosemirror-dropcursor': 1.0.3
@@ -276,7 +276,7 @@ importers:
       '@types/mermaid': ^8.2.7
       mermaid: ^8.12.1
       nanoid: ^3.1.25
-      tslib: ^2.2.0
+      tslib: ^2.3.1
       unist-util-visit: ^4.0.0
     dependencies:
       '@emotion/css': 11.5.0
@@ -297,7 +297,7 @@ importers:
       emoji-regex: ^9.2.2
       node-emoji: ^1.10.0
       remark-emoji: ^3.0.1
-      tslib: ^2.2.0
+      tslib: ^2.3.1
       twemoji: ^13.1.0
       unist-util-visit: ^4.0.0
     dependencies:
@@ -317,7 +317,7 @@ importers:
     specifiers:
       '@types/prosemirror-history': ^1.0.2
       prosemirror-history: ^1.1.3
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@types/prosemirror-history': 1.0.3
       prosemirror-history: 1.2.0
@@ -327,7 +327,7 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/utils': 'workspace: *'
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
@@ -335,7 +335,7 @@ importers:
 
   packages/plugin-listener:
     specifiers:
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
 
@@ -347,7 +347,7 @@ importers:
       concurrently: ^6.0.2
       katex: ^0.13.18
       remark-math: ^5.1.0
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
@@ -363,7 +363,7 @@ importers:
       '@milkdown/utils': workspace:*
       '@types/refractor': ^3.0.0
       refractor: ^3.3.1
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
       '@types/refractor': 3.0.2
@@ -376,7 +376,7 @@ importers:
       '@milkdown/utils': workspace:*
       concurrently: ^6.0.2
       smooth-scroll-into-view-if-needed: ^1.1.32
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
@@ -392,7 +392,7 @@ importers:
       concurrently: ^6.0.2
       prosemirror-tables: '*'
       remark-gfm: ^3.0.0
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
@@ -407,7 +407,7 @@ importers:
       '@emotion/css': ^11.1.3
       '@milkdown/utils': 'workspace: *'
       concurrently: ^6.0.2
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
@@ -418,7 +418,7 @@ importers:
   packages/plugin-upload:
     specifiers:
       '@milkdown/utils': 'workspace: *'
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
@@ -431,7 +431,7 @@ importers:
       concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
       remark-inline-links: ^5.0.0
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
@@ -451,7 +451,7 @@ importers:
       '@types/prosemirror-schema-list': ^1.0.3
       concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/plugin-table': link:../plugin-table
@@ -480,7 +480,7 @@ importers:
       prosemirror-state: ^1.3.4
       prosemirror-transform: ^1.3.2
       prosemirror-view: ^1.18.2
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/exception': link:../exception
       '@types/prosemirror-commands': 1.0.4
@@ -507,7 +507,7 @@ importers:
       nanoid: ^3.1.25
       react: '*'
       react-dom: '*'
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
       nanoid: 3.1.30
@@ -529,7 +529,7 @@ importers:
   packages/utils:
     specifiers:
       '@milkdown/exception': 'workspace: *'
-      tslib: ^2.2.0
+      tslib: ^2.3.1
     dependencies:
       '@milkdown/exception': link:../exception
       tslib: 2.3.1
@@ -538,7 +538,7 @@ importers:
     specifiers:
       '@milkdown/utils': workspace:*
       nanoid: ^3.1.25
-      tslib: ^2.2.0
+      tslib: ^2.3.1
       vue: ^3.0.0
     dependencies:
       '@milkdown/utils': link:../utils
