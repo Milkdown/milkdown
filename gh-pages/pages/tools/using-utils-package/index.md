@@ -215,6 +215,38 @@ Editor.use(
 );
 ```
 
+## Extend
+
+Every plugin created by factory can be extended.
+If you just want to modify some behavior of exists plugin, extend is better than rewrite a new one.
+
+```typescript
+import { heading } from '@milkdown/preset-commonmark';
+
+const customHeading = heading.extend((options, utils, original) => {
+    return {
+        ...original,
+        schema: customSchema,
+    };
+});
+```
+
+Here we have 3 parameters. The `options` and `utils` have been introduced. And the `original` is the original plugin to be extended.
+The `extend` method should return a new plugin.
+
+You can also use type parameters to change the type signature of `options` and `keys`:
+
+```typescript
+import { heading } from '@milkdown/preset-commonmark';
+
+const customHeading = heading.extend<CustomKeys, CustomOptions>((options, utils, original) => {
+    return {
+        ...original,
+        schema: customSchema,
+    };
+});
+```
+
 # AtomList
 
 In the real world, a package always composed by a series of milkdown plugins.
