@@ -2,14 +2,12 @@
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { Schema } from '@milkdown/prose';
 
-import { InitReady, Mark, Node } from '../internal-plugin';
 import { Atom } from '../utility';
+import { InitReady, marksCtx, nodesCtx } from '.';
 
 export const SchemaReady = createTimer('schemaReady');
 
 export const schemaCtx = createSlice<Schema>({} as Schema, 'schema');
-export const nodesCtx = createSlice<Node[]>([], 'nodes');
-export const marksCtx = createSlice<Mark[]>([], 'marks');
 export const schemaTimerCtx = createSlice<Timer[]>([], 'schemaTimer');
 
 export const schema: MilkdownPlugin = (pre) => {

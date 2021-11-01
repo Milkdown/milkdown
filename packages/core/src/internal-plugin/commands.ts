@@ -5,7 +5,9 @@ import type { Command } from '@milkdown/prose';
 
 import { Atom, getAtom } from '../utility';
 import { editorViewCtx, EditorViewReady } from './editor-view';
-import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
+import { marksCtx } from './mark-factory';
+import { nodesCtx } from './node-factory';
+import { schemaCtx, SchemaReady } from './schema';
 
 export type Cmd<T = undefined> = (info?: T) => Command;
 export type CmdKey<T = undefined> = Slice<Cmd<T>>;

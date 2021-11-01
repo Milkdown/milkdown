@@ -3,8 +3,9 @@ import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import type { Node as ProsemirrorNode } from '@milkdown/prose';
 
 import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
+import { marksCtx, nodesCtx } from '.';
 import { remarkCtx } from './init';
-import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
+import { schemaCtx, SchemaReady } from './schema';
 
 export type Parser = (text: string) => ProsemirrorNode | null;
 

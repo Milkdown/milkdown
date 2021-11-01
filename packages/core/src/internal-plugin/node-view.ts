@@ -3,7 +3,9 @@ import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { ViewFactory, ViewParams } from '@milkdown/prose';
 
 import { Atom, getAtom } from '../utility';
-import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
+import { marksCtx } from './mark-factory';
+import { nodesCtx } from './node-factory';
+import { schemaCtx, SchemaReady } from './schema';
 
 export const nodeViewCtx = createSlice<Record<string, ViewFactory>>({}, 'nodeView');
 export const nodeViewTimerCtx = createSlice<Timer[]>([], 'nodeViewTimer');

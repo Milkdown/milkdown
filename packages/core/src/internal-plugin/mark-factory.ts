@@ -1,11 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx, MilkdownPlugin } from '@milkdown/ctx';
+import { createSlice, Ctx, MilkdownPlugin } from '@milkdown/ctx';
 import type { InputRule, Keymap, MarkSpec, MarkType, MarkViewFactory, Schema } from '@milkdown/prose';
 
 import type { MarkParserSpec } from '../parser';
 import type { MarkSerializerSpec } from '../serializer';
 import type { CmdTuple, CommandManager } from './commands';
-import { marksCtx } from './schema';
 
 export type Mark = {
     readonly id: string;
@@ -17,6 +16,7 @@ export type Mark = {
     readonly serializer: MarkSerializerSpec;
     readonly parser: MarkParserSpec;
 };
+export const marksCtx = createSlice<Mark[]>([], 'marks');
 
 export const markFactory =
     (mark: Mark | ((ctx: Ctx) => Mark)): MilkdownPlugin =>

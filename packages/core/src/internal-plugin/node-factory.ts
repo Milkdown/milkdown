@@ -1,11 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx, MilkdownPlugin } from '@milkdown/ctx';
+import { createSlice, Ctx, MilkdownPlugin } from '@milkdown/ctx';
 import type { InputRule, Keymap, NodeSpec, NodeType, NodeViewFactory, Schema } from '@milkdown/prose';
 
 import type { NodeParserSpec } from '../parser';
 import type { NodeSerializerSpec } from '../serializer';
 import type { CmdTuple, CommandManager } from './commands';
-import { nodesCtx } from './schema';
 
 export type Node = {
     readonly id: string;
@@ -17,6 +16,8 @@ export type Node = {
     readonly serializer: NodeSerializerSpec;
     readonly parser: NodeParserSpec;
 };
+
+export const nodesCtx = createSlice<Node[]>([], 'nodes');
 
 export const nodeFactory =
     (node: Node | ((ctx: Ctx) => Node)): MilkdownPlugin =>

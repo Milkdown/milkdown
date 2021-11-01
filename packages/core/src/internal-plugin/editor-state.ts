@@ -13,6 +13,7 @@ import {
 
 import { JSONRecord } from '../utility';
 import { inputRulesCtx, InputRulesReady } from './input-rules';
+import { _inputRulesCtx } from './input-rules-factory';
 import { keymapCtx, KeymapReady } from './keymap';
 import { Parser, parserCtx, ParserReady } from './parser';
 import { prosePluginsCtx } from './prose-plugin-factory';
@@ -62,12 +63,18 @@ export const editorState: MilkdownPlugin = (pre) => {
         const options = ctx.get(editorStateOptionsCtx);
         const prosePlugins = ctx.get(prosePluginsCtx);
         const defaultValue = ctx.get(defaultValueCtx);
+        const inputRules = ctx.get(_inputRulesCtx);
         const doc = getDoc(defaultValue, parser, schema);
 
         const state = EditorState.create({
             schema,
             doc,
-            plugins: [...prosePlugins, ...keymap, createKeymap(baseKeymap), createInputRules({ rules })],
+            plugins: [
+                ...prosePlugins,
+                ...keymap,
+                createKeymap(baseKeymap),
+                createInputRules({ rules: rules.concat(inputRules) }),
+            ],
             ...options,
         });
         ctx.set(editorStateCtx, state);
