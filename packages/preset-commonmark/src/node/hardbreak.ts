@@ -9,7 +9,7 @@ type Keys = SupportedKeys['HardBreak'];
 
 export const InsertHardbreak = createCmdKey();
 
-export const hardbreak = createPlugin<Keys, UnknownRecord, 'hardbreak', ''>((_, utils) => {
+export const hardbreak = createPlugin<Keys, UnknownRecord, 'hardbreak'>((_, utils) => {
     return {
         schema: () => ({
             node: {

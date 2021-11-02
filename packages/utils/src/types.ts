@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, Ctx, MarkSchema, MilkdownPlugin, NodeSchema, ThemeTool } from '@milkdown/core';
+import type { Attrs, CmdKey, MarkSchema, MilkdownPlugin, NodeSchema, ThemeTool } from '@milkdown/core';
 import type { MarkViewFactory, NodeViewFactory } from '@milkdown/prose';
 
 export type UnknownRecord = Record<string, unknown>;
@@ -48,7 +48,6 @@ export type Factory<SupportedKeys extends string, Obj extends UnknownRecord, Typ
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
     readonly getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
-    readonly ctx: Ctx;
 };
 
 export type ExtendFactory<

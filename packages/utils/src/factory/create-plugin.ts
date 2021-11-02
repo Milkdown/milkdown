@@ -74,7 +74,6 @@ export const createPlugin = <
             await ctx.wait(InitReady);
             const themeTool = ctx.get(themeToolCtx);
             const utils: Utils = {
-                ctx,
                 getClassName: getClassName(options?.className as undefined),
                 getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
             };
