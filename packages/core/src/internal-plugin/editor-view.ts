@@ -3,7 +3,7 @@ import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { EditorView, ViewFactory } from '@milkdown/prose';
 
 import { editorStateCtx, EditorStateReady } from './editor-state';
-import { viewCtx, viewReady } from './node-view';
+import { viewCtx } from './node-view';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
@@ -31,7 +31,7 @@ export const editorView: MilkdownPlugin = (pre) => {
     pre.inject(rootCtx, document.body)
         .inject(editorViewCtx)
         .inject(editorViewOptionsCtx)
-        .inject(editorViewTimerCtx, [EditorStateReady, viewReady])
+        .inject(editorViewTimerCtx, [EditorStateReady])
         .record(EditorViewReady);
 
     return async (ctx) => {

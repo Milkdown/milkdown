@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createSlice, Ctx, MilkdownPlugin } from '@milkdown/ctx';
+import { createSlice } from '@milkdown/ctx';
 import type { MarkSpec } from '@milkdown/prose';
 
 import type { MarkParserSpec } from '../parser';
@@ -11,11 +11,3 @@ export type MarkSchema = {
     readonly parseMarkdown: MarkParserSpec;
 } & Readonly<MarkSpec>;
 export const marksCtx = createSlice<MarkSchema[]>([], 'marks');
-
-export const markFactory =
-    (mark: MarkSchema | ((ctx: Ctx) => MarkSchema)): MilkdownPlugin =>
-    () =>
-    (ctx) => {
-        const atom = typeof mark === 'function' ? mark(ctx) : mark;
-        ctx.update(marksCtx, (prev) => prev.concat(atom));
-    };

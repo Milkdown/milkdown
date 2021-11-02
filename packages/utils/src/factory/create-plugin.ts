@@ -1,14 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { CmdKey, CmdTuple, Ctx, MarkSchema, NodeSchema } from '@milkdown/core';
+import { CmdKey, CmdTuple, Ctx, MarkSchema, MilkdownPlugin, NodeSchema } from '@milkdown/core';
 import { InputRule, MarkType, NodeType, Plugin } from '@milkdown/prose';
 
 import { UnknownRecord } from '../types';
 
-type TypeMapping<NodeMap extends Record<string, NodeSchema>, MarkMap extends Record<string, MarkSchema>> = {
-    [K in keyof NodeMap]: NodeType;
+type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
+    [K in NodeKeys]: NodeType;
 } & {
-    [K in keyof MarkMap]: MarkType;
+    [K in MarkKeys]: MarkType;
 };
 
 type CommandConfig<T = unknown> = {
@@ -17,25 +17,31 @@ type CommandConfig<T = unknown> = {
     args?: T;
 };
 
-type PluginFactory<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
-    options: Options,
-) => <NodeMap extends Record<string, NodeSchema>, MarkMap extends Record<string, MarkSchema>>(
-    ctx: Ctx,
-) => {
-    node: NodeMap;
-    mark: MarkMap;
-    inputRules?: (types: TypeMapping<NodeMap, MarkMap>, ctx: Ctx) => InputRule[];
-    prosemirrorPlugins?: (types: TypeMapping<NodeMap, MarkMap>, ctx: Ctx) => Plugin[];
-    commands: (types: TypeMapping<NodeMap, MarkMap>, ctx: Ctx) => CmdTuple[];
-    keymap: (types: TypeMapping<NodeMap, MarkMap>, ctx: Ctx) => Record<SupportedKeys, CommandConfig>;
+type PluginFactory<
+    SupportedKeys extends string = string,
+    Options extends UnknownRecord = UnknownRecord,
+    NodeKeys extends string = string,
+    MarkKeys extends string = string,
+> = (options: Options) => {
+    schema: (ctx: Ctx) => {
+        node: Record<NodeKeys, NodeSchema>;
+        mark: Record<MarkKeys, MarkSchema>;
+    };
+    inputRules?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => InputRule[];
+    prosemirrorPlugins?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => Plugin[];
+    commands?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => CmdTuple[];
+    keymap?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => Record<SupportedKeys, CommandConfig>;
 };
 
 export const createPlugin = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: PluginFactory<SupportedKeys, Options>,
 ) => {
-    return (options: Options) => {
+    return (options: Options): MilkdownPlugin => {
         const plugin = factory(options);
 
-        plugin;
+        return () => async (ctx) => {
+            ctx;
+            plugin;
+        };
     };
 };

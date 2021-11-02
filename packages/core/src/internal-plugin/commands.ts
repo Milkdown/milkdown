@@ -26,18 +26,6 @@ export const createCmdKey = <T = undefined>(): CmdKey<T> => createSlice((() => (
 export const commandsTimerCtx = createSlice<Timer[]>([], 'commandsTimer');
 export const CommandsReady = createTimer('CommandsReady');
 
-export const commandsFactory =
-    (getCommands: (ctx: Ctx) => CmdTuple[]): MilkdownPlugin =>
-    () => {
-        return (ctx) => {
-            const commands = getCommands(ctx);
-            const manager = ctx.get(commandsCtx);
-            commands.forEach(([key, value]) => {
-                manager.create(key, value);
-            });
-        };
-    };
-
 export const commands: MilkdownPlugin = (pre) => {
     const container = createContainer();
     const commandManager: CommandManager = {

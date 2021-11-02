@@ -12,7 +12,7 @@ import {
 } from '@milkdown/prose';
 
 import { JSONRecord } from '../utility';
-import { inputRulesCtx, InputRulesReady } from './input-rules';
+import { inputRulesCtx } from './input-rules';
 import { Parser, parserCtx, ParserReady } from './parser';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { schemaCtx } from './schema';
@@ -48,7 +48,7 @@ export const editorState: MilkdownPlugin = (pre) => {
     pre.inject(defaultValueCtx)
         .inject(editorStateCtx)
         .inject(editorStateOptionsCtx)
-        .inject(editorStateTimerCtx, [InputRulesReady, ParserReady, SerializerReady])
+        .inject(editorStateTimerCtx, [ParserReady, SerializerReady])
         .record(EditorStateReady);
 
     return async (ctx) => {
@@ -57,7 +57,6 @@ export const editorState: MilkdownPlugin = (pre) => {
         const schema = ctx.get(schemaCtx);
         const parser = ctx.get(parserCtx);
         const rules = ctx.get(inputRulesCtx);
-        // const keymap = ctx.get(keymapCtx);
         const options = ctx.get(editorStateOptionsCtx);
         const prosePlugins = ctx.get(prosePluginsCtx);
         const defaultValue = ctx.get(defaultValueCtx);
