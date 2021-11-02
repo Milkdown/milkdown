@@ -1,19 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createClock, createContainer, Ctx, CtxHandler, MilkdownPlugin, Pre } from '@milkdown/ctx';
 
-import {
-    commands,
-    config,
-    editorState,
-    editorView,
-    init,
-    inputRules,
-    keymap,
-    nodeView,
-    parser,
-    schema,
-    serializer,
-} from '../internal-plugin';
+import { commands, config, editorState, editorView, init, parser, schema, serializer } from '../internal-plugin';
 
 /**
  * Get the milkdown editor constructor
@@ -38,17 +26,7 @@ export class Editor {
     readonly #pre = new Pre(this.#container, this.#clock);
 
     readonly #loadInternal = () => {
-        const internalPlugins = [
-            schema,
-            parser,
-            serializer,
-            nodeView,
-            commands,
-            keymap,
-            inputRules,
-            editorState,
-            editorView,
-        ];
+        const internalPlugins = [schema, parser, serializer, commands, editorState, editorView];
         const configPlugin = config(async (x) => {
             await Promise.all(this.#configureList.map((fn) => fn(x)));
         });
