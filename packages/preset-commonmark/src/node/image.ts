@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
-import { createNode } from '@milkdown/utils';
+import { createPlugin } from '@milkdown/utils';
 
 export const ModifyImage = createCmdKey<string>();
 export const InsertImage = createCmdKey<string>();
@@ -16,7 +16,7 @@ export type ImageOptions = {
         failed: string;
     };
 };
-export const image = createNode<string, ImageOptions>((options, utils) => {
+export const image = createPlugin<string, ImageOptions, 'image', ''>((options, utils) => {
     const placeholder = {
         loading: 'Loading...',
         empty: 'Add an Image',
@@ -123,85 +123,88 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
     );
 
     return {
-        id,
-        schema: {
-            inline: true,
-            group: 'inline',
-            draggable: true,
-            marks: '',
-            atom: true,
-            defining: true,
-            isolating: true,
-            attrs: {
-                src: { default: '' },
-                alt: { default: null },
-                title: { default: null },
-                failed: { default: false },
-                loading: { default: true },
-                width: { default: 0 },
-            },
-            parseDOM: [
-                {
-                    tag: 'img[src]',
-                    getAttrs: (dom) => {
-                        if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
-                        }
-                        return {
-                            failed: dom.classList.contains('failed'),
-                            loading: dom.classList.contains('loading'),
-                            src: dom.getAttribute('src') || '',
-                            alt: dom.getAttribute('alt'),
-                            title: dom.getAttribute('title') || dom.getAttribute('alt'),
-                            width: dom.getAttribute('width') || 0,
-                        };
+        schema: () => ({
+            node: {
+                image: {
+                    inline: true,
+                    group: 'inline',
+                    draggable: true,
+                    marks: '',
+                    atom: true,
+                    defining: true,
+                    isolating: true,
+                    attrs: {
+                        src: { default: '' },
+                        alt: { default: null },
+                        title: { default: null },
+                        failed: { default: false },
+                        loading: { default: true },
+                        width: { default: 0 },
+                    },
+                    parseDOM: [
+                        {
+                            tag: 'img[src]',
+                            getAttrs: (dom) => {
+                                if (!(dom instanceof HTMLElement)) {
+                                    throw new Error();
+                                }
+                                return {
+                                    failed: dom.classList.contains('failed'),
+                                    loading: dom.classList.contains('loading'),
+                                    src: dom.getAttribute('src') || '',
+                                    alt: dom.getAttribute('alt'),
+                                    title: dom.getAttribute('title') || dom.getAttribute('alt'),
+                                    width: dom.getAttribute('width') || 0,
+                                };
+                            },
+                        },
+                    ],
+                    toDOM: (node) => {
+                        return [
+                            'img',
+                            {
+                                ...node.attrs,
+                                class: utils.getClassName(
+                                    node.attrs,
+                                    id,
+                                    node.attrs.failed ? 'failed' : '',
+                                    node.attrs.loading ? 'loading' : '',
+                                    style,
+                                ),
+                            },
+                        ];
+                    },
+                    parseMarkdown: {
+                        match: ({ type }) => type === id,
+                        runner: (state, node, type) => {
+                            const url = node.url as string;
+                            const alt = node.alt as string;
+                            const title = node.title as string;
+                            state.addNode(type, {
+                                src: url,
+                                alt,
+                                title,
+                            });
+                        },
+                    },
+                    toMarkdown: {
+                        match: (node) => node.type.name === id,
+                        runner: (state, node) => {
+                            state.addNode('image', undefined, undefined, {
+                                title: node.attrs.title,
+                                url: node.attrs.src,
+                                alt: node.attrs.alt,
+                            });
+                        },
                     },
                 },
-            ],
-            toDOM: (node) => {
-                return [
-                    'img',
-                    {
-                        ...node.attrs,
-                        class: utils.getClassName(
-                            node.attrs,
-                            id,
-                            node.attrs.failed ? 'failed' : '',
-                            node.attrs.loading ? 'loading' : '',
-                            style,
-                        ),
-                    },
-                ];
             },
-        },
-        parser: {
-            match: ({ type }) => type === id,
-            runner: (state, node, type) => {
-                const url = node.url as string;
-                const alt = node.alt as string;
-                const title = node.title as string;
-                state.addNode(type, {
-                    src: url,
-                    alt,
-                    title,
-                });
-            },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.addNode('image', undefined, undefined, {
-                    title: node.attrs.title,
-                    url: node.attrs.src,
-                    alt: node.attrs.alt,
-                });
-            },
-        },
-        commands: (nodeType) => [
+        }),
+        commands: (type) => [
             createCmd(InsertImage, (src = '') => (state, dispatch) => {
                 if (!dispatch) return true;
                 const { tr } = state;
-                const node = nodeType.create({ src });
+                const node = type.image.create({ src });
                 if (!node) {
                     return true;
                 }
@@ -210,7 +213,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 return true;
             }),
             createCmd(ModifyImage, (src = '') => (state, dispatch) => {
-                const node = findSelectedNodeOfType(state.selection, nodeType);
+                const node = findSelectedNodeOfType(state.selection, type.image);
                 if (!node) return false;
 
                 const { tr } = state;
@@ -221,115 +224,117 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 return true;
             }),
         ],
-        inputRules: (nodeType) => [
+        inputRules: (type) => [
             new InputRule(
                 /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
                 (state, match, start, end) => {
                     const [okay, alt, src = '', title] = match;
                     const { tr } = state;
                     if (okay) {
-                        tr.replaceWith(start, end, nodeType.create({ src, alt, title }));
+                        tr.replaceWith(start, end, type.image.create({ src, alt, title }));
                     }
 
                     return tr;
                 },
             ),
         ],
-        view: (node, view, getPos) => {
-            const nodeType = node.type;
-            const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
-            const container = document.createElement('span');
-            container.className = utils.getClassName(node.attrs, id, containerStyle);
-            container.contentEditable = 'false';
+        view: (_, ctx) => ({
+            image: (node, view, getPos) => {
+                const nodeType = node.type;
+                const createIcon = ctx.get(themeToolCtx).slots.icon;
+                const container = document.createElement('span');
+                container.className = utils.getClassName(node.attrs, id, containerStyle);
+                container.contentEditable = 'false';
 
-            const content = document.createElement('img');
-            content.contentEditable = 'true';
+                const content = document.createElement('img');
+                content.contentEditable = 'true';
 
-            container.append(content);
-            let icon = createIcon('image');
-            const placeholder = document.createElement('span');
-            placeholder.classList.add('placeholder');
-            container.append(icon, placeholder);
+                container.append(content);
+                let icon = createIcon('image');
+                const placeholder = document.createElement('span');
+                placeholder.classList.add('placeholder');
+                container.append(icon, placeholder);
 
-            const setIcon = (name: Icon) => {
-                const nextIcon = createIcon(name);
-                container.replaceChild(nextIcon, icon);
-                icon = nextIcon;
-            };
-
-            const loadImage = (src: string) => {
-                container.classList.add('system', 'loading');
-                setIcon('loading');
-                const img = document.createElement('img');
-                img.src = src;
-
-                img.onerror = () => {
-                    const { tr } = view.state;
-                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
-                        ...node.attrs,
-                        src,
-                        loading: false,
-                        failed: true,
-                    });
-                    view.dispatch(_tr);
+                const setIcon = (name: Icon) => {
+                    const nextIcon = createIcon(name);
+                    container.replaceChild(nextIcon, icon);
+                    icon = nextIcon;
                 };
 
-                img.onload = () => {
-                    const { tr } = view.state;
-                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
-                        ...node.attrs,
-                        width: img.width,
-                        src,
-                        loading: false,
-                        failed: false,
-                    });
-                    view.dispatch(_tr);
+                const loadImage = (src: string) => {
+                    container.classList.add('system', 'loading');
+                    setIcon('loading');
+                    const img = document.createElement('img');
+                    img.src = src;
+
+                    img.onerror = () => {
+                        const { tr } = view.state;
+                        const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                            ...node.attrs,
+                            src,
+                            loading: false,
+                            failed: true,
+                        });
+                        view.dispatch(_tr);
+                    };
+
+                    img.onload = () => {
+                        const { tr } = view.state;
+                        const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                            ...node.attrs,
+                            width: img.width,
+                            src,
+                            loading: false,
+                            failed: false,
+                        });
+                        view.dispatch(_tr);
+                    };
                 };
-            };
 
-            const { src, loading, title, alt, width } = node.attrs;
-            content.src = src;
-            content.title = title || alt;
-            content.alt = alt;
-            content.width = width;
+                const { src, loading, title, alt, width } = node.attrs;
+                content.src = src;
+                content.title = title || alt;
+                content.alt = alt;
+                content.width = width;
 
-            if (src.length === 0) {
-                container.classList.add('system', 'empty');
-                setIcon('image');
-            } else if (loading) {
-                loadImage(src);
-            }
-
-            return {
-                dom: container,
-                update: (updatedNode) => {
-                    if (updatedNode.type.name !== id) return false;
-
-                    const { src, alt, title, loading, failed, width } = updatedNode.attrs;
-                    content.src = src;
-                    content.alt = alt;
-                    content.title = title || alt;
-                    content.width = width;
-                    if (loading) {
-                        loadImage(src);
-                        return true;
-                    }
-                    if (failed) {
-                        container.classList.remove('loading', 'empty');
-                        container.classList.add('system', 'failed');
-                        setIcon('brokenImage');
-                        return true;
-                    }
-                    if (src.length > 0) {
-                        container.classList.remove('system', 'empty', 'loading');
-                        return true;
-                    }
-
+                if (src.length === 0) {
                     container.classList.add('system', 'empty');
                     setIcon('image');
-                    return true;
-                },
-            };
-        },
+                } else if (loading) {
+                    loadImage(src);
+                }
+
+                return {
+                    dom: container,
+                    update: (updatedNode) => {
+                        if (updatedNode.type.name !== id) return false;
+
+                        const { src, alt, title, loading, failed, width } = updatedNode.attrs;
+                        content.src = src;
+                        content.alt = alt;
+                        content.title = title || alt;
+                        content.width = width;
+                        if (loading) {
+                            loadImage(src);
+                            return true;
+                        }
+                        if (failed) {
+                            container.classList.remove('loading', 'empty');
+                            container.classList.add('system', 'failed');
+                            setIcon('brokenImage');
+                            return true;
+                        }
+                        if (src.length > 0) {
+                            container.classList.remove('system', 'empty', 'loading');
+                            return true;
+                        }
+
+                        container.classList.add('system', 'empty');
+                        setIcon('image');
+                        return true;
+                    },
+                };
+            },
+        }),
     };
 });

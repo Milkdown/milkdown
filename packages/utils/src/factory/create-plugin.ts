@@ -20,7 +20,7 @@ import {
     SchemaReady,
     themeToolCtx,
 } from '@milkdown/core';
-import { InputRule, keymap, MarkType, NodeType, Plugin } from '@milkdown/prose';
+import { InputRule, keymap, MarkType, MarkViewFactory, NodeType, NodeViewFactory, Plugin } from '@milkdown/prose';
 
 import { Utils } from '..';
 import { UnknownRecord } from '../types';
@@ -47,7 +47,7 @@ type PluginFactory<
     NodeKeys extends string = string,
     MarkKeys extends string = string,
 > = (
-    options: CommonOptions<SupportedKeys, Options>,
+    options: CommonOptions<SupportedKeys, Partial<Options>>,
     utils: Utils,
 ) => {
     schema?: (ctx: Ctx) => {
@@ -59,6 +59,10 @@ type PluginFactory<
     remarkPlugins?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => RemarkPlugin[];
     commands?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => CmdTuple[];
     keymap?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => Record<SupportedKeys, CommandConfig>;
+    view?: (
+        types: TypeMapping<NodeKeys, MarkKeys>,
+        ctx: Ctx,
+    ) => Partial<Record<NodeKeys, NodeViewFactory> & Record<MarkKeys, MarkViewFactory>>;
 };
 
 export const createPlugin = <
@@ -69,7 +73,7 @@ export const createPlugin = <
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
 ) => {
-    return (options: Options): MilkdownPlugin => {
+    return (options: Partial<Options>): MilkdownPlugin => {
         return () => async (ctx) => {
             await ctx.wait(InitReady);
             const themeTool = ctx.get(themeToolCtx);
