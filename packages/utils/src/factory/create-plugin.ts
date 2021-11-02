@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import {
+    Attrs,
     CmdKey,
     CmdTuple,
     commandsCtx,
@@ -32,6 +33,11 @@ type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
 };
 
 type CommandConfig<T = unknown> = [commandKey: CmdKey<T>, defaultKey: string, args?: T];
+export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRecord> = Obj & {
+    className?: (attrs: Attrs) => string;
+    keymap?: Partial<Record<SupportedKeys, string | string[]>>;
+    readonly headless?: boolean;
+};
 export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, args?: T) =>
     [commandKey, defaultKey, args] as CommandConfig<unknown>;
 
@@ -41,7 +47,7 @@ type PluginFactory<
     NodeKeys extends string = string,
     MarkKeys extends string = string,
 > = (
-    options: Options,
+    options: CommonOptions<SupportedKeys, Options>,
     utils: Utils,
 ) => {
     schema?: (ctx: Ctx) => {
