@@ -47,6 +47,6 @@ export class AtomList<T extends Plugin = Plugin> extends Array<T> {
     }
 
     static create<T extends Plugin = Plugin>(from: T[]): AtomList<T> {
-        return new AtomList(...from);
+        return new AtomList(...(from as any).flat());
     }
 }

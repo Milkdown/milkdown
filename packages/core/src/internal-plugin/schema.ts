@@ -16,8 +16,7 @@ export const schema: MilkdownPlugin = (pre) => {
     return async (ctx) => {
         await ctx.waitTimers(schemaTimerCtx);
 
-        const getAtom = <T extends Atom>(x: T[]) =>
-            Object.fromEntries<T['schema']>(x.map(({ id, schema }) => [id, schema]));
+        const getAtom = <T extends Atom>(x: T[]) => Object.fromEntries(x.map(({ id, ...schema }) => [id, schema]));
 
         const nodes = getAtom(ctx.get(nodesCtx));
         const marks = getAtom(ctx.get(marksCtx));

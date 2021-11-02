@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, Ctx, Mark, MilkdownPlugin, Node, ThemeTool } from '@milkdown/core';
+import type { Attrs, CmdKey, Ctx, MarkSchema, MilkdownPlugin, NodeSchema, ThemeTool } from '@milkdown/core';
 import type { MarkViewFactory, NodeViewFactory } from '@milkdown/prose';
 
 export type UnknownRecord = Record<string, unknown>;
@@ -33,9 +33,9 @@ type MarkOptions<SupportedKeys extends string, Obj> = CommonOptions<SupportedKey
 };
 
 export type Options<SupportedKeys extends string, Obj extends UnknownRecord, Type> = Partial<
-    Type extends Mark
+    Type extends MarkSchema
         ? MarkOptions<SupportedKeys, Obj>
-        : Type extends Node
+        : Type extends NodeSchema
         ? NodeOptions<SupportedKeys, Obj>
         : CommonOptions<SupportedKeys, Obj>
 >;

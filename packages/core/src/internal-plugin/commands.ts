@@ -1,13 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContainer, createSlice, createTimer, MilkdownPlugin, Slice, Timer } from '@milkdown/ctx';
+import { createContainer, createSlice, createTimer, Ctx, MilkdownPlugin, Slice, Timer } from '@milkdown/ctx';
 import { callCommandBeforeEditorView } from '@milkdown/exception';
 import type { Command } from '@milkdown/prose';
 
-import { Atom, getAtom } from '../utility';
 import { editorViewCtx, EditorViewReady } from './editor-view';
-import { marksCtx } from './mark-factory';
-import { nodesCtx } from './node-factory';
-import { schemaCtx, SchemaReady } from './schema';
+import { SchemaReady } from './schema';
 
 export type Cmd<T = undefined> = (info?: T) => Command;
 export type CmdKey<T = undefined> = Slice<Cmd<T>>;
@@ -27,7 +24,20 @@ export const commandsCtx = createSlice<CommandManager>({} as CommandManager, 'co
 export const createCmdKey = <T = undefined>(): CmdKey<T> => createSlice((() => () => false) as Cmd<T>, 'cmdKey');
 
 export const commandsTimerCtx = createSlice<Timer[]>([], 'commandsTimer');
-export const CommandsReady = createTimer('KeymapReady');
+export const CommandsReady = createTimer('CommandsReady');
+
+export const commandsFactory =
+    (getCommands: (ctx: Ctx) => CmdTuple[]): MilkdownPlugin =>
+    () => {
+        return (ctx) => {
+            const commands = getCommands(ctx);
+            const manager = ctx.get(commandsCtx);
+            commands.forEach(([key, value]) => {
+                manager.create(key, value);
+            });
+        };
+    };
+
 export const commands: MilkdownPlugin = (pre) => {
     const container = createContainer();
     const commandManager: CommandManager = {
@@ -40,22 +50,7 @@ export const commands: MilkdownPlugin = (pre) => {
     pre.inject(commandsCtx, commandManager).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady);
     return async (ctx) => {
         await ctx.waitTimers(commandsTimerCtx);
-        const nodes = ctx.get(nodesCtx);
-        const marks = ctx.get(marksCtx);
-        const schema = ctx.get(schemaCtx);
 
-        const getCommands = <T extends Atom>(atoms: T[], isNode: boolean) =>
-            atoms
-                .map((x) => [getAtom(x.id, schema, isNode), x.commands] as const)
-                .map(([atom, commands]) => atom && commands?.(atom, schema))
-                .filter((x): x is CmdTuple[] => !!x)
-                .flat();
-
-        const commands = [...getCommands(nodes, true), ...getCommands(marks, false)];
-        const commandManager = ctx.get(commandsCtx);
-        commands.forEach(([key, command]) => {
-            commandManager.create(key, command);
-        });
         ctx.done(CommandsReady);
         await ctx.wait(EditorViewReady);
 

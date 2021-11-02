@@ -13,8 +13,6 @@ import {
 
 import { JSONRecord } from '../utility';
 import { inputRulesCtx, InputRulesReady } from './input-rules';
-import { _inputRulesCtx } from './input-rules-factory';
-import { keymapCtx, KeymapReady } from './keymap';
 import { Parser, parserCtx, ParserReady } from './parser';
 import { prosePluginsCtx } from './prose-plugin-factory';
 import { schemaCtx } from './schema';
@@ -50,7 +48,7 @@ export const editorState: MilkdownPlugin = (pre) => {
     pre.inject(defaultValueCtx)
         .inject(editorStateCtx)
         .inject(editorStateOptionsCtx)
-        .inject(editorStateTimerCtx, [KeymapReady, InputRulesReady, ParserReady, SerializerReady])
+        .inject(editorStateTimerCtx, [InputRulesReady, ParserReady, SerializerReady])
         .record(EditorStateReady);
 
     return async (ctx) => {
@@ -59,22 +57,16 @@ export const editorState: MilkdownPlugin = (pre) => {
         const schema = ctx.get(schemaCtx);
         const parser = ctx.get(parserCtx);
         const rules = ctx.get(inputRulesCtx);
-        const keymap = ctx.get(keymapCtx);
+        // const keymap = ctx.get(keymapCtx);
         const options = ctx.get(editorStateOptionsCtx);
         const prosePlugins = ctx.get(prosePluginsCtx);
         const defaultValue = ctx.get(defaultValueCtx);
-        const inputRules = ctx.get(_inputRulesCtx);
         const doc = getDoc(defaultValue, parser, schema);
 
         const state = EditorState.create({
             schema,
             doc,
-            plugins: [
-                ...prosePlugins,
-                ...keymap,
-                createKeymap(baseKeymap),
-                createInputRules({ rules: rules.concat(inputRules) }),
-            ],
+            plugins: [...prosePlugins, createKeymap(baseKeymap), createInputRules({ rules })],
             ...options,
         });
         ctx.set(editorStateCtx, state);

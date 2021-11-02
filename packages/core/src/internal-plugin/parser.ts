@@ -29,7 +29,7 @@ export const parser: MilkdownPlugin = (pre) => {
             ...marks.map((mark) => ({ ...mark, is: 'mark' as const })),
         ];
         const spec: InnerParserSpecMap = Object.fromEntries(
-            children.map(({ id, parser, is }) => [id, { ...parser, is, key: id } as ParserSpecWithType]),
+            children.map(({ id, parseMarkdown, is }) => [id, { ...parseMarkdown, is, key: id } as ParserSpecWithType]),
         );
 
         ctx.set(parserCtx, createParser(schema, spec, remark));
