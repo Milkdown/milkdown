@@ -3,7 +3,7 @@ import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { EditorView, ViewFactory } from '@milkdown/prose';
 
 import { editorStateCtx, EditorStateReady } from './editor-state';
-import { viewCtx } from './node-view';
+import { viewCtx } from './init';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 

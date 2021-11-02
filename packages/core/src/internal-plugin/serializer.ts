@@ -4,9 +4,7 @@ import type { Node as ProsemirrorNode } from '@milkdown/prose';
 
 import { createSerializer } from '../serializer';
 import { remarkCtx } from './init';
-import { marksCtx } from './mark-factory';
-import { nodesCtx } from './node-factory';
-import { schemaCtx, SchemaReady } from './schema';
+import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
 export const serializerCtx = createSlice<(node: ProsemirrorNode) => string>(() => '', 'serializer');
 export const serializerTimerCtx = createSlice<Timer[]>([], 'serializerTimer');
