@@ -17,10 +17,13 @@ import {
     remarkPluginsCtx,
     schemaCtx,
     SchemaReady,
+    themeToolCtx,
 } from '@milkdown/core';
 import { InputRule, keymap, MarkType, NodeType, Plugin } from '@milkdown/prose';
 
+import { Utils } from '..';
 import { UnknownRecord } from '../types';
+import { getClassName } from './common';
 
 type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in NodeKeys]: NodeType;
@@ -29,16 +32,21 @@ type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
 };
 
 type CommandConfig<T = unknown> = [commandKey: CmdKey<T>, defaultKey: string, args?: T];
+export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, args?: T) =>
+    [commandKey, defaultKey, args] as CommandConfig<unknown>;
 
 type PluginFactory<
     SupportedKeys extends string = string,
     Options extends UnknownRecord = UnknownRecord,
     NodeKeys extends string = string,
     MarkKeys extends string = string,
-> = (options: Options) => {
+> = (
+    options: Options,
+    utils: Utils,
+) => {
     schema?: (ctx: Ctx) => {
-        node: Record<NodeKeys, Omit<NodeSchema, 'id'>>;
-        mark: Record<MarkKeys, Omit<MarkSchema, 'id'>>;
+        node?: Record<NodeKeys, NodeSchema>;
+        mark?: Record<MarkKeys, MarkSchema>;
     };
     inputRules?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => InputRule[];
     prosePlugins?: (types: TypeMapping<NodeKeys, MarkKeys>, ctx: Ctx) => Plugin[];
@@ -53,36 +61,35 @@ export const createPlugin = <
     NodeKeys extends string = string,
     MarkKeys extends string = string,
 >(
-    factory: PluginFactory<SupportedKeys, Options>,
+    factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
 ) => {
     return (options: Options): MilkdownPlugin => {
-        const plugin = factory(options);
-
         return () => async (ctx) => {
             await ctx.wait(InitReady);
-            let node: Record<NodeKeys, Omit<NodeSchema, 'id'>> = {} as Record<NodeKeys, Omit<NodeSchema, 'id'>>;
-            let mark: Record<MarkKeys, Omit<MarkSchema, 'id'>> = {} as Record<MarkKeys, Omit<MarkSchema, 'id'>>;
+            const themeTool = ctx.get(themeToolCtx);
+            const utils: Utils = {
+                ctx,
+                getClassName: getClassName(options?.className as undefined),
+                getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
+            };
+
+            const plugin = factory(options, utils);
+
+            let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
+            let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
             if (plugin.schema) {
                 const schemas = plugin.schema(ctx);
-                node = schemas.node;
-                mark = schemas.mark;
+                if (schemas.node) {
+                    node = schemas.node;
+                    const nodes = Object.entries<NodeSchema>(schemas.node);
+                    ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+                }
 
-                const nodes = Object.entries(schemas.node).map(
-                    ([id, schema]) =>
-                        ({
-                            id,
-                            ...schema,
-                        } as NodeSchema),
-                );
-                const marks = Object.entries(schemas.mark).map(
-                    ([id, schema]) =>
-                        ({
-                            id,
-                            ...schema,
-                        } as MarkSchema),
-                );
-                ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
-                ctx.update(marksCtx, (ms) => [...ms, ...marks]);
+                if (schemas.mark) {
+                    mark = schemas.mark;
+                    const marks = Object.entries<MarkSchema>(schemas.mark);
+                    ctx.update(marksCtx, (ms) => [...ms, ...marks]);
+                }
             }
             await ctx.wait(SchemaReady);
 
@@ -109,6 +116,7 @@ export const createPlugin = <
             }
 
             if (plugin.keymap) {
+                // TODO: get keymap from config
                 const keyMapping = plugin.keymap(type, ctx);
                 const tuples = Object.values<CommandConfig>(keyMapping).map(
                     ([commandKey, defaultKey, args]) =>

@@ -1,22 +1,27 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createNode } from '@milkdown/utils';
+import { createPlugin } from '@milkdown/utils';
 
-export const doc = createNode(() => ({
-    id: 'doc',
-    schema: {
-        content: 'block+',
-    },
-    parser: {
-        match: ({ type }) => type === 'root',
-        runner: (state, node, type) => {
-            state.injectRoot(node, type);
-        },
-    },
-    serializer: {
-        match: (node) => node.type.name === 'doc',
-        runner: (state, node) => {
-            state.openNode('root');
-            state.next(node.content);
-        },
-    },
-}));
+export const doc = createPlugin(() => {
+    return {
+        schema: () => ({
+            node: {
+                doc: {
+                    content: 'block+',
+                    parseMarkdown: {
+                        match: ({ type }) => type === 'root',
+                        runner: (state, node, type) => {
+                            state.injectRoot(node, type);
+                        },
+                    },
+                    toMarkdown: {
+                        match: (node) => node.type.name === 'doc',
+                        runner: (state, node) => {
+                            state.openNode('root');
+                            state.next(node.content);
+                        },
+                    },
+                },
+            },
+        }),
+    };
+});
