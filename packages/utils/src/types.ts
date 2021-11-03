@@ -23,5 +23,5 @@ export type Methods<Keys extends string, Type> = {
     inputRules?: (types: Type, ctx: Ctx) => InputRule[];
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
     commands?: (types: Type, ctx: Ctx) => CmdTuple[];
-    keymap?: (types: Type, ctx: Ctx) => Record<Keys, CommandConfig>;
+    shortcuts?: Record<Keys, CommandConfig>;
 };

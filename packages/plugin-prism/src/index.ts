@@ -7,4 +7,4 @@ export const prism = createPlugin(() => {
     return {
         prosePlugins: () => [Prism('fence')],
     };
-});
+})();

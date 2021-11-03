@@ -10,5 +10,5 @@ const remarkPlugin = createPlugin(() => {
     };
 });
 
-export const math = AtomList.create([remarkPlugin, ...nodes]);
+export const math = AtomList.create([remarkPlugin(), ...nodes]);
 export * from './nodes';

@@ -14,8 +14,9 @@ import {
     schemaCtx,
     SchemaReady,
     themeToolCtx,
+    viewCtx,
 } from '@milkdown/core';
-import { keymap, MarkType, MarkViewFactory, NodeType, NodeViewFactory } from '@milkdown/prose';
+import { keymap, MarkType, MarkViewFactory, NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
 import { Utils } from '..';
 import { CommandConfig, CommonOptions, Methods, UnknownRecord } from '../types';
@@ -101,9 +102,9 @@ export const createPlugin = <
                 ctx.update(inputRulesCtx, (ir) => [...ir, ...inputRules]);
             }
 
-            if (plugin.keymap) {
+            if (plugin.shortcuts) {
                 // TODO: get keymap from config
-                const keyMapping = plugin.keymap(type, ctx);
+                const keyMapping = plugin.shortcuts;
                 const tuples = Object.values<CommandConfig>(keyMapping).map(
                     ([commandKey, defaultKey, args]) =>
                         [defaultKey, () => ctx.get(commandsCtx).call(commandKey, args)] as const,
@@ -114,6 +115,11 @@ export const createPlugin = <
             if (plugin.prosePlugins) {
                 const prosePlugins = plugin.prosePlugins(type, ctx);
                 ctx.update(prosePluginsCtx, (ps) => [...ps, ...prosePlugins]);
+            }
+
+            if (plugin.view) {
+                const view = plugin.view(ctx);
+                ctx.update(viewCtx, (v) => [...v, ...Object.entries<ViewFactory>(view as Record<string, ViewFactory>)]);
             }
         };
     };
