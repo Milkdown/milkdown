@@ -2,11 +2,11 @@
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
 import { InputRule, Selection } from '@milkdown/prose';
-import { createPlugin } from '@milkdown/utils';
+import { createNode } from '@milkdown/utils';
 
 const id = 'hr';
 export const InsertHr = createCmdKey<string>();
-export const hr = createPlugin((_, utils) => {
+export const hr = createNode((utils) => {
     const style = utils.getStyle(
         (themeTool) => css`
             height: ${themeTool.size.lineWidth};
@@ -15,24 +15,21 @@ export const hr = createPlugin((_, utils) => {
         `,
     );
     return {
+        id,
         schema: () => ({
-            node: {
-                hr: {
-                    group: 'block',
-                    parseDOM: [{ tag: 'hr' }],
-                    toDOM: (node) => ['hr', { class: utils.getClassName(node.attrs, id, style) }],
-                    parseMarkdown: {
-                        match: ({ type }) => type === 'thematicBreak',
-                        runner: (state, _, type) => {
-                            state.addNode(type);
-                        },
-                    },
-                    toMarkdown: {
-                        match: (node) => node.type.name === id,
-                        runner: (state) => {
-                            state.addNode('thematicBreak');
-                        },
-                    },
+            group: 'block',
+            parseDOM: [{ tag: 'hr' }],
+            toDOM: (node) => ['hr', { class: utils.getClassName(node.attrs, id, style) }],
+            parseMarkdown: {
+                match: ({ type }) => type === 'thematicBreak',
+                runner: (state, _, type) => {
+                    state.addNode(type);
+                },
+            },
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state) => {
+                    state.addNode('thematicBreak');
                 },
             },
         }),
@@ -41,7 +38,7 @@ export const hr = createPlugin((_, utils) => {
                 const { tr } = state;
 
                 if (match[0]) {
-                    tr.replaceWith(start, end, type.hr.create({}));
+                    tr.replaceWith(start, end, type.create({}));
                 }
 
                 return tr;
@@ -52,7 +49,7 @@ export const hr = createPlugin((_, utils) => {
                 if (!dispatch) return true;
                 const { tr, selection } = state;
                 const from = selection.from;
-                const node = type.hr.create();
+                const node = type.create();
                 if (!node) {
                     return true;
                 }

@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
 import { InputRule, Node as ProseNode, TextSelection, toggleMark } from '@milkdown/prose';
 import { createMark } from '@milkdown/utils';
 
 export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();
 const id = 'link';
-export const link = createMark((_, utils) => {
+export const link = createMark((utils) => {
     const style = utils.getStyle((themeTool) => {
         const lineColor = themeTool.palette('line');
 
@@ -24,7 +24,7 @@ export const link = createMark((_, utils) => {
     });
     return {
         id,
-        schema: {
+        schema: () => ({
             attrs: {
                 href: {},
                 title: { default: null },
@@ -42,26 +42,26 @@ export const link = createMark((_, utils) => {
                 },
             ],
             toDOM: (mark) => ['a', { ...mark.attrs, class: utils.getClassName(mark.attrs, id, style) }],
-        },
-        parser: {
-            match: (node) => node.type === 'link',
-            runner: (state, node, markType) => {
-                const url = node.url as string;
-                const title = node.title as string;
-                state.openMark(markType, { href: url, title });
-                state.next(node.children);
-                state.closeMark(markType);
+            parseMarkdown: {
+                match: (node) => node.type === 'link',
+                runner: (state, node, markType) => {
+                    const url = node.url as string;
+                    const title = node.title as string;
+                    state.openMark(markType, { href: url, title });
+                    state.next(node.children);
+                    state.closeMark(markType);
+                },
             },
-        },
-        serializer: {
-            match: (mark) => mark.type.name === id,
-            runner: (state, mark) => {
-                state.withMark(mark, 'link', undefined, {
-                    title: mark.attrs.title,
-                    url: mark.attrs.href,
-                });
+            toMarkdown: {
+                match: (mark) => mark.type.name === id,
+                runner: (state, mark) => {
+                    state.withMark(mark, 'link', undefined, {
+                        title: mark.attrs.title,
+                        url: mark.attrs.href,
+                    });
+                },
             },
-        },
+        }),
         commands: (markType) => [
             createCmd(ToggleLink, (href = '') => toggleMark(markType, { href })),
             createCmd(ModifyLink, (href = '') => (state, dispatch) => {
@@ -100,13 +100,13 @@ export const link = createMark((_, utils) => {
                 return true;
             }),
         ],
-        inputRules: (markType, schema) => [
+        inputRules: (markType, ctx) => [
             new InputRule(/\[(?<text>.*?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
                 const [okay, text = '', href, title] = match;
                 const { tr } = state;
                 if (okay) {
                     const content = text || 'link';
-                    tr.replaceWith(start, end, schema.text(content)).addMark(
+                    tr.replaceWith(start, end, ctx.get(schemaCtx).text(content)).addMark(
                         start,
                         content.length + start,
                         markType.create({ title, href }),

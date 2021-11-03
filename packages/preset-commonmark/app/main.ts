@@ -89,7 +89,7 @@ async function main() {
     document.getElementById('update').addEventListener('click', () => {
         editor.action((ctx) => {
             const cmd = ctx.get(commandsCtx);
-            cmd.call(InsertImage);
+            cmd.call(InsertImage, 'https://i1.sndcdn.com/avatars-000001978886-lfjqke-t500x500.jpg');
         });
     });
 }

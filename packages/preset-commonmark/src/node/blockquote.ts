@@ -12,7 +12,7 @@ const id = 'blockquote';
 
 export const WrapInBlockquote = createCmdKey();
 
-export const blockquote = createNode<Keys>((_, utils) => {
+export const blockquote = createNode<Keys>((utils) => {
     const style = utils.getStyle(
         (themeTool) =>
             css`
@@ -28,25 +28,25 @@ export const blockquote = createNode<Keys>((_, utils) => {
 
     return {
         id,
-        schema: {
+        schema: () => ({
             content: 'block+',
             group: 'block',
             defining: true,
             parseDOM: [{ tag: 'blockquote' }],
             toDOM: (node) => ['blockquote', { class: utils.getClassName(node.attrs, id, style) }, 0],
-        },
-        parser: {
-            match: ({ type }) => type === id,
-            runner: (state, node, type) => {
-                state.openNode(type).next(node.children).closeNode();
+            parseMarkdown: {
+                match: ({ type }) => type === id,
+                runner: (state, node, type) => {
+                    state.openNode(type).next(node.children).closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.openNode('blockquote').next(node.content).closeNode();
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.openNode('blockquote').next(node.content).closeNode();
+                },
             },
-        },
+        }),
         inputRules: (nodeType) => [wrappingInputRule(/^\s*>\s$/, nodeType)],
         commands: (nodeType) => [createCmd(WrapInBlockquote, () => wrapIn(nodeType))],
         shortcuts: {

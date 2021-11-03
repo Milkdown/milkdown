@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { themeToolCtx } from '@milkdown/core';
+import { Ctx, themeToolCtx } from '@milkdown/core';
 import { Command, EditorView } from '@milkdown/prose';
-import { Utils } from '@milkdown/utils';
 import {
     addColumnAfter,
     addColumnBefore,
@@ -33,19 +32,19 @@ export enum Action {
     Delete,
 }
 
-export const createActions: (utils: Utils) => Record<Action, Item> = (utils) => ({
+export const createActions: (ctx: Ctx) => Record<Action, Item> = (ctx) => ({
     [Action.AddColLeft]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('leftArrow'),
+        $: ctx.get(themeToolCtx).slots.icon('leftArrow'),
         command: () => addColumnBefore,
         disable: (view) => !getCellSelection(view).isColSelection(),
     },
     [Action.AddColRight]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('rightArrow'),
+        $: ctx.get(themeToolCtx).slots.icon('rightArrow'),
         command: () => addColumnAfter,
         disable: (view) => !getCellSelection(view).isColSelection(),
     },
     [Action.AddRowTop]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('upArrow'),
+        $: ctx.get(themeToolCtx).slots.icon('upArrow'),
         command: () => (state, dispatch) => {
             if (!isInTable(state)) return false;
             if (dispatch) {
@@ -59,7 +58,7 @@ export const createActions: (utils: Utils) => Record<Action, Item> = (utils) => 
             getCellSelection(view).$head.parent.type.name === 'table_header',
     },
     [Action.AddRowBottom]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('downArrow'),
+        $: ctx.get(themeToolCtx).slots.icon('downArrow'),
         command: () => (state, dispatch) => {
             if (!isInTable(state)) return false;
             if (dispatch) {
@@ -71,22 +70,22 @@ export const createActions: (utils: Utils) => Record<Action, Item> = (utils) => 
         disable: (view) => !getCellSelection(view).isRowSelection(),
     },
     [Action.AlignLeft]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('alignLeft'),
+        $: ctx.get(themeToolCtx).slots.icon('alignLeft'),
         command: () => setCellAttr('alignment', 'left'),
         disable: (view) => !getCellSelection(view).isColSelection(),
     },
     [Action.AlignCenter]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('alignCenter'),
+        $: ctx.get(themeToolCtx).slots.icon('alignCenter'),
         command: () => setCellAttr('alignment', 'center'),
         disable: (view) => !getCellSelection(view).isColSelection(),
     },
     [Action.AlignRight]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('alignRight'),
+        $: ctx.get(themeToolCtx).slots.icon('alignRight'),
         command: () => setCellAttr('alignment', 'right'),
         disable: (view) => !getCellSelection(view).isColSelection(),
     },
     [Action.Delete]: {
-        $: utils.ctx.get(themeToolCtx).slots.icon('delete'),
+        $: ctx.get(themeToolCtx).slots.icon('delete'),
         command: (_, view) => {
             const selection = getCellSelection(view);
             const isCol = selection.isColSelection();

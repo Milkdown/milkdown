@@ -32,7 +32,7 @@ const inputRegex = /^```(?<language>[a-z]*)? $/;
 export const TurnIntoCodeFence = createCmdKey();
 
 const id = 'fence';
-export const codeFence = createNode<Keys, { languageList?: string[] }>((options, utils) => {
+export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
     const style = utils.getStyle(({ palette, mixin, size, font }) => {
         const { shadow, scrollbar, border } = mixin;
         const { lineWidth, radius } = size;
@@ -148,7 +148,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
 
     return {
         id,
-        schema: {
+        schema: () => ({
             content: 'text*',
             group: 'block',
             marks: '',
@@ -184,23 +184,25 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
                     ['pre', ['code', { spellCheck: 'false' }, 0]],
                 ];
             },
-        },
-        parser: {
-            match: ({ type }) => type === 'code',
-            runner: (state, node, type) => {
-                const language = node.lang as string;
-                const value = node.value as string;
-                state.openNode(type, { language });
-                state.addText(value);
-                state.closeNode();
+            parseMarkdown: {
+                match: ({ type }) => type === 'code',
+                runner: (state, node, type) => {
+                    const language = node.lang as string;
+                    const value = node.value as string;
+                    state.openNode(type, { language });
+                    state.addText(value);
+                    state.closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: node.attrs.language });
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.addNode('code', undefined, node.content.firstChild?.text || '', {
+                        lang: node.attrs.language,
+                    });
+                },
             },
-        },
+        }),
         inputRules: (nodeType) => [
             textblockTypeInputRule(inputRegex, nodeType, ([ok, language]) => {
                 if (!ok) return;
@@ -211,7 +213,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
         shortcuts: {
             [SupportedKeys.CodeFence]: createShortcut(TurnIntoCodeFence, 'Mod-Alt-c'),
         },
-        view: (node, view, getPos) => {
+        view: (ctx) => (node, view, getPos) => {
             const container = document.createElement('div');
             const selectWrapper = document.createElement('div');
             const select = document.createElement('ul');
@@ -222,7 +224,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((options,
             valueWrapper.className = 'code-fence_value';
             const value = document.createElement('span');
             valueWrapper.appendChild(value);
-            valueWrapper.appendChild(utils.ctx.get(themeToolCtx).slots.icon('downArrow'));
+            valueWrapper.appendChild(ctx.get(themeToolCtx).slots.icon('downArrow'));
 
             select.className = 'code-fence_select';
             select.addEventListener('mousedown', (e) => {

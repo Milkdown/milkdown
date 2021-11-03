@@ -21,7 +21,7 @@ type Keys =
 
 export const TurnIntoHeading = createCmdKey<number>();
 
-export const heading = createPlugin<Keys, UnknownRecord, 'heading'>((options, utils) => {
+export const heading = createPlugin<Keys, UnknownRecord, 'heading'>((utils, options) => {
     const id = 'heading';
     const headingMap: Record<number, string> = {
         1: css`

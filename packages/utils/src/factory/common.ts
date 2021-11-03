@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Attrs } from '@milkdown/core';
+import { Attrs, CmdKey } from '@milkdown/core';
 
-import { CommonOptions } from '../types';
+import { CommandConfig, CommonOptions } from '../types';
 
 export const getClassName =
     (className: CommonOptions['className']) =>
@@ -9,3 +9,6 @@ export const getClassName =
         const classList = className?.(attrs) ?? defaultValue;
         return Array.isArray(classList) ? classList.filter((x) => x).join(' ') : classList;
     };
+
+export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, args?: T) =>
+    [commandKey, defaultKey, args] as CommandConfig<unknown>;

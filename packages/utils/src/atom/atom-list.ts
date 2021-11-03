@@ -1,19 +1,19 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { MilkdownPlugin } from '@milkdown/core';
 
-import { Origin, PluginWithMetadata } from '../types';
+// import { Origin, PluginWithMetadata } from '../types';
 
-type Atom = PluginWithMetadata;
-type Plugin = Atom | MilkdownPlugin;
+type Atom = any;
+type Plugin = any;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyOrigin = Origin<any, any, any>;
+// type AnyOrigin = Origin<any, any, any>;
+type AnyOrigin = any;
 
 const isAtom = (x: Plugin): x is Atom => Object.prototype.hasOwnProperty.call(x, 'origin');
 
 export class AtomList<T extends Plugin = Plugin> extends Array<T> {
     private findThenRun<U extends AnyOrigin>(target: U, callback: (index: number) => void): this {
-        const index = this.findIndex((x) => isAtom(x) && x.origin === target);
+        const index = this.findIndex((x) => isAtom(x) && (x as any).origin === target);
         if (index < 0) return this;
 
         callback(index);
@@ -21,7 +21,7 @@ export class AtomList<T extends Plugin = Plugin> extends Array<T> {
         return this;
     }
 
-    configure<U extends AnyOrigin>(target: U, config: Parameters<U>[0]): this {
+    configure(target: any, config: any): this {
         return this.findThenRun(target, (index) => {
             this.splice(index, 1, target(config) as T);
         });

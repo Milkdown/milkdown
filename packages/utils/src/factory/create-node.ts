@@ -5,8 +5,6 @@ import {
     Ctx,
     InitReady,
     inputRulesCtx,
-    MarkSchema,
-    marksCtx,
     MilkdownPlugin,
     NodeSchema,
     nodesCtx,
@@ -16,41 +14,22 @@ import {
     SchemaReady,
     themeToolCtx,
 } from '@milkdown/core';
-import { keymap, MarkType, MarkViewFactory, NodeType, NodeViewFactory } from '@milkdown/prose';
+import { keymap, NodeType, NodeViewFactory } from '@milkdown/prose';
 
-import { Utils } from '..';
-import { CommandConfig, CommonOptions, Methods, UnknownRecord } from '../types';
+import { CommandConfig, CommonOptions, Methods, UnknownRecord, Utils } from '../types';
 import { getClassName } from './common';
 
-type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
-    [K in NodeKeys]: NodeType;
-} & {
-    [K in MarkKeys]: MarkType;
-};
-
-type PluginFactory<
-    SupportedKeys extends string = string,
-    Options extends UnknownRecord = UnknownRecord,
-    NodeKeys extends string = string,
-    MarkKeys extends string = string,
-> = (
+type NodeFactory<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
     utils: Utils,
-    options?: Partial<CommonOptions<SupportedKeys, Options>>,
+    options?: CommonOptions<SupportedKeys, Partial<Options>>,
 ) => {
-    schema?: (ctx: Ctx) => {
-        node?: Record<NodeKeys, NodeSchema>;
-        mark?: Record<MarkKeys, MarkSchema>;
-    };
-    view?: (ctx: Ctx) => Partial<Record<NodeKeys, NodeViewFactory> & Record<MarkKeys, MarkViewFactory>>;
-} & Methods<SupportedKeys, TypeMapping<NodeKeys, MarkKeys>>;
+    id: string;
+    schema: (ctx: Ctx) => NodeSchema;
+    view?: (ctx: Ctx) => NodeViewFactory;
+} & Methods<SupportedKeys, NodeType>;
 
-export const createPlugin = <
-    SupportedKeys extends string = string,
-    Options extends UnknownRecord = UnknownRecord,
-    NodeKeys extends string = string,
-    MarkKeys extends string = string,
->(
-    factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
+export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
+    factory: NodeFactory<SupportedKeys, Options>,
 ) => {
     return (options?: Partial<Options>): MilkdownPlugin => {
         return () => async (ctx) => {
@@ -63,28 +42,13 @@ export const createPlugin = <
 
             const plugin = factory(utils, options);
 
-            let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
-            let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
-            if (plugin.schema) {
-                const schemas = plugin.schema(ctx);
-                if (schemas.node) {
-                    node = schemas.node;
-                    const nodes = Object.entries<NodeSchema>(schemas.node);
-                    ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
-                }
+            const node = plugin.schema(ctx);
+            ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node] as [string, NodeSchema]]);
 
-                if (schemas.mark) {
-                    mark = schemas.mark;
-                    const marks = Object.entries<MarkSchema>(schemas.mark);
-                    ctx.update(marksCtx, (ms) => [...ms, ...marks]);
-                }
-            }
             await ctx.wait(SchemaReady);
 
             const schema = ctx.get(schemaCtx);
-            const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
-            const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
-            const type: TypeMapping<NodeKeys, MarkKeys> = Object.fromEntries([...nodeTypes, ...markTypes]);
+            const type = schema.nodes[plugin.id];
 
             if (plugin.remarkPlugins) {
                 const remarkPlugins = plugin.remarkPlugins(type, ctx);

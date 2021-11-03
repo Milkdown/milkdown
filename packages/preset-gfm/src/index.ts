@@ -72,7 +72,7 @@ export {
 } from '@milkdown/preset-commonmark';
 
 export const gfmNodes = AtomList.create([...commonmarkNodes, ...tableNodes, strikeThrough(), taskListItem()]);
-export const gfmPlugins = AtomList.create([...tablePlugins, ...commonmarkPlugins, urlPlugin]);
+export const gfmPlugins = AtomList.create([...tablePlugins, ...commonmarkPlugins, urlPlugin()]);
 export const gfm = AtomList.create([...gfmNodes, ...gfmPlugins]);
 
 export const commands = {
