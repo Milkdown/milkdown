@@ -1,13 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
+import { RemarkPlugin } from '@milkdown/core';
 import { InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
+import remarkEmoji from 'remark-emoji';
 
 import { input } from './constant';
+import { filter } from './filter';
 import { parse } from './parse';
+import { picker } from './picker';
+import { twemojiPlugin } from './remark-twemoji';
 
-export const emojiNode = createNode((_, utils) => {
+export const emojiNode = createNode((utils) => {
     const style = utils.getStyle(
         () => css`
             display: inline-flex;
@@ -24,7 +29,7 @@ export const emojiNode = createNode((_, utils) => {
     );
     return {
         id: 'emoji',
-        schema: {
+        schema: () => ({
             group: 'inline',
             inline: true,
             selectable: false,
@@ -55,24 +60,24 @@ export const emojiNode = createNode((_, utils) => {
                 span.innerHTML = node.attrs.html;
                 return { dom: span };
             },
-        },
-        parser: {
-            match: ({ type }) => type === 'emoji',
-            runner: (state, node, type) => {
-                state.addNode(type, { html: node.value as string });
+            parseMarkdown: {
+                match: ({ type }) => type === 'emoji',
+                runner: (state, node, type) => {
+                    state.addNode(type, { html: node.value as string });
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === 'emoji',
-            runner: (state, node) => {
-                const span = document.createElement('span');
-                span.innerHTML = node.attrs.html;
-                const img = span.querySelector('img');
-                const title = img?.title;
-                span.remove();
-                state.addNode('text', undefined, title);
+            toMarkdown: {
+                match: (node) => node.type.name === 'emoji',
+                runner: (state, node) => {
+                    const span = document.createElement('span');
+                    span.innerHTML = node.attrs.html;
+                    const img = span.querySelector('img');
+                    const title = img?.title;
+                    span.remove();
+                    state.addNode('text', undefined, title);
+                },
             },
-        },
+        }),
         inputRules: (nodeType) => [
             new InputRule(input, (state, match, start, end) => {
                 const content = match[0];
@@ -85,5 +90,7 @@ export const emojiNode = createNode((_, utils) => {
                 return state.tr.replaceRangeWith(start, end, nodeType.create({ html })).scrollIntoView();
             }),
         ],
+        remarkPlugins: () => [remarkEmoji as RemarkPlugin, twemojiPlugin],
+        prosePlugins: () => [picker(utils), filter(utils)],
     };
 });

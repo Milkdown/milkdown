@@ -15,7 +15,7 @@ type Options = {
     };
 };
 
-export const mathBlock = createNode<string, Options>((options, utils) => {
+export const mathBlock = createNode<string, Options>((utils, options) => {
     const { codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);
     const id = 'math_block';
     const placeholder = {
@@ -26,7 +26,7 @@ export const mathBlock = createNode<string, Options>((options, utils) => {
 
     return {
         id,
-        schema: {
+        schema: () => ({
             content: 'text*',
             group: 'block',
             marks: '',
@@ -64,27 +64,27 @@ export const mathBlock = createNode<string, Options>((options, utils) => {
                     0,
                 ];
             },
-        },
-        parser: {
-            match: ({ type }) => type === 'math',
-            runner: (state, node, type) => {
-                const value = node.value as string;
-                state.openNode(type, { value });
-                state.addText(value);
-                state.closeNode();
+            parseMarkdown: {
+                match: ({ type }) => type === 'math',
+                runner: (state, node, type) => {
+                    const value = node.value as string;
+                    state.openNode(type, { value });
+                    state.addText(value);
+                    state.closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                let text = '';
-                node.forEach((n) => {
-                    text += n.text as string;
-                });
-                state.addNode('math', undefined, text);
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    let text = '';
+                    node.forEach((n) => {
+                        text += n.text as string;
+                    });
+                    state.addNode('math', undefined, text);
+                },
             },
-        },
-        view: (node, view, getPos) => {
+        }),
+        view: () => (node, view, getPos) => {
             const innerEditor = createInnerEditor(view, getPos);
 
             let currentNode = node;

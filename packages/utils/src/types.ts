@@ -19,9 +19,9 @@ export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRe
 };
 
 export type Methods<Keys extends string, Type> = {
+    remarkPlugins?: (ctx: Ctx) => RemarkPlugin[];
     inputRules?: (types: Type, ctx: Ctx) => InputRule[];
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
-    remarkPlugins?: (types: Type, ctx: Ctx) => RemarkPlugin[];
     commands?: (types: Type, ctx: Ctx) => CmdTuple[];
     keymap?: (types: Type, ctx: Ctx) => Record<Keys, CommandConfig>;
 };

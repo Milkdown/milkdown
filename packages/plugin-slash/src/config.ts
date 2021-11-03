@@ -15,7 +15,7 @@ import {
 import type { SlashConfig } from '.';
 import { createDropdownItem, nodeExists } from './utility';
 
-export const config: SlashConfig = ({ ctx }) => [
+export const config: SlashConfig = (ctx) => [
     {
         id: 'h1',
         dom: createDropdownItem(ctx.get(themeToolCtx), 'Large Heading', 'h1'),

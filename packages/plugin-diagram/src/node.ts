@@ -4,6 +4,7 @@ import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
 
+import { remarkMermaid } from '.';
 import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';
 import { getId } from './utility';
@@ -19,7 +20,7 @@ export type Options = {
 
 export const TurnIntoDiagram = createCmdKey();
 
-export const diagramNode = createNode<string, Options>((options, utils) => {
+export const diagramNode = createNode<string, Options>((utils, options) => {
     const { mermaidVariables, codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);
     const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables()} }}}%%\n`;
 
@@ -35,7 +36,7 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
 
     return {
         id,
-        schema: {
+        schema: () => ({
             content: 'text*',
             group: 'block',
             marks: '',
@@ -79,24 +80,24 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
                     0,
                 ];
             },
-        },
-        parser: {
-            match: ({ type }) => type === id,
-            runner: (state, node, type) => {
-                const value = node.value as string;
-                state.openNode(type, { value });
-                state.addText(value);
-                state.closeNode();
+            parseMarkdown: {
+                match: ({ type }) => type === id,
+                runner: (state, node, type) => {
+                    const value = node.value as string;
+                    state.openNode(type, { value });
+                    state.addText(value);
+                    state.closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: 'mermaid' });
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: 'mermaid' });
+                },
             },
-        },
+        }),
         commands: (nodeType) => [createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId() }))],
-        view: (node, view, getPos) => {
+        view: () => (node, view, getPos) => {
             const innerEditor = createInnerEditor(view, getPos);
 
             const currentId = getId(node);
@@ -198,5 +199,6 @@ export const diagramNode = createNode<string, Options>((options, utils) => {
             };
         },
         inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType, () => ({ id: getId() }))],
+        remarkPlugins: () => [remarkMermaid],
     };
 });

@@ -3,7 +3,6 @@
 import {
     commandsCtx,
     Ctx,
-    InitReady,
     inputRulesCtx,
     MarkSchema,
     marksCtx,
@@ -54,7 +53,6 @@ export const createPlugin = <
 ) => {
     return (options?: Partial<Options>): MilkdownPlugin => {
         return () => async (ctx) => {
-            await ctx.wait(InitReady);
             const themeTool = ctx.get(themeToolCtx);
             const utils: Utils = {
                 getClassName: getClassName(options?.className as undefined),
@@ -62,6 +60,11 @@ export const createPlugin = <
             };
 
             const plugin = factory(utils, options);
+
+            if (plugin.remarkPlugins) {
+                const remarkPlugins = plugin.remarkPlugins(ctx);
+                ctx.update(remarkPluginsCtx, (ps) => [...ps, ...remarkPlugins]);
+            }
 
             let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
             let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
@@ -85,11 +88,6 @@ export const createPlugin = <
             const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
             const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
             const type: TypeMapping<NodeKeys, MarkKeys> = Object.fromEntries([...nodeTypes, ...markTypes]);
-
-            if (plugin.remarkPlugins) {
-                const remarkPlugins = plugin.remarkPlugins(type, ctx);
-                ctx.update(remarkPluginsCtx, (ps) => [...ps, ...remarkPlugins]);
-            }
 
             if (plugin.commands) {
                 const commands = plugin.commands(type, ctx);

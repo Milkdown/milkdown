@@ -3,10 +3,9 @@
 import { AtomList } from '@milkdown/utils';
 
 import { diagramNode } from './node';
-import { remarkPlugin } from './remark-mermaid';
 
 export * from './remark-mermaid';
 
-export const diagram = AtomList.create([remarkPlugin, diagramNode()]);
+export const diagram = AtomList.create([diagramNode()]);
 
 export { Options, TurnIntoDiagram } from './node';

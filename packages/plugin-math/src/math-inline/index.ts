@@ -14,7 +14,7 @@ type Options = {
 };
 
 export const ModifyInlineMath = createCmdKey<string>();
-export const mathInline = createNode<string, Options>((options, utils) => {
+export const mathInline = createNode<string, Options>((utils, options) => {
     const placeholder = {
         empty: '(empty)',
         error: '(error)',
@@ -34,7 +34,7 @@ export const mathInline = createNode<string, Options>((options, utils) => {
     const id = 'math_inline';
     return {
         id,
-        schema: {
+        schema: () => ({
             group: 'inline',
             inline: true,
             atom: true,
@@ -45,20 +45,20 @@ export const mathInline = createNode<string, Options>((options, utils) => {
             },
             parseDOM: [{ tag: 'span[data-type="mathInline"]' }],
             toDOM: () => ['span', { class: style, 'data-type': id }, 0],
-        },
-        parser: {
-            match: (node) => node.type === 'inlineMath',
-            runner: (state, node, type) => {
-                const code = node.value as string;
-                state.addNode(type, { value: code });
+            parseMarkdown: {
+                match: (node) => node.type === 'inlineMath',
+                runner: (state, node, type) => {
+                    const code = node.value as string;
+                    state.addNode(type, { value: code });
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.addNode('inlineMath', undefined, node.attrs.value);
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.addNode('inlineMath', undefined, node.attrs.value);
+                },
             },
-        },
+        }),
         commands: (nodeType) => [
             createCmd(ModifyInlineMath, (value = '') => (state, dispatch) => {
                 const node = findSelectedNodeOfType(state.selection, nodeType);
@@ -71,7 +71,7 @@ export const mathInline = createNode<string, Options>((options, utils) => {
                 return true;
             }),
         ],
-        view: (node) => {
+        view: () => (node) => {
             let currentNode = node;
             const dom = document.createElement('span');
             if (style) {

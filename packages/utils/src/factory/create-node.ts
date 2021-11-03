@@ -3,7 +3,6 @@
 import {
     commandsCtx,
     Ctx,
-    InitReady,
     inputRulesCtx,
     MilkdownPlugin,
     NodeSchema,
@@ -33,7 +32,6 @@ export const createNode = <SupportedKeys extends string = string, Options extend
 ) => {
     return (options?: Partial<Options>): MilkdownPlugin => {
         return () => async (ctx) => {
-            await ctx.wait(InitReady);
             const themeTool = ctx.get(themeToolCtx);
             const utils: Utils = {
                 getClassName: getClassName(options?.className as undefined),
@@ -42,6 +40,11 @@ export const createNode = <SupportedKeys extends string = string, Options extend
 
             const plugin = factory(utils, options);
 
+            if (plugin.remarkPlugins) {
+                const remarkPlugins = plugin.remarkPlugins(ctx);
+                ctx.update(remarkPluginsCtx, (ps) => [...ps, ...remarkPlugins]);
+            }
+
             const node = plugin.schema(ctx);
             ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node] as [string, NodeSchema]]);
 
@@ -49,11 +52,6 @@ export const createNode = <SupportedKeys extends string = string, Options extend
 
             const schema = ctx.get(schemaCtx);
             const type = schema.nodes[plugin.id];
-
-            if (plugin.remarkPlugins) {
-                const remarkPlugins = plugin.remarkPlugins(type, ctx);
-                ctx.update(remarkPluginsCtx, (ps) => [...ps, ...remarkPlugins]);
-            }
 
             if (plugin.commands) {
                 const commands = plugin.commands(type, ctx);
