@@ -12,4 +12,4 @@ export const history = createPlugin(() => ({
             'Shift-Mod-z': redo,
         }),
     ],
-}));
+}))();

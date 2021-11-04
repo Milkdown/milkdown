@@ -37,8 +37,8 @@ export const hardbreak = createNode<Keys, UnknownRecord>((utils) => {
                 return true;
             }),
         ],
-        keymap: () => ({
+        shortcuts: {
             [SupportedKeys.HardBreak]: createShortcut(InsertHardbreak, 'Shift-Enter'),
-        }),
+        },
     };
 });
