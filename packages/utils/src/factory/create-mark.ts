@@ -1,23 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import {
-    commandsCtx,
-    Ctx,
-    inputRulesCtx,
-    MarkSchema,
-    marksCtx,
-    MilkdownPlugin,
-    prosePluginsCtx,
-    remarkPluginsCtx,
-    schemaCtx,
-    SchemaReady,
-    themeToolCtx,
-    viewCtx,
-} from '@milkdown/core';
-import { keymap, MarkType, MarkViewFactory, ViewFactory } from '@milkdown/prose';
+import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, viewCtx } from '@milkdown/core';
+import { MarkType, MarkViewFactory, ViewFactory } from '@milkdown/prose';
 
-import { CommandConfig, CommonOptions, Methods, UnknownRecord, Utils } from '../types';
-import { getClassName } from './common';
+import { CommonOptions, Methods, UnknownRecord, Utils } from '../types';
+import { applyMethods, getUtils } from '.';
 
 type MarkFactory<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
     utils: Utils,
@@ -33,53 +20,24 @@ export const createMark = <SupportedKeys extends string = string, Options extend
 ) => {
     return (options?: Partial<Options>): MilkdownPlugin => {
         return () => async (ctx) => {
-            const themeTool = ctx.get(themeToolCtx);
-            const utils: Utils = {
-                getClassName: getClassName(options?.className as undefined),
-                getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
-            };
+            const utils = getUtils(ctx, options);
 
             const plugin = factory(utils, options);
 
-            if (plugin.remarkPlugins) {
-                const remarkPlugins = plugin.remarkPlugins(ctx);
-                ctx.update(remarkPluginsCtx, (ps) => [...ps, ...remarkPlugins]);
-            }
+            await applyMethods(
+                ctx,
+                plugin,
+                async () => {
+                    const node = plugin.schema(ctx);
+                    ctx.update(marksCtx, (ns) => [...ns, [plugin.id, node] as [string, MarkSchema]]);
 
-            const node = plugin.schema(ctx);
-            ctx.update(marksCtx, (ns) => [...ns, [plugin.id, node] as [string, MarkSchema]]);
+                    await ctx.wait(SchemaReady);
 
-            await ctx.wait(SchemaReady);
-
-            const schema = ctx.get(schemaCtx);
-            const type = schema.marks[plugin.id];
-
-            if (plugin.commands) {
-                const commands = plugin.commands(type, ctx);
-                commands.forEach(([key, command]) => {
-                    ctx.get(commandsCtx).create(key, command);
-                });
-            }
-
-            if (plugin.inputRules) {
-                const inputRules = plugin.inputRules(type, ctx);
-                ctx.update(inputRulesCtx, (ir) => [...ir, ...inputRules]);
-            }
-
-            if (plugin.shortcuts) {
-                // TODO: get keymap from config
-                const keyMapping = plugin.shortcuts;
-                const tuples = Object.values<CommandConfig>(keyMapping).map(
-                    ([commandKey, defaultKey, args]) =>
-                        [defaultKey, () => ctx.get(commandsCtx).call(commandKey, args)] as const,
-                );
-                ctx.update(prosePluginsCtx, (ps) => ps.concat(keymap(Object.fromEntries(tuples))));
-            }
-
-            if (plugin.prosePlugins) {
-                const prosePlugins = plugin.prosePlugins(type, ctx);
-                ctx.update(prosePluginsCtx, (ps) => [...ps, ...prosePlugins]);
-            }
+                    const schema = ctx.get(schemaCtx);
+                    return schema.marks[plugin.id];
+                },
+                options,
+            );
 
             if (plugin.view) {
                 const view = plugin.view(ctx);

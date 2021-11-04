@@ -6,6 +6,7 @@ import { InputRule, Plugin } from '@milkdown/prose';
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
     readonly getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
+    readonly themeTool: ThemeTool;
 };
 
 export type UnknownRecord = Record<string, unknown>;
