@@ -1,44 +1,44 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { StatusConfig } from '..';
 import { Action } from '../item';
 
 export enum CursorStatus {
     Empty = 'empty',
     Slash = 'slash',
+    Hash = 'hash',
 }
 
 export type StatusCtx = {
+    configuration: StatusConfig;
     cursorStatus: CursorStatus;
     filter: string;
-    activeActions: Action[];
+    actions: Action[];
 };
 
-const createStatusCtx = (): StatusCtx => {
+const createStatusCtx = (configuration: StatusConfig): StatusCtx => {
     return {
+        configuration,
         cursorStatus: CursorStatus.Empty,
         filter: '',
-        activeActions: [],
+        actions: [],
     };
 };
 
 const clearStatus = (status: StatusCtx) => {
+    status.actions = [];
     status.cursorStatus = CursorStatus.Empty;
     status.filter = '';
 };
 
-const setSlash = (status: StatusCtx, filter = '') => {
-    status.cursorStatus = CursorStatus.Slash;
-    status.filter = filter;
-};
-
 export type Status = ReturnType<typeof createStatus>;
 
-export const createStatus = () => {
-    const statusCtx = createStatusCtx();
+export const createStatus = (configurations: StatusConfig[]) => {
+    const statusCtx = createStatusCtx(configurations[0]);
     return {
+        configurations,
         clearStatus: () => clearStatus(statusCtx),
-        setSlash: (filter = '') => setSlash(statusCtx, filter),
         setActions: (actions: Action[]) => {
-            statusCtx.activeActions = actions;
+            statusCtx.actions = actions;
         },
         get: () => statusCtx,
         isEmpty: () => statusCtx.cursorStatus === CursorStatus.Empty,

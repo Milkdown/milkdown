@@ -1,9 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { ThemeTool } from '@milkdown/core';
-import { Decoration, DecorationSet, EditorState, EditorView, findParentNode, NodeWithPos } from '@milkdown/prose';
+import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
+import { transformAction } from '../item';
 import { CursorStatus, Status } from './status';
 
 export type Props = ReturnType<typeof createProps>;
@@ -29,19 +30,14 @@ const createSlashStyle = () => css`
     }
 `;
 
-export const createProps = (
-    status: Status,
-    utils: Utils,
-    placeholder: Record<CursorStatus, string>,
-    shouldDisplay: (parent: NodeWithPos, state: EditorState) => boolean,
-) => {
+export const createProps = (status: Status, utils: Utils) => {
     const emptyStyle = utils.getStyle(createEmptyStyle);
     const slashStyle = utils.getStyle(createSlashStyle);
 
     return {
         handleKeyDown: (_: EditorView, event: Event) => {
-            const { cursorStatus, activeActions } = status.get();
-            if (cursorStatus !== CursorStatus.Slash || activeActions.length === 0) {
+            const { cursorStatus, actions } = status.get();
+            if (cursorStatus === CursorStatus.Empty || actions.length === 0) {
                 return false;
             }
             if (!(event instanceof KeyboardEvent)) {
@@ -57,14 +53,10 @@ export const createProps = (
         decorations: (state: EditorState) => {
             const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
 
-            if (!parent || !shouldDisplay(parent, state)) {
+            if (!parent) {
                 status.clearStatus();
                 return;
             }
-
-            const isEmpty = parent.node.content.size === 0;
-            const isSlash = parent.node.textContent === '/' && state.selection.$from.parentOffset > 0;
-            const isSearch = parent.node.textContent.startsWith('/') && state.selection.$from.parentOffset > 1;
 
             const createDecoration = (text: string, className: (string | undefined)[]) => {
                 const pos = parent.pos;
@@ -76,24 +68,38 @@ export const createProps = (
                 ]);
             };
 
+            const isEmpty = parent.node.content.size === 0;
+
             if (isEmpty) {
-                status.clearStatus();
-                const text = placeholder[CursorStatus.Empty];
+                status.setActions([]);
+                const text = 'AAA';
                 return createDecoration(text, [emptyStyle, 'empty-node']);
             }
 
-            if (isSlash) {
-                status.setSlash();
-                const text = placeholder[CursorStatus.Slash];
-                return createDecoration(text, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);
+            const config = status.configurations.find(
+                (cfg) =>
+                    cfg.prefix &&
+                    parent.node.textContent.startsWith(cfg.prefix) &&
+                    state.selection.$from.parentOffset > cfg.prefix.length - 1,
+            );
+
+            if (config && config.prefix) {
+                let actions = (config.actions ? config.actions({ state }) : []).map((action) =>
+                    transformAction(action),
+                );
+                if (state.selection.$from.parentOffset > config.prefix.length) {
+                    const filter = parent.node.textContent.slice(1);
+                    actions = actions.filter((action) =>
+                        action.keyword.some((key) => key.includes(filter.toLocaleLowerCase())),
+                    );
+                    status.setActions(actions);
+                    return null;
+                } else {
+                    status.setActions(actions);
+                    return createDecoration(config.placeholder, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);
+                }
             }
 
-            if (isSearch) {
-                status.setSlash(parent.node.textContent.slice(1));
-                return null;
-            }
-
-            status.clearStatus();
             return null;
         },
     };

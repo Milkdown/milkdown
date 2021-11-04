@@ -1,10 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { calculateNodePosition, EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-import { Action } from '../item';
 import { createDropdown } from '../utility';
-import { renderDropdown } from './dropdown';
 import {
     createMouseManager,
     handleClick,
@@ -31,7 +30,7 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
     });
 };
 
-export const createView = (status: Status, items: Action[], view: EditorView, utils: Utils) => {
+export const createView = (status: Status, view: EditorView, utils: Utils) => {
     const wrapper = view.dom.parentNode;
     if (!wrapper) return {};
 
@@ -40,27 +39,47 @@ export const createView = (status: Status, items: Action[], view: EditorView, ut
     wrapper.appendChild(dropdownElement);
 
     const _mouseMove = handleMouseMove(mouseManager);
-    const _mouseDown = handleClick(status, items, view, dropdownElement);
+    const _mouseDown = handleClick(status, view, dropdownElement);
     const _keydown = handleKeydown(status, view, dropdownElement, mouseManager);
     const _mouseEnter = handleMouseEnter(status, mouseManager);
     const _mouseLeave = handleMouseLeave();
 
-    items
-        .filter((item) => item.enable(view.state.schema))
-        .forEach(({ $ }) => {
-            $.addEventListener('mouseenter', _mouseEnter);
-            $.addEventListener('mouseleave', _mouseLeave);
-            dropdownElement.appendChild($);
-        });
     wrapper.addEventListener('mousemove', _mouseMove);
     wrapper.addEventListener('mousedown', _mouseDown);
     wrapper.addEventListener('keydown', _keydown);
 
     return {
         update: (view: EditorView) => {
-            const show = renderDropdown(status, dropdownElement, items);
+            const { actions } = status.get();
 
-            if (!show) return;
+            if (!actions.length) {
+                dropdownElement.classList.add('hide');
+                return;
+            }
+
+            dropdownElement.childNodes.forEach((child) => {
+                child.removeEventListener('mouseenter', _mouseEnter as EventListener);
+                child.removeEventListener('mouseenter', _mouseLeave as EventListener);
+                child.remove();
+            });
+
+            actions.forEach(({ $ }) => {
+                $.classList.remove('active');
+                $.addEventListener('mouseenter', _mouseEnter);
+                $.addEventListener('mouseenter', _mouseLeave);
+                dropdownElement.appendChild($);
+            });
+
+            dropdownElement.classList.remove('hide');
+            actions[0].$.classList.add('active');
+
+            requestAnimationFrame(() => {
+                scrollIntoView(actions[0].$, {
+                    scrollMode: 'if-needed',
+                    block: 'nearest',
+                    inline: 'nearest',
+                });
+            });
 
             calculatePosition(view, dropdownElement);
         },

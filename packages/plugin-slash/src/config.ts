@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, themeToolCtx } from '@milkdown/core';
+import type { Ctx } from '@milkdown/ctx';
 import {
     InsertHr,
     InsertImage,
@@ -11,11 +12,21 @@ import {
     WrapInBulletList,
     WrapInOrderedList,
 } from '@milkdown/preset-gfm';
+import { EditorState, NodeWithPos } from '@milkdown/prose';
 
-import type { SlashConfig } from '.';
+import { WrappedAction } from './item';
 import { createDropdownItem, nodeExists } from './utility';
 
-export const config: SlashConfig = (ctx) => [
+export type StatusConfig = {
+    prefix: string | null;
+    placeholder: string;
+    shouldDisplay?: (params: { parent: NodeWithPos; state: EditorState }) => boolean;
+    actions?: (params: { state: EditorState }) => WrappedAction[];
+};
+
+export type Config = (ctx: Ctx) => StatusConfig[];
+
+export const defaultActions = (ctx: Ctx): WrappedAction[] => [
     {
         id: 'h1',
         dom: createDropdownItem(ctx.get(themeToolCtx), 'Large Heading', 'h1'),
@@ -92,5 +103,17 @@ export const config: SlashConfig = (ctx) => [
         command: () => ctx.get(commandsCtx).call(InsertHr),
         keyword: ['divider', 'hr'],
         enable: nodeExists('hr'),
+    },
+];
+
+export const defaultConfig: Config = (ctx) => [
+    {
+        prefix: null,
+        placeholder: 'Type / to use the slash commands...',
+    },
+    {
+        prefix: '/',
+        placeholder: 'Type to filter...',
+        actions: () => defaultActions(ctx),
     },
 ];
