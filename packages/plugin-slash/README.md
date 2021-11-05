@@ -39,7 +39,7 @@ Editor.make().use(
                     return { placeholder: 'Type / to use the slash commands...' };
                 }
 
-                // Filter the placeholder & actions (dropdown items) you want to display depending on content
+                // Define the placeholder & actions (dropdown items) you want to display depending on content
                 if (content.startsWith('/')) {
                     return content === '/'
                         ? {
