@@ -1,39 +1,36 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Action, transformAction, WrappedAction } from '../item';
-
-export enum CursorStatus {
-    Empty = 'empty',
-    Slash = 'slash',
-}
+import { StatusConfigBuilder, StatusConfigBuilderParams } from '..';
+import { Action, transformAction } from '../item';
 
 export type StatusCtx = {
-    cursorStatus: CursorStatus;
+    placeholder: string | null;
     actions: Action[];
 };
 
 const createStatusCtx = (): StatusCtx => {
     return {
-        cursorStatus: CursorStatus.Empty,
+        placeholder: null,
         actions: [],
     };
 };
 
 export type Status = ReturnType<typeof createStatus>;
 
-export const createStatus = () => {
+export const createStatus = (builder: StatusConfigBuilder) => {
     const statusCtx = createStatusCtx();
 
     return {
         get: () => statusCtx,
         clear: () => {
-            statusCtx.cursorStatus = CursorStatus.Empty;
+            statusCtx.placeholder = null;
             statusCtx.actions = [];
         },
-        setActions: (actions: WrappedAction[]) => {
-            statusCtx.cursorStatus = CursorStatus.Slash;
-            statusCtx.actions = actions.map(transformAction);
+        update: (builderParams: StatusConfigBuilderParams) => {
+            const config = builder(builderParams);
+            statusCtx.placeholder = config?.placeholder ?? null;
+            statusCtx.actions = (config?.actions ?? []).map(transformAction);
+            return statusCtx;
         },
-        isEmpty: () => statusCtx.cursorStatus === CursorStatus.Empty,
-        isSlash: () => statusCtx.cursorStatus === CursorStatus.Slash,
+        isEmpty: () => statusCtx.actions.length === 0,
     };
 };

@@ -17,14 +17,21 @@ import { EditorState, Node } from '@milkdown/prose';
 import { WrappedAction } from './item';
 import { createDropdownItem, nodeExists } from './utility';
 
-export type CursorConfig = {
-    cursor?: string;
-    placeholder: string;
-    shouldDisplay?: (params: { parentNode: Node; state: EditorState }) => boolean;
-    actions?: (state: EditorState) => WrappedAction[];
+export type StatusConfig = {
+    placeholder?: string;
+    actions?: WrappedAction[];
 };
 
-export type Config = (ctx: Ctx) => CursorConfig[];
+export type StatusConfigBuilderParams = {
+    content: string;
+    isTopLevel: boolean;
+    parentNode: Node;
+    state: EditorState;
+};
+
+export type StatusConfigBuilder = (params: StatusConfigBuilderParams) => StatusConfig | null;
+
+export type Config = (ctx: Ctx) => StatusConfigBuilder;
 
 export const defaultActions = (ctx: Ctx): WrappedAction[] => [
     {
@@ -106,13 +113,29 @@ export const defaultActions = (ctx: Ctx): WrappedAction[] => [
     },
 ];
 
-export const defaultConfig: Config = (ctx) => [
-    {
-        placeholder: 'Type / to use the slash commands...',
-    },
-    {
-        cursor: '/',
-        placeholder: 'Type to filter...',
-        actions: () => defaultActions(ctx),
-    },
-];
+export const defaultConfig: Config =
+    (ctx) =>
+    ({ content, isTopLevel }) => {
+        if (!isTopLevel) return null;
+
+        if (!content) {
+            return { placeholder: 'Type / to use the slash commands...' };
+        }
+
+        if (content.startsWith('/')) {
+            const actions = defaultActions(ctx);
+
+            return content === '/'
+                ? {
+                      placeholder: 'Type to filter...',
+                      actions,
+                  }
+                : {
+                      actions: actions.filter(({ keyword }) =>
+                          keyword.some((key) => key.includes(content.slice(1).toLocaleLowerCase())),
+                      ),
+                  };
+        }
+
+        return null;
+    };

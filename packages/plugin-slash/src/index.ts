@@ -5,7 +5,8 @@ import type { Config } from './config';
 import { defaultConfig } from './config';
 import { createSlashPlugin } from './prose-plugin';
 
-export { Config, CursorConfig, defaultActions, defaultConfig } from './config';
+export type { Config, StatusConfig, StatusConfigBuilder, StatusConfigBuilderParams } from './config';
+export { defaultActions, defaultConfig } from './config';
 export { createDropdownItem, nodeExists } from './utility';
 
 export type Options = {

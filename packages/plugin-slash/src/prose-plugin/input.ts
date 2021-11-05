@@ -77,7 +77,7 @@ export const handleKeydown =
         if (!mouseManager.isLock()) mouseManager.lock();
 
         const { key } = e;
-        if (!status.isSlash()) return;
+        if (status.isEmpty()) return;
         if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(key)) return;
 
         const { actions } = status.get();
