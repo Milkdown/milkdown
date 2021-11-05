@@ -4,7 +4,7 @@ import { Ctx, MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady, view
 import { NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
 import { CommonOptions, Methods, UnknownRecord, Utils } from '../types';
-import { applyMethods } from '.';
+import { addMetadata, applyMethods } from '.';
 import { getUtils } from './common';
 
 type NodeFactory<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
@@ -19,7 +19,7 @@ type NodeFactory<SupportedKeys extends string = string, Options extends UnknownR
 export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: NodeFactory<SupportedKeys, Options>,
 ) => {
-    return (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin => {
+    return addMetadata((options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin => {
         return () => async (ctx) => {
             const utils = getUtils(ctx, options);
 
@@ -45,5 +45,5 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                 ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
             }
         };
-    };
+    });
 };

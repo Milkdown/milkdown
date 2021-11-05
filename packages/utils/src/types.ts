@@ -26,3 +26,9 @@ export type Methods<Keys extends string, Type> = {
     commands?: (types: Type, ctx: Ctx) => CmdTuple[];
     shortcuts?: Record<Keys, CommandConfig>;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyFn = (...args: any[]) => any;
+export type Metadata<T extends AnyFn> = {
+    (...args: Parameters<T>): { origin: T } & ReturnType<T>;
+};
