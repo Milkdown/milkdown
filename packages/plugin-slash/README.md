@@ -19,7 +19,7 @@ Editor.make().use(nord).use(commonmark).use(slash).create();
 
 ## config
 
-Configure the slash plugin placehoders & items with custom status builder.
+Configure the slash plugin placeholders & items with custom status builder.
 
 Example:
 
