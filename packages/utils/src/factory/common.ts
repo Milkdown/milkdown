@@ -9,6 +9,7 @@ import {
     remarkPluginsCtx,
     themeToolCtx,
 } from '@milkdown/core';
+import { themeMustInstalled } from '@milkdown/exception';
 import { keymap } from '@milkdown/prose';
 
 import { AddMetadata, AnyFn, CommandConfig, CommonOptions, Methods, UnknownRecord, Utils } from '../types';
@@ -24,13 +25,17 @@ export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, arg
     [commandKey, defaultKey, args] as CommandConfig<unknown>;
 
 export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Options): Utils => {
-    const themeTool = ctx.get(themeToolCtx);
+    try {
+        const themeTool = ctx.get(themeToolCtx);
 
-    return {
-        getClassName: getClassName(options?.className as undefined),
-        getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
-        themeTool,
-    };
+        return {
+            getClassName: getClassName(options?.className as undefined),
+            getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
+            themeTool,
+        };
+    } catch {
+        throw themeMustInstalled();
+    }
 };
 
 export const applyMethods = async <Keys extends string, Type, Options extends UnknownRecord>(
