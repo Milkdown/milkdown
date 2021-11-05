@@ -24,11 +24,15 @@ Configure the slash plugin placeholders & items with custom status builder.
 Example:
 
 ```typescript
-import { slashPlugin, slash, createDropdownItem, defaultActions, nodeExists } from '@milkdown/plugin-slash';
+import { slashPlugin, slash, createDropdownItem, defaultActions } from '@milkdown/plugin-slash';
+import { themeToolCtx, commandsCtx } from '@milkdown/core';
 
 Editor.make().use(
     slash.configure(slashPlugin, {
         config: (ctx) => {
+            // Get default slash plugin items
+            const actions = defaultActions(ctx);
+
             // Define a status builder
             return ({ isTopLevel, content, parentNode }) => {
                 // You can only show something at root level
@@ -41,6 +45,17 @@ Editor.make().use(
 
                 // Define the placeholder & actions (dropdown items) you want to display depending on content
                 if (content.startsWith('/')) {
+                    // Add some actions depending on your content parent node
+                    if (parentNode.type.name === 'customNode') {
+                        actions.push({
+                            id: 'custom',
+                            dom: createDropdownItem(ctx.get(themeToolCtx), 'Custom', 'h1'),
+                            command: () => ctx.get(commandsCtx).call(/* Add custom command here */),
+                            keyword: ['custom'],
+                            enable: () => true,
+                        });
+                    }
+
                     return content === '/'
                         ? {
                               placeholder: 'Type to filter...',
@@ -51,10 +66,6 @@ Editor.make().use(
                                   keyword.some((key) => key.includes(content.slice(1).toLocaleLowerCase())),
                               ),
                           };
-                }
-
-                if (parentNode.type.name === 'customNode') {
-                    // Show something depending on your content parent node
                 }
             };
         },
