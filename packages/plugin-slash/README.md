@@ -45,7 +45,7 @@ Editor.make().use(
 
                 // Define the placeholder & actions (dropdown items) you want to display depending on content
                 if (content.startsWith('/')) {
-                    // Add some actions depending on your content parent node
+                    // Add some actions depending on your content's parent node
                     if (parentNode.type.name === 'customNode') {
                         actions.push({
                             id: 'custom',
