@@ -12,7 +12,7 @@ import {
     WrapInBulletList,
     WrapInOrderedList,
 } from '@milkdown/preset-gfm';
-import { EditorState, NodeWithPos } from '@milkdown/prose';
+import { EditorState, Node } from '@milkdown/prose';
 
 import { WrappedAction } from './item';
 import { createDropdownItem, nodeExists } from './utility';
@@ -20,7 +20,7 @@ import { createDropdownItem, nodeExists } from './utility';
 export type CursorConfig = {
     cursor?: string;
     placeholder: string;
-    shouldDisplay?: (parent: NodeWithPos, state: EditorState) => boolean;
+    shouldDisplay?: (params: { parentNode: Node; state: EditorState }) => boolean;
     actions?: (state: EditorState) => WrappedAction[];
 };
 

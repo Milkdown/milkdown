@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Action } from '../item';
+import { Action, transformAction, WrappedAction } from '../item';
 
 export enum CursorStatus {
     Empty = 'empty',
@@ -18,23 +18,21 @@ const createStatusCtx = (): StatusCtx => {
     };
 };
 
-const clearStatus = (status: StatusCtx) => {
-    status.actions = [];
-    status.cursorStatus = CursorStatus.Empty;
-};
-
 export type Status = ReturnType<typeof createStatus>;
 
 export const createStatus = () => {
     const statusCtx = createStatusCtx();
 
     return {
-        clearStatus: () => clearStatus(statusCtx),
-        setActions: (actions: Action[]) => {
-            statusCtx.cursorStatus = CursorStatus.Slash;
-            statusCtx.actions = actions;
-        },
         get: () => statusCtx,
+        clear: () => {
+            statusCtx.cursorStatus = CursorStatus.Empty;
+            statusCtx.actions = [];
+        },
+        setActions: (actions: WrappedAction[]) => {
+            statusCtx.cursorStatus = CursorStatus.Slash;
+            statusCtx.actions = actions.map(transformAction);
+        },
         isEmpty: () => statusCtx.cursorStatus === CursorStatus.Empty,
         isSlash: () => statusCtx.cursorStatus === CursorStatus.Slash,
     };

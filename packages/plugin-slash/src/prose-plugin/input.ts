@@ -60,7 +60,7 @@ export const handleClick =
         if (!el) {
             if (status.isEmpty()) return;
 
-            status.clearStatus();
+            status.clear();
             dropdownElement.classList.add('hide');
             stop();
 
@@ -112,7 +112,7 @@ export const handleKeydown =
         if (key === 'Escape') {
             if (status.isEmpty()) return;
 
-            status.clearStatus();
+            status.clear();
             dropdownElement.classList.add('hide');
             return;
         }
