@@ -19,76 +19,48 @@ Editor.make().use(nord).use(commonmark).use(slash).create();
 
 ## config
 
-Modify the list of slash plugin.
+Configure the slash plugin placehoders & items with custom status builder.
 
 Example:
 
 ```typescript
-import { slashPlugin, slash, createDropdownItem, config, nodeExists } from '@milkdown/plugin-slash';
+import { slashPlugin, slash, createDropdownItem, defaultActions, nodeExists } from '@milkdown/plugin-slash';
 
 Editor.make().use(
     slash.configure(slashPlugin, {
-        config: (utils) =>
-            config(utils)
-                .filter((c) => !['h1', 'h2', 'h3'].includes(c.id))
-                .concat([
-                    {
-                        id: 'h1',
-                        dom: createDropdownItem(utils.ctx.get(themeToolCtx), 'My Heading Tips', 'h1'),
-                        command: () => utils.ctx.get(commandsCtx).call(TurnIntoHeading),
-                        keyword: ['h1', 'my heading', 'heading'],
-                        enable: nodeExists('heading'),
-                    },
-                ]),
-    }),
-);
-```
+        config: (ctx) => {
+            // Define a status builder
+            return ({ isTopLevel, content, parentNode }) => {
+                // You can only enable
+                if (!isTopLevel) return null;
 
-## placeholder
+                // Empty content ? Set your custom empty placeholder !
+                if (!content) {
+                    return { placeholder: 'Type / to use the slash commands...' };
+                }
 
-Modify the placeholder of slash plugin.
+                // Filter the placeholder & actions (dropdown items) you want to display depending on content
+                if (content.startsWith('/')) {
+                    return content === '/'
+                        ? {
+                              placeholder: 'Type to filter...',
+                              actions,
+                          }
+                        : {
+                              actions: actions.filter(({ keyword }) =>
+                                  keyword.some((key) => key.includes(content.slice(1).toLocaleLowerCase())),
+                              ),
+                          };
+                }
 
-Example:
-
-```typescript
-import { slashPlugin, slash, CursorStatus } from '@milkdown/plugin-slash';
-
-Editor.make().use(
-    slash.configure(slashPlugin, {
-        placeholder: {
-            [CursorStatus.Empty]: 'Now you need to type a / ...',
-            [CursorStatus.Slash]: 'Keep typing to search...',
+                if (parentNode.type.name === 'customNode') {
+                    // Show something depending on your content parent node
+                }
+            };
         },
     }),
 );
 ```
-
-## shouldDisplay
-
-Control wether the slash dropdown list should be displayed.
-
-Example:
-
-```typescript
-import { slashPlugin, slash } from '@milkdown/plugin-slash';
-
-Editor.make().use(
-    slash.configure(slashPlugin, {
-        shouldDisplay: (parent, state) => {
-            const noMoreThanOne = parent.node.childCount <= 1;
-            const isTopLevel = state.selection.$from.depth === 1;
-            return noMoreThanOne && isTopLevel;
-        },
-    }),
-);
-```
-
-`shouldDisplay` will only be triggered when selection is in paragraph node.
-
--   parent:
-    Paragraph node which holds the current text node.
--   state:
-    Current editor state.
 
 # License
 
