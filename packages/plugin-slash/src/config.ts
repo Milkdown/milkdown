@@ -29,7 +29,7 @@ export type StatusConfigBuilderParams = {
     state: EditorState;
 };
 
-export type StatusConfigBuilder = (params: StatusConfigBuilderParams) => StatusConfig | null;
+export type StatusConfigBuilder = (params: StatusConfigBuilderParams) => StatusConfig | null | undefined;
 
 export type Config = (ctx: Ctx) => StatusConfigBuilder;
 
