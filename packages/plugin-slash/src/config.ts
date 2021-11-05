@@ -113,9 +113,10 @@ export const defaultActions = (ctx: Ctx): WrappedAction[] => [
     },
 ];
 
-export const defaultConfig: Config =
-    (ctx) =>
-    ({ content, isTopLevel }) => {
+export const defaultConfig: Config = (ctx) => {
+    const actions = defaultActions(ctx);
+
+    return ({ content, isTopLevel }) => {
         if (!isTopLevel) return null;
 
         if (!content) {
@@ -123,8 +124,6 @@ export const defaultConfig: Config =
         }
 
         if (content.startsWith('/')) {
-            const actions = defaultActions(ctx);
-
             return content === '/'
                 ? {
                       placeholder: 'Type to filter...',
@@ -139,3 +138,4 @@ export const defaultConfig: Config =
 
         return null;
     };
+};
