@@ -32,8 +32,8 @@ export const renderDropdown = (status: Status, dropdownElement: HTMLElement, lis
     });
 
     dropdownElement.classList.remove('hide');
-    actions[0].$.classList.add('active');
 
+    actions[0].$.classList.add('active');
     requestAnimationFrame(() => {
         scrollIntoView(actions[0].$, {
             scrollMode: 'if-needed',
