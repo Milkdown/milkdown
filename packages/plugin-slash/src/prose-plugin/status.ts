@@ -1,47 +1,36 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Action } from '../item';
-
-export enum CursorStatus {
-    Empty = 'empty',
-    Slash = 'slash',
-}
+import { StatusConfigBuilder, StatusConfigBuilderParams } from '..';
+import { Action, transformAction } from '../item';
 
 export type StatusCtx = {
-    cursorStatus: CursorStatus;
-    filter: string;
-    activeActions: Action[];
+    placeholder: string | null;
+    actions: Action[];
 };
 
 const createStatusCtx = (): StatusCtx => {
     return {
-        cursorStatus: CursorStatus.Empty,
-        filter: '',
-        activeActions: [],
+        placeholder: null,
+        actions: [],
     };
-};
-
-const clearStatus = (status: StatusCtx) => {
-    status.cursorStatus = CursorStatus.Empty;
-    status.filter = '';
-};
-
-const setSlash = (status: StatusCtx, filter = '') => {
-    status.cursorStatus = CursorStatus.Slash;
-    status.filter = filter;
 };
 
 export type Status = ReturnType<typeof createStatus>;
 
-export const createStatus = () => {
+export const createStatus = (builder: StatusConfigBuilder) => {
     const statusCtx = createStatusCtx();
+
     return {
-        clearStatus: () => clearStatus(statusCtx),
-        setSlash: (filter = '') => setSlash(statusCtx, filter),
-        setActions: (actions: Action[]) => {
-            statusCtx.activeActions = actions;
-        },
         get: () => statusCtx,
-        isEmpty: () => statusCtx.cursorStatus === CursorStatus.Empty,
-        isSlash: () => statusCtx.cursorStatus === CursorStatus.Slash,
+        clear: () => {
+            statusCtx.placeholder = null;
+            statusCtx.actions = [];
+        },
+        update: (builderParams: StatusConfigBuilderParams) => {
+            const config = builder(builderParams);
+            statusCtx.placeholder = config?.placeholder ?? null;
+            statusCtx.actions = (config?.actions ?? []).map(transformAction);
+            return statusCtx;
+        },
+        isEmpty: () => statusCtx.actions.length === 0,
     };
 };

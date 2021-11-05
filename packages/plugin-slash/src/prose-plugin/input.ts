@@ -3,7 +3,6 @@
 import { EditorView } from '@milkdown/prose';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-import { Action } from '../item';
 import { Status } from './status';
 
 export const createMouseManager = () => {
@@ -27,9 +26,10 @@ export const handleMouseMove = (mouseManager: MouseManager) => () => {
 
 export const handleMouseEnter = (status: Status, mouseManager: MouseManager) => (e: MouseEvent) => {
     if (mouseManager.isLock()) return;
-    const active = status.get().activeActions.findIndex((x) => x.$.classList.contains('active'));
+    const { actions } = status.get();
+    const active = actions.findIndex((x) => x.$.classList.contains('active'));
     if (active >= 0) {
-        status.get().activeActions[active].$.classList.remove('active');
+        actions[active].$.classList.remove('active');
     }
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
@@ -43,7 +43,7 @@ export const handleMouseLeave = () => (e: MouseEvent) => {
 };
 
 export const handleClick =
-    (status: Status, items: Action[], view: EditorView, dropdownElement: HTMLElement) =>
+    (status: Status, view: EditorView, dropdownElement: HTMLElement) =>
     (e: Event): void => {
         const { target } = e;
         if (!(target instanceof HTMLElement)) return;
@@ -54,11 +54,13 @@ export const handleClick =
             e.preventDefault();
         };
 
-        const el = Object.values(items).find(({ $ }) => $.contains(target));
+        const { actions } = status.get();
+
+        const el = Object.values(actions).find(({ $ }) => $.contains(target));
         if (!el) {
             if (status.isEmpty()) return;
 
-            status.clearStatus();
+            status.clear();
             dropdownElement.classList.add('hide');
             stop();
 
@@ -75,18 +77,18 @@ export const handleKeydown =
         if (!mouseManager.isLock()) mouseManager.lock();
 
         const { key } = e;
-        if (!status.isSlash()) return;
+        if (status.isEmpty()) return;
         if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(key)) return;
 
-        const { activeActions } = status.get();
+        const { actions } = status.get();
 
-        let active = activeActions.findIndex(({ $ }) => $.classList.contains('active'));
+        let active = actions.findIndex(({ $ }) => $.classList.contains('active'));
         if (active < 0) active = 0;
 
         const moveActive = (next: number) => {
-            activeActions[active].$.classList.remove('active');
-            activeActions[next].$.classList.add('active');
-            scrollIntoView(activeActions[next].$, {
+            actions[active].$.classList.remove('active');
+            actions[next].$.classList.add('active');
+            scrollIntoView(actions[next].$, {
                 scrollMode: 'if-needed',
                 block: 'nearest',
                 inline: 'nearest',
@@ -94,14 +96,14 @@ export const handleKeydown =
         };
 
         if (key === 'ArrowDown') {
-            const next = active === activeActions.length - 1 ? 0 : active + 1;
+            const next = active === actions.length - 1 ? 0 : active + 1;
 
             moveActive(next);
             return;
         }
 
         if (key === 'ArrowUp') {
-            const next = active === 0 ? activeActions.length - 1 : active - 1;
+            const next = active === 0 ? actions.length - 1 : active - 1;
 
             moveActive(next);
             return;
@@ -110,11 +112,11 @@ export const handleKeydown =
         if (key === 'Escape') {
             if (status.isEmpty()) return;
 
-            status.clearStatus();
+            status.clear();
             dropdownElement.classList.add('hide');
             return;
         }
 
-        activeActions[active].command(view.state, view.dispatch, view);
-        activeActions[active].$.classList.remove('active');
+        actions[active].command(view.state, view.dispatch, view);
+        actions[active].$.classList.remove('active');
     };
