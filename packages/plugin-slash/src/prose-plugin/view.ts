@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { calculateNodePosition, EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
-import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import { createDropdown } from '../utility';
+import { renderDropdown } from './dropdown';
 import {
     createMouseManager,
     handleClick,
@@ -50,38 +50,12 @@ export const createView = (status: Status, view: EditorView, utils: Utils) => {
 
     return {
         update: (view: EditorView) => {
-            const { actions } = status.get();
-
-            if (!actions.length) {
-                dropdownElement.classList.add('hide');
-                return;
-            }
-
-            dropdownElement.childNodes.forEach((child) => {
-                child.removeEventListener('mouseenter', _mouseEnter as EventListener);
-                child.removeEventListener('mouseenter', _mouseLeave as EventListener);
+            const show = renderDropdown(status, dropdownElement, {
+                mouseEnter: _mouseEnter as EventListener,
+                mouseLeave: _mouseLeave as EventListener,
             });
 
-            // Reset dropdownElement children
-            dropdownElement.textContent = '';
-
-            actions.forEach(({ $ }) => {
-                $.classList.remove('active');
-                $.addEventListener('mouseenter', _mouseEnter);
-                $.addEventListener('mouseenter', _mouseLeave);
-                dropdownElement.appendChild($);
-            });
-
-            dropdownElement.classList.remove('hide');
-            actions[0].$.classList.add('active');
-
-            requestAnimationFrame(() => {
-                scrollIntoView(actions[0].$, {
-                    scrollMode: 'if-needed',
-                    block: 'nearest',
-                    inline: 'nearest',
-                });
-            });
+            if (!show) return;
 
             calculatePosition(view, dropdownElement);
         },
