@@ -31,7 +31,7 @@ Editor.make().use(
         config: (ctx) => {
             // Define a status builder
             return ({ isTopLevel, content, parentNode }) => {
-                // You can only enable
+                // You can only show something at root level
                 if (!isTopLevel) return null;
 
                 // Empty content ? Set your custom empty placeholder !
