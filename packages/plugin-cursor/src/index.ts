@@ -46,4 +46,4 @@ export const cursor = createPlugin(() => {
             return [gapCursor(), dropCursor({ color: themeTool.palette('secondary'), width })];
         },
     };
-});
+})();

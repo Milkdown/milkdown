@@ -15,7 +15,7 @@ import { MarkType, MarkViewFactory, NodeType, NodeViewFactory, ViewFactory } fro
 
 import { Utils } from '..';
 import { CommonOptions, Methods, UnknownRecord } from '../types';
-import { applyMethods, getUtils } from '.';
+import { addMetadata, applyMethods, getUtils } from '.';
 
 type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in NodeKeys]: NodeType;
@@ -53,7 +53,7 @@ export const createPlugin = <
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
 ) => {
-    return (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin => {
+    return addMetadata((options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin => {
         return () => async (ctx) => {
             const utils = getUtils(ctx, options);
 
@@ -96,5 +96,5 @@ export const createPlugin = <
                 ctx.update(viewCtx, (v) => [...v, ...Object.entries<ViewFactory>(view as Record<string, ViewFactory>)]);
             }
         };
-    };
+    });
 };

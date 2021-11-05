@@ -19,31 +19,33 @@ type NodeFactory<SupportedKeys extends string = string, Options extends UnknownR
 export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: NodeFactory<SupportedKeys, Options>,
 ) => {
-    return addMetadata((options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin => {
-        return () => async (ctx) => {
-            const utils = getUtils(ctx, options);
+    return addMetadata(
+        (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin =>
+            () =>
+            async (ctx) => {
+                const utils = getUtils(ctx, options);
 
-            const plugin = factory(utils, options);
+                const plugin = factory(utils, options);
 
-            await applyMethods(
-                ctx,
-                plugin,
-                async () => {
-                    const node = plugin.schema(ctx);
-                    ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node] as [string, NodeSchema]]);
+                await applyMethods(
+                    ctx,
+                    plugin,
+                    async () => {
+                        const node = plugin.schema(ctx);
+                        ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node] as [string, NodeSchema]]);
 
-                    await ctx.wait(SchemaReady);
+                        await ctx.wait(SchemaReady);
 
-                    const schema = ctx.get(schemaCtx);
-                    return schema.nodes[plugin.id];
-                },
-                options,
-            );
+                        const schema = ctx.get(schemaCtx);
+                        return schema.nodes[plugin.id];
+                    },
+                    options,
+                );
 
-            if (plugin.view) {
-                const view = plugin.view(ctx);
-                ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
-            }
-        };
-    });
+                if (plugin.view) {
+                    const view = plugin.view(ctx);
+                    ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
+                }
+            },
+    );
 };

@@ -4,7 +4,7 @@ import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, view
 import { MarkType, MarkViewFactory, ViewFactory } from '@milkdown/prose';
 
 import { CommonOptions, Methods, UnknownRecord, Utils } from '../types';
-import { applyMethods, getUtils } from '.';
+import { addMetadata, applyMethods, getUtils } from '.';
 
 type MarkFactory<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
     utils: Utils,
@@ -18,7 +18,7 @@ type MarkFactory<SupportedKeys extends string = string, Options extends UnknownR
 export const createMark = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: MarkFactory<SupportedKeys, Options>,
 ) => {
-    return (options?: Partial<Options>): MilkdownPlugin => {
+    return addMetadata((options?: Partial<Options>): MilkdownPlugin => {
         return () => async (ctx) => {
             const utils = getUtils(ctx, options);
 
@@ -44,5 +44,5 @@ export const createMark = <SupportedKeys extends string = string, Options extend
                 ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
             }
         };
-    };
+    });
 };

@@ -11,7 +11,7 @@ import {
 } from '@milkdown/core';
 import { keymap } from '@milkdown/prose';
 
-import { AnyFn, CommandConfig, CommonOptions, Metadata, Methods, UnknownRecord, Utils } from '../types';
+import { AddMetadata, AnyFn, CommandConfig, CommonOptions, Methods, UnknownRecord, Utils } from '../types';
 
 export const getClassName =
     (className: CommonOptions['className']) =>
@@ -83,7 +83,7 @@ export const applyMethods = async <Keys extends string, Type, Options extends Un
 };
 
 export const addMetadata = <T extends AnyFn>(x: T) => {
-    const fn: Metadata<T> = (...args) => {
+    const fn: AddMetadata<T> = (...args) => {
         const result = x(...args);
         result.origin = fn;
         return result;

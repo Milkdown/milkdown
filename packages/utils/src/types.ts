@@ -29,6 +29,7 @@ export type Methods<Keys extends string, Type> = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFn = (...args: any[]) => any;
-export type Metadata<T extends AnyFn> = {
-    (...args: Parameters<T>): { origin: T } & ReturnType<T>;
+export type Metadata<T = unknown> = {
+    origin: T;
 };
+export type AddMetadata<T extends AnyFn = AnyFn> = (...args: Parameters<T>) => Metadata<T> & ReturnType<T>;
