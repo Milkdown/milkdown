@@ -5,8 +5,7 @@ import type { Config } from './config';
 import { defaultConfig } from './config';
 import { createSlashPlugin } from './prose-plugin';
 
-export { Config, defaultActions, defaultConfig, StatusConfig } from './config';
-export { CursorStatus } from './prose-plugin/status';
+export { Config, CursorConfig, defaultActions, defaultConfig } from './config';
 export { createDropdownItem, nodeExists } from './utility';
 
 export type Options = {
@@ -18,8 +17,9 @@ export const slashPlugin = createPlugin<string, Options>((utils, options) => {
 
     return {
         prosePlugins: (_, ctx) => {
-            const configurations = slashConfig(ctx);
-            const plugin = createSlashPlugin(utils, configurations);
+            const config = slashConfig(ctx);
+
+            const plugin = createSlashPlugin(utils, config);
 
             return [plugin];
         },

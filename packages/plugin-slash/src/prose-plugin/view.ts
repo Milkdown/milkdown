@@ -60,8 +60,10 @@ export const createView = (status: Status, view: EditorView, utils: Utils) => {
             dropdownElement.childNodes.forEach((child) => {
                 child.removeEventListener('mouseenter', _mouseEnter as EventListener);
                 child.removeEventListener('mouseenter', _mouseLeave as EventListener);
-                child.remove();
             });
+
+            // Reset dropdownElement children
+            dropdownElement.textContent = '';
 
             actions.forEach(({ $ }) => {
                 $.classList.remove('active');

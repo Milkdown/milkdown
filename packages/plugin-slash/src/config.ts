@@ -17,14 +17,14 @@ import { EditorState, NodeWithPos } from '@milkdown/prose';
 import { WrappedAction } from './item';
 import { createDropdownItem, nodeExists } from './utility';
 
-export type StatusConfig = {
-    prefix: string | null;
+export type CursorConfig = {
+    cursor?: string;
     placeholder: string;
-    shouldDisplay?: (params: { parent: NodeWithPos; state: EditorState }) => boolean;
-    actions?: (params: { state: EditorState }) => WrappedAction[];
+    shouldDisplay?: (parent: NodeWithPos, state: EditorState) => boolean;
+    actions?: (state: EditorState) => WrappedAction[];
 };
 
-export type Config = (ctx: Ctx) => StatusConfig[];
+export type Config = (ctx: Ctx) => CursorConfig[];
 
 export const defaultActions = (ctx: Ctx): WrappedAction[] => [
     {
@@ -108,11 +108,10 @@ export const defaultActions = (ctx: Ctx): WrappedAction[] => [
 
 export const defaultConfig: Config = (ctx) => [
     {
-        prefix: null,
         placeholder: 'Type / to use the slash commands...',
     },
     {
-        prefix: '/',
+        cursor: '/',
         placeholder: 'Type to filter...',
         actions: () => defaultActions(ctx),
     },

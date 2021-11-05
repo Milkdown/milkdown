@@ -4,7 +4,9 @@ import { ThemeTool } from '@milkdown/core';
 import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
+import { CursorConfig } from '..';
 import { transformAction } from '../item';
+// import { transformAction } from '../item';
 import { CursorStatus, Status } from './status';
 
 export type Props = ReturnType<typeof createProps>;
@@ -30,14 +32,14 @@ const createSlashStyle = () => css`
     }
 `;
 
-export const createProps = (status: Status, utils: Utils) => {
+export const createProps = (status: Status, utils: Utils, cursorConfigs: CursorConfig[]) => {
     const emptyStyle = utils.getStyle(createEmptyStyle);
     const slashStyle = utils.getStyle(createSlashStyle);
 
     return {
         handleKeyDown: (_: EditorView, event: Event) => {
             const { cursorStatus, actions } = status.get();
-            if (cursorStatus === CursorStatus.Empty || actions.length === 0) {
+            if (cursorStatus !== CursorStatus.Slash || actions.length === 0) {
                 return false;
             }
             if (!(event instanceof KeyboardEvent)) {
@@ -68,39 +70,38 @@ export const createProps = (status: Status, utils: Utils) => {
                 ]);
             };
 
-            const isEmpty = parent.node.content.size === 0;
+            if (parent.node.content.size === 0) {
+                const emptyConfig = cursorConfigs.find((cfg) => !cfg.cursor) || {
+                    placeholder: 'Type / to use the slash commands...',
+                };
 
-            if (isEmpty) {
-                status.setActions([]);
-                const text = 'AAA';
-                return createDecoration(text, [emptyStyle, 'empty-node']);
+                const shouldDisplay = emptyConfig?.shouldDisplay
+                    ? emptyConfig.shouldDisplay(parent, state)
+                    : parent.node.childCount <= 1 && state.selection.$from.depth === 1;
+
+                status.clearStatus();
+
+                return shouldDisplay ? createDecoration(emptyConfig.placeholder, [emptyStyle, 'empty-node']) : null;
             }
 
-            const config = status.configurations.find(
-                (cfg) =>
-                    cfg.prefix &&
-                    parent.node.textContent.startsWith(cfg.prefix) &&
-                    state.selection.$from.parentOffset > cfg.prefix.length - 1,
-            );
+            const config = cursorConfigs.find((cfg) => cfg.cursor && parent.node.textContent.startsWith(cfg.cursor));
 
-            if (config && config.prefix) {
-                let actions = (config.actions ? config.actions({ state }) : []).map((action) =>
-                    transformAction(action),
+            if (!config || !config.cursor) {
+                return null;
+            }
+
+            let actions = config.actions ? config.actions(state) : [];
+
+            if (state.selection.$from.parentOffset > config.cursor.length) {
+                actions = actions.filter(({ keyword }) =>
+                    keyword.some((key) => key.includes(parent.node.textContent.slice(1).toLocaleLowerCase())),
                 );
-                if (state.selection.$from.parentOffset > config.prefix.length) {
-                    const filter = parent.node.textContent.slice(1);
-                    actions = actions.filter((action) =>
-                        action.keyword.some((key) => key.includes(filter.toLocaleLowerCase())),
-                    );
-                    status.setActions(actions);
-                    return null;
-                } else {
-                    status.setActions(actions);
-                    return createDecoration(config.placeholder, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);
-                }
+                status.setActions(actions.map(transformAction));
+                return null;
             }
 
-            return null;
+            status.setActions(actions.map(transformAction));
+            return createDecoration(config.placeholder, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);
         },
     };
 };
