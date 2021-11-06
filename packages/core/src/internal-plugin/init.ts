@@ -4,7 +4,7 @@ import { InputRule, MarkViewFactory, NodeViewFactory, Plugin, ViewFactory } from
 import { remark } from 'remark';
 
 import type { Editor } from '../editor';
-import { RemarkParser, RemarkPlugin } from '../utility';
+import { RemarkPlugin } from '../utility';
 import { ConfigReady } from './config';
 
 export const InitReady = createTimer('InitReady');
@@ -36,12 +36,6 @@ export const init =
         return async (ctx) => {
             await ctx.waitTimers(initTimerCtx);
 
-            const remark = ctx.get(remarkCtx);
-            const remarkPlugins = ctx.get(remarkPluginsCtx);
-
-            const processor = remarkPlugins.reduce((acc: RemarkParser, plug) => acc.use(plug), remark);
-
-            ctx.set(remarkCtx, processor);
             ctx.done(InitReady);
         };
     };

@@ -4,6 +4,7 @@ import {
     CmdKey,
     commandsCtx,
     Ctx,
+    InitReady,
     inputRulesCtx,
     prosePluginsCtx,
     remarkPluginsCtx,
@@ -44,6 +45,8 @@ export const applyMethods = async <Keys extends string, Type, Options extends Un
     getType: () => Promise<Type>,
     options?: Partial<CommonOptions<Keys, Options>>,
 ): Promise<void> => {
+    await ctx.wait(InitReady);
+
     if (plugin.remarkPlugins) {
         const remarkPlugins = plugin.remarkPlugins(ctx);
         ctx.update(remarkPluginsCtx, (ps) => [...ps, ...remarkPlugins]);

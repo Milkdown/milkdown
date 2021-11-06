@@ -17,32 +17,33 @@ type MarkFactory<SupportedKeys extends string = string, Options extends UnknownR
 
 export const createMark = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: MarkFactory<SupportedKeys, Options>,
-) => {
-    return addMetadata((options?: Partial<Options>): MilkdownPlugin => {
-        return () => async (ctx) => {
-            const utils = getUtils(ctx, options);
+) =>
+    addMetadata(
+        (options?: Partial<Options>): MilkdownPlugin =>
+            () =>
+            async (ctx) => {
+                const utils = getUtils(ctx, options);
 
-            const plugin = factory(utils, options);
+                const plugin = factory(utils, options);
 
-            await applyMethods(
-                ctx,
-                plugin,
-                async () => {
-                    const node = plugin.schema(ctx);
-                    ctx.update(marksCtx, (ns) => [...ns, [plugin.id, node] as [string, MarkSchema]]);
+                await applyMethods(
+                    ctx,
+                    plugin,
+                    async () => {
+                        const node = plugin.schema(ctx);
+                        ctx.update(marksCtx, (ns) => [...ns, [plugin.id, node] as [string, MarkSchema]]);
 
-                    await ctx.wait(SchemaReady);
+                        await ctx.wait(SchemaReady);
 
-                    const schema = ctx.get(schemaCtx);
-                    return schema.marks[plugin.id];
-                },
-                options,
-            );
+                        const schema = ctx.get(schemaCtx);
+                        return schema.marks[plugin.id];
+                    },
+                    options,
+                );
 
-            if (plugin.view) {
-                const view = plugin.view(ctx);
-                ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
-            }
-        };
-    });
-};
+                if (plugin.view) {
+                    const view = plugin.view(ctx);
+                    ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
+                }
+            },
+    );

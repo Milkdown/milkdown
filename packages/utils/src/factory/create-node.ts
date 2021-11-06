@@ -18,8 +18,8 @@ type NodeFactory<SupportedKeys extends string = string, Options extends UnknownR
 
 export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: NodeFactory<SupportedKeys, Options>,
-) => {
-    return addMetadata(
+) =>
+    addMetadata(
         (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin =>
             () =>
             async (ctx) => {
@@ -48,4 +48,3 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                 }
             },
     );
-};

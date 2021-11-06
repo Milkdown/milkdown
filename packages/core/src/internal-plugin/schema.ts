@@ -5,7 +5,8 @@ import { Schema } from '@milkdown/prose';
 
 import type { MarkParserSpec, NodeParserSpec } from '../parser';
 import type { MarkSerializerSpec, NodeSerializerSpec } from '../serializer';
-import { InitReady } from '.';
+import { RemarkParser } from '../utility';
+import { InitReady, remarkCtx, remarkPluginsCtx } from '.';
 
 export const SchemaReady = createTimer('schemaReady');
 
@@ -30,6 +31,12 @@ export const schema: MilkdownPlugin = (pre) => {
 
     return async (ctx) => {
         await ctx.waitTimers(schemaTimerCtx);
+
+        const remark = ctx.get(remarkCtx);
+        const remarkPlugins = ctx.get(remarkPluginsCtx);
+
+        const processor = remarkPlugins.reduce((acc: RemarkParser, plug) => acc.use(plug), remark);
+        ctx.set(remarkCtx, processor);
 
         const nodes = Object.fromEntries(ctx.get(nodesCtx));
         const marks = Object.fromEntries(ctx.get(marksCtx));

@@ -52,49 +52,53 @@ export const createPlugin = <
     MarkKeys extends string = string,
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
-) => {
-    return addMetadata((options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin => {
-        return () => async (ctx) => {
-            const utils = getUtils(ctx, options);
+) =>
+    addMetadata(
+        (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin =>
+            () =>
+            async (ctx) => {
+                const utils = getUtils(ctx, options);
 
-            const plugin = factory(utils, options);
+                const plugin = factory(utils, options);
 
-            await applyMethods(
-                ctx,
-                plugin,
-                async () => {
-                    let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
-                    let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
-                    if (plugin.schema) {
-                        const schemas = plugin.schema(ctx);
-                        if (schemas.node) {
-                            node = schemas.node;
-                            const nodes = Object.entries<NodeSchema>(schemas.node);
-                            ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+                await applyMethods(
+                    ctx,
+                    plugin,
+                    async () => {
+                        let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
+                        let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
+                        if (plugin.schema) {
+                            const schemas = plugin.schema(ctx);
+                            if (schemas.node) {
+                                node = schemas.node;
+                                const nodes = Object.entries<NodeSchema>(schemas.node);
+                                ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+                            }
+
+                            if (schemas.mark) {
+                                mark = schemas.mark;
+                                const marks = Object.entries<MarkSchema>(schemas.mark);
+                                ctx.update(marksCtx, (ms) => [...ms, ...marks]);
+                            }
                         }
 
-                        if (schemas.mark) {
-                            mark = schemas.mark;
-                            const marks = Object.entries<MarkSchema>(schemas.mark);
-                            ctx.update(marksCtx, (ms) => [...ms, ...marks]);
-                        }
-                    }
+                        await ctx.wait(SchemaReady);
 
-                    await ctx.wait(SchemaReady);
+                        const schema = ctx.get(schemaCtx);
+                        const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
+                        const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
+                        const type: TypeMapping<NodeKeys, MarkKeys> = Object.fromEntries([...nodeTypes, ...markTypes]);
+                        return type;
+                    },
+                    options,
+                );
 
-                    const schema = ctx.get(schemaCtx);
-                    const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
-                    const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
-                    const type: TypeMapping<NodeKeys, MarkKeys> = Object.fromEntries([...nodeTypes, ...markTypes]);
-                    return type;
-                },
-                options,
-            );
-
-            if (plugin.view) {
-                const view = plugin.view(ctx);
-                ctx.update(viewCtx, (v) => [...v, ...Object.entries<ViewFactory>(view as Record<string, ViewFactory>)]);
-            }
-        };
-    });
-};
+                if (plugin.view) {
+                    const view = plugin.view(ctx);
+                    ctx.update(viewCtx, (v) => [
+                        ...v,
+                        ...Object.entries<ViewFactory>(view as Record<string, ViewFactory>),
+                    ]);
+                }
+            },
+    );
