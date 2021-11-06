@@ -6,7 +6,7 @@ We provide a [util package](https://www.npmjs.com/package/@milkdown/utils) to pr
 
 The util package provides three factory functions:
 
--   _createProsePlugin_:
+-   _createPlugin_:
     Create a [prosemirror plugin](https://prosemirror.net/docs/ref/#state.Plugin_System).
 -   _createNode_:
     Create a [prosemirror node](https://prosemirror.net/docs/ref/#model.Node).
@@ -213,38 +213,6 @@ Editor.use(
         },
     }),
 );
-```
-
-## Extend
-
-Every plugin created by factory can be extended.
-If you just want to modify some behavior of exists plugin, extend is better than rewrite a new one.
-
-```typescript
-import { heading } from '@milkdown/preset-commonmark';
-
-const customHeading = heading.extend((options, utils, original) => {
-    return {
-        ...original,
-        schema: customSchema,
-    };
-});
-```
-
-Here we have 3 parameters. The `options` and `utils` have been introduced. And the `original` is the original plugin to be extended.
-The `extend` method should return a new plugin.
-
-You can also use type parameters to change the type signature of `options` and `keys`:
-
-```typescript
-import { heading } from '@milkdown/preset-commonmark';
-
-const customHeading = heading.extend<CustomKeys, CustomOptions>((options, utils, original) => {
-    return {
-        ...original,
-        schema: customSchema,
-    };
-});
 ```
 
 # AtomList

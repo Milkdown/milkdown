@@ -216,37 +216,6 @@ Editor.use(
 );
 ```
 
-## 继承
-
-所有被工厂创建的插件都可以被继承。如果你想要修改现有插件的一些行为，继承比完全重写要好。
-
-```typescript
-import { heading } from '@milkdown/preset-commonmark';
-
-const customHeading = heading.extend((options, utils, original) => {
-    return {
-        ...original,
-        schema: customSchema,
-    };
-});
-```
-
-这里我们有三个参数，`options`和`utils`已经介绍过了。`original`是指被继承的插件。
-这个函数应该返回一个新的插件。
-
-你也可以通过类型参数来更改`options`和`keys`的类型签名。
-
-```typescript
-import { heading } from '@milkdown/preset-commonmark';
-
-const customHeading = heading.extend<CustomKeys, CustomOptions>((options, utils, original) => {
-    return {
-        ...original,
-        schema: customSchema,
-    };
-});
-```
-
 # AtomList
 
 在真实世界中，一个包经常由一系列 milkdown 插件组成。
