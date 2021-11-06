@@ -1,39 +1,48 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Mark, markFactory } from '@milkdown/core';
 
-import { ExtendFactory, Factory, Origin, PluginWithMetadata, UnknownRecord } from '../types';
-import { commonPlugin } from './common';
-import { createKeymap } from './keymap';
+import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, viewCtx } from '@milkdown/core';
+import { MarkType, MarkViewFactory, ViewFactory } from '@milkdown/prose';
 
-export const createMark = <SupportedKeys extends string = string, T extends UnknownRecord = UnknownRecord>(
-    factory: Factory<SupportedKeys, T, Mark>,
-): Origin<SupportedKeys, T, Mark> => {
-    const origin: Origin<SupportedKeys, T, Mark> = (options) => {
-        const plugin = markFactory((ctx) => {
-            const mark = commonPlugin(factory, ctx, options);
-            const view = options?.view ?? mark.view;
-            const keymap = createKeymap(mark.shortcuts, options?.keymap);
-            plugin.id = mark.id;
+import { CommonOptions, Methods, UnknownRecord, Utils } from '../types';
+import { addMetadata, applyMethods, getUtils } from '.';
 
-            return {
-                ...mark,
-                view,
-                keymap,
-            };
-        }) as PluginWithMetadata<SupportedKeys, T, Mark>;
-        plugin.origin = origin;
+type MarkFactory<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
+    utils: Utils,
+    options?: Partial<CommonOptions<SupportedKeys, Options>>,
+) => {
+    id: string;
+    schema: (ctx: Ctx) => MarkSchema;
+    view?: (ctx: Ctx) => MarkViewFactory;
+} & Methods<SupportedKeys, MarkType>;
 
-        return plugin;
-    };
-    origin.extend = <SupportedKeysExtended extends SupportedKeys = SupportedKeys, ObjExtended extends T = T>(
-        extendFactory: ExtendFactory<SupportedKeys, SupportedKeysExtended, ObjExtended, Mark>,
-    ) => {
-        return createMark<SupportedKeysExtended, ObjExtended>((options, utils) => {
-            const original = factory(options as T, utils);
-            const extended = extendFactory(options, utils, original);
-            return extended;
-        });
-    };
+export const createMark = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
+    factory: MarkFactory<SupportedKeys, Options>,
+) => {
+    return addMetadata((options?: Partial<Options>): MilkdownPlugin => {
+        return () => async (ctx) => {
+            const utils = getUtils(ctx, options);
 
-    return origin;
+            const plugin = factory(utils, options);
+
+            await applyMethods(
+                ctx,
+                plugin,
+                async () => {
+                    const node = plugin.schema(ctx);
+                    ctx.update(marksCtx, (ns) => [...ns, [plugin.id, node] as [string, MarkSchema]]);
+
+                    await ctx.wait(SchemaReady);
+
+                    const schema = ctx.get(schemaCtx);
+                    return schema.marks[plugin.id];
+                },
+                options,
+            );
+
+            if (plugin.view) {
+                const view = plugin.view(ctx);
+                ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
+            }
+        };
+    });
 };

@@ -1,17 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
+import { InputRule, MarkViewFactory, NodeViewFactory, Plugin, ViewFactory } from '@milkdown/prose';
 import { remark } from 'remark';
 
 import type { Editor } from '../editor';
-import { RemarkParser } from '../utility';
+import { RemarkParser, RemarkPlugin } from '../utility';
 import { ConfigReady } from './config';
-import { prosePluginsCtx } from './prose-plugin-factory';
-import { remarkPluginsCtx } from './remark-plugin-factory';
 
 export const InitReady = createTimer('InitReady');
 
 export const initTimerCtx = createSlice<Timer[]>([], 'initTimer');
 export const editorCtx = createSlice<Editor>({} as Editor, 'editor');
+
+export const inputRulesCtx = createSlice<InputRule[]>([], 'inputRules');
+export const prosePluginsCtx = createSlice<Plugin[]>([], 'prosePlugins');
+export const remarkPluginsCtx = createSlice<RemarkPlugin[]>([], 'remarkPlugins');
+
+type View = [nodeId: string, view: ViewFactory | NodeViewFactory | MarkViewFactory];
+export const viewCtx = createSlice<View[]>([], 'nodeView');
 
 export const remarkCtx = createSlice(remark(), 'remark');
 
@@ -21,6 +27,8 @@ export const init =
         pre.inject(editorCtx, editor)
             .inject(prosePluginsCtx)
             .inject(remarkPluginsCtx)
+            .inject(inputRulesCtx)
+            .inject(viewCtx)
             .inject(remarkCtx, remark())
             .inject(initTimerCtx, [ConfigReady])
             .record(InitReady);

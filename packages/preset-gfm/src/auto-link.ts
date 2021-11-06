@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { prosePluginFactory } from '@milkdown/core';
 import { InputRule, inputRules } from '@milkdown/prose';
+import { createPlugin } from '@milkdown/utils';
 
 const urlRegex =
     /(https?:\/\/)?www\.[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z]{2,}\b(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)(?:[-a-zA-Z0-9@:%._+~#=?!&/]*)$/;
@@ -24,4 +24,4 @@ const proseUrlPlugin = () =>
         ],
     });
 
-export const urlPlugin = prosePluginFactory(proseUrlPlugin());
+export const urlPlugin = createPlugin(() => ({ prosePlugins: () => [proseUrlPlugin()] }));

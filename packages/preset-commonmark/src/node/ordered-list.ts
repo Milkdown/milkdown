@@ -10,9 +10,9 @@ type Keys = SupportedKeys['OrderedList'];
 export const WrapInOrderedList = createCmdKey();
 
 const id = 'ordered_list';
-export const orderedList = createNode<Keys>((_, utils) => ({
+export const orderedList = createNode<Keys>((utils) => ({
     id,
-    schema: {
+    schema: () => ({
         content: 'listItem+',
         group: 'block',
         attrs: {
@@ -39,21 +39,21 @@ export const orderedList = createNode<Keys>((_, utils) => ({
             },
             0,
         ],
-    },
-    parser: {
-        match: ({ type, ordered }) => type === 'list' && !!ordered,
-        runner: (state, node, type) => {
-            state.openNode(type).next(node.children).closeNode();
+        parseMarkdown: {
+            match: ({ type, ordered }) => type === 'list' && !!ordered,
+            runner: (state, node, type) => {
+                state.openNode(type).next(node.children).closeNode();
+            },
         },
-    },
-    serializer: {
-        match: (node) => node.type.name === id,
-        runner: (state, node) => {
-            state.openNode('list', undefined, { ordered: true, start: 1 });
-            state.next(node.content);
-            state.closeNode();
+        toMarkdown: {
+            match: (node) => node.type.name === id,
+            runner: (state, node) => {
+                state.openNode('list', undefined, { ordered: true, start: 1 });
+                state.next(node.content);
+                state.closeNode();
+            },
         },
-    },
+    }),
     inputRules: (nodeType) => [
         wrappingInputRule(
             /^(\d+)\.\s$/,

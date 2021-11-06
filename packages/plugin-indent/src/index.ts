@@ -3,7 +3,7 @@
 import { injectGlobal } from '@emotion/css';
 import { createCmdKey } from '@milkdown/core';
 import { AllSelection, keymap, TextSelection, Transaction } from '@milkdown/prose';
-import { AtomList, createProsePlugin, Utils } from '@milkdown/utils';
+import { AtomList, createPlugin, Utils } from '@milkdown/utils';
 
 export type Options = {
     type: 'space' | 'tab';
@@ -41,32 +41,31 @@ const applyStyle = (options: Options, utils: Utils): void => {
 
 export const Indent = createCmdKey<boolean>();
 
-export const indentPlugin = createProsePlugin<Options>((options, utils) => {
-    const config: Options = {
-        type: 'tab',
-        size: 4,
-        ...(options ?? {}),
-    };
+export const indentPlugin = createPlugin<string, Options>((utils, options) => ({
+    prosePlugins: () => {
+        const config: Options = {
+            type: 'tab',
+            size: 4,
+            ...(options ?? {}),
+        };
 
-    applyStyle(config, utils);
+        applyStyle(config, utils);
 
-    const plugin = keymap({
-        Tab: (state, dispatch) => {
-            const { tr } = state;
-            const _tr = updateIndent(tr, config);
+        const plugin = keymap({
+            Tab: (state, dispatch) => {
+                const { tr } = state;
+                const _tr = updateIndent(tr, config);
 
-            if (_tr.docChanged) {
-                dispatch?.(_tr);
-                return true;
-            }
+                if (_tr.docChanged) {
+                    dispatch?.(_tr);
+                    return true;
+                }
 
-            return false;
-        },
-    });
-    return {
-        id: 'indent',
-        plugin,
-    };
-});
+                return false;
+            },
+        });
+        return [plugin];
+    },
+}));
 
 export const indent = AtomList.create([indentPlugin()]);

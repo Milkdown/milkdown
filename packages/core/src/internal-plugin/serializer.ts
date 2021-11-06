@@ -22,7 +22,7 @@ export const serializer: MilkdownPlugin = (pre) => {
         const schema = ctx.get(schemaCtx);
 
         const children = [...nodes, ...marks];
-        const spec = Object.fromEntries(children.map((child) => [child.id, child.serializer]));
+        const spec = Object.fromEntries(children.map(([id, child]) => [id, child.toMarkdown]));
 
         ctx.set(serializerCtx, createSerializer(schema, spec, remark));
         ctx.done(SerializerReady);

@@ -1,11 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { injectGlobal } from '@emotion/css';
-import { prosePluginFactory, themeToolCtx } from '@milkdown/core';
+import { themeToolCtx } from '@milkdown/core';
+import { createPlugin } from '@milkdown/utils';
 import { dropCursor } from 'prosemirror-dropcursor';
 import { gapCursor } from 'prosemirror-gapcursor';
 
-export const cursor = prosePluginFactory((ctx) => {
-    const themeTool = ctx.get(themeToolCtx);
+export const cursor = createPlugin(() => {
     const css = injectGlobal;
     css`
         /* copy from https://github.com/ProseMirror/prosemirror-gapcursor/blob/master/style/gapcursor.css */
@@ -36,8 +36,14 @@ export const cursor = prosePluginFactory((ctx) => {
         }
     `;
 
-    const lineWidth = themeTool.size.lineWidth;
-    const width = Number(lineWidth?.match(/\d+/)?.[0] ?? 1);
+    return {
+        prosePlugins: (_, ctx) => {
+            const themeTool = ctx.get(themeToolCtx);
 
-    return [gapCursor(), dropCursor({ color: themeTool.palette('secondary'), width })];
-});
+            const lineWidth = themeTool.size.lineWidth;
+            const width = Number(lineWidth?.match(/\d+/)?.[0] ?? 1);
+
+            return [gapCursor(), dropCursor({ color: themeTool.palette('secondary'), width })];
+        },
+    };
+})();

@@ -15,7 +15,7 @@ export const SinkTaskListItem = createCmdKey();
 export const LiftTaskListItem = createCmdKey();
 export const TurnIntoTaskList = createCmdKey();
 
-export const taskListItem = createNode<Keys>((_, utils) => {
+export const taskListItem = createNode<Keys>((utils) => {
     const id = 'task_list_item';
     const style = utils.getStyle(
         ({ palette, size }) =>
@@ -69,7 +69,7 @@ export const taskListItem = createNode<Keys>((_, utils) => {
 
     return {
         id,
-        schema: {
+        schema: () => ({
             group: 'listItem',
             content: 'paragraph block*',
             defining: true,
@@ -98,25 +98,25 @@ export const taskListItem = createNode<Keys>((_, utils) => {
                 },
                 0,
             ],
-        },
-        parser: {
-            match: ({ type, checked }) => {
-                return type === 'listItem' && checked !== null;
+            parseMarkdown: {
+                match: ({ type, checked }) => {
+                    return type === 'listItem' && checked !== null;
+                },
+                runner: (state, node, type) => {
+                    state.openNode(type, { checked: node.checked as boolean });
+                    state.next(node.children);
+                    state.closeNode();
+                },
             },
-            runner: (state, node, type) => {
-                state.openNode(type, { checked: node.checked as boolean });
-                state.next(node.children);
-                state.closeNode();
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.openNode('listItem', undefined, { checked: node.attrs.checked });
+                    state.next(node.content);
+                    state.closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.openNode('listItem', undefined, { checked: node.attrs.checked });
-                state.next(node.content);
-                state.closeNode();
-            },
-        },
+        }),
         inputRules: (nodeType) => [
             wrappingInputRule(/^\s*(\[([ |x])\])\s$/, nodeType, (match) => ({
                 checked: match[match.length - 1] === 'x',
@@ -134,8 +134,8 @@ export const taskListItem = createNode<Keys>((_, utils) => {
             [SupportedKeys.LiftListItem]: createShortcut(LiftTaskListItem, 'Mod-['),
             [SupportedKeys.TaskList]: createShortcut(TurnIntoTaskList, 'Mod-Alt-9'),
         },
-        view: (node, view, getPos) => {
-            const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
+        view: (ctx) => (node, view, getPos) => {
+            const createIcon = ctx.get(themeToolCtx).slots.icon;
 
             const listItem = document.createElement('li');
             const checkboxWrapper = document.createElement('label');

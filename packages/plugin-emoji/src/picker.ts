@@ -2,7 +2,7 @@
 import { injectGlobal } from '@emotion/css';
 import { EmojiButton } from '@joeattardi/emoji-button';
 import { Decoration, DecorationSet, EditorView, Plugin } from '@milkdown/prose';
-import { createProsePlugin, Utils } from '@milkdown/utils';
+import { Utils } from '@milkdown/utils';
 
 import { parse } from './parse';
 
@@ -29,7 +29,7 @@ const checkTrigger = (
     return false;
 };
 
-const pickerPlugin = (utils: Utils) => {
+export const picker = (utils: Utils) => {
     let trigger = false;
     const holder = document.createElement('span');
     let _from = 0;
@@ -124,10 +124,3 @@ const pickerPlugin = (utils: Utils) => {
 
     return plugin;
 };
-
-export const picker = createProsePlugin((_, utils) => {
-    return {
-        id: 'emoji-picker',
-        plugin: pickerPlugin(utils),
-    };
-});

@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import { Ctx } from '@milkdown/core';
 import { Decoration, DecorationSet, Plugin, PluginKey } from '@milkdown/prose';
-import { createProsePlugin } from '@milkdown/utils';
+import { Utils } from '@milkdown/utils';
 import { CellSelection } from 'prosemirror-tables';
 
 import { getCellsInColumn, getCellsInRow } from '../utils';
@@ -14,8 +15,8 @@ import { createWidget } from './widget';
 
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
-export const operatorPlugin = createProsePlugin((_, utils) => {
-    const items = createActions(utils);
+export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
+    const items = createActions(ctx);
     const tooltip = document.createElement('div');
     const style = utils.getStyle(injectStyle);
     if (style) {
@@ -23,7 +24,7 @@ export const operatorPlugin = createProsePlugin((_, utils) => {
     }
     tooltip.classList.add('table-tooltip', 'hide');
 
-    const plugin = new Plugin({
+    return new Plugin({
         key: new PluginKey('MILKDOWN_TABLE_OP'),
         props: {
             decorations: (state) => {
@@ -35,12 +36,12 @@ export const operatorPlugin = createProsePlugin((_, utils) => {
 
                 const [topLeft] = leftCells;
 
-                decorations.push(createWidget(utils.ctx, topLeft, ToolTipPos.Point));
+                decorations.push(createWidget(ctx, topLeft, ToolTipPos.Point));
                 leftCells.forEach((cell, i) => {
-                    decorations.push(createWidget(utils.ctx, cell, ToolTipPos.Left, i));
+                    decorations.push(createWidget(ctx, cell, ToolTipPos.Left, i));
                 });
                 topCells.forEach((cell, i) => {
-                    decorations.push(createWidget(utils.ctx, cell, ToolTipPos.Top, i));
+                    decorations.push(createWidget(ctx, cell, ToolTipPos.Top, i));
                 });
 
                 return DecorationSet.create(state.doc, decorations);
@@ -95,8 +96,4 @@ export const operatorPlugin = createProsePlugin((_, utils) => {
             };
         },
     });
-    return {
-        id: 'table-operator',
-        plugin,
-    };
-});
+};

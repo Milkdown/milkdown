@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
-import { EditorProps, EditorView } from '@milkdown/prose';
+import { EditorView, ViewFactory } from '@milkdown/prose';
 
 import { editorStateCtx, EditorStateReady } from './editor-state';
-import { nodeViewCtx, NodeViewReady } from './node-view';
+import { viewCtx } from './init';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
@@ -31,7 +31,7 @@ export const editorView: MilkdownPlugin = (pre) => {
     pre.inject(rootCtx, document.body)
         .inject(editorViewCtx)
         .inject(editorViewOptionsCtx)
-        .inject(editorViewTimerCtx, [EditorStateReady, NodeViewReady])
+        .inject(editorViewTimerCtx, [EditorStateReady])
         .record(EditorViewReady);
 
     return async (ctx) => {
@@ -39,13 +39,13 @@ export const editorView: MilkdownPlugin = (pre) => {
 
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
-        const nodeView = ctx.get(nodeViewCtx);
+        const nodeViews = Object.fromEntries(ctx.get(viewCtx) as [string, ViewFactory][]);
         const root = ctx.get(rootCtx);
 
         const container = root ? createViewContainer(root) : undefined;
         const view = new EditorView(container, {
             state,
-            nodeViews: nodeView as EditorProps['nodeViews'],
+            nodeViews,
             ...options,
         });
         prepareViewDom(view.dom);

@@ -10,7 +10,7 @@ type Keys = SupportedKeys['StrikeThrough'];
 
 export const ToggleStrikeThrough = createCmdKey();
 
-export const strikeThrough = createMark<Keys>((_, utils) => {
+export const strikeThrough = createMark<Keys>((utils) => {
     const id = 'strike_through';
     const style = utils.getStyle(
         (themeTool) =>
@@ -21,27 +21,27 @@ export const strikeThrough = createMark<Keys>((_, utils) => {
 
     return {
         id,
-        schema: {
+        schema: () => ({
             parseDOM: [
                 { tag: 'del' },
                 { style: 'text-decoration', getAttrs: (value) => (value === 'line-through') as false },
             ],
             toDOM: (mark) => ['del', { class: utils.getClassName(mark.attrs, 'strike-through', style) }],
-        },
-        parser: {
-            match: (node) => node.type === 'delete',
-            runner: (state, node, markType) => {
-                state.openMark(markType);
-                state.next(node.children);
-                state.closeMark(markType);
+            parseMarkdown: {
+                match: (node) => node.type === 'delete',
+                runner: (state, node, markType) => {
+                    state.openMark(markType);
+                    state.next(node.children);
+                    state.closeMark(markType);
+                },
             },
-        },
-        serializer: {
-            match: (mark) => mark.type.name === id,
-            runner: (state, mark) => {
-                state.withMark(mark, 'delete');
+            toMarkdown: {
+                match: (mark) => mark.type.name === id,
+                runner: (state, mark) => {
+                    state.withMark(mark, 'delete');
+                },
             },
-        },
+        }),
         inputRules: (markType) => [
             markRule(/(?:~~)([^~]+)(?:~~)$/, markType),
             markRule(/(?:^|[^~])(~([^~]+)~)$/, markType),

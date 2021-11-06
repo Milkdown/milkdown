@@ -9,7 +9,7 @@ import { SupportedKeys } from '../supported-keys';
 type Keys = SupportedKeys['Bold'];
 const id = 'strong';
 export const ToggleBold = createCmdKey();
-export const strong = createMark<Keys>((_, utils) => {
+export const strong = createMark<Keys>((utils) => {
     const style = utils.getStyle(
         () =>
             css`
@@ -18,28 +18,28 @@ export const strong = createMark<Keys>((_, utils) => {
     );
     return {
         id,
-        schema: {
+        schema: () => ({
             parseDOM: [
                 { tag: 'b' },
                 { tag: 'strong' },
                 { style: 'font-style', getAttrs: (value) => (value === 'bold') as false },
             ],
             toDOM: (mark) => ['strong', { class: utils.getClassName(mark.attrs, id, style) }],
-        },
-        parser: {
-            match: (node) => node.type === 'strong',
-            runner: (state, node, markType) => {
-                state.openMark(markType);
-                state.next(node.children);
-                state.closeMark(markType);
+            parseMarkdown: {
+                match: (node) => node.type === 'strong',
+                runner: (state, node, markType) => {
+                    state.openMark(markType);
+                    state.next(node.children);
+                    state.closeMark(markType);
+                },
             },
-        },
-        serializer: {
-            match: (mark) => mark.type.name === id,
-            runner: (state, mark) => {
-                state.withMark(mark, 'strong');
+            toMarkdown: {
+                match: (mark) => mark.type.name === id,
+                runner: (state, mark) => {
+                    state.withMark(mark, 'strong');
+                },
             },
-        },
+        }),
         inputRules: (markType) => [
             markRule(/(?:__)([^_]+)(?:__)$/, markType),
             markRule(/(?:\*\*)([^*]+)(?:\*\*)$/, markType),

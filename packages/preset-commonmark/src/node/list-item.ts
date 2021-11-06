@@ -15,7 +15,7 @@ export const SplitListItem = createCmdKey();
 export const SinkListItem = createCmdKey();
 export const LiftListItem = createCmdKey();
 
-export const listItem = createNode<Keys>((_, utils) => {
+export const listItem = createNode<Keys>((utils) => {
     const style = utils.getStyle(
         (themeTool) =>
             css`
@@ -35,29 +35,29 @@ export const listItem = createNode<Keys>((_, utils) => {
 
     return {
         id,
-        schema: {
+        schema: () => ({
             group: 'listItem',
             content: 'paragraph block*',
             defining: true,
             parseDOM: [{ tag: 'li' }],
             toDOM: (node) => ['li', { class: utils.getClassName(node.attrs, 'list-item', style) }, 0],
-        },
-        parser: {
-            match: ({ type, checked }) => type === 'listItem' && checked === null,
-            runner: (state, node, type) => {
-                state.openNode(type);
-                state.next(node.children);
-                state.closeNode();
+            parseMarkdown: {
+                match: ({ type, checked }) => type === 'listItem' && checked === null,
+                runner: (state, node, type) => {
+                    state.openNode(type);
+                    state.next(node.children);
+                    state.closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.openNode('listItem');
-                state.next(node.content);
-                state.closeNode();
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.openNode('listItem');
+                    state.next(node.content);
+                    state.closeNode();
+                },
             },
-        },
+        }),
         inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
         commands: (nodeType) => [
             createCmd(SplitListItem, () => splitListItem(nodeType)),

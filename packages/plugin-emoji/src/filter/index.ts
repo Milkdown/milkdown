@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { calculateNodePosition, Plugin } from '@milkdown/prose';
-import { createProsePlugin, Utils } from '@milkdown/utils';
+import { Utils } from '@milkdown/utils';
 import { search } from 'node-emoji';
 
 import { checkTrigger, renderDropdownList } from './helper';
 import { injectStyle } from './style';
 
-const filterPlugin = (utils: Utils) => {
+export const filter = (utils: Utils) => {
     let trigger = false;
     let _from = 0;
     let _search = '';
@@ -153,10 +153,3 @@ const filterPlugin = (utils: Utils) => {
         },
     });
 };
-
-export const filter = createProsePlugin((_, utils) => {
-    return {
-        id: 'emoji-filter',
-        plugin: filterPlugin(utils),
-    };
-});

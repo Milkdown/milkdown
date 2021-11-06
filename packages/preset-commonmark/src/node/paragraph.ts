@@ -11,7 +11,7 @@ type Keys = SupportedKeys['Text'];
 export const TurnIntoText = createCmdKey();
 
 const id = 'paragraph';
-export const paragraph = createNode<Keys>((options, utils) => {
+export const paragraph = createNode<Keys>((utils, options) => {
     const style = options?.headless
         ? null
         : css`
@@ -22,32 +22,32 @@ export const paragraph = createNode<Keys>((options, utils) => {
 
     return {
         id,
-        schema: {
+        schema: () => ({
             content: 'inline*',
             group: 'block',
             parseDOM: [{ tag: 'p' }],
             toDOM: (node) => ['p', { class: utils.getClassName(node.attrs, id, style) }, 0],
-        },
-        parser: {
-            match: (node) => node.type === 'paragraph',
-            runner: (state, node, type) => {
-                state.openNode(type);
-                if (node.children) {
-                    state.next(node.children);
-                } else {
-                    state.addText(node.value as string);
-                }
-                state.closeNode();
+            parseMarkdown: {
+                match: (node) => node.type === 'paragraph',
+                runner: (state, node, type) => {
+                    state.openNode(type);
+                    if (node.children) {
+                        state.next(node.children);
+                    } else {
+                        state.addText(node.value as string);
+                    }
+                    state.closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === 'paragraph',
-            runner: (state, node) => {
-                state.openNode('paragraph');
-                state.next(node.content);
-                state.closeNode();
+            toMarkdown: {
+                match: (node) => node.type.name === 'paragraph',
+                runner: (state, node) => {
+                    state.openNode('paragraph');
+                    state.next(node.content);
+                    state.closeNode();
+                },
             },
-        },
+        }),
         commands: (nodeType) => [createCmd(TurnIntoText, () => setBlockType(nodeType))],
         shortcuts: {
             [SupportedKeys.Text]: createShortcut(TurnIntoText, 'Mod-Alt-0'),

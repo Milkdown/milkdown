@@ -9,30 +9,30 @@ type Keys = SupportedKeys['BulletList'];
 
 export const WrapInBulletList = createCmdKey();
 
-const id = 'bullet_list';
-export const bulletList = createNode<Keys>((_, utils) => {
+export const bulletList = createNode<Keys>((utils) => {
+    const id = 'bullet_list';
     return {
         id,
-        schema: {
+        schema: () => ({
             content: 'listItem+',
             group: 'block',
             parseDOM: [{ tag: 'ul' }],
             toDOM: (node) => {
                 return ['ul', { class: utils.getClassName(node.attrs, 'bullet-list') }, 0];
             },
-        },
-        parser: {
-            match: ({ type, ordered }) => type === 'list' && !ordered,
-            runner: (state, node, type) => {
-                state.openNode(type).next(node.children).closeNode();
+            parseMarkdown: {
+                match: ({ type, ordered }) => type === 'list' && !ordered,
+                runner: (state, node, type) => {
+                    state.openNode(type).next(node.children).closeNode();
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.openNode('list', undefined, { ordered: false }).next(node.content).closeNode();
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.openNode('list', undefined, { ordered: false }).next(node.content).closeNode();
+                },
             },
-        },
+        }),
         inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
         commands: (nodeType) => [createCmd(WrapInBulletList, () => wrapIn(nodeType))],
         shortcuts: {

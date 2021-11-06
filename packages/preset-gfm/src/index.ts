@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { tableNodes, tablePlugins } from '@milkdown/plugin-table';
-import { commands as commonmarkCommands, commonmarkNodes, commonmarkPlugins } from '@milkdown/preset-commonmark';
+import { tablePlugin } from '@milkdown/plugin-table';
+import { commands as commonmarkCommands, commonmark } from '@milkdown/preset-commonmark';
 import { AtomList } from '@milkdown/utils';
 
 import { urlPlugin } from './auto-link';
@@ -25,8 +25,7 @@ export {
     PrevCell,
     // gather
     table,
-    tableNodes,
-    tablePlugins,
+    tablePlugin,
 } from '@milkdown/plugin-table';
 export {
     blockquote,
@@ -71,9 +70,7 @@ export {
     WrapInOrderedList,
 } from '@milkdown/preset-commonmark';
 
-export const gfmNodes = AtomList.create([...commonmarkNodes, ...tableNodes, strikeThrough(), taskListItem()]);
-export const gfmPlugins = AtomList.create([...tablePlugins, ...commonmarkPlugins, urlPlugin]);
-export const gfm = AtomList.create([...gfmNodes, ...gfmPlugins]);
+export const gfm = AtomList.create([...commonmark, tablePlugin(), urlPlugin(), strikeThrough(), taskListItem()]);
 
 export const commands = {
     ...commonmarkCommands,

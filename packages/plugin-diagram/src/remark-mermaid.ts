@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { remarkPluginFactory } from '@milkdown/core';
 import { Node, Parent } from 'unist';
 import { visit } from 'unist-util-visit';
 
@@ -27,12 +26,10 @@ const visitCodeBlock = (ast: Node) =>
         return node;
     });
 
-const mermaidPlugin = () => {
+export const remarkMermaid = () => {
     function transformer(tree: Node) {
         visitCodeBlock(tree);
     }
 
     return transformer;
 };
-
-export const remarkPlugin = remarkPluginFactory(mermaidPlugin);

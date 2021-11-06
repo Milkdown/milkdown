@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { ThemeTool } from '@milkdown/core';
-import { Decoration, DecorationSet, EditorState, EditorView, findParentNode, NodeWithPos } from '@milkdown/prose';
+import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
-import { CursorStatus, Status } from './status';
+import type { Status } from './status';
 
 export type Props = ReturnType<typeof createProps>;
 
@@ -29,19 +29,13 @@ const createSlashStyle = () => css`
     }
 `;
 
-export const createProps = (
-    status: Status,
-    utils: Utils,
-    placeholder: Record<CursorStatus, string>,
-    shouldDisplay: (parent: NodeWithPos, state: EditorState) => boolean,
-) => {
+export const createProps = (status: Status, utils: Utils) => {
     const emptyStyle = utils.getStyle(createEmptyStyle);
     const slashStyle = utils.getStyle(createSlashStyle);
 
     return {
         handleKeyDown: (_: EditorView, event: Event) => {
-            const { cursorStatus, activeActions } = status.get();
-            if (cursorStatus !== CursorStatus.Slash || activeActions.length === 0) {
+            if (status.isEmpty()) {
                 return false;
             }
             if (!(event instanceof KeyboardEvent)) {
@@ -55,46 +49,43 @@ export const createProps = (
             return true;
         },
         decorations: (state: EditorState) => {
-            const parent = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
+            const paragraph = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
 
-            if (!parent || !shouldDisplay(parent, state)) {
-                status.clearStatus();
+            if (
+                !paragraph ||
+                paragraph.node.childCount > 1 ||
+                state.selection.$from.parentOffset < paragraph.node.textContent.length
+            ) {
+                status.clear();
                 return;
             }
 
-            const isEmpty = parent.node.content.size === 0;
-            const isSlash = parent.node.textContent === '/' && state.selection.$from.parentOffset > 0;
-            const isSearch = parent.node.textContent.startsWith('/') && state.selection.$from.parentOffset > 1;
+            const { placeholder, actions } = status.update({
+                parentNode: state.selection.$from.node(state.selection.$from.depth - 1),
+                isTopLevel: state.selection.$from.depth === 1,
+                content: paragraph.node.textContent,
+                state,
+            });
+
+            if (!placeholder) {
+                return null;
+            }
 
             const createDecoration = (text: string, className: (string | undefined)[]) => {
-                const pos = parent.pos;
+                const pos = paragraph.pos;
                 return DecorationSet.create(state.doc, [
-                    Decoration.node(pos, pos + parent.node.nodeSize, {
+                    Decoration.node(pos, pos + paragraph.node.nodeSize, {
                         class: className.filter((x) => x).join(' '),
                         'data-text': text,
                     }),
                 ]);
             };
 
-            if (isEmpty) {
-                status.clearStatus();
-                const text = placeholder[CursorStatus.Empty];
-                return createDecoration(text, [emptyStyle, 'empty-node']);
+            if (actions.length) {
+                return createDecoration(placeholder, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);
             }
 
-            if (isSlash) {
-                status.setSlash();
-                const text = placeholder[CursorStatus.Slash];
-                return createDecoration(text, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);
-            }
-
-            if (isSearch) {
-                status.setSlash(parent.node.textContent.slice(1));
-                return null;
-            }
-
-            status.clearStatus();
-            return null;
+            return createDecoration(placeholder, [emptyStyle, 'empty-node']);
         },
     };
 };

@@ -1,6 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { prosePluginFactory } from '@milkdown/core';
+import { createPlugin } from '@milkdown/utils';
 
 import { Prism } from './prism';
 
-export const prism = prosePluginFactory(Prism('fence'));
+export const prism = createPlugin(() => {
+    return {
+        prosePlugins: () => [Prism('fence')],
+    };
+})();

@@ -16,7 +16,7 @@ export type ImageOptions = {
         failed: string;
     };
 };
-export const image = createNode<string, ImageOptions>((options, utils) => {
+export const image = createNode<string, ImageOptions>((utils, options) => {
     const placeholder = {
         loading: 'Loading...',
         empty: 'Add an Image',
@@ -123,8 +123,8 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
     );
 
     return {
-        id,
-        schema: {
+        id: 'image',
+        schema: () => ({
             inline: true,
             group: 'inline',
             draggable: true,
@@ -173,35 +173,35 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                     },
                 ];
             },
-        },
-        parser: {
-            match: ({ type }) => type === id,
-            runner: (state, node, type) => {
-                const url = node.url as string;
-                const alt = node.alt as string;
-                const title = node.title as string;
-                state.addNode(type, {
-                    src: url,
-                    alt,
-                    title,
-                });
+            parseMarkdown: {
+                match: ({ type }) => type === id,
+                runner: (state, node, type) => {
+                    const url = node.url as string;
+                    const alt = node.alt as string;
+                    const title = node.title as string;
+                    state.addNode(type, {
+                        src: url,
+                        alt,
+                        title,
+                    });
+                },
             },
-        },
-        serializer: {
-            match: (node) => node.type.name === id,
-            runner: (state, node) => {
-                state.addNode('image', undefined, undefined, {
-                    title: node.attrs.title,
-                    url: node.attrs.src,
-                    alt: node.attrs.alt,
-                });
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.addNode('image', undefined, undefined, {
+                        title: node.attrs.title,
+                        url: node.attrs.src,
+                        alt: node.attrs.alt,
+                    });
+                },
             },
-        },
-        commands: (nodeType) => [
+        }),
+        commands: (type) => [
             createCmd(InsertImage, (src = '') => (state, dispatch) => {
                 if (!dispatch) return true;
                 const { tr } = state;
-                const node = nodeType.create({ src });
+                const node = type.create({ src });
                 if (!node) {
                     return true;
                 }
@@ -210,7 +210,7 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 return true;
             }),
             createCmd(ModifyImage, (src = '') => (state, dispatch) => {
-                const node = findSelectedNodeOfType(state.selection, nodeType);
+                const node = findSelectedNodeOfType(state.selection, type);
                 if (!node) return false;
 
                 const { tr } = state;
@@ -221,23 +221,23 @@ export const image = createNode<string, ImageOptions>((options, utils) => {
                 return true;
             }),
         ],
-        inputRules: (nodeType) => [
+        inputRules: (type) => [
             new InputRule(
                 /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
                 (state, match, start, end) => {
                     const [okay, alt, src = '', title] = match;
                     const { tr } = state;
                     if (okay) {
-                        tr.replaceWith(start, end, nodeType.create({ src, alt, title }));
+                        tr.replaceWith(start, end, type.create({ src, alt, title }));
                     }
 
                     return tr;
                 },
             ),
         ],
-        view: (node, view, getPos) => {
+        view: (ctx) => (node, view, getPos) => {
             const nodeType = node.type;
-            const createIcon = utils.ctx.get(themeToolCtx).slots.icon;
+            const createIcon = ctx.get(themeToolCtx).slots.icon;
             const container = document.createElement('span');
             container.className = utils.getClassName(node.attrs, id, containerStyle);
             container.contentEditable = 'false';

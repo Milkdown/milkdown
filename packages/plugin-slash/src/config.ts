@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, themeToolCtx } from '@milkdown/core';
+import type { Ctx } from '@milkdown/ctx';
 import {
     InsertHr,
     InsertImage,
@@ -11,11 +12,28 @@ import {
     WrapInBulletList,
     WrapInOrderedList,
 } from '@milkdown/preset-gfm';
+import { EditorState, Node } from '@milkdown/prose';
 
-import type { SlashConfig } from '.';
+import { WrappedAction } from './item';
 import { createDropdownItem, nodeExists } from './utility';
 
-export const config: SlashConfig = ({ ctx }) => [
+export type StatusConfig = {
+    placeholder?: string;
+    actions?: WrappedAction[];
+};
+
+export type StatusConfigBuilderParams = {
+    content: string;
+    isTopLevel: boolean;
+    parentNode: Node;
+    state: EditorState;
+};
+
+export type StatusConfigBuilder = (params: StatusConfigBuilderParams) => StatusConfig | null | undefined;
+
+export type Config = (ctx: Ctx) => StatusConfigBuilder;
+
+export const defaultActions = (ctx: Ctx): WrappedAction[] => [
     {
         id: 'h1',
         dom: createDropdownItem(ctx.get(themeToolCtx), 'Large Heading', 'h1'),
@@ -94,3 +112,30 @@ export const config: SlashConfig = ({ ctx }) => [
         enable: nodeExists('hr'),
     },
 ];
+
+export const defaultConfig: Config = (ctx) => {
+    const actions = defaultActions(ctx);
+
+    return ({ content, isTopLevel }) => {
+        if (!isTopLevel) return null;
+
+        if (!content) {
+            return { placeholder: 'Type / to use the slash commands...' };
+        }
+
+        if (content.startsWith('/')) {
+            return content === '/'
+                ? {
+                      placeholder: 'Type to filter...',
+                      actions,
+                  }
+                : {
+                      actions: actions.filter(({ keyword }) =>
+                          keyword.some((key) => key.includes(content.slice(1).toLocaleLowerCase())),
+                      ),
+                  };
+        }
+
+        return null;
+    };
+};

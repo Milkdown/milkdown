@@ -11,7 +11,7 @@ const id = 'code_inline';
 
 export const ToggleInlineCode = createCmdKey();
 
-export const codeInline = createMark<Keys>((_, utils) => {
+export const codeInline = createMark<Keys>((utils) => {
     const style = utils.getStyle(
         ({ palette, size, font }) =>
             css`
@@ -25,27 +25,27 @@ export const codeInline = createMark<Keys>((_, utils) => {
     );
     return {
         id,
-        schema: {
+        schema: () => ({
             excludes: '_',
             parseDOM: [{ tag: 'code' }],
             toDOM: (mark) => ['code', { class: utils.getClassName(mark.attrs, 'code-inline', style) }],
-        },
-        parser: {
-            match: (node) => node.type === 'inlineCode',
-            runner: (state, node, markType) => {
-                state.openMark(markType);
-                state.addText(node.value as string);
-                state.closeMark(markType);
+            parseMarkdown: {
+                match: (node) => node.type === 'inlineCode',
+                runner: (state, node, markType) => {
+                    state.openMark(markType);
+                    state.addText(node.value as string);
+                    state.closeMark(markType);
+                },
             },
-        },
-        serializer: {
-            match: (mark) => mark.type.name === id,
-            runner: (state, _, node) => {
-                state.addNode('inlineCode', undefined, node.text || '');
+            toMarkdown: {
+                match: (mark) => mark.type.name === id,
+                runner: (state, _, node) => {
+                    state.addNode('inlineCode', undefined, node.text || '');
 
-                return true;
+                    return true;
+                },
             },
-        },
+        }),
         inputRules: (markType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)],
         commands: (markType) => [createCmd(ToggleInlineCode, () => toggleMark(markType))],
         shortcuts: {

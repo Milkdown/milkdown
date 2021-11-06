@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { nodeFactory, remarkPluginFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 import { Literal, Node } from 'unist';
 import { visit } from 'unist-util-visit';
 
@@ -30,12 +30,12 @@ const remarkIframePlugin = () => {
     }
     return transformer;
 };
-const codeSandBoxRemarkPlugin = remarkPluginFactory([remarkIframePlugin, replaceLineBreak]);
 
 const id = 'codeSandBox';
-const codeSandBoxNode = nodeFactory({
+const codeSandBoxNode = createNode(() => ({
     id,
-    schema: {
+    remarkPlugins: () => [remarkIframePlugin, replaceLineBreak],
+    schema: () => ({
         attrs: {
             src: { default: '' },
         },
@@ -67,21 +67,21 @@ const codeSandBoxNode = nodeFactory({
             },
             0,
         ],
-    },
-    parser: {
-        match: (node) => {
-            return node.type === 'CodeSandBox';
+        parseMarkdown: {
+            match: (node) => {
+                return node.type === 'CodeSandBox';
+            },
+            runner: (state, node, type) => {
+                state.addNode(type, { src: node.value as string });
+            },
         },
-        runner: (state, node, type) => {
-            state.addNode(type, { src: node.value as string });
+        toMarkdown: {
+            match: (node) => node.type.name === id,
+            runner: (state, node) => {
+                state.addNode('CodeSandBox', undefined, node.attrs.src);
+            },
         },
-    },
-    serializer: {
-        match: (node) => node.type.name === id,
-        runner: (state, node) => {
-            state.addNode('CodeSandBox', undefined, node.attrs.src);
-        },
-    },
-});
+    }),
+}));
 
-export const codeSandBox = [codeSandBoxNode, codeSandBoxRemarkPlugin];
+export const codeSandBox = codeSandBoxNode();
