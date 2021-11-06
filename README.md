@@ -46,6 +46,7 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 <a title="Alex Neises" href="https://github.com/AlexNeises"><img src="https://avatars.githubusercontent.com/u/1816254?v=4" width="100" alt="profile picture of Alex Neises"></a>
 <a title="Brett Mandler" href="https://github.com/Brettm12345"><img src="https://avatars.githubusercontent.com/u/7571012?v=4" width="100" alt="profile picture of Brett Mandler"></a>
 <a title="Hidekazu Kubota" href="https://github.com/sosuisen"><img src="https://avatars.githubusercontent.com/u/13513812?v=4" width="100" alt="profile picture of Hidekazu Kubota"></a>
+<a title="Kevin Marrec" href="https://github.com/kevinmarrec"><img src="https://avatars.githubusercontent.com/u/25272043?v=4" width="100" alt="profile picture of Kevin Marrec"></a>
 
 # Sponsors
 
