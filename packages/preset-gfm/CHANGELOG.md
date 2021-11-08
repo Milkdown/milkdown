@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 5.0.0
+
+### Major Changes
+
+-   35e76858: Refactor the plugin system
+
+### Patch Changes
+
+-   Updated dependencies [35e76858]
+    -   @milkdown/plugin-table@5.0.0
+    -   @milkdown/preset-commonmark@5.0.0
+    -   @milkdown/utils@5.0.0
+
 ## 4.14.2
 
 ### Patch Changes

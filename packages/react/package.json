@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/react",
-    "version": "4.14.2",
+    "version": "5.0.0",
     "main": "lib/index.js",
     "module": "lib/index.js",
     "types": "lib/index.d.ts",

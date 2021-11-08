@@ -1,5 +1,16 @@
 # @milkdown/plugin-collaborative
 
+## 5.0.0
+
+### Major Changes
+
+-   35e76858: Refactor the plugin system
+
+### Patch Changes
+
+-   Updated dependencies [35e76858]
+    -   @milkdown/utils@5.0.0
+
 ## 4.14.2
 
 ### Patch Changes
