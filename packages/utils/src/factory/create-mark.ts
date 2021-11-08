@@ -4,7 +4,7 @@ import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, view
 import { MarkType, MarkViewFactory, ViewFactory } from '@milkdown/prose';
 
 import { CommonOptions, Methods, UnknownRecord, Utils } from '../types';
-import { addMetadata, applyMethods, getUtils } from '.';
+import { addMetadata, applyMethods, getUtils } from './common';
 
 type MarkFactory<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
     utils: Utils,

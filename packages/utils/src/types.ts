@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, ThemeTool } from '@milkdown/core';
+import type { Attrs, CmdKey, MilkdownPlugin, ThemeTool } from '@milkdown/core';
 import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
 import { InputRule, Plugin } from '@milkdown/prose';
 
@@ -27,9 +27,17 @@ export type Methods<Keys extends string, Type> = {
     shortcuts?: Record<Keys, CommandConfig>;
 };
 
+// get plugin
+export type GetPlugin<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
+    options?: Partial<CommonOptions<SupportedKeys, Options>>,
+) => MilkdownPlugin;
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFn = (...args: any[]) => any;
 export type Metadata<T = unknown> = {
     origin: T;
 };
-export type AddMetadata<T extends AnyFn = AnyFn> = (...args: Parameters<T>) => Metadata<T> & ReturnType<T>;
+// export type AddMetadata<T extends AnyFn = AnyFn> = (...args: Parameters<T>) => Metadata<T> & ReturnType<T>;
+export type AddMetadata<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
+    options?: Partial<CommonOptions<SupportedKeys, Options>>,
+) => Metadata<GetPlugin<SupportedKeys, Options>> & MilkdownPlugin;
