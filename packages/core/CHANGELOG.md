@@ -1,5 +1,19 @@
 # @milkdown/core
 
+## 5.0.0
+
+### Major Changes
+
+-   35e76858: Refactor the plugin system
+
+### Patch Changes
+
+-   Updated dependencies [35e76858]
+    -   @milkdown/ctx@5.0.0
+    -   @milkdown/design-system@5.0.0
+    -   @milkdown/exception@5.0.0
+    -   @milkdown/prose@5.0.0
+
 ## 4.14.2
 
 ### Patch Changes
