@@ -13,7 +13,7 @@ import {
 import { themeMustInstalled } from '@milkdown/exception';
 import { keymap } from '@milkdown/prose';
 
-import { AddMetadata, AnyFn, CommandConfig, CommonOptions, Methods, UnknownRecord, Utils } from '../types';
+import { AddMetadata, CommandConfig, CommonOptions, GetPlugin, Methods, UnknownRecord, Utils } from '../types';
 
 export const getClassName =
     (className: CommonOptions['className']) =>
@@ -90,9 +90,11 @@ export const applyMethods = async <Keys extends string, Type, Options extends Un
     }
 };
 
-export const addMetadata = <T extends AnyFn>(x: T) => {
-    const fn: AddMetadata<T> = (...args) => {
-        const result = x(...args);
+export const addMetadata = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
+    x: GetPlugin<SupportedKeys, Options>,
+): AddMetadata<SupportedKeys, Options> => {
+    const fn: AddMetadata<SupportedKeys, Options> = (options) => {
+        const result = x(options) as ReturnType<AddMetadata<SupportedKeys, Options>>;
         result.origin = fn;
         return result;
     };

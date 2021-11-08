@@ -13,9 +13,8 @@ import {
 } from '@milkdown/core';
 import { MarkType, MarkViewFactory, NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
-import { Utils } from '..';
-import { CommonOptions, Methods, UnknownRecord } from '../types';
-import { addMetadata, applyMethods, getUtils } from '.';
+import { AddMetadata, CommonOptions, Methods, UnknownRecord, Utils } from '../types';
+import { addMetadata, applyMethods, getUtils } from './common';
 
 type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in NodeKeys]: NodeType;
@@ -29,6 +28,13 @@ type ViewMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in MarkKeys]: MarkViewFactory;
 };
 
+type PluginSpec<SupportedKeys extends string, NodeKeys extends string, MarkKeys extends string> = {
+    schema?: (ctx: Ctx) => {
+        node?: Record<NodeKeys, NodeSchema>;
+        mark?: Record<MarkKeys, MarkSchema>;
+    };
+    view?: (ctx: Ctx) => Partial<ViewMapping<NodeKeys, MarkKeys>>;
+} & Methods<SupportedKeys, TypeMapping<NodeKeys, MarkKeys>>;
 type PluginFactory<
     SupportedKeys extends string = string,
     Options extends UnknownRecord = UnknownRecord,
@@ -37,13 +43,68 @@ type PluginFactory<
 > = (
     utils: Utils,
     options?: Partial<CommonOptions<SupportedKeys, Options>>,
+) => PluginSpec<SupportedKeys, NodeKeys, MarkKeys>;
+
+type WithExtend<
+    SupportedKeys extends string = string,
+    Options extends UnknownRecord = UnknownRecord,
+    NodeKeys extends string = string,
+    MarkKeys extends string = string,
+> = AddMetadata<SupportedKeys, Options> & {
+    extend: <
+        ExtendedSupportedKeys extends string = SupportedKeys,
+        ExtendedOptions extends UnknownRecord = Options,
+        ExtendedNodeKeys extends string = NodeKeys,
+        ExtendedMarkKeys extends string = MarkKeys,
+    >(
+        extendFactory: (
+            ...args: [
+                original: PluginSpec<SupportedKeys, NodeKeys, MarkKeys>,
+                ...rest: Parameters<
+                    PluginFactory<ExtendedSupportedKeys, ExtendedOptions, ExtendedNodeKeys, ExtendedMarkKeys>
+                >
+            ]
+        ) => PluginSpec<ExtendedSupportedKeys, ExtendedNodeKeys, ExtendedMarkKeys>,
+    ) => AddMetadata<ExtendedSupportedKeys, ExtendedOptions>;
+};
+
+const withExtend = <
+    SupportedKeys extends string,
+    Options extends UnknownRecord,
+    NodeKeys extends string = string,
+    MarkKeys extends string = string,
+>(
+    factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
+    origin: AddMetadata<SupportedKeys, Options>,
 ) => {
-    schema?: (ctx: Ctx) => {
-        node?: Record<NodeKeys, NodeSchema>;
-        mark?: Record<MarkKeys, MarkSchema>;
+    const next = origin as WithExtend<SupportedKeys, Options, NodeKeys, MarkKeys>;
+    const extend = <
+        ExtendedSupportedKeys extends string = SupportedKeys,
+        ExtendedOptions extends UnknownRecord = Options,
+        ExtendedNodeKeys extends string = NodeKeys,
+        ExtendedMarkKeys extends string = MarkKeys,
+    >(
+        extendFactory: (
+            ...args: [
+                original: PluginSpec<SupportedKeys, NodeKeys, MarkKeys>,
+                ...rest: Parameters<
+                    PluginFactory<ExtendedSupportedKeys, ExtendedOptions, ExtendedNodeKeys, ExtendedMarkKeys>
+                >
+            ]
+        ) => PluginSpec<ExtendedSupportedKeys, ExtendedNodeKeys, ExtendedMarkKeys>,
+    ) => {
+        return createPlugin<ExtendedSupportedKeys, ExtendedOptions, ExtendedNodeKeys, ExtendedMarkKeys>((...args) => {
+            return extendFactory(
+                factory(...(args as Parameters<PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>>)),
+                ...args,
+            );
+        });
     };
-    view?: (ctx: Ctx) => Partial<ViewMapping<NodeKeys, MarkKeys>>;
-} & Methods<SupportedKeys, TypeMapping<NodeKeys, MarkKeys>>;
+
+    next.extend = extend;
+
+    return next;
+};
 
 export const createPlugin = <
     SupportedKeys extends string = string,
@@ -52,9 +113,9 @@ export const createPlugin = <
     MarkKeys extends string = string,
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
-) =>
-    addMetadata(
-        (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin =>
+) => {
+    const origin = addMetadata<SupportedKeys, Options>(
+        (options): MilkdownPlugin =>
             () =>
             async (ctx) => {
                 const utils = getUtils(ctx, options);
@@ -102,3 +163,6 @@ export const createPlugin = <
                 }
             },
     );
+
+    return withExtend(factory, origin);
+};
