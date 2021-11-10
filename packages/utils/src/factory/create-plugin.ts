@@ -13,7 +13,7 @@ import {
 } from '@milkdown/core';
 import { MarkType, MarkViewFactory, NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
-import { AddMetadata, CommonOptions, Methods, UnknownRecord, Utils } from '../types';
+import { AddMetadata, Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, applyMethods, getUtils } from './common';
 
 type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
@@ -28,45 +28,26 @@ type ViewMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in MarkKeys]: MarkViewFactory;
 };
 
-type PluginSpec<SupportedKeys extends string, NodeKeys extends string, MarkKeys extends string> = {
+type PluginRest<NodeKeys extends string, MarkKeys extends string> = {
     schema?: (ctx: Ctx) => {
         node?: Record<NodeKeys, NodeSchema>;
         mark?: Record<MarkKeys, MarkSchema>;
     };
     view?: (ctx: Ctx) => Partial<ViewMapping<NodeKeys, MarkKeys>>;
-} & Methods<SupportedKeys, TypeMapping<NodeKeys, MarkKeys>>;
+};
 type PluginFactory<
     SupportedKeys extends string = string,
     Options extends UnknownRecord = UnknownRecord,
     NodeKeys extends string = string,
     MarkKeys extends string = string,
-> = (
-    utils: Utils,
-    options?: Partial<CommonOptions<SupportedKeys, Options>>,
-) => PluginSpec<SupportedKeys, NodeKeys, MarkKeys>;
+> = Factory<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>>;
 
-type WithExtend<
+type Extend<
     SupportedKeys extends string = string,
     Options extends UnknownRecord = UnknownRecord,
     NodeKeys extends string = string,
     MarkKeys extends string = string,
-> = AddMetadata<SupportedKeys, Options> & {
-    extend: <
-        ExtendedSupportedKeys extends string = SupportedKeys,
-        ExtendedOptions extends UnknownRecord = Options,
-        ExtendedNodeKeys extends string = NodeKeys,
-        ExtendedMarkKeys extends string = MarkKeys,
-    >(
-        extendFactory: (
-            ...args: [
-                original: PluginSpec<SupportedKeys, NodeKeys, MarkKeys>,
-                ...rest: Parameters<
-                    PluginFactory<ExtendedSupportedKeys, ExtendedOptions, ExtendedNodeKeys, ExtendedMarkKeys>
-                >
-            ]
-        ) => PluginSpec<ExtendedSupportedKeys, ExtendedNodeKeys, ExtendedMarkKeys>,
-    ) => AddMetadata<ExtendedSupportedKeys, ExtendedOptions>;
-};
+> = WithExtend<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>>;
 
 const withExtend = <
     SupportedKeys extends string,
@@ -77,31 +58,17 @@ const withExtend = <
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
     origin: AddMetadata<SupportedKeys, Options>,
 ) => {
-    const next = origin as WithExtend<SupportedKeys, Options, NodeKeys, MarkKeys>;
-    const extend = <
-        ExtendedSupportedKeys extends string = SupportedKeys,
-        ExtendedOptions extends UnknownRecord = Options,
-        ExtendedNodeKeys extends string = NodeKeys,
-        ExtendedMarkKeys extends string = MarkKeys,
-    >(
-        extendFactory: (
-            ...args: [
-                original: PluginSpec<SupportedKeys, NodeKeys, MarkKeys>,
-                ...rest: Parameters<
-                    PluginFactory<ExtendedSupportedKeys, ExtendedOptions, ExtendedNodeKeys, ExtendedMarkKeys>
-                >
-            ]
-        ) => PluginSpec<ExtendedSupportedKeys, ExtendedNodeKeys, ExtendedMarkKeys>,
-    ) => {
-        return createPlugin<ExtendedSupportedKeys, ExtendedOptions, ExtendedNodeKeys, ExtendedMarkKeys>((...args) => {
-            return extendFactory(
+    type Ext = Extend<SupportedKeys, Options, NodeKeys, MarkKeys>;
+    const next = origin as Ext;
+    const extend = (extendFactory: Parameters<Ext['extend']>[0]) =>
+        createPlugin((...args) =>
+            extendFactory(
                 factory(...(args as Parameters<PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>>)),
                 ...args,
-            );
-        });
-    };
+            ),
+        );
 
-    next.extend = extend;
+    next.extend = extend as Ext['extend'];
 
     return next;
 };

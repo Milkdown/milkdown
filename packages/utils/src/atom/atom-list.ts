@@ -2,14 +2,14 @@
 
 import { MilkdownPlugin } from '@milkdown/core';
 
-import { AddMetadata, AnyFn, Metadata } from '../types';
+import { AddMetadata, Metadata } from '../types';
 
 type PluginWithMetadata = MilkdownPlugin & Metadata;
 type Plugin = MilkdownPlugin | PluginWithMetadata;
 
-type Factory<T extends AnyFn = AnyFn> = AddMetadata<T>;
-
 const hasMetadata = (x: Plugin): x is PluginWithMetadata => Object.prototype.hasOwnProperty.call(x, 'origin');
+
+type Factory = AddMetadata;
 
 export class AtomList<T extends Plugin = Plugin> extends Array<T> {
     private findThenRun<U extends Factory>(target: U, callback: (index: number) => void): this {
