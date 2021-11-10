@@ -13,8 +13,8 @@ import {
 } from '@milkdown/core';
 import { MarkType, MarkViewFactory, NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
-import { AddMetadata, Factory, UnknownRecord, WithExtend } from '../types';
-import { addMetadata, applyMethods, getUtils } from './common';
+import { Factory, UnknownRecord, WithExtend } from '../types';
+import { addMetadata, applyMethods, getUtils, withExtend } from './common';
 
 type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in NodeKeys]: NodeType;
@@ -42,37 +42,6 @@ type PluginFactory<
     MarkKeys extends string = string,
 > = Factory<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>>;
 
-type Extend<
-    SupportedKeys extends string = string,
-    Options extends UnknownRecord = UnknownRecord,
-    NodeKeys extends string = string,
-    MarkKeys extends string = string,
-> = WithExtend<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>>;
-
-const withExtend = <
-    SupportedKeys extends string,
-    Options extends UnknownRecord,
-    NodeKeys extends string = string,
-    MarkKeys extends string = string,
->(
-    factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
-    origin: AddMetadata<SupportedKeys, Options>,
-) => {
-    type Ext = Extend<SupportedKeys, Options, NodeKeys, MarkKeys>;
-    const next = origin as Ext;
-    const extend = (extendFactory: Parameters<Ext['extend']>[0]) =>
-        createPlugin((...args) =>
-            extendFactory(
-                factory(...(args as Parameters<PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>>)),
-                ...args,
-            ),
-        );
-
-    next.extend = extend as Ext['extend'];
-
-    return next;
-};
-
 export const createPlugin = <
     SupportedKeys extends string = string,
     Options extends UnknownRecord = UnknownRecord,
@@ -80,7 +49,7 @@ export const createPlugin = <
     MarkKeys extends string = string,
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
-) => {
+): WithExtend<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>> => {
     const origin = addMetadata<SupportedKeys, Options>(
         (options): MilkdownPlugin =>
             () =>
@@ -131,5 +100,5 @@ export const createPlugin = <
             },
     );
 
-    return withExtend(factory, origin);
+    return withExtend(factory, origin, createPlugin);
 };

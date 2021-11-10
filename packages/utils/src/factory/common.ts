@@ -13,7 +13,17 @@ import {
 import { themeMustInstalled } from '@milkdown/exception';
 import { keymap } from '@milkdown/prose';
 
-import { AddMetadata, CommandConfig, CommonOptions, GetPlugin, Methods, UnknownRecord, Utils } from '../types';
+import {
+    AddMetadata,
+    CommandConfig,
+    CommonOptions,
+    Factory,
+    GetPlugin,
+    Methods,
+    UnknownRecord,
+    Utils,
+    WithExtend,
+} from '../types';
 
 export const getClassName =
     (className: CommonOptions['className']) =>
@@ -99,4 +109,19 @@ export const addMetadata = <SupportedKeys extends string = string, Options exten
         return result;
     };
     return fn;
+};
+
+export const withExtend = <SupportedKeys extends string, Options extends UnknownRecord, Type, Rest>(
+    factory: Factory<SupportedKeys, Options, Type, Rest>,
+    origin: AddMetadata<SupportedKeys, Options>,
+    creator: (factory: Factory<SupportedKeys, Options, Type, Rest>) => WithExtend<SupportedKeys, Options, Type, Rest>,
+): WithExtend<SupportedKeys, Options, Type, Rest> => {
+    type Ext = WithExtend<SupportedKeys, Options, Type, Rest>;
+    const next = origin as Ext;
+    const extend = (extendFactory: Parameters<Ext['extend']>[0]) =>
+        creator((...args) => extendFactory(factory(...args), ...args));
+
+    next.extend = extend as Ext['extend'];
+
+    return next;
 };

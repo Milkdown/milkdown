@@ -3,8 +3,8 @@
 import { Ctx, MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady, viewCtx } from '@milkdown/core';
 import { NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
-import { AddMetadata, Factory, UnknownRecord, WithExtend } from '../types';
-import { addMetadata, applyMethods, getUtils } from './common';
+import { Factory, UnknownRecord, WithExtend } from '../types';
+import { addMetadata, applyMethods, getUtils, withExtend } from './common';
 
 type NodeRest = {
     id: string;
@@ -19,32 +19,9 @@ type NodeFactory<SupportedKeys extends string, Options extends UnknownRecord> = 
     NodeRest
 >;
 
-type Extend<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = WithExtend<
-    SupportedKeys,
-    Options,
-    NodeType,
-    NodeRest
->;
-
-const withExtend = <SupportedKeys extends string, Options extends UnknownRecord>(
-    factory: NodeFactory<SupportedKeys, Options>,
-    origin: AddMetadata<SupportedKeys, Options>,
-) => {
-    type Ext = Extend<SupportedKeys, Options>;
-    const next = origin as Ext;
-    const extend = (extendFactory: Parameters<Ext['extend']>[0]) =>
-        createNode((...args) =>
-            extendFactory(factory(...(args as Parameters<NodeFactory<SupportedKeys, Options>>)), ...args),
-        );
-
-    next.extend = extend as Ext['extend'];
-
-    return next;
-};
-
 export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: NodeFactory<SupportedKeys, Options>,
-): Extend<SupportedKeys, Options> => {
+): WithExtend<SupportedKeys, Options, NodeType, NodeRest> => {
     const origin = addMetadata<SupportedKeys, Options>(
         (options): MilkdownPlugin =>
             () =>
@@ -74,5 +51,5 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                 }
             },
     );
-    return withExtend(factory, origin);
+    return withExtend(factory, origin, createNode);
 };
