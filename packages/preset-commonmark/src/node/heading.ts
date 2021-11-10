@@ -2,7 +2,7 @@
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
-import { createPlugin, createShortcut } from '@milkdown/utils';
+import { createNode, createShortcut } from '@milkdown/utils';
 import { UnknownRecord } from '@milkdown/utils/src/types';
 
 import { SupportedKeys } from '../supported-keys';
@@ -21,7 +21,7 @@ type Keys =
 
 export const TurnIntoHeading = createCmdKey<number>();
 
-export const heading = createPlugin<Keys, UnknownRecord, 'heading'>((utils, options) => {
+export const heading = createNode<Keys, UnknownRecord>((utils, options) => {
     const id = 'heading';
     const headingMap: Record<number, string> = {
         1: css`
@@ -48,60 +48,53 @@ export const heading = createPlugin<Keys, UnknownRecord, 'heading'>((utils, opti
               `;
 
     return {
+        id,
         schema: () => ({
-            node: {
-                heading: {
-                    content: 'inline*',
-                    group: 'block',
-                    attrs: {
-                        level: {
-                            default: 1,
-                        },
-                        id: {
-                            default: '',
-                        },
+            content: 'inline*',
+            group: 'block',
+            attrs: {
+                level: {
+                    default: 1,
+                },
+                id: {
+                    default: '',
+                },
+            },
+            parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
+            toDOM: (node) => {
+                return [
+                    `h${node.attrs.level}`,
+                    {
+                        class: utils.getClassName(node.attrs, `heading h${node.attrs.level}`, style(node.attrs.level)),
                     },
-                    parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
-                    toDOM: (node) => {
-                        return [
-                            `h${node.attrs.level}`,
-                            {
-                                class: utils.getClassName(
-                                    node.attrs,
-                                    `heading h${node.attrs.level}`,
-                                    style(node.attrs.level),
-                                ),
-                            },
-                            0,
-                        ];
-                    },
-                    parseMarkdown: {
-                        match: ({ type }) => type === id,
-                        runner: (state, node, type) => {
-                            const depth = node.depth as number;
-                            state.openNode(type, { level: depth });
-                            state.next(node.children);
-                            state.closeNode();
-                        },
-                    },
-                    toMarkdown: {
-                        match: (node) => node.type.name === id,
-                        runner: (state, node) => {
-                            state.openNode('heading', undefined, { depth: node.attrs.level });
-                            state.next(node.content);
-                            state.closeNode();
-                        },
-                    },
+                    0,
+                ];
+            },
+            parseMarkdown: {
+                match: ({ type }) => type === id,
+                runner: (state, node, type) => {
+                    const depth = node.depth as number;
+                    state.openNode(type, { level: depth });
+                    state.next(node.children);
+                    state.closeNode();
+                },
+            },
+            toMarkdown: {
+                match: (node) => node.type.name === id,
+                runner: (state, node) => {
+                    state.openNode('heading', undefined, { depth: node.attrs.level });
+                    state.next(node.content);
+                    state.closeNode();
                 },
             },
         }),
         inputRules: (type) =>
             headingIndex.map((x) =>
-                textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), type.heading, () => ({
+                textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), type, () => ({
                     level: x,
                 })),
             ),
-        commands: (type) => [createCmd(TurnIntoHeading, (level = 1) => setBlockType(type.heading, { level }))],
+        commands: (type) => [createCmd(TurnIntoHeading, (level = 1) => setBlockType(type, { level }))],
         shortcuts: {
             [SupportedKeys.H1]: createShortcut(TurnIntoHeading, 'Mod-Alt-1', 1),
             [SupportedKeys.H2]: createShortcut(TurnIntoHeading, 'Mod-Alt-2', 2),
