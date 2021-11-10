@@ -41,3 +41,27 @@ export type Metadata<T = unknown> = {
 export type AddMetadata<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
     options?: Partial<CommonOptions<SupportedKeys, Options>>,
 ) => Metadata<GetPlugin<SupportedKeys, Options>> & MilkdownPlugin;
+
+export type Spec<SupportedKeys extends string, Type, Rest> = Methods<SupportedKeys, Type> & Rest;
+export type Factory<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = (
+    utils: Utils,
+    options?: Partial<CommonOptions<SupportedKeys, Options>>,
+) => Spec<SupportedKeys, Type, Rest>;
+export type WithExtend<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = AddMetadata<
+    SupportedKeys,
+    Options
+> & {
+    extend: <
+        ExtendedSupportedKeys extends string = SupportedKeys,
+        ExtendedOptions extends UnknownRecord = Options,
+        ExtendedType extends Type = Type,
+        ExtendedRest extends Rest = Rest,
+    >(
+        extendFactory: (
+            ...args: [
+                original: Spec<SupportedKeys, Type, Rest>,
+                ...rest: Parameters<Factory<ExtendedSupportedKeys, ExtendedOptions, ExtendedType, ExtendedRest>>
+            ]
+        ) => Spec<ExtendedSupportedKeys, ExtendedType, ExtendedRest>,
+    ) => AddMetadata<ExtendedSupportedKeys, ExtendedOptions>;
+};
