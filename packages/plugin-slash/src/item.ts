@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Command, Schema } from '@milkdown/prose';
+import type { Command } from '@milkdown/prose';
 
 import { cleanUpAndCreateNode } from './utility';
 
@@ -8,11 +8,9 @@ export type Action = {
     $: HTMLElement;
     keyword: string[];
     command: Command;
-    enable: (schema: Schema) => boolean;
 };
 
 export type WrappedAction = Pick<Action, 'keyword' | 'id'> & {
-    enable: (schema: Schema) => boolean;
     command: () => void;
     dom: HTMLElement;
 };
@@ -22,5 +20,4 @@ export const transformAction = (action: WrappedAction): Action => ({
     keyword: action.keyword,
     $: action.dom,
     command: cleanUpAndCreateNode(action.command),
-    enable: action.enable,
 });
