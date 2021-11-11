@@ -17,9 +17,11 @@ import { EditorState, Node } from '@milkdown/prose';
 import { WrappedAction } from './item';
 import { createDropdownItem } from './utility';
 
+type Nullable<T> = T | null | undefined;
+
 export type StatusConfig = {
-    placeholder?: string;
-    actions?: WrappedAction[];
+    placeholder?: Nullable<string>;
+    actions?: Nullable<WrappedAction[]>;
 };
 
 export type StatusConfigBuilderParams = {
@@ -29,7 +31,7 @@ export type StatusConfigBuilderParams = {
     state: EditorState;
 };
 
-export type StatusConfigBuilder = (params: StatusConfigBuilderParams) => StatusConfig | null | undefined;
+export type StatusConfigBuilder = (params: StatusConfigBuilderParams) => Nullable<StatusConfig>;
 
 export type Config = (ctx: Ctx) => StatusConfigBuilder;
 
