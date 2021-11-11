@@ -7,7 +7,7 @@ import { createSlashPlugin } from './prose-plugin';
 
 export type { Config, StatusConfig, StatusConfigBuilder, StatusConfigBuilderParams } from './config';
 export { defaultActions, defaultConfig } from './config';
-export { createDropdownItem, nodeExists } from './utility';
+export { createDropdownItem } from './utility';
 
 export type Options = {
     config: Config;

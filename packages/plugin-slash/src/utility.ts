@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { ThemeTool } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
-import type { Command, Node, Schema } from '@milkdown/prose';
+import type { Command, Node } from '@milkdown/prose';
 import type { Utils } from '@milkdown/utils';
 
 import { injectStyle } from './style';
@@ -71,5 +71,3 @@ export const cleanUpAndCreateNode =
         }
         return true;
     };
-
-export const nodeExists = (name: string) => (schema: Schema) => Boolean(schema.nodes[name]);
