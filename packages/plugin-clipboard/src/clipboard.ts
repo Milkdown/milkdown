@@ -23,11 +23,10 @@ export const clipboardPlugin = createPlugin(() => {
     return {
         prosePlugins: (_, ctx) => {
             const schema = ctx.get(schemaCtx);
-            const parser = ctx.get(parserCtx);
-            const serializer = ctx.get(serializerCtx);
             const plugin = new Plugin({
                 props: {
                     handlePaste: (view, event) => {
+                        const parser = ctx.get(parserCtx);
                         const editable = view.props.editable?.(view.state);
                         const { clipboardData } = event;
                         if (!editable || !clipboardData) {
@@ -53,6 +52,7 @@ export const clipboardPlugin = createPlugin(() => {
                         return true;
                     },
                     clipboardTextSerializer: (slice) => {
+                        const serializer = ctx.get(serializerCtx);
                         const isText = isPureText(slice.content.toJSON());
                         if (isText) {
                             return (slice.content as unknown as Node).textBetween(0, slice.content.size, '\n\n');

@@ -44,7 +44,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                 },
             },
             parseDOM: [{ tag: 'span[data-type="mathInline"]' }],
-            toDOM: () => ['span', { class: style, 'data-type': id }, 0],
+            toDOM: (node) => ['span', { class: style, 'data-type': id, 'data-value': node.attrs.value }],
             parseMarkdown: {
                 match: (node) => node.type === 'inlineMath',
                 runner: (state, node, type) => {
