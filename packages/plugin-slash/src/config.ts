@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx, themeToolCtx } from '@milkdown/core';
+import { commandsCtx, schemaCtx, themeToolCtx } from '@milkdown/core';
 import type { Ctx } from '@milkdown/ctx';
 import {
     InsertHr,
@@ -114,7 +114,7 @@ export const defaultActions = (ctx: Ctx): WrappedAction[] => [
 ];
 
 export const defaultConfig: Config = (ctx) => {
-    const actions = defaultActions(ctx);
+    const actions = defaultActions(ctx).filter((action) => action.enable(ctx.get(schemaCtx)));
 
     return ({ content, isTopLevel }) => {
         if (!isTopLevel) return null;
