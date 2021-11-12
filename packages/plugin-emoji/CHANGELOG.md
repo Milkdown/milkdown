@@ -1,5 +1,13 @@
 # @milkdown/plugin-emoji
 
+## 5.0.1
+
+### Patch Changes
+
+-   1538bd4a: Fix bugs
+-   Updated dependencies [1538bd4a]
+    -   @milkdown/utils@5.0.1
+
 ## 5.0.0
 
 ### Major Changes

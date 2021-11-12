@@ -1,5 +1,13 @@
 # @milkdown/theme-nord
 
+## 5.0.1
+
+### Patch Changes
+
+-   1538bd4a: Fix bugs
+-   Updated dependencies [1538bd4a]
+    -   @milkdown/design-system@5.0.1
+
 ## 5.0.0
 
 ### Major Changes

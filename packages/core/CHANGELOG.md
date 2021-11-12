@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 5.0.1
+
+### Patch Changes
+
+-   1538bd4a: Fix bugs
+-   Updated dependencies [1538bd4a]
+    -   @milkdown/ctx@5.0.1
+    -   @milkdown/design-system@5.0.1
+    -   @milkdown/exception@5.0.1
+    -   @milkdown/prose@5.0.1
+
 ## 5.0.0
 
 ### Major Changes
