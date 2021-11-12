@@ -32,12 +32,9 @@ export type GetPlugin<SupportedKeys extends string = string, Options extends Unk
     options?: Partial<CommonOptions<SupportedKeys, Options>>,
 ) => MilkdownPlugin;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyFn = (...args: any[]) => any;
-export type Metadata<T = unknown> = {
-    origin: T;
+export type Metadata<Origin = unknown> = {
+    origin: Origin;
 };
-// export type AddMetadata<T extends AnyFn = AnyFn> = (...args: Parameters<T>) => Metadata<T> & ReturnType<T>;
 export type AddMetadata<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
     options?: Partial<CommonOptions<SupportedKeys, Options>>,
 ) => Metadata<GetPlugin<SupportedKeys, Options>> & MilkdownPlugin;
