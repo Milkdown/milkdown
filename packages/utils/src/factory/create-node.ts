@@ -21,35 +21,37 @@ type NodeFactory<SupportedKeys extends string, Options extends UnknownRecord> = 
 
 export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: NodeFactory<SupportedKeys, Options>,
-): WithExtend<SupportedKeys, Options, NodeType, NodeRest> => {
-    const origin = addMetadata<SupportedKeys, Options>(
-        (options): MilkdownPlugin =>
-            () =>
-            async (ctx) => {
-                const utils = getUtils(ctx, options);
+): WithExtend<SupportedKeys, Options, NodeType, NodeRest> =>
+    withExtend(
+        factory,
+        addMetadata(
+            (options): MilkdownPlugin =>
+                () =>
+                async (ctx) => {
+                    const utils = getUtils(ctx, options);
 
-                const plugin = factory(utils, options);
+                    const plugin = factory(utils, options);
 
-                await applyMethods(
-                    ctx,
-                    plugin,
-                    async () => {
-                        const node = plugin.schema(ctx);
-                        ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node] as [string, NodeSchema]]);
+                    await applyMethods(
+                        ctx,
+                        plugin,
+                        async () => {
+                            const node = plugin.schema(ctx);
+                            ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node] as [string, NodeSchema]]);
 
-                        await ctx.wait(SchemaReady);
+                            await ctx.wait(SchemaReady);
 
-                        const schema = ctx.get(schemaCtx);
-                        return schema.nodes[plugin.id];
-                    },
-                    options,
-                );
+                            const schema = ctx.get(schemaCtx);
+                            return schema.nodes[plugin.id];
+                        },
+                        options,
+                    );
 
-                if (plugin.view) {
-                    const view = plugin.view(ctx);
-                    ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
-                }
-            },
+                    if (plugin.view) {
+                        const view = plugin.view(ctx);
+                        ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
+                    }
+                },
+        ),
+        createNode,
     );
-    return withExtend(factory, origin, createNode);
-};
