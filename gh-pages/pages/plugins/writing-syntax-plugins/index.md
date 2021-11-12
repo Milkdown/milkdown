@@ -23,28 +23,19 @@ Luckily, remark provides a powerful [remark directive plugin](https://github.com
 :iframe{src="https://saul-mirone.github.io"}
 ```
 
-So, what we needs to do is just install it and transform it into a milkdown plugin:
-
-```typescript
-import { remarkPluginFactory } from '@milkdown/core';
-import directive from 'remark-directive';
-
-const directiveRemarkPlugin = remarkPluginFactory(directive);
-```
-
 ## Define Schema
 
-Next, we need to define the schema of an iframe node,
-our iframe should be an inline node because it doesn't have and children,
-and have a `src` attribute to connect to the source.
+Next, we need to define the schema of an iframe node.
+Our iframe should be an inline node because it doesn't have any children,
+and it will have a `src` attribute to connect to the source.
 
 ```typescript
-import { nodeFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
 const id = 'iframe';
-const iframe = nodeFactory({
+const iframe = createNode(() => ({
     id,
-    schema: {
+    schema: () => ({
         inline: true,
         attrs: {
             src: { default: null },
@@ -65,15 +56,31 @@ const iframe = nodeFactory({
             },
         ],
         toDOM: (node) => ['iframe', { ...node.attrs, class: 'iframe' }, 0],
-    },
-});
+    }),
+}));
+```
+
+## Connect to plugin(s)
+
+Now that we have our basic node defined, we need to specify which remark plugins
+it requires to work;
+
+```typescript
+import { RemarkPlugin } from '@milkdown/core';
+import directive from 'remark-directive';
+
+const iframe = createNode(() => ({
+    // ...
+    remarkPlugins: () => [directive as RemarkPlugin],
+}));
 ```
 
 ## Parser
 
-Then, we need to add a parser specification to transform remark AST to prosemirror node.
-You can use some inspect tools to find out the remark AST structure,
-we noticed that the iframe node have following structure:
+Then, we need to add a parser specification to transform our markdown
+(in the form of remark AST) to a prosemirror node.
+You can use an inspect tool to find out the remark AST structure,
+but in this case the iframe node has the following structure:
 
 ```typescript
 const AST = {
@@ -86,27 +93,27 @@ const AST = {
 So we can easily write our parser specification for it:
 
 ```typescript
-const iframe = nodeFactory({
+schema: () => ({
     // ...
-    parser: {
+    parseMarkdown: {
         match: (node) => node.type === 'textDirective' && node.name === 'iframe',
         runner: (state, node, type) => {
             state.addNode(type, { src: (node.attributes as { src: string }).src });
         },
     },
-});
+}),
 ```
 
 Now, text in `defaultValue` can be parsed to iframe elements correctly.
 
 ## Serializer
 
-Then, we need to add a serializer specification to transform prosemirror node to remark AST:
+Then, we need to add a serializer specification to transform the prosemirror node back to remark AST:
 
 ```typescript
-const iframe = nodeFactory({
+schema: () => ({
     // ...
-    serializer: {
+    toMarkdown: {
         match: (node) => node.type.name === id,
         runner: (state, node) => {
             state.addNode('textDirective', undefined, undefined, {
@@ -116,8 +123,8 @@ const iframe = nodeFactory({
                 },
             });
         },
-    },
-});
+    }
+},
 ```
 
 Now, iframe elements can be serialized into string correctly.
@@ -128,10 +135,9 @@ For user input texts that should be transformed into iframe, we also should make
 We can use `inputRules` to define [prosemirror input rules](https://prosemirror.net/docs/ref/#inputrules) to implement this:
 
 ```typescript
-import { Node } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 
-const iframe = nodeFactory({
+const iframe = createNode(() => ({
     // ...
     inputRules: (nodeType) => [
         new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
@@ -144,18 +150,24 @@ const iframe = nodeFactory({
             return tr;
         }),
     ],
-});
+}));
 ```
 
 ## Use Plugins
 
-Then, we can just `use` the plugins we write:
+Finally, we need to add our new node type to the other nodes in the `AtomList`.
+We can then just `use` the plugin like we normally would:
 
 ```typescript
 import { Editor } from '@milkdown/core';
+import { AtomList, createNode } from "@milkdown/utils";
 import { commonmark } from '@milkdown/preset-commonmark';
 
-Editor.make().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
+const iframe = createNode(() => ({ /* ... */ });
+
+const iframePlugin = AtomList.create([iframe()]);
+
+Editor.make().use(iframePlugin).use(commonmark).create();
 ```
 
 ---
