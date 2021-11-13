@@ -2,7 +2,7 @@
 import { MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady } from '@milkdown/core';
 import { NodeType } from '@milkdown/prose';
 
-type $Node = MilkdownPlugin & {
+export type $Node = MilkdownPlugin & {
     id: string;
     type: NodeType;
     schema: NodeSchema;

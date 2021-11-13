@@ -2,7 +2,7 @@
 
 import { CmdKey, CmdTuple, commandsCtx, Ctx, MilkdownPlugin, SchemaReady } from '@milkdown/core';
 
-type $Command<T> = MilkdownPlugin & {
+export type $Command<T> = MilkdownPlugin & {
     run: (info?: T) => boolean;
     key: CmdKey<T>;
 };

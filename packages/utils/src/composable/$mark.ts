@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { MarkSchema, MilkdownPlugin, nodesCtx, schemaCtx, SchemaReady } from '@milkdown/core';
+import { MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady } from '@milkdown/core';
 import { MarkType } from '@milkdown/prose';
 
-type $Mark = MilkdownPlugin & {
+export type $Mark = MilkdownPlugin & {
     id: string;
     type: MarkType;
     schema: MarkSchema;
@@ -10,14 +10,14 @@ type $Mark = MilkdownPlugin & {
 
 export const $mark = (id: string, schema: MarkSchema): $Mark => {
     const plugin: MilkdownPlugin = () => async (ctx) => {
-        ctx.update(nodesCtx, (ns) => [...ns, [id, schema] as [string, MarkSchema]]);
+        ctx.update(marksCtx, (ns) => [...ns, [id, schema] as [string, MarkSchema]]);
 
         (<$Mark>plugin).id = id;
         (<$Mark>plugin).schema = schema;
 
         await ctx.wait(SchemaReady);
 
-        (<$Mark>plugin).type = ctx.get(schemaCtx).nodes[id];
+        (<$Mark>plugin).type = ctx.get(schemaCtx).marks[id];
     };
 
     return <$Mark>plugin;

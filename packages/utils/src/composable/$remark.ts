@@ -2,7 +2,7 @@
 
 import { InitReady, MilkdownPlugin, RemarkPlugin, remarkPluginsCtx } from '@milkdown/core';
 
-type $Remark = MilkdownPlugin & {
+export type $Remark = MilkdownPlugin & {
     plugin: RemarkPlugin;
 };
 

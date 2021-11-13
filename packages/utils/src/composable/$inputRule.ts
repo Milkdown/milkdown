@@ -3,7 +3,7 @@
 import { Ctx, inputRulesCtx, MilkdownPlugin, SchemaReady } from '@milkdown/core';
 import { InputRule } from '@milkdown/prose';
 
-type $InputRule = MilkdownPlugin & {
+export type $InputRule = MilkdownPlugin & {
     inputRule: InputRule;
 };
 

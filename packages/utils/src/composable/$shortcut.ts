@@ -3,7 +3,7 @@
 import { Ctx, MilkdownPlugin, prosePluginsCtx, SchemaReady } from '@milkdown/core';
 import { Keymap, keymap } from '@milkdown/prose';
 
-type $Shortcut = MilkdownPlugin & {
+export type $Shortcut = MilkdownPlugin & {
     keymap: Keymap;
 };
 

@@ -3,7 +3,7 @@
 import { Ctx, MilkdownPlugin, prosePluginsCtx, SchemaReady } from '@milkdown/core';
 import { Plugin } from '@milkdown/prose';
 
-type $Prose = MilkdownPlugin & {
+export type $Prose = MilkdownPlugin & {
     plugin: Plugin;
 };
 
