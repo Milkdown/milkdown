@@ -27,7 +27,6 @@ export type Methods<Keys extends string, Type> = {
     shortcuts?: Record<Keys, CommandConfig>;
 };
 
-// get plugin
 export type GetPlugin<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
     options?: Partial<CommonOptions<SupportedKeys, Options>>,
 ) => MilkdownPlugin;
