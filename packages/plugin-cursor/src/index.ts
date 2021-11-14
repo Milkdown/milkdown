@@ -5,36 +5,39 @@ import { createPlugin } from '@milkdown/utils';
 import { dropCursor } from 'prosemirror-dropcursor';
 import { gapCursor } from 'prosemirror-gapcursor';
 
-export const cursor = createPlugin(() => {
+export const cursor = createPlugin((utils) => {
     const css = injectGlobal;
-    css`
-        /* copy from https://github.com/ProseMirror/prosemirror-gapcursor/blob/master/style/gapcursor.css */
-        .ProseMirror-gapcursor {
-            display: none;
-            pointer-events: none;
-            position: absolute;
-        }
-
-        .ProseMirror-gapcursor:after {
-            content: '';
-            display: block;
-            position: absolute;
-            top: -2px;
-            width: 20px;
-            border-top: 1px solid black;
-            animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
-        }
-
-        @keyframes ProseMirror-cursor-blink {
-            to {
-                visibility: hidden;
+    utils.getStyle((themeTool) => {
+        css`
+            /* copy from https://github.com/ProseMirror/prosemirror-gapcursor/blob/master/style/gapcursor.css */
+            .ProseMirror-gapcursor {
+                display: none;
+                pointer-events: none;
+                position: absolute;
+                margin: 0 !important;
             }
-        }
 
-        .ProseMirror-focused .ProseMirror-gapcursor {
-            display: block;
-        }
-    `;
+            .ProseMirror-gapcursor:after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: -2px;
+                width: 20px;
+                border-top: ${themeTool.size.lineWidth} solid ${themeTool.palette('secondary')};
+                animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
+            }
+
+            @keyframes ProseMirror-cursor-blink {
+                to {
+                    visibility: hidden;
+                }
+            }
+
+            .ProseMirror-focused .ProseMirror-gapcursor {
+                display: block;
+            }
+        `;
+    });
 
     return {
         prosePlugins: (_, ctx) => {
