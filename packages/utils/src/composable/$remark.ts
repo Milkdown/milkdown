@@ -1,17 +1,16 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, InitReady, MilkdownPlugin, RemarkPlugin, remarkPluginsCtx } from '@milkdown/core';
+import { InitReady, MilkdownPlugin, RemarkPlugin, remarkPluginsCtx } from '@milkdown/core';
 
 export type $Remark = MilkdownPlugin & {
     plugin: RemarkPlugin;
 };
 
-export const $remark = (remark: (ctx: Ctx) => RemarkPlugin): $Remark => {
+export const $remark = (remark: RemarkPlugin): $Remark => {
     const plugin: MilkdownPlugin = () => async (ctx) => {
         await ctx.wait(InitReady);
-        const re = remark(ctx);
-        ctx.update(remarkPluginsCtx, (rp) => [...rp, re]);
-        (<$Remark>plugin).plugin = re;
+        ctx.update(remarkPluginsCtx, (rp) => [...rp, remark]);
+        (<$Remark>plugin).plugin = remark;
     };
 
     return <$Remark>plugin;
