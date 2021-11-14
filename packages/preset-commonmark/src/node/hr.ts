@@ -38,7 +38,7 @@ export const hr = createNode((utils) => {
                 const { tr } = state;
 
                 if (match[0]) {
-                    tr.replaceWith(start, end, type.create({}));
+                    tr.replaceWith(start - 1, end, type.create());
                 }
 
                 return tr;
