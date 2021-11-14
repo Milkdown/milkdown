@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
-import { InputRule, Selection, TextSelection } from '@milkdown/prose';
+import { InputRule, Selection } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
 const id = 'hr';
@@ -33,15 +33,12 @@ export const hr = createNode((utils) => {
                 },
             },
         }),
-        inputRules: (type, ctx) => [
+        inputRules: (type) => [
             new InputRule(/^(?:---|___\s|\*\*\*\s)$/, (state, match, start, end) => {
                 const { tr } = state;
 
                 if (match[0]) {
                     tr.replaceWith(start - 1, end, type.create());
-                    const pos = tr.selection.$from.pos + 1;
-                    tr.insert(pos, ctx.get(schemaCtx).node('paragraph'));
-                    tr.setSelection(TextSelection.create(tr.doc, pos));
                 }
 
                 return tr;
