@@ -7,7 +7,7 @@ We provide a [util package](https://www.npmjs.com/package/@milkdown/utils) to pr
 The util package provides three factory functions:
 
 -   _createPlugin_:
-    Create a [prosemirror plugin](https://prosemirror.net/docs/ref/#state.Plugin_System).
+    Create a general plugin.
 -   _createNode_:
     Create a [prosemirror node](https://prosemirror.net/docs/ref/#model.Node).
 -   _createMark_:
@@ -19,28 +19,27 @@ Some times you may want the plugins can be configured with different options.
 With factories provided in util package, you can easily implement this:
 
 ```typescript
-import { createProsePlugin } from '@milkdown/utils';
-import { Plugin } from '@milkdown/prose';
+import { createPlugin } from '@milkdown/utils';
 
 type Options = {
     color: string;
 };
 
-export const myProsemirrorPlugin = createProsePlugin<Options>((options) => {
+export const myPlugin = createPlugin<Options>((utils, options) => {
     // All options must have a default value.
     const color = options?.color ?? '#fff';
 
-    return new Plugin({
+    return {
         // ...define your plugin
-    });
+    };
 });
 
 // Usage:
 // Default
-Editor.use(myProsemirrorPlugin());
+Editor.use(myPlugin());
 
 // Custom Config
-Editor.use(myProsemirrorPlugin({ color: '#000' }));
+Editor.use(myPlugin({ color: '#000' }));
 ```
 
 ## Utils
@@ -55,15 +54,14 @@ With the `getStyle` function, you can:
 -   Make your style adapt the **headless mode**.
 
 ```typescript
-import { createProsePlugin } from '@milkdown/utils';
-import { Plugin } from '@milkdown/prose';
+import { createPlugin } from '@milkdown/utils';
 import { css } from '@emotion/css';
 
 type Options = {
     color: string;
 };
 
-export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
+export const myPlugin = createPlugin((utils) => {
     const className = utils.getStyle((themeTool) => {
         const primaryColor = themeTool.palette('primary');
         const { shadow } = themeTool.mixin;
@@ -74,14 +72,14 @@ export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
         `;
     });
 
-    return new Plugin({
+    return {
         // ...define your plugin
-    });
+    };
 });
 
 // Headless mode:
 // In headless mode, style created by `getStyle` will be disabled.
-Editor.use(myProsemirrorPlugin({ headless: true }));
+Editor.use(myPlugin({ headless: true }));
 ```
 
 ### getClassName
@@ -91,7 +89,7 @@ The `getClassName` function is a shortcut for users to create class name.
 ```typescript
 import { createNode } from '@milkdown/utils';
 
-export const myNode = createNode<Keys>((options, utils) => {
+export const myNode = createNode<Keys>((utils, options) => {
     const id = 'myNode';
     const style = 'my-class-name';
 
@@ -102,6 +100,7 @@ export const myNode = createNode<Keys>((options, utils) => {
             group: 'block',
             parseDOM: [{ tag: 'div' }],
             toDOM: (node) => ['div', { class: utils.getClassName(node.attrs, id, style) }, 0],
+            // ...other props
         },
         // ...other props
     };
@@ -124,23 +123,23 @@ You can also get the editor _ctx_.
 
 ```typescript
 import { rootCtx } from '@milkdown/core';
-import { createProsePlugin } from '@milkdown/utils';
+import { createPlugin } from '@milkdown/utils';
 
-export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
+export const myPlugin = createPlugin((_, utils) => {
     const { ctx } = utils;
     const getRootElement = () => ctx.get(rootCtx);
 
-    return new Plugin({
+    return {
         // ...define your plugin
         // Get root element
-        const rootElement = getRootElement();
-    });
+        // const rootElement = getRootElement();
+    };
 });
 ```
 
 ## Commands and Shortcuts
 
-In **node and mark**, define commands and shortcuts are much easier.
+In plugin factory, define commands and shortcuts are much easier.
 
 For example in heading node:
 
@@ -167,6 +166,7 @@ export const heading = createNode<Keys>((_, utils) => {
             },
             parseDOM: [1, 2, 3].map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
             toDOM: (node) => [`h${node.attrs.level}`, 0],
+            // ...some other props
         },
         // ...some other props
 
@@ -213,6 +213,36 @@ Editor.use(
         },
     }),
 );
+```
+
+## Extend
+
+Every plugin created by factory can be extended.
+If you just want to modify some behavior of exists plugin, extend is better than rewrite a new one.
+
+```typescript
+import { heading } from '@milkdown/preset-commonmark';
+const customHeading = heading.extend((original, utils, options) => {
+    return {
+        ...original,
+        schema: customSchema,
+    };
+});
+```
+
+Here we have 3 parameters. The `options` and `utils` have been introduced. And the `original` is the original plugin to be extended.
+The `extend` method should return a new plugin.
+
+You can also use type parameters to change the type signature of `options` and `keys`:
+
+```typescript
+import { heading } from '@milkdown/preset-commonmark';
+const customHeading = heading.extend<CustomKeys, CustomOptions>((original, utils, options) => {
+    return {
+        ...original,
+        schema: customSchema,
+    };
+});
 ```
 
 # AtomList

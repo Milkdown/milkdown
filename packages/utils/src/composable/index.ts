@@ -7,3 +7,4 @@ export * from './$node';
 export * from './$prose';
 export * from './$remark';
 export * from './$shortcut';
+export * from './$view';

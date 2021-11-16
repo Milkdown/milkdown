@@ -6,12 +6,12 @@
 
 工具包提供了三个工厂函数：
 
--   _createProsePlugin_:
-    创建[prosemirror plugin](https://prosemirror.net/docs/ref/#state.Plugin_System).
+-   _createPlugin_:
+    创建通用插件。
 -   _createNode_:
-    创建[prosemirror node](https://prosemirror.net/docs/ref/#model.Node).
+    创建[prosemirror node](https://prosemirror.net/docs/ref/#model.Node)。
 -   _createMark_:
-    创建[prosemirror mark](https://prosemirror.net/docs/ref/#model.Mark).
+    创建[prosemirror mark](https://prosemirror.net/docs/ref/#model.Mark)。
 
 ## 选项
 
@@ -19,28 +19,27 @@
 通过工具包中提供的工厂函数，你可以轻松实现它：
 
 ```typescript
-import { createProsePlugin } from '@milkdown/utils';
-import { Plugin } from '@milkdown/prose';
+import { createPlugin } from '@milkdown/utils';
 
 type Options = {
     color: string;
 };
 
-export const myProsemirrorPlugin = createProsePlugin<Options>((options) => {
+export const myPlugin = createPlugin<Options>((utils, options) => {
     // 所有的选项都需要默认值
     const color = options?.color ?? '#fff';
 
-    return new Plugin({
+    return {
         // ...定义你的插件
-    });
+    };
 });
 
 // 使用：
 // 默认
-Editor.use(myProsemirrorPlugin());
+Editor.use(myPlugin());
 
 // 自定义配置
-Editor.use(myProsemirrorPlugin({ color: '#000' }));
+Editor.use(myPlugin({ color: '#000' }));
 ```
 
 ## 工具
@@ -55,15 +54,14 @@ Editor.use(myProsemirrorPlugin({ color: '#000' }));
 -   让你的样式自动适配**无头模式**。
 
 ```typescript
-import { createProsePlugin } from '@milkdown/utils';
-import { Plugin } from '@milkdown/prose';
+import { createPlugin } from '@milkdown/utils';
 import { css } from '@emotion/css';
 
 type Options = {
     color: string;
 };
 
-export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
+export const myPlugin = createProsePlugin((_, utils) => {
     const className = utils.getStyle((themeTool) => {
         const primaryColor = themeTool.palette('primary');
         const { shadow } = themeTool.mixin;
@@ -74,14 +72,14 @@ export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
         `;
     });
 
-    return new Plugin({
+    return {
         // ...定义你的插件
-    });
+    };
 });
 
 // 无头模式：
 // 在无头模式中，通过`getStyle`创建的样式都会被消除。
-Editor.use(myProsemirrorPlugin({ headless: true }));
+Editor.use(myPlugin({ headless: true }));
 ```
 
 ### getClassName
@@ -102,6 +100,7 @@ export const myNode = createNode<Keys>((options, utils) => {
             group: 'block',
             parseDOM: [{ tag: 'div' }],
             toDOM: (node) => ['div', { class: utils.getClassName(node.attrs, id, style) }, 0],
+            // ...other props
         },
         // ...other props
     };
@@ -141,7 +140,7 @@ export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
 
 ## 命令和快捷键
 
-在**node 和 mark**中，定义命令和快捷键会更加简单。
+在插件工厂中，定义命令和快捷键会更加简单。
 
 例如在标题节点中：
 
@@ -168,6 +167,7 @@ export const heading = createNode<Keys>((_, utils) => {
             },
             parseDOM: [1, 2, 3].map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
             toDOM: (node) => [`h${node.attrs.level}`, 0],
+            // ...some other props
         },
         // ...some other props
 
@@ -214,6 +214,35 @@ Editor.use(
         },
     }),
 );
+```
+
+## 继承
+
+所有被工厂创建的插件都可以被继承。如果你想要修改现有插件的一些行为，继承比完全重写要好。
+
+```typescript
+import { heading } from '@milkdown/preset-commonmark';
+const customHeading = heading.extend((original, utils, options) => {
+    return {
+        ...original,
+        schema: customSchema,
+    };
+});
+```
+
+这里我们有三个参数，`options`和`utils`已经介绍过了。`original`是指被继承的插件。
+这个函数应该返回一个新的插件。
+
+你也可以通过类型参数来更改`options`和`keys`的类型签名。
+
+```typescript
+import { heading } from '@milkdown/preset-commonmark';
+const customHeading = heading.extend<CustomKeys, CustomOptions>((original, utils, options) => {
+    return {
+        ...original,
+        schema: customSchema,
+    };
+});
 ```
 
 # AtomList
