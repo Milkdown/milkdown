@@ -5,7 +5,7 @@ import { visit } from 'unist-util-visit';
 
 const regex = /!CodeSandBox\{[^\s]+\}/g;
 
-const replaceLineBreak = $remark(() => {
+const replaceLineBreak = $remark(() => () => {
     function transformer(tree: Node) {
         visit(tree, 'text', (node: Literal) => {
             const value = node.value as string;
@@ -15,7 +15,7 @@ const replaceLineBreak = $remark(() => {
     return transformer;
 });
 
-const remarkIframePlugin = $remark(() => {
+const remarkIframePlugin = $remark(() => () => {
     function transformer(tree: Node) {
         visit(tree, 'text', (node: Literal) => {
             const value = node.value as string;
