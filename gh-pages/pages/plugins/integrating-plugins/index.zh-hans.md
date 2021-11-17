@@ -1,6 +1,6 @@
 # 集成插件
 
-我们提供了一些方法来让用户将已有的 prosemirror 和 remark 插件快速集成到 milkdown 中。
+我们提供了方法来让用户将已有的 prosemirror 和 remark 插件快速集成到 milkdown 中。
 
 ---
 
@@ -9,17 +9,14 @@
 用于添加 remark 插件。
 
 ```typescript
-import { remarkPluginFactory } from '@milkdown/core';
+import { createPlugin } from '@milkdown/utils';
 
-// 等同于
-// remark.use(someRemarkPlugin);
-const remarkPlugin = remarkPluginFactory(someRemarkPlugin);
+const remarkPlugin = createPlugin({
+    remarkPlugins: () => [someRemarkPlugin, someOtherRemarkPlugin],
+});
 
-// 多个
-const remarkPlugin = remarkPluginFactory([someRemarkPlugin, someOtherRemarkPlugin]);
-
-// 使用
-milkdown.use(remarkPlugin);
+// use
+milkdown.use(remarkPlugin());
 ```
 
 ---
@@ -29,14 +26,12 @@ milkdown.use(remarkPlugin);
 用于添加 prosemirror 插件。
 
 ```typescript
-import { prosePluginFactory } from '@milkdown/core';
+import { createPlugin } from '@milkdown/utils';
 
-// 等同于
-const prosePlugin = prosePluginFactory(someProsemirrorPlugin);
+const prosePlugin = createPlugin({
+    prosePlugins: () => [someProsePlugin, someOtherProsePlugin],
+});
 
-// 多个
-const prosePlugin = prosePluginFactory([someProsePlugin, someOtherProsePlugin]);
-
-// 使用
-milkdown.use(prosePlugin);
+// use
+milkdown.use(prosePlugin());
 ```
