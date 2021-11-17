@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { parserCtx, schemaCtx, serializerCtx } from '@milkdown/core';
+import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core';
 import { Node, Plugin, Slice } from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
 
@@ -23,6 +23,9 @@ export const clipboardPlugin = createPlugin(() => {
     return {
         prosePlugins: (_, ctx) => {
             const schema = ctx.get(schemaCtx);
+            ctx.update(editorViewOptionsCtx, (prev) => ({
+                editable: prev.editable ?? (() => true),
+            }));
             const plugin = new Plugin({
                 props: {
                     handlePaste: (view, event) => {
