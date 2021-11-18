@@ -46,6 +46,17 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
 -   定时器：
     -   **SchemaReady**: 插件执行完毕。
 
+### Commands
+
+-   名称：**commands**
+-   上下文：
+    -   **commandsTimerCtx**: 决定加载插件的时机。
+        默认值：
+        -   **SchemaReady**
+    -   **commandsCtx**: 注册或运行命令。
+-   定时器：
+    -   **CommandsReady**: 插件执行完毕。
+
 ### Parser
 
 -   名称：**parser**

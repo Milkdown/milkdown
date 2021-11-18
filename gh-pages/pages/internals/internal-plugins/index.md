@@ -46,6 +46,17 @@ During this status, milkdown will generate data by nodes and marks, such as sche
 -   timer:
     -   **SchemaReady**: Plugin process finish.
 
+### Commands
+
+-   name: **commands**
+-   ctx:
+    -   **commandsTimerCtx**: Decide the timing that load this plugin.
+        default:
+        -   **SchemaReady**
+    -   **commandsCtx**: Register or run commands.
+-   timer:
+    -   **CommandsReady**: Plugin process finish.
+
 ### Parser
 
 -   name: **parser**
