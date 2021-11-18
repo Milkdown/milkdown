@@ -26,10 +26,13 @@
 所以，我们需要的只是安装它并将其转换为一个 milkdown 插件：
 
 ```typescript
-import { remarkPluginFactory } from '@milkdown/core';
+import { RemarkPlugin } from '@milkdown/core';
 import directive from 'remark-directive';
 
-const directiveRemarkPlugin = remarkPluginFactory(directive);
+const iframe = createNode(() => ({
+    // ...
+    remarkPlugins: () => [directive as RemarkPlugin],
+}));
 ```
 
 ## 定义 Schema
@@ -39,12 +42,12 @@ const directiveRemarkPlugin = remarkPluginFactory(directive);
 并且有一个`src`标签来连接到目标页面。
 
 ```typescript
-import { nodeFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
 const id = 'iframe';
-const iframe = nodeFactory({
+const iframe = createNode(() => ({
     id,
-    schema: {
+    schema: () => ({
         inline: true,
         attrs: {
             src: { default: null },
@@ -65,8 +68,8 @@ const iframe = nodeFactory({
             },
         ],
         toDOM: (node) => ['iframe', { ...node.attrs, class: 'iframe' }, 0],
-    },
-});
+    }),
+}));
 ```
 
 ## 解析器
@@ -85,15 +88,15 @@ const AST = {
 所以我们可以轻易写出它对应的解析器声明：
 
 ```typescript
-const iframe = nodeFactory({
+schema: () => ({
     // ...
-    parser: {
+    parseMarkdown: {
         match: (node) => node.type === 'textDirective' && node.name === 'iframe',
         runner: (state, node, type) => {
             state.addNode(type, { src: (node.attributes as { src: string }).src });
         },
     },
-});
+}),
 ```
 
 现在，`defaultValue` 中的文本可以被正确的解析为 iframe 元素了。
@@ -103,9 +106,9 @@ const iframe = nodeFactory({
 接着，我们需要添加序列化器来将 prosemirror 节点转回为 remark AST。
 
 ```typescript
-const iframe = nodeFactory({
+schema: () => ({
     // ...
-    serializer: {
+    toMarkdown: {
         match: (node) => node.type.name === id,
         runner: (state, node) => {
             state.addNode('textDirective', undefined, undefined, {
@@ -115,8 +118,8 @@ const iframe = nodeFactory({
                 },
             });
         },
-    },
-});
+    }
+},
 ```
 
 现在，iframe 元素可以被正确的序列化成 markdown 字符串了。
@@ -127,13 +130,12 @@ const iframe = nodeFactory({
 我们可以使用 `inputRules` 来定义 [prosemirror 用户输入](https://prosemirror.net/docs/ref/#inputrules) 来实现这个功能：
 
 ```typescript
-import { Node } from '@milkdown/core';
 import { InputRule } from 'prosemirror-inputrules';
 
-const iframe = nodeFactory({
+const iframe = createNode(() => ({
     // ...
     inputRules: (nodeType) => [
-        new InputRule(/:iframe\{src="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
+        new InputRule(/:iframe\{src\="(?<src>[^"]+)?"?\}/, (state, match, start, end) => {
             const [okay, src = ''] = match;
             const { tr } = state;
             if (okay) {
@@ -143,7 +145,7 @@ const iframe = nodeFactory({
             return tr;
         }),
     ],
-});
+}));
 ```
 
 ## 使用插件
@@ -152,9 +154,14 @@ const iframe = nodeFactory({
 
 ```typescript
 import { Editor } from '@milkdown/core';
+import { AtomList, createNode } from "@milkdown/utils";
 import { commonmark } from '@milkdown/preset-commonmark';
 
-Editor.make().use([directiveRemarkPlugin, iframe]).use(commonmark).create();
+const iframe = createNode(() => ({ /* ... */ });
+
+const iframePlugin = AtomList.create([iframe()]);
+
+Editor.make().use(iframePlugin).use(commonmark).create();
 ```
 
 ---
