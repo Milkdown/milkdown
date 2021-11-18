@@ -23,9 +23,12 @@ export const clipboardPlugin = createPlugin(() => {
     return {
         prosePlugins: (_, ctx) => {
             const schema = ctx.get(schemaCtx);
+
+            // Set editable props for https://github.com/Saul-Mirone/milkdown/issues/190
             ctx.update(editorViewOptionsCtx, (prev) => ({
                 editable: prev.editable ?? (() => true),
             }));
+
             const plugin = new Plugin({
                 props: {
                     handlePaste: (view, event) => {
