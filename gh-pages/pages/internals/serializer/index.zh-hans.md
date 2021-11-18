@@ -15,17 +15,19 @@
 对于每一个 node/mark，都需要定义一个序列化器声明，它有以下结构：
 
 ```typescript
-import { nodeFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
-const MyNode = nodeFactory({
-    // other props...
-    serializer = {
-        match: (node) => node.type.name === 'my-node',
-        runner: (state, node) => {
-            state.openNode('my-node').next(node.content).closeNode();
+const myNode = createNode(() => ({
+    schema: () => ({
+        // other props...
+        parseMarkdown: {
+            match: (node) => node.type === 'my-node',
+            runner: (state, node, type) => {
+                state.openNode(type).next(node.children).closeNode();
+            },
         },
-    },
-});
+    }),
+}));
 ```
 
 ## 序列化器声明

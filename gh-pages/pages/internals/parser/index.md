@@ -15,17 +15,19 @@ The transformation will have following steps:
 For every node/mark, there will be a parser specification which has the following structure:
 
 ```typescript
-import { nodeFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
-const myNode = nodeFactory({
-    // other props...
-    parser: {
-        match: (node) => node.type === 'my-node',
-        runner: (state, node, type) => {
-            state.openNode(type).next(node.children).closeNode();
+const myNode = createNode(() => ({
+    schema: () => ({
+        // other props...
+        parseMarkdown: {
+            match: (node) => node.type === 'my-node',
+            runner: (state, node, type) => {
+                state.openNode(type).next(node.children).closeNode();
+            },
         },
-    },
-});
+    }),
+}));
 ```
 
 ## Parser Specification

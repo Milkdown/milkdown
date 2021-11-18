@@ -7,30 +7,30 @@ Node and Mark are two structures that used to define prosemirror [Node](https://
 Users can easily define a node by the following code:
 
 ```typescript
-import { nodeFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
 const id = 'paragraph';
-const paragraph = nodeFactory({
+const paragraph = createNode(() => ({
     id,
     schema: {
         content: 'inline*',
         group: 'block',
         parseDOM: [{ tag: 'p' }],
         toDOM: () => ['p', { class: 'paragraph' }, 0],
-    },
-    parser: {
-        match: (node) => node.type === id,
-        runner: (state, node, type) => {
-            state.openNode(type).next(node.children).closeNode();
+        parseMarkdown: {
+            match: (node) => node.type === id,
+            runner: (state, node, type) => {
+                state.openNode(type).next(node.children).closeNode();
+            },
+        },
+        toMarkdown: {
+            match: (node) => node.type.name === id,
+            runner: (state, node) => {
+                state.openNode('paragraph').next(node.content).closeNode();
+            },
         },
     },
-    serializer: {
-        match: (node) => node.type.name === id,
-        runner: (state, node) => {
-            state.openNode('paragraph').next(node.content).closeNode();
-        },
-    },
-});
+}));
 ```
 
 ---
@@ -47,11 +47,11 @@ There are 4 required properties and 3 optional properties need to be implemented
 
 **Required.** The [prosemirror schema][schema] specification of this node/mark.
 
-### parser
+### parseMarkdown
 
 **Required.** The parser specification, used to define the parsing process of current node/mark.
 
-### serializer
+### toMarkdown
 
 **Required.** The serializer specification, used to define the serializing process of current node/mark.
 
@@ -63,7 +63,7 @@ There are 4 required properties and 3 optional properties need to be implemented
 
 **Optional.** The [prosemirror commands][commands] this node/mark creates. It's used to define commands to operate the editor programmatically.
 
-### keymap?
+### shortcuts?
 
 **Optional.** The [prosemirror key map][key-map] this node/mark creates. It's used to define keyboard shortcuts and bind them to target command.
 

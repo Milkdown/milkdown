@@ -7,32 +7,30 @@ Node 和 Mark 是两个结构，它们被用于定义 prosemirror 的 [Node](htt
 用户可以简单的用以下代码来定义一个 node：
 
 ```typescript
-import { nodeFactory } from '@milkdown/core';
-// mark也是类似
-import { markFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
 const id = 'paragraph';
-const paragraph = nodeFactory({
+const paragraph = createNode(() => ({
     id,
     schema: {
         content: 'inline*',
         group: 'block',
         parseDOM: [{ tag: 'p' }],
         toDOM: () => ['p', { class: 'paragraph' }, 0],
-    },
-    parser: {
-        match: (node) => node.type === id,
-        runner: (state, node, type) => {
-            state.openNode(type).next(node.children).closeNode();
+        parseMarkdown: {
+            match: (node) => node.type === id,
+            runner: (state, node, type) => {
+                state.openNode(type).next(node.children).closeNode();
+            },
+        },
+        toMarkdown: {
+            match: (node) => node.type.name === id,
+            runner: (state, node) => {
+                state.openNode('paragraph').next(node.content).closeNode();
+            },
         },
     },
-    serializer: {
-        match: (node) => node.type.name === id,
-        runner: (state, node) => {
-            state.openNode('paragraph').next(node.content).closeNode();
-        },
-    },
-});
+}));
 ```
 
 ---
@@ -49,11 +47,11 @@ node/mark 有 4 个必选属性和 3 个可选属性。
 
 **必须。** 当前 node/mark 的 [prosemirror schema][schema] 定义。
 
-### parser
+### parseMarkdown
 
 **必须。** 当前 node/mark 的 parser 定义，用于规定 markdown 被如何转换为目标节点。
 
-### serializer
+### toMarkdown
 
 **必须。** 当前 node/mark 的 serializer 定义，用于规定当前节点被如何转换为 markdown。
 
@@ -65,7 +63,7 @@ node/mark 有 4 个必选属性和 3 个可选属性。
 
 **可选。** 当前 node/mark 创建的 [prosemirror commands][commands]。用于定义命令来程序化的操作编辑器。
 
-### keymap?
+### shortcuts?
 
 **可选。** 当前 node/mark 创建的 [prosemirror key map][key-map]。用于定义快捷键，将其绑定到对应的 command。
 

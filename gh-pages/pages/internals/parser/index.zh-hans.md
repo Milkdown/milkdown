@@ -15,17 +15,19 @@
 对于每一个 node/mark，都需要定义一个解析器声明，它有以下结构：
 
 ```typescript
-import { nodeFactory } from '@milkdown/core';
+import { createNode } from '@milkdown/utils';
 
-const myNode = nodeFactory({
-    // other props...
-    parser: {
-        match: (node) => node.type === 'my-node',
-        runner: (state, node, type) => {
-            state.openNode(type).next(node.children).closeNode();
+const myNode = createNode(() => ({
+    schema: () => ({
+        // other props...
+        parseMarkdown: {
+            match: (node) => node.type === 'my-node',
+            runner: (state, node, type) => {
+                state.openNode(type).next(node.children).closeNode();
+            },
         },
-    },
-});
+    }),
+}));
 ```
 
 ## 解析器声明
