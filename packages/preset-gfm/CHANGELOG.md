@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 5.1.0
+
+### Minor Changes
+
+-   9519c4c4: Add composable plugins API.
+
+### Patch Changes
+
+-   Updated dependencies [9519c4c4]
+    -   @milkdown/plugin-table@5.1.0
+    -   @milkdown/preset-commonmark@5.1.0
+    -   @milkdown/utils@5.1.0
+
 ## 5.0.1
 
 ### Patch Changes

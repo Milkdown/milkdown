@@ -1,5 +1,11 @@
 # @milkdown/plugin-cursor
 
+## 5.1.0
+
+### Minor Changes
+
+-   9519c4c4: Add composable plugins API.
+
 ## 5.0.1
 
 ### Patch Changes
