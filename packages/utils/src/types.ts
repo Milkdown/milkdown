@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Attrs, CmdKey, MilkdownPlugin, ThemeTool } from '@milkdown/core';
 import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
-import { InputRule, Plugin } from '@milkdown/prose';
+import { InputRule, Plugin, ViewFactory } from '@milkdown/prose';
 
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
@@ -16,7 +16,8 @@ export type CommandConfig<T = unknown> = [commandKey: CmdKey<T>, defaultKey: str
 export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRecord> = Obj & {
     className?: (attrs: Attrs) => string;
     keymap?: Partial<Record<SupportedKeys, string | string[]>>;
-    readonly headless?: boolean;
+    headless?: boolean;
+    view?: (ctx: Ctx) => ViewFactory;
 };
 
 export type Methods<Keys extends string, Type> = {

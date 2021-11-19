@@ -31,6 +31,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                     const utils = getUtils(ctx, options);
 
                     const plugin = factory(utils, options);
+                    plugin.view = options?.view ?? plugin.view;
 
                     await applyMethods(
                         ctx,

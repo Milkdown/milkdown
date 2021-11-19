@@ -25,12 +25,13 @@ export const createMark = <SupportedKeys extends string = string, Options extend
     withExtend(
         factory,
         addMetadata(
-            (options?: Partial<Options>): MilkdownPlugin =>
+            (options): MilkdownPlugin =>
                 () =>
                 async (ctx) => {
                     const utils = getUtils(ctx, options);
 
                     const plugin = factory(utils, options);
+                    plugin.view = options?.view ?? plugin.view;
 
                     await applyMethods(
                         ctx,
