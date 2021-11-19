@@ -1,5 +1,19 @@
 # @milkdown/core
 
+## 5.1.0
+
+### Minor Changes
+
+-   9519c4c4: Add composable plugins API.
+
+### Patch Changes
+
+-   Updated dependencies [9519c4c4]
+    -   @milkdown/ctx@5.1.0
+    -   @milkdown/design-system@5.1.0
+    -   @milkdown/exception@5.1.0
+    -   @milkdown/prose@5.1.0
+
 ## 5.0.1
 
 ### Patch Changes
