@@ -5,9 +5,9 @@ import { MarkViewFactory, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
 import { $Mark, $Node } from '.';
 
-export type $View<V extends NodeViewFactory | MarkViewFactory> = MilkdownPlugin & {
-    id: string;
+export type $View<T extends $Node | $Mark, V extends NodeViewFactory | MarkViewFactory> = MilkdownPlugin & {
     view: V;
+    type: T;
 };
 
 export const $view = <
@@ -20,14 +20,14 @@ export const $view = <
 >(
     type: T,
     view: (ctx: Ctx) => V,
-): $View<V> => {
+): $View<T, V> => {
     const plugin: MilkdownPlugin = () => async (ctx) => {
         await ctx.wait(SchemaReady);
         const v = view(ctx);
         ctx.update(viewCtx, (ps) => [...ps, [type.id, v] as [string, ViewFactory]]);
-        (<$View<V>>plugin).view = v;
-        (<$View<V>>plugin).id = type.id;
+        (<$View<T, V>>plugin).view = v;
+        (<$View<T, V>>plugin).type = type;
     };
 
-    return <$View<V>>plugin;
+    return <$View<T, V>>plugin;
 };
