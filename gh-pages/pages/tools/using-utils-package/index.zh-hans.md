@@ -289,3 +289,148 @@ Editor.use(mySyntaxPlugin.remove(node1));
 const myNode1 = createNode(/* ... */);
 Editor.use(mySyntaxPlugin.replace(node1, myNode1));
 ```
+
+# 可组合插件
+
+有时用户不想提供一个完整的插件，而是只提供一部分。
+或者他们想将一个插件与其他插件组合。
+在这个时候，我们可以使用可组合插件。
+
+## Remark Plugin
+
+```typescript
+import { $remark } from '@milkdown/utils';
+
+const myRemarkPlugin = $remark((ctx) => remarkPlugin);
+
+Editor.use(myRemarkPlugin);
+```
+
+## Node & Mark
+
+```typescript
+import { $node } from '@milkdown/utils';
+
+const myNode = $node('my-node', (ctx) => {
+    return {
+        atom: true,
+        toDOM: () => ['my-node'],
+        parseDOM: [{ tag: 'my-node' }],
+        toMarkdown: {
+            //...
+        },
+        parseMarkdown: {
+            //...
+        },
+    };
+});
+
+Editor.use(myNode);
+```
+
+`$nodes`和`$marks`创建的插件有元数据：
+
+-   id：node 或 mark 的 id。
+-   type：prosemirror node 或 mark 的类型。
+-   schema：node 或 mark 的原始 schema。
+
+## InputRule
+
+```typescript
+import { $inputRule } from '@milkdown/utils';
+import { schemaCtx } from '@milkdown/core';
+import { wrappingInputRule } from '@milkdown/prose';
+
+const myNode = $node(/* ... */);
+
+const inputRule1 = $inputRule((ctx) => {
+    return wrappingInputRule(/^\[my-node\]/, myNode.type);
+});
+
+const inputRule2 = $inputRule((ctx) => {
+    return wrappingInputRule(/^\[my-node\]/, ctx.get(schemaCtx).nodes['my-node'].type);
+});
+```
+
+在被`$inputRule`创建后，输入规则有元数据：
+
+-   inputRule：原始输入规则。
+
+## Command
+
+```typescript
+import { $command } from '@milkdown/utils';
+import { createCmd, createCmdKey } from '@milkdown/core';
+import { wrapIn } from '@milkdown/prose';
+
+const myNode = $node(/* ... */);
+
+export const WrapInMyBlock = createCmdKey<number>();
+
+const myCommand = $command((ctx) => {
+    return createCmd(WrapInMyBlock, (level = 1) => wrapIn(myNode.type, level));
+});
+```
+
+在被`$command`创建后，命令有元数据：
+
+-   run：运行创建的命令。
+    例如：`myCommand.run(1)`将选中的内容包裹在`myNode.type`，等级为 1。
+-   key: The key of the command.
+-   key：命令的 key。
+    例如：`myCommand.key`将会返回`WrapInMyBlock`。
+
+## Shortcut
+
+```typescript
+import { $shortcut } from '@milkdown/utils';
+
+const myCommand = $command(/* ... */);
+
+const myShortcut = $shortcut((ctx) => {
+    return {
+        'Mod-Alt-1': () => myCommand.run(1),
+        'Mod-Alt-2': () => myCommand.run(2),
+    };
+});
+```
+
+在被`$shortcut`创建后，快捷键有元数据：
+
+-   keymap：创建的 keymap。
+
+## Prosemirror Plugin
+
+```typescript
+import { $prose } from '@milkdown/utils';
+import { Plugin } from '@milkdown/prose';
+
+const myProsePlugin = $prose((ctx) => {
+    return new Plugin({
+        //...
+    });
+});
+```
+
+在被`$prose`创建后，prosemirror 插件有元数据：
+
+-   plugin：原始 prosemirror 插件。
+
+## View
+
+```typescript
+import { $view } from '@milkdown/utils';
+
+const myNode = $node(/* ... */);
+
+const myNodeView = $view(myNode, (ctx) => {
+    return (node, view, getPos, decorations) => {
+        return nodeViewImpl;
+    };
+});
+```
+
+在被`$view`创建后，view 有元数据：
+
+-   type：作为第一个参数传入 view 的原始`$node`或`$mark`数据。
+-   view：原始 view。
