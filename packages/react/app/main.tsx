@@ -77,10 +77,10 @@ const App: React.FC = () => {
     const ref = React.useRef<EditorRef>();
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
-            .configure(paragraph, { view: renderReact(ReactParagraph) })
-            .configure(blockquote, { view: renderReact(ReactBlockquote) })
-            .configure(image, { view: renderReact(ReactImage) })
-            .configure(link, { view: renderReact(TSLink) });
+            .configure(paragraph, { view: () => renderReact(ReactParagraph) })
+            .configure(blockquote, { view: () => renderReact(ReactBlockquote) })
+            .configure(image, { view: () => renderReact(ReactImage) })
+            .configure(link, { view: () => renderReact(TSLink) });
         return Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
