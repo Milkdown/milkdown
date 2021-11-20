@@ -3,7 +3,6 @@ import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
-import { UnknownRecord } from '@milkdown/utils/src/types';
 
 import { SupportedKeys } from '../supported-keys';
 
@@ -21,7 +20,7 @@ type Keys =
 
 export const TurnIntoHeading = createCmdKey<number>();
 
-export const heading = createNode<Keys, UnknownRecord>((utils, options) => {
+export const heading = createNode<Keys>((utils, options) => {
     const id = 'heading';
     const headingMap: Record<number, string> = {
         1: css`
