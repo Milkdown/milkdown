@@ -1,5 +1,13 @@
 # @milkdown/prose
 
+## 5.1.1
+
+### Patch Changes
+
+-   e7c701a1: Fix view configuration.
+-   Updated dependencies [e7c701a1]
+    -   @milkdown/exception@5.1.1
+
 ## 5.1.0
 
 ### Minor Changes
