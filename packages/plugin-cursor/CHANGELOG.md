@@ -1,5 +1,11 @@
 # @milkdown/plugin-cursor
 
+## 5.1.1
+
+### Patch Changes
+
+-   e7c701a1: Fix view configuration.
+
 ## 5.1.0
 
 ### Minor Changes

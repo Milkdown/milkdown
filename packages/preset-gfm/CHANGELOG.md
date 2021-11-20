@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 5.1.1
+
+### Patch Changes
+
+-   e7c701a1: Fix view configuration.
+-   Updated dependencies [e7c701a1]
+    -   @milkdown/plugin-table@5.1.1
+    -   @milkdown/preset-commonmark@5.1.1
+    -   @milkdown/utils@5.1.1
+
 ## 5.1.0
 
 ### Minor Changes
