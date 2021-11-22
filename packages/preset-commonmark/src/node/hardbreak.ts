@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { Plugin, ReplaceStep, Slice } from '@milkdown/prose';
+import { AddMarkStep, Plugin, ReplaceStep } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -45,13 +45,32 @@ export const hardbreak = createNode<Keys>((utils) => {
                 appendTransaction: (trs, _oldState, newState) => {
                     if (!trs.length) return;
                     const [tr] = trs;
-                    if (!tr.getMeta('hardbreak')) return;
+
                     const [step] = tr.steps;
-                    if (!(step instanceof ReplaceStep)) {
-                        return;
+
+                    const isInsertHr = tr.getMeta('hardbreak');
+                    if (isInsertHr) {
+                        if (!(step instanceof ReplaceStep)) {
+                            return;
+                        }
+                        const { from } = step as unknown as { from: number };
+                        return newState.tr.setNodeMarkup(from, type, undefined, []);
                     }
-                    const { from } = step as unknown as { slice: Slice; from: number; to: number };
-                    return newState.tr.setNodeMarkup(from, type, undefined, []);
+
+                    const isAddMarkStep = step instanceof AddMarkStep;
+                    if (isAddMarkStep) {
+                        let _tr = newState.tr;
+                        const { from, to } = step as unknown as { from: number; to: number };
+                        newState.doc.nodesBetween(from, to, (node, pos) => {
+                            if (node.type === type) {
+                                _tr = _tr.setNodeMarkup(pos, type, undefined, []);
+                            }
+                        });
+
+                        return _tr;
+                    }
+
+                    return;
                 },
             }),
         ],
