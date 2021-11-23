@@ -11,12 +11,13 @@ export const calculateNodePosition = (
     const state = view.state;
     const { from } = state.selection;
 
-    const node = view.domAtPos(from).node;
-    if (!(node instanceof HTMLElement)) {
+    const { node } = view.domAtPos(from);
+    const element = node instanceof Text ? node.parentElement : node;
+    if (!(element instanceof HTMLElement)) {
         throw new Error();
     }
 
-    const selectedNodeRect = node.getBoundingClientRect();
+    const selectedNodeRect = element.getBoundingClientRect();
     const targetNodeRect = target.getBoundingClientRect();
     const parentNodeRect = target.parentElement?.getBoundingClientRect();
     if (!parentNodeRect) {
