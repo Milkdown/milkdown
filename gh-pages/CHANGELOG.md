@@ -1,5 +1,11 @@
 # @milkdown/gh-pages
 
+## 5.1.2
+
+### Patch Changes
+
+-   b25da66e: Fix add mark issue for hr
+
 ## 5.1.1
 
 ### Patch Changes

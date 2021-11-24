@@ -1,5 +1,13 @@
 # @milkdown/plugin-table
 
+## 5.1.2
+
+### Patch Changes
+
+-   b25da66e: Fix add mark issue for hr
+-   Updated dependencies [b25da66e]
+    -   @milkdown/utils@5.1.2
+
 ## 5.1.1
 
 ### Patch Changes
