@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { css } from '@emotion/css';
 import { RemarkPlugin } from '@milkdown/core';
-import { AddMarkStep, InputRule, Plugin, ReplaceStep } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
 import remarkEmoji from 'remark-emoji';
@@ -33,7 +33,6 @@ export const emojiNode = createNode((utils) => {
             group: 'inline',
             inline: true,
             selectable: false,
-            marks: '',
             attrs: {
                 html: {
                     default: '',
@@ -94,42 +93,6 @@ export const emojiNode = createNode((utils) => {
             }),
         ],
         remarkPlugins: () => [remarkEmoji as RemarkPlugin, twemojiPlugin],
-        prosePlugins: (type) => [
-            picker(utils),
-            filter(utils),
-
-            new Plugin({
-                appendTransaction: (trs, _oldState, newState) => {
-                    if (!trs.length) return;
-                    const [tr] = trs;
-
-                    const [step] = tr.steps;
-
-                    const isInsertEmoji = tr.getMeta('emoji');
-                    if (isInsertEmoji) {
-                        if (!(step instanceof ReplaceStep)) {
-                            return;
-                        }
-                        const { from } = step as unknown as { from: number };
-                        return newState.tr.setNodeMarkup(from, type, undefined, []);
-                    }
-
-                    const isAddMarkStep = step instanceof AddMarkStep;
-                    if (isAddMarkStep) {
-                        let _tr = newState.tr;
-                        const { from, to } = step as unknown as { from: number; to: number };
-                        newState.doc.nodesBetween(from, to, (node, pos) => {
-                            if (node.type === type) {
-                                _tr = _tr.setNodeMarkup(pos, type, node.attrs, []);
-                            }
-                        });
-
-                        return _tr;
-                    }
-
-                    return;
-                },
-            }),
-        ],
+        prosePlugins: () => [picker(utils), filter(utils)],
     };
 });

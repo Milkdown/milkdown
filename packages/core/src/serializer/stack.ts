@@ -13,6 +13,32 @@ type Ctx = {
 
 const { size, push, open, close } = getStackUtil<MarkdownNode, StackElement, Ctx>();
 
+const maybeMergeChildren = (element: MarkdownNode) => {
+    const { children } = element;
+    if (!children) return element;
+
+    element.children = children.reduce((nextChildren, child, index) => {
+        if (index === 0) {
+            return [child];
+        }
+        const last = nextChildren[nextChildren.length - 1];
+        if (child.isMark && child.type === last.type) {
+            const { children: currChildren, ...currRest } = child;
+            const { children: prevChildren, ...prevRest } = last;
+            if (currChildren && prevChildren && JSON.stringify(currRest) === JSON.stringify(prevRest)) {
+                const next = {
+                    ...prevRest,
+                    children: [...prevChildren, ...currChildren],
+                };
+                return nextChildren.slice(0, -1).concat(next);
+            }
+        }
+        return nextChildren.concat(child);
+    }, [] as MarkdownNode[]);
+
+    return element;
+};
+
 const createMarkdownNode = (element: StackElement) => {
     const node: MarkdownNode = {
         ...element.props,
@@ -39,7 +65,7 @@ const addNode =
     (ctx: Ctx) =>
     (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord): MarkdownNode => {
         const element = createElement(type, children, value, props);
-        const node: MarkdownNode = createMarkdownNode(element);
+        const node: MarkdownNode = maybeMergeChildren(createMarkdownNode(element));
 
         push(ctx)(node);
 
@@ -61,7 +87,7 @@ const openMark =
             return;
         }
         ctx.marks = mark.addToSet(ctx.marks);
-        openNode(ctx)(type, value, props);
+        openNode(ctx)(type, value, { ...props, isMark: true });
     };
 
 const closeMark =
