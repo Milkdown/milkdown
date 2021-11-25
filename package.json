@@ -48,6 +48,7 @@
         "@milkdown/plugin-math": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/plugin-slash": "workspace:*",
+        "@milkdown/plugin-menu": "workspace:*",
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/plugin-upload": "workspace:*",
