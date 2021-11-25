@@ -2,10 +2,14 @@
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import type { MarkSpec, NodeSpec } from '@milkdown/prose';
 import { Schema } from '@milkdown/prose';
+import type {
+    MarkParserSpec,
+    MarkSerializerSpec,
+    NodeParserSpec,
+    NodeSerializerSpec,
+    RemarkParser,
+} from '@milkdown/transformer';
 
-import type { MarkParserSpec, NodeParserSpec } from '../parser';
-import type { MarkSerializerSpec, NodeSerializerSpec } from '../serializer';
-import { RemarkParser } from '../utility';
 import { InitReady, remarkCtx, remarkPluginsCtx } from '.';
 
 export const SchemaReady = createTimer('schemaReady');

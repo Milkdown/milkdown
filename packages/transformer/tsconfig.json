@@ -11,16 +11,7 @@
             "path": "../exception"
         },
         {
-            "path": "../transformer"
-        },
-        {
-            "path": "../ctx"
-        },
-        {
             "path": "../prose"
-        },
-        {
-            "path": "../design-system"
         }
     ]
 }

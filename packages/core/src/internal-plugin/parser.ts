@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import type { Node as ProsemirrorNode } from '@milkdown/prose';
+import { createParser, InnerParserSpecMap, ParserSpecWithType } from '@milkdown/transformer';
 
-import { createParser, InnerParserSpecMap, ParserSpecWithType } from '../parser';
 import { marksCtx, nodesCtx } from '.';
 import { remarkCtx } from './init';
 import { schemaCtx, SchemaReady } from './schema';

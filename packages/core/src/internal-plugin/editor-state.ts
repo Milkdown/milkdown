@@ -10,8 +10,8 @@ import {
     Node,
     Schema,
 } from '@milkdown/prose';
+import { JSONRecord } from '@milkdown/transformer';
 
-import { JSONRecord } from '../utility';
 import { CommandsReady } from '.';
 import { inputRulesCtx, prosePluginsCtx } from './init';
 import { Parser, parserCtx, ParserReady } from './parser';

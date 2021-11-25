@@ -31,6 +31,7 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
+      '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
       '@milkdown/vue': workspace:*
       '@types/jest': ^26.0.22
@@ -87,6 +88,7 @@ importers:
       '@milkdown/prose': link:packages/prose
       '@milkdown/react': link:packages/react
       '@milkdown/theme-nord': link:packages/theme-nord
+      '@milkdown/transformer': link:packages/transformer
       '@milkdown/utils': link:packages/utils
       '@milkdown/vue': link:packages/vue
       '@types/jest': 26.0.24
@@ -192,6 +194,7 @@ importers:
       '@milkdown/design-system': workspace:*
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
+      '@milkdown/transformer': workspace:*
       remark: ^14.0.1
       tslib: ^2.3.1
       unified: ^10.1.0
@@ -200,6 +203,7 @@ importers:
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
       '@milkdown/prose': link:../prose
+      '@milkdown/transformer': link:../transformer
       remark: 14.0.1
       tslib: 2.3.1
       unified: 10.1.0
@@ -525,6 +529,20 @@ importers:
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/design-system': link:../design-system
+
+  packages/transformer:
+    specifiers:
+      '@milkdown/exception': workspace:*
+      '@milkdown/prose': workspace:*
+      remark: ^14.0.1
+      tslib: ^2.3.1
+      unified: ^10.1.0
+    dependencies:
+      '@milkdown/exception': link:../exception
+      '@milkdown/prose': link:../prose
+      remark: 14.0.1
+      tslib: 2.3.1
+      unified: 10.1.0
 
   packages/utils:
     specifiers:

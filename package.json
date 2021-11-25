@@ -32,6 +32,7 @@
         "@commitlint/cli": "^12.1.1",
         "@commitlint/config-conventional": "^12.1.1",
         "@milkdown/prose": "workspace:*",
+        "@milkdown/transformer": "workspace:*",
         "@milkdown/ctx": "workspace:*",
         "@milkdown/core": "workspace:*",
         "@milkdown/design-system": "workspace:*",

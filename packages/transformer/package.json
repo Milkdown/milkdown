@@ -1,5 +1,5 @@
 {
-    "name": "@milkdown/core",
+    "name": "@milkdown/transformer",
     "version": "5.1.2",
     "main": "lib/index.js",
     "module": "lib/index.js",
@@ -20,15 +20,9 @@
         "milkdown",
         "prosemirror",
         "remark",
-        "markdown",
-        "wysiwyg",
-        "text editor",
-        "markdown editor"
+        "markdown"
     ],
     "dependencies": {
-        "@milkdown/ctx": "workspace:*",
-        "@milkdown/transformer": "workspace:*",
-        "@milkdown/design-system": "workspace:*",
         "@milkdown/exception": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "remark": "^14.0.1",

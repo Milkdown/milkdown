@@ -16,6 +16,9 @@
             "path": "./packages/core"
         },
         {
+            "path": "./packages/transformer"
+        },
+        {
             "path": "./packages/utils"
         },
         {
