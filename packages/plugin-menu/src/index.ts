@@ -1,30 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { AtomList, createPlugin } from '@milkdown/utils';
+import { Plugin, PluginKey } from '@milkdown/prose';
+import { createPlugin } from '@milkdown/utils';
 
-import type { Config } from './config';
-import { defaultConfig } from './config';
-import { createSlashPlugin } from './prose-plugin';
+export const menuKey = new PluginKey('milkdown-menu');
 
-export type { Config, StatusConfig, StatusConfigBuilder, StatusConfigBuilderParams } from './config';
-export { defaultActions, defaultConfig } from './config';
-export { createDropdownItem } from './utility';
-
-export type Options = {
-    config: Config;
-};
-
-export const menuPlugin = createPlugin<string, Options>((utils, options) => {
-    const slashConfig = options?.config ?? defaultConfig;
-
+export const menu = createPlugin(() => {
     return {
-        prosePlugins: (_, ctx) => {
-            const config = slashConfig(ctx);
-
-            const plugin = createSlashPlugin(utils, config);
+        prosePlugins: () => {
+            const plugin = new Plugin({
+                key: menuKey,
+            });
 
             return [plugin];
         },
     };
 });
-
-export const menu = AtomList.create([menuPlugin()]);
