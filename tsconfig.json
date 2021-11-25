@@ -82,6 +82,9 @@
             "path": "./packages/plugin-indent"
         },
         {
+            "path": "./packages/plugin-menu"
+        },
+        {
             "path": "./packages/plugin-upload"
         }
     ]
