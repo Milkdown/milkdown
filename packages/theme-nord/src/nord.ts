@@ -20,22 +20,29 @@ export const Nord = {
     nord15: '#b48ead',
 };
 
-export const color: ThemePack['color'] = {
+export const lightColor: ThemePack['color'] = {
     shadow: Nord.nord1,
     primary: Nord.nord10,
     secondary: Nord.nord9,
-    light: {
-        neutral: Nord.nord0,
-        solid: Nord.nord3,
-        line: Nord.nord4,
-        background: Nord.nord6,
-        surface: '#fff',
-    },
-    dark: {
-        neutral: Nord.nord6,
-        solid: Nord.nord4,
-        line: Nord.nord2,
-        background: '#252932',
-        surface: Nord.nord0,
-    },
+    neutral: Nord.nord0,
+    solid: Nord.nord3,
+    line: Nord.nord4,
+    background: Nord.nord6,
+    surface: '#fff',
 };
+
+export const darkColor: ThemePack['color'] = {
+    shadow: Nord.nord1,
+    primary: Nord.nord10,
+    secondary: Nord.nord9,
+    neutral: Nord.nord6,
+    solid: Nord.nord4,
+    line: Nord.nord2,
+    background: '#252932',
+    surface: Nord.nord0,
+};
+
+export const color = {
+    lightColor,
+    darkColor,
+} as const;

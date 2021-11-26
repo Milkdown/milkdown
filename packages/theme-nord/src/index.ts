@@ -4,7 +4,7 @@ import { themeFactory } from '@milkdown/core';
 
 import { code, typography } from './font';
 import { mixin } from './mixin';
-import { color } from './nord';
+import { darkColor, lightColor } from './nord';
 import { override } from './override';
 import { slots } from './slots';
 import { view } from './view';
@@ -19,10 +19,25 @@ export const size = {
     lineWidth: '1px',
 };
 
-export const nord = themeFactory({
+export const nordLight = themeFactory({
     font,
     size,
-    color,
+    color: lightColor,
+    mixin,
+    slots,
+    global: (themeTool) => {
+        const css = injectGlobal;
+        css`
+            ${view};
+            ${override(themeTool)}
+        `;
+    },
+});
+
+export const nordDark = themeFactory({
+    font,
+    size,
+    color: darkColor,
     mixin,
     slots,
     global: (themeTool) => {
@@ -35,7 +50,7 @@ export const nord = themeFactory({
 });
 
 export { mixin } from './mixin';
-export { color } from './nord';
+export { color, darkColor, lightColor } from './nord';
 export { override } from './override';
 export { slots } from './slots';
 export { view } from './view';

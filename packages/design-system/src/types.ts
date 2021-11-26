@@ -50,7 +50,7 @@ export type MixinFactory = {
 
 export type ThemePack = {
     scope?: string;
-    color?: { light?: PR<Color>; dark?: PR<Color> } & PR<Color>;
+    color?: PR<Color>;
     font?: PR<Font, string[]>;
     size?: PR<Size>;
     mixin?: (utils: Omit<ThemeTool, 'slots' | 'global' | 'mixin'>) => Partial<MixinFactory>;

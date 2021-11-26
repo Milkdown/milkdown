@@ -10,17 +10,12 @@ export { Color, Font, Icon, Size } from './types';
 
 export const injectVar = (themePack: ThemePack) => {
     const { color = {}, font, size = {} } = themePack;
-    const { light, dark, ...rest } = color;
     const css = injectGlobal;
     css`
         :root {
-            ${obj2color(light)};
-            ${obj2color(rest)};
+            ${obj2color(color)};
             ${obj2var(font, (x) => x.join(', '))};
             ${obj2var(size)};
-        }
-        [data-theme='dark'] {
-            ${obj2color(dark)}
         }
     `;
 };
