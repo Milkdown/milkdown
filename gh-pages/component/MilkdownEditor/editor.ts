@@ -15,6 +15,7 @@ import { history } from '@milkdown/plugin-history';
 import { indent } from '@milkdown/plugin-indent';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { math } from '@milkdown/plugin-math';
+import { menu } from '@milkdown/plugin-menu';
 import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
@@ -62,4 +63,5 @@ export const createEditor = (
         .use(emoji)
         .use(indent)
         .use(upload)
+        .use(menu())
         .use(slash);

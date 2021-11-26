@@ -4,7 +4,6 @@ import { Slice } from '@milkdown/prose';
 import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
 import React, { forwardRef } from 'react';
 
-import { isDarkModeCtx } from '../Context';
 import { createEditor } from './editor';
 import { Loading } from './Loading';
 import className from './style.module.css';
@@ -20,7 +19,6 @@ export type MilkdownRef = { update: (markdown: string) => void };
 export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly, onChange }, ref) => {
     const editorRef = React.useRef<EditorRef>(null);
     const [editorReady, setEditorReady] = React.useState(false);
-    const isDarkMode = React.useContext(isDarkModeCtx);
 
     const [loading, md] = useLazy(content);
 
@@ -42,7 +40,7 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
 
     const editor = useEditor(
         (root) => {
-            return createEditor(root, md, readOnly, setEditorReady, isDarkMode, onChange);
+            return createEditor(root, md, readOnly, setEditorReady, onChange);
         },
         [readOnly, md, onChange],
     );

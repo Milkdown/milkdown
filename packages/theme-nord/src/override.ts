@@ -13,13 +13,18 @@ export const override = ({ palette, mixin, size, font }: ThemeTool) => css`
         margin-left: auto;
         margin-right: auto;
         ${mixin.shadow?.()};
-        padding: 3.125rem 1.25rem;
         box-sizing: border-box;
 
         .editor {
+            padding: 3.125rem 1.25rem;
             outline: none;
             & > * {
                 margin: 1.875rem 0;
+            }
+
+            @media only screen and (min-width: 72rem) {
+                max-width: 57.375rem;
+                padding: 3.125rem 7.25rem;
             }
         }
 
@@ -33,11 +38,6 @@ export const override = ({ palette, mixin, size, font }: ThemeTool) => css`
 
         li.ProseMirror-selectednode::after {
             ${mixin.border?.()};
-        }
-
-        @media only screen and (min-width: 72rem) {
-            max-width: 57.375rem;
-            padding: 3.125rem 7.25rem;
         }
 
         & ::selection {
