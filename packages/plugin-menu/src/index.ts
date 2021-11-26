@@ -6,13 +6,17 @@ import { createPlugin } from '@milkdown/utils';
 
 export const menuKey = new PluginKey('milkdown-menu');
 
-type Config = Array<IconConfig | Divider>;
+type Config = Array<IconConfig | DividerConfig | SelectConfig>;
 type IconConfig = {
     type: 'icon';
     icon: Icon;
 };
-type Divider = {
+type DividerConfig = {
     type: 'divider';
+};
+type SelectConfig = {
+    type: 'select';
+    options: string[];
 };
 
 export const menu = createPlugin((utils) => {
@@ -29,6 +33,51 @@ export const menu = createPlugin((utils) => {
             width: ${themeTool.size.lineWidth};
             background-color: ${themeTool.palette('line')};
             margin: 0.25rem 0;
+        `;
+    });
+    const selectStyle = utils.getStyle((themeTool) => {
+        return css`
+            justify-content: space-between;
+            align-items: center;
+            width: 12.375rem;
+            color: ${themeTool.palette('neutral', 0.87)};
+            display: flex;
+            cursor: pointer;
+            position: relative;
+            padding: 0.25rem 0.5rem;
+
+            .menu-selector-value {
+                flex: 1;
+                font-weight: 500;
+            }
+
+            .menu-selector-list {
+                position: absolute;
+                top: 2.5rem;
+                left: -0.5rem;
+                background: ${themeTool.palette('surface')};
+                right: -0.5rem;
+                ${themeTool.mixin.border()};
+                ${themeTool.mixin.shadow()};
+                border-bottom-left-radius: ${themeTool.size.radius};
+                border-bottom-right-radius: ${themeTool.size.radius};
+                z-index: 1;
+            }
+
+            .menu-selector-list-item {
+                padding: 0.75rem 1rem;
+                line-height: 1.5rem;
+            }
+
+            background: ${themeTool.palette('secondary', 0.12)};
+
+            &.fold {
+                background: unset;
+
+                .menu-selector-list {
+                    display: none;
+                }
+            }
         `;
     });
     const buttonStyle = utils.getStyle((themeTool) => {
@@ -54,6 +103,13 @@ export const menu = createPlugin((utils) => {
     });
 
     const config: Config = [
+        {
+            type: 'select',
+            options: ['Large Heading', 'Medium Heading', 'Small Heading', 'Paragraph', '...'],
+        },
+        {
+            type: 'divider',
+        },
         {
             type: 'icon',
             icon: 'bold',
@@ -122,18 +178,53 @@ export const menu = createPlugin((utils) => {
                     const menu = document.createElement('div');
                     menuWrapper.appendChild(menu);
                     menuWrapper.classList.add('milkdown-menu-wrapper');
-                    menu.classList.add('milkdown-menu');
                     if (menuStyle) {
                         menu.classList.add(menuStyle);
                     }
 
                     config.forEach((item) => {
+                        if (item.type === 'select') {
+                            const selector = document.createElement('div');
+                            selector.classList.add('menu-selector', 'fold');
+                            selector.addEventListener('mousedown', (e) => {
+                                e.preventDefault();
+                                selector.classList.toggle('fold');
+                            });
+
+                            const selectorValue = document.createElement('span');
+                            selectorValue.classList.add('menu-selector-value');
+                            selectorValue.textContent = item.options[0];
+
+                            const selectorButton = utils.themeTool.slots.icon('downArrow');
+                            selector.appendChild(selectorValue);
+                            selector.appendChild(selectorButton);
+
+                            const selectorList = document.createElement('div');
+                            selectorList.classList.add('menu-selector-list');
+                            item.options.forEach((option) => {
+                                const selectorListItem = document.createElement('div');
+                                selectorListItem.textContent = option;
+                                selectorListItem.classList.add('menu-selector-list-item');
+                                selectorList.appendChild(selectorListItem);
+                            });
+
+                            selector.appendChild(selectorList);
+
+                            if (selectStyle) {
+                                selector.classList.add(selectStyle);
+                            }
+                            menu.appendChild(selector);
+
+                            return;
+                        }
+
                         if (item.type === 'divider') {
                             const divider = document.createElement('div');
                             if (dividerStyle) {
                                 divider.classList.add(dividerStyle);
                             }
                             menu.appendChild(divider);
+                            return;
                         }
 
                         if (item.type === 'icon') {
