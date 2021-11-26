@@ -49,6 +49,9 @@ export const nordDark = themeFactory({
     },
 });
 
+const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+export const nord = darkMode ? nordDark : nordLight;
+
 export { mixin } from './mixin';
 export { color, darkColor, lightColor } from './nord';
 export { override } from './override';
