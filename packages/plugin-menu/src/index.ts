@@ -22,41 +22,55 @@ type SelectConfig = {
 export const menu = createPlugin((utils) => {
     const menuStyle = utils.getStyle((themeTool) => {
         return css`
-            padding: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            // overflow-x: auto;
             ${themeTool.mixin.border('bottom')};
             display: flex;
-            gap: 1rem;
         `;
     });
     const dividerStyle = utils.getStyle((themeTool) => {
         return css`
+            flex-shrink: 0;
             width: ${themeTool.size.lineWidth};
             background-color: ${themeTool.palette('line')};
-            margin: 0.25rem 0;
+            margin: 0.75rem 1rem;
         `;
     });
     const selectStyle = utils.getStyle((themeTool) => {
         return css`
-            justify-content: space-between;
-            align-items: center;
             width: 12.375rem;
-            color: ${themeTool.palette('neutral', 0.87)};
-            display: flex;
-            cursor: pointer;
+            flex-shrink: 0;
             position: relative;
-            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+
+            ${themeTool.mixin.border('right')};
+
+            .menu-selector {
+                justify-content: space-between;
+                align-items: center;
+                color: ${themeTool.palette('neutral', 0.87)};
+                display: flex;
+                position: relative;
+                padding: 0.25rem 0.5rem;
+                margin: 0.5rem;
+                background: ${themeTool.palette('secondary', 0.12)};
+            }
 
             .menu-selector-value {
                 flex: 1;
-                font-weight: 500;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
 
             .menu-selector-list {
                 position: absolute;
-                top: 2.5rem;
-                left: -0.5rem;
+                top: 3rem;
+                left: 0;
+                right: 0;
                 background: ${themeTool.palette('surface')};
-                right: -0.5rem;
                 ${themeTool.mixin.border()};
                 ${themeTool.mixin.shadow()};
                 border-bottom-left-radius: ${themeTool.size.radius};
@@ -67,12 +81,18 @@ export const menu = createPlugin((utils) => {
             .menu-selector-list-item {
                 padding: 0.75rem 1rem;
                 line-height: 1.5rem;
+                &:hover {
+                    background: ${themeTool.palette('secondary', 0.12)};
+                    color: ${themeTool.palette('primary')};
+                }
             }
 
-            background: ${themeTool.palette('secondary', 0.12)};
-
             &.fold {
-                background: unset;
+                border-color: transparent;
+
+                .menu-selector {
+                    background: unset;
+                }
 
                 .menu-selector-list {
                     display: none;
@@ -82,8 +102,10 @@ export const menu = createPlugin((utils) => {
     });
     const buttonStyle = utils.getStyle((themeTool) => {
         return css`
-            width: 2rem;
-            height: 2rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin: 0.75rem;
+            flex-shrink: 0;
 
             display: flex;
             justify-content: center;
@@ -184,11 +206,14 @@ export const menu = createPlugin((utils) => {
 
                     config.forEach((item) => {
                         if (item.type === 'select') {
+                            const selectorWrapper = document.createElement('div');
+                            selectorWrapper.classList.add('menu-selector-wrapper', 'fold');
+
                             const selector = document.createElement('div');
                             selector.classList.add('menu-selector', 'fold');
                             selector.addEventListener('mousedown', (e) => {
                                 e.preventDefault();
-                                selector.classList.toggle('fold');
+                                selectorWrapper.classList.toggle('fold');
                             });
 
                             const selectorValue = document.createElement('span');
@@ -196,6 +221,8 @@ export const menu = createPlugin((utils) => {
                             selectorValue.textContent = item.options[0];
 
                             const selectorButton = utils.themeTool.slots.icon('downArrow');
+
+                            selectorWrapper.appendChild(selector);
                             selector.appendChild(selectorValue);
                             selector.appendChild(selectorButton);
 
@@ -208,12 +235,12 @@ export const menu = createPlugin((utils) => {
                                 selectorList.appendChild(selectorListItem);
                             });
 
-                            selector.appendChild(selectorList);
+                            selectorWrapper.appendChild(selectorList);
 
                             if (selectStyle) {
-                                selector.classList.add(selectStyle);
+                                selectorWrapper.classList.add(selectStyle);
                             }
-                            menu.appendChild(selector);
+                            menu.appendChild(selectorWrapper);
 
                             return;
                         }
