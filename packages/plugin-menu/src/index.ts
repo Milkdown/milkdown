@@ -24,9 +24,9 @@ export const menu = createPlugin((utils) => {
         return css`
             box-sizing: border-box;
             width: 100%;
-            // overflow-x: auto;
-            ${themeTool.mixin.border('bottom')};
             display: flex;
+            flex-wrap: wrap;
+            ${themeTool.mixin.border('bottom')};
         `;
     });
     const dividerStyle = utils.getStyle((themeTool) => {
