@@ -4,12 +4,11 @@ import { Plugin, PluginKey } from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
 
 import { button, ButtonConfig } from './button';
+import { defaultConfig } from './default-config';
 import { divider, DividerConfig } from './divider';
 import { select, SelectConfig } from './select';
 
 export const menuKey = new PluginKey('milkdown-menu');
-
-type Config = Array<SelectConfig | DividerConfig | ButtonConfig>;
 
 export const menu = createPlugin((utils) => {
     const editorWrapperStyle = utils.getStyle((themeTool) => {
@@ -27,73 +26,6 @@ export const menu = createPlugin((utils) => {
         `;
     });
 
-    const config: Config = [
-        {
-            type: 'select',
-            options: ['Large Heading', 'Medium Heading', 'Small Heading', 'Paragraph'],
-        },
-        {
-            type: 'divider',
-        },
-        {
-            type: 'button',
-            icon: 'bold',
-        },
-        {
-            type: 'button',
-            icon: 'italic',
-        },
-        {
-            type: 'button',
-            icon: 'strikeThrough',
-        },
-        {
-            type: 'divider',
-        },
-        {
-            type: 'button',
-            icon: 'bulletList',
-        },
-        {
-            type: 'button',
-            icon: 'orderedList',
-        },
-        {
-            type: 'button',
-            icon: 'taskList',
-        },
-        {
-            type: 'divider',
-        },
-        {
-            type: 'button',
-            icon: 'link',
-        },
-        {
-            type: 'button',
-            icon: 'image',
-        },
-        {
-            type: 'button',
-            icon: 'table',
-        },
-        {
-            type: 'button',
-            icon: 'code',
-        },
-        {
-            type: 'divider',
-        },
-        {
-            type: 'button',
-            icon: 'quote',
-        },
-        {
-            type: 'button',
-            icon: 'divider',
-        },
-    ];
-
     return {
         prosePlugins: () => {
             const plugin = new Plugin({
@@ -107,25 +39,31 @@ export const menu = createPlugin((utils) => {
                         menu.classList.add(menuStyle);
                     }
 
-                    config.forEach((item) => {
-                        if (item.type === 'select') {
-                            const $select = select(utils, item);
-                            menu.appendChild($select);
-                            return;
-                        }
+                    defaultConfig
+                        .map(
+                            (x, i): Array<ButtonConfig | DividerConfig | SelectConfig> =>
+                                i === defaultConfig.length - 1 ? x : [...x, { type: 'divider' } as DividerConfig],
+                        )
+                        .flat()
+                        .forEach((item) => {
+                            if (item.type === 'select') {
+                                const $select = select(utils, item);
+                                menu.appendChild($select);
+                                return;
+                            }
 
-                        if (item.type === 'divider') {
-                            const $divider = divider(utils);
-                            menu.appendChild($divider);
-                            return;
-                        }
+                            if (item.type === 'divider') {
+                                const $divider = divider(utils);
+                                menu.appendChild($divider);
+                                return;
+                            }
 
-                        if (item.type === 'button') {
-                            const $button = button(utils, item);
-                            menu.appendChild($button);
-                            return;
-                        }
-                    });
+                            if (item.type === 'button') {
+                                const $button = button(utils, item);
+                                menu.appendChild($button);
+                                return;
+                            }
+                        });
 
                     const editorDom = editorView.dom;
                     if (editorWrapperStyle) {
