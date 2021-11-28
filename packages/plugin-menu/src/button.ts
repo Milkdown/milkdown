@@ -1,15 +1,19 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { css } from '@emotion/css';
+import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
 import { Icon } from '@milkdown/design-system';
 import { Utils } from '@milkdown/utils';
 
-export type ButtonConfig = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ButtonConfig<T = any> = {
     type: 'button';
     icon: Icon;
+    key: CmdKey<T>;
+    options?: T;
 };
 
-export const button = (utils: Utils, config: ButtonConfig) => {
+export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     const buttonStyle = utils.getStyle((themeTool) => {
         return css`
             width: 1.5rem;
@@ -41,5 +45,10 @@ export const button = (utils: Utils, config: ButtonConfig) => {
     }
     const $icon = utils.themeTool.slots.icon(config.icon);
     $button.appendChild($icon);
+    $button.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        ctx.get(commandsCtx).call(config.key);
+    });
     return $button;
 };
