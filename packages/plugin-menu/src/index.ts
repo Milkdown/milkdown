@@ -27,7 +27,7 @@ export const menu = createPlugin((utils) => {
     });
 
     return {
-        prosePlugins: () => {
+        prosePlugins: (_, ctx) => {
             const plugin = new Plugin({
                 key: menuKey,
                 view: (editorView) => {
@@ -59,7 +59,7 @@ export const menu = createPlugin((utils) => {
                             }
 
                             if (item.type === 'button') {
-                                const $button = button(utils, item);
+                                const $button = button(utils, item, ctx);
                                 menu.appendChild($button);
                                 return;
                             }
