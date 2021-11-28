@@ -127,6 +127,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
         schema: () => ({
             inline: true,
             group: 'inline',
+            selectable: true,
             draggable: true,
             marks: '',
             atom: true,
@@ -240,10 +241,8 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             const createIcon = ctx.get(themeToolCtx).slots.icon;
             const container = document.createElement('span');
             container.className = utils.getClassName(node.attrs, id, containerStyle);
-            container.contentEditable = 'false';
 
             const content = document.createElement('img');
-            content.contentEditable = 'true';
 
             container.append(content);
             let icon = createIcon('image');
@@ -328,6 +327,12 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     container.classList.add('system', 'empty');
                     setIcon('image');
                     return true;
+                },
+                selectNode: () => {
+                    content.classList.add('ProseMirror-selectednode');
+                },
+                deselectNode: () => {
+                    content.classList.remove('ProseMirror-selectednode');
                 },
             };
         },

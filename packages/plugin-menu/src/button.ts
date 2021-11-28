@@ -48,7 +48,7 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     $button.addEventListener('mousedown', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        ctx.get(commandsCtx).call(config.key);
+        ctx.get(commandsCtx).call(config.key, config.options);
     });
     return $button;
 };
