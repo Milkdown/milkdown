@@ -1,13 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { css } from '@emotion/css';
+import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
 import type { CommonConfig } from './default-config';
 
-export type SelectConfig = {
+export type SelectConfig<Options extends string[] = string[]> = {
     type: 'select';
-    options: string[];
+    options: Options;
+    active?: (view: EditorView) => Options;
 } & CommonConfig;
 
 export const select = (utils: Utils, config: SelectConfig) => {

@@ -37,7 +37,18 @@ export class Manager {
     }
 
     public update(view: EditorView) {
-        view;
+        this.config.forEach((config) => {
+            if (config.type === 'button') {
+                if (config.active) {
+                    const active = config.active(view);
+                    if (active) {
+                        config.$.classList.add('active');
+                    } else {
+                        config.$.classList.remove('active');
+                    }
+                }
+            }
+        });
     }
 
     private $create(item: ButtonConfig | DividerConfig | SelectConfig): HTMLElement {

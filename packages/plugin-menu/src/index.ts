@@ -18,9 +18,11 @@ export const menu = createPlugin((utils) => {
 
                     const manager = new Manager(defaultConfig, utils, ctx, menu);
 
-                    manager;
-
-                    return {};
+                    return {
+                        update: (view) => {
+                            manager.update(view);
+                        },
+                    };
                 },
             });
 

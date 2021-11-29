@@ -27,10 +27,12 @@ export type ConfigItem = SelectConfig | ButtonConfig;
 
 export type Config = Array<Array<ConfigItem>>;
 
-export const hasMark = (editorState: EditorState, type: MarkType): boolean => {
-    const { from, to } = editorState.selection;
-
-    return editorState.doc.rangeHasMark(from, from === to ? to + 1 : to, type);
+export const hasMark = (state: EditorState, type: MarkType): boolean => {
+    const { from, $from, to, empty } = state.selection;
+    if (empty) {
+        return !!type.isInSet(state.storedMarks || $from.marks());
+    }
+    return state.doc.rangeHasMark(from, to, type);
 };
 
 export const defaultConfig: Config = [
@@ -45,17 +47,19 @@ export const defaultConfig: Config = [
             type: 'button',
             icon: 'bold',
             key: ToggleBold,
-            active: (view) => hasMark(view.state, view.state.schema.marks.bold),
+            active: (view) => hasMark(view.state, view.state.schema.marks.strong),
         },
         {
             type: 'button',
             icon: 'italic',
             key: ToggleItalic,
+            active: (view) => hasMark(view.state, view.state.schema.marks.em),
         },
         {
             type: 'button',
             icon: 'strikeThrough',
             key: ToggleStrikeThrough,
+            active: (view) => hasMark(view.state, view.state.schema.marks.strike_through),
         },
     ],
     [
