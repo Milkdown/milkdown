@@ -38,6 +38,17 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 margin: 0 auto;
                 `
                     : ''}
+
+                &.ProseMirror-selectednode::after {
+                    content: '';
+                    background: ${themeTool.palette('secondary', 0.38)};
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                }
+
                 img {
                     max-width: 100%;
                     height: auto;
@@ -329,10 +340,10 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     return true;
                 },
                 selectNode: () => {
-                    content.classList.add('ProseMirror-selectednode');
+                    container.classList.add('ProseMirror-selectednode');
                 },
                 deselectNode: () => {
-                    content.classList.remove('ProseMirror-selectednode');
+                    container.classList.remove('ProseMirror-selectednode');
                 },
             };
         },
