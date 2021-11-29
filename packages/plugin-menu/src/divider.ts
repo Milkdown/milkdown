@@ -5,6 +5,7 @@ import { Utils } from '@milkdown/utils';
 
 export type DividerConfig = {
     type: 'divider';
+    group: HTMLElement[];
 };
 export const divider = (utils: Utils) => {
     const dividerStyle = utils.getStyle((themeTool) => {
