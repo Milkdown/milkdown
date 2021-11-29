@@ -3,10 +3,13 @@
 import { css } from '@emotion/css';
 import { Utils } from '@milkdown/utils';
 
+import type { CommonConfig } from './default-config';
+
 export type SelectConfig = {
     type: 'select';
     options: string[];
-};
+} & CommonConfig;
+
 export const select = (utils: Utils, config: SelectConfig) => {
     const selectStyle = utils.getStyle((themeTool) => {
         return css`

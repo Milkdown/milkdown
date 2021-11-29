@@ -2,16 +2,20 @@
 
 import { css } from '@emotion/css';
 import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
-import { Icon } from '@milkdown/design-system';
-import { Utils } from '@milkdown/utils';
+import type { Icon } from '@milkdown/design-system';
+import type { EditorView } from '@milkdown/prose';
+import type { Utils } from '@milkdown/utils';
+
+import type { CommonConfig } from './default-config';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ButtonConfig<T = any> = {
     type: 'button';
     icon: Icon;
+    active?: (view: EditorView) => boolean;
     key: CmdKey<T>;
     options?: T;
-};
+} & CommonConfig;
 
 export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     const buttonStyle = utils.getStyle((themeTool) => {
@@ -32,6 +36,7 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
 
             cursor: pointer;
 
+            &.active,
             &:hover {
                 background-color: ${themeTool.palette('secondary', 0.12)};
                 color: ${themeTool.palette('primary')};
