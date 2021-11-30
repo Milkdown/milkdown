@@ -16,7 +16,7 @@ export const menu = createPlugin((utils) => {
                 view: (editorView) => {
                     const menu = menubar(utils, editorView);
 
-                    const manager = new Manager(defaultConfig, utils, ctx, menu);
+                    const manager = new Manager(defaultConfig, utils, ctx, menu, editorView);
 
                     return {
                         update: (view) => {

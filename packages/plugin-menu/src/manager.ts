@@ -14,12 +14,12 @@ type InnerConfig = (ConfigItem | DividerConfig) & { $: HTMLElement };
 export class Manager {
     private config: InnerConfig[];
 
-    constructor(originalConfig: Config, private utils: Utils, private ctx: Ctx, menu: HTMLElement) {
+    constructor(originalConfig: Config, private utils: Utils, private ctx: Ctx, menu: HTMLElement, view: EditorView) {
         this.config = originalConfig
             .map((xs) =>
                 xs.map((x) => ({
                     ...x,
-                    $: this.$create(x),
+                    $: this.$create(x, view),
                 })),
             )
             .map((xs, i): Array<InnerConfig> => {
@@ -30,7 +30,7 @@ export class Manager {
                     type: 'divider',
                     group: xs.map((x) => x.$),
                 };
-                return [...xs, { ...dividerConfig, $: this.$create(dividerConfig) }];
+                return [...xs, { ...dividerConfig, $: this.$create(dividerConfig, view) }];
             })
             .flat();
         this.config.forEach((x) => menu.appendChild(x.$));
@@ -47,11 +47,32 @@ export class Manager {
                         config.$.classList.remove('active');
                     }
                 }
+                return;
+            }
+
+            if (config.type === 'select') {
+                if (config.disabled) {
+                    const disabled = config.disabled(view);
+                    if (disabled) {
+                        config.$.classList.add('disabled');
+                    } else {
+                        config.$.classList.remove('disabled');
+                    }
+                }
+            }
+
+            if (config.type === 'divider') {
+                const disabled = config.group.every((x) => x.classList.contains('disabled'));
+                if (disabled) {
+                    config.$.classList.add('disabled');
+                } else {
+                    config.$.classList.remove('disabled');
+                }
             }
         });
     }
 
-    private $create(item: ButtonConfig | DividerConfig | SelectConfig): HTMLElement {
+    private $create(item: ButtonConfig | DividerConfig | SelectConfig, view: EditorView): HTMLElement {
         const { utils, ctx } = this;
 
         switch (item.type) {
@@ -60,7 +81,7 @@ export class Manager {
                 return $;
             }
             case 'select': {
-                const $ = select(utils, item);
+                const $ = select(utils, item, ctx, view);
                 return $;
             }
             case 'divider': {
