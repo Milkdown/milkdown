@@ -32,6 +32,8 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 text-align: center;
                 font-size: 0;
                 vertical-align: text-bottom;
+                line-height: 1;
+
                 ${isBlock
                     ? `
                 width: 100%;

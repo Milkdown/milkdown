@@ -16,6 +16,10 @@ export const menubar = (utils: Utils, view: EditorView) => {
             display: flex;
             flex-wrap: wrap;
             ${themeTool.mixin.border()};
+
+            .disabled {
+                display: none;
+            }
         `;
     });
 

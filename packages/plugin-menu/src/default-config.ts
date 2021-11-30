@@ -9,12 +9,13 @@ import {
     ToggleLink,
     ToggleStrikeThrough,
     TurnIntoCodeFence,
+    TurnIntoHeading,
     TurnIntoTaskList,
     WrapInBlockquote,
     WrapInBulletList,
     WrapInOrderedList,
 } from '@milkdown/preset-gfm';
-import type { EditorState, EditorView, MarkType } from '@milkdown/prose';
+import { EditorState, EditorView, MarkType, setBlockType } from '@milkdown/prose';
 
 import { ButtonConfig } from './button';
 import { SelectConfig } from './select';
@@ -27,7 +28,7 @@ export type ConfigItem = SelectConfig | ButtonConfig;
 
 export type Config = Array<Array<ConfigItem>>;
 
-export const hasMark = (state: EditorState, type: MarkType): boolean => {
+const hasMark = (state: EditorState, type: MarkType): boolean => {
     const { from, $from, to, empty } = state.selection;
     if (empty) {
         return !!type.isInSet(state.storedMarks || $from.marks());
@@ -39,7 +40,18 @@ export const defaultConfig: Config = [
     [
         {
             type: 'select',
-            options: ['Large Heading', 'Medium Heading', 'Small Heading', 'Paragraph'],
+            text: 'Heading',
+            options: [
+                { id: '1', text: 'Large Heading' },
+                { id: '2', text: 'Medium Heading' },
+                { id: '3', text: 'Small Heading' },
+            ],
+            disabled: (view) => {
+                const { state } = view;
+                const setToHeading = (level: number) => setBlockType(state.schema.nodes.heading, { level })(state);
+                return !(setToHeading(1) || setToHeading(2) || setToHeading(3));
+            },
+            onSelect: (id) => [TurnIntoHeading, Number(id)],
         },
     ],
     [

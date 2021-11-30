@@ -1,18 +1,27 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { css } from '@emotion/css';
+import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
 import type { CommonConfig } from './default-config';
 
-export type SelectConfig<Options extends string[] = string[]> = {
+type SelectOptions = {
+    id: string;
+    text: string;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type SelectConfig<T = any> = {
     type: 'select';
-    options: Options;
-    active?: (view: EditorView) => Options;
+    text: string;
+    options: SelectOptions[];
+    active?: (view: EditorView) => string;
+    onSelect: (id: string, view: EditorView) => [key: CmdKey<T>, info?: T];
 } & CommonConfig;
 
-export const select = (utils: Utils, config: SelectConfig) => {
+export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
     const selectStyle = utils.getStyle((themeTool) => {
         return css`
             width: 12.375rem;
@@ -85,12 +94,16 @@ export const select = (utils: Utils, config: SelectConfig) => {
     selector.classList.add('menu-selector', 'fold');
     selector.addEventListener('mousedown', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         selectorWrapper.classList.toggle('fold');
+    });
+    view.dom.addEventListener('mousedown', () => {
+        selectorWrapper.classList.add('fold');
     });
 
     const selectorValue = document.createElement('span');
     selectorValue.classList.add('menu-selector-value');
-    selectorValue.textContent = config.options[0];
+    selectorValue.textContent = config.text;
 
     const selectorButton = utils.themeTool.slots.icon('downArrow');
 
@@ -102,9 +115,19 @@ export const select = (utils: Utils, config: SelectConfig) => {
     selectorList.classList.add('menu-selector-list');
     config.options.forEach((option) => {
         const selectorListItem = document.createElement('div');
-        selectorListItem.textContent = option;
+
+        selectorListItem.dataset.id = option.id;
+        selectorListItem.textContent = option.text;
         selectorListItem.classList.add('menu-selector-list-item');
         selectorList.appendChild(selectorListItem);
+    });
+
+    selectorList.addEventListener('mousedown', (e) => {
+        const { target } = e;
+        if (target instanceof HTMLDivElement && target.dataset.id) {
+            ctx.get(commandsCtx).call(...config.onSelect(target.dataset.id, view));
+            selectorWrapper.classList.add('fold');
+        }
     });
 
     selectorWrapper.appendChild(selectorList);
