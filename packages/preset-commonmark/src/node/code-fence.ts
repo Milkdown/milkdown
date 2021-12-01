@@ -190,7 +190,9 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                     const language = node.lang as string;
                     const value = node.value as string;
                     state.openNode(type, { language });
-                    state.addText(value);
+                    if (value) {
+                        state.addText(value);
+                    }
                     state.closeNode();
                 },
             },
