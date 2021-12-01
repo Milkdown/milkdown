@@ -177,7 +177,7 @@ importers:
       '@milkdown/design-system': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
-      '@playwright/test': ^1.16.0
+      '@playwright/test': ^1.17.0
       start-server-and-test: ^1.13.0
       tslib: ^2.3.1
     dependencies:
@@ -185,7 +185,7 @@ importers:
       '@milkdown/design-system': link:../packages/design-system
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/theme-nord': link:../packages/theme-nord
-      '@playwright/test': 1.16.3
+      '@playwright/test': 1.17.0
       tslib: 2.3.1
     devDependencies:
       start-server-and-test: 1.14.0
@@ -3068,8 +3068,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@playwright/test/1.16.3:
-    resolution: {integrity: sha512-aJR6d6Fd/y6lq1RWWggcuiivM7offqddOW3te+NGGMxgF2P0xAxU0/xUurwIFnEp7iHwXILSZByzZ6W6fuKPIg==}
+  /@playwright/test/1.17.0:
+    resolution: {integrity: sha512-zaNbMhZOSocU0SL4Qsi1JGHQhuLS188OOGFAravpcjNUPf+kPMwOp+DbDw5yd/J+W0EjQ11ip9SeDZDZ/SUYlA==}
     engines: {node: '>=12'}
     hasBin: true
     dependencies:
@@ -3101,7 +3101,7 @@ packages:
       open: 8.4.0
       pirates: 4.0.1
       pixelmatch: 5.2.1
-      playwright-core: 1.16.3
+      playwright-core: 1.17.0
       pngjs: 5.0.0
       rimraf: 3.0.2
       source-map-support: 0.4.18
@@ -9272,8 +9272,8 @@ packages:
       find-up: 4.1.0
     dev: true
 
-  /playwright-core/1.16.3:
-    resolution: {integrity: sha512-16hF27IvQheJee+DbhC941AUZLjbJgfZFWi9YPS4LKEk/lKFhZI+9TiFD0sboYqb9eaEWvul47uR5xxTVbE4iw==}
+  /playwright-core/1.17.0:
+    resolution: {integrity: sha512-9ZzKZwmK6G7O9+jtvIurL8efIbJQu3oW0kI4uuNreY3O2jQDWH6xNnD27HCaJN1/tHnw/OmdUC2AmMDZv3vNhQ==}
     engines: {node: '>=12'}
     hasBin: true
     dependencies:
