@@ -40,8 +40,8 @@ export const createEditor = (
     readOnly: boolean | undefined,
     setEditorReady: (ready: boolean) => void,
     onChange?: (getMarkdown: () => string) => void,
-) =>
-    Editor.make()
+) => {
+    const editor = Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, root);
             ctx.set(defaultValueCtx, defaultValue);
@@ -63,5 +63,11 @@ export const createEditor = (
         .use(emoji)
         .use(indent)
         .use(upload)
-        .use(menu())
         .use(slash);
+
+    if (!readOnly) {
+        editor.use(menu());
+    }
+
+    return editor;
+};

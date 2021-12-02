@@ -131,13 +131,19 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             code {
                 line-height: 1.5;
                 font-family: ${font.code};
+                white-space: pre-wrap;
             }
 
             pre {
                 font-family: ${font.code};
                 margin: 0 1.2rem !important;
+                white-space: pre-wrap;
 
                 padding-bottom: 1.4rem;
+
+                * {
+                    white-space: pre-wrap;
+                }
             }
         `;
     });

@@ -55,3 +55,11 @@ body {
     }
     transition: all 0.4s ease-in-out;
 }
+
+.milkdown-menu-wrapper .editor {
+    height: calc(100vh - 26.5rem);
+    @mixin query 72rem {
+        height: calc(100vh - 20.5rem);
+    }
+    overflow: auto;
+}
