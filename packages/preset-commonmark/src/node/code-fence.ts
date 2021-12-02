@@ -131,19 +131,11 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             code {
                 line-height: 1.5;
                 font-family: ${font.code};
-                white-space: pre-wrap;
             }
 
             pre {
                 font-family: ${font.code};
                 margin: 0 1.2rem !important;
-                white-space: pre-wrap;
-
-                padding-bottom: 1.4rem;
-
-                * {
-                    white-space: pre-wrap;
-                }
             }
         `;
     });
@@ -289,6 +281,8 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             selectWrapper.append(valueWrapper);
             selectWrapper.append(select);
             pre.append(code);
+            const codeContent = document.createElement('div');
+            code.append(codeContent);
 
             container.append(selectWrapper, pre);
             container.setAttribute('class', utils.getClassName(node.attrs, 'code-fence', style));
@@ -298,7 +292,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
 
             return {
                 dom: container,
-                contentDOM: code,
+                contentDOM: codeContent,
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
 
