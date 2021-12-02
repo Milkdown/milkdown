@@ -20,8 +20,7 @@ export function getDecorations(doc: Node, name: string) {
     findChildren((node) => node.type.name === name)(doc).forEach((block) => {
         let from = block.pos + 1;
         const { language } = block.node.attrs;
-        if (!language) return;
-        const nodes = highlight(block.node.textContent, language);
+        const nodes = highlight(block.node.textContent, language || 'shell');
 
         flatNodes(nodes).forEach((node) => {
             const to = from + node.text.length;
