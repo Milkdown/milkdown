@@ -53,7 +53,11 @@ export const Demo = ({ mode, isDarkMode }: DemoProps) => {
         current.update(value);
     }, []);
 
-    const classes = [className.container, mode === Mode.TwoSide ? className.twoSide : ''].join(' ');
+    const classes = [
+        className.container,
+        mode === Mode.TwoSide ? className.twoSide : '',
+        mode === Mode.TwoSide ? 'two-side' : '',
+    ].join(' ');
 
     return !md.length ? null : (
         <div ref={ref} className={classes}>

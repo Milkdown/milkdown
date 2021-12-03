@@ -63,3 +63,7 @@ body {
     }
     overflow: auto;
 }
+
+.two-side .editor {
+    height: calc(100vh - 26.5rem);
+}
