@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Editor, editorViewCtx } from '@milkdown/core';
+import { Editor, editorViewCtx, rootCtx } from '@milkdown/core';
 import { ViewFactory } from '@milkdown/prose';
 import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
 
@@ -31,10 +31,10 @@ const useGetEditor = (getEditor: GetEditor) => {
 
         return () => {
             const view = editorRef.current?.action((ctx) => ctx.get(editorViewCtx));
-            if (!view) return;
+            const root = editorRef.current?.action((ctx) => ctx.get(rootCtx)) as HTMLElement;
 
-            view.dom.parentElement?.remove();
-            view.destroy();
+            root?.firstChild?.remove();
+            view?.destroy();
         };
     }, [getEditor, renderReact]);
 
