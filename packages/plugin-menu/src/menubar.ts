@@ -18,6 +18,7 @@ export const menubar = (utils: Utils, view: EditorView) => {
             overflow-x: auto;
             ${themeTool.mixin.border()};
             ${themeTool.mixin.scrollbar('x')};
+            -webkit-overflow-scrolling: auto;
 
             .disabled {
                 display: none;

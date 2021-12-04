@@ -93,7 +93,9 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         e.preventDefault();
         e.stopPropagation();
         selectorWrapper.classList.toggle('fold');
-        selectorList.style.left = `${selectorWrapper.getBoundingClientRect().left}px`;
+        selectorList.style.left = `${
+            selectorWrapper.getBoundingClientRect().left - view.dom.getBoundingClientRect().left
+        }px`;
     });
     view.dom.addEventListener('mousedown', () => {
         selectorWrapper.classList.add('fold');
