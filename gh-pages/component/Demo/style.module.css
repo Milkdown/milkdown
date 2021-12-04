@@ -17,6 +17,7 @@
     margin: 0;
     max-width: unset;
     .code {
+        margin: 1.25rem 0;
         width: unset;
         box-sizing: border-box;
         min-height: 30rem;
@@ -35,7 +36,6 @@
 }
 
 .code {
-    margin: 1.25rem 0;
     background: palette(surface);
     transition: all 0.4s ease-in-out, height 0s, padding 0s;
     border: none;
