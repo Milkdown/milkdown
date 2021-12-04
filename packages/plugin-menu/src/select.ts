@@ -26,7 +26,6 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         return css`
             width: 12.375rem;
             flex-shrink: 0;
-            position: relative;
             cursor: pointer;
             font-weight: 500;
             font-size: 0.875rem;
@@ -39,7 +38,6 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 align-items: center;
                 color: ${themeTool.palette('neutral', 0.87)};
                 display: flex;
-                position: relative;
                 padding: 0.25rem 0.5rem;
                 margin: 0.5rem;
                 background: ${themeTool.palette('secondary', 0.12)};
@@ -52,10 +50,9 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
             }
 
             .menu-selector-list {
+                width: calc(12.375rem);
                 position: absolute;
                 top: 3rem;
-                left: calc(${themeTool.size.lineWidth} * -1);
-                right: calc(${themeTool.size.lineWidth} * -1);
                 background: ${themeTool.palette('surface')};
                 ${themeTool.mixin.border()};
                 ${themeTool.mixin.shadow()};
@@ -96,6 +93,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         e.preventDefault();
         e.stopPropagation();
         selectorWrapper.classList.toggle('fold');
+        selectorList.style.left = `${selectorWrapper.getBoundingClientRect().left}px`;
     });
     view.dom.addEventListener('mousedown', () => {
         selectorWrapper.classList.add('fold');

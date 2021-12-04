@@ -14,8 +14,10 @@ export const menubar = (utils: Utils, view: EditorView) => {
             box-sizing: border-box;
             width: 100%;
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            overflow-x: auto;
             ${themeTool.mixin.border()};
+            ${themeTool.mixin.scrollbar('x')};
 
             .disabled {
                 display: none;
