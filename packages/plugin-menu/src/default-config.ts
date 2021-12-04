@@ -1,5 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import { createCmdKey } from '@milkdown/core';
+import { prosemirrorHistory, Redo, Undo } from '@milkdown/plugin-history';
 import {
     InsertHr,
     InsertImage,
@@ -15,7 +17,7 @@ import {
     WrapInBulletList,
     WrapInOrderedList,
 } from '@milkdown/preset-gfm';
-import { EditorState, EditorView, MarkType, setBlockType } from '@milkdown/prose';
+import { EditorState, EditorView, MarkType, setBlockType, wrapIn } from '@milkdown/prose';
 
 import { ButtonConfig } from './button';
 import { SelectConfig } from './select';
@@ -36,6 +38,7 @@ const hasMark = (state: EditorState, type: MarkType): boolean => {
     return state.doc.rangeHasMark(from, to, type);
 };
 
+export const SelectParent = createCmdKey();
 export const defaultConfig: Config = [
     [
         {
@@ -52,6 +55,24 @@ export const defaultConfig: Config = [
                 return !(setToHeading(1) || setToHeading(2) || setToHeading(3));
             },
             onSelect: (id) => [TurnIntoHeading, Number(id)],
+        },
+    ],
+    [
+        {
+            type: 'button',
+            icon: 'undo',
+            key: Undo,
+            disabled: (view) => {
+                return !prosemirrorHistory.undo(view.state);
+            },
+        },
+        {
+            type: 'button',
+            icon: 'redo',
+            key: Redo,
+            disabled: (view) => {
+                return !prosemirrorHistory.redo(view.state);
+            },
         },
     ],
     [
@@ -79,16 +100,28 @@ export const defaultConfig: Config = [
             type: 'button',
             icon: 'bulletList',
             key: WrapInBulletList,
+            disabled: (view) => {
+                const { state } = view;
+                return !wrapIn(state.schema.nodes.bullet_list)(state);
+            },
         },
         {
             type: 'button',
             icon: 'orderedList',
             key: WrapInOrderedList,
+            disabled: (view) => {
+                const { state } = view;
+                return !wrapIn(state.schema.nodes.ordered_list)(state);
+            },
         },
         {
             type: 'button',
             icon: 'taskList',
             key: TurnIntoTaskList,
+            disabled: (view) => {
+                const { state } = view;
+                return !wrapIn(state.schema.nodes.task_list_item)(state);
+            },
         },
     ],
     [
@@ -96,6 +129,7 @@ export const defaultConfig: Config = [
             type: 'button',
             icon: 'link',
             key: ToggleLink,
+            active: (view) => hasMark(view.state, view.state.schema.marks.link),
         },
         {
             type: 'button',
@@ -123,6 +157,11 @@ export const defaultConfig: Config = [
             type: 'button',
             icon: 'divider',
             key: InsertHr,
+        },
+        {
+            type: 'button',
+            icon: 'select',
+            key: SelectParent,
         },
     ],
 ];

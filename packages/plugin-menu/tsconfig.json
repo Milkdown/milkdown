@@ -5,8 +5,5 @@
         "outDir": "lib"
     },
     "include": ["src"],
-    "references": [
-        { "path": "../core" },
-        { "path": "../preset-gfm" }
-    ]
+    "references": [{ "path": "../core" }, { "path": "../preset-gfm" }, { "path": "../plugin-history" }]
 }

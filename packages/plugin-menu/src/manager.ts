@@ -47,6 +47,14 @@ export class Manager {
                         config.$.classList.remove('active');
                     }
                 }
+                if (config.disabled) {
+                    const disabled = config.disabled(view);
+                    if (disabled) {
+                        config.$.classList.add('disabled');
+                    } else {
+                        config.$.classList.remove('disabled');
+                    }
+                }
                 return;
             }
 

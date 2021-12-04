@@ -32,6 +32,8 @@ const iconMapping: Record<Icon, string> = {
     select: 'select_all',
     unchecked: 'check_box_outline_blank',
     checked: 'check_box',
+    undo: 'turn_left',
+    redo: 'turn_right',
 };
 
 export const slots: ThemePack['slots'] = () => ({
