@@ -4,7 +4,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 export const Loading = () => {
     return (
-        <div className="milkdown">
+        <div className="milkdown loading">
             <SkeletonTheme color="rgba(var(--background), 1)" highlightColor="rgba(var(--surface), 1)">
                 <Skeleton
                     height="3rem"

@@ -56,6 +56,13 @@ body {
     transition: all 0.4s ease-in-out;
 }
 
+.loading {
+    padding: 3.125rem 1.25rem;
+    @mixin query 72rem {
+        padding: 3.125rem 7.25rem;
+    }
+}
+
 .milkdown-menu-wrapper .editor {
     height: calc(100vh - 18.5rem);
 
