@@ -28,6 +28,7 @@ export const menubar = (utils: Utils, view: EditorView) => {
 
     const menuWrapper = document.createElement('div');
     const menu = document.createElement('div');
+    menu.classList.add('milkdown-menu');
     menuWrapper.appendChild(menu);
     menuWrapper.classList.add('milkdown-menu-wrapper');
     if (menuStyle) {
