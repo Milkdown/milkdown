@@ -38,7 +38,9 @@ export type Icon =
     | 'unchecked'
     | 'checked'
     | 'undo'
-    | 'redo';
+    | 'redo'
+    | 'liftList'
+    | 'sinkList';
 
 export type Slots = {
     icon: (id: Icon, config?: Record<string, string | number | boolean>) => HTMLElement;

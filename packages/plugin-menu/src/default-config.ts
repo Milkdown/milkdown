@@ -6,6 +6,8 @@ import {
     InsertHr,
     InsertImage,
     InsertTable,
+    LiftListItem,
+    SinkListItem,
     ToggleBold,
     ToggleItalic,
     ToggleLink,
@@ -18,6 +20,7 @@ import {
     WrapInOrderedList,
 } from '@milkdown/preset-gfm';
 import { EditorState, EditorView, MarkType, setBlockType, wrapIn } from '@milkdown/prose';
+import { liftListItem, sinkListItem } from 'prosemirror-schema-list';
 
 import { ButtonConfig } from './button';
 import { SelectConfig } from './select';
@@ -121,6 +124,24 @@ export const defaultConfig: Config = [
             disabled: (view) => {
                 const { state } = view;
                 return !wrapIn(state.schema.nodes.task_list_item)(state);
+            },
+        },
+        {
+            type: 'button',
+            icon: 'liftList',
+            key: LiftListItem,
+            disabled: (view) => {
+                const { state } = view;
+                return !liftListItem(state.schema.nodes.list_item)(state);
+            },
+        },
+        {
+            type: 'button',
+            icon: 'sinkList',
+            key: SinkListItem,
+            disabled: (view) => {
+                const { state } = view;
+                return !sinkListItem(state.schema.nodes.list_item)(state);
             },
         },
     ],

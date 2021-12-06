@@ -34,6 +34,8 @@ const iconMapping: Record<Icon, string> = {
     checked: 'check_box',
     undo: 'turn_left',
     redo: 'turn_right',
+    liftList: 'format_indent_decrease',
+    sinkList: 'format_indent_increase',
 };
 
 export const slots: ThemePack['slots'] = () => ({

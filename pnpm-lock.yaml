@@ -368,11 +368,15 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/utils': workspace:*
+      '@types/prosemirror-schema-list': ^1.0.3
       concurrently: ^6.0.2
+      prosemirror-schema-list: ^1.1.4
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
+      '@types/prosemirror-schema-list': 1.0.3
+      prosemirror-schema-list: 1.1.6
       tslib: 2.3.1
     devDependencies:
       concurrently: 6.3.0
