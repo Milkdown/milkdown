@@ -1,5 +1,18 @@
 # @milkdown/preset-gfm
 
+## 5.2.0
+
+### Minor Changes
+
+-   42055660: Add menu plugin and lots of optimize.
+
+### Patch Changes
+
+-   Updated dependencies [42055660]
+    -   @milkdown/plugin-table@5.2.0
+    -   @milkdown/preset-commonmark@5.2.0
+    -   @milkdown/utils@5.2.0
+
 ## 5.1.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @milkdown/design-system
 
+## 5.2.0
+
+### Minor Changes
+
+-   42055660: Add menu plugin and lots of optimize.
+
 ## 5.1.2
 
 ### Patch Changes
