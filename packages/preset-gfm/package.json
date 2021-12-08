@@ -37,8 +37,6 @@
         "@milkdown/plugin-table": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/utils": "workspace:*",
-        "@types/prosemirror-schema-list": "^1.0.3",
-        "prosemirror-schema-list": "^1.1.4",
         "tslib": "^2.3.1"
     },
     "devDependencies": {

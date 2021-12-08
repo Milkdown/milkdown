@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css, cx } from '@emotion/css';
+import { css } from '@emotion/css';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -16,13 +16,16 @@ export const menubar = (utils: Utils, view: EditorView) => {
             display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
+            ${border};
+            ${scrollbar};
+
             -webkit-overflow-scrolling: auto;
 
             .disabled {
                 display: none;
             }
         `;
-        return cx(border, scrollbar, style);
+        return style;
     });
 
     const menuWrapper = document.createElement('div');
