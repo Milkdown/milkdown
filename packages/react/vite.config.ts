@@ -10,12 +10,12 @@ export default defineConfig({
     root: 'app',
     plugins: [reactRefresh()],
     build: {
+        sourcemap: true,
         lib: {
             entry: resolvePath('src/index.ts'),
             name: 'milkdown_react',
             fileName: (format) => `index.${format}.js`,
         },
-        sourcemap: true,
         rollupOptions: {
             external: ['@milkdown/core', '@milkdown/prose', '@milkdown/utils', 'react', 'react-dom'],
             output: {
