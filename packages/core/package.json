@@ -1,16 +1,22 @@
 {
     "name": "@milkdown/core",
     "version": "5.2.0",
-    "main": "lib/index.js",
-    "module": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "main": "./lib/index.umd.js",
+    "module": "./lib/index.es.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./lib/index.es.js",
+            "require": "./lib/index.umd.js"
+        }
+    },
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "watch": "tsc -w",
+        "watch": "vite build --watch",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "tsc"
+        "build": "vite build"
     },
     "files": [
         "lib",
@@ -32,7 +38,6 @@
         "@milkdown/exception": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "remark": "^14.0.1",
-        "tslib": "^2.3.1",
-        "unified": "^10.1.0"
+        "tslib": "^2.3.1"
     }
 }

@@ -5,7 +5,7 @@ import { getDecorations } from './get-decorations';
 
 export const key = 'MILKDOWN_PLUGIN_PRISM';
 
-export function Prism(name: string) {
+export function Prism(name: string): Plugin {
     return new Plugin({
         key: new PluginKey(key),
         state: {

@@ -1,16 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, themeToolCtx } from '@milkdown/core';
-import { Command, EditorView } from '@milkdown/prose';
 import {
     addColumnAfter,
     addColumnBefore,
+    Command,
     deleteColumn,
     deleteRow,
     deleteTable,
+    EditorView,
     isInTable,
     selectedRect,
     setCellAttr,
-} from 'prosemirror-tables';
+} from '@milkdown/prose';
 
 import { addRowWithAlignment } from '../utils';
 import { getCellSelection, isFirstRowSelected } from './helper';

@@ -65,7 +65,7 @@ export const filter = (utils: Utils) => {
             const style = utils.getStyle(injectStyle);
 
             if (style) {
-                dropDown.classList.add(style);
+                style.split(' ').forEach((x) => dropDown.classList.add(x));
             }
 
             dropDown.classList.add('milkdown-emoji-filter', 'hide');

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { tableNodes as tableNodesSpecCreator } from 'prosemirror-tables';
+import { tableNodes as tableNodesSpecCreator } from '@milkdown/prose';
 
 export const schema = tableNodesSpecCreator({
     tableGroup: 'block',

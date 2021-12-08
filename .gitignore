@@ -14,5 +14,6 @@ tsconfig.tsbuildinfo
 
 .env
 *.local
+*.cache
 *error.log
 *debug.log

@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { EditorView } from '@milkdown/prose';
-import { CellSelection, TableMap } from 'prosemirror-tables';
+import { CellSelection, EditorView, TableMap } from '@milkdown/prose';
 
 import { Item } from './actions';
 

@@ -1,6 +1,16 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { cloneTr, findParentNode, Node as ProsemirrorNode, Schema, Selection, Transaction } from '@milkdown/prose';
-import { CellSelection, TableMap, tableNodeTypes, TableRect } from 'prosemirror-tables';
+import {
+    CellSelection,
+    cloneTr,
+    findParentNode,
+    Node as ProsemirrorNode,
+    Schema,
+    Selection,
+    TableMap,
+    tableNodeTypes,
+    TableRect,
+    Transaction,
+} from '@milkdown/prose';
 
 export type CellPos = {
     pos: number;

@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Command, Node, NodeType, Selection } from '@milkdown/prose';
-import { isInTable } from 'prosemirror-tables';
+import { Command, isInTable, Node, NodeType, Selection } from '@milkdown/prose';
 
 export const exitTable =
     (node: NodeType): Command =>

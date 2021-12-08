@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { AddMarkStep, Plugin, ReplaceStep } from '@milkdown/prose';
+import { AddMarkStep, Plugin, PluginKey, ReplaceStep } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -42,6 +42,7 @@ export const hardbreak = createNode<Keys>((utils) => {
         },
         prosePlugins: (type) => [
             new Plugin({
+                key: new PluginKey('hardbreak-marks'),
                 appendTransaction: (trs, _oldState, newState) => {
                     if (!trs.length) return;
                     const [tr] = trs;

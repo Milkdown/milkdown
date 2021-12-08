@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { injectGlobal } from '@emotion/css';
 import { themeToolCtx } from '@milkdown/core';
+import { dropCursor, gapCursor } from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
-import { dropCursor } from 'prosemirror-dropcursor';
-import { gapCursor } from 'prosemirror-gapcursor';
 
 export const cursor = createPlugin((utils) => {
     const css = injectGlobal;
