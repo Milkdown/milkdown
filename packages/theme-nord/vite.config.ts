@@ -15,13 +15,14 @@ export default defineConfig({
             fileName: (format) => `index.${format}.js`,
         },
         rollupOptions: {
-            external: ['@milkdown/core'],
+            external: ['@milkdown/core', '@emotion/css'],
             output: {
                 dir: resolvePath('lib'),
                 // Provide global variables to use in the UMD build
                 // for externalized deps
                 globals: {
                     '@milkdown/core': 'milkdown_core',
+                    '@emotion/css': 'emotion',
                 },
             },
             plugins: [typescript()],
