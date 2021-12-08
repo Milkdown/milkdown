@@ -7,6 +7,7 @@ const resolvePath = (str: string) => path.resolve(__dirname, str);
 
 export default defineConfig({
     build: {
+        sourcemap: true,
         lib: {
             entry: resolvePath('src/index.ts'),
             name: 'milkdown_plugin-listener',
@@ -15,7 +16,6 @@ export default defineConfig({
         rollupOptions: {
             external: ['@milkdown/core', '@milkdown/prose', '@milkdown/utils'],
             output: {
-                sourcemap: true,
                 dir: resolvePath('lib'),
                 // Provide global variables to use in the UMD build
                 // for externalized deps

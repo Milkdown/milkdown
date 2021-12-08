@@ -15,10 +15,10 @@ export default defineConfig({
             name: 'milkdown_react',
             fileName: (format) => `index.${format}.js`,
         },
+        sourcemap: true,
         rollupOptions: {
             external: ['@milkdown/core', '@milkdown/prose', '@milkdown/utils', 'react', 'react-dom'],
             output: {
-                sourcemap: true,
                 dir: resolvePath('lib'),
                 // Provide global variables to use in the UMD build
                 // for externalized deps
