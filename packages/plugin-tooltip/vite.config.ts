@@ -8,6 +8,7 @@ const resolvePath = (str: string) => path.resolve(__dirname, str);
 export default defineConfig({
     root: 'app',
     build: {
+        sourcemap: true,
         lib: {
             entry: resolvePath('src/index.ts'),
             name: 'milkdown_plugin-tooltip',
@@ -22,7 +23,6 @@ export default defineConfig({
                 '@milkdown/plugin-math',
             ],
             output: {
-                sourcemap: true,
                 dir: resolvePath('lib'),
                 // Provide global variables to use in the UMD build
                 // for externalized deps

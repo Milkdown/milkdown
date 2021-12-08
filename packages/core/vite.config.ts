@@ -7,6 +7,7 @@ const resolvePath = (str: string) => path.resolve(__dirname, str);
 
 export default defineConfig({
     build: {
+        sourcemap: true,
         lib: {
             entry: resolvePath('src/index.ts'),
             name: 'milkdown_core',
@@ -21,7 +22,6 @@ export default defineConfig({
                 '@milkdown/prose',
             ],
             output: {
-                sourcemap: true,
                 dir: resolvePath('lib'),
                 // Provide global variables to use in the UMD build
                 // for externalized deps
