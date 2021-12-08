@@ -1,18 +1,19 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
+import { css, cx } from '@emotion/css';
 import type { ThemeTool } from '@milkdown/core';
 
 export const injectStyle = ({ size, mixin, palette, font }: ThemeTool) => {
-    return css`
+    const border = mixin.border?.();
+    const shadow = mixin.shadow?.();
+
+    const style = css`
         position: absolute;
         &.hide {
             display: none;
         }
 
-        ${mixin.border?.()};
         border-radius: ${size.radius};
         background: ${palette('surface')};
-        ${mixin.shadow?.()};
 
         .milkdown-emoji-filter_item {
             display: flex;
@@ -38,4 +39,5 @@ export const injectStyle = ({ size, mixin, palette, font }: ThemeTool) => {
             vertical-align: -0.1em;
         }
     `;
+    return cx(border, shadow, style);
 };

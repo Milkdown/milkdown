@@ -35,6 +35,7 @@ importers:
       '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
       '@milkdown/vue': workspace:*
+      '@rollup/plugin-typescript': ^8.3.0
       '@types/jest': ^26.0.22
       '@typescript-eslint/eslint-plugin': ^4.31.0
       '@typescript-eslint/parser': ^4.31.0
@@ -93,6 +94,7 @@ importers:
       '@milkdown/transformer': link:packages/transformer
       '@milkdown/utils': link:packages/utils
       '@milkdown/vue': link:packages/vue
+      '@rollup/plugin-typescript': 8.3.0_typescript@4.4.4
       '@types/jest': 26.0.24
       '@typescript-eslint/eslint-plugin': 4.33.0_cc617358c89d3f38c52462f6d809db4c
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.4.4
@@ -199,7 +201,6 @@ importers:
       '@milkdown/transformer': workspace:*
       remark: ^14.0.1
       tslib: ^2.3.1
-      unified: ^10.1.0
     dependencies:
       '@milkdown/ctx': link:../ctx
       '@milkdown/design-system': link:../design-system
@@ -208,7 +209,6 @@ importers:
       '@milkdown/transformer': link:../transformer
       remark: 14.0.1
       tslib: 2.3.1
-      unified: 10.1.0
 
   packages/ctx:
     specifiers:
@@ -234,15 +234,19 @@ importers:
 
   packages/plugin-clipboard:
     specifiers:
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/plugin-collaborative:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
       y-prosemirror: ^1.0.9
@@ -255,6 +259,7 @@ importers:
       tslib: 2.3.1
       y-prosemirror: 1.0.11_y-protocols@1.0.5+yjs@13.5.18
     devDependencies:
+      '@milkdown/core': link:../core
       y-protocols: 1.0.5
       y-websocket: 1.3.17_yjs@13.5.18
       yjs: 13.5.18
@@ -262,22 +267,20 @@ importers:
   packages/plugin-cursor:
     specifiers:
       '@emotion/css': ^11.1.3
-      '@types/prosemirror-dropcursor': ^1.0.2
-      '@types/prosemirror-gapcursor': ^1.0.4
-      prosemirror-dropcursor: ^1.3.5
-      prosemirror-gapcursor: ^1.1.5
+      '@milkdown/core': workspace:*
+      '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
-      '@types/prosemirror-dropcursor': 1.0.3
-      '@types/prosemirror-gapcursor': 1.0.4
-      prosemirror-dropcursor: 1.3.5
-      prosemirror-gapcursor: 1.2.0
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/utils': link:../utils
 
   packages/plugin-diagram:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       '@types/mermaid': ^8.2.7
       mermaid: ^8.12.1
@@ -292,11 +295,14 @@ importers:
       nanoid: 3.1.30
       tslib: 2.3.1
       unist-util-visit: 4.1.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/plugin-emoji:
     specifiers:
       '@emotion/css': ^11.1.3
       '@joeattardi/emoji-button': ^4.6.0
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       '@types/node-emoji': ^1.8.1
       '@types/twemoji': ^12.1.2
@@ -318,9 +324,13 @@ importers:
       tslib: 2.3.1
       twemoji: 13.1.0
       unist-util-visit: 4.1.0
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/plugin-history:
     specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/utils': workspace:*
       '@types/prosemirror-history': ^1.0.2
       prosemirror-history: ^1.1.3
       tslib: ^2.3.1
@@ -328,29 +338,40 @@ importers:
       '@types/prosemirror-history': 1.0.3
       prosemirror-history: 1.2.0
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/utils': link:../utils
 
   packages/plugin-indent:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/plugin-listener:
     specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/utils': link:../utils
 
   packages/plugin-math:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       '@types/katex': ^0.11.1
-      concurrently: ^6.0.2
       katex: ^0.13.18
       remark-math: ^5.1.0
       tslib: ^2.3.1
@@ -361,15 +382,17 @@ importers:
       remark-math: 5.1.0
       tslib: 2.3.1
     devDependencies:
+      '@milkdown/core': link:../core
       '@types/katex': 0.11.1
-      concurrently: 6.3.0
 
   packages/plugin-menu:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
+      '@milkdown/plugin-history': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/utils': workspace:*
       '@types/prosemirror-schema-list': ^1.0.3
-      concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.3.1
     dependencies:
@@ -379,10 +402,14 @@ importers:
       prosemirror-schema-list: 1.1.6
       tslib: 2.3.1
     devDependencies:
-      concurrently: 6.3.0
+      '@milkdown/core': link:../core
+      '@milkdown/plugin-history': link:../plugin-history
+      '@milkdown/preset-gfm': link:../preset-gfm
 
   packages/plugin-prism:
     specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       '@types/refractor': ^3.0.0
       refractor: ^3.3.1
@@ -392,12 +419,16 @@ importers:
       '@types/refractor': 3.0.2
       refractor: 3.5.0
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/plugin-slash:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/utils': workspace:*
-      concurrently: ^6.0.2
       smooth-scroll-into-view-if-needed: ^1.1.32
       tslib: ^2.3.1
     dependencies:
@@ -406,73 +437,75 @@ importers:
       smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.3.1
     devDependencies:
-      concurrently: 6.3.0
+      '@milkdown/core': link:../core
+      '@milkdown/preset-gfm': link:../preset-gfm
 
   packages/plugin-table:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
-      concurrently: ^6.0.2
-      prosemirror-tables: '*'
       remark-gfm: ^3.0.0
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
-      prosemirror-tables: 1.1.1
       remark-gfm: 3.0.1
       tslib: 2.3.1
     devDependencies:
-      concurrently: 6.3.0
+      '@milkdown/core': link:../core
 
   packages/plugin-tooltip:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
+      '@milkdown/plugin-math': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/utils': workspace:*
-      concurrently: ^6.0.2
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
-      concurrently: 6.3.0
+      '@milkdown/core': link:../core
+      '@milkdown/plugin-math': link:../plugin-math
+      '@milkdown/preset-gfm': link:../preset-gfm
 
   packages/plugin-upload:
     specifiers:
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/preset-commonmark:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
-      '@types/prosemirror-schema-list': ^1.0.3
-      concurrently: ^6.0.2
-      prosemirror-schema-list: ^1.1.4
       remark-inline-links: ^5.0.0
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
-      '@types/prosemirror-schema-list': 1.0.3
-      prosemirror-schema-list: 1.1.6
       remark-inline-links: 5.0.0
       tslib: 2.3.1
     devDependencies:
-      concurrently: 6.3.0
+      '@milkdown/core': link:../core
 
   packages/preset-gfm:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/plugin-table': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/utils': workspace:*
       '@types/prosemirror-schema-list': ^1.0.3
-      concurrently: ^6.0.2
       prosemirror-schema-list: ^1.1.4
       tslib: ^2.3.1
     dependencies:
@@ -484,46 +517,61 @@ importers:
       prosemirror-schema-list: 1.1.6
       tslib: 2.3.1
     devDependencies:
-      concurrently: 6.3.0
+      '@milkdown/core': link:../core
 
   packages/prose:
     specifiers:
       '@milkdown/exception': workspace:*
       '@types/prosemirror-commands': ^1.0.4
+      '@types/prosemirror-dropcursor': ^1.0.2
+      '@types/prosemirror-gapcursor': ^1.0.4
       '@types/prosemirror-inputrules': ^1.0.4
       '@types/prosemirror-keymap': ^1.0.4
       '@types/prosemirror-model': ^1.12.0
+      '@types/prosemirror-schema-list': ^1.0.3
       '@types/prosemirror-state': ^1.2.6
       '@types/prosemirror-transform': ^1.1.2
       '@types/prosemirror-view': ^1.17.1
       prosemirror-commands: ^1.1.12
+      prosemirror-dropcursor: ^1.3.5
+      prosemirror-gapcursor: ^1.1.5
       prosemirror-inputrules: ^1.1.3
       prosemirror-keymap: ^1.1.5
       prosemirror-model: ^1.15.0
+      prosemirror-schema-list: ^1.1.4
       prosemirror-state: ^1.3.4
+      prosemirror-tables: '*'
       prosemirror-transform: ^1.3.3
       prosemirror-view: ^1.23.2
       tslib: ^2.3.1
     dependencies:
       '@milkdown/exception': link:../exception
       '@types/prosemirror-commands': 1.0.4
+      '@types/prosemirror-dropcursor': 1.0.3
+      '@types/prosemirror-gapcursor': 1.0.4
       '@types/prosemirror-inputrules': 1.0.4
       '@types/prosemirror-keymap': 1.0.4
       '@types/prosemirror-model': 1.13.2
+      '@types/prosemirror-schema-list': 1.0.3
       '@types/prosemirror-state': 1.2.8
       '@types/prosemirror-transform': 1.1.4
       '@types/prosemirror-view': 1.19.1
       prosemirror-commands: 1.1.12
+      prosemirror-dropcursor: 1.3.5
+      prosemirror-gapcursor: 1.2.0
       prosemirror-inputrules: 1.1.3
       prosemirror-keymap: 1.1.5
       prosemirror-model: 1.15.0
+      prosemirror-schema-list: 1.1.6
       prosemirror-state: 1.3.4
+      prosemirror-tables: 1.1.1
       prosemirror-transform: 1.3.3
       prosemirror-view: 1.23.3
       tslib: 2.3.1
 
   packages/react:
     specifiers:
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -536,6 +584,7 @@ importers:
       nanoid: 3.1.30
       tslib: 2.3.1
     devDependencies:
+      '@milkdown/core': link:../core
       '@types/react': 17.0.34
       '@types/react-dom': 17.0.11
       react: 17.0.2
@@ -544,10 +593,13 @@ importers:
   packages/theme-nord:
     specifiers:
       '@emotion/css': ^11.1.3
+      '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/design-system': link:../design-system
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/transformer:
     specifiers:
@@ -565,14 +617,18 @@ importers:
 
   packages/utils:
     specifiers:
+      '@milkdown/core': workspace:*
       '@milkdown/exception': workspace:*
       tslib: ^2.3.1
     dependencies:
       '@milkdown/exception': link:../exception
       tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
 
   packages/vue:
     specifiers:
+      '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
       nanoid: ^3.1.25
       tslib: ^2.3.1
@@ -582,6 +638,7 @@ importers:
       nanoid: 3.1.30
       tslib: 2.3.1
     devDependencies:
+      '@milkdown/core': link:../core
       vue: 3.2.21
 
 packages:
@@ -3120,6 +3177,30 @@ packages:
     resolution: {integrity: sha512-IXf3XA7+XyN7CP9gGh/XB0UxVMlvARGEgGXLubFICsUMGz6Q+DU+i4gGlpOxTjKvXjkJDJC8YdqdKkDj9qZHEQ==}
     dev: false
 
+  /@rollup/plugin-typescript/8.3.0_typescript@4.4.4:
+    resolution: {integrity: sha512-I5FpSvLbtAdwJ+naznv+B4sjXZUcIvLLceYpITAn7wAP8W0wqc5noLdGIp9HGVntNhRWXctwPYrSSFQxtl0FPA==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    dependencies:
+      '@rollup/pluginutils': 3.1.0
+      resolve: 1.20.0
+      typescript: 4.4.4
+    dev: true
+
+  /@rollup/pluginutils/3.1.0:
+    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@types/estree': 0.0.39
+      estree-walker: 1.0.1
+      picomatch: 2.3.0
+    dev: true
+
   /@rollup/pluginutils/4.1.1:
     resolution: {integrity: sha512-clDjivHqWGXi7u+0d2r2sBi4Ie6VLEAzWMIkvJLnDmxoOhBYOTfzGbOQBA32THHm11/LiJbd01tJUpJsbshSWQ==}
     engines: {node: '>= 8.0.0'}
@@ -3193,6 +3274,10 @@ packages:
     dependencies:
       '@types/ms': 0.7.31
     dev: false
+
+  /@types/estree/0.0.39:
+    resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
+    dev: true
 
   /@types/estree/0.0.47:
     resolution: {integrity: sha512-c5ciR06jK8u9BstrmJyO97m+klJrrhCf9u3rLu3DEAJBirxRqSCvDQoYKmxuYwQI5SZChAWu+tq9oVlGRuzPAg==}
@@ -5982,6 +6067,10 @@ packages:
   /estraverse/5.3.0:
     resolution: {integrity: sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==}
     engines: {node: '>=4.0'}
+    dev: true
+
+  /estree-walker/1.0.1:
+    resolution: {integrity: sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==}
     dev: true
 
   /estree-walker/2.0.2:
@@ -9578,7 +9667,7 @@ packages:
     dependencies:
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.3
-      prosemirror-view: 1.22.0
+      prosemirror-view: 1.23.3
     dev: false
 
   /prosemirror-gapcursor/1.2.0:
@@ -9587,7 +9676,7 @@ packages:
       prosemirror-keymap: 1.1.5
       prosemirror-model: 1.15.0
       prosemirror-state: 1.3.4
-      prosemirror-view: 1.22.0
+      prosemirror-view: 1.23.3
     dev: false
 
   /prosemirror-history/1.2.0:
@@ -9639,21 +9728,13 @@ packages:
       prosemirror-model: 1.15.0
       prosemirror-state: 1.3.4
       prosemirror-transform: 1.3.3
-      prosemirror-view: 1.22.0
+      prosemirror-view: 1.23.3
     dev: false
 
   /prosemirror-transform/1.3.3:
     resolution: {integrity: sha512-9NLVXy1Sfa2G6qPqhWMkEvwQQMTw7OyTqOZbJaGQWsCeH3hH5Cw+c5eNaLM1Uu75EyKLsEZhJ93XpHJBa6RX8A==}
     dependencies:
       prosemirror-model: 1.15.0
-    dev: false
-
-  /prosemirror-view/1.22.0:
-    resolution: {integrity: sha512-kCZoHp0Sa2AHhwV64aNFi69QlqBocZ8G8gbvZRFDdEj57whOCdPjdVLYBVyM9+S5oHDSrzjkoMm+JvvHFhMRJw==}
-    dependencies:
-      prosemirror-model: 1.15.0
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.3
     dev: false
 
   /prosemirror-view/1.23.3:

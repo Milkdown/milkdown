@@ -1,8 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import './style.css';
 
-import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor } from '@milkdown/core';
 import { marks, nodes } from '@milkdown/preset-commonmark';
+import { nord } from '@milkdown/theme-nord';
 
 import { math } from '../src';
 
@@ -18,18 +19,11 @@ $$
 math
 `;
 
-const root = document.getElementById('app');
-
-if (!root) throw new Error();
-
 Editor.make()
     .config((ctx) => {
-        ctx.update(editorViewOptionsCtx, (prev) => ({
-            ...prev,
-            root,
-            defaultValue: markdown,
-        }));
+        ctx.set(defaultValueCtx, markdown);
     })
+    .use(nord)
     .use(nodes)
     .use(marks)
     .use(math)

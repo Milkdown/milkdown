@@ -1,8 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import './style.css';
 
-import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor, editorViewOptionsCtx } from '@milkdown/core';
 import { prism } from '@milkdown/plugin-prism';
+import { commonmark } from '@milkdown/preset-commonmark';
+
+import { nord } from '../src';
 
 const markdown = `
 # Milkdown Test
@@ -55,11 +58,9 @@ Now you can play!
 
 Editor.make()
     .config((ctx) => {
-        ctx.update(editorViewOptionsCtx, (prev) => ({
-            ...prev,
-            root: document.getElementById('app'),
-            defaultValue: markdown,
-        }));
+        ctx.set(defaultValueCtx, markdown);
     })
+    .use(nord)
     .use(prism)
+    .use(commonmark)
     .create();
