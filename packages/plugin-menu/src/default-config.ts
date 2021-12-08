@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { createCmdKey } from '@milkdown/core';
-import { prosemirrorHistory, Redo, Undo } from '@milkdown/plugin-history';
+import { Redo, Undo } from '@milkdown/plugin-history';
 import {
     InsertHr,
     InsertImage,
@@ -19,8 +19,17 @@ import {
     WrapInBulletList,
     WrapInOrderedList,
 } from '@milkdown/preset-gfm';
-import { EditorState, EditorView, MarkType, setBlockType, wrapIn } from '@milkdown/prose';
-import { liftListItem, sinkListItem } from 'prosemirror-schema-list';
+import {
+    EditorState,
+    EditorView,
+    liftListItem,
+    MarkType,
+    redo,
+    setBlockType,
+    sinkListItem,
+    undo,
+    wrapIn,
+} from '@milkdown/prose';
 
 import { ButtonConfig } from './button';
 import { SelectConfig } from './select';
@@ -66,7 +75,7 @@ export const defaultConfig: Config = [
             icon: 'undo',
             key: Undo,
             disabled: (view) => {
-                return !prosemirrorHistory.undo(view.state);
+                return !undo(view.state);
             },
         },
         {
@@ -74,7 +83,7 @@ export const defaultConfig: Config = [
             icon: 'redo',
             key: Redo,
             disabled: (view) => {
-                return !prosemirrorHistory.redo(view.state);
+                return !redo(view.state);
             },
         },
     ],

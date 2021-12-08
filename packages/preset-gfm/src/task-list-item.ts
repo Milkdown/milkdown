@@ -2,9 +2,8 @@
 import { css } from '@emotion/css';
 import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
-import { wrapIn, wrappingInputRule } from '@milkdown/prose';
+import { liftListItem, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
-import { liftListItem, sinkListItem, splitListItem } from 'prosemirror-schema-list';
 
 import { SupportedKeys } from './supported-keys';
 

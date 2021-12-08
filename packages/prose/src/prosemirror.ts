@@ -6,6 +6,8 @@ export * from 'prosemirror-dropcursor';
 export * as pmDropcursor from 'prosemirror-dropcursor';
 export * from 'prosemirror-gapcursor';
 export * as pmGapcursor from 'prosemirror-gapcursor';
+export * from 'prosemirror-history';
+export * as pmHistory from 'prosemirror-history';
 export * from 'prosemirror-inputrules';
 export * as pmInputRules from 'prosemirror-inputrules';
 export * from 'prosemirror-keymap';

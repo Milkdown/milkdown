@@ -331,12 +331,8 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/utils': workspace:*
-      '@types/prosemirror-history': ^1.0.2
-      prosemirror-history: ^1.1.3
       tslib: ^2.3.1
     dependencies:
-      '@types/prosemirror-history': 1.0.3
-      prosemirror-history: 1.2.0
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
@@ -392,14 +388,10 @@ importers:
       '@milkdown/plugin-history': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/utils': workspace:*
-      '@types/prosemirror-schema-list': ^1.0.3
-      prosemirror-schema-list: ^1.1.4
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/utils': link:../utils
-      '@types/prosemirror-schema-list': 1.0.3
-      prosemirror-schema-list: 1.1.6
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
@@ -505,16 +497,12 @@ importers:
       '@milkdown/plugin-table': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/utils': workspace:*
-      '@types/prosemirror-schema-list': ^1.0.3
-      prosemirror-schema-list: ^1.1.4
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/plugin-table': link:../plugin-table
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/utils': link:../utils
-      '@types/prosemirror-schema-list': 1.0.3
-      prosemirror-schema-list: 1.1.6
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
@@ -525,6 +513,7 @@ importers:
       '@types/prosemirror-commands': ^1.0.4
       '@types/prosemirror-dropcursor': ^1.0.2
       '@types/prosemirror-gapcursor': ^1.0.4
+      '@types/prosemirror-history': ^1.0.2
       '@types/prosemirror-inputrules': ^1.0.4
       '@types/prosemirror-keymap': ^1.0.4
       '@types/prosemirror-model': ^1.12.0
@@ -535,6 +524,7 @@ importers:
       prosemirror-commands: ^1.1.12
       prosemirror-dropcursor: ^1.3.5
       prosemirror-gapcursor: ^1.1.5
+      prosemirror-history: ^1.1.3
       prosemirror-inputrules: ^1.1.3
       prosemirror-keymap: ^1.1.5
       prosemirror-model: ^1.15.0
@@ -549,6 +539,7 @@ importers:
       '@types/prosemirror-commands': 1.0.4
       '@types/prosemirror-dropcursor': 1.0.3
       '@types/prosemirror-gapcursor': 1.0.4
+      '@types/prosemirror-history': 1.0.3
       '@types/prosemirror-inputrules': 1.0.4
       '@types/prosemirror-keymap': 1.0.4
       '@types/prosemirror-model': 1.13.2
@@ -559,6 +550,7 @@ importers:
       prosemirror-commands: 1.1.12
       prosemirror-dropcursor: 1.3.5
       prosemirror-gapcursor: 1.2.0
+      prosemirror-history: 1.2.0
       prosemirror-inputrules: 1.1.3
       prosemirror-keymap: 1.1.5
       prosemirror-model: 1.15.0

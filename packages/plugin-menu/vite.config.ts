@@ -33,6 +33,7 @@ export default defineConfig({
                     '@milkdown/utils': 'milkdown_utils',
                     '@milkdown/preset-gfm': 'milkdown_preset-gfm',
                     '@milkdown/design-system': 'milkdown_design-system',
+                    '@emotion/css': 'emotion',
                 },
             },
             plugins: [typescript()],
