@@ -5,9 +5,5 @@
         "outDir": "lib"
     },
     "include": ["src"],
-    "exclude": ["node_modules", "lib"],
-    "references": [
-        { "path": "../core" },
-        { "path": "../exception" }
-    ]
+    "exclude": ["node_modules", "lib"]
 }

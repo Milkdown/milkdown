@@ -5,8 +5,5 @@
         "outDir": "lib",
         "jsx": "react"
     },
-    "include": ["src"],
-    "references": [
-        { "path": "../utils" }
-    ]
+    "include": ["src"]
 }

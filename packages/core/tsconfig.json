@@ -5,22 +5,5 @@
         "outDir": "lib"
     },
     "include": ["src"],
-    "exclude": ["src/**/*.spec.ts"],
-    "references": [
-        {
-            "path": "../exception"
-        },
-        {
-            "path": "../transformer"
-        },
-        {
-            "path": "../ctx"
-        },
-        {
-            "path": "../prose"
-        },
-        {
-            "path": "../design-system"
-        }
-    ]
+    "exclude": ["src/**/*.spec.ts"]
 }
