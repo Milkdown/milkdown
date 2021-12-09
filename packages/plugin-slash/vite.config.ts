@@ -15,7 +15,7 @@ export default defineConfig({
             fileName: (format) => `index.${format}.js`,
         },
         rollupOptions: {
-            external: ['@milkdown/core', '@milkdown/prose', '@milkdown/utils', '@milkdown/preset-gfm'],
+            external: ['@milkdown/core', '@milkdown/prose', '@milkdown/utils', '@milkdown/preset-gfm', '@emotion/css'],
             output: {
                 dir: resolvePath('lib'),
                 // Provide global variables to use in the UMD build
@@ -25,6 +25,7 @@ export default defineConfig({
                     '@milkdown/prose': 'milkdown_prose',
                     '@milkdown/utils': 'milkdown_utils',
                     '@milkdown/preset-gfm': 'milkdown_preset-gfm',
+                    '@emotion/css': 'emotion',
                 },
             },
             plugins: [typescript()],

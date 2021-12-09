@@ -21,6 +21,7 @@ export default defineConfig({
                 '@milkdown/utils',
                 '@milkdown/preset-gfm',
                 '@milkdown/design-system',
+                '@milkdown/plugin-history',
                 '@emotion/css',
             ],
             output: {
@@ -33,6 +34,7 @@ export default defineConfig({
                     '@milkdown/utils': 'milkdown_utils',
                     '@milkdown/preset-gfm': 'milkdown_preset-gfm',
                     '@milkdown/design-system': 'milkdown_design-system',
+                    '@milkdown/plugin-history': 'milkdown_plugin-history',
                     '@emotion/css': 'emotion',
                 },
             },
