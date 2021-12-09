@@ -36,6 +36,7 @@ export const viteBuild = (packageDirName: string): BuildOptions => ({
         entry: resolvePath(`${packageDirName}/src/index.ts`),
         name: `milkdown_${packageDirName}`,
         fileName: libFileName,
+        formats: ['es'],
     },
     rollupOptions: {
         external: Object.keys(rollupGlobals),

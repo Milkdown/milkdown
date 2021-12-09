@@ -42,6 +42,7 @@
     "devDependencies": {
         "@milkdown/prose": "workspace:*",
         "@milkdown/core": "workspace:*",
-        "@milkdown/utils": "workspace:*"
+        "@milkdown/utils": "workspace:*",
+        "@milkdown/design-system": "workspace:*"
     }
 }

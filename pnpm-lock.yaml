@@ -8,33 +8,6 @@ importers:
       '@changesets/cli': ^2.16.0
       '@commitlint/cli': ^12.1.1
       '@commitlint/config-conventional': ^12.1.1
-      '@milkdown/core': workspace:*
-      '@milkdown/ctx': workspace:*
-      '@milkdown/design-system': workspace:*
-      '@milkdown/exception': workspace:*
-      '@milkdown/plugin-clipboard': workspace:*
-      '@milkdown/plugin-collaborative': workspace:*
-      '@milkdown/plugin-cursor': workspace:*
-      '@milkdown/plugin-diagram': workspace:*
-      '@milkdown/plugin-emoji': workspace:*
-      '@milkdown/plugin-history': workspace:*
-      '@milkdown/plugin-indent': workspace:*
-      '@milkdown/plugin-listener': workspace:*
-      '@milkdown/plugin-math': workspace:*
-      '@milkdown/plugin-menu': workspace:*
-      '@milkdown/plugin-prism': workspace:*
-      '@milkdown/plugin-slash': workspace:*
-      '@milkdown/plugin-table': workspace:*
-      '@milkdown/plugin-tooltip': workspace:*
-      '@milkdown/plugin-upload': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
-      '@milkdown/preset-gfm': workspace:*
-      '@milkdown/prose': workspace:*
-      '@milkdown/react': workspace:*
-      '@milkdown/theme-nord': workspace:*
-      '@milkdown/transformer': workspace:*
-      '@milkdown/utils': workspace:*
-      '@milkdown/vue': workspace:*
       '@rollup/plugin-typescript': ^8.3.0
       '@types/jest': ^26.0.22
       '@types/rollup-plugin-auto-external': ^2.0.2
@@ -69,33 +42,6 @@ importers:
       '@changesets/cli': 2.18.0
       '@commitlint/cli': 12.1.4
       '@commitlint/config-conventional': 12.1.4
-      '@milkdown/core': link:packages/core
-      '@milkdown/ctx': link:packages/ctx
-      '@milkdown/design-system': link:packages/design-system
-      '@milkdown/exception': link:packages/exception
-      '@milkdown/plugin-clipboard': link:packages/plugin-clipboard
-      '@milkdown/plugin-collaborative': link:packages/plugin-collaborative
-      '@milkdown/plugin-cursor': link:packages/plugin-cursor
-      '@milkdown/plugin-diagram': link:packages/plugin-diagram
-      '@milkdown/plugin-emoji': link:packages/plugin-emoji
-      '@milkdown/plugin-history': link:packages/plugin-history
-      '@milkdown/plugin-indent': link:packages/plugin-indent
-      '@milkdown/plugin-listener': link:packages/plugin-listener
-      '@milkdown/plugin-math': link:packages/plugin-math
-      '@milkdown/plugin-menu': link:packages/plugin-menu
-      '@milkdown/plugin-prism': link:packages/plugin-prism
-      '@milkdown/plugin-slash': link:packages/plugin-slash
-      '@milkdown/plugin-table': link:packages/plugin-table
-      '@milkdown/plugin-tooltip': link:packages/plugin-tooltip
-      '@milkdown/plugin-upload': link:packages/plugin-upload
-      '@milkdown/preset-commonmark': link:packages/preset-commonmark
-      '@milkdown/preset-gfm': link:packages/preset-gfm
-      '@milkdown/prose': link:packages/prose
-      '@milkdown/react': link:packages/react
-      '@milkdown/theme-nord': link:packages/theme-nord
-      '@milkdown/transformer': link:packages/transformer
-      '@milkdown/utils': link:packages/utils
-      '@milkdown/vue': link:packages/vue
       '@rollup/plugin-typescript': 8.3.0_typescript@4.4.4
       '@types/jest': 26.0.24
       '@types/rollup-plugin-auto-external': 2.0.2
@@ -130,6 +76,33 @@ importers:
     specifiers:
       '@codemirror/basic-setup': ^0.18.2
       '@codemirror/lang-markdown': ^0.18.4
+      '@milkdown/core': workspace:*
+      '@milkdown/ctx': workspace:*
+      '@milkdown/design-system': workspace:*
+      '@milkdown/exception': workspace:*
+      '@milkdown/plugin-clipboard': workspace:*
+      '@milkdown/plugin-collaborative': workspace:*
+      '@milkdown/plugin-cursor': workspace:*
+      '@milkdown/plugin-diagram': workspace:*
+      '@milkdown/plugin-emoji': workspace:*
+      '@milkdown/plugin-history': workspace:*
+      '@milkdown/plugin-indent': workspace:*
+      '@milkdown/plugin-listener': workspace:*
+      '@milkdown/plugin-math': workspace:*
+      '@milkdown/plugin-menu': workspace:*
+      '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-slash': workspace:*
+      '@milkdown/plugin-table': workspace:*
+      '@milkdown/plugin-tooltip': workspace:*
+      '@milkdown/plugin-upload': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/preset-gfm': workspace:*
+      '@milkdown/prose': workspace:*
+      '@milkdown/react': workspace:*
+      '@milkdown/theme-nord': workspace:*
+      '@milkdown/transformer': workspace:*
+      '@milkdown/utils': workspace:*
+      '@milkdown/vue': workspace:*
       '@rollup/pluginutils': '*'
       '@types/estree': ^0.0.47
       '@types/react': ^17.0.6
@@ -154,6 +127,33 @@ importers:
     dependencies:
       '@codemirror/basic-setup': 0.18.2
       '@codemirror/lang-markdown': 0.18.4
+      '@milkdown/core': link:../packages/core
+      '@milkdown/ctx': link:../packages/ctx
+      '@milkdown/design-system': link:../packages/design-system
+      '@milkdown/exception': link:../packages/exception
+      '@milkdown/plugin-clipboard': link:../packages/plugin-clipboard
+      '@milkdown/plugin-collaborative': link:../packages/plugin-collaborative
+      '@milkdown/plugin-cursor': link:../packages/plugin-cursor
+      '@milkdown/plugin-diagram': link:../packages/plugin-diagram
+      '@milkdown/plugin-emoji': link:../packages/plugin-emoji
+      '@milkdown/plugin-history': link:../packages/plugin-history
+      '@milkdown/plugin-indent': link:../packages/plugin-indent
+      '@milkdown/plugin-listener': link:../packages/plugin-listener
+      '@milkdown/plugin-math': link:../packages/plugin-math
+      '@milkdown/plugin-menu': link:../packages/plugin-menu
+      '@milkdown/plugin-prism': link:../packages/plugin-prism
+      '@milkdown/plugin-slash': link:../packages/plugin-slash
+      '@milkdown/plugin-table': link:../packages/plugin-table
+      '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
+      '@milkdown/plugin-upload': link:../packages/plugin-upload
+      '@milkdown/preset-commonmark': link:../packages/preset-commonmark
+      '@milkdown/preset-gfm': link:../packages/preset-gfm
+      '@milkdown/prose': link:../packages/prose
+      '@milkdown/react': link:../packages/react
+      '@milkdown/theme-nord': link:../packages/theme-nord
+      '@milkdown/transformer': link:../packages/transformer
+      '@milkdown/utils': link:../packages/utils
+      '@milkdown/vue': link:../packages/vue
       prism-themes: 1.9.0
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -407,6 +407,7 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
       '@milkdown/plugin-history': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
@@ -418,6 +419,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/design-system': link:../design-system
       '@milkdown/plugin-history': link:../plugin-history
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
@@ -443,6 +445,8 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/ctx': workspace:*
+      '@milkdown/design-system': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
@@ -455,6 +459,8 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/ctx': link:../ctx
+      '@milkdown/design-system': link:../design-system
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
 
@@ -479,6 +485,7 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
@@ -490,6 +497,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/design-system': link:../design-system
       '@milkdown/plugin-math': link:../plugin-math
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
@@ -511,6 +519,7 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       remark-inline-links: ^5.0.0
@@ -522,12 +531,14 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
 
   packages/preset-gfm:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
       '@milkdown/plugin-table': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
@@ -541,6 +552,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
 
   packages/prose:

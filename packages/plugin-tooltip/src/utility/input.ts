@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, Ctx } from '@milkdown/core';
 import { ModifyInlineMath } from '@milkdown/plugin-math';
-import { ModifyImage, ModifyLink } from '@milkdown/preset-commonmark';
+import { ModifyImage, ModifyLink } from '@milkdown/preset-gfm';
 import { findSelectedNodeOfType, Node as ProseNode } from '@milkdown/prose';
 
 import { Event2Command, Updater } from '../item';

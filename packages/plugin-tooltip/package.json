@@ -41,6 +41,7 @@
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "@milkdown/preset-gfm": "workspace:*",
+        "@milkdown/design-system": "workspace:*",
         "@milkdown/plugin-math": "workspace:*"
     }
 }
