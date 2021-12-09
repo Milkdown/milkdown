@@ -37,6 +37,7 @@ importers:
       '@milkdown/vue': workspace:*
       '@rollup/plugin-typescript': ^8.3.0
       '@types/jest': ^26.0.22
+      '@types/rollup-plugin-auto-external': ^2.0.2
       '@typescript-eslint/eslint-plugin': ^4.31.0
       '@typescript-eslint/parser': ^4.31.0
       '@vitejs/plugin-react-refresh': ^1.3.3
@@ -59,6 +60,7 @@ importers:
       lint-staged: ^11.1.2
       prettier: ^2.4.0
       rimraf: ^3.0.2
+      rollup-plugin-auto-external: ^2.0.0
       ts-jest: ^26.5.4
       typescript: ^4.4.4
       vite: ^2.4.4
@@ -96,6 +98,7 @@ importers:
       '@milkdown/vue': link:packages/vue
       '@rollup/plugin-typescript': 8.3.0_typescript@4.4.4
       '@types/jest': 26.0.24
+      '@types/rollup-plugin-auto-external': 2.0.2
       '@typescript-eslint/eslint-plugin': 4.33.0_cc617358c89d3f38c52462f6d809db4c
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.4.4
       '@vitejs/plugin-react-refresh': 1.3.6
@@ -118,6 +121,7 @@ importers:
       lint-staged: 11.2.6
       prettier: 2.4.1
       rimraf: 3.0.2
+      rollup-plugin-auto-external: 2.0.0
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.4.4
       typescript: 4.4.4
       vite: 2.6.13
@@ -235,6 +239,7 @@ importers:
   packages/plugin-clipboard:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
@@ -242,11 +247,13 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/plugin-collaborative:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
       y-prosemirror: ^1.0.9
@@ -260,6 +267,7 @@ importers:
       y-prosemirror: 1.0.11_y-protocols@1.0.5+yjs@13.5.18
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       y-protocols: 1.0.5
       y-websocket: 1.3.17_yjs@13.5.18
       yjs: 13.5.18
@@ -268,6 +276,7 @@ importers:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
@@ -275,12 +284,14 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
 
   packages/plugin-diagram:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       '@types/mermaid': ^8.2.7
       mermaid: ^8.12.1
@@ -297,12 +308,14 @@ importers:
       unist-util-visit: 4.1.0
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/plugin-emoji:
     specifiers:
       '@emotion/css': ^11.1.3
       '@joeattardi/emoji-button': ^4.6.0
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       '@types/node-emoji': ^1.8.1
       '@types/twemoji': ^12.1.2
@@ -326,22 +339,26 @@ importers:
       unist-util-visit: 4.1.0
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/plugin-history:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
 
   packages/plugin-indent:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
@@ -350,22 +367,26 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/plugin-listener:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
 
   packages/plugin-math:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       '@types/katex': ^0.11.1
       katex: ^0.13.18
@@ -379,6 +400,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@types/katex': 0.11.1
 
   packages/plugin-menu:
@@ -387,6 +409,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-history': workspace:*
       '@milkdown/preset-gfm': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
@@ -397,6 +420,7 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/plugin-history': link:../plugin-history
       '@milkdown/preset-gfm': link:../preset-gfm
+      '@milkdown/prose': link:../prose
 
   packages/plugin-prism:
     specifiers:
@@ -420,6 +444,7 @@ importers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
       '@milkdown/preset-gfm': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       smooth-scroll-into-view-if-needed: ^1.1.32
       tslib: ^2.3.1
@@ -431,11 +456,13 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/preset-gfm': link:../preset-gfm
+      '@milkdown/prose': link:../prose
 
   packages/plugin-table:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       remark-gfm: ^3.0.0
       tslib: ^2.3.1
@@ -446,6 +473,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/plugin-tooltip:
     specifiers:
@@ -453,6 +481,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/preset-gfm': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
@@ -463,10 +492,12 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/plugin-math': link:../plugin-math
       '@milkdown/preset-gfm': link:../preset-gfm
+      '@milkdown/prose': link:../prose
 
   packages/plugin-upload:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
@@ -474,11 +505,13 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/preset-commonmark:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       remark-inline-links: ^5.0.0
       tslib: ^2.3.1
@@ -489,6 +522,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/preset-gfm:
     specifiers:
@@ -496,6 +530,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-table': workspace:*
       '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
@@ -506,6 +541,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/prose:
     specifiers:
@@ -564,6 +600,7 @@ importers:
   packages/react:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -577,6 +614,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@types/react': 17.0.34
       '@types/react-dom': 17.0.11
       react: 17.0.2
@@ -587,11 +625,13 @@ importers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
+      '@milkdown/prose': workspace:*
     dependencies:
       '@emotion/css': 11.5.0
       '@milkdown/design-system': link:../design-system
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/transformer:
     specifiers:
@@ -611,16 +651,19 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/exception': workspace:*
+      '@milkdown/prose': workspace:*
       tslib: ^2.3.1
     dependencies:
       '@milkdown/exception': link:../exception
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/vue:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       nanoid: ^3.1.25
       tslib: ^2.3.1
@@ -631,6 +674,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       vue: 3.2.21
 
 packages:
@@ -3489,6 +3533,12 @@ packages:
       '@types/prismjs': 1.16.6
     dev: false
 
+  /@types/rollup-plugin-auto-external/2.0.2:
+    resolution: {integrity: sha512-1Xtl9S4yQapD+A4mX1sqYVXm3UmVA9oIEf2YKEhRTCUNxlAM3DoKK1HPxrGMemDJNfhe6Yl3w0JsAGvIN5j/ow==}
+    dependencies:
+      rollup: 2.61.0
+    dev: true
+
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
@@ -4368,6 +4418,12 @@ packages:
       ieee754: 1.2.1
     dev: true
     optional: true
+
+  /builtins/2.0.1:
+    resolution: {integrity: sha512-XkkVe5QAb6guWPXTzpSrYpSlN3nqEmrrE2TkAr/tp7idSF6+MONh9WvKrAuR3HiKLvoSgmbs8l1U9IPmMrIoLw==}
+    dependencies:
+      semver: 6.3.0
+    dev: true
 
   /cache-base/1.0.1:
     resolution: {integrity: sha512-AKcdTnFSWATd5/GCPRxr2ChwIJ85CeyrEyjRHlKxQ56d4XJMGym0uAiKn0xbLOGOl3+yRpOTi484dVCEc5AUzQ==}
@@ -7885,6 +7941,10 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
+  /json-parse-better-errors/1.0.2:
+    resolution: {integrity: sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw==}
+    dev: true
+
   /json-parse-even-better-errors/2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
 
@@ -8193,6 +8253,16 @@ packages:
       rxjs: 7.4.0
       through: 2.3.8
       wrap-ansi: 7.0.0
+    dev: true
+
+  /load-json-file/4.0.0:
+    resolution: {integrity: sha1-L19Fq5HjMhYjT9U62rZo607AmTs=}
+    engines: {node: '>=4'}
+    dependencies:
+      graceful-fs: 4.2.8
+      parse-json: 4.0.0
+      pify: 3.0.0
+      strip-bom: 3.0.0
     dev: true
 
   /load-yaml-file/0.2.0:
@@ -9248,6 +9318,14 @@ packages:
       is-hexadecimal: 2.0.1
     dev: false
 
+  /parse-json/4.0.0:
+    resolution: {integrity: sha1-vjX1Qlvh9/bHRxhPmKeIy5lHfuA=}
+    engines: {node: '>=4'}
+    dependencies:
+      error-ex: 1.3.2
+      json-parse-better-errors: 1.0.2
+    dev: true
+
   /parse-json/5.2.0:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
@@ -9299,6 +9377,13 @@ packages:
       isarray: 0.0.1
     dev: false
 
+  /path-type/3.0.0:
+    resolution: {integrity: sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==}
+    engines: {node: '>=4'}
+    dependencies:
+      pify: 3.0.0
+    dev: true
+
   /path-type/4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
@@ -9323,6 +9408,11 @@ packages:
   /pify/2.3.0:
     resolution: {integrity: sha1-7RQaasBDqEnqWISY59yosVMw6Qw=}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /pify/3.0.0:
+    resolution: {integrity: sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=}
+    engines: {node: '>=4'}
     dev: true
 
   /pify/4.0.1:
@@ -9887,6 +9977,15 @@ packages:
       type-fest: 0.8.1
     dev: true
 
+  /read-pkg/3.0.0:
+    resolution: {integrity: sha1-nLxoaXj+5l0WwA4rGcI3/Pbjg4k=}
+    engines: {node: '>=4'}
+    dependencies:
+      load-json-file: 4.0.0
+      normalize-package-data: 2.5.0
+      path-type: 3.0.0
+    dev: true
+
   /read-pkg/5.2.0:
     resolution: {integrity: sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==}
     engines: {node: '>=8'}
@@ -10164,8 +10263,20 @@ packages:
     resolution: {integrity: sha512-ndEIpszUHiG4HtDsQLeIuMvRsDnn8c8rYStabochtUeCvfuvNptb5TUbVD68LRAILPX7p9nqQGh4xJgn3EHS/g==}
     dev: false
 
-  /rollup/2.59.0:
-    resolution: {integrity: sha512-l7s90JQhCQ6JyZjKgo7Lq1dKh2RxatOM+Jr6a9F7WbS9WgKbocyUSeLmZl8evAse7y96Ae98L2k1cBOwWD8nHw==}
+  /rollup-plugin-auto-external/2.0.0:
+    resolution: {integrity: sha512-HQM3ZkZYfSam1uoZtAB9sK26EiAsfs1phrkf91c/YX+S07wugyRXSigBxrIwiLr5EPPilKYmoMxsrnlGBsXnuQ==}
+    engines: {node: '>=6'}
+    peerDependencies:
+      rollup: '>=0.45.2'
+    dependencies:
+      builtins: 2.0.1
+      read-pkg: 3.0.0
+      safe-resolve: 1.0.0
+      semver: 5.7.1
+    dev: true
+
+  /rollup/2.61.0:
+    resolution: {integrity: sha512-teQ+T1mUYbyvGyUavCodiyA9hD4DxwYZJwr/qehZGhs1Z49vsmzelMVYMxGU4ZhGRKxYPupHuz5yzm/wj7VpWA==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -10222,6 +10333,10 @@ packages:
     resolution: {integrity: sha1-QKNmnzsHfR6UPURinhV91IAjvy4=}
     dependencies:
       ret: 0.1.15
+    dev: true
+
+  /safe-resolve/1.0.0:
+    resolution: {integrity: sha1-/jT40p16O+z9JJ0KqKeZtcPPZVk=}
     dev: true
 
   /safer-buffer/2.1.2:
@@ -11267,7 +11382,7 @@ packages:
       esbuild: 0.13.12
       postcss: 8.3.11
       resolve: 1.20.0
-      rollup: 2.59.0
+      rollup: 2.61.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true

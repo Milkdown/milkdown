@@ -8,4 +8,5 @@ export * from './remark-mermaid';
 
 export const diagram = AtomList.create([diagramNode()]);
 
-export { Options, TurnIntoDiagram } from './node';
+export type { Options } from './node';
+export { TurnIntoDiagram } from './node';

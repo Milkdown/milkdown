@@ -16,7 +16,7 @@
         "start": "vite",
         "watch": "vite build --watch",
         "tsc": "tsc --noEmit",
-        "build": "vite build"
+        "build": "vite build && tsc"
     },
     "peerDependencies": {
         "@milkdown/core": "*"
@@ -35,6 +35,7 @@
         "@milkdown/design-system": "workspace:*"
     },
     "devDependencies": {
+        "@milkdown/prose": "workspace:*",
         "@milkdown/core": "workspace:*"
     }
 }

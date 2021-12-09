@@ -3,6 +3,7 @@ import { AtomList } from '@milkdown/utils';
 
 import { uploadPlugin } from './upload';
 
-export { Uploader, uploadPlugin } from './upload';
+export type { Uploader } from './upload';
+export { uploadPlugin } from './upload';
 
 export const upload = AtomList.create([uploadPlugin()]);
