@@ -38,6 +38,8 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - name: install dependencies
               run: pnpm install
+            - name: build packs
+              run: pnpm build:packs
 
             - name: run test
               run: |
@@ -73,6 +75,8 @@ jobs:
 
             - name: install dependencies
               run: pnpm install
+            - name: build packs
+              run: pnpm build:packs
 
             - name: create versions or publish to npm registry
               uses: changesets/action@master
@@ -110,6 +114,8 @@ jobs:
 
             - name: install dependencies
               run: pnpm install
+            - name: build packs
+              run: pnpm build:packs
             - name: build milkdown doc
               run: pnpm build:doc
 

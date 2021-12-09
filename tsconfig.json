@@ -4,6 +4,5 @@
         "emitDeclarationOnly": false,
         "noEmit": true
     },
-    "include": [],
     "exclude": ["node_modules", "lib"]
 }

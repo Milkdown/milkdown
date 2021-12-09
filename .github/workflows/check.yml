@@ -38,6 +38,8 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - name: install dependencies
               run: pnpm install
+            - name: build packs
+              run: pnpm build:packs
 
             - name: run test
               run: |
