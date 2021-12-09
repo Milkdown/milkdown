@@ -1,13 +1,13 @@
 {
     "name": "@milkdown/react",
     "version": "5.2.0",
-    "main": "./lib/index.umd.js",
+    "main": "./lib/index.cjs.js",
     "module": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
     "exports": {
         ".": {
             "import": "./lib/index.es.js",
-            "require": "./lib/index.umd.js"
+            "require": "./lib/index.cjs.js"
         }
     },
     "sideEffects": false,
@@ -17,7 +17,7 @@
         "watch": "vite build --watch",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "vite build && tsc"
+        "build": "vite build && tsc --emitDeclarationOnly"
     },
     "files": [
         "lib",

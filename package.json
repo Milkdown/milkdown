@@ -9,7 +9,7 @@
     "scripts": {
         "test": "pnpm test:doc && pnpm test:lint && pnpm test:tsc && pnpm test:unit && pnpm test:pw",
         "test:unit": "jest --passWithNoTests",
-        "test:tsc": "tsc --noEmit",
+        "test:tsc": "pnpm --filter=./packages run tsc",
         "test:lint": "eslint **/*.{js,ts,tsx}",
         "test:doc": "prettier --check \"**/*.md\"",
         "test:pw": "pnpm run start:test --filter @milkdown/integration-test",

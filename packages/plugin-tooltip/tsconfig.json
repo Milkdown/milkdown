@@ -4,9 +4,5 @@
         "rootDir": "src",
         "outDir": "lib"
     },
-    "include": ["src"],
-    "references": [
-        { "path": "../utils" },
-        { "path": "../preset-gfm" }
-    ]
+    "include": ["src"]
 }

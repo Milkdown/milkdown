@@ -5,13 +5,5 @@
         "outDir": "lib"
     },
     "include": ["src"],
-    "exclude": ["src/**/*.spec.ts"],
-    "references": [
-        {
-            "path": "../exception"
-        },
-        {
-            "path": "../prose"
-        }
-    ]
+    "exclude": ["src/**/*.spec.ts"]
 }

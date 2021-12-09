@@ -4,10 +4,5 @@
         "rootDir": "src",
         "outDir": "lib"
     },
-    "include": ["src"],
-    "references": [
-        { "path": "../utils" },
-        { "path": "../plugin-table" },
-        { "path": "../preset-commonmark" },
-    ]
+    "include": ["src"]
 }

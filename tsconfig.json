@@ -1,91 +1,9 @@
 {
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "tsBuildInfoFile": "tsconfig.tsbuildinfo"
+        "emitDeclarationOnly": false,
+        "noEmit": true
     },
     "include": [],
-    "exclude": ["node_modules", "lib"],
-    "references": [
-        {
-            "path": "./packages/ctx"
-        },
-        {
-            "path": "./packages/prose"
-        },
-        {
-            "path": "./packages/core"
-        },
-        {
-            "path": "./packages/transformer"
-        },
-        {
-            "path": "./packages/utils"
-        },
-        {
-            "path": "./packages/exception"
-        },
-        {
-            "path": "./packages/react"
-        },
-        {
-            "path": "./packages/vue"
-        },
-        {
-            "path": "./packages/theme-nord"
-        },
-        {
-            "path": "./packages/preset-commonmark"
-        },
-        {
-            "path": "./packages/preset-gfm"
-        },
-        {
-            "path": "./packages/design-system"
-        },
-        {
-            "path": "./packages/plugin-history"
-        },
-        {
-            "path": "./packages/plugin-emoji"
-        },
-        {
-            "path": "./packages/plugin-collaborative"
-        },
-        {
-            "path": "./packages/plugin-clipboard"
-        },
-        {
-            "path": "./packages/plugin-cursor"
-        },
-        {
-            "path": "./packages/plugin-listener"
-        },
-        {
-            "path": "./packages/plugin-math"
-        },
-        {
-            "path": "./packages/plugin-prism"
-        },
-        {
-            "path": "./packages/plugin-diagram"
-        },
-        {
-            "path": "./packages/plugin-slash"
-        },
-        {
-            "path": "./packages/plugin-tooltip"
-        },
-        {
-            "path": "./packages/plugin-table"
-        },
-        {
-            "path": "./packages/plugin-indent"
-        },
-        {
-            "path": "./packages/plugin-menu"
-        },
-        {
-            "path": "./packages/plugin-upload"
-        }
-    ]
+    "exclude": ["node_modules", "lib"]
 }
