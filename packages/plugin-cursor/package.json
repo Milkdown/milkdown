@@ -17,7 +17,7 @@
         "watch": "vite build --watch",
         "test": "jest",
         "tsc": "tsc --noEmit",
-        "build": "vite build"
+        "build": "vite build && tsc"
     },
     "files": [
         "lib",
@@ -36,6 +36,7 @@
     },
     "devDependencies": {
         "@milkdown/core": "workspace:*",
+        "@milkdown/prose": "workspace:*",
         "@milkdown/utils": "workspace:*"
     }
 }

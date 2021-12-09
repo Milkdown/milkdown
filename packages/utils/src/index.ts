@@ -2,4 +2,4 @@
 export * from './atom';
 export * from './composable';
 export * from './factory';
-export { CommonOptions, Methods, UnknownRecord, Utils } from './types';
+export type { CommonOptions, Methods, UnknownRecord, Utils } from './types';
