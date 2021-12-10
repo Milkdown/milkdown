@@ -283,6 +283,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             pre.append(code);
             const codeContent = document.createElement('div');
             code.append(codeContent);
+            codeContent.style.whiteSpace = 'inherit';
 
             container.append(selectWrapper, pre);
             container.setAttribute('class', utils.getClassName(node.attrs, 'code-fence', style));
