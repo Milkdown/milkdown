@@ -31,7 +31,7 @@ export const external = [
 export const viteBuild = (packageDirName: string): BuildOptions => ({
     sourcemap: true,
     lib: {
-        entry: resolvePath(`${packageDirName}/src/index.ts`),
+        entry: resolvePath(`packages/${packageDirName}/src/index.ts`),
         name: `milkdown_${packageDirName}`,
         fileName: libFileName,
         formats: ['es', 'cjs'],
@@ -39,7 +39,7 @@ export const viteBuild = (packageDirName: string): BuildOptions => ({
     rollupOptions: {
         external,
         output: {
-            dir: resolvePath(`${packageDirName}/lib`),
+            dir: resolvePath(`packages/${packageDirName}/lib`),
         },
         plugins: rollupPlugins,
     },

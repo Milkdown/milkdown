@@ -2,7 +2,7 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 
-import { viteBuild } from '../vite.config.common';
+import { viteBuild } from '../../vite.config.common';
 
 export default defineConfig({
     build: viteBuild('core'),
