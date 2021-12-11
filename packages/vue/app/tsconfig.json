@@ -4,7 +4,7 @@
         "rootDir": "..",
         "baseUrl": ".",
         "noEmit": true,
-        "types": ["vue", "@milkdown/core", "@milkdown/utils"],
+        "types": ["vue", "@milkdown/core", "@milkdown/utils", "@milkdown/preset-commonmark", "@milkdown/theme-nord"]
     },
     "include": [".", "../src"]
 }

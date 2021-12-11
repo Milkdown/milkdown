@@ -32,10 +32,10 @@ export const MyEditor = defineComponent((props: { markdown: string }) => {
     const editor = useEditor((root, renderVue) => {
         const nodes = commonmarkNodes
             .configure(paragraph, {
-                view: renderVue(MyParagraph),
+                view: (ctx) => renderVue(MyParagraph),
             })
             .configure(image, {
-                view: renderVue(MyImage),
+                view: (ctx) => renderVue(MyImage),
             });
         // setTimeout(() => {
         //     console.log(editorRef.value.get());
