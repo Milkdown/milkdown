@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/plugin-menu",
-    "version": "5.2.0",
+    "version": "5.2.1",
     "main": "./lib/index.cjs.js",
     "module": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
