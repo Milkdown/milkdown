@@ -3,9 +3,9 @@ import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { docTypeError } from '@milkdown/exception';
 import {
     baseKeymap,
+    customInputRules as createInputRules,
     DOMParser,
     EditorState,
-    inputRules as createInputRules,
     keymap as createKeymap,
     Node,
     Schema,
@@ -65,7 +65,7 @@ export const editorState: MilkdownPlugin = (pre) => {
         const state = EditorState.create({
             schema,
             doc,
-            plugins: [...prosePlugins, createKeymap(baseKeymap), createInputRules({ rules })],
+            plugins: [...prosePlugins, createInputRules({ rules }), createKeymap(baseKeymap)],
             ...options,
         });
         ctx.set(editorStateCtx, state);

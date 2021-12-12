@@ -27,7 +27,8 @@ const languageOptions = [
     'markdown',
 ];
 
-const inputRegex = /^```(?<language>[a-z]*)? $/;
+export const backtickInputRegex = /^```(?<language>[a-z]*)?[\s\n]$/;
+export const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/;
 
 export const TurnIntoCodeFence = createCmdKey();
 
@@ -200,7 +201,13 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             },
         }),
         inputRules: (nodeType) => [
-            textblockTypeInputRule(inputRegex, nodeType, ([ok, language]) => {
+            textblockTypeInputRule(backtickInputRegex, nodeType, (match) => {
+                const [ok, language] = match;
+                if (!ok) return;
+                return { language };
+            }),
+            textblockTypeInputRule(tildeInputRegex, nodeType, (match) => {
+                const [ok, language] = match;
                 if (!ok) return;
                 return { language };
             }),
