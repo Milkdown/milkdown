@@ -51,6 +51,12 @@ module.exports = {
             },
         },
         {
+            files: ['**/vue/**/*.tsx'],
+            rules: {
+                'react-hooks/rules-of-hooks': 'off',
+            },
+        },
+        {
             files: ['shim.d.ts', 'vite.config.ts'],
             rules: {
                 'import/no-default-export': 'off',

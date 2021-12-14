@@ -675,6 +675,7 @@ importers:
   packages/vue:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/plugin-slash': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/theme-nord': workspace:*
@@ -688,6 +689,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/plugin-slash': link:../plugin-slash
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
       '@milkdown/theme-nord': link:../theme-nord

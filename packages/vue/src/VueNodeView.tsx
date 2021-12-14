@@ -49,24 +49,27 @@ export class VueNodeView implements NodeView {
         if (!this.dom) return;
 
         const CustomComponent = this.component;
-        const Portal = defineComponent(() => {
-            return () => (
-                <Teleport to={this.dom}>
-                    <VueNodeContainer
-                        key={this.key}
-                        node={this.node}
-                        view={this.view}
-                        getPos={this.getPos}
-                        decorations={this.decorations}
-                    >
-                        <CustomComponent>
-                            <Content dom={this.contentDOM} />
-                        </CustomComponent>
-                    </VueNodeContainer>
-                </Teleport>
-            );
+        const Portal = defineComponent({
+            name: 'milkdown-portal',
+            setup: () => {
+                return () => (
+                    <Teleport to={this.dom}>
+                        <VueNodeContainer
+                            key={this.key}
+                            node={this.node}
+                            view={this.view}
+                            getPos={this.getPos}
+                            decorations={this.decorations}
+                        >
+                            <CustomComponent>
+                                <Content dom={this.contentDOM} />
+                            </CustomComponent>
+                        </VueNodeContainer>
+                    </Teleport>
+                );
+            },
         });
-        this.addPortal(Portal, this.key);
+        this.addPortal(Portal as DefineComponent, this.key);
     }
 
     destroy() {

@@ -18,11 +18,12 @@ import {
 } from 'vue';
 
 import { PortalPair, Portals } from './Portals';
+import { AnyVueComponent } from './utils';
 import { createVueView } from './VueNodeView';
 
 const rendererKey: InjectionKey<(component: DefineComponent) => ViewFactory> = Symbol();
 
-type GetEditor = (container: HTMLDivElement, renderVue: (Component: DefineComponent) => ViewFactory) => Editor;
+type GetEditor = (container: HTMLDivElement, renderVue: (Component: AnyVueComponent) => ViewFactory) => Editor;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const divRef = ref<HTMLDivElement | null>(null);
@@ -52,39 +53,45 @@ const useGetEditor = (getEditor: GetEditor) => {
     return { divRef, editorRef };
 };
 
-export const EditorComponent = defineComponent((props: { editor: GetEditor; editorRef?: Ref<EditorRef> }) => {
-    const refs = useGetEditor(props.editor);
-    if (props.editorRef) {
-        props.editorRef.value = {
-            get: () => refs.editorRef.editor,
-            dom: () => refs.divRef.value,
-        };
-    }
+export const EditorComponent = defineComponent<{ editor: GetEditor; editorRef?: Ref<EditorRef> }>({
+    name: 'milkdown-dom-root',
+    setup: (props) => {
+        const refs = useGetEditor(props.editor);
+        if (props.editorRef) {
+            props.editorRef.value = {
+                get: () => refs.editorRef.editor,
+                dom: () => refs.divRef.value,
+            };
+        }
 
-    return () => <div ref={refs.divRef} />;
+        return () => <div ref={refs.divRef} />;
+    },
 });
 EditorComponent.props = ['editor', 'editorRef'];
 
 export type EditorRef = { get: () => Editor | undefined; dom: () => HTMLDivElement | null };
 
-export const VueEditor = defineComponent((props: { editor: GetEditor; editorRef?: Ref<EditorRef> }) => {
-    const portals = shallowReactive<PortalPair[]>([]);
-    const addPortal = markRaw((component: DefineComponent, key: string) => {
-        portals.push([key, component]);
-    });
-    const removePortalByKey = markRaw((key: string) => {
-        const index = portals.findIndex((p) => p[0] === key);
-        portals.splice(index, 1);
-    });
-    const renderVue = createVueView(addPortal, removePortalByKey);
-    provide(rendererKey, renderVue);
+export const VueEditor = defineComponent<{ editor: GetEditor; editorRef?: Ref<EditorRef> }>({
+    name: 'milkdown-vue-root',
+    setup: (props) => {
+        const portals = shallowReactive<PortalPair[]>([]);
+        const addPortal = markRaw((component: DefineComponent, key: string) => {
+            portals.push([key, component]);
+        });
+        const removePortalByKey = markRaw((key: string) => {
+            const index = portals.findIndex((p) => p[0] === key);
+            portals.splice(index, 1);
+        });
+        const renderVue = createVueView(addPortal, removePortalByKey);
+        provide(rendererKey, renderVue);
 
-    return () => (
-        <>
-            <Portals portals={portals} />
-            <EditorComponent editorRef={props.editorRef} editor={props.editor} />
-        </>
-    );
+        return () => (
+            <>
+                <Portals portals={portals} />
+                <EditorComponent editorRef={props.editorRef} editor={props.editor} />
+            </>
+        );
+    },
 });
 VueEditor.props = ['editor', 'editorRef'];
 
