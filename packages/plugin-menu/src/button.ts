@@ -20,6 +20,8 @@ export type ButtonConfig<T = any> = {
 export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     const buttonStyle = utils.getStyle((themeTool) => {
         return css`
+            border: 0;
+            box-sizing: unset;
             width: 1.5rem;
             height: 1.5rem;
             padding: 0.25rem;
@@ -41,16 +43,27 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
                 background-color: ${themeTool.palette('secondary', 0.12)};
                 color: ${themeTool.palette('primary')};
             }
+
+            &:disabled {
+                display: none;
+            }
         `;
     });
 
-    const $button = document.createElement('div');
+    const $button = document.createElement('button');
+    $button.setAttribute('type', 'button');
+    $button.classList.add('button');
     if (buttonStyle) {
         $button.classList.add(buttonStyle);
     }
+    const $label = utils.themeTool.slots.label(config.icon);
+    if ($label) {
+        $button.setAttribute('aria-label', $label);
+        $button.setAttribute('title', $label);
+    }
     const $icon = utils.themeTool.slots.icon(config.icon);
     $button.appendChild($icon);
-    $button.addEventListener('mousedown', (e) => {
+    $button.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         ctx.get(commandsCtx).call(config.key, config.options);

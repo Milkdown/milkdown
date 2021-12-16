@@ -44,6 +44,7 @@ export type Icon =
 
 export type Slots = {
     icon: (id: Icon, config?: Record<string, string | number | boolean>) => HTMLElement;
+    label: (id: Icon, config?: Record<string, string | number | boolean>) => string;
 };
 
 export type MixinFactory = {

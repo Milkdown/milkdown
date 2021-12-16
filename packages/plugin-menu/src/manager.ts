@@ -50,9 +50,9 @@ export class Manager {
                 if (config.disabled) {
                     const disabled = config.disabled(view);
                     if (disabled) {
-                        config.$.classList.add('disabled');
+                        config.$.setAttribute('disabled', 'true');
                     } else {
-                        config.$.classList.remove('disabled');
+                        config.$.removeAttribute('disabled');
                     }
                 }
                 return;
@@ -63,14 +63,18 @@ export class Manager {
                     const disabled = config.disabled(view);
                     if (disabled) {
                         config.$.classList.add('disabled');
+                        config.$.children[0].setAttribute('disabled', 'true');
                     } else {
                         config.$.classList.remove('disabled');
+                        config.$.children[0].removeAttribute('disabled');
                     }
                 }
             }
 
             if (config.type === 'divider') {
-                const disabled = config.group.every((x) => x.classList.contains('disabled'));
+                const disabled = config.group.every(
+                    (x) => x.getAttribute('disabled') || x.classList.contains('disabled'),
+                );
                 if (disabled) {
                     config.$.classList.add('disabled');
                 } else {

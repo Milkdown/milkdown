@@ -17,6 +17,7 @@ export const divider = (utils: Utils) => {
         `;
     });
     const $divider = document.createElement('div');
+    $divider.classList.add('divider');
     if (dividerStyle) {
         $divider.classList.add(dividerStyle);
     }

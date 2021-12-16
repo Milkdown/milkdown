@@ -25,4 +25,7 @@ export const slots: ThemeTool['slots'] = {
         div.textContent = id;
         return div;
     },
+    label: (id: string) => {
+        return id;
+    },
 };
