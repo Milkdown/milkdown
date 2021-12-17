@@ -41,6 +41,8 @@
     "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/theme-nord": "workspace:*",
         "@types/react": "*",
         "@types/react-dom": "*",
         "react": "*",

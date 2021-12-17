@@ -612,7 +612,9 @@ importers:
   packages/react:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
+      '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -626,7 +628,9 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
+      '@milkdown/theme-nord': link:../theme-nord
       '@types/react': 17.0.34
       '@types/react-dom': 17.0.11
       react: 17.0.2

@@ -2,13 +2,15 @@
 import { Editor, editorViewCtx, rootCtx } from '@milkdown/core';
 import { ViewFactory } from '@milkdown/prose';
 import {
+    ComponentInternalInstance,
     DefineComponent,
     defineComponent,
-    Fragment,
+    getCurrentInstance,
     h,
     inject,
     InjectionKey,
     markRaw,
+    onBeforeMount,
     onMounted,
     onUnmounted,
     provide,
@@ -17,7 +19,6 @@ import {
     shallowReactive,
 } from 'vue';
 
-import { PortalPair, Portals } from './Portals';
 import { AnyVueComponent } from './utils';
 import { createVueView } from './VueNodeView';
 
@@ -55,7 +56,7 @@ const useGetEditor = (getEditor: GetEditor) => {
 
 export const EditorComponent = defineComponent<{ editor: GetEditor; editorRef?: Ref<EditorRef> }>({
     name: 'milkdown-dom-root',
-    setup: (props) => {
+    setup: (props, { slots }) => {
         const refs = useGetEditor(props.editor);
         if (props.editorRef) {
             props.editorRef.value = {
@@ -64,17 +65,39 @@ export const EditorComponent = defineComponent<{ editor: GetEditor; editorRef?: 
             };
         }
 
-        return () => <div ref={refs.divRef} />;
+        return () => <div ref={refs.divRef}>{slots.default?.()}</div>;
     },
 });
 EditorComponent.props = ['editor', 'editorRef'];
 
 export type EditorRef = { get: () => Editor | undefined; dom: () => HTMLDivElement | null };
 
+const rootInstance: {
+    instance: null | ComponentInternalInstance;
+} = {
+    instance: null,
+};
+export const getRootInstance = () => {
+    return rootInstance.instance;
+};
+
+type PortalPair = [key: string, component: DefineComponent];
 export const VueEditor = defineComponent<{ editor: GetEditor; editorRef?: Ref<EditorRef> }>({
     name: 'milkdown-vue-root',
     setup: (props) => {
         const portals = shallowReactive<PortalPair[]>([]);
+
+        const instance = getCurrentInstance();
+
+        onBeforeMount(() => {
+            rootInstance.instance = (instance as ComponentInternalInstance & { ctx: { _: ComponentInternalInstance } })
+                .ctx._ as ComponentInternalInstance;
+        });
+
+        onUnmounted(() => {
+            rootInstance.instance = null;
+        });
+
         const addPortal = markRaw((component: DefineComponent, key: string) => {
             portals.push([key, component]);
         });
@@ -85,12 +108,14 @@ export const VueEditor = defineComponent<{ editor: GetEditor; editorRef?: Ref<Ed
         const renderVue = createVueView(addPortal, removePortalByKey);
         provide(rendererKey, renderVue);
 
-        return () => (
-            <>
-                <Portals portals={portals} />
-                <EditorComponent editorRef={props.editorRef} editor={props.editor} />
-            </>
-        );
+        return () => {
+            const portalElements = portals.map(([id, P]) => <P key={id} />);
+            return (
+                <EditorComponent editorRef={props.editorRef} editor={props.editor}>
+                    {portalElements}
+                </EditorComponent>
+            );
+        };
     },
 });
 VueEditor.props = ['editor', 'editorRef'];

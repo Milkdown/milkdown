@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Decoration, EditorView, Mark, Node } from '@milkdown/prose';
-import { defineComponent, Fragment, h, InjectionKey, provide, ref, watchEffect } from 'vue';
+import { defineComponent, h, InjectionKey, provide } from 'vue';
 
 export type NodeContext = {
     node: Node | Mark;
@@ -20,20 +20,15 @@ export const VueNodeContainer = defineComponent<NodeContext>({
             getPos,
             decorations,
         });
-        return () => <>{context.slots.default?.() ?? []}</>;
+        return () => <div data-view-container>{context.slots.default?.()}</div>;
     },
 });
 VueNodeContainer.props = ['editor', 'node', 'view', 'getPos', 'decorations'];
 
-export const Content = defineComponent<{ dom?: HTMLElement }>({
+export const Content = defineComponent<{ isMark?: boolean }>({
     name: 'milkdown-content',
-    setup: (props) => {
-        const containerRef = ref<HTMLDivElement | null>(null);
-        watchEffect(() => {
-            if (!props.dom || !containerRef.value) return;
-            containerRef.value.appendChild(props.dom);
-        });
-        return () => <div ref={containerRef} />;
+    setup: ({ isMark }) => {
+        return () => (isMark ? <span data-view-content /> : <div data-view-content />);
     },
 });
-Content.props = ['dom'];
+Content.props = ['isMark'];

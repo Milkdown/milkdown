@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { slash } from '@milkdown/plugin-slash';
-import { commonmarkNodes, commonmarkPlugins, heading, image, paragraph } from '@milkdown/preset-commonmark';
+import { blockquote, commonmarkNodes, commonmarkPlugins, heading, image, paragraph } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
 import { DefineComponent, defineComponent, h, inject, ref } from 'vue';
 
@@ -20,7 +20,7 @@ const MyHeading = defineComponent({
         return () => {
             return (
                 <div class={`my-heading ${!node?.attrs.level ? '' : 'heading' + node?.attrs.level}`}>
-                    {slots.default?.() ?? []}
+                    {slots.default?.()}
                 </div>
             );
         };
@@ -31,6 +31,12 @@ const MyImage: DefineComponent = defineComponent({
     setup() {
         const node = inject(nodeMetadata)?.node;
         return () => <img class="image" src={node?.attrs.src} alt={node?.attrs.alt} />;
+    },
+});
+const MyQuote: DefineComponent = defineComponent({
+    name: 'my-quote',
+    setup(_, { slots }) {
+        return () => <section class="my-quote">{slots.default?.()}</section>;
     },
 });
 
@@ -44,10 +50,13 @@ export const MyEditor = defineComponent<{ markdown: string }>({
                     view: () => renderVue(MyHeading),
                 })
                 .configure(paragraph, {
-                    view: (ctx) => renderVue(MyParagraph),
+                    view: () => renderVue(MyParagraph),
+                })
+                .configure(blockquote, {
+                    view: () => renderVue(MyQuote),
                 })
                 .configure(image, {
-                    view: (ctx) => renderVue(MyImage),
+                    view: () => renderVue(MyImage),
                 });
             // setTimeout(() => {
             //     console.log(editorRef.value.get());
