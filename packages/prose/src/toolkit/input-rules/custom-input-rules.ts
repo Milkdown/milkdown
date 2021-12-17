@@ -1,8 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import type { InputRule } from 'prosemirror-inputrules';
-import type { EditorState, PluginSpec, TextSelection, Transaction } from 'prosemirror-state';
-import { Plugin } from 'prosemirror-state';
+import { EditorState, Plugin, PluginKey, PluginSpec, TextSelection, Transaction } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
 
 function run(view: EditorView, from: number, to: number, text: string, rules: InputRule[], plugin: Plugin) {
@@ -26,8 +25,10 @@ function run(view: EditorView, from: number, to: number, text: string, rules: In
     return false;
 }
 
+export const customInputRulesKey = new PluginKey('customInputRules');
 export const customInputRules = ({ rules }: { rules: InputRule[] }): Plugin => {
     const plugin: Plugin = new Plugin({
+        key: customInputRulesKey,
         isInputRules: true,
 
         state: {
