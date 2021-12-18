@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { i18nConfig, Local } from '../../route';
 import { Mode } from '../constant';
@@ -14,7 +14,7 @@ const materialIcon = `${className.icon} material-icons-outlined`;
 const LanguageList: React.FC<{ show: boolean; setShow: (show: boolean) => void }> = ({ show, setShow }) => {
     const root = useRoot();
     const setLocal = React.useContext(setLocalCtx);
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
 
     return !show ? null : (
@@ -35,7 +35,7 @@ const LanguageList: React.FC<{ show: boolean; setShow: (show: boolean) => void }
                 setShow(false);
                 const prefix = route;
                 const next = [prefix, ...path].filter((x) => x).join('/');
-                history.push('/' + next);
+                navigate('/' + next);
             }}
         >
             {Object.entries(i18nConfig).map(([key, { display, route }]) => (
