@@ -1,18 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Decoration, DecorationSet, findChildren, Node } from '@milkdown/prose';
-import { highlight, listLanguages, RefractorNode } from 'refractor';
+import { refractor, Text } from 'refractor';
+import { RefractorElement } from 'refractor/lib/core';
+
+const { highlight, listLanguages } = refractor;
 
 export type FlattedNode = {
     text: string;
     className: string[];
 };
 
+type RefractorNode = RefractorElement | Text;
+
 const allLanguages = listLanguages();
 
 const flatNodes = (nodes: RefractorNode[], className: string[] = []) =>
     nodes.flatMap((node): FlattedNode[] =>
         node.type === 'element'
-            ? flatNodes(node.children, [...className, ...(node.properties.className || [])])
+            ? flatNodes(node.children, [...className, ...((node.properties?.className as string[]) || [])])
             : [{ text: node.value, className }],
     );
 
@@ -28,7 +33,7 @@ export function getDecorations(doc: Node, name: string) {
         }
         const nodes = highlight(block.node.textContent, language);
 
-        flatNodes(nodes).forEach((node) => {
+        flatNodes(nodes.children).forEach((node) => {
             const to = from + node.text.length;
 
             if (node.className.length) {

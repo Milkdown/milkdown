@@ -8,7 +8,7 @@ import { useDisplaySidebar } from '../hooks/useDisplaySidebar';
 import className from './style.module.css';
 
 const NavLink: React.FC<Item> = ({ title, link }) => (
-    <Link className={className.link} activeClassName={className.active} to={link}>
+    <Link className={({ isActive }) => [className.link, isActive ? className.active : ''].join(' ')} to={link}>
         {title}
     </Link>
 );
