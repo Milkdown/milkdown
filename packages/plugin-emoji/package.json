@@ -36,7 +36,7 @@
         "@milkdown/utils": "workspace:*",
         "@types/node-emoji": "^1.8.1",
         "@types/twemoji": "^12.1.2",
-        "emoji-regex": "^9.2.2",
+        "emoji-regex": "^10.0.0",
         "node-emoji": "^1.10.0",
         "remark-emoji": "^3.0.1",
         "tslib": "^2.3.1",
