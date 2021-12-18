@@ -47,7 +47,7 @@
         "eslint-plugin-import": "^2.24.2",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-promise": "^6.0.0",
-        "eslint-plugin-react-hooks": "^4.2.0",
+        "eslint-plugin-react-hooks": "^4.3.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "eslint-plugin-tsdoc": "^0.2.14",
         "git-cz": "^4.7.6",
