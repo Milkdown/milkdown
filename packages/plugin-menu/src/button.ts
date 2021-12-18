@@ -63,7 +63,7 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     }
     const $icon = utils.themeTool.slots.icon(config.icon);
     $button.appendChild($icon);
-    $button.addEventListener('click', (e) => {
+    $button.addEventListener('mousedown', (e) => {
         e.preventDefault();
         e.stopPropagation();
         ctx.get(commandsCtx).call(config.key, config.options);

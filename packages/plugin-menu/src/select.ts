@@ -66,7 +66,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 ${themeTool.mixin.shadow()};
                 border-bottom-left-radius: ${themeTool.size.radius};
                 border-bottom-right-radius: ${themeTool.size.radius};
-                z-index: 1;
+                z-index: 3;
             }
 
             .menu-selector-list-item {
@@ -79,6 +79,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 padding: 0.75rem 1rem;
                 line-height: 1.5rem;
                 width: 100%;
+                color: ${themeTool.palette('neutral', 0.87)};
 
                 &:hover {
                     background: ${themeTool.palette('secondary', 0.12)};
@@ -106,7 +107,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
     const selector = document.createElement('button');
     selector.setAttribute('type', 'button');
     selector.classList.add('menu-selector', 'fold');
-    selector.addEventListener('click', (e) => {
+    selector.addEventListener('mousedown', (e) => {
         e.preventDefault();
         e.stopPropagation();
         selectorWrapper.classList.toggle('fold');
@@ -140,7 +141,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         selectorList.appendChild(selectorListItem);
     });
 
-    selectorList.addEventListener('click', (e) => {
+    selectorList.addEventListener('mousedown', (e) => {
         const { target } = e;
         if (target instanceof HTMLButtonElement && target.dataset.id) {
             ctx.get(commandsCtx).call(...config.onSelect(target.dataset.id, view));
