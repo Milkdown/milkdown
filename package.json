@@ -24,7 +24,7 @@
         "changeset": "changeset",
         "release": "changeset publish",
         "clear": "rimraf packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache} && rimraf node_modules",
-        "cz": "git-cz"
+        "commit": "git-cz"
     },
     "devDependencies": {
         "@babel/core": "^7.16.5",
