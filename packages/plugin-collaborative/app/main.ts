@@ -19,7 +19,7 @@ Now you can play!
 const options = [
     { color: '#5e81AC', name: 'milkdown user 1' },
     { color: '#8FBCBB', name: 'milkdown user 2' },
-    { color: '#2E3440', name: 'milkdown user 3' },
+    { color: '#dbfdbf', name: 'milkdown user 3' },
     { color: '#D08770', name: 'milkdown user 4' },
 ];
 const rndInt = Math.floor(Math.random() * 4) + 1;
