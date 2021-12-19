@@ -16,7 +16,7 @@ export const y = createPlugin<string, Options>((utils, { doc, awareness } = {}) 
     if (!doc || !awareness) {
         throw new Error('Must provide doc and awareness for collaborative plugin');
     }
-    const type = doc.get('prosemirror', XmlFragment);
+    const type = doc.get('prosemirror', XmlFragment) as Parameters<typeof ySyncPlugin>[0];
     utils.getStyle(injectStyle);
 
     const plugin = [

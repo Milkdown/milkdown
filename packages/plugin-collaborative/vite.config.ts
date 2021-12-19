@@ -5,5 +5,6 @@ import { defineConfig } from 'vite';
 import { viteBuild } from '../../vite.config.common';
 
 export default defineConfig({
+    root: 'app',
     build: viteBuild('plugin-collaborative'),
 });
