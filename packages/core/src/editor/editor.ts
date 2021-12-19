@@ -25,10 +25,6 @@ export class Editor {
     readonly #ctx = new Ctx(this.#container, this.#clock);
     readonly #pre = new Pre(this.#container, this.#clock);
 
-    get ctx() {
-        return this.#ctx;
-    }
-
     readonly #loadInternal = () => {
         const internalPlugins = [schema, parser, serializer, commands, editorState, editorView];
         const configPlugin = config(async (x) => {
@@ -36,6 +32,15 @@ export class Editor {
         });
         this.use(internalPlugins.concat(init(this)).concat(configPlugin));
     };
+
+    /**
+     * Get the ctx of the editor.
+     *
+     * @returns The ctx of the editor.
+     */
+    get ctx() {
+        return this.#ctx;
+    }
 
     /**
      * Use one plugin or a list of plugins for current editor.
