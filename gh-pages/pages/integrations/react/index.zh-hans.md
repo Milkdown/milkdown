@@ -89,9 +89,9 @@ export const MilkdownEditor: React.FC = () => {
 
 `useNodeCtx` 中可以获取到的值：
 
--   _editor_:
+-   _ctx_:
 
-    Milkdown 编辑器的实例。
+    Milkdown 编辑器的 ctx。
 
 -   _node_:
 

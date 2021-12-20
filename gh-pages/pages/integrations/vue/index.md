@@ -52,7 +52,7 @@ export const MilkdownEditor = defineComponent(() => {
 We provide custom node support out of box.
 
 ```typescript
-import { inject, defineComponent, DefineComponent } from 'vue';
+import { inject, defineComponent, DefineComponent, nodeMetadata } from 'vue';
 import { Editor, rootCtx } from '@milkdown/core';
 import { VueEditor, useEditor } from '@milkdown/vue';
 import { commonmark, paragraph, image } from '@milkdown/preset-commonmark';
@@ -68,7 +68,7 @@ const CustomParagraph: DefineComponent = defineComponent({
 const CustomImage: DefineComponent = defineComponent({
     name: 'my-image',
     setup() {
-        const node: Node = inject('node', {} as Node);
+        const { node } = inject(nodeMetadata);
 
         return () => <img class="vue-image" src={node.attrs.src} alt={node.attrs.alt} />;
     },
@@ -96,9 +96,9 @@ export const MyEditor = defineComponent(() => {
 
 Values that is injected for custom component:
 
--   _editor_:
+-   _ctx_:
 
-    Instance of current milkdown editor.
+    Instance of milkdown ctx.
 
 -   _node_:
 

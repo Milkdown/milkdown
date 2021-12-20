@@ -89,9 +89,9 @@ export const MilkdownEditor: React.FC = () => {
 
 Values can be get by `useNodeCtx`:
 
--   _editor_:
+-   _ctx_:
 
-    Instance of current milkdown editor.
+    Instance of milkdown ctx.
 
 -   _node_:
 
