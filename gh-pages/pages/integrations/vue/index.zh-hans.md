@@ -96,9 +96,9 @@ export const MyEditor = defineComponent(() => {
 
 自定义组件中被注入的值：
 
--   _editor_:
+-   _ctx_:
 
-    Milkdown 编辑器的实例。
+    Milkdown 编辑器的 ctx。
 
 -   _node_:
 
