@@ -47,16 +47,16 @@ export const MyEditor = defineComponent<{ markdown: string }>({
         const editor = useEditor((root, renderVue) => {
             const nodes = commonmarkNodes
                 .configure(heading, {
-                    view: () => renderVue(MyHeading),
+                    view: renderVue(MyHeading),
                 })
                 .configure(paragraph, {
-                    view: () => renderVue(MyParagraph),
+                    view: renderVue(MyParagraph),
                 })
                 .configure(blockquote, {
-                    view: () => renderVue(MyQuote),
+                    view: renderVue(MyQuote),
                 })
                 .configure(image, {
-                    view: () => renderVue(MyImage),
+                    view: renderVue(MyImage),
                 });
             // setTimeout(() => {
             //     console.log(editorRef.value.get());

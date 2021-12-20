@@ -1,12 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Editor, editorViewCtx, rootCtx } from '@milkdown/core';
+import { Ctx, Editor, editorViewCtx, rootCtx } from '@milkdown/core';
 import { ViewFactory } from '@milkdown/prose';
 import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
 
 import { portalContext, Portals } from './Portals';
 import { createReactView } from './ReactNodeView';
 
-type GetEditor = (container: HTMLDivElement, renderReact: (Component: React.FC) => ViewFactory) => Editor | undefined;
+type GetEditor = (
+    container: HTMLDivElement,
+    renderReact: (Component: React.FC) => (ctx: Ctx) => ViewFactory,
+) => Editor | undefined;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = React.useContext(portalContext);

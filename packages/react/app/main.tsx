@@ -65,7 +65,7 @@ const ReactBlockquote: React.FC = ({ children }) => {
     return <div className="react-renderer blockquote">{children}</div>;
 };
 
-const TSLink: React.FC = ({ children }) => {
+const ReactLink: React.FC = ({ children }) => {
     return (
         <a className="link" href="#">
             {children}
@@ -77,10 +77,10 @@ const App: React.FC = () => {
     const ref = React.useRef<EditorRef>();
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
-            .configure(paragraph, { view: () => renderReact(ReactParagraph) })
-            .configure(blockquote, { view: () => renderReact(ReactBlockquote) })
-            .configure(image, { view: () => renderReact(ReactImage) })
-            .configure(link, { view: () => renderReact(TSLink) });
+            .configure(paragraph, { view: renderReact(ReactParagraph) })
+            .configure(blockquote, { view: renderReact(ReactBlockquote) })
+            .configure(image, { view: renderReact(ReactImage) })
+            .configure(link, { view: renderReact(ReactLink) });
         return Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);

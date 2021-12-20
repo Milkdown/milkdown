@@ -1,8 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { Ctx } from '@milkdown/core';
 import { Decoration, EditorView, Mark, Node } from '@milkdown/prose';
 import React from 'react';
 
 type NodeContext = {
+    ctx: Ctx;
     node: Node | Mark;
     view: EditorView;
     getPos: boolean | (() => number);
@@ -10,14 +12,15 @@ type NodeContext = {
 };
 
 const nodeContext = React.createContext<NodeContext>({
+    ctx: undefined,
     node: undefined,
     view: undefined,
     getPos: undefined,
     decorations: undefined,
 } as unknown as NodeContext);
 
-export const ReactNodeContainer: React.FC<NodeContext> = ({ node, view, getPos, decorations, children }) => {
-    return <nodeContext.Provider value={{ node, view, getPos, decorations }}>{children}</nodeContext.Provider>;
+export const ReactNodeContainer: React.FC<NodeContext> = ({ ctx, node, view, getPos, decorations, children }) => {
+    return <nodeContext.Provider value={{ ctx, node, view, getPos, decorations }}>{children}</nodeContext.Provider>;
 };
 
 export const useNodeCtx = () => React.useContext(nodeContext);
