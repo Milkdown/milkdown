@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { Ctx } from '@milkdown/core';
 import type { Decoration, EditorView, NodeView, ViewFactory } from '@milkdown/prose';
 import { Mark, Node } from '@milkdown/prose';
 import { customAlphabet } from 'nanoid';
@@ -11,9 +12,10 @@ const nanoid = customAlphabet('abcedfghicklmn', 10);
 
 export const createReactView =
     (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
-    (component: React.FC): ViewFactory =>
+    (component: React.FC): ((ctx: Ctx) => ViewFactory) =>
+    (ctx) =>
     (node, view, getPos, decorations) =>
-        new ReactNodeView(component, addPortal, removePortalByKey, node, view, getPos, decorations);
+        new ReactNodeView(ctx, component, addPortal, removePortalByKey, node, view, getPos, decorations);
 
 export class ReactNodeView implements NodeView {
     dom: HTMLElement | undefined;
@@ -21,6 +23,7 @@ export class ReactNodeView implements NodeView {
     key: string;
 
     constructor(
+        private ctx: Ctx,
         private component: React.FC,
         private addPortal: (portal: React.ReactPortal) => void,
         private removePortalByKey: (key: string) => void,
@@ -52,7 +55,13 @@ export class ReactNodeView implements NodeView {
 
         const Component = this.component;
         const portal = createPortal(
-            <ReactNodeContainer node={this.node} view={this.view} getPos={this.getPos} decorations={this.decorations}>
+            <ReactNodeContainer
+                ctx={this.ctx}
+                node={this.node}
+                view={this.view}
+                getPos={this.getPos}
+                decorations={this.decorations}
+            >
                 <Component>
                     <Content isMark={this.node instanceof Mark} dom={this.contentDOM} />
                 </Component>

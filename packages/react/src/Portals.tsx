@@ -1,8 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { Ctx } from '@milkdown/core';
 import { ViewFactory } from '@milkdown/prose';
 import React from 'react';
 
-export const portalContext = React.createContext<(Component: React.FC) => ViewFactory>(() => () => {
+export const portalContext = React.createContext<(Component: React.FC) => (ctx: Ctx) => ViewFactory>(() => () => {
     throw new Error();
 });
 
