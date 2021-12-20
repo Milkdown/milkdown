@@ -15,6 +15,7 @@ After cloning Milkdown, run `pnpm install` to install dependencies. Then, you ca
 -   `pnpm doc` runs develop mode for gh-pages package.
 -   `pnpm build:packs` runs build for all packages.
 -   `pnpm build:doc` runs build for gh-pages package.
+-   `pnpm commit` runs commit with git hooks.
 
 The easiest way to get started is to run `pnpm watch` in one command line and `pnpm doc` in another.
 Then you can make some modify you want to see the change.
