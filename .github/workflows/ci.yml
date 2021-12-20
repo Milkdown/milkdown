@@ -79,7 +79,7 @@ jobs:
               run: pnpm build:packs
 
             - name: create versions or publish to npm registry
-              uses: changesets/action@master
+              uses: changesets/action@v1
               with:
                   publish: pnpm release
                   commit: 'ci(changeset): release milkdown'
