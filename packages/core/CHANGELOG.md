@@ -1,5 +1,20 @@
 # @milkdown/core
 
+## 5.3.0
+
+### Minor Changes
+
+-   ed679a03: Optimize vue and react renderer.
+
+### Patch Changes
+
+-   Updated dependencies [ed679a03]
+    -   @milkdown/ctx@5.3.0
+    -   @milkdown/design-system@5.3.0
+    -   @milkdown/exception@5.3.0
+    -   @milkdown/prose@5.3.0
+    -   @milkdown/transformer@5.3.0
+
 ## 5.2.1
 
 ### Patch Changes

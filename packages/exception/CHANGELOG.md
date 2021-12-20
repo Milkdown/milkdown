@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 5.3.0
+
+### Minor Changes
+
+-   ed679a03: Optimize vue and react renderer.
+
 ## 5.2.1
 
 ### Patch Changes

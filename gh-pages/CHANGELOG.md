@@ -1,5 +1,42 @@
 # @milkdown/gh-pages
 
+## 5.3.0
+
+### Minor Changes
+
+-   ed679a03: Optimize vue and react renderer.
+
+### Patch Changes
+
+-   Updated dependencies [ed679a03]
+    -   @milkdown/core@5.3.0
+    -   @milkdown/ctx@5.3.0
+    -   @milkdown/design-system@5.3.0
+    -   @milkdown/exception@5.3.0
+    -   @milkdown/plugin-clipboard@5.3.0
+    -   @milkdown/plugin-collaborative@5.3.0
+    -   @milkdown/plugin-cursor@5.3.0
+    -   @milkdown/plugin-diagram@5.3.0
+    -   @milkdown/plugin-emoji@5.3.0
+    -   @milkdown/plugin-history@5.3.0
+    -   @milkdown/plugin-indent@5.3.0
+    -   @milkdown/plugin-listener@5.3.0
+    -   @milkdown/plugin-math@5.3.0
+    -   @milkdown/plugin-menu@5.3.0
+    -   @milkdown/plugin-prism@5.3.0
+    -   @milkdown/plugin-slash@5.3.0
+    -   @milkdown/plugin-table@5.3.0
+    -   @milkdown/plugin-tooltip@5.3.0
+    -   @milkdown/plugin-upload@5.3.0
+    -   @milkdown/preset-commonmark@5.3.0
+    -   @milkdown/preset-gfm@5.3.0
+    -   @milkdown/prose@5.3.0
+    -   @milkdown/react@5.3.0
+    -   @milkdown/theme-nord@5.3.0
+    -   @milkdown/transformer@5.3.0
+    -   @milkdown/utils@5.3.0
+    -   @milkdown/vue@5.3.0
+
 ## 5.2.1
 
 ### Patch Changes
