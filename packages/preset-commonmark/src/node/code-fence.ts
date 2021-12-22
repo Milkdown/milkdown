@@ -69,7 +69,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 height: 2.625rem;
                 align-items: center;
 
-                & > *:last-child {
+                & > .icon {
                     width: 2.625rem;
                     height: 100%;
                     display: flex;
@@ -227,7 +227,9 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             valueWrapper.className = 'code-fence_value';
             const value = document.createElement('span');
             valueWrapper.appendChild(value);
-            valueWrapper.appendChild(ctx.get(themeToolCtx).slots.icon('downArrow'));
+            if (view.editable) {
+                valueWrapper.appendChild(ctx.get(themeToolCtx).slots.icon('downArrow'));
+            }
 
             select.className = 'code-fence_select';
             select.addEventListener('mousedown', (e) => {
