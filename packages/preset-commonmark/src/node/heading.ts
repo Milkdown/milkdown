@@ -51,12 +51,10 @@ export const heading = createNode<Keys>((utils, options) => {
         schema: () => ({
             content: 'inline*',
             group: 'block',
+            defining: true,
             attrs: {
                 level: {
                     default: 1,
-                },
-                id: {
-                    default: '',
                 },
             },
             parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
