@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { schemaCtx, themeToolCtx } from '@milkdown/core';
-import type { Fragment, Node, Schema } from '@milkdown/prose';
+import type { EditorView, Fragment, Node, Schema } from '@milkdown/prose';
 import { Decoration, DecorationSet, EditorState, Plugin } from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
 
@@ -45,43 +45,62 @@ export const uploadPlugin = createPlugin<string, { uploader: Uploader }>((_, opt
                     },
                 },
             });
+
             const findPlaceholder = (state: EditorState, id: symbol): number => {
                 const decorations = placeholderPlugin.getState(state);
                 const found = decorations.find(null, null, (spec: Spec) => spec.id === id);
                 return found.length ? found[0].from : -1;
             };
+
+            const handleUpload = (
+                view: EditorView<Schema>,
+                event: DragEvent | ClipboardEvent,
+                files: FileList | undefined,
+            ) => {
+                if (!files || files.length <= 0) {
+                    return false;
+                }
+                const id = Symbol('upload symbol');
+                const { tr } = view.state;
+                const insertPos =
+                    event instanceof DragEvent
+                        ? view.posAtCoords({ left: event.clientX, top: event.clientY })?.pos ?? tr.selection.from
+                        : tr.selection.from;
+                view.dispatch(tr.setMeta(placeholderPlugin, { add: { id, pos: insertPos } }));
+
+                uploader(files, schema)
+                    .then((fragment) => {
+                        const pos = findPlaceholder(view.state, id);
+                        if (pos < 0) return;
+
+                        view.dispatch(
+                            view.state.tr
+                                .replaceWith(pos, pos, fragment)
+                                .setMeta(placeholderPlugin, { remove: { id } }),
+                        );
+                        return;
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                    });
+                return true;
+            };
+
             const uploadPlugin = new Plugin({
                 props: {
+                    handlePaste: (view, event) => {
+                        if (!(event instanceof ClipboardEvent)) {
+                            return false;
+                        }
+
+                        return handleUpload(view, event, event.clipboardData?.files);
+                    },
                     handleDrop: (view, event) => {
                         if (!(event instanceof DragEvent)) {
                             return false;
                         }
-                        const { files } = event.dataTransfer ?? {};
-                        if (!files || files.length <= 0) {
-                            return false;
-                        }
-                        const id = Symbol('upload symbol');
-                        const { tr } = view.state;
-                        const insertPos =
-                            view.posAtCoords({ left: event.clientX, top: event.clientY })?.pos ?? tr.selection.from;
-                        view.dispatch(tr.setMeta(placeholderPlugin, { add: { id, pos: insertPos } }));
 
-                        uploader(files, schema)
-                            .then((fragment) => {
-                                const pos = findPlaceholder(view.state, id);
-                                if (pos < 0) return;
-
-                                view.dispatch(
-                                    view.state.tr
-                                        .replaceWith(pos, pos, fragment)
-                                        .setMeta(placeholderPlugin, { remove: { id } }),
-                                );
-                                return;
-                            })
-                            .catch((e) => {
-                                console.error(e);
-                            });
-                        return true;
+                        return handleUpload(view, event, event.dataTransfer?.files);
                     },
                 },
             });
