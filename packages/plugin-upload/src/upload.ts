@@ -37,13 +37,13 @@ export const uploadPlugin = createPlugin<string, { uploader: Uploader }>((_, opt
                         if (action.remove) {
                             return _set.remove(_set.find(null, null, (spec: Spec) => spec.id === action.remove.id));
                         }
-                    }
+                    },
                 },
                 props: {
                     decorations(state) {
                         return this.getState(state);
-                    }
-                }
+                    },
+                },
             });
 
             const findPlaceholder = (state: EditorState, id: symbol): number => {
@@ -53,9 +53,9 @@ export const uploadPlugin = createPlugin<string, { uploader: Uploader }>((_, opt
             };
 
             const handleUpload = (
-                view: EditorView<any>,
+                view: EditorView<Schema>,
                 event: DragEvent | ClipboardEvent,
-                files: FileList | undefined
+                files: FileList | undefined,
             ) => {
                 if (!files || files.length <= 0) {
                     return false;
@@ -74,7 +74,9 @@ export const uploadPlugin = createPlugin<string, { uploader: Uploader }>((_, opt
                         if (pos < 0) return;
 
                         view.dispatch(
-                            view.state.tr.replaceWith(pos, pos, fragment).setMeta(placeholderPlugin, { remove: { id } })
+                            view.state.tr
+                                .replaceWith(pos, pos, fragment)
+                                .setMeta(placeholderPlugin, { remove: { id } }),
                         );
                         return;
                     })
@@ -99,10 +101,10 @@ export const uploadPlugin = createPlugin<string, { uploader: Uploader }>((_, opt
                         }
 
                         return handleUpload(view, event, event.dataTransfer?.files);
-                    }
-                }
+                    },
+                },
             });
             return [placeholderPlugin, uploadPlugin];
-        }
+        },
     };
 });
