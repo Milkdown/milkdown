@@ -3,8 +3,8 @@ import { parserMatchError } from '@milkdown/exception';
 import type { MarkType, NodeType, Schema } from '@milkdown/prose';
 
 import { RemarkParser } from '../utility';
-import type { Attrs, InnerParserSpecMap, MarkdownNode, ParserSpecWithType } from '.';
 import type { Stack } from './stack';
+import type { Attrs, InnerParserSpecMap, MarkdownNode, ParserSpecWithType } from './types';
 
 type PS<T extends keyof Stack> = Parameters<Stack[T]>;
 

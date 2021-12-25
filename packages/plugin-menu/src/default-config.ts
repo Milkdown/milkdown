@@ -27,6 +27,7 @@ import {
     redo,
     setBlockType,
     sinkListItem,
+    TextSelection,
     undo,
     wrapIn,
 } from '@milkdown/prose';
@@ -64,7 +65,10 @@ export const defaultConfig: Config = [
             disabled: (view) => {
                 const { state } = view;
                 const setToHeading = (level: number) => setBlockType(state.schema.nodes.heading, { level })(state);
-                return !(setToHeading(1) || setToHeading(2) || setToHeading(3));
+                return (
+                    !(view.state.selection instanceof TextSelection) ||
+                    !(setToHeading(1) || setToHeading(2) || setToHeading(3))
+                );
             },
             onSelect: (id) => [TurnIntoHeading, Number(id)],
         },
