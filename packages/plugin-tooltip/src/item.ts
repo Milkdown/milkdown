@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
 import { ToggleBold, ToggleInlineCode, ToggleItalic, ToggleLink, ToggleStrikeThrough } from '@milkdown/preset-gfm';
-import { EditorView, findSelectedNodeOfType, Schema } from '@milkdown/prose';
+import { EditorView, findSelectedNodeOfType, Schema, TextSelection } from '@milkdown/prose';
 
 import {
     createToggleIcon,
@@ -76,7 +76,10 @@ export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): 
     const { marks, nodes } = schema;
     return {
         [InputAction.ModifyLink]: {
-            display: (view) => view.state.selection.empty && hasMark(view.state, marks.link),
+            display: (view) =>
+                view.state.selection.empty &&
+                view.state.selection instanceof TextSelection &&
+                hasMark(view.state, marks.link),
             command: modifyLink(ctx),
             update: updateLinkView,
             ...inputOptions.link,

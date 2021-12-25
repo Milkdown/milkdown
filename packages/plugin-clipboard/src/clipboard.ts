@@ -41,7 +41,7 @@ export const clipboardPlugin = createPlugin(() => {
 
                         const text = clipboardData.getData('text/plain');
                         const html = clipboardData.getData('text/html');
-                        if (html.length > 0) {
+                        if (html.length > 0 || text.length === 0) {
                             return false;
                         }
 
