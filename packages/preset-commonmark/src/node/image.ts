@@ -152,7 +152,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 title: { default: null },
                 failed: { default: false },
                 loading: { default: true },
-                width: { default: 0 },
+                width: { default: null },
             },
             parseDOM: [
                 {
@@ -167,7 +167,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                             src: dom.getAttribute('src') || '',
                             alt: dom.getAttribute('alt'),
                             title: dom.getAttribute('title') || dom.getAttribute('alt'),
-                            width: dom.getAttribute('width') || 0,
+                            width: dom.getAttribute('width'),
                         };
                     },
                 },
@@ -303,7 +303,9 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             content.src = src;
             content.title = title || alt;
             content.alt = alt;
-            content.width = width;
+            if (width) {
+                content.width = width;
+            }
 
             if (src.length === 0) {
                 container.classList.add('system', 'empty');
@@ -321,7 +323,9 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     content.src = src;
                     content.alt = alt;
                     content.title = title || alt;
-                    content.width = width;
+                    if (width) {
+                        content.width = width;
+                    }
                     if (loading) {
                         loadImage(src);
                         return true;
