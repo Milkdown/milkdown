@@ -48,6 +48,8 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 <a title="Hidekazu Kubota" href="https://github.com/sosuisen"><img src="https://avatars.githubusercontent.com/u/13513812?v=4" width="100" alt="profile picture of Hidekazu Kubota"></a>
 <a title="Kevin Marrec" href="https://github.com/kevinmarrec"><img src="https://avatars.githubusercontent.com/u/25272043?v=4" width="100" alt="profile picture of Kevin Marrec"></a>
 <a title="Andrew Mee" href="https://github.com/andrewmee"><img src="https://avatars.githubusercontent.com/u/24985?v=4" width="100" alt="profile picture of Andrew Mee"></a>
+<a title="CY" href="https://github.com/shiyiya"><img src="https://avatars.githubusercontent.com/u/34017352?v=4" width="100" alt="profile picture of CY"></a>
+<a title="Meng Zhaohui" href="https://github.com/Ahmong"><img src="https://avatars.githubusercontent.com/u/9511090?v=4" width="100" alt="profile picture of Meng Zhaohui"></a>
 
 # Sponsors
 
@@ -55,6 +57,7 @@ If you like this project, please consider fund me to help the maintenance.
 
 <a title="Johno Scott" href="https://github.com/johnoscott"><img src="https://avatars.githubusercontent.com/u/291958?v=4" width="100" alt="profile picture of Johno Scott"></a>
 <a title="Inkyu Oh" href="https://github.com/gomjellie"><img src="https://avatars.githubusercontent.com/u/13645032?v=4" width="100" alt="profile picture of Inkyu Oh"></a>
+<a title="Stanley" href="https://github.com/RickStanley"><img src="https://avatars.githubusercontent.com/u/23178554?v=4" width="100" alt="profile picture of Stanley"></a>
 
 # License
 

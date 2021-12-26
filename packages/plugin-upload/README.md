@@ -14,7 +14,9 @@ import { upload } from '@milkdown/plugin-upload';
 Editor.make().use(commonmark).use(upload).create();
 ```
 
-# Setup Uploader
+# Config
+
+## Setup Uploader
 
 > By default, this plugin will transfer image to base64 and ignore other file types.
 >
@@ -65,6 +67,10 @@ Editor.make()
     )
     .create();
 ```
+
+## enableHtmlFileUploader
+
+When paste files from html (for example copy images by right click context menu), this option will make the plugin to upload the image copied instead of using the original link.
 
 # License
 
