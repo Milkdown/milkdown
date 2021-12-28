@@ -132,6 +132,7 @@
 @mixin query 72rem {
     .container {
         flex-direction: row;
+        gap: 4rem;
     }
 
     .content {
