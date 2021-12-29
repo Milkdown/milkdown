@@ -63,12 +63,24 @@ body {
     }
 }
 
-.milkdown-menu-wrapper .editor {
-    height: calc(100vh - 18.5rem);
+.milkdown-menu-wrapper {
+    padding-top: 3.125rem;
+    .milkdown {
+        overflow: auto;
+        height: calc(100vh - 18.5rem);
 
-    @mixin query 72rem {
-        height: calc(100vh - 20.5rem);
+        @mixin query 72rem {
+            height: calc(100vh - 20.5rem);
+        }
     }
 
-    overflow: auto;
+    position: relative;
+}
+
+.milkdown-menu {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    left: 0;
+    right: 0;
 }

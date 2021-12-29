@@ -14,6 +14,7 @@ export const override = ({ palette, mixin, size, font }: ThemeTool) => css`
         margin-right: auto;
         ${mixin.shadow?.()};
         box-sizing: border-box;
+        ${mixin.scrollbar?.()};
 
         .editor {
             padding: 3.125rem 1.25rem;

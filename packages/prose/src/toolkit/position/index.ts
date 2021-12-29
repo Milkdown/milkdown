@@ -48,10 +48,11 @@ export const calculateTextPosition = (
     const end = view.coordsAtPos(to);
 
     const targetNodeRect = target.getBoundingClientRect();
-    const parentNodeRect = target.parentElement?.getBoundingClientRect();
-    if (!parentNodeRect) {
+    const parent = target.parentElement;
+    if (!parent) {
         throw new Error();
     }
+    const parentNodeRect = parent.getBoundingClientRect();
 
     const [top, left] = handler(start, end, targetNodeRect, parentNodeRect);
 
