@@ -67,10 +67,10 @@ body {
     padding-top: 3.125rem;
     .milkdown {
         overflow: auto;
-        height: calc(100vh - 18.5rem);
+        height: calc(100vh - 18.5rem + 3.125rem);
 
         @mixin query 72rem {
-            height: calc(100vh - 20.5rem);
+            height: calc(100vh - 20.5rem + 3.125rem);
         }
     }
 
