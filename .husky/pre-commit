@@ -2,5 +2,3 @@
 . "$(dirname "$0")/_/husky.sh"
 
 pnpm run format
-pnpm run test:tsc
-pnpm run test:unit
