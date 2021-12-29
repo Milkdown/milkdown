@@ -9,23 +9,25 @@ export const mixin: ThemePack['mixin'] = ({ palette, size }) => ({
         -webkit-overflow-scrolling: touch;
 
         &::-webkit-scrollbar {
-            ${direction === 'y' ? 'width' : 'height'}: 4px;
-            padding: 0 2px;
-            background: ${palette('surface')};
+            ${direction === 'y' ? 'width' : 'height'}: 12px;
+            background-color: ${palette('surface')};
         }
 
         &::-webkit-scrollbar-track {
-            border-radius: 4px;
+            border-radius: 999px;
             background: ${palette('secondary', 0.12)};
+            border: 4px solid ${palette('surface')};
         }
 
         &::-webkit-scrollbar-thumb {
-            border-radius: 4px;
-            background: ${palette('secondary', 0.38)};
+            border-radius: 999px;
+            background-color: ${palette('secondary', 0.38)};
+            border: 4px solid ${palette('surface')};
+            background-clip: content-box;
         }
 
         &::-webkit-scrollbar-thumb:hover {
-            background: ${palette('secondary')};
+            background-color: ${palette('secondary')};
         }
     `,
     shadow: () => {
