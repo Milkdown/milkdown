@@ -72,10 +72,6 @@ body {
         @mixin query 72rem {
             height: calc(100vh - 20.5rem);
         }
-
-        .editor {
-            height: 100%;
-        }
     }
 
     position: relative;
