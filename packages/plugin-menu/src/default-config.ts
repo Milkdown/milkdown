@@ -44,6 +44,7 @@ export type ConfigItem = SelectConfig | ButtonConfig;
 export type Config = Array<Array<ConfigItem>>;
 
 const hasMark = (state: EditorState, type: MarkType): boolean => {
+    if (!type) return false;
     const { from, $from, to, empty } = state.selection;
     if (empty) {
         return !!type.isInSet(state.storedMarks || $from.marks());
@@ -97,18 +98,21 @@ export const defaultConfig: Config = [
             icon: 'bold',
             key: ToggleBold,
             active: (view) => hasMark(view.state, view.state.schema.marks.strong),
+            disabled: (view) => !view.state.schema.marks.strong,
         },
         {
             type: 'button',
             icon: 'italic',
             key: ToggleItalic,
             active: (view) => hasMark(view.state, view.state.schema.marks.em),
+            disabled: (view) => !view.state.schema.marks.em,
         },
         {
             type: 'button',
             icon: 'strikeThrough',
             key: ToggleStrikeThrough,
             active: (view) => hasMark(view.state, view.state.schema.marks.strike_through),
+            disabled: (view) => !view.state.schema.marks.strike_through,
         },
     ],
     [
