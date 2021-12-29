@@ -18,6 +18,7 @@ export const menubar = (utils: Utils, view: EditorView) => {
             overflow-x: auto;
             ${border};
             ${scrollbar};
+            background: ${themeTool.palette('surface')};
 
             -webkit-overflow-scrolling: auto;
 
@@ -42,12 +43,18 @@ export const menubar = (utils: Utils, view: EditorView) => {
         editorDom.classList.add(editorWrapperStyle);
     }
 
-    const parent = editorDom.parentNode;
-    if (!parent) {
+    const milkdown = editorDom.parentElement;
+    if (!milkdown) {
         throw new Error('No parent node found');
     }
-    parent.replaceChild(menuWrapper, editorDom);
-    menuWrapper.appendChild(editorDom);
+    const root = milkdown.parentElement;
+    if (!root) {
+        throw new Error('No root node found');
+    }
+    root.replaceChild(menuWrapper, milkdown);
+    // milkdown.appendChild(milkdown);
+    // milkdown.replaceChild(menuWrapper, editorDom);
+    menuWrapper.appendChild(milkdown);
 
     return menu;
 };
