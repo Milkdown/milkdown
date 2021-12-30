@@ -1,11 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import 'react-loading-skeleton/dist/skeleton.css';
+
 import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 export const Loading = () => {
     return (
         <div className="milkdown loading">
-            <SkeletonTheme color="rgba(var(--background), 1)" highlightColor="rgba(var(--surface), 1)">
+            <SkeletonTheme baseColor="rgba(var(--background), 1)" highlightColor="rgba(var(--surface), 1)">
                 <Skeleton
                     height="3rem"
                     style={{
