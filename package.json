@@ -2,10 +2,6 @@
     "name": "milkdown",
     "version": "0.0.0",
     "private": true,
-    "workspaces": [
-        "packages/*",
-        "gh-pages"
-    ],
     "scripts": {
         "test": "pnpm test:doc && pnpm test:lint && pnpm test:tsc && pnpm test:unit && pnpm test:pw",
         "test:unit": "jest --passWithNoTests",
