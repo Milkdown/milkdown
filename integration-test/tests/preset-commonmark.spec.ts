@@ -252,7 +252,8 @@ test.describe('transform:', () => {
     });
 
     test('heading', async ({ page }) => {
-        const markdown = `# Heading1
+        const markdown = `
+# Heading1
 
 ## Heading2`;
         await page.evaluate(
@@ -265,5 +266,28 @@ test.describe('transform:', () => {
 
         expect(await editor.waitForSelector('.h1 >> text=Heading1')).toBeTruthy();
         expect(await editor.waitForSelector('.h2 >> text=Heading2')).toBeTruthy();
+    });
+
+    test.only('blockquote', async ({ page }) => {
+        const markdown = `
+> Blockquote.
+> First line.
+>
+> Next line.
+`;
+        await page.evaluate(
+            ({ markdown }) => {
+                window.__setMarkdown__(markdown);
+            },
+            { markdown },
+        );
+
+        const editor = await page.waitForSelector('.editor');
+        const blockquote = await editor.waitForSelector('.blockquote');
+
+        expect(await blockquote.$$('p')).toHaveLength(2);
+        expect(await blockquote.waitForSelector('p:first-child >> text=Blockquote. First line.')).toBeTruthy();
+
+        expect(await blockquote.waitForSelector('p:last-child >> text=Next line.')).toBeTruthy();
     });
 });

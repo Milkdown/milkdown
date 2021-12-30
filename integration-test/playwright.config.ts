@@ -3,7 +3,7 @@ import { PlaywrightTestConfig } from '@playwright/test';
 const config: PlaywrightTestConfig = {
     use: {
         baseURL: 'http://localhost:7000',
-        channel: 'chrome',
+        // channel: 'chrome',
     },
 };
 export default config;
