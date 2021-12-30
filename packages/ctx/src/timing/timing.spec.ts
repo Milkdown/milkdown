@@ -1,26 +1,25 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { describe, expect, it } from 'vitest';
+
 import { createTimer } from './timing';
 
 describe('timing/timing', () => {
-    it('createTimer', () => {
+    it('createTimer', async () => {
         const timer = createTimer('timer');
         const map = new Map();
         const timing = timer(map);
+        setTimeout(() => {
+            timing.done();
+        }, 10);
 
-        const wait = timing();
-
-        expect(wait).resolves.toBeUndefined();
-
-        timing.done();
+        await expect(timing()).resolves.toBeUndefined();
     });
 
-    it('timeout', () => {
+    it('timeout', async () => {
         const timer = createTimer('timer', 10);
         const map = new Map();
         const timing = timer(map);
 
-        const wait = timing();
-
-        expect(wait).rejects.toBe('Timing timer timeout.');
+        await expect(timing()).rejects.toBe('Timing timer timeout.');
     });
 });

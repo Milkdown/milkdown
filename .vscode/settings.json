@@ -27,7 +27,8 @@
         "ufffc",
         "unist",
         "vite",
-        "vitejs"
+        "vitejs",
+        "vitest"
     ],
     "editor.formatOnSave": true,
     "typescript.tsdk": "node_modules/typescript/lib",

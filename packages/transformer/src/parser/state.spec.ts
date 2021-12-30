@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { NodeType, Schema } from '@milkdown/prose';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { RemarkParser } from '../utility';
 import type { Stack } from './stack';
@@ -7,25 +8,25 @@ import { State } from './state';
 import { InnerParserSpecMap } from './types';
 
 class MockStack implements Stack {
-    build = jest.fn();
+    build = vi.fn();
 
-    openMark = jest.fn();
+    openMark = vi.fn();
 
-    closeMark = jest.fn();
+    closeMark = vi.fn();
 
-    addText = jest.fn();
+    addText = vi.fn();
 
-    openNode = jest.fn();
+    openNode = vi.fn();
 
-    addNode = jest.fn();
+    addNode = vi.fn();
 
-    closeNode = jest.fn();
+    closeNode = vi.fn();
 }
 
 const stack = new MockStack();
-const schema = { nodes: {}, marks: {}, text: jest.fn() } as unknown as Schema;
-const textRunner = jest.fn();
-const boldRunner = jest.fn();
+const schema = { nodes: {}, marks: {}, text: vi.fn() } as unknown as Schema;
+const textRunner = vi.fn();
+const boldRunner = vi.fn();
 const specMap: InnerParserSpecMap = {
     text: {
         key: 'text',
@@ -48,10 +49,10 @@ describe('parser/state', () => {
     });
 
     it('run', async () => {
-        jest.spyOn(state, 'next');
+        vi.spyOn(state, 'next');
         const result: unknown[] = [];
-        const parse = jest.fn(() => result);
-        const runSync = jest.fn(() => result);
+        const parse = vi.fn(() => result);
+        const runSync = vi.fn(() => result);
         const mockRemark = { parse, runSync } as unknown as RemarkParser;
         state.run(mockRemark, 'markdown');
 
@@ -77,7 +78,7 @@ describe('parser/state', () => {
     });
 
     it('injectRoot', () => {
-        jest.spyOn(state, 'next');
+        vi.spyOn(state, 'next');
         const children = [] as never[];
         const textNode = { type: 'text', children };
         const mockNodeType = {} as NodeType;

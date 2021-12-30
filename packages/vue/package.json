@@ -9,7 +9,7 @@
     "scripts": {
         "start": "vite",
         "watch": "vite build --watch",
-        "test": "jest",
+        "test": "vitest",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"
     },

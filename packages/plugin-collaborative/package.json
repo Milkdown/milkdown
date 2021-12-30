@@ -11,7 +11,7 @@
         "client": "vite",
         "start": "concurrently -n server,client \"cross-env HOST=localhost PORT=1234 y-websocket-server\" \"vite\"",
         "watch": "vite build --watch",
-        "test": "jest",
+        "test": "vitest",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"
     },

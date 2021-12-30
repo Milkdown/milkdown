@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Mark as ProseMark, Node as ProseNode, Schema } from '@milkdown/prose';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { InnerSerializerSpecMap } from '..';
 import { createMockMarkType, createMockNodeType } from '../parser/stack.spec';
@@ -8,26 +9,26 @@ import type { Stack } from './stack';
 import { State } from './state';
 
 class MockStack implements Stack {
-    build = jest.fn();
+    build = vi.fn();
 
-    openMark = jest.fn();
+    openMark = vi.fn();
 
-    closeMark = jest.fn();
+    closeMark = vi.fn();
 
-    openNode = jest.fn();
+    openNode = vi.fn();
 
-    addNode = jest.fn();
+    addNode = vi.fn();
 
-    closeNode = jest.fn();
+    closeNode = vi.fn();
 
-    top = jest.fn();
+    top = vi.fn();
 }
 
 const stack = new MockStack();
-const schema = { nodes: {}, marks: {}, text: jest.fn() } as unknown as Schema;
-const textRunner = jest.fn();
-const boldRunner = jest.fn();
-const italicRunner = jest.fn();
+const schema = { nodes: {}, marks: {}, text: vi.fn() } as unknown as Schema;
+const textRunner = vi.fn();
+const boldRunner = vi.fn();
+const italicRunner = vi.fn();
 const specMap: InnerSerializerSpecMap = {
     text: {
         match: (n: ProseNode) => n.type.name === 'text',
@@ -54,7 +55,7 @@ describe('parser/state', () => {
     });
 
     it('run', () => {
-        jest.spyOn(state, 'next');
+        vi.spyOn(state, 'next');
         const text = textType.create();
         state.run(text);
 
@@ -62,7 +63,7 @@ describe('parser/state', () => {
     });
 
     it('toString', () => {
-        const stringify = jest.fn();
+        const stringify = vi.fn();
         state.toString({ stringify } as unknown as RemarkParser);
         expect(stack.build).toBeCalledTimes(1);
         expect(stringify).toBeCalledTimes(1);

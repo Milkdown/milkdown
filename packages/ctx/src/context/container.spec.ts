@@ -1,4 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { describe, expect, it } from 'vitest';
+
 import { createContainer, createSlice } from '.';
 
 describe('context/container', () => {

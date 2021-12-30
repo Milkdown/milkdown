@@ -1,4 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { beforeEach, describe, expect, it } from 'vitest';
+
 import { createMockMarkType } from '../parser/stack.spec';
 import { createStack, Stack } from './stack';
 

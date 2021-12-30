@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Fragment, Mark, MarkType, Node, NodeType, Schema } from '@milkdown/prose';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { createStack, Stack } from './stack';
 import type { Attrs } from './types';
