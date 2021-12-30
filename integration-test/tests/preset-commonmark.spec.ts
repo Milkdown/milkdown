@@ -290,4 +290,44 @@ test.describe('transform:', () => {
 
         expect(await blockquote.waitForSelector('p:last-child >> text=Next line.')).toBeTruthy();
     });
+
+    test('bullet list', async ({ page }) => {
+        const markdown = `
+* list item 1
+  * sub list item 1
+  * sub list item 2
+* list item 2
+
+  list content for item 2
+* list item 3
+`;
+        await page.evaluate(
+            ({ markdown }) => {
+                window.__setMarkdown__(markdown);
+            },
+            { markdown },
+        );
+
+        const editor = await page.waitForSelector('.editor');
+        const list = await editor.waitForSelector('.bullet-list');
+
+        const item1 = await list.$(':nth-match(.list-item, 1)');
+        expect(await item1?.$$('.bullet-list')).toHaveLength(1);
+        expect(await item1?.$$('p')).toHaveLength(3);
+
+        const item2 = await list.$(':nth-match(.list-item, 4)');
+        expect(await item2?.$$('p')).toHaveLength(2);
+
+        const item3 = await list.$(':nth-match(.list-item, 5)');
+        expect(await item3?.$$('p')).toHaveLength(1);
+
+        expect(await list.$$('.list-item')).toHaveLength(5);
+        expect(await list.waitForSelector(':nth-match(.list-item, 1) >> text=list item 1')).toBeTruthy();
+        expect(await list.waitForSelector(':nth-match(.list-item, 2) >> text=sub list item 1')).toBeTruthy();
+        expect(await list.waitForSelector(':nth-match(.list-item, 3) >> text=sub list item 2')).toBeTruthy();
+        expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list item 2')).toBeTruthy();
+        expect(await list.waitForSelector(':nth-match(.list-item, 5) >> text=list item 3')).toBeTruthy();
+
+        expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2')).toBeTruthy();
+    });
 });
