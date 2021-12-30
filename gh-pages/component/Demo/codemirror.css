@@ -11,6 +11,10 @@
     }
 }
 
+.cm-scroller {
+    @mixin scrollbar row;
+}
+
 .cm-focused {
     outline: none !important;
 }

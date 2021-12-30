@@ -12,7 +12,7 @@ test('has editor', async ({ page }) => {
 });
 
 test.describe('shortcuts:', () => {
-    test.describe('system:', () => {
+    test.describe.parallel('system:', () => {
         test('press hard break', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
             await editor.type('something');
@@ -81,7 +81,7 @@ test.describe('shortcuts:', () => {
         });
     });
 
-    test.describe('node:', () => {
+    test.describe.parallel('node:', () => {
         test('heading', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
             await editor.type('The lunatic is on the grass');

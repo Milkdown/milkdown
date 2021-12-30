@@ -14,7 +14,7 @@ test('has editor', async ({ page }) => {
     expect(await editor.getAttribute('contenteditable')).toBe('true');
 });
 
-test.describe('transform:', () => {
+test.describe.parallel('transform:', () => {
     test('paragraph', async ({ page, setFixture }) => {
         await setFixture('paragraph');
         const editor = await page.waitForSelector('.editor');

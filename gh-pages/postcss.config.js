@@ -19,20 +19,22 @@ const scrollbar = (_, direction) => {
         'scrollbar-color': 'palette(secondary, 0.38) palette(secondary, 0.12)',
         '-webkit-overflow-scrolling': 'touch',
         '&::-webkit-scrollbar': {
-            [isCol ? 'width' : 'height']: '4px',
-            padding: '0 2px',
+            [isCol ? 'width' : 'height']: '12px',
             background: 'palette(surface)',
         },
         '&::-webkit-scrollbar-track': {
-            'border-radius': '4px',
+            'border-radius': '999px',
             background: 'palette(secondary, 0.12)',
+            border: '4px solid palette(surface)',
         },
         '&::-webkit-scrollbar-thumb': {
-            'border-radius': '4px',
-            background: 'palette(secondary, 0.38)',
+            'border-radius': '999px',
+            'background-color': 'palette(secondary, 0.38)',
+            border: '4px solid palette(surface)',
+            'background-clip': 'content-box',
         },
         '&::-webkit-scrollbar-thumb:hover': {
-            background: 'palette(secondary)',
+            'background-color': 'palette(secondary)',
         },
     };
 };
