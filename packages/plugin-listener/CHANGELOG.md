@@ -1,5 +1,11 @@
 # @milkdown/plugin-listener
 
+## 5.3.1
+
+### Patch Changes
+
+-   0f32decd: Bug fixe and ux improvement
+
 ## 5.3.0
 
 ### Minor Changes

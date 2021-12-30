@@ -1,7 +1,7 @@
 {
     "name": "@milkdown/integration-test",
     "private": true,
-    "version": "4.6.7",
+    "version": "5.3.1",
     "scripts": {
         "start": "vite",
         "build": "vite build",
