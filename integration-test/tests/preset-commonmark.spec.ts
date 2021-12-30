@@ -241,3 +241,29 @@ test.describe('shortcuts:', () => {
         });
     });
 });
+
+test.describe('transform:', () => {
+    test('paragraph', async ({ page }) => {
+        await page.evaluate(() => {
+            window.__setMarkdown__('The lunatic is on the grass');
+        });
+        const editor = await page.waitForSelector('.editor');
+        expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
+    });
+
+    test('heading', async ({ page }) => {
+        const markdown = `# Heading1
+
+## Heading2`;
+        await page.evaluate(
+            ({ markdown }) => {
+                window.__setMarkdown__(markdown);
+            },
+            { markdown },
+        );
+        const editor = await page.waitForSelector('.editor');
+
+        expect(await editor.waitForSelector('.h1 >> text=Heading1')).toBeTruthy();
+        expect(await editor.waitForSelector('.h2 >> text=Heading2')).toBeTruthy();
+    });
+});
