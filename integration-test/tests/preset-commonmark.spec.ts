@@ -268,7 +268,7 @@ test.describe('transform:', () => {
         expect(await editor.waitForSelector('.h2 >> text=Heading2')).toBeTruthy();
     });
 
-    test.only('blockquote', async ({ page }) => {
+    test('blockquote', async ({ page }) => {
         const markdown = `
 > Blockquote.
 > First line.
