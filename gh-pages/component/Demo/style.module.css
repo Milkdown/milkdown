@@ -25,7 +25,7 @@
         border: 1px solid transparent;
         overflow: auto;
         flex: 1 1 40%;
-        height: calc(100vh - 11rem);
+        height: calc(100vh - 14.2rem);
     }
     .milk {
         width: 50%;
