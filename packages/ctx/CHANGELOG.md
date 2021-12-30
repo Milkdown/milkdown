@@ -1,5 +1,13 @@
 # @milkdown/ctx
 
+## 5.3.1
+
+### Patch Changes
+
+-   0f32decd: Bug fixe and ux improvement
+-   Updated dependencies [0f32decd]
+    -   @milkdown/exception@5.3.1
+
 ## 5.3.0
 
 ### Minor Changes

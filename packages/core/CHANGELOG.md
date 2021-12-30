@@ -1,5 +1,17 @@
 # @milkdown/core
 
+## 5.3.1
+
+### Patch Changes
+
+-   0f32decd: Bug fixe and ux improvement
+-   Updated dependencies [0f32decd]
+    -   @milkdown/ctx@5.3.1
+    -   @milkdown/design-system@5.3.1
+    -   @milkdown/exception@5.3.1
+    -   @milkdown/prose@5.3.1
+    -   @milkdown/transformer@5.3.1
+
 ## 5.3.0
 
 ### Minor Changes

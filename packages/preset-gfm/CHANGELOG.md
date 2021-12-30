@@ -1,5 +1,15 @@
 # @milkdown/preset-gfm
 
+## 5.3.1
+
+### Patch Changes
+
+-   0f32decd: Bug fixe and ux improvement
+-   Updated dependencies [0f32decd]
+    -   @milkdown/plugin-table@5.3.1
+    -   @milkdown/preset-commonmark@5.3.1
+    -   @milkdown/utils@5.3.1
+
 ## 5.3.0
 
 ### Minor Changes
