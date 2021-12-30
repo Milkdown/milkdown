@@ -64,7 +64,7 @@ export const Demo = ({ mode, isDarkMode }: DemoProps) => {
             <div className={className.milk}>
                 <MilkdownEditor ref={milkdownRef} content={md} onChange={milkdownListener} />
             </div>
-            <CodeMirror ref={codeMirrorRef} value={md} onChange={onCodeChange} dark={isDarkMode} lock={lockCode} />
+            <CodeMirror ref={codeMirrorRef} value={md} onChange={onCodeChange} lock={lockCode} />
         </div>
     );
 };

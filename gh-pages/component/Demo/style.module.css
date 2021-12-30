@@ -21,7 +21,7 @@
         width: unset;
         box-sizing: border-box;
         min-height: 30rem;
-        padding: 3.125rem 2rem;
+        padding: 3.125rem 0rem;
         border: 1px solid transparent;
         overflow: auto;
         flex: 1 1 40%;
