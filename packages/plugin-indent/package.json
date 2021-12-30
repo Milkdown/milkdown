@@ -1,15 +1,9 @@
 {
     "name": "@milkdown/plugin-indent",
     "version": "5.3.0",
-    "main": "./lib/index.cjs.js",
-    "module": "./lib/index.es.js",
+    "type": "module",
+    "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
-    "exports": {
-        ".": {
-            "import": "./lib/index.es.js",
-            "require": "./lib/index.cjs.js"
-        }
-    },
     "sideEffects": false,
     "license": "MIT",
     "scripts": {

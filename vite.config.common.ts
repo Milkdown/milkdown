@@ -1,11 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import path from 'path';
+import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
 import type { BuildOptions } from 'vite';
 
 export const libFileName = (format: string) => `index.${format}.js`;
 
-export const rollupPlugins = [autoExternal()];
+export const rollupPlugins: Plugin[] = [autoExternal()];
 
 const resolvePath = (str: string) => path.resolve(__dirname, str);
 
@@ -34,7 +35,7 @@ export const viteBuild = (packageDirName: string): BuildOptions => ({
         entry: resolvePath(`packages/${packageDirName}/src/index.ts`),
         name: `milkdown_${packageDirName}`,
         fileName: libFileName,
-        formats: ['es', 'cjs'],
+        formats: ['es'],
     },
     rollupOptions: {
         external,
