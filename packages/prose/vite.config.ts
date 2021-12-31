@@ -2,7 +2,7 @@
 
 import { defineConfig } from 'vite';
 
-import { viteBuild } from '../../vite.config.common';
+import { viteBuild } from '../../vite.config';
 
 export default defineConfig({
     build: viteBuild('prose'),

@@ -1,8 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
+
+/* This file only:
+ * 1. provide common vite config for sub modules in `packages` dir,
+ * 2. as config file for vitest.
+ * Please don't use this file for other purpose.
+ */
+
 import path from 'path';
 import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
 import type { BuildOptions } from 'vite';
+import { defineConfig } from 'vite';
+import { UserConfig } from 'vitest';
 
 export const libFileName = (format: string) => `index.${format}.js`;
 
@@ -45,3 +54,10 @@ export const viteBuild = (packageDirName: string): BuildOptions => ({
         plugins: rollupPlugins,
     },
 });
+
+export default defineConfig({
+    test: {
+        include: ['packages/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+        environment: 'jsdom',
+    },
+} as UserConfig);

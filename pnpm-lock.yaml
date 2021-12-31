@@ -15,6 +15,7 @@ importers:
       '@typescript-eslint/parser': ^5.0.0
       '@vitejs/plugin-react-refresh': ^1.3.3
       '@vitejs/plugin-vue-jsx': ^1.1.5
+      '@vitest/ui': ^0.0.124
       concurrently: ^6.2.0
       cross-env: ^7.0.3
       eslint: ^8.0.0
@@ -50,6 +51,7 @@ importers:
       '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
       '@vitejs/plugin-react-refresh': 1.3.6
       '@vitejs/plugin-vue-jsx': 1.3.3
+      '@vitest/ui': 0.0.124_vitest@0.0.124
       concurrently: 6.5.1
       cross-env: 7.0.3
       eslint: 8.5.0
@@ -72,7 +74,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.4
       vite: 2.7.7
-      vitest: 0.0.124_jsdom@19.0.0
+      vitest: 0.0.124_@vitest+ui@0.0.124+jsdom@19.0.0
 
   gh-pages:
     specifiers:
@@ -2168,6 +2170,10 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@polka/url/1.0.0-next.21:
+    resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
+    dev: true
+
   /@popperjs/core/2.11.0:
     resolution: {integrity: sha512-zrsUxjLOKAzdewIDRWy9nsV1GQsKBCWaGwsZQlCgr6/q+vjyZhFgqedLfFBuI9anTPEUT4APq9Mu0SZBTzIcGQ==}
     dev: false
@@ -2647,6 +2653,15 @@ packages:
       hash-sum: 2.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@vitest/ui/0.0.124_vitest@0.0.124:
+    resolution: {integrity: sha512-vojoOnKiMBwqV4OnndGHvklD2x6BGS0pZc6BMbOtlPPqGpAonzBmnnnfhi1T6CNR/t7x/VJCQCkrXqClH3dysg==}
+    peerDependencies:
+      vitest: 0.0.124
+    dependencies:
+      sirv: 1.0.19
+      vitest: 0.0.124_@vitest+ui@0.0.124+jsdom@19.0.0
     dev: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
@@ -6612,6 +6627,11 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /mrmime/1.0.0:
+    resolution: {integrity: sha512-a70zx7zFfVO7XpnQ2IX1Myh9yY4UYvfld/dikWRnsXxbyvMcfz+u6UfgNAtH+k2QqtJuzVpv6eLTx1G2+WKZbQ==}
+    engines: {node: '>=10'}
+    dev: true
+
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
     dev: true
@@ -7828,6 +7848,15 @@ packages:
   /signal-exit/3.0.6:
     resolution: {integrity: sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ==}
 
+  /sirv/1.0.19:
+    resolution: {integrity: sha512-JuLThK3TnZG1TAKDwNIqNq6QA2afLOCcm+iE8D1Kj3GA40pSPsxQjjJl0J8X3tsR7T+CP1GavpzLwYkgVLWrZQ==}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@polka/url': 1.0.0-next.21
+      mrmime: 1.0.0
+      totalist: 1.1.0
+    dev: true
+
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -8235,6 +8264,11 @@ packages:
     dependencies:
       is-number: 7.0.0
 
+  /totalist/1.1.0:
+    resolution: {integrity: sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==}
+    engines: {node: '>=6'}
+    dev: true
+
   /totalist/2.0.0:
     resolution: {integrity: sha512-+Y17F0YzxfACxTyjfhnJQEe7afPA0GSpYlFkl2VFMxYP7jshQf9gXV7cH47EfToBumFThfKBvfAcoUn6fdNeRQ==}
     engines: {node: '>=6'}
@@ -8570,7 +8604,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.0.124_jsdom@19.0.0:
+  /vitest/0.0.124_@vitest+ui@0.0.124+jsdom@19.0.0:
     resolution: {integrity: sha512-azhSsniZCRkInFD/VXONs90WrgNDZLq1hemNVBfX+xE44Ock06R+zFSpk2Jz/LYfZhXXFi/Xr32RCjgquKsklw==}
     engines: {node: '>=14.14.0'}
     hasBin: true
@@ -8591,6 +8625,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
+      '@vitest/ui': 0.0.124_vitest@0.0.124
       chai: 4.3.4
       jsdom: 19.0.0
       local-pkg: 0.4.0
