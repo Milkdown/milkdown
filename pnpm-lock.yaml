@@ -15,7 +15,7 @@ importers:
       '@typescript-eslint/parser': ^5.0.0
       '@vitejs/plugin-react-refresh': ^1.3.3
       '@vitejs/plugin-vue-jsx': ^1.1.5
-      '@vitest/ui': ^0.0.124
+      '@vitest/ui': ^0.0.125
       concurrently: ^6.2.0
       cross-env: ^7.0.3
       eslint: ^8.0.0
@@ -38,7 +38,7 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.5.4
       vite: ^2.4.4
-      vitest: ^0.0.124
+      vitest: ^0.0.125
     devDependencies:
       '@babel/core': 7.16.5
       '@changesets/cli': 2.19.0
@@ -51,7 +51,7 @@ importers:
       '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
       '@vitejs/plugin-react-refresh': 1.3.6
       '@vitejs/plugin-vue-jsx': 1.3.3
-      '@vitest/ui': 0.0.124_vitest@0.0.124
+      '@vitest/ui': 0.0.125_vitest@0.0.125
       concurrently: 6.5.1
       cross-env: 7.0.3
       eslint: 8.5.0
@@ -74,7 +74,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.4
       vite: 2.7.7
-      vitest: 0.0.124_@vitest+ui@0.0.124+jsdom@19.0.0
+      vitest: 0.0.125_@vitest+ui@0.0.125+jsdom@19.0.0
 
   gh-pages:
     specifiers:
@@ -127,7 +127,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.11.0
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/lang-markdown': 0.19.3
@@ -163,7 +163,7 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-loading-skeleton: 3.0.2_react@17.0.2
       react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
-      react-spinners: 0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f
+      react-spinners: 0.11.0_0630ccf3c187e9207a2876dc5db6b755
       tslib: 2.3.1
       unist-util-visit: 4.0.0
     devDependencies:
@@ -233,7 +233,7 @@ importers:
       '@emotion/css': ^11.1.3
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       tslib: 2.3.1
 
   packages/exception:
@@ -269,7 +269,7 @@ importers:
       y-websocket: ^1.3.16
       yjs: ^13.5.11
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
       y-prosemirror: 1.0.14_y-protocols@1.0.5+yjs@13.5.23
@@ -290,7 +290,7 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
@@ -307,9 +307,9 @@ importers:
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       '@types/mermaid': 8.2.7
       mermaid: 8.13.7
@@ -334,9 +334,9 @@ importers:
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
       twemoji: ^13.1.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@joeattardi/emoji-button': 4.6.2
       '@milkdown/utils': link:../utils
       '@types/node-emoji': 1.8.1
@@ -372,7 +372,7 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
@@ -403,7 +403,7 @@ importers:
       remark-math: ^5.1.0
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       katex: 0.15.1
       remark-math: 5.1.1
@@ -424,7 +424,7 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
@@ -463,7 +463,7 @@ importers:
       smooth-scroll-into-view-if-needed: ^1.1.32
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.3.1
@@ -483,7 +483,7 @@ importers:
       remark-gfm: ^3.0.0
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       remark-gfm: 3.0.1
       tslib: 2.3.1
@@ -502,7 +502,7 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
@@ -535,7 +535,7 @@ importers:
       remark-inline-links: ^6.0.0
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
       remark-inline-links: 6.0.1
       tslib: 2.3.1
@@ -555,7 +555,7 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/plugin-table': link:../plugin-table
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/utils': link:../utils
@@ -653,7 +653,7 @@ importers:
       '@milkdown/design-system': workspace:*
       '@milkdown/prose': workspace:*
     dependencies:
-      '@emotion/css': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/design-system': link:../design-system
     devDependencies:
       '@milkdown/core': link:../core
@@ -1064,15 +1064,6 @@ packages:
       '@babel/helper-plugin-utils': 7.16.5
     dev: false
 
-  /@babel/plugin-syntax-jsx/7.16.5:
-    resolution: {integrity: sha512-42OGssv9NPk4QHKVgIHlzeLgPOW5rGgfV5jzG90AhcXXIv6hu/eqj63w4VgvRxdvZY3AlYeDgPiSJ3BqAd1Y6Q==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/helper-plugin-utils': 7.16.5
-    dev: false
-
   /@babel/plugin-syntax-jsx/7.16.5_@babel+core@7.16.5:
     resolution: {integrity: sha512-42OGssv9NPk4QHKVgIHlzeLgPOW5rGgfV5jzG90AhcXXIv6hu/eqj63w4VgvRxdvZY3AlYeDgPiSJ3BqAd1Y6Q==}
     engines: {node: '>=6.9.0'}
@@ -1081,7 +1072,6 @@ packages:
     dependencies:
       '@babel/core': 7.16.5
       '@babel/helper-plugin-utils': 7.16.5
-    dev: true
 
   /@babel/plugin-syntax-logical-assignment-operators/7.10.4_@babel+core@7.16.5:
     resolution: {integrity: sha512-d8waShlpFDinQ5MtvGU9xDAOzKH47+FFoney2baFIoMr952hKOLp1HR7VszoZvOsV/4+RRszNY7D17ba0te0ig==}
@@ -1836,13 +1826,14 @@ packages:
       '@cspotcode/source-map-consumer': 0.8.0
     dev: true
 
-  /@emotion/babel-plugin/11.7.2:
+  /@emotion/babel-plugin/11.7.2_@babel+core@7.16.5:
     resolution: {integrity: sha512-6mGSCWi9UzXut/ZAN6lGFu33wGR3SJisNl3c0tvlmb8XChH1b2SUvxvnOh7hvLpqyRdHHU9AiazV3Cwbk5SXKQ==}
     peerDependencies:
       '@babel/core': ^7.0.0
     dependencies:
+      '@babel/core': 7.16.5
       '@babel/helper-module-imports': 7.16.0
-      '@babel/plugin-syntax-jsx': 7.16.5
+      '@babel/plugin-syntax-jsx': 7.16.5_@babel+core@7.16.5
       '@babel/runtime': 7.16.5
       '@emotion/hash': 0.8.0
       '@emotion/memoize': 0.7.5
@@ -1865,7 +1856,7 @@ packages:
       stylis: 4.0.13
     dev: false
 
-  /@emotion/css/11.7.1:
+  /@emotion/css/11.7.1_@babel+core@7.16.5:
     resolution: {integrity: sha512-RUUgPlMZunlc7SE5A6Hg+VWRzb2cU6O9xlV78KCFgcnl25s7Qz/20oQg71iKudpLqk7xj0vhbJlwcJJMT0BOZg==}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -1873,7 +1864,8 @@ packages:
       '@babel/core':
         optional: true
     dependencies:
-      '@emotion/babel-plugin': 11.7.2
+      '@babel/core': 7.16.5
+      '@emotion/babel-plugin': 11.7.2_@babel+core@7.16.5
       '@emotion/cache': 11.7.1
       '@emotion/serialize': 1.0.2
       '@emotion/sheet': 1.1.0
@@ -1888,7 +1880,7 @@ packages:
     resolution: {integrity: sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ==}
     dev: false
 
-  /@emotion/react/11.7.1_b08e3c15324cbe90a6ff8fcd416c932c:
+  /@emotion/react/11.7.1_b0bf9f023f082854c155a9ba9dc17441:
     resolution: {integrity: sha512-DV2Xe3yhkF1yT4uAUoJcYL1AmrnO5SVsdfvu+fBuS7IbByDeTVx9+wFmvx9Idzv7/78+9Mgx2Hcmr7Fex3tIyw==}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -1900,6 +1892,7 @@ packages:
       '@types/react':
         optional: true
     dependencies:
+      '@babel/core': 7.16.5
       '@babel/runtime': 7.16.5
       '@emotion/cache': 11.7.1
       '@emotion/serialize': 1.0.2
@@ -2655,13 +2648,13 @@ packages:
       - supports-color
     dev: true
 
-  /@vitest/ui/0.0.124_vitest@0.0.124:
-    resolution: {integrity: sha512-vojoOnKiMBwqV4OnndGHvklD2x6BGS0pZc6BMbOtlPPqGpAonzBmnnnfhi1T6CNR/t7x/VJCQCkrXqClH3dysg==}
+  /@vitest/ui/0.0.125_vitest@0.0.125:
+    resolution: {integrity: sha512-o+bK7o3mKTnnoL6dqsD19DNHfp+fg3U8sHVl9x9HC0N1nrFdcXMrCHWeTcOWB64n3vbN0vALWAjpDRolXpuCFA==}
     peerDependencies:
-      vitest: 0.0.124
+      vitest: 0.0.125
     dependencies:
       sirv: 1.0.19
-      vitest: 0.0.124_@vitest+ui@0.0.124+jsdom@19.0.0
+      vitest: 0.0.125_@vitest+ui@0.0.125+jsdom@19.0.0
     dev: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
@@ -6135,7 +6128,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 4.0.0
+      unist-util-visit: 3.1.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -7462,13 +7455,13 @@ packages:
       react: 17.0.2
     dev: false
 
-  /react-spinners/0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f:
+  /react-spinners/0.11.0_0630ccf3c187e9207a2876dc5db6b755:
     resolution: {integrity: sha512-rDZc0ABWn/M1OryboGsWVmIPg8uYWl0L35jPUhr40+Yg+syVPjeHwvnB7XWaRpaKus3M0cG9BiJA+ZB0dAwWyw==}
     peerDependencies:
       react: ^16.0.0 || ^17.0.0
       react-dom: ^16.0.0 || ^17.0.0
     dependencies:
-      '@emotion/react': 11.7.1_b08e3c15324cbe90a6ff8fcd416c932c
+      '@emotion/react': 11.7.1_b0bf9f023f082854c155a9ba9dc17441
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     transitivePeerDependencies:
@@ -7575,7 +7568,7 @@ packages:
     dependencies:
       emoticon: 4.0.1
       node-emoji: 1.11.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: 4.1.0
     dev: false
 
   /remark-gfm/3.0.1:
@@ -8490,8 +8483,24 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
+  /unist-util-visit/3.1.0:
+    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 4.1.1
+    dev: false
+
   /unist-util-visit/4.0.0:
     resolution: {integrity: sha512-3HWTvrtU10/E7qgPznBfiOyG0TXj9W8c1GSfaI8L9GkaG1pLePiQPZ7E35a0R3ToQ/zcy4Im6aZ9WBgOTnv1MQ==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 5.1.0
+    dev: false
+
+  /unist-util-visit/4.1.0:
+    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
@@ -8604,8 +8613,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.0.124_@vitest+ui@0.0.124+jsdom@19.0.0:
-    resolution: {integrity: sha512-azhSsniZCRkInFD/VXONs90WrgNDZLq1hemNVBfX+xE44Ock06R+zFSpk2Jz/LYfZhXXFi/Xr32RCjgquKsklw==}
+  /vitest/0.0.125_@vitest+ui@0.0.125+jsdom@19.0.0:
+    resolution: {integrity: sha512-gJc2avxoSiA83OtMFcXUymi4BoCFPw8/+/3FCT1IjBQvUHRfUDrf2tYTGcbkeoqIz39f6b0rkZ27eNocVkQifg==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
@@ -8625,7 +8634,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.0.124_vitest@0.0.124
+      '@vitest/ui': 0.0.125_vitest@0.0.125
       chai: 4.3.4
       jsdom: 19.0.0
       local-pkg: 0.4.0
