@@ -9,6 +9,7 @@ export const createMockNodeType = (name: string) => {
     const mockNode = {
         type: {
             name,
+            spec: {},
         },
     } as Node;
 
@@ -30,6 +31,7 @@ export const createMockMarkType = (name: string) => {
     const mockMark = {
         type: {
             name,
+            spec: {},
             removeFromSet: (marks: Mark[]) => {
                 return marks.filter((m) => m.type.name !== name);
             },

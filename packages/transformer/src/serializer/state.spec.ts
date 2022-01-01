@@ -48,7 +48,7 @@ const textType = createMockNodeType('text');
 const boldType = createMockMarkType('bold');
 const italicType = createMockMarkType('italic');
 
-describe('parser/state', () => {
+describe('serializer/state', () => {
     let state: State;
     beforeEach(() => {
         state = new State(stack, schema, specMap);
