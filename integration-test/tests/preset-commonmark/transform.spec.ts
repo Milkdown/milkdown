@@ -15,106 +15,141 @@ test('has editor', async ({ page }) => {
 });
 
 test.describe.parallel('transform:', () => {
-    test('paragraph', async ({ page, setFixture }) => {
-        await setFixture('paragraph');
-        const editor = await page.waitForSelector('.editor');
-        expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
+    test.describe.parallel('node:', () => {
+        test('paragraph', async ({ page, setFixture }) => {
+            await setFixture('paragraph');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
+        });
+
+        test('heading', async ({ page, setFixture }) => {
+            await setFixture('heading');
+            const editor = await page.waitForSelector('.editor');
+
+            expect(await editor.waitForSelector('.h1 >> text=Heading1')).toBeTruthy();
+            expect(await editor.waitForSelector('.h2 >> text=Heading2')).toBeTruthy();
+        });
+
+        test('blockquote', async ({ page, setFixture }) => {
+            await setFixture('quote');
+
+            const editor = await page.waitForSelector('.editor');
+            const blockquote = await editor.waitForSelector('.blockquote');
+
+            expect(await blockquote.$$('p')).toHaveLength(2);
+            expect(await blockquote.waitForSelector('p:first-child >> text=Blockquote. First line.')).toBeTruthy();
+
+            expect(await blockquote.waitForSelector('p:last-child >> text=Next line.')).toBeTruthy();
+        });
+
+        test('bullet list', async ({ page, setFixture }) => {
+            await setFixture('bulletList');
+
+            const editor = await page.waitForSelector('.editor');
+            const list = await editor.waitForSelector('.bullet-list');
+
+            const item1 = await list.$(':nth-match(.list-item, 1)');
+            expect(await item1?.$$('.bullet-list')).toHaveLength(1);
+            expect(await item1?.$$('p')).toHaveLength(3);
+
+            const item2 = await list.$(':nth-match(.list-item, 4)');
+            expect(await item2?.$$('p')).toHaveLength(2);
+
+            const item3 = await list.$(':nth-match(.list-item, 5)');
+            expect(await item3?.$$('p')).toHaveLength(1);
+
+            expect(await list.$$('.list-item')).toHaveLength(5);
+            expect(await list.waitForSelector(':nth-match(.list-item, 1) >> text=list item 1')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 2) >> text=sub list item 1')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 3) >> text=sub list item 2')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list item 2')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 5) >> text=list item 3')).toBeTruthy();
+
+            expect(
+                await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2'),
+            ).toBeTruthy();
+        });
+
+        test('ordered list', async ({ page, setFixture }) => {
+            await setFixture('orderedList');
+
+            const editor = await page.waitForSelector('.editor');
+            const list = await editor.waitForSelector('.ordered-list');
+
+            const item1 = await list.$(':nth-match(.list-item, 1)');
+            expect(await item1?.$$('.ordered-list')).toHaveLength(1);
+            expect(await item1?.$$('p')).toHaveLength(3);
+
+            const item2 = await list.$(':nth-match(.list-item, 4)');
+            expect(await item2?.$$('p')).toHaveLength(2);
+
+            const item3 = await list.$(':nth-match(.list-item, 5)');
+            expect(await item3?.$$('p')).toHaveLength(1);
+
+            expect(await list.$$('.list-item')).toHaveLength(5);
+            expect(await list.waitForSelector(':nth-match(.list-item, 1) >> text=list item 1')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 2) >> text=sub list item 1')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 3) >> text=sub list item 2')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list item 2')).toBeTruthy();
+            expect(await list.waitForSelector(':nth-match(.list-item, 5) >> text=list item 3')).toBeTruthy();
+
+            expect(
+                await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2'),
+            ).toBeTruthy();
+        });
+
+        test('hr', async ({ page, setFixture }) => {
+            await setFixture('hr');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.hr')).toBeDefined();
+        });
+
+        test('image', async ({ page, setFixture }) => {
+            await setFixture('image');
+            const editor = await page.waitForSelector('.editor');
+            const image = await editor.waitForSelector('.image');
+            expect(image).toBeDefined();
+
+            expect(await image.$eval('img', (img) => img.src)).toContain('url');
+            expect(await image.$eval('img', (img) => img.title)).toBe('title');
+            expect(await image.$eval('img', (img) => img.alt)).toBe('image');
+        });
+
+        test('code block', async ({ page, setFixture }) => {
+            await setFixture('codeFence');
+            const editor = await page.waitForSelector('.editor');
+            const fence = await editor.waitForSelector('.code-fence');
+            expect(fence).toBeDefined();
+            expect(await fence.getAttribute('data-language')).toBe('javascript');
+        });
     });
 
-    test('heading', async ({ page, setFixture }) => {
-        await setFixture('heading');
-        const editor = await page.waitForSelector('.editor');
+    test.describe.parallel('mark:', () => {
+        test('bold', async ({ page, setFixture }) => {
+            await setFixture('bold');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.strong >> text=bold test')).toBeTruthy();
+        });
 
-        expect(await editor.waitForSelector('.h1 >> text=Heading1')).toBeTruthy();
-        expect(await editor.waitForSelector('.h2 >> text=Heading2')).toBeTruthy();
-    });
+        test('em', async ({ page, setFixture }) => {
+            await setFixture('em');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.em >> text=em test')).toBeTruthy();
+        });
 
-    test('blockquote', async ({ page, setFixture }) => {
-        await setFixture('quote');
+        test('inline code', async ({ page, setFixture }) => {
+            await setFixture('inlineCode');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.code-inline >> text=inline code test')).toBeTruthy();
+        });
 
-        const editor = await page.waitForSelector('.editor');
-        const blockquote = await editor.waitForSelector('.blockquote');
+        test('link', async ({ page, setFixture }) => {
+            await setFixture('link');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.link >> text=link test')).toBeTruthy();
 
-        expect(await blockquote.$$('p')).toHaveLength(2);
-        expect(await blockquote.waitForSelector('p:first-child >> text=Blockquote. First line.')).toBeTruthy();
-
-        expect(await blockquote.waitForSelector('p:last-child >> text=Next line.')).toBeTruthy();
-    });
-
-    test('bullet list', async ({ page, setFixture }) => {
-        await setFixture('bulletList');
-
-        const editor = await page.waitForSelector('.editor');
-        const list = await editor.waitForSelector('.bullet-list');
-
-        const item1 = await list.$(':nth-match(.list-item, 1)');
-        expect(await item1?.$$('.bullet-list')).toHaveLength(1);
-        expect(await item1?.$$('p')).toHaveLength(3);
-
-        const item2 = await list.$(':nth-match(.list-item, 4)');
-        expect(await item2?.$$('p')).toHaveLength(2);
-
-        const item3 = await list.$(':nth-match(.list-item, 5)');
-        expect(await item3?.$$('p')).toHaveLength(1);
-
-        expect(await list.$$('.list-item')).toHaveLength(5);
-        expect(await list.waitForSelector(':nth-match(.list-item, 1) >> text=list item 1')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 2) >> text=sub list item 1')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 3) >> text=sub list item 2')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list item 2')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 5) >> text=list item 3')).toBeTruthy();
-
-        expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2')).toBeTruthy();
-    });
-
-    test('ordered list', async ({ page, setFixture }) => {
-        await setFixture('orderedList');
-
-        const editor = await page.waitForSelector('.editor');
-        const list = await editor.waitForSelector('.ordered-list');
-
-        const item1 = await list.$(':nth-match(.list-item, 1)');
-        expect(await item1?.$$('.ordered-list')).toHaveLength(1);
-        expect(await item1?.$$('p')).toHaveLength(3);
-
-        const item2 = await list.$(':nth-match(.list-item, 4)');
-        expect(await item2?.$$('p')).toHaveLength(2);
-
-        const item3 = await list.$(':nth-match(.list-item, 5)');
-        expect(await item3?.$$('p')).toHaveLength(1);
-
-        expect(await list.$$('.list-item')).toHaveLength(5);
-        expect(await list.waitForSelector(':nth-match(.list-item, 1) >> text=list item 1')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 2) >> text=sub list item 1')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 3) >> text=sub list item 2')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list item 2')).toBeTruthy();
-        expect(await list.waitForSelector(':nth-match(.list-item, 5) >> text=list item 3')).toBeTruthy();
-
-        expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2')).toBeTruthy();
-    });
-
-    test('hr', async ({ page, setFixture }) => {
-        await setFixture('hr');
-        const editor = await page.waitForSelector('.editor');
-        expect(await editor.waitForSelector('.hr')).toBeDefined();
-    });
-
-    test('image', async ({ page, setFixture }) => {
-        await setFixture('image');
-        const editor = await page.waitForSelector('.editor');
-        const image = await editor.waitForSelector('.image');
-        expect(image).toBeDefined();
-
-        expect(await image.$eval('img', (img) => img.src)).toContain('url');
-        expect(await image.$eval('img', (img) => img.title)).toBe('title');
-        expect(await image.$eval('img', (img) => img.alt)).toBe('image');
-    });
-
-    test('code block', async ({ page, setFixture }) => {
-        await setFixture('codeFence');
-        const editor = await page.waitForSelector('.editor');
-        const fence = await editor.waitForSelector('.code-fence');
-        expect(fence).toBeDefined();
-        expect(await fence.getAttribute('data-language')).toBe('javascript');
+            const link = await editor.waitForSelector('.link');
+            expect(await link.getAttribute('href')).toBe('url');
+        });
     });
 });

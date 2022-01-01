@@ -52,6 +52,22 @@ const one = 1
 \`\`\`
 `;
 
+const bold = `
+Here is **bold test**!
+`;
+
+const em = `
+Here is *em test*!
+`;
+
+const inlineCode = `
+Here is \`inline code test\`!
+`;
+
+const link = `
+Here is [link test](url)!
+`;
+
 const fixtures = {
     paragraph,
     heading,
@@ -61,6 +77,10 @@ const fixtures = {
     hr,
     image,
     codeFence,
+    bold,
+    em,
+    inlineCode,
+    link,
 };
 
 type FKey = keyof typeof fixtures;
