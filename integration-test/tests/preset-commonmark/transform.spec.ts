@@ -92,4 +92,29 @@ test.describe.parallel('transform:', () => {
 
         expect(await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2')).toBeTruthy();
     });
+
+    test('hr', async ({ page, setFixture }) => {
+        await setFixture('hr');
+        const editor = await page.waitForSelector('.editor');
+        expect(await editor.waitForSelector('.hr')).toBeDefined();
+    });
+
+    test('image', async ({ page, setFixture }) => {
+        await setFixture('image');
+        const editor = await page.waitForSelector('.editor');
+        const image = await editor.waitForSelector('.image');
+        expect(image).toBeDefined();
+
+        expect(await image.$eval('img', (img) => img.src)).toContain('url');
+        expect(await image.$eval('img', (img) => img.title)).toBe('title');
+        expect(await image.$eval('img', (img) => img.alt)).toBe('image');
+    });
+
+    test('code block', async ({ page, setFixture }) => {
+        await setFixture('codeFence');
+        const editor = await page.waitForSelector('.editor');
+        const fence = await editor.waitForSelector('.code-fence');
+        expect(fence).toBeDefined();
+        expect(await fence.getAttribute('data-language')).toBe('javascript');
+    });
 });

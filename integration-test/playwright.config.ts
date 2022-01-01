@@ -3,8 +3,7 @@ import { PlaywrightTestConfig } from '@playwright/test';
 const config: PlaywrightTestConfig = {
     use: {
         baseURL: 'http://localhost:7000',
-        // Used for local development
-        // channel: 'chrome',
+        channel: process.env.CI ? undefined : 'chrome',
     },
 };
 export default config;

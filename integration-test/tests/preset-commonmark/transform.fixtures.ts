@@ -38,12 +38,29 @@ const orderedList = `
 3. list item 3
 `;
 
+const hr = `
+***
+`;
+
+const image = `
+![image](url "title")
+`;
+
+const codeFence = `
+\`\`\` javascript
+const one = 1
+\`\`\`
+`;
+
 const fixtures = {
     paragraph,
     heading,
     quote,
     bulletList,
     orderedList,
+    hr,
+    image,
+    codeFence,
 };
 
 type FKey = keyof typeof fixtures;
