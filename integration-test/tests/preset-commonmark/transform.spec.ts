@@ -137,6 +137,19 @@ test.describe.parallel('transform:', () => {
             expect(await editor.waitForSelector('.em >> text=em test')).toBeTruthy();
         });
 
+        test('bold with em', async ({ page, setFixture }) => {
+            await setFixture('boldWithEm');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.em >> text=bold with em test')).toBeTruthy();
+            expect(await editor.waitForSelector('.strong >> text=bold with em test')).toBeTruthy();
+        });
+
+        test('code with em', async ({ page, setFixture }) => {
+            await setFixture('codeWithEm');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.waitForSelector('.code-inline >> text=*code with em test*')).toBeTruthy();
+        });
+
         test('inline code', async ({ page, setFixture }) => {
             await setFixture('inlineCode');
             const editor = await page.waitForSelector('.editor');

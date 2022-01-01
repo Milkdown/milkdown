@@ -60,6 +60,14 @@ const em = `
 Here is *em test*!
 `;
 
+const boldWithEm = `
+Here is ***bold with em test***!
+`;
+
+const codeWithEm = `
+Here is \`*code with em test*\`!
+`;
+
 const inlineCode = `
 Here is \`inline code test\`!
 `;
@@ -81,6 +89,8 @@ const fixtures = {
     em,
     inlineCode,
     link,
+    boldWithEm,
+    codeWithEm,
 };
 
 type FKey = keyof typeof fixtures;

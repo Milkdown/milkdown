@@ -131,6 +131,21 @@ test.describe.parallel('input:', () => {
             expect(await editor.waitForSelector('.em >> text=em test')).toBeTruthy();
         });
 
+        test('bold + em', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+
+            await editor.type('here is ***bold with em test***!');
+            expect(await editor.waitForSelector('.em >> text=bold with em test')).toBeTruthy();
+            expect(await editor.waitForSelector('.strong >> text=bold with em test')).toBeTruthy();
+        });
+
+        test('code + em', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+
+            await editor.type('here is `*code with em test*`!');
+            expect(await editor.waitForSelector('.code-inline >> text=code with em test')).toBeTruthy();
+        });
+
         test('inline code', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
 
