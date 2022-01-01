@@ -26,7 +26,9 @@ export const codeInline = createMark<Keys>((utils) => {
     return {
         id,
         schema: () => ({
-            excludes: '_',
+            priority: 100,
+            code: true,
+            inclusive: false,
             parseDOM: [{ tag: 'code' }],
             toDOM: (mark) => ['code', { class: utils.getClassName(mark.attrs, 'code-inline', style) }],
             parseMarkdown: {
@@ -39,10 +41,8 @@ export const codeInline = createMark<Keys>((utils) => {
             },
             toMarkdown: {
                 match: (mark) => mark.type.name === id,
-                runner: (state, _, node) => {
-                    state.addNode('inlineCode', undefined, node.text || '');
-
-                    return true;
+                runner: (state, mark, node) => {
+                    state.withMark(mark, 'inlineCode', node.text || '');
                 },
             },
         }),

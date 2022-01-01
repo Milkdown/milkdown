@@ -30,7 +30,7 @@ const maybeMergeChildren = (element: MarkdownNode) => {
                     ...prevRest,
                     children: [...prevChildren, ...currChildren],
                 };
-                return nextChildren.slice(0, -1).concat(next);
+                return nextChildren.slice(0, -1).concat(maybeMergeChildren(next));
             }
         }
         return nextChildren.concat(child);
