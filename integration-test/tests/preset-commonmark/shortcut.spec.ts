@@ -11,7 +11,7 @@ test('has editor', async ({ page }) => {
     expect(await editor.getAttribute('contenteditable')).toBe('true');
 });
 
-test.describe('shortcuts:', () => {
+test.describe.parallel('shortcuts:', () => {
     test.describe.parallel('system:', () => {
         test('press hard break', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
@@ -99,6 +99,53 @@ test.describe('shortcuts:', () => {
             expect(await editor.waitForSelector('h6 >> text=The lunatic is on the grass')).toBeTruthy();
             await editor.press('Control+Alt+0');
             expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
+        });
+
+        test('list', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+Alt+7');
+            expect(await editor.waitForSelector('.ordered-list')).toBeDefined();
+            await editor.press('Enter');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+]');
+            expect(await editor.$$('.ordered-list')).toHaveLength(2);
+            await editor.press('Control+[');
+            expect(await editor.$$('.ordered-list')).toHaveLength(1);
+
+            await editor.press('Enter');
+            await editor.press('Enter');
+
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+Alt+8');
+            expect(await editor.waitForSelector('.bullet-list')).toBeDefined();
+            await editor.press('Enter');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+]');
+            expect(await editor.$$('.bullet-list')).toHaveLength(2);
+            await editor.press('Control+[');
+            expect(await editor.$$('.bullet-list')).toHaveLength(1);
+
+            await editor.press('Enter');
+            await editor.press('Backspace');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+Alt+7');
+            expect(await editor.$$('.ordered-list')).toHaveLength(2);
+        });
+
+        test('code fence', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+Alt+c');
+            expect(await editor.waitForSelector('.code-fence')).toBeDefined();
+        });
+
+        test('hardbreak', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Shift+Enter');
+            await editor.type('The lunatic is on the grass');
+            expect(await editor.$$('.hardbreak')).toHaveLength(1);
         });
     });
 });

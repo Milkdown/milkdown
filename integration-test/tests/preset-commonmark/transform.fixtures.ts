@@ -76,6 +76,12 @@ const link = `
 Here is [link test](url)!
 `;
 
+const hardbreak = `
+Here is line 1.  
+Here is line 2.  
+Here is line 3.
+`;
+
 const fixtures = {
     paragraph,
     heading,
@@ -91,6 +97,7 @@ const fixtures = {
     link,
     boldWithEm,
     codeWithEm,
+    hardbreak,
 };
 
 type FKey = keyof typeof fixtures;

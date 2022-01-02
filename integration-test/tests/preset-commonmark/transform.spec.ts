@@ -122,6 +122,12 @@ test.describe.parallel('transform:', () => {
             expect(fence).toBeDefined();
             expect(await fence.getAttribute('data-language')).toBe('javascript');
         });
+
+        test('hardbreak', async ({ page, setFixture }) => {
+            await setFixture('hardbreak');
+            const editor = await page.waitForSelector('.editor');
+            expect(await editor.$$('.hardbreak')).toHaveLength(2);
+        });
     });
 
     test.describe.parallel('mark:', () => {

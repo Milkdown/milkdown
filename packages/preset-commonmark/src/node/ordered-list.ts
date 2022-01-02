@@ -64,6 +64,6 @@ export const orderedList = createNode<Keys>((utils) => ({
     ],
     commands: (nodeType) => [createCmd(WrapInOrderedList, () => wrapIn(nodeType))],
     shortcuts: {
-        [SupportedKeys.OrderedList]: createShortcut(WrapInOrderedList, 'Mod-Shift-7'),
+        [SupportedKeys.OrderedList]: createShortcut(WrapInOrderedList, 'Mod-Alt-7'),
     },
 }));

@@ -36,7 +36,7 @@ export const bulletList = createNode<Keys>((utils) => {
         inputRules: (nodeType) => [wrappingInputRule(/^\s*([-+*])\s$/, nodeType)],
         commands: (nodeType) => [createCmd(WrapInBulletList, () => wrapIn(nodeType))],
         shortcuts: {
-            [SupportedKeys.BulletList]: createShortcut(WrapInBulletList, 'Mod-Shift-8'),
+            [SupportedKeys.BulletList]: createShortcut(WrapInBulletList, 'Mod-Alt-8'),
         },
     };
 });
