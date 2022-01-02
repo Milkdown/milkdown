@@ -148,4 +148,47 @@ test.describe.parallel('shortcuts:', () => {
             expect(await editor.$$('.hardbreak')).toHaveLength(1);
         });
     });
+
+    test.describe.parallel('mark:', () => {
+        test('strong', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+A');
+            await editor.press('Control+b');
+            expect(await editor.waitForSelector('.strong >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+b');
+
+            await editor.type('The lunatic is ');
+            await editor.press('Control+b');
+            await editor.type('on the grass');
+            await editor.press('Control+b');
+            await editor.type('!');
+            expect(await editor.waitForSelector('.strong >> text=on the grass')).toBeTruthy();
+        });
+
+        test('em', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+A');
+            await editor.press('Control+i');
+            expect(await editor.waitForSelector('.em >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+i');
+
+            await editor.type('The lunatic is ');
+            await editor.press('Control+i');
+            await editor.type('on the grass');
+            await editor.press('Control+i');
+            await editor.type('!');
+            expect(await editor.waitForSelector('.em >> text=on the grass')).toBeTruthy();
+        });
+
+        test('inline code', async ({ page }) => {
+            const editor = await page.waitForSelector('.editor');
+            await editor.type('The lunatic is on the grass');
+            await editor.press('Control+A');
+            await editor.press('Control+e');
+            expect(await editor.waitForSelector('.code-inline >> text=The lunatic is on the grass')).toBeTruthy();
+            await editor.press('Control+e');
+        });
+    });
 });
