@@ -186,6 +186,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
       '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@playwright/test': ^1.17.0
@@ -195,6 +196,7 @@ importers:
       '@milkdown/core': link:../packages/core
       '@milkdown/design-system': link:../packages/design-system
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
+      '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/prose': link:../packages/prose
       '@milkdown/theme-nord': link:../packages/theme-nord
       '@playwright/test': 1.17.1

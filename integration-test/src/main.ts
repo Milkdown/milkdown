@@ -4,6 +4,7 @@ import { Slice } from '@milkdown/prose';
 
 const mapping = {
     ['preset-commonmark']: () => import('./preset-commonmark'),
+    ['preset-gfm']: () => import('./preset-gfm'),
 };
 
 const main = async () => {

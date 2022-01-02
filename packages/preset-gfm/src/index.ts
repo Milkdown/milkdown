@@ -70,7 +70,7 @@ export {
     WrapInOrderedList,
 } from '@milkdown/preset-commonmark';
 
-export const gfm = AtomList.create([...commonmark, tablePlugin(), urlPlugin(), strikeThrough(), taskListItem()]);
+export const gfm = AtomList.create([...commonmark, tablePlugin(), urlPlugin, strikeThrough(), taskListItem()]);
 
 export const commands = {
     ...commonmarkCommands,

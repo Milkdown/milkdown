@@ -21,6 +21,7 @@
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/preset-gfm": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/design-system": "workspace:*"
     },
