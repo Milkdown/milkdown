@@ -20,7 +20,7 @@ test.describe.parallel('transform:', () => {
             await setFixture('paragraph');
             const editor = await page.waitForSelector('.editor');
             expect(await editor.waitForSelector('.paragraph >> text=The lunatic is on the grass')).toBeTruthy();
-            expect((await getMd()).trim()).toMatchSnapshot('paragraph.md');
+            expect((await getMd()).trim()).toMatchSnapshot('paragraph.md.snapshot');
         });
 
         test('heading', async ({ page, setFixture, getMd }) => {
@@ -29,7 +29,7 @@ test.describe.parallel('transform:', () => {
 
             expect(await editor.waitForSelector('.h1 >> text=Heading1')).toBeTruthy();
             expect(await editor.waitForSelector('.h2 >> text=Heading2')).toBeTruthy();
-            expect((await getMd()).trim()).toMatchSnapshot('heading.md');
+            expect((await getMd()).trim()).toMatchSnapshot('heading.md.snapshot');
         });
 
         test('blockquote', async ({ page, setFixture, getMd }) => {
@@ -42,7 +42,7 @@ test.describe.parallel('transform:', () => {
             expect(await blockquote.waitForSelector('p:first-child >> text=Blockquote. First line.')).toBeTruthy();
 
             expect(await blockquote.waitForSelector('p:last-child >> text=Next line.')).toBeTruthy();
-            expect((await getMd()).trim()).toMatchSnapshot('blockquote.md');
+            expect((await getMd()).trim()).toMatchSnapshot('blockquote.md.snapshot');
         });
 
         test('bullet list', async ({ page, setFixture, getMd }) => {
@@ -72,7 +72,7 @@ test.describe.parallel('transform:', () => {
                 await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2'),
             ).toBeTruthy();
 
-            expect((await getMd()).trim()).toMatchSnapshot('bulletList.md');
+            expect((await getMd()).trim()).toMatchSnapshot('bulletList.md.snapshot');
         });
 
         test('ordered list', async ({ page, setFixture, getMd }) => {
@@ -102,7 +102,7 @@ test.describe.parallel('transform:', () => {
                 await list.waitForSelector(':nth-match(.list-item, 4) >> text=list content for item 2'),
             ).toBeTruthy();
 
-            expect((await getMd()).trim()).toMatchSnapshot('orderedList.md');
+            expect((await getMd()).trim()).toMatchSnapshot('orderedList.md.snapshot');
         });
 
         test('hr', async ({ page, setFixture }) => {
