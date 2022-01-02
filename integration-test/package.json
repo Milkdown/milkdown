@@ -9,6 +9,7 @@
         "setup": "pnpm build && pnpm serve",
         "test": "playwright test",
         "test:verbose": "playwright test --headed",
+        "test:update": "playwright test --update-snapshots",
         "start:test": "start-server-and-test setup http-get://localhost:7000 test",
         "start:test:verbose": "start-server-and-test setup http-get://localhost:7000 test:verbose"
     },
