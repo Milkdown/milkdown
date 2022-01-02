@@ -11,7 +11,7 @@ test('has editor', async ({ page }) => {
     expect(await editor.getAttribute('contenteditable')).toBe('true');
 });
 
-test.describe.parallel('shortcuts:', () => {
+test.describe.parallel('shortcut:', () => {
     test.describe.parallel('system:', () => {
         test('press hard break', async ({ page }) => {
             const editor = await page.waitForSelector('.editor');
