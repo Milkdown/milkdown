@@ -6,4 +6,6 @@ declare global {
     var __milkdown__: Editor;
     // eslint-disable-next-line no-var
     var __setMarkdown__: (markdown: string) => void;
+    // eslint-disable-next-line no-var
+    var __getMarkdown__: () => string;
 }

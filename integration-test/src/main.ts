@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { editorViewCtx, parserCtx } from '@milkdown/core';
+import { editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core';
 import { Slice } from '@milkdown/prose';
 
 const mapping = {
@@ -30,6 +30,12 @@ const main = async () => {
             if (!doc) return;
             const state = view.state;
             view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)));
+        });
+    globalThis.__getMarkdown__ = () =>
+        editor.action((ctx) => {
+            const view = ctx.get(editorViewCtx);
+            const serializer = ctx.get(serializerCtx);
+            return serializer(view.state.doc);
         });
 };
 

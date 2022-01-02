@@ -104,6 +104,7 @@ type FKey = keyof typeof fixtures;
 
 export const test = base.extend<{
     setFixture: (key: FKey) => Promise<void>;
+    getMd: () => Promise<string>;
 }>({
     setFixture: async ({ page }, use) => {
         const setMarkdown = (key: FKey) =>
@@ -114,5 +115,9 @@ export const test = base.extend<{
                 { fixtures, key },
             );
         await use(setMarkdown);
+    },
+    getMd: async ({ page }, use) => {
+        const getMd = () => page.evaluate(() => window.__getMarkdown__());
+        await use(getMd);
     },
 });
