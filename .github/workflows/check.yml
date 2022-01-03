@@ -20,10 +20,6 @@ jobs:
               with:
                   node-version: 15.x
 
-            - name: install playwright
-              run: |
-                  npx playwright install-deps
-
             - name: install pnpm
               run: npm i pnpm@latest -g
             - name: load cache
@@ -49,9 +45,7 @@ jobs:
               uses: cypress-io/github-action@v2
               with:
                   install: false
-                  command-prefix: pnpx
                   start: pnpm start --filter=@milkdown/integration-test
                   command: pnpm test --filter=@milkdown/integration-test
                   wait-on: 'http://localhost:7000'
-                  project: ./integration-test
                   browser: chrome
