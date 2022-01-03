@@ -9,7 +9,6 @@
         "setup": "pnpm build && pnpm serve",
         "test": "cypress run",
         "test:verbose": "cypress open",
-        "test:update": "playwright test --update-snapshots",
         "start:test": "start-server-and-test setup http-get://localhost:7000 test",
         "start:test:verbose": "start-server-and-test setup http-get://localhost:7000 test:verbose"
     },
@@ -23,7 +22,6 @@
         "@milkdown/preset-gfm": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
-        "@playwright/test": "^1.17.0",
         "tslib": "^2.3.1"
     },
     "devDependencies": {

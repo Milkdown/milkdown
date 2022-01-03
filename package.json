@@ -8,7 +8,7 @@
         "test:tsc": "pnpm --filter=./packages run tsc",
         "test:lint": "eslint **/{src,gh-pages}/**/*.{js,ts,tsx}",
         "test:doc": "prettier --check \"**/*.md\"",
-        "test:pw": "pnpm run start:test --filter @milkdown/integration-test",
+        "test:it": "pnpm run start:test --filter @milkdown/integration-test",
         "format": "lint-staged",
         "watch": "pnpm --filter=./packages --parallel run watch",
         "doc": "pnpm run start --filter @milkdown/gh-pages",

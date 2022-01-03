@@ -8,7 +8,7 @@ After cloning Milkdown, run `pnpm install` to install dependencies. Then, you ca
 -   `pnpm watch` watches all packages except gh-pages.
 -   `pnpm clear` remove all build dist.
 -   `pnpm test:unit` runs unit test.
--   `pnpm test:pw` runs integration test.
+-   `pnpm test:it` runs integration test.
 -   `pnpm test:lint` checks the code style.
 -   `pnpm test:tsc` runs typescript type checks.
 -   `pnpm test` runs all possible test.
