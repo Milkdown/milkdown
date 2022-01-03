@@ -45,6 +45,14 @@ jobs:
               run: |
                   pnpm test
 
+            - name: run cypress
+              uses: cypress-io/github-action@v2
+              with:
+                  start: pnpm start --filter=@milkdown/integration-test
+                  wait-on: 'http://localhost:7000'
+                  project: ./integration-test
+                  browser: chrome
+
     release:
         runs-on: ubuntu-latest
         needs: test
