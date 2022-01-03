@@ -48,6 +48,7 @@ jobs:
             - name: run cypress
               uses: cypress-io/github-action@v2
               with:
+                  install: false
                   start: pnpm start --filter=@milkdown/integration-test
                   wait-on: 'http://localhost:7000'
                   project: ./integration-test
