@@ -52,7 +52,7 @@ jobs:
 
             - name: export screenshots (on failure only)
               uses: actions/upload-artifact@v2.3.1
-              if: failure()
+              if: ${{ failure() }}
               with:
                   name: cypress-screenshots
                   path: tests/cypress/screenshots
@@ -60,7 +60,7 @@ jobs:
 
             - name: export screen recordings (on failure only)
               uses: actions/upload-artifact@v2.3.1
-              if: failure()
+              if: ${{ failure() }}
               with:
                   name: cypress-videos
                   path: tests/cypress/videos
