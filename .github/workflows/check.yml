@@ -50,6 +50,7 @@ jobs:
               with:
                   install: false
                   start: pnpm start --filter=@milkdown/integration-test
+                  command: pnpm test --filter=@milkdown/integration-test
                   wait-on: 'http://localhost:7000'
                   project: ./integration-test
                   browser: chrome
