@@ -49,3 +49,19 @@ jobs:
                   command: pnpm test --filter=@milkdown/integration-test
                   wait-on: 'http://localhost:7000'
                   browser: chrome
+
+            - name: export screenshots (on failure only)
+              uses: actions/upload-artifact@v2.3.1
+              if: failure()
+              with:
+                  name: cypress-screenshots
+                  path: tests/cypress/screenshots
+                  retention-days: 7
+
+            - name: export screen recordings (on failure only)
+              uses: actions/upload-artifact@v2.3.1
+              if: failure()
+              with:
+                  name: cypress-videos
+                  path: tests/cypress/videos
+                  retention-days: 7
