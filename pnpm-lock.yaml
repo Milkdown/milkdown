@@ -15,7 +15,7 @@ importers:
       '@typescript-eslint/parser': ^5.0.0
       '@vitejs/plugin-react-refresh': ^1.3.3
       '@vitejs/plugin-vue-jsx': ^1.1.5
-      '@vitest/ui': ^0.0.130
+      '@vitest/ui': ^0.0.131
       concurrently: ^7.0.0
       cross-env: ^7.0.3
       eslint: ^8.0.0
@@ -38,7 +38,7 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.5.4
       vite: ^2.4.4
-      vitest: ^0.0.130
+      vitest: ^0.0.131
     devDependencies:
       '@babel/core': 7.16.5
       '@changesets/cli': 2.19.0
@@ -51,7 +51,7 @@ importers:
       '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
       '@vitejs/plugin-react-refresh': 1.3.6
       '@vitejs/plugin-vue-jsx': 1.3.3
-      '@vitest/ui': 0.0.130_vitest@0.0.130
+      '@vitest/ui': 0.0.131
       concurrently: 7.0.0
       cross-env: 7.0.3
       eslint: 8.5.0
@@ -74,7 +74,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.4
       vite: 2.7.7
-      vitest: 0.0.130_@vitest+ui@0.0.130+jsdom@19.0.0
+      vitest: 0.0.131_@vitest+ui@0.0.131+jsdom@19.0.0
 
   gh-pages:
     specifiers:
@@ -127,7 +127,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.11.0
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/lang-markdown': 0.19.3
@@ -311,7 +311,7 @@ importers:
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
@@ -338,7 +338,7 @@ importers:
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
       twemoji: ^13.1.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@joeattardi/emoji-button': 4.6.2
@@ -2403,13 +2403,10 @@ packages:
       - supports-color
     dev: true
 
-  /@vitest/ui/0.0.130_vitest@0.0.130:
-    resolution: {integrity: sha512-p1cXmrx4jSQMNTVzgrk/lQGNm3jpvo7G05xprx4kKe0h4HcwUe2b/Pfvl/cYmea6dbuWiHX0pK8hTqlv9IuHmg==}
-    peerDependencies:
-      vitest: 0.0.130
+  /@vitest/ui/0.0.131:
+    resolution: {integrity: sha512-ahXEyFPkbddma4OCDKfFAlC0pARup8xw1Ujw6ktb5qKV7lUVmCddqSuCbqNeAXVFieLYHzeD1Z7tGgzNIYzpUg==}
     dependencies:
-      sirv: 1.0.19
-      vitest: 0.0.130_@vitest+ui@0.0.130+jsdom@19.0.0
+      sirv: 2.0.0
     dev: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
@@ -6256,7 +6253,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 4.0.0
+      unist-util-visit: 3.1.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -7685,7 +7682,7 @@ packages:
     dependencies:
       emoticon: 4.0.1
       node-emoji: 1.11.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: 4.1.0
     dev: false
 
   /remark-gfm/3.0.1:
@@ -7966,13 +7963,13 @@ packages:
     resolution: {integrity: sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ==}
     dev: true
 
-  /sirv/1.0.19:
-    resolution: {integrity: sha512-JuLThK3TnZG1TAKDwNIqNq6QA2afLOCcm+iE8D1Kj3GA40pSPsxQjjJl0J8X3tsR7T+CP1GavpzLwYkgVLWrZQ==}
+  /sirv/2.0.0:
+    resolution: {integrity: sha512-TT+4+zSM9LR8soWT5/4gOYHfB5a5XEOSV2LtmBRN5MUxi8kh7BSRGuoRYjeBaqhR4w+yx+k6t0OibDNgoLfF7w==}
     engines: {node: '>= 10'}
     dependencies:
       '@polka/url': 1.0.0-next.21
       mrmime: 1.0.0
-      totalist: 1.1.0
+      totalist: 2.0.0
     dev: true
 
   /slash/3.0.0:
@@ -8383,8 +8380,8 @@ packages:
     resolution: {integrity: sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==}
     dev: false
 
-  /tinypool/0.0.6:
-    resolution: {integrity: sha512-E9vY6eq/Q7fUlSt69cY3y7qXNbVOFaxP+lAEDMKMObLrmO0MmEdUPyjOMgepoMDw/ps/sazl7WIQglnUrunnLg==}
+  /tinypool/0.1.0:
+    resolution: {integrity: sha512-eQXAsrzFBbd4kwSmxE0g64eo/l0St7iGmkRsJVKJ5awRHUyMeSHxMD9samPaWD6fCL+pufv37TEfVcnQdQXAeA==}
     engines: {node: '>=14.0.0'}
     dev: true
 
@@ -8418,15 +8415,9 @@ packages:
       is-number: 7.0.0
     dev: true
 
-  /totalist/1.1.0:
-    resolution: {integrity: sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==}
-    engines: {node: '>=6'}
-    dev: true
-
   /totalist/2.0.0:
     resolution: {integrity: sha512-+Y17F0YzxfACxTyjfhnJQEe7afPA0GSpYlFkl2VFMxYP7jshQf9gXV7cH47EfToBumFThfKBvfAcoUn6fdNeRQ==}
     engines: {node: '>=6'}
-    dev: false
 
   /tough-cookie/2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
@@ -8662,8 +8653,24 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
+  /unist-util-visit/3.1.0:
+    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 4.1.1
+    dev: false
+
   /unist-util-visit/4.0.0:
     resolution: {integrity: sha512-3HWTvrtU10/E7qgPznBfiOyG0TXj9W8c1GSfaI8L9GkaG1pLePiQPZ7E35a0R3ToQ/zcy4Im6aZ9WBgOTnv1MQ==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 5.1.0
+    dev: false
+
+  /unist-util-visit/4.1.0:
+    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
@@ -8809,8 +8816,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.0.130_@vitest+ui@0.0.130+jsdom@19.0.0:
-    resolution: {integrity: sha512-yZnCnTrgCOt+dnnWWOlq8TpOI+ps1NynlQAunHWrWIFi0CS0a7bdjFXzptxoSuZz2OfeinEAqrJ4t+eCl/yk3g==}
+  /vitest/0.0.131_@vitest+ui@0.0.131+jsdom@19.0.0:
+    resolution: {integrity: sha512-8az+/FUECnJTVsJxNJ6RHcy0FqWSlLlUq7prlz74OIWV6Lhh8zrjH2P+7J5uv0HLVgz92NMvWTPGQWk+90tXJQ==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
@@ -8830,11 +8837,11 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.0.130_vitest@0.0.130
+      '@vitest/ui': 0.0.131
       chai: 4.3.4
       jsdom: 19.0.0
       local-pkg: 0.4.0
-      tinypool: 0.0.6
+      tinypool: 0.1.0
       tinyspy: 0.2.6
       vite: 2.7.10
     transitivePeerDependencies:
