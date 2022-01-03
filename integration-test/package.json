@@ -7,8 +7,8 @@
         "build": "vite build",
         "serve": "vite preview --port 7000",
         "setup": "pnpm build && pnpm serve",
-        "test": "playwright test",
-        "test:verbose": "playwright test --headed",
+        "test": "cypress run",
+        "test:verbose": "cypress open",
         "test:update": "playwright test --update-snapshots",
         "start:test": "start-server-and-test setup http-get://localhost:7000 test",
         "start:test:verbose": "start-server-and-test setup http-get://localhost:7000 test:verbose"
@@ -17,16 +17,18 @@
         "style"
     ],
     "dependencies": {
-        "@playwright/test": "^1.17.0",
-        "tslib": "^2.3.1",
         "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*",
+        "@milkdown/design-system": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/preset-gfm": "workspace:*",
+        "@milkdown/prose": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
-        "@milkdown/design-system": "workspace:*"
+        "@playwright/test": "^1.17.0",
+        "tslib": "^2.3.1"
     },
     "devDependencies": {
+        "@cypress/snapshot": "^2.1.7",
+        "cypress": "^9.2.0",
         "start-server-and-test": "^1.13.0"
     }
 }

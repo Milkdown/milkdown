@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "test": "pnpm test:doc && pnpm test:lint && pnpm test:tsc && pnpm test:unit && pnpm test:pw",
+        "test": "pnpm test:doc && pnpm test:lint && pnpm test:tsc && pnpm test:unit",
         "test:unit": "vitest run",
         "test:tsc": "pnpm --filter=./packages run tsc",
         "test:lint": "eslint **/{src,gh-pages}/**/*.{js,ts,tsx}",

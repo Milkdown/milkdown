@@ -1,11 +1,20 @@
 /* Copyright 2021, Milkdown by Mirone. */
+
+/* eslint-disable no-var */
+
+/// <reference types="cypress" />
+
 import { Editor } from '@milkdown/core';
 
 declare global {
-    // eslint-disable-next-line no-var
     var __milkdown__: Editor;
-    // eslint-disable-next-line no-var
     var __setMarkdown__: (markdown: string) => void;
-    // eslint-disable-next-line no-var
     var __getMarkdown__: () => string;
+
+    namespace Cypress {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        interface Chainable<Subject = any> {
+            snapshot: (options?: { name?: string; json?: boolean }) => void;
+        }
+    }
 }
