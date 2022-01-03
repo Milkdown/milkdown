@@ -15,8 +15,8 @@ importers:
       '@typescript-eslint/parser': ^5.0.0
       '@vitejs/plugin-react-refresh': ^1.3.3
       '@vitejs/plugin-vue-jsx': ^1.1.5
-      '@vitest/ui': ^0.0.126
-      concurrently: ^6.2.0
+      '@vitest/ui': ^0.0.130
+      concurrently: ^7.0.0
       cross-env: ^7.0.3
       eslint: ^8.0.0
       eslint-config-prettier: ^8.3.0
@@ -38,7 +38,7 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.5.4
       vite: ^2.4.4
-      vitest: ^0.0.126
+      vitest: ^0.0.130
     devDependencies:
       '@babel/core': 7.16.5
       '@changesets/cli': 2.19.0
@@ -51,8 +51,8 @@ importers:
       '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
       '@vitejs/plugin-react-refresh': 1.3.6
       '@vitejs/plugin-vue-jsx': 1.3.3
-      '@vitest/ui': 0.0.126_vitest@0.0.126
-      concurrently: 6.5.1
+      '@vitest/ui': 0.0.130_vitest@0.0.130
+      concurrently: 7.0.0
       cross-env: 7.0.3
       eslint: 8.5.0
       eslint-config-prettier: 8.3.0_eslint@8.5.0
@@ -74,7 +74,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.4
       vite: 2.7.7
-      vitest: 0.0.126_@vitest+ui@0.0.126+jsdom@19.0.0
+      vitest: 0.0.130_@vitest+ui@0.0.130+jsdom@19.0.0
 
   gh-pages:
     specifiers:
@@ -127,7 +127,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.11.0
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/lang-markdown': 0.19.3
@@ -311,7 +311,7 @@ importers:
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
@@ -338,7 +338,7 @@ importers:
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
       twemoji: ^13.1.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@joeattardi/emoji-button': 4.6.2
@@ -2403,13 +2403,13 @@ packages:
       - supports-color
     dev: true
 
-  /@vitest/ui/0.0.126_vitest@0.0.126:
-    resolution: {integrity: sha512-G2+3x4DBb7g9CUwKnuBE7t/bRBDhYU8SDBdqRY5cqK90OAilsNoZo7I3L38BCS6sVooIRQ8ZWgUliMKDO84OuA==}
+  /@vitest/ui/0.0.130_vitest@0.0.130:
+    resolution: {integrity: sha512-p1cXmrx4jSQMNTVzgrk/lQGNm3jpvo7G05xprx4kKe0h4HcwUe2b/Pfvl/cYmea6dbuWiHX0pK8hTqlv9IuHmg==}
     peerDependencies:
-      vitest: 0.0.126
+      vitest: 0.0.130
     dependencies:
       sirv: 1.0.19
-      vitest: 0.0.126_@vitest+ui@0.0.126+jsdom@19.0.0
+      vitest: 0.0.130_@vitest+ui@0.0.130+jsdom@19.0.0
     dev: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
@@ -3187,6 +3187,7 @@ packages:
   /colors/1.4.0:
     resolution: {integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==}
     engines: {node: '>=0.1.90'}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -3238,9 +3239,9 @@ packages:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
-  /concurrently/6.5.1:
-    resolution: {integrity: sha512-FlSwNpGjWQfRwPLXvJ/OgysbBxPkWpiVjy1042b0U7on7S7qwwMIILRj7WTN1mTgqa582bG6NFuScOoh6Zgdag==}
-    engines: {node: '>=10.0.0'}
+  /concurrently/7.0.0:
+    resolution: {integrity: sha512-WKM7PUsI8wyXpF80H+zjHP32fsgsHNQfPLw/e70Z5dYkV7hF+rf8q3D+ScWJIEr57CpkO3OWBko6hwhQLPR8Pw==}
+    engines: {node: ^12.20.0 || ^14.13.0 || >=16.0.0}
     hasBin: true
     dependencies:
       chalk: 4.1.2
@@ -6255,7 +6256,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 4.0.0
+      unist-util-visit: 3.1.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -7684,7 +7685,7 @@ packages:
     dependencies:
       emoticon: 4.0.1
       node-emoji: 1.11.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: 4.1.0
     dev: false
 
   /remark-gfm/3.0.1:
@@ -8661,8 +8662,24 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
+  /unist-util-visit/3.1.0:
+    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 4.1.1
+    dev: false
+
   /unist-util-visit/4.0.0:
     resolution: {integrity: sha512-3HWTvrtU10/E7qgPznBfiOyG0TXj9W8c1GSfaI8L9GkaG1pLePiQPZ7E35a0R3ToQ/zcy4Im6aZ9WBgOTnv1MQ==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 5.1.0
+    dev: false
+
+  /unist-util-visit/4.1.0:
+    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
@@ -8808,8 +8825,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.0.126_@vitest+ui@0.0.126+jsdom@19.0.0:
-    resolution: {integrity: sha512-E0ibQGD5zh6zQhYSBuheoDhyn7Gyjr8FRtsxdyYkRyEX5U1+OpgUYwio58TeM3a4bdJ3xQoKxa5quhV9C9Zrkg==}
+  /vitest/0.0.130_@vitest+ui@0.0.130+jsdom@19.0.0:
+    resolution: {integrity: sha512-yZnCnTrgCOt+dnnWWOlq8TpOI+ps1NynlQAunHWrWIFi0CS0a7bdjFXzptxoSuZz2OfeinEAqrJ4t+eCl/yk3g==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
@@ -8829,7 +8846,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.0.126_vitest@0.0.126
+      '@vitest/ui': 0.0.130_vitest@0.0.130
       chai: 4.3.4
       jsdom: 19.0.0
       local-pkg: 0.4.0
