@@ -50,7 +50,6 @@ body {
     @mixin query 72rem {
         min-height: auto;
         border-radius: var(--radius);
-        max-width: 72rem !important;
         width: 100%;
     }
     transition: all 0.4s ease-in-out;
@@ -65,6 +64,8 @@ body {
 
 .milkdown-menu-wrapper {
     padding-top: 3.125rem;
+    max-width: 72rem !important;
+
     .milkdown {
         overflow: auto;
         height: calc(100vh - 18.5rem + 3.125rem);

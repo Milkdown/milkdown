@@ -3,6 +3,10 @@
     transition: color 0.4s ease-in-out;
 }
 
+.ͼ2 .cm-activeLine {
+    background-color: rgba(var(--background), 1);
+}
+
 .cm-editor {
     & * {
         font-family: var(--code) !important;
@@ -38,4 +42,8 @@
     @mixin query 72rem {
         max-width: 72rem;
     }
+}
+
+.two-side .milkdown {
+    max-width: unset !important;
 }
