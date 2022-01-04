@@ -10,9 +10,10 @@ it('has editor', () => {
 });
 
 describe('shortcut:', () => {
+    const isMac = Cypress.platform === 'darwin';
     it('task list', () => {
         cy.get('.editor').type('The lunatic is on the grass');
-        cy.get('.editor').type('{ctrl+alt+9}');
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+9}`);
         cy.get('.bullet-list').within(() =>
             cy.get('.task-list-item p').should('have.text', 'The lunatic is on the grass'),
         );
@@ -20,14 +21,14 @@ describe('shortcut:', () => {
 
     it('strike through', () => {
         cy.get('.editor').type('The lunatic is on the grass');
-        cy.get('.editor').type('{ctrl+a}');
-        cy.get('.editor').type('{ctrl+alt+x}');
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`);
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`);
         cy.get('.strike-through').should('have.text', 'The lunatic is on the grass');
-        cy.get('.editor').type('{ctrl+alt+x}');
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`);
         cy.get('.strike-through').should('not.exist');
         cy.get('.editor').type('{backspace}');
         cy.get('.editor').type('The lunatic is ');
-        cy.get('.editor').type('{ctrl+alt+x}');
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`);
         cy.get('.editor').type('on the grass');
         cy.get('.strike-through').should('have.text', 'on the grass');
     });

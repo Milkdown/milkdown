@@ -10,6 +10,7 @@ it('has editor', () => {
 });
 
 describe('input:', () => {
+    const isMac = Cypress.platform === 'darwin';
     describe('system:', () => {
         it('enter', () => {
             cy.get('.editor').type('The lunatic is on the grass');
@@ -36,7 +37,7 @@ describe('input:', () => {
 
         it('select all', () => {
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+a}');
+            cy.get('.editor').type(isMac ? '{cmd+a}' : '{ctrl+a}');
             cy.get('.editor').type('Lunatic');
             cy.get('.paragraph').should('have.text', 'Lunatic');
         });
@@ -59,40 +60,40 @@ describe('input:', () => {
     describe('node:', () => {
         it('heading', () => {
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+alt+1}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+1}`);
             cy.get('h1').should('have.text', 'The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+alt+2}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+2}`);
             cy.get('h2').should('have.text', 'The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+alt+3}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+3}`);
             cy.get('h3').should('have.text', 'The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+alt+0}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+0}`);
             cy.get('p').should('have.text', 'The lunatic is on the grass');
         });
 
         it('list', () => {
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+alt+7}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+7}`);
             cy.get('.ordered-list').within(() =>
                 cy.get('.list-item').should('have.text', 'The lunatic is on the grass'),
             );
             cy.get('.editor').type('{enter}');
             cy.get('.editor').type('The lunatic is in the hell');
-            cy.get('.editor').type('{ctrl+]}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+]}`);
             cy.get('.ordered-list').should('have.length', 2);
-            cy.get('.editor').type('{ctrl+[}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+[}`);
             cy.get('.ordered-list').should('have.length', 1);
 
             cy.get('.editor').type('{enter}{backspace}');
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+alt+8}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+8}`);
             cy.get('.bullet-list').within(() =>
                 cy.get('.list-item').should('have.text', 'The lunatic is on the grass'),
             );
             cy.get('.editor').type('{enter}');
             cy.get('.editor').type('The lunatic is in the hell');
-            cy.get('.editor').type('{ctrl+]}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+]}`);
             cy.get('.bullet-list').should('have.length', 2);
-            cy.get('.editor').type('{ctrl+[}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+[}`);
             cy.get('.bullet-list').should('have.length', 1);
             cy.window().then((win) => {
                 cy.wrap(win.__getMarkdown__()).snapshot();
@@ -102,7 +103,7 @@ describe('input:', () => {
 
         it('code block', () => {
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+alt+c}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+c}`);
             cy.get('.code-fence code > div').should('have.text', 'The lunatic is on the grass');
         });
     });
@@ -110,38 +111,38 @@ describe('input:', () => {
     describe('mark:', () => {
         it('bold', () => {
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+a}');
-            cy.get('.editor').type('{ctrl+b}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`);
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`);
             cy.get('.strong').should('have.text', 'The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+b}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`);
             cy.get('.strong').should('not.exist');
             cy.get('.editor').type('{backspace}');
             cy.get('.editor').type('The lunatic is ');
-            cy.get('.editor').type('{ctrl+b}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`);
             cy.get('.editor').type('on the grass');
             cy.get('.strong').should('have.text', 'on the grass');
         });
 
         it('italic', () => {
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+a}');
-            cy.get('.editor').type('{ctrl+i}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`);
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+i}`);
             cy.get('.em').should('have.text', 'The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+i}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+i}`);
             cy.get('.em').should('not.exist');
             cy.get('.editor').type('{backspace}');
             cy.get('.editor').type('The lunatic is ');
-            cy.get('.editor').type('{ctrl+i}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+i}`);
             cy.get('.editor').type('on the grass');
             cy.get('.em').should('have.text', 'on the grass');
         });
 
         it('inline code', () => {
             cy.get('.editor').type('The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+a}');
-            cy.get('.editor').type('{ctrl+e}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`);
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+e}`);
             cy.get('.code-inline').should('have.text', 'The lunatic is on the grass');
-            cy.get('.editor').type('{ctrl+e}');
+            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+e}`);
             cy.get('.code-inline').should('not.exist');
         });
     });
