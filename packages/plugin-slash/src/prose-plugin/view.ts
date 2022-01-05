@@ -16,15 +16,20 @@ import { Status } from './status';
 
 const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
     calculateNodePosition(view, dropdownElement, (selected, target, parent) => {
+        const $editor = dropdownElement.parentElement;
+        if (!$editor) {
+            throw new Error();
+        }
+
         let left = selected.left - parent.left;
-        let top = selected.bottom - parent.top + 14;
+        let top = selected.bottom - parent.top + 14 + $editor.scrollTop;
 
         if (left < 0) {
             left = 0;
         }
 
         if (window.innerHeight - selected.bottom < target.height) {
-            top = selected.top - parent.top - target.height - 14;
+            top = selected.top - parent.top - target.height - 14 + $editor.scrollTop;
         }
         return [top, left];
     });
