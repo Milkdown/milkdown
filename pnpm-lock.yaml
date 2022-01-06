@@ -15,7 +15,7 @@ importers:
       '@typescript-eslint/parser': ^5.0.0
       '@vitejs/plugin-react-refresh': ^1.3.3
       '@vitejs/plugin-vue-jsx': ^1.1.5
-      '@vitest/ui': ^0.0.134
+      '@vitest/ui': ^0.0.136
       concurrently: ^7.0.0
       cross-env: ^7.0.3
       eslint: ^8.0.0
@@ -38,7 +38,7 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.5.4
       vite: ^2.4.4
-      vitest: ^0.0.134
+      vitest: ^0.0.136
     devDependencies:
       '@babel/core': 7.16.5
       '@changesets/cli': 2.19.0
@@ -51,7 +51,7 @@ importers:
       '@typescript-eslint/parser': 5.8.0_eslint@8.5.0+typescript@4.5.4
       '@vitejs/plugin-react-refresh': 1.3.6
       '@vitejs/plugin-vue-jsx': 1.3.3
-      '@vitest/ui': 0.0.134
+      '@vitest/ui': 0.0.136
       concurrently: 7.0.0
       cross-env: 7.0.3
       eslint: 8.5.0
@@ -74,7 +74,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.4
       vite: 2.7.7
-      vitest: 0.0.134_@vitest+ui@0.0.134+jsdom@19.0.0
+      vitest: 0.0.136_@vitest+ui@0.0.136+jsdom@19.0.0
 
   gh-pages:
     specifiers:
@@ -127,7 +127,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.11.0
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/lang-markdown': 0.19.3
@@ -311,7 +311,7 @@ importers:
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@milkdown/utils': link:../utils
@@ -338,7 +338,7 @@ importers:
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
       twemoji: ^13.1.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.5
       '@joeattardi/emoji-button': 4.6.2
@@ -2403,8 +2403,8 @@ packages:
       - supports-color
     dev: true
 
-  /@vitest/ui/0.0.134:
-    resolution: {integrity: sha512-AYo89VsQ1U932RLl7exbj9y1++uWyk2zPe9mIKpxOaNFCU9RHYCVq0DpZ6yG1yCTxeXMNPZclroKguwoyCpuFw==}
+  /@vitest/ui/0.0.136:
+    resolution: {integrity: sha512-Niz6/n2I0GTRbWQRWhJHEmIfxzsNor99MLJexRxyHp39rrU46J+ZvbN0R4WNf/lH6MCdzkOaxfRITq9IgV87dw==}
     dependencies:
       sirv: 2.0.0
     dev: true
@@ -6239,7 +6239,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 4.0.0
+      unist-util-visit: 3.1.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -7662,7 +7662,7 @@ packages:
     dependencies:
       emoticon: 4.0.1
       node-emoji: 1.11.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: 4.1.0
     dev: false
 
   /remark-gfm/3.0.1:
@@ -8633,8 +8633,24 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
+  /unist-util-visit/3.1.0:
+    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 4.1.1
+    dev: false
+
   /unist-util-visit/4.0.0:
     resolution: {integrity: sha512-3HWTvrtU10/E7qgPznBfiOyG0TXj9W8c1GSfaI8L9GkaG1pLePiQPZ7E35a0R3ToQ/zcy4Im6aZ9WBgOTnv1MQ==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 5.1.0
+    dev: false
+
+  /unist-util-visit/4.1.0:
+    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
@@ -8780,8 +8796,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.0.134_@vitest+ui@0.0.134+jsdom@19.0.0:
-    resolution: {integrity: sha512-zrYkdyQ+erHLCPhc6hkz9mDaXQ94kVcJkIhaC0uhoot2Mpf0TKqQLWSWRFpdxJGM3wMi+bmwbIkWPYEIXHObkg==}
+  /vitest/0.0.136_@vitest+ui@0.0.136+jsdom@19.0.0:
+    resolution: {integrity: sha512-l/FByRw+GNIckkAKMUib8HF5K+U3vmlrBOIl2ugt2FtMPvxSCKmRrbZWPmo3bbMzK1dekqSLILFp0v8WjNS5Lg==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
@@ -8801,7 +8817,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.0.134
+      '@vitest/ui': 0.0.136
       chai: 4.3.4
       jsdom: 19.0.0
       local-pkg: 0.4.1
