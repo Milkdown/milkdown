@@ -19,7 +19,7 @@ const importDemo = (local: Local) => {
     return import(`./content/${path}.md`);
 };
 
-export const Demo = ({ mode, isDarkMode }: DemoProps) => {
+export const Demo = ({ mode }: DemoProps) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const lockCode = React.useRef(false);
     const milkdownRef = React.useRef<MilkdownRef>(null);
@@ -36,14 +36,13 @@ export const Demo = ({ mode, isDarkMode }: DemoProps) => {
             .catch(console.error);
     }, [local]);
 
-    const milkdownListener = React.useCallback((getMarkdown: () => string) => {
+    const milkdownListener = React.useCallback((markdown: string) => {
         const lock = lockCode.current;
         if (lock) return;
 
         const { current } = codeMirrorRef;
         if (!current) return;
-        const result = getMarkdown();
-        current.update(result);
+        current.update(markdown);
     }, []);
 
     const onCodeChange = React.useCallback((getCode: () => string) => {

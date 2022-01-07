@@ -13,7 +13,7 @@ import { Content, useLazy } from './useLazy';
 type Props = {
     content: Content;
     readOnly?: boolean;
-    onChange?: (getMarkdown: () => string) => void;
+    onChange?: (markdown: string) => void;
 };
 
 export type MilkdownRef = { update: (markdown: string) => void };

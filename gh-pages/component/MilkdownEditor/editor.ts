@@ -39,14 +39,18 @@ export const createEditor = (
     defaultValue: string,
     readOnly: boolean | undefined,
     setEditorReady: (ready: boolean) => void,
-    onChange?: (getMarkdown: () => string) => void,
+    onChange?: (markdown: string) => void,
 ) => {
     const editor = Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, root);
             ctx.set(defaultValueCtx, defaultValue);
             ctx.set(editorViewOptionsCtx, { editable: () => !readOnly });
-            ctx.set(listenerCtx, { markdown: onChange ? [onChange] : [] });
+            if (onChange) {
+                ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
+                    onChange(markdown);
+                });
+            }
         })
         .use(nord)
         .use(gfm)
