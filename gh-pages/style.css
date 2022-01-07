@@ -48,6 +48,7 @@ body {
 
 .milkdown {
     @mixin query 72rem {
+        max-width: 72rem;
         min-height: auto;
         border-radius: var(--radius);
         width: 100%;
