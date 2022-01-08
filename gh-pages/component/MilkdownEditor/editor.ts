@@ -1,12 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import {
-    defaultValueCtx,
-    Editor,
-    editorViewOptionsCtx,
-    EditorViewReady,
-    MilkdownPlugin,
-    rootCtx,
-} from '@milkdown/core';
+import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { diagram } from '@milkdown/plugin-diagram';
@@ -25,15 +18,6 @@ import { nord } from '@milkdown/theme-nord';
 
 import { codeSandBox } from './codeSandBox';
 
-const complete =
-    (callback: () => void): MilkdownPlugin =>
-    () =>
-    async (ctx) => {
-        await ctx.wait(EditorViewReady);
-
-        callback();
-    };
-
 export const createEditor = (
     root: HTMLElement | null,
     defaultValue: string,
@@ -47,15 +31,18 @@ export const createEditor = (
             ctx.set(defaultValueCtx, defaultValue);
             ctx.set(editorViewOptionsCtx, { editable: () => !readOnly });
             if (onChange) {
-                ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
-                    onChange(markdown);
-                });
+                ctx.get(listenerCtx)
+                    .markdownUpdated((_, markdown) => {
+                        onChange(markdown);
+                    })
+                    .mounted(() => {
+                        setEditorReady(true);
+                    });
             }
         })
         .use(nord)
         .use(gfm)
         .use(codeSandBox)
-        .use(complete(() => setEditorReady(true)))
         .use(listener)
         .use(clipboard)
         .use(history)

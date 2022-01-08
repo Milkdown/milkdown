@@ -75,7 +75,12 @@ export const listener: MilkdownPlugin = (pre) => {
 
     return async (ctx) => {
         await ctx.wait(InitReady);
-        const { listeners } = ctx.get(listenerCtx);
+        const listener = ctx.get(listenerCtx);
+        // @ts-expect-error deprecated old listener API
+        if (listener.doc || listener.markdown) {
+            throw new Error('listener.doc and listener.markdown are deprecated, use new listener manager API instead');
+        }
+        const { listeners } = listener;
 
         listeners.beforeMounted.forEach((fn) => fn(ctx));
 

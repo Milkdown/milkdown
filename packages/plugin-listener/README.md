@@ -13,10 +13,28 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, {
-            markdown: [(get) => console.log(get())],
-            doc: [console.log],
-        });
+        ctx.get(listenerCtx)
+            .beforeMount((ctx) => {
+                // before the editor mounts
+            })
+            .mounted((ctx) => {
+                // after the editor mounts
+            })
+            .updated((ctx, doc, prevDoc) => {
+                // when editor state updates
+            })
+            .markdownUpdated((ctx, markdown, prevMarkdown) => {
+                // when markdown updates
+            })
+            .blur((ctx) => {
+                // when editor loses focus
+            })
+            .focus((ctx) => {
+                // when focus editor
+            })
+            .destroy((ctx) => {
+                // when editor is being destroyed
+            });
     })
     .use(nord)
     .use(commonmark)

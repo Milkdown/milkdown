@@ -65,17 +65,12 @@ This JSON object can be get by listener through [listener-plugin](https://www.np
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let jsonOutput;
-const myListener = {
-    doc: [
-        (node) => {
-            jsonOutput = node.toJSON();
-        },
-    ],
-};
 
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, myListener);
+        ctx.get(listenerCtx).updated((ctx, doc, prevDoc) => {
+            jsonOutput = doc.toJSON();
+        });
     })
     .use(listener);
 ```
@@ -110,24 +105,12 @@ You can add as many listeners as you want, all the listener will be triggered in
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let output = '';
-const listener = {
-    markdown: [
-        (getMarkdown) => {
-            if (needGetOutput) {
-                output = getMarkdown();
-            }
-        },
-        (getMarkdown) => {
-            if (needLog) {
-                console.log(getMarkdown());
-            }
-        },
-    ],
-};
 
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, listener);
+        ctx.get(listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
+            output = markdown;
+        });
     })
     .use(listener);
 ```
@@ -141,17 +124,11 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let jsonOutput;
 
-const listener = {
-    docs: [
-        (node) => {
-            jsonOutput = node.toJSON();
-        },
-    ],
-};
-
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, listener);
+        ctx.get(listenerCtx).updated((ctx, doc, prevDoc) => {
+            jsonOutput = doc.toJSON();
+        });
     })
     .use(listener);
 ```

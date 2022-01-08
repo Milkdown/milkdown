@@ -65,17 +65,12 @@ Editor.make().config((ctx) => {
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let jsonOutput;
-const myListener = {
-    doc: [
-        (node) => {
-            jsonOutput = node.toJSON();
-        },
-    ],
-};
 
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, myListener);
+        ctx.get(listenerCtx).updated((ctx, doc, prevDoc) => {
+            jsonOutput = doc.toJSON();
+        });
     })
     .use(listener);
 ```
@@ -112,24 +107,12 @@ Editor.make().config((ctx) => {
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let output = '';
-const listener = {
-    markdown: [
-        (getMarkdown) => {
-            if (needGetOutput) {
-                output = getMarkdown();
-            }
-        },
-        (getMarkdown) => {
-            if (needLog) {
-                console.log(getMarkdown());
-            }
-        },
-    ],
-};
 
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, listener);
+        ctx.get(listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
+            output = markdown;
+        });
     })
     .use(listener);
 ```
@@ -143,17 +126,11 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 let jsonOutput;
 
-const listener = {
-    docs: [
-        (node) => {
-            jsonOutput = node.toJSON();
-        },
-    ],
-};
-
 Editor.make()
     .config((ctx) => {
-        ctx.set(listenerCtx, listener);
+        ctx.get(listenerCtx).updated((ctx, doc, prevDoc) => {
+            jsonOutput = doc.toJSON();
+        });
     })
     .use(listener);
 ```
