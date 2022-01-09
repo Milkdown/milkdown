@@ -7,7 +7,7 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "watch": "vite build --watch",
+        "start": "vite build --watch",
         "test": "vitest",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"

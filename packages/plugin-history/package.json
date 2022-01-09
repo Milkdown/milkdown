@@ -7,8 +7,7 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "vite",
-        "watch": "vite build --watch",
+        "start": "vite build --watch",
         "test": "vitest",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"
@@ -21,13 +20,8 @@
         "milkdown",
         "milkdown plugin"
     ],
-    "peerDependencies": {
-        "@milkdown/core": "*"
-    },
     "dependencies": {
-        "tslib": "^2.3.1"
-    },
-    "devDependencies": {
+        "tslib": "^2.3.1",
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "@milkdown/utils": "workspace:*"

@@ -2,12 +2,11 @@
 import './style.css';
 
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
-import { blockquote, commonmark, image, link, paragraph, text } from '@milkdown/preset-commonmark';
+import { blockquote, commonmark, image, link, paragraph } from '@milkdown/preset-commonmark';
+import { EditorRef, ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
 import React from 'react';
 import { render } from 'react-dom';
-
-import { EditorRef, ReactEditor, useEditor, useNodeCtx } from '../src';
 
 const markdown = `
 # Milkdown Test
@@ -74,7 +73,7 @@ const ReactLink: React.FC = ({ children }) => {
 };
 
 const App: React.FC = () => {
-    const ref = React.useRef<EditorRef>();
+    const ref = React.useRef({} as EditorRef);
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(paragraph, { view: renderReact(ReactParagraph) })

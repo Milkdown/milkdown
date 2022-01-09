@@ -7,8 +7,7 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "vite",
-        "watch": "vite build --watch",
+        "start": "vite build --watch",
         "test": "vitest",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"
@@ -23,20 +22,19 @@
         "react"
     ],
     "dependencies": {
+        "@milkdown/core": "workspace:*",
+        "@milkdown/prose": "workspace:*",
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/theme-nord": "workspace:*",
         "@milkdown/utils": "workspace:*",
         "nanoid": "^3.1.25",
         "tslib": "^2.3.1"
     },
     "peerDependencies": {
-        "@milkdown/core": "*",
         "react": "*",
         "react-dom": "*"
     },
     "devDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*",
         "@types/react": "*",
         "@types/react-dom": "*",
         "react": "*",

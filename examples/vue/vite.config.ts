@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import { defineConfig } from 'vite';
 
-import { pluginViteConfig } from '../../vite.config';
-
-export default pluginViteConfig('vue', {
+export default defineConfig({
     plugins: [vueJsx()],
     esbuild: {
         jsxFactory: 'h',

@@ -9,7 +9,7 @@
 import path from 'path';
 import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
-import type { BuildOptions } from 'vite';
+import type { BuildOptions, UserConfig as ViteUserConfig } from 'vite';
 import { defineConfig } from 'vite';
 import { UserConfig } from 'vitest';
 
@@ -23,6 +23,7 @@ export const external = [
     'tslib',
     '@emotion/css',
     'remark',
+    'vue',
     'react',
     'react-dom',
     '@milkdown/core',
@@ -54,6 +55,12 @@ export const viteBuild = (packageDirName: string): BuildOptions => ({
         plugins: rollupPlugins,
     },
 });
+
+export const pluginViteConfig = (packageDirName: string, options: ViteUserConfig = {}) =>
+    defineConfig({
+        build: viteBuild(packageDirName),
+        ...options,
+    });
 
 export default defineConfig({
     test: {

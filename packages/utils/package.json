@@ -7,8 +7,7 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "vite",
-        "watch": "vite build --watch",
+        "start": "vite build --watch",
         "test": "vitest",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"
@@ -17,15 +16,10 @@
         "lib",
         "src"
     ],
-    "peerDependencies": {
-        "@milkdown/core": "*"
-    },
     "dependencies": {
+        "@milkdown/prose": "workspace:*",
+        "@milkdown/core": "workspace:*",
         "@milkdown/exception": "workspace:*",
         "tslib": "^2.3.1"
-    },
-    "devDependencies": {
-        "@milkdown/prose": "workspace:*",
-        "@milkdown/core": "workspace:*"
     }
 }

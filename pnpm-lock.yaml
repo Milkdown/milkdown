@@ -76,6 +76,60 @@ importers:
       vite: 2.7.10
       vitest: 0.0.139_@vitest+ui@0.0.139+jsdom@19.0.0
 
+  examples/collaboration:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/plugin-collaborative': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/theme-nord': workspace:*
+      y-protocols: ^1.0.5
+      y-websocket: ^1.3.16
+      yjs: ^13.5.11
+    dependencies:
+      '@milkdown/core': link:../../packages/core
+      '@milkdown/plugin-collaborative': link:../../packages/plugin-collaborative
+      '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
+      '@milkdown/theme-nord': link:../../packages/theme-nord
+      y-protocols: 1.0.5
+      y-websocket: 1.3.18_yjs@13.5.23
+      yjs: 13.5.23
+
+  examples/react:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/react': workspace:*
+      '@milkdown/theme-nord': workspace:*
+      '@types/react': latest
+      '@types/react-dom': latest
+      react: latest
+      react-dom: latest
+    dependencies:
+      '@milkdown/core': link:../../packages/core
+      '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
+      '@milkdown/react': link:../../packages/react
+      '@milkdown/theme-nord': link:../../packages/theme-nord
+      '@types/react': 17.0.38
+      '@types/react-dom': 17.0.11
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+
+  examples/vue:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/plugin-slash': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/theme-nord': workspace:*
+      '@milkdown/vue': workspace:*
+      vue: ^3.0.0
+    dependencies:
+      '@milkdown/core': link:../../packages/core
+      '@milkdown/plugin-slash': link:../../packages/plugin-slash
+      '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
+      '@milkdown/theme-nord': link:../../packages/theme-nord
+      '@milkdown/vue': link:../../packages/vue
+      vue: 3.2.26
+
   gh-pages:
     specifiers:
       '@codemirror/basic-setup': ^0.19.0
@@ -112,6 +166,7 @@ importers:
       '@types/react': ^17.0.6
       '@types/react-dom': ^17.0.5
       '@types/react-router-dom': ^5.1.7
+      '@vitejs/plugin-react-refresh': ^1.3.3
       autoprefixer: ^10.2.5
       history: ^5.0.1
       postcss: ^8.2.12
@@ -172,6 +227,7 @@ importers:
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       '@types/react-router-dom': 5.3.2
+      '@vitejs/plugin-react-refresh': 1.3.6
       autoprefixer: 10.4.2_postcss@8.4.5
       history: 5.2.0
       postcss: 8.4.5
@@ -253,37 +309,29 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@milkdown/utils': link:../utils
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/plugin-collaborative:
     specifiers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
-      '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
       y-prosemirror: ^1.0.9
       y-protocols: ^1.0.5
-      y-websocket: ^1.3.16
       yjs: ^13.5.11
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
       y-prosemirror: 1.0.14_y-protocols@1.0.5+yjs@13.5.23
-    devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/preset-commonmark': link:../preset-commonmark
-      '@milkdown/prose': link:../prose
-      '@milkdown/theme-nord': link:../theme-nord
       y-protocols: 1.0.5
-      y-websocket: 1.3.18_yjs@13.5.23
       yjs: 13.5.23
 
   packages/plugin-cursor:
@@ -295,11 +343,10 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/plugin-diagram:
     specifiers:
@@ -314,15 +361,14 @@ importers:
       unist-util-visit: 4.0.0
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
       '@types/mermaid': 8.2.7
       mermaid: 8.13.8
       nanoid: 3.1.30
       tslib: 2.3.1
       unist-util-visit: 4.0.0
-    devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/prose': link:../prose
 
   packages/plugin-emoji:
     specifiers:
@@ -342,6 +388,8 @@ importers:
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
       '@joeattardi/emoji-button': 4.6.2
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
       '@types/node-emoji': 1.8.1
       '@types/twemoji': 12.1.2
@@ -351,9 +399,6 @@ importers:
       tslib: 2.3.1
       twemoji: 13.1.0
       unist-util-visit: 4.0.0
-    devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/prose': link:../prose
 
   packages/plugin-history:
     specifiers:
@@ -362,11 +407,10 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/plugin-indent:
     specifiers:
@@ -377,11 +421,10 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      '@milkdown/utils': link:../utils
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/plugin-listener:
     specifiers:
@@ -390,11 +433,10 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/plugin-math:
     specifiers:
@@ -408,14 +450,13 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
+      '@types/katex': 0.11.1
       katex: 0.15.1
       remark-math: 5.1.1
       tslib: 2.3.1
-    devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/prose': link:../prose
-      '@types/katex': 0.11.1
 
   packages/plugin-menu:
     specifiers:
@@ -429,14 +470,13 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      '@milkdown/utils': link:../utils
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
       '@milkdown/plugin-history': link:../plugin-history
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/plugin-prism:
     specifiers:
@@ -447,13 +487,12 @@ importers:
       refractor: ^4.0.0
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
       '@types/refractor': 3.0.2
       refractor: 4.4.0
       tslib: 2.3.1
-    devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/prose': link:../prose
 
   packages/plugin-slash:
     specifiers:
@@ -468,15 +507,14 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      '@milkdown/utils': link:../utils
-      smooth-scroll-into-view-if-needed: 1.1.32
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/ctx': link:../ctx
       '@milkdown/design-system': link:../design-system
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      smooth-scroll-into-view-if-needed: 1.1.32
+      tslib: 2.3.1
 
   packages/plugin-table:
     specifiers:
@@ -488,12 +526,11 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
       remark-gfm: 3.0.1
       tslib: 2.3.1
-    devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/prose': link:../prose
 
   packages/plugin-tooltip:
     specifiers:
@@ -507,14 +544,13 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      '@milkdown/utils': link:../utils
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
       '@milkdown/plugin-math': link:../plugin-math
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/plugin-upload:
     specifiers:
@@ -523,11 +559,10 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@milkdown/utils': link:../utils
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/preset-commonmark:
     specifiers:
@@ -540,13 +575,12 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      '@milkdown/utils': link:../utils
-      remark-inline-links: 6.0.1
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      remark-inline-links: 6.0.1
+      tslib: 2.3.1
 
   packages/preset-gfm:
     specifiers:
@@ -560,14 +594,13 @@ importers:
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      '@milkdown/plugin-table': link:../plugin-table
-      '@milkdown/preset-commonmark': link:../preset-commonmark
-      '@milkdown/utils': link:../utils
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
+      '@milkdown/plugin-table': link:../plugin-table
+      '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
 
   packages/prose:
     specifiers:
@@ -637,14 +670,14 @@ importers:
       react-dom: '*'
       tslib: ^2.3.1
     dependencies:
-      '@milkdown/utils': link:../utils
-      nanoid: 3.1.30
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
       '@milkdown/theme-nord': link:../theme-nord
+      '@milkdown/utils': link:../utils
+      nanoid: 3.1.30
+      tslib: 2.3.1
+    devDependencies:
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       react: 17.0.2
@@ -658,9 +691,8 @@ importers:
       '@milkdown/prose': workspace:*
     dependencies:
       '@emotion/css': 11.7.1_@babel+core@7.16.7
-      '@milkdown/design-system': link:../design-system
-    devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
 
   packages/transformer:
@@ -684,33 +716,26 @@ importers:
       '@milkdown/prose': workspace:*
       tslib: ^2.3.1
     dependencies:
-      '@milkdown/exception': link:../exception
-      tslib: 2.3.1
-    devDependencies:
       '@milkdown/core': link:../core
+      '@milkdown/exception': link:../exception
       '@milkdown/prose': link:../prose
+      tslib: 2.3.1
 
   packages/vue:
     specifiers:
       '@milkdown/core': workspace:*
-      '@milkdown/plugin-slash': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
-      '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
       nanoid: ^3.1.25
       tslib: ^2.3.1
       vue: ^3.0.0
     dependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
       nanoid: 3.1.30
       tslib: 2.3.1
     devDependencies:
-      '@milkdown/core': link:../core
-      '@milkdown/plugin-slash': link:../plugin-slash
-      '@milkdown/preset-commonmark': link:../preset-commonmark
-      '@milkdown/prose': link:../prose
-      '@milkdown/theme-nord': link:../theme-nord
       vue: 3.2.26
 
 packages:
@@ -925,7 +950,6 @@ packages:
     resolution: {integrity: sha512-sR4eaSrnM7BV7QPzGfEX5paG/6wrZM3I0HDzfIAK06ESvo9oy3xBuVBxE3MbQaKNhvg8g/ixjMWo2CGpzpHsDA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
-    dev: true
 
   /@babel/plugin-syntax-import-meta/7.10.4_@babel+core@7.16.7:
     resolution: {integrity: sha512-Yqfm+XDx0+Prh3VSeEQCPU81yC+JWZ2pDPFSS4ZdpfZhp4MkFMaDC1UqseovEKwSUpnIL7+vK+Clp7bfh0iD7g==}
@@ -2063,6 +2087,7 @@ packages:
 
   /@types/katex/0.11.1:
     resolution: {integrity: sha512-DUlIj2nk0YnJdlWgsFuVKcX27MLW0KbKmGVoUHmFr+74FYYNUDAaj9ZqTADvsbE8rfxuVmSFc7KczYn5Y09ozg==}
+    dev: false
 
   /@types/mdast/3.0.10:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
@@ -2115,7 +2140,6 @@ packages:
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
-    dev: true
 
   /@types/prosemirror-commands/1.0.4:
     resolution: {integrity: sha512-utDNYB3EXLjAfYIcRWJe6pn3kcQ5kG4RijbT/0Y/TFOm6yhvYS/D9eJVnijdg9LDjykapcezchxGRqFD5LcyaQ==}
@@ -2201,7 +2225,6 @@ packages:
     resolution: {integrity: sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==}
     dependencies:
       '@types/react': 17.0.38
-    dev: true
 
   /@types/react-router-dom/5.3.2:
     resolution: {integrity: sha512-ELEYRUie2czuJzaZ5+ziIp9Hhw+juEw8b7C11YNA4QdLCVbQ3qLi2l4aq8XnlqM7V31LZX8dxUuFUCrzHm6sqQ==}
@@ -2224,7 +2247,6 @@ packages:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
       csstype: 3.0.10
-    dev: true
 
   /@types/refractor/3.0.2:
     resolution: {integrity: sha512-2HMXuwGuOqzUG+KUTm9GDJCHl0LCBKsB5cg28ujEmVi/0qgTb6jOmkVSO5K48qXksyl2Fr3C0Q2VrgD4zbwyXg==}
@@ -2240,7 +2262,6 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: true
 
   /@types/semver/6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
@@ -2457,14 +2478,12 @@ packages:
       '@vue/shared': 3.2.26
       estree-walker: 2.0.2
       source-map: 0.6.1
-    dev: true
 
   /@vue/compiler-dom/3.2.26:
     resolution: {integrity: sha512-smBfaOW6mQDxcT3p9TKT6mE22vjxjJL50GFVJiI0chXYGU/xzC05QRGrW3HHVuJrmLTLx5zBhsZ2dIATERbarg==}
     dependencies:
       '@vue/compiler-core': 3.2.26
       '@vue/shared': 3.2.26
-    dev: true
 
   /@vue/compiler-sfc/3.2.26:
     resolution: {integrity: sha512-ePpnfktV90UcLdsDQUh2JdiTuhV0Skv2iYXxfNMOK/F3Q+2BO0AulcVcfoksOpTJGmhhfosWfMyEaEf0UaWpIw==}
@@ -2479,14 +2498,12 @@ packages:
       magic-string: 0.25.7
       postcss: 8.4.5
       source-map: 0.6.1
-    dev: true
 
   /@vue/compiler-ssr/3.2.26:
     resolution: {integrity: sha512-2mywLX0ODc4Zn8qBoA2PDCsLEZfpUGZcyoFRLSOjyGGK6wDy2/5kyDOWtf0S0UvtoyVq95OTSGIALjZ4k2q/ag==}
     dependencies:
       '@vue/compiler-dom': 3.2.26
       '@vue/shared': 3.2.26
-    dev: true
 
   /@vue/reactivity-transform/3.2.26:
     resolution: {integrity: sha512-XKMyuCmzNA7nvFlYhdKwD78rcnmPb7q46uoR00zkX6yZrUmcCQ5OikiwUEVbvNhL5hBJuvbSO95jB5zkUon+eQ==}
@@ -2496,20 +2513,17 @@ packages:
       '@vue/shared': 3.2.26
       estree-walker: 2.0.2
       magic-string: 0.25.7
-    dev: true
 
   /@vue/reactivity/3.2.26:
     resolution: {integrity: sha512-h38bxCZLW6oFJVDlCcAiUKFnXI8xP8d+eO0pcDxx+7dQfSPje2AO6M9S9QO6MrxQB7fGP0DH0dYQ8ksf6hrXKQ==}
     dependencies:
       '@vue/shared': 3.2.26
-    dev: true
 
   /@vue/runtime-core/3.2.26:
     resolution: {integrity: sha512-BcYi7qZ9Nn+CJDJrHQ6Zsmxei2hDW0L6AB4vPvUQGBm2fZyC0GXd/4nVbyA2ubmuhctD5RbYY8L+5GUJszv9mQ==}
     dependencies:
       '@vue/reactivity': 3.2.26
       '@vue/shared': 3.2.26
-    dev: true
 
   /@vue/runtime-dom/3.2.26:
     resolution: {integrity: sha512-dY56UIiZI+gjc4e8JQBwAifljyexfVCkIAu/WX8snh8vSOt/gMSEGwPRcl2UpYpBYeyExV8WCbgvwWRNt9cHhQ==}
@@ -2517,7 +2531,6 @@ packages:
       '@vue/runtime-core': 3.2.26
       '@vue/shared': 3.2.26
       csstype: 2.6.19
-    dev: true
 
   /@vue/server-renderer/3.2.26_vue@3.2.26:
     resolution: {integrity: sha512-Jp5SggDUvvUYSBIvYEhy76t4nr1vapY/FIFloWmQzn7UxqaHrrBpbxrqPcTrSgGrcaglj0VBp22BKJNre4aA1w==}
@@ -2527,11 +2540,9 @@ packages:
       '@vue/compiler-ssr': 3.2.26
       '@vue/shared': 3.2.26
       vue: 3.2.26
-    dev: true
 
   /@vue/shared/3.2.26:
     resolution: {integrity: sha512-vPV6Cq+NIWbH5pZu+V+2QHE9y1qfuTq49uNWw4f7FDEeZaDU2H2cx5jcUZOAKW7qTrUS4k6qZPbMy1x4N96nbA==}
-    dev: true
 
   /@wildpeaks/snapshot-dom/1.6.0:
     resolution: {integrity: sha512-fCM5tYK6VZ1nhbk3Q11lkf6UOJlOCRU0oScQ8NV8OYBPC58wQmQaOF9g+rk+yhNYf3beybOBr+ZuiNen3B0Bxw==}
@@ -2562,7 +2573,7 @@ packages:
       level-concat-iterator: 2.0.1
       level-supports: 1.0.1
       xtend: 4.0.2
-    dev: true
+    dev: false
     optional: true
 
   /abstract-leveldown/6.3.0:
@@ -2574,7 +2585,7 @@ packages:
       level-concat-iterator: 2.0.1
       level-supports: 1.0.1
       xtend: 4.0.2
-    dev: true
+    dev: false
     optional: true
 
   /acorn-globals/6.0.0:
@@ -2798,7 +2809,7 @@ packages:
 
   /async-limiter/1.0.1:
     resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
-    dev: true
+    dev: false
     optional: true
 
   /async/3.2.2:
@@ -2864,7 +2875,7 @@ packages:
 
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
-    dev: true
+    dev: false
     optional: true
 
   /bcrypt-pbkdf/1.0.2:
@@ -2951,7 +2962,7 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
-    dev: true
+    dev: false
     optional: true
 
   /builtins/2.0.1:
@@ -3405,7 +3416,6 @@ packages:
 
   /csstype/2.6.19:
     resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==}
-    dev: true
 
   /csstype/3.0.10:
     resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==}
@@ -4112,7 +4122,7 @@ packages:
     dependencies:
       abstract-leveldown: 6.2.3
       inherits: 2.0.4
-    dev: true
+    dev: false
     optional: true
 
   /define-properties/1.1.3:
@@ -4259,7 +4269,7 @@ packages:
       inherits: 2.0.4
       level-codec: 9.0.2
       level-errors: 2.0.1
-    dev: true
+    dev: false
     optional: true
 
   /end-of-stream/1.4.4:
@@ -4280,7 +4290,7 @@ packages:
     hasBin: true
     dependencies:
       prr: 1.0.1
-    dev: true
+    dev: false
     optional: true
 
   /error-ex/1.3.2:
@@ -4750,7 +4760,6 @@ packages:
 
   /estree-walker/2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
-    dev: true
 
   /esutils/2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -5410,7 +5419,7 @@ packages:
 
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
-    dev: true
+    dev: false
     optional: true
 
   /ignore/4.0.6:
@@ -5425,7 +5434,7 @@ packages:
 
   /immediate/3.3.0:
     resolution: {integrity: sha512-HR7EVodfFUdQCTIeySw+WDRFJlPcLOJbXfwwZ7Oom6tjsvZ3bOkCDJHehQC3nxJrv7+f9XecwazynjU8e4Vw3Q==}
-    dev: true
+    dev: false
     optional: true
 
   /import-fresh/3.3.0:
@@ -5454,7 +5463,6 @@ packages:
 
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
-    dev: true
 
   /ini/1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
@@ -5703,6 +5711,7 @@ packages:
 
   /isomorphic.js/0.2.4:
     resolution: {integrity: sha512-Y4NjZceAwaPXctwsHgNsmfuPxR8lJ3f8X7QTAkhltrX4oGIv+eTlgHLXn4tWysC9zGTi929gapnPp+8F8cg7nA==}
+    dev: false
 
   /isstream/0.1.2:
     resolution: {integrity: sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=}
@@ -5920,13 +5929,13 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       buffer: 5.7.1
-    dev: true
+    dev: false
     optional: true
 
   /level-concat-iterator/2.0.1:
     resolution: {integrity: sha512-OTKKOqeav2QWcERMJR7IS9CUo1sHnke2C0gkSmcR7QuEtFNLLzHQAvnMw8ykvEcv0Qtkg0p7FOwP1v9e5Smdcw==}
     engines: {node: '>=6'}
-    dev: true
+    dev: false
     optional: true
 
   /level-errors/2.0.1:
@@ -5934,7 +5943,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       errno: 0.1.8
-    dev: true
+    dev: false
     optional: true
 
   /level-iterator-stream/4.0.2:
@@ -5944,7 +5953,7 @@ packages:
       inherits: 2.0.4
       readable-stream: 3.6.0
       xtend: 4.0.2
-    dev: true
+    dev: false
     optional: true
 
   /level-js/5.0.2:
@@ -5954,7 +5963,7 @@ packages:
       buffer: 5.7.1
       inherits: 2.0.4
       ltgt: 2.2.1
-    dev: true
+    dev: false
     optional: true
 
   /level-packager/5.1.1:
@@ -5963,7 +5972,7 @@ packages:
     dependencies:
       encoding-down: 6.3.0
       levelup: 4.4.0
-    dev: true
+    dev: false
     optional: true
 
   /level-supports/1.0.1:
@@ -5971,7 +5980,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       xtend: 4.0.2
-    dev: true
+    dev: false
     optional: true
 
   /level/6.0.1:
@@ -5981,7 +5990,7 @@ packages:
       level-js: 5.0.2
       level-packager: 5.1.1
       leveldown: 5.6.0
-    dev: true
+    dev: false
     optional: true
 
   /leveldown/5.6.0:
@@ -5992,7 +6001,7 @@ packages:
       abstract-leveldown: 6.2.3
       napi-macros: 2.0.0
       node-gyp-build: 4.1.1
-    dev: true
+    dev: false
     optional: true
 
   /levelup/4.4.0:
@@ -6004,7 +6013,7 @@ packages:
       level-iterator-stream: 4.0.2
       level-supports: 1.0.1
       xtend: 4.0.2
-    dev: true
+    dev: false
     optional: true
 
   /levn/0.3.0:
@@ -6028,6 +6037,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       isomorphic.js: 0.2.4
+    dev: false
 
   /lilconfig/2.0.4:
     resolution: {integrity: sha512-bfTIN7lEsiooCocSISTWXkiWJkRqtL9wYtYy+8EK3Y41qh3mpwPU0ycTOgjdY9ErwXCc8QyrQp82bdL0Xkm9yA==}
@@ -6147,7 +6157,7 @@ packages:
 
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=}
-    dev: true
+    dev: false
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -6208,14 +6218,13 @@ packages:
 
   /ltgt/2.2.1:
     resolution: {integrity: sha1-81ypHEk/e3PaDgdJUwTxezH4fuU=}
-    dev: true
+    dev: false
     optional: true
 
   /magic-string/0.25.7:
     resolution: {integrity: sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==}
     dependencies:
       sourcemap-codec: 1.4.8
-    dev: true
 
   /make-error/1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
@@ -6757,7 +6766,7 @@ packages:
 
   /napi-macros/2.0.0:
     resolution: {integrity: sha512-A0xLykHtARfueITVDernsAWdtIMbOJgKgcluwENp3AlsKN/PloyO10HtmoqnFAQAcxPkgZN7wdfPfEd0zNGxbg==}
-    dev: true
+    dev: false
     optional: true
 
   /natural-compare/1.4.0:
@@ -6773,7 +6782,7 @@ packages:
   /node-gyp-build/4.1.1:
     resolution: {integrity: sha512-dSq1xmcPDKPZ2EED2S6zw/b9NKsqzXRE6dVr8TVQnI3FJOTteUMuqF3Qqs6LZg+mLGYJWqQzMbIjMtJqTv87nQ==}
     hasBin: true
-    dev: true
+    dev: false
     optional: true
 
   /node-releases/2.0.1:
@@ -7108,7 +7117,6 @@ packages:
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
-    dev: true
 
   /picomatch/2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -7265,7 +7273,6 @@ packages:
       nanoid: 3.1.30
       picocolors: 1.0.0
       source-map-js: 1.0.1
-    dev: true
 
   /preferred-pm/3.0.3:
     resolution: {integrity: sha512-+wZgbxNES/KlJs9q40F/1sfOd/j7f1O9JaHcW5Dsn3aUUOZg3L2bjpVUcKV2jvtElYfoTuQiNeMfQJ4kwUAhCQ==}
@@ -7435,7 +7442,7 @@ packages:
 
   /prr/1.0.1:
     resolution: {integrity: sha1-0/wRS6BplaRexok/SEzrHXj19HY=}
-    dev: true
+    dev: false
     optional: true
 
   /ps-tree/1.2.0:
@@ -7619,7 +7626,6 @@ packages:
       inherits: 2.0.4
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
-    dev: true
 
   /readdirp/3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
@@ -7853,7 +7859,6 @@ packages:
 
   /safe-buffer/5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
-    dev: true
 
   /safe-resolve/1.0.0:
     resolution: {integrity: sha1-/jT40p16O+z9JJ0KqKeZtcPPZVk=}
@@ -8033,7 +8038,6 @@ packages:
   /source-map-js/1.0.1:
     resolution: {integrity: sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /source-map/0.5.7:
     resolution: {integrity: sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=}
@@ -8042,11 +8046,9 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    dev: true
 
   /space-separated-tokens/2.0.1:
     resolution: {integrity: sha512-ekwEbFp5aqSPKaqeY1PGrlGQxPNaq+Cnx4+bE2D8sciBQrHpbwoBbawqTN2+6jPs9IdWxxiUcN0K2pkczD3zmw==}
@@ -8194,7 +8196,6 @@ packages:
     resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
     dependencies:
       safe-buffer: 5.2.1
-    dev: true
 
   /strip-ansi/3.0.1:
     resolution: {integrity: sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8=}
@@ -8671,7 +8672,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
-    dev: true
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
@@ -8798,7 +8798,6 @@ packages:
       '@vue/runtime-dom': 3.2.26
       '@vue/server-renderer': 3.2.26_vue@3.2.26
       '@vue/shared': 3.2.26
-    dev: true
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
@@ -8938,7 +8937,7 @@ packages:
     requiresBuild: true
     dependencies:
       async-limiter: 1.0.1
-    dev: true
+    dev: false
     optional: true
 
   /ws/8.4.0:
@@ -8966,6 +8965,7 @@ packages:
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
+    dev: false
 
   /y-leveldb/0.1.1_yjs@13.5.23:
     resolution: {integrity: sha512-L8Q0MQmxCQ0qWIOuPzLbWn95TNhrCI7M6LaHnilU4I2IX08e4Dmfg5Tgy4JZ3tnl2aiuZyDOJplHl/msIB/IsA==}
@@ -8976,7 +8976,7 @@ packages:
       level: 6.0.1
       lib0: 0.2.43
       yjs: 13.5.23
-    dev: true
+    dev: false
     optional: true
 
   /y-prosemirror/1.0.14_y-protocols@1.0.5+yjs@13.5.23:
@@ -8997,7 +8997,7 @@ packages:
     resolution: {integrity: sha512-Wil92b7cGk712lRHDqS4T90IczF6RkcvCwAD0A2OPg+adKmOe+nOiT/N2hvpQIWS3zfjmtL4CPaH5sIW1Hkm/A==}
     dependencies:
       lib0: 0.2.43
-    dev: true
+    dev: false
 
   /y-websocket/1.3.18_yjs@13.5.23:
     resolution: {integrity: sha512-xdQhvq/iQ6lyrmQ0GhLWXVcpXXjyj7E+PEcC3d2IAShLbz0I8rAOKbq/tGrAQPy6g1oilRz6eb8M7EbqsJj6tg==}
@@ -9012,7 +9012,7 @@ packages:
     optionalDependencies:
       ws: 6.2.2
       y-leveldb: 0.1.1_yjs@13.5.23
-    dev: true
+    dev: false
 
   /y18n/4.0.3:
     resolution: {integrity: sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ==}
@@ -9108,7 +9108,7 @@ packages:
     requiresBuild: true
     dependencies:
       lib0: 0.2.43
-    dev: true
+    dev: false
 
   /yn/3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}

@@ -1,9 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { defineConfig } from 'vite';
+import { pluginViteConfig } from '../../vite.config';
 
-import { viteBuild } from '../../vite.config';
-
-export default defineConfig({
-    root: 'app',
-    build: viteBuild('plugin-menu'),
-});
+export default pluginViteConfig('plugin-menu');

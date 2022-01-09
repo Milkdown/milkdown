@@ -1,10 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { pluginViteConfig } from '../../vite.config';
 
-import { defineConfig } from 'vite';
-
-import { viteBuild } from '../../vite.config';
-
-export default defineConfig({
-    root: 'app',
-    build: viteBuild('theme-nord'),
-});
+export default pluginViteConfig('theme-nord');

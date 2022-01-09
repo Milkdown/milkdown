@@ -7,8 +7,7 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "vite",
-        "watch": "vite build --watch",
+        "start": "vite build --watch",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"
     },
@@ -26,10 +25,8 @@
     ],
     "dependencies": {
         "@emotion/css": "^11.1.3",
-        "@milkdown/design-system": "workspace:*"
-    },
-    "devDependencies": {
         "@milkdown/prose": "workspace:*",
-        "@milkdown/core": "workspace:*"
+        "@milkdown/core": "workspace:*",
+        "@milkdown/design-system": "workspace:*"
     }
 }

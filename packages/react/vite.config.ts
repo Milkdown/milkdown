@@ -1,11 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import reactRefresh from '@vitejs/plugin-react-refresh';
-import { defineConfig } from 'vite';
+import { pluginViteConfig } from '../../vite.config';
 
-import { viteBuild } from '../../vite.config';
-
-export default defineConfig({
-    root: 'app',
-    plugins: [reactRefresh()],
-    build: viteBuild('react'),
-});
+export default pluginViteConfig('react');

@@ -1,0 +1,19 @@
+{
+    "name": "@milkdown-examples/react",
+    "private": true,
+    "version": "5.3.1",
+    "license": "MIT",
+    "scripts": {
+        "start": "vite"
+    },
+    "dependencies": {
+        "react": "latest",
+        "react-dom": "latest",
+        "@types/react": "latest",
+        "@types/react-dom": "latest",
+        "@milkdown/core": "workspace:*",
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/react": "workspace:*",
+        "@milkdown/theme-nord": "workspace:*"
+    }
+}

@@ -28,7 +28,7 @@ Before you create a pull request, please check the following todo:
 -   `pnpm test` passed.
 -   `pnpm build:packs` passed.
 -   `pnpm build:doc` passed.
--   `pnpm preview` works as you expected.
+-   `pnpm doc:preview` works as you expected.
 
 # License
 

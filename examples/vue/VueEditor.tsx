@@ -3,9 +3,8 @@ import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { slash } from '@milkdown/plugin-slash';
 import { blockquote, commonmarkNodes, commonmarkPlugins, heading, image, paragraph } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
+import { EditorRef, nodeMetadata, useEditor, VueEditor } from '@milkdown/vue';
 import { DefineComponent, defineComponent, h, inject, ref } from 'vue';
-
-import { EditorRef, nodeMetadata, useEditor, VueEditor } from '../src';
 
 const MyParagraph: DefineComponent = defineComponent({
     name: 'my-paragraph',

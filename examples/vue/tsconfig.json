@@ -1,13 +1,9 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "lib",
         "jsx": "react",
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
-        "types": ["vue"],
-        "lib": ["dom", "es2020"]
-    },
-    "include": ["src"]
+        "types": ["vue"]
+    }
 }
