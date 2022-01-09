@@ -11,9 +11,9 @@ test-results
 .pnpm-store
 .npmrc
 tsconfig.tsbuildinfo
-integration-test/cypress/videos
-integration-test/cypress/screenshots
-integration-test/cypress/downloads
+e2e/cypress/videos
+e2e/cypress/screenshots
+e2e/cypress/downloads
 
 .env
 *.local

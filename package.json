@@ -9,7 +9,7 @@
         "test:tsc": "pnpm --filter=./packages run tsc",
         "test:lint": "eslint **/{src,gh-pages,examples}/**/*.{js,ts,tsx}",
         "test:doc": "prettier --check \"**/*.md\"",
-        "test:it": "pnpm run start:test --filter @milkdown/integration-test",
+        "test:e2e": "pnpm run start:test --filter @milkdown/e2e",
         "format": "lint-staged",
         "watch": "pnpm --filter=./packages --parallel run watch",
         "doc": "pnpm run start --filter @milkdown/gh-pages",

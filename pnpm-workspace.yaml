@@ -2,4 +2,4 @@ packages:
     - 'packages/*'
     - 'examples/*'
     - 'gh-pages'
-    - 'integration-test'
+    - 'e2e'

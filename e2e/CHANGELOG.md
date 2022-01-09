@@ -1,4 +1,4 @@
-# @milkdown/integration-test
+# @milkdown/e2e
 
 ## 5.3.1
 
