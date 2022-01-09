@@ -661,7 +661,6 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
-      '@milkdown/theme-nord': workspace:*
       '@milkdown/utils': workspace:*
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -673,7 +672,6 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
-      '@milkdown/theme-nord': link:../theme-nord
       '@milkdown/utils': link:../utils
       nanoid: 3.1.30
       tslib: 2.3.1
