@@ -79,13 +79,14 @@ export const taskListItem = createNode<Keys>((utils) => {
             },
             parseDOM: [
                 {
-                    tag: 'li[data-type="task-list-item"]',
+                    tag: 'li[data-type="task-item"]',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
                             throw new Error();
                         }
                         return { checked: dom.dataset.checked === 'true' };
                     },
+                    priority: 60,
                 },
             ],
             toDOM: (node) => [

@@ -54,15 +54,15 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
             },
             parseDOM: [
                 {
-                    tag: 'div[data-type="diagram"]',
+                    tag: `div[data-type="${id}"]`,
                     preserveWhitespace: 'full',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
                             throw new Error();
                         }
                         return {
-                            value: dom.innerHTML,
-                            id: dom.id,
+                            value: dom.dataset.value,
+                            identity: dom.id,
                         };
                     },
                 },

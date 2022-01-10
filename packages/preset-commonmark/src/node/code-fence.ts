@@ -171,12 +171,12 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             ],
             toDOM: (node) => {
                 return [
-                    'div',
+                    'pre',
                     {
                         'data-language': node.attrs.language,
                         class: utils.getClassName(node.attrs, 'code-fence', style),
                     },
-                    ['pre', ['code', { spellCheck: 'false' }, 0]],
+                    ['code', { spellCheck: 'false' }, 0],
                 ];
             },
             parseMarkdown: {

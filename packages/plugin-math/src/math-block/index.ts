@@ -41,14 +41,14 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
             },
             parseDOM: [
                 {
-                    tag: 'div[data-type="mathBlock"]',
+                    tag: `div[data-type="${id}"]`,
                     preserveWhitespace: 'full',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
                             throw new Error();
                         }
                         return {
-                            value: dom.innerHTML,
+                            value: dom.dataset.value,
                         };
                     },
                 },
