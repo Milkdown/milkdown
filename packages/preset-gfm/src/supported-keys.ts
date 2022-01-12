@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { SupportedKeys as TableKeys } from '@milkdown/plugin-table';
 import { SupportedKeys as CommonmarkKeys } from '@milkdown/preset-commonmark';
+
+import { SupportedKeys as TableKeys } from './table';
 
 export const SupportedKeys = {
     ...CommonmarkKeys,
