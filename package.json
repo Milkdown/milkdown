@@ -23,7 +23,6 @@
         "commit": "git-cz"
     },
     "devDependencies": {
-        "@babel/core": "^7.16.5",
         "@changesets/cli": "^2.16.0",
         "@commitlint/cli": "^16.0.0",
         "@commitlint/config-conventional": "^16.0.0",
