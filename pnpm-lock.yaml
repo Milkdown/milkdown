@@ -173,7 +173,6 @@ importers:
       '@milkdown/plugin-menu': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-slash': workspace:*
-      '@milkdown/plugin-table': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/plugin-upload': workspace:*
       '@milkdown/preset-commonmark': workspace:*
@@ -225,7 +224,6 @@ importers:
       '@milkdown/plugin-menu': link:../packages/plugin-menu
       '@milkdown/plugin-prism': link:../packages/plugin-prism
       '@milkdown/plugin-slash': link:../packages/plugin-slash
-      '@milkdown/plugin-table': link:../packages/plugin-table
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
       '@milkdown/plugin-upload': link:../packages/plugin-upload
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
@@ -514,22 +512,6 @@ importers:
       smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.3.1
 
-  packages/plugin-table:
-    specifiers:
-      '@emotion/css': ^11.1.3
-      '@milkdown/core': workspace:*
-      '@milkdown/prose': workspace:*
-      '@milkdown/utils': workspace:*
-      remark-gfm: ^3.0.0
-      tslib: ^2.3.1
-    dependencies:
-      '@emotion/css': 11.7.1
-      '@milkdown/core': link:../core
-      '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
-      remark-gfm: 3.0.1
-      tslib: 2.3.1
-
   packages/plugin-tooltip:
     specifiers:
       '@emotion/css': ^11.1.3
@@ -585,19 +567,19 @@ importers:
       '@emotion/css': ^11.1.3
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
-      '@milkdown/plugin-table': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
+      remark-gfm: ^3.0.0
       tslib: ^2.3.1
     dependencies:
       '@emotion/css': 11.7.1
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
-      '@milkdown/plugin-table': link:../plugin-table
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
       '@milkdown/utils': link:../utils
+      remark-gfm: 3.0.1
       tslib: 2.3.1
 
   packages/prose:

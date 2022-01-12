@@ -2,7 +2,6 @@
 import { createCmd, createCmdKey, MarkdownNode, schemaCtx } from '@milkdown/core';
 import { columnResizing, goToNextCell, InputRule, Selection, tableEditing, TextSelection } from '@milkdown/prose';
 import { createPlugin, createShortcut } from '@milkdown/utils';
-import gfm from 'remark-gfm';
 
 import { exitTable } from '../command';
 import { operatorPlugin } from '../operator-plugin';
@@ -24,7 +23,7 @@ export const NextCell = createCmdKey();
 export const BreakTable = createCmdKey();
 export const InsertTable = createCmdKey();
 
-export const tablePlugin = createPlugin<Keys, Record<string, unknown>, keyof typeof schema>((utils) => {
+export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof schema>((utils) => {
     injectStyle(utils);
     return {
         schema: () => ({
@@ -166,6 +165,5 @@ export const tablePlugin = createPlugin<Keys, Record<string, unknown>, keyof typ
         prosePlugins: (_, ctx) => {
             return [operatorPlugin(ctx, utils), columnResizing({}), tableEditing()];
         },
-        remarkPlugins: () => [gfm],
     };
 });

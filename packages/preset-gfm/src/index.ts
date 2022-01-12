@@ -1,10 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { tablePlugin } from '@milkdown/plugin-table';
 import { commands as commonmarkCommands, commonmark } from '@milkdown/preset-commonmark';
-import { AtomList } from '@milkdown/utils';
+import { $remark, AtomList } from '@milkdown/utils';
+import remarkGFM from 'remark-gfm';
 
 import { urlPlugin } from './auto-link';
 import { strikeThrough, ToggleStrikeThrough } from './strike-through';
+import { table } from './table';
 import {
     LiftTaskListItem,
     SinkTaskListItem,
@@ -15,7 +16,6 @@ import {
 
 export * from './strike-through';
 export { SupportedKeys } from './supported-keys';
-export * from './task-list-item';
 export {
     BreakTable,
     // command
@@ -25,8 +25,8 @@ export {
     PrevCell,
     // gather
     table,
-    tablePlugin,
-} from '@milkdown/plugin-table';
+} from './table';
+export * from './task-list-item';
 export {
     blockquote,
     bulletList,
@@ -70,7 +70,14 @@ export {
     WrapInOrderedList,
 } from '@milkdown/preset-commonmark';
 
-export const gfm = AtomList.create([...commonmark, tablePlugin(), urlPlugin, strikeThrough(), taskListItem()]);
+export const gfm = AtomList.create([
+    ...commonmark,
+    $remark(() => remarkGFM),
+    table(),
+    urlPlugin,
+    strikeThrough(),
+    taskListItem(),
+]);
 
 export const commands = {
     ...commonmarkCommands,
