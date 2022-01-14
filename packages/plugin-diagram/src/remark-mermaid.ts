@@ -19,7 +19,7 @@ const visitCodeBlock = (ast: Node) =>
 
         const newNode = createMermaidDiv(value);
 
-        if (parent && index) {
+        if (parent && index != null) {
             parent.children.splice(index, 1, newNode);
         }
 
