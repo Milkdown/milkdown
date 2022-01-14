@@ -45,6 +45,12 @@ export const tooltipPlugin = create<string, InputOptions>((utils, options) => {
                         manager.update(view);
                         return false;
                     },
+                    handleDOMEvents: {
+                        mousedown: () => {
+                            manager.setHide(false);
+                            return false;
+                        },
+                    },
                 },
                 view: (editorView) => {
                     manager.render(editorView);
