@@ -1,5 +1,15 @@
 # @milkdown/plugin-math
 
+## 5.3.2
+
+### Patch Changes
+
+-   d62a6011: Bug fixes and new listener API
+-   Updated dependencies [d62a6011]
+    -   @milkdown/core@5.3.2
+    -   @milkdown/prose@5.3.2
+    -   @milkdown/utils@5.3.2
+
 ## 5.3.1
 
 ### Patch Changes
