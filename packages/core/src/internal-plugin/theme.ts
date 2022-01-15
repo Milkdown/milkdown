@@ -2,6 +2,8 @@
 import { createSlice, MilkdownPlugin } from '@milkdown/ctx';
 import { Emotion, init, injectVar, Options, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
 
+import { ConfigReady } from '.';
+
 export const themeToolCtx = createSlice<ThemeTool>(
     {
         mixin: {} as never,
@@ -21,11 +23,12 @@ export const themeFactory =
     (createThemePack: (emotion: Emotion) => ThemePack): MilkdownPlugin =>
     (pre) => {
         pre.inject(themeToolCtx).inject(themeConfigCtx).inject(emotionCtx);
-        return (ctx) => {
+        return async (ctx) => {
+            await ctx.wait(ConfigReady);
             const emotion = init(ctx.get(themeConfigCtx));
             const themePack = createThemePack(emotion);
 
-            injectVar(themePack);
+            injectVar(themePack, emotion);
             const tool = pack2Tool(themePack);
 
             ctx.set(emotionCtx, emotion);

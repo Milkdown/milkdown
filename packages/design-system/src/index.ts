@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { injectGlobal } from '@emotion/css';
 
 import * as D from './default-value';
+import type { Emotion } from './emotion';
 import { obj2color, obj2var } from './transformer';
 import { Color, PR, ThemePack, ThemeTool } from './types';
 
-export const injectVar = (themePack: ThemePack) => {
+export const injectVar = (themePack: ThemePack, emotion: Emotion) => {
     const { color = {}, font, size = {} } = themePack;
-    const css = injectGlobal;
+    const css = emotion.injectGlobal;
     css`
         :root {
             ${obj2color(color)};

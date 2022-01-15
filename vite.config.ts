@@ -22,6 +22,8 @@ const resolvePath = (str: string) => path.resolve(__dirname, str);
 export const external = [
     'tslib',
     '@emotion/css',
+    '@emotion/cache',
+    '@emotion/sheet',
     'remark',
     'vue',
     'react',

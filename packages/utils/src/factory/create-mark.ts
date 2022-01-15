@@ -1,6 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, viewCtx } from '@milkdown/core';
+import {
+    ConfigReady,
+    Ctx,
+    MarkSchema,
+    marksCtx,
+    MilkdownPlugin,
+    schemaCtx,
+    SchemaReady,
+    viewCtx,
+} from '@milkdown/core';
 import { MarkType, MarkViewFactory, ViewFactory } from '@milkdown/prose';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
@@ -28,6 +37,7 @@ export const createMark = <SupportedKeys extends string = string, Options extend
             (options): MilkdownPlugin =>
                 () =>
                 async (ctx) => {
+                    await ctx.wait(ConfigReady);
                     const utils = getUtils(ctx, options);
 
                     const plugin = factory(utils, options);
