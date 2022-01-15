@@ -28,10 +28,10 @@ export const VueNodeContainer = defineComponent<NodeContext>({
 });
 VueNodeContainer.props = ['ctx', 'editor', 'node', 'view', 'getPos', 'decorations'];
 
-export const Content = defineComponent<{ isMark?: boolean }>({
+export const Content = defineComponent<{ isInline?: boolean }>({
     name: 'milkdown-content',
-    setup: ({ isMark }) => {
-        return () => (isMark ? <span data-view-content /> : <div data-view-content />);
+    setup: ({ isInline }) => {
+        return () => (isInline ? <span data-view-content /> : <div data-view-content />);
     },
 });
 Content.props = ['isMark'];

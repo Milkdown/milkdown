@@ -1,12 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import './style.css';
 
-import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
-import { blockquote, commonmark, image, link, paragraph } from '@milkdown/preset-commonmark';
-import { EditorRef, ReactEditor, useEditor, useNodeCtx } from '@milkdown/react';
-import { nord } from '@milkdown/theme-nord';
 import React from 'react';
 import { render } from 'react-dom';
+
+import { Milkdown } from './component/milkdown';
 
 const markdown = `
 # Milkdown Test
@@ -53,43 +51,8 @@ milkdown.create();
 Now you can play!
 `;
 
-const ReactParagraph: React.FC = ({ children }) => <div className="react-renderer paragraph">{children}</div>;
-
-const ReactImage: React.FC = () => {
-    const { node } = useNodeCtx();
-    return <img className="image" src={node.attrs.src} alt={node.attrs.alt} title={node.attrs.tittle} />;
-};
-
-const ReactBlockquote: React.FC = ({ children }) => {
-    return <div className="react-renderer blockquote">{children}</div>;
-};
-
-const ReactLink: React.FC = ({ children }) => {
-    return (
-        <a className="link" href="#">
-            {children}
-        </a>
-    );
-};
-
 const App: React.FC = () => {
-    const ref = React.useRef({} as EditorRef);
-    const editor = useEditor((root, renderReact) => {
-        const nodes = commonmark
-            .configure(paragraph, { view: renderReact(ReactParagraph) })
-            .configure(blockquote, { view: renderReact(ReactBlockquote) })
-            .configure(image, { view: renderReact(ReactImage) })
-            .configure(link, { view: renderReact(ReactLink) });
-        return Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, root);
-                ctx.set(defaultValueCtx, markdown);
-            })
-            .use(nord)
-            .use(nodes);
-    });
-
-    return <ReactEditor ref={ref} editor={editor} />;
+    return <Milkdown value={markdown} />;
 };
 
 render(<App />, document.getElementById('app'));

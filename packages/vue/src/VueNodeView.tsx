@@ -21,6 +21,10 @@ export class VueNodeView implements NodeView {
     teleportDOM: HTMLElement;
     key: string;
 
+    get isInlineOrMark() {
+        return this.node instanceof Mark || this.node.isInline;
+    }
+
     constructor(
         private ctx: Ctx,
         private component: DefineComponent,
@@ -32,7 +36,7 @@ export class VueNodeView implements NodeView {
         private decorations: Decoration[],
     ) {
         this.key = nanoid();
-        this.teleportDOM = document.createElement(node instanceof Mark ? 'span' : 'div');
+        this.teleportDOM = document.createElement(this.isInlineOrMark ? 'span' : 'div');
         this.renderPortal();
     }
 
@@ -65,7 +69,7 @@ export class VueNodeView implements NodeView {
                             decorations={this.decorations}
                         >
                             <CustomComponent>
-                                <Content isMark={this.node instanceof Mark} />
+                                <Content isInline={this.isInlineOrMark} />
                             </CustomComponent>
                         </VueNodeContainer>
                     </Teleport>

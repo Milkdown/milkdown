@@ -13,6 +13,7 @@
         "@types/react-dom": "latest",
         "@milkdown/core": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/plugin-tooltip": "workspace:*",
         "@milkdown/react": "workspace:*",
         "@milkdown/theme-nord": "workspace:*"
     }

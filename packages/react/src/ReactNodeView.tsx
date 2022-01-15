@@ -22,6 +22,10 @@ export class ReactNodeView implements NodeView {
     contentDOM: HTMLElement | null | undefined;
     key: string;
 
+    get isInlineOrMark() {
+        return this.node instanceof Mark || this.node.isInline;
+    }
+
     constructor(
         private ctx: Ctx,
         private component: React.FC,
@@ -32,13 +36,13 @@ export class ReactNodeView implements NodeView {
         private getPos: boolean | (() => number),
         private decorations: Decoration[],
     ) {
-        const dom = document.createElement(node instanceof Mark ? 'span' : 'div');
+        const dom = document.createElement(this.isInlineOrMark ? 'span' : 'div');
         dom.classList.add('dom-wrapper');
 
         const contentDOM =
             node instanceof Node && node.isLeaf
                 ? undefined
-                : document.createElement(node instanceof Mark ? 'span' : 'div');
+                : document.createElement(this.isInlineOrMark ? 'span' : 'div');
         if (contentDOM) {
             contentDOM.classList.add('content-dom');
             dom.appendChild(contentDOM);
@@ -63,7 +67,7 @@ export class ReactNodeView implements NodeView {
                 decorations={this.decorations}
             >
                 <Component>
-                    <Content isMark={this.node instanceof Mark} dom={this.contentDOM} />
+                    <Content isInline={this.isInlineOrMark} dom={this.contentDOM} />
                 </Component>
             </ReactNodeContainer>,
             this.dom,

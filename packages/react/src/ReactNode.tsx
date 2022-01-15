@@ -25,7 +25,7 @@ export const ReactNodeContainer: React.FC<NodeContext> = ({ ctx, node, view, get
 
 export const useNodeCtx = () => React.useContext(nodeContext);
 
-export const Content: React.FC<{ isMark?: boolean; dom?: HTMLElement | null }> = ({ dom, isMark }) => {
+export const Content: React.FC<{ isInline?: boolean; dom?: HTMLElement | null }> = ({ dom, isInline }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -35,7 +35,7 @@ export const Content: React.FC<{ isMark?: boolean; dom?: HTMLElement | null }> =
         current.appendChild(dom);
     }, [dom]);
 
-    if (isMark) {
+    if (isInline) {
         return <span className="content-dom-wrapper" ref={containerRef} />;
     }
 

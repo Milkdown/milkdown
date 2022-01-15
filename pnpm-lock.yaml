@@ -122,6 +122,7 @@ importers:
   examples/react:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
@@ -131,6 +132,7 @@ importers:
       react-dom: latest
     dependencies:
       '@milkdown/core': link:../../packages/core
+      '@milkdown/plugin-tooltip': link:../../packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
       '@milkdown/react': link:../../packages/react
       '@milkdown/theme-nord': link:../../packages/theme-nord
