@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -20,31 +19,32 @@ type Keys =
 
 export const TurnIntoHeading = createCmdKey<number>();
 
-export const heading = createNode<Keys>((utils, options) => {
+export const heading = createNode<Keys>((utils) => {
     const id = 'heading';
-    const headingMap: Record<number, string> = {
-        1: css`
-            font-size: 3rem;
-            line-height: 3.5rem;
-        `,
-        2: css`
-            font-size: 2.125rem;
-            line-height: 2.25rem;
-        `,
-        3: css`
-            font-size: 1.5rem;
-            line-height: 1.5rem;
-        `,
-    };
 
     const style = (level: number) =>
-        options?.headless
-            ? null
-            : css`
-                  ${headingMap[level] || ''}
-                  margin: 2.5rem 0 !important;
-                  font-weight: 400;
-              `;
+        utils.getStyle((_, { css }) => {
+            const headingMap: Record<number, string> = {
+                1: css`
+                    font-size: 3rem;
+                    line-height: 3.5rem;
+                `,
+                2: css`
+                    font-size: 2.125rem;
+                    line-height: 2.25rem;
+                `,
+                3: css`
+                    font-size: 1.5rem;
+                    line-height: 1.5rem;
+                `,
+            };
+
+            return css`
+                ${headingMap[level] || ''}
+                margin: 2.5rem 0 !important;
+                font-weight: 400;
+            `;
+        });
 
     return {
         id,

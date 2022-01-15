@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { injectGlobal } from '@emotion/css';
 import { themeFactory } from '@milkdown/core';
 
 import { code, typography } from './font';
@@ -19,35 +18,35 @@ export const size = {
     lineWidth: '1px',
 };
 
-export const nordLight = themeFactory({
+export const nordLight = themeFactory((emotion) => ({
     font,
     size,
+    slots,
     color: lightColor,
-    mixin,
-    slots,
+    mixin: mixin(emotion),
     global: (themeTool) => {
-        const css = injectGlobal;
+        const css = emotion.injectGlobal;
         css`
-            ${view};
-            ${override(themeTool)}
+            ${view(emotion)};
+            ${override(emotion)(themeTool)}
         `;
     },
-});
+}));
 
-export const nordDark = themeFactory({
+export const nordDark = themeFactory((emotion) => ({
     font,
     size,
-    color: darkColor,
-    mixin,
     slots,
+    color: darkColor,
+    mixin: mixin(emotion),
     global: (themeTool) => {
-        const css = injectGlobal;
+        const css = emotion.injectGlobal;
         css`
-            ${view};
-            ${override(themeTool)}
+            ${view(emotion)};
+            ${override(emotion)(themeTool)}
         `;
     },
-});
+}));
 
 const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
 export const nord = darkMode ? nordDark : nordLight;

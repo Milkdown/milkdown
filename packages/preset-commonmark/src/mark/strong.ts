@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { markRule, toggleMark } from '@milkdown/prose';
 import { createMark, createShortcut } from '@milkdown/utils';
@@ -11,7 +10,7 @@ const id = 'strong';
 export const ToggleBold = createCmdKey();
 export const strong = createMark<Keys>((utils) => {
     const style = utils.getStyle(
-        () =>
+        (_, { css }) =>
             css`
                 font-weight: 600;
             `,

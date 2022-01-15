@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { injectGlobal } from '@emotion/css';
 import { EmojiButton } from '@joeattardi/emoji-button';
 import { Decoration, DecorationSet, EditorView, Plugin } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
@@ -72,7 +71,7 @@ export const picker = (utils: Utils) => {
             if (!parentNode) {
                 throw new Error();
             }
-            utils.getStyle(({ palette, font }) => {
+            utils.getStyle(({ palette, font }, { injectGlobal }) => {
                 const css = injectGlobal;
                 css`
                     .emoji-picker {

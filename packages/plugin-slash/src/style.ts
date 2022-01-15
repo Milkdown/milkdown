@@ -1,8 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
-import { ThemeTool } from '@milkdown/core';
+import { Emotion, ThemeTool } from '@milkdown/core';
 
-const itemStyle = ({ font, palette }: ThemeTool) => {
+const itemStyle = ({ font, palette }: ThemeTool, { css }: Emotion) => {
     return css`
         .slash-dropdown-item {
             display: flex;
@@ -38,9 +37,9 @@ const itemStyle = ({ font, palette }: ThemeTool) => {
             `;
 };
 
-export const injectStyle = (themeTool: ThemeTool) => {
+export const injectStyle = (themeTool: ThemeTool, emotion: Emotion) => {
     const { mixin, size, palette } = themeTool;
-    const style = css`
+    const style = emotion.css`
         width: 20.5rem;
         max-height: 20.5rem;
         overflow-y: auto;
@@ -57,7 +56,7 @@ export const injectStyle = (themeTool: ThemeTool) => {
 
         ${mixin.scrollbar?.()};
 
-        ${itemStyle(themeTool)}
+        ${itemStyle(themeTool, emotion)}
     `;
     return style;
 };

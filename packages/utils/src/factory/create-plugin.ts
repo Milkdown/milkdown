@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import {
+    ConfigReady,
     Ctx,
     MarkSchema,
     marksCtx,
@@ -56,6 +57,7 @@ export const createPlugin = <
             (options): MilkdownPlugin =>
                 () =>
                 async (ctx) => {
+                    await ctx.wait(ConfigReady);
                     const utils = getUtils(ctx, options);
 
                     const plugin = factory(utils, options);

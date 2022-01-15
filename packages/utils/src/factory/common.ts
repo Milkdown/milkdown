@@ -4,6 +4,7 @@ import {
     CmdKey,
     commandsCtx,
     Ctx,
+    emotionCtx,
     InitReady,
     inputRulesCtx,
     prosePluginsCtx,
@@ -38,10 +39,11 @@ export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, arg
 export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Options): Utils => {
     try {
         const themeTool = ctx.get(themeToolCtx);
+        const emotion = ctx.get(emotionCtx);
 
         return {
             getClassName: getClassName(options?.className as undefined),
-            getStyle: (style) => (options?.headless ? '' : (style(themeTool) as string | undefined)),
+            getStyle: (style) => (options?.headless ? '' : (style(themeTool, emotion) as string | undefined)),
             themeTool,
         };
     } catch {

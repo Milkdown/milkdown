@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { markRule, toggleMark } from '@milkdown/prose';
 import { createMark, createShortcut } from '@milkdown/utils';
@@ -13,7 +12,7 @@ export const ToggleInlineCode = createCmdKey();
 
 export const codeInline = createMark<Keys>((utils) => {
     const style = utils.getStyle(
-        ({ palette, size, font }) =>
+        ({ palette, size, font }, { css }) =>
             css`
                 background-color: ${palette('neutral')};
                 color: ${palette('background')};

@@ -1,8 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
-import { ThemeTool } from '@milkdown/core';
+import { Emotion, ThemeTool } from '@milkdown/core';
 
-export const injectStyle = ({ size, mixin, palette }: ThemeTool) => css`
+export const injectStyle = ({ size, mixin, palette }: ThemeTool, { css }: Emotion) => css`
     display: inline-flex;
     cursor: pointer;
     z-index: 2;

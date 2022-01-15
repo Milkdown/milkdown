@@ -1,12 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { injectGlobal } from '@emotion/css';
 import { themeToolCtx } from '@milkdown/core';
 import { dropCursor, gapCursor } from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
 
 export const cursor = createPlugin((utils) => {
-    const css = injectGlobal;
-    utils.getStyle((themeTool) => {
+    utils.getStyle((themeTool, { injectGlobal }) => {
+        const css = injectGlobal;
         css`
             /* copy from https://github.com/ProseMirror/prosemirror-gapcursor/blob/master/style/gapcursor.css */
             .ProseMirror-gapcursor {

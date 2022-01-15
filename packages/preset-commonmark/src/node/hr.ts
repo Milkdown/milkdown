@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
 import { InputRule, Selection } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
@@ -8,7 +7,7 @@ const id = 'hr';
 export const InsertHr = createCmdKey<string>();
 export const hr = createNode((utils) => {
     const style = utils.getStyle(
-        (themeTool) => css`
+        (themeTool, { css }) => css`
             height: ${themeTool.size.lineWidth};
             background-color: ${themeTool.palette('line')};
             border-width: 0;

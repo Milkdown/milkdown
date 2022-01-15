@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { css } from '@emotion/css';
 import { Utils } from '@milkdown/utils';
 
 export type DividerConfig = {
@@ -8,7 +7,7 @@ export type DividerConfig = {
     group: HTMLElement[];
 };
 export const divider = (utils: Utils) => {
-    const dividerStyle = utils.getStyle((themeTool) => {
+    const dividerStyle = utils.getStyle((themeTool, { css }) => {
         return css`
             flex-shrink: 0;
             width: ${themeTool.size.lineWidth};

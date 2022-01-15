@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { liftListItem, sinkListItem, splitListItem, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -16,7 +15,7 @@ export const LiftListItem = createCmdKey();
 
 export const listItem = createNode<Keys>((utils) => {
     const style = utils.getStyle(
-        (themeTool) =>
+        (themeTool, { css }) =>
             css`
                 &,
                 & > * {

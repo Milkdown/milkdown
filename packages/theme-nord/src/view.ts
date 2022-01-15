@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
+import { Emotion } from '@milkdown/design-system';
 
-export const view = css`
+export const view = ({ css }: Emotion) => css`
     /* copy from https://github.com/ProseMirror/@milkdown/prose/blob/master/style/prosemirror.css */
     .ProseMirror {
         position: relative;

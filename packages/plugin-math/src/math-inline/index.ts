@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { findSelectedNodeOfType, InputRule, NodeSelection } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
@@ -20,7 +19,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
         error: '(error)',
         ...(options?.placeholder ?? {}),
     };
-    const style = utils.getStyle(({ size, palette }) => {
+    const style = utils.getStyle(({ size, palette }, { css }) => {
         return css`
             font-size: unset;
 

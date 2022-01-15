@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { css } from '@emotion/css';
 import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import type { EditorView } from '@milkdown/prose';
@@ -18,7 +17,7 @@ export type ButtonConfig<T = any> = {
 } & CommonConfig;
 
 export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
-    const buttonStyle = utils.getStyle((themeTool) => {
+    const buttonStyle = utils.getStyle((themeTool, { css }) => {
         return css`
             border: 0;
             box-sizing: unset;

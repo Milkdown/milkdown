@@ -27,7 +27,6 @@
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "@milkdown/utils": "workspace:*",
-        "@emotion/css": "^11.1.3",
         "tslib": "^2.3.1",
         "yjs": "^13.5.11",
         "y-prosemirror": "^1.0.9",

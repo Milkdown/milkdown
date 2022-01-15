@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { css } from '@emotion/css';
 import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
@@ -22,7 +21,7 @@ export type SelectConfig<T = any> = {
 } & CommonConfig;
 
 export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
-    const selectStyle = utils.getStyle((themeTool) => {
+    const selectStyle = utils.getStyle((themeTool, { css }) => {
         return css`
             flex-shrink: 0;
             font-weight: 500;

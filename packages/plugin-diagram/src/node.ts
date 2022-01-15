@@ -107,7 +107,7 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
             const code = document.createElement('div');
             code.dataset.type = id;
             code.dataset.value = node.attrs.value;
-            if (codeStyle) {
+            if (codeStyle && hideCodeStyle) {
                 code.classList.add(codeStyle, hideCodeStyle);
             }
 
@@ -175,12 +175,16 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
                 },
                 selectNode: () => {
                     if (!view.editable) return;
-                    code.classList.remove(hideCodeStyle);
+                    if (hideCodeStyle) {
+                        code.classList.remove(hideCodeStyle);
+                    }
                     innerEditor.openEditor(code, currentNode);
                     dom.classList.add('ProseMirror-selectednode');
                 },
                 deselectNode: () => {
-                    code.classList.add(hideCodeStyle);
+                    if (hideCodeStyle) {
+                        code.classList.add(hideCodeStyle);
+                    }
                     innerEditor.closeEditor();
                     dom.classList.remove('ProseMirror-selectednode');
                 },

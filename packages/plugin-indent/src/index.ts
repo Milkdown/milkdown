@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { injectGlobal } from '@emotion/css';
 import { createCmdKey } from '@milkdown/core';
 import { AllSelection, keymap, TextSelection, Transaction } from '@milkdown/prose';
 import { AtomList, createPlugin, Utils } from '@milkdown/utils';
@@ -28,9 +27,8 @@ const updateIndent = (tr: Transaction, options: Options): Transaction => {
 
 const applyStyle = (options: Options, utils: Utils): void => {
     if (options.type === 'tab') {
-        const css = injectGlobal;
         utils.getStyle(
-            () => css`
+            (_, { injectGlobal }) => injectGlobal`
                 .milkdown {
                     tab-size: ${options.size};
                 }
