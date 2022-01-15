@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, MilkdownPlugin } from '@milkdown/ctx';
-import { injectVar, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
+import { Emotion, init, injectVar, Options, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
 
 export const themeToolCtx = createSlice<ThemeTool>(
     {
@@ -12,17 +12,23 @@ export const themeToolCtx = createSlice<ThemeTool>(
     },
     'ThemeTool',
 );
+export const themeConfigCtx = createSlice<Options>({ key: 'milkdown' }, 'ThemeConfig');
+export const emotionCtx = createSlice<Emotion>({} as Emotion, 'Emotion');
 
-export type { ThemeTool } from '@milkdown/design-system';
+export type { Emotion, ThemeTool } from '@milkdown/design-system';
 
 export const themeFactory =
-    (themePack: ThemePack): MilkdownPlugin =>
+    (createThemePack: (emotion: Emotion) => ThemePack): MilkdownPlugin =>
     (pre) => {
-        pre.inject(themeToolCtx);
+        pre.inject(themeToolCtx).inject(themeConfigCtx).inject(emotionCtx);
         return (ctx) => {
+            const emotion = init(ctx.get(themeConfigCtx));
+            const themePack = createThemePack(emotion);
+
             injectVar(themePack);
             const tool = pack2Tool(themePack);
 
+            ctx.set(emotionCtx, emotion);
             ctx.set(themeToolCtx, tool);
         };
     };

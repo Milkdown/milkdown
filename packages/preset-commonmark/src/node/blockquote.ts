@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -14,7 +13,7 @@ export const WrapInBlockquote = createCmdKey();
 
 export const blockquote = createNode<Keys>((utils) => {
     const style = utils.getStyle(
-        (themeTool) =>
+        (themeTool, { css }) =>
             css`
                 padding-left: 1.875rem;
                 line-height: 1.75rem;

@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
-import { ThemeTool } from '@milkdown/core';
+import { Emotion, ThemeTool } from '@milkdown/core';
 import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -8,7 +7,7 @@ import type { Status } from './status';
 
 export type Props = ReturnType<typeof createProps>;
 
-const createEmptyStyle = ({ font, palette }: ThemeTool) => css`
+const createEmptyStyle = ({ font, palette }: ThemeTool, { css }: Emotion) => css`
     position: relative;
     &::before {
         position: absolute;
@@ -23,7 +22,7 @@ const createEmptyStyle = ({ font, palette }: ThemeTool) => css`
     }
 `;
 
-const createSlashStyle = () => css`
+const createSlashStyle = (_: ThemeTool, { css }: Emotion) => css`
     &::before {
         left: 0.5rem;
     }

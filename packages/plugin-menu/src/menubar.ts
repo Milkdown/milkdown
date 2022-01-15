@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -7,7 +6,7 @@ export const menubar = (utils: Utils, view: EditorView) => {
     const editorWrapperStyle = utils.getStyle((themeTool) => {
         return themeTool.mixin.scrollbar('y');
     });
-    const menuStyle = utils.getStyle((themeTool) => {
+    const menuStyle = utils.getStyle((themeTool, { css }) => {
         const border = themeTool.mixin.border();
         const scrollbar = themeTool.mixin.scrollbar('x');
         const style = css`

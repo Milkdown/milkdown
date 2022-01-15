@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css, injectGlobal } from '@emotion/css';
+import { Emotion } from '@milkdown/design-system';
 import { Utils } from '@milkdown/utils';
 
-const proseTableStyle = css`
+const proseTableStyle = ({ css }: Emotion) => css`
     /* copy from https://github.com/ProseMirror/prosemirror-tables/blob/master/style/tables.css */
     .ProseMirror .tableWrapper {
         overflow-x: auto;
@@ -48,10 +48,10 @@ const proseTableStyle = css`
 `;
 
 export const injectStyle = (utils: Utils) => {
-    const css = injectGlobal;
-    return utils.getStyle(({ size, palette, mixin }) => {
+    return utils.getStyle(({ size, palette, mixin }, emotion) => {
+        const css = emotion.injectGlobal;
         css`
-            ${proseTableStyle}
+            ${proseTableStyle(emotion)}
 
             .tableWrapper {
                 margin: 0 !important;

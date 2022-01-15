@@ -1,11 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, MilkdownPlugin, ThemeTool } from '@milkdown/core';
+import type { Attrs, CmdKey, Emotion, MilkdownPlugin, ThemeTool } from '@milkdown/core';
 import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
 import { InputRule, Plugin, ViewFactory } from '@milkdown/prose';
 
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
-    readonly getStyle: (style: (themeTool: ThemeTool) => string | void) => string | undefined;
+    readonly getStyle: (style: (themeTool: ThemeTool, emotion: Emotion) => string | void) => string | undefined;
     readonly themeTool: ThemeTool;
 };
 

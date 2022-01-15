@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { RemarkPlugin } from '@milkdown/core';
 import { InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
@@ -14,7 +13,7 @@ import { twemojiPlugin } from './remark-twemoji';
 
 export const emojiNode = createNode((utils) => {
     const style = utils.getStyle(
-        () => css`
+        (_, { css }) => css`
             display: inline-flex;
             justify-content: center;
             align-items: center;

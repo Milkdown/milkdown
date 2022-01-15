@@ -66,4 +66,6 @@ export const pack2Tool = (themePack: ThemePack): ThemeTool => {
     return tool;
 };
 
+export type { Emotion, Options } from './emotion';
+export { init } from './emotion';
 export type { Color, Font, Icon, Size, ThemePack, ThemeTool } from './types';

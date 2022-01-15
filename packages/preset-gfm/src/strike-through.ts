@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { markRule, toggleMark } from '@milkdown/prose';
 import { createMark, createShortcut } from '@milkdown/utils';
@@ -13,7 +12,7 @@ export const ToggleStrikeThrough = createCmdKey();
 export const strikeThrough = createMark<Keys>((utils) => {
     const id = 'strike_through';
     const style = utils.getStyle(
-        (themeTool) =>
+        (themeTool, { css }) =>
             css`
                 text-decoration-color: ${themeTool.palette('secondary')};
             `,

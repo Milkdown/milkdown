@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { setBlockType } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -11,14 +10,14 @@ type Keys = SupportedKeys['Text'];
 export const TurnIntoText = createCmdKey();
 
 const id = 'paragraph';
-export const paragraph = createNode<Keys>((utils, options) => {
-    const style = options?.headless
-        ? null
-        : css`
-              font-size: 1rem;
-              line-height: 1.5;
-              letter-spacing: 0.5px;
-          `;
+export const paragraph = createNode<Keys>((utils) => {
+    const style = utils.getStyle((_, { css }) => {
+        return css`
+            font-size: 1rem;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+        `;
+    });
 
     return {
         id,

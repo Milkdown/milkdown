@@ -1,13 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { css } from '@emotion/css';
 import { Utils } from '@milkdown/utils';
 
 import { tryRgbToHex } from './utility';
 
 export const getStyle = (utils: Utils) => {
     const codeStyle = utils.getStyle(
-        ({ palette, size, font }) => css`
+        ({ palette, size, font }, { css }) => css`
             color: ${palette('neutral', 0.87)};
             background-color: ${palette('background')};
             border-radius: ${size.radius};
@@ -20,11 +19,13 @@ export const getStyle = (utils: Utils) => {
             }
         `,
     );
-    const hideCodeStyle = css`
-        display: none;
-    `;
+    const hideCodeStyle = utils.getStyle(
+        (_, { css }) => css`
+            display: none;
+        `,
+    );
     const previewPanelStyle = utils.getStyle(
-        () => css`
+        (_, { css }) => css`
             display: flex;
             justify-content: center;
             padding: 1rem 0;

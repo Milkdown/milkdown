@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
@@ -25,7 +24,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
     };
     const isBlock = options?.isBlock ?? false;
     const containerStyle = utils.getStyle(
-        (themeTool) =>
+        (themeTool, { css }) =>
             css`
                 display: inline-block;
                 position: relative;
@@ -123,7 +122,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
     );
 
     const style = utils.getStyle(
-        () =>
+        (_, { css }) =>
             css`
                 display: inline-block;
                 margin: 0 auto;

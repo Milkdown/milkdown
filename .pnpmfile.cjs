@@ -6,12 +6,12 @@ function readPackage(pkg) {
 
     // Disable peer dependencies warning for y-prosemirror and @emotion/css
     if (pkg.name === 'y-prosemirror') {
-        pkg.peerDependencies['prosemirror-model'] = '*';
-        pkg.peerDependencies['prosemirror-state'] = '*';
-        pkg.peerDependencies['prosemirror-view'] = '*';
+        delete pkg.peerDependencies['prosemirror-model'];
+        delete pkg.peerDependencies['prosemirror-state'];
+        delete pkg.peerDependencies['prosemirror-view'];
     }
     if (pkg.name === '@emotion/css') {
-        pkg.peerDependencies['@babel/core'] = '*';
+        delete pkg.peerDependencies['@babel/core'];
     }
 
     return pkg;

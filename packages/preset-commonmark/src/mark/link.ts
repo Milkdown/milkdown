@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
 import { InputRule, Node as ProseNode, TextSelection, toggleMark } from '@milkdown/prose';
 import { createMark } from '@milkdown/utils';
@@ -8,7 +7,7 @@ export const ToggleLink = createCmdKey<string>();
 export const ModifyLink = createCmdKey<string>();
 const id = 'link';
 export const link = createMark((utils) => {
-    const style = utils.getStyle((themeTool) => {
+    const style = utils.getStyle((themeTool, { css }) => {
         const lineColor = themeTool.palette('line');
 
         return css`

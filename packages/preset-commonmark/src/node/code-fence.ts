@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -34,7 +33,7 @@ export const TurnIntoCodeFence = createCmdKey();
 
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
-    const style = utils.getStyle(({ palette, mixin, size, font }) => {
+    const style = utils.getStyle(({ palette, mixin, size, font }, { css }) => {
         const { shadow, scrollbar, border } = mixin;
         const { lineWidth, radius } = size;
         return css`

@@ -23,7 +23,6 @@
         "gfm"
     ],
     "dependencies": {
-        "@emotion/css": "^11.1.3",
         "@milkdown/core": "workspace:*",
         "@milkdown/design-system": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",

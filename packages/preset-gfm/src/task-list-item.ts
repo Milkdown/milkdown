@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { css } from '@emotion/css';
 import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import { liftListItem, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
@@ -17,7 +16,7 @@ export const TurnIntoTaskList = createCmdKey();
 export const taskListItem = createNode<Keys>((utils) => {
     const id = 'task_list_item';
     const style = utils.getStyle(
-        ({ palette, size }) =>
+        ({ palette, size }, { css }) =>
             css`
                 list-style-type: none;
                 position: relative;
