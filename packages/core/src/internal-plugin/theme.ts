@@ -14,7 +14,7 @@ export const themeToolCtx = createSlice<ThemeTool>(
     },
     'ThemeTool',
 );
-export const themeConfigCtx = createSlice<Options>({ key: 'milkdown' }, 'ThemeConfig');
+export const emotionConfigCtx = createSlice<Options>({ key: 'milkdown' }, 'EmotionConfig');
 export const emotionCtx = createSlice<Emotion>({} as Emotion, 'Emotion');
 
 export type { Emotion, ThemeTool } from '@milkdown/design-system';
@@ -22,10 +22,10 @@ export type { Emotion, ThemeTool } from '@milkdown/design-system';
 export const themeFactory =
     (createThemePack: (emotion: Emotion) => ThemePack): MilkdownPlugin =>
     (pre) => {
-        pre.inject(themeToolCtx).inject(themeConfigCtx).inject(emotionCtx);
+        pre.inject(themeToolCtx).inject(emotionConfigCtx).inject(emotionCtx);
         return async (ctx) => {
             await ctx.wait(ConfigReady);
-            const emotion = init(ctx.get(themeConfigCtx));
+            const emotion = init(ctx.get(emotionConfigCtx));
             const themePack = createThemePack(emotion);
 
             injectVar(themePack, emotion);
