@@ -72,6 +72,7 @@ export const taskListItem = createNode<Keys>((utils) => {
             group: 'listItem',
             content: 'paragraph block*',
             defining: true,
+            priority: 60,
             attrs: {
                 checked: {
                     default: false,
@@ -86,7 +87,6 @@ export const taskListItem = createNode<Keys>((utils) => {
                         }
                         return { checked: dom.dataset.checked === 'true' };
                     },
-                    priority: 60,
                 },
             ],
             toDOM: (node) => [

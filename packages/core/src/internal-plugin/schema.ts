@@ -20,6 +20,7 @@ export const schemaTimerCtx = createSlice<Timer[]>([], 'schemaTimer');
 export type NodeSchema = {
     readonly toMarkdown: NodeSerializerSpec;
     readonly parseMarkdown: NodeParserSpec;
+    readonly priority?: number;
 } & Readonly<NodeSpec>;
 
 export const nodesCtx = createSlice<[string, NodeSchema][]>([], 'nodes');
@@ -29,6 +30,13 @@ export type MarkSchema = {
     readonly parseMarkdown: MarkParserSpec;
 } & Readonly<MarkSpec>;
 export const marksCtx = createSlice<[string, MarkSchema][]>([], 'marks');
+
+const extendPriority = <T extends NodeSchema | MarkSchema>(x: T): T => {
+    return {
+        ...x,
+        parseDOM: x.parseDOM?.map((rule) => ({ priority: x.priority, ...rule })),
+    };
+};
 
 export const schema: MilkdownPlugin = (pre) => {
     pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [InitReady]).record(SchemaReady);
@@ -42,8 +50,8 @@ export const schema: MilkdownPlugin = (pre) => {
         const processor = remarkPlugins.reduce((acc: RemarkParser, plug) => acc.use(plug), remark);
         ctx.set(remarkCtx, processor);
 
-        const nodes = Object.fromEntries(ctx.get(nodesCtx));
-        const marks = Object.fromEntries(ctx.get(marksCtx));
+        const nodes = Object.fromEntries(ctx.get(nodesCtx).map(([key, x]) => [key, extendPriority(x)]));
+        const marks = Object.fromEntries(ctx.get(marksCtx).map(([key, x]) => [key, extendPriority(x)]));
 
         ctx.set(
             schemaCtx,
