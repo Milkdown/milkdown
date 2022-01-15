@@ -34,14 +34,14 @@ export const getStyle = (utils: Utils) => {
     const mermaidVariables = () => {
         const styleRoot = getComputedStyle(document.documentElement);
         const getColor = (v: string) => tryRgbToHex(styleRoot.getPropertyValue('--' + v));
-        const primary = getColor('primary');
+        const line = getColor('line');
         const solid = getColor('solid');
         const neutral = getColor('neutral');
         const background = getColor('background');
         const style = {
             background,
             primaryColor: background,
-            secondaryColor: primary,
+            secondaryColor: line,
             primaryTextColor: neutral,
             noteBkgColor: background,
             noteTextColor: solid,
