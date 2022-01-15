@@ -30,12 +30,24 @@ export const heading = createNode<Keys>((utils) => {
                     line-height: 3.5rem;
                 `,
                 2: css`
+                    font-size: 2.5rem;
+                    line-height: 3rem;
+                `,
+                3: css`
                     font-size: 2.125rem;
                     line-height: 2.25rem;
                 `,
-                3: css`
+                4: css`
+                    font-size: 1.75rem;
+                    line-height: 2rem;
+                `,
+                5: css`
                     font-size: 1.5rem;
                     line-height: 1.5rem;
+                `,
+                6: css`
+                    font-size: 1.25rem;
+                    line-height: 1.25rem;
                 `,
             };
 
