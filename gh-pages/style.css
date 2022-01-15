@@ -64,7 +64,6 @@ body {
 }
 
 .milkdown-menu-wrapper {
-    padding-top: 3.125rem;
     max-width: 72rem !important;
 
     .milkdown {
@@ -77,12 +76,4 @@ body {
     }
 
     position: relative;
-}
-
-.milkdown-menu {
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    left: 0;
-    right: 0;
 }
