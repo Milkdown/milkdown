@@ -35,13 +35,12 @@ export const getStyle = (utils: Utils) => {
         const styleRoot = getComputedStyle(document.documentElement);
         const getColor = (v: string) => tryRgbToHex(styleRoot.getPropertyValue('--' + v));
         const primary = getColor('primary');
-        const secondary = getColor('secondary');
         const solid = getColor('solid');
         const neutral = getColor('neutral');
         const background = getColor('background');
         const style = {
             background,
-            primaryColor: secondary,
+            primaryColor: background,
             secondaryColor: primary,
             primaryTextColor: neutral,
             noteBkgColor: background,
