@@ -11,6 +11,7 @@ import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
 import type { BuildOptions, UserConfig as ViteUserConfig } from 'vite';
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 import { UserConfig } from 'vitest';
 
 export const libFileName = (format: string) => `index.${format}.js`;
@@ -58,11 +59,14 @@ export const viteBuild = (packageDirName: string): BuildOptions => ({
     },
 });
 
-export const pluginViteConfig = (packageDirName: string, options: ViteUserConfig = {}) =>
-    defineConfig({
+export const pluginViteConfig = (packageDirName: string, options: ViteUserConfig = {}) => {
+    const vitePlugins = options.plugins ?? [];
+    return defineConfig({
         build: viteBuild(packageDirName),
         ...options,
+        plugins: vitePlugins.concat(dts({ outputDir: 'lib', root: '.', insertTypesEntry: true })),
     });
+};
 
 export default defineConfig({
     test: {

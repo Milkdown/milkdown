@@ -37,6 +37,7 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.5.4
       vite: ^2.4.4
+      vite-plugin-dts: ^0.9.9
       vitest: ^0.1.0
     devDependencies:
       '@changesets/cli': 2.19.0
@@ -72,6 +73,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.4
       vite: 2.7.10
+      vite-plugin-dts: 0.9.9_vite@2.7.10
       vitest: 0.1.12_@vitest+ui@0.1.12+jsdom@19.0.0
 
   e2e:
@@ -1984,6 +1986,15 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
+  /@ts-morph/common/0.12.2:
+    resolution: {integrity: sha512-m5KjptpIf1K0t0QL38uE+ol1n+aNn9MgRq++G3Zym1FlqfN+rThsXlp3cAgib14pIeXF7jk3UtJQOviwawFyYg==}
+    dependencies:
+      fast-glob: 3.2.10
+      minimatch: 3.0.4
+      mkdirp: 1.0.4
+      path-browserify: 1.0.1
+    dev: true
+
   /@tsconfig/node10/1.0.8:
     resolution: {integrity: sha512-6XFfSQmMgq0CFLY1MslA/CPUfhIL919M1rMsa5lP2P097N2Wd1sSX0tx1u4olM16fLNhtHZpRhedZJphNJqmZg==}
     dev: true
@@ -3143,6 +3154,12 @@ packages:
   /clone/1.0.4:
     resolution: {integrity: sha1-2jCcwmPfFZlMaIypAheco8fNfH4=}
     engines: {node: '>=0.8'}
+    dev: true
+
+  /code-block-writer/11.0.0:
+    resolution: {integrity: sha512-GEqWvEWWsOvER+g9keO4ohFoD3ymwyCnqY3hoTr7GZipYFwEhMHJw+TtV0rfgRhNImM6QWZGO2XYjlJVyYT62w==}
+    dependencies:
+      tslib: 2.3.1
     dev: true
 
   /color-convert/1.9.3:
@@ -6700,6 +6717,12 @@ packages:
       minimist: 1.2.5
     dev: true
 
+  /mkdirp/1.0.4:
+    resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: true
+
   /moment-mini/2.24.0:
     resolution: {integrity: sha512-9ARkWHBs+6YJIvrIp0Ik5tyTTtP9PoV0Ssu2Ocq5y9v8+NOOpWiRshAp8c4rZVWTOe+157on/5G+zj5pwIQFEQ==}
     dev: false
@@ -7022,6 +7045,10 @@ packages:
 
   /parse5/6.0.1:
     resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}
+    dev: true
+
+  /path-browserify/1.0.1:
+    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: true
 
   /path-exists/3.0.0:
@@ -8409,6 +8436,13 @@ packages:
     resolution: {integrity: sha512-FnHq5sTMxC0sk957wHDzRnemFnNBvt/gSY99HzK8F7UP5WAbvP70yX5bd7CjEQkN+TjdxwI7g7lJ6podqrG2/w==}
     dev: false
 
+  /ts-morph/13.0.2:
+    resolution: {integrity: sha512-SjeeHaRf/mFsNeR3KTJnx39JyEOzT4e+DX28gQx5zjzEOuFs2eGrqeN2PLKs/+AibSxPmzV7RD8nJVKmFJqtLA==}
+    dependencies:
+      '@ts-morph/common': 0.12.2
+      code-block-writer: 11.0.0
+    dev: true
+
   /ts-node/10.4.0_faf01e1d5a40372a98081522dcafc186:
     resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
     hasBin: true
@@ -8697,6 +8731,18 @@ packages:
       unist-util-stringify-position: 3.0.0
       vfile-message: 3.1.0
     dev: false
+
+  /vite-plugin-dts/0.9.9_vite@2.7.10:
+    resolution: {integrity: sha512-HzLTCBbsN9gotphtIe97TCigeco6aGLBoeSHdxD9QGGl8prO7uykus0fphLkjWCbFlrerb8Uxp9fu82BfIiaIg==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      vite: '>=2.4.4'
+    dependencies:
+      fast-glob: 3.2.10
+      fs-extra: 10.0.0
+      ts-morph: 13.0.2
+      vite: 2.7.10
+    dev: true
 
   /vite/2.7.10:
     resolution: {integrity: sha512-KEY96ntXUid1/xJihJbgmLZx7QSC2D4Tui0FdS0Old5OokYzFclcofhtxtjDdGOk/fFpPbHv9yw88+rB93Tb8w==}

@@ -10,7 +10,7 @@
         "start": "vite build --watch",
         "test": "vitest",
         "tsc": "tsc --noEmit",
-        "build": "vite build && tsc --emitDeclarationOnly"
+        "build": "vite build"
     },
     "files": [
         "lib",

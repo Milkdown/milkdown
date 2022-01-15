@@ -9,7 +9,7 @@
     "scripts": {
         "start": "vite build --watch",
         "tsc": "tsc --noEmit",
-        "build": "vite build && tsc --emitDeclarationOnly"
+        "build": "vite build"
     },
     "peerDependencies": {
         "@milkdown/core": "*"
