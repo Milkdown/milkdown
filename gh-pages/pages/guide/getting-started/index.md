@@ -30,10 +30,10 @@ With this pattern you can enable or disable any custom syntax and feature you li
 
 Milkdown is built on top of these tools:
 
--   [Prosemirror](https://prosemirror.net/) and it's community - A toolkit for building rich-text editors on the web
--   [Remark](https://github.com/remarkjs/remark) and it's community - Markdown parser done right
--   [TypeScript](https://www.typescriptlang.org/) - Developed by typescript
--   [Emotion](https://emotion.sh/) - Powerful css in js tool to write styles
+-   [Prosemirror](https://prosemirror.net/) and its community - A toolkit for building rich-text editors on the web
+-   [Remark](https://github.com/remarkjs/remark) and its community - Markdown parser done right
+-   [TypeScript](https://www.typescriptlang.org/) - Developed in TypeScript
+-   [Emotion](https://emotion.sh/) - Powerful CSS in JS tool to write styles
 -   [Prism](https://prismjs.com/) - Code snippets support
 -   [Katex](https://katex.org/) - LaTex math rendering
 
