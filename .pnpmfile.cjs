@@ -4,16 +4,6 @@ function readPackage(pkg) {
         pkg.dependencies['unist-util-visit'] = '4.0.0';
     }
 
-    // Disable peer dependencies warning for y-prosemirror and @emotion/css
-    if (pkg.name === 'y-prosemirror') {
-        delete pkg.peerDependencies['prosemirror-model'];
-        delete pkg.peerDependencies['prosemirror-state'];
-        delete pkg.peerDependencies['prosemirror-view'];
-    }
-    if (pkg.name === '@emotion/css') {
-        delete pkg.peerDependencies['@babel/core'];
-    }
-
     return pkg;
 }
 

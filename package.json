@@ -2,6 +2,10 @@
     "name": "milkdown",
     "version": "0.0.0",
     "private": true,
+    "engines": {
+        "node": ">=10",
+        "pnpm": ">=3"
+    },
     "scripts": {
         "postinstall": "husky install",
         "test": "pnpm test:doc && pnpm test:lint && pnpm test:tsc && pnpm test:unit",
@@ -58,5 +62,15 @@
         "vite": "^2.4.4",
         "vite-plugin-dts": "^0.9.9",
         "vitest": "^0.1.0"
+    },
+    "pnpm": {
+        "peerDependencyRules": {
+            "ignoreMissing": [
+                "prosemirror-model",
+                "prosemirror-state",
+                "prosemirror-view",
+                "@babel/core"
+            ]
+        }
     }
 }
