@@ -1,5 +1,11 @@
 # @milkdown/design-system
 
+## 5.3.3
+
+### Patch Changes
+
+-   f7609d48: Bug fix and ux improvements
+
 ## 5.3.2
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @milkdown/plugin-menu
 
+## 5.3.3
+
+### Patch Changes
+
+-   f7609d48: Bug fix and ux improvements
+-   Updated dependencies [f7609d48]
+    -   @milkdown/core@5.3.3
+    -   @milkdown/design-system@5.3.3
+    -   @milkdown/plugin-history@5.3.3
+    -   @milkdown/preset-gfm@5.3.3
+    -   @milkdown/prose@5.3.3
+    -   @milkdown/utils@5.3.3
+
 ## 5.3.2
 
 ### Patch Changes
