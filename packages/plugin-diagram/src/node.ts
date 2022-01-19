@@ -85,7 +85,9 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
                 runner: (state, node, type) => {
                     const value = node.value as string;
                     state.openNode(type, { value });
-                    state.addText(value);
+                    if (value) {
+                        state.addText(value);
+                    }
                     state.closeNode();
                 },
             },
