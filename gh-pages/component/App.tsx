@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import React from 'react';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import { i18nConfig, Local } from '../route';
 import { Context, displaySidebarCtx, setDisplaySidebarCtx, setLocalCtx } from './Context';
@@ -15,7 +15,7 @@ const Container: React.FC = () => {
     const setLocal = React.useContext(setLocalCtx);
 
     React.useEffect(() => {
-        const path = window.location.hash.split('/').filter((x) => x && x !== '#');
+        const path = window.location.pathname.split('/').filter((x) => x.length > 0);
         const [first] = path;
         const list = Object.values(i18nConfig)
             .map(({ route }) => route)
@@ -43,10 +43,10 @@ const Container: React.FC = () => {
 };
 
 export const App: React.FC = () => (
-    <HashRouter>
+    <BrowserRouter>
         <Context>
             <Sidebar />
             <Container />
         </Context>
-    </HashRouter>
+    </BrowserRouter>
 );

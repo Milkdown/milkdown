@@ -60,24 +60,6 @@ export const Main: React.FC = () => {
         <div className={classes}>
             <article>
                 <Routes>
-                    <Route
-                        path={'/' + root}
-                        element={
-                            <Loading>
-                                <Home />
-                            </Loading>
-                        }
-                    />
-
-                    <Route
-                        path={'/' + [root, 'online-demo'].filter((x) => x).join('/')}
-                        element={
-                            <Loading>
-                                <Demo mode={editorMode} isDarkMode={isDarkMode} />
-                            </Loading>
-                        }
-                    />
-
                     {pages.map((page, i) => (
                         <Route
                             key={i.toString()}
@@ -89,6 +71,24 @@ export const Main: React.FC = () => {
                             }
                         />
                     ))}
+
+                    <Route
+                        path={'/' + [root, 'online-demo'].filter((x) => x).join('/')}
+                        element={
+                            <Loading>
+                                <Demo mode={editorMode} isDarkMode={isDarkMode} />
+                            </Loading>
+                        }
+                    />
+
+                    <Route
+                        path={'/' + root}
+                        element={
+                            <Loading>
+                                <Home />
+                            </Loading>
+                        }
+                    />
                 </Routes>
             </article>
             <Footer />

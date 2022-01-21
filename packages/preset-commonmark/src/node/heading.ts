@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { Plugin, PluginKey, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -18,6 +18,8 @@ type Keys =
     | SupportedKeys['H6'];
 
 export const TurnIntoHeading = createCmdKey<number>();
+
+export const headingPluginKey = new PluginKey('MILKDOWN_PLUGIN_ID');
 
 export const heading = createNode<Keys>((utils) => {
     const id = 'heading';
@@ -65,15 +67,27 @@ export const heading = createNode<Keys>((utils) => {
             group: 'block',
             defining: true,
             attrs: {
+                id: {
+                    default: '',
+                },
                 level: {
                     default: 1,
                 },
             },
-            parseDOM: headingIndex.map((x) => ({ tag: `h${x}`, attrs: { level: x } })),
+            parseDOM: headingIndex.map((x) => ({
+                tag: `h${x}`,
+                getAttrs: (node) => {
+                    if (!(node instanceof HTMLElement)) {
+                        throw new Error();
+                    }
+                    return { level: x, id: node.id };
+                },
+            })),
             toDOM: (node) => {
                 return [
                     `h${node.attrs.level}`,
                     {
+                        id: node.attrs.id || node.textContent.split(' ').join('-').toLocaleLowerCase(),
                         class: utils.getClassName(node.attrs, `heading h${node.attrs.level}`, style(node.attrs.level)),
                     },
                     0,
@@ -112,5 +126,28 @@ export const heading = createNode<Keys>((utils) => {
             [SupportedKeys.H5]: createShortcut(TurnIntoHeading, 'Mod-Alt-5', 5),
             [SupportedKeys.H6]: createShortcut(TurnIntoHeading, 'Mod-Alt-6', 6),
         },
+        prosePlugins: (type) => [
+            new Plugin({
+                key: headingPluginKey,
+                appendTransaction: (transactions, _, nextState) => {
+                    const tr = nextState.tr;
+                    let modified = false;
+                    if (transactions.some((transaction) => transaction.docChanged)) {
+                        nextState.doc.descendants((node, pos) => {
+                            if (node.type === type) {
+                                const attrs = node.attrs;
+                                tr.setNodeMarkup(pos, undefined, {
+                                    ...attrs,
+                                    id: node.textContent.split(' ').join('-').toLocaleLowerCase(),
+                                });
+                                modified = true;
+                            }
+                        });
+                    }
+
+                    return modified ? tr : null;
+                },
+            }),
+        ],
     };
 });

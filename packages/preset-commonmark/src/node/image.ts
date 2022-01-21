@@ -15,6 +15,7 @@ export type ImageOptions = {
         failed: string;
     };
 };
+
 export const image = createNode<string, ImageOptions>((utils, options) => {
     const placeholder = {
         loading: 'Loading...',
@@ -275,6 +276,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 img.src = src;
 
                 img.onerror = () => {
+                    if (!view.dom.contains(img)) return;
                     const { tr } = view.state;
                     const _tr = tr.setNodeMarkup(getPos(), nodeType, {
                         ...node.attrs,
@@ -286,6 +288,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 };
 
                 img.onload = () => {
+                    if (!view.dom.contains(img)) return;
                     const { tr } = view.state;
                     const _tr = tr.setNodeMarkup(getPos(), nodeType, {
                         ...node.attrs,
