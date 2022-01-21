@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 5.3.4
+
+### Patch Changes
+
+-   1e8cce33: Image load status improvement and support for heading id
+
 ## 5.3.3
 
 ### Patch Changes

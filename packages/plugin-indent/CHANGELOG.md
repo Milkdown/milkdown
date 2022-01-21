@@ -1,5 +1,15 @@
 # @milkdown/plugin-indent
 
+## 5.3.4
+
+### Patch Changes
+
+-   1e8cce33: Image load status improvement and support for heading id
+-   Updated dependencies [1e8cce33]
+    -   @milkdown/core@5.3.4
+    -   @milkdown/prose@5.3.4
+    -   @milkdown/utils@5.3.4
+
 ## 5.3.3
 
 ### Patch Changes
