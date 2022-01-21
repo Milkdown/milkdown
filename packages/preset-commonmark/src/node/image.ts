@@ -276,9 +276,11 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 img.src = src;
 
                 img.onerror = () => {
-                    if (!view.dom.contains(img)) return;
+                    const pos = getPos();
+                    if (!pos) return;
+
                     const { tr } = view.state;
-                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+                    const _tr = tr.setNodeMarkup(pos, nodeType, {
                         ...node.attrs,
                         src,
                         loading: false,
@@ -288,9 +290,12 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 };
 
                 img.onload = () => {
-                    if (!view.dom.contains(img)) return;
                     const { tr } = view.state;
-                    const _tr = tr.setNodeMarkup(getPos(), nodeType, {
+
+                    const pos = getPos();
+                    if (!pos) return;
+
+                    const _tr = tr.setNodeMarkup(pos, nodeType, {
                         ...node.attrs,
                         width: img.width,
                         src,
