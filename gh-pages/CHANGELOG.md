@@ -1,5 +1,38 @@
 # @milkdown/gh-pages
 
+## 5.3.4
+
+### Patch Changes
+
+-   1e8cce33: Image load status improvement and support for heading id
+-   Updated dependencies [1e8cce33]
+    -   @milkdown/core@5.3.4
+    -   @milkdown/ctx@5.3.4
+    -   @milkdown/design-system@5.3.4
+    -   @milkdown/exception@5.3.4
+    -   @milkdown/plugin-clipboard@5.3.4
+    -   @milkdown/plugin-collaborative@5.3.4
+    -   @milkdown/plugin-cursor@5.3.4
+    -   @milkdown/plugin-diagram@5.3.4
+    -   @milkdown/plugin-emoji@5.3.4
+    -   @milkdown/plugin-history@5.3.4
+    -   @milkdown/plugin-indent@5.3.4
+    -   @milkdown/plugin-listener@5.3.4
+    -   @milkdown/plugin-math@5.3.4
+    -   @milkdown/plugin-menu@5.3.4
+    -   @milkdown/plugin-prism@5.3.4
+    -   @milkdown/plugin-slash@5.3.4
+    -   @milkdown/plugin-tooltip@5.3.4
+    -   @milkdown/plugin-upload@5.3.4
+    -   @milkdown/preset-commonmark@5.3.4
+    -   @milkdown/preset-gfm@5.3.4
+    -   @milkdown/prose@5.3.4
+    -   @milkdown/react@5.3.4
+    -   @milkdown/theme-nord@5.3.4
+    -   @milkdown/transformer@5.3.4
+    -   @milkdown/utils@5.3.4
+    -   @milkdown/vue@5.3.4
+
 ## 5.3.3
 
 ### Patch Changes
