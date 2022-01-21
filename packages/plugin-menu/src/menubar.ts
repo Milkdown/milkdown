@@ -1,8 +1,42 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { Ctx, rootCtx } from '@milkdown/core';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
-export const menubar = (utils: Utils, view: EditorView) => {
+export type HandleDOMParams = {
+    menu: HTMLDivElement;
+    menuWrapper: HTMLDivElement;
+    editorRoot: HTMLElement;
+    editorDOM: HTMLDivElement;
+};
+
+export type HandleDOM = (params: HandleDOMParams) => void;
+
+const defaultDOMHandler: HandleDOM = ({ menu, menuWrapper, editorDOM, editorRoot }) => {
+    menuWrapper.appendChild(menu);
+
+    const milkdown = editorDOM.parentElement;
+    if (!milkdown) {
+        throw new Error('No parent node found');
+    }
+    editorRoot.replaceChild(menuWrapper, milkdown);
+    menuWrapper.appendChild(milkdown);
+};
+
+const getRoot = (root: string | Node | null | undefined) => {
+    if (!root) return document.body;
+
+    if (typeof root === 'string') {
+        const el = document.querySelector(root);
+        if (el) return el;
+
+        return document.body;
+    }
+
+    return root;
+};
+
+export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: HandleDOM = defaultDOMHandler) => {
     const editorWrapperStyle = utils.getStyle((themeTool) => {
         return themeTool.mixin.scrollbar('y');
     });
@@ -29,31 +63,28 @@ export const menubar = (utils: Utils, view: EditorView) => {
     });
 
     const menuWrapper = document.createElement('div');
+    menuWrapper.classList.add('milkdown-menu-wrapper');
     const menu = document.createElement('div');
     menu.classList.add('milkdown-menu');
-    menuWrapper.appendChild(menu);
-    menuWrapper.classList.add('milkdown-menu-wrapper');
     if (menuStyle) {
         menuStyle.split(' ').forEach((x) => menu.classList.add(x));
     }
 
-    const editorDom = view.dom;
+    const editorDOM = view.dom as HTMLDivElement;
     if (editorWrapperStyle) {
-        editorDom.classList.add(editorWrapperStyle);
+        editorDOM.classList.add(editorWrapperStyle);
     }
 
-    const milkdown = editorDom.parentElement;
-    if (!milkdown) {
-        throw new Error('No parent node found');
-    }
-    const root = milkdown.parentElement;
-    if (!root) {
-        throw new Error('No root node found');
-    }
-    root.replaceChild(menuWrapper, milkdown);
-    // milkdown.appendChild(milkdown);
-    // milkdown.replaceChild(menuWrapper, editorDom);
-    menuWrapper.appendChild(milkdown);
+    const root = ctx.get(rootCtx);
+
+    const editorRoot = getRoot(root) as HTMLElement;
+
+    domHandler({
+        menu,
+        menuWrapper,
+        editorDOM,
+        editorRoot,
+    });
 
     return menu;
 };

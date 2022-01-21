@@ -5,23 +5,27 @@ import { createPlugin } from '@milkdown/utils';
 
 import { Config, defaultConfig, SelectParent } from './default-config';
 import { Manager } from './manager';
-import { menubar } from './menubar';
+import { HandleDOM, menubar } from './menubar';
 
 export const menuKey = new PluginKey('milkdown-menu');
 
+export type { HandleDOM, HandleDOMParams } from './menubar';
+
 export type Options = {
     config: Config;
+    domHandler: HandleDOM;
 };
 
 export const menu = createPlugin<string, Options>((utils, options) => {
     const config = options?.config ?? defaultConfig;
+    const domHandler = options?.domHandler;
     return {
         commands: () => [createCmd(SelectParent, () => selectParentNode)],
         prosePlugins: (_, ctx) => {
             const plugin = new Plugin({
                 key: menuKey,
                 view: (editorView) => {
-                    const menu = menubar(utils, editorView);
+                    const menu = menubar(utils, editorView, ctx, domHandler);
 
                     const manager = new Manager(config, utils, ctx, menu, editorView);
 
