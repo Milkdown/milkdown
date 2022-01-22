@@ -20,17 +20,17 @@ const scrollbar = (_, direction) => {
         '-webkit-overflow-scrolling': 'touch',
         '&::-webkit-scrollbar': {
             [isCol ? 'width' : 'height']: '12px',
-            background: 'palette(surface)',
+            background: 'transparent',
         },
         '&::-webkit-scrollbar-track': {
             'border-radius': '999px',
-            background: 'palette(secondary, 0.12)',
-            border: '4px solid palette(surface)',
+            background: 'transparent',
+            border: '4px solid transparent',
         },
         '&::-webkit-scrollbar-thumb': {
             'border-radius': '999px',
             'background-color': 'palette(secondary, 0.38)',
-            border: '4px solid palette(surface)',
+            border: '4px solid transparent',
             'background-clip': 'content-box',
         },
         '&::-webkit-scrollbar-thumb:hover': {
