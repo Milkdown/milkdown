@@ -133,16 +133,20 @@ export const filter = (utils: Utils) => {
                         $active = a;
                     });
                     calculateNodePosition(view, dropDown, (selected, target, parent) => {
+                        const $editor = dropDown.parentElement;
+                        if (!$editor) {
+                            throw new Error();
+                        }
                         const start = view.coordsAtPos(_from);
                         let left = start.left - parent.left;
-                        let top = selected.bottom - parent.top + 14;
+                        let top = selected.bottom - parent.top + 14 + $editor.scrollTop;
 
                         if (left < 0) {
                             left = 0;
                         }
 
                         if (window.innerHeight - start.bottom < target.height) {
-                            top = selected.top - parent.top - target.height - 14;
+                            top = selected.top - parent.top - target.height - 14 + $editor.scrollTop;
                         }
                         return [top, left];
                     });
