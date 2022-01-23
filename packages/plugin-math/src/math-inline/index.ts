@@ -115,7 +115,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
             };
         },
         inputRules: (nodeType) => [
-            new InputRule(/\$(.+)\$/, (state, match, start, end) => {
+            new InputRule(/(?:\$)([^$]+)(?:\$)$/, (state, match, start, end) => {
                 const $start = state.doc.resolve(start);
                 const index = $start.index();
                 const $end = state.doc.resolve(end);
