@@ -53,7 +53,8 @@ export const createProps = (status: Status, utils: Utils) => {
             if (
                 !paragraph ||
                 paragraph.node.childCount > 1 ||
-                state.selection.$from.parentOffset !== paragraph.node.textContent.length
+                state.selection.$from.parentOffset !== paragraph.node.textContent.length ||
+                paragraph.node.firstChild?.type.name !== 'text'
             ) {
                 status.clear();
                 return;
