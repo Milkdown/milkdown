@@ -15,7 +15,7 @@
         "test:doc": "prettier --check \"**/*.md\"",
         "test:e2e": "pnpm run start:test --filter @milkdown/e2e",
         "format": "lint-staged",
-        "watch": "pnpm --filter=./packages --parallel run watch",
+        "watch": "pnpm --filter=./packages --parallel run start",
         "doc": "pnpm run start --filter @milkdown/gh-pages",
         "doc:preview": "pnpm run preview --filter @milkdown/gh-pages",
         "start": "concurrently -n watch,doc \"pnpm watch\" \"pnpm doc\"",
