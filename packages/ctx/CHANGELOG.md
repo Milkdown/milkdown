@@ -1,5 +1,13 @@
 # @milkdown/ctx
 
+## 5.3.5
+
+### Patch Changes
+
+-   d28d71c1: Bug fixes and ux improvements
+-   Updated dependencies [d28d71c1]
+    -   @milkdown/exception@5.3.5
+
 ## 5.3.4
 
 ### Patch Changes

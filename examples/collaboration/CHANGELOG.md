@@ -1,5 +1,16 @@
 # @milkdown-examples/collaboration
 
+## 5.3.5
+
+### Patch Changes
+
+-   d28d71c1: Bug fixes and ux improvements
+-   Updated dependencies [d28d71c1]
+    -   @milkdown/core@5.3.5
+    -   @milkdown/plugin-collaborative@5.3.5
+    -   @milkdown/preset-commonmark@5.3.5
+    -   @milkdown/theme-nord@5.3.5
+
 ## 5.3.4
 
 ### Patch Changes

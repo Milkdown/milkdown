@@ -1,5 +1,38 @@
 # @milkdown/gh-pages
 
+## 5.3.5
+
+### Patch Changes
+
+-   d28d71c1: Bug fixes and ux improvements
+-   Updated dependencies [d28d71c1]
+    -   @milkdown/core@5.3.5
+    -   @milkdown/ctx@5.3.5
+    -   @milkdown/design-system@5.3.5
+    -   @milkdown/exception@5.3.5
+    -   @milkdown/plugin-clipboard@5.3.5
+    -   @milkdown/plugin-collaborative@5.3.5
+    -   @milkdown/plugin-cursor@5.3.5
+    -   @milkdown/plugin-diagram@5.3.5
+    -   @milkdown/plugin-emoji@5.3.5
+    -   @milkdown/plugin-history@5.3.5
+    -   @milkdown/plugin-indent@5.3.5
+    -   @milkdown/plugin-listener@5.3.5
+    -   @milkdown/plugin-math@5.3.5
+    -   @milkdown/plugin-menu@5.3.5
+    -   @milkdown/plugin-prism@5.3.5
+    -   @milkdown/plugin-slash@5.3.5
+    -   @milkdown/plugin-tooltip@5.3.5
+    -   @milkdown/plugin-upload@5.3.5
+    -   @milkdown/preset-commonmark@5.3.5
+    -   @milkdown/preset-gfm@5.3.5
+    -   @milkdown/prose@5.3.5
+    -   @milkdown/react@5.3.5
+    -   @milkdown/theme-nord@5.3.5
+    -   @milkdown/transformer@5.3.5
+    -   @milkdown/utils@5.3.5
+    -   @milkdown/vue@5.3.5
+
 ## 5.3.4
 
 ### Patch Changes
