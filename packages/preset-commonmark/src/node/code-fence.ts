@@ -136,6 +136,9 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             pre {
                 font-family: ${font.code};
                 margin: 0 1.2rem !important;
+                white-space: pre;
+                overflow: auto;
+                ${scrollbar('x')};
             }
         `;
     });
