@@ -23,12 +23,20 @@
         "shared-editing",
         "collaboration"
     ],
-    "dependencies": {
+    "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "@milkdown/utils": "workspace:*",
+        "yjs": "^13.5.11"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "^5.0.0",
+        "@milkdown/prose": "^5.0.0",
+        "@milkdown/utils": "^5.0.0",
+        "yjs": "*"
+    },
+    "dependencies": {
         "tslib": "^2.3.1",
-        "yjs": "^13.5.11",
         "y-prosemirror": "^1.0.9",
         "y-protocols": "^1.0.5"
     }

@@ -22,16 +22,19 @@
         "vue"
     ],
     "dependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/utils": "workspace:*",
-        "@milkdown/prose": "workspace:*",
         "nanoid": "^3.1.25",
         "tslib": "^2.3.1"
     },
     "peerDependencies": {
+        "@milkdown/core": "^5.0.0",
+        "@milkdown/prose": "^5.0.0",
+        "@milkdown/utils": "^5.0.0",
         "vue": "^3.0.0"
     },
     "devDependencies": {
+        "@milkdown/core": "workspace:*",
+        "@milkdown/utils": "workspace:*",
+        "@milkdown/prose": "workspace:*",
         "vue": "^3.0.0"
     }
 }
