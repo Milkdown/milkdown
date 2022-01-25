@@ -16,9 +16,15 @@
         "lib",
         "src"
     ],
-    "dependencies": {
-        "@milkdown/prose": "workspace:*",
+    "devDependencies": {
         "@milkdown/core": "workspace:*",
+        "@milkdown/prose": "workspace:*"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "^5.0.0",
+        "@milkdown/prose": "^5.0.0"
+    },
+    "dependencies": {
         "@milkdown/exception": "workspace:*",
         "tslib": "^2.3.1"
     }

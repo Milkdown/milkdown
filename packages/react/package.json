@@ -22,18 +22,20 @@
         "react"
     ],
     "dependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/utils": "workspace:*",
         "nanoid": "^3.1.25",
         "tslib": "^2.3.1"
     },
     "peerDependencies": {
         "react": "*",
-        "react-dom": "*"
+        "react-dom": "*",
+        "@milkdown/core": "^5.0.0",
+        "@milkdown/prose": "^5.0.0",
+        "@milkdown/utils": "^5.0.0"
     },
     "devDependencies": {
+        "@milkdown/core": "workspace:*",
+        "@milkdown/prose": "workspace:*",
+        "@milkdown/utils": "workspace:*",
         "@types/react": "*",
         "@types/react-dom": "*",
         "react": "*",

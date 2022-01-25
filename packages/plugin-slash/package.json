@@ -20,13 +20,19 @@
         "milkdown",
         "milkdown plugin"
     ],
-    "dependencies": {
+    "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
-        "@milkdown/ctx": "workspace:*",
-        "@milkdown/design-system": "workspace:*",
-        "@milkdown/preset-gfm": "workspace:*",
         "@milkdown/utils": "workspace:*",
+        "@milkdown/design-system": "workspace:*",
+        "@milkdown/preset-gfm": "workspace:*"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "^5.0.0",
+        "@milkdown/prose": "^5.0.0",
+        "@milkdown/utils": "^5.0.0"
+    },
+    "dependencies": {
         "smooth-scroll-into-view-if-needed": "^1.1.32",
         "tslib": "^2.3.1"
     }

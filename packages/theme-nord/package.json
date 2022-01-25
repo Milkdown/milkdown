@@ -11,9 +11,6 @@
         "tsc": "tsc --noEmit",
         "build": "vite build"
     },
-    "peerDependencies": {
-        "@milkdown/core": "*"
-    },
     "files": [
         "lib",
         "src"
@@ -23,9 +20,13 @@
         "milkdown theme",
         "nord"
     ],
-    "dependencies": {
+    "devDependencies": {
         "@milkdown/prose": "workspace:*",
         "@milkdown/core": "workspace:*",
         "@milkdown/design-system": "workspace:*"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "^5.0.0",
+        "@milkdown/prose": "^5.0.0"
     }
 }

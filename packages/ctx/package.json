@@ -25,8 +25,13 @@
         "text editor",
         "markdown editor"
     ],
+    "devDependencies": {
+        "@milkdown/exception": "workspace:*"
+    },
+    "peerDependencies": {
+        "@milkdown/exception": "*"
+    },
     "dependencies": {
-        "@milkdown/exception": "workspace:*",
         "tslib": "^2.3.1"
     }
 }
