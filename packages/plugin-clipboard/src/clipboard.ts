@@ -39,6 +39,11 @@ export const clipboardPlugin = createPlugin(() => {
                             return false;
                         }
 
+                        const currentNode = view.state.selection.$from.node();
+                        if (currentNode.type.spec.code) {
+                            return false;
+                        }
+
                         const text = clipboardData.getData('text/plain');
                         const html = clipboardData.getData('text/html');
                         if (html.length > 0 || text.length === 0) {
