@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx, schemaCtx, themeToolCtx } from '@milkdown/core';
-import type { Ctx } from '@milkdown/ctx';
+import { commandsCtx, Ctx, schemaCtx, themeToolCtx } from '@milkdown/core';
 import {
     InsertHr,
     InsertImage,
