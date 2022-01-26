@@ -2,6 +2,9 @@
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { Plugin, PluginKey, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
+import { customAlphabet } from 'nanoid';
+
+export const nanoid = customAlphabet('abcedfghicklmn', 10);
 
 import { SupportedKeys } from '../supported-keys';
 
@@ -136,12 +139,25 @@ export const heading = createNode<Keys>((utils) => {
                     if (transactions.some((transaction) => transaction.docChanged)) {
                         nextState.doc.descendants((node, pos) => {
                             if (node.type === type) {
-                                const id = node.textContent
-                                    .replace(' ', '-')
-                                    .toLocaleLowerCase()
-                                    .replace(/[^A-Za-z-]*/g, '')
-                                    .trim();
+                                if (node.textContent.trim().length === 0) {
+                                    return;
+                                }
                                 const attrs = node.attrs;
+                                const id = node.textContent.replace(/[^A-Za-z-]*/g, '').trim();
+
+                                if (id.length === 0) {
+                                    const nano = nanoid();
+                                    if (attrs.id.length !== nano.length) {
+                                        tr.setNodeMarkup(pos, undefined, {
+                                            ...attrs,
+                                            id: nano,
+                                        });
+
+                                        modified = true;
+                                    }
+                                    return;
+                                }
+
                                 if (attrs.id.split('-').join('') !== id.split('-').join('')) {
                                     tr.setNodeMarkup(pos, undefined, {
                                         ...attrs,
