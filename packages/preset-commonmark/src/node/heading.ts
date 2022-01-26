@@ -2,9 +2,6 @@
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { Plugin, PluginKey, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
-import { customAlphabet } from 'nanoid';
-
-export const nanoid = customAlphabet('abcedfghicklmn', 10);
 
 import { SupportedKeys } from '../supported-keys';
 
@@ -143,22 +140,12 @@ export const heading = createNode<Keys>((utils) => {
                                     return;
                                 }
                                 const attrs = node.attrs;
-                                const id = node.textContent.replace(/[^A-Za-z-]*/g, '').trim();
+                                const id = node.textContent
+                                    .replace(/[\p{P}\p{S}]/gu, '')
+                                    .replace(/\s/g, '')
+                                    .trim();
 
-                                if (id.length === 0) {
-                                    const nano = nanoid();
-                                    if (attrs.id.length !== nano.length) {
-                                        tr.setNodeMarkup(pos, undefined, {
-                                            ...attrs,
-                                            id: nano,
-                                        });
-
-                                        modified = true;
-                                    }
-                                    return;
-                                }
-
-                                if (attrs.id.split('-').join('') !== id.split('-').join('')) {
+                                if (attrs.id !== id) {
                                     tr.setNodeMarkup(pos, undefined, {
                                         ...attrs,
                                         id,
