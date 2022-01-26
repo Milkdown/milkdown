@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { Plugin, PluginKey, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { Plugin, PluginKey, ReplaceStep, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -132,15 +132,24 @@ export const heading = createNode<Keys>((utils) => {
                 appendTransaction: (transactions, _, nextState) => {
                     const tr = nextState.tr;
                     let modified = false;
+
                     if (transactions.some((transaction) => transaction.docChanged)) {
                         nextState.doc.descendants((node, pos) => {
                             if (node.type === type) {
+                                const id = node.textContent
+                                    .replace(' ', '-')
+                                    .toLocaleLowerCase()
+                                    .replace(/[^A-Za-z-]*/g, '')
+                                    .trim();
                                 const attrs = node.attrs;
-                                tr.setNodeMarkup(pos, undefined, {
-                                    ...attrs,
-                                    id: node.textContent.split(' ').join('-').toLocaleLowerCase(),
-                                });
-                                modified = true;
+                                if (attrs.id.split('-').join('') !== id.split('-').join('')) {
+                                    tr.setNodeMarkup(pos, undefined, {
+                                        ...attrs,
+                                        id,
+                                    });
+
+                                    modified = true;
+                                }
                             }
                         });
                     }
