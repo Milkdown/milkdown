@@ -1,6 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey } from '@milkdown/core';
-import { Plugin, PluginKey, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { createCmd, createCmdKey, editorViewCtx } from '@milkdown/core';
+import {
+    EditorState,
+    Node,
+    Plugin,
+    PluginKey,
+    setBlockType,
+    textblockTypeInputRule,
+    Transaction,
+} from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -126,40 +134,64 @@ export const heading = createNode<Keys>((utils) => {
             [SupportedKeys.H5]: createShortcut(TurnIntoHeading, 'Mod-Alt-5', 5),
             [SupportedKeys.H6]: createShortcut(TurnIntoHeading, 'Mod-Alt-6', 6),
         },
-        prosePlugins: (type) => [
-            new Plugin({
-                key: headingPluginKey,
-                appendTransaction: (transactions, _, nextState) => {
-                    const tr = nextState.tr;
-                    let modified = false;
+        prosePlugins: (type, ctx) => {
+            let lock = false;
+            const createId = (node: Node) => {
+                return node.textContent
+                    .replace(/[\p{P}\p{S}]/gu, '')
+                    .replace(/\s/g, '')
+                    .trim();
+            };
+            const walkThrough = (state: EditorState, callback: (tr: Transaction) => void) => {
+                const tr = state.tr;
+                state.doc.descendants((node, pos) => {
+                    if (node.type === type && !lock) {
+                        if (node.textContent.trim().length === 0) {
+                            return;
+                        }
+                        const attrs = node.attrs;
+                        const id = createId(node);
 
-                    if (transactions.some((transaction) => transaction.docChanged)) {
-                        nextState.doc.descendants((node, pos) => {
-                            if (node.type === type) {
-                                if (node.textContent.trim().length === 0) {
-                                    return;
-                                }
-                                const attrs = node.attrs;
-                                const id = node.textContent
-                                    .replace(/[\p{P}\p{S}]/gu, '')
-                                    .replace(/\s/g, '')
-                                    .trim();
-
-                                if (attrs.id !== id) {
-                                    tr.setNodeMarkup(pos, undefined, {
-                                        ...attrs,
-                                        id,
-                                    });
-
-                                    modified = true;
-                                }
-                            }
-                        });
+                        if (attrs.id !== id) {
+                            tr.setNodeMarkup(pos, undefined, {
+                                ...attrs,
+                                id,
+                            });
+                        }
                     }
+                });
+                callback(tr);
+            };
+            return [
+                new Plugin({
+                    key: headingPluginKey,
+                    props: {
+                        handleDOMEvents: {
+                            compositionstart: () => {
+                                lock = true;
+                                return false;
+                            },
+                            compositionend: () => {
+                                lock = false;
+                                const view = ctx.get(editorViewCtx);
+                                walkThrough(view.state, (tr) => view.dispatch(tr));
+                                return false;
+                            },
+                        },
+                    },
+                    appendTransaction: (transactions, _, nextState) => {
+                        let tr: Transaction | null = null;
 
-                    return modified ? tr : null;
-                },
-            }),
-        ],
+                        if (transactions.some((transaction) => transaction.docChanged)) {
+                            walkThrough(nextState, (t) => {
+                                tr = t;
+                            });
+                        }
+
+                        return tr;
+                    },
+                }),
+            ];
+        },
     };
 });
