@@ -27,8 +27,8 @@
         "@milkdown/prose": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/core": "^5.4.0",
-        "@milkdown/prose": "^5.4.0"
+        "@milkdown/core": "^5.3.5",
+        "@milkdown/prose": "^5.3.5"
     },
     "dependencies": {
         "@types/mermaid": "^8.2.7",

@@ -29,7 +29,7 @@
         "@milkdown/prose": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/prose": "^5.4.0"
+        "@milkdown/prose": "^5.3.5"
     },
     "dependencies": {
         "@milkdown/ctx": "workspace:*",
