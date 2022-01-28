@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 5.4.1
+
+### Patch Changes
+
+-   1a882652: Quick fix for new dep orgnization
+-   Updated dependencies [1a882652]
+    -   @milkdown/ctx@5.4.1
+    -   @milkdown/design-system@5.4.1
+    -   @milkdown/exception@5.4.1
+    -   @milkdown/transformer@5.4.1
+
 ## 5.4.0
 
 ### Minor Changes
