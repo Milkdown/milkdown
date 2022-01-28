@@ -24,7 +24,8 @@
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
         "@milkdown/design-system": "workspace:*",
-        "@milkdown/preset-gfm": "workspace:*"
+        "@milkdown/preset-gfm": "workspace:*",
+        "@milkdown/plugin-upload": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^5.0.0",

@@ -1,7 +1,16 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { schemaCtx, themeToolCtx } from '@milkdown/core';
-import type { EditorView, Fragment, Node, Schema } from '@milkdown/prose';
-import { Decoration, DecorationSet, EditorState, Plugin } from '@milkdown/prose';
+import {
+    Decoration,
+    DecorationSet,
+    EditorState,
+    EditorView,
+    Fragment,
+    Node,
+    Plugin,
+    PluginKey,
+    Schema,
+} from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
 
 import { defaultUploader } from './default-uploader';
@@ -12,6 +21,7 @@ export type Options = {
     uploader: Uploader;
     enableHtmlFileUploader: boolean;
 };
+export const key = new PluginKey('MILKDOWN_PLUGIN_UPLOAD');
 
 export const uploadPlugin = createPlugin<string, Options>((_, options) => {
     const uploader = options?.uploader ?? defaultUploader;
@@ -21,6 +31,7 @@ export const uploadPlugin = createPlugin<string, Options>((_, options) => {
             const schema = ctx.get(schemaCtx);
 
             const placeholderPlugin = new Plugin({
+                key,
                 state: {
                     init() {
                         return DecorationSet.empty;
