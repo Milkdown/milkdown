@@ -4,7 +4,9 @@
     "version": "5.3.5",
     "license": "MIT",
     "scripts": {
-        "start": "vite"
+        "start": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
     },
     "dependencies": {
         "vue": "^3.0.0",

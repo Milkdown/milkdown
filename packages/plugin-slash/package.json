@@ -28,8 +28,8 @@
         "@milkdown/plugin-upload": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/core": "^5.0.0",
-        "@milkdown/prose": "^5.0.0"
+        "@milkdown/core": "^5.4.0",
+        "@milkdown/prose": "^5.4.0"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
