@@ -62,7 +62,7 @@
         "typescript": "^4.5.4",
         "vite": "^2.4.4",
         "vite-plugin-dts": "^0.9.9",
-        "vitest": "^0.2.0"
+        "vitest": "^0.2.5"
     },
     "pnpm": {
         "peerDependencyRules": {
