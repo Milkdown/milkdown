@@ -117,7 +117,10 @@ export const filter = (utils: Utils) => {
 
             return {
                 update: (view) => {
-                    if (!trigger) {
+                    const { selection } = view.state;
+
+                    if (selection.from - selection.to !== 0 || !trigger) {
+                        off();
                         dropDown.classList.add('hide');
                         return null;
                     }
