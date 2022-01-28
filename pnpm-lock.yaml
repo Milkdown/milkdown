@@ -315,11 +315,11 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-collaborative:
     specifiers:
@@ -331,13 +331,13 @@ importers:
       y-protocols: ^1.0.5
       yjs: ^13.5.11
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
       y-prosemirror: 1.0.14_y-protocols@1.0.5+yjs@13.5.24
       y-protocols: 1.0.5
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
       yjs: 13.5.24
 
   packages/plugin-cursor:
@@ -347,11 +347,11 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-diagram:
     specifiers:
@@ -364,6 +364,7 @@ importers:
       tslib: ^2.3.1
       unist-util-visit: 4.0.0
     dependencies:
+      '@milkdown/utils': link:../utils
       '@types/mermaid': 8.2.7
       mermaid: 8.13.10
       nanoid: 3.2.0
@@ -372,7 +373,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-emoji:
     specifiers:
@@ -390,6 +390,7 @@ importers:
       unist-util-visit: 4.0.0
     dependencies:
       '@joeattardi/emoji-button': 4.6.2
+      '@milkdown/utils': link:../utils
       '@types/node-emoji': 1.8.1
       '@types/twemoji': 12.1.2
       emoji-regex: 10.0.0
@@ -401,7 +402,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-history:
     specifiers:
@@ -410,11 +410,11 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-indent:
     specifiers:
@@ -423,11 +423,11 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-listener:
     specifiers:
@@ -436,11 +436,11 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-math:
     specifiers:
@@ -452,6 +452,7 @@ importers:
       remark-math: ^5.1.0
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       '@types/katex': 0.11.1
       katex: 0.15.2
       remark-math: 5.1.1
@@ -459,7 +460,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-menu:
     specifiers:
@@ -471,6 +471,7 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
@@ -478,7 +479,6 @@ importers:
       '@milkdown/plugin-history': link:../plugin-history
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-prism:
     specifiers:
@@ -489,13 +489,13 @@ importers:
       refractor: ^4.0.0
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       '@types/refractor': 3.0.2
       refractor: 4.4.0
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-slash:
     specifiers:
@@ -507,6 +507,7 @@ importers:
       smooth-scroll-into-view-if-needed: ^1.1.32
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       smooth-scroll-into-view-if-needed: 1.1.32
       tslib: 2.3.1
     devDependencies:
@@ -514,7 +515,6 @@ importers:
       '@milkdown/design-system': link:../design-system
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-tooltip:
     specifiers:
@@ -526,6 +526,7 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
@@ -533,7 +534,6 @@ importers:
       '@milkdown/plugin-math': link:../plugin-math
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/plugin-upload:
     specifiers:
@@ -542,11 +542,11 @@ importers:
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/preset-commonmark:
     specifiers:
@@ -557,13 +557,13 @@ importers:
       remark-inline-links: ^6.0.0
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       remark-inline-links: 6.0.1
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/preset-gfm:
     specifiers:
@@ -575,6 +575,7 @@ importers:
       remark-gfm: ^3.0.0
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       remark-gfm: 3.0.1
       tslib: 2.3.1
     devDependencies:
@@ -582,7 +583,6 @@ importers:
       '@milkdown/design-system': link:../design-system
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
 
   packages/prose:
     specifiers:
@@ -650,12 +650,12 @@ importers:
       react-dom: '*'
       tslib: ^2.3.1
     dependencies:
+      '@milkdown/utils': link:../utils
       nanoid: 3.2.0
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
       react: 17.0.2
@@ -708,12 +708,12 @@ importers:
       tslib: ^2.3.1
       vue: ^3.0.0
     dependencies:
+      '@milkdown/utils': link:../utils
       nanoid: 3.2.0
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/utils': link:../utils
       vue: 3.2.29
 
 packages:
