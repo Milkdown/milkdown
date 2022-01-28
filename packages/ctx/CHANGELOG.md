@@ -1,5 +1,11 @@
 # @milkdown/ctx
 
+## 5.4.0
+
+### Minor Changes
+
+-   6eef6cd1: Bug fixes, UX improvements and dependency optimization.
+
 ## 5.3.5
 
 ### Patch Changes

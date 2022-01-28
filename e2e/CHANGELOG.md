@@ -1,5 +1,21 @@
 # @milkdown/e2e
 
+## 5.4.0
+
+### Minor Changes
+
+-   6eef6cd1: Bug fixes, UX improvements and dependency optimization.
+
+### Patch Changes
+
+-   Updated dependencies [6eef6cd1]
+    -   @milkdown/core@5.4.0
+    -   @milkdown/design-system@5.4.0
+    -   @milkdown/preset-commonmark@5.4.0
+    -   @milkdown/preset-gfm@5.4.0
+    -   @milkdown/prose@5.4.0
+    -   @milkdown/theme-nord@5.4.0
+
 ## 5.3.5
 
 ### Patch Changes

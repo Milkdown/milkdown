@@ -1,5 +1,41 @@
 # @milkdown/gh-pages
 
+## 5.4.0
+
+### Minor Changes
+
+-   6eef6cd1: Bug fixes, UX improvements and dependency optimization.
+
+### Patch Changes
+
+-   Updated dependencies [6eef6cd1]
+    -   @milkdown/core@5.4.0
+    -   @milkdown/ctx@5.4.0
+    -   @milkdown/design-system@5.4.0
+    -   @milkdown/exception@5.4.0
+    -   @milkdown/plugin-clipboard@5.4.0
+    -   @milkdown/plugin-collaborative@5.4.0
+    -   @milkdown/plugin-cursor@5.4.0
+    -   @milkdown/plugin-diagram@5.4.0
+    -   @milkdown/plugin-emoji@5.4.0
+    -   @milkdown/plugin-history@5.4.0
+    -   @milkdown/plugin-indent@5.4.0
+    -   @milkdown/plugin-listener@5.4.0
+    -   @milkdown/plugin-math@5.4.0
+    -   @milkdown/plugin-menu@5.4.0
+    -   @milkdown/plugin-prism@5.4.0
+    -   @milkdown/plugin-slash@5.4.0
+    -   @milkdown/plugin-tooltip@5.4.0
+    -   @milkdown/plugin-upload@5.4.0
+    -   @milkdown/preset-commonmark@5.4.0
+    -   @milkdown/preset-gfm@5.4.0
+    -   @milkdown/prose@5.4.0
+    -   @milkdown/react@5.4.0
+    -   @milkdown/theme-nord@5.4.0
+    -   @milkdown/transformer@5.4.0
+    -   @milkdown/utils@5.4.0
+    -   @milkdown/vue@5.4.0
+
 ## 5.3.5
 
 ### Patch Changes
