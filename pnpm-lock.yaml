@@ -501,6 +501,7 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
+      '@milkdown/plugin-upload': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
@@ -513,6 +514,7 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
+      '@milkdown/plugin-upload': link:../plugin-upload
       '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
 

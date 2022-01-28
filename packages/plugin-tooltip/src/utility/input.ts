@@ -123,7 +123,7 @@ export const updateImageView: Updater = (view, $) => {
     const { node } = result;
 
     const value = node.attrs.src;
-    firstChild.value = value;
+    firstChild.value = value.length > 50 ? 'Url is too long to display.' : value;
     if (!value) {
         lastElementChild.classList.add('disable');
         return;

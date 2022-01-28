@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Emotion, ThemeTool } from '@milkdown/core';
+import { key as uploadKey } from '@milkdown/plugin-upload';
 import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -49,6 +50,12 @@ export const createProps = (status: Status, utils: Utils) => {
         },
         decorations: (state: EditorState) => {
             const paragraph = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
+            const uploadPlugin = state.plugins.find((x) => x.spec.key === uploadKey);
+            const decorations: DecorationSet = uploadPlugin?.getState(state);
+            if (decorations != null && decorations.find(state.selection.from, state.selection.to).length > 0) {
+                status.clear();
+                return;
+            }
 
             if (
                 !paragraph ||

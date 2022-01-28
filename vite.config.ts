@@ -38,8 +38,20 @@ export const external = [
     '@milkdown/utils',
     '@milkdown/preset-gfm',
     '@milkdown/preset-commonmark',
+    '@milkdown/plugin-clipboard',
+    '@milkdown/plugin-collaborative',
+    '@milkdown/plugin-cursor',
+    '@milkdown/plugin-diagram',
+    '@milkdown/plugin-emoji',
     '@milkdown/plugin-history',
-    '@milkdown/plugin-table',
+    '@milkdown/plugin-indent',
+    '@milkdown/plugin-listener',
+    '@milkdown/plugin-math',
+    '@milkdown/plugin-menu',
+    '@milkdown/plugin-prism',
+    '@milkdown/plugin-slash',
+    '@milkdown/plugin-tooltip',
+    '@milkdown/plugin-upload',
 ];
 
 export const viteBuild = (packageDirName: string): BuildOptions => ({
