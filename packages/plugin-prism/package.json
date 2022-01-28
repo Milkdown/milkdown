@@ -26,12 +26,12 @@
     },
     "peerDependencies": {
         "@milkdown/core": "^5.4.0",
-        "@milkdown/prose": "^5.4.0"
+        "@milkdown/prose": "^5.4.0",
+        "@types/refractor": "^3.0.0",
+        "refractor": "^4.0.0"
     },
     "dependencies": {
-        "@types/refractor": "^3.0.0",
         "@milkdown/utils": "workspace:*",
-        "refractor": "^4.0.0",
         "tslib": "^2.3.1"
     }
 }
