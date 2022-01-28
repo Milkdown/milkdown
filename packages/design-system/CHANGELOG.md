@@ -1,5 +1,11 @@
 # @milkdown/design-system
 
+## 5.4.1
+
+### Patch Changes
+
+-   1a882652: Quick fix for new dep orgnization
+
 ## 5.4.0
 
 ### Minor Changes
