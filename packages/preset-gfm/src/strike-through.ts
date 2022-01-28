@@ -7,7 +7,7 @@ import { SupportedKeys } from './supported-keys';
 
 type Keys = SupportedKeys['StrikeThrough'];
 
-export const ToggleStrikeThrough = createCmdKey();
+export const ToggleStrikeThrough = createCmdKey('ToggleStrikeThrough');
 
 export const strikeThrough = createMark<Keys>((utils) => {
     const id = 'strike_through';

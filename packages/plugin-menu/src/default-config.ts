@@ -1,24 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { createCmdKey } from '@milkdown/core';
-import { Redo, Undo } from '@milkdown/plugin-history';
-import {
-    InsertHr,
-    InsertImage,
-    InsertTable,
-    LiftListItem,
-    SinkListItem,
-    ToggleBold,
-    ToggleItalic,
-    ToggleLink,
-    ToggleStrikeThrough,
-    TurnIntoCodeFence,
-    TurnIntoHeading,
-    TurnIntoTaskList,
-    WrapInBlockquote,
-    WrapInBulletList,
-    WrapInOrderedList,
-} from '@milkdown/preset-gfm';
 import {
     EditorState,
     EditorView,
@@ -52,7 +34,7 @@ const hasMark = (state: EditorState, type: MarkType): boolean => {
     return state.doc.rangeHasMark(from, to, type);
 };
 
-export const SelectParent = createCmdKey();
+export const SelectParent = createCmdKey('SelectParent');
 export const defaultConfig: Config = [
     [
         {
@@ -71,14 +53,14 @@ export const defaultConfig: Config = [
                     !(setToHeading(1) || setToHeading(2) || setToHeading(3))
                 );
             },
-            onSelect: (id) => [TurnIntoHeading, Number(id)],
+            onSelect: (id) => ['TurnIntoHeading', Number(id)],
         },
     ],
     [
         {
             type: 'button',
             icon: 'undo',
-            key: Undo,
+            key: 'Undo',
             disabled: (view) => {
                 return !undo(view.state);
             },
@@ -86,7 +68,7 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'redo',
-            key: Redo,
+            key: 'Redo',
             disabled: (view) => {
                 return !redo(view.state);
             },
@@ -96,21 +78,21 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'bold',
-            key: ToggleBold,
+            key: 'ToggleBold',
             active: (view) => hasMark(view.state, view.state.schema.marks.strong),
             disabled: (view) => !view.state.schema.marks.strong,
         },
         {
             type: 'button',
             icon: 'italic',
-            key: ToggleItalic,
+            key: 'ToggleItalic',
             active: (view) => hasMark(view.state, view.state.schema.marks.em),
             disabled: (view) => !view.state.schema.marks.em,
         },
         {
             type: 'button',
             icon: 'strikeThrough',
-            key: ToggleStrikeThrough,
+            key: 'ToggleStrikeThrough',
             active: (view) => hasMark(view.state, view.state.schema.marks.strike_through),
             disabled: (view) => !view.state.schema.marks.strike_through,
         },
@@ -119,7 +101,7 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'bulletList',
-            key: WrapInBulletList,
+            key: 'WrapInBulletList',
             disabled: (view) => {
                 const { state } = view;
                 return !wrapIn(state.schema.nodes.bullet_list)(state);
@@ -128,7 +110,7 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'orderedList',
-            key: WrapInOrderedList,
+            key: 'WrapInOrderedList',
             disabled: (view) => {
                 const { state } = view;
                 return !wrapIn(state.schema.nodes.ordered_list)(state);
@@ -137,7 +119,7 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'taskList',
-            key: TurnIntoTaskList,
+            key: 'TurnIntoTaskList',
             disabled: (view) => {
                 const { state } = view;
                 return !wrapIn(state.schema.nodes.task_list_item)(state);
@@ -146,7 +128,7 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'liftList',
-            key: LiftListItem,
+            key: 'LiftListItem',
             disabled: (view) => {
                 const { state } = view;
                 return !liftListItem(state.schema.nodes.list_item)(state);
@@ -155,7 +137,7 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'sinkList',
-            key: SinkListItem,
+            key: 'SinkListItem',
             disabled: (view) => {
                 const { state } = view;
                 return !sinkListItem(state.schema.nodes.list_item)(state);
@@ -166,35 +148,35 @@ export const defaultConfig: Config = [
         {
             type: 'button',
             icon: 'link',
-            key: ToggleLink,
+            key: 'ToggleLink',
             active: (view) => hasMark(view.state, view.state.schema.marks.link),
         },
         {
             type: 'button',
             icon: 'image',
-            key: InsertImage,
+            key: 'InsertImage',
         },
         {
             type: 'button',
             icon: 'table',
-            key: InsertTable,
+            key: 'InsertTable',
         },
         {
             type: 'button',
             icon: 'code',
-            key: TurnIntoCodeFence,
+            key: 'TurnIntoCodeFence',
         },
     ],
     [
         {
             type: 'button',
             icon: 'quote',
-            key: WrapInBlockquote,
+            key: 'WrapInBlockquote',
         },
         {
             type: 'button',
             icon: 'divider',
-            key: InsertHr,
+            key: 'InsertHr',
         },
         {
             type: 'button',

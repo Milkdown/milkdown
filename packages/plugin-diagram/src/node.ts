@@ -18,7 +18,7 @@ export type Options = {
     };
 };
 
-export const TurnIntoDiagram = createCmdKey();
+export const TurnIntoDiagram = createCmdKey('TurnIntoDiagram');
 
 export const diagramNode = createNode<string, Options>((utils, options) => {
     const { mermaidVariables, codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);

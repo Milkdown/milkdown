@@ -7,7 +7,7 @@ import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['OrderedList'];
 
-export const WrapInOrderedList = createCmdKey();
+export const WrapInOrderedList = createCmdKey('WrapInOrderedList');
 
 const id = 'ordered_list';
 export const orderedList = createNode<Keys>((utils) => ({

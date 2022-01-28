@@ -25,7 +25,7 @@ type Keys =
     | SupportedKeys['H5']
     | SupportedKeys['H6'];
 
-export const TurnIntoHeading = createCmdKey<number>();
+export const TurnIntoHeading = createCmdKey<number>('TurnIntoHeading');
 
 export const headingPluginKey = new PluginKey('MILKDOWN_PLUGIN_ID');
 

@@ -3,8 +3,8 @@ import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
 import { InputRule, Node as ProseNode, TextSelection, toggleMark } from '@milkdown/prose';
 import { createMark } from '@milkdown/utils';
 
-export const ToggleLink = createCmdKey<string>();
-export const ModifyLink = createCmdKey<string>();
+export const ToggleLink = createCmdKey<string>('ToggleLink');
+export const ModifyLink = createCmdKey<string>('ModifyLink');
 const id = 'link';
 export const link = createMark((utils) => {
     const style = utils.getStyle((themeTool, { css }) => {

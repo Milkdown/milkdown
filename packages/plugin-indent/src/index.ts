@@ -37,7 +37,7 @@ const applyStyle = (options: Options, utils: Utils): void => {
     }
 };
 
-export const Indent = createCmdKey<boolean>();
+export const Indent = createCmdKey<boolean>('Indent');
 
 export const indentPlugin = createPlugin<string, Options>((utils, options) => ({
     prosePlugins: () => {

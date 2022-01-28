@@ -9,9 +9,9 @@ type Keys = SupportedKeys['SinkListItem'] | SupportedKeys['LiftListItem'] | Supp
 
 const id = 'list_item';
 
-export const SplitListItem = createCmdKey();
-export const SinkListItem = createCmdKey();
-export const LiftListItem = createCmdKey();
+export const SplitListItem = createCmdKey('SplitListItem');
+export const SinkListItem = createCmdKey('SinkListItem');
+export const LiftListItem = createCmdKey('LiftListItem');
 
 export const listItem = createNode<Keys>((utils) => {
     const style = utils.getStyle(

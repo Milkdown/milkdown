@@ -8,7 +8,7 @@ import { SupportedKeys } from '../supported-keys';
 type Keys = SupportedKeys['CodeInline'];
 const id = 'code_inline';
 
-export const ToggleInlineCode = createCmdKey();
+export const ToggleInlineCode = createCmdKey('ToggleInlineCode');
 
 export const codeInline = createMark<Keys>((utils) => {
     const style = utils.getStyle(

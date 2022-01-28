@@ -23,6 +23,14 @@ export class Ctx {
     readonly use = <T>(slice: Slice<T>): $Slice<T> => this.#container.getSlice(slice);
 
     /**
+     * Get the instance value by string name.
+     *
+     * @param slice - The slice needs to be used.
+     * @returns The slice value.
+     */
+    readonly useByName = (name: string) => this.#container.getSliceByName(name);
+
+    /**
      * Get the slice value.
      *
      * @param slice - The slice needs to be used.

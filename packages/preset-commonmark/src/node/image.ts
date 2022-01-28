@@ -4,8 +4,8 @@ import type { Icon } from '@milkdown/design-system';
 import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
-export const ModifyImage = createCmdKey<string>();
-export const InsertImage = createCmdKey<string>();
+export const ModifyImage = createCmdKey<string>('ModifyImage');
+export const InsertImage = createCmdKey<string>('InsertImage');
 const id = 'image';
 export type ImageOptions = {
     isBlock: boolean;

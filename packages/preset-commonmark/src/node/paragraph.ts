@@ -7,7 +7,7 @@ import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['Text'];
 
-export const TurnIntoText = createCmdKey();
+export const TurnIntoText = createCmdKey('TurnIntoText');
 
 const id = 'paragraph';
 export const paragraph = createNode<Keys>((utils) => {

@@ -7,7 +7,7 @@ import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['Bold'];
 const id = 'strong';
-export const ToggleBold = createCmdKey();
+export const ToggleBold = createCmdKey('ToggleBold');
 export const strong = createMark<Keys>((utils) => {
     const style = utils.getStyle(
         (_, { css }) =>

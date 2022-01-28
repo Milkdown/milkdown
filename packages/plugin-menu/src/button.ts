@@ -12,7 +12,7 @@ export type ButtonConfig<T = any> = {
     type: 'button';
     icon: Icon;
     active?: (view: EditorView) => boolean;
-    key: CmdKey<T>;
+    key: CmdKey<T> | string;
     options?: T;
 } & CommonConfig;
 
@@ -65,6 +65,10 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     $button.addEventListener('mousedown', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (typeof config.key === 'string') {
+            ctx.get(commandsCtx).callByName(config.key, config.options);
+            return;
+        }
         ctx.get(commandsCtx).call(config.key, config.options);
     });
     return $button;

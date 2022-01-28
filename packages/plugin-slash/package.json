@@ -23,9 +23,7 @@
     "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
-        "@milkdown/design-system": "workspace:*",
-        "@milkdown/preset-gfm": "workspace:*",
-        "@milkdown/plugin-upload": "workspace:*"
+        "@milkdown/design-system": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^5.4.0",

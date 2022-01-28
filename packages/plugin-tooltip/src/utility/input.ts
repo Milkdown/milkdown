@@ -1,7 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, Ctx } from '@milkdown/core';
-import { ModifyInlineMath } from '@milkdown/plugin-math';
-import { ModifyImage, ModifyLink } from '@milkdown/preset-gfm';
 import { findSelectedNodeOfType, Node as ProseNode } from '@milkdown/prose';
 
 import { Event2Command, Updater } from '../item';
@@ -24,7 +22,7 @@ export const modifyLink =
         const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
         if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
-        return ctx.get(commandsCtx).call(ModifyLink, inputEl.value);
+        return ctx.get(commandsCtx).callByName('ModifyLink', inputEl.value);
     };
 
 export const modifyInlineMath =
@@ -40,7 +38,7 @@ export const modifyInlineMath =
         const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
         if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
-        return ctx.get(commandsCtx).call(ModifyInlineMath, inputEl.value);
+        return ctx.get(commandsCtx).callByName('ModifyInlineMath', inputEl.value);
     };
 
 export const modifyImage =
@@ -60,7 +58,7 @@ export const modifyImage =
         const inputEl = Array.from(parent.children).find((el) => el.tagName === 'INPUT');
         if (!(inputEl instanceof HTMLInputElement)) return () => false;
 
-        return ctx.get(commandsCtx).call(ModifyImage, inputEl.value);
+        return ctx.get(commandsCtx).callByName('ModifyImage', inputEl.value);
     };
 
 export const updateLinkView: Updater = (view, $) => {

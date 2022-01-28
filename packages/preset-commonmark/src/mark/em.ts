@@ -9,7 +9,7 @@ type Keys = SupportedKeys['Em'];
 
 const id = 'em';
 
-export const ToggleItalic = createCmdKey();
+export const ToggleItalic = createCmdKey('ToggleItalic');
 
 export const em = createMark<Keys>((utils) => ({
     id,

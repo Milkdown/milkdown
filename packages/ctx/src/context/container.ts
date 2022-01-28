@@ -5,6 +5,7 @@ import { $Slice, Slice } from './slice';
 
 export type Container = {
     readonly getSlice: <T>(slice: Slice<T>) => $Slice<T>;
+    readonly getSliceByName: <T>(name: string) => $Slice<T> | null;
     readonly sliceMap: Map<symbol, $Slice>;
 };
 
@@ -19,5 +20,13 @@ export const createContainer = (): Container => {
         return context as $Slice<T>;
     };
 
-    return { getSlice, sliceMap };
+    const getSliceByName = <T>(sliceName: string): $Slice<T> | null => {
+        const result = [...sliceMap.values()].find((x) => x.name === sliceName);
+        if (!result) {
+            return null;
+        }
+        return result as $Slice<T>;
+    };
+
+    return { getSlice, sliceMap, getSliceByName };
 };

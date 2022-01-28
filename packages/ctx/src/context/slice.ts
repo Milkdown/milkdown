@@ -5,6 +5,7 @@ import { shallowClone } from './shallow-clone';
 
 export type $Slice<T = unknown> = {
     readonly id: symbol;
+    readonly name: string;
     readonly set: (value: T) => void;
     readonly get: () => T;
     readonly update: (updater: (prev: T) => T) => void;
@@ -26,6 +27,7 @@ export const createSlice = <T>(value: T, name: string): Slice<T> => {
         let inner = resetValue;
 
         const context: $Slice<T> = {
+            name,
             id,
             set: (next) => {
                 inner = next;

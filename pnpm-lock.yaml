@@ -465,8 +465,6 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
-      '@milkdown/plugin-history': workspace:*
-      '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
@@ -476,8 +474,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
-      '@milkdown/plugin-history': link:../plugin-history
-      '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
 
   packages/plugin-prism:
@@ -501,8 +497,6 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
-      '@milkdown/plugin-upload': workspace:*
-      '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       smooth-scroll-into-view-if-needed: ^1.1.32
@@ -514,16 +508,12 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
-      '@milkdown/plugin-upload': link:../plugin-upload
-      '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
 
   packages/plugin-tooltip:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
-      '@milkdown/plugin-math': workspace:*
-      '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
@@ -533,8 +523,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
-      '@milkdown/plugin-math': link:../plugin-math
-      '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
 
   packages/plugin-upload:

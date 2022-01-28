@@ -17,7 +17,7 @@ export type SelectConfig<T = any> = {
     text: string;
     options: SelectOptions[];
     active?: (view: EditorView) => string;
-    onSelect: (id: string, view: EditorView) => [key: CmdKey<T>, info?: T];
+    onSelect: (id: string, view: EditorView) => [key: CmdKey<T> | string, info?: T];
 } & CommonConfig;
 
 export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
@@ -143,7 +143,13 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
     selectorList.addEventListener('mousedown', (e) => {
         const { target } = e;
         if (target instanceof HTMLButtonElement && target.dataset.id) {
-            ctx.get(commandsCtx).call(...config.onSelect(target.dataset.id, view));
+            const params = config.onSelect(target.dataset.id, view);
+            const [key, info] = params;
+            if (typeof key === 'string') {
+                ctx.get(commandsCtx).callByName(key, info);
+            } else {
+                ctx.get(commandsCtx).call(key, info);
+            }
             selectorWrapper.classList.add('fold');
         }
     });

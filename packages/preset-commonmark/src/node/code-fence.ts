@@ -29,7 +29,7 @@ const languageOptions = [
 export const backtickInputRegex = /^```(?<language>[a-z]*)?[\s\n]$/;
 export const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/;
 
-export const TurnIntoCodeFence = createCmdKey();
+export const TurnIntoCodeFence = createCmdKey('TurnIntoCodeFence');
 
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {

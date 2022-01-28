@@ -18,10 +18,10 @@ export type SupportedKeys = typeof SupportedKeys;
 
 type Keys = keyof SupportedKeys;
 
-export const PrevCell = createCmdKey();
-export const NextCell = createCmdKey();
-export const BreakTable = createCmdKey();
-export const InsertTable = createCmdKey();
+export const PrevCell = createCmdKey('PrevCell');
+export const NextCell = createCmdKey('NextCell');
+export const BreakTable = createCmdKey('BreakTable');
+export const InsertTable = createCmdKey('InsertTable');
 
 export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof schema>((utils) => {
     injectStyle(utils);

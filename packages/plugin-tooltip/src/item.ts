@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
-import { ToggleBold, ToggleInlineCode, ToggleItalic, ToggleLink, ToggleStrikeThrough } from '@milkdown/preset-gfm';
 import { EditorView, findSelectedNodeOfType, Schema, TextSelection } from '@milkdown/prose';
 
 import {
@@ -103,16 +102,16 @@ export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): 
 export const buttonMap = (schema: Schema, ctx: Ctx): ButtonMap => {
     const { marks } = schema;
     return {
-        [ButtonAction.ToggleBold]: createToggleIcon(ctx, 'bold', ToggleBold, marks.strong, marks.code_inline),
-        [ButtonAction.ToggleItalic]: createToggleIcon(ctx, 'italic', ToggleItalic, marks.em, marks.code_inline),
+        [ButtonAction.ToggleBold]: createToggleIcon(ctx, 'bold', 'ToggleBold', marks.strong, marks.code_inline),
+        [ButtonAction.ToggleItalic]: createToggleIcon(ctx, 'italic', 'ToggleItalic', marks.em, marks.code_inline),
         [ButtonAction.ToggleStrike]: createToggleIcon(
             ctx,
             'strikeThrough',
-            ToggleStrikeThrough,
+            'ToggleStrikeThrough',
             marks.strike_through,
             marks.code_inline,
         ),
-        [ButtonAction.ToggleCode]: createToggleIcon(ctx, 'code', ToggleInlineCode, marks.code_inline, marks.link),
-        [ButtonAction.ToggleLink]: createToggleIcon(ctx, 'link', ToggleLink, marks.link, marks.code_inline),
+        [ButtonAction.ToggleCode]: createToggleIcon(ctx, 'code', 'ToggleInlineCode', marks.code_inline, marks.link),
+        [ButtonAction.ToggleLink]: createToggleIcon(ctx, 'link', 'ToggleLink', marks.link, marks.code_inline),
     };
 };

@@ -4,7 +4,7 @@ import { InputRule, Selection } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
 const id = 'hr';
-export const InsertHr = createCmdKey<string>();
+export const InsertHr = createCmdKey<string>('InsertHr');
 export const hr = createNode((utils) => {
     const style = utils.getStyle(
         (themeTool, { css }) => css`

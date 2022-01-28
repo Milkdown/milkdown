@@ -12,7 +12,7 @@ type Options = {
     };
 };
 
-export const ModifyInlineMath = createCmdKey<string>();
+export const ModifyInlineMath = createCmdKey<string>('ModifyInlineMath');
 export const mathInline = createNode<string, Options>((utils, options) => {
     const placeholder = {
         empty: '(empty)',

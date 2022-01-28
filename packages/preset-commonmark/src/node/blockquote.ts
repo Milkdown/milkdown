@@ -9,7 +9,7 @@ type Keys = SupportedKeys['Blockquote'];
 
 const id = 'blockquote';
 
-export const WrapInBlockquote = createCmdKey();
+export const WrapInBlockquote = createCmdKey('WrapInBlockquote');
 
 export const blockquote = createNode<Keys>((utils) => {
     const style = utils.getStyle(

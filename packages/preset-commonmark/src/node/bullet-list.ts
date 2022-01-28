@@ -7,7 +7,7 @@ import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['BulletList'];
 
-export const WrapInBulletList = createCmdKey();
+export const WrapInBulletList = createCmdKey('WrapInBulletList');
 
 export const bulletList = createNode<Keys>((utils) => {
     const id = 'bullet_list';

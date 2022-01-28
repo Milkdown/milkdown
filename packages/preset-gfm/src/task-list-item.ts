@@ -8,10 +8,10 @@ import { SupportedKeys } from './supported-keys';
 
 type Keys = Extract<keyof SupportedKeys, 'SinkListItem' | 'LiftListItem' | 'NextListItem' | 'TaskList'>;
 
-export const SplitTaskListItem = createCmdKey();
-export const SinkTaskListItem = createCmdKey();
-export const LiftTaskListItem = createCmdKey();
-export const TurnIntoTaskList = createCmdKey();
+export const SplitTaskListItem = createCmdKey('SplitTaskListItem');
+export const SinkTaskListItem = createCmdKey('SinkTaskListItem');
+export const LiftTaskListItem = createCmdKey('LiftTaskListItem');
+export const TurnIntoTaskList = createCmdKey('TurnIntoTaskList');
 
 export const taskListItem = createNode<Keys>((utils) => {
     const id = 'task_list_item';

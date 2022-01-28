@@ -7,7 +7,7 @@ import { SupportedKeys } from '../supported-keys';
 
 type Keys = SupportedKeys['HardBreak'];
 
-export const InsertHardbreak = createCmdKey();
+export const InsertHardbreak = createCmdKey('InsertHardbreak');
 
 export const hardbreak = createNode<Keys>((utils) => {
     return {
