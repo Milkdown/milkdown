@@ -40,6 +40,9 @@ export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Opti
     try {
         const themeTool = ctx.get(themeToolCtx);
         const emotion = ctx.get(emotionCtx);
+        if (!emotion.css) {
+            throw themeMustInstalled();
+        }
 
         return {
             getClassName: getClassName(options?.className as undefined),
