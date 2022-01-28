@@ -18,8 +18,9 @@ export const checkTrigger = (
     const { state } = view;
     const $from = state.doc.resolve(from);
     if ($from.parent.type.spec.code) return false;
-    const textBefore =
-        $from.parent.textBetween(Math.max(0, $from.parentOffset - 10), $from.parentOffset, undefined, '\ufffc') + text;
+    const textBefore = (
+        $from.parent.textBetween(Math.max(0, $from.parentOffset - 10), $from.parentOffset, undefined, '\ufffc') + text
+    ).toLowerCase();
     if (full.test(textBefore)) {
         return false;
     }

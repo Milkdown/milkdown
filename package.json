@@ -11,7 +11,7 @@
         "test": "pnpm test:doc && pnpm test:lint && pnpm test:tsc && pnpm test:unit",
         "test:unit": "vitest",
         "test:tsc": "pnpm --filter=./packages run tsc",
-        "test:lint": "eslint **/{src,gh-pages,examples}/**/*.{js,ts,tsx}",
+        "test:lint": "eslint \"**/{src,gh-pages,examples}/**/*.{js,ts,tsx}\"",
         "test:doc": "prettier --check \"**/*.md\"",
         "test:e2e": "pnpm run start:test --filter @milkdown/e2e",
         "format": "lint-staged",
