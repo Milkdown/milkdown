@@ -1,5 +1,19 @@
 # @milkdown/core
 
+## 5.4.0
+
+### Minor Changes
+
+-   6eef6cd1: Bug fixes, UX improvements and dependency optimization.
+
+### Patch Changes
+
+-   Updated dependencies [6eef6cd1]
+    -   @milkdown/ctx@5.4.0
+    -   @milkdown/design-system@5.4.0
+    -   @milkdown/exception@5.4.0
+    -   @milkdown/transformer@5.4.0
+
 ## 5.3.5
 
 ### Patch Changes

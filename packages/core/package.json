@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/core",
-    "version": "5.3.5",
+    "version": "5.4.0",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
