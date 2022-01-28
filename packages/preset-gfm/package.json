@@ -25,16 +25,16 @@
     "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
-        "@milkdown/utils": "workspace:*",
         "@milkdown/design-system": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^5.0.0",
         "@milkdown/prose": "^5.0.0",
-        "@milkdown/utils": "^5.0.0"
+        "@milkdown/preset-commonmark": "^5.0.0"
     },
     "dependencies": {
+        "@milkdown/utils": "workspace:*",
         "remark-gfm": "^3.0.0",
         "tslib": "^2.3.1"
     }

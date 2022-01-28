@@ -22,16 +22,15 @@
     ],
     "devDependencies": {
         "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*",
-        "@milkdown/utils": "workspace:*"
+        "@milkdown/prose": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^5.0.0",
-        "@milkdown/prose": "^5.0.0",
-        "@milkdown/utils": "^5.0.0"
+        "@milkdown/prose": "^5.0.0"
     },
     "dependencies": {
         "@joeattardi/emoji-button": "^4.6.0",
+        "@milkdown/utils": "workspace:*",
         "@types/node-emoji": "^1.8.1",
         "@types/twemoji": "^12.1.2",
         "emoji-regex": "^10.0.0",
