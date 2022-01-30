@@ -7,14 +7,16 @@ import { elementIsTag } from './element';
 
 export const modifyLink =
     (ctx: Ctx): Event2Command =>
-    (e) => {
+    (e: Event | KeyboardEvent) => {
         const { target } = e;
         if (!(target instanceof HTMLElement)) {
             return () => true;
         }
         if (elementIsTag(target, 'input')) {
-            target.focus();
-            return () => false;
+            if (!('key' in e) || e.key !== 'Enter') {
+                target.focus();
+                return () => false;
+            }
         }
         const parent = target.parentNode;
         if (!parent) return () => false;
@@ -43,14 +45,16 @@ export const modifyInlineMath =
 
 export const modifyImage =
     (ctx: Ctx): Event2Command =>
-    (e) => {
+    (e: Event | KeyboardEvent) => {
         const { target } = e;
         if (!(target instanceof HTMLElement)) {
             return () => true;
         }
         if (elementIsTag(target, 'input')) {
-            target.focus();
-            return () => false;
+            if (!('key' in e) || e.key !== 'Enter') {
+                target.focus();
+                return () => false;
+            }
         }
         const parent = target.parentNode;
         if (!parent) return () => false;
@@ -66,6 +70,7 @@ export const updateLinkView: Updater = (view, $) => {
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
+    firstChild.focus();
     const { selection } = view.state;
     let node: ProseNode | undefined;
     view.state.doc.nodesBetween(selection.from, selection.to, (n) => {
