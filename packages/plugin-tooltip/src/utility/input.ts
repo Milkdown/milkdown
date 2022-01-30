@@ -72,7 +72,8 @@ export const updateLinkView: Updater = (view, $) => {
 
     const { selection } = view.state;
     let node: ProseNode | undefined;
-    view.state.doc.nodesBetween(selection.from, selection.to, (n) => {
+    const { from, to } = selection;
+    view.state.doc.nodesBetween(from, from === to ? to + 1 : to, (n) => {
         if (marks.link.isInSet(n.marks)) {
             node = n;
             return false;
