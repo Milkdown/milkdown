@@ -30,10 +30,9 @@ export class State {
     #runNode(node: MarkdownNode) {
         const { key, runner, is } = this.#matchTarget(node);
 
-        const proseType: NodeType | MarkType | undefined = this.schema[is === 'node' ? 'nodes' : 'marks'][key];
-        if (!proseType) {
-            throw new Error();
-        }
+        const proseType: NodeType | MarkType = this.schema[is === 'node' ? 'nodes' : 'marks'][key] as
+            | NodeType
+            | MarkType;
 
         runner(this, node, proseType as NodeType & MarkType);
     }
