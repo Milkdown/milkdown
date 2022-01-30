@@ -51,6 +51,7 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 <a title="CY" href="https://github.com/shiyiya"><img src="https://avatars.githubusercontent.com/u/34017352?v=4" width="100" alt="profile picture of CY"></a>
 <a title="Meng Zhaohui" href="https://github.com/Ahmong"><img src="https://avatars.githubusercontent.com/u/9511090?v=4" width="100" alt="profile picture of Meng Zhaohui"></a>
 <a title="Kid" href="https://github.com/kidonng"><img src="https://avatars.githubusercontent.com/u/44045911?v=4" width="100" alt="profile picture of Kid"></a>
+<a title="Douglas Duhaime" href="https://github.com/duhaime"><img src="https://avatars.githubusercontent.com/u/4801116?v=4" width="100" alt="profile picture of Douglas Duhaime"></a>
 
 # Sponsors
 
