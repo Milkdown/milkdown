@@ -1,6 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, MarkdownNode, schemaCtx } from '@milkdown/core';
-import { columnResizing, goToNextCell, InputRule, Selection, tableEditing, TextSelection } from '@milkdown/prose';
+import {
+    columnResizing,
+    goToNextCell,
+    InputRule,
+    NodeType,
+    Selection,
+    tableEditing,
+    TextSelection,
+} from '@milkdown/prose';
 import { createPlugin, createShortcut } from '@milkdown/utils';
 
 import { exitTable } from '../command';
@@ -33,7 +41,7 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
                     parseMarkdown: {
                         match: (node) => node.type === 'table',
                         runner: (state, node, type) => {
-                            const align = node.align as (string | null)[];
+                            const align = node['align'] as (string | null)[];
                             const children = (node.children as MarkdownNode[]).map((x, i) => ({
                                 ...x,
                                 align,
@@ -52,7 +60,7 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
 
                             const align: (string | null)[] = [];
                             firstLine.forEach((cell) => {
-                                align.push(cell.attrs.alignment);
+                                align.push(cell.attrs['alignment']);
                             });
                             state.openNode('table', undefined, { align });
                             state.next(node.content);
@@ -65,11 +73,11 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
                     parseMarkdown: {
                         match: (node) => node.type === 'tableRow',
                         runner: (state, node, type) => {
-                            const align = node.align as (string | null)[];
+                            const align = node['align'] as (string | null)[];
                             const children = (node.children as MarkdownNode[]).map((x, i) => ({
                                 ...x,
                                 align: align[i],
-                                isHeader: node.isHeader,
+                                isHeader: node['isHeader'],
                             }));
                             state.openNode(type);
                             state.next(children);
@@ -88,12 +96,12 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
                 table_cell: {
                     ...schema.table_cell,
                     parseMarkdown: {
-                        match: (node) => node.type === 'tableCell' && !node.isHeader,
+                        match: (node) => node.type === 'tableCell' && !node['isHeader'],
                         runner: (state, node, type) => {
-                            const align = node.align as string;
+                            const align = node['align'] as string;
                             state
                                 .openNode(type, { alignment: align })
-                                .openNode(state.schema.nodes.paragraph)
+                                .openNode(state.schema.nodes['paragraph'] as NodeType)
                                 .next(node.children)
                                 .closeNode()
                                 .closeNode();
@@ -109,11 +117,11 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
                 table_header: {
                     ...schema.table_header,
                     parseMarkdown: {
-                        match: (node) => node.type === 'tableCell' && !!node.isHeader,
+                        match: (node) => node.type === 'tableCell' && !!node['isHeader'],
                         runner: (state, node, type) => {
-                            const align = node.align as string;
+                            const align = node['align'] as string;
                             state.openNode(type, { alignment: align });
-                            state.openNode(state.schema.nodes.paragraph);
+                            state.openNode(state.schema.nodes['paragraph'] as NodeType);
                             state.next(node.children);
                             state.closeNode();
                             state.closeNode();
@@ -144,7 +152,7 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
         commands: (_, ctx) => [
             createCmd(PrevCell, () => goToNextCell(-1)),
             createCmd(NextCell, () => goToNextCell(1)),
-            createCmd(BreakTable, () => exitTable(ctx.get(schemaCtx).nodes.paragraph)),
+            createCmd(BreakTable, () => exitTable(ctx.get(schemaCtx).nodes['paragraph'] as NodeType)),
             createCmd(InsertTable, () => (state, dispatch) => {
                 const { selection, tr } = state;
                 const { from } = selection;

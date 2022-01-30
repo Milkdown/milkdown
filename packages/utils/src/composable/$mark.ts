@@ -18,7 +18,13 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
 
         await ctx.wait(SchemaReady);
 
-        (<$Mark>plugin).type = ctx.get(schemaCtx).marks[id];
+        const markType = ctx.get(schemaCtx).marks[id];
+
+        if (!markType) {
+            throw new Error();
+        }
+
+        (<$Mark>plugin).type = markType;
     };
 
     return <$Mark>plugin;

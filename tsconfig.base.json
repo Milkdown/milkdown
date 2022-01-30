@@ -23,6 +23,9 @@
         "noImplicitOverride": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
+        "noUncheckedIndexedAccess": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "useUnknownInCatchVariables": true,
         "preserveWatchOutput": true
     }
 }

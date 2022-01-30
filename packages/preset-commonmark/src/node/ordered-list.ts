@@ -34,7 +34,7 @@ export const orderedList = createNode<Keys>((utils) => ({
         toDOM: (node) => [
             'ol',
             {
-                ...(node.attrs.order === 1 ? {} : node.attrs.order),
+                ...(node.attrs['order'] === 1 ? {} : node.attrs['order']),
                 class: utils.getClassName(node.attrs, 'ordered-list'),
             },
             0,
@@ -59,7 +59,7 @@ export const orderedList = createNode<Keys>((utils) => ({
             /^(\d+)\.\s$/,
             nodeType,
             (match) => ({ order: Number(match[1]) }),
-            (match, node) => node.childCount + node.attrs.order === Number(match[1]),
+            (match, node) => node.childCount + node.attrs['order'] === Number(match[1]),
         ),
     ],
     commands: (nodeType) => [createCmd(WrapInOrderedList, () => wrapIn(nodeType))],

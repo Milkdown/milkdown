@@ -68,10 +68,10 @@ export const EditorComponent = defineComponent<{ editor: GetEditor; editorRef?: 
             };
         }
 
-        return () => <div ref={refs.divRef}>{slots.default?.()}</div>;
+        return () => <div ref={refs.divRef}>{slots['default']?.()}</div>;
     },
 });
-EditorComponent.props = ['editor', 'editorRef'];
+EditorComponent['props'] = ['editor', 'editorRef'];
 
 export type EditorRef = { get: () => Editor | undefined; dom: () => HTMLDivElement | null };
 
@@ -121,7 +121,7 @@ export const VueEditor = defineComponent<{ editor: GetEditor; editorRef?: Ref<Ed
         };
     },
 });
-VueEditor.props = ['editor', 'editorRef'];
+VueEditor['props'] = ['editor', 'editorRef'];
 
 export const useEditor = (getEditor: GetEditor) => {
     return (...args: Parameters<GetEditor>) => getEditor(...args);

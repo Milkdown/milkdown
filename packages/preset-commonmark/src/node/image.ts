@@ -180,8 +180,8 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                         class: utils.getClassName(
                             node.attrs,
                             id,
-                            node.attrs.failed ? 'failed' : '',
-                            node.attrs.loading ? 'loading' : '',
+                            node.attrs['failed'] ? 'failed' : '',
+                            node.attrs['loading'] ? 'loading' : '',
                             style,
                         ),
                     },
@@ -190,9 +190,9 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             parseMarkdown: {
                 match: ({ type }) => type === id,
                 runner: (state, node, type) => {
-                    const url = node.url as string;
-                    const alt = node.alt as string;
-                    const title = node.title as string;
+                    const url = node['url'] as string;
+                    const alt = node['alt'] as string;
+                    const title = node['title'] as string;
                     state.addNode(type, {
                         src: url,
                         alt,
@@ -204,9 +204,9 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
                     state.addNode('image', undefined, undefined, {
-                        title: node.attrs.title,
-                        url: node.attrs.src,
-                        alt: node.attrs.alt,
+                        title: node.attrs['title'],
+                        url: node.attrs['src'],
+                        alt: node.attrs['alt'],
                     });
                 },
             },

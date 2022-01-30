@@ -34,7 +34,7 @@ export const codeInline = createMark<Keys>((utils) => {
                 match: (node) => node.type === 'inlineCode',
                 runner: (state, node, markType) => {
                     state.openMark(markType);
-                    state.addText(node.value as string);
+                    state.addText(node['value'] as string);
                     state.closeMark(markType);
                 },
             },

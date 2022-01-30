@@ -18,7 +18,13 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
 
         await ctx.wait(SchemaReady);
 
-        (<$Node>plugin).type = ctx.get(schemaCtx).nodes[id];
+        const nodeType = ctx.get(schemaCtx).nodes[id];
+
+        if (!nodeType) {
+            throw new Error();
+        }
+
+        (<$Node>plugin).type = nodeType;
     };
 
     return <$Node>plugin;

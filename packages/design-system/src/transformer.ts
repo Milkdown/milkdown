@@ -18,7 +18,7 @@ export const themeColor = (hex: string) => {
             return r + r + g + g + b + b;
         });
 
-        const [ok, r, g, b] = fullHex.match(rgbRegex) || [];
+        const [ok, r = '0', g = '0', b = '0'] = fullHex.match(rgbRegex) || [];
 
         return ok ? [r, g, b].map(parse16) : null;
     };

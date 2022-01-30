@@ -48,7 +48,7 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                             throw new Error();
                         }
                         return {
-                            value: dom.dataset.value,
+                            value: dom.dataset['value'],
                         };
                     },
                 },
@@ -59,7 +59,7 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                     {
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
-                        'data-value': node.attrs.value,
+                        'data-value': node.attrs['value'],
                     },
                     0,
                 ];
@@ -67,7 +67,7 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
             parseMarkdown: {
                 match: ({ type }) => type === 'math',
                 runner: (state, node, type) => {
-                    const value = node.value as string;
+                    const value = node['value'] as string;
                     state.openNode(type, { value });
                     if (value) {
                         state.addText(value);
@@ -93,8 +93,8 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
             const dom = document.createElement('div');
             dom.classList.add('math-block');
             const code = document.createElement('div');
-            code.dataset.type = id;
-            code.dataset.value = node.attrs.value;
+            code.dataset['type'] = id;
+            code.dataset['value'] = node.attrs['value'];
             if (codeStyle && hideCodeStyle) {
                 code.classList.add(codeStyle, hideCodeStyle);
             }
@@ -120,7 +120,7 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                 }
             };
 
-            render(node.attrs.value);
+            render(node.attrs['value']);
 
             return {
                 dom,
@@ -149,7 +149,7 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                     }
 
                     const newVal = updatedNode.content.firstChild?.text || '';
-                    code.dataset.value = newVal;
+                    code.dataset['value'] = newVal;
 
                     render(newVal);
 

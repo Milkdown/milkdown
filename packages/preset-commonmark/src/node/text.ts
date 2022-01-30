@@ -8,7 +8,7 @@ export const text = createNode(() => ({
         parseMarkdown: {
             match: ({ type }) => type === 'text',
             runner: (state, node) => {
-                state.addText(node.value as string);
+                state.addText(node['value'] as string);
             },
         },
         toMarkdown: {

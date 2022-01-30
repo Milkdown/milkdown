@@ -50,25 +50,25 @@ export const emojiNode = createNode((utils) => {
             ],
             toDOM: (node) => {
                 const span = document.createElement('span');
-                span.dataset.type = 'emoji';
+                span.dataset['type'] = 'emoji';
                 if (style) {
                     span.classList.add(style);
                 }
                 span.classList.add('emoji-wrapper');
-                span.innerHTML = node.attrs.html;
+                span.innerHTML = node.attrs['html'];
                 return { dom: span };
             },
             parseMarkdown: {
                 match: ({ type }) => type === 'emoji',
                 runner: (state, node, type) => {
-                    state.addNode(type, { html: node.value as string });
+                    state.addNode(type, { html: node['value'] as string });
                 },
             },
             toMarkdown: {
                 match: (node) => node.type.name === 'emoji',
                 runner: (state, node) => {
                     const span = document.createElement('span');
-                    span.innerHTML = node.attrs.html;
+                    span.innerHTML = node.attrs['html'];
                     const img = span.querySelector('img');
                     const title = img?.title;
                     span.remove();

@@ -4,7 +4,7 @@ import { Ctx } from '@milkdown/core';
 import { CellSelection, Decoration, DecorationSet, Plugin, PluginKey } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
-import { getCellsInColumn, getCellsInRow } from '../utils';
+import { CellPos, getCellsInColumn, getCellsInRow } from '../utils';
 import { createActions } from './actions';
 import { calculatePosition } from './calc-pos';
 import { ToolTipPos } from './constant';
@@ -35,7 +35,7 @@ export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
 
                 const [topLeft] = leftCells;
 
-                decorations.push(createWidget(ctx, topLeft, ToolTipPos.Point));
+                decorations.push(createWidget(ctx, topLeft as CellPos, ToolTipPos.Point));
                 leftCells.forEach((cell, i) => {
                     decorations.push(createWidget(ctx, cell, ToolTipPos.Left, i));
                 });

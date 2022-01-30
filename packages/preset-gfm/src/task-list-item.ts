@@ -84,7 +84,7 @@ export const taskListItem = createNode<Keys>((utils) => {
                         if (!(dom instanceof HTMLElement)) {
                             throw new Error();
                         }
-                        return { checked: dom.dataset.checked === 'true' };
+                        return { checked: dom.dataset['checked'] === 'true' };
                     },
                 },
             ],
@@ -92,7 +92,7 @@ export const taskListItem = createNode<Keys>((utils) => {
                 'li',
                 {
                     'data-type': 'task-item',
-                    'data-checked': node.attrs.checked ? 'true' : 'false',
+                    'data-checked': node.attrs['checked'] ? 'true' : 'false',
                     class: utils.getClassName(node.attrs, 'task-list-item', style),
                 },
                 0,
@@ -102,7 +102,7 @@ export const taskListItem = createNode<Keys>((utils) => {
                     return type === 'listItem' && checked !== null;
                 },
                 runner: (state, node, type) => {
-                    state.openNode(type, { checked: node.checked as boolean });
+                    state.openNode(type, { checked: node['checked'] as boolean });
                     state.next(node.children);
                     state.closeNode();
                 },
@@ -110,7 +110,7 @@ export const taskListItem = createNode<Keys>((utils) => {
             toMarkdown: {
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
-                    state.openNode('listItem', undefined, { checked: node.attrs.checked });
+                    state.openNode('listItem', undefined, { checked: node.attrs['checked'] });
                     state.next(node.content);
                     state.closeNode();
                 },
@@ -172,8 +172,8 @@ export const taskListItem = createNode<Keys>((utils) => {
             };
             checkbox.addEventListener('change', onChange);
 
-            listItem.dataset.checked = node.attrs.checked;
-            if (node.attrs.checked) {
+            listItem.dataset['checked'] = node.attrs['checked'];
+            if (node.attrs['checked']) {
                 checkbox.setAttribute('checked', 'checked');
             }
 
@@ -182,13 +182,13 @@ export const taskListItem = createNode<Keys>((utils) => {
 
             const attributes = {
                 'data-type': 'task-item',
-                'data-checked': node.attrs.checked ? 'true' : 'false',
+                'data-checked': node.attrs['checked'] ? 'true' : 'false',
                 class: utils.getClassName(node.attrs, 'task-list-item', style),
             };
             Object.entries(attributes).forEach(([key, value]) => {
                 listItem.setAttribute(key, value);
             });
-            setIcon(node.attrs.checked ? 'checked' : 'unchecked');
+            setIcon(node.attrs['checked'] ? 'checked' : 'unchecked');
 
             return {
                 dom: listItem,
@@ -196,13 +196,13 @@ export const taskListItem = createNode<Keys>((utils) => {
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
 
-                    listItem.dataset.checked = updatedNode.attrs.checked;
-                    if (updatedNode.attrs.checked) {
+                    listItem.dataset['checked'] = updatedNode.attrs['checked'];
+                    if (updatedNode.attrs['checked']) {
                         checkbox.setAttribute('checked', 'checked');
                     } else {
                         checkbox.removeAttribute('checked');
                     }
-                    setIcon(updatedNode.attrs.checked ? 'checked' : 'unchecked');
+                    setIcon(updatedNode.attrs['checked'] ? 'checked' : 'unchecked');
 
                     return true;
                 },

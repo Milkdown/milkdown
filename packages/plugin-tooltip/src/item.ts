@@ -78,20 +78,21 @@ export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): 
             display: (view) =>
                 view.state.selection.empty &&
                 view.state.selection instanceof TextSelection &&
-                hasMark(view.state, marks.link),
+                hasMark(view.state, marks['link']),
             command: modifyLink(ctx),
             update: updateLinkView,
             ...inputOptions.link,
         },
         [InputAction.ModifyInlineMath]: {
-            display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.math_inline)),
+            display: (view) =>
+                Boolean(nodes['math_inline'] && findSelectedNodeOfType(view.state.selection, nodes['math_inline'])),
             command: modifyInlineMath(ctx),
             update: updateInlineMathView,
             bind: true,
             ...inputOptions.inlineMath,
         },
         [InputAction.ModifyImage]: {
-            display: (view) => Boolean(findSelectedNodeOfType(view.state.selection, nodes.image)),
+            display: (view) => Boolean(nodes['image'] && findSelectedNodeOfType(view.state.selection, nodes['image'])),
             command: modifyImage(ctx),
             update: updateImageView,
             ...inputOptions.image,
@@ -102,16 +103,22 @@ export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): 
 export const buttonMap = (schema: Schema, ctx: Ctx): ButtonMap => {
     const { marks } = schema;
     return {
-        [ButtonAction.ToggleBold]: createToggleIcon(ctx, 'bold', 'ToggleBold', marks.strong, marks.code_inline),
-        [ButtonAction.ToggleItalic]: createToggleIcon(ctx, 'italic', 'ToggleItalic', marks.em, marks.code_inline),
+        [ButtonAction.ToggleBold]: createToggleIcon(ctx, 'bold', 'ToggleBold', marks['strong'], marks['code_inline']),
+        [ButtonAction.ToggleItalic]: createToggleIcon(ctx, 'italic', 'ToggleItalic', marks['em'], marks['code_inline']),
         [ButtonAction.ToggleStrike]: createToggleIcon(
             ctx,
             'strikeThrough',
             'ToggleStrikeThrough',
-            marks.strike_through,
-            marks.code_inline,
+            marks['strike_through'],
+            marks['code_inline'],
         ),
-        [ButtonAction.ToggleCode]: createToggleIcon(ctx, 'code', 'ToggleInlineCode', marks.code_inline, marks.link),
-        [ButtonAction.ToggleLink]: createToggleIcon(ctx, 'link', 'ToggleLink', marks.link, marks.code_inline),
+        [ButtonAction.ToggleCode]: createToggleIcon(
+            ctx,
+            'code',
+            'ToggleInlineCode',
+            marks['code_inline'],
+            marks['link'],
+        ),
+        [ButtonAction.ToggleLink]: createToggleIcon(ctx, 'link', 'ToggleLink', marks['link'], marks['code_inline']),
     };
 };

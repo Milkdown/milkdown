@@ -23,10 +23,10 @@ export const VueNodeContainer = defineComponent<NodeContext>({
             getPos,
             decorations,
         });
-        return () => <div data-view-container>{context.slots.default?.()}</div>;
+        return () => <div data-view-container>{context.slots['default']?.()}</div>;
     },
 });
-VueNodeContainer.props = ['ctx', 'editor', 'node', 'view', 'getPos', 'decorations'];
+VueNodeContainer['props'] = ['ctx', 'editor', 'node', 'view', 'getPos', 'decorations'];
 
 export const Content = defineComponent<{ isInline?: boolean }>({
     name: 'milkdown-content',
@@ -34,4 +34,4 @@ export const Content = defineComponent<{ isInline?: boolean }>({
         return () => (isInline ? <span data-view-content /> : <div data-view-content />);
     },
 });
-Content.props = ['isMark'];
+Content['props'] = ['isMark'];

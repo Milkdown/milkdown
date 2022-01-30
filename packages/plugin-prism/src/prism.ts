@@ -22,7 +22,7 @@ export function Prism(name: string): Plugin {
                     (isNodeName ||
                         isPreviousNodeName ||
                         oldNode.length !== newNode.length ||
-                        oldNode[0]?.node.attrs.language !== newNode[0]?.node.attrs.language ||
+                        oldNode[0]?.node.attrs['language'] !== newNode[0]?.node.attrs['language'] ||
                         transaction.steps.some((step) => {
                             const s = step as unknown as { from: number; to: number };
                             return (

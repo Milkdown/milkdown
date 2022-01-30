@@ -25,7 +25,7 @@ export const checkTrigger = (
         return false;
     }
     const regex = part.exec(textBefore);
-    if (regex && textBefore.endsWith(regex[0])) {
+    if (regex && regex[0] && textBefore.endsWith(regex[0])) {
         const match = regex[0];
         setRange(from - (match.length - text.length), to);
         setSearch(match);

@@ -11,12 +11,12 @@ const isPureText = (content: R | R[] | undefined | null): boolean => {
         return isPureText(content[0]);
     }
 
-    const child = content.content;
+    const child = content['content'];
     if (child) {
         return isPureText(child as R[]);
     }
 
-    return content.type === 'text';
+    return content['type'] === 'text';
 };
 
 export const key = new PluginKey('MILKDOWN_PLUGIN_CLIPBOARD');

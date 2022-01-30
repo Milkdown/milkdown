@@ -15,6 +15,7 @@ function run(view: EditorView, from: number, to: number, text: string, rules: In
         const match = (rules[i] as { match: RegExp }).match.exec(textBefore);
         const tr =
             match &&
+            match[0] &&
             (
                 rules[i] as { handler: (state: EditorState, match: string[], from: number, to: number) => Transaction }
             ).handler(state, match, from - (match[0].length - text.length), to);

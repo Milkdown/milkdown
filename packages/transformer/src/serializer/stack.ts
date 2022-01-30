@@ -22,7 +22,7 @@ const maybeMergeChildren = (element: MarkdownNode) => {
             return [child];
         }
         const last = nextChildren[nextChildren.length - 1];
-        if (child.isMark && child.type === last.type) {
+        if (last && child['isMark'] && child.type === last.type) {
             const { children: currChildren, ...currRest } = child;
             const { children: prevChildren, ...prevRest } = last;
             if (currChildren && prevChildren && JSON.stringify(currRest) === JSON.stringify(prevRest)) {
@@ -50,7 +50,7 @@ const createMarkdownNode = (element: StackElement) => {
     }
 
     if (element.value) {
-        node.value = element.value;
+        node['value'] = element.value;
     }
 
     return node;

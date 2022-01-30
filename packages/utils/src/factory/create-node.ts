@@ -53,7 +53,11 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                             await ctx.wait(SchemaReady);
 
                             const schema = ctx.get(schemaCtx);
-                            return schema.nodes[plugin.id];
+                            const nodeType = schema.nodes[plugin.id];
+                            if (!nodeType) {
+                                throw new Error();
+                            }
+                            return nodeType;
                         },
                         options,
                     );

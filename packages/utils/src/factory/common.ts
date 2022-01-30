@@ -45,8 +45,8 @@ export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Opti
         }
 
         return {
-            getClassName: getClassName(options?.className as undefined),
-            getStyle: (style) => (options?.headless ? '' : (style(themeTool, emotion) as string | undefined)),
+            getClassName: getClassName(options?.['className'] as undefined),
+            getStyle: (style) => (options?.['headless'] ? '' : (style(themeTool, emotion) as string | undefined)),
             themeTool,
         };
     } catch {

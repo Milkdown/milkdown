@@ -15,7 +15,6 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
-import prosemirrorDevTools from 'prosemirror-dev-tools';
 
 import { codeSandBox } from './codeSandBox';
 
@@ -36,11 +35,12 @@ export const createEditor = (
                     .markdownUpdated((_, markdown) => {
                         onChange(markdown);
                     })
-                    .mounted((ctx) => {
+                    .mounted(async (ctx) => {
                         setEditorReady(true);
                         if (import.meta.env.DEV) {
                             const view = ctx.get(editorViewCtx);
-                            prosemirrorDevTools(view);
+                            const prosemirrorDevTools = await import('prosemirror-dev-tools');
+                            prosemirrorDevTools.default(view);
                         }
                     });
             }

@@ -37,6 +37,9 @@ export const defaultUploader: Uploader = async (files, schema) => {
     }
 
     const { image } = schema.nodes;
+    if (!image) {
+        throw new Error();
+    }
 
     const data = await Promise.all(imgs.map((img) => readImageAsBase64(img)));
 

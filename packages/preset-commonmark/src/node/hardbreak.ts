@@ -46,6 +46,7 @@ export const hardbreak = createNode<Keys>((utils) => {
                 appendTransaction: (trs, _oldState, newState) => {
                     if (!trs.length) return;
                     const [tr] = trs;
+                    if (!tr) return;
 
                     const [step] = tr.steps;
 

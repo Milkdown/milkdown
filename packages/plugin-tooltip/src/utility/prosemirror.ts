@@ -6,7 +6,10 @@ export type Position = {
     end: number;
 };
 
-export const hasMark = (editorState: EditorState, type: MarkType): boolean => {
+export const hasMark = (editorState: EditorState, type?: MarkType): boolean => {
+    if (!type) {
+        return false;
+    }
     const { from, to } = editorState.selection;
 
     return editorState.doc.rangeHasMark(from, from === to ? to + 1 : to, type);
@@ -27,7 +30,7 @@ export const isTextSelection = (editorState: EditorState): boolean => {
 export const isInCodeFence = (editorState: EditorState): boolean =>
     Boolean(findParentNode((node) => !!node.type.spec.code)(editorState.selection));
 
-export const isTextAndNotHasMark = (editorState: EditorState, mark: MarkType): boolean =>
+export const isTextAndNotHasMark = (editorState: EditorState, mark?: MarkType): boolean =>
     !isTextSelection(editorState) || isInCodeFence(editorState) || hasMark(editorState, mark);
 
 export const equalNodeType = (nodeType: NodeType, node: Node) => {

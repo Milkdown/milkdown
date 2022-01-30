@@ -50,23 +50,23 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                             throw new Error();
                         }
                         return {
-                            value: dom.dataset.value,
+                            value: dom.dataset['value'],
                         };
                     },
                 },
             ],
-            toDOM: (node) => ['span', { class: style, 'data-type': id, 'data-value': node.attrs.value }],
+            toDOM: (node) => ['span', { class: style, 'data-type': id, 'data-value': node.attrs['value'] }],
             parseMarkdown: {
                 match: (node) => node.type === 'inlineMath',
                 runner: (state, node, type) => {
-                    const code = node.value as string;
+                    const code = node['value'] as string;
                     state.addNode(type, { value: code });
                 },
             },
             toMarkdown: {
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
-                    state.addNode('inlineMath', undefined, node.attrs.value);
+                    state.addNode('inlineMath', undefined, node.attrs['value']);
                 },
             },
         }),
@@ -99,14 +99,14 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                     dom.innerHTML = placeholder.error;
                 }
             };
-            render(node.attrs.value);
+            render(node.attrs['value']);
             return {
                 dom,
                 update: (updatedNode) => {
                     if (!updatedNode.sameMarkup(currentNode)) return false;
                     currentNode = updatedNode;
 
-                    const newVal = updatedNode.attrs.value;
+                    const newVal = updatedNode.attrs['value'];
 
                     render(newVal);
 

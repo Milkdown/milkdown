@@ -19,7 +19,7 @@ export type CellPos = {
 };
 
 export const findTable = (selection: Selection) =>
-    findParentNode((node) => node.type.spec.tableRole === 'table')(selection);
+    findParentNode((node) => node.type.spec['tableRole'] === 'table')(selection);
 
 export const getCellsInColumn =
     (columnIndex: number) =>
@@ -129,10 +129,13 @@ export const getCellsInTable = (selection: Selection) => {
 
 export const selectTable = (tr: Transaction) => {
     const cells = getCellsInTable(tr.selection);
-    if (cells) {
+    if (cells && cells[0]) {
         const $firstCell = tr.doc.resolve(cells[0].pos);
-        const $lastCell = tr.doc.resolve(cells[cells.length - 1].pos);
-        return cloneTr(tr.setSelection(new CellSelection($lastCell, $firstCell) as unknown as Selection));
+        const last = cells[cells.length - 1];
+        if (last) {
+            const $lastCell = tr.doc.resolve(last.pos);
+            return cloneTr(tr.setSelection(new CellSelection($lastCell, $firstCell) as unknown as Selection));
+        }
     }
     return tr;
 };
@@ -149,8 +152,8 @@ export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }:
     const cells = Array(map.width)
         .fill(0)
         .map((_, col) => {
-            const headerCol = table.nodeAt(map.map[col]);
-            return cellType.createAndFill({ alignment: headerCol?.attrs.alignment }) as ProsemirrorNode;
+            const headerCol = table.nodeAt(map.map[col] as number);
+            return cellType.createAndFill({ alignment: headerCol?.attrs['alignment'] }) as ProsemirrorNode;
         });
 
     tr.insert(rowPos, rowType.create(null, cells));

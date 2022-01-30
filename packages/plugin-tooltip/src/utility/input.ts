@@ -80,7 +80,7 @@ export const updateLinkView: Updater = (view, $) => {
     const mark = node.marks.find((m) => m.type === marks.link);
     if (!mark) return;
 
-    const value = mark.attrs.href;
+    const value = mark.attrs['href'];
     firstChild.value = value;
     if (!value) {
         lastElementChild.classList.add('disable');
@@ -100,7 +100,7 @@ export const updateInlineMathView: Updater = (view, $) => {
     if (!result) return;
     const { node } = result;
 
-    const value = node.attrs.value;
+    const value = node.attrs['value'];
     firstChild.value = value;
     if (!value) {
         lastElementChild.classList.add('disable');
@@ -120,7 +120,7 @@ export const updateImageView: Updater = (view, $) => {
     if (!result) return;
     const { node } = result;
 
-    const value = node.attrs.src;
+    const value = node.attrs['src'];
     firstChild.value = value.length > 50 ? 'Url is too long to display.' : value;
     if (!value) {
         lastElementChild.classList.add('disable');

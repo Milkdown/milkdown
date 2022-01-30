@@ -48,7 +48,7 @@ export class State {
 
     #runNode(node: ProseNode) {
         const { marks } = node;
-        const getPriority = (x: ProseMark) => x.type.spec.priority ?? 50;
+        const getPriority = (x: ProseMark) => x.type.spec['priority'] ?? 50;
         const tmp = [...marks].sort((a, b) => getPriority(a) - getPriority(b));
         const unPreventNext = tmp.every((mark) => !this.#runProseMark(mark, node));
         if (unPreventNext) {

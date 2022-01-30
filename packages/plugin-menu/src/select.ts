@@ -134,7 +134,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
     config.options.forEach((option) => {
         const selectorListItem = document.createElement('button');
         selectorListItem.setAttribute('type', 'button');
-        selectorListItem.dataset.id = option.id;
+        selectorListItem.dataset['id'] = option.id;
         selectorListItem.textContent = option.text;
         selectorListItem.classList.add('menu-selector-list-item');
         selectorList.appendChild(selectorListItem);
@@ -142,8 +142,8 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
 
     selectorList.addEventListener('mousedown', (e) => {
         const { target } = e;
-        if (target instanceof HTMLButtonElement && target.dataset.id) {
-            const params = config.onSelect(target.dataset.id, view);
+        if (target instanceof HTMLButtonElement && target.dataset['id']) {
+            const params = config.onSelect(target.dataset['id'], view);
             const [key, info] = params;
             if (typeof key === 'string') {
                 ctx.get(commandsCtx).callByName(key, info);

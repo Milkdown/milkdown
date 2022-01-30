@@ -93,10 +93,14 @@ export const heading = createNode<Keys>((utils) => {
             })),
             toDOM: (node) => {
                 return [
-                    `h${node.attrs.level}`,
+                    `h${node.attrs['level']}`,
                     {
-                        id: node.attrs.id || node.textContent.split(' ').join('-').toLocaleLowerCase(),
-                        class: utils.getClassName(node.attrs, `heading h${node.attrs.level}`, style(node.attrs.level)),
+                        id: node.attrs['id'] || node.textContent.split(' ').join('-').toLocaleLowerCase(),
+                        class: utils.getClassName(
+                            node.attrs,
+                            `heading h${node.attrs['level']}`,
+                            style(node.attrs['level']),
+                        ),
                     },
                     0,
                 ];
@@ -104,7 +108,7 @@ export const heading = createNode<Keys>((utils) => {
             parseMarkdown: {
                 match: ({ type }) => type === id,
                 runner: (state, node, type) => {
-                    const depth = node.depth as number;
+                    const depth = node['depth'] as number;
                     state.openNode(type, { level: depth });
                     state.next(node.children);
                     state.closeNode();
@@ -113,7 +117,7 @@ export const heading = createNode<Keys>((utils) => {
             toMarkdown: {
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
-                    state.openNode('heading', undefined, { depth: node.attrs.level });
+                    state.openNode('heading', undefined, { depth: node.attrs['level'] });
                     state.next(node.content);
                     state.closeNode();
                 },
@@ -152,7 +156,7 @@ export const heading = createNode<Keys>((utils) => {
                         const attrs = node.attrs;
                         const id = createId(node);
 
-                        if (attrs.id !== id) {
+                        if (attrs['id'] !== id) {
                             tr.setNodeMarkup(pos, undefined, {
                                 ...attrs,
                                 id,

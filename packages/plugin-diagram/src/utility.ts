@@ -33,4 +33,4 @@ export function tryRgbToHex(maybeRgb: string) {
     return rgbToHex(...(result as [number, number, number]));
 }
 
-export const getId = (node?: Node) => node?.attrs?.identity || nanoid();
+export const getId = (node?: Node) => node?.attrs?.['identity'] || nanoid();

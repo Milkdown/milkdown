@@ -19,7 +19,7 @@ export const isFirstRowSelected = (selection: CellSelection) => {
     );
 
     for (let i = 0, count = cells.length; i < count; i++) {
-        if (selectedCells.indexOf(cells[i]) === -1) {
+        if (selectedCells.indexOf(cells[i] as number) === -1) {
             return false;
         }
     }

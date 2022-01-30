@@ -44,8 +44,8 @@ export const link = createMark((utils) => {
             parseMarkdown: {
                 match: (node) => node.type === 'link',
                 runner: (state, node, markType) => {
-                    const url = node.url as string;
-                    const title = node.title as string;
+                    const url = node['url'] as string;
+                    const title = node['title'] as string;
                     state.openMark(markType, { href: url, title });
                     state.next(node.children);
                     state.closeMark(markType);
@@ -55,8 +55,8 @@ export const link = createMark((utils) => {
                 match: (mark) => mark.type.name === id,
                 runner: (state, mark) => {
                     state.withMark(mark, 'link', undefined, {
-                        title: mark.attrs.title,
-                        url: mark.attrs.href,
+                        title: mark.attrs['title'],
+                        url: mark.attrs['href'],
                     });
                 },
             },

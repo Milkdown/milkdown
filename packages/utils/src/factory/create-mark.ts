@@ -53,7 +53,11 @@ export const createMark = <SupportedKeys extends string = string, Options extend
                             await ctx.wait(SchemaReady);
 
                             const schema = ctx.get(schemaCtx);
-                            return schema.marks[plugin.id];
+                            const markType = schema.marks[plugin.id];
+                            if (!markType) {
+                                throw new Error();
+                            }
+                            return markType;
                         },
                         options,
                     );

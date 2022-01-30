@@ -61,12 +61,15 @@ export class Manager {
             if (config.type === 'select') {
                 if (config.disabled) {
                     const disabled = config.disabled(view);
-                    if (disabled) {
-                        config.$.classList.add('disabled');
-                        config.$.children[0].setAttribute('disabled', 'true');
-                    } else {
-                        config.$.classList.remove('disabled');
-                        config.$.children[0].removeAttribute('disabled');
+                    const button = config.$.children[0];
+                    if (button) {
+                        if (disabled) {
+                            config.$.classList.add('disabled');
+                            button.setAttribute('disabled', 'true');
+                        } else {
+                            config.$.classList.remove('disabled');
+                            button.removeAttribute('disabled');
+                        }
                     }
                 }
             }

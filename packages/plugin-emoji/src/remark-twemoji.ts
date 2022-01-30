@@ -16,10 +16,16 @@ function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null)
         if (isParent(node)) {
             const out = [];
             for (let i = 0, n = node.children.length; i < n; i++) {
-                const xs = transform(node.children[i], i, node);
-                if (xs) {
-                    for (let j = 0, m = xs.length; j < m; j++) {
-                        out.push(xs[j]);
+                const nthChild = node.children[i];
+                if (nthChild) {
+                    const xs = transform(nthChild, i, node);
+                    if (xs) {
+                        for (let j = 0, m = xs.length; j < m; j++) {
+                            const item = xs[j];
+                            if (item) {
+                                out.push(item);
+                            }
+                        }
                     }
                 }
             }
@@ -43,11 +49,13 @@ export const twemojiPlugin = () => {
             while ((match = regex.exec(str))) {
                 const { index } = match;
                 const emoji = match[0];
-                if (index > 0) {
-                    output.push({ ...node, value: str.slice(0, index) });
+                if (emoji) {
+                    if (index > 0) {
+                        output.push({ ...node, value: str.slice(0, index) });
+                    }
+                    output.push({ ...node, value: parse(emoji), type: 'emoji' });
+                    str = str.slice(index + emoji.length);
                 }
-                output.push({ ...node, value: parse(emoji), type: 'emoji' });
-                str = str.slice(index + emoji.length);
             }
             if (str.length) {
                 output.push({ ...node, value: str });

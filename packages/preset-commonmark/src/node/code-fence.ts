@@ -167,7 +167,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                         if (!(dom instanceof HTMLElement)) {
                             throw new Error('Parse DOM error.');
                         }
-                        return { language: dom.dataset.language };
+                        return { language: dom.dataset['language'] };
                     },
                 },
             ],
@@ -175,7 +175,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 return [
                     'pre',
                     {
-                        'data-language': node.attrs.language,
+                        'data-language': node.attrs['language'],
                         class: utils.getClassName(node.attrs, 'code-fence', style),
                     },
                     ['code', { spellCheck: 'false' }, 0],
@@ -184,8 +184,8 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             parseMarkdown: {
                 match: ({ type }) => type === 'code',
                 runner: (state, node, type) => {
-                    const language = node.lang as string;
-                    const value = node.value as string;
+                    const language = node['lang'] as string;
+                    const value = node['value'] as string;
                     state.openNode(type, { language });
                     if (value) {
                         state.addText(value);
@@ -197,7 +197,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
                     state.addNode('code', undefined, node.content.firstChild?.text || '', {
-                        lang: node.attrs.language,
+                        lang: node.attrs['language'],
                     });
                 },
             },
@@ -247,7 +247,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 view.dispatch(
                     tr.setNodeMarkup(getPos(), undefined, {
                         fold: true,
-                        language: el.dataset.value,
+                        language: el.dataset['value'],
                     }),
                 );
             });
@@ -261,19 +261,19 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 view.dispatch(
                     tr.setNodeMarkup(getPos(), undefined, {
                         fold: false,
-                        language: container.dataset.language,
+                        language: container.dataset['language'],
                     }),
                 );
             });
             document.addEventListener('mousedown', () => {
-                if (!view.editable || select.dataset.fold === 'true') return;
+                if (!view.editable || select.dataset['fold'] === 'true') return;
 
                 const { tr } = view.state;
 
                 view.dispatch(
                     tr.setNodeMarkup(getPos(), undefined, {
                         fold: true,
-                        language: container.dataset.language,
+                        language: container.dataset['language'],
                     }),
                 );
             });
@@ -298,9 +298,9 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
 
             container.append(selectWrapper, pre);
             container.setAttribute('class', utils.getClassName(node.attrs, 'code-fence', style));
-            container.setAttribute('data-language', node.attrs.language);
-            value.innerText = node.attrs.language || '--';
-            select.setAttribute('data-fold', node.attrs.fold ? 'true' : 'false');
+            container.setAttribute('data-language', node.attrs['language']);
+            value.innerText = node.attrs['language'] || '--';
+            select.setAttribute('data-fold', node.attrs['fold'] ? 'true' : 'false');
 
             return {
                 dom: container,
@@ -308,10 +308,10 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
 
-                    const lang = updatedNode.attrs.language;
-                    container.dataset.language = lang;
+                    const lang = updatedNode.attrs['language'];
+                    container.dataset['language'] = lang;
                     value.innerText = lang || '--';
-                    select.setAttribute('data-fold', updatedNode.attrs.fold ? 'true' : 'false');
+                    select.setAttribute('data-fold', updatedNode.attrs['fold'] ? 'true' : 'false');
 
                     return true;
                 },

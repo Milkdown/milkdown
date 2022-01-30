@@ -10,8 +10,8 @@ export const createToggleIcon = (
     ctx: Ctx,
     iconName: Icon,
     key: string,
-    mark: MarkType,
-    disableForMark: MarkType,
+    mark: MarkType | undefined,
+    disableForMark: MarkType | undefined,
 ): ButtonItem => ({
     $: ctx.get(themeToolCtx).slots.icon(iconName),
     command: () => ctx.get(commandsCtx).callByName(key),

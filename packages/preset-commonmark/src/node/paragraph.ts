@@ -33,7 +33,7 @@ export const paragraph = createNode<Keys>((utils) => {
                     if (node.children) {
                         state.next(node.children);
                     } else {
-                        state.addText(node.value as string);
+                        state.addText(node['value'] as string);
                     }
                     state.closeNode();
                 },

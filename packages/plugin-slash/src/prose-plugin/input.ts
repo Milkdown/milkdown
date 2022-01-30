@@ -28,8 +28,9 @@ export const handleMouseEnter = (status: Status, mouseManager: MouseManager) => 
     if (mouseManager.isLock()) return;
     const { actions } = status.get();
     const active = actions.findIndex((x) => x.$.classList.contains('active'));
-    if (active >= 0) {
-        actions[active].$.classList.remove('active');
+    const active$ = actions[active];
+    if (active$ && active >= 0) {
+        active$.$.classList.remove('active');
     }
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
@@ -86,9 +87,12 @@ export const handleKeydown =
         if (active < 0) active = 0;
 
         const moveActive = (next: number) => {
-            actions[active].$.classList.remove('active');
-            actions[next].$.classList.add('active');
-            scrollIntoView(actions[next].$, {
+            const active$ = actions[active];
+            const next$ = actions[next];
+            if (!active$ || !next$) return;
+            active$.$.classList.remove('active');
+            next$.$.classList.add('active');
+            scrollIntoView(next$.$, {
                 scrollMode: 'if-needed',
                 block: 'nearest',
                 inline: 'nearest',
@@ -117,6 +121,8 @@ export const handleKeydown =
             return;
         }
 
-        actions[active].command(view.state, view.dispatch, view);
-        actions[active].$.classList.remove('active');
+        const active$ = actions[active];
+        if (!active$) return;
+        active$.command(view.state, view.dispatch, view);
+        active$.$.classList.remove('active');
     };

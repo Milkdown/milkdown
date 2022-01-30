@@ -16,7 +16,7 @@ const allLanguages = listLanguages();
 const flatNodes = (nodes: RefractorNode[], className: string[] = []) =>
     nodes.flatMap((node): FlattedNode[] =>
         node.type === 'element'
-            ? flatNodes(node.children, [...className, ...((node.properties?.className as string[]) || [])])
+            ? flatNodes(node.children, [...className, ...((node.properties?.['className'] as string[]) || [])])
             : [{ text: node.value, className }],
     );
 

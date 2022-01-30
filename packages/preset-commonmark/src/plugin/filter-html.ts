@@ -11,10 +11,16 @@ function flatMapWithDepth(ast: Node, fn: (node: Node, index: number, parent: Nod
         if (isParent(node)) {
             const out = [];
             for (let i = 0, n = node.children.length; i < n; i++) {
-                const xs = transform(node.children[i], i, node);
-                if (xs) {
-                    for (let j = 0, m = xs.length; j < m; j++) {
-                        out.push(xs[j]);
+                const nthChild = node.children[i];
+                if (nthChild) {
+                    const xs = transform(nthChild, i, node);
+                    if (xs) {
+                        for (let j = 0, m = xs.length; j < m; j++) {
+                            const item = xs[j];
+                            if (item) {
+                                out.push(item);
+                            }
+                        }
                     }
                 }
             }
