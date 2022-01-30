@@ -70,7 +70,6 @@ export const updateLinkView: Updater = (view, $) => {
     const { firstChild, lastElementChild } = $;
     if (!(firstChild instanceof HTMLInputElement) || !(lastElementChild instanceof HTMLButtonElement)) return;
 
-    firstChild.focus();
     const { selection } = view.state;
     let node: ProseNode | undefined;
     view.state.doc.nodesBetween(selection.from, selection.to, (n) => {
