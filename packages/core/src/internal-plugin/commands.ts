@@ -15,7 +15,9 @@ export type CommandManager = {
     create: <T>(meta: CmdKey<T>, value: Cmd<T>) => void;
     get: <T>(meta: CmdKey<T>) => Cmd<T>;
     call: <T>(meta: CmdKey<T>, info?: T) => boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getByName: <T extends CmdKey<any>>(name: string) => Cmd<InferParams<T>> | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     callByName: <T extends CmdKey<any>>(name: string, info?: InferParams<T>) => null | boolean;
 };
 
