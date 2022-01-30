@@ -157,7 +157,7 @@ export const heading = createNode<Keys>((utils) => {
                         const id = createId(node);
 
                         if (attrs['id'] !== id) {
-                            tr.setNodeMarkup(pos, undefined, {
+                            tr.setMeta(headingPluginKey, true).setNodeMarkup(pos, undefined, {
                                 ...attrs,
                                 id,
                             });
@@ -178,7 +178,9 @@ export const heading = createNode<Keys>((utils) => {
                             compositionend: () => {
                                 lock = false;
                                 const view = ctx.get(editorViewCtx);
-                                walkThrough(view.state, (tr) => view.dispatch(tr));
+                                setTimeout(() => {
+                                    walkThrough(view.state, (tr) => view.dispatch(tr));
+                                }, 0);
                                 return false;
                             },
                         },
@@ -186,7 +188,10 @@ export const heading = createNode<Keys>((utils) => {
                     appendTransaction: (transactions, _, nextState) => {
                         let tr: Transaction | null = null;
 
-                        if (transactions.some((transaction) => transaction.docChanged)) {
+                        if (
+                            transactions.every((transaction) => !transaction.getMeta(headingPluginKey)) &&
+                            transactions.some((transaction) => transaction.docChanged)
+                        ) {
                             walkThrough(nextState, (t) => {
                                 tr = t;
                             });

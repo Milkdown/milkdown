@@ -143,6 +143,16 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
 
+  examples/vanilla:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/theme-nord': workspace:*
+    dependencies:
+      '@milkdown/core': link:../../packages/core
+      '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
+      '@milkdown/theme-nord': link:../../packages/theme-nord
+
   examples/vue:
     specifiers:
       '@milkdown/core': workspace:*
