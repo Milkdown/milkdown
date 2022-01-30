@@ -25,13 +25,22 @@ export const createInputManager = (inputMap: InputMap, utils: Utils) => {
         if (!binding || !inputCommand) return;
         inputCommand(e);
     };
+    const onKeydown = (e: KeyboardEvent) => {
+        if (!inputCommand) return;
+        if ('key' in e && e.key === 'Enter') {
+            inputCommand(e);
+            div.classList.add('hide');
+        }
+    };
 
     input.addEventListener('input', onInput);
+    input.addEventListener('keydown', onKeydown);
     button.addEventListener('mousedown', onClick);
 
     return {
         destroy: () => {
             input.removeEventListener('input', onInput);
+            input.removeEventListener('keydown', onKeydown);
             div.removeEventListener('mousedown', onClick);
             div.remove();
         },
