@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core';
-import { Node, Plugin, Slice } from '@milkdown/prose';
+import { Node, Plugin, PluginKey, Slice } from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
 
 type R = Record<string, unknown>;
@@ -19,6 +19,8 @@ const isPureText = (content: R | R[] | undefined | null): boolean => {
     return content.type === 'text';
 };
 
+export const key = new PluginKey('MILKDOWN_PLUGIN_CLIPBOARD');
+
 export const clipboardPlugin = createPlugin(() => {
     return {
         prosePlugins: (_, ctx) => {
@@ -30,6 +32,7 @@ export const clipboardPlugin = createPlugin(() => {
             }));
 
             const plugin = new Plugin({
+                key,
                 props: {
                     handlePaste: (view, event) => {
                         const parser = ctx.get(parserCtx);

@@ -7,7 +7,7 @@ import { Config, defaultConfig, SelectParent } from './default-config';
 import { Manager } from './manager';
 import { HandleDOM, menubar } from './menubar';
 
-export const menuKey = new PluginKey('milkdown-menu');
+export const menuKey = new PluginKey('MILKDOWN_PLUGIN_MENU');
 
 export type { HandleDOM, HandleDOMParams } from './menubar';
 

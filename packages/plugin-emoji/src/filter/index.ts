@@ -1,11 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { calculateNodePosition, Plugin } from '@milkdown/prose';
+import { calculateNodePosition, Plugin, PluginKey } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 import { search } from 'node-emoji';
 
 import { checkTrigger, renderDropdownList } from './helper';
 import { injectStyle } from './style';
+
+export const key = new PluginKey('MILKDOWN_PLUGIN_EMOJI_FILTER');
 
 export const filter = (utils: Utils) => {
     let trigger = false;
@@ -21,6 +23,7 @@ export const filter = (utils: Utils) => {
     };
 
     return new Plugin({
+        key,
         props: {
             handleKeyDown(_, event) {
                 if (['Delete', 'Backspace'].includes(event.key)) {

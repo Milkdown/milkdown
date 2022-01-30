@@ -1,11 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { EmojiButton } from '@joeattardi/emoji-button';
-import { Decoration, DecorationSet, EditorView, Plugin } from '@milkdown/prose';
+import { Decoration, DecorationSet, EditorView, Plugin, PluginKey } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
 import { parse } from './parse';
 
 const keyword = ':emoji:';
+export const key = new PluginKey('MILKDOWN_PLUGIN_EMOJI_PICKER');
 
 const checkTrigger = (
     view: EditorView,
@@ -40,6 +41,7 @@ export const picker = (utils: Utils) => {
     };
 
     const plugin = new Plugin({
+        key,
         props: {
             handleKeyDown() {
                 off();

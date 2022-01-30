@@ -12,6 +12,11 @@ export default defineConfig({
         outDir: '../docs',
         emptyOutDir: true,
     },
+    resolve: {
+        alias: {
+            chalk: path.join(__dirname, 'chalk.js'),
+        },
+    },
     plugins: [
         markdownPlugin(),
         reactRefresh(),

@@ -9,7 +9,7 @@ import {
     serializerCtx,
     SerializerReady,
 } from '@milkdown/core';
-import { Node as ProseNode, Plugin } from '@milkdown/prose';
+import { Node as ProseNode, Plugin, PluginKey } from '@milkdown/prose';
 
 class ListenerManager {
     private beforeMountedListeners: Array<(ctx: Ctx) => void> = [];
@@ -69,6 +69,7 @@ class ListenerManager {
 }
 
 export const listenerCtx = createSlice<ListenerManager>(new ListenerManager(), 'listener');
+export const key = new PluginKey('MILKDOWN_PLUGIN_LISTENER');
 
 export const listener: MilkdownPlugin = (pre) => {
     pre.inject(listenerCtx, new ListenerManager());
@@ -91,6 +92,7 @@ export const listener: MilkdownPlugin = (pre) => {
         let prevMarkdown: string | null = null;
 
         const plugin = new Plugin({
+            key,
             view: () => {
                 return {
                     destroy: () => {

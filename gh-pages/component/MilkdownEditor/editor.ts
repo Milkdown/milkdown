@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { diagram } from '@milkdown/plugin-diagram';
@@ -15,6 +15,7 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
+import prosemirrorDevTools from 'prosemirror-dev-tools';
 
 import { codeSandBox } from './codeSandBox';
 
@@ -35,8 +36,12 @@ export const createEditor = (
                     .markdownUpdated((_, markdown) => {
                         onChange(markdown);
                     })
-                    .mounted(() => {
+                    .mounted((ctx) => {
                         setEditorReady(true);
+                        if (import.meta.env.DEV) {
+                            const view = ctx.get(editorViewCtx);
+                            prosemirrorDevTools(view);
+                        }
                     });
             }
         })
