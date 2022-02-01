@@ -222,7 +222,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.11.0
       tslib: ^2.3.1
-      unist-util-visit: ^4.0.0
+      unist-util-visit: 4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/lang-markdown': 0.19.5
@@ -259,7 +259,7 @@ importers:
       react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
       react-spinners: 0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f
       tslib: 2.3.1
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
     devDependencies:
       '@rollup/pluginutils': 4.1.2
       '@types/estree': 0.0.50
@@ -376,14 +376,14 @@ importers:
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
-      unist-util-visit: ^4.0.0
+      unist-util-visit: 4.0.0
     dependencies:
       '@milkdown/utils': link:../utils
       '@types/mermaid': 8.2.7
       mermaid: 8.13.10
       nanoid: 3.2.0
       tslib: 2.3.1
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
@@ -401,7 +401,7 @@ importers:
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
       twemoji: ^13.1.0
-      unist-util-visit: ^4.0.0
+      unist-util-visit: 4.0.0
     dependencies:
       '@joeattardi/emoji-button': 4.6.2
       '@milkdown/utils': link:../utils
@@ -412,7 +412,7 @@ importers:
       remark-emoji: 3.0.2
       tslib: 2.3.1
       twemoji: 13.1.0
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
@@ -5943,6 +5943,7 @@ packages:
       chalk: 2.4.2
       diff-match-patch: 1.0.5
     dev: true
+    bundledDependencies: []
 
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
@@ -6365,7 +6366,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 3.1.0
+      unist-util-visit: 4.0.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -6410,7 +6411,7 @@ packages:
       '@types/mdast': 3.0.10
       mdast-util-to-markdown: 1.2.6
       micromark-util-normalize-identifier: 1.0.0
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
     dev: false
 
   /mdast-util-gfm-strikethrough/1.0.0:
@@ -6460,7 +6461,7 @@ packages:
       longest-streak: 3.0.1
       mdast-util-to-string: 3.1.0
       micromark-util-decode-string: 1.0.2
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
       zwitch: 2.0.2
     dev: false
 
@@ -7858,7 +7859,7 @@ packages:
     dependencies:
       emoticon: 4.0.1
       node-emoji: 1.11.0
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
     dev: false
 
   /remark-gfm/3.0.1:
@@ -7876,7 +7877,7 @@ packages:
       '@types/mdast': 3.0.10
       mdast-util-definitions: 5.1.0
       unified: 10.1.1
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
     dev: false
 
   /remark-math/5.1.1:
@@ -8827,16 +8828,8 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
-  /unist-util-visit/3.1.0:
-    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
-    dependencies:
-      '@types/unist': 2.0.6
-      unist-util-is: 5.1.1
-      unist-util-visit-parents: 4.1.1
-    dev: false
-
-  /unist-util-visit/4.1.0:
-    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
+  /unist-util-visit/4.0.0:
+    resolution: {integrity: sha512-3HWTvrtU10/E7qgPznBfiOyG0TXj9W8c1GSfaI8L9GkaG1pLePiQPZ7E35a0R3ToQ/zcy4Im6aZ9WBgOTnv1MQ==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
