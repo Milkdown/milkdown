@@ -1,16 +1,20 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { findChildren, Plugin, PluginKey } from '@milkdown/prose';
+import { refractor } from 'refractor/lib/common';
 
+import type { Options } from '.';
 import { getDecorations } from './get-decorations';
 
 export const key = 'MILKDOWN_PLUGIN_PRISM';
 
-export function Prism(name: string): Plugin {
+export function Prism(options: Options): Plugin {
+    const { nodeName: name, configureRefractor } = options;
     return new Plugin({
         key: new PluginKey(key),
         state: {
             init: (_, { doc }) => {
-                return getDecorations(doc, name);
+                configureRefractor(refractor);
+                return getDecorations(doc, name, refractor);
             },
             apply: (transaction, decorationSet, oldState, state) => {
                 const isNodeName = state.selection.$head.parent.type.name === name;
@@ -35,7 +39,7 @@ export function Prism(name: string): Plugin {
                         }));
 
                 if (codeBlockChanged) {
-                    return getDecorations(transaction.doc, name);
+                    return getDecorations(transaction.doc, name, refractor);
                 }
 
                 return decorationSet.map(transaction.mapping, transaction.doc);
