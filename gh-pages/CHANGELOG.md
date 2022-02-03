@@ -1,5 +1,41 @@
 # @milkdown/gh-pages
 
+## 5.5.0
+
+### Minor Changes
+
+-   d79264e6: Prism plugin now can be configured. And bug fixes with UX optimization.
+
+### Patch Changes
+
+-   Updated dependencies [d79264e6]
+    -   @milkdown/core@5.5.0
+    -   @milkdown/ctx@5.5.0
+    -   @milkdown/design-system@5.5.0
+    -   @milkdown/exception@5.5.0
+    -   @milkdown/plugin-clipboard@5.5.0
+    -   @milkdown/plugin-collaborative@5.5.0
+    -   @milkdown/plugin-cursor@5.5.0
+    -   @milkdown/plugin-diagram@5.5.0
+    -   @milkdown/plugin-emoji@5.5.0
+    -   @milkdown/plugin-history@5.5.0
+    -   @milkdown/plugin-indent@5.5.0
+    -   @milkdown/plugin-listener@5.5.0
+    -   @milkdown/plugin-math@5.5.0
+    -   @milkdown/plugin-menu@5.5.0
+    -   @milkdown/plugin-prism@5.5.0
+    -   @milkdown/plugin-slash@5.5.0
+    -   @milkdown/plugin-tooltip@5.5.0
+    -   @milkdown/plugin-upload@5.5.0
+    -   @milkdown/preset-commonmark@5.5.0
+    -   @milkdown/preset-gfm@5.5.0
+    -   @milkdown/prose@5.5.0
+    -   @milkdown/react@5.5.0
+    -   @milkdown/theme-nord@5.5.0
+    -   @milkdown/transformer@5.5.0
+    -   @milkdown/utils@5.5.0
+    -   @milkdown/vue@5.5.0
+
 ## 5.4.1
 
 ### Patch Changes
