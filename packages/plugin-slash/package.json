@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/plugin-slash",
-    "version": "5.4.1",
+    "version": "5.5.0",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",

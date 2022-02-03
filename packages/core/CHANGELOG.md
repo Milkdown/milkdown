@@ -1,5 +1,19 @@
 # @milkdown/core
 
+## 5.5.0
+
+### Minor Changes
+
+-   d79264e6: Prism plugin now can be configured. And bug fixes with UX optimization.
+
+### Patch Changes
+
+-   Updated dependencies [d79264e6]
+    -   @milkdown/ctx@5.5.0
+    -   @milkdown/design-system@5.5.0
+    -   @milkdown/exception@5.5.0
+    -   @milkdown/transformer@5.5.0
+
 ## 5.4.1
 
 ### Patch Changes

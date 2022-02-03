@@ -1,5 +1,16 @@
 # @milkdown/plugin-upload
 
+## 5.5.0
+
+### Minor Changes
+
+-   d79264e6: Prism plugin now can be configured. And bug fixes with UX optimization.
+
+### Patch Changes
+
+-   Updated dependencies [d79264e6]
+    -   @milkdown/utils@5.5.0
+
 ## 5.4.1
 
 ### Patch Changes
