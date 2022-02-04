@@ -28,6 +28,7 @@ export const clipboardPlugin = createPlugin(() => {
 
             // Set editable props for https://github.com/Saul-Mirone/milkdown/issues/190
             ctx.update(editorViewOptionsCtx, (prev) => ({
+                ...prev,
                 editable: prev.editable ?? (() => true),
             }));
 
