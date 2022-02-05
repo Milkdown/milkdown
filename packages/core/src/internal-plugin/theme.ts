@@ -25,7 +25,8 @@ export const createThemeProviderKey = <T = undefined>(key = 'themeComponentKey')
     createSlice((() => '') as ThemeProvider<T>, key);
 
 export type ThemeManager = {
-    provide: <T>(meta: ThemeProviderKey<T>, value: ThemeProvider<T>) => void;
+    inject: <T>(key: ThemeProviderKey<T>) => void;
+    provide: <T>(meta: ThemeProviderKey<T> | string, value: ThemeProvider<T>) => void;
     consume: <T>(meta: ThemeProviderKey<T> | string, info?: T) => ReturnType<ThemeProvider<T>>;
 };
 
@@ -42,7 +43,11 @@ export const themeFactory =
     (pre) => {
         const container = createContainer();
         const themeManager: ThemeManager = {
-            provide: (slice, value) => slice(container.sliceMap, value),
+            inject: (slice) => slice(container.sliceMap),
+            provide: () => {
+                // cannot called here,
+                throw new Error();
+            },
             consume: () => {
                 // cannot called here,
                 throw new Error();
@@ -68,6 +73,13 @@ export const themeFactory =
             ctx.set(themeToolCtx, tool);
             ctx.update(themeManagerCtx, (prev) => ({
                 ...prev,
+                provide: (slice, value) => {
+                    const meta =
+                        typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);
+                    if (!meta) return;
+
+                    return meta.set(value);
+                },
                 consume: (slice, info) => {
                     const meta =
                         typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);
