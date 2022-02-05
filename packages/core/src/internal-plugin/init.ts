@@ -5,7 +5,7 @@ import { RemarkParser, RemarkPlugin } from '@milkdown/transformer';
 import { remark } from 'remark';
 
 import type { Editor } from '../editor';
-import { ConfigReady } from './config';
+import { ThemeReady } from './theme';
 
 export const InitReady = createTimer('InitReady');
 
@@ -30,7 +30,7 @@ export const init =
             .inject(inputRulesCtx)
             .inject(viewCtx)
             .inject(remarkCtx, remark())
-            .inject(initTimerCtx, [ConfigReady])
+            .inject(initTimerCtx, [ThemeReady])
             .record(InitReady);
 
         return async (ctx) => {

@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import {
-    ConfigReady,
     Ctx,
     MarkSchema,
     marksCtx,
@@ -10,6 +9,7 @@ import {
     nodesCtx,
     schemaCtx,
     SchemaReady,
+    ThemeReady,
     viewCtx,
 } from '@milkdown/core';
 import { MarkType, MarkViewFactory, NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
@@ -57,7 +57,7 @@ export const createPlugin = <
             (options): MilkdownPlugin =>
                 () =>
                 async (ctx) => {
-                    await ctx.wait(ConfigReady);
+                    await ctx.wait(ThemeReady);
                     const utils = getUtils(ctx, options);
 
                     const plugin = factory(utils, options);
