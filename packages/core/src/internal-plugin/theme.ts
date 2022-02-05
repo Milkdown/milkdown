@@ -44,9 +44,11 @@ export const themeFactory =
         const container = createContainer();
         const themeManager: ThemeManager = {
             inject: (slice) => slice(container.sliceMap),
-            provide: () => {
-                // cannot called here,
-                throw new Error();
+            provide: (slice, value) => {
+                const meta = typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);
+                if (!meta) return;
+
+                return meta.set(value);
             },
             consume: () => {
                 // cannot called here,
@@ -73,13 +75,6 @@ export const themeFactory =
             ctx.set(themeToolCtx, tool);
             ctx.update(themeManagerCtx, (prev) => ({
                 ...prev,
-                provide: (slice, value) => {
-                    const meta =
-                        typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);
-                    if (!meta) return;
-
-                    return meta.set(value);
-                },
                 consume: (slice, info) => {
                     const meta =
                         typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);

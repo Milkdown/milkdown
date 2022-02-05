@@ -28,6 +28,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
             (options): MilkdownPlugin =>
                 () =>
                 async (ctx) => {
+                    // TODO: inject theme key to theme manager here
                     await ctx.wait(ThemeReady);
                     const utils = getUtils(ctx, options);
 
