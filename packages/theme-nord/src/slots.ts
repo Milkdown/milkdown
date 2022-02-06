@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Icon, ThemePack } from '@milkdown/design-system';
+import { Icon, IconValue } from '@milkdown/design-system';
 
 type Slot = {
     icon: string;
@@ -142,14 +142,17 @@ const iconMapping: Record<Icon, Slot> = {
     },
 };
 
-export const slots: ThemePack['slots'] = () => ({
-    icon: (id) => {
-        const span = document.createElement('span');
-        span.className = 'icon material-icons material-icons-outlined';
-        span.textContent = iconMapping[id].icon;
-        return span;
-    },
-    label: (id) => {
-        return iconMapping[id].label;
-    },
-});
+export const getIcon = (id: Icon): IconValue | null => {
+    const target = iconMapping[id];
+    if (!target) {
+        return null;
+    }
+    const span = document.createElement('span');
+    span.className = 'icon material-icons material-icons-outlined';
+    span.textContent = iconMapping[id].icon;
+
+    return {
+        dom: span,
+        label: target.label,
+    };
+};

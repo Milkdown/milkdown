@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { ThemePack } from '@milkdown/design-system';
+import type { Color } from '@milkdown/design-system';
 
+/* Copyright 2021, Milkdown by Mirone. */
 export const Nord = {
     nord0: '#2e3440',
     nord1: '#3b4252',
@@ -20,7 +21,7 @@ export const Nord = {
     nord15: '#b48ead',
 };
 
-export const lightColor: ThemePack['color'] = {
+export const lightColor: Record<Color, string> = {
     shadow: Nord.nord1,
     primary: Nord.nord10,
     secondary: Nord.nord9,
@@ -31,7 +32,7 @@ export const lightColor: ThemePack['color'] = {
     surface: '#fff',
 };
 
-export const darkColor: ThemePack['color'] = {
+export const darkColor: Record<Color, string> = {
     shadow: Nord.nord1,
     primary: Nord.nord10,
     secondary: Nord.nord9,

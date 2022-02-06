@@ -9,6 +9,7 @@ import {
     inputRulesCtx,
     prosePluginsCtx,
     remarkPluginsCtx,
+    themeManagerCtx,
     themeToolCtx,
 } from '@milkdown/core';
 import { themeMustInstalled } from '@milkdown/exception';
@@ -61,6 +62,12 @@ export const applyMethods = async <Keys extends string, Type, Options extends Un
     options?: Partial<CommonOptions<Keys, Options>>,
 ): Promise<void> => {
     await ctx.wait(InitReady);
+
+    if (plugin.theme) {
+        plugin.theme.forEach((key) => {
+            ctx.get(themeManagerCtx).inject(key);
+        });
+    }
 
     if (plugin.remarkPlugins) {
         const remarkPlugins = plugin.remarkPlugins(ctx);

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, Emotion, MilkdownPlugin, ThemeTool } from '@milkdown/core';
+import type { Attrs, CmdKey, Emotion, MilkdownPlugin, ThemeProviderKey, ThemeTool } from '@milkdown/core';
 import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
 import { InputRule, Plugin, ViewFactory } from '@milkdown/prose';
 
@@ -26,6 +26,7 @@ export type Methods<Keys extends string, Type> = {
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
     commands?: (types: Type, ctx: Ctx) => CmdTuple[];
     shortcuts?: Record<Keys, CommandConfig>;
+    theme?: ThemeProviderKey[];
 };
 
 export type GetPlugin<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (
