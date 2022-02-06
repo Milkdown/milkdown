@@ -5,7 +5,7 @@ import { Plugin, PluginKey } from '@milkdown/prose';
 
 import { ConfigReady, InitReady, prosePluginsCtx } from '..';
 import { emotionConfigCtx, emotionCtx } from './emotion';
-import { internalThemeKeys } from './keys';
+import { internalThemeKeys, ThemeGlobal } from './keys';
 import { createThemeManager, ThemeManager, themeManagerCtx, ThemeSliceKey } from './manager';
 
 export const themeTimerCtx = createSlice<Timer[]>([], 'themeTimer');
@@ -37,6 +37,8 @@ export const themeFactory =
             ctx.set(emotionCtx, emotion);
             ctx.done(ThemeReady);
 
+            themeManager.get(ThemeGlobal);
+
             await ctx.wait(InitReady);
             ctx.update(prosePluginsCtx, (xs) =>
                 xs.concat(
@@ -53,6 +55,7 @@ export const themeFactory =
         };
     };
 
+export * from './emotion';
 export * from './keys';
-export type { ThemeManager } from './manager';
+export * from './manager';
 export * from '@milkdown/design-system';

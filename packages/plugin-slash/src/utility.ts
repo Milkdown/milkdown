@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { ThemeTool } from '@milkdown/core';
+import { ThemeIcon, ThemeManager } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import type { Command, Node } from '@milkdown/prose';
 import type { Utils } from '@milkdown/utils';
@@ -24,20 +24,30 @@ export const createDropdown = (utils: Utils) => {
 type ItemOptions = {
     textClassName: string;
 };
-export const createDropdownItem = (themeTool: ThemeTool, text: string, icon: Icon, options?: Partial<ItemOptions>) => {
+export const createDropdownItem = (
+    themeManager: ThemeManager,
+    text: string,
+    icon: Icon,
+    options?: Partial<ItemOptions>,
+) => {
     const textClassName = options?.textClassName ?? 'text';
 
     const div = document.createElement('div');
     div.setAttribute('role', 'option');
     div.classList.add('slash-dropdown-item');
 
-    const iconSpan = themeTool.slots.icon(icon);
+    // const iconSpan = themeManager.slots.icon(icon);
+    const iconSpan = themeManager.get(ThemeIcon, icon);
+
+    if (!iconSpan) {
+        throw new Error('icon not found');
+    }
 
     const textSpan = document.createElement('span');
     textSpan.textContent = text;
     textSpan.className = textClassName;
 
-    div.appendChild(iconSpan);
+    div.appendChild(iconSpan.dom);
     div.appendChild(textSpan);
 
     return div;

@@ -1,9 +1,21 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Emotion, ThemeTool } from '@milkdown/core';
+import {
+    Color,
+    Emotion,
+    ThemeBorder,
+    ThemeColor,
+    ThemeFont,
+    ThemeManager,
+    ThemeShadow,
+    ThemeSize,
+} from '@milkdown/core';
 
-export const injectStyle = ({ size, mixin, palette, font }: ThemeTool, { css, cx }: Emotion) => {
-    const border = mixin.border?.();
-    const shadow = mixin.shadow?.();
+export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) => {
+    const border = themeManager.get(ThemeBorder);
+    const shadow = themeManager.get(ThemeShadow);
+    const radius = themeManager.get(ThemeSize, 'radius');
+    const typography = themeManager.get(ThemeFont, 'typography');
+    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
 
     const style = css`
         position: absolute;
@@ -11,7 +23,7 @@ export const injectStyle = ({ size, mixin, palette, font }: ThemeTool, { css, cx
             display: none;
         }
 
-        border-radius: ${size.radius};
+        border-radius: ${radius};
         background: ${palette('surface')};
 
         .milkdown-emoji-filter_item {
@@ -23,7 +35,7 @@ export const injectStyle = ({ size, mixin, palette, font }: ThemeTool, { css, cx
             justify-content: flex-start;
             cursor: pointer;
             line-height: 2;
-            font-family: ${font.typography};
+            font-family: ${typography};
             font-size: 0.875rem;
             &.active {
                 background: ${palette('secondary', 0.12)};

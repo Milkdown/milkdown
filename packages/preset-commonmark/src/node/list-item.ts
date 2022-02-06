@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { createCmd, createCmdKey, ThemeColor } from '@milkdown/core';
 import { liftListItem, sinkListItem, splitListItem, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -15,7 +15,7 @@ export const LiftListItem = createCmdKey('LiftListItem');
 
 export const listItem = createNode<Keys>((utils) => {
     const style = utils.getStyle(
-        (themeTool, { css }) =>
+        (themeManager, { css }) =>
             css`
                 &,
                 & > * {
@@ -25,7 +25,7 @@ export const listItem = createNode<Keys>((utils) => {
                 &,
                 li {
                     &::marker {
-                        color: ${themeTool.palette('primary')};
+                        color: ${themeManager.get(ThemeColor, ['primary'])};
                     }
                 }
             `,

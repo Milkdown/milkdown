@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { themeToolCtx } from '@milkdown/core';
+import { ThemeColor, themeManagerCtx, ThemeSize } from '@milkdown/core';
 import { dropCursor, gapCursor } from '@milkdown/prose';
 import { createPlugin } from '@milkdown/utils';
 
 export const cursor = createPlugin((utils) => {
-    utils.getStyle((themeTool, { injectGlobal }) => {
+    utils.getStyle((themeManager, { injectGlobal }) => {
         const css = injectGlobal;
         css`
             /* copy from https://github.com/ProseMirror/prosemirror-gapcursor/blob/master/style/gapcursor.css */
@@ -21,7 +21,8 @@ export const cursor = createPlugin((utils) => {
                 position: absolute;
                 top: -2px;
                 width: 20px;
-                border-top: ${themeTool.size.lineWidth} solid ${themeTool.palette('secondary')};
+                border-top: ${themeManager.get(ThemeSize, 'lineWidth')} solid
+                    ${themeManager.get(ThemeColor, ['secondary'])};
                 animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
             }
 
@@ -39,12 +40,13 @@ export const cursor = createPlugin((utils) => {
 
     return {
         prosePlugins: (_, ctx) => {
-            const themeTool = ctx.get(themeToolCtx);
+            const themeManager = ctx.get(themeManagerCtx);
+            const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
+            const secondary = themeManager.get(ThemeColor, ['secondary']);
 
-            const lineWidth = themeTool.size.lineWidth;
             const width = Number(lineWidth?.match(/\d+/)?.[0] ?? 1);
 
-            return [gapCursor(), dropCursor({ color: themeTool.palette('secondary'), width })];
+            return [gapCursor(), dropCursor({ color: secondary, width })];
         },
     };
 })();

@@ -3,32 +3,32 @@ import { Color, Font, Icon, IconValue, Size } from '@milkdown/design-system';
 
 import { createThemeSliceKey } from './manager';
 
-export const ColorKey = createThemeSliceKey<string, [key: Color, opacity?: number]>('color');
-export const SizeKey = createThemeSliceKey<string, Size>('size');
-export const FontKey = createThemeSliceKey<string[], Font>('font');
+export const ThemeColor = createThemeSliceKey<string, [key: Color, opacity?: number]>('color');
+export const ThemeSize = createThemeSliceKey<string, Size>('size');
+export const ThemeFont = createThemeSliceKey<string, Font>('font');
 
-export const ScrollbarKey = createThemeSliceKey<string, 'x' | 'y' | undefined>('scrollbar');
-export const ShadowKey = createThemeSliceKey<string>('shadow');
-export const BorderKey = createThemeSliceKey<string, 'left' | 'right' | 'top' | 'bottom'>('border');
-export const IconKey = createThemeSliceKey<IconValue, Icon>('icon');
-export const GlobalKey = createThemeSliceKey('global');
+export const ThemeScrollbar = createThemeSliceKey<string, 'x' | 'y' | undefined>('scrollbar');
+export const ThemeShadow = createThemeSliceKey<string>('shadow');
+export const ThemeBorder = createThemeSliceKey<string, 'left' | 'right' | 'top' | 'bottom'>('border');
+export const ThemeIcon = createThemeSliceKey<IconValue, Icon>('icon');
+export const ThemeGlobal = createThemeSliceKey('global');
 export const internalThemeKeys = [
-    ColorKey,
-    SizeKey,
-    FontKey,
-    ScrollbarKey,
-    ShadowKey,
-    BorderKey,
-    IconKey,
-    GlobalKey,
+    ThemeColor,
+    ThemeSize,
+    ThemeFont,
+    ThemeScrollbar,
+    ThemeShadow,
+    ThemeBorder,
+    ThemeIcon,
+    ThemeGlobal,
 ] as const;
 
-export type ColorKeyType = typeof ColorKey;
-export type SizeKeyType = typeof SizeKey;
-export type FontKeyType = typeof FontKey;
+export type ThemeColorType = typeof ThemeColor;
+export type ThemeSizeType = typeof ThemeSize;
+export type ThemeFontType = typeof ThemeFont;
 
-export type ScrollbarKeyType = typeof ScrollbarKey;
-export type ShadowKeyType = typeof ShadowKey;
-export type BorderKeyType = typeof BorderKey;
-export type IconKeyType = typeof IconKey;
-export type GlobalKeyType = typeof GlobalKey;
+export type ThemeScrollbarType = typeof ThemeScrollbar;
+export type ThemeShadowType = typeof ThemeShadow;
+export type ThemeBorderType = typeof ThemeBorder;
+export type ThemeIconType = typeof ThemeIcon;
+export type ThemeGlobalType = typeof ThemeGlobal;

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Emotion, ThemeTool } from '@milkdown/core';
+import { Color, Emotion, ThemeColor, ThemeFont, ThemeManager } from '@milkdown/core';
 import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -7,22 +7,27 @@ import type { Status } from './status';
 
 export type Props = ReturnType<typeof createProps>;
 
-const createEmptyStyle = ({ font, palette }: ThemeTool, { css }: Emotion) => css`
-    position: relative;
-    &::before {
-        position: absolute;
-        cursor: text;
-        font-family: ${font.typography};
-        font-size: 0.875rem;
-        color: ${palette('neutral', 0.6)};
-        content: attr(data-text);
-        height: 100%;
-        display: flex;
-        align-items: center;
-    }
-`;
+const createEmptyStyle = (themeManager: ThemeManager, { css }: Emotion) => {
+    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+    const typography = themeManager.get(ThemeFont, 'typography');
 
-const createSlashStyle = (_: ThemeTool, { css }: Emotion) => css`
+    return css`
+        position: relative;
+        &::before {
+            position: absolute;
+            cursor: text;
+            font-family: ${typography};
+            font-size: 0.875rem;
+            color: ${palette('neutral', 0.6)};
+            content: attr(data-text);
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+    `;
+};
+
+const createSlashStyle = (_: ThemeManager, { css }: Emotion) => css`
     &::before {
         left: 0.5rem;
     }

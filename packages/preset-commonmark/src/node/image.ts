@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
+import { createCmd, createCmdKey, ThemeColor, ThemeIcon, themeManagerCtx, ThemeSize } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
@@ -25,7 +25,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
     };
     const isBlock = options?.isBlock ?? false;
     const containerStyle = utils.getStyle(
-        (themeTool, { css }) =>
+        (themeManager, { css }) =>
             css`
                 display: inline-block;
                 position: relative;
@@ -43,7 +43,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
 
                 &.ProseMirror-selectednode::after {
                     content: '';
-                    background: ${themeTool.palette('secondary', 0.38)};
+                    background: ${themeManager.get(ThemeColor, ['secondary', 0.38])};
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -79,8 +79,8 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
 
                     box-sizing: border-box;
                     height: 3rem;
-                    background-color: ${themeTool.palette('background')};
-                    border-radius: ${themeTool.size.radius};
+                    background-color: ${themeManager.get(ThemeColor, ['background'])};
+                    border-radius: ${themeManager.get(ThemeSize, 'radius')};
                     display: inline-flex;
                     gap: 2rem;
                     justify-content: flex-start;
@@ -91,7 +91,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                         &::before {
                             content: '';
                             font-size: 0.875rem;
-                            color: ${themeTool.palette('neutral', 0.6)};
+                            color: ${themeManager.get(ThemeColor, ['neutral', 0.6])};
                         }
                     }
                 }
@@ -251,7 +251,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
         ],
         view: (ctx) => (node, view, getPos) => {
             const nodeType = node.type;
-            const createIcon = ctx.get(themeToolCtx).slots.icon;
+            const createIcon = (icon: Icon) => ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement;
             const container = document.createElement('span');
             container.className = utils.getClassName(node.attrs, id, containerStyle);
 

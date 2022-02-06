@@ -10,7 +10,6 @@ import {
     prosePluginsCtx,
     remarkPluginsCtx,
     themeManagerCtx,
-    themeToolCtx,
 } from '@milkdown/core';
 import { themeMustInstalled } from '@milkdown/exception';
 import { keymap } from '@milkdown/prose';
@@ -39,7 +38,7 @@ export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, arg
 
 export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Options): Utils => {
     try {
-        const themeTool = ctx.get(themeToolCtx);
+        const themeManager = ctx.get(themeManagerCtx);
         const emotion = ctx.get(emotionCtx);
         if (!emotion.css) {
             throw themeMustInstalled();
@@ -47,8 +46,8 @@ export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Opti
 
         return {
             getClassName: getClassName(options?.['className'] as undefined),
-            getStyle: (style) => (options?.['headless'] ? '' : (style(themeTool, emotion) as string | undefined)),
-            themeTool,
+            getStyle: (style) => (options?.['headless'] ? '' : (style(themeManager, emotion) as string | undefined)),
+            themeManager,
         };
     } catch {
         throw themeMustInstalled();
@@ -62,12 +61,6 @@ export const applyMethods = async <Keys extends string, Type, Options extends Un
     options?: Partial<CommonOptions<Keys, Options>>,
 ): Promise<void> => {
     await ctx.wait(InitReady);
-
-    if (plugin.theme) {
-        plugin.theme.forEach((key) => {
-            ctx.get(themeManagerCtx).inject(key);
-        });
-    }
 
     if (plugin.remarkPlugins) {
         const remarkPlugins = plugin.remarkPlugins(ctx);

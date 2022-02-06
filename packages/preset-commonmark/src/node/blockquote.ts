@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { createCmd, createCmdKey, ThemeColor } from '@milkdown/core';
 import { wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -13,11 +13,11 @@ export const WrapInBlockquote = createCmdKey('WrapInBlockquote');
 
 export const blockquote = createNode<Keys>((utils) => {
     const style = utils.getStyle(
-        (themeTool, { css }) =>
+        (themeManager, { css }) =>
             css`
                 padding-left: 1.875rem;
                 line-height: 1.75rem;
-                border-left: 4px solid ${themeTool.palette('primary')};
+                border-left: 4px solid ${themeManager.get(ThemeColor, ['primary'])};
                 * {
                     font-size: 1rem;
                     line-height: 1.5rem;

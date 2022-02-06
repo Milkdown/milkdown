@@ -1,12 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, Emotion, MilkdownPlugin, ThemeProviderKey, ThemeTool } from '@milkdown/core';
+import type { Attrs, CmdKey, Emotion, MilkdownPlugin, ThemeManager, ThemeSliceKey } from '@milkdown/core';
 import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
 import { InputRule, Plugin, ViewFactory } from '@milkdown/prose';
 
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
-    readonly getStyle: (style: (themeTool: ThemeTool, emotion: Emotion) => string | void) => string | undefined;
-    readonly themeTool: ThemeTool;
+    readonly getStyle: (style: (themeManager: ThemeManager, emotion: Emotion) => string | void) => string | undefined;
+    readonly themeManager: ThemeManager;
 };
 
 export type UnknownRecord = Record<string, unknown>;
@@ -26,7 +26,7 @@ export type Methods<Keys extends string, Type> = {
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
     commands?: (types: Type, ctx: Ctx) => CmdTuple[];
     shortcuts?: Record<Keys, CommandConfig>;
-    theme?: ThemeProviderKey[];
+    themeKeys?: ThemeSliceKey[];
 };
 
 export type GetPlugin<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord> = (

@@ -1,5 +1,16 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
+import {
+    createCmd,
+    createCmdKey,
+    ThemeBorder,
+    ThemeColor,
+    ThemeFont,
+    ThemeIcon,
+    themeManagerCtx,
+    ThemeScrollbar,
+    ThemeShadow,
+    ThemeSize,
+} from '@milkdown/core';
 import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -33,16 +44,19 @@ export const TurnIntoCodeFence = createCmdKey('TurnIntoCodeFence');
 
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
-    const style = utils.getStyle(({ palette, mixin, size, font }, { css }) => {
-        const { shadow, scrollbar, border } = mixin;
-        const { lineWidth, radius } = size;
+    const style = utils.getStyle((themeManager, { css }) => {
+        // const { shadow, scrollbar, border } = mixin;
+        // const { lineWidth, radius } = size;
+        const radius = themeManager.get(ThemeSize, 'radius');
+        const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
+
         return css`
-            background-color: ${palette('background')};
-            color: ${palette('neutral')};
+            background-color: ${themeManager.get(ThemeColor, ['background'])};
+            color: ${themeManager.get(ThemeColor, ['neutral'])};
             font-size: 0.85rem;
             padding: 1.2rem 0.4rem 1.4rem;
             border-radius: ${radius};
-            font-family: ${font.typography};
+            font-family: ${themeManager.get(ThemeFont, 'typography')};
 
             * {
                 margin: 0;
@@ -55,15 +69,15 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             .code-fence_value {
                 width: 10.25rem;
                 box-sizing: border-box;
-                border-radius: ${size.radius};
+                border-radius: ${radius};
                 margin: 0 1.2rem 1.2rem;
-                ${border()};
-                ${shadow()};
+                ${themeManager.get(ThemeBorder)};
+                ${themeManager.get(ThemeShadow)};
                 cursor: pointer;
-                background-color: ${palette('surface')};
+                background-color: ${themeManager.get(ThemeColor, ['surface'])};
                 position: relative;
                 display: flex;
-                color: ${palette('neutral', 0.87)};
+                color: ${themeManager.get(ThemeColor, ['neutral', 0.87])};
                 letter-spacing: 0.5px;
                 height: 2.625rem;
                 align-items: center;
@@ -74,14 +88,14 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    color: ${palette('solid', 0.87)};
-                    border-left: ${lineWidth} solid ${palette('line')};
+                    color: ${themeManager.get(ThemeColor, ['solid', 0.87])};
+                    border-left: ${lineWidth} solid ${themeManager.get(ThemeColor, ['line'])};
 
                     text-align: center;
                     transition: all 0.2s ease-in-out;
                     &:hover {
-                        background: ${palette('background')};
-                        color: ${palette('primary')};
+                        background: ${themeManager.get(ThemeColor, ['background'])};
+                        color: ${themeManager.get(ThemeColor, ['primary'])};
                     }
                 }
 
@@ -98,8 +112,8 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 padding-left: 1rem;
                 cursor: pointer;
                 :hover {
-                    background: ${palette('secondary', 0.12)};
-                    color: ${palette('primary')};
+                    background: ${themeManager.get(ThemeColor, ['secondary', 0.12])};
+                    color: ${themeManager.get(ThemeColor, ['primary'])};
                 }
             }
 
@@ -117,28 +131,28 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 padding: 0.5rem 0;
                 max-height: 16.75rem;
                 width: 10.25rem;
-                ${border()};
-                ${shadow()};
-                background-color: ${palette('surface')};
+                ${themeManager.get(ThemeBorder)};
+                ${themeManager.get(ThemeShadow)};
+                background-color: ${themeManager.get(ThemeColor, ['surface'])};
                 border-top: none;
                 overflow-y: auto;
                 display: flex;
                 flex-direction: column;
 
-                ${scrollbar('y')}
+                ${themeManager.get(ThemeScrollbar, 'y')}
             }
 
             code {
                 line-height: 1.5;
-                font-family: ${font.code};
+                font-family: ${themeManager.get(ThemeFont, 'code')};
             }
 
             pre {
-                font-family: ${font.code};
+                font-family: ${themeManager.get(ThemeFont, 'code')};
                 margin: 0 1.2rem !important;
                 white-space: pre;
                 overflow: auto;
-                ${scrollbar('x')};
+                ${themeManager.get(ThemeScrollbar, 'x')}
             }
         `;
     });
@@ -229,8 +243,9 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             valueWrapper.className = 'code-fence_value';
             const value = document.createElement('span');
             valueWrapper.appendChild(value);
-            if (view.editable) {
-                valueWrapper.appendChild(ctx.get(themeToolCtx).slots.icon('downArrow'));
+            const downIcon = ctx.get(themeManagerCtx).get(ThemeIcon, 'downArrow');
+            if (view.editable && downIcon) {
+                valueWrapper.appendChild(downIcon.dom);
             }
 
             select.className = 'code-fence_select';

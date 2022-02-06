@@ -1,15 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import {
-    BorderKey,
-    ColorKey,
-    FontKey,
-    GlobalKey,
     hex2rgb,
-    IconKey,
-    ScrollbarKey,
-    ShadowKey,
-    SizeKey,
+    ThemeBorder,
+    ThemeColor,
     themeFactory,
+    ThemeFont,
+    ThemeGlobal,
+    ThemeIcon,
+    ThemeScrollbar,
+    ThemeShadow,
+    ThemeSize,
 } from '@milkdown/core';
 
 import { code, typography } from './font';
@@ -32,7 +32,7 @@ export const getNord = (isDarkMode = false) =>
         const { css } = emotion;
         const colorSet = isDarkMode ? darkColor : lightColor;
 
-        manager.set(ColorKey, (options) => {
+        manager.set(ThemeColor, (options) => {
             if (!options) return null;
             const [key, opacity] = options;
             const hex = colorSet[key];
@@ -42,20 +42,20 @@ export const getNord = (isDarkMode = false) =>
             return `rgba(${rgb?.join(', ')}, ${opacity || 1})`;
         });
 
-        manager.set(SizeKey, (key) => {
+        manager.set(ThemeSize, (key) => {
             if (!key) return null;
             return size[key];
         });
 
-        manager.set(FontKey, (key) => {
+        manager.set(ThemeFont, (key) => {
             if (!key) return null;
-            return font[key];
+            return font[key].join(', ');
         });
 
-        manager.set(ScrollbarKey, (direction = 'y') => {
-            const main = manager.get(ColorKey, ['secondary', 0.38]);
-            const bg = manager.get(ColorKey, ['secondary', 0.12]);
-            const hover = manager.get(ColorKey, ['secondary']);
+        manager.set(ThemeScrollbar, (direction = 'y') => {
+            const main = manager.get(ThemeColor, ['secondary', 0.38]);
+            const bg = manager.get(ThemeColor, ['secondary', 0.12]);
+            const hover = manager.get(ThemeColor, ['secondary']);
             return css`
                 scrollbar-width: thin;
                 scrollbar-color: ${main} ${bg};
@@ -85,17 +85,17 @@ export const getNord = (isDarkMode = false) =>
             `;
         });
 
-        manager.set(ShadowKey, () => {
+        manager.set(ThemeShadow, () => {
             const { lineWidth } = size;
-            const getShadow = (opacity: number) => manager.get(ColorKey, ['shadow', opacity]);
+            const getShadow = (opacity: number) => manager.get(ThemeColor, ['shadow', opacity]);
             return css`
                 box-shadow: 0px ${lineWidth} ${lineWidth} ${getShadow(0.14)}, 0px 2px ${lineWidth} ${getShadow(0.12)},
                     0px ${lineWidth} 3px ${getShadow(0.2)};
             `;
         });
 
-        manager.set(BorderKey, (direction) => {
-            const line = manager.get(ColorKey, ['line']);
+        manager.set(ThemeBorder, (direction) => {
+            const line = manager.get(ThemeColor, ['line']);
             if (!direction) {
                 return css`
                     border: ${size.lineWidth} solid ${line};
@@ -106,18 +106,18 @@ export const getNord = (isDarkMode = false) =>
             `;
         });
 
-        manager.set(IconKey, (icon) => {
+        manager.set(ThemeIcon, (icon) => {
             if (!icon) return null;
 
             return getIcon(icon);
         });
 
-        manager.set(GlobalKey, () => {
+        manager.set(ThemeGlobal, () => {
             const css = emotion.injectGlobal;
-            const neutral = manager.get(ColorKey, ['neutral', 0.87]);
-            const surface = manager.get(ColorKey, ['surface']);
-            const line = manager.get(ColorKey, ['line']);
-            const highlight = manager.get(ColorKey, ['secondary', 0.38]);
+            const neutral = manager.get(ThemeColor, ['neutral', 0.87]);
+            const surface = manager.get(ThemeColor, ['surface']);
+            const line = manager.get(ThemeColor, ['line']);
+            const highlight = manager.get(ThemeColor, ['secondary', 0.38]);
 
             css`
                 ${view(emotion)};
@@ -129,9 +129,9 @@ export const getNord = (isDarkMode = false) =>
                     font-family: ${font.typography};
                     margin-left: auto;
                     margin-right: auto;
-                    ${manager.get(ShadowKey)}
+                    ${manager.get(ThemeShadow)}
                     box-sizing: border-box;
-                    ${manager.get(ScrollbarKey)}
+                    ${manager.get(ThemeScrollbar)}
 
                     .editor {
                         padding: 3.125rem 1.25rem;
@@ -155,7 +155,7 @@ export const getNord = (isDarkMode = false) =>
                     }
 
                     li.ProseMirror-selectednode::after {
-                        ${manager.get(BorderKey)};
+                        ${manager.get(ThemeBorder)};
                     }
 
                     & ::selection {
