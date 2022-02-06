@@ -37,13 +37,14 @@ Editor.make().use(
                     { id: '1', text: 'Large Heading' },
                     { id: '2', text: 'Medium Heading' },
                     { id: '3', text: 'Small Heading' },
+                    { id: '0', text: 'Plain Text' },
                 ],
                 disabled: (view) => {
                     const { state } = view;
                     const setToHeading = (level: number) => setBlockType(state.schema.nodes.heading, { level })(state);
                     return !(setToHeading(1) || setToHeading(2) || setToHeading(3));
                 },
-                onSelect: (id) => [TurnIntoHeading, Number(id)],
+                onSelect: (id) => (id ? [TurnIntoHeading, Number(id)] : [TurnIntoText, null]),
             },
         ],
         [
