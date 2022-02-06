@@ -58,4 +58,5 @@ export const themeFactory =
 export * from './emotion';
 export * from './keys';
 export * from './manager';
-export * from '@milkdown/design-system';
+export type { Color, Emotion, Font, Icon, IconValue, Options, Size } from '@milkdown/design-system';
+export { hex2rgb } from '@milkdown/design-system';
