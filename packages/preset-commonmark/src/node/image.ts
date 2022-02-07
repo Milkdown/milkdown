@@ -34,14 +34,6 @@ type ThemeRenderer = {
 export const ThemeImage = createThemeSliceKey<ThemeRenderer, ThemeOptions>('image');
 export type ThemeImageType = typeof ThemeImage;
 export const image = createNode<string, ImageOptions>((utils, options) => {
-    const placeholder = {
-        loading: 'Loading...',
-        empty: 'Add an Image',
-        failed: 'Image loads failed',
-        ...(options?.placeholder ?? {}),
-    };
-    const isBlock = options?.isBlock ?? false;
-
     utils.themeManager.inject(ThemeImage);
 
     return {
@@ -159,6 +151,14 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
         ],
         view: () => (node, view, getPos) => {
             let currNode = node;
+
+            const placeholder = {
+                loading: 'Loading...',
+                empty: 'Add an Image',
+                failed: 'Image loads failed',
+                ...(options?.placeholder ?? {}),
+            };
+            const isBlock = options?.isBlock ?? false;
             const nodeType = node.type;
             const renderer = utils.themeManager.get(ThemeImage, {
                 placeholder,
