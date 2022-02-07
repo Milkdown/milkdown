@@ -14,6 +14,7 @@ import {
 
 export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) => {
     const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
+    const radius = manager.get(ThemeSize, 'radius');
     const neutral = palette('neutral', 0.87);
     const surface = palette('surface');
     const line = palette('line');
@@ -122,6 +123,26 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
         }
     `;
 
+    const code = css`
+        pre {
+            font-family: ${manager.get(ThemeFont, 'code')};
+            margin: 0 1.2rem !important;
+            white-space: pre;
+            overflow: auto;
+            ${manager.get(ThemeScrollbar, 'x')}
+
+            background-color: ${palette('background')};
+            color: ${palette('neutral')};
+            font-size: 0.85rem;
+            border-radius: ${radius};
+
+            code {
+                line-height: 1.5;
+                font-family: ${manager.get(ThemeFont, 'code')};
+            }
+        }
+    `;
+
     injectGlobal`
         .milkdown {
 
@@ -145,6 +166,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
                 ${blockquote};
                 ${hr};
                 ${list};
+                ${code};
             }
         }
     `;

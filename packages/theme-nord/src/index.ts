@@ -12,6 +12,7 @@ import {
     ThemeSize,
 } from '@milkdown/core';
 
+import { createCustom } from './custom';
 import { code, typography } from './font';
 import { darkColor, lightColor } from './nord';
 import { getIcon } from './slots';
@@ -113,8 +114,6 @@ export const getNord = (isDarkMode = false) =>
             return getIcon(icon);
         });
 
-        // const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
-
         manager.set(ThemeGlobal, () => {
             const css = emotion.injectGlobal;
 
@@ -125,17 +124,7 @@ export const getNord = (isDarkMode = false) =>
             getStyle(manager, emotion);
         });
 
-        // manager.setCustom<string>('blockquote', () => {
-        //     return css`
-        //         padding-left: 1.875rem;
-        //         line-height: 1.75rem;
-        //         border-left: 4px solid ${palette('primary')};
-        //         * {
-        //             font-size: 1rem;
-        //             line-height: 1.5rem;
-        //         }
-        //     `;
-        // });
+        createCustom(manager, emotion);
     });
 
 const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);

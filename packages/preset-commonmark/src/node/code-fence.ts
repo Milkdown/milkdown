@@ -1,16 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import {
-    createCmd,
-    createCmdKey,
-    ThemeBorder,
-    ThemeColor,
-    ThemeFont,
-    ThemeIcon,
-    themeManagerCtx,
-    ThemeScrollbar,
-    ThemeShadow,
-    ThemeSize,
-} from '@milkdown/core';
+import { createCmd, createCmdKey, createThemeSliceKey, ThemeIcon, themeManagerCtx } from '@milkdown/core';
 import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -43,118 +32,13 @@ export const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/;
 export const TurnIntoCodeFence = createCmdKey('TurnIntoCodeFence');
 
 const id = 'fence';
+
+export const ThemeCodeFence = createThemeSliceKey<string>('code-fence');
+
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
-    const style = utils.getStyle((themeManager, { css }) => {
-        // const { shadow, scrollbar, border } = mixin;
-        // const { lineWidth, radius } = size;
-        const radius = themeManager.get(ThemeSize, 'radius');
-        const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
-
-        return css`
-            background-color: ${themeManager.get(ThemeColor, ['background'])};
-            color: ${themeManager.get(ThemeColor, ['neutral'])};
-            font-size: 0.85rem;
-            padding: 1.2rem 0.4rem 1.4rem;
-            border-radius: ${radius};
-            font-family: ${themeManager.get(ThemeFont, 'typography')};
-
-            * {
-                margin: 0;
-            }
-
-            .code-fence_select-wrapper {
-                position: relative;
-            }
-
-            .code-fence_value {
-                width: 10.25rem;
-                box-sizing: border-box;
-                border-radius: ${radius};
-                margin: 0 1.2rem 1.2rem;
-                ${themeManager.get(ThemeBorder)};
-                ${themeManager.get(ThemeShadow)};
-                cursor: pointer;
-                background-color: ${themeManager.get(ThemeColor, ['surface'])};
-                position: relative;
-                display: flex;
-                color: ${themeManager.get(ThemeColor, ['neutral', 0.87])};
-                letter-spacing: 0.5px;
-                height: 2.625rem;
-                align-items: center;
-
-                & > .icon {
-                    width: 2.625rem;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    color: ${themeManager.get(ThemeColor, ['solid', 0.87])};
-                    border-left: ${lineWidth} solid ${themeManager.get(ThemeColor, ['line'])};
-
-                    text-align: center;
-                    transition: all 0.2s ease-in-out;
-                    &:hover {
-                        background: ${themeManager.get(ThemeColor, ['background'])};
-                        color: ${themeManager.get(ThemeColor, ['primary'])};
-                    }
-                }
-
-                > span:first-child {
-                    padding-left: 1rem;
-                    flex: 1;
-                    font-weight: 500;
-                }
-            }
-
-            .code-fence_select-option {
-                list-style: none;
-                line-height: 2rem;
-                padding-left: 1rem;
-                cursor: pointer;
-                :hover {
-                    background: ${themeManager.get(ThemeColor, ['secondary', 0.12])};
-                    color: ${themeManager.get(ThemeColor, ['primary'])};
-                }
-            }
-
-            .code-fence_select {
-                &[data-fold='true'] {
-                    display: none;
-                }
-
-                font-weight: 500;
-                position: absolute;
-                z-index: 1;
-                top: 2.625rem;
-                box-sizing: border-box;
-                left: 1.2rem;
-                padding: 0.5rem 0;
-                max-height: 16.75rem;
-                width: 10.25rem;
-                ${themeManager.get(ThemeBorder)};
-                ${themeManager.get(ThemeShadow)};
-                background-color: ${themeManager.get(ThemeColor, ['surface'])};
-                border-top: none;
-                overflow-y: auto;
-                display: flex;
-                flex-direction: column;
-
-                ${themeManager.get(ThemeScrollbar, 'y')}
-            }
-
-            code {
-                line-height: 1.5;
-                font-family: ${themeManager.get(ThemeFont, 'code')};
-            }
-
-            pre {
-                font-family: ${themeManager.get(ThemeFont, 'code')};
-                margin: 0 1.2rem !important;
-                white-space: pre;
-                overflow: auto;
-                ${themeManager.get(ThemeScrollbar, 'x')}
-            }
-        `;
+    utils.themeManager.inject(ThemeCodeFence);
+    const style = utils.getStyle((themeManager) => {
+        return themeManager.get(ThemeCodeFence);
     });
 
     return {
@@ -240,7 +124,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             const code = document.createElement('code');
 
             const valueWrapper = document.createElement('div');
-            valueWrapper.className = 'code-fence_value';
+            valueWrapper.className = 'code-fence_selector';
             const value = document.createElement('span');
             valueWrapper.appendChild(value);
             const downIcon = ctx.get(themeManagerCtx).get(ThemeIcon, 'downArrow');
@@ -248,7 +132,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 valueWrapper.appendChild(downIcon.dom);
             }
 
-            select.className = 'code-fence_select';
+            select.className = 'code-fence_selector-list';
             select.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -295,14 +179,14 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
 
             (options?.languageList || languageOptions).forEach((lang) => {
                 const option = document.createElement('li');
-                option.className = 'code-fence_select-option';
+                option.className = 'code-fence_selector-list-item';
                 option.innerText = lang || '--';
                 select.appendChild(option);
                 option.setAttribute('data-value', lang);
             });
 
             code.spellcheck = false;
-            selectWrapper.className = 'code-fence_select-wrapper';
+            selectWrapper.className = 'code-fence_selector-wrapper';
             selectWrapper.contentEditable = 'false';
             selectWrapper.append(valueWrapper);
             selectWrapper.append(select);
