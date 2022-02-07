@@ -1,6 +1,6 @@
 # Svelte
 
-我们不提供开箱即用的 Svelte 支持，但你可以在 svelte 中轻松使用香草版本。
+我们不提供开箱即用的 Svelte 支持，但你可以在 svelte 中轻松使用原生 JavaScript 版本。
 
 ## 依赖安装
 
