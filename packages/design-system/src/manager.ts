@@ -12,7 +12,7 @@ export type ThemeManager = {
     inject: <Ret = unknown, T = undefined>(key: ThemeSliceKey<Ret, T>) => void;
     set: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
     get: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, info?: T) => Ret | undefined;
-    setLazy: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
+    setCustom: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
 };
 
 export const themeManagerCtx = createSlice<ThemeManager>({} as ThemeManager, 'themeManager');
@@ -43,7 +43,7 @@ export const createThemeManager = () => {
 
             return meta.get()(info);
         },
-        setLazy: (slice, value) => {
+        setCustom: (slice, value) => {
             const key = typeof slice === 'string' ? slice : slice.sliceName;
             lazyMap.set(key, value as unknown as ThemeSlice);
         },

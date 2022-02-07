@@ -169,7 +169,7 @@ export const getNord = (isDarkMode = false) =>
         });
 
         const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
-        manager.setLazy<string>('blockquote', () => {
+        manager.setCustom<string>('blockquote', () => {
             return css`
                 padding-left: 1.875rem;
                 line-height: 1.75rem;
