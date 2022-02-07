@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import {
+    Color,
     hex2rgb,
     ThemeBorder,
     ThemeColor,
@@ -33,22 +34,22 @@ export const getNord = (isDarkMode = false) =>
         const colorSet = isDarkMode ? darkColor : lightColor;
 
         manager.set(ThemeColor, (options) => {
-            if (!options) return null;
+            if (!options) return;
             const [key, opacity] = options;
             const hex = colorSet[key];
             const rgb = hex2rgb(hex);
-            if (!rgb) return null;
+            if (!rgb) return;
 
             return `rgba(${rgb?.join(', ')}, ${opacity || 1})`;
         });
 
         manager.set(ThemeSize, (key) => {
-            if (!key) return null;
+            if (!key) return;
             return size[key];
         });
 
         manager.set(ThemeFont, (key) => {
-            if (!key) return null;
+            if (!key) return;
             return font[key].join(', ');
         });
 
@@ -107,7 +108,7 @@ export const getNord = (isDarkMode = false) =>
         });
 
         manager.set(ThemeIcon, (icon) => {
-            if (!icon) return null;
+            if (!icon) return;
 
             return getIcon(icon);
         });
@@ -165,6 +166,19 @@ export const getNord = (isDarkMode = false) =>
             `;
 
             return;
+        });
+
+        const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
+        manager.setLazy<string>('blockquote', () => {
+            return css`
+                padding-left: 1.875rem;
+                line-height: 1.75rem;
+                border-left: 4px solid ${palette('primary')};
+                * {
+                    font-size: 1rem;
+                    line-height: 1.5rem;
+                }
+            `;
         });
     });
 

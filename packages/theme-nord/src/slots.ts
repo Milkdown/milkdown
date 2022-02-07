@@ -2,12 +2,12 @@
 
 import { Icon, IconValue } from '@milkdown/design-system';
 
-type Slot = {
+type IconMeta = {
     icon: string;
     label: string;
 };
 
-const iconMapping: Record<Icon, Slot> = {
+const iconMapping: Record<Icon, IconMeta> = {
     h1: {
         label: 'h1',
         icon: 'looks_one',
@@ -142,10 +142,10 @@ const iconMapping: Record<Icon, Slot> = {
     },
 };
 
-export const getIcon = (id: Icon): IconValue | null => {
+export const getIcon = (id: Icon): IconValue | undefined => {
     const target = iconMapping[id];
     if (!target) {
-        return null;
+        return;
     }
     const span = document.createElement('span');
     span.className = 'icon material-icons material-icons-outlined';

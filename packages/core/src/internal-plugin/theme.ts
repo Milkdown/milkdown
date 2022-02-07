@@ -44,9 +44,9 @@ export const themeFactory =
             createThemePack(emotion, themeManager);
 
             ctx.set(emotionCtx, emotion);
-            ctx.done(ThemeReady);
-
             themeManager.get(ThemeGlobal);
+
+            ctx.done(ThemeReady);
 
             await ctx.wait(InitReady);
             ctx.update(prosePluginsCtx, (xs) =>
