@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, ThemeIcon, themeManagerCtx } from '@milkdown/core';
-import { createThemeSliceKey, Icon } from '@milkdown/design-system';
-import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
+import { createCmd, createCmdKey } from '@milkdown/core';
+import { createThemeSliceKey } from '@milkdown/design-system';
+import { findSelectedNodeOfType, InputRule, Node } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
 export const ModifyImage = createCmdKey<string>('ModifyImage');
@@ -16,11 +16,33 @@ export type ImageOptions = {
     };
 };
 
-export const ThemeImage = createThemeSliceKey<string, Partial<ImageOptions> | undefined>('image');
+type ThemeOptions = {
+    isBlock: boolean;
+    placeholder: {
+        loading: string;
+        empty: string;
+        failed: string;
+    };
+    onError: (img: HTMLImageElement) => void;
+    onLoad: (img: HTMLImageElement) => void;
+};
+type ThemeRenderer = {
+    dom: HTMLElement;
+    onUpdate: (node: Node) => void;
+};
+
+export const ThemeImage = createThemeSliceKey<ThemeRenderer, ThemeOptions>('image');
 export type ThemeImageType = typeof ThemeImage;
 export const image = createNode<string, ImageOptions>((utils, options) => {
+    const placeholder = {
+        loading: 'Loading...',
+        empty: 'Add an Image',
+        failed: 'Image loads failed',
+        ...(options?.placeholder ?? {}),
+    };
+    const isBlock = options?.isBlock ?? false;
+
     utils.themeManager.inject(ThemeImage);
-    const containerStyle = utils.getStyle((themeManager) => themeManager.get(ThemeImage, options));
 
     return {
         id: 'image',
@@ -135,47 +157,26 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 },
             ),
         ],
-        view: (ctx) => (node, view, getPos) => {
+        view: () => (node, view, getPos) => {
+            let currNode = node;
             const nodeType = node.type;
-            const createIcon = (icon: Icon) => ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement;
-            const container = document.createElement('span');
-            container.className = utils.getClassName(node.attrs, containerStyle, 'image-container');
-
-            const content = document.createElement('img');
-
-            container.append(content);
-            let icon = createIcon('image');
-            const placeholder = document.createElement('span');
-            placeholder.classList.add('placeholder');
-            container.append(icon, placeholder);
-
-            const setIcon = (name: Icon) => {
-                const nextIcon = createIcon(name);
-                container.replaceChild(nextIcon, icon);
-                icon = nextIcon;
-            };
-
-            const loadImage = (src: string) => {
-                container.classList.add('system', 'loading');
-                setIcon('loading');
-                const img = document.createElement('img');
-                img.src = src;
-
-                img.onerror = () => {
+            const renderer = utils.themeManager.get(ThemeImage, {
+                placeholder,
+                isBlock,
+                onError: (img) => {
                     const pos = getPos();
                     if (!pos) return;
 
                     const { tr } = view.state;
                     const _tr = tr.setNodeMarkup(pos, nodeType, {
                         ...node.attrs,
-                        src,
+                        src: img.src,
                         loading: false,
                         failed: true,
                     });
                     view.dispatch(_tr);
-                };
-
-                img.onload = () => {
+                },
+                onLoad: (img) => {
                     const { tr } = view.state;
 
                     const pos = getPos();
@@ -184,65 +185,36 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     const _tr = tr.setNodeMarkup(pos, nodeType, {
                         ...node.attrs,
                         width: img.width,
-                        src,
+                        src: img.src,
                         loading: false,
                         failed: false,
                     });
                     view.dispatch(_tr);
-                };
-            };
+                },
+            });
 
-            const { src, loading, title, alt, width } = node.attrs;
-            content.src = src;
-            content.title = title || alt;
-            content.alt = alt;
-            if (width) {
-                content.width = width;
+            if (!renderer) {
+                return {};
             }
 
-            if (src.length === 0) {
-                container.classList.add('system', 'empty');
-                setIcon('image');
-            } else if (loading) {
-                loadImage(src);
-            }
+            const { dom, onUpdate } = renderer;
+            onUpdate(currNode);
 
             return {
-                dom: container,
+                dom,
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
 
-                    const { src, alt, title, loading, failed, width } = updatedNode.attrs;
-                    content.src = src;
-                    content.alt = alt;
-                    content.title = title || alt;
-                    if (width) {
-                        content.width = width;
-                    }
-                    if (loading) {
-                        loadImage(src);
-                        return true;
-                    }
-                    if (failed) {
-                        container.classList.remove('loading', 'empty');
-                        container.classList.add('system', 'failed');
-                        setIcon('brokenImage');
-                        return true;
-                    }
-                    if (src.length > 0) {
-                        container.classList.remove('system', 'empty', 'loading');
-                        return true;
-                    }
+                    currNode = updatedNode;
+                    onUpdate(currNode);
 
-                    container.classList.add('system', 'empty');
-                    setIcon('image');
                     return true;
                 },
                 selectNode: () => {
-                    container.classList.add('ProseMirror-selectednode');
+                    dom.classList.add('ProseMirror-selectednode');
                 },
                 deselectNode: () => {
-                    container.classList.remove('ProseMirror-selectednode');
+                    dom.classList.remove('ProseMirror-selectednode');
                 },
             };
         },

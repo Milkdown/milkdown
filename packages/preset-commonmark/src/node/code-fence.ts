@@ -40,12 +40,12 @@ type ThemeOptions = {
     onBlur: () => void;
     languageList: string[];
 };
-type Output = {
+type ThemeRenderer = {
     dom: HTMLElement;
     contentDOM: HTMLElement;
     onUpdate: (node: Node) => void;
 };
-export const ThemeCodeFence = createThemeSliceKey<Output, ThemeOptions>('code-fence');
+export const ThemeCodeFence = createThemeSliceKey<ThemeRenderer, ThemeOptions>('code-fence');
 export type ThemeCodeFenceType = typeof ThemeCodeFence;
 
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {

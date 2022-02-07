@@ -1,20 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Color, Emotion, ThemeColor, ThemeManager, ThemeSize } from '@milkdown/core';
+import { Color, Emotion, Icon, ThemeColor, ThemeIcon, ThemeManager, ThemeSize } from '@milkdown/core';
 import type { ThemeImageType } from '@milkdown/preset-commonmark';
+import type { Node } from '@milkdown/prose';
 
 export const image = (manager: ThemeManager, { css }: Emotion) => {
     const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
 
-    manager.setCustom<ThemeImageType>('image', (options) => {
-        const placeholder = {
-            loading: 'Loading...',
-            empty: 'Add an Image',
-            failed: 'Image loads failed',
-            ...(options?.placeholder ?? {}),
-        };
-        const isBlock = options?.isBlock ?? false;
-
-        return css`
+    manager.setCustom<ThemeImageType>('image', ({ placeholder, isBlock, onError, onLoad }) => {
+        const style = css`
             display: inline-block;
             position: relative;
             text-align: center;
@@ -108,5 +101,83 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
                 }
             }
         `;
+
+        const createIcon = (icon: Icon) => manager.get(ThemeIcon, icon)?.dom as HTMLElement;
+        const container = document.createElement('span');
+        container.classList.add('image-container');
+        if (style) {
+            container.classList.add(style);
+        }
+        // container.className = utils.getClassName(node.attrs, containerStyle, 'image-container');
+
+        const content = document.createElement('img');
+
+        container.append(content);
+        let icon = createIcon('image');
+        const $placeholder = document.createElement('span');
+        $placeholder.classList.add('placeholder');
+        container.append(icon, $placeholder);
+
+        const setIcon = (name: Icon) => {
+            const nextIcon = createIcon(name);
+            container.replaceChild(nextIcon, icon);
+            icon = nextIcon;
+        };
+
+        const loadImage = (src: string) => {
+            container.classList.add('system', 'loading');
+            setIcon('loading');
+            const img = document.createElement('img');
+            img.src = src;
+
+            img.onerror = () => {
+                onError(img);
+            };
+
+            img.onload = () => {
+                onLoad(img);
+            };
+        };
+
+        const onUpdate = (node: Node) => {
+            const { src, alt, title, loading, failed, width } = node.attrs;
+            content.src = src;
+            content.title = title || alt;
+            content.alt = alt;
+            if (width) {
+                content.width = width;
+            }
+
+            if (src.length === 0) {
+                container.classList.add('system', 'empty');
+                setIcon('image');
+                return;
+            }
+
+            if (loading) {
+                loadImage(src);
+                return;
+            }
+
+            if (failed) {
+                container.classList.remove('loading', 'empty');
+                container.classList.add('system', 'failed');
+                setIcon('brokenImage');
+                return;
+            }
+
+            if (src.length > 0) {
+                container.classList.remove('system', 'empty', 'loading');
+                return;
+            }
+
+            container.classList.add('system', 'empty');
+            setIcon('image');
+        };
+
+        return {
+            dom: container,
+            onUpdate,
+        };
     });
 };
