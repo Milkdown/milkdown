@@ -2,7 +2,10 @@
 import type { Emotion, ThemeManager } from '@milkdown/core';
 
 import { codeFence } from './code-fence';
+import { image } from './image';
 
 export const createCustom = (manager: ThemeManager, emotion: Emotion) => {
-    codeFence(manager, emotion);
+    [image, codeFence].forEach((f) => {
+        f(manager, emotion);
+    });
 };

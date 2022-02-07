@@ -8,11 +8,20 @@ export type ThemeSliceKey<Ret = unknown, T = undefined> = Slice<ThemeSlice<Ret, 
 export const createThemeSliceKey = <Ret, T = undefined>(key = 'themeComponentKey'): ThemeSliceKey<Ret, T> =>
     createSlice((() => null as unknown as Ret) as ThemeSlice<Ret, T>, key);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GetRet<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<infer Ret, any> ? Ret : unknown;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GetT<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<any, infer T> ? T : undefined;
+
 export type ThemeManager = {
     inject: <Ret = unknown, T = undefined>(key: ThemeSliceKey<Ret, T>) => void;
-    set: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
     get: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, info?: T) => Ret | undefined;
-    setCustom: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
+    set: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setCustom: <Key extends ThemeSliceKey<any, any>, Ret = GetRet<Key>, T = GetT<Key>>(
+        meta: Key | string,
+        value: ThemeSlice<Ret, T>,
+    ) => void;
 };
 
 export const themeManagerCtx = createSlice<ThemeManager>({} as ThemeManager, 'themeManager');

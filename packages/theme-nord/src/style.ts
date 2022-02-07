@@ -143,6 +143,18 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
         }
     `;
 
+    const img = css`
+        .image {
+            display: inline-block;
+            margin: 0 auto;
+            object-fit: contain;
+            width: 100%;
+            position: relative;
+            height: auto;
+            text-align: center;
+        }
+    `;
+
     injectGlobal`
         .milkdown {
 
@@ -160,13 +172,15 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             ${selection};
 
             .editor {
-                ${paragraph};
                 ${editorLayout};
+
+                ${paragraph};
                 ${heading};
                 ${blockquote};
                 ${hr};
                 ${list};
                 ${code};
+                ${img};
             }
         }
     `;

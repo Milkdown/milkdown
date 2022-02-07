@@ -10,13 +10,14 @@ import {
     ThemeShadow,
     ThemeSize,
 } from '@milkdown/core';
+import type { ThemeCodeFenceType } from '@milkdown/preset-commonmark';
 
 export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
     const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
     const radius = manager.get(ThemeSize, 'radius');
     const lineWidth = manager.get(ThemeSize, 'lineWidth');
 
-    manager.setCustom<string>('code-fence', () => {
+    manager.setCustom<ThemeCodeFenceType>('code-fence', () => {
         return css`
             background-color: ${palette('background')};
             color: ${palette('neutral')};

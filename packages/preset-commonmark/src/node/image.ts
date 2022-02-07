@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, ThemeColor, ThemeIcon, themeManagerCtx, ThemeSize } from '@milkdown/core';
-import type { Icon } from '@milkdown/design-system';
+import { createCmd, createCmdKey, ThemeIcon, themeManagerCtx } from '@milkdown/core';
+import { createThemeSliceKey, Icon } from '@milkdown/design-system';
 import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
@@ -16,124 +16,11 @@ export type ImageOptions = {
     };
 };
 
+export const ThemeImage = createThemeSliceKey<string, Partial<ImageOptions>>('image');
+export type ThemeImageType = typeof ThemeImage;
 export const image = createNode<string, ImageOptions>((utils, options) => {
-    const placeholder = {
-        loading: 'Loading...',
-        empty: 'Add an Image',
-        failed: 'Image loads failed',
-        ...(options?.placeholder ?? {}),
-    };
-    const isBlock = options?.isBlock ?? false;
-    const containerStyle = utils.getStyle(
-        (themeManager, { css }) =>
-            css`
-                display: inline-block;
-                position: relative;
-                text-align: center;
-                font-size: 0;
-                vertical-align: text-bottom;
-                line-height: 1;
-
-                ${isBlock
-                    ? `
-                width: 100%;
-                margin: 0 auto;
-                `
-                    : ''}
-
-                &.ProseMirror-selectednode::after {
-                    content: '';
-                    background: ${themeManager.get(ThemeColor, ['secondary', 0.38])};
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                }
-
-                img {
-                    max-width: 100%;
-                    height: auto;
-                    object-fit: contain;
-                    margin: 0 2px;
-                }
-                .icon,
-                .placeholder {
-                    display: none;
-                }
-
-                &.system {
-                    width: 100%;
-                    padding: 0 2rem;
-
-                    img {
-                        width: 0;
-                        height: 0;
-                        display: none;
-                    }
-
-                    .icon,
-                    .placeholder {
-                        display: inline;
-                    }
-
-                    box-sizing: border-box;
-                    height: 3rem;
-                    background-color: ${themeManager.get(ThemeColor, ['background'])};
-                    border-radius: ${themeManager.get(ThemeSize, 'radius')};
-                    display: inline-flex;
-                    gap: 2rem;
-                    justify-content: flex-start;
-                    align-items: center;
-                    .placeholder {
-                        margin: 0;
-                        line-height: 1;
-                        &::before {
-                            content: '';
-                            font-size: 0.875rem;
-                            color: ${themeManager.get(ThemeColor, ['neutral', 0.6])};
-                        }
-                    }
-                }
-
-                &.loading {
-                    .placeholder {
-                        &::before {
-                            content: '${placeholder.loading}';
-                        }
-                    }
-                }
-
-                &.empty {
-                    .placeholder {
-                        &::before {
-                            content: '${placeholder.empty}';
-                        }
-                    }
-                }
-
-                &.failed {
-                    .placeholder {
-                        &::before {
-                            content: '${placeholder.failed}';
-                        }
-                    }
-                }
-            `,
-    );
-
-    const style = utils.getStyle(
-        (_, { css }) =>
-            css`
-                display: inline-block;
-                margin: 0 auto;
-                object-fit: contain;
-                width: 100%;
-                position: relative;
-                height: auto;
-                text-align: center;
-            `,
-    );
+    utils.themeManager.inject(ThemeImage);
+    const containerStyle = utils.getStyle((themeManager) => themeManager.get(ThemeImage, options));
 
     return {
         id: 'image',
@@ -182,7 +69,6 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                             id,
                             node.attrs['failed'] ? 'failed' : '',
                             node.attrs['loading'] ? 'loading' : '',
-                            style,
                         ),
                     },
                 ];
@@ -253,7 +139,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             const nodeType = node.type;
             const createIcon = (icon: Icon) => ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement;
             const container = document.createElement('span');
-            container.className = utils.getClassName(node.attrs, id, containerStyle);
+            container.className = utils.getClassName(node.attrs, containerStyle);
 
             const content = document.createElement('img');
 

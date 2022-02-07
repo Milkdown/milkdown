@@ -671,10 +671,12 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
+      '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
 
   packages/transformer:

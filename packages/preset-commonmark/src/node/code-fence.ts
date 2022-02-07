@@ -34,6 +34,7 @@ export const TurnIntoCodeFence = createCmdKey('TurnIntoCodeFence');
 const id = 'fence';
 
 export const ThemeCodeFence = createThemeSliceKey<string>('code-fence');
+export type ThemeCodeFenceType = typeof ThemeCodeFence;
 
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
     utils.themeManager.inject(ThemeCodeFence);
