@@ -111,8 +111,8 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
     `;
 
     const list = css`
-        li,
-        li > * {
+        .list-item,
+        .list-item > * {
             margin: 0.5rem 0;
         }
 
@@ -124,21 +124,23 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
     `;
 
     const code = css`
-        pre {
-            font-family: ${manager.get(ThemeFont, 'code')};
-            margin: 0 1.2rem !important;
-            white-space: pre;
-            overflow: auto;
-            ${manager.get(ThemeScrollbar, 'x')}
-
-            background-color: ${palette('background')};
-            color: ${palette('neutral')};
-            font-size: 0.85rem;
-            border-radius: ${radius};
-
-            code {
-                line-height: 1.5;
+        .code-fence {
+            pre {
                 font-family: ${manager.get(ThemeFont, 'code')};
+                margin: 0 1.2rem !important;
+                white-space: pre;
+                overflow: auto;
+                ${manager.get(ThemeScrollbar, 'x')}
+
+                background-color: ${palette('background')};
+                color: ${palette('neutral')};
+                font-size: 0.85rem;
+                border-radius: ${radius};
+
+                code {
+                    line-height: 1.5;
+                    font-family: ${manager.get(ThemeFont, 'code')};
+                }
             }
         }
     `;
@@ -152,6 +154,32 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             position: relative;
             height: auto;
             text-align: center;
+        }
+    `;
+
+    const inline = css`
+        .code-inline {
+            background-color: ${palette('neutral')};
+            color: ${palette('background')};
+            border-radius: ${radius};
+            font-weight: 500;
+            font-family: ${code};
+            padding: 0 0.2rem;
+        }
+
+        .strong {
+            font-weight: 600;
+        }
+
+        .link {
+            color: ${palette('secondary')};
+            cursor: pointer;
+            transition: all 0.4s ease-in-out;
+            font-weight: 500;
+            &:hover {
+                background-color: ${palette('line')};
+                box-shadow: 0 0.2rem ${palette('line')}, 0 -0.2rem ${palette('line')};
+            }
         }
     `;
 
@@ -181,6 +209,8 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
                 ${list};
                 ${code};
                 ${img};
+
+                ${inline};
             }
         }
     `;

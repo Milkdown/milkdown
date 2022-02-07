@@ -14,8 +14,8 @@ import {
 
 import { createCustom } from './custom';
 import { code, typography } from './font';
+import { getIcon } from './icon';
 import { darkColor, lightColor } from './nord';
-import { getIcon } from './slots';
 import { getStyle } from './style';
 import { view } from './view';
 
@@ -126,6 +126,9 @@ export const getNord = (isDarkMode = false) =>
 
         createCustom(manager, emotion);
     });
+
+export const nordDark = getNord(true);
+export const nordLight = getNord(false);
 
 const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
 export const nord = getNord(darkMode);

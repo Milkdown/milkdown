@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Color, createCmd, createCmdKey, schemaCtx, ThemeColor } from '@milkdown/core';
+import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
 import { InputRule, Node as ProseNode, TextSelection, toggleMark } from '@milkdown/prose';
 import { createMark } from '@milkdown/utils';
 
@@ -7,21 +7,6 @@ export const ToggleLink = createCmdKey<string>('ToggleLink');
 export const ModifyLink = createCmdKey<string>('ModifyLink');
 const id = 'link';
 export const link = createMark((utils) => {
-    const style = utils.getStyle((themeManager, { css }) => {
-        const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
-        const lineColor = palette('line');
-
-        return css`
-            color: ${palette('secondary')};
-            cursor: pointer;
-            transition: all 0.4s ease-in-out;
-            font-weight: 500;
-            &:hover {
-                background-color: ${lineColor};
-                box-shadow: 0 0.2rem ${lineColor}, 0 -0.2rem ${lineColor};
-            }
-        `;
-    });
     return {
         id,
         schema: () => ({
@@ -41,7 +26,7 @@ export const link = createMark((utils) => {
                     },
                 },
             ],
-            toDOM: (mark) => ['a', { ...mark.attrs, class: utils.getClassName(mark.attrs, id, style) }],
+            toDOM: (mark) => ['a', { ...mark.attrs, class: utils.getClassName(mark.attrs, id) }],
             parseMarkdown: {
                 match: (node) => node.type === 'link',
                 runner: (state, node, markType) => {

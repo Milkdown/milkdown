@@ -31,8 +31,6 @@ export const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/;
 
 export const TurnIntoCodeFence = createCmdKey('TurnIntoCodeFence');
 
-const id = 'fence';
-
 type ThemeOptions = {
     onSelectLanguage: (language: string) => void;
     editable: () => boolean;
@@ -48,6 +46,7 @@ type ThemeRenderer = {
 export const ThemeCodeFence = createThemeSliceKey<ThemeRenderer, ThemeOptions>('code-fence');
 export type ThemeCodeFenceType = typeof ThemeCodeFence;
 
+const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
     utils.themeManager.inject(ThemeCodeFence);
     // const style = utils.getStyle((themeManager) => {

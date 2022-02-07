@@ -41,12 +41,12 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
     }));
 
     const editor = useEditor(
-        (root) => createEditor(root, md, readOnly, setEditorReady, onChange),
+        (root) => createEditor(root, md, readOnly, setEditorReady, isDarkMode, onChange),
         [readOnly, md, onChange, isDarkMode],
     );
 
     return (
-        <div className={className.editor}>
+        <div className={className['editor']}>
             {loading ? <Loading /> : <ReactEditor ref={editorRef} editor={editor} />}
         </div>
     );
