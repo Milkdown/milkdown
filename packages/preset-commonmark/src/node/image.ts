@@ -139,7 +139,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             const nodeType = node.type;
             const createIcon = (icon: Icon) => ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement;
             const container = document.createElement('span');
-            container.className = utils.getClassName(node.attrs, containerStyle);
+            container.className = utils.getClassName(node.attrs, containerStyle, 'image-container');
 
             const content = document.createElement('img');
 
