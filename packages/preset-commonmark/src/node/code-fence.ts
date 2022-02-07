@@ -162,13 +162,16 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 );
             };
 
-            const { dom, contentDOM, onUpdate } = utils.themeManager.get(ThemeCodeFence, {
+            const renderer = utils.themeManager.get(ThemeCodeFence, {
                 onBlur,
                 onFocus,
                 onSelectLanguage,
                 editable: () => view.editable,
                 languageList: options?.languageList || languageOptions,
             });
+            if (!renderer) return {};
+
+            const { dom, contentDOM, onUpdate } = renderer;
             onUpdate(currNode);
 
             return {
