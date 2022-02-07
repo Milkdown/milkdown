@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, createThemeSliceKey } from '@milkdown/core';
+import { createCmd, createCmdKey } from '@milkdown/core';
 import { wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -10,12 +10,8 @@ type Keys = SupportedKeys['Blockquote'];
 const id = 'blockquote';
 
 export const WrapInBlockquote = createCmdKey('WrapInBlockquote');
-export const ThemeBlockquote = createThemeSliceKey<string>('blockquote');
 
 export const blockquote = createNode<Keys>((utils) => {
-    utils.themeManager.inject(ThemeBlockquote);
-    const style = utils.getStyle((themeManager) => themeManager.get(ThemeBlockquote));
-
     return {
         id,
         schema: () => ({
@@ -23,7 +19,7 @@ export const blockquote = createNode<Keys>((utils) => {
             group: 'block',
             defining: true,
             parseDOM: [{ tag: 'blockquote' }],
-            toDOM: (node) => ['blockquote', { class: utils.getClassName(node.attrs, id, style) }, 0],
+            toDOM: (node) => ['blockquote', { class: utils.getClassName(node.attrs, id) }, 0],
             parseMarkdown: {
                 match: ({ type }) => type === id,
                 runner: (state, node, type) => {

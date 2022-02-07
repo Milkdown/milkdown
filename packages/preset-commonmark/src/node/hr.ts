@@ -1,24 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, schemaCtx, ThemeColor, ThemeSize } from '@milkdown/core';
+import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
 import { InputRule, Selection } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
 const id = 'hr';
 export const InsertHr = createCmdKey<string>('InsertHr');
 export const hr = createNode((utils) => {
-    const style = utils.getStyle(
-        (themeManager, { css }) => css`
-            height: ${themeManager.get(ThemeSize, 'lineWidth')};
-            background-color: ${themeManager.get(ThemeColor, ['line'])};
-            border-width: 0;
-        `,
-    );
     return {
         id,
         schema: () => ({
             group: 'block',
             parseDOM: [{ tag: 'hr' }],
-            toDOM: (node) => ['hr', { class: utils.getClassName(node.attrs, id, style) }],
+            toDOM: (node) => ['hr', { class: utils.getClassName(node.attrs, id) }],
             parseMarkdown: {
                 match: ({ type }) => type === 'thematicBreak',
                 runner: (state, _, type) => {

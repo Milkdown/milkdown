@@ -32,42 +32,6 @@ export const headingPluginKey = new PluginKey('MILKDOWN_PLUGIN_ID');
 export const heading = createNode<Keys>((utils) => {
     const id = 'heading';
 
-    const style = (level: number) =>
-        utils.getStyle((_, { css }) => {
-            const headingMap: Record<number, string> = {
-                1: css`
-                    font-size: 3rem;
-                    line-height: 3.5rem;
-                `,
-                2: css`
-                    font-size: 2.5rem;
-                    line-height: 3rem;
-                `,
-                3: css`
-                    font-size: 2.125rem;
-                    line-height: 2.25rem;
-                `,
-                4: css`
-                    font-size: 1.75rem;
-                    line-height: 2rem;
-                `,
-                5: css`
-                    font-size: 1.5rem;
-                    line-height: 1.5rem;
-                `,
-                6: css`
-                    font-size: 1.25rem;
-                    line-height: 1.25rem;
-                `,
-            };
-
-            return css`
-                ${headingMap[level] || ''}
-                margin: 2.5rem 0 !important;
-                font-weight: 400;
-            `;
-        });
-
     return {
         id,
         schema: () => ({
@@ -96,11 +60,7 @@ export const heading = createNode<Keys>((utils) => {
                     `h${node.attrs['level']}`,
                     {
                         id: node.attrs['id'] || node.textContent.split(' ').join('-').toLocaleLowerCase(),
-                        class: utils.getClassName(
-                            node.attrs,
-                            `heading h${node.attrs['level']}`,
-                            style(node.attrs['level']),
-                        ),
+                        class: utils.getClassName(node.attrs, `heading h${node.attrs['level']}`),
                     },
                     0,
                 ];

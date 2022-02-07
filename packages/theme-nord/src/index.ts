@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import {
-    Color,
     hex2rgb,
     ThemeBorder,
     ThemeColor,
@@ -16,6 +15,7 @@ import {
 import { code, typography } from './font';
 import { darkColor, lightColor } from './nord';
 import { getIcon } from './slots';
+import { getStyle } from './style';
 import { view } from './view';
 
 export const font = {
@@ -113,73 +113,29 @@ export const getNord = (isDarkMode = false) =>
             return getIcon(icon);
         });
 
+        // const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
+
         manager.set(ThemeGlobal, () => {
             const css = emotion.injectGlobal;
-            const neutral = manager.get(ThemeColor, ['neutral', 0.87]);
-            const surface = manager.get(ThemeColor, ['surface']);
-            const line = manager.get(ThemeColor, ['line']);
-            const highlight = manager.get(ThemeColor, ['secondary', 0.38]);
 
             css`
                 ${view(emotion)};
-                .milkdown {
-                    color: ${neutral};
-                    background: ${surface};
-
-                    position: relative;
-                    font-family: ${font.typography};
-                    margin-left: auto;
-                    margin-right: auto;
-                    ${manager.get(ThemeShadow)}
-                    box-sizing: border-box;
-                    ${manager.get(ThemeScrollbar)}
-
-                    .editor {
-                        padding: 3.125rem 1.25rem;
-                        outline: none;
-                        & > * {
-                            margin: 1.875rem 0;
-                        }
-
-                        @media only screen and (min-width: 72rem) {
-                            max-width: 57.375rem;
-                            padding: 3.125rem 7.25rem;
-                        }
-                    }
-
-                    .ProseMirror-selectednode {
-                        outline: ${size.lineWidth} solid ${line};
-                    }
-
-                    li.ProseMirror-selectednode {
-                        outline: none;
-                    }
-
-                    li.ProseMirror-selectednode::after {
-                        ${manager.get(ThemeBorder)};
-                    }
-
-                    & ::selection {
-                        background: ${highlight};
-                    }
-                }
             `;
 
-            return;
+            getStyle(manager, emotion);
         });
 
-        const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
-        manager.setCustom<string>('blockquote', () => {
-            return css`
-                padding-left: 1.875rem;
-                line-height: 1.75rem;
-                border-left: 4px solid ${palette('primary')};
-                * {
-                    font-size: 1rem;
-                    line-height: 1.5rem;
-                }
-            `;
-        });
+        // manager.setCustom<string>('blockquote', () => {
+        //     return css`
+        //         padding-left: 1.875rem;
+        //         line-height: 1.75rem;
+        //         border-left: 4px solid ${palette('primary')};
+        //         * {
+        //             font-size: 1rem;
+        //             line-height: 1.5rem;
+        //         }
+        //     `;
+        // });
     });
 
 const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
