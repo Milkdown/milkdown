@@ -2,7 +2,7 @@
 
 import { createContainer, createSlice, Slice } from '@milkdown/ctx';
 
-export type ThemeSlice<Ret = unknown, T = undefined> = (info?: T) => Ret | undefined;
+export type ThemeSlice<Ret = unknown, T = undefined> = (info: T) => Ret | undefined;
 export type ThemeSliceKey<Ret = unknown, T = undefined> = Slice<ThemeSlice<Ret, T>>;
 
 export const createThemeSliceKey = <Ret, T = undefined>(key = 'themeComponentKey'): ThemeSliceKey<Ret, T> =>
@@ -15,7 +15,10 @@ type GetT<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<any, infer T> ?
 
 export type ThemeManager = {
     inject: <Ret = unknown, T = undefined>(key: ThemeSliceKey<Ret, T>) => void;
-    get: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, info?: T) => Ret | undefined;
+    get: {
+        <Ret = unknown>(meta: ThemeSliceKey<Ret, undefined> | string): Ret;
+        <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, info: T): Ret;
+    };
     set: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setCustom: <Key extends ThemeSliceKey<any, any>, Ret = GetRet<Key>, T = GetT<Key>>(
@@ -37,21 +40,19 @@ export const createThemeManager = () => {
 
             return meta.set(value);
         },
-        get: <Ret, T>(slice: ThemeSliceKey<Ret, T> | string, info?: T): Ret | undefined => {
+        get: ((slice, info) => {
             const key = typeof slice === 'string' ? slice : slice.sliceName;
             const lazyGet = lazyMap.get(key);
             if (lazyGet) {
                 themeManager.set(key, lazyGet);
             }
 
-            const meta =
-                typeof slice === 'string'
-                    ? container.getSliceByName<ThemeSlice<Ret, T>>(slice)
-                    : container.getSlice(slice);
+            const meta = typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);
             if (!meta) return;
 
-            return meta.get()(info);
-        },
+            // eslint-disable-next-line @typescript-eslint/ban-types
+            return (meta.get() as Function)(info);
+        }) as ThemeManager['get'],
         setCustom: (slice, value) => {
             const key = typeof slice === 'string' ? slice : slice.sliceName;
             lazyMap.set(key, value as unknown as ThemeSlice);

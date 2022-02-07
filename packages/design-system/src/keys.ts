@@ -8,7 +8,7 @@ export const ThemeFont = createThemeSliceKey<string, Font>('font');
 
 export const ThemeScrollbar = createThemeSliceKey<string, 'x' | 'y' | undefined>('scrollbar');
 export const ThemeShadow = createThemeSliceKey<string>('shadow');
-export const ThemeBorder = createThemeSliceKey<string, 'left' | 'right' | 'top' | 'bottom'>('border');
+export const ThemeBorder = createThemeSliceKey<string, 'left' | 'right' | 'top' | 'bottom' | undefined>('border');
 export const ThemeIcon = createThemeSliceKey<IconValue, Icon>('icon');
 export const ThemeGlobal = createThemeSliceKey('global');
 export const internalThemeKeys = [

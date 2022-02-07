@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, createThemeSliceKey, ThemeIcon, themeManagerCtx } from '@milkdown/core';
-import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { createCmd, createCmdKey, createThemeSliceKey } from '@milkdown/core';
+import { Node, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -33,14 +33,26 @@ export const TurnIntoCodeFence = createCmdKey('TurnIntoCodeFence');
 
 const id = 'fence';
 
-export const ThemeCodeFence = createThemeSliceKey<string>('code-fence');
+type ThemeOptions = {
+    onSelectLanguage: (language: string) => void;
+    editable: () => boolean;
+    onFocus: () => void;
+    onBlur: () => void;
+    languageList: string[];
+};
+type Output = {
+    dom: HTMLElement;
+    contentDOM: HTMLElement;
+    onUpdate: (node: Node) => void;
+};
+export const ThemeCodeFence = createThemeSliceKey<Output, ThemeOptions>('code-fence');
 export type ThemeCodeFenceType = typeof ThemeCodeFence;
 
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
     utils.themeManager.inject(ThemeCodeFence);
-    const style = utils.getStyle((themeManager) => {
-        return themeManager.get(ThemeCodeFence);
-    });
+    // const style = utils.getStyle((themeManager) => {
+    //     return themeManager.get(ThemeCodeFence);
+    // });
 
     return {
         id,
@@ -75,7 +87,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                     'pre',
                     {
                         'data-language': node.attrs['language'],
-                        class: utils.getClassName(node.attrs, 'code-fence', style),
+                        class: utils.getClassName(node.attrs, 'code-fence'),
                     },
                     ['code', { spellCheck: 'false' }, 0],
                 ];
@@ -117,101 +129,55 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
         shortcuts: {
             [SupportedKeys.CodeFence]: createShortcut(TurnIntoCodeFence, 'Mod-Alt-c'),
         },
-        view: (ctx) => (node, view, getPos) => {
-            const container = document.createElement('div');
-            const selectWrapper = document.createElement('div');
-            const select = document.createElement('ul');
-            const pre = document.createElement('pre');
-            const code = document.createElement('code');
+        view: () => (node, view, getPos) => {
+            let currNode = node;
 
-            const valueWrapper = document.createElement('div');
-            valueWrapper.className = 'code-fence_selector';
-            const value = document.createElement('span');
-            valueWrapper.appendChild(value);
-            const downIcon = ctx.get(themeManagerCtx).get(ThemeIcon, 'downArrow');
-            if (view.editable && downIcon) {
-                valueWrapper.appendChild(downIcon.dom);
-            }
-
-            select.className = 'code-fence_selector-list';
-            select.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (!view.editable) return;
-
-                const el = e.target;
-                if (!(el instanceof HTMLLIElement)) return;
+            const onSelectLanguage = (language: string) => {
                 const { tr } = view.state;
-
                 view.dispatch(
                     tr.setNodeMarkup(getPos(), undefined, {
                         fold: true,
-                        language: el.dataset['value'],
+                        language,
                     }),
                 );
-            });
-            valueWrapper.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (!view.editable) return;
+            };
+            const onBlur = () => {
                 const { tr } = view.state;
 
                 view.dispatch(
                     tr.setNodeMarkup(getPos(), undefined, {
+                        ...currNode.attrs,
+                        fold: true,
+                    }),
+                );
+            };
+            const onFocus = () => {
+                const { tr } = view.state;
+
+                view.dispatch(
+                    tr.setNodeMarkup(getPos(), undefined, {
+                        ...currNode.attrs,
                         fold: false,
-                        language: container.dataset['language'],
                     }),
                 );
+            };
+
+            const { dom, contentDOM, onUpdate } = utils.themeManager.get(ThemeCodeFence, {
+                onBlur,
+                onFocus,
+                onSelectLanguage,
+                editable: () => view.editable,
+                languageList: options?.languageList || languageOptions,
             });
-            document.addEventListener('mousedown', () => {
-                if (!view.editable || select.dataset['fold'] === 'true') return;
-
-                const { tr } = view.state;
-
-                view.dispatch(
-                    tr.setNodeMarkup(getPos(), undefined, {
-                        fold: true,
-                        language: container.dataset['language'],
-                    }),
-                );
-            });
-
-            (options?.languageList || languageOptions).forEach((lang) => {
-                const option = document.createElement('li');
-                option.className = 'code-fence_selector-list-item';
-                option.innerText = lang || '--';
-                select.appendChild(option);
-                option.setAttribute('data-value', lang);
-            });
-
-            code.spellcheck = false;
-            selectWrapper.className = 'code-fence_selector-wrapper';
-            selectWrapper.contentEditable = 'false';
-            selectWrapper.append(valueWrapper);
-            selectWrapper.append(select);
-            pre.append(code);
-            const codeContent = document.createElement('div');
-            code.append(codeContent);
-            codeContent.style.whiteSpace = 'inherit';
-
-            container.append(selectWrapper, pre);
-            container.setAttribute('class', utils.getClassName(node.attrs, 'code-fence', style));
-            container.setAttribute('data-language', node.attrs['language']);
-            value.innerText = node.attrs['language'] || '--';
-            select.setAttribute('data-fold', node.attrs['fold'] ? 'true' : 'false');
+            onUpdate(currNode);
 
             return {
-                dom: container,
-                contentDOM: codeContent,
+                dom,
+                contentDOM,
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
-
-                    const lang = updatedNode.attrs['language'];
-                    container.dataset['language'] = lang;
-                    value.innerText = lang || '--';
-                    select.setAttribute('data-fold', updatedNode.attrs['fold'] ? 'true' : 'false');
+                    currNode = updatedNode;
+                    onUpdate(currNode);
 
                     return true;
                 },
