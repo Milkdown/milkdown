@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+
 import { createContainer, createSlice, Slice } from '@milkdown/ctx';
 
 export type ThemeSlice<Ret = unknown, T = undefined> = (info?: T) => Ret | undefined | null;

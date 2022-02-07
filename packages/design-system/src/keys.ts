@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Color, Font, Icon, IconValue, Size } from '@milkdown/design-system';
-
 import { createThemeSliceKey } from './manager';
+import type { Color, Font, Icon, IconValue, Size } from './types';
 
 export const ThemeColor = createThemeSliceKey<string, [key: Color, opacity?: number]>('color');
 export const ThemeSize = createThemeSliceKey<string, Size>('size');

@@ -1,72 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-// import * as D from './default-value';
-// import type { Emotion } from './emotion';
-// import { obj2color, obj2var } from './transformer';
-// import { Color, PR } from './types';
-
-// export const injectVar = (themePack: ThemePack, emotion: Emotion) => {
-//     const { color = {}, font, size = {} } = themePack;
-//     const css = emotion.injectGlobal;
-//     css`
-//         :root {
-//             ${obj2color(color)};
-//             ${obj2var(font, (x) => x.join(', '))};
-//             ${obj2var(size)};
-//         }
-//     `;
-// };
-
-// export const pack2Tool = (themePack: ThemePack): ThemeTool => {
-//     const { font, size = {}, mixin: _mixin, slots: _slots, global } = themePack;
-
-//     const palette = (key: Color, alpha = 1) => {
-//         return `rgba(var(--${key}), ${alpha})`;
-//     };
-//     const toMap = <T extends string, U>(x: PR<T, U> = {}): PR<T> =>
-//         Object.fromEntries(
-//             Object.keys(x).map((k) => {
-//                 return [k, `var(--${k})`];
-//             }),
-//         ) as PR<T>;
-
-//     const mixinTool: Pick<ThemeTool, 'palette' | 'size' | 'font'> = {
-//         palette,
-//         size: {
-//             ...D.size,
-//             ...toMap(size),
-//         },
-//         font: {
-//             ...D.font,
-//             ...toMap(font),
-//         },
-//     };
-//     const mixin = {
-//         ...D.mixin,
-//         ..._mixin?.(mixinTool),
-//     };
-
-//     const slotsTool: typeof mixinTool & { mixin: typeof mixin } = {
-//         ...mixinTool,
-//         mixin,
-//     };
-
-//     const slots = {
-//         ...D.slots,
-//         ..._slots?.(slotsTool),
-//     };
-
-//     const tool: ThemeTool = {
-//         ...slotsTool,
-//         slots,
-//     };
-
-//     global?.(tool);
-
-//     return tool;
-// };
-
-export type { Emotion, Options } from './emotion';
-export { init } from './emotion';
-export { hex2rgb } from './transformer';
+export * from './emotion';
+export * from './keys';
+export * from './manager';
 export * from './types';
+export * from './utils';

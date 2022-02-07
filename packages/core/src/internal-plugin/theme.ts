@@ -1,12 +1,21 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
-import { Emotion, init } from '@milkdown/design-system';
+import {
+    createThemeManager,
+    Emotion,
+    emotionConfigCtx,
+    emotionCtx,
+    initEmotion,
+    internalThemeKeys,
+    ThemeGlobal,
+    ThemeManager,
+    themeManagerCtx,
+    ThemeSliceKey,
+} from '@milkdown/design-system';
 import { Plugin, PluginKey } from '@milkdown/prose';
 
-import { ConfigReady, InitReady, prosePluginsCtx } from '..';
-import { emotionConfigCtx, emotionCtx } from './emotion';
-import { internalThemeKeys, ThemeGlobal } from './keys';
-import { createThemeManager, ThemeManager, themeManagerCtx, ThemeSliceKey } from './manager';
+import { ConfigReady } from './config';
+import { InitReady, prosePluginsCtx } from './init';
 
 export const themeTimerCtx = createSlice<Timer[]>([], 'themeTimer');
 export const ThemeReady = createTimer('ThemeReady');
@@ -26,7 +35,7 @@ export const themeFactory =
 
         return async (ctx) => {
             await ctx.waitTimers(themeTimerCtx);
-            const emotion = init(ctx.get(emotionConfigCtx));
+            const emotion = initEmotion(ctx.get(emotionConfigCtx));
 
             internalThemeKeys.forEach((key) => {
                 themeManager.inject(key as ThemeSliceKey);
@@ -55,8 +64,4 @@ export const themeFactory =
         };
     };
 
-export * from './emotion';
-export * from './keys';
-export * from './manager';
-export type { Color, Emotion, Font, Icon, IconValue, Options, Size } from '@milkdown/design-system';
-export { hex2rgb } from '@milkdown/design-system';
+export * from '@milkdown/design-system';
