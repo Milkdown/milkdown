@@ -9,7 +9,7 @@ import {
     inputRulesCtx,
     prosePluginsCtx,
     remarkPluginsCtx,
-    themeToolCtx,
+    themeManagerCtx,
 } from '@milkdown/core';
 import { themeMustInstalled } from '@milkdown/exception';
 import { keymap } from '@milkdown/prose';
@@ -38,7 +38,7 @@ export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, arg
 
 export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Options): Utils => {
     try {
-        const themeTool = ctx.get(themeToolCtx);
+        const themeManager = ctx.get(themeManagerCtx);
         const emotion = ctx.get(emotionCtx);
         if (!emotion.css) {
             throw themeMustInstalled();
@@ -46,8 +46,8 @@ export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Opti
 
         return {
             getClassName: getClassName(options?.['className'] as undefined),
-            getStyle: (style) => (options?.['headless'] ? '' : (style(themeTool, emotion) as string | undefined)),
-            themeTool,
+            getStyle: (style) => (options?.['headless'] ? '' : (style(themeManager, emotion) as string | undefined)),
+            themeManager,
         };
     } catch {
         throw themeMustInstalled();

@@ -1,5 +1,5 @@
 module.exports = {
-  "__version": "9.2.0",
+  "__version": "9.3.1",
   "input:": {
     "node:": {
       "paragraph": {
@@ -22,7 +22,7 @@ module.exports = {
       },
       "image": {
         "invalid image": {
-          "1": "![image](invalidUrl)\n"
+          "1": "![image](http://localhost:7000/invalidUrl)\n"
         },
         "valid image": {
           "1": "![image](/milkdown-mini.png)\n"

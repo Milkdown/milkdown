@@ -24,11 +24,10 @@ export type CommandManager = {
 export type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>];
 
 export const createCmd = <T>(key: CmdKey<T>, value: Cmd<T>): CmdTuple => [key, value] as CmdTuple;
-
-export const commandsCtx = createSlice<CommandManager>({} as CommandManager, 'commands');
-
 export const createCmdKey = <T = undefined>(key = 'cmdKey'): CmdKey<T> =>
     createSlice((() => () => false) as Cmd<T>, key);
+
+export const commandsCtx = createSlice<CommandManager>({} as CommandManager, 'commands');
 
 export const commandsTimerCtx = createSlice<Timer[]>([], 'commandsTimer');
 export const CommandsReady = createTimer('CommandsReady');

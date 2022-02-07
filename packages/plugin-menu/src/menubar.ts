@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, rootCtx } from '@milkdown/core';
+import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeScrollbar } from '@milkdown/core';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -37,12 +37,12 @@ const getRoot = (root: string | Node | null | undefined) => {
 };
 
 export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: HandleDOM = defaultDOMHandler) => {
-    const editorWrapperStyle = utils.getStyle((themeTool) => {
-        return themeTool.mixin.scrollbar('y');
+    const editorWrapperStyle = utils.getStyle((themeManager) => {
+        return themeManager.get(ThemeScrollbar, 'y') as string;
     });
-    const menuStyle = utils.getStyle((themeTool, { css }) => {
-        const border = themeTool.mixin.border();
-        const scrollbar = themeTool.mixin.scrollbar('x');
+    const menuStyle = utils.getStyle((themeManager, { css }) => {
+        const border = themeManager.get(ThemeBorder, undefined);
+        const scrollbar = themeManager.get(ThemeScrollbar, 'x');
         const style = css`
             box-sizing: border-box;
             width: 100%;
@@ -51,7 +51,7 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
             overflow-x: auto;
             ${border};
             ${scrollbar};
-            background: ${themeTool.palette('surface')};
+            background: ${themeManager.get(ThemeColor, ['surface'])};
 
             -webkit-overflow-scrolling: auto;
 

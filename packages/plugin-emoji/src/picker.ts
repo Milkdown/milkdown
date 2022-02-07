@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { EmojiButton } from '@joeattardi/emoji-button';
+import { Color, ThemeColor, ThemeFont } from '@milkdown/core';
 import { Decoration, DecorationSet, EditorView, Plugin, PluginKey } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -73,7 +74,9 @@ export const picker = (utils: Utils) => {
             if (!parentNode) {
                 throw new Error();
             }
-            utils.getStyle(({ palette, font }, { injectGlobal }) => {
+            utils.getStyle((themeManager, { injectGlobal }) => {
+                const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+                const typography = themeManager.get(ThemeFont, 'typography');
                 const css = injectGlobal;
                 css`
                     .emoji-picker {
@@ -85,7 +88,7 @@ export const picker = (utils: Utils) => {
                         --dark-blue-color: ${palette('primary')} !important;
                         --dark-search-icon-color: ${palette('primary')} !important;
                         --dark-category-button-color: ${palette('secondary', 0.4)} !important;
-                        --font: ${font.typography} !important;
+                        --font: ${typography} !important;
                         --font-size: 1rem !important;
                     }
                 `;

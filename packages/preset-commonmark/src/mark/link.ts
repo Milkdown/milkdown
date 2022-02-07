@@ -7,20 +7,6 @@ export const ToggleLink = createCmdKey<string>('ToggleLink');
 export const ModifyLink = createCmdKey<string>('ModifyLink');
 const id = 'link';
 export const link = createMark((utils) => {
-    const style = utils.getStyle((themeTool, { css }) => {
-        const lineColor = themeTool.palette('line');
-
-        return css`
-            color: ${themeTool.palette('secondary')};
-            cursor: pointer;
-            transition: all 0.4s ease-in-out;
-            font-weight: 500;
-            &:hover {
-                background-color: ${lineColor};
-                box-shadow: 0 0.2rem ${lineColor}, 0 -0.2rem ${lineColor};
-            }
-        `;
-    });
     return {
         id,
         schema: () => ({
@@ -40,7 +26,7 @@ export const link = createMark((utils) => {
                     },
                 },
             ],
-            toDOM: (mark) => ['a', { ...mark.attrs, class: utils.getClassName(mark.attrs, id, style) }],
+            toDOM: (mark) => ['a', { ...mark.attrs, class: utils.getClassName(mark.attrs, id) }],
             parseMarkdown: {
                 match: (node) => node.type === 'link',
                 runner: (state, node, markType) => {

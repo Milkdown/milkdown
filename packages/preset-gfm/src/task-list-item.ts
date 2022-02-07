@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, themeToolCtx } from '@milkdown/core';
+import { createCmd, createCmdKey, ThemeColor, ThemeIcon, themeManagerCtx, ThemeSize } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import { liftListItem, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -16,7 +16,7 @@ export const TurnIntoTaskList = createCmdKey('TurnIntoTaskList');
 export const taskListItem = createNode<Keys>((utils) => {
     const id = 'task_list_item';
     const style = utils.getStyle(
-        ({ palette, size }, { css }) =>
+        (themeManager, { css }) =>
             css`
                 list-style-type: none;
                 position: relative;
@@ -44,19 +44,19 @@ export const taskListItem = createNode<Keys>((utils) => {
                     right: 0;
                     bottom: 0;
                     left: 0;
-                    border-radius: ${size.radius};
+                    border-radius: ${themeManager.get(ThemeSize, 'radius')};
                 }
                 label:hover:before {
-                    background: ${palette('background')};
+                    background: ${themeManager.get(ThemeColor, ['background'])};
                 }
                 &[data-checked='true'] {
                     label {
-                        color: ${palette('primary')};
+                        color: ${themeManager.get(ThemeColor, ['primary'])};
                     }
                 }
                 &[data-checked='false'] {
                     label {
-                        color: ${palette('solid', 0.87)};
+                        color: ${themeManager.get(ThemeColor, ['solid', 0.87])};
                     }
                 }
                 .paragraph {
@@ -134,7 +134,7 @@ export const taskListItem = createNode<Keys>((utils) => {
             [SupportedKeys.TaskList]: createShortcut(TurnIntoTaskList, 'Mod-Alt-9'),
         },
         view: (ctx) => (node, view, getPos) => {
-            const createIcon = ctx.get(themeToolCtx).slots.icon;
+            const createIcon = (icon: Icon) => ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement;
 
             const listItem = document.createElement('li');
             const checkboxWrapper = document.createElement('label');

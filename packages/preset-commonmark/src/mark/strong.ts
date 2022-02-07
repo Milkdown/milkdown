@@ -9,12 +9,6 @@ type Keys = SupportedKeys['Bold'];
 const id = 'strong';
 export const ToggleBold = createCmdKey('ToggleBold');
 export const strong = createMark<Keys>((utils) => {
-    const style = utils.getStyle(
-        (_, { css }) =>
-            css`
-                font-weight: 600;
-            `,
-    );
     return {
         id,
         schema: () => ({
@@ -23,7 +17,7 @@ export const strong = createMark<Keys>((utils) => {
                 { tag: 'strong' },
                 { style: 'font-style', getAttrs: (value) => (value === 'bold') as false },
             ],
-            toDOM: (mark) => ['strong', { class: utils.getClassName(mark.attrs, id, style) }],
+            toDOM: (mark) => ['strong', { class: utils.getClassName(mark.attrs, id) }],
             parseMarkdown: {
                 match: (node) => node.type === 'strong',
                 runner: (state, node, markType) => {

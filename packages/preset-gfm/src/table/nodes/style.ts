@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Emotion } from '@milkdown/design-system';
+import { ThemeBorder, ThemeColor, ThemeScrollbar, ThemeSize } from '@milkdown/core';
+import { Color, Emotion } from '@milkdown/design-system';
 import { Utils } from '@milkdown/utils';
 
 const proseTableStyle = ({ css }: Emotion) => css`
@@ -48,7 +49,9 @@ const proseTableStyle = ({ css }: Emotion) => css`
 `;
 
 export const injectStyle = (utils: Utils) => {
-    return utils.getStyle(({ size, palette, mixin }, emotion) => {
+    return utils.getStyle((themeManager, emotion) => {
+        const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+
         const css = emotion.injectGlobal;
         css`
             ${proseTableStyle(emotion)}
@@ -56,13 +59,13 @@ export const injectStyle = (utils: Utils) => {
             .tableWrapper {
                 margin: 0 !important;
 
-                ${mixin.scrollbar?.('x')};
+                ${themeManager.get(ThemeScrollbar, 'x')}
 
                 width: 100%;
 
                 table {
                     width: calc(100% - 2rem) !important;
-                    border-radius: ${size.radius};
+                    border-radius: ${themeManager.get(ThemeSize, 'radius')};
                     box-sizing: border-box;
                     margin: 1rem 0 1rem 1rem !important;
                     overflow: auto !important;
@@ -72,7 +75,7 @@ export const injectStyle = (utils: Utils) => {
                         font-size: 1rem;
                     }
                     tr {
-                        ${mixin.border?.('bottom')};
+                        ${themeManager.get(ThemeBorder, 'bottom')};
                     }
 
                     th {
@@ -83,7 +86,7 @@ export const injectStyle = (utils: Utils) => {
                     th,
                     td {
                         min-width: 100px;
-                        ${mixin.border?.()};
+                        ${themeManager.get(ThemeBorder, undefined)};
                         text-align: left;
                         position: relative;
                         line-height: 3rem;
@@ -102,7 +105,7 @@ export const injectStyle = (utils: Utils) => {
 
                     .column-resize-handle {
                         background: ${palette('primary')};
-                        width: ${size.lineWidth};
+                        width: ${themeManager.get(ThemeSize, 'lineWidth')};
                     }
 
                     th,

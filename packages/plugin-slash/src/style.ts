@@ -1,7 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Emotion, ThemeTool } from '@milkdown/core';
+import {
+    Color,
+    Emotion,
+    ThemeBorder,
+    ThemeColor,
+    ThemeFont,
+    ThemeManager,
+    ThemeScrollbar,
+    ThemeShadow,
+    ThemeSize,
+} from '@milkdown/core';
 
-const itemStyle = ({ font, palette }: ThemeTool, { css }: Emotion) => {
+const itemStyle = (themeManager: ThemeManager, { css }: Emotion) => {
+    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
     return css`
         .slash-dropdown-item {
             display: flex;
@@ -12,7 +23,7 @@ const itemStyle = ({ font, palette }: ThemeTool, { css }: Emotion) => {
             justify-content: flex-start;
             cursor: pointer;
             line-height: 2;
-            font-family: ${font.typography};
+            font-family: ${themeManager.get(ThemeFont, 'typography')};
             font-size: 0.875rem;
 
             transition: all 0.2s ease-in-out;
@@ -37,26 +48,26 @@ const itemStyle = ({ font, palette }: ThemeTool, { css }: Emotion) => {
             `;
 };
 
-export const injectStyle = (themeTool: ThemeTool, emotion: Emotion) => {
-    const { mixin, size, palette } = themeTool;
+export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
+    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+
     const style = emotion.css`
         width: 20.5rem;
         max-height: 20.5rem;
         overflow-y: auto;
-        ${mixin.border?.()};
-        border-radius: ${size.radius};
+        border-radius: ${themeManager.get(ThemeSize, 'radius')};
         position: absolute;
         background: ${palette('surface')};
 
-        ${mixin.shadow?.()};
+        ${themeManager.get(ThemeBorder, undefined)}
+        ${themeManager.get(ThemeShadow)}
+        ${themeManager.get(ThemeScrollbar, undefined)}
 
         &.hide {
             display: none;
         }
 
-        ${mixin.scrollbar?.()};
-
-        ${itemStyle(themeTool, emotion)}
+        ${itemStyle(themeManager, emotion)}
     `;
     return style;
 };

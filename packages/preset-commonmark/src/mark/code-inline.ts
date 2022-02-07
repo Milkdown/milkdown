@@ -11,17 +11,6 @@ const id = 'code_inline';
 export const ToggleInlineCode = createCmdKey('ToggleInlineCode');
 
 export const codeInline = createMark<Keys>((utils) => {
-    const style = utils.getStyle(
-        ({ palette, size, font }, { css }) =>
-            css`
-                background-color: ${palette('neutral')};
-                color: ${palette('background')};
-                border-radius: ${size.radius};
-                font-weight: 500;
-                font-family: ${font.code};
-                padding: 0 0.2rem;
-            `,
-    );
     return {
         id,
         schema: () => ({
@@ -29,7 +18,7 @@ export const codeInline = createMark<Keys>((utils) => {
             code: true,
             inclusive: false,
             parseDOM: [{ tag: 'code' }],
-            toDOM: (mark) => ['code', { class: utils.getClassName(mark.attrs, 'code-inline', style) }],
+            toDOM: (mark) => ['code', { class: utils.getClassName(mark.attrs, 'code-inline') }],
             parseMarkdown: {
                 match: (node) => node.type === 'inlineCode',
                 runner: (state, node, markType) => {

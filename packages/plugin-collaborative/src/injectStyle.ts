@@ -1,7 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Emotion, ThemeTool } from '@milkdown/core';
+import { Color, Emotion, ThemeBorder, ThemeColor, ThemeManager, ThemeSize } from '@milkdown/core';
 
-export const injectStyle = ({ size, palette, mixin }: ThemeTool, { injectGlobal }: Emotion) => {
+export const injectStyle = (themeManager: ThemeManager, { injectGlobal }: Emotion) => {
+    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+    const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
     const css = injectGlobal;
     css`
         .milkdown .paragraph {
@@ -23,10 +25,10 @@ export const injectStyle = ({ size, palette, mixin }: ThemeTool, { injectGlobal 
         /* This gives the remote user caret. The colors are automatically overwritten*/
         .ProseMirror-yjs-cursor {
             position: relative;
-            margin-left: -${size.lineWidth};
-            margin-right: -${size.lineWidth};
-            ${mixin.border?.('left')};
-            ${mixin.border?.('right')};
+            margin-left: -${lineWidth};
+            margin-right: -${lineWidth};
+            ${themeManager.get(ThemeBorder, 'left')};
+            ${themeManager.get(ThemeBorder, 'right')};
             word-break: normal;
             pointer-events: none;
         }
@@ -34,7 +36,7 @@ export const injectStyle = ({ size, palette, mixin }: ThemeTool, { injectGlobal 
         .ProseMirror-yjs-cursor > div {
             position: absolute;
             top: -1.05em;
-            left: -${size.lineWidth};
+            left: -${lineWidth};
             font-size: 13px;
             background-color: ${palette('background')};
             font-family: serif;
