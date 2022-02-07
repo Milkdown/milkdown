@@ -16,7 +16,7 @@ export type ImageOptions = {
     };
 };
 
-export const ThemeImage = createThemeSliceKey<string, Partial<ImageOptions>>('image');
+export const ThemeImage = createThemeSliceKey<string, Partial<ImageOptions> | undefined>('image');
 export type ThemeImageType = typeof ThemeImage;
 export const image = createNode<string, ImageOptions>((utils, options) => {
     utils.themeManager.inject(ThemeImage);

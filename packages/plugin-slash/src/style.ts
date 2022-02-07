@@ -59,9 +59,9 @@ export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
         position: absolute;
         background: ${palette('surface')};
 
-        ${themeManager.get(ThemeBorder)}
+        ${themeManager.get(ThemeBorder, undefined)}
         ${themeManager.get(ThemeShadow)}
-        ${themeManager.get(ThemeScrollbar)}
+        ${themeManager.get(ThemeScrollbar, undefined)}
 
         &.hide {
             display: none;

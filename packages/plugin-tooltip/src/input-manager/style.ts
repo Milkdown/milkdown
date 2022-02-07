@@ -5,7 +5,7 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
     const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
 
     return css`
-        ${themeManager.get(ThemeBorder)}
+        ${themeManager.get(ThemeBorder, undefined)}
         ${themeManager.get(ThemeShadow)}
 
         display: inline-flex;

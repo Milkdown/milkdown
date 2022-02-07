@@ -86,7 +86,7 @@ export const injectStyle = (utils: Utils) => {
                     th,
                     td {
                         min-width: 100px;
-                        ${themeManager.get(ThemeBorder)};
+                        ${themeManager.get(ThemeBorder, undefined)};
                         text-align: left;
                         position: relative;
                         line-height: 3rem;

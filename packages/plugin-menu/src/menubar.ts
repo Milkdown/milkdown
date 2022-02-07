@@ -41,7 +41,7 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
         return themeManager.get(ThemeScrollbar, 'y') as string;
     });
     const menuStyle = utils.getStyle((themeManager, { css }) => {
-        const border = themeManager.get(ThemeBorder);
+        const border = themeManager.get(ThemeBorder, undefined);
         const scrollbar = themeManager.get(ThemeScrollbar, 'x');
         const style = css`
             box-sizing: border-box;

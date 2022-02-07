@@ -12,7 +12,7 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
         border-radius: ${themeManager.get(ThemeSize, 'radius')};
         z-index: 2;
 
-        ${themeManager.get(ThemeBorder)}
+        ${themeManager.get(ThemeBorder, undefined)}
         ${themeManager.get(ThemeShadow)}
 
         overflow: hidden;

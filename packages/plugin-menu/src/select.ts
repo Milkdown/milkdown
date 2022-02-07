@@ -72,7 +72,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 position: absolute;
                 top: 3rem;
                 background: ${palette('surface')};
-                ${themeManager.get(ThemeBorder)}
+                ${themeManager.get(ThemeBorder, undefined)}
                 ${themeManager.get(ThemeShadow)}
                 border-bottom-left-radius: ${themeManager.get(ThemeSize, 'radius')};
                 border-bottom-right-radius: ${themeManager.get(ThemeSize, 'radius')};

@@ -11,7 +11,7 @@ import {
 } from '@milkdown/core';
 
 export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) => {
-    const border = themeManager.get(ThemeBorder);
+    const border = themeManager.get(ThemeBorder, undefined);
     const shadow = themeManager.get(ThemeShadow);
     const radius = themeManager.get(ThemeSize, 'radius');
     const typography = themeManager.get(ThemeFont, 'typography');

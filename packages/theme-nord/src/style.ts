@@ -30,7 +30,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
         }
 
         li.ProseMirror-selectednode::after {
-            ${manager.get(ThemeBorder)};
+            ${manager.get(ThemeBorder, undefined)};
         }
 
         & ::selection {
@@ -168,7 +168,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             font-family: ${manager.get(ThemeFont, 'typography')};
 
             ${manager.get(ThemeShadow)}
-            ${manager.get(ThemeScrollbar)}
+            ${manager.get(ThemeScrollbar, undefined)}
             ${selection};
 
             .editor {
