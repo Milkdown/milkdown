@@ -141,7 +141,6 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
             codeContent.style.whiteSpace = 'inherit';
             container.append(selectWrapper, pre);
 
-            // container.setAttribute('class', utils.getClassName(node.attrs, 'code-fence', style));
             container.classList.add('code-fence');
             if (style) {
                 container.classList.add(style);

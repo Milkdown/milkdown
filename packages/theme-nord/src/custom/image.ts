@@ -108,7 +108,6 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
         if (style) {
             container.classList.add(style);
         }
-        // container.className = utils.getClassName(node.attrs, containerStyle, 'image-container');
 
         const content = document.createElement('img');
 
