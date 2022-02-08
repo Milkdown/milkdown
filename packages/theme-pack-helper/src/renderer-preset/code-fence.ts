@@ -1,11 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { Color, Emotion, ThemeManager } from '@milkdown/core';
+import { ThemeBorder, ThemeColor, ThemeFont, ThemeIcon, ThemeScrollbar, ThemeShadow, ThemeSize } from '@milkdown/core';
 import type { ThemeCodeFenceType } from '@milkdown/preset-commonmark';
 import type { Node } from '@milkdown/prose';
-
-import type { Emotion } from '../emotion';
-import { ThemeBorder, ThemeColor, ThemeFont, ThemeIcon, ThemeScrollbar, ThemeShadow, ThemeSize } from '../keys';
-import type { ThemeManager } from '../manager';
-import type { Color } from '../types';
 
 export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
     const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);

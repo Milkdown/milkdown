@@ -2,8 +2,8 @@
 export * from './code-fence';
 export * from './image';
 
-import { Emotion } from '../emotion';
-import { ThemeManager } from '../manager';
+import type { Emotion, ThemeManager } from '@milkdown/core';
+
 import { codeFence } from './code-fence';
 import { image } from './image';
 

@@ -1,5 +1,5 @@
 {
-    "name": "@milkdown/plugin-clipboard",
+    "name": "@milkdown/theme-pack-helper",
     "version": "5.5.0",
     "type": "module",
     "main": "./lib/index.es.js",
@@ -16,20 +16,16 @@
         "lib",
         "src"
     ],
-    "keywords": [
-        "milkdown",
-        "milkdown plugin"
-    ],
+    "dependencies": {
+        "tslib": "^2.3.1"
+    },
     "devDependencies": {
         "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*"
+        "@milkdown/prose": "workspace:*",
+        "@milkdown/preset-commonmark": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^5.4.0",
         "@milkdown/prose": "^5.4.0"
-    },
-    "dependencies": {
-        "@milkdown/utils": "workspace:*",
-        "tslib": "^2.3.1"
     }
 }

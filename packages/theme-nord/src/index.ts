@@ -10,8 +10,8 @@ import {
     ThemeScrollbar,
     ThemeShadow,
     ThemeSize,
-    useAllPresetRenderer,
 } from '@milkdown/core';
+import { useAllPresetRenderer } from '@milkdown/theme-pack-helper';
 
 import { code, typography } from './font';
 import { getIcon } from './icon';
