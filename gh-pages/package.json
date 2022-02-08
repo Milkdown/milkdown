@@ -48,7 +48,7 @@
     },
     "devDependencies": {
         "@rollup/pluginutils": "*",
-        "@types/estree": "^0.0.50",
+        "@types/estree": "^0.0.51",
         "@types/prosemirror-dev-tools": "^3.0.2",
         "@types/react": "^17.0.6",
         "@types/react-dom": "^17.0.5",
