@@ -76,7 +76,7 @@ importers:
       typescript: 4.5.5
       vite: 2.7.13
       vite-plugin-dts: 0.9.9_vite@2.7.13
-      vitest: 0.2.5_@vitest+ui@0.2.5+jsdom@19.0.0
+      vitest: 0.2.8_@vitest+ui@0.2.5+jsdom@19.0.0
 
   e2e:
     specifiers:
@@ -1761,7 +1761,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
       '@types/react': '*'
-      react: '>=16.8.0'
+      react: '>=16.8.0 || 17 || 17'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -1796,7 +1796,7 @@ packages:
       '@babel/core': ^7.0.0
       '@emotion/react': ^11.0.0-rc.0
       '@types/react': '*'
-      react: '>=16.8.0'
+      react: '>=16.8.0 || 17'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -2321,14 +2321,6 @@ packages:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
       csstype: 3.0.10
-
-  /@types/react/17.0.39:
-    resolution: {integrity: sha512-UVavlfAxDd/AgAacMa60Azl7ygyQNRwC/DsHZmKgNvPmRR5p70AJ5Q9EAmL2NWOJmeV+vVUI4IAP7GZrN8h8Ug==}
-    dependencies:
-      '@types/prop-types': 15.7.4
-      '@types/scheduler': 0.16.2
-      csstype: 3.0.10
-    dev: false
 
   /@types/refractor/3.0.2:
     resolution: {integrity: sha512-2HMXuwGuOqzUG+KUTm9GDJCHl0LCBKsB5cg28ujEmVi/0qgTb6jOmkVSO5K48qXksyl2Fr3C0Q2VrgD4zbwyXg==}
@@ -3099,7 +3091,7 @@ packages:
       check-error: 1.0.2
       deep-eql: 3.0.1
       get-func-name: 2.0.0
-      loupe: 2.3.1
+      loupe: 2.3.3
       pathval: 1.1.1
       type-detect: 4.0.8
     dev: true
@@ -3451,7 +3443,7 @@ packages:
     resolution: {integrity: sha512-eCnYYEUEc5i32LHwpE/W7NlddOB9oHwsPaWtWzYtflNkkwa3IfindIcoXdVWs12zCbwaMCavKNu84EXogVIWHw==}
     peerDependencies:
       prop-types: ^15.0.0
-      react: ^14.0.0 || ^15.0.0 || ^16.0.0
+      react: ^14.0.0 || ^15.0.0 || ^16.0.0 || 17
     dependencies:
       prop-types: 15.8.1
       react: 17.0.2
@@ -6329,8 +6321,8 @@ packages:
     dependencies:
       js-tokens: 4.0.0
 
-  /loupe/2.3.1:
-    resolution: {integrity: sha512-EN1D3jyVmaX4tnajVlfbREU4axL647hLec1h/PXAb8CPDMJiYitcWF2UeLVNttRqaIqQs4x+mRvXf+d+TlDrCA==}
+  /loupe/2.3.3:
+    resolution: {integrity: sha512-krIV4Cf1BIGIx2t1e6tucThhrBemUnIUjMtD2vN4mrMxnxpBvrcosBSpooqunBqP/hOEEV1w/Cr1YskGtqw5Jg==}
     dependencies:
       get-func-name: 2.0.0
     dev: true
@@ -7489,8 +7481,8 @@ packages:
     resolution: {integrity: sha512-ghuxb6QD3WWl3EE8OK1O3P67OKjbTxt5mvagAUK6xd0kS7SBysSS4KE+HiNPxC8r812EEFFJ2S6asIs9i7rvkQ==}
     engines: {node: '>=10'}
     peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
+      react: '>=16.8.0 || 17'
+      react-dom: '>=16.8.0 || 17'
     dependencies:
       '@babel/runtime': 7.16.7
       '@emotion/css': 11.7.1
@@ -7684,7 +7676,10 @@ packages:
     resolution: {integrity: sha1-5yfcdVCztzEWY13LnA4E0Lev4Xw=}
     peerDependencies:
       babel-runtime: ^6.3.13
-      react: '>=0.13.0'
+      react: '>=0.13.0 || 17'
+    peerDependenciesMeta:
+      babel-runtime:
+        optional: true
     dependencies:
       lodash.debounce: 3.1.1
       prop-types: 15.8.1
@@ -7694,7 +7689,7 @@ packages:
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
-      react: 17.0.2
+      react: 17.0.2 || 17 || 17
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
@@ -7707,8 +7702,8 @@ packages:
   /react-json-tree/0.11.2_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-aYhUPj1y5jR3ZQ+G3N7aL8FbTyO03iLwnVvvEikLcNFqNTyabdljo9xDftZndUBFyyyL0aK3qGO9+8EilILHUw==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0
-      react-dom: ^15.0.0 || ^16.0.0
+      react: ^15.0.0 || ^16.0.0 || 17
+      react-dom: ^15.0.0 || ^16.0.0 || 17
     dependencies:
       babel-runtime: 6.26.0
       prop-types: 15.8.1
@@ -7720,7 +7715,7 @@ packages:
   /react-loading-skeleton/3.0.2_react@17.0.2:
     resolution: {integrity: sha512-rlALwuZEcjazUDeIy3+fEhm20Uk9Yd/zZGeITU034K2ts5/yEf7RuZaV2FyrPWypIII4LAsFEo9WDTPKp6G0fQ==}
     peerDependencies:
-      react: '>=16.8.0'
+      react: '>=16.8.0 || 17'
     dependencies:
       react: 17.0.2
     dev: false
@@ -7733,8 +7728,8 @@ packages:
   /react-router-dom/6.2.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-I6Zax+/TH/cZMDpj3/4Fl2eaNdcvoxxHoH1tYOREsQ22OKDYofGebrNm6CTPUcvLvZm63NL/vzCYdjf9CUhqmA==}
     peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
+      react: '>=16.8 || 17'
+      react-dom: '>=16.8 || 17'
     dependencies:
       history: 5.2.0
       react: 17.0.2
@@ -7745,7 +7740,7 @@ packages:
   /react-router/6.2.1_react@17.0.2:
     resolution: {integrity: sha512-2fG0udBtxou9lXtK97eJeET2ki5//UWfQSl1rlJ7quwe6jrktK9FCCc8dQb5QY6jAv3jua8bBQRhhDOM/kVRsg==}
     peerDependencies:
-      react: '>=16.8'
+      react: '>=16.8 || 17'
     dependencies:
       history: 5.2.0
       react: 17.0.2
@@ -7754,8 +7749,8 @@ packages:
   /react-spinners/0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f:
     resolution: {integrity: sha512-rDZc0ABWn/M1OryboGsWVmIPg8uYWl0L35jPUhr40+Yg+syVPjeHwvnB7XWaRpaKus3M0cG9BiJA+ZB0dAwWyw==}
     peerDependencies:
-      react: ^16.0.0 || ^17.0.0
-      react-dom: ^16.0.0 || ^17.0.0
+      react: ^16.0.0 || ^17.0.0 || 17
+      react-dom: ^16.0.0 || ^17.0.0 || 17
     dependencies:
       '@emotion/react': 11.7.1_b08e3c15324cbe90a6ff8fcd416c932c
       react: 17.0.2
@@ -8868,7 +8863,7 @@ packages:
   /unstated/2.1.1_prop-types@15.8.1+react@17.0.2:
     resolution: {integrity: sha512-fORlTWMZxq7NuMJDxyIrrYIZKN7wEWYQ9SiaJfIRcSpsowr6Ph/JIfK2tgtXLW614JfPG/t5q9eEIhXRCf55xg==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0
+      react: ^15.0.0 || ^16.0.0 || 17
     dependencies:
       create-react-context: 0.1.6_prop-types@15.8.1+react@17.0.2
       react: 17.0.2
@@ -8992,8 +8987,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.2.5_@vitest+ui@0.2.5+jsdom@19.0.0:
-    resolution: {integrity: sha512-QruEhsNxy8ycLxYG9rrGUfHZzJ8A6YvA9ULZ4w/ecvm0Zejm1nxUar/XkRWkL2xzrqA5AjmfqDSQZ8q2bFbA0Q==}
+  /vitest/0.2.8_@vitest+ui@0.2.5+jsdom@19.0.0:
+    resolution: {integrity: sha512-shzN00EkvUNzP8cSykhrOCwB7MlGxcwJNjOtHhbayvexGnqX6oLOfEp3OQixWdDJpEaqNiE3Lcie0WsOnoQ3Og==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
