@@ -10,9 +10,9 @@ import {
     ThemeScrollbar,
     ThemeShadow,
     ThemeSize,
+    useAllPresetRenderer,
 } from '@milkdown/core';
 
-import { createCustom } from './custom';
 import { code, typography } from './font';
 import { getIcon } from './icon';
 import { darkColor, lightColor } from './nord';
@@ -124,7 +124,7 @@ export const getNord = (isDarkMode = false) =>
             getStyle(manager, emotion);
         });
 
-        createCustom(manager, emotion);
+        useAllPresetRenderer(manager, emotion);
     });
 
 export const nordDark = getNord(true);
