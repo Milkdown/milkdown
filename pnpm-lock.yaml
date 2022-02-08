@@ -222,7 +222,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.11.0
       tslib: ^2.3.1
-      unist-util-visit: ^4.0.0
+      unist-util-visit: 4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/lang-markdown': 0.19.5
@@ -376,7 +376,7 @@ importers:
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
-      unist-util-visit: ^4.0.0
+      unist-util-visit: 4.0.0
     dependencies:
       '@milkdown/utils': link:../utils
       '@types/mermaid': 8.2.7
@@ -401,7 +401,7 @@ importers:
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
       twemoji: ^13.1.0
-      unist-util-visit: ^4.0.0
+      unist-util-visit: 4.0.0
     dependencies:
       '@joeattardi/emoji-button': 4.6.2
       '@milkdown/utils': link:../utils
@@ -6374,7 +6374,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 3.1.0
+      unist-util-visit: 4.0.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -7867,7 +7867,7 @@ packages:
     dependencies:
       emoticon: 4.0.1
       node-emoji: 1.11.0
-      unist-util-visit: 4.1.0
+      unist-util-visit: 4.0.0
     dev: false
 
   /remark-gfm/3.0.1:
@@ -8836,24 +8836,8 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
-  /unist-util-visit/3.1.0:
-    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
-    dependencies:
-      '@types/unist': 2.0.6
-      unist-util-is: 5.1.1
-      unist-util-visit-parents: 4.1.1
-    dev: false
-
   /unist-util-visit/4.0.0:
     resolution: {integrity: sha512-3HWTvrtU10/E7qgPznBfiOyG0TXj9W8c1GSfaI8L9GkaG1pLePiQPZ7E35a0R3ToQ/zcy4Im6aZ9WBgOTnv1MQ==}
-    dependencies:
-      '@types/unist': 2.0.6
-      unist-util-is: 5.1.1
-      unist-util-visit-parents: 5.1.0
-    dev: false
-
-  /unist-util-visit/4.1.0:
-    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1

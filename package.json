@@ -70,8 +70,12 @@
                 "prosemirror-model",
                 "prosemirror-state",
                 "prosemirror-view",
-                "@babel/core"
-            ]
+                "@babel/core",
+                "babel-runtime"
+            ],
+            "allowedVersions": {
+                "react": "17"
+            }
         }
     }
 }
