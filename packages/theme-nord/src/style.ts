@@ -183,6 +183,83 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
         }
     `;
 
+    const table = css`
+        /* copy from https://github.com/ProseMirror/prosemirror-tables/blob/master/style/tables.css */
+        .tableWrapper {
+            overflow-x: auto;
+            margin: 0;
+            ${manager.get(ThemeScrollbar, 'x')}
+            width: 100%;
+            * {
+                margin: 0;
+                box-sizing: border-box;
+                font-size: 1rem;
+            }
+        }
+        table {
+            border-collapse: collapse;
+            table-layout: fixed;
+            width: 100%;
+            overflow: auto;
+            border-radius: ${manager.get(ThemeSize, 'radius')};
+            p {
+                line-height: unset;
+            }
+        }
+        tr {
+            ${manager.get(ThemeBorder, 'bottom')};
+        }
+        td,
+        th {
+            padding: 0 1rem;
+            vertical-align: top;
+            box-sizing: border-box;
+            position: relative;
+
+            min-width: 100px;
+            ${manager.get(ThemeBorder, undefined)};
+            text-align: left;
+            line-height: 3rem;
+            height: 3rem;
+        }
+        th {
+            background: ${palette('background', 0.5)};
+            font-weight: 400;
+        }
+        .column-resize-handle {
+            position: absolute;
+            right: -2px;
+            top: 0;
+            bottom: 0;
+            z-index: 20;
+            pointer-events: none;
+            background: ${palette('secondary')};
+            width: ${manager.get(ThemeSize, 'lineWidth')};
+        }
+        .resize-cursor {
+            cursor: ew-resize;
+            cursor: col-resize;
+        }
+
+        .selectedCell {
+            &::after {
+                z-index: 2;
+                position: absolute;
+                content: '';
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background: ${palette('secondary', 0.38)};
+                pointer-events: none;
+            }
+
+            & ::selection {
+                background: transparent;
+            }
+        }
+    `;
+
     injectGlobal`
         .milkdown {
 
@@ -211,6 +288,8 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
                 ${img};
 
                 ${inline};
+                
+                ${table};
             }
         }
     `;

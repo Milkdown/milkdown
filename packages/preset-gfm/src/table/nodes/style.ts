@@ -1,52 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { ThemeBorder, ThemeColor, ThemeScrollbar, ThemeSize } from '@milkdown/core';
-import { Color, Emotion } from '@milkdown/design-system';
+import { ThemeColor } from '@milkdown/core';
+import { Color } from '@milkdown/design-system';
 import { Utils } from '@milkdown/utils';
-
-const proseTableStyle = ({ css }: Emotion) => css`
-    /* copy from https://github.com/ProseMirror/prosemirror-tables/blob/master/style/tables.css */
-    .ProseMirror .tableWrapper {
-        overflow-x: auto;
-    }
-    .ProseMirror table {
-        border-collapse: collapse;
-        table-layout: fixed;
-        width: 100%;
-        overflow: hidden;
-    }
-    .ProseMirror td,
-    .ProseMirror th {
-        vertical-align: top;
-        box-sizing: border-box;
-        position: relative;
-    }
-    .ProseMirror .column-resize-handle {
-        position: absolute;
-        right: -2px;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        z-index: 20;
-        background-color: #adf;
-        pointer-events: none;
-    }
-    .ProseMirror.resize-cursor {
-        cursor: ew-resize;
-        cursor: col-resize;
-    }
-    /* Give selected cells a blue overlay */
-    .ProseMirror .selectedCell:after {
-        z-index: 2;
-        position: absolute;
-        content: '';
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background: rgba(200, 200, 255, 0.4);
-        pointer-events: none;
-    }
-`;
 
 export const injectStyle = (utils: Utils) => {
     return utils.getStyle((themeManager, emotion) => {
@@ -54,67 +9,10 @@ export const injectStyle = (utils: Utils) => {
 
         const css = emotion.injectGlobal;
         css`
-            ${proseTableStyle(emotion)}
-
             .tableWrapper {
-                margin: 0 !important;
-
-                ${themeManager.get(ThemeScrollbar, 'x')}
-
-                width: 100%;
-
                 table {
                     width: calc(100% - 2rem) !important;
-                    border-radius: ${themeManager.get(ThemeSize, 'radius')};
-                    box-sizing: border-box;
                     margin: 1rem 0 1rem 1rem !important;
-                    overflow: auto !important;
-                    * {
-                        margin: 0 !important;
-                        box-sizing: border-box;
-                        font-size: 1rem;
-                    }
-                    tr {
-                        ${themeManager.get(ThemeBorder, 'bottom')};
-                    }
-
-                    th {
-                        background: ${palette('background', 0.5)};
-                        font-weight: 400;
-                    }
-
-                    th,
-                    td {
-                        min-width: 100px;
-                        ${themeManager.get(ThemeBorder, undefined)};
-                        text-align: left;
-                        position: relative;
-                        line-height: 3rem;
-                        box-sizing: border-box;
-                        height: 3rem;
-                    }
-
-                    .selectedCell {
-                        &::after {
-                            background: ${palette('secondary', 0.38)};
-                        }
-                        & ::selection {
-                            background: transparent;
-                        }
-                    }
-
-                    .column-resize-handle {
-                        background: ${palette('primary')};
-                        width: ${themeManager.get(ThemeSize, 'lineWidth')};
-                    }
-
-                    th,
-                    td {
-                        padding: 0 1rem;
-                        p {
-                            line-height: unset !important;
-                        }
-                    }
 
                     .milkdown-cell-left,
                     .milkdown-cell-point,
