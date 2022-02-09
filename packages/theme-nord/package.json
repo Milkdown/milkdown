@@ -7,7 +7,7 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "concurrently es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
         "tsc": "tsc --noEmit",
         "build": "vite build && tsc --emitDeclarationOnly"
     },
