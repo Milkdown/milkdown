@@ -15,7 +15,6 @@ import { exitTable } from '../command';
 import { operatorPlugin } from '../operator-plugin';
 import { createTable } from '../utils';
 import { schema } from './schema';
-import { injectStyle } from './style';
 
 export const SupportedKeys = {
     NextCell: 'NextCell',
@@ -32,7 +31,6 @@ export const BreakTable = createCmdKey('BreakTable');
 export const InsertTable = createCmdKey('InsertTable');
 
 export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof schema>((utils) => {
-    injectStyle(utils);
     return {
         schema: () => ({
             node: {

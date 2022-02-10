@@ -1,4 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { ThemeColor } from './keys';
+import type { ThemeManager } from './manager';
+import type { Color } from './types';
+
 type RGB = [number, number, number];
 export const hex2rgb = (hex: string): RGB | null => {
     const rgbShorthandRegex = /^([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -13,3 +17,8 @@ export const hex2rgb = (hex: string): RGB | null => {
 
     return ok ? ([r, g, b].map(parse16) as RGB) : null;
 };
+
+export const getPalette =
+    (manager: ThemeManager) =>
+    (color: Color, opacity = 1) =>
+        manager.get(ThemeColor, [color, opacity]);
