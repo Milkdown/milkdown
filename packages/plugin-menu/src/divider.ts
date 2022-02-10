@@ -14,6 +14,7 @@ export const divider = (utils: Utils) => {
             width: ${themeManager.get(ThemeSize, 'lineWidth')};
             background-color: ${themeManager.get(ThemeColor, ['line'])};
             margin: 0.75rem 1rem;
+            min-height: 1.5rem;
         `;
     });
     const $divider = document.createElement('div');
