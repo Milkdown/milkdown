@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, ThemeColor } from '@milkdown/core';
+import { createCmd, createCmdKey } from '@milkdown/core';
 import { markRule, toggleMark } from '@milkdown/prose';
 import { createMark, createShortcut } from '@milkdown/utils';
 
@@ -9,15 +9,8 @@ type Keys = SupportedKeys['StrikeThrough'];
 
 export const ToggleStrikeThrough = createCmdKey('ToggleStrikeThrough');
 
+const id = 'strike_through';
 export const strikeThrough = createMark<Keys>((utils) => {
-    const id = 'strike_through';
-    const style = utils.getStyle(
-        (themeManager, { css }) =>
-            css`
-                text-decoration-color: ${themeManager.get(ThemeColor, ['secondary'])};
-            `,
-    );
-
     return {
         id,
         schema: () => ({
@@ -25,7 +18,7 @@ export const strikeThrough = createMark<Keys>((utils) => {
                 { tag: 'del' },
                 { style: 'text-decoration', getAttrs: (value) => (value === 'line-through') as false },
             ],
-            toDOM: (mark) => ['del', { class: utils.getClassName(mark.attrs, 'strike-through', style) }],
+            toDOM: (mark) => ['del', { class: utils.getClassName(mark.attrs, 'strike-through') }],
             parseMarkdown: {
                 match: (node) => node.type === 'delete',
                 runner: (state, node, markType) => {

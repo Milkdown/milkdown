@@ -35,7 +35,7 @@ export function createWidget(
     index: number,
 ): Decoration<WidgetDecorationSpec>;
 export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos, index = 0) {
-    const widget = Decoration.widget(cell.pos + 1, (view) => {
+    return Decoration.widget(cell.pos + 1, (view) => {
         const div = document.createElement('div');
         div.classList.add(calculateClassName(pos));
         if (pos === ToolTipPos.Point) {
@@ -62,5 +62,4 @@ export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos, index = 0
         });
         return div;
     });
-    return widget;
 }

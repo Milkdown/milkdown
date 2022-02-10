@@ -121,6 +121,16 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
                 color: ${palette('primary')};
             }
         }
+
+        .task-list-item {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            &_checkbox {
+                margin: 0.5rem 0.5rem 0.5rem 0;
+                height: 1rem;
+            }
+        }
     `;
 
     const code = css`
@@ -180,6 +190,10 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
                 background-color: ${palette('line')};
                 box-shadow: 0 0.2rem ${palette('line')}, 0 -0.2rem ${palette('line')};
             }
+        }
+
+        .strike-through {
+            text-decoration-color: ${palette('secondary')};
         }
     `;
 

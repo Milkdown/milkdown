@@ -1,5 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, ThemeColor, ThemeIcon, themeManagerCtx, ThemeSize } from '@milkdown/core';
+import {
+    createCmd,
+    createCmdKey,
+    editorViewCtx,
+    ThemeColor,
+    ThemeIcon,
+    themeManagerCtx,
+    ThemeSize,
+} from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
 import { liftListItem, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -67,7 +75,7 @@ export const taskListItem = createNode<Keys>((utils) => {
 
     return {
         id,
-        schema: () => ({
+        schema: (ctx) => ({
             group: 'listItem',
             content: 'paragraph block*',
             defining: true,
@@ -88,15 +96,45 @@ export const taskListItem = createNode<Keys>((utils) => {
                     },
                 },
             ],
-            toDOM: (node) => [
-                'li',
-                {
-                    'data-type': 'task-item',
-                    'data-checked': node.attrs['checked'] ? 'true' : 'false',
-                    class: utils.getClassName(node.attrs, 'task-list-item', style),
-                },
-                0,
-            ],
+            toDOM: (node) => {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = node.attrs['checked'];
+                checkbox.className = utils.getClassName(node.attrs, 'task-list-item_checkbox');
+                checkbox.onchange = (event) => {
+                    const target = event.target;
+                    if (!(target instanceof HTMLInputElement)) return;
+                    const view = ctx.get(editorViewCtx);
+
+                    if (!view.editable) {
+                        checkbox.checked = !checkbox.checked;
+
+                        return;
+                    }
+
+                    const { top, left } = target.getBoundingClientRect();
+                    const result = view.posAtCoords({ top, left });
+                    if (!result) return;
+
+                    const { tr } = view.state;
+
+                    view.dispatch(
+                        tr.setNodeMarkup(result.inside, undefined, {
+                            checked: target.checked,
+                        }),
+                    );
+                };
+                return [
+                    'li',
+                    {
+                        'data-type': 'task-item',
+                        'data-checked': node.attrs['checked'] ? 'true' : 'false',
+                        class: utils.getClassName(node.attrs, 'task-list-item', style),
+                    },
+                    checkbox,
+                    ['span', { class: utils.getClassName(node.attrs, 'task-list-item_body') }, 0],
+                ];
+            },
             parseMarkdown: {
                 match: ({ type, checked }) => {
                     return type === 'listItem' && checked !== null;
