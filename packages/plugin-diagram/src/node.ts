@@ -21,8 +21,8 @@ export type Options = {
 export const TurnIntoDiagram = createCmdKey('TurnIntoDiagram');
 
 export const diagramNode = createNode<string, Options>((utils, options) => {
-    const mermaidVariables = getStyle();
-    const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables()} }}}%%\n`;
+    const mermaidVariables = getStyle(utils.themeManager);
+    const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables} }}}%%\n`;
 
     const id = 'diagram';
     mermaid.startOnLoad = false;

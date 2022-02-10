@@ -1,6 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createThemeSliceKey, Emotion, getPalette, ThemeFont, ThemeManager, ThemeSize } from '@milkdown/core';
-import { EditorState, EditorView, keymap, newlineInCode, Node, StepMap, TextSelection } from '@milkdown/prose';
+import {
+    baseKeymap,
+    EditorState,
+    EditorView,
+    history,
+    keymap,
+    Node,
+    redo,
+    StepMap,
+    TextSelection,
+    undo,
+} from '@milkdown/prose';
 
 type InnerEditorRenderer = {
     dom: HTMLElement;
@@ -35,6 +46,7 @@ const getStyle = (manager: ThemeManager, { css }: Emotion) => {
         font-size: 0.875rem;
         font-family: ${code};
         overflow: hidden;
+        line-height: 1.5;
         .ProseMirror {
             outline: none;
         }
@@ -66,25 +78,12 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
             state: EditorState.create({
                 doc,
                 plugins: [
+                    history(),
+                    keymap(baseKeymap),
                     keymap({
-                        Tab: (state, dispatch) => {
-                            if (dispatch) {
-                                dispatch(state.tr.insertText('\t'));
-                            }
-                            return true;
-                        },
-                        Enter: newlineInCode,
-                        'Mod-Enter': (_, dispatch) => {
-                            if (dispatch) {
-                                const { state } = outerView;
-                                const { to } = state.selection;
-                                const tr = state.tr.replaceWith(to, to, state.schema.nodes.paragraph.createAndFill());
-                                outerView.dispatch(tr.setSelection(TextSelection.create(tr.doc, to)));
-                                outerView.focus();
-                            }
-
-                            return true;
-                        },
+                        'Mod-z': undo,
+                        'Mod-y': redo,
+                        'Shift-Mod-z': redo,
                     }),
                 ],
             }),
