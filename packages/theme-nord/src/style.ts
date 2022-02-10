@@ -286,7 +286,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             background: ${surface};
             font-family: ${manager.get(ThemeFont, 'typography')};
 
-            ${manager.get(ThemeShadow)}
+            ${manager.get(ThemeShadow, undefined)}
             ${manager.get(ThemeScrollbar, undefined)}
             ${selection};
 

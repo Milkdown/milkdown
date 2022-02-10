@@ -12,7 +12,7 @@ import {
 
 export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) => {
     const border = themeManager.get(ThemeBorder, undefined);
-    const shadow = themeManager.get(ThemeShadow);
+    const shadow = themeManager.get(ThemeShadow, undefined);
     const radius = themeManager.get(ThemeSize, 'radius');
     const typography = themeManager.get(ThemeFont, 'typography');
     const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);

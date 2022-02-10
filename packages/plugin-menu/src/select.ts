@@ -73,7 +73,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 top: 3rem;
                 background: ${palette('surface')};
                 ${themeManager.get(ThemeBorder, undefined)}
-                ${themeManager.get(ThemeShadow)}
+                ${themeManager.get(ThemeShadow, undefined)}
                 border-bottom-left-radius: ${themeManager.get(ThemeSize, 'radius')};
                 border-bottom-right-radius: ${themeManager.get(ThemeSize, 'radius')};
                 z-index: 3;

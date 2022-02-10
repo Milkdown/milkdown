@@ -43,7 +43,7 @@ type ThemeRenderer = {
     contentDOM: HTMLElement;
     onUpdate: (node: Node) => void;
 };
-export const ThemeCodeFence = createThemeSliceKey<ThemeRenderer, ThemeOptions>('code-fence');
+export const ThemeCodeFence = createThemeSliceKey<ThemeRenderer, ThemeOptions, 'code-fence'>('code-fence');
 export type ThemeCodeFenceType = typeof ThemeCodeFence;
 
 const id = 'fence';

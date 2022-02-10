@@ -6,7 +6,7 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
 
     return css`
         ${themeManager.get(ThemeBorder, undefined)}
-        ${themeManager.get(ThemeShadow)}
+        ${themeManager.get(ThemeShadow, undefined)}
 
         display: inline-flex;
         justify-content: space-between;

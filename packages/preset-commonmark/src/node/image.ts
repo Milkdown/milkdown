@@ -31,7 +31,7 @@ type ThemeRenderer = {
     onUpdate: (node: Node) => void;
 };
 
-export const ThemeImage = createThemeSliceKey<ThemeRenderer, ThemeOptions>('image');
+export const ThemeImage = createThemeSliceKey<ThemeRenderer, ThemeOptions, 'image'>('image');
 export type ThemeImageType = typeof ThemeImage;
 export const image = createNode<string, ImageOptions>((utils, options) => {
     utils.themeManager.inject(ThemeImage);

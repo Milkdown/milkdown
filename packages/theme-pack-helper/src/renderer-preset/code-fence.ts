@@ -36,7 +36,7 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
             align-items: center;
 
             ${manager.get(ThemeBorder, undefined)};
-            ${manager.get(ThemeShadow)};
+            ${manager.get(ThemeShadow, undefined)};
 
             & > .icon {
                 width: 2.625rem;
@@ -97,7 +97,7 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
 
             ${manager.get(ThemeScrollbar, 'y')}
             ${manager.get(ThemeBorder, undefined)};
-            ${manager.get(ThemeShadow)};
+            ${manager.get(ThemeShadow, undefined)};
         }
     `;
 

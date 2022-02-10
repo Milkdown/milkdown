@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, editorViewCtx } from '@milkdown/core';
-import { createThemeSliceKey } from '@milkdown/design-system';
+import { createCmd, createCmdKey, createThemeSliceKey, editorViewCtx } from '@milkdown/core';
 import { liftListItem, Node, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -22,7 +21,7 @@ type ThemeOptions = {
     editable: () => boolean;
     onChange: (selected: boolean) => void;
 };
-export const ThemeTaskListItem = createThemeSliceKey<ThemeRenderer, ThemeOptions>('task-list-item');
+export const ThemeTaskListItem = createThemeSliceKey<ThemeRenderer, ThemeOptions, 'task-list-item'>('task-list-item');
 export type ThemeTaskListItemType = typeof ThemeTaskListItem;
 
 export const taskListItem = createNode<Keys>((utils) => {

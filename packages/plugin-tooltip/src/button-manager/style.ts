@@ -13,7 +13,7 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
         z-index: 2;
 
         ${themeManager.get(ThemeBorder, undefined)}
-        ${themeManager.get(ThemeShadow)}
+        ${themeManager.get(ThemeShadow, undefined)}
 
         overflow: hidden;
         background: ${palette('surface')};

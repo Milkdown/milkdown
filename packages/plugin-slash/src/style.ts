@@ -51,7 +51,7 @@ const itemStyle = (themeManager: ThemeManager, { css }: Emotion) => {
 export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
     const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
 
-    const style = emotion.css`
+    return emotion.css`
         width: 20.5rem;
         max-height: 20.5rem;
         overflow-y: auto;
@@ -60,7 +60,7 @@ export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
         background: ${palette('surface')};
 
         ${themeManager.get(ThemeBorder, undefined)}
-        ${themeManager.get(ThemeShadow)}
+        ${themeManager.get(ThemeShadow, undefined)}
         ${themeManager.get(ThemeScrollbar, undefined)}
 
         &.hide {
@@ -69,5 +69,4 @@ export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
 
         ${itemStyle(themeManager, emotion)}
     `;
-    return style;
 };
