@@ -17,7 +17,7 @@ import { Plugin, PluginKey } from '@milkdown/prose';
 import { ConfigReady } from './config';
 import { InitReady, prosePluginsCtx } from './init';
 
-export const themeTimerCtx = createSlice<Timer[]>([], 'themeTimer');
+export const themeTimerCtx = createSlice([] as Timer[], 'themeTimer');
 export const ThemeReady = createTimer('ThemeReady');
 
 const key = new PluginKey('MILKDOWN_THEME_RESET');

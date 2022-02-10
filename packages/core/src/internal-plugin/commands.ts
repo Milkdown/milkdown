@@ -27,9 +27,9 @@ export const createCmd = <T>(key: CmdKey<T>, value: Cmd<T>): CmdTuple => [key, v
 export const createCmdKey = <T = undefined>(key = 'cmdKey'): CmdKey<T> =>
     createSlice((() => () => false) as Cmd<T>, key);
 
-export const commandsCtx = createSlice<CommandManager>({} as CommandManager, 'commands');
+export const commandsCtx = createSlice({} as CommandManager, 'commands');
 
-export const commandsTimerCtx = createSlice<Timer[]>([], 'commandsTimer');
+export const commandsTimerCtx = createSlice([] as Timer[], 'commandsTimer');
 export const CommandsReady = createTimer('CommandsReady');
 
 export const commands: MilkdownPlugin = (pre) => {

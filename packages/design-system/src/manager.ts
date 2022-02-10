@@ -5,8 +5,9 @@ import { createContainer, createSlice, Slice } from '@milkdown/ctx';
 export type ThemeSlice<Ret = unknown, T = undefined> = (info: T) => Ret | undefined;
 export type ThemeSliceKey<Ret = unknown, T = undefined> = Slice<ThemeSlice<Ret, T>>;
 
-export const createThemeSliceKey = <Ret, T = undefined>(key = 'themeComponentKey'): ThemeSliceKey<Ret, T> =>
-    createSlice((() => null as unknown as Ret) as ThemeSlice<Ret, T>, key);
+export const createThemeSliceKey = <Ret, T = undefined, K extends string = string>(
+    key: K = 'themeComponentKey' as K,
+): ThemeSliceKey<Ret, T> => createSlice((() => null as unknown as Ret) as ThemeSlice<Ret, T>, key);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GetRet<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<infer Ret, any> ? Ret : unknown;
@@ -22,12 +23,12 @@ export type ThemeManager = {
     set: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setCustom: <Key extends ThemeSliceKey<any, any>, Ret = GetRet<Key>, T = GetT<Key>>(
-        meta: Key | string,
+        meta: Key | Key['sliceName'],
         value: ThemeSlice<Ret, T>,
     ) => void;
 };
 
-export const themeManagerCtx = createSlice<ThemeManager>({} as ThemeManager, 'themeManager');
+export const themeManagerCtx = createSlice({} as ThemeManager, 'themeManager');
 
 export const createThemeManager = () => {
     const container = createContainer();

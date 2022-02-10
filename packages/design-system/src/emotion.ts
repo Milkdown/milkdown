@@ -6,5 +6,5 @@ export type { Emotion, Options } from '@emotion/css/create-instance';
 
 export const initEmotion = (options?: Options): Emotion => createEmotion(options);
 
-export const emotionConfigCtx = createSlice<Options>({ key: 'milkdown' }, 'EmotionConfig');
-export const emotionCtx = createSlice<Emotion>({} as Emotion, 'Emotion');
+export const emotionConfigCtx = createSlice<Options, 'EmotionConfig'>({ key: 'milkdown' }, 'EmotionConfig');
+export const emotionCtx = createSlice<Emotion, 'Emotion'>({} as Emotion, 'Emotion');
