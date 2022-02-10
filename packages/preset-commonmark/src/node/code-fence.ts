@@ -49,9 +49,6 @@ export type ThemeCodeFenceType = typeof ThemeCodeFence;
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
     utils.themeManager.inject(ThemeCodeFence);
-    // const style = utils.getStyle((themeManager) => {
-    //     return themeManager.get(ThemeCodeFence);
-    // });
 
     return {
         id,

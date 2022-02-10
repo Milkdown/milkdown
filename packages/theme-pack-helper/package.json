@@ -22,7 +22,8 @@
     "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*"
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/preset-gfm": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^5.4.0",

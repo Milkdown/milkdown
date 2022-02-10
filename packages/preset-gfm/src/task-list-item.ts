@@ -1,15 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import {
-    createCmd,
-    createCmdKey,
-    editorViewCtx,
-    ThemeColor,
-    ThemeIcon,
-    themeManagerCtx,
-    ThemeSize,
-} from '@milkdown/core';
-import type { Icon } from '@milkdown/design-system';
-import { liftListItem, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
+import { createCmd, createCmdKey, editorViewCtx } from '@milkdown/core';
+import { createThemeSliceKey } from '@milkdown/design-system';
+import { liftListItem, Node, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from './supported-keys';
@@ -21,57 +13,21 @@ export const SinkTaskListItem = createCmdKey('SinkTaskListItem');
 export const LiftTaskListItem = createCmdKey('LiftTaskListItem');
 export const TurnIntoTaskList = createCmdKey('TurnIntoTaskList');
 
+type ThemeRenderer = {
+    dom: HTMLElement;
+    contentDOM: HTMLElement;
+    onUpdate: (node: Node) => void;
+};
+type ThemeOptions = {
+    editable: () => boolean;
+    onChange: (selected: boolean) => void;
+};
+export const ThemeTaskListItem = createThemeSliceKey<ThemeRenderer, ThemeOptions>('task-list-item');
+export type ThemeTaskListItemType = typeof ThemeTaskListItem;
+
 export const taskListItem = createNode<Keys>((utils) => {
     const id = 'task_list_item';
-    const style = utils.getStyle(
-        (themeManager, { css }) =>
-            css`
-                list-style-type: none;
-                position: relative;
-
-                & > div {
-                    overflow: hidden;
-                    padding: 0 2px;
-                }
-
-                label {
-                    position: absolute;
-                    top: 0;
-                    left: -2rem;
-                    display: inline-block;
-                    width: 1.5rem;
-                    height: 1.5rem;
-                    margin: 0.5rem 0;
-                    input {
-                        visibility: hidden;
-                    }
-                }
-                label:before {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    border-radius: ${themeManager.get(ThemeSize, 'radius')};
-                }
-                label:hover:before {
-                    background: ${themeManager.get(ThemeColor, ['background'])};
-                }
-                &[data-checked='true'] {
-                    label {
-                        color: ${themeManager.get(ThemeColor, ['primary'])};
-                    }
-                }
-                &[data-checked='false'] {
-                    label {
-                        color: ${themeManager.get(ThemeColor, ['solid', 0.87])};
-                    }
-                }
-                .paragraph {
-                    margin: 0.5rem 0;
-                }
-            `,
-    );
+    utils.themeManager.inject(ThemeTaskListItem);
 
     return {
         id,
@@ -129,7 +85,7 @@ export const taskListItem = createNode<Keys>((utils) => {
                     {
                         'data-type': 'task-item',
                         'data-checked': node.attrs['checked'] ? 'true' : 'false',
-                        class: utils.getClassName(node.attrs, 'task-list-item', style),
+                        class: utils.getClassName(node.attrs, 'task-list-item'),
                     },
                     checkbox,
                     ['span', { class: utils.getClassName(node.attrs, 'task-list-item_body') }, 0],
@@ -171,81 +127,36 @@ export const taskListItem = createNode<Keys>((utils) => {
             [SupportedKeys.LiftListItem]: createShortcut(LiftTaskListItem, 'Mod-['),
             [SupportedKeys.TaskList]: createShortcut(TurnIntoTaskList, 'Mod-Alt-9'),
         },
-        view: (ctx) => (node, view, getPos) => {
-            const createIcon = (icon: Icon) => ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement;
+        view: () => (node, view, getPos) => {
+            let currNode = node;
 
-            const listItem = document.createElement('li');
-            const checkboxWrapper = document.createElement('label');
-            const checkboxStyler = document.createElement('span');
-            const checkbox = document.createElement('input');
-            const content = document.createElement('div');
-
-            let icon = createIcon('unchecked');
-            checkboxWrapper.appendChild(icon);
-            const setIcon = (name: Icon) => {
-                const nextIcon = createIcon(name);
-                checkboxWrapper.replaceChild(nextIcon, icon);
-                icon = nextIcon;
-            };
-
-            checkboxWrapper.contentEditable = 'false';
-            checkbox.type = 'checkbox';
-            const onChange = (event: Event) => {
-                const target = event.target;
-                if (!(target instanceof HTMLInputElement)) return;
-
-                if (!view.editable) {
-                    checkbox.checked = !checkbox.checked;
-
-                    return;
-                }
-
-                const { tr } = view.state;
-
-                view.dispatch(
-                    tr.setNodeMarkup(getPos(), undefined, {
-                        checked: target.checked,
-                    }),
-                );
-            };
-            checkbox.addEventListener('change', onChange);
-
-            listItem.dataset['checked'] = node.attrs['checked'];
-            if (node.attrs['checked']) {
-                checkbox.setAttribute('checked', 'checked');
-            }
-
-            checkboxWrapper.append(checkbox, checkboxStyler);
-            listItem.append(checkboxWrapper, content);
-
-            const attributes = {
-                'data-type': 'task-item',
-                'data-checked': node.attrs['checked'] ? 'true' : 'false',
-                class: utils.getClassName(node.attrs, 'task-list-item', style),
-            };
-            Object.entries(attributes).forEach(([key, value]) => {
-                listItem.setAttribute(key, value);
+            const renderer = utils.themeManager.get(ThemeTaskListItem, {
+                editable: () => view.editable,
+                onChange: (selected) => {
+                    const { tr } = view.state;
+                    view.dispatch(
+                        tr.setNodeMarkup(getPos(), undefined, {
+                            checked: selected,
+                        }),
+                    );
+                },
             });
-            setIcon(node.attrs['checked'] ? 'checked' : 'unchecked');
+
+            if (!renderer) return {};
+
+            const { dom, contentDOM, onUpdate } = renderer;
+            onUpdate(currNode);
 
             return {
-                dom: listItem,
-                contentDOM: content,
+                dom,
+                contentDOM,
                 update: (updatedNode) => {
                     if (updatedNode.type.name !== id) return false;
 
-                    listItem.dataset['checked'] = updatedNode.attrs['checked'];
-                    if (updatedNode.attrs['checked']) {
-                        checkbox.setAttribute('checked', 'checked');
-                    } else {
-                        checkbox.removeAttribute('checked');
-                    }
-                    setIcon(updatedNode.attrs['checked'] ? 'checked' : 'unchecked');
+                    currNode = updatedNode;
+                    onUpdate(currNode);
 
                     return true;
-                },
-                destroy: () => {
-                    checkbox.removeEventListener('change', onChange);
                 },
             };
         },
