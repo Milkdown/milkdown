@@ -79,7 +79,20 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
                 doc,
                 plugins: [
                     history(),
-                    keymap(baseKeymap),
+                    keymap({
+                        ...baseKeymap,
+                        'Mod-Enter': (_, dispatch) => {
+                            if (dispatch) {
+                                const { state } = outerView;
+                                const { to } = state.selection;
+                                const tr = state.tr.replaceWith(to, to, state.schema.nodes.paragraph.createAndFill());
+                                outerView.dispatch(tr.setSelection(TextSelection.create(tr.doc, to)));
+                                outerView.focus();
+                            }
+
+                            return true;
+                        },
+                    }),
                     keymap({
                         'Mod-z': undo,
                         'Mod-y': redo,

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { InputRule, NodeSelection, setBlockType } from '@milkdown/prose';
 import { ThemeInnerEditorType } from '@milkdown/theme-pack-helper';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
@@ -153,7 +153,15 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
                 },
             };
         },
-        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType, () => ({ id: getId() }))],
+        inputRules: (nodeType) => [
+            new InputRule(inputRegex, (state, _match, start, end) => {
+                const $start = state.doc.resolve(start);
+                if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)) return null;
+                const tr = state.tr.delete(start, end).setBlockType(start, start, nodeType, { id: getId() });
+
+                return tr.setSelection(NodeSelection.create(tr.doc, start - 1));
+            }),
+        ],
         remarkPlugins: () => [remarkMermaid],
     };
 });

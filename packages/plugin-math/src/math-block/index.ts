@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { textblockTypeInputRule } from '@milkdown/prose';
+import { InputRule, NodeSelection } from '@milkdown/prose';
 import { ThemeInnerEditorType } from '@milkdown/theme-pack-helper';
 import { createNode } from '@milkdown/utils';
 import katex from 'katex';
@@ -133,6 +133,14 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                 },
             };
         },
-        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType)],
+        inputRules: (nodeType) => [
+            new InputRule(inputRegex, (state, _match, start, end) => {
+                const $start = state.doc.resolve(start);
+                if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)) return null;
+                const tr = state.tr.delete(start, end).setBlockType(start, start, nodeType);
+
+                return tr.setSelection(NodeSelection.create(tr.doc, start - 1));
+            }),
+        ],
     };
 });
