@@ -71,7 +71,7 @@ body {
         height: calc(100vh - 11.5rem - 20px);
 
         @mixin query 72rem {
-            height: calc(100vh - 11.5rem - 42px);
+            height: calc(100vh - 11.5rem - 44px);
         }
     }
 
