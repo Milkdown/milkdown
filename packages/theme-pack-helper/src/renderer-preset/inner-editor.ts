@@ -2,6 +2,8 @@
 import { createThemeSliceKey, Emotion, getPalette, ThemeFont, ThemeManager, ThemeSize } from '@milkdown/core';
 import {
     baseKeymap,
+    chainCommands,
+    deleteSelection,
     EditorState,
     EditorView,
     history,
@@ -81,6 +83,20 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
                     history(),
                     keymap({
                         ...baseKeymap,
+                        Backspace: chainCommands(deleteSelection, (state) => {
+                            if (!state.selection.empty) {
+                                return false;
+                            }
+                            if (innerView && innerView.state.doc.textContent.length > 0) {
+                                return false;
+                            }
+                            const { dispatch, state: outerState } = outerView;
+                            const p = outerState.schema.nodes['paragraph'].create();
+                            const tr = outerState.tr.replaceSelectionWith(p);
+                            dispatch(tr.setSelection(TextSelection.create(tr.doc, tr.selection.from - 2)));
+                            outerView.focus();
+                            return true;
+                        }),
                         'Mod-Enter': (_, dispatch) => {
                             if (dispatch) {
                                 const { state } = outerView;
