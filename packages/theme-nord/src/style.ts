@@ -282,6 +282,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             margin-right: auto;
             box-sizing: border-box;
 
+
             color: ${neutral};
             background: ${surface};
             font-family: ${manager.get(ThemeFont, 'typography')};
@@ -291,6 +292,8 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             ${selection};
 
             .editor {
+                user-modify: read-write-plaintext-only;
+                
                 ${editorLayout};
 
                 ${paragraph};
