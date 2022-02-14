@@ -283,14 +283,12 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/transformer': workspace:*
-      remark: ^14.0.1
       tslib: ^2.3.1
     dependencies:
       '@milkdown/ctx': link:../ctx
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
       '@milkdown/transformer': link:../transformer
-      remark: 14.0.2
       tslib: 2.3.1
     devDependencies:
       '@milkdown/prose': link:../prose

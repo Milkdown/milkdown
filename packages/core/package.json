@@ -36,7 +36,6 @@
         "@milkdown/transformer": "workspace:*",
         "@milkdown/design-system": "workspace:*",
         "@milkdown/exception": "workspace:*",
-        "remark": "^14.0.1",
         "tslib": "^2.3.1"
     }
 }
