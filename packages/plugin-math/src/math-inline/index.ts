@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { Color, createCmd, createCmdKey, ThemeColor, ThemeSize } from '@milkdown/core';
 import { findSelectedNodeOfType, InputRule, NodeSelection } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import katex from 'katex';
@@ -19,13 +19,15 @@ export const mathInline = createNode<string, Options>((utils, options) => {
         error: '(error)',
         ...(options?.placeholder ?? {}),
     };
-    const style = utils.getStyle(({ size, palette }, { css }) => {
+    const style = utils.getStyle((themeManager, { css }) => {
+        const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+        const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
         return css`
             font-size: unset;
 
             &.ProseMirror-selectednode {
                 outline: none;
-                border: ${size.lineWidth} solid ${palette('line')};
+                border: ${lineWidth} solid ${palette('line')};
             }
         `;
     });

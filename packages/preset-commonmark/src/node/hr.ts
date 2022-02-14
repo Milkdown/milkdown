@@ -6,19 +6,12 @@ import { createNode } from '@milkdown/utils';
 const id = 'hr';
 export const InsertHr = createCmdKey<string>('InsertHr');
 export const hr = createNode((utils) => {
-    const style = utils.getStyle(
-        (themeTool, { css }) => css`
-            height: ${themeTool.size.lineWidth};
-            background-color: ${themeTool.palette('line')};
-            border-width: 0;
-        `,
-    );
     return {
         id,
         schema: () => ({
             group: 'block',
             parseDOM: [{ tag: 'hr' }],
-            toDOM: (node) => ['hr', { class: utils.getClassName(node.attrs, id, style) }],
+            toDOM: (node) => ['hr', { class: utils.getClassName(node.attrs, id) }],
             parseMarkdown: {
                 match: ({ type }) => type === 'thematicBreak',
                 runner: (state, _, type) => {

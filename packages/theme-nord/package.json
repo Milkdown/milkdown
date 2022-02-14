@@ -7,9 +7,9 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "vite build --watch",
+        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
         "tsc": "tsc --noEmit",
-        "build": "vite build"
+        "build": "vite build && tsc --emitDeclarationOnly"
     },
     "files": [
         "lib",
@@ -20,6 +20,9 @@
         "milkdown theme",
         "nord"
     ],
+    "dependencies": {
+        "@milkdown/theme-pack-helper": "workspace:*"
+    },
     "devDependencies": {
         "@milkdown/prose": "workspace:*",
         "@milkdown/core": "workspace:*",

@@ -1,11 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { InputRule, NodeSelection, setBlockType } from '@milkdown/prose';
+import { ThemeInnerEditorType } from '@milkdown/theme-pack-helper';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
 
 import { remarkMermaid } from '.';
-import { createInnerEditor } from './inner-editor';
 import { getStyle } from './style';
 import { getId } from './utility';
 
@@ -21,8 +21,8 @@ export type Options = {
 export const TurnIntoDiagram = createCmdKey('TurnIntoDiagram');
 
 export const diagramNode = createNode<string, Options>((utils, options) => {
-    const { mermaidVariables, codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(utils);
-    const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables()} }}}%%\n`;
+    const mermaidVariables = getStyle(utils.themeManager);
+    const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables} }}}%%\n`;
 
     const id = 'diagram';
     mermaid.startOnLoad = false;
@@ -100,111 +100,68 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
         }),
         commands: (nodeType) => [createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId() }))],
         view: () => (node, view, getPos) => {
-            const innerEditor = createInnerEditor(view, getPos);
-
             const currentId = getId(node);
             let currentNode = node;
-            const dom = document.createElement('div');
+            const renderer = utils.themeManager.get<ThemeInnerEditorType>('inner-editor', {
+                view,
+                getPos,
+                render: (code) => {
+                    try {
+                        if (!code) {
+                            renderer.preview.innerHTML = placeholder.empty;
+                        } else {
+                            renderer.preview.innerHTML = mermaid.render(currentId, header + code);
+                        }
+                    } catch {
+                        const error = document.getElementById('d' + currentId);
+                        if (error) {
+                            error.remove();
+                        }
+                        renderer.preview.innerHTML = placeholder.error;
+                    } finally {
+                        dom.appendChild(renderer.preview);
+                    }
+                },
+            });
+            if (!renderer) return {};
+
+            const { onUpdate, editor, dom, onFocus, onBlur, onDestroy, stopEvent } = renderer;
+            editor.dataset['type'] = id;
             dom.classList.add('mermaid', 'diagram');
-            const code = document.createElement('div');
-            code.dataset['type'] = id;
-            code.dataset['value'] = node.attrs['value'];
-            if (codeStyle && hideCodeStyle) {
-                code.classList.add(codeStyle, hideCodeStyle);
-            }
 
-            const rendered = document.createElement('div');
-            rendered.id = currentId;
-            if (previewPanelStyle) {
-                rendered.classList.add(previewPanelStyle);
-            }
-
-            dom.append(code);
-
-            const render = (code: string) => {
-                try {
-                    if (!code) {
-                        rendered.innerHTML = placeholder.empty;
-                    } else {
-                        const svg = mermaid.render(currentId, header + code);
-                        rendered.innerHTML = svg;
-                    }
-                } catch {
-                    const error = document.getElementById('d' + currentId);
-                    if (error) {
-                        error.remove();
-                    }
-                    rendered.innerHTML = placeholder.error;
-                } finally {
-                    dom.appendChild(rendered);
-                }
-            };
-
-            render(node.attrs['value']);
+            onUpdate(currentNode, true);
 
             return {
                 dom,
                 update: (updatedNode) => {
                     if (!updatedNode.sameMarkup(currentNode)) return false;
                     currentNode = updatedNode;
-
-                    const innerView = innerEditor.innerView();
-                    if (innerView) {
-                        const state = innerView.state;
-                        const start = updatedNode.content.findDiffStart(state.doc.content);
-                        if (start !== null && start !== undefined) {
-                            const diff = updatedNode.content.findDiffEnd(state.doc.content);
-                            if (diff) {
-                                let { a: endA, b: endB } = diff;
-                                const overlap = start - Math.min(endA, endB);
-                                if (overlap > 0) {
-                                    endA += overlap;
-                                    endB += overlap;
-                                }
-                                innerView.dispatch(
-                                    state.tr.replace(start, endB, node.slice(start, endA)).setMeta('fromOutside', true),
-                                );
-                            }
-                        }
-                    }
-
-                    const newVal = updatedNode.content.firstChild?.text || '';
-                    code.dataset['value'] = newVal;
-
-                    render(newVal);
+                    onUpdate(currentNode, false);
 
                     return true;
                 },
                 selectNode: () => {
-                    if (!view.editable) return;
-                    if (hideCodeStyle) {
-                        code.classList.remove(hideCodeStyle);
-                    }
-                    innerEditor.openEditor(code, currentNode);
-                    dom.classList.add('ProseMirror-selectednode');
+                    onFocus(currentNode);
                 },
                 deselectNode: () => {
-                    if (hideCodeStyle) {
-                        code.classList.add(hideCodeStyle);
-                    }
-                    innerEditor.closeEditor();
-                    dom.classList.remove('ProseMirror-selectednode');
+                    onBlur(currentNode);
                 },
-                stopEvent: (event) => {
-                    const innerView = innerEditor.innerView();
-                    const { target } = event;
-                    const isChild = target && innerView?.dom.contains(target as Element);
-                    return !!(innerView && isChild);
-                },
+                stopEvent,
                 ignoreMutation: () => true,
                 destroy() {
-                    rendered.remove();
-                    code.remove();
-                    dom.remove();
+                    onDestroy();
                 },
             };
         },
-        inputRules: (nodeType) => [textblockTypeInputRule(inputRegex, nodeType, () => ({ id: getId() }))],
+        inputRules: (nodeType) => [
+            new InputRule(inputRegex, (state, _match, start, end) => {
+                const $start = state.doc.resolve(start);
+                if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)) return null;
+                const tr = state.tr.delete(start, end).setBlockType(start, start, nodeType, { id: getId() });
+
+                return tr.setSelection(NodeSelection.create(tr.doc, start - 1));
+            }),
+        ],
         remarkPlugins: () => [remarkMermaid],
     };
 });

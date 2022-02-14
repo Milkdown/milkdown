@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady } from '@milkdown/core';
+import { Ctx, MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady, ThemeReady } from '@milkdown/core';
 import { NodeType } from '@milkdown/prose';
 
 export type $Node = MilkdownPlugin & {
@@ -10,6 +10,7 @@ export type $Node = MilkdownPlugin & {
 
 export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
     const plugin: MilkdownPlugin = () => async (ctx) => {
+        await ctx.wait(ThemeReady);
         const nodeSchema = schema(ctx);
         ctx.update(nodesCtx, (ns) => [...ns, [id, nodeSchema] as [string, NodeSchema]]);
 

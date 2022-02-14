@@ -21,11 +21,11 @@
         width: unset;
         box-sizing: border-box;
         min-height: 30rem;
-        padding: 3.125rem 0rem;
+        padding: 3.125rem 0;
         border: 1px solid transparent;
         overflow: auto;
         flex: 1 1 40%;
-        height: calc(100vh - 14.2rem);
+        height: calc(100vh - 11.5rem + 8px);
     }
     .milk {
         width: 50%;

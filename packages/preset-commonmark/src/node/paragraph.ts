@@ -11,21 +11,13 @@ export const TurnIntoText = createCmdKey('TurnIntoText');
 
 const id = 'paragraph';
 export const paragraph = createNode<Keys>((utils) => {
-    const style = utils.getStyle((_, { css }) => {
-        return css`
-            font-size: 1rem;
-            line-height: 1.5;
-            letter-spacing: 0.5px;
-        `;
-    });
-
     return {
         id,
         schema: () => ({
             content: 'inline*',
             group: 'block',
             parseDOM: [{ tag: 'p' }],
-            toDOM: (node) => ['p', { class: utils.getClassName(node.attrs, id, style) }, 0],
+            toDOM: (node) => ['p', { class: utils.getClassName(node.attrs, id) }, 0],
             parseMarkdown: {
                 match: (node) => node.type === 'paragraph',
                 runner: (state, node, type) => {

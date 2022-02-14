@@ -7,10 +7,10 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "vite build --watch",
+        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
         "test": "vitest",
         "tsc": "tsc --noEmit",
-        "build": "vite build"
+        "build": "vite build && tsc --emitDeclarationOnly"
     },
     "files": [
         "lib",
@@ -36,7 +36,6 @@
         "@milkdown/transformer": "workspace:*",
         "@milkdown/design-system": "workspace:*",
         "@milkdown/exception": "workspace:*",
-        "remark": "^14.0.1",
         "tslib": "^2.3.1"
     }
 }

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx, Ctx, schemaCtx, themeToolCtx } from '@milkdown/core';
+import { commandsCtx, Ctx, schemaCtx, themeManagerCtx } from '@milkdown/core';
 import { EditorState, Node } from '@milkdown/prose';
 
 import { WrappedAction } from './item';
@@ -28,77 +28,77 @@ export const defaultActions = (ctx: Ctx, input = '/'): WrappedAction[] => {
     const actions: Array<WrappedAction & { keyword: string[]; typeName: string }> = [
         {
             id: 'h1',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Large Heading', 'h1'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Large Heading', 'h1'),
             command: () => ctx.get(commandsCtx).callByName('TurnIntoHeading', 1),
             keyword: ['h1', 'large heading'],
             typeName: 'heading',
         },
         {
             id: 'h2',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Medium Heading', 'h2'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Medium Heading', 'h2'),
             command: () => ctx.get(commandsCtx).callByName('TurnIntoHeading', 2),
             keyword: ['h2', 'medium heading'],
             typeName: 'heading',
         },
         {
             id: 'h3',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Small Heading', 'h3'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Small Heading', 'h3'),
             command: () => ctx.get(commandsCtx).callByName('TurnIntoHeading', 3),
             keyword: ['h3', 'small heading'],
             typeName: 'heading',
         },
         {
             id: 'bulletList',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Bullet List', 'bulletList'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Bullet List', 'bulletList'),
             command: () => ctx.get(commandsCtx).callByName('WrapInBulletList'),
             keyword: ['bullet list', 'ul'],
             typeName: 'bullet_list',
         },
         {
             id: 'orderedList',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Ordered List', 'orderedList'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Ordered List', 'orderedList'),
             command: () => ctx.get(commandsCtx).callByName('WrapInOrderedList'),
             keyword: ['ordered list', 'ol'],
             typeName: 'ordered_list',
         },
         {
             id: 'taskList',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Task List', 'taskList'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Task List', 'taskList'),
             command: () => ctx.get(commandsCtx).callByName('TurnIntoTaskList'),
             keyword: ['task list', 'task'],
             typeName: 'task_list_item',
         },
         {
             id: 'image',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Image', 'image'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Image', 'image'),
             command: () => ctx.get(commandsCtx).callByName('InsertImage'),
             keyword: ['image'],
             typeName: 'image',
         },
         {
             id: 'blockquote',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Quote', 'quote'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Quote', 'quote'),
             command: () => ctx.get(commandsCtx).callByName('WrapInBlockquote'),
             keyword: ['quote', 'blockquote'],
             typeName: 'blockquote',
         },
         {
             id: 'table',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Table', 'table'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Table', 'table'),
             command: () => ctx.get(commandsCtx).callByName('InsertTable'),
             keyword: ['table'],
             typeName: 'table',
         },
         {
             id: 'code',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Code Fence', 'code'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Code Fence', 'code'),
             command: () => ctx.get(commandsCtx).callByName('TurnIntoCodeFence'),
             keyword: ['code'],
             typeName: 'fence',
         },
         {
             id: 'divider',
-            dom: createDropdownItem(ctx.get(themeToolCtx), 'Divide Line', 'divider'),
+            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Divide Line', 'divider'),
             command: () => ctx.get(commandsCtx).callByName('InsertHr'),
             keyword: ['divider', 'hr'],
             typeName: 'hr',

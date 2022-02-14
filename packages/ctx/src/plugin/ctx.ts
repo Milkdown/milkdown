@@ -20,15 +20,15 @@ export class Ctx {
      * @param slice - The slice needs to be used.
      * @returns The slice instance.
      */
-    readonly use = <T>(slice: Slice<T>): $Slice<T> => this.#container.getSlice(slice);
+    readonly use = <T, N extends string>(slice: Slice<T, N>): $Slice<T, N> => this.#container.getSlice(slice);
 
     /**
      * Get the instance value by string name.
      *
-     * @param slice - The slice needs to be used.
+     * @param name - The name of slice needs to be used.
      * @returns The slice value.
      */
-    readonly useByName = (name: string) => this.#container.getSliceByName(name);
+    readonly useByName = <N extends string>(name: N) => this.#container.getSliceByName(name);
 
     /**
      * Get the slice value.
@@ -36,18 +36,19 @@ export class Ctx {
      * @param slice - The slice needs to be used.
      * @returns The slice value.
      */
-    readonly get = <T>(slice: Slice<T>) => this.use(slice).get();
+    readonly get = <T, N extends string>(slice: Slice<T, N>) => this.use(slice).get();
 
     /**
      * Set the slice value.
      *
      * @param slice - The slice needs to be used.
+     * @param value - The default value.
      * @returns
      */
-    readonly set = <T>(slice: Slice<T>, value: T) => this.use(slice).set(value);
+    readonly set = <T, N extends string>(slice: Slice<T, N>, value: T) => this.use(slice).set(value);
 
     /**
-     * Update the slice by it's current value.
+     * Update the slice by its current value.
      *
      * @example
      * ```
@@ -58,7 +59,8 @@ export class Ctx {
      * @param updater - The update function, gets current value as parameter and returns new value.
      * @returns
      */
-    readonly update = <T>(slice: Slice<T>, updater: (prev: T) => T) => this.use(slice).update(updater);
+    readonly update = <T, N extends string>(slice: Slice<T, N>, updater: (prev: T) => T) =>
+        this.use(slice).update(updater);
 
     /**
      * Get the timer instance.

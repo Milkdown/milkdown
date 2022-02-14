@@ -7,10 +7,12 @@ import { viewCtx } from './init';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
-export const editorViewCtx = createSlice<EditorView>({} as EditorView, 'editorView');
-export const editorViewOptionsCtx = createSlice<EditorOptions>({}, 'editorViewOptions');
-export const rootCtx = createSlice<Node | undefined | null | string>(document.body, 'root');
-export const editorViewTimerCtx = createSlice<Timer[]>([], 'editorViewTimer');
+type RootType = Node | undefined | null | string;
+
+export const editorViewCtx = createSlice({} as EditorView, 'editorView');
+export const editorViewOptionsCtx = createSlice({} as EditorOptions, 'editorViewOptions');
+export const rootCtx = createSlice(document.body as RootType, 'root');
+export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer');
 
 export const EditorViewReady = createTimer('EditorViewReady');
 

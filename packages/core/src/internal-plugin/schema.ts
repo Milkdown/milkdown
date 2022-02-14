@@ -14,8 +14,8 @@ import { InitReady, remarkCtx, remarkPluginsCtx } from '.';
 
 export const SchemaReady = createTimer('schemaReady');
 
-export const schemaCtx = createSlice<Schema>({} as Schema, 'schema');
-export const schemaTimerCtx = createSlice<Timer[]>([], 'schemaTimer');
+export const schemaCtx = createSlice({} as Schema, 'schema');
+export const schemaTimerCtx = createSlice([] as Timer[], 'schemaTimer');
 
 export type NodeSchema = {
     readonly toMarkdown: NodeSerializerSpec;
@@ -23,13 +23,13 @@ export type NodeSchema = {
     readonly priority?: number;
 } & Readonly<NodeSpec>;
 
-export const nodesCtx = createSlice<[string, NodeSchema][]>([], 'nodes');
+export const nodesCtx = createSlice([] as Array<[string, NodeSchema]>, 'nodes');
 
 export type MarkSchema = {
     readonly toMarkdown: MarkSerializerSpec;
     readonly parseMarkdown: MarkParserSpec;
 } & Readonly<MarkSpec>;
-export const marksCtx = createSlice<[string, MarkSchema][]>([], 'marks');
+export const marksCtx = createSlice([] as Array<[string, MarkSchema]>, 'marks');
 
 const extendPriority = <T extends NodeSchema | MarkSchema>(x: T): T => {
     return {

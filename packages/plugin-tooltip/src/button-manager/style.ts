@@ -1,18 +1,19 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Emotion, ThemeTool } from '@milkdown/core';
+import { Color, Emotion, ThemeBorder, ThemeColor, ThemeManager, ThemeShadow, ThemeSize } from '@milkdown/core';
 
-export const injectStyle = (themeTool: ThemeTool, { css }: Emotion) => {
-    const { palette, mixin, size } = themeTool;
+export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
+    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+    const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
     return css`
         display: inline-flex;
         cursor: pointer;
         justify-content: space-evenly;
         position: absolute;
-        border-radius: ${size.radius};
+        border-radius: ${themeManager.get(ThemeSize, 'radius')};
         z-index: 2;
 
-        ${mixin.border?.()};
-        ${mixin.shadow?.()};
+        ${themeManager.get(ThemeBorder, undefined)}
+        ${themeManager.get(ThemeShadow, undefined)}
 
         overflow: hidden;
         background: ${palette('surface')};
@@ -35,8 +36,8 @@ export const injectStyle = (themeTool: ThemeTool, { css }: Emotion) => {
                 content: '';
                 position: absolute;
                 top: 0;
-                right: calc(-0.5 * ${size.lineWidth});
-                width: ${size.lineWidth};
+                right: calc(-0.5 * ${lineWidth});
+                width: ${lineWidth};
                 bottom: 0;
                 background: ${palette('line')};
             }

@@ -1,6 +1,16 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { CmdKey, commandsCtx, Ctx } from '@milkdown/core';
+import {
+    CmdKey,
+    Color,
+    commandsCtx,
+    Ctx,
+    ThemeBorder,
+    ThemeColor,
+    ThemeIcon,
+    ThemeShadow,
+    ThemeSize,
+} from '@milkdown/core';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -21,14 +31,15 @@ export type SelectConfig<T = any> = {
 } & CommonConfig;
 
 export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
-    const selectStyle = utils.getStyle((themeTool, { css }) => {
+    const selectStyle = utils.getStyle((themeManager, { css }) => {
+        const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
         return css`
             flex-shrink: 0;
             font-weight: 500;
-            font-size: 0.875rem;
+            font-size: 0.875em;
 
-            ${themeTool.mixin.border('right')};
-            ${themeTool.mixin.border('left')};
+            ${themeManager.get(ThemeBorder, 'right')}
+            ${themeManager.get(ThemeBorder, 'left')}
 
             .menu-selector {
                 border: 0;
@@ -38,12 +49,12 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 text-align: left;
                 justify-content: space-between;
                 align-items: center;
-                color: ${themeTool.palette('neutral', 0.87)};
+                color: ${palette('neutral', 0.87)};
                 display: flex;
-                padding: 0.25rem 0.5rem;
-                margin: 0.5rem;
-                background: ${themeTool.palette('secondary', 0.12)};
-                width: 10.375rem;
+                padding: 0.25em 0.5em;
+                margin: 0.5em;
+                background: ${palette('secondary', 0.12)};
+                width: 10.375em;
 
                 &:disabled {
                     display: none;
@@ -57,14 +68,14 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
             }
 
             .menu-selector-list {
-                width: calc(12.375rem);
+                width: calc(12.375em);
                 position: absolute;
                 top: 3rem;
-                background: ${themeTool.palette('surface')};
-                ${themeTool.mixin.border()};
-                ${themeTool.mixin.shadow()};
-                border-bottom-left-radius: ${themeTool.size.radius};
-                border-bottom-right-radius: ${themeTool.size.radius};
+                background: ${palette('surface')};
+                ${themeManager.get(ThemeBorder, undefined)}
+                ${themeManager.get(ThemeShadow, undefined)}
+                border-bottom-left-radius: ${themeManager.get(ThemeSize, 'radius')};
+                border-bottom-right-radius: ${themeManager.get(ThemeSize, 'radius')};
                 z-index: 3;
             }
 
@@ -78,11 +89,11 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 padding: 0.75rem 1rem;
                 line-height: 1.5rem;
                 width: 100%;
-                color: ${themeTool.palette('neutral', 0.87)};
+                color: ${palette('neutral', 0.87)};
 
                 &:hover {
-                    background: ${themeTool.palette('secondary', 0.12)};
-                    color: ${themeTool.palette('primary')};
+                    background: ${palette('secondary', 0.12)};
+                    color: ${palette('primary')};
                 }
             }
 
@@ -122,7 +133,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
     selectorValue.classList.add('menu-selector-value');
     selectorValue.textContent = config.text;
 
-    const selectorButton = utils.themeTool.slots.icon('downArrow');
+    const selectorButton = utils.themeManager.get(ThemeIcon, 'downArrow')?.dom as HTMLElement;
     selectorButton.setAttribute('aria-hidden', 'true');
 
     selectorWrapper.appendChild(selector);

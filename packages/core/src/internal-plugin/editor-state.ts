@@ -21,10 +21,10 @@ import { SerializerReady } from './serializer';
 type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: JSONRecord };
 type StateOptions = Parameters<typeof EditorState.create>[0];
 
-export const defaultValueCtx = createSlice<DefaultValue>('', 'defaultValue');
-export const editorStateCtx = createSlice<EditorState>({} as EditorState, 'editorState');
-export const editorStateOptionsCtx = createSlice<StateOptions>({}, 'stateOptions');
-export const editorStateTimerCtx = createSlice<Timer[]>([], 'editorStateTimer');
+export const defaultValueCtx = createSlice('' as DefaultValue, 'defaultValue');
+export const editorStateCtx = createSlice({} as EditorState, 'editorState');
+export const editorStateOptionsCtx = createSlice({} as StateOptions, 'stateOptions');
+export const editorStateTimerCtx = createSlice([] as Timer[], 'editorStateTimer');
 
 export const EditorStateReady = createTimer('EditorStateReady');
 

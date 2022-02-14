@@ -1,15 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import {
-    ConfigReady,
-    Ctx,
-    MilkdownPlugin,
-    NodeSchema,
-    nodesCtx,
-    schemaCtx,
-    SchemaReady,
-    viewCtx,
-} from '@milkdown/core';
+import { Ctx, MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady, ThemeReady, viewCtx } from '@milkdown/core';
 import { NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
@@ -37,7 +28,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
             (options): MilkdownPlugin =>
                 () =>
                 async (ctx) => {
-                    await ctx.wait(ConfigReady);
+                    await ctx.wait(ThemeReady);
                     const utils = getUtils(ctx, options);
 
                     const plugin = factory(utils, options);

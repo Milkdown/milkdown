@@ -6,8 +6,8 @@ import { createSerializer } from '@milkdown/transformer';
 import { remarkCtx } from './init';
 import { marksCtx, nodesCtx, schemaCtx, SchemaReady } from './schema';
 
-export const serializerCtx = createSlice<(node: ProsemirrorNode) => string>(() => '', 'serializer');
-export const serializerTimerCtx = createSlice<Timer[]>([], 'serializerTimer');
+export const serializerCtx = createSlice<(node: ProsemirrorNode) => string, 'serializer'>(() => '', 'serializer');
+export const serializerTimerCtx = createSlice([] as Timer[], 'serializerTimer');
 
 export const SerializerReady = createTimer('SerializerReady');
 

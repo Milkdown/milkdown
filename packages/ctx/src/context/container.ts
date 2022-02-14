@@ -4,7 +4,7 @@ import { contextNotFound } from '@milkdown/exception';
 import { $Slice, Slice } from './slice';
 
 export type Container = {
-    readonly getSlice: <T>(slice: Slice<T>) => $Slice<T>;
+    readonly getSlice: <T, N extends string>(slice: Slice<T, N>) => $Slice<T, N>;
     readonly getSliceByName: <T>(name: string) => $Slice<T> | null;
     readonly sliceMap: Map<symbol, $Slice>;
 };
@@ -12,12 +12,12 @@ export type Container = {
 export const createContainer = (): Container => {
     const sliceMap: Map<symbol, $Slice> = new Map();
 
-    const getSlice = <T>(slice: Slice<T>): $Slice<T> => {
+    const getSlice = <T, N extends string>(slice: Slice<T, N>): $Slice<T, N> => {
         const context = sliceMap.get(slice.id);
         if (!context) {
             throw contextNotFound(slice.sliceName);
         }
-        return context as $Slice<T>;
+        return context as $Slice<T, N>;
     };
 
     const getSliceByName = <T>(sliceName: string): $Slice<T> | null => {

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { schemaCtx, themeToolCtx } from '@milkdown/core';
+import { schemaCtx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
 import {
     Decoration,
     DecorationSet,
@@ -44,8 +44,11 @@ export const uploadPlugin = createPlugin<string, Options>((_, options) => {
                         }
                         if (action.add) {
                             const widget = document.createElement('span');
-                            const { icon } = ctx.get(themeToolCtx).slots;
-                            widget.appendChild(icon('loading'));
+                            const loadingIcon = ctx.get(themeManagerCtx).get(ThemeIcon, 'loading');
+                            if (!loadingIcon) {
+                                throw new Error('Loading icon is not found');
+                            }
+                            widget.appendChild(loadingIcon.dom);
                             const decoration = Decoration.widget(action.add.pos, widget, { id: action.add.id });
                             return _set.add(tr.doc, [decoration]);
                         }

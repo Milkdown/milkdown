@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, themeToolCtx } from '@milkdown/core';
+import { Ctx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
 import { Decoration, WidgetDecorationSpec } from '@milkdown/prose';
 
 import { CellPos, selectLine, selectTable } from '../utils';
@@ -35,11 +35,11 @@ export function createWidget(
     index: number,
 ): Decoration<WidgetDecorationSpec>;
 export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos, index = 0) {
-    const widget = Decoration.widget(cell.pos + 1, (view) => {
+    return Decoration.widget(cell.pos + 1, (view) => {
         const div = document.createElement('div');
         div.classList.add(calculateClassName(pos));
         if (pos === ToolTipPos.Point) {
-            div.appendChild(ctx.get(themeToolCtx).slots.icon('select'));
+            div.appendChild(ctx.get(themeManagerCtx).get(ThemeIcon, 'select')?.dom as HTMLElement);
         }
         div.addEventListener('mousedown', (e) => {
             if (!view) return;
@@ -62,5 +62,4 @@ export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos, index = 0
         });
         return div;
     });
-    return widget;
 }

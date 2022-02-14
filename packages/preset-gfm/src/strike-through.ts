@@ -9,15 +9,8 @@ type Keys = SupportedKeys['StrikeThrough'];
 
 export const ToggleStrikeThrough = createCmdKey('ToggleStrikeThrough');
 
+const id = 'strike_through';
 export const strikeThrough = createMark<Keys>((utils) => {
-    const id = 'strike_through';
-    const style = utils.getStyle(
-        (themeTool, { css }) =>
-            css`
-                text-decoration-color: ${themeTool.palette('secondary')};
-            `,
-    );
-
     return {
         id,
         schema: () => ({
@@ -25,7 +18,7 @@ export const strikeThrough = createMark<Keys>((utils) => {
                 { tag: 'del' },
                 { style: 'text-decoration', getAttrs: (value) => (value === 'line-through') as false },
             ],
-            toDOM: (mark) => ['del', { class: utils.getClassName(mark.attrs, 'strike-through', style) }],
+            toDOM: (mark) => ['del', { class: utils.getClassName(mark.attrs, 'strike-through') }],
             parseMarkdown: {
                 match: (node) => node.type === 'delete',
                 runner: (state, node, markType) => {

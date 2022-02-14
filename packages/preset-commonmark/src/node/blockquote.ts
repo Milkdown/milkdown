@@ -12,19 +12,6 @@ const id = 'blockquote';
 export const WrapInBlockquote = createCmdKey('WrapInBlockquote');
 
 export const blockquote = createNode<Keys>((utils) => {
-    const style = utils.getStyle(
-        (themeTool, { css }) =>
-            css`
-                padding-left: 1.875rem;
-                line-height: 1.75rem;
-                border-left: 4px solid ${themeTool.palette('primary')};
-                * {
-                    font-size: 1rem;
-                    line-height: 1.5rem;
-                }
-            `,
-    );
-
     return {
         id,
         schema: () => ({
@@ -32,7 +19,7 @@ export const blockquote = createNode<Keys>((utils) => {
             group: 'block',
             defining: true,
             parseDOM: [{ tag: 'blockquote' }],
-            toDOM: (node) => ['blockquote', { class: utils.getClassName(node.attrs, id, style) }, 0],
+            toDOM: (node) => ['blockquote', { class: utils.getClassName(node.attrs, id) }, 0],
             parseMarkdown: {
                 match: ({ type }) => type === id,
                 runner: (state, node, type) => {

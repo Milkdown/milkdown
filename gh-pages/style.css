@@ -68,10 +68,10 @@ body {
 
     .milkdown {
         overflow: auto;
-        height: calc(100vh - 18.5rem + 3.125rem);
+        height: calc(100vh - 11.5rem - 20px);
 
         @mixin query 72rem {
-            height: calc(100vh - 20.5rem + 3.125rem);
+            height: calc(100vh - 11.5rem - 44px);
         }
     }
 

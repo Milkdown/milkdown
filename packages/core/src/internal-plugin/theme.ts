@@ -1,41 +1,52 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createSlice, MilkdownPlugin } from '@milkdown/ctx';
-import { Emotion, init, injectVar, Options, pack2Tool, ThemePack, ThemeTool } from '@milkdown/design-system';
+import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
+import {
+    createThemeManager,
+    Emotion,
+    emotionConfigCtx,
+    emotionCtx,
+    initEmotion,
+    internalThemeKeys,
+    ThemeGlobal,
+    ThemeManager,
+    themeManagerCtx,
+    ThemeSliceKey,
+} from '@milkdown/design-system';
 import { Plugin, PluginKey } from '@milkdown/prose';
 
-import { ConfigReady, InitReady, prosePluginsCtx } from '.';
+import { ConfigReady } from './config';
+import { InitReady, prosePluginsCtx } from './init';
 
-export const themeToolCtx = createSlice<ThemeTool>(
-    {
-        mixin: {} as never,
-        font: {} as never,
-        size: {} as never,
-        slots: {} as never,
-        palette: () => '',
-    },
-    'ThemeTool',
-);
-export const emotionConfigCtx = createSlice<Options>({ key: 'milkdown' }, 'EmotionConfig');
-export const emotionCtx = createSlice<Emotion>({} as Emotion, 'Emotion');
-
-export type { Emotion, ThemeTool } from '@milkdown/design-system';
+export const themeTimerCtx = createSlice([] as Timer[], 'themeTimer');
+export const ThemeReady = createTimer('ThemeReady');
 
 const key = new PluginKey('MILKDOWN_THEME_RESET');
 
 export const themeFactory =
-    (createThemePack: (emotion: Emotion) => ThemePack): MilkdownPlugin =>
+    (createThemePack: (emotion: Emotion, manager: ThemeManager) => void): MilkdownPlugin =>
     (pre) => {
-        pre.inject(themeToolCtx).inject(emotionConfigCtx).inject(emotionCtx);
-        return async (ctx) => {
-            await ctx.wait(ConfigReady);
-            const emotion = init(ctx.get(emotionConfigCtx));
-            const themePack = createThemePack(emotion);
+        const themeManager = createThemeManager();
 
-            injectVar(themePack, emotion);
-            const tool = pack2Tool(themePack);
+        pre.inject(emotionConfigCtx)
+            .inject(emotionCtx)
+            .inject(themeManagerCtx, themeManager)
+            .inject(themeTimerCtx, [ConfigReady])
+            .record(ThemeReady);
+
+        return async (ctx) => {
+            await ctx.waitTimers(themeTimerCtx);
+            const emotion = initEmotion(ctx.get(emotionConfigCtx));
+
+            internalThemeKeys.forEach((key) => {
+                themeManager.inject(key as ThemeSliceKey);
+            });
+
+            createThemePack(emotion, themeManager);
 
             ctx.set(emotionCtx, emotion);
-            ctx.set(themeToolCtx, tool);
+            themeManager.get(ThemeGlobal, undefined);
+
+            ctx.done(ThemeReady);
 
             await ctx.wait(InitReady);
             ctx.update(prosePluginsCtx, (xs) =>
@@ -52,3 +63,5 @@ export const themeFactory =
             );
         };
     };
+
+export * from '@milkdown/design-system';
