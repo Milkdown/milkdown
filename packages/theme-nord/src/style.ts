@@ -39,21 +39,21 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
     `;
 
     const editorLayout = css`
-        padding: 3.125rem 1.25rem;
+        padding: 3.125em 1.25em;
         outline: none;
         & > * {
-            margin: 1.875rem 0;
+            margin: 1.875em 0;
         }
 
         @media only screen and (min-width: 72rem) {
-            max-width: 57.375rem;
-            padding: 3.125rem 7.25rem;
+            max-width: 57.375em;
+            padding: 3.125em 7.25em;
         }
     `;
 
     const paragraph = css`
         p {
-            font-size: 1rem;
+            font-size: 1em;
             line-height: 1.5;
             letter-spacing: 0.5px;
         }
@@ -61,11 +61,11 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
 
     const blockquote = css`
         blockquote {
-            padding-left: 1.875rem;
-            line-height: 1.75rem;
+            padding-left: 1.875em;
+            line-height: 1.75em;
             border-left: 4px solid ${palette('primary')};
             * {
-                font-size: 1rem;
+                font-size: 1em;
                 line-height: 1.5rem;
             }
         }

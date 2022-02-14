@@ -36,7 +36,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         return css`
             flex-shrink: 0;
             font-weight: 500;
-            font-size: 0.875rem;
+            font-size: 0.875em;
 
             ${themeManager.get(ThemeBorder, 'right')}
             ${themeManager.get(ThemeBorder, 'left')}
@@ -51,10 +51,10 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 align-items: center;
                 color: ${palette('neutral', 0.87)};
                 display: flex;
-                padding: 0.25rem 0.5rem;
-                margin: 0.5rem;
+                padding: 0.25em 0.5em;
+                margin: 0.5em;
                 background: ${palette('secondary', 0.12)};
-                width: 10.375rem;
+                width: 10.375em;
 
                 &:disabled {
                     display: none;
@@ -68,7 +68,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
             }
 
             .menu-selector-list {
-                width: calc(12.375rem);
+                width: calc(12.375em);
                 position: absolute;
                 top: 3rem;
                 background: ${palette('surface')};

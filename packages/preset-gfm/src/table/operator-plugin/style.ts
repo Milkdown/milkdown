@@ -10,8 +10,8 @@ export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: E
         .milkdown {
             .tableWrapper {
                 table {
-                    width: calc(100% - 2rem) !important;
-                    margin: 1rem 0 1rem 1rem !important;
+                    width: calc(100% - 2em) !important;
+                    margin: 1em 0 1em 1em !important;
 
                     .milkdown-cell-left,
                     .milkdown-cell-point,
@@ -37,23 +37,23 @@ export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: E
                     }
 
                     .milkdown-cell-left {
-                        left: calc(-6px - 0.5rem);
+                        left: calc(-6px - 0.5em);
                         top: 0;
                         bottom: 0;
-                        width: 0.5rem;
+                        width: 0.5em;
                     }
 
                     .milkdown-cell-top {
                         left: 0;
                         right: 0;
-                        top: calc(-6px - 0.5rem);
-                        height: 0.5rem;
+                        top: calc(-6px - 0.5em);
+                        height: 0.5em;
                     }
 
                     .milkdown-cell-point {
-                        left: calc(-2px - 1rem);
-                        top: calc(-2px - 1rem);
-                        width: 1rem;
+                        left: calc(-2px - 1em);
+                        top: calc(-2px - 1em);
+                        width: 1em;
                         height: 1rem;
 
                         .icon {

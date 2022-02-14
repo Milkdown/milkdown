@@ -22,10 +22,10 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
         return css`
             border: 0;
             box-sizing: unset;
-            width: 1.5rem;
-            height: 1.5rem;
-            padding: 0.25rem;
-            margin: 0.5rem;
+            width: 1.5em;
+            height: 1.5em;
+            padding: 0.25em;
+            margin: 0.5em;
             flex-shrink: 0;
 
             display: flex;

@@ -13,8 +13,8 @@ export const divider = (utils: Utils) => {
             flex-shrink: 0;
             width: ${themeManager.get(ThemeSize, 'lineWidth')};
             background-color: ${themeManager.get(ThemeColor, ['line'])};
-            margin: 0.75rem 1rem;
-            min-height: 1.5rem;
+            margin: 0.75em 1em;
+            min-height: 1.5em;
         `;
     });
     const $divider = document.createElement('div');
