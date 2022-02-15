@@ -28,7 +28,7 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
             left = 0;
         }
 
-        if (window.innerHeight - selected.bottom < target.height) {
+        if (parent.height + parent.top - selected.bottom < target.height) {
             top = selected.top - parent.top - target.height - 14 + $editor.scrollTop;
         }
         return [top, left];
