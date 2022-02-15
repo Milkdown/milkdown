@@ -76,30 +76,30 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
     const heading = css`
         h1 {
             font-size: 3em;
-            line-height: 3.5em;
+            line-height: 1.67;
         }
         h2 {
             font-size: 2.5em;
-            line-height: 3em;
+            line-height: 1.2;
         }
         h3 {
             font-size: 2.125em;
-            line-height: 2.25em;
+            line-height: 1.05;
         }
         h4 {
             font-size: 1.75em;
-            line-height: 2em;
+            line-height: 1.14;
         }
         h5 {
             font-size: 1.5em;
-            line-height: 1.5em;
+            line-height: 1;
         }
         h6 {
-            font-size: 1.25rem;
-            line-height: 1.25rem;
+            font-size: 1.25em;
+            line-height: 1;
         }
         .heading {
-            margin: 2.5rem 0;
+            margin: 40px 0;
             font-weight: 400;
         }
     `;
