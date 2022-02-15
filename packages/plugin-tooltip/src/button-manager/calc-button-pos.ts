@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { calculateTextPosition, EditorView } from '@milkdown/prose';
 
-export const calcButtonPos = (buttons: HTMLElement, view: EditorView) => {
+export const calcButtonPos = (buttons: HTMLElement, view: EditorView, isBottom: boolean) => {
     buttons.classList.remove('hide');
     calculateTextPosition(view, buttons, (start, end, target, parent) => {
         const $editor = buttons.parentElement;
@@ -11,13 +11,13 @@ export const calcButtonPos = (buttons: HTMLElement, view: EditorView) => {
         const selectionWidth = end.left - start.left;
         let left = start.left - parent.left - (target.width - selectionWidth) / 2;
         let top = start.top - parent.top - target.height - 14 + $editor.scrollTop;
+        const bottom = start.bottom - parent.top - target.height + 14 + 50 + $editor.scrollTop; // I didn't know how to calculate 3rem here, further help is needed.
 
         if (left < 0) left = 0;
 
         if (start.top < target.height) {
             top = start.bottom - parent.top + 14 + $editor.scrollTop;
         }
-
-        return [top, left];
+        return [isBottom ? bottom : top, left];
     });
 };
