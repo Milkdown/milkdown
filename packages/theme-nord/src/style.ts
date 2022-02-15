@@ -64,33 +64,35 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             padding-left: 1.875em;
             line-height: 1.75em;
             border-left: 4px solid ${palette('primary')};
+            margin-left: 0;
+            margin-right: 0;
             * {
                 font-size: 1em;
-                line-height: 1.5rem;
+                line-height: 1.5em;
             }
         }
     `;
 
     const heading = css`
         h1 {
-            font-size: 3rem;
-            line-height: 3.5rem;
+            font-size: 3em;
+            line-height: 3.5em;
         }
         h2 {
-            font-size: 2.5rem;
-            line-height: 3rem;
+            font-size: 2.5em;
+            line-height: 3em;
         }
         h3 {
-            font-size: 2.125rem;
-            line-height: 2.25rem;
+            font-size: 2.125em;
+            line-height: 2.25em;
         }
         h4 {
-            font-size: 1.75rem;
-            line-height: 2rem;
+            font-size: 1.75em;
+            line-height: 2em;
         }
         h5 {
-            font-size: 1.5rem;
-            line-height: 1.5rem;
+            font-size: 1.5em;
+            line-height: 1.5em;
         }
         h6 {
             font-size: 1.25rem;

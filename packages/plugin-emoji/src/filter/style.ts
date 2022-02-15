@@ -28,7 +28,7 @@ export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) =>
 
         .milkdown-emoji-filter_item {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.5em;
             height: 2.25rem;
             padding: 0 1rem;
             align-items: center;

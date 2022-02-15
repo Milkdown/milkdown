@@ -54,7 +54,7 @@ export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: E
                         left: calc(-2px - 1em);
                         top: calc(-2px - 1em);
                         width: 1em;
-                        height: 1rem;
+                        height: 1em;
 
                         .icon {
                             position: absolute;
@@ -90,8 +90,8 @@ export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: E
             position: relative;
             color: ${palette('solid', 0.87)};
 
-            width: 3rem;
-            line-height: 3rem;
+            width: 3em;
+            line-height: 3em;
             text-align: center;
             transition: all 0.4s ease-in-out;
 
