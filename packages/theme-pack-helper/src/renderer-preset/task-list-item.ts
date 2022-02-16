@@ -18,11 +18,11 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
         label {
             position: absolute;
             top: 0;
-            left: -2rem;
+            left: -2em;
             display: inline-block;
-            width: 1.5rem;
-            height: 1.5rem;
-            margin: 0.5rem 0;
+            width: 1.5em;
+            height: 1.5em;
+            margin: 0.5em 0;
             cursor: pointer;
             input {
                 visibility: hidden;
@@ -50,7 +50,7 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
             }
         }
         .paragraph {
-            margin: 0.5rem 0;
+            margin: 0.5em 0;
         }
     `;
 

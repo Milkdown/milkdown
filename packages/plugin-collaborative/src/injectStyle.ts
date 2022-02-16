@@ -11,7 +11,7 @@ export const injectStyle = (themeManager: ThemeManager, { injectGlobal }: Emotio
         }
         /* this is a rough fix for the first cursor position when the first paragraph is empty */
         .ProseMirror > .ProseMirror-yjs-cursor:first-child {
-            margin-top: 16px;
+            margin-top: 1em;
         }
         .ProseMirror p:first-child,
         .ProseMirror h1:first-child,
@@ -20,7 +20,7 @@ export const injectStyle = (themeManager: ThemeManager, { injectGlobal }: Emotio
         .ProseMirror h4:first-child,
         .ProseMirror h5:first-child,
         .ProseMirror h6:first-child {
-            margin-top: 16px;
+            margin-top: 1em;
         }
         /* This gives the remote user caret. The colors are automatically overwritten*/
         .ProseMirror-yjs-cursor {

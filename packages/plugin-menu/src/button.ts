@@ -22,11 +22,12 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
         return css`
             border: 0;
             box-sizing: unset;
-            width: 1.5em;
-            height: 1.5em;
+            width: 2em;
+            height: 2em;
             padding: 0.25em;
             margin: 0.5em;
             flex-shrink: 0;
+            font-size: 0.875em;
 
             display: flex;
             justify-content: center;
@@ -46,6 +47,10 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
 
             &:disabled {
                 display: none;
+            }
+
+            .material-icons-outlined {
+                font-size: 1.8em;
             }
         `;
     });

@@ -14,13 +14,13 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
         position: absolute;
         background: ${palette('surface')};
         border-radius: ${themeManager.get(ThemeSize, 'radius')};
-        font-size: 1rem;
+        font-size: 1em;
 
-        height: 3.5rem;
+        height: 3.5em;
         box-sizing: border-box;
-        width: 25.5rem;
-        padding: 0 1rem;
-        gap: 1rem;
+        width: 25.5em;
+        padding: 0 1em;
+        gap: 1em;
         z-index: 2;
 
         input,
@@ -38,10 +38,10 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
 
         button {
             cursor: pointer;
-            height: 2.25rem;
+            height: 2.25em;
             color: ${palette('primary')};
-            font-size: 0.875rem;
-            padding: 0 0.5rem;
+            font-size: 14px;
+            padding: 0 0.5em;
             font-weight: 500;
             letter-spacing: 1.25px;
             &:hover {

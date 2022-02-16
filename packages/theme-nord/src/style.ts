@@ -64,40 +64,42 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             padding-left: 1.875em;
             line-height: 1.75em;
             border-left: 4px solid ${palette('primary')};
+            margin-left: 0;
+            margin-right: 0;
             * {
                 font-size: 1em;
-                line-height: 1.5rem;
+                line-height: 1.5em;
             }
         }
     `;
 
     const heading = css`
         h1 {
-            font-size: 3rem;
-            line-height: 3.5rem;
+            font-size: 3em;
+            line-height: 1.167;
         }
         h2 {
-            font-size: 2.5rem;
-            line-height: 3rem;
+            font-size: 2.5em;
+            line-height: 1.2;
         }
         h3 {
-            font-size: 2.125rem;
-            line-height: 2.25rem;
+            font-size: 2.125em;
+            line-height: 1.05;
         }
         h4 {
-            font-size: 1.75rem;
-            line-height: 2rem;
+            font-size: 1.75em;
+            line-height: 1.14;
         }
         h5 {
-            font-size: 1.5rem;
-            line-height: 1.5rem;
+            font-size: 1.5em;
+            line-height: 1;
         }
         h6 {
-            font-size: 1.25rem;
-            line-height: 1.25rem;
+            font-size: 1.25em;
+            line-height: 1;
         }
         .heading {
-            margin: 2.5rem 0;
+            margin: 40px 0;
             font-weight: 400;
         }
     `;
@@ -113,7 +115,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
     const list = css`
         .list-item,
         .list-item > * {
-            margin: 0.5rem 0;
+            margin: 0.5em 0;
         }
 
         li {
@@ -127,8 +129,8 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             flex-direction: row;
             align-items: flex-start;
             &_checkbox {
-                margin: 0.5rem 0.5rem 0.5rem 0;
-                height: 1rem;
+                margin: 0.5em 0.5em 0.5em 0;
+                height: 1em;
             }
         }
     `;
@@ -137,14 +139,14 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
         .code-fence {
             pre {
                 font-family: ${manager.get(ThemeFont, 'code')};
-                margin: 0 1.2rem !important;
+                margin: 0 1.2em !important;
                 white-space: pre;
                 overflow: auto;
                 ${manager.get(ThemeScrollbar, 'x')}
 
                 background-color: ${palette('background')};
                 color: ${palette('neutral')};
-                font-size: 0.85rem;
+                font-size: 14px;
                 border-radius: ${radius};
 
                 code {
@@ -174,7 +176,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             border-radius: ${radius};
             font-weight: 500;
             font-family: ${code};
-            padding: 0 0.2rem;
+            padding: 0 0.2em;
         }
 
         .strong {
@@ -188,7 +190,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             font-weight: 500;
             &:hover {
                 background-color: ${palette('line')};
-                box-shadow: 0 0.2rem ${palette('line')}, 0 -0.2rem ${palette('line')};
+                box-shadow: 0 0.2em ${palette('line')}, 0 -0.2em ${palette('line')};
             }
         }
 
@@ -207,7 +209,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             * {
                 margin: 0;
                 box-sizing: border-box;
-                font-size: 1rem;
+                font-size: 1em;
             }
         }
         table {
@@ -225,7 +227,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
         }
         td,
         th {
-            padding: 0 1rem;
+            padding: 0 1em;
             vertical-align: top;
             box-sizing: border-box;
             position: relative;
@@ -233,8 +235,8 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             min-width: 100px;
             ${manager.get(ThemeBorder, undefined)};
             text-align: left;
-            line-height: 3rem;
-            height: 3rem;
+            line-height: 3;
+            height: 3em;
         }
         th {
             background: ${palette('background', 0.5)};
@@ -276,6 +278,9 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
 
     injectGlobal`
         .milkdown {
+            .material-icons-outlined {
+                font-size: 1.5em;
+            }
 
             position: relative;
             margin-left: auto;

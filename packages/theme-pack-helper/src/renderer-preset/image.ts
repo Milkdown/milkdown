@@ -46,7 +46,7 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
 
             &.system {
                 width: 100%;
-                padding: 0 2rem;
+                padding: 0 2em;
 
                 img {
                     width: 0;
@@ -60,11 +60,11 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
                 }
 
                 box-sizing: border-box;
-                height: 3rem;
+                height: 3em;
                 background-color: ${palette('background')};
                 border-radius: ${manager.get(ThemeSize, 'radius')};
                 display: inline-flex;
-                gap: 2rem;
+                gap: 2em;
                 justify-content: flex-start;
                 align-items: center;
                 .placeholder {
@@ -72,7 +72,7 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
                     line-height: 1;
                     &::before {
                         content: '';
-                        font-size: 0.875rem;
+                        font-size: 14px;
                         color: ${palette('neutral', 0.6)};
                     }
                 }

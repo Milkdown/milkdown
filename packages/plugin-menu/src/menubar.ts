@@ -51,7 +51,6 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
             overflow-x: auto;
             ${border};
             ${scrollbar};
-            height: calc(3.15em);
             overflow-y: hidden;
             background: ${themeManager.get(ThemeColor, ['surface'])};
 

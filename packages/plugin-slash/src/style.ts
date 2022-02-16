@@ -16,15 +16,15 @@ const itemStyle = (themeManager: ThemeManager, { css }: Emotion) => {
     return css`
         .slash-dropdown-item {
             display: flex;
-            gap: 2rem;
-            height: 3rem;
-            padding: 0 1rem;
+            gap: 2em;
+            height: 3.4286em;
+            padding: 0 1em;
             align-items: center;
             justify-content: flex-start;
             cursor: pointer;
-            line-height: 2;
+            line-height: 3.4286em;
             font-family: ${themeManager.get(ThemeFont, 'typography')};
-            font-size: 0.875rem;
+            font-size: 0.875em;
 
             transition: all 0.2s ease-in-out;
 
@@ -52,8 +52,8 @@ export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
     const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
 
     return emotion.css`
-        width: 20.5rem;
-        max-height: 20.5rem;
+        width: 20.5em;
+        max-height: 20.5em;
         overflow-y: auto;
         border-radius: ${themeManager.get(ThemeSize, 'radius')};
         position: absolute;
