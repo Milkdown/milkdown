@@ -146,7 +146,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
 
                 background-color: ${palette('background')};
                 color: ${palette('neutral')};
-                font-size: 14px;
+                font-size: 0.875em;
                 border-radius: ${radius};
 
                 code {

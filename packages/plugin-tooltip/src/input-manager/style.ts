@@ -40,7 +40,7 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
             cursor: pointer;
             height: 2.25em;
             color: ${palette('primary')};
-            font-size: 14px;
+            font-size: 0.875em;
             padding: 0 0.5em;
             font-weight: 500;
             letter-spacing: 1.25px;
