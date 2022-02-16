@@ -53,7 +53,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
 
     const paragraph = css`
         p {
-            font-size: 16px;
+            font-size: 1em;
             line-height: 1.5;
             letter-spacing: 0.5px;
         }
@@ -67,7 +67,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             margin-left: 0;
             margin-right: 0;
             * {
-                font-size: 16px;
+                font-size: 1em;
                 line-height: 1.5em;
             }
         }
@@ -209,7 +209,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             * {
                 margin: 0;
                 box-sizing: border-box;
-                font-size: 16px;
+                font-size: 1em;
             }
         }
         table {
@@ -278,6 +278,9 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
 
     injectGlobal`
         .milkdown {
+            .material-icons-outlined {
+                font-size: 1.5em;
+            }
 
             position: relative;
             margin-left: auto;
