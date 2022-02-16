@@ -12,8 +12,8 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
     const style = css`
         background-color: ${palette('background')};
         color: ${palette('neutral')};
-        font-size: 0.85rem;
-        padding: 1.2rem 0.4rem 1.4rem;
+        font-size: 14px;
+        padding: 1.2em 0.4em 1.4em;
         border-radius: ${radius};
         font-family: ${manager.get(ThemeFont, 'typography')};
 
@@ -22,24 +22,24 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
         }
 
         .code-fence_selector {
-            width: 10.25rem;
+            width: 11.71em;
             box-sizing: border-box;
             border-radius: ${radius};
-            margin: 0 1.2rem 1.2rem;
+            margin: 0 1.2em 1.2em;
             cursor: pointer;
             background-color: ${palette('surface')};
             position: relative;
             display: flex;
             color: ${palette('neutral', 0.87)};
             letter-spacing: 0.5px;
-            height: 2.625rem;
+            height: 3em;
             align-items: center;
 
             ${manager.get(ThemeBorder, undefined)};
             ${manager.get(ThemeShadow, undefined)};
 
             & > .icon {
-                width: 2.625rem;
+                width: 2em;
                 height: 100%;
                 display: flex;
                 justify-content: center;
@@ -56,7 +56,7 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
             }
 
             > span:first-child {
-                padding-left: 1rem;
+                padding-left: 1em;
                 flex: 1;
                 font-weight: 500;
             }
@@ -64,8 +64,8 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
 
         .code-fence_selector-list-item {
             list-style: none;
-            line-height: 2rem;
-            padding-left: 1rem;
+            line-height: 2;
+            padding-left: 1em;
             cursor: pointer;
             margin: 0 !important;
             :hover {
@@ -83,12 +83,12 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
             font-weight: 500;
             position: absolute;
             z-index: 1;
-            top: 2.625rem;
+            top: 3em;
             box-sizing: border-box;
-            left: 1.2rem;
-            padding: 0.5rem 0;
-            max-height: 16.75rem;
-            width: 10.25rem;
+            left: 1.2em;
+            padding: 0.5em 0;
+            max-height: 16.75em;
+            width: 11.71em;
             background-color: ${palette('surface')};
             border-top: none;
             overflow-y: auto;

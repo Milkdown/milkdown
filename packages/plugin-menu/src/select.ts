@@ -36,7 +36,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         return css`
             flex-shrink: 0;
             font-weight: 500;
-            font-size: 0.875em;
+            font-size: 14px;
 
             ${themeManager.get(ThemeBorder, 'right')}
             ${themeManager.get(ThemeBorder, 'left')}

@@ -22,8 +22,8 @@ export const injectStyle = (themeManager: ThemeManager, { css }: Emotion) => {
             position: relative;
             color: ${palette('solid', 0.87)};
 
-            width: 3rem;
-            line-height: 3rem;
+            width: 2em;
+            line-height: 2em;
             text-align: center;
             transition: all 0.4s ease-in-out;
             &:hover {

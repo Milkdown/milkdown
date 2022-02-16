@@ -29,14 +29,14 @@ export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) =>
         .milkdown-emoji-filter_item {
             display: flex;
             gap: 0.5em;
-            height: 2.25rem;
-            padding: 0 1rem;
+            height: 2.25em;
+            padding: 0 1em;
             align-items: center;
             justify-content: flex-start;
             cursor: pointer;
             line-height: 2;
             font-family: ${typography};
-            font-size: 0.875rem;
+            font-size: 14px;
             &.active {
                 background: ${palette('secondary', 0.12)};
                 color: ${palette('primary')};

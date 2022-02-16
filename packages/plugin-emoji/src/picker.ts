@@ -89,7 +89,7 @@ export const picker = (utils: Utils) => {
                         --dark-search-icon-color: ${palette('primary')} !important;
                         --dark-category-button-color: ${palette('secondary', 0.4)} !important;
                         --font: ${typography} !important;
-                        --font-size: 1rem !important;
+                        --font-size: 16px !important;
                     }
                 `;
             });
