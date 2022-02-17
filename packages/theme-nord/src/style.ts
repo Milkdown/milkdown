@@ -310,9 +310,9 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
                 ${code};
                 ${img};
 
-                ${inline};
-                
                 ${table};
+
+                ${inline};
             }
         }
     `;
