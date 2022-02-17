@@ -72,7 +72,7 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
                     line-height: 1;
                     &::before {
                         content: '';
-                        font-size: 14px;
+                        font-size: 0.875em;
                         color: ${palette('neutral', 0.6)};
                     }
                 }

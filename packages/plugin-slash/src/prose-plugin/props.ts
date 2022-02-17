@@ -17,7 +17,7 @@ const createEmptyStyle = (themeManager: ThemeManager, { css }: Emotion) => {
             position: absolute;
             cursor: text;
             font-family: ${typography};
-            font-size: 14px;
+            font-size: 0.875em;
             color: ${palette('neutral', 0.6)};
             content: attr(data-text);
             height: 100%;

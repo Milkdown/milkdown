@@ -45,7 +45,7 @@ const getStyle = (manager: ThemeManager, { css }: Emotion) => {
         background-color: ${palette('background')};
         border-radius: ${radius};
         padding: 1em 2em;
-        font-size: 14px;
+        font-size: 0.875em;
         font-family: ${code};
         overflow: hidden;
         line-height: 1.5;

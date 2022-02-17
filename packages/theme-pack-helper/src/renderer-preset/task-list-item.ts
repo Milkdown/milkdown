@@ -13,6 +13,7 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
         & > div {
             overflow: hidden;
             padding: 0 2px;
+            width: 100%;
         }
 
         label {
