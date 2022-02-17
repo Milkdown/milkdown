@@ -11,13 +11,12 @@ export const calcButtonPos = (buttons: HTMLElement, view: EditorView, isBottom: 
         const selectionWidth = end.left - start.left;
         let left = start.left - parent.left - (target.width - selectionWidth) / 2;
         let top = start.top - parent.top - target.height - 14 + $editor.scrollTop;
-        const bottom = start.bottom - parent.top - target.height + 14 + 50 + $editor.scrollTop; // I didn't know how to calculate 3rem here, further help is needed.
 
         if (left < 0) left = 0;
 
-        if (start.top - parent.top < target.height) {
+        if (start.top - parent.top < target.height || (isBottom && parent.bottom - start.bottom > target.height)) {
             top = start.bottom - parent.top + 14 + $editor.scrollTop;
         }
-        return [isBottom ? bottom : top, left];
+        return [top, left];
     });
 };
