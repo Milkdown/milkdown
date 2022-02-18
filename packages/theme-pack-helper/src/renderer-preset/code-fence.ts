@@ -12,7 +12,7 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
     const style = css`
         background-color: ${palette('background')};
         color: ${palette('neutral')};
-        font-size: 14px;
+        font-size: 0.875em;
         padding: 1.2em 0.4em 1.4em;
         border-radius: ${radius};
         font-family: ${manager.get(ThemeFont, 'typography')};

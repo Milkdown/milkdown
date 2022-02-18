@@ -90,8 +90,8 @@ export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: E
             position: relative;
             color: ${palette('solid', 0.87)};
 
-            width: 3em;
-            line-height: 3em;
+            width: 2em;
+            line-height: 2em;
             text-align: center;
             transition: all 0.4s ease-in-out;
 

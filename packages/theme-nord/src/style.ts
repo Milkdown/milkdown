@@ -146,7 +146,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
 
                 background-color: ${palette('background')};
                 color: ${palette('neutral')};
-                font-size: 14px;
+                font-size: 0.875em;
                 border-radius: ${radius};
 
                 code {
@@ -177,6 +177,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             font-weight: 500;
             font-family: ${code};
             padding: 0 0.2em;
+            font-size: 1.2em;
         }
 
         .strong {
@@ -309,9 +310,9 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
                 ${code};
                 ${img};
 
-                ${inline};
-                
                 ${table};
+
+                ${inline};
             }
         }
     `;

@@ -36,7 +36,7 @@ export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) =>
             cursor: pointer;
             line-height: 2;
             font-family: ${typography};
-            font-size: 14px;
+            font-size: 0.875em;
             &.active {
                 background: ${palette('secondary', 0.12)};
                 color: ${palette('primary')};
