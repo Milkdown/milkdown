@@ -7,7 +7,7 @@ import { calcButtonPos } from './calc-button-pos';
 import { createTooltip } from './create-tooltip';
 import { filterButton } from './filter-button';
 
-export const createButtonManager = (buttonMap: ButtonMap, utils: Utils) => {
+export const createButtonManager = (buttonMap: ButtonMap, utils: Utils, bottom: boolean) => {
     const { dom: buttons, render } = createTooltip(buttonMap, utils);
 
     const onClick = (e: Event) => {
@@ -37,7 +37,7 @@ export const createButtonManager = (buttonMap: ButtonMap, utils: Utils) => {
                 hide();
                 return;
             }
-            calcButtonPos(buttons, editorView);
+            calcButtonPos(buttons, editorView, bottom);
         },
         render,
     };

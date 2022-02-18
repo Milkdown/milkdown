@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { calculateTextPosition, EditorView } from '@milkdown/prose';
 
-export const calcButtonPos = (buttons: HTMLElement, view: EditorView) => {
+export const calcButtonPos = (buttons: HTMLElement, view: EditorView, isBottom: boolean) => {
     buttons.classList.remove('hide');
     calculateTextPosition(view, buttons, (start, end, target, parent) => {
         const $editor = buttons.parentElement;
@@ -14,10 +14,9 @@ export const calcButtonPos = (buttons: HTMLElement, view: EditorView) => {
 
         if (left < 0) left = 0;
 
-        if (start.top - parent.top < target.height) {
+        if (start.top - parent.top < target.height || (isBottom && parent.bottom - start.bottom > target.height)) {
             top = start.bottom - parent.top + 14 + $editor.scrollTop;
         }
-
         return [top, left];
     });
 };

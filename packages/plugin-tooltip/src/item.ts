@@ -71,6 +71,21 @@ export type InputOptions = {
     };
 };
 
+export type TooltipOptions = {
+    link: {
+        placeholder: string;
+        buttonText: string;
+    };
+    image: {
+        placeholder: string;
+        buttonText: string;
+    };
+    inlineMath: {
+        placeholder: string;
+    };
+    bottom: boolean;
+};
+
 export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): InputMap => {
     const { marks, nodes } = schema;
     return {
