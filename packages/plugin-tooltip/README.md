@@ -41,6 +41,22 @@ Editor.make().use(
 );
 ```
 
+# Position
+
+Modify the tooltip widget's position, to show on the top or the bottom
+
+Example:
+
+```typescript
+import { tooltipPlugin, tooltip } from '@milkdown/plugin-tooltip';
+
+Editor.make().use(
+    tooltip.configure(tooltipPlugin, {
+        bottom: true,
+    }),
+);
+```
+
 # License
 
 Milkdown is open sourced software licensed under [MIT license](https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE).
