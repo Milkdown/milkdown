@@ -54,9 +54,9 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                 return [
                     'div',
                     {
-                        class: utils.getClassName(node.attrs, 'mermaid'),
+                        class: utils.getClassName(node.attrs, 'math-block'),
                         'data-type': id,
-                        'data-value': node.attrs['value'],
+                        'data-value': node.attrs['value'] || node.textContent || '',
                     },
                     0,
                 ];

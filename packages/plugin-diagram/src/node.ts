@@ -75,7 +75,7 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
                         id: identity,
                         class: utils.getClassName(node.attrs, 'mermaid'),
                         'data-type': id,
-                        'data-value': node.attrs['value'],
+                        'data-value': node.attrs['value'] || node.textContent || '',
                     },
                     0,
                 ];

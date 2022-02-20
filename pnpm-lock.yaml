@@ -105,6 +105,7 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-collaborative': workspace:*
+      '@milkdown/plugin-math': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
       y-protocols: ^1.0.5
@@ -113,6 +114,7 @@ importers:
     dependencies:
       '@milkdown/core': link:../../packages/core
       '@milkdown/plugin-collaborative': link:../../packages/plugin-collaborative
+      '@milkdown/plugin-math': link:../../packages/plugin-math
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
       '@milkdown/theme-nord': link:../../packages/theme-nord
       y-protocols: 1.0.5
@@ -144,10 +146,12 @@ importers:
   examples/vanilla:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/plugin-math': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
     dependencies:
       '@milkdown/core': link:../../packages/core
+      '@milkdown/plugin-math': link:../../packages/plugin-math
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
       '@milkdown/theme-nord': link:../../packages/theme-nord
 
@@ -696,6 +700,19 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/preset-gfm': link:../preset-gfm
+      '@milkdown/prose': link:../prose
+
+  packages/theme-tokyo:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/design-system': workspace:*
+      '@milkdown/prose': workspace:*
+      '@milkdown/theme-pack-helper': workspace:*
+    dependencies:
+      '@milkdown/theme-pack-helper': link:../theme-pack-helper
+    devDependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
 
   packages/transformer:
@@ -7730,7 +7747,7 @@ packages:
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
-      react: 17.0.2 || 17 || 17
+      react: 17.0.2 || 17
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
