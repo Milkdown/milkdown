@@ -28,75 +28,78 @@ import { menu } from '@milkdown/plugin-menu';
 import { themeToolCtx, commandsCtx } from '@milkdown/core';
 
 Editor.make().use(
-    menu(
-        [
-            {
-                type: 'select',
-                text: 'Heading',
-                options: [
-                    { id: '1', text: 'Large Heading' },
-                    { id: '2', text: 'Medium Heading' },
-                    { id: '3', text: 'Small Heading' },
-                    { id: '0', text: 'Plain Text' },
-                ],
-                disabled: (view) => {
-                    const { state } = view;
-                    const setToHeading = (level: number) => setBlockType(state.schema.nodes.heading, { level })(state);
-                    return !(setToHeading(1) || setToHeading(2) || setToHeading(3));
+    menu({
+        config: [
+            [
+                {
+                    type: 'select',
+                    text: 'Heading',
+                    options: [
+                        { id: '1', text: 'Large Heading' },
+                        { id: '2', text: 'Medium Heading' },
+                        { id: '3', text: 'Small Heading' },
+                        { id: '0', text: 'Plain Text' },
+                    ],
+                    disabled: (view) => {
+                        const { state } = view;
+                        const setToHeading = (level: number) =>
+                            setBlockType(state.schema.nodes.heading, { level })(state);
+                        return !(setToHeading(1) || setToHeading(2) || setToHeading(3));
+                    },
+                    onSelect: (id) => (id ? [TurnIntoHeading, Number(id)] : [TurnIntoText, null]),
                 },
-                onSelect: (id) => (id ? [TurnIntoHeading, Number(id)] : [TurnIntoText, null]),
-            },
+            ],
+            [
+                {
+                    type: 'button',
+                    icon: 'bold',
+                    key: ToggleBold,
+                    active: (view) => hasMark(view.state, view.state.schema.marks.strong),
+                },
+                {
+                    type: 'button',
+                    icon: 'italic',
+                    key: ToggleItalic,
+                    active: (view) => hasMark(view.state, view.state.schema.marks.em),
+                },
+                {
+                    type: 'button',
+                    icon: 'strikeThrough',
+                    key: ToggleStrikeThrough,
+                    active: (view) => hasMark(view.state, view.state.schema.marks.strike_through),
+                },
+            ],
+            [
+                {
+                    type: 'button',
+                    icon: 'bulletList',
+                    key: WrapInBulletList,
+                    disabled: (view) => {
+                        const { state } = view;
+                        return !wrapIn(state.schema.nodes.bullet_list)(state);
+                    },
+                },
+                {
+                    type: 'button',
+                    icon: 'orderedList',
+                    key: WrapInOrderedList,
+                    disabled: (view) => {
+                        const { state } = view;
+                        return !wrapIn(state.schema.nodes.ordered_list)(state);
+                    },
+                },
+                {
+                    type: 'button',
+                    icon: 'taskList',
+                    key: TurnIntoTaskList,
+                    disabled: (view) => {
+                        const { state } = view;
+                        return !wrapIn(state.schema.nodes.task_list_item)(state);
+                    },
+                },
+            ],
         ],
-        [
-            {
-                type: 'button',
-                icon: 'bold',
-                key: ToggleBold,
-                active: (view) => hasMark(view.state, view.state.schema.marks.strong),
-            },
-            {
-                type: 'button',
-                icon: 'italic',
-                key: ToggleItalic,
-                active: (view) => hasMark(view.state, view.state.schema.marks.em),
-            },
-            {
-                type: 'button',
-                icon: 'strikeThrough',
-                key: ToggleStrikeThrough,
-                active: (view) => hasMark(view.state, view.state.schema.marks.strike_through),
-            },
-        ],
-        [
-            {
-                type: 'button',
-                icon: 'bulletList',
-                key: WrapInBulletList,
-                disabled: (view) => {
-                    const { state } = view;
-                    return !wrapIn(state.schema.nodes.bullet_list)(state);
-                },
-            },
-            {
-                type: 'button',
-                icon: 'orderedList',
-                key: WrapInOrderedList,
-                disabled: (view) => {
-                    const { state } = view;
-                    return !wrapIn(state.schema.nodes.ordered_list)(state);
-                },
-            },
-            {
-                type: 'button',
-                icon: 'taskList',
-                key: TurnIntoTaskList,
-                disabled: (view) => {
-                    const { state } = view;
-                    return !wrapIn(state.schema.nodes.task_list_item)(state);
-                },
-            },
-        ],
-    ),
+    }),
 );
 ```
 
