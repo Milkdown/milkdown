@@ -14,7 +14,7 @@ importers:
       '@typescript-eslint/parser': ^5.0.0
       '@vitejs/plugin-react-refresh': ^1.3.3
       '@vitejs/plugin-vue-jsx': ^1.1.5
-      '@vitest/ui': ^0.4.0
+      '@vitest/ui': ^0.5.0
       concurrently: ^7.0.0
       cross-env: ^7.0.3
       eslint: ^8.0.0
@@ -38,7 +38,7 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.5.4
       vite: ^2.7.13
-      vitest: ^0.4.0
+      vitest: ^0.5.0
     devDependencies:
       '@changesets/cli': 2.21.0
       '@commitlint/cli': 16.2.1
@@ -50,7 +50,7 @@ importers:
       '@typescript-eslint/parser': 5.12.0_eslint@8.9.0+typescript@4.5.5
       '@vitejs/plugin-react-refresh': 1.3.6
       '@vitejs/plugin-vue-jsx': 1.3.7
-      '@vitest/ui': 0.4.2
+      '@vitest/ui': 0.5.0
       concurrently: 7.0.0
       cross-env: 7.0.3
       eslint: 8.9.0
@@ -74,7 +74,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.5.5
       vite: 2.8.4
-      vitest: 0.4.2_@vitest+ui@0.4.2+jsdom@19.0.0
+      vitest: 0.5.0_@vitest+ui@0.5.0+jsdom@19.0.0
 
   e2e:
     specifiers:
@@ -224,7 +224,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.11.0
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/lang-markdown': 0.19.6
@@ -382,7 +382,7 @@ importers:
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@milkdown/utils': link:../utils
       '@types/mermaid': 8.2.7
@@ -408,7 +408,7 @@ importers:
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
       twemoji: ^13.1.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: ^4.0.0
     dependencies:
       '@joeattardi/emoji-button': 4.6.2
       '@milkdown/utils': link:../utils
@@ -824,6 +824,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/compat-data': 7.17.0
       '@babel/core': 7.17.5
@@ -837,6 +840,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-annotate-as-pure': 7.16.7
@@ -984,6 +990,9 @@ packages:
     resolution: {integrity: sha512-Yqfm+XDx0+Prh3VSeEQCPU81yC+JWZ2pDPFSS4ZdpfZhp4MkFMaDC1UqseovEKwSUpnIL7+vK+Clp7bfh0iD7g==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -994,6 +1003,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/helper-plugin-utils': 7.16.7
 
@@ -1002,6 +1014,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1012,6 +1027,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1022,6 +1040,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1032,6 +1053,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1042,6 +1066,9 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-create-class-features-plugin': 7.17.1_@babel+core@7.17.5
@@ -1726,6 +1753,9 @@ packages:
     resolution: {integrity: sha512-6mGSCWi9UzXut/ZAN6lGFu33wGR3SJisNl3c0tvlmb8XChH1b2SUvxvnOh7hvLpqyRdHHU9AiazV3Cwbk5SXKQ==}
     peerDependencies:
       '@babel/core': ^7.0.0
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
     dependencies:
       '@babel/helper-module-imports': 7.16.7
       '@babel/plugin-syntax-jsx': 7.16.7
@@ -1780,7 +1810,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
       '@types/react': '*'
-      react: '>=16.8.0'
+      react: '>=16.8.0 || 17 || 17'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -1816,7 +1846,7 @@ packages:
       '@babel/core': ^7.0.0
       '@emotion/react': ^11.0.0-rc.0
       '@types/react': '*'
-      react: '>=16.8.0'
+      react: '>=16.8.0 || 17'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -2543,8 +2573,8 @@ packages:
       - supports-color
     dev: true
 
-  /@vitest/ui/0.4.2:
-    resolution: {integrity: sha512-qpdnAHqV2L3+EUmDKl1yMHzsHXvOtHbVMe1cJWaB7/tfSM7OAax6KbiUXWZQwTGbG+NhveHn8PputK22vnrgAw==}
+  /@vitest/ui/0.5.0:
+    resolution: {integrity: sha512-aaBf+4ODR+SlfY0/EvTIl3wPWSu4sVI+JmGhZNF/aE6IlseF0IqA6Ukc/41DPGoh8TIeOxFaMdfsOQaFrdvfnA==}
     dependencies:
       sirv: 2.0.2
     dev: true
@@ -3462,7 +3492,7 @@ packages:
     resolution: {integrity: sha512-eCnYYEUEc5i32LHwpE/W7NlddOB9oHwsPaWtWzYtflNkkwa3IfindIcoXdVWs12zCbwaMCavKNu84EXogVIWHw==}
     peerDependencies:
       prop-types: ^15.0.0
-      react: ^14.0.0 || ^15.0.0 || ^16.0.0
+      react: ^14.0.0 || ^15.0.0 || ^16.0.0 || 17
     dependencies:
       prop-types: 15.8.1
       react: 17.0.2
@@ -6435,7 +6465,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 4.0.0
+      unist-util-visit: 3.1.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -7527,8 +7557,8 @@ packages:
     resolution: {integrity: sha512-ghuxb6QD3WWl3EE8OK1O3P67OKjbTxt5mvagAUK6xd0kS7SBysSS4KE+HiNPxC8r812EEFFJ2S6asIs9i7rvkQ==}
     engines: {node: '>=10'}
     peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
+      react: '>=16.8.0 || 17'
+      react-dom: '>=16.8.0 || 17'
     dependencies:
       '@babel/runtime': 7.17.2
       '@emotion/css': 11.7.1
@@ -7712,7 +7742,10 @@ packages:
     resolution: {integrity: sha1-5yfcdVCztzEWY13LnA4E0Lev4Xw=}
     peerDependencies:
       babel-runtime: ^6.3.13
-      react: '>=0.13.0'
+      react: '>=0.13.0 || 17'
+    peerDependenciesMeta:
+      babel-runtime:
+        optional: true
     dependencies:
       lodash.debounce: 3.1.1
       prop-types: 15.8.1
@@ -7722,7 +7755,7 @@ packages:
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
-      react: 17.0.2
+      react: 17.0.2 || 17
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
@@ -7735,8 +7768,8 @@ packages:
   /react-json-tree/0.11.2_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-aYhUPj1y5jR3ZQ+G3N7aL8FbTyO03iLwnVvvEikLcNFqNTyabdljo9xDftZndUBFyyyL0aK3qGO9+8EilILHUw==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0
-      react-dom: ^15.0.0 || ^16.0.0
+      react: ^15.0.0 || ^16.0.0 || 17
+      react-dom: ^15.0.0 || ^16.0.0 || 17
     dependencies:
       babel-runtime: 6.26.0
       prop-types: 15.8.1
@@ -7748,7 +7781,7 @@ packages:
   /react-loading-skeleton/3.0.3_react@17.0.2:
     resolution: {integrity: sha512-HPkEqQGwmbg1ImcYA9n4hDiLC3u92xUdU+sSfrv/9l3lNBChAubcl1azjV2WakapdkbA3gko+hPzZkZGIb/9xA==}
     peerDependencies:
-      react: '>=16.8.0'
+      react: '>=16.8.0 || 17'
     dependencies:
       react: 17.0.2
     dev: false
@@ -7761,8 +7794,8 @@ packages:
   /react-router-dom/6.2.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-I6Zax+/TH/cZMDpj3/4Fl2eaNdcvoxxHoH1tYOREsQ22OKDYofGebrNm6CTPUcvLvZm63NL/vzCYdjf9CUhqmA==}
     peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
+      react: '>=16.8 || 17'
+      react-dom: '>=16.8 || 17'
     dependencies:
       history: 5.2.0
       react: 17.0.2
@@ -7773,7 +7806,7 @@ packages:
   /react-router/6.2.1_react@17.0.2:
     resolution: {integrity: sha512-2fG0udBtxou9lXtK97eJeET2ki5//UWfQSl1rlJ7quwe6jrktK9FCCc8dQb5QY6jAv3jua8bBQRhhDOM/kVRsg==}
     peerDependencies:
-      react: '>=16.8'
+      react: '>=16.8 || 17'
     dependencies:
       history: 5.2.0
       react: 17.0.2
@@ -7782,8 +7815,8 @@ packages:
   /react-spinners/0.11.0_b8fdba992ce7d797017dc07106486496:
     resolution: {integrity: sha512-rDZc0ABWn/M1OryboGsWVmIPg8uYWl0L35jPUhr40+Yg+syVPjeHwvnB7XWaRpaKus3M0cG9BiJA+ZB0dAwWyw==}
     peerDependencies:
-      react: ^16.0.0 || ^17.0.0
-      react-dom: ^16.0.0 || ^17.0.0
+      react: ^16.0.0 || ^17.0.0 || 17
+      react-dom: ^16.0.0 || ^17.0.0 || 17
     dependencies:
       '@emotion/react': 11.8.1_a0c521d4794c7ad97f5f4c1c4a7d5818
       react: 17.0.2
@@ -7907,7 +7940,7 @@ packages:
     dependencies:
       emoticon: 4.0.1
       node-emoji: 1.11.0
-      unist-util-visit: 4.0.0
+      unist-util-visit: 4.1.0
     dev: false
 
   /remark-gfm/3.0.1:
@@ -8870,8 +8903,24 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
+  /unist-util-visit/3.1.0:
+    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 4.1.1
+    dev: false
+
   /unist-util-visit/4.0.0:
     resolution: {integrity: sha512-3HWTvrtU10/E7qgPznBfiOyG0TXj9W8c1GSfaI8L9GkaG1pLePiQPZ7E35a0R3ToQ/zcy4Im6aZ9WBgOTnv1MQ==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 5.1.0
+    dev: false
+
+  /unist-util-visit/4.1.0:
+    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
     dependencies:
       '@types/unist': 2.0.6
       unist-util-is: 5.1.1
@@ -8890,7 +8939,7 @@ packages:
   /unstated/2.1.1_prop-types@15.8.1+react@17.0.2:
     resolution: {integrity: sha512-fORlTWMZxq7NuMJDxyIrrYIZKN7wEWYQ9SiaJfIRcSpsowr6Ph/JIfK2tgtXLW614JfPG/t5q9eEIhXRCf55xg==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0
+      react: ^15.0.0 || ^16.0.0 || 17
     dependencies:
       create-react-context: 0.1.6_prop-types@15.8.1+react@17.0.2
       react: 17.0.2
@@ -8999,8 +9048,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.4.2_@vitest+ui@0.4.2+jsdom@19.0.0:
-    resolution: {integrity: sha512-f5kclFhkCuIKQ96lsAveESeyfTf9ihT79ZQcLDNCoJbMDNTHQdSMnU7aq9KAeOmZVh4la3NANKWECWM7HfP1ng==}
+  /vitest/0.5.0_@vitest+ui@0.5.0+jsdom@19.0.0:
+    resolution: {integrity: sha512-vgEej0Tl0VHztDKFQlC8wItPoszUMjac9rgHyw2uIZv9DK+4NMckxfnvhBHOvsnZXxWHOvk2sXmy80e95c820A==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
@@ -9020,7 +9069,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.4.2
+      '@vitest/ui': 0.5.0
       chai: 4.3.6
       jsdom: 19.0.0
       local-pkg: 0.4.1
@@ -9223,6 +9272,13 @@ packages:
       prosemirror-view: ^1.9.10
       y-protocols: ^1.0.1
       yjs: ^13.3.2
+    peerDependenciesMeta:
+      prosemirror-model:
+        optional: true
+      prosemirror-state:
+        optional: true
+      prosemirror-view:
+        optional: true
     dependencies:
       lib0: 0.2.43
       y-protocols: 1.0.5
