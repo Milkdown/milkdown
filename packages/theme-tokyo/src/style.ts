@@ -165,8 +165,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
 
     const inline = css`
         .code-inline {
-            background-color: ${palette('neutral')};
-            color: ${palette('background')};
+            background-color: ${palette('background')};
+            color: ${palette('secondary')};
             border-radius: ${radius};
             font-weight: 500;
             font-family: ${code};
@@ -184,8 +184,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             transition: all 0.4s ease-in-out;
             font-weight: 500;
             &:hover {
-                background-color: ${palette('line')};
-                box-shadow: 0 0.2em ${palette('line')}, 0 -0.2em ${palette('line')};
+                background-color: ${palette('shadow', 0.5)};
+                box-shadow: 0 0.2em ${palette('shadow', 0.5)}, 0 -0.2em ${palette('shadow', 0.5)};
             }
         }
 

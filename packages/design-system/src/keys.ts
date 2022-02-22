@@ -12,7 +12,6 @@ export const ThemeBorder = createThemeSliceKey<string, 'left' | 'right' | 'top' 
     'border',
 );
 export const ThemeIcon = createThemeSliceKey<IconValue, Icon, 'icon'>('icon');
-export const ThemeGlobal = createThemeSliceKey<void, undefined, 'global'>('global');
 export const internalThemeKeys = [
     ThemeColor,
     ThemeSize,
@@ -21,7 +20,6 @@ export const internalThemeKeys = [
     ThemeShadow,
     ThemeBorder,
     ThemeIcon,
-    ThemeGlobal,
 ] as const;
 
 export type ThemeColorType = typeof ThemeColor;
@@ -32,4 +30,3 @@ export type ThemeScrollbarType = typeof ThemeScrollbar;
 export type ThemeShadowType = typeof ThemeShadow;
 export type ThemeBorderType = typeof ThemeBorder;
 export type ThemeIconType = typeof ThemeIcon;
-export type ThemeGlobalType = typeof ThemeGlobal;

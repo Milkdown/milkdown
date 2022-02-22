@@ -14,8 +14,8 @@ import { useAllPresetRenderer } from '@milkdown/theme-pack-helper';
 
 import { code, typography } from './font';
 import { getIcon } from './icon';
-import { darkColor, lightColor } from './nord';
 import { getStyle } from './style';
+import { darkColor, lightColor } from './tokyo';
 
 export const font = {
     typography,
@@ -27,7 +27,7 @@ export const size = {
     lineWidth: '1px',
 };
 
-export const getNord = (isDarkMode = false) =>
+export const getTokyo = (isDarkMode = false) =>
     themeFactory((emotion, manager) => {
         const { css } = emotion;
         const colorSet = isDarkMode ? darkColor : lightColor;
@@ -117,11 +117,11 @@ export const getNord = (isDarkMode = false) =>
         useAllPresetRenderer(manager, emotion);
     });
 
-export const nordDark = getNord(true);
-export const nordLight = getNord(false);
+export const tokyoDark = getTokyo(true);
+export const tokyoLight = getTokyo(false);
 
 const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
-export const nord = getNord(darkMode);
+export const tokyo = getTokyo(darkMode);
 
-export { color, darkColor, lightColor } from './nord';
+export { color, darkColor, lightColor } from './tokyo';
 export { view } from './view';

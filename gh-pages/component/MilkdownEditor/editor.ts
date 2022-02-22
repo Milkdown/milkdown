@@ -30,7 +30,7 @@ export const createEditor = (
         .config((ctx) => {
             ctx.set(rootCtx, root);
             ctx.set(defaultValueCtx, defaultValue);
-            ctx.set(editorViewOptionsCtx, { editable: () => !readOnly });
+            ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, editable: () => !readOnly }));
             if (onChange) {
                 ctx.get(listenerCtx)
                     .markdownUpdated((_, markdown) => {

@@ -1,0 +1,35 @@
+{
+    "name": "@milkdown/theme-tokyo",
+    "version": "5.5.0",
+    "type": "module",
+    "main": "./lib/index.es.js",
+    "types": "./lib/index.d.ts",
+    "sideEffects": false,
+    "license": "MIT",
+    "scripts": {
+        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+        "tsc": "tsc --noEmit",
+        "build": "vite build && tsc --emitDeclarationOnly"
+    },
+    "files": [
+        "lib",
+        "src"
+    ],
+    "keywords": [
+        "milkdown",
+        "milkdown theme",
+        "nord"
+    ],
+    "dependencies": {
+        "@milkdown/theme-pack-helper": "workspace:*"
+    },
+    "devDependencies": {
+        "@milkdown/prose": "workspace:*",
+        "@milkdown/core": "workspace:*",
+        "@milkdown/design-system": "workspace:*"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "^5.4.0",
+        "@milkdown/prose": "^5.4.0"
+    }
+}

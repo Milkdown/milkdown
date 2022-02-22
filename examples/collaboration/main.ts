@@ -2,6 +2,7 @@
 
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { collaborative, y } from '@milkdown/plugin-collaborative';
+import { math } from '@milkdown/plugin-math';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
 import { WebsocketProvider } from 'y-websocket';
@@ -34,6 +35,7 @@ async function main() {
         })
         .use(nord)
         .use(commonmark)
+        .use(math)
         .use(
             collaborative.configure(y, {
                 doc,

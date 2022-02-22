@@ -11,6 +11,8 @@
     "dependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*"
+        "@milkdown/theme-nord": "workspace:*",
+        "@milkdown/theme-tokyo": "workspace:*",
+        "@milkdown/plugin-math": "workspace:*"
     }
 }

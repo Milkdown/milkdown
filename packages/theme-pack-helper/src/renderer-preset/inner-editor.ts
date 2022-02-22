@@ -93,7 +93,11 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
                             const { dispatch, state: outerState } = outerView;
                             const p = outerState.schema.nodes['paragraph'].create();
                             const tr = outerState.tr.replaceSelectionWith(p);
-                            dispatch(tr.setSelection(TextSelection.create(tr.doc, tr.selection.from - 2)));
+                            let start = tr.selection.from - 2;
+                            if (start < 0) {
+                                start = 0;
+                            }
+                            dispatch(tr.setSelection(TextSelection.create(tr.doc, start)));
                             outerView.focus();
                             return true;
                         }),
@@ -187,8 +191,9 @@ export const innerEditor = (manager: ThemeManager, emotion: Emotion) => {
             editor,
             onUpdate: (node, isInit) => {
                 if (isInit) {
-                    editor.dataset['value'] = node.attrs['value'];
-                    render(node.attrs['value']);
+                    const value = node.attrs['value'] || node.textContent || '';
+                    editor.dataset['value'] = value;
+                    render(value);
                     return;
                 }
 
