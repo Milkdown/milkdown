@@ -27,8 +27,8 @@
         "@types/prosemirror-model": "^1.12.0",
         "@types/prosemirror-schema-list": "^1.0.3",
         "@types/prosemirror-state": "^1.2.6",
-        "@types/prosemirror-transform": "^1.1.2",
-        "@types/prosemirror-view": "^1.17.1",
+        "@types/prosemirror-transform": "^1.1.5",
+        "@types/prosemirror-view": "^1.23.1",
         "prosemirror-commands": "^1.1.12",
         "prosemirror-dropcursor": "^1.3.5",
         "prosemirror-gapcursor": "^1.1.5",
@@ -38,9 +38,9 @@
         "prosemirror-model": "^1.15.0",
         "prosemirror-schema-list": "^1.1.4",
         "prosemirror-state": "^1.3.4",
-        "prosemirror-tables": "*",
-        "prosemirror-transform": "^1.3.3",
-        "prosemirror-view": "^1.23.2",
+        "prosemirror-tables": "^1.1.1",
+        "prosemirror-transform": "^1.3.4",
+        "prosemirror-view": "^1.23.6",
         "tslib": "^2.3.1"
     }
 }

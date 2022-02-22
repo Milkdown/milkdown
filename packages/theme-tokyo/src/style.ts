@@ -293,7 +293,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             ${selection};
 
             .editor {
-                user-modify: read-write-plaintext-only;
+                // TODO: disable in readonly mode
+                // user-modify: read-write-plaintext-only;
                 
                 ${editorLayout};
 
