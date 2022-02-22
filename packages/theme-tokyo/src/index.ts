@@ -5,7 +5,6 @@ import {
     ThemeColor,
     themeFactory,
     ThemeFont,
-    ThemeGlobal,
     ThemeIcon,
     ThemeScrollbar,
     ThemeShadow,
@@ -17,7 +16,6 @@ import { code, typography } from './font';
 import { getIcon } from './icon';
 import { getStyle } from './style';
 import { darkColor, lightColor } from './tokyo';
-import { view } from './view';
 
 export const font = {
     typography,
@@ -114,15 +112,7 @@ export const getTokyo = (isDarkMode = false) =>
             return getIcon(icon);
         });
 
-        manager.set(ThemeGlobal, () => {
-            const css = emotion.injectGlobal;
-
-            css`
-                ${view(emotion)};
-            `;
-
-            getStyle(manager, emotion);
-        });
+        getStyle(manager, emotion);
 
         useAllPresetRenderer(manager, emotion);
     });

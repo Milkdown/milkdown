@@ -44,20 +44,3 @@ export type IconValue = {
     dom: HTMLElement;
     label: string;
 };
-
-// export type ThemePack = {
-// color?: PR<Color>;
-// font?: PR<Font, string[]>;
-// size?: PR<Size>;
-// mixin?: (utils: Omit<ThemeTool, 'slots' | 'global' | 'mixin'>) => Partial<MixinFactory>;
-// icons?: (utils: Omit<ThemeTool, 'slots' | 'global'>) => Partial<Record<Icon, IconValue>>;
-// global?: (utils: Omit<ThemeTool, 'global'>) => void;
-// };
-
-// export type ThemeTool = {
-//     palette: (key: Color, alpha?: number) => string;
-//     mixin: MixinFactory;
-//     slots: Slots;
-//     font: Record<Font, string>;
-//     size: Record<Size, string>;
-// };

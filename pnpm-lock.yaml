@@ -149,11 +149,13 @@ importers:
       '@milkdown/plugin-math': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
+      '@milkdown/theme-tokyo': workspace:*
     dependencies:
       '@milkdown/core': link:../../packages/core
       '@milkdown/plugin-math': link:../../packages/plugin-math
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
       '@milkdown/theme-nord': link:../../packages/theme-nord
+      '@milkdown/theme-tokyo': link:../../packages/theme-tokyo
 
   examples/vue:
     specifiers:
@@ -824,9 +826,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/compat-data': 7.17.0
       '@babel/core': 7.17.5
@@ -840,9 +839,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-annotate-as-pure': 7.16.7
@@ -990,9 +986,6 @@ packages:
     resolution: {integrity: sha512-Yqfm+XDx0+Prh3VSeEQCPU81yC+JWZ2pDPFSS4ZdpfZhp4MkFMaDC1UqseovEKwSUpnIL7+vK+Clp7bfh0iD7g==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1003,9 +996,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/helper-plugin-utils': 7.16.7
 
@@ -1014,9 +1004,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1027,9 +1014,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1040,9 +1024,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1053,9 +1034,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-plugin-utils': 7.16.7
@@ -1066,9 +1044,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/core': 7.17.5
       '@babel/helper-create-class-features-plugin': 7.17.1_@babel+core@7.17.5
@@ -1753,9 +1728,6 @@ packages:
     resolution: {integrity: sha512-6mGSCWi9UzXut/ZAN6lGFu33wGR3SJisNl3c0tvlmb8XChH1b2SUvxvnOh7hvLpqyRdHHU9AiazV3Cwbk5SXKQ==}
     peerDependencies:
       '@babel/core': ^7.0.0
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
     dependencies:
       '@babel/helper-module-imports': 7.16.7
       '@babel/plugin-syntax-jsx': 7.16.7
@@ -1810,7 +1782,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0
       '@types/react': '*'
-      react: '>=16.8.0 || 17 || 17'
+      react: '>=16.8.0'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -1846,7 +1818,7 @@ packages:
       '@babel/core': ^7.0.0
       '@emotion/react': ^11.0.0-rc.0
       '@types/react': '*'
-      react: '>=16.8.0 || 17'
+      react: '>=16.8.0'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -3492,7 +3464,7 @@ packages:
     resolution: {integrity: sha512-eCnYYEUEc5i32LHwpE/W7NlddOB9oHwsPaWtWzYtflNkkwa3IfindIcoXdVWs12zCbwaMCavKNu84EXogVIWHw==}
     peerDependencies:
       prop-types: ^15.0.0
-      react: ^14.0.0 || ^15.0.0 || ^16.0.0 || 17
+      react: ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       prop-types: 15.8.1
       react: 17.0.2
@@ -7557,8 +7529,8 @@ packages:
     resolution: {integrity: sha512-ghuxb6QD3WWl3EE8OK1O3P67OKjbTxt5mvagAUK6xd0kS7SBysSS4KE+HiNPxC8r812EEFFJ2S6asIs9i7rvkQ==}
     engines: {node: '>=10'}
     peerDependencies:
-      react: '>=16.8.0 || 17'
-      react-dom: '>=16.8.0 || 17'
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
     dependencies:
       '@babel/runtime': 7.17.2
       '@emotion/css': 11.7.1
@@ -7742,10 +7714,7 @@ packages:
     resolution: {integrity: sha1-5yfcdVCztzEWY13LnA4E0Lev4Xw=}
     peerDependencies:
       babel-runtime: ^6.3.13
-      react: '>=0.13.0 || 17'
-    peerDependenciesMeta:
-      babel-runtime:
-        optional: true
+      react: '>=0.13.0'
     dependencies:
       lodash.debounce: 3.1.1
       prop-types: 15.8.1
@@ -7755,7 +7724,7 @@ packages:
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
-      react: 17.0.2 || 17 || 17
+      react: 17.0.2
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
@@ -7768,8 +7737,8 @@ packages:
   /react-json-tree/0.11.2_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-aYhUPj1y5jR3ZQ+G3N7aL8FbTyO03iLwnVvvEikLcNFqNTyabdljo9xDftZndUBFyyyL0aK3qGO9+8EilILHUw==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || 17
-      react-dom: ^15.0.0 || ^16.0.0 || 17
+      react: ^15.0.0 || ^16.0.0
+      react-dom: ^15.0.0 || ^16.0.0
     dependencies:
       babel-runtime: 6.26.0
       prop-types: 15.8.1
@@ -7781,7 +7750,7 @@ packages:
   /react-loading-skeleton/3.0.3_react@17.0.2:
     resolution: {integrity: sha512-HPkEqQGwmbg1ImcYA9n4hDiLC3u92xUdU+sSfrv/9l3lNBChAubcl1azjV2WakapdkbA3gko+hPzZkZGIb/9xA==}
     peerDependencies:
-      react: '>=16.8.0 || 17'
+      react: '>=16.8.0'
     dependencies:
       react: 17.0.2
     dev: false
@@ -7794,8 +7763,8 @@ packages:
   /react-router-dom/6.2.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-I6Zax+/TH/cZMDpj3/4Fl2eaNdcvoxxHoH1tYOREsQ22OKDYofGebrNm6CTPUcvLvZm63NL/vzCYdjf9CUhqmA==}
     peerDependencies:
-      react: '>=16.8 || 17'
-      react-dom: '>=16.8 || 17'
+      react: '>=16.8'
+      react-dom: '>=16.8'
     dependencies:
       history: 5.2.0
       react: 17.0.2
@@ -7806,7 +7775,7 @@ packages:
   /react-router/6.2.1_react@17.0.2:
     resolution: {integrity: sha512-2fG0udBtxou9lXtK97eJeET2ki5//UWfQSl1rlJ7quwe6jrktK9FCCc8dQb5QY6jAv3jua8bBQRhhDOM/kVRsg==}
     peerDependencies:
-      react: '>=16.8 || 17'
+      react: '>=16.8'
     dependencies:
       history: 5.2.0
       react: 17.0.2
@@ -7815,8 +7784,8 @@ packages:
   /react-spinners/0.11.0_b8fdba992ce7d797017dc07106486496:
     resolution: {integrity: sha512-rDZc0ABWn/M1OryboGsWVmIPg8uYWl0L35jPUhr40+Yg+syVPjeHwvnB7XWaRpaKus3M0cG9BiJA+ZB0dAwWyw==}
     peerDependencies:
-      react: ^16.0.0 || ^17.0.0 || 17
-      react-dom: ^16.0.0 || ^17.0.0 || 17
+      react: ^16.0.0 || ^17.0.0
+      react-dom: ^16.0.0 || ^17.0.0
     dependencies:
       '@emotion/react': 11.8.1_a0c521d4794c7ad97f5f4c1c4a7d5818
       react: 17.0.2
@@ -8923,7 +8892,7 @@ packages:
   /unstated/2.1.1_prop-types@15.8.1+react@17.0.2:
     resolution: {integrity: sha512-fORlTWMZxq7NuMJDxyIrrYIZKN7wEWYQ9SiaJfIRcSpsowr6Ph/JIfK2tgtXLW614JfPG/t5q9eEIhXRCf55xg==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || 17
+      react: ^15.0.0 || ^16.0.0
     dependencies:
       create-react-context: 0.1.6_prop-types@15.8.1+react@17.0.2
       react: 17.0.2
@@ -9256,13 +9225,6 @@ packages:
       prosemirror-view: ^1.9.10
       y-protocols: ^1.0.1
       yjs: ^13.3.2
-    peerDependenciesMeta:
-      prosemirror-model:
-        optional: true
-      prosemirror-state:
-        optional: true
-      prosemirror-view:
-        optional: true
     dependencies:
       lib0: 0.2.43
       y-protocols: 1.0.5

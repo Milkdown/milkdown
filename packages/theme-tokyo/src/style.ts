@@ -1,19 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import {
-    Color,
-    Emotion,
-    ThemeBorder,
-    ThemeColor,
-    ThemeFont,
-    ThemeManager,
-    ThemeScrollbar,
-    ThemeShadow,
-    ThemeSize,
-} from '@milkdown/core';
+import { Emotion, ThemeBorder, ThemeFont, ThemeManager, ThemeScrollbar, ThemeShadow, ThemeSize } from '@milkdown/core';
+import { getPalette } from '@milkdown/design-system';
 
-export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) => {
-    const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
+import { view } from './view';
+
+export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
+    const { injectGlobal, css } = emotion;
+    const palette = getPalette(manager);
     const radius = manager.get(ThemeSize, 'radius');
     const neutral = palette('neutral', 0.87);
     const surface = palette('surface');
@@ -190,8 +184,8 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
             transition: all 0.4s ease-in-out;
             font-weight: 500;
             &:hover {
-                background-color: ${palette('line')};
-                box-shadow: 0 0.2em ${palette('line')}, 0 -0.2em ${palette('line')};
+                background-color: ${palette('shadow', 0.5)};
+                box-shadow: 0 0.2em ${palette('shadow', 0.5)}, 0 -0.2em ${palette('shadow', 0.5)};
             }
         }
 
@@ -278,6 +272,7 @@ export const getStyle = (manager: ThemeManager, { injectGlobal, css }: Emotion) 
     `;
 
     injectGlobal`
+        ${view(emotion)};
         .milkdown {
             .material-icons-outlined {
                 font-size: 1.5em;

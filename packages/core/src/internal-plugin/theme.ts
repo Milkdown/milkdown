@@ -7,7 +7,6 @@ import {
     emotionCtx,
     initEmotion,
     internalThemeKeys,
-    ThemeGlobal,
     ThemeManager,
     themeManagerCtx,
     ThemeSliceKey,
@@ -44,7 +43,6 @@ export const themeFactory =
             createThemePack(emotion, themeManager);
 
             ctx.set(emotionCtx, emotion);
-            themeManager.get(ThemeGlobal, undefined);
 
             ctx.done(ThemeReady);
 
