@@ -54,6 +54,7 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 <a title="Douglas Duhaime" href="https://github.com/duhaime"><img src="https://avatars.githubusercontent.com/u/4801116?v=4" width="100" alt="profile picture of Douglas Duhaime"></a>
 <a title="Matt" href="https://github.com/tantaman"><img src="https://avatars.githubusercontent.com/u/1009003?v=4" width="100" alt="profile picture of Matt"></a>
 <a title="Quank" href="https://github.com/quank123wip"><img src="https://avatars.githubusercontent.com/u/31064092?v=4" width="100" alt="profile picture of Quank"></a>
+<a title="Chuang Zhu" href="https://github.com/chuangzhu"><img src="https://avatars.githubusercontent.com/u/31200881?v=4" width="100" alt="profile picture of Chuang Zhu"></a>
 
 # Sponsors
 
