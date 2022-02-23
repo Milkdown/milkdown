@@ -4,7 +4,7 @@
 
 > Milkdown 是一个所见即所得的编辑器框架。
 >
-> :baby_bottle: 这里是[代码仓库](点击右键打开链接)。\
+> :baby_bottle: 这里是[代码仓库] (点击右键打开链接)。\
 > 我们 ~~只支持 commonmark~~. GFM 也支持！
 
 您可以在**双栏编辑模式**中看到 markdown 文本。
@@ -77,7 +77,7 @@ $$
 
 图表由 [mermaid](https://mermaid-js.github.io/mermaid/#/)驱动。
 
-你可以输入 _\`\`\`mermaid_ 来添加图表。
+你可以输入 ` ```mermaid ` 来添加图表。
 
 ```mermaid
 graph TD;
@@ -91,7 +91,7 @@ graph TD;
 
 Have fun!
 
-[repo]: https://github.com/Saul-Mirone/milkdown
+[代码仓库]: https://github.com/Saul-Mirone/milkdown
 [prosemirror]: https://prosemirror.net/
 [yjs]: https://docs.yjs.dev/
 [remark]: https://github.com/remarkjs/remark

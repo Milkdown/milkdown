@@ -48,7 +48,7 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
             width: 100%;
             display: flex;
             flex-wrap: nowrap;
-            overflow-x: auto;
+            overflow-x: scroll;
             ${border};
             ${scrollbar};
             overflow-y: hidden;
