@@ -77,7 +77,7 @@ You can also type `:emoji:` to toggle the emoji picker.
 
 Diagrams is powered by [mermaid](https://mermaid-js.github.io/mermaid/#/).
 
-You can type _\`\`\`mermaid_ to add diagrams.
+You can type ` ```mermaid ` to add diagrams.
 
 ```mermaid
 graph TD;

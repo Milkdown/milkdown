@@ -77,7 +77,7 @@ $$
 
 图表由 [mermaid](https://mermaid-js.github.io/mermaid/#/)驱动。
 
-你可以输入 _\`\`\`mermaid_ 来添加图表。
+你可以输入 ` ```mermaid ` 来添加图表。
 
 ```mermaid
 graph TD;
