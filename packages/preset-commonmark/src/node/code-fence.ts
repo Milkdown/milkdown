@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, createThemeSliceKey } from '@milkdown/core';
+import { createCmd, createCmdKey, createThemeSliceKey, editorViewCtx } from '@milkdown/core';
 import { Node, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -49,10 +49,11 @@ export type ThemeCodeFenceType = typeof ThemeCodeFence;
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
     utils.themeManager.inject(ThemeCodeFence);
+    const languageList = options?.languageList || languageOptions;
 
     return {
         id,
-        schema: () => ({
+        schema: (ctx) => ({
             content: 'text*',
             group: 'block',
             marks: '',
@@ -79,13 +80,54 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 },
             ],
             toDOM: (node) => {
+                const select = document.createElement('select');
+                languageList.forEach((lang) => {
+                    const option = document.createElement('option');
+                    option.value = lang;
+                    option.innerText = !lang ? '--' : lang;
+                    if (lang === node.attrs['language']) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+                select.onchange = (e) => {
+                    const target = e.target;
+                    if (!(target instanceof HTMLSelectElement)) {
+                        return;
+                    }
+                    const view = ctx.get(editorViewCtx);
+                    if (!view.editable) {
+                        target.value = node.attrs['language'];
+                        return;
+                    }
+
+                    const { top, left } = target.getBoundingClientRect();
+                    const result = view.posAtCoords({ top, left });
+                    if (!result) return;
+
+                    const { tr } = view.state;
+
+                    view.dispatch(
+                        tr.setNodeMarkup(result.inside, undefined, {
+                            ...node.attrs,
+                            language: target.value,
+                        }),
+                    );
+                };
                 return [
-                    'pre',
+                    'div',
                     {
-                        'data-language': node.attrs['language'],
-                        class: utils.getClassName(node.attrs, 'code-fence'),
+                        class: 'code-fence-container',
                     },
-                    ['code', { spellCheck: 'false' }, 0],
+                    select,
+                    [
+                        'pre',
+                        {
+                            'data-language': node.attrs['language'],
+                            class: utils.getClassName(node.attrs, 'code-fence'),
+                        },
+                        ['code', { spellCheck: 'false' }, 0],
+                    ],
                 ];
             },
             parseMarkdown: {
@@ -163,7 +205,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 onFocus,
                 onSelectLanguage,
                 editable: () => view.editable,
-                languageList: options?.languageList || languageOptions,
+                languageList,
             });
             if (!renderer) return {};
 
