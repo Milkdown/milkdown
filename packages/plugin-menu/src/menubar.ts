@@ -38,11 +38,11 @@ const getRoot = (root: string | Node | null | undefined) => {
 
 export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: HandleDOM = defaultDOMHandler) => {
     const editorWrapperStyle = utils.getStyle((themeManager) => {
-        return themeManager.get(ThemeScrollbar, 'y') as string;
+        return themeManager.get(ThemeScrollbar, ['y']) as string;
     });
     const menuStyle = utils.getStyle((themeManager, { css }) => {
         const border = themeManager.get(ThemeBorder, undefined);
-        const scrollbar = themeManager.get(ThemeScrollbar, 'x');
+        const scrollbar = themeManager.get(ThemeScrollbar, ['x', 'thin']);
         const style = css`
             box-sizing: border-box;
             width: 100%;

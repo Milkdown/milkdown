@@ -95,7 +95,7 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
             display: flex;
             flex-direction: column;
 
-            ${manager.get(ThemeScrollbar, 'y')}
+            ${manager.get(ThemeScrollbar, ['y'])}
             ${manager.get(ThemeBorder, undefined)};
             ${manager.get(ThemeShadow, undefined)};
         }

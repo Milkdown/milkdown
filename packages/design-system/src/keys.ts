@@ -6,7 +6,11 @@ export const ThemeColor = createThemeSliceKey<string, [key: Color, opacity?: num
 export const ThemeSize = createThemeSliceKey<string, Size, 'size'>('size');
 export const ThemeFont = createThemeSliceKey<string, Font, 'font'>('font');
 
-export const ThemeScrollbar = createThemeSliceKey<string, 'x' | 'y' | undefined, 'scrollbar'>('scrollbar');
+export const ThemeScrollbar = createThemeSliceKey<
+    string,
+    [direction?: 'x' | 'y', type?: 'normal' | 'thin'] | undefined,
+    'scrollbar'
+>('scrollbar');
 export const ThemeShadow = createThemeSliceKey<string, undefined, 'shadow'>('shadow');
 export const ThemeBorder = createThemeSliceKey<string, 'left' | 'right' | 'top' | 'bottom' | undefined, 'border'>(
     'border',

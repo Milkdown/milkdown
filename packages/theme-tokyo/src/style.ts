@@ -136,7 +136,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 margin: 0 1.2em !important;
                 white-space: pre;
                 overflow: auto;
-                ${manager.get(ThemeScrollbar, 'x')}
+                ${manager.get(ThemeScrollbar, ['x'])}
 
                 background-color: ${palette('background')};
                 color: ${palette('neutral')};
@@ -199,7 +199,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
         .tableWrapper {
             overflow-x: auto;
             margin: 0;
-            ${manager.get(ThemeScrollbar, 'x')}
+            ${manager.get(ThemeScrollbar, ['x'])}
             width: 100%;
             * {
                 margin: 0;

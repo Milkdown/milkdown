@@ -52,7 +52,7 @@ export const getNord = (isDarkMode = false) =>
             return font[key].join(', ');
         });
 
-        manager.set(ThemeScrollbar, (direction = 'y') => {
+        manager.set(ThemeScrollbar, ([direction = 'y', type = 'normal'] = ['y', 'normal'] as never) => {
             const main = manager.get(ThemeColor, ['secondary', 0.38]);
             const bg = manager.get(ThemeColor, ['secondary', 0.12]);
             const hover = manager.get(ThemeColor, ['secondary']);
@@ -62,7 +62,7 @@ export const getNord = (isDarkMode = false) =>
                 -webkit-overflow-scrolling: touch;
 
                 &::-webkit-scrollbar {
-                    ${direction === 'y' ? 'width' : 'height'}: 12px;
+                    ${direction === 'y' ? 'width' : 'height'}: ${type === 'thin' ? 2 : 12}px;
                     background-color: transparent;
                 }
 
@@ -75,7 +75,7 @@ export const getNord = (isDarkMode = false) =>
                 &::-webkit-scrollbar-thumb {
                     border-radius: 999px;
                     background-color: ${main};
-                    border: 4px solid transparent;
+                    border: ${type === 'thin' ? 0 : 4}px solid transparent;
                     background-clip: content-box;
                 }
 
@@ -89,8 +89,8 @@ export const getNord = (isDarkMode = false) =>
             const { lineWidth } = size;
             const getShadow = (opacity: number) => manager.get(ThemeColor, ['shadow', opacity]);
             return css`
-                box-shadow: 0px ${lineWidth} ${lineWidth} ${getShadow(0.14)}, 0px 2px ${lineWidth} ${getShadow(0.12)},
-                    0px ${lineWidth} 3px ${getShadow(0.2)};
+                box-shadow: 0 ${lineWidth} ${lineWidth} ${getShadow(0.14)}, 0 2px ${lineWidth} ${getShadow(0.12)},
+                    0 ${lineWidth} 3px ${getShadow(0.2)};
             `;
         });
 

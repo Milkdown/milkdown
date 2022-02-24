@@ -18,8 +18,13 @@ type GetKey<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<any, any, inf
 
 export type ThemeManager = {
     inject: <Ret = unknown, T = undefined>(key: ThemeSliceKey<Ret, T>) => void;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    get: <Key extends ThemeSliceKey<any, any, any>, Ret = GetRet<Key>, T = GetT<Key>, K = GetKey<Key>>(
+    get: <
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Key extends ThemeSliceKey<any, any, any>,
+        Ret = GetRet<Key>,
+        T extends GetT<Key> = GetT<Key>,
+        K = GetKey<Key>,
+    >(
         key: Key | (K & string),
         info: T,
     ) => Ret;
