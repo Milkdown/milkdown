@@ -54,7 +54,7 @@ export const createEditor = (
         .use(history)
         .use(cursor)
         .use(prism)
-        .use(diagram)
+        .use(diagram())
         .use(tooltip)
         .use(math)
         .use(emoji)
