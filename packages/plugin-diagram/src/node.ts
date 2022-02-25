@@ -4,6 +4,8 @@ import { InputRule, NodeSelection, setBlockType } from '@milkdown/prose';
 import { ThemeInnerEditorType } from '@milkdown/theme-pack-helper';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
+// eslint-disable-next-line import/no-unresolved
+import mermaidAPI from 'mermaid/mermaidAPI';
 
 import { remarkMermaid } from '.';
 import { getStyle } from './style';
@@ -16,6 +18,8 @@ export type Options = {
         empty: string;
         error: string;
     };
+    theme: mermaidAPI.Theme;
+    themeCSS: string;
 };
 
 export const TurnIntoDiagram = createCmdKey('TurnIntoDiagram');
@@ -24,9 +28,12 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
     const mermaidVariables = getStyle(utils.themeManager);
     const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables} }}}%%\n`;
 
+    const theme = options?.theme ?? undefined;
+    const themeCSS = options?.themeCSS ?? undefined;
+
     const id = 'diagram';
     mermaid.startOnLoad = false;
-    mermaid.initialize({ startOnLoad: false });
+    mermaid.initialize({ startOnLoad: false, theme: theme, themeCSS: themeCSS });
 
     const placeholder = {
         empty: 'Empty',
