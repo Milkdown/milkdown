@@ -77,11 +77,15 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
 
         checkboxWrapper.contentEditable = 'false';
         checkbox.type = 'checkbox';
+        if (!editable()) {
+            checkbox.disabled = true;
+            checkboxWrapper.style.cursor = 'not-allowed';
+        }
         checkbox.onchange = (event) => {
             const target = event.target;
             if (!(target instanceof HTMLInputElement)) return;
 
-            if (!editable) {
+            if (!editable()) {
                 checkbox.checked = !checkbox.checked;
 
                 return;
