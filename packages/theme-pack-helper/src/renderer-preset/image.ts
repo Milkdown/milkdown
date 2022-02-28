@@ -1,11 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Color, Emotion, Icon, ThemeManager } from '@milkdown/core';
-import { ThemeColor, ThemeIcon, ThemeSize } from '@milkdown/core';
+import { Emotion, getPalette, Icon, ThemeIcon, ThemeManager, ThemeSize } from '@milkdown/core';
 import type { ThemeImageType } from '@milkdown/preset-commonmark';
 import type { Node } from '@milkdown/prose';
 
 export const image = (manager: ThemeManager, { css }: Emotion) => {
-    const palette = (color: Color, opacity = 1) => manager.get(ThemeColor, [color, opacity]);
+    const palette = getPalette(manager);
 
     manager.setCustom<ThemeImageType>('image', ({ placeholder, isBlock, onError, onLoad }) => {
         const style = css`

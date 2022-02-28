@@ -21,16 +21,21 @@ export type ThemeManager = {
     get: <
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Key extends ThemeSliceKey<any, any, any>,
-        Ret = GetRet<Key>,
+        Ret extends GetRet<Key> = GetRet<Key>,
         T extends GetT<Key> = GetT<Key>,
-        K = GetKey<Key>,
+        K extends GetKey<Key> = GetKey<Key>,
     >(
         key: Key | (K & string),
         info: T,
     ) => Ret;
     set: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setCustom: <Key extends ThemeSliceKey<any, any, any>, Ret = GetRet<Key>, T = GetT<Key>, K = GetKey<Key>>(
+    setCustom: <
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Key extends ThemeSliceKey<any, any, any>,
+        Ret extends GetRet<Key> = GetRet<Key>,
+        T extends GetT<Key> = GetT<Key>,
+        K extends GetKey<Key> = GetKey<Key>,
+    >(
         meta: Key | (K & string),
         value: ThemeSlice<Ret, T>,
     ) => void;
