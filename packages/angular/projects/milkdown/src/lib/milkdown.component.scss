@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "Material Icons Outlined";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("~material-icons/iconfont/material-icons-outlined.woff2")
+      format("woff2"),
+    url("~material-icons/iconfont/material-icons-outlined.woff") format("woff");
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  ::ng-deep {
+    @import "material-icons/iconfont/outlined.scss";
+    .milkdown-menu-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+    .milkdown {
+      width: 100%;
+      overflow: auto;
+      flex: 1;
+    }
+  }
+}

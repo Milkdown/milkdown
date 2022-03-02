@@ -20,3 +20,5 @@ e2e/cypress/downloads
 *.cache
 *error.log
 *debug.log
+
+!packages/angular/projects/milkdown/src/lib

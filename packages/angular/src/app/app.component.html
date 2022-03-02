@@ -1,0 +1,13 @@
+<div style="width: 400px;height:400px">
+  <!-- <milkdown-editor [(ngModel)]="title"></milkdown-editor> -->
+</div>
+<div >
+  <form [formGroup]="form" (ngSubmit)="handleClickSubmit()">
+    <div style="width: 600px;height:500px">
+    <milkdown-editor formControlName="content"></milkdown-editor></div>
+    <button type="submit">submit</button>
+  </form>
+</div>
+<pre>
+  {{title}}
+</pre>
