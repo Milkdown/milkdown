@@ -8,6 +8,7 @@ import {
     ThemeShadow,
     ThemeSize,
 } from '@milkdown/core';
+import { calculateTextPosition, EditorView } from '@milkdown/prose';
 
 type InputChipRenderer = {
     dom: {
@@ -15,10 +16,14 @@ type InputChipRenderer = {
         input: HTMLInputElement;
         button: HTMLButtonElement | null;
     };
+    hide: () => void;
+    show: (editorView: EditorView) => void;
 };
 
 type InputChipOptions = {
     isBindMode: boolean;
+    onUpdate: (value: string) => void;
+    buttonText?: string;
 };
 
 export const ThemeInputChip = createThemeSliceKey<InputChipRenderer, InputChipOptions, 'input-chip'>('input-chip');
@@ -87,9 +92,27 @@ const getStyle = (manager: ThemeManager, { css }: Emotion) => {
     `;
 };
 
+const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
+    calculateTextPosition(view, input, (start, end, target, parent) => {
+        const $editor = input.parentElement;
+        if (!$editor) {
+            throw new Error();
+        }
+
+        const selectionWidth = end.left - start.left;
+        let left = start.left - parent.left - (target.width - selectionWidth) / 2;
+        const top = start.bottom - parent.top + 14 + $editor.scrollTop;
+
+        if (left < 0) left = 0;
+
+        return [top, left];
+    });
+};
+
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom(ThemeInputChip, ({ isBindMode }) => {
+    manager.setCustom(ThemeInputChip, ({ isBindMode, onUpdate }) => {
         let button: HTMLButtonElement | null = null;
+        let value = '';
         const wrapper = document.createElement('div');
         const style = getStyle(manager, emotion);
 
@@ -106,24 +129,44 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
             button = document.createElement('button');
             wrapper.appendChild(button);
         }
+        const hide = () => {
+            wrapper.classList.add('hide');
+        };
+        const show = (editorView: EditorView) => {
+            wrapper.classList.remove('hide');
+            calcInputPos(editorView, wrapper);
+        };
 
-        input.addEventListener('input', (e) => {
+        const onChange = (e: Event) => {
             const { target } = e;
             if (!(target instanceof HTMLInputElement)) {
                 return;
             }
 
+            value = target.value;
+
             if (!button) {
+                onUpdate(value);
                 return;
             }
 
-            if (!target.value) {
+            if (!value) {
                 button.classList.add('disable');
                 return;
             }
 
             button.classList.remove('disable');
-        });
+        };
+
+        const onKeydown = (e: KeyboardEvent) => {
+            if ('key' in e && e.key === 'Enter') {
+                onUpdate(value);
+                hide();
+            }
+        };
+
+        input.addEventListener('input', onChange);
+        input.addEventListener('keydown', onKeydown);
 
         return {
             dom: {
@@ -131,6 +174,8 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
                 input,
                 button,
             },
+            hide,
+            show,
         };
     });
 };
