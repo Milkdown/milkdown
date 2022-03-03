@@ -11,19 +11,17 @@ import {
 import { calculateTextPosition, EditorView } from '@milkdown/prose';
 
 type InputChipRenderer = {
-    dom: {
-        wrapper: HTMLDivElement;
-        input: HTMLInputElement;
-        button: HTMLButtonElement | null;
-    };
-    hide: () => void;
+    dom: HTMLElement;
+    init: (editorView: EditorView) => void;
     show: (editorView: EditorView) => void;
+    hide: () => void;
+    destroy: () => void;
 };
 
 type InputChipOptions = {
     isBindMode: boolean;
-    onUpdate: (value: string) => void;
     buttonText?: string;
+    onUpdate: (value: string) => void;
 };
 
 export const ThemeInputChip = createThemeSliceKey<InputChipRenderer, InputChipOptions, 'input-chip'>('input-chip');
@@ -94,7 +92,7 @@ const getStyle = (manager: ThemeManager, { css }: Emotion) => {
 
 const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
     calculateTextPosition(view, input, (start, end, target, parent) => {
-        const $editor = input.parentElement;
+        const $editor = view.dom.parentElement;
         if (!$editor) {
             throw new Error();
         }
@@ -110,8 +108,9 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
 };
 
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom(ThemeInputChip, ({ isBindMode, onUpdate }) => {
+    manager.setCustom(ThemeInputChip, ({ isBindMode, onUpdate, buttonText }) => {
         let button: HTMLButtonElement | null = null;
+        let disabled = false;
         let value = '';
         const wrapper = document.createElement('div');
         const style = getStyle(manager, emotion);
@@ -125,8 +124,9 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
         const input = document.createElement('input');
         wrapper.appendChild(input);
 
-        if (isBindMode) {
+        if (!isBindMode) {
             button = document.createElement('button');
+            button.innerText = buttonText || 'APPLY';
             wrapper.appendChild(button);
         }
         const hide = () => {
@@ -137,7 +137,7 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
             calcInputPos(editorView, wrapper);
         };
 
-        const onChange = (e: Event) => {
+        const onInput = (e: Event) => {
             const { target } = e;
             if (!(target instanceof HTMLInputElement)) {
                 return;
@@ -152,10 +152,19 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
 
             if (!value) {
                 button.classList.add('disable');
+                disabled = true;
                 return;
             }
 
             button.classList.remove('disable');
+            disabled = false;
+        };
+
+        const onClick = (e: MouseEvent) => {
+            if (disabled) return;
+            e.stopPropagation();
+            onUpdate(value);
+            hide();
         };
 
         const onKeydown = (e: KeyboardEvent) => {
@@ -165,17 +174,30 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
             }
         };
 
-        input.addEventListener('input', onChange);
-        input.addEventListener('keydown', onKeydown);
+        const destroy = () => {
+            input.removeEventListener('input', onInput);
+            input.removeEventListener('keydown', onKeydown);
+            button?.removeEventListener('mousedown', onClick);
+            wrapper.remove();
+        };
+
+        const init = (editorView: EditorView) => {
+            const $editor = editorView.dom.parentElement;
+            if (!$editor) throw new Error();
+
+            input.addEventListener('input', onInput);
+            input.addEventListener('keydown', onKeydown);
+            button?.addEventListener('mousedown', onClick);
+
+            $editor.appendChild(wrapper);
+        };
 
         return {
-            dom: {
-                wrapper,
-                input,
-                button,
-            },
-            hide,
+            dom: wrapper,
+            init,
             show,
+            hide,
+            destroy,
         };
     });
 };
