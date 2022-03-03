@@ -25,7 +25,8 @@
     "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
-        "@milkdown/design-system": "workspace:*"
+        "@milkdown/design-system": "workspace:*",
+        "@milkdown/theme-pack-helper": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^5.4.0",

@@ -1,7 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
-import { InputRule, Node as ProseNode, TextSelection, toggleMark } from '@milkdown/prose';
+import {
+    EditorView,
+    InputRule,
+    Node as ProseNode,
+    Plugin,
+    PluginKey,
+    TextSelection,
+    toggleMark,
+} from '@milkdown/prose';
+import type { ThemeInputChipType } from '@milkdown/theme-pack-helper';
 import { createMark } from '@milkdown/utils';
+
+const key = new PluginKey('MILKDOWN_PLUGIN_LINK_INPUT');
 
 export const ToggleLink = createCmdKey<string>('ToggleLink');
 export const ModifyLink = createCmdKey<string>('ModifyLink');
@@ -101,5 +112,75 @@ export const link = createMark((utils) => {
                 return tr;
             }),
         ],
+        prosePlugins: (type) => {
+            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                onUpdate: (value) => {
+                    // TODO: call command here;
+                    value;
+                },
+            });
+            const shouldDisplay = (view: EditorView) => {
+                const { from, to } = view.state.selection;
+
+                return (
+                    view.state.selection.empty &&
+                    view.state.selection instanceof TextSelection &&
+                    view.state.doc.rangeHasMark(from, from === to ? to + 1 : to, type)
+                );
+            };
+            const getCurrentLink = (view: EditorView) => {
+                const { selection } = view.state;
+                let node: ProseNode | undefined;
+                const { from, to } = selection;
+                view.state.doc.nodesBetween(from, from === to ? to + 1 : to, (n) => {
+                    if (type.isInSet(n.marks)) {
+                        node = n;
+                        return false;
+                    }
+                    return;
+                });
+                if (!node) return;
+
+                const mark = node.marks.find((m) => m.type === type);
+                if (!mark) return;
+
+                const value = mark.attrs['href'];
+                return value;
+            };
+            const renderByView = (view: EditorView) => {
+                if (!view.editable) {
+                    return;
+                }
+                const display = shouldDisplay(view);
+                if (display) {
+                    inputChipRenderer.show(view);
+                    inputChipRenderer.update(getCurrentLink(view));
+                } else {
+                    inputChipRenderer.hide();
+                }
+            };
+            return [
+                new Plugin({
+                    key,
+                    view: (editorView) => {
+                        inputChipRenderer.init(editorView);
+                        renderByView(editorView);
+
+                        return {
+                            update: (view, prevState) => {
+                                const isEqualSelection =
+                                    prevState?.doc.eq(view.state.doc) && prevState.selection.eq(view.state.selection);
+                                if (isEqualSelection) return;
+
+                                renderByView(view);
+                            },
+                            destroy: () => {
+                                inputChipRenderer.destroy();
+                            },
+                        };
+                    },
+                }),
+            ];
+        },
     };
 });

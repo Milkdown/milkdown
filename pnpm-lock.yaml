@@ -139,7 +139,7 @@ importers:
       '@milkdown/react': link:../../packages/react
       '@milkdown/theme-nord': link:../../packages/theme-nord
       '@types/react': 17.0.39
-      '@types/react-dom': 17.0.12
+      '@types/react-dom': 17.0.13
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
 
@@ -568,6 +568,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/design-system': workspace:*
       '@milkdown/prose': workspace:*
+      '@milkdown/theme-pack-helper': workspace:*
       '@milkdown/utils': workspace:*
       remark-inline-links: ^6.0.0
       tslib: ^2.3.1
@@ -579,6 +580,7 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
+      '@milkdown/theme-pack-helper': link:../theme-pack-helper
 
   packages/preset-gfm:
     specifiers:
@@ -2358,8 +2360,8 @@ packages:
       '@types/react': 17.0.39
     dev: true
 
-  /@types/react-dom/17.0.12:
-    resolution: {integrity: sha512-SeJ430ndLI15JtRSHuzotn7AIdUtr8bdk6XW8mMfzjZo3vahRgJGHZqHiI4nAzCHTVG4qC21ObfsHBVUEHcDhg==}
+  /@types/react-dom/17.0.13:
+    resolution: {integrity: sha512-wEP+B8hzvy6ORDv1QBhcQia4j6ea4SFIBttHYpXKPFZRviBvknq0FRh3VrIxeXUmsPkwuXVZrVGG7KUVONmXCQ==}
     dependencies:
       '@types/react': 17.0.39
     dev: false

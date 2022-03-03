@@ -12,6 +12,7 @@ import { calculateTextPosition, EditorView } from '@milkdown/prose';
 
 type InputChipRenderer = {
     dom: HTMLElement;
+    update: (value: string) => void;
     init: (editorView: EditorView) => void;
     show: (editorView: EditorView) => void;
     hide: () => void;
@@ -19,8 +20,9 @@ type InputChipRenderer = {
 };
 
 type InputChipOptions = {
-    isBindMode: boolean;
+    isBindMode?: boolean;
     buttonText?: string;
+    placeHolder?: string;
     onUpdate: (value: string) => void;
 };
 
@@ -108,7 +110,7 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
 };
 
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom(ThemeInputChip, ({ isBindMode, onUpdate, buttonText }) => {
+    manager.setCustom(ThemeInputChip, ({ isBindMode, onUpdate, buttonText, placeHolder }) => {
         let button: HTMLButtonElement | null = null;
         let disabled = false;
         let value = '';
@@ -122,6 +124,9 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
         wrapper.classList.add('tooltip-input');
 
         const input = document.createElement('input');
+        if (placeHolder) {
+            input.placeholder = placeHolder;
+        }
         wrapper.appendChild(input);
 
         if (!isBindMode) {
@@ -192,12 +197,18 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
             $editor.appendChild(wrapper);
         };
 
+        const update = (v: string) => {
+            value = v;
+            input.value = v;
+        };
+
         return {
             dom: wrapper,
             init,
             show,
             hide,
             destroy,
+            update,
         };
     });
 };
