@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, schemaCtx, ThemeInputChipType } from '@milkdown/core';
+import { commandsCtx, createCmd, createCmdKey, schemaCtx, ThemeInputChipType } from '@milkdown/core';
 import {
     EditorView,
     InputRule,
@@ -111,11 +111,10 @@ export const link = createMark((utils) => {
                 return tr;
             }),
         ],
-        prosePlugins: (type) => {
+        prosePlugins: (type, ctx) => {
             const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
                 onUpdate: (value) => {
-                    // TODO: call command here;
-                    value;
+                    ctx.get(commandsCtx).call(ModifyLink, value);
                 },
             });
             const shouldDisplay = (view: EditorView) => {
