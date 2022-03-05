@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, createThemeSliceKey, editorViewCtx } from '@milkdown/core';
-import { liftListItem, Node, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
+import { createCmd, createCmdKey, editorViewCtx, ThemeTaskListItemType } from '@milkdown/core';
+import { liftListItem, sinkListItem, splitListItem, wrapIn, wrappingInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from './supported-keys';
@@ -12,21 +12,8 @@ export const SinkTaskListItem = createCmdKey('SinkTaskListItem');
 export const LiftTaskListItem = createCmdKey('LiftTaskListItem');
 export const TurnIntoTaskList = createCmdKey('TurnIntoTaskList');
 
-type ThemeRenderer = {
-    dom: HTMLElement;
-    contentDOM: HTMLElement;
-    onUpdate: (node: Node) => void;
-};
-type ThemeOptions = {
-    editable: () => boolean;
-    onChange: (selected: boolean) => void;
-};
-export const ThemeTaskListItem = createThemeSliceKey<ThemeRenderer, ThemeOptions, 'task-list-item'>('task-list-item');
-export type ThemeTaskListItemType = typeof ThemeTaskListItem;
-
 export const taskListItem = createNode<Keys>((utils) => {
     const id = 'task_list_item';
-    utils.themeManager.inject(ThemeTaskListItem);
 
     return {
         id,
@@ -129,7 +116,7 @@ export const taskListItem = createNode<Keys>((utils) => {
         view: () => (node, view, getPos) => {
             let currNode = node;
 
-            const renderer = utils.themeManager.get(ThemeTaskListItem, {
+            const renderer = utils.themeManager.get<ThemeTaskListItemType>('task-list-item', {
                 editable: () => view.editable,
                 onChange: (selected) => {
                     const { tr } = view.state;

@@ -139,7 +139,7 @@ importers:
       '@milkdown/react': link:../../packages/react
       '@milkdown/theme-nord': link:../../packages/theme-nord
       '@types/react': 17.0.39
-      '@types/react-dom': 17.0.12
+      '@types/react-dom': 17.0.13
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
 
@@ -566,7 +566,6 @@ importers:
   packages/preset-commonmark:
     specifiers:
       '@milkdown/core': workspace:*
-      '@milkdown/design-system': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       remark-inline-links: ^6.0.0
@@ -577,7 +576,6 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
-      '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
 
   packages/preset-gfm:
@@ -692,16 +690,12 @@ importers:
   packages/theme-pack-helper:
     specifiers:
       '@milkdown/core': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
-      '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
-      '@milkdown/preset-commonmark': link:../preset-commonmark
-      '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
 
   packages/theme-tokyo:
@@ -2358,8 +2352,8 @@ packages:
       '@types/react': 17.0.39
     dev: true
 
-  /@types/react-dom/17.0.12:
-    resolution: {integrity: sha512-SeJ430ndLI15JtRSHuzotn7AIdUtr8bdk6XW8mMfzjZo3vahRgJGHZqHiI4nAzCHTVG4qC21ObfsHBVUEHcDhg==}
+  /@types/react-dom/17.0.13:
+    resolution: {integrity: sha512-wEP+B8hzvy6ORDv1QBhcQia4j6ea4SFIBttHYpXKPFZRviBvknq0FRh3VrIxeXUmsPkwuXVZrVGG7KUVONmXCQ==}
     dependencies:
       '@types/react': 17.0.39
     dev: false
