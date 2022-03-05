@@ -1,33 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import {
-    createThemeSliceKey,
     Emotion,
     getPalette,
     ThemeBorder,
+    ThemeInputChipType,
     ThemeManager,
     ThemeShadow,
     ThemeSize,
 } from '@milkdown/core';
 import { calculateTextPosition, EditorView } from '@milkdown/prose';
-
-type InputChipRenderer = {
-    dom: HTMLElement;
-    update: (value: string) => void;
-    init: (editorView: EditorView) => void;
-    show: (editorView: EditorView) => void;
-    hide: () => void;
-    destroy: () => void;
-};
-
-type InputChipOptions = {
-    isBindMode?: boolean;
-    buttonText?: string;
-    placeHolder?: string;
-    onUpdate: (value: string) => void;
-};
-
-export const ThemeInputChip = createThemeSliceKey<InputChipRenderer, InputChipOptions, 'input-chip'>('input-chip');
-export type ThemeInputChipType = typeof ThemeInputChip;
 
 const getStyle = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);
@@ -110,7 +91,7 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
 };
 
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom(ThemeInputChip, ({ isBindMode, onUpdate, buttonText, placeHolder }) => {
+    manager.setCustom<ThemeInputChipType>('input-chip', ({ isBindMode, onUpdate, buttonText, placeHolder }) => {
         let button: HTMLButtonElement | null = null;
         let disabled = false;
         let value = '';

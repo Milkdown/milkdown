@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
+import { createCmd, createCmdKey, schemaCtx, ThemeInputChipType } from '@milkdown/core';
 import {
     EditorView,
     InputRule,
@@ -9,7 +9,6 @@ import {
     TextSelection,
     toggleMark,
 } from '@milkdown/prose';
-import type { ThemeInputChipType } from '@milkdown/theme-pack-helper';
 import { createMark } from '@milkdown/utils';
 
 const key = new PluginKey('MILKDOWN_PLUGIN_LINK_INPUT');

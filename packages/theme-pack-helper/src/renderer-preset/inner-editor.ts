@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createThemeSliceKey, Emotion, getPalette, ThemeFont, ThemeManager, ThemeSize } from '@milkdown/core';
+import { Emotion, getPalette, ThemeFont, ThemeInnerEditorType, ThemeManager, ThemeSize } from '@milkdown/core';
 import {
     baseKeymap,
     chainCommands,
@@ -14,26 +14,6 @@ import {
     TextSelection,
     undo,
 } from '@milkdown/prose';
-
-type InnerEditorRenderer = {
-    dom: HTMLElement;
-    preview: HTMLElement;
-    editor: HTMLElement;
-    onUpdate: (node: Node, isInit: boolean) => void;
-    onFocus: (node: Node) => void;
-    onBlur: (node: Node) => void;
-    onDestroy: () => void;
-    stopEvent: (event: Event) => boolean;
-};
-type InnerEditorOptions = {
-    view: EditorView;
-    getPos: () => number;
-    render: (content: string) => void;
-};
-export const ThemeInnerEditor = createThemeSliceKey<InnerEditorRenderer, InnerEditorOptions, 'inner-editor'>(
-    'inner-editor',
-);
-export type ThemeInnerEditorType = typeof ThemeInnerEditor;
 
 const getStyle = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);
@@ -168,7 +148,7 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
 
 export const innerEditor = (manager: ThemeManager, emotion: Emotion) => {
     const { codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(manager, emotion);
-    manager.setCustom(ThemeInnerEditor, ({ view, getPos, render }) => {
+    manager.setCustom<ThemeInnerEditorType>('inner-editor', ({ view, getPos, render }) => {
         const inner$ = createInnerEditor(view, getPos);
         const dom = document.createElement('div');
         dom.classList.add('math-block');

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { EditorView } from '@milkdown/prose';
+import type { EditorView, Node } from '@milkdown/prose';
 
 import { createThemeSliceKey } from '../manager';
 

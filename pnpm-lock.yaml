@@ -566,9 +566,7 @@ importers:
   packages/preset-commonmark:
     specifiers:
       '@milkdown/core': workspace:*
-      '@milkdown/design-system': workspace:*
       '@milkdown/prose': workspace:*
-      '@milkdown/theme-pack-helper': workspace:*
       '@milkdown/utils': workspace:*
       remark-inline-links: ^6.0.0
       tslib: ^2.3.1
@@ -578,9 +576,7 @@ importers:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
-      '@milkdown/design-system': link:../design-system
       '@milkdown/prose': link:../prose
-      '@milkdown/theme-pack-helper': link:../theme-pack-helper
 
   packages/preset-gfm:
     specifiers:
@@ -694,16 +690,12 @@ importers:
   packages/theme-pack-helper:
     specifiers:
       '@milkdown/core': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
-      '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
-      '@milkdown/preset-commonmark': link:../preset-commonmark
-      '@milkdown/preset-gfm': link:../preset-gfm
       '@milkdown/prose': link:../prose
 
   packages/theme-tokyo:

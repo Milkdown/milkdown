@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Emotion, getPalette, Icon, ThemeIcon, ThemeManager, ThemeSize } from '@milkdown/core';
-import { ThemeTaskListItemType } from '@milkdown/preset-gfm';
+import { Emotion, getPalette, Icon, ThemeIcon, ThemeManager, ThemeSize, ThemeTaskListItemType } from '@milkdown/core';
 
 export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);

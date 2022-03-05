@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey } from '@milkdown/core';
-import { createThemeSliceKey } from '@milkdown/design-system';
-import { findSelectedNodeOfType, InputRule, Node } from '@milkdown/prose';
+import { createCmd, createCmdKey, ThemeImageType } from '@milkdown/core';
+import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
 export const ModifyImage = createCmdKey<string>('ModifyImage');
@@ -16,26 +15,7 @@ export type ImageOptions = {
     };
 };
 
-type ThemeOptions = {
-    isBlock: boolean;
-    placeholder: {
-        loading: string;
-        empty: string;
-        failed: string;
-    };
-    onError: (img: HTMLImageElement) => void;
-    onLoad: (img: HTMLImageElement) => void;
-};
-type ThemeRenderer = {
-    dom: HTMLElement;
-    onUpdate: (node: Node) => void;
-};
-
-export const ThemeImage = createThemeSliceKey<ThemeRenderer, ThemeOptions, 'image'>('image');
-export type ThemeImageType = typeof ThemeImage;
 export const image = createNode<string, ImageOptions>((utils, options) => {
-    utils.themeManager.inject(ThemeImage);
-
     return {
         id: 'image',
         schema: () => ({
@@ -160,7 +140,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             };
             const isBlock = options?.isBlock ?? false;
             const nodeType = node.type;
-            const renderer = utils.themeManager.get(ThemeImage, {
+            const renderer = utils.themeManager.get<ThemeImageType>('image', {
                 placeholder,
                 isBlock,
                 onError: (img) => {

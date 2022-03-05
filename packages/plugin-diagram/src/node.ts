@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey } from '@milkdown/core';
+import { createCmd, createCmdKey, ThemeInnerEditorType } from '@milkdown/core';
 import { InputRule, NodeSelection, setBlockType } from '@milkdown/prose';
-import { ThemeInnerEditorType } from '@milkdown/theme-pack-helper';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
 // eslint-disable-next-line import/no-unresolved

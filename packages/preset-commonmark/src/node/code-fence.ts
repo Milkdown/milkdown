@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, createThemeSliceKey, editorViewCtx } from '@milkdown/core';
-import { Node, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { createCmd, createCmdKey, editorViewCtx, ThemeCodeFenceType } from '@milkdown/core';
+import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -31,24 +31,8 @@ export const tildeInputRegex = /^~~~(?<language>[a-z]*)?[\s\n]$/;
 
 export const TurnIntoCodeFence = createCmdKey('TurnIntoCodeFence');
 
-type ThemeOptions = {
-    onSelectLanguage: (language: string) => void;
-    editable: () => boolean;
-    onFocus: () => void;
-    onBlur: () => void;
-    languageList: string[];
-};
-type ThemeRenderer = {
-    dom: HTMLElement;
-    contentDOM: HTMLElement;
-    onUpdate: (node: Node) => void;
-};
-export const ThemeCodeFence = createThemeSliceKey<ThemeRenderer, ThemeOptions, 'code-fence'>('code-fence');
-export type ThemeCodeFenceType = typeof ThemeCodeFence;
-
 const id = 'fence';
 export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, options) => {
-    utils.themeManager.inject(ThemeCodeFence);
     const languageList = options?.languageList || languageOptions;
 
     return {
@@ -200,7 +184,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 );
             };
 
-            const renderer = utils.themeManager.get(ThemeCodeFence, {
+            const renderer = utils.themeManager.get<ThemeCodeFenceType>('code-fence', {
                 onBlur,
                 onFocus,
                 onSelectLanguage,
