@@ -91,7 +91,7 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
 };
 
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom<ThemeInputChipType>('input-chip', ({ isBindMode, onUpdate, buttonText, placeHolder }) => {
+    manager.setCustom<ThemeInputChipType>('input-chip', ({ isBindMode, onUpdate, buttonText, placeholder }) => {
         let button: HTMLButtonElement | null = null;
         let disabled = false;
         let value = '';
@@ -105,8 +105,8 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
         wrapper.classList.add('tooltip-input');
 
         const input = document.createElement('input');
-        if (placeHolder) {
-            input.placeholder = placeHolder;
+        if (placeholder) {
+            input.placeholder = placeholder;
         }
         wrapper.appendChild(input);
 

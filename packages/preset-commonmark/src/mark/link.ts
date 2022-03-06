@@ -113,6 +113,7 @@ export const link = createMark((utils) => {
         ],
         prosePlugins: (type, ctx) => {
             const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                placeholder: 'Input Web Link',
                 onUpdate: (value) => {
                     ctx.get(commandsCtx).call(ModifyLink, value);
                 },

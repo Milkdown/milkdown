@@ -15,7 +15,7 @@ type InputChipRenderer = {
 type InputChipOptions = {
     isBindMode?: boolean;
     buttonText?: string;
-    placeHolder?: string;
+    placeholder?: string;
     onUpdate: (value: string) => void;
 };
 
