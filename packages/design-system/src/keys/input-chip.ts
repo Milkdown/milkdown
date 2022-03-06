@@ -16,6 +16,7 @@ type InputChipOptions = {
     isBindMode?: boolean;
     buttonText?: string;
     placeholder?: string;
+    calculatePosition?: (editorView: EditorView, dom: HTMLElement) => [top: number, left: number];
     onUpdate: (value: string) => void;
 };
 

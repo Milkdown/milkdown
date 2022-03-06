@@ -91,105 +91,108 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
 };
 
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom<ThemeInputChipType>('input-chip', ({ isBindMode, onUpdate, buttonText, placeholder }) => {
-        let button: HTMLButtonElement | null = null;
-        let disabled = false;
-        let value = '';
-        const wrapper = document.createElement('div');
-        const style = getStyle(manager, emotion);
+    manager.setCustom<ThemeInputChipType>(
+        'input-chip',
+        ({ isBindMode, onUpdate, buttonText, placeholder, calculatePosition = calcInputPos }) => {
+            let button: HTMLButtonElement | null = null;
+            let disabled = false;
+            let value = '';
+            const wrapper = document.createElement('div');
+            const style = getStyle(manager, emotion);
 
-        if (style) {
-            wrapper.classList.add(style);
-        }
-
-        wrapper.classList.add('tooltip-input');
-
-        const input = document.createElement('input');
-        if (placeholder) {
-            input.placeholder = placeholder;
-        }
-        wrapper.appendChild(input);
-
-        if (!isBindMode) {
-            button = document.createElement('button');
-            button.innerText = buttonText || 'APPLY';
-            wrapper.appendChild(button);
-        }
-        const hide = () => {
-            wrapper.classList.add('hide');
-        };
-        const show = (editorView: EditorView) => {
-            wrapper.classList.remove('hide');
-            calcInputPos(editorView, wrapper);
-        };
-
-        const onInput = (e: Event) => {
-            const { target } = e;
-            if (!(target instanceof HTMLInputElement)) {
-                return;
+            if (style) {
+                wrapper.classList.add(style);
             }
 
-            value = target.value;
+            wrapper.classList.add('tooltip-input');
 
-            if (!button) {
-                onUpdate(value);
-                return;
+            const input = document.createElement('input');
+            if (placeholder) {
+                input.placeholder = placeholder;
             }
+            wrapper.appendChild(input);
 
-            if (!value) {
-                button.classList.add('disable');
-                disabled = true;
-                return;
+            if (!isBindMode) {
+                button = document.createElement('button');
+                button.innerText = buttonText || 'APPLY';
+                wrapper.appendChild(button);
             }
+            const hide = () => {
+                wrapper.classList.add('hide');
+            };
+            const show = (editorView: EditorView) => {
+                wrapper.classList.remove('hide');
+                calculatePosition(editorView, wrapper);
+            };
 
-            button.classList.remove('disable');
-            disabled = false;
-        };
+            const onInput = (e: Event) => {
+                const { target } = e;
+                if (!(target instanceof HTMLInputElement)) {
+                    return;
+                }
 
-        const onClick = (e: MouseEvent) => {
-            if (disabled) return;
-            e.stopPropagation();
-            onUpdate(value);
-            hide();
-        };
+                value = target.value;
 
-        const onKeydown = (e: KeyboardEvent) => {
-            if ('key' in e && e.key === 'Enter') {
+                if (!button) {
+                    onUpdate(value);
+                    return;
+                }
+
+                if (!value) {
+                    button.classList.add('disable');
+                    disabled = true;
+                    return;
+                }
+
+                button.classList.remove('disable');
+                disabled = false;
+            };
+
+            const onClick = (e: MouseEvent) => {
+                if (disabled) return;
+                e.stopPropagation();
                 onUpdate(value);
                 hide();
-            }
-        };
+            };
 
-        const destroy = () => {
-            input.removeEventListener('input', onInput);
-            input.removeEventListener('keydown', onKeydown);
-            button?.removeEventListener('mousedown', onClick);
-            wrapper.remove();
-        };
+            const onKeydown = (e: KeyboardEvent) => {
+                if ('key' in e && e.key === 'Enter') {
+                    onUpdate(value);
+                    hide();
+                }
+            };
 
-        const init = (editorView: EditorView) => {
-            const $editor = editorView.dom.parentElement;
-            if (!$editor) throw new Error();
+            const destroy = () => {
+                input.removeEventListener('input', onInput);
+                input.removeEventListener('keydown', onKeydown);
+                button?.removeEventListener('mousedown', onClick);
+                wrapper.remove();
+            };
 
-            input.addEventListener('input', onInput);
-            input.addEventListener('keydown', onKeydown);
-            button?.addEventListener('mousedown', onClick);
+            const init = (editorView: EditorView) => {
+                const $editor = editorView.dom.parentElement;
+                if (!$editor) throw new Error();
 
-            $editor.appendChild(wrapper);
-        };
+                input.addEventListener('input', onInput);
+                input.addEventListener('keydown', onKeydown);
+                button?.addEventListener('mousedown', onClick);
 
-        const update = (v: string) => {
-            value = v;
-            input.value = v;
-        };
+                $editor.appendChild(wrapper);
+            };
 
-        return {
-            dom: wrapper,
-            init,
-            show,
-            hide,
-            destroy,
-            update,
-        };
-    });
+            const update = (v: string) => {
+                value = v;
+                input.value = v;
+            };
+
+            return {
+                dom: wrapper,
+                init,
+                show,
+                hide,
+                destroy,
+                update,
+            };
+        },
+    );
 };
