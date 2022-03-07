@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, ThemeImageType } from '@milkdown/core';
-import { findSelectedNodeOfType, InputRule } from '@milkdown/prose';
+import { commandsCtx, createCmd, createCmdKey, ThemeImageType, ThemeInputChipType } from '@milkdown/core';
+import { EditorView, findSelectedNodeOfType, InputRule, Plugin, PluginKey } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
 export const ModifyImage = createCmdKey<string>('ModifyImage');
@@ -14,6 +14,7 @@ export type ImageOptions = {
         failed: string;
     };
 };
+const key = new PluginKey('MILKDOWN_PLUGIN_IMAGE_INPUT');
 
 export const image = createNode<string, ImageOptions>((utils, options) => {
     return {
@@ -197,6 +198,58 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     dom.classList.remove('ProseMirror-selectednode');
                 },
             };
+        },
+        prosePlugins: (type, ctx) => {
+            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                placeholder: 'Input Image Link',
+                onUpdate: (value) => {
+                    ctx.get(commandsCtx).call(ModifyImage, value);
+                },
+            });
+            const shouldDisplay = (view: EditorView) => {
+                return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
+            };
+            const getCurrentLink = (view: EditorView) => {
+                const result = findSelectedNodeOfType(view.state.selection, type);
+                if (!result) return;
+
+                const value = result.node.attrs['src'];
+                return value;
+            };
+            const renderByView = (view: EditorView) => {
+                if (!view.editable) {
+                    return;
+                }
+                const display = shouldDisplay(view);
+                if (display) {
+                    inputChipRenderer.show(view);
+                    inputChipRenderer.update(getCurrentLink(view));
+                } else {
+                    inputChipRenderer.hide();
+                }
+            };
+            return [
+                new Plugin({
+                    key,
+                    view: (editorView) => {
+                        inputChipRenderer.init(editorView);
+                        renderByView(editorView);
+
+                        return {
+                            update: (view, prevState) => {
+                                const isEqualSelection =
+                                    prevState?.doc.eq(view.state.doc) && prevState.selection.eq(view.state.selection);
+                                if (isEqualSelection) return;
+
+                                renderByView(view);
+                            },
+                            destroy: () => {
+                                inputChipRenderer.destroy();
+                            },
+                        };
+                    },
+                }),
+            ];
         },
     };
 });

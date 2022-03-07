@@ -2,7 +2,7 @@
 import { Ctx } from '@milkdown/core';
 import { EditorView, findSelectedNodeOfType, Schema } from '@milkdown/prose';
 
-import { createToggleIcon, modifyImage, modifyInlineMath, updateImageView, updateInlineMathView } from './utility';
+import { createToggleIcon, modifyInlineMath, updateInlineMathView } from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -41,7 +41,7 @@ export enum ButtonAction {
 
 export enum InputAction {
     // ModifyLink,
-    ModifyImage,
+    // ModifyImage,
     ModifyInlineMath,
 }
 
@@ -97,12 +97,12 @@ export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): 
             bind: true,
             ...inputOptions.inlineMath,
         },
-        [InputAction.ModifyImage]: {
-            display: (view) => Boolean(nodes['image'] && findSelectedNodeOfType(view.state.selection, nodes['image'])),
-            command: modifyImage(ctx),
-            update: updateImageView,
-            ...inputOptions.image,
-        },
+        // [InputAction.ModifyImage]: {
+        //     display: (view) => Boolean(nodes['image'] && findSelectedNodeOfType(view.state.selection, nodes['image'])),
+        //     command: modifyImage(ctx),
+        //     update: updateImageView,
+        //     ...inputOptions.image,
+        // },
     };
 };
 
