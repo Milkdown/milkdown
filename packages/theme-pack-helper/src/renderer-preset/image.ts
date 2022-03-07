@@ -45,6 +45,7 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
             &.system {
                 width: 100%;
                 padding: 0 2em;
+                font-size: inherit;
 
                 img {
                     width: 0;
