@@ -3,17 +3,16 @@ import type { EditorState, EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
 import { createButtonManager } from './button-manager';
-import { createInputManager } from './input-manager';
-import type { ButtonMap, InputMap } from './item';
+import type { ButtonMap } from './item';
 
-export const createPlugin = (buttonMap: ButtonMap, inputMap: InputMap, utils: Utils, bottom: boolean) => {
+export const createPlugin = (buttonMap: ButtonMap, utils: Utils, bottom: boolean) => {
     const buttonManager = createButtonManager(buttonMap, utils, bottom);
-    const inputManager = createInputManager(inputMap, utils);
+    // const inputManager = createInputManager(inputMap, utils);
     let shouldHide = false;
 
     const hide = () => {
         buttonManager.hide();
-        inputManager.hide();
+        // inputManager.hide();
     };
 
     const update = (view: EditorView, prevState?: EditorState) => {
@@ -28,18 +27,15 @@ export const createPlugin = (buttonMap: ButtonMap, inputMap: InputMap, utils: Ut
         if (isEqualSelection) return;
 
         buttonManager.update(view);
-        inputManager.update(view);
     };
 
     return {
         update,
         destroy: () => {
             buttonManager.destroy();
-            inputManager.destroy();
         },
         render: (editorView: EditorView) => {
             buttonManager.render(editorView);
-            inputManager.render(editorView);
             update(editorView);
         },
         setHide: (isTyping: boolean) => {
