@@ -11,7 +11,7 @@ type RootType = Node | undefined | null | string;
 
 export const editorViewCtx = createSlice({} as EditorView, 'editorView');
 export const editorViewOptionsCtx = createSlice({} as EditorOptions, 'editorViewOptions');
-export const rootCtx = createSlice(document.body as RootType, 'root');
+export const rootCtx = createSlice(null as RootType, 'root');
 export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer');
 
 export const EditorViewReady = createTimer('EditorViewReady');
