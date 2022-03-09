@@ -11,7 +11,7 @@ type RootType = Node | undefined | null | string;
 
 export const editorViewCtx = createSlice({} as EditorView, 'editorView');
 export const editorViewOptionsCtx = createSlice({} as EditorOptions, 'editorViewOptions');
-export const rootCtx = createSlice(document.body as RootType, 'root');
+export const rootCtx = createSlice(null as RootType, 'root');
 export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer');
 
 export const EditorViewReady = createTimer('EditorViewReady');
@@ -42,7 +42,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
         const nodeViews = Object.fromEntries(ctx.get(viewCtx) as [string, ViewFactory][]);
-        const root = ctx.get(rootCtx);
+        const root = ctx.get(rootCtx) || document.body;
         const el = typeof root === 'string' ? document.querySelector(root) : root;
 
         const container = el ? createViewContainer(el) : undefined;
