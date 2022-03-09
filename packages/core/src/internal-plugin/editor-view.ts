@@ -42,7 +42,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
         const nodeViews = Object.fromEntries(ctx.get(viewCtx) as [string, ViewFactory][]);
-        const root = ctx.get(rootCtx);
+        const root = ctx.get(rootCtx) || document.body;
         const el = typeof root === 'string' ? document.querySelector(root) : root;
 
         const container = el ? createViewContainer(el) : undefined;
