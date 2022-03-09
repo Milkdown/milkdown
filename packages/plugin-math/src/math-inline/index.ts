@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Color, createCmd, createCmdKey, ThemeColor, ThemeSize } from '@milkdown/core';
-import { findSelectedNodeOfType, InputRule, NodeSelection } from '@milkdown/prose';
+import { Color, commandsCtx, createCmd, createCmdKey, ThemeColor, ThemeInputChipType, ThemeSize } from '@milkdown/core';
+import { EditorView, findSelectedNodeOfType, InputRule, NodeSelection, Plugin, PluginKey } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import katex from 'katex';
 
@@ -11,6 +11,8 @@ type Options = {
         error: string;
     };
 };
+
+const key = new PluginKey('MILKDOWN_PLUGIN_MATH_INPUT');
 
 export const ModifyInlineMath = createCmdKey<string>('ModifyInlineMath');
 export const mathInline = createNode<string, Options>((utils, options) => {
@@ -137,5 +139,58 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                 );
             }),
         ],
+        prosePlugins: (type, ctx) => {
+            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                placeholder: 'Input Math',
+                onUpdate: (value) => {
+                    ctx.get(commandsCtx).call(ModifyInlineMath, value);
+                },
+                isBindMode: true,
+            });
+            const shouldDisplay = (view: EditorView) => {
+                return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
+            };
+            const getCurrentLink = (view: EditorView) => {
+                const result = findSelectedNodeOfType(view.state.selection, type);
+                if (!result) return;
+
+                const value = result.node.attrs['value'];
+                return value;
+            };
+            const renderByView = (view: EditorView) => {
+                if (!view.editable) {
+                    return;
+                }
+                const display = shouldDisplay(view);
+                if (display) {
+                    inputChipRenderer.show(view);
+                    inputChipRenderer.update(getCurrentLink(view));
+                } else {
+                    inputChipRenderer.hide();
+                }
+            };
+            return [
+                new Plugin({
+                    key,
+                    view: (editorView) => {
+                        inputChipRenderer.init(editorView);
+                        renderByView(editorView);
+
+                        return {
+                            update: (view, prevState) => {
+                                const isEqualSelection =
+                                    prevState?.doc.eq(view.state.doc) && prevState.selection.eq(view.state.selection);
+                                if (isEqualSelection) return;
+
+                                renderByView(view);
+                            },
+                            destroy: () => {
+                                inputChipRenderer.destroy();
+                            },
+                        };
+                    },
+                }),
+            ];
+        },
     };
 });

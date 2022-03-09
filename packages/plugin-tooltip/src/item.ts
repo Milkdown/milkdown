@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
-import { EditorView, findSelectedNodeOfType, Schema } from '@milkdown/prose';
+import { EditorView, Schema } from '@milkdown/prose';
 
-import { createToggleIcon, modifyInlineMath, updateInlineMathView } from './utility';
+import { createToggleIcon } from './utility';
 
 export type Pred = (view: EditorView) => boolean;
 export type Updater = (view: EditorView, $: HTMLElement) => void;
@@ -75,35 +75,6 @@ export type TooltipOptions = {
         placeholder: string;
     };
     bottom: boolean;
-};
-
-export const inputMap = (schema: Schema, ctx: Ctx, inputOptions: InputOptions): InputMap => {
-    const { nodes } = schema;
-    return {
-        // [InputAction.ModifyLink]: {
-        //     display: (view) =>
-        //         view.state.selection.empty &&
-        //         view.state.selection instanceof TextSelection &&
-        //         hasMark(view.state, marks['link']),
-        //     command: modifyLink(ctx),
-        //     update: updateLinkView,
-        //     ...inputOptions.link,
-        // },
-        [InputAction.ModifyInlineMath]: {
-            display: (view) =>
-                Boolean(nodes['math_inline'] && findSelectedNodeOfType(view.state.selection, nodes['math_inline'])),
-            command: modifyInlineMath(ctx),
-            update: updateInlineMathView,
-            bind: true,
-            ...inputOptions.inlineMath,
-        },
-        // [InputAction.ModifyImage]: {
-        //     display: (view) => Boolean(nodes['image'] && findSelectedNodeOfType(view.state.selection, nodes['image'])),
-        //     command: modifyImage(ctx),
-        //     update: updateImageView,
-        //     ...inputOptions.image,
-        // },
-    };
 };
 
 export const buttonMap = (schema: Schema, ctx: Ctx): ButtonMap => {
