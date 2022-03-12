@@ -178,6 +178,7 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
                 button?.addEventListener('mousedown', onClick);
 
                 $editor.appendChild(wrapper);
+                hide();
             };
 
             const update = (v: string) => {
