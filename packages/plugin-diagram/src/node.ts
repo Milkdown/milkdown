@@ -32,7 +32,7 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
 
     const id = 'diagram';
     mermaid.startOnLoad = false;
-    mermaid.initialize({ startOnLoad: false, theme: theme, themeCSS: themeCSS });
+    mermaid.initialize({ startOnLoad: false, theme, themeCSS });
 
     const placeholder = {
         empty: 'Empty',

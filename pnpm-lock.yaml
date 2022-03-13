@@ -128,10 +128,10 @@ importers:
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/react': workspace:*
       '@milkdown/theme-nord': workspace:*
-      '@types/react': latest
-      '@types/react-dom': latest
-      react: latest
-      react-dom: latest
+      '@types/react': ^17.0.6
+      '@types/react-dom': ^17.0.5
+      react: ^17.0.2
+      react-dom: ^17.0.2
     dependencies:
       '@milkdown/core': link:../../packages/core
       '@milkdown/plugin-tooltip': link:../../packages/plugin-tooltip
@@ -380,14 +380,14 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/theme-pack-helper': workspace:*
       '@milkdown/utils': workspace:*
-      '@types/mermaid': ^8.2.7
+      '@types/mermaid': ^8.2.8
       mermaid: ^8.12.1
       nanoid: ^3.1.25
       tslib: ^2.3.1
       unist-util-visit: ^4.0.0
     dependencies:
       '@milkdown/utils': link:../utils
-      '@types/mermaid': 8.2.7
+      '@types/mermaid': 8.2.8
       mermaid: 8.14.0
       nanoid: 3.3.1
       tslib: 2.3.1
@@ -656,11 +656,11 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      '@types/react': '*'
-      '@types/react-dom': '*'
+      '@types/react': ^17.0.6
+      '@types/react-dom': ^17.0.5
       nanoid: ^3.1.25
-      react: '*'
-      react-dom: '*'
+      react: ^17.0.2
+      react-dom: ^17.0.2
       tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
@@ -670,7 +670,7 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
       '@types/react': 17.0.39
-      '@types/react-dom': 17.0.11
+      '@types/react-dom': 17.0.13
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
 
@@ -2215,8 +2215,8 @@ packages:
       '@types/unist': 2.0.6
     dev: false
 
-  /@types/mermaid/8.2.7:
-    resolution: {integrity: sha512-fHgKYloGociOIEftp1IXWEktRZOw4qhEWWZe4a8RKd0AIuhj70its8VV3+sM1DmaWRLPW9rbVD83JR0XJzEh8g==}
+  /@types/mermaid/8.2.8:
+    resolution: {integrity: sha512-Xk6OxTQuK7Us6bom64mCr19ualLgk/kRPm/1hz8Bqu/tQnYURO9/DNYOhWaT6e94BypF8qgImC6bsgBTGBJIJA==}
     dev: false
 
   /@types/minimatch/3.0.5:
@@ -2356,7 +2356,6 @@ packages:
     resolution: {integrity: sha512-wEP+B8hzvy6ORDv1QBhcQia4j6ea4SFIBttHYpXKPFZRviBvknq0FRh3VrIxeXUmsPkwuXVZrVGG7KUVONmXCQ==}
     dependencies:
       '@types/react': 17.0.39
-    dev: false
 
   /@types/react-router-dom/5.3.3:
     resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
@@ -7758,7 +7757,7 @@ packages:
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
-      react: 17.0.2 || 17
+      react: 17.0.2 || 17 || 17
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1

@@ -3,10 +3,7 @@
     "compilerOptions": {
         "rootDir": "src",
         "outDir": "lib",
-        "baseUrl": ".",
-        "paths": {
-            "*": ["./typings/*"]
-        }
+        "baseUrl": "."
     },
     "include": ["src"]
 }

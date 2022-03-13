@@ -32,7 +32,7 @@
         "@milkdown/prose": "^5.4.0"
     },
     "dependencies": {
-        "@types/mermaid": "^8.2.7",
+        "@types/mermaid": "^8.2.8",
         "@milkdown/utils": "workspace:*",
         "mermaid": "^8.12.1",
         "nanoid": "^3.1.25",
