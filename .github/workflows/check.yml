@@ -35,7 +35,7 @@ jobs:
             - name: install dependencies
               run: pnpm install
             - name: build packs
-              run: pnpm build:packs
+              run: pnpm build:cache
 
             - name: run test
               run: |
