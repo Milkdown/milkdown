@@ -21,6 +21,8 @@
         "start": "concurrently -n watch,doc \"pnpm watch\" \"pnpm doc\"",
         "build:packs": "pnpm --filter=./packages run build",
         "build:doc": "pnpm run build --filter @milkdown/gh-pages",
+        "build:cache": "nx run-many --target=build --all --parallel",
+        "graph": "nx dep-graph",
         "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
         "changeset": "changeset",
         "release": "changeset publish",
