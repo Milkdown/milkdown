@@ -35,7 +35,7 @@ jobs:
             - name: install dependencies
               run: pnpm install
             - name: build packs
-              run: pnpm build:packs
+              run: pnpm build:cache
 
             - name: run test
               run: |
@@ -97,7 +97,7 @@ jobs:
             - name: install dependencies
               run: pnpm install
             - name: build packs
-              run: pnpm build:packs
+              run: pnpm build:cache
 
             - name: create versions or publish to npm registry
               uses: changesets/action@v1
@@ -136,7 +136,7 @@ jobs:
             - name: install dependencies
               run: pnpm install
             - name: build packs
-              run: pnpm build:packs
+              run: pnpm build:cache
             - name: build milkdown doc
               run: pnpm build:doc
 
