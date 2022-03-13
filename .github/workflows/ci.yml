@@ -137,8 +137,6 @@ jobs:
               run: pnpm install
             - name: build packs
               run: pnpm build:cache
-            - name: build milkdown doc
-              run: pnpm build:doc
 
             - name: deploy to pages
               uses: peaceiris/actions-gh-pages@v3
