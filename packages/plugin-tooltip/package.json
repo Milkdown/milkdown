@@ -32,5 +32,29 @@
     "dependencies": {
         "@milkdown/utils": "workspace:*",
         "tslib": "^2.3.1"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "packages/plugin-tooltip/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            },
+            "tsc": {
+                "outputs": [],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }

@@ -34,5 +34,29 @@
         "@milkdown/utils": "workspace:*",
         "remark-inline-links": "^6.0.0",
         "tslib": "^2.3.1"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "packages/preset-commonmark/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            },
+            "tsc": {
+                "outputs": [],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }

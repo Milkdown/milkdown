@@ -7,6 +7,7 @@ on:
 env:
     CI: true
     PNPM_CACHE_FOLDER: .pnpm-store
+    NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -34,8 +35,11 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - name: install dependencies
               run: pnpm install
+
+            - run: pnpx nx-cloud start-ci-run
+
             - name: build packs
-              run: pnpm build:packs
+              run: pnpm build:cache
 
             - name: run test
               run: |
@@ -49,6 +53,8 @@ jobs:
                   command: pnpm test --filter=@milkdown/e2e
                   wait-on: 'http://localhost:7000'
                   browser: chrome
+
+            - run: pnpx nx-cloud stop-all-agents
 
             - name: export screenshots (on failure only)
               uses: actions/upload-artifact@v3.0.0
@@ -65,3 +71,32 @@ jobs:
                   name: cypress-videos
                   path: tests/cypress/videos
                   retention-days: 7
+    agents:
+        runs-on: ubuntu-latest
+        name: Agent
+        timeout-minutes: 60
+        strategy:
+            matrix:
+                agent: [1, 2, 3]
+        steps:
+            - uses: actions/checkout@v2
+            - name: setup node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 15.x
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+            - name: install dependencies
+              run: pnpm install
+            - name: Start Nx Agent ${{ matrix.agent }}
+              run: npx nx-cloud start-agent

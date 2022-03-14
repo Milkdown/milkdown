@@ -7,6 +7,7 @@ on:
 env:
     CI: true
     PNPM_CACHE_FOLDER: .pnpm-store
+    NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -34,8 +35,11 @@ jobs:
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
             - name: install dependencies
               run: pnpm install
+
+            - run: pnpx nx-cloud start-ci-run
+
             - name: build packs
-              run: pnpm build:packs
+              run: pnpm build:cache
 
             - name: run test
               run: |
@@ -49,6 +53,23 @@ jobs:
                   command: pnpm test --filter=@milkdown/e2e
                   wait-on: 'http://localhost:7000'
                   browser: chrome
+
+            - name: create versions or publish to npm registry
+              uses: changesets/action@v1
+              with:
+                  publish: pnpm release
+                  commit: 'ci(changeset): release milkdown'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: deploy to pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: docs
+
+            - run: pnpx nx-cloud stop-all-agents
 
             - name: export screenshots (on failure only)
               uses: actions/upload-artifact@v3.0.0
@@ -65,57 +86,15 @@ jobs:
                   name: cypress-videos
                   path: tests/cypress/videos
                   retention-days: 7
-
-    release:
+    agents:
         runs-on: ubuntu-latest
-        needs: test
+        name: Agent
+        timeout-minutes: 60
+        strategy:
+            matrix:
+                agent: [1, 2, 3]
         steps:
-            - name: checkout code repository
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-            - name: setup node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 15.x
-            - name: install pnpm
-              run: npm i pnpm@latest -g
-            - name: load cache
-              uses: actions/cache@v2
-              with:
-                  path: |
-                      ./.pnpm-store
-                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}
-
-            - name: creating .npmrc
-              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-            - name: setup pnpm config
-              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-
-            - name: install dependencies
-              run: pnpm install
-            - name: build packs
-              run: pnpm build:packs
-
-            - name: create versions or publish to npm registry
-              uses: changesets/action@v1
-              with:
-                  publish: pnpm release
-                  commit: 'ci(changeset): release milkdown'
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    pages:
-        runs-on: ubuntu-latest
-        needs: test
-        steps:
-            - name: checkout code repository
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
+            - uses: actions/checkout@v2
             - name: setup node.js
               uses: actions/setup-node@v3
               with:
@@ -132,16 +111,7 @@ jobs:
                       ${{ runner.os }}
             - name: setup pnpm config
               run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-
             - name: install dependencies
               run: pnpm install
-            - name: build packs
-              run: pnpm build:packs
-            - name: build milkdown doc
-              run: pnpm build:doc
-
-            - name: deploy to pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: docs
+            - name: Start Nx Agent ${{ matrix.agent }}
+              run: npx nx-cloud start-agent
