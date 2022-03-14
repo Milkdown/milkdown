@@ -62,5 +62,20 @@
         "postcss-mixins": "^9.0.0",
         "postcss-nested": "^5.0.5",
         "prosemirror-dev-tools": "^3.1.0"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "docs"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }

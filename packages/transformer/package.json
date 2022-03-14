@@ -33,5 +33,20 @@
         "remark": "^14.0.1",
         "tslib": "^2.3.1",
         "unified": "^10.1.0"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "packages/transformer/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }

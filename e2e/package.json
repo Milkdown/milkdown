@@ -28,5 +28,20 @@
         "@cypress/snapshot": "^2.1.7",
         "cypress": "^9.2.0",
         "start-server-and-test": "^1.13.0"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "e2e/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }

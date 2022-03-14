@@ -37,5 +37,20 @@
         "@milkdown/design-system": "workspace:*",
         "@milkdown/exception": "workspace:*",
         "tslib": "^2.3.1"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "packages/core/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }

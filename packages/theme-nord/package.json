@@ -31,5 +31,20 @@
     "peerDependencies": {
         "@milkdown/core": "^5.4.0",
         "@milkdown/prose": "^5.4.0"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "packages/theme-nord/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }

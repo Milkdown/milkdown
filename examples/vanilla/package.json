@@ -4,9 +4,7 @@
     "version": "5.5.0",
     "license": "MIT",
     "scripts": {
-        "start": "vite",
-        "build": "vite build",
-        "preview": "vite preview"
+        "start": "vite"
     },
     "dependencies": {
         "@milkdown/core": "workspace:*",

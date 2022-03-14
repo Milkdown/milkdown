@@ -39,5 +39,20 @@
         "tslib": "^2.3.1",
         "twemoji": "^13.1.0",
         "unist-util-visit": "^4.0.0"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "packages/plugin-emoji/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
     }
 }
