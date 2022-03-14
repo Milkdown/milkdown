@@ -51,6 +51,15 @@
                         "projects": "dependencies"
                     }
                 ]
+            },
+            "tsc": {
+                "outputs": [],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
             }
         }
     }
