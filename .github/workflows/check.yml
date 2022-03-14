@@ -76,8 +76,8 @@ jobs:
         name: Agent
         timeout-minutes: 60
         strategy:
-        matrix:
-            agent: [1, 2, 3]
+            matrix:
+                agent: [1, 2, 3]
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
