@@ -77,25 +77,25 @@ jobs:
         timeout-minutes: 60
         strategy:
         matrix:
-            agent: [ 1, 2, 3 ]
+            agent: [1, 2, 3]
         steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v1
-            with: 
-            node-version: '14'
-        - name: install pnpm
-            run: npm i pnpm@latest -g
-        - name: load cache
-            uses: actions/cache@v2
-            with:
-                path: |
-                    ./.pnpm-store
-                key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                restore-keys: |
-                    ${{ runner.os }}
-        - name: setup pnpm config
-            run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-        - name: install dependencies
-            run: pnpm install
-        - name: Start Nx Agent ${{ matrix.agent }}
-            run: npx nx-cloud start-agent  
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+              node-version: '14'
+            - name: install pnpm
+              run: npm i pnpm@latest -g
+            - name: load cache
+              uses: actions/cache@v2
+              with:
+                  path: |
+                      ./.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+            - name: setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+            - name: install dependencies
+              run: pnpm install
+            - name: Start Nx Agent ${{ matrix.agent }}
+              run: npx nx-cloud start-agent
