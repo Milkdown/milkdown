@@ -80,9 +80,10 @@ jobs:
                 agent: [1, 2, 3]
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - name: setup node.js
+              uses: actions/setup-node@v3
               with:
-              node-version: '14'
+                  node-version: 15.x
             - name: install pnpm
               run: npm i pnpm@latest -g
             - name: load cache
