@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { createContainer, createSlice, Slice } from '@milkdown/ctx';
+import { createContainer, createSlice, Ctx, MilkdownPlugin, Pre, Slice } from '@milkdown/ctx';
+
+import { emotionCtx } from './emotion';
 
 export type ThemeSlice<Ret = unknown, T = undefined> = (info: T) => Ret | undefined;
 export type ThemeSliceKey<Ret = unknown, T = undefined, K extends string = string> = Slice<ThemeSlice<Ret, T>, K>;
@@ -41,7 +43,7 @@ export type ThemeManager = {
     ) => void;
 
     onFlush: (fn: () => void) => void;
-    doFlush: () => void;
+    switch: (ctx: Ctx, theme: MilkdownPlugin) => Promise<void>;
 };
 
 export const themeManagerCtx = createSlice({} as ThemeManager, 'themeManager');
@@ -75,7 +77,12 @@ export const createThemeManager = () => {
             lazyMap.set(key, value as unknown as ThemeSlice);
         },
         onFlush: (fn) => flushListener.push(fn),
-        doFlush: () => flushListener.forEach((f) => f()),
+        switch: async (ctx, theme) => {
+            const emotion = ctx.get(emotionCtx);
+            emotion.flush();
+            await theme(ctx as unknown as Pre)(ctx);
+            flushListener.forEach((f) => f());
+        },
     };
 
     return themeManager;
