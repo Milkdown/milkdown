@@ -103,6 +103,13 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
             if (style) {
                 wrapper.classList.add(style);
             }
+            manager.onFlush(() => {
+                const style = getStyle(manager, emotion);
+
+                if (style) {
+                    wrapper.classList.add(style);
+                }
+            });
 
             wrapper.classList.add('tooltip-input');
 

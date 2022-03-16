@@ -39,6 +39,9 @@ export type ThemeManager = {
         meta: Key | (K & string),
         value: ThemeSlice<Ret, T>,
     ) => void;
+
+    onFlush: (fn: () => void) => void;
+    doFlush: () => void;
 };
 
 export const themeManagerCtx = createSlice({} as ThemeManager, 'themeManager');
@@ -46,6 +49,7 @@ export const themeManagerCtx = createSlice({} as ThemeManager, 'themeManager');
 export const createThemeManager = () => {
     const container = createContainer();
     const lazyMap: Map<string, ThemeSlice> = new Map();
+    const flushListener: Array<() => void> = [];
     const themeManager: ThemeManager = {
         inject: (slice) => slice(container.sliceMap),
         set: (slice, value) => {
@@ -70,6 +74,8 @@ export const createThemeManager = () => {
             const key = typeof slice === 'string' ? slice : slice.sliceName;
             lazyMap.set(key, value as unknown as ThemeSlice);
         },
+        onFlush: (fn) => flushListener.push(fn),
+        doFlush: () => flushListener.forEach((f) => f()),
     };
 
     return themeManager;
