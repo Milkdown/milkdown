@@ -1,7 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewCtx, parserCtx } from '@milkdown/core';
+import { themeManagerCtx } from '@milkdown/design-system';
 import { Slice } from '@milkdown/prose';
 import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
+import { nord } from '@milkdown/theme-nord';
+import { tokyo } from '@milkdown/theme-tokyo';
 import React, { forwardRef } from 'react';
 
 import { isDarkModeCtx } from '../Context';
@@ -16,6 +19,7 @@ type Props = {
     onChange?: (markdown: string) => void;
 };
 
+let isNord = true;
 export type MilkdownRef = { update: (markdown: string) => void };
 export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly, onChange }, ref) => {
     const editorRef = React.useRef<EditorRef>(null);
@@ -39,6 +43,19 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
             });
         },
     }));
+
+    React.useEffect(() => {
+        (window as any).switchTheme = () => {
+            if (!editorReady || !editorRef.current) return;
+            const editor = editorRef.current.get();
+            if (!editor) return;
+            editor.action((ctx) => {
+                const themeManager = ctx.get(themeManagerCtx);
+                themeManager.switch(ctx, isNord ? tokyo : nord);
+                isNord = !isNord;
+            });
+        };
+    }, [editorReady]);
 
     const editor = useEditor(
         (root) => createEditor(root, md, readOnly, setEditorReady, isDarkMode, onChange),

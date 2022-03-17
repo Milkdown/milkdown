@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, ThemeInnerEditorType } from '@milkdown/core';
+import { createCmd, createCmdKey, ThemeInnerEditorType, themeManagerCtx } from '@milkdown/core';
 import { InputRule, NodeSelection, setBlockType } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 import mermaid from 'mermaid';
@@ -24,9 +24,6 @@ export type Options = {
 export const TurnIntoDiagram = createCmdKey('TurnIntoDiagram');
 
 export const diagramNode = createNode<string, Options>((utils, options) => {
-    const mermaidVariables = getStyle(utils.themeManager);
-    const header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables} }}}%%\n`;
-
     const theme = options?.theme ?? undefined;
     const themeCSS = options?.themeCSS ?? undefined;
 
@@ -105,9 +102,17 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
             },
         }),
         commands: (nodeType) => [createCmd(TurnIntoDiagram, () => setBlockType(nodeType, { id: getId() }))],
-        view: () => (node, view, getPos) => {
+        view: (ctx) => (node, view, getPos) => {
             const currentId = getId(node);
+
+            let header = '';
             let currentNode = node;
+
+            ctx.get(themeManagerCtx).onFlush(() => {
+                const mermaidVariables = getStyle(utils.themeManager);
+                header = `%%{init: {'theme': 'base', 'themeVariables': { ${mermaidVariables} }}}%%\n`;
+            });
+
             const renderer = utils.themeManager.get<ThemeInnerEditorType>('inner-editor', {
                 view,
                 getPos,
@@ -125,10 +130,11 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
                         }
                         renderer.preview.innerHTML = placeholder.error;
                     } finally {
-                        dom.appendChild(renderer.preview);
+                        renderer.dom.appendChild(renderer.preview);
                     }
                 },
             });
+
             if (!renderer) return {};
 
             const { onUpdate, editor, dom, onFocus, onBlur, onDestroy, stopEvent } = renderer;
@@ -136,6 +142,10 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
             dom.classList.add('mermaid', 'diagram');
 
             onUpdate(currentNode, true);
+
+            ctx.get(themeManagerCtx).onFlush(() => {
+                onUpdate(currentNode, false);
+            }, false);
 
             return {
                 dom,

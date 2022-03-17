@@ -5,55 +5,6 @@ import { Emotion, getPalette, Icon, ThemeIcon, ThemeManager, ThemeSize, ThemeTas
 export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);
 
-    const style = css`
-        list-style-type: none;
-        position: relative;
-
-        & > div {
-            overflow: hidden;
-            padding: 0 2px;
-            width: 100%;
-        }
-
-        label {
-            position: absolute;
-            top: 0;
-            left: -2em;
-            display: inline-block;
-            width: 1.5em;
-            height: 1.5em;
-            margin: 0.5em 0;
-            cursor: pointer;
-            input {
-                visibility: hidden;
-            }
-        }
-        label:before {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            border-radius: ${manager.get(ThemeSize, 'radius')};
-        }
-        label:hover:before {
-            background: ${palette('background')};
-        }
-        &[data-checked='true'] {
-            label {
-                color: ${palette('primary')};
-            }
-        }
-        &[data-checked='false'] {
-            label {
-                color: ${palette('solid', 0.87)};
-            }
-        }
-        .paragraph {
-            margin: 0.5em 0;
-        }
-    `;
-
     manager.setCustom<ThemeTaskListItemType>('task-list-item', ({ onChange, editable }) => {
         const createIcon = (icon: Icon) => manager.get(ThemeIcon, icon)?.dom as HTMLElement;
 
@@ -96,9 +47,61 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
         };
         listItem.dataset['type'] = 'task-item';
         listItem.classList.add('task-list-item');
-        if (style) {
-            listItem.classList.add(style);
-        }
+
+        manager.onFlush(() => {
+            const style = css`
+                list-style-type: none;
+                position: relative;
+
+                & > div {
+                    overflow: hidden;
+                    padding: 0 2px;
+                    width: 100%;
+                }
+
+                label {
+                    position: absolute;
+                    top: 0;
+                    left: -2em;
+                    display: inline-block;
+                    width: 1.5em;
+                    height: 1.5em;
+                    margin: 0.5em 0;
+                    cursor: pointer;
+                    input {
+                        visibility: hidden;
+                    }
+                }
+                label:before {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    border-radius: ${manager.get(ThemeSize, 'radius')};
+                }
+                label:hover:before {
+                    background: ${palette('background')};
+                }
+                &[data-checked='true'] {
+                    label {
+                        color: ${palette('primary')};
+                    }
+                }
+                &[data-checked='false'] {
+                    label {
+                        color: ${palette('solid', 0.87)};
+                    }
+                }
+                .paragraph {
+                    margin: 0.5em 0;
+                }
+            `;
+
+            if (style) {
+                listItem.classList.add(style);
+            }
+        });
 
         return {
             dom: listItem,

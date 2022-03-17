@@ -12,10 +12,12 @@ type Tooltip = {
 
 export const createTooltip = (buttonMap: ButtonMap, utils: Utils): Tooltip => {
     const div = document.createElement('div');
-    const style = utils.getStyle(injectStyle) || '';
-    if (style) {
-        div.classList.add(style);
-    }
+    utils.themeManager.onFlush(() => {
+        const style = utils.getStyle(injectStyle) || '';
+        if (style) {
+            div.classList.add(style);
+        }
+    });
 
     div.classList.add('tooltip');
 

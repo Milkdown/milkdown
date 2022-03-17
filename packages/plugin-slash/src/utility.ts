@@ -10,11 +10,13 @@ export const createDropdown = (utils: Utils) => {
     const div = document.createElement('div');
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
-    const style = utils.getStyle(injectStyle);
+    utils.themeManager.onFlush(() => {
+        const style = utils.getStyle(injectStyle);
 
-    if (style) {
-        div.classList.add(style);
-    }
+        if (style) {
+            div.classList.add(style);
+        }
+    });
 
     div.classList.add('slash-dropdown', 'hide');
 

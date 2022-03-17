@@ -21,18 +21,19 @@ export const mathInline = createNode<string, Options>((utils, options) => {
         error: '(error)',
         ...(options?.placeholder ?? {}),
     };
-    const style = utils.getStyle((themeManager, { css }) => {
-        const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
-        const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
-        return css`
-            font-size: unset;
+    const getStyle = () =>
+        utils.getStyle((themeManager, { css }) => {
+            const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+            const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
+            return css`
+                font-size: unset;
 
-            &.ProseMirror-selectednode {
-                outline: none;
-                border: ${lineWidth} solid ${palette('line')};
-            }
-        `;
-    });
+                &.ProseMirror-selectednode {
+                    outline: none;
+                    border: ${lineWidth} solid ${palette('line')};
+                }
+            `;
+        });
 
     const id = 'math_inline';
     return {
@@ -59,7 +60,18 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                     },
                 },
             ],
-            toDOM: (node) => ['span', { class: style, 'data-type': id, 'data-value': node.attrs['value'] }],
+            toDOM: (node) => {
+                const span = document.createElement('span');
+                span.dataset['type'] = id;
+                span.dataset['value'] = node.attrs['value'];
+                utils.themeManager.onFlush(() => {
+                    const style = getStyle();
+                    if (style) {
+                        span.className = style;
+                    }
+                });
+                return span;
+            },
             parseMarkdown: {
                 match: (node) => node.type === 'inlineMath',
                 runner: (state, node, type) => {
@@ -89,9 +101,13 @@ export const mathInline = createNode<string, Options>((utils, options) => {
         view: () => (node) => {
             let currentNode = node;
             const dom = document.createElement('span');
-            if (style) {
-                dom.classList.add(style);
-            }
+            utils.themeManager.onFlush(() => {
+                const style = getStyle();
+
+                if (style) {
+                    dom.classList.add(style);
+                }
+            });
             const render = (code: string) => {
                 try {
                     if (!code) {

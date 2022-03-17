@@ -31,86 +31,6 @@ export type SelectConfig<T = any> = {
 } & CommonConfig;
 
 export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
-    const selectStyle = utils.getStyle((themeManager, { css }) => {
-        const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
-        return css`
-            flex-shrink: 0;
-            font-weight: 500;
-            font-size: 0.875em;
-
-            ${themeManager.get(ThemeBorder, 'right')}
-            ${themeManager.get(ThemeBorder, 'left')}
-
-            .menu-selector {
-                border: 0;
-                box-sizing: unset;
-                cursor: pointer;
-                font: inherit;
-                text-align: left;
-                justify-content: space-between;
-                align-items: center;
-                color: ${palette('neutral', 0.87)};
-                display: flex;
-                padding: 0.25em 0.5em;
-                margin: 0.5em;
-                background: ${palette('secondary', 0.12)};
-                width: 10.375em;
-
-                &:disabled {
-                    display: none;
-                }
-            }
-
-            .menu-selector-value {
-                flex: 1;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-
-            .menu-selector-list {
-                width: calc(12.375em);
-                position: absolute;
-                top: 3em;
-                background: ${palette('surface')};
-                ${themeManager.get(ThemeBorder, undefined)}
-                ${themeManager.get(ThemeShadow, undefined)}
-                border-bottom-left-radius: ${themeManager.get(ThemeSize, 'radius')};
-                border-bottom-right-radius: ${themeManager.get(ThemeSize, 'radius')};
-                z-index: 3;
-            }
-
-            .menu-selector-list-item {
-                background-color: transparent;
-                border: 0;
-                cursor: pointer;
-                display: block;
-                font: inherit;
-                text-align: left;
-                padding: 0.75em 1em;
-                line-height: 1.5em;
-                width: 100%;
-                color: ${palette('neutral', 0.87)};
-
-                &:hover {
-                    background: ${palette('secondary', 0.12)};
-                    color: ${palette('primary')};
-                }
-            }
-
-            &.fold {
-                border-color: transparent;
-
-                .menu-selector {
-                    background: unset;
-                }
-
-                .menu-selector-list {
-                    display: none;
-                }
-            }
-        `;
-    });
-
     const selectorWrapper = document.createElement('div');
     selectorWrapper.classList.add('menu-selector-wrapper', 'fold');
 
@@ -167,9 +87,90 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
 
     selectorWrapper.appendChild(selectorList);
 
-    if (selectStyle) {
-        selectorWrapper.classList.add(selectStyle);
-    }
+    utils.themeManager.onFlush(() => {
+        const selectStyle = utils.getStyle((themeManager, { css }) => {
+            const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+            return css`
+                flex-shrink: 0;
+                font-weight: 500;
+                font-size: 0.875em;
+
+                ${themeManager.get(ThemeBorder, 'right')}
+                ${themeManager.get(ThemeBorder, 'left')}
+
+            .menu-selector {
+                    border: 0;
+                    box-sizing: unset;
+                    cursor: pointer;
+                    font: inherit;
+                    text-align: left;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: ${palette('neutral', 0.87)};
+                    display: flex;
+                    padding: 0.25em 0.5em;
+                    margin: 0.5em;
+                    background: ${palette('secondary', 0.12)};
+                    width: 10.375em;
+
+                    &:disabled {
+                        display: none;
+                    }
+                }
+
+                .menu-selector-value {
+                    flex: 1;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                .menu-selector-list {
+                    width: calc(12.375em);
+                    position: absolute;
+                    top: 3em;
+                    background: ${palette('surface')};
+                    ${themeManager.get(ThemeBorder, undefined)}
+                    ${themeManager.get(ThemeShadow, undefined)}
+                border-bottom-left-radius: ${themeManager.get(ThemeSize, 'radius')};
+                    border-bottom-right-radius: ${themeManager.get(ThemeSize, 'radius')};
+                    z-index: 3;
+                }
+
+                .menu-selector-list-item {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+                    display: block;
+                    font: inherit;
+                    text-align: left;
+                    padding: 0.75em 1em;
+                    line-height: 1.5em;
+                    width: 100%;
+                    color: ${palette('neutral', 0.87)};
+
+                    &:hover {
+                        background: ${palette('secondary', 0.12)};
+                        color: ${palette('primary')};
+                    }
+                }
+
+                &.fold {
+                    border-color: transparent;
+
+                    .menu-selector {
+                        background: unset;
+                    }
+
+                    .menu-selector-list {
+                        display: none;
+                    }
+                }
+            `;
+        });
+        if (selectStyle) {
+            selectorWrapper.classList.add(selectStyle);
+        }
+    });
 
     return selectorWrapper;
 };

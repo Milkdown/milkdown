@@ -8,19 +8,21 @@ export type DividerConfig = {
     group: HTMLElement[];
 };
 export const divider = (utils: Utils) => {
-    const dividerStyle = utils.getStyle((themeManager, { css }) => {
-        return css`
-            flex-shrink: 0;
-            width: ${themeManager.get(ThemeSize, 'lineWidth')};
-            background-color: ${themeManager.get(ThemeColor, ['line'])};
-            margin: 0.75em 1em;
-            min-height: 1.5em;
-        `;
-    });
     const $divider = document.createElement('div');
     $divider.classList.add('divider');
-    if (dividerStyle) {
-        $divider.classList.add(dividerStyle);
-    }
+    utils.themeManager.onFlush(() => {
+        const dividerStyle = utils.getStyle((themeManager, { css }) => {
+            return css`
+                flex-shrink: 0;
+                width: ${themeManager.get(ThemeSize, 'lineWidth')};
+                background-color: ${themeManager.get(ThemeColor, ['line'])};
+                margin: 0.75em 1em;
+                min-height: 1.5em;
+            `;
+        });
+        if (dividerStyle) {
+            $divider.classList.add(dividerStyle);
+        }
+    });
     return $divider;
 };
