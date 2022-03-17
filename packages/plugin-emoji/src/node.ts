@@ -12,20 +12,21 @@ import { picker } from './picker';
 import { twemojiPlugin } from './remark-twemoji';
 
 export const emojiNode = createNode((utils) => {
-    const style = utils.getStyle(
-        (_, { css }) => css`
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
+    const getStyle = () =>
+        utils.getStyle(
+            (_, { css }) => css`
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
 
-            .emoji {
-                height: 1em;
-                width: 1em;
-                margin: 0 0.05em 0 0.1em;
-                vertical-align: -0.1em;
-            }
-        `,
-    );
+                .emoji {
+                    height: 1em;
+                    width: 1em;
+                    margin: 0 0.05em 0 0.1em;
+                    vertical-align: -0.1em;
+                }
+            `,
+        );
     return {
         id: 'emoji',
         schema: () => ({
@@ -51,9 +52,12 @@ export const emojiNode = createNode((utils) => {
             toDOM: (node) => {
                 const span = document.createElement('span');
                 span.dataset['type'] = 'emoji';
-                if (style) {
-                    span.classList.add(style);
-                }
+                utils.themeManager.onFlush(() => {
+                    const style = getStyle();
+                    if (style) {
+                        span.classList.add(style);
+                    }
+                });
                 span.classList.add('emoji-wrapper');
                 span.innerHTML = node.attrs['html'];
                 return { dom: span };

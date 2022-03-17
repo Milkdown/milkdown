@@ -17,10 +17,12 @@ export const key = 'MILKDOWN_PLUGIN_TABLE';
 export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
     const items = createActions(ctx);
     const tooltip = document.createElement('div');
-    const style = utils.getStyle(injectStyle);
-    if (style) {
-        tooltip.classList.add(style);
-    }
+    utils.themeManager.onFlush(() => {
+        const style = utils.getStyle(injectStyle);
+        if (style) {
+            tooltip.classList.add(style);
+        }
+    });
     tooltip.classList.add('table-tooltip', 'hide');
 
     return new Plugin({

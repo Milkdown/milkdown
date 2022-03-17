@@ -34,9 +34,6 @@ const createSlashStyle = (_: ThemeManager, { css }: Emotion) => css`
 `;
 
 export const createProps = (status: Status, utils: Utils) => {
-    const emptyStyle = utils.getStyle(createEmptyStyle);
-    const slashStyle = utils.getStyle(createSlashStyle);
-
     return {
         handleKeyDown: (_: EditorView, event: Event) => {
             if (status.isEmpty()) {
@@ -93,6 +90,9 @@ export const createProps = (status: Status, utils: Utils) => {
                     }),
                 ]);
             };
+
+            const emptyStyle = utils.getStyle(createEmptyStyle);
+            const slashStyle = utils.getStyle(createSlashStyle);
 
             if (actions.length) {
                 return createDecoration(placeholder, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);

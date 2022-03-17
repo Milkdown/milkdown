@@ -37,44 +37,46 @@ const getRoot = (root: string | Node | null | undefined) => {
 };
 
 export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: HandleDOM = defaultDOMHandler) => {
-    const editorWrapperStyle = utils.getStyle((themeManager) => {
-        return themeManager.get(ThemeScrollbar, ['y']) as string;
-    });
-    const menuStyle = utils.getStyle((themeManager, { css }) => {
-        const border = themeManager.get(ThemeBorder, undefined);
-        const scrollbar = themeManager.get(ThemeScrollbar, ['x', 'thin']);
-        const style = css`
-            box-sizing: border-box;
-            width: 100%;
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: scroll;
-            ${border};
-            ${scrollbar};
-            overflow-y: hidden;
-            background: ${themeManager.get(ThemeColor, ['surface'])};
-
-            -webkit-overflow-scrolling: auto;
-
-            .disabled {
-                display: none;
-            }
-        `;
-        return style;
-    });
-
     const menuWrapper = document.createElement('div');
     menuWrapper.classList.add('milkdown-menu-wrapper');
     const menu = document.createElement('div');
     menu.classList.add('milkdown-menu');
-    if (menuStyle) {
-        menuStyle.split(' ').forEach((x) => menu.classList.add(x));
-    }
 
     const editorDOM = view.dom as HTMLDivElement;
-    if (editorWrapperStyle) {
-        editorDOM.classList.add(editorWrapperStyle);
-    }
+
+    utils.themeManager.onFlush(() => {
+        const editorWrapperStyle = utils.getStyle((themeManager) => {
+            return themeManager.get(ThemeScrollbar, ['y']) as string;
+        });
+        if (editorWrapperStyle) {
+            editorDOM.classList.add(editorWrapperStyle);
+        }
+        const menuStyle = utils.getStyle((themeManager, { css }) => {
+            const border = themeManager.get(ThemeBorder, undefined);
+            const scrollbar = themeManager.get(ThemeScrollbar, ['x', 'thin']);
+            const style = css`
+                box-sizing: border-box;
+                width: 100%;
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: scroll;
+                ${border};
+                ${scrollbar};
+                overflow-y: hidden;
+                background: ${themeManager.get(ThemeColor, ['surface'])};
+
+                -webkit-overflow-scrolling: auto;
+
+                .disabled {
+                    display: none;
+                }
+            `;
+            return style;
+        });
+        if (menuStyle) {
+            menuStyle.split(' ').forEach((x) => menu.classList.add(x));
+        }
+    });
 
     const root = ctx.get(rootCtx);
 
