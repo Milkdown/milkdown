@@ -3,12 +3,12 @@ import type { Emotion, ThemeCodeFenceType, ThemeManager } from '@milkdown/core';
 import { getPalette, ThemeBorder, ThemeFont, ThemeIcon, ThemeScrollbar, ThemeShadow, ThemeSize } from '@milkdown/core';
 import type { Node } from '@milkdown/prose';
 
-export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
+const getStyle = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);
     const radius = manager.get(ThemeSize, 'radius');
     const lineWidth = manager.get(ThemeSize, 'lineWidth');
 
-    const style = css`
+    return css`
         background-color: ${palette('background')};
         color: ${palette('neutral')};
         font-size: 0.875em;
@@ -99,7 +99,9 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
             ${manager.get(ThemeShadow, undefined)};
         }
     `;
+};
 
+export const codeFence = (manager: ThemeManager, emotion: Emotion) => {
     manager.setCustom<ThemeCodeFenceType>(
         'code-fence',
         ({ editable, onSelectLanguage, onBlur, onFocus, languageList }) => {
@@ -131,9 +133,13 @@ export const codeFence = (manager: ThemeManager, { css }: Emotion) => {
             container.append(selectWrapper, pre);
 
             container.classList.add('code-fence');
-            if (style) {
-                container.classList.add(style);
-            }
+
+            manager.onFlush(() => {
+                const style = getStyle(manager, emotion);
+                if (style) {
+                    container.classList.add(style);
+                }
+            });
 
             select.className = 'code-fence_selector-list';
             select.addEventListener('mousedown', (e) => {

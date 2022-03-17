@@ -33,6 +33,7 @@
         "@milkdown/prose": "workspace:*",
         "@milkdown/react": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
+        "@milkdown/theme-tokyo": "workspace:*",
         "@milkdown/transformer": "workspace:*",
         "@milkdown/utils": "workspace:*",
         "@milkdown/vue": "workspace:*",

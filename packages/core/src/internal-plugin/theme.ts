@@ -14,6 +14,7 @@ import {
 import { Plugin, PluginKey } from '@milkdown/prose';
 
 import { ConfigReady } from './config';
+import { EditorViewReady } from './editor-view';
 import { InitReady, prosePluginsCtx } from './init';
 
 export const themeTimerCtx = createSlice([] as Timer[], 'themeTimer');
@@ -67,6 +68,7 @@ export const themeFactory =
             const themeManager = ctx.get(themeManagerCtx);
 
             createThemePack(emotion, themeManager);
+            await ctx.wait(EditorViewReady);
         };
     };
 

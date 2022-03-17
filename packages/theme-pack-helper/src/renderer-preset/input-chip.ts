@@ -98,11 +98,7 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
             let disabled = false;
             let value = '';
             const wrapper = document.createElement('div');
-            const style = getStyle(manager, emotion);
 
-            if (style) {
-                wrapper.classList.add(style);
-            }
             manager.onFlush(() => {
                 const style = getStyle(manager, emotion);
 

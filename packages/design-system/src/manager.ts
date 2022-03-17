@@ -42,7 +42,7 @@ export type ThemeManager = {
         value: ThemeSlice<Ret, T>,
     ) => void;
 
-    onFlush: (fn: () => void) => void;
+    onFlush: (fn: () => void, callWhenRegister?: boolean) => void;
     switch: (ctx: Ctx, theme: MilkdownPlugin) => Promise<void>;
 };
 
@@ -76,7 +76,12 @@ export const createThemeManager = () => {
             const key = typeof slice === 'string' ? slice : slice.sliceName;
             lazyMap.set(key, value as unknown as ThemeSlice);
         },
-        onFlush: (fn) => flushListener.push(fn),
+        onFlush: (fn, callWhenRegister = true) => {
+            flushListener.push(fn);
+            if (callWhenRegister) {
+                fn();
+            }
+        },
         switch: async (ctx, theme) => {
             const emotion = ctx.get(emotionCtx);
             emotion.flush();

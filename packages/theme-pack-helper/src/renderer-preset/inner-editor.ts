@@ -147,21 +147,27 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
 };
 
 export const innerEditor = (manager: ThemeManager, emotion: Emotion) => {
-    const { codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(manager, emotion);
     manager.setCustom<ThemeInnerEditorType>('inner-editor', ({ view, getPos, render }) => {
         const inner$ = createInnerEditor(view, getPos);
         const dom = document.createElement('div');
         dom.classList.add('math-block');
         const editor = document.createElement('div');
-
-        if (codeStyle && hideCodeStyle) {
-            editor.classList.add(codeStyle, hideCodeStyle);
-        }
-
         const preview = document.createElement('div');
-        if (previewPanelStyle) {
-            preview.classList.add(previewPanelStyle);
-        }
+
+        let codeStyle = '';
+        let hideCodeStyle = '';
+        let previewPanelStyle = '';
+
+        manager.onFlush(() => {
+            ({ codeStyle, hideCodeStyle, previewPanelStyle } = getStyle(manager, emotion));
+            if (codeStyle && hideCodeStyle) {
+                editor.classList.add(codeStyle, hideCodeStyle);
+            }
+
+            if (previewPanelStyle) {
+                preview.classList.add(previewPanelStyle);
+            }
+        });
 
         dom.append(editor);
 

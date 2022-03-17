@@ -16,7 +16,7 @@ const Container: React.FC = () => {
 
     React.useEffect(() => {
         const path = window.location.pathname.split('/').filter((x) => x.length > 0);
-        const [first] = path;
+        const [first = ''] = path;
         const list = Object.values(i18nConfig)
             .map(({ route }) => route)
             .filter((x) => x);
@@ -32,10 +32,10 @@ const Container: React.FC = () => {
                     setDisplaySidebar(false);
                 }
             }}
-            className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}
+            className={displaySidebar ? className['right'] : [className['right'], className['fold']].join(' ')}
         >
             <Header />
-            <main className={className.main}>
+            <main className={className['main']}>
                 <Main />
             </main>
         </div>
