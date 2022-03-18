@@ -7,10 +7,10 @@ export type Timing = {
 };
 
 export const createTimer = (name: string, timeout = 3000): Timer => {
-    let isResolved = false;
     const id = Symbol('Timer');
 
     const timer = (store: ClockMap) => {
+        let isResolved = false;
         const data = Symbol(name);
 
         const timing: Timing = () =>

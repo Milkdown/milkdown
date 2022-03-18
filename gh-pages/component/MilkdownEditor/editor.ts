@@ -46,7 +46,6 @@ export const createEditor = (
                     });
             }
         })
-        .use(getNord(isDarkMode))
         .use(gfm)
         .use(codeSandBox)
         .use(listener)
@@ -60,7 +59,8 @@ export const createEditor = (
         .use(emoji)
         .use(indent)
         .use(upload)
-        .use(slash);
+        .use(slash)
+        .use(getNord(isDarkMode));
 
     if (!readOnly) {
         editor.use(menu());

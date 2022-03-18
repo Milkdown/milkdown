@@ -14,10 +14,10 @@ import {
 import { Plugin, PluginKey } from '@milkdown/prose';
 
 import { ConfigReady } from './config';
-import { EditorViewReady } from './editor-view';
 import { InitReady, prosePluginsCtx } from './init';
 
 export const themeTimerCtx = createSlice([] as Timer[], 'themeTimer');
+export const ThemeEnvironmentReady = createTimer('ThemeEnvironmentReady');
 export const ThemeReady = createTimer('ThemeReady');
 
 const key = new PluginKey('MILKDOWN_THEME_RESET');
@@ -29,7 +29,8 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
         .inject(emotionCtx)
         .inject(themeManagerCtx, themeManager)
         .inject(themeTimerCtx, [ConfigReady])
-        .record(ThemeReady);
+        .record(ThemeReady)
+        .record(ThemeEnvironmentReady);
 
     return async (ctx) => {
         await ctx.waitTimers(themeTimerCtx);
@@ -41,7 +42,7 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
 
         ctx.set(emotionCtx, emotion);
 
-        ctx.done(ThemeReady);
+        ctx.done(ThemeEnvironmentReady);
 
         await ctx.wait(InitReady);
         ctx.update(prosePluginsCtx, (xs) =>
@@ -63,12 +64,12 @@ export const themeFactory =
     (createThemePack: (emotion: Emotion, manager: ThemeManager) => void): MilkdownPlugin =>
     () => {
         return async (ctx) => {
-            await ctx.wait(ThemeReady);
+            await ctx.wait(ThemeEnvironmentReady);
             const emotion = ctx.get(emotionCtx);
             const themeManager = ctx.get(themeManagerCtx);
 
             createThemePack(emotion, themeManager);
-            await ctx.wait(EditorViewReady);
+            ctx.done(ThemeReady);
         };
     };
 
