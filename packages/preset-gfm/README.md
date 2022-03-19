@@ -17,9 +17,9 @@ Editor.make().use(nord).use(gfm).create();
 ## Custom Keymap
 
 ```typescript
-import { commonmark, blockquote, SupportedKeys } from '@milkdown/preset-gfm';
+import { gfm, blockquote, SupportedKeys } from '@milkdown/preset-gfm';
 
-const nodes = commonmark.configure(blockquote, {
+const nodes = gfm.configure(blockquote, {
     keymap: {
         [SupportedKeys.Blockquote]: 'Mod-Shift-b',
     },
@@ -57,9 +57,9 @@ Keymap supported:
 ## Custom Style
 
 ```typescript
-import { commonmark, paragraph, heading } from '@milkdown/preset-gfm';
+import { gfm, paragraph, heading } from '@milkdown/preset-gfm';
 
-const nodes = commonmark
+const nodes = gfm
     .configure(paragraph, {
         className: () => 'my-custom-paragraph',
     })
