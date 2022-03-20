@@ -37,7 +37,7 @@
         "node-emoji": "^1.10.0",
         "remark-emoji": "^3.0.1",
         "tslib": "^2.3.1",
-        "twemoji": "^13.1.0",
+        "twemoji": "^14.0.0",
         "unist-util-visit": "^4.0.0"
     },
     "nx": {
