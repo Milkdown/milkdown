@@ -409,7 +409,7 @@ importers:
 
   packages/plugin-emoji:
     specifiers:
-      '@joeattardi/emoji-button': ^4.6.0
+      '@joeattardi/emoji-button': ^4.6.4
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
@@ -419,10 +419,10 @@ importers:
       node-emoji: ^1.10.0
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
-      twemoji: ^14.0.0
+      twemoji: ~12.1.2
       unist-util-visit: ^4.0.0
     dependencies:
-      '@joeattardi/emoji-button': 4.6.2
+      '@joeattardi/emoji-button': 4.6.4
       '@milkdown/utils': link:../utils
       '@types/node-emoji': 1.8.1
       '@types/twemoji': 12.1.2
@@ -430,7 +430,7 @@ importers:
       node-emoji: 1.11.0
       remark-emoji: 3.0.2
       tslib: 2.3.1
-      twemoji: 14.0.1
+      twemoji: 12.1.6
       unist-util-visit: 4.0.0
     devDependencies:
       '@milkdown/core': link:../core
@@ -2041,12 +2041,14 @@ packages:
   /@fortawesome/fontawesome-common-types/0.3.0:
     resolution: {integrity: sha512-CA3MAZBTxVsF6SkfkHXDerkhcQs0QPofy43eFdbWJJkZiq3SfiaH1msOkac59rQaqto5EqWnASboY1dBuKen5w==}
     engines: {node: '>=6'}
+    deprecated: Please upgrade to 6.1.0. https://fontawesome.com/docs/changelog/
     requiresBuild: true
     dev: false
 
   /@fortawesome/fontawesome-svg-core/1.3.0:
     resolution: {integrity: sha512-UIL6crBWhjTNQcONt96ExjUnKt1D68foe3xjEensLDclqQ6YagwCRYVQdrp/hW0ALRp/5Fv/VKw+MqTUWYYvPg==}
     engines: {node: '>=6'}
+    deprecated: Please upgrade to 6.1.0. https://fontawesome.com/docs/changelog/
     requiresBuild: true
     dependencies:
       '@fortawesome/fontawesome-common-types': 0.3.0
@@ -2264,20 +2266,19 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@joeattardi/emoji-button/4.6.2:
-    resolution: {integrity: sha512-FhuzTmW3nVHLVp2BJfNX17CYV77fqtKZlx328D4h6Dw3cPTT1gJRNXN0jV7BvHgsl6Q/tN8DIQQxTUIO4jW3gQ==}
+  /@joeattardi/emoji-button/4.6.4:
+    resolution: {integrity: sha512-vXji10ZwgxRG6xGQ93SIBUQEltWYTs3do/FSEn3qrRWUuavrqIUhh1oMEPmhKARF0pokW6bNRCvVKI6wq//H6w==}
     dependencies:
       '@fortawesome/fontawesome-svg-core': 1.3.0
       '@fortawesome/free-regular-svg-icons': 5.15.4
       '@fortawesome/free-solid-svg-icons': 5.15.4
       '@popperjs/core': 2.11.2
-      '@types/twemoji': 12.1.2
       escape-html: 1.0.3
       focus-trap: 5.1.0
       fuzzysort: 1.2.1
       tiny-emitter: 2.1.0
       tslib: 2.3.1
-      twemoji: 13.1.0
+      twemoji: 12.1.6
     dev: false
 
   /@jridgewell/resolve-uri/3.0.5:
@@ -10615,29 +10616,16 @@ packages:
     resolution: {integrity: sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=}
     dev: true
 
-  /twemoji-parser/13.1.0:
-    resolution: {integrity: sha512-AQOzLJpYlpWMy8n+0ATyKKZzWlZBJN+G0C+5lhX7Ftc2PeEVdUU/7ns2Pn2vVje26AIZ/OHwFoUbdv6YYD/wGg==}
+  /twemoji-parser/12.1.3:
+    resolution: {integrity: sha512-ND4LZXF4X92/PFrzSgGkq6KPPg8swy/U0yRw1k/+izWRVmq1HYi3khPwV3XIB6FRudgVICAaBhJfW8e8G3HC7Q==}
     dev: false
 
-  /twemoji-parser/14.0.0:
-    resolution: {integrity: sha512-9DUOTGLOWs0pFWnh1p6NF+C3CkQ96PWmEFwhOVmT3WbecRC+68AIqpsnJXygfkFcp4aXbOp8Dwbhh/HQgvoRxA==}
-    dev: false
-
-  /twemoji/13.1.0:
-    resolution: {integrity: sha512-e3fZRl2S9UQQdBFLYXtTBT6o4vidJMnpWUAhJA+yLGR+kaUTZAt3PixC0cGvvxWSuq2MSz/o0rJraOXrWw/4Ew==}
+  /twemoji/12.1.6:
+    resolution: {integrity: sha512-FIKi9Jne5IiDGDWekoANJ1a8ltUKVbJLEIR8XUpbFRDMqIPgLWnYgjeWZ1KOrdiTztRCAa9x4v+5w5OuiJOGVw==}
     dependencies:
       fs-extra: 8.1.0
       jsonfile: 5.0.0
-      twemoji-parser: 13.1.0
-      universalify: 0.1.2
-    dev: false
-
-  /twemoji/14.0.1:
-    resolution: {integrity: sha512-eoqhea0sUhmC10iTacksyp1v9O4BP1jKmVqtK+Nztw40/dzawSHkXL3/xCpyh+mukmEvJ0Gw9VLvwZfQ9HKXDw==}
-    dependencies:
-      fs-extra: 8.1.0
-      jsonfile: 5.0.0
-      twemoji-parser: 14.0.0
+      twemoji-parser: 12.1.3
       universalify: 0.1.2
     dev: false
 
