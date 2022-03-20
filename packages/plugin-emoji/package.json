@@ -29,7 +29,7 @@
         "@milkdown/prose": "^5.4.0"
     },
     "dependencies": {
-        "@joeattardi/emoji-button": "^4.6.0",
+        "@joeattardi/emoji-button": "^4.6.4",
         "@milkdown/utils": "workspace:*",
         "@types/node-emoji": "^1.8.1",
         "@types/twemoji": "^12.1.2",
@@ -37,7 +37,7 @@
         "node-emoji": "^1.10.0",
         "remark-emoji": "^3.0.1",
         "tslib": "^2.3.1",
-        "twemoji": "^13.1.0",
+        "twemoji": "~12.1.2",
         "unist-util-visit": "^4.0.0"
     },
     "nx": {

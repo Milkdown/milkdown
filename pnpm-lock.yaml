@@ -18,7 +18,7 @@ importers:
       '@typescript-eslint/parser': ^5.14.0
       '@vitejs/plugin-react-refresh': ^1.3.3
       '@vitejs/plugin-vue-jsx': ^1.1.5
-      '@vitest/ui': ^0.6.0
+      '@vitest/ui': ^0.7.0
       concurrently: ^7.0.0
       cross-env: ^7.0.3
       eslint: ^8.0.0
@@ -34,6 +34,7 @@ importers:
       husky: ^7.0.0
       jsdom: ^19.0.0
       lint-staged: ^12.0.0
+      nx: ^13.9.3
       prettier: ^2.4.0
       rimraf: ^3.0.2
       rollup: ^2.61.1
@@ -42,15 +43,15 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.6.2
       vite: ^2.7.13
-      vitest: ^0.6.0
+      vitest: ^0.7.0
     devDependencies:
       '@changesets/cli': 2.21.0
       '@commitlint/cli': 16.2.1
       '@commitlint/config-conventional': 16.2.1
-      '@nrwl/cli': 13.9.2
+      '@nrwl/cli': 13.9.3
       '@nrwl/nx-cloud': 13.1.6
-      '@nrwl/tao': 13.9.2
-      '@nrwl/workspace': 13.9.2_72d6b8519420775fc672e98e7f71dca3
+      '@nrwl/tao': 13.9.3
+      '@nrwl/workspace': 13.9.3_72d6b8519420775fc672e98e7f71dca3
       '@rollup/plugin-typescript': 8.3.0_514f40b4e4a5f6d44e0ffe79fb11edce
       '@types/node': 17.0.18
       '@types/rollup-plugin-auto-external': 2.0.2
@@ -58,7 +59,7 @@ importers:
       '@typescript-eslint/parser': 5.14.0_eslint@8.9.0+typescript@4.6.2
       '@vitejs/plugin-react-refresh': 1.3.6
       '@vitejs/plugin-vue-jsx': 1.3.7
-      '@vitest/ui': 0.6.0
+      '@vitest/ui': 0.7.6
       concurrently: 7.0.0
       cross-env: 7.0.3
       eslint: 8.9.0
@@ -74,6 +75,7 @@ importers:
       husky: 7.0.4
       jsdom: 19.0.0
       lint-staged: 12.3.4
+      nx: 13.9.3
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 2.67.3
@@ -82,7 +84,7 @@ importers:
       tslib: 2.3.1
       typescript: 4.6.2
       vite: 2.8.4
-      vitest: 0.6.0_@vitest+ui@0.6.0+jsdom@19.0.0
+      vitest: 0.7.6_@vitest+ui@0.7.6+jsdom@19.0.0
 
   e2e:
     specifiers:
@@ -409,7 +411,7 @@ importers:
 
   packages/plugin-emoji:
     specifiers:
-      '@joeattardi/emoji-button': ^4.6.0
+      '@joeattardi/emoji-button': ^4.6.4
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
@@ -419,10 +421,10 @@ importers:
       node-emoji: ^1.10.0
       remark-emoji: ^3.0.1
       tslib: ^2.3.1
-      twemoji: ^13.1.0
+      twemoji: ~12.1.2
       unist-util-visit: ^4.0.0
     dependencies:
-      '@joeattardi/emoji-button': 4.6.2
+      '@joeattardi/emoji-button': 4.6.4
       '@milkdown/utils': link:../utils
       '@types/node-emoji': 1.8.1
       '@types/twemoji': 12.1.2
@@ -430,7 +432,7 @@ importers:
       node-emoji: 1.11.0
       remark-emoji: 3.0.2
       tslib: 2.3.1
-      twemoji: 13.1.0
+      twemoji: 12.1.6
       unist-util-visit: 4.0.0
     devDependencies:
       '@milkdown/core': link:../core
@@ -2041,12 +2043,14 @@ packages:
   /@fortawesome/fontawesome-common-types/0.3.0:
     resolution: {integrity: sha512-CA3MAZBTxVsF6SkfkHXDerkhcQs0QPofy43eFdbWJJkZiq3SfiaH1msOkac59rQaqto5EqWnASboY1dBuKen5w==}
     engines: {node: '>=6'}
+    deprecated: Please upgrade to 6.1.0. https://fontawesome.com/docs/changelog/
     requiresBuild: true
     dev: false
 
   /@fortawesome/fontawesome-svg-core/1.3.0:
     resolution: {integrity: sha512-UIL6crBWhjTNQcONt96ExjUnKt1D68foe3xjEensLDclqQ6YagwCRYVQdrp/hW0ALRp/5Fv/VKw+MqTUWYYvPg==}
     engines: {node: '>=6'}
+    deprecated: Please upgrade to 6.1.0. https://fontawesome.com/docs/changelog/
     requiresBuild: true
     dependencies:
       '@fortawesome/fontawesome-common-types': 0.3.0
@@ -2264,20 +2268,19 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@joeattardi/emoji-button/4.6.2:
-    resolution: {integrity: sha512-FhuzTmW3nVHLVp2BJfNX17CYV77fqtKZlx328D4h6Dw3cPTT1gJRNXN0jV7BvHgsl6Q/tN8DIQQxTUIO4jW3gQ==}
+  /@joeattardi/emoji-button/4.6.4:
+    resolution: {integrity: sha512-vXji10ZwgxRG6xGQ93SIBUQEltWYTs3do/FSEn3qrRWUuavrqIUhh1oMEPmhKARF0pokW6bNRCvVKI6wq//H6w==}
     dependencies:
       '@fortawesome/fontawesome-svg-core': 1.3.0
       '@fortawesome/free-regular-svg-icons': 5.15.4
       '@fortawesome/free-solid-svg-icons': 5.15.4
       '@popperjs/core': 2.11.2
-      '@types/twemoji': 12.1.2
       escape-html: 1.0.3
       focus-trap: 5.1.0
       fuzzysort: 1.2.1
       tiny-emitter: 2.1.0
       tslib: 2.3.1
-      twemoji: 13.1.0
+      twemoji: 12.1.6
     dev: false
 
   /@jridgewell/resolve-uri/3.0.5:
@@ -2384,21 +2387,20 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@nrwl/cli/13.9.2:
-    resolution: {integrity: sha512-pVfH/Rqlp9KcAbU6hsOPyjC2NAcFANllTstcBbLbW/AeV449etBZdciy3ocaFyYi5ipB7Nr+NATGYjthkxdNnw==}
-    hasBin: true
+  /@nrwl/cli/13.9.3:
+    resolution: {integrity: sha512-6UqX3n0+QW0P10GT/5wTMHDNlfesR3SB/7q3cqmL9ghhx/bhc8gzI2n1BwDDJ3kMO6d2O2z70lmLLpz4Uw4mtA==}
     dependencies:
-      nx: 13.9.2
+      nx: 13.9.3
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@nrwl/devkit/13.9.2:
-    resolution: {integrity: sha512-H7M/Hms3yByb+1FTrB9/9wy60a/6FZqpXD66n8+RDsE9WXVH+iWsTXmwEN8FynDuUWoGGDqfCyw4KkkzdS+TAA==}
+  /@nrwl/devkit/13.9.3:
+    resolution: {integrity: sha512-GJVWVAzc7xjxe/wzF+a3xy1MvX4CuX0+8zaF2WIWNRUa0x9xERpyvjOz/VBtOkYfMRrXXuL+pkUMZEgjmpgY6w==}
     dependencies:
       ejs: 3.1.6
       ignore: 5.2.0
-      nx: 13.9.2
+      nx: 13.9.3
       rxjs: 6.6.7
       semver: 7.3.4
       tslib: 2.3.1
@@ -2406,12 +2408,12 @@ packages:
       - supports-color
     dev: true
 
-  /@nrwl/jest/13.9.2:
-    resolution: {integrity: sha512-M/QmpGaTvR2e6wOkveGRZwaEblktVz04fICBbdw8zv7T8PbfzuN6Y+F/vnuQitN+4/iURWLMBQyWDThcGV5ryg==}
+  /@nrwl/jest/13.9.3:
+    resolution: {integrity: sha512-cScS3bdZdoRbV0oPToQYLzaUCkg+ex5TYgNPTxmYPoJop0PK88XC5pF45dgCbb9BQz8STG574QY8TtWvVTLFWQ==}
     dependencies:
       '@jest/reporters': 27.2.2
       '@jest/test-result': 27.2.2
-      '@nrwl/devkit': 13.9.2
+      '@nrwl/devkit': 13.9.3
       chalk: 4.1.0
       identity-obj-proxy: 3.0.0
       jest-config: 27.2.2
@@ -2429,16 +2431,16 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@nrwl/linter/13.9.2_eslint@8.9.0+typescript@4.6.2:
-    resolution: {integrity: sha512-98VkaglWitOegTJ+ho1ySwBdoaQiLGRvDnruaVqMHKLpx8iwAYEgesVnS3zo02ldz3brFy/4XRO9IpenJSOIvQ==}
+  /@nrwl/linter/13.9.3_eslint@8.9.0+typescript@4.6.2:
+    resolution: {integrity: sha512-O/qHisi2RT4qg3bMFN7tJmusvYOjAqNuDEc3s2LdKPzuA5FLJDzXX9v0PsTWpGSmipxbWaCxoRFELiIdN+RrfA==}
     peerDependencies:
       eslint: ^8.0.0
     peerDependenciesMeta:
       eslint:
         optional: true
     dependencies:
-      '@nrwl/devkit': 13.9.2
-      '@nrwl/jest': 13.9.2
+      '@nrwl/devkit': 13.9.3
+      '@nrwl/jest': 13.9.3
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.6.2
       eslint: 8.9.0
       tmp: 0.2.1
@@ -2467,17 +2469,17 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/tao/13.9.2:
-    resolution: {integrity: sha512-1lypsbQ1rJZ41si0vPMx8nKn5nP4ZZqw8U+mA727yP4Rz2ejM8jZl6rqpFjz5G/HAe7ZK8GoLGb77wKRv5hx9g==}
+  /@nrwl/tao/13.9.3:
+    resolution: {integrity: sha512-u/zcmdyMJ+RMYN+W3ibIxYSwgRu+U/85ffIff/RcWtAMjykjF/01YK0j0joOnBwX8HgDKMSTU6YYeIPx6bkGjA==}
     hasBin: true
     dependencies:
-      nx: 13.9.2
+      nx: 13.9.3
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@nrwl/workspace/13.9.2_72d6b8519420775fc672e98e7f71dca3:
-    resolution: {integrity: sha512-oCoBtxG0lbaNUxpX320jW5SkkJXDxdlYOT83b1HiVBSywKcqDUIBVMNzLwaNf8uIHUEDeeQQGeqwQPCyruJOVw==}
+  /@nrwl/workspace/13.9.3_72d6b8519420775fc672e98e7f71dca3:
+    resolution: {integrity: sha512-DPHg+V8bQFz/74HNOdt4iIfGlydgJyVd6qcbqKP8xhZltCNyxMHCQkM/GwecjqFVaPXs+iT+9uLsxTqh0YhDMQ==}
     requiresBuild: true
     peerDependencies:
       prettier: ^2.5.1
@@ -2485,9 +2487,9 @@ packages:
       prettier:
         optional: true
     dependencies:
-      '@nrwl/devkit': 13.9.2
-      '@nrwl/jest': 13.9.2
-      '@nrwl/linter': 13.9.2_eslint@8.9.0+typescript@4.6.2
+      '@nrwl/devkit': 13.9.3
+      '@nrwl/jest': 13.9.3
+      '@nrwl/linter': 13.9.3_eslint@8.9.0+typescript@4.6.2
       '@parcel/watcher': 2.0.4
       chalk: 4.1.0
       chokidar: 3.5.3
@@ -2502,7 +2504,7 @@ packages:
       ignore: 5.2.0
       minimatch: 3.0.4
       npm-run-path: 4.0.1
-      nx: 13.9.2
+      nx: 13.9.3
       open: 8.4.0
       prettier: 2.5.1
       rxjs: 6.6.7
@@ -3299,8 +3301,8 @@ packages:
       - supports-color
     dev: true
 
-  /@vitest/ui/0.6.0:
-    resolution: {integrity: sha512-hune6gWckOm9sIo5vY0u3wpUZRpo3o0bALmvQcIzbL6IMMEbK9sW7AXY4Pu2XGq2IqHWoEKqdY8aantPJzfOHg==}
+  /@vitest/ui/0.7.6:
+    resolution: {integrity: sha512-UX99oH1XM9XXi6Py26CbzlqLhG8kOXVB2n7nneoj1uU+C9mKCaVKX8eN4reRU49ntby9FAMAVq4uIkVcAMHIAA==}
     dependencies:
       sirv: 2.0.2
     dev: true
@@ -8717,12 +8719,12 @@ packages:
     resolution: {integrity: sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==}
     dev: true
 
-  /nx/13.9.2:
-    resolution: {integrity: sha512-Mqng5JVOliDT1J+OUoSouxbBr6Yvq0r4LMakqWF96F33URTFdm9VmGGk/5Bz7ctckGfAgS8DCbWjnByyGUYv0w==}
+  /nx/13.9.3:
+    resolution: {integrity: sha512-ZvE2oCTZKuDgGQQE3sZCCwrccqPYvuvKvgQZotuoa2qeXAZiPBDa75t92Oo6wdCoGQzWssFlUnEaWSTK4NSn/w==}
     hasBin: true
     dependencies:
-      '@nrwl/cli': 13.9.2
-      '@nrwl/tao': 13.9.2
+      '@nrwl/cli': 13.9.3
+      '@nrwl/tao': 13.9.3
       '@swc-node/register': 1.4.2
       '@swc/core': 1.2.154
       chalk: 4.1.0
@@ -10616,16 +10618,16 @@ packages:
     resolution: {integrity: sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=}
     dev: true
 
-  /twemoji-parser/13.1.0:
-    resolution: {integrity: sha512-AQOzLJpYlpWMy8n+0ATyKKZzWlZBJN+G0C+5lhX7Ftc2PeEVdUU/7ns2Pn2vVje26AIZ/OHwFoUbdv6YYD/wGg==}
+  /twemoji-parser/12.1.3:
+    resolution: {integrity: sha512-ND4LZXF4X92/PFrzSgGkq6KPPg8swy/U0yRw1k/+izWRVmq1HYi3khPwV3XIB6FRudgVICAaBhJfW8e8G3HC7Q==}
     dev: false
 
-  /twemoji/13.1.0:
-    resolution: {integrity: sha512-e3fZRl2S9UQQdBFLYXtTBT6o4vidJMnpWUAhJA+yLGR+kaUTZAt3PixC0cGvvxWSuq2MSz/o0rJraOXrWw/4Ew==}
+  /twemoji/12.1.6:
+    resolution: {integrity: sha512-FIKi9Jne5IiDGDWekoANJ1a8ltUKVbJLEIR8XUpbFRDMqIPgLWnYgjeWZ1KOrdiTztRCAa9x4v+5w5OuiJOGVw==}
     dependencies:
       fs-extra: 8.1.0
       jsonfile: 5.0.0
-      twemoji-parser: 13.1.0
+      twemoji-parser: 12.1.3
       universalify: 0.1.2
     dev: false
 
@@ -10893,8 +10895,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.6.0_@vitest+ui@0.6.0+jsdom@19.0.0:
-    resolution: {integrity: sha512-FuIkLHCQxz6rO35MQROUtVdwcBaYnt198YpPGIrJXmuNHGolfPbrZIiwpD7bek0OiETxuphK3+KR5oJ5Qi1g5A==}
+  /vitest/0.7.6_@vitest+ui@0.7.6+jsdom@19.0.0:
+    resolution: {integrity: sha512-fqk0cn0I2BUpzwLfeZ725JeXJ7WGwDtVcVBksQ6SdyjrBi6aex8t3w70TWgyLOXgylS7FJ8C9DRap4MMgpkqYw==}
     engines: {node: '>=14.14.0'}
     hasBin: true
     peerDependencies:
@@ -10914,7 +10916,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.0
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.6.0
+      '@vitest/ui': 0.7.6
       chai: 4.3.6
       jsdom: 19.0.0
       local-pkg: 0.4.1
