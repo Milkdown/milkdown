@@ -16,21 +16,6 @@ export type ButtonItem = {
     enable: Pred;
 };
 
-export type InputItem = {
-    command: Event2Command;
-    display: Pred;
-    update: Updater;
-    placeholder: string;
-} & (
-    | {
-          bind: true;
-      }
-    | {
-          bind?: false;
-          buttonText: string;
-      }
-);
-
 export enum ButtonAction {
     ToggleBold,
     ToggleItalic,
@@ -39,28 +24,7 @@ export enum ButtonAction {
     ToggleLink,
 }
 
-export enum InputAction {
-    // ModifyLink,
-    // ModifyImage,
-    ModifyInlineMath,
-}
-
 export type ButtonMap = Record<ButtonAction, ButtonItem>;
-export type InputMap = Record<InputAction, InputItem>;
-
-export type InputOptions = {
-    link: {
-        placeholder: string;
-        buttonText: string;
-    };
-    image: {
-        placeholder: string;
-        buttonText: string;
-    };
-    inlineMath: {
-        placeholder: string;
-    };
-};
 
 export type TooltipOptions = {
     link: {

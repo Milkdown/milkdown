@@ -15,32 +15,6 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 Editor.make().use(nord).use(commonmark).use(tooltip).create();
 ```
 
-# Placeholder
-
-Modify the input widgets of link and image.
-
-Example:
-
-```typescript
-import { tooltipPlugin, tooltip } from '@milkdown/plugin-tooltip';
-
-Editor.make().use(
-    tooltip.configure(tooltipPlugin, {
-        link: {
-            placeholder: 'Please input link...',
-            buttonText: 'Confirm',
-        },
-        image: {
-            placeholder: 'Please input image link...',
-            buttonText: 'OK',
-        },
-        inlineMath: {
-            placeholder: 'Please input inline math...',
-        },
-    }),
-);
-```
-
 # Position
 
 Modify the tooltip widget's position, to show on the top or the bottom

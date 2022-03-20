@@ -7,12 +7,10 @@ import type { ButtonMap } from './item';
 
 export const createPlugin = (buttonMap: ButtonMap, utils: Utils, bottom: boolean) => {
     const buttonManager = createButtonManager(buttonMap, utils, bottom);
-    // const inputManager = createInputManager(inputMap, utils);
     let shouldHide = false;
 
     const hide = () => {
         buttonManager.hide();
-        // inputManager.hide();
     };
 
     const update = (view: EditorView, prevState?: EditorState) => {
