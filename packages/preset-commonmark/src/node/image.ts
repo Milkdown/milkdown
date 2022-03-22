@@ -13,6 +13,10 @@ export type ImageOptions = {
         empty: string;
         failed: string;
     };
+    input: {
+        placeholder: string;
+        buttonText?: string;
+    };
 };
 const key = new PluginKey('MILKDOWN_PLUGIN_IMAGE_INPUT');
 
@@ -201,7 +205,8 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
         },
         prosePlugins: (type, ctx) => {
             const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
-                placeholder: 'Input Image Link',
+                placeholder: options?.input?.placeholder ?? 'Input Image Link',
+                buttonText: options?.input?.buttonText,
                 onUpdate: (value) => {
                     ctx.get(commandsCtx).call(ModifyImage, value);
                 },

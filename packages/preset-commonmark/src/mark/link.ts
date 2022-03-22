@@ -16,7 +16,13 @@ const key = new PluginKey('MILKDOWN_PLUGIN_LINK_INPUT');
 export const ToggleLink = createCmdKey<string>('ToggleLink');
 export const ModifyLink = createCmdKey<string>('ModifyLink');
 const id = 'link';
-export const link = createMark((utils) => {
+export type LinkOptions = {
+    input: {
+        placeholder: string;
+        buttonText?: string;
+    };
+};
+export const link = createMark<string, LinkOptions>((utils, options) => {
     return {
         id,
         schema: () => ({
@@ -113,7 +119,8 @@ export const link = createMark((utils) => {
         ],
         prosePlugins: (type, ctx) => {
             const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
-                placeholder: 'Input Web Link',
+                placeholder: options?.input?.placeholder ?? 'Input Web Link',
+                buttonText: options?.input?.buttonText,
                 onUpdate: (value) => {
                     ctx.get(commandsCtx).call(ModifyLink, value);
                 },
