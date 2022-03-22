@@ -126,12 +126,13 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                 },
             });
             const shouldDisplay = (view: EditorView) => {
-                const { from, to } = view.state.selection;
+                const { selection, doc } = view.state;
+                const { from, to } = selection;
 
                 return (
-                    view.state.selection.empty &&
-                    view.state.selection instanceof TextSelection &&
-                    view.state.doc.rangeHasMark(from, from === to ? to + 1 : to, type)
+                    selection.empty &&
+                    selection instanceof TextSelection &&
+                    doc.rangeHasMark(from, from === to ? to + 1 : to, type)
                 );
             };
             const getCurrentLink = (view: EditorView) => {
