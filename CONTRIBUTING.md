@@ -3,7 +3,25 @@
 > We use pnpm for development.
 > Please make sure you have node.js, npm and pnpm installed on your machine.
 
-After cloning Milkdown, run `pnpm install` to install dependencies. Then, you can run several commands:
+After cloning Milkdown, run `pnpm install` to install dependencies.
+
+To get started:
+
+> If you're using vscode, things are much easier.
+> You can just press `F5`.
+
+1. Run `pnpm build:cache`.
+2. Run `pnpm doc` in one terminal to see doc site.
+
+After that,
+you may want to play with any packages,
+You can watch them through `pnpm start --filter=@milkdown/xxx`.
+
+For example, `pnpm start --filter=@milkdown/core`.
+
+# Commands
+
+You can run several commands:
 
 -   `pnpm watch` watches all packages except gh-pages.
 -   `pnpm clear` remove all build dist.
@@ -14,11 +32,9 @@ After cloning Milkdown, run `pnpm install` to install dependencies. Then, you ca
 -   `pnpm test` runs all possible test.
 -   `pnpm doc` runs develop mode for gh-pages package.
 -   `pnpm build:packs` runs build for all packages.
+-   `pnpm build:cache` runs build for all packages with cache powered by nx.
 -   `pnpm build:doc` runs build for gh-pages package.
 -   `pnpm commit` runs commit with git hooks.
-
-The easiest way to get started is to run `pnpm watch` in one command line and `pnpm doc` in another.
-Then you can make some modify you want to see the change.
 
 # Pre Check
 

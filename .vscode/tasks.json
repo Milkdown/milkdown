@@ -3,21 +3,20 @@
     "tasks": [
         {
             "type": "npm",
-            "script": "watch",
+            "script": "build:cache",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "isBackground": true,
-            "problemMatcher": ["$tsc-watch"],
-            "label": "npm: watch",
-            "detail": "tsc --build --watch --verbose"
+            "label": "npm: build",
+            "detail": "pnpm build:cache"
         },
         {
             "type": "npm",
             "script": "doc",
             "isBackground": true,
             "label": "npm: doc",
+            "dependsOn": ["npm: build"],
             "detail": "pnpm run start --filter @milkdown/gh-pages",
             "problemMatcher": [
                 {
