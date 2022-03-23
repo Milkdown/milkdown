@@ -64,6 +64,7 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
                 ${scrollbar};
                 overflow-y: hidden;
                 background: ${themeManager.get(ThemeColor, ['surface'])};
+                transition: background-color 0.4s ease-in-out;
 
                 -webkit-overflow-scrolling: auto;
 

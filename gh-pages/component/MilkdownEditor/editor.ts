@@ -14,7 +14,7 @@ import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
-import { getNord } from '@milkdown/theme-nord';
+import { nord } from '@milkdown/theme-nord';
 
 import { codeSandBox } from './codeSandBox';
 
@@ -23,7 +23,6 @@ export const createEditor = (
     defaultValue: string,
     readOnly: boolean | undefined,
     setEditorReady: (ready: boolean) => void,
-    isDarkMode: boolean,
     onChange?: (markdown: string) => void,
 ) => {
     const editor = Editor.make()
@@ -60,7 +59,7 @@ export const createEditor = (
         .use(indent)
         .use(upload)
         .use(slash)
-        .use(getNord(isDarkMode));
+        .use(nord);
 
     if (!readOnly) {
         editor.use(menu());

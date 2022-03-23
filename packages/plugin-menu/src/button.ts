@@ -39,7 +39,7 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
 
                 background-color: ${palette('surface')};
                 color: ${palette('solid')};
-                transition: all 0.4s ease-in-out;
+                transition: color 0.4s ease-in-out, background-color 0.4s ease-in-out;
 
                 cursor: pointer;
 
