@@ -193,7 +193,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             });
             if (!renderer) return {};
 
-            const { dom, contentDOM, onUpdate } = renderer;
+            const { dom, contentDOM, onUpdate, onDestroy } = renderer;
             onUpdate(currNode);
 
             return {
@@ -206,6 +206,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
 
                     return true;
                 },
+                destroy: onDestroy,
             };
         },
     };

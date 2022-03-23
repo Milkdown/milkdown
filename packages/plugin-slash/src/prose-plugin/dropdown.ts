@@ -21,8 +21,9 @@ export const renderDropdown = (status: Status, dropdownElement: HTMLElement, lis
         child.removeEventListener('mouseleave', listeners.mouseLeave);
     });
 
-    // Reset dropdownElement children
-    dropdownElement.textContent = '';
+    while (dropdownElement.firstChild) {
+        dropdownElement.firstChild.remove();
+    }
 
     actions.forEach(({ $ }) => {
         $.classList.remove('active');

@@ -33,6 +33,9 @@ export const menu = createPlugin<string, Options>((utils, options) => {
                         update: (view) => {
                             manager.update(view);
                         },
+                        destroy: () => {
+                            menu.remove();
+                        },
                     };
                 },
             });

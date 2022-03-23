@@ -92,16 +92,13 @@ export class Manager {
 
         switch (item.type) {
             case 'button': {
-                const $ = button(utils, item, ctx);
-                return $;
+                return button(utils, item, ctx);
             }
             case 'select': {
-                const $ = select(utils, item, ctx, view);
-                return $;
+                return select(utils, item, ctx, view);
             }
             case 'divider': {
-                const $ = divider(utils);
-                return $;
+                return divider(utils);
             }
             default:
                 throw new Error();

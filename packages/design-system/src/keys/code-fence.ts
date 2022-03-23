@@ -14,6 +14,7 @@ type ThemeRenderer = {
     dom: HTMLElement;
     contentDOM: HTMLElement;
     onUpdate: (node: Node) => void;
+    onDestroy: () => void;
 };
 export const ThemeCodeFence = createThemeSliceKey<ThemeRenderer, ThemeOptions, 'code-fence'>('code-fence');
 export type ThemeCodeFenceType = typeof ThemeCodeFence;

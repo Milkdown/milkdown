@@ -85,7 +85,7 @@ export const filter = (utils: Utils) => {
             };
 
             parentNode.appendChild(dropDown);
-            parentNode.addEventListener('keydown', (e) => {
+            const onKeydown = (e: Event) => {
                 if (!trigger || !(e instanceof KeyboardEvent)) return;
 
                 const { key } = e;
@@ -109,14 +109,16 @@ export const filter = (utils: Utils) => {
 
                     return;
                 }
-            });
-            parentNode.addEventListener('mousedown', (e) => {
+            };
+            const onClick = (e: Event) => {
                 if (!trigger) return;
 
                 e.stopPropagation();
                 off();
                 dropDown.classList.add('hide');
-            });
+            };
+            parentNode.addEventListener('keydown', onKeydown);
+            parentNode.addEventListener('mousedown', onClick);
 
             return {
                 update: (view) => {
@@ -158,6 +160,12 @@ export const filter = (utils: Utils) => {
                     });
 
                     return null;
+                },
+
+                destroy: () => {
+                    parentNode.removeEventListener('keydown', onKeydown);
+                    parentNode.removeEventListener('mousedown', onClick);
+                    dropDown.remove();
                 },
             };
         },

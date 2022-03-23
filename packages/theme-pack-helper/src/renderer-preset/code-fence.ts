@@ -163,11 +163,12 @@ export const codeFence = (manager: ThemeManager, emotion: Emotion) => {
                 onFocus();
             });
 
-            document.addEventListener('mousedown', () => {
+            const onClickOutside = () => {
                 if (!editable() || select.dataset['fold'] === 'true') return;
 
                 onBlur();
-            });
+            };
+            document.addEventListener('mousedown', onClickOutside);
 
             languageList.forEach((lang) => {
                 const option = document.createElement('li');
@@ -183,10 +184,16 @@ export const codeFence = (manager: ThemeManager, emotion: Emotion) => {
                 select.setAttribute('data-fold', node.attrs['fold'] ? 'true' : 'false');
             };
 
+            const onDestroy = () => {
+                container.remove();
+                document.removeEventListener('mousedown', onClickOutside);
+            };
+
             return {
                 dom: container,
                 contentDOM: codeContent,
                 onUpdate,
+                onDestroy,
             };
         },
     );

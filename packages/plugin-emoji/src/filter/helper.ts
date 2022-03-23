@@ -41,7 +41,9 @@ export const renderDropdownList = (
     onConfirm: () => void,
     setActive: (active: HTMLElement | null) => void,
 ) => {
-    dropDown.innerHTML = '';
+    while (dropDown.firstChild) {
+        dropDown.firstChild.remove();
+    }
     list.forEach(({ emoji, key }, i) => {
         const container = document.createElement('div');
         container.className = 'milkdown-emoji-filter_item';
@@ -63,7 +65,7 @@ export const renderDropdownList = (
             setActive(container);
         }
 
-        container.addEventListener('mouseenter', (e) => {
+        const onEnter = (e: MouseEvent) => {
             if ($active) {
                 $active.classList.remove('active');
             }
@@ -71,15 +73,21 @@ export const renderDropdownList = (
             if (!(target instanceof HTMLElement)) return;
             target.classList.add('active');
             setActive(target);
-        });
-        container.addEventListener('mouseleave', (e) => {
+        };
+
+        const onLeave = (e: MouseEvent) => {
             const { target } = e;
             if (!(target instanceof HTMLElement)) return;
             target.classList.remove('active');
-        });
-        container.addEventListener('mousedown', (e) => {
-            onConfirm();
+        };
+
+        const onClick = (e: MouseEvent) => {
             e.preventDefault();
-        });
+            onConfirm();
+        };
+
+        container.addEventListener('mouseenter', onEnter);
+        container.addEventListener('mouseleave', onLeave);
+        container.addEventListener('mousedown', onClick);
     });
 };
