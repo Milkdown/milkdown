@@ -11,28 +11,33 @@ export const createTimer = (name: string, timeout = 3000): Timer => {
 
     const timer = (store: ClockMap) => {
         let isResolved = false;
+        let listener: EventListener;
+
         const data = Symbol(name);
 
         const timing: Timing = () =>
             isResolved
                 ? Promise.resolve(undefined)
                 : new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                          reject(`Timing ${name} timeout.`);
-                      }, timeout);
-                      addEventListener(name, (e) => {
+                      listener = (e: Event) => {
                           if (!(e instanceof CustomEvent)) {
                               return;
                           }
                           if (e.detail.id === data) {
                               isResolved = true;
-                              resolve(undefined);
+                              resolve();
                           }
-                      });
+                      };
+                      setTimeout(() => {
+                          reject(`Timing ${name} timeout.`);
+                          removeEventListener(name, listener);
+                      }, timeout);
+                      addEventListener(name, listener);
                   });
         timing.done = () => {
             const event = new CustomEvent(name, { detail: { id: data } });
             dispatchEvent(event);
+            removeEventListener(name, listener);
         };
 
         store.set(id, timing);
