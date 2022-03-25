@@ -12,15 +12,6 @@
             "url": "http://localhost:3000/#/online-demo",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "npm: doc"
-        },
-        {
-            "type": "pwa-msedge",
-            "request": "launch",
-            "restart": true,
-            "name": "Launch edge against localhost",
-            "url": "http://localhost:3000/#/online-demo",
-            "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "npm: doc"
         }
     ]
 }
