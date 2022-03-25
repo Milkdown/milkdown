@@ -65,11 +65,13 @@ export const filter = (utils: Utils) => {
             }
 
             const dropDown = document.createElement('div');
-            const style = utils.getStyle(injectStyle);
 
-            if (style) {
-                style.split(' ').forEach((x) => dropDown.classList.add(x));
-            }
+            utils.themeManager.onFlush(() => {
+                const style = utils.getStyle(injectStyle);
+                if (style) {
+                    style.split(' ').forEach((x) => dropDown.classList.add(x));
+                }
+            });
 
             dropDown.classList.add('milkdown-emoji-filter', 'hide');
 
