@@ -71,10 +71,11 @@ new Editor({ ...  }).use(nodes);
 
 ### Image
 
--   placeholder
-    -   loading: _string_. The placeholder of loading status.
-    -   empty: _string_. The placeholder of empty status.
-    -   failed: _string_. The placeholder of failed status.
+-   placeholder: The placeholder of empty status.
+-   isBlock: Whether the image is a block (render as a row).
+-   input:
+    -   placeholder: The placeholder of image url input.
+    -   buttonText: The button text of image url input.
 
 ### CodeFence
 
