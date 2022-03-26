@@ -82,26 +82,10 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
                     }
                 }
 
-                &.loading {
-                    .placeholder {
-                        &::before {
-                            content: '${placeholder.loading}';
-                        }
-                    }
-                }
-
                 &.empty {
                     .placeholder {
                         &::before {
-                            content: '${placeholder.empty}';
-                        }
-                    }
-                }
-
-                &.failed {
-                    .placeholder {
-                        &::before {
-                            content: '${placeholder.failed}';
+                            content: '${placeholder}';
                         }
                     }
                 }
@@ -133,22 +117,19 @@ export const image = (manager: ThemeManager, { css }: Emotion) => {
             img.src = src;
 
             img.onerror = () => {
-                onError(img);
+                onError?.(img);
             };
 
             img.onload = () => {
-                onLoad(img);
+                onLoad?.(img);
             };
         };
 
         const onUpdate = (node: Node) => {
-            const { src, alt, title, loading, failed, width } = node.attrs;
+            const { src, alt, title, loading, failed } = node.attrs;
             content.src = src;
             content.title = title || alt;
             content.alt = alt;
-            if (width) {
-                content.width = width;
-            }
 
             if (src.length === 0) {
                 container.classList.add('system', 'empty');

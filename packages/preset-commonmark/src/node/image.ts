@@ -8,11 +8,7 @@ export const InsertImage = createCmdKey<string>('InsertImage');
 const id = 'image';
 export type ImageOptions = {
     isBlock: boolean;
-    placeholder: {
-        loading: string;
-        empty: string;
-        failed: string;
-    };
+    placeholder: string;
     input: {
         placeholder: string;
         buttonText?: string;
@@ -36,9 +32,6 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 src: { default: '' },
                 alt: { default: null },
                 title: { default: null },
-                failed: { default: false },
-                loading: { default: true },
-                width: { default: null },
             },
             parseDOM: [
                 {
@@ -48,8 +41,6 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                             throw new Error();
                         }
                         return {
-                            failed: dom.classList.contains('failed'),
-                            loading: dom.classList.contains('loading'),
                             src: dom.getAttribute('src') || '',
                             alt: dom.getAttribute('alt'),
                             title: dom.getAttribute('title') || dom.getAttribute('alt'),
@@ -63,12 +54,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     'img',
                     {
                         ...node.attrs,
-                        class: utils.getClassName(
-                            node.attrs,
-                            id,
-                            node.attrs['failed'] ? 'failed' : '',
-                            node.attrs['loading'] ? 'loading' : '',
-                        ),
+                        class: utils.getClassName(node.attrs, id),
                     },
                 ];
             },
@@ -134,48 +120,14 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                 },
             ),
         ],
-        view: () => (node, view, getPos) => {
+        view: () => (node) => {
             let currNode = node;
 
-            const placeholder = {
-                loading: 'Loading...',
-                empty: 'Add an Image',
-                failed: 'Image loads failed',
-                ...(options?.placeholder ?? {}),
-            };
+            const placeholder = options?.placeholder ?? 'Add an Image';
             const isBlock = options?.isBlock ?? false;
-            const nodeType = node.type;
             const renderer = utils.themeManager.get<ThemeImageType>('image', {
                 placeholder,
                 isBlock,
-                onError: (img) => {
-                    const pos = getPos();
-                    if (!pos) return;
-
-                    const { tr } = view.state;
-                    const _tr = tr.setNodeMarkup(pos, nodeType, {
-                        ...node.attrs,
-                        src: img.src,
-                        loading: false,
-                        failed: true,
-                    });
-                    view.dispatch(_tr);
-                },
-                onLoad: (img) => {
-                    const { tr } = view.state;
-
-                    const pos = getPos();
-                    if (!pos) return;
-
-                    const _tr = tr.setNodeMarkup(pos, nodeType, {
-                        ...node.attrs,
-                        width: img.width,
-                        src: img.src,
-                        loading: false,
-                        failed: false,
-                    });
-                    view.dispatch(_tr);
-                },
             });
 
             if (!renderer) {

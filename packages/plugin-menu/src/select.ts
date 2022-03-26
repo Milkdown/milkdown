@@ -108,7 +108,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                     align-items: center;
                     color: ${palette('neutral', 0.87)};
                     display: flex;
-                    padding: 0.25em 0.5em;
+                    padding: 0.5em;
                     margin: 0.5em;
                     background: ${palette('secondary', 0.12)};
                     width: 10.375em;
@@ -127,7 +127,6 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 .menu-selector-list {
                     width: calc(12.375em);
                     position: absolute;
-                    top: 3em;
                     background: ${palette('surface')};
                     ${themeManager.get(ThemeBorder, undefined)}
                     ${themeManager.get(ThemeShadow, undefined)}

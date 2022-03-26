@@ -5,13 +5,9 @@ import { createThemeSliceKey } from '../manager';
 
 type ThemeOptions = {
     isBlock: boolean;
-    placeholder: {
-        loading: string;
-        empty: string;
-        failed: string;
-    };
-    onError: (img: HTMLImageElement) => void;
-    onLoad: (img: HTMLImageElement) => void;
+    placeholder: string;
+    onError?: (img: HTMLImageElement) => void;
+    onLoad?: (img: HTMLImageElement) => void;
 };
 type ThemeRenderer = {
     dom: HTMLElement;
