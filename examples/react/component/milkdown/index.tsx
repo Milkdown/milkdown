@@ -17,7 +17,7 @@ export const Milkdown: React.FC<{ value: string }> = ({ value }) => {
     const editor = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(paragraph, { view: renderReact(Paragraph) })
-            .configure(blockquote, { view: renderReact(Blockquote) })
+            .configure(blockquote, { view: renderReact(Blockquote, { as: 'section' }) })
             .configure(image, { view: renderReact(Image) })
             .configure(link, { view: renderReact(Link) });
         return Editor.make()

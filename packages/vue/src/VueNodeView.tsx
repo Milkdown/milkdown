@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
-import type { Decoration, EditorView, NodeView, ViewFactory } from '@milkdown/prose';
+import type { Decoration, DecorationSet, EditorView, NodeView, ViewFactory } from '@milkdown/prose';
 import { Mark, Node } from '@milkdown/prose';
 import { customAlphabet } from 'nanoid';
 import { DefineComponent, defineComponent, h, markRaw, Teleport } from 'vue';
@@ -10,12 +10,18 @@ import { Content, VueNodeContainer } from './VueNode';
 
 const nanoid = customAlphabet('abcedfghicklmn', 10);
 
+export type RenderOptions = Partial<
+    {
+        as: string;
+    } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy' | 'update'>
+>;
+
 export const createVueView =
     (addPortal: (portal: DefineComponent, key: string) => void, removePortalByKey: (key: string) => void) =>
-    (component: DefineComponent): ((ctx: Ctx) => ViewFactory) =>
+    (component: DefineComponent, options: RenderOptions = {}): ((ctx: Ctx) => ViewFactory) =>
     (ctx) =>
     (node, view, getPos, decorations) =>
-        new VueNodeView(ctx, component, addPortal, removePortalByKey, node, view, getPos, decorations);
+        new VueNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);
 
 export class VueNodeView implements NodeView {
     teleportDOM: HTMLElement;
@@ -30,13 +36,15 @@ export class VueNodeView implements NodeView {
         private component: DefineComponent,
         private addPortal: (portal: DefineComponent, key: string) => void,
         private removePortalByKey: (key: string) => void,
+        private options: RenderOptions,
         private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
         private decorations: Decoration[],
     ) {
         this.key = nanoid();
-        this.teleportDOM = document.createElement(this.isInlineOrMark ? 'span' : 'div');
+        const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div';
+        this.teleportDOM = document.createElement(elementName);
         this.renderPortal();
     }
 
@@ -56,12 +64,14 @@ export class VueNodeView implements NodeView {
         if (!this.teleportDOM) return;
 
         const CustomComponent = this.component;
+        const elementName = this.options.as ? this.options.as : this.isInlineOrMark ? 'span' : 'div';
         const Portal = defineComponent({
             name: 'milkdown-portal',
             setup: () => {
                 return () => (
                     <Teleport key={this.key} to={this.teleportDOM}>
                         <VueNodeContainer
+                            as={elementName}
                             ctx={this.ctx}
                             node={this.node}
                             view={this.view}
@@ -84,10 +94,14 @@ export class VueNodeView implements NodeView {
     }
 
     destroy() {
+        this.options.destroy?.();
         this.removePortalByKey(this.key);
     }
 
     ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+        if (this.options.ignoreMutation) {
+            return this.options.ignoreMutation(mutation);
+        }
         if (!this.dom || !this.contentDOM) {
             return true;
         }
@@ -113,7 +127,13 @@ export class VueNodeView implements NodeView {
         return true;
     }
 
-    update(node: Node | Mark, decorations: Decoration[]) {
+    update(node: Node, decorations: Decoration[], innerDecorations: DecorationSet) {
+        if (this.options.update) {
+            const result = this.options.update?.(node, decorations, innerDecorations);
+            if (result != null) {
+                return result;
+            }
+        }
         if (this.node.type !== node.type) {
             return false;
         }
@@ -126,4 +146,8 @@ export class VueNodeView implements NodeView {
         this.decorations = decorations;
         return true;
     }
+
+    selectNode = this.options?.selectNode;
+
+    deselectNode = this.options?.deselectNode;
 }

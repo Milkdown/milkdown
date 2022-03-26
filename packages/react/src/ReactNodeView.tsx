@@ -10,12 +10,18 @@ import { Content, ReactNodeContainer } from './ReactNode';
 
 const nanoid = customAlphabet('abcedfghicklmn', 10);
 
+export type RenderOptions = Partial<
+    {
+        as: string;
+    } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy' | 'update'>
+>;
+
 export const createReactView =
     (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
-    (component: React.FC): ((ctx: Ctx) => ViewFactory) =>
+    (component: React.FC, options: RenderOptions = {}): ((ctx: Ctx) => ViewFactory) =>
     (ctx) =>
     (node, view, getPos, decorations) =>
-        new ReactNodeView(ctx, component, addPortal, removePortalByKey, node, view, getPos, decorations);
+        new ReactNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);
 
 export class ReactNodeView implements NodeView {
     dom: HTMLElement | undefined;
@@ -31,12 +37,14 @@ export class ReactNodeView implements NodeView {
         private component: React.FC,
         private addPortal: (portal: React.ReactPortal) => void,
         private removePortalByKey: (key: string) => void,
+        private options: RenderOptions,
         private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
         private decorations: Decoration[],
     ) {
-        const dom = document.createElement(this.isInlineOrMark ? 'span' : 'div');
+        const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div';
+        const dom = document.createElement(elementName);
         dom.classList.add('dom-wrapper');
 
         const contentDOM =
@@ -77,15 +85,25 @@ export class ReactNodeView implements NodeView {
     }
 
     destroy() {
+        this.options.destroy?.();
         this.dom = undefined;
         this.contentDOM = undefined;
         this.removePortalByKey(this.key);
     }
 
     ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+        if (this.options.ignoreMutation) {
+            return this.options.ignoreMutation(mutation);
+        }
         if (!this.contentDOM) {
             return true;
         }
         return !this.contentDOM.contains(mutation.target);
     }
+
+    update = this.options?.update;
+
+    selectNode = this.options?.selectNode;
+
+    deselectNode = this.options?.deselectNode;
 }

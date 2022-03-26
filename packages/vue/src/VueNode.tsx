@@ -13,9 +13,9 @@ export type NodeContext = {
 
 export const nodeMetadata: InjectionKey<NodeContext> = Symbol();
 
-export const VueNodeContainer = defineComponent<NodeContext>({
+export const VueNodeContainer = defineComponent<NodeContext & { as: string }>({
     name: 'milkdown-node-container',
-    setup: ({ node, view, getPos, decorations, ctx }, context) => {
+    setup: ({ node, view, getPos, decorations, ctx, as }, context) => {
         provide(nodeMetadata, {
             ctx,
             node,
@@ -23,10 +23,10 @@ export const VueNodeContainer = defineComponent<NodeContext>({
             getPos,
             decorations,
         });
-        return () => <div data-view-container>{context.slots['default']?.()}</div>;
+        return () => h(as, { 'data-view-container': true }, context.slots['default']?.());
     },
 });
-VueNodeContainer['props'] = ['ctx', 'editor', 'node', 'view', 'getPos', 'decorations'];
+VueNodeContainer['props'] = ['ctx', 'editor', 'node', 'view', 'getPos', 'decorations', 'as'];
 
 export const Content = defineComponent<{ isInline?: boolean }>({
     name: 'milkdown-content',
@@ -34,4 +34,4 @@ export const Content = defineComponent<{ isInline?: boolean }>({
         return () => (isInline ? <span data-view-content /> : <div data-view-content />);
     },
 });
-Content['props'] = ['isMark'];
+Content['props'] = ['isInline'];

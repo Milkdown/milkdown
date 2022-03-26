@@ -20,20 +20,24 @@ import {
 } from 'vue';
 
 import { AnyVueComponent } from './utils';
-import { createVueView } from './VueNodeView';
+import { createVueView, RenderOptions } from './VueNodeView';
 
-const rendererKey: InjectionKey<(component: DefineComponent) => (ctx: Ctx) => ViewFactory> = Symbol();
+const rendererKey: InjectionKey<(component: DefineComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory> =
+    Symbol();
 
 type GetEditor = (
     container: HTMLDivElement,
-    renderVue: (Component: AnyVueComponent) => (ctx: Ctx) => ViewFactory,
+    renderVue: (Component: AnyVueComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory,
 ) => Editor;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const divRef = ref<HTMLDivElement | null>(null);
-    const renderVue = inject<(Component: DefineComponent) => (ctx: Ctx) => ViewFactory>(rendererKey, () => {
-        throw new Error();
-    });
+    const renderVue = inject<(Component: DefineComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory>(
+        rendererKey,
+        () => {
+            throw new Error();
+        },
+    );
     const editorRef = markRaw<{ editor?: Editor }>({});
     onMounted(() => {
         if (!divRef.value) return;

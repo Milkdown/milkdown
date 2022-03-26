@@ -4,5 +4,5 @@ import React from 'react';
 
 export const Image: React.FC = () => {
     const { node } = useNodeCtx();
-    return <img className="image" src={node.attrs.src} alt={node.attrs.alt} title={node.attrs.tittle} />;
+    return <img className="image" src={node.attrs['src']} alt={node.attrs['alt']} title={node.attrs['tittle']} />;
 };

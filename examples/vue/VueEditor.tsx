@@ -9,7 +9,7 @@ import { DefineComponent, defineComponent, h, inject, ref } from 'vue';
 const MyParagraph: DefineComponent = defineComponent({
     name: 'my-paragraph',
     setup(_, { slots }) {
-        return () => <div class="my-paragraph">{slots.default?.()}</div>;
+        return () => <div class="my-paragraph">{slots['default']?.()}</div>;
     },
 });
 const MyHeading = defineComponent({
@@ -18,8 +18,8 @@ const MyHeading = defineComponent({
         const node = inject(nodeMetadata)?.node;
         return () => {
             return (
-                <div class={`my-heading ${!node?.attrs.level ? '' : 'heading' + node?.attrs.level}`}>
-                    {slots.default?.()}
+                <div class={`my-heading ${!node?.attrs['level'] ? '' : 'heading' + node?.attrs['level']}`}>
+                    {slots['default']?.()}
                 </div>
             );
         };
@@ -29,13 +29,13 @@ const MyImage: DefineComponent = defineComponent({
     name: 'my-image',
     setup() {
         const node = inject(nodeMetadata)?.node;
-        return () => <img class="image" src={node?.attrs.src} alt={node?.attrs.alt} />;
+        return () => <img class="image" src={node?.attrs['src']} alt={node?.attrs['alt']} />;
     },
 });
 const MyQuote: DefineComponent = defineComponent({
     name: 'my-quote',
     setup(_, { slots }) {
-        return () => <section class="my-quote">{slots.default?.()}</section>;
+        return () => <section class="my-quote">{slots['default']?.()}</section>;
     },
 });
 
@@ -46,10 +46,10 @@ export const MyEditor = defineComponent<{ markdown: string }>({
         const editor = useEditor((root, renderVue) => {
             const nodes = commonmarkNodes
                 .configure(heading, {
-                    view: renderVue(MyHeading),
+                    view: renderVue(MyHeading, { as: 'header' }),
                 })
                 .configure(paragraph, {
-                    view: renderVue(MyParagraph),
+                    view: renderVue(MyParagraph, { as: 'p' }),
                 })
                 .configure(blockquote, {
                     view: renderVue(MyQuote),
@@ -74,4 +74,4 @@ export const MyEditor = defineComponent<{ markdown: string }>({
         return () => <VueEditor editorRef={editorRef} editor={editor} />;
     },
 });
-MyEditor.props = ['markdown'];
+MyEditor['props'] = ['markdown'];

@@ -4,11 +4,11 @@ import { ViewFactory } from '@milkdown/prose';
 import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
 
 import { portalContext, Portals } from './Portals';
-import { createReactView } from './ReactNodeView';
+import { createReactView, RenderOptions } from './ReactNodeView';
 
 type GetEditor = (
     container: HTMLDivElement,
-    renderReact: (Component: React.FC) => (ctx: Ctx) => ViewFactory,
+    renderReact: (Component: React.FC, renderOptions?: RenderOptions) => (ctx: Ctx) => ViewFactory,
 ) => Editor | undefined;
 
 const useGetEditor = (getEditor: GetEditor) => {
@@ -77,7 +77,8 @@ export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor }, ref) 
         });
     }, []);
     const renderReact = React.useCallback(
-        (Component: React.FC) => createReactView(addPortal, removePortalByKey)(Component),
+        (Component: React.FC, options?: RenderOptions) =>
+            createReactView(addPortal, removePortalByKey)(Component, options),
         [addPortal, removePortalByKey],
     );
 
