@@ -124,7 +124,6 @@ describe('input:', () => {
         describe('image', () => {
             it('invalid image', () => {
                 cy.get('.editor').type('![image](invalidUrl)');
-                cy.get('.image-container').should('have.class', 'failed');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
                     return;
@@ -137,7 +136,6 @@ describe('input:', () => {
                     fixture: 'milkdown-mini.png',
                 });
                 cy.get('.editor').type('![image](/milkdown-mini.png)');
-                cy.get('.image-container').should('have.class', 'loading');
                 cy.get('.image-container').within(() => {
                     cy.get('img').should('have.attr', 'src', '/milkdown-mini.png');
                 });

@@ -1,5 +1,5 @@
 module.exports = {
-  "__version": "9.3.1",
+  "__version": "9.5.0",
   "input:": {
     "node:": {
       "paragraph": {
@@ -22,7 +22,7 @@ module.exports = {
       },
       "image": {
         "invalid image": {
-          "1": "![image](http://localhost:7000/invalidUrl)\n"
+          "1": "![image](invalidUrl)\n"
         },
         "valid image": {
           "1": "![image](/milkdown-mini.png)\n"
@@ -51,16 +51,11 @@ module.exports = {
     }
   },
   "transform:": {
-    "node:": {
-      "paragraph": {
-        "1": "The lunatic is on the grass\n"
-      }
+    "paragraph": {
+      "1": "The lunatic is on the grass\n"
     },
     "mark": {
       "1": "**The lunatic is on the grass**\n\n*The lunatic is on the grass*\n\n`The lunatic is on the grass`\n\n[The lunatic is on the grass](link)\n\n***The lunatic is on the grass***\n\n***`The lunatic is on the grass`***\n\n***[The lunatic is on the grass](link)***\n"
-    },
-    "paragraph": {
-      "1": "The lunatic is on the grass\n"
     }
   }
 }
