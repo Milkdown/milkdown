@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
-import { EditorView, ViewFactory } from '@milkdown/prose';
+import { EditorView, Plugin, PluginKey, ViewFactory } from '@milkdown/prose';
 
 import { editorStateCtx, EditorStateReady } from './editor-state';
-import { viewCtx } from './init';
+import { InitReady, prosePluginsCtx, viewCtx } from './init';
 
 type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
 
@@ -29,6 +29,8 @@ const prepareViewDom = (dom: Element) => {
     dom.setAttribute('role', 'textbox');
 };
 
+const key = new PluginKey('MILKDOWN_VIEW_CLEAR');
+
 export const editorView: MilkdownPlugin = (pre) => {
     pre.inject(rootCtx, document.body)
         .inject(editorViewCtx)
@@ -37,15 +39,31 @@ export const editorView: MilkdownPlugin = (pre) => {
         .record(EditorViewReady);
 
     return async (ctx) => {
+        await ctx.wait(InitReady);
+
+        const root = ctx.get(rootCtx) || document.body;
+        const el = typeof root === 'string' ? document.querySelector(root) : root;
+
+        const container = el ? createViewContainer(el) : undefined;
+
+        ctx.update(prosePluginsCtx, (xs) =>
+            xs.concat(
+                new Plugin({
+                    key,
+                    view: () => ({
+                        destroy: () => {
+                            container?.remove();
+                        },
+                    }),
+                }),
+            ),
+        );
+
         await ctx.waitTimers(editorViewTimerCtx);
 
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
         const nodeViews = Object.fromEntries(ctx.get(viewCtx) as [string, ViewFactory][]);
-        const root = ctx.get(rootCtx) || document.body;
-        const el = typeof root === 'string' ? document.querySelector(root) : root;
-
-        const container = el ? createViewContainer(el) : undefined;
         const view = new EditorView(container, {
             state,
             nodeViews,

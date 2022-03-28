@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewCtx, parserCtx } from '@milkdown/core';
-import { themeManagerCtx } from '@milkdown/design-system';
 import { Slice } from '@milkdown/prose';
 import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
 import { nordDark, nordLight } from '@milkdown/theme-nord';
+import { switchTheme } from '@milkdown/utils';
 import React, { forwardRef } from 'react';
 
 import { isDarkModeCtx } from '../Context';
@@ -51,10 +51,7 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
         if (!editorReady || !editorRef.current) return;
         const editor = editorRef.current.get();
         if (!editor) return;
-        editor.action((ctx) => {
-            const themeManager = ctx.get(themeManagerCtx);
-            themeManager.switch(ctx, isDarkMode ? nordDark : nordLight);
-        });
+        editor.action(switchTheme(isDarkMode ? nordDark : nordLight));
     }, [editorReady, isDarkMode]);
 
     return (
