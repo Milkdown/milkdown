@@ -7,7 +7,11 @@ export const insert = (markdown: string) => (ctx: Ctx) => {
     const parser = ctx.get(parserCtx);
     const doc = parser(markdown);
     if (!doc) return;
-    const { state } = view;
-    const { selection } = state;
-    return view.dispatch(state.tr.replace(selection.from, selection.to, new Slice(doc.content, 0, 0)));
+
+    const contentSlice = view.state.selection.content();
+    return view.dispatch(
+        view.state.tr
+            .replaceSelection(new Slice(doc.content, contentSlice.openStart, contentSlice.openEnd))
+            .scrollIntoView(),
+    );
 };
