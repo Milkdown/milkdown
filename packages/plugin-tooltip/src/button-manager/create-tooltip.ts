@@ -10,7 +10,7 @@ type Tooltip = {
     render: (editorView: EditorView) => void;
 };
 
-export const createTooltip = (buttonMap: ButtonMap, utils: Utils): Tooltip => {
+export const createTooltip = (buttonMap: ButtonMap, utils: Utils, className: string): Tooltip => {
     const div = document.createElement('div');
     utils.themeManager.onFlush(() => {
         const style = utils.getStyle(injectStyle) || '';
@@ -19,7 +19,7 @@ export const createTooltip = (buttonMap: ButtonMap, utils: Utils): Tooltip => {
         }
     });
 
-    div.classList.add('tooltip');
+    div.classList.add(className);
 
     return {
         dom: div,

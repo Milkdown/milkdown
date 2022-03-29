@@ -27,18 +27,8 @@ export enum ButtonAction {
 export type ButtonMap = Record<ButtonAction, ButtonItem>;
 
 export type TooltipOptions = {
-    link: {
-        placeholder: string;
-        buttonText: string;
-    };
-    image: {
-        placeholder: string;
-        buttonText: string;
-    };
-    inlineMath: {
-        placeholder: string;
-    };
     bottom: boolean;
+    className: string;
 };
 
 export const buttonMap = (schema: Schema, ctx: Ctx): ButtonMap => {

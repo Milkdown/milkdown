@@ -5,8 +5,8 @@ import { Utils } from '@milkdown/utils';
 import { createButtonManager } from './button-manager';
 import type { ButtonMap } from './item';
 
-export const createPlugin = (buttonMap: ButtonMap, utils: Utils, bottom: boolean) => {
-    const buttonManager = createButtonManager(buttonMap, utils, bottom);
+export const createPlugin = (buttonMap: ButtonMap, utils: Utils, bottom: boolean, containerClassName: string) => {
+    const buttonManager = createButtonManager(buttonMap, utils, bottom, containerClassName);
     let shouldHide = false;
 
     const hide = () => {
