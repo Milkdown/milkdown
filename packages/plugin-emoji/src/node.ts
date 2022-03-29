@@ -8,10 +8,13 @@ import remarkEmoji from 'remark-emoji';
 import { input } from './constant';
 import { filter } from './filter';
 import { parse } from './parse';
-import { picker } from './picker';
 import { twemojiPlugin } from './remark-twemoji';
 
-export const emojiNode = createNode((utils) => {
+export type EmojiOptions = {
+    maxListSize: number;
+};
+
+export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
     const getStyle = () =>
         utils.getStyle(
             (_, { css }) => css`
@@ -96,6 +99,6 @@ export const emojiNode = createNode((utils) => {
             }),
         ],
         remarkPlugins: () => [remarkEmoji as RemarkPlugin, twemojiPlugin],
-        prosePlugins: () => [picker(utils), filter(utils)],
+        prosePlugins: () => [filter(utils, options?.maxListSize ?? 10)],
     };
 });

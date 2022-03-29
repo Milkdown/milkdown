@@ -29,15 +29,13 @@
         "@milkdown/prose": "^6.0.0-next.0"
     },
     "dependencies": {
-        "@joeattardi/emoji-button": "^4.6.4",
         "@milkdown/utils": "workspace:*",
         "@types/node-emoji": "^1.8.1",
-        "@types/twemoji": "^12.1.2",
         "emoji-regex": "^10.0.0",
         "node-emoji": "^1.10.0",
         "remark-emoji": "^3.0.1",
         "tslib": "^2.3.1",
-        "twemoji": "~12.1.2",
+        "twemoji": "^14.0.1",
         "unist-util-visit": "^4.0.0"
     },
     "nx": {

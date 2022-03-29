@@ -1,4 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import twemoji from 'twemoji';
 
-export const parse = (emoji: string) => twemoji.parse(emoji, { attributes: (text) => ({ title: text }) });
+const setAttr = (text: string) => ({ title: text });
+
+export const parse = (emoji: string): string =>
+    twemoji.parse(emoji, { attributes: setAttr as unknown as () => void }) as unknown as string;

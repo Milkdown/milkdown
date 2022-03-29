@@ -9,7 +9,7 @@ import { injectStyle } from './style';
 
 export const key = new PluginKey('MILKDOWN_PLUGIN_EMOJI_FILTER');
 
-export const filter = (utils: Utils) => {
+export const filter = (utils: Utils, maxListSize: number) => {
     let trigger = false;
     let _from = 0;
     let _search = '';
@@ -131,7 +131,7 @@ export const filter = (utils: Utils) => {
                         dropDown.classList.add('hide');
                         return null;
                     }
-                    const result = search(_search).slice(0, 5);
+                    const result = search(_search).slice(0, maxListSize);
                     const { node } = view.domAtPos(_from);
                     if (result.length === 0 || !node) {
                         dropDown.classList.add('hide');
