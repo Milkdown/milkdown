@@ -52,12 +52,12 @@ export const createEditor = (
         .use(history)
         .use(cursor)
         .use(prism)
-        .use(diagram())
-        .use(tooltip())
         .use(math)
-        .use(emoji)
         .use(indent)
         .use(upload)
+        .use(emoji())
+        .use(diagram())
+        .use(tooltip())
         .use(slash())
         .use(nord);
 
