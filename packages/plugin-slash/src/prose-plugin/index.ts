@@ -9,12 +9,12 @@ import { createView } from './view';
 
 export const key = 'MILKDOWN_PLUGIN_SLASH';
 
-export const createSlashPlugin = (utils: Utils, builder: StatusConfigBuilder) => {
+export const createSlashPlugin = (utils: Utils, builder: StatusConfigBuilder, className: string) => {
     const status = createStatus(builder);
 
     return new Plugin({
         key: new PluginKey(key),
         props: createProps(status, utils),
-        view: (view) => createView(status, view, utils),
+        view: (view) => createView(status, view, utils, className),
     });
 };

@@ -6,7 +6,7 @@ import type { Utils } from '@milkdown/utils';
 
 import { injectStyle } from './style';
 
-export const createDropdown = (utils: Utils) => {
+export const createDropdown = (utils: Utils, className: string) => {
     const div = document.createElement('div');
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
@@ -18,7 +18,7 @@ export const createDropdown = (utils: Utils) => {
         }
     });
 
-    div.classList.add('slash-dropdown', 'hide');
+    div.classList.add(className, 'hide');
 
     return div;
 };

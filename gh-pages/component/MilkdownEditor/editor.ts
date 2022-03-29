@@ -53,12 +53,12 @@ export const createEditor = (
         .use(cursor)
         .use(prism)
         .use(diagram())
-        .use(tooltip)
+        .use(tooltip())
         .use(math)
         .use(emoji)
         .use(indent)
         .use(upload)
-        .use(slash)
+        .use(slash())
         .use(nord);
 
     if (!readOnly) {

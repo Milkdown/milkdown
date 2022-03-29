@@ -45,7 +45,8 @@ const itemStyle = (themeManager: ThemeManager, { css }: Emotion) => {
                     color: ${palette('primary')};
                 }
             }
-            `;
+        }
+    `;
 };
 
 export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {

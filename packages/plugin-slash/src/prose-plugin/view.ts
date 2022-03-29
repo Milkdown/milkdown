@@ -35,11 +35,11 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
     });
 };
 
-export const createView = (status: Status, view: EditorView, utils: Utils) => {
+export const createView = (status: Status, view: EditorView, utils: Utils, className: string) => {
     const wrapper = view.dom.parentNode;
     if (!wrapper) return {};
 
-    const dropdownElement = createDropdown(utils);
+    const dropdownElement = createDropdown(utils, className);
     const mouseManager = createMouseManager();
     wrapper.appendChild(dropdownElement);
 
