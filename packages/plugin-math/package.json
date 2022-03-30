@@ -30,7 +30,7 @@
         "@milkdown/prose": "^6.0.0-next.0"
     },
     "dependencies": {
-        "@types/katex": "^0.11.1",
+        "@types/katex": "^0.14.0",
         "@milkdown/utils": "workspace:*",
         "katex": "^0.15.0",
         "remark-math": "^5.1.0",
