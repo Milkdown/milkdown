@@ -66,8 +66,8 @@ const CustomImage: React.FC = ({ children }) => {
             src={node.attrs.src}
             alt={node.attrs.alt}
             title={node.attrs.tittle}
-        />;
-    )
+        />
+    );
 };
 
 export const MilkdownEditor: React.FC = () => {
