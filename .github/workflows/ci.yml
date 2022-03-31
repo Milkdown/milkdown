@@ -70,6 +70,7 @@ jobs:
                   publish_dir: docs
 
             - run: pnpx nx-cloud stop-all-agents
+              if: ${{ always() }}
 
             - name: export screenshots (on failure only)
               uses: actions/upload-artifact@v3.0.0

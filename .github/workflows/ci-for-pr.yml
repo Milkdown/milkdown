@@ -1,4 +1,4 @@
-name: check
+name: ci-for-pr
 
 on:
     pull_request:
@@ -55,6 +55,7 @@ jobs:
                   browser: chrome
 
             - run: pnpx nx-cloud stop-all-agents
+              if: ${{ always() }}
 
             - name: export screenshots (on failure only)
               uses: actions/upload-artifact@v3.0.0
