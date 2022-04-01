@@ -99,6 +99,6 @@ export const emoji = createNode<string, EmojiOptions>((utils, options) => {
             }),
         ],
         remarkPlugins: () => [remarkEmoji as RemarkPlugin, twemojiPlugin],
-        prosePlugins: () => [filter(utils, options?.maxListSize ?? 10)],
+        prosePlugins: () => [filter(utils, options?.maxListSize ?? 6)],
     };
 });

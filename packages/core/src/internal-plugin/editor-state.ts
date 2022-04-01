@@ -8,6 +8,8 @@ import {
     EditorState,
     keymap as createKeymap,
     Node,
+    Plugin,
+    PluginKey,
     Schema,
 } from '@milkdown/prose';
 import { JSONRecord } from '@milkdown/transformer';
@@ -27,6 +29,8 @@ export const editorStateOptionsCtx = createSlice({} as StateOptions, 'stateOptio
 export const editorStateTimerCtx = createSlice([] as Timer[], 'editorStateTimer');
 
 export const EditorStateReady = createTimer('EditorStateReady');
+
+const key = new PluginKey('MILKDOWN_PLUGIN_STATE_TRACKER');
 
 const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
     if (typeof defaultValue === 'string') {
@@ -65,7 +69,22 @@ export const editorState: MilkdownPlugin = (pre) => {
         const state = EditorState.create({
             schema,
             doc,
-            plugins: [...prosePlugins, createInputRules({ rules }), createKeymap(baseKeymap)],
+            plugins: [
+                ...prosePlugins,
+                new Plugin({
+                    key,
+                    state: {
+                        init: () => {
+                            // do nothing
+                        },
+                        apply: (_tr, _value, _oldState, newState) => {
+                            ctx.set(editorStateCtx, newState);
+                        },
+                    },
+                }),
+                createInputRules({ rules }),
+                createKeymap(baseKeymap),
+            ],
             ...options,
         });
         ctx.set(editorStateCtx, state);

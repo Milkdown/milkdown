@@ -3,4 +3,5 @@ export * from './destroy';
 export * from './insert';
 export * from './outline';
 export * from './replace-all';
+export * from './set-attr';
 export * from './switch-theme';
