@@ -60,14 +60,7 @@ const CustomParagraph: React.FC = ({ children }) => <div className="react-paragr
 const CustomImage: React.FC = ({ children }) => {
     const { node } = useNodeCtx();
 
-    return (
-        <img
-            className="react-image"
-            src={node.attrs.src}
-            alt={node.attrs.alt}
-            title={node.attrs.title}
-        />;
-    )
+    return <img className="react-image" src={node.attrs.src} alt={node.attrs.alt} title={node.attrs.title} />;
 };
 
 export const MilkdownEditor: React.FC = () => {
