@@ -4,6 +4,8 @@ import { $remark, AtomList } from '@milkdown/utils';
 import remarkGFM from 'remark-gfm';
 
 import { urlPlugin } from './auto-link';
+import { footnoteReference } from './footnote';
+import { footnoteDefinition } from './footnote/definition';
 import { strikeThrough, ToggleStrikeThrough } from './strike-through';
 import { table } from './table';
 import {
@@ -14,6 +16,7 @@ import {
     TurnIntoTaskList,
 } from './task-list-item';
 
+export * from './footnote';
 export * from './strike-through';
 export { SupportedKeys } from './supported-keys';
 export {
@@ -77,6 +80,8 @@ export const gfm = AtomList.create([
     urlPlugin,
     strikeThrough(),
     taskListItem(),
+    footnoteReference(),
+    footnoteDefinition(),
 ]);
 
 export const commands = {

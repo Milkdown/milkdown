@@ -178,7 +178,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             font-weight: 600;
         }
 
-        .link {
+        .link,
+        a {
             color: ${palette('secondary')};
             cursor: pointer;
             transition: all 0.4s ease-in-out;
