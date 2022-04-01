@@ -71,8 +71,6 @@ $$
 
 在输入时，你也许注意到了 emoji 过滤器，尝试输入`:baby`来查看它。
 
-你也可以输入`:emoji:`来打开 emoji 选择器。
-
 ---
 
 图表由 [mermaid](https://mermaid-js.github.io/mermaid/#/)驱动。

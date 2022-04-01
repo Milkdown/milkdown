@@ -71,8 +71,6 @@ Use [emoji cheat sheet](https://www.webfx.com/tools/emoji-cheat-sheet/) such as 
 
 You may notice the emoji filter while inputting values, try to type `:baby` to see the list.
 
-You can also type `:emoji:` to toggle the emoji picker.
-
 ---
 
 Diagrams is powered by [mermaid](https://mermaid-js.github.io/mermaid/#/).
