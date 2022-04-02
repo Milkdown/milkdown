@@ -202,6 +202,10 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             & > .footnote-definition_content {
                 flex: 1;
                 width: calc(100% - 1em);
+                & > dt {
+                    color: ${palette('secondary')};
+                    font-weight: 500;
+                }
             }
             & > .footnote-definition_anchor {
                 width: 1em;

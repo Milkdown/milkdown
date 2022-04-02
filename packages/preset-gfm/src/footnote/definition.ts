@@ -47,8 +47,8 @@ export const footnoteDefinition = createNode((utils) => {
                         'data-type': id,
                         id: getFootnoteDefId(label),
                     },
-                    ['div', { class: 'footnote-definition_content' }, 0],
-                    ['p', { class: 'footnote-definition_anchor' }, anchor],
+                    ['div', { class: 'footnote-definition_content' }, ['dt', `${label}:`], ['dd', 0]],
+                    ['div', { class: 'footnote-definition_anchor' }, anchor],
                 ];
             },
             parseMarkdown: {
