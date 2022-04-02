@@ -1,8 +1,20 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import { commandsCtx, createCmd, createCmdKey, editorViewCtx, ThemeInputChipType } from '@milkdown/core';
+import {
+    EditorView,
+    findSelectedNodeOfType,
+    NodeSelection,
+    Plugin,
+    PluginKey,
+    wrappingInputRule,
+} from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
 import { getFootnoteDefId, getFootnoteRefId } from './utils';
+
+const key = new PluginKey('MILKDOWN_PLUGIN_FOOTNOTE_DEF_INPUT');
+export const ModifyFootnoteDef = createCmdKey<string>('ModifyFootnoteDef');
 
 export const footnoteDefinition = createNode((utils) => {
     const id = 'footnote_definition';
@@ -10,7 +22,7 @@ export const footnoteDefinition = createNode((utils) => {
 
     return {
         id,
-        schema: () => ({
+        schema: (ctx) => ({
             group: 'block',
             content: 'block+',
             defining: true,
@@ -34,11 +46,16 @@ export const footnoteDefinition = createNode((utils) => {
             ],
             toDOM: (node) => {
                 const label = node.attrs['label'];
-                const anchor = document.createElement('a');
-                anchor.href = `#${getFootnoteRefId(label)}`;
-                anchor.textContent = '↩';
-                anchor.contentEditable = 'false';
                 const className = utils.getClassName(node.attrs, 'footnote-definition');
+
+                const dt = document.createElement('dt');
+                dt.textContent = `[ ${label} ]:`;
+                dt.onclick = () => {
+                    const view = ctx.get(editorViewCtx);
+                    const selection = NodeSelection.create(view.state.doc, view.state.selection.from - 2);
+                    view.dispatch(view.state.tr.setSelection(selection));
+                };
+
                 return [
                     'div',
                     {
@@ -47,8 +64,20 @@ export const footnoteDefinition = createNode((utils) => {
                         'data-type': id,
                         id: getFootnoteDefId(label),
                     },
-                    ['div', { class: 'footnote-definition_content' }, ['dt', `${label}:`], ['dd', 0]],
-                    ['div', { class: 'footnote-definition_anchor' }, anchor],
+                    ['div', { class: 'footnote-definition_content' }, dt, ['dd', 0]],
+                    [
+                        'div',
+                        { class: 'footnote-definition_anchor' },
+                        [
+                            'a',
+                            {
+                                href: `#${getFootnoteRefId(label)}`,
+                                'content-editable': 'false',
+                                class: className,
+                            },
+                            '↩',
+                        ],
+                    ],
                 ];
             },
             parseMarkdown: {
@@ -75,5 +104,78 @@ export const footnoteDefinition = createNode((utils) => {
                 },
             },
         }),
+        commands: (nodeType) => [
+            createCmd(ModifyFootnoteDef, (label = '') => (state, dispatch) => {
+                const node = findSelectedNodeOfType(state.selection, nodeType);
+                if (!node) return false;
+
+                const { tr } = state;
+                const _tr = tr.setNodeMarkup(node.pos, undefined, { ...node.node.attrs, label });
+                dispatch?.(_tr.setSelection(NodeSelection.create(_tr.doc, node.pos)));
+
+                return true;
+            }),
+        ],
+        inputRules: (nodeType) => [
+            wrappingInputRule(/(?:\[\^)([^:]+)(?::)$/, nodeType, (match) => {
+                const label = match[1] ?? 'footnote';
+                return {
+                    label,
+                };
+            }),
+        ],
+        prosePlugins: (type, ctx) => {
+            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                placeholder: 'Input Footnote Label',
+                onUpdate: (value) => {
+                    ctx.get(commandsCtx).call(ModifyFootnoteDef, value);
+                },
+                isBindMode: true,
+            });
+            const shouldDisplay = (view: EditorView) => {
+                return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
+            };
+            const getCurrentLabel = (view: EditorView) => {
+                const result = findSelectedNodeOfType(view.state.selection, type);
+                if (!result) return;
+
+                const value = result.node.attrs['label'];
+                return value;
+            };
+            const renderByView = (view: EditorView) => {
+                if (!view.editable) {
+                    return;
+                }
+                const display = shouldDisplay(view);
+                if (display) {
+                    inputChipRenderer.show(view);
+                    inputChipRenderer.update(getCurrentLabel(view));
+                } else {
+                    inputChipRenderer.hide();
+                }
+            };
+            return [
+                new Plugin({
+                    key,
+                    view: (editorView) => {
+                        inputChipRenderer.init(editorView);
+                        renderByView(editorView);
+
+                        return {
+                            update: (view, prevState) => {
+                                const isEqualSelection =
+                                    prevState?.doc.eq(view.state.doc) && prevState.selection.eq(view.state.selection);
+                                if (isEqualSelection) return;
+
+                                renderByView(view);
+                            },
+                            destroy: () => {
+                                inputChipRenderer.destroy();
+                            },
+                        };
+                    },
+                }),
+            ];
+        },
     };
 });
