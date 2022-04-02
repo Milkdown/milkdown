@@ -2,9 +2,9 @@
 
 import { createNode } from '@milkdown/utils';
 
-import { getFootnoteId } from './utils';
+import { getFootnoteDefId, getFootnoteRefId } from './utils';
 
-export const footnoteDefinition = createNode(() => {
+export const footnoteDefinition = createNode((utils) => {
     const id = 'footnote_definition';
     const markdownId = 'footnoteDefinition';
 
@@ -32,11 +32,25 @@ export const footnoteDefinition = createNode(() => {
                     },
                 },
             ],
-            toDOM: (node) => [
-                'div',
-                { 'data-label': node.attrs['label'], id: getFootnoteId(node.attrs['label']), 'data-type': id },
-                0,
-            ],
+            toDOM: (node) => {
+                const label = node.attrs['label'];
+                const anchor = document.createElement('a');
+                anchor.href = `#${getFootnoteRefId(label)}`;
+                anchor.textContent = '↩';
+                anchor.contentEditable = 'false';
+                const className = utils.getClassName(node.attrs, 'footnote-definition');
+                return [
+                    'div',
+                    {
+                        class: className,
+                        'data-label': label,
+                        'data-type': id,
+                        id: getFootnoteDefId(label),
+                    },
+                    ['div', { class: 'footnote-definition_content' }, 0],
+                    ['p', { class: 'footnote-definition_anchor' }, anchor],
+                ];
+            },
             parseMarkdown: {
                 match: ({ type }) => type === markdownId,
                 runner: (state, node, type) => {

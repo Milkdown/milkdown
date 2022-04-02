@@ -47,7 +47,9 @@ export const indentPlugin = createPlugin<string, Options>((utils, options) => ({
             ...(options ?? {}),
         };
 
-        applyStyle(config, utils);
+        utils.themeManager.onFlush(() => {
+            applyStyle(config, utils);
+        });
 
         const plugin = keymap({
             Tab: (state, dispatch) => {

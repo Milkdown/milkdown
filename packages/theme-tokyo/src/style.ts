@@ -195,6 +195,20 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
         }
     `;
 
+    const footnote = css`
+        .footnote-definition {
+            display: flex;
+            flex-direction: row;
+            & > .footnote-definition_content {
+                flex: 1;
+                width: calc(100% - 1em);
+            }
+            & > .footnote-definition_anchor {
+                width: 1em;
+            }
+        }
+    `;
+
     const table = css`
         /* copy from https://github.com/ProseMirror/prosemirror-tables/blob/master/style/tables.css */
         .tableWrapper {
@@ -309,6 +323,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 ${img};
 
                 ${table};
+                ${footnote};
 
                 ${inline};
             }
