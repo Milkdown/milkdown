@@ -40,7 +40,7 @@ export const footnoteReference = createNode(() => {
                         'data-type': id,
                         id: getFootnoteRefId(label),
                     },
-                    ['a', { href: `#${getFootnoteDefId(label)}` }, label],
+                    ['a', { href: `#${getFootnoteDefId(label)}` }, `[${label}]`],
                 ];
             },
             parseMarkdown: {
