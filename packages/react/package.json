@@ -37,8 +37,8 @@
         "@milkdown/prose": "workspace:*",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
-        "@types/react": "^17.0.6",
-        "@types/react-dom": "^17.0.5"
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0"
     },
     "nx": {
         "targets": {
