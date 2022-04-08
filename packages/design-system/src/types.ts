@@ -60,6 +60,7 @@ export type ThemePack = {
     size?: PR<Size>;
     mixin?: (utils: Omit<ThemeTool, 'slots' | 'global' | 'mixin'>) => Partial<MixinFactory>;
     slots?: (utils: Omit<ThemeTool, 'slots' | 'global'>) => Partial<Slots>;
+    extra?: (utils: Omit<ThemeTool, 'extra' | 'global'>) => Record<string, any>;
     global?: (utils: Omit<ThemeTool, 'global'>) => void;
 };
 
@@ -69,4 +70,5 @@ export type ThemeTool = {
     slots: Slots;
     font: Record<Font, string>;
     size: Record<Size, string>;
+    extra?: Record<string, any>;
 };

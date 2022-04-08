@@ -18,7 +18,7 @@ export const injectVar = (themePack: ThemePack, emotion: Emotion) => {
 };
 
 export const pack2Tool = (themePack: ThemePack): ThemeTool => {
-    const { font, size = {}, mixin: _mixin, slots: _slots, global } = themePack;
+    const { font, size = {}, mixin: _mixin, slots: _slots, global, extra: _extra } = themePack;
 
     const palette = (key: Color, alpha = 1) => {
         return `rgba(var(--${key}), ${alpha})`;
@@ -61,9 +61,14 @@ export const pack2Tool = (themePack: ThemePack): ThemeTool => {
         slots,
     };
 
-    global?.(tool);
+    const extraTool = {
+        ...tool,
+        ..._extra?.(tool)
+    };
 
-    return tool;
+    global?.(extraTool);
+
+    return extraTool;
 };
 
 export type { Emotion, Options } from './emotion';
