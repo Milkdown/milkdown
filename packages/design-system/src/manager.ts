@@ -14,7 +14,7 @@ export const createThemeSliceKey = <Ret, T = undefined, K extends string = strin
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GetRet<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<infer Ret, any, any> ? Ret : unknown;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GetT<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<any, infer T, any> ? T : undefined;
+type GetPayload<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<any, infer T, any> ? T : undefined;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GetKey<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<any, any, infer T> ? T : undefined;
 
@@ -24,22 +24,22 @@ export type ThemeManager = {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Key extends ThemeSliceKey<any, any, any>,
         Ret extends GetRet<Key> = GetRet<Key>,
-        T extends GetT<Key> = GetT<Key>,
+        Payload extends GetPayload<Key> = GetPayload<Key>,
         K extends GetKey<Key> = GetKey<Key>,
     >(
         key: Key | (K & string),
-        info: T,
+        payload: Payload,
     ) => Ret;
     set: <Ret = unknown, T = undefined>(meta: ThemeSliceKey<Ret, T> | string, value: ThemeSlice<Ret, T>) => void;
     setCustom: <
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Key extends ThemeSliceKey<any, any, any>,
         Ret extends GetRet<Key> = GetRet<Key>,
-        T extends GetT<Key> = GetT<Key>,
+        Payload extends GetPayload<Key> = GetPayload<Key>,
         K extends GetKey<Key> = GetKey<Key>,
     >(
         meta: Key | (K & string),
-        value: ThemeSlice<Ret, T>,
+        themeSlice: ThemeSlice<Ret, Payload>,
     ) => void;
 
     onFlush: (fn: () => void, callWhenRegister?: boolean) => void;
@@ -59,7 +59,7 @@ export const createThemeManager = () => {
 
             return meta.set(value);
         },
-        get: ((slice, info) => {
+        get: ((slice, payload) => {
             const key = typeof slice === 'string' ? slice : slice.sliceName;
             const lazyGet = lazyMap.get(key);
             if (lazyGet) {
@@ -69,11 +69,11 @@ export const createThemeManager = () => {
             const meta = container.getSlice(slice);
             if (!meta) return;
 
-            return (meta.get() as (info: unknown) => unknown)(info);
+            return (meta.get() as (info: unknown) => unknown)(payload);
         }) as ThemeManager['get'],
-        setCustom: (slice, value) => {
+        setCustom: (slice, themeSlice) => {
             const key = typeof slice === 'string' ? slice : slice.sliceName;
-            lazyMap.set(key, value as unknown as ThemeSlice);
+            lazyMap.set(key, themeSlice as ThemeSlice);
         },
         onFlush: (fn, callWhenRegister = true) => {
             flushListener.push(fn);
