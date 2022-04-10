@@ -22,5 +22,7 @@ describe('context/container', () => {
         container.getSlice(ctx).set(10);
 
         expect(container.getSlice(ctx).get()).toBe(10);
+
+        expect(container.getSlice<number>('num').get()).toBe(10);
     });
 });
