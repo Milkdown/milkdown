@@ -17,18 +17,11 @@ export class Ctx {
     /**
      * Get the slice instance.
      *
-     * @param slice - The slice needs to be used.
+     * @param slice - The slice or slice name that needs to be used.
      * @returns The slice instance.
      */
-    readonly use = <T, N extends string>(slice: Slice<T, N>): $Slice<T, N> => this.#container.getSlice(slice);
-
-    /**
-     * Get the instance value by string name.
-     *
-     * @param name - The name of slice needs to be used.
-     * @returns The slice value.
-     */
-    readonly useByName = <N extends string>(name: N) => this.#container.getSliceByName(name);
+    readonly use = <T, N extends string = string>(slice: Slice<T, N> | N): $Slice<T, N> =>
+        this.#container.getSlice(slice);
 
     /**
      * Get the slice value.

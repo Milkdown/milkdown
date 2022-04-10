@@ -14,7 +14,7 @@ export const createToggleIcon = (
     disableForMark: MarkType | undefined,
 ): ButtonItem => ({
     $: ctx.get(themeManagerCtx).get(ThemeIcon, iconName)?.dom as HTMLElement,
-    command: () => ctx.get(commandsCtx).callByName(key),
+    command: () => ctx.get(commandsCtx).call(key),
     active: (view) => hasMark(view.state, mark),
     disable: (view) => isTextAndNotHasMark(view.state, disableForMark),
     enable: (view) => !!mark && !!view.state.schema.marks[mark.name],

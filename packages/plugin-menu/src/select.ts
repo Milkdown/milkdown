@@ -77,7 +77,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
             const params = config.onSelect(target.dataset['id'], view);
             const [key, info] = params;
             if (typeof key === 'string') {
-                ctx.get(commandsCtx).callByName(key, info);
+                ctx.get(commandsCtx).call(key, info);
             } else {
                 ctx.get(commandsCtx).call(key, info);
             }

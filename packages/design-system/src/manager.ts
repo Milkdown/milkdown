@@ -55,8 +55,7 @@ export const createThemeManager = () => {
     const themeManager: ThemeManager = {
         inject: (slice) => slice(container.sliceMap),
         set: (slice, value) => {
-            const meta = typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);
-            if (!meta) return;
+            const meta = container.getSlice(slice);
 
             return meta.set(value);
         },
@@ -67,7 +66,7 @@ export const createThemeManager = () => {
                 themeManager.set(key, lazyGet);
             }
 
-            const meta = typeof slice === 'string' ? container.getSliceByName(slice) : container.getSlice(slice);
+            const meta = container.getSlice(slice);
             if (!meta) return;
 
             return (meta.get() as (info: unknown) => unknown)(info);
