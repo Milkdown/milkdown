@@ -5,7 +5,7 @@ import type { Node } from '@milkdown/prose';
 export const image = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);
 
-    manager.setCustom<ThemeImageType>('image', ({ placeholder, isBlock, onError, onLoad }) => {
+    manager.set<ThemeImageType>('image', ({ placeholder, isBlock, onError, onLoad }) => {
         const createIcon = (icon: Icon) => manager.get(ThemeIcon, icon)?.dom as HTMLElement;
         const container = document.createElement('span');
         container.classList.add('image-container');

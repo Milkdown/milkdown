@@ -102,99 +102,96 @@ const getStyle = (manager: ThemeManager, { css }: Emotion) => {
 };
 
 export const codeFence = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom<ThemeCodeFenceType>(
-        'code-fence',
-        ({ editable, onSelectLanguage, onBlur, onFocus, languageList }) => {
-            const container = document.createElement('div');
-            const selectWrapper = document.createElement('div');
-            const select = document.createElement('ul');
-            const pre = document.createElement('pre');
-            const code = document.createElement('code');
+    manager.set<ThemeCodeFenceType>('code-fence', ({ editable, onSelectLanguage, onBlur, onFocus, languageList }) => {
+        const container = document.createElement('div');
+        const selectWrapper = document.createElement('div');
+        const select = document.createElement('ul');
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');
 
-            const valueWrapper = document.createElement('div');
-            valueWrapper.className = 'code-fence_selector';
+        const valueWrapper = document.createElement('div');
+        valueWrapper.className = 'code-fence_selector';
 
-            const value = document.createElement('span');
-            valueWrapper.appendChild(value);
+        const value = document.createElement('span');
+        valueWrapper.appendChild(value);
 
-            const downIcon = manager.get(ThemeIcon, 'downArrow');
-            if (editable() && downIcon) {
-                valueWrapper.appendChild(downIcon.dom);
+        const downIcon = manager.get(ThemeIcon, 'downArrow');
+        if (editable() && downIcon) {
+            valueWrapper.appendChild(downIcon.dom);
+        }
+        code.spellcheck = false;
+        selectWrapper.className = 'code-fence_selector-wrapper';
+        selectWrapper.contentEditable = 'false';
+        selectWrapper.append(valueWrapper);
+        selectWrapper.append(select);
+        pre.append(code);
+        const codeContent = document.createElement('div');
+        code.append(codeContent);
+        codeContent.style.whiteSpace = 'inherit';
+        container.append(selectWrapper, pre);
+
+        container.classList.add('code-fence');
+
+        manager.onFlush(() => {
+            const style = getStyle(manager, emotion);
+            if (style) {
+                container.classList.add(style);
             }
-            code.spellcheck = false;
-            selectWrapper.className = 'code-fence_selector-wrapper';
-            selectWrapper.contentEditable = 'false';
-            selectWrapper.append(valueWrapper);
-            selectWrapper.append(select);
-            pre.append(code);
-            const codeContent = document.createElement('div');
-            code.append(codeContent);
-            codeContent.style.whiteSpace = 'inherit';
-            container.append(selectWrapper, pre);
+        });
 
-            container.classList.add('code-fence');
+        select.className = 'code-fence_selector-list';
+        select.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
-            manager.onFlush(() => {
-                const style = getStyle(manager, emotion);
-                if (style) {
-                    container.classList.add(style);
-                }
-            });
+            if (!editable()) return;
 
-            select.className = 'code-fence_selector-list';
-            select.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+            const el = e.target;
+            if (!(el instanceof HTMLLIElement)) return;
+            const value = el.dataset['value'];
+            if (value != null) {
+                onSelectLanguage(value);
+            }
+        });
+        valueWrapper.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
 
-                if (!editable()) return;
+            if (!editable()) return;
+            onFocus();
+        });
 
-                const el = e.target;
-                if (!(el instanceof HTMLLIElement)) return;
-                const value = el.dataset['value'];
-                if (value != null) {
-                    onSelectLanguage(value);
-                }
-            });
-            valueWrapper.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+        const onClickOutside = () => {
+            if (!editable() || select.dataset['fold'] === 'true') return;
 
-                if (!editable()) return;
-                onFocus();
-            });
+            onBlur();
+        };
+        document.addEventListener('mousedown', onClickOutside);
 
-            const onClickOutside = () => {
-                if (!editable() || select.dataset['fold'] === 'true') return;
+        languageList.forEach((lang) => {
+            const option = document.createElement('li');
+            option.className = 'code-fence_selector-list-item';
+            option.innerText = lang || '--';
+            select.appendChild(option);
+            option.setAttribute('data-value', lang);
+        });
 
-                onBlur();
-            };
-            document.addEventListener('mousedown', onClickOutside);
+        const onUpdate = (node: Node) => {
+            container.dataset['language'] = node.attrs['language'];
+            value.innerText = node.attrs['language'] || '--';
+            select.setAttribute('data-fold', node.attrs['fold'] ? 'true' : 'false');
+        };
 
-            languageList.forEach((lang) => {
-                const option = document.createElement('li');
-                option.className = 'code-fence_selector-list-item';
-                option.innerText = lang || '--';
-                select.appendChild(option);
-                option.setAttribute('data-value', lang);
-            });
+        const onDestroy = () => {
+            container.remove();
+            document.removeEventListener('mousedown', onClickOutside);
+        };
 
-            const onUpdate = (node: Node) => {
-                container.dataset['language'] = node.attrs['language'];
-                value.innerText = node.attrs['language'] || '--';
-                select.setAttribute('data-fold', node.attrs['fold'] ? 'true' : 'false');
-            };
-
-            const onDestroy = () => {
-                container.remove();
-                document.removeEventListener('mousedown', onClickOutside);
-            };
-
-            return {
-                dom: container,
-                contentDOM: codeContent,
-                onUpdate,
-                onDestroy,
-            };
-        },
-    );
+        return {
+            dom: container,
+            contentDOM: codeContent,
+            onUpdate,
+            onDestroy,
+        };
+    });
 };

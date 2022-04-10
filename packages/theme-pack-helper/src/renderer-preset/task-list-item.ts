@@ -5,7 +5,7 @@ import { Emotion, getPalette, Icon, ThemeIcon, ThemeManager, ThemeSize, ThemeTas
 export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);
 
-    manager.setCustom<ThemeTaskListItemType>('task-list-item', ({ onChange, editable }) => {
+    manager.set<ThemeTaskListItemType>('task-list-item', ({ onChange, editable }) => {
         const createIcon = (icon: Icon) => manager.get(ThemeIcon, icon)?.dom as HTMLElement;
 
         const listItem = document.createElement('li');

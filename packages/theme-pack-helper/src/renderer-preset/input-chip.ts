@@ -91,7 +91,7 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
 };
 
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom<ThemeInputChipType>(
+    manager.set<ThemeInputChipType>(
         'input-chip',
         ({ isBindMode, onUpdate, buttonText, placeholder, calculatePosition = calcInputPos }) => {
             let button: HTMLButtonElement | null = null;

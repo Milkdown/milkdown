@@ -147,7 +147,7 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
 };
 
 export const innerEditor = (manager: ThemeManager, emotion: Emotion) => {
-    manager.setCustom<ThemeInnerEditorType>('inner-editor', ({ view, getPos, render }) => {
+    manager.set<ThemeInnerEditorType>('inner-editor', ({ view, getPos, render }) => {
         const inner$ = createInnerEditor(view, getPos);
         const dom = document.createElement('div');
         dom.classList.add('math-block');
