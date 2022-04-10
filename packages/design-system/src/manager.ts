@@ -7,9 +7,8 @@ import { emotionCtx } from './emotion';
 export type ThemeSlice<Ret = unknown, T = undefined> = (info: T) => Ret | undefined;
 export type ThemeSliceKey<Ret = unknown, T = undefined, K extends string = string> = Slice<ThemeSlice<Ret, T>, K>;
 
-export const createThemeSliceKey = <Ret, T = undefined, K extends string = string>(
-    key: K = 'themeComponentKey' as K,
-): ThemeSliceKey<Ret, T, K> => createSlice((() => null as unknown as Ret) as ThemeSlice<Ret, T>, key);
+export const createThemeSliceKey = <Ret, T = undefined, K extends string = string>(key: K): ThemeSliceKey<Ret, T, K> =>
+    createSlice((() => null as unknown as Ret) as ThemeSlice<Ret, T>, key);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GetRet<Key extends ThemeSliceKey> = Key extends ThemeSliceKey<infer Ret, any, any> ? Ret : unknown;
