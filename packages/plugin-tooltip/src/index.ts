@@ -14,7 +14,7 @@ export const tooltip = create<string, TooltipOptions>((utils, options) => {
         prosePlugins: (_, ctx) => {
             const schema = ctx.get(schemaCtx);
             const manager = createPlugin(
-                buttonMap(schema, ctx),
+                buttonMap(schema, ctx, options?.items),
                 utils,
                 options?.bottom ?? false,
                 options?.className ?? 'tooltip',
