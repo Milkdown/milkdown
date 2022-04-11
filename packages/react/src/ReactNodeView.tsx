@@ -34,7 +34,7 @@ export class ReactNodeView implements NodeView {
 
     constructor(
         private ctx: Ctx,
-        private component: React.FC,
+        private component: React.FC<{ children: React.ReactNode }>,
         private addPortal: (portal: React.ReactPortal) => void,
         private removePortalByKey: (key: string) => void,
         private options: RenderOptions,

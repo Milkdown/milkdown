@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
 import { Decoration, EditorView, Mark, Node } from '@milkdown/prose';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 type NodeContext = {
     ctx: Ctx;
@@ -19,7 +19,14 @@ const nodeContext = React.createContext<NodeContext>({
     decorations: undefined,
 } as unknown as NodeContext);
 
-export const ReactNodeContainer: React.FC<NodeContext> = ({ ctx, node, view, getPos, decorations, children }) => {
+export const ReactNodeContainer: React.FC<NodeContext & { children: ReactNode }> = ({
+    ctx,
+    node,
+    view,
+    getPos,
+    decorations,
+    children,
+}) => {
     return <nodeContext.Provider value={{ ctx, node, view, getPos, decorations }}>{children}</nodeContext.Provider>;
 };
 

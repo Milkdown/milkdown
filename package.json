@@ -61,7 +61,7 @@
         "husky": "^7.0.0",
         "jsdom": "^19.0.0",
         "lint-staged": "^12.0.0",
-        "nx": "^13.9.3",
+        "nx": "latest",
         "prettier": "^2.4.0",
         "rimraf": "^3.0.2",
         "rollup": "^2.61.1",
@@ -79,11 +79,13 @@
                 "prosemirror-state",
                 "prosemirror-view",
                 "@babel/core",
-                "babel-runtime"
+                "babel-runtime",
+                "cypress",
+                "jest"
             ],
             "allowedVersions": {
-                "react": "17",
-                "react-dom": "17"
+                "react": "18",
+                "react-dom": "18"
             }
         }
     }
