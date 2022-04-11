@@ -29,18 +29,12 @@ export type ButtonItem = {
     enable: Pred;
 };
 
-const Buttonize = (item: Item, ctx: Ctx): ButtonItem => ({
-    $:
-        typeof item.icon === 'function'
-            ? item.icon(ctx)
-            : (ctx.get(themeManagerCtx).get(ThemeIcon, item.icon)?.dom as HTMLElement),
-    command:
-        typeof item.onClick === 'string'
-            ? () => ctx.get(commandsCtx).callByName(<string>item.onClick)
-            : item.onClick(ctx),
-    disable: item.isHidden(ctx),
-    active: item.isActive(ctx),
-    enable: (view: EditorView) => !item.isHidden(ctx)(view),
+const Buttonize = ({ icon, onClick, isHidden, isActive }: Item, ctx: Ctx): ButtonItem => ({
+    $: typeof icon === 'function' ? icon(ctx) : (ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement),
+    command: typeof onClick === 'string' ? () => ctx.get(commandsCtx).call(onClick) : onClick(ctx),
+    disable: isHidden(ctx),
+    active: isActive(ctx),
+    enable: (view: EditorView) => !isHidden(ctx)(view),
 });
 
 export enum ButtonAction {
