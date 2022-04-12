@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import React, { createContext } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
 
 import { Local as Localize, pageRouter, Section } from '../route';
 import { Mode } from './constant';
 
-type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
+type SetState<T> = Dispatch<SetStateAction<T>>;
 
 export const displaySidebarCtx = createContext(false);
 export const scrolledCtx = createContext(false);
@@ -19,8 +19,8 @@ export const setEditorModeCtx = createContext<SetState<Mode>>(() => void 0);
 export const setIsDarkModeCtx = createContext<SetState<boolean>>(() => void 0);
 export const setLocalCtx = createContext<SetState<Localize>>(() => void 0);
 
-const DisplaySidebar: React.FC = ({ children }) => {
-    const [displaySidebar, setDisplaySidebar] = React.useState(false);
+const DisplaySidebar: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [displaySidebar, setDisplaySidebar] = useState(false);
 
     return (
         <displaySidebarCtx.Provider value={displaySidebar}>
@@ -29,8 +29,8 @@ const DisplaySidebar: React.FC = ({ children }) => {
     );
 };
 
-const EditorMode: React.FC = ({ children }) => {
-    const [editorMode, setEditorMode] = React.useState(Mode.Default);
+const EditorMode: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [editorMode, setEditorMode] = useState(Mode.Default);
 
     return (
         <editorModeCtx.Provider value={editorMode}>
@@ -39,8 +39,8 @@ const EditorMode: React.FC = ({ children }) => {
     );
 };
 
-const Scrolled: React.FC = ({ children }) => {
-    const [scrolled, setScrolled] = React.useState(false);
+const Scrolled: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [scrolled, setScrolled] = useState(false);
 
     return (
         <scrolledCtx.Provider value={scrolled}>
@@ -49,8 +49,8 @@ const Scrolled: React.FC = ({ children }) => {
     );
 };
 
-const IsDarkMode: React.FC = ({ children }) => {
-    const [isDarkMode, setIsDarkMode] = React.useState(false);
+const IsDarkMode: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     return (
         <isDarkModeCtx.Provider value={isDarkMode}>
@@ -59,9 +59,9 @@ const IsDarkMode: React.FC = ({ children }) => {
     );
 };
 
-const Local: React.FC = ({ children }) => {
-    const [local, setLocal] = React.useState<Localize>('en');
-    const sections = React.useMemo(() => pageRouter[local], [local]);
+const Local: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [local, setLocal] = useState<Localize>('en');
+    const sections = useMemo(() => pageRouter[local], [local]);
 
     return (
         <sectionsCtx.Provider value={sections}>
@@ -72,7 +72,7 @@ const Local: React.FC = ({ children }) => {
     );
 };
 
-export const Context: React.FC = ({ children }) => (
+export const Context: React.FC<{ children: ReactNode }> = ({ children }) => (
     <Local>
         <IsDarkMode>
             <Scrolled>

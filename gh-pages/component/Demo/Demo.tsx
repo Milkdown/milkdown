@@ -53,14 +53,14 @@ export const Demo = ({ mode }: DemoProps) => {
     }, []);
 
     const classes = [
-        className.container,
-        mode === Mode.TwoSide ? className.twoSide : '',
+        className['container'],
+        mode === Mode.TwoSide ? className['twoSide'] : '',
         mode === Mode.TwoSide ? 'two-side' : '',
     ].join(' ');
 
     return !md.length ? null : (
         <div ref={ref} className={classes}>
-            <div className={className.milk}>
+            <div className={className['milk']}>
                 <MilkdownEditor ref={milkdownRef} content={md} onChange={milkdownListener} />
             </div>
             <CodeMirror ref={codeMirrorRef} value={md} onChange={onCodeChange} lock={lockCode} />

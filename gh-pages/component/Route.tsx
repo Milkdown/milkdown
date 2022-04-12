@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import React from 'react';
+import { FC, lazy, ReactNode, Suspense, useContext, useEffect, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';
 
@@ -10,26 +10,26 @@ import { LocationType, useLocationType } from './hooks/useLocationType';
 import { useRoot } from './hooks/useRoot';
 import className from './style.module.css';
 
-const Editor = React.lazy(() =>
+const Editor = lazy(() =>
     import('./MilkdownEditor/MilkdownEditor').then((module) => ({ default: module.MilkdownEditor })),
 );
-const Demo = React.lazy(() => import('./Demo/Demo').then((module) => ({ default: module.Demo })));
+const Demo = lazy(() => import('./Demo/Demo').then((module) => ({ default: module.Demo })));
 
-const Loading: React.FC = ({ children }) => (
-    <React.Suspense
+const Loading: FC<{ children: ReactNode }> = ({ children }) => (
+    <Suspense
         fallback={
-            <div className={className.loading}>
+            <div className={className['loading']}>
                 <Loader color={'rgba(var(--primary), 1)'} loading size={150} />
             </div>
         }
     >
         {children}
-    </React.Suspense>
+    </Suspense>
 );
 
 const useScroll = () => {
-    const setScrolled = React.useContext(setScrolledCtx);
-    React.useEffect(() => {
+    const setScrolled = useContext(setScrolledCtx);
+    useEffect(() => {
         const scroll = () => {
             setScrolled(window.pageYOffset > 0);
         };
@@ -42,23 +42,26 @@ const useScroll = () => {
     }, [setScrolled]);
 };
 
-export const Main: React.FC = () => {
+export const Main: FC = () => {
     const [locationType] = useLocationType();
-    const editorMode = React.useContext(editorModeCtx);
-    const isDarkMode = React.useContext(isDarkModeCtx);
-    const sections = React.useContext(sectionsCtx);
+    const editorMode = useContext(editorModeCtx);
+    const isDarkMode = useContext(isDarkModeCtx);
+    const sections = useContext(sectionsCtx);
 
-    const classes = [className.container, locationType === LocationType.Home ? className.homepage : ''].join(' ');
+    const classes = useMemo(
+        () => [className['container'], locationType === LocationType.Home ? className['homepage'] : ''].join(' '),
+        [locationType],
+    );
 
     useScroll();
 
-    const pages = sections.flatMap((section) => section.items);
+    const pages = useMemo(() => sections.flatMap((section) => section.items), [sections]);
 
     const root = useRoot();
 
     return (
         <div className={classes}>
-            <article>
+            <div className={className['content']}>
                 <Routes>
                     {pages.map((page, i) => (
                         <Route
@@ -90,7 +93,7 @@ export const Main: React.FC = () => {
                         }
                     />
                 </Routes>
-            </article>
+            </div>
             <Footer />
         </div>
     );

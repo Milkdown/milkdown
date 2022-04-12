@@ -50,7 +50,7 @@
     flex-grow: 1;
     width: 100%;
 
-    article {
+    .content {
         flex-grow: 1;
         transition: all 0.4s ease-in-out;
         background: palette(background);
@@ -72,11 +72,13 @@
 
 .homepage {
     display: flex;
-    article {
+
+    .content {
         justify-content: center;
         padding: 0;
         transition: all 0.4s ease-in-out;
         background: palette(surface);
+
         &::before {
             content: '';
             position: absolute;

@@ -10,6 +10,9 @@
     flex-grow: 1;
     transition: all 0.4s ease-in-out;
     flex-shrink: 2;
+    & > div {
+        margin: 0 !important;
+    }
 }
 
 .twoSide {
@@ -17,15 +20,12 @@
     margin: 0;
     max-width: unset;
     .code {
-        margin: 1.25rem 0;
         width: unset;
-        box-sizing: border-box;
         min-height: 30rem;
-        padding: 3.125rem 0;
         border: 1px solid transparent;
         overflow: auto;
         flex: 1 1 40%;
-        height: calc(100vh - 11.5rem + 8px);
+        height: calc(100vh - 11.5rem + 34px);
     }
     .milk {
         width: 50%;
@@ -37,7 +37,7 @@
 
 .code {
     background: palette(surface);
-    transition: all 0.4s ease-in-out, height 0s, padding 0s;
+    transition: all 0.4s ease-in-out, height 0s;
     border: none;
     width: 0;
     height: 0;
@@ -48,7 +48,6 @@
     font-size: 1.2rem;
     line-height: 1.25rem;
     overflow: hidden;
-    padding: 0;
 
     ::selection {
         background: palette(secondary, 0.38) !important;

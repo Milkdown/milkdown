@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'vite';
@@ -19,7 +19,7 @@ export default defineConfig({
     },
     plugins: [
         markdownPlugin(),
-        reactRefresh(),
+        react(),
         copy({
             targets: [
                 {
