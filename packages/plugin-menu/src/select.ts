@@ -98,7 +98,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 ${themeManager.get(ThemeBorder, 'right')}
                 ${themeManager.get(ThemeBorder, 'left')}
 
-            .menu-selector {
+                .menu-selector {
                     border: 0;
                     box-sizing: unset;
                     cursor: pointer;
@@ -108,8 +108,9 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                     align-items: center;
                     color: ${palette('neutral', 0.87)};
                     display: flex;
-                    padding: 0.5em;
+                    padding: 0.25em;
                     margin: 0.5em;
+                    height: 2em;
                     background: ${palette('secondary', 0.12)};
                     width: 10.375em;
 
@@ -125,12 +126,12 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 }
 
                 .menu-selector-list {
-                    width: calc(12.375em);
+                    width: 11.875em;
                     position: absolute;
                     background: ${palette('surface')};
                     ${themeManager.get(ThemeBorder, undefined)}
                     ${themeManager.get(ThemeShadow, undefined)}
-                border-bottom-left-radius: ${themeManager.get(ThemeSize, 'radius')};
+                    border-bottom-left-radius: ${themeManager.get(ThemeSize, 'radius')};
                     border-bottom-right-radius: ${themeManager.get(ThemeSize, 'radius')};
                     z-index: 3;
                 }
