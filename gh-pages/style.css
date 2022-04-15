@@ -54,6 +54,13 @@ body {
         width: 100%;
     }
     transition: all 0.4s ease-in-out;
+
+    .editor {
+        @media only screen and (min-width: 72rem) {
+            max-width: 57.375em;
+            padding: 3.125em 7.25em !important;
+        }
+    }
 }
 
 .loading {
@@ -67,8 +74,10 @@ body {
     max-width: 72rem !important;
 
     .milkdown {
-        overflow: auto;
-        height: calc(100vh - 11.5rem - 20px);
+        .editor {
+            overflow: auto;
+            height: calc(100vh - 11.5rem - 110px);
+        }
     }
 
     position: relative;

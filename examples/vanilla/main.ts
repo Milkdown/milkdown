@@ -3,6 +3,7 @@ import './style.css';
 
 import { defaultValueCtx, Editor, themeManagerCtx } from '@milkdown/core';
 import { math } from '@milkdown/plugin-math';
+import { slash } from '@milkdown/plugin-slash';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
 import { tokyo } from '@milkdown/theme-tokyo';
@@ -20,6 +21,7 @@ async function main() {
         .use(tokyo)
         .use(commonmark)
         .use(math)
+        .use(slash())
         .create();
 
     await sleep(2000);

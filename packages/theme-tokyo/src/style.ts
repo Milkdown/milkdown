@@ -38,11 +38,6 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
         & > * {
             margin: 1.875em 0;
         }
-
-        @media only screen and (min-width: 72rem) {
-            max-width: 57.375em;
-            padding: 3.125em 7.25em;
-        }
     `;
 
     const paragraph = css`
