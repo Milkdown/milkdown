@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 6.0.0-next.1
+
+### Patch Changes
+
+-   e27e7e62: Improve UX and API.
+-   Updated dependencies [e27e7e62]
+    -   @milkdown/ctx@6.0.0-next.1
+    -   @milkdown/design-system@6.0.0-next.1
+    -   @milkdown/exception@6.0.0-next.1
+    -   @milkdown/transformer@6.0.0-next.1
+
 ## 6.0.0-next.0
 
 ### Major Changes

@@ -37,5 +37,5 @@
         "@milkdown/utils": "5.5.0",
         "@milkdown/vue": "5.5.0"
     },
-    "changesets": ["poor-horses-bathe"]
+    "changesets": ["gorgeous-walls-tan", "poor-horses-bathe"]
 }

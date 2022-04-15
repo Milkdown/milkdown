@@ -1,5 +1,18 @@
 # @milkdown/e2e
 
+## 6.0.0-next.1
+
+### Patch Changes
+
+-   e27e7e62: Improve UX and API.
+-   Updated dependencies [e27e7e62]
+    -   @milkdown/core@6.0.0-next.1
+    -   @milkdown/design-system@6.0.0-next.1
+    -   @milkdown/preset-commonmark@6.0.0-next.1
+    -   @milkdown/preset-gfm@6.0.0-next.1
+    -   @milkdown/prose@6.0.0-next.1
+    -   @milkdown/theme-nord@6.0.0-next.1
+
 ## 6.0.0-next.0
 
 ### Major Changes
