@@ -1,5 +1,11 @@
 # @milkdown/theme-pack-helper
 
+## 6.0.0-next.1
+
+### Patch Changes
+
+-   e27e7e62: Improve UX and API.
+
 ## 6.0.0-next.0
 
 ### Major Changes
