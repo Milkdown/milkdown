@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { Route, Routes } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';
 
-import { editorModeCtx, isDarkModeCtx, sectionsCtx, setScrolledCtx } from './Context';
+import { editorModeCtx, isDarkModeCtx, localCtx, sectionsCtx, setScrolledCtx } from './Context';
 import { Footer } from './Footer';
 import { Home } from './Home';
 import { LocationType, useLocationType } from './hooks/useLocationType';
@@ -47,6 +47,7 @@ export const Main: FC = () => {
     const [locationType, location] = useLocationType();
     const editorMode = useContext(editorModeCtx);
     const isDarkMode = useContext(isDarkModeCtx);
+    const local = useContext(localCtx);
     const sections = useContext(sectionsCtx);
 
     const classes = useMemo(
@@ -72,6 +73,7 @@ export const Main: FC = () => {
     return (
         <div className={classes}>
             <Helmet>
+                <html lang={local} />
                 <title>{title}</title>
             </Helmet>
             <div className={className['content']}>
