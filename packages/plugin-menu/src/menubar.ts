@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeScrollbar } from '@milkdown/core';
+import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeFont, ThemeScrollbar } from '@milkdown/core';
 import { EditorView } from '@milkdown/prose';
 import { Utils } from '@milkdown/utils';
 
@@ -7,20 +7,22 @@ export type HandleDOMParams = {
     menu: HTMLDivElement;
     menuWrapper: HTMLDivElement;
     editorRoot: HTMLElement;
+    milkdownDOM: HTMLElement;
     editorDOM: HTMLDivElement;
 };
 
 export type HandleDOM = (params: HandleDOMParams) => void;
 
-const defaultDOMHandler: HandleDOM = ({ menu, menuWrapper, editorDOM, editorRoot }) => {
-    menuWrapper.appendChild(menu);
+const restore: HandleDOM = ({ milkdownDOM, editorRoot, menu, menuWrapper }) => {
+    editorRoot.appendChild(milkdownDOM);
+    menuWrapper.remove();
+    menu.remove();
+};
 
-    const milkdown = editorDOM.parentElement;
-    if (!milkdown) {
-        throw new Error('No parent node found');
-    }
-    editorRoot.replaceChild(menuWrapper, milkdown);
-    menuWrapper.appendChild(milkdown);
+const defaultDOMHandler: HandleDOM = ({ menu, menuWrapper, editorRoot, milkdownDOM }) => {
+    menuWrapper.appendChild(menu);
+    editorRoot.replaceChild(menuWrapper, milkdownDOM);
+    menuWrapper.appendChild(milkdownDOM);
 };
 
 const getRoot = (root: string | Node | null | undefined) => {
@@ -55,6 +57,7 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
             const border = themeManager.get(ThemeBorder, undefined);
             const scrollbar = themeManager.get(ThemeScrollbar, ['x', 'thin']);
             const style = css`
+                font-family: ${themeManager.get(ThemeFont, 'typography')};
                 box-sizing: border-box;
                 width: 100%;
                 display: flex;
@@ -82,13 +85,29 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
     const root = ctx.get(rootCtx);
 
     const editorRoot = getRoot(root) as HTMLElement;
+    const milkdownDOM = editorDOM.parentElement;
+
+    if (!milkdownDOM) {
+        throw new Error('No parent node found');
+    }
 
     domHandler({
         menu,
         menuWrapper,
         editorDOM,
         editorRoot,
+        milkdownDOM,
     });
 
-    return menu;
+    const restoreDOM = () => {
+        restore({
+            menu,
+            menuWrapper,
+            editorDOM,
+            editorRoot,
+            milkdownDOM,
+        });
+    };
+
+    return [menu, restoreDOM] as const;
 };

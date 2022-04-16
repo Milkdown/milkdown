@@ -12,6 +12,7 @@
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/theme-tokyo": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
+        "@milkdown/plugin-menu": "workspace:*",
         "@milkdown/plugin-slash": "workspace:*"
     }
 }

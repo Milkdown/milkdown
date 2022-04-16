@@ -157,6 +157,7 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-math': workspace:*
+      '@milkdown/plugin-menu': workspace:*
       '@milkdown/plugin-slash': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/theme-nord': workspace:*
@@ -164,6 +165,7 @@ importers:
     dependencies:
       '@milkdown/core': link:../../packages/core
       '@milkdown/plugin-math': link:../../packages/plugin-math
+      '@milkdown/plugin-menu': link:../../packages/plugin-menu
       '@milkdown/plugin-slash': link:../../packages/plugin-slash
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
       '@milkdown/theme-nord': link:../../packages/theme-nord
@@ -9961,7 +9963,7 @@ packages:
   /react-dom/18.0.0_react@18.0.0:
     resolution: {integrity: sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==}
     peerDependencies:
-      react: ^18.0.0 || 18 || 18
+      react: ^18.0.0 || 18 || 18 || 18
     dependencies:
       loose-envify: 1.4.0
       react: 18.0.0
