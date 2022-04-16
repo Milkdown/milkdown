@@ -63,11 +63,11 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - name: deploy to pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: docs
+            # - name: deploy to pages
+            #   uses: peaceiris/actions-gh-pages@v3
+            #   with:
+            #       github_token: ${{ secrets.GITHUB_TOKEN }}
+            #       publish_dir: docs
 
             - run: pnpx nx-cloud stop-all-agents
               if: ${{ always() }}

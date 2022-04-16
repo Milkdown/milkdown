@@ -4,6 +4,7 @@
         "changesets",
         "commitlint",
         "commonmark",
+        "docsearch",
         "dropcursor",
         "gapcursor",
         "hardbreak",

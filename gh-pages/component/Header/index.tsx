@@ -9,13 +9,13 @@ import { useRoot } from '../hooks/useRoot';
 import { Buttons } from './Buttons';
 import className from './style.module.css';
 
-const materialIcon = `${className.icon} material-icons-outlined`;
+const materialIcon = `${className['icon']} material-icons-outlined`;
 
 const LogoLink: React.FC = () => {
     const scrolled = React.useContext(scrolledCtx);
     const root = useRoot();
     return (
-        <Link to={'/' + root} className={className.logo}>
+        <Link to={'/' + root} className={className['logo']}>
             <img src="/milkdown-mini.svg" />
             <span
                 style={{
@@ -42,15 +42,15 @@ export const Header: React.FC = () => {
     useDarkMode(isDarkMode, setIsDarkMode);
 
     const headerClass = [
-        className.container,
-        isHomePage || !scrolled ? className.homepage : '',
-        fold ? className.fold : '',
+        className['container'],
+        isHomePage || !scrolled ? className['homepage'] : '',
+        fold ? className['fold'] : '',
     ].join(' ');
 
     return (
         <div id="header" className={headerClass}>
-            <header className={className.header}>
-                <div className={className.part}>
+            <header className={className['header']}>
+                <div className={className['part']}>
                     {showToggle && (
                         <span
                             className={materialIcon}
