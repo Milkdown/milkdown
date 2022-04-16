@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { FC, lazy, ReactNode, Suspense, useContext, useEffect, useMemo } from 'react';
+import { Helmet } from 'react-helmet';
 import { Route, Routes } from 'react-router-dom';
 import Loader from 'react-spinners/PuffLoader';
 
@@ -43,7 +44,7 @@ const useScroll = () => {
 };
 
 export const Main: FC = () => {
-    const [locationType] = useLocationType();
+    const [locationType, location] = useLocationType();
     const editorMode = useContext(editorModeCtx);
     const isDarkMode = useContext(isDarkModeCtx);
     const sections = useContext(sectionsCtx);
@@ -59,8 +60,20 @@ export const Main: FC = () => {
 
     const root = useRoot();
 
+    const title = useMemo(() => {
+        const page = pages.find((page) => page.link === location.pathname);
+        return page
+            ? `Milkdown | ${page.title}`
+            : location.pathname.includes('online-demo')
+            ? 'Milkdown | Demo'
+            : 'Milkdown';
+    }, [location.pathname, pages]);
+
     return (
         <div className={classes}>
+            <Helmet>
+                <title>{title}</title>
+            </Helmet>
             <div className={className['content']}>
                 <Routes>
                     {pages.map((page, i) => (
