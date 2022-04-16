@@ -9961,7 +9961,7 @@ packages:
   /react-dom/18.0.0_react@18.0.0:
     resolution: {integrity: sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==}
     peerDependencies:
-      react: ^18.0.0 || 18 || 18
+      react: ^18.0.0 || 18 || 18 || 18
     dependencies:
       loose-envify: 1.4.0
       react: 18.0.0
