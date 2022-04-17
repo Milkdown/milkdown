@@ -18,7 +18,7 @@ export const getStyle = (themeManager: ThemeManager) => {
         fontSize: '1em',
     };
     return Object.entries(style)
-        .filter(([_, value]) => value.length > 0)
+        .filter(([_, value]) => value?.length > 0)
         .map(([key, value]) => `'${key}':'${value}'`)
         .join(', ');
 };

@@ -61,14 +61,14 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
 };
 
 export const themeFactory =
-    (createThemePack: (emotion: Emotion, manager: ThemeManager) => void): MilkdownPlugin =>
+    (createThemePack?: (emotion: Emotion, manager: ThemeManager) => void): MilkdownPlugin =>
     () => {
         return async (ctx) => {
             await ctx.wait(ThemeEnvironmentReady);
             const emotion = ctx.get(emotionCtx);
             const themeManager = ctx.get(themeManagerCtx);
 
-            createThemePack(emotion, themeManager);
+            createThemePack?.(emotion, themeManager);
             ctx.done(ThemeReady);
         };
     };

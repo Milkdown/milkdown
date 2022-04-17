@@ -25,7 +25,7 @@ export const createTooltip = (buttonMap: ButtonMap, utils: Utils, className: str
         dom: div,
         render: (editorView: EditorView) => {
             Object.values(buttonMap)
-                .filter((item) => item.enable(editorView))
+                .filter((item) => item.enable(editorView) && item.$ != null)
                 .forEach(({ $ }) => div.appendChild($));
 
             editorView.dom.parentNode?.appendChild(div);

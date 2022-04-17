@@ -124,4 +124,3 @@ const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').mat
 export const tokyo = getTokyo(darkMode);
 
 export { color, darkColor, lightColor } from './tokyo';
-export { view } from './view';

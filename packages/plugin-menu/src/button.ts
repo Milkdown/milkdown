@@ -65,16 +65,19 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     });
 
     const $icon = utils.themeManager.get(ThemeIcon, config.icon);
-    if (!$icon) {
-        throw new Error();
+    if ($icon) {
+        const { label, dom } = $icon;
+        if (label) {
+            $button.setAttribute('aria-label', label);
+            $button.setAttribute('title', label);
+        }
+        $button.appendChild(dom);
+    } else {
+        $button.setAttribute('aria-label', config.icon);
+        $button.setAttribute('title', config.icon);
+        $button.textContent = config.icon;
     }
 
-    const { label, dom } = $icon;
-    if (label) {
-        $button.setAttribute('aria-label', label);
-        $button.setAttribute('title', label);
-    }
-    $button.appendChild(dom);
     $button.addEventListener('mousedown', (e) => {
         e.preventDefault();
         e.stopPropagation();

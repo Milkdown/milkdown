@@ -132,6 +132,7 @@ export const footnoteDefinition = createNode((utils) => {
                 },
                 isBindMode: true,
             });
+            if (!inputChipRenderer) return [];
             const shouldDisplay = (view: EditorView) => {
                 return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
             };

@@ -5,6 +5,6 @@ import { ButtonMap } from '../item';
 
 export const noActive = (buttonMap: ButtonMap, view: EditorView) => {
     return Object.values(buttonMap)
-        .filter((item) => item.enable(view))
+        .filter((item) => item.enable(view) && item.$ != null)
         .every(({ $ }) => $.classList.contains('hide'));
 };

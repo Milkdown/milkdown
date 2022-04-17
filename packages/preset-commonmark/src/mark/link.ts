@@ -125,6 +125,7 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                     ctx.get(commandsCtx).call(ModifyLink, value);
                 },
             });
+            if (!inputChipRenderer) return [];
             const shouldDisplay = (view: EditorView) => {
                 const { selection, doc } = view.state;
                 const { from, to } = selection;

@@ -53,12 +53,14 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
     selectorValue.classList.add('menu-selector-value');
     selectorValue.textContent = config.text;
 
-    const selectorButton = utils.themeManager.get(ThemeIcon, 'downArrow')?.dom as HTMLElement;
-    selectorButton.setAttribute('aria-hidden', 'true');
+    const selectorButton = utils.themeManager.get(ThemeIcon, 'downArrow')?.dom;
 
     selectorWrapper.appendChild(selector);
     selector.appendChild(selectorValue);
-    selector.appendChild(selectorButton);
+    if (selectorButton) {
+        selectorButton.setAttribute('aria-hidden', 'true');
+        selector.appendChild(selectorButton);
+    }
 
     const selectorList = document.createElement('div');
     selectorList.classList.add('menu-selector-list');

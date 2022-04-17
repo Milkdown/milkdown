@@ -163,6 +163,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     ctx.get(commandsCtx).call(ModifyImage, value);
                 },
             });
+            if (!inputChipRenderer) return [];
             const shouldDisplay = (view: EditorView) => {
                 return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
             };

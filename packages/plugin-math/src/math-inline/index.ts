@@ -163,6 +163,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                 },
                 isBindMode: true,
             });
+            if (!inputChipRenderer) return [];
             const shouldDisplay = (view: EditorView) => {
                 return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
             };

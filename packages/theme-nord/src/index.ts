@@ -128,4 +128,3 @@ const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').mat
 export const nord = getNord(darkMode);
 
 export { color, darkColor, lightColor } from './nord';
-export { view } from './view';

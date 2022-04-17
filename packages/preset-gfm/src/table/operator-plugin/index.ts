@@ -15,7 +15,7 @@ import { createWidget } from './widget';
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
 export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
-    const items = createActions(ctx);
+    const items = Object.fromEntries(Object.entries(createActions(ctx)).filter(([, value]) => value.$ != null));
     const tooltip = document.createElement('div');
     utils.themeManager.onFlush(() => {
         const style = utils.getStyle(injectStyle);
