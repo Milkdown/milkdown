@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, editorViewCtx, ThemeCodeFenceType } from '@milkdown/core';
-import { setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { Fragment, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -52,6 +52,24 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                 },
             },
             parseDOM: [
+                {
+                    tag: 'div.code-fence-container',
+                    preserveWhitespace: 'full',
+                    getAttrs: (dom) => {
+                        if (!(dom instanceof HTMLElement)) {
+                            throw new Error('Parse DOM error.');
+                        }
+                        return { language: dom.querySelector('pre')?.dataset['language'] };
+                    },
+                    getContent: (dom, schema) => {
+                        if (!(dom instanceof HTMLElement)) {
+                            throw new Error('Parse DOM error.');
+                        }
+                        const textNode = schema.text(dom.querySelector('pre')?.textContent ?? '');
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        return Fragment.from<any>(textNode);
+                    },
+                },
                 {
                     tag: 'pre',
                     preserveWhitespace: 'full',
