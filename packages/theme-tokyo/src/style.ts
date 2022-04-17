@@ -191,6 +191,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
 
     const footnote = css`
         .footnote-definition {
+            ${manager.get(ThemeBorder, undefined)};
+            padding: 1em;
             display: flex;
             flex-direction: row;
             & > .footnote-definition_content {

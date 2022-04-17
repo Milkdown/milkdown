@@ -49,11 +49,19 @@ export const footnoteDefinition = createNode((utils) => {
                 const className = utils.getClassName(node.attrs, 'footnote-definition');
 
                 const dt = document.createElement('dt');
-                dt.textContent = `[ ${label} ]:`;
+                dt.textContent = `[${label}]:`;
                 dt.onclick = () => {
                     const view = ctx.get(editorViewCtx);
                     const selection = NodeSelection.create(view.state.doc, view.state.selection.from - 2);
                     view.dispatch(view.state.tr.setSelection(selection));
+                };
+
+                const a = document.createElement('a');
+                a.href = `#${getFootnoteRefId(label)}`;
+                a.contentEditable = 'false';
+                a.textContent = '↩';
+                a.onmousedown = (e) => {
+                    e.preventDefault();
                 };
 
                 return [
@@ -65,19 +73,7 @@ export const footnoteDefinition = createNode((utils) => {
                         id: getFootnoteDefId(label),
                     },
                     ['div', { class: 'footnote-definition_content' }, dt, ['dd', 0]],
-                    [
-                        'div',
-                        { class: 'footnote-definition_anchor' },
-                        [
-                            'a',
-                            {
-                                href: `#${getFootnoteRefId(label)}`,
-                                'content-editable': 'false',
-                                class: className,
-                            },
-                            '↩',
-                        ],
-                    ],
+                    ['div', { class: 'footnote-definition_anchor' }, a],
                 ];
             },
             parseMarkdown: {
