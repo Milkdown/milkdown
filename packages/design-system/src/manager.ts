@@ -26,6 +26,17 @@ export class ThemeManager {
         key(this.#container.sliceMap);
     }
 
+    has(key: ThemeSliceKey | string): boolean {
+        const name = typeof key === 'string' ? key : key.sliceName;
+        if (this.#cache.has(name)) {
+            return true;
+        }
+
+        const meta = this.#container.getSlice(key);
+
+        return meta.get()(null as never) != null;
+    }
+
     set<
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Key extends ThemeSliceKey<any, any, any>,

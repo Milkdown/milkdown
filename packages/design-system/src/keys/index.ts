@@ -13,6 +13,7 @@ import { ThemeSize } from './size';
 import { ThemeTaskListItem } from './task-list-item';
 
 export const internalThemeKeys = [
+    /** Props */
     ThemeColor,
     ThemeSize,
     ThemeFont,
@@ -21,6 +22,7 @@ export const internalThemeKeys = [
     ThemeBorder,
     ThemeIcon,
 
+    /** Renderer */
     ThemeCodeFence,
     ThemeImage,
     ThemeInnerEditor,

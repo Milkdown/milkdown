@@ -62,15 +62,21 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
 
 export const themeFactory =
     (createThemePack?: (emotion: Emotion, manager: ThemeManager) => void): MilkdownPlugin =>
-    () => {
-        return async (ctx) => {
-            await ctx.wait(ThemeEnvironmentReady);
-            const emotion = ctx.get(emotionCtx);
-            const themeManager = ctx.get(themeManagerCtx);
+    () =>
+    async (ctx) => {
+        await ctx.wait(ThemeEnvironmentReady);
+        const emotion = ctx.get(emotionCtx);
+        const themeManager = ctx.get(themeManagerCtx);
 
-            createThemePack?.(emotion, themeManager);
-            ctx.done(ThemeReady);
-        };
+        createThemePack?.(emotion, themeManager);
+
+        internalThemeKeys.forEach((key) => {
+            if (!themeManager.has(key as ThemeSliceKey)) {
+                console.warn('Theme key not found: ', key.sliceName);
+            }
+        });
+
+        ctx.done(ThemeReady);
     };
 
 export * from '@milkdown/design-system';
