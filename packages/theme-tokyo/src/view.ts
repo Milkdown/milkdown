@@ -2,7 +2,7 @@
 import { Emotion } from '@milkdown/design-system';
 
 export const view = ({ css }: Emotion) => css`
-    /* copy from https://github.com/ProseMirror/@milkdown/prose/blob/master/style/prosemirror.css */
+    /* copy from https://github.com/ProseMirror/prosemirror-view/blob/master/style/prosemirror.css */
     .ProseMirror {
         position: relative;
     }
@@ -53,5 +53,13 @@ export const view = ({ css }: Emotion) => css`
         bottom: -2px;
         border: 2px solid #8cf;
         pointer-events: none;
+    }
+
+    /* Protect against generic img rules */
+
+    img.ProseMirror-separator {
+        display: inline !important;
+        border: none !important;
+        margin: 0 !important;
     }
 `;

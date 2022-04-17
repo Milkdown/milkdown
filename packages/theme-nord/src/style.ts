@@ -310,10 +310,6 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             ${selection};
 
             .editor {
-                &[contenteditable="true"] {
-                     user-modify: read-write-plaintext-only;
-                }
-                
                 ${editorLayout};
 
                 ${paragraph};

@@ -54,7 +54,7 @@ export const defaultConfig: Config = [
                     !(setToHeading(1) || setToHeading(2) || setToHeading(3))
                 );
             },
-            onSelect: (id) => (id ? ['TurnIntoHeading', Number(id)] : ['TurnIntoText', null]),
+            onSelect: (id) => (Number(id) ? ['TurnIntoHeading', Number(id)] : ['TurnIntoText', null]),
         },
     ],
     [

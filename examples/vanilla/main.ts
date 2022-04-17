@@ -51,7 +51,6 @@ async function main() {
 
     await sleep(2000);
     editor.action(toggleEditable);
-    // editable = true;
 }
 
 main();
