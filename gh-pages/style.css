@@ -74,10 +74,8 @@ body {
     max-width: 72rem !important;
 
     .milkdown {
-        .editor {
-            overflow: auto;
-            height: calc(100vh - 11.5rem - 110px);
-        }
+        overflow: auto;
+        height: calc(100vh - 11.5rem - 18px);
     }
 
     position: relative;

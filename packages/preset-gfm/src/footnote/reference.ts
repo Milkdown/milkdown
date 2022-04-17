@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { commandsCtx, createCmd, createCmdKey, ThemeInputChipType } from '@milkdown/core';
+import { commandsCtx, createCmd, createCmdKey, editorViewCtx, ThemeInputChipType } from '@milkdown/core';
 import { EditorView, findSelectedNodeOfType, InputRule, NodeSelection, Plugin, PluginKey } from '@milkdown/prose';
 import { createNode } from '@milkdown/utils';
 
@@ -14,7 +14,7 @@ export const footnoteReference = createNode((utils) => {
 
     return {
         id,
-        schema: () => ({
+        schema: (ctx) => ({
             group: 'inline',
             inline: true,
             atom: true,
@@ -38,6 +38,22 @@ export const footnoteReference = createNode((utils) => {
             ],
             toDOM: (node) => {
                 const label = node.attrs['label'];
+                const a = document.createElement('a');
+                const href = `#${getFootnoteDefId(label)}`;
+                a.href = href;
+                a.textContent = `[${label}]`;
+                a.onclick = (e) => {
+                    const view = ctx.get(editorViewCtx);
+                    if (view.editable) {
+                        e.preventDefault();
+                    }
+                };
+                a.ondblclick = () => {
+                    const view = ctx.get(editorViewCtx);
+                    if (view.editable) {
+                        window.location.href = href;
+                    }
+                };
                 return [
                     'sup',
                     {
@@ -45,7 +61,7 @@ export const footnoteReference = createNode((utils) => {
                         'data-type': id,
                         id: getFootnoteRefId(label),
                     },
-                    ['a', { href: `#${getFootnoteDefId(label)}` }, `[${label}]`],
+                    a,
                 ];
             },
             parseMarkdown: {
