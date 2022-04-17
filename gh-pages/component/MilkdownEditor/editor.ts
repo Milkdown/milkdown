@@ -30,20 +30,18 @@ export const createEditor = (
             ctx.set(rootCtx, root);
             ctx.set(defaultValueCtx, defaultValue);
             ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, editable: () => !readOnly }));
-            if (onChange) {
-                ctx.get(listenerCtx)
-                    .markdownUpdated((_, markdown) => {
-                        onChange(markdown);
-                    })
-                    .mounted(async (ctx) => {
-                        setEditorReady(true);
-                        if (import.meta.env.DEV) {
-                            const view = ctx.get(editorViewCtx);
-                            const prosemirrorDevTools = await import('prosemirror-dev-tools');
-                            prosemirrorDevTools.default(view);
-                        }
-                    });
-            }
+            ctx.get(listenerCtx)
+                .markdownUpdated((_, markdown) => {
+                    onChange?.(markdown);
+                })
+                .mounted(async (ctx) => {
+                    setEditorReady(true);
+                    if (import.meta.env.DEV) {
+                        const view = ctx.get(editorViewCtx);
+                        const prosemirrorDevTools = await import('prosemirror-dev-tools');
+                        prosemirrorDevTools.default(view);
+                    }
+                });
         })
         .use(gfm)
         .use(codeSandBox)
