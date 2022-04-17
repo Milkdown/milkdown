@@ -77,7 +77,7 @@
         font-weight: 500;
         color: palette(solid, 0.87);
         cursor: pointer;
-        transition: all 0.4s ease-out;
+        transition: all 0.4s ease-in-out;
         text-decoration: none;
         &:last-child {
             border: 2px solid palette(secondary);

@@ -140,7 +140,7 @@
     border: 0;
     margin: 0;
     background-color: transparent;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.4s ease-in-out;
     cursor: pointer;
     &:hover {
         background: palette(primary, 0.12);
