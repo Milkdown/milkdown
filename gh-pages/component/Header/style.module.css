@@ -8,8 +8,10 @@
     position: fixed;
     z-index: 2;
     background: palette(background);
-    &.fold {
-        width: calc(100vw - 16rem);
+    @mixin query 72rem {
+        &.fold {
+            width: calc(100vw - 16rem);
+        }
     }
 }
 
