@@ -89,15 +89,16 @@ body {
 #carbonads {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
         Helvetica, Arial, sans-serif;
-    display: flex;
+    display: none;
     background-color: hsl(0, 0%, 98%);
     box-shadow: 0 1px 4px 1px hsla(0, 0%, 0%, 0.1);
     z-index: 100;
+    max-width: 130px;
+    position: fixed;
+    bottom: 0;
+    right: 4px;
     @mixin query 72rem {
-        max-width: 300px;
-        position: absolute;
-        bottom: 0;
-        right: 0;
+        display: flex;
     }
 }
 #carbonads a {
@@ -114,6 +115,7 @@ body {
 }
 #carbonads .carbon-wrap {
     display: flex;
+    flex-direction: column;
 }
 #carbonads .carbon-img {
     display: block;
@@ -125,8 +127,8 @@ body {
 }
 #carbonads .carbon-text {
     font-size: 13px;
-    padding: 10px;
-    margin-bottom: 16px;
+    padding: 4px;
+    margin-bottom: 20px;
     line-height: 1.5;
     text-align: left;
 }

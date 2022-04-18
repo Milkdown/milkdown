@@ -8,14 +8,14 @@ import { useDisplaySidebar } from '../hooks/useDisplaySidebar';
 import className from './style.module.css';
 
 const NavLink: React.FC<Item> = ({ title, link }) => (
-    <Link className={({ isActive }) => [className.link, isActive ? className.active : ''].join(' ')} to={link}>
+    <Link className={({ isActive }) => [className['link'], isActive ? className['active'] : ''].join(' ')} to={link}>
         {title}
     </Link>
 );
 
 const NavSection: React.FC<Section> = ({ title, items }) => (
-    <section className={className.section}>
-        <section className={className.sectionTitle}>{title}</section>
+    <section className={className['section']}>
+        <section className={className['sectionTitle']}>{title}</section>
         {items.map((item, i) => (
             <NavLink key={i.toString()} {...item} />
         ))}
@@ -26,14 +26,14 @@ export const Sidebar: React.FC = () => {
     const sections = React.useContext(sectionsCtx);
     const display = React.useContext(displaySidebarCtx);
     const ref = useDisplaySidebar();
-    const navClassName = React.useMemo(() => `${className.sidebar} ${display ? '' : className.fold}`, [display]);
+    const navClassName = React.useMemo(() => `${className['sidebar']} ${display ? '' : className['fold']}`, [display]);
 
     return (
         <nav ref={ref} className={navClassName}>
             {sections.map((section, i) => (
                 <section key={i.toString()}>
                     <NavSection key={i.toString()} {...section} />
-                    {i < sections.length - 1 && <hr className={className.hr} />}
+                    {i < sections.length - 1 && <hr className={className['hr']} />}
                 </section>
             ))}
         </nav>
