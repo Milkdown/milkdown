@@ -113,15 +113,21 @@ export const footnoteDefinition = createNode((utils) => {
             }),
         ],
         inputRules: (nodeType) => [
-            wrappingInputRule(/(?:\[\^)([^:]+)(?::)$/, nodeType, (match) => {
-                const label = match[1] ?? 'footnote';
-                return {
-                    label,
-                };
-            }),
+            wrappingInputRule(
+                /(?:\[\^)([^:]+)(?::)$/,
+                nodeType,
+                (match) => {
+                    const label = match[1] ?? 'footnote';
+                    return {
+                        label,
+                    };
+                },
+                () => false,
+            ),
         ],
         prosePlugins: (type, ctx) => {
             const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                width: '12em',
                 placeholder: 'Input Footnote Label',
                 onUpdate: (value) => {
                     ctx.get(commandsCtx).call(ModifyFootnoteDef, value);

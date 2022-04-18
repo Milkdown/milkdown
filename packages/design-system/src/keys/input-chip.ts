@@ -13,6 +13,7 @@ type InputChipRenderer = {
 };
 
 type InputChipOptions = {
+    width?: string;
     isBindMode?: boolean;
     buttonText?: string;
     placeholder?: string;

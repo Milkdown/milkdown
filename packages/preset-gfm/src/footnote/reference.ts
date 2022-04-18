@@ -114,6 +114,7 @@ export const footnoteReference = createNode((utils) => {
         ],
         prosePlugins: (type, ctx) => {
             const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                width: '12em',
                 placeholder: 'Input Footnote Label',
                 onUpdate: (value) => {
                     ctx.get(commandsCtx).call(ModifyFootnoteRef, value);
