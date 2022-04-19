@@ -6,41 +6,19 @@ Milkdown 主要基于两个框架构建： [Prosemirror](https://prosemirror.net
 所以，对于任意时刻的 Milkdown 编辑器，它都有一个编辑器状态(editor state)，这一状态既可以渲染出编辑器的 UI，也可以用来被转换为 markdown 字符串。
 任何对编辑器的变更都不会直接修改编辑器的 UI，它会先创建一个新的编辑器状态，然后通过这一状态渲染新的 UI。
 
-```mermaid
-graph BT;
-	view[\"Editor View (UI)"\];
-	dom(DOM Event);
-	tr(Transaction);
-	state{{Editor State}};
-
-	string[/Markdown String/];
-	ast{{Remark AST}};
-
-	tr -- create new --> state;
-	state -- render --> view;
-	view -- user input --> dom;
-	dom --> tr;
-
-	ast -- Parser --> state;
-	state -- Serializer --> ast;
-
-
-	ast --> string;
-	string --> ast;
-```
+-   Markdown AST 和编辑器状态是两颗树，他们可以互相转换。
+-   当用户在编辑器中进行编辑时，变更会传递到编辑器状态。
+-   当开发者改变 markdown 内容时，编辑器会使用新的 markdown AST 同步它的编辑器状态。
 
 ## 生命周期
 
-在 Milkdown 内部, 它有许多[内置插件](/#/zh-hans/internal-plugins) 来控制编辑器的状态， 它可以通过下图来描述:
+在 Milkdown 内部, 它有许多[内置插件](/#/zh-hans/internal-plugins) 来控制编辑器的状态， 它们通过以下顺序加载:
 
-```mermaid
-flowchart TD;
-	prepare("Nodes | Marks | Remark Plugins");
-	stage1("Parser | Serializer | Commands")
-	stage2("Prosemirror Plugins | Keymap | Input Rules")
-	Config --> Init;
-	Init --> prepare --> Schema;
-	Schema --> stage1 --> stage2;
-	stage2 --> EditorState --> EditorView;
-	EditorView --> Done;
-```
+1. Config
+2. Nodes, Marks, RemarkPlugins
+3. Parser, Serializer, Schema, Commands
+4. ProsemirrorPlugins, Keymap, InputRules,
+5. Theme, EditorState
+6. EditorView
+
+在这些过程完成后，编辑器就会准备好。

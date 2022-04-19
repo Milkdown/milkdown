@@ -11,8 +11,8 @@ import { LocationType, useLocationType } from './hooks/useLocationType';
 import { useRoot } from './hooks/useRoot';
 import className from './style.module.css';
 
-const Editor = lazy(() =>
-    import('./MilkdownEditor/MilkdownEditor').then((module) => ({ default: module.MilkdownEditor })),
+const DocRenderer = lazy(() =>
+    import('./MilkdownEditor/DocRenderer').then((module) => ({ default: module.DocRenderer })),
 );
 const Demo = lazy(() => import('./Demo/Demo').then((module) => ({ default: module.Demo })));
 
@@ -84,7 +84,7 @@ export const Main: FC = () => {
                             path={page.link}
                             element={
                                 <Loading>
-                                    <Editor content={page.content} readOnly />
+                                    <DocRenderer content={page.content} />
                                 </Loading>
                             }
                         />
