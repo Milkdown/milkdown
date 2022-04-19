@@ -13,6 +13,7 @@ export const useLazy = (content: Content) => {
             setLoading(false);
             return;
         }
+        setLoading(true);
         content()
             .then((s) => {
                 setMd(s.default);
