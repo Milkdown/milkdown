@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createPlugin } from '@milkdown/utils';
+import { AtomList, createPlugin } from '@milkdown/utils';
 
 import type { Config } from './config';
 import { defaultConfig } from './config';
@@ -14,7 +14,7 @@ export type Options = {
     className: string;
 };
 
-export const slash = createPlugin<string, Options>((utils, options) => {
+export const slashPlugin = createPlugin<string, Options>((utils, options) => {
     const slashConfig = options?.config ?? defaultConfig;
 
     return {
@@ -27,3 +27,5 @@ export const slash = createPlugin<string, Options>((utils, options) => {
         },
     };
 });
+
+export const slash = AtomList.create([slashPlugin()]);

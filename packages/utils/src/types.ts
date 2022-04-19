@@ -14,7 +14,7 @@ export type UnknownRecord = Record<string, unknown>;
 export type CommandConfig<T = unknown> = [commandKey: CmdKey<T>, defaultKey: string, args?: T];
 
 export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRecord> = Obj & {
-    className?: (attrs: Attrs) => string;
+    className?: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
     keymap?: Partial<Record<SupportedKeys, string | string[]>>;
     headless?: boolean;
     view?: (ctx: Ctx) => ViewFactory;

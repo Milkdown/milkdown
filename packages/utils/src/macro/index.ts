@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 export * from './destroy';
 export * from './force-update';
+export * from './get-html';
 export * from './insert';
 export * from './outline';
 export * from './replace-all';

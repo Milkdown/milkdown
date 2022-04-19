@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, Ctx } from '@milkdown/core';
 import { EditorView, Plugin, PluginKey, selectParentNode } from '@milkdown/prose';
-import { createPlugin } from '@milkdown/utils';
+import { AtomList, createPlugin } from '@milkdown/utils';
 
 import { Config, defaultConfig, SelectParent } from './default-config';
 import { Manager } from './manager';
@@ -16,7 +16,7 @@ export type Options = {
     domHandler: HandleDOM;
 };
 
-export const menu = createPlugin<string, Options>((utils, options) => {
+export const menuPlugin = createPlugin<string, Options>((utils, options) => {
     const config = options?.config ?? defaultConfig;
     const domHandler = options?.domHandler;
 
@@ -72,3 +72,5 @@ export const menu = createPlugin<string, Options>((utils, options) => {
         },
     };
 });
+
+export const menu = AtomList.create([menuPlugin()]);

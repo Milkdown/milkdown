@@ -29,7 +29,7 @@ import {
 export const getClassName =
     (className: CommonOptions['className']) =>
     (attrs: Attrs, ...defaultValue: (string | null | undefined)[]): string => {
-        const classList = className?.(attrs) ?? defaultValue;
+        const classList = className?.(attrs, ...defaultValue) ?? defaultValue;
         return Array.isArray(classList) ? classList.filter((x) => x).join(' ') : classList;
     };
 
