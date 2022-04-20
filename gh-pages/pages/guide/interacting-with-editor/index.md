@@ -133,6 +133,8 @@ Editor.make()
     .use(listener);
 ```
 
+For more details about listener, please check [Using Listeners]().
+
 ---
 
 ## Readonly Mode
@@ -181,3 +183,13 @@ async function playWithEditor() {
     getMarkdown();
 }
 ```
+
+We provide some macros out of the box, you can use them as actions:
+
+```typescript
+import { insert } from '@milkdown/utils';
+
+editor.action(insert('# Hello milkdown'));
+```
+
+For more details about macros, please check [Using Macros]().

@@ -109,31 +109,31 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
-        'integrating-plugins',
+        'plugins-101',
         {
-            en: 'Integrating Plugins',
-            'zh-hans': '集成插件',
+            en: 'Plugins 101',
+            'zh-hans': '从0到1写插件',
         },
     ],
     [
-        'writing-syntax-plugins',
+        'plugins-factory',
         {
-            en: 'Writing Syntax Plugins',
-            'zh-hans': '编写语法插件',
+            en: 'Plugins Factory',
+            'zh-hans': '插件工厂',
         },
     ],
     [
-        'writing-theme-plugins',
+        'composable-plugins',
         {
-            en: 'Writing Theme Plugins',
-            'zh-hans': '编写主题插件',
+            en: 'Composable Plugins',
+            'zh-hans': '可组合插件',
         },
     ],
     [
-        'writing-custom-plugins',
+        'example-iframe-plugin',
         {
-            en: 'Writing Custom Plugins',
-            'zh-hans': '编写自定义插件',
+            en: 'Example: Iframe Plugin',
+            'zh-hans': '例子: Iframe插件',
         },
     ],
     [
@@ -225,6 +225,48 @@ export const titleDict: Dict = new Map([
         {
             en: 'Plugin Based WYSIWYG Markdown Editor Framework',
             'zh-hans': '插件驱动的所见即所得的Markdown编辑器框架',
+        },
+    ],
+    [
+        'theme',
+        {
+            en: 'Theme',
+            'zh-hans': '主题',
+        },
+    ],
+    [
+        'using-themes',
+        {
+            en: 'Using Themes',
+            'zh-hans': '使用主题',
+        },
+    ],
+    [
+        'writing-themes',
+        {
+            en: 'Writing Themes',
+            'zh-hans': '编写主题',
+        },
+    ],
+    [
+        'reference-manual',
+        {
+            en: 'Reference Manual',
+            'zh-hans': '参考手册',
+        },
+    ],
+    [
+        'milkdown_core',
+        {
+            en: '@milkdown/core',
+            'zh-hans': '@milkdown/core',
+        },
+    ],
+    [
+        'milkdown_plugin-listener',
+        {
+            en: '@milkdown/plugin-listener',
+            'zh-hans': '@milkdown/plugin-listener',
         },
     ],
 ]);
