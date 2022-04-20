@@ -8,8 +8,8 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@codemirror/basic-setup": "^0.19.0",
-        "@codemirror/lang-markdown": "^0.19.0",
+        "@codemirror/basic-setup": "^0.20.0",
+        "@codemirror/lang-markdown": "^0.20.0",
         "@milkdown/core": "workspace:*",
         "@milkdown/ctx": "workspace:*",
         "@milkdown/design-system": "workspace:*",
