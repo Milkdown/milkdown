@@ -1,26 +1,16 @@
-# Design System
+# 设计系统
 
-Design system is the foundation of themes.
+设计系统是主题的基础，它像是一种合约。
 
-```mermaid
-graph TD;
-	theme{{Theme}};
-	system((Design System));
+-   设计系统将定义一些 theme key。
+-   主题将设置每个 key 的值。
+-   Node, Mark and Plugin 可以消费这些 key。
 
-    theme --> system;
-    system --> Node;
-    system --> Mark;
-    system --> Plugin;
-```
+在[编写主题插件](/#/zh-hans/writing-theme-plugins)一节中，我们已经学习了主题的定义方式。在本节中将展示如何使用它。
 
-Design system is something like a contract.
-Theme implements design system, and design system can be consumed by different nodes, marks and plugins.
+## 主题工具
 
-In [writing theme plugins](/#/writing-theme-plugins) section, we learnt how to define a theme. And this section will show how to use it.
-
-## Theme Tool
-
-Design system should be used by access to `themeToolCtx`.
+设计系统可以通过`themeToolCtx`来访问。
 
 ```typescript
 import { themeToolCtx } from '@milkdown/core';
@@ -63,7 +53,7 @@ css`
 
 ### palette
 
-Palette can be used to generate color based on current theme.
+调色板用于根据当前主题生成颜色。
 
 ```typescript
 const { palette } = themeTool;

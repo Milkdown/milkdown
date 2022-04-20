@@ -19,21 +19,23 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'plugins',
-        items: [
-            'using-plugins',
-            'integrating-plugins',
-            'writing-syntax-plugins',
-            'writing-theme-plugins',
-            'writing-custom-plugins',
-        ],
+        items: ['using-plugins', 'plugins-101', 'plugins-factory', 'composable-plugins', 'example-iframe-plugin'],
+    },
+    {
+        dir: 'theme',
+        items: ['design-system', 'using-themes', 'writing-themes'],
     },
     {
         dir: 'tools',
-        items: ['prose', 'design-system', 'using-utils-package'],
+        items: ['prose', 'using-utils-package'],
     },
     {
         dir: 'internals',
         items: ['architecture', 'node-and-mark', 'parser', 'serializer', 'internal-plugins'],
+    },
+    {
+        dir: 'reference-manual',
+        items: ['milkdown_core', 'milkdown_plugin-listener'],
     },
 ];
 

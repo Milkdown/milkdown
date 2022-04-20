@@ -40,20 +40,20 @@ Editor.make().use(nodes);
 
 ## Headless Mode
 
-If you prefer to write all style yourself, you can simply call `headless` method for plugins which support this mode.
+For some plugins with components, we provide styles for it to make it can work out of the box. We also provide a headless mode for them which means you can remove their style and use your own.
+
+You can simply call `headless` method for plugins which support this mode.
 
 ```typescript
-import { commonmark } from '@milkdown/preset-commonmark';
+import { math } from '@milkdown/plugin-math';
 
-Editor.make().use(commonmark.headless());
+Editor.make().use(math.headless());
 ```
 
 Plugins supports this mode:
 
--   [@milkdown/preset-commonmark](https://www.npmjs.com/package/@milkdown/preset-commonmark)
--   [@milkdown/preset-gfm](https://www.npmjs.com/package/@milkdown/preset-gfm)
--   [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)
 -   [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)
 -   [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)
 -   [@milkdown/plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)
 -   [@milkdown/plugin-emoji](https://www.npmjs.com/package/@milkdown/plugin-emoji)
+-   [@milkdown/plugin-menu](https://www.npmjs.com/package/@milkdown/plugin-menu)
