@@ -7,11 +7,12 @@ import { gfm } from '@milkdown/preset-gfm';
 import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
 import { nord, nordDark, nordLight } from '@milkdown/theme-nord';
 import { outline, switchTheme } from '@milkdown/utils';
-import { FC, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { isDarkModeCtx } from '../Context';
 import { codeSandBox } from './codeSandBox';
 import { Loading } from './Loading';
+import { Outline, OutlineRenderer } from './Outline';
 import className from './style.module.css';
 import { Content, useLazy } from './useLazy';
 
@@ -19,22 +20,10 @@ type Props = {
     content: Content;
 };
 
-const NestedDiv: FC<{ level: number; children: ReactNode }> = ({ level, children }) => {
-    if (level === 0) {
-        return <>{children}</>;
-    }
-
-    return (
-        <div className={className['pl-10px']}>
-            <NestedDiv level={level - 1}>{children}</NestedDiv>
-        </div>
-    );
-};
-
 export const DocRenderer = ({ content }: Props) => {
     const editorRef = useRef<EditorRef>(null);
     const isDarkMode = useContext(isDarkModeCtx);
-    const [outlines, setOutlines] = useState<Array<{ text: string; level: number }>>([]);
+    const [outlines, setOutlines] = useState<Outline[]>([]);
     const outlineRef = useRef<HTMLDivElement>(null);
     const [ready, setReady] = useState(false);
 
@@ -96,27 +85,7 @@ export const DocRenderer = ({ content }: Props) => {
         <div className={className['doc-renderer']}>
             {loading ? <Loading /> : <ReactEditor ref={editorRef} editor={editor} />}
             <div ref={outlineRef} className={className['outline']}>
-                {outlines.map((item, index) => {
-                    const url = '#' + item.text.toLowerCase().split(' ').join('-');
-                    return (
-                        <div className={className['pl-10px']} key={index.toString()}>
-                            <div className={className['outline-container']}>
-                                <NestedDiv level={item.level}>
-                                    <div className={className['outline-item']}>
-                                        <a
-                                            href={url}
-                                            className={`no-underline truncate text-sm block pl-16px py-8px leading-20px ${
-                                                location.hash === url ? className['active'] : ''
-                                            }`}
-                                        >
-                                            {item.text}
-                                        </a>
-                                    </div>
-                                </NestedDiv>
-                            </div>
-                        </div>
-                    );
-                })}
+                <OutlineRenderer outline={outlines} />
             </div>
         </div>
     );
