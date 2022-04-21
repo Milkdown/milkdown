@@ -10,7 +10,7 @@
     background: palette(background);
     @mixin query 72rem {
         &.fold {
-            width: calc(100vw - 16rem);
+            width: calc(100% - 16rem);
         }
     }
 }

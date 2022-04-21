@@ -39,11 +39,11 @@ const NavSection: React.FC<Section> = ({ title, items }) => {
 export const Sidebar: React.FC = () => {
     const sections = React.useContext(sectionsCtx);
     const display = React.useContext(displaySidebarCtx);
-    const ref = useDisplaySidebar();
+    useDisplaySidebar();
     const navClassName = React.useMemo(() => `${className['sidebar']} ${display ? '' : className['fold']}`, [display]);
 
     return (
-        <nav ref={ref} className={navClassName}>
+        <nav className={navClassName}>
             {sections.map((section, i) => (
                 <section key={i.toString()}>
                     <NavSection key={i.toString()} {...section} />
