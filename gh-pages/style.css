@@ -25,7 +25,7 @@
 html {
     width: 100%;
     min-height: 100vh;
-    scroll-padding-top: 4.5rem;
+    scroll-padding-top: 4.6rem;
 
     @mixin scrollbar;
 }

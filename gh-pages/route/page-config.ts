@@ -26,10 +26,6 @@ export const config: ConfigItem[] = [
         items: ['design-system', 'using-themes', 'writing-themes'],
     },
     {
-        dir: 'tools',
-        items: ['prose', 'using-utils-package'],
-    },
-    {
         dir: 'internals',
         items: ['architecture', 'node-and-mark', 'parser', 'serializer', 'internal-plugins'],
     },

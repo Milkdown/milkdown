@@ -32,7 +32,6 @@ Milkdown 提供了下列官方插件。
 | [@milkdown/plugin-cursor](https://www.npmjs.com/package/@milkdown/plugin-cursor)               | 添加 drop 和 gap 光标                                              |
 | [@milkdown/plugin-listener](https://www.npmjs.com/package/@milkdown/plugin-listener)           | 添加监听器支持                                                     |
 | [@milkdown/plugin-collaborative](https://www.npmjs.com/package/@milkdown/plugin-collaborative) | 添加协同编辑支持                                                   |
-| [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)                 | 添加表格语法支持（已经包含在 gfm 中）                              |
 | [@milkdown/plugin-prism](https://www.npmjs.com/package/@milkdown/plugin-prism)                 | 添加 [prism](https://prismjs.com/) 用于支持代码块高亮              |
 | [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)                   | 添加 [LaTeX](https://en.wikipedia.org/wiki/LaTeX) 用于支持数学公式 |
 | [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)             | 添加选择工具条                                                     |
