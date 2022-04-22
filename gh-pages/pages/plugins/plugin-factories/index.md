@@ -370,3 +370,80 @@ const buttonWithMyText = button({
 Keep in mind that all options should be treated as **optional**.
 Which means user can choose not to set the option.
 So you'd better set default value for all of them.
+
+## Extend
+
+Every plugin created by factory can be extended.
+If you just want to modify some behavior of exists plugin, extend is better than rewrite a new one.
+
+```typescript
+const extendedBlockquote = blockquote.extend((original, utils, options) => {
+    return {
+        ...original,
+        schema: (ctx) => {
+            return {
+                ...original.schema(ctx),
+                // some custom schema
+            };
+        },
+    };
+});
+```
+
+Here we have 3 parameters.
+The `options` and `utils` have been introduced.
+And the `original` is the original plugin to be extended.
+The extend method should always return a new plugin.
+
+## AtomList
+
+In a complex real world app, we may want to create a list of plugins.
+Let users `use` them one by one might be a little bit complicated.
+So we provide a utility to create a list of plugins.
+With this list, users can use, extend and configure them easily.
+
+```typescript
+import { createNode, AtomList } from '@milkdown/utils';
+const node1 = createNode(/* node1 */);
+const node2 = createNode(/* node2 */);
+const node3 = createNode(/* node3 */);
+
+const mySyntaxPlugin = AtomList.create([node1(), node2(), node3()]);
+
+Editor.use(mySyntaxPlugin);
+
+// With configure:
+Editor.use(
+    mySyntaxPlugin.configure(node1, {
+        keymap: {
+            //...
+        },
+    }),
+);
+// Equal to:
+Editor.use([
+    node1({
+        keymap: {
+            //...
+        },
+    }),
+    node2(),
+    node3(),
+]);
+
+// Enable headless mode for all:
+Editor.use(mySyntaxPlugin.headless());
+
+// Remove one plugin:
+Editor.use(mySyntaxPlugin.remove(node1));
+
+// Replace one plugin:
+const myNode1 = node1.extend(/* ... */);
+Editor.use(mySyntaxPlugin.replace(node1, myNode1));
+```
+
+## Real World Examples
+
+In Milkdown, most of the plugins are defined using plugin factories.
+
+You can view the source of [preset-commonmark](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-commonmark/src) to see how we use them in real world.
