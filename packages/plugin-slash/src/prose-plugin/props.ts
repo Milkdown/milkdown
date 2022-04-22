@@ -91,8 +91,8 @@ export const createProps = (status: Status, utils: Utils) => {
                 ]);
             };
 
-            const emptyStyle = utils.getStyle(createEmptyStyle);
-            const slashStyle = utils.getStyle(createSlashStyle);
+            const emptyStyle = utils.getStyle((emotion) => createEmptyStyle(utils.themeManager, emotion));
+            const slashStyle = utils.getStyle((emotion) => createSlashStyle(utils.themeManager, emotion));
 
             if (actions.length) {
                 return createDecoration(placeholder, [emptyStyle, slashStyle, 'empty-node', 'is-slash']);

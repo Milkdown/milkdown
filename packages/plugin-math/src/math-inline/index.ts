@@ -21,8 +21,9 @@ export const mathInline = createNode<string, Options>((utils, options) => {
         error: '(error)',
         ...(options?.placeholder ?? {}),
     };
+    const themeManager = utils.themeManager;
     const getStyle = () =>
-        utils.getStyle((themeManager, { css }) => {
+        utils.getStyle(({ css }) => {
             const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
             const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
             return css`
@@ -105,7 +106,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                 const style = getStyle();
 
                 if (style) {
-                    dom.classList.add(style);
+                    dom.className = style;
                 }
             });
             const render = (code: string) => {

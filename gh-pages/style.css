@@ -59,8 +59,8 @@ body {
 
     .editor {
         @mixin query 72rem {
-            max-width: 57.375em;
-            padding: 3.125em 7.25em !important;
+            max-width: 57.375rem;
+            padding: 3.125rem !important;
         }
     }
 }
@@ -68,7 +68,7 @@ body {
 .loading {
     padding: 3.125rem 1.25rem;
     @mixin query 72rem {
-        padding: 3.125rem 7.25rem;
+        padding: 3.125rem;
     }
 }
 

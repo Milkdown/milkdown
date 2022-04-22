@@ -17,7 +17,7 @@ export type EmojiOptions = {
 export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
     const getStyle = () =>
         utils.getStyle(
-            (_, { css }) => css`
+            ({ css }) => css`
                 display: inline-flex;
                 justify-content: center;
                 align-items: center;
@@ -54,6 +54,7 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
             ],
             toDOM: (node) => {
                 const span = document.createElement('span');
+                span.classList.add('emoji-wrapper');
                 span.dataset['type'] = 'emoji';
                 utils.themeManager.onFlush(() => {
                     const style = getStyle();
@@ -61,7 +62,6 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
                         span.classList.add(style);
                     }
                 });
-                span.classList.add('emoji-wrapper');
                 span.innerHTML = node.attrs['html'];
                 return { dom: span };
             },

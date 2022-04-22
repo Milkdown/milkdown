@@ -45,15 +45,16 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
     menu.classList.add('milkdown-menu');
 
     const editorDOM = view.dom as HTMLDivElement;
+    const { themeManager } = utils;
 
-    utils.themeManager.onFlush(() => {
-        const editorWrapperStyle = utils.getStyle((themeManager) => {
+    themeManager.onFlush(() => {
+        const editorWrapperStyle = utils.getStyle(() => {
             return themeManager.get(ThemeScrollbar, ['y']) as string;
         });
         if (editorWrapperStyle) {
             editorDOM.classList.add(editorWrapperStyle);
         }
-        const menuStyle = utils.getStyle((themeManager, { css }) => {
+        const menuStyle = utils.getStyle(({ css }) => {
             const border = themeManager.get(ThemeBorder, undefined);
             const scrollbar = themeManager.get(ThemeScrollbar, ['x', 'thin']);
             const style = css`

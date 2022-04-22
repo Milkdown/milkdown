@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { CmdKey, commandsCtx, Ctx, ThemeColor, ThemeIcon } from '@milkdown/core';
-import type { Color, Icon } from '@milkdown/design-system';
+import { CmdKey, commandsCtx, Ctx, getPalette, Icon, ThemeIcon } from '@milkdown/core';
 import type { EditorView } from '@milkdown/prose';
 import type { Utils } from '@milkdown/utils';
 
@@ -19,10 +18,11 @@ export type ButtonConfig<T = any> = {
 export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
     const $button = document.createElement('button');
     $button.setAttribute('type', 'button');
-    $button.classList.add('button');
     utils.themeManager.onFlush(() => {
-        const buttonStyle = utils.getStyle((themeManager, { css }) => {
-            const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+        $button.className = 'button';
+
+        const buttonStyle = utils.getStyle(({ css }) => {
+            const palette = getPalette(utils.themeManager);
             return css`
                 border: 0;
                 box-sizing: unset;

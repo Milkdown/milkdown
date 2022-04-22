@@ -19,7 +19,7 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'plugins',
-        items: ['using-plugins', 'plugins-101', 'plugins-factory', 'composable-plugins', 'example-iframe-plugin'],
+        items: ['using-plugins', 'plugins-101', 'plugin-factories', 'composable-plugins', 'example-iframe-plugin'],
     },
     {
         dir: 'theme',

@@ -5,7 +5,7 @@ import { InputRule, Plugin, ViewFactory } from '@milkdown/prose';
 
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
-    readonly getStyle: (style: (themeManager: ThemeManager, emotion: Emotion) => string | void) => string | undefined;
+    readonly getStyle: (style: (emotion: Emotion) => string | void) => string | undefined;
     readonly themeManager: ThemeManager;
 };
 

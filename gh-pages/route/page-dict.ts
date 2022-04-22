@@ -116,9 +116,9 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
-        'plugins-factory',
+        'plugin-factories',
         {
-            en: 'Plugins Factory',
+            en: 'Plugin Factories',
             'zh-hans': '插件工厂',
         },
     ],

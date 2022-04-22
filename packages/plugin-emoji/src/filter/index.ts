@@ -66,14 +66,18 @@ export const filter = (utils: Utils, maxListSize: number) => {
 
             const dropDown = document.createElement('div');
 
+            dropDown.classList.add('milkdown-emoji-filter', 'hide');
+
             utils.themeManager.onFlush(() => {
-                const style = utils.getStyle(injectStyle);
+                const className = dropDown.className
+                    .split(' ')
+                    .filter((x) => ['hide', 'milkdown-emoji-filter'].includes(x));
+                dropDown.className = className.join(' ');
+                const style = utils.getStyle((emotion) => injectStyle(utils.themeManager, emotion));
                 if (style) {
                     style.split(' ').forEach((x) => dropDown.classList.add(x));
                 }
             });
-
-            dropDown.classList.add('milkdown-emoji-filter', 'hide');
 
             const replace = () => {
                 if (!$active) return;
