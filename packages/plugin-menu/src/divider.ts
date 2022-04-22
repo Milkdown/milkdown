@@ -10,8 +10,9 @@ export type DividerConfig = {
 export const divider = (utils: Utils) => {
     const $divider = document.createElement('div');
     $divider.classList.add('divider');
-    utils.themeManager.onFlush(() => {
-        const dividerStyle = utils.getStyle((themeManager, { css }) => {
+    const { themeManager } = utils;
+    themeManager.onFlush(() => {
+        const dividerStyle = utils.getStyle(({ css }) => {
             return css`
                 flex-shrink: 0;
                 width: ${themeManager.get(ThemeSize, 'lineWidth')};

@@ -18,7 +18,7 @@ export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
     const items = Object.fromEntries(Object.entries(createActions(ctx)).filter(([, value]) => value.$ != null));
     const tooltip = document.createElement('div');
     utils.themeManager.onFlush(() => {
-        const style = utils.getStyle(injectStyle);
+        const style = utils.getStyle((emotion) => injectStyle(utils.themeManager, emotion));
         if (style) {
             tooltip.classList.add(style);
         }

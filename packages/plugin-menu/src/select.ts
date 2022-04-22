@@ -89,8 +89,9 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
 
     selectorWrapper.appendChild(selectorList);
 
-    utils.themeManager.onFlush(() => {
-        const selectStyle = utils.getStyle((themeManager, { css }) => {
+    const { themeManager } = utils;
+    themeManager.onFlush(() => {
+        const selectStyle = utils.getStyle(({ css }) => {
             const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
             return css`
                 flex-shrink: 0;

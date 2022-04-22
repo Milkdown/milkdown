@@ -11,7 +11,7 @@ export const createDropdown = (utils: Utils, className: string) => {
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
     utils.themeManager.onFlush(() => {
-        const style = utils.getStyle(injectStyle);
+        const style = utils.getStyle((emotion) => injectStyle(utils.themeManager, emotion));
 
         if (style) {
             div.classList.add(style);

@@ -28,7 +28,7 @@ const updateIndent = (tr: Transaction, options: Options): Transaction => {
 const applyStyle = (options: Options, utils: Utils): void => {
     if (options.type === 'tab') {
         utils.getStyle(
-            (_, { injectGlobal }) => injectGlobal`
+            ({ injectGlobal }) => injectGlobal`
                 .milkdown {
                     tab-size: ${options.size};
                 }

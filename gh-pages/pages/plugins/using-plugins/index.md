@@ -1,7 +1,7 @@
 # Using Plugins
 
 All features in milkdown are supported by plugin.
-The `commonmark` we use is a plugin.
+Such as syntax, components, themes, etc.
 Now we can try more plugins:
 
 ```typescript
@@ -16,9 +16,7 @@ Editor.make().use(commonmark).use(tooltip).use(slash).use(nord).create();
 
 ---
 
-## Finding Plugins
-
-### Official Plugins
+## Official Plugins
 
 Milkdown provides the following official plugins:
 
@@ -40,6 +38,6 @@ Milkdown provides the following official plugins:
 | [@milkdown/plugin-indent](https://www.npmjs.com/package/@milkdown/plugin-indent)               | Add tab indent support                                                 |
 | [@milkdown/plugin-upload](https://www.npmjs.com/package/@milkdown/plugin-upload)               | Add drop and upload support                                            |
 
-### Community plugins
+## Community plugins
 
 Check out [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) to find community plugins - you can also submit a PR to list your plugins there.
