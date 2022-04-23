@@ -35,7 +35,28 @@ editor.action(switchTheme(nord));
 
 ## Override Theme
 
-You can modify the keys of theme through `editor.config`.
+You can override some keys of theme through `theme.override`.
+
+```typescript
+import { ThemeColor } from '@milkdown/core';
+import { nord } from '@milkdown/theme-nord';
+
+const extendedNord = nord.override((emotion, manager) => {
+    manager.set(ThemeColor, ([key, opacity]) => {
+        switch (key) {
+            case 'primary':
+                return `rgba(255, 255, 255, ${opacity})`;
+            case 'secondary':
+                return `rgba(255, 255, 0, ${opacity})`;
+            // ...
+            default:
+                return `rgba(0, 0, 0, ${opacity})`;
+        }
+    });
+});
+
+editor.use(extendedNord);
+```
 
 ## Empty Theme
 
@@ -48,3 +69,15 @@ editor.use(themeFactory());
 ```
 
 ## Configure Emotion
+
+The emotion allow us to pass some options to emotion instance.
+It's useful sometime. For example, if you want to set style attributes into some other elements instead of `head` element.
+
+```typescript
+editor.config(() => {
+    ctx.update(emotionConfigCtx, (options) => ({
+        ...options,
+        container: document.querySelector('SELECTOR_TO_YOUR_ELEMENT'),
+    }));
+});
+```

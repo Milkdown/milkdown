@@ -2,13 +2,10 @@
 
 Milkdown is headless, there is no style is provided by default. That means you can import themes or even create your own themes to control the style of your editor.
 
-## Writing you own theme
-
-TODO: WIP
-
 ## Modify a existing theme
 
-TODO: WIP
+All themes have an `override` method that can be used to modify the theme.
+Please check [Override Theme Documentation](/using-themes#override-theme) if you want to use it.
 
 ## Style the plain HTML
 
@@ -45,6 +42,10 @@ const nodes = commonmark
 
 Editor.make().use(nodes);
 ```
+
+## Writing you own theme
+
+It's possible to write your own theme. Please check the [writing themes documentation](/writing-themes).
 
 ## Headless Mode
 
