@@ -82,7 +82,7 @@ Ctx is a piece of data that can be shared in the entire editor instance.
 ```typescript
 import { MilkdownPlugin, createSlice } from '@milkdown/core';
 
-const counterCtx = createSlice(0);
+const counterCtx = createSlice(0, 'counter');
 
 const counterPlugin: MilkdownPlugin = (pre) => {
     pre.inject(counterCtx);
@@ -102,6 +102,8 @@ const counterPlugin: MilkdownPlugin = (pre) => {
 
         // now count is 3
         const count2 = ctx.get(counterCtx);
+        // we can also get value by the slice name
+        const count3 = ctx.get('counter');
     };
 };
 ```
@@ -115,7 +117,7 @@ So, we can use `ctx` combine with `timer` to decide when should a plugin be proc
 ```typescript
 import { MilkdownPlugin, SchemaReady, Timer, createSlice } from '@milkdown/core';
 
-const examplePluginTimersCtx = createSlice<Timer[]>([]);
+const examplePluginTimersCtx = createSlice<Timer[]>([], 'example-timer');
 
 const examplePlugin: MilkdownPlugin = (pre) => {
     pre.inject(examplePluginTimersCtx, [SchemaReady]);

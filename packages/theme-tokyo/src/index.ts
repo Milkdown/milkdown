@@ -5,6 +5,7 @@ import {
     ThemeColor,
     themeFactory,
     ThemeFont,
+    ThemeGlobal,
     ThemeIcon,
     ThemeScrollbar,
     ThemeShadow,
@@ -86,7 +87,7 @@ export const getTokyo = (isDarkMode = false) =>
         });
 
         manager.set(ThemeShadow, () => {
-            const { lineWidth } = size;
+            const lineWidth = manager.get(ThemeSize, 'lineWidth');
             const getShadow = (opacity: number) => manager.get(ThemeColor, ['shadow', opacity]);
             return css`
                 box-shadow: 0px ${lineWidth} ${lineWidth} ${getShadow(0.14)}, 0px 2px ${lineWidth} ${getShadow(0.12)},
@@ -112,7 +113,9 @@ export const getTokyo = (isDarkMode = false) =>
             return getIcon(icon);
         });
 
-        getStyle(manager, emotion);
+        manager.set(ThemeGlobal, () => {
+            getStyle(manager, emotion);
+        });
 
         useAllPresetRenderer(manager, emotion);
     });

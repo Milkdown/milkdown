@@ -3,6 +3,7 @@ import { ThemeBorder } from './border';
 import { ThemeCodeFence } from './code-fence';
 import { ThemeColor } from './color';
 import { ThemeFont } from './font';
+import { ThemeGlobal } from './global';
 import { ThemeIcon } from './icon';
 import { ThemeImage } from './image';
 import { ThemeInnerEditor } from './inner-editor';
@@ -21,6 +22,7 @@ export const internalThemeKeys = [
     ThemeShadow,
     ThemeBorder,
     ThemeIcon,
+    ThemeGlobal,
 
     /** Renderer */
     ThemeCodeFence,
@@ -34,6 +36,7 @@ export * from './border';
 export * from './code-fence';
 export * from './color';
 export * from './font';
+export * from './global';
 export * from './icon';
 export * from './image';
 export * from './inner-editor';

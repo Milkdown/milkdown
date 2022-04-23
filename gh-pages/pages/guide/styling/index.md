@@ -2,7 +2,15 @@
 
 Milkdown is headless, there is no style is provided by default. That means you can import themes or even create your own themes to control the style of your editor.
 
-## Option 1: Style the plain HTML
+## Writing you own theme
+
+TODO: WIP
+
+## Modify a existing theme
+
+TODO: WIP
+
+## Style the plain HTML
 
 The whole editor is rendered inside of a container with the class `.milkdown`. And the editable part is wrapped in the container with the class `editor`. You can use that to scope your styling to the editor content:
 
@@ -20,7 +28,7 @@ For every node/mark, milkdown provides a default className, for example, `paragr
 }
 ```
 
-## Option 2: Add custom class name
+## Add custom class name
 
 You can also use `configure` method to add class to node/mark. In this way, you can use css tools like `tailwind` css.
 
@@ -40,7 +48,8 @@ Editor.make().use(nodes);
 
 ## Headless Mode
 
-For some plugins with components, we provide styles for it to make it can work out of the box. We also provide a headless mode for them which means you can remove their style and use your own.
+For some plugins with components, we provide styles for it to make it can work out of the box.
+We also provide a headless mode for them which means you can remove their style and use your own.
 
 You can simply call `headless` method for plugins which support this mode.
 

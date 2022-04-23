@@ -1,91 +1,48 @@
 # Design System
 
-Design system is the foundation of themes, it's something like a contract.
+Design system is the foundation of themes.
 
--   Design system will define some theme keys for the entire editor.
+-   An [emotion css](https://emotion.sh/docs/@emotion/css) instance to manage styles.
+-   A theme manager to manage theme keys and values.
 -   Theme will set the value for each key.
--   Node, Mark and Plugin can consume these keys.
+-   Plugins can consume these keys.
 
-In [writing theme plugins](/#/writing-theme-plugins) section, we learnt how to define a theme. And this section will show how to use it.
+---
 
-## Theme Tool
+## Understanding Theme
 
-Design system should be used by access to `themeToolCtx`.
+Theme keys and values are managed by `ThemeManager`.
+
+When you create a new theme, what you do is setting values for theme keys.
 
 ```typescript
-import { themeToolCtx } from '@milkdown/core';
+import { themeFactory, themeManagerCtx, ThemeColor } from '@milkdown/core';
 
-import { createProsePlugin } from '@milkdown/utils';
-
-export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
-    const themeTool = utils.ctx.get(themeToolCtx);
-
-    // ...
+const myTheme = themeFactory((emotion, themeManager) => {
+    themeManager.set(ThemeColor, ([key, opacity]) => {
+        switch (key) {
+            case 'primary':
+                return `rgba(255, 255, 255, ${opacity})`;
+            case 'secondary':
+                return `rgba(255, 255, 0, ${opacity})`;
+            // ...
+            default:
+                return `rgba(0, 0, 0, ${opacity})`;
+        }
+    });
 });
 ```
 
-### font
+## Adapting Theme
+
+And for every plugin, it can consume the theme keys to make sure it's consistent with the theme.
 
 ```typescript
-const { typography, code } = themeTool.font;
+import { getPalette } from '@milkdown/core';
+const plugin = createPlugin(({ themeManager }) => {
+    const palette = getPalette(themeManager);
 
-css`
-    p {
-        font-family: ${typography};
-    }
-
-    code {
-        font-family: ${code};
-    }
-`;
-```
-
-### size
-
-```typescript
-const { radius, lineWidth } = themeTool.size;
-
-css`
-    border-radius: ${radius}px;
-    border: ${lineWidth}px solid #000;
-`;
-```
-
-### palette
-
-Palette can be used to generate color based on current theme.
-
-```typescript
-const { palette } = themeTool;
-
-css`
-    background: ${palette('background')};
-    // 0.8 means it has 0.8 opacity.
-    color: ${palette('primary', 0.8)};
-`;
-```
-
-### mixin
-
-```typescript
-const { scrollbar, shadow, border } = themeTool.mixin;
-
-css`
-    ul {
-        ${scrollbar()};
-    }
-    div {
-        ${shadow()};
-        ${border()};
-    }
-`;
-```
-
-### slots
-
-```typescript
-const { icon } = themeTool.slots;
-
-const loadingIcon = icon('loading');
-div.appendChild(loadingIcon);
+    const primary = palette('primary'); // -> (255, 255, 255, 1)
+    const primaryWithOpacity = palette('primary', 0.5); // -> (255, 255 ,255, 0.5);
+});
 ```

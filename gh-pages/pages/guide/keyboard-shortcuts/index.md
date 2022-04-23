@@ -4,6 +4,33 @@ Keyboard shortcuts are provided by default from both presets and plugins. Depend
 
 ---
 
+## Configure Shortcuts
+
+You can configure shortcuts just like configure their styles:
+
+```typescript
+import { commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
+
+Editor.make().use(commonmarkPlugins).use(nodes);
+
+const nodes = commonmarkNodes.configure(blockquote, {
+    keymap: {
+        [SupportedKeys.Blockquote]: 'Mod-Shift-b',
+        // or you may want to bind multiple keys:
+        [SupportedKeys.Blockquote]: ['Mod-Shift-b', 'Mod-b'],
+    },
+});
+
+Editor.make().use(nodes).use(commonmarkPlugins);
+```
+
+You can inspect the `SupportedKeys` enum to find out the supported commands that can be configured.
+
+If there is no supported commands for the behavior you expect, you can write a [prosemirror keymap plugin](https://github.com/ProseMirror/prosemirror-keymap) to do this.
+You can read the [composable plugins](/composable-plugins) section to learn how to convert a prosemirror plugin into milkdown plugin.
+
+---
+
 ## Default Shortcuts Table
 
 > `Mod` is `Cmd` on macOS and `Ctrl` for windows/linux.
@@ -65,30 +92,3 @@ Keyboard shortcuts are provided by default from both presets and plugins. Depend
 | Next Cell            | Mod-]     |
 | Prev Cell            | Mod-[     |
 | Exit Table and Break | Mod-Enter |
-
----
-
-## Configure Shortcuts
-
-You can configure shortcuts just like configure their styles:
-
-```typescript
-import { commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
-
-Editor.make().use(commonmarkPlugins).use(nodes);
-
-const nodes = commonmarkNodes.configure(blockquote, {
-    keymap: {
-        [SupportedKeys.Blockquote]: 'Mod-Shift-b',
-        // or you may want to bind multiple keys:
-        [SupportedKeys.Blockquote]: ['Mod-Shift-b', 'Mod-b'],
-    },
-});
-
-Editor.make().use(nodes).use(commonmarkPlugins);
-```
-
-You can inspect the `SupportedKeys` enum to find out the supported commands that can be configured.
-
-If there is no supported commands for the behavior you expect, you can write a [prosemirror keymap plugin](https://github.com/ProseMirror/prosemirror-keymap) to do this.
-You can read the [building plugins](/#/building-plugins) section to get further information.
