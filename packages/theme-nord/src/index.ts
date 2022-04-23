@@ -6,6 +6,7 @@ import {
     ThemeColor,
     themeFactory,
     ThemeFont,
+    ThemeGlobal,
     ThemeIcon,
     ThemeManager,
     ThemeScrollbar,
@@ -87,7 +88,7 @@ export const createTheme = (isDarkMode: boolean) => (emotion: Emotion, manager: 
     });
 
     manager.set(ThemeShadow, () => {
-        const { lineWidth } = size;
+        const lineWidth = manager.get(ThemeSize, 'lineWidth');
         const getShadow = (opacity: number) => manager.get(ThemeColor, ['shadow', opacity]);
         return css`
             box-shadow: 0 ${lineWidth} ${lineWidth} ${getShadow(0.14)}, 0 2px ${lineWidth} ${getShadow(0.12)},
@@ -113,7 +114,9 @@ export const createTheme = (isDarkMode: boolean) => (emotion: Emotion, manager: 
         return getIcon(icon);
     });
 
-    getStyle(manager, emotion);
+    manager.set(ThemeGlobal, () => {
+        getStyle(manager, emotion);
+    });
 
     useAllPresetRenderer(manager, emotion);
 };

@@ -7,6 +7,7 @@ import {
     emotionCtx,
     initEmotion,
     internalThemeKeys,
+    ThemeGlobal,
     ThemeManager,
     themeManagerCtx,
     ThemeSliceKey,
@@ -60,15 +61,20 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
     };
 };
 
-export const themeFactory =
-    (createThemePack?: (emotion: Emotion, manager: ThemeManager) => void): MilkdownPlugin =>
-    () =>
-    async (ctx) => {
+export type CreateThemePack = (emotion: Emotion, manager: ThemeManager) => void;
+export type ThemePlugin = MilkdownPlugin & {
+    override: (overrideFn: CreateThemePack) => ThemePlugin;
+};
+
+export const themeFactory = (createThemePack?: CreateThemePack): ThemePlugin => {
+    let overrideFn: CreateThemePack | null = null;
+    const theme: ThemePlugin = () => async (ctx) => {
         await ctx.wait(ThemeEnvironmentReady);
         const emotion = ctx.get(emotionCtx);
         const themeManager = ctx.get(themeManagerCtx);
 
         createThemePack?.(emotion, themeManager);
+        overrideFn?.(emotion, themeManager);
 
         internalThemeKeys.forEach((key) => {
             if (!themeManager.has(key as ThemeSliceKey)) {
@@ -77,6 +83,13 @@ export const themeFactory =
         });
 
         ctx.done(ThemeReady);
+        themeManager.get(ThemeGlobal, undefined);
     };
+    theme.override = (fn) => {
+        overrideFn = fn;
+        return theme;
+    };
+    return theme;
+};
 
 export * from '@milkdown/design-system';
