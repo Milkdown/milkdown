@@ -51,7 +51,13 @@ export const titleDict: Dict = new Map([
             'zh-hans': '快捷键',
         },
     ],
-
+    [
+        'macros',
+        {
+            en: 'Macros',
+            'zh-hans': '宏',
+        },
+    ],
     [
         'integrations',
         {

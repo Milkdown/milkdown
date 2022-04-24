@@ -11,6 +11,7 @@ export const config: ConfigItem[] = [
             'commands',
             'styling',
             'keyboard-shortcuts',
+            'macros',
         ],
     },
     {
