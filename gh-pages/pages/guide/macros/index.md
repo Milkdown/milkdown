@@ -19,9 +19,9 @@ editor.config((ctx) => {
 });
 ```
 
-Here is a list of macros:
-
 ---
+
+Here is a list of macros:
 
 ## insert
 
