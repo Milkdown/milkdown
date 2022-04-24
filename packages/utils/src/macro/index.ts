@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+export * from './call-command';
 export * from './destroy';
 export * from './force-update';
 export * from './get-html';
