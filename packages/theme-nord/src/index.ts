@@ -97,14 +97,15 @@ export const createTheme = (isDarkMode: boolean) => (emotion: Emotion, manager: 
     });
 
     manager.set(ThemeBorder, (direction) => {
+        const lineWidth = manager.get(ThemeSize, 'lineWidth');
         const line = manager.get(ThemeColor, ['line']);
         if (!direction) {
             return css`
-                border: ${size.lineWidth} solid ${line};
+                border: ${lineWidth} solid ${line};
             `;
         }
         return css`
-            ${`border-${direction}`}: ${size.lineWidth} solid ${line};
+            ${`border-${direction}`}: ${lineWidth} solid ${line};
         `;
     });
 

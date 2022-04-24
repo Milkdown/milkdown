@@ -27,7 +27,7 @@ export type SelectConfig<T = any> = {
     text: string;
     options: SelectOptions[];
     active?: (view: EditorView) => string;
-    onSelect: (id: string, view: EditorView) => [key: CmdKey<T> | string, info?: T];
+    onSelect: (id: string, view: EditorView) => [key: CmdKey<T> | string, payload?: T];
 } & CommonConfig;
 
 export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
@@ -77,11 +77,11 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         const { target } = e;
         if (target instanceof HTMLButtonElement && target.dataset['id']) {
             const params = config.onSelect(target.dataset['id'], view);
-            const [key, info] = params;
+            const [key, payload] = params;
             if (typeof key === 'string') {
-                ctx.get(commandsCtx).call(key, info);
+                ctx.get(commandsCtx).call(key, payload);
             } else {
-                ctx.get(commandsCtx).call(key, info);
+                ctx.get(commandsCtx).call(key, payload);
             }
             selectorWrapper.classList.add('fold');
         }
