@@ -4,7 +4,7 @@ import { createContainer, createSlice, Ctx, MilkdownPlugin, Pre, Slice } from '@
 
 import { emotionCtx } from './emotion';
 
-export type ThemeSlice<Ret = unknown, T = undefined> = (info: T) => Ret | undefined;
+export type ThemeSlice<Ret = unknown, T = undefined> = (payload: T) => Ret | undefined;
 export type ThemeSliceKey<Ret = unknown, T = undefined, K extends string = string> = Slice<ThemeSlice<Ret, T>, K>;
 
 export const createThemeSliceKey = <Ret, T = undefined, K extends string = string>(key: K): ThemeSliceKey<Ret, T, K> =>
