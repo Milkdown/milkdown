@@ -19,7 +19,7 @@ export const createTooltip = (buttonMap: ButtonMap, utils: Utils, className: str
         }
     });
 
-    div.classList.add(className);
+    div.classList.add(utils.getClassName({}, className));
 
     return {
         dom: div,

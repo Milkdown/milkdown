@@ -11,7 +11,6 @@ export { createDropdownItem } from './utility';
 
 export type Options = {
     config: Config;
-    className: string;
 };
 
 export const slashPlugin = createPlugin<string, Options>((utils, options) => {
@@ -21,7 +20,7 @@ export const slashPlugin = createPlugin<string, Options>((utils, options) => {
         prosePlugins: (_, ctx) => {
             const config = slashConfig(ctx);
 
-            const plugin = createSlashPlugin(utils, config, options?.className ?? 'slash-dropdown');
+            const plugin = createSlashPlugin(utils, config, 'slash-dropdown');
 
             return [plugin];
         },
