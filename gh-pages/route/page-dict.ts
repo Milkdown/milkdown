@@ -269,6 +269,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'milkdown_transformer',
+        {
+            en: '@milkdown/transformer',
+            'zh-hans': '@milkdown/transformer',
+        },
+    ],
+    [
         'milkdown_plugin-listener',
         {
             en: '@milkdown/plugin-listener',
