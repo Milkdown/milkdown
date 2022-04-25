@@ -3,6 +3,17 @@
 Milkdown has some internal plugins that control the entire editor's load status.
 Here is a list of them and their timer and ctx.
 
+They will be built by following order:
+
+1. Config
+2. Nodes, Marks, RemarkPlugins
+3. Parser, Serializer, Schema, Commands
+4. ProsemirrorPlugins, Keymap, InputRules,
+5. Theme, EditorState
+6. EditorView
+
+After all these process finished, the editor will be ready.
+
 ---
 
 ## Prepare
