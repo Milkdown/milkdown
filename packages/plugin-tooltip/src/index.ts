@@ -17,7 +17,7 @@ export const tooltipPlugin = create<string, TooltipOptions>((utils, options) => 
                 buttonMap(schema, ctx, options?.items),
                 utils,
                 options?.bottom ?? false,
-                options?.className ?? 'tooltip',
+                'tooltip',
             );
             const plugin = new Plugin({
                 key,

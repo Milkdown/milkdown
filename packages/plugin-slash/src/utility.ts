@@ -18,7 +18,7 @@ export const createDropdown = (utils: Utils, className: string) => {
         }
     });
 
-    div.classList.add(className, 'hide');
+    div.classList.add(utils.getClassName({}, className), 'hide');
 
     return div;
 };

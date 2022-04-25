@@ -49,7 +49,6 @@ export type ButtonMap = Record<ButtonAction, ButtonItem>;
 
 export type TooltipOptions = {
     bottom: boolean;
-    className: string;
     items: Array<Item> | undefined;
 };
 
