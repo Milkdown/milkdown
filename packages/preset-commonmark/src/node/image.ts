@@ -156,40 +156,40 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             };
         },
         prosePlugins: (type, ctx) => {
-            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
-                placeholder: options?.input?.placeholder ?? 'Input Image Link',
-                buttonText: options?.input?.buttonText,
-                onUpdate: (value) => {
-                    ctx.get(commandsCtx).call(ModifyImage, value);
-                },
-            });
-            if (!inputChipRenderer) return [];
-            const shouldDisplay = (view: EditorView) => {
-                return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
-            };
-            const getCurrentLink = (view: EditorView) => {
-                const result = findSelectedNodeOfType(view.state.selection, type);
-                if (!result) return;
-
-                const value = result.node.attrs['src'];
-                return value;
-            };
-            const renderByView = (view: EditorView) => {
-                if (!view.editable) {
-                    return;
-                }
-                const display = shouldDisplay(view);
-                if (display) {
-                    inputChipRenderer.show(view);
-                    inputChipRenderer.update(getCurrentLink(view));
-                } else {
-                    inputChipRenderer.hide();
-                }
-            };
             return [
                 new Plugin({
                     key,
                     view: (editorView) => {
+                        const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                            placeholder: options?.input?.placeholder ?? 'Input Image Link',
+                            buttonText: options?.input?.buttonText,
+                            onUpdate: (value) => {
+                                ctx.get(commandsCtx).call(ModifyImage, value);
+                            },
+                        });
+                        if (!inputChipRenderer) return {};
+                        const shouldDisplay = (view: EditorView) => {
+                            return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
+                        };
+                        const getCurrentLink = (view: EditorView) => {
+                            const result = findSelectedNodeOfType(view.state.selection, type);
+                            if (!result) return;
+
+                            const value = result.node.attrs['src'];
+                            return value;
+                        };
+                        const renderByView = (view: EditorView) => {
+                            if (!view.editable) {
+                                return;
+                            }
+                            const display = shouldDisplay(view);
+                            if (display) {
+                                inputChipRenderer.show(view);
+                                inputChipRenderer.update(getCurrentLink(view));
+                            } else {
+                                inputChipRenderer.hide();
+                            }
+                        };
                         inputChipRenderer.init(editorView);
                         renderByView(editorView);
 

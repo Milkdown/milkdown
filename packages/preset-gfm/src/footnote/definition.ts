@@ -126,41 +126,41 @@ export const footnoteDefinition = createNode((utils) => {
             ),
         ],
         prosePlugins: (type, ctx) => {
-            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
-                width: '12em',
-                placeholder: 'Input Footnote Label',
-                onUpdate: (value) => {
-                    ctx.get(commandsCtx).call(ModifyFootnoteDef, value);
-                },
-                isBindMode: true,
-            });
-            if (!inputChipRenderer) return [];
-            const shouldDisplay = (view: EditorView) => {
-                return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
-            };
-            const getCurrentLabel = (view: EditorView) => {
-                const result = findSelectedNodeOfType(view.state.selection, type);
-                if (!result) return;
-
-                const value = result.node.attrs['label'];
-                return value;
-            };
-            const renderByView = (view: EditorView) => {
-                if (!view.editable) {
-                    return;
-                }
-                const display = shouldDisplay(view);
-                if (display) {
-                    inputChipRenderer.show(view);
-                    inputChipRenderer.update(getCurrentLabel(view));
-                } else {
-                    inputChipRenderer.hide();
-                }
-            };
             return [
                 new Plugin({
                     key,
                     view: (editorView) => {
+                        const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                            width: '12em',
+                            placeholder: 'Input Footnote Label',
+                            onUpdate: (value) => {
+                                ctx.get(commandsCtx).call(ModifyFootnoteDef, value);
+                            },
+                            isBindMode: true,
+                        });
+                        if (!inputChipRenderer) return {};
+                        const shouldDisplay = (view: EditorView) => {
+                            return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
+                        };
+                        const getCurrentLabel = (view: EditorView) => {
+                            const result = findSelectedNodeOfType(view.state.selection, type);
+                            if (!result) return;
+
+                            const value = result.node.attrs['label'];
+                            return value;
+                        };
+                        const renderByView = (view: EditorView) => {
+                            if (!view.editable) {
+                                return;
+                            }
+                            const display = shouldDisplay(view);
+                            if (display) {
+                                inputChipRenderer.show(view);
+                                inputChipRenderer.update(getCurrentLabel(view));
+                            } else {
+                                inputChipRenderer.hide();
+                            }
+                        };
                         inputChipRenderer.init(editorView);
                         renderByView(editorView);
 

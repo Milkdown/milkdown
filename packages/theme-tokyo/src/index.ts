@@ -90,20 +90,21 @@ export const getTokyo = (isDarkMode = false) =>
             const lineWidth = manager.get(ThemeSize, 'lineWidth');
             const getShadow = (opacity: number) => manager.get(ThemeColor, ['shadow', opacity]);
             return css`
-                box-shadow: 0px ${lineWidth} ${lineWidth} ${getShadow(0.14)}, 0px 2px ${lineWidth} ${getShadow(0.12)},
-                    0px ${lineWidth} 3px ${getShadow(0.2)};
+                box-shadow: 0 ${lineWidth} ${lineWidth} ${getShadow(0.14)}, 0 2px ${lineWidth} ${getShadow(0.12)},
+                    0 ${lineWidth} 3px ${getShadow(0.2)};
             `;
         });
 
         manager.set(ThemeBorder, (direction) => {
+            const lineWidth = manager.get(ThemeSize, 'lineWidth');
             const line = manager.get(ThemeColor, ['line']);
             if (!direction) {
                 return css`
-                    border: ${size.lineWidth} solid ${line};
+                    border: ${lineWidth} solid ${line};
                 `;
             }
             return css`
-                ${`border-${direction}`}: ${size.lineWidth} solid ${line};
+                ${`border-${direction}`}: ${lineWidth} solid ${line};
             `;
         });
 

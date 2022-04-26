@@ -50,11 +50,14 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
             xs.concat(
                 new Plugin({
                     key,
-                    view: () => ({
-                        destroy: () => {
-                            emotion.flush();
-                        },
-                    }),
+                    view: () => {
+                        themeManager.runExecutor();
+                        return {
+                            destroy: () => {
+                                emotion.flush();
+                            },
+                        };
+                    },
                 }),
             ),
         );
@@ -73,17 +76,20 @@ export const themeFactory = (createThemePack?: CreateThemePack): ThemePlugin => 
         const emotion = ctx.get(emotionCtx);
         const themeManager = ctx.get(themeManagerCtx);
 
-        createThemePack?.(emotion, themeManager);
-        overrideFn?.(emotion, themeManager);
+        themeManager.setExecutor(() => {
+            createThemePack?.(emotion, themeManager);
+            overrideFn?.(emotion, themeManager);
 
-        internalThemeKeys.forEach((key) => {
-            if (!themeManager.has(key as ThemeSliceKey)) {
-                console.warn('Theme key not found: ', key.sliceName);
-            }
+            internalThemeKeys.forEach((key) => {
+                if (!themeManager.has(key as ThemeSliceKey)) {
+                    console.warn('Theme key not found: ', key.sliceName);
+                }
+            });
+
+            themeManager.get(ThemeGlobal, undefined);
         });
 
         ctx.done(ThemeReady);
-        themeManager.get(ThemeGlobal, undefined);
     };
     theme.override = (fn) => {
         overrideFn = fn;

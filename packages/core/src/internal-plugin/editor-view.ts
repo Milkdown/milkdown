@@ -44,27 +44,39 @@ export const editorView: MilkdownPlugin = (pre) => {
         const root = ctx.get(rootCtx) || document.body;
         const el = typeof root === 'string' ? document.querySelector(root) : root;
 
-        const container = el ? createViewContainer(el) : undefined;
+        ctx.update(prosePluginsCtx, (xs) => [
+            new Plugin({
+                key,
+                view: (editorView) => {
+                    const container = el ? createViewContainer(el) : undefined;
 
-        ctx.update(prosePluginsCtx, (xs) =>
-            xs.concat(
-                new Plugin({
-                    key,
-                    view: () => ({
+                    const handleDOM = () => {
+                        if (container && el) {
+                            const editor = editorView.dom;
+                            el.replaceChild(container, editor);
+                            container.appendChild(editor);
+                        }
+                    };
+                    handleDOM();
+                    return {
                         destroy: () => {
+                            if (container?.parentNode) {
+                                container?.parentNode.replaceChild(editorView.dom, container);
+                            }
                             container?.remove();
                         },
-                    }),
-                }),
-            ),
-        );
+                    };
+                },
+            }),
+            ...xs,
+        ]);
 
         await ctx.waitTimers(editorViewTimerCtx);
 
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
         const nodeViews = Object.fromEntries(ctx.get(viewCtx) as [string, ViewFactory][]);
-        const view = new EditorView(container, {
+        const view = new EditorView(el as Node, {
             state,
             nodeViews,
             ...options,

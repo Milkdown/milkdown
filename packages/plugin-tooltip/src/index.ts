@@ -39,7 +39,7 @@ export const tooltipPlugin = create<string, TooltipOptions>((utils, options) => 
                     },
                 },
                 view: (editorView) => {
-                    manager.render(editorView);
+                    manager.recreate(editorView);
                     return {
                         update: manager.update,
                         destroy: manager.destroy,

@@ -2,7 +2,8 @@
 import { useEffect } from 'react';
 
 const code = {
-    light: 'https://unpkg.com/prism-themes/themes/prism-material-light.css',
+    // light: 'https://unpkg.com/prism-themes/themes/prism-material-light.css',
+    light: 'https://unpkg.com/prism-themes/themes/prism-nord.css',
     dark: 'https://unpkg.com/prism-themes/themes/prism-nord.css',
 };
 

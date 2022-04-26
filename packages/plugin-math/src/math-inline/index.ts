@@ -157,40 +157,40 @@ export const mathInline = createNode<string, Options>((utils, options) => {
             }),
         ],
         prosePlugins: (type, ctx) => {
-            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
-                placeholder: 'Input Math',
-                onUpdate: (value) => {
-                    ctx.get(commandsCtx).call(ModifyInlineMath, value);
-                },
-                isBindMode: true,
-            });
-            if (!inputChipRenderer) return [];
-            const shouldDisplay = (view: EditorView) => {
-                return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
-            };
-            const getCurrentLink = (view: EditorView) => {
-                const result = findSelectedNodeOfType(view.state.selection, type);
-                if (!result) return;
-
-                const value = result.node.attrs['value'];
-                return value;
-            };
-            const renderByView = (view: EditorView) => {
-                if (!view.editable) {
-                    return;
-                }
-                const display = shouldDisplay(view);
-                if (display) {
-                    inputChipRenderer.show(view);
-                    inputChipRenderer.update(getCurrentLink(view));
-                } else {
-                    inputChipRenderer.hide();
-                }
-            };
             return [
                 new Plugin({
                     key,
                     view: (editorView) => {
+                        const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                            placeholder: 'Input Math',
+                            onUpdate: (value) => {
+                                ctx.get(commandsCtx).call(ModifyInlineMath, value);
+                            },
+                            isBindMode: true,
+                        });
+                        if (!inputChipRenderer) return {};
+                        const shouldDisplay = (view: EditorView) => {
+                            return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
+                        };
+                        const getCurrentLink = (view: EditorView) => {
+                            const result = findSelectedNodeOfType(view.state.selection, type);
+                            if (!result) return;
+
+                            const value = result.node.attrs['value'];
+                            return value;
+                        };
+                        const renderByView = (view: EditorView) => {
+                            if (!view.editable) {
+                                return;
+                            }
+                            const display = shouldDisplay(view);
+                            if (display) {
+                                inputChipRenderer.show(view);
+                                inputChipRenderer.update(getCurrentLink(view));
+                            } else {
+                                inputChipRenderer.hide();
+                            }
+                        };
                         inputChipRenderer.init(editorView);
                         renderByView(editorView);
 

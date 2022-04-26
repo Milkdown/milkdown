@@ -51,6 +51,9 @@ export const menuPlugin = createPlugin<string, Options>((utils, options) => {
                 key: menuKey,
                 view: (editorView) => {
                     initIfNecessary(ctx, editorView);
+                    if (editorView.editable) {
+                        manager?.update(editorView);
+                    }
                     return {
                         update: (view) => {
                             initIfNecessary(ctx, editorView);
@@ -61,8 +64,7 @@ export const menuPlugin = createPlugin<string, Options>((utils, options) => {
                             }
                         },
                         destroy: () => {
-                            menu?.remove();
-                            menu = null;
+                            restoreDOM?.();
                         },
                     };
                 },

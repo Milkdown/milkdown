@@ -1,12 +1,30 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, editorViewCtx, parserCtx } from '@milkdown/core';
-import { Slice } from '@milkdown/prose';
+import { Ctx, editorStateOptionsCtx, editorViewCtx, parserCtx, prosePluginsCtx, schemaCtx } from '@milkdown/core';
+import { EditorState, Slice } from '@milkdown/prose';
 
-export const replaceAll = (markdown: string) => (ctx: Ctx) => {
-    const view = ctx.get(editorViewCtx);
-    const parser = ctx.get(parserCtx);
-    const doc = parser(markdown);
-    if (!doc) return;
-    const { state } = view;
-    return view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)));
-};
+export const replaceAll =
+    (markdown: string, flush = false) =>
+    (ctx: Ctx): void => {
+        const view = ctx.get(editorViewCtx);
+        const parser = ctx.get(parserCtx);
+        const doc = parser(markdown);
+        if (!doc) return;
+
+        if (!flush) {
+            const { state } = view;
+            return view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)));
+        }
+
+        const schema = ctx.get(schemaCtx);
+        const options = ctx.get(editorStateOptionsCtx);
+        const plugins = ctx.get(prosePluginsCtx);
+
+        const state = EditorState.create({
+            schema,
+            doc,
+            plugins,
+            ...options,
+        });
+
+        return view.updateState(state);
+    };

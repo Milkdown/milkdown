@@ -118,59 +118,59 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
             }),
         ],
         prosePlugins: (type, ctx) => {
-            const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
-                placeholder: options?.input?.placeholder ?? 'Input Web Link',
-                buttonText: options?.input?.buttonText,
-                onUpdate: (value) => {
-                    ctx.get(commandsCtx).call(ModifyLink, value);
-                },
-            });
-            if (!inputChipRenderer) return [];
-            const shouldDisplay = (view: EditorView) => {
-                const { selection, doc } = view.state;
-                const { from, to } = selection;
-
-                return (
-                    selection.empty &&
-                    selection instanceof TextSelection &&
-                    doc.rangeHasMark(from, from === to ? to + 1 : to, type)
-                );
-            };
-            const getCurrentLink = (view: EditorView) => {
-                const { selection } = view.state;
-                let node: ProseNode | undefined;
-                const { from, to } = selection;
-                view.state.doc.nodesBetween(from, from === to ? to + 1 : to, (n) => {
-                    if (type.isInSet(n.marks)) {
-                        node = n;
-                        return false;
-                    }
-                    return;
-                });
-                if (!node) return;
-
-                const mark = node.marks.find((m) => m.type === type);
-                if (!mark) return;
-
-                const value = mark.attrs['href'];
-                return value;
-            };
-            const renderByView = (view: EditorView) => {
-                if (!view.editable) {
-                    return;
-                }
-                const display = shouldDisplay(view);
-                if (display) {
-                    inputChipRenderer.show(view);
-                    inputChipRenderer.update(getCurrentLink(view));
-                } else {
-                    inputChipRenderer.hide();
-                }
-            };
             return [
                 new Plugin({
                     key,
                     view: (editorView) => {
+                        const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
+                            placeholder: options?.input?.placeholder ?? 'Input Web Link',
+                            buttonText: options?.input?.buttonText,
+                            onUpdate: (value) => {
+                                ctx.get(commandsCtx).call(ModifyLink, value);
+                            },
+                        });
+                        if (!inputChipRenderer) return {};
+                        const shouldDisplay = (view: EditorView) => {
+                            const { selection, doc } = view.state;
+                            const { from, to } = selection;
+
+                            return (
+                                selection.empty &&
+                                selection instanceof TextSelection &&
+                                doc.rangeHasMark(from, from === to ? to + 1 : to, type)
+                            );
+                        };
+                        const getCurrentLink = (view: EditorView) => {
+                            const { selection } = view.state;
+                            let node: ProseNode | undefined;
+                            const { from, to } = selection;
+                            view.state.doc.nodesBetween(from, from === to ? to + 1 : to, (n) => {
+                                if (type.isInSet(n.marks)) {
+                                    node = n;
+                                    return false;
+                                }
+                                return;
+                            });
+                            if (!node) return;
+
+                            const mark = node.marks.find((m) => m.type === type);
+                            if (!mark) return;
+
+                            const value = mark.attrs['href'];
+                            return value;
+                        };
+                        const renderByView = (view: EditorView) => {
+                            if (!view.editable) {
+                                return;
+                            }
+                            const display = shouldDisplay(view);
+                            if (display) {
+                                inputChipRenderer.show(view);
+                                inputChipRenderer.update(getCurrentLink(view));
+                            } else {
+                                inputChipRenderer.hide();
+                            }
+                        };
                         inputChipRenderer.init(editorView);
                         renderByView(editorView);
 

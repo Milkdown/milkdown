@@ -15,16 +15,6 @@ import { createWidget } from './widget';
 export const key = 'MILKDOWN_PLUGIN_TABLE';
 
 export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
-    const items = Object.fromEntries(Object.entries(createActions(ctx)).filter(([, value]) => value.$ != null));
-    const tooltip = document.createElement('div');
-    utils.themeManager.onFlush(() => {
-        const style = utils.getStyle((emotion) => injectStyle(utils.themeManager, emotion));
-        if (style) {
-            tooltip.classList.add(style);
-        }
-    });
-    tooltip.classList.add('table-tooltip', 'hide');
-
     return new Plugin({
         key: new PluginKey('MILKDOWN_TABLE_OP'),
         props: {
@@ -49,6 +39,15 @@ export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
             },
         },
         view: (editorView) => {
+            const items = Object.fromEntries(Object.entries(createActions(ctx)).filter(([, value]) => value.$ != null));
+            const tooltip = document.createElement('div');
+            utils.themeManager.onFlush(() => {
+                const style = utils.getStyle((emotion) => injectStyle(utils.themeManager, emotion));
+                if (style) {
+                    tooltip.classList.add(style);
+                }
+            });
+            tooltip.classList.add('table-tooltip', 'hide');
             Object.values(items).forEach(({ $ }) => tooltip.appendChild($));
             editorView.dom.parentNode?.appendChild(tooltip);
 
