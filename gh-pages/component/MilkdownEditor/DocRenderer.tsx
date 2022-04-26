@@ -54,7 +54,6 @@ export const DocRenderer = ({ content }: Props) => {
     );
 
     useEffect(() => {
-        if (!ready) return;
         const calc = () => {
             if (ready) {
                 const editor$ = editorRef.current?.dom();
@@ -69,10 +68,17 @@ export const DocRenderer = ({ content }: Props) => {
                 calc();
             }
         });
+        const main = document.querySelector('main');
         observer.observe(document.documentElement);
+        if (main) {
+            observer.observe(main);
+        }
 
         return () => {
             observer.unobserve(document.documentElement);
+            if (main) {
+                observer.unobserve(main);
+            }
         };
     }, [ready]);
 
