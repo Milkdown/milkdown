@@ -1,5 +1,16 @@
 # @milkdown/exception
 
+## 6.0.0
+
+### Major Changes
+
+-   00dcdee9: Release milkdown@6
+-   4c2846d5: Release milkdown@v6 next.
+
+### Patch Changes
+
+-   e27e7e62: Improve UX and API.
+
 ## 6.0.0-next.1
 
 ### Patch Changes
