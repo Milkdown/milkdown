@@ -27,8 +27,8 @@ async function main() {
         .use(tokyo)
         .use(commonmark)
         .use(math)
-        .use(menu())
-        .use(slash())
+        .use(menu)
+        .use(slash)
         .create();
 
     await sleep(2000);
