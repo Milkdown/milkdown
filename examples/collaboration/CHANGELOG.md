@@ -1,5 +1,24 @@
 # @milkdown-examples/collaboration
 
+## 6.0.0
+
+### Major Changes
+
+-   00dcdee9: Release milkdown@6
+-   4c2846d5: Release milkdown@v6 next.
+
+### Patch Changes
+
+-   e27e7e62: Improve UX and API.
+-   Updated dependencies [e27e7e62]
+-   Updated dependencies [00dcdee9]
+-   Updated dependencies [4c2846d5]
+    -   @milkdown/core@6.0.0
+    -   @milkdown/plugin-collaborative@6.0.0
+    -   @milkdown/plugin-math@6.0.0
+    -   @milkdown/preset-commonmark@6.0.0
+    -   @milkdown/theme-nord@6.0.0
+
 ## 6.0.0-next.1
 
 ### Patch Changes
