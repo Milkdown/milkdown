@@ -29,9 +29,9 @@
         "@milkdown/preset-commonmark": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/core": "^6.0.0-next.0",
-        "@milkdown/prose": "^6.0.0-next.0",
-        "@milkdown/preset-commonmark": "^6.0.0-next.0"
+        "@milkdown/core": "^6.0.1",
+        "@milkdown/prose": "^6.0.1",
+        "@milkdown/preset-commonmark": "^6.0.1"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
