@@ -1,5 +1,18 @@
 # @milkdown/e2e
 
+## 6.0.1
+
+### Patch Changes
+
+-   08a442de: Fix peer dependency error
+-   Updated dependencies [08a442de]
+    -   @milkdown/core@6.0.1
+    -   @milkdown/design-system@6.0.1
+    -   @milkdown/preset-commonmark@6.0.1
+    -   @milkdown/preset-gfm@6.0.1
+    -   @milkdown/prose@6.0.1
+    -   @milkdown/theme-nord@6.0.1
+
 ## 6.0.0
 
 ### Major Changes

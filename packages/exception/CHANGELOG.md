@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.0.1
+
+### Patch Changes
+
+-   08a442de: Fix peer dependency error
+
 ## 6.0.0
 
 ### Major Changes
