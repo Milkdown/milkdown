@@ -1,5 +1,13 @@
 # @milkdown/utils
 
+## 6.0.1
+
+### Patch Changes
+
+-   08a442de: Fix peer dependency error
+-   Updated dependencies [08a442de]
+    -   @milkdown/exception@6.0.1
+
 ## 6.0.0
 
 ### Major Changes

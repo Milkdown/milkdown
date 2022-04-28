@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 6.0.1
+
+### Patch Changes
+
+-   08a442de: Fix peer dependency error
+-   Updated dependencies [08a442de]
+    -   @milkdown/ctx@6.0.1
+    -   @milkdown/design-system@6.0.1
+    -   @milkdown/exception@6.0.1
+    -   @milkdown/transformer@6.0.1
+
 ## 6.0.0
 
 ### Major Changes
