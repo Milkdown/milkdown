@@ -4,7 +4,8 @@ import path from 'path';
 import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'vite';
 
-import { markdownPlugin } from './markdown-plugin';
+import { markdownPlugin } from './vite-plugins/markdown-plugin';
+import { sitemapPlugin } from './vite-plugins/sitemap-plugin';
 
 export default defineConfig({
     build: {
@@ -18,6 +19,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        sitemapPlugin(),
         markdownPlugin(),
         react(),
         copy({
