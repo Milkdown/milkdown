@@ -13,7 +13,7 @@ export const sitemapPlugin = () =>
         enforce: 'pre',
         apply() {
             const routes = config.flatMap(({ items }) => items);
-            const sitemapStream = new SitemapStream({ hostname: 'http://milkdown.dev/' });
+            const sitemapStream = new SitemapStream({ hostname: 'https://milkdown.dev/' });
             routes.forEach((url) => {
                 sitemapStream.write({ url: url });
             });
