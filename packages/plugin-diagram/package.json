@@ -28,8 +28,8 @@
         "@milkdown/theme-pack-helper": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/core": "^6.0.1",
-        "@milkdown/prose": "^6.0.1"
+        "@milkdown/core": "^6.0.0",
+        "@milkdown/prose": "^6.0.0"
     },
     "dependencies": {
         "@types/mermaid": "^8.2.8",
