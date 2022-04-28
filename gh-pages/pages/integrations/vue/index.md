@@ -10,7 +10,7 @@ Except the `@milkdown/core`, preset and theme. We need to install the `@milkdown
 
 ```bash
 # install with npm
-npm install @milkdown/vue @milkdown/core
+npm install @milkdown/vue @milkdown/core @milkdown/prose
 
 # optional
 npm install @milkdown/preset-commonmark @milkdown/theme-nord

@@ -6,7 +6,7 @@ We don't provide Vue2 support out of box, but you can use the vanilla version wi
 
 ```bash
 # install with npm
-npm install @milkdown/core @milkdown/preset-commonmark @milkdown/theme-nord
+npm install @milkdown/core @milkdown/prose @milkdown/preset-commonmark @milkdown/theme-nord
 ```
 
 ## Create a Component
