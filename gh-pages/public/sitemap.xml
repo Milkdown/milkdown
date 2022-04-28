@@ -2,122 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
     <url>
         <loc>
-            http://milkdown.dev/why-milkdown
+            https://milkdown.dev/why-milkdown
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/getting-started
+            https://milkdown.dev/getting-started
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/interacting-with-editor
+            https://milkdown.dev/interacting-with-editor
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/commands
+            https://milkdown.dev/commands
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/styling
+            https://milkdown.dev/styling
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/keyboard-shortcuts
+            https://milkdown.dev/keyboard-shortcuts
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/macros
+            https://milkdown.dev/macros
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/react
+            https://milkdown.dev/react
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/vue
+            https://milkdown.dev/vue
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/angular
+            https://milkdown.dev/angular
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/svelte
+            https://milkdown.dev/svelte
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/vue2
+            https://milkdown.dev/vue2
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/using-plugins
+            https://milkdown.dev/using-plugins
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/plugins-101
+            https://milkdown.dev/plugins-101
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/plugin-factories
+            https://milkdown.dev/plugin-factories
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/composable-plugins
+            https://milkdown.dev/composable-plugins
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/example-iframe-plugin
+            https://milkdown.dev/example-iframe-plugin
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/internal-plugins
+            https://milkdown.dev/internal-plugins
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/design-system
+            https://milkdown.dev/design-system
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/using-themes
+            https://milkdown.dev/using-themes
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/writing-themes
+            https://milkdown.dev/writing-themes
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/milkdown_core
+            https://milkdown.dev/milkdown_core
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/milkdown_transformer
+            https://milkdown.dev/milkdown_transformer
         </loc>
     </url>
     <url>
         <loc>
-            http://milkdown.dev/milkdown_plugin-listener
+            https://milkdown.dev/milkdown_plugin-listener
         </loc>
     </url>
 </urlset>

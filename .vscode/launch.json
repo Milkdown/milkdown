@@ -9,7 +9,7 @@
             "request": "launch",
             "restart": true,
             "name": "Launch chrome against localhost",
-            "url": "http://localhost:3000/#/online-demo",
+            "url": "http://localhost:3000/",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "npm: doc"
         }
