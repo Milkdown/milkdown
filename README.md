@@ -20,7 +20,7 @@ The website is designed by [Meo](https://www.meo.cool/). Powered by [Theme Nord]
 
 For more information, please check our official documentations:
 
-[English](https://saul-mirone.github.io/milkdown/) | [简体中文](https://saul-mirone.github.io/milkdown/#/zh-hans)
+[English](https://milkdown.dev/) | [简体中文](https://milkdown.dev/zh-hans/)
 
 # What's Next
 
