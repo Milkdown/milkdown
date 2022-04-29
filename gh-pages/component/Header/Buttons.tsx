@@ -64,17 +64,19 @@ export const Buttons: React.FC = () => {
         const body = document.body;
         body.addEventListener('click', hideList);
 
-        docsearch({
-            appId: 'ESBZP4AW9O',
+        if (docsearch && typeof docsearch === 'function') {
+            docsearch({
+                appId: 'ESBZP4AW9O',
 
-            apiKey: '3c3f00caad4516fb13f96aea068122af',
+                apiKey: '3c3f00caad4516fb13f96aea068122af',
 
-            indexName: 'milkdown',
+                indexName: 'milkdown',
 
-            container: '#docsearch',
+                container: '#docsearch',
 
-            debug: true, // Set debug to true if you want to inspect the modal
-        });
+                debug: true, // Set debug to true if you want to inspect the modal
+            });
+        }
 
         return () => {
             body.removeEventListener('click', hideList);

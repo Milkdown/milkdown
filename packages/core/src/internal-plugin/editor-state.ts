@@ -22,10 +22,11 @@ import { SerializerReady } from './serializer';
 
 type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: JSONRecord };
 type StateOptions = Parameters<typeof EditorState.create>[0];
+type StateOptionsOverride = (prev: StateOptions) => StateOptions;
 
 export const defaultValueCtx = createSlice('' as DefaultValue, 'defaultValue');
 export const editorStateCtx = createSlice({} as EditorState, 'editorState');
-export const editorStateOptionsCtx = createSlice({} as StateOptions, 'stateOptions');
+export const editorStateOptionsCtx = createSlice<StateOptionsOverride>((x) => x, 'stateOptions');
 export const editorStateTimerCtx = createSlice([] as Timer[], 'editorStateTimer');
 
 export const EditorStateReady = createTimer('EditorStateReady');
@@ -61,7 +62,7 @@ export const editorState: MilkdownPlugin = (pre) => {
         const schema = ctx.get(schemaCtx);
         const parser = ctx.get(parserCtx);
         const rules = ctx.get(inputRulesCtx);
-        const options = ctx.get(editorStateOptionsCtx);
+        const optionsOverride = ctx.get(editorStateOptionsCtx);
         const prosePlugins = ctx.get(prosePluginsCtx);
         const defaultValue = ctx.get(defaultValueCtx);
         const doc = getDoc(defaultValue, parser, schema);
@@ -85,12 +86,13 @@ export const editorState: MilkdownPlugin = (pre) => {
 
         ctx.set(prosePluginsCtx, plugins);
 
-        const state = EditorState.create({
+        const options = optionsOverride({
             schema,
             doc,
             plugins,
-            ...options,
         });
+
+        const state = EditorState.create(options);
         ctx.set(editorStateCtx, state);
         ctx.done(EditorStateReady);
     };
