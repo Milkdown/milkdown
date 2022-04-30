@@ -89,6 +89,13 @@ export class ThemeManager {
         this.#flushListener.forEach((f) => f());
     }
 
+    flush(ctx: Ctx) {
+        const emotion = ctx.get(emotionCtx);
+        emotion.flush();
+        this.runExecutor();
+        this.#flushListener.forEach((f) => f());
+    }
+
     setExecutor(executor: () => void): void {
         executor();
         this.#executor = executor;

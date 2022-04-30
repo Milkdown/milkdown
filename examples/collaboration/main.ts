@@ -5,6 +5,7 @@ import { collaborative, y } from '@milkdown/plugin-collaborative';
 import { math } from '@milkdown/plugin-math';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
+import { replaceAll } from '@milkdown/utils';
 import { WebsocketProvider } from 'y-websocket';
 import { Doc } from 'yjs';
 
@@ -28,7 +29,7 @@ async function main() {
     const doc = new Doc();
     const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', doc);
     wsProvider.awareness.setLocalStateField('user', options[rndInt]);
-    return Editor.make()
+    const editor = await Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, document.getElementById('app'));
             ctx.set(defaultValueCtx, markdown);
@@ -43,6 +44,10 @@ async function main() {
             }),
         )
         .create();
+
+    // editor.action(replaceAll('# Milkdown', true));
+
+    return;
 }
 
 main();

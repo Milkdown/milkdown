@@ -1,5 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, editorStateOptionsCtx, editorViewCtx, parserCtx, prosePluginsCtx, schemaCtx } from '@milkdown/core';
+import {
+    Ctx,
+    editorStateOptionsCtx,
+    editorViewCtx,
+    parserCtx,
+    prosePluginsCtx,
+    schemaCtx,
+    themeManagerCtx,
+} from '@milkdown/core';
 import { EditorState, Slice } from '@milkdown/prose';
 
 export const replaceAll =
@@ -18,6 +26,7 @@ export const replaceAll =
         const schema = ctx.get(schemaCtx);
         const options = ctx.get(editorStateOptionsCtx);
         const plugins = ctx.get(prosePluginsCtx);
+        const themeManager = ctx.get(themeManagerCtx);
 
         const state = EditorState.create({
             schema,
@@ -26,5 +35,6 @@ export const replaceAll =
             ...options,
         });
 
-        return view.updateState(state);
+        view.updateState(state);
+        themeManager.flush(ctx);
     };

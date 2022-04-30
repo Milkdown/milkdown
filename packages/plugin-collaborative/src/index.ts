@@ -3,7 +3,7 @@ import { keymap } from '@milkdown/prose';
 import { AtomList, createPlugin } from '@milkdown/utils';
 import { redo, undo, yCursorPlugin, ySyncPlugin, yUndoPlugin } from 'y-prosemirror';
 import type { Awareness } from 'y-protocols/awareness';
-import { Doc, XmlFragment } from 'yjs';
+import { Doc } from 'yjs';
 
 import { injectStyle } from './injectStyle';
 
@@ -16,7 +16,7 @@ export const y = createPlugin<string, Options>((utils, { doc, awareness } = {}) 
     if (!doc || !awareness) {
         throw new Error('Must provide doc and awareness for collaborative plugin');
     }
-    const type = doc.get('prosemirror', XmlFragment) as Parameters<typeof ySyncPlugin>[0];
+    const type = doc.getXmlFragment('prosemirror');
 
     utils.themeManager.onFlush(() => {
         utils.getStyle((emotion) => injectStyle(utils.themeManager, emotion));
