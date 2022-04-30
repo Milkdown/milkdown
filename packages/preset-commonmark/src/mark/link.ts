@@ -135,6 +135,7 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                             const { from, to } = selection;
 
                             return (
+                                view.hasFocus() &&
                                 selection.empty &&
                                 selection instanceof TextSelection &&
                                 doc.rangeHasMark(from, from === to ? to + 1 : to, type)

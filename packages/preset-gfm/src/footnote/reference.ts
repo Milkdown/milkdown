@@ -123,7 +123,7 @@ export const footnoteReference = createNode((utils) => {
             });
             if (!inputChipRenderer) return [];
             const shouldDisplay = (view: EditorView) => {
-                return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
+                return Boolean(view.hasFocus() && type && findSelectedNodeOfType(view.state.selection, type));
             };
             const getCurrentLabel = (view: EditorView) => {
                 const result = findSelectedNodeOfType(view.state.selection, type);
