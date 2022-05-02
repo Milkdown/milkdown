@@ -1,5 +1,13 @@
 # @milkdown/theme-tokyo
 
+## 6.0.2
+
+### Patch Changes
+
+-   e956c5e3: Fix bugs for collaboration mode
+-   Updated dependencies [e956c5e3]
+    -   @milkdown/theme-pack-helper@6.0.2
+
 ## 6.0.1
 
 ### Patch Changes

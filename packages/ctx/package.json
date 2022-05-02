@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/ctx",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
@@ -29,7 +29,7 @@
         "@milkdown/exception": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/exception": "6.0.1"
+        "@milkdown/exception": "6.0.2"
     },
     "dependencies": {
         "tslib": "^2.3.1"
