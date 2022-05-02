@@ -26,7 +26,7 @@
     "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
-        "yjs": "^13.5.11"
+        "yjs": "^13.5.35"
     },
     "peerDependencies": {
         "@milkdown/core": "^6.0.1",
@@ -36,7 +36,7 @@
     "dependencies": {
         "@milkdown/utils": "workspace:*",
         "tslib": "^2.3.1",
-        "y-prosemirror": "^1.0.9",
+        "y-prosemirror": "^1.0.19",
         "y-protocols": "^1.0.5"
     },
     "nx": {

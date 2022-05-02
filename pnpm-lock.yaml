@@ -376,18 +376,18 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
-      y-prosemirror: ^1.0.9
+      y-prosemirror: ^1.0.19
       y-protocols: ^1.0.5
-      yjs: ^13.5.11
+      yjs: ^13.5.35
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
-      y-prosemirror: 1.0.15_y-protocols@1.0.5+yjs@13.5.27
+      y-prosemirror: 1.0.19_y-protocols@1.0.5+yjs@13.5.35
       y-protocols: 1.0.5
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      yjs: 13.5.27
+      yjs: 13.5.35
 
   packages/plugin-cursor:
     specifiers:
@@ -8097,6 +8097,14 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       isomorphic.js: 0.2.4
+    dev: false
+
+  /lib0/0.2.51:
+    resolution: {integrity: sha512-05Erb3465CxJa38LQlMz4EbetNvRna1S3BzqEjC0/pmp5cQuQSfNNmeS0722Wev1dRlMUp2Cql0gQ55krSXf2Q==}
+    engines: {node: '>=12'}
+    dependencies:
+      isomorphic.js: 0.2.4
+    dev: true
 
   /lilconfig/2.0.4:
     resolution: {integrity: sha512-bfTIN7lEsiooCocSISTWXkiWJkRqtL9wYtYy+8EK3Y41qh3mpwPU0ycTOgjdY9ErwXCc8QyrQp82bdL0Xkm9yA==}
@@ -11621,8 +11629,8 @@ packages:
     dev: false
     optional: true
 
-  /y-prosemirror/1.0.15_y-protocols@1.0.5+yjs@13.5.27:
-    resolution: {integrity: sha512-FtKVHDsEyFMi2xqKnS4JG5dx57Fd+V80tvmYJLue9WR7Onc8i+xqoVrRfXnnfKRl9qW6Rr7l/uXxgen1AnO79g==}
+  /y-prosemirror/1.0.19_y-protocols@1.0.5+yjs@13.5.35:
+    resolution: {integrity: sha512-et+aqYltjamYBk+uml5/y86PioRstv0r0B+4Oct/IA9Go55whK8MCaFcYZ65aH5Ip7ELmgqzdvrEreyvEzORGA==}
     peerDependencies:
       prosemirror-model: ^1.7.1
       prosemirror-state: ^1.2.3
@@ -11639,7 +11647,7 @@ packages:
     dependencies:
       lib0: 0.2.43
       y-protocols: 1.0.5
-      yjs: 13.5.27
+      yjs: 13.5.35
     dev: false
 
   /y-protocols/1.0.5:
@@ -11774,6 +11782,13 @@ packages:
     resolution: {integrity: sha512-1cWqmEomMCJTemtKLpEymXU946KZAAS45RxrE3TZAWVjua1wJhUF8192HYnuvOKv3iInxyySDtoMZTPs/afe1w==}
     dependencies:
       lib0: 0.2.43
+    dev: false
+
+  /yjs/13.5.35:
+    resolution: {integrity: sha512-vsqGmvZLiVwFcI4RlIZJeX59lGXDLXw37QrrbKVWXQJGbhMKgwAhZI4ZUVANUO54waoE1jta/NWb6gLSqNZ82Q==}
+    dependencies:
+      lib0: 0.2.51
+    dev: true
 
   /yn/3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
