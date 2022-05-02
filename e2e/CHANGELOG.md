@@ -1,5 +1,18 @@
 # @milkdown/e2e
 
+## 6.0.2
+
+### Patch Changes
+
+-   e956c5e3: Fix bugs for collaboration mode
+-   Updated dependencies [e956c5e3]
+    -   @milkdown/core@6.0.2
+    -   @milkdown/design-system@6.0.2
+    -   @milkdown/preset-commonmark@6.0.2
+    -   @milkdown/preset-gfm@6.0.2
+    -   @milkdown/prose@6.0.2
+    -   @milkdown/theme-nord@6.0.2
+
 ## 6.0.1
 
 ### Patch Changes
