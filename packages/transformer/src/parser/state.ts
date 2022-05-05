@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { parserMatchError } from '@milkdown/exception';
-import type { MarkType, NodeType, Schema } from '@milkdown/prose';
+import type { MarkType, Node, NodeType, Schema } from '@milkdown/prose';
 
 import { RemarkParser } from '../utility';
 import type { Stack } from './stack';
@@ -68,7 +68,7 @@ export class State {
      *
      * @returns Result prosemirror doc.
      */
-    toDoc = () => this.stack.build();
+    toDoc = (): Node => this.stack.build();
 
     /**
      * Inject root node for prosemirror state.

@@ -7,10 +7,10 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+        "start": "concurrently -n es,dts \"vite build --watch\"  \"rollup -c -w\"",
         "test": "vitest",
         "tsc": "tsc --noEmit",
-        "build": "vite build && tsc --emitDeclarationOnly"
+        "build": "vite build && rollup -c"
     },
     "files": [
         "lib",

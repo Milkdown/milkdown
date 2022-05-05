@@ -3,5 +3,4 @@ import twemoji from 'twemoji';
 
 const setAttr = (text: string) => ({ title: text });
 
-export const parse = (emoji: string): string =>
-    twemoji.parse(emoji, { attributes: setAttr as unknown as () => void }) as unknown as string;
+export const parse = (emoji: string): string => twemoji.parse(emoji, { attributes: setAttr }) as unknown as string;

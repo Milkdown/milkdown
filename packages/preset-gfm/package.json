@@ -24,14 +24,14 @@
     ],
     "devDependencies": {
         "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*",
         "@milkdown/design-system": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*"
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/prose": "workspace:*"
     },
     "peerDependencies": {
         "@milkdown/core": "^6.0.1",
-        "@milkdown/prose": "^6.0.1",
-        "@milkdown/preset-commonmark": "^6.0.1"
+        "@milkdown/preset-commonmark": "^6.0.1",
+        "@milkdown/prose": "^6.0.1"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",

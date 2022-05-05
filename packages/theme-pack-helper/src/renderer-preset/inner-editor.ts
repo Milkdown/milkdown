@@ -100,6 +100,7 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
                     }),
                 ],
             }),
+            plugins: [],
             dispatchTransaction: (tr) => {
                 if (!innerView) return;
                 const { state, transactions } = innerView.state.applyTransaction(tr);
