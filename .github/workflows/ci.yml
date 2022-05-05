@@ -36,7 +36,11 @@ jobs:
             - name: install dependencies
               run: pnpm install
 
-            - run: pnpm add -g dotenv
+            - name: setup pnpm for nx-cloud
+              run: |
+                  pnpm setup
+                  pnpm add -g dotenv
+
             - run: pnpx nx-cloud start-ci-run
 
             - name: build packs
@@ -104,7 +108,10 @@ jobs:
             - name: install pnpm
               run: npm i pnpm@latest -g
 
-            - run: pnpm add -g dotenv
+            - name: setup pnpm for nx-cloud
+              run: |
+                  pnpm setup
+                  pnpm add -g dotenv
 
             - name: load cache
               uses: actions/cache@v3
