@@ -36,12 +36,7 @@ jobs:
             - name: install dependencies
               run: pnpm install
 
-            - name: setup pnpm for nx-cloud
-              run: |
-                  pnpm setup
-                  pnpm add -g dotenv
-
-            - run: pnpx nx-cloud start-ci-run
+            - run: pnpm exec nx-cloud start-ci-run
 
             - name: build packs
               run: pnpm build:cache
@@ -74,7 +69,7 @@ jobs:
             #       github_token: ${{ secrets.GITHUB_TOKEN }}
             #       publish_dir: docs
 
-            - run: pnpx nx-cloud stop-all-agents
+            - run: pnpm exec nx-cloud stop-all-agents
               if: ${{ always() }}
 
             - name: export screenshots (on failure only)
@@ -107,11 +102,6 @@ jobs:
                   node-version: 15.x
             - name: install pnpm
               run: npm i pnpm@latest -g
-
-            - name: setup pnpm for nx-cloud
-              run: |
-                  pnpm setup
-                  pnpm add -g dotenv
 
             - name: load cache
               uses: actions/cache@v3
