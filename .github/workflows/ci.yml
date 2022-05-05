@@ -21,20 +21,19 @@ jobs:
               with:
                   node-version: 15.x
 
-            - name: install pnpm
-              run: npm i pnpm@latest -g
             - name: load cache
               uses: actions/cache@v3
               with:
                   path: |
-                      ./.pnpm-store
+                      ~/.pnpm-store
                   key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: |
                       ${{ runner.os }}
-            - name: setup pnpm config
-              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-            - name: install dependencies
-              run: pnpm install
+
+            - uses: pnpm/action-setup@v2.1.0
+              with:
+                  version: latest
+                  run_install: true
 
             - run: pnpm exec nx-cloud start-ci-run
 
@@ -62,12 +61,6 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-            # - name: deploy to pages
-            #   uses: peaceiris/actions-gh-pages@v3
-            #   with:
-            #       github_token: ${{ secrets.GITHUB_TOKEN }}
-            #       publish_dir: docs
 
             - run: pnpm exec nx-cloud stop-all-agents
               if: ${{ always() }}
@@ -100,20 +93,20 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: 15.x
-            - name: install pnpm
-              run: npm i pnpm@latest -g
 
             - name: load cache
               uses: actions/cache@v3
               with:
                   path: |
-                      ./.pnpm-store
+                      ~/.pnpm-store
                   key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: |
                       ${{ runner.os }}
-            - name: setup pnpm config
-              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
-            - name: install dependencies
-              run: pnpm install
+
+            - uses: pnpm/action-setup@v2.1.0
+              with:
+                  version: latest
+                  run_install: true
+
             - name: Start Nx Agent ${{ matrix.agent }}
               run: npx nx-cloud start-agent
