@@ -22,7 +22,7 @@ jobs:
                   node-version: 15.x
 
             - name: install pnpm
-              run: npm i pnpm@latest dotenv -g
+              run: npm i pnpm@latest -g
             - name: load cache
               uses: actions/cache@v3
               with:
@@ -36,6 +36,7 @@ jobs:
             - name: install dependencies
               run: pnpm install
 
+            - run: pnpm add -g dotenv
             - run: pnpx nx-cloud start-ci-run
 
             - name: build packs
@@ -86,7 +87,10 @@ jobs:
               with:
                   node-version: 15.x
             - name: install pnpm
-              run: npm i pnpm@latest dotenv -g
+              run: npm i pnpm@latest -g
+
+            - run: pnpm add -g dotenv
+
             - name: load cache
               uses: actions/cache@v3
               with:
