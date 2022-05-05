@@ -34,12 +34,7 @@ jobs:
                   version: latest
                   run_install: true
 
-            - name: setup pnpm for nx-cloud
-              run: |
-                  pnpm setup
-                  pnpm add -g dotenv
-
-            - run: pnpx nx-cloud start-ci-run
+            - run: pnpm exec nx-cloud start-ci-run
 
             - name: build packs
               run: pnpm build:cache
@@ -57,7 +52,7 @@ jobs:
                   wait-on: 'http://localhost:7000'
                   browser: chrome
 
-            - run: pnpx nx-cloud stop-all-agents
+            - run: pnpm exec nx-cloud stop-all-agents
               if: ${{ always() }}
 
             - name: export screenshots (on failure only)
@@ -102,11 +97,6 @@ jobs:
               with:
                   version: latest
                   run_install: true
-
-            - name: setup pnpm for nx-cloud
-              run: |
-                  pnpm setup
-                  pnpm add -g dotenv
 
             - name: Start Nx Agent ${{ matrix.agent }}
               run: npx nx-cloud start-agent
