@@ -9,8 +9,8 @@
     "scripts": {
         "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
         "test": "vitest",
-        "tsc": "tsc --noEmit",
-        "build": "vite build && tsc --emitDeclarationOnly"
+        "tsc": "tsc --noEmit && echo",
+        "build": "tsc --emitDeclarationOnly && vite build"
     },
     "files": [
         "lib",

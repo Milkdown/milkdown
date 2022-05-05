@@ -9,8 +9,8 @@
     "scripts": {
         "start": "concurrently -n es,dts \"vite build --watch\"  \"rollup -c -w\"",
         "test": "vitest",
-        "tsc": "tsc --noEmit",
-        "build": "vite build && rollup -c"
+        "tsc": "tsc --noEmit && echo",
+        "build": "rollup -c && vite build"
     },
     "files": [
         "lib",
