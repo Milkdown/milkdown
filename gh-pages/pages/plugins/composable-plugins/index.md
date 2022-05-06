@@ -60,7 +60,7 @@ Nodes and marks created by `$node` and `$mark` has metadata on it:
 ```typescript
 import { $inputRule } from '@milkdown/utils';
 import { schemaCtx } from '@milkdown/core';
-import { wrappingInputRule } from '@milkdown/prose';
+import { wrappingInputRule } from '@milkdown/prose/inputrules';
 
 const myNode = $node(/* ... */);
 
@@ -82,7 +82,7 @@ After created by `$inputRule`, the input rule has metadata on it:
 ```typescript
 import { $command } from '@milkdown/utils';
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { wrapIn } from '@milkdown/prose';
+import { wrapIn } from '@milkdown/prose/command';
 
 const myNode = $node(/* ... */);
 
@@ -123,7 +123,7 @@ After created by `$shortcut`, the shortcut has metadata on it:
 
 ```typescript
 import { $prose } from '@milkdown/utils';
-import { Plugin } from '@milkdown/prose';
+import { Plugin } from '@milkdown/prose/state';
 
 const myProsePlugin = $prose((ctx) => {
     return new Plugin({

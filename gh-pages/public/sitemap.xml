@@ -112,6 +112,11 @@
     </url>
     <url>
         <loc>
+            https://milkdown.dev/milkdown_prose
+        </loc>
+    </url>
+    <url>
+        <loc>
             https://milkdown.dev/milkdown_transformer
         </loc>
     </url>

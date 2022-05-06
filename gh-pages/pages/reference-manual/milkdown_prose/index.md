@@ -1,4 +1,4 @@
-# Prose
+# @milkdown/prose
 
 [Prosemirror](https://prosemirror.net/) needs its core packages to be the same version.
 
@@ -14,8 +14,9 @@ Combined packages:
 -   [prosemirror-inputrules](https://www.npmjs.com/package/prosemirror-inputrules)
 -   [prosemirror-keymap](https://www.npmjs.com/package/prosemirror-keymap)
 
-Users can access their API through `@milkdown/prose`, for example:
+Users can access their API through `@milkdown/prose/<package-name>`, for example:
 
 ```typescript
-import { EditorState, Node, Mark, Selection } from '@milkdown/prose';
+import { EditorState, Selection } from '@milkdown/prose/state';
+import { Node, Mark } from '@milkdown/prose/model';
 ```
