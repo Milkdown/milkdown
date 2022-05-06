@@ -1,14 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, MarkdownNode, schemaCtx } from '@milkdown/core';
-import {
-    columnResizing,
-    goToNextCell,
-    InputRule,
-    NodeType,
-    Selection,
-    tableEditing,
-    TextSelection,
-} from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { NodeType } from '@milkdown/prose/model';
+import { Selection, TextSelection } from '@milkdown/prose/state';
+import { columnResizing, goToNextCell, tableEditing } from '@milkdown/prose/tables';
 import { createPlugin, createShortcut } from '@milkdown/utils';
 
 import { exitTable } from '../command';

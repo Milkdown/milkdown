@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, ThemeReady } from '@milkdown/core';
-import { MarkType } from '@milkdown/prose';
+import { MarkType } from '@milkdown/prose/model';
 
 export type $Mark = MilkdownPlugin & {
     id: string;

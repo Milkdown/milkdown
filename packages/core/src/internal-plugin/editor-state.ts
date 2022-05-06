@@ -1,17 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { docTypeError } from '@milkdown/exception';
-import {
-    baseKeymap,
-    customInputRules as createInputRules,
-    DOMParser,
-    EditorState,
-    keymap as createKeymap,
-    Node,
-    Plugin,
-    PluginKey,
-    Schema,
-} from '@milkdown/prose';
+import { customInputRules as createInputRules } from '@milkdown/prose';
+import { baseKeymap } from '@milkdown/prose/commands';
+import { keymap as createKeymap } from '@milkdown/prose/keymap';
+import { DOMParser, Node, Schema } from '@milkdown/prose/model';
+import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state';
 import { JSONRecord } from '@milkdown/transformer';
 
 import { CommandsReady } from '.';

@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core';
-import { Node, Plugin, PluginKey, Slice } from '@milkdown/prose';
+import { Node, Slice } from '@milkdown/prose/model';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { createPlugin } from '@milkdown/utils';
 
 type R = Record<string, unknown>;

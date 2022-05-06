@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MarkType, Node as ProseNode } from 'prosemirror-model';
-
+import type { MarkType, Node as ProseNode } from '../../model';
 import type { Predicate } from './types';
 
 export type NodeWithPos = { pos: number; node: ProseNode };

@@ -12,7 +12,7 @@ import {
     themeManagerCtx,
 } from '@milkdown/core';
 import { themeMustInstalled } from '@milkdown/exception';
-import { keymap } from '@milkdown/prose';
+import { keymap } from '@milkdown/prose/keymap';
 
 import {
     AddMetadata,

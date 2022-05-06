@@ -1,19 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Emotion, getPalette, ThemeFont, ThemeInnerEditorType, ThemeManager, ThemeSize } from '@milkdown/core';
-import {
-    baseKeymap,
-    chainCommands,
-    deleteSelection,
-    EditorState,
-    EditorView,
-    history,
-    keymap,
-    Node,
-    redo,
-    StepMap,
-    TextSelection,
-    undo,
-} from '@milkdown/prose';
+import { baseKeymap, chainCommands, deleteSelection } from '@milkdown/prose/commands';
+import { history, redo, undo } from '@milkdown/prose/history';
+import { keymap } from '@milkdown/prose/keymap';
+import { Node } from '@milkdown/prose/model';
+import { EditorState, TextSelection } from '@milkdown/prose/state';
+import { StepMap } from '@milkdown/prose/transform';
+import { EditorView } from '@milkdown/prose/view';
 
 const getStyle = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);

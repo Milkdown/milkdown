@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { calculateNodePosition, Plugin, PluginKey } from '@milkdown/prose';
+import { calculateNodePosition } from '@milkdown/prose';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
 import { search } from 'node-emoji';
 

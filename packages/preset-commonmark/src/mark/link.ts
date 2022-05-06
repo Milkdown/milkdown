@@ -1,14 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, createCmd, createCmdKey, schemaCtx, ThemeInputChipType } from '@milkdown/core';
-import {
-    EditorView,
-    InputRule,
-    Node as ProseNode,
-    Plugin,
-    PluginKey,
-    TextSelection,
-    toggleMark,
-} from '@milkdown/prose';
+import { toggleMark } from '@milkdown/prose/commands';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { Node as ProseNode } from '@milkdown/prose/model';
+import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state';
+import { EditorView } from '@milkdown/prose/view';
 import { createMark } from '@milkdown/utils';
 
 const key = new PluginKey('MILKDOWN_PLUGIN_LINK_INPUT');

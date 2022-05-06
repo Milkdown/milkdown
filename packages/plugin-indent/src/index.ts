@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { createCmdKey } from '@milkdown/core';
-import { AllSelection, keymap, TextSelection, Transaction } from '@milkdown/prose';
+import { keymap } from '@milkdown/prose/keymap';
+import { AllSelection, TextSelection, Transaction } from '@milkdown/prose/state';
 import { AtomList, createPlugin, Utils } from '@milkdown/utils';
 
 export type Options = {

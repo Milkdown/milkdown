@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
-import type { Node as ProsemirrorNode } from '@milkdown/prose';
+import type { Node as ProsemirrorNode } from '@milkdown/prose/model';
 import { createSerializer } from '@milkdown/transformer';
 
 import { remarkCtx } from './init';

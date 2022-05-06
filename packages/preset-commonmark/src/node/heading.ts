@@ -1,14 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, editorViewCtx } from '@milkdown/core';
-import {
-    EditorState,
-    Node,
-    Plugin,
-    PluginKey,
-    setBlockType,
-    textblockTypeInputRule,
-    Transaction,
-} from '@milkdown/prose';
+import { setBlockType } from '@milkdown/prose/commands';
+import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
+import { Node } from '@milkdown/prose/model';
+import { EditorState, Plugin, PluginKey, Transaction } from '@milkdown/prose/state';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';

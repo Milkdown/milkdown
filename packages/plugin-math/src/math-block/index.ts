@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { ThemeInnerEditorType } from '@milkdown/core';
-import { InputRule, NodeSelection } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { NodeSelection } from '@milkdown/prose/state';
 import { createNode } from '@milkdown/utils';
 import katex from 'katex';
 

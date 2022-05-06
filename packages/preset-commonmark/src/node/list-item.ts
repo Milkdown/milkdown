@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { liftListItem, sinkListItem, splitListItem, wrappingInputRule } from '@milkdown/prose';
+import { wrappingInputRule } from '@milkdown/prose/inputrules';
+import { liftListItem, sinkListItem, splitListItem } from '@milkdown/prose/schema-list';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';

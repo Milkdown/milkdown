@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MarkType, NodeType } from '@milkdown/prose';
+import type { MarkType, NodeType } from '@milkdown/prose/model';
 import type { Node } from 'unist';
 
 import type { State } from './state';

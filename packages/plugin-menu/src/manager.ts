@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Ctx } from '@milkdown/core';
-import { EditorView } from '@milkdown/prose';
+import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
 import { button, ButtonConfig } from './button';

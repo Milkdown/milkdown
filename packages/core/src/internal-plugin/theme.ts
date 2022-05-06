@@ -12,7 +12,7 @@ import {
     themeManagerCtx,
     ThemeSliceKey,
 } from '@milkdown/design-system';
-import { Plugin, PluginKey } from '@milkdown/prose';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
 
 import { ConfigReady } from './config';
 import { InitReady, prosePluginsCtx } from './init';

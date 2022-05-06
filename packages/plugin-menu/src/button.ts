@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { CmdKey, commandsCtx, Ctx, getPalette, Icon, ThemeIcon } from '@milkdown/core';
-import type { EditorView } from '@milkdown/prose';
+import type { EditorView } from '@milkdown/prose/view';
 import type { Utils } from '@milkdown/utils';
 
 import type { CommonConfig } from './default-config';

@@ -1,16 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { schemaCtx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
-import {
-    Decoration,
-    DecorationSet,
-    EditorState,
-    EditorView,
-    Fragment,
-    Node,
-    Plugin,
-    PluginKey,
-    Schema,
-} from '@milkdown/prose';
+import { Fragment, Node, Schema } from '@milkdown/prose/model';
+import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state';
+import { Decoration, DecorationSet, EditorView } from '@milkdown/prose/view';
 import { createPlugin } from '@milkdown/utils';
 
 import { defaultUploader } from './default-uploader';

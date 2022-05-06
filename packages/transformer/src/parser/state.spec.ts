@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { NodeType, Schema } from '@milkdown/prose';
+import type { NodeType, Schema } from '@milkdown/prose/model';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { RemarkParser } from '../utility';

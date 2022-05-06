@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Ctx, MilkdownPlugin, prosePluginsCtx, SchemaReady } from '@milkdown/core';
-import { Keymap, keymap } from '@milkdown/prose';
+import { Keymap } from '@milkdown/prose/commands';
+import { keymap } from '@milkdown/prose/keymap';
 
 export type $Shortcut = MilkdownPlugin & {
     keymap: Keymap;

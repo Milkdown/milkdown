@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, editorViewCtx, parserCtx } from '@milkdown/core';
-import { Slice } from '@milkdown/prose';
+import { Slice } from '@milkdown/prose/model';
 
 export const insert = (markdown: string) => (ctx: Ctx) => {
     const view = ctx.get(editorViewCtx);

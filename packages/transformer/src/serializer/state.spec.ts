@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Mark as ProseMark, Node as ProseNode, Schema } from '@milkdown/prose';
+import type { Mark as ProseMark, Node as ProseNode, Schema } from '@milkdown/prose/model';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { InnerSerializerSpecMap } from '..';

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Mark } from '@milkdown/prose';
+import { Mark } from '@milkdown/prose/model';
 import { Root } from 'mdast';
 
 import type { MarkdownNode } from '..';

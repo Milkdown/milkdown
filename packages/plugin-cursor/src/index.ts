@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { ThemeColor, themeManagerCtx, ThemeSize } from '@milkdown/core';
-import { dropCursor, gapCursor } from '@milkdown/prose';
+import { dropCursor } from '@milkdown/prose/dropcursor';
+import { gapCursor } from '@milkdown/prose/gapcursor';
 import { createPlugin } from '@milkdown/utils';
 
 export const cursor = createPlugin(({ getStyle, themeManager }) => {

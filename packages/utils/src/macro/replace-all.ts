@@ -8,7 +8,8 @@ import {
     schemaCtx,
     themeManagerCtx,
 } from '@milkdown/core';
-import { EditorState, Slice } from '@milkdown/prose';
+import { Slice } from '@milkdown/prose/model';
+import { EditorState } from '@milkdown/prose/state';
 
 export const replaceAll =
     (markdown: string, flush = false) =>

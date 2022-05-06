@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady, ThemeReady } from '@milkdown/core';
-import { NodeType } from '@milkdown/prose';
+import { NodeType } from '@milkdown/prose/model';
 
 export type $Node = MilkdownPlugin & {
     id: string;

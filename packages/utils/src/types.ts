@@ -1,7 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Attrs, CmdKey, Emotion, MilkdownPlugin, ThemeManager } from '@milkdown/core';
 import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
-import { InputRule, Plugin, ViewFactory } from '@milkdown/prose';
+import { ViewFactory } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { Plugin } from '@milkdown/prose/state';
 
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;

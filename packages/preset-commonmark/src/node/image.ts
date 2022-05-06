@@ -1,6 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, createCmd, createCmdKey, ThemeImageType, ThemeInputChipType } from '@milkdown/core';
-import { EditorView, findSelectedNodeOfType, InputRule, Plugin, PluginKey } from '@milkdown/prose';
+import { findSelectedNodeOfType } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
+import { EditorView } from '@milkdown/prose/view';
 import { createNode } from '@milkdown/utils';
 
 export const ModifyImage = createCmdKey<string>('ModifyImage');

@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { AddMarkStep, Plugin, PluginKey, ReplaceStep } from '@milkdown/prose';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
+import { AddMarkStep, ReplaceStep } from '@milkdown/prose/transform';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
