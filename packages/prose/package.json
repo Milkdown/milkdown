@@ -101,7 +101,7 @@
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
-        "start": "concurrently -n es,dts \"vite build --watch\"  \"rollup -c -w\"",
+        "start": "rollup -c -w",
         "test": "vitest",
         "tsc": "tsc --noEmit && echo",
         "build": "rollup -c && echo"
