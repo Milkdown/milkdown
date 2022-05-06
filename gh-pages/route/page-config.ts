@@ -35,7 +35,7 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'reference-manual',
-        items: ['milkdown_core', 'milkdown_prose', 'milkdown_transformer', 'milkdown_plugin-listener'],
+        items: ['milkdown_core', 'milkdown_prose', 'milkdown_plugin-listener', 'milkdown_ctx', 'milkdown_transformer'],
     },
 ];
 

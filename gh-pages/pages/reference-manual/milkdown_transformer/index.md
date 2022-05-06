@@ -1,5 +1,7 @@
 # @milkdown/transformer
 
+> **Note**: This package is not intended to be used directly.
+
 For every moment of a milkdown editor, it will have an editor state,
 this state can both render a UI and be transformed into markdown string.
 For any changes to the editor, it won't change UI directly, but create a new editor state and render a new UI by that state.
