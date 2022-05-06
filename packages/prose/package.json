@@ -2,15 +2,109 @@
     "name": "@milkdown/prose",
     "version": "6.0.2",
     "type": "module",
-    "main": "./lib/index.es.js",
+    "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./lib/index.js",
+            "types": "./lib/index.d.ts"
+        },
+        "./commands": {
+            "import": "./lib/commands.js",
+            "types": "./lib/commands.d.ts"
+        },
+        "./dropcursor": {
+            "import": "./lib/dropcursor.js",
+            "types": "./lib/dropcursor.d.ts"
+        },
+        "./gapcursor": {
+            "import": "./lib/gapcursor.js",
+            "types": "./lib/gapcursor.d.ts"
+        },
+        "./history": {
+            "import": "./lib/history.js",
+            "types": "./lib/history.d.ts"
+        },
+        "./inputrules": {
+            "import": "./lib/inputrules.js",
+            "types": "./lib/inputrules.d.ts"
+        },
+        "./keymap": {
+            "import": "./lib/keymap.js",
+            "types": "./lib/keymap.d.ts"
+        },
+        "./model": {
+            "import": "./lib/model.js",
+            "types": "./lib/model.d.ts"
+        },
+        "./schema-list": {
+            "import": "./lib/schema-list.js",
+            "types": "./lib/schema-list.d.ts"
+        },
+        "./state": {
+            "import": "./lib/state.js",
+            "types": "./lib/state.d.ts"
+        },
+        "./tables": {
+            "import": "./lib/tables.js",
+            "types": "./lib/tables.d.ts"
+        },
+        "./transform": {
+            "import": "./lib/transform.js",
+            "types": "./lib/transform.d.ts"
+        },
+        "./view": {
+            "import": "./lib/view.js",
+            "types": "./lib/view.d.ts"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "commands": [
+                "lib/commands.d.ts"
+            ],
+            "dropcursor": [
+                "lib/dropcursor.d.ts"
+            ],
+            "gapcursor": [
+                "lib/gapcursor.d.ts"
+            ],
+            "history": [
+                "lib/history.d.ts"
+            ],
+            "inputrules": [
+                "lib/inputrules.d.ts"
+            ],
+            "keymap": [
+                "lib/keymap.d.ts"
+            ],
+            "model": [
+                "lib/model.d.ts"
+            ],
+            "schema-list": [
+                "lib/schema-list.d.ts"
+            ],
+            "state": [
+                "lib/state.d.ts"
+            ],
+            "tables": [
+                "lib/tables.d.ts"
+            ],
+            "transform": [
+                "lib/transform.d.ts"
+            ],
+            "view": [
+                "lib/view.d.ts"
+            ]
+        }
+    },
     "sideEffects": false,
     "license": "MIT",
     "scripts": {
         "start": "concurrently -n es,dts \"vite build --watch\"  \"rollup -c -w\"",
         "test": "vitest",
         "tsc": "tsc --noEmit && echo",
-        "build": "rollup -c && vite build"
+        "build": "rollup -c && echo"
     },
     "files": [
         "lib",

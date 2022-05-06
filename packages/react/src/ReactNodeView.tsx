@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
-import type { Decoration, EditorView, NodeView, ViewFactory } from '@milkdown/prose';
-import { Mark, Node } from '@milkdown/prose';
+import { ViewFactory } from '@milkdown/prose';
+import { Mark, Node } from '@milkdown/prose/model';
+import type { Decoration, EditorView, NodeView } from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
 import React from 'react';
 import { createPortal } from 'react-dom';

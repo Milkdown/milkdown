@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { InputRule } from 'prosemirror-inputrules';
-import { EditorState, Plugin, PluginKey, PluginSpec, TextSelection, Transaction } from 'prosemirror-state';
-import type { EditorView } from 'prosemirror-view';
+import type { InputRule } from '../../inputrules';
+import { EditorState, Plugin, PluginKey, PluginSpec, TextSelection, Transaction } from '../../state';
+import type { EditorView } from '../../view';
 
 function run(view: EditorView, from: number, to: number, text: string, rules: InputRule[], plugin: Plugin) {
     if (view.composing) return false;

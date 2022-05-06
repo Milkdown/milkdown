@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Ctx, MilkdownPlugin, prosePluginsCtx, SchemaReady } from '@milkdown/core';
-import { Plugin } from '@milkdown/prose';
+import { Plugin } from '@milkdown/prose/state';
 
 export type $Prose = MilkdownPlugin & {
     plugin: Plugin;

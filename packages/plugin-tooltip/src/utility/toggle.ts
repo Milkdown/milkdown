@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, Ctx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
-import type { MarkType } from '@milkdown/prose';
+import type { MarkType } from '@milkdown/prose/model';
 
 import type { ButtonItem } from '../item';
 import { hasMark, isTextAndNotHasMark } from './prosemirror';

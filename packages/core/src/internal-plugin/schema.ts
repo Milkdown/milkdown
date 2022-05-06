@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
-import type { MarkSpec, NodeSpec } from '@milkdown/prose';
-import { Schema } from '@milkdown/prose';
+import type { MarkSpec, NodeSpec } from '@milkdown/prose/model';
+import { Schema } from '@milkdown/prose/model';
 import type {
     MarkParserSpec,
     MarkSerializerSpec,

@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Slice, Timer } from '@milkdown/ctx';
-import { InputRule, MarkViewFactory, NodeViewFactory, Plugin, ViewFactory } from '@milkdown/prose';
+import { MarkViewFactory, NodeViewFactory, ViewFactory } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { Plugin } from '@milkdown/prose/state';
 import { remark, RemarkParser, RemarkPlugin } from '@milkdown/transformer';
 
 import type { Editor } from '../editor';

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { RemarkPlugin } from '@milkdown/core';
-import { InputRule } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
 import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
 import remarkEmoji from 'remark-emoji';

@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, ThemeReady, viewCtx } from '@milkdown/core';
-import { MarkType, MarkViewFactory, ViewFactory } from '@milkdown/prose';
+import { MarkViewFactory, ViewFactory } from '@milkdown/prose';
+import { MarkType } from '@milkdown/prose/model';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, applyMethods, getUtils, withExtend } from './common';

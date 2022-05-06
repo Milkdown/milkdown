@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, editorViewCtx, schemaCtx } from '@milkdown/core';
-import { DOMSerializer } from '@milkdown/prose';
+import { DOMSerializer } from '@milkdown/prose/model';
 
 export const getHTML =
     () =>

@@ -12,7 +12,8 @@ import {
     ThemeReady,
     viewCtx,
 } from '@milkdown/core';
-import { MarkType, MarkViewFactory, NodeType, NodeViewFactory, ViewFactory } from '@milkdown/prose';
+import { MarkViewFactory, NodeViewFactory, ViewFactory } from '@milkdown/prose';
+import { MarkType, NodeType } from '@milkdown/prose/model';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, applyMethods, getUtils, withExtend } from './common';

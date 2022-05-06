@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
-import type { Decoration, DecorationSet, EditorView, NodeView, ViewFactory } from '@milkdown/prose';
-import { Mark, Node } from '@milkdown/prose';
+import type { ViewFactory } from '@milkdown/prose';
+import { Mark, Node } from '@milkdown/prose/model';
+import type { Decoration, DecorationSet, EditorView, NodeView } from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
 import { DefineComponent, defineComponent, h, markRaw, Teleport } from 'vue';
 

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Node } from '@milkdown/prose';
+import { Node } from '@milkdown/prose/model';
 import { customAlphabet } from 'nanoid';
 
 export const nanoid = customAlphabet('abcedfghicklmn', 10);

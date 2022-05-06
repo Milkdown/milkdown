@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createNodeInParserFail, stackOverFlow } from '@milkdown/exception';
-import { Mark, MarkType, Node, NodeType, Schema } from '@milkdown/prose';
+import { Mark, MarkType, Node, NodeType, Schema } from '@milkdown/prose/model';
 
 import { getStackUtil } from '../utility';
 import { createElement, StackElement } from './stack-element';

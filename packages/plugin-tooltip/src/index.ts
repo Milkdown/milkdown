@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { schemaCtx } from '@milkdown/core';
-import { Plugin, PluginKey } from '@milkdown/prose';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { AtomList, createPlugin as create } from '@milkdown/utils';
 
 import { buttonMap, TooltipOptions } from './item';

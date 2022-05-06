@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { parserMatchError } from '@milkdown/exception';
-import type { MarkType, Node, NodeType, Schema } from '@milkdown/prose';
+import type { MarkType, Node, NodeType, Schema } from '@milkdown/prose/model';
 
 import { RemarkParser } from '../utility';
 import type { Stack } from './stack';

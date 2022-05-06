@@ -22,7 +22,7 @@ module.exports = {
 
         'import/prefer-default-export': 'off',
         'import/no-default-export': 'error',
-        'import/no-unresolved': ['error', { ignore: ['unist', 'mdast'] }],
+        'import/no-unresolved': ['error', { ignore: ['@milkdown/prose/*', 'mdast', 'unist'] }],
 
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unused-vars': 'off',

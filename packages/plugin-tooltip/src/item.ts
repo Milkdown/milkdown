@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, Ctx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
-import { EditorView, Schema } from '@milkdown/prose';
+import { Schema } from '@milkdown/prose/model';
+import { EditorView } from '@milkdown/prose/view';
 
 import { createToggleIcon } from './utility';
 

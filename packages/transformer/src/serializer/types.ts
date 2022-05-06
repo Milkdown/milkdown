@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Mark as ProseMark, Node as ProseNode } from '@milkdown/prose';
+import type { Mark as ProseMark, Node as ProseNode } from '@milkdown/prose/model';
 
 import type { State } from './state';
 

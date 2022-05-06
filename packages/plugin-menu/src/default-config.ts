@@ -1,18 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { createCmdKey } from '@milkdown/core';
-import {
-    EditorState,
-    EditorView,
-    liftListItem,
-    MarkType,
-    redo,
-    setBlockType,
-    sinkListItem,
-    TextSelection,
-    undo,
-    wrapIn,
-} from '@milkdown/prose';
+import { setBlockType, wrapIn } from '@milkdown/prose/commands';
+import { redo, undo } from '@milkdown/prose/history';
+import { MarkType } from '@milkdown/prose/model';
+import { liftListItem, sinkListItem } from '@milkdown/prose/schema-list';
+import { EditorState, TextSelection } from '@milkdown/prose/state';
+import { EditorView } from '@milkdown/prose/view';
 
 import { ButtonConfig } from './button';
 import { SelectConfig } from './select';

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Plugin, PluginKey } from '@milkdown/prose';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
 
 import type { StatusConfigBuilder } from '..';

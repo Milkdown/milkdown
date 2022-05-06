@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { findChildren, Plugin, PluginKey } from '@milkdown/prose';
+import { findChildren } from '@milkdown/prose';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { refractor } from 'refractor/lib/common';
 
 import type { Options } from '.';

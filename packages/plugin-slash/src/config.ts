@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, Ctx, schemaCtx, themeManagerCtx } from '@milkdown/core';
-import { EditorState, Node } from '@milkdown/prose';
+import { Node } from '@milkdown/prose/model';
+import { EditorState } from '@milkdown/prose/state';
 
 import { WrappedAction } from './item';
 import { createDropdownItem } from './utility';

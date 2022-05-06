@@ -8,7 +8,8 @@ import {
     ThemeShadow,
     ThemeSize,
 } from '@milkdown/core';
-import { calculateTextPosition, EditorView } from '@milkdown/prose';
+import { calculateTextPosition } from '@milkdown/prose';
+import { EditorView } from '@milkdown/prose/view';
 
 const getStyle = (manager: ThemeManager, { css }: Emotion, options: { width: string }) => {
     const palette = getPalette(manager);

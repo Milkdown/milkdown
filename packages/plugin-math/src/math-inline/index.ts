@@ -1,7 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Color, commandsCtx, createCmd, createCmdKey, ThemeColor, ThemeInputChipType, ThemeSize } from '@milkdown/core';
-import { EditorView, findSelectedNodeOfType, InputRule, NodeSelection, Plugin, PluginKey } from '@milkdown/prose';
+import { findSelectedNodeOfType } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
+import { EditorView } from '@milkdown/prose/view';
 import { createNode } from '@milkdown/utils';
 import katex from 'katex';
 

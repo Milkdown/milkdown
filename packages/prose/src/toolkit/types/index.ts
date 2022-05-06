@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { Mark, Node } from 'prosemirror-model';
-import type { Decoration, EditorView, NodeView } from 'prosemirror-view';
+import type { Mark, Node } from '../../model';
+import type { Decoration, EditorView, NodeView } from '../../view';
 
 export type NodeViewParams = [node: Node, view: EditorView, getPos: () => number, decorations: Decoration[]];
 export type MarkViewParams = [mark: Mark, view: EditorView, getPos: boolean, decorations: Decoration[]];

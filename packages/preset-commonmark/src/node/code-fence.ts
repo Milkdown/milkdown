@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, editorViewCtx, ThemeCodeFenceType } from '@milkdown/core';
-import { Fragment, setBlockType, textblockTypeInputRule } from '@milkdown/prose';
+import { setBlockType } from '@milkdown/prose/commands';
+import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
+import { Fragment } from '@milkdown/prose/model';
 import { createNode, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';

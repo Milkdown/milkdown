@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Ctx, inputRulesCtx, MilkdownPlugin, SchemaReady } from '@milkdown/core';
-import { InputRule } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
 
 export type $InputRule = MilkdownPlugin & {
     inputRule: InputRule;

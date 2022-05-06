@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeFont, ThemeScrollbar } from '@milkdown/core';
-import { EditorView } from '@milkdown/prose';
+import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
 export type HandleDOMParams = {

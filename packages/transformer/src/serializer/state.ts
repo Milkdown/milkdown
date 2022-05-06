@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { serializerMatchError } from '@milkdown/exception';
-import type { Fragment, Mark as ProseMark, Node as ProseNode, Schema } from '@milkdown/prose';
+import type { Fragment, Mark as ProseMark, Node as ProseNode, Schema } from '@milkdown/prose/model';
 
 import { RemarkParser } from '../utility';
 import type { Stack } from './stack';

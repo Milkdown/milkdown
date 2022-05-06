@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { markRule, toggleMark } from '@milkdown/prose';
+import { markRule } from '@milkdown/prose';
+import { toggleMark } from '@milkdown/prose/commands';
 import { createMark, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';

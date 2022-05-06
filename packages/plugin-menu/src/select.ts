@@ -11,7 +11,7 @@ import {
     ThemeShadow,
     ThemeSize,
 } from '@milkdown/core';
-import { EditorView } from '@milkdown/prose';
+import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
 import type { CommonConfig } from './default-config';

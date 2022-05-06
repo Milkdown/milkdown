@@ -1,5 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Decoration, DecorationSet, findChildren, Node } from '@milkdown/prose';
+import { findChildren } from '@milkdown/prose';
+import { Node } from '@milkdown/prose/model';
+import { Decoration, DecorationSet } from '@milkdown/prose/view';
 import type { RefractorElement, Text } from 'refractor/lib/common';
 import type { Refractor } from 'refractor/lib/core';
 

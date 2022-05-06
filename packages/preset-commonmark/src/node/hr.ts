@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, schemaCtx } from '@milkdown/core';
-import { InputRule, Selection } from '@milkdown/prose';
+import { InputRule } from '@milkdown/prose/inputrules';
+import { Selection } from '@milkdown/prose/state';
 import { createNode } from '@milkdown/utils';
 
 const id = 'hr';

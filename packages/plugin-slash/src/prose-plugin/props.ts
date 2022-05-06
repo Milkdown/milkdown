@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Color, Emotion, ThemeColor, ThemeFont, ThemeManager } from '@milkdown/core';
-import { Decoration, DecorationSet, EditorState, EditorView, findParentNode } from '@milkdown/prose';
+import { findParentNode } from '@milkdown/prose';
+import { EditorState } from '@milkdown/prose/state';
+import { Decoration, DecorationSet, EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
 import type { Status } from './status';

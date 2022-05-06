@@ -9,7 +9,8 @@ import {
     serializerCtx,
     SerializerReady,
 } from '@milkdown/core';
-import { Node as ProseNode, Plugin, PluginKey } from '@milkdown/prose';
+import { Node as ProseNode } from '@milkdown/prose/model';
+import { Plugin, PluginKey } from '@milkdown/prose/state';
 
 class ListenerManager {
     private beforeMountedListeners: Array<(ctx: Ctx) => void> = [];
