@@ -107,27 +107,62 @@
     </url>
     <url>
         <loc>
-            https://milkdown.dev/milkdown_core
+            https://milkdown.dev/core
         </loc>
     </url>
     <url>
         <loc>
-            https://milkdown.dev/milkdown_prose
+            https://milkdown.dev/prose
         </loc>
     </url>
     <url>
         <loc>
-            https://milkdown.dev/milkdown_plugin-listener
+            https://milkdown.dev/preset-commonmark
         </loc>
     </url>
     <url>
         <loc>
-            https://milkdown.dev/milkdown_ctx
+            https://milkdown.dev/preset-gfm
         </loc>
     </url>
     <url>
         <loc>
-            https://milkdown.dev/milkdown_transformer
+            https://milkdown.dev/plugin-listener
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-prism
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-tooltip
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-slash
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-menu
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-math
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/ctx
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/transformer
         </loc>
     </url>
 </urlset>

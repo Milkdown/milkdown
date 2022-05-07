@@ -35,7 +35,20 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'reference-manual',
-        items: ['milkdown_core', 'milkdown_prose', 'milkdown_plugin-listener', 'milkdown_ctx', 'milkdown_transformer'],
+        items: [
+            'core',
+            'prose',
+            'preset-commonmark',
+            'preset-gfm',
+            'plugin-listener',
+            'plugin-prism',
+            'plugin-tooltip',
+            'plugin-slash',
+            'plugin-menu',
+            'plugin-math',
+            'ctx',
+            'transformer',
+        ],
     },
 ];
 

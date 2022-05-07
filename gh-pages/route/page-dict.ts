@@ -262,38 +262,87 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
-        'milkdown_core',
+        'core',
         {
-            en: '@milkdown/core',
-            'zh-hans': '@milkdown/core',
+            en: 'core',
+            'zh-hans': 'core',
         },
     ],
     [
-        'milkdown_prose',
+        'prose',
         {
-            en: '@milkdown/prose',
-            'zh-hans': '@milkdown/prose',
+            en: 'prose',
+            'zh-hans': 'prose',
         },
     ],
     [
-        'milkdown_ctx',
+        'ctx',
         {
-            en: '@milkdown/ctx',
-            'zh-hans': '@milkdown/ctx',
+            en: 'ctx',
+            'zh-hans': 'ctx',
         },
     ],
     [
-        'milkdown_transformer',
+        'transformer',
         {
-            en: '@milkdown/transformer',
-            'zh-hans': '@milkdown/transformer',
+            en: 'transformer',
+            'zh-hans': 'transformer',
         },
     ],
     [
-        'milkdown_plugin-listener',
+        'preset-commonmark',
         {
-            en: '@milkdown/plugin-listener',
-            'zh-hans': '@milkdown/plugin-listener',
+            en: 'preset-commonmark',
+            'zh-hans': 'preset-commonmark',
+        },
+    ],
+    [
+        'preset-gfm',
+        {
+            en: 'preset-gfm',
+            'zh-hans': 'preset-gfm',
+        },
+    ],
+    [
+        'plugin-listener',
+        {
+            en: 'plugin-listener',
+            'zh-hans': 'plugin-listener',
+        },
+    ],
+    [
+        'plugin-tooltip',
+        {
+            en: 'plugin-tooltip',
+            'zh-hans': 'plugin-tooltip',
+        },
+    ],
+    [
+        'plugin-slash',
+        {
+            en: 'plugin-slash',
+            'zh-hans': 'plugin-slash',
+        },
+    ],
+    [
+        'plugin-menu',
+        {
+            en: 'plugin-menu',
+            'zh-hans': 'plugin-menu',
+        },
+    ],
+    [
+        'plugin-prism',
+        {
+            en: 'plugin-prism',
+            'zh-hans': 'plugin-prism',
+        },
+    ],
+    [
+        'plugin-math',
+        {
+            en: 'plugin-math',
+            'zh-hans': 'plugin-math',
         },
     ],
 ]);
