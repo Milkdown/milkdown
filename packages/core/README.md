@@ -4,7 +4,7 @@ The core module of [milkdown](https://saul-mirone.github.io/milkdown/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://saul-mirone.github.io/milkdown/).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/core).
 
 # License
 

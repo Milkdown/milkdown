@@ -1,8 +1,10 @@
 # @milkdown/prose
 
-Prosemirror toolkit for [milkdown](https://saul-mirone.github.io/milkdown/).
+The prose module of [milkdown](https://milkdown.dev).
 
-Check API on [document website](https://milkdown.dev/#/prose).
+# Official Documentation
+
+Documentation can be found on the [Milkdown website](https://milkdown.dev/prose).
 
 # License
 

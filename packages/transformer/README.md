@@ -1,10 +1,10 @@
 # @milkdown/transformer
 
-The transformer module of [milkdown](https://saul-mirone.github.io/milkdown/).
+The transformer module of [milkdown](https://milkdown.dev).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://saul-mirone.github.io/milkdown/).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/transformer).
 
 # License
 
