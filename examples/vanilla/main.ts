@@ -20,9 +20,10 @@ async function main() {
     const editor = await Editor.make()
         .config((ctx) => {
             ctx.set(defaultValueCtx, '# Here is [mylink](https://milkdown.dev)');
-            ctx.set(editorViewOptionsCtx, {
+            ctx.update(editorViewOptionsCtx, (x) => ({
+                ...x,
                 editable: () => editable,
-            });
+            }));
         })
         .use(tokyo)
         .use(commonmark)

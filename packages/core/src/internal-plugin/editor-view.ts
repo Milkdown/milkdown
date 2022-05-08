@@ -2,17 +2,17 @@
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { ViewFactory } from '@milkdown/prose';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
-import { EditorView } from '@milkdown/prose/view';
+import { DirectEditorProps, EditorView } from '@milkdown/prose/view';
 
 import { editorStateCtx, EditorStateReady } from './editor-state';
 import { InitReady, prosePluginsCtx, viewCtx } from './init';
 
-type EditorOptions = Omit<ConstructorParameters<typeof EditorView>[1], 'state'>;
+type EditorOptions = Omit<DirectEditorProps, 'state'>;
 
 type RootType = Node | undefined | null | string;
 
 export const editorViewCtx = createSlice({} as EditorView, 'editorView');
-export const editorViewOptionsCtx = createSlice({} as EditorOptions, 'editorViewOptions');
+export const editorViewOptionsCtx = createSlice({} as Partial<EditorOptions>, 'editorViewOptions');
 export const rootCtx = createSlice(null as RootType, 'root');
 export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer');
 
@@ -81,6 +81,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         const view = new EditorView(el as Node, {
             state,
             nodeViews,
+            plugins: [],
             ...options,
         });
         prepareViewDom(view.dom);
