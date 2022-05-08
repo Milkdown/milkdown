@@ -21,7 +21,7 @@
         "doc:preview": "pnpm --filter @milkdown/gh-pages run preview",
         "start": "concurrently -n watch,doc \"pnpm watch\" \"pnpm doc\"",
         "build:packs": "pnpm --filter=@milkdown/* run build",
-        "build:doc": "pnpm run build --filter @milkdown/gh-pages",
+        "build:doc": "pnpm --filter=@milkdown/gh-pages run build",
         "build:cache": "nx run-many --target=build --all --parallel",
         "build:affected": "nx affected --target=build",
         "graph": "nx dep-graph",
