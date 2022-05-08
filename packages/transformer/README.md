@@ -1,6 +1,6 @@
 # @milkdown/transformer
 
-The transformer module of [milkdown](https://milkdown.dev).
+The transformer module of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

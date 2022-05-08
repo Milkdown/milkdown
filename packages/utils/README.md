@@ -1,6 +1,6 @@
 # @milkdown/utils
 
-Utils package for [milkdown](https://saul-mirone.github.io/milkdown/).
+Utils package for [milkdown](https://milkdown.dev/).
 
 Check API on [document website](https://milkdown.dev/#/using-utils-package).
 

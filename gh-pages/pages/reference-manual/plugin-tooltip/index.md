@@ -1,6 +1,6 @@
 # @milkdown/plugin-tooltip
 
-Tooltip plugin for [milkdown](https://saul-mirone.github.io/milkdown/).
+Tooltip plugin for [milkdown](https://milkdown.dev/).
 Add support for tooltip commands.
 
 ## Example Usage

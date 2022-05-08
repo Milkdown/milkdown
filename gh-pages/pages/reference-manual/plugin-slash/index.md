@@ -1,6 +1,6 @@
 # @milkdown/plugin-slash
 
-Slash plugin for [milkdown](https://saul-mirone.github.io/milkdown/).
+Slash plugin for [milkdown](https://milkdown.dev/).
 Add support for slash commands.
 
 ## Example Usage

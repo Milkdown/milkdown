@@ -1,6 +1,6 @@
 # @milkdown/react
 
-React integration for [milkdown](https://saul-mirone.github.io/milkdown/).
+React integration for [milkdown](https://milkdown.dev/).
 
 # Example Usage
 

@@ -345,6 +345,41 @@ export const titleDict: Dict = new Map([
             'zh-hans': 'plugin-math',
         },
     ],
+    [
+        'plugin-clipboard',
+        {
+            en: 'plugin-clipboard',
+            'zh-hans': 'plugin-clipboard',
+        },
+    ],
+    [
+        'plugin-diagram',
+        {
+            en: 'plugin-diagram',
+            'zh-hans': 'plugin-diagram',
+        },
+    ],
+    [
+        'plugin-emoji',
+        {
+            en: 'plugin-emoji',
+            'zh-hans': 'plugin-emoji',
+        },
+    ],
+    [
+        'plugin-history',
+        {
+            en: 'plugin-history',
+            'zh-hans': 'plugin-history',
+        },
+    ],
+    [
+        'plugin-indent',
+        {
+            en: 'plugin-indent',
+            'zh-hans': 'plugin-indent',
+        },
+    ],
 ]);
 
 export const fromDict = (key: string, local: Local) => titleDict.get(key)?.[local] ?? 'Not Found';

@@ -1,18 +1,10 @@
 # @milkdown/plugin-history
 
-History undo & redo support for [milkdown](https://saul-mirone.github.io/milkdown/).
+The history plugin of [milkdown](https://milkdown.dev/).
 
-# Example Usage
+# Official Documentation
 
-```typescript
-import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { nord } from '@milkdown/theme-nord';
-
-import { history } from '@milkdown/plugin-history';
-
-Editor.make().use(nord).use(commonmark).use(history).create();
-```
+Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-history).
 
 # License
 

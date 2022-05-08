@@ -1,6 +1,6 @@
 # @milkdown/plugin-slash
 
-The slash plugin of [milkdown](https://milkdown.dev).
+The slash plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

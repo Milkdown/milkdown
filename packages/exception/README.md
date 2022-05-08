@@ -1,6 +1,6 @@
 # @milkdown/exception
 
-Internal exception for [milkdown](https://saul-mirone.github.io/milkdown/).
+Internal exception for [milkdown](https://milkdown.dev/).
 
 # License
 

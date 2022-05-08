@@ -1,6 +1,6 @@
 # @milkdown/plugin-math
 
-Math plugin for [milkdown](https://saul-mirone.github.io/milkdown/).
+Math plugin for [milkdown](https://milkdown.dev/).
 Add support for latex.
 
 > **You need to include the katex.css file on your own**.

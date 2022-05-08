@@ -1,6 +1,6 @@
 # @milkdown/ctx
 
-The core module of [milkdown](https://milkdown.dev).
+The core module of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

@@ -1,6 +1,6 @@
 # @milkdown/design-system
 
-Design system for [milkdown](https://saul-mirone.github.io/milkdown/).
+Design system for [milkdown](https://milkdown.dev/).
 Used to create new milkdown themes.
 
 Check API on [document website](https://milkdown.dev/#/design-system).

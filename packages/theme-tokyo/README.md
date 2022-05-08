@@ -1,6 +1,6 @@
 # @milkdown/theme-tokyo
 
-Tokyo theme for [milkdown](https://saul-mirone.github.io/milkdown/).
+Tokyo theme for [milkdown](https://milkdown.dev/).
 
 # Example Usage
 

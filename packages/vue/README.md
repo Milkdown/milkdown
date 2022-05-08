@@ -1,6 +1,6 @@
 # @milkdown/vue
 
-Vue integration for [milkdown](https://saul-mirone.github.io/milkdown/).
+Vue integration for [milkdown](https://milkdown.dev/).
 
 # Example Usage
 

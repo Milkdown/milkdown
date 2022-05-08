@@ -1,8 +1,6 @@
 # @milkdown/preset-gfm
 
-Github flavored markdown preset for [milkdown](https://saul-mirone.github.io/milkdown/).
-
-## Example Usage
+Github flavored markdown preset for [milkdown](https://milkdown.dev/).
 
 ```typescript
 import { Editor } from '@milkdown/core';

@@ -1,20 +1,10 @@
 # @milkdown/plugin-emoji
 
-Emoji plugin for [milkdown](https://saul-mirone.github.io/milkdown/).
-Add support for emoji through [shortcuts](https://www.webfx.com/tools/emoji-cheat-sheet/).
-Rendered by [twemoji](https://github.com/twitter/twemoji).
+The emoji plugin of [milkdown](https://milkdown.dev/).
 
-# Example Usage
+# Official Documentation
 
-```typescript
-import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { nord } from '@milkdown/theme-nord';
-
-import { emoji } from '@milkdown/plugin-emoji';
-
-Editor.make().use(nord).use(commonmark).use(emoji).create();
-```
+Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-emoji).
 
 # License
 

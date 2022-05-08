@@ -1,6 +1,6 @@
 # @milkdown/prose
 
-The prose module of [milkdown](https://milkdown.dev).
+The prose module of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

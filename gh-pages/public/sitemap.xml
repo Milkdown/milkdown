@@ -132,6 +132,11 @@
     </url>
     <url>
         <loc>
+            https://milkdown.dev/plugin-history
+        </loc>
+    </url>
+    <url>
+        <loc>
             https://milkdown.dev/plugin-prism
         </loc>
     </url>
@@ -152,7 +157,27 @@
     </url>
     <url>
         <loc>
+            https://milkdown.dev/plugin-indent
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-emoji
+        </loc>
+    </url>
+    <url>
+        <loc>
             https://milkdown.dev/plugin-math
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-diagram
+        </loc>
+    </url>
+    <url>
+        <loc>
+            https://milkdown.dev/plugin-clipboard
         </loc>
     </url>
     <url>

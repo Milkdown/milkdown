@@ -1,6 +1,6 @@
 # @milkdown/plugin-collaborative
 
-Collaborative editing support for [milkdown](https://saul-mirone.github.io/milkdown/).
+Collaborative editing support for [milkdown](https://milkdown.dev/).
 
 # Example Usage
 

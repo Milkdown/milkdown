@@ -1,6 +1,6 @@
 # @milkdown/plugin-prism
 
-Prism plugin for [milkdown](https://saul-mirone.github.io/milkdown/).
+Prism plugin for [milkdown](https://milkdown.dev/).
 Add support for prism highlight.
 
 > ⚠️ Keep in mind that you need to import prism style on your own.

@@ -1,9 +1,6 @@
 # @milkdown/preset-commonmark
 
-Common mark preset for [milkdown](https://saul-mirone.github.io/milkdown/).
-Add support for commonmark.
-
-## Example Usage
+Commonmark preset for [milkdown](https://milkdown.dev/).
 
 ```typescript
 import { Editor } from '@milkdown/core';

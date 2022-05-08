@@ -1,6 +1,6 @@
 # @milkdown/preset-gfm
 
-The gfm preset of [milkdown](https://milkdown.dev).
+The gfm preset of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

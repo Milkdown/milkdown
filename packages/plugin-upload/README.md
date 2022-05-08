@@ -1,6 +1,6 @@
 # @milkdown/plugin-upload
 
-Upload image when drop for [milkdown](https://saul-mirone.github.io/milkdown/).
+Upload image when drop for [milkdown](https://milkdown.dev/).
 
 # Example Usage
 

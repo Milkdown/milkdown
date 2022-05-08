@@ -1,6 +1,6 @@
 # @milkdown/core
 
-The core module of [milkdown](https://saul-mirone.github.io/milkdown/).
+The core module of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

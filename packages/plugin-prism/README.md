@@ -1,6 +1,6 @@
 # @milkdown/plugin-prism
 
-The listener plugin of [milkdown](https://milkdown.dev).
+The listener plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

@@ -1,6 +1,6 @@
 # @milkdown/preset-commonmark
 
-The commonmark preset of [milkdown](https://milkdown.dev).
+The commonmark preset of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

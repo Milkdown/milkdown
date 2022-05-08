@@ -2,8 +2,6 @@
 
 Listener plugin for milkdown.
 
-## Example Usage
-
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';

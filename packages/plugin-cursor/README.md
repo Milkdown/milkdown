@@ -1,6 +1,6 @@
 # @milkdown/plugin-cursor
 
-Add [drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor) and [gap Cursor](https://github.com/ProseMirror/prosemirror-gapcursor) for [milkdown](https://saul-mirone.github.io/milkdown/).
+Add [drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor) and [gap Cursor](https://github.com/ProseMirror/prosemirror-gapcursor) for [milkdown](https://milkdown.dev/).
 
 # Example Usage
 

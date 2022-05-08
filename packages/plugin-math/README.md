@@ -1,6 +1,6 @@
 # @milkdown/plugin-math
 
-The math plugin of [milkdown](https://milkdown.dev).
+The math plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

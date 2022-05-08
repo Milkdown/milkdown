@@ -1,6 +1,6 @@
 # @milkdown/plugin-menu
 
-Menu plugin for [milkdown](https://saul-mirone.github.io/milkdown/).
+Menu plugin for [milkdown](https://milkdown.dev/).
 Add support for menu bar.
 
 ```typescript

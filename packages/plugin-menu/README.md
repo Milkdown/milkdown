@@ -1,6 +1,6 @@
 # @milkdown/plugin-menu
 
-The menu plugin of [milkdown](https://milkdown.dev).
+The menu plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

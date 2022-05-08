@@ -1,6 +1,6 @@
 # @milkdown/plugin-tooltip
 
-The tooltip plugin of [milkdown](https://milkdown.dev).
+The tooltip plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
