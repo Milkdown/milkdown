@@ -108,6 +108,13 @@ export const viteBuild = (packageDirName: string, options: BuildOptions = {}): B
         options,
     );
 
+/**
+ * Config for plugins
+ *
+ * @param packageDirName - package directory name
+ * @param options - custom options
+ * @returns user config
+ */
 export const pluginViteConfig = (packageDirName: string, options: ViteUserConfig = {}) => {
     const vitePlugins = options.plugins ?? [];
     return defineConfig({
