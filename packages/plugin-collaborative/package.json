@@ -26,7 +26,7 @@
     "devDependencies": {
         "@milkdown/core": "workspace:*",
         "@milkdown/prose": "workspace:*",
-        "yjs": "^13.5.35"
+        "yjs": "^13.5.36"
     },
     "peerDependencies": {
         "@milkdown/core": "^6.0.1",

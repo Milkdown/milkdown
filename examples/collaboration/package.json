@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@milkdown/core": "workspace:*",
+        "@milkdown/prose": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/plugin-math": "workspace:*",
@@ -17,6 +18,6 @@
         "@milkdown/utils": "workspace:*",
         "y-protocols": "^1.0.5",
         "y-websocket": "^1.3.16",
-        "yjs": "^13.5.11"
+        "yjs": "^13.5.36"
     }
 }
