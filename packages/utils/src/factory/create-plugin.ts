@@ -9,6 +9,7 @@ import {
     nodesCtx,
     schemaCtx,
     SchemaReady,
+    Slice,
     ThemeReady,
     viewCtx,
 } from '@milkdown/core';
@@ -51,60 +52,64 @@ export const createPlugin = <
     MarkKeys extends string = string,
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    inject?: Slice<any>[],
 ): WithExtend<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>> =>
     withExtend(
         factory,
         addMetadata(
             (options): MilkdownPlugin =>
-                () =>
-                async (ctx) => {
-                    await ctx.wait(ThemeReady);
-                    const utils = getUtils(ctx, options);
+                (pre) => {
+                    inject?.forEach((slice) => pre.inject(slice));
+                    return async (ctx) => {
+                        await ctx.wait(ThemeReady);
+                        const utils = getUtils(ctx, options);
 
-                    const plugin = factory(utils, options);
+                        const plugin = factory(utils, options);
 
-                    await applyMethods(
-                        ctx,
-                        plugin,
-                        async () => {
-                            let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
-                            let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
-                            if (plugin.schema) {
-                                const schemas = plugin.schema(ctx);
-                                if (schemas.node) {
-                                    node = schemas.node;
-                                    const nodes = Object.entries<NodeSchema>(schemas.node);
-                                    ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+                        await applyMethods(
+                            ctx,
+                            plugin,
+                            async () => {
+                                let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
+                                let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
+                                if (plugin.schema) {
+                                    const schemas = plugin.schema(ctx);
+                                    if (schemas.node) {
+                                        node = schemas.node;
+                                        const nodes = Object.entries<NodeSchema>(schemas.node);
+                                        ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+                                    }
+
+                                    if (schemas.mark) {
+                                        mark = schemas.mark;
+                                        const marks = Object.entries<MarkSchema>(schemas.mark);
+                                        ctx.update(marksCtx, (ms) => [...ms, ...marks]);
+                                    }
                                 }
 
-                                if (schemas.mark) {
-                                    mark = schemas.mark;
-                                    const marks = Object.entries<MarkSchema>(schemas.mark);
-                                    ctx.update(marksCtx, (ms) => [...ms, ...marks]);
-                                }
-                            }
+                                await ctx.wait(SchemaReady);
 
-                            await ctx.wait(SchemaReady);
+                                const schema = ctx.get(schemaCtx);
+                                const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
+                                const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
+                                const type: TypeMapping<NodeKeys, MarkKeys> = Object.fromEntries([
+                                    ...nodeTypes,
+                                    ...markTypes,
+                                ]);
+                                return type;
+                            },
+                            options,
+                        );
 
-                            const schema = ctx.get(schemaCtx);
-                            const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
-                            const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
-                            const type: TypeMapping<NodeKeys, MarkKeys> = Object.fromEntries([
-                                ...nodeTypes,
-                                ...markTypes,
+                        if (plugin.view) {
+                            const view = plugin.view(ctx);
+                            ctx.update(viewCtx, (v) => [
+                                ...v,
+                                ...Object.entries<ViewFactory>(view as Record<string, ViewFactory>),
                             ]);
-                            return type;
-                        },
-                        options,
-                    );
-
-                    if (plugin.view) {
-                        const view = plugin.view(ctx);
-                        ctx.update(viewCtx, (v) => [
-                            ...v,
-                            ...Object.entries<ViewFactory>(view as Record<string, ViewFactory>),
-                        ]);
-                    }
+                        }
+                    };
                 },
         ),
         createPlugin,
