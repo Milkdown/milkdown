@@ -38,8 +38,8 @@ type Options = {
     awareness: Awareness;
     ySyncOpts: YSyncOpts;
     yCursorOpts: yCursorOpts;
-    yCursorStateField?: string;
-    yUndoOpts?: yUndoOpts;
+    yCursorStateField: string;
+    yUndoOpts: yUndoOpts;
 };
 
 export const y = createPlugin<string, Options>(
