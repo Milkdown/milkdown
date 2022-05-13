@@ -200,7 +200,7 @@ Get box shadow.
 ```typescript
 import { ThemeShadow } from '@milkdown/core';
 
-manager.set(ThemeIcon, (key) => {
+manager.set(ThemeShadow, (key) => {
     const palette = getPalette(manager);
     const width = manager.get(ThemeSize, 'lineWidth');
     const shadow = (opacity: number) => palette('shadow', opacity);
