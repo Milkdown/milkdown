@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, Emotion, MilkdownPlugin, ThemeManager } from '@milkdown/core';
+import type { Attrs, CmdKey, Emotion, MilkdownPlugin, Slice, ThemeManager } from '@milkdown/core';
 import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
 import { ViewFactory } from '@milkdown/prose';
 import { InputRule } from '@milkdown/prose/inputrules';
@@ -23,6 +23,8 @@ export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRe
 };
 
 export type Methods<Keys extends string, Type> = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    inject?: Slice<any>[];
     remarkPlugins?: (ctx: Ctx) => RemarkPlugin[];
     inputRules?: (types: Type, ctx: Ctx) => InputRule[];
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];

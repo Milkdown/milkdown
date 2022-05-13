@@ -243,6 +243,49 @@ Most of the time if you want to define your own markdown syntax, you should use 
 
 ---
 
+## Inject Slices
+
+You may want to inject slices into a plugin to let them can be accessed or updated by other parts in the editor.
+
+```typescript
+import { createSlice } from '@milkdown/core';
+class MyState {
+    value: string;
+
+    getValue() {
+        return this.value;
+    }
+
+    setValue(value: string) {
+        this.value = value;
+    }
+}
+
+const blockquoteState = createSlice(new MyState(), 'blockquote');
+const blockquote = createNode<'Blockquote'>(() => {
+    const id = 'blockquote';
+
+    return {
+        id,
+        schema: (ctx) => {
+            const myState = ctx.get(blockquoteState);
+            doSomething(myState.getValue());
+        },
+        // ...
+    };
+}, [blockquoteState]);
+
+// Users can do:
+Editor.make()
+    .config((ctx) => {
+        ctx.get(blockquoteState).setValue('My Config Value');
+    })
+    // ...
+    .create();
+```
+
+---
+
 ## Style
 
 You may want to add style for your plugin if it has a user interface.
