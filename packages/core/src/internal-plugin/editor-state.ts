@@ -14,7 +14,7 @@ import { Parser, parserCtx, ParserReady } from './parser';
 import { schemaCtx } from './schema';
 import { SerializerReady } from './serializer';
 
-type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: JSONRecord };
+export type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: JSONRecord };
 type StateOptions = Parameters<typeof EditorState.create>[0];
 type StateOptionsOverride = (prev: StateOptions) => StateOptions;
 
@@ -27,7 +27,7 @@ export const EditorStateReady = createTimer('EditorStateReady');
 
 const key = new PluginKey('MILKDOWN_PLUGIN_STATE_TRACKER');
 
-const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
+export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
     if (typeof defaultValue === 'string') {
         return parser(defaultValue);
     }
