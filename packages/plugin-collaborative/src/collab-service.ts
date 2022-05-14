@@ -131,6 +131,11 @@ export class CollabService {
         return this;
     }
 
+    mergeOptions(options: Partial<Options>) {
+        Object.assign(this.#options, options);
+        return this;
+    }
+
     setAwareness(awareness: Awareness) {
         this.#awareness = awareness;
         return this;

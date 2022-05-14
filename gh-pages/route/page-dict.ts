@@ -59,6 +59,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'collaborative-editing',
+        {
+            en: 'Collaborative Editing',
+            'zh-hans': '协同编辑',
+        },
+    ],
+    [
         'integrations',
         {
             en: 'Integrations',

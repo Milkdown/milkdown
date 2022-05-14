@@ -12,6 +12,7 @@ export const config: ConfigItem[] = [
             'styling',
             'keyboard-shortcuts',
             'macros',
+            'collaborative-editing',
         ],
     },
     {
