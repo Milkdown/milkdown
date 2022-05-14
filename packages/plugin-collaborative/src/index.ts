@@ -6,7 +6,7 @@ import { injectStyle } from './injectStyle';
 
 export const collabServiceCtx = createSlice(new CollabService(), 'collabServiceCtx');
 
-export const y: MilkdownPlugin = (pre) => {
+export const collaborative: MilkdownPlugin = (pre) => {
     const collabService = new CollabService();
     pre.inject(collabServiceCtx, collabService);
     return async (ctx) => {
