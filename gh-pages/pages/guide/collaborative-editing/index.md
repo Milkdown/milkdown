@@ -56,7 +56,6 @@ editor.action((ctx) => {
     const collabService = ctx.get(collabServiceCtx);
     const doc = new Doc();
     const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
-    wsProvider.awareness.setLocalStateField('user', options[rndInt]);
 
     collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
 
@@ -83,12 +82,8 @@ editor.action((ctx) => {
     const collabService = ctx.get(collabServiceCtx);
     const doc = new Doc();
     const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
-    wsProvider.awareness.setLocalStateField('user', options[rndInt]);
 
-    collabService
-        // bind doc and awareness
-        .bindDoc(doc)
-        .setAwareness(wsProvider.awareness);
+    collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
 
     wsProvider.once('synced', async (isSynced: boolean) => {
         if (isSynced) {
