@@ -1,11 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
-import { collaborative, y } from '@milkdown/plugin-collaborative';
+import { collabServiceCtx, y } from '@milkdown/plugin-collaborative';
 import { math } from '@milkdown/plugin-math';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
-import { replaceAll } from '@milkdown/utils';
 import { WebsocketProvider } from 'y-websocket';
 import { Doc } from 'yjs';
 
@@ -23,12 +22,15 @@ const options = [
     { color: '#dbfdbf', name: 'milkdown user 3' },
     { color: '#D08770', name: 'milkdown user 4' },
 ];
-const rndInt = Math.floor(Math.random() * 4) + 1;
+const rndInt = Math.floor(Math.random() * 4);
+
+const status$ = document.getElementById('status');
+const connect$ = document.getElementById('connect');
+const disconnect$ = document.getElementById('disconnect');
+
+const autoConnect = true;
 
 async function main() {
-    const doc = new Doc();
-    const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', doc);
-    wsProvider.awareness.setLocalStateField('user', options[rndInt]);
     const editor = await Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, document.getElementById('app'));
@@ -37,17 +39,44 @@ async function main() {
         .use(nord)
         .use(commonmark)
         .use(math)
-        .use(
-            collaborative.configure(y, {
-                doc,
-                awareness: wsProvider.awareness,
-            }),
-        )
+        .use(y)
         .create();
 
-    // editor.action(replaceAll('# Milkdown', true));
+    editor.action((ctx) => {
+        const collabService = ctx.get(collabServiceCtx);
+        const doc = new Doc();
+        const wsProvider = new WebsocketProvider('ws://localhost:1234', 'milkdown', doc, { connect: autoConnect });
+        wsProvider.awareness.setLocalStateField('user', options[rndInt]);
+        wsProvider.on('status', (payload: { status: string }) => {
+            if (status$) {
+                status$.innerText = payload.status;
+            }
+        });
 
-    return;
+        collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
+
+        wsProvider.once('synced', async (isSynced: boolean) => {
+            if (isSynced) {
+                collabService.applyTemplate(markdown).connect();
+            }
+        });
+
+        if (connect$) {
+            connect$.onclick = () => {
+                wsProvider.connect();
+                collabService.connect();
+            };
+        }
+
+        if (disconnect$) {
+            disconnect$.onclick = () => {
+                wsProvider.disconnect();
+                collabService.disconnect();
+            };
+        }
+    });
+
+    return editor;
 }
 
 main();
