@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
-import { collabServiceCtx, y } from '@milkdown/plugin-collaborative';
+import { collaborative, collabServiceCtx } from '@milkdown/plugin-collaborative';
 import { math } from '@milkdown/plugin-math';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { nord } from '@milkdown/theme-nord';
@@ -39,7 +39,7 @@ async function main() {
         .use(nord)
         .use(commonmark)
         .use(math)
-        .use(y)
+        .use(collaborative)
         .create();
 
     editor.action((ctx) => {
