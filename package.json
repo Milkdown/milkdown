@@ -31,7 +31,7 @@
         "commit": "git-cz"
     },
     "devDependencies": {
-        "@changesets/cli": "^2.16.0",
+        "@changesets/cli": "^2.22.0",
         "@commitlint/cli": "^16.0.0",
         "@commitlint/config-conventional": "^16.0.0",
         "@nrwl/cli": "latest",
