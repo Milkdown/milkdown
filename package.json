@@ -3,8 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "engines": {
-        "node": ">=10",
-        "pnpm": ">=3"
+        "node": ">=12",
+        "pnpm": ">=7"
     },
     "scripts": {
         "postinstall": "husky install",

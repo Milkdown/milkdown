@@ -15,9 +15,9 @@ To get started:
 
 After that,
 you may want to play with any packages,
-You can watch them through `pnpm start --filter=@milkdown/xxx`.
+You can watch them through `pnpm --filter=@milkdown/xxx start`.
 
-For example, `pnpm start --filter=@milkdown/core`.
+For example, `pnpm --filter=@milkdown/core start`.
 
 # Commands
 
