@@ -1,5 +1,20 @@
 # @milkdown-examples/react
 
+## 6.1.0
+
+### Minor Changes
+
+-   1daf87dd: Improve support for collaborative editing.
+
+### Patch Changes
+
+-   Updated dependencies [1daf87dd]
+    -   @milkdown/core@6.1.0
+    -   @milkdown/plugin-tooltip@6.1.0
+    -   @milkdown/preset-commonmark@6.1.0
+    -   @milkdown/react@6.1.0
+    -   @milkdown/theme-nord@6.1.0
+
 ## 6.0.2
 
 ### Patch Changes
