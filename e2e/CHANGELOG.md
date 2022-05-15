@@ -1,5 +1,21 @@
 # @milkdown/e2e
 
+## 6.1.0
+
+### Minor Changes
+
+-   1daf87dd: Improve support for collaborative editing.
+
+### Patch Changes
+
+-   Updated dependencies [1daf87dd]
+    -   @milkdown/core@6.1.0
+    -   @milkdown/design-system@6.1.0
+    -   @milkdown/preset-commonmark@6.1.0
+    -   @milkdown/preset-gfm@6.1.0
+    -   @milkdown/prose@6.1.0
+    -   @milkdown/theme-nord@6.1.0
+
 ## 6.0.2
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @milkdown/core
 
+## 6.1.0
+
+### Minor Changes
+
+-   1daf87dd: Improve support for collaborative editing.
+
+### Patch Changes
+
+-   Updated dependencies [1daf87dd]
+    -   @milkdown/ctx@6.1.0
+    -   @milkdown/design-system@6.1.0
+    -   @milkdown/exception@6.1.0
+    -   @milkdown/transformer@6.1.0
+
 ## 6.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @milkdown/theme-pack-helper
 
+## 6.1.0
+
+### Minor Changes
+
+-   1daf87dd: Improve support for collaborative editing.
+
 ## 6.0.2
 
 ### Patch Changes
