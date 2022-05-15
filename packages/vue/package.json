@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/vue",
-    "version": "6.0.2",
+    "version": "7.0.0",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
@@ -27,8 +27,8 @@
         "tslib": "^2.3.1"
     },
     "peerDependencies": {
-        "@milkdown/core": "^6.0.1",
-        "@milkdown/prose": "^6.0.1",
+        "@milkdown/core": "^7.0.0",
+        "@milkdown/prose": "^7.0.0",
         "vue": "^3.0.0"
     },
     "devDependencies": {

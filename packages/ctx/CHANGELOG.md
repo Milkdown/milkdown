@@ -1,5 +1,16 @@
 # @milkdown/ctx
 
+## 7.0.0
+
+### Minor Changes
+
+-   32676165: Improve the collaborative editing behavior, and bug fixes.
+
+### Patch Changes
+
+-   Updated dependencies [32676165]
+    -   @milkdown/exception@7.0.0
+
 ## 6.0.2
 
 ### Patch Changes

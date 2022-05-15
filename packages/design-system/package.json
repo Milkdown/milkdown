@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/design-system",
-    "version": "6.0.2",
+    "version": "7.0.0",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
@@ -26,7 +26,7 @@
         "@milkdown/prose": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/prose": "^6.0.1"
+        "@milkdown/prose": "^7.0.0"
     },
     "nx": {
         "targets": {

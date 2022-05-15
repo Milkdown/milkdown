@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 7.0.0
+
+### Minor Changes
+
+-   32676165: Improve the collaborative editing behavior, and bug fixes.
+
 ## 6.0.2
 
 ### Patch Changes

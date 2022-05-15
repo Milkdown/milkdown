@@ -1,5 +1,22 @@
 # @milkdown-examples/collaboration
 
+## 6.1.0
+
+### Minor Changes
+
+-   32676165: Improve the collaborative editing behavior, and bug fixes.
+
+### Patch Changes
+
+-   Updated dependencies [32676165]
+    -   @milkdown/core@7.0.0
+    -   @milkdown/plugin-collaborative@7.0.0
+    -   @milkdown/plugin-math@7.0.0
+    -   @milkdown/preset-commonmark@7.0.0
+    -   @milkdown/prose@7.0.0
+    -   @milkdown/theme-nord@7.0.0
+    -   @milkdown/utils@7.0.0
+
 ## 6.0.2
 
 ### Patch Changes

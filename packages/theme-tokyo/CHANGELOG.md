@@ -1,5 +1,18 @@
 # @milkdown/theme-tokyo
 
+## 7.0.0
+
+### Minor Changes
+
+-   32676165: Improve the collaborative editing behavior, and bug fixes.
+
+### Patch Changes
+
+-   Updated dependencies [32676165]
+    -   @milkdown/core@7.0.0
+    -   @milkdown/prose@7.0.0
+    -   @milkdown/theme-pack-helper@7.0.0
+
 ## 6.0.2
 
 ### Patch Changes

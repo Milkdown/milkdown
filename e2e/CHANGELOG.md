@@ -1,5 +1,21 @@
 # @milkdown/e2e
 
+## 7.0.0
+
+### Minor Changes
+
+-   32676165: Improve the collaborative editing behavior, and bug fixes.
+
+### Patch Changes
+
+-   Updated dependencies [32676165]
+    -   @milkdown/core@7.0.0
+    -   @milkdown/design-system@7.0.0
+    -   @milkdown/preset-commonmark@7.0.0
+    -   @milkdown/preset-gfm@7.0.0
+    -   @milkdown/prose@7.0.0
+    -   @milkdown/theme-nord@7.0.0
+
 ## 6.0.2
 
 ### Patch Changes

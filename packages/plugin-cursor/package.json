@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/plugin-cursor",
-    "version": "6.0.2",
+    "version": "7.0.0",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",
@@ -25,8 +25,8 @@
         "@milkdown/prose": "workspace:*"
     },
     "peerDependencies": {
-        "@milkdown/core": "^6.0.1",
-        "@milkdown/prose": "^6.0.1"
+        "@milkdown/core": "^7.0.0",
+        "@milkdown/prose": "^7.0.0"
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
