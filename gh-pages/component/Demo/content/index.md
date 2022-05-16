@@ -67,7 +67,7 @@ You can type `$$` and a `space` to create a math block.
 
 ---
 
-Use [emoji cheat sheet](https://www.webfx.com/tools/emoji-cheat-sheet/) such as `:+1:` to add emoji.
+Use [emoji cheat sheet](https://www.webfx.com/tools/emoji-cheat-sheet/) such as `:+1:` to add emoji[^1].
 
 You may notice the emoji filter while inputting values, try to type `:baby` to see the list.
 
@@ -95,3 +95,5 @@ Have fun!
 [remark]: https://github.com/remarkjs/remark
 [mirone]: https://github.com/Saul-Mirone
 [meo]: https://www.meo.cool/
+
+[^1]: We use [tweet emoji](https://twemoji.twitter.com) to make emoji can be viewed cross platforms.

@@ -360,6 +360,27 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'plugin-collaborative',
+        {
+            en: 'plugin-collaborative',
+            'zh-hans': 'plugin-collaborative',
+        },
+    ],
+    [
+        'plugin-upload',
+        {
+            en: 'plugin-upload',
+            'zh-hans': 'plugin-upload',
+        },
+    ],
+    [
+        'plugin-cursor',
+        {
+            en: 'plugin-cursor',
+            'zh-hans': 'plugin-cursor',
+        },
+    ],
+    [
         'plugin-diagram',
         {
             en: 'plugin-diagram',
