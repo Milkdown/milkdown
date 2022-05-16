@@ -26,6 +26,8 @@ For more information, please check our official documentations:
 
 You can check our [Milkdown TODO](https://github.com/users/Saul-Mirone/projects/4/views/5) project page to know what's on the plan.
 
+You can also check [milestones](https://github.com/Saul-Mirone/milkdown/milestones) to know what's being worked on.
+
 # Community
 
 Welcome to join our [Discord community][discord-link].
@@ -36,25 +38,9 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 
 # Contributor
 
-<a title="Saul Mirone" href="https://github.com/Saul-Mirone"><img src="https://avatars.githubusercontent.com/u/10047788?v=4" width="100" alt="profile picture of Saul Mirone"></a>
-<a title="Meo" href="https://github.com/Saul-Meo"><img src="https://avatars.githubusercontent.com/u/14139395?v=4" width="100" alt="profile picture of Meo"></a>
-<a title="xia" href="https://github.com/xiadd"><img src="https://avatars.githubusercontent.com/u/8351437?v=4" width="100" alt="profile picture of xiadd"></a>
-<a title="EllePeng" href="https://github.com/Ele-Peng"><img src="https://avatars.githubusercontent.com/u/18499385?v=4" width="100" alt="profile picture of EllePeng"></a>
-<a title="Songhn" href="https://github.com/songhn233"><img src="https://avatars.githubusercontent.com/u/47357585?v=4" width="100" alt="profile picture of Songhn"></a>
-<a title="Emo" href="https://github.com/yobome"><img src="https://avatars.githubusercontent.com/u/26548120?v=4" width="100" alt="profile picture of Emo"></a>
-<a title="Matia" href="https://github.com/mattcroat"><img src="https://avatars.githubusercontent.com/u/38083522?v=4" width="100" alt="profile picture of Matia"></a>
-<a title="Alex Neises" href="https://github.com/AlexNeises"><img src="https://avatars.githubusercontent.com/u/1816254?v=4" width="100" alt="profile picture of Alex Neises"></a>
-<a title="Brett Mandler" href="https://github.com/Brettm12345"><img src="https://avatars.githubusercontent.com/u/7571012?v=4" width="100" alt="profile picture of Brett Mandler"></a>
-<a title="Hidekazu Kubota" href="https://github.com/sosuisen"><img src="https://avatars.githubusercontent.com/u/13513812?v=4" width="100" alt="profile picture of Hidekazu Kubota"></a>
-<a title="Kevin Marrec" href="https://github.com/kevinmarrec"><img src="https://avatars.githubusercontent.com/u/25272043?v=4" width="100" alt="profile picture of Kevin Marrec"></a>
-<a title="Andrew Mee" href="https://github.com/andrewmee"><img src="https://avatars.githubusercontent.com/u/24985?v=4" width="100" alt="profile picture of Andrew Mee"></a>
-<a title="CY" href="https://github.com/shiyiya"><img src="https://avatars.githubusercontent.com/u/34017352?v=4" width="100" alt="profile picture of CY"></a>
-<a title="Meng Zhaohui" href="https://github.com/Ahmong"><img src="https://avatars.githubusercontent.com/u/9511090?v=4" width="100" alt="profile picture of Meng Zhaohui"></a>
-<a title="Kid" href="https://github.com/kidonng"><img src="https://avatars.githubusercontent.com/u/44045911?v=4" width="100" alt="profile picture of Kid"></a>
-<a title="Douglas Duhaime" href="https://github.com/duhaime"><img src="https://avatars.githubusercontent.com/u/4801116?v=4" width="100" alt="profile picture of Douglas Duhaime"></a>
-<a title="Matt" href="https://github.com/tantaman"><img src="https://avatars.githubusercontent.com/u/1009003?v=4" width="100" alt="profile picture of Matt"></a>
-<a title="Quank" href="https://github.com/quank123wip"><img src="https://avatars.githubusercontent.com/u/31064092?v=4" width="100" alt="profile picture of Quank"></a>
-<a title="Chuang Zhu" href="https://github.com/chuangzhu"><img src="https://avatars.githubusercontent.com/u/31200881?v=4" width="100" alt="profile picture of Chuang Zhu"></a>
+Checkout [contributors](https://github.com/Saul-Mirone/milkdown/graphs/contributors) to know who contributed to milkdown.
+
+Special thanks to [@Meo](https://github.com/Saul-Meo) for her work in design.
 
 # Sponsors
 
