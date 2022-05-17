@@ -21,6 +21,12 @@ jobs:
               with:
                   node-version: 15.x
 
+            - name: add github sponsors to readme
+              uses: JamesIves/github-sponsors-readme-action@v1.0.8
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  file: 'README.md'
+
             - name: load cache
               uses: actions/cache@v3
               with:
