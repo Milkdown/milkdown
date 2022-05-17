@@ -3,7 +3,7 @@
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { collaborative, collabServiceCtx } from '@milkdown/plugin-collaborative';
 import { math } from '@milkdown/plugin-math';
-import { commonmark } from '@milkdown/preset-commonmark';
+import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
 import { WebsocketProvider } from 'y-websocket';
 import { Doc } from 'yjs';
@@ -37,7 +37,7 @@ async function main() {
             ctx.set(defaultValueCtx, markdown);
         })
         .use(nord)
-        .use(commonmark)
+        .use(gfm)
         .use(math)
         .use(collaborative)
         .create();

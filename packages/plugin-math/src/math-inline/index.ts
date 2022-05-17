@@ -173,9 +173,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                         });
                         if (!inputChipRenderer) return {};
                         const shouldDisplay = (view: EditorView) => {
-                            return Boolean(
-                                view.hasFocus() && type && findSelectedNodeOfType(view.state.selection, type),
-                            );
+                            return Boolean(type && findSelectedNodeOfType(view.state.selection, type));
                         };
                         const getCurrentLink = (view: EditorView) => {
                             const result = findSelectedNodeOfType(view.state.selection, type);
