@@ -1,5 +1,13 @@
 # @milkdown/plugin-diagram
 
+## 6.1.1
+
+### Patch Changes
+
+-   1b52931a: Fix input chip bug
+-   Updated dependencies [1b52931a]
+    -   @milkdown/utils@6.1.1
+
 ## 6.1.0
 
 ### Minor Changes
