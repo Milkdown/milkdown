@@ -10,8 +10,6 @@ jobs:
         steps:
             - name: checkout code repository
               uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
 
             - name: add github sponsors to readme
               uses: JamesIves/github-sponsors-readme-action@v1.0.8
