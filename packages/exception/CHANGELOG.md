@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.1.1
+
+### Patch Changes
+
+-   1b52931a: Fix input chip bug
+
 ## 6.1.0
 
 ### Minor Changes

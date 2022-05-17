@@ -1,5 +1,18 @@
 # @milkdown/e2e
 
+## 6.1.1
+
+### Patch Changes
+
+-   1b52931a: Fix input chip bug
+-   Updated dependencies [1b52931a]
+    -   @milkdown/core@6.1.1
+    -   @milkdown/design-system@6.1.1
+    -   @milkdown/preset-commonmark@6.1.1
+    -   @milkdown/preset-gfm@6.1.1
+    -   @milkdown/prose@6.1.1
+    -   @milkdown/theme-nord@6.1.1
+
 ## 6.1.0
 
 ### Minor Changes
