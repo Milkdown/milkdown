@@ -12,13 +12,13 @@ jobs:
               uses: actions/checkout@v3
 
             - name: add github sponsors to readme
-              uses: JamesIves/github-sponsors-readme-action@v1.0.8
+              uses: JamesIves/github-sponsors-readme-action@v1
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  token: ${{ secrets.SPONSOR_TOKEN }}
                   file: 'README.md'
 
             - name: apply readme change
-              uses: JamesIves/github-pages-deploy-action@v4.3.3
+              uses: JamesIves/github-pages-deploy-action@v4
               with:
                   branch: main
                   folder: '.'
