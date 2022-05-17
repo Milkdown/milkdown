@@ -1,0 +1,26 @@
+name: sponsors
+
+on:
+    pull_request:
+        branches: main
+
+jobs:
+    sponsors:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: add github sponsors to readme
+              uses: JamesIves/github-sponsors-readme-action@v1.0.8
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  file: 'README.md'
+
+            - name: apply readme change
+              uses: JamesIves/github-pages-deploy-action@v4.3.3
+              with:
+                  branch: main
+                  folder: '.'
