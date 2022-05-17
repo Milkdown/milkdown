@@ -38,7 +38,9 @@ Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/mai
 
 # Contributor
 
-Checkout [contributors](https://github.com/Saul-Mirone/milkdown/graphs/contributors) to know who contributed to milkdown.
+<a href="https://github.com/Saul-Mirone/milkdown/graphs/contributors">
+  <img src="https://opencollective.com/milkdown/contributors.svg?width=890&button=false" alt="contributors">
+</a>
 
 Special thanks to [@Meo](https://github.com/Saul-Meo) for her work in design.
 
