@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/Saul-Mirone/milkdown/648e593619e870cc7ddc794bb8768cdf06b0b279/gh-pages/public/milkdown-mini.svg" height="30px" /> Milkdown
+# <img src="/gh-pages/public/milkdown-rect.svg" height="30px" /> Milkdown
 
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
@@ -9,7 +9,7 @@
 ![license][license-badge]
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/Saul-Mirone/milkdown/648e593619e870cc7ddc794bb8768cdf06b0b279/gh-pages/public/milkdown-homepage.svg" />
+    <img src="/gh-pages/public/milkdown-homepage.svg" />
 </div>
 
 A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/), built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).
@@ -48,7 +48,9 @@ Special thanks to [@Meo](https://github.com/Saul-Meo) for her work in design.
 
 If you like this project, please consider fund me to help the maintenance.
 
-[![sponsors](https://raw.githubusercontent.com/Saul-Mirone/Saul-Mirone/main/github-metrics.svg)](https://github.com/sponsors/Saul-Mirone)
+<a href="https://github.com/sponsors/Saul-Mirone">
+  <img src="/../../../../Saul-Mirone/Saul-Mirone/blob/main/github-metrics.svg" width="100%">
+</a>
 
 # License
 
