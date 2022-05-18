@@ -124,7 +124,7 @@ export const getTokyo = (isDarkMode = false) =>
 export const tokyoDark = getTokyo(true);
 export const tokyoLight = getTokyo(false);
 
-const darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+const darkMode = Boolean(window?.matchMedia?.('(prefers-color-scheme: dark)').matches);
 export const tokyo = getTokyo(darkMode);
 
 export { color, darkColor, lightColor } from './tokyo';
