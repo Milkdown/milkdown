@@ -1,4 +1,4 @@
-# <img src="/gh-pages/public/milkdown-rect.svg" height="30px" /> Milkdown
+# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" />&nbsp;&nbsp;Milkdown
 
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
