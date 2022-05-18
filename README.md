@@ -48,9 +48,7 @@ Special thanks to [@Meo](https://github.com/Saul-Meo) for her work in design.
 
 If you like this project, please consider fund me to help the maintenance.
 
-<a title="Johno Scott" href="https://github.com/johnoscott"><img src="https://avatars.githubusercontent.com/u/291958?v=4" width="50" alt="profile picture of Johno Scott"></a>
-<a title="Standard Notes" href="https://github.com/standardnotes"><img src="https://avatars.githubusercontent.com/u/24537496?v=4" width="50" alt="profile picture of Standard Notes"></a>
-<a title="Nuxt" href="https://github.com/nuxt"><img src="https://avatars.githubusercontent.com/u/23360933?v=4" width="50" alt="profile picture of Nuxt"></a>
+[![sponsors](https://raw.githubusercontent.com/Saul-Mirone/Saul-Mirone/main/github-metrics.svg)](https://github.com/sponsors/Saul-Mirone)
 
 # License
 
