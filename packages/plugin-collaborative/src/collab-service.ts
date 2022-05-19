@@ -150,6 +150,8 @@ export class CollabService {
         const yDocNode = yDocToProsemirror(schema, this.#doc);
 
         if (node && conditionFn(yDocNode, node)) {
+            const fragment = this.#doc.getXmlFragment('prosemirror');
+            fragment.delete(0, fragment.length);
             const templateDoc = prosemirrorToYDoc(node);
             const template = encodeStateAsUpdate(templateDoc);
             applyUpdate(this.#doc, template);

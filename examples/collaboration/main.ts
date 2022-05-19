@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import './style.css';
 
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { collaborative, collabServiceCtx } from '@milkdown/plugin-collaborative';
@@ -27,6 +28,8 @@ const rndInt = Math.floor(Math.random() * 4);
 const status$ = document.getElementById('status');
 const connect$ = document.getElementById('connect');
 const disconnect$ = document.getElementById('disconnect');
+const apply$ = document.getElementById('apply');
+const template$ = document.getElementById('template');
 
 const autoConnect = true;
 
@@ -72,6 +75,16 @@ async function main() {
             disconnect$.onclick = () => {
                 wsProvider.disconnect();
                 collabService.disconnect();
+            };
+        }
+
+        if (apply$ && template$) {
+            apply$.onclick = () => {
+                if (template$ instanceof HTMLTextAreaElement) {
+                    const templateText = template$.value || '';
+                    collabService.disconnect();
+                    collabService.applyTemplate(templateText, () => true).connect();
+                }
             };
         }
     });

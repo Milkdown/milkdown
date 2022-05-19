@@ -18,10 +18,14 @@
         />
     </head>
     <body>
+        <div class="template-form">
+            <textarea id="template" cols="50" rows="5"></textarea>
+            <button id="apply">apply</button>
+        </div>
         <div class="button-group">
             <button id="connect">connect</button>
             <button id="disconnect">disconnect</button>
-            <p>status: <span id="status"></span></p>
+            <span>status: <span id="status"></span></span>
         </div>
         <div id="app"></div>
         <script type="module" src="/main.ts"></script>

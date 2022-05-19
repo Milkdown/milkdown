@@ -1,0 +1,8 @@
+.template-form {
+    display: flex;
+    gap: 8px;
+}
+
+.button-group {
+    margin: 10px;
+}
