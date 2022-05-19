@@ -49,6 +49,9 @@ class CollabManager {
     }
 
     flush(template: string) {
+        this.doc?.destroy();
+        this.wsProvider?.destroy();
+
         this.doc = new Doc();
         this.wsProvider = new WebsocketProvider('ws://localhost:1234', this.room, this.doc, { connect: autoConnect });
         this.wsProvider.awareness.setLocalStateField('user', options[rndInt]);
