@@ -22,4 +22,5 @@ export const collaborative: MilkdownPlugin = (pre) => {
     };
 };
 
+export { CollabService } from './collab-service';
 export * from 'y-prosemirror';

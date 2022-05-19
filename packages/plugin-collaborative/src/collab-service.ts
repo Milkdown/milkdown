@@ -177,7 +177,7 @@ export class CollabService {
 
     disconnect() {
         if (!this.#ctx) throw new Error();
-        if (!this.#connected) return;
+        if (!this.#connected) return this;
 
         const prosePlugins = this.#ctx.get(prosePluginsCtx);
         const plugins = prosePlugins.filter(
