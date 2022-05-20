@@ -56,7 +56,7 @@ jobs:
               if: ${{ always() }}
 
             - name: export screenshots (on failure only)
-              uses: actions/upload-artifact@v3.0.0
+              uses: actions/upload-artifact@v3.1.0
               if: ${{ failure() }}
               with:
                   name: cypress-screenshots
@@ -64,7 +64,7 @@ jobs:
                   retention-days: 7
 
             - name: export screen recordings (on failure only)
-              uses: actions/upload-artifact@v3.0.0
+              uses: actions/upload-artifact@v3.1.0
               if: ${{ failure() }}
               with:
                   name: cypress-videos
