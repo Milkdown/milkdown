@@ -263,3 +263,7 @@ useAllPresetRenderer(manager, emotion);
 
 However, if you do have interests in writing your own renderer,
 you can check their implementation in [milkdown theme pack helper](https://github.com/Saul-Mirone/milkdown/blob/main/packages/theme-pack-helper/src/renderer-preset/index.ts).
+
+## Example: NES Theme
+
+!CodeSandBox{milkdown-theme-nes-b0zmy?fontsize=14&hidenavigation=1&theme=dark&view=preview}

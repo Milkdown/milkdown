@@ -262,10 +262,10 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
-        'reference-manual',
+        'official-plugins',
         {
-            en: 'Reference Manual',
-            'zh-hans': '参考手册',
+            en: 'Official Plugins',
+            'zh-hans': '官方插件',
         },
     ],
     [
@@ -406,6 +406,34 @@ export const titleDict: Dict = new Map([
         {
             en: 'plugin-indent',
             'zh-hans': 'plugin-indent',
+        },
+    ],
+    [
+        'theme-nord',
+        {
+            en: 'Theme Nord',
+            'zh-hans': 'Theme Nord',
+        },
+    ],
+    [
+        'theme-tokyo',
+        {
+            en: 'Theme Tokyo',
+            'zh-hans': 'Theme Tokyo',
+        },
+    ],
+    [
+        'theme-pack-helper',
+        {
+            en: 'Theme Pack Helper',
+            'zh-hans': '主题包助手',
+        },
+    ],
+    [
+        'core-modules',
+        {
+            en: 'Core Modules',
+            'zh-hans': '核心模块',
         },
     ],
 ]);

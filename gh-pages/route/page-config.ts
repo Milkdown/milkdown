@@ -32,13 +32,11 @@ export const config: ConfigItem[] = [
     },
     {
         dir: 'theme',
-        items: ['design-system', 'using-themes', 'writing-themes'],
+        items: ['design-system', 'using-themes', 'writing-themes', 'theme-pack-helper', 'theme-nord', 'theme-tokyo'],
     },
     {
-        dir: 'reference-manual',
+        dir: 'official-plugins',
         items: [
-            'core',
-            'prose',
             'preset-commonmark',
             'preset-gfm',
             'plugin-listener',
@@ -55,9 +53,11 @@ export const config: ConfigItem[] = [
             'plugin-math',
             'plugin-diagram',
             'plugin-clipboard',
-            'ctx',
-            'transformer',
         ],
+    },
+    {
+        dir: 'core-modules',
+        items: ['core', 'prose', 'ctx', 'transformer'],
     },
 ];
 

@@ -2,16 +2,9 @@
 
 Tokyo theme for [milkdown](https://milkdown.dev/).
 
-# Example Usage
+# Official Documentation
 
-```typescript
-import { Editor } from '@milkdown/core';
-import { tokyo } from '@milkdown/theme-tokyo';
-
-import { commonmark } from '@milkdown/preset-commonmark';
-
-Editor.make().use(tokyo).use(commonmark).create();
-```
+Documentation can be found on the [Milkdown website](https://milkdown.dev/theme-tokyo).
 
 # License
 

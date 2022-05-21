@@ -2,28 +2,9 @@
 
 React integration for [milkdown](https://milkdown.dev/).
 
-# Example Usage
+# Official Documentation
 
-```typescript
-import React from 'react';
-import { Editor, rootCtx } from '@milkdown/core';
-import { ReactEditor, useEditor } from '@milkdown/react';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { nord } from '@milkdown/theme-nord';
-
-export const MilkdownEditor: React.FC = () => {
-    const editor = useEditor((root) =>
-        Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, root);
-            })
-            .use(nord)
-            .use(commonmark),
-    );
-
-    return <ReactEditor editor={editor} />;
-};
-```
+Documentation can be found on the [Milkdown website](https://milkdown.dev/react).
 
 # License
 

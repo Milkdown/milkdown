@@ -33,6 +33,8 @@ import { nord } from '@milkdown/theme-nord';
 editor.action(switchTheme(nord));
 ```
 
+!CodeSandBox{milkdown-switch-theme-ljqzjd?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+
 ## Override Theme
 
 You can override some keys of theme through `theme.override`.

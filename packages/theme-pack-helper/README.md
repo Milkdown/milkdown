@@ -1,9 +1,10 @@
 # @milkdown/theme-pack-helper
 
 Helper to make easy to create theme pack for [milkdown](https://milkdown.dev/).
-Used to create new milkdown themes.
 
-Check API on [document website](https://milkdown.dev/#/design-system).
+# Official Documentation
+
+Documentation can be found on the [Milkdown website](https://milkdown.dev/theme-pack-helper).
 
 # License
 
