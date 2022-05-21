@@ -97,5 +97,3 @@ export const themeFactory = (createThemePack?: CreateThemePack): ThemePlugin => 
     };
     return theme;
 };
-
-export * from '@milkdown/design-system';
