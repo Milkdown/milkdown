@@ -101,6 +101,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'solidjs',
+        {
+            en: 'SolidJS',
+            'zh-hans': 'SolidJS',
+        },
+    ],
+    [
         'vue2',
         {
             en: 'Vue2',
