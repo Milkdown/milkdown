@@ -1,5 +1,39 @@
 # @milkdown/gh-pages
 
+## 6.1.2
+
+### Patch Changes
+
+-   2c651a96: Fix bugs for collab editing and theme.
+-   Updated dependencies [2c651a96]
+    -   @milkdown/core@6.1.2
+    -   @milkdown/ctx@6.1.2
+    -   @milkdown/design-system@6.1.2
+    -   @milkdown/exception@6.1.2
+    -   @milkdown/plugin-clipboard@6.1.2
+    -   @milkdown/plugin-collaborative@6.1.2
+    -   @milkdown/plugin-cursor@6.1.2
+    -   @milkdown/plugin-diagram@6.1.2
+    -   @milkdown/plugin-emoji@6.1.2
+    -   @milkdown/plugin-history@6.1.2
+    -   @milkdown/plugin-indent@6.1.2
+    -   @milkdown/plugin-listener@6.1.2
+    -   @milkdown/plugin-math@6.1.2
+    -   @milkdown/plugin-menu@6.1.2
+    -   @milkdown/plugin-prism@6.1.2
+    -   @milkdown/plugin-slash@6.1.2
+    -   @milkdown/plugin-tooltip@6.1.2
+    -   @milkdown/plugin-upload@6.1.2
+    -   @milkdown/preset-commonmark@6.1.2
+    -   @milkdown/preset-gfm@6.1.2
+    -   @milkdown/prose@6.1.2
+    -   @milkdown/react@6.1.2
+    -   @milkdown/theme-nord@6.1.2
+    -   @milkdown/theme-tokyo@6.1.2
+    -   @milkdown/transformer@6.1.2
+    -   @milkdown/utils@6.1.2
+    -   @milkdown/vue@6.1.2
+
 ## 6.1.1
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @milkdown/e2e
 
+## 6.1.2
+
+### Patch Changes
+
+-   2c651a96: Fix bugs for collab editing and theme.
+-   Updated dependencies [2c651a96]
+    -   @milkdown/core@6.1.2
+    -   @milkdown/design-system@6.1.2
+    -   @milkdown/preset-commonmark@6.1.2
+    -   @milkdown/preset-gfm@6.1.2
+    -   @milkdown/prose@6.1.2
+    -   @milkdown/theme-nord@6.1.2
+
 ## 6.1.1
 
 ### Patch Changes

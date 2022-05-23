@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.1.2
+
+### Patch Changes
+
+-   2c651a96: Fix bugs for collab editing and theme.
+
 ## 6.1.1
 
 ### Patch Changes
