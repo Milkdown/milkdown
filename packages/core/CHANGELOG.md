@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 6.1.2
+
+### Patch Changes
+
+-   2c651a96: Fix bugs for collab editing and theme.
+-   Updated dependencies [2c651a96]
+    -   @milkdown/ctx@6.1.2
+    -   @milkdown/design-system@6.1.2
+    -   @milkdown/exception@6.1.2
+    -   @milkdown/transformer@6.1.2
+
 ## 6.1.1
 
 ### Patch Changes

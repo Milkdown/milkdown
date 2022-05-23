@@ -1,5 +1,19 @@
 # @milkdown-examples/vanilla
 
+## 6.1.2
+
+### Patch Changes
+
+-   2c651a96: Fix bugs for collab editing and theme.
+-   Updated dependencies [2c651a96]
+    -   @milkdown/core@6.1.2
+    -   @milkdown/plugin-math@6.1.2
+    -   @milkdown/plugin-menu@6.1.2
+    -   @milkdown/plugin-slash@6.1.2
+    -   @milkdown/preset-commonmark@6.1.2
+    -   @milkdown/theme-nord@6.1.2
+    -   @milkdown/theme-tokyo@6.1.2
+
 ## 6.1.1
 
 ### Patch Changes
