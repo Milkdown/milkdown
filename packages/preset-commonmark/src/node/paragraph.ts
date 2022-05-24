@@ -34,7 +34,10 @@ export const paragraph = createNode<Keys>((utils) => {
                 match: (node) => node.type.name === 'paragraph',
                 runner: (state, node) => {
                     state.openNode('paragraph');
-                    state.next(node.content);
+                    const onlyHardbreak = node.childCount === 1 && node.firstChild?.type.name === 'hardbreak';
+                    if (!onlyHardbreak) {
+                        state.next(node.content);
+                    }
                     state.closeNode();
                 },
             },
