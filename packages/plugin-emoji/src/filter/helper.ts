@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { EditorView } from '@milkdown/prose/view';
-import { Emoji } from 'node-emoji';
+import type { Emoji } from 'node-emoji';
 
 import { full, part } from '../constant';
 import { parse } from '../parse';

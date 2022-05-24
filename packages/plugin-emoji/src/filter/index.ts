@@ -3,7 +3,7 @@
 import { calculateNodePosition } from '@milkdown/prose';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
-import { search } from 'node-emoji';
+import nodeEmoji from 'node-emoji';
 
 import { checkTrigger, renderDropdownList } from './helper';
 import { injectStyle } from './style';
@@ -136,7 +136,7 @@ export const filter = (utils: Utils, maxListSize: number) => {
                         dropDown.classList.add('hide');
                         return null;
                     }
-                    const result = search(_search).slice(0, maxListSize);
+                    const result = nodeEmoji.search(_search).slice(0, maxListSize);
                     const { node } = view.domAtPos(_from);
                     if (result.length === 0 || !node) {
                         dropDown.classList.add('hide');
