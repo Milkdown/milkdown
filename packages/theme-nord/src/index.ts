@@ -128,7 +128,10 @@ export const getNord = (isDarkMode = false) =>
 export const nordDark = getNord(true);
 export const nordLight = getNord(false);
 
-const darkMode = Boolean(window?.matchMedia?.('(prefers-color-scheme: dark)').matches);
+let darkMode = false;
+if (typeof window !== 'undefined') {
+    darkMode = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
+}
 export const nord = getNord(darkMode);
 
 export { color, darkColor, lightColor } from './nord';
