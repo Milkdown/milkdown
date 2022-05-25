@@ -22,7 +22,7 @@ type Keys =
 
 export const TurnIntoHeading = createCmdKey<number>('TurnIntoHeading');
 
-export const headingPluginKey = new PluginKey('MILKDOWN_PLUGIN_ID');
+export const headingPluginKey = new PluginKey('MILKDOWN_ID');
 
 export const heading = createNode<Keys>((utils) => {
     const id = 'heading';

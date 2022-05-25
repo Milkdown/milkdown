@@ -13,7 +13,7 @@ export type Options = {
     uploader: Uploader;
     enableHtmlFileUploader: boolean;
 };
-export const key = new PluginKey('MILKDOWN_PLUGIN_UPLOAD');
+export const key = new PluginKey('MILKDOWN_UPLOAD');
 
 export const uploadPlugin = createPlugin<string, Options>((_, options) => {
     const uploader = options?.uploader ?? defaultUploader;

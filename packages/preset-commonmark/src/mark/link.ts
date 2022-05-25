@@ -7,7 +7,7 @@ import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state';
 import { EditorView } from '@milkdown/prose/view';
 import { createMark } from '@milkdown/utils';
 
-const key = new PluginKey('MILKDOWN_PLUGIN_LINK_INPUT');
+const key = new PluginKey('MILKDOWN_LINK_INPUT');
 
 export const ToggleLink = createCmdKey<string>('ToggleLink');
 export const ModifyLink = createCmdKey<string>('ModifyLink');

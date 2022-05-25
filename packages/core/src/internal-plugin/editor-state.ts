@@ -25,7 +25,7 @@ export const editorStateTimerCtx = createSlice([] as Timer[], 'editorStateTimer'
 
 export const EditorStateReady = createTimer('EditorStateReady');
 
-const key = new PluginKey('MILKDOWN_PLUGIN_STATE_TRACKER');
+const key = new PluginKey('MILKDOWN_STATE_TRACKER');
 
 export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
     if (typeof defaultValue === 'string') {

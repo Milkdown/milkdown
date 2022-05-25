@@ -7,7 +7,7 @@ import { createProps } from './props';
 import { createStatus } from './status';
 import { createView } from './view';
 
-export const key = 'MILKDOWN_PLUGIN_SLASH';
+export const key = 'MILKDOWN_SLASH';
 
 export const createSlashPlugin = (utils: Utils, builder: StatusConfigBuilder, className: string) => {
     const status = createStatus(builder);

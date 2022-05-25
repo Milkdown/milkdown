@@ -17,7 +17,7 @@ export type ImageOptions = {
         buttonText?: string;
     };
 };
-const key = new PluginKey('MILKDOWN_PLUGIN_IMAGE_INPUT');
+const key = new PluginKey('MILKDOWN_IMAGE_INPUT');
 
 export const image = createNode<string, ImageOptions>((utils, options) => {
     return {

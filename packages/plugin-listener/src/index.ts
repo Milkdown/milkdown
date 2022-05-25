@@ -70,7 +70,7 @@ class ListenerManager {
 }
 
 export const listenerCtx = createSlice<ListenerManager>(new ListenerManager(), 'listener');
-export const key = new PluginKey('MILKDOWN_PLUGIN_LISTENER');
+export const key = new PluginKey('MILKDOWN_LISTENER');
 
 export const listener: MilkdownPlugin = (pre) => {
     pre.inject(listenerCtx, new ListenerManager());

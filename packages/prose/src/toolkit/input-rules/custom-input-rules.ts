@@ -26,7 +26,7 @@ function run(view: EditorView, from: number, to: number, text: string, rules: In
     return false;
 }
 
-export const customInputRulesKey = new PluginKey('MILKDOWN_PLUGIN_CUSTOM_INPUTRULES');
+export const customInputRulesKey = new PluginKey('MILKDOWN_CUSTOM_INPUTRULES');
 export const customInputRules = ({ rules }: { rules: InputRule[] }): Plugin => {
     const plugin: Plugin = new Plugin({
         key: customInputRulesKey,

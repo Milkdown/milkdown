@@ -54,7 +54,7 @@ export const createProps = (status: Status, utils: Utils) => {
         decorations: (state: EditorState) => {
             const paragraph = findParentNode(({ type }) => type.name === 'paragraph')(state.selection);
             const uploadPlugin = state.plugins.find(
-                (x) => (x as unknown as { key: string }).key === 'MILKDOWN_PLUGIN_UPLOAD$',
+                (x) => (x as unknown as { key: string }).key === 'MILKDOWN_UPLOAD$',
             );
             const decorations: DecorationSet = uploadPlugin?.getState(state);
             if (decorations != null && decorations.find(state.selection.from, state.selection.to).length > 0) {

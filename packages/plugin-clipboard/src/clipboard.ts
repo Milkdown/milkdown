@@ -20,7 +20,7 @@ const isPureText = (content: R | R[] | undefined | null): boolean => {
     return content['type'] === 'text';
 };
 
-export const key = new PluginKey('MILKDOWN_PLUGIN_CLIPBOARD');
+export const key = new PluginKey('MILKDOWN_CLIPBOARD');
 
 export const clipboardPlugin = createPlugin(() => {
     return {

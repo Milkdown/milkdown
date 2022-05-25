@@ -43,7 +43,7 @@ export const hardbreak = createNode<Keys>((utils) => {
         },
         prosePlugins: (type) => [
             new Plugin({
-                key: new PluginKey('MILKDOWN_PLUGIN_HARDBREAK_MARKS'),
+                key: new PluginKey('MILKDOWN_HARDBREAK_MARKS'),
                 appendTransaction: (trs, _oldState, newState) => {
                     if (!trs.length) return;
                     const [tr] = trs;

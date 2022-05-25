@@ -14,7 +14,7 @@ import { calculateItem } from './helper';
 import { injectStyle } from './style';
 import { createWidget } from './widget';
 
-export const key = 'MILKDOWN_PLUGIN_TABLE';
+export const key = 'MILKDOWN_TABLE';
 
 export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
     return new Plugin({

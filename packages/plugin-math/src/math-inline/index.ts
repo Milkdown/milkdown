@@ -15,7 +15,7 @@ type Options = {
     };
 };
 
-const key = new PluginKey('MILKDOWN_PLUGIN_MATH_INPUT');
+const key = new PluginKey('MILKDOWN_MATH_INPUT');
 
 export const ModifyInlineMath = createCmdKey<string>('ModifyInlineMath');
 export const mathInline = createNode<string, Options>((utils, options) => {

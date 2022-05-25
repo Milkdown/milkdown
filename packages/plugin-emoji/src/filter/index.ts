@@ -8,7 +8,7 @@ import nodeEmoji from 'node-emoji';
 import { checkTrigger, renderDropdownList } from './helper';
 import { injectStyle } from './style';
 
-export const key = new PluginKey('MILKDOWN_PLUGIN_EMOJI_FILTER');
+export const key = new PluginKey('MILKDOWN_EMOJI_FILTER');
 
 export const filter = (utils: Utils, maxListSize: number) => {
     let trigger = false;

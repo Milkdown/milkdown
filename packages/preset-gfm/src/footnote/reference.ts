@@ -10,7 +10,7 @@ import { createNode } from '@milkdown/utils';
 import { getFootnoteDefId, getFootnoteRefId } from './utils';
 
 export const ModifyFootnoteRef = createCmdKey<string>('ModifyFootnoteRef');
-const key = new PluginKey('MILKDOWN_PLUGIN_FOOTNOTE_REF_INPUT');
+const key = new PluginKey('MILKDOWN_FOOTNOTE_REF_INPUT');
 
 export const footnoteReference = createNode((utils) => {
     const id = 'footnote_reference';

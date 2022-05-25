@@ -6,7 +6,7 @@ import { AtomList, createPlugin as create } from '@milkdown/utils';
 import { buttonMap, TooltipOptions } from './item';
 import { createPlugin } from './selection-marks-tooltip';
 
-export const key = new PluginKey('MILKDOWN_PLUGIN_TOOLTIP');
+export const key = new PluginKey('MILKDOWN_TOOLTIP');
 
 export const tooltipPlugin = create<string, TooltipOptions>((utils, options) => {
     return {
