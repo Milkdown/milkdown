@@ -49,7 +49,7 @@ Special thanks to [@Meo](https://github.com/Saul-Meo) for her work in design.
 If you like this project, please consider fund me to help the maintenance.
 
 <a href="https://github.com/sponsors/Saul-Mirone">
-  <img src="/../../../../Saul-Mirone/Saul-Mirone/blob/main/sponsors.svg" width="100%">
+  <img src="/../../../../Saul-Mirone/Saul-Mirone/blob/main/sponsors.svg">
 </a>
 
 # License
