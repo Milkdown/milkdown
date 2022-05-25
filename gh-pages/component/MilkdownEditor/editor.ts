@@ -43,6 +43,7 @@ export const createEditor = (
                     }
                 });
         })
+        .use(emoji)
         .use(gfm)
         .use(codeSandBox)
         .use(listener)
@@ -53,7 +54,6 @@ export const createEditor = (
         .use(math)
         .use(indent)
         .use(upload)
-        .use(emoji)
         .use(diagram)
         .use(tooltip)
         .use(slash)

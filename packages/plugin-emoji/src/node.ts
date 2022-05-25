@@ -18,10 +18,6 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
     const getStyle = () =>
         utils.getStyle(
             ({ css }) => css`
-                display: inline-flex;
-                justify-content: center;
-                align-items: center;
-
                 .emoji {
                     height: 1em;
                     width: 1em;
