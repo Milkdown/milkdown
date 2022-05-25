@@ -59,6 +59,7 @@ body {
 
     .editor {
         @mixin query 72rem {
+            margin: 0 auto;
             max-width: 57.375rem;
             padding: 3.125rem !important;
         }
