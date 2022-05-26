@@ -1,5 +1,13 @@
 # @milkdown/plugin-history
 
+## 6.1.3
+
+### Patch Changes
+
+-   b5bb4c3f: Fix bugs: inline nodes cursor, theme & emoji for next/nuxt, hardbreak only paragraph.
+-   Updated dependencies [b5bb4c3f]
+    -   @milkdown/utils@6.1.3
+
 ## 6.1.2
 
 ### Patch Changes
