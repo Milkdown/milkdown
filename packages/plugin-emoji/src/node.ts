@@ -31,7 +31,7 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
         schema: () => ({
             group: 'inline',
             inline: true,
-            selectable: false,
+            atom: true,
             attrs: {
                 html: {
                     default: '',

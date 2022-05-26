@@ -52,10 +52,13 @@ export const inlineNodesCursorPlugin: Plugin = new Plugin({
                 const leftDec = Decoration.widget(position, left, {
                     side: -1,
                 });
+                const right = document.createElement('span');
+                const rightDec = Decoration.widget(position, right);
                 setTimeout(() => {
                     left.contentEditable = 'true';
+                    right.contentEditable = 'true';
                 });
-                return DecorationSet.create(state.doc, [leftDec]);
+                return DecorationSet.create(state.doc, [leftDec, rightDec]);
             }
             return DecorationSet.empty;
         },
