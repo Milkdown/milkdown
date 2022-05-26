@@ -108,6 +108,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'nextjs',
+        {
+            en: 'Next.js',
+            'zh-hans': 'Next.js',
+        },
+    ],
+    [
         'vue2',
         {
             en: 'Vue2',
