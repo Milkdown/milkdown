@@ -1,5 +1,17 @@
 # @milkdown-examples/vue
 
+## 6.1.3
+
+### Patch Changes
+
+-   b5bb4c3f: Fix bugs: inline nodes cursor, theme & emoji for next/nuxt, hardbreak only paragraph.
+-   Updated dependencies [b5bb4c3f]
+    -   @milkdown/core@6.1.3
+    -   @milkdown/plugin-slash@6.1.3
+    -   @milkdown/preset-commonmark@6.1.3
+    -   @milkdown/theme-nord@6.1.3
+    -   @milkdown/vue@6.1.3
+
 ## 6.1.2
 
 ### Patch Changes
