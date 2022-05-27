@@ -23,6 +23,12 @@ type Keys =
 export const TurnIntoHeading = createCmdKey<number>('TurnIntoHeading');
 
 export const headingPluginKey = new PluginKey('MILKDOWN_ID');
+const createId = (node: Node) =>
+    node.textContent
+        .replace(/[\p{P}\p{S}]/gu, '')
+        .replace(/\s/g, '-')
+        .toLowerCase()
+        .trim();
 
 export const heading = createNode<Keys>((utils) => {
     const id = 'heading';
@@ -54,7 +60,7 @@ export const heading = createNode<Keys>((utils) => {
                 return [
                     `h${node.attrs['level']}`,
                     {
-                        id: node.attrs['id'] || node.textContent.split(' ').join('-').toLocaleLowerCase(),
+                        id: node.attrs['id'] || createId(node),
                         class: utils.getClassName(node.attrs, `heading h${node.attrs['level']}`),
                     },
                     0,
@@ -95,12 +101,6 @@ export const heading = createNode<Keys>((utils) => {
         },
         prosePlugins: (type, ctx) => {
             let lock = false;
-            const createId = (node: Node) => {
-                return node.textContent
-                    .replace(/[\p{P}\p{S}]/gu, '')
-                    .replace(/\s/g, '')
-                    .trim();
-            };
             const walkThrough = (state: EditorState, callback: (tr: Transaction) => void) => {
                 const tr = state.tr;
                 state.doc.descendants((node, pos) => {
