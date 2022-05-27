@@ -7,14 +7,17 @@
         "start": "vite"
     },
     "dependencies": {
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0",
+        "@milkdown/core": "workspace:*",
+        "@milkdown/plugin-tooltip": "workspace:*",
+        "@milkdown/preset-commonmark": "workspace:*",
+        "@milkdown/react": "workspace:*",
+        "@milkdown/theme-nord": "workspace:*",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
-        "@milkdown/core": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/plugin-tooltip": "workspace:*",
-        "@milkdown/react": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*"
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^1.3.0"
     }
 }

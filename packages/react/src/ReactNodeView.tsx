@@ -10,7 +10,7 @@ import type {
     NodeViewConstructor,
 } from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Content, ReactNodeContainer } from './ReactNode';
@@ -26,7 +26,10 @@ export type RenderOptions = Partial<
 
 export const createReactView =
     (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
-    (component: React.FC, options: RenderOptions = {}): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
+    (
+        component: React.FC<{ children: ReactNode }>,
+        options: RenderOptions = {},
+    ): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
     (ctx) =>
     (node, view, getPos, decorations) =>
         new ReactNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);

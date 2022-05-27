@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import './style.css';
 
-import React from 'react';
-import { render } from 'react-dom';
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 import { Milkdown } from './component/milkdown';
 
@@ -55,4 +55,15 @@ const App: React.FC = () => {
     return <Milkdown value={markdown} />;
 };
 
-render(<App />, document.getElementById('app'));
+const root$ = document.getElementById('app');
+if (!root$) {
+    throw new Error('No root element found');
+}
+
+const root = createRoot(root$);
+
+root.render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+);
