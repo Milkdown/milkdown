@@ -6,7 +6,14 @@ Make it easier to move the cursor out side a mermaid or math node
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-tooltip).
+```typescript
+import { Editor } from '@milkdown/core';
+import { commonmark } from '@milkdown/preset-commonmark';
+import { trailingNode } from '@milkdown/plugin-trailing';
+import { nord } from '@milkdown/theme-nord';
+
+Editor.make().use(nord).use(commonmark).use(trailingNode()).create();
+```
 
 # License
 
