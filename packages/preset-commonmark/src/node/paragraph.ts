@@ -2,6 +2,7 @@
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { setBlockType } from '@milkdown/prose/commands';
 import { createNode, createShortcut } from '@milkdown/utils';
+import { visit } from 'unist-util-visit';
 
 import { SupportedKeys } from '../supported-keys';
 
@@ -9,8 +10,25 @@ type Keys = SupportedKeys['Text'];
 
 export const TurnIntoText = createCmdKey('TurnIntoText');
 
+function remarkSpace() {
+    function transformer(tree: any) {
+        visit(tree, 'text', function (node, index, parent) {
+            const content = node.value;
+            if (content === '\\') {
+                parent.children.splice(index, 1);
+                return;
+            }
+            return node;
+        });
+    }
+    return transformer;
+}
+
 const id = 'paragraph';
-export const paragraph = createNode<Keys>((utils) => {
+export type ParagraphOptions = {
+    keepEmptyLine?: boolean;
+};
+export const paragraph = createNode<Keys, ParagraphOptions>((utils, options = {}) => {
     return {
         id,
         schema: () => ({
@@ -34,9 +52,15 @@ export const paragraph = createNode<Keys>((utils) => {
                 match: (node) => node.type.name === 'paragraph',
                 runner: (state, node) => {
                     state.openNode('paragraph');
-                    const onlyHardbreak = node.childCount === 1 && node.firstChild?.type.name === 'hardbreak';
-                    if (!onlyHardbreak) {
-                        state.next(node.content);
+                    if (options.keepEmptyLine && node.childCount === 0) {
+                        state.addNode('text', undefined, undefined, {
+                            value: '\\',
+                        });
+                    } else {
+                        const onlyHardbreak = node.childCount === 1 && node.firstChild?.type.name === 'hardbreak';
+                        if (!onlyHardbreak) {
+                            state.next(node.content);
+                        }
                     }
                     state.closeNode();
                 },
@@ -46,5 +70,6 @@ export const paragraph = createNode<Keys>((utils) => {
         shortcuts: {
             [SupportedKeys.Text]: createShortcut(TurnIntoText, 'Mod-Alt-0'),
         },
+        remarkPlugins: () => (options.keepEmptyLine ? [remarkSpace] : []),
     };
 });

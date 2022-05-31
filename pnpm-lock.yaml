@@ -614,10 +614,12 @@ importers:
       '@types/unist': ^2.0.6
       remark-inline-links: ^6.0.0
       tslib: ^2.3.1
+      unist-util-visit: ^4.0.0
     dependencies:
       '@milkdown/utils': link:../utils
       remark-inline-links: 6.0.1
       tslib: 2.3.1
+      unist-util-visit: registry.npmmirror.com/unist-util-visit/4.1.0
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
@@ -8367,7 +8369,7 @@ packages:
     dependencies:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
-      unist-util-visit: 3.1.0
+      unist-util-visit: registry.npmmirror.com/unist-util-visit/3.1.0
     dev: false
 
   /mdast-util-find-and-replace/2.1.0:
@@ -10092,7 +10094,7 @@ packages:
       '@types/mdast': 3.0.10
       mdast-util-definitions: 5.1.0
       unified: 10.1.2
-      unist-util-visit: 4.1.0
+      unist-util-visit: registry.npmmirror.com/unist-util-visit/4.1.0
     dev: false
 
   /remark-math/5.1.1:
@@ -11228,14 +11230,6 @@ packages:
       unist-util-is: 5.1.1
     dev: false
 
-  /unist-util-visit/3.1.0:
-    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==}
-    dependencies:
-      '@types/unist': 2.0.6
-      unist-util-is: 5.1.1
-      unist-util-visit-parents: 4.1.1
-    dev: false
-
   /unist-util-visit/4.1.0:
     resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==}
     dependencies:
@@ -11859,4 +11853,45 @@ packages:
 
   /zwitch/2.0.2:
     resolution: {integrity: sha512-JZxotl7SxAJH0j7dN4pxsTV6ZLXoLdGME+PsjkL/DaBrVryK9kTGq06GfKrwcSOqypP+fdXGoCHE36b99fWVoA==}
+    dev: false
+
+  registry.npmmirror.com/@types/unist/2.0.6:
+    resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/unist/-/unist-2.0.6.tgz}
+    name: '@types/unist'
+    version: 2.0.6
+    dev: false
+
+  registry.npmmirror.com/unist-util-is/5.1.1:
+    resolution: {integrity: sha512-F5CZ68eYzuSvJjGhCLPL3cYx45IxkqXSetCcRgUXtbcm50X2L9oOWQlfUfDdAf+6Pd27YDblBfdtmsThXmwpbQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unist-util-is/-/unist-util-is-5.1.1.tgz}
+    name: unist-util-is
+    version: 5.1.1
+    dev: false
+
+  registry.npmmirror.com/unist-util-visit-parents/5.1.0:
+    resolution: {integrity: sha512-y+QVLcY5eR/YVpqDsLf/xh9R3Q2Y4HxkZTp7ViLDU6WtJCEcPmRzW1gpdWDCDIqIlhuPDXOgttqPlykrHYDekg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unist-util-visit-parents/-/unist-util-visit-parents-5.1.0.tgz}
+    name: unist-util-visit-parents
+    version: 5.1.0
+    dependencies:
+      '@types/unist': registry.npmmirror.com/@types/unist/2.0.6
+      unist-util-is: registry.npmmirror.com/unist-util-is/5.1.1
+    dev: false
+
+  registry.npmmirror.com/unist-util-visit/3.1.0:
+    resolution: {integrity: sha512-Szoh+R/Ll68QWAyQyZZpQzZQm2UPbxibDvaY8Xc9SUtYgPsDzx5AWSk++UUt2hJuow8mvwR+rG+LQLw+KsuAKA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unist-util-visit/-/unist-util-visit-3.1.0.tgz}
+    name: unist-util-visit
+    version: 3.1.0
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-is: 5.1.1
+      unist-util-visit-parents: 4.1.1
+    dev: false
+
+  registry.npmmirror.com/unist-util-visit/4.1.0:
+    resolution: {integrity: sha512-n7lyhFKJfVZ9MnKtqbsqkQEk5P1KShj0+//V7mAcoI6bpbUjh3C/OG8HVD+pBihfh6Ovl01m8dkcv9HNqYajmQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unist-util-visit/-/unist-util-visit-4.1.0.tgz}
+    name: unist-util-visit
+    version: 4.1.0
+    dependencies:
+      '@types/unist': registry.npmmirror.com/@types/unist/2.0.6
+      unist-util-is: registry.npmmirror.com/unist-util-is/5.1.1
+      unist-util-visit-parents: registry.npmmirror.com/unist-util-visit-parents/5.1.0
     dev: false
