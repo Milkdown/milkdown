@@ -11,6 +11,7 @@ import { HandleDOM, menubar } from './menubar';
 
 export const menuKey = new PluginKey('MILKDOWN_MENU');
 
+export * from './default-config';
 export type { HandleDOM, HandleDOMParams } from './menubar';
 
 export type Options = {
