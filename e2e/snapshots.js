@@ -1,5 +1,5 @@
 module.exports = {
-  "__version": "9.5.0",
+  "__version": "10.0.0",
   "input:": {
     "node:": {
       "paragraph": {
