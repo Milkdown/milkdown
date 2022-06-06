@@ -1,5 +1,39 @@
 # @milkdown/gh-pages
 
+## 6.1.4
+
+### Patch Changes
+
+-   d866dded: Fix bugs for clipboard plugin and i18 support
+-   Updated dependencies [d866dded]
+    -   @milkdown/core@6.1.4
+    -   @milkdown/ctx@6.1.4
+    -   @milkdown/design-system@6.1.4
+    -   @milkdown/exception@6.1.4
+    -   @milkdown/plugin-clipboard@6.1.4
+    -   @milkdown/plugin-collaborative@6.1.4
+    -   @milkdown/plugin-cursor@6.1.4
+    -   @milkdown/plugin-diagram@6.1.4
+    -   @milkdown/plugin-emoji@6.1.4
+    -   @milkdown/plugin-history@6.1.4
+    -   @milkdown/plugin-indent@6.1.4
+    -   @milkdown/plugin-listener@6.1.4
+    -   @milkdown/plugin-math@6.1.4
+    -   @milkdown/plugin-menu@6.1.4
+    -   @milkdown/plugin-prism@6.1.4
+    -   @milkdown/plugin-slash@6.1.4
+    -   @milkdown/plugin-tooltip@6.1.4
+    -   @milkdown/plugin-upload@6.1.4
+    -   @milkdown/preset-commonmark@6.1.4
+    -   @milkdown/preset-gfm@6.1.4
+    -   @milkdown/prose@6.1.4
+    -   @milkdown/react@6.1.4
+    -   @milkdown/theme-nord@6.1.4
+    -   @milkdown/theme-tokyo@6.1.4
+    -   @milkdown/transformer@6.1.4
+    -   @milkdown/utils@6.1.4
+    -   @milkdown/vue@6.1.4
+
 ## 6.1.3
 
 ### Patch Changes

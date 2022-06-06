@@ -1,5 +1,11 @@
 # @milkdown/theme-pack-helper
 
+## 6.1.4
+
+### Patch Changes
+
+-   d866dded: Fix bugs for clipboard plugin and i18 support
+
 ## 6.1.3
 
 ### Patch Changes

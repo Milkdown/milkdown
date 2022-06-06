@@ -1,7 +1,7 @@
 {
     "name": "@milkdown-examples/collaboration",
     "private": true,
-    "version": "6.1.3",
+    "version": "6.1.4",
     "license": "MIT",
     "scripts": {
         "server": "cross-env HOST=localhost PORT=1234 y-websocket-server",

@@ -1,5 +1,13 @@
 # @milkdown/prose
 
+## 6.1.4
+
+### Patch Changes
+
+-   d866dded: Fix bugs for clipboard plugin and i18 support
+-   Updated dependencies [d866dded]
+    -   @milkdown/exception@6.1.4
+
 ## 6.1.3
 
 ### Patch Changes

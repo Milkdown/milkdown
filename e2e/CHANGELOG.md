@@ -1,5 +1,18 @@
 # @milkdown/e2e
 
+## 6.1.4
+
+### Patch Changes
+
+-   d866dded: Fix bugs for clipboard plugin and i18 support
+-   Updated dependencies [d866dded]
+    -   @milkdown/core@6.1.4
+    -   @milkdown/design-system@6.1.4
+    -   @milkdown/preset-commonmark@6.1.4
+    -   @milkdown/preset-gfm@6.1.4
+    -   @milkdown/prose@6.1.4
+    -   @milkdown/theme-nord@6.1.4
+
 ## 6.1.3
 
 ### Patch Changes
