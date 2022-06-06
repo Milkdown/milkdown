@@ -19,12 +19,19 @@ const NestedDiv: FC<{ level: number; children: ReactNode }> = ({ level, children
     );
 };
 
+const getId = (text: string) =>
+    text
+        .replace(/[\p{P}\p{S}]/gu, '')
+        .replace(/\s/g, '-')
+        .toLowerCase()
+        .trim();
+
 export const OutlineRenderer: FC<{ outline: Outline[] }> = ({ outline }) => {
     const location = useLocation();
     return (
         <>
             {outline.map((item, index) => {
-                const url = '#' + item.text.toLowerCase().split(' ').join('-');
+                const url = '#' + getId(item.text);
                 return (
                     <div className={className['pl-10px']} key={index.toString()}>
                         <div className={className['outline-container']}>

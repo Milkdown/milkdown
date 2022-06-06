@@ -13,8 +13,7 @@ export const config: ConfigItem[] = [
             'keyboard-shortcuts',
             'macros',
             'collaborative-editing',
-            // TODO: finish this
-            // 'i18n',
+            'i18n',
         ],
     },
     {
