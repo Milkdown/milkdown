@@ -515,13 +515,13 @@ importers:
       '@milkdown/theme-pack-helper': workspace:*
       '@milkdown/utils': workspace:*
       '@types/katex': ^0.14.0
-      katex: ^0.15.0
+      katex: ^0.16.0
       remark-math: ^5.1.0
       tslib: ^2.3.1
     dependencies:
       '@milkdown/utils': link:../utils
       '@types/katex': 0.14.0
-      katex: 0.15.3
+      katex: 0.16.0
       remark-math: 5.1.1
       tslib: 2.3.1
     devDependencies:
@@ -7969,8 +7969,8 @@ packages:
       commander: 8.3.0
     dev: false
 
-  /katex/0.15.3:
-    resolution: {integrity: sha512-Al6V7RJsmjklT9QItyHWGaQCt+NYTle1bZwB1e9MR/tLoIT1MXaHy9UpfGSB7eaqDgjjqqRxQOaQGrALCrEyBQ==}
+  /katex/0.16.0:
+    resolution: {integrity: sha512-wPRB4iUPysfH97wTgG5/tRLYxmKVq6Q4jRAWRVOUxXB1dsiv4cvcNjqabHkrOvJHM1Bpk3WrgmllSO1vIvP24w==}
     hasBin: true
     dependencies:
       commander: 8.3.0
@@ -8956,7 +8956,7 @@ packages:
     optional: true
 
   /natural-compare/1.4.0:
-    resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
+    resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
   /nice-try/1.0.5:
