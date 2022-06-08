@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@codemirror/basic-setup": "^0.20.0",
-        "@codemirror/lang-markdown": "^6.0.0",
+        "@codemirror/lang-markdown": "^0.20.0",
         "@milkdown/core": "workspace:*",
         "@milkdown/ctx": "workspace:*",
         "@milkdown/design-system": "workspace:*",
