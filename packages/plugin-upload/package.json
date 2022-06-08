@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/plugin-upload",
-    "version": "6.1.4",
+    "version": "6.1.5",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",

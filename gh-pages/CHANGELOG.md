@@ -1,5 +1,39 @@
 # @milkdown/gh-pages
 
+## 6.1.5
+
+### Patch Changes
+
+-   ccf70357: Fix extended factories cannot inject slices
+-   Updated dependencies [ccf70357]
+    -   @milkdown/core@6.1.5
+    -   @milkdown/ctx@6.1.5
+    -   @milkdown/design-system@6.1.5
+    -   @milkdown/exception@6.1.5
+    -   @milkdown/plugin-clipboard@6.1.5
+    -   @milkdown/plugin-collaborative@6.1.5
+    -   @milkdown/plugin-cursor@6.1.5
+    -   @milkdown/plugin-diagram@6.1.5
+    -   @milkdown/plugin-emoji@6.1.5
+    -   @milkdown/plugin-history@6.1.5
+    -   @milkdown/plugin-indent@6.1.5
+    -   @milkdown/plugin-listener@6.1.5
+    -   @milkdown/plugin-math@6.1.5
+    -   @milkdown/plugin-menu@6.1.5
+    -   @milkdown/plugin-prism@6.1.5
+    -   @milkdown/plugin-slash@6.1.5
+    -   @milkdown/plugin-tooltip@6.1.5
+    -   @milkdown/plugin-upload@6.1.5
+    -   @milkdown/preset-commonmark@6.1.5
+    -   @milkdown/preset-gfm@6.1.5
+    -   @milkdown/prose@6.1.5
+    -   @milkdown/react@6.1.5
+    -   @milkdown/theme-nord@6.1.5
+    -   @milkdown/theme-tokyo@6.1.5
+    -   @milkdown/transformer@6.1.5
+    -   @milkdown/utils@6.1.5
+    -   @milkdown/vue@6.1.5
+
 ## 6.1.4
 
 ### Patch Changes

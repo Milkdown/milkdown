@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 6.1.5
+
+### Patch Changes
+
+-   ccf70357: Fix extended factories cannot inject slices
+-   Updated dependencies [ccf70357]
+    -   @milkdown/ctx@6.1.5
+    -   @milkdown/design-system@6.1.5
+    -   @milkdown/exception@6.1.5
+    -   @milkdown/transformer@6.1.5
+
 ## 6.1.4
 
 ### Patch Changes

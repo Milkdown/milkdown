@@ -1,5 +1,13 @@
 # @milkdown/theme-nord
 
+## 6.1.5
+
+### Patch Changes
+
+-   ccf70357: Fix extended factories cannot inject slices
+-   Updated dependencies [ccf70357]
+    -   @milkdown/theme-pack-helper@6.1.5
+
 ## 6.1.4
 
 ### Patch Changes

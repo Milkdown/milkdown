@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.1.5
+
+### Patch Changes
+
+-   ccf70357: Fix extended factories cannot inject slices
+
 ## 6.1.4
 
 ### Patch Changes
