@@ -43,6 +43,11 @@ export const MyEditor = defineComponent<{ markdown: string }>({
     name: 'my-editor',
     setup: (props) => {
         const editorRef = ref<EditorRef>({ get: () => undefined, dom: () => null });
+        // effect(() => {
+        //     setTimeout(() => {
+        //         console.log(editorRef.value.get());
+        //     }, 100);
+        // });
         const editor = useEditor((root, renderVue) => {
             const nodes = commonmarkNodes
                 .configure(heading, {
@@ -57,9 +62,6 @@ export const MyEditor = defineComponent<{ markdown: string }>({
                 .configure(image, {
                     view: renderVue(MyImage),
                 });
-            // setTimeout(() => {
-            //     console.log(editorRef.value.get());
-            // }, 100);
             return Editor.make()
                 .config((ctx) => {
                     ctx.set(rootCtx, root);

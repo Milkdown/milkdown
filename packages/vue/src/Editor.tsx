@@ -25,10 +25,8 @@ import { createVueView, RenderOptions } from './VueNodeView';
 const rendererKey: InjectionKey<(component: DefineComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory> =
     Symbol();
 
-type GetEditor = (
-    container: HTMLDivElement,
-    renderVue: (Component: AnyVueComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory,
-) => Editor;
+export type RenderVue = (Component: AnyVueComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory;
+export type GetEditor = (container: HTMLDivElement, renderVue: RenderVue) => Editor;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const divRef = ref<HTMLDivElement | null>(null);

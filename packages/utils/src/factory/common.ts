@@ -9,6 +9,7 @@ import {
     inputRulesCtx,
     prosePluginsCtx,
     remarkPluginsCtx,
+    Slice,
     themeManagerCtx,
 } from '@milkdown/core';
 import { themeMustInstalled } from '@milkdown/exception';
@@ -119,12 +120,17 @@ export const addMetadata = <SupportedKeys extends string = string, Options exten
 export const withExtend = <SupportedKeys extends string, Options extends UnknownRecord, Type, Rest>(
     factory: Factory<SupportedKeys, Options, Type, Rest>,
     origin: AddMetadata<SupportedKeys, Options>,
-    creator: (factory: Factory<SupportedKeys, Options, Type, Rest>) => WithExtend<SupportedKeys, Options, Type, Rest>,
+    creator: (
+        factory: Factory<SupportedKeys, Options, Type, Rest>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        inject?: Slice<any>[],
+    ) => WithExtend<SupportedKeys, Options, Type, Rest>,
 ): WithExtend<SupportedKeys, Options, Type, Rest> => {
     type Ext = WithExtend<SupportedKeys, Options, Type, Rest>;
     const next = origin as Ext;
-    const extend = (extendFactory: Parameters<Ext['extend']>[0]) =>
-        creator((...args) => extendFactory(factory(...args), ...args));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const extend = (extendFactory: Parameters<Ext['extend']>[0], inject?: Slice<any>[]) =>
+        creator((...args) => extendFactory(factory(...args), ...args), inject);
 
     next.extend = extend as Ext['extend'];
 

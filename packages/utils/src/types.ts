@@ -23,8 +23,6 @@ export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRe
 };
 
 export type Methods<Keys extends string, Type> = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inject?: Slice<any>[];
     remarkPlugins?: (ctx: Ctx) => RemarkPlugin[];
     inputRules?: (types: Type, ctx: Ctx) => InputRule[];
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
@@ -61,8 +59,10 @@ export type WithExtend<SupportedKeys extends string, Options extends UnknownReco
         extendFactory: (
             ...args: [
                 original: Spec<SupportedKeys, Type, Rest>,
-                ...rest: Parameters<Factory<ExtendedSupportedKeys, ExtendedOptions, ExtendedType, ExtendedRest>>
+                ...rest: Parameters<Factory<ExtendedSupportedKeys, ExtendedOptions, ExtendedType, ExtendedRest>>,
             ]
         ) => Spec<ExtendedSupportedKeys, ExtendedType, ExtendedRest>,
-    ) => AddMetadata<ExtendedSupportedKeys, ExtendedOptions>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        inject?: Slice<any>[],
+    ) => WithExtend<ExtendedSupportedKeys, ExtendedOptions, Type, Rest>;
 };

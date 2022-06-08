@@ -1,7 +1,7 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "jsx": "react",
+        "jsx": "preserve",
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
         "types": ["vue"]

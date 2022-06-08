@@ -482,7 +482,7 @@ Editor.use(mySyntaxPlugin.remove(node1));
 
 // Replace one plugin:
 const myNode1 = node1.extend(/* ... */);
-Editor.use(mySyntaxPlugin.replace(node1, myNode1));
+Editor.use(mySyntaxPlugin.replace(node1, myNode1()));
 ```
 
 ## Real World Examples

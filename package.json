@@ -47,6 +47,7 @@
         "@typescript-eslint/eslint-plugin": "^5.14.0",
         "@typescript-eslint/parser": "^5.14.0",
         "@vitejs/plugin-react-refresh": "^1.3.3",
+        "@vitejs/plugin-vue": "^2.3.3",
         "@vitejs/plugin-vue-jsx": "^1.1.5",
         "@vitest/ui": "^0.14.0",
         "concurrently": "^7.0.0",
@@ -66,7 +67,7 @@
         "jsdom": "^19.0.0",
         "lint-staged": "^13.0.0",
         "nx": "latest",
-        "prettier": "^2.4.0",
+        "prettier": "^2.6.2",
         "rimraf": "^3.0.2",
         "rollup": "^2.72.0",
         "rollup-plugin-auto-external": "^2.0.0",
@@ -87,7 +88,8 @@
                 "@babel/core",
                 "babel-runtime",
                 "cypress",
-                "jest"
+                "jest",
+                "vue"
             ],
             "allowedVersions": {
                 "react": "18",
