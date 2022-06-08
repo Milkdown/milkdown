@@ -109,7 +109,7 @@ Get font families by key.
 ```typescript
 import { ThemeFont } from '@milkdown/core';
 
-manager.set(ThemeSize, (key) => {
+manager.set(ThemeFont, (key) => {
     if (key === 'typography') return 'Roboto, arial, sans-serif';
 
     return 'monospace';
