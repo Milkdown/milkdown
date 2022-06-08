@@ -183,3 +183,13 @@ async function playWithEditor() {
     getMarkdown();
 }
 ```
+
+我们提供了一些开箱即用的 macro（宏），你可以把它们作为 action 使用：
+
+```typescript
+import { insert } from '@milkdown/utils';
+
+editor.action(insert('# Hello milkdown'));
+```
+
+关于 macro 的更多细节，请参考 [macro](/zh-hans/macros)。

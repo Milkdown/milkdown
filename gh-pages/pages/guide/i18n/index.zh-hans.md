@@ -1,11 +1,11 @@
 # i18n
 
-By default, the language of milkdown is currently English.
-If you want to use other language, you can configure the presets and plugins to support it.
+默认情况下，milkdown 的语言目前是英语。
+如果你想使用其他语言，你可以配置 plugin 和 preset 来支持它。
 
 ## Preset Commonmark
 
-You can configure the following properties for i18n in preset-commonmark:
+你可以在 preset-commonmark 中为 i18n 配置以下属性。
 
 -   image
     -   input.placeholder
@@ -14,7 +14,7 @@ You can configure the following properties for i18n in preset-commonmark:
     -   input.placeholder
     -   input.buttonText
 
-Example:
+例如：
 
 ```typescript
 import { commonmark, image, link } from '@milkdown/preset-commonmark';
@@ -36,7 +36,7 @@ const myCommonmark = commonmark
 
 ## Plugin Math
 
-Similar to preset-commonmark, you can configure the following properties for i18n in plugin-math:
+与 preset-commonmark 类似，你可以在 plugin-math 中为 i18n 配置以下属性。
 
 -   mathInline
     -   placeholder.empty
@@ -48,7 +48,7 @@ Similar to preset-commonmark, you can configure the following properties for i18
 
 ## Plugin Diagram
 
-Similar to preset-commonmark, you can configure the following properties for i18n in plugin-diagram:
+与 preset-commonmark 类似，你可以在 plugin-diagram 中为 i18n 配置以下属性。
 
 -   diagramNode
     -   placeholder.empty
@@ -56,8 +56,8 @@ Similar to preset-commonmark, you can configure the following properties for i18
 
 ## Plugin Slash
 
-You can configure the `config` property to provide your own texts for slash plugin.
-The placeholder and list items can be configured with this property.
+你可以配置`config`属性，为 slash 插件提供你自己的文本。
+占位符和列表项可以通过这个属性进行配置。
 
 ```typescript
 import { createDropdownItem, defaultActions, slash, slashPlugin, WrappedAction } from '@milkdown/plugin-slash';
@@ -107,8 +107,8 @@ milkdown.use(mySlash);
 
 ## Plugin Menu
 
-You can configure the `config` property to provide your own texts for menu plugin.
-In most cases, what you want is to override the **selectable menu item**.
+你可以配置`config`属性，为菜单插件提供你自己的文本。
+在大多数情况下，你想要的是覆盖**可选择的菜单项**。
 
 ```typescript
 import { menu, menuPlugin, defaultConfig } from '@milkdown/plugin-menu';
@@ -141,10 +141,10 @@ const myMenu = menu.configure(menuPlugin, {
 milkdown.use(myMenu);
 ```
 
-## Icons
+## 图标
 
-You can also configure the icon's label by overriding the theme you use.
-All theme will have an `override` method to override some part of it.
+你也可以通过覆盖你使用的主题来配置图标的标签。
+所有的主题都有一个`override`方法来覆盖它的某些部分。
 
 ```typescript
 import { nord } from '@milkdown/theme-nord';
@@ -184,8 +184,8 @@ const myTheme = nord.override((emotion, manager) => {
 });
 ```
 
-## Example
+## 示例
 
-Here is an example of configure the i18n of milkdown to emoji for fun.
+下面是一个将 milkdown 的 i18n 配置为 emoji 的例子，只是为了好玩。
 
 !CodeSandBox{milkdown-i18n-2uzcvk?fontsize=14&hidenavigation=1&theme=dark&view=preview}
