@@ -1,5 +1,13 @@
 # @milkdown/plugin-tooltip
 
+## 6.1.5
+
+### Patch Changes
+
+-   ccf70357: Fix extended factories cannot inject slices
+-   Updated dependencies [ccf70357]
+    -   @milkdown/utils@6.1.5
+
 ## 6.1.4
 
 ### Patch Changes

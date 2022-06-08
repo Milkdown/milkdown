@@ -1,5 +1,21 @@
 # @milkdown-examples/vue
 
+## 6.1.5
+
+### Patch Changes
+
+-   ccf70357: Fix extended factories cannot inject slices
+-   Updated dependencies [ccf70357]
+    -   @milkdown/core@6.1.5
+    -   @milkdown/plugin-emoji@6.1.5
+    -   @milkdown/plugin-listener@6.1.5
+    -   @milkdown/plugin-prism@6.1.5
+    -   @milkdown/plugin-slash@6.1.5
+    -   @milkdown/preset-commonmark@6.1.5
+    -   @milkdown/prose@6.1.5
+    -   @milkdown/theme-nord@6.1.5
+    -   @milkdown/vue@6.1.5
+
 ## 6.1.4
 
 ### Patch Changes
