@@ -1,7 +1,5 @@
 # 使用插件
 
-## 初尝插件
-
 事实上，在 milkdown 中的所有特性都是由插件来支持的。
 我们之前使用过的 `commonmark` 就是一个插件，现在我们可以尝试更多插件：
 
@@ -17,9 +15,7 @@ Editor.make().use(nord).use(commonmark).use(tooltip).use(slash).create();
 
 ---
 
-## 寻找插件
-
-### 官方插件
+## 官方插件
 
 Milkdown 提供了下列官方插件。
 
@@ -38,6 +34,6 @@ Milkdown 提供了下列官方插件。
 | [@milkdown/plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)                 | 添加斜线指令                                                       |
 | [@milkdown/plugin-emoji](https://www.npmjs.com/package/@milkdown/plugin-emoji)                 | 添加表情符号支持                                                   |
 
-### 社区插件
+## 社区插件
 
 查看 [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) 来寻找社区插件。你也可以通过提交 pr 的方式将自己编写的插件添加上去。
