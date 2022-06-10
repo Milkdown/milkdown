@@ -1,13 +1,13 @@
-# Composable Plugins
+# 可组合插件
 
-Plugin factories are really powerful. But they might be too heavy for some uses cases.
-For example, if you just want to create a simple wrapper for a existing prosemirror plugin.
-Or if you want to create some small pieces too make some complex plugins.
+插件工厂真的很强大。但对于某些使用情况来说，它们可能过重了。
+例如，如果你只是想为一个现有的 prosemirror 插件创建一个简单的封装。
+或者，如果你想让复杂的插件由一些可复用的小部分组合而成。
 
-That's why we provides composable plugin API.
-It's designed to make it possible to create simple plugins that can be composed with each other plugins.
+这就是为什么我们提供可组合的插件 API。
+它的目的是使创建简单的插件成为可能，这些插件可以与其他插件进行组合。
 
-## Remark Plugin
+## Remark 插件
 
 ```typescript
 import { $remark } from '@milkdown/utils';
@@ -17,9 +17,9 @@ const myRemarkPlugin = $remark((ctx) => remarkPlugin);
 Editor.use(myRemarkPlugin);
 ```
 
-After created by `$remark`, the remark plugin has metadata on it:
+通过`$remark`创建的插件上有元数据：
 
--   plugin: The original remark plugin.
+-   plugin: 原始的 remark 插件
 
 ## Node & Mark
 
@@ -49,11 +49,11 @@ const myMark = $mark('my-mark', (ctx) => {
 Editor.use(myNode).use(myMark);
 ```
 
-Nodes and marks created by `$node` and `$mark` has metadata on it:
+通过`$node`和`$mark`创建的插件上有元数据：
 
--   id: The id of the node or mark.
--   type: The prosemirror node type or mark type.
--   schema: The original schema of the node or mark.
+-   id: node/mark 的 id
+-   type: 插件的 prosemirror node type 或 mark type
+-   schema: 用于创建的原始 schema
 
 ## InputRule
 
@@ -73,9 +73,9 @@ const inputRule2 = $inputRule((ctx) => {
 });
 ```
 
-After created by `$inputRule`, the input rule has metadata on it:
+通过`$inputRule`创建的插件上有元数据：
 
--   inputRule: The original input rule.
+-   inputRule: 原始的 inputRule 定义
 
 ## Command
 
@@ -93,12 +93,12 @@ const myCommand = $command((ctx) => {
 });
 ```
 
-After created by `$command`, the command has metadata on it:
+通过`$command`创建的插件上有元数据：
 
--   run: To run the created command.
-    For example: `myCommand.run(1)` will wrap the current selection with `myNode.type` with level 1.
--   key: The key of the command.
-    For example: `myCommand.key` will return `WrapInMyBlock`.
+-   run: 用于运行创建的 command。
+    例如： `myCommand.run(1)` 将会把当前选择的内容的类型变为 `myNode.type`，并把 level 设置为 1。
+-   key: command 的 key。
+    例如： `myCommand.key` 将会返回 `WrapInMyBlock`。
 
 ## Shortcut
 
@@ -115,11 +115,11 @@ const myShortcut = $shortcut((ctx) => {
 });
 ```
 
-After created by `$shortcut`, the shortcut has metadata on it:
+通过`$shortcut`创建的插件上有元数据：
 
--   keymap: The shortcut keymap.
+-   keymap: 快捷键的原始 keymap。
 
-## Prosemirror Plugin
+## Prosemirror 插件
 
 ```typescript
 import { $prose } from '@milkdown/utils';
@@ -132,9 +132,9 @@ const myProsePlugin = $prose((ctx) => {
 });
 ```
 
-After created by `$prose`, the prosemirror plugin has metadata on it:
+在通过`$prose`创建后，插件上有元数据：
 
--   plugin: The original prosemirror plugin.
+-   plugin: 原始的 prosemirror 插件。
 
 ## View
 
@@ -150,7 +150,7 @@ const myNodeView = $view(myNode, (ctx) => {
 });
 ```
 
-After created by `$view`, the view has metadata on it:
+在通过`$view`创建后，插件上有元数据：
 
--   type: The original `$node` or `$mark` for the view that passed in as the first parameter.
--   view: The original view.
+-   type: 被传入的第一个参数，即通过`$node`或`$mark`创建的插件。
+-   view: 生成的原始 prosemirror view。
