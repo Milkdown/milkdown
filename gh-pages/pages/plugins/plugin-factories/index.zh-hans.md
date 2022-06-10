@@ -1,18 +1,19 @@
-# Plugin Factories
+# 插件工厂
 
-In the [previous section](/plugins-101). We showed how to create a bare plugin. Luckily, we don't need to do it in most cases. We can use plugin factories and [composable plugins](/composable-plugins) which we'll introduce in the next section.
+在[上一章](/zh-hans/plugins-101).我们展示了如何不借助任何工具创建一个插件。
+幸运的是，我们不需要在大多数情况下从零开始。我们可以使用插件工厂和[可组合插件](/zh-hans/composable-plugins)来创建插件。
 
-We provide 3 factories to create different types of plugins:
+我们提供 3 种方式来创建不同类型的插件：
 
 -   createNode
 -   createMark
 -   createPlugin
 
-## Overview
+## 概览
 
-For every plugin factory, it takes a function that returns an object to define the plugin.
+对于每个插件工厂，它都会接受一个函数，返回一个插件创建函数。
 
-Let's create a simple blockquote plugin.
+让我们创建一个简单的 blockquote 插件。
 
 ```typescript
 const blockquote = createNode(() => {
@@ -42,25 +43,25 @@ const blockquote = createNode(() => {
     };
 });
 
-// usage
+// 使用
 editor.use(blockquote());
 ```
 
-With this plugin, we can now create blockquote.
+通过这个插件，我们可以创建 blockquote。
 
 ---
 
-## Properties
+## 属性
 
-Now let's take a closer look at each part of the plugin.
+现在，我们来仔细看看插件的每个部分。
 
 ### id
 
 > `string`
 
-First of all, we define an `id` for the plugin.
-This id should be unique for every plugin.
-It used to identify which the plugin it is in the editor.
+首先，我们定义了插件的`id`。
+这个 id 应该是每个插件的唯一标识。
+它被用于在编辑器中标识插件。
 
 ### schema
 
@@ -78,11 +79,11 @@ type schema = (ctx: Ctx) => {
 };
 ```
 
-The schema is a superset of the prosemirror schema.
-For the `createNode` factory, it's a superset of [prosemirror node schema spec](https://prosemirror.net/docs/ref/#model.NodeSpec).
-And for the `createMark` factory, it's a superset of [prosemirror mark schema spec](https://prosemirror.net/docs/ref/#model.MarkSpec).
+Schema 是 prosemirror schema 的超集。
+对于`createNode`工厂，它是[prosemirror node schema spec](https://prosemirror.net/docs/ref/#model.NodeSpec)的超集。
+对于`createMark`工厂，它是[prosemirror mark schema spec](https://prosemirror.net/docs/ref/#model.MarkSpec)的超集。
 
-For `createPlugin` factory, you can create multiple nodes and marks. For example:
+对于`createPlugin`工厂，你可以创建多个 node 和 mark。例如：
 
 ```typescript
 const myPlugin = createPlugin(() => {
@@ -101,22 +102,22 @@ const myPlugin = createPlugin(() => {
 });
 ```
 
-If you don't familiar with prosemirror, I highly recommend you to read their definition in prosemirror to make sure you understand what's going on.
+如果你不熟悉 prosemirror，我非常建议你阅读 node 和 mark 在 prosemirror 中的定义，以确保你能够理解接下来的内容。
 
-The schema is used to define the structure of the node/mark. It has mainly 3 parts of properties:
+这里每个 schema 都用于定义 node 或 mark 的结构，它主要包含 3 部分属性：
 
-1. `parseDOM` and `toDOM`: This is used to define how the node/mark is rendered to DOM and parsed from DOM. Same as the prosemirror node/mark spec.
-2. `parseMarkdown` and `toMarkdown`: This is used to define how the node/mark is parsed from markdown AST and serialized to markdown AST. That's also the properties in schema that are milkdown only.
-3. Other properties: This is used to define the behavior of the node/mark. Same as the prosemirror node/mark spec.
+1. `parseDOM`和`toDOM`：这是用来定义如何将 node/mark 从 DOM 中解析和渲染到 DOM 中。与 prosemirror node/mark spec 的定义方式相同。
+2. `parseMarkdown`和`toMarkdown`：这是用来定义如何将 node/mark 从 markdown AST 中解析和渲染到 markdown AST 中。这是 milkdown 中特有的属性。
+3. 其它属性：这用于定义 node/mark 的行为，与 prosemirror node/mark spec 中的任何属性都可以放在这里。
 
 #### SchemaType
 
-For every plugin factory, there will be a schema type decides by the schema.
-For `createNode`, it's `NodeSchema`.
-For `createMark`, it's `MarkSchema`.
-And for `createPlugin`, it's an object.
+对于每个插件工厂，都会有一个 SchemaType，由 schema 的定义来决定。
+对于`createNode`是`NodeSchema`。
+对于`createMark`是`MarkSchema`。
+对于`createPlugin`，是一个对象。
 
-For example, the `myPlugin` we defined above will have this schema type:
+例如，我们在上面定义的`myPlugin`将会有这个 schema 类型：
 
 ```typescript
 type SchemaTypeOfMyPlugin = {
@@ -130,7 +131,7 @@ type SchemaTypeOfMyPlugin = {
 };
 ```
 
-The SchemaType will be used in following other properties in plugin factory:
+SchemaType 可能会被用在插件工厂的以下其它属性中：
 
 -   [commands](#commands)
 -   [inputRules](#inputrules)
@@ -140,8 +141,9 @@ The SchemaType will be used in following other properties in plugin factory:
 
 > `type commands = (type: SchemaType, ctx: Ctx) => Commands[]`
 
-You can add commands to milkdown to let other parts in the editor can use it.
-For example, we want other components such as a menubar or a dropdown list can create a blockquote. We can add a command called `WrapInBlockquote`. And then other components can just call `WrapInBlockquote` command to create a blockquote without knowing the details of the plugin.
+你可以添加 commands 来让编辑器的其它部分来使用它。
+例如，我们想要其它组件例如菜单栏或者下拉列表可以创建一个 blockquote。我们可以添加一个 command 名为`WrapInBlockquote`。
+然后其它的组件就只需要直接调用`WrapInBlockquote`命令来创建一个 blockquote，而不需要知道具体的细节。
 
 ```typescript
 const WrapInBlockquote = createCmdKey('WrapInBlockquote');
@@ -158,13 +160,13 @@ const blockquote = createNode(() => {
 ctx.get(commandsCtx).call('WrapInBlockquote');
 ```
 
-For more details of commands, please check [commands](/commands).
+关于 commands 的更多详情，请参见[commands](/zh-hans/commands)。
 
 ### inputRules
 
 > `(schemaType: SchemaType, ctx: Ctx) => InputRule[]`
 
-This property is used to define what string users type into the editor that will trigger the command. For example, we expect the user can type `>` with a `space` to create a blockquote.
+这个属性被用于定义当用户输入怎样的字符时，将会触发目标命令。例如，我们期望用户可以通过输入`>`和一个空格来创建一个 blockquote。
 
 ```typescript
 import { wrappingInputRule } from '@milkdown/prose/inputrules';
@@ -179,22 +181,23 @@ const blockquote = createNode(() => {
 });
 ```
 
-InputRules is a part from prosemirror. If you want to know more details or create your own inputrules, please check [prosemirror-inputrules](https://prosemirror.net/docs/ref/#inputrules).
+InputRules 是 prosemirror 的一部分，如果你想要更多的详情或创建你自己的 inputrules，
+请参见[prosemirror-inputrules](https://prosemirror.net/docs/ref/#inputrules)。
 
 ### prosePlugins
 
 > `(schemaType: SchemaType, ctx: Ctx) => ProsemirrorPlugin[]`
 
-This property is used to define the [prosemirror plugins](https://prosemirror.net/docs/ref/#state.Plugin_System).
-Prosemirror plugins can be used to extend behavior to the editor.
-For example, we can add a tooltip or placeholder to the editor.
+这个属性被用于定义[prosemirror 插件](https://prosemirror.net/docs/ref/#state.Plugin_System)。
+Prosemirror 插件可以用来扩展编辑器的行为。
+例如添加 tooltip 或者 placeholder。
 
 ### shortcuts
 
 > `Record<string, Shortcut>`
 
-Shortcuts defines what key combination will trigger the command.
-For example, we expect the user can type `Mod-Shift-b` to create a blockquote.
+Shortcuts 用来定义用户输入的组合键能够出发怎样的命令。
+例如，我们期望用户可以通过输入`Mode-Shift-b`来创建一个 blockquote。
 
 ```typescript
 const WrapInBlockquote = createCmdKey('WrapInBlockquote');
@@ -211,11 +214,11 @@ const blockquote = createNode<'Blockquote'>(() => {
 });
 ```
 
-Here we define a shortcut for this plugin. When user types `Mod-Shift-b`, the command `WrapInBlockquote` will be triggered.
+这里我们定义了一个快捷键，当用户输入`Mod-Shift-b`时，命令`WrapInBlockquote`将被触发。
 
-#### Custom Shortcuts
+#### 自定义快捷键
 
-The advantage of using shortcuts is that when other users use your plugin, they can customize the behavior of the shortcut.
+使用 shortcuts 的好处是，当其他用户使用你的插件时，他们可以自定义快捷键。
 
 ```typescript
 const blockquoteWithUserDefinedShortcut = blockquote({
@@ -225,29 +228,29 @@ const blockquoteWithUserDefinedShortcut = blockquote({
 });
 ```
 
-The user now can type `Mod-Alt-b` to create a blockquote instead of the original keyboard shortcut.
+这里用户可以输入`Mod-Alt-b`来创建一个 blockquote，而不是使用原来的快捷键。
 
 ### view
 
 > `(ctx: Ctx) => ViewFactory`
 
-This property is used to define [node view](https://prosemirror.net/docs/ref/#view.NodeView) for the plugin.
-It provides you a way to control the DOM rendered by the node.
-It is more powerful than `toDOM` in the schema, but much more complicated.
+这个属性被用来定义[node view](https://prosemirror.net/docs/ref/#view.NodeView)。
+它为你提供了一种控制渲染出的 DOM 的方式。
+它比起 schema 中的`toDOM`更加复杂，但是更加强大。
 
 ### remarkPlugin
 
 > `(ctx: Ctx) => RemarkPlugin[]`
 
-This property is used to define [remark plugin](https://github.com/remarkjs/remark/blob/main/doc/plugins.md).
-It's used to extend the behavior of parser and serializer.
-Most of the time if you want to define your own markdown syntax, you should use remark plugin.
+这个属性用于定义[remark 插件](https://github.com/remarkjs/remark/blob/main/doc/plugins.md)。
+它用于扩展解析器和序列化器的行为。
+大多数时候如果想要定义自己的 markdown 语法，都需要使用 remark 插件。
 
 ---
 
-## Inject Slices
+## 注入 Slice
 
-You may want to inject slices into a plugin to let them can be accessed or updated by other parts in the editor.
+有时候你可能会想在插件中注入一些 slice，来让他们可以被编辑器的其他部分更新和访问。
 
 ```typescript
 import { createSlice } from '@milkdown/core';
@@ -288,18 +291,18 @@ Editor.make()
 
 ---
 
-## Style
+## 样式
 
-You may want to add style for your plugin if it has a user interface.
-We provide some utils for you to add styles to your plugin.
-You can get them from the first parameter of the plugin factory.
+如果你的插件有用户界面，你可能想要为他们添加样式。
+我们提供了一些工具来帮助你做到这一点。
+你可以通过插件工厂的第一个参数获取到它们。
 
 ### getStyle
 
 > `(callback: (emotion: Emotion) => string | undefined) => void`
 
-The function `getStyle` is used to create style with a callback.
-The `Emotion` here is same with the [emotion library](https://emotion.sh/docs/@emotion/css).
+函数`getStyle`被用于通过一个回调函数来创建样式。
+这里的`Emotion`和[emotion 库](https://emotion.sh/docs/@emotion/css)中的是一样的。
 
 ```typescript
 import { getPalette } from '@milkdown/core';
@@ -334,10 +337,9 @@ const blockquote = createNode(({ getStyle, themeManager }) => {
 });
 ```
 
-The reason why we need to use `getStyle` is that with this method,
-we can make this plugin support [headless mode](/styling#headless-mode) automatically.
-In headless mode, all styles created by `getStyle` will be erased.
-Users can set this plugin to headless mode by:
+我们需要使用`getStyle`来创建样式的原因是，我们可以通过这种方式来让插件自动支持[无头模式](/zh-hans/styling#headless-mode)。
+在无头模式中，所有通过`getStyle`创建的样式都会被擦除。
+用户可以通过以下方法来开启无头模式：
 
 ```typescript
 const headlessBlockquote = blockquote({
@@ -345,14 +347,13 @@ const headlessBlockquote = blockquote({
 });
 ```
 
-You may also notice that we put our style into `themeManager.onFlush`.
-That's because we want to flush the style when the theme changes.
+你可能也注意到了我们把样式放在了`themeManager.onFlush`中，这是为了在主题更改时刷新样式。
 
 ### getClassName
 
 > `(attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string`
 
-The function `getClassName` is used to create one or more class names with a callback.
+函数`getClassName`被用于通过一个回调函数来创建一个或多个 class 类名。
 
 ```typescript
 const blockquote = createNode(({ getClassName }) => {
@@ -376,9 +377,9 @@ const blockquote = createNode(({ getClassName }) => {
 });
 ```
 
-With the code above, the blockquote will have the class `blockquote` and `milkdown-blockquote`.
-It also brings the convenience that we can let users [decide the class name by themselves](/styling#option-2:-add-custom-class-name).
-Here's an example:
+通过以上代码，blockquote 将会有 class `blockquote`和`milkdown-blockquote`。
+这还带来了一个好处，那就是我们可以让用户[自己决定 class 的名字](/zh-hans/styling#option-2:-add-custom-class-name)。
+这里是一个例子：
 
 ```typescript
 const blockquoteWithCustomClassName = blockquote({
@@ -388,12 +389,11 @@ const blockquoteWithCustomClassName = blockquote({
 
 ---
 
-## Options
+## 选项
 
-Some plugins may want the user to configure some options.
-For example, a plugin with text may want the user to decide the content for i18n.
+一些插件可能会想要用户来配置一些选项。例如，一个有文字的插件可能会想要用户来决定文字的内容来做到本地化。
 
-You can get them from the second parameter of the plugin factory.
+你可以通过第二个参数来得到用户传入的选项。
 
 ```typescript
 type Options = {
@@ -412,14 +412,13 @@ const buttonWithMyText = button({
 });
 ```
 
-Keep in mind that all options should be treated as **optional**.
-Which means user can choose not to set the option.
-So you'd better set default value for all of them.
+需要注意的是，所有的选项都应该被认为是**可选的。**
+也就是说如果用户选择不传递任何选项，你最好为他们都设置合适的默认值。
 
-## Extend
+## 继承
 
-Every plugin created by factory can be extended.
-If you just want to modify some behavior of exists plugin, extend is better than rewrite a new one.
+被工厂创建的插件可以被继承。
+如果你只是想要修改一个现存插件的一些部分，继承要比重新写一个简单得多。
 
 ```typescript
 const extendedBlockquote = blockquote.extend((original, utils, options) => {
@@ -435,10 +434,10 @@ const extendedBlockquote = blockquote.extend((original, utils, options) => {
 });
 ```
 
-Here we have 3 parameters.
-The `options` and `utils` have been introduced.
-And the `original` is the original plugin to be extended.
-The extend method should always return a new plugin.
+这里我们有 3 个参数。
+`options`和`utils`已经介绍过了。
+`original`是要被继承的插件的原始声明。
+继承方法应该总是返回一个新的插件。
 
 ## AtomList
 
@@ -446,6 +445,10 @@ In a complex real world app, we may want to create a list of plugins.
 Let users `use` them one by one might be a little bit complicated.
 So we provide a utility to create a list of plugins.
 With this list, users can use, extend and configure them easily.
+在一个真实世界的复杂应用中，我们可能需要创建一系列插件。
+如果让用户一个一个的对他们调用`use`可能会有一点复杂。
+所以我们提供了一个工具来创建一个插件列表。
+通过这个列表，用户可以轻松的使用，继承和配置它们。
 
 ```typescript
 import { createNode, AtomList } from '@milkdown/utils';
@@ -487,8 +490,8 @@ const myNode1 = node1.extend(/* ... */);
 Editor.use(mySyntaxPlugin.replace(node1, myNode1()));
 ```
 
-## Real World Examples
+## 现实示例
 
-In Milkdown, most of the plugins are defined using plugin factories.
+在 Milkdown 中，大多数插件都是通过插件工厂来定义的。
 
-You can view the source of [preset-commonmark](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-commonmark/src) to see how we use them in real world.
+你可以查看 [preset-commonmark](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-commonmark/src) 的源代码来看看我们是如何使用插件工厂的。
