@@ -1,9 +1,9 @@
-# Writing Themes
+# 编写主题
 
-Writing themes is very simple.
-What we need to do is just set values for all the theme keys.
+编写主题是十分简单的。
+我们需要做的就是为所有的主题 key 提供合适的值。
 
-Theme should be created by `themeFactory`:
+主题应该被通过`themeFactory`创建：
 
 ```typescript
 import { themeFactory, ThemeColor, ThemeSize, ThemeIcon } from '@milkdown/core';
@@ -26,15 +26,15 @@ editor.use(myTheme);
 
 ---
 
-## Basic Theme Keys
+## 基础主题 Key
 
-Let me introduce you the basic theme keys.
+现在让我来介绍一下基础的主题 key。
 
 ### ThemeColor
 
-> `(name: string, opacity?: number) => string`
+> `(key: string, opacity?: number) => string`
 
-Get a color by name and opacity.
+通过一个颜色的名称和透明度来获取一个颜色。
 
 ```typescript
 import { ThemeColor } from '@milkdown/core';
@@ -52,20 +52,20 @@ manager.set(ThemeColor, ([key, opacity]) => {
 });
 ```
 
-The possible color names are:
+可能的颜色名称包括：
 
-| Key        | Description                                    |
-| ---------- | ---------------------------------------------- |
-| primary    | The primary color. Used in large color blocks. |
-| secondary  | The secondary color. Used in tips area.        |
-| neutral    | The color of text.                             |
-| solid      | The color of widgets, such as buttons.         |
-| shadow     | The color of box shadow.                       |
-| line       | The color of line, such as border.             |
-| surface    | The foreground color.                          |
-| background | The background color.                          |
+| Key        | Description              |
+| ---------- | ------------------------ |
+| primary    | 主色，被用在大色块中     |
+| secondary  | 辅助色，被用在提示区域中 |
+| neutral    | 文字的颜色               |
+| solid      | 控件的颜色，例如按钮     |
+| shadow     | 阴影的颜色               |
+| line       | 线的颜色，例如边框       |
+| surface    | 编辑器的前景色           |
+| background | 编辑器的背景色           |
 
-After set values for `ThemeColor`, you can use the `getPalette` function to access a color:
+在为`ThemeColor`设置值后，你可以使用`getPalette`函数来获取颜色：
 
 ```typescript
 import { getPalette } from '@milkdown/core';
@@ -79,9 +79,9 @@ palette('line');
 
 ### ThemeSize
 
-> `(name: string) => string`
+> `(key: string) => string`
 
-Get a size by key.
+通过一个尺寸的名称来获取尺寸。
 
 ```typescript
 import { ThemeSize } from '@milkdown/core';
@@ -93,18 +93,18 @@ manager.set(ThemeSize, (key) => {
 });
 ```
 
-The possible names are:
+可能的尺寸名称包括：
 
-| Key       | Description                         |
-| --------- | ----------------------------------- |
-| lineWidth | The width of lines, such as border. |
-| radius    | The size of radius.                 |
+| Key       | Description        |
+| --------- | ------------------ |
+| lineWidth | 线的宽度，例如边框 |
+| radius    | 圆角的大小         |
 
 ### ThemeFont
 
 > `(name: string) => string`
 
-Get font families by name.
+通过一个字体的名称来获取字体。
 
 ```typescript
 import { ThemeFont } from '@milkdown/core';
@@ -116,18 +116,18 @@ manager.set(ThemeFont, (key) => {
 });
 ```
 
-The possible names are:
+可能的字体名称包括：
 
-| Key        | Description                      |
-| ---------- | -------------------------------- |
-| typography | The font family for normal text. |
-| code       | The font family for code.        |
+| Key        | Description    |
+| ---------- | -------------- |
+| typography | 普通文字的字体 |
+| code       | 代码的字体     |
 
 ### ThemeGlobal
 
 > `() => void`
 
-Add global styles for your theme.
+为主题添加全局样式。
 
 ```typescript
 import { ThemeGlobal, getPalette } from '@milkdown/core';
@@ -151,15 +151,15 @@ manager.set(ThemeGlobal, () => {
 
 ---
 
-## Component
+## 组件
 
-Component provides some useful style utils for your theme. Set values for them can make your theme more flexible.
+组件为主题提供有用的样式工具。为组件设置合适的值会让主题能适应更多的场景。
 
 ### ThemeIcon
 
-> `(name: string) => { label: string; dom: HTMLElement }`
+> `(key: string) => { label: string; dom: HTMLElement }`
 
-Get icon by name. The icon should be a `{ label: string; dom: HTMLElement }` object.
+通过图标的名称来获取图标。图标应该是一个`{ label: string; dom: HTMLElement }`对象。
 
 ```typescript
 import { ThemeIcon } from '@milkdown/core';
@@ -189,13 +189,13 @@ manager.set(ThemeIcon, (key) => {
 });
 ```
 
-You can [check the icon name list here](https://github.com/Saul-Mirone/milkdown/blob/main/packages/design-system/src/types.ts).
+你可以[检查这里列出的图标名称](https://github.com/Saul-Mirone/milkdown/blob/main/packages/design-system/src/types.ts)。
 
 ### ThemeShadow
 
 > `() => string`
 
-Get box shadow.
+获取边框阴影。
 
 ```typescript
 import { ThemeShadow } from '@milkdown/core';
@@ -215,7 +215,7 @@ manager.set(ThemeShadow, (key) => {
 
 > `(direction?: 'left' | 'right' | 'top' | 'bottom') => string`
 
-Get border by direction.
+通过方向来获取边框。
 
 ```typescript
 import { ThemeBorder } from '@milkdown/core';
@@ -238,22 +238,20 @@ manager.set(ThemeBorder, (direction) => {
 
 > `(config?: [direction?: 'x' | 'y', type?: 'normal' | 'thin']) => string`
 
-Get scrollbar by direction and type.
+通过方向和类型来获取滚动条样式。
 
-X means the scrollbar is horizontal, and Y means the scrollbar is vertical.
-Scrollbar can be thin or normal.
+X 意味着滚动条是水平方向的，Y 意味着滚动条是垂直方向的。
+滚动条可以是细的或是正常的。
 
-You can check the example in [milkdown theme nord](https://github.com/Saul-Mirone/milkdown/blob/main/packages/theme-nord/src/index.ts).
+你可以查看[milkdown theme nord](https://github.com/Saul-Mirone/milkdown/blob/main/packages/theme-nord/src/index.ts)中的例子。
 
 ---
 
-## Renderer
+## 渲染器
 
-Renderer are complicated.
-It provides ways to control some widgets in milkdown editor.
-Such as code block, hybrid editor, input chip, etc.
+渲染器比较复杂，它提供了控制 milkdown 编辑器中一些控件的方法。例如代码块，混合编辑器，输入框等等。
 
-We provide a preset for you to help you won't need to write your own renderer.
+我们提供了一份预设，帮你避免自己实现所有渲染器。
 
 ```typescript
 import { useAllPresetRenderer } from '@milkdown/theme-pack-helper';
@@ -262,8 +260,8 @@ useAllPresetRenderer(manager, emotion);
 ```
 
 However, if you do have interests in writing your own renderer,
-you can check their implementation in [milkdown theme pack helper](https://github.com/Saul-Mirone/milkdown/blob/main/packages/theme-pack-helper/src/renderer-preset/index.ts).
+然而，如果你有兴趣或者需要自己实现它们，你可以在[milkdown theme pack helper](https://github.com/Saul-Mirone/milkdown/blob/main/packages/theme-pack-helper/src/renderer-preset/index.ts)中查看它们的实现。
 
-## Example: NES Theme
+## 示例：NES 主题
 
 !CodeSandBox{milkdown-theme-nes-b0zmy?fontsize=14&hidenavigation=1&theme=dark&view=preview}
