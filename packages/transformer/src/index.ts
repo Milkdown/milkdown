@@ -5,8 +5,8 @@
  * kleur is a dependency of remark.
  */
 
-if (process && !process.env) {
-    process.env = {};
+if (globalThis.process && !globalThis.process.env) {
+    globalThis.process.env = {};
 }
 export * from './parser';
 export * from './serializer';
