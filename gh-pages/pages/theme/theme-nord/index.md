@@ -13,3 +13,19 @@ import { commonmark } from '@milkdown/preset-commonmark';
 
 Editor.make().use(nord).use(commonmark).create();
 ```
+
+We use material icon and roboto font for this theme, don't forget to import them!
+
+For example, you can get them from cdn:
+
+```html
+<!--Roboto-->
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+/>
+
+<!--Material Icon-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
+```
