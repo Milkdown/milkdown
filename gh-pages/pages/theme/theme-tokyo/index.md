@@ -14,7 +14,7 @@ Editor.make().use(tokyo).use(commonmark).create();
 
 We use material icon and roboto font for this theme, don't forget to import them!
 
-For example, you can get them from cdn:
+For example, you can get them from CDN:
 
 ```html
 <!--Roboto-->

@@ -14,6 +14,7 @@ export const config: ConfigItem[] = [
             'macros',
             'collaborative-editing',
             'i18n',
+            'faq',
         ],
     },
     {

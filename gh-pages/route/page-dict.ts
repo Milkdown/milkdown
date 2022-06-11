@@ -73,6 +73,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'faq',
+        {
+            en: 'FAQ',
+            'zh-hans': 'FAQ',
+        },
+    ],
+    [
         'integrations',
         {
             en: 'Integrations',
