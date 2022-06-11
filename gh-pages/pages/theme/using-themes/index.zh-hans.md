@@ -1,6 +1,6 @@
-# Using Themes
+# 使用主题
 
-Themes are just plugins same as any other types of plugins, so you can just call `use` method for editor:
+主题也是一种插件，与其它插件一样，你可以直接调用编辑器的`use`方法来使用它们。
 
 ```typescript
 const { nord } from '@milkdown/theme-nord';
@@ -9,11 +9,11 @@ editor
     .use(nord);
 ```
 
-Make sure you use a theme when create your editor. Otherwise, you will get an error.
+请确保你初始化编辑器时使用了主题。否则，你将会得到一个错误。
 
-## Switch Theme
+## 切换主题
 
-We provide you a way to switch theme through `themeManager` instead of recreate the editor.
+我们为你提供了一种方法只切换主题而无需重新创建编辑器实例。
 
 ```typescript
 import { themeManagerCtx } from '@milkdown/core';
@@ -24,7 +24,7 @@ editor.action((ctx) => {
 });
 ```
 
-You can also use the [macro](/macros#switchtheme) we provide out of box.
+你也可以直接使用我们提供的[macro](/zh-hans/macros#switchtheme)。
 
 ```typescript
 import { switchTheme } from '@milkdown/utils';
@@ -35,9 +35,9 @@ editor.action(switchTheme(nord));
 
 !CodeSandBox{milkdown-switch-theme-ljqzjd?fontsize=14&hidenavigation=1&theme=dark&view=preview}
 
-## Override Theme
+## 覆盖主题
 
-You can override some keys of theme through `theme.override`.
+你可以通过`theme.override`覆盖主题的某些 key。
 
 ```typescript
 import { ThemeColor } from '@milkdown/core';
@@ -60,20 +60,22 @@ const extendedNord = nord.override((emotion, manager) => {
 editor.use(extendedNord);
 ```
 
-## Empty Theme
+## 空主题
 
 If you want to create an empty theme and add your own styles,
 you can call `themeFactory` without parameters.
+如果你想要创建一个空主题，并添加你自己的样式。
+你可以不提供参数的调用`themeFactory`。
 
 ```typescript
 import { themeFactory } from '@milkdown/core';
 editor.use(themeFactory());
 ```
 
-## Configure Emotion
+## 配置 Emotion
 
-Emotion allow us to pass some options to emotion instance.
-It's useful sometime. For example, if you want to set style attributes into some other elements instead of `head` element.
+Emotion 允许我们传递给 emotion 实例的一些选项。
+这有时候是有用的。例如，如果你想要将样式标签设置到 HTML 中的其他元素而不是`head`元素。
 
 ```typescript
 editor.config(() => {
