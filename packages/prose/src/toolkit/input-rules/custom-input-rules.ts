@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import type { InputRule } from '../../inputrules';
-import { EditorState, Plugin, PluginKey, PluginSpec, TextSelection, Transaction } from '../../state';
+import { EditorState, Plugin, PluginKey, TextSelection, Transaction } from '../../state';
 import type { EditorView } from '../../view';
 
 function run(view: EditorView, from: number, to: number, text: string, rules: InputRule[], plugin: Plugin) {
@@ -36,7 +36,7 @@ export const customInputRules = ({ rules }: { rules: InputRule[] }): Plugin => {
             init() {
                 return null;
             },
-            apply(tr, prev) {
+            apply(this: typeof plugin, tr, prev) {
                 const stored = tr.getMeta(this);
                 if (stored) return stored;
                 return tr.selectionSet || tr.docChanged ? null : prev;
@@ -62,6 +62,6 @@ export const customInputRules = ({ rules }: { rules: InputRule[] }): Plugin => {
                 return false;
             },
         },
-    } as PluginSpec);
+    });
     return plugin;
 };
