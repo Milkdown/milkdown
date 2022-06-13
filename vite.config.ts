@@ -54,6 +54,8 @@ export const external = [
     '@milkdown/ctx',
     '@milkdown/design-system',
     '@milkdown/exception',
+    '@milkdown/transformer',
+    '@milkdown/utils',
     '@milkdown/prose',
     '@milkdown/prose/commands',
     '@milkdown/prose/dropcursor',
@@ -67,8 +69,6 @@ export const external = [
     '@milkdown/prose/tables',
     '@milkdown/prose/transform',
     '@milkdown/prose/view',
-    '@milkdown/transformer',
-    '@milkdown/utils',
     '@milkdown/preset-gfm',
     '@milkdown/preset-commonmark',
     '@milkdown/plugin-clipboard',
@@ -120,7 +120,7 @@ export const pluginViteConfig = (packageDirName: string, options: ViteUserConfig
     return defineConfig({
         ...options,
         build: viteBuild(packageDirName, options.build),
-        plugins: vitePlugins,
+        plugins: [...vitePlugins, ...rollupPlugins],
     });
 };
 
