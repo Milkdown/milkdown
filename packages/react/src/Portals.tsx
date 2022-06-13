@@ -1,9 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/core';
-import { ViewFactory } from '@milkdown/prose';
+import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 import React from 'react';
 
-export const portalContext = React.createContext<(Component: React.FC) => (ctx: Ctx) => ViewFactory>(() => () => {
+export const portalContext = React.createContext<
+    (Component: React.FC) => (ctx: Ctx) => NodeViewConstructor | MarkViewConstructor
+>(() => () => {
     throw new Error();
 });
 

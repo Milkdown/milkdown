@@ -150,7 +150,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                 if (!$start.parent.canReplaceWith(index, $end.index(), nodeType)) {
                     return null;
                 }
-                const value = match[1];
+                const value = match[1] ?? '';
                 return state.tr.replaceRangeWith(
                     start,
                     end,

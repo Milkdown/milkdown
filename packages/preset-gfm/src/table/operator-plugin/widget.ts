@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Ctx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
-import { Decoration, WidgetDecorationSpec } from '@milkdown/prose/view';
+import { Decoration } from '@milkdown/prose/view';
 
 import { CellPos, selectLine, selectTable } from '../utils';
 import { ToolTipPos } from './constant';
@@ -21,19 +21,9 @@ const calculateClassName = (pos: ToolTipPos) => {
     }
 };
 
-export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos.Point): Decoration<WidgetDecorationSpec>;
-export function createWidget(
-    ctx: Ctx,
-    cell: CellPos,
-    pos: ToolTipPos.Left,
-    index: number,
-): Decoration<WidgetDecorationSpec>;
-export function createWidget(
-    ctx: Ctx,
-    cell: CellPos,
-    pos: ToolTipPos.Top,
-    index: number,
-): Decoration<WidgetDecorationSpec>;
+export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos.Point): Decoration;
+export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos.Left, index: number): Decoration;
+export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos.Top, index: number): Decoration;
 export function createWidget(ctx: Ctx, cell: CellPos, pos: ToolTipPos, index = 0) {
     return Decoration.widget(cell.pos + 1, (view) => {
         const div = document.createElement('div');

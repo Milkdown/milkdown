@@ -28,7 +28,7 @@ export const uploadPlugin = createPlugin<string, Options>((_, options) => {
                     init() {
                         return DecorationSet.empty;
                     },
-                    apply(tr, set) {
+                    apply(this: Plugin, tr, set) {
                         const _set = set.map(tr.mapping, tr.doc);
                         const action = tr.getMeta(this);
                         if (!action) {
@@ -41,16 +41,21 @@ export const uploadPlugin = createPlugin<string, Options>((_, options) => {
                                 throw new Error('Loading icon is not found');
                             }
                             widget.appendChild(loadingIcon.dom);
-                            const decoration = Decoration.widget(action.add.pos, widget, { id: action.add.id });
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            const decoration = Decoration.widget(action.add.pos, widget, { id: action.add.id } as any);
                             return _set.add(tr.doc, [decoration]);
                         }
                         if (action.remove) {
-                            return _set.remove(_set.find(null, null, (spec: Spec) => spec.id === action.remove.id));
+                            return _set.remove(
+                                _set.find(undefined, undefined, (spec: Spec) => spec.id === action.remove.id),
+                            );
                         }
+
+                        return _set;
                     },
                 },
                 props: {
-                    decorations(state) {
+                    decorations(this: Plugin, state) {
                         return this.getState(state);
                     },
                 },
@@ -58,15 +63,13 @@ export const uploadPlugin = createPlugin<string, Options>((_, options) => {
 
             const findPlaceholder = (state: EditorState, id: symbol): number => {
                 const decorations = placeholderPlugin.getState(state);
-                const found = decorations.find(null, null, (spec: Spec) => spec.id === id);
-                return found.length ? found[0].from : -1;
+                if (!decorations) return -1;
+                const found = decorations.find(undefined, undefined, (spec: Spec) => spec.id === id);
+                if (!found.length) return -1;
+                return found[0]?.from ?? -1;
             };
 
-            const handleUpload = (
-                view: EditorView<Schema>,
-                event: DragEvent | ClipboardEvent,
-                files: FileList | undefined,
-            ) => {
+            const handleUpload = (view: EditorView, event: DragEvent | ClipboardEvent, files: FileList | undefined) => {
                 if (!files || files.length <= 0) {
                     return false;
                 }

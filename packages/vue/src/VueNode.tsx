@@ -9,7 +9,7 @@ export type NodeContext = {
     node: Node | Mark;
     view: EditorView;
     getPos: boolean | (() => number);
-    decorations: Decoration[];
+    decorations: readonly Decoration[];
 };
 
 export const nodeMetadata: InjectionKey<NodeContext> = Symbol();

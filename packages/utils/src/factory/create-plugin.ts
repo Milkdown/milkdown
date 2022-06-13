@@ -4,41 +4,42 @@ import {
     Ctx,
     MarkSchema,
     marksCtx,
+    markViewCtx,
     MilkdownPlugin,
     NodeSchema,
     nodesCtx,
+    nodeViewCtx,
     schemaCtx,
     SchemaReady,
     Slice,
     ThemeReady,
-    viewCtx,
 } from '@milkdown/core';
-import { MarkViewFactory, NodeViewFactory, ViewFactory } from '@milkdown/prose';
 import { MarkType, NodeType } from '@milkdown/prose/model';
+import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, applyMethods, getUtils, withExtend } from './common';
 
-type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
+export type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in NodeKeys]: NodeType;
 } & {
     [K in MarkKeys]: MarkType;
 };
 
-type ViewMapping<NodeKeys extends string, MarkKeys extends string> = {
-    [K in NodeKeys]: NodeViewFactory;
+export type ViewMapping<NodeKeys extends string, MarkKeys extends string> = {
+    [K in NodeKeys]: NodeViewConstructor;
 } & {
-    [K in MarkKeys]: MarkViewFactory;
+    [K in MarkKeys]: MarkViewConstructor;
 };
 
-type PluginRest<NodeKeys extends string, MarkKeys extends string> = {
+export type PluginRest<NodeKeys extends string, MarkKeys extends string> = {
     schema?: (ctx: Ctx) => {
         node?: Record<NodeKeys, NodeSchema>;
         mark?: Record<MarkKeys, MarkSchema>;
     };
     view?: (ctx: Ctx) => Partial<ViewMapping<NodeKeys, MarkKeys>>;
 };
-type PluginFactory<
+export type PluginFactory<
     SupportedKeys extends string = string,
     Options extends UnknownRecord = UnknownRecord,
     NodeKeys extends string = string,
@@ -104,10 +105,14 @@ export const createPlugin = <
 
                         if (plugin.view) {
                             const view = plugin.view(ctx);
-                            ctx.update(viewCtx, (v) => [
-                                ...v,
-                                ...Object.entries<ViewFactory>(view as Record<string, ViewFactory>),
-                            ]);
+                            const nodeViews = Object.entries(view).filter(
+                                ([id]) => ctx.get(nodesCtx).findIndex((ns) => ns[0] === id) !== -1,
+                            );
+                            const markViews = Object.entries(view).filter(
+                                ([id]) => ctx.get(marksCtx).findIndex((ns) => ns[0] === id) !== -1,
+                            );
+                            ctx.update(nodeViewCtx, (v) => [...v, ...(nodeViews as [string, NodeViewConstructor][])]);
+                            ctx.update(markViewCtx, (v) => [...v, ...(markViews as [string, MarkViewConstructor][])]);
                         }
                     };
                 },

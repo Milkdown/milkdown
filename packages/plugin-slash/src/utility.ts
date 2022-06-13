@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { ThemeIcon, ThemeManager } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
-import type { Command } from '@milkdown/prose/commands';
 import type { Node } from '@milkdown/prose/model';
+import type { Command } from '@milkdown/prose/state';
 import type { Utils } from '@milkdown/utils';
 
 import { injectStyle } from './style';

@@ -7,7 +7,7 @@ import { getStackUtil, JSONRecord } from '../utility';
 import { createElement, StackElement } from './stack-element';
 
 type Ctx = {
-    marks: Mark[];
+    marks: readonly Mark[];
     readonly elements: StackElement[];
 };
 

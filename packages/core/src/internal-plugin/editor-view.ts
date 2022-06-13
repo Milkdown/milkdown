@@ -1,11 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
-import { ViewFactory } from '@milkdown/prose';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { DirectEditorProps, EditorView } from '@milkdown/prose/view';
 
 import { editorStateCtx, EditorStateReady } from './editor-state';
-import { InitReady, prosePluginsCtx, viewCtx } from './init';
+import { InitReady, markViewCtx, nodeViewCtx, prosePluginsCtx } from './init';
 
 type EditorOptions = Omit<DirectEditorProps, 'state'>;
 
@@ -77,11 +76,12 @@ export const editorView: MilkdownPlugin = (pre) => {
 
         const state = ctx.get(editorStateCtx);
         const options = ctx.get(editorViewOptionsCtx);
-        const nodeViews = Object.fromEntries(ctx.get(viewCtx) as [string, ViewFactory][]);
+        const nodeViews = Object.fromEntries(ctx.get(nodeViewCtx));
+        const markViews = Object.fromEntries(ctx.get(markViewCtx));
         const view = new EditorView(el as Node, {
             state,
             nodeViews,
-            plugins: [],
+            markViews,
             ...options,
         });
         prepareViewDom(view.dom);

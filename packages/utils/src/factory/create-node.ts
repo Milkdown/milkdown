@@ -5,36 +5,41 @@ import {
     MilkdownPlugin,
     NodeSchema,
     nodesCtx,
+    nodeViewCtx,
     schemaCtx,
     SchemaReady,
     Slice,
     ThemeReady,
-    viewCtx,
 } from '@milkdown/core';
-import { NodeViewFactory, ViewFactory } from '@milkdown/prose';
 import { NodeType } from '@milkdown/prose/model';
+import { NodeViewConstructor } from '@milkdown/prose/view';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, applyMethods, getUtils, withExtend } from './common';
 
-type NodeRest = {
+export type NodeRest = {
     id: string;
     schema: (ctx: Ctx) => NodeSchema;
-    view?: (ctx: Ctx) => NodeViewFactory;
+    view?: (ctx: Ctx) => NodeViewConstructor;
 };
 
-type NodeFactory<SupportedKeys extends string, Options extends UnknownRecord> = Factory<
+export type NodeFactory<SupportedKeys extends string, Options extends UnknownRecord> = Factory<
     SupportedKeys,
     Options,
     NodeType,
     NodeRest
 >;
 
+export type NodeCreator<
+    SupportedKeys extends string = string,
+    Options extends UnknownRecord = UnknownRecord,
+> = WithExtend<SupportedKeys, Options, NodeType, NodeRest>;
+
 export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: NodeFactory<SupportedKeys, Options>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     inject?: Slice<any>[],
-): WithExtend<SupportedKeys, Options, NodeType, NodeRest> =>
+): NodeCreator<SupportedKeys, Options> =>
     withExtend(
         factory,
         addMetadata(
@@ -46,7 +51,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                         const utils = getUtils(ctx, options);
 
                         const plugin = factory(utils, options);
-                        plugin.view = options?.view ?? plugin.view;
+                        plugin.view = (options?.view ?? plugin.view) as (ctx: Ctx) => NodeViewConstructor;
 
                         await applyMethods(
                             ctx,
@@ -69,7 +74,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
 
                         if (plugin.view) {
                             const view = plugin.view(ctx);
-                            ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
+                            ctx.update(nodeViewCtx, (v) => [...v, [plugin.id, view] as [string, NodeViewConstructor]]);
                         }
                     };
                 },

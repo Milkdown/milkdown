@@ -32,7 +32,7 @@ export const inlineNodesCursorPlugin: Plugin = new Plugin({
         handleDOMEvents: {
             beforeinput: (view, e) => {
                 const active = inlineNodesCursorPlugin.getState(view.state);
-                if (active) {
+                if (active && e instanceof InputEvent) {
                     const from = view.state.selection.from;
                     e.preventDefault();
                     view.dispatch(view.state.tr.insertText(e.data || '', from));

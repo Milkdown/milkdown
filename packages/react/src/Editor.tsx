@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, Editor, editorViewCtx, rootCtx } from '@milkdown/core';
-import { ViewFactory } from '@milkdown/prose';
+import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 import React, { DependencyList, forwardRef, useImperativeHandle } from 'react';
 
 import { portalContext, Portals } from './Portals';
@@ -8,7 +8,10 @@ import { createReactView, RenderOptions } from './ReactNodeView';
 
 type GetEditor = (
     container: HTMLDivElement,
-    renderReact: (Component: React.FC, renderOptions?: RenderOptions) => (ctx: Ctx) => ViewFactory,
+    renderReact: (
+        Component: React.FC,
+        renderOptions?: RenderOptions,
+    ) => (ctx: Ctx) => NodeViewConstructor | MarkViewConstructor,
 ) => Editor | undefined;
 
 const useGetEditor = (getEditor: GetEditor) => {

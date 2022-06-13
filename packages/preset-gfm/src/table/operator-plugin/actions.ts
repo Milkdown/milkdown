@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
-import { Command } from '@milkdown/prose/commands';
+import { Command } from '@milkdown/prose/state';
 import {
     addColumnAfter,
     addColumnBefore,

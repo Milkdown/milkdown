@@ -59,7 +59,7 @@ export const createProps = (status: Status, utils: Utils) => {
             const decorations: DecorationSet = uploadPlugin?.getState(state);
             if (decorations != null && decorations.find(state.selection.from, state.selection.to).length > 0) {
                 status.clear();
-                return;
+                return null;
             }
 
             if (
@@ -69,7 +69,7 @@ export const createProps = (status: Status, utils: Utils) => {
                 (paragraph.node.firstChild && paragraph.node.firstChild.type.name !== 'text')
             ) {
                 status.clear();
-                return;
+                return null;
             }
 
             const { placeholder, actions } = status.update({

@@ -401,13 +401,13 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.3.1
-      y-prosemirror: ^1.0.19
+      y-prosemirror: ^1.1.2
       y-protocols: ^1.0.5
       yjs: ^13.5.36
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.3.1
-      y-prosemirror: 1.0.19_lv63oa2rvyg5rxbaxypxnifyuy
+      y-prosemirror: 1.1.2_lv63oa2rvyg5rxbaxypxnifyuy
       y-protocols: 1.0.5
     devDependencies:
       '@milkdown/core': link:../core
@@ -11163,7 +11163,7 @@ packages:
     dev: true
 
   /util-deprecate/1.0.2:
-    resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
+    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
@@ -11595,14 +11595,14 @@ packages:
     dev: false
     optional: true
 
-  /y-prosemirror/1.0.19_lv63oa2rvyg5rxbaxypxnifyuy:
-    resolution: {integrity: sha512-et+aqYltjamYBk+uml5/y86PioRstv0r0B+4Oct/IA9Go55whK8MCaFcYZ65aH5Ip7ELmgqzdvrEreyvEzORGA==}
+  /y-prosemirror/1.1.2_lv63oa2rvyg5rxbaxypxnifyuy:
+    resolution: {integrity: sha512-+5Pf30ugJIatxy8DAmRMhkiYCI2xxBg+T5Btg9G/7v5La0I5WpR/GT/Kg8RGLv8LiG4/c4bVAEEM+efyVehLIQ==}
     peerDependencies:
       prosemirror-model: ^1.7.1
       prosemirror-state: ^1.2.3
       prosemirror-view: ^1.9.10
       y-protocols: ^1.0.1
-      yjs: ^13.3.2
+      yjs: ^13.5.38
     peerDependenciesMeta:
       prosemirror-model:
         optional: true
