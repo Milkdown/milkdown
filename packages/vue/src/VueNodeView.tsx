@@ -1,8 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
-import type { ViewFactory } from '@milkdown/prose';
 import { Mark, Node } from '@milkdown/prose/model';
-import type { Decoration, DecorationSet, EditorView, NodeView } from '@milkdown/prose/view';
+import type {
+    Decoration,
+    DecorationSource,
+    EditorView,
+    MarkViewConstructor,
+    NodeView,
+    NodeViewConstructor,
+} from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
 import { DefineComponent, defineComponent, h, markRaw, Teleport } from 'vue';
 
@@ -14,12 +20,16 @@ const nanoid = customAlphabet('abcedfghicklmn', 10);
 export type RenderOptions = Partial<
     {
         as: string;
-    } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy' | 'update'>
+        update?: (node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) => boolean;
+    } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy'>
 >;
 
 export const createVueView =
     (addPortal: (portal: DefineComponent, key: string) => void, removePortalByKey: (key: string) => void) =>
-    (component: DefineComponent, options: RenderOptions = {}): ((ctx: Ctx) => ViewFactory) =>
+    (
+        component: DefineComponent,
+        options: RenderOptions = {},
+    ): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
     (ctx) =>
     (node, view, getPos, decorations) =>
         new VueNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);
@@ -41,7 +51,7 @@ export class VueNodeView implements NodeView {
         private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
-        private decorations: Decoration[],
+        private decorations: readonly Decoration[],
     ) {
         this.key = nanoid();
         const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div';
@@ -50,15 +60,15 @@ export class VueNodeView implements NodeView {
     }
 
     get dom() {
-        return this.teleportDOM.firstElementChild || this.teleportDOM;
+        return (this.teleportDOM.firstElementChild || this.teleportDOM) as HTMLElement;
     }
 
     get contentDOM() {
         if (this.node instanceof Node && this.node.isLeaf) {
-            return null;
+            return undefined;
         }
 
-        return this.teleportDOM.querySelector('[data-view-content]') || this.dom;
+        return this.teleportDOM.querySelector<HTMLElement>('[data-view-content]') || this.dom;
     }
 
     renderPortal() {
@@ -99,7 +109,7 @@ export class VueNodeView implements NodeView {
         this.removePortalByKey(this.key);
     }
 
-    ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+    ignoreMutation(mutation: MutationRecord) {
         if (this.options.ignoreMutation) {
             return this.options.ignoreMutation(mutation);
         }
@@ -113,7 +123,7 @@ export class VueNodeView implements NodeView {
             }
         }
 
-        if (mutation.type === 'selection') {
+        if ((mutation as unknown as { type: string }).type === 'selection') {
             return false;
         }
 
@@ -128,7 +138,7 @@ export class VueNodeView implements NodeView {
         return true;
     }
 
-    update(node: Node, decorations: Decoration[], innerDecorations: DecorationSet) {
+    update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) {
         if (this.options.update) {
             const result = this.options.update?.(node, decorations, innerDecorations);
             if (result != null) {

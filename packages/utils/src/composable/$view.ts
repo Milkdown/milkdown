@@ -1,22 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, MilkdownPlugin, SchemaReady, viewCtx } from '@milkdown/core';
-import { MarkViewFactory, NodeViewFactory, ViewFactory } from '@milkdown/prose';
+import { Ctx, markViewCtx, MilkdownPlugin, nodeViewCtx, SchemaReady } from '@milkdown/core';
+import { NodeType } from '@milkdown/prose/model';
+import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
 import { $Mark, $Node } from '.';
 
-export type $View<T extends $Node | $Mark, V extends NodeViewFactory | MarkViewFactory> = MilkdownPlugin & {
+export type $View<T extends $Node | $Mark, V extends NodeViewConstructor | MarkViewConstructor> = MilkdownPlugin & {
     view: V;
     type: T;
 };
 
 export const $view = <
     T extends $Node | $Mark,
-    V extends NodeViewFactory | MarkViewFactory = T extends $Node
-        ? NodeViewFactory
+    V extends NodeViewConstructor | MarkViewConstructor = T extends $Node
+        ? NodeViewConstructor
         : T extends $Mark
-        ? MarkViewFactory
-        : ViewFactory,
+        ? MarkViewConstructor
+        : NodeViewConstructor | MarkViewConstructor,
 >(
     type: T,
     view: (ctx: Ctx) => V,
@@ -24,7 +25,11 @@ export const $view = <
     const plugin: MilkdownPlugin = () => async (ctx) => {
         await ctx.wait(SchemaReady);
         const v = view(ctx);
-        ctx.update(viewCtx, (ps) => [...ps, [type.id, v] as [string, ViewFactory]]);
+        if (type.type instanceof NodeType) {
+            ctx.update(nodeViewCtx, (ps) => [...ps, [type.id, v] as [string, NodeViewConstructor]]);
+        } else {
+            ctx.update(markViewCtx, (ps) => [...ps, [type.id, v] as [string, MarkViewConstructor]]);
+        }
         (<$View<T, V>>plugin).view = v;
         (<$View<T, V>>plugin).type = type;
     };

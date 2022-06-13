@@ -70,7 +70,7 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                 let pos = -1;
                 const { selection } = state;
                 state.doc.nodesBetween(selection.from, selection.to, (n, p) => {
-                    if (marks.link.isInSet(n.marks)) {
+                    if (marks['link']?.isInSet(n.marks)) {
                         node = n;
                         pos = p;
                         return false;
@@ -85,7 +85,8 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                 const start = pos;
                 const end = pos + node.nodeSize;
                 const { tr } = state;
-                const linkMark = marks.link.create({ ...mark.attrs, href });
+                const linkMark = marks['link']?.create({ ...mark.attrs, href });
+                if (!linkMark) return false;
                 dispatch(
                     tr
                         .removeMark(start, end, mark)

@@ -3,7 +3,7 @@ import { commandsCtx, createCmd, createCmdKey, ThemeImageType, ThemeInputChipTyp
 import { findSelectedNodeOfType } from '@milkdown/prose';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
-import { EditorView } from '@milkdown/prose/view';
+import { EditorView, NodeView } from '@milkdown/prose/view';
 import { createNode } from '@milkdown/utils';
 
 export const ModifyImage = createCmdKey<string>('ModifyImage');
@@ -134,7 +134,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             });
 
             if (!renderer) {
-                return {};
+                return {} as NodeView;
             }
 
             const { dom, onUpdate } = renderer;

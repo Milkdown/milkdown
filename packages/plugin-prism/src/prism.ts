@@ -47,7 +47,7 @@ export function Prism(options: Options): Plugin {
             },
         },
         props: {
-            decorations(state) {
+            decorations(this: Plugin, state) {
                 return this.getState(state);
             },
         },

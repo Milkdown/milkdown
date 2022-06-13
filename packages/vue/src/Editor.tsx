@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, Editor, editorViewCtx, rootCtx } from '@milkdown/core';
-import { ViewFactory } from '@milkdown/prose';
+import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 import {
     ComponentInternalInstance,
     DefineComponent,
@@ -22,6 +22,7 @@ import {
 import { AnyVueComponent } from './utils';
 import { createVueView, RenderOptions } from './VueNodeView';
 
+type ViewFactory = NodeViewConstructor | MarkViewConstructor;
 const rendererKey: InjectionKey<(component: DefineComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory> =
     Symbol();
 

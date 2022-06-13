@@ -1,8 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx } from '@milkdown/core';
-import { ViewFactory } from '@milkdown/prose';
 import { Mark, Node } from '@milkdown/prose/model';
-import type { Decoration, EditorView, NodeView } from '@milkdown/prose/view';
+import type {
+    Decoration,
+    DecorationSource,
+    EditorView,
+    MarkViewConstructor,
+    NodeView,
+    NodeViewConstructor,
+} from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
 import React from 'react';
 import { createPortal } from 'react-dom';
@@ -14,18 +20,19 @@ const nanoid = customAlphabet('abcedfghicklmn', 10);
 export type RenderOptions = Partial<
     {
         as: string;
-    } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy' | 'update'>
+        update?: (node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) => boolean;
+    } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy'>
 >;
 
 export const createReactView =
     (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
-    (component: React.FC, options: RenderOptions = {}): ((ctx: Ctx) => ViewFactory) =>
+    (component: React.FC, options: RenderOptions = {}): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
     (ctx) =>
     (node, view, getPos, decorations) =>
         new ReactNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);
 
 export class ReactNodeView implements NodeView {
-    dom: HTMLElement | undefined;
+    dom: HTMLElement;
     contentDOM: HTMLElement | null | undefined;
     key: string;
 
@@ -42,7 +49,7 @@ export class ReactNodeView implements NodeView {
         private node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
-        private decorations: Decoration[],
+        private decorations: readonly Decoration[],
     ) {
         const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div';
         const dom = document.createElement(elementName);
@@ -87,12 +94,12 @@ export class ReactNodeView implements NodeView {
 
     destroy() {
         this.options.destroy?.();
-        this.dom = undefined;
+        this.dom.remove();
         this.contentDOM = undefined;
         this.removePortalByKey(this.key);
     }
 
-    ignoreMutation(mutation: MutationRecord | { type: 'selection'; target: Element }) {
+    ignoreMutation(mutation: MutationRecord) {
         if (this.options.ignoreMutation) {
             return this.options.ignoreMutation(mutation);
         }

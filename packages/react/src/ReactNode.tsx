@@ -9,7 +9,7 @@ type NodeContext = {
     node: Node | Mark;
     view: EditorView;
     getPos: boolean | (() => number);
-    decorations: Decoration[];
+    decorations: readonly Decoration[];
 };
 
 const nodeContext = React.createContext<NodeContext>({

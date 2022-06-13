@@ -19,7 +19,7 @@ export type ConfigItem = SelectConfig | ButtonConfig;
 
 export type Config = Array<Array<ConfigItem>>;
 
-const hasMark = (state: EditorState, type: MarkType): boolean => {
+const hasMark = (state: EditorState, type: MarkType | undefined): boolean => {
     if (!type) return false;
     const { from, $from, to, empty } = state.selection;
     if (empty) {
@@ -42,7 +42,9 @@ export const defaultConfig: Config = [
             ],
             disabled: (view) => {
                 const { state } = view;
-                const setToHeading = (level: number) => setBlockType(state.schema.nodes.heading, { level })(state);
+                const heading = state.schema.nodes['heading'];
+                if (!heading) return true;
+                const setToHeading = (level: number) => setBlockType(heading, { level })(state);
                 return (
                     !(view.state.selection instanceof TextSelection) ||
                     !(setToHeading(1) || setToHeading(2) || setToHeading(3))
@@ -74,22 +76,22 @@ export const defaultConfig: Config = [
             type: 'button',
             icon: 'bold',
             key: 'ToggleBold',
-            active: (view) => hasMark(view.state, view.state.schema.marks.strong),
-            disabled: (view) => !view.state.schema.marks.strong,
+            active: (view) => hasMark(view.state, view.state.schema.marks['strong']),
+            disabled: (view) => !view.state.schema.marks['strong'],
         },
         {
             type: 'button',
             icon: 'italic',
             key: 'ToggleItalic',
-            active: (view) => hasMark(view.state, view.state.schema.marks.em),
-            disabled: (view) => !view.state.schema.marks.em,
+            active: (view) => hasMark(view.state, view.state.schema.marks['em']),
+            disabled: (view) => !view.state.schema.marks['em'],
         },
         {
             type: 'button',
             icon: 'strikeThrough',
             key: 'ToggleStrikeThrough',
-            active: (view) => hasMark(view.state, view.state.schema.marks.strike_through),
-            disabled: (view) => !view.state.schema.marks.strike_through,
+            active: (view) => hasMark(view.state, view.state.schema.marks['strike_through']),
+            disabled: (view) => !view.state.schema.marks['strike_through'],
         },
     ],
     [
@@ -99,7 +101,9 @@ export const defaultConfig: Config = [
             key: 'WrapInBulletList',
             disabled: (view) => {
                 const { state } = view;
-                return !wrapIn(state.schema.nodes.bullet_list)(state);
+                const node = state.schema.nodes['bullet_list'];
+                if (!node) return true;
+                return !wrapIn(node)(state);
             },
         },
         {
@@ -108,7 +112,9 @@ export const defaultConfig: Config = [
             key: 'WrapInOrderedList',
             disabled: (view) => {
                 const { state } = view;
-                return !wrapIn(state.schema.nodes.ordered_list)(state);
+                const node = state.schema.nodes['ordered_list'];
+                if (!node) return true;
+                return !wrapIn(node)(state);
             },
         },
         {
@@ -117,7 +123,9 @@ export const defaultConfig: Config = [
             key: 'TurnIntoTaskList',
             disabled: (view) => {
                 const { state } = view;
-                return !wrapIn(state.schema.nodes.task_list_item)(state);
+                const node = state.schema.nodes['task_list_item'];
+                if (!node) return true;
+                return !wrapIn(node)(state);
             },
         },
         {
@@ -126,7 +134,9 @@ export const defaultConfig: Config = [
             key: 'LiftListItem',
             disabled: (view) => {
                 const { state } = view;
-                return !liftListItem(state.schema.nodes.list_item)(state);
+                const node = state.schema.nodes['list_item'];
+                if (!node) return true;
+                return !liftListItem(node)(state);
             },
         },
         {
@@ -135,7 +145,9 @@ export const defaultConfig: Config = [
             key: 'SinkListItem',
             disabled: (view) => {
                 const { state } = view;
-                return !sinkListItem(state.schema.nodes.list_item)(state);
+                const node = state.schema.nodes['list_item'];
+                if (!node) return true;
+                return !sinkListItem(node)(state);
             },
         },
     ],
@@ -144,7 +156,7 @@ export const defaultConfig: Config = [
             type: 'button',
             icon: 'link',
             key: 'ToggleLink',
-            active: (view) => hasMark(view.state, view.state.schema.marks.link),
+            active: (view) => hasMark(view.state, view.state.schema.marks['link']),
         },
         {
             type: 'button',
