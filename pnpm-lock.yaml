@@ -55,10 +55,10 @@ importers:
       '@changesets/cli': 2.22.0
       '@commitlint/cli': 17.0.0
       '@commitlint/config-conventional': 17.0.0
-      '@nrwl/cli': 14.2.4
-      '@nrwl/nx-cloud': 14.0.8
-      '@nrwl/tao': 14.2.4
-      '@nrwl/workspace': 14.2.4_honiro6c5vkwsf7dg74kchntcq
+      '@nrwl/cli': 14.3.1
+      '@nrwl/nx-cloud': 14.1.0
+      '@nrwl/tao': 14.3.1
+      '@nrwl/workspace': 14.3.1_honiro6c5vkwsf7dg74kchntcq
       '@rollup/plugin-commonjs': 22.0.0_rollup@2.72.0
       '@rollup/plugin-json': 4.1.0_rollup@2.72.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
@@ -87,7 +87,7 @@ importers:
       husky: 8.0.1
       jsdom: 19.0.0
       lint-staged: 13.0.0
-      nx: 14.2.4
+      nx: 14.3.1
       prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.72.0
@@ -664,7 +664,6 @@ importers:
       prosemirror-model: ^1.18.0
       prosemirror-schema-list: ^1.2.0
       prosemirror-state: ^1.4.0
-      prosemirror-tables: ^1.1.1
       prosemirror-transform: ^1.6.0
       prosemirror-view: ^1.26.0
       tslib: ^2.3.1
@@ -679,7 +678,6 @@ importers:
       prosemirror-model: 1.18.0
       prosemirror-schema-list: 1.2.0
       prosemirror-state: 1.4.0
-      prosemirror-tables: 1.1.1
       prosemirror-transform: 1.6.0
       prosemirror-view: 1.26.0
       tslib: 2.3.1
@@ -2407,34 +2405,34 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@nrwl/cli/14.2.4:
-    resolution: {integrity: sha512-Ak6mmM9W39DSVaRDxt0yqMwHWg5yL9+QqhSB7q464EAKS6r4NPr6Z+avAjqAfoS/H8WsEPlwJnsaaJiP/gBwWQ==}
+  /@nrwl/cli/14.3.1:
+    resolution: {integrity: sha512-H26NtXxmymuD1DPZPt/Ko2mp87Jn/ZzTL04yPj2iNCmpD96nNN9YWAxhgnXphAjjNpN1kY/gs76UO78YK4xHbA==}
     dependencies:
-      nx: 14.2.4
+      nx: 14.3.1
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
     dev: true
 
-  /@nrwl/devkit/14.2.4_nx@14.2.4:
-    resolution: {integrity: sha512-bIMAO35lb/X3aOtDEydJ2cvVKY/lS3qd2Redsxgi3Wz1KvV//jQL/cSAnyvdWvFTkmWcpX1cAUVxyWosNSueOg==}
+  /@nrwl/devkit/14.3.1_nx@14.3.1:
+    resolution: {integrity: sha512-0xBXHvx8Gu6SQwBmQtIJUobc6397oyqcpvzWPWEyfe2igbxLqV6h4b5ycUntF5e8TXQH6a1nGargh0zGVKqukQ==}
     peerDependencies:
       nx: '>= 13.10 <= 15'
     dependencies:
       ejs: 3.1.7
       ignore: 5.2.0
-      nx: 14.2.4
+      nx: 14.3.1
       rxjs: 6.6.7
       semver: 7.3.4
       tslib: 2.3.1
     dev: true
 
-  /@nrwl/jest/14.2.4_nx@14.2.4+typescript@4.6.2:
-    resolution: {integrity: sha512-Wjna7aw+1jGs7xUSfB+ztjyOQ8IBMcpZIkNSJI3lqP7teh7lkX60jOstnLVlxZchW1jZj9e/4LRRcqIhjBNVPg==}
+  /@nrwl/jest/14.3.1_nx@14.3.1+typescript@4.6.2:
+    resolution: {integrity: sha512-Br7o+dsr48m33cjmWwFKtE41ztm+jS5UvYrufXftQhJj7bnpAcgFONVTwMmKSOhzfBb6IoSzDaiNdi33ErvyJw==}
     dependencies:
       '@jest/reporters': 27.5.1
       '@jest/test-result': 27.5.1
-      '@nrwl/devkit': 14.2.4_nx@14.2.4
+      '@nrwl/devkit': 14.3.1_nx@14.3.1
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.6.2
       chalk: 4.1.0
       identity-obj-proxy: 3.0.0
@@ -2455,19 +2453,19 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@nrwl/linter/14.2.4_hhfj2cqslfove3mebc4baoycai:
-    resolution: {integrity: sha512-ObzVf9NeXFIrrsIXOkD8mnU1C2In2jsyUQ7D4pjARnO81LzNam8BwmInoRZB/WvnhnOeSyasmIR2AUeS3DBy4w==}
+  /@nrwl/linter/14.3.1_hhfj2cqslfove3mebc4baoycai:
+    resolution: {integrity: sha512-zYDgX6OzcE2wS3i9oFhqTUGrja0+R1SV9A1NcISDnc4Y3Vj6TwHxrVA/rZVFBwS6bUxAX4VWnoFs8OH3lwGWpg==}
     peerDependencies:
       eslint: ^8.0.0
     peerDependenciesMeta:
       eslint:
         optional: true
     dependencies:
-      '@nrwl/devkit': 14.2.4_nx@14.2.4
-      '@nrwl/jest': 14.2.4_nx@14.2.4+typescript@4.6.2
+      '@nrwl/devkit': 14.3.1_nx@14.3.1
+      '@nrwl/jest': 14.3.1_nx@14.3.1+typescript@4.6.2
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.6.2
       eslint: 8.9.0
-      nx: 14.2.4
+      nx: 14.3.1
       tmp: 0.2.1
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -2482,8 +2480,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@nrwl/nx-cloud/14.0.8:
-    resolution: {integrity: sha512-OOqJrDSo6kyGALdo3fWoZtn8VmHKmVi23ODkJYPQDR+41v15wHiKq7cMFqc9fCaJGYhilBUPFeNOXIhlvQMCDw==}
+  /@nrwl/nx-cloud/14.1.0:
+    resolution: {integrity: sha512-iMh74gjIp+ljW21xz8HzET5vzSKtxmgV2ulmU2gMV4P8Rd6mf46uJgdDmtZxENYZiSGN9WzobQx/CU1Kti+dmg==}
     hasBin: true
     dependencies:
       axios: 0.21.4
@@ -2495,27 +2493,27 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/tao/14.2.4:
-    resolution: {integrity: sha512-wnrS+Go1Moa+jkOKqxoR/+YihDSoMlbUemBBoa1P2JQ6gvCnCrsvCx3qosJ0HfSdqQy8tkoUqd624RcGUyDUbg==}
+  /@nrwl/tao/14.3.1:
+    resolution: {integrity: sha512-pzhprUmtYRC5EWPCs6RDPJfPYgDS21sXGm7Vih9P4Ic0y1SHVpJ/26LYwfyQO88PrxkjohwnI1ZXa6Q12khkOQ==}
     hasBin: true
     dependencies:
-      nx: 14.2.4
+      nx: 14.3.1
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
     dev: true
 
-  /@nrwl/workspace/14.2.4_honiro6c5vkwsf7dg74kchntcq:
-    resolution: {integrity: sha512-R1ZY/r1LTgg/goqRsfHr9RaSywlTv3t4JH+uGmOA7k8oCJDHwWb72HgJiGi1+75PQrld9VcNBbHwAKvWWNjS/A==}
+  /@nrwl/workspace/14.3.1_honiro6c5vkwsf7dg74kchntcq:
+    resolution: {integrity: sha512-ROjV859WSAJRPJoT0ZTFfWSROvCW3HSpr8yFRhXZJEyjMZ6/pfRB+A5E0GQmm9HT7nrmahHUspvM5mQPsoRc4g==}
     peerDependencies:
       prettier: ^2.6.2
     peerDependenciesMeta:
       prettier:
         optional: true
     dependencies:
-      '@nrwl/devkit': 14.2.4_nx@14.2.4
-      '@nrwl/jest': 14.2.4_nx@14.2.4+typescript@4.6.2
-      '@nrwl/linter': 14.2.4_hhfj2cqslfove3mebc4baoycai
+      '@nrwl/devkit': 14.3.1_nx@14.3.1
+      '@nrwl/jest': 14.3.1_nx@14.3.1+typescript@4.6.2
+      '@nrwl/linter': 14.3.1_hhfj2cqslfove3mebc4baoycai
       '@parcel/watcher': 2.0.4
       chalk: 4.1.0
       chokidar: 3.5.3
@@ -2530,7 +2528,7 @@ packages:
       ignore: 5.2.0
       minimatch: 3.0.5
       npm-run-path: 4.0.1
-      nx: 14.2.4
+      nx: 14.3.1
       open: 8.4.0
       prettier: 2.6.2
       rxjs: 6.6.7
@@ -8860,8 +8858,8 @@ packages:
     resolution: {integrity: sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==}
     dev: true
 
-  /nx/14.2.4:
-    resolution: {integrity: sha512-/LnPgHSckncvS+azP17F0sskDWeiEdBG3eMpAauX8dol4ECG01xPlkiuMTCw4URes6J1TObZTbaEk4eP2uWrag==}
+  /nx/14.3.1:
+    resolution: {integrity: sha512-cEYpMw9W/YlaE4keifgmUZZAQ85zh1tMw/QIdqeSQOgJyxaMbknuijeiflTypLWfLavVfNZZSWYOxavb2oZF4g==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
@@ -8873,8 +8871,8 @@ packages:
       '@swc/core':
         optional: true
     dependencies:
-      '@nrwl/cli': 14.2.4
-      '@nrwl/tao': 14.2.4
+      '@nrwl/cli': 14.3.1
+      '@nrwl/tao': 14.3.1
       '@parcel/watcher': 2.0.4
       chalk: 4.1.0
       chokidar: 3.5.3
@@ -9612,16 +9610,6 @@ packages:
     dependencies:
       prosemirror-model: 1.18.0
       prosemirror-transform: 1.6.0
-    dev: false
-
-  /prosemirror-tables/1.1.1:
-    resolution: {integrity: sha512-LmCz4jrlqQZRsYRDzCRYf/pQ5CUcSOyqZlAj5kv67ZWBH1SVLP2U9WJEvQfimWgeRlIz0y0PQVqO1arRm1+woA==}
-    dependencies:
-      prosemirror-keymap: 1.2.0
-      prosemirror-model: 1.18.0
-      prosemirror-state: 1.4.0
-      prosemirror-transform: 1.6.0
-      prosemirror-view: 1.26.0
     dev: false
 
   /prosemirror-transform/1.4.2:

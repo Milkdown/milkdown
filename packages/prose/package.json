@@ -45,10 +45,6 @@
             "import": "./lib/state.js",
             "types": "./lib/state.d.ts"
         },
-        "./tables": {
-            "import": "./lib/tables.js",
-            "types": "./lib/tables.d.ts"
-        },
         "./transform": {
             "import": "./lib/transform.js",
             "types": "./lib/transform.d.ts"
@@ -87,9 +83,6 @@
             "state": [
                 "lib/state.d.ts"
             ],
-            "tables": [
-                "lib/tables.d.ts"
-            ],
             "transform": [
                 "lib/transform.d.ts"
             ],
@@ -121,7 +114,6 @@
         "prosemirror-model": "^1.18.0",
         "prosemirror-schema-list": "^1.2.0",
         "prosemirror-state": "^1.4.0",
-        "prosemirror-tables": "^1.1.1",
         "prosemirror-transform": "^1.6.0",
         "prosemirror-view": "^1.26.0",
         "tslib": "^2.3.1"

@@ -2,10 +2,10 @@
 
 import { Ctx } from '@milkdown/core';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
-import { CellSelection } from '@milkdown/prose/tables';
 import { Decoration, DecorationSet } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
+import { CellSelection } from '../nodes/cell-selection';
 import { CellPos, getCellsInColumn, getCellsInRow } from '../utils';
 import { createActions } from './actions';
 import { calculatePosition } from './calc-pos';
