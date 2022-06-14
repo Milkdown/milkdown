@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
 import { Command } from '@milkdown/prose/state';
+import { EditorView } from '@milkdown/prose/view';
+
 import {
     addColumnAfter,
     addColumnBefore,
@@ -10,9 +12,7 @@ import {
     isInTable,
     selectedRect,
     setCellAttr,
-} from '@milkdown/prose/tables';
-import { EditorView } from '@milkdown/prose/view';
-
+} from '../nodes';
 import { addRowWithAlignment } from '../utils';
 import { getCellSelection, isFirstRowSelected } from './helper';
 
