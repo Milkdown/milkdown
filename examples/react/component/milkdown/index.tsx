@@ -5,7 +5,7 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { blockquote, commonmark, image, paragraph } from '@milkdown/preset-commonmark';
 import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Blockquote } from './Blockquote';
 import { Image } from './Image';
@@ -13,7 +13,7 @@ import { Paragraph } from './Paragraph';
 
 export const Milkdown: React.FC<{ value: string }> = ({ value }) => {
     const ref = React.useRef({} as EditorRef);
-    const { editor } = useEditor((root, renderReact) => {
+    const { editor, loading, getInstance } = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(paragraph, { view: renderReact(Paragraph) })
             .configure(blockquote, { view: renderReact(Blockquote, { as: 'section' }) })
@@ -27,6 +27,16 @@ export const Milkdown: React.FC<{ value: string }> = ({ value }) => {
             .use(nodes)
             .use(tooltip);
     });
+
+    useEffect(() => {
+        if (!loading) {
+            const instance = getInstance();
+            instance?.action((ctx) => {
+                ctx;
+                // do something
+            });
+        }
+    }, [getInstance, loading]);
 
     return <ReactEditor ref={ref} editor={editor} />;
 };
