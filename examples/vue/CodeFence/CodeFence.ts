@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createSlice, editorViewCtx } from '@milkdown/core';
 import { codeFence as originalCodeFence } from '@milkdown/preset-commonmark';
-import { Fragment } from '@milkdown/prose/model';
+import { Fragment, Node } from '@milkdown/prose/model';
 import { RenderVue } from '@milkdown/vue';
 
 const languageOptions = [
@@ -27,7 +27,7 @@ const id = 'fence';
 
 export const languageListSlice = createSlice([] as string[], 'languageList');
 
-export const codeFence: (view: ReturnType<RenderVue>) => typeof originalCodeFence = (view) =>
+export const codeFence: (view: ReturnType<RenderVue<Node>>) => typeof originalCodeFence = (view) =>
     originalCodeFence.extend(
         (original, utils, options) => {
             const languageList = options?.languageList || languageOptions;
@@ -70,7 +70,7 @@ export const codeFence: (view: ReturnType<RenderVue>) => typeof originalCodeFenc
                                     }
                                     const textNode = schema.text(dom.querySelector('pre')?.textContent ?? '');
                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    return Fragment.from<any>(textNode);
+                                    return Fragment.from(textNode);
                                 },
                             },
                             {

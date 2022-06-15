@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, Editor, editorViewCtx, rootCtx } from '@milkdown/core';
+import type { Mark, Node } from '@milkdown/prose/model';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 import {
     ComponentInternalInstance,
@@ -26,17 +27,30 @@ type ViewFactory = NodeViewConstructor | MarkViewConstructor;
 const rendererKey: InjectionKey<(component: DefineComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory> =
     Symbol();
 
-export type RenderVue = (Component: AnyVueComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory;
+export type RenderVue<U = never> = <T extends Node | Mark = Node | Mark>(
+    Component: AnyVueComponent,
+    options?: RenderOptions,
+) => (
+    ctx: Ctx,
+) => U extends never
+    ? T extends Node
+        ? NodeViewConstructor
+        : T extends Mark
+        ? MarkViewConstructor
+        : NodeViewConstructor & MarkViewConstructor
+    : U extends Node
+    ? NodeViewConstructor
+    : U extends Mark
+    ? MarkViewConstructor
+    : NodeViewConstructor & MarkViewConstructor;
+
 export type GetEditor = (container: HTMLDivElement, renderVue: RenderVue) => Editor;
 
 const useGetEditor = (getEditor: GetEditor) => {
     const divRef = ref<HTMLDivElement | null>(null);
-    const renderVue = inject<(Component: DefineComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory>(
-        rendererKey,
-        () => {
-            throw new Error();
-        },
-    );
+    const renderVue = inject<RenderVue>(rendererKey, () => {
+        throw new Error();
+    });
     const editorRef = markRaw<{ editor?: Editor }>({});
     onMounted(() => {
         if (!divRef.value) return;
