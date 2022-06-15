@@ -4,9 +4,9 @@ import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
 import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { blockquote, commonmark, image, paragraph } from '@milkdown/preset-commonmark';
-import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
+import { ReactEditor, useEditor } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect } from 'react';
 
 import { Blockquote } from './Blockquote';
 import { Image } from './Image';

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { VueEditor, useEditor } from '@milkdown/vue';
+import { Node } from '@milkdown/prose/model';
 
 export default defineComponent({
     name: 'Milkdown',
@@ -57,7 +58,7 @@ const editor = useEditor((root, renderVue) =>
         })
         .use(nord)
         .use(emoji)
-        .use(commonmark.replace(cmCodeFence, codeFence(renderVue(CodeFence))()))
+        .use(commonmark.replace(cmCodeFence, codeFence(renderVue<Node>(CodeFence))()))
         .use(prism)
         .use(listener),
 );
