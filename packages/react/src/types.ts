@@ -1,9 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, Editor } from '@milkdown/core';
-import { ViewFactory } from '@milkdown/prose';
+import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 import { MutableRefObject, ReactNode, RefObject } from 'react';
 
 import { RenderOptions } from './ReactNodeView';
+
+type ViewFactory = NodeViewConstructor | MarkViewConstructor;
 
 export type GetEditor = (
     container: HTMLElement,
