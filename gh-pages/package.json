@@ -8,7 +8,13 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@codemirror/basic-setup": "^0.20.0",
+        "@codemirror/autocomplete": "^6.0.0",
+        "@codemirror/commands": "^6.0.0",
+        "@codemirror/language": "^6.0.0",
+        "@codemirror/lint": "^6.0.0",
+        "@codemirror/search": "^6.0.0",
+        "@codemirror/state": "^6.0.0",
+        "@codemirror/view": "^6.0.0",
         "@codemirror/lang-markdown": "^6.0.0",
         "@milkdown/core": "workspace:*",
         "@milkdown/ctx": "workspace:*",
