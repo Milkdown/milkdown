@@ -1,54 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, Editor, editorViewCtx, rootCtx } from '@milkdown/core';
-import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
-import { forwardRef, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, ReactNode, useCallback, useMemo, useState } from 'react';
 
 import { EditorComponent } from './EditorComponent';
 import { portalContext, Portals } from './Portals';
 import { createReactView, RenderOptions } from './ReactNodeView';
 import { EditorInfo, EditorInfoCtx, EditorRef } from './types';
 import { editorInfoContext } from './useGetEditor';
-
-type GetEditor = (
-    container: HTMLDivElement,
-    renderReact: (
-        Component: React.FC,
-        renderOptions?: RenderOptions,
-    ) => (ctx: Ctx) => NodeViewConstructor | MarkViewConstructor,
-) => Editor | undefined;
-
-const useGetEditor = (getEditor: GetEditor) => {
-    const renderReact = useContext(portalContext);
-    const divRef = useRef<HTMLDivElement>(null);
-    const editorRef = useRef<Editor>();
-
-    useEffect(() => {
-        const div = divRef.current;
-        if (!div) return;
-
-        const editor = getEditor(div, renderReact);
-
-        if (!editor) return;
-
-        editor
-            .create()
-            .then((editor) => {
-                editorRef.current = editor;
-                return;
-            })
-            .catch(console.error);
-
-        return () => {
-            const view = editorRef.current?.action((ctx) => ctx.get(editorViewCtx));
-            const root = editorRef.current?.action((ctx) => ctx.get(rootCtx)) as HTMLElement;
-
-            root?.firstChild?.remove();
-            view?.destroy();
-        };
-    }, [getEditor, renderReact]);
-
-    return { divRef, editorRef };
-};
 
 type EditorProps = {
     editor: EditorInfo;
