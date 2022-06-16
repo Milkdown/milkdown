@@ -4,7 +4,7 @@ import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdow
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
 import { gfm } from '@milkdown/preset-gfm';
-import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
+import { ReactEditor, useEditor } from '@milkdown/react';
 import { nord, nordDark, nordLight } from '@milkdown/theme-nord';
 import { outline, switchTheme } from '@milkdown/utils';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -21,25 +21,26 @@ type Props = {
 };
 
 export const DocRenderer = ({ content }: Props) => {
-    const editorRef = useRef<EditorRef>(null);
     const isDarkMode = useContext(isDarkModeCtx);
     const [outlines, setOutlines] = useState<Outline[]>([]);
     const outlineRef = useRef<HTMLDivElement>(null);
-    const [ready, setReady] = useState(false);
 
     const [loading, md] = useLazy(content);
 
-    const { editor } = useEditor(
+    const {
+        editor,
+        getInstance,
+        getDom,
+        loading: milkdownLoading,
+    } = useEditor(
         (root) => {
             const editor = Editor.make()
                 .config((ctx) => {
                     ctx.set(rootCtx, root);
                     ctx.set(defaultValueCtx, md);
                     ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, editable: () => false }));
-                    setReady(false);
                     ctx.get(listenerCtx).mounted((ctx) => {
                         setOutlines(outline()(ctx));
-                        setReady(true);
                     });
                 })
                 .use(gfm)
@@ -55,8 +56,8 @@ export const DocRenderer = ({ content }: Props) => {
 
     useEffect(() => {
         const calc = () => {
-            if (ready) {
-                const editor$ = editorRef.current?.dom();
+            if (!milkdownLoading) {
+                const editor$ = getDom();
                 const outline$ = outlineRef.current;
                 if (!editor$ || !outline$) return;
                 const rect = editor$.getBoundingClientRect();
@@ -80,16 +81,16 @@ export const DocRenderer = ({ content }: Props) => {
                 observer.unobserve(main);
             }
         };
-    }, [ready]);
+    }, [getDom, milkdownLoading]);
 
     useEffect(() => {
-        const editor = editorRef.current?.get();
+        const editor = getInstance();
         editor?.action(switchTheme(isDarkMode ? nordDark : nordLight));
-    }, [isDarkMode]);
+    }, [getInstance, isDarkMode]);
 
     return (
         <div className={className['doc-renderer']}>
-            {loading ? <Loading /> : <ReactEditor ref={editorRef} editor={editor} />}
+            {loading ? <Loading /> : <ReactEditor editor={editor} />}
             <div ref={outlineRef} className={className['outline']}>
                 <OutlineRenderer outline={outlines} />
             </div>

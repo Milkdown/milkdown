@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Mark, Node } from '@milkdown/prose/model';
-import { forwardRef, useCallback, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { EditorComponent } from './EditorComponent';
 import { portalContext } from './Portals';
@@ -11,6 +11,29 @@ import { editorInfoContext } from './useGetEditor';
 type EditorProps = {
     editor: EditorInfo;
 };
+
+const refDeprecatedInfo = `
+Passing ref to ReactEditor will soon be deprecated, please use:
+
+const { editor, getInstance, getDom, loading } = useEditor(/* creator */);
+
+useEffect(() => {
+    if (!loading) {
+        const editor = getInstance();
+        const rootDOM = getDom();
+    }
+}, [getInstance])
+
+<ReactEditor editor={editor} />
+`;
+
+const hooksDeprecatedInfo = `
+Passing editor directly to ReactEditor will soon be deprecated, please use:
+
+const { editor } = useEditor(/* creator */);
+
+<ReactEditor editor={editor} />
+`;
 
 export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor: editorInfo }, ref) => {
     const [portals, setPortals] = useState<React.ReactPortal[]>([]);
@@ -29,7 +52,22 @@ export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor: editorI
         [addPortal, removePortalByKey],
     );
 
-    const { getEditorCallback, dom, editor, setLoading } = editorInfo;
+    const usingDeprecatedHooksAPI = Object.hasOwnProperty.call(editorInfo, 'getInstance');
+
+    const { getEditorCallback, dom, editor, setLoading } = usingDeprecatedHooksAPI
+        ? // @ts-expect-error deprecated old hooks API
+          (editorInfo.editor as EditorInfo)
+        : editorInfo;
+
+    useEffect(() => {
+        if (usingDeprecatedHooksAPI) {
+            console.warn(hooksDeprecatedInfo);
+        }
+        if (ref) {
+            console.warn(refDeprecatedInfo);
+        }
+    }, [ref, usingDeprecatedHooksAPI]);
+
     const ctx = useMemo<EditorInfoCtx>(() => {
         return {
             dom,
