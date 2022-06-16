@@ -29,7 +29,7 @@ export const DocRenderer = ({ content }: Props) => {
 
     const [loading, md] = useLazy(content);
 
-    const editor = useEditor(
+    const { editor } = useEditor(
         (root) => {
             const editor = Editor.make()
                 .config((ctx) => {
