@@ -13,6 +13,7 @@ type EditorProps = {
 };
 
 const refDeprecatedInfo = `
+@milkdown/react:
 Passing ref to ReactEditor will soon be deprecated, please use:
 
 const { editor, getInstance, getDom, loading } = useEditor(/* creator */);
@@ -28,6 +29,7 @@ useEffect(() => {
 `;
 
 const hooksDeprecatedInfo = `
+@milkdown/react:
 Passing editor directly to ReactEditor will soon be deprecated, please use:
 
 const { editor } = useEditor(/* creator */);
