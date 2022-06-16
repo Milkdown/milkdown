@@ -8,7 +8,9 @@
     },
     "dependencies": {
         "@milkdown/core": "workspace:*",
+        "@milkdown/prose": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
+        "@milkdown/plugin-listener": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/react": "workspace:*",

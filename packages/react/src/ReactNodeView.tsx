@@ -35,8 +35,9 @@ export const createReactView =
         new ReactNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);
 
 export class ReactNodeView implements NodeView {
-    dom: HTMLElement;
-    contentDOM: HTMLElement | null | undefined;
+    // dom: HTMLElement;
+    teleportDOM: HTMLElement;
+    contentDOMElement: HTMLElement | null;
     key: string;
 
     get isInlineOrMark() {
@@ -54,29 +55,43 @@ export class ReactNodeView implements NodeView {
         private getPos: boolean | (() => number),
         private decorations: readonly Decoration[],
     ) {
+        this.key = nanoid();
         const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div';
-        const dom = document.createElement(elementName);
-        dom.classList.add('dom-wrapper');
+        this.teleportDOM = document.createElement(elementName);
 
         const contentDOM =
-            node instanceof Node && node.isLeaf
-                ? undefined
-                : document.createElement(this.isInlineOrMark ? 'span' : 'div');
+            node instanceof Node && node.isLeaf ? null : document.createElement(this.isInlineOrMark ? 'span' : 'div');
         if (contentDOM) {
             contentDOM.classList.add('content-dom');
-            dom.appendChild(contentDOM);
         }
-        this.dom = dom;
-        this.contentDOM = contentDOM;
+        this.contentDOMElement = contentDOM;
+
         this.key = nanoid();
 
         this.renderPortal();
     }
 
-    renderPortal() {
-        if (!this.dom) return;
+    get dom() {
+        return (this.teleportDOM.firstElementChild || this.teleportDOM) as HTMLElement;
+    }
 
-        const Component = this.component;
+    get contentDOM() {
+        if ((this.node instanceof Node && this.node.isLeaf) || this.isInlineOrMark) {
+            return null;
+        }
+
+        return this.contentDOMElement;
+    }
+
+    renderPortal() {
+        if (!this.teleportDOM) return;
+
+        const CustomComponent = this.component;
+        const contentRef = (element: HTMLElement | null) => {
+            if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
+                element.appendChild(this.contentDOMElement);
+            }
+        };
         const portal = createPortal(
             <ReactNodeContainer
                 ctx={this.ctx}
@@ -85,11 +100,11 @@ export class ReactNodeView implements NodeView {
                 getPos={this.getPos}
                 decorations={this.decorations}
             >
-                <Component>
-                    <Content isInline={this.isInlineOrMark} dom={this.contentDOM} />
-                </Component>
+                <CustomComponent>
+                    <Content isInline={this.isInlineOrMark} contentRef={contentRef} />
+                </CustomComponent>
             </ReactNodeContainer>,
-            this.dom,
+            this.teleportDOM,
             this.key,
         );
         this.addPortal(portal);
@@ -97,8 +112,7 @@ export class ReactNodeView implements NodeView {
 
     destroy() {
         this.options.destroy?.();
-        this.dom.remove();
-        this.contentDOM = undefined;
+        this.contentDOMElement = null;
         this.removePortalByKey(this.key);
     }
 
@@ -106,13 +120,56 @@ export class ReactNodeView implements NodeView {
         if (this.options.ignoreMutation) {
             return this.options.ignoreMutation(mutation);
         }
-        if (!this.contentDOM) {
+
+        if (!this.dom || !this.contentDOM) {
             return true;
         }
-        return !this.contentDOM.contains(mutation.target);
+
+        if (this.node instanceof Node) {
+            if (this.node.isLeaf || this.node.isAtom) {
+                return true;
+            }
+        }
+
+        if ((mutation as unknown as { type: string }).type === 'selection') {
+            return false;
+        }
+
+        if (this.contentDOM === this.dom) {
+            return false;
+        }
+
+        if (this.contentDOM === mutation.target && mutation.type === 'attributes') {
+            return true;
+        }
+
+        if (this.contentDOM.contains(mutation.target)) {
+            return false;
+        }
+
+        return true;
     }
 
-    update = this.options?.update;
+    update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) {
+        if (this.options.update) {
+            const result = this.options.update?.(node, decorations, innerDecorations);
+            if (result != null) {
+                return result;
+            }
+        }
+
+        if (this.node.type !== node.type) {
+            return false;
+        }
+
+        if (node === this.node && this.decorations === decorations) {
+            return true;
+        }
+
+        this.node = node;
+        this.decorations = decorations;
+        return true;
+    }
 
     selectNode = this.options?.selectNode;
 

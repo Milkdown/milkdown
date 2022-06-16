@@ -28,7 +28,6 @@ const onChange = (e: Event) => {
         return;
     }
     const { value } = target;
-    console.log(target.value);
     if (!view.editable) {
         target.value = node.attrs['language'];
         return;
