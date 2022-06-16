@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewCtx, rootCtx } from '@milkdown/core';
-import { createContext, useCallback, useContext, useEffect, useRef } from 'react';
+import { createContext, useCallback, useContext, useLayoutEffect, useRef } from 'react';
 
 import { portalContext } from './Portals';
 import { EditorInfoCtx, GetEditor } from './types';
@@ -22,7 +22,7 @@ export const useGetEditor = (getEditor: GetEditor) => {
         lockRef.current = false;
     }, [setLoading]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const div = dom.current;
         if (!div) return;
 
@@ -37,13 +37,6 @@ export const useGetEditor = (getEditor: GetEditor) => {
             .create()
             .then((editor) => {
                 editorRef.current = editor;
-                editor.action((ctx) => {
-                    const view = ctx.get(editorViewCtx);
-                    const { tr } = view.state;
-
-                    const nextTr = Object.assign(Object.create(tr), tr).setTime(Date.now());
-                    view.dispatch(nextTr);
-                });
                 return;
             })
             .finally(() => {

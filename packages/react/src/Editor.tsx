@@ -1,10 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { forwardRef, ReactNode, useCallback, useMemo, useState } from 'react';
+import { Mark, Node } from '@milkdown/prose/model';
+import { forwardRef, useCallback, useMemo, useState } from 'react';
 
 import { EditorComponent } from './EditorComponent';
-import { portalContext, Portals } from './Portals';
-import { createReactView, RenderOptions } from './ReactNodeView';
-import { EditorInfo, EditorInfoCtx, EditorRef } from './types';
+import { portalContext } from './Portals';
+import { createReactView } from './ReactNodeView';
+import { EditorInfo, EditorInfoCtx, EditorRef, RenderReact } from './types';
 import { editorInfoContext } from './useGetEditor';
 
 type EditorProps = {
@@ -23,9 +24,8 @@ export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor: editorI
             return [...x.slice(0, index), ...x.slice(index + 1)];
         });
     }, []);
-    const renderReact = useCallback(
-        (Component: React.FC<{ children: ReactNode }>, options?: RenderOptions) =>
-            createReactView(addPortal, removePortalByKey)(Component, options),
+    const renderReact: RenderReact<Node | Mark> = useCallback(
+        (Component, options) => createReactView(addPortal, removePortalByKey)(Component, options),
         [addPortal, removePortalByKey],
     );
 
@@ -41,7 +41,7 @@ export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor: editorI
     return (
         <editorInfoContext.Provider value={ctx}>
             <portalContext.Provider value={renderReact}>
-                <Portals portals={portals} />
+                {portals}
                 <EditorComponent ref={ref} editor={getEditorCallback} />
             </portalContext.Provider>
         </editorInfoContext.Provider>

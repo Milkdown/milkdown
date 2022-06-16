@@ -106,6 +106,7 @@ export class VueNodeView implements NodeView {
 
     destroy() {
         this.options.destroy?.();
+        this.teleportDOM.remove();
         this.removePortalByKey(this.key);
     }
 
