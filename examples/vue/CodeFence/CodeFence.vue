@@ -1,7 +1,8 @@
 <script lang="ts">
-import { nodeMetadata } from '@milkdown/vue';
-import { defineComponent, inject } from 'vue';
+import { defineComponent } from 'vue';
 import { languageListSlice } from './CodeFence';
+import { useNodeCtx } from '@milkdown/vue';
+import { Node } from '@milkdown/prose/model';
 
 export default defineComponent({
     name: 'CodeFence',
@@ -10,7 +11,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { ref } from 'vue';
-const metadata = inject(nodeMetadata);
+const metadata = useNodeCtx<Node>();
 const attrs = metadata?.node.attrs;
 const languages = metadata?.ctx.get(languageListSlice) ?? [];
 
@@ -20,11 +21,11 @@ const lang = attrs?.['language'] ?? '';
 const showInput = ref(attrs?.['showInput'] ?? false);
 
 const onChange = (e: Event) => {
-    const view = metadata?.view;
-    const node = metadata?.node;
-    const getPos = metadata?.getPos as () => number;
+    const view = metadata.view;
+    const node = metadata.node;
+    const getPos = metadata.getPos;
     const { target } = e;
-    if (!(target instanceof HTMLSelectElement) || !view || !node) {
+    if (!(target instanceof HTMLSelectElement)) {
         return;
     }
     const { value } = target;
@@ -42,12 +43,9 @@ const onChange = (e: Event) => {
 };
 
 const toggleInput = () => {
-    const view = metadata?.view;
-    const node = metadata?.node;
-    const getPos = metadata?.getPos as () => number;
-    if (!view || !node) {
-        return;
-    }
+    const view = metadata.view;
+    const node = metadata.node;
+    const getPos = metadata.getPos;
     if (!view.editable) {
         return;
     }
@@ -67,15 +65,12 @@ const onKeydown = (e: KeyboardEvent) => {
 };
 
 const onFilenameChange = (e: Event) => {
-    const view = metadata?.view;
-    const node = metadata?.node;
-    const getPos = metadata?.getPos as () => number;
+    const view = metadata.view;
+    const node = metadata.node;
+    const getPos = metadata.getPos;
 
     const { target } = e;
     if (!(target instanceof HTMLInputElement)) return;
-    if (!view || !node) {
-        return;
-    }
     if (!view.editable) {
         return;
     }
