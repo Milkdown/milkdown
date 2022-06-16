@@ -12,13 +12,13 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref } from 'vue';
 const metadata = useNodeCtx<Node>();
-const attrs = metadata?.node.attrs;
-const languages = metadata?.ctx.get(languageListSlice) ?? [];
+const attrs = metadata.node.attrs;
+const languages = metadata.ctx.get(languageListSlice) ?? [];
 
-const filename = ref(attrs?.['filename'] ?? '');
-const lang = attrs?.['language'] ?? '';
+const filename = ref(attrs['filename'] ?? '');
+const lang = attrs['language'] ?? '';
 
-const showInput = ref(attrs?.['showInput'] ?? false);
+const showInput = ref(attrs['showInput'] ?? false);
 
 const onChange = (e: Event) => {
     const view = metadata.view;
@@ -93,7 +93,7 @@ const onFilenameChange = (e: Event) => {
     <div class="code-fence">
         <div class="control">
             <span class="filename">
-                {{ filename }}
+                {{ filename || 'No File Name' }}
                 <input v-if="showInput" @keydown="onKeydown" @change="onFilenameChange" />
                 <button v-else @click="toggleInput">edit</button>
             </span>
