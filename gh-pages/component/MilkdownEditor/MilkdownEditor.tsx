@@ -42,7 +42,7 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
         },
     }));
 
-    const editor = useEditor(
+    const { editor } = useEditor(
         (root) => createEditor(root, md, readOnly, setEditorReady, onChange),
         [readOnly, md, onChange],
     );
