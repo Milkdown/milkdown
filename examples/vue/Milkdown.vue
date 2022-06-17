@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue';
 import { VueEditor, useEditor } from '@milkdown/vue';
 import { Node } from '@milkdown/prose/model';
+import { EditorRef } from '@milkdown/vue/lib/EditorComponent';
 
 export default defineComponent({
     name: 'Milkdown',
@@ -42,7 +43,12 @@ const foo = 'bar';
 \`\`\`
 `;
 
-const editor = useEditor((root, renderVue) =>
+const testRef = ref({
+    get: () => {},
+    dom: () => {},
+} as EditorRef);
+
+const { editor, loading, getInstance, getDom } = useEditor((root, renderVue) =>
     Editor.make()
         .config((ctx) => {
             ctx.set(rootCtx, root);
@@ -62,8 +68,20 @@ const editor = useEditor((root, renderVue) =>
         .use(prism)
         .use(listener),
 );
+
+effect(() => {
+    if (!loading.value) {
+        getInstance()?.action((ctx) => {
+            ctx;
+            console.log(getDom());
+        });
+        testRef.value.get()?.action(() => {
+            console.log(testRef.value.dom());
+        });
+    }
+});
 </script>
 
 <template>
-    <VueEditor :editor="editor" />
+    <VueEditor :editor="editor" :editor-ref="testRef" />
 </template>

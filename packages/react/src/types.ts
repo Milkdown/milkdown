@@ -25,6 +25,13 @@ export type RenderReact<U = never> = <T>(
 
 export type GetEditor = (container: HTMLElement, renderReact: RenderReact) => Editor | undefined;
 
+export type UseEditorReturn = {
+    readonly loading: boolean;
+    readonly getInstance: () => Editor | undefined;
+    readonly getDom: () => HTMLDivElement | null;
+    readonly editor: EditorInfo;
+};
+
 export type EditorInfoCtx = {
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     dom: RefObject<HTMLDivElement>;

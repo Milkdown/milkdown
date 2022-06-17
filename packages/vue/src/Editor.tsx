@@ -1,96 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, Editor, editorViewCtx, rootCtx } from '@milkdown/core';
-import type { Mark, Node } from '@milkdown/prose/model';
-import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 import {
     ComponentInternalInstance,
     DefineComponent,
     defineComponent,
+    effect,
     getCurrentInstance,
     h,
-    inject,
     InjectionKey,
     markRaw,
     onBeforeMount,
-    onMounted,
     onUnmounted,
     provide,
-    Ref,
-    ref,
     shallowReactive,
 } from 'vue';
 
-import { AnyVueComponent } from './utils';
-import { createVueView, RenderOptions } from './VueNodeView';
-
-type ViewFactory = NodeViewConstructor | MarkViewConstructor;
-const rendererKey: InjectionKey<(component: DefineComponent, options?: RenderOptions) => (ctx: Ctx) => ViewFactory> =
-    Symbol();
-
-export type RenderVue<U = never> = <T extends Node | Mark = Node | Mark>(
-    Component: AnyVueComponent,
-    options?: RenderOptions,
-) => (
-    ctx: Ctx,
-) => U extends never
-    ? T extends Node
-        ? NodeViewConstructor
-        : T extends Mark
-        ? MarkViewConstructor
-        : NodeViewConstructor & MarkViewConstructor
-    : U extends Node
-    ? NodeViewConstructor
-    : U extends Mark
-    ? MarkViewConstructor
-    : NodeViewConstructor & MarkViewConstructor;
-
-export type GetEditor = (container: HTMLDivElement, renderVue: RenderVue) => Editor;
-
-const useGetEditor = (getEditor: GetEditor) => {
-    const divRef = ref<HTMLDivElement | null>(null);
-    const renderVue = inject<RenderVue>(rendererKey, () => {
-        throw new Error();
-    });
-    const editorRef = markRaw<{ editor?: Editor }>({});
-    onMounted(() => {
-        if (!divRef.value) return;
-
-        getEditor(divRef.value, renderVue)
-            .create()
-            .then((editor) => {
-                editorRef.editor = editor;
-                return;
-            })
-            .catch((e) => console.error(e));
-    });
-    onUnmounted(() => {
-        const view = editorRef.editor?.action((ctx) => ctx.get(editorViewCtx));
-        const root = editorRef.editor?.action((ctx) => ctx.get(rootCtx)) as HTMLElement;
-
-        root?.firstChild?.remove();
-        view?.destroy();
-    });
-
-    return { divRef, editorRef };
-};
-
-export const EditorComponent = defineComponent<{ editor: GetEditor; editorRef?: Ref<EditorRef> }>({
-    name: 'milkdown-dom-root',
-    setup: (props, { slots }) => {
-        const refs = useGetEditor(props.editor);
-        if (props.editorRef) {
-            props.editorRef.value = {
-                get: () => refs.editorRef.editor,
-                dom: () => refs.divRef.value,
-            };
-        }
-
-        return () => <div ref={refs.divRef}>{slots['default']?.()}</div>;
-    },
-});
-EditorComponent['props'] = ['editor', 'editorRef'];
-
-export type EditorRef = { get: () => Editor | undefined; dom: () => HTMLDivElement | null };
+import { EditorComponent, EditorRef } from './EditorComponent';
+import { EditorInfo, EditorInfoCtx } from './types';
+import { rendererKey } from './useGetEditor';
+import { createVueView } from './VueNodeView';
 
 const rootInstance: {
     instance: null | ComponentInternalInstance;
@@ -101,8 +28,35 @@ export const getRootInstance = () => {
     return rootInstance.instance;
 };
 
+export const editorInfoCtxKey: InjectionKey<EditorInfoCtx> = Symbol();
+
+const refDeprecatedInfo = `
+@milkdown/vue:
+Passing ref to VueEditor will soon be deprecated, please use:
+
+const { editor, getInstance, getDom, loading } = useEditor(/* creator */);
+
+effect(() => {
+    if (!loading) {
+        const editor = getInstance();
+        const rootDOM = getDom();
+    }
+})
+
+<VueEditor editor={editor} />
+`;
+
+const compositionDeprecatedInfo = `
+@milkdown/vue:
+Passing editor directly to VueEditor will soon be deprecated, please use:
+
+const { editor } = useEditor(/* creator */);
+
+<VueEditor editor={editor} />
+`;
+
 type PortalPair = [key: string, component: DefineComponent];
-export const VueEditor = defineComponent<{ editor: GetEditor; editorRef?: Ref<EditorRef> }>({
+export const VueEditor = defineComponent<{ editor: EditorInfo; editorRef?: EditorRef }>({
     name: 'milkdown-vue-root',
     setup: (props) => {
         const portals = shallowReactive<PortalPair[]>([]);
@@ -126,12 +80,35 @@ export const VueEditor = defineComponent<{ editor: GetEditor; editorRef?: Ref<Ed
             portals.splice(index, 1);
         });
         const renderVue = createVueView(addPortal, removePortalByKey);
+
         provide(rendererKey, renderVue);
+
+        const usingDeprecatedCompositionAPI = Object.hasOwnProperty.call(props.editor, 'getInstance');
+
+        const { getEditorCallback, dom, editor, loading } = usingDeprecatedCompositionAPI
+            ? // @ts-expect-error deprecated old composition API
+              (props.editor.editor as EditorInfo)
+            : props.editor;
+
+        effect(() => {
+            if (usingDeprecatedCompositionAPI) {
+                console.warn(compositionDeprecatedInfo);
+            }
+            if (props.editorRef) {
+                console.warn(refDeprecatedInfo);
+            }
+        });
+
+        provide(editorInfoCtxKey, {
+            dom,
+            editor,
+            loading,
+        });
 
         return () => {
             const portalElements = portals.map(([id, P]) => <P key={id} />);
             return (
-                <EditorComponent editorRef={props.editorRef} editor={props.editor}>
+                <EditorComponent editorRef={props.editorRef} editor={getEditorCallback.value}>
                     {portalElements}
                 </EditorComponent>
             );
@@ -139,7 +116,3 @@ export const VueEditor = defineComponent<{ editor: GetEditor; editorRef?: Ref<Ed
     },
 });
 VueEditor['props'] = ['editor', 'editorRef'];
-
-export const useEditor = (getEditor: GetEditor) => {
-    return (...args: Parameters<GetEditor>) => getEditor(...args);
-};
