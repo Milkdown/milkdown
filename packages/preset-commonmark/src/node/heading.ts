@@ -23,6 +23,7 @@ type Keys =
 export const TurnIntoHeading = createCmdKey<number>('TurnIntoHeading');
 
 export const headingPluginKey = new PluginKey('MILKDOWN_ID');
+
 const createId = (node: Node) =>
     node.textContent
         .replace(/[\p{P}\p{S}]/gu, '')
@@ -30,8 +31,10 @@ const createId = (node: Node) =>
         .toLowerCase()
         .trim();
 
-export const heading = createNode<Keys>((utils) => {
+export const heading = createNode<Keys, { getId: (node: Node) => string }>((utils, options) => {
     const id = 'heading';
+
+    const getId = options?.getId ?? createId;
 
     return {
         id,
@@ -60,7 +63,7 @@ export const heading = createNode<Keys>((utils) => {
                 return [
                     `h${node.attrs['level']}`,
                     {
-                        id: node.attrs['id'] || createId(node),
+                        id: node.attrs['id'] || getId(node),
                         class: utils.getClassName(node.attrs, `heading h${node.attrs['level']}`),
                     },
                     0,
@@ -109,7 +112,7 @@ export const heading = createNode<Keys>((utils) => {
                             return;
                         }
                         const attrs = node.attrs;
-                        const id = createId(node);
+                        const id = getId(node);
 
                         if (attrs['id'] !== id) {
                             tr.setMeta(headingPluginKey, true).setNodeMarkup(pos, undefined, {
