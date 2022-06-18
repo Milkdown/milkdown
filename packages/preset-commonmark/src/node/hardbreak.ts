@@ -9,7 +9,6 @@ import { SupportedKeys } from '../supported-keys';
 type Keys = SupportedKeys['HardBreak'];
 
 export const InsertHardbreak = createCmdKey('InsertHardbreak');
-export const ClearHardbreak = createCmdKey('ClearHardbreak');
 
 export const hardbreak = createNode<Keys>((utils) => {
     return {
@@ -52,27 +51,9 @@ export const hardbreak = createNode<Keys>((utils) => {
                 dispatch?.(tr.setMeta('hardbreak', true).replaceSelectionWith(type.create()).scrollIntoView());
                 return true;
             }),
-            createCmd(ClearHardbreak, () => (state, dispatch) => {
-                const { selection, tr } = state;
-                if (selection.empty) {
-                    // Clear the last hardbreak if user create a new line just after a hardbreak
-                    const node = selection.$from.node();
-                    if (node.childCount > 0 && node.lastChild?.type.name === 'hardbreak') {
-                        dispatch?.(
-                            tr
-                                .replaceRangeWith(selection.to - 1, selection.to, state.schema.node('paragraph'))
-                                .setSelection(Selection.near(tr.doc.resolve(selection.to)))
-                                .scrollIntoView(),
-                        );
-                        return true;
-                    }
-                }
-                return false;
-            }),
         ],
         shortcuts: {
             [SupportedKeys.HardBreak]: createShortcut(InsertHardbreak, 'Shift-Enter'),
-            [SupportedKeys.ClearBreak]: createShortcut(ClearHardbreak, 'Enter'),
         },
         prosePlugins: (type) => [
             new Plugin({
