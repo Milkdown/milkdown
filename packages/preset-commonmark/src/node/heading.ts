@@ -169,6 +169,22 @@ export const heading = createNode<Keys, { getId: (node: Node) => string }>((util
 
                         return tr;
                     },
+                    view: (view) => {
+                        const doc = view.state.doc;
+                        let tr = view.state.tr;
+                        doc.descendants((node, pos) => {
+                            if (node.type.name === 'heading' && node.attrs['level']) {
+                                if (!node.attrs['id']) {
+                                    tr = tr.setNodeMarkup(pos, undefined, {
+                                        ...node.attrs,
+                                        id: getId(node),
+                                    });
+                                }
+                            }
+                        });
+                        view.dispatch(tr);
+                        return {};
+                    },
                 }),
             ];
         },
