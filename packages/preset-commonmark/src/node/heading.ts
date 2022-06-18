@@ -2,7 +2,7 @@
 import { createCmd, createCmdKey, editorViewCtx } from '@milkdown/core';
 import { setBlockType } from '@milkdown/prose/commands';
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
-import { Node } from '@milkdown/prose/model';
+import { Fragment, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, Transaction } from '@milkdown/prose/state';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -82,7 +82,19 @@ export const heading = createNode<Keys, { getId: (node: Node) => string }>((util
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
                     state.openNode('heading', undefined, { depth: node.attrs['level'] });
-                    state.next(node.content);
+                    const lastIsHardbreak = node.childCount >= 1 && node.lastChild?.type.name === 'hardbreak';
+                    if (lastIsHardbreak) {
+                        const contentArr: Node[] = [];
+                        node.content.forEach((n, _, i) => {
+                            if (i === node.childCount - 1) {
+                                return;
+                            }
+                            contentArr.push(n);
+                        });
+                        state.next(Fragment.fromArray(contentArr));
+                    } else {
+                        state.next(node.content);
+                    }
                     state.closeNode();
                 },
             },
