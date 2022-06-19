@@ -1,6 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, MarkSchema, marksCtx, MilkdownPlugin, schemaCtx, SchemaReady, ThemeReady } from '@milkdown/core';
+import {
+    Ctx,
+    MarkSchema,
+    marksCtx,
+    MilkdownPlugin,
+    schemaCtx,
+    SchemaReady,
+    schemaTimerCtx,
+    ThemeReady,
+} from '@milkdown/core';
 import { MarkType } from '@milkdown/prose/model';
+
+import { addTimer } from './utils';
 
 export type $Mark = MilkdownPlugin & {
     id: string;
@@ -29,4 +40,29 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
     };
 
     return <$Mark>plugin;
+};
+
+export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>, timerName?: string) => {
+    return addTimer<$Mark>(
+        async (ctx, plugin, done) => {
+            await ctx.wait(ThemeReady);
+            const markSchema = await schema(ctx);
+            ctx.update(marksCtx, (ns) => [...ns, [id, markSchema] as [string, MarkSchema]]);
+
+            plugin.id = id;
+            plugin.schema = markSchema;
+            done();
+
+            await ctx.wait(SchemaReady);
+
+            const markType = ctx.get(schemaCtx).marks[id];
+            if (!markType) {
+                throw new Error();
+            }
+
+            plugin.type = markType;
+        },
+        schemaTimerCtx,
+        timerName,
+    );
 };

@@ -1,7 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, MilkdownPlugin, prosePluginsCtx, SchemaReady } from '@milkdown/core';
+import { Ctx, editorStateTimerCtx, MilkdownPlugin, prosePluginsCtx, SchemaReady } from '@milkdown/core';
 import { Plugin } from '@milkdown/prose/state';
+
+import { addTimer } from './utils';
 
 export type $Prose = MilkdownPlugin & {
     plugin: Plugin;
@@ -16,4 +18,17 @@ export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
     };
 
     return <$Prose>plugin;
+};
+
+export const $proseAsync = (prose: (ctx: Ctx) => Promise<Plugin>, timerName?: string) => {
+    return addTimer<$Prose>(
+        async (ctx, plugin) => {
+            await ctx.wait(SchemaReady);
+            const prosePlugin = await prose(ctx);
+            ctx.update(prosePluginsCtx, (ps) => [...ps, prosePlugin]);
+            plugin.plugin = prosePlugin;
+        },
+        editorStateTimerCtx,
+        timerName,
+    );
 };

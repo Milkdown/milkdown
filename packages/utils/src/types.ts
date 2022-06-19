@@ -77,3 +77,5 @@ export type WithExtend<SupportedKeys extends string, Options extends UnknownReco
     Options
 > &
     Extendable<SupportedKeys, Options, Type, Rest>;
+
+export type MaybePromise<T> = T | Promise<T>;

@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@milkdown/exception": "workspace:*",
+        "nanoid": "^4.0.0",
         "tslib": "^2.3.1"
     },
     "nx": {

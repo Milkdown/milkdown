@@ -789,9 +789,11 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
+      nanoid: ^4.0.0
       tslib: ^2.3.1
     dependencies:
       '@milkdown/exception': link:../exception
+      nanoid: 4.0.0
       tslib: 2.3.1
     devDependencies:
       '@milkdown/core': link:../core
