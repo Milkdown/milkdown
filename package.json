@@ -64,7 +64,7 @@
         "eslint-plugin-tsdoc": "^0.2.14",
         "git-cz": "^4.7.6",
         "husky": "^8.0.0",
-        "jsdom": "^19.0.0",
+        "jsdom": "^20.0.0",
         "lint-staged": "^13.0.0",
         "nx": "latest",
         "prettier": "^2.6.2",
