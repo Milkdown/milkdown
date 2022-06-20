@@ -154,3 +154,28 @@ After created by `$view`, the view has metadata on it:
 
 -   type: The original `$node` or `$mark` for the view that passed in as the first parameter.
 -   view: The original view.
+
+## Promise Support
+
+For every composable plugin API, there will be an `async` version for it to add promise support,
+
+For example:
+
+```typescript
+import { $prose, $proseAsync } from '@milkdown/utils';
+import { Plugin } from '@milkdown/prose/state';
+
+const myProsePlugin = $prose((ctx) => {
+    return new Plugin({
+        //...
+    });
+});
+
+const myAsyncProsePlugin = $proseAsync(async (ctx) => {
+    await somePromise();
+
+    return new Plugin({
+        //...
+    });
+});
+```
