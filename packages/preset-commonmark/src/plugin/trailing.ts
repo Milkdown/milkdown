@@ -1,16 +1,16 @@
-/* Copyright 2021, Milkdown by ezone. */
+/* Copyright 2021, Milkdown by Mirone. */
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 
-const name = new PluginKey('trailingNode');
+const key = new PluginKey('MILKDOWN_TRAILING');
 const notAfter = ['paragraph', 'heading'];
-class TrialingNode extends Plugin {
+class Trialing extends Plugin {
     constructor() {
         super({
-            key: name,
+            key,
             view: () => ({
                 update: (view) => {
                     const { state } = view;
-                    const insertNodeAtEnd = name.getState(state);
+                    const insertNodeAtEnd = key.getState(state);
 
                     if (!insertNodeAtEnd) {
                         return;
@@ -18,7 +18,9 @@ class TrialingNode extends Plugin {
 
                     const { doc, schema, tr } = state;
                     const type = schema.nodes['paragraph'];
-                    const transaction = tr.insert(doc.content.size, type.create());
+                    const transaction = tr
+                        .insert(doc.content.size, type.create({ auto: true }))
+                        .setMeta('addToHistory', false);
                     view.dispatch(transaction);
                 },
             }),
@@ -41,6 +43,6 @@ class TrialingNode extends Plugin {
 }
 
 function createTrialing() {
-    return new TrialingNode();
+    return new Trialing();
 }
 export { createTrialing };

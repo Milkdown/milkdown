@@ -51,6 +51,7 @@ Keymap supported:
 ```typescript
 import { commonmark, Paragraph, Heading } from '@milkdown/commonmark';
 
+
 const nodes = commonmark
     .configure(Paragraph, {
         className: () =>
@@ -73,6 +74,11 @@ new Editor({ ...  }).use(nodes);
 -   input:
     -   placeholder: The placeholder of image url input.
     -   buttonText: The button text of image url input.
+
+### Paragraph
+
+-   keepEmptyLine: Whether to save empty lines to markdown. tips: lines of content of "\\" will be considered a empty line
+-   autoAppend: Whether to append an empty line after some nodes like table ,math ...etc.
 
 ### CodeFence
 
