@@ -1,6 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, MilkdownPlugin, NodeSchema, nodesCtx, schemaCtx, SchemaReady, ThemeReady } from '@milkdown/core';
+import {
+    Ctx,
+    MilkdownPlugin,
+    NodeSchema,
+    nodesCtx,
+    schemaCtx,
+    SchemaReady,
+    schemaTimerCtx,
+    ThemeReady,
+} from '@milkdown/core';
 import { NodeType } from '@milkdown/prose/model';
+
+import { addTimer } from './utils';
 
 export type $Node = MilkdownPlugin & {
     id: string;
@@ -29,4 +40,30 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
     };
 
     return <$Node>plugin;
+};
+
+export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>, timerName?: string) => {
+    return addTimer<$Node>(
+        async (ctx, plugin, done) => {
+            await ctx.wait(ThemeReady);
+            const nodeSchema = await schema(ctx);
+            ctx.update(nodesCtx, (ns) => [...ns, [id, nodeSchema] as [string, NodeSchema]]);
+
+            plugin.id = id;
+            plugin.schema = nodeSchema;
+            done();
+
+            await ctx.wait(SchemaReady);
+
+            const nodeType = ctx.get(schemaCtx).nodes[id];
+
+            if (!nodeType) {
+                throw new Error();
+            }
+
+            plugin.type = nodeType;
+        },
+        schemaTimerCtx,
+        timerName,
+    );
 };
