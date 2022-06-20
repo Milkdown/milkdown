@@ -13,6 +13,9 @@ type Options = {
         empty: string;
         error: string;
     };
+    input: {
+        placeholder: string;
+    };
 };
 
 const key = new PluginKey('MILKDOWN_MATH_INPUT');
@@ -24,6 +27,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
         error: '(error)',
         ...(options?.placeholder ?? {}),
     };
+    const inputPlaceholder = options?.input?.placeholder ?? 'Input Math';
     const themeManager = utils.themeManager;
     const getStyle = () =>
         utils.getStyle(({ css }) => {
@@ -146,7 +150,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                 if (!$start.parent.canReplaceWith(index, $end.index(), nodeType)) {
                     return null;
                 }
-                const value = match[1];
+                const value = match[1] ?? '';
                 return state.tr.replaceRangeWith(
                     start,
                     end,
@@ -165,7 +169,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                     key,
                     view: (editorView) => {
                         const inputChipRenderer = utils.themeManager.get<ThemeInputChipType>('input-chip', {
-                            placeholder: 'Input Math',
+                            placeholder: inputPlaceholder,
                             onUpdate: (value) => {
                                 ctx.get(commandsCtx).call(ModifyInlineMath, value);
                             },

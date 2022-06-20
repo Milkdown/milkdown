@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import className from './style.module.css';
 
-export type Outline = { text: string; level: number };
+export type Outline = { text: string; level: number; id: string };
 
 const NestedDiv: FC<{ level: number; children: ReactNode }> = ({ level, children }) => {
     if (level === 0) {
@@ -24,7 +24,7 @@ export const OutlineRenderer: FC<{ outline: Outline[] }> = ({ outline }) => {
     return (
         <>
             {outline.map((item, index) => {
-                const url = '#' + item.text.toLowerCase().split(' ').join('-');
+                const url = '#' + item.id;
                 return (
                     <div className={className['pl-10px']} key={index.toString()}>
                         <div className={className['outline-container']}>

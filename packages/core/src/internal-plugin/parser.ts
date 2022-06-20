@@ -7,9 +7,9 @@ import { marksCtx, nodesCtx } from '.';
 import { remarkCtx } from './init';
 import { schemaCtx, SchemaReady } from './schema';
 
-export type Parser = (text: string) => ProsemirrorNode | null;
+export type Parser = (text: string) => ProsemirrorNode | undefined;
 
-export const parserCtx = createSlice((() => null) as Parser, 'parser');
+export const parserCtx = createSlice((() => undefined) as Parser, 'parser');
 export const parserTimerCtx = createSlice([] as Timer[], 'parserTimer');
 
 export const ParserReady = createTimer('ParserReady');

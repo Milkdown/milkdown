@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { Plugin, PluginKey } from '@milkdown/prose/state';
+import { Plugin, PluginKey, Selection } from '@milkdown/prose/state';
 import { AddMarkStep, ReplaceStep } from '@milkdown/prose/transform';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -34,7 +34,21 @@ export const hardbreak = createNode<Keys>((utils) => {
         }),
         commands: (type) => [
             createCmd(InsertHardbreak, () => (state, dispatch) => {
-                dispatch?.(state.tr.setMeta('hardbreak', true).replaceSelectionWith(type.create()).scrollIntoView());
+                const { selection, tr } = state;
+                if (selection.empty) {
+                    // Transform two successive hardbreak into a new line
+                    const node = selection.$from.node();
+                    if (node.childCount > 0 && node.lastChild?.type.name === 'hardbreak') {
+                        dispatch?.(
+                            tr
+                                .replaceRangeWith(selection.to - 1, selection.to, state.schema.node('paragraph'))
+                                .setSelection(Selection.near(tr.doc.resolve(selection.to)))
+                                .scrollIntoView(),
+                        );
+                        return true;
+                    }
+                }
+                dispatch?.(tr.setMeta('hardbreak', true).replaceSelectionWith(type.create()).scrollIntoView());
                 return true;
             }),
         ],

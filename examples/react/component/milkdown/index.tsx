@@ -1,34 +1,49 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { defaultValueCtx, Editor, rootCtx } from '@milkdown/core';
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
+import { prism } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
-import { blockquote, commonmark, image, link, paragraph } from '@milkdown/preset-commonmark';
-import { EditorRef, ReactEditor, useEditor } from '@milkdown/react';
+import { codeFence as cmCodeFence, commonmark, image } from '@milkdown/preset-commonmark';
+import { Node } from '@milkdown/prose/model';
+import { ReactEditor, useEditor } from '@milkdown/react';
 import { nord } from '@milkdown/theme-nord';
-import React from 'react';
+import { FC, useEffect } from 'react';
 
-import { Blockquote } from './Blockquote';
+import { CodeFence } from './CodeFence';
+import { codeFence } from './CodeFence/codeFence.node';
 import { Image } from './Image';
-import { Link } from './Link';
-import { Paragraph } from './Paragraph';
 
-export const Milkdown: React.FC<{ value: string }> = ({ value }) => {
-    const ref = React.useRef({} as EditorRef);
-    const editor = useEditor((root, renderReact) => {
+export const Milkdown: FC<{ value: string }> = ({ value }) => {
+    const { editor, loading, getInstance } = useEditor((root, renderReact) => {
         const nodes = commonmark
-            .configure(paragraph, { view: renderReact(Paragraph) })
-            .configure(blockquote, { view: renderReact(Blockquote, { as: 'section' }) })
             .configure(image, { view: renderReact(Image) })
-            .configure(link, { view: renderReact(Link) });
+            .replace(cmCodeFence, codeFence(renderReact<Node>(CodeFence, { as: 'section' }))());
         return Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
                 ctx.set(defaultValueCtx, value);
+                ctx.get(listenerCtx).markdownUpdated((_, value) => {
+                    value;
+                    // console.log(value);
+                });
             })
             .use(nord)
             .use(nodes)
-            .use(tooltip);
+            .use(tooltip)
+            .use(prism)
+            .use(listener);
     });
 
-    return <ReactEditor ref={ref} editor={editor} />;
+    useEffect(() => {
+        if (!loading) {
+            const instance = getInstance();
+            instance?.action((ctx) => {
+                ctx;
+                // do something
+            });
+        }
+    }, [getInstance, loading]);
+
+    return <ReactEditor editor={editor} />;
 };

@@ -22,7 +22,7 @@ module.exports = {
 
         'import/prefer-default-export': 'off',
         'import/no-default-export': 'error',
-        'import/no-unresolved': ['error', { ignore: ['@milkdown/prose/*', 'mdast', 'unist'] }],
+        'import/no-unresolved': ['error', { ignore: ['@milkdown/prose/*', 'mdast', 'unist', 'vitest'] }],
 
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
@@ -57,7 +57,7 @@ module.exports = {
             },
         },
         {
-            files: ['shim.d.ts', 'vite.config.ts', 'playwright.config.ts'],
+            files: ['shim.d.ts', 'vite.config.ts', 'playwright.config.ts', 'cypress.config.ts'],
             rules: {
                 'import/no-default-export': 'off',
             },

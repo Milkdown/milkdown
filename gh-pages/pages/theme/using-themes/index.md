@@ -24,7 +24,7 @@ editor.action((ctx) => {
 });
 ```
 
-You can also use the [macro]() we provide out of box.
+You can also use the [macro](/macros#switchtheme) we provide out of box.
 
 ```typescript
 import { switchTheme } from '@milkdown/utils';
@@ -72,7 +72,7 @@ editor.use(themeFactory());
 
 ## Configure Emotion
 
-The emotion allow us to pass some options to emotion instance.
+Emotion allow us to pass some options to emotion instance.
 It's useful sometime. For example, if you want to set style attributes into some other elements instead of `head` element.
 
 ```typescript

@@ -1,6 +1,6 @@
 # Plugin Factories
 
-In the [previous section](). We showed how to create a bare plugin. Luckily, we don't need to do it in most cases. We can use plugin factories and [composable plugins]() which we'll introduce in the next section.
+In the [previous section](/plugins-101). We showed how to create a bare plugin. Luckily, we don't need to do it in most cases. We can use plugin factories and [composable plugins](/composable-plugins) which we'll introduce in the next section.
 
 We provide 3 factories to create different types of plugins:
 
@@ -41,6 +41,9 @@ const blockquote = createNode(() => {
         }),
     };
 });
+
+// usage
+editor.use(blockquote());
 ```
 
 With this plugin, we can now create blockquote.
@@ -75,7 +78,7 @@ type schema = (ctx: Ctx) => {
 };
 ```
 
-The schema is a superset of the [prosemirror]() schema.
+The schema is a superset of the prosemirror schema.
 For the `createNode` factory, it's a superset of [prosemirror node schema spec](https://prosemirror.net/docs/ref/#model.NodeSpec).
 And for the `createMark` factory, it's a superset of [prosemirror mark schema spec](https://prosemirror.net/docs/ref/#model.MarkSpec).
 
@@ -100,12 +103,11 @@ const myPlugin = createPlugin(() => {
 
 If you don't familiar with prosemirror, I highly recommend you to read their definition in prosemirror to make sure you understand what's going on.
 
-The schema is used to define the structure of the node/mark. It has mainly 4 parts of properties:
+The schema is used to define the structure of the node/mark. It has mainly 3 parts of properties:
 
-1. `content` and `group`: This is used to define what kind of the node/mark is what they can contain. Same as the prosemirror node/mark spec.
-2. `parseDOM` and `toDOM`: This is used to define how the node/mark is rendered to DOM and parsed from DOM. Same as the prosemirror node/mark spec.
-3. `parseMarkdown` and `toMarkdown`: This is used to define how the node/mark is parsed from markdown AST and serialized to markdown AST. That's also the properties in schema that are milkdown only.
-4. Other properties: This is used to define the behavior of the node/mark. Same as the prosemirror node/mark spec.
+1. `parseDOM` and `toDOM`: This is used to define how the node/mark is rendered to DOM and parsed from DOM. Same as the prosemirror node/mark spec.
+2. `parseMarkdown` and `toMarkdown`: This is used to define how the node/mark is parsed from markdown AST and serialized to markdown AST. That's also the properties in schema that are milkdown only.
+3. Other properties: This is used to define the behavior of the node/mark. Same as the prosemirror node/mark spec.
 
 #### SchemaType
 
@@ -132,7 +134,7 @@ The SchemaType will be used in following other properties in plugin factory:
 
 -   [commands](#commands)
 -   [inputRules](#inputrules)
--   [prosePlugins](#proseplugin)
+-   [prosePlugins](#proseplugins)
 
 ### commands
 
@@ -165,7 +167,7 @@ For more details of commands, please check [commands](/commands).
 This property is used to define what string users type into the editor that will trigger the command. For example, we expect the user can type `>` with a `space` to create a blockquote.
 
 ```typescript
-const WrapInBlockquote = createCmdKey('WrapInBlockquote');
+import { wrappingInputRule } from '@milkdown/prose/inputrules';
 const blockquote = createNode(() => {
     const id = 'blockquote';
 
@@ -179,7 +181,7 @@ const blockquote = createNode(() => {
 
 InputRules is a part from prosemirror. If you want to know more details or create your own inputrules, please check [prosemirror-inputrules](https://prosemirror.net/docs/ref/#inputrules).
 
-### prosePlugin
+### prosePlugins
 
 > `(schemaType: SchemaType, ctx: Ctx) => ProsemirrorPlugin[]`
 
@@ -213,7 +215,7 @@ Here we define a shortcut for this plugin. When user types `Mod-Shift-b`, the co
 
 #### Custom Shortcuts
 
-The advantage of using shortcuts is that when other users use your plugin, you can customize the behavior of the shortcut.
+The advantage of using shortcuts is that when other users use your plugin, they can customize the behavior of the shortcut.
 
 ```typescript
 const blockquoteWithUserDefinedShortcut = blockquote({
@@ -482,7 +484,7 @@ Editor.use(mySyntaxPlugin.remove(node1));
 
 // Replace one plugin:
 const myNode1 = node1.extend(/* ... */);
-Editor.use(mySyntaxPlugin.replace(node1, myNode1));
+Editor.use(mySyntaxPlugin.replace(node1, myNode1()));
 ```
 
 ## Real World Examples

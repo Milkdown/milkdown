@@ -12,9 +12,10 @@ const proseUrlPlugin = () =>
                 const [text] = match;
                 if (!text) return null;
 
-                return state.tr
-                    .replaceWith(start, end, schema.text(text))
-                    .addMark(start, text.length + start, schema.marks.link.create({ href: text }));
+                const link = schema.marks['link']?.create({ href: text });
+                if (!link) return null;
+
+                return state.tr.replaceWith(start, end, schema.text(text)).addMark(start, text.length + start, link);
             }),
         ],
     });

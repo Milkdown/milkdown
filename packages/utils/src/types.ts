@@ -1,9 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, Emotion, MilkdownPlugin, Slice, ThemeManager } from '@milkdown/core';
-import { CmdTuple, Ctx, RemarkPlugin } from '@milkdown/core';
-import { ViewFactory } from '@milkdown/prose';
-import { InputRule } from '@milkdown/prose/inputrules';
-import { Plugin } from '@milkdown/prose/state';
+import type {
+    Attrs,
+    CmdKey,
+    CmdTuple,
+    Ctx,
+    Emotion,
+    MilkdownPlugin,
+    RemarkPlugin,
+    Slice,
+    ThemeManager,
+} from '@milkdown/core';
+import type { InputRule } from '@milkdown/prose/inputrules';
+import type { Plugin } from '@milkdown/prose/state';
+import type { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
 export type Utils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
@@ -19,12 +28,10 @@ export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRe
     className?: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
     keymap?: Partial<Record<SupportedKeys, string | string[]>>;
     headless?: boolean;
-    view?: (ctx: Ctx) => ViewFactory;
+    view?: (ctx: Ctx) => NodeViewConstructor | MarkViewConstructor;
 };
 
 export type Methods<Keys extends string, Type> = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inject?: Slice<any>[];
     remarkPlugins?: (ctx: Ctx) => RemarkPlugin[];
     inputRules?: (types: Type, ctx: Ctx) => InputRule[];
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
@@ -48,10 +55,7 @@ export type Factory<SupportedKeys extends string, Options extends UnknownRecord,
     utils: Utils,
     options?: Partial<CommonOptions<SupportedKeys, Options>>,
 ) => Spec<SupportedKeys, Type, Rest>;
-export type WithExtend<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = AddMetadata<
-    SupportedKeys,
-    Options
-> & {
+export type Extendable<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = {
     extend: <
         ExtendedSupportedKeys extends string = SupportedKeys,
         ExtendedOptions extends UnknownRecord = Options,
@@ -61,8 +65,17 @@ export type WithExtend<SupportedKeys extends string, Options extends UnknownReco
         extendFactory: (
             ...args: [
                 original: Spec<SupportedKeys, Type, Rest>,
-                ...rest: Parameters<Factory<ExtendedSupportedKeys, ExtendedOptions, ExtendedType, ExtendedRest>>
+                ...rest: Parameters<Factory<ExtendedSupportedKeys, ExtendedOptions, ExtendedType, ExtendedRest>>,
             ]
         ) => Spec<ExtendedSupportedKeys, ExtendedType, ExtendedRest>,
-    ) => AddMetadata<ExtendedSupportedKeys, ExtendedOptions>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        inject?: Slice<any>[],
+    ) => WithExtend<ExtendedSupportedKeys, ExtendedOptions, Type, Rest>;
 };
+export type WithExtend<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = AddMetadata<
+    SupportedKeys,
+    Options
+> &
+    Extendable<SupportedKeys, Options, Type, Rest>;
+
+export type MaybePromise<T> = T | Promise<T>;

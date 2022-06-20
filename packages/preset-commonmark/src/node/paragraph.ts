@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { setBlockType } from '@milkdown/prose/commands';
+import { Fragment, Node } from '@milkdown/prose/model';
 import { createNode, createShortcut } from '@milkdown/utils';
 import type { Node, Parent } from 'unist';
 import { visit } from 'unist-util-visit';
@@ -86,8 +87,17 @@ export const paragraph = createNode<Keys, ParagraphOptions>((utils, options = {}
                             });
                         }
                     } else {
-                        const onlyHardbreak = node.childCount === 1 && node.firstChild?.type.name === 'hardbreak';
-                        if (!onlyHardbreak) {
+                        const lastIsHardbreak = node.childCount >= 1 && node.lastChild?.type.name === 'hardbreak';
+                        if (lastIsHardbreak) {
+                            const contentArr: Node[] = [];
+                            node.content.forEach((n, _, i) => {
+                                if (i === node.childCount - 1) {
+                                    return;
+                                }
+                                contentArr.push(n);
+                            });
+                            state.next(Fragment.fromArray(contentArr));
+                        } else {
                             state.next(node.content);
                         }
                     }

@@ -4,26 +4,33 @@ import {
     Ctx,
     MarkSchema,
     marksCtx,
+    markViewCtx,
     MilkdownPlugin,
     schemaCtx,
     SchemaReady,
     Slice,
     ThemeReady,
-    viewCtx,
 } from '@milkdown/core';
-import { MarkViewFactory, ViewFactory } from '@milkdown/prose';
 import { MarkType } from '@milkdown/prose/model';
+import { MarkViewConstructor } from '@milkdown/prose/view';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, applyMethods, getUtils, withExtend } from './common';
 
-type MarkRest = {
+export type MarkRest = {
     id: string;
     schema: (ctx: Ctx) => MarkSchema;
-    view?: (ctx: Ctx) => MarkViewFactory;
+    view?: (ctx: Ctx) => MarkViewConstructor;
 };
 
-type MarkFactory<SupportedKeys extends string, Options extends UnknownRecord> = Factory<
+export type MarkFactory<SupportedKeys extends string, Options extends UnknownRecord> = Factory<
+    SupportedKeys,
+    Options,
+    MarkType,
+    MarkRest
+>;
+
+export type MarkCreator<SupportedKeys extends string, Options extends UnknownRecord> = WithExtend<
     SupportedKeys,
     Options,
     MarkType,
@@ -34,7 +41,7 @@ export const createMark = <SupportedKeys extends string = string, Options extend
     factory: MarkFactory<SupportedKeys, Options>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     inject?: Slice<any>[],
-): WithExtend<SupportedKeys, Options, MarkType, MarkRest> =>
+): MarkCreator<string, Options> =>
     withExtend(
         factory,
         addMetadata(
@@ -46,7 +53,7 @@ export const createMark = <SupportedKeys extends string = string, Options extend
                         const utils = getUtils(ctx, options);
 
                         const plugin = factory(utils, options);
-                        plugin.view = options?.view ?? plugin.view;
+                        plugin.view = (options?.view ?? plugin.view) as (ctx: Ctx) => MarkViewConstructor;
 
                         await applyMethods(
                             ctx,
@@ -69,7 +76,7 @@ export const createMark = <SupportedKeys extends string = string, Options extend
 
                         if (plugin.view) {
                             const view = plugin.view(ctx);
-                            ctx.update(viewCtx, (v) => [...v, [plugin.id, view] as [string, ViewFactory]]);
+                            ctx.update(markViewCtx, (v) => [...v, [plugin.id, view] as [string, MarkViewConstructor]]);
                         }
                     };
                 },

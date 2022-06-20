@@ -13,6 +13,8 @@ export const config: ConfigItem[] = [
             'keyboard-shortcuts',
             'macros',
             'collaborative-editing',
+            'i18n',
+            'faq',
         ],
     },
     {

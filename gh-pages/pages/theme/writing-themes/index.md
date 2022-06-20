@@ -32,9 +32,9 @@ Let me introduce you the basic theme keys.
 
 ### ThemeColor
 
-> `(key: string, opacity?: number) => string`
+> `(name: string, opacity?: number) => string`
 
-Get a color by key and opacity.
+Get a color by name and opacity.
 
 ```typescript
 import { ThemeColor } from '@milkdown/core';
@@ -52,7 +52,7 @@ manager.set(ThemeColor, ([key, opacity]) => {
 });
 ```
 
-The possible keys are:
+The possible color names are:
 
 | Key        | Description                                    |
 | ---------- | ---------------------------------------------- |
@@ -79,7 +79,7 @@ palette('line');
 
 ### ThemeSize
 
-> `(key: string) => string`
+> `(name: string) => string`
 
 Get a size by key.
 
@@ -93,7 +93,7 @@ manager.set(ThemeSize, (key) => {
 });
 ```
 
-The possible keys are:
+The possible names are:
 
 | Key       | Description                         |
 | --------- | ----------------------------------- |
@@ -102,21 +102,21 @@ The possible keys are:
 
 ### ThemeFont
 
-> `(key: string) => string`
+> `(name: string) => string`
 
-Get font families by key.
+Get font families by name.
 
 ```typescript
 import { ThemeFont } from '@milkdown/core';
 
-manager.set(ThemeSize, (key) => {
+manager.set(ThemeFont, (key) => {
     if (key === 'typography') return 'Roboto, arial, sans-serif';
 
     return 'monospace';
 });
 ```
 
-The possible keys are:
+The possible names are:
 
 | Key        | Description                      |
 | ---------- | -------------------------------- |
@@ -157,9 +157,9 @@ Component provides some useful style utils for your theme. Set values for them c
 
 ### ThemeIcon
 
-> `(key: string) => { label: string; dom: HTMLElement }`
+> `(name: string) => { label: string; dom: HTMLElement }`
 
-Get icon by key. The icon should be a `{ label: string; dom: HTMLElement }` object.
+Get icon by name. The icon should be a `{ label: string; dom: HTMLElement }` object.
 
 ```typescript
 import { ThemeIcon } from '@milkdown/core';
@@ -189,7 +189,7 @@ manager.set(ThemeIcon, (key) => {
 });
 ```
 
-You can [check the icon key list here](https://github.com/Saul-Mirone/milkdown/blob/main/packages/design-system/src/types.ts).
+You can [check the icon name list here](https://github.com/Saul-Mirone/milkdown/blob/main/packages/design-system/src/types.ts).
 
 ### ThemeShadow
 

@@ -1,4 +1,4 @@
-# Writing Syntax Plugins
+# Example: Iframe Plugin
 
 Generally, if we want to add a custom syntax plugin, there are 5 things need to be done:
 

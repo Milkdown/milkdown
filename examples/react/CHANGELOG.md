@@ -1,5 +1,29 @@
 # @milkdown-examples/react
 
+## 6.1.5
+
+### Patch Changes
+
+-   ccf70357: Fix extended factories cannot inject slices
+-   Updated dependencies [ccf70357]
+    -   @milkdown/core@6.1.5
+    -   @milkdown/plugin-tooltip@6.1.5
+    -   @milkdown/preset-commonmark@6.1.5
+    -   @milkdown/react@6.1.5
+    -   @milkdown/theme-nord@6.1.5
+
+## 6.1.4
+
+### Patch Changes
+
+-   d866dded: Fix bugs for clipboard plugin and i18 support
+-   Updated dependencies [d866dded]
+    -   @milkdown/core@6.1.4
+    -   @milkdown/plugin-tooltip@6.1.4
+    -   @milkdown/preset-commonmark@6.1.4
+    -   @milkdown/react@6.1.4
+    -   @milkdown/theme-nord@6.1.4
+
 ## 6.1.3
 
 ### Patch Changes

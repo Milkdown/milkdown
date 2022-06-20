@@ -4,15 +4,14 @@ import { MilkdownPlugin } from '@milkdown/core';
 
 import { AddMetadata, Metadata } from '../types';
 
-type PluginWithMetadata = MilkdownPlugin & Metadata;
-type Plugin = MilkdownPlugin | PluginWithMetadata;
+export type MilkdownPluginWithMetadata = MilkdownPlugin & Metadata;
+export type AtomPlugin = MilkdownPlugin | MilkdownPluginWithMetadata;
 
-const hasMetadata = (x: Plugin): x is PluginWithMetadata => Object.prototype.hasOwnProperty.call(x, 'origin');
+const hasMetadata = (x: AtomPlugin): x is MilkdownPluginWithMetadata =>
+    Object.prototype.hasOwnProperty.call(x, 'origin');
 
-type Factory = AddMetadata;
-
-export class AtomList<T extends Plugin = Plugin> extends Array<T> {
-    private findThenRun<U extends Factory>(target: U, callback: (index: number) => void): this {
+export class AtomList<T extends AtomPlugin = AtomPlugin> extends Array<T> {
+    private findThenRun<U extends AddMetadata>(target: U, callback: (index: number) => void): this {
         const index = this.findIndex((x) => hasMetadata(x) && x.origin === target);
         if (index < 0) return this;
 
@@ -21,19 +20,19 @@ export class AtomList<T extends Plugin = Plugin> extends Array<T> {
         return this;
     }
 
-    configure<U extends Factory>(target: U, config: Parameters<U>[0]): this {
+    configure<U extends AddMetadata>(target: U, config: Parameters<U>[0]): this {
         return this.findThenRun(target, (index) => {
             this.splice(index, 1, target(config) as T);
         });
     }
 
-    replace<U extends Factory, Next extends Plugin>(target: U, next: Next): this {
+    replace<U extends AddMetadata, Next extends AtomPlugin>(target: U, next: Next): this {
         return this.findThenRun(target, (index) => {
-            this.splice(index, 1, next as Plugin as T);
+            this.splice(index, 1, next as AtomPlugin as T);
         });
     }
 
-    remove<U extends Factory>(target: U): this {
+    remove<U extends AddMetadata>(target: U): this {
         return this.findThenRun(target, (index) => {
             this.splice(index, 1);
         });
@@ -41,12 +40,12 @@ export class AtomList<T extends Plugin = Plugin> extends Array<T> {
 
     headless(): this {
         this.filter(hasMetadata).forEach((x) => {
-            this.configure((x as PluginWithMetadata).origin as Factory, { headless: true });
+            this.configure((x as MilkdownPluginWithMetadata).origin as AddMetadata, { headless: true });
         });
         return this;
     }
 
-    static create<T extends Plugin = Plugin>(from: T[]): AtomList<T> {
+    static create<T extends AtomPlugin = AtomPlugin>(from: T[]): AtomList<T> {
         return new AtomList(...from);
     }
 }

@@ -1,11 +1,65 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import './codemirror.css';
 
-import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup';
+import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap } from '@codemirror/autocomplete';
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+// import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup';
 import { markdown } from '@codemirror/lang-markdown';
+import {
+    bracketMatching,
+    defaultHighlightStyle,
+    foldGutter,
+    foldKeymap,
+    indentOnInput,
+    syntaxHighlighting,
+} from '@codemirror/language';
+import { lintKeymap } from '@codemirror/lint';
+import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
+import { EditorState, Extension } from '@codemirror/state';
+import {
+    crosshairCursor,
+    drawSelection,
+    dropCursor,
+    EditorView,
+    highlightActiveLine,
+    highlightActiveLineGutter,
+    highlightSpecialChars,
+    keymap,
+    lineNumbers,
+    rectangularSelection,
+} from '@codemirror/view';
 import React from 'react';
 
 import className from './style.module.css';
+
+const basicSetup: Extension = [
+    lineNumbers(),
+    highlightActiveLineGutter(),
+    highlightSpecialChars(),
+    history(),
+    foldGutter(),
+    drawSelection(),
+    dropCursor(),
+    EditorState.allowMultipleSelections.of(true),
+    indentOnInput(),
+    syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+    bracketMatching(),
+    closeBrackets(),
+    autocompletion(),
+    rectangularSelection(),
+    crosshairCursor(),
+    highlightActiveLine(),
+    highlightSelectionMatches(),
+    keymap.of([
+        ...closeBracketsKeymap,
+        ...defaultKeymap,
+        ...searchKeymap,
+        ...historyKeymap,
+        ...foldKeymap,
+        ...completionKeymap,
+        ...lintKeymap,
+    ]),
+];
 
 type StateOptions = {
     onChange: (getString: () => string) => void;
@@ -77,7 +131,7 @@ export const CodeMirror = React.forwardRef<CodeMirrorRef, CodeMirrorProps>(({ va
         <div
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
-            className={className.code + (focus ? ' ' + className.focus : '')}
+            className={className['code'] + (focus ? ' ' + className['focus'] : '')}
         >
             <div ref={divRef} />
         </div>

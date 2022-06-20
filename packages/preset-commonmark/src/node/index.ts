@@ -1,4 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { AtomPlugin } from '@milkdown/utils';
+
 import { blockquote } from './blockquote';
 import { bulletList } from './bullet-list';
 import { codeFence } from './code-fence';
@@ -12,7 +14,7 @@ import { orderedList } from './ordered-list';
 import { paragraph } from './paragraph';
 import { text } from './text';
 
-export const nodes = [
+export const nodes: AtomPlugin[] = [
     doc(),
     paragraph(),
     hardbreak(),

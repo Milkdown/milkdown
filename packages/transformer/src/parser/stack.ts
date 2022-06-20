@@ -7,7 +7,7 @@ import { createElement, StackElement } from './stack-element';
 import type { Attrs } from './types';
 
 type Ctx = {
-    marks: Mark[];
+    marks: readonly Mark[];
     readonly schema: Schema;
     readonly elements: StackElement[];
 };
@@ -81,7 +81,7 @@ const addText =
     };
 
 const build = (ctx: Ctx) => () => {
-    let doc: Node | null = null;
+    let doc: Node | undefined = undefined;
     do {
         doc = closeNode(ctx)();
     } while (size(ctx));

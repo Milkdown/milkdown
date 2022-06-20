@@ -23,6 +23,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Milkdown version**
+List the versions of milkdown packages you have here.
+
 **Desktop (please complete the following information):**
 
 -   OS: [e.g. iOS]

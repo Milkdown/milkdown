@@ -2,90 +2,47 @@
 
 设计系统是主题的基础，它像是一种合约。
 
--   设计系统将定义一些 theme key。
+-   一个[emotion css](https://emotion.sh/docs/@emotion/css)的实例来管理 css。
+-   一个主题管理器来管理主题的 key 和它们对应的值。
 -   主题将设置每个 key 的值。
--   Node, Mark and Plugin 可以消费这些 key。
+-   插件可以消费这些 key。
 
 在[编写主题插件](/#/zh-hans/writing-theme-plugins)一节中，我们已经学习了主题的定义方式。在本节中将展示如何使用它。
 
-## 主题工具
+## Understanding Theme
 
-设计系统可以通过`themeToolCtx`来访问。
+主题的 key 和它们对应的值是由`ThemeManager`管理的。
+
+当你创建一个新的主题时，你要做的是设置主题的 key 的值。
 
 ```typescript
-import { themeToolCtx } from '@milkdown/core';
+import { themeFactory, themeManagerCtx, ThemeColor } from '@milkdown/core';
 
-import { createProsePlugin } from '@milkdown/utils';
-
-export const myProsemirrorPlugin = createProsePlugin((_, utils) => {
-    const themeTool = utils.ctx.get(themeToolCtx);
-
-    // ...
+const myTheme = themeFactory((emotion, themeManager) => {
+    themeManager.set(ThemeColor, ([key, opacity]) => {
+        switch (key) {
+            case 'primary':
+                return `rgba(255, 255, 255, ${opacity})`;
+            case 'secondary':
+                return `rgba(255, 255, 0, ${opacity})`;
+            // ...
+            default:
+                return `rgba(0, 0, 0, ${opacity})`;
+        }
+    });
 });
 ```
 
-### font
+## 适配主题
+
+对于每个插件，它都需要消费这些 key，以确保它们是与主题的外观是一致的。
 
 ```typescript
-const { typography, code } = themeTool.font;
+import { getPalette } from '@milkdown/core';
+const plugin = createPlugin(({ themeManager }) => {
+    const palette = getPalette(themeManager);
 
-css`
-    p {
-        font-family: ${typography};
-    }
-
-    code {
-        font-family: ${code};
-    }
-`;
-```
-
-### size
-
-```typescript
-const { radius, lineWidth } = themeTool.size;
-
-css`
-    border-radius: ${radius}px;
-    border: ${lineWidth}px solid #000;
-`;
-```
-
-### palette
-
-调色板用于根据当前主题生成颜色。
-
-```typescript
-const { palette } = themeTool;
-
-css`
-    background: ${palette('background')};
-    // 0.8 means it has 0.8 opacity.
-    color: ${palette('primary', 0.8)};
-`;
-```
-
-### mixin
-
-```typescript
-const { scrollbar, shadow, border } = themeTool.mixin;
-
-css`
-    ul {
-        ${scrollbar()};
-    }
-    div {
-        ${shadow()};
-        ${border()};
-    }
-`;
-```
-
-### slots
-
-```typescript
-const { icon } = themeTool.slots;
-
-const loadingIcon = icon('loading');
-div.appendChild(loadingIcon);
+    const primary = palette('primary'); // -> (255, 255, 255, 1)
+    const primaryWithOpacity = palette('primary', 0.5); // -> (255, 255 ,255, 0.5);
+});
 ```

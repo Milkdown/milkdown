@@ -40,13 +40,15 @@ export const hr = createNode((utils) => {
         commands: (type, ctx) => [
             createCmd(InsertHr, () => (state, dispatch) => {
                 if (!dispatch) return true;
+
+                const paragraph = ctx.get(schemaCtx).node('paragraph');
                 const { tr, selection } = state;
-                const from = selection.from;
+                const { from } = selection;
                 const node = type.create();
                 if (!node) {
                     return true;
                 }
-                const _tr = tr.replaceSelectionWith(node).insert(from, ctx.get(schemaCtx).node('paragraph'));
+                const _tr = tr.replaceSelectionWith(node).insert(from, paragraph);
                 const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true);
                 if (!sel) {
                     return true;

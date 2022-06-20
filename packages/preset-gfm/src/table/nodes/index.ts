@@ -3,13 +3,15 @@ import { createCmd, createCmdKey, MarkdownNode, schemaCtx } from '@milkdown/core
 import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeType } from '@milkdown/prose/model';
 import { Plugin, PluginKey, Selection, TextSelection } from '@milkdown/prose/state';
-import { columnResizing, goToNextCell, tableEditing } from '@milkdown/prose/tables';
 import { createPlugin, createShortcut } from '@milkdown/utils';
 
 import { exitTable } from '../command';
 import { operatorPlugin } from '../operator-plugin';
 import { createTable } from '../utils';
+import { columnResizing } from './column-resizing';
+import { goToNextCell } from './commands';
 import { schema } from './schema';
+import { tableEditing } from './table-editing';
 
 export const SupportedKeys = {
     NextCell: 'NextCell',
@@ -195,3 +197,7 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
         },
     };
 });
+
+export * from './cell-selection';
+export * from './commands';
+export * from './util';

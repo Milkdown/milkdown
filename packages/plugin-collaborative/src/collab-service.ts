@@ -71,7 +71,7 @@ export class CollabService {
     #ctx: Ctx | null = null;
     #connected = false;
 
-    #valueToNode(value: DefaultValue): Node | null {
+    #valueToNode(value: DefaultValue): Node | undefined {
         if (!this.#ctx) throw new Error();
 
         const schema = this.#ctx.get(schemaCtx);

@@ -38,6 +38,10 @@ const nodes = commonmark
 Editor.make().use(nodes).use(commonmarkPlugins);
 ```
 
+## 编写你自己的主题
+
+编写自己的主题也是完全可能的。请参考[编写主题](/zh-hans/writing-themes)。
+
 ## 无头模式
 
 如果你偏向于自己编写样式，你也可以简单的对支持无头模式的插件调用`headless`方法。
@@ -50,10 +54,8 @@ Editor.make().use(commonmark.headless());
 
 支持无头模式的插件有：
 
--   [@milkdown/preset-commonmark](https://www.npmjs.com/package/@milkdown/preset-commonmark)
--   [@milkdown/preset-gfm](https://www.npmjs.com/package/@milkdown/preset-gfm)
--   [@milkdown/plugin-table](https://www.npmjs.com/package/@milkdown/plugin-table)
 -   [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)
 -   [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)
 -   [@milkdown/plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)
 -   [@milkdown/plugin-emoji](https://www.npmjs.com/package/@milkdown/plugin-emoji)
+-   [@milkdown/plugin-menu](https://www.npmjs.com/package/@milkdown/plugin-menu)

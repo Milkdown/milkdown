@@ -64,7 +64,8 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
                                 return false;
                             }
                             const { dispatch, state: outerState } = outerView;
-                            const p = outerState.schema.nodes['paragraph'].create();
+                            const p = outerState.schema.nodes['paragraph']?.create();
+                            if (!p) return false;
                             const tr = outerState.tr.replaceSelectionWith(p);
                             let start = tr.selection.from - 2;
                             if (start < 0) {
@@ -78,7 +79,9 @@ const createInnerEditor = (outerView: EditorView, getPos: () => number) => {
                             if (dispatch) {
                                 const { state } = outerView;
                                 const { to } = state.selection;
-                                const tr = state.tr.replaceWith(to, to, state.schema.nodes.paragraph.createAndFill());
+                                const p = state.schema.nodes['paragraph']?.createAndFill();
+                                if (!p) return false;
+                                const tr = state.tr.replaceWith(to, to, p);
                                 outerView.dispatch(tr.setSelection(TextSelection.create(tr.doc, to)));
                                 outerView.focus();
                             }

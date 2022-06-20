@@ -2,17 +2,17 @@
 import { Ctx } from '@milkdown/core';
 import { Mark, Node } from '@milkdown/prose/model';
 import { Decoration, EditorView } from '@milkdown/prose/view';
-import React, { ReactNode } from 'react';
+import { createContext, FC, ReactNode, useContext } from 'react';
 
-type NodeContext = {
+type NodeContext<T extends Node | Mark = Node | Mark> = {
     ctx: Ctx;
-    node: Node | Mark;
+    node: T;
     view: EditorView;
-    getPos: boolean | (() => number);
-    decorations: Decoration[];
+    getPos: T extends Mark ? boolean : T extends Node ? () => number : boolean | (() => number);
+    decorations: readonly Decoration[];
 };
 
-const nodeContext = React.createContext<NodeContext>({
+const nodeContext = createContext<NodeContext>({
     ctx: undefined,
     node: undefined,
     view: undefined,
@@ -31,21 +31,16 @@ export const ReactNodeContainer: React.FC<NodeContext & { children: ReactNode }>
     return <nodeContext.Provider value={{ ctx, node, view, getPos, decorations }}>{children}</nodeContext.Provider>;
 };
 
-export const useNodeCtx = () => React.useContext(nodeContext);
+export type UseNodeCtx = <T extends Node | Mark = Node | Mark>() => NodeContext<T>;
+export const useNodeCtx: UseNodeCtx = (() => useContext(nodeContext)) as UseNodeCtx;
 
-export const Content: React.FC<{ isInline?: boolean; dom?: HTMLElement | null }> = ({ dom, isInline }) => {
-    const containerRef = React.useRef<HTMLDivElement>(null);
-
-    React.useEffect(() => {
-        const { current } = containerRef;
-        if (!current || !dom) return;
-
-        current.appendChild(dom);
-    }, [dom]);
-
+export const Content: FC<{ isInline?: boolean; contentRef: (dom: HTMLElement | null) => void }> = ({
+    contentRef,
+    isInline,
+}) => {
     if (isInline) {
-        return <span className="content-dom-wrapper" ref={containerRef} />;
+        return <span data-view-content className="content-dom-wrapper" ref={contentRef} />;
     }
 
-    return <div className="content-dom-wrapper" ref={containerRef} />;
+    return <div data-view-content className="content-dom-wrapper" ref={contentRef} />;
 };

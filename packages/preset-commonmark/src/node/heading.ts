@@ -2,7 +2,7 @@
 import { createCmd, createCmdKey, editorViewCtx } from '@milkdown/core';
 import { setBlockType } from '@milkdown/prose/commands';
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
-import { Node } from '@milkdown/prose/model';
+import { Fragment, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, Transaction } from '@milkdown/prose/state';
 import { createNode, createShortcut } from '@milkdown/utils';
 
@@ -23,6 +23,7 @@ type Keys =
 export const TurnIntoHeading = createCmdKey<number>('TurnIntoHeading');
 
 export const headingPluginKey = new PluginKey('MILKDOWN_ID');
+
 const createId = (node: Node) =>
     node.textContent
         .replace(/[\p{P}\p{S}]/gu, '')
@@ -30,8 +31,10 @@ const createId = (node: Node) =>
         .toLowerCase()
         .trim();
 
-export const heading = createNode<Keys>((utils) => {
+export const heading = createNode<Keys, { getId: (node: Node) => string }>((utils, options) => {
     const id = 'heading';
+
+    const getId = options?.getId ?? createId;
 
     return {
         id,
@@ -60,7 +63,7 @@ export const heading = createNode<Keys>((utils) => {
                 return [
                     `h${node.attrs['level']}`,
                     {
-                        id: node.attrs['id'] || createId(node),
+                        id: node.attrs['id'] || getId(node),
                         class: utils.getClassName(node.attrs, `heading h${node.attrs['level']}`),
                     },
                     0,
@@ -79,7 +82,19 @@ export const heading = createNode<Keys>((utils) => {
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
                     state.openNode('heading', undefined, { depth: node.attrs['level'] });
-                    state.next(node.content);
+                    const lastIsHardbreak = node.childCount >= 1 && node.lastChild?.type.name === 'hardbreak';
+                    if (lastIsHardbreak) {
+                        const contentArr: Node[] = [];
+                        node.content.forEach((n, _, i) => {
+                            if (i === node.childCount - 1) {
+                                return;
+                            }
+                            contentArr.push(n);
+                        });
+                        state.next(Fragment.fromArray(contentArr));
+                    } else {
+                        state.next(node.content);
+                    }
                     state.closeNode();
                 },
             },
@@ -109,7 +124,7 @@ export const heading = createNode<Keys>((utils) => {
                             return;
                         }
                         const attrs = node.attrs;
-                        const id = createId(node);
+                        const id = getId(node);
 
                         if (attrs['id'] !== id) {
                             tr.setMeta(headingPluginKey, true).setNodeMarkup(pos, undefined, {
@@ -153,6 +168,22 @@ export const heading = createNode<Keys>((utils) => {
                         }
 
                         return tr;
+                    },
+                    view: (view) => {
+                        const doc = view.state.doc;
+                        let tr = view.state.tr;
+                        doc.descendants((node, pos) => {
+                            if (node.type.name === 'heading' && node.attrs['level']) {
+                                if (!node.attrs['id']) {
+                                    tr = tr.setNodeMarkup(pos, undefined, {
+                                        ...node.attrs,
+                                        id: getId(node),
+                                    });
+                                }
+                            }
+                        });
+                        view.dispatch(tr);
+                        return {};
                     },
                 }),
             ];
