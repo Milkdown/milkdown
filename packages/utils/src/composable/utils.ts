@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createTimer, Ctx, MilkdownPlugin, Slice, Timer } from '@milkdown/core';
-import { ctxCallOutOfScope } from '@milkdown/exception';
 import { customAlphabet } from 'nanoid';
 
 export const nanoid = customAlphabet('abcedfghicklmn', 10);
