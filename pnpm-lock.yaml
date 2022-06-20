@@ -251,6 +251,7 @@ importers:
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-slash': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
+      '@milkdown/plugin-trailing': workspace:*
       '@milkdown/plugin-upload': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/preset-gfm': workspace:*
@@ -316,6 +317,7 @@ importers:
       '@milkdown/plugin-prism': link:../packages/plugin-prism
       '@milkdown/plugin-slash': link:../packages/plugin-slash
       '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
+      '@milkdown/plugin-trailing': link:../packages/plugin-trailing
       '@milkdown/plugin-upload': link:../packages/plugin-upload
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/preset-gfm': link:../packages/preset-gfm
@@ -622,6 +624,19 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/design-system': link:../design-system
+      '@milkdown/prose': link:../prose
+
+  packages/plugin-trailing:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
+      '@milkdown/utils': workspace:*
+      tslib: ^2.3.1
+    dependencies:
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
 
   packages/plugin-upload:
@@ -6726,7 +6741,7 @@ packages:
       safer-buffer: 2.1.2
 
   /identity-obj-proxy/3.0.0:
-    resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
+    resolution: {integrity: sha1-lNK9qWCERT7zb7xarsN+D3nx/BQ=}
     engines: {node: '>=4'}
     dependencies:
       harmony-reflect: 1.6.2

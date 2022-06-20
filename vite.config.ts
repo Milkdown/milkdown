@@ -9,9 +9,8 @@
 import path from 'path';
 import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
-import type { BuildOptions, UserConfig as ViteUserConfig } from 'vite';
+import type { BuildOptions, UserConfig as ViteUserConfig, UserConfigExport } from 'vite';
 import { defineConfig } from 'vite';
-import { UserConfig } from 'vitest';
 
 export const libFileName = (format: string) => `index.${format}.js`;
 
@@ -85,6 +84,7 @@ export const external = [
     '@milkdown/plugin-slash',
     '@milkdown/plugin-tooltip',
     '@milkdown/plugin-upload',
+    '@milkdown/plugin-trailing',
 ];
 
 export const viteBuild = (packageDirName: string, options: BuildOptions = {}): BuildOptions =>
@@ -129,4 +129,4 @@ export default defineConfig({
         include: ['packages/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
         environment: 'jsdom',
     },
-} as UserConfig);
+} as UserConfigExport);
