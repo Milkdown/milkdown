@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Node, NodeType } from '@milkdown/prose/model';
+import { Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state';
 import { AtomList, AtomPlugin, createPlugin } from '@milkdown/utils';
 
 export type ShouldAppend = (lastNode: Node | null, state: EditorState) => boolean;
 export type Options = {
     shouldAppend: ShouldAppend;
-    nodeType: NodeType;
+    getNode: (state: EditorState) => Node;
 };
 
 export const trailingPluginKey = new PluginKey('MILKDOWN_TRAILING');
@@ -45,7 +45,7 @@ export const trailingPlugin = createPlugin<string, Options>((_, options) => ({
             },
             appendTransaction: (_, __, state) => {
                 const { doc, tr, schema } = state;
-                const nodeType = options?.nodeType ?? schema.nodes['paragraph'];
+                const nodeType = options?.getNode?.(state) ?? schema.nodes['paragraph']?.create();
                 const shouldInsertNodeAtEnd = plugin.getState(state);
                 const endPosition = doc.content.size;
 
@@ -53,7 +53,7 @@ export const trailingPlugin = createPlugin<string, Options>((_, options) => ({
                     return;
                 }
 
-                return tr.insert(endPosition, nodeType.create());
+                return tr.insert(endPosition, nodeType);
             },
         });
         return [plugin];

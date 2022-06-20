@@ -1,6 +1,6 @@
 # @milkdown/plugin-trailing
 
-The math plugin of [milkdown](https://milkdown.dev/).
+The trailing plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

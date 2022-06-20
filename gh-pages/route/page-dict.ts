@@ -437,6 +437,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'plugin-trailing',
+        {
+            en: 'plugin-trailing',
+            'zh-hans': 'plugin-trailing',
+        },
+    ],
+    [
         'theme-nord',
         {
             en: 'Theme Nord',
