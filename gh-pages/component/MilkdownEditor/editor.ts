@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { defaultValueCtx, Editor, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { diagram } from '@milkdown/plugin-diagram';
@@ -12,6 +12,7 @@ import { menu } from '@milkdown/plugin-menu';
 import { prism } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
+import { trailing } from '@milkdown/plugin-trailing';
 import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
@@ -34,13 +35,8 @@ export const createEditor = (
                 .markdownUpdated((_, markdown) => {
                     onChange?.(markdown);
                 })
-                .mounted(async (ctx) => {
+                .mounted(() => {
                     setEditorReady(true);
-                    if (import.meta.env.DEV) {
-                        const view = ctx.get(editorViewCtx);
-                        const prosemirrorDevTools = await import('prosemirror-dev-tools');
-                        prosemirrorDevTools.default(view);
-                    }
                 });
         })
         .use(emoji)
@@ -58,6 +54,7 @@ export const createEditor = (
         .use(tooltip)
         .use(slash)
         .use(nord)
+        .use(trailing)
         .use(menu);
 
     return editor;
