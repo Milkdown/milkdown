@@ -36,7 +36,7 @@ export const clipboardPlugin = createPlugin(() => {
             const plugin = new Plugin({
                 key,
                 props: {
-                    handlePaste: (view, event) => {
+                    handlePaste: (view, event, originalSlice) => {
                         const parser = ctx.get(parserCtx);
                         const serializer = ctx.get(serializerCtx);
                         const editable = view.props.editable?.(view.state);
@@ -66,10 +66,11 @@ export const clipboardPlugin = createPlugin(() => {
                         const slice = parser(text);
                         if (!slice || typeof slice === 'string') return false;
 
-                        const { selection } = view.state;
-                        const { $from, $to } = selection;
-
-                        view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, $from.depth, $to.depth)));
+                        view.dispatch(
+                            view.state.tr.replaceSelection(
+                                new Slice(slice.content, originalSlice.openStart, originalSlice.openEnd),
+                            ),
+                        );
 
                         return true;
                     },
