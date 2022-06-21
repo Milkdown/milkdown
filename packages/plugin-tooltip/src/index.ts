@@ -22,10 +22,6 @@ export const tooltipPlugin = create<string, TooltipOptions>((utils, options) => 
             const plugin = new Plugin({
                 key,
                 props: {
-                    handleKeyDown: () => {
-                        manager.setHide(true);
-                        return false;
-                    },
                     handleClick: (view) => {
                         manager.setHide(false);
                         manager.update(view);
