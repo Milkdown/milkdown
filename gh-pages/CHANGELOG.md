@@ -1,5 +1,43 @@
 # @milkdown/gh-pages
 
+## 6.2.0
+
+### Minor Changes
+
+-   26afcdaf: New react and vue API, custom heading id, prosemirror upgrade, and async composable API.
+
+### Patch Changes
+
+-   Updated dependencies [26afcdaf]
+    -   @milkdown/core@6.2.0
+    -   @milkdown/ctx@6.2.0
+    -   @milkdown/design-system@6.2.0
+    -   @milkdown/exception@6.2.0
+    -   @milkdown/plugin-clipboard@6.2.0
+    -   @milkdown/plugin-collaborative@6.2.0
+    -   @milkdown/plugin-cursor@6.2.0
+    -   @milkdown/plugin-diagram@6.2.0
+    -   @milkdown/plugin-emoji@6.2.0
+    -   @milkdown/plugin-history@6.2.0
+    -   @milkdown/plugin-indent@6.2.0
+    -   @milkdown/plugin-listener@6.2.0
+    -   @milkdown/plugin-math@6.2.0
+    -   @milkdown/plugin-menu@6.2.0
+    -   @milkdown/plugin-prism@6.2.0
+    -   @milkdown/plugin-slash@6.2.0
+    -   @milkdown/plugin-tooltip@6.2.0
+    -   @milkdown/plugin-trailing@6.2.0
+    -   @milkdown/plugin-upload@6.2.0
+    -   @milkdown/preset-commonmark@6.2.0
+    -   @milkdown/preset-gfm@6.2.0
+    -   @milkdown/prose@6.2.0
+    -   @milkdown/react@6.2.0
+    -   @milkdown/theme-nord@6.2.0
+    -   @milkdown/theme-tokyo@6.2.0
+    -   @milkdown/transformer@6.2.0
+    -   @milkdown/utils@6.2.0
+    -   @milkdown/vue@6.2.0
+
 ## 6.1.5
 
 ### Patch Changes

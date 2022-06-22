@@ -1,5 +1,21 @@
 # @milkdown/e2e
 
+## 6.2.0
+
+### Minor Changes
+
+-   26afcdaf: New react and vue API, custom heading id, prosemirror upgrade, and async composable API.
+
+### Patch Changes
+
+-   Updated dependencies [26afcdaf]
+    -   @milkdown/core@6.2.0
+    -   @milkdown/design-system@6.2.0
+    -   @milkdown/preset-commonmark@6.2.0
+    -   @milkdown/preset-gfm@6.2.0
+    -   @milkdown/prose@6.2.0
+    -   @milkdown/theme-nord@6.2.0
+
 ## 6.1.5
 
 ### Patch Changes
