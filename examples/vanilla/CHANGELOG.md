@@ -1,5 +1,22 @@
 # @milkdown-examples/vanilla
 
+## 6.2.0
+
+### Minor Changes
+
+-   26afcdaf: New react and vue API, custom heading id, prosemirror upgrade, and async composable API.
+
+### Patch Changes
+
+-   Updated dependencies [26afcdaf]
+    -   @milkdown/core@6.2.0
+    -   @milkdown/plugin-math@6.2.0
+    -   @milkdown/plugin-menu@6.2.0
+    -   @milkdown/plugin-slash@6.2.0
+    -   @milkdown/preset-commonmark@6.2.0
+    -   @milkdown/theme-nord@6.2.0
+    -   @milkdown/theme-tokyo@6.2.0
+
 ## 6.1.5
 
 ### Patch Changes
