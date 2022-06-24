@@ -67,8 +67,13 @@ body {
 }
 
 .loading {
+    box-sizing: border-box;
+    background: palette(surface);
+    width: calc(100% - 265px);
     padding: 3.125rem 1.25rem;
+
     @mixin query 72rem {
+        max-width: 57.375rem;
         padding: 3.125rem;
     }
 }
