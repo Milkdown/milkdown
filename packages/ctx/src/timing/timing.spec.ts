@@ -13,6 +13,9 @@ describe('timing/timing', () => {
         }, 10);
 
         await expect(timing()).resolves.toBeUndefined();
+
+        // should still can be waited after it's resolved
+        await expect(timing()).resolves.toBeUndefined();
     });
 
     it('timeout', async () => {

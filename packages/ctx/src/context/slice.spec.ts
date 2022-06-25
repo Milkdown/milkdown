@@ -10,7 +10,9 @@ describe('context/slice', () => {
         const ctx = factory(map);
 
         expect(factory.sliceName).toBe('primitive');
+        expect(factory.id).toBeTypeOf('symbol');
         expect(ctx.name).toBe('primitive');
+        expect(ctx.id).toBe(factory.id);
 
         expect(ctx.get()).toBe(0);
 
@@ -27,6 +29,7 @@ describe('context/slice', () => {
 
         const map1 = new Map();
         const ctx1 = factory(map1);
+        expect(ctx1.id).toBe(factory.id);
 
         expect(ctx1.name).toBe('structure');
 
@@ -34,6 +37,7 @@ describe('context/slice', () => {
         const ctx2 = factory(map2);
 
         expect(ctx2.name).toBe('structure');
+        expect(ctx2.id).toBe(factory.id);
 
         expect(ctx1.get()).toEqual([]);
         ctx1.set([1]);
