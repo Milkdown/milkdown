@@ -1,6 +1,6 @@
 # @milkdown/plugin-indent
 
-The math plugin of [milkdown](https://milkdown.dev/).
+The indent plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
