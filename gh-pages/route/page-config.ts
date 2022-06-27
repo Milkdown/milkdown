@@ -49,6 +49,7 @@ export const config: ConfigItem[] = [
             'plugin-menu',
             'plugin-indent',
             'plugin-trailing',
+            'plugin-directive-fallback',
             'plugin-emoji',
             'plugin-collaborative',
             'plugin-upload',

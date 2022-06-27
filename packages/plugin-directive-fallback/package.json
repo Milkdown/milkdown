@@ -1,0 +1,61 @@
+{
+    "name": "@milkdown/plugin-directive-fallback",
+    "version": "6.2.0",
+    "type": "module",
+    "main": "./lib/index.es.js",
+    "types": "./lib/index.d.ts",
+    "sideEffects": false,
+    "license": "MIT",
+    "scripts": {
+        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+        "test": "vitest",
+        "tsc": "tsc --noEmit && echo",
+        "build": "tsc --emitDeclarationOnly && vite build"
+    },
+    "files": [
+        "lib",
+        "src"
+    ],
+    "keywords": [
+        "milkdown",
+        "milkdown plugin"
+    ],
+    "devDependencies": {
+        "@milkdown/core": "workspace:*",
+        "@milkdown/utils": "workspace:*",
+        "remark-directive": "^2.0.1",
+        "@milkdown/prose": "workspace:*"
+    },
+    "peerDependencies": {
+        "@milkdown/core": "^6.0.1",
+        "@milkdown/prose": "^6.0.1"
+    },
+    "dependencies": {
+        "@milkdown/utils": "workspace:*",
+        "tslib": "^2.3.1"
+    },
+    "nx": {
+        "targets": {
+            "build": {
+                "outputs": [
+                    "packages/plugin-directive-fallback/lib"
+                ],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            },
+            "tsc": {
+                "outputs": [],
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            }
+        }
+    }
+}

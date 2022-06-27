@@ -444,6 +444,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'plugin-directive-fallback',
+        {
+            en: 'plugin-directive-fallback',
+            'zh-hans': 'plugin-directive-fallback',
+        },
+    ],
+    [
         'theme-nord',
         {
             en: 'Theme Nord',
