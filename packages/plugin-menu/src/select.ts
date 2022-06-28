@@ -42,7 +42,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         e.stopPropagation();
         selectorWrapper.classList.toggle('fold');
         selectorList.style.left = `${
-            selectorWrapper.getBoundingClientRect().left - view.dom.getBoundingClientRect().left
+            selectorWrapper.getBoundingClientRect().left - (view.dom.parentElement?.getBoundingClientRect().left || 0)
         }px`;
     });
     view.dom.addEventListener('click', () => {
