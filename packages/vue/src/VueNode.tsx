@@ -2,14 +2,14 @@
 import { Ctx } from '@milkdown/core';
 import { Mark, Node } from '@milkdown/prose/model';
 import { Decoration, EditorView } from '@milkdown/prose/view';
-import { defineComponent, h, inject, InjectionKey, provide } from 'vue';
+import { defineComponent, h, inject, InjectionKey, provide, Ref } from 'vue';
 
 export type NodeContext<T extends Node | Mark = Node | Mark> = {
     ctx: Ctx;
-    node: T;
+    node: Ref<T>;
     view: EditorView;
     getPos: T extends Mark ? boolean : T extends Node ? () => number : boolean | (() => number);
-    decorations: readonly Decoration[];
+    decorations: Ref<readonly Decoration[]>;
 };
 
 export const nodeMetadata: InjectionKey<NodeContext> = Symbol();

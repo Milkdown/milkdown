@@ -7,8 +7,8 @@ import { languageListSlice } from './codeFence.node';
 
 export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
     const { node, ctx, view, getPos } = useNodeCtx<Node>();
-    const [showInput, setShowInput] = useState<boolean>(node.attrs['showInput']);
-    const [filename, setFilename] = useState<string>(node.attrs['filename']);
+    const showInput = node.attrs['showInput'];
+    const filename = node.attrs['filename'];
     const language = ctx.get(languageListSlice);
 
     const [input, setInput] = useState('');
@@ -41,8 +41,6 @@ export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
                                             showInput: false,
                                         }),
                                     );
-                                    setShowInput(false);
-                                    setFilename(input);
                                 }}
                             >
                                 OK
@@ -62,7 +60,6 @@ export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
                                         showInput: !show,
                                     }),
                                 );
-                                setShowInput(!show);
                             }}
                         >
                             edit
