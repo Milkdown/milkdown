@@ -10,7 +10,7 @@ import type {
     NodeViewConstructor,
 } from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
-import { DefineComponent, defineComponent, h, markRaw, Teleport } from 'vue';
+import { DefineComponent, defineComponent, h, markRaw, Ref, ref, Teleport } from 'vue';
 
 import { getRootInstance } from '.';
 import { Content, VueNodeContainer } from './VueNode';
@@ -39,8 +39,11 @@ export class VueNodeView implements NodeView {
     key: string;
 
     get isInlineOrMark() {
-        return this.node instanceof Mark || this.node.isInline;
+        return this.node.value instanceof Mark || this.node.value.isInline;
     }
+
+    private node: Ref<Node | Mark>;
+    private decorations: Ref<readonly Decoration[]>;
 
     constructor(
         private ctx: Ctx,
@@ -48,12 +51,14 @@ export class VueNodeView implements NodeView {
         private addPortal: (portal: DefineComponent, key: string) => void,
         private removePortalByKey: (key: string) => void,
         private options: RenderOptions,
-        private node: Node | Mark,
+        node: Node | Mark,
         private view: EditorView,
         private getPos: boolean | (() => number),
-        private decorations: readonly Decoration[],
+        decorations: readonly Decoration[],
     ) {
         this.key = nanoid();
+        this.node = ref(node);
+        this.decorations = ref(decorations);
         const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div';
         this.teleportDOM = document.createElement(elementName);
         this.renderPortal();
@@ -71,33 +76,39 @@ export class VueNodeView implements NodeView {
         return this.teleportDOM.querySelector<HTMLElement>('[data-view-content]') || this.dom;
     }
 
+    getPortal = (): DefineComponent => {
+        const CustomComponent = this.component;
+        const elementName = this.options.as ? this.options.as : this.isInlineOrMark ? 'span' : 'div';
+        return markRaw(
+            defineComponent({
+                name: 'milkdown-portal',
+                setup: () => {
+                    return () => (
+                        <Teleport key={this.key} to={this.teleportDOM}>
+                            <VueNodeContainer
+                                as={elementName}
+                                ctx={this.ctx}
+                                node={this.node}
+                                view={this.view}
+                                getPos={this.getPos}
+                                decorations={this.decorations}
+                            >
+                                <CustomComponent>
+                                    <Content isInline={this.isInlineOrMark} />
+                                </CustomComponent>
+                            </VueNodeContainer>
+                        </Teleport>
+                    );
+                },
+            }),
+        );
+    };
+
     renderPortal() {
         if (!this.teleportDOM) return;
 
-        const CustomComponent = this.component;
-        const elementName = this.options.as ? this.options.as : this.isInlineOrMark ? 'span' : 'div';
-        const Portal = defineComponent({
-            name: 'milkdown-portal',
-            setup: () => {
-                return () => (
-                    <Teleport key={this.key} to={this.teleportDOM}>
-                        <VueNodeContainer
-                            as={elementName}
-                            ctx={this.ctx}
-                            node={this.node}
-                            view={this.view}
-                            getPos={this.getPos}
-                            decorations={this.decorations}
-                        >
-                            <CustomComponent>
-                                <Content isInline={this.isInlineOrMark} />
-                            </CustomComponent>
-                        </VueNodeContainer>
-                    </Teleport>
-                );
-            },
-        });
-        this.addPortal(markRaw(Portal) as DefineComponent, this.key);
+        const Portal = this.getPortal();
+        this.addPortal(Portal, this.key);
         const instance = getRootInstance();
         if (instance) {
             instance.update();
@@ -140,23 +151,29 @@ export class VueNodeView implements NodeView {
     }
 
     update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) {
-        if (this.options.update) {
-            const result = this.options.update?.(node, decorations, innerDecorations);
-            if (result != null) {
-                return result;
+        const innerUpdate = () => {
+            if (this.options.update) {
+                const result = this.options.update?.(node, decorations, innerDecorations);
+                if (result != null) {
+                    return result;
+                }
             }
-        }
-        if (this.node.type !== node.type) {
-            return false;
-        }
+            if (this.node.value.type !== node.type) {
+                return false;
+            }
 
-        if (node === this.node && this.decorations === decorations) {
+            if (node === this.node.value && this.decorations.value === decorations) {
+                return true;
+            }
+
+            this.node.value = node;
+            this.decorations.value = decorations;
             return true;
-        }
+        };
 
-        this.node = node;
-        this.decorations = decorations;
-        return true;
+        const shouldUpdate = innerUpdate();
+
+        return shouldUpdate;
     }
 
     selectNode = this.options?.selectNode;

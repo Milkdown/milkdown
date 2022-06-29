@@ -10,7 +10,7 @@ import type {
     NodeViewConstructor,
 } from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
-import React, { ReactNode } from 'react';
+import { FC, ReactNode, ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Content, ReactNodeContainer } from './ReactNode';
@@ -25,17 +25,31 @@ export type RenderOptions = Partial<
 >;
 
 export const createReactView =
-    (addPortal: (portal: React.ReactPortal) => void, removePortalByKey: (key: string) => void) =>
     (
-        component: React.FC<{ children: ReactNode }>,
+        addPortal: (portal: ReactPortal) => void,
+        removePortalByKey: (key: string) => void,
+        replacePortalByKey: (key: string, portal: ReactPortal) => void,
+    ) =>
+    (
+        component: FC<{ children: ReactNode }>,
         options: RenderOptions = {},
     ): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
     (ctx) =>
     (node, view, getPos, decorations) =>
-        new ReactNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);
+        new ReactNodeView(
+            ctx,
+            component,
+            addPortal,
+            removePortalByKey,
+            replacePortalByKey,
+            options,
+            node,
+            view,
+            getPos,
+            decorations,
+        );
 
 export class ReactNodeView implements NodeView {
-    // dom: HTMLElement;
     teleportDOM: HTMLElement;
     contentDOMElement: HTMLElement | null;
     key: string;
@@ -47,8 +61,9 @@ export class ReactNodeView implements NodeView {
     constructor(
         private ctx: Ctx,
         private component: React.FC<{ children: React.ReactNode }>,
-        private addPortal: (portal: React.ReactPortal) => void,
+        private addPortal: (portal: ReactPortal) => void,
         private removePortalByKey: (key: string) => void,
+        private replacePortalByKey: (key: string, portal: ReactPortal) => void,
         private options: RenderOptions,
         private node: Node | Mark,
         private view: EditorView,
@@ -83,16 +98,14 @@ export class ReactNodeView implements NodeView {
         return this.contentDOMElement;
     }
 
-    renderPortal() {
-        if (!this.teleportDOM) return;
-
+    getPortal = () => {
         const CustomComponent = this.component;
         const contentRef = (element: HTMLElement | null) => {
             if (element && this.contentDOMElement && element.firstChild !== this.contentDOMElement) {
                 element.appendChild(this.contentDOMElement);
             }
         };
-        const portal = createPortal(
+        return createPortal(
             <ReactNodeContainer
                 ctx={this.ctx}
                 node={this.node}
@@ -107,7 +120,10 @@ export class ReactNodeView implements NodeView {
             this.teleportDOM,
             this.key,
         );
-        this.addPortal(portal);
+    };
+
+    renderPortal() {
+        this.addPortal(this.getPortal());
     }
 
     destroy() {
@@ -151,24 +167,34 @@ export class ReactNodeView implements NodeView {
     }
 
     update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) {
-        if (this.options.update) {
-            const result = this.options.update?.(node, decorations, innerDecorations);
-            if (result != null) {
-                return result;
+        const innerUpdate = () => {
+            if (this.options.update) {
+                const result = this.options.update?.(node, decorations, innerDecorations);
+                if (result != null) {
+                    return result;
+                }
             }
-        }
 
-        if (this.node.type !== node.type) {
-            return false;
-        }
+            if (this.node.type !== node.type) {
+                return false;
+            }
 
-        if (node === this.node && this.decorations === decorations) {
+            if (node === this.node && this.decorations === decorations) {
+                return true;
+            }
+
+            this.node = node;
+            this.decorations = decorations;
             return true;
+        };
+
+        const shouldUpdate = innerUpdate();
+
+        if (shouldUpdate) {
+            this.replacePortalByKey(this.key, this.getPortal());
         }
 
-        this.node = node;
-        this.decorations = decorations;
-        return true;
+        return shouldUpdate;
     }
 
     selectNode = this.options?.selectNode;

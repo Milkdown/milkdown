@@ -10,15 +10,14 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 const metadata = useNodeCtx<Node>();
-const attrs = metadata.node.attrs;
+const attrs = metadata.node.value.attrs;
 const languages = metadata.ctx.get(languageListSlice) ?? [];
 
-const filename = ref(attrs['filename'] ?? '');
+const filename = attrs['filename'] ?? '';
 const lang = attrs['language'] ?? '';
 
-const showInput = ref(attrs['showInput'] ?? false);
+const showInput = attrs['showInput'] ?? false;
 
 const onChange = (e: Event) => {
     const view = metadata.view;
@@ -30,13 +29,13 @@ const onChange = (e: Event) => {
     }
     const { value } = target;
     if (!view.editable) {
-        target.value = node.attrs['language'];
+        target.value = node.value.attrs['language'];
         return;
     }
     const { tr } = view.state;
     view.dispatch(
         tr.setNodeMarkup(getPos(), undefined, {
-            ...node.attrs,
+            ...node.value.attrs,
             language: value,
         }),
     );
@@ -49,15 +48,14 @@ const toggleInput = () => {
     if (!view.editable) {
         return;
     }
-    const show = node.attrs['showInput'];
+    const show = node.value.attrs['showInput'];
     const { tr } = view.state;
     view.dispatch(
         tr.setNodeMarkup(getPos(), undefined, {
-            ...node.attrs,
+            ...node.value.attrs,
             showInput: !show,
         }),
     );
-    showInput.value = !show;
 };
 
 const onKeydown = (e: KeyboardEvent) => {
@@ -79,13 +77,11 @@ const onFilenameChange = (e: Event) => {
     const { tr } = view.state;
     view.dispatch(
         tr.setNodeMarkup(getPos(), undefined, {
-            ...node.attrs,
+            ...node.value.attrs,
             filename: value,
             showInput: false,
         }),
     );
-    showInput.value = false;
-    filename.value = value;
 };
 </script>
 
