@@ -1,0 +1,8 @@
+body {
+    margin: 0;
+}
+
+.blockquote {
+    border-left: 4px solid #000;
+    padding-left: 20px;
+}

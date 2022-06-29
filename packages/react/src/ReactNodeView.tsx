@@ -87,7 +87,7 @@ export class ReactNodeView implements NodeView {
     }
 
     get dom() {
-        return (this.teleportDOM.firstElementChild || this.teleportDOM) as HTMLElement;
+        return this.teleportDOM;
     }
 
     get contentDOM() {

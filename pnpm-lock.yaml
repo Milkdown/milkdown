@@ -56,7 +56,7 @@ importers:
       '@commitlint/cli': 17.0.0
       '@commitlint/config-conventional': 17.0.0
       '@nrwl/cli': 14.3.6
-      '@nrwl/nx-cloud': 14.1.2
+      '@nrwl/nx-cloud': 14.1.3
       '@nrwl/tao': 14.3.6
       '@nrwl/workspace': 14.3.6_honiro6c5vkwsf7dg74kchntcq
       '@rollup/plugin-commonjs': 22.0.0_rollup@2.72.0
@@ -179,6 +179,37 @@ importers:
       '@types/react-dom': 18.0.3
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
+    devDependencies:
+      '@vitejs/plugin-react': 1.3.2
+
+  examples/react17:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/plugin-listener': workspace:*
+      '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-tooltip': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/prose': workspace:*
+      '@milkdown/react': workspace:*
+      '@milkdown/theme-nord': workspace:*
+      '@types/react': ^17.0.2
+      '@types/react-dom': ^17.0.2
+      '@vitejs/plugin-react': ^1.3.0
+      react: ^17.0.2
+      react-dom: ^17.0.2
+    dependencies:
+      '@milkdown/core': link:../../packages/core
+      '@milkdown/plugin-listener': link:../../packages/plugin-listener
+      '@milkdown/plugin-prism': link:../../packages/plugin-prism
+      '@milkdown/plugin-tooltip': link:../../packages/plugin-tooltip
+      '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
+      '@milkdown/prose': link:../../packages/prose
+      '@milkdown/react': link:../../packages/react
+      '@milkdown/theme-nord': link:../../packages/theme-nord
+      '@types/react': 17.0.47
+      '@types/react-dom': 17.0.17
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     devDependencies:
       '@vitejs/plugin-react': 1.3.2
 
@@ -2498,8 +2529,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@nrwl/nx-cloud/14.1.2:
-    resolution: {integrity: sha512-ZMxxx+NNp06IDPJ8cbQDPNMNRuH+pM/RoC7ZsCriotDG3kpzour41OGf0UpnXSXcTJPlDyHG6Xi0XuPdjmpNSw==}
+  /@nrwl/nx-cloud/14.1.3:
+    resolution: {integrity: sha512-8Kn2xeKLTnifsZrNimOwl8Q1dJUWx+HwOC/0MeFgTySKcKE0eim81ST8xiaysNw6EyYT6y/vhPGMxby22wtqYQ==}
     hasBin: true
     dependencies:
       axios: 0.21.4
@@ -2943,6 +2974,12 @@ packages:
       '@types/prosemirror-transform': 1.4.0
     dev: true
 
+  /@types/react-dom/17.0.17:
+    resolution: {integrity: sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==}
+    dependencies:
+      '@types/react': 17.0.47
+    dev: false
+
   /@types/react-dom/18.0.3:
     resolution: {integrity: sha512-1RRW9kst+67gveJRYPxGmVy8eVJ05O43hg77G2j5m76/RFJtMbcfAs2viQ2UNsvvDg8F7OfQZx8qQcl6ymygaQ==}
     dependencies:
@@ -2968,6 +3005,14 @@ packages:
       '@types/history': 4.7.11
       '@types/react': 18.0.8
     dev: true
+
+  /@types/react/17.0.47:
+    resolution: {integrity: sha512-mk0BL8zBinf2ozNr3qPnlu1oyVTYq+4V7WA76RgxUAtf0Em/Wbid38KN6n4abEkvO4xMTBWmnP1FtQzgkEiJoA==}
+    dependencies:
+      '@types/prop-types': 15.7.5
+      '@types/scheduler': 0.16.2
+      csstype: 3.0.11
+    dev: false
 
   /@types/react/18.0.8:
     resolution: {integrity: sha512-+j2hk9BzCOrrOSJASi5XiOyBbERk9jG5O73Ya4M0env5Ixi6vUNli4qy994AINcEF+1IEHISYFfIT4zwr++LKw==}
@@ -6747,7 +6792,7 @@ packages:
       safer-buffer: 2.1.2
 
   /identity-obj-proxy/3.0.0:
-    resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
+    resolution: {integrity: sha1-lNK9qWCERT7zb7xarsN+D3nx/BQ=}
     engines: {node: '>=4'}
     dependencies:
       harmony-reflect: 1.6.2
@@ -9757,6 +9802,17 @@ packages:
       react: 18.1.0
     dev: true
 
+  /react-dom/17.0.2_react@17.0.2:
+    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
+    peerDependencies:
+      react: 17.0.2 || 18
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react: 17.0.2
+      scheduler: 0.20.2
+    dev: false
+
   /react-dom/18.1.0_react@18.1.0:
     resolution: {integrity: sha512-fU1Txz7Budmvamp7bshe4Zi32d0ll7ect+ccxNu9FlObT605GOEB8BfO4tmRJ39R5Zj831VCpvQ05QPBW5yb+w==}
     peerDependencies:
@@ -9857,6 +9913,14 @@ packages:
     dependencies:
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
+    dev: false
+
+  /react/17.0.2:
+    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
     dev: false
 
   /react/18.1.0:
@@ -10253,6 +10317,13 @@ packages:
     dependencies:
       xmlchars: 2.2.0
     dev: true
+
+  /scheduler/0.20.2:
+    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+    dev: false
 
   /scheduler/0.22.0:
     resolution: {integrity: sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ==}
