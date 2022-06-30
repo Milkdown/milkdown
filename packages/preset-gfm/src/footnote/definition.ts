@@ -38,6 +38,7 @@ export const footnoteDefinition = createNode((utils) => {
                             label: dom.dataset['label'],
                         };
                     },
+                    contentElement: 'dd',
                 },
             ],
             toDOM: (node) => {
