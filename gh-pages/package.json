@@ -67,7 +67,7 @@
         "autoprefixer": "^10.2.5",
         "history": "^5.0.1",
         "postcss": "^8.2.12",
-        "postcss-cli": "^9.0.0",
+        "postcss-cli": "^10.0.0",
         "postcss-functions": "^4.0.2",
         "postcss-import": "^14.0.1",
         "postcss-mixins": "^9.0.0",
