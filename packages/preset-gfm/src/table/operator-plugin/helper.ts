@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { EditorView } from '@milkdown/prose/view';
 
-import { CellSelection } from '../nodes/cell-selection';
-import { TableMap } from '../nodes/table-map';
+import { CellSelection } from '../plugin';
+import { TableMap } from '../plugin/table-map';
 import { Item } from './actions';
 
 export const getCellSelection = (view: EditorView): CellSelection => view.state.selection as unknown as CellSelection;

@@ -3,9 +3,9 @@ import { cloneTr, findParentNode } from '@milkdown/prose';
 import { Node as ProsemirrorNode, Schema } from '@milkdown/prose/model';
 import { Selection, Transaction } from '@milkdown/prose/state';
 
-import { CellSelection } from './nodes/cell-selection';
-import { tableNodeTypes } from './nodes/schema';
-import { Rect, TableMap } from './nodes/table-map';
+import { CellSelection } from './plugin/cell-selection';
+import { tableNodeTypes } from './plugin/schema';
+import { Rect, TableMap } from './plugin/table-map';
 
 export type CellPos = {
     pos: number;

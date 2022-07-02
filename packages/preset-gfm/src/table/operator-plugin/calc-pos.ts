@@ -3,7 +3,7 @@
 import { calculateNodePosition } from '@milkdown/prose';
 import { EditorView } from '@milkdown/prose/view';
 
-import { CellSelection } from '../nodes/cell-selection';
+import { CellSelection } from '../plugin';
 
 export const calculatePosition = (view: EditorView, dom: HTMLElement) => {
     const { selection } = view.state as unknown as { selection: CellSelection };

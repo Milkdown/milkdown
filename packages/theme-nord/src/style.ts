@@ -267,10 +267,6 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             background: ${palette('secondary')};
             width: ${manager.get(ThemeSize, 'lineWidth')};
         }
-        .resize-cursor {
-            cursor: ew-resize;
-            cursor: col-resize;
-        }
 
         .selectedCell {
             &::after {
@@ -312,6 +308,11 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             ${manager.get(ThemeShadow, undefined)}
             ${manager.get(ThemeScrollbar, undefined)}
             ${selection};
+
+            .resize-cursor {
+                cursor: ew-resize;
+                cursor: col-resize;
+            }
 
             .editor {
                 ${editorLayout};

@@ -12,7 +12,7 @@ import {
     isInTable,
     selectedRect,
     setCellAttr,
-} from '../nodes';
+} from '../plugin';
 import { addRowWithAlignment } from '../utils';
 import { getCellSelection, isFirstRowSelected } from './helper';
 

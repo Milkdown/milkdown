@@ -7,11 +7,12 @@ import { createPlugin, createShortcut } from '@milkdown/utils';
 
 import { exitTable } from '../command';
 import { operatorPlugin } from '../operator-plugin';
+import { autoInsertZeroSpace } from '../plugin/auto-insert-zero-space';
+import { columnResizing } from '../plugin/column-resizing';
+import { goToNextCell } from '../plugin/commands';
+import { schema } from '../plugin/schema';
+import { tableEditing } from '../plugin/table-editing';
 import { createTable } from '../utils';
-import { columnResizing } from './column-resizing';
-import { goToNextCell } from './commands';
-import { schema } from './schema';
-import { tableEditing } from './table-editing';
 
 export const SupportedKeys = {
     NextCell: 'NextCell',
@@ -170,7 +171,8 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
         prosePlugins: (_, ctx) => {
             return [
                 operatorPlugin(ctx, utils),
-                columnResizing({}),
+                autoInsertZeroSpace(),
+                columnResizing(),
                 tableEditing(),
                 new Plugin({
                     key: TableContentFilterPluginKey,
@@ -197,7 +199,3 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
         },
     };
 });
-
-export * from './cell-selection';
-export * from './commands';
-export * from './util';
