@@ -2,7 +2,7 @@
 import type { Node } from '@milkdown/prose/model';
 import type { EditorView } from '@milkdown/prose/view';
 
-import { createThemeSliceKey } from '../manager';
+import { createThemeSliceKey } from '../../manager';
 
 type InnerEditorRenderer = {
     dom: HTMLElement;

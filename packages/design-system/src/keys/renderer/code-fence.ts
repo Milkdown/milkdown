@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Node } from '@milkdown/prose/model';
 
-import { createThemeSliceKey } from '../manager';
+import { createThemeSliceKey } from '../../manager';
 
 type ThemeOptions = {
     onSelectLanguage: (language: string) => void;

@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView } from '@milkdown/prose/view';
 
-import { createThemeSliceKey } from '../manager';
+import { createThemeSliceKey } from '../../manager';
 
 type InputChipRenderer = {
     dom: HTMLElement;
