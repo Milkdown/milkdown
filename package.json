@@ -49,7 +49,7 @@
         "@vitejs/plugin-react-refresh": "^1.3.3",
         "@vitejs/plugin-vue": "^2.3.3",
         "@vitejs/plugin-vue-jsx": "^1.1.5",
-        "@vitest/ui": "^0.16.0",
+        "@vitest/ui": "^0.17.0",
         "concurrently": "^7.0.0",
         "cross-env": "^7.0.3",
         "esbuild": "^0.14.38",
@@ -77,7 +77,7 @@
         "tslib": "^2.3.1",
         "typescript": "^4.6.2",
         "vite": "^2.7.13",
-        "vitest": "^0.16.0"
+        "vitest": "^0.17.0"
     },
     "pnpm": {
         "peerDependencyRules": {
