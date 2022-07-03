@@ -46,10 +46,6 @@ You can type `||` and a `space` to create a table:
 | Content Cell 1 |  `Content` Cell 1  |
 | Content Cell 2 | **Content** Cell 2 |
 
-| A   |  B  |  C  |  D  |  E  |
-| --- | :-: | :-: | :-: | :-: |
-| a   |     |     |  d  |  e  |
-
 ---
 
 Math is supported by [TeX expression](https://en.wikipedia.org/wiki/TeX).
