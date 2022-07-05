@@ -30,6 +30,7 @@
         "@milkdown/prose": "^6.0.1"
     },
     "dependencies": {
+        "@milkdown/exception": "workspace:*",
         "@milkdown/utils": "workspace:*",
         "@types/node-emoji": "^1.8.1",
         "emoji-regex": "^10.0.0",

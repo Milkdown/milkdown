@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, createCmd, createCmdKey, ThemeImageType, ThemeInputChipType } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { findSelectedNodeOfType } from '@milkdown/prose';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
@@ -41,7 +42,7 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                     tag: 'img[src]',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return {
                             src: dom.getAttribute('src') || '',

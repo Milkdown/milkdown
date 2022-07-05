@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, editorViewCtx, ThemeCodeFenceType } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { setBlockType } from '@milkdown/prose/commands';
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
 import { Fragment } from '@milkdown/prose/model';
@@ -60,13 +61,13 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                     preserveWhitespace: 'full',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error('Parse DOM error.');
+                            throw expectDomTypeError(dom);
                         }
                         return { language: dom.querySelector('pre')?.dataset['language'] };
                     },
                     getContent: (dom, schema) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error('Parse DOM error.');
+                            throw expectDomTypeError(dom);
                         }
                         const textNode = schema.text(dom.querySelector('pre')?.textContent ?? '');
                         return Fragment.from(textNode);
@@ -77,7 +78,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                     preserveWhitespace: 'full',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error('Parse DOM error.');
+                            throw expectDomTypeError(dom);
                         }
                         return { language: dom.dataset['language'] };
                     },

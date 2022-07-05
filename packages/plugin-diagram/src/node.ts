@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, ThemeInnerEditorType, themeManagerCtx } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { setBlockType } from '@milkdown/prose/commands';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection } from '@milkdown/prose/state';
@@ -64,7 +65,7 @@ export const diagramNode = createNode<string, Options>((utils, options) => {
                     preserveWhitespace: 'full',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return {
                             value: dom.dataset['value'],

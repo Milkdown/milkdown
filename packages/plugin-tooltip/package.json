@@ -31,6 +31,7 @@
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
+        "@milkdown/exception": "workspace:*",
         "tslib": "^2.3.1"
     },
     "nx": {

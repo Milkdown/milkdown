@@ -33,6 +33,7 @@
         "@milkdown/prose": "^6.0.1"
     },
     "dependencies": {
+        "@milkdown/exception": "workspace:*",
         "@milkdown/utils": "workspace:*",
         "@types/mermaid": "^8.2.8",
         "mermaid": "^9.0.0",

@@ -26,16 +26,19 @@ export const getCellsInColumn =
             return undefined;
         }
 
-        return map.cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height }).map((pos) => {
-            const node = table.node.nodeAt(pos);
-            if (!node) throw new Error();
-            const start = pos + table.start;
-            return {
-                pos: start,
-                start: start + 1,
-                node,
-            };
-        });
+        return map
+            .cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height })
+            .map((pos) => {
+                const node = table.node.nodeAt(pos);
+                if (!node) return;
+                const start = pos + table.start;
+                return {
+                    pos: start,
+                    start: start + 1,
+                    node,
+                };
+            })
+            .filter((x): x is CellPos => x != null);
     };
 
 export const getCellsInRow =
@@ -48,16 +51,19 @@ export const getCellsInRow =
             return undefined;
         }
 
-        return map.cellsInRect({ left: 0, right: map.width, top: rowIndex, bottom: rowIndex + 1 }).map((pos) => {
-            const node = table.node.nodeAt(pos);
-            if (!node) throw new Error();
-            const start = pos + table.start;
-            return {
-                pos: start,
-                start: start + 1,
-                node,
-            };
-        });
+        return map
+            .cellsInRect({ left: 0, right: map.width, top: rowIndex, bottom: rowIndex + 1 })
+            .map((pos) => {
+                const node = table.node.nodeAt(pos);
+                if (!node) return;
+                const start = pos + table.start;
+                return {
+                    pos: start,
+                    start: start + 1,
+                    node,
+                };
+            })
+            .filter((x): x is CellPos => x != null);
     };
 
 export const createTable = (schema: Schema, rowsCount = 3, colsCount = 3) => {

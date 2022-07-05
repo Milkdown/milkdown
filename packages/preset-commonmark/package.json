@@ -33,6 +33,7 @@
     },
     "dependencies": {
         "@milkdown/utils": "workspace:*",
+        "@milkdown/exception": "workspace:*",
         "remark-inline-links": "^6.0.0",
         "tslib": "^2.3.1"
     },

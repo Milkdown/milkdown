@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { ThemeInnerEditorType } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection } from '@milkdown/prose/state';
 import { NodeView } from '@milkdown/prose/view';
@@ -44,7 +45,7 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                     preserveWhitespace: 'full',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return {
                             value: dom.dataset['value'],

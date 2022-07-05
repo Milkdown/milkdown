@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, editorViewCtx, ThemeTaskListItemType } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { wrapIn } from '@milkdown/prose/commands';
 import { wrappingInputRule } from '@milkdown/prose/inputrules';
 import { liftListItem, sinkListItem, splitListItem } from '@milkdown/prose/schema-list';
@@ -35,7 +36,7 @@ export const taskListItem = createNode<Keys>((utils) => {
                     tag: 'li[data-type="task-item"]',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return { checked: dom.dataset['checked'] === 'true' };
                     },

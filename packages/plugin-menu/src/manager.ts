@@ -97,11 +97,10 @@ export class Manager {
             case 'select': {
                 return select(utils, item, ctx, view);
             }
-            case 'divider': {
+            case 'divider':
+            default: {
                 return divider(utils);
             }
-            default:
-                throw new Error();
         }
     }
 }

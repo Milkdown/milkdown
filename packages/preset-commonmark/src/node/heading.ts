@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey, Ctx, editorViewCtx, getPalette, schemaCtx } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { cloneTr } from '@milkdown/prose';
 import { setBlockType } from '@milkdown/prose/commands';
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
@@ -190,7 +191,7 @@ export const heading = createNode<Keys, { getId: (node: Node) => string }>((util
                 tag: `h${x}`,
                 getAttrs: (node) => {
                     if (!(node instanceof HTMLElement)) {
-                        throw new Error();
+                        throw expectDomTypeError(node);
                     }
                     return { level: x, id: node.id };
                 },
