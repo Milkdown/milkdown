@@ -1,10 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey, editorViewCtx } from '@milkdown/core';
+import { createCmd, createCmdKey, Ctx, editorViewCtx, getPalette, schemaCtx } from '@milkdown/core';
+import { cloneTr } from '@milkdown/prose';
 import { setBlockType } from '@milkdown/prose/commands';
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
-import { Fragment, Node } from '@milkdown/prose/model';
+import { Fragment, Node, NodeType } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, Transaction } from '@milkdown/prose/state';
-import { createNode, createShortcut } from '@milkdown/utils';
+import { Decoration, DecorationSet } from '@milkdown/prose/view';
+import { createNode, createShortcut, Utils } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
 
@@ -18,11 +20,14 @@ type Keys =
     | SupportedKeys['H3']
     | SupportedKeys['H4']
     | SupportedKeys['H5']
-    | SupportedKeys['H6'];
+    | SupportedKeys['H6']
+    | SupportedKeys['DowngradeHeading'];
 
 export const TurnIntoHeading = createCmdKey<number>('TurnIntoHeading');
+export const DowngradeHeading = createCmdKey('DowngradeHeading');
 
-export const headingPluginKey = new PluginKey('MILKDOWN_ID');
+export const headingIdPluginKey = new PluginKey('MILKDOWN_HEADING_ID');
+export const headingHashPluginKey = new PluginKey('MILKDOWN_HEADING_HASH');
 
 const createId = (node: Node) =>
     node.textContent
@@ -30,6 +35,137 @@ const createId = (node: Node) =>
         .replace(/\s/g, '-')
         .toLowerCase()
         .trim();
+
+const headingIdPlugin = (ctx: Ctx, type: NodeType, getId: (node: Node) => string): Plugin => {
+    let lock = false;
+    const walkThrough = (state: EditorState, callback: (tr: Transaction) => void) => {
+        const tr = state.tr;
+        state.doc.descendants((node, pos) => {
+            if (node.type === type && !lock) {
+                if (node.textContent.trim().length === 0) {
+                    return;
+                }
+                const attrs = node.attrs;
+                const id = getId(node);
+
+                if (attrs['id'] !== id) {
+                    tr.setMeta(headingIdPluginKey, true).setNodeMarkup(pos, undefined, {
+                        ...attrs,
+                        id,
+                    });
+                }
+            }
+        });
+        callback(tr);
+    };
+    return new Plugin({
+        key: headingIdPluginKey,
+        props: {
+            handleDOMEvents: {
+                compositionstart: () => {
+                    lock = true;
+                    return false;
+                },
+                compositionend: () => {
+                    lock = false;
+                    const view = ctx.get(editorViewCtx);
+                    setTimeout(() => {
+                        walkThrough(view.state, (tr) => view.dispatch(tr));
+                    }, 0);
+                    return false;
+                },
+            },
+        },
+        appendTransaction: (transactions, _, nextState) => {
+            let tr: Transaction | null = null;
+
+            if (
+                transactions.every((transaction) => !transaction.getMeta(headingIdPluginKey)) &&
+                transactions.some((transaction) => transaction.docChanged)
+            ) {
+                walkThrough(nextState, (t) => {
+                    tr = t;
+                });
+            }
+
+            return tr;
+        },
+        view: (view) => {
+            const doc = view.state.doc;
+            let tr = view.state.tr;
+            doc.descendants((node, pos) => {
+                if (node.type.name === 'heading' && node.attrs['level']) {
+                    if (!node.attrs['id']) {
+                        tr = tr.setNodeMarkup(pos, undefined, {
+                            ...node.attrs,
+                            id: getId(node),
+                        });
+                    }
+                }
+            });
+            view.dispatch(tr);
+            return {};
+        },
+    });
+};
+
+const headingHashPlugin = (ctx: Ctx, type: NodeType, utils: Utils): Plugin => {
+    return new Plugin({
+        key: headingHashPluginKey,
+        state: {
+            init: () => {
+                return DecorationSet.empty;
+            },
+            apply: (tr) => {
+                if (!ctx.get(editorViewCtx).hasFocus) return DecorationSet.empty;
+
+                const { $from } = tr.selection;
+                const node = $from.node();
+                if (node.type !== type) {
+                    return DecorationSet.empty;
+                }
+
+                const level = node.attrs['level'];
+                const getHashes = (level: number) => {
+                    return Array(level)
+                        .fill(0)
+                        .map((_) => `#`)
+                        .join('');
+                };
+                const widget = document.createElement('span');
+                widget.textContent = getHashes(level);
+                widget.contentEditable = 'false';
+                utils.themeManager.onFlush(() => {
+                    const style = utils.getStyle(({ css }) => {
+                        const palette = getPalette(utils.themeManager);
+                        return css`
+                            margin-right: 4px;
+                            color: ${palette('primary')};
+                        `;
+                    });
+                    if (style) {
+                        widget.className = style;
+                    }
+                });
+
+                const deco = Decoration.widget($from.before() + 1, widget, { side: -1 });
+                return DecorationSet.create(tr.doc, [deco]);
+            },
+        },
+        props: {
+            handleDOMEvents: {
+                focus: (view) => {
+                    const tr = cloneTr(view.state.tr);
+                    view.dispatch(tr);
+                    return false;
+                },
+            },
+            decorations(this: Plugin, state) {
+                return this.getState(state);
+            },
+        },
+    });
+};
 
 export const heading = createNode<Keys, { getId: (node: Node) => string }>((utils, options) => {
     const id = 'heading';
@@ -99,13 +235,54 @@ export const heading = createNode<Keys, { getId: (node: Node) => string }>((util
                 },
             },
         }),
-        inputRules: (type) =>
+        inputRules: (type, ctx) =>
             headingIndex.map((x) =>
-                textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), type, () => ({
-                    level: x,
-                })),
+                textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), type, () => {
+                    const view = ctx.get(editorViewCtx);
+                    const { $from } = view.state.selection;
+                    const node = $from.node();
+                    if (node.type.name === 'heading') {
+                        let level = Number(node.attrs['level']) + Number(x);
+                        if (level > 6) {
+                            level = 6;
+                        }
+                        return {
+                            level,
+                        };
+                    }
+                    return {
+                        level: x,
+                    };
+                }),
             ),
-        commands: (type) => [createCmd(TurnIntoHeading, (level = 1) => setBlockType(type, { level }))],
+        commands: (type, ctx) => [
+            createCmd(TurnIntoHeading, (level = 1) => {
+                if (level < 1) {
+                    return setBlockType(level === 0 ? ctx.get(schemaCtx).nodes['paragraph'] || type : type);
+                }
+                return setBlockType(level === 0 ? ctx.get(schemaCtx).nodes['paragraph'] || type : type, { level });
+            }),
+            createCmd(DowngradeHeading, () => {
+                return (state, dispatch, view) => {
+                    const { $from } = state.selection;
+                    const node = $from.node();
+                    if (node.type !== type || !state.selection.empty || $from.parentOffset !== 0) return false;
+
+                    const level = node.attrs['level'] - 1;
+                    if (!level) {
+                        return setBlockType(ctx.get(schemaCtx).nodes['paragraph'] || type)(state, dispatch, view);
+                    }
+
+                    dispatch?.(
+                        state.tr.setNodeMarkup(state.selection.$from.before(), undefined, {
+                            ...node.attrs,
+                            level,
+                        }),
+                    );
+                    return true;
+                };
+            }),
+        ],
         shortcuts: {
             [SupportedKeys.H1]: createShortcut(TurnIntoHeading, 'Mod-Alt-1', 1),
             [SupportedKeys.H2]: createShortcut(TurnIntoHeading, 'Mod-Alt-2', 2),
@@ -113,80 +290,10 @@ export const heading = createNode<Keys, { getId: (node: Node) => string }>((util
             [SupportedKeys.H4]: createShortcut(TurnIntoHeading, 'Mod-Alt-4', 4),
             [SupportedKeys.H5]: createShortcut(TurnIntoHeading, 'Mod-Alt-5', 5),
             [SupportedKeys.H6]: createShortcut(TurnIntoHeading, 'Mod-Alt-6', 6),
+            [SupportedKeys.DowngradeHeading]: createShortcut(DowngradeHeading, ['Backspace', 'Delete']),
         },
         prosePlugins: (type, ctx) => {
-            let lock = false;
-            const walkThrough = (state: EditorState, callback: (tr: Transaction) => void) => {
-                const tr = state.tr;
-                state.doc.descendants((node, pos) => {
-                    if (node.type === type && !lock) {
-                        if (node.textContent.trim().length === 0) {
-                            return;
-                        }
-                        const attrs = node.attrs;
-                        const id = getId(node);
-
-                        if (attrs['id'] !== id) {
-                            tr.setMeta(headingPluginKey, true).setNodeMarkup(pos, undefined, {
-                                ...attrs,
-                                id,
-                            });
-                        }
-                    }
-                });
-                callback(tr);
-            };
-            return [
-                new Plugin({
-                    key: headingPluginKey,
-                    props: {
-                        handleDOMEvents: {
-                            compositionstart: () => {
-                                lock = true;
-                                return false;
-                            },
-                            compositionend: () => {
-                                lock = false;
-                                const view = ctx.get(editorViewCtx);
-                                setTimeout(() => {
-                                    walkThrough(view.state, (tr) => view.dispatch(tr));
-                                }, 0);
-                                return false;
-                            },
-                        },
-                    },
-                    appendTransaction: (transactions, _, nextState) => {
-                        let tr: Transaction | null = null;
-
-                        if (
-                            transactions.every((transaction) => !transaction.getMeta(headingPluginKey)) &&
-                            transactions.some((transaction) => transaction.docChanged)
-                        ) {
-                            walkThrough(nextState, (t) => {
-                                tr = t;
-                            });
-                        }
-
-                        return tr;
-                    },
-                    view: (view) => {
-                        const doc = view.state.doc;
-                        let tr = view.state.tr;
-                        doc.descendants((node, pos) => {
-                            if (node.type.name === 'heading' && node.attrs['level']) {
-                                if (!node.attrs['id']) {
-                                    tr = tr.setNodeMarkup(pos, undefined, {
-                                        ...node.attrs,
-                                        id: getId(node),
-                                    });
-                                }
-                            }
-                        });
-                        view.dispatch(tr);
-                        return {};
-                    },
-                }),
-            ];
+            return [headingIdPlugin(ctx, type, getId), headingHashPlugin(ctx, type, utils)];
         },
     };
 });

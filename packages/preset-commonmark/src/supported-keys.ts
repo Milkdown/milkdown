@@ -11,6 +11,7 @@ export const SupportedKeys = {
     H4: 'H4',
     H5: 'H5',
     H6: 'H6',
+    DowngradeHeading: 'DowngradeHeading',
     Text: 'Text',
     CodeInline: 'CodeInline',
     Em: 'Em',

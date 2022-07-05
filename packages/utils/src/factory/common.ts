@@ -34,7 +34,7 @@ export const getClassName =
         return Array.isArray(classList) ? classList.filter((x) => x).join(' ') : classList;
     };
 
-export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string, args?: T) =>
+export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string | string[], args?: T) =>
     [commandKey, defaultKey, args] as CommandConfig<unknown>;
 
 export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Options): Utils => {
@@ -83,7 +83,7 @@ export const applyMethods = async <Keys extends string, Type, Options extends Un
     }
 
     if (plugin.shortcuts) {
-        const getKey = (key: Keys, defaultValue: string): string | string[] => {
+        const getKey = (key: Keys, defaultValue: string | string[]): string | string[] => {
             return options?.keymap?.[key] ?? defaultValue;
         };
 
