@@ -61,11 +61,11 @@ describe('input:', () => {
         it('heading', () => {
             cy.get('.editor').type('The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+1}`);
-            cy.get('h1').should('have.text', 'The lunatic is on the grass');
+            cy.get('h1').should('have.text', '#The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+2}`);
-            cy.get('h2').should('have.text', 'The lunatic is on the grass');
+            cy.get('h2').should('have.text', '##The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+3}`);
-            cy.get('h3').should('have.text', 'The lunatic is on the grass');
+            cy.get('h3').should('have.text', '###The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+0}`);
             cy.get('p').should('have.text', 'The lunatic is on the grass');
         });

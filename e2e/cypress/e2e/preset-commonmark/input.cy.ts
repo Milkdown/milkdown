@@ -22,12 +22,12 @@ describe('input:', () => {
 
         it('heading', () => {
             cy.get('.editor').type('# Heading1');
-            cy.get('.editor').get('.h1').should('have.text', 'Heading1');
+            cy.get('.editor').get('.h1').should('have.text', '#Heading1');
 
             cy.get('.editor').type('{enter}');
 
             cy.get('.editor').type('## Heading2');
-            cy.get('.editor').get('.h2').should('have.text', 'Heading2');
+            cy.get('.editor').get('.h2').should('have.text', '##Heading2');
             cy.window().then((win) => {
                 cy.wrap(win.__getMarkdown__()).snapshot();
                 return;
