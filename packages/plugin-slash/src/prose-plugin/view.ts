@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { missingRootElement } from '@milkdown/exception';
 import { calculateNodePosition } from '@milkdown/prose';
 import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
@@ -19,7 +20,7 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
     calculateNodePosition(view, dropdownElement, (selected, target, parent) => {
         const $editor = dropdownElement.parentElement;
         if (!$editor) {
-            throw new Error();
+            throw missingRootElement();
         }
 
         let left = selected.left - parent.left;

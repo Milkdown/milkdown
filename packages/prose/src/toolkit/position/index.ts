@@ -1,4 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { expectDomTypeError, missingRootElement } from '@milkdown/exception';
+
 import type { EditorView } from '../../view';
 
 type Point = [top: number, left: number];
@@ -14,15 +16,16 @@ export const calculateNodePosition = (
     const { node } = view.domAtPos(from);
     const element = node instanceof Text ? node.parentElement : node;
     if (!(element instanceof HTMLElement)) {
-        throw new Error();
+        throw expectDomTypeError(element);
     }
 
     const selectedNodeRect = element.getBoundingClientRect();
     const targetNodeRect = target.getBoundingClientRect();
-    const parentNodeRect = target.parentElement?.getBoundingClientRect();
-    if (!parentNodeRect) {
-        throw new Error();
+    const parent = target.parentElement;
+    if (!parent) {
+        throw expectDomTypeError(parent);
     }
+    const parentNodeRect = parent.getBoundingClientRect();
 
     const [top, left] = handler(selectedNodeRect, targetNodeRect, parentNodeRect);
 
@@ -50,7 +53,7 @@ export const calculateTextPosition = (
     const targetNodeRect = target.getBoundingClientRect();
     const parent = target.parentElement;
     if (!parent) {
-        throw new Error();
+        throw missingRootElement();
     }
     const parentNodeRect = parent.getBoundingClientRect();
 

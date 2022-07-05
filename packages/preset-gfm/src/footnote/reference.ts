@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { commandsCtx, createCmd, createCmdKey, editorViewCtx, ThemeInputChipType } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { findSelectedNodeOfType } from '@milkdown/prose';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
@@ -31,7 +32,7 @@ export const footnoteReference = createNode((utils) => {
                     tag: `sup[data-type="${id}"]`,
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return {
                             label: dom.dataset['label'],

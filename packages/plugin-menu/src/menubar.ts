@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeFont, ThemeScrollbar } from '@milkdown/core';
+import { missingRootElement } from '@milkdown/exception';
 import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
@@ -89,7 +90,7 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
     const milkdownDOM = editorDOM.parentElement;
 
     if (!milkdownDOM) {
-        throw new Error('No parent node found');
+        throw missingRootElement();
     }
 
     domHandler({

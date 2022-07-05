@@ -8,6 +8,7 @@ import {
     ThemeShadow,
     ThemeSize,
 } from '@milkdown/core';
+import { missingRootElement } from '@milkdown/exception';
 import { calculateTextPosition } from '@milkdown/prose';
 import { EditorView } from '@milkdown/prose/view';
 
@@ -78,7 +79,7 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
     calculateTextPosition(view, input, (start, end, target, parent) => {
         const $editor = view.dom.parentElement;
         if (!$editor) {
-            throw new Error();
+            throw missingRootElement();
         }
 
         const selectionWidth = end.left - start.left;
@@ -175,7 +176,7 @@ export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
 
             const init = (editorView: EditorView) => {
                 const $editor = editorView.dom.parentElement;
-                if (!$editor) throw new Error();
+                if (!$editor) throw missingRootElement();
 
                 input.addEventListener('input', onInput);
                 input.addEventListener('keydown', onKeydown);

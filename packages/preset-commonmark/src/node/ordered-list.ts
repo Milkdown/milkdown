@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { wrapIn } from '@milkdown/prose/commands';
 import { wrappingInputRule } from '@milkdown/prose/inputrules';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -26,7 +27,7 @@ export const orderedList = createNode<Keys>((utils) => ({
                 tag: 'ol',
                 getAttrs: (dom) => {
                     if (!(dom instanceof HTMLElement)) {
-                        throw new Error();
+                        throw expectDomTypeError(dom);
                     }
                     return { order: dom.hasAttribute('start') ? Number(dom.getAttribute('start')) : 1 };
                 },

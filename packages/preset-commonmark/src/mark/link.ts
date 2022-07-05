@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, createCmd, createCmdKey, schemaCtx, ThemeInputChipType } from '@milkdown/core';
+import { expectDomTypeError, missingRootElement } from '@milkdown/exception';
 import { calculateTextPosition } from '@milkdown/prose';
 import { toggleMark } from '@milkdown/prose/commands';
 import { InputRule } from '@milkdown/prose/inputrules';
@@ -33,7 +34,7 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                     tag: 'a[href]',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return { href: dom.getAttribute('href'), title: dom.getAttribute('title') };
                     },
@@ -132,7 +133,7 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                                 calculateTextPosition(view, input, (start, end, target, parent) => {
                                     const $editor = view.dom.parentElement;
                                     if (!$editor) {
-                                        throw new Error();
+                                        throw missingRootElement();
                                     }
 
                                     const selectionWidth = end.left - start.left;

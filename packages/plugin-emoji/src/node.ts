@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { RemarkPlugin } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { createNode } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
@@ -42,7 +43,7 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
                     tag: 'span[data-type="emoji"]',
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return { html: dom.innerHTML };
                     },

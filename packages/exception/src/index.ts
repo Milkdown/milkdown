@@ -1,16 +1,22 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { ErrorCode } from './code';
+import { MilkdownError } from './error';
 
 const functionReplacer = (_: string, value: unknown) => (typeof value === 'function' ? '[Function]' : value);
 
 const stringify = (x: unknown): string => JSON.stringify(x, functionReplacer);
 
-export const docTypeError = (type: unknown) => new Error(`Doc type error, unsupported type: ${stringify(type)}`);
+export const docTypeError = (type: unknown) =>
+    new MilkdownError(ErrorCode.docTypeError, `Doc type error, unsupported type: ${stringify(type)}`);
 
-export const contextNotFound = (name: string) => new Error(`Context "${name}" not found, do you forget to inject it?`);
+export const contextNotFound = (name: string) =>
+    new MilkdownError(ErrorCode.contextNotFound, `Context "${name}" not found, do you forget to inject it?`);
 
-export const timerNotFound = () => new Error('Timer not found, do you forget to record it?');
+export const timerNotFound = (name: string) =>
+    new MilkdownError(ErrorCode.timerNotFound, `Timer "${name}" not found, do you forget to record it?`);
 
-export const ctxCallOutOfScope = () => new Error('Should not call a context out of the plugin.');
+export const ctxCallOutOfScope = () =>
+    new MilkdownError(ErrorCode.ctxCallOutOfScope, 'Should not call a context out of the plugin.');
 
 export const createNodeInParserFail = (...args: unknown[]) => {
     const message = args.reduce((msg, arg) => {
@@ -34,29 +40,39 @@ export const createNodeInParserFail = (...args: unknown[]) => {
         return `${msg}, ${serialize(arg)}`;
     }, 'Create prosemirror node from remark failed in parser') as string;
 
-    return new Error(message);
+    return new MilkdownError(ErrorCode.createNodeInParserFail, message);
 };
 
-export const stackOverFlow = () => new Error('Stack over flow, cannot pop on an empty stack.');
+export const stackOverFlow = () =>
+    new MilkdownError(ErrorCode.stackOverFlow, 'Stack over flow, cannot pop on an empty stack.');
 
 export const parserMatchError = (node: unknown) =>
-    new Error(`Cannot match target parser for node: ${stringify(node)}.`);
+    new MilkdownError(ErrorCode.parserMatchError, `Cannot match target parser for node: ${stringify(node)}.`);
 
 export const serializerMatchError = (node: unknown) =>
-    new Error(`Cannot match target serializer for node: ${stringify(node)}.`);
+    new MilkdownError(ErrorCode.serializerMatchError, `Cannot match target serializer for node: ${stringify(node)}.`);
 
 export const getAtomFromSchemaFail = (type: 'mark' | 'node', name: string) =>
-    new Error(`Cannot get ${type}: ${name} from schema.`);
+    new MilkdownError(ErrorCode.getAtomFromSchemaFail, `Cannot get ${type}: ${name} from schema.`);
 
-export const expectDomTypeError = (node: unknown) => new Error(`Expect to be a dom, but get: ${stringify(node)}.`);
+export const expectDomTypeError = (node: unknown) =>
+    new MilkdownError(ErrorCode.expectDomTypeError, `Expect to be a dom, but get: ${stringify(node)}.`);
 
 export const callCommandBeforeEditorView = () =>
-    new Error(
+    new MilkdownError(
+        ErrorCode.callCommandBeforeEditorView,
         `You're trying to call a command before editor view initialized, make sure to get commandManager from ctx after editor view has been initialized`,
     );
 
 export const themeMustInstalled = () =>
-    new Error(
+    new MilkdownError(
+        ErrorCode.themeMustInstalled,
         `It seems that no theme found in editor, please make sure you have use theme in front of all plugins.
 If you prefer to use an empty theme, you can use \`themeFactory({})\`.`,
+    );
+
+export const missingRootElement = () =>
+    new MilkdownError(
+        ErrorCode.missingRootElement,
+        'Missing root element, milkdown cannot find root element of the editor',
     );

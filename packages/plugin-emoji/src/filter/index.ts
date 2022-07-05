@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import { missingRootElement } from '@milkdown/exception';
 import { calculateNodePosition } from '@milkdown/prose';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
@@ -62,7 +63,7 @@ export const filter = (utils: Utils, maxListSize: number) => {
         view: (editorView) => {
             const { parentNode } = editorView.dom;
             if (!parentNode) {
-                throw new Error();
+                throw missingRootElement();
             }
 
             const dropDown = document.createElement('div');
@@ -150,7 +151,7 @@ export const filter = (utils: Utils, maxListSize: number) => {
                     calculateNodePosition(view, dropDown, (selected, target, parent) => {
                         const $editor = dropDown.parentElement;
                         if (!$editor) {
-                            throw new Error();
+                            throw missingRootElement();
                         }
                         const start = view.coordsAtPos(_from);
                         let left = start.left - parent.left;

@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { missingRootElement } from '@milkdown/exception';
 import { calculateTextPosition } from '@milkdown/prose';
 import { EditorView } from '@milkdown/prose/view';
 
@@ -7,7 +8,7 @@ export const calcButtonPos = (buttons: HTMLElement, view: EditorView, isBottom: 
     calculateTextPosition(view, buttons, (start, end, target, parent) => {
         const $editor = buttons.parentElement;
         if (!$editor) {
-            throw new Error();
+            throw missingRootElement();
         }
         const selectionWidth = end.left - start.left;
         let left = start.left - parent.left - (target.width - selectionWidth) / 2;

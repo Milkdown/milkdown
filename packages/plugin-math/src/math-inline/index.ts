@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { Color, commandsCtx, createCmd, createCmdKey, ThemeColor, ThemeInputChipType, ThemeSize } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { findSelectedNodeOfType } from '@milkdown/prose';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
@@ -60,7 +61,7 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                     tag: `span[data-type="${id}"]`,
                     getAttrs: (dom) => {
                         if (!(dom instanceof HTMLElement)) {
-                            throw new Error();
+                            throw expectDomTypeError(dom);
                         }
                         return {
                             value: dom.dataset['value'],
