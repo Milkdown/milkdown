@@ -4,8 +4,8 @@ import { EditorView } from '@milkdown/prose/view';
 import { ButtonMap } from '../item';
 import { noActive } from './no-active';
 
-export const filterButton = (buttonMap: ButtonMap, view: EditorView) => {
-    Object.values(buttonMap)
+export const filterButton = (buttons: ButtonMap, view: EditorView) => {
+    buttons
         .filter((item) => item.enable(view) && item.$ != null)
         .forEach((item) => {
             const disable = item.disable?.(view);
@@ -24,5 +24,5 @@ export const filterButton = (buttonMap: ButtonMap, view: EditorView) => {
             item.$.classList.remove('active');
         });
 
-    return noActive(buttonMap, view);
+    return noActive(buttons, view);
 };

@@ -7,16 +7,11 @@ import { calcButtonPos } from './calc-button-pos';
 import { createTooltip } from './create-tooltip';
 import { filterButton } from './filter-button';
 
-export const createButtonManager = (
-    buttonMap: ButtonMap,
-    utils: Utils,
-    bottom: boolean,
-    containerClassName: string,
-) => {
-    const { dom: buttons, render } = createTooltip(buttonMap, utils, containerClassName);
+export const createButtonManager = (buttons: ButtonMap, utils: Utils, bottom: boolean, containerClassName: string) => {
+    const { dom: buttonDOM, render } = createTooltip(buttons, utils, containerClassName);
 
     const onClick = (e: Event) => {
-        const target = Object.values(buttonMap).find(({ $ }) => e.target instanceof Element && $.contains(e.target));
+        const target = buttons.find(({ $ }) => e.target instanceof Element && $.contains(e.target));
         if (!target) return;
 
         e.stopPropagation();
@@ -25,24 +20,24 @@ export const createButtonManager = (
     };
 
     const hide = () => {
-        buttons.classList.add('hide');
+        buttonDOM.classList.add('hide');
     };
 
-    buttons.addEventListener('mousedown', onClick);
+    buttonDOM.addEventListener('mousedown', onClick);
 
     return {
         destroy: () => {
-            buttons.removeEventListener('mousedown', onClick);
-            buttons.remove();
+            buttonDOM.removeEventListener('mousedown', onClick);
+            buttonDOM.remove();
         },
         hide,
         update: (editorView: EditorView) => {
-            const noActive = filterButton(buttonMap, editorView);
+            const noActive = filterButton(buttons, editorView);
             if (noActive) {
                 hide();
                 return;
             }
-            calcButtonPos(buttons, editorView, bottom);
+            calcButtonPos(buttonDOM, editorView, bottom);
         },
         render,
     };

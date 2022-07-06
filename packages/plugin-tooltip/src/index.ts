@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { schemaCtx } from '@milkdown/core';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { AtomList, createPlugin as create } from '@milkdown/utils';
 
@@ -7,18 +6,13 @@ import { buttonMap, TooltipOptions } from './item';
 import { createPlugin } from './selection-marks-tooltip';
 
 export const key = new PluginKey('MILKDOWN_TOOLTIP');
+export { defaultButtons } from './item';
 
 export const tooltipPlugin = create<string, TooltipOptions>((utils, options) => {
     return {
         id: 'tooltip',
         prosePlugins: (_, ctx) => {
-            const schema = ctx.get(schemaCtx);
-            const manager = createPlugin(
-                buttonMap(schema, ctx, options?.items),
-                utils,
-                options?.bottom ?? false,
-                'tooltip',
-            );
+            const manager = createPlugin(buttonMap(ctx, options?.items), utils, options?.bottom ?? false, 'tooltip');
             const plugin = new Plugin({
                 key,
                 props: {
