@@ -19,7 +19,7 @@ export const createClock = (): Clock => {
     const store: ClockMap = new Map();
     const get = (timer: Timer) => {
         const meta = store.get(timer.id);
-        if (!meta) throw timerNotFound();
+        if (!meta) throw timerNotFound(timer.name);
         return meta;
     };
 
