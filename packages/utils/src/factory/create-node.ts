@@ -11,6 +11,7 @@ import {
     Slice,
     ThemeReady,
 } from '@milkdown/core';
+import { missingNodeInSchema } from '@milkdown/exception';
 import { NodeType } from '@milkdown/prose/model';
 import { NodeViewConstructor } from '@milkdown/prose/view';
 
@@ -65,7 +66,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                                 const schema = ctx.get(schemaCtx);
                                 const nodeType = schema.nodes[plugin.id];
                                 if (!nodeType) {
-                                    throw new Error();
+                                    throw missingNodeInSchema(plugin.id);
                                 }
                                 return nodeType;
                             },

@@ -74,5 +74,29 @@ If you prefer to use an empty theme, you can use \`themeFactory({})\`.`,
 export const missingRootElement = () =>
     new MilkdownError(
         ErrorCode.missingRootElement,
-        'Missing root element, milkdown cannot find root element of the editor',
+        'Missing root element, milkdown cannot find root element of the editor.',
     );
+
+export const missingNodeInSchema = (name: string) =>
+    new MilkdownError(
+        ErrorCode.missingNodeInSchema,
+        `Missing node in schema, milkdown cannot find "${name}" in schema.`,
+    );
+
+export const missingMarkInSchema = (name: string) =>
+    new MilkdownError(
+        ErrorCode.missingMarkInSchema,
+        `Missing mark in schema, milkdown cannot find "${name}" in schema.`,
+    );
+
+export const missingIcon = (name: string) =>
+    new MilkdownError(ErrorCode.missingIcon, `Missing icon in theme, milkdown cannot find icon "${name}" in theme.`);
+
+export const ctxNotBind = () =>
+    new MilkdownError(ErrorCode.ctxNotBind, 'Context not bind, please make sure the plugin has been initialized.');
+
+export const missingYjsDoc = () =>
+    new MilkdownError(ErrorCode.missingYjsDoc, 'Missing yjs doc, please make sure you have bind one.');
+
+export const vueRendererCallOutOfScope = () =>
+    new MilkdownError(ErrorCode.vueRendererCallOutOfScope, 'Should not call vue renderer before it has been created.');

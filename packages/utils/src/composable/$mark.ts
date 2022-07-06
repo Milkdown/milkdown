@@ -9,6 +9,7 @@ import {
     schemaTimerCtx,
     ThemeReady,
 } from '@milkdown/core';
+import { missingMarkInSchema } from '@milkdown/exception';
 import { MarkType } from '@milkdown/prose/model';
 
 import { addTimer } from './utils';
@@ -33,7 +34,7 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
         const markType = ctx.get(schemaCtx).marks[id];
 
         if (!markType) {
-            throw new Error();
+            throw missingMarkInSchema(id);
         }
 
         (<$Mark>plugin).type = markType;
@@ -57,7 +58,7 @@ export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>
 
             const markType = ctx.get(schemaCtx).marks[id];
             if (!markType) {
-                throw new Error();
+                throw missingMarkInSchema(id);
             }
 
             plugin.type = markType;

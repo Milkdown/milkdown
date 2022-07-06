@@ -3,7 +3,7 @@
 import { ErrorCode } from './code';
 
 export class MilkdownError extends Error {
-    public code: number;
+    public code: string;
     constructor(code: ErrorCode, message: string) {
         super(message);
         this.name = 'MilkdownError';

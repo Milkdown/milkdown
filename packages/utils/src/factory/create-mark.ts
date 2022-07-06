@@ -11,6 +11,7 @@ import {
     Slice,
     ThemeReady,
 } from '@milkdown/core';
+import { missingMarkInSchema } from '@milkdown/exception';
 import { MarkType } from '@milkdown/prose/model';
 import { MarkViewConstructor } from '@milkdown/prose/view';
 
@@ -67,7 +68,7 @@ export const createMark = <SupportedKeys extends string = string, Options extend
                                 const schema = ctx.get(schemaCtx);
                                 const markType = schema.marks[plugin.id];
                                 if (!markType) {
-                                    throw new Error();
+                                    throw missingMarkInSchema(plugin.id);
                                 }
                                 return markType;
                             },
