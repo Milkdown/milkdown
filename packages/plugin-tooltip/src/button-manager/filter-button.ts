@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { EditorView } from '@milkdown/prose/view';
 
-import { ButtonMap } from '../item';
+import { ButtonList } from '../item';
 import { noActive } from './no-active';
 
-export const filterButton = (buttons: ButtonMap, view: EditorView) => {
+export const filterButton = (buttons: ButtonList, view: EditorView) => {
     buttons
         .filter((item) => item.enable(view) && item.$ != null)
         .forEach((item) => {

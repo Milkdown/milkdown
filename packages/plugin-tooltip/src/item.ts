@@ -14,13 +14,9 @@ export type OnClick = (ctx: Ctx) => void;
 
 export type Item = {
     icon: Icon | ((ctx: Ctx) => HTMLElement);
-
     onClick: string | ((ctx: Ctx) => () => void);
-
     isHidden: (ctx: Ctx) => Pred;
-
     isActive: (ctx: Ctx) => Pred;
-
     canAddToDOM: (ctx: Ctx) => Pred;
 };
 
@@ -32,15 +28,7 @@ export type ButtonItem = {
     enable: Pred;
 };
 
-const toButton = ({ icon, onClick, isHidden, isActive, canAddToDOM }: Item, ctx: Ctx): ButtonItem => ({
-    $: typeof icon === 'function' ? icon(ctx) : (ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement),
-    command: typeof onClick === 'string' ? () => ctx.get(commandsCtx).call(onClick) : onClick(ctx),
-    disable: isHidden(ctx),
-    active: isActive(ctx),
-    enable: canAddToDOM(ctx),
-});
-
-const createToggleIcon = (
+export const createToggleIcon = (
     icon: Icon,
     onClick: string,
     mark: MarkType | undefined,
@@ -64,21 +52,20 @@ export const defaultButtons = (ctx: Ctx) => {
     ];
 };
 
-export enum ButtonAction {
-    ToggleBold,
-    ToggleItalic,
-    ToggleStrike,
-    ToggleCode,
-    ToggleLink,
-}
-
-export type ButtonMap = ButtonItem[];
+export type ButtonList = ButtonItem[];
 
 export type TooltipOptions = {
     bottom: boolean;
     items: ((ctx: Ctx) => Array<Item>) | undefined;
 };
 
-export const buttonMap = (ctx: Ctx, items: (ctx: Ctx) => Array<Item> = defaultButtons): ButtonMap => {
-    return items(ctx).map((x) => toButton(x, ctx));
+export const buttonMap = (ctx: Ctx, items: (ctx: Ctx) => Array<Item> = defaultButtons): ButtonList => {
+    const toButton = ({ icon, onClick, isHidden, isActive, canAddToDOM }: Item): ButtonItem => ({
+        $: typeof icon === 'function' ? icon(ctx) : (ctx.get(themeManagerCtx).get(ThemeIcon, icon)?.dom as HTMLElement),
+        command: typeof onClick === 'string' ? () => ctx.get(commandsCtx).call(onClick) : onClick(ctx),
+        disable: isHidden(ctx),
+        active: isActive(ctx),
+        enable: canAddToDOM(ctx),
+    });
+    return items(ctx).map(toButton);
 };

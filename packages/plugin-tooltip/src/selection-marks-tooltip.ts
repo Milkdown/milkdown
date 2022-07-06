@@ -4,9 +4,9 @@ import type { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
 import { createButtonManager } from './button-manager';
-import type { ButtonMap } from './item';
+import type { ButtonList } from './item';
 
-export const createPlugin = (buttonMap: ButtonMap, utils: Utils, bottom: boolean, containerClassName: string) => {
+export const createPlugin = (buttonMap: ButtonList, utils: Utils, bottom: boolean, containerClassName: string) => {
     let buttonManager = createButtonManager(buttonMap, utils, bottom, containerClassName);
     let shouldHide = false;
 
