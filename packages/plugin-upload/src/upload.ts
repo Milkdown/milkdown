@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { schemaCtx, ThemeIcon, themeManagerCtx } from '@milkdown/core';
+import { missingIcon } from '@milkdown/exception';
 import { Fragment, Node, Schema } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state';
 import { Decoration, DecorationSet, EditorView } from '@milkdown/prose/view';
@@ -38,7 +39,7 @@ export const uploadPlugin = createPlugin<string, Options>((_, options) => {
                             const widget = document.createElement('span');
                             const loadingIcon = ctx.get(themeManagerCtx).get(ThemeIcon, 'loading');
                             if (!loadingIcon) {
-                                throw new Error('Loading icon is not found');
+                                throw missingIcon('loading');
                             }
                             widget.appendChild(loadingIcon.dom);
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any

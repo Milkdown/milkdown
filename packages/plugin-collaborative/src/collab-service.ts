@@ -9,6 +9,7 @@ import {
     schemaCtx,
     themeManagerCtx,
 } from '@milkdown/core';
+import { ctxNotBind, missingYjsDoc } from '@milkdown/exception';
 import { keydownHandler } from '@milkdown/prose/keymap';
 import { Node } from '@milkdown/prose/model';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
@@ -72,7 +73,7 @@ export class CollabService {
     #connected = false;
 
     #valueToNode(value: DefaultValue): Node | undefined {
-        if (!this.#ctx) throw new Error();
+        if (!this.#ctx) throw ctxNotBind();
 
         const schema = this.#ctx.get(schemaCtx);
         const parser = this.#ctx.get(parserCtx);
@@ -82,12 +83,11 @@ export class CollabService {
     }
 
     #createPlugins(): Plugin[] {
-        if (!this.#doc || !this.#awareness) throw new Error();
-        const { ySyncOpts, yCursorOpts, yCursorStateField, yUndoOpts } = this.#options;
+        if (!this.#doc) throw missingYjsDoc();
+        const { ySyncOpts, yUndoOpts } = this.#options;
         const type = this.#doc.getXmlFragment('prosemirror');
         const plugins = [
             ySyncPlugin(type, ySyncOpts),
-            yCursorPlugin(this.#awareness, yCursorOpts as Required<yCursorOpts>, yCursorStateField),
             yUndoPlugin(yUndoOpts),
             new Plugin({
                 key: CollabKeymapPluginKey,
@@ -100,12 +100,16 @@ export class CollabService {
                 },
             }),
         ];
+        if (this.#awareness) {
+            const { yCursorOpts, yCursorStateField } = this.#options;
+            plugins.push(yCursorPlugin(this.#awareness, yCursorOpts as Required<yCursorOpts>, yCursorStateField));
+        }
 
         return plugins;
     }
 
     #flushEditor(plugins: Plugin[]) {
-        if (!this.#ctx) throw new Error();
+        if (!this.#ctx) throw ctxNotBind();
         this.#ctx.set(prosePluginsCtx, plugins);
 
         const view = this.#ctx.get(editorViewCtx);
@@ -142,7 +146,8 @@ export class CollabService {
     }
 
     applyTemplate(template: DefaultValue, condition?: (yDocNode: Node, templateNode: Node) => boolean) {
-        if (!this.#ctx || !this.#doc) throw new Error();
+        if (!this.#ctx) throw ctxNotBind();
+        if (!this.#doc) throw missingYjsDoc();
         const conditionFn = condition || ((yDocNode) => yDocNode.textContent.length === 0);
 
         const node = this.#valueToNode(template);
@@ -162,7 +167,7 @@ export class CollabService {
     }
 
     connect() {
-        if (!this.#ctx) throw new Error();
+        if (!this.#ctx) throw ctxNotBind();
         if (this.#connected) return;
 
         const prosePlugins = this.#ctx.get(prosePluginsCtx);
@@ -176,7 +181,7 @@ export class CollabService {
     }
 
     disconnect() {
-        if (!this.#ctx) throw new Error();
+        if (!this.#ctx) throw ctxNotBind();
         if (!this.#connected) return this;
 
         const prosePlugins = this.#ctx.get(prosePluginsCtx);

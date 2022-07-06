@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { ThemeIcon, ThemeManager } from '@milkdown/core';
 import type { Icon } from '@milkdown/design-system';
+import { missingIcon } from '@milkdown/exception';
 import type { Node } from '@milkdown/prose/model';
 import type { Command } from '@milkdown/prose/state';
 import type { Utils } from '@milkdown/utils';
@@ -39,11 +40,10 @@ export const createDropdownItem = (
     div.setAttribute('role', 'option');
     div.classList.add('slash-dropdown-item');
 
-    // const iconSpan = themeManager.slots.icon(icon);
     const iconSpan = themeManager.get(ThemeIcon, icon);
 
     if (!iconSpan) {
-        throw new Error('icon not found');
+        throw missingIcon(icon);
     }
 
     const textSpan = document.createElement('span');

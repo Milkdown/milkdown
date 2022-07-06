@@ -9,6 +9,7 @@ import {
     schemaTimerCtx,
     ThemeReady,
 } from '@milkdown/core';
+import { missingNodeInSchema } from '@milkdown/exception';
 import { NodeType } from '@milkdown/prose/model';
 
 import { addTimer } from './utils';
@@ -33,7 +34,7 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
         const nodeType = ctx.get(schemaCtx).nodes[id];
 
         if (!nodeType) {
-            throw new Error();
+            throw missingNodeInSchema(id);
         }
 
         (<$Node>plugin).type = nodeType;
@@ -58,7 +59,7 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
             const nodeType = ctx.get(schemaCtx).nodes[id];
 
             if (!nodeType) {
-                throw new Error();
+                throw missingNodeInSchema(id);
             }
 
             plugin.type = nodeType;
