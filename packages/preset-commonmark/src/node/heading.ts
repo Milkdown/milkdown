@@ -118,7 +118,8 @@ const headingHashPlugin = (ctx: Ctx, type: NodeType, utils: Utils): Plugin => {
                 return DecorationSet.empty;
             },
             apply: (tr) => {
-                if (!ctx.get(editorViewCtx).hasFocus) return DecorationSet.empty;
+                const view = ctx.get(editorViewCtx);
+                if (!view.hasFocus || !view.editable) return DecorationSet.empty;
 
                 const { $from } = tr.selection;
                 const node = $from.node();
