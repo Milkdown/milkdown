@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
+import { block } from '@milkdown/plugin-block';
 import { clipboard } from '@milkdown/plugin-clipboard';
 import { cursor } from '@milkdown/plugin-cursor';
 import { diagram } from '@milkdown/plugin-diagram';
@@ -55,6 +56,7 @@ export const createEditor = (
         .use(slash)
         .use(nord)
         .use(trailing)
+        .use(block)
         .use(menu);
 
     return editor;
