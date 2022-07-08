@@ -140,6 +140,10 @@ const iconMapping: Record<Icon, IconMeta> = {
         label: 'sink list',
         icon: 'format_indent_increase',
     },
+    dragHandle: {
+        label: 'drag handle',
+        icon: 'drag_indicator',
+    },
 };
 
 export const getIcon = (id: Icon): IconValue | undefined => {
