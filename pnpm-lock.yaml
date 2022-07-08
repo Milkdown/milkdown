@@ -238,6 +238,7 @@ importers:
       '@milkdown/ctx': workspace:*
       '@milkdown/design-system': workspace:*
       '@milkdown/exception': workspace:*
+      '@milkdown/plugin-block': workspace:*
       '@milkdown/plugin-clipboard': workspace:*
       '@milkdown/plugin-collaborative': workspace:*
       '@milkdown/plugin-cursor': workspace:*
@@ -304,6 +305,7 @@ importers:
       '@milkdown/ctx': link:../packages/ctx
       '@milkdown/design-system': link:../packages/design-system
       '@milkdown/exception': link:../packages/exception
+      '@milkdown/plugin-block': link:../packages/plugin-block
       '@milkdown/plugin-clipboard': link:../packages/plugin-clipboard
       '@milkdown/plugin-collaborative': link:../packages/plugin-collaborative
       '@milkdown/plugin-cursor': link:../packages/plugin-cursor
@@ -404,6 +406,19 @@ importers:
       tslib: ^2.3.1
     dependencies:
       tslib: 2.3.1
+
+  packages/plugin-block:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
+      '@milkdown/utils': workspace:*
+      tslib: ^2.3.1
+    dependencies:
+      '@milkdown/utils': link:../utils
+      tslib: 2.3.1
+    devDependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
 
   packages/plugin-clipboard:
     specifiers:
