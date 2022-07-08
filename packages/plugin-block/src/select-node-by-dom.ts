@@ -29,5 +29,7 @@ export const selectRootNodeByDom = (dom: Element, view: EditorView, filterNodes:
         node = $pos.node();
     }
 
+    $pos = view.state.doc.resolve($pos.pos - $pos.parentOffset);
+
     return { node, $pos } as const;
 };
