@@ -2,12 +2,12 @@
 import { createCmd, createCmdKey } from '@milkdown/core';
 import { history as prosemirrorHistory, redo, undo } from '@milkdown/prose/history';
 import { keymap as createKeymap } from '@milkdown/prose/keymap';
-import { createPlugin } from '@milkdown/utils';
+import { AtomList, createPlugin } from '@milkdown/utils';
 
 export const Undo = createCmdKey('Undo');
 export const Redo = createCmdKey('Redo');
 
-export const history = createPlugin(() => ({
+export const historyPlugin = createPlugin(() => ({
     commands: () => [createCmd(Undo, () => undo), createCmd(Redo, () => redo)],
     prosePlugins: () => [
         prosemirrorHistory(),
@@ -17,4 +17,6 @@ export const history = createPlugin(() => ({
             'Shift-Mod-z': redo,
         }),
     ],
-}))();
+}));
+
+export const history = AtomList.create([historyPlugin()]);
