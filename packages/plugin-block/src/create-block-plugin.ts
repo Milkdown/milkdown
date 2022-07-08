@@ -19,7 +19,7 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
         key: new PluginKey('block'),
         props: {
             handleDOMEvents: {
-                mouseover: (view, event) => {
+                mousedown: (view, event) => {
                     const root = view.dom.parentElement;
                     if (!root) {
                         throw missingRootElement();
@@ -45,14 +45,10 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
 
                     let el: HTMLElement = node as HTMLElement;
                     let parent = el.parentElement;
-                    console.log($pos.pos);
                     while (parent && parent !== root && $pos.pos === view.posAtDOM(parent, 0)) {
                         el = parent;
-                        console.log(view.posAtDOM(parent, 0));
                         parent = parent.parentElement;
                     }
-
-                    console.log(el);
 
                     const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
                     const rootRect = root.getBoundingClientRect();
