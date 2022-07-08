@@ -38,7 +38,8 @@ export type Icon =
     | 'undo'
     | 'redo'
     | 'liftList'
-    | 'sinkList';
+    | 'sinkList'
+    | 'dragHandle';
 
 export type IconValue = {
     dom: HTMLElement;
