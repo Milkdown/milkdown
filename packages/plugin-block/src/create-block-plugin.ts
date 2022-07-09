@@ -16,7 +16,7 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
     const show = () => blockHandle.classList.remove('hide');
 
     return new Plugin({
-        key: new PluginKey('block'),
+        key: new PluginKey('MILKDOWN_BLOCK'),
         props: {
             handleDOMEvents: {
                 mousedown: (view, event) => {

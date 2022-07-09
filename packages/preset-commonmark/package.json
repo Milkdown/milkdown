@@ -34,6 +34,7 @@
     "dependencies": {
         "@milkdown/utils": "workspace:*",
         "@milkdown/exception": "workspace:*",
+        "unist-util-visit": "^4.0.0",
         "remark-inline-links": "^6.0.0",
         "tslib": "^2.3.1"
     },
