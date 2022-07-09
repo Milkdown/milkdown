@@ -5,6 +5,7 @@ import { Utils } from '@milkdown/utils';
 
 export const createBlockHandle = ({ themeManager, getStyle }: Utils) => {
     const dom = document.createElement('div');
+    dom.draggable = true;
     const icon = themeManager.get(ThemeIcon, 'dragHandle');
 
     dom.appendChild(icon.dom);

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Emotion, getPalette, Icon, ThemeIcon, ThemeManager, ThemeSize, ThemeTaskListItemType } from '@milkdown/core';
+import { Emotion, getPalette, Icon, ThemeIcon, ThemeManager, ThemeTaskListItemType } from '@milkdown/core';
 
 export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
     const palette = getPalette(manager);
@@ -60,28 +60,13 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
                 }
 
                 label {
-                    position: absolute;
-                    top: 0;
-                    left: -2em;
                     display: inline-block;
-                    width: 1.5em;
-                    height: 1.5em;
-                    margin: 0.5em 0;
+                    width: 24px;
+                    height: 24px;
                     cursor: pointer;
                     input {
                         visibility: hidden;
                     }
-                }
-                label:before {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    border-radius: ${manager.get(ThemeSize, 'radius')};
-                }
-                label:hover:before {
-                    background: ${palette('background')};
                 }
                 &[data-checked='true'] {
                     label {
