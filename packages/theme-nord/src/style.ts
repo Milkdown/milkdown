@@ -41,7 +41,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
 
     const paragraph = css`
         p {
-            font-size: 1em;
+            font-size: 16px;
             line-height: 1.5;
             letter-spacing: 0.5px;
         }
@@ -101,14 +101,48 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
     `;
 
     const list = css`
-        .list-item,
-        .list-item > * {
-            margin: 0.5em 0;
+        ul,
+        ol {
+            padding: 0;
+        }
+
+        .list-item {
+            margin: 8px 0;
+        }
+
+        .list-item_label,
+        .list-item .paragraph {
+            margin: 0;
+        }
+
+        .list-item {
+            display: flex;
+
+            &_body {
+                flex: 1;
+            }
+        }
+
+        .list-item_label {
+            display: flex;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: ${palette('primary')};
+        }
+
+        .list-item[data-list-type='bullet'] {
+            & > .list-item_label {
+                font-size: 24px;
+                line-height: 1;
+            }
         }
 
         li {
             &::marker {
-                color: ${palette('primary')};
+                display: none;
             }
         }
 
@@ -119,6 +153,10 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             &_checkbox {
                 margin: 0.5em 0.5em 0.5em 0;
                 height: 1em;
+            }
+
+            .paragraph {
+                margin: 0.5em 0;
             }
         }
     `;
