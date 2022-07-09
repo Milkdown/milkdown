@@ -106,7 +106,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             padding: 0;
         }
 
-        .list-item {
+        .list-item,
+        .task-list-item {
             margin: 8px 0;
         }
 
@@ -154,9 +155,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 margin: 0.5em 0.5em 0.5em 0;
                 height: 1em;
             }
-
-            .paragraph {
-                margin: 0.5em 0;
+            & .paragraph {
+                margin: 0;
             }
         }
     `;

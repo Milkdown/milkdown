@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { missingRootElement } from '@milkdown/exception';
 import { Node } from '@milkdown/prose/model';
-import { Plugin, PluginKey } from '@milkdown/prose/state';
+import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
 
 import { createBlockHandle } from './create-block-handle';
@@ -10,16 +10,35 @@ import { selectRootNodeByDom } from './select-node-by-dom';
 export type FilterNodes = (node: Node) => boolean;
 
 export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
+    let dragging = false;
     const blockHandle = createBlockHandle(utils);
+    let createSelection = () => {
+        // noop
+    };
 
-    const hide = () => blockHandle.classList.add('hide');
+    blockHandle.addEventListener('mousedown', () => {
+        dragging = true;
+        createSelection();
+    });
+    blockHandle.addEventListener('mouseup', () => {
+        dragging = false;
+    });
+    blockHandle.addEventListener('drag', () => {
+        // TODO: handle drag
+    });
+
+    const hide = () => {
+        if (dragging) return;
+        blockHandle.classList.add('hide');
+    };
     const show = () => blockHandle.classList.remove('hide');
+    // const isShow = () => !blockHandle.classList.contains('hide');
 
     return new Plugin({
         key: new PluginKey('MILKDOWN_BLOCK'),
         props: {
             handleDOMEvents: {
-                mousedown: (view, event) => {
+                mousemove: (view, event) => {
                     const root = view.dom.parentElement;
                     if (!root) {
                         throw missingRootElement();
@@ -37,7 +56,7 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
                         return false;
                     }
 
-                    const { $pos } = result;
+                    const { $pos, node: pmNode } = result;
 
                     show();
 
@@ -59,6 +78,16 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
 
                     blockHandle.style.left = `${left}px`;
                     blockHandle.style.top = `${top}px`;
+
+                    createSelection = () => {
+                        if (NodeSelection.isSelectable(pmNode)) {
+                            const nodeSelection = NodeSelection.create(view.state.doc, $pos.pos - 1);
+                            view.dispatch(view.state.tr.setSelection(nodeSelection));
+                            window.requestAnimationFrame(() => {
+                                view.focus();
+                            });
+                        }
+                    };
 
                     return false;
                 },
