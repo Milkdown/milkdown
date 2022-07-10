@@ -3,10 +3,11 @@ import { Ctx, editorViewCtx } from '@milkdown/core';
 import { missingRootElement } from '@milkdown/exception';
 import { browser } from '@milkdown/prose';
 import { Node } from '@milkdown/prose/model';
-import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
+import { NodeSelection, Plugin, PluginKey, Selection } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
 
 import { createBlockHandle } from './create-block-handle';
+import { removePossibleTable } from './remove-possible-table';
 import { selectRootNodeByDom } from './select-node-by-dom';
 import { serializeForClipboard } from './serialize-for-clipboard';
 
@@ -16,24 +17,23 @@ const brokenClipboardAPI =
     (browser.ie && <number>browser.ie_version < 15) || (browser.ios && browser.webkit_version < 604);
 
 export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNodes) => {
-    let dragging = false;
     const blockHandle = createBlockHandle(utils);
-    let createSelection = () => {
-        // noop
-    };
+
+    let dragging = false;
+    let createSelection: () => null | Selection = () => null;
 
     blockHandle.addEventListener('mousedown', () => {
-        dragging = true;
-        createSelection();
+        // TODO: render dropdown list
     });
     blockHandle.addEventListener('mouseup', () => {
         dragging = false;
     });
     blockHandle.addEventListener('dragstart', (event) => {
+        const selection = createSelection();
         // Align the behavior with https://github.com/ProseMirror/prosemirror-view/blob/master/src/input.ts#L608
-        if (event.dataTransfer) {
+        if (event.dataTransfer && selection) {
             const view = ctx.get(editorViewCtx);
-            const slice = view.state.selection.content();
+            const slice = selection.content();
             event.dataTransfer.effectAllowed = 'copyMove';
             const { dom, text } = serializeForClipboard(view, slice);
             event.dataTransfer.clearData();
@@ -57,11 +57,17 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
         key: new PluginKey('MILKDOWN_BLOCK'),
         props: {
             handleDOMEvents: {
-                drop: () => {
-                    dragging = false;
+                drop: (view) => {
+                    if (dragging) {
+                        removePossibleTable(view);
+
+                        dragging = false;
+                    }
                     return false;
                 },
                 mousemove: (view, event) => {
+                    if (!view.editable) return false;
+
                     const root = view.dom.parentElement;
                     if (!root) {
                         throw missingRootElement();
@@ -107,7 +113,9 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
                             const nodeSelection = NodeSelection.create(view.state.doc, $pos.pos - 1);
                             view.dispatch(view.state.tr.setSelection(nodeSelection));
                             view.focus();
+                            return nodeSelection;
                         }
+                        return null;
                     };
 
                     return false;
