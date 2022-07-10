@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { getNodeFromSchema } from '@milkdown/prose';
 import { wrappingInputRule } from '@milkdown/prose/inputrules';
 import { NodeType } from '@milkdown/prose/model';
@@ -80,11 +81,30 @@ export const listItem = createNode<Keys>((utils) => ({
             },
         },
         defining: true,
-        parseDOM: [{ tag: 'li' }],
+        parseDOM: [
+            {
+                tag: 'li.list-item',
+                getAttrs: (dom) => {
+                    if (!(dom instanceof HTMLElement)) {
+                        throw expectDomTypeError(dom);
+                    }
+                    return {
+                        label: dom.dataset['label'],
+                        listType: dom.dataset['list-type'],
+                    };
+                },
+                contentElement: 'div.list-item_body',
+            },
+            { tag: 'li' },
+        ],
         toDOM: (node) => {
             return [
                 'li',
-                { class: utils.getClassName(node.attrs, 'list-item'), 'data-list-type': node.attrs['listType'] },
+                {
+                    class: utils.getClassName(node.attrs, 'list-item'),
+                    'data-label': node.attrs['label'],
+                    'data-list-type': node.attrs['listType'],
+                },
                 ['div', { class: utils.getClassName(node.attrs, 'list-item_label') }, node.attrs['label']],
                 ['div', { class: utils.getClassName(node.attrs, 'list-item_body') }, 0],
             ];
