@@ -2,7 +2,7 @@
 import type { Node as ProseNode, NodeType } from '../../model';
 import type { Transaction } from '../../state';
 
-export const cloneTr = (tr: Transaction) => {
+export const cloneTr = (tr: Transaction): Transaction => {
     return Object.assign(Object.create(tr), tr).setTime(Date.now());
 };
 
