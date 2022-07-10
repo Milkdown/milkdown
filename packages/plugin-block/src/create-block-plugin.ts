@@ -7,11 +7,13 @@ import { NodeSelection, Plugin, PluginKey, Selection } from '@milkdown/prose/sta
 import { Utils } from '@milkdown/utils';
 
 import { createBlockHandle } from './create-block-handle';
+import { getDOMByPos } from './get-dom-by-pos';
 import { removePossibleTable } from './remove-possible-table';
 import { selectRootNodeByDom } from './select-node-by-dom';
 import { serializeForClipboard } from './serialize-for-clipboard';
 
 export type FilterNodes = (node: Node) => boolean;
+const milkdownPluginBlockKey = new PluginKey('MILKDOWN_BLOCK');
 
 const brokenClipboardAPI =
     (browser.ie && <number>browser.ie_version < 15) || (browser.ios && browser.webkit_version < 604);
@@ -23,6 +25,7 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
     let createSelection: () => null | Selection = () => null;
 
     blockHandle.addEventListener('mousedown', () => {
+        dragging = true;
         // TODO: render dropdown list
     });
     blockHandle.addEventListener('mouseup', () => {
@@ -51,17 +54,24 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
         blockHandle.classList.add('hide');
     };
     const show = () => blockHandle.classList.remove('hide');
-    // const isShow = () => !blockHandle.classList.contains('hide');
-
     return new Plugin({
-        key: new PluginKey('MILKDOWN_BLOCK'),
+        key: milkdownPluginBlockKey,
         props: {
             handleDOMEvents: {
-                drop: (view) => {
+                drop: (view, e) => {
                     if (dragging) {
-                        removePossibleTable(view);
+                        const event = e as DragEvent;
+                        const tr = removePossibleTable(view, event);
 
                         dragging = false;
+
+                        if (tr) {
+                            view.dispatch(tr);
+
+                            event.preventDefault();
+
+                            return true;
+                        }
                     }
                     return false;
                 },
@@ -89,14 +99,7 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
 
                     show();
 
-                    const { node } = view.domAtPos($pos.pos);
-
-                    let el: HTMLElement = node as HTMLElement;
-                    let parent = el.parentElement;
-                    while (parent && parent !== root && $pos.pos === view.posAtDOM(parent, 0)) {
-                        el = parent;
-                        parent = parent.parentElement;
-                    }
+                    const el = getDOMByPos(view, root, $pos);
 
                     const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
                     const rootRect = root.getBoundingClientRect();
@@ -125,7 +128,6 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
         view: (view) => {
             view.dom.parentNode?.appendChild(blockHandle);
             return {
-                // update: (view) => {},
                 destroy: () => {
                     blockHandle.remove();
                 },

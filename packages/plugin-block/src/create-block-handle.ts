@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { getPalette, ThemeIcon } from '@milkdown/core';
+import { getPalette, ThemeIcon, ThemeSize } from '@milkdown/core';
 import { Utils } from '@milkdown/utils';
 
 export const createBlockHandle = ({ themeManager, getStyle }: Utils) => {
@@ -18,8 +18,13 @@ export const createBlockHandle = ({ themeManager, getStyle }: Utils) => {
                 position: absolute;
                 color: ${palette('solid')};
                 cursor: grab;
+                border-radius: ${themeManager.get(ThemeSize, 'radius')};
+                transition: background-color 0.4s;
+                height: 24px;
+                line-height: 24px;
                 &:hover {
                     color: ${palette('primary')};
+                    background-color: ${palette('background')};
                 }
                 &.hide {
                     display: none;
