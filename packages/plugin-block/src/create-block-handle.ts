@@ -18,7 +18,6 @@ export const createBlockHandle = ({ themeManager, getStyle }: Utils) => {
                 position: absolute;
                 color: ${palette('solid')};
                 cursor: grab;
-                padding: 0 4px;
                 &:hover {
                     color: ${palette('primary')};
                 }
