@@ -18,8 +18,8 @@ export const blockPlugin = createPlugin<string, Options>((utils, options) => {
     const filterNodes = options?.filterNodes ?? defaultNodeFilter;
 
     return {
-        prosePlugins: () => {
-            return [createBlockPlugin(filterNodes, utils)];
+        prosePlugins: (_, ctx) => {
+            return [createBlockPlugin(ctx, utils, filterNodes)];
         },
     };
 });

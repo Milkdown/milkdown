@@ -1,15 +1,21 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { Ctx, editorViewCtx } from '@milkdown/core';
 import { missingRootElement } from '@milkdown/exception';
+import { browser } from '@milkdown/prose';
 import { Node } from '@milkdown/prose/model';
 import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
 
 import { createBlockHandle } from './create-block-handle';
 import { selectRootNodeByDom } from './select-node-by-dom';
+import { serializeForClipboard } from './serialize-for-clipboard';
 
 export type FilterNodes = (node: Node) => boolean;
 
-export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
+const brokenClipboardAPI =
+    (browser.ie && <number>browser.ie_version < 15) || (browser.ios && browser.webkit_version < 604);
+
+export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNodes) => {
     let dragging = false;
     const blockHandle = createBlockHandle(utils);
     let createSelection = () => {
@@ -23,8 +29,21 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
     blockHandle.addEventListener('mouseup', () => {
         dragging = false;
     });
-    blockHandle.addEventListener('drag', () => {
-        // TODO: handle drag
+    blockHandle.addEventListener('dragstart', (event) => {
+        // Align the behavior with https://github.com/ProseMirror/prosemirror-view/blob/master/src/input.ts#L608
+        if (event.dataTransfer) {
+            const view = ctx.get(editorViewCtx);
+            const slice = view.state.selection.content();
+            event.dataTransfer.effectAllowed = 'copyMove';
+            const { dom, text } = serializeForClipboard(view, slice);
+            event.dataTransfer.clearData();
+            event.dataTransfer.setData(brokenClipboardAPI ? 'Text' : 'text/html', dom.innerHTML);
+            if (!brokenClipboardAPI) event.dataTransfer.setData('text/plain', text);
+            view.dragging = {
+                slice,
+                move: true,
+            };
+        }
     });
 
     const hide = () => {
@@ -38,6 +57,10 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
         key: new PluginKey('MILKDOWN_BLOCK'),
         props: {
             handleDOMEvents: {
+                drop: () => {
+                    dragging = false;
+                    return false;
+                },
                 mousemove: (view, event) => {
                     const root = view.dom.parentElement;
                     if (!root) {
@@ -83,9 +106,7 @@ export const createBlockPlugin = (filterNodes: FilterNodes, utils: Utils) => {
                         if (NodeSelection.isSelectable(pmNode)) {
                             const nodeSelection = NodeSelection.create(view.state.doc, $pos.pos - 1);
                             view.dispatch(view.state.tr.setSelection(nodeSelection));
-                            window.requestAnimationFrame(() => {
-                                view.focus();
-                            });
+                            view.focus();
                         }
                     };
 
