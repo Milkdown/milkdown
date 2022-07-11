@@ -27,6 +27,7 @@ export class BlockMenuDOM {
                     cursor: pointer;
                     ${themeManager.get(ThemeShadow, undefined)};
                     background: ${palette('surface')};
+                    z-index: 2;
 
                     // TODO: remove this
                     width: 50px;
