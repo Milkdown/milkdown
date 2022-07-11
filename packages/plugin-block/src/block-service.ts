@@ -10,7 +10,7 @@ import { BlockHandleDOM } from './block-handle-dom';
 import { BlockMenuDOM } from './block-menu-dom';
 import { FilterNodes } from './create-block-plugin';
 import { removePossibleTable } from './remove-possible-table';
-import { selectRootNodeByDom } from './select-node-by-dom';
+import { ActiveNode, selectRootNodeByDom } from './select-node-by-dom';
 import { serializeForClipboard } from './serialize-for-clipboard';
 
 const brokenClipboardAPI =
@@ -20,6 +20,7 @@ export class BlockService {
     readonly blockHandle$: BlockHandleDOM;
     readonly blockMenu$: BlockMenuDOM;
     #createSelection: () => null | Selection = () => null;
+    #active: null | ActiveNode = null;
 
     #dragging = false;
     #ctx: Ctx;
@@ -54,6 +55,10 @@ export class BlockService {
     #handleMouseUp = () => {
         this.#dragging = false;
         this.#createSelection = () => null;
+
+        if (!this.#active) return;
+
+        this.blockMenu$.render(this.#ctx.get(editorViewCtx), this.#active.el, this.blockHandle$.dom$);
     };
 
     #handleDragStart = (event: DragEvent) => {
@@ -87,6 +92,7 @@ export class BlockService {
         }
 
         const result = selectRootNodeByDom(dom, view, this.#filterNodes);
+        this.#active = result;
 
         if (!result) {
             if (this.#dragging) return false;
@@ -95,7 +101,7 @@ export class BlockService {
         }
 
         this.blockHandle$.show();
-        this.blockHandle$.render(view, result.$pos);
+        this.blockHandle$.render(view, result.el);
         this.#createSelection = () => {
             if (NodeSelection.isSelectable(result.node)) {
                 const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - 1);

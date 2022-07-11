@@ -2,11 +2,8 @@
 
 import { getPalette, ThemeIcon, ThemeSize } from '@milkdown/core';
 import { missingRootElement } from '@milkdown/exception';
-import { ResolvedPos } from '@milkdown/prose/model';
 import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
-
-import { getDOMByPos } from './get-dom-by-pos';
 
 export class BlockHandleDOM {
     readonly dom$: HTMLElement;
@@ -77,12 +74,11 @@ export class BlockHandleDOM {
         this.dom$.remove();
     }
 
-    render(view: EditorView, $pos: ResolvedPos) {
+    render(view: EditorView, el: HTMLElement) {
         const root = view.dom.parentElement;
         if (!root) {
             throw missingRootElement();
         }
-        const el = getDOMByPos(view, root, $pos);
 
         const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
         const rootRect = root.getBoundingClientRect();
