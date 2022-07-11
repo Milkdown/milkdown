@@ -28,11 +28,10 @@ const wrapMap: { [node: string]: string[] } = {
 
 export function serializeForClipboard(view: EditorView, slice: Slice) {
     const context = [];
-    let { content } = slice;
-    const { openStart, openEnd } = slice;
+    let { openStart, openEnd, content } = slice;
     while (openStart > 1 && openEnd > 1 && content.childCount == 1 && content.firstChild!.childCount == 1) {
-        (<number>openStart)--;
-        (<number>openEnd)--;
+        openStart -= 1;
+        openEnd -= 1;
         const node = content.firstChild!;
         context.push(
             node.type.name,
