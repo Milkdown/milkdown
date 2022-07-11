@@ -22,6 +22,9 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
                 mousemove: (view, event) => {
                     return blockHandle.mousemoveCallback(view, event as MouseEvent);
                 },
+                mousedown: () => {
+                    return blockHandle.mousedownCallback();
+                },
             },
         },
         view: (view) => {
