@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { getPalette, ThemeShadow } from '@milkdown/core';
+import { missingRootElement } from '@milkdown/exception';
 import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
@@ -27,7 +28,9 @@ export class BlockMenuDOM {
                     ${themeManager.get(ThemeShadow, undefined)};
                     background: ${palette('surface')};
 
+                    // TODO: remove this
                     width: 50px;
+                    // TODO: remove this
                     height: 50px;
 
                     &.hide {
@@ -37,9 +40,7 @@ export class BlockMenuDOM {
             });
 
             if (style) {
-                const className = ['block-dropdown-menu', style, 'hide']
-                    .filter((x): x is string => x != null)
-                    .join(' ');
+                const className = ['block-menu', style, 'hide'].filter((x): x is string => x != null).join(' ');
                 this.dom$.className = className;
             }
         });
@@ -65,5 +66,22 @@ export class BlockMenuDOM {
 
     unmount() {
         this.dom$.remove();
+    }
+
+    render(view: EditorView, el: HTMLElement, handle: HTMLElement) {
+        const root = view.dom.parentElement;
+        if (!root) {
+            throw missingRootElement();
+        }
+
+        const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
+        const rootRect = root.getBoundingClientRect();
+        const handleRect = handle.getBoundingClientRect();
+
+        const left = targetNodeRect.left - rootRect.left - handleRect.width;
+        const top = targetNodeRect.top - rootRect.top + root.scrollTop + handleRect.height;
+
+        this.dom$.style.left = `${left}px`;
+        this.dom$.style.top = `${top}px`;
     }
 }
