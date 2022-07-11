@@ -19,12 +19,30 @@ const brokenClipboardAPI =
 export class BlockService {
     readonly blockHandle$: BlockHandleDOM;
     readonly blockMenu$: BlockMenuDOM;
-    #createSelection: () => null | Selection = () => null;
+
+    #createSelection: () => null | Selection = () => {
+        if (!this.#active) return null;
+        const result = this.#active;
+        const view = this.#view;
+
+        if (NodeSelection.isSelectable(result.node)) {
+            const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - 1);
+            view.dispatch(view.state.tr.setSelection(nodeSelection));
+            view.focus();
+            return nodeSelection;
+        }
+        return null;
+    };
     #active: null | ActiveNode = null;
 
     #dragging = false;
     #ctx: Ctx;
     #filterNodes: FilterNodes;
+
+    get #view() {
+        return this.#ctx.get(editorViewCtx);
+    }
+
     constructor(ctx: Ctx, utils: Utils, filterNodes: FilterNodes) {
         this.#ctx = ctx;
         this.#filterNodes = filterNodes;
@@ -49,25 +67,27 @@ export class BlockService {
     }
 
     #handleMouseDown = () => {
-        this.#dragging = true;
+        this.#createSelection();
     };
 
     #handleMouseUp = () => {
+        if (!this.#dragging) {
+            if (!this.#active) return;
+            this.blockMenu$.show();
+            this.blockMenu$.render(this.#view, this.#active.el, this.blockHandle$.dom$);
+
+            return;
+        }
         this.#dragging = false;
-        this.#createSelection = () => null;
-
-        if (!this.#active) return;
-
-        this.blockMenu$.render(this.#ctx.get(editorViewCtx), this.#active.el, this.blockHandle$.dom$);
     };
 
     #handleDragStart = (event: DragEvent) => {
-        const selection = this.#createSelection();
-        const ctx = this.#ctx;
+        this.#dragging = true;
+        const selection = this.#view.state.selection;
 
         // Align the behavior with https://github.com/ProseMirror/prosemirror-view/blob/master/src/input.ts#L608
         if (event.dataTransfer && selection) {
-            const view = ctx.get(editorViewCtx);
+            const view = this.#view;
             const slice = selection.content();
             event.dataTransfer.effectAllowed = 'copyMove';
             const { dom, text } = serializeForClipboard(view, slice);
@@ -79,6 +99,11 @@ export class BlockService {
                 move: true,
             };
         }
+    };
+
+    mousedownCallback = () => {
+        this.blockMenu$.hide();
+        return false;
     };
 
     mousemoveCallback = (view: EditorView, event: MouseEvent) => {
@@ -102,15 +127,6 @@ export class BlockService {
 
         this.blockHandle$.show();
         this.blockHandle$.render(view, result.el);
-        this.#createSelection = () => {
-            if (NodeSelection.isSelectable(result.node)) {
-                const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - 1);
-                view.dispatch(view.state.tr.setSelection(nodeSelection));
-                view.focus();
-                return nodeSelection;
-            }
-            return null;
-        };
 
         return false;
     };
