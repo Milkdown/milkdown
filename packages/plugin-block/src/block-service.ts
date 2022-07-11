@@ -29,10 +29,12 @@ export class BlockService {
             const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - 1);
             view.dispatch(view.state.tr.setSelection(nodeSelection));
             view.focus();
+            this.#activeSelection = nodeSelection;
             return nodeSelection;
         }
         return null;
     };
+    #activeSelection: null | Selection = null;
     #active: null | ActiveNode = null;
 
     #dragging = false;
@@ -79,11 +81,12 @@ export class BlockService {
             return;
         }
         this.#dragging = false;
+        this.#activeSelection = null;
     };
 
     #handleDragStart = (event: DragEvent) => {
         this.#dragging = true;
-        const selection = this.#view.state.selection;
+        const selection = this.#activeSelection;
 
         // Align the behavior with https://github.com/ProseMirror/prosemirror-view/blob/master/src/input.ts#L608
         if (event.dataTransfer && selection) {
