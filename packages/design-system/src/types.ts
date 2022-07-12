@@ -9,6 +9,7 @@ export type Icon =
     | 'h1'
     | 'h2'
     | 'h3'
+    | 'text'
     | 'loading'
     | 'quote'
     | 'code'

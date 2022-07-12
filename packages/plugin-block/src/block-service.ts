@@ -8,6 +8,7 @@ import { Utils } from '@milkdown/utils';
 
 import { BlockHandleDOM } from './block-handle-dom';
 import { BlockMenuDOM } from './block-menu-dom';
+import { ConfigBuilder } from './config';
 import { FilterNodes } from './create-block-plugin';
 import { removePossibleTable } from './remove-possible-table';
 import { ActiveNode, selectRootNodeByDom } from './select-node-by-dom';
@@ -45,11 +46,11 @@ export class BlockService {
         return this.#ctx.get(editorViewCtx);
     }
 
-    constructor(ctx: Ctx, utils: Utils, filterNodes: FilterNodes) {
+    constructor(ctx: Ctx, utils: Utils, filterNodes: FilterNodes, configBuilder: ConfigBuilder) {
         this.#ctx = ctx;
         this.#filterNodes = filterNodes;
         this.blockHandle$ = new BlockHandleDOM(utils);
-        this.blockMenu$ = new BlockMenuDOM(utils);
+        this.blockMenu$ = new BlockMenuDOM(utils, ctx, configBuilder, this.blockHandle$);
     }
 
     mount(view: EditorView) {
@@ -74,9 +75,11 @@ export class BlockService {
 
     #handleMouseUp = () => {
         if (!this.#dragging) {
-            if (!this.#active) return;
-            this.blockMenu$.show();
-            this.blockMenu$.render(this.#view, this.#active.el, this.blockHandle$.dom$);
+            requestAnimationFrame(() => {
+                if (!this.#active) return;
+                this.blockMenu$.show();
+                this.blockMenu$.render(this.#view, this.#active.el);
+            });
 
             return;
         }

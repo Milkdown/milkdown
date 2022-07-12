@@ -144,6 +144,10 @@ const iconMapping: Record<Icon, IconMeta> = {
         label: 'drag handle',
         icon: 'drag_indicator',
     },
+    text: {
+        label: 'text',
+        icon: 'title',
+    },
 };
 
 export const getIcon = (id: Icon): IconValue | undefined => {
