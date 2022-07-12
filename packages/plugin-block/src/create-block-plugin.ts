@@ -5,12 +5,13 @@ import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { Utils } from '@milkdown/utils';
 
 import { BlockService } from './block-service';
+import { ConfigBuilder } from './config';
 
 export type FilterNodes = (node: Node) => boolean;
 const milkdownPluginBlockKey = new PluginKey('MILKDOWN_BLOCK');
 
-export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNodes) => {
-    const blockHandle = new BlockService(ctx, utils, filterNodes);
+export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNodes, configBuilder: ConfigBuilder) => {
+    const blockHandle = new BlockService(ctx, utils, filterNodes, configBuilder);
 
     return new Plugin({
         key: milkdownPluginBlockKey,

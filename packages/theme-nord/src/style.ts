@@ -356,12 +356,12 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 ${editorLayout};
 
                 ${paragraph};
-                ${heading};
                 ${blockquote};
                 ${hr};
                 ${list};
                 ${code};
                 ${img};
+                ${heading};
 
                 ${table};
                 ${footnote};
