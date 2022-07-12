@@ -66,6 +66,10 @@ export class BlockHandleDOM {
         this.dom$.classList.remove('hide');
     }
 
+    toggle() {
+        this.dom$.classList.toggle('hide');
+    }
+
     mount(view: EditorView) {
         view.dom.parentNode?.appendChild(this.dom$);
     }

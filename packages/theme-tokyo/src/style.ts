@@ -41,7 +41,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
 
     const paragraph = css`
         p {
-            font-size: 1em;
+            font-size: 16px;
             line-height: 1.5;
             letter-spacing: 0.5px;
         }
@@ -101,14 +101,49 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
     `;
 
     const list = css`
+        ul,
+        ol {
+            padding: 0;
+        }
+
         .list-item,
-        .list-item > * {
-            margin: 0.5em 0;
+        .task-list-item {
+            margin: 8px 0;
+        }
+
+        .list-item_label,
+        .list-item .paragraph {
+            margin: 0;
+        }
+
+        .list-item {
+            display: flex;
+
+            &_body {
+                flex: 1;
+            }
+        }
+
+        .list-item_label {
+            display: flex;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: ${palette('primary')};
+        }
+
+        .list-item[data-list-type='bullet'] {
+            & > .list-item_label {
+                font-size: 24px;
+                line-height: 1;
+            }
         }
 
         li {
             &::marker {
-                color: ${palette('primary')};
+                display: none;
             }
         }
 
@@ -119,6 +154,9 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             &_checkbox {
                 margin: 0.5em 0.5em 0.5em 0;
                 height: 1em;
+            }
+            & .paragraph {
+                margin: 0;
             }
         }
     `;
@@ -159,13 +197,12 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
 
     const inline = css`
         .code-inline {
-            background-color: ${palette('background')};
-            color: ${palette('secondary')};
+            background-color: ${palette('neutral')};
+            color: ${palette('background')};
             border-radius: ${radius};
             font-weight: 500;
             font-family: ${code};
             padding: 0 0.2em;
-            font-size: 1.2em;
         }
 
         .strong {
@@ -179,8 +216,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             transition: all 0.4s ease-in-out;
             font-weight: 500;
             &:hover {
-                background-color: ${palette('shadow', 0.5)};
-                box-shadow: 0 0.2em ${palette('shadow', 0.5)}, 0 -0.2em ${palette('shadow', 0.5)};
+                background-color: ${palette('line')};
+                box-shadow: 0 0.2em ${palette('line')}, 0 -0.2em ${palette('line')};
             }
         }
 
@@ -192,6 +229,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
     const footnote = css`
         .footnote-definition {
             ${manager.get(ThemeBorder, undefined)};
+            border-radius: ${manager.get(ThemeSize, 'radius')};
+            background-color: ${palette('background')};
             padding: 1em;
             display: flex;
             flex-direction: row;
@@ -316,12 +355,12 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 ${editorLayout};
 
                 ${paragraph};
-                ${heading};
                 ${blockquote};
                 ${hr};
                 ${list};
                 ${code};
                 ${img};
+                ${heading};
 
                 ${table};
                 ${footnote};

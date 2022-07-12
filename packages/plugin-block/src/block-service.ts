@@ -77,8 +77,9 @@ export class BlockService {
         if (!this.#dragging) {
             requestAnimationFrame(() => {
                 if (!this.#active) return;
-                this.blockMenu$.show();
+                this.blockMenu$.toggle();
                 this.blockMenu$.render(this.#view, this.#active.el);
+                this.#view.focus();
             });
 
             return;
