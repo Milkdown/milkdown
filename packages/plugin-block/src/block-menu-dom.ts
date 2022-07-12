@@ -125,6 +125,10 @@ export class BlockMenuDOM {
         this.dom$.classList.remove('hide');
     }
 
+    toggle() {
+        this.dom$.classList.toggle('hide');
+    }
+
     mount(view: EditorView) {
         view.dom.parentNode?.appendChild(this.dom$);
         this.dom$.addEventListener('click', this.#clickMenu);

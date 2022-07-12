@@ -203,7 +203,6 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             font-weight: 500;
             font-family: ${code};
             padding: 0 0.2em;
-            font-size: 1.2em;
         }
 
         .strong {
