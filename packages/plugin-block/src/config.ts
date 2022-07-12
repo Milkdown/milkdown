@@ -2,11 +2,13 @@
 
 import { commandsCtx, Ctx, Icon } from '@milkdown/core';
 
+import { ActiveNode } from './select-node-by-dom';
+
 export type BlockAction = {
     id: string;
     icon: Icon | HTMLElement;
     content: string;
-    command: (ctx: Ctx) => boolean;
+    command: (ctx: Ctx, active: ActiveNode) => void;
 };
 
 export type ConfigBuilder = (ctx: Ctx) => BlockAction[];
