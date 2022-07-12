@@ -26,6 +26,9 @@ export const createBlockPlugin = (ctx: Ctx, utils: Utils, filterNodes: FilterNod
                 mousedown: () => {
                     return blockHandle.mousedownCallback();
                 },
+                keydown: () => {
+                    return blockHandle.keydownCallback();
+                },
             },
         },
         view: (view) => {

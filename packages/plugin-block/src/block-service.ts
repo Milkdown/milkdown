@@ -108,6 +108,11 @@ export class BlockService {
         }
     };
 
+    keydownCallback = () => {
+        this.blockMenu$.hide();
+        return false;
+    };
+
     mousedownCallback = () => {
         this.blockMenu$.hide();
         return false;
