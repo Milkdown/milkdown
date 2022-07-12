@@ -263,7 +263,7 @@ importers:
       '@milkdown/utils': workspace:*
       '@milkdown/vue': workspace:*
       '@rollup/pluginutils': '*'
-      '@types/estree': ^0.0.52
+      '@types/estree': ^1.0.0
       '@types/prosemirror-dev-tools': ^3.0.2
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -340,7 +340,7 @@ importers:
       unist-util-visit: 4.1.0
     devDependencies:
       '@rollup/pluginutils': 4.1.2
-      '@types/estree': 0.0.52
+      '@types/estree': 1.0.0
       '@types/prosemirror-dev-tools': 3.0.2
       '@types/react': 18.0.8
       '@types/react-dom': 18.0.3
@@ -2802,8 +2802,8 @@ packages:
     resolution: {integrity: sha512-CuPgU6f3eT/XgKKPqKd/gLZV1Xmvf1a2R5POBOGQa6uv82xpls89HU5zKeVoyR8XzHd1RGNOlQlvUe3CFkjWNQ==}
     dev: true
 
-  /@types/estree/0.0.52:
-    resolution: {integrity: sha512-BZWrtCU0bMVAIliIV+HJO1f1PR41M7NKjfxrFJwwhKI1KwhwOxYw1SXg9ao+CIMt774nFuGiG6eU+udtbEI9oQ==}
+  /@types/estree/1.0.0:
+    resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: true
 
   /@types/fs-extra/8.1.2:
