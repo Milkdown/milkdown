@@ -50,7 +50,7 @@ export class BlockService {
         this.#ctx = ctx;
         this.#filterNodes = filterNodes;
         this.blockHandle$ = new BlockHandleDOM(utils);
-        this.blockMenu$ = new BlockMenuDOM(utils, ctx, configBuilder, this.blockHandle$);
+        this.blockMenu$ = new BlockMenuDOM(utils, ctx, configBuilder, this.blockHandle$, () => this.#active);
     }
 
     mount(view: EditorView) {

@@ -7,6 +7,7 @@ import { Utils } from '@milkdown/utils';
 
 import { BlockHandleDOM } from './block-handle-dom';
 import { BlockAction, ConfigBuilder } from './config';
+import { ActiveNode } from './select-node-by-dom';
 
 export class BlockMenuDOM {
     readonly dom$: HTMLElement;
@@ -16,12 +17,20 @@ export class BlockMenuDOM {
     #configBuilder: ConfigBuilder;
     #config: BlockAction[];
     #blockHandle: BlockHandleDOM;
-    constructor(utils: Utils, ctx: Ctx, configBuilder: ConfigBuilder, blockHandle: BlockHandleDOM) {
+    #getActive: () => null | ActiveNode;
+    constructor(
+        utils: Utils,
+        ctx: Ctx,
+        configBuilder: ConfigBuilder,
+        blockHandle: BlockHandleDOM,
+        getActive: () => null | ActiveNode,
+    ) {
         this.#utils = utils;
         this.#ctx = ctx;
         this.#configBuilder = configBuilder;
         this.#blockHandle = blockHandle;
         this.#config = this.#configBuilder(this.#ctx);
+        this.#getActive = getActive;
         this.dom$ = this.#createDOM();
         this.#injectStyle();
     }
@@ -110,7 +119,10 @@ export class BlockMenuDOM {
             const id = dom.dataset['id'];
             const action = this.#config.find((x) => x.id === id);
 
-            action?.command(this.#ctx);
+            const active = this.#getActive();
+            if (active) {
+                action?.command(this.#ctx, active);
+            }
         }
 
         this.#blockHandle.hide();
