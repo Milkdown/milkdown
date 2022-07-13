@@ -37,7 +37,7 @@
         "@milkdown/prose": "workspace:*",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
-        "@vitejs/plugin-react": "^1.3.0",
+        "@vitejs/plugin-react": "^2.0.0",
         "react": "^18.0.0",
         "react-dom": "^18.0.0"
     },
