@@ -71,6 +71,10 @@ export class BlockMenuDOM {
                             background: ${palette('secondary', 0.12)};
                             color: ${palette('primary')};
                         }
+
+                        &.hide {
+                            display: none;
+                        }
                     }
                 `;
             });
@@ -156,6 +160,21 @@ export class BlockMenuDOM {
         if (!root) {
             throw missingRootElement();
         }
+
+        this.#config.forEach(({ disabled, id }) => {
+            const active = this.#getActive();
+            if (!active) return;
+            const isDisabled = disabled(this.#ctx, active);
+
+            const dom = this.dom$.querySelector(`[data-id="${id}"]`);
+            if (!dom) return;
+
+            if (isDisabled) {
+                dom.classList.add('hide');
+            } else {
+                dom.classList.remove('hide');
+            }
+        });
 
         const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
         const rootRect = root.getBoundingClientRect();
