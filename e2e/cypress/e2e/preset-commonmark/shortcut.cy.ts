@@ -73,9 +73,7 @@ describe('input:', () => {
         it('list', () => {
             cy.get('.editor').type('The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+7}`);
-            cy.get('.ordered-list').within(() =>
-                cy.get('.list-item').should('have.text', 'The lunatic is on the grass'),
-            );
+            cy.get('.ordered-list>.list-item>.list-item_body').should('have.text', 'The lunatic is on the grass');
             cy.get('.editor').type('{enter}');
             cy.get('.editor').type('The lunatic is in the hell');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+]}`);
@@ -86,9 +84,7 @@ describe('input:', () => {
             cy.get('.editor').type('{enter}{backspace}');
             cy.get('.editor').type('The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+8}`);
-            cy.get('.bullet-list').within(() =>
-                cy.get('.list-item').should('have.text', 'The lunatic is on the grass'),
-            );
+            cy.get('.bullet-list>.list-item>.list-item_body').should('have.text', 'The lunatic is on the grass');
             cy.get('.editor').type('{enter}');
             cy.get('.editor').type('The lunatic is in the hell');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+]}`);
