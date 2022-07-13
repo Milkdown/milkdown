@@ -161,20 +161,26 @@ export class BlockMenuDOM {
             throw missingRootElement();
         }
 
-        this.#config.forEach(({ disabled, id }) => {
+        const noActiveAction = this.#config.reduce((noActive, { disabled, id }) => {
             const active = this.#getActive();
-            if (!active) return;
+            if (!active) return noActive;
             const isDisabled = disabled(this.#ctx, active);
 
             const dom = this.dom$.querySelector(`[data-id="${id}"]`);
-            if (!dom) return;
+            if (!dom) return noActive;
 
             if (isDisabled) {
                 dom.classList.add('hide');
-            } else {
-                dom.classList.remove('hide');
+                return noActive;
             }
-        });
+
+            dom.classList.remove('hide');
+            return false;
+        }, true);
+        if (noActiveAction) {
+            this.hide();
+            return;
+        }
 
         const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
         const rootRect = root.getBoundingClientRect();
