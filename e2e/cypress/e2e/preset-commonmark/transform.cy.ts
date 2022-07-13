@@ -51,10 +51,8 @@ describe('transform:', () => {
             return;
         });
 
-        cy.get('.blockquote').within(() => {
-            cy.get('p').should('have.length', 2);
-            cy.get('.hardbreak').should('exist');
-        });
+        cy.get('.blockquote p').should('have.length', 2);
+        cy.get('.blockquote .hardbreak').should('exist');
     });
 
     it('list', () => {
@@ -67,35 +65,25 @@ describe('transform:', () => {
             return;
         });
 
-        cy.get('.editor > .bullet-list').should('have.length', 2);
-        cy.get('.editor > .bullet-list')
-            .first()
-            .within(() => {
-                cy.get('.list-item').should('have.length', 4);
-                cy.get('.bullet-list > .list-item').should('have.length', 2);
-                cy.get('.bullet-list > .list-item:first-child').should(
-                    'have.text',
-                    'Remembering games and daisy chains and laughs',
-                );
-            });
+        cy.get('.editor>.bullet-list').should('have.length', 2);
+        cy.get('.editor>.bullet-list:first-child .list-item').should('have.length', 4);
+        cy.get('.editor>.bullet-list:first-child>.list-item').should('have.length', 2);
+        cy.get('.editor>.bullet-list:first-child .bullet-list>.list-item:first-child>.list-item_body').should(
+            'have.text',
+            'Remembering games and daisy chains and laughs',
+        );
 
-        cy.get('.editor > .ordered-list').should('have.length', 1);
-        cy.get('.editor > .ordered-list').within(() => {
-            cy.get('.list-item').should('have.length', 4);
-            cy.get('.ordered-list > .list-item').should('have.length', 2);
-            cy.get('.ordered-list > .list-item:first-child').should(
-                'have.text',
-                'The paper holds their folded faces to the floor',
-            );
-        });
+        cy.get('.editor>.ordered-list').should('have.length', 1);
+        cy.get('.editor>.ordered-list .list-item').should('have.length', 4);
+        cy.get('.editor>.ordered-list>.list-item').should('have.length', 2);
+        cy.get('.editor>.ordered-list .ordered-list>.list-item:first-child>.list-item_body').should(
+            'have.text',
+            'The paper holds their folded faces to the floor',
+        );
 
-        cy.get('.editor > .bullet-list')
-            .last()
-            .within(() => {
-                cy.get('.list-item').should('have.length', 8);
-                cy.get('.bullet-list').should('have.length', 1);
-                cy.get('.ordered-list').should('have.length', 2);
-            });
+        cy.get('.editor>.bullet-list:last-child .list-item').should('have.length', 8);
+        cy.get('.editor>.bullet-list:last-child .bullet-list').should('have.length', 1);
+        cy.get('.editor>.bullet-list:last-child .ordered-list').should('have.length', 2);
     });
 
     it('hr', () => {

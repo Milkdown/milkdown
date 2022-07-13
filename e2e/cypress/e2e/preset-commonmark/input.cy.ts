@@ -36,11 +36,11 @@ describe('input:', () => {
 
         it('blockquote', () => {
             cy.get('.editor').type('> Blockquote');
-            cy.get('.blockquote').within(() => cy.get('.paragraph').should('have.text', 'Blockquote'));
+            cy.get('.blockquote').get('.paragraph').should('have.text', 'Blockquote');
 
             cy.get('.editor').type('{enter}Next line.');
 
-            cy.get('.blockquote').within(() => cy.get('.paragraph:last-child').should('have.text', 'Next line.'));
+            cy.get('.blockquote').get('.paragraph:last-child').should('have.text', 'Next line.');
             cy.window().then((win) => {
                 cy.wrap(win.__getMarkdown__()).snapshot();
                 return;
@@ -49,27 +49,22 @@ describe('input:', () => {
 
         it('bullet list', () => {
             cy.get('.editor').type('* list item 1');
-            cy.get('.bullet-list').within(() => cy.get('.list-item').should('have.text', 'list item 1'));
+            cy.get('.bullet-list>.list-item>.list-item_body').should('have.text', 'list item 1');
 
             cy.get('.editor').type('{enter}list item 2');
-            cy.get('.bullet-list').within(() => cy.get('.list-item:last-child').should('have.text', 'list item 2'));
+            cy.get('.bullet-list>.list-item:last-child>.list-item_body').should('have.text', 'list item 2');
 
             cy.get('.editor').type('{enter}{backspace}* sub list item 1');
-            cy.get('.bullet-list').within(() =>
-                cy.get('.bullet-list').within(() => cy.get('.list-item').should('have.text', 'sub list item 1')),
-            );
+            cy.get('.bullet-list .bullet-list>.list-item>.list-item_body').should('have.text', 'sub list item 1');
 
             cy.get('.editor').type('{enter}sub list item 2');
-            cy.get('.bullet-list').within(() =>
-                cy
-                    .get('.bullet-list')
-                    .within(() => cy.get('.list-item:last-child').should('have.text', 'sub list item 2')),
+            cy.get('.bullet-list .bullet-list>.list-item:last-child>.list-item_body').should(
+                'have.text',
+                'sub list item 2',
             );
 
             cy.get('.editor').type('{enter}{enter}list item 3');
-            cy.get('.bullet-list')
-                .first()
-                .within(() => cy.get('.list-item:last-child').last().should('have.text', 'list item 3'));
+            cy.get('.bullet-list:first-child>.list-item:last-child>.list-item_body').should('have.text', 'list item 3');
             cy.window().then((win) => {
                 cy.wrap(win.__getMarkdown__()).snapshot();
                 return;
@@ -78,27 +73,24 @@ describe('input:', () => {
 
         it('ordered list', () => {
             cy.get('.editor').type('1. list item 1');
-            cy.get('.ordered-list').within(() => cy.get('.list-item').should('have.text', 'list item 1'));
+            cy.get('.ordered-list>.list-item>.list-item_body').should('have.text', 'list item 1');
 
             cy.get('.editor').type('{enter}list item 2');
-            cy.get('.ordered-list').within(() => cy.get('.list-item:last-child').should('have.text', 'list item 2'));
+            cy.get('.ordered-list>.list-item:last-child>.list-item_body').should('have.text', 'list item 2');
 
             cy.get('.editor').type('{enter}{backspace}1. sub list item 1');
-            cy.get('.ordered-list').within(() =>
-                cy.get('.ordered-list').within(() => cy.get('.list-item').should('have.text', 'sub list item 1')),
-            );
+            cy.get('.ordered-list .ordered-list>.list-item>.list-item_body').should('have.text', 'sub list item 1');
 
             cy.get('.editor').type('{enter}sub list item 2');
-            cy.get('.ordered-list').within(() =>
-                cy
-                    .get('.ordered-list')
-                    .within(() => cy.get('.list-item:last-child').should('have.text', 'sub list item 2')),
+            cy.get('.ordered-list .ordered-list>.list-item:last-child>.list-item_body').should(
+                'have.text',
+                'sub list item 2',
             );
-
             cy.get('.editor').type('{enter}{enter}list item 3');
-            cy.get('.ordered-list')
-                .first()
-                .within(() => cy.get('.list-item:last-child').last().should('have.text', 'list item 3'));
+            cy.get('.ordered-list:first-child>.list-item:last-child>.list-item_body').should(
+                'have.text',
+                'list item 3',
+            );
             cy.window().then((win) => {
                 cy.wrap(win.__getMarkdown__()).snapshot();
                 return;
