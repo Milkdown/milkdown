@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import react from '@vitejs/plugin-react';
-import path from 'pathe';
+import { join, resolve } from 'pathe';
 import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'vite';
 
@@ -15,7 +15,7 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            chalk: path.join(__dirname, 'chalk.js'),
+            chalk: join(__dirname, 'chalk.js'),
         },
     },
     plugins: [
@@ -25,8 +25,8 @@ export default defineConfig({
         copy({
             targets: [
                 {
-                    src: [path.resolve(__dirname, '404.html')],
-                    dest: path.resolve(__dirname, '../docs'),
+                    src: [resolve(__dirname, '404.html')],
+                    dest: resolve(__dirname, '../docs'),
                 },
             ],
             hook: 'writeBundle',
