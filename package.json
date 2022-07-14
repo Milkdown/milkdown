@@ -89,7 +89,8 @@
                 "babel-runtime",
                 "cypress",
                 "jest",
-                "vue"
+                "vue",
+                "vite"
             ],
             "allowedVersions": {
                 "react": "18",
