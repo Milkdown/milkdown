@@ -6,7 +6,7 @@
  * Please don't use this file for other purpose.
  */
 
-import path from 'path';
+import { resolve } from 'path';
 import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
 import type { BuildOptions, UserConfig as ViteUserConfig, UserConfigExport } from 'vite';
@@ -16,7 +16,7 @@ export const libFileName = (format: string) => `index.${format}.js`;
 
 export const rollupPlugins: Plugin[] = [autoExternal()];
 
-const resolvePath = (str: string) => path.resolve(__dirname, str);
+const resolvePath = (str: string) => resolve(__dirname, str);
 
 function isObject(item: unknown): item is Record<string, unknown> {
     return Boolean(item && typeof item === 'object' && !Array.isArray(item));
