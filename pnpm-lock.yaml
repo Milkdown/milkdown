@@ -40,6 +40,7 @@ importers:
       jsdom: ^20.0.0
       lint-staged: ^13.0.0
       nx: latest
+      pathe: ^0.3.2
       prettier: ^2.7.1
       rimraf: ^3.0.2
       rollup: ^2.75.6
@@ -88,6 +89,7 @@ importers:
       jsdom: 20.0.0
       lint-staged: 13.0.0
       nx: 14.4.2
+      pathe: 0.3.2
       prettier: 2.7.1
       rimraf: 3.0.2
       rollup: 2.76.0
@@ -9733,6 +9735,10 @@ packages:
   /path-type/4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
+
+  /pathe/0.3.2:
+    resolution: {integrity: sha512-qhnmX0TOqlCvdWWTkoM83wh5J8fZ2yhbDEc9MlsnAEtEc+JCwxUKEwmd6pkY9hRe6JR1Uecbc14VcAKX2yFSTA==}
+    dev: true
 
   /pathval/1.1.1:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
