@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import path from 'pathe';
 import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'vite';
 
