@@ -19,7 +19,7 @@ jobs:
             - name: setup node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 15.x
+                  node-version: 16.x
 
             - name: load cache
               uses: actions/cache@v3
