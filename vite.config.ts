@@ -6,7 +6,7 @@
  * Please don't use this file for other purpose.
  */
 
-import { resolve } from 'path';
+import { resolve } from 'pathe';
 import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
 import type { BuildOptions, UserConfig as ViteUserConfig, UserConfigExport } from 'vite';
