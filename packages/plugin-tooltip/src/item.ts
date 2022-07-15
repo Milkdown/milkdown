@@ -56,7 +56,7 @@ export type ButtonList = ButtonItem[];
 
 export type TooltipOptions = {
     bottom: boolean;
-    items: ((ctx: Ctx) => Array<Item>) | undefined;
+    items: (ctx: Ctx) => Array<Item>;
 };
 
 export const buttonMap = (ctx: Ctx, items: (ctx: Ctx) => Array<Item> = defaultButtons): ButtonList => {
