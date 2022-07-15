@@ -66,6 +66,13 @@ new Editor({ ...  }).use(nodes);
 
 ## Node Options
 
+### Heading
+
+-   getId: (node: PMNode) => string
+    Pass in a option to generate an id for the heading.
+-   displayHashtag: boolean
+    Whether to display the hashtag or not. Default is true.
+
 ### Image
 
 -   placeholder: The placeholder of empty status.
