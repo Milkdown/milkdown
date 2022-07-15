@@ -15,12 +15,11 @@ export * from './default-config';
 export type { HandleDOM, HandleDOMParams } from './menubar';
 
 export type Options = {
-    config: Config;
+    config: Config | ((ctx: Ctx) => Config);
     domHandler: HandleDOM;
 };
 
 export const menuPlugin = createPlugin<string, Options>((utils, options) => {
-    const config = options?.config ?? defaultConfig;
     const domHandler = options?.domHandler;
 
     let restoreDOM: (() => void) | null = null;
@@ -28,6 +27,12 @@ export const menuPlugin = createPlugin<string, Options>((utils, options) => {
     let manager: Manager | null = null;
 
     const initIfNecessary = (ctx: Ctx, editorView: EditorView) => {
+        const config: Config = options?.config
+            ? typeof options.config === 'function'
+                ? options.config(ctx)
+                : options.config
+            : defaultConfig;
+
         if (!editorView.editable) {
             return;
         }
