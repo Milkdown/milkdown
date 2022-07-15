@@ -1,4 +1,4 @@
-# <img src="/gh-pages/public/milkdown-mini.svg" height="30px" />&nbsp;&nbsp;Milkdown
+# <img src="/website/public/milkdown-mini.svg" height="30px" />&nbsp;&nbsp;Milkdown
 
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
@@ -9,7 +9,7 @@
 ![license][license-badge]
 
 <div align="center">
-    <img src="/gh-pages/public/milkdown-homepage.svg" />
+    <img src="/website/public/milkdown-homepage.svg" />
 </div>
 
 A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/), built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).

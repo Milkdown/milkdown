@@ -226,143 +226,6 @@ importers:
       '@milkdown/vue': link:../../packages/vue
       vue: 3.2.33
 
-  gh-pages:
-    specifiers:
-      '@codemirror/autocomplete': ^6.0.0
-      '@codemirror/commands': ^6.0.0
-      '@codemirror/lang-markdown': ^6.0.0
-      '@codemirror/language': ^6.0.0
-      '@codemirror/lint': ^6.0.0
-      '@codemirror/search': ^6.0.0
-      '@codemirror/state': ^6.0.0
-      '@codemirror/view': ^6.0.0
-      '@milkdown/core': workspace:*
-      '@milkdown/ctx': workspace:*
-      '@milkdown/design-system': workspace:*
-      '@milkdown/exception': workspace:*
-      '@milkdown/plugin-block': workspace:*
-      '@milkdown/plugin-clipboard': workspace:*
-      '@milkdown/plugin-collaborative': workspace:*
-      '@milkdown/plugin-cursor': workspace:*
-      '@milkdown/plugin-diagram': workspace:*
-      '@milkdown/plugin-emoji': workspace:*
-      '@milkdown/plugin-history': workspace:*
-      '@milkdown/plugin-indent': workspace:*
-      '@milkdown/plugin-listener': workspace:*
-      '@milkdown/plugin-math': workspace:*
-      '@milkdown/plugin-menu': workspace:*
-      '@milkdown/plugin-prism': workspace:*
-      '@milkdown/plugin-slash': workspace:*
-      '@milkdown/plugin-tooltip': workspace:*
-      '@milkdown/plugin-trailing': workspace:*
-      '@milkdown/plugin-upload': workspace:*
-      '@milkdown/preset-commonmark': workspace:*
-      '@milkdown/preset-gfm': workspace:*
-      '@milkdown/prose': workspace:*
-      '@milkdown/react': workspace:*
-      '@milkdown/theme-nord': workspace:*
-      '@milkdown/theme-tokyo': workspace:*
-      '@milkdown/transformer': workspace:*
-      '@milkdown/utils': workspace:*
-      '@milkdown/vue': workspace:*
-      '@rollup/pluginutils': '*'
-      '@types/estree': ^1.0.0
-      '@types/prosemirror-dev-tools': ^3.0.2
-      '@types/react': ^18.0.0
-      '@types/react-dom': ^18.0.0
-      '@types/react-helmet': ^6.1.5
-      '@types/react-router-dom': ^5.1.7
-      '@vitejs/plugin-react': ^2.0.0
-      '@vitejs/plugin-react-refresh': ^1.3.3
-      autoprefixer: ^10.2.5
-      history: ^5.0.1
-      postcss: ^8.2.12
-      postcss-cli: ^10.0.0
-      postcss-functions: ^4.0.2
-      postcss-import: ^14.0.1
-      postcss-mixins: ^9.0.0
-      postcss-nested: ^5.0.5
-      prism-themes: ^1.7.0
-      prosemirror-dev-tools: ^3.1.0
-      react: ^18.0.0
-      react-dom: ^18.0.0
-      react-helmet: ^6.1.0
-      react-loading-skeleton: ^3.0.2
-      react-router-dom: ^6.0.0
-      react-spinners: ^0.13.0
-      sitemap: ^7.1.1
-      tslib: ^2.3.1
-      unist-util-visit: ^4.0.0
-      xml-formatter: ^2.6.1
-    dependencies:
-      '@codemirror/autocomplete': 6.0.1
-      '@codemirror/commands': 6.0.0
-      '@codemirror/lang-markdown': 6.0.0
-      '@codemirror/language': 6.0.0
-      '@codemirror/lint': 6.0.0
-      '@codemirror/search': 6.0.0
-      '@codemirror/state': 6.0.0
-      '@codemirror/view': 6.0.0
-      '@milkdown/core': link:../packages/core
-      '@milkdown/ctx': link:../packages/ctx
-      '@milkdown/design-system': link:../packages/design-system
-      '@milkdown/exception': link:../packages/exception
-      '@milkdown/plugin-block': link:../packages/plugin-block
-      '@milkdown/plugin-clipboard': link:../packages/plugin-clipboard
-      '@milkdown/plugin-collaborative': link:../packages/plugin-collaborative
-      '@milkdown/plugin-cursor': link:../packages/plugin-cursor
-      '@milkdown/plugin-diagram': link:../packages/plugin-diagram
-      '@milkdown/plugin-emoji': link:../packages/plugin-emoji
-      '@milkdown/plugin-history': link:../packages/plugin-history
-      '@milkdown/plugin-indent': link:../packages/plugin-indent
-      '@milkdown/plugin-listener': link:../packages/plugin-listener
-      '@milkdown/plugin-math': link:../packages/plugin-math
-      '@milkdown/plugin-menu': link:../packages/plugin-menu
-      '@milkdown/plugin-prism': link:../packages/plugin-prism
-      '@milkdown/plugin-slash': link:../packages/plugin-slash
-      '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
-      '@milkdown/plugin-trailing': link:../packages/plugin-trailing
-      '@milkdown/plugin-upload': link:../packages/plugin-upload
-      '@milkdown/preset-commonmark': link:../packages/preset-commonmark
-      '@milkdown/preset-gfm': link:../packages/preset-gfm
-      '@milkdown/prose': link:../packages/prose
-      '@milkdown/react': link:../packages/react
-      '@milkdown/theme-nord': link:../packages/theme-nord
-      '@milkdown/theme-tokyo': link:../packages/theme-tokyo
-      '@milkdown/transformer': link:../packages/transformer
-      '@milkdown/utils': link:../packages/utils
-      '@milkdown/vue': link:../packages/vue
-      '@types/react-helmet': 6.1.5
-      prism-themes: 1.9.0
-      react: 18.1.0
-      react-dom: 18.1.0_react@18.1.0
-      react-helmet: 6.1.0_react@18.1.0
-      react-loading-skeleton: 3.1.0_react@18.1.0
-      react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
-      react-spinners: 0.13.1_ef5jwxihqo6n7gxfmzogljlgcm
-      tslib: 2.3.1
-      unist-util-visit: 4.1.0
-    devDependencies:
-      '@rollup/pluginutils': 4.1.2
-      '@types/estree': 1.0.0
-      '@types/prosemirror-dev-tools': 3.0.2
-      '@types/react': 18.0.8
-      '@types/react-dom': 18.0.3
-      '@types/react-router-dom': 5.3.3
-      '@vitejs/plugin-react': 2.0.0
-      '@vitejs/plugin-react-refresh': 1.3.6
-      autoprefixer: 10.4.7_postcss@8.4.12
-      history: 5.3.0
-      postcss: 8.4.12
-      postcss-cli: 10.0.0_postcss@8.4.12
-      postcss-functions: 4.0.2_postcss@8.4.12
-      postcss-import: 14.1.0_postcss@8.4.12
-      postcss-mixins: 9.0.2_postcss@8.4.12
-      postcss-nested: 5.0.6_postcss@8.4.12
-      prosemirror-dev-tools: 3.1.0_i6xcbgvvylvakhe2evaee3dlf4
-      sitemap: 7.1.1
-      xml-formatter: 2.6.1
-
   packages/core:
     specifiers:
       '@milkdown/ctx': workspace:*
@@ -875,6 +738,143 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
       vue: 3.2.33
+
+  website:
+    specifiers:
+      '@codemirror/autocomplete': ^6.0.0
+      '@codemirror/commands': ^6.0.0
+      '@codemirror/lang-markdown': ^6.0.0
+      '@codemirror/language': ^6.0.0
+      '@codemirror/lint': ^6.0.0
+      '@codemirror/search': ^6.0.0
+      '@codemirror/state': ^6.0.0
+      '@codemirror/view': ^6.0.0
+      '@milkdown/core': workspace:*
+      '@milkdown/ctx': workspace:*
+      '@milkdown/design-system': workspace:*
+      '@milkdown/exception': workspace:*
+      '@milkdown/plugin-block': workspace:*
+      '@milkdown/plugin-clipboard': workspace:*
+      '@milkdown/plugin-collaborative': workspace:*
+      '@milkdown/plugin-cursor': workspace:*
+      '@milkdown/plugin-diagram': workspace:*
+      '@milkdown/plugin-emoji': workspace:*
+      '@milkdown/plugin-history': workspace:*
+      '@milkdown/plugin-indent': workspace:*
+      '@milkdown/plugin-listener': workspace:*
+      '@milkdown/plugin-math': workspace:*
+      '@milkdown/plugin-menu': workspace:*
+      '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-slash': workspace:*
+      '@milkdown/plugin-tooltip': workspace:*
+      '@milkdown/plugin-trailing': workspace:*
+      '@milkdown/plugin-upload': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/preset-gfm': workspace:*
+      '@milkdown/prose': workspace:*
+      '@milkdown/react': workspace:*
+      '@milkdown/theme-nord': workspace:*
+      '@milkdown/theme-tokyo': workspace:*
+      '@milkdown/transformer': workspace:*
+      '@milkdown/utils': workspace:*
+      '@milkdown/vue': workspace:*
+      '@rollup/pluginutils': '*'
+      '@types/estree': ^1.0.0
+      '@types/prosemirror-dev-tools': ^3.0.2
+      '@types/react': ^18.0.0
+      '@types/react-dom': ^18.0.0
+      '@types/react-helmet': ^6.1.5
+      '@types/react-router-dom': ^5.1.7
+      '@vitejs/plugin-react': ^2.0.0
+      '@vitejs/plugin-react-refresh': ^1.3.3
+      autoprefixer: ^10.2.5
+      history: ^5.0.1
+      postcss: ^8.2.12
+      postcss-cli: ^10.0.0
+      postcss-functions: ^4.0.2
+      postcss-import: ^14.0.1
+      postcss-mixins: ^9.0.0
+      postcss-nested: ^5.0.5
+      prism-themes: ^1.7.0
+      prosemirror-dev-tools: ^3.1.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      react-helmet: ^6.1.0
+      react-loading-skeleton: ^3.0.2
+      react-router-dom: ^6.0.0
+      react-spinners: ^0.13.0
+      sitemap: ^7.1.1
+      tslib: ^2.3.1
+      unist-util-visit: ^4.0.0
+      xml-formatter: ^2.6.1
+    dependencies:
+      '@codemirror/autocomplete': 6.0.1
+      '@codemirror/commands': 6.0.0
+      '@codemirror/lang-markdown': 6.0.0
+      '@codemirror/language': 6.0.0
+      '@codemirror/lint': 6.0.0
+      '@codemirror/search': 6.0.0
+      '@codemirror/state': 6.0.0
+      '@codemirror/view': 6.0.0
+      '@milkdown/core': link:../packages/core
+      '@milkdown/ctx': link:../packages/ctx
+      '@milkdown/design-system': link:../packages/design-system
+      '@milkdown/exception': link:../packages/exception
+      '@milkdown/plugin-block': link:../packages/plugin-block
+      '@milkdown/plugin-clipboard': link:../packages/plugin-clipboard
+      '@milkdown/plugin-collaborative': link:../packages/plugin-collaborative
+      '@milkdown/plugin-cursor': link:../packages/plugin-cursor
+      '@milkdown/plugin-diagram': link:../packages/plugin-diagram
+      '@milkdown/plugin-emoji': link:../packages/plugin-emoji
+      '@milkdown/plugin-history': link:../packages/plugin-history
+      '@milkdown/plugin-indent': link:../packages/plugin-indent
+      '@milkdown/plugin-listener': link:../packages/plugin-listener
+      '@milkdown/plugin-math': link:../packages/plugin-math
+      '@milkdown/plugin-menu': link:../packages/plugin-menu
+      '@milkdown/plugin-prism': link:../packages/plugin-prism
+      '@milkdown/plugin-slash': link:../packages/plugin-slash
+      '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
+      '@milkdown/plugin-trailing': link:../packages/plugin-trailing
+      '@milkdown/plugin-upload': link:../packages/plugin-upload
+      '@milkdown/preset-commonmark': link:../packages/preset-commonmark
+      '@milkdown/preset-gfm': link:../packages/preset-gfm
+      '@milkdown/prose': link:../packages/prose
+      '@milkdown/react': link:../packages/react
+      '@milkdown/theme-nord': link:../packages/theme-nord
+      '@milkdown/theme-tokyo': link:../packages/theme-tokyo
+      '@milkdown/transformer': link:../packages/transformer
+      '@milkdown/utils': link:../packages/utils
+      '@milkdown/vue': link:../packages/vue
+      '@types/react-helmet': 6.1.5
+      prism-themes: 1.9.0
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+      react-helmet: 6.1.0_react@18.1.0
+      react-loading-skeleton: 3.1.0_react@18.1.0
+      react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
+      react-spinners: 0.13.1_ef5jwxihqo6n7gxfmzogljlgcm
+      tslib: 2.3.1
+      unist-util-visit: 4.1.0
+    devDependencies:
+      '@rollup/pluginutils': 4.2.1
+      '@types/estree': 1.0.0
+      '@types/prosemirror-dev-tools': 3.0.2
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.3
+      '@types/react-router-dom': 5.3.3
+      '@vitejs/plugin-react': 2.0.0
+      '@vitejs/plugin-react-refresh': 1.3.6
+      autoprefixer: 10.4.7_postcss@8.4.14
+      history: 5.3.0
+      postcss: 8.4.14
+      postcss-cli: 10.0.0_postcss@8.4.14
+      postcss-functions: 4.0.2_postcss@8.4.14
+      postcss-import: 14.1.0_postcss@8.4.14
+      postcss-mixins: 9.0.2_postcss@8.4.14
+      postcss-nested: 5.0.6_postcss@8.4.14
+      prosemirror-dev-tools: 3.1.0_i6xcbgvvylvakhe2evaee3dlf4
+      sitemap: 7.1.1
+      xml-formatter: 2.6.1
 
 packages:
 
@@ -3925,7 +3925,7 @@ packages:
     engines: {node: '>= 4.0.0'}
     dev: true
 
-  /autoprefixer/10.4.7_postcss@8.4.12:
+  /autoprefixer/10.4.7_postcss@8.4.14:
     resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
@@ -3937,7 +3937,7 @@ packages:
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
-      postcss: 8.4.12
+      postcss: 8.4.14
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -4055,7 +4055,7 @@ packages:
     dev: true
 
   /babel-runtime/6.26.0:
-    resolution: {integrity: sha1-llxwWGaOgrVde/4E/yM3vItWR/4=}
+    resolution: {integrity: sha512-ITKNuq2wKlW1fJg9sSW52eepoYgZBggvOAHC0u/CYu/qxQ9EVzThCgR69BnSXLHjy2f7SY5zaQ4yt7H9ZVxY2g==}
     dependencies:
       core-js: 2.6.12
       regenerator-runtime: 0.11.1
@@ -4069,7 +4069,7 @@ packages:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
   /base16/1.0.0:
-    resolution: {integrity: sha1-4pf2DX7BAUp6lxo568ipjAtoHnA=}
+    resolution: {integrity: sha512-pNdYkNPiJUnEhnfXV56+sQy8+AaPcG3POZAUnwr4EeqCUZFz4u2PePbo3e5Gj4ziYPCWGUZT9RHisvJKnwFuBQ==}
     dev: true
 
   /base64-js/1.5.1:
@@ -4565,7 +4565,7 @@ packages:
 
   /core-js/2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: true
 
@@ -7173,7 +7173,7 @@ packages:
     dev: true
 
   /html/1.0.0:
-    resolution: {integrity: sha1-pUT6nqVJK/s6LMqCEKEL57WvH2E=}
+    resolution: {integrity: sha512-lw/7YsdKiP3kk5PnR1INY17iJuzdAtJewxr14ozKJWbbR97znovZ0mh+WEMZ8rjc3lgTK+ID/htTjuyGKB52Kw==}
     hasBin: true
     dependencies:
       concat-stream: 1.6.2
@@ -7596,7 +7596,7 @@ packages:
     dev: true
 
   /isarray/1.0.0:
-    resolution: {integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=}
+    resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
     dev: true
 
   /isexe/2.0.0:
@@ -8271,7 +8271,6 @@ packages:
       chalk: 2.4.2
       diff-match-patch: 1.0.5
     dev: true
-    bundledDependencies: []
 
   /jsonfile/4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
@@ -8587,15 +8586,15 @@ packages:
     dev: true
 
   /lodash._getnative/3.9.1:
-    resolution: {integrity: sha1-VwvH3t5G1hzc3mh9ZdPuy6o6r/U=}
+    resolution: {integrity: sha512-RrL9VxMEPyDMHOd9uFbvMe8X55X16/cGM5IgOKgRElQZutpX89iS6vwl64duTV1/16w5JY7tuFNXqoekmh1EmA==}
     dev: true
 
   /lodash.curry/4.1.1:
-    resolution: {integrity: sha1-JI42By7ekGUB11lmIAqG2riyMXA=}
+    resolution: {integrity: sha512-/u14pXGviLaweY5JI0IUzgzF2J6Ne8INyzAZjImcryjgkZ+ebruBxy2/JaOOkTqScddcYtakjhSaeemV8lR0tA==}
     dev: true
 
   /lodash.debounce/3.1.1:
-    resolution: {integrity: sha1-gSIRw3ipTMKdWqTjNGzwv846ffU=}
+    resolution: {integrity: sha512-lcmJwMpdPAtChA4hfiwxTtgFeNAaow701wWUgVUqeD0XJF7vMXIN+bu/2FJSGxT0NUbZy9g9VFrlOFfPjl+0Ew==}
     dependencies:
       lodash._getnative: 3.9.1
     dev: true
@@ -8605,7 +8604,7 @@ packages:
     dev: false
 
   /lodash.flow/3.5.0:
-    resolution: {integrity: sha1-h79AKSuM+D5OjOGjrkIJ4gBxZ1o=}
+    resolution: {integrity: sha512-ff3BX/tSioo+XojX4MOsOMhJw0nZoUEF011LX8g8d3gvjVbxd89cCio4BCXronjxcTUIJUoqKEUA+n4CqvvRPw==}
     dev: true
 
   /lodash.merge/4.6.2:
@@ -9381,7 +9380,7 @@ packages:
     dev: true
 
   /normalize-range/0.1.2:
-    resolution: {integrity: sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=}
+    resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
     dev: true
 
@@ -9456,7 +9455,7 @@ packages:
     dev: true
 
   /object-assign/4.1.1:
-    resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
+    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
 
   /object-inspect/1.12.2:
@@ -9773,7 +9772,7 @@ packages:
     dev: true
 
   /pify/2.3.0:
-    resolution: {integrity: sha1-7RQaasBDqEnqWISY59yosVMw6Qw=}
+    resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
     dev: true
 
@@ -9831,7 +9830,7 @@ packages:
     engines: {node: '>=12.13.0'}
     dev: false
 
-  /postcss-cli/10.0.0_postcss@8.4.12:
+  /postcss-cli/10.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-Wjy/00wBBEgQqnSToznxLWDnATznokFGXsHtF/3G8glRZpz5KYlfHcBW/VMJmWAeF2x49zjgy4izjM3/Wx1dKA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -9844,9 +9843,9 @@ packages:
       get-stdin: 9.0.0
       globby: 13.1.2
       picocolors: 1.0.0
-      postcss: 8.4.12
-      postcss-load-config: 4.0.1_postcss@8.4.12
-      postcss-reporter: 7.0.5_postcss@8.4.12
+      postcss: 8.4.14
+      postcss-load-config: 4.0.1_postcss@8.4.14
+      postcss-reporter: 7.0.5_postcss@8.4.14
       pretty-hrtime: 1.0.3
       read-cache: 1.0.0
       slash: 4.0.0
@@ -9855,38 +9854,38 @@ packages:
       - ts-node
     dev: true
 
-  /postcss-functions/4.0.2_postcss@8.4.12:
+  /postcss-functions/4.0.2_postcss@8.4.14:
     resolution: {integrity: sha512-htDZN6t97uW4GBXquTsz/DVaNVAHtHx5tLCALquVM2u58UwHki+RwHbANKiiI0ImA8T7Iml2MnvLUM7aGtlpqA==}
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
-      postcss: 8.4.12
+      postcss: 8.4.14
       postcss-value-parser: 4.2.0
     dev: true
 
-  /postcss-import/14.1.0_postcss@8.4.12:
+  /postcss-import/14.1.0_postcss@8.4.14:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
-      postcss: 8.4.12
+      postcss: 8.4.14
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
-      resolve: 1.22.0
+      resolve: 1.22.1
     dev: true
 
-  /postcss-js/4.0.0_postcss@8.4.12:
+  /postcss-js/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
     engines: {node: ^12 || ^14 || >= 16}
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.4.12
+      postcss: 8.4.14
     dev: true
 
-  /postcss-load-config/4.0.1_postcss@8.4.12:
+  /postcss-load-config/4.0.1_postcss@8.4.14:
     resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==}
     engines: {node: '>= 14'}
     peerDependencies:
@@ -9899,41 +9898,41 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.0.5
-      postcss: 8.4.12
+      postcss: 8.4.14
       yaml: 2.1.1
     dev: true
 
-  /postcss-mixins/9.0.2_postcss@8.4.12:
+  /postcss-mixins/9.0.2_postcss@8.4.14:
     resolution: {integrity: sha512-LaFjXcR+7LRji+Sc6DRn1mUw43+Y9Lyh5JjFTQDedlIi4W6REAesRXRJLlms5424vb0zerBfCVZzS2ZHRxGZOA==}
     engines: {node: '>=12.0'}
     peerDependencies:
       postcss: ^8.2.14
     dependencies:
       fast-glob: 3.2.11
-      postcss: 8.4.12
-      postcss-js: 4.0.0_postcss@8.4.12
-      postcss-simple-vars: 6.0.3_postcss@8.4.12
-      sugarss: 4.0.1_postcss@8.4.12
+      postcss: 8.4.14
+      postcss-js: 4.0.0_postcss@8.4.14
+      postcss-simple-vars: 6.0.3_postcss@8.4.14
+      sugarss: 4.0.1_postcss@8.4.14
     dev: true
 
-  /postcss-nested/5.0.6_postcss@8.4.12:
+  /postcss-nested/5.0.6_postcss@8.4.14:
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
     engines: {node: '>=12.0'}
     peerDependencies:
       postcss: ^8.2.14
     dependencies:
-      postcss: 8.4.12
+      postcss: 8.4.14
       postcss-selector-parser: 6.0.10
     dev: true
 
-  /postcss-reporter/7.0.5_postcss@8.4.12:
+  /postcss-reporter/7.0.5_postcss@8.4.14:
     resolution: {integrity: sha512-glWg7VZBilooZGOFPhN9msJ3FQs19Hie7l5a/eE6WglzYqVeH3ong3ShFcp9kDWJT1g2Y/wd59cocf9XxBtkWA==}
     engines: {node: '>=10'}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
       picocolors: 1.0.0
-      postcss: 8.4.12
+      postcss: 8.4.14
       thenby: 1.3.4
     dev: true
 
@@ -9945,13 +9944,13 @@ packages:
       util-deprecate: 1.0.2
     dev: true
 
-  /postcss-simple-vars/6.0.3_postcss@8.4.12:
+  /postcss-simple-vars/6.0.3_postcss@8.4.14:
     resolution: {integrity: sha512-fkNn4Zio8vN4vIig9IFdb8lVlxWnYR769RgvxCM6YWlFKie/nQaOcaMMMFz/s4gsfHW4/5bJW+i57zD67mQU7g==}
     engines: {node: '>=10.0'}
     peerDependencies:
       postcss: ^8.2.1
     dependencies:
-      postcss: 8.4.12
+      postcss: 8.4.14
     dev: true
 
   /postcss-value-parser/4.2.0:
@@ -10080,8 +10079,8 @@ packages:
       jsondiffpatch: 0.4.1
       nanoid: 2.1.11
       prop-types: 15.8.1
-      prosemirror-model: 1.16.1
-      prosemirror-state: 1.3.4
+      prosemirror-model: 1.18.0
+      prosemirror-state: 1.4.0
       react: 18.1.0
       react-dock: 0.2.4_react@18.1.0
       react-dom: 18.1.0_react@18.1.0
@@ -10132,17 +10131,10 @@ packages:
       w3c-keyname: 2.2.4
     dev: false
 
-  /prosemirror-model/1.16.1:
-    resolution: {integrity: sha512-r1/w0HDU40TtkXp0DyKBnFPYwd8FSlUSJmGCGFv4DeynfeSlyQF2FD0RQbVEMOe6P3PpUSXM6LZBV7W/YNZ4mA==}
-    dependencies:
-      orderedmap: 1.1.5
-    dev: true
-
   /prosemirror-model/1.18.0:
     resolution: {integrity: sha512-EZLl0mvVIixEL1V538GsPP4Iw+D83gBRdLcjL7VouzoPPWlhhv/0Y0V9ttT5lUhF7jieIrNHOa3XNFs1FwgrOw==}
     dependencies:
       orderedmap: 1.1.5
-    dev: false
 
   /prosemirror-schema-list/1.2.0:
     resolution: {integrity: sha512-8PT/9xOx1HHdC7fDNNfhQ50Z8Mzu7nKyA1KCDltSpcZVZIbB0k7KtsHrnXyuIhbLlScoymBiLZ00c5MH6wdFsA==}
@@ -10152,31 +10144,16 @@ packages:
       prosemirror-transform: 1.6.0
     dev: false
 
-  /prosemirror-state/1.3.4:
-    resolution: {integrity: sha512-Xkkrpd1y/TQ6HKzN3agsQIGRcLckUMA9u3j207L04mt8ToRgpGeyhbVv0HI7omDORIBHjR29b7AwlATFFf2GLA==}
-    dependencies:
-      prosemirror-model: 1.16.1
-      prosemirror-transform: 1.4.2
-    dev: true
-
   /prosemirror-state/1.4.0:
     resolution: {integrity: sha512-mVDZdjNX/YT5FvypiwbphJe9psA5h+j9apsSszVRFc6oKFoIInvzdujh8QW9f9lwHtSYajLxNiM1hPhd0Sl1XA==}
     dependencies:
       prosemirror-model: 1.18.0
       prosemirror-transform: 1.6.0
-    dev: false
-
-  /prosemirror-transform/1.4.2:
-    resolution: {integrity: sha512-bcIsf3uRZhfab0xRfyyxOEh6eqSszq/hJbDbmUumFnbHBoWhB/uXbpz6vvUxfk0XiEvrZDJ+5pXRrNDc1Hu3vQ==}
-    dependencies:
-      prosemirror-model: 1.16.1
-    dev: true
 
   /prosemirror-transform/1.6.0:
     resolution: {integrity: sha512-MAp7AjsjEGEqQY0sSMufNIUuEyB1ZR9Fqlm8dTwwWwpEJRv/plsKjWXBbx52q3Ml8MtaMcd7ic14zAHVB3WaMw==}
     dependencies:
       prosemirror-model: 1.18.0
-    dev: false
 
   /prosemirror-view/1.26.0:
     resolution: {integrity: sha512-tT8ICUAw6YfOTRIwVQJoCdF65BYxoWFjAqmv44Kn4phYjdLJ8Vc92dhL3LnmwAQuZ9yfPHzRR6Lfb3/5EVJHWg==}
@@ -10227,7 +10204,7 @@ packages:
     dev: true
 
   /pure-color/1.3.0:
-    resolution: {integrity: sha1-H+Bk+wrIUfDeYTIKi/eWg2Qi8z4=}
+    resolution: {integrity: sha512-QFADYnsVoBMw1srW7OVKEYjG+MbIa49s54w1MA1EDY6r2r/sTcKKYqRX1f4GYvnXP7eN/Pe9HFcX+hwzmrXRHA==}
     dev: true
 
   /q/1.5.1:
@@ -10254,7 +10231,7 @@ packages:
     dev: true
 
   /react-base16-styling/0.5.3:
-    resolution: {integrity: sha1-OFjyTpxN2MvT9wLz901YHKKRcmk=}
+    resolution: {integrity: sha512-EPuchwVvYPSFFIjGpH0k6wM0HQsmJ0vCk7BSl5ryxMVFIWW4hX4Kksu4PNtxfgOxDebTLkJQ8iC7zwAql0eusg==}
     dependencies:
       base16: 1.0.0
       lodash.curry: 4.1.1
@@ -10263,7 +10240,7 @@ packages:
     dev: true
 
   /react-dock/0.2.4_react@18.1.0:
-    resolution: {integrity: sha1-5yfcdVCztzEWY13LnA4E0Lev4Xw=}
+    resolution: {integrity: sha512-ywUJPC/TIM9PO700skka0fH4aqbrH8RojUXejZFvjtqlc5KZ+xjHqFdo4A3j+dp+0NLFZ3Nai4xzcf3FUJ9BsQ==}
     peerDependencies:
       babel-runtime: ^6.3.13
       react: '>=0.13.0 || 18'
@@ -11232,13 +11209,13 @@ packages:
     resolution: {integrity: sha512-lVrM/bNdhVX2OgBFNa2YJ9Lxj7kPzylieHd3TNjuGE0Re9JB7joL5VUKOVH1kdNNJTgGPpT8hmwIAPLaSyEVFQ==}
     dev: false
 
-  /sugarss/4.0.1_postcss@8.4.12:
+  /sugarss/4.0.1_postcss@8.4.14:
     resolution: {integrity: sha512-WCjS5NfuVJjkQzK10s8WOBY+hhDxxNt/N6ZaGwxFZ+wN3/lKKFSaaKUNecULcTTvE4urLcKaZFQD8vO0mOZujw==}
     engines: {node: '>=12.0'}
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
-      postcss: 8.4.12
+      postcss: 8.4.14
     dev: true
 
   /supports-color/2.0.0:
@@ -11606,7 +11583,7 @@ packages:
     dev: true
 
   /typedarray/0.0.6:
-    resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
+    resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
   /typescript/4.7.4:

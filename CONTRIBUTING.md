@@ -23,17 +23,17 @@ For example, `pnpm --filter=@milkdown/core start`.
 
 You can run several commands:
 
--   `pnpm watch` watches all packages except gh-pages.
+-   `pnpm watch` watches all packages except website.
 -   `pnpm clear` remove all build dist.
 -   `pnpm test:unit` runs unit test.
 -   `pnpm test:it` runs integration test.
 -   `pnpm test:lint` checks the code style.
 -   `pnpm test:tsc` runs typescript type checks.
 -   `pnpm test` runs all possible test.
--   `pnpm doc` runs develop mode for gh-pages package.
+-   `pnpm doc` runs develop mode for website package.
 -   `pnpm build:packs` runs build for all packages.
 -   `pnpm build:cache` runs build for all packages with cache powered by nx.
--   `pnpm build:doc` runs build for gh-pages package.
+-   `pnpm build:doc` runs build for website package.
 -   `pnpm commit` runs commit with git hooks.
 
 # Pre Check

@@ -1,4 +1,4 @@
-# @milkdown/gh-pages
+# @milkdown/website
 
 ## 6.2.0
 

@@ -1,5 +1,5 @@
 packages:
     - 'packages/*'
     - 'examples/*'
-    - 'gh-pages'
+    - 'website'
     - 'e2e'

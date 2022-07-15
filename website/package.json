@@ -1,5 +1,5 @@
 {
-    "name": "@milkdown/gh-pages",
+    "name": "@milkdown/website",
     "private": true,
     "version": "6.2.0",
     "scripts": {
