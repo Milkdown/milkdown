@@ -36,7 +36,7 @@
     "dependencies": {
         "@milkdown/utils": "workspace:*",
         "@milkdown/exception": "workspace:*",
-        "tslib": "^2.3.1",
+        "tslib": "^2.4.0",
         "y-prosemirror": "^1.1.2",
         "y-protocols": "^1.0.5"
     },

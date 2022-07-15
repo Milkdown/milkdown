@@ -48,7 +48,7 @@ importers:
       rollup-plugin-copy: ^3.4.0
       rollup-plugin-dts: ^4.2.1
       rollup-plugin-esbuild: ^4.9.1
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       typescript: ^4.7.4
       vite: ^3.0.0
       vitest: ^0.18.0
@@ -113,7 +113,7 @@ importers:
       '@milkdown/theme-nord': workspace:*
       cypress: ^10.0.0
       start-server-and-test: ^1.13.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/core': link:../packages/core
       '@milkdown/design-system': link:../packages/design-system
@@ -230,7 +230,7 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/transformer': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/ctx': link:../ctx
       '@milkdown/design-system': link:../design-system
@@ -243,7 +243,7 @@ importers:
   packages/ctx:
     specifiers:
       '@milkdown/exception': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       tslib: 2.4.0
@@ -254,7 +254,7 @@ importers:
       '@emotion/css': ^11.1.3
       '@milkdown/ctx': workspace:*
       '@milkdown/prose': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@emotion/cache': 11.9.3
       '@emotion/css': 11.9.0
@@ -265,7 +265,7 @@ importers:
 
   packages/exception:
     specifiers:
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       tslib: 2.4.0
 
@@ -275,7 +275,7 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
@@ -289,7 +289,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.4.0
@@ -303,7 +303,7 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       y-prosemirror: ^1.1.2
       y-protocols: ^1.0.5
       yjs: ^13.5.38
@@ -323,7 +323,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.4.0
@@ -342,7 +342,7 @@ importers:
       '@types/unist': ^2.0.6
       mermaid: ^9.0.0
       nanoid: ^4.0.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       unist-util-visit: ^4.0.0
     dependencies:
       '@milkdown/exception': link:../exception
@@ -369,7 +369,7 @@ importers:
       emoji-regex: ^10.0.0
       node-emoji: ^1.10.0
       remark-emoji: ^3.0.1
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       twemoji: ^14.0.1
       unist-util-visit: ^4.0.0
     dependencies:
@@ -392,7 +392,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.4.0
@@ -405,7 +405,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.4.0
@@ -418,7 +418,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.4.0
@@ -436,7 +436,7 @@ importers:
       '@types/katex': ^0.14.0
       katex: ^0.16.0
       remark-math: ^5.1.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
@@ -456,7 +456,7 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
@@ -473,7 +473,7 @@ importers:
       '@milkdown/utils': workspace:*
       '@types/refractor': ^3.0.0
       refractor: ^4.0.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       '@types/refractor': 3.0.2
@@ -491,7 +491,7 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       smooth-scroll-into-view-if-needed: ^1.1.32
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
@@ -509,7 +509,7 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
@@ -524,7 +524,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       tslib: 2.4.0
@@ -538,7 +538,7 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
@@ -555,7 +555,7 @@ importers:
       '@milkdown/utils': workspace:*
       '@types/unist': ^2.0.6
       remark-inline-links: ^6.0.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       unist-util-visit: ^4.0.0
     dependencies:
       '@milkdown/exception': link:../exception
@@ -577,7 +577,7 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       remark-gfm: ^3.0.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
@@ -603,7 +603,7 @@ importers:
       prosemirror-state: ^1.4.0
       prosemirror-transform: ^1.6.0
       prosemirror-view: ^1.26.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       prosemirror-commands: 1.3.0
@@ -629,7 +629,7 @@ importers:
       nanoid: ^4.0.0
       react: ^18.0.0
       react-dom: ^18.0.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
       nanoid: 4.0.0
@@ -660,7 +660,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       tslib: 2.4.0
@@ -688,7 +688,7 @@ importers:
       '@types/mdast': ^3.0.10
       '@types/unist': ^2.0.6
       remark: ^14.0.1
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       unified: ^10.1.0
     dependencies:
       '@milkdown/exception': link:../exception
@@ -706,7 +706,7 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       nanoid: ^4.0.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       nanoid: 4.0.0
@@ -722,7 +722,7 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       nanoid: ^4.0.0
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       vue: ^3.0.0
     dependencies:
       '@milkdown/exception': link:../exception
@@ -797,7 +797,7 @@ importers:
       react-router-dom: ^6.0.0
       react-spinners: ^0.13.0
       sitemap: ^7.1.1
-      tslib: ^2.3.1
+      tslib: ^2.4.0
       unist-util-visit: ^4.0.0
       xml-formatter: ^2.6.1
     dependencies:
@@ -2085,7 +2085,7 @@ packages:
     dependencies:
       '@jest/types': 27.5.1
       '@types/node': 17.0.45
-      chalk: 4.1.0
+      chalk: 4.1.2
       jest-message-util: 27.5.1
       jest-util: 27.5.1
       slash: 3.0.0
@@ -2137,10 +2137,10 @@ packages:
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 17.0.45
-      chalk: 4.1.0
+      chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
-      glob: 7.1.4
+      glob: 7.2.3
       graceful-fs: 4.2.10
       istanbul-lib-coverage: 3.2.0
       istanbul-lib-instrument: 5.2.0
@@ -2198,7 +2198,7 @@ packages:
       '@babel/core': 7.18.6
       '@jest/types': 27.5.1
       babel-plugin-istanbul: 6.1.1
-      chalk: 4.1.0
+      chalk: 4.1.2
       convert-source-map: 1.8.0
       fast-json-stable-stringify: 2.1.0
       graceful-fs: 4.2.10
@@ -2222,7 +2222,7 @@ packages:
       '@types/istanbul-reports': 3.0.1
       '@types/node': 17.0.45
       '@types/yargs': 16.0.4
-      chalk: 4.1.0
+      chalk: 4.1.2
     dev: true
 
   /@jridgewell/gen-mapping/0.1.1:
@@ -3601,7 +3601,7 @@ packages:
       '@types/babel__core': 7.1.19
       babel-plugin-istanbul: 6.1.1
       babel-preset-jest: 27.5.1_@babel+core@7.18.6
-      chalk: 4.1.0
+      chalk: 4.1.2
       graceful-fs: 4.2.10
       slash: 3.0.0
     transitivePeerDependencies:
@@ -6338,7 +6338,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -7026,9 +7026,9 @@ packages:
     hasBin: true
     dependencies:
       async: 3.2.4
-      chalk: 4.1.0
+      chalk: 4.1.2
       filelist: 1.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
     dev: true
 
   /jest-circus/27.5.1:
@@ -7039,7 +7039,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 17.0.45
-      chalk: 4.1.0
+      chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
       expect: 27.5.1
@@ -7071,10 +7071,10 @@ packages:
       '@jest/test-sequencer': 27.5.1
       '@jest/types': 27.5.1
       babel-jest: 27.5.1_@babel+core@7.18.6
-      chalk: 4.1.0
+      chalk: 4.1.2
       ci-info: 3.3.2
       deepmerge: 4.2.2
-      glob: 7.1.4
+      glob: 7.2.3
       graceful-fs: 4.2.10
       jest-circus: 27.5.1
       jest-environment-jsdom: 27.5.1
@@ -7102,7 +7102,7 @@ packages:
     resolution: {integrity: sha512-m0NvkX55LDt9T4mctTEgnZk3fmEg3NRYutvMPWM/0iPnkFj2wIeF45O1718cMSOFO1vINkqmxqD8vE37uTEbqw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      chalk: 4.1.0
+      chalk: 4.1.2
       diff-sequences: 27.5.1
       jest-get-type: 27.5.1
       pretty-format: 27.5.1
@@ -7120,7 +7120,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      chalk: 4.1.0
+      chalk: 4.1.2
       jest-get-type: 27.5.1
       jest-util: 27.5.1
       pretty-format: 27.5.1
@@ -7190,7 +7190,7 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 17.0.45
-      chalk: 4.1.0
+      chalk: 4.1.2
       co: 4.6.0
       expect: 27.5.1
       is-generator-fn: 2.1.0
@@ -7218,7 +7218,7 @@ packages:
     resolution: {integrity: sha512-z2uTx/T6LBaCoNWNFWwChLBKYxTMcGBRjAt+2SbP929/Fflb9aa5LGma654Rz8z9HLxsrUaYzxE9T/EFIL/PAw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      chalk: 4.1.0
+      chalk: 4.1.2
       jest-diff: 27.5.1
       jest-get-type: 27.5.1
       pretty-format: 27.5.1
@@ -7231,7 +7231,7 @@ packages:
       '@babel/code-frame': 7.18.6
       '@jest/types': 27.5.1
       '@types/stack-utils': 2.0.1
-      chalk: 4.1.0
+      chalk: 4.1.2
       graceful-fs: 4.2.10
       micromatch: 4.0.5
       pretty-format: 27.5.1
@@ -7269,7 +7269,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      chalk: 4.1.0
+      chalk: 4.1.2
       graceful-fs: 4.2.10
       jest-haste-map: 27.5.1
       jest-pnp-resolver: 1.2.2_jest-resolve@27.5.1
@@ -7290,7 +7290,7 @@ packages:
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
       '@types/node': 17.0.45
-      chalk: 4.1.0
+      chalk: 4.1.2
       emittery: 0.8.1
       graceful-fs: 4.2.10
       jest-docblock: 27.5.1
@@ -7323,11 +7323,11 @@ packages:
       '@jest/test-result': 27.5.1
       '@jest/transform': 27.5.1
       '@jest/types': 27.5.1
-      chalk: 4.1.0
+      chalk: 4.1.2
       cjs-module-lexer: 1.2.2
       collect-v8-coverage: 1.0.1
       execa: 5.1.1
-      glob: 7.1.4
+      glob: 7.2.3
       graceful-fs: 4.2.10
       jest-haste-map: 27.5.1
       jest-message-util: 27.5.1
@@ -7364,7 +7364,7 @@ packages:
       '@types/babel__traverse': 7.17.1
       '@types/prettier': 2.6.3
       babel-preset-current-node-syntax: 1.0.1_@babel+core@7.18.6
-      chalk: 4.1.0
+      chalk: 4.1.2
       expect: 27.5.1
       graceful-fs: 4.2.10
       jest-diff: 27.5.1
@@ -7375,7 +7375,7 @@ packages:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.3.4
+      semver: 7.3.7
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7386,7 +7386,7 @@ packages:
     dependencies:
       '@jest/types': 27.5.1
       '@types/node': 17.0.45
-      chalk: 4.1.0
+      chalk: 4.1.2
       ci-info: 3.3.2
       graceful-fs: 4.2.10
       picomatch: 2.3.1
@@ -7398,7 +7398,7 @@ packages:
     dependencies:
       '@jest/types': 27.5.1
       camelcase: 6.3.0
-      chalk: 4.1.0
+      chalk: 4.1.2
       jest-get-type: 27.5.1
       leven: 3.1.0
       pretty-format: 27.5.1
@@ -7611,6 +7611,7 @@ packages:
       chalk: 2.4.2
       diff-match-patch: 1.0.5
     dev: true
+    bundledDependencies: []
 
   /jsonfile/4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
@@ -10549,8 +10550,8 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@istanbuljs/schema': 0.1.3
-      glob: 7.1.4
-      minimatch: 3.0.5
+      glob: 7.2.3
+      minimatch: 3.1.2
     dev: true
 
   /text-extensions/1.9.0:
