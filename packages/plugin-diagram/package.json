@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/plugin-diagram",
-    "version": "6.2.0",
+    "version": "6.3.0",
     "type": "module",
     "main": "./lib/index.es.js",
     "types": "./lib/index.d.ts",

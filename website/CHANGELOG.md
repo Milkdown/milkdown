@@ -1,5 +1,44 @@
 # @milkdown/website
 
+## 6.3.0
+
+### Minor Changes
+
+-   d3b2bd9d: https://github.com/Saul-Mirone/milkdown/milestone/4
+
+### Patch Changes
+
+-   Updated dependencies [d3b2bd9d]
+    -   @milkdown/core@6.3.0
+    -   @milkdown/ctx@6.3.0
+    -   @milkdown/design-system@6.3.0
+    -   @milkdown/exception@6.3.0
+    -   @milkdown/plugin-block@6.3.0
+    -   @milkdown/plugin-clipboard@6.3.0
+    -   @milkdown/plugin-collaborative@6.3.0
+    -   @milkdown/plugin-cursor@6.3.0
+    -   @milkdown/plugin-diagram@6.3.0
+    -   @milkdown/plugin-emoji@6.3.0
+    -   @milkdown/plugin-history@6.3.0
+    -   @milkdown/plugin-indent@6.3.0
+    -   @milkdown/plugin-listener@6.3.0
+    -   @milkdown/plugin-math@6.3.0
+    -   @milkdown/plugin-menu@6.3.0
+    -   @milkdown/plugin-prism@6.3.0
+    -   @milkdown/plugin-slash@6.3.0
+    -   @milkdown/plugin-tooltip@6.3.0
+    -   @milkdown/plugin-trailing@6.3.0
+    -   @milkdown/plugin-upload@6.3.0
+    -   @milkdown/preset-commonmark@6.3.0
+    -   @milkdown/preset-gfm@6.3.0
+    -   @milkdown/prose@6.3.0
+    -   @milkdown/react@6.3.0
+    -   @milkdown/theme-nord@6.3.0
+    -   @milkdown/theme-tokyo@6.3.0
+    -   @milkdown/transformer@6.3.0
+    -   @milkdown/utils@6.3.0
+    -   @milkdown/vue@6.3.0
+
 ## 6.2.0
 
 ### Minor Changes
