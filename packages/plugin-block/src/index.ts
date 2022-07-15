@@ -12,7 +12,7 @@ export const defaultNodeFilter: FilterNodes = (node) => {
     return true;
 };
 
-type Options = {
+export type Options = {
     filterNodes: FilterNodes;
     configBuilder: ConfigBuilder;
 };
@@ -26,5 +26,7 @@ export const blockPlugin = createPlugin<string, Options>((utils, options) => {
         },
     };
 });
+
+export { defaultConfigBuilder } from './config';
 
 export const block: AtomList = AtomList.create([blockPlugin()]);
