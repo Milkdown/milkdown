@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.3.0
+
+### Minor Changes
+
+-   d3b2bd9d: https://github.com/Saul-Mirone/milkdown/milestone/4
+
 ## 6.2.0
 
 ### Minor Changes

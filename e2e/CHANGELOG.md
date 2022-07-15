@@ -1,5 +1,21 @@
 # @milkdown/e2e
 
+## 6.3.0
+
+### Minor Changes
+
+-   d3b2bd9d: https://github.com/Saul-Mirone/milkdown/milestone/4
+
+### Patch Changes
+
+-   Updated dependencies [d3b2bd9d]
+    -   @milkdown/core@6.3.0
+    -   @milkdown/design-system@6.3.0
+    -   @milkdown/preset-commonmark@6.3.0
+    -   @milkdown/preset-gfm@6.3.0
+    -   @milkdown/prose@6.3.0
+    -   @milkdown/theme-nord@6.3.0
+
 ## 6.2.0
 
 ### Minor Changes
