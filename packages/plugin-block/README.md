@@ -1,6 +1,6 @@
 # @milkdown/plugin-block
 
-The history plugin of [milkdown](https://milkdown.dev/).
+The block plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 

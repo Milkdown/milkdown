@@ -444,6 +444,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'plugin-block',
+        {
+            en: 'plugin-block',
+            'zh-hans': 'plugin-block',
+        },
+    ],
+    [
         'theme-nord',
         {
             en: 'Theme Nord',
