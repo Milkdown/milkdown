@@ -100,7 +100,7 @@ export class VueNodeView implements NodeView {
                         </Teleport>
                     );
                 },
-            }),
+            }) as DefineComponent,
         );
     };
 
