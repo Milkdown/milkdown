@@ -91,7 +91,7 @@ export class ReactNodeView implements NodeView {
     }
 
     get contentDOM() {
-        if ((this.node instanceof Node && this.node.isLeaf) || this.isInlineOrMark) {
+        if (this.node instanceof Node && this.node.isLeaf) {
             return null;
         }
 
