@@ -270,16 +270,13 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             width: 100%;
             overflow: auto;
             border-radius: ${manager.get(ThemeSize, 'radius')};
-            p {
-                line-height: unset;
-            }
         }
         tr {
             ${manager.get(ThemeBorder, 'bottom')};
         }
         td,
         th {
-            padding: 0 1em;
+            padding: 0 16px;
             vertical-align: top;
             box-sizing: border-box;
             position: relative;
@@ -288,7 +285,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             ${manager.get(ThemeBorder, undefined)};
             text-align: left;
             line-height: 3;
-            height: 3em;
+            height: 48px;
+            vertical-align: middle;
         }
         th {
             background: ${palette('background', 0.5)};
