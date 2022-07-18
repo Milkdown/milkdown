@@ -28,15 +28,15 @@ export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) =>
 
         .milkdown-emoji-filter_item {
             display: flex;
-            gap: 0.5em;
-            height: 2.57143em;
-            padding: 0 1em;
+            gap: 8px;
+            height: 36px;
+            padding: 0 14px;
             align-items: center;
             justify-content: flex-start;
             cursor: pointer;
             line-height: 2;
             font-family: ${typography};
-            font-size: 0.875em;
+            font-size: 14px;
             &.active {
                 background: ${palette('secondary', 0.12)};
                 color: ${palette('primary')};
@@ -44,10 +44,10 @@ export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) =>
         }
 
         .emoji {
-            height: 1em;
-            width: 1em;
-            margin: 0 0.05em 0 0.1em;
-            vertical-align: -0.1em;
+            height: 14px;
+            width: 14px;
+            margin: 0 1px 0 1.5px;
+            vertical-align: -1.5px;
         }
     `;
     return cx(border, shadow, style);

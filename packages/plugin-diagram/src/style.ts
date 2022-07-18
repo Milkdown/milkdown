@@ -15,7 +15,7 @@ export const getStyle = (themeManager: ThemeManager) => {
         primaryTextColor: neutral,
         noteBkgColor: background,
         noteTextColor: solid,
-        fontSize: '1em',
+        fontSize: '16px',
     };
     return Object.entries(style)
         .filter(([_, value]) => value?.length > 0)

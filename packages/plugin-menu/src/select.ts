@@ -41,9 +41,10 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
         e.preventDefault();
         e.stopPropagation();
         selectorWrapper.classList.toggle('fold');
-        selectorList.style.left = `${
-            selectorWrapper.getBoundingClientRect().left - (view.dom.parentElement?.getBoundingClientRect().left || 0)
-        }px`;
+        const wrapperRect = selectorWrapper.getBoundingClientRect();
+        selectorList.style.left = `${wrapperRect.left - (view.dom.parentElement?.getBoundingClientRect().left || 0)}px`;
+        const border = utils.themeManager.get(ThemeSize, 'lineWidth');
+        selectorList.style.top = `calc(${wrapperRect.height + 'px'} + ${border} * 2)`;
     });
     view.dom.addEventListener('click', () => {
         selectorWrapper.classList.add('fold');
@@ -96,7 +97,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
             return css`
                 flex-shrink: 0;
                 font-weight: 500;
-                font-size: 0.875em;
+                font-size: 14px;
 
                 ${themeManager.get(ThemeBorder, 'right')}
                 ${themeManager.get(ThemeBorder, 'left')}
@@ -111,11 +112,11 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                     align-items: center;
                     color: ${palette('neutral', 0.87)};
                     display: flex;
-                    padding: 0.25em;
-                    margin: 0.5em;
-                    height: 2em;
+                    padding: 4px;
+                    margin: 8px;
+                    height: 28px;
                     background: ${palette('secondary', 0.12)};
-                    width: 10.375em;
+                    width: 160px;
 
                     &:disabled {
                         display: none;
@@ -129,7 +130,7 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                 }
 
                 .menu-selector-list {
-                    width: 11.875em;
+                    width: 184px;
                     position: absolute;
                     background: ${palette('surface')};
                     ${themeManager.get(ThemeBorder, undefined)}
@@ -146,8 +147,8 @@ export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: Edito
                     display: block;
                     font: inherit;
                     text-align: left;
-                    padding: 0.75em 1em;
-                    line-height: 1.5em;
+                    padding: 12px 16px;
+                    line-height: 28px;
                     width: 100%;
                     color: ${palette('neutral', 0.87)};
 

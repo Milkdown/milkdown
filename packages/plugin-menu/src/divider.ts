@@ -17,8 +17,8 @@ export const divider = (utils: Utils) => {
                 flex-shrink: 0;
                 width: ${themeManager.get(ThemeSize, 'lineWidth')};
                 background-color: ${themeManager.get(ThemeColor, ['line'])};
-                margin: 0.75em 1em;
-                min-height: 1.5em;
+                margin: 12px 16px;
+                min-height: 24px;
             `;
         });
         if (dividerStyle) {

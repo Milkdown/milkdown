@@ -26,12 +26,12 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
             return css`
                 border: 0;
                 box-sizing: unset;
-                width: 2em;
-                height: 2em;
-                padding: 0.25em;
-                margin: 0.5em;
+                width: 28px;
+                height: 28px;
+                padding: 4px;
+                margin: 8px;
                 flex-shrink: 0;
-                font-size: 0.875em;
+                font-size: 14px;
 
                 display: flex;
                 justify-content: center;
@@ -54,7 +54,7 @@ export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
                 }
 
                 .material-icons-outlined {
-                    font-size: 1.8em;
+                    font-size: 24px;
                 }
             `;
         });

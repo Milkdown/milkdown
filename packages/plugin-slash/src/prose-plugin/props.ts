@@ -19,7 +19,7 @@ const createEmptyStyle = (themeManager: ThemeManager, { css }: Emotion) => {
             position: absolute;
             cursor: text;
             font-family: ${typography};
-            font-size: 0.875em;
+            font-size: 14px;
             color: ${palette('neutral', 0.6)};
             content: attr(data-text);
             height: 100%;
@@ -31,7 +31,7 @@ const createEmptyStyle = (themeManager: ThemeManager, { css }: Emotion) => {
 
 const createSlashStyle = (_: ThemeManager, { css }: Emotion) => css`
     &::before {
-        left: 0.5em;
+        left: 8px;
     }
 `;
 

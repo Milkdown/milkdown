@@ -32,10 +32,10 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
     `;
 
     const editorLayout = css`
-        padding: 3.125em 1.25em;
+        padding: 50px 20px;
         outline: none;
         & > * {
-            margin: 1.875em 0;
+            margin: 30px 0;
         }
     `;
 
@@ -49,41 +49,41 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
 
     const blockquote = css`
         blockquote {
-            padding-left: 1.875em;
-            line-height: 1.75em;
+            padding-left: 30px;
+            line-height: 28px;
             border-left: 4px solid ${palette('primary')};
             margin-left: 0;
             margin-right: 0;
             * {
-                font-size: 1em;
-                line-height: 1.5em;
+                font-size: 16px;
+                line-height: 24px;
             }
         }
     `;
 
     const heading = css`
         h1 {
-            font-size: 3em;
+            font-size: 48px;
             line-height: 1.167;
         }
         h2 {
-            font-size: 2.5em;
+            font-size: 40px;
             line-height: 1.2;
         }
         h3 {
-            font-size: 2.125em;
+            font-size: 34px;
             line-height: 1.05;
         }
         h4 {
-            font-size: 1.75em;
+            font-size: 28px;
             line-height: 1.14;
         }
         h5 {
-            font-size: 1.5em;
+            font-size: 24px;
             line-height: 1;
         }
         h6 {
-            font-size: 1.25em;
+            font-size: 20px;
             line-height: 1;
         }
         .heading {
@@ -152,8 +152,8 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             flex-direction: row;
             align-items: flex-start;
             &_checkbox {
-                margin: 0.5em 0.5em 0.5em 0;
-                height: 1em;
+                margin: 8px 8px 8px 0;
+                height: 16px;
             }
             & .paragraph {
                 margin: 0;
@@ -165,14 +165,14 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
         .code-fence {
             pre {
                 font-family: ${manager.get(ThemeFont, 'code')};
-                margin: 0 1.2em !important;
+                margin: 0 18px;
                 white-space: pre;
                 overflow: auto;
                 ${manager.get(ThemeScrollbar, ['x'])}
 
                 background-color: ${palette('background')};
                 color: ${palette('neutral')};
-                font-size: 0.875em;
+                font-size: 14px;
                 border-radius: ${radius};
 
                 code {
@@ -202,7 +202,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             border-radius: ${radius};
             font-weight: 500;
             font-family: ${code};
-            padding: 0 0.2em;
+            padding: 0 3px;
         }
 
         .strong {
@@ -217,7 +217,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             font-weight: 500;
             &:hover {
                 background-color: ${palette('line')};
-                box-shadow: 0 0.2em ${palette('line')}, 0 -0.2em ${palette('line')};
+                box-shadow: 0 3px ${palette('line')}, 0 -3px ${palette('line')};
             }
         }
 
@@ -231,14 +231,14 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             ${manager.get(ThemeBorder, undefined)};
             border-radius: ${manager.get(ThemeSize, 'radius')};
             background-color: ${palette('background')};
-            padding: 1em;
+            padding: 16px;
             display: flex;
             flex-direction: row;
             & > .footnote-definition_content {
                 flex: 1;
-                width: calc(100% - 1em);
+                width: calc(100% - 16px);
                 & > dd {
-                    margin-inline-start: 1em;
+                    margin-inline-start: 16px;
                 }
                 & > dt {
                     color: ${palette('secondary')};
@@ -246,7 +246,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 }
             }
             & > .footnote-definition_anchor {
-                width: 1em;
+                width: 16px;
             }
         }
     `;
@@ -261,7 +261,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             * {
                 margin: 0;
                 box-sizing: border-box;
-                font-size: 1em;
+                font-size: 16px;
             }
         }
         table {
@@ -327,7 +327,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
     injectGlobal`
         .milkdown {
             .material-icons-outlined {
-                font-size: 1.5em;
+                font-size: 24px;
             }
 
             position: relative;

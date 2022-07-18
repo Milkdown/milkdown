@@ -79,7 +79,7 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
                     }
                 }
                 .paragraph {
-                    margin: 0.5em 0;
+                    margin: 8px 0;
                 }
             `;
 

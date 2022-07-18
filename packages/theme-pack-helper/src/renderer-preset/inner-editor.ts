@@ -17,8 +17,8 @@ const getStyle = (manager: ThemeManager, { css }: Emotion) => {
         color: ${palette('neutral', 0.87)};
         background-color: ${palette('background')};
         border-radius: ${radius};
-        padding: 1em 2em;
-        font-size: 0.875em;
+        padding: 16px 32px;
+        font-size: 14px;
         font-family: ${code};
         overflow: hidden;
         line-height: 1.5;
@@ -34,7 +34,7 @@ const getStyle = (manager: ThemeManager, { css }: Emotion) => {
     const previewPanelStyle = css`
         display: flex;
         justify-content: center;
-        padding: 1em 0;
+        padding: 16px 0;
     `;
 
     return {
