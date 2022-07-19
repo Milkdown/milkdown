@@ -42,7 +42,7 @@ export {
     // node
     doc,
     em,
-    hardbreak,
+    HardbreakFilterPluginKey as hardbreak,
     heading,
     hr,
     image,

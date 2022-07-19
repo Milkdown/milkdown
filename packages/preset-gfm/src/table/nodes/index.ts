@@ -2,7 +2,7 @@
 import { createCmd, createCmdKey, MarkdownNode, schemaCtx } from '@milkdown/core';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeType } from '@milkdown/prose/model';
-import { Plugin, PluginKey, Selection, TextSelection } from '@milkdown/prose/state';
+import { Selection, TextSelection } from '@milkdown/prose/state';
 import { createPlugin, createShortcut } from '@milkdown/utils';
 
 import { exitTable } from '../command';
@@ -27,8 +27,6 @@ export const PrevCell = createCmdKey('PrevCell');
 export const NextCell = createCmdKey('NextCell');
 export const BreakTable = createCmdKey('BreakTable');
 export const InsertTable = createCmdKey('InsertTable');
-
-export const TableContentFilterPluginKey = new PluginKey('MILKDOWN_TABLE_CONTENT_FILTER');
 
 export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof schema>((utils) => {
     return {
@@ -169,33 +167,7 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
             [SupportedKeys.ExitTable]: createShortcut(BreakTable, 'Mod-Enter'),
         },
         prosePlugins: (_, ctx) => {
-            return [
-                operatorPlugin(ctx, utils),
-                autoInsertZeroSpace(),
-                columnResizing(),
-                tableEditing(),
-                new Plugin({
-                    key: TableContentFilterPluginKey,
-                    filterTransaction: (tr, state) => {
-                        const isInsertHr = tr.getMeta('hardbreak');
-                        const [step] = tr.steps;
-                        if (isInsertHr && step) {
-                            const { from } = step as unknown as { from: number };
-                            const $from = state.doc.resolve(from);
-                            let curDepth = $from.depth;
-                            let canApply = true;
-                            while (curDepth > 0) {
-                                if ($from.node(curDepth).type.name === 'table') {
-                                    canApply = false;
-                                }
-                                curDepth--;
-                            }
-                            return canApply;
-                        }
-                        return true;
-                    },
-                }),
-            ];
+            return [operatorPlugin(ctx, utils), autoInsertZeroSpace(), columnResizing(), tableEditing()];
         },
     };
 });

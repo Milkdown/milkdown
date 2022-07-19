@@ -10,7 +10,15 @@ type Keys = SupportedKeys['HardBreak'];
 
 export const InsertHardbreak = createCmdKey('InsertHardbreak');
 
-export const hardbreak = createNode<Keys>((utils) => {
+export const HardbreakFilterPluginKey = new PluginKey('MILKDOWN_HARDBREAK_FILTER');
+
+export const hardbreak = createNode<
+    Keys,
+    {
+        notIn: string[];
+    }
+>((utils, options) => {
+    const notIn = options?.notIn ?? ['table', 'fence'];
     return {
         id: 'hardbreak',
         schema: () => ({
@@ -56,6 +64,27 @@ export const hardbreak = createNode<Keys>((utils) => {
             [SupportedKeys.HardBreak]: createShortcut(InsertHardbreak, 'Shift-Enter'),
         },
         prosePlugins: (type) => [
+            new Plugin({
+                key: HardbreakFilterPluginKey,
+                filterTransaction: (tr, state) => {
+                    const isInsertHr = tr.getMeta('hardbreak');
+                    const [step] = tr.steps;
+                    if (isInsertHr && step) {
+                        const { from } = step as unknown as { from: number };
+                        const $from = state.doc.resolve(from);
+                        let curDepth = $from.depth;
+                        let canApply = true;
+                        while (curDepth > 0) {
+                            if (notIn.includes($from.node(curDepth).type.name)) {
+                                canApply = false;
+                            }
+                            curDepth--;
+                        }
+                        return canApply;
+                    }
+                    return true;
+                },
+            }),
             new Plugin({
                 key: new PluginKey('MILKDOWN_HARDBREAK_MARKS'),
                 appendTransaction: (trs, _oldState, newState) => {
