@@ -157,7 +157,13 @@ export const getIcon = (id: Icon): IconValue | undefined => {
     }
     const span = document.createElement('span');
     span.className = 'icon material-icons material-icons-outlined';
-    span.textContent = iconMapping[id].icon;
+    const icon = iconMapping[id];
+    if (icon) {
+        span.textContent = icon.icon;
+        span.dataset['label'] = icon.label;
+    } else {
+        console.warn(`Icon not found: "${id}", did you forget to add it to the icon mapping?`);
+    }
 
     return {
         dom: span,

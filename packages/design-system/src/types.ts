@@ -5,7 +5,7 @@ export type Font = 'typography' | 'code';
 
 export type Size = 'radius' | 'lineWidth';
 
-export type Icon =
+export type KnownIcon =
     | 'h1'
     | 'h2'
     | 'h3'
@@ -41,6 +41,10 @@ export type Icon =
     | 'liftList'
     | 'sinkList'
     | 'dragHandle';
+
+// A workaround to keep the intellisense
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type Icon = KnownIcon | (string & {});
 
 export type IconValue = {
     dom: HTMLElement;
