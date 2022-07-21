@@ -10,12 +10,12 @@
     "dependencies": {
         "@codemirror/autocomplete": "^6.0.0",
         "@codemirror/commands": "^6.0.0",
+        "@codemirror/lang-markdown": "^6.0.0",
         "@codemirror/language": "^6.0.0",
         "@codemirror/lint": "^6.0.0",
         "@codemirror/search": "^6.0.0",
         "@codemirror/state": "^6.0.0",
         "@codemirror/view": "^6.0.0",
-        "@codemirror/lang-markdown": "^6.0.0",
         "@milkdown/core": "workspace:*",
         "@milkdown/ctx": "workspace:*",
         "@milkdown/design-system": "workspace:*",
@@ -33,8 +33,8 @@
         "@milkdown/plugin-menu": "workspace:*",
         "@milkdown/plugin-prism": "workspace:*",
         "@milkdown/plugin-slash": "workspace:*",
-        "@milkdown/plugin-trailing": "workspace:*",
         "@milkdown/plugin-tooltip": "workspace:*",
+        "@milkdown/plugin-trailing": "workspace:*",
         "@milkdown/plugin-upload": "workspace:*",
         "@milkdown/preset-commonmark": "workspace:*",
         "@milkdown/preset-gfm": "workspace:*",
@@ -73,6 +73,7 @@
         "postcss-nested": "^5.0.5",
         "prosemirror-dev-tools": "^3.1.0",
         "sitemap": "^7.1.1",
+        "vite-plugin-pwa": "^0.12.3",
         "xml-formatter": "^2.6.1"
     },
     "nx": {

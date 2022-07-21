@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { join, resolve } from 'pathe';
 import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 import { markdownPlugin } from './vite-plugins/markdown-plugin';
 import { sitemapPlugin } from './vite-plugins/sitemap-plugin';
@@ -19,6 +20,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        VitePWA({ registerType: 'autoUpdate' }),
         sitemapPlugin(),
         markdownPlugin(),
         react(),
