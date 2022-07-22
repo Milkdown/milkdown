@@ -100,3 +100,9 @@ export const missingYjsDoc = () =>
 
 export const vueRendererCallOutOfScope = () =>
     new MilkdownError(ErrorCode.vueRendererCallOutOfScope, 'Should not call vue renderer before it has been created.');
+
+export const missingMenuWrapper = () =>
+    new MilkdownError(ErrorCode.missingMenuWrapper, 'Missing menu wrapper, should init menu wrapper first.');
+
+export const repeatCallsToMenuWrapperInit = () =>
+    new MilkdownError(ErrorCode.repeatCallsToMenuWrapperInit, 'Repeated calls to menu wrapper initialization');

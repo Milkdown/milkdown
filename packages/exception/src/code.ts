@@ -19,10 +19,14 @@ export const enum ErrorCode {
     // theme
     missingIcon = 'missingIcon',
 
+    // vue
+    vueRendererCallOutOfScope = 'vueRendererCallOutOfScope',
+
     // collab plugin
     ctxNotBind = 'ctxNotBind',
     missingYjsDoc = 'missingYjsDoc',
 
-    // vue
-    vueRendererCallOutOfScope = 'vueRendererCallOutOfScope',
+    // menu plugin
+    repeatCallsToMenuWrapperInit = 'repeatCallsToMenuWrapperInit',
+    missingMenuWrapper = 'missingMenuWrapper',
 }

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeFont, ThemeScrollbar } from '@milkdown/core';
-import { missingRootElement } from '@milkdown/exception';
+import { missingMenuWrapper, missingRootElement, repeatCallsToMenuWrapperInit } from '@milkdown/exception';
 import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
@@ -38,7 +38,7 @@ const getRoot = (root: string | Node | null | undefined) => {
 let _menuWrapper: HTMLDivElement | null = null;
 export const initWrapper = (ctx: Ctx, view: EditorView) => {
     if (_menuWrapper !== null) {
-        throw new Error('Repeated calls to menu wrapper initialization');
+        throw repeatCallsToMenuWrapperInit();
     }
     _menuWrapper = document.createElement('div');
     _menuWrapper.classList.add('milkdown-menu-wrapper');
@@ -63,8 +63,6 @@ const destory: HandleDOM = ({ menu, menuWrapper, editorRoot, milkdownDOM }) => {
     menu.remove();
     _menuWrapper = null;
 };
-
-const missingMenuWrapper = () => new Error('Missing menu wrapper, should init menu wrapper first.');
 
 export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: HandleDOM = defaultDOMHandler) => {
     if (!_menuWrapper) {
