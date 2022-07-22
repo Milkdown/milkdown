@@ -14,16 +14,12 @@ export type HandleDOMParams = {
 
 export type HandleDOM = (params: HandleDOMParams) => void;
 
-const restore: HandleDOM = ({ milkdownDOM, editorRoot, menu, menuWrapper }) => {
-    editorRoot.appendChild(milkdownDOM);
-    menuWrapper.remove();
+const restore: HandleDOM = ({ menu }) => {
     menu.remove();
 };
 
-const defaultDOMHandler: HandleDOM = ({ menu, menuWrapper, editorRoot, milkdownDOM }) => {
-    menuWrapper.appendChild(menu);
-    editorRoot.replaceChild(menuWrapper, milkdownDOM);
-    menuWrapper.appendChild(milkdownDOM);
+const defaultDOMHandler: HandleDOM = ({ menu, menuWrapper, milkdownDOM }) => {
+    menuWrapper.insertBefore(menu, milkdownDOM);
 };
 
 const getRoot = (root: string | Node | null | undefined) => {
@@ -39,9 +35,42 @@ const getRoot = (root: string | Node | null | undefined) => {
     return root;
 };
 
+let _menuWrapper: HTMLDivElement | null = null;
+export const initWrapper = (ctx: Ctx, view: EditorView) => {
+    if (_menuWrapper !== null) {
+        throw new Error('Repeated calls to menu wrapper initialization');
+    }
+    _menuWrapper = document.createElement('div');
+    _menuWrapper.classList.add('milkdown-menu-wrapper');
+
+    const root = ctx.get(rootCtx);
+
+    const editorDOM = view.dom;
+    const editorRoot = getRoot(root) as HTMLElement;
+    const milkdownDOM = editorDOM.parentElement;
+
+    if (!milkdownDOM) {
+        throw missingRootElement();
+    }
+
+    editorRoot.replaceChild(_menuWrapper, milkdownDOM);
+    _menuWrapper.appendChild(milkdownDOM);
+};
+
+const destory: HandleDOM = ({ menu, menuWrapper, editorRoot, milkdownDOM }) => {
+    editorRoot.appendChild(milkdownDOM);
+    menuWrapper.remove();
+    menu.remove();
+    _menuWrapper = null;
+};
+
+const missingMenuWrapper = () => new Error('Missing menu wrapper, should init menu wrapper first.');
+
 export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: HandleDOM = defaultDOMHandler) => {
-    const menuWrapper = document.createElement('div');
-    menuWrapper.classList.add('milkdown-menu-wrapper');
+    if (!_menuWrapper) {
+        throw missingMenuWrapper();
+    }
+
     const menu = document.createElement('div');
     menu.classList.add('milkdown-menu');
 
@@ -95,21 +124,37 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
 
     domHandler({
         menu,
-        menuWrapper,
+        menuWrapper: _menuWrapper,
         editorDOM,
         editorRoot,
         milkdownDOM,
     });
 
     const restoreDOM = () => {
+        if (!_menuWrapper) {
+            throw missingMenuWrapper();
+        }
         restore({
             menu,
-            menuWrapper,
+            menuWrapper: _menuWrapper,
             editorDOM,
             editorRoot,
             milkdownDOM,
         });
     };
 
-    return [menu, restoreDOM] as const;
+    const destoryDOM = () => {
+        if (!_menuWrapper) {
+            throw missingMenuWrapper();
+        }
+        destory({
+            menu,
+            menuWrapper: _menuWrapper,
+            editorDOM,
+            editorRoot,
+            milkdownDOM,
+        });
+    };
+
+    return [menu, restoreDOM, destoryDOM] as const;
 };
