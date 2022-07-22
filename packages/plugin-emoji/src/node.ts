@@ -20,8 +20,8 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
         utils.getStyle(
             ({ css }) => css`
                 .emoji {
-                    height: 14px;
-                    width: 14px;
+                    height: 1em;
+                    width: 1em;
                     margin: 0 1px 0 1.5px;
                     vertical-align: -1.5px;
                 }
