@@ -1,5 +1,21 @@
 # @milkdown-examples/vue
 
+## 6.3.1
+
+### Patch Changes
+
+-   8478db7a: Fix bug for memory leak, hardbreak and em to px.
+-   Updated dependencies [8478db7a]
+    -   @milkdown/core@6.3.1
+    -   @milkdown/plugin-emoji@6.3.1
+    -   @milkdown/plugin-listener@6.3.1
+    -   @milkdown/plugin-prism@6.3.1
+    -   @milkdown/plugin-slash@6.3.1
+    -   @milkdown/preset-commonmark@6.3.1
+    -   @milkdown/prose@6.3.1
+    -   @milkdown/theme-nord@6.3.1
+    -   @milkdown/vue@6.3.1
+
 ## 6.3.0
 
 ### Minor Changes

@@ -1,5 +1,41 @@
 # @milkdown/website
 
+## 6.3.1
+
+### Patch Changes
+
+-   8478db7a: Fix bug for memory leak, hardbreak and em to px.
+-   Updated dependencies [8478db7a]
+    -   @milkdown/core@6.3.1
+    -   @milkdown/ctx@6.3.1
+    -   @milkdown/design-system@6.3.1
+    -   @milkdown/exception@6.3.1
+    -   @milkdown/plugin-block@6.3.1
+    -   @milkdown/plugin-clipboard@6.3.1
+    -   @milkdown/plugin-collaborative@6.3.1
+    -   @milkdown/plugin-cursor@6.3.1
+    -   @milkdown/plugin-diagram@6.3.1
+    -   @milkdown/plugin-emoji@6.3.1
+    -   @milkdown/plugin-history@6.3.1
+    -   @milkdown/plugin-indent@6.3.1
+    -   @milkdown/plugin-listener@6.3.1
+    -   @milkdown/plugin-math@6.3.1
+    -   @milkdown/plugin-menu@6.3.1
+    -   @milkdown/plugin-prism@6.3.1
+    -   @milkdown/plugin-slash@6.3.1
+    -   @milkdown/plugin-tooltip@6.3.1
+    -   @milkdown/plugin-trailing@6.3.1
+    -   @milkdown/plugin-upload@6.3.1
+    -   @milkdown/preset-commonmark@6.3.1
+    -   @milkdown/preset-gfm@6.3.1
+    -   @milkdown/prose@6.3.1
+    -   @milkdown/react@6.3.1
+    -   @milkdown/theme-nord@6.3.1
+    -   @milkdown/theme-tokyo@6.3.1
+    -   @milkdown/transformer@6.3.1
+    -   @milkdown/utils@6.3.1
+    -   @milkdown/vue@6.3.1
+
 ## 6.3.0
 
 ### Minor Changes

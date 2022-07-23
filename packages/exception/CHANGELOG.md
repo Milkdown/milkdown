@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.3.1
+
+### Patch Changes
+
+-   8478db7a: Fix bug for memory leak, hardbreak and em to px.
+
 ## 6.3.0
 
 ### Minor Changes

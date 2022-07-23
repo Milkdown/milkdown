@@ -1,5 +1,20 @@
 # @milkdown-examples/collaboration
 
+## 6.3.1
+
+### Patch Changes
+
+-   8478db7a: Fix bug for memory leak, hardbreak and em to px.
+-   Updated dependencies [8478db7a]
+    -   @milkdown/core@6.3.1
+    -   @milkdown/plugin-collaborative@6.3.1
+    -   @milkdown/plugin-math@6.3.1
+    -   @milkdown/preset-commonmark@6.3.1
+    -   @milkdown/preset-gfm@6.3.1
+    -   @milkdown/prose@6.3.1
+    -   @milkdown/theme-nord@6.3.1
+    -   @milkdown/utils@6.3.1
+
 ## 6.3.0
 
 ### Minor Changes
