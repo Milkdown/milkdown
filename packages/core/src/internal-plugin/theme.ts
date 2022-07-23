@@ -44,6 +44,7 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
         ctx.set(emotionCtx, emotion);
 
         ctx.done(ThemeEnvironmentReady);
+        ctx.done(ThemeReady);
 
         await ctx.wait(InitReady);
         ctx.update(prosePluginsCtx, (xs) =>
@@ -88,8 +89,6 @@ export const themeFactory = (createThemePack?: CreateThemePack): ThemePlugin => 
 
             themeManager.get(ThemeGlobal, undefined);
         });
-
-        ctx.done(ThemeReady);
     };
     theme.override = (fn) => {
         overrideFn = fn;
