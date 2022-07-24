@@ -92,7 +92,7 @@ const counterPlugin: MilkdownPlugin = (pre) => {
         const count0 = ctx.get(counterCtx);
 
         // set count to 1
-        ctx.get(counterCtx, 1);
+        ctx.set(counterCtx, 1);
 
         // now count is 1
         const count1 = ctx.get(counterCtx);
