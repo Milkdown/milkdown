@@ -4,11 +4,11 @@ import links from 'remark-inline-links';
 
 import { addOrderInList } from './add-order-in-list';
 import { filterHTMLPlugin } from './filter-html';
-import { inlineNodesCursorPlugin } from './inline-nodes-cursor';
+import { getInlineNodesCursorPlugin } from './inline-nodes-cursor';
 
 export const commonmarkPlugins = [
     createPlugin(() => ({
-        prosePlugins: () => [inlineNodesCursorPlugin],
+        prosePlugins: () => [getInlineNodesCursorPlugin()],
         remarkPlugins: () => [links, filterHTMLPlugin, addOrderInList],
     }))(),
 ];
