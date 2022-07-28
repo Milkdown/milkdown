@@ -110,6 +110,7 @@ export class BlockService {
 
     keydownCallback = () => {
         this.blockMenu$.hide();
+        this.blockHandle$.hide();
         return false;
     };
 
