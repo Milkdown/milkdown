@@ -157,6 +157,7 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-listener': workspace:*
+      '@milkdown/plugin-menu': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
@@ -170,6 +171,7 @@ importers:
     dependencies:
       '@milkdown/core': link:../../packages/core
       '@milkdown/plugin-listener': link:../../packages/plugin-listener
+      '@milkdown/plugin-menu': link:../../packages/plugin-menu
       '@milkdown/plugin-prism': link:../../packages/plugin-prism
       '@milkdown/plugin-tooltip': link:../../packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
@@ -204,6 +206,7 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-emoji': workspace:*
       '@milkdown/plugin-listener': workspace:*
+      '@milkdown/plugin-menu': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-slash': workspace:*
       '@milkdown/preset-commonmark': workspace:*
@@ -215,6 +218,7 @@ importers:
       '@milkdown/core': link:../../packages/core
       '@milkdown/plugin-emoji': link:../../packages/plugin-emoji
       '@milkdown/plugin-listener': link:../../packages/plugin-listener
+      '@milkdown/plugin-menu': link:../../packages/plugin-menu
       '@milkdown/plugin-prism': link:../../packages/plugin-prism
       '@milkdown/plugin-slash': link:../../packages/plugin-slash
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
@@ -7725,7 +7729,7 @@ packages:
     dev: true
 
   /identity-obj-proxy/3.0.0:
-    resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
+    resolution: {integrity: sha1-lNK9qWCERT7zb7xarsN+D3nx/BQ=}
     engines: {node: '>=4'}
     dependencies:
       harmony-reflect: 1.6.2

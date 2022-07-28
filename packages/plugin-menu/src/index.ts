@@ -23,10 +23,9 @@ export const menuPlugin = createPlugin<string, Options>((utils, options) => {
     const domHandler = options?.domHandler;
 
     let restoreDOM: (() => void) | null = null;
-    let destoryDOM: (() => void) | null = null;
     let menu: HTMLDivElement | null = null;
+    let menuWrapper: HTMLDivElement | null = null;
     let manager: Manager | null = null;
-    let isFirst = true;
 
     const initIfNecessary = (ctx: Ctx, editorView: EditorView) => {
         const config: Config = options?.config
@@ -35,29 +34,23 @@ export const menuPlugin = createPlugin<string, Options>((utils, options) => {
                 : options.config
             : defaultConfig;
 
-        if (isFirst) {
-            isFirst = false;
-            initWrapper(ctx, editorView);
-        }
-
         if (!editorView.editable) {
             return;
         }
 
+        if (!menuWrapper) {
+            menuWrapper = initWrapper(ctx, editorView);
+        }
+
         if (!menu) {
-            const [_menu, _restoreDOM, _destoryDOM] = menubar(utils, editorView, ctx, domHandler);
+            const [_menu, _restoreDOM] = menubar(utils, editorView, ctx, menuWrapper, domHandler);
             menu = _menu;
             restoreDOM = () => {
                 _restoreDOM();
+                menuWrapper = null;
                 menu = null;
                 manager = null;
                 restoreDOM = null;
-            };
-            destoryDOM = () => {
-                _destoryDOM();
-                menu = null;
-                manager = null;
-                destoryDOM = null;
             };
         }
 
@@ -86,7 +79,7 @@ export const menuPlugin = createPlugin<string, Options>((utils, options) => {
                             }
                         },
                         destroy: () => {
-                            destoryDOM?.();
+                            restoreDOM?.();
                         },
                     };
                 },

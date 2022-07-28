@@ -2,7 +2,6 @@
 import { defineComponent } from 'vue';
 import { VueEditor, useEditor } from '@milkdown/vue';
 import { Node } from '@milkdown/prose/model';
-import { EditorRef } from '@milkdown/vue/lib/EditorComponent';
 
 export default defineComponent({
     name: 'Milkdown',
@@ -18,6 +17,7 @@ import { nord } from '@milkdown/theme-nord';
 import { codeFence as cmCodeFence, commonmark } from '@milkdown/preset-commonmark';
 import { emoji } from '@milkdown/plugin-emoji';
 import { prism } from '@milkdown/plugin-prism';
+import { menu } from '@milkdown/plugin-menu';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { codeFence } from './CodeFence/CodeFence';
 import CodeFence from './CodeFence/CodeFence.vue';
@@ -43,11 +43,6 @@ const foo = 'bar';
 \`\`\`
 `;
 
-const testRef = ref({
-    get: () => {},
-    dom: () => {},
-} as EditorRef);
-
 const { editor, loading, getInstance, getDom } = useEditor((root, renderVue) =>
     Editor.make()
         .config((ctx) => {
@@ -66,6 +61,7 @@ const { editor, loading, getInstance, getDom } = useEditor((root, renderVue) =>
         .use(emoji)
         .use(commonmark.replace(cmCodeFence, codeFence(renderVue<Node>(CodeFence))()))
         .use(prism)
+        .use(menu)
         .use(listener),
 );
 
@@ -75,13 +71,10 @@ effect(() => {
             ctx;
             console.log(getDom());
         });
-        testRef.value.get()?.action(() => {
-            console.log(testRef.value.dom());
-        });
     }
 });
 </script>
 
 <template>
-    <VueEditor :editor="editor" :editor-ref="testRef" />
+    <VueEditor :editor="editor" />
 </template>

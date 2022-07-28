@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeFont, ThemeScrollbar } from '@milkdown/core';
-import { missingMenuWrapper, missingRootElement, repeatCallsToMenuWrapperInit } from '@milkdown/exception';
+import { missingMenuWrapper, missingRootElement } from '@milkdown/exception';
 import { EditorView } from '@milkdown/prose/view';
 import { Utils } from '@milkdown/utils';
 
@@ -14,7 +14,9 @@ export type HandleDOMParams = {
 
 export type HandleDOM = (params: HandleDOMParams) => void;
 
-const restore: HandleDOM = ({ menu }) => {
+const restore: HandleDOM = ({ menu, menuWrapper, milkdownDOM, editorRoot }) => {
+    editorRoot.appendChild(milkdownDOM);
+    menuWrapper.remove();
     menu.remove();
 };
 
@@ -35,11 +37,8 @@ const getRoot = (root: string | Node | null | undefined) => {
     return root;
 };
 
-let _menuWrapper: HTMLDivElement | null = null;
 export const initWrapper = (ctx: Ctx, view: EditorView) => {
-    if (_menuWrapper !== null) {
-        throw repeatCallsToMenuWrapperInit();
-    }
+    let _menuWrapper: HTMLDivElement | null = null;
     _menuWrapper = document.createElement('div');
     _menuWrapper.classList.add('milkdown-menu-wrapper');
 
@@ -55,17 +54,17 @@ export const initWrapper = (ctx: Ctx, view: EditorView) => {
 
     editorRoot.replaceChild(_menuWrapper, milkdownDOM);
     _menuWrapper.appendChild(milkdownDOM);
+    return _menuWrapper;
 };
 
-const destory: HandleDOM = ({ menu, menuWrapper, editorRoot, milkdownDOM }) => {
-    editorRoot.appendChild(milkdownDOM);
-    menuWrapper.remove();
-    menu.remove();
-    _menuWrapper = null;
-};
-
-export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: HandleDOM = defaultDOMHandler) => {
-    if (!_menuWrapper) {
+export const menubar = (
+    utils: Utils,
+    view: EditorView,
+    ctx: Ctx,
+    menuWrapper: HTMLDivElement | null,
+    domHandler: HandleDOM = defaultDOMHandler,
+) => {
+    if (!menuWrapper) {
         throw missingMenuWrapper();
     }
 
@@ -122,36 +121,21 @@ export const menubar = (utils: Utils, view: EditorView, ctx: Ctx, domHandler: Ha
 
     domHandler({
         menu,
-        menuWrapper: _menuWrapper,
+        menuWrapper,
         editorDOM,
         editorRoot,
         milkdownDOM,
     });
 
     const restoreDOM = () => {
-        if (!_menuWrapper) {
-            throw missingMenuWrapper();
-        }
         restore({
             menu,
-            menuWrapper: _menuWrapper,
-            editorDOM,
-            editorRoot,
-            milkdownDOM,
-        });
-    };
-    const destoryDOM = () => {
-        if (!_menuWrapper) {
-            throw missingMenuWrapper();
-        }
-        destory({
-            menu,
-            menuWrapper: _menuWrapper,
+            menuWrapper,
             editorDOM,
             editorRoot,
             milkdownDOM,
         });
     };
 
-    return [menu, restoreDOM, destoryDOM] as const;
+    return [menu, restoreDOM] as const;
 };
