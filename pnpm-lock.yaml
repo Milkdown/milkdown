@@ -157,7 +157,6 @@ importers:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/plugin-listener': workspace:*
-      '@milkdown/plugin-menu': workspace:*
       '@milkdown/plugin-prism': workspace:*
       '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/preset-commonmark': workspace:*
@@ -171,7 +170,6 @@ importers:
     dependencies:
       '@milkdown/core': link:../../packages/core
       '@milkdown/plugin-listener': link:../../packages/plugin-listener
-      '@milkdown/plugin-menu': link:../../packages/plugin-menu
       '@milkdown/plugin-prism': link:../../packages/plugin-prism
       '@milkdown/plugin-tooltip': link:../../packages/plugin-tooltip
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
