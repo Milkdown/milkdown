@@ -23,6 +23,7 @@ export const createTimer = (name: string, timeout = 3000): Timer => {
                     }
                     if (e.detail.id === data) {
                         removeEventListener(name, listener);
+                        e.stopImmediatePropagation();
                         resolve();
                     }
                 };
