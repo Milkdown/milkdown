@@ -22,6 +22,7 @@ export const createTimer = (name: string, timeout = 3000): Timer => {
                         return;
                     }
                     if (e.detail.id === data) {
+                        removeEventListener(name, listener);
                         resolve();
                     }
                 };
@@ -29,7 +30,7 @@ export const createTimer = (name: string, timeout = 3000): Timer => {
                     reject(`Timing ${name} timeout.`);
                     removeEventListener(name, listener);
                 }, timeout);
-                addEventListener(name, listener, { once: true });
+                addEventListener(name, listener);
             }));
         timing.done = () => {
             const event = new CustomEvent(name, { detail: { id: data } });
