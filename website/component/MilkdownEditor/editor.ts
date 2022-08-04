@@ -24,7 +24,6 @@ export const createEditor = (
     root: HTMLElement | null,
     defaultValue: string,
     readOnly: boolean | undefined,
-    setEditorReady: (ready: boolean) => void,
     onChange?: (markdown: string) => void,
 ) => {
     const editor = Editor.make()
@@ -32,13 +31,9 @@ export const createEditor = (
             ctx.set(rootCtx, root);
             ctx.set(defaultValueCtx, defaultValue);
             ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, editable: () => !readOnly }));
-            ctx.get(listenerCtx)
-                .markdownUpdated((_, markdown) => {
-                    onChange?.(markdown);
-                })
-                .mounted(() => {
-                    setEditorReady(true);
-                });
+            ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
+                onChange?.(markdown);
+            });
         })
         .use(emoji)
         .use(gfm)

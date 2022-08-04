@@ -4,7 +4,7 @@ import { Slice } from '@milkdown/prose/model';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { nordDark, nordLight } from '@milkdown/theme-nord';
 import { switchTheme } from '@milkdown/utils';
-import React, { forwardRef } from 'react';
+import { forwardRef, useContext, useEffect, useImperativeHandle } from 'react';
 
 import { isDarkModeCtx } from '../Context';
 import { createEditor } from './editor';
@@ -20,8 +20,7 @@ type Props = {
 
 export type MilkdownRef = { update: (markdown: string) => void };
 export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly, onChange }, ref) => {
-    const [editorReady, setEditorReady] = React.useState(false);
-    const isDarkMode = React.useContext(isDarkModeCtx);
+    const isDarkMode = useContext(isDarkModeCtx);
 
     const [loading, md] = useLazy(content);
 
@@ -29,11 +28,11 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
         editor,
         getInstance,
         loading: editorLoading,
-    } = useEditor((root) => createEditor(root, md, readOnly, setEditorReady, onChange), [readOnly, md, onChange]);
+    } = useEditor((root) => createEditor(root, md, readOnly, onChange), [readOnly, md, onChange]);
 
-    React.useImperativeHandle(ref, () => ({
+    useImperativeHandle(ref, () => ({
         update: (markdown: string) => {
-            if (!editorReady || editorLoading) return;
+            if (editorLoading) return;
             const editor = getInstance();
             editor?.action((ctx) => {
                 const view = ctx.get(editorViewCtx);
@@ -46,12 +45,12 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
         },
     }));
 
-    React.useEffect(() => {
-        if (!editorReady || editorLoading) return;
+    useEffect(() => {
+        if (editorLoading) return;
         const editor = getInstance();
         if (!editor) return;
         editor.action(switchTheme(isDarkMode ? nordDark : nordLight));
-    }, [editorLoading, editorReady, getInstance, isDarkMode]);
+    }, [editorLoading, getInstance, isDarkMode]);
 
     return <div className={className['editor']}>{loading ? <Loading /> : <ReactEditor editor={editor} />}</div>;
 });
