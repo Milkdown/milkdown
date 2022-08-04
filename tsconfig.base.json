@@ -26,6 +26,11 @@
         "noUncheckedIndexedAccess": true,
         "noPropertyAccessFromIndexSignature": true,
         "useUnknownInCatchVariables": true,
-        "preserveWatchOutput": true
+        "preserveWatchOutput": true,
+        "plugins": [
+            {
+                "name": "typescript-styled-plugin"
+            }
+        ]
     }
 }
