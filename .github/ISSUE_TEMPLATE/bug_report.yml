@@ -1,5 +1,8 @@
 name: 🐛 Bug report
 description: Describe a problem
+labels: bug
+assignees: Saul-Mirone
+title: '[Bug]'
 
 body:
   - type: markdown
