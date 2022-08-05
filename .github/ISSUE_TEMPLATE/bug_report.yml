@@ -1,0 +1,123 @@
+name: 🐛 Bug report
+description: Describe a problem
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Some general tips:
+
+        - Is this really a problem?
+        - Is this a problem here?
+        - Can this be solved in a different way?
+
+  - type: checkboxes
+    id: initial-checklist
+    attributes:
+      label: Initial checklist
+      options:
+        - label: I agree to follow the [code of conduct](https://github.com/Saul-Mirone/milkdown/blob/main/CODE_OF_CONDUCT.md)
+          required: true
+        - label: I searched [issues](hhttps://github.com/Saul-Mirone/milkdown/issues) and [discussions](https://github.com/Saul-Mirone/milkdown/discussions) and couldn’t find anything (or linked relevant results below)
+          required: true
+
+  - type: input
+    id: affected-versions
+    attributes:
+      label: Affected packages and versions
+      description: Please test using the latest version of the relevant packages to make sure your issue has not already been fixed.
+    validations:
+      required: true
+
+  - type: input
+    id: runnable-example
+    attributes:
+      label: Link to runnable example
+      description: |
+        Link to repository or sandbox with runnable example of the issue.
+
+        Some starters:
+
+        | description | codesandbox | stackblitz |
+        | - | - | - |
+        | vanilla | [codesandbox](https://codesandbox.io/s/milkdown-vanilla-setup-8xobc) | [stackblitz]() |
+        | react | [codesandbox](https://codesandbox.io/s/milkdown-react-setup-ngkiq) | [stackblitz]() |
+        | vue | [codesandbox](https://codesandbox.io/s/milkdown-vue-setup-wjdup) | [stackblitz]() |
+
+        Alternatively, use the next section *Steps to reproduce*.
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: How did this happen? Please provide a [minimal, reproducible example](https://stackoverflow.com/help/minimal-reproducible-example).
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: What should happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: What happens instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: javascript-runtime
+    attributes:
+      label: Runtime
+      description: |
+        What Browser are you using to run the editor?
+      multiple: true
+      options:
+        - Chrome
+        - Safari
+        - Firefox
+        - Electron
+        - Other (please specify in steps to reproduce)
+    validations:
+      required: false
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: OS
+      description: What operating system are you using?
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Other (please specify in steps to reproduce)
+    validations:
+      required: false
+
+  - type: dropdown
+    id: build-tools
+    attributes:
+      label: Build and bundle tools
+      description: What, if any, tools are used to build or bundle the project?
+      multiple: true
+      options:
+        - Webpack
+        - Rollup
+        - esbuild
+        - Parcel
+        - Create React App
+        - Gatsby
+        - Next.js
+        - Remix
+        - Vite
+        - Other (please specify in steps to reproduce)
+    validations:
+      required: false
