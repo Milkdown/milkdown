@@ -1,7 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { i18nConfig, Local } from '../../route';
+import { decode } from '../../utils/share';
 import { Mode } from '../constant';
 import { localCtx } from '../Context';
 import { MilkdownEditor, MilkdownRef } from '../MilkdownEditor/MilkdownEditor';
@@ -26,15 +28,22 @@ export const Demo = ({ mode }: DemoProps) => {
     const codeMirrorRef = React.useRef<CodeMirrorRef>(null);
     const local = React.useContext(localCtx);
     const [md, setMd] = React.useState('');
+    const [searchParams] = useSearchParams();
 
     React.useEffect(() => {
+        const text = searchParams.get('text');
+        if (text) {
+            setMd(decode(text));
+
+            return;
+        }
         importDemo(local)
             .then((x) => {
                 setMd(x.default);
                 return;
             })
             .catch(console.error);
-    }, [local]);
+    }, [local, searchParams]);
 
     const milkdownListener = React.useCallback((markdown: string) => {
         const lock = lockCode.current;

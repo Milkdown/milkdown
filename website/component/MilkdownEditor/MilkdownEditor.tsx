@@ -5,7 +5,7 @@ import { ReactEditor, useEditor } from '@milkdown/react';
 import { nordDark, nordLight } from '@milkdown/theme-nord';
 import { getMarkdown, switchTheme } from '@milkdown/utils';
 import { forwardRef, useContext, useEffect, useImperativeHandle } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import { encode } from '../../utils/share';
 import { isDarkModeCtx, shareCtx } from '../Context';
@@ -26,7 +26,7 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
     const showToast = useContext(showToastCtx);
     const isDarkMode = useContext(isDarkModeCtx);
     const share = useContext(shareCtx);
-    const navigate = useNavigate();
+    const [_, setSearchParams] = useSearchParams();
 
     const [loading, md] = useLazy(content);
 
@@ -74,7 +74,7 @@ export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnl
         const url = new URL(location.href);
         url.searchParams.set('text', base64);
         navigator.clipboard.writeText(url.toString());
-        navigate(url.pathname + url.search);
+        setSearchParams({ text: base64 });
     };
 
     return <div className={className['editor']}>{loading ? <Loading /> : <ReactEditor editor={editor} />}</div>;
