@@ -1,0 +1,45 @@
+name: 🚀 Feature request
+description: Suggest an idea
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Some general tips:
+
+        - Is this really a problem?
+        - Is this a problem here?
+
+  - type: checkboxes
+    id: initial-checklist
+    attributes:
+      label: Initial checklist
+      options:
+        - label: I agree to follow the [code of conduct](https://github.com/Saul-Mirone/milkdown/blob/main/CODE_OF_CONDUCT.md)
+          required: true
+        - label: I searched [issues](hhttps://github.com/Saul-Mirone/milkdown/issues) and [discussions](https://github.com/Saul-Mirone/milkdown/discussions) and couldn’t find anything (or linked relevant results below)
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Please describe the problem you are trying to solve here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution
+      description: What should happen? Please describe the desired behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: What are the alternative solutions? Can this be solved in a different way?
+    validations:
+      required: true
