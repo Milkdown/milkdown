@@ -1,5 +1,8 @@
 name: 🚀 Feature request
 description: Suggest an idea
+label: enhancement
+assignees: Saul-Mirone
+title: '[Feature]'
 
 body:
   - type: markdown
