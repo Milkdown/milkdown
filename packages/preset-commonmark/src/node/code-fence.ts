@@ -69,7 +69,11 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
                         if (!(dom instanceof HTMLElement)) {
                             throw expectDomTypeError(dom);
                         }
-                        const textNode = schema.text(dom.querySelector('pre')?.textContent ?? '');
+                        const text = dom.querySelector('pre')?.textContent ?? '';
+                        if (!text) {
+                            return Fragment.empty;
+                        }
+                        const textNode = schema.text(text);
                         return Fragment.from(textNode);
                     },
                 },
