@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import './style.css';
 
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { App } from './component/App';
@@ -11,4 +12,8 @@ if (!root) {
     throw new Error('Root element #app not found');
 }
 
-createRoot(root).render(<App />);
+createRoot(root).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+);

@@ -1,19 +1,19 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import React from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { i18nConfig, Local } from '../../route';
 import { Mode } from '../constant';
-import { editorModeCtx, isDarkModeCtx, setEditorModeCtx, setIsDarkModeCtx, setLocalCtx } from '../Context';
+import { editorModeCtx, isDarkModeCtx, setEditorModeCtx, setIsDarkModeCtx, setLocalCtx, shareCtx } from '../Context';
 import { useEditorMode } from '../hooks/userEditorMode';
 import { useRoot } from '../hooks/useRoot';
 import className from './style.module.css';
 
 const materialIcon = `${className['icon']} material-icons-outlined`;
 
-const LanguageList: React.FC<{ show: boolean; setShow: (show: boolean) => void }> = ({ show, setShow }) => {
+const LanguageList: FC<{ show: boolean; setShow: (show: boolean) => void }> = ({ show, setShow }) => {
     const root = useRoot();
-    const setLocal = React.useContext(setLocalCtx);
+    const setLocal = useContext(setLocalCtx);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -48,16 +48,21 @@ const LanguageList: React.FC<{ show: boolean; setShow: (show: boolean) => void }
 };
 
 export const Buttons: React.FC = () => {
-    const editorMode = React.useContext(editorModeCtx);
-    const isDarkMode = React.useContext(isDarkModeCtx);
-    const setEditorMode = React.useContext(setEditorModeCtx);
-    const setIsDarkMode = React.useContext(setIsDarkModeCtx);
+    const share = useContext(shareCtx);
+    const editorMode = useContext(editorModeCtx);
+    const isDarkMode = useContext(isDarkModeCtx);
+    const setEditorMode = useContext(setEditorModeCtx);
+    const setIsDarkMode = useContext(setIsDarkModeCtx);
     const showEditorToggle = useEditorMode();
-    const [showLangList, setShowLangList] = React.useState(false);
+    const [showLangList, setShowLangList] = useState(false);
 
     const onEditorModeToggle = () => setEditorMode((m) => (m === Mode.Default ? Mode.TwoSide : Mode.Default));
 
-    React.useEffect(() => {
+    const onShare = () => {
+        share.current();
+    };
+
+    useEffect(() => {
         const hideList = () => {
             setShowLangList(false);
         };
@@ -88,6 +93,11 @@ export const Buttons: React.FC = () => {
             {showEditorToggle && (
                 <span onClick={() => onEditorModeToggle()} className={[materialIcon, className['mode']].join(' ')}>
                     {editorMode === Mode.Default ? 'chrome_reader_mode' : 'wysiwyg'}
+                </span>
+            )}
+            {showEditorToggle && (
+                <span onClick={onShare} className={materialIcon}>
+                    share
                 </span>
             )}
             <div className={className['translate']}>

@@ -1,8 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContext, Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react';
+import { createContext, Dispatch, MutableRefObject, ReactNode, SetStateAction, useMemo, useRef, useState } from 'react';
 
 import { Local as Localize, pageRouter, Section } from '../route';
 import { Mode } from './constant';
+import { Toast } from './Toast';
 
 type SetState<T> = Dispatch<SetStateAction<T>>;
 
@@ -13,6 +14,7 @@ export const isDarkModeCtx = createContext(false);
 export const localCtx = createContext<Localize>('en');
 export const sectionsCtx = createContext<Section[]>([]);
 
+export const shareCtx = createContext<MutableRefObject<() => void>>({ current: () => void 0 });
 export const setDisplaySidebarCtx = createContext<SetState<boolean>>(() => void 0);
 export const setScrolledCtx = createContext<SetState<boolean>>(() => void 0);
 export const setEditorModeCtx = createContext<SetState<Mode>>(() => void 0);
@@ -72,14 +74,24 @@ const Local: React.FC<{ children: ReactNode }> = ({ children }) => {
     );
 };
 
+const Share: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const shareRef = useRef(() => void 0);
+
+    return <shareCtx.Provider value={shareRef}>{children}</shareCtx.Provider>;
+};
+
 export const Context: React.FC<{ children: ReactNode }> = ({ children }) => (
-    <Local>
-        <IsDarkMode>
-            <Scrolled>
-                <DisplaySidebar>
-                    <EditorMode>{children}</EditorMode>
-                </DisplaySidebar>
-            </Scrolled>
-        </IsDarkMode>
-    </Local>
+    <Toast>
+        <Share>
+            <Local>
+                <IsDarkMode>
+                    <Scrolled>
+                        <DisplaySidebar>
+                            <EditorMode>{children}</EditorMode>
+                        </DisplaySidebar>
+                    </Scrolled>
+                </IsDarkMode>
+            </Local>
+        </Share>
+    </Toast>
 );
