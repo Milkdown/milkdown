@@ -33,10 +33,10 @@ const createKeepListOrderPlugin = (type: NodeType) => {
                     changed = true;
                 }
 
-                const prev = parent?.maybeChild(index - 1);
-                if (prev && prev.type === type && prev.attrs['listType'] === 'ordered') {
-                    const label = prev.attrs['label'];
-                    attrs['label'] = `${Number(label.slice(0, -1)) + 1}.`;
+                const base = parent?.maybeChild(0);
+                if (base && base.type === type && base.attrs['listType'] === 'ordered') {
+                    const label = base.attrs['label'];
+                    attrs['label'] = `${Number(label.slice(0, -1)) + index}.`;
                     changed = true;
                 }
 
