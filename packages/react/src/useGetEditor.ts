@@ -26,6 +26,8 @@ export const useGetEditor = (getEditor: GetEditor) => {
         const div = dom.current;
         if (!div) return;
 
+        if (div.querySelector('.milkdown') != null) return;
+
         const editor = getEditor(div, renderReact);
         if (!editor) return;
 

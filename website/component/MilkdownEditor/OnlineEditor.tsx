@@ -22,7 +22,7 @@ type Props = {
 };
 
 export type MilkdownRef = { update: (markdown: string) => void };
-export const MilkdownEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly, onChange }, ref) => {
+export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly, onChange }, ref) => {
     const showToast = useContext(showToastCtx);
     const isDarkMode = useContext(isDarkModeCtx);
     const share = useContext(shareCtx);

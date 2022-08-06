@@ -6,7 +6,7 @@ import { i18nConfig, Local } from '../../route';
 import { decode } from '../../utils/share';
 import { Mode } from '../constant';
 import { localCtx } from '../Context';
-import { MilkdownEditor, MilkdownRef } from '../MilkdownEditor/MilkdownEditor';
+import { MilkdownRef, OnlineEditor } from '../MilkdownEditor/OnlineEditor';
 import { CodeMirror, CodeMirrorRef } from './CodeMirror';
 import className from './style.module.css';
 
@@ -70,7 +70,7 @@ export const Demo = ({ mode }: DemoProps) => {
     return !md.length ? null : (
         <div ref={ref} className={classes}>
             <div className={className['milk']}>
-                <MilkdownEditor ref={milkdownRef} content={md} onChange={milkdownListener} />
+                <OnlineEditor ref={milkdownRef} content={md} onChange={milkdownListener} />
             </div>
             <CodeMirror ref={codeMirrorRef} value={md} onChange={onCodeChange} lock={lockCode} />
         </div>
