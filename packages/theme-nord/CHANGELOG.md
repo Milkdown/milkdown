@@ -1,5 +1,13 @@
 # @milkdown/theme-nord
 
+## 6.3.2
+
+### Patch Changes
+
+-   161d7104: Fix bug of plugin-menu, react strict mode and muptiple editors.
+-   Updated dependencies [161d7104]
+    -   @milkdown/theme-pack-helper@6.3.2
+
 ## 6.3.1
 
 ### Patch Changes

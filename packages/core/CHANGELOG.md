@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 6.3.2
+
+### Patch Changes
+
+-   161d7104: Fix bug of plugin-menu, react strict mode and muptiple editors.
+-   Updated dependencies [161d7104]
+    -   @milkdown/ctx@6.3.2
+    -   @milkdown/design-system@6.3.2
+    -   @milkdown/exception@6.3.2
+    -   @milkdown/transformer@6.3.2
+
 ## 6.3.1
 
 ### Patch Changes

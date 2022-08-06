@@ -1,5 +1,19 @@
 # @milkdown-examples/vanilla
 
+## 6.3.2
+
+### Patch Changes
+
+-   161d7104: Fix bug of plugin-menu, react strict mode and muptiple editors.
+-   Updated dependencies [161d7104]
+    -   @milkdown/core@6.3.2
+    -   @milkdown/plugin-math@6.3.2
+    -   @milkdown/plugin-menu@6.3.2
+    -   @milkdown/plugin-slash@6.3.2
+    -   @milkdown/preset-commonmark@6.3.2
+    -   @milkdown/theme-nord@6.3.2
+    -   @milkdown/theme-tokyo@6.3.2
+
 ## 6.3.1
 
 ### Patch Changes
