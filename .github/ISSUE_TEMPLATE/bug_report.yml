@@ -38,6 +38,8 @@ body:
       label: Link to runnable example
       description: |
         Link to repository or sandbox with runnable example of the issue.
+        
+        > You can also use a [share link](https://milkdown.dev/online-demo?text=VAB5AHAAZQAgAHkAbwB1AHIAIABjAG8AbgB0AGUAbgB0ACAAaABlAHIAZQAuAC4ALgAKAAoA) of online playground if the issue is about markdown parse/serialize.
 
         Some starters:
 
