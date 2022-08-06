@@ -1,5 +1,40 @@
 # @milkdown/website
 
+## 6.3.2
+
+### Patch Changes
+
+-   161d7104: Fix bug of plugin-menu, react strict mode and muptiple editors.
+-   Updated dependencies [161d7104]
+    -   @milkdown/core@6.3.2
+    -   @milkdown/ctx@6.3.2
+    -   @milkdown/design-system@6.3.2
+    -   @milkdown/exception@6.3.2
+    -   @milkdown/plugin-block@6.3.2
+    -   @milkdown/plugin-clipboard@6.3.2
+    -   @milkdown/plugin-collaborative@6.3.2
+    -   @milkdown/plugin-cursor@6.3.2
+    -   @milkdown/plugin-diagram@6.3.2
+    -   @milkdown/plugin-emoji@6.3.2
+    -   @milkdown/plugin-history@6.3.2
+    -   @milkdown/plugin-indent@6.3.2
+    -   @milkdown/plugin-listener@6.3.2
+    -   @milkdown/plugin-math@6.3.2
+    -   @milkdown/plugin-menu@6.3.2
+    -   @milkdown/plugin-prism@6.3.2
+    -   @milkdown/plugin-slash@6.3.2
+    -   @milkdown/plugin-tooltip@6.3.2
+    -   @milkdown/plugin-trailing@6.3.2
+    -   @milkdown/plugin-upload@6.3.2
+    -   @milkdown/preset-commonmark@6.3.2
+    -   @milkdown/preset-gfm@6.3.2
+    -   @milkdown/prose@6.3.2
+    -   @milkdown/react@6.3.2
+    -   @milkdown/theme-nord@6.3.2
+    -   @milkdown/theme-tokyo@6.3.2
+    -   @milkdown/transformer@6.3.2
+    -   @milkdown/utils@6.3.2
+
 ## 6.3.1
 
 ### Patch Changes
