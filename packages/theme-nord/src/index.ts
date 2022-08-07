@@ -58,15 +58,20 @@ export const createTheme = (isDarkMode: boolean) => (emotion: Emotion, manager: 
         const main = manager.get(ThemeColor, ['secondary', 0.38]);
         const bg = manager.get(ThemeColor, ['secondary', 0.12]);
         const hover = manager.get(ThemeColor, ['secondary']);
+
+        const scrollbar = css({
+            '&::-webkit-scrollbar': {
+                [direction === 'y' ? 'width' : 'height']: `${type === 'thin' ? 2 : 12}px`,
+                backgroundColor: 'transparent',
+            },
+        });
+
         return css`
             scrollbar-width: thin;
             scrollbar-color: ${main} ${bg};
             -webkit-overflow-scrolling: touch;
 
-            &::-webkit-scrollbar {
-                ${direction === 'y' ? 'width' : 'height'}: ${type === 'thin' ? 2 : 12}px;
-                background-color: transparent;
-            }
+            ${scrollbar};
 
             &::-webkit-scrollbar-track {
                 border-radius: 999px;
@@ -104,9 +109,10 @@ export const createTheme = (isDarkMode: boolean) => (emotion: Emotion, manager: 
                 border: ${lineWidth} solid ${line};
             `;
         }
-        return css`
-            ${`border-${direction}`}: ${lineWidth} solid ${line};
-        `;
+        const upperCaseFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+        return css({
+            [`border${upperCaseFirst(direction)}`]: `${lineWidth} solid ${line}`,
+        });
     });
 
     manager.set(ThemeIcon, (icon) => {
