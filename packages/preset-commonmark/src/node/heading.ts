@@ -7,7 +7,7 @@ import { textblockTypeInputRule } from '@milkdown/prose/inputrules';
 import { Fragment, Node, NodeType } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, Transaction } from '@milkdown/prose/state';
 import { Decoration, DecorationSet } from '@milkdown/prose/view';
-import { createNode, createShortcut, Utils } from '@milkdown/utils';
+import { createNode, createShortcut, ThemeUtils } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
 
@@ -110,7 +110,7 @@ const headingIdPlugin = (ctx: Ctx, type: NodeType, getId: (node: Node) => string
     });
 };
 
-const headingHashPlugin = (ctx: Ctx, type: NodeType, utils: Utils): Plugin => {
+const headingHashPlugin = (ctx: Ctx, type: NodeType, utils: ThemeUtils): Plugin => {
     return new Plugin({
         key: headingHashPluginKey,
         state: {

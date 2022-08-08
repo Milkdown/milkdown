@@ -3,7 +3,7 @@
 import { Ctx, getPalette, ThemeBorder, ThemeIcon, ThemeShadow, ThemeSize } from '@milkdown/core';
 import { missingRootElement } from '@milkdown/exception';
 import { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import { BlockHandleDOM } from './block-handle-dom';
 import { BlockAction, ConfigBuilder } from './config';
@@ -12,14 +12,14 @@ import { ActiveNode } from './select-node-by-dom';
 export class BlockMenuDOM {
     readonly dom$: HTMLElement;
 
-    #utils: Utils;
+    #utils: ThemeUtils;
     #ctx: Ctx;
     #configBuilder: ConfigBuilder;
     #config: BlockAction[];
     #blockHandle: BlockHandleDOM;
     #getActive: () => null | ActiveNode;
     constructor(
-        utils: Utils,
+        utils: ThemeUtils,
         ctx: Ctx,
         configBuilder: ConfigBuilder,
         blockHandle: BlockHandleDOM,

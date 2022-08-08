@@ -3,7 +3,7 @@ import { Color, Emotion, ThemeColor, ThemeFont, ThemeManager } from '@milkdown/c
 import { findParentNode } from '@milkdown/prose';
 import { EditorState } from '@milkdown/prose/state';
 import { Decoration, DecorationSet, EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import type { Status } from './status';
 
@@ -35,7 +35,7 @@ const createSlashStyle = (_: ThemeManager, { css }: Emotion) => css`
     }
 `;
 
-export const createProps = (status: Status, utils: Utils) => {
+export const createProps = (status: Status, utils: ThemeUtils) => {
     return {
         handleKeyDown: (_: EditorView, event: Event) => {
             if (status.isEmpty()) {

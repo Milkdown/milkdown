@@ -1,12 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { EditorState } from '@milkdown/prose/state';
 import type { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import { createButtonManager } from './button-manager';
 import type { ButtonList } from './item';
 
-export const createPlugin = (buttonMap: ButtonList, utils: Utils, bottom: boolean, containerClassName: string) => {
+export const createPlugin = (buttonMap: ButtonList, utils: ThemeUtils, bottom: boolean, containerClassName: string) => {
     let buttonManager = createButtonManager(buttonMap, utils, bottom, containerClassName);
     let shouldHide = false;
 

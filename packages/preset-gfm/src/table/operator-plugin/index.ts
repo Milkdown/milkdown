@@ -3,7 +3,7 @@
 import { Ctx } from '@milkdown/core';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { Decoration, DecorationSet } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import { CellSelection } from '../plugin';
 import { CellPos, getCellsInColumn, getCellsInRow } from '../utils';
@@ -16,7 +16,7 @@ import { createWidget } from './widget';
 
 export const key = 'MILKDOWN_TABLE';
 
-export const operatorPlugin = (ctx: Ctx, utils: Utils) => {
+export const operatorPlugin = (ctx: Ctx, utils: ThemeUtils) => {
     return new Plugin({
         key: new PluginKey('MILKDOWN_TABLE_OP'),
         props: {

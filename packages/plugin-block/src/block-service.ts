@@ -4,7 +4,7 @@ import { Ctx, editorViewCtx } from '@milkdown/core';
 import { browser } from '@milkdown/prose';
 import { NodeSelection, Selection } from '@milkdown/prose/state';
 import { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import { BlockHandleDOM } from './block-handle-dom';
 import { BlockMenuDOM } from './block-menu-dom';
@@ -46,7 +46,7 @@ export class BlockService {
         return this.#ctx.get(editorViewCtx);
     }
 
-    constructor(ctx: Ctx, utils: Utils, filterNodes: FilterNodes, configBuilder: ConfigBuilder) {
+    constructor(ctx: Ctx, utils: ThemeUtils, filterNodes: FilterNodes, configBuilder: ConfigBuilder) {
         this.#ctx = ctx;
         this.#filterNodes = filterNodes;
         this.blockHandle$ = new BlockHandleDOM(utils);

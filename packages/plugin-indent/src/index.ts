@@ -3,7 +3,7 @@
 import { createCmdKey } from '@milkdown/core';
 import { keymap } from '@milkdown/prose/keymap';
 import { AllSelection, TextSelection, Transaction } from '@milkdown/prose/state';
-import { AtomList, createPlugin, Utils } from '@milkdown/utils';
+import { AtomList, createPlugin, ThemeUtils } from '@milkdown/utils';
 
 export type Options = {
     type: 'space' | 'tab';
@@ -26,7 +26,7 @@ const updateIndent = (tr: Transaction, options: Options): Transaction => {
     return tr.insertText(text, to);
 };
 
-const applyStyle = (options: Options, utils: Utils): void => {
+const applyStyle = (options: Options, utils: ThemeUtils): void => {
     if (options.type === 'tab') {
         utils.getStyle(
             ({ injectGlobal }) => injectGlobal`
