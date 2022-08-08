@@ -39,28 +39,14 @@ interface PipelineContext {
         CommonOptions<SupportedKeys, Options>
     >;
 
-    schema<NodeKeys extends string = string, MarkKeys extends string = string>(
-        ctx: Ctx,
-    ): {
-        node?: Record<NodeKeys, NodeSchema>;
-        mark?: Record<MarkKeys, MarkSchema>;
+    schema(ctx: Ctx): {
+        node?: Record<string, NodeSchema>;
+        mark?: Record<string, MarkSchema>;
     };
 
-    type<NodeKeys extends string = string, MarkKeys extends string = string>(
-        ctx: Ctx,
-    ): {
-        [K in NodeKeys]: NodeType;
-    } & {
-        [K in MarkKeys]: MarkType;
-    };
+    type: Record<string, NodeType | MarkType>;
 
-    view<NodeKeys extends string = string, MarkKeys extends string = string>(
-        ctx: Ctx,
-    ): {
-        [K in NodeKeys]: NodeViewConstructor;
-    } & {
-        [K in MarkKeys]: MarkViewConstructor;
-    };
+    view: Record<string, NodeViewConstructor | MarkViewConstructor>;
 }
 
 export const injectSlices =
@@ -73,7 +59,7 @@ export const injectSlices =
 const optionsPipeCtx = createSlice<PipelineContext['options']>(() => {
     throw ctxCallOutOfScope();
 }, 'Options');
-export const injectOptions = (options: ReturnType<PipelineContext['options']>): Pipeline => {
+export const injectOptions = (options: ReturnType<PipelineContext['options']> = {}): Pipeline => {
     return async (env, next) => {
         env.pipelineCtx.inject(optionsPipeCtx, (() => options) as PipelineContext['options']);
         await next();
@@ -93,24 +79,27 @@ export const waitThemeReady: Pipeline = async (env, next) => {
 };
 
 export const applyRemarkPlugins =
-    (remarkPlugins: (ctx: Ctx) => RemarkPlugin[]): Pipeline =>
+    (remarkPlugins?: (ctx: Ctx) => RemarkPlugin[]): Pipeline =>
     async (env, next) => {
         const { ctx } = env;
         await ctx.wait(InitReady);
 
-        const plugins = remarkPlugins(ctx);
+        if (remarkPlugins) {
+            const plugins = remarkPlugins(ctx);
 
-        ctx.update(remarkPluginsCtx, (ps) => ps.concat(plugins));
+            ctx.update(remarkPluginsCtx, (ps) => ps.concat(plugins));
+        }
+
         await next();
     };
 
 export const typePipeCtx = createSlice<PipelineContext['type'], 'Type'>({} as PipelineContext['type'], 'Type');
 export const applySchema =
-    (getSchema: PipelineContext['schema']): Pipeline =>
+    (getSchema?: PipelineContext['schema']): Pipeline =>
     async (env, next) => {
         const { ctx, pipelineCtx } = env;
 
-        const userSchema = getSchema(env.ctx);
+        const userSchema = getSchema?.(env.ctx) ?? {};
 
         let node: Record<string, NodeSchema> = {};
         let mark: Record<string, MarkSchema> = {};
@@ -140,81 +129,89 @@ export const applySchema =
     };
 
 export const createCommands =
-    (commands: (types: PipelineContext['type'], ctx: Ctx) => CmdTuple[]): Pipeline =>
+    (commands?: (types: PipelineContext['type'], ctx: Ctx) => CmdTuple[]): Pipeline =>
     async (env, next) => {
-        const { ctx, pipelineCtx } = env;
-        const type = pipelineCtx.get(typePipeCtx);
-        commands(type, ctx).forEach(([key, command]) => {
-            ctx.get(commandsCtx).create(key, command);
-        });
+        if (commands) {
+            const { ctx, pipelineCtx } = env;
+            const type = pipelineCtx.get(typePipeCtx);
+            commands(type, ctx).forEach(([key, command]) => {
+                ctx.get(commandsCtx).create(key, command);
+            });
+        }
         await next();
     };
 
 export const createInputRules =
-    (inputRules: (types: PipelineContext['type'], ctx: Ctx) => InputRule[]): Pipeline =>
+    (inputRules?: (types: PipelineContext['type'], ctx: Ctx) => InputRule[]): Pipeline =>
     async (env, next) => {
-        const { ctx, pipelineCtx } = env;
-        const type = pipelineCtx.get(typePipeCtx);
-        ctx.update(inputRulesCtx, (ir) => [...ir, ...inputRules(type, ctx)]);
+        if (inputRules) {
+            const { ctx, pipelineCtx } = env;
+            const type = pipelineCtx.get(typePipeCtx);
+            ctx.update(inputRulesCtx, (ir) => [...ir, ...inputRules(type, ctx)]);
+        }
 
         await next();
     };
 
 export const createShortcuts =
-    (shortcuts: Record<string, CommandConfig>): Pipeline =>
+    (shortcuts?: Record<string, CommandConfig>): Pipeline =>
+    async (env, next) => {
+        const { pipelineCtx, ctx } = env;
+
+        if (shortcuts) {
+            const options = pipelineCtx.get(optionsPipeCtx)();
+            const getKey = (key: string, defaultValue: string | string[]): string | string[] => {
+                return options?.keymap?.[key] ?? defaultValue;
+            };
+
+            const tuples = Object.entries<CommandConfig>(shortcuts)
+                .flatMap(([id, [commandKey, defaultKey, args]]) => {
+                    const runner = () => ctx.get(commandsCtx).call(commandKey, args);
+                    const key = getKey(id, defaultKey);
+                    if (Array.isArray(key)) {
+                        return key.map((k) => ({ key: k, runner }));
+                    }
+                    return { key, runner };
+                })
+                .map((x) => [x.key, x.runner] as [string, () => boolean]);
+            ctx.update(prosePluginsCtx, (ps) => ps.concat(keymap(Object.fromEntries(tuples))));
+        }
+
+        await next();
+    };
+
+export const applyProsePlugins =
+    (prosePlugins?: (type: PipelineContext['type'], ctx: Ctx) => Plugin[]): Pipeline =>
+    async (env, next) => {
+        if (prosePlugins) {
+            const { pipelineCtx, ctx } = env;
+            const type = pipelineCtx.get(typePipeCtx);
+
+            ctx.update(prosePluginsCtx, (ps) => [...ps, ...prosePlugins(type, ctx)]);
+        }
+
+        await next();
+    };
+
+export const applyView =
+    (getView?: (ctx: Ctx) => PipelineContext['view']): Pipeline =>
     async (env, next) => {
         const { pipelineCtx, ctx } = env;
 
         const options = pipelineCtx.get(optionsPipeCtx)();
 
-        const getKey = (key: string, defaultValue: string | string[]): string | string[] => {
-            return options?.keymap?.[key] ?? defaultValue;
-        };
+        const view = options.view ? options.view(ctx) : getView?.(ctx);
 
-        const tuples = Object.entries<CommandConfig>(shortcuts)
-            .flatMap(([id, [commandKey, defaultKey, args]]) => {
-                const runner = () => ctx.get(commandsCtx).call(commandKey, args);
-                const key = getKey(id, defaultKey);
-                if (Array.isArray(key)) {
-                    return key.map((k) => ({ key: k, runner }));
-                }
-                return { key, runner };
-            })
-            .map((x) => [x.key, x.runner] as [string, () => boolean]);
-        ctx.update(prosePluginsCtx, (ps) => ps.concat(keymap(Object.fromEntries(tuples))));
-
-        await next();
-    };
-
-export const injectProsePlugins =
-    (prosePlugins: (type: PipelineContext['type'], ctx: Ctx) => Plugin[]): Pipeline =>
-    async (env, next) => {
-        const { pipelineCtx, ctx } = env;
-        const type = pipelineCtx.get(typePipeCtx);
-
-        ctx.update(prosePluginsCtx, (ps) => [...ps, ...prosePlugins(type, ctx)]);
-
-        await next();
-    };
-
-export const injectView =
-    (getView: (type: PipelineContext['type'], ctx: Ctx) => PipelineContext['view']): Pipeline =>
-    async (env, next) => {
-        const { pipelineCtx, ctx } = env;
-        const type = pipelineCtx.get(typePipeCtx);
-
-        const options = pipelineCtx.get(optionsPipeCtx)();
-
-        const view = options.view ? options.view(ctx) : getView(type, ctx);
-
-        const nodeViews = Object.entries(view).filter(
-            ([id]) => ctx.get(nodesCtx).findIndex((ns) => ns[0] === id) !== -1,
-        );
-        const markViews = Object.entries(view).filter(
-            ([id]) => ctx.get(marksCtx).findIndex((ns) => ns[0] === id) !== -1,
-        );
-        ctx.update(nodeViewCtx, (v) => [...v, ...(nodeViews as [string, NodeViewConstructor][])]);
-        ctx.update(markViewCtx, (v) => [...v, ...(markViews as [string, MarkViewConstructor][])]);
+        if (view) {
+            const nodeViews = Object.entries(view).filter(
+                ([id]) => ctx.get(nodesCtx).findIndex((ns) => ns[0] === id) !== -1,
+            );
+            const markViews = Object.entries(view).filter(
+                ([id]) => ctx.get(marksCtx).findIndex((ns) => ns[0] === id) !== -1,
+            );
+            ctx.update(nodeViewCtx, (v) => [...v, ...(nodeViews as [string, NodeViewConstructor][])]);
+            ctx.update(markViewCtx, (v) => [...v, ...(markViews as [string, MarkViewConstructor][])]);
+        }
 
         await next();
     };
