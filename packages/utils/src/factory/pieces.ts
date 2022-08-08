@@ -27,7 +27,7 @@ import { MarkType, NodeType } from '@milkdown/prose/model';
 import { Plugin } from '@milkdown/prose/state';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
-import { CommandConfig, CommonOptions, UnknownRecord, Utils } from '../types';
+import { CommandConfig, CommonOptions, ThemeUtils, UnknownRecord } from '../types';
 import { getUtils } from './common';
 import { Pipeline } from './pipeline';
 
@@ -80,7 +80,7 @@ export const injectOptions = (options: ReturnType<PipelineContext['options']>): 
     };
 };
 
-export const utilPipeCtx = createSlice<Utils>({} as Utils, 'Utils');
+export const utilPipeCtx = createSlice<ThemeUtils>({} as ThemeUtils, 'Utils');
 export const waitThemeReady: Pipeline = async (env, next) => {
     const { ctx, pipelineCtx } = env;
     await ctx.wait(ThemeReady);
