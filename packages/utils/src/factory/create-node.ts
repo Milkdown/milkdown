@@ -1,22 +1,22 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import {
-    Ctx,
-    MilkdownPlugin,
-    NodeSchema,
-    nodesCtx,
-    nodeViewCtx,
-    schemaCtx,
-    SchemaReady,
-    Slice,
-    ThemeReady,
-} from '@milkdown/core';
-import { missingNodeInSchema } from '@milkdown/exception';
+import { Ctx, MilkdownPlugin, NodeSchema, Slice, ThemeReady } from '@milkdown/core';
 import { NodeType } from '@milkdown/prose/model';
 import { NodeViewConstructor } from '@milkdown/prose/view';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
-import { addMetadata, applyMethods, getUtils, withExtend } from './common';
+import { addMetadata, getUtils, withExtend } from './common';
+import {
+    applyProsePlugins,
+    applyRemarkPlugins,
+    applySchema,
+    applyView,
+    createCommands,
+    createInputRules,
+    createShortcuts,
+    injectOptions,
+} from './pieces';
+import { run } from './pipeline';
 
 export type NodeRest = {
     id: string;
@@ -43,42 +43,43 @@ export const createNode = <SupportedKeys extends string = string, Options extend
 ): NodeCreator<SupportedKeys, Options> =>
     withExtend(
         factory,
-        addMetadata(
-            (options): MilkdownPlugin =>
-                (pre) => {
-                    inject?.forEach((slice) => pre.inject(slice));
-                    return async (ctx) => {
-                        await ctx.wait(ThemeReady);
-                        const utils = getUtils(ctx, options);
+        addMetadata((options): MilkdownPlugin => {
+            const milkdownPlugin: MilkdownPlugin = (pre) => {
+                inject?.forEach((slice) => pre.inject(slice));
+                return async (ctx) => {
+                    await ctx.wait(ThemeReady);
+                    const utils = getUtils(ctx, options);
 
-                        const plugin = factory(utils, options);
-                        plugin.view = (options?.view ?? plugin.view) as (ctx: Ctx) => NodeViewConstructor;
+                    const plugin = factory(utils, options);
 
-                        await applyMethods(
-                            ctx,
-                            plugin,
-                            async () => {
-                                const node = plugin.schema(ctx);
-                                ctx.update(nodesCtx, (ns) => [...ns, [plugin.id, node] as [string, NodeSchema]]);
+                    const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
-                                await ctx.wait(SchemaReady);
+                    const runner = run([
+                        injectOptions(options),
+                        applyRemarkPlugins(remarkPlugins),
+                        applySchema((ctx) => {
+                            const node = schema(ctx);
+                            return {
+                                node: {
+                                    [id]: node,
+                                },
+                            };
+                        }),
+                        createCommands(commands ? (types, ctx) => commands(types[id] as NodeType, ctx) : undefined),
+                        createInputRules(
+                            inputRules ? (types, ctx) => inputRules(types[id] as NodeType, ctx) : undefined,
+                        ),
+                        createShortcuts(shortcuts),
+                        applyProsePlugins(
+                            prosePlugins ? (types, ctx) => prosePlugins(types[id] as NodeType, ctx) : undefined,
+                        ),
+                        applyView(view ? (ctx) => ({ [id]: view(ctx) }) : undefined),
+                    ]);
 
-                                const schema = ctx.get(schemaCtx);
-                                const nodeType = schema.nodes[plugin.id];
-                                if (!nodeType) {
-                                    throw missingNodeInSchema(plugin.id);
-                                }
-                                return nodeType;
-                            },
-                            options,
-                        );
-
-                        if (plugin.view) {
-                            const view = plugin.view(ctx);
-                            ctx.update(nodeViewCtx, (v) => [...v, [plugin.id, view] as [string, NodeViewConstructor]]);
-                        }
-                    };
-                },
-        ),
+                    await runner(pre, ctx, milkdownPlugin);
+                };
+            };
+            return milkdownPlugin;
+        }),
         createNode,
     );
