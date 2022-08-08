@@ -20,34 +20,29 @@ import {
     Slice,
     ThemeReady,
 } from '@milkdown/core';
-import { ctxCallOutOfScope } from '@milkdown/exception';
 import { InputRule } from '@milkdown/prose/inputrules';
 import { keymap } from '@milkdown/prose/keymap';
 import { MarkType, NodeType } from '@milkdown/prose/model';
 import { Plugin } from '@milkdown/prose/state';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
-import { CommandConfig, CommonOptions, ThemeUtils, UnknownRecord } from '../types';
+import { CommandConfig, CommonOptions, ThemeUtils } from '../types';
 import { getUtils } from './common';
 import { Pipeline } from './pipeline';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnySlice = Slice<any>;
 
-interface PipelineContext {
-    options<SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(): Partial<
-        CommonOptions<SupportedKeys, Options>
-    >;
+type UserSchema = (ctx: Ctx) => {
+    node?: Record<string, NodeSchema>;
+    mark?: Record<string, MarkSchema>;
+};
 
-    schema(ctx: Ctx): {
-        node?: Record<string, NodeSchema>;
-        mark?: Record<string, MarkSchema>;
-    };
+type PluginType = Record<string, NodeType | MarkType>;
 
-    type: Record<string, NodeType | MarkType>;
+type PluginView = Record<string, NodeViewConstructor | MarkViewConstructor>;
 
-    view: Record<string, NodeViewConstructor | MarkViewConstructor>;
-}
+type Maybe<T> = T | undefined;
 
 export const injectSlices =
     (inject?: AnySlice[]): Pipeline =>
@@ -56,142 +51,168 @@ export const injectSlices =
         await next();
     };
 
-const optionsPipeCtx = createSlice<PipelineContext['options']>(() => {
-    throw ctxCallOutOfScope();
-}, 'Options');
-export const injectOptions = (options: ReturnType<PipelineContext['options']> = {}): Pipeline => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx) => PluginView };
+const optionsPipeCtx = createSlice<PluginOptions>({}, 'optionsPipeCtx');
+export const injectOptions = (options: PluginOptions = {}): Pipeline => {
     return async (env, next) => {
-        env.pipelineCtx.inject(optionsPipeCtx, (() => options) as PipelineContext['options']);
+        env.pipelineCtx.set(optionsPipeCtx, options);
         await next();
     };
 };
 
-export const utilPipeCtx = createSlice<ThemeUtils>({} as ThemeUtils, 'ThemeUtils');
+export const themeUtilPipeCtx = createSlice<ThemeUtils>({} as ThemeUtils, 'themeUtilPipeCtx');
 export const waitThemeReady: Pipeline = async (env, next) => {
     const { ctx, pipelineCtx } = env;
     await ctx.wait(ThemeReady);
-    const options = pipelineCtx.get(optionsPipeCtx)();
+    const options = pipelineCtx.get(optionsPipeCtx);
 
     const utils = getUtils(ctx, options);
-    pipelineCtx.inject(utilPipeCtx, utils);
+    pipelineCtx.set(themeUtilPipeCtx, utils);
 
     await next();
 };
 
-export const applyRemarkPlugins =
-    (remarkPlugins: (ctx: Ctx) => RemarkPlugin[]): Pipeline =>
-    async (env, next) => {
-        const { ctx } = env;
-        await ctx.wait(InitReady);
+export const getRemarkPluginsPipeCtx = createSlice<Maybe<(ctx: Ctx) => RemarkPlugin[]>>(
+    undefined,
+    'getRemarkPluginsPipeCtx',
+);
+export const applyRemarkPlugins: Pipeline = async (env, next) => {
+    const { ctx, pipelineCtx } = env;
 
+    await ctx.wait(InitReady);
+
+    const remarkPlugins = pipelineCtx.get(getRemarkPluginsPipeCtx);
+
+    if (remarkPlugins) {
         const plugins = remarkPlugins(ctx);
 
         ctx.update(remarkPluginsCtx, (ps) => ps.concat(plugins));
+    }
 
-        await next();
-    };
+    await next();
+};
 
-export const typePipeCtx = createSlice<PipelineContext['type'], 'Type'>({} as PipelineContext['type'], 'Type');
-export const applySchema =
-    (getSchema: PipelineContext['schema']): Pipeline =>
-    async (env, next) => {
-        const { ctx, pipelineCtx } = env;
+export const getSchemaPipeCtx = createSlice<Maybe<UserSchema>>(undefined, 'getSchemaPipeCtx');
+export const typePipeCtx = createSlice<PluginType, 'Type'>({} as PluginType, 'Type');
+export const applySchema: Pipeline = async (env, next) => {
+    const { ctx, pipelineCtx } = env;
 
-        const userSchema = getSchema(env.ctx);
+    const getSchema = pipelineCtx.get(getSchemaPipeCtx);
 
-        let node: Record<string, NodeSchema> = {};
-        let mark: Record<string, MarkSchema> = {};
+    const userSchema = getSchema?.(env.ctx) ?? {};
 
-        if (userSchema.node) {
-            node = userSchema.node;
-            const nodes = Object.entries<NodeSchema>(userSchema.node);
-            ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
-        }
+    let node: Record<string, NodeSchema> = {};
+    let mark: Record<string, MarkSchema> = {};
 
-        if (userSchema.mark) {
-            mark = userSchema.mark;
-            const marks = Object.entries<MarkSchema>(userSchema.mark);
-            ctx.update(marksCtx, (ms) => [...ms, ...marks]);
-        }
+    if (userSchema.node) {
+        node = userSchema.node;
+        const nodes = Object.entries<NodeSchema>(userSchema.node);
+        ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+    }
 
-        await ctx.wait(SchemaReady);
+    if (userSchema.mark) {
+        mark = userSchema.mark;
+        const marks = Object.entries<MarkSchema>(userSchema.mark);
+        ctx.update(marksCtx, (ms) => [...ms, ...marks]);
+    }
 
-        const schema = ctx.get(schemaCtx);
-        const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
-        const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
+    await ctx.wait(SchemaReady);
 
-        const type = Object.fromEntries([...nodeTypes, ...markTypes]);
-        pipelineCtx.inject(typePipeCtx, type);
+    const schema = ctx.get(schemaCtx);
+    const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
+    const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
 
-        await next();
-    };
+    const type = Object.fromEntries([...nodeTypes, ...markTypes]);
+    pipelineCtx.set(typePipeCtx, type);
 
-export const createCommands =
-    (commands: (types: PipelineContext['type'], ctx: Ctx) => CmdTuple[]): Pipeline =>
-    async (env, next) => {
-        const { ctx, pipelineCtx } = env;
+    await next();
+};
+
+export const getCommandsPipeCtx = createSlice<Maybe<(types: PluginType, ctx: Ctx) => CmdTuple[]>>(
+    undefined,
+    'getCommandsPipeCtx',
+);
+export const createCommands: Pipeline = async (env, next) => {
+    const { ctx, pipelineCtx } = env;
+    const commands = pipelineCtx.get(getCommandsPipeCtx);
+    if (commands) {
         const type = pipelineCtx.get(typePipeCtx);
         commands(type, ctx).forEach(([key, command]) => {
             ctx.get(commandsCtx).create(key, command);
         });
-        await next();
-    };
+    }
+    await next();
+};
 
-export const createInputRules =
-    (inputRules: (types: PipelineContext['type'], ctx: Ctx) => InputRule[]): Pipeline =>
-    async (env, next) => {
-        const { ctx, pipelineCtx } = env;
+export const getInputRulesPipeCtx = createSlice<Maybe<(types: PluginType, ctx: Ctx) => InputRule[]>>(
+    undefined,
+    'getInputRulesPipeCtx',
+);
+export const createInputRules: Pipeline = async (env, next) => {
+    const { ctx, pipelineCtx } = env;
+    const inputRules = pipelineCtx.get(getInputRulesPipeCtx);
+    if (inputRules) {
         const type = pipelineCtx.get(typePipeCtx);
         ctx.update(inputRulesCtx, (ir) => [...ir, ...inputRules(type, ctx)]);
+    }
 
-        await next();
+    await next();
+};
+
+export const shortcutsPipeCtx = createSlice<Record<string, CommandConfig>>({}, 'shortcutsPipeCtx');
+export const createShortcuts: Pipeline = async (env, next) => {
+    const { pipelineCtx, ctx } = env;
+
+    const shortcuts = pipelineCtx.get(shortcutsPipeCtx);
+
+    const options = pipelineCtx.get(optionsPipeCtx);
+    const getKey = (key: string, defaultValue: string | string[]): string | string[] => {
+        return options?.keymap?.[key] ?? defaultValue;
     };
 
-export const createShortcuts =
-    (shortcuts: Record<string, CommandConfig>): Pipeline =>
-    async (env, next) => {
-        const { pipelineCtx, ctx } = env;
+    const tuples = Object.entries<CommandConfig>(shortcuts)
+        .flatMap(([id, [commandKey, defaultKey, args]]) => {
+            const runner = () => ctx.get(commandsCtx).call(commandKey, args);
+            const key = getKey(id, defaultKey);
+            if (Array.isArray(key)) {
+                return key.map((k) => ({ key: k, runner }));
+            }
+            return { key, runner };
+        })
+        .map((x) => [x.key, x.runner] as [string, () => boolean]);
+    ctx.update(prosePluginsCtx, (ps) => ps.concat(keymap(Object.fromEntries(tuples))));
 
-        const options = pipelineCtx.get(optionsPipeCtx)();
-        const getKey = (key: string, defaultValue: string | string[]): string | string[] => {
-            return options?.keymap?.[key] ?? defaultValue;
-        };
+    await next();
+};
 
-        const tuples = Object.entries<CommandConfig>(shortcuts)
-            .flatMap(([id, [commandKey, defaultKey, args]]) => {
-                const runner = () => ctx.get(commandsCtx).call(commandKey, args);
-                const key = getKey(id, defaultKey);
-                if (Array.isArray(key)) {
-                    return key.map((k) => ({ key: k, runner }));
-                }
-                return { key, runner };
-            })
-            .map((x) => [x.key, x.runner] as [string, () => boolean]);
-        ctx.update(prosePluginsCtx, (ps) => ps.concat(keymap(Object.fromEntries(tuples))));
+export const getProsePluginsPipeCtx = createSlice<Maybe<(types: PluginType, ctx: Ctx) => Plugin[]>>(
+    undefined,
+    'getProsePluginsPipeCtx',
+);
+export const applyProsePlugins: Pipeline = async (env, next) => {
+    const { pipelineCtx, ctx } = env;
 
-        await next();
-    };
-
-export const applyProsePlugins =
-    (prosePlugins: (type: PipelineContext['type'], ctx: Ctx) => Plugin[]): Pipeline =>
-    async (env, next) => {
-        const { pipelineCtx, ctx } = env;
+    const prosePlugins = pipelineCtx.get(getProsePluginsPipeCtx);
+    if (prosePlugins) {
         const type = pipelineCtx.get(typePipeCtx);
-
         ctx.update(prosePluginsCtx, (ps) => [...ps, ...prosePlugins(type, ctx)]);
+    }
 
-        await next();
-    };
+    await next();
+};
 
-export const applyView =
-    (getView: (ctx: Ctx) => PipelineContext['view']): Pipeline =>
-    async (env, next) => {
-        const { pipelineCtx, ctx } = env;
+export const getViewPipeCtx = createSlice<Maybe<(ctx: Ctx) => PluginView>>(undefined, 'getViewPipeCtx');
+export const applyView: Pipeline = async (env, next) => {
+    const { pipelineCtx, ctx } = env;
 
-        const options = pipelineCtx.get(optionsPipeCtx)();
+    const getView = pipelineCtx.get(getViewPipeCtx);
 
-        const view = options.view ? options.view(ctx) : getView(ctx);
+    const options = pipelineCtx.get(optionsPipeCtx);
 
+    const view = options.view ? options.view(ctx) : getView?.(ctx);
+
+    if (view) {
         const nodeViews = Object.entries(view).filter(
             ([id]) => ctx.get(nodesCtx).findIndex((ns) => ns[0] === id) !== -1,
         );
@@ -200,6 +221,24 @@ export const applyView =
         );
         ctx.update(nodeViewCtx, (v) => [...v, ...(nodeViews as [string, NodeViewConstructor][])]);
         ctx.update(markViewCtx, (v) => [...v, ...(markViews as [string, MarkViewConstructor][])]);
+    }
 
-        await next();
-    };
+    await next();
+};
+
+export const injectPipeEnv: Pipeline = async (env, next) => {
+    const { pipelineCtx } = env;
+    pipelineCtx
+        .inject(optionsPipeCtx)
+        .inject(themeUtilPipeCtx)
+        .inject(getRemarkPluginsPipeCtx)
+        .inject(getSchemaPipeCtx)
+        .inject(typePipeCtx)
+        .inject(getCommandsPipeCtx)
+        .inject(getInputRulesPipeCtx)
+        .inject(shortcutsPipeCtx)
+        .inject(getProsePluginsPipeCtx)
+        .inject(getViewPipeCtx);
+
+    await next();
+};

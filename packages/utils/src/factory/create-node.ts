@@ -14,7 +14,15 @@ import {
     createCommands,
     createInputRules,
     createShortcuts,
+    getCommandsPipeCtx,
+    getInputRulesPipeCtx,
+    getProsePluginsPipeCtx,
+    getRemarkPluginsPipeCtx,
+    getSchemaPipeCtx,
+    getViewPipeCtx,
     injectOptions,
+    injectPipeEnv,
+    shortcutsPipeCtx,
 } from './pieces';
 import { Pipeline, run } from './pipeline';
 
@@ -51,28 +59,49 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                     const utils = getUtils(ctx, options);
 
                     const plugin = factory(utils, options);
-
                     const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
+                    const pluginOptions = {
+                        ...(options || {}),
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        view: options?.view ? (ctx: Ctx) => ({ [id]: options!.view!(ctx) }) : undefined,
+                    };
+
+                    const setGetters: Pipeline = async ({ pipelineCtx }, next) => {
+                        pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
+                        pipelineCtx.set(getSchemaPipeCtx, (ctx) => ({ node: { [id]: schema(ctx) } }));
+                        if (commands) {
+                            pipelineCtx.set(getCommandsPipeCtx, (type, ctx) => commands(type[id] as NodeType, ctx));
+                        }
+                        if (inputRules) {
+                            pipelineCtx.set(getInputRulesPipeCtx, (type, ctx) => inputRules(type[id] as NodeType, ctx));
+                        }
+                        if (shortcuts) {
+                            pipelineCtx.set(shortcutsPipeCtx, shortcuts);
+                        }
+                        if (prosePlugins) {
+                            pipelineCtx.set(getProsePluginsPipeCtx, (type, ctx) =>
+                                prosePlugins(type[id] as NodeType, ctx),
+                            );
+                        }
+                        if (view) {
+                            pipelineCtx.set(getViewPipeCtx, (ctx) => ({ [id]: view(ctx) }));
+                        }
+                        await next();
+                    };
+
                     const pipes = [
-                        injectOptions(options),
-                        remarkPlugins ? applyRemarkPlugins(remarkPlugins) : null,
-                        applySchema((ctx) => {
-                            const node = schema(ctx);
-                            return {
-                                node: {
-                                    [id]: node,
-                                },
-                            };
-                        }),
-                        commands ? createCommands((types, ctx) => commands(types[id] as NodeType, ctx)) : null,
-                        inputRules ? createInputRules((types, ctx) => inputRules(types[id] as NodeType, ctx)) : null,
-                        shortcuts ? createShortcuts(shortcuts) : null,
-                        prosePlugins
-                            ? applyProsePlugins((types, ctx) => prosePlugins(types[id] as NodeType, ctx))
-                            : null,
-                        view ? applyView((ctx) => ({ [id]: view(ctx) })) : null,
-                    ].filter((x): x is Pipeline => x != null);
+                        injectPipeEnv,
+                        setGetters,
+                        injectOptions(pluginOptions),
+                        applyRemarkPlugins,
+                        applySchema,
+                        createCommands,
+                        createInputRules,
+                        createShortcuts,
+                        applyProsePlugins,
+                        applyView,
+                    ];
 
                     const runner = run(pipes);
 
