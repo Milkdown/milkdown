@@ -16,7 +16,7 @@ import {
     createShortcuts,
     injectOptions,
 } from './pieces';
-import { run } from './pipeline';
+import { Pipeline, run } from './pipeline';
 
 export type NodeRest = {
     id: string;
@@ -54,9 +54,9 @@ export const createNode = <SupportedKeys extends string = string, Options extend
 
                     const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
-                    const runner = run([
+                    const pipes = [
                         injectOptions(options),
-                        applyRemarkPlugins(remarkPlugins),
+                        remarkPlugins ? applyRemarkPlugins(remarkPlugins) : null,
                         applySchema((ctx) => {
                             const node = schema(ctx);
                             return {
@@ -65,16 +65,16 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                                 },
                             };
                         }),
-                        createCommands(commands ? (types, ctx) => commands(types[id] as NodeType, ctx) : undefined),
-                        createInputRules(
-                            inputRules ? (types, ctx) => inputRules(types[id] as NodeType, ctx) : undefined,
-                        ),
-                        createShortcuts(shortcuts),
-                        applyProsePlugins(
-                            prosePlugins ? (types, ctx) => prosePlugins(types[id] as NodeType, ctx) : undefined,
-                        ),
-                        applyView(view ? (ctx) => ({ [id]: view(ctx) }) : undefined),
-                    ]);
+                        commands ? createCommands((types, ctx) => commands(types[id] as NodeType, ctx)) : null,
+                        inputRules ? createInputRules((types, ctx) => inputRules(types[id] as NodeType, ctx)) : null,
+                        shortcuts ? createShortcuts(shortcuts) : null,
+                        prosePlugins
+                            ? applyProsePlugins((types, ctx) => prosePlugins(types[id] as NodeType, ctx))
+                            : null,
+                        view ? applyView((ctx) => ({ [id]: view(ctx) })) : null,
+                    ].filter((x): x is Pipeline => x != null);
+
+                    const runner = run(pipes);
 
                     await runner(pre, ctx, milkdownPlugin);
                 };
