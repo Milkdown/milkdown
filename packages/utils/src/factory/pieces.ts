@@ -80,7 +80,7 @@ export const injectOptions = (options: ReturnType<PipelineContext['options']>): 
     };
 };
 
-export const utilPipeCtx = createSlice<ThemeUtils>({} as ThemeUtils, 'Utils');
+export const utilPipeCtx = createSlice<ThemeUtils>({} as ThemeUtils, 'ThemeUtils');
 export const waitThemeReady: Pipeline = async (env, next) => {
     const { ctx, pipelineCtx } = env;
     await ctx.wait(ThemeReady);
@@ -203,7 +203,9 @@ export const injectView =
         const { pipelineCtx, ctx } = env;
         const type = pipelineCtx.get(typePipeCtx);
 
-        const view = getView(type, ctx);
+        const options = pipelineCtx.get(optionsPipeCtx)();
+
+        const view = options.view ? options.view(ctx) : getView(type, ctx);
 
         const nodeViews = Object.entries(view).filter(
             ([id]) => ctx.get(nodesCtx).findIndex((ns) => ns[0] === id) !== -1,

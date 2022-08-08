@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { ThemeColor, ThemeSize } from '@milkdown/core';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 export type DividerConfig = {
     type: 'divider';
     group: HTMLElement[];
 };
-export const divider = (utils: Utils) => {
+export const divider = (utils: ThemeUtils) => {
     const $divider = document.createElement('div');
     $divider.classList.add('divider');
     const { themeManager } = utils;

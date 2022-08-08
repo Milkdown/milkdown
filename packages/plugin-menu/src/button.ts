@@ -2,7 +2,7 @@
 
 import { CmdKey, commandsCtx, Ctx, getPalette, Icon, ThemeIcon } from '@milkdown/core';
 import type { EditorView } from '@milkdown/prose/view';
-import type { Utils } from '@milkdown/utils';
+import type { ThemeUtils } from '@milkdown/utils';
 
 import type { CommonConfig } from './default-config';
 
@@ -15,7 +15,7 @@ export type ButtonConfig<T = any> = {
     options?: T;
 } & CommonConfig;
 
-export const button = (utils: Utils, config: ButtonConfig, ctx: Ctx) => {
+export const button = (utils: ThemeUtils, config: ButtonConfig, ctx: Ctx) => {
     const $button = document.createElement('button');
     $button.setAttribute('type', 'button');
     utils.themeManager.onFlush(() => {

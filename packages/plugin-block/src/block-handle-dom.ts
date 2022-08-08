@@ -3,13 +3,13 @@
 import { getPalette, ThemeIcon, ThemeSize } from '@milkdown/core';
 import { missingRootElement } from '@milkdown/exception';
 import { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 export class BlockHandleDOM {
     readonly dom$: HTMLElement;
 
-    #utils: Utils;
-    constructor(utils: Utils) {
+    #utils: ThemeUtils;
+    constructor(utils: ThemeUtils) {
         this.#utils = utils;
         this.dom$ = this.#createDOM();
         this.#injectStyle();

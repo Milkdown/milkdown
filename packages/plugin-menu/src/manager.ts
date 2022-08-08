@@ -2,7 +2,7 @@
 
 import { Ctx } from '@milkdown/core';
 import { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import { button, ButtonConfig } from './button';
 import { Config, ConfigItem } from './default-config';
@@ -14,7 +14,13 @@ type InnerConfig = (ConfigItem | DividerConfig) & { $: HTMLElement };
 export class Manager {
     private config: InnerConfig[];
 
-    constructor(originalConfig: Config, private utils: Utils, private ctx: Ctx, menu: HTMLElement, view: EditorView) {
+    constructor(
+        originalConfig: Config,
+        private utils: ThemeUtils,
+        private ctx: Ctx,
+        menu: HTMLElement,
+        view: EditorView,
+    ) {
         this.config = originalConfig
             .map((xs) =>
                 xs.map((x) => ({

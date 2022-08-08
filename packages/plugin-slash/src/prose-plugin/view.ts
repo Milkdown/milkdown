@@ -2,7 +2,7 @@
 import { missingRootElement } from '@milkdown/exception';
 import { calculateNodePosition } from '@milkdown/prose';
 import { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import { createDropdown } from '../utility';
 import { renderDropdown } from './dropdown';
@@ -40,7 +40,7 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
     });
 };
 
-export const createView = (status: Status, view: EditorView, utils: Utils, className: string) => {
+export const createView = (status: Status, view: EditorView, utils: ThemeUtils, className: string) => {
     const wrapper = view.dom.parentNode;
     if (!wrapper) return {};
 

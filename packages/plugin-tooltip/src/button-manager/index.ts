@@ -1,13 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView } from '@milkdown/prose/view';
-import type { Utils } from '@milkdown/utils';
+import type { ThemeUtils } from '@milkdown/utils';
 
 import type { ButtonList } from '../item';
 import { calcButtonPos } from './calc-button-pos';
 import { createTooltip } from './create-tooltip';
 import { filterButton } from './filter-button';
 
-export const createButtonManager = (buttons: ButtonList, utils: Utils, bottom: boolean, containerClassName: string) => {
+export const createButtonManager = (
+    buttons: ButtonList,
+    utils: ThemeUtils,
+    bottom: boolean,
+    containerClassName: string,
+) => {
     const { dom: buttonDOM, render } = createTooltip(buttons, utils, containerClassName);
 
     const onClick = (e: Event) => {

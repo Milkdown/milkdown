@@ -3,7 +3,7 @@
 import { missingRootElement } from '@milkdown/exception';
 import { calculateNodePosition } from '@milkdown/prose';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 import nodeEmoji from 'node-emoji';
 
 import { checkTrigger, renderDropdownList } from './helper';
@@ -11,7 +11,7 @@ import { injectStyle } from './style';
 
 export const key = new PluginKey('MILKDOWN_EMOJI_FILTER');
 
-export const filter = (utils: Utils, maxListSize: number) => {
+export const filter = (utils: ThemeUtils, maxListSize: number) => {
     let trigger = false;
     let _from = 0;
     let _search = '';

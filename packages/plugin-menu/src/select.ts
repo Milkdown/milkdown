@@ -12,7 +12,7 @@ import {
     ThemeSize,
 } from '@milkdown/core';
 import { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 import type { CommonConfig } from './default-config';
 
@@ -30,7 +30,7 @@ export type SelectConfig<T = any> = {
     onSelect: (id: string, view: EditorView) => [key: CmdKey<T> | string, payload?: T];
 } & CommonConfig;
 
-export const select = (utils: Utils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
+export const select = (utils: ThemeUtils, config: SelectConfig, ctx: Ctx, view: EditorView) => {
     const selectorWrapper = document.createElement('div');
     selectorWrapper.classList.add('menu-selector-wrapper', 'fold');
 

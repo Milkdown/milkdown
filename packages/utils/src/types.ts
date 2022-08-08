@@ -20,6 +20,11 @@ export type ThemeUtils = {
     readonly themeManager: ThemeManager;
 };
 
+/**
+ * @deprecated Use `ThemeUtils` instead.
+ */
+export type Utils = ThemeUtils;
+
 export type UnknownRecord = Record<string, unknown>;
 
 export type CommandConfig<T = unknown> = [commandKey: CmdKey<T>, defaultKey: string, args?: T];

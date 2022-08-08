@@ -2,7 +2,7 @@
 import { Ctx, rootCtx, ThemeBorder, ThemeColor, ThemeFont, ThemeScrollbar } from '@milkdown/core';
 import { missingMenuWrapper, missingRootElement } from '@milkdown/exception';
 import { EditorView } from '@milkdown/prose/view';
-import { Utils } from '@milkdown/utils';
+import { ThemeUtils } from '@milkdown/utils';
 
 export type HandleDOMParams = {
     menu: HTMLDivElement;
@@ -58,7 +58,7 @@ export const initWrapper = (ctx: Ctx, view: EditorView) => {
 };
 
 export const menubar = (
-    utils: Utils,
+    utils: ThemeUtils,
     view: EditorView,
     ctx: Ctx,
     menuWrapper: HTMLDivElement | null,

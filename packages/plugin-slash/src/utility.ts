@@ -4,11 +4,11 @@ import type { Icon } from '@milkdown/design-system';
 import { missingIcon } from '@milkdown/exception';
 import type { Node } from '@milkdown/prose/model';
 import type { Command } from '@milkdown/prose/state';
-import type { Utils } from '@milkdown/utils';
+import type { ThemeUtils } from '@milkdown/utils';
 
 import { injectStyle } from './style';
 
-export const createDropdown = (utils: Utils, className: string) => {
+export const createDropdown = (utils: ThemeUtils, className: string) => {
     const div = document.createElement('div');
     div.setAttribute('role', 'listbox');
     div.setAttribute('tabindex', '-1');
