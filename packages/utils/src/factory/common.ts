@@ -22,8 +22,8 @@ import {
     Factory,
     GetPlugin,
     Methods,
+    ThemeUtils,
     UnknownRecord,
-    Utils,
     WithExtend,
 } from '../types';
 
@@ -37,7 +37,7 @@ export const getClassName =
 export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string | string[], args?: T) =>
     [commandKey, defaultKey, args] as CommandConfig<unknown>;
 
-export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Options): Utils => {
+export const getUtils = <Options extends UnknownRecord>(ctx: Ctx, options?: Options): ThemeUtils => {
     try {
         const themeManager = ctx.get(themeManagerCtx);
         const emotion = ctx.get(emotionCtx);

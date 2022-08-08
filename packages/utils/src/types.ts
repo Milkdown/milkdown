@@ -14,7 +14,7 @@ import type { InputRule } from '@milkdown/prose/inputrules';
 import type { Plugin } from '@milkdown/prose/state';
 import type { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
-export type Utils = {
+export type ThemeUtils = {
     readonly getClassName: (attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string;
     readonly getStyle: (style: (emotion: Emotion) => string | void) => string | undefined;
     readonly themeManager: ThemeManager;
@@ -52,7 +52,7 @@ export type AddMetadata<SupportedKeys extends string = string, Options extends U
 
 export type Spec<SupportedKeys extends string, Type, Rest> = Methods<SupportedKeys, Type> & Rest;
 export type Factory<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = (
-    utils: Utils,
+    utils: ThemeUtils,
     options?: Partial<CommonOptions<SupportedKeys, Options>>,
 ) => Spec<SupportedKeys, Type, Rest>;
 export type Extendable<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = {
