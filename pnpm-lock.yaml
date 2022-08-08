@@ -780,7 +780,6 @@ importers:
       '@types/estree': ^1.0.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@types/react-helmet': ^6.1.5
       '@types/react-router-dom': ^5.1.7
       autoprefixer: ^10.2.5
       history: ^5.0.1
@@ -793,7 +792,7 @@ importers:
       prism-themes: ^1.7.0
       react: ^18.0.0
       react-dom: ^18.0.0
-      react-helmet: ^6.1.0
+      react-helmet-async: ^1.3.0
       react-loading-skeleton: ^3.0.2
       react-router-dom: ^6.0.0
       react-spinners: ^0.13.0
@@ -842,7 +841,7 @@ importers:
       prism-themes: 1.9.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-helmet: 6.1.0_react@18.2.0
+      react-helmet-async: 1.3.0_biqbaboplfbrettd7655fr4n2y
       react-loading-skeleton: 3.1.0_react@18.2.0
       react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
       react-spinners: 0.13.3_biqbaboplfbrettd7655fr4n2y
@@ -853,7 +852,6 @@ importers:
       '@types/estree': 1.0.0
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
-      '@types/react-helmet': 6.1.5
       '@types/react-router-dom': 5.3.3
       autoprefixer: 10.4.7_postcss@8.4.14
       history: 5.3.0
@@ -3882,12 +3880,6 @@ packages:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
       '@types/react': 18.0.15
-
-  /@types/react-helmet/6.1.5:
-    resolution: {integrity: sha512-/ICuy7OHZxR0YCAZLNg9r7I9aijWUWvxaPR6uTuyxe8tAj5RL4Sw1+R6NhXUtOsarkGYPmaHdBDvuXh2DIN/uA==}
-    dependencies:
-      '@types/react': 18.0.15
-    dev: true
 
   /@types/react-router-dom/5.3.3:
     resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
@@ -7725,6 +7717,12 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /invariant/2.2.4:
+    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: false
+
   /is-alphabetical/2.0.1:
     resolution: {integrity: sha512-FWyyY60MeTNyeSRpkM2Iry0G9hpr7/9kD40mD/cGQEuilcZYS4okz8SN2Q6rLCJ8gbCt6fN+rC+6tMGS99LaxQ==}
     dev: false
@@ -10511,16 +10509,19 @@ packages:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
     dev: false
 
-  /react-helmet/6.1.0_react@18.2.0:
-    resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
+  /react-helmet-async/1.3.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-9jZ57/dAn9t3q6hneQS0wukqC2ENOBgMNVEhb/ZG9ZSxUetzVIw4iAmEU38IaVg3QGYauQPhSeUTuIUtFglWpg==}
     peerDependencies:
-      react: '>=16.3.0 || 18'
+      react: ^16.6.0 || ^17.0.0 || ^18.0.0 || 18
+      react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0 || 18
     dependencies:
-      object-assign: 4.1.1
+      '@babel/runtime': 7.18.6
+      invariant: 2.2.4
       prop-types: 15.8.1
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
       react-fast-compare: 3.2.0
-      react-side-effect: 2.1.2_react@18.2.0
+      shallowequal: 1.1.0
     dev: false
 
   /react-is/16.13.1:
@@ -10562,14 +10563,6 @@ packages:
       react: '>=16.8 || 18'
     dependencies:
       history: 5.3.0
-      react: 18.2.0
-    dev: false
-
-  /react-side-effect/2.1.2_react@18.2.0:
-    resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
-    peerDependencies:
-      react: ^16.3.0 || ^17.0.0 || ^18.0.0 || 18
-    dependencies:
       react: 18.2.0
     dev: false
 
@@ -11065,6 +11058,10 @@ packages:
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
     dev: true
+
+  /shallowequal/1.1.0:
+    resolution: {integrity: sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==}
+    dev: false
 
   /shebang-command/1.2.0:
     resolution: {integrity: sha512-EV3L1+UQWGor21OmnvojK36mhg+TyIKDh3iFBKBohr5xeXIhNBcx8oWdgkTEEQ+BEFFYdLRuqMfd5L84N1V5Vg==}

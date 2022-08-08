@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import React from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 
 import { i18nConfig, Local } from '../route';
@@ -43,10 +44,12 @@ const Container: React.FC = () => {
 };
 
 export const App: React.FC = () => (
-    <BrowserRouter>
-        <Context>
-            <Sidebar />
-            <Container />
-        </Context>
-    </BrowserRouter>
+    <HelmetProvider>
+        <BrowserRouter>
+            <Context>
+                <Sidebar />
+                <Container />
+            </Context>
+        </BrowserRouter>
+    </HelmetProvider>
 );
