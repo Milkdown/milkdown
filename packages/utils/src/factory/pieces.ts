@@ -25,8 +25,7 @@ import { MarkType, NodeType } from '@milkdown/prose/model';
 import { Plugin } from '@milkdown/prose/state';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
-import { AnySlice, CommandConfig, CommonOptions, ThemeUtils } from '../types';
-import { getThemeUtils } from './common';
+import { AnySlice, CommandConfig, CommonOptions } from '../types';
 import { Pipeline } from './pipeline';
 
 export type UserSchema = (ctx: Ctx) => {
@@ -47,14 +46,9 @@ export const injectSlices =
         await next();
     };
 
-export const themeUtilPipeCtx = createSlice<ThemeUtils>({} as ThemeUtils, 'themeUtilPipeCtx');
 export const waitThemeReady: Pipeline = async (env, next) => {
-    const { ctx, pipelineCtx } = env;
+    const { ctx } = env;
     await ctx.wait(ThemeReady);
-    const options = pipelineCtx.get(optionsPipeCtx);
-
-    const utils = getThemeUtils(ctx, options);
-    pipelineCtx.set(themeUtilPipeCtx, utils);
 
     await next();
 };
@@ -223,7 +217,6 @@ export const injectPipeEnv: Pipeline = async (env, next) => {
     pipelineCtx
         .inject(idPipeCtx)
         .inject(optionsPipeCtx)
-        .inject(themeUtilPipeCtx)
         .inject(getRemarkPluginsPipeCtx)
         .inject(getSchemaPipeCtx)
         .inject(typePipeCtx)
