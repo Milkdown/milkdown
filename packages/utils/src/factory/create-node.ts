@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, Env, MilkdownPlugin, NodeSchema, Slice } from '@milkdown/core';
+import { Ctx, MilkdownPlugin, NodeSchema, Slice } from '@milkdown/core';
 import { NodeType } from '@milkdown/prose/model';
 import { NodeViewConstructor } from '@milkdown/prose/view';
 
@@ -21,9 +21,9 @@ import {
     getSchemaPipeCtx,
     getViewPipeCtx,
     idPipeCtx,
-    injectOptions,
     injectPipeEnv,
     injectSlices,
+    optionsPipeCtx,
     shortcutsPipeCtx,
     themeUtilPipeCtx,
     waitThemeReady,
@@ -57,21 +57,22 @@ export const createNode = <SupportedKeys extends string = string, Options extend
         factory,
         addMetadata((options): MilkdownPlugin => {
             const milkdownPlugin: MilkdownPlugin = (pre) => async (ctx) => {
-                const pluginOptions = {
-                    ...(options || {}),
-                    view: options?.view
-                        ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                          (ctx: Ctx, pipelineCtx: Env) => ({ [pipelineCtx.get(idPipeCtx)]: options!.view!(ctx) })
-                        : undefined,
-                };
-
                 const setGetters: Pipeline = async ({ pipelineCtx }, next) => {
                     const utils = pipelineCtx.get(themeUtilPipeCtx);
                     const plugin = factory(utils, options);
 
                     const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
+                    const pluginOptions = {
+                        ...(options || {}),
+                        view: options?.view
+                            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                              (ctx: Ctx) => ({ [id]: options!.view!(ctx) })
+                            : undefined,
+                    };
+
                     pipelineCtx.set(idPipeCtx, id);
+                    pipelineCtx.set(optionsPipeCtx, pluginOptions);
                     pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
                     pipelineCtx.set(getSchemaPipeCtx, (ctx) => ({ node: { [id]: schema(ctx) } }));
                     if (commands) {
@@ -97,7 +98,6 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                     injectSlices(inject),
                     waitThemeReady,
                     setGetters,
-                    injectOptions(pluginOptions),
                     applyRemarkPlugins,
                     applySchema,
                     createCommands,

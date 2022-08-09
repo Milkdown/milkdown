@@ -4,7 +4,6 @@ import {
     commandsCtx,
     createSlice,
     Ctx,
-    Env,
     InitReady,
     inputRulesCtx,
     MarkSchema,
@@ -51,16 +50,6 @@ export const injectSlices =
         inject?.forEach((slice) => env.pre.inject(slice));
         await next();
     };
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx, pipelineCtx: Env) => PluginView };
-const optionsPipeCtx = createSlice<PluginOptions>({}, 'optionsPipeCtx');
-export const injectOptions = (options: PluginOptions = {}): Pipeline => {
-    return async (env, next) => {
-        env.pipelineCtx.set(optionsPipeCtx, options);
-        await next();
-    };
-};
 
 export const themeUtilPipeCtx = createSlice<ThemeUtils>({} as ThemeUtils, 'themeUtilPipeCtx');
 export const waitThemeReady: Pipeline = async (env, next) => {
@@ -203,10 +192,7 @@ export const applyProsePlugins: Pipeline = async (env, next) => {
     await next();
 };
 
-export const getViewPipeCtx = createSlice<Maybe<(ctx: Ctx, pipelineCtx: Env) => PluginView>>(
-    undefined,
-    'getViewPipeCtx',
-);
+export const getViewPipeCtx = createSlice<Maybe<(ctx: Ctx) => PluginView>>(undefined, 'getViewPipeCtx');
 export const applyView: Pipeline = async (env, next) => {
     const { pipelineCtx, ctx } = env;
 
@@ -214,7 +200,7 @@ export const applyView: Pipeline = async (env, next) => {
 
     const options = pipelineCtx.get(optionsPipeCtx);
 
-    const view = options.view ? options.view(ctx, pipelineCtx) : getView?.(ctx, pipelineCtx);
+    const view = options.view ? options.view(ctx) : getView?.(ctx);
 
     if (view) {
         const nodeViews = Object.entries(view).filter(
@@ -230,7 +216,12 @@ export const applyView: Pipeline = async (env, next) => {
     await next();
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx) => PluginView };
+export const optionsPipeCtx = createSlice<PluginOptions>({}, 'optionsPipeCtx');
+
 export const idPipeCtx = createSlice('', 'idPipeCtx');
+
 export const injectPipeEnv: Pipeline = async (env, next) => {
     const { pipelineCtx } = env;
     pipelineCtx
