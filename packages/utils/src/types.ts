@@ -84,3 +84,6 @@ export type WithExtend<SupportedKeys extends string, Options extends UnknownReco
     Extendable<SupportedKeys, Options, Type, Rest>;
 
 export type MaybePromise<T> = T | Promise<T>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnySlice = Slice<any>;

@@ -1,24 +1,34 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import {
-    Ctx,
-    MarkSchema,
-    marksCtx,
-    markViewCtx,
-    MilkdownPlugin,
-    NodeSchema,
-    nodesCtx,
-    nodeViewCtx,
-    schemaCtx,
-    SchemaReady,
-    Slice,
-    ThemeReady,
-} from '@milkdown/core';
+import { Ctx, MarkSchema, MilkdownPlugin, NodeSchema } from '@milkdown/core';
 import { MarkType, NodeType } from '@milkdown/prose/model';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
-import { Factory, UnknownRecord, WithExtend } from '../types';
-import { addMetadata, applyMethods, getUtils, withExtend } from './common';
+import { pipe } from '../pipe';
+import { AnySlice, CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
+import { addMetadata, withExtend } from './common';
+import {
+    applyProsePlugins,
+    applyRemarkPlugins,
+    applySchema,
+    applyView,
+    createCommands,
+    createInputRules,
+    createShortcuts,
+    getCommandsPipeCtx,
+    getInputRulesPipeCtx,
+    getProsePluginsPipeCtx,
+    getRemarkPluginsPipeCtx,
+    getSchemaPipeCtx,
+    getViewPipeCtx,
+    injectPipeEnv,
+    injectSlices,
+    optionsPipeCtx,
+    shortcutsPipeCtx,
+    themeUtilPipeCtx,
+    waitThemeReady,
+} from './pieces';
+import { Pipeline, run } from './pipeline';
 
 export type TypeMapping<NodeKeys extends string, MarkKeys extends string> = {
     [K in NodeKeys]: NodeType;
@@ -53,69 +63,58 @@ export const createPlugin = <
     MarkKeys extends string = string,
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inject?: Slice<any>[],
+    inject?: AnySlice[],
 ): WithExtend<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>> =>
-    withExtend(
-        factory,
-        addMetadata(
-            (options): MilkdownPlugin =>
-                (pre) => {
-                    inject?.forEach((slice) => pre.inject(slice));
-                    return async (ctx) => {
-                        await ctx.wait(ThemeReady);
-                        const utils = getUtils(ctx, options);
+    pipe(
+        addMetadata,
+        withExtend(factory, createPlugin),
+    )(
+        (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin =>
+            (pre) =>
+            async (ctx) => {
+                const setPipelineEnv: Pipeline = async ({ pipelineCtx }, next) => {
+                    const utils = pipelineCtx.get(themeUtilPipeCtx);
+                    const plugin = factory(utils, options);
 
-                        const plugin = factory(utils, options);
+                    const { commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
-                        await applyMethods(
-                            ctx,
-                            plugin,
-                            async () => {
-                                let node: Record<NodeKeys, NodeSchema> = {} as Record<NodeKeys, NodeSchema>;
-                                let mark: Record<MarkKeys, MarkSchema> = {} as Record<MarkKeys, MarkSchema>;
-                                if (plugin.schema) {
-                                    const schemas = plugin.schema(ctx);
-                                    if (schemas.node) {
-                                        node = schemas.node;
-                                        const nodes = Object.entries<NodeSchema>(schemas.node);
-                                        ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
-                                    }
+                    pipelineCtx.set(optionsPipeCtx, (options || {}) as Options);
+                    pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
+                    if (schema) {
+                        pipelineCtx.set(getSchemaPipeCtx, schema);
+                    }
+                    if (commands) {
+                        pipelineCtx.set(getCommandsPipeCtx, commands as never);
+                    }
+                    if (inputRules) {
+                        pipelineCtx.set(getInputRulesPipeCtx, inputRules as never);
+                    }
+                    if (shortcuts) {
+                        pipelineCtx.set(shortcutsPipeCtx, shortcuts);
+                    }
+                    if (prosePlugins) {
+                        pipelineCtx.set(getProsePluginsPipeCtx, prosePlugins as never);
+                    }
+                    if (view) {
+                        pipelineCtx.set(getViewPipeCtx, view as never);
+                    }
+                    await next();
+                };
 
-                                    if (schemas.mark) {
-                                        mark = schemas.mark;
-                                        const marks = Object.entries<MarkSchema>(schemas.mark);
-                                        ctx.update(marksCtx, (ms) => [...ms, ...marks]);
-                                    }
-                                }
+                const runner = run([
+                    injectPipeEnv,
+                    injectSlices(inject),
+                    waitThemeReady,
+                    setPipelineEnv,
+                    applyRemarkPlugins,
+                    applySchema,
+                    createCommands,
+                    createInputRules,
+                    createShortcuts,
+                    applyProsePlugins,
+                    applyView,
+                ]);
 
-                                await ctx.wait(SchemaReady);
-
-                                const schema = ctx.get(schemaCtx);
-                                const nodeTypes = Object.keys(node).map((id) => [id, schema.nodes[id]] as const);
-                                const markTypes = Object.keys(mark).map((id) => [id, schema.marks[id]] as const);
-                                const type: TypeMapping<NodeKeys, MarkKeys> = Object.fromEntries([
-                                    ...nodeTypes,
-                                    ...markTypes,
-                                ]);
-                                return type;
-                            },
-                            options,
-                        );
-
-                        if (plugin.view) {
-                            const view = plugin.view(ctx);
-                            const nodeViews = Object.entries(view).filter(
-                                ([id]) => ctx.get(nodesCtx).findIndex((ns) => ns[0] === id) !== -1,
-                            );
-                            const markViews = Object.entries(view).filter(
-                                ([id]) => ctx.get(marksCtx).findIndex((ns) => ns[0] === id) !== -1,
-                            );
-                            ctx.update(nodeViewCtx, (v) => [...v, ...(nodeViews as [string, NodeViewConstructor][])]);
-                            ctx.update(markViewCtx, (v) => [...v, ...(markViews as [string, MarkViewConstructor][])]);
-                        }
-                    };
-                },
-        ),
-        createPlugin,
+                await runner(pre, ctx);
+            },
     );

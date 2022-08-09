@@ -1,10 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, MilkdownPlugin, NodeSchema, Slice } from '@milkdown/core';
+import { Ctx, MilkdownPlugin, NodeSchema } from '@milkdown/core';
 import { NodeType } from '@milkdown/prose/model';
 import { NodeViewConstructor } from '@milkdown/prose/view';
 
-import { Factory, UnknownRecord, WithExtend } from '../types';
+import { pipe } from '../pipe';
+import { AnySlice, CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, withExtend } from './common';
 import {
     applyProsePlugins,
@@ -50,13 +51,15 @@ export type NodeCreator<
 
 export const createNode = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: NodeFactory<SupportedKeys, Options>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inject?: Slice<any>[],
+    inject?: AnySlice[],
 ): NodeCreator<SupportedKeys, Options> =>
-    withExtend(
-        factory,
-        addMetadata((options): MilkdownPlugin => {
-            const milkdownPlugin: MilkdownPlugin = (pre) => async (ctx) => {
+    pipe(
+        addMetadata,
+        withExtend(factory, createNode),
+    )(
+        (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin =>
+            (pre) =>
+            async (ctx) => {
                 const setPipelineEnv: Pipeline = async ({ pipelineCtx }, next) => {
                     const utils = pipelineCtx.get(themeUtilPipeCtx);
                     const plugin = factory(utils, options);
@@ -93,7 +96,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                     await next();
                 };
 
-                const pipes = [
+                const runner = run([
                     injectPipeEnv,
                     injectSlices(inject),
                     waitThemeReady,
@@ -105,13 +108,8 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                     createShortcuts,
                     applyProsePlugins,
                     applyView,
-                ];
+                ]);
 
-                const runner = run(pipes);
-
-                await runner(pre, ctx, milkdownPlugin);
-            };
-            return milkdownPlugin;
-        }),
-        createNode,
+                await runner(pre, ctx);
+            },
     );

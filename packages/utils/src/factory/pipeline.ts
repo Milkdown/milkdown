@@ -1,12 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { createClock, createContainer, Ctx, Env, MilkdownPlugin, Pre } from '@milkdown/core';
+import { createClock, createContainer, Ctx, Env, Pre } from '@milkdown/core';
 
 export type PipelineEnv = {
     readonly pre: Pre;
     readonly ctx: Ctx;
     readonly pipelineCtx: Env;
-    readonly original: MilkdownPlugin;
 };
 
 export type Pipeline = (env: PipelineEnv, next: () => Promise<void>) => Promise<void>;
@@ -36,11 +35,10 @@ export const run = (pipelines: Pipeline[]) => {
     const clock = createClock();
     const pipelineCtx = new Env(container, clock);
 
-    return (pre: Pre, ctx: Ctx, original: MilkdownPlugin) =>
+    return (pre: Pre, ctx: Ctx) =>
         runner({
             pre,
             ctx,
             pipelineCtx,
-            original,
         });
 };
