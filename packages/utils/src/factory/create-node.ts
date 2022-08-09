@@ -1,11 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Ctx, MilkdownPlugin, NodeSchema, Slice, ThemeReady } from '@milkdown/core';
+import { Ctx, Env, MilkdownPlugin, NodeSchema, Slice } from '@milkdown/core';
 import { NodeType } from '@milkdown/prose/model';
 import { NodeViewConstructor } from '@milkdown/prose/view';
 
 import { Factory, UnknownRecord, WithExtend } from '../types';
-import { addMetadata, getUtils, withExtend } from './common';
+import { addMetadata, withExtend } from './common';
 import {
     applyProsePlugins,
     applyRemarkPlugins,
@@ -20,9 +20,13 @@ import {
     getRemarkPluginsPipeCtx,
     getSchemaPipeCtx,
     getViewPipeCtx,
+    idPipeCtx,
     injectOptions,
     injectPipeEnv,
+    injectSlices,
     shortcutsPipeCtx,
+    themeUtilPipeCtx,
+    waitThemeReady,
 } from './pieces';
 import { Pipeline, run } from './pipeline';
 
@@ -52,61 +56,60 @@ export const createNode = <SupportedKeys extends string = string, Options extend
     withExtend(
         factory,
         addMetadata((options): MilkdownPlugin => {
-            const milkdownPlugin: MilkdownPlugin = (pre) => {
-                inject?.forEach((slice) => pre.inject(slice));
-                return async (ctx) => {
-                    await ctx.wait(ThemeReady);
-                    const utils = getUtils(ctx, options);
+            const milkdownPlugin: MilkdownPlugin = (pre) => async (ctx) => {
+                const pluginOptions = {
+                    ...(options || {}),
+                    view: options?.view
+                        ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                          (ctx: Ctx, pipelineCtx: Env) => ({ [pipelineCtx.get(idPipeCtx)]: options!.view!(ctx) })
+                        : undefined,
+                };
 
+                const setGetters: Pipeline = async ({ pipelineCtx }, next) => {
+                    const utils = pipelineCtx.get(themeUtilPipeCtx);
                     const plugin = factory(utils, options);
+
                     const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
-                    const pluginOptions = {
-                        ...(options || {}),
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        view: options?.view ? (ctx: Ctx) => ({ [id]: options!.view!(ctx) }) : undefined,
-                    };
-
-                    const setGetters: Pipeline = async ({ pipelineCtx }, next) => {
-                        pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
-                        pipelineCtx.set(getSchemaPipeCtx, (ctx) => ({ node: { [id]: schema(ctx) } }));
-                        if (commands) {
-                            pipelineCtx.set(getCommandsPipeCtx, (type, ctx) => commands(type[id] as NodeType, ctx));
-                        }
-                        if (inputRules) {
-                            pipelineCtx.set(getInputRulesPipeCtx, (type, ctx) => inputRules(type[id] as NodeType, ctx));
-                        }
-                        if (shortcuts) {
-                            pipelineCtx.set(shortcutsPipeCtx, shortcuts);
-                        }
-                        if (prosePlugins) {
-                            pipelineCtx.set(getProsePluginsPipeCtx, (type, ctx) =>
-                                prosePlugins(type[id] as NodeType, ctx),
-                            );
-                        }
-                        if (view) {
-                            pipelineCtx.set(getViewPipeCtx, (ctx) => ({ [id]: view(ctx) }));
-                        }
-                        await next();
-                    };
-
-                    const pipes = [
-                        injectPipeEnv,
-                        setGetters,
-                        injectOptions(pluginOptions),
-                        applyRemarkPlugins,
-                        applySchema,
-                        createCommands,
-                        createInputRules,
-                        createShortcuts,
-                        applyProsePlugins,
-                        applyView,
-                    ];
-
-                    const runner = run(pipes);
-
-                    await runner(pre, ctx, milkdownPlugin);
+                    pipelineCtx.set(idPipeCtx, id);
+                    pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
+                    pipelineCtx.set(getSchemaPipeCtx, (ctx) => ({ node: { [id]: schema(ctx) } }));
+                    if (commands) {
+                        pipelineCtx.set(getCommandsPipeCtx, (type, ctx) => commands(type[id] as NodeType, ctx));
+                    }
+                    if (inputRules) {
+                        pipelineCtx.set(getInputRulesPipeCtx, (type, ctx) => inputRules(type[id] as NodeType, ctx));
+                    }
+                    if (shortcuts) {
+                        pipelineCtx.set(shortcutsPipeCtx, shortcuts);
+                    }
+                    if (prosePlugins) {
+                        pipelineCtx.set(getProsePluginsPipeCtx, (type, ctx) => prosePlugins(type[id] as NodeType, ctx));
+                    }
+                    if (view) {
+                        pipelineCtx.set(getViewPipeCtx, (ctx) => ({ [id]: view(ctx) }));
+                    }
+                    await next();
                 };
+
+                const pipes = [
+                    injectPipeEnv,
+                    injectSlices(inject),
+                    waitThemeReady,
+                    setGetters,
+                    injectOptions(pluginOptions),
+                    applyRemarkPlugins,
+                    applySchema,
+                    createCommands,
+                    createInputRules,
+                    createShortcuts,
+                    applyProsePlugins,
+                    applyView,
+                ];
+
+                const runner = run(pipes);
+
+                await runner(pre, ctx, milkdownPlugin);
             };
             return milkdownPlugin;
         }),
