@@ -21,7 +21,7 @@ const runPipeline = (pipelines: Pipeline[]) => {
             if (i === pipelines.length) fn = next;
             if (!fn) return Promise.resolve();
             try {
-                return Promise.resolve(fn(env, dispatch.bind(null, i + 1)));
+                return Promise.resolve(fn(env, () => dispatch(i + 1)));
             } catch (err) {
                 return Promise.reject(err);
             }
