@@ -1,22 +1,35 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import {
-    Ctx,
-    MarkSchema,
-    marksCtx,
-    markViewCtx,
-    MilkdownPlugin,
-    schemaCtx,
-    SchemaReady,
-    Slice,
-    ThemeReady,
-} from '@milkdown/core';
-import { missingMarkInSchema } from '@milkdown/exception';
+import { Ctx, MarkSchema, MilkdownPlugin } from '@milkdown/core';
 import { MarkType } from '@milkdown/prose/model';
 import { MarkViewConstructor } from '@milkdown/prose/view';
 
-import { Factory, UnknownRecord, WithExtend } from '../types';
-import { addMetadata, applyMethods, getUtils, withExtend } from './common';
+import { pipe } from '../pipe';
+import { AnySlice, CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
+import { addMetadata, withExtend } from './common';
+import {
+    applyProsePlugins,
+    applyRemarkPlugins,
+    applySchema,
+    applyView,
+    createCommands,
+    createInputRules,
+    createShortcuts,
+    getCommandsPipeCtx,
+    getInputRulesPipeCtx,
+    getProsePluginsPipeCtx,
+    getRemarkPluginsPipeCtx,
+    getSchemaPipeCtx,
+    getViewPipeCtx,
+    idPipeCtx,
+    injectPipeEnv,
+    injectSlices,
+    optionsPipeCtx,
+    shortcutsPipeCtx,
+    themeUtilPipeCtx,
+    waitThemeReady,
+} from './pieces';
+import { Pipeline, run } from './pipeline';
 
 export type MarkRest = {
     id: string;
@@ -40,47 +53,65 @@ export type MarkCreator<SupportedKeys extends string, Options extends UnknownRec
 
 export const createMark = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: MarkFactory<SupportedKeys, Options>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inject?: Slice<any>[],
+    inject?: AnySlice[],
 ): MarkCreator<string, Options> =>
-    withExtend(
-        factory,
-        addMetadata(
-            (options): MilkdownPlugin =>
-                (pre) => {
-                    inject?.forEach((slice) => pre.inject(slice));
-                    return async (ctx) => {
-                        await ctx.wait(ThemeReady);
-                        const utils = getUtils(ctx, options);
+    pipe(
+        addMetadata,
+        withExtend(factory, createMark),
+    )(
+        (options?: Partial<CommonOptions<SupportedKeys, Options>>): MilkdownPlugin =>
+            (pre) =>
+            async (ctx) => {
+                const setPipelineEnv: Pipeline = async ({ pipelineCtx }, next) => {
+                    const utils = pipelineCtx.get(themeUtilPipeCtx);
+                    const plugin = factory(utils, options);
 
-                        const plugin = factory(utils, options);
-                        plugin.view = (options?.view ?? plugin.view) as (ctx: Ctx) => MarkViewConstructor;
+                    const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
-                        await applyMethods(
-                            ctx,
-                            plugin,
-                            async () => {
-                                const node = plugin.schema(ctx);
-                                ctx.update(marksCtx, (ns) => [...ns, [plugin.id, node] as [string, MarkSchema]]);
-
-                                await ctx.wait(SchemaReady);
-
-                                const schema = ctx.get(schemaCtx);
-                                const markType = schema.marks[plugin.id];
-                                if (!markType) {
-                                    throw missingMarkInSchema(plugin.id);
-                                }
-                                return markType;
-                            },
-                            options,
-                        );
-
-                        if (plugin.view) {
-                            const view = plugin.view(ctx);
-                            ctx.update(markViewCtx, (v) => [...v, [plugin.id, view] as [string, MarkViewConstructor]]);
-                        }
+                    const pluginOptions = {
+                        ...(options || {}),
+                        view: options?.view
+                            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                              (ctx: Ctx) => ({ [id]: options!.view!(ctx) })
+                            : undefined,
                     };
-                },
-        ),
-        createMark,
+
+                    pipelineCtx.set(idPipeCtx, id);
+                    pipelineCtx.set(optionsPipeCtx, pluginOptions);
+                    pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
+                    pipelineCtx.set(getSchemaPipeCtx, (ctx) => ({ mark: { [id]: schema(ctx) } }));
+                    if (commands) {
+                        pipelineCtx.set(getCommandsPipeCtx, (type, ctx) => commands(type[id] as MarkType, ctx));
+                    }
+                    if (inputRules) {
+                        pipelineCtx.set(getInputRulesPipeCtx, (type, ctx) => inputRules(type[id] as MarkType, ctx));
+                    }
+                    if (shortcuts) {
+                        pipelineCtx.set(shortcutsPipeCtx, shortcuts);
+                    }
+                    if (prosePlugins) {
+                        pipelineCtx.set(getProsePluginsPipeCtx, (type, ctx) => prosePlugins(type[id] as MarkType, ctx));
+                    }
+                    if (view) {
+                        pipelineCtx.set(getViewPipeCtx, (ctx) => ({ [id]: view(ctx) }));
+                    }
+                    await next();
+                };
+
+                const runner = run([
+                    injectPipeEnv,
+                    injectSlices(inject),
+                    waitThemeReady,
+                    setPipelineEnv,
+                    applyRemarkPlugins,
+                    applySchema,
+                    createCommands,
+                    createInputRules,
+                    createShortcuts,
+                    applyProsePlugins,
+                    applyView,
+                ]);
+
+                await runner(pre, ctx);
+            },
     );

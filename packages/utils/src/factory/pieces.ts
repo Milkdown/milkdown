@@ -17,7 +17,6 @@ import {
     remarkPluginsCtx,
     schemaCtx,
     SchemaReady,
-    Slice,
     ThemeReady,
 } from '@milkdown/core';
 import { InputRule } from '@milkdown/prose/inputrules';
@@ -26,21 +25,18 @@ import { MarkType, NodeType } from '@milkdown/prose/model';
 import { Plugin } from '@milkdown/prose/state';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
-import { CommandConfig, CommonOptions, ThemeUtils } from '../types';
-import { getUtils } from './common';
+import { AnySlice, CommandConfig, CommonOptions, ThemeUtils } from '../types';
+import { getThemeUtils } from './common';
 import { Pipeline } from './pipeline';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnySlice = Slice<any>;
-
-type UserSchema = (ctx: Ctx) => {
+export type UserSchema = (ctx: Ctx) => {
     node?: Record<string, NodeSchema>;
     mark?: Record<string, MarkSchema>;
 };
 
-type PluginType = Record<string, NodeType | MarkType>;
+export type PluginType = Record<string, NodeType | MarkType>;
 
-type PluginView = Record<string, NodeViewConstructor | MarkViewConstructor>;
+export type PluginView = Record<string, NodeViewConstructor | MarkViewConstructor>;
 
 type Maybe<T> = T | undefined;
 
@@ -57,7 +53,7 @@ export const waitThemeReady: Pipeline = async (env, next) => {
     await ctx.wait(ThemeReady);
     const options = pipelineCtx.get(optionsPipeCtx);
 
-    const utils = getUtils(ctx, options);
+    const utils = getThemeUtils(ctx, options);
     pipelineCtx.set(themeUtilPipeCtx, utils);
 
     await next();
@@ -217,7 +213,7 @@ export const applyView: Pipeline = async (env, next) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx) => PluginView };
+export type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx) => PluginView };
 export const optionsPipeCtx = createSlice<PluginOptions>({}, 'optionsPipeCtx');
 
 export const idPipeCtx = createSlice('', 'idPipeCtx');
