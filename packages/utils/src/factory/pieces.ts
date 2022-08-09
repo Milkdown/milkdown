@@ -4,6 +4,7 @@ import {
     commandsCtx,
     createSlice,
     Ctx,
+    Env,
     InitReady,
     inputRulesCtx,
     MarkSchema,
@@ -52,7 +53,7 @@ export const injectSlices =
     };
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx) => PluginView };
+type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx, pipelineCtx: Env) => PluginView };
 const optionsPipeCtx = createSlice<PluginOptions>({}, 'optionsPipeCtx');
 export const injectOptions = (options: PluginOptions = {}): Pipeline => {
     return async (env, next) => {
@@ -202,7 +203,10 @@ export const applyProsePlugins: Pipeline = async (env, next) => {
     await next();
 };
 
-export const getViewPipeCtx = createSlice<Maybe<(ctx: Ctx) => PluginView>>(undefined, 'getViewPipeCtx');
+export const getViewPipeCtx = createSlice<Maybe<(ctx: Ctx, pipelineCtx: Env) => PluginView>>(
+    undefined,
+    'getViewPipeCtx',
+);
 export const applyView: Pipeline = async (env, next) => {
     const { pipelineCtx, ctx } = env;
 
@@ -210,7 +214,7 @@ export const applyView: Pipeline = async (env, next) => {
 
     const options = pipelineCtx.get(optionsPipeCtx);
 
-    const view = options.view ? options.view(ctx) : getView?.(ctx);
+    const view = options.view ? options.view(ctx, pipelineCtx) : getView?.(ctx, pipelineCtx);
 
     if (view) {
         const nodeViews = Object.entries(view).filter(
@@ -226,9 +230,11 @@ export const applyView: Pipeline = async (env, next) => {
     await next();
 };
 
+export const idPipeCtx = createSlice('', 'idPipeCtx');
 export const injectPipeEnv: Pipeline = async (env, next) => {
     const { pipelineCtx } = env;
     pipelineCtx
+        .inject(idPipeCtx)
         .inject(optionsPipeCtx)
         .inject(themeUtilPipeCtx)
         .inject(getRemarkPluginsPipeCtx)
