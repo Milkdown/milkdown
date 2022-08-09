@@ -57,7 +57,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
         factory,
         addMetadata((options): MilkdownPlugin => {
             const milkdownPlugin: MilkdownPlugin = (pre) => async (ctx) => {
-                const setGetters: Pipeline = async ({ pipelineCtx }, next) => {
+                const setPipelineEnv: Pipeline = async ({ pipelineCtx }, next) => {
                     const utils = pipelineCtx.get(themeUtilPipeCtx);
                     const plugin = factory(utils, options);
 
@@ -97,7 +97,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                     injectPipeEnv,
                     injectSlices(inject),
                     waitThemeReady,
-                    setGetters,
+                    setPipelineEnv,
                     applyRemarkPlugins,
                     applySchema,
                     createCommands,
