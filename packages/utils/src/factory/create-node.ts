@@ -6,7 +6,7 @@ import { NodeViewConstructor } from '@milkdown/prose/view';
 
 import { pipe } from '../pipe';
 import { AnySlice, CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
-import { addMetadata, withExtend } from './common';
+import { addMetadata, getThemeUtils, withExtend } from './common';
 import {
     applyProsePlugins,
     applyRemarkPlugins,
@@ -26,7 +26,6 @@ import {
     injectSlices,
     optionsPipeCtx,
     shortcutsPipeCtx,
-    themeUtilPipeCtx,
     waitThemeReady,
 } from './pieces';
 import { Pipeline, run } from './pipeline';
@@ -61,7 +60,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
             (pre) =>
             async (ctx) => {
                 const setPipelineEnv: Pipeline = async ({ pipelineCtx }, next) => {
-                    const utils = pipelineCtx.get(themeUtilPipeCtx);
+                    const utils = getThemeUtils(ctx, options);
                     const plugin = factory(utils, options);
 
                     const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
