@@ -52,7 +52,7 @@
         "@vitest/ui": "^0.21.0",
         "concurrently": "^7.0.0",
         "cross-env": "^7.0.3",
-        "esbuild": "^0.14.38",
+        "esbuild": "^0.15.0",
         "eslint": "^8.0.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-header": "^3.1.1",
