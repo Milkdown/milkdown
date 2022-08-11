@@ -75,6 +75,7 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
         url.searchParams.set('text', base64);
         navigator.clipboard.writeText(url.toString());
         setSearchParams({ text: base64 });
+        showToast('success', 'Link has been copied to clipboard!');
     };
 
     return <div className={className['editor']}>{loading ? <Loading /> : <ReactEditor editor={editor} />}</div>;

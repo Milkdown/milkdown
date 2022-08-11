@@ -1,8 +1,8 @@
 .toast {
     z-index: 999;
-    bottom: 10%;
-    background: rgba(var(--surface), 1);
-    color: rgba(var(--solid), 0.87);
+    top: 10%;
+    background: rgba(var(--secondary), 1);
+    color: rgba(var(--surface), 0.87);
     border: none;
     border-radius: var(--radius);
     font-size: 14px;
@@ -27,14 +27,14 @@
 @keyframes snackbar-show {
     from {
         opacity: 0;
-        transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, -100%, 0);
     }
 }
 
 @keyframes snackbar-hide {
     to {
         opacity: 0;
-        transform: translateY(100%);
+        transform: translateY(-100%);
     }
 }
 
