@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewCtx, rootCtx } from '@milkdown/core';
-import { createContext, useCallback, useContext, useRef } from 'react';
+import { createContext, useCallback, useContext } from 'react';
 
 import { portalContext } from './Portals';
 import { EditorInfoCtx, GetEditor } from './types';
@@ -10,17 +10,6 @@ export const editorInfoContext = createContext<EditorInfoCtx>({} as EditorInfoCt
 export const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = useContext(portalContext);
     const { dom, editor: editorRef, setLoading } = useContext(editorInfoContext);
-    const lockRef = useRef<boolean>(false);
-
-    const lock = useCallback(() => {
-        setLoading(true);
-        lockRef.current = true;
-    }, [setLoading]);
-
-    const unLock = useCallback(() => {
-        setLoading(false);
-        lockRef.current = false;
-    }, [setLoading]);
 
     const domRef = useCallback(
         (div: HTMLDivElement) => {
@@ -38,9 +27,7 @@ export const useGetEditor = (getEditor: GetEditor) => {
             const editor = getEditor(div, renderReact);
             if (!editor) return;
 
-            if (lockRef.current) return;
-
-            lock();
+            setLoading(true);
 
             editor
                 .create()
@@ -49,11 +36,11 @@ export const useGetEditor = (getEditor: GetEditor) => {
                     return;
                 })
                 .finally(() => {
-                    unLock();
+                    setLoading(false);
                 })
                 .catch(console.error);
         },
-        [dom, editorRef, getEditor, lock, renderReact, unLock],
+        [dom, editorRef, getEditor, renderReact, setLoading],
     );
 
     return domRef;
