@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewCtx, rootCtx } from '@milkdown/core';
-import { createContext, useCallback, useContext, useLayoutEffect, useRef } from 'react';
+import { createContext, useCallback, useContext, useRef } from 'react';
 
 import { portalContext } from './Portals';
 import { EditorInfoCtx, GetEditor } from './types';
@@ -22,36 +22,39 @@ export const useGetEditor = (getEditor: GetEditor) => {
         lockRef.current = false;
     }, [setLoading]);
 
-    useLayoutEffect(() => {
-        const div = dom.current;
-        if (!div) return;
+    const domRef = useCallback(
+        (div: HTMLDivElement) => {
+            if (!div) return;
+            dom.current = div;
 
-        if (div.querySelector('.milkdown') != null) return;
+            if (div.querySelector('.milkdown') != null) {
+                const view = editorRef.current?.action((ctx) => ctx.get(editorViewCtx));
+                const root = editorRef.current?.action((ctx) => ctx.get(rootCtx)) as HTMLElement;
 
-        const editor = getEditor(div, renderReact);
-        if (!editor) return;
+                root?.firstChild?.remove();
+                view?.destroy();
+            }
 
-        if (lockRef.current) return;
+            const editor = getEditor(div, renderReact);
+            if (!editor) return;
 
-        lock();
+            if (lockRef.current) return;
 
-        editor
-            .create()
-            .then((editor) => {
-                editorRef.current = editor;
-                return;
-            })
-            .finally(() => {
-                unLock();
-            })
-            .catch(console.error);
+            lock();
 
-        return () => {
-            const view = editorRef.current?.action((ctx) => ctx.get(editorViewCtx));
-            const root = editorRef.current?.action((ctx) => ctx.get(rootCtx)) as HTMLElement;
+            editor
+                .create()
+                .then((editor) => {
+                    editorRef.current = editor;
+                    return;
+                })
+                .finally(() => {
+                    unLock();
+                })
+                .catch(console.error);
+        },
+        [dom, editorRef, getEditor, lock, renderReact, unLock],
+    );
 
-            root?.firstChild?.remove();
-            view?.destroy();
-        };
-    }, [dom, editorRef, getEditor, lock, renderReact, unLock]);
+    return domRef;
 };

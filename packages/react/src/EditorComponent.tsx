@@ -17,10 +17,9 @@ export const useGetter = () => {
 };
 
 export const EditorComponent = forwardRef<EditorRef, { editor: GetEditor }>(({ editor }, ref) => {
-    const ctx = useContext(editorInfoContext);
     const getter = useGetter();
-    useGetEditor(editor);
+    const domRef = useGetEditor(editor);
 
     useImperativeHandle(ref, () => getter);
-    return <div ref={ctx.dom} />;
+    return <div ref={domRef} />;
 });

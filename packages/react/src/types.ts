@@ -2,7 +2,7 @@
 import { Ctx, Editor } from '@milkdown/core';
 import { Mark, Node } from '@milkdown/prose/model';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
-import { MutableRefObject, ReactNode, RefObject } from 'react';
+import { MutableRefObject, ReactNode } from 'react';
 
 import { RenderOptions } from './ReactNodeView';
 
@@ -28,13 +28,13 @@ export type GetEditor = (container: HTMLElement, renderReact: RenderReact) => Ed
 export type UseEditorReturn = {
     readonly loading: boolean;
     readonly getInstance: () => Editor | undefined;
-    readonly getDom: () => HTMLDivElement | null;
+    readonly getDom: () => HTMLDivElement | undefined;
     readonly editor: EditorInfo;
 };
 
 export type EditorInfoCtx = {
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    dom: RefObject<HTMLDivElement>;
+    dom: MutableRefObject<HTMLDivElement | undefined>;
     editor: MutableRefObject<Editor | undefined>;
 };
 
@@ -44,5 +44,5 @@ export type EditorInfo = {
 
 export type EditorRef = {
     get: () => Editor | undefined;
-    dom: () => HTMLDivElement | null;
+    dom: () => HTMLDivElement | undefined;
 };

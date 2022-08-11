@@ -5,7 +5,7 @@ import { DependencyList, useCallback, useRef, useState } from 'react';
 import { GetEditor, UseEditorReturn } from './types';
 
 export const useEditor = (getEditor: GetEditor, deps: DependencyList = []): UseEditorReturn => {
-    const dom = useRef<HTMLDivElement>(null);
+    const dom = useRef<HTMLDivElement | undefined>(undefined);
     const editor = useRef<Editor>();
     const [loading, setLoading] = useState(true);
 
