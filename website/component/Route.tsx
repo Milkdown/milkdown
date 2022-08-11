@@ -66,7 +66,7 @@ export const Main: FC = () => {
         return page
             ? `Milkdown | ${page.title}`
             : location.pathname.includes('online-demo')
-            ? 'Milkdown | Demo'
+            ? 'Milkdown | Playground'
             : 'Milkdown';
     }, [location.pathname, pages]);
 
