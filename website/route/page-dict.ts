@@ -68,8 +68,8 @@ export const titleDict: Dict = new Map([
     [
         'i18n',
         {
-            en: 'i18n',
-            'zh-hans': 'i18n',
+            en: 'I18n',
+            'zh-hans': 'I18n',
         },
     ],
     [
