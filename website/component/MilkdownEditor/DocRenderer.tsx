@@ -13,6 +13,7 @@ import { isDarkModeCtx } from '../Context';
 import { codeSandBox } from './codeSandBox';
 import { Loading } from './Loading';
 import { Outline, OutlineRenderer } from './Outline';
+import { stackBlitz } from './stackBlitz';
 import className from './style.module.css';
 import { Content, useLazy } from './useLazy';
 
@@ -46,6 +47,7 @@ export const DocRenderer = ({ content }: Props) => {
                 .use(gfm)
                 .use(listener)
                 .use(codeSandBox)
+                .use(stackBlitz)
                 .use(prism)
                 .use(nord);
 

@@ -61,6 +61,7 @@
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
         "@types/react-router-dom": "^5.1.7",
+        "@types/unist": "^2.0.6",
         "autoprefixer": "^10.2.5",
         "history": "^5.0.1",
         "postcss": "^8.2.12",

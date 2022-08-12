@@ -18,8 +18,6 @@ import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
 
-import { codeSandBox } from './codeSandBox';
-
 export const createEditor = (
     root: HTMLElement | null,
     defaultValue: string,
@@ -37,7 +35,6 @@ export const createEditor = (
         })
         .use(emoji)
         .use(gfm)
-        .use(codeSandBox)
         .use(listener)
         .use(clipboard)
         .use(history)
