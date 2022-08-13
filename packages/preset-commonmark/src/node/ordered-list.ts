@@ -22,7 +22,7 @@ export const orderedList = createNode<Keys>((utils) => ({
                 default: 1,
             },
             spread: {
-                default: 'true',
+                default: false,
             },
         },
         parseDOM: [

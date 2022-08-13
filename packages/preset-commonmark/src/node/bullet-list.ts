@@ -20,7 +20,7 @@ export const bulletList = createNode<Keys>((utils) => {
             group: 'block',
             attrs: {
                 spread: {
-                    default: 'true',
+                    default: false,
                 },
             },
             parseDOM: [
