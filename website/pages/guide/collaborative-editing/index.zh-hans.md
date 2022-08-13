@@ -114,3 +114,13 @@ collabService
 
 这里我们得到的节点是[prosemirror node](https://prosemirror.net/docs/ref/#model.Node)。
 如果模板应该被应用，你应该返回`true`，否则返回`false`。
+
+# 示例
+
+编辑器 1:
+
+!StackBlitz{milkdown-collab}
+
+编辑器 2:
+
+!StackBlitz{milkdown-collab}

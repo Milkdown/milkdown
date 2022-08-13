@@ -119,8 +119,8 @@ You should return `true` if the template should be applied, and `false` if not.
 
 Editor 1:
 
-!StackBlitz{vitejs-vite-h4apnp}
+!StackBlitz{milkdown-collab}
 
 Editor 2:
 
-!StackBlitz{vitejs-vite-h4apnp}
+!StackBlitz{milkdown-collab}
