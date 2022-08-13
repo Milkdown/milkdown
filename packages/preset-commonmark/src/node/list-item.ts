@@ -79,6 +79,9 @@ export const listItem = createNode<Keys>((utils) => ({
             listType: {
                 default: 'bullet',
             },
+            spread: {
+                default: 'true',
+            },
         },
         defining: true,
         parseDOM: [
@@ -91,6 +94,7 @@ export const listItem = createNode<Keys>((utils) => ({
                     return {
                         label: dom.dataset['label'],
                         listType: dom.dataset['list-type'],
+                        spread: dom.dataset['spread'],
                     };
                 },
                 contentElement: 'div.list-item_body',
@@ -104,6 +108,7 @@ export const listItem = createNode<Keys>((utils) => ({
                     class: utils.getClassName(node.attrs, 'list-item'),
                     'data-label': node.attrs['label'],
                     'data-list-type': node.attrs['listType'],
+                    'data-spread': node.attrs['spread'],
                 },
                 ['div', { class: utils.getClassName(node.attrs, 'list-item_label') }, node.attrs['label']],
                 ['div', { class: utils.getClassName(node.attrs, 'list-item_body') }, 0],
@@ -114,7 +119,8 @@ export const listItem = createNode<Keys>((utils) => ({
             runner: (state, node, type) => {
                 const label = node['label'] != null ? `${node['label']}.` : '•';
                 const listType = node['label'] != null ? 'ordered' : 'bullet';
-                state.openNode(type, { label, listType });
+                const spread = node['spread'] != null ? `${node['spread']}` : 'true';
+                state.openNode(type, { label, listType, spread });
                 state.next(node.children);
                 state.closeNode();
             },
@@ -122,7 +128,7 @@ export const listItem = createNode<Keys>((utils) => ({
         toMarkdown: {
             match: (node) => node.type.name === id,
             runner: (state, node) => {
-                state.openNode('listItem');
+                state.openNode('listItem', undefined, { spread: node.attrs['spread'] === 'true' });
                 state.next(node.content);
                 state.closeNode();
             },

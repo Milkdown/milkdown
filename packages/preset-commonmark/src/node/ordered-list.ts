@@ -21,6 +21,9 @@ export const orderedList = createNode<Keys>((utils) => ({
             order: {
                 default: 1,
             },
+            spread: {
+                default: 'true',
+            },
         },
         parseDOM: [
             {
@@ -29,7 +32,10 @@ export const orderedList = createNode<Keys>((utils) => ({
                     if (!(dom instanceof HTMLElement)) {
                         throw expectDomTypeError(dom);
                     }
-                    return { order: dom.hasAttribute('start') ? Number(dom.getAttribute('start')) : 1 };
+                    return {
+                        spread: dom.dataset['spread'],
+                        order: dom.hasAttribute('start') ? Number(dom.getAttribute('start')) : 1,
+                    };
                 },
             },
         ],
@@ -37,6 +43,7 @@ export const orderedList = createNode<Keys>((utils) => ({
             'ol',
             {
                 ...(node.attrs['order'] === 1 ? {} : node.attrs['order']),
+                'data-spread': node.attrs['spread'],
                 class: utils.getClassName(node.attrs, 'ordered-list'),
             },
             0,
@@ -44,13 +51,14 @@ export const orderedList = createNode<Keys>((utils) => ({
         parseMarkdown: {
             match: ({ type, ordered }) => type === 'list' && !!ordered,
             runner: (state, node, type) => {
-                state.openNode(type).next(node.children).closeNode();
+                const spread = node['spread'] != null ? `${node['spread']}` : 'true';
+                state.openNode(type, { spread }).next(node.children).closeNode();
             },
         },
         toMarkdown: {
             match: (node) => node.type.name === id,
             runner: (state, node) => {
-                state.openNode('list', undefined, { ordered: true, start: 1 });
+                state.openNode('list', undefined, { ordered: true, start: 1, spread: node.attrs['spread'] === 'true' });
                 state.next(node.content);
                 state.closeNode();
             },

@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { expectDomTypeError } from '@milkdown/exception';
 import { wrapIn } from '@milkdown/prose/commands';
 import { wrappingInputRule } from '@milkdown/prose/inputrules';
 import { createNode, createShortcut } from '@milkdown/utils';
@@ -17,20 +18,48 @@ export const bulletList = createNode<Keys>((utils) => {
         schema: () => ({
             content: 'listItem+',
             group: 'block',
-            parseDOM: [{ tag: 'ul' }],
+            attrs: {
+                spread: {
+                    default: 'true',
+                },
+            },
+            parseDOM: [
+                {
+                    tag: 'ul',
+                    getAttrs: (dom) => {
+                        if (!(dom instanceof HTMLElement)) {
+                            throw expectDomTypeError(dom);
+                        }
+                        return {
+                            spread: dom.dataset['spread'],
+                        };
+                    },
+                },
+            ],
             toDOM: (node) => {
-                return ['ul', { class: utils.getClassName(node.attrs, 'bullet-list') }, 0];
+                return [
+                    'ul',
+                    {
+                        'data-spread': node.attrs['spread'],
+                        class: utils.getClassName(node.attrs, 'bullet-list'),
+                    },
+                    0,
+                ];
             },
             parseMarkdown: {
                 match: ({ type, ordered }) => type === 'list' && !ordered,
                 runner: (state, node, type) => {
-                    state.openNode(type).next(node.children).closeNode();
+                    const spread = node['spread'] != null ? `${node['spread']}` : 'false';
+                    state.openNode(type, { spread }).next(node.children).closeNode();
                 },
             },
             toMarkdown: {
                 match: (node) => node.type.name === id,
                 runner: (state, node) => {
-                    state.openNode('list', undefined, { ordered: false }).next(node.content).closeNode();
+                    state
+                        .openNode('list', undefined, { ordered: false, spread: node.attrs['spread'] === 'true' })
+                        .next(node.content)
+                        .closeNode();
                 },
             },
         }),
