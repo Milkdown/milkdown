@@ -117,10 +117,4 @@ You should return `true` if the template should be applied, and `false` if not.
 
 # Example
 
-Editor 1:
-
-!StackBlitz{milkdown-collab}
-
-Editor 2:
-
 !StackBlitz{milkdown-collab}

@@ -117,10 +117,4 @@ collabService
 
 # 示例
 
-编辑器 1:
-
-!StackBlitz{milkdown-collab}
-
-编辑器 2:
-
 !StackBlitz{milkdown-collab}
