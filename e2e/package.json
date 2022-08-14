@@ -6,10 +6,11 @@
         "start": "vite",
         "build": "vite build",
         "serve": "vite preview --port 7000",
-        "setup": "pnpm build && pnpm serve",
+        "setup": "nx build e2e && pnpm serve",
         "test": "cypress run",
         "test:verbose": "cypress open",
         "start:test": "start-server-and-test setup http-get://localhost:7000 test",
+        "e2e": "start-server-and-test setup http-get://localhost:7000 test",
         "start:test:verbose": "start-server-and-test setup http-get://localhost:7000 test:verbose"
     },
     "files": [
@@ -31,6 +32,25 @@
     },
     "nx": {
         "targets": {
+            "e2e": {
+                "executor": "@nrwl/cypress:cypress",
+                "options": {
+                    "cypressConfig": "e2e/cypress.config.ts",
+                    "devServerTarget": "e2e:start",
+                    "testingType": "e2e"
+                },
+                "configurations": {
+                    "production": {
+                        "devServerTarget": "e2e:serve"
+                    }
+                },
+                "dependsOn": [
+                    {
+                        "target": "build",
+                        "projects": "dependencies"
+                    }
+                ]
+            },
             "build": {
                 "outputs": [
                     "e2e/lib"
