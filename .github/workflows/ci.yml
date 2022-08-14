@@ -41,8 +41,10 @@ jobs:
               run: pnpm build:cache
 
             - name: run test
-              run: |
-                  pnpm test
+              run: pnpm test
+
+            - name: run e2e cache
+              run: pnpm test:e2e:cache
 
             - name: run cypress
               uses: cypress-io/github-action@v2
