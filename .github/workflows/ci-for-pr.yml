@@ -46,15 +46,6 @@ jobs:
             - name: run e2e cache
               run: pnpm test:e2e:cache
 
-            - name: run cypress
-              uses: cypress-io/github-action@v2
-              with:
-                  install: false
-                  start: pnpm --filter=@milkdown/e2e start
-                  command: pnpm --filter=@milkdown/e2e test
-                  wait-on: 'http://localhost:7000'
-                  browser: chrome
-
             - run: pnpm exec nx-cloud stop-all-agents
               if: ${{ always() }}
 
