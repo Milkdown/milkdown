@@ -129,6 +129,13 @@ export const titleDict: Dict = new Map([
         },
     ],
     [
+        'nuxtjs',
+        {
+            en: 'NuxtJS',
+            'zh-hans': 'NuxtJS',
+        },
+    ],
+    [
         'vue2',
         {
             en: 'Vue2',
