@@ -43,13 +43,7 @@
                     "production": {
                         "devServerTarget": "e2e:serve"
                     }
-                },
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
+                }
             },
             "build": {
                 "outputs": [
