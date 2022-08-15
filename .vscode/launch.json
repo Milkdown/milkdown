@@ -5,9 +5,8 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "type": "chrome",
             "request": "launch",
-            "restart": true,
             "name": "Launch chrome against localhost",
             "url": "http://localhost:5173/",
             "webRoot": "${workspaceFolder}",
