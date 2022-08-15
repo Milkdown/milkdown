@@ -23,7 +23,7 @@ importers:
       '@vitejs/plugin-react': ^2.0.0
       '@vitejs/plugin-vue': ^3.0.0
       '@vitejs/plugin-vue-jsx': ^2.0.0
-      '@vitest/ui': ^0.21.0
+      '@vitest/ui': ^0.22.0
       concurrently: ^7.0.0
       cross-env: ^7.0.3
       esbuild: ^0.15.0
@@ -53,14 +53,14 @@ importers:
       typescript: ^4.7.4
       typescript-styled-plugin: ^0.18.2
       vite: ^3.0.2
-      vitest: ^0.21.0
+      vitest: ^0.22.0
     devDependencies:
       '@changesets/cli': 2.23.2
       '@commitlint/cli': 17.0.3
       '@commitlint/config-conventional': 17.0.3
       '@nrwl/cli': 14.5.6
       '@nrwl/cypress': 14.5.6_k2xmk4duwo64npe2xljj6ncvl4
-      '@nrwl/nx-cloud': 14.3.0
+      '@nrwl/nx-cloud': 14.4.0
       '@nrwl/tao': 14.5.6
       '@nrwl/workspace': 14.5.6_flglbjzonblgt5aytwoht4iaou
       '@rollup/plugin-commonjs': 22.0.1_rollup@2.76.0
@@ -74,7 +74,7 @@ importers:
       '@vitejs/plugin-react': 2.0.0_vite@3.0.2
       '@vitejs/plugin-vue': 3.0.0_vite@3.0.2
       '@vitejs/plugin-vue-jsx': 2.0.0_vite@3.0.2
-      '@vitest/ui': 0.21.0
+      '@vitest/ui': 0.22.0
       concurrently: 7.2.2
       cross-env: 7.0.3
       esbuild: 0.15.0
@@ -104,7 +104,7 @@ importers:
       typescript: 4.7.4
       typescript-styled-plugin: 0.18.2
       vite: 3.0.2
-      vitest: 0.21.0_eacrqz6fbprwtity4ewikygk6a
+      vitest: 0.22.0_qjedyqli5if5ayvqqp5y35wlsu
 
   e2e:
     specifiers:
@@ -3511,12 +3511,13 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@nrwl/nx-cloud/14.3.0:
-    resolution: {integrity: sha512-aByHe8Gp1/IT9CtQYlGLIYBgU+ZtrgEwblBX8kcoBNRPf1OOdouahjyasAjQ9zi1cznve8AzTTcLt2eSCHWfrw==}
+  /@nrwl/nx-cloud/14.4.0:
+    resolution: {integrity: sha512-4sKNzGhBqTipy4fPZD09ZBkV9UTPTn0JUOQxOI7ETqlHhT2u8SfeybSJMnPAi5H6DjsqsooM8JCKPR/7D4+8sQ==}
     hasBin: true
     dependencies:
       axios: 0.21.4
       chalk: 4.1.0
+      dotenv: 10.0.0
       node-machine-id: 1.1.12
       strip-json-comments: 3.1.1
       tar: 6.1.11
@@ -3818,11 +3819,11 @@ packages:
   /@types/chai-subset/1.3.3:
     resolution: {integrity: sha512-frBecisrNGz+F4T6bcc+NLeolfiojh5FxW2klu669+8BARtyQv2C/GkNW6FUodVe4BroGMP/wER/YDGc7rEllw==}
     dependencies:
-      '@types/chai': 4.3.1
+      '@types/chai': 4.3.3
     dev: true
 
-  /@types/chai/4.3.1:
-    resolution: {integrity: sha512-/zPMqDkzSZ8t3VtxOa4KPq7uzzW978M9Tvh+j7GHKuo6k6GTLxPJ4J5gE5cjfJ26pnXst0N5Hax8Sr0T2Mi9zQ==}
+  /@types/chai/4.3.3:
+    resolution: {integrity: sha512-hC7OMnszpxhZPduX+m+nrx+uFoLkWOMiR4oa/AZF3MuSETYTZmFfJAHqZEM8MVlvfG7BEUcgvtwoCTxBp6hm3g==}
     dev: true
 
   /@types/debug/4.1.7:
@@ -4258,8 +4259,8 @@ packages:
       vite: 3.0.2
     dev: true
 
-  /@vitest/ui/0.21.0:
-    resolution: {integrity: sha512-xhMSwxsuaygIWn1jcTHbAVfNty6D2+hFVq+tvqNuSBE0WI3CWyeSOT1ISQ5urt3j5qoRbEXrZxWLC2dN3QeBSA==}
+  /@vitest/ui/0.22.0:
+    resolution: {integrity: sha512-Xyqa0M7l6OxGipCBsKwrDWQB96itqb8h3ZP8mSnuths+xTWucIC7LIU6MAe4cSTlLvGCeihecPJPs5l5GAucgA==}
     dependencies:
       sirv: 2.0.2
     dev: true
@@ -8184,7 +8185,7 @@ packages:
     dev: true
 
   /identity-obj-proxy/3.0.0:
-    resolution: {integrity: sha1-lNK9qWCERT7zb7xarsN+D3nx/BQ=}
+    resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
     engines: {node: '>=4'}
     dependencies:
       harmony-reflect: 1.6.2
@@ -12805,15 +12806,14 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.21.0_eacrqz6fbprwtity4ewikygk6a:
-    resolution: {integrity: sha512-+BQB2swk4wQdw5loOoL8esIYh/1ifAliuwj2HWHNE2F8SAl/jF7/aoCJBoXGSf/Ws19k3pH4NrWeVtcSwM0j2w==}
+  /vitest/0.22.0_qjedyqli5if5ayvqqp5y35wlsu:
+    resolution: {integrity: sha512-BSIro/QOHLaQY08FHwT6THWhqLQ+VPU+N4Rdo4pcP+16XB6oLmNNAXGcSh/MOLUhfUy+mqCwx7AyKmU7Ms5R+g==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@vitest/browser': '*'
       '@vitest/ui': '*'
-      c8: '*'
       happy-dom: '*'
       jsdom: '*'
     peerDependenciesMeta:
@@ -12823,17 +12823,15 @@ packages:
         optional: true
       '@vitest/ui':
         optional: true
-      c8:
-        optional: true
       happy-dom:
         optional: true
       jsdom:
         optional: true
     dependencies:
-      '@types/chai': 4.3.1
+      '@types/chai': 4.3.3
       '@types/chai-subset': 1.3.3
       '@types/node': 17.0.45
-      '@vitest/ui': 0.21.0
+      '@vitest/ui': 0.22.0
       chai: 4.3.6
       debug: 4.3.4
       jsdom: 20.0.0
