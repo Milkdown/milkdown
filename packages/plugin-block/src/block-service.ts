@@ -17,6 +17,8 @@ import { serializeForClipboard } from './serialize-for-clipboard';
 const brokenClipboardAPI =
     (browser.ie && <number>browser.ie_version < 15) || (browser.ios && browser.webkit_version < 604);
 
+const buffer = 20;
+
 export class BlockService {
     readonly blockHandle$: BlockHandleDOM;
     readonly blockMenu$: BlockMenuDOM;
@@ -144,8 +146,35 @@ export class BlockService {
         return false;
     };
 
+    dragoverCallback = (_: EditorView, event: DragEvent) => {
+        if (this.#dragging) {
+            const root = this.#view.dom.parentElement;
+            if (!root) return false;
+
+            const hasHorizontalScrollbar = root.scrollHeight > root.clientHeight;
+
+            const rootRect = root.getBoundingClientRect();
+            if (hasHorizontalScrollbar) {
+                if (root.scrollTop > 0 && Math.abs(event.y - rootRect.y) < buffer) {
+                    const top = root.scrollTop > 10 ? root.scrollTop - 10 : 0;
+                    root.scrollTop = top;
+                    return false;
+                }
+                const totalHeight = Math.round(this.#view.dom.getBoundingClientRect().height);
+                const scrollBottom = Math.round(root.scrollTop + rootRect.height);
+                if (scrollBottom < totalHeight && Math.abs(event.y - (rootRect.height + rootRect.y)) < buffer) {
+                    const top = root.scrollTop + 10;
+                    root.scrollTop = top;
+                    return false;
+                }
+            }
+        }
+        return false;
+    };
+
     dropCallback = (view: EditorView, _event: MouseEvent) => {
         if (this.#dragging) {
+            this.blockMenu$.hide();
             const event = _event as DragEvent;
             const tr = removePossibleTable(view, event);
 

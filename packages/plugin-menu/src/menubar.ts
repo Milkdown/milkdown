@@ -135,6 +135,7 @@ export const menubar = (
             editorRoot,
             milkdownDOM,
         });
+        return milkdownDOM;
     };
 
     return [menu, restoreDOM] as const;

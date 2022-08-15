@@ -34,6 +34,9 @@ export const createBlockPlugin = (
                 keydown: () => {
                     return blockHandle.keydownCallback();
                 },
+                dragover: (view, event) => {
+                    return blockHandle.dragoverCallback(view, event);
+                },
             },
         },
         view: (view) => {

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createSlice, createTimer, MilkdownPlugin, Timer } from '@milkdown/ctx';
+import { createSlice, createTimer, Ctx, MilkdownPlugin, Timer } from '@milkdown/ctx';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { DirectEditorProps, EditorView } from '@milkdown/prose/view';
 
@@ -14,13 +14,15 @@ export const editorViewCtx = createSlice({} as EditorView, 'editorView');
 export const editorViewOptionsCtx = createSlice({} as Partial<EditorOptions>, 'editorViewOptions');
 export const rootCtx = createSlice(null as RootType, 'root');
 export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer');
+export const rootDOMCtx = createSlice(null as unknown as HTMLElement, 'rootDOM');
 
 export const EditorViewReady = createTimer('EditorViewReady');
 
-const createViewContainer = (root: Node) => {
+const createViewContainer = (root: Node, ctx: Ctx) => {
     const container = document.createElement('div');
     container.className = 'milkdown';
     root.appendChild(container);
+    ctx.set(rootDOMCtx, container);
 
     return container;
 };
@@ -36,6 +38,7 @@ export const editorView: MilkdownPlugin = (pre) => {
     pre.inject(rootCtx, document.body)
         .inject(editorViewCtx)
         .inject(editorViewOptionsCtx)
+        .inject(rootDOMCtx)
         .inject(editorViewTimerCtx, [EditorStateReady])
         .record(EditorViewReady);
 
@@ -49,7 +52,7 @@ export const editorView: MilkdownPlugin = (pre) => {
             new Plugin({
                 key,
                 view: (editorView) => {
-                    const container = el ? createViewContainer(el) : undefined;
+                    const container = el ? createViewContainer(el, ctx) : undefined;
 
                     const handleDOM = () => {
                         if (container && el) {

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, Ctx } from '@milkdown/core';
+import { createCmd, Ctx, rootDOMCtx } from '@milkdown/core';
 import { selectParentNode } from '@milkdown/prose/commands';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
 import { EditorView } from '@milkdown/prose/view';
@@ -40,17 +40,19 @@ export const menuPlugin = createPlugin<string, Options>((utils, options) => {
 
         if (!menuWrapper) {
             menuWrapper = initWrapper(ctx, editorView);
+            ctx.set(rootDOMCtx, menuWrapper);
         }
 
         if (!menu) {
             const [_menu, _restoreDOM] = menubar(utils, editorView, ctx, menuWrapper, domHandler);
             menu = _menu;
             restoreDOM = () => {
-                _restoreDOM();
+                const milkdownDOM = _restoreDOM();
                 menuWrapper = null;
                 menu = null;
                 manager = null;
                 restoreDOM = null;
+                ctx.set(rootDOMCtx, milkdownDOM);
             };
         }
 
