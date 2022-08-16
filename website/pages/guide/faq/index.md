@@ -60,3 +60,14 @@ For example, you can get them from CDN:
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" />
 ```
+
+---
+
+### How to configure remark?
+
+```typescript
+import { remark, remarkCtx } from '@milkdown/core';
+editor.config(ctx => {
+  ctx.set(remarkCtx, remark({/* your options here */));
+})
+```
