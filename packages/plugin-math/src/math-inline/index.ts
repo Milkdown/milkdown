@@ -7,7 +7,7 @@ import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
 import { EditorView } from '@milkdown/prose/view';
 import { createNode } from '@milkdown/utils';
-import katex from 'katex';
+import katex, { KatexOptions } from 'katex';
 
 type Options = {
     placeholder: {
@@ -17,6 +17,7 @@ type Options = {
     input: {
         placeholder: string;
     };
+    katexOptions: KatexOptions;
 };
 
 const key = new PluginKey('MILKDOWN_MATH_INPUT');
@@ -29,6 +30,9 @@ export const mathInline = createNode<string, Options>((utils, options) => {
         ...(options?.placeholder ?? {}),
     };
     const inputPlaceholder = options?.input?.placeholder ?? 'Input Math';
+    const katexOptions: KatexOptions = {
+        ...(options?.katexOptions ?? {}),
+    };
     const themeManager = utils.themeManager;
     const getStyle = () =>
         utils.getStyle(({ css }) => {
@@ -122,9 +126,12 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                     if (!code) {
                         dom.innerHTML = placeholder.empty;
                     } else {
-                        katex.render(code, dom);
+                        katex.render(code, dom, katexOptions);
                     }
-                } catch {
+                } catch (e) {
+                    if (e instanceof Error) {
+                        console.warn(e.message);
+                    }
                     dom.innerHTML = placeholder.error;
                 }
             };

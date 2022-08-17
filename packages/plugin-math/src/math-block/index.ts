@@ -5,7 +5,7 @@ import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection } from '@milkdown/prose/state';
 import { NodeView } from '@milkdown/prose/view';
 import { createNode } from '@milkdown/utils';
-import katex from 'katex';
+import katex, { KatexOptions } from 'katex';
 
 const inputRegex = /^\$\$\s$/;
 
@@ -14,6 +14,7 @@ type Options = {
         empty: string;
         error: string;
     };
+    katexOptions: KatexOptions;
 };
 
 export const mathBlock = createNode<string, Options>((utils, options) => {
@@ -22,6 +23,10 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
         empty: 'Empty',
         error: 'Syntax Error',
         ...(options?.placeholder ?? {}),
+    };
+    const katexOptions: KatexOptions = {
+        displayMode: true,
+        ...(options?.katexOptions ?? {}),
     };
 
     return {
@@ -95,10 +100,16 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
                     try {
                         if (!code) {
                             renderer.preview.innerHTML = placeholder.empty;
+                            renderer.preview.classList.add('system');
                         } else {
-                            katex.render(code, renderer.preview);
+                            katex.render(code, renderer.preview, katexOptions);
+                            renderer.preview.classList.remove('system');
                         }
-                    } catch {
+                    } catch (e) {
+                        if (e instanceof Error) {
+                            console.warn(e.message);
+                        }
+                        renderer.preview.classList.add('system');
                         renderer.preview.innerHTML = placeholder.error;
                     } finally {
                         dom.appendChild(renderer.preview);
@@ -107,8 +118,31 @@ export const mathBlock = createNode<string, Options>((utils, options) => {
             });
             if (!renderer) return {} as NodeView;
 
-            const { onUpdate, editor, dom, onFocus, onBlur, onDestroy, stopEvent } = renderer;
+            const { onUpdate, editor, dom, onFocus, onBlur, onDestroy, stopEvent, preview } = renderer;
             dom.classList.add('math-block');
+
+            utils.themeManager.onFlush(() => {
+                const system = utils.getStyle(({ css }) => {
+                    return css`
+                        .system {
+                            display: flex;
+                        }
+                    `;
+                });
+                const style = utils.getStyle(({ css }) => {
+                    return css`
+                        display: block;
+                        padding-left: 16px;
+                        padding-right: 16px;
+                    `;
+                });
+                if (style) {
+                    preview.classList.add(style);
+                }
+                if (system) {
+                    dom.classList.add(system);
+                }
+            });
 
             editor.dataset['type'] = id;
 
