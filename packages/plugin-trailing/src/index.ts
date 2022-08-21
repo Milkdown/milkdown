@@ -60,4 +60,4 @@ export const trailingPlugin = createPlugin<string, Options>((_, options) => ({
     },
 }));
 
-export const trailing: AtomPlugin[] = AtomList.create([trailingPlugin()]);
+export const trailing: AtomList<AtomPlugin> = AtomList.create([trailingPlugin()]);
