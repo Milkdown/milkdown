@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es2015",
         "module": "esnext",
-        "lib": ["dom", "es2017", "es2018", "es2019"],
+        "lib": ["dom", "es2017", "es2018", "es2019", "es2020", "es2021"],
         "noEmitOnError": true,
 
         "declaration": true,

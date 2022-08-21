@@ -37,8 +37,8 @@ export const em = createMark<Keys>((utils) => ({
         },
     }),
     inputRules: (markType) => [
-        markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),
-        markRule(/(?:^|[^*])(\*([^*]+)\*)$/, markType),
+        // markRule(/(?:^|[^_])(_([^_]+)_)$/, markType),
+        // markRule(/(?:^|[^*])(\*([^*]+)\*)$/, markType),
     ],
     commands: (markType) => [createCmd(ToggleItalic, () => toggleMark(markType))],
     shortcuts: {

@@ -35,7 +35,7 @@ export const codeInline = createMark<Keys>((utils) => {
                 },
             },
         }),
-        inputRules: (markType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)],
+        // inputRules: (markType) => [markRule(/(?:^|[^`])(`([^`]+)`)$/, markType)],
         commands: (markType) => [createCmd(ToggleInlineCode, () => toggleMark(markType))],
         shortcuts: {
             [SupportedKeys.CodeInline]: createShortcut(ToggleInlineCode, 'Mod-e'),
