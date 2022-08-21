@@ -59,7 +59,7 @@ jobs:
                   publish: pnpm release
                   commit: 'ci(changeset): release milkdown'
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - run: pnpm exec nx-cloud stop-all-agents
