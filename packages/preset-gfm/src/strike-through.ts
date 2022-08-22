@@ -36,8 +36,8 @@ export const strikeThrough = createMark<Keys>((utils) => {
             },
         }),
         inputRules: (markType) => [
-            markRule(/(?:~~)([^~]+)(?:~~)$/, markType),
-            markRule(/(?:^|[^~])(~([^~]+)~)$/, markType),
+            markRule(/(?:^|\b|\s|[^\w`])(?:~~)([^~]+)(?:~~)$/, markType),
+            markRule(/(?:^|\b|\s|[^\w`])(?:^|[^~])(~([^~]+)~)$/, markType),
         ],
         commands: (markType) => [createCmd(ToggleStrikeThrough, () => toggleMark(markType))],
         shortcuts: {
