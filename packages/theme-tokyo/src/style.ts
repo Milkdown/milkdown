@@ -201,7 +201,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             color: ${palette('background')};
             border-radius: ${radius};
             font-weight: 500;
-            font-family: ${code};
+            font-family: ${manager.get(ThemeFont, 'code')};
             padding: 0 3px;
         }
 
