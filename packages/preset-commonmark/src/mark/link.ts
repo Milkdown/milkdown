@@ -102,7 +102,7 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
             }),
         ],
         inputRules: (markType, ctx) => [
-            new InputRule(/\[(?<text>.*?)]\((?<href>.*?)(?=“|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
+            new InputRule(/\[(?<text>.*?)]\((?<href>.*?)(?="|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
                 const [okay, text = '', href, title] = match;
                 const { tr } = state;
                 if (okay) {
