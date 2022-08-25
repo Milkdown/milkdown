@@ -34,8 +34,8 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
             isolating: true,
             attrs: {
                 src: { default: '' },
-                alt: { default: null },
-                title: { default: null },
+                alt: { default: '' },
+                title: { default: '' },
             },
             parseDOM: [
                 {
@@ -46,9 +46,8 @@ export const image = createNode<string, ImageOptions>((utils, options) => {
                         }
                         return {
                             src: dom.getAttribute('src') || '',
-                            alt: dom.getAttribute('alt'),
-                            title: dom.getAttribute('title') || dom.getAttribute('alt'),
-                            width: dom.getAttribute('width'),
+                            alt: dom.getAttribute('alt') || '',
+                            title: dom.getAttribute('title') || dom.getAttribute('alt') || '',
                         };
                     },
                 },
