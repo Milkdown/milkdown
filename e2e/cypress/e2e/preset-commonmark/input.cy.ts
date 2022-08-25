@@ -160,8 +160,8 @@ describe('input:', () => {
             });
 
             it('is a bold', () => {
-                cy.get('.editor').type('The lunatic is "**on the grass**"');
-                cy.get('.editor').get('.strong').should('have.text', 'on the grass');
+                cy.get('.editor').type('The lunatic is "**B**"');
+                cy.get('.editor').get('.strong').should('have.text', 'B');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
                     return;
@@ -189,8 +189,8 @@ describe('input:', () => {
             });
 
             it('is an italic', () => {
-                cy.get('.editor').type('The lunatic is "_on the grass_"');
-                cy.get('.editor').get('.em').should('have.text', 'on the grass');
+                cy.get('.editor').type('The lunatic is "_I_"');
+                cy.get('.editor').get('.em').should('have.text', 'I');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
                     return;
