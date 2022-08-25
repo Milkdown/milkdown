@@ -42,7 +42,7 @@ module.exports = {
           "1": "The lunatic is \\*\\*\"on the grass\\*\\*\n"
         },
         "is a bold": {
-          "1": "The lunatic is \"**on the grass**\"\n"
+          "1": "The lunatic is \"**B**\"\n"
         }
       },
       "italic": {
@@ -51,7 +51,7 @@ module.exports = {
           "1": "The lunatic is *on the grass*\n"
         },
         "is an italic": {
-          "1": "The lunatic is \"*on the grass*\"\n"
+          "1": "The lunatic is \"*I*\"\n"
         },
         "not an italic": {
           "1": "The lunatic is \\_\"on the grass\\_\n"

@@ -39,6 +39,7 @@ export class BlockService {
     };
     #activeSelection: null | Selection = null;
     #active: null | ActiveNode = null;
+    #activeDOMRect: undefined | DOMRect = undefined;
 
     #dragging = false;
     #ctx: Ctx;
@@ -72,15 +73,16 @@ export class BlockService {
     }
 
     #handleMouseDown = () => {
+        this.#activeDOMRect = this.#active?.el.getBoundingClientRect();
         this.#createSelection();
     };
 
     #handleMouseUp = () => {
         if (!this.#dragging) {
             requestAnimationFrame(() => {
-                if (!this.#active) return;
+                if (!this.#activeDOMRect) return;
                 this.blockMenu$.toggle();
-                this.blockMenu$.render(this.#view, this.#active.el);
+                this.blockMenu$.render(this.#view, this.#activeDOMRect);
                 this.#view.focus();
             });
 
