@@ -151,8 +151,8 @@ describe('input:', () => {
             });
 
             it('not a bold', () => {
-                cy.get('.editor').type('The lunatic is **"on the grass**');
-                cy.get('.editor').get('.paragraph').should('have.text', 'The lunatic is **"on the grass**');
+                cy.get('.editor').type('The lunatic is o**"n the grass**');
+                cy.get('.editor').get('.paragraph').should('have.text', 'The lunatic is o**"n the grass**');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
                     return;
@@ -160,8 +160,17 @@ describe('input:', () => {
             });
 
             it('is a bold', () => {
-                cy.get('.editor').type('The lunatic is "**B**"');
-                cy.get('.editor').get('.strong').should('have.text', 'B');
+                cy.get('.editor').type('The lunatic is "**on the grass**"');
+                cy.get('.editor').get('.strong').should('have.text', 'on the grass');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('a single word', () => {
+                cy.get('.editor').type('The lunatic is **o**n the grass');
+                cy.get('.editor').get('.strong').should('have.text', 'o');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
                     return;
@@ -180,8 +189,8 @@ describe('input:', () => {
             });
 
             it('not an italic', () => {
-                cy.get('.editor').type('The lunatic is _"on the grass_');
-                cy.get('.editor').get('.paragraph').should('have.text', 'The lunatic is _"on the grass_');
+                cy.get('.editor').type('The lunatic is o*"n the grass*');
+                cy.get('.editor').get('.paragraph').should('have.text', 'The lunatic is o*"n the grass*');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
                     return;
@@ -189,8 +198,17 @@ describe('input:', () => {
             });
 
             it('is an italic', () => {
-                cy.get('.editor').type('The lunatic is "_I_"');
-                cy.get('.editor').get('.em').should('have.text', 'I');
+                cy.get('.editor').type('The lunatic is "_on the grass_"');
+                cy.get('.editor').get('.em').should('have.text', 'on the grass');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('a single word', () => {
+                cy.get('.editor').type('The lunatic is "_o_n the grass"');
+                cy.get('.editor').get('.em').should('have.text', 'o');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
                     return;

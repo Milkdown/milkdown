@@ -33,41 +33,44 @@ module.exports = {
       }
     },
     "mark:": {
+      "link": {
+        "1": "The lunatic is [on the grass](url)\n"
+      },
       "bold": {
-        "1": "The lunatic is **on the grass**\n",
         "normal bold": {
           "1": "The lunatic is **on the grass**\n"
         },
         "not a bold": {
-          "1": "The lunatic is \\*\\*\"on the grass\\*\\*\n"
+          "1": "The lunatic is o\\*\\*\"n the grass\\*\\*\n"
         },
         "is a bold": {
-          "1": "The lunatic is \"**B**\"\n"
+          "1": "The lunatic is \"**on the grass**\"\n"
+        },
+        "a single word": {
+          "1": "The lunatic is **o**n the grass\n"
         }
       },
       "italic": {
-        "1": "The lunatic is *on the grass*\n",
         "normal italic": {
           "1": "The lunatic is *on the grass*\n"
         },
-        "is an italic": {
-          "1": "The lunatic is \"*I*\"\n"
-        },
         "not an italic": {
-          "1": "The lunatic is \\_\"on the grass\\_\n"
+          "1": "The lunatic is o\\*\"n the grass\\*\n"
+        },
+        "is an italic": {
+          "1": "The lunatic is \"*on the grass*\"\n"
+        },
+        "a single word": {
+          "1": "The lunatic is \"*o*n the grass\"\n"
         }
       },
       "inline code": {
-        "1": "The lunatic is `on the grass`\n",
         "normal inline code": {
           "1": "The lunatic is `on the grass`\n"
         },
         "inline code with * and _": {
           "1": "The lunatic is `**_on the grass_**`\n"
         }
-      },
-      "link": {
-        "1": "The lunatic is [on the grass](url)\n"
       }
     },
     "task list": {
