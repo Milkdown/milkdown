@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { markRule } from '@milkdown/prose';
 import { toggleMark } from '@milkdown/prose/commands';
 import { createMark, createShortcut } from '@milkdown/utils';
 
@@ -35,10 +34,6 @@ export const strikeThrough = createMark<Keys>((utils) => {
                 },
             },
         }),
-        inputRules: (markType) => [
-            markRule(/(?:~~)([^~]+)(?:~~)$/, markType),
-            markRule(/(?:^|[^~])(~([^~]+)~)$/, markType),
-        ],
         commands: (markType) => [createCmd(ToggleStrikeThrough, () => toggleMark(markType))],
         shortcuts: {
             [SupportedKeys.StrikeThrough]: createShortcut(ToggleStrikeThrough, 'Mod-Alt-x'),
