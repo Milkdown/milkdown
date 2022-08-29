@@ -227,7 +227,8 @@ describe('input:', () => {
             });
 
             it('inline code with * and _', () => {
-                cy.get('.editor').type('The lunatic is `**_on the grass_**`');
+                cy.get('.editor').type('The lunatic is `****`');
+                cy.get('.editor').type('{leftArrow}').type('{leftArrow}').type('_on the grass_');
                 cy.get('.editor').get('.code-inline').should('have.text', '**_on the grass_**');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
