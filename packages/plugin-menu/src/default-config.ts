@@ -32,6 +32,24 @@ export const SelectParent = createCmdKey('SelectParent');
 export const defaultConfig: Config = [
     [
         {
+            type: 'button',
+            icon: 'undo',
+            key: 'Undo',
+            disabled: (view) => {
+                return !undo(view.state);
+            },
+        },
+        {
+            type: 'button',
+            icon: 'redo',
+            key: 'Redo',
+            disabled: (view) => {
+                return !redo(view.state);
+            },
+        },
+    ],
+    [
+        {
             type: 'select',
             text: 'Heading',
             options: [
@@ -51,24 +69,6 @@ export const defaultConfig: Config = [
                 );
             },
             onSelect: (id) => (Number(id) ? ['TurnIntoHeading', Number(id)] : ['TurnIntoText', null]),
-        },
-    ],
-    [
-        {
-            type: 'button',
-            icon: 'undo',
-            key: 'Undo',
-            disabled: (view) => {
-                return !undo(view.state);
-            },
-        },
-        {
-            type: 'button',
-            icon: 'redo',
-            key: 'Redo',
-            disabled: (view) => {
-                return !redo(view.state);
-            },
         },
     ],
     [

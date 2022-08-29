@@ -155,7 +155,7 @@ export class BlockMenuDOM {
         this.dom$.removeEventListener('click', this.#clickMenu);
     }
 
-    render(view: EditorView, el: HTMLElement) {
+    render(view: EditorView, targetNodeRect: DOMRect) {
         const root = view.dom.parentElement;
         if (!root) {
             throw missingRootElement();
@@ -182,7 +182,6 @@ export class BlockMenuDOM {
             return;
         }
 
-        const targetNodeRect = (<HTMLElement>el).getBoundingClientRect();
         const rootRect = root.getBoundingClientRect();
         const handleRect = this.#blockHandle.dom$.getBoundingClientRect();
         const menuRect = this.dom$.getBoundingClientRect();

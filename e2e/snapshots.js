@@ -33,17 +33,44 @@ module.exports = {
       }
     },
     "mark:": {
-      "bold": {
-        "1": "The lunatic is **on the grass**\n"
-      },
-      "italic": {
-        "1": "The lunatic is *on the grass*\n"
-      },
-      "inline code": {
-        "1": "The lunatic is `on the grass`\n"
-      },
       "link": {
         "1": "The lunatic is [on the grass](url)\n"
+      },
+      "bold": {
+        "normal bold": {
+          "1": "The lunatic is **on the grass**\n"
+        },
+        "not a bold": {
+          "1": "The lunatic is o\\*\\*\"n the grass\\*\\*\n"
+        },
+        "is a bold": {
+          "1": "The lunatic is \"**on the grass**\"\n"
+        },
+        "a single word": {
+          "1": "The lunatic is **o**n the grass\n"
+        }
+      },
+      "italic": {
+        "normal italic": {
+          "1": "The lunatic is *on the grass*\n"
+        },
+        "not an italic": {
+          "1": "The lunatic is o\\*\"n the grass\\*\n"
+        },
+        "is an italic": {
+          "1": "The lunatic is \"*on the grass*\"\n"
+        },
+        "a single word": {
+          "1": "The lunatic is \"*o*n the grass\"\n"
+        }
+      },
+      "inline code": {
+        "normal inline code": {
+          "1": "The lunatic is `on the grass`\n"
+        },
+        "inline code with * and _": {
+          "1": "The lunatic is `**_on the grass_**`\n"
+        }
       }
     },
     "task list": {

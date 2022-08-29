@@ -140,30 +140,99 @@ describe('input:', () => {
     });
 
     describe('mark:', () => {
-        it('bold', () => {
-            cy.get('.editor').type('The lunatic is **on the grass**');
-            cy.get('.editor').get('.strong').should('have.text', 'on the grass');
-            cy.window().then((win) => {
-                cy.wrap(win.__getMarkdown__()).snapshot();
-                return;
+        describe('bold', () => {
+            it('normal bold', () => {
+                cy.get('.editor').type('The lunatic is **on the grass**');
+                cy.get('.editor').get('.strong').should('have.text', 'on the grass');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('not a bold', () => {
+                cy.get('.editor').type('The lunatic is o**"n the grass**');
+                cy.get('.editor').get('.paragraph').should('have.text', 'The lunatic is o**"n the grass**');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('is a bold', () => {
+                cy.get('.editor').type('The lunatic is "**on the grass**"');
+                cy.get('.editor').get('.strong').should('have.text', 'on the grass');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('a single word', () => {
+                cy.get('.editor').type('The lunatic is **o**n the grass');
+                cy.get('.editor').get('.strong').should('have.text', 'o');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
             });
         });
 
-        it('italic', () => {
-            cy.get('.editor').type('The lunatic is _on the grass_');
-            cy.get('.editor').get('.em').should('have.text', 'on the grass');
-            cy.window().then((win) => {
-                cy.wrap(win.__getMarkdown__()).snapshot();
-                return;
+        describe('italic', () => {
+            it('normal italic', () => {
+                cy.get('.editor').type('The lunatic is _on the grass_');
+                cy.get('.editor').get('.em').should('have.text', 'on the grass');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('not an italic', () => {
+                cy.get('.editor').type('The lunatic is o*"n the grass*');
+                cy.get('.editor').get('.paragraph').should('have.text', 'The lunatic is o*"n the grass*');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('is an italic', () => {
+                cy.get('.editor').type('The lunatic is "_on the grass_"');
+                cy.get('.editor').get('.em').should('have.text', 'on the grass');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('a single word', () => {
+                cy.get('.editor').type('The lunatic is "_o_n the grass"');
+                cy.get('.editor').get('.em').should('have.text', 'o');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
             });
         });
 
-        it('inline code', () => {
-            cy.get('.editor').type('The lunatic is `on the grass`');
-            cy.get('.editor').get('.code-inline').should('have.text', 'on the grass');
-            cy.window().then((win) => {
-                cy.wrap(win.__getMarkdown__()).snapshot();
-                return;
+        describe('inline code', () => {
+            it('normal inline code', () => {
+                cy.get('.editor').type('The lunatic is `on the grass`');
+                cy.get('.editor').get('.code-inline').should('have.text', 'on the grass');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
+            });
+
+            it('inline code with * and _', () => {
+                cy.get('.editor').type('The lunatic is `**_on the grass_**`');
+                cy.get('.editor').get('.code-inline').should('have.text', '**_on the grass_**');
+                cy.window().then((win) => {
+                    cy.wrap(win.__getMarkdown__()).snapshot();
+                    return;
+                });
             });
         });
 

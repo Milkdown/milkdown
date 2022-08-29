@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core';
+import { getNodeFromSchema } from '@milkdown/prose';
 import { DOMParser, Node, Slice } from '@milkdown/prose/model';
-import { Plugin, PluginKey } from '@milkdown/prose/state';
+import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state';
 import { createPlugin } from '@milkdown/utils';
 
 type R = Record<string, unknown>;
@@ -51,6 +52,27 @@ export const clipboardPlugin = createPlugin(() => {
                         }
 
                         let text = clipboardData.getData('text/plain');
+
+                        // if is copied from vscode, try to create a code fence
+                        const vscodeData = clipboardData.getData('vscode-editor-data');
+                        if (vscodeData) {
+                            const data = JSON.parse(vscodeData);
+                            const language = data?.mode;
+                            if (text && language) {
+                                const { tr } = view.state;
+                                const fence = getNodeFromSchema('fence', schema);
+
+                                tr.replaceSelectionWith(fence.create({ language }))
+                                    .setSelection(
+                                        TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))),
+                                    )
+                                    .insertText(text.replace(/\r\n?/g, '\n'));
+
+                                view.dispatch(tr);
+                                return true;
+                            }
+                        }
+
                         const html = clipboardData.getData('text/html');
                         if (html.length === 0 && text.length === 0) {
                             return false;
