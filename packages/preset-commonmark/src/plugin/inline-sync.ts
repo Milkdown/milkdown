@@ -90,7 +90,8 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         },
         appendTransaction(transactions) {
             if (!transactions.some((tr) => tr.docChanged)) return null;
-            if (!transactions.some((tr) => tr.getMeta(inlineSyncPluginKey))) return null;
+            const triggerTr = transactions.find((tr) => tr.getMeta(inlineSyncPluginKey));
+            if (!triggerTr) return null;
 
             requestAnimationFrame(() => {
                 const { state, dispatch } = ctx.get(editorViewCtx);
@@ -104,6 +105,22 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                     const offset = getOffset($from.node(), from);
                     dispatch(state.tr.delete(offset + 1, offset + 2));
                 };
+
+                if (triggerTr.doc.resolve(from).node().type !== state.doc.resolve(from).node().type) {
+                    let offset = 0;
+                    let find = false;
+                    state.doc.descendants((n, pos) => {
+                        if (find) return false;
+                        if (n.isText && n.text === placeholder) {
+                            find = true;
+                            offset = pos;
+                        }
+                        return;
+                    });
+                    dispatch(state.tr.delete(offset, offset + 1));
+
+                    return;
+                }
 
                 const pluginState = inlineSyncPlugin.getState(state);
                 if (!pluginState) {
@@ -119,9 +136,9 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
 
                 const offset = getOffset(targetNode, from);
 
-                const tr = state.tr.setMeta('addToHistory', false).replaceWith(from, to, targetNode);
-                tr.delete(offset + 1, offset + 2);
-                tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)));
+                let tr = state.tr.replaceWith(from, to, targetNode);
+                tr = tr.delete(offset + 1, offset + 2);
+                tr = tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)));
                 dispatch(tr);
             });
             return null;
