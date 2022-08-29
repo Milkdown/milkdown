@@ -4,6 +4,7 @@ import { Attrs, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, TextSelection, Transaction } from '@milkdown/prose/state';
 
 const placeholder = '⁂';
+// const placeholder = '\u2234';
 const regexp = new RegExp(`\\\\(?=[^\\w\\s${placeholder}\\\\]|_)`, 'g');
 
 const swap = (text: string, first: number, last: number) => {
@@ -20,7 +21,7 @@ const movePlaceholder = (text: string) => {
     const symbolsNeedToMove = ['*', '_'];
 
     let index = text.indexOf(placeholder);
-    while (symbolsNeedToMove.includes(text[index + 1] || '')) {
+    while (symbolsNeedToMove.includes(text[index - 1] || '') && symbolsNeedToMove.includes(text[index + 1] || '')) {
         text = swap(text, index, index + 1);
         index = index + 1;
     }
