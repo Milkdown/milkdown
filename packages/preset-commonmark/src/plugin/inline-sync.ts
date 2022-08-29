@@ -80,48 +80,17 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         };
     };
 
-    const runReplacer = (
-        prevState: EditorState,
-        state: EditorState,
-        dispatch: (tr: Transaction) => void,
-        attrs: Attrs,
-    ) => {
-        const { selection } = state;
-        const { $from } = selection;
+    const runReplacer = (state: EditorState, dispatch: (tr: Transaction) => void, attrs: Attrs) => {
+        let tr = state.tr.setMeta(inlineSyncPluginKey, true).insertText(placeholder, state.selection.from);
+
+        const nextState = state.apply(tr);
+        const context = getContextByState(nextState);
+
+        if (!context) return;
+
+        const { $from } = nextState.selection;
         const from = $from.before();
         const to = $from.after();
-
-        let tr = state.tr.setMeta(inlineSyncPluginKey, true).insertText(placeholder, selection.from);
-        const cleanUpOnFail = () => {
-            const offset = getOffset($from.node(), from);
-            dispatch(tr.delete(offset + 1, offset + 2));
-        };
-
-        // If doc structure is changed, remove the placeholder.
-        if (prevState.doc.resolve(from).node().type !== state.doc.resolve(from).node().type) {
-            let offset = 0;
-            let find = false;
-            state.doc.descendants((n, pos) => {
-                if (find) return false;
-                if (n.isText && n.text === placeholder) {
-                    find = true;
-                    offset = pos;
-                }
-                return;
-            });
-            if (!find) return;
-
-            dispatch(tr.delete(offset, offset + 1));
-
-            return;
-        }
-
-        const context = getContextByState(state.apply(tr));
-
-        if (!context) {
-            cleanUpOnFail();
-            return;
-        }
 
         const offset = getOffset(context.nextNode, from);
 
@@ -157,7 +126,7 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 requestAnimationFrame(() => {
                     const { dispatch, state } = ctx.get(editorViewCtx);
 
-                    runReplacer(newState, state, dispatch, prevNode.attrs);
+                    runReplacer(state, dispatch, prevNode.attrs);
                 });
 
                 return null;
