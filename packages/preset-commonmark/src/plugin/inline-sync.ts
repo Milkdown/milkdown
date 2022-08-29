@@ -4,7 +4,7 @@ import { Attrs, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, TextSelection, Transaction } from '@milkdown/prose/state';
 
 const placeholder = '⁂';
-// const placeholder = '\u2234';
+// const placeholder = '∴';
 const regexp = new RegExp(`\\\\(?=[^\\w\\s${placeholder}\\\\]|_)`, 'g');
 
 const swap = (text: string, first: number, last: number) => {
@@ -60,6 +60,7 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
 
         const parser = ctx.get(parserCtx);
         const serializer = ctx.get(serializerCtx);
+
         const text = serializer(doc).slice(0, -1).replaceAll(regexp, '');
         const parsed = parser(movePlaceholder(text));
         if (!parsed) return null;
@@ -67,6 +68,9 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         const target = parsed.firstChild;
 
         if (!target || node.type !== target.type) return null;
+
+        // @ts-expect-error hijack the node attribute
+        target.attrs = { ...node.attrs };
 
         return {
             text,
@@ -138,7 +142,9 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 if (!tr.docChanged) return null;
 
                 const meta = tr.getMeta(inlineSyncPluginKey);
-                if (meta) return null;
+                if (meta) {
+                    return null;
+                }
 
                 const context = getContextByState(newState);
                 if (!context) return null;
@@ -146,7 +152,7 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 const { isInlineBlock, prevNode, nextNode } = context;
 
                 if (!isInlineBlock) return null;
-                if (!nextNode || prevNode.type !== nextNode.type) return null;
+                if (!nextNode || prevNode.type !== nextNode.type || prevNode.eq(nextNode)) return null;
 
                 requestAnimationFrame(() => {
                     const { dispatch, state } = ctx.get(editorViewCtx);
