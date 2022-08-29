@@ -14,6 +14,7 @@ export const strikeThrough = createMark<Keys>((utils) => {
     return {
         id,
         schema: () => ({
+            inclusive: false,
             parseDOM: [
                 { tag: 'del' },
                 { style: 'text-decoration', getAttrs: (value) => (value === 'line-through') as false },
