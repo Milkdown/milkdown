@@ -140,23 +140,12 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 const meta = tr.getMeta(inlineSyncPluginKey);
                 if (meta) return null;
 
-                const { selection } = tr;
-                const { $from } = selection;
+                const context = getContextByState(newState);
+                if (!context) return null;
 
-                const prevNode = $from.node();
-                const doc = newState.schema.topNodeType.create(undefined, prevNode);
-                const isInlineBlock = Boolean(prevNode.type.spec.content?.includes('inline'));
+                const { isInlineBlock, prevNode, nextNode } = context;
+
                 if (!isInlineBlock) return null;
-
-                const parser = ctx.get(parserCtx);
-                const serializer = ctx.get(serializerCtx);
-                const text = serializer(doc).slice(0, -1).replaceAll(regexp, '');
-                const parsed = parser(movePlaceholder(text));
-
-                if (!parsed) return null;
-
-                const nextNode = parsed.firstChild;
-
                 if (!nextNode || prevNode.type !== nextNode.type) return null;
 
                 requestAnimationFrame(() => {
