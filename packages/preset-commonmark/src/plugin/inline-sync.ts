@@ -11,6 +11,7 @@ type InlineSyncPluginState = {
 type InlineSyncPlugin = Plugin<InlineSyncPluginState>;
 
 const placeholder = '⁂';
+const regexp = new RegExp(`\\\\(?=[^\\w\\s${placeholder}\\\\]|_)`, 'g');
 
 export const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC');
 export const getInlineSyncPlugin = (ctx: Ctx) => {
@@ -53,7 +54,7 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
 
                 const parser = ctx.get(parserCtx);
                 const serializer = ctx.get(serializerCtx);
-                const text = serializer(doc).slice(0, -1).replaceAll('\\', '');
+                const text = serializer(doc).slice(0, -1).replaceAll(regexp, '');
                 const parsed = parser(text);
                 if (!parsed)
                     return {
