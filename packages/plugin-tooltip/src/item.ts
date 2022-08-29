@@ -28,12 +28,7 @@ export type ButtonItem = {
     enable: Pred;
 };
 
-export const createToggleIcon = (
-    icon: Icon,
-    onClick: string,
-    mark: MarkType | undefined,
-    disableForMark: MarkType | undefined,
-): Item => ({
+export const createToggleIcon = (icon: Icon, onClick: string, mark?: MarkType, disableForMark?: MarkType): Item => ({
     icon,
     onClick,
     isHidden: () => (view: EditorView) => isTextAndNotHasMark(view.state, disableForMark),
@@ -44,11 +39,11 @@ export const createToggleIcon = (
 export const defaultButtons = (ctx: Ctx) => {
     const marks = ctx.get(schemaCtx).marks;
     return [
-        createToggleIcon('bold', 'ToggleBold', marks['strong'], marks['code_inline']),
-        createToggleIcon('italic', 'ToggleItalic', marks['em'], marks['code_inline']),
-        createToggleIcon('strikeThrough', 'ToggleStrikeThrough', marks['strike_through'], marks['code_inline']),
-        createToggleIcon('code', 'ToggleInlineCode', marks['code_inline'], marks['link']),
-        createToggleIcon('link', 'ToggleLink', marks['link'], marks['code_inline']),
+        createToggleIcon('bold', 'ToggleBold', marks['strong']),
+        createToggleIcon('italic', 'ToggleItalic', marks['em']),
+        createToggleIcon('strikeThrough', 'ToggleStrikeThrough', marks['strike_through']),
+        createToggleIcon('code', 'ToggleInlineCode', marks['code_inline']),
+        createToggleIcon('link', 'ToggleLink', marks['link']),
     ];
 };
 
