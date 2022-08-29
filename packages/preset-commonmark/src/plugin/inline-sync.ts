@@ -4,6 +4,7 @@ import { Node } from '@milkdown/prose/model';
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state';
 
 type InlineSyncPluginState = {
+    text: string;
     isInlineBlock: boolean;
     originalNode: Node | null;
     targetNode: Node | null;
@@ -12,6 +13,28 @@ type InlineSyncPlugin = Plugin<InlineSyncPluginState>;
 
 const placeholder = '⁂';
 const regexp = new RegExp(`\\\\(?=[^\\w\\s${placeholder}\\\\]|_)`, 'g');
+
+const swap = (text: string, first: number, last: number) => {
+    const arr = text.split('');
+    const temp = arr[first];
+    if (arr[first] && arr[last]) {
+        arr[first] = arr[last] as string;
+        arr[last] = temp as string;
+    }
+    return arr.join('').toString();
+};
+
+const movePlaceholder = (text: string) => {
+    const symbolsNeedToMove = ['*', '_'];
+
+    let index = text.indexOf(placeholder);
+    while (symbolsNeedToMove.includes(text[index - 1] || '') && symbolsNeedToMove.includes(text[index + 1] || '')) {
+        text = swap(text, index, index + 1);
+        index = index + 1;
+    }
+
+    return text;
+};
 
 export const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC');
 export const getInlineSyncPlugin = (ctx: Ctx) => {
@@ -34,15 +57,18 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         return offset;
     };
 
+    const getInitialState = (): InlineSyncPluginState => ({
+        isInlineBlock: false,
+        originalNode: null,
+        targetNode: null,
+        text: '',
+    });
+
     const inlineSyncPlugin: InlineSyncPlugin = new Plugin<InlineSyncPluginState>({
         key: inlineSyncPluginKey,
         state: {
             init: () => {
-                return {
-                    isInlineBlock: false,
-                    originalNode: null,
-                    targetNode: null,
-                };
+                return getInitialState();
             },
             apply: (_tr, _value, _oldState, state) => {
                 const { selection } = state;
@@ -55,24 +81,15 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 const parser = ctx.get(parserCtx);
                 const serializer = ctx.get(serializerCtx);
                 const text = serializer(doc).slice(0, -1).replaceAll(regexp, '');
-                const parsed = parser(text);
-                if (!parsed)
-                    return {
-                        isInlineBlock: false,
-                        originalNode: null,
-                        targetNode: null,
-                    };
+                const parsed = parser(movePlaceholder(text));
+                if (!parsed) return getInitialState();
 
                 const target = parsed.firstChild;
 
-                if (!target || node.type !== target.type)
-                    return {
-                        isInlineBlock: false,
-                        originalNode: null,
-                        targetNode: null,
-                    };
+                if (!target || node.type !== target.type) return getInitialState();
 
                 return {
+                    text,
                     isInlineBlock,
                     originalNode: node,
                     targetNode: target,
@@ -89,8 +106,7 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 return false;
             },
         },
-        appendTransaction(transactions) {
-            if (!transactions.some((tr) => tr.docChanged)) return null;
+        appendTransaction(transactions, _oldState, newState) {
             const triggerTr = transactions.find((tr) => tr.getMeta(inlineSyncPluginKey));
             if (!triggerTr) return null;
 
@@ -107,7 +123,8 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                     dispatch(state.tr.delete(offset + 1, offset + 2));
                 };
 
-                if (triggerTr.doc.resolve(from).node().type !== state.doc.resolve(from).node().type) {
+                // If doc structure is changed, remove the placeholder.
+                if (newState.doc.resolve(from).node().type !== state.doc.resolve(from).node().type) {
                     let offset = 0;
                     let find = false;
                     state.doc.descendants((n, pos) => {
