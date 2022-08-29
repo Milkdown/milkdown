@@ -26,10 +26,5 @@ describe('shortcut:', () => {
         cy.get('.strike-through').should('have.text', 'The lunatic is on the grass');
         cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`);
         cy.get('.strike-through').should('not.exist');
-        cy.get('.editor').type('{backspace}');
-        cy.get('.editor').type('The lunatic is ');
-        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`);
-        cy.get('.editor').type('on the grass');
-        cy.get('.strike-through').should('have.text', 'on the grass');
     });
 });

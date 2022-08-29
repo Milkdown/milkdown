@@ -10,8 +10,29 @@ type InlineSyncPluginState = {
 };
 type InlineSyncPlugin = Plugin<InlineSyncPluginState>;
 
+const placeholder = '⁂';
+
 export const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC');
 export const getInlineSyncPlugin = (ctx: Ctx) => {
+    const getOffset = (node: Node, from: number) => {
+        let offset = from;
+        let find = false;
+        node.descendants((n) => {
+            if (find) return false;
+            if (n.isText) {
+                const i = n.text?.indexOf(placeholder);
+                if (i != null && i >= 0) {
+                    find = true;
+                    offset += i;
+                    return false;
+                }
+            }
+            offset += n.nodeSize;
+            return;
+        });
+        return offset;
+    };
+
     const inlineSyncPlugin: InlineSyncPlugin = new Plugin<InlineSyncPluginState>({
         key: inlineSyncPluginKey,
         state: {
@@ -62,7 +83,7 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 if (view.composing) return false;
                 const pluginState = inlineSyncPlugin.getState(view.state);
                 if (pluginState?.isInlineBlock) {
-                    view.dispatch(view.state.tr.setMeta(inlineSyncPluginKey, true).insertText('\uFFFC', to));
+                    view.dispatch(view.state.tr.setMeta(inlineSyncPluginKey, true).insertText(placeholder, to));
                 }
                 return false;
             },
@@ -76,34 +97,29 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
 
                 const { selection } = state;
                 const { $from } = selection;
-
-                const pluginState = inlineSyncPlugin.getState(state);
-                if (!pluginState) return;
-
-                const { targetNode, originalNode } = pluginState;
-                if (!targetNode || !originalNode) return;
-
                 const from = $from.before();
                 const to = $from.after();
 
-                const tr = state.tr.setMeta('addToHistory', false).replaceWith(from, to, targetNode);
+                const cleanUpOnFail = () => {
+                    const offset = getOffset($from.node(), from);
+                    dispatch(state.tr.delete(offset + 1, offset + 2));
+                };
 
-                let offset = from;
-                let find = false;
-                targetNode.descendants((n) => {
-                    if (find) return false;
-                    if (n.isText) {
-                        const i = n.text?.indexOf('\uFFFC');
-                        if (i != null && i >= 0) {
-                            find = true;
-                            offset += i;
-                            return false;
-                        }
-                    }
-                    offset += n.nodeSize;
+                const pluginState = inlineSyncPlugin.getState(state);
+                if (!pluginState) {
+                    cleanUpOnFail();
                     return;
-                });
+                }
 
+                const { targetNode, originalNode } = pluginState;
+                if (!targetNode || !originalNode) {
+                    cleanUpOnFail();
+                    return;
+                }
+
+                const offset = getOffset(targetNode, from);
+
+                const tr = state.tr.setMeta('addToHistory', false).replaceWith(from, to, targetNode);
                 tr.delete(offset + 1, offset + 2);
                 tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)));
                 dispatch(tr);

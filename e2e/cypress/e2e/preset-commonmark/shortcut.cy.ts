@@ -112,11 +112,6 @@ describe('input:', () => {
             cy.get('.strong').should('have.text', 'The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`);
             cy.get('.strong').should('not.exist');
-            cy.get('.editor').type('{backspace}');
-            cy.get('.editor').type('The lunatic is ');
-            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`);
-            cy.get('.editor').type('on the grass');
-            cy.get('.strong').should('have.text', 'on the grass');
         });
 
         it('italic', () => {
@@ -126,11 +121,6 @@ describe('input:', () => {
             cy.get('.em').should('have.text', 'The lunatic is on the grass');
             cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+i}`);
             cy.get('.em').should('not.exist');
-            cy.get('.editor').type('{backspace}');
-            cy.get('.editor').type('The lunatic is ');
-            cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+i}`);
-            cy.get('.editor').type('on the grass');
-            cy.get('.em').should('have.text', 'on the grass');
         });
 
         it('inline code', () => {
