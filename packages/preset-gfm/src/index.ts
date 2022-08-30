@@ -3,7 +3,6 @@ import { commands as commonmarkCommands, commonmark } from '@milkdown/preset-com
 import { $remark, AtomList } from '@milkdown/utils';
 import remarkGFM from 'remark-gfm';
 
-import { urlPlugin } from './auto-link';
 import { footnoteReference } from './footnote';
 import { footnoteDefinition } from './footnote/definition';
 import { strikeThrough, ToggleStrikeThrough } from './strike-through';
@@ -77,7 +76,6 @@ export const gfm = AtomList.create([
     ...commonmark,
     $remark(() => remarkGFM),
     table(),
-    urlPlugin,
     strikeThrough(),
     taskListItem(),
     footnoteReference(),
