@@ -29,7 +29,7 @@ module.exports = {
         "1": "1.  The lunatic is on the grass\n2.  The lunatic is in the hell\n\n    *   The lunatic is on the grass\n    *   The lunatic is in the hell\n"
       },
       "hr": {
-        "1": "***\n\n"
+        "1": "***\n"
       }
     },
     "mark:": {
