@@ -4,6 +4,8 @@ import { Attrs, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, TextSelection, Transaction } from '@milkdown/prose/state';
 import { pipe } from '@milkdown/utils';
 
+const linkRegexp = /\[(?<span>((www|https:\/\/|http:\/\/)\S+))]\((?<url>\S+)\)/;
+
 const holePlaceholder = '∅';
 
 // punctuation placeholder
@@ -12,6 +14,18 @@ const punPlaceholder = '⁂';
 const chaPlaceholder = '∴';
 
 const regexp = new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g');
+
+const keepLink = (str: string) => {
+    let text = str;
+    let match = text.match(linkRegexp);
+    while (match && match.groups) {
+        const { span } = match.groups;
+        text = text.replace(linkRegexp, span as string);
+
+        match = text.match(linkRegexp);
+    }
+    return text;
+};
 
 const swap = (text: string, first: number, last: number) => {
     const arr = text.split('');
@@ -37,7 +51,7 @@ const movePlaceholder = (text: string) => {
 
 const removeLf = (text: string) => text.slice(0, -1);
 const replacePunctuation = (text: string) => text.replace(regexp, '');
-const handleText = pipe(removeLf, replacePunctuation, movePlaceholder);
+const handleText = pipe(removeLf, replacePunctuation, movePlaceholder, keepLink);
 
 const calculatePlaceholder = (text: string) => {
     const index = text.indexOf(holePlaceholder);
