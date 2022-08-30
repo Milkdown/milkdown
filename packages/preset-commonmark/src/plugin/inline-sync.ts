@@ -123,6 +123,15 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         // @ts-expect-error hijack the node attribute
         target.attrs = { ...node.attrs };
 
+        target.descendants((node) => {
+            const marks = node.marks;
+            const link = marks.find((mark) => mark.type.name === 'link');
+            if (link && node.text?.includes(placeholder) && link.attrs['href'].includes(placeholder)) {
+                // @ts-expect-error hijack the mark attribute
+                link.attrs['href'] = link.attrs['href'].replace(placeholder, '');
+            }
+        });
+
         return {
             text,
             isInlineBlock,
