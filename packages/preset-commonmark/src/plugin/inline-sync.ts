@@ -2,6 +2,7 @@
 import { Ctx, editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core';
 import { Attrs, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, TextSelection, Transaction } from '@milkdown/prose/state';
+import { pipe } from '@milkdown/utils';
 
 const holePlaceholder = '∅';
 
@@ -33,6 +34,10 @@ const movePlaceholder = (text: string) => {
 
     return text;
 };
+
+const removeLf = (text: string) => text.slice(0, -1);
+const replacePunctuation = (text: string) => text.replace(regexp, '');
+const handleText = pipe(removeLf, replacePunctuation, movePlaceholder);
 
 const calculatePlaceholder = (text: string) => {
     const index = text.indexOf(holePlaceholder);
@@ -89,7 +94,9 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         const parser = ctx.get(parserCtx);
         const serializer = ctx.get(serializerCtx);
 
-        const text = movePlaceholder(serializer(doc).slice(0, -1).replaceAll(regexp, ''));
+        const markdown = serializer(doc);
+
+        const text = handleText(markdown);
         const placeholder = calculatePlaceholder(text);
 
         const parsed = parser(text.replace(holePlaceholder, placeholder));
