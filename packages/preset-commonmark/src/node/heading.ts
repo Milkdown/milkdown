@@ -40,7 +40,8 @@ const createId = (node: Node) =>
 const headingIdPlugin = (ctx: Ctx, type: NodeType, getId: (node: Node) => string): Plugin => {
     let lock = false;
     const walkThrough = (state: EditorState, callback: (tr: Transaction) => void) => {
-        const tr = state.tr;
+        const tr = state.tr.setMeta('addToHistory', false);
+        let found = false;
         state.doc.descendants((node, pos) => {
             if (node.type === type && !lock) {
                 if (node.textContent.trim().length === 0) {
@@ -50,6 +51,7 @@ const headingIdPlugin = (ctx: Ctx, type: NodeType, getId: (node: Node) => string
                 const id = getId(node);
 
                 if (attrs['id'] !== id) {
+                    found = true;
                     tr.setMeta(headingIdPluginKey, true).setNodeMarkup(pos, undefined, {
                         ...attrs,
                         id,
@@ -57,7 +59,9 @@ const headingIdPlugin = (ctx: Ctx, type: NodeType, getId: (node: Node) => string
                 }
             }
         });
-        callback(tr);
+        if (found) {
+            callback(tr);
+        }
     };
     return new Plugin({
         key: headingIdPluginKey,
@@ -93,7 +97,7 @@ const headingIdPlugin = (ctx: Ctx, type: NodeType, getId: (node: Node) => string
         },
         view: (view) => {
             const doc = view.state.doc;
-            let tr = view.state.tr;
+            let tr = view.state.tr.setMeta('addToHistory', false);
             doc.descendants((node, pos) => {
                 if (node.type.name === 'heading' && node.attrs['level']) {
                     if (!node.attrs['id']) {

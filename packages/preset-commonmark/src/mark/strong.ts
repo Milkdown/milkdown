@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { markRule } from '@milkdown/prose';
 import { toggleMark } from '@milkdown/prose/commands';
 import { createMark, createShortcut } from '@milkdown/utils';
 
@@ -13,6 +12,7 @@ export const strong = createMark<Keys>((utils) => {
     return {
         id,
         schema: () => ({
+            inclusive: false,
             parseDOM: [
                 { tag: 'b' },
                 { tag: 'strong' },
@@ -34,10 +34,6 @@ export const strong = createMark<Keys>((utils) => {
                 },
             },
         }),
-        inputRules: (markType) => [
-            markRule(/(?:^|\s|[^\w`])((?:__)(\w[^_]*)(?:__))$/, markType),
-            markRule(/(?:^|\s|[^\w`])((?:\*\*)(\w[^*]*)(?:\*\*))$/, markType),
-        ],
         commands: (markType) => [createCmd(ToggleBold, () => toggleMark(markType))],
         shortcuts: {
             [SupportedKeys.Bold]: createShortcut(ToggleBold, 'Mod-b'),

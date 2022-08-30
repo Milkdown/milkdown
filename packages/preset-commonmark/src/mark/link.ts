@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx, createCmd, createCmdKey, schemaCtx, ThemeInputChipType } from '@milkdown/core';
+import { commandsCtx, createCmd, createCmdKey, ThemeInputChipType } from '@milkdown/core';
 import { expectDomTypeError, missingRootElement } from '@milkdown/exception';
 import { calculateTextPosition } from '@milkdown/prose';
 import { toggleMark } from '@milkdown/prose/commands';
-import { InputRule } from '@milkdown/prose/inputrules';
 import { Node as ProseNode } from '@milkdown/prose/model';
 import { NodeSelection, Plugin, PluginKey, TextSelection } from '@milkdown/prose/state';
 import { EditorView } from '@milkdown/prose/view';
@@ -24,11 +23,11 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
     return {
         id,
         schema: () => ({
+            inclusive: false,
             attrs: {
                 href: {},
                 title: { default: null },
             },
-            inclusive: false,
             parseDOM: [
                 {
                     tag: 'a[href]',
@@ -99,22 +98,6 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                 );
 
                 return true;
-            }),
-        ],
-        inputRules: (markType, ctx) => [
-            new InputRule(/\[(?<text>.*?)]\((?<href>.*?)(?="|\))"?(?<title>[^"]+)?"?\)/, (state, match, start, end) => {
-                const [okay, text = '', href, title] = match;
-                const { tr } = state;
-                if (okay) {
-                    const content = text || 'link';
-                    tr.replaceWith(start, end, ctx.get(schemaCtx).text(content)).addMark(
-                        start,
-                        content.length + start,
-                        markType.create({ title, href }),
-                    );
-                }
-
-                return tr;
             }),
         ],
         prosePlugins: (type, ctx) => {

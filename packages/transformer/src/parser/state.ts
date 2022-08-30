@@ -45,7 +45,7 @@ export class State {
      * @returns The state instance.
      */
     run = (remark: RemarkParser, markdown: string) => {
-        const tree = remark.runSync(remark.parse(markdown)) as MarkdownNode;
+        const tree = remark.runSync(remark.parse(markdown), markdown) as MarkdownNode;
         this.next(tree);
 
         return this;

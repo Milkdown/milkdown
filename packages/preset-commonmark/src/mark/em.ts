@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { markRule } from '@milkdown/prose';
 import { toggleMark } from '@milkdown/prose/commands';
 import { createMark, createShortcut } from '@milkdown/utils';
 
@@ -11,10 +10,10 @@ type Keys = SupportedKeys['Em'];
 const id = 'em';
 
 export const ToggleItalic = createCmdKey('ToggleItalic');
-
 export const em = createMark<Keys>((utils) => ({
     id,
     schema: () => ({
+        inclusive: false,
         parseDOM: [
             { tag: 'i' },
             { tag: 'em' },
@@ -36,10 +35,6 @@ export const em = createMark<Keys>((utils) => ({
             },
         },
     }),
-    inputRules: (markType) => [
-        markRule(/(?:^|\s|[^\w`*_])((?:_)([^_]+)(?:_))$/, markType),
-        markRule(/(?:^|\s|[^\w`*_])((?:\*)([^*]+)(?:\*))$/, markType),
-    ],
     commands: (markType) => [createCmd(ToggleItalic, () => toggleMark(markType))],
     shortcuts: {
         [SupportedKeys.Em]: createShortcut(ToggleItalic, 'Mod-i'),

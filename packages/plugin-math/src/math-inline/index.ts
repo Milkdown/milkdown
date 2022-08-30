@@ -3,7 +3,6 @@
 import { Color, commandsCtx, createCmd, createCmdKey, ThemeColor, ThemeInputChipType, ThemeSize } from '@milkdown/core';
 import { expectDomTypeError } from '@milkdown/exception';
 import { findSelectedNodeOfType } from '@milkdown/prose';
-import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection, Plugin, PluginKey } from '@milkdown/prose/state';
 import { EditorView } from '@milkdown/prose/view';
 import { createNode } from '@milkdown/utils';
@@ -150,27 +149,6 @@ export const mathInline = createNode<string, Options>((utils, options) => {
                 },
             };
         },
-        inputRules: (nodeType) => [
-            new InputRule(/(?:\$)([^$]+)(?:\$)$/, (state, match, start, end) => {
-                const $start = state.doc.resolve(start);
-                const index = $start.index();
-                const $end = state.doc.resolve(end);
-                if (!$start.parent.canReplaceWith(index, $end.index(), nodeType)) {
-                    return null;
-                }
-                const value = match[1] ?? '';
-                return state.tr.replaceRangeWith(
-                    start,
-                    end,
-                    nodeType.create(
-                        {
-                            value,
-                        },
-                        nodeType.schema.text(value),
-                    ),
-                );
-            }),
-        ],
         prosePlugins: (type, ctx) => {
             return [
                 new Plugin({
