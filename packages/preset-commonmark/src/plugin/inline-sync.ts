@@ -3,9 +3,14 @@ import { Ctx, editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core';
 import { Attrs, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, TextSelection, Transaction } from '@milkdown/prose/state';
 
-const placeholder = '⁂';
-// const placeholder = '∴';
-const regexp = new RegExp(`\\\\(?=[^\\w\\s${placeholder}\\\\]|_)`, 'g');
+const holePlaceholder = '∅';
+
+// punctuation placeholder
+const punPlaceholder = '⁂';
+// character placeholder
+const chaPlaceholder = '∴';
+
+const regexp = new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g');
 
 const swap = (text: string, first: number, last: number) => {
     const arr = text.split('');
@@ -20,7 +25,7 @@ const swap = (text: string, first: number, last: number) => {
 const movePlaceholder = (text: string) => {
     const symbolsNeedToMove = ['*', '_'];
 
-    let index = text.indexOf(placeholder);
+    let index = text.indexOf(holePlaceholder);
     while (symbolsNeedToMove.includes(text[index - 1] || '') && symbolsNeedToMove.includes(text[index + 1] || '')) {
         text = swap(text, index, index + 1);
         index = index + 1;
@@ -29,7 +34,30 @@ const movePlaceholder = (text: string) => {
     return text;
 };
 
-const getOffset = (node: Node, from: number) => {
+const calculatePlaceholder = (text: string) => {
+    const index = text.indexOf(holePlaceholder);
+    const left = text.charAt(index - 1);
+    const right = text.charAt(index + 1);
+    const notAWord = /[^\w]|_/;
+
+    // cursor on the right
+    if (!right) {
+        return punPlaceholder;
+    }
+
+    // cursor on the left
+    if (!left) {
+        return chaPlaceholder;
+    }
+
+    if (notAWord.test(left) && notAWord.test(right)) {
+        return punPlaceholder;
+    }
+
+    return chaPlaceholder;
+};
+
+const getOffset = (node: Node, from: number, placeholder: string) => {
     let offset = from;
     let find = false;
     node.descendants((n) => {
@@ -61,8 +89,10 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         const parser = ctx.get(parserCtx);
         const serializer = ctx.get(serializerCtx);
 
-        const text = serializer(doc).slice(0, -1).replaceAll(regexp, '');
-        const parsed = parser(movePlaceholder(text));
+        const text = movePlaceholder(serializer(doc).slice(0, -1).replaceAll(regexp, ''));
+        const placeholder = calculatePlaceholder(text);
+
+        const parsed = parser(text.replace(holePlaceholder, placeholder));
         if (!parsed) return null;
 
         const target = parsed.firstChild;
@@ -77,11 +107,13 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
             isInlineBlock,
             prevNode: node,
             nextNode: target,
+            placeholder,
         };
     };
 
     const runReplacer = (state: EditorState, dispatch: (tr: Transaction) => void, attrs: Attrs) => {
-        let tr = state.tr.setMeta(inlineSyncPluginKey, true).insertText(placeholder, state.selection.from);
+        // insert a placeholder to restore the selection
+        let tr = state.tr.setMeta(inlineSyncPluginKey, true).insertText(holePlaceholder, state.selection.from);
 
         const nextState = state.apply(tr);
         const context = getContextByState(nextState);
@@ -92,11 +124,14 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
         const from = $from.before();
         const to = $from.after();
 
-        const offset = getOffset(context.nextNode, from);
+        const offset = getOffset(context.nextNode, from, context.placeholder);
 
-        tr = tr.replaceWith(from, to, context.nextNode);
-        tr = tr.setNodeMarkup(from, undefined, attrs);
-        tr = tr.delete(offset + 1, offset + 2);
+        tr = tr
+            .replaceWith(from, to, context.nextNode)
+            .setNodeMarkup(from, undefined, attrs)
+            // delete the placeholder
+            .delete(offset + 1, offset + 2);
+
         tr = tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)));
         dispatch(tr);
     };
