@@ -23,7 +23,6 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
     return {
         id,
         schema: () => ({
-            inclusive: false,
             attrs: {
                 href: {},
                 title: { default: null },
