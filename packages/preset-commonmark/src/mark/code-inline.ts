@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
-import { toggleMark } from '@milkdown/prose/commands';
 import { createMark, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -34,7 +33,22 @@ export const codeInline = createMark<Keys>((utils) => {
                 },
             },
         }),
-        commands: (markType) => [createCmd(ToggleInlineCode, () => toggleMark(markType))],
+        commands: (markType) => [
+            createCmd(ToggleInlineCode, () => (state, dispatch) => {
+                const { selection, tr } = state;
+                if (selection.empty) return false;
+                const { from, to } = selection;
+
+                const has = state.doc.rangeHasMark(from, to, markType);
+                if (has) {
+                    dispatch?.(tr.removeMark(from, to, markType));
+                    return true;
+                }
+
+                dispatch?.(tr.insertText('`', from).insertText('`', to + 1));
+                return true;
+            }),
+        ],
         shortcuts: {
             [SupportedKeys.CodeInline]: createShortcut(ToggleInlineCode, 'Mod-e'),
         },
