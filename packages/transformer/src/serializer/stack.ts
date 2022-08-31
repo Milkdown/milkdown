@@ -13,6 +13,42 @@ type Ctx = {
 
 const { size, push, open, close } = getStackUtil<MarkdownNode, StackElement, Ctx>();
 
+const searchType = (child: MarkdownNode, type: string): MarkdownNode => {
+    if (child.type === type) {
+        return child;
+    }
+
+    if (child.children?.length !== 1) {
+        return child;
+    }
+
+    const searchNode = (node: MarkdownNode): MarkdownNode | null => {
+        if (node.type === type) {
+            return node;
+        }
+
+        if (node.children?.length !== 1) {
+            return null;
+        }
+
+        const [firstChild] = node.children;
+        if (!firstChild) return null;
+
+        return searchNode(firstChild);
+    };
+
+    const target = searchNode(child);
+
+    if (!target) return child;
+
+    const tmp = target.children ? [...target.children] : undefined;
+    const node = { ...child, children: tmp };
+    node.children = tmp;
+    target.children = [node];
+
+    return target;
+};
+
 const maybeMergeChildren = (element: MarkdownNode) => {
     const { children } = element;
     if (!children) return element;
@@ -22,10 +58,16 @@ const maybeMergeChildren = (element: MarkdownNode) => {
             return [child];
         }
         const last = nextChildren[nextChildren.length - 1];
-        if (last && child['isMark'] && child.type === last.type) {
+        if (last && last['isMark'] && child['isMark']) {
+            child = searchType(child, last.type);
             const { children: currChildren, ...currRest } = child;
             const { children: prevChildren, ...prevRest } = last;
-            if (currChildren && prevChildren && JSON.stringify(currRest) === JSON.stringify(prevRest)) {
+            if (
+                child.type === last.type &&
+                currChildren &&
+                prevChildren &&
+                JSON.stringify(currRest) === JSON.stringify(prevRest)
+            ) {
                 const next = {
                     ...prevRest,
                     children: [...prevChildren, ...currChildren],
