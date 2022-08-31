@@ -7,7 +7,9 @@
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
         "types": ["vue"],
-        "lib": ["dom", "es2020"]
+        "lib": ["dom", "es2020"],
+        // TODO: remove this after vue support ts 4.8
+        "skipLibCheck": true
     },
     "include": ["src"]
 }

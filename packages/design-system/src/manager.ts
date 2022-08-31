@@ -60,7 +60,7 @@ export class ThemeManager {
         Payload extends GetPayload<Key> = GetPayload<Key>,
         K extends GetKey<Key> = GetKey<Key>,
     >(key: Key | (K & string), payload: Payload): Ret {
-        const name = typeof key === 'string' ? key : key.sliceName;
+        const name = typeof key === 'string' ? key : (key as Key).sliceName;
         const lazyGet = this.#cache.get(name);
         if (lazyGet) {
             const meta = this.#container.getSlice(key);

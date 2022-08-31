@@ -17,6 +17,6 @@
         "@milkdown/prose": "workspace:*",
         "@milkdown/theme-nord": "workspace:*",
         "@milkdown/vue": "workspace:*",
-        "vue": "^3.0.0"
+        "vue": "^3.2.38"
     }
 }
