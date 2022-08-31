@@ -236,13 +236,19 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/transformer': workspace:*
+      remark-parse: ^10.0.1
+      remark-stringify: ^10.0.2
       tslib: ^2.4.0
+      unified: ^10.1.0
     dependencies:
       '@milkdown/ctx': link:../ctx
       '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
       '@milkdown/transformer': link:../transformer
+      remark-parse: 10.0.1
+      remark-stringify: 10.0.2
       tslib: 2.4.0
+      unified: 10.1.2
     devDependencies:
       '@milkdown/prose': link:../prose
 
@@ -694,6 +700,8 @@ importers:
       '@types/mdast': ^3.0.10
       '@types/unist': ^2.0.6
       remark: ^14.0.1
+      remark-parse: ^10.0.1
+      remark-stringify: ^10.0.2
       tslib: ^2.4.0
       unified: ^10.1.0
     dependencies:
@@ -701,6 +709,8 @@ importers:
       '@types/mdast': 3.0.10
       '@types/unist': 2.0.6
       remark: 14.0.2
+      remark-parse: 10.0.1
+      remark-stringify: 10.0.2
       tslib: 2.4.0
       unified: 10.1.2
     devDependencies:

@@ -33,6 +33,8 @@
         "@types/mdast": "^3.0.10",
         "@types/unist": "^2.0.6",
         "remark": "^14.0.1",
+        "remark-parse": "^10.0.1",
+        "remark-stringify": "^10.0.2",
         "tslib": "^2.4.0",
         "unified": "^10.1.0"
     },
