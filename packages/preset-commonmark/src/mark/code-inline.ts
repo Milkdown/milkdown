@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createCmd, createCmdKey } from '@milkdown/core';
+import { MarkType } from '@milkdown/prose/model';
 import { createMark, createShortcut } from '@milkdown/utils';
 
 import { SupportedKeys } from '../supported-keys';
@@ -45,7 +46,15 @@ export const codeInline = createMark<Keys>((utils) => {
                     return true;
                 }
 
-                dispatch?.(tr.insertText('`', from).insertText('`', to + 1));
+                const restMarksName = Object.keys(state.schema.marks).filter((x) => x !== markType.name);
+
+                restMarksName
+                    .map((name) => state.schema.marks[name] as MarkType)
+                    .forEach((t) => {
+                        tr.removeMark(from, to, t);
+                    });
+
+                dispatch?.(tr.addMark(from, to, markType.create()));
                 return true;
             }),
         ],

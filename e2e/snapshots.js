@@ -17,6 +17,9 @@ module.exports = {
       "ordered list": {
         "1": "1.  list item 1\n2.  list item 2\n\n    1.  sub list item 1\n    2.  sub list item 2\n3.  list item 3\n"
       },
+      "hr": {
+        "1": "***\n"
+      },
       "image": {
         "invalid image": {
           "1": "![image](invalidUrl)\n"
@@ -27,9 +30,6 @@ module.exports = {
       },
       "list": {
         "1": "1.  The lunatic is on the grass\n2.  The lunatic is in the hell\n\n    *   The lunatic is on the grass\n    *   The lunatic is in the hell\n"
-      },
-      "hr": {
-        "1": "***\n"
       }
     },
     "mark:": {

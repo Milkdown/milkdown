@@ -26,10 +26,7 @@ type MarkView = [nodeId: string, view: MarkViewConstructor];
 export const markViewCtx = createSlice([] as MarkView[], 'markView');
 
 export const remarkCtx: Slice<RemarkParser> = createSlice(unified().use(remarkParse).use(remarkStringify), 'remark');
-export const remarkStringifyDefaultOptions: Options = {
-    strong: '*',
-    emphasis: '_',
-};
+export const remarkStringifyDefaultOptions: Options = {};
 export const remarkStringifyOptionsCtx = createSlice(remarkStringifyDefaultOptions, 'remarkStringifyOptions');
 
 export const init =
