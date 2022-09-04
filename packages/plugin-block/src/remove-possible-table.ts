@@ -17,14 +17,14 @@ export const removePossibleTable = (view: EditorView, event: DragEvent): Transac
 
             const $mouse = view.state.doc.resolve(eventPos.pos);
             const insertPos = dropPoint(view.state.doc, $mouse.pos, slice);
-            if (!insertPos) return null;
+            if (insertPos == null || insertPos < 0) return null;
 
             let tr = state.tr;
             tr = tr.delete($pos.before(d), $pos.after(d));
 
             const pos = tr.mapping.map(insertPos);
 
-            tr = tr.replaceRange(pos, pos, slice).scrollIntoView();
+            tr = tr.replaceRange(pos, pos, slice);
 
             return tr;
         }
