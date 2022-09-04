@@ -108,7 +108,7 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
 
         .list-item,
         .task-list-item {
-            margin: 8px 0;
+            margin-top: 8px;
         }
 
         .list-item_label,
