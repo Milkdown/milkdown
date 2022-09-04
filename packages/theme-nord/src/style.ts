@@ -166,8 +166,6 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             pre {
                 font-family: ${manager.get(ThemeFont, 'code')};
                 margin: 0 18px;
-                white-space: pre;
-                overflow: auto;
                 ${manager.get(ThemeScrollbar, ['x'])}
 
                 background-color: ${palette('background')};
