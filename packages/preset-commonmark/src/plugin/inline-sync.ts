@@ -58,7 +58,7 @@ export const inlineSyncConfigCtx = createSlice<inlineSyncConfig, 'inlineSyncConf
 
 const linkRegexp = /\[(?<span>((www|https:\/\/|http:\/\/)\S+))]\((?<url>\S+)\)/;
 
-const regexp = (holePlaceholder: string) => new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g');
+const punctuationRegexp = (holePlaceholder: string) => new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g');
 
 const keepLink = (str: string) => {
     let text = str;
@@ -83,7 +83,8 @@ const swap = (text: string, first: number, last: number) => {
 };
 
 const removeLf = (text: string) => text.slice(0, -1);
-const replacePunctuation = (holePlaceholder: string) => (text: string) => text.replace(regexp(holePlaceholder), '');
+const replacePunctuation = (holePlaceholder: string) => (text: string) =>
+    text.replace(punctuationRegexp(holePlaceholder), '');
 
 const calculatePlaceholder = (placeholder: SyncNodePlaceholder) => (text: string) => {
     const index = text.indexOf(placeholder.hole);
