@@ -1,19 +1,64 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core';
+import { createSlice, Ctx, editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core';
 import { Attrs, Node } from '@milkdown/prose/model';
 import { EditorState, Plugin, PluginKey, TextSelection, Transaction } from '@milkdown/prose/state';
 import { pipe } from '@milkdown/utils';
 
+export type ShouldSyncNode = (context: {
+    prevNode: Node;
+    nextNode: Node;
+    ctx: Ctx;
+    tr: Transaction;
+    text: string;
+}) => boolean;
+
+export type SyncNodePlaceholder = {
+    hole: string;
+    punctuation: string;
+    char: string;
+};
+
+export type inlineSyncConfig = {
+    placeholderConfig: SyncNodePlaceholder;
+    shouldSyncNode: ShouldSyncNode;
+    movePlaceholder: (placeholderToMove: string, text: string) => string;
+};
+
+export const inlineSyncConfigCtx = createSlice<inlineSyncConfig, 'inlineSyncConfig'>(
+    {
+        placeholderConfig: {
+            hole: '∅',
+            punctuation: '⁂',
+            char: '∴',
+        },
+        shouldSyncNode: ({ prevNode, nextNode }) =>
+            prevNode.inlineContent &&
+            nextNode &&
+            // if node type changes, do not sync
+            prevNode.type === nextNode.type &&
+            // if two node fully equal, we don't modify them
+            !prevNode.eq(nextNode),
+        movePlaceholder: (placeholderToMove: string, text: string) => {
+            const symbolsNeedToMove = ['*', '_'];
+
+            let index = text.indexOf(placeholderToMove);
+            while (
+                symbolsNeedToMove.includes(text[index - 1] || '') &&
+                symbolsNeedToMove.includes(text[index + 1] || '')
+            ) {
+                text = swap(text, index, index + 1);
+                index = index + 1;
+            }
+
+            return text;
+        },
+    },
+    'inlineSyncConfig',
+);
+
 const linkRegexp = /\[(?<span>((www|https:\/\/|http:\/\/)\S+))]\((?<url>\S+)\)/;
 
-const holePlaceholder = '∅';
-
-// punctuation placeholder
-const punPlaceholder = '⁂';
-// character placeholder
-const chaPlaceholder = '∴';
-
-const regexp = new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g');
+const regexp = (holePlaceholder: string) => new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g');
 
 const keepLink = (str: string) => {
     let text = str;
@@ -37,43 +82,30 @@ const swap = (text: string, first: number, last: number) => {
     return arr.join('').toString();
 };
 
-const movePlaceholder = (text: string) => {
-    const symbolsNeedToMove = ['*', '_'];
-
-    let index = text.indexOf(holePlaceholder);
-    while (symbolsNeedToMove.includes(text[index - 1] || '') && symbolsNeedToMove.includes(text[index + 1] || '')) {
-        text = swap(text, index, index + 1);
-        index = index + 1;
-    }
-
-    return text;
-};
-
 const removeLf = (text: string) => text.slice(0, -1);
-const replacePunctuation = (text: string) => text.replace(regexp, '');
-const handleText = pipe(removeLf, replacePunctuation, movePlaceholder, keepLink);
+const replacePunctuation = (holePlaceholder: string) => (text: string) => text.replace(regexp(holePlaceholder), '');
 
-const calculatePlaceholder = (text: string) => {
-    const index = text.indexOf(holePlaceholder);
+const calculatePlaceholder = (placeholder: SyncNodePlaceholder) => (text: string) => {
+    const index = text.indexOf(placeholder.hole);
     const left = text.charAt(index - 1);
     const right = text.charAt(index + 1);
     const notAWord = /[^\w]|_/;
 
     // cursor on the right
     if (!right) {
-        return punPlaceholder;
+        return placeholder.punctuation;
     }
 
     // cursor on the left
     if (!left) {
-        return chaPlaceholder;
+        return placeholder.char;
     }
 
     if (notAWord.test(left) && notAWord.test(right)) {
-        return punPlaceholder;
+        return placeholder.punctuation;
     }
 
-    return chaPlaceholder;
+    return placeholder.char;
 };
 
 const getOffset = (node: Node, from: number, placeholder: string) => {
@@ -95,58 +127,66 @@ const getOffset = (node: Node, from: number, placeholder: string) => {
     return offset;
 };
 
+const getContextByState = (ctx: Ctx, state: EditorState) => {
+    const { selection } = state;
+    const { $from } = selection;
+
+    const node = $from.node();
+    const doc = state.schema.topNodeType.create(undefined, node);
+
+    const parser = ctx.get(parserCtx);
+    const serializer = ctx.get(serializerCtx);
+
+    const markdown = serializer(doc);
+    const config = ctx.get(inlineSyncConfigCtx);
+    const holePlaceholder = config.placeholderConfig.hole;
+
+    const movePlaceholder = (text: string) => config.movePlaceholder(holePlaceholder, text);
+
+    const handleText = pipe(removeLf, replacePunctuation(holePlaceholder), movePlaceholder, keepLink);
+
+    let text = handleText(markdown);
+    const placeholder = calculatePlaceholder(config.placeholderConfig)(text);
+
+    text = text.replace(holePlaceholder, placeholder);
+
+    const parsed = parser(text);
+    if (!parsed) return null;
+
+    const target = parsed.firstChild;
+
+    if (!target || node.type !== target.type) return null;
+
+    // @ts-expect-error hijack the node attribute
+    target.attrs = { ...node.attrs };
+
+    target.descendants((node) => {
+        const marks = node.marks;
+        const link = marks.find((mark) => mark.type.name === 'link');
+        if (link && node.text?.includes(placeholder) && link.attrs['href'].includes(placeholder)) {
+            // @ts-expect-error hijack the mark attribute
+            link.attrs['href'] = link.attrs['href'].replace(placeholder, '');
+        }
+    });
+
+    return {
+        text,
+        prevNode: node,
+        nextNode: target,
+        placeholder,
+    };
+};
+
 export const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC');
 export const getInlineSyncPlugin = (ctx: Ctx) => {
-    const getContextByState = (state: EditorState) => {
-        const { selection } = state;
-        const { $from } = selection;
-
-        const node = $from.node();
-        const doc = state.schema.topNodeType.create(undefined, node);
-        const isInlineBlock = Boolean(node.type.spec.content?.includes('inline'));
-
-        const parser = ctx.get(parserCtx);
-        const serializer = ctx.get(serializerCtx);
-
-        const markdown = serializer(doc);
-
-        const text = handleText(markdown);
-        const placeholder = calculatePlaceholder(text);
-
-        const parsed = parser(text.replace(holePlaceholder, placeholder));
-        if (!parsed) return null;
-
-        const target = parsed.firstChild;
-
-        if (!target || node.type !== target.type) return null;
-
-        // @ts-expect-error hijack the node attribute
-        target.attrs = { ...node.attrs };
-
-        target.descendants((node) => {
-            const marks = node.marks;
-            const link = marks.find((mark) => mark.type.name === 'link');
-            if (link && node.text?.includes(placeholder) && link.attrs['href'].includes(placeholder)) {
-                // @ts-expect-error hijack the mark attribute
-                link.attrs['href'] = link.attrs['href'].replace(placeholder, '');
-            }
-        });
-
-        return {
-            text,
-            isInlineBlock,
-            prevNode: node,
-            nextNode: target,
-            placeholder,
-        };
-    };
-
     const runReplacer = (state: EditorState, dispatch: (tr: Transaction) => void, attrs: Attrs) => {
+        const { placeholderConfig } = ctx.get(inlineSyncConfigCtx);
+        const holePlaceholder = placeholderConfig.hole;
         // insert a placeholder to restore the selection
         let tr = state.tr.setMeta(inlineSyncPluginKey, true).insertText(holePlaceholder, state.selection.from);
 
         const nextState = state.apply(tr);
-        const context = getContextByState(nextState);
+        const context = getContextByState(ctx, nextState);
 
         if (!context) return;
 
@@ -180,13 +220,14 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                     return null;
                 }
 
-                const context = getContextByState(newState);
+                const context = getContextByState(ctx, newState);
                 if (!context) return null;
 
-                const { isInlineBlock, prevNode, nextNode } = context;
+                const { prevNode, nextNode, text } = context;
 
-                if (!isInlineBlock) return null;
-                if (!nextNode || prevNode.type !== nextNode.type || prevNode.eq(nextNode)) return null;
+                const { shouldSyncNode } = ctx.get(inlineSyncConfigCtx);
+
+                if (!shouldSyncNode({ prevNode, nextNode, ctx, tr, text })) return null;
 
                 requestAnimationFrame(() => {
                     const { dispatch, state } = ctx.get(editorViewCtx);

@@ -5,11 +5,15 @@ import links from 'remark-inline-links';
 import { addOrderInList } from './add-order-in-list';
 import { filterHTMLPlugin } from './filter-html';
 import { getInlineNodesCursorPlugin } from './inline-nodes-cursor';
-import { getInlineSyncPlugin } from './inline-sync';
+import { getInlineSyncPlugin, inlineSyncConfigCtx } from './inline-sync';
 
+export { inlineSyncConfigCtx };
 export const commonmarkPlugins = [
-    createPlugin(() => ({
-        prosePlugins: (_, ctx) => [getInlineNodesCursorPlugin(), getInlineSyncPlugin(ctx)],
-        remarkPlugins: () => [links, filterHTMLPlugin, addOrderInList],
-    }))(),
+    createPlugin(
+        () => ({
+            prosePlugins: (_, ctx) => [getInlineNodesCursorPlugin(), getInlineSyncPlugin(ctx)],
+            remarkPlugins: () => [links, filterHTMLPlugin, addOrderInList],
+        }),
+        [inlineSyncConfigCtx],
+    )(),
 ];

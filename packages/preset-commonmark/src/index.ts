@@ -22,6 +22,7 @@ import { commonmarkPlugins } from './plugin';
 
 export * from './mark';
 export * from './node';
+export { inlineSyncConfigCtx } from './plugin';
 export * from './supported-keys';
 
 export const commonmarkNodes = AtomList.create([...nodes, ...marks]);
