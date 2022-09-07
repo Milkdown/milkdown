@@ -1,5 +1,43 @@
 # @milkdown/website
 
+## 6.4.0
+
+### Minor Changes
+
+-   cd6a6139: Inline sync plugin, vscode paste support, and new internal ctx.
+
+### Patch Changes
+
+-   Updated dependencies [cd6a6139]
+    -   @milkdown/core@6.4.0
+    -   @milkdown/ctx@6.4.0
+    -   @milkdown/design-system@6.4.0
+    -   @milkdown/exception@6.4.0
+    -   @milkdown/plugin-block@6.4.0
+    -   @milkdown/plugin-clipboard@6.4.0
+    -   @milkdown/plugin-collaborative@6.4.0
+    -   @milkdown/plugin-cursor@6.4.0
+    -   @milkdown/plugin-diagram@6.4.0
+    -   @milkdown/plugin-emoji@6.4.0
+    -   @milkdown/plugin-history@6.4.0
+    -   @milkdown/plugin-indent@6.4.0
+    -   @milkdown/plugin-listener@6.4.0
+    -   @milkdown/plugin-math@6.4.0
+    -   @milkdown/plugin-menu@6.4.0
+    -   @milkdown/plugin-prism@6.4.0
+    -   @milkdown/plugin-slash@6.4.0
+    -   @milkdown/plugin-tooltip@6.4.0
+    -   @milkdown/plugin-trailing@6.4.0
+    -   @milkdown/plugin-upload@6.4.0
+    -   @milkdown/preset-commonmark@6.4.0
+    -   @milkdown/preset-gfm@6.4.0
+    -   @milkdown/prose@6.4.0
+    -   @milkdown/react@6.4.0
+    -   @milkdown/theme-nord@6.4.0
+    -   @milkdown/theme-tokyo@6.4.0
+    -   @milkdown/transformer@6.4.0
+    -   @milkdown/utils@6.4.0
+
 ## 6.3.2
 
 ### Patch Changes
