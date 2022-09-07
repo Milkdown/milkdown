@@ -6,7 +6,7 @@
         "start": "vite",
         "build": "vite build",
         "serve": "vite preview --port 7000",
-        "setup": "nx build e2e && pnpm serve",
+        "setup": "npm run build && pnpm serve",
         "test": "cypress run",
         "test:verbose": "cypress open",
         "start:test": "start-server-and-test setup http-get://localhost:7000 test",

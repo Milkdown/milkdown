@@ -48,7 +48,7 @@ jobs:
               uses: cypress-io/github-action@v2
               with:
                   install: false
-                  start: pnpm --filter=@milkdown/e2e start
+                  start: pnpm --filter=@milkdown/e2e setup
                   command: pnpm --filter=@milkdown/e2e test
                   wait-on: 'http://localhost:7000'
                   browser: chrome
@@ -61,7 +61,7 @@ jobs:
               if: ${{ failure() }}
               with:
                   name: cypress-screenshots
-                  path: tests/cypress/screenshots
+                  path: cypress/screenshots
                   retention-days: 7
 
             - name: export screen recordings (on failure only)
@@ -69,7 +69,7 @@ jobs:
               if: ${{ failure() }}
               with:
                   name: cypress-videos
-                  path: tests/cypress/videos
+                  path: cypress/videos
                   retention-days: 7
     agents:
         runs-on: ubuntu-latest
