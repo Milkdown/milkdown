@@ -1,5 +1,25 @@
 # @milkdown-examples/vue
 
+## 6.4.0
+
+### Minor Changes
+
+-   cd6a6139: Inline sync plugin, vscode paste support, and new internal ctx.
+
+### Patch Changes
+
+-   Updated dependencies [cd6a6139]
+    -   @milkdown/core@6.4.0
+    -   @milkdown/plugin-emoji@6.4.0
+    -   @milkdown/plugin-listener@6.4.0
+    -   @milkdown/plugin-menu@6.4.0
+    -   @milkdown/plugin-prism@6.4.0
+    -   @milkdown/plugin-slash@6.4.0
+    -   @milkdown/preset-commonmark@6.4.0
+    -   @milkdown/prose@6.4.0
+    -   @milkdown/theme-nord@6.4.0
+    -   @milkdown/vue@6.4.0
+
 ## 6.3.2
 
 ### Patch Changes

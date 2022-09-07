@@ -1,5 +1,16 @@
 # @milkdown/plugin-history
 
+## 6.4.0
+
+### Minor Changes
+
+-   cd6a6139: Inline sync plugin, vscode paste support, and new internal ctx.
+
+### Patch Changes
+
+-   Updated dependencies [cd6a6139]
+    -   @milkdown/utils@6.4.0
+
 ## 6.3.2
 
 ### Patch Changes
