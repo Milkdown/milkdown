@@ -10,9 +10,8 @@ import type {
     NodeViewConstructor,
 } from '@milkdown/prose/view';
 import { customAlphabet } from 'nanoid';
-import { DefineComponent, defineComponent, h, markRaw, Ref, ref, Teleport } from 'vue';
+import { ComponentInternalInstance, DefineComponent, defineComponent, h, markRaw, Ref, ref, Teleport } from 'vue';
 
-import { getRootInstance } from '.';
 import { Content, VueNodeContainer } from './VueNode';
 
 const nanoid = customAlphabet('abcedfghicklmn', 10);
@@ -25,14 +24,29 @@ export type RenderOptions = Partial<
 >;
 
 export const createVueView =
-    (addPortal: (portal: DefineComponent, key: string) => void, removePortalByKey: (key: string) => void) =>
+    (
+        rootInstance: Ref<null | ComponentInternalInstance>,
+        addPortal: (portal: DefineComponent, key: string) => void,
+        removePortalByKey: (key: string) => void,
+    ) =>
     (
         component: DefineComponent,
         options: RenderOptions = {},
     ): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
     (ctx) =>
     (node, view, getPos, decorations) =>
-        new VueNodeView(ctx, component, addPortal, removePortalByKey, options, node, view, getPos, decorations);
+        new VueNodeView(
+            ctx,
+            component,
+            rootInstance,
+            addPortal,
+            removePortalByKey,
+            options,
+            node,
+            view,
+            getPos,
+            decorations,
+        );
 
 export class VueNodeView implements NodeView {
     teleportDOM: HTMLElement;
@@ -48,6 +62,7 @@ export class VueNodeView implements NodeView {
     constructor(
         private ctx: Ctx,
         private component: DefineComponent,
+        private rootInstance: Ref<null | ComponentInternalInstance>,
         private addPortal: (portal: DefineComponent, key: string) => void,
         private removePortalByKey: (key: string) => void,
         private options: RenderOptions,
@@ -109,7 +124,7 @@ export class VueNodeView implements NodeView {
 
         const Portal = this.getPortal();
         this.addPortal(Portal, this.key);
-        const instance = getRootInstance();
+        const instance = this.rootInstance.value;
         if (instance) {
             instance.update();
         }

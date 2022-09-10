@@ -11,6 +11,7 @@ import {
     onBeforeMount,
     onUnmounted,
     provide,
+    ref,
     shallowReactive,
 } from 'vue';
 
@@ -18,15 +19,6 @@ import { EditorComponent, EditorRef } from './EditorComponent';
 import { EditorInfo, EditorInfoCtx } from './types';
 import { rendererKey } from './useGetEditor';
 import { createVueView } from './VueNodeView';
-
-const rootInstance: {
-    instance: null | ComponentInternalInstance;
-} = {
-    instance: null,
-};
-export const getRootInstance = () => {
-    return rootInstance.instance;
-};
 
 export const editorInfoCtxKey: InjectionKey<EditorInfoCtx> = Symbol();
 
@@ -63,13 +55,15 @@ export const VueEditor = defineComponent<{ editor: EditorInfo; editorRef?: Edito
 
         const instance = getCurrentInstance();
 
+        const rootInstance = ref<null | ComponentInternalInstance>(null);
+
         onBeforeMount(() => {
-            rootInstance.instance = (instance as ComponentInternalInstance & { ctx: { _: ComponentInternalInstance } })
-                .ctx._ as ComponentInternalInstance;
+            rootInstance.value = (instance as ComponentInternalInstance & { ctx: { _: ComponentInternalInstance } }).ctx
+                ._ as ComponentInternalInstance;
         });
 
         onUnmounted(() => {
-            rootInstance.instance = null;
+            rootInstance.value = null;
         });
 
         const addPortal = markRaw((component: DefineComponent, key: string) => {
@@ -79,7 +73,7 @@ export const VueEditor = defineComponent<{ editor: EditorInfo; editorRef?: Edito
             const index = portals.findIndex((p) => p[0] === key);
             portals.splice(index, 1);
         });
-        const renderVue = createVueView(addPortal, removePortalByKey);
+        const renderVue = createVueView(rootInstance, addPortal, removePortalByKey);
 
         provide(rendererKey, renderVue);
 
