@@ -96,7 +96,17 @@ export const listItem = createNode<Keys>((utils) => ({
                         spread: dom.dataset['spread'],
                     };
                 },
-                contentElement: 'div.list-item_body',
+                contentElement: (dom) => {
+                    if (!(dom instanceof HTMLElement)) {
+                        throw expectDomTypeError(dom);
+                    }
+
+                    const body = dom.querySelector<HTMLElement>('.list-item_body');
+                    if (!body) {
+                        return dom;
+                    }
+                    return body;
+                },
             },
             { tag: 'li' },
         ],
