@@ -9,7 +9,7 @@
 import { resolve } from 'pathe';
 import type { Plugin } from 'rollup';
 import autoExternal from 'rollup-plugin-auto-external';
-import type { BuildOptions, UserConfig as ViteUserConfig, UserConfigExport } from 'vite';
+import type { BuildOptions, PluginOption, UserConfig as ViteUserConfig, UserConfigExport } from 'vite';
 import { defineConfig } from 'vite';
 
 export const libFileName = (format: string) => `index.${format}.js`;
@@ -53,6 +53,9 @@ export const external = [
     'vue',
     'react',
     'react-dom',
+    'refractor',
+    'refractor/lib/common',
+
     // core
     '@milkdown/core',
     '@milkdown/ctx',
@@ -129,7 +132,7 @@ export const pluginViteConfig = (packageDirName: string, options: ViteUserConfig
     return defineConfig({
         ...options,
         build: viteBuild(packageDirName, options.build),
-        plugins: [...vitePlugins, ...rollupPlugins],
+        plugins: [...vitePlugins, ...(rollupPlugins as PluginOption[])],
     });
 };
 
