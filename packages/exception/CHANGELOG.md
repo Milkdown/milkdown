@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.4.1
+
+### Patch Changes
+
+-   c1fd2fe2: Bug fix for android list and prism SSR.
+
 ## 6.4.0
 
 ### Minor Changes

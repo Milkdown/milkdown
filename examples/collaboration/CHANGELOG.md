@@ -1,5 +1,20 @@
 # @milkdown-examples/collaboration
 
+## 6.4.1
+
+### Patch Changes
+
+-   c1fd2fe2: Bug fix for android list and prism SSR.
+-   Updated dependencies [c1fd2fe2]
+    -   @milkdown/core@6.4.1
+    -   @milkdown/plugin-collaborative@6.4.1
+    -   @milkdown/plugin-math@6.4.1
+    -   @milkdown/preset-commonmark@6.4.1
+    -   @milkdown/preset-gfm@6.4.1
+    -   @milkdown/prose@6.4.1
+    -   @milkdown/theme-nord@6.4.1
+    -   @milkdown/utils@6.4.1
+
 ## 6.4.0
 
 ### Minor Changes

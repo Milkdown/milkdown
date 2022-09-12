@@ -1,5 +1,40 @@
 # @milkdown/website
 
+## 6.4.1
+
+### Patch Changes
+
+-   c1fd2fe2: Bug fix for android list and prism SSR.
+-   Updated dependencies [c1fd2fe2]
+    -   @milkdown/core@6.4.1
+    -   @milkdown/ctx@6.4.1
+    -   @milkdown/design-system@6.4.1
+    -   @milkdown/exception@6.4.1
+    -   @milkdown/plugin-block@6.4.1
+    -   @milkdown/plugin-clipboard@6.4.1
+    -   @milkdown/plugin-collaborative@6.4.1
+    -   @milkdown/plugin-cursor@6.4.1
+    -   @milkdown/plugin-diagram@6.4.1
+    -   @milkdown/plugin-emoji@6.4.1
+    -   @milkdown/plugin-history@6.4.1
+    -   @milkdown/plugin-indent@6.4.1
+    -   @milkdown/plugin-listener@6.4.1
+    -   @milkdown/plugin-math@6.4.1
+    -   @milkdown/plugin-menu@6.4.1
+    -   @milkdown/plugin-prism@6.4.1
+    -   @milkdown/plugin-slash@6.4.1
+    -   @milkdown/plugin-tooltip@6.4.1
+    -   @milkdown/plugin-trailing@6.4.1
+    -   @milkdown/plugin-upload@6.4.1
+    -   @milkdown/preset-commonmark@6.4.1
+    -   @milkdown/preset-gfm@6.4.1
+    -   @milkdown/prose@6.4.1
+    -   @milkdown/react@6.4.1
+    -   @milkdown/theme-nord@6.4.1
+    -   @milkdown/theme-tokyo@6.4.1
+    -   @milkdown/transformer@6.4.1
+    -   @milkdown/utils@6.4.1
+
 ## 6.4.0
 
 ### Minor Changes
