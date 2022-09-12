@@ -65,12 +65,11 @@ export const createNode = <SupportedKeys extends string = string, Options extend
 
                     const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
 
+                    const viewOption = options?.view;
+
                     const pluginOptions = {
                         ...(options || {}),
-                        view: options?.view
-                            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                              (ctx: Ctx) => ({ [id]: options!.view!(ctx) })
-                            : undefined,
+                        view: viewOption ? (ctx: Ctx) => ({ [id]: viewOption(ctx) }) : undefined,
                     };
 
                     pipelineCtx.set(idPipeCtx, id);
