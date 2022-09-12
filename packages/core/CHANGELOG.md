@@ -1,5 +1,16 @@
 # @milkdown/core
 
+## 6.4.1
+
+### Patch Changes
+
+-   c1fd2fe2: Bug fix for android list and prism SSR.
+-   Updated dependencies [c1fd2fe2]
+    -   @milkdown/ctx@6.4.1
+    -   @milkdown/design-system@6.4.1
+    -   @milkdown/exception@6.4.1
+    -   @milkdown/transformer@6.4.1
+
 ## 6.4.0
 
 ### Minor Changes

@@ -1,5 +1,20 @@
 # @milkdown-examples/react
 
+## 6.4.1
+
+### Patch Changes
+
+-   c1fd2fe2: Bug fix for android list and prism SSR.
+-   Updated dependencies [c1fd2fe2]
+    -   @milkdown/core@6.4.1
+    -   @milkdown/plugin-listener@6.4.1
+    -   @milkdown/plugin-prism@6.4.1
+    -   @milkdown/plugin-tooltip@6.4.1
+    -   @milkdown/preset-commonmark@6.4.1
+    -   @milkdown/prose@6.4.1
+    -   @milkdown/react@6.4.1
+    -   @milkdown/theme-nord@6.4.1
+
 ## 6.4.0
 
 ### Minor Changes
