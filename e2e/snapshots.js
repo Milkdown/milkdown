@@ -1,6 +1,9 @@
 module.exports = {
   "__version": "10.3.0",
   "input:": {
+    "task list": {
+      "1": "*   [ ] list item 1\n*   [ ] list item 2\n\n    *   [ ] sub list item 1\n    *   [ ] sub list item 2\n*   [ ] list item 3\n"
+    },
     "node:": {
       "paragraph": {
         "1": "The lunatic is on the grass\n"
@@ -61,7 +64,7 @@ module.exports = {
           "1": "The lunatic is \"*on the grass*\"\n"
         },
         "a single word": {
-          "1": "The lunatic is \"*o*n the grass\"\n"
+          "1": "The lunatic is *o*n the grass\n"
         }
       },
       "inline code": {
@@ -72,9 +75,6 @@ module.exports = {
           "1": "The lunatic is `**_on the grass_**`\n"
         }
       }
-    },
-    "task list": {
-      "1": "*   [ ] list item 1\n*   [ ] list item 2\n\n    *   [ ] sub list item 1\n    *   [ ] sub list item 2\n*   [ ] list item 3\n"
     }
   },
   "transform:": {
