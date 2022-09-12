@@ -16,7 +16,7 @@ export class Env {
      *
      * @param ctx - The context needs to be injected.
      * @param defaultValue - The default value of this context.
-     * @returns Pre.
+     * @returns Env.
      */
     readonly inject = <T>(ctx: Slice<T>, defaultValue?: T) => {
         ctx(this.#container.sliceMap, defaultValue);
@@ -24,13 +24,35 @@ export class Env {
     };
 
     /**
+     * Remove a context from current editor.
+     *
+     * @param ctx - The context needs to be removed.
+     * @returns Env.
+     */
+    readonly remove = <T, N extends string = string>(ctx: Slice<T, N> | N) => {
+        this.#container.removeSlice(ctx);
+        return this;
+    };
+
+    /**
      * Start to record for a timer.
      *
      * @param timer - The timer needs to be recorded.
-     * @returns Pre.
+     * @returns Env.
      */
     readonly record = (timer: Timer) => {
         timer(this.#clock.store);
+        return this;
+    };
+
+    /**
+     * Clear a timer record.
+     *
+     * @param timer - The timer needs to be cleared.
+     * @returns Env.
+     */
+    readonly clearTimer = (timer: Timer) => {
+        this.#clock.remove(timer);
         return this;
     };
 

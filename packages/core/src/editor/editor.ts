@@ -29,7 +29,7 @@ export class Editor {
     readonly #container = createContainer();
     readonly #clock = createClock();
 
-    readonly #plugins: Set<CtxHandler> = new Set();
+    readonly #plugins: Map<MilkdownPlugin, { handler: CtxHandler; cleanup: ReturnType<CtxHandler> }> = new Map();
     readonly #configureList: CtxHandler[] = [];
 
     readonly #ctx = new Ctx(this.#container, this.#clock);
@@ -46,7 +46,7 @@ export class Editor {
             editorView,
             init(this),
         ];
-        const configPlugin = config(async (x) => {
+        const configPlugin = config(async (x: Ctx) => {
             await Promise.all(this.#configureList.map((fn) => fn(x)));
         });
         this.use(internalPlugins.concat(configPlugin));
@@ -76,7 +76,10 @@ export class Editor {
      */
     readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
         [plugins].flat().forEach((plugin) => {
-            this.#plugins.add(plugin(this.#pre));
+            this.#plugins.set(plugin, {
+                handler: plugin(this.#pre),
+                cleanup: void 0,
+            });
         });
         return this;
     };
@@ -104,7 +107,35 @@ export class Editor {
      */
     readonly create = async () => {
         this.#loadInternal();
-        await Promise.all([...this.#plugins].map((loader) => loader(this.#ctx)));
+        await Promise.all(
+            [...this.#plugins.entries()].map(async ([key, loader]) => {
+                const cleanup = await loader.handler(this.#ctx);
+                this.#plugins.set(key, { ...loader, cleanup });
+
+                return cleanup;
+            }),
+        );
+        return this;
+    };
+
+    /**
+     * Remove one plugin or a list of plugins from current editor.
+     *
+     * @param plugins - A list of plugins, or one plugin.
+     * @returns Editor instance.
+     */
+    readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
+        await Promise.all(
+            [plugins].flat().map((plugin) => {
+                const loader = this.#plugins.get(plugin);
+                const cleanup = loader?.cleanup;
+                this.#plugins.delete(plugin);
+
+                if (typeof cleanup === 'function') {
+                    return cleanup();
+                }
+            }),
+        );
         return this;
     };
 

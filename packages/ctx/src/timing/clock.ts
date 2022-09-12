@@ -13,6 +13,7 @@ export type Timer = {
 export type Clock = {
     store: ClockMap;
     get: (timer: Timer) => Timing;
+    remove: (timer: Timer) => void;
 };
 
 export const createClock = (): Clock => {
@@ -23,8 +24,13 @@ export const createClock = (): Clock => {
         return meta;
     };
 
+    const remove = (timer: Timer) => {
+        store.delete(timer.id);
+    };
+
     return {
         store,
         get,
+        remove,
     };
 };
