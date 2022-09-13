@@ -37,6 +37,7 @@ Milkdown provides the following official plugins:
 | [@milkdown/plugin-diagram](https://www.npmjs.com/package/@milkdown/plugin-diagram)             | Add [mermaid](https://mermaid-js.github.io/mermaid/#/) diagram support |
 | [@milkdown/plugin-indent](https://www.npmjs.com/package/@milkdown/plugin-indent)               | Add tab indent support                                                 |
 | [@milkdown/plugin-upload](https://www.npmjs.com/package/@milkdown/plugin-upload)               | Add drop and upload support                                            |
+| [@milkdown/plugin-block](https://www.npmjs.com/package/@milkdown/plugin-block)                 | Add block support                                                      |
 
 ## Community plugins
 
