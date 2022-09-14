@@ -10,6 +10,7 @@ export * from './config';
 
 export const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC');
 export const getInlineSyncPlugin = (ctx: Ctx) => {
+    let requestId: number | null = null;
     const inlineSyncPlugin = new Plugin<null>({
         key: inlineSyncPluginKey,
         state: {
@@ -17,6 +18,14 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 return null;
             },
             apply: (tr, _value, _oldState, newState) => {
+                const view = ctx.get(editorViewCtx);
+                if (!view.hasFocus?.() || !view.editable) return null;
+
+                if (requestId) {
+                    cancelAnimationFrame(requestId);
+                    requestId = null;
+                }
+
                 if (!tr.docChanged) return null;
 
                 const meta = tr.getMeta(inlineSyncPluginKey);
@@ -33,7 +42,9 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
 
                 if (!shouldSyncNode({ prevNode, nextNode, ctx, tr, text })) return null;
 
-                requestAnimationFrame(() => {
+                requestId = requestAnimationFrame(() => {
+                    requestId = null;
+
                     const { dispatch, state } = ctx.get(editorViewCtx);
 
                     runReplacer(ctx, inlineSyncPluginKey, state, dispatch, prevNode.attrs);
