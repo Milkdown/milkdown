@@ -21,11 +21,6 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
                 const view = ctx.get(editorViewCtx);
                 if (!view.hasFocus?.() || !view.editable) return null;
 
-                if (requestId) {
-                    cancelAnimationFrame(requestId);
-                    requestId = null;
-                }
-
                 if (!tr.docChanged) return null;
 
                 const meta = tr.getMeta(inlineSyncPluginKey);
@@ -35,6 +30,11 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
 
                 const context = getContextByState(ctx, newState);
                 if (!context) return null;
+
+                if (requestId) {
+                    cancelAnimationFrame(requestId);
+                    requestId = null;
+                }
 
                 const { prevNode, nextNode, text } = context;
 
