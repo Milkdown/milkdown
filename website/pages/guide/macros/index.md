@@ -48,6 +48,12 @@ editor.action(callCommand(WrapInBlockquote));
 
 Get the HTML string of current editor content.
 
+## getMarkdown
+
+> `() => (ctx: Ctx) => string`
+
+Get the Markdown string of current editor content.
+
 ## forceUpdate
 
 > `() => (ctx: Ctx) => void`
