@@ -54,7 +54,6 @@ export const external = [
     'react',
     'react-dom',
     'refractor',
-    'refractor/lib/common',
 
     // core
     '@milkdown/core',

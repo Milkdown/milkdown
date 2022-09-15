@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { findChildren } from '@milkdown/prose';
 import { Plugin, PluginKey } from '@milkdown/prose/state';
-import { refractor } from 'refractor/lib/common';
+import { refractor } from 'refractor';
 
 import type { Options } from '.';
 import { getDecorations } from './get-decorations';
