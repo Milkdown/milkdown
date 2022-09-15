@@ -136,22 +136,29 @@ jobs:
                   browser: chrome
                   group: 'Milkdown-E2E-Chrome'
               env:
+                  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
                   GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
 
             - name: run cypress on firefox
               uses: cypress-io/github-action@v2
               with:
                   install: false
+                  record: true
+                  parallel: true
                   start: pnpm --filter=@milkdown/e2e run setup
                   command: pnpm --filter=@milkdown/e2e test
                   wait-on: 'http://localhost:7000'
                   wait-on-timeout: 120
                   browser: firefox
-                  parallel: true
                   group: 'Milkdown-E2E-Firefox'
               env:
                   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
                   GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+
+    report:
+        needs: [start-nx-cloud, unit-test, e2e-test]
+        steps:
+            - run: echo "Done"
 
     cleanup:
         if: ${{ always() }}
