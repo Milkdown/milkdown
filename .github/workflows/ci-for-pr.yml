@@ -139,7 +139,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
 
             - name: run cypress on firefox
-              uses: cypress-io/github-action@v4
+              uses: cypress-io/github-action@v2
               with:
                   install: false
                   start: pnpm --filter=@milkdown/e2e run setup
