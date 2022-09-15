@@ -39,6 +39,7 @@ jobs:
             - run: pnpm exec nx-cloud start-ci-run
 
     unit-test:
+        needs: start-nx-cloud
         runs-on: ubuntu-latest
         steps:
             - name: checkout code repository
