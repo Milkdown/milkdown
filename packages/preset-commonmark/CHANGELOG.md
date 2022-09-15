@@ -1,5 +1,11 @@
 # @milkdown/preset-commonmark
 
+## 6.4.2
+
+### Patch Changes
+
+-   2fd57da4: Bug fix and performance improvements.
+
 ## 6.4.1
 
 ### Patch Changes
