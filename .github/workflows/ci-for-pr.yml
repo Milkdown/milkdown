@@ -9,7 +9,7 @@ env:
     CI: true
     NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
-    unit-test:
+    start-nx-cloud:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code repository
@@ -38,46 +38,39 @@ jobs:
 
             - run: pnpm exec nx-cloud start-ci-run
 
+    unit-test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: setup node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.6.0
+
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: |
+                      ~/.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - uses: pnpm/action-setup@v2.2.2
+              with:
+                  version: latest
+                  run_install: true
+
             - name: build packs
               run: pnpm build:cache
 
             - name: run test
               run: |
                   pnpm test
-
-            - run: pnpm exec nx-cloud stop-all-agents
-              if: ${{ always() }}
-
-        agents:
-            runs-on: ubuntu-latest
-            name: Agent
-            timeout-minutes: 60
-            strategy:
-                matrix:
-                    agent: [1, 2, 3]
-            steps:
-                - uses: actions/checkout@v3
-                - name: setup node.js
-                  uses: actions/setup-node@v3
-                  with:
-                      node-version: 18.6.0
-
-                - name: load cache
-                  uses: actions/cache@v3
-                  with:
-                      path: |
-                          ~/.pnpm-store
-                      key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                      restore-keys: |
-                          ${{ runner.os }}
-
-                - uses: pnpm/action-setup@v2.2.2
-                  with:
-                      version: latest
-                      run_install: true
-
-                - name: Start Nx Agent ${{ matrix.agent }}
-                  run: npx nx-cloud start-agent
 
     e2e-test:
         needs: unit-test
@@ -107,8 +100,6 @@ jobs:
                   version: latest
                   run_install: true
 
-            - run: pnpm exec nx-cloud start-ci-run
-
             - run: pnpm test:e2e:build
 
             - name: run cypress on chrome
@@ -135,36 +126,40 @@ jobs:
                   parallel: true
                   group: 'Milkdown-E2E-Firefox'
 
+    cleanup:
+        if: ${{ always() }}
+        needs: [start-nx-cloud, unit-test, e2e-test]
+        runs-on: ubuntu-latest
+        steps:
             - run: pnpm exec nx-cloud stop-all-agents
-              if: ${{ always() }}
 
-        agents:
-            runs-on: ubuntu-latest
-            name: Agent
-            timeout-minutes: 60
-            strategy:
-                matrix:
-                    agent: [1, 2, 3]
-            steps:
-                - uses: actions/checkout@v3
-                - name: setup node.js
-                  uses: actions/setup-node@v3
-                  with:
-                      node-version: 18.6.0
+    agents:
+        runs-on: ubuntu-latest
+        name: Agent
+        timeout-minutes: 60
+        strategy:
+            matrix:
+                agent: [1, 2, 3]
+        steps:
+            - uses: actions/checkout@v3
+            - name: setup node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.6.0
 
-                - name: load cache
-                  uses: actions/cache@v3
-                  with:
-                      path: |
-                          ~/.pnpm-store
-                      key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                      restore-keys: |
-                          ${{ runner.os }}
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: |
+                      ~/.pnpm-store
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
 
-                - uses: pnpm/action-setup@v2.2.2
-                  with:
-                      version: latest
-                      run_install: true
+            - uses: pnpm/action-setup@v2.2.2
+              with:
+                  version: latest
+                  run_install: true
 
-                - name: Start Nx Agent ${{ matrix.agent }}
-                  run: npx nx-cloud start-agent
+            - name: Start Nx Agent ${{ matrix.agent }}
+              run: npx nx-cloud start-agent
