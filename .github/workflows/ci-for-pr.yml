@@ -9,33 +9,76 @@ env:
     CI: true
     NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
-    test:
+    start-nx-cloud:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code repository
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
+
             - name: setup node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 16.x
-
-            - name: load cache
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      ~/.pnpm-store
-                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}
+                  node-version: 18.6.0
 
             - uses: pnpm/action-setup@v2.2.2
               with:
                   version: latest
-                  run_install: true
+                  run_install: false
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - name: Install dependencies
+              run: pnpm install
 
             - run: pnpm exec nx-cloud start-ci-run
+
+    unit-test:
+        needs: start-nx-cloud
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: setup node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.6.0
+
+            - uses: pnpm/action-setup@v2.2.2
+              with:
+                  version: latest
+                  run_install: false
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - name: Install dependencies
+              run: pnpm install
 
             - name: build packs
               run: pnpm build:cache
@@ -44,33 +87,113 @@ jobs:
               run: |
                   pnpm test
 
-            - name: run cypress
-              uses: cypress-io/github-action@v2
+    e2e-test:
+        needs: unit-test
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                containers: [1, 2, 3]
+        steps:
+            - name: checkout code repository
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - uses: pnpm/action-setup@v2.2.2
+              with:
+                  version: latest
+                  run_install: false
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - run: pnpm test:e2e:build
+
+            - name: run cypress on chrome
+              uses: cypress-io/github-action@v4
+              env:
+                  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+                  GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
               with:
                   install: false
-                  start: pnpm --filter=@milkdown/e2e run setup
-                  command: pnpm --filter=@milkdown/e2e test
+                  record: true
+                  parallel: true
+                  working-directory: e2e
+                  start: pnpm run setup
                   wait-on: 'http://localhost:7000'
+                  wait-on-timeout: 120
                   browser: chrome
+                  group: 'Milkdown-E2E-Chrome'
+
+            - name: run cypress on firefox
+              if: ${{ always() }}
+              uses: cypress-io/github-action@v4
+              env:
+                  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+                  GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+              with:
+                  install: false
+                  record: true
+                  parallel: true
+                  working-directory: e2e
+                  start: pnpm run setup
+                  wait-on: 'http://localhost:7000'
+                  wait-on-timeout: 120
+                  browser: firefox
+                  group: 'Milkdown-E2E-Firefox'
+
+    report:
+        if: ${{ always() }}
+        needs: [start-nx-cloud, unit-test, e2e-test]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: setup node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.6.0
+
+            - uses: pnpm/action-setup@v2.2.2
+              with:
+                  version: latest
+                  run_install: false
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - name: Install dependencies
+              run: pnpm install
 
             - run: pnpm exec nx-cloud stop-all-agents
-              if: ${{ always() }}
 
-            - name: export screenshots (on failure only)
-              uses: actions/upload-artifact@v3.1.0
-              if: ${{ failure() }}
-              with:
-                  name: cypress-screenshots
-                  path: cypress/screenshots
-                  retention-days: 7
+            - name: on error
+              if: ${{ needs.start-nx-cloud.result != 'success' || needs.unit-test.result != 'success' || needs.e2e-test.result != 'success' }}
+              run: exit 1
 
-            - name: export screen recordings (on failure only)
-              uses: actions/upload-artifact@v3.1.0
-              if: ${{ failure() }}
-              with:
-                  name: cypress-videos
-                  path: cypress/videos
-                  retention-days: 7
     agents:
         runs-on: ubuntu-latest
         name: Agent
@@ -83,21 +206,28 @@ jobs:
             - name: setup node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 16.x
-
-            - name: load cache
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      ~/.pnpm-store
-                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}
+                  node-version: 18.6.0
 
             - uses: pnpm/action-setup@v2.2.2
               with:
                   version: latest
-                  run_install: true
+                  run_install: false
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - name: Install dependencies
+              run: pnpm install
 
             - name: Start Nx Agent ${{ matrix.agent }}
               run: npx nx-cloud start-agent

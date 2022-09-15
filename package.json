@@ -15,6 +15,7 @@
         "test:lint": "eslint \"**/{src,website,examples}/**/*.{js,ts,tsx}\"",
         "test:doc": "prettier --check \"**/*.md\"",
         "test:e2e": "pnpm --filter=@milkdown/e2e run start:test",
+        "test:e2e:build": "nx build e2e",
         "test:e2e:verbose": "pnpm --filter=@milkdown/e2e run start:test:verbose",
         "test:e2e:cache": "nx e2e e2e",
         "format": "lint-staged",

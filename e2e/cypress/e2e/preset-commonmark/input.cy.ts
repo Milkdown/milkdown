@@ -207,7 +207,7 @@ describe('input:', () => {
             });
 
             it('a single word', () => {
-                cy.get('.editor').type('The lunatic is _o_n the grass');
+                cy.get('.editor').type('The lunatic is *o*n the grass');
                 cy.get('.editor').get('.em').should('have.text', 'o');
                 cy.window().then((win) => {
                     cy.wrap(win.__getMarkdown__()).snapshot();
