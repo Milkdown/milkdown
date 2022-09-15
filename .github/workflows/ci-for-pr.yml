@@ -156,9 +156,6 @@ jobs:
                   browser: firefox
                   group: 'Milkdown-E2E-Firefox'
 
-            # TOOD: remove this
-            - run: exit 1
-
     report:
         if: ${{ always() }}
         needs: [start-nx-cloud, unit-test, e2e-test]
