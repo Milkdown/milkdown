@@ -9,21 +9,18 @@ env:
     CI: true
     NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
-    test:
-        strategy:
-            matrix:
-                browsers: [chrome, firefox]
-
+    unit-test:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code repository
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
+
             - name: setup node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 16.x
+                  node-version: 18.6.0
 
             - name: load cache
               uses: actions/cache@v3
@@ -48,46 +45,22 @@ jobs:
               run: |
                   pnpm test
 
-            - name: run cypress
-              uses: cypress-io/github-action@v2
-              with:
-                  install: false
-                  start: pnpm --filter=@milkdown/e2e run setup
-                  command: pnpm --filter=@milkdown/e2e test
-                  wait-on: 'http://localhost:7000'
-                  browser: ${{ matrix.browsers }}
-
             - run: pnpm exec nx-cloud stop-all-agents
               if: ${{ always() }}
 
-            - name: export screenshots (on failure only)
-              uses: actions/upload-artifact@v3.1.0
-              if: ${{ failure() }}
-              with:
-                  name: cypress-screenshots
-                  path: cypress/screenshots
-                  retention-days: 7
-
-            - name: export screen recordings (on failure only)
-              uses: actions/upload-artifact@v3.1.0
-              if: ${{ failure() }}
-              with:
-                  name: cypress-videos
-                  path: cypress/videos
-                  retention-days: 7
-    agents:
+    e2e-test:
+        needs: unit-test
         runs-on: ubuntu-latest
-        name: Agent
-        timeout-minutes: 60
+        container: cypress/browsers:node18.6.0-chrome105-ff104
         strategy:
+            fail-fast: false
             matrix:
-                agent: [1, 2, 3]
+                containers: [1, 2, 3, 4, 5]
         steps:
-            - uses: actions/checkout@v3
-            - name: setup node.js
-              uses: actions/setup-node@v3
+            - name: checkout code repository
+              uses: actions/checkout@v3
               with:
-                  node-version: 16.x
+                  fetch-depth: 0
 
             - name: load cache
               uses: actions/cache@v3
@@ -103,5 +76,33 @@ jobs:
                   version: latest
                   run_install: true
 
-            - name: Start Nx Agent ${{ matrix.agent }}
-              run: npx nx-cloud start-agent
+            - run: pnpm exec nx-cloud start-ci-run
+
+            - run: pnpm test:e2e:build
+
+            - name: run cypress on chrome
+              uses: cypress-io/github-action@v4
+              with:
+                  install: false
+                  start: pnpm --filter=@milkdown/e2e run setup
+                  command: pnpm --filter=@milkdown/e2e test
+                  wait-on: 'http://localhost:7000'
+                  wait-on-timeout: 120
+                  browser: chrome
+                  parallel: true
+                  group: 'Milkdown-E2E-Chrome'
+
+            - name: run cypress on chrome
+              uses: cypress-io/github-action@v4
+              with:
+                  install: false
+                  start: pnpm --filter=@milkdown/e2e run setup
+                  command: pnpm --filter=@milkdown/e2e test
+                  wait-on: 'http://localhost:7000'
+                  wait-on-timeout: 120
+                  browser: firefox
+                  parallel: true
+                  group: 'Milkdown-E2E-Firefox'
+
+            - run: pnpm exec nx-cloud stop-all-agents
+              if: ${{ always() }}
