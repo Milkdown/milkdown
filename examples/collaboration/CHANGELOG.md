@@ -1,5 +1,13 @@
 # @milkdown-examples/collaboration
 
+## 6.4.2
+
+### Patch Changes
+
+-   Updated dependencies [2fd57da4]
+    -   @milkdown/preset-commonmark@6.4.2
+    -   @milkdown/preset-gfm@6.4.1
+
 ## 6.4.1
 
 ### Patch Changes
