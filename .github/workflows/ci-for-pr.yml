@@ -10,6 +10,10 @@ env:
     NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
     test:
+        strategy:
+            matrix:
+                browsers: [chrome, firefox]
+
         runs-on: ubuntu-latest
         steps:
             - name: checkout code repository
@@ -51,7 +55,7 @@ jobs:
                   start: pnpm --filter=@milkdown/e2e run setup
                   command: pnpm --filter=@milkdown/e2e test
                   wait-on: 'http://localhost:7000'
-                  browser: chrome
+                  browser: ${{ matrix.browsers }}
 
             - run: pnpm exec nx-cloud stop-all-agents
               if: ${{ always() }}
