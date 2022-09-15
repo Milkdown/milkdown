@@ -5,7 +5,6 @@
     "scripts": {
         "start": "vite",
         "build": "vite build",
-        "build:cache": "nx build",
         "serve": "vite preview --port 7000",
         "setup": "pnpm serve",
         "test": "cypress run",
