@@ -156,13 +156,10 @@ jobs:
                   browser: firefox
                   group: 'Milkdown-E2E-Firefox'
 
-    report:
-        needs: [start-nx-cloud, unit-test, e2e-test]
-        runs-on: ubuntu-latest
-        steps:
-            - run: echo "Done"
+            # TOOD: remove this
+            - run: exit 1
 
-    cleanup:
+    report:
         if: ${{ always() }}
         needs: [start-nx-cloud, unit-test, e2e-test]
         runs-on: ubuntu-latest
@@ -195,6 +192,10 @@ jobs:
               run: pnpm install
 
             - run: pnpm exec nx-cloud stop-all-agents
+
+            - name: on error
+              if: ${{ !contains(join(needs.*.result, ','), 'success') }}
+              run: exit 1
 
     agents:
         runs-on: ubuntu-latest
