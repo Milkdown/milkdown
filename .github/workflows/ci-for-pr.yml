@@ -124,13 +124,14 @@ jobs:
             - run: pnpm test:e2e:build
 
             - name: run cypress on chrome
-              uses: cypress-io/github-action@v2
+              uses: cypress-io/github-action@v4
               with:
                   install: false
                   record: true
                   parallel: true
-                  start: pnpm --filter=@milkdown/e2e run setup
-                  command: pnpm --filter=@milkdown/e2e test
+                  working-directory: e2e
+                  start: pnpm run setup
+                  command: pnpm test
                   wait-on: 'http://localhost:7000'
                   wait-on-timeout: 120
                   browser: chrome
@@ -140,13 +141,15 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
 
             - name: run cypress on firefox
-              uses: cypress-io/github-action@v2
+              if: ${{ always() }}
+              uses: cypress-io/github-action@v4
               with:
                   install: false
                   record: true
                   parallel: true
-                  start: pnpm --filter=@milkdown/e2e run setup
-                  command: pnpm --filter=@milkdown/e2e test
+                  working-directory: e2e
+                  start: pnpm run setup
+                  command: pnpm test
                   wait-on: 'http://localhost:7000'
                   wait-on-timeout: 120
                   browser: firefox
