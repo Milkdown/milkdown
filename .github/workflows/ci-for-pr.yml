@@ -58,26 +58,26 @@ jobs:
             steps:
                 - uses: actions/checkout@v3
                 - name: setup node.js
-                uses: actions/setup-node@v3
-                with:
-                    node-version: 18.6.0
+                  uses: actions/setup-node@v3
+                  with:
+                      node-version: 18.6.0
 
                 - name: load cache
-                uses: actions/cache@v3
-                with:
-                    path: |
-                        ~/.pnpm-store
-                    key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                    restore-keys: |
-                        ${{ runner.os }}
+                  uses: actions/cache@v3
+                  with:
+                      path: |
+                          ~/.pnpm-store
+                      key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                      restore-keys: |
+                          ${{ runner.os }}
 
                 - uses: pnpm/action-setup@v2.2.2
-                with:
-                    version: latest
-                    run_install: true
+                  with:
+                      version: latest
+                      run_install: true
 
                 - name: Start Nx Agent ${{ matrix.agent }}
-                run: npx nx-cloud start-agent
+                  run: npx nx-cloud start-agent
 
     e2e-test:
         needs: unit-test
@@ -137,6 +137,7 @@ jobs:
 
             - run: pnpm exec nx-cloud stop-all-agents
               if: ${{ always() }}
+
         agents:
             runs-on: ubuntu-latest
             name: Agent
@@ -147,23 +148,23 @@ jobs:
             steps:
                 - uses: actions/checkout@v3
                 - name: setup node.js
-                uses: actions/setup-node@v3
-                with:
-                    node-version: 18.6.0
+                  uses: actions/setup-node@v3
+                  with:
+                      node-version: 18.6.0
 
                 - name: load cache
-                uses: actions/cache@v3
-                with:
-                    path: |
-                        ~/.pnpm-store
-                    key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                    restore-keys: |
-                        ${{ runner.os }}
+                  uses: actions/cache@v3
+                  with:
+                      path: |
+                          ~/.pnpm-store
+                      key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                      restore-keys: |
+                          ${{ runner.os }}
 
                 - uses: pnpm/action-setup@v2.2.2
-                with:
-                    version: latest
-                    run_install: true
+                  with:
+                      version: latest
+                      run_install: true
 
                 - name: Start Nx Agent ${{ matrix.agent }}
-                run: npx nx-cloud start-agent
+                  run: npx nx-cloud start-agent
