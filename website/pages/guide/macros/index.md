@@ -136,3 +136,9 @@ Replace all content in the editor with a markdown string.
 > `(pos: number, update: (prevAttrs: object) => object) => (ctx: Ctx) => void`
 
 Update the attribute of a node in the given position.
+
+## destroy
+
+> `() => (ctx: Ctx) => void`
+
+Destroy the editor.
