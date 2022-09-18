@@ -49,5 +49,18 @@ export const init =
             ctx.set(remarkCtx, unified().use(remarkParse).use(remarkStringify, options));
 
             ctx.done(InitReady);
+
+            return (post) => {
+                post.remove(editorCtx)
+                    .remove(prosePluginsCtx)
+                    .remove(remarkPluginsCtx)
+                    .remove(inputRulesCtx)
+                    .remove(nodeViewCtx)
+                    .remove(markViewCtx)
+                    .remove(remarkStringifyOptionsCtx)
+                    .remove(remarkCtx)
+                    .remove(initTimerCtx)
+                    .clearTimer(InitReady);
+            };
         };
     };

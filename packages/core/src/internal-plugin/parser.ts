@@ -34,5 +34,8 @@ export const parser: MilkdownPlugin = (pre) => {
 
         ctx.set(parserCtx, createParser(schema, spec, remark));
         ctx.done(ParserReady);
+        return (post) => {
+            post.remove(parserCtx).remove(parserTimerCtx).clearTimer(ParserReady);
+        };
     };
 };

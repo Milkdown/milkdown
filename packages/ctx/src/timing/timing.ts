@@ -43,6 +43,7 @@ export const createTimer = (name: string, timeout = 3000): Timer => {
         return timing;
     };
     timer.id = id;
+    timer.timerName = name;
 
     return timer;
 };

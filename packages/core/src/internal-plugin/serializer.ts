@@ -26,5 +26,9 @@ export const serializer: MilkdownPlugin = (pre) => {
 
         ctx.set(serializerCtx, createSerializer(schema, spec, remark));
         ctx.done(SerializerReady);
+
+        return (post) => {
+            post.remove(serializerCtx).remove(serializerTimerCtx).clearTimer(SerializerReady);
+        };
     };
 };

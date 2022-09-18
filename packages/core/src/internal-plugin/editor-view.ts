@@ -90,5 +90,15 @@ export const editorView: MilkdownPlugin = (pre) => {
         prepareViewDom(view.dom);
         ctx.set(editorViewCtx, view);
         ctx.done(EditorViewReady);
+
+        return (post) => {
+            view?.destroy();
+            post.remove(rootCtx)
+                .remove(editorViewCtx)
+                .remove(editorViewOptionsCtx)
+                .remove(rootDOMCtx)
+                .remove(editorViewTimerCtx)
+                .clearTimer(EditorViewReady);
+        };
     };
 };

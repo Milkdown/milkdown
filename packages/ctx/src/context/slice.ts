@@ -21,7 +21,7 @@ export type Slice<T, N extends string = string> = {
 };
 
 export const createSlice = <T, N extends string = string>(value: T, name: N): Slice<T, N> => {
-    const id = Symbol('Context');
+    const id = Symbol(`Context-${name}`);
 
     const factory = (container: SliceMap, resetValue = shallowClone(value)) => {
         let inner = resetValue;

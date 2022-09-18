@@ -62,5 +62,9 @@ export const schema: MilkdownPlugin = (pre) => {
         );
 
         ctx.done(SchemaReady);
+
+        return (post) => {
+            post.remove(schemaCtx).remove(nodesCtx).remove(marksCtx).remove(schemaTimerCtx).clearTimer(SchemaReady);
+        };
     };
 };

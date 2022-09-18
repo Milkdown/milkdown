@@ -64,20 +64,20 @@ export class Ctx {
     readonly timing = (timer: Timer) => this.#clock.get(timer);
 
     /**
-     * Wait for a timer to finish.
-     *
-     * @param timer - The timer needs to be used.
-     * @returns A promise that will be resolved when timer finish.
-     */
-    readonly wait = (timer: Timer) => this.timing(timer)();
-
-    /**
      * Finish a timer
      *
      * @param timer - The timer needs to be finished.
      * @returns
      */
     readonly done = (timer: Timer) => this.timing(timer).done();
+
+    /**
+     * Wait for a timer to finish.
+     *
+     * @param timer - The timer needs to be used.
+     * @returns A promise that will be resolved when timer finish.
+     */
+    readonly wait = (timer: Timer) => this.timing(timer)();
 
     /**
      * Wait for a list of timers in target slice to be all finished.
