@@ -92,6 +92,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         ctx.done(EditorViewReady);
 
         return (post) => {
+            view?.destroy();
             post.remove(rootCtx)
                 .remove(editorViewCtx)
                 .remove(editorViewOptionsCtx)
