@@ -71,13 +71,14 @@ export class Editor {
 
     /**
      * Get the ctx of the editor.
-     *
-     * @returns The ctx of the editor.
      */
     get ctx() {
         return this.#ctx;
     }
 
+    /**
+     * Get the status of the editor.
+     */
     get status() {
         return this.#status;
     }
@@ -169,6 +170,11 @@ export class Editor {
         return this;
     };
 
+    /**
+     * Destroy the editor.
+     *
+     * @returns A promise object, will be resolved as editor instance after destroy finish.
+     */
     readonly destroy = async () => {
         await Promise.all(
             [...this.#plugins.entries()].map(async ([key, loader]) => {

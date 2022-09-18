@@ -25,4 +25,18 @@ describe('context/container', () => {
 
         expect(container.getSlice<number>('num').get()).toBe(10);
     });
+
+    it('removeSlice', () => {
+        const container = createContainer();
+        const ctx = createSlice(0, 'num');
+
+        ctx(container.sliceMap);
+
+        expect(container.getSlice(ctx).id).toBe(ctx.id);
+        expect(container.getSlice(ctx).get()).toBe(0);
+
+        container.removeSlice(ctx);
+
+        expect(() => container.getSlice(ctx)).toThrow();
+    });
 });
