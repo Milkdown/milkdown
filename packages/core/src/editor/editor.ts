@@ -37,7 +37,8 @@ export class Editor {
     readonly #container = createContainer();
     readonly #clock = createClock();
 
-    readonly #plugins: Map<MilkdownPlugin, { handler: CtxHandler; cleanup: ReturnType<CtxHandler> }> = new Map();
+    readonly #plugins: Map<MilkdownPlugin, { handler: CtxHandler | undefined; cleanup: ReturnType<CtxHandler> }> =
+        new Map();
     readonly #configureList: CtxHandler[] = [];
 
     readonly #ctx = new Ctx(this.#container, this.#clock);
@@ -89,8 +90,9 @@ export class Editor {
      */
     readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
         [plugins].flat().forEach((plugin) => {
+            const handler = this.#status === EditorStatus.Running ? plugin(this.#pre) : void 0;
             this.#plugins.set(plugin, {
-                handler: plugin(this.#pre),
+                handler,
                 cleanup: void 0,
             });
         });
@@ -120,14 +122,24 @@ export class Editor {
      */
     readonly create = async () => {
         this.#loadInternal();
+
+        [...this.#plugins.entries()].map(async ([key, loader]) => {
+            const handler = loader.handler ?? key(this.#pre);
+            this.#plugins.set(key, { ...loader, handler });
+        });
+
         await Promise.all(
             [...this.#plugins.entries()].map(async ([key, loader]) => {
-                const cleanup = await loader.handler(this.#ctx);
-                this.#plugins.set(key, { ...loader, cleanup });
+                const handler = loader.handler;
+                if (!handler) return;
+
+                const cleanup = await handler(this.#ctx);
+                this.#plugins.set(key, { handler, cleanup });
 
                 return cleanup;
             }),
         );
+
         this.#status = EditorStatus.Running;
         return this;
     };

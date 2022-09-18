@@ -8,6 +8,7 @@ export type ClockMap = Map<symbol, Timing>;
 export type Timer = {
     (store: ClockMap): Timing;
     id: symbol;
+    timerName: string;
 };
 
 export type Clock = {
@@ -20,7 +21,7 @@ export const createClock = (): Clock => {
     const store: ClockMap = new Map();
     const get = (timer: Timer) => {
         const meta = store.get(timer.id);
-        if (!meta) throw timerNotFound(timer.name);
+        if (!meta) throw timerNotFound(timer.timerName);
         return meta;
     };
 
