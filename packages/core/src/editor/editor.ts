@@ -62,6 +62,13 @@ export class Editor {
         this.use(internalPlugins.concat(configPlugin));
     };
 
+    readonly #prepare = () => {
+        [...this.#plugins.entries()].map(async ([key, loader]) => {
+            const handler = loader.handler ?? key(this.#pre);
+            this.#plugins.set(key, { ...loader, handler });
+        });
+    };
+
     /**
      * Get the ctx of the editor.
      *
@@ -123,10 +130,7 @@ export class Editor {
     readonly create = async () => {
         this.#loadInternal();
 
-        [...this.#plugins.entries()].map(async ([key, loader]) => {
-            const handler = loader.handler ?? key(this.#pre);
-            this.#plugins.set(key, { ...loader, handler });
-        });
+        this.#prepare();
 
         await Promise.all(
             [...this.#plugins.entries()].map(async ([key, loader]) => {
