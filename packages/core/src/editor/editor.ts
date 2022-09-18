@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createClock, createContainer, Ctx, CtxHandler, MilkdownPlugin, Pre } from '@milkdown/ctx';
+import { createClock, createContainer, Ctx, CtxHandler, MilkdownPlugin, Post, Pre } from '@milkdown/ctx';
 
 import {
     commands,
@@ -12,6 +12,12 @@ import {
     serializer,
     themeEnvironment,
 } from '../internal-plugin';
+
+export enum EditorStatus {
+    Init = 'Init',
+    Running = 'Running',
+    Destroyed = 'Destroyed',
+}
 
 /**
  * Get the milkdown editor constructor
@@ -26,6 +32,8 @@ export class Editor {
         return new Editor();
     }
 
+    #status = EditorStatus.Init;
+
     readonly #container = createContainer();
     readonly #clock = createClock();
 
@@ -34,6 +42,7 @@ export class Editor {
 
     readonly #ctx = new Ctx(this.#container, this.#clock);
     readonly #pre = new Pre(this.#container, this.#clock);
+    readonly #post = new Post(this.#container, this.#clock);
 
     readonly #loadInternal = () => {
         const internalPlugins = [
@@ -59,6 +68,10 @@ export class Editor {
      */
     get ctx() {
         return this.#ctx;
+    }
+
+    get status() {
+        return this.#status;
     }
 
     /**
@@ -115,6 +128,7 @@ export class Editor {
                 return cleanup;
             }),
         );
+        this.#status = EditorStatus.Running;
         return this;
     };
 
@@ -132,10 +146,25 @@ export class Editor {
                 this.#plugins.delete(plugin);
 
                 if (typeof cleanup === 'function') {
-                    return cleanup();
+                    return cleanup(this.#post);
                 }
             }),
         );
+        return this;
+    };
+
+    readonly destroy = async () => {
+        await Promise.all(
+            [...this.#plugins.entries()].map(async ([key, loader]) => {
+                const { cleanup } = loader;
+
+                this.#plugins.delete(key);
+                if (typeof cleanup === 'function') {
+                    return cleanup(this.#post);
+                }
+            }),
+        );
+        this.#status = EditorStatus.Destroyed;
         return this;
     };
 

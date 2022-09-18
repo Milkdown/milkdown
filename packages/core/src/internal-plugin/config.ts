@@ -11,5 +11,9 @@ export const config =
         return async (ctx) => {
             await configure(ctx);
             ctx.done(ConfigReady);
+
+            return (post) => {
+                post.clearTimer(ConfigReady);
+            };
         };
     };

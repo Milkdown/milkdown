@@ -62,6 +62,15 @@ export const themeEnvironment: MilkdownPlugin = (pre) => {
                 }),
             ),
         );
+
+        return (post) => {
+            post.remove(emotionConfigCtx)
+                .remove(emotionCtx)
+                .remove(themeManagerCtx)
+                .remove(themeTimerCtx)
+                .clearTimer(ThemeReady)
+                .clearTimer(ThemeEnvironmentReady);
+        };
     };
 };
 

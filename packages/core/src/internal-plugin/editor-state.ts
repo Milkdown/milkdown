@@ -89,5 +89,13 @@ export const editorState: MilkdownPlugin = (pre) => {
         const state = EditorState.create(options);
         ctx.set(editorStateCtx, state);
         ctx.done(EditorStateReady);
+
+        return (post) => {
+            post.remove(defaultValueCtx)
+                .remove(editorStateCtx)
+                .remove(editorStateOptionsCtx)
+                .remove(editorStateTimerCtx)
+                .clearTimer(EditorStateReady);
+        };
     };
 };

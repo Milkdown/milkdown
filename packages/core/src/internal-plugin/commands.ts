@@ -77,5 +77,9 @@ export const commands: MilkdownPlugin = (pre) => {
         ctx.done(CommandsReady);
         await ctx.wait(EditorViewReady);
         commandManager.setCtx(ctx);
+
+        return (post) => {
+            post.remove(commandsCtx).remove(commandsTimerCtx).clearTimer(CommandsReady);
+        };
     };
 };
