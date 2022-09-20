@@ -35,7 +35,7 @@
     "dependencies": {
         "@milkdown/exception": "workspace:*",
         "@milkdown/utils": "workspace:*",
-        "@types/mermaid": "^8.2.8",
+        "@types/mermaid": "^9.0.0",
         "mermaid": "^9.0.0",
         "nanoid": "^4.0.0",
         "tslib": "^2.4.0",
