@@ -6,9 +6,7 @@ import { InputRule } from '@milkdown/prose/inputrules';
 import { NodeSelection } from '@milkdown/prose/state';
 import { NodeView } from '@milkdown/prose/view';
 import { createNode } from '@milkdown/utils';
-import mermaid from 'mermaid';
-// eslint-disable-next-line import/no-unresolved
-import mermaidAPI from 'mermaid/mermaidAPI';
+import mermaid, { Config } from 'mermaid';
 
 import { remarkMermaid } from '.';
 import { getStyle } from './style';
@@ -21,7 +19,7 @@ export type Options = {
         empty: string;
         error: string;
     };
-    theme: mermaidAPI.Theme;
+    theme: Config['theme'];
     themeCSS: string;
 };
 
