@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { defaultValueCtx, Editor, editorViewOptionsCtx, emotionCtx, rootCtx } from '@milkdown/core';
+import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prism } from '@milkdown/plugin-prism';
 import { gfm } from '@milkdown/preset-gfm';
@@ -86,12 +86,10 @@ export const DocRenderer = ({ content }: Props) => {
     }, [getDom, milkdownLoading]);
 
     useEffect(() => {
+        if (milkdownLoading) return;
         const editor = getInstance();
         editor?.action(switchTheme(isDarkMode ? nordDark : nordLight));
-        return () => {
-            editor?.action((ctx) => ctx.get(emotionCtx).flush());
-        };
-    }, [getInstance, isDarkMode]);
+    }, [getInstance, isDarkMode, milkdownLoading]);
 
     return (
         <div className={className['doc-renderer']}>

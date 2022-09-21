@@ -10,6 +10,7 @@ export const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = useContext(portalContext);
     const { dom, editor: editorRef, setLoading } = useContext(editorInfoContext);
     const domRef = useRef<HTMLDivElement>(null);
+    const loadingRef = useRef(false);
 
     useLayoutEffect(() => {
         const div = domRef.current;
@@ -19,6 +20,9 @@ export const useGetEditor = (getEditor: GetEditor) => {
         const editor = getEditor(div, renderReact);
         if (!editor) return;
 
+        if (loadingRef.current) return;
+
+        loadingRef.current = true;
         setLoading(true);
 
         editor
@@ -28,12 +32,13 @@ export const useGetEditor = (getEditor: GetEditor) => {
                 return;
             })
             .finally(() => {
+                loadingRef.current = false;
                 setLoading(false);
             })
             .catch(console.error);
 
         return () => {
-            editor.destroy();
+            editor.destroy(true);
         };
     }, [dom, editorRef, getEditor, renderReact, setLoading]);
 

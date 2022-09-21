@@ -14,8 +14,8 @@ export function Prism(options: Options): Plugin {
         key: new PluginKey(key),
         state: {
             init: (_, { doc }) => {
-                configureRefractor(refractor);
-                return getDecorations(doc, name, refractor);
+                const result = configureRefractor(refractor);
+                return getDecorations(doc, name, result ?? refractor);
             },
             apply: (transaction, decorationSet, oldState, state) => {
                 const isNodeName = state.selection.$head.parent.type.name === name;

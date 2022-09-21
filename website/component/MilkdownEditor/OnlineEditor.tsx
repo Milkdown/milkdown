@@ -54,8 +54,7 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
     useEffect(() => {
         if (editorLoading) return;
         const editor = getInstance();
-        if (!editor) return;
-        editor.action(switchTheme(isDarkMode ? nordDark : nordLight));
+        editor?.action(switchTheme(isDarkMode ? nordDark : nordLight));
     }, [editorLoading, getInstance, isDarkMode, share]);
 
     share.current = () => {

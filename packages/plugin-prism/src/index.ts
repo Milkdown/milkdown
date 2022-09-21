@@ -6,7 +6,7 @@ import { Prism } from './prism';
 
 export type Options = {
     nodeName: string;
-    configureRefractor: (refractor: Refractor) => void;
+    configureRefractor: (refractor: Refractor) => void | Refractor;
 };
 
 export const prismPlugin = (options: Partial<Options> = {}) => {

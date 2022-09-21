@@ -29,7 +29,6 @@
         "@milkdown/prose": "^6.0.1"
     },
     "dependencies": {
-        "@types/refractor": "^3.0.0",
         "@milkdown/utils": "workspace:*",
         "refractor": "^4.0.0",
         "tslib": "^2.4.0"
