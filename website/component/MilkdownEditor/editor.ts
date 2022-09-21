@@ -10,13 +10,14 @@ import { indent } from '@milkdown/plugin-indent';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { math } from '@milkdown/plugin-math';
 import { menu } from '@milkdown/plugin-menu';
-import { prism } from '@milkdown/plugin-prism';
+import { prismPlugin } from '@milkdown/plugin-prism';
 import { slash } from '@milkdown/plugin-slash';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { trailing } from '@milkdown/plugin-trailing';
 import { upload } from '@milkdown/plugin-upload';
 import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
+import { refractor } from 'refractor/lib/common';
 
 export const createEditor = (
     root: HTMLElement | null,
@@ -39,7 +40,11 @@ export const createEditor = (
         .use(clipboard)
         .use(history)
         .use(cursor)
-        .use(prism)
+        .use(
+            prismPlugin({
+                configureRefractor: () => refractor,
+            }),
+        )
         .use(math)
         .use(indent)
         .use(upload)

@@ -2,12 +2,13 @@
 
 import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
-import { prism } from '@milkdown/plugin-prism';
+import { prismPlugin } from '@milkdown/plugin-prism';
 import { gfm } from '@milkdown/preset-gfm';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { nord, nordDark, nordLight } from '@milkdown/theme-nord';
 import { outline, switchTheme } from '@milkdown/utils';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { refractor } from 'refractor/lib/common';
 
 import { isDarkModeCtx } from '../Context';
 import { codeSandBox } from './codeSandBox';
@@ -48,7 +49,11 @@ export const DocRenderer = ({ content }: Props) => {
                 .use(listener)
                 .use(codeSandBox)
                 .use(stackBlitz)
-                .use(prism)
+                .use(
+                    prismPlugin({
+                        configureRefractor: () => refractor,
+                    }),
+                )
                 .use(nord);
 
             return editor;

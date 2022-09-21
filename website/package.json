@@ -70,6 +70,7 @@
         "postcss-import": "^15.0.0",
         "postcss-mixins": "^9.0.0",
         "postcss-nested": "^5.0.5",
+        "refractor": "^4.0.0",
         "sitemap": "^7.1.1",
         "vite-plugin-pwa": "^0.13.0",
         "xml-formatter": "^2.6.1"
