@@ -1,5 +1,11 @@
 # @milkdown/plugin-slash
 
+## 6.4.3
+
+### Patch Changes
+
+-   97809d20: Add option for slash plugin
+
 ## 6.4.1
 
 ### Patch Changes
