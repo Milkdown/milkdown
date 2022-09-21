@@ -1,11 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { createClock, createContainer, Ctx, Env, Pre } from '@milkdown/core';
+import { Cleanup, createClock, createContainer, Ctx, Env, Post, Pre } from '@milkdown/core';
 
 export type PipelineEnv = {
     readonly pre: Pre;
     readonly ctx: Ctx;
     readonly pipelineCtx: Env;
+    readonly onCleanup: (cleanup: Cleanup) => void;
 };
 
 export type Pipeline = (env: PipelineEnv, next: () => Promise<void>) => Promise<void>;
@@ -33,12 +34,32 @@ export const run = (pipelines: Pipeline[]) => {
     const runner = runPipeline(pipelines);
     const container = createContainer();
     const clock = createClock();
+
+    const cleanupSet = new Set<Cleanup>();
+
     const pipelineCtx = new Env(container, clock);
 
-    return (pre: Pre, ctx: Ctx) =>
+    const onCleanup = (cleanup: Cleanup) => {
+        cleanupSet.add(cleanup);
+    };
+
+    const runCleanup = async (post: Post) => {
+        await Promise.all(
+            [...cleanupSet].map((cleanup) => {
+                return cleanup(post);
+            }),
+        );
+    };
+
+    const main = (pre: Pre, ctx: Ctx) =>
         runner({
             pre,
             ctx,
             pipelineCtx,
+            onCleanup,
         });
+
+    main.runCleanup = runCleanup;
+
+    return main;
 };

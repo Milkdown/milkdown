@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { editorViewCtx, rootCtx } from '@milkdown/core';
-import { createContext, useCallback, useContext } from 'react';
+import { createContext, useCallback, useContext, useEffect } from 'react';
 
 import { portalContext } from './Portals';
 import { EditorInfoCtx, GetEditor } from './types';
@@ -15,14 +14,6 @@ export const useGetEditor = (getEditor: GetEditor) => {
         (div: HTMLDivElement) => {
             if (!div) return;
             dom.current = div;
-
-            if (div.querySelector('.milkdown') != null) {
-                const view = editorRef.current?.action((ctx) => ctx.get(editorViewCtx));
-                const root = editorRef.current?.action((ctx) => ctx.get(rootCtx)) as HTMLElement;
-
-                root?.firstChild?.remove();
-                view?.destroy();
-            }
 
             const editor = getEditor(div, renderReact);
             if (!editor) return;
@@ -42,6 +33,12 @@ export const useGetEditor = (getEditor: GetEditor) => {
         },
         [dom, editorRef, getEditor, renderReact, setLoading],
     );
+
+    useEffect(() => {
+        return () => {
+            editorRef.current?.destroy();
+        };
+    }, [editorRef]);
 
     return domRef;
 };

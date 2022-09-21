@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, editorViewCtx, rootCtx } from '@milkdown/core';
+import { Ctx } from '@milkdown/core';
 import { vueRendererCallOutOfScope } from '@milkdown/exception';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 import { DefineComponent, inject, InjectionKey, onMounted, onUnmounted, ref } from 'vue';
@@ -42,10 +42,6 @@ export const useGetEditor = (getEditor: GetEditor) => {
             .catch((e) => console.error(e));
     });
     onUnmounted(() => {
-        const view = editorRef.value?.action((ctx) => ctx.get(editorViewCtx));
-        const root = editorRef.value?.action((ctx) => ctx.get(rootCtx)) as HTMLElement;
-
-        root?.firstChild?.remove();
-        view?.destroy();
+        editorRef.value?.destroy();
     });
 };

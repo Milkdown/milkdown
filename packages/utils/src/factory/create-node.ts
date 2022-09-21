@@ -109,5 +109,7 @@ export const createNode = <SupportedKeys extends string = string, Options extend
                 ]);
 
                 await runner(pre, ctx);
+
+                return runner.runCleanup;
             },
     );

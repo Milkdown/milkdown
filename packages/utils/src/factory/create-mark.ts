@@ -111,5 +111,7 @@ export const createMark = <SupportedKeys extends string = string, Options extend
                 ]);
 
                 await runner(pre, ctx);
+
+                return runner.runCleanup;
             },
     );

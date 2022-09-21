@@ -115,5 +115,7 @@ export const createPlugin = <
                 ]);
 
                 await runner(pre, ctx);
+
+                return runner.runCleanup;
             },
     );
