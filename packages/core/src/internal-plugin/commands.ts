@@ -55,6 +55,17 @@ export class CommandManager {
         const view = this.#ctx.get(editorViewCtx);
         return command(view.state, view.dispatch, view);
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    remove<T extends CmdKey<any>>(slice: string): void;
+    remove<T>(slice: CmdKey<T>): void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    remove(slice: string | CmdKey<any>): void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    remove(slice: string | CmdKey<any>): void {
+        return this.#container.removeSlice(slice);
+    }
 }
 
 export type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>];

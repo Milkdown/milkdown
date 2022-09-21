@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContext, useCallback, useContext, useEffect } from 'react';
+import { createContext, useContext, useLayoutEffect, useRef } from 'react';
 
 import { portalContext } from './Portals';
 import { EditorInfoCtx, GetEditor } from './types';
@@ -9,36 +9,33 @@ export const editorInfoContext = createContext<EditorInfoCtx>({} as EditorInfoCt
 export const useGetEditor = (getEditor: GetEditor) => {
     const renderReact = useContext(portalContext);
     const { dom, editor: editorRef, setLoading } = useContext(editorInfoContext);
+    const domRef = useRef<HTMLDivElement>(null);
 
-    const domRef = useCallback(
-        (div: HTMLDivElement) => {
-            if (!div) return;
-            dom.current = div;
+    useLayoutEffect(() => {
+        const div = domRef.current;
+        if (!div) return;
+        dom.current = div;
 
-            const editor = getEditor(div, renderReact);
-            if (!editor) return;
+        const editor = getEditor(div, renderReact);
+        if (!editor) return;
 
-            setLoading(true);
+        setLoading(true);
 
-            editor
-                .create()
-                .then((editor) => {
-                    editorRef.current = editor;
-                    return;
-                })
-                .finally(() => {
-                    setLoading(false);
-                })
-                .catch(console.error);
-        },
-        [dom, editorRef, getEditor, renderReact, setLoading],
-    );
+        editor
+            .create()
+            .then((editor) => {
+                editorRef.current = editor;
+                return;
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+            .catch(console.error);
 
-    useEffect(() => {
         return () => {
-            editorRef.current?.destroy();
+            editor.destroy();
         };
-    }, [editorRef]);
+    }, [dom, editorRef, getEditor, renderReact, setLoading]);
 
     return domRef;
 };

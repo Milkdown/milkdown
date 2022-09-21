@@ -19,7 +19,7 @@ let editable = true;
 async function main() {
     const editor = await Editor.make()
         .config((ctx) => {
-            ctx.set(defaultValueCtx, '# Here is [mylink](https://milkdown.dev)');
+            ctx.set(defaultValueCtx, '# Here is [mylink](https://milkdown.dev), and $ E = mc^2 $');
             ctx.update(editorViewOptionsCtx, (x) => ({
                 ...x,
                 editable: () => editable,
@@ -52,6 +52,9 @@ async function main() {
 
     await sleep(2000);
     editor.action(toggleEditable);
+
+    await editor.remove(math);
+    await editor.recreate();
 }
 
 main();

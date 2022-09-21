@@ -14,8 +14,10 @@ import {
 } from '../internal-plugin';
 
 export enum EditorStatus {
-    Init = 'Init',
-    Running = 'Running',
+    Idle = 'Idle',
+    OnCreate = 'OnCreate',
+    Created = 'Created',
+    OnDestroy = 'OnDestroy',
     Destroyed = 'Destroyed',
 }
 
@@ -32,7 +34,7 @@ export class Editor {
         return new Editor();
     }
 
-    #status = EditorStatus.Init;
+    #status = EditorStatus.Idle;
 
     readonly #container = createContainer();
     readonly #clock = createClock();
@@ -69,6 +71,22 @@ export class Editor {
         });
     };
 
+    readonly #cleanup = (plugins: MilkdownPlugin[], remove = false) => {
+        return Promise.all(
+            [plugins].flat().map((plugin) => {
+                const loader = this.#plugins.get(plugin);
+                const cleanup = loader?.cleanup;
+                if (remove) {
+                    this.#plugins.delete(plugin);
+                }
+
+                if (typeof cleanup === 'function') {
+                    return cleanup(this.#post);
+                }
+            }),
+        );
+    };
+
     /**
      * Get the ctx of the editor.
      */
@@ -98,7 +116,7 @@ export class Editor {
      */
     readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
         [plugins].flat().forEach((plugin) => {
-            const handler = this.#status === EditorStatus.Running ? plugin(this.#pre) : void 0;
+            const handler = this.#status === EditorStatus.Created ? plugin(this.#pre) : void 0;
             this.#plugins.set(plugin, {
                 handler,
                 cleanup: void 0,
@@ -129,6 +147,7 @@ export class Editor {
      * @returns A promise object, will be resolved as editor instance after create finish.
      */
     readonly create = async () => {
+        this.#status = EditorStatus.OnCreate;
         this.#loadInternal();
 
         this.#prepare();
@@ -145,7 +164,7 @@ export class Editor {
             }),
         );
 
-        this.#status = EditorStatus.Running;
+        this.#status = EditorStatus.Created;
         return this;
     };
 
@@ -156,17 +175,7 @@ export class Editor {
      * @returns Editor instance.
      */
     readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
-        await Promise.all(
-            [plugins].flat().map((plugin) => {
-                const loader = this.#plugins.get(plugin);
-                const cleanup = loader?.cleanup;
-                this.#plugins.delete(plugin);
-
-                if (typeof cleanup === 'function') {
-                    return cleanup(this.#post);
-                }
-            }),
-        );
+        await this.#cleanup([plugins].flat(), true);
         return this;
     };
 
@@ -176,18 +185,23 @@ export class Editor {
      * @returns A promise object, will be resolved as editor instance after destroy finish.
      */
     readonly destroy = async () => {
-        await Promise.all(
-            [...this.#plugins.entries()].map(async ([key, loader]) => {
-                const { cleanup } = loader;
-
-                this.#plugins.delete(key);
-                if (typeof cleanup === 'function') {
-                    return cleanup(this.#post);
-                }
-            }),
-        );
+        this.#status = EditorStatus.OnDestroy;
+        await this.#cleanup([...this.#plugins.keys()], true);
         this.#status = EditorStatus.Destroyed;
         return this;
+    };
+
+    /**
+     * Recreate the editor with current plugins.
+     *
+     * @returns A promise object, will be resolved as editor instance after create finish.
+     */
+    readonly recreate = async () => {
+        this.#status = EditorStatus.OnDestroy;
+        await this.#cleanup([...this.#plugins.keys()]);
+        this.#status = EditorStatus.Destroyed;
+
+        return this.create();
     };
 
     /**

@@ -42,7 +42,12 @@ type Maybe<T> = T | undefined;
 export const injectSlices =
     (inject?: AnySlice[]): Pipeline =>
     async (env, next) => {
-        inject?.forEach((slice) => env.pre.inject(slice));
+        if (inject) {
+            inject.forEach((slice) => env.pre.inject(slice));
+            env.onCleanup((post) => {
+                inject.forEach((slice) => post.remove(slice));
+            });
+        }
         await next();
     };
 
@@ -58,7 +63,7 @@ export const getRemarkPluginsPipeCtx = createSlice<Maybe<(ctx: Ctx) => RemarkPlu
     'getRemarkPluginsPipeCtx',
 );
 export const applyRemarkPlugins: Pipeline = async (env, next) => {
-    const { ctx, pipelineCtx } = env;
+    const { ctx, pipelineCtx, onCleanup } = env;
 
     await ctx.wait(InitReady);
 
@@ -68,6 +73,10 @@ export const applyRemarkPlugins: Pipeline = async (env, next) => {
         const plugins = remarkPlugins(ctx);
 
         ctx.update(remarkPluginsCtx, (ps) => ps.concat(plugins));
+
+        onCleanup(() => {
+            ctx.update(remarkPluginsCtx, (ps) => ps.filter((p) => !plugins.includes(p)));
+        });
     }
 
     await next();
@@ -76,7 +85,7 @@ export const applyRemarkPlugins: Pipeline = async (env, next) => {
 export const getSchemaPipeCtx = createSlice<Maybe<UserSchema>>(undefined, 'getSchemaPipeCtx');
 export const typePipeCtx = createSlice<PluginType, 'Type'>({} as PluginType, 'Type');
 export const applySchema: Pipeline = async (env, next) => {
-    const { ctx, pipelineCtx } = env;
+    const { ctx, pipelineCtx, onCleanup } = env;
 
     const getSchema = pipelineCtx.get(getSchemaPipeCtx);
 
@@ -89,12 +98,18 @@ export const applySchema: Pipeline = async (env, next) => {
         node = userSchema.node;
         const nodes = Object.entries<NodeSchema>(userSchema.node);
         ctx.update(nodesCtx, (ns) => [...ns, ...nodes]);
+        onCleanup(() => {
+            ctx.update(nodesCtx, (ns) => ns.filter((n) => !nodes.includes(n)));
+        });
     }
 
     if (userSchema.mark) {
         mark = userSchema.mark;
         const marks = Object.entries<MarkSchema>(userSchema.mark);
         ctx.update(marksCtx, (ms) => [...ms, ...marks]);
+        onCleanup(() => {
+            ctx.update(marksCtx, (ms) => ms.filter((m) => !marks.includes(m)));
+        });
     }
 
     await ctx.wait(SchemaReady);
@@ -114,12 +129,18 @@ export const getCommandsPipeCtx = createSlice<Maybe<(types: PluginType, ctx: Ctx
     'getCommandsPipeCtx',
 );
 export const createCommands: Pipeline = async (env, next) => {
-    const { ctx, pipelineCtx } = env;
+    const { ctx, pipelineCtx, onCleanup } = env;
     const commands = pipelineCtx.get(getCommandsPipeCtx);
     if (commands) {
         const type = pipelineCtx.get(typePipeCtx);
-        commands(type, ctx).forEach(([key, command]) => {
+        const cs = commands(type, ctx);
+        cs.forEach(([key, command]) => {
             ctx.get(commandsCtx).create(key, command);
+        });
+        onCleanup(() => {
+            cs.forEach(([key]) => {
+                ctx.get(commandsCtx).remove(key);
+            });
         });
     }
     await next();
@@ -130,11 +151,16 @@ export const getInputRulesPipeCtx = createSlice<Maybe<(types: PluginType, ctx: C
     'getInputRulesPipeCtx',
 );
 export const createInputRules: Pipeline = async (env, next) => {
-    const { ctx, pipelineCtx } = env;
+    const { ctx, pipelineCtx, onCleanup } = env;
     const inputRules = pipelineCtx.get(getInputRulesPipeCtx);
     if (inputRules) {
         const type = pipelineCtx.get(typePipeCtx);
-        ctx.update(inputRulesCtx, (ir) => [...ir, ...inputRules(type, ctx)]);
+        const rules = inputRules(type, ctx);
+        ctx.update(inputRulesCtx, (ir) => [...ir, ...rules]);
+
+        onCleanup(() => {
+            ctx.update(inputRulesCtx, (ir) => ir.filter((r) => !rules.includes(r)));
+        });
     }
 
     await next();
@@ -142,7 +168,7 @@ export const createInputRules: Pipeline = async (env, next) => {
 
 export const shortcutsPipeCtx = createSlice<Record<string, CommandConfig>>({}, 'shortcutsPipeCtx');
 export const createShortcuts: Pipeline = async (env, next) => {
-    const { pipelineCtx, ctx } = env;
+    const { pipelineCtx, ctx, onCleanup } = env;
 
     const shortcuts = pipelineCtx.get(shortcutsPipeCtx);
 
@@ -161,7 +187,12 @@ export const createShortcuts: Pipeline = async (env, next) => {
             return { key, runner };
         })
         .map((x) => [x.key, x.runner] as [string, () => boolean]);
-    ctx.update(prosePluginsCtx, (ps) => ps.concat(keymap(Object.fromEntries(tuples))));
+
+    const plugin = keymap(Object.fromEntries(tuples));
+    ctx.update(prosePluginsCtx, (ps) => ps.concat(plugin));
+    onCleanup(() => {
+        ctx.update(prosePluginsCtx, (ps) => ps.filter((p) => p !== plugin));
+    });
 
     await next();
 };
@@ -171,12 +202,16 @@ export const getProsePluginsPipeCtx = createSlice<Maybe<(types: PluginType, ctx:
     'getProsePluginsPipeCtx',
 );
 export const applyProsePlugins: Pipeline = async (env, next) => {
-    const { pipelineCtx, ctx } = env;
+    const { pipelineCtx, ctx, onCleanup } = env;
 
     const prosePlugins = pipelineCtx.get(getProsePluginsPipeCtx);
     if (prosePlugins) {
         const type = pipelineCtx.get(typePipeCtx);
-        ctx.update(prosePluginsCtx, (ps) => [...ps, ...prosePlugins(type, ctx)]);
+        const plugins = prosePlugins(type, ctx);
+        ctx.update(prosePluginsCtx, (ps) => [...ps, ...plugins]);
+        onCleanup(() => {
+            ctx.update(prosePluginsCtx, (ps) => ps.filter((p) => !plugins.includes(p)));
+        });
     }
 
     await next();
@@ -184,7 +219,7 @@ export const applyProsePlugins: Pipeline = async (env, next) => {
 
 export const getViewPipeCtx = createSlice<Maybe<(ctx: Ctx) => PluginView>>(undefined, 'getViewPipeCtx');
 export const applyView: Pipeline = async (env, next) => {
-    const { pipelineCtx, ctx } = env;
+    const { pipelineCtx, ctx, onCleanup } = env;
 
     const getView = pipelineCtx.get(getViewPipeCtx);
 
@@ -201,6 +236,11 @@ export const applyView: Pipeline = async (env, next) => {
         );
         ctx.update(nodeViewCtx, (v) => [...v, ...(nodeViews as [string, NodeViewConstructor][])]);
         ctx.update(markViewCtx, (v) => [...v, ...(markViews as [string, MarkViewConstructor][])]);
+
+        onCleanup(() => {
+            ctx.update(nodeViewCtx, (v) => v.filter((x) => !nodeViews.includes(x)));
+            ctx.update(markViewCtx, (v) => v.filter((x) => !markViews.includes(x)));
+        });
     }
 
     await next();
