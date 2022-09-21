@@ -808,7 +808,6 @@ importers:
       react-loading-skeleton: ^3.0.2
       react-router-dom: ^6.0.0
       react-spinners: ^0.13.0
-      refractor: ^4.0.0
       sitemap: ^7.1.1
       tslib: ^2.4.0
       unist-util-visit: ^4.0.0
@@ -859,7 +858,6 @@ importers:
       react-loading-skeleton: 3.1.0_react@18.2.0
       react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
       react-spinners: 0.13.3_biqbaboplfbrettd7655fr4n2y
-      refractor: 4.7.0
       tslib: 2.4.0
       unist-util-visit: 4.1.0
     devDependencies:

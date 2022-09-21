@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { EditorStatus } from '@milkdown/core';
 import { createContext, useContext, useLayoutEffect, useRef } from 'react';
 
 import { portalContext } from './Portals';
