@@ -1,5 +1,12 @@
 # @milkdown/website
 
+## 6.4.3
+
+### Patch Changes
+
+-   Updated dependencies [97809d20]
+    -   @milkdown/plugin-slash@6.4.3
+
 ## 6.4.2
 
 ### Patch Changes
