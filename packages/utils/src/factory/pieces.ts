@@ -206,8 +206,7 @@ export const applyView: Pipeline = async (env, next) => {
     await next();
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type PluginOptions = Omit<CommonOptions<string, {}>, 'view'> & { view?: (ctx: Ctx) => PluginView };
+export type PluginOptions = Omit<CommonOptions<string, unknown>, 'view'> & { view?: (ctx: Ctx) => PluginView };
 export const optionsPipeCtx = createSlice<PluginOptions>({}, 'optionsPipeCtx');
 
 export const idPipeCtx = createSlice('', 'idPipeCtx');
