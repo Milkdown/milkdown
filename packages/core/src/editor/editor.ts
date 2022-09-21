@@ -195,7 +195,7 @@ export class Editor {
      * @returns A promise object, will be resolved as editor instance after destroy finish.
      */
     readonly destroy = async (clearPlugins = false) => {
-        if (this.#status === EditorStatus.Destroyed) return;
+        if (this.#status === EditorStatus.Destroyed || this.#status === EditorStatus.OnDestroy) return;
 
         if (clearPlugins) {
             this.#configureList = [];

@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { EditorStatus } from '@milkdown/core';
 import { createContext, useContext, useLayoutEffect, useRef } from 'react';
 
 import { portalContext } from './Portals';
@@ -13,6 +14,10 @@ export const useGetEditor = (getEditor: GetEditor) => {
     const loadingRef = useRef(false);
 
     useLayoutEffect(() => {
+        if (editorRef.current) {
+            editorRef.current.destroy();
+        }
+
         const div = domRef.current;
         if (!div) return;
         dom.current = div;
@@ -38,7 +43,7 @@ export const useGetEditor = (getEditor: GetEditor) => {
             .catch(console.error);
 
         return () => {
-            editor.destroy(true);
+            editor.destroy();
         };
     }, [dom, editorRef, getEditor, renderReact, setLoading]);
 

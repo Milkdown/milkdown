@@ -88,7 +88,11 @@ export const DocRenderer = ({ content }: Props) => {
     useEffect(() => {
         if (milkdownLoading) return;
         const editor = getInstance();
-        editor?.action(switchTheme(isDarkMode ? nordDark : nordLight));
+        try {
+            editor?.action(switchTheme(isDarkMode ? nordDark : nordLight));
+        } catch {
+            // do nothing
+        }
     }, [getInstance, isDarkMode, milkdownLoading]);
 
     return (
