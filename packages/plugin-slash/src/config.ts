@@ -132,6 +132,10 @@ export const defaultConfig: Config = (ctx) => {
                   };
         }
 
-        return null;
+        const [subContent] = content.split('/').reverse();
+
+        return {
+            actions: defaultActions(ctx, `/${subContent}`),
+        };
     };
 };

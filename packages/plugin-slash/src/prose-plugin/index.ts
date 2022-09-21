@@ -5,16 +5,21 @@ import { ThemeUtils } from '@milkdown/utils';
 import type { StatusConfigBuilder } from '..';
 import { createProps } from './props';
 import { createStatus } from './status';
-import { createView } from './view';
+import { CalcPosition, createView } from './view';
 
 export const key = 'MILKDOWN_SLASH';
 
-export const createSlashPlugin = (utils: ThemeUtils, builder: StatusConfigBuilder, className: string) => {
+export const createSlashPlugin = (
+    utils: ThemeUtils,
+    builder: StatusConfigBuilder,
+    className: string,
+    calcPosition: CalcPosition,
+) => {
     const status = createStatus(builder);
 
     return new Plugin({
         key: new PluginKey(key),
         props: createProps(status, utils),
-        view: (view) => createView(status, view, utils, className),
+        view: (view) => createView(status, view, utils, className, calcPosition),
     });
 };

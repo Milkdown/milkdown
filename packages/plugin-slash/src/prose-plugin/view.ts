@@ -16,7 +16,7 @@ import {
 } from './input';
 import { Status } from './status';
 
-const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
+export const defaultCalcPosition = (view: EditorView, dropdownElement: HTMLElement) => {
     calculateNodePosition(view, dropdownElement, (selected, target, parent) => {
         const $editor = dropdownElement.parentElement;
         if (!$editor) {
@@ -40,7 +40,15 @@ const calculatePosition = (view: EditorView, dropdownElement: HTMLElement) => {
     });
 };
 
-export const createView = (status: Status, view: EditorView, utils: ThemeUtils, className: string) => {
+export type CalcPosition = (view: EditorView, dropdownElement: HTMLElement) => void;
+
+export const createView = (
+    status: Status,
+    view: EditorView,
+    utils: ThemeUtils,
+    className: string,
+    calcPosition: CalcPosition,
+) => {
     const wrapper = view.dom.parentNode;
     if (!wrapper) return {};
 
@@ -67,7 +75,7 @@ export const createView = (status: Status, view: EditorView, utils: ThemeUtils, 
 
             if (!show) return;
 
-            calculatePosition(view, dropdownElement);
+            calcPosition(view, dropdownElement);
         },
 
         destroy: () => {
