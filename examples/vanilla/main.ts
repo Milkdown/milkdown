@@ -54,7 +54,7 @@ async function main() {
     editor.action(toggleEditable);
 
     await editor.remove(math);
-    await editor.recreate();
+    await editor.create();
 }
 
 main();

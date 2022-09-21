@@ -35,13 +35,13 @@ export class Editor {
     }
 
     #status = EditorStatus.Idle;
+    #configureList: CtxHandler[] = [];
 
     readonly #container = createContainer();
     readonly #clock = createClock();
 
     readonly #plugins: Map<MilkdownPlugin, { handler: CtxHandler | undefined; cleanup: ReturnType<CtxHandler> }> =
         new Map();
-    readonly #configureList: CtxHandler[] = [];
 
     readonly #ctx = new Ctx(this.#container, this.#clock);
     readonly #pre = new Pre(this.#container, this.#clock);
@@ -105,7 +105,7 @@ export class Editor {
      * Use one plugin or a list of plugins for current editor.
      *
      * @example
-     * ```
+     * ```typescript
      * Editor.make()
      *   .use(plugin)
      *   .use([pluginA, pluginB])
@@ -140,13 +140,17 @@ export class Editor {
      * Create the editor UI.
      *
      * @example
-     * ```
+     * ```typescript
      * Editor.make().use(nord).use(commonmark).create()
      * ```
      *
      * @returns A promise object, will be resolved as editor instance after create finish.
      */
     readonly create = async () => {
+        if (this.#status !== EditorStatus.Idle) {
+            await this.destroy();
+        }
+
         this.#status = EditorStatus.OnCreate;
         this.#loadInternal();
 
@@ -182,33 +186,31 @@ export class Editor {
     /**
      * Destroy the editor.
      *
+     * @example
+     * ```typescript
+     * const editor = await Editor.make().use(commonmark).create();
+     * await editor.destroy();
+     * ```
+     *
      * @returns A promise object, will be resolved as editor instance after destroy finish.
      */
-    readonly destroy = async () => {
+    readonly destroy = async (clearPlugins = false) => {
+        if (this.#status === EditorStatus.Destroyed) return;
+
+        if (clearPlugins) {
+            this.#configureList = [];
+        }
         this.#status = EditorStatus.OnDestroy;
-        await this.#cleanup([...this.#plugins.keys()], true);
+        await this.#cleanup([...this.#plugins.keys()], clearPlugins);
         this.#status = EditorStatus.Destroyed;
         return this;
-    };
-
-    /**
-     * Recreate the editor with current plugins.
-     *
-     * @returns A promise object, will be resolved as editor instance after create finish.
-     */
-    readonly recreate = async () => {
-        this.#status = EditorStatus.OnDestroy;
-        await this.#cleanup([...this.#plugins.keys()]);
-        this.#status = EditorStatus.Destroyed;
-
-        return this.create();
     };
 
     /**
      * Get the context value in a running editor on demand and return the action result.
      *
      * @example
-     * ```
+     * ```typescript
      * import { Editor, editorViewCtx, serializerCtx } from '@milkdown/core';
      * async function playWithEditor() {
      *     const editor = await Editor.make().use(commonmark).create();
