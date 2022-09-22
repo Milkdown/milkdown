@@ -144,6 +144,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
         -   **EditorStateReady**
     -   **editorViewCtx**: 保存 prosemirror 的 editor view。
     -   **editorViewOptionsCtx**: 保存用户配置的用于创建 editor view 的参数。
-    -   **rootCtx**: 保存了用于挂在编辑器的 dom 节点。
+    -   **rootCtx**: 保存了用于挂载编辑器的 dom 选择器。
+    -   **rootDOMCtx**: 保存了用于挂载编辑器的 dom 节点。
 -   定时器：
     -   **Complete**: 插件执行完毕。
