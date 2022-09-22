@@ -146,8 +146,11 @@ export class Editor {
      *
      * @returns A promise object, will be resolved as editor instance after create finish.
      */
-    readonly create = async () => {
-        if (this.#status !== EditorStatus.Idle) {
+    readonly create = async (): Promise<Editor> => {
+        if (this.#status === EditorStatus.OnCreate) {
+            return this;
+        }
+        if (this.#status === EditorStatus.Created) {
             await this.destroy();
         }
 
@@ -178,7 +181,7 @@ export class Editor {
      * @param plugins - A list of plugins, or one plugin.
      * @returns Editor instance.
      */
-    readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
+    readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]): Promise<Editor> => {
         await this.#cleanup([plugins].flat(), true);
         return this;
     };
@@ -194,8 +197,8 @@ export class Editor {
      *
      * @returns A promise object, will be resolved as editor instance after destroy finish.
      */
-    readonly destroy = async (clearPlugins = false) => {
-        if (this.#status === EditorStatus.Destroyed || this.#status === EditorStatus.OnDestroy) return;
+    readonly destroy = async (clearPlugins = false): Promise<Editor> => {
+        if (this.#status === EditorStatus.Destroyed || this.#status === EditorStatus.OnDestroy) return this;
 
         if (clearPlugins) {
             this.#configureList = [];
