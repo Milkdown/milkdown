@@ -24,6 +24,7 @@ Milkdown 有许多内置插件，它们控制着整个编辑器的状态。
         -   **Config**
     -   **editorCtx**: 保存编辑器类的实例。
     -   **remarkCtx**: 保存 remark 实例。
+    -   **remarkStringifyOptionsCtx**: 保存 remark-stringify 的选项。
 -   定时器：
     -   **Initialize**: 插件执行完毕。
 

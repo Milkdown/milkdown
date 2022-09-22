@@ -35,6 +35,7 @@ In this status, milkdown will collect nodes and marks and all the user configs.
         -   **Config**
     -   **editorCtx**: Save the editor instance.
     -   **remarkCtx**: Save the remark instance.
+    -   **remarkStringifyOptionsCtx**: Save the remark stringify options.
 -   timer:
     -   **Initialize**: Plugin process finish.
 
