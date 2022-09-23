@@ -87,6 +87,10 @@ export class Editor {
         );
     };
 
+    readonly #setStatus = (status: EditorStatus) => {
+        this.#status = status;
+    };
+
     /**
      * Get the ctx of the editor.
      */
@@ -154,7 +158,7 @@ export class Editor {
             await this.destroy();
         }
 
-        this.#status = EditorStatus.OnCreate;
+        this.#setStatus(EditorStatus.OnCreate);
         this.#loadInternal();
 
         this.#prepare();
@@ -171,7 +175,7 @@ export class Editor {
             }),
         );
 
-        this.#status = EditorStatus.Created;
+        this.#setStatus(EditorStatus.Created);
         return this;
     };
 
@@ -203,9 +207,9 @@ export class Editor {
         if (clearPlugins) {
             this.#configureList = [];
         }
-        this.#status = EditorStatus.OnDestroy;
+        this.#setStatus(EditorStatus.OnDestroy);
         await this.#cleanup([...this.#plugins.keys()], clearPlugins);
-        this.#status = EditorStatus.Destroyed;
+        this.#setStatus(EditorStatus.Destroyed);
         return this;
     };
 
