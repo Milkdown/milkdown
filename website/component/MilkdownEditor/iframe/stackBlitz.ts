@@ -1,28 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { $node, $remark } from '@milkdown/utils';
-import { Literal, Node } from 'unist';
-import { visit } from 'unist-util-visit';
+import { $node } from '@milkdown/utils';
 
-const regex = /!StackBlitz\{[^\s]+\}/g;
-const id = 'stackBlitz';
-
-const remarkIframePlugin = $remark(() => () => {
-    function transformer(tree: Node) {
-        visit(tree, 'text', (node: Literal) => {
-            const value = node.value as string;
-            if (regex.test(value)) {
-                const [url] = value.match(/\{[^\s]+\}/) || [];
-                if (url) {
-                    node.type = id;
-                    node.value = url.slice(1, -1);
-                }
-            }
-        });
-    }
-    return transformer;
-});
-
-const stackBlitzNode = $node(id, () => ({
+const id = 'StackBlitz';
+export const stackBlitzNode = $node(id, () => ({
     attrs: {
         src: { default: '' },
     },
@@ -55,9 +35,7 @@ const stackBlitzNode = $node(id, () => ({
         0,
     ],
     parseMarkdown: {
-        match: (node) => {
-            return node.type === id;
-        },
+        match: (node) => node.type === id,
         runner: (state, node, type) => {
             state.addNode(type, { src: node['value'] as string });
         },
@@ -69,5 +47,3 @@ const stackBlitzNode = $node(id, () => ({
         },
     },
 }));
-
-export const stackBlitz = [stackBlitzNode, remarkIframePlugin];

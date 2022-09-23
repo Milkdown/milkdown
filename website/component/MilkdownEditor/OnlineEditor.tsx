@@ -10,8 +10,8 @@ import { useSearchParams } from 'react-router-dom';
 import { encode } from '../../utils/share';
 import { isDarkModeCtx, shareCtx } from '../Context';
 import { showToastCtx } from '../Toast';
-import { createEditor } from './editor';
 import { Loading } from './Loading';
+import { onlineEditorFactory } from './onlineEditorFactory';
 import className from './style.module.css';
 import { Content, useLazy } from './useLazy';
 
@@ -34,7 +34,7 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
         editor,
         getInstance,
         loading: editorLoading,
-    } = useEditor((root) => createEditor(root, md, readOnly, onChange), [readOnly, md, onChange]);
+    } = useEditor((root) => onlineEditorFactory(root, md, readOnly, onChange), [readOnly, md, onChange]);
 
     useImperativeHandle(ref, () => ({
         update: (markdown: string) => {

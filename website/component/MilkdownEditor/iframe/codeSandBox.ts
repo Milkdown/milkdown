@@ -1,38 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { $node, $remark } from '@milkdown/utils';
-import { Literal, Node } from 'unist';
-import { visit } from 'unist-util-visit';
+import { $node } from '@milkdown/utils';
 
-const regex = /!CodeSandBox\{[^\s]+\}/g;
-
-const replaceLineBreak = $remark(() => () => {
-    function transformer(tree: Node) {
-        visit(tree, 'text', (node: Literal) => {
-            const value = node.value as string;
-            node.value = value.replace(/\n{1}/g, ' ');
-        });
-    }
-    return transformer;
-});
-
-const remarkIframePlugin = $remark(() => () => {
-    function transformer(tree: Node) {
-        visit(tree, 'text', (node: Literal) => {
-            const value = node.value as string;
-            if (regex.test(value)) {
-                const [url] = value.match(/\{[^\s]+\}/) || [];
-                if (url) {
-                    node.type = 'CodeSandBox';
-                    node.value = url.slice(1, -1);
-                }
-            }
-        });
-    }
-    return transformer;
-});
-
-const id = 'codeSandBox';
-const codeSandBoxNode = $node(id, () => ({
+const id = 'CodeSandBox';
+export const codeSandBoxNode = $node(id, () => ({
     attrs: {
         src: { default: '' },
     },
@@ -65,9 +35,7 @@ const codeSandBoxNode = $node(id, () => ({
         0,
     ],
     parseMarkdown: {
-        match: (node) => {
-            return node.type === 'CodeSandBox';
-        },
+        match: (node) => node.type === id,
         runner: (state, node, type) => {
             state.addNode(type, { src: node['value'] as string });
         },
@@ -79,5 +47,3 @@ const codeSandBoxNode = $node(id, () => ({
         },
     },
 }));
-
-export const codeSandBox = [codeSandBoxNode, replaceLineBreak, remarkIframePlugin];

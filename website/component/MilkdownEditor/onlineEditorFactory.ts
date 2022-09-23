@@ -19,7 +19,7 @@ import { gfm } from '@milkdown/preset-gfm';
 import { nord } from '@milkdown/theme-nord';
 import { refractor } from 'refractor/lib/common';
 
-export const createEditor = (
+export const onlineEditorFactory = (
     root: HTMLElement | null,
     defaultValue: string,
     readOnly: boolean | undefined,

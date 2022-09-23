@@ -1,20 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core';
-import { listener, listenerCtx } from '@milkdown/plugin-listener';
-import { prismPlugin } from '@milkdown/plugin-prism';
-import { gfm } from '@milkdown/preset-gfm';
 import { ReactEditor, useEditor } from '@milkdown/react';
-import { nord, nordDark, nordLight } from '@milkdown/theme-nord';
-import { outline, switchTheme } from '@milkdown/utils';
+import { nordDark, nordLight } from '@milkdown/theme-nord';
+import { switchTheme } from '@milkdown/utils';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { refractor } from 'refractor/lib/common';
 
 import { isDarkModeCtx } from '../Context';
-import { codeSandBox } from './codeSandBox';
+import { docRendererFactory } from './docRendererFactory';
 import { Loading } from './Loading';
 import { Outline, OutlineRenderer } from './Outline';
-import { stackBlitz } from './stackBlitz';
 import className from './style.module.css';
 import { Content, useLazy } from './useLazy';
 
@@ -34,32 +28,7 @@ export const DocRenderer = ({ content }: Props) => {
         getInstance,
         getDom,
         loading: milkdownLoading,
-    } = useEditor(
-        (root) => {
-            const editor = Editor.make()
-                .config((ctx) => {
-                    ctx.set(rootCtx, root);
-                    ctx.set(defaultValueCtx, md);
-                    ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, editable: () => false }));
-                    ctx.get(listenerCtx).mounted((ctx) => {
-                        setOutlines(outline()(ctx));
-                    });
-                })
-                .use(gfm)
-                .use(listener)
-                .use(codeSandBox)
-                .use(stackBlitz)
-                .use(
-                    prismPlugin({
-                        configureRefractor: () => refractor,
-                    }),
-                )
-                .use(nord);
-
-            return editor;
-        },
-        [md],
-    );
+    } = useEditor((root) => docRendererFactory(root, md, setOutlines), [md]);
 
     useEffect(() => {
         const calc = () => {
