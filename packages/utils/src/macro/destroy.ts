@@ -1,4 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, editorViewCtx } from '@milkdown/core';
+import { Ctx, editorCtx } from '@milkdown/core';
 
-export const destroy = () => (ctx: Ctx) => ctx.get(editorViewCtx).destroy();
+/**
+ * @deprecated Use `editor.destroy()` instead.
+ */
+export const destroy = () => (ctx: Ctx) => ctx.get(editorCtx).destroy();
