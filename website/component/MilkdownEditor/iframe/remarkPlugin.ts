@@ -12,7 +12,7 @@ export const remarkIframePlugin = $remark(() => () => {
                 const { url = '', type = 'unknown' } = groups;
                 if (url) {
                     node.type = type;
-                    node.value = url.slice(1, -1);
+                    node.value = url;
                 }
             }
         });
