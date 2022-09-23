@@ -126,12 +126,12 @@ Use to decide which character the plugin will use to insert as placeholder. You 
 
 Default value:
 
-```
-placeholderConfig: {
+```typescript
+const placeholderConfig = {
     hole: '∅',
     punctuation: '⁂',
     char: '∴',
-}
+};
 ```
 
 ### globalNodes
