@@ -29,7 +29,7 @@ export const DocRenderer = ({ content }: Props) => {
         getInstance,
         getDom,
         loading: milkdownLoading,
-    } = useEditor((root) => docRendererFactory(root, md, setOutlines), [md]);
+    } = useEditor((root) => docRendererFactory(root, md, isDarkMode, setOutlines), [md]);
 
     useEffect(() => {
         const calc = () => {

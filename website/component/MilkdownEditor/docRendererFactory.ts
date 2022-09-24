@@ -4,7 +4,7 @@ import { defaultValueCtx, Editor, editorViewOptionsCtx, rootCtx } from '@milkdow
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { prismPlugin } from '@milkdown/plugin-prism';
 import { gfm } from '@milkdown/preset-gfm';
-import { nord } from '@milkdown/theme-nord';
+import { nordDark, nordLight } from '@milkdown/theme-nord';
 import { outline } from '@milkdown/utils';
 import { refractor } from 'refractor/lib/common';
 
@@ -14,6 +14,7 @@ import { Outline } from './Outline';
 export const docRendererFactory = (
     root: HTMLElement,
     markdown: string,
+    isDarkMode: boolean,
     setOutlines: React.Dispatch<React.SetStateAction<Outline[]>>,
 ) => {
     const editor = Editor.make()
@@ -33,7 +34,7 @@ export const docRendererFactory = (
                 configureRefractor: () => refractor,
             }),
         )
-        .use(nord);
+        .use(isDarkMode ? nordDark : nordLight);
 
     return editor;
 };
