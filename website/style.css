@@ -94,9 +94,8 @@ body {
         Helvetica, Arial, sans-serif;
     display: none;
     border-radius: var(--radius);
-    background-color: hsl(0, 0%, 96%);
-    background-color: rgba(129, 161, 193, 0.12);
-    box-shadow: 0 1px 4px 1px hsla(0, 0%, 0%, 0.1);
+    background-color: rgba(var(--surface));
+    box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
     z-index: 100;
     padding: 16px;
     @mixin query 72rem {
@@ -108,7 +107,7 @@ body {
     text-decoration: none;
 }
 #carbonads a:hover {
-    color: inherit;
+    color: rgba(var(--primary), 0.87);
 }
 #carbonads span {
     position: relative;
@@ -129,9 +128,9 @@ body {
     display: block;
 }
 #carbonads .carbon-text {
-    font-size: 13px;
+    font-size: 12px;
     padding: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     line-height: 1.5;
     text-align: center;
     color: rgba(var(--neutral), 0.87);
