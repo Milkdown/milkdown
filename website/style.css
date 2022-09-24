@@ -89,21 +89,16 @@ body {
     position: relative;
 }
 
-#carbonads * {
-    margin: initial;
-    padding: initial;
-}
 #carbonads {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
         Helvetica, Arial, sans-serif;
     display: none;
-    background-color: hsl(0, 0%, 98%);
+    border-radius: var(--radius);
+    background-color: hsl(0, 0%, 96%);
+    background-color: rgba(129, 161, 193, 0.12);
     box-shadow: 0 1px 4px 1px hsla(0, 0%, 0%, 0.1);
     z-index: 100;
-    max-width: 130px;
-    position: fixed;
-    bottom: 0;
-    right: 4px;
+    padding: 16px;
     @mixin query 72rem {
         display: flex;
     }
@@ -126,10 +121,11 @@ body {
 }
 #carbonads .carbon-img {
     display: block;
-    margin: 0;
+    margin: 0 auto;
     line-height: 1;
 }
 #carbonads .carbon-img img {
+    border-radius: var(--radius);
     display: block;
 }
 #carbonads .carbon-text {
@@ -137,12 +133,12 @@ body {
     padding: 4px;
     margin-bottom: 20px;
     line-height: 1.5;
-    text-align: left;
+    text-align: center;
+    color: rgba(var(--neutral), 0.87);
 }
 #carbonads .carbon-poweredby {
     display: block;
     padding: 6px 8px;
-    background: #f1f1f2;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -150,29 +146,5 @@ body {
     font-size: 8px;
     line-height: 1;
     border-top-left-radius: 3px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
-[data-theme='dark'] {
-    #carbonads > span {
-        min-height: 100px;
-        background-color: hsl(0, 0%, 10%);
-        box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.085), 0 0 2px hsl(0deg 0% 0% / 0.085), 0 0 4px hsl(0deg 0% 0% / 0.085),
-            0 0 8px hsl(0deg 0% 0% / 0.085);
-    }
-
-    #carbonads a {
-        color: #ddd;
-    }
-
-    #carbonads a:hover {
-        color: #ddd;
-    }
-
-    #carbonads .carbon-poweredby {
-        color: #aaa;
-        background: #1e2021;
-    }
+    color: rgba(var(--neutral), 0.6);
 }

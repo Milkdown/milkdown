@@ -3,7 +3,7 @@
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { nordDark, nordLight } from '@milkdown/theme-nord';
 import { switchTheme } from '@milkdown/utils';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { isDarkModeCtx } from '../Context';
 import { docRendererFactory } from './docRendererFactory';
@@ -20,6 +20,7 @@ export const DocRenderer = ({ content }: Props) => {
     const isDarkMode = useContext(isDarkModeCtx);
     const [outlines, setOutlines] = useState<Outline[]>([]);
     const outlineRef = useRef<HTMLDivElement>(null);
+    const carbonRef = useRef<HTMLDivElement>(null);
 
     const [loading, md] = useLazy(content);
 
@@ -69,11 +70,40 @@ export const DocRenderer = ({ content }: Props) => {
         }
     }, [getInstance, isDarkMode, milkdownLoading]);
 
+    useLayoutEffect(() => {
+        const wrapper = carbonRef.current;
+        if (!wrapper) return;
+
+        const observer = new MutationObserver(() => {
+            Array.from(wrapper.children).forEach((node) => {
+                if (!['carbonads', '_carbonads_js'].includes(node.id)) {
+                    node.remove();
+                }
+            });
+        });
+
+        const carbon = document.createElement('script');
+
+        carbon.async = true;
+        carbon.type = 'text/javascript';
+        carbon.src = '//cdn.carbonads.com/carbon.js?serve=CEAI62QJ&placement=milkdowndev';
+        carbon.id = '_carbonads_js';
+
+        wrapper.appendChild(carbon);
+
+        observer.observe(wrapper, { childList: true });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
     return (
         <div className={className['doc-renderer']}>
             {loading ? <Loading /> : <ReactEditor editor={editor} />}
             <div ref={outlineRef} className={className['outline']}>
                 <OutlineRenderer outline={outlines} />
+                <div className={className['carbon-wrapper']} ref={carbonRef} />
             </div>
         </div>
     );

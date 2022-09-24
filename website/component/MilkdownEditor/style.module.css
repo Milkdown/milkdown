@@ -14,8 +14,9 @@
     width: 255px;
     flex-shrink: 0;
     display: none;
+    flex-direction: column;
     @mixin query 72rem {
-        display: block;
+        display: flex;
     }
 }
 
@@ -69,4 +70,11 @@
             color: rgba(Var(--primary), 1);
         }
     }
+}
+
+.carbon-wrapper {
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: var(--radius);
 }
