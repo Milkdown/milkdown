@@ -97,7 +97,7 @@ body {
     background-color: rgba(var(--surface));
     box-shadow: 0px 1px 1px palette(shadow, 0.14), 0px 2px 1px palette(shadow, 0.12), 0px 1px 3px palette(shadow, 0.2);
     z-index: 100;
-    padding: 16px;
+    padding: 20px 24px;
     @mixin query 72rem {
         display: flex;
     }
@@ -120,7 +120,7 @@ body {
 }
 #carbonads .carbon-img {
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 12px;
     line-height: 1;
 }
 #carbonads .carbon-img img {
@@ -129,7 +129,6 @@ body {
 }
 #carbonads .carbon-text {
     font-size: 12px;
-    padding: 4px;
     margin-bottom: 10px;
     line-height: 1.5;
     text-align: center;
@@ -137,13 +136,12 @@ body {
 }
 #carbonads .carbon-poweredby {
     display: block;
-    padding: 6px 8px;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
     font-size: 8px;
     line-height: 1;
-    border-top-left-radius: 3px;
+    margin-top: 6px;
     color: rgba(var(--neutral), 0.6);
 }
