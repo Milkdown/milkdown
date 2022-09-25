@@ -37,6 +37,7 @@ export type CommonOptions<SupportedKeys extends string = string, Obj = UnknownRe
 };
 
 export type Methods<Keys extends string, Type> = {
+    injectSlices?: AnySlice[];
     remarkPlugins?: (ctx: Ctx) => RemarkPlugin[];
     inputRules?: (types: Type, ctx: Ctx) => InputRule[];
     prosePlugins?: (types: Type, ctx: Ctx) => Plugin[];
@@ -73,8 +74,6 @@ export type Extendable<SupportedKeys extends string, Options extends UnknownReco
                 ...rest: Parameters<Factory<ExtendedSupportedKeys, ExtendedOptions, ExtendedType, ExtendedRest>>,
             ]
         ) => Spec<ExtendedSupportedKeys, ExtendedType, ExtendedRest>,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        inject?: Slice<any>[],
     ) => WithExtend<ExtendedSupportedKeys, ExtendedOptions, Type, Rest>;
 };
 export type WithExtend<SupportedKeys extends string, Options extends UnknownRecord, Type, Rest> = AddMetadata<

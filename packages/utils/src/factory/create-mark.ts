@@ -5,7 +5,7 @@ import { MarkType } from '@milkdown/prose/model';
 import { MarkViewConstructor } from '@milkdown/prose/view';
 
 import { pipe } from '../pipe';
-import { AnySlice, CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
+import { CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, getThemeUtils, withExtend } from './common';
 import {
     applyProsePlugins,
@@ -24,6 +24,7 @@ import {
     idPipeCtx,
     injectPipeEnv,
     injectSlices,
+    injectSlicesPipeCtx,
     optionsPipeCtx,
     shortcutsPipeCtx,
     waitThemeReady,
@@ -52,7 +53,6 @@ export type MarkCreator<SupportedKeys extends string, Options extends UnknownRec
 
 export const createMark = <SupportedKeys extends string = string, Options extends UnknownRecord = UnknownRecord>(
     factory: MarkFactory<SupportedKeys, Options>,
-    inject?: AnySlice[],
 ): MarkCreator<string, Options> =>
     pipe(
         addMetadata,
@@ -65,15 +65,27 @@ export const createMark = <SupportedKeys extends string = string, Options extend
                     const utils = getThemeUtils(ctx, options);
                     const plugin = factory(utils, options);
 
-                    const { id, commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
+                    const {
+                        id,
+                        commands,
+                        remarkPlugins,
+                        schema,
+                        inputRules,
+                        shortcuts,
+                        prosePlugins,
+                        view,
+                        injectSlices,
+                    } = plugin;
 
                     const viewOption = options?.view;
+                    const injectOptions = injectSlices ?? [];
 
                     const pluginOptions = {
                         ...(options || {}),
                         view: viewOption ? (ctx: Ctx) => ({ [id]: viewOption(ctx) }) : undefined,
                     };
 
+                    pipelineCtx.set(injectSlicesPipeCtx, injectOptions);
                     pipelineCtx.set(idPipeCtx, id);
                     pipelineCtx.set(optionsPipeCtx, pluginOptions);
                     pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
@@ -98,9 +110,9 @@ export const createMark = <SupportedKeys extends string = string, Options extend
 
                 const runner = run([
                     injectPipeEnv,
-                    injectSlices(inject),
                     waitThemeReady,
                     setPipelineEnv,
+                    injectSlices,
                     applyRemarkPlugins,
                     applySchema,
                     createCommands,

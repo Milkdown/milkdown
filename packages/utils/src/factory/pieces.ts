@@ -39,17 +39,18 @@ export type PluginView = Record<string, NodeViewConstructor | MarkViewConstructo
 
 type Maybe<T> = T | undefined;
 
-export const injectSlices =
-    (inject?: AnySlice[]): Pipeline =>
-    async (env, next) => {
-        if (inject) {
-            inject.forEach((slice) => env.pre.inject(slice));
-            env.onCleanup((post) => {
-                inject.forEach((slice) => post.remove(slice));
-            });
-        }
-        await next();
-    };
+export const injectSlicesPipeCtx = createSlice<AnySlice[]>([], 'injectPipeCtx');
+export const injectSlices: Pipeline = async (env, next) => {
+    const { pipelineCtx, onCleanup, pre } = env;
+    const inject = pipelineCtx.get(injectSlicesPipeCtx);
+    if (inject) {
+        inject.forEach((slice) => pre.inject(slice));
+        onCleanup((post) => {
+            inject.forEach((slice) => post.remove(slice));
+        });
+    }
+    await next();
+};
 
 export const waitThemeReady: Pipeline = async (env, next) => {
     const { ctx } = env;
@@ -256,6 +257,7 @@ export const injectPipeEnv: Pipeline = async (env, next) => {
     pipelineCtx
         .inject(idPipeCtx)
         .inject(optionsPipeCtx)
+        .inject(injectSlicesPipeCtx)
         .inject(getRemarkPluginsPipeCtx)
         .inject(getSchemaPipeCtx)
         .inject(typePipeCtx)

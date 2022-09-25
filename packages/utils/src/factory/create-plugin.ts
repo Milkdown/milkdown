@@ -5,7 +5,7 @@ import { MarkType, NodeType } from '@milkdown/prose/model';
 import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
 
 import { pipe } from '../pipe';
-import { AnySlice, CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
+import { CommonOptions, Factory, UnknownRecord, WithExtend } from '../types';
 import { addMetadata, getThemeUtils, withExtend } from './common';
 import {
     applyProsePlugins,
@@ -23,6 +23,7 @@ import {
     getViewPipeCtx,
     injectPipeEnv,
     injectSlices,
+    injectSlicesPipeCtx,
     optionsPipeCtx,
     shortcutsPipeCtx,
     waitThemeReady,
@@ -62,7 +63,6 @@ export const createPlugin = <
     MarkKeys extends string = string,
 >(
     factory: PluginFactory<SupportedKeys, Options, NodeKeys, MarkKeys>,
-    inject?: AnySlice[],
 ): WithExtend<SupportedKeys, Options, TypeMapping<NodeKeys, MarkKeys>, PluginRest<NodeKeys, MarkKeys>> =>
     pipe(
         addMetadata,
@@ -75,8 +75,12 @@ export const createPlugin = <
                     const utils = getThemeUtils(ctx, options);
                     const plugin = factory(utils, options);
 
-                    const { commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view } = plugin;
+                    const { commands, remarkPlugins, schema, inputRules, shortcuts, prosePlugins, view, injectSlices } =
+                        plugin;
 
+                    const injectOptions = injectSlices ?? [];
+
+                    pipelineCtx.set(injectSlicesPipeCtx, injectOptions);
                     pipelineCtx.set(optionsPipeCtx, (options || {}) as Options);
                     pipelineCtx.set(getRemarkPluginsPipeCtx, remarkPlugins);
                     if (schema) {
@@ -102,9 +106,9 @@ export const createPlugin = <
 
                 const runner = run([
                     injectPipeEnv,
-                    injectSlices(inject),
                     waitThemeReady,
                     setPipelineEnv,
+                    injectSlices,
                     applyRemarkPlugins,
                     applySchema,
                     createCommands,

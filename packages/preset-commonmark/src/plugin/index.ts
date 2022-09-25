@@ -9,11 +9,9 @@ import { getInlineSyncPlugin, inlineSyncConfigCtx } from './inline-sync';
 
 export { inlineSyncConfigCtx };
 export const commonmarkPlugins = [
-    createPlugin(
-        () => ({
-            prosePlugins: (_, ctx) => [getInlineNodesCursorPlugin(), getInlineSyncPlugin(ctx)],
-            remarkPlugins: () => [links, filterHTMLPlugin, addOrderInList],
-        }),
-        [inlineSyncConfigCtx],
-    )(),
+    createPlugin(() => ({
+        injectSlices: [inlineSyncConfigCtx],
+        prosePlugins: (_, ctx) => [getInlineNodesCursorPlugin(), getInlineSyncPlugin(ctx)],
+        remarkPlugins: () => [links, filterHTMLPlugin, addOrderInList],
+    }))(),
 ];
