@@ -81,6 +81,15 @@ export const menubar = (
         if (editorWrapperStyle) {
             editorDOM.classList.add(editorWrapperStyle);
         }
+        const menuWrapperStyle = utils.getStyle(({ css }) => {
+            const style = css`
+                position: relative;
+            `;
+            return style;
+        }) as string;
+        if (menuWrapper) {
+            menuWrapper.classList.add(menuWrapperStyle);
+        }
         const menuStyle = utils.getStyle(({ css }) => {
             const border = themeManager.get(ThemeBorder, undefined);
             const scrollbar = themeManager.get(ThemeScrollbar, ['x', 'thin']);
