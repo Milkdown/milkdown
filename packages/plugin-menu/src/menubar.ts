@@ -86,8 +86,8 @@ export const menubar = (
                 position: relative;
             `;
             return style;
-        }) as string;
-        if (menuWrapper) {
+        });
+        if (menuWrapper && menuWrapperStyle) {
             menuWrapper.classList.add(menuWrapperStyle);
         }
         const menuStyle = utils.getStyle(({ css }) => {
