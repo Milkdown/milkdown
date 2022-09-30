@@ -33,6 +33,11 @@ When using the `Editor` class, you should follow the process:
 4. Call `create` method on Editor to finish.
    This will return a Promise wrapping the editor instance. When the promise resolves, the editor will be usable.
 
+Optional:
+
+-   Call `action` to execute some action on the editor **after the editor has been created**.
+-   Call `remove` to remove one or more plugins.
+
 ## Internal Ctx
 
 The core module provides several plugins.
