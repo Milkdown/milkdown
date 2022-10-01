@@ -59,7 +59,7 @@ It's also possible to use `html` and `json` as default value, please check [sett
 
 ### editorStateOptionsCtx
 
-Set the [user prosemirror state options](/TODO: add link) to override the default behavior.
+Set the [user prosemirror state options](https://prosemirror.net/docs/ref/#state.EditorStateConfig) to override the default behavior.
 
 ```typescript
 import { Editor, editorStateOptionsCtx } from '@milkdown/core';
@@ -76,7 +76,7 @@ Editor.make().config((ctx) => {
 
 ### editorStateCtx
 
-Track the [prosemirror state](TODO: add link) of the editor.
+Track the [prosemirror state](https://prosemirror.net/docs/ref/#state) of the editor.
 
 ```typescript
 import { editorStateCtx } from '@milkdown/core';
