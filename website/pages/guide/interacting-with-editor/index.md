@@ -14,6 +14,8 @@ Editor.make().config((ctx) => {
 
 It's also possible to just pass a selector to `rootCtx`:
 
+> The selector will be passed to `document.querySelector` to get the dom.
+
 ```typescript
 import { rootCtx } from '@milkdown/core';
 
