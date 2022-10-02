@@ -12,6 +12,16 @@ Editor.make().config((ctx) => {
 });
 ```
 
+It's also possible to just pass a selector to `rootCtx`:
+
+```typescript
+import { rootCtx } from '@milkdown/core';
+
+Editor.make().config((ctx) => {
+    ctx.set(rootCtx, '#editor');
+});
+```
+
 ## Setting Default Value
 
 ### Markdown
