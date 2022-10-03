@@ -23,7 +23,7 @@ Example:
 
 ```typescript
 import { slashPlugin, slash, createDropdownItem, defaultActions } from '@milkdown/plugin-slash';
-import { themeToolCtx, commandsCtx } from '@milkdown/core';
+import { themeManagerCtx, commandsCtx } from '@milkdown/core';
 
 Editor.make().use(
     slash.configure(slashPlugin, {
@@ -47,7 +47,7 @@ Editor.make().use(
                     if (parentNode.type.name === 'customNode') {
                         actions.push({
                             id: 'custom',
-                            dom: createDropdownItem(ctx.get(themeToolCtx), 'Custom', 'h1'),
+                            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Custom', 'h1'),
                             command: () => ctx.get(commandsCtx).call(/* Add custom command here */),
                             keyword: ['custom'],
                             enable: () => true,
