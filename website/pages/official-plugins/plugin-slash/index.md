@@ -50,7 +50,7 @@ Editor.make().use(
                             dom: createDropdownItem(ctx.get(themeManagerCtx), 'Custom', 'h1'),
                             command: () => ctx.get(commandsCtx).call(/* Add custom command here */),
                             keyword: ['custom'],
-                            enable: () => true,
+                            typeName: 'heading',
                         });
                     }
 
