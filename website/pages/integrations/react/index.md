@@ -25,7 +25,7 @@ import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 
 export const MilkdownEditor: React.FC = () => {
-    const editor = useEditor((root) =>
+    const { editor } = useEditor((root) =>
         Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
@@ -63,7 +63,7 @@ const CustomImage: React.FC = ({ children }) => {
 };
 
 export const MilkdownEditor: React.FC = () => {
-    const editor = useEditor((root, renderReact) => {
+    const { editor } = useEditor((root, renderReact) => {
         const nodes = commonmark
             .configure(paragraph, { view: renderReact(CustomParagraph) })
             .configure(image, { view: renderReact(CustomImage) });
