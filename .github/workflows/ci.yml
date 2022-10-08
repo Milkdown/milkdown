@@ -48,7 +48,7 @@ jobs:
               uses: cypress-io/github-action@v2
               with:
                   install: false
-                  start: pnpm --filter=@milkdown/e2e run setup
+                  start: pnpm --filter=@milkdown/e2e run setup --port 7000
                   command: pnpm --filter=@milkdown/e2e test
                   wait-on: 'http://localhost:7000'
                   browser: chrome
