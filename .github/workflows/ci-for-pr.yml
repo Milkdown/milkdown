@@ -133,7 +133,7 @@ jobs:
                   record: true
                   parallel: true
                   working-directory: e2e
-                  start: pnpm run setup --port 7000
+                  start: PORT=7000 pnpm run setup
                   wait-on: 'http://localhost:7000'
                   wait-on-timeout: 120
                   browser: chrome
@@ -150,7 +150,7 @@ jobs:
                   record: true
                   parallel: true
                   working-directory: e2e
-                  start: pnpm run setup --port 7001
+                  start: PORT=7001 pnpm run setup
                   wait-on: 'http://localhost:7001'
                   wait-on-timeout: 120
                   browser: firefox

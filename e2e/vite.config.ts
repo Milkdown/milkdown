@@ -8,7 +8,6 @@ export default defineConfig({
         emptyOutDir: true,
     },
     server: {
-        port: 7000,
         fs: {
             strict: false,
         },

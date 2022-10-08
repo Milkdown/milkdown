@@ -6,13 +6,12 @@
         "start": "vite",
         "build": "vite build",
         "serve": "vite preview",
-        "setup": "pnpm serve",
-        "setup:port": "pnpm serve",
+        "setup": "pnpm serve --port $PORT",
         "test": "cypress run",
         "test:verbose": "cypress open",
-        "start:test": "start-server-and-test setup:port http-get://localhost:7000 test",
-        "e2e": "start-server-and-test setup:port http-get://localhost:7000 test",
-        "start:test:verbose": "start-server-and-test setup:port http-get://localhost:7000 test:verbose"
+        "start:test": "cross-env PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
+        "e2e": "cross-env PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
+        "start:test:verbose": "cross-env PORT=7000 start-server-and-test setup http-get://localhost:7000 test:verbose"
     },
     "files": [
         "style"
