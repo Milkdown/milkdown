@@ -316,14 +316,14 @@ importers:
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
       tslib: ^2.4.0
-      y-prosemirror: ^1.1.2
+      y-prosemirror: ^1.2.0
       y-protocols: ^1.0.5
       yjs: ^13.5.38
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
       tslib: 2.4.0
-      y-prosemirror: 1.1.2_jzascd4egnm6q536yt5eavl4be
+      y-prosemirror: 1.2.0_jzascd4egnm6q536yt5eavl4be
       y-protocols: 1.0.5
     devDependencies:
       '@milkdown/core': link:../core
@@ -12529,6 +12529,12 @@ packages:
     hasBin: true
     dev: true
 
+  /typescript/4.8.4:
+    resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
     dependencies:
@@ -13279,8 +13285,8 @@ packages:
     dev: false
     optional: true
 
-  /y-prosemirror/1.1.2_jzascd4egnm6q536yt5eavl4be:
-    resolution: {integrity: sha512-+5Pf30ugJIatxy8DAmRMhkiYCI2xxBg+T5Btg9G/7v5La0I5WpR/GT/Kg8RGLv8LiG4/c4bVAEEM+efyVehLIQ==}
+  /y-prosemirror/1.2.0_jzascd4egnm6q536yt5eavl4be:
+    resolution: {integrity: sha512-t3uxuX4HIkb1GNt8jV+dplRbNH2OmQD/BNeCCbjLD3Mq0o6JEXxHedv58ZIPFDE6ma24jljlL+u8pGvN6B37XQ==}
     peerDependencies:
       prosemirror-model: ^1.7.1
       prosemirror-state: ^1.2.3
@@ -13296,6 +13302,7 @@ packages:
         optional: true
     dependencies:
       lib0: 0.2.51
+      typescript: 4.8.4
       y-protocols: 1.0.5
       yjs: 13.5.39
     dev: false
