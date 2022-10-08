@@ -48,10 +48,11 @@ jobs:
               uses: cypress-io/github-action@v2
               with:
                   install: false
-                  start: PORT=7000 pnpm --filter=@milkdown/e2e run setup
-                  command: PORT=7000 pnpm --filter=@milkdown/e2e test
+                  start: pnpm --filter=@milkdown/e2e run setup
+                  command: pnpm --filter=@milkdown/e2e test
                   wait-on: 'http://localhost:7000'
                   browser: chrome
+                  env: PORT=7000
 
             - name: create versions or publish to npm registry
               uses: changesets/action@v1

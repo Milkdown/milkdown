@@ -133,11 +133,12 @@ jobs:
                   record: true
                   parallel: true
                   working-directory: e2e
-                  start: PORT=7000 pnpm run setup
+                  start: pnpm run setup
                   wait-on: 'http://localhost:7000'
                   wait-on-timeout: 120
                   browser: chrome
                   group: 'Milkdown-E2E-Chrome'
+                  env: PORT=7000
 
             - name: run cypress on firefox
               if: ${{ always() }}
@@ -150,11 +151,12 @@ jobs:
                   record: true
                   parallel: true
                   working-directory: e2e
-                  start: PORT=7001 pnpm run setup
+                  start: pnpm run setup
                   wait-on: 'http://localhost:7001'
                   wait-on-timeout: 120
                   browser: firefox
                   group: 'Milkdown-E2E-Firefox'
+                  env: PORT=7001
 
     report:
         if: ${{ always() }}
