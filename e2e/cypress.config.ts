@@ -3,7 +3,5 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
     projectId: 'mhq9z6',
-    e2e: {
-        baseUrl: `http://localhost:${process.env['PORT']}`,
-    },
+    e2e: {},
 });

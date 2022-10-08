@@ -128,17 +128,17 @@ jobs:
               env:
                   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
                   GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+                  CYPRESS_SERVER_PORT: 7000
               with:
                   install: false
                   record: true
                   parallel: true
                   working-directory: e2e
-                  start: pnpm run setup
+                  start: 'pnpm exec vite preview --port 7000'
                   wait-on: 'http://localhost:7000'
                   wait-on-timeout: 120
                   browser: chrome
                   group: 'Milkdown-E2E-Chrome'
-                  env: PORT=7000
 
             - name: run cypress on firefox
               if: ${{ always() }}
@@ -146,17 +146,17 @@ jobs:
               env:
                   CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
                   GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+                  CYPRESS_SERVER_PORT: 7001
               with:
                   install: false
                   record: true
                   parallel: true
                   working-directory: e2e
-                  start: pnpm run setup
+                  start: 'pnpm exec vite preview --port 7001'
                   wait-on: 'http://localhost:7001'
                   wait-on-timeout: 120
                   browser: firefox
                   group: 'Milkdown-E2E-Firefox'
-                  env: PORT=7001
 
     report:
         if: ${{ always() }}

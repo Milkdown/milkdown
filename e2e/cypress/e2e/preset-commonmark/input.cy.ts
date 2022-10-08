@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 /* eslint-disable promise/catch-or-return */
 
+Cypress.config('baseUrl', `http://localhost:${Cypress.env('SERVER_PORT')}`);
+
 beforeEach(() => {
     cy.visit('/#/preset-commonmark');
 });
