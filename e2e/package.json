@@ -5,13 +5,14 @@
     "scripts": {
         "start": "vite",
         "build": "vite build",
-        "serve": "vite preview --port 7000",
+        "serve": "vite preview",
         "setup": "pnpm serve",
+        "setup:port": "pnpm serve",
         "test": "cypress run",
         "test:verbose": "cypress open",
-        "start:test": "start-server-and-test setup http-get://localhost:7000 test",
-        "e2e": "start-server-and-test setup http-get://localhost:7000 test",
-        "start:test:verbose": "start-server-and-test setup http-get://localhost:7000 test:verbose"
+        "start:test": "start-server-and-test setup:port http-get://localhost:7000 test",
+        "e2e": "start-server-and-test setup:port http-get://localhost:7000 test",
+        "start:test:verbose": "start-server-and-test setup:port http-get://localhost:7000 test:verbose"
     },
     "files": [
         "style"
