@@ -123,6 +123,11 @@ jobs:
 
             - run: pnpm test:e2e:build
 
+            - name: Setup firefox
+              uses: browser-actions/setup-firefox@latest
+              with:
+                  firefox-version: 'latest-esr'
+
             - name: run cypress on chrome
               uses: cypress-io/github-action@v4
               env:
