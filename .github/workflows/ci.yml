@@ -6,110 +6,38 @@ on:
 
 env:
     CI: true
-    PNPM_CACHE_FOLDER: .pnpm-store
     NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
+    start:
+        uses: ./.github/workflows/start-nx-cloud.yml
+
+    agent:
+        uses: ./.github/workflows/start-agents.yml
+
     test:
+        needs: start
+        uses: ./.github/workflows/test.yml
+        secrets:
+            CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+            CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+
+    release:
+        needs: test
+        uses: ./.github/workflows/release-package.yml
+        secrets:
+            CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    stop:
+        if: ${{ always() }}
+        needs: test
+        uses: ./.github/workflows/stop-nx-cloud.yml
+
+    report:
+        if: ${{ always() }}
+        needs: [stop, test, start, release]
         runs-on: ubuntu-latest
         steps:
-            - name: checkout code repository
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-            - name: setup node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 16.x
-
-            - name: load cache
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      ~/.pnpm-store
-                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}
-
-            - uses: pnpm/action-setup@v2.2.2
-              with:
-                  version: latest
-                  run_install: true
-
-            - run: pnpm exec nx-cloud start-ci-run
-
-            - name: build packs
-              run: pnpm build:cache
-
-            - name: run test
-              run: |
-                  pnpm test
-
-            - name: run cypress
-              uses: cypress-io/github-action@v2
-              env:
-                  CYPRESS_SERVER_PORT: 7000
-                  CYPRESS_PORT: 8000
-              with:
-                  install: false
-                  start: 'pnpm --filter=@milkdown/e2e exec vite preview --port 7000'
-                  command: pnpm --filter=@milkdown/e2e test
-                  wait-on: 'http://localhost:7000'
-                  browser: chrome
-
-            - name: create versions or publish to npm registry
-              uses: changesets/action@v1
-              with:
-                  publish: pnpm release
-                  commit: 'ci(changeset): release milkdown'
-              env:
-                  GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-            - run: pnpm exec nx-cloud stop-all-agents
-              if: ${{ always() }}
-
-            - name: export screenshots (on failure only)
-              uses: actions/upload-artifact@v3.1.0
-              if: ${{ failure() }}
-              with:
-                  name: cypress-screenshots
-                  path: cypress/screenshots
-                  retention-days: 7
-
-            - name: export screen recordings (on failure only)
-              uses: actions/upload-artifact@v3.1.0
-              if: ${{ failure() }}
-              with:
-                  name: cypress-videos
-                  path: cypress/videos
-                  retention-days: 7
-    agents:
-        runs-on: ubuntu-latest
-        name: Agent
-        timeout-minutes: 60
-        strategy:
-            matrix:
-                agent: [1, 2, 3]
-        steps:
-            - uses: actions/checkout@v3
-            - name: setup node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 16.x
-
-            - name: load cache
-              uses: actions/cache@v3
-              with:
-                  path: |
-                      ~/.pnpm-store
-                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}
-
-            - uses: pnpm/action-setup@v2.2.2
-              with:
-                  version: latest
-                  run_install: true
-
-            - name: Start Nx Agent ${{ matrix.agent }}
-              run: npx nx-cloud start-agent
+            - name: on error
+              if: ${{ needs.start.result != 'success' || needs.test.result != 'success' || needs.release.result != 'success' }}
+              run: exit 1
