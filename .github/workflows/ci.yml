@@ -30,7 +30,7 @@ jobs:
 
     stop:
         if: ${{ always() }}
-        needs: test
+        needs: release
         uses: ./.github/workflows/stop-nx-cloud.yml
 
     report:
