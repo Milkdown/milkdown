@@ -1,0 +1,52 @@
+name: Release Package
+
+on:
+    workflow_call:
+        secrets:
+            NPM_TOKEN:
+                required: true
+            CHANGESET_TOKEN:
+                required: true
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: setup node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.6.0
+
+            - uses: pnpm/action-setup@v2.2.2
+              with:
+                  version: latest
+                  run_install: false
+
+            - name: get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+            - name: load cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}
+
+            - name: install dependencies
+              run: pnpm install
+
+            - name: build packs
+              run: pnpm build:cache
+
+            - name: create versions or publish to npm registry
+              uses: changesets/action@v1
+              with:
+                  publish: pnpm release
+                  commit: 'ci(changeset): release milkdown'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
