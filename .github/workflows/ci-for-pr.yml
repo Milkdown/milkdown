@@ -87,7 +87,7 @@ jobs:
             - run: pnpm exec nx-cloud stop-all-agents
 
             - name: on error
-              if: ${{ needs.start-nx-cloud.result != 'success' || needs.unit-test.result != 'success' || needs.e2e-test.result != 'success' }}
+              if: ${{ needs.start-nx-cloud.result != 'success' || needs.test.result != 'success' }}
               run: exit 1
 
     agents:
