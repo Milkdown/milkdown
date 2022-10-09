@@ -13,7 +13,7 @@ jobs:
         uses: ./.github/workflows/start-nx-cloud.yml
 
     agent:
-        uses: ./.github/workflows/start-agent.yml
+        uses: ./.github/workflows/start-agents.yml
 
     test:
         needs: start
