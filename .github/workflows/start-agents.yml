@@ -1,17 +1,18 @@
-name: Start NX Cloud
+name: Start Agents
 
 on:
     workflow_call:
 
 jobs:
-    start-nx-cloud:
+    agents:
         runs-on: ubuntu-latest
+        name: Agent
+        timeout-minutes: 60
+        strategy:
+            matrix:
+                agent: [1, 2, 3]
         steps:
-            - name: checkout code repository
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
+            - uses: actions/checkout@v3
             - name: setup node.js
               uses: actions/setup-node@v3
               with:
@@ -38,4 +39,5 @@ jobs:
             - name: install dependencies
               run: pnpm install
 
-            - run: pnpm exec nx-cloud start-ci-run
+            - name: start nx agent ${{ matrix.agent }}
+              run: npx nx-cloud start-agent
