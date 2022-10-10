@@ -1,4 +1,4 @@
-name: Milkdown Test
+name: Run Test
 
 on:
     workflow_call:

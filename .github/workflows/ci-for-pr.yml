@@ -1,4 +1,4 @@
-name: ci-for-pr
+name: On Pull Request
 
 on:
     workflow_dispatch:
