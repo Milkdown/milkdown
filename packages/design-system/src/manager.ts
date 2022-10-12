@@ -72,6 +72,25 @@ export class ThemeManager {
         return meta.get()(payload) as Ret;
     }
 
+    getSlice<
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Key extends ThemeSliceKey<any, any, any>,
+        Ret extends GetRet<Key> = GetRet<Key>,
+        Payload extends GetPayload<Key> = GetPayload<Key>,
+        K extends GetKey<Key> = GetKey<Key>,
+    >(key: Key | (K & string)): ThemeSlice<Ret, Payload> {
+        const name: string = typeof key === 'string' ? key : (key as Key).sliceName;
+        const lazyGet = this.#cache.get(name);
+        if (lazyGet) {
+            const meta = this.#container.getSlice(key);
+            meta.set(lazyGet);
+            this.#cache.delete(key as string);
+        }
+        const meta = this.#container.getSlice(key);
+
+        return meta.get();
+    }
+
     onFlush(fn: () => void, callWhenRegister = true): void {
         if (!this.#flushListener.has(fn)) {
             this.#flushListener.add(fn);
