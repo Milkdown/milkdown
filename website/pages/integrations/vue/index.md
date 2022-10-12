@@ -27,7 +27,7 @@ import { VueEditor, useEditor } from '@milkdown/vue';
 import { commonmark } from '@milkdown/preset-commonmark';
 
 export const MilkdownEditor = defineComponent(() => {
-    const editor = useEditor((root) =>
+    const { editor } = useEditor((root) =>
         Editor.make()
             .config((ctx) => {
                 ctx.set(rootCtx, root);
@@ -74,7 +74,7 @@ const CustomImage: DefineComponent = defineComponent({
 });
 
 export const MyEditor = defineComponent(() => {
-    const editor = useEditor((root, renderVue) => {
+    const { editor } = useEditor((root, renderVue) => {
         const nodes = commonmark
             .configure(paragraph, {
                 view: renderVue(CustomParagraph),
