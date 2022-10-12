@@ -13,7 +13,9 @@ export const historyPlugin = createPlugin(() => ({
         prosemirrorHistory(),
         createKeymap({
             'Mod-z': undo,
+            'Mod-Z': undo,
             'Mod-y': redo,
+            'Mod-Y': redo,
             'Shift-Mod-z': redo,
         }),
     ],
