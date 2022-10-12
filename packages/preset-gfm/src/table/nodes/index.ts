@@ -144,6 +144,19 @@ export const table = createPlugin<Keys, Record<string, unknown>, keyof typeof sc
                 const tr = state.tr.replaceRangeWith(start, end, tableNode).scrollIntoView();
                 return tr.setSelection(TextSelection.create(tr.doc, start + 3));
             }),
+            new InputRule(/^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/, (state, match, start, end) => {
+                const $start = state.doc.resolve(start);
+                if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType.table))
+                    return null;
+
+                const tableNode = createTable(
+                    ctx.get(schemaCtx),
+                    Number(match.groups?.['row']),
+                    Number(match.groups?.['col']),
+                );
+                const tr = state.tr.replaceRangeWith(start, end, tableNode).scrollIntoView();
+                return tr.setSelection(TextSelection.create(tr.doc, start + 3));
+            }),
         ],
         commands: (_, ctx) => [
             createCmd(PrevCell, () => goToNextCell(-1)),
