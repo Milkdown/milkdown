@@ -74,7 +74,7 @@
         "pathe": "^0.3.2",
         "prettier": "^2.7.1",
         "rimraf": "^3.0.2",
-        "rollup": "^2.79.0",
+        "rollup": "~2.79.0",
         "rollup-plugin-auto-external": "^2.0.0",
         "rollup-plugin-copy": "^3.4.0",
         "rollup-plugin-dts": "^4.2.1",
