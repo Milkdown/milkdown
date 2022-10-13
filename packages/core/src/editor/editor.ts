@@ -21,6 +21,8 @@ export enum EditorStatus {
     Destroyed = 'Destroyed',
 }
 
+export type OnStatusChange = (status: EditorStatus) => void;
+
 /**
  * Get the milkdown editor constructor
  */
@@ -36,6 +38,7 @@ export class Editor {
 
     #status = EditorStatus.Idle;
     #configureList: CtxHandler[] = [];
+    #onStatusChange: OnStatusChange = () => void 0;
 
     readonly #container = createContainer();
     readonly #clock = createClock();
@@ -89,6 +92,7 @@ export class Editor {
 
     readonly #setStatus = (status: EditorStatus) => {
         this.#status = status;
+        this.#onStatusChange(status);
     };
 
     /**
@@ -137,6 +141,17 @@ export class Editor {
      */
     readonly config = (configure: CtxHandler) => {
         this.#configureList.push(configure);
+        return this;
+    };
+
+    /**
+     * Call when editor status changed.
+     *
+     * @param onChange - The function that will be called when the status of the editor changed.
+     * @returns Editor instance.
+     */
+    readonly onStatusChange = (onChange: OnStatusChange) => {
+        this.#onStatusChange = onChange;
         return this;
     };
 
