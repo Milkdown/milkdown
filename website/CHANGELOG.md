@@ -1,5 +1,43 @@
 # @milkdown/website
 
+## 6.5.0
+
+### Minor Changes
+
+-   77ae1d3: Removable plugins, editor status, table inputrule and `injectSlices` factory options.
+
+### Patch Changes
+
+-   Updated dependencies [77ae1d3]
+    -   @milkdown/core@6.5.0
+    -   @milkdown/ctx@6.5.0
+    -   @milkdown/design-system@6.5.0
+    -   @milkdown/exception@6.5.0
+    -   @milkdown/plugin-block@6.5.0
+    -   @milkdown/plugin-clipboard@6.5.0
+    -   @milkdown/plugin-collaborative@6.5.0
+    -   @milkdown/plugin-cursor@6.5.0
+    -   @milkdown/plugin-diagram@6.5.0
+    -   @milkdown/plugin-emoji@6.5.0
+    -   @milkdown/plugin-history@6.5.0
+    -   @milkdown/plugin-indent@6.5.0
+    -   @milkdown/plugin-listener@6.5.0
+    -   @milkdown/plugin-math@6.5.0
+    -   @milkdown/plugin-menu@6.5.0
+    -   @milkdown/plugin-prism@6.5.0
+    -   @milkdown/plugin-slash@6.5.0
+    -   @milkdown/plugin-tooltip@6.5.0
+    -   @milkdown/plugin-trailing@6.5.0
+    -   @milkdown/plugin-upload@6.5.0
+    -   @milkdown/preset-commonmark@6.5.0
+    -   @milkdown/preset-gfm@6.5.0
+    -   @milkdown/prose@6.5.0
+    -   @milkdown/react@6.5.0
+    -   @milkdown/theme-nord@6.5.0
+    -   @milkdown/theme-tokyo@6.5.0
+    -   @milkdown/transformer@6.5.0
+    -   @milkdown/utils@6.5.0
+
 ## 6.4.3
 
 ### Patch Changes

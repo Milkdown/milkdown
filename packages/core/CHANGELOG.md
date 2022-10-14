@@ -1,5 +1,19 @@
 # @milkdown/core
 
+## 6.5.0
+
+### Minor Changes
+
+-   77ae1d3: Removable plugins, editor status, table inputrule and `injectSlices` factory options.
+
+### Patch Changes
+
+-   Updated dependencies [77ae1d3]
+    -   @milkdown/ctx@6.5.0
+    -   @milkdown/design-system@6.5.0
+    -   @milkdown/exception@6.5.0
+    -   @milkdown/transformer@6.5.0
+
 ## 6.4.1
 
 ### Patch Changes
