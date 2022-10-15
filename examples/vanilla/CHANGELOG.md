@@ -1,5 +1,22 @@
 # @milkdown-examples/vanilla
 
+## 6.5.0
+
+### Minor Changes
+
+-   77ae1d3: Removable plugins, editor status, table inputrule and `injectSlices` factory options.
+
+### Patch Changes
+
+-   Updated dependencies [77ae1d3]
+    -   @milkdown/core@6.5.0
+    -   @milkdown/plugin-math@6.5.0
+    -   @milkdown/plugin-menu@6.5.0
+    -   @milkdown/plugin-slash@6.5.0
+    -   @milkdown/preset-commonmark@6.5.0
+    -   @milkdown/theme-nord@6.5.0
+    -   @milkdown/theme-tokyo@6.5.0
+
 ## 6.4.3
 
 ### Patch Changes

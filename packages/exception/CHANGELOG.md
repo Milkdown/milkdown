@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.5.0
+
+### Minor Changes
+
+-   77ae1d3: Removable plugins, editor status, table inputrule and `injectSlices` factory options.
+
 ## 6.4.1
 
 ### Patch Changes

@@ -1,5 +1,23 @@
 # @milkdown-examples/collaboration
 
+## 6.5.0
+
+### Minor Changes
+
+-   77ae1d3: Removable plugins, editor status, table inputrule and `injectSlices` factory options.
+
+### Patch Changes
+
+-   Updated dependencies [77ae1d3]
+    -   @milkdown/core@6.5.0
+    -   @milkdown/plugin-collaborative@6.5.0
+    -   @milkdown/plugin-math@6.5.0
+    -   @milkdown/preset-commonmark@6.5.0
+    -   @milkdown/preset-gfm@6.5.0
+    -   @milkdown/prose@6.5.0
+    -   @milkdown/theme-nord@6.5.0
+    -   @milkdown/utils@6.5.0
+
 ## 6.4.2
 
 ### Patch Changes

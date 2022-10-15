@@ -1,6 +1,6 @@
 {
     "name": "@milkdown/prose",
-    "version": "6.4.1",
+    "version": "6.5.0",
     "type": "module",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
