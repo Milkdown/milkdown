@@ -205,3 +205,16 @@ editor.action(insert('# Hello milkdown'));
 ```
 
 For more details about macros, please check [macros](/macros).
+
+## Destroy
+
+You can call `editor.destroy` to destroy an existing editor. And then you can create a new editor with `editor.create`.
+
+```typescript
+await editor.destroy();
+
+// Then create again
+await editor.create();
+```
+
+If you just want to recreate the editor, you can use `editor.create`, it will destroy the old editor and create a new one.
