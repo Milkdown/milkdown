@@ -208,7 +208,7 @@ For more details about macros, please check [macros](/macros).
 
 ## Destroy
 
-You can call `editor.destroy` to destroy an existing editor. And then you can create a new editor with `editor.create`.
+You can call `editor.destroy` to destroy an existing editor. You can create a new editor later with `editor.create`.
 
 ```typescript
 await editor.destroy();
