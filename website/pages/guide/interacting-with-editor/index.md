@@ -218,3 +218,27 @@ await editor.create();
 ```
 
 If you just want to recreate the editor, you can use `editor.create`, it will destroy the old editor and create a new one.
+
+## Editor Status
+
+Users can peek the editor status by calling `editor.status`.
+
+The possible values are:
+
+```typescript
+export enum EditorStatus {
+    Init = 'Init',
+    OnCreated = 'OnCreated',
+    Created = 'Created',
+    OnDestroy = 'OnDestroy',
+    Destroyed = 'Destroyed',
+}
+```
+
+Users can also inspect the change by passing a callback to `editor.onStatusChange`.
+
+```typescript
+editor.onStatusChange((status) => {
+    // Do something...
+});
+```
