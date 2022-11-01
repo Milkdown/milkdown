@@ -9,7 +9,7 @@ Milkdown 是一个轻量但强大的 WYSIWYG（所见即所得）的 markdown �
 
 通过这种模式，你可以根据喜好开启或关闭语法和功能，例如表格，数学公式或斜线指令。你甚至可以创造自己的插件来实现你的想法。
 
-> :baby_bottle: 有趣的事实：Milkdown 的文档就是由 Milkdown 渲染的。
+> 🍼: 有趣的事实：Milkdown 的文档就是由 Milkdown 渲染的。
 
 ---
 
