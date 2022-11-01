@@ -461,14 +461,14 @@ export const titleDict: Dict = new Map([
         'theme-nord',
         {
             en: 'Theme Nord',
-            'zh-hans': 'Theme Nord',
+            'zh-hans': 'Nord主题',
         },
     ],
     [
         'theme-tokyo',
         {
             en: 'Theme Tokyo',
-            'zh-hans': 'Theme Tokyo',
+            'zh-hans': 'Tokyo主题',
         },
     ],
     [
