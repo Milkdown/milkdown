@@ -11,7 +11,7 @@ import { injectStyle } from './style';
 
 export const key = new PluginKey('MILKDOWN_EMOJI_FILTER');
 
-export const filter = (utils: ThemeUtils, maxListSize: number) => {
+export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: TwemojiOptions) => {
     let trigger = false;
     let _from = 0;
     let _search = '';
@@ -145,9 +145,16 @@ export const filter = (utils: ThemeUtils, maxListSize: number) => {
                     }
 
                     dropDown.classList.remove('hide');
-                    renderDropdownList(result, dropDown, $active, replace, (a) => {
-                        $active = a;
-                    });
+                    renderDropdownList(
+                        result,
+                        dropDown,
+                        $active,
+                        replace,
+                        (a) => {
+                            $active = a;
+                        },
+                        twemojiOptions,
+                    );
                     calculateNodePosition(view, dropDown, (selected, target, parent) => {
                         const $editor = dropDown.parentElement;
                         if (!$editor) {

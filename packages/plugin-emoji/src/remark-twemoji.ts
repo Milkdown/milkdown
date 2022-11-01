@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { RemarkPlugin } from '@milkdown/core';
 import emojiRegex from 'emoji-regex';
 import { Literal, Node, Parent } from 'unist';
 
@@ -36,7 +37,7 @@ function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null)
     }
 }
 
-export const twemojiPlugin = () => {
+export const twemojiPlugin: (twemojiOptions?: TwemojiOptions) => RemarkPlugin = (twemojiOptions) => () => {
     function transformer(tree: Node) {
         flatMap(tree, (node) => {
             if (!isLiteral(node)) {
@@ -53,7 +54,7 @@ export const twemojiPlugin = () => {
                     if (index > 0) {
                         output.push({ ...node, value: str.slice(0, index) });
                     }
-                    output.push({ ...node, value: parse(emoji), type: 'emoji' });
+                    output.push({ ...node, value: parse(emoji, twemojiOptions), type: 'emoji' });
                     str = str.slice(index + emoji.length);
                 }
             }
