@@ -56,6 +56,7 @@ export const twemojiPlugin = () => {
                     output.push({ ...node, value: parse(emoji), type: 'emoji' });
                     str = str.slice(index + emoji.length);
                 }
+                regex.lastIndex = 0;
             }
             if (str.length) {
                 output.push({ ...node, value: str });
