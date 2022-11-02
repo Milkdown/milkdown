@@ -40,6 +40,7 @@ export const renderDropdownList = (
     $active: HTMLElement | null,
     onConfirm: () => void,
     setActive: (active: HTMLElement | null) => void,
+    twemojiOptions?: TwemojiOptions,
 ) => {
     while (dropDown.firstChild) {
         dropDown.firstChild.remove();
@@ -49,7 +50,7 @@ export const renderDropdownList = (
         container.className = 'milkdown-emoji-filter_item';
 
         const emojiSpan = document.createElement('span');
-        emojiSpan.innerHTML = parse(emoji);
+        emojiSpan.innerHTML = parse(emoji, twemojiOptions);
 
         emojiSpan.className = 'milkdown-emoji-filter_item-emoji';
         const keySpan = document.createElement('span');

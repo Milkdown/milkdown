@@ -13,6 +13,7 @@ import { twemojiPlugin } from './remark-twemoji';
 
 export type EmojiOptions = {
     maxListSize: number;
+    twemojiOptions: TwemojiOptions;
 };
 
 export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
@@ -87,7 +88,7 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
                 const got = nodeEmoji.get(content);
                 if (!got || content.includes(got)) return null;
 
-                const html = parse(got);
+                const html = parse(got, options?.twemojiOptions);
 
                 return state.tr
                     .setMeta('emoji', true)
@@ -95,7 +96,7 @@ export const emojiNode = createNode<string, EmojiOptions>((utils, options) => {
                     .scrollIntoView();
             }),
         ],
-        remarkPlugins: () => [remarkEmoji as RemarkPlugin, twemojiPlugin],
-        prosePlugins: () => [filter(utils, options?.maxListSize ?? 6)],
+        remarkPlugins: () => [remarkEmoji as RemarkPlugin, twemojiPlugin(options?.twemojiOptions)],
+        prosePlugins: () => [filter(utils, options?.maxListSize ?? 6, options?.twemojiOptions)],
     };
 });
