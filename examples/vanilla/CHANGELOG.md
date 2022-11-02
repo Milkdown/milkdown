@@ -1,5 +1,12 @@
 # @milkdown-examples/vanilla
 
+## 6.5.1
+
+### Patch Changes
+
+-   Updated dependencies [1162c30]
+    -   @milkdown/preset-commonmark@6.5.1
+
 ## 6.5.0
 
 ### Minor Changes

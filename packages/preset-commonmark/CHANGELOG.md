@@ -1,5 +1,11 @@
 # @milkdown/preset-commonmark
 
+## 6.5.1
+
+### Patch Changes
+
+-   1162c30: Bug fix for link inline sync and emoji.
+
 ## 6.5.0
 
 ### Minor Changes
