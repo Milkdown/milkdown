@@ -1,5 +1,13 @@
 # @milkdown/e2e
 
+## 6.5.1
+
+### Patch Changes
+
+-   Updated dependencies [1162c30]
+    -   @milkdown/preset-commonmark@6.5.1
+    -   @milkdown/preset-gfm@6.5.0
+
 ## 6.5.0
 
 ### Minor Changes
