@@ -102,6 +102,7 @@ export const viteBuild = (packageDirName: string, options: BuildOptions = {}): B
     mergeDeep<BuildOptions>(
         {
             sourcemap: true,
+            emptyOutDir: false,
             lib: {
                 entry: resolvePath(`packages/${packageDirName}/src/index.ts`),
                 name: `milkdown_${packageDirName}`,
