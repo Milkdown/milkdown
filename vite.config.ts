@@ -114,7 +114,6 @@ export const viteBuild = (packageDirName: string, options: BuildOptions = {}): B
                 output: {
                     dir: resolvePath(`packages/${packageDirName}/lib`),
                 },
-                plugins: rollupPlugins,
             },
         },
         options,

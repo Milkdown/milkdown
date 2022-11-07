@@ -8,7 +8,7 @@ import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 import { fileURLToPath } from 'url';
 
-import pkg from './package.json';
+import pkg from './package.json' assert { type: 'json' };
 
 const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {})];
 
