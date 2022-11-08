@@ -16,7 +16,13 @@ export const calcButtonPos = (buttons: HTMLElement, view: EditorView, isBottom: 
 
         if (left < 0) left = 0;
 
-        if (start.top - parent.top < target.height || (isBottom && parent.bottom - start.bottom > target.height)) {
+        const scrollbarWidth = $editor.offsetWidth - $editor.clientWidth;
+        const maxLeft = parent.width - scrollbarWidth - (target.width + 4);
+        if (left > maxLeft) {
+            left = maxLeft;
+        }
+
+        if (top < $editor.scrollTop || (isBottom && parent.bottom - start.bottom > target.height)) {
             top = start.bottom - parent.top + 14 + $editor.scrollTop;
         }
         return [top, left];

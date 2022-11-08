@@ -168,6 +168,12 @@ export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: 
                             left = 0;
                         }
 
+                        const scrollbarWidth = $editor.offsetWidth - $editor.clientWidth;
+                        const maxLeft = parent.width - scrollbarWidth - (target.width + 4);
+                        if (left > maxLeft) {
+                            left = maxLeft;
+                        }
+
                         if (window.innerHeight - start.bottom < target.height) {
                             top = selected.top - parent.top - target.height - 14 + $editor.scrollTop;
                         }

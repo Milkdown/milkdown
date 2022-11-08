@@ -128,6 +128,12 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
 
                                     if (left < 0) left = 0;
 
+                                    const scrollbarWidth = $editor.offsetWidth - $editor.clientWidth;
+                                    const maxLeft = parent.width - scrollbarWidth - (target.width + 4);
+                                    if (left > maxLeft) {
+                                        left = maxLeft;
+                                    }
+
                                     return [top, left];
                                 });
                             },
