@@ -156,7 +156,7 @@ export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: 
                         },
                         twemojiOptions,
                     );
-                    calculateNodePosition(view, dropDown, (selected, target, parent) => {
+                    calculateNodePosition(view, dropDown, (_selected, target, parent) => {
                         const $editor = dropDown.parentElement;
                         if (!$editor) {
                             throw missingRootElement();
@@ -168,29 +168,23 @@ export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: 
                             left = 0;
                         }
 
-                        const scrollbarWidth = $editor.offsetWidth - $editor.clientWidth;
-                        const maxLeft = parent.width - scrollbarWidth - (target.width + 4);
-                        if (left > maxLeft) {
-                            left = maxLeft;
-                        }
-
                         let direction: 'top' | 'bottom';
                         let maxHeight: number | undefined;
-                        const selectedToTop = selected.top - parent.top;
-                        const selectedToBottom = parent.height + parent.top - selected.bottom;
-                        if (selectedToBottom >= target.height + 28) {
+                        const startToTop = start.top - parent.top;
+                        const startToBottom = parent.height + parent.top - start.bottom;
+                        if (startToBottom >= target.height + 28) {
                             direction = 'bottom';
-                        } else if (selectedToTop >= target.height + 28) {
+                        } else if (startToTop >= target.height + 28) {
                             direction = 'top';
-                        } else if (selectedToBottom >= selectedToTop) {
+                        } else if (startToBottom >= startToTop) {
                             direction = 'bottom';
-                            maxHeight = selectedToBottom - 28;
+                            maxHeight = startToBottom - 28;
                         } else {
                             direction = 'top';
-                            maxHeight = selectedToTop - 28;
+                            maxHeight = startToTop - 28;
                         }
-                        if (selectedToTop < 0 || selectedToBottom < 0) {
-                            maxHeight = parent.height - selected.height - 28;
+                        if (startToTop < 0 || startToBottom < 0) {
+                            maxHeight = parent.height - (start.bottom - start.top) - 28;
                             if (maxHeight > target.height) {
                                 maxHeight = undefined;
                             }
@@ -198,10 +192,15 @@ export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: 
 
                         const top =
                             direction === 'top'
-                                ? selected.top - parent.top - (maxHeight ?? target.height) - 14 + $editor.scrollTop
-                                : selected.bottom - parent.top + 14 + $editor.scrollTop;
+                                ? start.top - parent.top - (maxHeight ?? target.height) - 14 + $editor.scrollTop
+                                : start.bottom - parent.top + 14 + $editor.scrollTop;
 
                         dropDown.style.maxHeight = maxHeight !== undefined && maxHeight > 0 ? `${maxHeight}px` : '';
+
+                        const maxLeft = $editor.clientWidth - (dropDown.offsetWidth + 4);
+                        if (left > maxLeft) {
+                            left = maxLeft;
+                        }
 
                         return [top, left];
                     });

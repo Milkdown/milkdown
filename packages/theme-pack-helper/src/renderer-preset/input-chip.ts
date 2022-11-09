@@ -88,8 +88,7 @@ const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
 
         if (left < 0) left = 0;
 
-        const scrollbarWidth = $editor.offsetWidth - $editor.clientWidth;
-        const maxLeft = parent.width - scrollbarWidth - (target.width + 4);
+        const maxLeft = $editor.clientWidth - (target.width + 4);
         if (left > maxLeft) {
             left = maxLeft;
         }
