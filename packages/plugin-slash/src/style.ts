@@ -54,6 +54,7 @@ export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
 
     return emotion.css`
         width: 320px;
+        min-height: 48px;
         max-height: 320px;
         overflow-y: auto;
         border-radius: ${themeManager.get(ThemeSize, 'radius')};

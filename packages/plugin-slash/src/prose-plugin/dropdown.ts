@@ -32,6 +32,7 @@ export const renderDropdown = (status: Status, dropdownElement: HTMLElement, lis
         dropdownElement.appendChild($);
     });
 
+    dropdownElement.style.maxHeight = '';
     dropdownElement.classList.remove('hide');
 
     const first$ = actions[0];
