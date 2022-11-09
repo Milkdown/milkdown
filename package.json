@@ -78,7 +78,7 @@
         "rollup-plugin-auto-external": "^2.0.0",
         "rollup-plugin-copy": "^3.4.0",
         "rollup-plugin-dts": "^5.0.0",
-        "rollup-plugin-esbuild": "^4.10.2",
+        "rollup-plugin-esbuild": "^5.0.0",
         "tslib": "^2.4.0",
         "typescript": "^4.8.2",
         "typescript-styled-plugin": "^0.18.2",

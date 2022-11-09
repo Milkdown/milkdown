@@ -1,5 +1,5 @@
 module.exports = {
-  "__version": "10.3.0",
+  "__version": "11.0.0",
   "input:": {
     "task list": {
       "1": "*   [ ] list item 1\n*   [ ] list item 2\n\n    *   [ ] sub list item 1\n    *   [ ] sub list item 2\n*   [ ] list item 3\n"

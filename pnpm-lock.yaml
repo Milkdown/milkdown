@@ -48,7 +48,7 @@ importers:
       rollup-plugin-auto-external: ^2.0.0
       rollup-plugin-copy: ^3.4.0
       rollup-plugin-dts: ^5.0.0
-      rollup-plugin-esbuild: ^4.10.2
+      rollup-plugin-esbuild: ^5.0.0
       tslib: ^2.4.0
       typescript: ^4.8.2
       typescript-styled-plugin: ^0.18.2
@@ -58,11 +58,11 @@ importers:
       '@changesets/cli': 2.23.2
       '@commitlint/cli': 17.0.3
       '@commitlint/config-conventional': 17.0.3
-      '@nrwl/cli': 15.0.10
-      '@nrwl/cypress': 15.0.10_tfn3pcyqrcnwghe2gkzgsdvjuy
+      '@nrwl/cli': 15.0.13
+      '@nrwl/cypress': 15.0.13_mfmf2fsxmnoeudb4x4e6chj35a
       '@nrwl/nx-cloud': 15.0.2
-      '@nrwl/tao': 15.0.10
-      '@nrwl/workspace': 15.0.10_vu3mnxswcnxgiscdac2rb2sw3q
+      '@nrwl/tao': 15.0.13
+      '@nrwl/workspace': 15.0.13_vu3mnxswcnxgiscdac2rb2sw3q
       '@rollup/plugin-commonjs': 23.0.0_rollup@3.0.0
       '@rollup/plugin-json': 5.0.0_rollup@3.0.0
       '@rollup/plugin-node-resolve': 15.0.0_rollup@3.0.0
@@ -91,7 +91,7 @@ importers:
       husky: 8.0.1
       jsdom: 20.0.0
       lint-staged: 13.0.3
-      nx: 15.0.10
+      nx: 15.0.13
       pathe: 0.3.2
       prettier: 2.7.1
       rimraf: 3.0.2
@@ -99,7 +99,7 @@ importers:
       rollup-plugin-auto-external: 2.0.0_rollup@3.0.0
       rollup-plugin-copy: 3.4.0
       rollup-plugin-dts: 5.0.0_5p6rwtpdrikalwfalls5fycwyu
-      rollup-plugin-esbuild: 4.10.2_ef77u4tww2xfghil7xagwmop4u
+      rollup-plugin-esbuild: 5.0.0_ef77u4tww2xfghil7xagwmop4u
       tslib: 2.4.0
       typescript: 4.8.2
       typescript-styled-plugin: 0.18.2
@@ -115,7 +115,7 @@ importers:
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/theme-nord': workspace:*
-      cypress: ^10.9.0
+      cypress: ^11.0.0
       start-server-and-test: ^1.13.0
       tslib: ^2.4.0
     dependencies:
@@ -128,7 +128,7 @@ importers:
       tslib: 2.4.0
     devDependencies:
       '@cypress/snapshot': 2.1.7
-      cypress: 10.9.0
+      cypress: 11.0.0
       start-server-and-test: 1.14.0
 
   examples/collaboration:
@@ -3438,18 +3438,18 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@nrwl/cli/15.0.10:
-    resolution: {integrity: sha512-+HtEyrSMcaNq1SNhOanKXX3oFntC0mdd5UNIkw8qipSv/7cysBch+3RUwqvnqUFRZhJejCZgFRzUp7rAD7SZ2Q==}
+  /@nrwl/cli/15.0.13:
+    resolution: {integrity: sha512-w0oOP4v176CbD34+VytiAItIH3fOeiaccq7T2Un/hhx+/Q9mdO/VWyYZOKmp85uGodx/yZ6LyGW6rX0BjM0Rsg==}
     dependencies:
-      nx: 15.0.10
+      nx: 15.0.13
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
       - debug
     dev: true
 
-  /@nrwl/cypress/15.0.10_tfn3pcyqrcnwghe2gkzgsdvjuy:
-    resolution: {integrity: sha512-u300vl8lOWfqRpbiAdkE+IYGlwDY/48GHEPTmKOp1Wupd0IX2mQcDVRCugSVhmeV1nTdnKOrVzx19oNymzzSAg==}
+  /@nrwl/cypress/15.0.13_mfmf2fsxmnoeudb4x4e6chj35a:
+    resolution: {integrity: sha512-KFopCs2XSMVGDby37RtmU1Os0ikbM+9EWwr+tuMahZ+EtXmBsbH4qK6ljiKKcUyMGMYEykRsRLHYfs+WBZA9Mg==}
     peerDependencies:
       cypress: '>= 3 < 11'
     peerDependenciesMeta:
@@ -3459,9 +3459,9 @@ packages:
       '@babel/core': 7.18.6
       '@babel/preset-env': 7.18.9_@babel+core@7.18.6
       '@cypress/webpack-preprocessor': 5.12.1_r7ygmsl642cv5hhsdzs4k43vqu
-      '@nrwl/devkit': 15.0.10_kzkjrhtskr5gkfqaj4jhjtc5yy
-      '@nrwl/linter': 15.0.10_x6ktcrmrwzlk27kjohvjnbby44
-      '@nrwl/workspace': 15.0.10_vu3mnxswcnxgiscdac2rb2sw3q
+      '@nrwl/devkit': 15.0.13_ynj63xa6n7leooetjvtwy5mbfq
+      '@nrwl/linter': 15.0.13_x6ktcrmrwzlk27kjohvjnbby44
+      '@nrwl/workspace': 15.0.13_vu3mnxswcnxgiscdac2rb2sw3q
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.8.2
       babel-loader: 8.2.5_m3opitmgss2x7fiy6klia7uvaa
       chalk: 4.1.0
@@ -3491,27 +3491,27 @@ packages:
       - webpack-cli
     dev: true
 
-  /@nrwl/devkit/15.0.10_kzkjrhtskr5gkfqaj4jhjtc5yy:
-    resolution: {integrity: sha512-JPLB6kyC4L7e4D4LSWhZNrY0bCmlwyagn9ubuPPT/MWQ9LX7RWr/OL87IEHAp/kH93hYPNmwzkIXNpc30y4/GA==}
+  /@nrwl/devkit/15.0.13_ynj63xa6n7leooetjvtwy5mbfq:
+    resolution: {integrity: sha512-/8k7wbBRFf2UC+T4F+vWMy3bfSGi+uK6RwXk53moLq3nxehXaQhRiCqasC6VJFUw3zK6luu2T7xkPUlA9K9l4w==}
     peerDependencies:
       nx: '>= 14 <= 16'
     dependencies:
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.8.2
       ejs: 3.1.8
       ignore: 5.2.0
-      nx: 15.0.10
+      nx: 15.0.13
       semver: 7.3.4
       tslib: 2.4.0
     transitivePeerDependencies:
       - typescript
     dev: true
 
-  /@nrwl/jest/15.0.10_ofbyk4avyjwangyzblm3cqdsjm:
-    resolution: {integrity: sha512-xogeg+6OPjODODCmsPOlW5z1Qrg+m+4hA68QU44V6u3kLmoTYT2MtmUJ5MC5dEtTzV3EgpT/AD+fdBqWFgKxmA==}
+  /@nrwl/jest/15.0.13_i6vueoyrp773qmty7ltypyro2y:
+    resolution: {integrity: sha512-env+EO+uvyw85dL7tPwR6VFe0CLGcn82EAaxFwY83XUmdM9n92OR2XY0RecoDzo6uL2kRFb8x++Jy3OVLmqVYA==}
     dependencies:
       '@jest/reporters': 28.1.1
       '@jest/test-result': 28.1.1
-      '@nrwl/devkit': 15.0.10_kzkjrhtskr5gkfqaj4jhjtc5yy
+      '@nrwl/devkit': 15.0.13_ynj63xa6n7leooetjvtwy5mbfq
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.8.2
       chalk: 4.1.0
       dotenv: 10.0.0
@@ -3530,19 +3530,19 @@ packages:
       - typescript
     dev: true
 
-  /@nrwl/linter/15.0.10_x6ktcrmrwzlk27kjohvjnbby44:
-    resolution: {integrity: sha512-1Cuc03S6Qo03/PxhVIm8VgxHQTbGg+TkeGVzsXgVHOnbDJkKQj4At47dRgaErFTi1LO4cWhghA0tMC32EGq3PQ==}
+  /@nrwl/linter/15.0.13_x6ktcrmrwzlk27kjohvjnbby44:
+    resolution: {integrity: sha512-u/6eO6k/9ceVP0y/0dbDUcoHh/MNebTa8DBugarhKgRYXyA0jIIg3ZIw2oJmKaIVicFMAAM2uxkyVQUvIltiuA==}
     peerDependencies:
       eslint: ^8.0.0
     peerDependenciesMeta:
       eslint:
         optional: true
     dependencies:
-      '@nrwl/devkit': 15.0.10_kzkjrhtskr5gkfqaj4jhjtc5yy
-      '@nrwl/jest': 15.0.10_ofbyk4avyjwangyzblm3cqdsjm
+      '@nrwl/devkit': 15.0.13_ynj63xa6n7leooetjvtwy5mbfq
+      '@nrwl/jest': 15.0.13_i6vueoyrp773qmty7ltypyro2y
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.8.2
       eslint: 8.19.0
-      nx: 15.0.10
+      nx: 15.0.13
       tmp: 0.2.1
       tslib: 2.4.0
     transitivePeerDependencies:
@@ -3572,28 +3572,28 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/tao/15.0.10:
-    resolution: {integrity: sha512-8MTx+eNxJSH826IOC0LplvVR2fxFz0+VOOUORk2gq75+3jCxmW7uxcTM5WvzgtCw7lFJCvWVZASoGCVEIns6Fg==}
+  /@nrwl/tao/15.0.13:
+    resolution: {integrity: sha512-z55RKnVOYsiABKFUIj+QBf6I4fUwTlObxJpgUJp0i3E97P3BgbzhTG1EhuBxLH8fGKrbOAPs0ct38Asl+zGZfQ==}
     hasBin: true
     dependencies:
-      nx: 15.0.10
+      nx: 15.0.13
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
       - debug
     dev: true
 
-  /@nrwl/workspace/15.0.10_vu3mnxswcnxgiscdac2rb2sw3q:
-    resolution: {integrity: sha512-15aZd/x/LnOfLP8Ly9DWPX4e0WBSqvoSuSty4+jkuqU3uq9x2ol9O1V//k6SjqNmc5M6h5gPXKByBkwEFQrfAA==}
+  /@nrwl/workspace/15.0.13_vu3mnxswcnxgiscdac2rb2sw3q:
+    resolution: {integrity: sha512-G+emebnp8lIOf4ytYd3fUIGhVtnZAg+qhkXYyYZdlsNFBK1qYmkCVPIAL8fLLnHNT1NXe5zYTJzoHEEl/eoKSw==}
     peerDependencies:
       prettier: ^2.6.2
     peerDependenciesMeta:
       prettier:
         optional: true
     dependencies:
-      '@nrwl/devkit': 15.0.10_kzkjrhtskr5gkfqaj4jhjtc5yy
-      '@nrwl/jest': 15.0.10_ofbyk4avyjwangyzblm3cqdsjm
-      '@nrwl/linter': 15.0.10_x6ktcrmrwzlk27kjohvjnbby44
+      '@nrwl/devkit': 15.0.13_ynj63xa6n7leooetjvtwy5mbfq
+      '@nrwl/jest': 15.0.13_i6vueoyrp773qmty7ltypyro2y
+      '@nrwl/linter': 15.0.13_x6ktcrmrwzlk27kjohvjnbby44
       '@parcel/watcher': 2.0.4
       chalk: 4.1.0
       chokidar: 3.5.3
@@ -3608,7 +3608,7 @@ packages:
       ignore: 5.2.0
       minimatch: 3.0.5
       npm-run-path: 4.0.1
-      nx: 15.0.10
+      nx: 15.0.13
       open: 8.4.0
       prettier: 2.7.1
       rxjs: 6.6.7
@@ -5330,7 +5330,7 @@ packages:
     dev: true
 
   /check-more-types/2.24.0:
-    resolution: {integrity: sha1-FCD/sQ/URNz8ebQ4kbv//TKoRgA=}
+    resolution: {integrity: sha512-Pj779qHxV2tuapviy1bSZNEL1maXr13bPYpsvSDB68HlYcYuhlDrmGd63i0JHMCLKzc7rUSNIrpdJlhVlNwrxA==}
     engines: {node: '>= 0.8.0'}
     dev: true
 
@@ -5726,8 +5726,8 @@ packages:
       stream-transform: 2.1.3
     dev: true
 
-  /cypress/10.9.0:
-    resolution: {integrity: sha512-MjIWrRpc+bQM9U4kSSdATZWZ2hUqHGFEQTF7dfeZRa4MnalMtc88FIE49USWP2ZVtfy5WPBcgfBX+YorFqGElA==}
+  /cypress/11.0.0:
+    resolution: {integrity: sha512-mYXGi2Wjmy9shRjAUDugSMOr4uuzE2nl7hXQi3oQkIQsnwwBx2HNB8Vbfsix3A0zyPXlL5jTcbb6rCVWKRaXbg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -10373,8 +10373,8 @@ packages:
     resolution: {integrity: sha512-JYOWTeFoS0Z93587vRJgASD5Ut11fYl5NyihP3KrYBvMe1FRRs6RN7m20SA/16GM4P6hTnZjT+UmDOt38UeXNg==}
     dev: true
 
-  /nx/15.0.10:
-    resolution: {integrity: sha512-Uy6C/lj+gFjdNAKg2RNYEqMO7t2jxz5fYAEm6FnViDZ2Qz28l1L6V70MEvq6wgyDzSSRL0I+OPLb71tiaD9BiA==}
+  /nx/15.0.13:
+    resolution: {integrity: sha512-5mJGWz91B9/sxzLjXdD+pmZTel54NeNNxFDis8OhtGDn6eRZ25qWsZNDgzqIDtwKn3c9gThAMHU4XH2OTgWUnA==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
@@ -10386,8 +10386,8 @@ packages:
       '@swc/core':
         optional: true
     dependencies:
-      '@nrwl/cli': 15.0.10
-      '@nrwl/tao': 15.0.10
+      '@nrwl/cli': 15.0.13
+      '@nrwl/tao': 15.0.13
       '@parcel/watcher': 2.0.4
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.22
@@ -11539,8 +11539,8 @@ packages:
       '@babel/code-frame': 7.18.6
     dev: true
 
-  /rollup-plugin-esbuild/4.10.2_ef77u4tww2xfghil7xagwmop4u:
-    resolution: {integrity: sha512-OPrBgdN1ZC2zQvq/rm5Zvzpb0Rez7zbbVJ+1b5Az//kLlfhwR1mqOP3wAhkg9sn5nF7p+97p55TORE0RNXzNcw==}
+  /rollup-plugin-esbuild/5.0.0_ef77u4tww2xfghil7xagwmop4u:
+    resolution: {integrity: sha512-1cRIOHAPh8WQgdQQyyvFdeOdxuiyk+zB5zJ5+YOwrZP4cJ0MT3Fs48pQxrZeyZHcn+klFherytILVfE4aYrneg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     peerDependencies:
       esbuild: '>=0.10.1'
@@ -12811,7 +12811,7 @@ packages:
     dev: true
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
