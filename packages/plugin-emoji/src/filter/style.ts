@@ -6,6 +6,7 @@ import {
     ThemeColor,
     ThemeFont,
     ThemeManager,
+    ThemeScrollbar,
     ThemeShadow,
     ThemeSize,
 } from '@milkdown/core';
@@ -13,18 +14,22 @@ import {
 export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) => {
     const border = themeManager.get(ThemeBorder, undefined);
     const shadow = themeManager.get(ThemeShadow, undefined);
+    const scrollbar = themeManager.get(ThemeScrollbar, undefined);
     const radius = themeManager.get(ThemeSize, 'radius');
     const typography = themeManager.get(ThemeFont, 'typography');
     const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
 
     const style = css`
+        min-height: 36px;
+        max-height: 320px;
+        overflow-y: auto;
+        border-radius: ${radius};
         position: absolute;
+        background: ${palette('surface')};
+
         &.hide {
             display: none;
         }
-
-        border-radius: ${radius};
-        background: ${palette('surface')};
 
         .milkdown-emoji-filter_item {
             display: flex;
@@ -50,5 +55,5 @@ export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) =>
             vertical-align: -1.5px;
         }
     `;
-    return cx(border, shadow, style);
+    return cx(border, shadow, scrollbar, style);
 };
