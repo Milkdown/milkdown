@@ -25,8 +25,7 @@ export const calculatePosition = (view: EditorView, dom: HTMLElement) => {
             left = 0;
         }
 
-        const scrollbarWidth = $editor.offsetWidth - $editor.clientWidth;
-        const maxLeft = parent.width - scrollbarWidth - (target.width + 4);
+        const maxLeft = $editor.clientWidth - (target.width + 4);
         if (left > maxLeft) {
             left = maxLeft;
         }
