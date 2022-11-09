@@ -24,18 +24,40 @@ export const defaultCalcPosition = (view: EditorView, dropdownElement: HTMLEleme
         }
 
         let left = selected.left - parent.left;
-        let top = selected.bottom - parent.top + 14 + $editor.scrollTop;
 
         if (left < 0) {
             left = 0;
         }
 
-        if (parent.height + parent.top - selected.bottom < target.height) {
-            const topOffset = selected.top - parent.top - target.height - 14 + $editor.scrollTop;
-            if (topOffset > 0) {
-                top = topOffset;
+        let direction: 'top' | 'bottom';
+        let maxHeight: number | undefined;
+        const selectedToTop = selected.top - parent.top;
+        const selectedToBottom = parent.height + parent.top - selected.bottom;
+        if (selectedToBottom >= target.height + 28) {
+            direction = 'bottom';
+        } else if (selectedToTop >= target.height + 28) {
+            direction = 'top';
+        } else if (selectedToBottom >= selectedToTop) {
+            direction = 'bottom';
+            maxHeight = selectedToBottom - 28;
+        } else {
+            direction = 'top';
+            maxHeight = selectedToTop - 28;
+        }
+        if (selectedToTop < 0 || selectedToBottom < 0) {
+            maxHeight = parent.height - selected.height - 28;
+            if (maxHeight > target.height) {
+                maxHeight = undefined;
             }
         }
+
+        const top =
+            direction === 'top'
+                ? selected.top - parent.top - (maxHeight ?? target.height) - 14 + $editor.scrollTop
+                : selected.bottom - parent.top + 14 + $editor.scrollTop;
+
+        dropdownElement.style.maxHeight = maxHeight !== undefined && maxHeight > 0 ? `${maxHeight}px` : '';
+
         return [top, left];
     });
 };
