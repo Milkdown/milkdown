@@ -69,12 +69,12 @@ export const taskListItem = (manager: ThemeManager, { css }: Emotion) => {
                     }
                 }
                 &[data-checked='true'] {
-                    label {
+                    > label {
                         color: ${palette('primary')};
                     }
                 }
                 &[data-checked='false'] {
-                    label {
+                    > label {
                         color: ${palette('solid', 0.87)};
                     }
                 }
