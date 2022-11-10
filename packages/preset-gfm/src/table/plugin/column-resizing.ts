@@ -89,8 +89,15 @@ function handleMouseMove(view: EditorView, event: MouseEvent, handleWidth: numbe
         let cell = -1;
         if (target) {
             const { left, right } = target.getBoundingClientRect();
-            if (event.clientX - left <= handleWidth) cell = edgeCell(view, event, 'left');
-            else if (right - event.clientX <= handleWidth) cell = edgeCell(view, event, 'right');
+            if (
+                right - event.clientX <= handleWidth ||
+                // hover on the right border of the cell, the `target` is the next cell
+                event.clientX === Math.floor(left)
+            ) {
+                cell = edgeCell(view, event, 'right');
+            } else if (event.clientX - left <= handleWidth) {
+                cell = edgeCell(view, event, 'left');
+            }
         }
 
         if (cell != pluginState.activeHandle) {
