@@ -1,5 +1,13 @@
 # @milkdown/plugin-history
 
+## 6.5.2
+
+### Patch Changes
+
+-   3cb8683: Fix floating widget positions by @iHaPBoy
+-   Updated dependencies [3cb8683]
+    -   @milkdown/utils@6.5.2
+
 ## 6.5.0
 
 ### Minor Changes
