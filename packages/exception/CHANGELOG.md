@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.5.2
+
+### Patch Changes
+
+-   3cb8683: Fix floating widget positions by @iHaPBoy
+
 ## 6.5.0
 
 ### Minor Changes

@@ -1,5 +1,19 @@
 # @milkdown-examples/vanilla
 
+## 6.5.2
+
+### Patch Changes
+
+-   3cb8683: Fix floating widget positions by @iHaPBoy
+-   Updated dependencies [3cb8683]
+    -   @milkdown/core@6.5.2
+    -   @milkdown/plugin-math@6.5.2
+    -   @milkdown/plugin-menu@6.5.2
+    -   @milkdown/plugin-slash@6.5.2
+    -   @milkdown/preset-commonmark@6.5.2
+    -   @milkdown/theme-nord@6.5.2
+    -   @milkdown/theme-tokyo@6.5.2
+
 ## 6.5.1
 
 ### Patch Changes
