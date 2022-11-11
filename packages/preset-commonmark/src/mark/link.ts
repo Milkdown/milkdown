@@ -15,8 +15,9 @@ export const ModifyLink = createCmdKey<string>('ModifyLink');
 const id = 'link';
 export type LinkOptions = {
     input: {
-        placeholder: string;
+        placeholder?: string;
         buttonText?: string;
+        displayWhenSelected?: boolean;
     };
 };
 export const link = createMark<string, LinkOptions>((utils, options) => {
@@ -147,14 +148,30 @@ export const link = createMark<string, LinkOptions>((utils, options) => {
                             }
 
                             if (
-                                selection.empty &&
                                 selection instanceof TextSelection &&
                                 to < doc.content.size &&
                                 from < doc.content.size &&
                                 doc.rangeHasMark(from, from === to ? to + 1 : to, type)
                             ) {
-                                renderOnTop = false;
-                                return true;
+                                let shouldDisplay = selection.empty;
+                                if (options?.input?.displayWhenSelected && !shouldDisplay) {
+                                    doc.nodesBetween(from, from === to ? to + 1 : to, (node, pos) => {
+                                        if (
+                                            node.marks.some(
+                                                (mark) =>
+                                                    mark.type === type && from >= pos && to <= pos + node.nodeSize,
+                                            )
+                                        ) {
+                                            shouldDisplay = true;
+                                            return false;
+                                        }
+                                        return;
+                                    });
+                                }
+                                if (shouldDisplay) {
+                                    renderOnTop = false;
+                                    return true;
+                                }
                             }
 
                             if (selection instanceof NodeSelection) {
