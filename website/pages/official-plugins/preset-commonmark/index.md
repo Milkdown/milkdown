@@ -81,6 +81,13 @@ new Editor({ ...  }).use(nodes);
     -   placeholder: The placeholder of image url input.
     -   buttonText: The button text of image url input.
 
+### Link
+
+-   input:
+    -   placeholder: The placeholder of link url input.
+    -   buttonText: The button text of link url input.
+    -   displayWhenSelected: Whether to display the input chip when the link text is selected.
+
 ### CodeFence
 
 -   languageList: _string[]_. The selectable languages list of code fence needs to be enabled.
