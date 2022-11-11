@@ -210,6 +210,7 @@ export const codeFence = createNode<Keys, { languageList?: string[] }>((utils, o
             };
 
             const renderer = utils.themeManager.get<ThemeCodeFenceType>('code-fence', {
+                view,
                 onBlur,
                 onFocus,
                 onSelectLanguage,
