@@ -1,9 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Node } from '@milkdown/prose/model';
+import type { EditorView } from '@milkdown/prose/view';
 
 import { createThemeSliceKey } from '../../manager';
 
 type ThemeOptions = {
+    view: EditorView;
     onSelectLanguage: (language: string) => void;
     editable: () => boolean;
     onFocus: () => void;
