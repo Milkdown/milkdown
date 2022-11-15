@@ -24,6 +24,16 @@ export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: 
     $active = null
   }
 
+  const setActive = (active: HTMLElement | null) => {
+    if ($active)
+      $active.classList.remove('active')
+
+    if (active)
+      active.classList.add('active')
+
+    $active = active
+  }
+
   return new Plugin({
     key,
     props: {
@@ -106,16 +116,12 @@ export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: 
 
         if (['ArrowDown', 'ArrowUp'].includes(key)) {
           const next
-                        = key === 'ArrowDown'
-                          ? $active?.nextElementSibling || dropDown.firstElementChild
-                          : $active?.previousElementSibling || dropDown.lastElementChild
-          if ($active)
-            $active.classList.remove('active')
-
+            = key === 'ArrowDown'
+              ? $active?.nextElementSibling || dropDown.firstElementChild
+              : $active?.previousElementSibling || dropDown.lastElementChild
           if (!next)
             return
-          next.classList.add('active')
-          $active = next as HTMLElement
+          setActive(next as HTMLElement)
         }
       }
       const onClick = (e: Event) => {
@@ -147,16 +153,7 @@ export const filter = (utils: ThemeUtils, maxListSize: number, twemojiOptions?: 
 
           dropDown.style.maxHeight = ''
           dropDown.classList.remove('hide')
-          renderDropdownList(
-            result,
-            dropDown,
-            $active,
-            replace,
-            (a) => {
-              $active = a
-            },
-            twemojiOptions,
-          )
+          renderDropdownList(result, dropDown, replace, setActive, twemojiOptions)
           calculateNodePosition(view, dropDown, (_selected, target, parent) => {
             const $editor = dropDown.parentElement
             if (!$editor)

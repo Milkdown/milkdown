@@ -39,7 +39,6 @@ export const checkTrigger = (
 export const renderDropdownList = (
   list: Emoji[],
   dropDown: HTMLElement,
-  $active: HTMLElement | null,
   onConfirm: () => void,
   setActive: (active: HTMLElement | null) => void,
   twemojiOptions?: TwemojiOptions,
@@ -63,27 +62,14 @@ export const renderDropdownList = (
     container.appendChild(keySpan)
     dropDown.appendChild(container)
 
-    if (i === 0) {
-      container.classList.add('active')
+    if (i === 0)
       setActive(container)
-    }
 
     const onEnter = (e: MouseEvent) => {
-      if ($active)
-        $active.classList.remove('active')
-
       const { target } = e
       if (!(target instanceof HTMLElement))
         return
-      target.classList.add('active')
       setActive(target)
-    }
-
-    const onLeave = (e: MouseEvent) => {
-      const { target } = e
-      if (!(target instanceof HTMLElement))
-        return
-      target.classList.remove('active')
     }
 
     const onClick = (e: MouseEvent) => {
@@ -92,7 +78,6 @@ export const renderDropdownList = (
     }
 
     container.addEventListener('mouseenter', onEnter)
-    container.addEventListener('mouseleave', onLeave)
     container.addEventListener('mousedown', onClick)
   })
 }
