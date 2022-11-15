@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-export type Color = 'neutral' | 'solid' | 'shadow' | 'primary' | 'secondary' | 'line' | 'background' | 'surface';
+export type Color = 'neutral' | 'solid' | 'shadow' | 'primary' | 'secondary' | 'line' | 'background' | 'surface'
 
-export type Font = 'typography' | 'code';
+export type Font = 'typography' | 'code'
 
-export type Size = 'radius' | 'lineWidth';
+export type Size = 'radius' | 'lineWidth'
 
 export type KnownIcon =
     | 'h1'
@@ -40,13 +40,13 @@ export type KnownIcon =
     | 'redo'
     | 'liftList'
     | 'sinkList'
-    | 'dragHandle';
+    | 'dragHandle'
 
 // A workaround to keep the intellisense
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type Icon = KnownIcon | (string & {});
 
-export type IconValue = {
-    dom: HTMLElement;
-    label: string;
-};
+export type Icon = KnownIcon | (string & {})
+
+export interface IconValue {
+  dom: HTMLElement
+  label: string
+}

@@ -1,64 +1,63 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { expectDomTypeError, missingRootElement } from '@milkdown/exception';
+import { expectDomTypeError, missingRootElement } from '@milkdown/exception'
 
-import type { EditorView } from '../../view';
+import type { EditorView } from '../../view'
 
-type Point = [top: number, left: number];
+type Point = [top: number, left: number]
 
 export const calculateNodePosition = (
-    view: EditorView,
-    target: HTMLElement,
-    handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Point,
+  view: EditorView,
+  target: HTMLElement,
+  handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Point,
 ) => {
-    const state = view.state;
-    const { from } = state.selection;
+  const state = view.state
+  const { from } = state.selection
 
-    const { node } = view.domAtPos(from);
-    const element = node instanceof Text ? node.parentElement : node;
-    if (!(element instanceof HTMLElement)) {
-        throw expectDomTypeError(element);
-    }
+  const { node } = view.domAtPos(from)
+  const element = node instanceof Text ? node.parentElement : node
+  if (!(element instanceof HTMLElement))
+    throw expectDomTypeError(element)
 
-    const selectedNodeRect = element.getBoundingClientRect();
-    const targetNodeRect = target.getBoundingClientRect();
-    const parent = target.parentElement;
-    if (!parent) {
-        throw expectDomTypeError(parent);
-    }
-    const parentNodeRect = parent.getBoundingClientRect();
+  const selectedNodeRect = element.getBoundingClientRect()
+  const targetNodeRect = target.getBoundingClientRect()
+  const parent = target.parentElement
+  if (!parent)
+    throw expectDomTypeError(parent)
 
-    const [top, left] = handler(selectedNodeRect, targetNodeRect, parentNodeRect);
+  const parentNodeRect = parent.getBoundingClientRect()
 
-    target.style.top = top + 'px';
-    target.style.left = left + 'px';
-};
+  const [top, left] = handler(selectedNodeRect, targetNodeRect, parentNodeRect)
 
-type Rect = {
-    left: number;
-    right: number;
-    top: number;
-    bottom: number;
-};
+  target.style.top = `${top}px`
+  target.style.left = `${left}px`
+}
+
+interface Rect {
+  left: number
+  right: number
+  top: number
+  bottom: number
+}
 
 export const calculateTextPosition = (
-    view: EditorView,
-    target: HTMLElement,
-    handler: (start: Rect, end: Rect, targetRect: DOMRect, parentRect: DOMRect) => Point,
+  view: EditorView,
+  target: HTMLElement,
+  handler: (start: Rect, end: Rect, targetRect: DOMRect, parentRect: DOMRect) => Point,
 ) => {
-    const state = view.state;
-    const { from, to } = state.selection;
-    const start = view.coordsAtPos(from);
-    const end = view.coordsAtPos(to);
+  const state = view.state
+  const { from, to } = state.selection
+  const start = view.coordsAtPos(from)
+  const end = view.coordsAtPos(to)
 
-    const targetNodeRect = target.getBoundingClientRect();
-    const parent = target.parentElement;
-    if (!parent) {
-        throw missingRootElement();
-    }
-    const parentNodeRect = parent.getBoundingClientRect();
+  const targetNodeRect = target.getBoundingClientRect()
+  const parent = target.parentElement
+  if (!parent)
+    throw missingRootElement()
 
-    const [top, left] = handler(start, end, targetNodeRect, parentNodeRect);
+  const parentNodeRect = parent.getBoundingClientRect()
 
-    target.style.top = top + 'px';
-    target.style.left = left + 'px';
-};
+  const [top, left] = handler(start, end, targetNodeRect, parentNodeRect)
+
+  target.style.top = `${top}px`
+  target.style.left = `${left}px`
+}

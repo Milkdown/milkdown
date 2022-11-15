@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createThemeSliceKey } from '../manager';
-import { Font } from '../types';
+import { createThemeSliceKey } from '../manager'
+import type { Font } from '../types'
 
-export const ThemeFont = createThemeSliceKey<string, Font, 'font'>('font');
-export type ThemeFontType = typeof ThemeFont;
+export const ThemeFont = createThemeSliceKey<string, Font, 'font'>('font')
+export type ThemeFontType = typeof ThemeFont

@@ -1,46 +1,46 @@
 {
-    "name": "@milkdown/exception",
-    "version": "6.5.2",
-    "type": "module",
-    "main": "./lib/index.es.js",
-    "types": "./lib/index.d.ts",
-    "sideEffects": false,
-    "license": "MIT",
-    "scripts": {
-        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
-        "test": "vitest",
-        "tsc": "tsc --noEmit && echo",
-        "build": "tsc --emitDeclarationOnly && vite build"
-    },
-    "files": [
-        "lib",
-        "src"
-    ],
-    "dependencies": {
-        "tslib": "^2.4.0"
-    },
-    "nx": {
-        "targets": {
-            "build": {
-                "outputs": [
-                    "packages/exception/lib"
-                ],
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            },
-            "tsc": {
-                "outputs": [],
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            }
-        }
+  "name": "@milkdown/exception",
+  "type": "module",
+  "version": "6.5.2",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+    "test": "vitest",
+    "tsc": "tsc --noEmit && echo",
+    "build": "tsc --emitDeclarationOnly && vite build"
+  },
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "packages/exception/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
     }
+  }
 }

@@ -1,14 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { ThemeColor, themeManagerCtx, ThemeSize } from '@milkdown/core';
-import { dropCursor } from '@milkdown/prose/dropcursor';
-import { gapCursor } from '@milkdown/prose/gapcursor';
-import { createPlugin } from '@milkdown/utils';
+import { ThemeColor, ThemeSize, themeManagerCtx } from '@milkdown/core'
+import { dropCursor } from '@milkdown/prose/dropcursor'
+import { gapCursor } from '@milkdown/prose/gapcursor'
+import { createPlugin } from '@milkdown/utils'
 
 export const cursor = createPlugin(({ getStyle, themeManager }) => {
-    themeManager.onFlush(() => {
-        getStyle(({ injectGlobal }) => {
-            const css = injectGlobal;
-            css`
+  themeManager.onFlush(() => {
+    getStyle(({ injectGlobal }) => {
+      const css = injectGlobal
+      css`
                 /* copy from https://github.com/ProseMirror/prosemirror-gapcursor/blob/master/style/gapcursor.css */
                 .ProseMirror-gapcursor {
                     display: none;
@@ -37,19 +37,19 @@ export const cursor = createPlugin(({ getStyle, themeManager }) => {
                 .ProseMirror-focused .ProseMirror-gapcursor {
                     display: block;
                 }
-            `;
-        });
-    });
+            `
+    })
+  })
 
-    return {
-        prosePlugins: (_, ctx) => {
-            const themeManager = ctx.get(themeManagerCtx);
-            const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
-            const secondary = themeManager.get(ThemeColor, ['secondary']);
+  return {
+    prosePlugins: (_, ctx) => {
+      const themeManager = ctx.get(themeManagerCtx)
+      const lineWidth = themeManager.get(ThemeSize, 'lineWidth')
+      const secondary = themeManager.get(ThemeColor, ['secondary'])
 
-            const width = Number(lineWidth?.match(/\d+/)?.[0] ?? 1);
+      const width = Number(lineWidth?.match(/\d+/)?.[0] ?? 1)
 
-            return [gapCursor(), dropCursor({ color: secondary, width })];
-        },
-    };
-})();
+      return [gapCursor(), dropCursor({ color: secondary, width })]
+    },
+  }
+})()

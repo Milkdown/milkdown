@@ -1,86 +1,85 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { ThemeIcon, ThemeManager } from '@milkdown/core';
-import type { Icon } from '@milkdown/design-system';
-import { missingIcon } from '@milkdown/exception';
-import type { Node } from '@milkdown/prose/model';
-import type { Command } from '@milkdown/prose/state';
-import type { ThemeUtils } from '@milkdown/utils';
+import type { ThemeManager } from '@milkdown/core'
+import { ThemeIcon } from '@milkdown/core'
+import type { Icon } from '@milkdown/design-system'
+import { missingIcon } from '@milkdown/exception'
+import type { Node } from '@milkdown/prose/model'
+import type { Command } from '@milkdown/prose/state'
+import type { ThemeUtils } from '@milkdown/utils'
 
-import { injectStyle } from './style';
+import { injectStyle } from './style'
 
 export const createDropdown = (utils: ThemeUtils, className: string) => {
-    const div = document.createElement('div');
-    div.setAttribute('role', 'listbox');
-    div.setAttribute('tabindex', '-1');
-    utils.themeManager.onFlush(() => {
-        const style = utils.getStyle((emotion) => injectStyle(utils.themeManager, emotion));
+  const div = document.createElement('div')
+  div.setAttribute('role', 'listbox')
+  div.setAttribute('tabindex', '-1')
+  utils.themeManager.onFlush(() => {
+    const style = utils.getStyle(emotion => injectStyle(utils.themeManager, emotion))
 
-        if (style) {
-            div.classList.add(style);
-        }
-    });
+    if (style)
+      div.classList.add(style)
+  })
 
-    div.classList.add(utils.getClassName({}, className), 'hide');
+  div.classList.add(utils.getClassName({}, className), 'hide')
 
-    return div;
-};
+  return div
+}
 
-type ItemOptions = {
-    textClassName: string;
-};
+interface ItemOptions {
+  textClassName: string
+}
 export const createDropdownItem = (
-    themeManager: ThemeManager,
-    text: string,
-    icon: Icon,
-    options?: Partial<ItemOptions>,
+  themeManager: ThemeManager,
+  text: string,
+  icon: Icon,
+  options?: Partial<ItemOptions>,
 ) => {
-    const textClassName = options?.textClassName ?? 'text';
+  const textClassName = options?.textClassName ?? 'text'
 
-    const div = document.createElement('div');
-    div.setAttribute('role', 'option');
-    div.classList.add('slash-dropdown-item');
+  const div = document.createElement('div')
+  div.setAttribute('role', 'option')
+  div.classList.add('slash-dropdown-item')
 
-    const iconSpan = themeManager.get(ThemeIcon, icon);
+  const iconSpan = themeManager.get(ThemeIcon, icon)
 
-    if (!iconSpan) {
-        throw missingIcon(icon);
-    }
+  if (!iconSpan)
+    throw missingIcon(icon)
 
-    const textSpan = document.createElement('span');
-    textSpan.textContent = text;
-    textSpan.className = textClassName;
+  const textSpan = document.createElement('span')
+  textSpan.textContent = text
+  textSpan.className = textClassName
 
-    div.appendChild(iconSpan.dom);
-    div.appendChild(textSpan);
+  div.appendChild(iconSpan.dom)
+  div.appendChild(textSpan)
 
-    return div;
-};
+  return div
+}
 
 export const getDepth = (node: Node) => {
-    let cur = node;
-    let depth = 0;
-    while (cur.childCount) {
-        cur = cur.child(0);
-        depth += 1;
-    }
+  let cur = node
+  let depth = 0
+  while (cur.childCount) {
+    cur = cur.child(0)
+    depth += 1
+  }
 
-    return depth;
-};
+  return depth
+}
 
 const cleanUp: Command = (state, dispatch) => {
-    const { selection } = state;
-    const { $from } = selection;
-    const tr = state.tr.deleteRange($from.start(), $from.pos);
-    dispatch?.(tr);
-    return false;
-};
+  const { selection } = state
+  const { $from } = selection
+  const tr = state.tr.deleteRange($from.start(), $from.pos)
+  dispatch?.(tr)
+  return false
+}
 
-export const cleanUpAndCreateNode =
-    (createCommand: () => void): Command =>
-    (state, dispatch, view) => {
+export const cleanUpAndCreateNode
+    = (createCommand: () => void): Command =>
+      (state, dispatch, view) => {
         if (view) {
-            cleanUp(state, dispatch, view);
-            createCommand();
+          cleanUp(state, dispatch, view)
+          createCommand()
         }
-        return true;
-    };
+        return true
+      }

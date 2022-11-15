@@ -1,19 +1,20 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Emotion, ThemeBorder, ThemeFont, ThemeManager, ThemeScrollbar, ThemeShadow, ThemeSize } from '@milkdown/core';
-import { getPalette } from '@milkdown/design-system';
-import { injectProsemirrorView } from '@milkdown/theme-pack-helper';
+import type { Emotion, ThemeManager } from '@milkdown/core'
+import { ThemeBorder, ThemeFont, ThemeScrollbar, ThemeShadow, ThemeSize } from '@milkdown/core'
+import { getPalette } from '@milkdown/design-system'
+import { injectProsemirrorView } from '@milkdown/theme-pack-helper'
 
 export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
-    const { injectGlobal, css } = emotion;
-    const palette = getPalette(manager);
-    const radius = manager.get(ThemeSize, 'radius');
-    const neutral = palette('neutral', 0.87);
-    const surface = palette('surface');
-    const line = palette('line');
-    const highlight = palette('secondary', 0.38);
+  const { injectGlobal, css } = emotion
+  const palette = getPalette(manager)
+  const radius = manager.get(ThemeSize, 'radius')
+  const neutral = palette('neutral', 0.87)
+  const surface = palette('surface')
+  const line = palette('line')
+  const highlight = palette('secondary', 0.38)
 
-    const selection = css`
+  const selection = css`
         .ProseMirror-selectednode {
             outline: ${manager.get(ThemeSize, 'lineWidth')} solid ${line};
         }
@@ -29,25 +30,25 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
         & ::selection {
             background: ${highlight};
         }
-    `;
+    `
 
-    const editorLayout = css`
+  const editorLayout = css`
         padding: 50px 20px;
         outline: none;
         & > * {
             margin: 30px 0;
         }
-    `;
+    `
 
-    const paragraph = css`
+  const paragraph = css`
         p {
             font-size: 16px;
             line-height: 1.5;
             letter-spacing: 0.5px;
         }
-    `;
+    `
 
-    const blockquote = css`
+  const blockquote = css`
         blockquote {
             padding-left: 30px;
             line-height: 28px;
@@ -59,9 +60,9 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 line-height: 24px;
             }
         }
-    `;
+    `
 
-    const heading = css`
+  const heading = css`
         h1 {
             font-size: 48px;
             line-height: 1.167;
@@ -90,17 +91,17 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             margin: 40px 0;
             font-weight: 400;
         }
-    `;
+    `
 
-    const hr = css`
+  const hr = css`
         hr {
             height: ${manager.get(ThemeSize, 'lineWidth')};
             background-color: ${line};
             border-width: 0;
         }
-    `;
+    `
 
-    const list = css`
+  const list = css`
         ul,
         ol {
             padding: 0;
@@ -159,9 +160,9 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 margin: 0;
             }
         }
-    `;
+    `
 
-    const code = css`
+  const code = css`
         .code-fence {
             pre {
                 font-family: ${manager.get(ThemeFont, 'code')};
@@ -179,9 +180,9 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 }
             }
         }
-    `;
+    `
 
-    const img = css`
+  const img = css`
         .image {
             display: inline-block;
             margin: 0 auto;
@@ -191,9 +192,9 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
             height: auto;
             text-align: center;
         }
-    `;
+    `
 
-    const inline = css`
+  const inline = css`
         .code-inline {
             background-color: ${palette('neutral')};
             color: ${palette('background')};
@@ -222,9 +223,9 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
         .strike-through {
             text-decoration-color: ${palette('secondary')};
         }
-    `;
+    `
 
-    const footnote = css`
+  const footnote = css`
         .footnote-definition {
             ${manager.get(ThemeBorder, undefined)};
             border-radius: ${manager.get(ThemeSize, 'radius')};
@@ -247,9 +248,9 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 width: 16px;
             }
         }
-    `;
+    `
 
-    const table = css`
+  const table = css`
         /* copy from https://github.com/ProseMirror/prosemirror-tables/blob/master/style/tables.css */
         .tableWrapper {
             overflow-x: auto;
@@ -318,11 +319,11 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 background: transparent;
             }
         }
-    `;
+    `
 
-    injectProsemirrorView(emotion);
+  injectProsemirrorView(emotion)
 
-    injectGlobal`
+  injectGlobal`
         .milkdown {
             .material-icons-outlined {
                 font-size: 24px;
@@ -364,5 +365,5 @@ export const getStyle = (manager: ThemeManager, emotion: Emotion) => {
                 ${inline};
             }
         }
-    `;
-};
+    `
+}

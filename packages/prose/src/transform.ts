@@ -1,2 +1,2 @@
 /* Copyright 2021, Milkdown by Mirone. */
-export * from 'prosemirror-transform';
+export * from 'prosemirror-transform'

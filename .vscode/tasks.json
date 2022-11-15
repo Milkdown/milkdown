@@ -1,47 +1,47 @@
 {
-    "version": "2.0.0",
-    "tasks": [
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "build:cache",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "label": "npm: build",
+      "detail": "pnpm build:cache"
+    },
+    {
+      "type": "npm",
+      "script": "doc",
+      "isBackground": true,
+      "label": "npm: doc",
+      "dependsOn": ["npm: build"],
+      "detail": "pnpm run start --filter @milkdown/gh-pages",
+      "problemMatcher": [
         {
-            "type": "npm",
-            "script": "build:cache",
-            "group": {
-                "kind": "build",
-                "isDefault": true
+          "owner": "typescript",
+          "source": "vite",
+          "severity": "error",
+          "fileLocation": "absolute",
+          "pattern": {
+            "regexp": "^(\\d|:)+\\s+(PM|AM)\\s+\\[vite\\]\\sInternal\\sserver\\serror\\:\\s[^\\s].([^:]+):\\s+([^\\(]+)\\((\\d+):(\\d+)\\)\\s*$",
+            "file": 3,
+            "message": 4,
+            "line": 5,
+            "column": 6
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": {
+              "regexp": "dev server running"
             },
-            "label": "npm: build",
-            "detail": "pnpm build:cache"
-        },
-        {
-            "type": "npm",
-            "script": "doc",
-            "isBackground": true,
-            "label": "npm: doc",
-            "dependsOn": ["npm: build"],
-            "detail": "pnpm run start --filter @milkdown/gh-pages",
-            "problemMatcher": [
-                {
-                    "owner": "typescript",
-                    "source": "vite",
-                    "severity": "error",
-                    "fileLocation": "absolute",
-                    "pattern": {
-                        "regexp": "^(\\d|:)+\\s+(PM|AM)\\s+\\[vite\\]\\sInternal\\sserver\\serror\\:\\s[^\\s].([^:]+):\\s+([^\\(]+)\\((\\d+):(\\d+)\\)\\s*$",
-                        "file": 3,
-                        "message": 4,
-                        "line": 5,
-                        "column": 6
-                    },
-                    "background": {
-                        "activeOnStart": true,
-                        "beginsPattern": {
-                            "regexp": "dev server running"
-                        },
-                        "endsPattern": {
-                            "regexp": "ready"
-                        }
-                    }
-                }
-            ]
+            "endsPattern": {
+              "regexp": "ready"
+            }
+          }
         }
-    ]
+      ]
+    }
+  ]
 }

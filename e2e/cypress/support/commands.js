@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-require('@cypress/snapshot').register();
+require('@cypress/snapshot').register()
 
 // ***********************************************
 // This example commands.js shows you how to

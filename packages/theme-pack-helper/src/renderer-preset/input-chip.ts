@@ -1,20 +1,22 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type {
+  Emotion,
+  ThemeInputChipType,
+  ThemeManager,
+} from '@milkdown/core'
 import {
-    Emotion,
-    getPalette,
-    ThemeBorder,
-    ThemeInputChipType,
-    ThemeManager,
-    ThemeShadow,
-    ThemeSize,
-} from '@milkdown/core';
-import { missingRootElement } from '@milkdown/exception';
-import { calculateTextPosition } from '@milkdown/prose';
-import { EditorView } from '@milkdown/prose/view';
+  ThemeBorder,
+  ThemeShadow,
+  ThemeSize,
+  getPalette,
+} from '@milkdown/core'
+import { missingRootElement } from '@milkdown/exception'
+import { calculateTextPosition } from '@milkdown/prose'
+import type { EditorView } from '@milkdown/prose/view'
 
 const getStyle = (manager: ThemeManager, { css }: Emotion, options: { width: string }) => {
-    const palette = getPalette(manager);
-    return css`
+  const palette = getPalette(manager)
+  return css`
         ${manager.get(ThemeBorder, undefined)}
         ${manager.get(ThemeShadow, undefined)}
 
@@ -72,138 +74,137 @@ const getStyle = (manager: ThemeManager, { css }: Emotion, options: { width: str
         &.hide {
             display: none;
         }
-    `;
-};
+    `
+}
 
 const calcInputPos = (view: EditorView, input: HTMLDivElement) => {
-    calculateTextPosition(view, input, (start, end, target, parent) => {
-        const $editor = view.dom.parentElement;
-        if (!$editor) {
-            throw missingRootElement();
-        }
+  calculateTextPosition(view, input, (start, end, target, parent) => {
+    const $editor = view.dom.parentElement
+    if (!$editor)
+      throw missingRootElement()
 
-        const selectionWidth = end.left - start.left;
-        let left = start.left - parent.left - (target.width - selectionWidth) / 2;
-        const top = start.bottom - parent.top + 14 + $editor.scrollTop;
+    const selectionWidth = end.left - start.left
+    let left = start.left - parent.left - (target.width - selectionWidth) / 2
+    const top = start.bottom - parent.top + 14 + $editor.scrollTop
 
-        if (left < 0) left = 0;
+    if (left < 0)
+      left = 0
 
-        const maxLeft = $editor.clientWidth - (target.width + 4);
-        if (left > maxLeft) {
-            left = maxLeft;
-        }
+    const maxLeft = $editor.clientWidth - (target.width + 4)
+    if (left > maxLeft)
+      left = maxLeft
 
-        return [top, left];
-    });
-};
+    return [top, left]
+  })
+}
 
 export const inputChip = (manager: ThemeManager, emotion: Emotion) => {
-    manager.set<ThemeInputChipType>(
-        'input-chip',
-        ({ isBindMode, onUpdate, buttonText, placeholder, width = '400px', calculatePosition = calcInputPos }) => {
-            let button: HTMLButtonElement | null = null;
-            let disabled = false;
-            let value = '';
-            const wrapper = document.createElement('div');
+  manager.set<ThemeInputChipType>(
+    'input-chip',
+    ({ isBindMode, onUpdate, buttonText, placeholder, width = '400px', calculatePosition = calcInputPos }) => {
+      let button: HTMLButtonElement | null = null
+      let disabled = false
+      let value = ''
+      const wrapper = document.createElement('div')
 
-            manager.onFlush(() => {
-                const style = getStyle(manager, emotion, { width });
+      manager.onFlush(() => {
+        const style = getStyle(manager, emotion, { width })
 
-                if (style) {
-                    wrapper.classList.add(style);
-                }
-            });
+        if (style)
+          wrapper.classList.add(style)
+      })
 
-            wrapper.classList.add('tooltip-input');
+      wrapper.classList.add('tooltip-input')
 
-            const input = document.createElement('input');
-            if (placeholder) {
-                input.placeholder = placeholder;
-            }
-            wrapper.appendChild(input);
+      const input = document.createElement('input')
+      if (placeholder)
+        input.placeholder = placeholder
 
-            if (!isBindMode) {
-                button = document.createElement('button');
-                button.innerText = buttonText || 'APPLY';
-                wrapper.appendChild(button);
-            }
-            const hide = () => {
-                wrapper.classList.add('hide');
-            };
-            const show = (editorView: EditorView) => {
-                wrapper.classList.remove('hide');
-                calculatePosition(editorView, wrapper);
-            };
+      wrapper.appendChild(input)
 
-            const onInput = (e: Event) => {
-                const { target } = e;
-                if (!(target instanceof HTMLInputElement)) {
-                    return;
-                }
+      if (!isBindMode) {
+        button = document.createElement('button')
+        button.innerText = buttonText || 'APPLY'
+        wrapper.appendChild(button)
+      }
+      const hide = () => {
+        wrapper.classList.add('hide')
+      }
+      const show = (editorView: EditorView) => {
+        wrapper.classList.remove('hide')
+        calculatePosition(editorView, wrapper)
+      }
 
-                value = target.value;
+      const onInput = (e: Event) => {
+        const { target } = e
+        if (!(target instanceof HTMLInputElement))
+          return
 
-                if (!button) {
-                    onUpdate(value);
-                    return;
-                }
+        value = target.value
 
-                if (!value) {
-                    button.classList.add('disable');
-                    disabled = true;
-                    return;
-                }
+        if (!button) {
+          onUpdate(value)
+          return
+        }
 
-                button.classList.remove('disable');
-                disabled = false;
-            };
+        if (!value) {
+          button.classList.add('disable')
+          disabled = true
+          return
+        }
 
-            const onClick = (e: MouseEvent) => {
-                if (disabled) return;
-                e.stopPropagation();
-                onUpdate(value);
-                hide();
-            };
+        button.classList.remove('disable')
+        disabled = false
+      }
 
-            const onKeydown = (e: KeyboardEvent) => {
-                if ('key' in e && e.key === 'Enter') {
-                    onUpdate(value);
-                    hide();
-                }
-            };
+      const onClick = (e: MouseEvent) => {
+        if (disabled)
+          return
+        e.stopPropagation()
+        onUpdate(value)
+        hide()
+      }
 
-            const destroy = () => {
-                input.removeEventListener('input', onInput);
-                input.removeEventListener('keydown', onKeydown);
-                button?.removeEventListener('mousedown', onClick);
-                wrapper.remove();
-            };
+      const onKeydown = (e: KeyboardEvent) => {
+        if ('key' in e && e.key === 'Enter') {
+          onUpdate(value)
+          hide()
+        }
+      }
 
-            const init = (editorView: EditorView) => {
-                const $editor = editorView.dom.parentElement;
-                if (!$editor) throw missingRootElement();
+      const destroy = () => {
+        input.removeEventListener('input', onInput)
+        input.removeEventListener('keydown', onKeydown)
+        button?.removeEventListener('mousedown', onClick)
+        wrapper.remove()
+      }
 
-                input.addEventListener('input', onInput);
-                input.addEventListener('keydown', onKeydown);
-                button?.addEventListener('mousedown', onClick);
+      const init = (editorView: EditorView) => {
+        const $editor = editorView.dom.parentElement
+        if (!$editor)
+          throw missingRootElement()
 
-                $editor.appendChild(wrapper);
-                hide();
-            };
+        input.addEventListener('input', onInput)
+        input.addEventListener('keydown', onKeydown)
+        button?.addEventListener('mousedown', onClick)
 
-            const update = (v: string) => {
-                value = v;
-                input.value = v;
-            };
+        $editor.appendChild(wrapper)
+        hide()
+      }
 
-            return {
-                dom: wrapper,
-                init,
-                show,
-                hide,
-                destroy,
-                update,
-            };
-        },
-    );
-};
+      const update = (v: string) => {
+        value = v
+        input.value = v
+      }
+
+      return {
+        dom: wrapper,
+        init,
+        show,
+        hide,
+        destroy,
+        update,
+      }
+    },
+  )
+}

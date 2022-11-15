@@ -1,104 +1,104 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx } from '@milkdown/core';
-import { Mark, Node } from '@milkdown/prose/model';
+import type { Ctx } from '@milkdown/core'
+import { Mark, Node } from '@milkdown/prose/model'
 import type {
-    Decoration,
-    DecorationSource,
-    EditorView,
-    MarkViewConstructor,
-    NodeView,
-    NodeViewConstructor,
-} from '@milkdown/prose/view';
-import { customAlphabet } from 'nanoid';
-import { ComponentInternalInstance, DefineComponent, defineComponent, h, markRaw, Ref, ref, Teleport } from 'vue';
+  Decoration,
+  DecorationSource,
+  EditorView,
+  MarkViewConstructor,
+  NodeView,
+  NodeViewConstructor,
+} from '@milkdown/prose/view'
+import { customAlphabet } from 'nanoid'
+import type { ComponentInternalInstance, DefineComponent, Ref } from 'vue'
+import { Teleport, defineComponent, h, markRaw, ref } from 'vue'
 
-import { Content, VueNodeContainer } from './VueNode';
+import { Content, VueNodeContainer } from './VueNode'
 
-const nanoid = customAlphabet('abcedfghicklmn', 10);
+const nanoid = customAlphabet('abcedfghicklmn', 10)
 
 export type RenderOptions = Partial<
     {
-        as: string;
-        update?: (node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) => boolean;
+      as: string
+      update?: (node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) => boolean
     } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy'>
->;
+>
 
-export const createVueView =
-    (
-        rootInstance: Ref<null | ComponentInternalInstance>,
-        addPortal: (portal: DefineComponent, key: string) => void,
-        removePortalByKey: (key: string) => void,
+export const createVueView
+    = (
+      rootInstance: Ref<null | ComponentInternalInstance>,
+      addPortal: (portal: DefineComponent, key: string) => void,
+      removePortalByKey: (key: string) => void,
     ) =>
-    (
+      (
         component: DefineComponent,
         options: RenderOptions = {},
-    ): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
-    (ctx) =>
-    (node, view, getPos, decorations) =>
-        new VueNodeView(
-            ctx,
-            component,
-            rootInstance,
-            addPortal,
-            removePortalByKey,
-            options,
-            node,
-            view,
-            getPos,
-            decorations,
-        );
+      ): ((ctx: Ctx) => NodeViewConstructor | MarkViewConstructor) =>
+        ctx =>
+          (node, view, getPos, decorations) =>
+            new VueNodeView(
+              ctx,
+              component,
+              rootInstance,
+              addPortal,
+              removePortalByKey,
+              options,
+              node,
+              view,
+              getPos,
+              decorations,
+            )
 
 export class VueNodeView implements NodeView {
-    teleportDOM: HTMLElement;
-    key: string;
+  teleportDOM: HTMLElement
+  key: string
 
-    get isInlineOrMark() {
-        return this.node.value instanceof Mark || this.node.value.isInline;
-    }
+  get isInlineOrMark() {
+    return this.node.value instanceof Mark || this.node.value.isInline
+  }
 
-    private node: Ref<Node | Mark>;
-    private decorations: Ref<readonly Decoration[]>;
+  private node: Ref<Node | Mark>
+  private decorations: Ref<readonly Decoration[]>
 
-    constructor(
-        private ctx: Ctx,
-        private component: DefineComponent,
-        private rootInstance: Ref<null | ComponentInternalInstance>,
-        private addPortal: (portal: DefineComponent, key: string) => void,
-        private removePortalByKey: (key: string) => void,
-        private options: RenderOptions,
-        node: Node | Mark,
-        private view: EditorView,
-        private getPos: boolean | (() => number),
-        decorations: readonly Decoration[],
-    ) {
-        this.key = nanoid();
-        this.node = ref(node);
-        this.decorations = ref(decorations);
-        const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div';
-        this.teleportDOM = document.createElement(elementName);
-        this.renderPortal();
-    }
+  constructor(
+    private ctx: Ctx,
+    private component: DefineComponent,
+    private rootInstance: Ref<null | ComponentInternalInstance>,
+    private addPortal: (portal: DefineComponent, key: string) => void,
+    private removePortalByKey: (key: string) => void,
+    private options: RenderOptions,
+    node: Node | Mark,
+    private view: EditorView,
+    private getPos: boolean | (() => number),
+    decorations: readonly Decoration[],
+  ) {
+    this.key = nanoid()
+    this.node = ref(node)
+    this.decorations = ref(decorations)
+    const elementName = options.as ? options.as : this.isInlineOrMark ? 'span' : 'div'
+    this.teleportDOM = document.createElement(elementName)
+    this.renderPortal()
+  }
 
-    get dom() {
-        return (this.teleportDOM.firstElementChild || this.teleportDOM) as HTMLElement;
-    }
+  get dom() {
+    return (this.teleportDOM.firstElementChild || this.teleportDOM) as HTMLElement
+  }
 
-    get contentDOM() {
-        if (this.node instanceof Node && this.node.isLeaf) {
-            return undefined;
-        }
+  get contentDOM() {
+    if (this.node instanceof Node && this.node.isLeaf)
+      return undefined
 
-        return this.teleportDOM.querySelector<HTMLElement>('[data-view-content]') || this.dom;
-    }
+    return this.teleportDOM.querySelector<HTMLElement>('[data-view-content]') || this.dom
+  }
 
-    getPortal = (): DefineComponent => {
-        const CustomComponent = this.component;
-        const elementName = this.options.as ? this.options.as : this.isInlineOrMark ? 'span' : 'div';
-        return markRaw(
-            defineComponent({
-                name: 'milkdown-portal',
-                setup: () => {
-                    return () => (
+  getPortal = (): DefineComponent => {
+    const CustomComponent = this.component
+    const elementName = this.options.as ? this.options.as : this.isInlineOrMark ? 'span' : 'div'
+    return markRaw(
+      defineComponent({
+        name: 'milkdown-portal',
+        setup: () => {
+          return () => (
                         <Teleport key={this.key} to={this.teleportDOM}>
                             <VueNodeContainer
                                 as={elementName}
@@ -113,85 +113,77 @@ export class VueNodeView implements NodeView {
                                 </CustomComponent>
                             </VueNodeContainer>
                         </Teleport>
-                    );
-                },
-            }) as DefineComponent,
-        );
-    };
+          )
+        },
+      }) as DefineComponent,
+    )
+  }
 
-    renderPortal() {
-        if (!this.teleportDOM) return;
+  renderPortal() {
+    if (!this.teleportDOM)
+      return
 
-        const Portal = this.getPortal();
-        this.addPortal(Portal, this.key);
-        const instance = this.rootInstance.value;
-        if (instance) {
-            instance.update();
-        }
+    const Portal = this.getPortal()
+    this.addPortal(Portal, this.key)
+    const instance = this.rootInstance.value
+    if (instance)
+      instance.update()
+  }
+
+  destroy() {
+    this.options.destroy?.()
+    this.teleportDOM.remove()
+    this.removePortalByKey(this.key)
+  }
+
+  ignoreMutation(mutation: MutationRecord) {
+    if (this.options.ignoreMutation)
+      return this.options.ignoreMutation(mutation)
+
+    if (!this.dom || !this.contentDOM)
+      return true
+
+    if (this.node instanceof Node) {
+      if (this.node.isLeaf || this.node.isAtom)
+        return true
     }
 
-    destroy() {
-        this.options.destroy?.();
-        this.teleportDOM.remove();
-        this.removePortalByKey(this.key);
+    if ((mutation as unknown as { type: string }).type === 'selection')
+      return false
+
+    if (this.contentDOM === this.dom)
+      return false
+
+    if (this.contentDOM.contains(mutation.target))
+      return false
+
+    return true
+  }
+
+  update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) {
+    const innerUpdate = () => {
+      if (this.options.update) {
+        const result = this.options.update?.(node, decorations, innerDecorations)
+        if (result != null)
+          return result
+      }
+      if (this.node.value.type !== node.type)
+        return false
+
+      if (node === this.node.value && this.decorations.value === decorations)
+        return true
+
+      this.node.value = node
+      this.decorations.value = decorations
+      return true
     }
 
-    ignoreMutation(mutation: MutationRecord) {
-        if (this.options.ignoreMutation) {
-            return this.options.ignoreMutation(mutation);
-        }
-        if (!this.dom || !this.contentDOM) {
-            return true;
-        }
+    const shouldUpdate = innerUpdate()
 
-        if (this.node instanceof Node) {
-            if (this.node.isLeaf || this.node.isAtom) {
-                return true;
-            }
-        }
+    return shouldUpdate
+  }
 
-        if ((mutation as unknown as { type: string }).type === 'selection') {
-            return false;
-        }
+  selectNode = this.options?.selectNode
 
-        if (this.contentDOM === this.dom) {
-            return false;
-        }
-
-        if (this.contentDOM.contains(mutation.target)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    update(node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) {
-        const innerUpdate = () => {
-            if (this.options.update) {
-                const result = this.options.update?.(node, decorations, innerDecorations);
-                if (result != null) {
-                    return result;
-                }
-            }
-            if (this.node.value.type !== node.type) {
-                return false;
-            }
-
-            if (node === this.node.value && this.decorations.value === decorations) {
-                return true;
-            }
-
-            this.node.value = node;
-            this.decorations.value = decorations;
-            return true;
-        };
-
-        const shouldUpdate = innerUpdate();
-
-        return shouldUpdate;
-    }
-
-    selectNode = this.options?.selectNode;
-
-    deselectNode = this.options?.deselectNode;
+  deselectNode = this.options?.deselectNode
 }

@@ -1,15 +1,15 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "lib",
-        "jsx": "react",
-        "jsxFactory": "h",
-        "jsxFragmentFactory": "Fragment",
-        "types": ["vue"],
-        "lib": ["dom", "es2020"],
-        // TODO: remove this after vue support ts 4.8
-        "skipLibCheck": true
-    },
-    "include": ["src"]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "types": ["vue"],
+    "lib": ["dom", "es2020"],
+    // TODO: remove this after vue support ts 4.8
+    "skipLibCheck": true
+  },
+  "include": ["src"]
 }

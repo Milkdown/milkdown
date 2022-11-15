@@ -1,48 +1,48 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, Editor } from '@milkdown/core';
-import { Mark, Node } from '@milkdown/prose/model';
-import { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view';
-import { MutableRefObject, ReactNode } from 'react';
+import type { Ctx, Editor } from '@milkdown/core'
+import type { Mark, Node } from '@milkdown/prose/model'
+import type { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view'
+import type { MutableRefObject, ReactNode } from 'react'
 
-import { RenderOptions } from './ReactNodeView';
+import type { RenderOptions } from './ReactNodeView'
 
 export type RenderReact<U = never> = <T>(
     Component: React.FC<{ children: ReactNode }>,
     renderOptions?: RenderOptions,
 ) => (
-    ctx: Ctx,
+  ctx: Ctx,
 ) => U extends never
-    ? T extends Node
-        ? NodeViewConstructor
-        : T extends Mark
-        ? MarkViewConstructor
-        : NodeViewConstructor & MarkViewConstructor
-    : U extends Node
+  ? T extends Node
+    ? NodeViewConstructor
+    : T extends Mark
+      ? MarkViewConstructor
+      : NodeViewConstructor & MarkViewConstructor
+  : U extends Node
     ? NodeViewConstructor
     : U extends Mark
-    ? MarkViewConstructor
-    : NodeViewConstructor & MarkViewConstructor;
+      ? MarkViewConstructor
+      : NodeViewConstructor & MarkViewConstructor
 
-export type GetEditor = (container: HTMLElement, renderReact: RenderReact) => Editor | undefined;
+export type GetEditor = (container: HTMLElement, renderReact: RenderReact) => Editor | undefined
 
-export type UseEditorReturn = {
-    readonly loading: boolean;
-    readonly getInstance: () => Editor | undefined;
-    readonly getDom: () => HTMLDivElement | undefined;
-    readonly editor: EditorInfo;
-};
+export interface UseEditorReturn {
+  readonly loading: boolean
+  readonly getInstance: () => Editor | undefined
+  readonly getDom: () => HTMLDivElement | undefined
+  readonly editor: EditorInfo
+}
 
-export type EditorInfoCtx = {
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    dom: MutableRefObject<HTMLDivElement | undefined>;
-    editor: MutableRefObject<Editor | undefined>;
-};
+export interface EditorInfoCtx {
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  dom: MutableRefObject<HTMLDivElement | undefined>
+  editor: MutableRefObject<Editor | undefined>
+}
 
 export type EditorInfo = {
-    getEditorCallback: GetEditor;
-} & EditorInfoCtx;
+  getEditorCallback: GetEditor
+} & EditorInfoCtx
 
-export type EditorRef = {
-    get: () => Editor | undefined;
-    dom: () => HTMLDivElement | undefined;
-};
+export interface EditorRef {
+  get: () => Editor | undefined
+  dom: () => HTMLDivElement | undefined
+}

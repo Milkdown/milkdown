@@ -1,12 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Emotion, getPalette, ThemeBorder, ThemeManager, ThemeShadow, ThemeSize } from '@milkdown/core';
+import type { Emotion, ThemeManager } from '@milkdown/core'
+import { ThemeBorder, ThemeShadow, ThemeSize, getPalette } from '@milkdown/core'
 
 export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: Emotion) => {
-    const palette = getPalette(themeManager);
-    const radius = themeManager.get(ThemeSize, 'radius');
-    const lineWidth = themeManager.get(ThemeSize, 'lineWidth');
+  const palette = getPalette(themeManager)
+  const radius = themeManager.get(ThemeSize, 'radius')
+  const lineWidth = themeManager.get(ThemeSize, 'lineWidth')
 
-    injectGlobal`
+  injectGlobal`
         .milkdown {
             .tableWrapper {
                 table {
@@ -67,9 +68,9 @@ export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: E
                 }
             }
         }
-    `;
+    `
 
-    return css`
+  return css`
         display: inline-flex;
         cursor: pointer;
         z-index: 2;
@@ -118,5 +119,5 @@ export const injectStyle = (themeManager: ThemeManager, { css, injectGlobal }: E
         .hide {
             display: none;
         }
-    `;
-};
+    `
+}

@@ -1,44 +1,44 @@
 {
-    "extends": "@nrwl/workspace/presets/npm.json",
-    "npmScope": "milkdown",
-    "tasksRunnerOptions": {
-        "default": {
-            "runner": "@nrwl/nx-cloud",
-            "options": {
-                "cacheableOperations": ["build", "test", "lint", "package", "prepare", "tsc", "e2e"],
-                "accessToken": "YzhmNjI3NzAtZjZiNS00MTk0LWEyYjAtMTc4NDEwZDlmODhifHJlYWQtd3JpdGU="
-            }
-        }
-    },
-    "targetDependencies": {
-        "build": [
-            {
-                "target": "build",
-                "projects": "dependencies"
-            }
-        ],
-        "prepare": [
-            {
-                "target": "prepare",
-                "projects": "dependencies"
-            }
-        ],
-        "package": [
-            {
-                "target": "package",
-                "projects": "dependencies"
-            }
-        ]
-    },
-    "affected": {
-        "defaultBase": "main"
-    },
-    "pluginsConfig": {
-        "@nrwl/js": {
-            "analyzeSourceFiles": false
-        }
-    },
-    "implicitDependencies": {
-        "vite.config.ts": "*"
+  "extends": "@nrwl/workspace/presets/npm.json",
+  "npmScope": "milkdown",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint", "package", "prepare", "tsc", "e2e"],
+        "accessToken": "YzhmNjI3NzAtZjZiNS00MTk0LWEyYjAtMTc4NDEwZDlmODhifHJlYWQtd3JpdGU="
+      }
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "prepare": [
+      {
+        "target": "prepare",
+        "projects": "dependencies"
+      }
+    ],
+    "package": [
+      {
+        "target": "package",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "affected": {
+    "defaultBase": "main"
+  },
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": false
+    }
+  },
+  "implicitDependencies": {
+    "vite.config.ts": "*"
+  }
 }

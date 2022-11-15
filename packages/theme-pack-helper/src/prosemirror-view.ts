@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Emotion } from '@milkdown/core';
+import type { Emotion } from '@milkdown/core'
 
 export const injectProsemirrorView = ({ injectGlobal }: Emotion) => injectGlobal`
     /* copy from https://github.com/ProseMirror/@milkdown/prose/blob/master/style/prosemirror.css */
@@ -62,4 +62,4 @@ export const injectProsemirrorView = ({ injectGlobal }: Emotion) => injectGlobal
         border: none !important;
         margin: 0 !important;
     }
-`;
+`

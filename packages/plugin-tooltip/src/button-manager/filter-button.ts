@@ -1,28 +1,28 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { EditorView } from '@milkdown/prose/view';
+import type { EditorView } from '@milkdown/prose/view'
 
-import { ButtonList } from '../item';
-import { noActive } from './no-active';
+import type { ButtonList } from '../item'
+import { noActive } from './no-active'
 
 export const filterButton = (buttons: ButtonList, view: EditorView) => {
-    buttons
-        .filter((item) => item.enable(view) && item.$ != null)
-        .forEach((item) => {
-            const disable = item.disable?.(view);
-            if (disable) {
-                item.$.classList.add('hide');
-                return;
-            }
+  buttons
+    .filter(item => item.enable(view) && item.$ != null)
+    .forEach((item) => {
+      const disable = item.disable?.(view)
+      if (disable) {
+        item.$.classList.add('hide')
+        return
+      }
 
-            item.$.classList.remove('hide');
+      item.$.classList.remove('hide')
 
-            const active = item.active(view);
-            if (active) {
-                item.$.classList.add('active');
-                return;
-            }
-            item.$.classList.remove('active');
-        });
+      const active = item.active(view)
+      if (active) {
+        item.$.classList.add('active')
+        return
+      }
+      item.$.classList.remove('active')
+    })
 
-    return noActive(buttons, view);
-};
+  return noActive(buttons, view)
+}

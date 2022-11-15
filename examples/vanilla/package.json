@@ -1,18 +1,18 @@
 {
-    "name": "@milkdown-examples/vanilla",
-    "private": true,
-    "version": "6.5.2",
-    "license": "MIT",
-    "scripts": {
-        "start": "vite"
-    },
-    "dependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*",
-        "@milkdown/theme-tokyo": "workspace:*",
-        "@milkdown/plugin-math": "workspace:*",
-        "@milkdown/plugin-menu": "workspace:*",
-        "@milkdown/plugin-slash": "workspace:*"
-    }
+  "name": "@milkdown-examples/vanilla",
+  "version": "6.5.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "vite"
+  },
+  "dependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/plugin-math": "workspace:*",
+    "@milkdown/plugin-menu": "workspace:*",
+    "@milkdown/plugin-slash": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/theme-nord": "workspace:*",
+    "@milkdown/theme-tokyo": "workspace:*"
+  }
 }

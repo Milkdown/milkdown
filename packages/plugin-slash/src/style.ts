@@ -1,19 +1,21 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type {
+  Color,
+  Emotion,
+  ThemeManager,
+} from '@milkdown/core'
 import {
-    Color,
-    Emotion,
-    ThemeBorder,
-    ThemeColor,
-    ThemeFont,
-    ThemeManager,
-    ThemeScrollbar,
-    ThemeShadow,
-    ThemeSize,
-} from '@milkdown/core';
+  ThemeBorder,
+  ThemeColor,
+  ThemeFont,
+  ThemeScrollbar,
+  ThemeShadow,
+  ThemeSize,
+} from '@milkdown/core'
 
 const itemStyle = (themeManager: ThemeManager, { css }: Emotion) => {
-    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
-    return css`
+  const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity])
+  return css`
         .slash-dropdown-item {
             display: flex;
             gap: 32px;
@@ -46,13 +48,13 @@ const itemStyle = (themeManager: ThemeManager, { css }: Emotion) => {
                 }
             }
         }
-    `;
-};
+    `
+}
 
 export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
-    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+  const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity])
 
-    return emotion.css`
+  return emotion.css`
         width: 320px;
         min-height: 48px;
         max-height: 320px;
@@ -70,5 +72,5 @@ export const injectStyle = (themeManager: ThemeManager, emotion: Emotion) => {
         }
 
         ${itemStyle(themeManager, emotion)}
-    `;
-};
+    `
+}
