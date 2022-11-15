@@ -23,6 +23,6 @@ describe('timing/timing', () => {
     const map = new Map()
     const timing = timer(map)
 
-    await expect(timing()).rejects.toBe('Timing timer timeout.')
+    await expect(timing()).rejects.toStrictEqual(new Error('Timing timer timeout.'))
   })
 })
