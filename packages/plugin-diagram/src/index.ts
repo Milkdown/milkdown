@@ -1,12 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { AtomList } from '@milkdown/utils';
+import { AtomList } from '@milkdown/utils'
 
-import { diagramNode } from './node';
+import { diagramNode } from './node'
 
-export * from './remark-mermaid';
+export * from './remark-mermaid'
 
-export const diagram = AtomList.create([diagramNode()]);
+export const diagram = AtomList.create([diagramNode()])
 
-export type { Options } from './node';
-export { diagramNode, TurnIntoDiagram } from './node';
+export type { Options } from './node'
+export { diagramNode, TurnIntoDiagram } from './node'

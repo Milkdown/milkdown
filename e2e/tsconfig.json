@@ -1,7 +1,7 @@
 {
-    "extends": "../tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": ".",
-        "baseUrl": "."
-    }
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": "."
+  }
 }

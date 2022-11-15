@@ -1,24 +1,24 @@
 {
-    "name": "@milkdown-examples/collaboration",
-    "private": true,
-    "version": "6.5.2",
-    "license": "MIT",
-    "scripts": {
-        "server": "cross-env HOST=localhost PORT=1234 y-websocket-server",
-        "client": "vite",
-        "start": "concurrently -n server,client \"cross-env HOST=localhost PORT=1234 y-websocket-server\" \"vite\""
-    },
-    "dependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/preset-gfm": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*",
-        "@milkdown/plugin-math": "workspace:*",
-        "@milkdown/plugin-collaborative": "workspace:*",
-        "@milkdown/utils": "workspace:*",
-        "y-protocols": "^1.0.5",
-        "y-websocket": "^1.3.16",
-        "yjs": "^13.5.38"
-    }
+  "name": "@milkdown-examples/collaboration",
+  "version": "6.5.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "server": "cross-env HOST=localhost PORT=1234 y-websocket-server",
+    "client": "vite",
+    "start": "concurrently -n server,client \"cross-env HOST=localhost PORT=1234 y-websocket-server\" \"vite\""
+  },
+  "dependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/plugin-collaborative": "workspace:*",
+    "@milkdown/plugin-math": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/preset-gfm": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/theme-nord": "workspace:*",
+    "@milkdown/utils": "workspace:*",
+    "y-protocols": "^1.0.5",
+    "y-websocket": "^1.3.16",
+    "yjs": "^13.5.38"
+  }
 }

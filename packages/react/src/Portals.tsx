@@ -1,12 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContext, FC, memo, ReactPortal } from 'react';
+import type { FC, ReactPortal } from 'react'
+import { createContext, memo } from 'react'
 
-import { RenderReact } from './types';
+import type { RenderReact } from './types'
 
 export const portalContext = createContext<RenderReact>(() => () => {
-    throw new Error();
-});
+  throw new Error('out of scope')
+})
 
 export const Portals: FC<{ portals: ReactPortal[] }> = memo(({ portals }) => {
-    return <>{portals}</>;
-});
+  return <>{portals}</>
+})

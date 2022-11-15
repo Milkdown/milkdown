@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { findChildren, NodeWithPos } from '@milkdown/prose';
-import { Node } from '@milkdown/prose/model';
+import type { NodeWithPos } from '@milkdown/prose'
+import { findChildren } from '@milkdown/prose'
+import type { Node } from '@milkdown/prose/model'
 
 export const findBlockNodes: (node: Node, descend?: boolean | undefined) => NodeWithPos[] = findChildren(
-    (child) => child.isBlock,
-);
+  child => child.isBlock,
+)

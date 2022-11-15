@@ -1,55 +1,55 @@
 {
-    "name": "@milkdown/design-system",
-    "version": "6.5.2",
-    "type": "module",
-    "main": "./lib/index.es.js",
-    "types": "./lib/index.d.ts",
-    "sideEffects": false,
-    "license": "MIT",
-    "scripts": {
-        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
-        "test": "vitest",
-        "tsc": "tsc --noEmit && echo",
-        "build": "tsc --emitDeclarationOnly && vite build"
-    },
-    "files": [
-        "lib",
-        "src"
-    ],
-    "dependencies": {
-        "@emotion/cache": "^11.7.1",
-        "@emotion/css": "^11.1.3",
-        "@milkdown/ctx": "workspace:*",
-        "tslib": "^2.4.0"
-    },
-    "devDependencies": {
-        "@milkdown/prose": "workspace:*"
-    },
-    "peerDependencies": {
-        "@milkdown/prose": "^6.0.1"
-    },
-    "nx": {
-        "targets": {
-            "build": {
-                "outputs": [
-                    "packages/design-system/lib"
-                ],
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            },
-            "tsc": {
-                "outputs": [],
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            }
-        }
+  "name": "@milkdown/design-system",
+  "type": "module",
+  "version": "6.5.2",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+    "test": "vitest",
+    "tsc": "tsc --noEmit && echo",
+    "build": "tsc --emitDeclarationOnly && vite build"
+  },
+  "peerDependencies": {
+    "@milkdown/prose": "^6.0.1"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.7.1",
+    "@emotion/css": "^11.1.3",
+    "@milkdown/ctx": "workspace:*",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@milkdown/prose": "workspace:*"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "packages/design-system/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
     }
+  }
 }

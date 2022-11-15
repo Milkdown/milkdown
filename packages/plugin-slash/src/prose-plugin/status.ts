@@ -1,36 +1,37 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { StatusConfigBuilder, StatusConfigBuilderParams } from '..';
-import { Action, transformAction } from '../item';
+import type { StatusConfigBuilder, StatusConfigBuilderParams } from '..'
+import type { Action } from '../item'
+import { transformAction } from '../item'
 
-export type StatusCtx = {
-    placeholder: string | null;
-    actions: Action[];
-};
+export interface StatusCtx {
+  placeholder: string | null
+  actions: Action[]
+}
 
 const createStatusCtx = (): StatusCtx => {
-    return {
-        placeholder: null,
-        actions: [],
-    };
-};
+  return {
+    placeholder: null,
+    actions: [],
+  }
+}
 
-export type Status = ReturnType<typeof createStatus>;
+export type Status = ReturnType<typeof createStatus>
 
 export const createStatus = (builder: StatusConfigBuilder) => {
-    const statusCtx = createStatusCtx();
+  const statusCtx = createStatusCtx()
 
-    return {
-        get: () => statusCtx,
-        clear: () => {
-            statusCtx.placeholder = null;
-            statusCtx.actions = [];
-        },
-        update: (builderParams: StatusConfigBuilderParams) => {
-            const config = builder(builderParams);
-            statusCtx.placeholder = config?.placeholder ?? null;
-            statusCtx.actions = (config?.actions ?? []).map(transformAction);
-            return statusCtx;
-        },
-        isEmpty: () => statusCtx.actions.length === 0,
-    };
-};
+  return {
+    get: () => statusCtx,
+    clear: () => {
+      statusCtx.placeholder = null
+      statusCtx.actions = []
+    },
+    update: (builderParams: StatusConfigBuilderParams) => {
+      const config = builder(builderParams)
+      statusCtx.placeholder = config?.placeholder ?? null
+      statusCtx.actions = (config?.actions ?? []).map(transformAction)
+      return statusCtx
+    },
+    isEmpty: () => statusCtx.actions.length === 0,
+  }
+}

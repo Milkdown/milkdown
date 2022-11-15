@@ -1,50 +1,50 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Ctx, Editor } from '@milkdown/core';
-import type { Mark, Node } from '@milkdown/prose/model';
-import { Decoration, DecorationSource, MarkViewConstructor, NodeView, NodeViewConstructor } from '@milkdown/prose/view';
-import { Ref } from 'vue';
+import type { Ctx, Editor } from '@milkdown/core'
+import type { Mark, Node } from '@milkdown/prose/model'
+import type { Decoration, DecorationSource, MarkViewConstructor, NodeView, NodeViewConstructor } from '@milkdown/prose/view'
+import type { Ref } from 'vue'
 
-import { AnyVueComponent } from './utils';
+import type { AnyVueComponent } from './utils'
 
 export type RenderOptions = Partial<
     {
-        as: string;
-        update?: (node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) => boolean;
+      as: string
+      update?: (node: Node, decorations: readonly Decoration[], innerDecorations: DecorationSource) => boolean
     } & Pick<NodeView, 'ignoreMutation' | 'deselectNode' | 'selectNode' | 'destroy'>
->;
+>
 
 export type RenderVue<U = never> = <T extends Node | Mark = Node | Mark>(
     Component: AnyVueComponent,
     options?: RenderOptions,
 ) => (
-    ctx: Ctx,
+  ctx: Ctx,
 ) => U extends never
-    ? T extends Node
-        ? NodeViewConstructor
-        : T extends Mark
-        ? MarkViewConstructor
-        : NodeViewConstructor & MarkViewConstructor
-    : U extends Node
+  ? T extends Node
+    ? NodeViewConstructor
+    : T extends Mark
+      ? MarkViewConstructor
+      : NodeViewConstructor & MarkViewConstructor
+  : U extends Node
     ? NodeViewConstructor
     : U extends Mark
-    ? MarkViewConstructor
-    : NodeViewConstructor & MarkViewConstructor;
+      ? MarkViewConstructor
+      : NodeViewConstructor & MarkViewConstructor
 
-export type GetEditor = (container: HTMLDivElement, renderVue: RenderVue) => Editor;
+export type GetEditor = (container: HTMLDivElement, renderVue: RenderVue) => Editor
 
-export type EditorInfoCtx = {
-    dom: Ref<HTMLDivElement | null>;
-    editor: Ref<Editor | undefined>;
-    loading: Ref<boolean>;
-};
+export interface EditorInfoCtx {
+  dom: Ref<HTMLDivElement | null>
+  editor: Ref<Editor | undefined>
+  loading: Ref<boolean>
+}
 
 export type EditorInfo = {
-    getEditorCallback: Ref<GetEditor>;
-} & EditorInfoCtx;
+  getEditorCallback: Ref<GetEditor>
+} & EditorInfoCtx
 
-export type UseEditorReturn = {
-    loading: Ref<boolean>;
-    getInstance: () => Editor | undefined;
-    getDom: () => HTMLDivElement | null;
-    editor: EditorInfo;
-};
+export interface UseEditorReturn {
+  loading: Ref<boolean>
+  getInstance: () => Editor | undefined
+  getDom: () => HTMLDivElement | null
+  editor: EditorInfo
+}

@@ -1,67 +1,67 @@
 {
-    "name": "@milkdown/plugin-emoji",
-    "version": "6.5.2",
-    "type": "module",
-    "main": "./lib/index.es.js",
-    "types": "./lib/index.d.ts",
-    "sideEffects": false,
-    "license": "MIT",
-    "scripts": {
-        "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
-        "test": "vitest",
-        "tsc": "tsc --noEmit && echo",
-        "build": "tsc --emitDeclarationOnly && vite build"
-    },
-    "files": [
-        "lib",
-        "src"
-    ],
-    "keywords": [
-        "milkdown",
-        "milkdown plugin"
-    ],
-    "devDependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/prose": "workspace:*",
-        "@types/unist": "^2.0.6"
-    },
-    "peerDependencies": {
-        "@milkdown/core": "^6.0.1",
-        "@milkdown/prose": "^6.0.1"
-    },
-    "dependencies": {
-        "@milkdown/exception": "workspace:*",
-        "@milkdown/utils": "workspace:*",
-        "@types/node-emoji": "^1.8.1",
-        "emoji-regex": "^10.0.0",
-        "node-emoji": "^1.10.0",
-        "remark-emoji": "^3.0.1",
-        "tslib": "^2.4.0",
-        "twemoji": "^14.0.1",
-        "unist-util-visit": "^4.0.0"
-    },
-    "nx": {
-        "targets": {
-            "build": {
-                "outputs": [
-                    "packages/plugin-emoji/lib"
-                ],
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            },
-            "tsc": {
-                "outputs": [],
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            }
-        }
+  "name": "@milkdown/plugin-emoji",
+  "type": "module",
+  "version": "6.5.2",
+  "license": "MIT",
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
+  "sideEffects": false,
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+    "test": "vitest",
+    "tsc": "tsc --noEmit && echo",
+    "build": "tsc --emitDeclarationOnly && vite build"
+  },
+  "peerDependencies": {
+    "@milkdown/core": "^6.0.1",
+    "@milkdown/prose": "^6.0.1"
+  },
+  "dependencies": {
+    "@milkdown/exception": "workspace:*",
+    "@milkdown/utils": "workspace:*",
+    "@types/node-emoji": "^1.8.1",
+    "emoji-regex": "^10.0.0",
+    "node-emoji": "^1.10.0",
+    "remark-emoji": "^3.0.1",
+    "tslib": "^2.4.0",
+    "twemoji": "^14.0.1",
+    "unist-util-visit": "^4.0.0"
+  },
+  "devDependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@types/unist": "^2.0.6"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "packages/plugin-emoji/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
     }
+  }
 }

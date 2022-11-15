@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { AtomList } from '@milkdown/utils';
+import { AtomList } from '@milkdown/utils'
 
-import { emojiNode } from './node';
-export * from './node';
+import { emojiNode } from './node'
+export * from './node'
 
-export const emoji = AtomList.create([emojiNode()]);
+export const emoji = AtomList.create([emojiNode()])

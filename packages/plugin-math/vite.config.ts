@@ -1,4 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { pluginViteConfig } from '../../vite.config';
+import { pluginViteConfig } from '../../vite.config'
 
-export default pluginViteConfig('plugin-math');
+export default pluginViteConfig('plugin-math')

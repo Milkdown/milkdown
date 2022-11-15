@@ -1,36 +1,37 @@
 {
-    "compilerOptions": {
-        "target": "es2015",
-        "module": "esnext",
-        "lib": ["dom", "es2017", "es2018", "es2019", "es2020", "es2021"],
-        "noEmitOnError": true,
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["dom", "es2017", "es2018", "es2019", "es2020", "es2021"],
+    "noEmitOnError": true,
 
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
 
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
 
-        "importHelpers": true,
+    "importHelpers": true,
 
-        "pretty": true,
+    "pretty": true,
 
-        "strict": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitReturns": true,
-        "noImplicitOverride": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": true,
-        "noUncheckedIndexedAccess": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "useUnknownInCatchVariables": true,
-        "preserveWatchOutput": true,
-        "plugins": [
-            {
-                "name": "typescript-styled-plugin"
-            }
-        ]
-    }
+    "noPropertyAccessFromIndexSignature": false,
+
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noUncheckedIndexedAccess": true,
+    "useUnknownInCatchVariables": true,
+    "preserveWatchOutput": true,
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
+  }
 }

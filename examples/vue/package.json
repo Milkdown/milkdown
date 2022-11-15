@@ -1,22 +1,22 @@
 {
-    "name": "@milkdown-examples/vue",
-    "private": true,
-    "version": "6.5.2",
-    "license": "MIT",
-    "scripts": {
-        "start": "vite"
-    },
-    "dependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/plugin-emoji": "workspace:*",
-        "@milkdown/plugin-listener": "workspace:*",
-        "@milkdown/plugin-prism": "workspace:*",
-        "@milkdown/plugin-menu": "workspace:*",
-        "@milkdown/plugin-slash": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/prose": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*",
-        "@milkdown/vue": "workspace:*",
-        "vue": "^3.2.38"
-    }
+  "name": "@milkdown-examples/vue",
+  "version": "6.5.2",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "vite"
+  },
+  "dependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/plugin-emoji": "workspace:*",
+    "@milkdown/plugin-listener": "workspace:*",
+    "@milkdown/plugin-menu": "workspace:*",
+    "@milkdown/plugin-prism": "workspace:*",
+    "@milkdown/plugin-slash": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/theme-nord": "workspace:*",
+    "@milkdown/vue": "workspace:*",
+    "vue": "^3.2.38"
+  }
 }

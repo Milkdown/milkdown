@@ -1,49 +1,50 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { EditorState } from '@milkdown/prose/state';
-import type { EditorView } from '@milkdown/prose/view';
-import { ThemeUtils } from '@milkdown/utils';
+import type { EditorState } from '@milkdown/prose/state'
+import type { EditorView } from '@milkdown/prose/view'
+import type { ThemeUtils } from '@milkdown/utils'
 
-import { createButtonManager } from './button-manager';
-import type { ButtonList } from './item';
+import { createButtonManager } from './button-manager'
+import type { ButtonList } from './item'
 
 export const createPlugin = (buttonMap: ButtonList, utils: ThemeUtils, bottom: boolean, containerClassName: string) => {
-    let buttonManager = createButtonManager(buttonMap, utils, bottom, containerClassName);
-    let shouldHide = false;
+  let buttonManager = createButtonManager(buttonMap, utils, bottom, containerClassName)
+  let shouldHide = false
 
-    const hide = () => {
-        buttonManager.hide();
-    };
+  const hide = () => {
+    buttonManager.hide()
+  }
 
-    const update = (view: EditorView, prevState?: EditorState) => {
-        const { state } = view;
+  const update = (view: EditorView, prevState?: EditorState) => {
+    const { state } = view
 
-        if (!view.editable || shouldHide) {
-            hide();
-            return;
-        }
+    if (!view.editable || shouldHide) {
+      hide()
+      return
+    }
 
-        const isEqualSelection = prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection);
-        if (isEqualSelection) return;
+    const isEqualSelection = prevState?.doc.eq(state.doc) && prevState.selection.eq(state.selection)
+    if (isEqualSelection)
+      return
 
-        buttonManager.update(view);
-    };
+    buttonManager.update(view)
+  }
 
-    return {
-        recreate: (editorView: EditorView) => {
-            buttonManager = createButtonManager(buttonMap, utils, bottom, containerClassName);
-            buttonManager.render(editorView);
-            update(editorView);
-        },
-        update,
-        destroy: () => {
-            buttonManager.destroy();
-        },
-        render: (editorView: EditorView) => {
-            buttonManager.render(editorView);
-            update(editorView);
-        },
-        setHide: (isTyping: boolean) => {
-            shouldHide = isTyping;
-        },
-    };
-};
+  return {
+    recreate: (editorView: EditorView) => {
+      buttonManager = createButtonManager(buttonMap, utils, bottom, containerClassName)
+      buttonManager.render(editorView)
+      update(editorView)
+    },
+    update,
+    destroy: () => {
+      buttonManager.destroy()
+    },
+    render: (editorView: EditorView) => {
+      buttonManager.render(editorView)
+      update(editorView)
+    },
+    setHide: (isTyping: boolean) => {
+      shouldHide = isTyping
+    },
+  }
+}

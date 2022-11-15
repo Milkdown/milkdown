@@ -1,25 +1,27 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type {
+  Color,
+  Emotion,
+  ThemeManager,
+} from '@milkdown/core'
 import {
-    Color,
-    Emotion,
-    ThemeBorder,
-    ThemeColor,
-    ThemeFont,
-    ThemeManager,
-    ThemeScrollbar,
-    ThemeShadow,
-    ThemeSize,
-} from '@milkdown/core';
+  ThemeBorder,
+  ThemeColor,
+  ThemeFont,
+  ThemeScrollbar,
+  ThemeShadow,
+  ThemeSize,
+} from '@milkdown/core'
 
 export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) => {
-    const border = themeManager.get(ThemeBorder, undefined);
-    const shadow = themeManager.get(ThemeShadow, undefined);
-    const scrollbar = themeManager.get(ThemeScrollbar, undefined);
-    const radius = themeManager.get(ThemeSize, 'radius');
-    const typography = themeManager.get(ThemeFont, 'typography');
-    const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity]);
+  const border = themeManager.get(ThemeBorder, undefined)
+  const shadow = themeManager.get(ThemeShadow, undefined)
+  const scrollbar = themeManager.get(ThemeScrollbar, undefined)
+  const radius = themeManager.get(ThemeSize, 'radius')
+  const typography = themeManager.get(ThemeFont, 'typography')
+  const palette = (color: Color, opacity = 1) => themeManager.get(ThemeColor, [color, opacity])
 
-    const style = css`
+  const style = css`
         min-height: 36px;
         max-height: 320px;
         overflow-y: auto;
@@ -54,6 +56,6 @@ export const injectStyle = (themeManager: ThemeManager, { css, cx }: Emotion) =>
             margin: 0 1px 0 1.5px;
             vertical-align: -1.5px;
         }
-    `;
-    return cx(border, shadow, scrollbar, style);
-};
+    `
+  return cx(border, shadow, scrollbar, style)
+}

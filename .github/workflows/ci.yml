@@ -1,43 +1,43 @@
 name: On Push
 
 on:
-    push:
-        branches: main
+  push:
+    branches: main
 
 env:
-    CI: true
-    NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  CI: true
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
 jobs:
-    start:
-        uses: ./.github/workflows/start-nx-cloud.yml
+  start:
+    uses: ./.github/workflows/start-nx-cloud.yml
 
-    agent:
-        uses: ./.github/workflows/start-agents.yml
+  agent:
+    uses: ./.github/workflows/start-agents.yml
 
-    test:
-        needs: start
-        uses: ./.github/workflows/test.yml
-        secrets:
-            CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-            CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+  test:
+    needs: start
+    uses: ./.github/workflows/test.yml
+    secrets:
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
 
-    release:
-        needs: test
-        uses: ./.github/workflows/release-package.yml
-        secrets:
-            CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
-            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  release:
+    needs: test
+    uses: ./.github/workflows/release-package.yml
+    secrets:
+      CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    stop:
-        if: ${{ always() }}
-        needs: release
-        uses: ./.github/workflows/stop-nx-cloud.yml
+  stop:
+    if: ${{ always() }}
+    needs: release
+    uses: ./.github/workflows/stop-nx-cloud.yml
 
-    report:
-        if: ${{ always() }}
-        needs: [stop, test, start, release]
-        runs-on: ubuntu-latest
-        steps:
-            - name: on error
-              if: ${{ needs.start.result != 'success' || needs.test.result != 'success' || needs.release.result != 'success' }}
-              run: exit 1
+  report:
+    if: ${{ always() }}
+    needs: [stop, test, start, release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: on error
+        if: ${{ needs.start.result != 'success' || needs.test.result != 'success' || needs.release.result != 'success' }}
+        run: exit 1

@@ -1,67 +1,67 @@
 {
-    "name": "@milkdown/e2e",
-    "private": true,
-    "version": "6.5.2",
-    "scripts": {
-        "start": "vite",
-        "build": "vite build",
-        "serve": "vite preview",
-        "setup": "pnpm serve --port 7000",
-        "test": "cypress run",
-        "test:verbose": "cypress open",
-        "start:test": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
-        "e2e": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
-        "start:test:verbose": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test:verbose"
-    },
-    "files": [
-        "style"
-    ],
-    "dependencies": {
-        "@milkdown/core": "workspace:*",
-        "@milkdown/design-system": "workspace:*",
-        "@milkdown/preset-commonmark": "workspace:*",
-        "@milkdown/preset-gfm": "workspace:*",
-        "@milkdown/prose": "workspace:*",
-        "@milkdown/theme-nord": "workspace:*",
-        "tslib": "^2.4.0"
-    },
-    "devDependencies": {
-        "@cypress/snapshot": "^2.1.7",
-        "cypress": "^11.0.0",
-        "start-server-and-test": "^1.13.0"
-    },
-    "nx": {
-        "targets": {
-            "e2e": {
-                "executor": "@nrwl/cypress:cypress",
-                "options": {
-                    "cypressConfig": "e2e/cypress.config.ts",
-                    "devServerTarget": "e2e:start",
-                    "testingType": "e2e"
-                },
-                "configurations": {
-                    "production": {
-                        "devServerTarget": "e2e:serve"
-                    }
-                },
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            },
-            "build": {
-                "outputs": [
-                    "e2e/lib"
-                ],
-                "dependsOn": [
-                    {
-                        "target": "build",
-                        "projects": "dependencies"
-                    }
-                ]
-            }
-        }
+  "name": "@milkdown/e2e",
+  "version": "6.5.2",
+  "private": true,
+  "files": [
+    "style"
+  ],
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "setup": "pnpm serve --port 7000",
+    "test": "cypress run",
+    "test:verbose": "cypress open",
+    "start:test": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
+    "e2e": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
+    "start:test:verbose": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test:verbose"
+  },
+  "dependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/design-system": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/preset-gfm": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/theme-nord": "workspace:*",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@cypress/snapshot": "^2.1.7",
+    "cypress": "^11.0.0",
+    "start-server-and-test": "^1.13.0"
+  },
+  "nx": {
+    "targets": {
+      "e2e": {
+        "executor": "@nrwl/cypress:cypress",
+        "options": {
+          "cypressConfig": "e2e/cypress.config.ts",
+          "devServerTarget": "e2e:start",
+          "testingType": "e2e"
+        },
+        "configurations": {
+          "production": {
+            "devServerTarget": "e2e:serve"
+          }
+        },
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "build": {
+        "outputs": [
+          "e2e/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
     }
+  }
 }

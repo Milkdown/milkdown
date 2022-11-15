@@ -1,163 +1,163 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Mark } from '@milkdown/prose/model';
-import { Root } from 'mdast';
+import type { Mark } from '@milkdown/prose/model'
+import type { Root } from 'mdast'
 
-import type { MarkdownNode } from '..';
-import { getStackUtil, JSONRecord } from '../utility';
-import { createElement, StackElement } from './stack-element';
+import type { MarkdownNode } from '..'
+import type { JSONRecord } from '../utility'
+import { getStackUtil } from '../utility'
+import type { StackElement } from './stack-element'
+import { createElement } from './stack-element'
 
-type Ctx = {
-    marks: readonly Mark[];
-    readonly elements: StackElement[];
-};
+interface Ctx {
+  marks: readonly Mark[]
+  readonly elements: StackElement[]
+}
 
-const { size, push, open, close } = getStackUtil<MarkdownNode, StackElement, Ctx>();
+const { size, push, open, close } = getStackUtil<MarkdownNode, StackElement, Ctx>()
 
 const searchType = (child: MarkdownNode, type: string): MarkdownNode => {
-    if (child.type === type) {
-        return child;
-    }
+  if (child.type === type)
+    return child
 
-    if (child.children?.length !== 1) {
-        return child;
-    }
+  if (child.children?.length !== 1)
+    return child
 
-    const searchNode = (node: MarkdownNode): MarkdownNode | null => {
-        if (node.type === type) {
-            return node;
-        }
+  const searchNode = (node: MarkdownNode): MarkdownNode | null => {
+    if (node.type === type)
+      return node
 
-        if (node.children?.length !== 1) {
-            return null;
-        }
+    if (node.children?.length !== 1)
+      return null
 
-        const [firstChild] = node.children;
-        if (!firstChild) return null;
+    const [firstChild] = node.children
+    if (!firstChild)
+      return null
 
-        return searchNode(firstChild);
-    };
+    return searchNode(firstChild)
+  }
 
-    const target = searchNode(child);
+  const target = searchNode(child)
 
-    if (!target) return child;
+  if (!target)
+    return child
 
-    const tmp = target.children ? [...target.children] : undefined;
-    const node = { ...child, children: tmp };
-    node.children = tmp;
-    target.children = [node];
+  const tmp = target.children ? [...target.children] : undefined
+  const node = { ...child, children: tmp }
+  node.children = tmp
+  target.children = [node]
 
-    return target;
-};
+  return target
+}
 
 const maybeMergeChildren = (element: MarkdownNode) => {
-    const { children } = element;
-    if (!children) return element;
+  const { children } = element
+  if (!children)
+    return element
 
-    element.children = children.reduce((nextChildren, child, index) => {
-        if (index === 0) {
-            return [child];
-        }
-        const last = nextChildren[nextChildren.length - 1];
-        if (last && last['isMark'] && child['isMark']) {
-            child = searchType(child, last.type);
-            const { children: currChildren, ...currRest } = child;
-            const { children: prevChildren, ...prevRest } = last;
-            if (
-                child.type === last.type &&
-                currChildren &&
-                prevChildren &&
-                JSON.stringify(currRest) === JSON.stringify(prevRest)
-            ) {
-                const next = {
-                    ...prevRest,
-                    children: [...prevChildren, ...currChildren],
-                };
-                return nextChildren.slice(0, -1).concat(maybeMergeChildren(next));
-            }
-        }
-        return nextChildren.concat(child);
-    }, [] as MarkdownNode[]);
+  element.children = children.reduce((nextChildren, child, index) => {
+    if (index === 0)
+      return [child]
 
-    return element;
-};
+    const last = nextChildren[nextChildren.length - 1]
+    if (last && last.isMark && child.isMark) {
+      child = searchType(child, last.type)
+      const { children: currChildren, ...currRest } = child
+      const { children: prevChildren, ...prevRest } = last
+      if (
+        child.type === last.type
+                && currChildren
+                && prevChildren
+                && JSON.stringify(currRest) === JSON.stringify(prevRest)
+      ) {
+        const next = {
+          ...prevRest,
+          children: [...prevChildren, ...currChildren],
+        }
+        return nextChildren.slice(0, -1).concat(maybeMergeChildren(next))
+      }
+    }
+    return nextChildren.concat(child)
+  }, [] as MarkdownNode[])
+
+  return element
+}
 
 const createMarkdownNode = (element: StackElement) => {
-    const node: MarkdownNode = {
-        ...element.props,
-        type: element.type,
-    };
+  const node: MarkdownNode = {
+    ...element.props,
+    type: element.type,
+  }
 
-    if (element.children) {
-        node.children = element.children;
-    }
+  if (element.children)
+    node.children = element.children
 
-    if (element.value) {
-        node['value'] = element.value;
-    }
+  if (element.value)
+    node.value = element.value
 
-    return node;
-};
+  return node
+}
 
-const openNode =
-    (ctx: Ctx) =>
-    (type: string, value?: string, props?: JSONRecord): void =>
-        open(ctx)(createElement(type, [], value, props));
+const openNode
+    = (ctx: Ctx) =>
+      (type: string, value?: string, props?: JSONRecord): void =>
+        open(ctx)(createElement(type, [], value, props))
 
-const addNode =
-    (ctx: Ctx) =>
-    (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord): MarkdownNode => {
-        const element = createElement(type, children, value, props);
-        const node: MarkdownNode = maybeMergeChildren(createMarkdownNode(element));
+const addNode
+    = (ctx: Ctx) =>
+      (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord): MarkdownNode => {
+        const element = createElement(type, children, value, props)
+        const node: MarkdownNode = maybeMergeChildren(createMarkdownNode(element))
 
-        push(ctx)(node);
+        push(ctx)(node)
 
-        return node;
-    };
+        return node
+      }
 
 const closeNode = (ctx: Ctx) => (): MarkdownNode => {
-    const element = close(ctx);
+  const element = close(ctx)
 
-    return addNode(ctx)(element.type, element.children, element.value, element.props);
-};
+  return addNode(ctx)(element.type, element.children, element.value, element.props)
+}
 
-const openMark =
-    (ctx: Ctx) =>
-    (mark: Mark, type: string, value?: string, props?: JSONRecord): void => {
-        const isIn = mark.isInSet(ctx.marks);
+const openMark
+    = (ctx: Ctx) =>
+      (mark: Mark, type: string, value?: string, props?: JSONRecord): void => {
+        const isIn = mark.isInSet(ctx.marks)
 
-        if (isIn) {
-            return;
-        }
-        ctx.marks = mark.addToSet(ctx.marks);
-        openNode(ctx)(type, value, { ...props, isMark: true });
-    };
+        if (isIn)
+          return
 
-const closeMark =
-    (ctx: Ctx) =>
-    (mark: Mark): MarkdownNode | null => {
-        if (!mark.isInSet(ctx.marks)) return null;
-        ctx.marks = mark.type.removeFromSet(ctx.marks);
-        return closeNode(ctx)();
-    };
+        ctx.marks = mark.addToSet(ctx.marks)
+        openNode(ctx)(type, value, { ...props, isMark: true })
+      }
+
+const closeMark
+    = (ctx: Ctx) =>
+      (mark: Mark): MarkdownNode | null => {
+        if (!mark.isInSet(ctx.marks))
+          return null
+        ctx.marks = mark.type.removeFromSet(ctx.marks)
+        return closeNode(ctx)()
+      }
 
 const build = (ctx: Ctx) => () => {
-    let doc: Root | null = null;
-    do {
-        doc = closeNode(ctx)() as Root;
-    } while (size(ctx));
+  let doc: Root | null = null
+  do
+    doc = closeNode(ctx)() as Root
+  while (size(ctx))
 
-    return doc;
-};
+  return doc
+}
 
-export type Stack = {
-    /**
+export interface Stack {
+  /**
      * Build the remark AST tree with current stack.
      *
      * @returns A remark AST tree.
      */
-    build: () => Root;
+  build: () => Root
 
-    /**
+  /**
      * Open a mark.
      *
      * @param mark - The mark need to be opened.
@@ -167,17 +167,17 @@ export type Stack = {
      *
      * @returns
      */
-    openMark: (mark: Mark, type: string, value?: string, props?: JSONRecord) => void;
+  openMark: (mark: Mark, type: string, value?: string, props?: JSONRecord) => void
 
-    /**
+  /**
      * Close current mark.
      * @param mark - The prosemirror mark of target mark to be closed.
      *
      * @returns The mark closed, will be null if not exists.
      */
-    closeMark: (mark: Mark) => MarkdownNode | null;
+  closeMark: (mark: Mark) => MarkdownNode | null
 
-    /**
+  /**
      * Open a node.
      *
      * @param type - Type of this node.
@@ -186,9 +186,9 @@ export type Stack = {
      *
      * @returns
      */
-    openNode: (type: string, value?: string, props?: JSONRecord) => void;
+  openNode: (type: string, value?: string, props?: JSONRecord) => void
 
-    /**
+  /**
      * Add a node in current position.
      *
      * @param type - Type of this node.
@@ -198,28 +198,28 @@ export type Stack = {
      *
      * @returns The added node.
      */
-    addNode: (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord) => MarkdownNode;
+  addNode: (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord) => MarkdownNode
 
-    /**
+  /**
      * Close current node.
      *
      * @returns The node closed.
      */
-    closeNode: () => MarkdownNode;
-};
+  closeNode: () => MarkdownNode
+}
 
 export const createStack = (): Stack => {
-    const ctx: Ctx = {
-        marks: [],
-        elements: [],
-    };
+  const ctx: Ctx = {
+    marks: [],
+    elements: [],
+  }
 
-    return {
-        build: build(ctx),
-        openMark: openMark(ctx),
-        closeMark: closeMark(ctx),
-        openNode: openNode(ctx),
-        addNode: addNode(ctx),
-        closeNode: closeNode(ctx),
-    };
-};
+  return {
+    build: build(ctx),
+    openMark: openMark(ctx),
+    closeMark: closeMark(ctx),
+    openNode: openNode(ctx),
+    addNode: addNode(ctx),
+    closeNode: closeNode(ctx),
+  }
+}
