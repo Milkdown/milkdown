@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/core'
-import { commandsCtx, schemaCtx, themeManagerCtx } from '@milkdown/core'
+import { commandsCtx, editorViewCtx, schemaCtx, themeManagerCtx } from '@milkdown/core'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
 
@@ -117,6 +117,10 @@ export const defaultActions = (ctx: Ctx, input = '/'): WrappedAction[] => {
 export const defaultConfig: Config = (ctx) => {
   return ({ content, isTopLevel }) => {
     if (!isTopLevel)
+      return null
+
+    const view = ctx.get(editorViewCtx)
+    if (!view?.editable)
       return null
 
     if (!content)
