@@ -8,12 +8,11 @@
   },
   "scripts": {
     "postinstall": "husky install",
-    "test": "pnpm test:doc && pnpm test:lint && pnpm test:tsc:cache && pnpm test:unit",
+    "test": "pnpm test:lint && pnpm test:tsc:cache && pnpm test:unit",
     "test:unit": "vitest",
     "test:tsc": "pnpm --filter=@milkdown/* run tsc",
     "test:tsc:cache": "nx run-many --target=tsc --all --parallel",
     "test:lint": "eslint .",
-    "test:doc": "prettier --check \"**/*.md\"",
     "test:e2e": "pnpm --filter=@milkdown/e2e run start:test",
     "test:e2e:build": "nx build e2e",
     "test:e2e:verbose": "pnpm --filter=@milkdown/e2e run start:test:verbose",
