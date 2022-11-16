@@ -74,7 +74,7 @@
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-esbuild": "^5.0.0",
     "tslib": "^2.4.0",
-    "typescript": "^4.8.2",
+    "typescript": "^4.9.3",
     "typescript-styled-plugin": "^0.18.2",
     "vite": "^3.2.2",
     "vitest": "^0.25.0"
