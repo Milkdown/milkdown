@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import type { Ctx } from '@milkdown/core'
-import { ThemeBorder, ThemeIcon, ThemeShadow, ThemeSize, getPalette } from '@milkdown/core'
+import { ThemeBorder, ThemeIcon, ThemeScrollbar, ThemeShadow, ThemeSize, getPalette } from '@milkdown/core'
 import { missingRootElement } from '@milkdown/exception'
 import type { EditorView } from '@milkdown/prose/view'
 import type { ThemeUtils } from '@milkdown/utils'
@@ -51,7 +51,9 @@ export class BlockMenuDOM {
                     z-index: 2;
                     border-radius: ${themeManager.get(ThemeSize, 'radius')};
                     width: 140px;
+                    overflow-y: auto;
 
+                    ${themeManager.get(ThemeScrollbar, ['y'])}
                     ${themeManager.get(ThemeShadow, undefined)};
                     ${themeManager.get(ThemeBorder, undefined)}
 
@@ -140,10 +142,12 @@ export class BlockMenuDOM {
   }
 
   show() {
+    this.dom$.style.maxHeight = ''
     this.dom$.classList.remove('hide')
   }
 
   toggle() {
+    this.dom$.style.maxHeight = ''
     this.dom$.classList.toggle('hide')
   }
 
@@ -190,15 +194,33 @@ export class BlockMenuDOM {
     const menuRect = this.dom$.getBoundingClientRect()
 
     const left = targetNodeRect.left - rootRect.left - handleRect.width
-    let top = targetNodeRect.top - rootRect.top + root.scrollTop + handleRect.height
 
-    if (rootRect.height + rootRect.top - targetNodeRect.bottom < menuRect.height) {
-      const topOffset = targetNodeRect.top - rootRect.top - menuRect.height + root.scrollTop
-      if (topOffset > 0)
-        top = topOffset
+    let direction: 'top' | 'bottom'
+    let maxHeight: number | undefined
+    const targetNodeToTop = targetNodeRect.top - rootRect.top
+    const targetNodeToBottom = rootRect.height + rootRect.top - (handleRect.height + targetNodeRect.top)
+    if (targetNodeToBottom >= menuRect.height + 14) {
+      direction = 'bottom'
     }
+    else if (targetNodeToTop >= menuRect.height + 14) {
+      direction = 'top'
+    }
+    else if (targetNodeToBottom >= targetNodeToTop) {
+      direction = 'bottom'
+      maxHeight = targetNodeToBottom - 14
+    }
+    else {
+      direction = 'top'
+      maxHeight = targetNodeToTop - 14
+    }
+
+    const top
+      = direction === 'top'
+        ? targetNodeRect.top - rootRect.top - (maxHeight ?? menuRect.height) - 2 + root.scrollTop
+        : targetNodeRect.top - rootRect.top + root.scrollTop + handleRect.height
 
     this.dom$.style.left = `${left}px`
     this.dom$.style.top = `${top}px`
+    this.dom$.style.maxHeight = maxHeight !== undefined && maxHeight > 0 ? `${maxHeight}px` : ''
   }
 }
