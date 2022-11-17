@@ -33,7 +33,7 @@
     "commit": "git-cz"
   },
   "devDependencies": {
-    "@antfu/eslint-config-ts": "^0.30.1",
+    "@antfu/eslint-config-ts": "^0.31.0",
     "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
