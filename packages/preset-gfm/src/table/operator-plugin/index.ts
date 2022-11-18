@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import type { Ctx } from '@milkdown/core'
+import { editorViewCtx } from '@milkdown/core'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { Decoration } from '@milkdown/prose/view'
 import { DecorationSet } from '@milkdown/prose/view'
@@ -23,6 +24,10 @@ export const operatorPlugin = (ctx: Ctx, utils: ThemeUtils) => {
     key: new PluginKey('MILKDOWN_TABLE_OP'),
     props: {
       decorations: (state) => {
+        const view = ctx.get(editorViewCtx)
+        if (!view.editable)
+          return null
+
         const decorations: Decoration[] = []
         const leftCells = getCellsInColumn(0)(state.selection)
         if (!leftCells)
