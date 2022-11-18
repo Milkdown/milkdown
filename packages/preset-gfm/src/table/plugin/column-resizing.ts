@@ -38,12 +38,18 @@ export function columnResizing({
 
       handleDOMEvents: {
         mousemove(view, event) {
+          if (!view.editable)
+            return
           handleMouseMove(view, event as MouseEvent, handleWidth, lastColumnResizable)
         },
         mouseleave(view) {
+          if (!view.editable)
+            return
           handleMouseLeave(view)
         },
         mousedown(view, event) {
+          if (!view.editable)
+            return
           handleMouseDown(view, event as MouseEvent, cellMinWidth)
         },
       },
