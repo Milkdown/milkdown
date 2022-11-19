@@ -63,6 +63,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/unist": "^2.0.6",
     "autoprefixer": "^10.2.5",
+    "builddocs": "^1.0.6",
     "history": "^5.0.1",
     "postcss": "^8.2.12",
     "postcss-cli": "^10.0.0",

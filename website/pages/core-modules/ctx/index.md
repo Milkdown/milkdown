@@ -28,6 +28,13 @@ container.getSlice(slice).update((x) => x + 1);
 expect(container.getSlice<number>('num').get()).toBe(11);
 ```
 
+@createContainer
+@Container
+@createSlice
+@Slice
+@SliceValue
+@SliceMap
+
 ## Clock
 
 Clock is a little bit like container. It manages lots of timer.
@@ -45,3 +52,24 @@ setTimeout(() => {
 await expect(timing()).resolves.toBeUndefined();
 expect(clock.get(timer)).toBe(timing);
 ```
+
+@createClock
+@Clock
+@ClockMap
+@Timer
+@Timing
+@createTimer
+
+## Ctx
+
+@Ctx
+@Pre
+@Post
+@Env
+
+## Plugin Type
+
+@MilkdownPlugin
+@CtxHandler
+@HandlerReturnType
+@Cleanup

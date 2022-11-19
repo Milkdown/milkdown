@@ -101,12 +101,12 @@ export const DocRenderer = ({ content }: Props) => {
   }, [])
 
   return (
-        <div className={className['doc-renderer']}>
-            {loading ? <Loading /> : <ReactEditor editor={editor} />}
-            <div ref={outlineRef} className={className.outline}>
-                <OutlineRenderer outline={outlines} />
-                <div className={className['carbon-wrapper']} ref={carbonRef} />
-            </div>
-        </div>
+    <div className={className['doc-renderer']}>
+      {loading ? <Loading /> : <ReactEditor editor={editor} />}
+      <div ref={outlineRef} className={className.outline}>
+        <OutlineRenderer outline={outlines} />
+        <div className={className['carbon-wrapper']} ref={carbonRef} />
+      </div>
+    </div>
   )
 }

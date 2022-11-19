@@ -10,6 +10,4 @@ export type HandlerReturnType = void | Promise<void> | Cleanup | Promise<Cleanup
 
 export type CtxHandler = (ctx: Ctx) => HandlerReturnType
 
-export interface MilkdownPlugin {
-  (pre: Pre): CtxHandler
-}
+export type MilkdownPlugin = (pre: Pre) => CtxHandler

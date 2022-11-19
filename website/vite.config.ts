@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import react from '@vitejs/plugin-react'
 import { join, resolve } from 'pathe'
-import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
@@ -24,14 +23,5 @@ export default defineConfig({
     sitemapPlugin(),
     markdownPlugin(),
     react(),
-    copy({
-      targets: [
-        {
-          src: [resolve(__dirname, '404.html')],
-          dest: resolve(__dirname, '../docs'),
-        },
-      ],
-      hook: 'writeBundle',
-    }),
   ],
 })
