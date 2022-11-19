@@ -7,6 +7,7 @@ module.exports = {
     'tsdoc/syntax': 'warn',
     'yml/no-empty-mapping-value': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/consistent-type-definitions': 'off',
   },
   settings: {
     react: {

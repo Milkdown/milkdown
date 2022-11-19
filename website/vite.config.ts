@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import react from '@vitejs/plugin-react'
-import { join, resolve } from 'pathe'
+import { join } from 'pathe'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
