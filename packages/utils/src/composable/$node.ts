@@ -6,7 +6,6 @@ import type {
 } from '@milkdown/core'
 import {
   SchemaReady,
-  ThemeReady,
   nodesCtx,
   schemaCtx,
   schemaTimerCtx,
@@ -24,7 +23,6 @@ export type $Node = MilkdownPlugin & {
 
 export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
   const plugin: MilkdownPlugin = () => async (ctx) => {
-    await ctx.wait(ThemeReady)
     const nodeSchema = schema(ctx)
     ctx.update(nodesCtx, ns => [...ns, [id, nodeSchema] as [string, NodeSchema]]);
 
@@ -47,7 +45,6 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
 export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>, timerName?: string) => {
   return addTimer<$Node>(
     async (ctx, plugin, done) => {
-      await ctx.wait(ThemeReady)
       const nodeSchema = await schema(ctx)
       ctx.update(nodesCtx, ns => [...ns, [id, nodeSchema] as [string, NodeSchema]])
 

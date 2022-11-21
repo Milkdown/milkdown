@@ -11,7 +11,6 @@ import {
   parser,
   schema,
   serializer,
-  themeEnvironment,
 } from '../internal-plugin'
 
 export enum EditorStatus {
@@ -55,7 +54,6 @@ export class Editor {
 
   readonly #loadInternal = () => {
     const internalPlugins = [
-      themeEnvironment,
       schema,
       parser,
       serializer,

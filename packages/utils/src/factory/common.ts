@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Attrs, CmdKey, Ctx } from '@milkdown/core'
-import { emotionCtx, themeManagerCtx } from '@milkdown/core'
-import { themeMustInstalled } from '@milkdown/exception'
+import type { CmdKey, MilkdownPlugin } from '@milkdown/core'
+import { pipe } from '../pipe'
 
 import type {
   AddMetadata,
@@ -9,42 +8,14 @@ import type {
   CommonOptions,
   Factory,
   GetPlugin,
-  ThemeUtils,
   WithExtend,
 } from '../types'
-
-export const getClassName
-    = (className: CommonOptions['className']) =>
-      (attrs: Attrs, ...defaultValue: (string | null | undefined)[]): string => {
-        const classList = className?.(attrs, ...defaultValue) ?? defaultValue
-        return Array.isArray(classList) ? classList.filter(x => x).join(' ') : classList
-      }
+import { applyProsePlugins, applyRemarkPlugins, applySchema, applyView, createCommands, createInputRules, createShortcuts, injectPipeEnv, injectSlices } from './pieces'
+import type { Pipeline } from './pipeline'
+import { run } from './pipeline'
 
 export const createShortcut = <T>(commandKey: CmdKey<T>, defaultKey: string | string[], args?: T) =>
   [commandKey, defaultKey, args] as CommandConfig<unknown>
-
-export function getThemeUtils<Options extends CommonOptions>(ctx: Ctx, options?: Options): ThemeUtils {
-  try {
-    const themeManager = ctx.get(themeManagerCtx)
-    const emotion = ctx.get(emotionCtx)
-    if (!emotion.css)
-      throw themeMustInstalled()
-
-    return {
-      getClassName: getClassName(options?.className as undefined),
-      getStyle: style => (options?.headless ? '' : (style(emotion) as string | undefined)),
-      themeManager,
-    }
-  }
-  catch {
-    throw themeMustInstalled()
-  }
-}
-
-/**
- * @deprecated Use `getThemeUtils` instead.
- */
-export const getUtils = getThemeUtils
 
 export const addMetadata = <SupportedKeys extends string = string, Options extends {} = {}>(
   x: GetPlugin<SupportedKeys, Options>,
@@ -58,19 +29,61 @@ export const addMetadata = <SupportedKeys extends string = string, Options exten
 }
 
 export const withExtend
-    = <SupportedKeys extends string, Options extends {}, Type, Rest>(
+  = <SupportedKeys extends string, Options extends {}, Type, Rest>(
+    factory: Factory<SupportedKeys, Options, Type, Rest>,
+    creator: (
       factory: Factory<SupportedKeys, Options, Type, Rest>,
-      creator: (
-        factory: Factory<SupportedKeys, Options, Type, Rest>,
-      ) => WithExtend<SupportedKeys, Options, Type, Rest>,
-    ) =>
-        (origin: AddMetadata<SupportedKeys, Options>): WithExtend<SupportedKeys, Options, Type, Rest> => {
-        type Ext = WithExtend<SupportedKeys, Options, Type, Rest>
-        const next = origin as Ext
-        const extend = (extendFactory: Parameters<Ext['extend']>[0]) =>
-          creator((...args) => extendFactory(factory(...args), ...args))
+    ) => WithExtend<SupportedKeys, Options, Type, Rest>,
+  ) => (origin: AddMetadata<SupportedKeys, Options>): WithExtend<SupportedKeys, Options, Type, Rest> => {
+    type Ext = WithExtend<SupportedKeys, Options, Type, Rest>
+    const next = origin as Ext
+    const extend = (extendFactory: Parameters<Ext['extend']>[0]) => creator((...args) => extendFactory(factory(...args), ...args))
 
-        next.extend = extend as Ext['extend']
+    next.extend = extend as Ext['extend']
 
-        return next
-        }
+    return next
+    }
+
+const innerPlugin = (setPipelineEnv: Pipeline): MilkdownPlugin => pre => async (ctx) => {
+  const runner = run([
+    injectPipeEnv,
+    setPipelineEnv,
+    injectSlices,
+    applyRemarkPlugins,
+    applySchema,
+    createCommands,
+    createInputRules,
+    createShortcuts,
+    applyProsePlugins,
+    applyView,
+  ])
+
+  await runner(pre, ctx)
+
+  return runner.runCleanup
+}
+
+export type ConfigurePipelineEnv<SupportedKeys extends string, Options extends {}, Type, Rest> = (
+  factory: Factory<SupportedKeys, Options, Type, Rest>,
+  options?: Partial<CommonOptions<SupportedKeys, Options>>,
+) => Pipeline
+
+export const createPluginByEnv = <
+  SupportedKeys extends string = string,
+  Options extends {} = {},
+  Type = unknown,
+  Rest = unknown,
+>(
+    factory: Factory<SupportedKeys, Options, Type, Rest>,
+    setPipelineEnv: ConfigurePipelineEnv<SupportedKeys, Options, Type, Rest>,
+  ) => (options?: Partial<CommonOptions<SupportedKeys, Options>>) =>
+    innerPlugin(setPipelineEnv(factory, options))
+
+export const createPluginByEnvConfig = <SupportedKeys extends string, Options extends {}, Type, Rest>(
+  configureEnv: ConfigurePipelineEnv<SupportedKeys, Options, Type, Rest>,
+) => {
+  const createPlugin = (factory: Factory<SupportedKeys, Options, Type, Rest>): WithExtend<SupportedKeys, Options, Type, Rest> =>
+    pipe(addMetadata, withExtend(factory, createPlugin))(createPluginByEnv(factory, configureEnv))
+
+  return createPlugin
+}

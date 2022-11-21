@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@milkdown/ctx": "workspace:*",
-    "@milkdown/design-system": "workspace:*",
     "@milkdown/exception": "workspace:*",
     "@milkdown/transformer": "workspace:*",
     "remark-parse": "^10.0.1",

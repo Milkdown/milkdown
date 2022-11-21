@@ -6,7 +6,6 @@ import type {
 } from '@milkdown/core'
 import {
   SchemaReady,
-  ThemeReady,
   marksCtx,
   schemaCtx,
   schemaTimerCtx,
@@ -24,7 +23,6 @@ export type $Mark = MilkdownPlugin & {
 
 export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
   const plugin: MilkdownPlugin = () => async (ctx) => {
-    await ctx.wait(ThemeReady)
     const markSchema = schema(ctx)
     ctx.update(marksCtx, ns => [...ns, [id, markSchema] as [string, MarkSchema]]);
 
@@ -47,7 +45,6 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
 export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>, timerName?: string) => {
   return addTimer<$Mark>(
     async (ctx, plugin, done) => {
-      await ctx.wait(ThemeReady)
       const markSchema = await schema(ctx)
       ctx.update(marksCtx, ns => [...ns, [id, markSchema] as [string, MarkSchema]])
 

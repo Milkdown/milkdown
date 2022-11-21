@@ -218,7 +218,6 @@ importers:
   packages/core:
     specifiers:
       '@milkdown/ctx': workspace:*
-      '@milkdown/design-system': workspace:*
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/transformer': workspace:*
@@ -228,7 +227,6 @@ importers:
       unified: ^10.1.0
     dependencies:
       '@milkdown/ctx': link:../ctx
-      '@milkdown/design-system': link:../design-system
       '@milkdown/exception': link:../exception
       '@milkdown/transformer': link:../transformer
       remark-parse: 10.0.1
