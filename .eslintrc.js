@@ -1,24 +1,39 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 module.exports = {
-  extends: ['@antfu/eslint-config-ts', 'plugin:react-hooks/recommended'],
-  plugins: ['header', 'eslint-plugin-tsdoc'],
-  rules: {
-    'tsdoc/syntax': 'warn',
-    'yml/no-empty-mapping-value': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
-    '@typescript-eslint/consistent-type-definitions': 'off',
-  },
+  extends: [
+    '@antfu',
+  ],
+  plugins: ['header'],
   settings: {
     react: {
       version: 'detect',
     },
   },
+  ignorePatterns: [
+    'lib',
+    'snapshots.js',
+    'docs',
+  ],
+  rules: {
+    'yml/no-empty-mapping-value': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/consistent-type-definitions': 'off',
+  },
   overrides: [
     {
-      files: ['**/vue/**/*.tsx'],
+      files: ['**/react/**/*.tsx', '**/react/**/*.ts'],
+      extends: [
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
+      ],
       rules: {
-        'react-hooks/rules-of-hooks': 'off',
+        'jsx-quotes': [
+          'error',
+          'prefer-double',
+        ],
+        'react/react-in-jsx-scope': 'off',
+        'react/prop-types': 'off',
       },
     },
     {
@@ -30,11 +45,7 @@ module.exports = {
     {
       files: ['**/*.ts', '**/*.tsx', '**/*.js'],
       rules: {
-        'header/header': [
-          'error',
-          'block',
-          ' Copyright 2021, Milkdown by Mirone. ',
-        ],
+        'header/header': ['error', 'block', ' Copyright 2021, Milkdown by Mirone. '],
       },
     },
   ],

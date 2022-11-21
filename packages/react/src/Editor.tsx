@@ -86,11 +86,12 @@ export const ReactEditor = forwardRef<EditorRef, EditorProps>(({ editor: editorI
   }, [dom, editor, setLoading])
 
   return (
-        <editorInfoContext.Provider value={ctx}>
-            <portalContext.Provider value={renderReact}>
-                {portals}
-                <EditorComponent ref={ref} editor={getEditorCallback} />
-            </portalContext.Provider>
-        </editorInfoContext.Provider>
+    <editorInfoContext.Provider value={ctx}>
+      <portalContext.Provider value={renderReact}>
+        {portals}
+        <EditorComponent ref={ref} editor={getEditorCallback} />
+      </portalContext.Provider>
+    </editorInfoContext.Provider>
   )
 })
+ReactEditor.displayName = 'MilkdownReactEditor'

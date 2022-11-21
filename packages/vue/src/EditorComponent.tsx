@@ -7,13 +7,15 @@ import type { EditorInfoCtx, GetEditor } from './types'
 import { useGetEditor } from './useGetEditor'
 
 export const EditorComponent = defineComponent<{ editor: GetEditor; editorRef?: EditorRef }>({
-  name: 'milkdown-dom-root',
+  name: 'MilkdownDomRoot',
   setup: (props, { slots }) => {
     useGetEditor(props.editor)
     const ctx = inject(editorInfoCtxKey, {} as EditorInfoCtx)
 
     if (props.editorRef) {
+      // eslint-disable-next-line vue/no-mutating-props
       props.editorRef.get = () => ctx.editor.value
+      // eslint-disable-next-line vue/no-mutating-props
       props.editorRef.dom = () => ctx.dom.value
     }
 

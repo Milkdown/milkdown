@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+/* eslint-disable vue/one-component-per-file */
 import { Editor, defaultValueCtx, rootCtx } from '@milkdown/core'
 import { slash } from '@milkdown/plugin-slash'
 import { blockquote, commonmarkNodes, commonmarkPlugins, heading, image, paragraph } from '@milkdown/preset-commonmark'
@@ -9,40 +10,40 @@ import type { DefineComponent } from 'vue'
 import { defineComponent, h, inject, ref } from 'vue'
 
 const MyParagraph: DefineComponent = defineComponent({
-  name: 'my-paragraph',
+  name: 'MyParagraph',
   setup(_, { slots }) {
     return () => <div class="my-paragraph">{slots.default?.()}</div>
   },
 })
 const MyHeading = defineComponent({
-  name: 'my-heading',
+  name: 'MyHeading',
   setup: (_, { slots }) => {
     const node = inject(nodeMetadata)?.node
     return () => {
       return (
-                <div class={`my-heading ${!node?.attrs.level ? '' : `heading${node?.attrs.level}`}`}>
-                    {slots.default?.()}
-                </div>
+        <div class={`my-heading ${!node?.attrs.level ? '' : `heading${node?.attrs.level}`}`}>
+          {slots.default?.()}
+        </div>
       )
     }
   },
 })
 const MyImage: DefineComponent = defineComponent({
-  name: 'my-image',
+  name: 'MyImage',
   setup() {
     const node = inject(nodeMetadata)?.node
     return () => <img class="image" src={node?.attrs.src} alt={node?.attrs.alt} />
   },
 })
 const MyQuote: DefineComponent = defineComponent({
-  name: 'my-quote',
+  name: 'MyQuote',
   setup(_, { slots }) {
     return () => <section class="my-quote">{slots.default?.()}</section>
   },
 })
 
 export const MyEditor = defineComponent<{ markdown: string }>({
-  name: 'my-editor',
+  name: 'MyEditor',
   setup: (props) => {
     const editorRef = ref<EditorRef>({ get: () => undefined, dom: () => null })
     // effect(() => {

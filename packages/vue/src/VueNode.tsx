@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+/* eslint-disable vue/one-component-per-file */
 import type { Ctx } from '@milkdown/core'
 import type { Mark, Node } from '@milkdown/prose/model'
 import type { Decoration, EditorView } from '@milkdown/prose/view'
@@ -19,7 +20,7 @@ export type UseNodeCtx = <T extends Node | Mark = Node | Mark>() => NodeContext<
 export const useNodeCtx: UseNodeCtx = () => inject(nodeMetadata) as NodeContext<never>
 
 export const VueNodeContainer = defineComponent<NodeContext & { as: string }>({
-  name: 'milkdown-node-container',
+  name: 'MilkdownNodeContainer',
   setup: ({ node, view, getPos, decorations, ctx, as }, context) => {
     provide(nodeMetadata, {
       ctx,
@@ -34,7 +35,7 @@ export const VueNodeContainer = defineComponent<NodeContext & { as: string }>({
 VueNodeContainer.props = ['ctx', 'editor', 'node', 'view', 'getPos', 'decorations', 'as']
 
 export const Content = defineComponent<{ isInline?: boolean }>({
-  name: 'milkdown-content',
+  name: 'MilkdownContent',
   setup: ({ isInline }) => {
     return () => (isInline ? <span data-view-content /> : <div data-view-content />)
   },

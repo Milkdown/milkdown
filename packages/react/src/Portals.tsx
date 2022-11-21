@@ -11,3 +11,4 @@ export const portalContext = createContext<RenderReact>(() => () => {
 export const Portals: FC<{ portals: ReactPortal[] }> = memo(({ portals }) => {
   return <>{portals}</>
 })
+Portals.displayName = 'Portals'

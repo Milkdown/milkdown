@@ -52,7 +52,7 @@ const { editor } = useEditor(/* creator */);
 
 type PortalPair = [key: string, component: DefineComponent]
 export const VueEditor = defineComponent<{ editor: EditorInfo; editorRef?: EditorRef }>({
-  name: 'milkdown-vue-root',
+  name: 'MilkdownVueRoot',
   setup: (props) => {
     const portals = shallowReactive<PortalPair[]>([])
 

@@ -23,3 +23,4 @@ export const EditorComponent = forwardRef<EditorRef, { editor: GetEditor }>(({ e
   useImperativeHandle(ref, () => getter)
   return <div ref={domRef} />
 })
+EditorComponent.displayName = 'EditorComponent'

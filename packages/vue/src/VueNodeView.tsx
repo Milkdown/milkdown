@@ -96,7 +96,7 @@ export class VueNodeView implements NodeView {
     const elementName = this.options.as ? this.options.as : this.isInlineOrMark ? 'span' : 'div'
     return markRaw(
       defineComponent({
-        name: 'milkdown-portal',
+        name: 'MilkdownPortal',
         setup: () => {
           return () => (
                         <Teleport key={this.key} to={this.teleportDOM}>
