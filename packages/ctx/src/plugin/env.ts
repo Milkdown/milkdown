@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Container, Slice, SliceValue } from '../context'
+import type { $Slice, Container, Slice } from '../context'
 import type { Clock, Timer } from '../timing'
 
 export class Env {
@@ -62,7 +62,7 @@ export class Env {
       * @param slice - The slice or slice name that needs to be used.
       * @returns The slice instance.
       */
-  readonly use = <T, N extends string = string>(slice: Slice<T, N> | N): SliceValue<T, N> =>
+  readonly use = <T, N extends string = string>(slice: Slice<T, N> | N): $Slice<T, N> =>
     this.#container.getSlice(slice)
 
   /**

@@ -1,43 +1,42 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createCmd, createCmdKey } from '@milkdown/core'
+import { commandsCtx, createCmd, createCmdKey } from '@milkdown/core'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
-import { createNode, createShortcut } from '@milkdown/utils'
+import { $command, $ctx, $inputRule, $node, $shortcut } from '@milkdown/utils'
 
-import { SupportedKeys } from '../supported-keys'
+export const blockquoteNode = $node('blockquote', () => ({
+  content: 'block+',
+  group: 'block',
+  defining: true,
+  parseDOM: [{ tag: 'blockquote' }],
+  toDOM: () => ['blockquote', 0],
+  parseMarkdown: {
+    match: ({ type }) => type === 'blockquote',
+    runner: (state, node, type) => {
+      state.openNode(type).next(node.children).closeNode()
+    },
+  },
+  toMarkdown: {
+    match: node => node.type.name === 'blockquote',
+    runner: (state, node) => {
+      state.openNode('blockquote').next(node.content).closeNode()
+    },
+  },
+}))
 
-type Keys = SupportedKeys['Blockquote']
-
-const id = 'blockquote'
+export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteNode.type))
 
 export const WrapInBlockquote = createCmdKey('WrapInBlockquote')
+export const wrapInBlockquoteCommand = $command(() => createCmd(WrapInBlockquote, () => wrapIn(blockquoteNode.type)))
 
-export const blockquote = createNode<Keys>((utils) => {
+export const blockquoteKeys = $ctx({ WrapInBlockquote: 'Mod-Shift-b' }, 'BlockquoteConfig')
+
+export const blockquoteShortcuts = $shortcut((ctx) => {
+  const commands = ctx.get(commandsCtx)
+  const keys = ctx.get(blockquoteKeys.slice)
   return {
-    id,
-    schema: () => ({
-      content: 'block+',
-      group: 'block',
-      defining: true,
-      parseDOM: [{ tag: 'blockquote' }],
-      toDOM: node => ['blockquote', { class: utils.getClassName(node.attrs, id) }, 0],
-      parseMarkdown: {
-        match: ({ type }) => type === id,
-        runner: (state, node, type) => {
-          state.openNode(type).next(node.children).closeNode()
-        },
-      },
-      toMarkdown: {
-        match: node => node.type.name === id,
-        runner: (state, node) => {
-          state.openNode('blockquote').next(node.content).closeNode()
-        },
-      },
-    }),
-    inputRules: nodeType => [wrappingInputRule(/^\s*>\s$/, nodeType)],
-    commands: nodeType => [createCmd(WrapInBlockquote, () => wrapIn(nodeType))],
-    shortcuts: {
-      [SupportedKeys.Blockquote]: createShortcut(WrapInBlockquote, 'Mod-Shift-b'),
-    },
+    [keys.WrapInBlockquote]: () => commands.call(WrapInBlockquote),
   }
 })
+
+export const blockquote = [blockquoteNode, wrapInBlockquoteInputRule, wrapInBlockquoteCommand, blockquoteKeys, blockquoteShortcuts]

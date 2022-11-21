@@ -1,18 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { contextNotFound } from '@milkdown/exception'
 
-import type { Slice, SliceValue } from './slice'
+import type { $Slice, Slice } from './slice'
 
 export interface Container {
-  readonly sliceMap: Map<symbol, SliceValue>
-  readonly getSlice: <T, N extends string = string>(slice: Slice<T, N> | N) => SliceValue<T, N>
+  readonly sliceMap: Map<symbol, $Slice>
+  readonly getSlice: <T, N extends string = string>(slice: Slice<T, N> | N) => $Slice<T, N>
   readonly removeSlice: <T, N extends string = string>(slice: Slice<T, N> | N) => void
 }
 
 export const createContainer = (): Container => {
-  const sliceMap: Map<symbol, SliceValue> = new Map()
+  const sliceMap: Map<symbol, $Slice> = new Map()
 
-  const getSlice = <T, N extends string = string>(slice: Slice<T, N> | N): SliceValue<T, N> => {
+  const getSlice = <T, N extends string = string>(slice: Slice<T, N> | N): $Slice<T, N> => {
     const context
       = typeof slice === 'string' ? [...sliceMap.values()].find(x => x.name === slice) : sliceMap.get(slice.id)
 
@@ -20,7 +20,7 @@ export const createContainer = (): Container => {
       const name = typeof slice === 'string' ? slice : slice.sliceName
       throw contextNotFound(name)
     }
-    return context as SliceValue<T, N>
+    return context as $Slice<T, N>
   }
 
   const removeSlice = <T, N extends string = string>(slice: Slice<T, N> | N): void => {
