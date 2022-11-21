@@ -1,6 +1,6 @@
 {
   "name": "@milkdown/website",
-  "version": "6.5.2",
+  "version": "6.5.3",
   "private": true,
   "scripts": {
     "start": "vite --host",
