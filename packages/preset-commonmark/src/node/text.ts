@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $node } from '@milkdown/utils'
 
-export const text = $node('text', () => ({
+export const textSchema = $node('text', () => ({
   group: 'inline',
   parseMarkdown: {
     match: ({ type }) => type === 'text',

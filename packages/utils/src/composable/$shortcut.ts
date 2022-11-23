@@ -7,7 +7,7 @@ import type { Command } from '@milkdown/prose/state'
 
 import { addTimer } from './utils'
 
-type Keymap = Record<string, Command>
+export type Keymap = Record<string, Command>
 
 export type $Shortcut = MilkdownPlugin & {
   keymap: Keymap

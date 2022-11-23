@@ -2,6 +2,7 @@
 import type { Ctx } from '@milkdown/core'
 import { editorViewCtx } from '@milkdown/core'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
+import { $prose } from '@milkdown/utils'
 
 import { inlineSyncConfigCtx } from './config'
 import { getContextByState } from './context'
@@ -9,10 +10,13 @@ import { runReplacer } from './replacer'
 
 export * from './config'
 
-export const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC')
-export const getInlineSyncPlugin = (ctx: Ctx) => {
+// The original design of inline sync plugin can be founded at:
+// https://github.com/Saul-Mirone/milkdown/milestone/5
+export const inlineSyncPlugin = $prose((ctx: Ctx) => {
   let requestId: number | null = null
-  const inlineSyncPlugin = new Plugin<null>({
+  const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC')
+
+  return new Plugin<null>({
     key: inlineSyncPluginKey,
     state: {
       init: () => {
@@ -58,6 +62,4 @@ export const getInlineSyncPlugin = (ctx: Ctx) => {
       },
     },
   })
-
-  return inlineSyncPlugin
-}
+})

@@ -1,0 +1,44 @@
+/* Copyright 2021, Milkdown by Mirone. */
+import { Plugin, PluginKey } from '@milkdown/prose/state'
+import { AddMarkStep, ReplaceStep } from '@milkdown/prose/transform'
+import { $prose } from '@milkdown/utils'
+import { hardbreakSchema } from '../node/hardbreak'
+
+export const hardbreakClearMarkPlugin = $prose(() => {
+  return new Plugin({
+    key: new PluginKey('MILKDOWN_HARDBREAK_MARKS'),
+    appendTransaction: (trs, _oldState, newState) => {
+      if (!trs.length)
+        return
+
+      const [tr] = trs
+      if (!tr)
+        return
+
+      const [step] = tr.steps
+
+      const isInsertHr = tr.getMeta('hardbreak')
+      if (isInsertHr) {
+        if (!(step instanceof ReplaceStep))
+          return
+
+        const { from } = step as unknown as { from: number }
+        return newState.tr.setNodeMarkup(from, hardbreakSchema.type, undefined, [])
+      }
+
+      const isAddMarkStep = step instanceof AddMarkStep
+      if (isAddMarkStep) {
+        let _tr = newState.tr
+        const { from, to } = step as unknown as { from: number; to: number }
+        newState.doc.nodesBetween(from, to, (node, pos) => {
+          if (node.type === hardbreakSchema.type)
+            _tr = _tr.setNodeMarkup(pos, hardbreakSchema.type, undefined, [])
+        })
+
+        return _tr
+      }
+
+      return undefined
+    },
+  })
+})

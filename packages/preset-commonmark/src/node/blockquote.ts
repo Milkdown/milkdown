@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx, createCmd, createCmdKey } from '@milkdown/core'
+import { commandsCtx } from '@milkdown/core'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
-import { $command, $ctx, $inputRule, $node, $shortcut } from '@milkdown/utils'
+import { $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const blockquoteNode = $node('blockquote', () => ({
+export const blockquoteSchema = $nodeSchema('blockquote', () => ({
   content: 'block+',
   group: 'block',
   defining: true,
@@ -24,19 +24,16 @@ export const blockquoteNode = $node('blockquote', () => ({
   },
 }))
 
-export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteNode.type))
+export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type))
 
-export const WrapInBlockquote = createCmdKey('WrapInBlockquote')
-export const wrapInBlockquoteCommand = $command(() => createCmd(WrapInBlockquote, () => wrapIn(blockquoteNode.type)))
+export const wrapInBlockquoteCommand = $command('WrapInBlockquote', () => () => wrapIn(blockquoteSchema.type))
 
-export const blockquoteKeys = $ctx({ WrapInBlockquote: 'Mod-Shift-b' }, 'BlockquoteConfig')
-
-export const blockquoteShortcuts = $shortcut((ctx) => {
-  const commands = ctx.get(commandsCtx)
-  const keys = ctx.get(blockquoteKeys.slice)
-  return {
-    [keys.WrapInBlockquote]: () => commands.call(WrapInBlockquote),
-  }
+export const blockquoteKeymap = $useKeymap('blockquoteKeymap', {
+  WrapInBlockquote: {
+    shortcuts: 'Mod-Shift-b',
+    command: (ctx) => {
+      const commands = ctx.get(commandsCtx)
+      return () => commands.call(wrapInBlockquoteCommand.key)
+    },
+  },
 })
-
-export const blockquote = [blockquoteNode, wrapInBlockquoteInputRule, wrapInBlockquoteCommand, blockquoteKeys, blockquoteShortcuts]
