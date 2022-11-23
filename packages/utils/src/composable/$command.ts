@@ -19,6 +19,10 @@ export const $command = <T, K extends string>(key: K, cmd: (ctx: Ctx) => Cmd<T>)
     ctx.get(commandsCtx).create(cmdKey, command);
     (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload);
     (<$Command<T>>plugin).key = cmdKey
+
+    return () => {
+      ctx.get(commandsCtx).remove(cmdKey)
+    }
   }
 
   return <$Command<T>>plugin
@@ -33,6 +37,9 @@ export const $commandAsync = <T, K extends string>(key: K, cmd: (ctx: Ctx) => Pr
       ctx.get(commandsCtx).create(cmdKey, command);
       (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload);
       (<$Command<T>>plugin).key = cmdKey
+      return () => {
+        ctx.get(commandsCtx).remove(cmdKey)
+      }
     },
     commandsTimerCtx,
     timerName,

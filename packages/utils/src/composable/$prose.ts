@@ -16,6 +16,10 @@ export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
     const prosePlugin = prose(ctx)
     ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin]);
     (<$Prose>plugin).plugin = prosePlugin
+
+    return () => {
+      ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== prosePlugin))
+    }
   }
 
   return <$Prose>plugin
@@ -28,6 +32,10 @@ export const $proseAsync = (prose: (ctx: Ctx) => Promise<Plugin>, timerName?: st
       const prosePlugin = await prose(ctx)
       ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin])
       plugin.plugin = prosePlugin
+
+      return () => {
+        ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== prosePlugin))
+      }
     },
     editorStateTimerCtx,
     timerName,

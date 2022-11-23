@@ -37,6 +37,10 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
       throw missingMarkInSchema(id);
 
     (<$Mark>plugin).type = markType
+
+    return () => {
+      ctx.update(marksCtx, ns => ns.filter(([x]) => x !== id))
+    }
   }
 
   return <$Mark>plugin
@@ -59,6 +63,10 @@ export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>
         throw missingMarkInSchema(id)
 
       plugin.type = markType
+
+      return () => {
+        ctx.update(marksCtx, ns => ns.filter(([x]) => x !== id))
+      }
     },
     schemaTimerCtx,
     timerName,

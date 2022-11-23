@@ -34,6 +34,13 @@ export const $view = <
 
     (<$View<T, V>>plugin).view = v;
     (<$View<T, V>>plugin).type = type
+
+    return () => {
+      if (type.type instanceof NodeType)
+        ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
+      else
+        ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))
+    }
   }
 
   return <$View<T, V>>plugin
@@ -62,6 +69,13 @@ export const $viewAsync = <
 
         plugin.view = v
         plugin.type = type
+
+        return () => {
+          if (type.type instanceof NodeType)
+            ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
+          else
+            ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))
+        }
       },
       editorViewTimerCtx,
       timerName,

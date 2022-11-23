@@ -37,6 +37,10 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
       throw missingNodeInSchema(id);
 
     (<$Node>plugin).type = nodeType
+
+    return () => {
+      ctx.update(nodesCtx, ns => ns.filter(([x]) => x !== id))
+    }
   }
 
   return <$Node>plugin
@@ -60,6 +64,10 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
         throw missingNodeInSchema(id)
 
       plugin.type = nodeType
+
+      return () => {
+        ctx.update(nodesCtx, ns => ns.filter(([x]) => x !== id))
+      }
     },
     schemaTimerCtx,
     timerName,

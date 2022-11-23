@@ -15,6 +15,10 @@ export const $remark = (remark: (ctx: Ctx) => RemarkPlugin): $Remark => {
     const re = remark(ctx)
     ctx.update(remarkPluginsCtx, rp => [...rp, re]);
     (<$Remark>plugin).plugin = re
+
+    return () => {
+      ctx.update(remarkPluginsCtx, rp => rp.filter(x => x !== re))
+    }
   }
 
   return <$Remark>plugin
@@ -27,6 +31,10 @@ export const $remarkAsync = (remark: (ctx: Ctx) => Promise<RemarkPlugin>, timerN
       const re = await remark(ctx)
       ctx.update(remarkPluginsCtx, rp => [...rp, re])
       plugin.plugin = re
+
+      return () => {
+        ctx.update(remarkPluginsCtx, rp => rp.filter(x => x !== re))
+      }
     },
     schemaTimerCtx,
     timerName,
