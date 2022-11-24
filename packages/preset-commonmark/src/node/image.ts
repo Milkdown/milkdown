@@ -75,7 +75,7 @@ export const insertImageCommand = $command('InsertImage', () => (payload: Update
 
     const { src = '', alt = '', title = '' } = payload
 
-    const node = imageSchema.type.create({ src, alt, title })
+    const node = imageSchema.type().create({ src, alt, title })
     if (!node)
       return true
 
@@ -84,7 +84,7 @@ export const insertImageCommand = $command('InsertImage', () => (payload: Update
   })
 
 export const updateImageCommand = $command('UpdateImage', () => (payload: UpdateImageCommandPayload = {}) => (state, dispatch) => {
-  const nodeWithPos = findSelectedNodeOfType(state.selection, imageSchema.type)
+  const nodeWithPos = findSelectedNodeOfType(state.selection, imageSchema.type())
   if (!nodeWithPos)
     return false
 
@@ -108,7 +108,7 @@ export const insertImageInputRule = $inputRule(() => new InputRule(
   (state, match, start, end) => {
     const [matched, alt, src = '', title] = match
     if (matched)
-      return state.tr.replaceWith(start, end, imageSchema.type.create({ src, alt, title }))
+      return state.tr.replaceWith(start, end, imageSchema.type().create({ src, alt, title }))
 
     return null
   },

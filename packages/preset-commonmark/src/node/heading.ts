@@ -86,31 +86,33 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
   }
 })
 
-export const turnIntoHeadingInputRule = $inputRule(ctx =>
-  headingIndex.map(x =>
-    textblockTypeInputRule(new RegExp(`^(#{1,${x}})\\s$`), headingSchema.type, () => {
-      const view = ctx.get(editorViewCtx)
-      const { $from } = view.state.selection
-      const node = $from.node()
-      if (node.type.name === 'heading') {
-        let level = Number(node.attrs.level) + Number(x)
-        if (level > 6)
-          level = 6
+export const wrapInHeadingInputRule = $inputRule((ctx) => {
+  return textblockTypeInputRule(/^(?<hashes>#+)\s$/, headingSchema.type(), (match) => {
+    const x = match.groups?.hashes?.length || 0
 
-        return { level }
-      }
-      return { level: x }
-    }),
-  ))
+    const view = ctx.get(editorViewCtx)
+    const { $from } = view.state.selection
+    const node = $from.node()
+    if (node.type.name === 'heading') {
+      let level = Number(node.attrs.level) + Number(x)
+      if (level > 6)
+        level = 6
 
-export const turnIntoHeadingCommand = $command('TurnIntoHeading', () => {
+      return { level }
+    }
+    return { level: x }
+  })
+},
+)
+
+export const wrapInHeadingCommand = $command('WrapInHeading', () => {
   return (level?: number) => {
     level ??= 1
 
     if (level < 1)
-      return setBlockType(paragraphSchema.type)
+      return setBlockType(paragraphSchema.type())
 
-    return setBlockType(headingSchema.type, { level })
+    return setBlockType(headingSchema.type(), { level })
   }
 })
 
@@ -118,12 +120,12 @@ export const downgradeHeadingCommand = $command('DowngradeHeading', () => () =>
   (state, dispatch, view) => {
     const { $from } = state.selection
     const node = $from.node()
-    if (node.type !== headingSchema.type || !state.selection.empty || $from.parentOffset !== 0)
+    if (node.type !== headingSchema.type() || !state.selection.empty || $from.parentOffset !== 0)
       return false
 
     const level = node.attrs.level - 1
     if (!level)
-      return setBlockType(paragraphSchema.type || headingSchema.type)(state, dispatch, view)
+      return setBlockType(paragraphSchema.type())(state, dispatch, view)
 
     dispatch?.(
       state.tr.setNodeMarkup(state.selection.$from.before(), undefined, {
@@ -139,42 +141,42 @@ export const headingKeymap = $useKeymap('headingKeymap', {
     shortcuts: 'Mod-Alt-1',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(turnIntoHeadingCommand.key, 1)
+      return () => commands.call(wrapInHeadingCommand.key, 1)
     },
   },
   TurnIntoH2: {
     shortcuts: 'Mod-Alt-2',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(turnIntoHeadingCommand.key, 2)
+      return () => commands.call(wrapInHeadingCommand.key, 2)
     },
   },
   TurnIntoH3: {
     shortcuts: 'Mod-Alt-3',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(turnIntoHeadingCommand.key, 3)
+      return () => commands.call(wrapInHeadingCommand.key, 3)
     },
   },
   TurnIntoH4: {
     shortcuts: 'Mod-Alt-4',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(turnIntoHeadingCommand.key, 3)
+      return () => commands.call(wrapInHeadingCommand.key, 3)
     },
   },
   TurnIntoH5: {
     shortcuts: 'Mod-Alt-5',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(turnIntoHeadingCommand.key, 3)
+      return () => commands.call(wrapInHeadingCommand.key, 3)
     },
   },
   TurnIntoH6: {
     shortcuts: 'Mod-Alt-6',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(turnIntoHeadingCommand.key, 3)
+      return () => commands.call(wrapInHeadingCommand.key, 3)
     },
   },
   DowngradeHeading: {

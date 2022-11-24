@@ -9,8 +9,8 @@ import { orderedListSchema } from '../node/ordered-list'
 // This plugin is used to keep the label of list item up to date in ordered list.
 export const syncListOrderPlugin = $prose(() => {
   const walkThrough = (state: EditorState, callback: (tr: Transaction) => void) => {
-    const orderedListType = orderedListSchema.type
-    const listItemType = listItemSchema.type
+    const orderedListType = orderedListSchema.type()
+    const listItemType = listItemSchema.type()
     let tr = state.tr
     state.doc.descendants((node, pos, parent, index) => {
       if (node.type === listItemType && parent?.type === orderedListType) {

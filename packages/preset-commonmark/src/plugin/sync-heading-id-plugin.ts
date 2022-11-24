@@ -17,7 +17,7 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
     let found = false
 
     view.state.doc.descendants((node, pos) => {
-      if (node.type === headingSchema.type) {
+      if (node.type === headingSchema.type()) {
         if (node.textContent.trim().length === 0)
           return
 

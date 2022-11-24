@@ -17,11 +17,12 @@ import { addTimer } from './utils'
 
 export type $Mark = MilkdownPlugin & {
   id: string
-  type: MarkType
   schema: MarkSchema
+  type: () => MarkType
 }
 
 export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
+  let markType: MarkType | undefined
   const plugin: MilkdownPlugin = () => async (ctx) => {
     const markSchema = schema(ctx)
     ctx.update(marksCtx, ns => [...ns, [id, markSchema] as [string, MarkSchema]]);
@@ -31,23 +32,22 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
 
     await ctx.wait(SchemaReady)
 
-    const markType = ctx.get(schemaCtx).marks[id]
-
+    markType = ctx.get(schemaCtx).marks[id]
     if (!markType)
-      throw missingMarkInSchema(id);
-
-    (<$Mark>plugin).type = markType
+      throw missingMarkInSchema(id)
 
     return () => {
       ctx.update(marksCtx, ns => ns.filter(([x]) => x !== id))
     }
   }
+  (<$Mark>plugin).type = () => markType!
 
   return <$Mark>plugin
 }
 
 export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>, timerName?: string) => {
-  return addTimer<$Mark>(
+  let markType: MarkType | undefined
+  const plugin = addTimer<$Mark>(
     async (ctx, plugin, done) => {
       const markSchema = await schema(ctx)
       ctx.update(marksCtx, ns => [...ns, [id, markSchema] as [string, MarkSchema]])
@@ -62,8 +62,6 @@ export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>
       if (!markType)
         throw missingMarkInSchema(id)
 
-      plugin.type = markType
-
       return () => {
         ctx.update(marksCtx, ns => ns.filter(([x]) => x !== id))
       }
@@ -71,4 +69,7 @@ export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>
     schemaTimerCtx,
     timerName,
   )
+  plugin.type = () => markType!
+
+  return plugin
 }

@@ -31,10 +31,10 @@ export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => 
     return false
   const { from, to } = selection
 
-  const has = state.doc.rangeHasMark(from, to, inlineCodeSchema.type)
+  const has = state.doc.rangeHasMark(from, to, inlineCodeSchema.type())
   // remove exists inlineCode mark if have
   if (has) {
-    dispatch?.(tr.removeMark(from, to, inlineCodeSchema.type))
+    dispatch?.(tr.removeMark(from, to, inlineCodeSchema.type()))
     return true
   }
 
@@ -48,7 +48,7 @@ export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => 
     })
 
   // add inlineCode mark
-  dispatch?.(tr.addMark(from, to, inlineCodeSchema.type.create()))
+  dispatch?.(tr.addMark(from, to, inlineCodeSchema.type().create()))
   return true
 })
 

@@ -17,11 +17,12 @@ import { addTimer } from './utils'
 
 export type $Node = MilkdownPlugin & {
   id: string
-  type: NodeType
   schema: NodeSchema
+  type: () => NodeType
 }
 
 export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
+  let nodeType: NodeType | undefined
   const plugin: MilkdownPlugin = () => async (ctx) => {
     const nodeSchema = schema(ctx)
     ctx.update(nodesCtx, ns => [...ns, [id, nodeSchema] as [string, NodeSchema]]);
@@ -31,23 +32,22 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
 
     await ctx.wait(SchemaReady)
 
-    const nodeType = ctx.get(schemaCtx).nodes[id]
-
+    nodeType = ctx.get(schemaCtx).nodes[id]
     if (!nodeType)
-      throw missingNodeInSchema(id);
-
-    (<$Node>plugin).type = nodeType
+      throw missingNodeInSchema(id)
 
     return () => {
       ctx.update(nodesCtx, ns => ns.filter(([x]) => x !== id))
     }
   }
+  (<$Node>plugin).type = () => nodeType!
 
   return <$Node>plugin
 }
 
 export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>, timerName?: string) => {
-  return addTimer<$Node>(
+  let nodeType: NodeType | undefined
+  const plugin = addTimer<$Node>(
     async (ctx, plugin, done) => {
       const nodeSchema = await schema(ctx)
       ctx.update(nodesCtx, ns => [...ns, [id, nodeSchema] as [string, NodeSchema]])
@@ -58,12 +58,9 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
 
       await ctx.wait(SchemaReady)
 
-      const nodeType = ctx.get(schemaCtx).nodes[id]
-
+      nodeType = ctx.get(schemaCtx).nodes[id]
       if (!nodeType)
         throw missingNodeInSchema(id)
-
-      plugin.type = nodeType
 
       return () => {
         ctx.update(nodesCtx, ns => ns.filter(([x]) => x !== id))
@@ -72,4 +69,6 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
     schemaTimerCtx,
     timerName,
   )
+  plugin.type = () => nodeType!
+  return plugin
 }

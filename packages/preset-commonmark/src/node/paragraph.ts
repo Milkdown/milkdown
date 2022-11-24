@@ -46,7 +46,7 @@ export const paragraphSchema = $nodeSchema('paragraph', () => ({
   },
 }))
 
-export const turnIntoTextCommand = $command('TurnIntoText', () => () => setBlockType(paragraphSchema.type))
+export const turnIntoTextCommand = $command('TurnIntoText', () => () => setBlockType(paragraphSchema.type()))
 
 export const paragraphKeymap = $useKeymap('paragraphKeymap', {
   TurnIntoText: {

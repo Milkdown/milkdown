@@ -24,9 +24,9 @@ export const blockquoteSchema = $nodeSchema('blockquote', () => ({
   },
 }))
 
-export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type))
+export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type()))
 
-export const wrapInBlockquoteCommand = $command('WrapInBlockquote', () => () => wrapIn(blockquoteSchema.type))
+export const wrapInBlockquoteCommand = $command('WrapInBlockquote', () => () => wrapIn(blockquoteSchema.type()))
 
 export const blockquoteKeymap = $useKeymap('blockquoteKeymap', {
   WrapInBlockquote: {

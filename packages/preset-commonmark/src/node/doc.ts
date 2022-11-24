@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $node } from '@milkdown/utils'
 
-export const docSchema = $node('id', () => ({
+export const docSchema = $node('doc', () => ({
   content: 'block+',
   parseMarkdown: {
     match: ({ type }) => type === 'root',

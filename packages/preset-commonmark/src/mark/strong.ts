@@ -27,7 +27,7 @@ export const strongSchema = $markSchema('strong', () => ({
   },
 }))
 
-export const toggleStrongCommand = $command('ToggleStrong', () => () => toggleMark(strongSchema.type))
+export const toggleStrongCommand = $command('ToggleStrong', () => () => toggleMark(strongSchema.type()))
 
 export const strongKeymap = $useKeymap('strongKeymap', {
   ToggleBold: {

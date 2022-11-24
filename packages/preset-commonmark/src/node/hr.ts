@@ -27,7 +27,7 @@ export const insertHrInputRule = $inputRule(() => new InputRule(
     const { tr } = state
 
     if (match[0])
-      tr.replaceWith(start - 1, end, hrSchema.type.create())
+      tr.replaceWith(start - 1, end, hrSchema.type().create())
 
     return tr
   },
@@ -40,7 +40,7 @@ export const insertHrCommand = $command('InsertHr', ctx => () => (state, dispatc
   const paragraph = ctx.get(schemaCtx).node('paragraph')
   const { tr, selection } = state
   const { from } = selection
-  const node = hrSchema.type.create()
+  const node = hrSchema.type().create()
   if (!node)
     return true
 

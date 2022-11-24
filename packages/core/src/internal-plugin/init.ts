@@ -41,6 +41,7 @@ export const init
         .inject(markViewCtx)
         .inject(remarkStringifyOptionsCtx)
         .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
+        .inject(initTimerCtx, [])
         .record(InitReady)
 
       return async (ctx) => {

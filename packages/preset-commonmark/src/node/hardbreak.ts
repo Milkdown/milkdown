@@ -38,7 +38,7 @@ export const insertHardbreakCommand = $command('InsertHardbreak', () => () => (s
       return true
     }
   }
-  dispatch?.(tr.setMeta('hardbreak', true).replaceSelectionWith(hardbreakSchema.type.create()).scrollIntoView())
+  dispatch?.(tr.setMeta('hardbreak', true).replaceSelectionWith(hardbreakSchema.type().create()).scrollIntoView())
   return true
 })
 

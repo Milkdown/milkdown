@@ -33,19 +33,16 @@ export const listItemSchema = $nodeSchema('list_item', () => ({
         }
       },
     },
-    { tag: 'li' },
   ],
-  toDOM: (node) => {
-    return [
-      'li',
-      {
-        'data-label': node.attrs.label,
-        'data-list-type': node.attrs.listType,
-        'data-spread': node.attrs.spread,
-      },
-      0,
-    ]
-  },
+  toDOM: node => [
+    'li',
+    {
+      'data-label': node.attrs.label,
+      'data-list-type': node.attrs.listType,
+      'data-spread': node.attrs.spread,
+    },
+    0,
+  ],
   parseMarkdown: {
     match: ({ type, checked }) => type === 'listItem' && checked === null,
     runner: (state, node, type) => {
@@ -67,9 +64,9 @@ export const listItemSchema = $nodeSchema('list_item', () => ({
   },
 }))
 
-export const sinkListItemCommand = $command('SinkListItem', () => () => sinkListItem(listItemSchema.type))
-export const splitListItemCommand = $command('SplitListItem', () => () => splitListItem(listItemSchema.type))
-export const liftListItemCommand = $command('SplitListItem', () => () => liftListItem(listItemSchema.type))
+export const sinkListItemCommand = $command('SinkListItem', () => () => sinkListItem(listItemSchema.type()))
+export const splitListItemCommand = $command('SplitListItem', () => () => splitListItem(listItemSchema.type()))
+export const liftListItemCommand = $command('SplitListItem', () => () => liftListItem(listItemSchema.type()))
 
 export const listItemKeymap = $useKeymap('listItemKeymap', {
   NextListItem: {

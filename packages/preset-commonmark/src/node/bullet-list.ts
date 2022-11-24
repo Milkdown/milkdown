@@ -55,9 +55,9 @@ export const bulletListSchema = $nodeSchema('bullet_list', () => {
   }
 })
 
-export const wrapInBulletListInputRule = $inputRule(() => wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type))
+export const wrapInBulletListInputRule = $inputRule(() => wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type()))
 
-export const wrapInBulletListCommand = $command('WrapInBulletList', () => () => wrapIn(bulletListSchema.type))
+export const wrapInBulletListCommand = $command('WrapInBulletList', () => () => wrapIn(bulletListSchema.type()))
 
 export const bulletListKeymap = $useKeymap('bulletListKeymap', {
   WrapInBulletList: {

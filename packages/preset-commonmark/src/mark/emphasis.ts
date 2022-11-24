@@ -27,7 +27,7 @@ export const emphasisSchema = $markSchema('emphasis', () => ({
   },
 }))
 
-export const toggleEmphasisCommand = $command('ToggleEmphasis', () => () => toggleMark(emphasisSchema.type))
+export const toggleEmphasisCommand = $command('ToggleEmphasis', () => () => toggleMark(emphasisSchema.type()))
 
 export const emphasisKeymap = $useKeymap('emphasisKeymap', {
   ToggleEmphasis: {

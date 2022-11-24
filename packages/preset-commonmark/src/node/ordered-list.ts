@@ -57,12 +57,12 @@ export const orderedListSchema = $nodeSchema('ordered_list', () => ({
 
 export const wrapInOrderedListInputRule = $inputRule(() => wrappingInputRule(
   /^\s*(\d+)\.\s$/,
-  orderedListSchema[1].type,
+  orderedListSchema.type(),
   match => ({ order: Number(match[1]) }),
   (match, node) => node.childCount + node.attrs.order === Number(match[1]),
 ))
 
-export const wrapInOrderedListCommand = $command('WrapInOrderedList', () => () => wrapIn(orderedListSchema.type))
+export const wrapInOrderedListCommand = $command('WrapInOrderedList', () => () => wrapIn(orderedListSchema.type()))
 
 export const orderedListKeymap = $useKeymap('orderedListKeymap', {
   WrapInOrderedList: {
