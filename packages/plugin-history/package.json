@@ -3,6 +3,11 @@
   "type": "module",
   "version": "6.5.3",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saul-Mirone/milkdown.git",
+    "directory": "packages/plugin-history"
+  },
   "keywords": [
     "milkdown",
     "milkdown plugin"

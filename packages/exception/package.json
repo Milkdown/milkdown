@@ -3,6 +3,11 @@
   "type": "module",
   "version": "6.5.3",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saul-Mirone/milkdown.git",
+    "directory": "packages/exception"
+  },
   "sideEffects": false,
   "main": "./lib/index.es.js",
   "types": "./lib/index.d.ts",
