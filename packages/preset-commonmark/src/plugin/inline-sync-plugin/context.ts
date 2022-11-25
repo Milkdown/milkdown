@@ -5,7 +5,7 @@ import type { Node } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
 import { pipe } from '@milkdown/utils'
 
-import { inlineSyncConfigCtx } from './config'
+import { inlineSyncConfig } from './config'
 import { calculatePlaceholder, keepLink, replacePunctuation } from './utils'
 
 export * from './config'
@@ -35,7 +35,7 @@ const getMarkdown = (ctx: Ctx, state: EditorState, node: Node, globalNode: Node[
 }
 
 const addPlaceholder = (ctx: Ctx, markdown: string) => {
-  const config = ctx.get(inlineSyncConfigCtx)
+  const config = ctx.get(inlineSyncConfig.slice)
   const holePlaceholder = config.placeholderConfig.hole
 
   const [firstLine = '', ...rest] = markdown.split('\n\n')
@@ -65,7 +65,7 @@ const getNewNode = (ctx: Ctx, text: string) => {
 }
 
 const collectGlobalNodes = (ctx: Ctx, state: EditorState) => {
-  const { globalNodes } = ctx.get(inlineSyncConfigCtx)
+  const { globalNodes } = ctx.get(inlineSyncConfig.slice)
   const nodes: Node[] = []
 
   state.doc.descendants((node) => {

@@ -4,7 +4,7 @@ import type { Attrs } from '@milkdown/prose/model'
 import type { EditorState, PluginKey, Transaction } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'
 
-import { inlineSyncConfigCtx } from './config'
+import { inlineSyncConfig } from './config'
 import { getContextByState } from './context'
 import { calcOffset } from './utils'
 
@@ -15,7 +15,7 @@ export const runReplacer = (
   dispatch: (tr: Transaction) => void,
   attrs: Attrs,
 ) => {
-  const { placeholderConfig } = ctx.get(inlineSyncConfigCtx)
+  const { placeholderConfig } = ctx.get(inlineSyncConfig.slice)
   const holePlaceholder = placeholderConfig.hole
   // insert a placeholder to restore the selection
   let tr = state.tr.setMeta(key, true).insertText(holePlaceholder, state.selection.from)

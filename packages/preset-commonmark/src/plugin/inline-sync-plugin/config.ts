@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/core'
-import { createSlice } from '@milkdown/core'
 import type { Node, NodeType } from '@milkdown/prose/model'
 import type { Transaction } from '@milkdown/prose/state'
+import { $ctx } from '@milkdown/utils'
 
 import { swap } from './utils'
 
@@ -54,4 +54,5 @@ export const defaultConfig: InlineSyncConfig = {
   },
 }
 
-export const inlineSyncConfigCtx = createSlice<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')
+// export const inlineSyncConfigCtx = createSlice<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')
+export const inlineSyncConfig = $ctx<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')

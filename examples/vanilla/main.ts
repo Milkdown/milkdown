@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import './style.css'
 
-import { commands, inputrules, keymap, plugins, schema } from '@milkdown/preset-commonmark'
 import { Editor, defaultValueCtx, rootCtx } from '@milkdown/core'
+import { commonmark } from '@milkdown/preset-commonmark'
 
 async function main() {
   await Editor.make()
@@ -10,11 +10,7 @@ async function main() {
       ctx.set(rootCtx, '#app')
       ctx.set(defaultValueCtx, '# Here is [mylink](https://milkdown.dev), and $ E = mc^2 $')
     })
-    .use(schema)
-    .use(inputrules)
-    .use(commands)
-    .use(keymap)
-    .use(plugins)
+    .use(commonmark)
     .create()
 }
 
