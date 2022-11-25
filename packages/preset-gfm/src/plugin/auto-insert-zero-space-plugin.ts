@@ -1,21 +1,19 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { browser } from '@milkdown/prose'
 import type { Node } from '@milkdown/prose/model'
+import { isInTable } from '@milkdown/prose/tables'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
+import { paragraphSchema } from '@milkdown/preset-commonmark'
+import { $prose } from '@milkdown/utils'
 
-import { isInTable } from './util'
+// original discussion in https://discuss.prosemirror.net/t/ime-composing-problems-on-td-or-th-element-in-safari-browser/4501
+export const autoInsertZeroSpaceInTablePlugin = $prose(() => {
+  const pluginKey = new PluginKey('MILKDOWN_AUTO_INSERT_ZERO_SPACE')
 
-const isEmptyParagraph = (node: Node) => {
-  return node.type.name === 'paragraph' && node.nodeSize === 2
-}
+  const isParagraph = (node: Node) => node.type === paragraphSchema.type()
 
-const isParagraph = (node: Node) => {
-  return node.type.name === 'paragraph'
-}
+  const isEmptyParagraph = (node: Node) => isParagraph(node) && node.nodeSize === 2
 
-const pluginKey = new PluginKey('plugin_autoInsertZeroSpace')
-
-export const autoInsertZeroSpace = () => {
   return new Plugin({
     key: pluginKey,
     props: {
@@ -36,10 +34,10 @@ export const autoInsertZeroSpace = () => {
 
           if (
             browser.safari
-                        && isInTable(state)
-                        && selection.empty
-                        && isParagraph($from.parent)
-                        && $from.parent.textContent.startsWith('\u2060')
+              && isInTable(state)
+              && selection.empty
+              && isParagraph($from.parent)
+              && $from.parent.textContent.startsWith('\u2060')
           )
             dispatch(tr.delete($from.start(), $from.start() + 1))
 
@@ -48,4 +46,4 @@ export const autoInsertZeroSpace = () => {
       },
     },
   })
-}
+})

@@ -5,17 +5,20 @@ import { $ctx } from '../$ctx'
 import type { $Mark } from '../$mark'
 import { $mark } from '../$mark'
 
+type GetSchema = (ctx: Ctx) => MarkSchema
+
 export type $MarkSchema = [
-  schemaCtx: $Ctx<(ctx: Ctx) => MarkSchema, string>,
+  schemaCtx: $Ctx<GetSchema, string>,
   schema: $Mark,
 ] & {
   id: $Mark['id']
   type: $Mark['type']
   schema: MarkSchema
-  ctx: $Ctx<(ctx: Ctx) => MarkSchema, string>['slice']
+  ctx: $Ctx<GetSchema, string>['slice']
+  extendSchema: (handler: (prev: GetSchema) => GetSchema) => $MarkSchema
 }
 
-export const $markSchema = (id: string, schema: (ctx: Ctx) => MarkSchema): $MarkSchema => {
+export const $markSchema = (id: string, schema: GetSchema): $MarkSchema => {
   const schemaCtx = $ctx(schema, `${id}Schema`)
 
   const markSchema = $mark(id, (ctx) => {
@@ -28,6 +31,20 @@ export const $markSchema = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark
   result.type = markSchema.type
   result.schema = markSchema.schema
   result.ctx = schemaCtx.slice
+  result.extendSchema = (handler) => {
+    const newMarkSchema = $mark(id, (ctx) => {
+      ctx.update(schemaCtx.slice, prev => handler(prev))
+      const userSchema = ctx.get(schemaCtx.slice)
+      return userSchema(ctx)
+    })
+
+    result[1] = newMarkSchema
+    result.id = newMarkSchema.id
+    result.type = newMarkSchema.type
+    result.schema = newMarkSchema.schema
+
+    return result
+  }
 
   return result
 }

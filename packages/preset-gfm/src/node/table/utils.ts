@@ -2,11 +2,8 @@
 import { cloneTr, findParentNode } from '@milkdown/prose'
 import type { Node as ProsemirrorNode, Schema } from '@milkdown/prose/model'
 import type { Selection, Transaction } from '@milkdown/prose/state'
-
-import { CellSelection } from './plugin/cell-selection'
-import { tableNodeTypes } from './plugin/schema'
-import type { Rect } from './plugin/table-map'
-import { TableMap } from './plugin/table-map'
+import type { TableRect } from '@milkdown/prose/tables'
+import { CellSelection, TableMap, tableNodeTypes } from '@milkdown/prose/tables'
 
 export interface CellPos {
   pos: number
@@ -144,7 +141,7 @@ export const selectTable = (tr: Transaction) => {
   return tr
 }
 
-export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }: Required<Rect>, row: number) {
+export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }: TableRect, row: number) {
   const rowPos = Array(row)
     .fill(0)
     .reduce((acc, _, i) => {

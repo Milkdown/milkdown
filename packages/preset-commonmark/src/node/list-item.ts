@@ -44,7 +44,7 @@ export const listItemSchema = $nodeSchema('list_item', () => ({
     0,
   ],
   parseMarkdown: {
-    match: ({ type, checked }) => type === 'listItem' && checked === null,
+    match: ({ type }) => type === 'listItem',
     runner: (state, node, type) => {
       const label = node.label != null ? `${node.label}.` : '•'
       const listType = node.label != null ? 'ordered' : 'bullet'

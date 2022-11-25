@@ -178,6 +178,7 @@ importers:
       '@milkdown/plugin-menu': workspace:*
       '@milkdown/plugin-slash': workspace:*
       '@milkdown/preset-commonmark': workspace:*
+      '@milkdown/preset-gfm': workspace:*
       '@milkdown/theme-nord': workspace:*
       '@milkdown/theme-tokyo': workspace:*
     dependencies:
@@ -186,6 +187,7 @@ importers:
       '@milkdown/plugin-menu': link:../../packages/plugin-menu
       '@milkdown/plugin-slash': link:../../packages/plugin-slash
       '@milkdown/preset-commonmark': link:../../packages/preset-commonmark
+      '@milkdown/preset-gfm': link:../../packages/preset-gfm
       '@milkdown/theme-nord': link:../../packages/theme-nord
       '@milkdown/theme-tokyo': link:../../packages/theme-tokyo
 
@@ -595,6 +597,7 @@ importers:
       prosemirror-model: ^1.18.1
       prosemirror-schema-list: ^1.2.2
       prosemirror-state: ^1.4.1
+      prosemirror-tables: ^1.2.5
       prosemirror-transform: ^1.7.0
       prosemirror-view: ^1.28.0
       tslib: ^2.4.0
@@ -609,6 +612,7 @@ importers:
       prosemirror-model: 1.18.1
       prosemirror-schema-list: 1.2.2
       prosemirror-state: 1.4.1
+      prosemirror-tables: 1.2.5
       prosemirror-transform: 1.7.0
       prosemirror-view: 1.28.0
       tslib: 2.4.0
@@ -11558,6 +11562,16 @@ packages:
     dependencies:
       prosemirror-model: 1.18.1
       prosemirror-transform: 1.7.0
+    dev: false
+
+  /prosemirror-tables/1.2.5:
+    resolution: {integrity: sha512-UB5XkWQC7YHJ2qubriOnKGxdVe+KujmoSatFyBlV8odVT/G++61XB1JXiU3ZAKJ60lTdq9WsowUhINSFeE7BoA==}
+    dependencies:
+      prosemirror-keymap: 1.2.0
+      prosemirror-model: 1.18.1
+      prosemirror-state: 1.4.1
+      prosemirror-transform: 1.7.0
+      prosemirror-view: 1.28.0
     dev: false
 
   /prosemirror-transform/1.7.0:

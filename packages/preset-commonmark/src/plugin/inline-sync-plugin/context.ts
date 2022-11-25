@@ -8,8 +8,6 @@ import { pipe } from '@milkdown/utils'
 import { inlineSyncConfig } from './config'
 import { calculatePlaceholder, keepLink, replacePunctuation } from './utils'
 
-export * from './config'
-
 export interface InlineSyncContext {
   text: string
   prevNode: Node

@@ -25,7 +25,7 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
   let nodeType: NodeType | undefined
   const plugin: MilkdownPlugin = () => async (ctx) => {
     const nodeSchema = schema(ctx)
-    ctx.update(nodesCtx, ns => [...ns, [id, nodeSchema] as [string, NodeSchema]]);
+    ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]]);
 
     (<$Node>plugin).id = id;
     (<$Node>plugin).schema = nodeSchema
@@ -50,7 +50,7 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
   const plugin = addTimer<$Node>(
     async (ctx, plugin, done) => {
       const nodeSchema = await schema(ctx)
-      ctx.update(nodesCtx, ns => [...ns, [id, nodeSchema] as [string, NodeSchema]])
+      ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]])
 
       plugin.id = id
       plugin.schema = nodeSchema

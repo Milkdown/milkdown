@@ -25,7 +25,7 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
   let markType: MarkType | undefined
   const plugin: MilkdownPlugin = () => async (ctx) => {
     const markSchema = schema(ctx)
-    ctx.update(marksCtx, ns => [...ns, [id, markSchema] as [string, MarkSchema]]);
+    ctx.update(marksCtx, ns => [...ns.filter(n => n[0] !== id), [id, markSchema] as [string, MarkSchema]]);
 
     (<$Mark>plugin).id = id;
     (<$Mark>plugin).schema = markSchema
@@ -50,7 +50,7 @@ export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>
   const plugin = addTimer<$Mark>(
     async (ctx, plugin, done) => {
       const markSchema = await schema(ctx)
-      ctx.update(marksCtx, ns => [...ns, [id, markSchema] as [string, MarkSchema]])
+      ctx.update(marksCtx, ns => [...ns.filter(n => n[0] !== id), [id, markSchema] as [string, MarkSchema]])
 
       plugin.id = id
       plugin.schema = markSchema

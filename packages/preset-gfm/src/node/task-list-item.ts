@@ -1,10 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 
-export const extendListItemSchemaForTask: MilkdownPlugin = () => (ctx) => {
-  ctx.update(listItemSchema.ctx, prev => (ctx) => {
+export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) => {
+  return (ctx) => {
     const baseSchema = prev(ctx)
     return {
       ...baseSchema,
@@ -36,7 +35,7 @@ export const extendListItemSchemaForTask: MilkdownPlugin = () => (ctx) => {
           'data-label': node.attrs.label,
           'data-list-type': node.attrs.listType,
           'data-spread': node.attrs.spread,
-          'data-checked': node.attrs.checked ? 'true' : 'false',
+          'data-checked': node.attrs.checked,
         },
         0,
       ],
@@ -67,6 +66,6 @@ export const extendListItemSchemaForTask: MilkdownPlugin = () => (ctx) => {
         },
       },
     }
-  })
-}
+  }
+})
 
