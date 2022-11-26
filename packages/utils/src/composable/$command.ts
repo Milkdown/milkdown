@@ -14,11 +14,11 @@ export const $command = <T, K extends string>(key: K, cmd: (ctx: Ctx) => Cmd<T>)
   const cmdKey = createCmdKey<T>(key)
 
   const plugin: MilkdownPlugin = () => async (ctx) => {
+    (<$Command<T>>plugin).key = cmdKey
     await ctx.wait(SchemaReady)
     const command = cmd(ctx)
     ctx.get(commandsCtx).create(cmdKey, command);
-    (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload);
-    (<$Command<T>>plugin).key = cmdKey
+    (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload)
 
     return () => {
       ctx.get(commandsCtx).remove(cmdKey)

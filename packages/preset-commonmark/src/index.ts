@@ -7,4 +7,6 @@ export * from './mark'
 export * from './plugin'
 export * from './composed'
 
+export * from './component'
+
 export const commonmark = [schema, inputrules, commands, keymap, plugins].flat()

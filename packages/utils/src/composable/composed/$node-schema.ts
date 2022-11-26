@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx, NodeSchema } from '@milkdown/core'
+import type { Ctx, MilkdownPlugin, NodeSchema } from '@milkdown/core'
+import { nodesCtx } from '@milkdown/core'
 import type { $Ctx } from '../$ctx'
 import { $ctx } from '../$ctx'
 import type { $Node } from '../$node'
@@ -13,9 +14,10 @@ export type $NodeSchema = [
 ] & {
   id: $Node['id']
   type: $Node['type']
+  node: $Node
   schema: NodeSchema
   ctx: $Ctx<GetSchema, string>['slice']
-  extendSchema: (handler: (prev: GetSchema) => GetSchema) => $NodeSchema
+  extendSchema: (handler: (prev: GetSchema) => GetSchema) => MilkdownPlugin
 }
 
 export const $nodeSchema = (id: string, schema: GetSchema): $NodeSchema => {
@@ -28,22 +30,18 @@ export const $nodeSchema = (id: string, schema: GetSchema): $NodeSchema => {
 
   const result = [schemaCtx, nodeSchema] as $NodeSchema
   result.id = nodeSchema.id
+  result.node = nodeSchema
   result.type = nodeSchema.type
   result.schema = nodeSchema.schema
   result.ctx = schemaCtx.slice
-  result.extendSchema = (handler) => {
-    const newNodeSchema = $node(id, (ctx) => {
-      ctx.update(schemaCtx.slice, prev => handler(prev))
-      const userSchema = ctx.get(schemaCtx.slice)
-      return userSchema(ctx)
-    })
-
-    result[1] = newNodeSchema
-    result.id = newNodeSchema.id
-    result.type = newNodeSchema.type
-    result.schema = newNodeSchema.schema
-
-    return result
+  result.extendSchema = (handler): MilkdownPlugin => {
+    return () => (ctx) => {
+      const prev = ctx.get(schemaCtx.slice)
+      const next = handler(prev)
+      const nodeSchema = next(ctx)
+      ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]])
+      result.schema = nodeSchema
+    }
   }
 
   return result

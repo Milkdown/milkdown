@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx, MarkSchema } from '@milkdown/core'
+import type { Ctx, MarkSchema, MilkdownPlugin } from '@milkdown/core'
+import { marksCtx } from '@milkdown/core'
 import type { $Ctx } from '../$ctx'
 import { $ctx } from '../$ctx'
 import type { $Mark } from '../$mark'
@@ -13,9 +14,10 @@ export type $MarkSchema = [
 ] & {
   id: $Mark['id']
   type: $Mark['type']
+  mark: $Mark
   schema: MarkSchema
   ctx: $Ctx<GetSchema, string>['slice']
-  extendSchema: (handler: (prev: GetSchema) => GetSchema) => $MarkSchema
+  extendSchema: (handler: (prev: GetSchema) => GetSchema) => MilkdownPlugin
 }
 
 export const $markSchema = (id: string, schema: GetSchema): $MarkSchema => {
@@ -28,22 +30,18 @@ export const $markSchema = (id: string, schema: GetSchema): $MarkSchema => {
 
   const result = [schemaCtx, markSchema] as $MarkSchema
   result.id = markSchema.id
+  result.mark = markSchema
   result.type = markSchema.type
   result.schema = markSchema.schema
   result.ctx = schemaCtx.slice
-  result.extendSchema = (handler) => {
-    const newMarkSchema = $mark(id, (ctx) => {
-      ctx.update(schemaCtx.slice, prev => handler(prev))
-      const userSchema = ctx.get(schemaCtx.slice)
-      return userSchema(ctx)
-    })
-
-    result[1] = newMarkSchema
-    result.id = newMarkSchema.id
-    result.type = newMarkSchema.type
-    result.schema = newMarkSchema.schema
-
-    return result
+  result.extendSchema = (handler): MilkdownPlugin => {
+    return () => (ctx) => {
+      const prev = ctx.get(schemaCtx.slice)
+      const next = handler(prev)
+      const markSchema = next(ctx)
+      ctx.update(marksCtx, ms => [...ms.filter(m => m[0] !== id), [id, markSchema] as [string, MarkSchema]])
+      result.schema = markSchema
+    }
   }
 
   return result
