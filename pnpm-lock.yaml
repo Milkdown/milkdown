@@ -373,7 +373,7 @@ importers:
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
-      '@types/node-emoji': 1.8.1
+      '@types/node-emoji': 1.8.2
       emoji-regex: 10.1.0
       node-emoji: 1.11.0
       remark-emoji: 3.0.2
@@ -429,7 +429,6 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
-      '@milkdown/theme-pack-helper': workspace:*
       '@milkdown/utils': workspace:*
       '@types/katex': ^0.14.0
       katex: ^0.16.0
@@ -445,7 +444,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@milkdown/theme-pack-helper': link:../theme-pack-helper
 
   packages/plugin-menu:
     specifiers:
@@ -4123,8 +4121,8 @@ packages:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: false
 
-  /@types/node-emoji/1.8.1:
-    resolution: {integrity: sha512-0fRfA90FWm6KJfw6P9QGyo0HDTCmthZ7cWaBQndITlaWLTZ6njRyKwrwpzpg+n6kBXBIGKeUHEQuBx7bphGJkA==}
+  /@types/node-emoji/1.8.2:
+    resolution: {integrity: sha512-PfF1qL/9veo8BSHLV84C9ORNr3lHSlnWJ6yU8OdNufoftajeWHTLVbGHvp2B7e7DPDS9gMs6cfeSsqo5rqSitg==}
     dev: false
 
   /@types/node/12.20.55:

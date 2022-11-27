@@ -39,8 +39,7 @@
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
-    "@milkdown/prose": "workspace:*",
-    "@milkdown/theme-pack-helper": "workspace:*"
+    "@milkdown/prose": "workspace:*"
   },
   "nx": {
     "targets": {
