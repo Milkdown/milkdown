@@ -2,36 +2,39 @@
 
 import type { Ctx, MilkdownPlugin } from '@milkdown/core'
 import { SchemaReady, editorStateTimerCtx, prosePluginsCtx } from '@milkdown/core'
-import type { Plugin } from '@milkdown/prose/state'
+import type { Plugin, PluginKey } from '@milkdown/prose/state'
 
 import { addTimer } from './utils'
 
 export type $Prose = MilkdownPlugin & {
-  plugin: Plugin
+  plugin: () => Plugin
+  key: () => PluginKey | undefined
 }
 
 export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
+  let prosePlugin: Plugin | undefined
   const plugin: MilkdownPlugin = () => async (ctx) => {
     await ctx.wait(SchemaReady)
-    const prosePlugin = prose(ctx)
-    ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin]);
-    (<$Prose>plugin).plugin = prosePlugin
+    prosePlugin = prose(ctx)
+    ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin!])
 
     return () => {
       ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== prosePlugin))
     }
   }
+  (<$Prose>plugin).plugin = () => prosePlugin!;
+  (<$Prose>plugin).key = () => prosePlugin!.spec.key
 
   return <$Prose>plugin
 }
 
 export const $proseAsync = (prose: (ctx: Ctx) => Promise<Plugin>, timerName?: string) => {
-  return addTimer<$Prose>(
-    async (ctx, plugin) => {
+  let prosePlugin: Plugin | undefined
+  const plugin = addTimer<$Prose>(
+    async (ctx) => {
       await ctx.wait(SchemaReady)
-      const prosePlugin = await prose(ctx)
-      ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin])
-      plugin.plugin = prosePlugin
+      prosePlugin = await prose(ctx)
+      ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin!])
 
       return () => {
         ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== prosePlugin))
@@ -40,4 +43,9 @@ export const $proseAsync = (prose: (ctx: Ctx) => Promise<Plugin>, timerName?: st
     editorStateTimerCtx,
     timerName,
   )
+
+  plugin.plugin = () => prosePlugin!
+  plugin.key = () => prosePlugin!.spec.key
+
+  return plugin
 }

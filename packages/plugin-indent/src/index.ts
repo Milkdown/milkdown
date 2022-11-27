@@ -1,11 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { createCmdKey } from '@milkdown/core'
-import { keymap } from '@milkdown/prose/keymap'
+import type { MilkdownPlugin } from '@milkdown/core'
 import type { Transaction } from '@milkdown/prose/state'
 import { AllSelection, TextSelection } from '@milkdown/prose/state'
-import type { ThemeUtils } from '@milkdown/utils'
-import { AtomList, createPlugin } from '@milkdown/utils'
+import { $ctx, $shortcut } from '@milkdown/utils'
 
 export interface Options {
   type: 'space' | 'tab'
@@ -28,47 +26,21 @@ const updateIndent = (tr: Transaction, options: Options): Transaction => {
   return tr.insertText(text, to)
 }
 
-const applyStyle = (options: Options, utils: ThemeUtils): void => {
-  if (options.type === 'tab') {
-    utils.getStyle(
-      ({ injectGlobal }) => injectGlobal`
-                .milkdown {
-                    tab-size: ${options.size};
-                }
-            `,
-    )
-  }
-}
+export const indentConfig = $ctx<Options, 'indentConfig'>({ type: 'space', size: 2 }, 'indentConfig')
 
-export const Indent = createCmdKey<boolean>('Indent')
+export const indentPlugin = $shortcut(ctx => ({
+  Tab: (state, dispatch) => {
+    const config = ctx.get(indentConfig.key)
+    const { tr } = state
+    const _tr = updateIndent(tr, config)
 
-export const indentPlugin = createPlugin<string, Options>((utils, options) => ({
-  prosePlugins: () => {
-    const config: Options = {
-      type: 'tab',
-      size: 4,
-      ...(options ?? {}),
+    if (_tr.docChanged) {
+      dispatch?.(_tr)
+      return true
     }
 
-    utils.themeManager.onFlush(() => {
-      applyStyle(config, utils)
-    })
-
-    const plugin = keymap({
-      Tab: (state, dispatch) => {
-        const { tr } = state
-        const _tr = updateIndent(tr, config)
-
-        if (_tr.docChanged) {
-          dispatch?.(_tr)
-          return true
-        }
-
-        return false
-      },
-    })
-    return [plugin]
+    return false
   },
 }))
 
-export const indent = AtomList.create([indentPlugin()])
+export const indent: MilkdownPlugin[] = [indentConfig, indentPlugin]
