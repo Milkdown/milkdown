@@ -9,7 +9,6 @@ import {
   parserCtx,
   prosePluginsCtx,
   schemaCtx,
-  themeManagerCtx,
 } from '@milkdown/core'
 import { ctxNotBind, missingYjsDoc } from '@milkdown/exception'
 import { keydownHandler } from '@milkdown/prose/keymap'
@@ -121,9 +120,6 @@ export class CollabService {
     const view = this.#ctx.get(editorViewCtx)
     const newState = view.state.reconfigure({ plugins })
     view.updateState(newState)
-
-    const theme = this.#ctx.get(themeManagerCtx)
-    theme.flush(this.#ctx)
   }
 
   bindCtx(ctx: Ctx) {

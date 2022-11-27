@@ -15,7 +15,7 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
       },
       parseDOM: [
         {
-          tag: 'li',
+          tag: 'li[data-item-type="task"]',
           getAttrs: (dom) => {
             if (!(dom instanceof HTMLElement))
               throw expectDomTypeError(dom)
@@ -28,20 +28,32 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
             }
           },
         },
+        ...baseSchema?.parseDOM || [],
       ],
-      toDOM: node => [
-        'li',
-        {
-          'data-label': node.attrs.label,
-          'data-list-type': node.attrs.listType,
-          'data-spread': node.attrs.spread,
-          'data-checked': node.attrs.checked,
-        },
-        0,
-      ],
+      toDOM: (node) => {
+        if (baseSchema.toDOM && node.attrs.checked == null)
+          return baseSchema.toDOM(node)
+
+        return [
+          'li',
+          {
+            'data-item-type': 'task',
+            'data-label': node.attrs.label,
+            'data-list-type': node.attrs.listType,
+            'data-spread': node.attrs.spread,
+            'data-checked': node.attrs.checked,
+          },
+          0,
+        ]
+      },
       parseMarkdown: {
         match: ({ type }) => type === 'listItem',
         runner: (state, node, type) => {
+          if (node.checked == null) {
+            baseSchema.parseMarkdown.runner(state, node, type)
+            return
+          }
+
           const label = node.label != null ? `${node.label}.` : '•'
           const checked = node.checked != null ? Boolean(node.checked) : null
           const listType = node.label != null ? 'ordered' : 'bullet'
@@ -55,6 +67,11 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
       toMarkdown: {
         match: node => node.type.name === 'list_item',
         runner: (state, node) => {
+          if (node.attrs.checked == null) {
+            baseSchema.toMarkdown.runner(state, node)
+            return
+          }
+
           const label = node.attrs.label
           const listType = node.attrs.listType
           const spread = node.attrs.spread === 'true'
