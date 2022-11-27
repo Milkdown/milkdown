@@ -3,13 +3,22 @@
 import type { Ctx } from '@milkdown/core'
 import { editorViewCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
+import type { Node } from '@milkdown/prose/model'
 import { Fragment } from '@milkdown/prose/model'
 import type { EditorState, Transaction } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import { $ctx } from '@milkdown/utils'
 import { codeBlockSchema } from '../node'
 
-type OnBuild = (Root: HTMLElement, Content: HTMLElement, props: { setLanguage: (language: string) => void }) => void
+export type OnBuild = (
+  Root: HTMLElement,
+  Content: HTMLElement,
+  props: {
+    node: Node
+    setLanguage: (language: string) => void
+    getContent: () => void
+  }
+) => void
 
 export class CodeBlockFrameConfig {
   #ctx!: Ctx
@@ -22,9 +31,14 @@ export class CodeBlockFrameConfig {
     this.#ctx = ctx
   }
 
-  build = (Root: HTMLElement, Content: HTMLElement) => {
+  build = (Root: HTMLElement, Content: HTMLElement, node: Node) => {
+    const getNode = this.#getNode
     const props = {
-      setLanguage: this.setLanguage(Root),
+      setLanguage: this.#setLanguage(Root),
+      getContent: this.#getContent(Root),
+      get node() {
+        return getNode(Root) || node
+      },
     }
 
     this.#builder(Root, Content, props)
@@ -43,17 +57,31 @@ export class CodeBlockFrameConfig {
   }
 
   #getPos = (dom: HTMLElement) => {
+    if (!this.view.posAtCoords)
+      return null
     const { top, left } = dom.getBoundingClientRect()
     return this.view.posAtCoords({ left, top })
   }
 
-  setLanguage = (Root: HTMLElement) => (language: string) => {
+  #getNode = (Root: HTMLElement) => {
+    const pos = this.#getPos(Root)
+    if (pos === null)
+      return null
+
+    return this.state.doc.nodeAt(pos.inside)
+  }
+
+  #setLanguage = (Root: HTMLElement) => (language: string) => {
     const pos = this.#getPos(Root)
     if (pos === null)
       return
 
     Root.dataset.language = language
     this.view.dispatch(this.tr.setNodeAttribute(pos.inside, 'language', language))
+  }
+
+  #getContent = (Root: HTMLElement) => () => {
+    return this.#getNode(Root)?.textContent || ''
   }
 
   onBuild = (builder: OnBuild) => {
@@ -70,13 +98,13 @@ export const codeBlockFrame = codeBlockSchema.extendSchema(prev => (ctx) => {
 
   return {
     ...originalSchema,
-    toDOM: () => {
+    toDOM: (node) => {
       const Root = document.createElement('div')
       const Content = document.createElement('pre')
-      Root.dataset.language = ''
+      Root.dataset.language = node.attrs.language
       Root.dataset.role = 'code-block-frame-root'
       Content.dataset.role = 'code-block-frame-content'
-      config.build(Root, Content)
+      config.build(Root, Content, node)
 
       return {
         dom: Root,

@@ -61,7 +61,9 @@ export const codeBlockSchema = $nodeSchema('code_block', () => {
   }
 })
 
-export const createCodeBlockInputRule = $inputRule(() => textblockTypeInputRule(/^```(?<language>[a-z]*)?[\s\n]$/, codeBlockSchema.type()))
+export const createCodeBlockInputRule = $inputRule(() => textblockTypeInputRule(/^```(?<language>[a-z]*)?[\s\n]$/, codeBlockSchema.type(), match => ({
+  language: match.groups?.language ?? '',
+})))
 
 export const createCodeBlockCommand = $command('CreateCodeBlock', () => (language = '') => setBlockType(codeBlockSchema.type(), { language }))
 
