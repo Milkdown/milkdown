@@ -622,19 +622,19 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
+      '@prosemirror-adapter/react': ^0.2.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      nanoid: ^4.0.0
       react: ^18.0.0
       react-dom: ^18.0.0
       tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
-      nanoid: 4.0.0
       tslib: 2.4.0
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
+      '@prosemirror-adapter/react': 0.2.0_biqbaboplfbrettd7655fr4n2y
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
       react: 18.2.0
@@ -720,20 +720,18 @@ importers:
   packages/vue:
     specifiers:
       '@milkdown/core': workspace:*
-      '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      nanoid: ^4.0.0
+      '@prosemirror-adapter/vue': ^0.2.0
       tslib: ^2.4.0
       vue: ^3.2.38
     dependencies:
-      '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
-      nanoid: 4.0.0
       tslib: 2.4.0
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
+      '@prosemirror-adapter/vue': 0.2.0_vue@3.2.38
       vue: 3.2.38
 
   website:
@@ -3724,6 +3722,39 @@ packages:
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
+    dev: true
+
+  /@prosemirror-adapter/core/0.2.0:
+    resolution: {integrity: sha512-Q02n0SzUSAmjQDUmxKQ9sBdFwWpLTB20N7vg0Vx2b+wbgzQDGNkUEmmKDHOGVVJnlrEiFbq3Rm6uche6aQ24Ng==}
+    dependencies:
+      tslib: 2.4.0
+    dev: true
+
+  /@prosemirror-adapter/react/0.2.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-dViktRE0X3OOjEupyOs6nHNu6gBTkUwPt5wTZjcnFOZctyGX4xXFDfLTb2wBooG3TW/5AEktdU1bNqNlIZEW8w==}
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      '@prosemirror-adapter/core': 0.2.0
+      nanoid: 4.0.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tslib: 2.4.0
+    dev: true
+
+  /@prosemirror-adapter/vue/0.2.0_vue@3.2.38:
+    resolution: {integrity: sha512-DER1dzPeLy3ojvANyE3KaTdkeHWyUpNxKyMRtchWjgzEq1818Ts3oItRtVOmR8GletYWP4tFg9i+ztPEDsOK3A==}
+    peerDependencies:
+      vue: ^3.0.0
+    peerDependenciesMeta:
+      vue:
+        optional: true
+    dependencies:
+      '@prosemirror-adapter/core': 0.2.0
+      nanoid: 4.0.0
+      tslib: 2.4.0
+      vue: 3.2.38
     dev: true
 
   /@rollup/plugin-babel/5.3.1_p5rdeczgubbtv4lfg2mcoxxnwm:
@@ -10730,7 +10761,6 @@ packages:
     resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
-    dev: false
 
   /napi-macros/2.0.0:
     resolution: {integrity: sha512-A0xLykHtARfueITVDernsAWdtIMbOJgKgcluwENp3AlsKN/PloyO10HtmoqnFAQAcxPkgZN7wdfPfEd0zNGxbg==}

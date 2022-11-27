@@ -29,17 +29,18 @@
   "peerDependencies": {
     "@milkdown/core": "^6.0.1",
     "@milkdown/prose": "^6.0.1",
+    "@prosemirror-adapter/react": "^0.2.0",
     "react": "*",
     "react-dom": "*"
   },
   "dependencies": {
     "@milkdown/utils": "workspace:*",
-    "nanoid": "^4.0.0",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@prosemirror-adapter/react": "^0.2.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",

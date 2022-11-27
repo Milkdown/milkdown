@@ -1,14 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { createContext, useContext, useLayoutEffect, useRef } from 'react'
 
-import { portalContext } from './Portals'
-import type { EditorInfoCtx, GetEditor } from './types'
+import type { EditorInfoCtx } from './types'
 
 export const editorInfoContext = createContext<EditorInfoCtx>({} as EditorInfoCtx)
 
-export const useGetEditor = (getEditor: GetEditor) => {
-  const renderReact = useContext(portalContext)
-  const { dom, editor: editorRef, setLoading } = useContext(editorInfoContext)
+export const useGetEditor = () => {
+  const { dom, editor: editorRef, setLoading, getEditorCallback: getEditor } = useContext(editorInfoContext)
   const domRef = useRef<HTMLDivElement>(null)
   const loadingRef = useRef(false)
 
@@ -21,7 +19,7 @@ export const useGetEditor = (getEditor: GetEditor) => {
       return
     dom.current = div
 
-    const editor = getEditor(div, renderReact)
+    const editor = getEditor(div)
     if (!editor)
       return
 
@@ -45,7 +43,7 @@ export const useGetEditor = (getEditor: GetEditor) => {
     return () => {
       editor.destroy()
     }
-  }, [dom, editorRef, getEditor, renderReact, setLoading])
+  }, [dom, editorRef, getEditor, setLoading])
 
   return domRef
 }

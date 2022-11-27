@@ -15,8 +15,7 @@ export const useEditor = (getEditor: GetEditor, deps: DependencyList = []): UseE
 
   return {
     loading,
-    getInstance: () => editor.current,
-    getDom: () => dom.current,
+    get: () => editor.current,
     editor: {
       getEditorCallback,
       dom,
