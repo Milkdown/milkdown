@@ -66,6 +66,14 @@ export const createCodeBlockInputRule = $inputRule(() => textblockTypeInputRule(
 })))
 
 export const createCodeBlockCommand = $command('CreateCodeBlock', () => (language = '') => setBlockType(codeBlockSchema.type(), { language }))
+export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage', () => ({ pos, language }: { pos: number; language: string } = { pos: -1, language: '' }) => (state, dispatch) => {
+  if (pos >= 0) {
+    dispatch?.(state.tr.setNodeAttribute(pos, 'language', language))
+    return true
+  }
+
+  return false
+})
 
 export const codeBlockKeymap = $useKeymap('codeBlockKeymap', {
   CreateCodeBlock: {

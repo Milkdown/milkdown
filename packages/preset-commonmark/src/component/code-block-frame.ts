@@ -92,7 +92,7 @@ export class CodeBlockFrameConfig {
 export const codeBlockFrameConfig = $ctx<CodeBlockFrameConfig, 'codeBlockFrameConfig'>(new CodeBlockFrameConfig(), 'codeBlockFrameConfig')
 
 export const codeBlockFrame = codeBlockSchema.extendSchema(prev => (ctx) => {
-  const config = ctx.get(codeBlockFrameConfig.slice)
+  const config = ctx.get(codeBlockFrameConfig.key)
   config.bindCtx(ctx)
   const originalSchema = prev(ctx)
 

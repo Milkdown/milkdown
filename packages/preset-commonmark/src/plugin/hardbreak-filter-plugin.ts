@@ -6,7 +6,7 @@ export const hardbreakFilterNodes = $ctx(['table', 'code_block'], 'hardbreakFilt
 
 // If the hardbreak is going to be inserted within a node that is in the `hardbreakFilterNodes`, ignore it.
 export const hardbreakFilterPlugin = $prose((ctx) => {
-  const notIn = ctx.get(hardbreakFilterNodes.slice)
+  const notIn = ctx.get(hardbreakFilterNodes.key)
   return new Plugin({
     key: new PluginKey('MILKDOWN_HARDBREAK_FILTER'),
     filterTransaction: (tr, state) => {

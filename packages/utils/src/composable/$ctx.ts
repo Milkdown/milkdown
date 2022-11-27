@@ -3,7 +3,7 @@ import type { MilkdownPlugin, Slice } from '@milkdown/core'
 import { createSlice } from '@milkdown/core'
 
 export type $Ctx<T, N extends string> = MilkdownPlugin & {
-  slice: Slice<T, N>
+  key: Slice<T, N>
 }
 
 export const $ctx = <T, N extends string>(value: T, name: N): $Ctx<T, N> => {
@@ -17,7 +17,7 @@ export const $ctx = <T, N extends string>(value: T, name: N): $Ctx<T, N> => {
     }
   }
 
-  plugin.slice = slice
+  plugin.key = slice
 
   return plugin
 }

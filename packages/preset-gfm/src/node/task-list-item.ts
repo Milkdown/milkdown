@@ -43,9 +43,9 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
         match: ({ type }) => type === 'listItem',
         runner: (state, node, type) => {
           const label = node.label != null ? `${node.label}.` : '•'
+          const checked = node.checked != null ? Boolean(node.checked) : null
           const listType = node.label != null ? 'ordered' : 'bullet'
           const spread = node.spread != null ? `${node.spread}` : 'true'
-          const checked = node.checked != null ? Boolean(node.checked) : null
 
           state.openNode(type, { label, listType, spread, checked })
           state.next(node.children)

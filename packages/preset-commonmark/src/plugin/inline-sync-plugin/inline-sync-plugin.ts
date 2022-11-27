@@ -41,7 +41,7 @@ export const inlineSyncPlugin = $prose((ctx: Ctx) => {
 
         const { prevNode, nextNode, text } = context
 
-        const { shouldSyncNode } = ctx.get(inlineSyncConfig.slice)
+        const { shouldSyncNode } = ctx.get(inlineSyncConfig.key)
 
         if (!shouldSyncNode({ prevNode, nextNode, ctx, tr, text }))
           return null

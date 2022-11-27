@@ -15,7 +15,7 @@ export const runReplacer = (
   dispatch: (tr: Transaction) => void,
   attrs: Attrs,
 ) => {
-  const { placeholderConfig } = ctx.get(inlineSyncConfig.slice)
+  const { placeholderConfig } = ctx.get(inlineSyncConfig.key)
   const holePlaceholder = placeholderConfig.hole
   // insert a placeholder to restore the selection
   let tr = state.tr.setMeta(key, true).insertText(holePlaceholder, state.selection.from)

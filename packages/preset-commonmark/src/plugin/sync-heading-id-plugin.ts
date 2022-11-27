@@ -11,7 +11,7 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
     if (view.composing || !view.editable)
       return
 
-    const getId = ctx.get(headingIdGenerator.slice)
+    const getId = ctx.get(headingIdGenerator.key)
     const tr = view.state.tr.setMeta('addToHistory', false)
 
     let found = false

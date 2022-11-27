@@ -33,7 +33,7 @@ const getMarkdown = (ctx: Ctx, state: EditorState, node: Node, globalNode: Node[
 }
 
 const addPlaceholder = (ctx: Ctx, markdown: string) => {
-  const config = ctx.get(inlineSyncConfig.slice)
+  const config = ctx.get(inlineSyncConfig.key)
   const holePlaceholder = config.placeholderConfig.hole
 
   const [firstLine = '', ...rest] = markdown.split('\n\n')
@@ -63,7 +63,7 @@ const getNewNode = (ctx: Ctx, text: string) => {
 }
 
 const collectGlobalNodes = (ctx: Ctx, state: EditorState) => {
-  const { globalNodes } = ctx.get(inlineSyncConfig.slice)
+  const { globalNodes } = ctx.get(inlineSyncConfig.key)
   const nodes: Node[] = []
 
   state.doc.descendants((node) => {

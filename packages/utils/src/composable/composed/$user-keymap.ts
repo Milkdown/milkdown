@@ -17,7 +17,7 @@ export type KeymapItem = {
 export type UserKeymapConfig<Key extends string> = Record<Key, KeymapItem>
 
 export type $UserKeymap<N extends string, Key extends string> = [$Ctx<KeymapConfig<Key>, `${N}Keymap`>, $Shortcut] & {
-  ctx: Slice<KeymapConfig<Key>, `${N}Keymap`>
+  key: Slice<KeymapConfig<Key>, `${N}Keymap`>
   keymap: Keymap
 }
 
@@ -29,7 +29,7 @@ export const $useKeymap = <N extends string, Key extends string>(name: N, userKe
   const keymapDef = $ctx(key, `${name}Keymap`)
 
   const shortcuts = $shortcut((ctx) => {
-    const keys = ctx.get(keymapDef.slice)
+    const keys = ctx.get(keymapDef.key)
 
     const keymapTuple = Object.entries<KeymapItem>(userKeymap).flatMap(([key, { command }]) => {
       const targetKeys: string[] = [keys[key as Key]].flat()
@@ -41,7 +41,7 @@ export const $useKeymap = <N extends string, Key extends string>(name: N, userKe
   })
 
   const result = [keymapDef, shortcuts] as $UserKeymap<N, Key>
-  result.ctx = keymapDef.slice
+  result.key = keymapDef.key
   result.keymap = shortcuts.keymap
 
   return result

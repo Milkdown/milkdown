@@ -16,7 +16,7 @@ export type $NodeSchema = [
   type: $Node['type']
   node: $Node
   schema: NodeSchema
-  ctx: $Ctx<GetSchema, string>['slice']
+  key: $Ctx<GetSchema, string>['key']
   extendSchema: (handler: (prev: GetSchema) => GetSchema) => MilkdownPlugin
 }
 
@@ -24,7 +24,7 @@ export const $nodeSchema = (id: string, schema: GetSchema): $NodeSchema => {
   const schemaCtx = $ctx(schema, `${id}Schema`)
 
   const nodeSchema = $node(id, (ctx) => {
-    const userSchema = ctx.get(schemaCtx.slice)
+    const userSchema = ctx.get(schemaCtx.key)
     return userSchema(ctx)
   })
 
@@ -33,10 +33,10 @@ export const $nodeSchema = (id: string, schema: GetSchema): $NodeSchema => {
   result.node = nodeSchema
   result.type = nodeSchema.type
   result.schema = nodeSchema.schema
-  result.ctx = schemaCtx.slice
+  result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
     return () => (ctx) => {
-      const prev = ctx.get(schemaCtx.slice)
+      const prev = ctx.get(schemaCtx.key)
       const next = handler(prev)
       const nodeSchema = next(ctx)
       ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]])

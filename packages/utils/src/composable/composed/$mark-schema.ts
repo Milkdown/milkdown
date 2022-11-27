@@ -16,7 +16,7 @@ export type $MarkSchema = [
   type: $Mark['type']
   mark: $Mark
   schema: MarkSchema
-  ctx: $Ctx<GetSchema, string>['slice']
+  key: $Ctx<GetSchema, string>['key']
   extendSchema: (handler: (prev: GetSchema) => GetSchema) => MilkdownPlugin
 }
 
@@ -24,7 +24,7 @@ export const $markSchema = (id: string, schema: GetSchema): $MarkSchema => {
   const schemaCtx = $ctx(schema, `${id}Schema`)
 
   const markSchema = $mark(id, (ctx) => {
-    const userSchema = ctx.get(schemaCtx.slice)
+    const userSchema = ctx.get(schemaCtx.key)
     return userSchema(ctx)
   })
 
@@ -33,10 +33,10 @@ export const $markSchema = (id: string, schema: GetSchema): $MarkSchema => {
   result.mark = markSchema
   result.type = markSchema.type
   result.schema = markSchema.schema
-  result.ctx = schemaCtx.slice
+  result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
     return () => (ctx) => {
-      const prev = ctx.get(schemaCtx.slice)
+      const prev = ctx.get(schemaCtx.key)
       const next = handler(prev)
       const markSchema = next(ctx)
       ctx.update(marksCtx, ms => [...ms.filter(m => m[0] !== id), [id, markSchema] as [string, MarkSchema]])

@@ -22,7 +22,7 @@ const defaultHeadingIdGenerator = (node: Node) =>
 export const headingIdGenerator = $ctx(defaultHeadingIdGenerator, 'headingIdGenerator')
 
 export const headingSchema = $nodeSchema('heading', (ctx) => {
-  const getId = ctx.get(headingIdGenerator.slice)
+  const getId = ctx.get(headingIdGenerator.key)
   return {
     content: 'inline*',
     group: 'block',
