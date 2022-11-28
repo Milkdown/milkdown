@@ -1,5 +1,20 @@
 # @milkdown-examples/collaboration
 
+## 6.5.4
+
+### Patch Changes
+
+- b4003d9: Fix bugs and make some small improvements.
+- Updated dependencies [b4003d9]
+  - @milkdown/core@6.5.4
+  - @milkdown/plugin-collaborative@6.5.4
+  - @milkdown/plugin-math@6.5.4
+  - @milkdown/preset-commonmark@6.5.4
+  - @milkdown/preset-gfm@6.5.4
+  - @milkdown/prose@6.5.4
+  - @milkdown/theme-nord@6.5.4
+  - @milkdown/utils@6.5.4
+
 ## 6.5.3
 
 ### Patch Changes

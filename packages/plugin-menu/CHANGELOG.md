@@ -1,5 +1,14 @@
 # @milkdown/plugin-menu
 
+## 6.5.4
+
+### Patch Changes
+
+- b4003d9: Fix bugs and make some small improvements.
+- Updated dependencies [b4003d9]
+  - @milkdown/exception@6.5.4
+  - @milkdown/utils@6.5.4
+
 ## 6.5.3
 
 ### Patch Changes
