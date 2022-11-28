@@ -30,4 +30,4 @@ export const historyKeymap = $useKeymap('historyKeymap', {
   },
 })
 
-export const history: MilkdownPlugin[] = [historyProviderPlugin, historyKeymap, undoCommand, redoCommand].flat()
+export const history: MilkdownPlugin[] = [historyProviderConfig, historyProviderPlugin, historyKeymap, undoCommand, redoCommand].flat()
