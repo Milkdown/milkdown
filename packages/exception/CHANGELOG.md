@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 6.5.4
+
+### Patch Changes
+
+- b4003d9: Fix bugs and make some small improvements.
+
 ## 6.5.3
 
 ### Patch Changes
