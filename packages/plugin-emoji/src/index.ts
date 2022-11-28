@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { RemarkPlugin } from '@milkdown/core'
+import type { MilkdownPlugin, RemarkPlugin } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $ctx, $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
@@ -82,10 +82,10 @@ export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+)
 export const remarkEmojiPlugin = $remark(() => remarkEmoji as RemarkPlugin)
 export const remarkTwemojiPlugin = $remark(ctx => twemojiPlugin(ctx.get(emojiConfig.key).twemojiOptions))
 
-export const emoji = [
+export const emoji: MilkdownPlugin[] = [
   emojiConfig,
   remarkEmojiPlugin,
   remarkTwemojiPlugin,
   emojiSchema,
   insertEmojiInputRule,
-]
+].flat()

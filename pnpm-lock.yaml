@@ -744,30 +744,22 @@ importers:
       '@codemirror/view': ^6.0.0
       '@milkdown/core': workspace:*
       '@milkdown/ctx': workspace:*
-      '@milkdown/design-system': workspace:*
       '@milkdown/exception': workspace:*
-      '@milkdown/plugin-block': workspace:*
       '@milkdown/plugin-clipboard': workspace:*
       '@milkdown/plugin-collaborative': workspace:*
       '@milkdown/plugin-cursor': workspace:*
-      '@milkdown/plugin-diagram': workspace:*
       '@milkdown/plugin-emoji': workspace:*
       '@milkdown/plugin-history': workspace:*
       '@milkdown/plugin-indent': workspace:*
       '@milkdown/plugin-listener': workspace:*
       '@milkdown/plugin-math': workspace:*
-      '@milkdown/plugin-menu': workspace:*
       '@milkdown/plugin-prism': workspace:*
-      '@milkdown/plugin-slash': workspace:*
-      '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/plugin-trailing': workspace:*
       '@milkdown/plugin-upload': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/react': workspace:*
-      '@milkdown/theme-nord': workspace:*
-      '@milkdown/theme-tokyo': workspace:*
       '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
       '@rollup/pluginutils': '*'
@@ -810,30 +802,22 @@ importers:
       '@codemirror/view': 6.0.3
       '@milkdown/core': link:../packages/core
       '@milkdown/ctx': link:../packages/ctx
-      '@milkdown/design-system': link:../packages/design-system
       '@milkdown/exception': link:../packages/exception
-      '@milkdown/plugin-block': link:../packages/plugin-block
       '@milkdown/plugin-clipboard': link:../packages/plugin-clipboard
       '@milkdown/plugin-collaborative': link:../packages/plugin-collaborative
       '@milkdown/plugin-cursor': link:../packages/plugin-cursor
-      '@milkdown/plugin-diagram': link:../packages/plugin-diagram
       '@milkdown/plugin-emoji': link:../packages/plugin-emoji
       '@milkdown/plugin-history': link:../packages/plugin-history
       '@milkdown/plugin-indent': link:../packages/plugin-indent
       '@milkdown/plugin-listener': link:../packages/plugin-listener
       '@milkdown/plugin-math': link:../packages/plugin-math
-      '@milkdown/plugin-menu': link:../packages/plugin-menu
       '@milkdown/plugin-prism': link:../packages/plugin-prism
-      '@milkdown/plugin-slash': link:../packages/plugin-slash
-      '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
       '@milkdown/plugin-trailing': link:../packages/plugin-trailing
       '@milkdown/plugin-upload': link:../packages/plugin-upload
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/prose': link:../packages/prose
       '@milkdown/react': link:../packages/react
-      '@milkdown/theme-nord': link:../packages/theme-nord
-      '@milkdown/theme-tokyo': link:../packages/theme-tokyo
       '@milkdown/transformer': link:../packages/transformer
       '@milkdown/utils': link:../packages/utils
       lz-string: 1.4.4

@@ -21,7 +21,7 @@ export type $NodeSchema = [
 }
 
 export const $nodeSchema = (id: string, schema: GetSchema): $NodeSchema => {
-  const schemaCtx = $ctx(schema, `${id}Schema`)
+  const schemaCtx = $ctx(schema, id)
 
   const nodeSchema = $node(id, (ctx) => {
     const userSchema = ctx.get(schemaCtx.key)

@@ -2,13 +2,12 @@
 import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 import { ReactEditor, useEditor } from '@milkdown/react'
-import { nordDark, nordLight } from '@milkdown/theme-nord'
-import { getMarkdown, switchTheme } from '@milkdown/utils'
-import { forwardRef, useContext, useEffect, useImperativeHandle } from 'react'
+import { getMarkdown } from '@milkdown/utils'
+import { forwardRef, useContext, useImperativeHandle } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { encode } from '../../utils/share'
-import { isDarkModeCtx, shareCtx } from '../Context'
+import { shareCtx } from '../Context'
 import { showToastCtx } from '../Toast'
 import { Loading } from './Loading'
 import { onlineEditorFactory } from './onlineEditorFactory'
@@ -25,7 +24,6 @@ interface Props {
 export interface MilkdownRef { update: (markdown: string) => void }
 export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly, onChange }, ref) => {
   const showToast = useContext(showToastCtx)
-  const isDarkMode = useContext(isDarkModeCtx)
   const share = useContext(shareCtx)
   const [_, setSearchParams] = useSearchParams()
 
@@ -33,7 +31,7 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
 
   const {
     editor,
-    getInstance,
+    get,
     loading: editorLoading,
   } = useEditor(root => onlineEditorFactory(root, md, readOnly, onChange), [readOnly, md, onChange])
 
@@ -41,7 +39,7 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
     update: (markdown: string) => {
       if (editorLoading)
         return
-      const editor = getInstance()
+      const editor = get()
       editor?.action((ctx) => {
         const view = ctx.get(editorViewCtx)
         const parser = ctx.get(parserCtx)
@@ -54,20 +52,8 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
     },
   }))
 
-  useEffect(() => {
-    if (editorLoading)
-      return
-    const editor = getInstance()
-    try {
-      editor?.action(switchTheme(isDarkMode ? nordDark : nordLight))
-    }
-    catch {
-      // do nothing
-    }
-  }, [editorLoading, getInstance, isDarkMode, share])
-
   share.current = () => {
-    const editor = getInstance()
+    const editor = get()
     if (!editor)
       return
 

@@ -4,6 +4,7 @@ import remarkMath from 'remark-math'
 
 import { InputRule } from '@milkdown/prose/inputrules'
 import { NodeSelection } from '@milkdown/prose/state'
+import type { MilkdownPlugin } from '@milkdown/core'
 
 export const remarkMathPlugin = $remark(() => remarkMath)
 
@@ -83,3 +84,5 @@ export const mathBlockInputRule = $inputRule(() => new InputRule(
     return tr.setSelection(NodeSelection.create(tr.doc, start - 1))
   },
 ))
+
+export const math: MilkdownPlugin[] = [remarkMathPlugin, mathInlineSchema, mathBlockSchema, mathBlockInputRule].flat()
