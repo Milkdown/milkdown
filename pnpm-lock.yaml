@@ -622,7 +622,6 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      '@prosemirror-adapter/react': ^0.2.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       react: ^18.0.0
@@ -634,7 +633,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@prosemirror-adapter/react': 0.2.0_biqbaboplfbrettd7655fr4n2y
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
       react: 18.2.0
@@ -3732,6 +3730,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tslib: 2.4.0
+    dev: false
 
   /@prosemirror-adapter/vue/0.2.0_vue@3.2.38:
     resolution: {integrity: sha512-DER1dzPeLy3ojvANyE3KaTdkeHWyUpNxKyMRtchWjgzEq1818Ts3oItRtVOmR8GletYWP4tFg9i+ztPEDsOK3A==}

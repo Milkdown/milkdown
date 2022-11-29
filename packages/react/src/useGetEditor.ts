@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Editor } from '@milkdown/core'
 import { createContext, useContext, useLayoutEffect, useRef } from 'react'
 
 import type { EditorInfoCtx } from './types'
@@ -8,14 +7,9 @@ export const editorInfoContext = createContext<EditorInfoCtx>({} as EditorInfoCt
 
 export const useGetEditor = () => {
   const { dom, editor: editorRef, setLoading, editorFactory: getEditor } = useContext(editorInfoContext)
-  const mapRef = useRef(new Map<string, Editor>())
   const domRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    const map = mapRef.current
-    // if (effectRan.current === true)
-    //   return
-
     if (!getEditor)
       return
 
@@ -27,9 +21,6 @@ export const useGetEditor = () => {
     const editor = getEditor(div)
     if (!editor)
       return
-
-    const id = Math.random().toString(36).slice(2)
-    map.set(id, editor)
 
     setLoading(true)
     editor
@@ -43,7 +34,7 @@ export const useGetEditor = () => {
       .catch(console.error)
 
     return () => {
-      map.get(id)?.destroy()
+      editor.destroy()
     }
   }, [dom, editorRef, getEditor, setLoading])
 
