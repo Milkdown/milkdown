@@ -503,10 +503,12 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
+      tippy.js: ^6.3.7
       tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
+      tippy.js: 6.3.7
       tslib: 2.4.0
     devDependencies:
       '@milkdown/core': link:../core
@@ -754,6 +756,7 @@ importers:
       '@milkdown/plugin-listener': workspace:*
       '@milkdown/plugin-math': workspace:*
       '@milkdown/plugin-prism': workspace:*
+      '@milkdown/plugin-tooltip': workspace:*
       '@milkdown/plugin-trailing': workspace:*
       '@milkdown/plugin-upload': workspace:*
       '@milkdown/preset-commonmark': workspace:*
@@ -762,6 +765,7 @@ importers:
       '@milkdown/react': workspace:*
       '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
+      '@prosemirror-adapter/react': ^0.2.0
       '@rollup/pluginutils': '*'
       '@types/estree': ^1.0.0
       '@types/react': ^18.0.0
@@ -812,6 +816,7 @@ importers:
       '@milkdown/plugin-listener': link:../packages/plugin-listener
       '@milkdown/plugin-math': link:../packages/plugin-math
       '@milkdown/plugin-prism': link:../packages/plugin-prism
+      '@milkdown/plugin-tooltip': link:../packages/plugin-tooltip
       '@milkdown/plugin-trailing': link:../packages/plugin-trailing
       '@milkdown/plugin-upload': link:../packages/plugin-upload
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
@@ -820,6 +825,7 @@ importers:
       '@milkdown/react': link:../packages/react
       '@milkdown/transformer': link:../packages/transformer
       '@milkdown/utils': link:../packages/utils
+      '@prosemirror-adapter/react': 0.2.0_biqbaboplfbrettd7655fr4n2y
       lz-string: 1.4.4
       prism-themes: 1.9.0
       react: 18.2.0
@@ -3706,11 +3712,14 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
+  /@popperjs/core/2.11.6:
+    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+    dev: false
+
   /@prosemirror-adapter/core/0.2.0:
     resolution: {integrity: sha512-Q02n0SzUSAmjQDUmxKQ9sBdFwWpLTB20N7vg0Vx2b+wbgzQDGNkUEmmKDHOGVVJnlrEiFbq3Rm6uche6aQ24Ng==}
     dependencies:
       tslib: 2.4.0
-    dev: true
 
   /@prosemirror-adapter/react/0.2.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-dViktRE0X3OOjEupyOs6nHNu6gBTkUwPt5wTZjcnFOZctyGX4xXFDfLTb2wBooG3TW/5AEktdU1bNqNlIZEW8w==}
@@ -3723,7 +3732,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tslib: 2.4.0
-    dev: true
 
   /@prosemirror-adapter/vue/0.2.0_vue@3.2.38:
     resolution: {integrity: sha512-DER1dzPeLy3ojvANyE3KaTdkeHWyUpNxKyMRtchWjgzEq1818Ts3oItRtVOmR8GletYWP4tFg9i+ztPEDsOK3A==}
@@ -12955,6 +12963,12 @@ packages:
     resolution: {integrity: sha512-bSGlgwLBYf7PnUsQ6WOc6SJ3pGOcd+d8AA6EUnLDDM0kWEstC1JIlSZA3UNliDXhd9ABoS7hiRBDCu+XP/sf1Q==}
     engines: {node: '>=14.0.0'}
     dev: true
+
+  /tippy.js/6.3.7:
+    resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
+    dependencies:
+      '@popperjs/core': 2.11.6
+    dev: false
 
   /tmp/0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}

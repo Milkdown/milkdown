@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { Editor } from '@milkdown/core'
 import { createContext, useContext, useLayoutEffect, useRef } from 'react'
 
 import type { EditorInfoCtx } from './types'
@@ -6,13 +7,17 @@ import type { EditorInfoCtx } from './types'
 export const editorInfoContext = createContext<EditorInfoCtx>({} as EditorInfoCtx)
 
 export const useGetEditor = () => {
-  const { dom, editor: editorRef, setLoading, getEditorCallback: getEditor } = useContext(editorInfoContext)
+  const { dom, editor: editorRef, setLoading, editorFactory: getEditor } = useContext(editorInfoContext)
+  const mapRef = useRef(new Map<string, Editor>())
   const domRef = useRef<HTMLDivElement>(null)
-  const loadingRef = useRef(false)
 
   useLayoutEffect(() => {
-    if (editorRef.current)
-      editorRef.current.destroy()
+    const map = mapRef.current
+    // if (effectRan.current === true)
+    //   return
+
+    if (!getEditor)
+      return
 
     const div = domRef.current
     if (!div)
@@ -23,25 +28,22 @@ export const useGetEditor = () => {
     if (!editor)
       return
 
-    if (loadingRef.current)
-      return
+    const id = Math.random().toString(36).slice(2)
+    map.set(id, editor)
 
-    loadingRef.current = true
     setLoading(true)
-
     editor
       .create()
       .then((editor) => {
         editorRef.current = editor
       })
       .finally(() => {
-        loadingRef.current = false
         setLoading(false)
       })
       .catch(console.error)
 
     return () => {
-      editor.destroy()
+      map.get(id)?.destroy()
     }
   }, [dom, editorRef, getEditor, setLoading])
 

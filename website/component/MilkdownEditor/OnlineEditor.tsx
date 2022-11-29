@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
-import { ReactEditor, useEditor } from '@milkdown/react'
+import { ReactEditor } from '@milkdown/react'
 import { getMarkdown } from '@milkdown/utils'
 import { forwardRef, useContext, useImperativeHandle } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -10,10 +10,10 @@ import { encode } from '../../utils/share'
 import { shareCtx } from '../Context'
 import { showToastCtx } from '../Toast'
 import { Loading } from './Loading'
-import { onlineEditorFactory } from './onlineEditorFactory'
 import className from './style.module.css'
 import type { Content } from './useLazy'
 import { useLazy } from './useLazy'
+import { useOnlineEditorFactory } from './useOnlineEditor'
 
 interface Props {
   content: Content
@@ -30,10 +30,9 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
   const [loading, md] = useLazy(content)
 
   const {
-    editor,
     get,
     loading: editorLoading,
-  } = useEditor(root => onlineEditorFactory(root, md, readOnly, onChange), [readOnly, md, onChange])
+  } = useOnlineEditorFactory(md, readOnly, onChange)
 
   useImperativeHandle(ref, () => ({
     update: (markdown: string) => {
@@ -73,5 +72,7 @@ export const OnlineEditor = forwardRef<MilkdownRef, Props>(({ content, readOnly,
     showToast('success', 'Link has been copied to clipboard!')
   }
 
-  return <div className={className.editor}>{loading ? <Loading /> : <ReactEditor editor={editor} />}</div>
+  return <div className={className.editor}>{loading ? <Loading /> : <ReactEditor />}</div>
 })
+
+OnlineEditor.displayName = 'OnlineEditor'

@@ -1,31 +1,34 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
-import type { FC } from 'react'
-import React, { useMemo } from 'react'
+import type { FC, ReactNode } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
+import type { Editor } from '@milkdown/core'
 import { EditorComponent } from './EditorComponent'
 
-import type { EditorInfoCtx } from './types'
+import type { EditorInfoCtx, GetEditor } from './types'
 import { editorInfoContext } from './useGetEditor'
 
-interface EditorProps {
-  editor: EditorInfoCtx
+export const ReactEditor: FC = () => {
+  return <EditorComponent />
 }
 
-export const ReactEditor: FC<EditorProps> = ({ editor: editorInfo }) => {
-  const { getEditorCallback, dom, editor, setLoading } = editorInfo
+export const ReactEditorProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const dom = useRef<HTMLDivElement | undefined>(undefined)
+  const [editorFactory, setEditorFactory] = useState<GetEditor | undefined>(undefined)
+  const editor = useRef<Editor>()
+  const [loading, setLoading] = useState(true)
 
-  const ctx = useMemo<EditorInfoCtx>(() => ({
+  const editorInfoCtx = useMemo<EditorInfoCtx>(() => ({
+    loading,
     dom,
     editor,
     setLoading,
-    getEditorCallback,
-  }), [dom, editor, setLoading, getEditorCallback])
+    editorFactory,
+    setEditorFactory,
+  }), [loading, editorFactory])
 
   return (
-    <ProsemirrorAdapterProvider>
-      <editorInfoContext.Provider value={ctx}>
-        <EditorComponent />
-      </editorInfoContext.Provider>
-    </ProsemirrorAdapterProvider>
+    <editorInfoContext.Provider value={editorInfoCtx}>
+      {children}
+    </editorInfoContext.Provider>
   )
 }

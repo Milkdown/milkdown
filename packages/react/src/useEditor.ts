@@ -1,26 +1,22 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Editor } from '@milkdown/core'
 import type { DependencyList } from 'react'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useContext, useLayoutEffect } from 'react'
 
 import type { GetEditor, UseEditorReturn } from './types'
+import { editorInfoContext } from './useGetEditor'
 
 export const useEditor = (getEditor: GetEditor, deps: DependencyList = []): UseEditorReturn => {
-  const dom = useRef<HTMLDivElement | undefined>(undefined)
-  const editor = useRef<Editor>()
-  const [loading, setLoading] = useState(true)
+  const editorInfo = useContext(editorInfoContext)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getEditorCallback = useCallback<GetEditor>((...args) => getEditor(...args), deps)
+  const factory = useCallback(getEditor, deps)
+
+  useLayoutEffect(() => {
+    editorInfo.setEditorFactory(() => factory)
+  }, [editorInfo, factory])
 
   return {
-    loading,
-    get: () => editor.current,
-    editor: {
-      getEditorCallback,
-      dom,
-      editor,
-      setLoading,
-    },
+    loading: editorInfo.loading,
+    get: () => editorInfo.editor.current,
   }
 }

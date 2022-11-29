@@ -125,11 +125,12 @@ export class Editor {
    */
   readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
     [plugins].flat().forEach((plugin) => {
-      const handler
-        = this.#status === EditorStatus.Created ? plugin(this.#pre) : undefined
+      const handler = this.#status === EditorStatus.Created ? plugin(this.#pre) : undefined
+      const cleanup = handler?.(this.#ctx)
+
       this.#plugins.set(plugin, {
         handler,
-        cleanup: undefined,
+        cleanup,
       })
     })
     return this
@@ -205,6 +206,14 @@ export class Editor {
   readonly remove = async (
     plugins: MilkdownPlugin | MilkdownPlugin[],
   ): Promise<Editor> => {
+    if (this.#status === EditorStatus.OnCreate) {
+      setTimeout(() => {
+        this.remove(plugins)
+      }, 50)
+
+      return this
+    }
+
     await this.#cleanup([plugins].flat(), true)
     return this
   }
@@ -221,11 +230,16 @@ export class Editor {
    * @returns A promise object, will be resolved as editor instance after destroy finish.
    */
   readonly destroy = async (clearPlugins = false): Promise<Editor> => {
-    if (
-      this.#status === EditorStatus.Destroyed
-      || this.#status === EditorStatus.OnDestroy
-    )
+    if (this.#status === EditorStatus.Destroyed || this.#status === EditorStatus.OnDestroy)
       return this
+
+    if (this.#status === EditorStatus.OnCreate) {
+      setTimeout(() => {
+        this.destroy(clearPlugins)
+      }, 50)
+
+      return this
+    }
 
     if (clearPlugins)
       this.#configureList = []

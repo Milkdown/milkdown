@@ -32,6 +32,7 @@
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
+    "tippy.js": "^6.3.7",
     "tslib": "^2.4.0"
   },
   "devDependencies": {

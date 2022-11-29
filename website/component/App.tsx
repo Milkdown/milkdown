@@ -1,4 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { ReactEditorProvider } from '@milkdown/react'
+import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import React from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import { BrowserRouter } from 'react-router-dom'
@@ -43,12 +45,16 @@ const Container: React.FC = () => {
 }
 
 export const App: React.FC = () => (
-    <HelmetProvider>
-        <BrowserRouter>
-            <Context>
-                <Sidebar />
-                <Container />
-            </Context>
-        </BrowserRouter>
-    </HelmetProvider>
+  <ProsemirrorAdapterProvider>
+    <ReactEditorProvider>
+      <HelmetProvider>
+          <BrowserRouter>
+              <Context>
+                  <Sidebar />
+                  <Container />
+              </Context>
+          </BrowserRouter>
+      </HelmetProvider>
+    </ReactEditorProvider>
+  </ProsemirrorAdapterProvider>
 )
