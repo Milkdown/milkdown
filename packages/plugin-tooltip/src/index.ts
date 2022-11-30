@@ -43,14 +43,14 @@ export class TooltipProvider {
     const to = Math.max(...ranges.map(range => range.$to.pos))
     const isSame = prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
 
-    if (from === to || composing || isSame)
-      return
-
     this.#tippy ??= tippy(view.dom, {
       trigger: 'manual',
       ...this.#tippyOptions,
       content: this.#element,
     })
+
+    if (from === to || composing || isSame)
+      return
 
     if (!this.#shouldShow(view, prevState))
       this.hide()
