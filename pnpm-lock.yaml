@@ -503,11 +503,15 @@ importers:
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
+      '@types/lodash.debounce': ^4.0.7
+      lodash.debounce: ^4.0.8
       tippy.js: ^6.3.7
       tslib: ^2.4.0
     dependencies:
       '@milkdown/exception': link:../exception
       '@milkdown/utils': link:../utils
+      '@types/lodash.debounce': 4.0.7
+      lodash.debounce: 4.0.8
       tippy.js: 6.3.7
       tslib: 2.4.0
     devDependencies:
@@ -4089,6 +4093,16 @@ packages:
 
   /@types/katex/0.14.0:
     resolution: {integrity: sha512-+2FW2CcT0K3P+JMR8YG846bmDwplKUTsWgT2ENwdQ1UdVfRk3GQrh6Mi4sTopy30gI8Uau5CEqHTDZ6YvWIUPA==}
+    dev: false
+
+  /@types/lodash.debounce/4.0.7:
+    resolution: {integrity: sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==}
+    dependencies:
+      '@types/lodash': 4.14.190
+    dev: false
+
+  /@types/lodash/4.14.190:
+    resolution: {integrity: sha512-5iJ3FBJBvQHQ8sFhEhJfjUP+G+LalhavTkYyrAYqz5MEJG+erSv0k9KJLb6q7++17Lafk1scaTIFXcMJlwK8Mw==}
     dev: false
 
   /@types/mdast/3.0.10:

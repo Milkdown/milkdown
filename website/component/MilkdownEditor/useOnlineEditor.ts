@@ -8,7 +8,7 @@ import { indent } from '@milkdown/plugin-indent'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { math } from '@milkdown/plugin-math'
 import { prism, prismConfig } from '@milkdown/plugin-prism'
-import { tooltip, tooltipView } from '@milkdown/plugin-tooltip'
+import { tooltip } from '@milkdown/plugin-tooltip'
 import { trailing } from '@milkdown/plugin-trailing'
 import { upload } from '@milkdown/plugin-upload'
 import { commonmark } from '@milkdown/preset-commonmark'
@@ -38,7 +38,7 @@ export const useOnlineEditorFactory = (
           ...prev,
           configureRefractor: () => refractor,
         }))
-        ctx.set(tooltipView.key, pluginViewFactory({
+        ctx.set(tooltip.key, pluginViewFactory({
           component: Tooltip,
         }))
       })

@@ -10,8 +10,11 @@ export const Tooltip = () => {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (ref.current)
-      tooltipProvider.current ??= new TooltipProvider(ref.current)
+    if (ref.current) {
+      tooltipProvider.current ??= new TooltipProvider({
+        content: ref.current,
+      })
+    }
 
     return () => {
       tooltipProvider.current?.destroy()

@@ -1,66 +1,41 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin } from '@milkdown/core'
+import type { Slice } from '@milkdown/core'
+import { posToDOMRect } from '@milkdown/prose'
 import type { EditorState, PluginView } from '@milkdown/prose/state'
-import { Plugin, PluginKey } from '@milkdown/prose/state'
+import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
+import type { $Ctx, $Prose } from '@milkdown/utils'
 import { $ctx, $prose } from '@milkdown/utils'
-import type { Content, Instance } from 'tippy.js'
+import debounce from 'lodash.debounce'
+import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
 
-function minMax(value = 0, min = 0, max = 0): number {
-  return Math.min(Math.max(value, min), max)
-}
-
-function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
-  const minPos = 0
-  const maxPos = view.state.doc.content.size
-  const resolvedFrom = minMax(from, minPos, maxPos)
-  const resolvedEnd = minMax(to, minPos, maxPos)
-  const start = view.coordsAtPos(resolvedFrom)
-  const end = view.coordsAtPos(resolvedEnd, -1)
-  const top = Math.min(start.top, end.top)
-  const bottom = Math.max(start.bottom, end.bottom)
-  const left = Math.min(start.left, end.left)
-  const right = Math.max(start.right, end.right)
-  const width = right - left
-  const height = bottom - top
-  const x = left
-  const y = top
-  const data = {
-    top,
-    bottom,
-    left,
-    right,
-    width,
-    height,
-    x,
-    y,
-  }
-
-  return {
-    ...data,
-    toJSON: () => data,
-  }
-}
-
-function debounce<T extends unknown[]>(func: (...args: T) => void, timeout = 300) {
-  let timer: number
-  return (...args: T) => {
-    clearTimeout(timer)
-    timer = window.setTimeout(() => func(...args), timeout)
-  }
+export type TooltipProviderOptions = {
+  content: HTMLElement
+  tippyOptions?: Partial<Props>
+  debounce?: number
+  shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
 }
 
 export class TooltipProvider {
   #tippy: Instance | undefined
 
-  #element: Content
+  #element: HTMLElement
 
-  constructor(content: Content) {
-    this.#element = content
+  #tippyOptions: Partial<Props>
+
+  #debounce: number
+
+  #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
+
+  constructor(options: TooltipProviderOptions) {
+    this.#element = options.content
+    this.#tippyOptions = options.tippyOptions ?? {}
+    this.#debounce = options.debounce ?? 200
+    this.#shouldShow = options.shouldShow ?? this.#_shouldShow
   }
 
-  update = debounce((view: EditorView, prevState?: EditorState) => {
+  #onUpdate = (view: EditorView, prevState?: EditorState): void => {
     const { state, composing } = view
     const { selection, doc } = state
     const { ranges } = selection
@@ -73,10 +48,11 @@ export class TooltipProvider {
 
     this.#tippy ??= tippy(view.dom, {
       trigger: 'manual',
+      ...this.#tippyOptions,
       content: this.#element,
     })
 
-    if (!this.shouldShow())
+    if (!this.#shouldShow(view, prevState))
       this.hide()
 
     this.#tippy.setProps({
@@ -86,9 +62,34 @@ export class TooltipProvider {
     })
 
     this.show()
-  }, 100)
+  }
 
-  shouldShow() {
+  update = (view: EditorView, prevState?: EditorState): void => {
+    const updater = debounce(this.#onUpdate, this.#debounce)
+
+    updater(view, prevState)
+  }
+
+  #_shouldShow(view: EditorView): boolean {
+    const { doc, selection } = view.state
+    const { empty, from, to } = selection
+
+    const isEmptyTextBlock = !doc.textBetween(from, to).length && view.state.selection instanceof TextSelection
+
+    const isTooltipChildren = this.#element.contains(document.activeElement)
+
+    const notHasFocus = !view.hasFocus() && !isTooltipChildren
+
+    const isReadonly = !view.editable
+
+    if (
+      notHasFocus
+      || empty
+      || isEmptyTextBlock
+      || isReadonly
+    )
+      return false
+
     return true
   }
 
@@ -106,16 +107,27 @@ export class TooltipProvider {
 }
 
 export type TooltipViewFactory = (view: EditorView) => PluginView
-export const tooltipView = $ctx<TooltipViewFactory, 'tooltipView'>(() => ({}), 'tooltipView')
+type TooltipViewId<Id extends string> = `${Id}_TOOLTIP_VIEW`
 
-export const tooltipPlugin = $prose((ctx) => {
-  const view = ctx.get(tooltipView.key)
-  const plugin = new Plugin({
-    key: new PluginKey('MILKDOWN_TOOLTIP'),
-    view,
+export type TooltipPlugin<Id extends string> = [$Ctx<TooltipViewFactory, TooltipViewId<Id>>, $Prose] & {
+  key: Slice<TooltipViewFactory, TooltipViewId<Id>>
+  pluginKey: $Prose['key']
+}
+
+export const tooltipFactory = <Id extends string>(id: Id) => {
+  const tooltipView = $ctx<TooltipViewFactory, TooltipViewId<Id>>(() => ({}), `${id}_TOOLTIP_VIEW`)
+  const tooltipPlugin = $prose((ctx) => {
+    const view = ctx.get(tooltipView.key)
+    return new Plugin({
+      key: new PluginKey(`${id}_TOOLTIP`),
+      view,
+    })
   })
+  const result = [tooltipView, tooltipPlugin] as TooltipPlugin<Id>
+  result.key = tooltipView.key
+  result.pluginKey = tooltipPlugin.key
 
-  return plugin
-})
+  return result
+}
 
-export const tooltip: MilkdownPlugin[] = [tooltipView, tooltipPlugin]
+export const tooltip = tooltipFactory('MILKDOWN')
