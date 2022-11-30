@@ -8,6 +8,7 @@ import { indent } from '@milkdown/plugin-indent'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { math } from '@milkdown/plugin-math'
 import { prism, prismConfig } from '@milkdown/plugin-prism'
+import { slash } from '@milkdown/plugin-slash'
 import { tooltip } from '@milkdown/plugin-tooltip'
 import { trailing } from '@milkdown/plugin-trailing'
 import { upload } from '@milkdown/plugin-upload'
@@ -16,6 +17,7 @@ import { gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
 import { usePluginViewFactory } from '@prosemirror-adapter/react'
 import { refractor } from 'refractor/lib/common'
+import { Slash } from './Slash'
 import { Tooltip } from './Tooltip'
 
 export const useOnlineEditorFactory = (
@@ -41,6 +43,9 @@ export const useOnlineEditorFactory = (
         ctx.set(tooltip.key, pluginViewFactory({
           component: Tooltip,
         }))
+        ctx.set(slash.key, pluginViewFactory({
+          component: Slash,
+        }))
       })
       .use(commonmark)
       .use(gfm)
@@ -55,6 +60,7 @@ export const useOnlineEditorFactory = (
       .use(upload)
       .use(trailing)
       .use(tooltip)
+      .use(slash)
 
     return editor
   }, [readOnly, defaultValue, onChange, pluginViewFactory])

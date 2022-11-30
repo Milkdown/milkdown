@@ -28,6 +28,7 @@
     "@milkdown/plugin-listener": "workspace:*",
     "@milkdown/plugin-math": "workspace:*",
     "@milkdown/plugin-prism": "workspace:*",
+    "@milkdown/plugin-slash": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/plugin-trailing": "workspace:*",
     "@milkdown/plugin-upload": "workspace:*",
