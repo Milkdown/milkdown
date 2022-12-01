@@ -23,6 +23,7 @@
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-collaborative": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",
+    "@milkdown/plugin-diagram": "workspace:*",
     "@milkdown/plugin-emoji": "workspace:*",
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-indent": "workspace:*",

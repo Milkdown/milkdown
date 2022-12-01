@@ -3,6 +3,7 @@ import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdow
 import { block, blockView } from '@milkdown/plugin-block'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { cursor } from '@milkdown/plugin-cursor'
+import { diagram } from '@milkdown/plugin-diagram'
 import { emoji } from '@milkdown/plugin-emoji'
 import { history } from '@milkdown/plugin-history'
 import { indent } from '@milkdown/plugin-indent'
@@ -67,6 +68,7 @@ export const useOnlineEditorFactory = (
       .use(tooltip)
       .use(slash)
       .use(block)
+      .use(diagram)
 
     return editor
   }, [readOnly, defaultValue, onChange, pluginViewFactory])

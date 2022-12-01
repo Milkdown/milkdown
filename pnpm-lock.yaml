@@ -722,6 +722,7 @@ importers:
       '@milkdown/plugin-clipboard': workspace:*
       '@milkdown/plugin-collaborative': workspace:*
       '@milkdown/plugin-cursor': workspace:*
+      '@milkdown/plugin-diagram': workspace:*
       '@milkdown/plugin-emoji': workspace:*
       '@milkdown/plugin-history': workspace:*
       '@milkdown/plugin-indent': workspace:*
@@ -784,6 +785,7 @@ importers:
       '@milkdown/plugin-clipboard': link:../packages/plugin-clipboard
       '@milkdown/plugin-collaborative': link:../packages/plugin-collaborative
       '@milkdown/plugin-cursor': link:../packages/plugin-cursor
+      '@milkdown/plugin-diagram': link:../packages/plugin-diagram
       '@milkdown/plugin-emoji': link:../packages/plugin-emoji
       '@milkdown/plugin-history': link:../packages/plugin-history
       '@milkdown/plugin-indent': link:../packages/plugin-indent

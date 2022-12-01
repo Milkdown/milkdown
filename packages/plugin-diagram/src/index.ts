@@ -1,12 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { AtomList } from '@milkdown/utils'
+import type { MilkdownPlugin } from '@milkdown/core'
+import { diagramSchema, insertDiagramCommand, insertDiagramInputRules, remarkDiagramPlugin } from './node'
 
-import { diagramNode } from './node'
+export * from './node'
 
-export * from './remark-mermaid'
-
-export const diagram = AtomList.create([diagramNode()])
-
-export type { Options } from './node'
-export { diagramNode, TurnIntoDiagram } from './node'
+export const diagram: MilkdownPlugin[] = [remarkDiagramPlugin, diagramSchema, insertDiagramCommand, insertDiagramInputRules].flat()
