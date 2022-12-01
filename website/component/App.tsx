@@ -45,8 +45,8 @@ const Container: React.FC = () => {
 }
 
 export const App: React.FC = () => (
-  <ProsemirrorAdapterProvider>
     <ReactEditorProvider>
+  <ProsemirrorAdapterProvider>
       <HelmetProvider>
           <BrowserRouter>
               <Context>
@@ -55,6 +55,6 @@ export const App: React.FC = () => (
               </Context>
           </BrowserRouter>
       </HelmetProvider>
-    </ReactEditorProvider>
   </ProsemirrorAdapterProvider>
+    </ReactEditorProvider>
 )
