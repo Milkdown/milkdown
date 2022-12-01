@@ -26,6 +26,7 @@ export const Tooltip = () => {
   })
 
   return (
-    <div ref={ref}>Tooltip</div>
+    // eslint-disable-next-line no-console
+    <div ref={ref} onClick={() => console.log('Click tooltip')}>Tooltip</div>
   )
 }

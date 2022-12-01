@@ -19,6 +19,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/exception": "workspace:*",
+    "@milkdown/plugin-block": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-collaborative": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",

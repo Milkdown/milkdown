@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
-    "@milkdown/design-system": "workspace:*",
     "@milkdown/prose": "workspace:*"
   },
   "nx": {
