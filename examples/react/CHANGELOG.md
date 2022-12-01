@@ -1,5 +1,20 @@
 # @milkdown-examples/react
 
+## 6.5.4
+
+### Patch Changes
+
+- b4003d9: Fix bugs and make some small improvements.
+- Updated dependencies [b4003d9]
+  - @milkdown/core@6.5.4
+  - @milkdown/plugin-listener@6.5.4
+  - @milkdown/plugin-prism@6.5.4
+  - @milkdown/plugin-tooltip@6.5.4
+  - @milkdown/preset-commonmark@6.5.4
+  - @milkdown/prose@6.5.4
+  - @milkdown/react@6.5.4
+  - @milkdown/theme-nord@6.5.4
+
 ## 6.5.3
 
 ### Patch Changes
