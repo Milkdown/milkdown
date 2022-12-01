@@ -36,9 +36,9 @@
     "vitejs",
     "vitest"
   ],
-  "editor.formatOnSave": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "npm.packageManager": "pnpm",
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },

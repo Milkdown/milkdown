@@ -6,12 +6,10 @@ import { browser } from '@milkdown/prose'
 import type { Selection } from '@milkdown/prose/state'
 import { NodeSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
-import type { ThemeUtils } from '@milkdown/utils'
+import debounce from 'lodash.debounce'
 
-import { BlockHandleDOM } from './block-handle-dom'
-import { BlockMenuDOM } from './block-menu-dom'
-import type { ConfigBuilder } from './config'
-import type { FilterNodes } from './create-block-plugin'
+import type { FilterNodes } from './block-plugin'
+import { blockConfig } from './block-plugin'
 import { removePossibleTable } from './remove-possible-table'
 import type { ActiveNode } from './select-node-by-dom'
 import { selectRootNodeByDom } from './select-node-by-dom'
@@ -22,9 +20,16 @@ const brokenClipboardAPI
 
 const buffer = 20
 
+export type BlockServiceMessageType = {
+  type: 'hide'
+} | {
+  type: 'show'
+  active: ActiveNode
+}
+export type BlockServiceMessage = (message: BlockServiceMessageType) => void
+
 export class BlockService {
-  readonly blockHandle$: BlockHandleDOM
-  readonly blockMenu$: BlockMenuDOM
+  #ctx?: Ctx
 
   #createSelection: () => null | Selection = () => {
     if (!this.#active)
@@ -32,7 +37,7 @@ export class BlockService {
     const result = this.#active
     const view = this.#view
 
-    if (NodeSelection.isSelectable(result.node)) {
+    if (view && NodeSelection.isSelectable(result.node)) {
       const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - 1)
       view.dispatch(view.state.tr.setSelection(nodeSelection))
       view.focus()
@@ -47,34 +52,49 @@ export class BlockService {
   #activeDOMRect: undefined | DOMRect = undefined
 
   #dragging = false
-  #ctx: Ctx
-  #filterNodes: FilterNodes
+  #hovering = false
+
+  get #filterNodes(): FilterNodes | undefined {
+    return this.#ctx?.get(blockConfig.key).filterNodes
+  }
 
   get #view() {
-    return this.#ctx.get(editorViewCtx)
+    return this.#ctx?.get(editorViewCtx)
   }
 
-  constructor(ctx: Ctx, utils: ThemeUtils, filterNodes: FilterNodes, configBuilder: ConfigBuilder) {
+  #notify?: BlockServiceMessage
+
+  bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
-    this.#filterNodes = filterNodes
-    this.blockHandle$ = new BlockHandleDOM(utils)
-    this.blockMenu$ = new BlockMenuDOM(utils, ctx, configBuilder, this.blockHandle$, () => this.#active)
+    this.#notify = notify
   }
 
-  mount(view: EditorView) {
-    this.blockHandle$.dom$.addEventListener('mousedown', this.#handleMouseDown)
-    this.blockHandle$.dom$.addEventListener('mouseup', this.#handleMouseUp)
-    this.blockHandle$.dom$.addEventListener('dragstart', this.#handleDragStart)
-    this.blockHandle$.mount(view)
-    this.blockMenu$.mount(view)
+  addEvent = (dom: HTMLElement) => {
+    dom.addEventListener('mousedown', this.#handleMouseDown)
+    dom.addEventListener('mouseenter', this.#handleMouseEnter)
+    dom.addEventListener('mouseleave', this.#handleMouseLeave)
+    dom.addEventListener('mouseup', this.#handleMouseUp)
+    dom.addEventListener('dragstart', this.#handleDragStart)
   }
 
-  unmount() {
-    this.blockHandle$.dom$.removeEventListener('mousedown', this.#handleMouseDown)
-    this.blockHandle$.dom$.removeEventListener('mouseup', this.#handleMouseUp)
-    this.blockHandle$.dom$.removeEventListener('dragstart', this.#handleDragStart)
-    this.blockHandle$.unmount()
-    this.blockMenu$.unmount()
+  removeEvent = (dom: HTMLElement) => {
+    dom.removeEventListener('mousedown', this.#handleMouseDown)
+    dom.removeEventListener('mouseenter', this.#handleMouseEnter)
+    dom.removeEventListener('mouseleave', this.#handleMouseLeave)
+    dom.removeEventListener('mouseup', this.#handleMouseUp)
+    dom.removeEventListener('dragstart', this.#handleDragStart)
+  }
+
+  unBind = () => {
+    this.#notify = undefined
+  }
+
+  #handleMouseEnter = () => {
+    this.#hovering = true
+  }
+
+  #handleMouseLeave = () => {
+    this.#hovering = false
   }
 
   #handleMouseDown = () => {
@@ -87,9 +107,7 @@ export class BlockService {
       requestAnimationFrame(() => {
         if (!this.#activeDOMRect)
           return
-        this.blockMenu$.toggle()
-        this.blockMenu$.render(this.#view, this.#activeDOMRect)
-        this.#view.focus()
+        this.#view?.focus()
       })
 
       return
@@ -101,10 +119,12 @@ export class BlockService {
   #handleDragStart = (event: DragEvent) => {
     this.#dragging = true
     const selection = this.#activeSelection
+    const view = this.#view
+    if (!view)
+      return
 
     // Align the behavior with https://github.com/ProseMirror/prosemirror-view/blob/master/src/input.ts#L608
     if (event.dataTransfer && selection) {
-      const view = this.#view
       const slice = selection.content()
       event.dataTransfer.effectAllowed = 'copyMove'
       const { dom, text } = serializeForClipboard(view, slice)
@@ -120,47 +140,49 @@ export class BlockService {
   }
 
   keydownCallback = () => {
-    this.blockMenu$.hide()
-    this.blockHandle$.hide()
+    this.#notify?.({ type: 'hide' })
     return false
   }
 
-  mousedownCallback = () => {
-    this.blockMenu$.hide()
-    return false
-  }
-
-  mousemoveCallback = (view: EditorView, event: MouseEvent) => {
+  #mousemoveCallback = (view: EditorView, event: MouseEvent) => {
     if (!view.editable)
-      return false
+      return
+
+    if (this.#hovering)
+      return
+
+    if (this.#dragging)
+      return
 
     const dom = event.target
     if (!(dom instanceof Element)) {
-      if (this.#dragging)
-        return false
-      this.blockHandle$.hide()
-      return false
+      this.#notify?.({ type: 'hide' })
+      return
     }
 
-    const result = selectRootNodeByDom(dom, view, this.#filterNodes)
+    const filterNodes = this.#filterNodes
+    if (!filterNodes)
+      return
+
+    const result = selectRootNodeByDom(dom, view, filterNodes)
     this.#active = result
 
     if (!result) {
-      if (this.#dragging)
-        return false
-      this.blockHandle$.hide()
-      return false
+      this.#notify?.({ type: 'hide' })
+      return
     }
+    this.#notify?.({ type: 'show', active: result })
+  }
 
-    this.blockHandle$.show()
-    this.blockHandle$.render(view, result.el)
+  mousemoveCallback = (view: EditorView, event: MouseEvent) => {
+    debounce(this.#mousemoveCallback, 200)(view, event)
 
     return false
   }
 
-  dragoverCallback = (_: EditorView, event: DragEvent) => {
+  dragoverCallback = (view: EditorView, event: DragEvent) => {
     if (this.#dragging) {
-      const root = this.#view.dom.parentElement
+      const root = this.#view?.dom.parentElement
       if (!root)
         return false
 
@@ -173,7 +195,7 @@ export class BlockService {
           root.scrollTop = top
           return false
         }
-        const totalHeight = Math.round(this.#view.dom.getBoundingClientRect().height)
+        const totalHeight = Math.round(view.dom.getBoundingClientRect().height)
         const scrollBottom = Math.round(root.scrollTop + rootRect.height)
         if (scrollBottom < totalHeight && Math.abs(event.y - (rootRect.height + rootRect.y)) < buffer) {
           const top = root.scrollTop + 10
@@ -187,7 +209,6 @@ export class BlockService {
 
   dropCallback = (view: EditorView, _event: MouseEvent) => {
     if (this.#dragging) {
-      this.blockMenu$.hide()
       const event = _event as DragEvent
       const tr = removePossibleTable(view, event)
 

@@ -32,7 +32,7 @@ expect(container.getSlice<number>('num').get()).toBe(11);
 @Container
 @createSlice
 @Slice
-@SliceValue
+@$Slice
 @SliceMap
 
 ## Clock

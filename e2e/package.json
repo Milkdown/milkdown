@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@milkdown/core": "workspace:*",
-    "@milkdown/design-system": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",

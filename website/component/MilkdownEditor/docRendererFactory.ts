@@ -2,9 +2,9 @@
 
 import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
-import { prismPlugin } from '@milkdown/plugin-prism'
+import { prism, prismConfig } from '@milkdown/plugin-prism'
+import { commonmark } from '@milkdown/preset-commonmark'
 import { gfm } from '@milkdown/preset-gfm'
-import { nordDark, nordLight } from '@milkdown/theme-nord'
 import { outline } from '@milkdown/utils'
 import { refractor } from 'refractor/lib/common'
 
@@ -14,7 +14,7 @@ import type { Outline } from './Outline'
 export const docRendererFactory = (
   root: HTMLElement,
   markdown: string,
-  isDarkMode: boolean,
+  _isDarkMode: boolean,
   setOutlines: React.Dispatch<React.SetStateAction<Outline[]>>,
 ) => {
   const editor = Editor.make()
@@ -25,16 +25,16 @@ export const docRendererFactory = (
       ctx.get(listenerCtx).mounted((ctx) => {
         setOutlines(outline()(ctx))
       })
+      ctx.update(prismConfig.key, prev => ({
+        ...prev,
+        configureRefractor: () => refractor,
+      }))
     })
+    .use(commonmark)
     .use(gfm)
     .use(listener)
     .use(iframe)
-    .use(
-      prismPlugin({
-        configureRefractor: () => refractor,
-      }),
-    )
-    .use(isDarkMode ? nordDark : nordLight)
+    .use(prism)
 
   return editor
 }

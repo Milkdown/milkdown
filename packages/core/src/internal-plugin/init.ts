@@ -11,7 +11,6 @@ import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 
 import type { Editor } from '../editor'
-import { ThemeReady } from './theme'
 
 export const InitReady = createTimer('InitReady')
 
@@ -32,37 +31,37 @@ export const remarkStringifyDefaultOptions: Options = {}
 export const remarkStringifyOptionsCtx = createSlice(remarkStringifyDefaultOptions, 'remarkStringifyOptions')
 
 export const init
-    = (editor: Editor): MilkdownPlugin =>
-      (pre) => {
-        pre.inject(editorCtx, editor)
-          .inject(prosePluginsCtx)
-          .inject(remarkPluginsCtx)
-          .inject(inputRulesCtx)
-          .inject(nodeViewCtx)
-          .inject(markViewCtx)
-          .inject(remarkStringifyOptionsCtx)
-          .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
-          .inject(initTimerCtx, [ThemeReady])
-          .record(InitReady)
+  = (editor: Editor): MilkdownPlugin =>
+    (pre) => {
+      pre.inject(editorCtx, editor)
+        .inject(prosePluginsCtx)
+        .inject(remarkPluginsCtx)
+        .inject(inputRulesCtx)
+        .inject(nodeViewCtx)
+        .inject(markViewCtx)
+        .inject(remarkStringifyOptionsCtx)
+        .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
+        .inject(initTimerCtx, [])
+        .record(InitReady)
 
-        return async (ctx) => {
-          await ctx.waitTimers(initTimerCtx)
-          const options = ctx.get(remarkStringifyOptionsCtx)
-          ctx.set(remarkCtx, unified().use(remarkParse).use(remarkStringify, options))
+      return async (ctx) => {
+        await ctx.waitTimers(initTimerCtx)
+        const options = ctx.get(remarkStringifyOptionsCtx)
+        ctx.set(remarkCtx, unified().use(remarkParse).use(remarkStringify, options))
 
-          ctx.done(InitReady)
+        ctx.done(InitReady)
 
-          return (post) => {
-            post.remove(editorCtx)
-              .remove(prosePluginsCtx)
-              .remove(remarkPluginsCtx)
-              .remove(inputRulesCtx)
-              .remove(nodeViewCtx)
-              .remove(markViewCtx)
-              .remove(remarkStringifyOptionsCtx)
-              .remove(remarkCtx)
-              .remove(initTimerCtx)
-              .clearTimer(InitReady)
-          }
+        return (post) => {
+          post.remove(editorCtx)
+            .remove(prosePluginsCtx)
+            .remove(remarkPluginsCtx)
+            .remove(inputRulesCtx)
+            .remove(nodeViewCtx)
+            .remove(markViewCtx)
+            .remove(remarkStringifyOptionsCtx)
+            .remove(remarkCtx)
+            .remove(initTimerCtx)
+            .clearTimer(InitReady)
         }
       }
+    }

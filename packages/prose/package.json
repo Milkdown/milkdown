@@ -57,6 +57,10 @@
     "./view": {
       "types": "./lib/view.d.ts",
       "import": "./lib/view.js"
+    },
+    "./tables": {
+      "types": "./lib/tables.d.ts",
+      "import": "./lib/tables.js"
     }
   },
   "main": "./lib/index.js",
@@ -95,6 +99,9 @@
       ],
       "view": [
         "lib/view.d.ts"
+      ],
+      "tables": [
+        "lib/tables.d.ts"
       ]
     }
   },
@@ -119,6 +126,7 @@
     "prosemirror-model": "^1.18.1",
     "prosemirror-schema-list": "^1.2.2",
     "prosemirror-state": "^1.4.1",
+    "prosemirror-tables": "^1.2.5",
     "prosemirror-transform": "^1.7.0",
     "prosemirror-view": "^1.28.0",
     "tslib": "^2.4.0"

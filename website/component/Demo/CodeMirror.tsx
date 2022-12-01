@@ -140,3 +140,5 @@ export const CodeMirror = React.forwardRef<CodeMirrorRef, CodeMirrorProps>(({ va
         </div>
   )
 })
+
+CodeMirror.displayName = 'CodeMirror'

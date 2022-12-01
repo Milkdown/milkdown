@@ -1,8 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import { ReactEditor, useEditor } from '@milkdown/react'
-import { nordDark, nordLight } from '@milkdown/theme-nord'
-import { switchTheme } from '@milkdown/utils'
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { isDarkModeCtx } from '../Context'
@@ -28,15 +26,13 @@ export const DocRenderer = ({ content }: Props) => {
 
   const {
     editor,
-    getInstance,
-    getDom,
     loading: milkdownLoading,
   } = useEditor(root => docRendererFactory(root, md, isDarkMode, setOutlines), [md])
 
   useEffect(() => {
     const calc = () => {
       if (!milkdownLoading) {
-        const editor$ = getDom()
+        const editor$ = editor.dom.current
         const outline$ = outlineRef.current
         if (!editor$ || !outline$)
           return
@@ -58,19 +54,7 @@ export const DocRenderer = ({ content }: Props) => {
       if (main)
         observer.unobserve(main)
     }
-  }, [getDom, milkdownLoading])
-
-  useEffect(() => {
-    if (milkdownLoading)
-      return
-    const editor = getInstance()
-    try {
-      editor?.action(switchTheme(isDarkMode ? nordDark : nordLight))
-    }
-    catch {
-      // do nothing
-    }
-  }, [getInstance, isDarkMode, milkdownLoading])
+  }, [milkdownLoading])
 
   useLayoutEffect(() => {
     const wrapper = carbonRef.current
