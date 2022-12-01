@@ -12,7 +12,7 @@ if (!root)
   throw new Error('Root element #app not found')
 
 createRoot(root).render(
-    <StrictMode>
-        <App />
-    </StrictMode>,
+  <StrictMode>
+      <App />
+  </StrictMode>,
 )

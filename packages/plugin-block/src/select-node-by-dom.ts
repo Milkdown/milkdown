@@ -3,7 +3,7 @@ import { missingRootElement } from '@milkdown/exception'
 import type { Node, ResolvedPos } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 
-import type { FilterNodes } from './create-block-plugin'
+import type { FilterNodes } from './block-plugin'
 import { getDOMByPos } from './get-dom-by-pos'
 
 const nodeIsNotBlock = (node: Node) => !node.type.isBlock

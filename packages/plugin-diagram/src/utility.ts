@@ -1,7 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Node } from '@milkdown/prose/model'
-import { customAlphabet } from 'nanoid'
-
-export const nanoid = customAlphabet('abcedfghicklmn', 10)
+import { nanoid } from 'nanoid'
 
 export const getId = (node?: Node) => node?.attrs?.identity || nanoid()

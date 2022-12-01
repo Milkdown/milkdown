@@ -13,8 +13,7 @@ export const useEditor = (getEditor: GetEditor): UseEditorReturn => {
 
   return {
     loading,
-    getInstance: () => editor.value,
-    getDom: () => dom.value,
+    get: () => editor.value,
     editor: {
       getEditorCallback,
       dom,

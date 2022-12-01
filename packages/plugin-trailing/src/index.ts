@@ -1,63 +1,63 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import type { MilkdownPlugin } from '@milkdown/core'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
-import type { AtomPlugin } from '@milkdown/utils'
-import { AtomList, createPlugin } from '@milkdown/utils'
+import { $ctx, $prose } from '@milkdown/utils'
 
-export type ShouldAppend = (lastNode: Node | null, state: EditorState) => boolean
 export interface Options {
-  shouldAppend: ShouldAppend
+  shouldAppend: (lastNode: Node | null, state: EditorState) => boolean
   getNode: (state: EditorState) => Node
 }
 
-export const trailingPluginKey = new PluginKey('MILKDOWN_TRAILING')
+const trailingConfig = $ctx<Options, 'trailingConfig'>({
+  shouldAppend: (lastNode) => {
+    if (!lastNode)
+      return false
 
-export const trailingPlugin = createPlugin<string, Options>((_, options) => ({
-  prosePlugins: () => {
-    const shouldAppend: ShouldAppend
-            = options?.shouldAppend
-            ?? ((lastNode) => {
-              if (!lastNode)
-                return false
+    if (['heading', 'paragraph'].includes(lastNode.type.name))
+      return false
 
-              if (['heading', 'paragraph'].includes(lastNode.type.name))
-                return false
-
-              return true
-            })
-    const plugin = new Plugin({
-      key: trailingPluginKey,
-      state: {
-        init: (_, state) => {
-          const lastNode = state.tr.doc.lastChild
-
-          return shouldAppend(lastNode, state)
-        },
-        apply: (tr, value, _, state) => {
-          if (!tr.docChanged)
-            return value
-
-          const lastNode = tr.doc.lastChild
-
-          return shouldAppend(lastNode, state)
-        },
-      },
-      appendTransaction: (_, __, state) => {
-        const { doc, tr, schema } = state
-        const nodeType = options?.getNode?.(state) ?? schema.nodes.paragraph?.create()
-        const shouldInsertNodeAtEnd = plugin.getState(state)
-        const endPosition = doc.content.size
-
-        if (!shouldInsertNodeAtEnd || !nodeType)
-          return
-
-        return tr.insert(endPosition, nodeType)
-      },
-    })
-    return [plugin]
+    return true
   },
-}))
+  getNode: state => state.schema.nodes.paragraph!.create(),
+}, 'trailingConfig')
 
-export const trailing: AtomList<AtomPlugin> = AtomList.create([trailingPlugin()])
+export const trailingPlugin = $prose((ctx) => {
+  const trailingPluginKey = new PluginKey('MILKDOWN_TRAILING')
+  const { shouldAppend, getNode } = ctx.get(trailingConfig.key)
+  const plugin = new Plugin({
+    key: trailingPluginKey,
+    state: {
+      init: (_, state) => {
+        const lastNode = state.tr.doc.lastChild
+
+        return shouldAppend(lastNode, state)
+      },
+      apply: (tr, value, _, state) => {
+        if (!tr.docChanged)
+          return value
+
+        const lastNode = tr.doc.lastChild
+
+        return shouldAppend(lastNode, state)
+      },
+    },
+    appendTransaction: (_, __, state) => {
+      const { doc, tr } = state
+      const nodeType = getNode?.(state)
+      const shouldInsertNodeAtEnd = plugin.getState(state)
+      const endPosition = doc.content.size
+
+      if (!shouldInsertNodeAtEnd || !nodeType)
+        return
+
+      return tr.insert(endPosition, nodeType)
+    },
+  })
+
+  return plugin
+})
+
+export const trailing: MilkdownPlugin[] = [trailingConfig, trailingPlugin]

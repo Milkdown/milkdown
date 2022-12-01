@@ -39,7 +39,8 @@ export const Header: React.FC = () => {
 
   const { showToggle, fold, isHomePage } = useHeaderInfo()
 
-  useDarkMode(isDarkMode, setIsDarkMode)
+  // TODO: restore when we have a dark mode
+  // useDarkMode(isDarkMode, setIsDarkMode)
 
   const headerClass = [
     className.container,

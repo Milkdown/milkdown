@@ -22,7 +22,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/react/**/*.tsx', '**/react/**/*.ts'],
+      files: ['**/react/**/*.tsx', '**/react/**/*.ts', '**/website/**/*.tsx', '**/website/**/*.ts'],
       extends: [
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',

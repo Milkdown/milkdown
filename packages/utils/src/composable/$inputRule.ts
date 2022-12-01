@@ -16,6 +16,10 @@ export const $inputRule = (inputRule: (ctx: Ctx) => InputRule): $InputRule => {
     const ir = inputRule(ctx)
     ctx.update(inputRulesCtx, irs => [...irs, ir]);
     (<$InputRule>plugin).inputRule = ir
+
+    return () => {
+      ctx.update(inputRulesCtx, irs => irs.filter(x => x !== ir))
+    }
   }
 
   return <$InputRule>plugin
@@ -28,6 +32,9 @@ export const $inputRuleAsync = (inputRule: (ctx: Ctx) => Promise<InputRule>, tim
       const ir = await inputRule(ctx)
       ctx.update(inputRulesCtx, irs => [...irs, ir])
       plugin.inputRule = ir
+      return () => {
+        ctx.update(inputRulesCtx, irs => irs.filter(x => x !== ir))
+      }
     },
     editorStateTimerCtx,
     timerName,

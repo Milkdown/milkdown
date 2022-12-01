@@ -6,7 +6,6 @@ import {
   parserCtx,
   prosePluginsCtx,
   schemaCtx,
-  themeManagerCtx,
 } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 import { EditorState } from '@milkdown/prose/state'
@@ -28,7 +27,6 @@ export const replaceAll
         const schema = ctx.get(schemaCtx)
         const options = ctx.get(editorStateOptionsCtx)
         const plugins = ctx.get(prosePluginsCtx)
-        const themeManager = ctx.get(themeManagerCtx)
 
         const state = EditorState.create({
           schema,
@@ -38,5 +36,4 @@ export const replaceAll
         })
 
         view.updateState(state)
-        themeManager.flush(ctx)
       }

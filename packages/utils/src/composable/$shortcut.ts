@@ -7,7 +7,7 @@ import type { Command } from '@milkdown/prose/state'
 
 import { addTimer } from './utils'
 
-type Keymap = Record<string, Command>
+export type Keymap = Record<string, Command>
 
 export type $Shortcut = MilkdownPlugin & {
   keymap: Keymap
@@ -17,8 +17,13 @@ export const $shortcut = (shortcut: (ctx: Ctx) => Keymap): $Shortcut => {
   const plugin: MilkdownPlugin = () => async (ctx) => {
     await ctx.wait(SchemaReady)
     const k = shortcut(ctx)
-    ctx.update(prosePluginsCtx, ps => [...ps, keymap(k)]);
+    const keymapPlugin = keymap(k)
+    ctx.update(prosePluginsCtx, ps => [...ps, keymapPlugin]);
     (<$Shortcut>plugin).keymap = k
+
+    return () => {
+      ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== keymapPlugin))
+    }
   }
 
   return <$Shortcut>plugin
@@ -29,8 +34,13 @@ export const $shortcutAsync = (shortcut: (ctx: Ctx) => Promise<Keymap>, timerNam
     async (ctx, plugin) => {
       await ctx.wait(SchemaReady)
       const k = await shortcut(ctx)
-      ctx.update(prosePluginsCtx, ps => [...ps, keymap(k)])
+      const keymapPlugin = keymap(k)
+      ctx.update(prosePluginsCtx, ps => [...ps, keymapPlugin])
       plugin.keymap = k
+
+      return () => {
+        ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== keymapPlugin))
+      }
     },
     editorStateTimerCtx,
     timerName,
