@@ -1,10 +1,11 @@
+/* Copyright 2021, Milkdown by Mirone. */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['src/**/*.ts'],
+  content: ['**/*.tsx'],
   theme: {
     extend: {},
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
   ],
 }

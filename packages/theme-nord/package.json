@@ -34,6 +34,7 @@
     "@milkdown/plugin-emoji": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@tailwindcss/typography": "^0.5.8",
     "prosemirror-tables": "^1.2.5",
     "prosemirror-view": "^1.28.0"
   },

@@ -41,35 +41,33 @@ const Container: React.FC = () => {
   }, [setLocal])
 
   return (
-        <div
-            onClick={() => {
-              if (document.documentElement.clientWidth < 1142)
-                setDisplaySidebar(false)
-            }}
-            className={displaySidebar ? className.right : [className.right, className.fold].join(' ')}
-        >
-            <Header />
-            <main className={className.main}>
-                <Main />
-            </main>
-        </div>
+    <div
+      onClick={() => {
+        if (document.documentElement.clientWidth < 1142)
+          setDisplaySidebar(false)
+      }}
+    >
+      {/* <Header /> */}
+      <main className={className.main}>
+        <Main />
+      </main>
+    </div>
   )
 }
 
 export const App: React.FC = () => (
-    <ReactEditorProvider>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-
-  <ProsemirrorAdapterProvider>
-      <HelmetProvider>
+  <ReactEditorProvider>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <ProsemirrorAdapterProvider>
+        <HelmetProvider>
           <BrowserRouter>
-              <Context>
-                  <Sidebar />
-                  <Container />
-              </Context>
+            <Context>
+              {/* <Sidebar /> */}
+              <Container />
+            </Context>
           </BrowserRouter>
-      </HelmetProvider>
-  </ProsemirrorAdapterProvider>
-      </ErrorBoundary>
-    </ReactEditorProvider>
+        </HelmetProvider>
+      </ProsemirrorAdapterProvider>
+    </ErrorBoundary>
+  </ReactEditorProvider>
 )

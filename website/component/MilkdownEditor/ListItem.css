@@ -1,0 +1,7 @@
+li p {
+  @apply !m-0 !leading-6;
+}
+
+li p + p {
+  @apply !mt-2;
+}

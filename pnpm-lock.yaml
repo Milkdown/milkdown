@@ -17,6 +17,7 @@ importers:
       '@rollup/plugin-json': ^5.0.0
       '@rollup/plugin-node-resolve': ^15.0.0
       '@rollup/plugin-typescript': ^10.0.0
+      '@tailwindcss/forms': ^0.5.3
       '@types/node': ^18.0.0
       '@types/rollup-plugin-auto-external': ^2.0.2
       '@vitejs/plugin-react': ^2.0.0
@@ -64,6 +65,7 @@ importers:
       '@rollup/plugin-json': 5.0.0_rollup@3.0.0
       '@rollup/plugin-node-resolve': 15.0.0_rollup@3.0.0
       '@rollup/plugin-typescript': 10.0.0_2vs6bpjo63k7jg2usn4g5cvrx4
+      '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
       '@types/node': 18.11.9
       '@types/rollup-plugin-auto-external': 2.0.2
       '@vitejs/plugin-react': 2.0.0_vite@3.2.2
@@ -640,6 +642,7 @@ importers:
       '@milkdown/plugin-emoji': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
+      '@tailwindcss/typography': ^0.5.8
       prosemirror-tables: ^1.2.5
       prosemirror-view: ^1.28.0
     devDependencies:
@@ -647,6 +650,7 @@ importers:
       '@milkdown/plugin-emoji': link:../plugin-emoji
       '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
+      '@tailwindcss/typography': 0.5.8
       prosemirror-tables: 1.2.5
       prosemirror-view: 1.28.0
 
@@ -3849,6 +3853,26 @@ packages:
       json5: 2.2.1
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.7
+    dev: true
+
+  /@tailwindcss/forms/0.5.3_tailwindcss@3.2.4:
+    resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
+    dependencies:
+      mini-svg-data-uri: 1.4.4
+      tailwindcss: 3.2.4_postcss@8.4.18
+    dev: true
+
+  /@tailwindcss/typography/0.5.8:
+    resolution: {integrity: sha512-xGQEp8KXN8Sd8m6R4xYmwxghmswrd0cPnNI2Lc6fmrC3OojysTBJJGSIVwPV56q4t6THFUK3HJ0EaWwpglSxWw==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      lodash.castarray: 4.4.0
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      postcss-selector-parser: 6.0.10
     dev: true
 
   /@tootallnate/once/2.0.0:
@@ -9923,8 +9947,16 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash.castarray/4.4.0:
+    resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==}
+    dev: true
+
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+
+  /lodash.isplainobject/4.0.6:
+    resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
+    dev: true
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -10580,6 +10612,11 @@ packages:
   /min-indent/1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
+    dev: true
+
+  /mini-svg-data-uri/1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: true
 
   /minimatch/3.0.5:
