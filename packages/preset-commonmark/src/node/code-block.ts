@@ -3,9 +3,14 @@ import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
-import { $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $attr, $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const codeBlockSchema = $nodeSchema('code_block', () => {
+export const codeBlockAttr = $attr('codeBlock', {
+  pre: {},
+  code: {},
+})
+
+export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
   return {
     content: 'text*',
     group: 'block',
@@ -30,12 +35,14 @@ export const codeBlockSchema = $nodeSchema('code_block', () => {
       },
     ],
     toDOM: (node) => {
+      const attr = ctx.get(codeBlockAttr.key)
       return [
         'pre',
         {
+          ...attr.pre,
           'data-language': node.attrs.language,
         },
-        ['code', 0],
+        ['code', attr.code, 0],
       ]
     },
     parseMarkdown: {

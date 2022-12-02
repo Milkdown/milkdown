@@ -3,9 +3,10 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { toggleMark } from '@milkdown/prose/commands'
 import type { Node as ProseNode } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
-import { $command, $markSchema } from '@milkdown/utils'
+import { $attr, $command, $markSchema } from '@milkdown/utils'
 
-export const linkSchema = $markSchema('link', () => ({
+export const linkAttr = $attr('link', {})
+export const linkSchema = $markSchema('link', ctx => ({
   attrs: {
     href: {},
     title: { default: null },
@@ -21,7 +22,7 @@ export const linkSchema = $markSchema('link', () => ({
       },
     },
   ],
-  toDOM: mark => ['a', mark.attrs],
+  toDOM: mark => ['a', { ...ctx.get(linkAttr.key), ...mark.attrs }],
   parseMarkdown: {
     match: node => node.type === 'link',
     runner: (state, node, markType) => {

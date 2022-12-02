@@ -1,16 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { toggleMark } from '@milkdown/prose/commands'
-import { $command, $markSchema, $useKeymap } from '@milkdown/utils'
+import { $attr, $command, $markSchema, $useKeymap } from '@milkdown/utils'
 
-export const emphasisSchema = $markSchema('emphasis', () => ({
+export const emphasisAttr = $attr('emphasis', {})
+
+export const emphasisSchema = $markSchema('emphasis', ctx => ({
   inclusive: false,
   parseDOM: [
     { tag: 'i' },
     { tag: 'em' },
     { style: 'font-style', getAttrs: value => (value === 'italic') as false },
   ],
-  toDOM: () => ['em'],
+  toDOM: () => ['em', ctx.get(emphasisAttr.key)],
   parseMarkdown: {
     match: node => node.type === 'emphasis',
     runner: (state, node, markType) => {

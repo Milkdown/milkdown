@@ -34,7 +34,10 @@ export const useGetEditor = () => {
       .catch(console.error)
 
     return () => {
-      editor.destroy()
+      setLoading(true)
+      editor.destroy().finally(() => {
+        setLoading(false)
+      })
     }
   }, [dom, editorRef, getEditor, setLoading])
 

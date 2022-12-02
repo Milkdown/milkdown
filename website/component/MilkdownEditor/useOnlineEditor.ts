@@ -19,9 +19,12 @@ import { gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
 import { usePluginViewFactory } from '@prosemirror-adapter/react'
 import { refractor } from 'refractor/lib/common'
+import { nordThemeConfig } from '@milkdown/theme-nord'
 import { Block } from './Block'
 import { Slash } from './Slash'
 import { Tooltip } from './Tooltip'
+
+import '@milkdown/theme-nord/lib/style.css'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -53,6 +56,7 @@ export const useOnlineEditorFactory = (
           component: Block,
         }))
       })
+      .config(nordThemeConfig)
       .use(commonmark)
       .use(gfm)
       .use(emoji)

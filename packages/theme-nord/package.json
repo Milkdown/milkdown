@@ -31,7 +31,10 @@
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
-    "@milkdown/prose": "workspace:*"
+    "@milkdown/plugin-emoji": "workspace:^6.5.4",
+    "@milkdown/prose": "workspace:*",
+    "prosemirror-tables": "^1.2.5",
+    "prosemirror-view": "^1.28.0"
   },
   "nx": {
     "targets": {

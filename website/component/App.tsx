@@ -2,6 +2,8 @@
 import { ReactEditorProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import React from 'react'
+import type { FallbackProps } from 'react-error-boundary'
+import { ErrorBoundary } from 'react-error-boundary'
 import { HelmetProvider } from 'react-helmet-async'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -12,6 +14,16 @@ import { Header } from './Header'
 import { Main } from './Route'
 import { Sidebar } from './Sidebar'
 import className from './style.module.css'
+
+const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  )
+}
 
 const Container: React.FC = () => {
   const setDisplaySidebar = React.useContext(setDisplaySidebarCtx)
@@ -46,6 +58,8 @@ const Container: React.FC = () => {
 
 export const App: React.FC = () => (
     <ReactEditorProvider>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+
   <ProsemirrorAdapterProvider>
       <HelmetProvider>
           <BrowserRouter>
@@ -56,5 +70,6 @@ export const App: React.FC = () => (
           </BrowserRouter>
       </HelmetProvider>
   </ProsemirrorAdapterProvider>
+      </ErrorBoundary>
     </ReactEditorProvider>
 )
