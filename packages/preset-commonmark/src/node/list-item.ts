@@ -2,9 +2,11 @@
 import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { liftListItem, sinkListItem, splitListItem } from '@milkdown/prose/schema-list'
-import { $command, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $attr, $command, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const listItemSchema = $nodeSchema('list_item', () => ({
+export const listItemAttr = $attr('listItem', {})
+
+export const listItemSchema = $nodeSchema('list_item', ctx => ({
   group: 'listItem',
   content: 'paragraph block*',
   attrs: {
@@ -37,6 +39,7 @@ export const listItemSchema = $nodeSchema('list_item', () => ({
   toDOM: node => [
     'li',
     {
+      ...ctx.get(listItemAttr.key),
       'data-label': node.attrs.label,
       'data-list-type': node.attrs.listType,
       'data-spread': node.attrs.spread,

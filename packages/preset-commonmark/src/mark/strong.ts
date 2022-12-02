@@ -1,16 +1,17 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { toggleMark } from '@milkdown/prose/commands'
-import { $command, $markSchema, $useKeymap } from '@milkdown/utils'
+import { $attr, $command, $markSchema, $useKeymap } from '@milkdown/utils'
 
-export const strongSchema = $markSchema('strong', () => ({
+export const strongAttr = $attr('strong', {})
+export const strongSchema = $markSchema('strong', ctx => ({
   inclusive: false,
   parseDOM: [
     { tag: 'b' },
     { tag: 'strong' },
     { style: 'font-style', getAttrs: value => (value === 'bold') as false },
   ],
-  toDOM: () => ['strong'],
+  toDOM: () => ['strong', ctx.get(strongAttr.key)],
   parseMarkdown: {
     match: node => node.type === 'strong',
     runner: (state, node, markType) => {

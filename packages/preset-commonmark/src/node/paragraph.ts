@@ -3,13 +3,14 @@ import { commandsCtx } from '@milkdown/core'
 import { setBlockType } from '@milkdown/prose/commands'
 import type { Node } from '@milkdown/prose/model'
 import { Fragment } from '@milkdown/prose/model'
-import { $command, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $attr, $command, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const paragraphSchema = $nodeSchema('paragraph', () => ({
+export const paragraphAttr = $attr('paragraph', {})
+export const paragraphSchema = $nodeSchema('paragraph', ctx => ({
   content: 'inline*',
   group: 'block',
   parseDOM: [{ tag: 'p' }],
-  toDOM: () => ['p', 0],
+  toDOM: () => ['p', ctx.get(paragraphAttr.key), 0],
   parseMarkdown: {
     match: node => node.type === 'paragraph',
     runner: (state, node, type) => {

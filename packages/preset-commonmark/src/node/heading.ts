@@ -5,7 +5,7 @@ import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
 import type { Node } from '@milkdown/prose/model'
 import { Fragment } from '@milkdown/prose/model'
-import { $command, $ctx, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $attr, $command, $ctx, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import { paragraphSchema } from './paragraph'
 
 const headingIndex = Array(6)
@@ -20,6 +20,8 @@ const defaultHeadingIdGenerator = (node: Node) =>
     .trim()
 
 export const headingIdGenerator = $ctx(defaultHeadingIdGenerator, 'headingIdGenerator')
+
+export const headingAttr = $attr('heading', {})
 
 export const headingSchema = $nodeSchema('heading', (ctx) => {
   const getId = ctx.get(headingIdGenerator.key)
@@ -48,6 +50,7 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
       return [
         `h${node.attrs.level}`,
         {
+          ...ctx.get(headingAttr.key),
           id: node.attrs.id || getId(node),
         },
         0,

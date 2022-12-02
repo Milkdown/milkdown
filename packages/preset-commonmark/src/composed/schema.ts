@@ -1,29 +1,54 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import type { MilkdownPlugin } from '@milkdown/core'
-import { emphasisSchema, inlineCodeSchema, linkSchema, strongSchema } from '../mark'
-import { blockquoteSchema, bulletListSchema, codeBlockSchema, docSchema, hardbreakSchema, headingIdGenerator, headingSchema, hrSchema, imageSchema, listItemSchema, orderedListSchema, paragraphSchema, textSchema } from '../node'
+import { emphasisAttr, emphasisSchema, inlineCodeAttr, inlineCodeSchema, linkAttr, linkSchema, strongAttr, strongSchema } from '../mark'
+import { blockquoteAttr, blockquoteSchema, bulletListAttr, bulletListSchema, codeBlockAttr, codeBlockSchema, docSchema, hardbreakAttr, hardbreakSchema, headingAttr, headingIdGenerator, headingSchema, hrAttr, hrSchema, imageAttr, imageSchema, listItemAttr, listItemSchema, orderedListAttr, orderedListSchema, paragraphAttr, paragraphSchema, textSchema } from '../node'
 
 export const schema: MilkdownPlugin[] = [
   docSchema,
 
+  paragraphAttr,
   paragraphSchema,
+
   headingIdGenerator,
+  headingAttr,
   headingSchema,
 
+  hardbreakAttr,
   hardbreakSchema,
+
+  blockquoteAttr,
   blockquoteSchema,
+
+  codeBlockAttr,
   codeBlockSchema,
+
+  hrAttr,
   hrSchema,
+
+  imageAttr,
   imageSchema,
 
+  bulletListAttr,
   bulletListSchema,
-  orderedListSchema,
-  listItemSchema,
-  textSchema,
 
+  orderedListAttr,
+  orderedListSchema,
+
+  listItemAttr,
+  listItemSchema,
+
+  emphasisAttr,
   emphasisSchema,
+
+  strongAttr,
   strongSchema,
+
+  inlineCodeAttr,
   inlineCodeSchema,
+
+  linkAttr,
   linkSchema,
+
+  textSchema,
 ].flat()

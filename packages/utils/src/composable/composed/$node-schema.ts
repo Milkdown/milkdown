@@ -6,21 +6,21 @@ import { $ctx } from '../$ctx'
 import type { $Node } from '../$node'
 import { $node } from '../$node'
 
-type GetSchema = (ctx: Ctx) => NodeSchema
+export type GetSchema = (ctx: Ctx) => NodeSchema
 
-export type $NodeSchema = [
-  schemaCtx: $Ctx<GetSchema, string>,
+export type $NodeSchema<T extends string> = [
+  schemaCtx: $Ctx<GetSchema, T>,
   schema: $Node,
 ] & {
   id: $Node['id']
   type: $Node['type']
   node: $Node
   schema: NodeSchema
-  key: $Ctx<GetSchema, string>['key']
+  key: $Ctx<GetSchema, T>['key']
   extendSchema: (handler: (prev: GetSchema) => GetSchema) => MilkdownPlugin
 }
 
-export const $nodeSchema = (id: string, schema: GetSchema): $NodeSchema => {
+export const $nodeSchema = <T extends string>(id: T, schema: GetSchema): $NodeSchema<T> => {
   const schemaCtx = $ctx(schema, id)
 
   const nodeSchema = $node(id, (ctx) => {
@@ -28,7 +28,7 @@ export const $nodeSchema = (id: string, schema: GetSchema): $NodeSchema => {
     return userSchema(ctx)
   })
 
-  const result = [schemaCtx, nodeSchema] as $NodeSchema
+  const result = [schemaCtx, nodeSchema] as $NodeSchema<T>
   result.id = nodeSchema.id
   result.node = nodeSchema
   result.type = nodeSchema.type
