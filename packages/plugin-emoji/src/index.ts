@@ -52,7 +52,7 @@ export const emojiSchema = $nodeSchema('emoji', ctx => ({
     if (dom && dom instanceof HTMLElement)
       Object.entries<string>(attrs.img).forEach(([key, value]) => dom.setAttribute(key, value))
 
-    return ['span', { 'data-type': 'emoji', ...attrs.container }, dom]
+    return ['span', { ...attrs.container, 'data-type': 'emoji' }, dom]
   },
   parseMarkdown: {
     match: ({ type }) => type === 'emoji',
