@@ -13,18 +13,23 @@ type EditorOptions = Omit<DirectEditorProps, 'state'>
 type RootType = Node | undefined | null | string
 
 export const editorViewCtx = createSlice({} as EditorView, 'editorView')
+export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer')
+export const EditorViewReady = createTimer('EditorViewReady')
+
 export const editorViewOptionsCtx = createSlice({} as Partial<EditorOptions>, 'editorViewOptions')
 export const rootCtx = createSlice(null as RootType, 'root')
-export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer')
-export const rootDOMCtx = createSlice(null as unknown as HTMLElement, 'rootDOM')
 
-export const EditorViewReady = createTimer('EditorViewReady')
+export const rootDOMCtx = createSlice(null as unknown as HTMLElement, 'rootDOM')
+export const rootAttrsCtx = createSlice({} as Record<string, string>, 'rootAttrs')
 
 const createViewContainer = (root: Node, ctx: Ctx) => {
   const container = document.createElement('div')
   container.className = 'milkdown'
   root.appendChild(container)
   ctx.set(rootDOMCtx, container)
+
+  const attrs = ctx.get(rootAttrsCtx)
+  Object.entries(attrs).forEach(([key, value]) => container.setAttribute(key, value))
 
   return container
 }
@@ -41,6 +46,7 @@ export const editorView: MilkdownPlugin = (pre) => {
     .inject(editorViewCtx)
     .inject(editorViewOptionsCtx)
     .inject(rootDOMCtx)
+    .inject(rootAttrsCtx)
     .inject(editorViewTimerCtx, [EditorStateReady])
     .record(EditorViewReady)
 
@@ -99,6 +105,7 @@ export const editorView: MilkdownPlugin = (pre) => {
         .remove(editorViewCtx)
         .remove(editorViewOptionsCtx)
         .remove(rootDOMCtx)
+        .remove(rootAttrsCtx)
         .remove(editorViewTimerCtx)
         .clearTimer(EditorViewReady)
     }

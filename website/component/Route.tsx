@@ -18,15 +18,15 @@ const DocRenderer = lazy(() =>
 const Demo = lazy(() => import('./Demo/Demo').then(module => ({ default: module.Demo })))
 
 const Loading: FC<{ children: ReactNode }> = ({ children }) => (
-    <Suspense
-        fallback={
-            <div className={className.loading}>
-                <Loader color={'rgba(var(--primary), 1)'} loading size={150} />
-            </div>
-        }
-    >
-        {children}
-    </Suspense>
+  <Suspense
+    fallback={
+      <div className={className.loading}>
+        <Loader color={'rgba(var(--primary), 1)'} loading size={150} />
+      </div>
+    }
+  >
+    {children}
+  </Suspense>
 )
 
 const useScroll = () => {
@@ -72,45 +72,45 @@ export const Main: FC = () => {
   }, [location.pathname, pages])
 
   return (
-        <div className={classes}>
-            <Helmet>
-                <html lang={local} />
-                <title>{title}</title>
-            </Helmet>
-            <div className={className.content}>
-                <Routes>
-                    {pages.map((page, i) => (
-                        <Route
-                            key={i.toString()}
-                            path={page.link}
-                            element={
-                                <Loading>
-                                    <DocRenderer content={page.content} />
-                                </Loading>
-                            }
-                        />
-                    ))}
+    <div className={classes}>
+      <Helmet>
+        <html lang={local} />
+        <title>{title}</title>
+      </Helmet>
+      <div className={className.content}>
+        <Routes>
+          {pages.map((page, i) => (
+            <Route
+              key={i.toString()}
+              path={page.link}
+              element={
+                <Loading>
+                  <DocRenderer content={page.content} />
+                </Loading>
+              }
+            />
+          ))}
 
-                    <Route
-                        path={`/${[root, 'online-demo'].filter(x => x).join('/')}`}
-                        element={
-                            <Loading>
-                                <Demo mode={editorMode} isDarkMode={isDarkMode} />
-                            </Loading>
-                        }
-                    />
+          <Route
+            path={`/${[root, 'online-demo'].filter(x => x).join('/')}`}
+            element={
+              <Loading>
+                <Demo mode={editorMode} isDarkMode={isDarkMode} />
+              </Loading>
+            }
+          />
 
-                    <Route
-                        path={`/${root}`}
-                        element={
-                            <Loading>
-                                <Home />
-                            </Loading>
-                        }
-                    />
-                </Routes>
-            </div>
-            <Footer />
-        </div>
+          <Route
+            path={`/${root}`}
+            element={
+              <Loading>
+                <Home />
+              </Loading>
+            }
+          />
+        </Routes>
+      </div>
+      <Footer />
+    </div>
   )
 }

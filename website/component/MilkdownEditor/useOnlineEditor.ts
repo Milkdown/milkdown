@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import { $view } from '@milkdown/utils'
 import { block, blockView } from '@milkdown/plugin-block'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { cursor } from '@milkdown/plugin-cursor'
@@ -14,10 +15,10 @@ import { slash } from '@milkdown/plugin-slash'
 import { tooltip } from '@milkdown/plugin-tooltip'
 import { trailing } from '@milkdown/plugin-trailing'
 import { upload } from '@milkdown/plugin-upload'
-import { commonmark } from '@milkdown/preset-commonmark'
+import { commonmark, listItemSchema } from '@milkdown/preset-commonmark'
 import { gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
-import { usePluginViewFactory } from '@prosemirror-adapter/react'
+import { useNodeViewFactory, usePluginViewFactory } from '@prosemirror-adapter/react'
 import { refractor } from 'refractor/lib/common'
 import { nordThemeConfig } from '@milkdown/theme-nord'
 import { Block } from './Block'
@@ -25,6 +26,7 @@ import { Slash } from './Slash'
 import { Tooltip } from './Tooltip'
 
 import '@milkdown/theme-nord/lib/style.css'
+import { ListItem } from './ListItem'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -32,6 +34,7 @@ export const useOnlineEditorFactory = (
   onChange?: (markdown: string) => void,
 ) => {
   const pluginViewFactory = usePluginViewFactory()
+  const nodeViewFactory = useNodeViewFactory()
 
   const editorInfo = useEditor((root) => {
     const editor = Editor.make()
@@ -73,6 +76,7 @@ export const useOnlineEditorFactory = (
       .use(slash)
       .use(block)
       .use(diagram)
+      .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
 
     return editor
   }, [readOnly, defaultValue, onChange, pluginViewFactory])
