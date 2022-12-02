@@ -2,7 +2,7 @@
 import type { MilkdownPlugin, RemarkPlugin } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { InputRule } from '@milkdown/prose/inputrules'
-import { $attr, $ctx, $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
+import { $ctx, $inputRule, $nodeAttr, $nodeSchema, $remark } from '@milkdown/utils'
 import nodeEmoji from 'node-emoji'
 import remarkEmoji from 'remark-emoji'
 import type Twemoji from 'twemoji'
@@ -18,10 +18,10 @@ export interface EmojiConfig {
 
 export const emojiConfig = $ctx<EmojiConfig, 'emojiConfig'>({}, 'emojiConfig')
 
-export const emojiAttr = $attr('emoji', {
+export const emojiAttr = $nodeAttr('emoji', () => ({
   span: {},
   img: {},
-})
+}))
 
 export const emojiSchema = $nodeSchema('emoji', ctx => ({
   group: 'inline',
@@ -44,7 +44,7 @@ export const emojiSchema = $nodeSchema('emoji', ctx => ({
     },
   ],
   toDOM: (node) => {
-    const attrs = ctx.get(emojiAttr.key)
+    const attrs = ctx.get(emojiAttr.key)(node)
     const tmp = document.createElement('span')
     tmp.innerHTML = node.attrs.html
     const dom = tmp.firstElementChild?.cloneNode()
