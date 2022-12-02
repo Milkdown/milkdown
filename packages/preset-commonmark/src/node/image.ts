@@ -2,9 +2,9 @@
 import { expectDomTypeError } from '@milkdown/exception'
 import { findSelectedNodeOfType } from '@milkdown/prose'
 import { InputRule } from '@milkdown/prose/inputrules'
-import { $attr, $command, $inputRule, $nodeSchema } from '@milkdown/utils'
+import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
 
-export const imageAttr = $attr('image', {})
+export const imageAttr = $nodeAttr('image')
 
 export const imageSchema = $nodeSchema('image', (ctx) => {
   return {
@@ -37,7 +37,7 @@ export const imageSchema = $nodeSchema('image', (ctx) => {
       },
     ],
     toDOM: (node) => {
-      return ['img', { ...ctx.get(imageAttr.key), ...node.attrs }]
+      return ['img', { ...ctx.get(imageAttr.key)(node), ...node.attrs }]
     },
     parseMarkdown: {
       match: ({ type }) => type === 'image',

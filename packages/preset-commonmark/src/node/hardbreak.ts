@@ -1,16 +1,16 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { Selection } from '@milkdown/prose/state'
-import { $attr, $command, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const hardbreakAttr = $attr('hardbreak', {})
+export const hardbreakAttr = $nodeAttr('hardbreak')
 
 export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
   inline: true,
   group: 'inline',
   selectable: false,
   parseDOM: [{ tag: 'br' }],
-  toDOM: () => ['br', ctx.get(hardbreakAttr.key)],
+  toDOM: node => ['br', ctx.get(hardbreakAttr.key)(node)],
   parseMarkdown: {
     match: ({ type }) => type === 'break',
     runner: (state, _, type) => {

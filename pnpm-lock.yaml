@@ -637,13 +637,15 @@ importers:
   packages/theme-nord:
     specifiers:
       '@milkdown/core': workspace:*
-      '@milkdown/plugin-emoji': workspace:^6.5.4
+      '@milkdown/plugin-emoji': workspace:*
+      '@milkdown/preset-commonmark': workspace:*
       '@milkdown/prose': workspace:*
       prosemirror-tables: ^1.2.5
       prosemirror-view: ^1.28.0
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/plugin-emoji': link:../plugin-emoji
+      '@milkdown/preset-commonmark': link:../preset-commonmark
       '@milkdown/prose': link:../prose
       prosemirror-tables: 1.2.5
       prosemirror-view: 1.28.0

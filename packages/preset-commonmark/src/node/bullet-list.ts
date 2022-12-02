@@ -3,9 +3,9 @@ import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
-import { $attr, $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const bulletListAttr = $attr('bulletList', {})
+export const bulletListAttr = $nodeAttr('bulletList')
 export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
   return {
     content: 'listItem+',
@@ -32,7 +32,7 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
       return [
         'ul',
         {
-          ...ctx.get(bulletListAttr.key),
+          ...ctx.get(bulletListAttr.key)(node),
           'data-spread': node.attrs.spread,
         },
         0,

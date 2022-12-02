@@ -2,13 +2,13 @@
 import { schemaCtx } from '@milkdown/core'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { Selection } from '@milkdown/prose/state'
-import { $attr, $command, $inputRule, $nodeSchema } from '@milkdown/utils'
+import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
 
-export const hrAttr = $attr('hr', {})
+export const hrAttr = $nodeAttr('hr')
 export const hrSchema = $nodeSchema('hr', ctx => ({
   group: 'block',
   parseDOM: [{ tag: 'hr' }],
-  toDOM: () => ['hr', ctx.get(hrAttr.key)],
+  toDOM: node => ['hr', ctx.get(hrAttr.key)(node)],
   parseMarkdown: {
     match: ({ type }) => type === 'thematicBreak',
     runner: (state, _, type) => {

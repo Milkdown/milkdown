@@ -3,16 +3,16 @@ import { commandsCtx } from '@milkdown/core'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
 import type { $NodeSchema } from '@milkdown/utils'
-import { $attr, $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const blockquoteAttr = $attr('blockquote', {})
+export const blockquoteAttr = $nodeAttr('blockquote')
 
 export const blockquoteSchema: $NodeSchema<'blockquote'> = $nodeSchema('blockquote', ctx => ({
   content: 'block+',
   group: 'block',
   defining: true,
   parseDOM: [{ tag: 'blockquote' }],
-  toDOM: () => ['blockquote', ctx.get(blockquoteAttr.key), 0],
+  toDOM: node => ['blockquote', ctx.get(blockquoteAttr.key)(node), 0],
   parseMarkdown: {
     match: ({ type }) => type === 'blockquote',
     runner: (state, node, type) => {

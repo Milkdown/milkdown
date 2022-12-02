@@ -3,9 +3,9 @@ import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
-import { $attr, $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const orderedListAttr = $attr('orderedList', {})
+export const orderedListAttr = $nodeAttr('orderedList')
 
 export const orderedListSchema = $nodeSchema('ordered_list', ctx => ({
   content: 'listItem+',
@@ -35,7 +35,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', ctx => ({
   toDOM: node => [
     'ol',
     {
-      ...ctx.get(orderedListAttr.key),
+      ...ctx.get(orderedListAttr.key)(node),
       ...(node.attrs.order === 1 ? {} : node.attrs.order),
       'data-spread': node.attrs.spread,
     },

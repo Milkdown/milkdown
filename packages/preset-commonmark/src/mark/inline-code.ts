@@ -1,15 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import type { MarkType } from '@milkdown/prose/model'
-import { $attr, $command, $markSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 
-export const inlineCodeAttr = $attr('inlineCode', {})
+export const inlineCodeAttr = $markAttr('inlineCode')
 export const inlineCodeSchema = $markSchema('inlineCode', ctx => ({
   priority: 100,
   code: true,
   inclusive: false,
   parseDOM: [{ tag: 'code' }],
-  toDOM: () => ['code', ctx.get(inlineCodeAttr.key)],
+  toDOM: mark => ['code', ctx.get(inlineCodeAttr.key)(mark)],
   parseMarkdown: {
     match: node => node.type === 'inlineCode',
     runner: (state, node, markType) => {
