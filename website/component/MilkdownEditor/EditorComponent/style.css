@@ -1,12 +1,32 @@
+.ProseMirror-selectednode {
+  outline: none;
+  @apply ring-2 ring-offset-1;
+}
+
 table {
   @apply !m-0;
 }
 
-ul, ol {
-  @apply !p-0 ml-4;
+.tableWrapper {
+  @apply mb-2 overflow-x-auto relative shadow-md sm:rounded-lg;
 }
 
-.ProseMirror-selectednode {
-  outline: none;
-  @apply ring-2 ring-offset-1;
+table {
+  @apply w-full text-sm;
+}
+
+td, th {
+  @apply !py-3 !px-6;
+}
+
+tr {
+  @apply border-b border-gray-200;
+}
+
+:where(td, th) p {
+  @apply !m-0;
+}
+
+:where(td, th):nth-child(odd) {
+  @apply bg-gray-50;
 }

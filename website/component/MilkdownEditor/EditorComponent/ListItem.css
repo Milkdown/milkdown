@@ -9,3 +9,7 @@ li p + p {
 li::after {
   all: unset !important;
 }
+
+ul, ol {
+  @apply !p-0 ml-4;
+}
