@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
-import { $view } from '@milkdown/utils'
 import { block, blockView } from '@milkdown/plugin-block'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { cursor } from '@milkdown/plugin-cursor'
@@ -18,14 +17,16 @@ import { upload } from '@milkdown/plugin-upload'
 import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
 import { gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
-import { useNodeViewFactory, usePluginViewFactory } from '@prosemirror-adapter/react'
+import { $view } from '@milkdown/utils'
+import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { refractor } from 'refractor/lib/common'
-import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
 import { Block } from './EditorComponent/Block'
+import { CodeBlock } from './EditorComponent/CodeBlock'
+import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
+import { linkPlugin } from './EditorComponent/LinkWidget'
+import { ListItem } from './EditorComponent/ListItem'
 import { Slash } from './EditorComponent/Slash'
 import { Tooltip } from './EditorComponent/Tooltip'
-import { ListItem } from './EditorComponent/ListItem'
-import { CodeBlock } from './EditorComponent/CodeBlock'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -34,6 +35,7 @@ export const useOnlineEditorFactory = (
 ) => {
   const pluginViewFactory = usePluginViewFactory()
   const nodeViewFactory = useNodeViewFactory()
+  const widgetViewFactory = useWidgetViewFactory()
 
   const editorInfo = useEditor((root) => {
     const editor = Editor.make()
@@ -78,6 +80,7 @@ export const useOnlineEditorFactory = (
       .use(nordPlugins)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
+      .use(linkPlugin(widgetViewFactory))
 
     return editor
   }, [readOnly, defaultValue, onChange, pluginViewFactory])

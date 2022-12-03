@@ -43,9 +43,25 @@
     "source.fixAll.eslint": true
   },
   "search.exclude": {
+    "**/.git": true,
+    "**/.github": true,
+    "**/.nuxt": true,
+    "**/.output": true,
+    "**/.pnpm": true,
+    "**/.vscode": true,
+    "**/.yarn": true,
+    "**/dist/**": true,
+    "**/logs": true,
+    "**/out/**": true,
+    "**/package-lock.json": true,
+    "**/pnpm-lock.yaml": true,
+    "**/tmp": true,
+    "**/yarn.lock": true,
     "**/node_modules": true,
+    "**/docs": true,
     "**/bower_components": true,
     "**/*.code-search": true,
+    "**/*.idea": true,
     "**/lib": true
   }
 }
