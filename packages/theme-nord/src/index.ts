@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx } from '@milkdown/core'
+import type { Ctx, MilkdownPlugin } from '@milkdown/core'
 import { editorViewOptionsCtx } from '@milkdown/core'
 import { emojiAttr } from '@milkdown/plugin-emoji'
-import { blockquoteAttr, imageAttr } from '@milkdown/preset-commonmark'
+import { blockquoteAttr, imageAttr, inlineCodeAttr, inlineCodeSchema } from '@milkdown/preset-commonmark'
 import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-view/style/prosemirror.css'
 import './style.css'
@@ -42,3 +42,14 @@ export const nordThemeConfig = (ctx: Ctx) => {
     }
   })
 }
+
+const extendedInlineCode = inlineCodeSchema.extendSchema((prev) => {
+  return (ctx) => {
+    return {
+      ...prev(ctx),
+      toDOM: mark => ['span', { class: 'not-prose' }, ['code', ctx.get(inlineCodeAttr.key)(mark), 0]],
+    }
+  }
+})
+
+export const nordPlugins: MilkdownPlugin[] = [extendedInlineCode]

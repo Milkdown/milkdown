@@ -11,9 +11,11 @@ module.exports = {
     },
   },
   ignorePatterns: [
+    '.idea',
     'lib',
     'snapshots.js',
     'docs',
+    'CHANGELOG.md',
   ],
   rules: {
     'yml/no-empty-mapping-value': 'off',

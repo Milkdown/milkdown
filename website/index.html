@@ -20,6 +20,8 @@
         <link rel="apple-touch-icon" href="/milkdown.png" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+        <link rel="stylesheet" href="https://unpkg.com/prism-themes/themes/prism-nord.css" />
+
         <!--Roboto & Material icon-->
         <link
             rel="stylesheet"
@@ -43,13 +45,13 @@
         <!--Google Analyze-->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-SG0L28XT8S"></script>
         <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
+            window.dataLayer = window.dataLayer || []
+            function gtag(...args) {
+              window.dataLayer.push(args)
             }
-            gtag('js', new Date());
+            gtag('js', new Date())
 
-            gtag('config', 'G-SG0L28XT8S');
+gtag('config', 'G-SG0L28XT8S')
         </script>
     </head>
     <body>

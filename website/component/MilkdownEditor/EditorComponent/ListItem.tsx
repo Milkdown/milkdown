@@ -10,7 +10,7 @@ export const ListItem: FC = () => {
   const checked = attrs?.checked
   const isBullet = attrs?.listType === 'bullet'
   return (
-    <li className={['flex flex-column items-start gap-2', selected ? 'ring-2 ring-offset-1' : ''].join(' ')}>
+    <li className={['flex flex-column items-start gap-2', selected ? 'ProseMirror-selectednode' : ''].join(' ')}>
       <span className="h-6 flex items-center">
       {
         checked != null
