@@ -38,7 +38,7 @@ export class BlockService {
     const view = this.#view
 
     if (view && NodeSelection.isSelectable(result.node)) {
-      const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - 1)
+      const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - (result.node.isLeaf ? 0 : 1))
       view.dispatch(view.state.tr.setSelection(nodeSelection))
       view.focus()
       this.#activeSelection = nodeSelection

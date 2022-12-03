@@ -32,11 +32,14 @@ export const selectRootNodeByDom = (dom: Element, view: EditorView, filterNodes:
     throw missingRootElement()
 
   const pos = view.posAtDOM(dom, 0)
-  if (pos < 0)
+  if (pos <= 0)
     return null
 
   let $pos = view.state.doc.resolve(pos)
   let node = $pos.node()
+
+  if (node.type.name === 'doc')
+    return null
 
   while (node && (nodeIsNotBlock(node) || nodeIsFirstChild($pos) || !filterNodes(node))) {
     $pos = view.state.doc.resolve($pos.before())
