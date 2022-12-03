@@ -8,7 +8,7 @@ export const CodeBlock: FC = () => {
   const { contentRef, selected, node, setAttrs } = useNodeViewContext()
   return (
     <div className={[selected ? 'ProseMirror-selectednode' : '', 'not-prose rounded my-4 bg-gray-200 p-5 shadow'].join(' ')}>
-      <div contentEditable="false" className="mb-2 flex justify-between">
+      <div contentEditable="false" suppressContentEditableWarning className="mb-2 flex justify-between">
         <select
           className="rounded cursor-pointer !border-0 focus:ring-2 focus:ring-offset-2 !focus:shadow-none shadow-sm"
           value={node.attrs.language || 'text'}

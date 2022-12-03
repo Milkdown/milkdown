@@ -2,7 +2,7 @@
 import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core'
 import { getNodeFromSchema } from '@milkdown/prose'
 import type { Node } from '@milkdown/prose/model'
-import { DOMParser, Slice } from '@milkdown/prose/model'
+import { DOMParser, DOMSerializer } from '@milkdown/prose/model'
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
@@ -36,9 +36,8 @@ export const clipboard = $prose((ctx) => {
   const plugin = new Plugin({
     key,
     props: {
-      handlePaste: (view, event, originalSlice) => {
+      handlePaste: (view, event) => {
         const parser = ctx.get(parserCtx)
-        const serializer = ctx.get(serializerCtx)
         const editable = view.props.editable?.(view.state)
         const { clipboardData } = event
         if (!editable || !clipboardData)
@@ -48,7 +47,7 @@ export const clipboard = $prose((ctx) => {
         if (currentNode.type.spec.code)
           return false
 
-        let text = clipboardData.getData('text/plain')
+        const text = clipboardData.getData('text/plain')
 
         // if is copied from vscode, try to create a code block
         const vscodeData = clipboardData.getData('vscode-editor-data')
@@ -74,23 +73,23 @@ export const clipboard = $prose((ctx) => {
         if (html.length === 0 && text.length === 0)
           return false
 
-        if (html.length > 0 || text.length === 0) {
-          const dom = document.createElement('template')
-          dom.innerHTML = html
-          const node = DOMParser.fromSchema(schema).parse(dom.content)
-          dom.remove()
-          text = serializer(node)
+        const domParser = DOMParser.fromSchema(schema)
+        let dom
+        if (html.length === 0) {
+          const slice = parser(text)
+          if (!slice || typeof slice === 'string')
+            return false
+
+          dom = DOMSerializer.fromSchema(schema).serializeFragment(slice.content)
+        }
+        else {
+          const template = document.createElement('template')
+          template.innerHTML = html
+          dom = template.content.cloneNode(true)
+          template.remove()
         }
 
-        const slice = parser(text)
-        if (!slice || typeof slice === 'string')
-          return false
-
-        view.dispatch(
-          view.state.tr.replaceSelection(
-            new Slice(slice.content, originalSlice.openStart, originalSlice.openEnd),
-          ),
-        )
+        view.dispatch(view.state.tr.replaceSelection(domParser.parseSlice(dom)))
 
         return true
       },

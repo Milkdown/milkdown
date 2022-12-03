@@ -26,7 +26,6 @@ export const emojiAttr = $nodeAttr('emoji', () => ({
 export const emojiSchema = $nodeSchema('emoji', ctx => ({
   group: 'inline',
   inline: true,
-  atom: true,
   attrs: {
     html: {
       default: '',
