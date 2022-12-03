@@ -135,7 +135,7 @@ const createTable = (rowsCount = 3, colsCount = 3) => {
 
   const headerCells = Array(colsCount)
     .fill(0)
-    .map(() => tableCellSchema.type().createAndFill()!)
+    .map(() => tableHeaderSchema.type().createAndFill()!)
 
   const rows = Array(rowsCount)
     .fill(0)
