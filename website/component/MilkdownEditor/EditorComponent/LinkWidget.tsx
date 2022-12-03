@@ -27,7 +27,8 @@ export const LinkWidgetAfter: FC = () => {
         <>
           <small className="text-blue-400 font-light">link: </small>
           <input
-            placeholder="link"
+            size={href.length}
+            placeholder="empty"
             onBlur={(e) => {
               if (loading)
                 return
@@ -36,7 +37,7 @@ export const LinkWidgetAfter: FC = () => {
                 commands.call(updateLinkCommand.key, { href: e.target.value })
               })
             }}
-           className="form-input p-0 border-none"
+           className="py-0 px-2 border-none rounded ring-1"
            type="text"
            defaultValue={href}
           />
@@ -44,7 +45,8 @@ export const LinkWidgetAfter: FC = () => {
           <small className="text-blue-400 font-light">title: </small>
           &quot;
           <input
-            placeholder="title"
+            size={title.length || 5}
+            placeholder="empty"
             onBlur={(e) => {
               if (loading)
                 return
@@ -53,7 +55,7 @@ export const LinkWidgetAfter: FC = () => {
                 commands.call(updateLinkCommand.key, { title: e.target.value })
               })
             }}
-            className="form-input p-0 border-none !w-8"
+            className="py-0 px-2 border-none rounded ring-1"
             type="text"
             defaultValue={title}
           />
@@ -89,15 +91,14 @@ export const linkPlugin = (
 
         let markPos = { start: -1, end: -1 }
         tr.doc.nodesBetween($from.start(), $to.end(), (n, pos) => {
-          // stop recursing if result is found
-          if (markPos.start > -1)
-            return false
-
           if (node === n) {
             markPos = {
               start: pos,
               end: pos + Math.max(n.textContent.length, 1),
             }
+
+            // stop recursing if result is found
+            return false
           }
           return undefined
         })

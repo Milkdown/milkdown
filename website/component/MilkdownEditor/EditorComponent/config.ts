@@ -31,7 +31,7 @@ export const nordThemeConfig = (ctx: Ctx) => {
   }))
 
   ctx.set(inlineCodeAttr.key, () => ({
-    class: 'font-mono text-blue-400 text-sm',
+    class: 'font-mono text-blue-400',
   }))
 }
 
