@@ -20,13 +20,11 @@ import { gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
 import { useNodeViewFactory, usePluginViewFactory } from '@prosemirror-adapter/react'
 import { refractor } from 'refractor/lib/common'
-import { nordThemeConfig } from '@milkdown/theme-nord'
-import { Block } from './Block'
-import { Slash } from './Slash'
-import { Tooltip } from './Tooltip'
-
-import '@milkdown/theme-nord/lib/style.css'
-import { ListItem } from './ListItem'
+import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
+import { Block } from './EditorComponent/Block'
+import { Slash } from './EditorComponent/Slash'
+import { Tooltip } from './EditorComponent/Tooltip'
+import { ListItem } from './EditorComponent/ListItem'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -76,6 +74,7 @@ export const useOnlineEditorFactory = (
       .use(slash)
       .use(block)
       .use(diagram)
+      .use(nordPlugins)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
 
     return editor

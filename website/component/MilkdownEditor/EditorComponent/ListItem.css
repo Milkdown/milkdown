@@ -5,3 +5,7 @@ li p {
 li p + p {
   @apply !mt-2;
 }
+
+li::after {
+  all: unset !important;
+}

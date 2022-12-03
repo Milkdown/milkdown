@@ -10,9 +10,9 @@ import { BrowserRouter } from 'react-router-dom'
 import type { Local } from '../route'
 import { i18nConfig } from '../route'
 import { Context, displaySidebarCtx, setDisplaySidebarCtx, setLocalCtx } from './Context'
-import { Header } from './Header'
+// import { Header } from './Header'
 import { Main } from './Route'
-import { Sidebar } from './Sidebar'
+// import { Sidebar } from './Sidebar'
 import className from './style.module.css'
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
@@ -27,7 +27,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) =
 
 const Container: React.FC = () => {
   const setDisplaySidebar = React.useContext(setDisplaySidebarCtx)
-  const displaySidebar = React.useContext(displaySidebarCtx)
+  // const displaySidebar = React.useContext(displaySidebarCtx)
   const setLocal = React.useContext(setLocalCtx)
 
   React.useEffect(() => {

@@ -755,7 +755,6 @@ importers:
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/react': workspace:*
-      '@milkdown/theme-nord': workspace:*
       '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
       '@prosemirror-adapter/react': ^0.2.0
@@ -776,6 +775,8 @@ importers:
       postcss-mixins: ^9.0.0
       postcss-nested: ^6.0.0
       prism-themes: ^1.7.0
+      prosemirror-tables: ^1.2.5
+      prosemirror-view: ^1.28.0
       react: ^18.0.0
       react-dom: ^18.0.0
       react-error-boundary: ^3.1.4
@@ -820,7 +821,6 @@ importers:
       '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/prose': link:../packages/prose
       '@milkdown/react': link:../packages/react
-      '@milkdown/theme-nord': link:../packages/theme-nord
       '@milkdown/transformer': link:../packages/transformer
       '@milkdown/utils': link:../packages/utils
       '@prosemirror-adapter/react': 0.2.0_biqbaboplfbrettd7655fr4n2y
@@ -851,6 +851,8 @@ importers:
       postcss-import: 15.0.0_postcss@8.4.14
       postcss-mixins: 9.0.3_postcss@8.4.14
       postcss-nested: 6.0.0_postcss@8.4.14
+      prosemirror-tables: 1.2.5
+      prosemirror-view: 1.28.0
       refractor: 4.7.0
       sitemap: 7.1.1
       vite-plugin-pwa: 0.13.0
