@@ -15,7 +15,7 @@ import { slash } from '@milkdown/plugin-slash'
 import { tooltip } from '@milkdown/plugin-tooltip'
 import { trailing } from '@milkdown/plugin-trailing'
 import { upload } from '@milkdown/plugin-upload'
-import { commonmark, listItemSchema } from '@milkdown/preset-commonmark'
+import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
 import { gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
 import { useNodeViewFactory, usePluginViewFactory } from '@prosemirror-adapter/react'
@@ -25,6 +25,7 @@ import { Block } from './EditorComponent/Block'
 import { Slash } from './EditorComponent/Slash'
 import { Tooltip } from './EditorComponent/Tooltip'
 import { ListItem } from './EditorComponent/ListItem'
+import { CodeBlock } from './EditorComponent/CodeBlock'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -76,6 +77,7 @@ export const useOnlineEditorFactory = (
       .use(diagram)
       .use(nordPlugins)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
+      .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
 
     return editor
   }, [readOnly, defaultValue, onChange, pluginViewFactory])
