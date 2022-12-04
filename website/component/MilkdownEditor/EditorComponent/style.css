@@ -8,11 +8,11 @@ table {
 }
 
 .tableWrapper {
-  @apply mb-2 overflow-x-auto relative shadow-md sm:rounded-lg;
+  @apply mb-2 overflow-x-auto relative;
 }
 
 table {
-  @apply w-full text-sm;
+  @apply text-sm !overflow-visible !m-4 !w-[calc(100%-2rem)] shadow-md sm:rounded-lg;
 }
 
 td, th {

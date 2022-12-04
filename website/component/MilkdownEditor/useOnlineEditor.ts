@@ -26,6 +26,7 @@ import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
 import { linkPlugin } from './EditorComponent/LinkWidget'
 import { ListItem } from './EditorComponent/ListItem'
 import { Slash } from './EditorComponent/Slash'
+import { tableSelectorPlugin } from './EditorComponent/TableWdiget'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -80,6 +81,7 @@ export const useOnlineEditorFactory = (
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
       .use(linkPlugin(widgetViewFactory))
+      .use(tableSelectorPlugin(widgetViewFactory))
 
     return editor
   }, [readOnly, defaultValue, onChange, pluginViewFactory])

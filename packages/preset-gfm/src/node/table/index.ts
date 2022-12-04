@@ -7,6 +7,7 @@ import type { NodeType } from '@milkdown/prose/model'
 import { Selection, TextSelection } from '@milkdown/prose/state'
 import { goToNextCell, isInTable, tableNodes } from '@milkdown/prose/tables'
 import { $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { createTable } from './utils'
 
 const originalSchema = tableNodes({
   tableGroup: 'block',
@@ -128,22 +129,6 @@ export const tableHeaderSchema = $nodeSchema('table_header', () => ({
   },
 }))
 
-const createTable = (rowsCount = 3, colsCount = 3) => {
-  const cells = Array(colsCount)
-    .fill(0)
-    .map(() => tableCellSchema.type().createAndFill()!)
-
-  const headerCells = Array(colsCount)
-    .fill(0)
-    .map(() => tableHeaderSchema.type().createAndFill()!)
-
-  const rows = Array(rowsCount)
-    .fill(0)
-    .map((_, i) => tableRowSchema.type().create(null, i === 0 ? headerCells : cells))
-
-  return tableSchema.type().create(null, rows)
-}
-
 export const insertTableInputRule = $inputRule(() => new InputRule(
   /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/, (state, match, start, end) => {
     const $start = state.doc.resolve(start)
@@ -213,3 +198,4 @@ export const tableKeymap = $useKeymap('tableKeymap', {
   },
 })
 
+export * from './utils'
