@@ -49,7 +49,6 @@ export class BlockProvider {
       trigger: 'manual',
       placement: 'left-start',
       interactive: true,
-      hideOnClick: 'toggle',
       ...this.#tippyOptions,
       content: this.#element,
     })
@@ -66,6 +65,7 @@ export class BlockProvider {
     this.#service?.unBind()
     this.#service?.removeEvent(this.#element)
     this.#tippy?.destroy()
+    this.#tippy = undefined
   }
 
   show = (active: ActiveNode) => {
