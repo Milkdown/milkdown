@@ -67,9 +67,7 @@ export const LinkWidgetAfter: FC = () => {
   )
 }
 
-export const linkPlugin = (
-  widgetViewFactory: ReturnType<typeof useWidgetViewFactory>,
-) => {
+export const linkPlugin = (widgetViewFactory: ReturnType<typeof useWidgetViewFactory>) => {
   const before = widgetViewFactory({ as: 'span', component: LinkWidgetBefore })
   const after = widgetViewFactory({ as: 'span', component: LinkWidgetAfter })
 
