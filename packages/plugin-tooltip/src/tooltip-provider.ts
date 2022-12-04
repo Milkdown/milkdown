@@ -17,7 +17,7 @@ export type TooltipProviderOptions = {
 export class TooltipProvider {
   #tippy: Instance | undefined
 
-  #element: HTMLElement
+  element: HTMLElement
 
   #tippyOptions: Partial<Props>
 
@@ -26,7 +26,7 @@ export class TooltipProvider {
   #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   constructor(options: TooltipProviderOptions) {
-    this.#element = options.content
+    this.element = options.content
     this.#tippyOptions = options.tippyOptions ?? {}
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
@@ -44,7 +44,7 @@ export class TooltipProvider {
       trigger: 'manual',
       interactive: true,
       ...this.#tippyOptions,
-      content: this.#element,
+      content: this.element,
     })
 
     if (composing || isSame)
@@ -74,7 +74,7 @@ export class TooltipProvider {
 
     const isEmptyTextBlock = !doc.textBetween(from, to).length && view.state.selection instanceof TextSelection
 
-    const isTooltipChildren = this.#element.contains(document.activeElement)
+    const isTooltipChildren = this.element.contains(document.activeElement)
 
     const notHasFocus = !view.hasFocus() && !isTooltipChildren
 

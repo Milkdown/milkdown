@@ -11,7 +11,6 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { math } from '@milkdown/plugin-math'
 import { prism, prismConfig } from '@milkdown/plugin-prism'
 import { slash } from '@milkdown/plugin-slash'
-import { tooltip } from '@milkdown/plugin-tooltip'
 import { trailing } from '@milkdown/plugin-trailing'
 import { upload } from '@milkdown/plugin-upload'
 import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
@@ -23,10 +22,10 @@ import { refractor } from 'refractor/lib/common'
 import { Block } from './EditorComponent/Block'
 import { CodeBlock } from './EditorComponent/CodeBlock'
 import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
+import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
 import { linkPlugin } from './EditorComponent/LinkWidget'
 import { ListItem } from './EditorComponent/ListItem'
 import { Slash } from './EditorComponent/Slash'
-import { Tooltip } from './EditorComponent/Tooltip'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -50,8 +49,8 @@ export const useOnlineEditorFactory = (
           ...prev,
           configureRefractor: () => refractor,
         }))
-        ctx.set(tooltip.key, pluginViewFactory({
-          component: Tooltip,
+        ctx.set(imageTooltip.key, pluginViewFactory({
+          component: ImageTooltip,
         }))
         ctx.set(slash.key, pluginViewFactory({
           component: Slash,
@@ -73,7 +72,7 @@ export const useOnlineEditorFactory = (
       .use(indent)
       .use(upload)
       .use(trailing)
-      .use(tooltip)
+      .use(imageTooltip)
       .use(slash)
       .use(block)
       .use(diagram)
