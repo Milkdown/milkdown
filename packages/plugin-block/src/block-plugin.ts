@@ -47,6 +47,9 @@ export const blockPlugin = $prose((ctx) => {
         dragover: (view, event) => {
           return service.dragoverCallback(view, event)
         },
+        dragleave: () => {
+          return service.dragleaveCallback()
+        },
       },
     },
     view,

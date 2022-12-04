@@ -64,6 +64,17 @@ export class BlockService {
 
   #notify?: BlockServiceMessage
 
+  #hide = () => {
+    this.#notify?.({ type: 'hide' })
+    this.#hovering = false
+    this.#active = null
+  }
+
+  #show = (active: ActiveNode) => {
+    this.#active = active
+    this.#notify?.({ type: 'show', active })
+  }
+
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
     this.#notify = notify
@@ -140,7 +151,7 @@ export class BlockService {
   }
 
   keydownCallback = () => {
-    this.#notify?.({ type: 'hide' })
+    this.#hide()
     return false
   }
 
@@ -156,7 +167,7 @@ export class BlockService {
 
     const dom = event.target
     if (!(dom instanceof Element)) {
-      this.#notify?.({ type: 'hide' })
+      this.#hide()
       return
     }
 
@@ -165,13 +176,12 @@ export class BlockService {
       return
 
     const result = selectRootNodeByDom(dom, view, filterNodes)
-    this.#active = result
 
     if (!result) {
-      this.#notify?.({ type: 'hide' })
+      this.#hide()
       return
     }
-    this.#notify?.({ type: 'show', active: result })
+    this.#show(result)
   }
 
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
@@ -205,6 +215,12 @@ export class BlockService {
       }
     }
     return false
+  }
+
+  dragleaveCallback = () => {
+    this.#active = null
+    this.#dragging = false
+    this.#hovering = false
   }
 
   dropCallback = (view: EditorView, _event: MouseEvent) => {
