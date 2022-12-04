@@ -760,6 +760,7 @@ importers:
       '@prosemirror-adapter/react': ^0.2.0
       '@rollup/pluginutils': '*'
       '@types/estree': ^1.0.0
+      '@types/lodash.debounce': ^4.0.7
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-router-dom': ^5.1.7
@@ -767,6 +768,7 @@ importers:
       autoprefixer: ^10.2.5
       builddocs: ^1.0.6
       history: ^5.0.1
+      lodash.debounce: ^4.0.8
       lz-string: ^1.4.4
       postcss: ^8.2.12
       postcss-cli: ^10.0.0
@@ -824,6 +826,8 @@ importers:
       '@milkdown/transformer': link:../packages/transformer
       '@milkdown/utils': link:../packages/utils
       '@prosemirror-adapter/react': 0.2.0_biqbaboplfbrettd7655fr4n2y
+      '@types/lodash.debounce': 4.0.7
+      lodash.debounce: 4.0.8
       lz-string: 1.4.4
       prism-themes: 1.9.0
       react: 18.2.0
