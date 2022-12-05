@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { commandsCtx } from '@milkdown/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import { TooltipProvider, tooltipFactory } from '@milkdown/plugin-tooltip'
 import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, deleteSelectedCellsCommand, getCellsInColumn, getCellsInRow, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '@milkdown/preset-gfm'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
@@ -19,7 +19,7 @@ export const tableTooltipCtx = $ctx<TooltipProvider | null, 'tableTooltip'>(null
 export const tableTooltip = tooltipFactory('TABLE')
 export const TableTooltip: FC = () => {
   const ref = useRef<HTMLDivElement>(null)
-  const { view, prevState } = usePluginViewContext()
+  const { view } = usePluginViewContext()
   const tooltipProvider = useRef<TooltipProvider>()
   const [loading, getEditor] = useInstance()
 
@@ -37,7 +37,7 @@ export const TableTooltip: FC = () => {
             return false
           },
         })
-        provider.update(view, prevState)
+        provider.update(getEditor().ctx.get(editorViewCtx))
 
         getEditor().ctx.set(tableTooltipCtx.key, provider)
 
@@ -48,7 +48,7 @@ export const TableTooltip: FC = () => {
     return () => {
       tooltipProvider.current?.destroy()
     }
-  }, [loading])
+  }, [getEditor, loading])
 
   return (
     <div className="flex" ref={ref}>

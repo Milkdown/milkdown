@@ -2,6 +2,5 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx"
-  },
-  "exclude": ["./vite.config.ts"]
+  }
 }
