@@ -26,7 +26,7 @@ import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
 import { linkPlugin } from './EditorComponent/LinkWidget'
 import { ListItem } from './EditorComponent/ListItem'
 import { Slash } from './EditorComponent/Slash'
-import { tableSelectorPlugin } from './EditorComponent/TableWdiget'
+import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from './EditorComponent/TableWdiget'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -59,6 +59,9 @@ export const useOnlineEditorFactory = (
         ctx.set(blockView.key, pluginViewFactory({
           component: Block,
         }))
+        ctx.set(tableTooltip.key, pluginViewFactory({
+          component: TableTooltip,
+        }))
       })
       .config(nordThemeConfig)
       .use(commonmark)
@@ -81,6 +84,8 @@ export const useOnlineEditorFactory = (
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
       .use(linkPlugin(widgetViewFactory))
+      .use(tableTooltipCtx)
+      .use(tableTooltip)
       .use(tableSelectorPlugin(widgetViewFactory))
 
     return editor

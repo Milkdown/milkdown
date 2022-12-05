@@ -5,9 +5,9 @@ import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { InputRule } from '@milkdown/prose/inputrules'
 import type { NodeType } from '@milkdown/prose/model'
 import { Selection, TextSelection } from '@milkdown/prose/state'
-import { goToNextCell, isInTable, tableNodes } from '@milkdown/prose/tables'
+import { CellSelection, addColumnAfter, addColumnBefore, deleteColumn, deleteRow, deleteTable, goToNextCell, isInTable, selectedRect, setCellAttr, tableNodes } from '@milkdown/prose/tables'
 import { $command, $inputRule, $nodeSchema, $useKeymap } from '@milkdown/utils'
-import { createTable } from './utils'
+import { addRowWithAlignment, createTable, moveCol, moveRow, selectCol, selectRow, selectTable } from './utils'
 
 const originalSchema = tableNodes({
   tableGroup: 'block',
@@ -145,7 +145,9 @@ export const insertTableInputRule = $inputRule(() => new InputRule(
 ))
 
 export const goToPrevTableCellCommand = $command('GoToPrevTableCell', () => () => goToNextCell(-1))
+
 export const goToNextTableCellCommand = $command('GoToNextTableCell', () => () => goToNextCell(1))
+
 export const breakTableCommand = $command('BreakTable', () => () => (state, dispatch) => {
   if (!isInTable(state))
     return false
@@ -159,6 +161,7 @@ export const breakTableCommand = $command('BreakTable', () => () => (state, disp
   dispatch?.(tr)
   return true
 })
+
 export const insertTableCommand = $command('InsertTable', () => ({ row, col }: { row?: number; col?: number } = {}) => (state, dispatch) => {
   const { selection, tr } = state
   const { from } = selection
@@ -170,6 +173,85 @@ export const insertTableCommand = $command('InsertTable', () => ({ row, col }: {
 
   return true
 })
+
+export const moveRowCommand = $command('MoveRow', () => ({ from, to }: { from?: number; to?: number } = {}) => (state, dispatch) => {
+  const { tr } = state
+  const result = dispatch?.(moveRow(tr, from ?? 0, to ?? 0, true))
+
+  return Boolean(result)
+})
+
+export const moveColCommand = $command('MoveCol', () => ({ from, to }: { from?: number; to?: number } = {}) => (state, dispatch) => {
+  const { tr } = state
+  const result = dispatch?.(moveCol(tr, from ?? 0, to ?? 0, true))
+
+  return Boolean(result)
+})
+
+export const selectRowCommand = $command<number, 'SelectRow'>('SelectRow', () => (index = 0) => (state, dispatch) => {
+  const { tr } = state
+  const result = dispatch?.(selectRow(index)(tr))
+
+  return Boolean(result)
+})
+
+export const selectColCommand = $command<number, 'SelectCol'>('SelectCol', () => (index = 0) => (state, dispatch) => {
+  const { tr } = state
+  const result = dispatch?.(selectCol(index)(tr))
+
+  return Boolean(result)
+})
+
+export const selectTableCommand = $command('SelectTable', () => () => (state, dispatch) => {
+  const { tr } = state
+  const result = dispatch?.(selectTable(tr))
+
+  return Boolean(result)
+})
+
+export const deleteSelectedCellsCommand = $command('DeleteSelectedCells', () => () => (state, dispatch) => {
+  const { selection } = state
+  if (!(selection instanceof CellSelection))
+    return false
+
+  const isRow = selection.isRowSelection()
+  const isCol = selection.isColSelection()
+
+  if (isRow && isCol)
+    return deleteTable(state, dispatch)
+
+  if (isCol)
+    return deleteColumn(state, dispatch)
+
+  else
+    return deleteRow(state, dispatch)
+})
+
+export const addColBeforeCommand = $command('AddColBefore', () => () => addColumnBefore)
+
+export const addColAfterCommand = $command('AddColAfter', () => () => addColumnAfter)
+
+export const addRowBeforeCommand = $command('AddRowBefore', () => () => (state, dispatch) => {
+  if (!isInTable(state))
+    return false
+  if (dispatch) {
+    const rect = selectedRect(state)
+    dispatch(addRowWithAlignment(state.tr, rect, rect.top))
+  }
+  return true
+})
+
+export const addRowAfterCommand = $command('AddRowAfter', () => () => (state, dispatch) => {
+  if (!isInTable(state))
+    return false
+  if (dispatch) {
+    const rect = selectedRect(state)
+    dispatch(addRowWithAlignment(state.tr, rect, rect.bottom))
+  }
+  return true
+})
+
+export const setAlignCommand = $command<'left' | 'center' | 'right', 'SetAlign'>('SetAlign', () => (alignment = 'left') => setCellAttr('alignment', alignment))
 
 export const tableKeymap = $useKeymap('tableKeymap', {
   NextCell: {
