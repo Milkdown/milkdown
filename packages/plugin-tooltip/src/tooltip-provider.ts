@@ -102,4 +102,8 @@ export class TooltipProvider {
   hide = () => {
     this.#tippy?.hide()
   }
+
+  getInstance = () => {
+    return this.#tippy
+  }
 }

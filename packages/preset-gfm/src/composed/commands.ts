@@ -1,12 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { toggleStrikethroughCommand } from '../mark'
-import { breakTableCommand, goToNextTableCellCommand, goToPrevTableCellCommand, insertTableCommand } from '../node'
+import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, breakTableCommand, deleteSelectedCellsCommand, goToNextTableCellCommand, goToPrevTableCellCommand, insertTableCommand, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '../node'
 
 export const commands = [
   goToNextTableCellCommand,
   goToPrevTableCellCommand,
   breakTableCommand,
   insertTableCommand,
+  moveRowCommand,
+  moveColCommand,
+  selectRowCommand,
+  selectColCommand,
+  selectTableCommand,
+  deleteSelectedCellsCommand,
+  addRowBeforeCommand,
+  addRowAfterCommand,
+  addColBeforeCommand,
+  addColAfterCommand,
+  setAlignCommand,
 
   toggleStrikethroughCommand,
 ]
