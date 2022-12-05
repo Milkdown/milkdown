@@ -12,7 +12,7 @@ import { $ctx, $prose } from '@milkdown/utils'
 import type { useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { usePluginViewContext, useWidgetViewContext } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 export const tableTooltipCtx = $ctx<TooltipProvider | null, 'tableTooltip'>(null, 'tableTooltip')
 
@@ -192,7 +192,9 @@ const TableSelectorWidget: FC = () => {
   const index = spec?.index ?? 0
   const [loading, getEditor] = useInstance()
 
-  const common = 'cursor-pointer absolute bg-blue-200 hover:bg-blue-400'
+  const [dragOver, setDragOver] = useState(false)
+
+  const common = useMemo(() => ['cursor-pointer absolute bg-blue-200 hover:bg-blue-400', dragOver ? 'ring-2' : ''].join(' '), [dragOver])
 
   const className = useMemo(() => {
     if (type === 'left')
@@ -241,11 +243,16 @@ const TableSelectorWidget: FC = () => {
         e.dataTransfer.effectAllowed = 'move'
       }}
       onDragOver={(e) => {
+        setDragOver(true)
         e.stopPropagation()
         e.preventDefault()
         e.dataTransfer.dropEffect = 'move'
       }}
+      onDragLeave={() => {
+        setDragOver(false)
+      }}
       onDrop={(e) => {
+        setDragOver(false)
         if (type === 'top-left')
           return
         const i = spec?.index
