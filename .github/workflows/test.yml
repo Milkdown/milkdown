@@ -92,7 +92,7 @@ jobs:
           firefox-version: latest-esr
 
       - name: run cypress on chrome
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
@@ -111,7 +111,7 @@ jobs:
 
       - name: run cypress on firefox
         if: ${{ always() }}
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
