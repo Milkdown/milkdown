@@ -191,6 +191,7 @@ const TableSelectorWidget: FC = () => {
   const type = spec?.type
   const index = spec?.index ?? 0
   const [loading, getEditor] = useInstance()
+  const ref = useRef<HTMLDivElement>(null)
 
   const [dragOver, setDragOver] = useState(false)
 
@@ -208,18 +209,21 @@ const TableSelectorWidget: FC = () => {
 
   return (
     <div
+      ref={ref}
       draggable={type !== 'top-left'}
       className={[className, common].join(' ')}
       onClick={(e) => {
         e.stopPropagation()
-        if (loading)
+        const div = ref.current
+        if (loading || !div)
           return
 
         getEditor().action((ctx) => {
           const tooltip = ctx.get(tableTooltipCtx.key)
-          const rect = (e.target as HTMLElement).getBoundingClientRect()
           tooltip?.getInstance()?.setProps({
-            getReferenceClientRect: () => rect,
+            getReferenceClientRect: () => {
+              return div.getBoundingClientRect()
+            },
           })
           tooltip?.show()
 
@@ -286,17 +290,18 @@ export const tableSelectorPlugin = (widgetViewFactory: ReturnType<typeof useWidg
     key,
     state: {
       init() {
-        return DecorationSet.empty
+        return {
+          decorations: DecorationSet.empty,
+          pos: 0,
+        }
       },
-      apply(tr) {
-        const decorations: Decoration[] = []
-
+      apply(tr, value: { decorations: DecorationSet; pos: number }, oldState, newState) {
         const leftCells = getCellsInColumn(0, tr.selection)
         if (!leftCells)
-          return null
+          return { decorations: DecorationSet.empty, pos: 0 }
         const topCells = getCellsInRow(0, tr.selection)
         if (!topCells)
-          return null
+          return { decorations: DecorationSet.empty, pos: 0 }
 
         const createWidget = widgetViewFactory({
           as: 'div',
@@ -305,8 +310,9 @@ export const tableSelectorPlugin = (widgetViewFactory: ReturnType<typeof useWidg
 
         const [topLeft] = leftCells
         if (!topLeft)
-          return null
+          return { decorations: DecorationSet.empty, pos: 0 }
 
+        const decorations: Decoration[] = []
         decorations.push(createWidget(topLeft.pos + 1, { type: 'top-left' }))
         leftCells.forEach((cell, index) => {
           decorations.push(createWidget(cell.pos + 1, { type: 'left', index }))
@@ -315,12 +321,18 @@ export const tableSelectorPlugin = (widgetViewFactory: ReturnType<typeof useWidg
           decorations.push(createWidget(cell.pos + 1, { type: 'top', index }))
         })
 
-        return DecorationSet.create(tr.doc, decorations)
+        if (value.pos === topLeft.pos && oldState.doc.eq(newState.doc))
+          return value
+
+        return {
+          decorations: DecorationSet.create(tr.doc, decorations),
+          pos: topLeft.pos,
+        }
       },
     },
     props: {
       decorations(state) {
-        return key.getState(state)
+        return key.getState(state).decorations
       },
     },
   })
