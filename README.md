@@ -1,5 +1,9 @@
 # <img src="/website/public/milkdown-mini.svg" height="30px" />&nbsp;&nbsp;Milkdown
 
+> :warning: You're viewing the next major version of Milkdown which is not released yet.
+> 
+> For the code of previous version, please view [v6 branch](https://github.com/Saul-Mirone/milkdown/tree/v6).
+
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
 [![download-badge]][download-link]
