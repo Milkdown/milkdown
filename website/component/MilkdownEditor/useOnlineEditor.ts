@@ -3,7 +3,7 @@ import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdow
 import { block, blockView } from '@milkdown/plugin-block'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { cursor } from '@milkdown/plugin-cursor'
-import { diagram } from '@milkdown/plugin-diagram'
+import { diagram, diagramSchema } from '@milkdown/plugin-diagram'
 import { emoji } from '@milkdown/plugin-emoji'
 import { history } from '@milkdown/plugin-history'
 import { indent } from '@milkdown/plugin-indent'
@@ -22,6 +22,7 @@ import { refractor } from 'refractor/lib/common'
 import { Block } from './EditorComponent/Block'
 import { CodeBlock } from './EditorComponent/CodeBlock'
 import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
+import { Diagram } from './EditorComponent/Diagram'
 import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
 import { linkPlugin } from './EditorComponent/LinkWidget'
 import { ListItem } from './EditorComponent/ListItem'
@@ -91,6 +92,7 @@ export const useOnlineEditorFactory = (
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
       .use($view(mathBlockSchema.node, () => nodeViewFactory({ component: MathBlock })))
+      .use($view(diagramSchema.node, () => nodeViewFactory({ component: Diagram })))
       .use(linkPlugin(widgetViewFactory))
       .use(tableTooltipCtx)
       .use(tableTooltip)

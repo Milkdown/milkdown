@@ -66,7 +66,7 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
       match: ({ type }) => type === id,
       runner: (state, node, type) => {
         const value = node.value as string
-        state.addNode(type, { value })
+        state.addNode(type, { value, identity: getId() })
       },
     },
     toMarkdown: {
