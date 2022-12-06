@@ -219,7 +219,6 @@ export class BlockService {
 
   dragleaveCallback = () => {
     this.#active = null
-    this.#dragging = false
     this.#hovering = false
   }
 
