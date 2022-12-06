@@ -1,8 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { schemaCtx } from '@milkdown/core'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { Selection } from '@milkdown/prose/state'
 import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
+import { paragraphSchema } from './paragraph'
 
 export const hrAttr = $nodeAttr('hr')
 export const hrSchema = $nodeSchema('hr', ctx => ({
@@ -34,11 +34,11 @@ export const insertHrInputRule = $inputRule(() => new InputRule(
   },
 ))
 
-export const insertHrCommand = $command('InsertHr', ctx => () => (state, dispatch) => {
+export const insertHrCommand = $command('InsertHr', () => () => (state, dispatch) => {
   if (!dispatch)
     return true
 
-  const paragraph = ctx.get(schemaCtx).node('paragraph')
+  const paragraph = paragraphSchema.node.type().create()
   const { tr, selection } = state
   const { from } = selection
   const node = hrSchema.type().create()

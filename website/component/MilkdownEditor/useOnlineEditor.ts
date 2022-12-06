@@ -26,7 +26,7 @@ import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
 import { linkPlugin } from './EditorComponent/LinkWidget'
 import { ListItem } from './EditorComponent/ListItem'
 import { Slash } from './EditorComponent/Slash'
-import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from './EditorComponent/TableWdiget'
+import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from './EditorComponent/TableWidget'
 
 export const useOnlineEditorFactory = (
   defaultValue: string,
@@ -50,18 +50,24 @@ export const useOnlineEditorFactory = (
           ...prev,
           configureRefractor: () => refractor,
         }))
-        ctx.set(imageTooltip.key, pluginViewFactory({
-          component: ImageTooltip,
-        }))
-        ctx.set(slash.key, pluginViewFactory({
-          component: Slash,
-        }))
+        ctx.set(imageTooltip.key, {
+          view: pluginViewFactory({
+            component: ImageTooltip,
+          }),
+        })
+        ctx.set(slash.key, {
+          view: pluginViewFactory({
+            component: Slash,
+          }),
+        })
         ctx.set(blockView.key, pluginViewFactory({
           component: Block,
         }))
-        ctx.set(tableTooltip.key, pluginViewFactory({
-          component: TableTooltip,
-        }))
+        ctx.set(tableTooltip.key, {
+          view: pluginViewFactory({
+            component: TableTooltip,
+          }),
+        })
       })
       .config(nordThemeConfig)
       .use(commonmark)

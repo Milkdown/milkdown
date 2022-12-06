@@ -71,7 +71,7 @@ export class SlashProvider {
 
   getContent = (view: EditorView): string | undefined => {
     const { selection } = view.state
-    const { $from, empty } = selection
+    const { empty } = selection
     const isTextBlock = view.state.selection instanceof TextSelection
 
     const isSlashChildren = this.#element.contains(document.activeElement)
@@ -83,9 +83,6 @@ export class SlashProvider {
     const paragraph = findParentNode(({ type }) => type.name === 'paragraph')(view.state.selection)
 
     const isNotInParagraph = !paragraph
-      || paragraph.node.childCount > 1
-      || $from.parentOffset !== paragraph.node.textContent.length
-      || paragraph.node.firstChild?.type.name !== 'text'
 
     if (notHasFocus || isReadonly || !empty || !isTextBlock || isNotInParagraph)
       return
@@ -114,5 +111,9 @@ export class SlashProvider {
 
   hide = () => {
     this.#tippy?.hide()
+  }
+
+  getInstance = () => {
+    return this.#tippy
   }
 }
