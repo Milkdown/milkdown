@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
+import { $ctx, $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
 import remarkMath from 'remark-math'
+import type { KatexOptions } from 'katex'
+import katex from 'katex'
 
 import { InputRule } from '@milkdown/prose/inputrules'
 import { NodeSelection } from '@milkdown/prose/state'
@@ -9,7 +11,10 @@ import type { MilkdownPlugin } from '@milkdown/core'
 export const remarkMathPlugin = $remark(() => remarkMath)
 
 const mathInlineId = 'math_inline'
-export const mathInlineSchema = $nodeSchema('math_inline', () => ({
+
+export const katexOptionsCtx = $ctx<KatexOptions, 'katexOptions'>({}, 'katexOptions')
+
+export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
   group: 'inline',
   inline: true,
   atom: true,
@@ -19,7 +24,15 @@ export const mathInlineSchema = $nodeSchema('math_inline', () => ({
     },
   },
   parseDOM: [{ tag: `span[data-type="${mathInlineId}"]` }],
-  toDOM: node => ['span', { 'data-type': mathInlineId, 'data-value': node.attrs.value }],
+  toDOM: (node) => {
+    const code: string = node.attrs.value
+    const dom = document.createElement('span')
+    dom.dataset.type = mathInlineId
+    dom.dataset.value = code
+    katex.render(code, dom, ctx.get(katexOptionsCtx.key))
+
+    return dom
+  },
   parseMarkdown: {
     match: node => node.type === 'inlineMath',
     runner: (state, node, type) => {
@@ -35,40 +48,45 @@ export const mathInlineSchema = $nodeSchema('math_inline', () => ({
 }))
 
 const mathBlockId = 'math_block'
-export const mathBlockSchema = $nodeSchema('math_block', () => ({
+export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
   content: 'text*',
   group: 'block',
   marks: '',
-  defining: true,
   atom: true,
-  code: true,
   isolating: true,
+  attrs: {
+    value: {
+      default: '',
+    },
+  },
   parseDOM: [
     {
       tag: `div[data-type="${mathBlockId}"]`,
       preserveWhitespace: 'full',
+      getAttrs: (dom) => {
+        return { value: (dom as HTMLElement).dataset.value ?? '' }
+      },
     },
   ],
-  toDOM: () => ['div', { 'data-type': mathBlockId }, 0],
+  toDOM: (node) => {
+    const code = node.attrs.value
+    const dom = document.createElement('div')
+    dom.dataset.type = mathBlockId
+    dom.dataset.value = code
+    katex.render(code, dom, ctx.get(katexOptionsCtx.key))
+    return dom
+  },
   parseMarkdown: {
     match: ({ type }) => type === 'math',
     runner: (state, node, type) => {
       const value = node.value as string
-      state.openNode(type)
-      if (value)
-        state.addText(value)
-
-      state.closeNode()
+      state.addNode(type, { value })
     },
   },
   toMarkdown: {
     match: node => node.type.name === mathBlockId,
     runner: (state, node) => {
-      let text = ''
-      node.forEach((n) => {
-        text += n.text as string
-      })
-      state.addNode('math', undefined, text)
+      state.addNode('math', undefined, node.attrs.value)
     },
   },
 }))
@@ -85,4 +103,4 @@ export const mathBlockInputRule = $inputRule(() => new InputRule(
   },
 ))
 
-export const math: MilkdownPlugin[] = [remarkMathPlugin, mathInlineSchema, mathBlockSchema, mathBlockInputRule].flat()
+export const math: MilkdownPlugin[] = [remarkMathPlugin, katexOptionsCtx, mathInlineSchema, mathBlockSchema, mathBlockInputRule].flat()
