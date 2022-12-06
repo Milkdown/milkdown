@@ -4,16 +4,15 @@ import { setBlockType } from '@milkdown/prose/commands'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { NodeSelection } from '@milkdown/prose/state'
 import { $command, $ctx, $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
-import type { Config } from 'mermaid'
+import type { MermaidConfig } from 'mermaid'
 import mermaid from 'mermaid'
 
 import { getId } from './utility'
 import { remarkMermaid } from './remark-mermaid'
 
+export const mermaidConfigCtx = $ctx<MermaidConfig, 'mermaidConfig'>({ startOnLoad: false }, 'mermaidConfig')
+
 const id = 'diagram'
-
-export const mermaidConfigCtx = $ctx<Config, 'mermaidConfig'>({ startOnLoad: false }, 'mermaidConfig')
-
 export const diagramSchema = $nodeSchema(id, (ctx) => {
   mermaid.initialize({
     ...ctx.get(mermaidConfigCtx.key),
@@ -44,7 +43,7 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
 
           return {
             value: dom.dataset.value,
-            identity: dom.id,
+            identity: dom.dataset.id,
           }
         },
       },
@@ -54,13 +53,12 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
       const code = node.attrs.value as string
 
       const dom = document.createElement('div')
-      dom.id = identity
       dom.dataset.type = id
+      dom.dataset.id = identity
       dom.dataset.value = code
 
-      mermaid.render(identity, code, (svg) => {
-        dom.innerHTML = svg
-      })
+      const svg = mermaid.render(identity, code)
+      dom.innerHTML = svg
 
       return dom
     },

@@ -8,7 +8,7 @@ import { emoji } from '@milkdown/plugin-emoji'
 import { history } from '@milkdown/plugin-history'
 import { indent } from '@milkdown/plugin-indent'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
-import { math } from '@milkdown/plugin-math'
+import { math, mathBlockSchema } from '@milkdown/plugin-math'
 import { prism, prismConfig } from '@milkdown/plugin-prism'
 import { slash } from '@milkdown/plugin-slash'
 import { trailing } from '@milkdown/plugin-trailing'
@@ -25,6 +25,7 @@ import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
 import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
 import { linkPlugin } from './EditorComponent/LinkWidget'
 import { ListItem } from './EditorComponent/ListItem'
+import { MathBlock } from './EditorComponent/MathBlock'
 import { Slash } from './EditorComponent/Slash'
 import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from './EditorComponent/TableWidget'
 
@@ -89,6 +90,7 @@ export const useOnlineEditorFactory = (
       .use(nordPlugins)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
+      .use($view(mathBlockSchema.node, () => nodeViewFactory({ component: MathBlock })))
       .use(linkPlugin(widgetViewFactory))
       .use(tableTooltipCtx)
       .use(tableTooltip)
