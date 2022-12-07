@@ -62,6 +62,10 @@ export const ImageTooltip: FC = () => {
     if (loading)
       return
 
+    const value = e.target.value
+    if (value === imageNode?.attrs[key])
+      return
+
     getEditor().action((ctx) => {
       const commands = ctx.get(commandsCtx)
       commands.call(updateImageCommand.key, {
