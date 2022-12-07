@@ -50,6 +50,9 @@ export const blockPlugin = $prose((ctx) => {
         dragleave: () => {
           return service.dragleaveCallback()
         },
+        dragenter: () => {
+          return service.dragenterCallback()
+        },
       },
     },
     view,

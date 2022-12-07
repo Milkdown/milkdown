@@ -220,7 +220,12 @@ export class BlockService {
     return false
   }
 
+  dragenterCallback = () => {
+    this.#dragging = true
+  }
+
   dragleaveCallback = () => {
+    this.#dragging = false
     this.#active = null
     this.#hovering = false
   }
