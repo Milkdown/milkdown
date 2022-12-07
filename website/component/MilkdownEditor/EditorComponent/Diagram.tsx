@@ -1,54 +1,111 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { useInstance } from '@milkdown/react'
+import { TextSelection } from '@milkdown/prose/state'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import * as Tabs from '@radix-ui/react-tabs'
 import mermaid from 'mermaid'
 import type { FC } from 'react'
-import { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 export const Diagram: FC = () => {
-  const { node, setAttrs } = useNodeViewContext()
+  const { node, setAttrs, selected, view } = useNodeViewContext()
   const code = useMemo(() => node.attrs.value, [node.attrs.value])
-  const id = useMemo(() => node.attrs.identity, [node.attrs.identity])
-  const codePanel = useRef<HTMLDivElement>(null)
+  const id = node.attrs.identity
   const codeInput = useRef<HTMLTextAreaElement>(null)
   const [value, setValue] = useState('preview')
-  const [loading, getEditor] = useInstance()
+  const codePanel = useRef<HTMLDivElement>(null)
+
+  const renderMermaid = useCallback((canRetry = 3) => {
+    const container = codePanel.current
+    if (!container)
+      return
+
+    try {
+      if (code.length === 0)
+        return
+
+      mermaid.render(id, code, (svg, bind) => {
+        container.innerHTML = svg
+        bind?.(container)
+      })
+    }
+    catch (e) {
+      console.error(e)
+      if (canRetry === 0)
+        return
+
+      setTimeout(() => {
+        renderMermaid(canRetry - 1)
+      }, 200)
+    }
+  }, [code, id])
 
   useLayoutEffect(() => {
     requestAnimationFrame(() => {
-      if (!codePanel.current || value !== 'preview' || loading)
-        return
-
-      const svg = mermaid.render(id, code)
-      codePanel.current.innerHTML = svg
+      renderMermaid()
     })
-  }, [code, getEditor, id, loading, value])
+  }, [renderMermaid, value])
+
+  function blur() {
+    const { from } = view.state.selection
+    if (view.state.doc.nodeAt(from) === node) {
+      view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from)))
+      view.dom.blur()
+    }
+  }
 
   return (
-    <Tabs.Root value={value} onValueChange={(value) => {
-      setValue(value)
-    }}>
-      <Tabs.List>
-        <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
-        <Tabs.Trigger value="source">Source</Tabs.Trigger>
+    <Tabs.Root
+      contentEditable={false}
+      className={selected ? 'ring-2 ring-offset-2' : ''}
+      onMouseDown={(e) => {
+        blur()
+        // This is used to prevent default behavior of prosemirror
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      value={value}
+      onValueChange={(value) => {
+        setValue(value)
+      }}>
+      <Tabs.List className="text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <div className="flex flex-wrap -mb-px">
+          <Tabs.Trigger
+            value="preview"
+            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'preview' ? 'text-blue-600' : ''].join(' ')}
+          >
+            Preview
+          </Tabs.Trigger>
+          <Tabs.Trigger
+            value="source"
+            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'source' ? 'text-blue-600' : ''].join(' ')}
+          >
+            Source
+          </Tabs.Trigger>
+        </div>
       </Tabs.List>
-      <Tabs.Content value="preview">
-        <div ref={codePanel} />
+      <Tabs.Content value="preview" forceMount>
+        <div ref={codePanel} className={['flex py-3 justify-center', value !== 'preview' ? 'hidden' : ''].join(' ')} />
       </Tabs.Content>
-      <Tabs.Content value="source">
+      <Tabs.Content value="source" className="relative">
         <textarea
+          className="block w-full h-48 font-mono bg-slate-800 text-gray-50"
           onMouseDown={(e) => {
+            blur()
             e.stopPropagation()
           }}
           onKeyDown={e => e.stopPropagation()}
+          onPaste={e => e.stopPropagation()}
           ref={codeInput}
           defaultValue={code}
         />
-        <button onClick={() => {
-          setAttrs({ value: codeInput.current?.value || '' })
-          setValue('preview')
-        }}>OK</button>
+        <button
+          className="absolute right-0 mb-1 bottom-full inline-flex items-center justify-center px-6 py-2 text-base font-medium leading-6 bg-blue-400 text-gray-50 border border-gray-600 rounded shadow-sm hover:bg-blue-200 focus:ring-2 focus:ring-offset-2"
+          onClick={() => {
+            setAttrs({ value: codeInput.current?.value || '' })
+            setValue('preview')
+          }}>
+          OK
+        </button>
       </Tabs.Content>
     </Tabs.Root>
   )

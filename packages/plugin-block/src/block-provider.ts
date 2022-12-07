@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/core'
+import { editorViewCtx } from '@milkdown/core'
 import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import type { Instance, Props } from 'tippy.js'
@@ -69,9 +70,18 @@ export class BlockProvider {
   }
 
   show = (active: ActiveNode) => {
-    this.#tippy?.show()
-    this.#tippy?.setProps({
-      getReferenceClientRect: () => active.el.getBoundingClientRect(),
+    const view = this.#ctx.get(editorViewCtx)
+    requestAnimationFrame(() => {
+      this.#tippy?.setProps({
+        getReferenceClientRect: () => {
+          let dom = view.nodeDOM(active.$pos.pos - 1) as HTMLElement
+          if (!dom || !(dom instanceof HTMLElement))
+            dom = active.el
+
+          return dom.getBoundingClientRect()
+        },
+      })
+      this.#tippy?.show()
     })
   }
 

@@ -1,12 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $ctx, $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
-import remarkMath from 'remark-math'
 import type { KatexOptions } from 'katex'
 import katex from 'katex'
+import remarkMath from 'remark-math'
 
-import { InputRule } from '@milkdown/prose/inputrules'
-import { NodeSelection } from '@milkdown/prose/state'
 import type { MilkdownPlugin } from '@milkdown/core'
+import { InputRule } from '@milkdown/prose/inputrules'
 
 export const remarkMathPlugin = $remark(() => remarkMath)
 
@@ -52,6 +51,7 @@ export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
   content: 'text*',
   group: 'block',
   marks: '',
+  defining: true,
   atom: true,
   isolating: true,
   attrs: {
@@ -97,9 +97,7 @@ export const mathBlockInputRule = $inputRule(() => new InputRule(
     const $start = state.doc.resolve(start)
     if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), mathBlockSchema.type()))
       return null
-    const tr = state.tr.delete(start, end).setBlockType(start, start, mathBlockSchema.type())
-
-    return tr.setSelection(NodeSelection.create(tr.doc, start - 1))
+    return state.tr.delete(start, end).setBlockType(start, start, mathBlockSchema.type())
   },
 ))
 

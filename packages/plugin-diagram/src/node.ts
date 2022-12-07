@@ -2,13 +2,12 @@
 import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { InputRule } from '@milkdown/prose/inputrules'
-import { NodeSelection } from '@milkdown/prose/state'
 import { $command, $ctx, $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
 import type { MermaidConfig } from 'mermaid'
 import mermaid from 'mermaid'
 
-import { getId } from './utility'
 import { remarkMermaid } from './remark-mermaid'
+import { getId } from './utility'
 
 export const mermaidConfigCtx = $ctx<MermaidConfig, 'mermaidConfig'>({ startOnLoad: false }, 'mermaidConfig')
 
@@ -23,7 +22,6 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
     marks: '',
     defining: true,
     atom: true,
-    code: true,
     isolating: true,
     attrs: {
       value: {
@@ -56,9 +54,7 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
       dom.dataset.type = id
       dom.dataset.id = identity
       dom.dataset.value = code
-
-      const svg = mermaid.render(identity, code)
-      dom.innerHTML = svg
+      dom.textContent = code
 
       return dom
     },
@@ -72,7 +68,7 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
     toMarkdown: {
       match: node => node.type.name === id,
       runner: (state, node) => {
-        state.addNode('code', undefined, node.content.firstChild?.text || '', { lang: 'mermaid' })
+        state.addNode('code', undefined, node.attrs.value || '', { lang: 'mermaid' })
       },
     },
   }
@@ -84,12 +80,10 @@ export const insertDiagramInputRules = $inputRule(() =>
     const $start = state.doc.resolve(start)
     if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType))
       return null
-    const tr = state.tr.delete(start, end).setBlockType(start, start, nodeType, { id: getId() })
-
-    return tr.setSelection(NodeSelection.create(tr.doc, start - 1))
+    return state.tr.delete(start, end).setBlockType(start, start, nodeType, { identity: getId() })
   }))
 
 export const remarkDiagramPlugin = $remark(() => remarkMermaid)
 
-export const insertDiagramCommand = $command('InsertDiagramCommand', () => () => setBlockType(diagramSchema.type(), { id: getId() }))
+export const insertDiagramCommand = $command('InsertDiagramCommand', () => () => setBlockType(diagramSchema.type(), { identity: getId() }))
 

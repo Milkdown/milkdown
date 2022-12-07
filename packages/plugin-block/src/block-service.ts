@@ -185,6 +185,9 @@ export class BlockService {
   }
 
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
+    if (view.composing || !view.editable)
+      return false
+
     debounce(this.#mousemoveCallback, 200)(view, event)
 
     return false
