@@ -57,8 +57,14 @@ export class BlockProvider {
 
   update = (view: EditorView): void => {
     requestAnimationFrame(() => {
-      if (!this.#tippy)
-        this.#init(view)
+      if (!this.#tippy) {
+        try {
+          this.#init(view)
+        }
+        catch {
+        // ignore
+        }
+      }
     })
   }
 
