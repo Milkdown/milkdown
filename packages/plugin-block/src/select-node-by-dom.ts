@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { missingRootElement } from '@milkdown/exception'
 import type { Node, ResolvedPos } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 
@@ -29,7 +28,7 @@ export type ActiveNode = Readonly<{
 export const selectRootNodeByDom = (dom: Element, view: EditorView, filterNodes: FilterNodes): ActiveNode | null => {
   const root = view.dom.parentElement
   if (!root)
-    throw missingRootElement()
+    return null
 
   const pos = view.posAtDOM(dom, 0)
   if (pos <= 0)

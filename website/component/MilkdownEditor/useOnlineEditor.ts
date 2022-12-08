@@ -14,7 +14,7 @@ import { slash } from '@milkdown/plugin-slash'
 import { trailing } from '@milkdown/plugin-trailing'
 import { upload } from '@milkdown/plugin-upload'
 import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
-import { gfm } from '@milkdown/preset-gfm'
+import { footnoteDefinitionSchema, footnoteReferenceSchema, gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
 import { $view } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
@@ -23,6 +23,7 @@ import { Block } from './EditorComponent/Block'
 import { CodeBlock } from './EditorComponent/CodeBlock'
 import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
 import { Diagram } from './EditorComponent/Diagram'
+import { FootnoteDef, FootnoteRef } from './EditorComponent/Footnote'
 import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
 import { linkPlugin } from './EditorComponent/LinkWidget'
 import { ListItem } from './EditorComponent/ListItem'
@@ -93,6 +94,8 @@ export const useOnlineEditorFactory = (
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
       .use($view(mathBlockSchema.node, () => nodeViewFactory({ component: MathBlock })))
       .use($view(diagramSchema.node, () => nodeViewFactory({ component: Diagram })))
+      .use($view(footnoteDefinitionSchema.node, () => nodeViewFactory({ component: FootnoteDef })))
+      .use($view(footnoteReferenceSchema.node, () => nodeViewFactory({ component: FootnoteRef })))
       .use(linkPlugin(widgetViewFactory))
       .use(tableTooltipCtx)
       .use(tableTooltip)
