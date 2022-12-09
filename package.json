@@ -49,9 +49,9 @@
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "^18.0.0",
     "@types/rollup-plugin-auto-external": "^2.0.2",
-    "@vitejs/plugin-react": "^2.0.0",
-    "@vitejs/plugin-vue": "^3.0.0",
-    "@vitejs/plugin-vue-jsx": "^2.0.0",
+    "@vitejs/plugin-react": "^3.0.0",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
     "@vitest/ui": "^0.25.0",
     "autoprefixer": "^10.2.5",
     "concurrently": "^7.0.0",
@@ -78,7 +78,7 @@
     "tslib": "^2.4.0",
     "typescript": "^4.9.3",
     "typescript-styled-plugin": "^0.18.2",
-    "vite": "^3.2.2",
+    "vite": "^4.0.0",
     "vitest": "^0.25.0"
   },
   "pnpm": {
