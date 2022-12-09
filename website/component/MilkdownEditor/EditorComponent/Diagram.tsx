@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { TextSelection } from '@milkdown/prose/state'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import * as Tabs from '@radix-ui/react-tabs'
 import mermaid from 'mermaid'
@@ -7,7 +6,7 @@ import type { FC } from 'react'
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 export const Diagram: FC = () => {
-  const { node, setAttrs, selected, view } = useNodeViewContext()
+  const { node, setAttrs, selected } = useNodeViewContext()
   const code = useMemo(() => node.attrs.value, [node.attrs.value])
   const id = node.attrs.identity
   const codeInput = useRef<HTMLTextAreaElement>(null)
@@ -45,24 +44,10 @@ export const Diagram: FC = () => {
     })
   }, [renderMermaid, value])
 
-  function blur() {
-    const { from } = view.state.selection
-    if (view.state.doc.nodeAt(from) === node) {
-      view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from)))
-      view.dom.blur()
-    }
-  }
-
   return (
     <Tabs.Root
       contentEditable={false}
       className={selected ? 'ring-2 ring-offset-2' : ''}
-      onMouseDown={(e) => {
-        blur()
-        // This is used to prevent default behavior of prosemirror
-        e.preventDefault()
-        e.stopPropagation()
-      }}
       value={value}
       onValueChange={(value) => {
         setValue(value)
@@ -89,12 +74,6 @@ export const Diagram: FC = () => {
       <Tabs.Content value="source" className="relative">
         <textarea
           className="block w-full h-48 font-mono bg-slate-800 text-gray-50"
-          onMouseDown={(e) => {
-            blur()
-            e.stopPropagation()
-          }}
-          onKeyDown={e => e.stopPropagation()}
-          onPaste={e => e.stopPropagation()}
           ref={codeInput}
           defaultValue={code}
         />

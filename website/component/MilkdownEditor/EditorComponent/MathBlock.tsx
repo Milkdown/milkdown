@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { katexOptionsCtx } from '@milkdown/plugin-math'
-import { TextSelection } from '@milkdown/prose/state'
 import { useInstance } from '@milkdown/react'
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import * as Tabs from '@radix-ui/react-tabs'
@@ -9,7 +8,7 @@ import type { FC } from 'react'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 export const MathBlock: FC = () => {
-  const { node, setAttrs, selected, view } = useNodeViewContext()
+  const { node, setAttrs, selected } = useNodeViewContext()
   const code = useMemo(() => node.attrs.value, [node.attrs.value])
   const codePanel = useRef<HTMLDivElement>(null)
   const codeInput = useRef<HTMLTextAreaElement>(null)
@@ -30,24 +29,10 @@ export const MathBlock: FC = () => {
     })
   }, [code, getEditor, loading, value])
 
-  function blur() {
-    const { from } = view.state.selection
-    if (view.state.doc.nodeAt(from) === node) {
-      view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from)))
-      view.dom.blur()
-    }
-  }
-
   return (
     <Tabs.Root
       contentEditable={false}
       className={selected ? 'ring-2 ring-offset-2' : ''}
-      onMouseDown={(e) => {
-        blur()
-        // This is used to prevent default behavior of prosemirror
-        e.preventDefault()
-        e.stopPropagation()
-      }}
       value={value}
       onValueChange={(value) => {
         setValue(value)
@@ -74,12 +59,6 @@ export const MathBlock: FC = () => {
       <Tabs.Content value="source" className="relative">
         <textarea
           className="block w-full h-48 font-mono bg-slate-800 text-gray-50"
-          onMouseDown={(e) => {
-            blur()
-            e.stopPropagation()
-          }}
-          onKeyDown={e => e.stopPropagation()}
-          onPaste={e => e.stopPropagation()}
           ref={codeInput}
           defaultValue={code}
         />

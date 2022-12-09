@@ -92,8 +92,14 @@ export const useOnlineEditorFactory = (
       .use(nordPlugins)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
-      .use($view(mathBlockSchema.node, () => nodeViewFactory({ component: MathBlock })))
-      .use($view(diagramSchema.node, () => nodeViewFactory({ component: Diagram })))
+      .use($view(mathBlockSchema.node, () => nodeViewFactory({
+        component: MathBlock,
+        stopEvent: () => true,
+      })))
+      .use($view(diagramSchema.node, () => nodeViewFactory({
+        component: Diagram,
+        stopEvent: () => true,
+      })))
       .use($view(footnoteDefinitionSchema.node, () => nodeViewFactory({ component: FootnoteDef })))
       .use($view(footnoteReferenceSchema.node, () => nodeViewFactory({ component: FootnoteRef })))
       .use(linkPlugin(widgetViewFactory))
