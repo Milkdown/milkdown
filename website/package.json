@@ -80,6 +80,7 @@
     "prosemirror-view": "^1.28.0",
     "refractor": "^4.0.0",
     "sitemap": "^7.1.1",
+    "tailwind-nord": "^1.2.0",
     "vite-plugin-pwa": "^0.13.0",
     "xml-formatter": "^2.6.1"
   },

@@ -30,10 +30,8 @@ module.exports = {
         'plugin:react-hooks/recommended',
       ],
       rules: {
-        'jsx-quotes': [
-          'error',
-          'prefer-double',
-        ],
+        'jsx-quotes': ['error', 'prefer-double'],
+        'react/jsx-indent': ['error', 2, { checkAttributes: true, indentLogicalExpressions: true }],
         'react/react-in-jsx-scope': 'off',
         'react/prop-types': 'off',
       },
