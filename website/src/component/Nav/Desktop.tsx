@@ -5,7 +5,7 @@ const NavItem: FC<{ icon: string; text: string }> = ({ icon, text }) => {
   return (
     <div className="text-center cursor-pointer text-gray-600 hover:text-gray-900">
       <div className="py-0.5 px-4 flex justify-center rounded-3xl
-        hover:bg-gray-200">
+        hover:bg-gray-300">
         <div className="material-symbols-outlined">{icon}</div>
       </div>
       <div className="text-xs font-light">{text}</div>
@@ -16,17 +16,17 @@ const NavItem: FC<{ icon: string; text: string }> = ({ icon, text }) => {
 const NavButtonItem: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <div className="flex justify-center items-center w-14 h-14 mt-1 cursor-pointer rounded-full
-      text-gray-600 hover:text-gray-900 hover:bg-gray-200">{ children}</div>
+      text-gray-600 hover:text-gray-900 hover:bg-gray-300">{children}</div>
   )
 }
 
 export const DesktopNav: FC = () => {
   return (
-    <nav className="pt-11 pb-14 h-full w-full flex-col justify-between items-center bg-slate-50 hidden md:flex">
+    <nav className="pt-11 pb-14 h-full w-full flex-col justify-between items-center flex">
       <div>
         <div className="cursor-pointer w-14 h-14 mx-auto flex justify-center items-center
           rounded-full shadow-inner
-          bg-white border border-gray-200
+          bg-white border border-gray-300
           hover:border-blue-200 hover:ring-2 hover:ring-nord8">
           <img className="w-9 h-9" src="/milkdown-logo.svg"></img>
         </div>

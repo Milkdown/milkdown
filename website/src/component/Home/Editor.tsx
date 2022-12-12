@@ -11,7 +11,7 @@ export const HomeEditor = () => {
         ctx.set(rootCtx, root)
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose lg:prose-xl mx-auto box-border outline-none overflow-hidden h-96 p-4 bg-gray-100 rounded-2xl shadow-inner border-gray-200 focus:ring-2 focus:ring-nord10',
+            class: 'prose lg:prose-xl w-full max-w-full box-border outline-none overflow-hidden h-96 p-4 bg-gray-100 rounded-2xl shadow-inner border-gray-200 focus:ring-2 focus:ring-nord10',
           },
         }))
       })
