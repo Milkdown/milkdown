@@ -24,6 +24,7 @@ export const Layout: FC<LayoutProps> = ({ NavBar, AppBar, Sidebar, children }) =
     <div className="fixed top-0 bottom-0 z-40 w-80
       shadow-lg rounded-tr-3xl rounded-br-3xl
       bg-nord6/90 backdrop-blur backdrop-saturate-50
+      hidden
       left-0 md:left-20 pt-16 md:pt-0">
       <Sidebar />
     </div>

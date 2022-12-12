@@ -1,7 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Editor, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
-import { commonmark } from '@milkdown/preset-commonmark'
+import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import { prism } from '@milkdown/plugin-prism'
+import { blockquoteAttr, commonmark, inlineCodeAttr, inlineCodeSchema } from '@milkdown/preset-commonmark'
 import { Milkdown, useEditor } from '@milkdown/react'
+import doc from './home.md'
+
+const extendedInlineCode = inlineCodeSchema.extendSchema((prev) => {
+  return (ctx) => {
+    return {
+      ...prev(ctx),
+      toDOM: mark => ['span', { class: 'not-prose' }, ['code', ctx.get(inlineCodeAttr.key)(mark), 0]],
+    }
+  }
+})
 
 export const HomeEditor = () => {
   useEditor((root) => {
@@ -9,13 +20,28 @@ export const HomeEditor = () => {
       .make()
       .config((ctx) => {
         ctx.set(rootCtx, root)
+        root.className = 'h-96 overflow-auto bg-gray-100 rounded-2xl shadow-inner border-gray-200'
+
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose lg:prose-xl w-full max-w-full box-border outline-none overflow-hidden h-96 p-4 bg-gray-100 rounded-2xl shadow-inner border-gray-200 focus:ring-2 focus:ring-nord10',
+            class: 'prose lg:prose-xl w-full max-w-full box-border outline-none overflow-hidden p-4',
           },
         }))
+
+        ctx.set(blockquoteAttr.key, () => ({
+          class: 'border-l-4 border-nord10 pl-4',
+        }))
+
+        ctx.set(inlineCodeAttr.key, () => ({
+          class: 'font-mono text-nord10',
+        }))
+      })
+      .config((ctx) => {
+        ctx.set(defaultValueCtx, doc)
       })
       .use(commonmark)
+      .use(extendedInlineCode)
+      .use(prism)
   })
 
   return (

@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import './style.css'
 import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-view/style/prosemirror.css'
+import './style.css'
 
 import { createRoot } from 'react-dom/client'
 

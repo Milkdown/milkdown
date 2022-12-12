@@ -13,6 +13,11 @@ declare module 'builddocs' {
   export function build(config: Config): string
 }
 
+declare module '*.md' {
+  const content: string;
+  export default content;
+}
+
 declare module 'lz-string' {
   export function compressToBase64(input: string): string;
   export function decompressFromBase64(input: string): string;
