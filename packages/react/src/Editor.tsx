@@ -1,17 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { Editor } from '@milkdown/core'
 import type { FC, ReactNode } from 'react'
 import React, { useMemo, useRef, useState } from 'react'
-import type { Editor } from '@milkdown/core'
-import { EditorComponent } from './EditorComponent'
 
 import type { EditorInfoCtx, GetEditor } from './types'
-import { editorInfoContext } from './useGetEditor'
+import { editorInfoContext, useGetEditor } from './useGetEditor'
 
-export const ReactEditor: FC = () => {
-  return <EditorComponent />
+export const Milkdown: FC = () => {
+  const domRef = useGetEditor()
+
+  return <div data-milkdown-root ref={domRef} />
 }
 
-export const ReactEditorProvider: FC<{ children: ReactNode }> = ({ children }) => {
+export const MilkdownProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const dom = useRef<HTMLDivElement | undefined>(undefined)
   const [editorFactory, setEditorFactory] = useState<GetEditor | undefined>(undefined)
   const editor = useRef<Editor>()

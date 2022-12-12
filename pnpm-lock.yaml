@@ -792,6 +792,7 @@ importers:
       react-spinners: ^0.13.0
       refractor: ^4.0.0
       sitemap: ^7.1.1
+      tailwind-nord: ^1.2.0
       tippy.js: ^6.3.7
       tslib: ^2.4.0
       unist-util-visit: ^4.0.0
@@ -869,6 +870,7 @@ importers:
       prosemirror-view: 1.28.0
       refractor: 4.7.0
       sitemap: 7.1.1
+      tailwind-nord: 1.2.0
       vite-plugin-pwa: 0.13.0
       xml-formatter: 2.6.1
 
@@ -12371,6 +12373,10 @@ packages:
 
   /symbol-tree/3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
+    dev: true
+
+  /tailwind-nord/1.2.0:
+    resolution: {integrity: sha512-8CsntjXDV0P+5jGhr5l5fbFPwEzxODebitSn2kQi8hW4jGYISh2WiIUkz+PRJgboaMgij9SUdI6uaWFHRNoNmw==}
     dev: true
 
   /tailwindcss/3.2.4_postcss@8.4.18:

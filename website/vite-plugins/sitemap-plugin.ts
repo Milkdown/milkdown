@@ -5,7 +5,7 @@ import { resolve } from 'path'
 import { SitemapStream, streamToPromise } from 'sitemap'
 import format from 'xml-formatter'
 
-import { config } from '../route/page-config'
+import { config } from '../src/route/page-config'
 
 export const sitemapPlugin = () =>
   ({
