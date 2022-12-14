@@ -797,7 +797,7 @@ importers:
       tslib: ^2.4.0
       unist-util-visit: ^4.0.0
       vite-plugin-pwa: ^0.14.0
-      xml-formatter: ^2.6.1
+      xml-formatter: ^3.0.0
     dependencies:
       '@codemirror/autocomplete': 6.0.4_uj32ay4ttdaqrya5gi5wgzfkba
       '@codemirror/commands': 6.0.1
@@ -872,7 +872,7 @@ importers:
       sitemap: 7.1.1
       tailwind-nord: 1.2.0
       vite-plugin-pwa: 0.14.0
-      xml-formatter: 2.6.1
+      xml-formatter: 3.0.0
 
 packages:
 
@@ -1178,11 +1178,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.20.5
-    dev: true
-
-  /@babel/helper-plugin-utils/7.18.9:
-    resolution: {integrity: sha512-aBXPT3bmtLryXaoJLyYPXPlSD4p1ld9aYeR+sJNOZjJJGiOpb+fKfh3NkcCu7J54nUJwCERPBExCCpyCOHnu/w==}
-    engines: {node: '>=6.9.0'}
     dev: true
 
   /@babel/helper-plugin-utils/7.20.2:
@@ -2109,7 +2104,7 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.18.9
+      '@babel/helper-plugin-utils': 7.20.2
     dev: true
 
   /@babel/plugin-transform-react-jsx-source/7.19.6_@babel+core@7.20.5:
@@ -13432,11 +13427,11 @@ packages:
         optional: true
     dev: true
 
-  /xml-formatter/2.6.1:
-    resolution: {integrity: sha512-dOiGwoqm8y22QdTNI7A+N03tyVfBlQ0/oehAzxIZtwnFAHGeSlrfjF73YQvzSsa/Kt6+YZasKsrdu6OIpuBggw==}
-    engines: {node: '>= 10'}
+  /xml-formatter/3.0.0:
+    resolution: {integrity: sha512-Ri85wU9L/ZiZC/Uq04uarFMHoDGYWR4njUKgya2ISPGjKr+4zRhuRxw/DomYqwqBZqIM0uqt9865Ac0MmnFbvQ==}
+    engines: {node: '>= 14'}
     dependencies:
-      xml-parser-xo: 3.2.0
+      xml-parser-xo: 4.0.0
     dev: true
 
   /xml-name-validator/4.0.0:
@@ -13444,9 +13439,9 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /xml-parser-xo/3.2.0:
-    resolution: {integrity: sha512-8LRU6cq+d7mVsoDaMhnkkt3CTtAs4153p49fRo+HIB3I1FD1o5CeXRjRH29sQevIfVJIcPjKSsPU/+Ujhq09Rg==}
-    engines: {node: '>= 10'}
+  /xml-parser-xo/4.0.0:
+    resolution: {integrity: sha512-tNnOebzhFa1EoeTadlJaZ/BNnjYH/YvkizHQ2Ss5lS49xuulEKhDHm65RQ4BCsP59u89vw9ogiNXDtgi7xfZHQ==}
+    engines: {node: '>= 14'}
     dev: true
 
   /xmlchars/2.2.0:
