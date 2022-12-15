@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { FC } from 'react'
-import { useI18n, usePageList } from '../../provider/LocalizationProvider'
+import { useLocation } from 'react-router-dom'
+import { useI18n, usePageList, usePages } from '../../provider/LocalizationProvider'
 import { ROOT, useHideSidePanel, useHoldSidePanel, useSidePanelState } from '../../provider/SidePanelStateProvider'
 import type { Section } from '../../route'
 
@@ -18,15 +19,22 @@ type SidePanelGroupProps = {
 }
 
 const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
+  const location = useLocation()
+  const pages = usePages()
+  const page = pages.find(page => page.link === location.pathname)
+
   return (
     <div className="text-nord0 my-2">
       {title && <div className="p-4 font-medium text-lg">{title}</div>}
       <ul>
         {
           items.map((item, index) => (
-            <div key={index.toString()} className="p-4 rounded-full cursor-pointer font-light
-            flex items-center justify-between gap-3
-            text-gray-600 hover:text-gray-900 hover:bg-gray-300">
+            <div
+              key={index.toString()}
+              className={`p-4 rounded-full cursor-pointer font-light
+                flex items-center justify-between gap-3
+                ${page?.id === item.id ? 'bg-nord8 text-gray-900' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-300'}`}
+            >
               {item.prefixIcon && item.prefixIcon === '$' ? <span className="w-6" /> : <span className="material-symbols-outlined">{item.prefixIcon}</span>}
               <a className="flex-1" href={item.link}>{item.text}</a>
               {item.suffixIcon && <span className="material-symbols-outlined">{item.suffixIcon}</span>}

@@ -6,6 +6,7 @@ export interface Item {
   id: string
   title: string
   link: string
+  parentId: string
   content: () => Promise<{ default: string }>
 }
 export interface Section {
@@ -19,11 +20,12 @@ export interface ConfigItem {
   items: string[]
 }
 
-const createItem = (dir: string, path: string, local: Local) => {
+const createItem = (dir: string, path: string, local: Local): Item => {
   const route = i18nConfig[local].route
   const fileName = ['index', route].filter(x => x).join('.')
   return {
     id: path,
+    parentId: dir,
     title: fromDict(path, local),
     link: `/${[route, path].filter(x => x).join('/')}`,
     content: () => import(`../../pages/${dir}/${path}/${fileName}.md`),
