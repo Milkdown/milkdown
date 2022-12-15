@@ -18,11 +18,11 @@ export const config: ConfigItem[] = [
     ],
   },
   {
-    dir: 'integrations',
+    dir: 'recipes',
     items: ['react', 'vue', 'svelte', 'solidjs', 'nextjs', 'nuxtjs', 'angular', 'vue2'],
   },
   {
-    dir: 'plugins',
+    dir: 'plugin',
     items: [
       'using-plugins',
       'plugins-101',
@@ -33,11 +33,7 @@ export const config: ConfigItem[] = [
     ],
   },
   {
-    dir: 'theme',
-    items: ['design-system', 'using-themes', 'writing-themes', 'theme-pack-helper', 'theme-nord', 'theme-tokyo'],
-  },
-  {
-    dir: 'official-plugins',
+    dir: 'api',
     items: [
       'preset-commonmark',
       'preset-gfm',
@@ -58,10 +54,6 @@ export const config: ConfigItem[] = [
       'plugin-diagram',
       'plugin-clipboard',
     ],
-  },
-  {
-    dir: 'core-modules',
-    items: ['core', 'prose', 'ctx', 'transformer'],
   },
 ]
 

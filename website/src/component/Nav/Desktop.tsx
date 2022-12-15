@@ -1,9 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { FC, ReactNode } from 'react'
+import { useHideSidePanel, useShowSectionSidePanel } from '../../provider/SidePanelStateProvider'
 
-const NavItem: FC<{ icon: string; text: string }> = ({ icon, text }) => {
+const NavItem: FC<{ icon: string; text: string; id?: string }> = ({ icon, text, id }) => {
+  const showSectionSidePanel = useShowSectionSidePanel()
+  const hideSidePanel = useHideSidePanel()
+  const onMouseEnter = () => {
+    if (!id)
+      return
+    showSectionSidePanel(id, 'desktop')
+  }
+  const onMouseLeave = () => {
+    if (!id)
+      return
+    hideSidePanel()
+  }
+
   return (
-    <div className="text-center cursor-pointer text-gray-600 hover:text-gray-900">
+    <div className="text-center cursor-pointer text-gray-600 hover:text-gray-900" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div className="py-0.5 px-4 flex justify-center rounded-3xl
         hover:bg-gray-300">
         <div className="material-symbols-outlined">{icon}</div>
@@ -31,9 +45,10 @@ export const DesktopNav: FC = () => {
           <img className="w-9 h-9" src="/milkdown-logo.svg"></img>
         </div>
         <div className="flex gap-4 flex-col mt-8">
-          <NavItem icon="apps" text="Receipt" />
-          <NavItem icon="design_services" text="Guide" />
-          <NavItem icon="api" text="API" />
+          <NavItem icon="apps" text="Recipes" id="recipes" />
+          <NavItem icon="design_services" text="Guide" id="guide" />
+          <NavItem icon="extension" text="Plugin" id="plugin" />
+          <NavItem icon="api" text="API" id="api" />
           <NavItem icon="view_carousel" text="Playground" />
         </div>
       </div>

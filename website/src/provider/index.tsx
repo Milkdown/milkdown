@@ -7,6 +7,7 @@ import { compose } from '../utils/compose'
 import { ErrorProvider } from './ErrorProvider'
 import { HelmetProvider } from './HelmetProvider'
 import { LocalizationProvider } from './LocalizationProvider'
+import { SidePanelStateProvider } from './SidePanelStateProvider'
 
 export const AppProvider = compose(
   StrictMode,
@@ -19,4 +20,5 @@ export const AppProvider = compose(
   BrowserRouter,
 
   LocalizationProvider,
+  SidePanelStateProvider,
 )

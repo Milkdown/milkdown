@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Dict, Local } from './page-router'
 
-export const titleDict: Dict = new Map([
+export const i18nDict: Dict = new Map([
   [
     'guide',
     {
@@ -80,10 +80,10 @@ export const titleDict: Dict = new Map([
     },
   ],
   [
-    'integrations',
+    'recipes',
     {
-      'en': 'Integrations',
-      'zh-hans': '集成',
+      'en': 'Recipes',
+      'zh-hans': '配方',
     },
   ],
   [
@@ -143,9 +143,9 @@ export const titleDict: Dict = new Map([
     },
   ],
   [
-    'plugins',
+    'plugin',
     {
-      'en': 'Plugins',
+      'en': 'Plugin',
       'zh-hans': '插件',
     },
   ],
@@ -297,10 +297,10 @@ export const titleDict: Dict = new Map([
     },
   ],
   [
-    'official-plugins',
+    'api',
     {
-      'en': 'Official Plugins',
-      'zh-hans': '官方插件',
+      'en': 'API',
+      'zh-hans': 'API',
     },
   ],
   [
@@ -479,12 +479,12 @@ export const titleDict: Dict = new Map([
     },
   ],
   [
-    'core-modules',
+    'playground',
     {
-      'en': 'Core Modules',
-      'zh-hans': '核心模块',
+      'en': 'Playground',
+      'zh-hans': '游乐场',
     },
   ],
 ])
 
-export const fromDict = (key: string, local: Local) => titleDict.get(key)?.[local] ?? 'Not Found'
+export const fromDict = (key: string, local: Local) => i18nDict.get(key)?.[local] ?? 'Not Found'
