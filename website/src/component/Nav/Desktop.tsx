@@ -21,7 +21,7 @@ const NavItem: FC<{ icon: string; text: string; id?: string }> = ({ icon, text, 
   const onMouseLeave = () => {
     if (!id)
       return
-    hideSidePanel()
+    hideSidePanel(500)
   }
 
   return (

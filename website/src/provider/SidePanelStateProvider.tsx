@@ -41,9 +41,8 @@ const sidePanelDataReducer: Reducer<SidePanelState, SidePanelAction> = (state, a
     case 'Hide':
     default: {
       return {
+        ...state,
         visible: false,
-        mode: state.mode,
-        activeId: ROOT,
       }
     }
   }
@@ -98,8 +97,8 @@ export const useHoldSidePanel = () => {
 
 export const useHideSidePanel = () => {
   const dispatch = useSidePanelDispatcher()
-  return useCallback(() => {
-    sidePanelControl = window.setTimeout(() => dispatch({ type: 'Hide' }), 500)
+  return useCallback((delay: number) => {
+    sidePanelControl = window.setTimeout(() => dispatch({ type: 'Hide' }), delay)
   }, [dispatch])
 }
 
