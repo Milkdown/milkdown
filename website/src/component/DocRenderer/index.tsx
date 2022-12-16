@@ -29,7 +29,7 @@ export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
         }))
 
         ctx.set(blockquoteAttr.key, () => ({
-          class: 'border-l-4 border-nord10 pl-4',
+          class: 'border-l-4 border-nord10 pl-4 not-prose',
         }))
 
         ctx.set(inlineCodeAttr.key, () => ({
