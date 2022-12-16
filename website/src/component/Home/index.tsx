@@ -5,7 +5,7 @@ import { HomeEditor } from './Editor'
 export const Home: React.FC = () => {
   return (
     <div>
-      <div className="text-center my-24">
+      <div className="text-center mt-24">
         <h1 className="xl:text-8xl sm:text-6xl text-4xl font-medium">The <span className="text-nord10">WYSIWYG Markdown</span> Editor Framework</h1>
         <p className="sm:text-2xl text-lg mt-6">A plugin driven framework to build <span className="text-nord10">WYSIWYG markdown</span> editor.</p>
         <div className="flex justify-center gap-4 mt-9">
@@ -18,10 +18,10 @@ export const Home: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="mb-24">
+      <div className="mt-24">
         <HomeEditor />
       </div>
-      <div className="mb-24 grid md:grid-cols-2 grid-cols-1 gap-6">
+      <div className="mt-24 grid md:grid-cols-2 grid-cols-1 gap-6">
         <div className="bg-gray-50 flex-1/2 rounded-2xl py-3 px-4">
           <div className="text-xl font-bold">Header</div>
           <p className="font-light mt-7">
