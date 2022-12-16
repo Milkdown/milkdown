@@ -24,6 +24,7 @@ export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
             class: 'prose lg:prose-xl w-full max-w-full box-border outline-none overflow-hidden p-4',
+            spellcheck: 'false',
           },
         }))
 
@@ -32,7 +33,7 @@ export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
         }))
 
         ctx.set(inlineCodeAttr.key, () => ({
-          class: 'font-mono text-nord10',
+          class: 'font-mono text-nord10 tracking-tight',
         }))
       })
       .config((ctx) => {
