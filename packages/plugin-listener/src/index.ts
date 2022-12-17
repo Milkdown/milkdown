@@ -126,13 +126,11 @@ export const listener: MilkdownPlugin = (pre) => {
           }
 
           if (listeners.markdownUpdated.length > 0 && (prevDoc == null || !prevDoc.eq(doc))) {
-            const markdown = serializer(tr.doc)
-            if (prevMarkdown == null || prevMarkdown !== markdown) {
-              listeners.markdownUpdated.forEach((fn) => {
-                fn(ctx, markdown, prevMarkdown)
-              })
-              prevMarkdown = markdown
-            }
+            const markdown = serializer(doc)
+            listeners.markdownUpdated.forEach((fn) => {
+              fn(ctx, markdown, prevMarkdown)
+            })
+            prevMarkdown = markdown
           }
 
           prevDoc = doc

@@ -1,11 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import { Editor, defaultValueCtx, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { prism } from '@milkdown/plugin-prism'
 import { blockquoteAttr, commonmark, inlineCodeAttr, inlineCodeSchema } from '@milkdown/preset-commonmark'
 import { Milkdown, useEditor } from '@milkdown/react'
+import { outline } from '@milkdown/utils'
 import type { FC } from 'react'
+import { useState } from 'react'
 import type { Content } from '../../utils/useLazy'
 import { useLazy } from '../../utils/useLazy'
+import { Outline } from './Outline'
 
 const extendedInlineCode = inlineCodeSchema.extendSchema(prev => ctx => ({
   ...prev(ctx),
@@ -14,8 +18,11 @@ const extendedInlineCode = inlineCodeSchema.extendSchema(prev => ctx => ({
 
 export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
   const [loading, md] = useLazy(content)
+  const [outlines, setOutlines] = useState<{ text: string; level: number; id: string }[]>([])
 
   useEditor((root) => {
+    if (loading)
+      return
     return Editor
       .make()
       .config((ctx) => {
@@ -23,7 +30,7 @@ export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
 
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose lg:prose-xl w-full max-w-full box-border outline-none overflow-hidden p-4',
+            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4',
             spellcheck: 'false',
           },
         }))
@@ -35,6 +42,16 @@ export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
         ctx.set(inlineCodeAttr.key, () => ({
           class: 'font-mono text-nord10 tracking-tight',
         }))
+
+        ctx.get(listenerCtx)
+          .mounted((ctx) => {
+            setOutlines(outline()(ctx))
+          })
+          .markdownUpdated((ctx) => {
+            const view = ctx.get(editorViewCtx)
+            if (view.state?.doc)
+              setOutlines(outline()(ctx))
+          })
       })
       .config((ctx) => {
         ctx.set(defaultValueCtx, md)
@@ -42,7 +59,17 @@ export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
       .use(commonmark)
       .use(extendedInlineCode)
       .use(prism)
-  }, [md])
+      .use(listener)
+  }, [md, loading])
 
-  return loading ? <div>loading</div> : <Milkdown />
+  return loading
+    ? <div>loading</div>
+    : (
+      <>
+        <Milkdown />
+        <div className="xl:w-60 xl:flex hidden fixed top-16 right-10 bottom-16 flex-col gap-4">
+          <Outline items={outlines} />
+        </div>
+      </>
+      )
 }

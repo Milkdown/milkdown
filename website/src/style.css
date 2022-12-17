@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+li::after {
+  all: unset !important;
+}
+
 .ProseMirror-selectednode {
   outline: none;
   @apply ring-2 ring-offset-1 ring-nord9;
+}
+
+.prose blockquote {
+  @apply not-italic;
 }
 
 .prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::before {

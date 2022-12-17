@@ -24,7 +24,7 @@ export const HomeEditor = () => {
 
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose lg:prose-xl  w-full max-w-full box-border outline-none overflow-hidden p-4',
+            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4',
           },
         }))
 
