@@ -14,7 +14,7 @@ importers:
       '@nrwl/tao': latest
       '@nrwl/workspace': latest
       '@rollup/plugin-commonjs': ^23.0.0
-      '@rollup/plugin-json': ^5.0.0
+      '@rollup/plugin-json': ^6.0.0
       '@rollup/plugin-node-resolve': ^15.0.0
       '@rollup/plugin-typescript': ^10.0.0
       '@tailwindcss/forms': ^0.5.3
@@ -62,7 +62,7 @@ importers:
       '@nrwl/tao': 15.3.3
       '@nrwl/workspace': 15.3.3_s5ps7njkmjlaqajutnox5ntcla
       '@rollup/plugin-commonjs': 23.0.0_rollup@3.0.0
-      '@rollup/plugin-json': 5.0.0_rollup@3.0.0
+      '@rollup/plugin-json': 6.0.0_rollup@3.0.0
       '@rollup/plugin-node-resolve': 15.0.0_rollup@3.0.0
       '@rollup/plugin-typescript': 10.0.0_2vs6bpjo63k7jg2usn4g5cvrx4
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
@@ -3975,8 +3975,8 @@ packages:
       rollup: 3.0.0
     dev: true
 
-  /@rollup/plugin-json/5.0.0_rollup@3.0.0:
-    resolution: {integrity: sha512-LsWDA5wJs/ggzakVuKQhZo7HPRcQZgBa3jWIVxQSFxaRToUGNi8ZBh3+k/gQ+1eInVYJgn4WBRCUkmoDrmmGzw==}
+  /@rollup/plugin-json/6.0.0_rollup@3.0.0:
+    resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0
@@ -3984,7 +3984,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 4.2.1
+      '@rollup/pluginutils': 5.0.2_rollup@3.0.0
       rollup: 3.0.0
     dev: true
 
