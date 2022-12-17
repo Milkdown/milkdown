@@ -15,7 +15,7 @@ export const Layout: FC<LayoutProps> = ({ NavBar, AppBar, Sidebar, children }) =
   const hideSidePanel = useHideSidePanel()
 
   return (
-    <div className="pt-16">
+    <div className="pt-16 min-h-screen grid grid-rows-1">
       <div className="fixed left-0 top-0 bottom-0 w-20 z-50 bg-nord6/70 backdrop-blur backdrop-saturate-50 hidden md:block">
         <NavBar />
       </div>
