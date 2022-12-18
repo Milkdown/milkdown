@@ -43,7 +43,7 @@
     "@nrwl/tao": "latest",
     "@nrwl/workspace": "latest",
     "@rollup/plugin-commonjs": "^23.0.0",
-    "@rollup/plugin-json": "^5.0.0",
+    "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-typescript": "^10.0.0",
     "@tailwindcss/forms": "^0.5.3",
