@@ -21,38 +21,39 @@ export const ImageTooltip: FC = () => {
   const { src, alt, title } = imageNode?.attrs ?? {}
 
   useEffect(() => {
-    if (ref.current) {
-      if (!tooltipProvider.current) {
-        const provider = new TooltipProvider({
-          content: ref.current,
-          shouldShow: (view) => {
-            const { selection } = view.state
-            const { empty, from } = selection
+    if (ref.current && !tooltipProvider.current && !loading) {
+      const provider = new TooltipProvider({
+        content: ref.current,
+        tippyOptions: {
+          zIndex: 30,
+        },
+        shouldShow: (view) => {
+          const { selection } = view.state
+          const { empty, from } = selection
 
-            const isTooltipChildren = provider.element.contains(document.activeElement)
+          const isTooltipChildren = provider.element.contains(document.activeElement)
 
-            const notHasFocus = !view.hasFocus() && !isTooltipChildren
+          const notHasFocus = !view.hasFocus() && !isTooltipChildren
 
-            const isReadonly = !view.editable
+          const isReadonly = !view.editable
 
-            if (notHasFocus || empty || isReadonly)
-              return false
-
-            if (selection instanceof NodeSelection && view.state.doc.nodeAt(from)?.type.name === 'image')
-              return true
-
+          if (notHasFocus || empty || isReadonly)
             return false
-          },
-        })
 
-        tooltipProvider.current = provider
-      }
+          if (selection instanceof NodeSelection && view.state.doc.nodeAt(from)?.type.name === 'image')
+            return true
+
+          return false
+        },
+      })
+
+      tooltipProvider.current = provider
     }
 
     return () => {
       tooltipProvider.current?.destroy()
     }
-  }, [])
+  }, [loading])
 
   useEffect(() => {
     tooltipProvider.current?.update(view, prevState)
@@ -75,10 +76,11 @@ export const ImageTooltip: FC = () => {
   }
 
   return (
-    <div ref={ref} className="bg-white p-4 flex flex-col gap-2 border-gray-300 shadow rounded ring w-96">
-      <label className="flex flex-row justify-center items-center gap-4">
-        <span className="w-10">Link</span>
-        <input
+    <div>
+      <div ref={ref} className="bg-white p-4 flex flex-col gap-2 border-gray-300 shadow rounded ring w-96">
+        <label className="flex flex-row justify-center items-center gap-4">
+          <span className="w-10">Link</span>
+          <input
           onBlur={(e) => {
             onChange('src', e)
           }}
@@ -90,10 +92,10 @@ export const ImageTooltip: FC = () => {
             focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           defaultValue={src}
         />
-      </label>
-      <label className="flex flex-row justify-center items-center gap-4">
-        <span className="w-10">Alt</span>
-        <input
+        </label>
+        <label className="flex flex-row justify-center items-center gap-4">
+          <span className="w-10">Alt</span>
+          <input
           onBlur={(e) => {
             onChange('alt', e)
           }}
@@ -105,10 +107,10 @@ export const ImageTooltip: FC = () => {
             focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           defaultValue={alt}
         />
-      </label>
-      <label className="flex flex-row justify-center items-center gap-4">
-        <span className="w-10">Title</span>
-        <input
+        </label>
+        <label className="flex flex-row justify-center items-center gap-4">
+          <span className="w-10">Title</span>
+          <input
           onBlur={(e) => {
             onChange('title', e)
           }}
@@ -120,7 +122,8 @@ export const ImageTooltip: FC = () => {
             focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           defaultValue={title}
         />
-      </label>
+        </label>
+      </div>
     </div>
   )
 }

@@ -1,6 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { MilkdownProvider } from '@milkdown/react'
-import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import { StrictMode } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { compose } from '../utils/compose'
@@ -12,9 +10,6 @@ import { SidePanelStateProvider } from './SidePanelStateProvider'
 export const AppProvider = compose(
   StrictMode,
   ErrorProvider,
-
-  MilkdownProvider,
-  ProsemirrorAdapterProvider,
 
   HelmetProvider,
   BrowserRouter,

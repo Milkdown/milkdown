@@ -54,9 +54,10 @@ export const Slash = () => {
   })
 
   return (
-    <div role="tooltip" className="rounded bg-gray-50 shadow-lg w-96 ring-2" ref={ref}>
-      <ul className="list-none m-0">
-        <li
+    <div>
+      <div role="tooltip" className="rounded bg-gray-50 shadow-lg w-96 ring-2" ref={ref}>
+        <ul className="list-none m-0">
+          <li
           onClick={() => {
             if (loading)
               return
@@ -71,9 +72,9 @@ export const Slash = () => {
           }}
           className="px-6 py-3 cursor-pointer hover:bg-gray-200"
         >
-          Heading 1
-        </li>
-        <li
+            Heading 1
+          </li>
+          <li
           onClick={() => {
             if (loading)
               return
@@ -88,9 +89,9 @@ export const Slash = () => {
           }}
           className="px-6 py-3 cursor-pointer hover:bg-gray-200"
         >
-          Heading 2
-        </li>
-        <li
+            Heading 2
+          </li>
+          <li
           onClick={() => {
             if (loading)
               return
@@ -105,9 +106,9 @@ export const Slash = () => {
           }}
           className="px-6 py-3 cursor-pointer hover:bg-gray-200"
         >
-          Heading 3
-        </li>
-        <li
+            Heading 3
+          </li>
+          <li
           onClick={() => {
             if (loading)
               return
@@ -122,9 +123,9 @@ export const Slash = () => {
           }}
           className="px-6 py-3 cursor-pointer hover:bg-gray-200"
         >
-          Code Block
-        </li>
-        <li
+            Code Block
+          </li>
+          <li
           onMouseDown={(e) => {
             if (loading)
               return
@@ -140,9 +141,10 @@ export const Slash = () => {
           }}
           className="px-6 py-3 cursor-pointer hover:bg-gray-200"
         >
-          Horizontal Rule
-        </li>
-      </ul>
+            Horizontal Rule
+          </li>
+        </ul>
+      </div>
     </div>
   )
 }

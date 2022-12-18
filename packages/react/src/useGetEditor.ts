@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { createContext, useContext, useLayoutEffect, useRef } from 'react'
+import { createContext, useContext, useEffect, useRef } from 'react'
 
 import type { EditorInfoCtx } from './types'
 
@@ -9,13 +9,15 @@ export const useGetEditor = () => {
   const { dom, editor: editorRef, setLoading, editorFactory: getEditor } = useContext(editorInfoContext)
   const domRef = useRef<HTMLDivElement>(null)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    const div = domRef.current
+
     if (!getEditor)
       return
 
-    const div = domRef.current
     if (!div)
       return
+
     dom.current = div
 
     const editor = getEditor(div)
@@ -34,10 +36,7 @@ export const useGetEditor = () => {
       .catch(console.error)
 
     return () => {
-      setLoading(true)
-      editor.destroy().finally(() => {
-        setLoading(false)
-      })
+      editorRef.current?.destroy()
     }
   }, [dom, editorRef, getEditor, setLoading])
 

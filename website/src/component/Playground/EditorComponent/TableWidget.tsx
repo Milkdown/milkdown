@@ -29,20 +29,21 @@ export const TableTooltip: FC = () => {
   const isHeading = isRow && view.state.doc.nodeAt((view.state.selection as CellSelection).$headCell.pos)?.type.name === 'table_header'
 
   useEffect(() => {
-    if (ref.current && !loading) {
-      if (!tooltipProvider.current) {
-        const provider = new TooltipProvider({
-          content: ref.current,
-          shouldShow: () => {
-            return false
-          },
-        })
-        provider.update(getEditor().ctx.get(editorViewCtx))
+    if (ref.current && !loading && !tooltipProvider.current) {
+      const provider = new TooltipProvider({
+        content: ref.current,
+        tippyOptions: {
+          zIndex: 30,
+        },
+        shouldShow: () => {
+          return false
+        },
+      })
+      provider.update(getEditor().ctx.get(editorViewCtx))
 
-        getEditor().ctx.set(tableTooltipCtx.key, provider)
+      getEditor().ctx.set(tableTooltipCtx.key, provider)
 
-        tooltipProvider.current = provider
-      }
+      tooltipProvider.current = provider
     }
 
     return () => {
@@ -51,8 +52,9 @@ export const TableTooltip: FC = () => {
   }, [getEditor, loading])
 
   return (
-    <div className="flex" ref={ref}>
-      {
+    <div>
+      <div className="flex" ref={ref}>
+        {
         !isWholeTable && !isHeading && isRow
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -69,7 +71,7 @@ export const TableTooltip: FC = () => {
           +Row
         </button>
       }
-      {
+        {
         !isWholeTable && isCol
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -86,7 +88,7 @@ export const TableTooltip: FC = () => {
           +Col
         </button>
       }
-      {
+        {
         (isWholeTable || !isHeading)
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -103,7 +105,7 @@ export const TableTooltip: FC = () => {
           Delete
         </button>
       }
-      {
+        {
         !isWholeTable && isRow
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -120,7 +122,7 @@ export const TableTooltip: FC = () => {
           Row+
         </button>
       }
-      {
+        {
         !isWholeTable && isCol
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -137,7 +139,7 @@ export const TableTooltip: FC = () => {
           Col+
         </button>
       }
-      {
+        {
         !isWholeTable && isCol
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -152,7 +154,7 @@ export const TableTooltip: FC = () => {
           Left
         </button>
       }
-      {
+        {
         !isWholeTable && isCol
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -167,7 +169,7 @@ export const TableTooltip: FC = () => {
           Center
         </button>
       }
-      {
+        {
         !isWholeTable && isCol
         && <button
           className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
@@ -182,6 +184,7 @@ export const TableTooltip: FC = () => {
           Right
         </button>
       }
+      </div>
     </div>
   )
 }

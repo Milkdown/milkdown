@@ -5,6 +5,8 @@ import mermaid from 'mermaid'
 import type { FC } from 'react'
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
+mermaid.initialize({ startOnLoad: false })
+
 export const Diagram: FC = () => {
   const { node, setAttrs, selected } = useNodeViewContext()
   const code = useMemo(() => node.attrs.value, [node.attrs.value])

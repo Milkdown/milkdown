@@ -757,7 +757,7 @@ importers:
       '@milkdown/react': workspace:*
       '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
-      '@prosemirror-adapter/react': ^0.2.0
+      '@prosemirror-adapter/react': ^0.2.2
       '@radix-ui/react-tabs': ^1.0.1
       '@rollup/pluginutils': '*'
       '@types/estree': ^1.0.0
@@ -831,7 +831,7 @@ importers:
       '@milkdown/react': link:../packages/react
       '@milkdown/transformer': link:../packages/transformer
       '@milkdown/utils': link:../packages/utils
-      '@prosemirror-adapter/react': 0.2.0_biqbaboplfbrettd7655fr4n2y
+      '@prosemirror-adapter/react': 0.2.2_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-tabs': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@types/katex': 0.14.0
       '@types/lodash.debounce': 4.0.7
@@ -3750,14 +3750,21 @@ packages:
     resolution: {integrity: sha512-Q02n0SzUSAmjQDUmxKQ9sBdFwWpLTB20N7vg0Vx2b+wbgzQDGNkUEmmKDHOGVVJnlrEiFbq3Rm6uche6aQ24Ng==}
     dependencies:
       tslib: 2.4.0
+    dev: true
 
-  /@prosemirror-adapter/react/0.2.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-dViktRE0X3OOjEupyOs6nHNu6gBTkUwPt5wTZjcnFOZctyGX4xXFDfLTb2wBooG3TW/5AEktdU1bNqNlIZEW8w==}
+  /@prosemirror-adapter/core/0.2.2:
+    resolution: {integrity: sha512-rnkh1StLZO5YcA8ELVmUNd+OkqeuneyhoDoXrSDsMuG1HeQLy6WithRurJQcqkJQD5Ak/ebWDykKEFPGKS4a+A==}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
+
+  /@prosemirror-adapter/react/0.2.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-iNbCFDlaE67SaY+3V4Chb4LHj7h8YvTPddWWfnMFIjXfO8k6+vOm3haxDrRiyzb61/7cXXmfs077OaGVuikxtw==}
     peerDependencies:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@prosemirror-adapter/core': 0.2.0
+      '@prosemirror-adapter/core': 0.2.2
       nanoid: 4.0.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0

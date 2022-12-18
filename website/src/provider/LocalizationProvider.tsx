@@ -17,6 +17,10 @@ export const useSetLanguage = (localize: Localize) => {
   return setLocal(localize)
 }
 
+export const useLocal = () => {
+  return useContext(localCtx)
+}
+
 export const useRootUrl = () => {
   const local = useContext(localCtx)
   return useMemo(() => i18nConfig[local].route, [local])

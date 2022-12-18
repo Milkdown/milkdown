@@ -1,4 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { MilkdownProvider } from '@milkdown/react'
+import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import React from 'react'
 import { HomeEditor } from './Editor'
 
@@ -19,7 +21,11 @@ export const Home: React.FC = () => {
         </div>
       </div>
       <div className="mt-24">
-        <HomeEditor />
+        <MilkdownProvider>
+          <ProsemirrorAdapterProvider>
+            <HomeEditor />
+          </ProsemirrorAdapterProvider>
+        </MilkdownProvider>
       </div>
       <div className="mt-24 grid md:grid-cols-2 grid-cols-1 gap-6">
         <div className="bg-gray-50 flex-1/2 rounded-2xl py-3 px-4">

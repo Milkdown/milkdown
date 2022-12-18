@@ -3,8 +3,9 @@ import { Editor, defaultValueCtx, editorViewCtx, editorViewOptionsCtx, rootCtx }
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { prism } from '@milkdown/plugin-prism'
 import { blockquoteAttr, commonmark, inlineCodeAttr, inlineCodeSchema } from '@milkdown/preset-commonmark'
-import { Milkdown, useEditor } from '@milkdown/react'
+import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react'
 import { outline } from '@milkdown/utils'
+import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
 import { useState } from 'react'
 import type { Content } from '../../utils/useLazy'
@@ -16,12 +17,12 @@ const extendedInlineCode = inlineCodeSchema.extendSchema(prev => ctx => ({
   toDOM: mark => ['span', { class: 'not-prose' }, ['code', ctx.get(inlineCodeAttr.key)(mark), 0]],
 }))
 
-export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
+export const Inner: FC<{ content: Content }> = ({ content }) => {
   const [loading, md] = useLazy(content)
   const [outlines, setOutlines] = useState<{ text: string; level: number; id: string }[]>([])
 
   useEditor((root) => {
-    if (loading)
+    if (loading || !content)
       return
     return Editor
       .make()
@@ -72,4 +73,14 @@ export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
         </div>
       </>
       )
+}
+
+export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
+  return (
+    <MilkdownProvider>
+      <ProsemirrorAdapterProvider>
+        <Inner content={content} />
+      </ProsemirrorAdapterProvider>
+    </MilkdownProvider>
+  )
 }

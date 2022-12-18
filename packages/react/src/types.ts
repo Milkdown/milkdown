@@ -17,4 +17,3 @@ export interface EditorInfoCtx {
   editorFactory: GetEditor | undefined
   setEditorFactory: Dispatch<SetStateAction<GetEditor | undefined>>
 }
-

@@ -9,7 +9,7 @@ import './style.css'
 export const nordThemeConfig = (ctx: Ctx) => {
   ctx.set(editorViewOptionsCtx, ({
     attributes: {
-      class: 'prose lg:prose-xl mx-auto p-1 box-border outline-none overflow-hidden',
+      class: 'prose mx-auto p-1 box-border outline-none overflow-hidden',
     },
   }))
 

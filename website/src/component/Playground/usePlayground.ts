@@ -31,9 +31,8 @@ import { MathBlock } from './EditorComponent/MathBlock'
 import { Slash } from './EditorComponent/Slash'
 import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from './EditorComponent/TableWidget'
 
-export const useOnlineEditorFactory = (
+export const usePlayground = (
   defaultValue: string,
-  readOnly: boolean | undefined,
   onChange?: (markdown: string) => void,
 ) => {
   const pluginViewFactory = usePluginViewFactory()
@@ -41,11 +40,12 @@ export const useOnlineEditorFactory = (
   const widgetViewFactory = useWidgetViewFactory()
 
   const editorInfo = useEditor((root) => {
-    const editor = Editor.make()
+    const editor = Editor
+      .make()
       .config((ctx) => {
         ctx.set(rootCtx, root)
         ctx.set(defaultValueCtx, defaultValue)
-        ctx.update(editorViewOptionsCtx, prev => ({ ...prev, editable: () => !readOnly }))
+        ctx.update(editorViewOptionsCtx, prev => ({ ...prev }))
         ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
           onChange?.(markdown)
         })
@@ -63,16 +63,17 @@ export const useOnlineEditorFactory = (
             component: Slash,
           }),
         })
-        ctx.set(blockView.key, pluginViewFactory({
-          component: Block,
-        }))
         ctx.set(tableTooltip.key, {
           view: pluginViewFactory({
             component: TableTooltip,
           }),
         })
+        ctx.set(blockView.key, pluginViewFactory({
+          component: Block,
+        }))
       })
       .config(nordThemeConfig)
+      .use(nordPlugins)
       .use(commonmark)
       .use(gfm)
       .use(emoji)
@@ -89,7 +90,8 @@ export const useOnlineEditorFactory = (
       .use(slash)
       .use(block)
       .use(diagram)
-      .use(nordPlugins)
+      .use(tableTooltipCtx)
+      .use(tableTooltip)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
       .use($view(mathBlockSchema.node, () => nodeViewFactory({
@@ -103,12 +105,10 @@ export const useOnlineEditorFactory = (
       .use($view(footnoteDefinitionSchema.node, () => nodeViewFactory({ component: FootnoteDef })))
       .use($view(footnoteReferenceSchema.node, () => nodeViewFactory({ component: FootnoteRef })))
       .use(linkPlugin(widgetViewFactory))
-      .use(tableTooltipCtx)
-      .use(tableTooltip)
       .use(tableSelectorPlugin(widgetViewFactory))
 
     return editor
-  }, [readOnly, defaultValue, onChange, pluginViewFactory])
+  }, [defaultValue, onChange])
 
   return editorInfo
 }

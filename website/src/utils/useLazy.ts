@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import React from 'react'
+import { useEffect, useState } from 'react'
 
 export type Content = string | (() => Promise<{ default: string }>)
 
@@ -10,10 +10,10 @@ const notFound = `# 404
 💖 We're grateful if you're willing to help us improve it.`
 
 export const useLazy = (content: Content) => {
-  const [md, setMd] = React.useState('')
-  const [loading, setLoading] = React.useState(true)
+  const [md, setMd] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof content === 'string') {
       setMd(content)
       setLoading(false)
@@ -30,6 +30,9 @@ export const useLazy = (content: Content) => {
         setMd(notFound)
         setLoading(false)
       })
+    return () => {
+      setLoading(true)
+    }
   }, [content])
 
   return [loading, md] as const

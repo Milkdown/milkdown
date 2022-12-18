@@ -44,7 +44,5 @@ export const HomeEditor = () => {
       .use(prism)
   })
 
-  return (
-    <Milkdown />
-  )
+  return <Milkdown />
 }

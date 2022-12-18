@@ -86,4 +86,3 @@ export const insertDiagramInputRules = $inputRule(() =>
 export const remarkDiagramPlugin = $remark(() => remarkMermaid)
 
 export const insertDiagramCommand = $command('InsertDiagramCommand', () => () => setBlockType(diagramSchema.type(), { identity: getId() }))
-
