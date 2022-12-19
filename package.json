@@ -42,7 +42,7 @@
     "@nrwl/nx-cloud": "latest",
     "@nrwl/tao": "latest",
     "@nrwl/workspace": "latest",
-    "@rollup/plugin-commonjs": "^23.0.0",
+    "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-typescript": "^10.0.0",
@@ -52,7 +52,7 @@
     "@vitejs/plugin-react": "^3.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "@vitest/ui": "^0.25.0",
+    "@vitest/ui": "^0.26.0",
     "autoprefixer": "^10.2.5",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
@@ -79,7 +79,7 @@
     "typescript": "^4.9.3",
     "typescript-styled-plugin": "^0.18.2",
     "vite": "^4.0.0",
-    "vitest": "^0.25.0"
+    "vitest": "^0.26.0"
   },
   "pnpm": {
     "peerDependencyRules": {
