@@ -27,6 +27,7 @@ export const Layout: FC<LayoutProps> = ({ NavBar, AppBar, Sidebar, children }) =
         bg-nord6/90 backdrop-blur backdrop-saturate-50
         pt-16 md:pt-0
         transition-all duration-200 ease-in-out
+        overflow-auto
         ${sidePanelVisible ? 'left-0 md:left-20' : '-left-80'}`}>
         <Sidebar />
       </div>
