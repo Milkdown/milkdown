@@ -25,7 +25,7 @@ export const LinkWidgetAfter: FC = () => {
       <span>
         ({
           <>
-            <small className="text-blue-400 font-light">link: </small>
+            <small className="text-nord8 font-light">link: </small>
             <input
             size={href.length}
             placeholder="empty"
@@ -42,7 +42,7 @@ export const LinkWidgetAfter: FC = () => {
            defaultValue={href}
           />
           &nbsp;
-            <small className="text-blue-400 font-light">title: </small>
+            <small className="text-nord8 font-light">title: </small>
             &quot;
             <input
             size={title.length || 5}

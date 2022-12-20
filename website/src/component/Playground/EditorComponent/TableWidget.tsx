@@ -198,7 +198,7 @@ const TableSelectorWidget: FC = () => {
 
   const [dragOver, setDragOver] = useState(false)
 
-  const common = useMemo(() => ['cursor-pointer absolute bg-blue-200 hover:bg-blue-400', dragOver ? 'ring-2' : ''].join(' '), [dragOver])
+  const common = useMemo(() => ['cursor-pointer absolute bg-blue-200 hover:bg-nord8', dragOver ? 'ring-2' : ''].join(' '), [dragOver])
 
   const className = useMemo(() => {
     if (type === 'left')

@@ -25,11 +25,11 @@ export const nordThemeConfig = (ctx: Ctx) => {
   }))
 
   ctx.set(blockquoteAttr.key, () => ({
-    class: 'border-l-4 border-blue-400 pl-4',
+    class: 'border-l-4 border-nord10 pl-4',
   }))
 
   ctx.set(inlineCodeAttr.key, () => ({
-    class: 'font-mono text-blue-400',
+    class: 'font-mono text-nord10',
   }))
 }
 

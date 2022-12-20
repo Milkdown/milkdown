@@ -8,7 +8,7 @@ export const FootnoteRef: FC = () => {
 
   return (
     <sup>
-      <a id={`footnote-${label}-ref`} className="text-blue-400" href={`#footnote-${label}-def`}>{label}</a>
+      <a id={`footnote-${label}-ref`} className="text-nord8" href={`#footnote-${label}-def`}>{label}</a>
     </sup>
   )
 }
@@ -18,12 +18,12 @@ export const FootnoteDef: FC = () => {
   const label = node.attrs.label
   return (
     <dl className="flex gap-2 bg-gray-50 border-gray-300 border-2 rounded p-3 relative" id={`footnote-${label}-def`}>
-      <dt className="text-blue-400">
+      <dt className="text-nord8">
         {label}:
       </dt>
       <dd className="min-w-0 not-prose" ref={contentRef} />
       <div contentEditable="false" suppressContentEditableWarning className="absolute top-0 right-0 cursor-pointer">
-        <a className="text-blue-400 p-2" href={`#footnote-${label}-ref`}>↩</a>
+        <a className="text-nord8 p-2" href={`#footnote-${label}-ref`}>↩</a>
       </div>
     </dl>
   )

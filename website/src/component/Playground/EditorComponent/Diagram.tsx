@@ -58,13 +58,13 @@ export const Diagram: FC = () => {
         <div className="flex flex-wrap -mb-px">
           <Tabs.Trigger
             value="preview"
-            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'preview' ? 'text-blue-600' : ''].join(' ')}
+            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'preview' ? 'text-nord9' : ''].join(' ')}
           >
             Preview
           </Tabs.Trigger>
           <Tabs.Trigger
             value="source"
-            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'source' ? 'text-blue-600' : ''].join(' ')}
+            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'source' ? 'text-nord9' : ''].join(' ')}
           >
             Source
           </Tabs.Trigger>
@@ -80,7 +80,7 @@ export const Diagram: FC = () => {
           defaultValue={code}
         />
         <button
-          className="absolute right-0 mb-1 bottom-full inline-flex items-center justify-center px-6 py-2 text-base font-medium leading-6 bg-blue-400 text-gray-50 border border-gray-600 rounded shadow-sm hover:bg-blue-200 focus:ring-2 focus:ring-offset-2"
+          className="absolute right-0 mb-1 bottom-full inline-flex items-center justify-center px-6 py-2 text-base font-medium leading-6 bg-nord8 text-gray-50 border border-gray-600 rounded shadow-sm hover:bg-blue-200 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             setAttrs({ value: codeInput.current?.value || '' })
             setValue('preview')
