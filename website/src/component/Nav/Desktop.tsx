@@ -11,7 +11,7 @@ const NavItem: FC<{ icon: string; text: string; id?: string; link?: string }> = 
   const location = useLocation()
   const pages = usePages()
   const page = pages.find(page => page.link === location.pathname)
-  const isActive = id && page?.parentId === id
+  const isActive = location.pathname === link || (id && page?.parentId === id)
 
   const ContainerComponent: FC<{ children: ReactNode }> = useMemo(() => {
     if (link) {
