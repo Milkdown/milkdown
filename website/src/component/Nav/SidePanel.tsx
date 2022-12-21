@@ -2,7 +2,7 @@
 import type { FC } from 'react'
 import { useEffect, useMemo } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { useI18n, usePageList, usePages } from '../../provider/LocalizationProvider'
+import { useI18n, usePageList, usePages, useRootUrl } from '../../provider/LocalizationProvider'
 import { ROOT, useHideSidePanel, useHoldSidePanel, useShowRootSidePanel, useShowSectionSidePanel, useSidePanelState } from '../../provider/SidePanelStateProvider'
 import type { Section } from '../../route'
 
@@ -64,7 +64,7 @@ const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
   )
 }
 
-const getRoot = (getI18n: (key: string) => string, showSectionSidePanel: (id: string) => void): SidePanelGroupProps => {
+const getRoot = (playgroundURL: string, getI18n: (key: string) => string, showSectionSidePanel: (id: string) => void): SidePanelGroupProps => {
   return {
     items: [
       {
@@ -99,7 +99,7 @@ const getRoot = (getI18n: (key: string) => string, showSectionSidePanel: (id: st
         id: 'playground',
         text: getI18n('playground'),
         prefixIcon: 'view_carousel',
-        link: '',
+        link: playgroundURL,
       },
     ],
   }
@@ -133,15 +133,17 @@ export const SidePanel: FC = () => {
   const isRoot = activeId === ROOT
   const pageList = usePageList(activeId)
   const location = useLocation()
+  const root = useRootUrl()
+  const playgroundURL = `/${[root, 'playground'].filter(x => x).join('/')}`
 
   useEffect(() => {
     hideSidePanel(0)
   }, [hideSidePanel, location.pathname])
 
   const itemsGroup = useMemo(() => isRoot
-    ? getRoot(getI18n, (key: string) => showSectionSidePanel(key, 'mobile'))
+    ? getRoot(playgroundURL, getI18n, (key: string) => showSectionSidePanel(key, 'mobile'))
     : sectionToGroup(pageList),
-  [getI18n, isRoot, pageList, showSectionSidePanel])
+  [getI18n, isRoot, pageList, playgroundURL, showSectionSidePanel])
 
   const events = mode === 'mobile' ? {} : { onMouseEnter: holdSidePanel, onMouseLeave: () => hideSidePanel(500) }
 
