@@ -11,10 +11,12 @@ export const sectionsCtx = createContext<Section[]>([])
 export const localCtx = createContext<Localize>('en')
 export const setLocalCtx = createContext<SetState<Localize>>(() => undefined)
 
-export const useSetLanguage = (localize: Localize) => {
+export const useSetLanguage = () => {
   const setLocal = useContext(setLocalCtx)
 
-  return setLocal(localize)
+  return useCallback((localize: Localize) => {
+    setLocal(localize)
+  }, [setLocal])
 }
 
 export const useLocal = () => {

@@ -1,9 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { FC, ReactNode } from 'react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import * as Popover from '@radix-ui/react-popover'
 import { usePages, useRootUrl } from '../../provider/LocalizationProvider'
 import { useHideSidePanel, useShowSectionSidePanel } from '../../provider/SidePanelStateProvider'
+import { Languages } from './Languages'
 
 const NavItem: FC<{ icon: string; text: string; id?: string; link?: string }> = ({ icon, text, id, link }) => {
   const showSectionSidePanel = useShowSectionSidePanel()
@@ -71,6 +73,8 @@ export const DesktopNav: FC = () => {
   const root = useRootUrl()
   const playgroundURL = `/${[root, 'playground'].filter(x => x).join('/')}`
 
+  const [languagesOpen, setLanguagesOpen] = useState(false)
+
   return (
     <nav className="pt-11 pb-14 h-full w-full flex-col justify-between items-center flex">
       <div>
@@ -91,12 +95,21 @@ export const DesktopNav: FC = () => {
         </div>
       </div>
 
-      <div>
+      <div className="select-none">
         <NavButtonItem>
           <div className="material-symbols-outlined">search</div>
         </NavButtonItem>
         <NavButtonItem>
-          <div className="material-symbols-outlined">translate</div>
+          <Popover.Root open={languagesOpen}>
+            <Popover.Trigger asChild onClick={() => setLanguagesOpen(open => !open)}>
+              <div className="material-symbols-outlined">translate</div>
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Content className="z-50 ml-4 outline-none" sideOffset={5} side="right" onInteractOutside={() => setLanguagesOpen(false)}>
+                <Languages close={() => setLanguagesOpen(false)} />
+              </Popover.Content>
+            </Popover.Portal>
+          </Popover.Root>
         </NavButtonItem>
         <NavButtonItem>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

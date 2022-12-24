@@ -41,6 +41,7 @@
     "@milkdown/transformer": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@prosemirror-adapter/react": "^0.2.2",
+    "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.1",
     "@types/katex": "^0.14.0",
     "@types/lodash.debounce": "^4.0.7",
