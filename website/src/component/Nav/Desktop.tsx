@@ -78,7 +78,9 @@ export const DesktopNav: FC = () => {
           rounded-full shadow-inner
           bg-white border border-gray-300
           hover:border-blue-200 hover:ring-2 hover:ring-nord8">
-          <img className="w-9 h-9" src="/milkdown-logo.svg"></img>
+          <NavLink to={root}>
+            <img className="w-9 h-9" src="/milkdown-logo.svg" />
+          </NavLink>
         </div>
         <div className="flex gap-4 flex-col mt-8">
           <NavItem icon="apps" text="Recipes" id="recipes" />
