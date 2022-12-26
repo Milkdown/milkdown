@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { FC } from 'react'
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useI18n, usePageList, usePages, useRootUrl } from '../../provider/LocalizationProvider'
 import { ROOT, useHideSidePanel, useHoldSidePanel, useShowRootSidePanel, useShowSectionSidePanel, useSidePanelState } from '../../provider/SidePanelStateProvider'
@@ -23,6 +23,15 @@ type SidePanelGroupProps = {
 const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
   const pages = usePages()
   const page = pages.find(page => page.link === location.pathname)
+
+  const getItemClassName = useCallback((isActive: boolean) => {
+    return [
+      'p-4 rounded-full cursor-pointer font-light',
+      'flex items-center justify-between gap-3',
+      isActive ? 'bg-nord8 text-gray-900' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-300',
+    ].join(' ')
+  }, [])
+
   return (
     <div className="text-nord0 my-2">
       {title && <div className="p-4 font-medium text-lg">{title}</div>}
@@ -32,11 +41,9 @@ const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
             if (item.link) {
               return (
                 <NavLink
-                  to={item.link}
                   key={index.toString()}
-                  className={({ isActive }) => `p-4 rounded-full cursor-pointer font-light
-                  flex items-center justify-between gap-3
-                  ${isActive ? 'bg-nord8 text-gray-900' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-300'}`}
+                  className={({ isActive }) => getItemClassName(isActive)}
+                  to={item.link}
                 >
                   {item.prefixIcon && item.prefixIcon === '$' ? <span className="w-6" /> : <span className="material-symbols-outlined">{item.prefixIcon}</span>}
                   <span className="flex-1">{item.text}</span>
@@ -47,10 +54,8 @@ const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
             return (
               <div
                 key={index.toString()}
+                className={getItemClassName(page?.parentId === item.id)}
                 onClick={item.onClick}
-                className={`p-4 rounded-full cursor-pointer font-light
-                flex items-center justify-between gap-3
-                ${page?.parentId === item.id ? 'bg-nord8 text-gray-900' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-300'}`}
               >
                 {item.prefixIcon && item.prefixIcon === '$' ? <span className="w-6" /> : <span className="material-symbols-outlined">{item.prefixIcon}</span>}
                 <span className="flex-1">{item.text}</span>
