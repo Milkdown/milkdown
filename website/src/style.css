@@ -22,3 +22,26 @@ li::after {
 body, #app {
   min-height: 100vh;
 }
+
+#docsearch .DocSearch:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#docsearch .DocSearch-Button-Placeholder {
+  display: none;
+}
+#docsearch .DocSearch-Button-Keys {
+  display: none;
+}
+#docsearch .DocSearch-Button {
+  margin: 0;
+}
+
+.DocSearch-Modal input {
+  background-color: unset;
+}
+.DocSearch-Modal input:focus {
+  outline: none;
+  box-shadow: none;
+}

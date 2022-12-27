@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { FC, ReactNode } from 'react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import * as Popover from '@radix-ui/react-popover'
 import { usePages, useRootUrl } from '../../provider/LocalizationProvider'
@@ -75,6 +75,22 @@ export const DesktopNav: FC = () => {
 
   const [languagesOpen, setLanguagesOpen] = useState(false)
 
+  useEffect(() => {
+    if (docsearch && typeof docsearch === 'function') {
+      docsearch({
+        appId: 'ESBZP4AW9O',
+
+        apiKey: '3c3f00caad4516fb13f96aea068122af',
+
+        indexName: 'milkdown',
+
+        container: '#docsearch',
+
+        debug: true, // Set debug to true if you want to inspect the modal
+      })
+    }
+  }, [])
+
   return (
     <nav className="pt-11 pb-14 h-full w-full flex-col justify-between items-center flex">
       <div>
@@ -97,7 +113,7 @@ export const DesktopNav: FC = () => {
 
       <div className="select-none">
         <NavButtonItem>
-          <div className="material-symbols-outlined">search</div>
+          <div id="docsearch">search</div>
         </NavButtonItem>
         <Popover.Root open={languagesOpen}>
           <Popover.Trigger onClick={() => setLanguagesOpen(true)}>
