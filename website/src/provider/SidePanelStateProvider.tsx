@@ -50,7 +50,7 @@ const sidePanelDataReducer: Reducer<SidePanelState, SidePanelAction> = (state, a
 
 const defaultState: SidePanelState = {
   visible: false,
-  mode: 'desktop',
+  mode: window.innerWidth < 768 ? 'mobile' : 'desktop',
   activeId: ROOT,
 }
 
