@@ -20,7 +20,7 @@ export const Block = () => {
         ctx: get().ctx,
         content: element,
         tippyOptions: {
-          zIndex: 30,
+          zIndex: 20,
           onBeforeUpdate: () => setShowMenu(false),
           onClickOutside: () => setShowMenu(false),
           onHide: () => setShowMenu(false),
