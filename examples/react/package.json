@@ -14,7 +14,6 @@
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/react": "workspace:*",
-    "@milkdown/theme-nord": "workspace:*",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",

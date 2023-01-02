@@ -10,12 +10,10 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/plugin-emoji": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
-    "@milkdown/plugin-menu": "workspace:*",
     "@milkdown/plugin-prism": "workspace:*",
     "@milkdown/plugin-slash": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@milkdown/theme-nord": "workspace:*",
     "@milkdown/vue": "workspace:*",
     "vue": "^3.2.38"
   }

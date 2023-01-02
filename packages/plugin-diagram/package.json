@@ -43,7 +43,6 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@milkdown/theme-pack-helper": "workspace:*",
     "@types/unist": "^2.0.6"
   },
   "nx": {

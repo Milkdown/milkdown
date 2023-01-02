@@ -1,4 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import 'prosemirror-tables/style/tables.css'
+import 'prosemirror-view/style/prosemirror.css'
+
 import { editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 
