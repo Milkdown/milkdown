@@ -2,6 +2,7 @@
 import { StrictMode } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { compose } from '../utils/compose'
+import { DarkModeProvider } from './DarkModeProvider'
 import { ErrorProvider } from './ErrorProvider'
 import { HelmetProvider } from './HelmetProvider'
 import { LocalizationProvider } from './LocalizationProvider'
@@ -14,6 +15,7 @@ export const AppProvider = compose(
   HelmetProvider,
   BrowserRouter,
 
+  DarkModeProvider,
   LocalizationProvider,
   SidePanelStateProvider,
 )

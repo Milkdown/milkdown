@@ -18,6 +18,7 @@ importers:
       '@rollup/plugin-node-resolve': ^15.0.0
       '@rollup/plugin-typescript': ^10.0.0
       '@tailwindcss/forms': ^0.5.3
+      '@tailwindcss/typography': ^0.5.8
       '@types/node': ^18.0.0
       '@types/rollup-plugin-auto-external': ^2.0.2
       '@vitejs/plugin-react': ^3.0.0
@@ -66,6 +67,7 @@ importers:
       '@rollup/plugin-node-resolve': 15.0.0_rollup@3.7.3
       '@rollup/plugin-typescript': 10.0.0_mcmb5eati6bovtnqr4qzkploxm
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
+      '@tailwindcss/typography': 0.5.8_tailwindcss@3.2.4
       '@types/node': 18.11.9
       '@types/rollup-plugin-auto-external': 2.0.2
       '@vitejs/plugin-react': 3.0.0_vite@4.0.0
@@ -4013,6 +4015,18 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
+      tailwindcss: 3.2.4_postcss@8.4.19
+    dev: true
+
+  /@tailwindcss/typography/0.5.8_tailwindcss@3.2.4:
+    resolution: {integrity: sha512-xGQEp8KXN8Sd8m6R4xYmwxghmswrd0cPnNI2Lc6fmrC3OojysTBJJGSIVwPV56q4t6THFUK3HJ0EaWwpglSxWw==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      lodash.castarray: 4.4.0
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      postcss-selector-parser: 6.0.10
       tailwindcss: 3.2.4_postcss@8.4.19
     dev: true
 
@@ -8751,8 +8765,16 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash.castarray/4.4.0:
+    resolution: {integrity: sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==}
+    dev: true
+
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+
+  /lodash.isplainobject/4.0.6:
+    resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
+    dev: true
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}

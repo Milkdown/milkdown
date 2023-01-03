@@ -47,6 +47,7 @@
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-typescript": "^10.0.0",
     "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.8",
     "@types/node": "^18.0.0",
     "@types/rollup-plugin-auto-external": "^2.0.2",
     "@vitejs/plugin-react": "^3.0.0",
