@@ -190,4 +190,3 @@ export const headingKeymap = $useKeymap('headingKeymap', {
     },
   },
 })
-

@@ -115,4 +115,3 @@ export const insertImageInputRule = $inputRule(() => new InputRule(
     return null
   },
 ))
-

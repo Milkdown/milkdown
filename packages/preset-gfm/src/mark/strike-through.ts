@@ -37,4 +37,3 @@ export const strikethroughKeymap = $useKeymap('strikeThroughKeymap', {
     },
   },
 })
-

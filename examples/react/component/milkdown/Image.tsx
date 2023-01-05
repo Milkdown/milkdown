@@ -5,7 +5,7 @@ import type { FC } from 'react'
 export const Image: FC = () => {
   const { node } = useNodeCtx()
   return (
-        <img
+    <img
             className="image"
             style={{ border: '1px solid red' }}
             src={node.attrs.src}

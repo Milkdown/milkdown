@@ -34,7 +34,7 @@ if (!root$)
 const root = createRoot(root$)
 
 root.render(
-    <StrictMode>
-        <App />
-    </StrictMode>,
+  <StrictMode>
+    <App />
+  </StrictMode>,
 )

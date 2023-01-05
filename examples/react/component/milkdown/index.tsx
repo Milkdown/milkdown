@@ -18,9 +18,9 @@ import { Image } from './Image'
 const Link: FC<{ children: ReactNode }> = ({ children }) => {
   const { node } = useNodeCtx()
   return (
-        <a className="my-title" href={node.attrs.href} title={node.attrs.tittle}>
-            {children}
-        </a>
+    <a className="my-title" href={node.attrs.href} title={node.attrs.tittle}>
+      {children}
+    </a>
   )
 }
 

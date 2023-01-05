@@ -77,8 +77,8 @@ export const ImageTooltip: FC = () => {
 
   return (
     <div>
-      <div ref={ref} className="bg-white p-4 flex flex-col gap-2 border-gray-300 shadow rounded ring w-96">
-        <label className="flex flex-row justify-center items-center gap-4">
+      <div ref={ref} className="flex w-96 flex-col gap-2 rounded border-gray-300 bg-white p-4 shadow ring">
+        <label className="flex flex-row items-center justify-center gap-4">
           <span className="w-10">Link</span>
           <input
           onBlur={(e) => {
@@ -89,11 +89,11 @@ export const ImageTooltip: FC = () => {
           }, 2000)}
           type="text"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm
-            focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            focus:border-indigo-300 focus:ring focus:ring-indigo-200/50"
           defaultValue={src}
         />
         </label>
-        <label className="flex flex-row justify-center items-center gap-4">
+        <label className="flex flex-row items-center justify-center gap-4">
           <span className="w-10">Alt</span>
           <input
           onBlur={(e) => {
@@ -104,11 +104,11 @@ export const ImageTooltip: FC = () => {
           }, 2000)}
           type="text"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm
-            focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            focus:border-indigo-300 focus:ring focus:ring-indigo-200/50"
           defaultValue={alt}
         />
         </label>
-        <label className="flex flex-row justify-center items-center gap-4">
+        <label className="flex flex-row items-center justify-center gap-4">
           <span className="w-10">Title</span>
           <input
           onBlur={(e) => {
@@ -119,7 +119,7 @@ export const ImageTooltip: FC = () => {
           }, 2000)}
           type="text"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm
-            focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            focus:border-indigo-300 focus:ring focus:ring-indigo-200/50"
           defaultValue={title}
         />
         </label>

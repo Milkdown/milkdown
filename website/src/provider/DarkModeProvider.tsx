@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import type { FC, ReactNode } from 'react'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import type { SetState } from '../utils/types'
 
 export const darkModeCtx = createContext<boolean>(false)
@@ -17,6 +17,9 @@ export const useSetDarkMode = () => {
 
 export const DarkModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(window.matchMedia?.('(prefers-color-scheme: dark)').matches)
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode)
+  }, [darkMode])
   return (
     <darkModeCtx.Provider value={darkMode}>
       <setDarkModeCtx.Provider value={setDarkMode}>

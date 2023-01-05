@@ -15,27 +15,25 @@ export const Layout: FC<LayoutProps> = ({ NavBar, AppBar, Sidebar, children }) =
   const hideSidePanel = useHideSidePanel()
 
   return (
-    <div className="pt-16 min-h-screen grid grid-rows-1">
-      <div className="fixed left-0 top-0 bottom-0 w-20 z-40 bg-nord6/70 backdrop-blur backdrop-saturate-50 hidden md:block">
+    <div className="dark:bg-nord0 grid min-h-screen grid-rows-1 bg-white pt-16 text-gray-900 dark:text-gray-50">
+      <div className="bg-nord6/70 dark:bg-nord3/70 fixed inset-y-0 left-0 z-40 hidden w-20 backdrop-blur backdrop-saturate-50 md:block">
         <NavBar />
       </div>
-      <div className="fixed top-0 left-0 right-0 h-16 z-40 bg-nord6/70 backdrop-blur backdrop-saturate-50 block md:hidden">
+      <div className="bg-nord6/70 dark:bg-nord3/70 fixed inset-x-0 top-0 z-40 block h-16 backdrop-blur backdrop-saturate-50 md:hidden">
         <AppBar />
       </div>
-      <div className={`fixed top-0 bottom-0 z-30 w-80
-        shadow-lg rounded-tr-3xl rounded-br-3xl
-        bg-nord6/90 backdrop-blur backdrop-saturate-50
-        pt-16 md:pt-0
-        transition-all duration-200 ease-in-out
-        overflow-auto
-        ${sidePanelVisible ? 'left-0 md:left-20' : '-left-80'}`}>
+      <div className={`bg-nord6/90 dark:bg-nord3/80 fixed inset-y-0 z-30
+        w-80
+        overflow-auto rounded-r-3xl pt-16
+        shadow-lg backdrop-blur backdrop-saturate-50
+        transition-all duration-200
+        ease-in-out md:pt-0 ${sidePanelVisible ? 'left-0 md:left-20' : '-left-80'}`}>
         <Sidebar />
       </div>
 
-      <div onClick={() => hideSidePanel(0)} className={`fixed top-0 left-0 right-0 bottom-0 bg-nord0/50 backdrop-blur backdrop-saturate-50 z-10
-        ${sidePanelVisible ? 'block md:hidden' : 'hidden'}`} />
+      <div onClick={() => hideSidePanel(0)} className={`bg-nord0/50 fixed inset-0 z-10 backdrop-blur backdrop-saturate-50 ${sidePanelVisible ? 'block md:hidden' : 'hidden'}`} />
 
-      <div className="xl:mx-80 lg:mx-40 md:mx-24 mx-8">
+      <div className="mx-8 md:mx-24 lg:mx-40 xl:mx-80">
         {children}
       </div>
       <Footer />

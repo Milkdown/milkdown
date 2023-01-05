@@ -37,8 +37,8 @@ export const MathBlock: FC = () => {
       onValueChange={(value) => {
         setValue(value)
       }}>
-      <Tabs.List className="text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-        <div className="flex flex-wrap -mb-px">
+      <Tabs.List className="border-b border-gray-200 text-center text-gray-500 dark:border-gray-700 dark:text-gray-400">
+        <div className="-mb-px flex flex-wrap">
           <Tabs.Trigger
             value="preview"
             className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'preview' ? 'text-nord9' : ''].join(' ')}
@@ -54,16 +54,16 @@ export const MathBlock: FC = () => {
         </div>
       </Tabs.List>
       <Tabs.Content value="preview">
-        <div className="text-center py-3" ref={codePanel} />
+        <div className="py-3 text-center" ref={codePanel} />
       </Tabs.Content>
       <Tabs.Content value="source" className="relative">
         <textarea
-          className="block w-full h-48 font-mono bg-slate-800 text-gray-50"
+          className="block h-48 w-full bg-slate-800 font-mono text-gray-50"
           ref={codeInput}
           defaultValue={code}
         />
         <button
-          className="absolute right-0 mb-1 bottom-full inline-flex items-center justify-center px-6 py-2 text-base font-medium leading-6 bg-nord8 text-gray-50 border border-gray-600 rounded shadow-sm hover:bg-blue-200 focus:ring-2 focus:ring-offset-2"
+          className="bg-nord8 absolute right-0 bottom-full mb-1 inline-flex items-center justify-center rounded border border-gray-600 px-6 py-2 text-base font-medium leading-6 text-gray-50 shadow-sm hover:bg-blue-200 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             setAttrs({ value: codeInput.current?.value || '' })
             setValue('preview')

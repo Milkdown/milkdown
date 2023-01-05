@@ -55,8 +55,8 @@ export const Slash = () => {
 
   return (
     <div>
-      <div role="tooltip" className="rounded bg-gray-50 shadow-lg w-96 ring-2" ref={ref}>
-        <ul className="list-none m-0">
+      <div role="tooltip" className="w-96 rounded bg-gray-50 shadow-lg ring-2" ref={ref}>
+        <ul className="m-0 list-none">
           <li
           onClick={() => {
             if (loading)
@@ -70,7 +70,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(wrapInHeadingCommand.key, 1)
             })
           }}
-          className="px-6 py-3 cursor-pointer hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
         >
             Heading 1
           </li>
@@ -87,7 +87,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(wrapInHeadingCommand.key, 2)
             })
           }}
-          className="px-6 py-3 cursor-pointer hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
         >
             Heading 2
           </li>
@@ -104,7 +104,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(wrapInHeadingCommand.key, 3)
             })
           }}
-          className="px-6 py-3 cursor-pointer hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
         >
             Heading 3
           </li>
@@ -121,7 +121,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(createCodeBlockCommand.key)
             })
           }}
-          className="px-6 py-3 cursor-pointer hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
         >
             Code Block
           </li>
@@ -139,7 +139,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(insertHrCommand.key)
             })
           }}
-          className="px-6 py-3 cursor-pointer hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
         >
             Horizontal Rule
           </li>

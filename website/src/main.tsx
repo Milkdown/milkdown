@@ -2,6 +2,9 @@
 import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-view/style/prosemirror.css'
 import './style.css'
+import './docsearch.css'
+import './prose.css'
+import './prosemirror.css'
 
 import { createRoot } from 'react-dom/client'
 

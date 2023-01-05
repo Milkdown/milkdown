@@ -22,4 +22,3 @@ export const collaborative: MilkdownPlugin = (pre) => {
 
 export * from 'y-prosemirror'
 export { CollabService } from './collab-service'
-

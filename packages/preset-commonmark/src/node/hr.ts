@@ -53,4 +53,3 @@ export const insertHrCommand = $command('InsertHr', () => () => (state, dispatch
   dispatch(_tr.setSelection(sel).scrollIntoView())
   return true
 })
-

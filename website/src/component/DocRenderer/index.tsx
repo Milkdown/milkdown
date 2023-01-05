@@ -8,8 +8,8 @@ import { outline } from '@milkdown/utils'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
 import { useState } from 'react'
-import type { Content } from '../../utils/useLazy'
-import { useLazy } from '../../utils/useLazy'
+import type { Content } from '../hooks/useLazy'
+import { useLazy } from '../hooks/useLazy'
 import { Outline } from './Outline'
 
 const extendedInlineCode = inlineCodeSchema.extendSchema(prev => ctx => ({
@@ -68,7 +68,7 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
     : (
       <>
         <Milkdown />
-        <div className="xl:w-60 xl:flex hidden fixed top-16 right-10 bottom-16 flex-col gap-4">
+        <div className="fixed inset-y-16 right-10 hidden flex-col gap-4 xl:flex xl:w-60">
           <Outline items={outlines} />
         </div>
       </>

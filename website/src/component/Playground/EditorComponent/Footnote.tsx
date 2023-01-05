@@ -17,11 +17,11 @@ export const FootnoteDef: FC = () => {
   const { node, contentRef } = useNodeViewContext()
   const label = node.attrs.label
   return (
-    <dl className="flex gap-2 bg-gray-50 border-gray-300 border-2 rounded p-3 relative" id={`footnote-${label}-def`}>
+    <dl className="relative flex gap-2 rounded border-2 border-gray-300 bg-gray-50 p-3" id={`footnote-${label}-def`}>
       <dt className="text-nord8">
         {label}:
       </dt>
-      <dd className="min-w-0 not-prose" ref={contentRef} />
+      <dd className="not-prose min-w-0" ref={contentRef} />
       <div contentEditable="false" suppressContentEditableWarning className="absolute top-0 right-0 cursor-pointer">
         <a className="text-nord8 p-2" href={`#footnote-${label}-ref`}>↩</a>
       </div>

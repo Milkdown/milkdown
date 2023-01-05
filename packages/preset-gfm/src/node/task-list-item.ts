@@ -85,4 +85,3 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
     }
   }
 })
-

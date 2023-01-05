@@ -18,8 +18,8 @@ const NestedDiv: FC<{ level: number; children: ReactNode }> = ({ level, children
 export const Outline: FC<{ items: OutlineItem[] }> = ({ items }) => {
   const location = useLocation()
   return (
-    <ul className="pr-1 flex-1">
-      <div className="mb-2 pl-3 text-nord10">
+    <ul className="flex-1 pr-1">
+      <div className="text-nord10 mb-2 pl-3">
         <small>On this page</small>
       </div>
       <div className="overflow-y-auto overflow-x-hidden">
@@ -28,9 +28,8 @@ export const Outline: FC<{ items: OutlineItem[] }> = ({ items }) => {
             const url = `#${item.id}`
             return (
               <a key={item.id} href={url}>
-                <div className={`px-2 py-2 text-sm
-                  ${location.hash === url ? 'bg-nord8 font-medium' : 'text-gray-600 font-light hover:bg-gray-300 hover:text-gray-900'}
-                  rounded-3xl cursor-pointer truncate`}>
+                <div className={`p-2 text-sm${location.hash === url ? 'bg-nord8 font-medium' : 'font-light text-gray-600 hover:bg-gray-300 hover:text-gray-900'}
+                  cursor-pointer truncate rounded-3xl`}>
                   <NestedDiv level={item.level}>
                     {item.text}
                   </NestedDiv>

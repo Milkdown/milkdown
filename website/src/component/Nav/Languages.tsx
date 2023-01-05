@@ -14,7 +14,7 @@ export const Languages: FC<{ close: () => void }> = ({ close }) => {
 
   return (
     <ul
-      className="bg-gray-50 m-0 rounded-lg border-2 border-gray-50 shadow-lg"
+      className="m-0 rounded-lg border-2 border-gray-50 bg-gray-50 shadow-lg"
       onClick={(e) => {
         e.stopPropagation()
         const { target } = e
@@ -40,7 +40,7 @@ export const Languages: FC<{ close: () => void }> = ({ close }) => {
           key={key}
           data-value={key}
           data-route={route}
-          className="px-4 py-2 cursor-pointer text-gray-600 hover:bg-gray-300 hover:text-gray-900 first:rounded-t-lg last:rounded-b-lg"
+          className="cursor-pointer px-4 py-2 text-gray-600 first:rounded-t-lg last:rounded-b-lg hover:bg-gray-300 hover:text-gray-900"
         >
           {display}
         </li>

@@ -1,10 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import clsx from 'clsx'
 import type { FC } from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useI18n, usePageList, usePages, useRootUrl } from '../../provider/LocalizationProvider'
 import { ROOT, useHideSidePanel, useHoldSidePanel, useShowRootSidePanel, useShowSectionSidePanel, useSidePanelState } from '../../provider/SidePanelStateProvider'
 import type { Section } from '../../route'
+import { useLinkClass } from '../hooks/useLinkClass'
 
 type SidePanelItem = {
   id: string
@@ -23,18 +25,19 @@ type SidePanelGroupProps = {
 const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
   const pages = usePages()
   const page = pages.find(page => page.link === location.pathname)
+  const linkClass = useLinkClass()
 
   const getItemClassName = useCallback((isActive: boolean) => {
-    return [
-      'p-4 rounded-full cursor-pointer font-light',
+    return clsx(
+      'cursor-pointer rounded-full p-4 font-light',
       'flex items-center justify-between gap-3',
-      isActive ? 'bg-nord8 text-gray-900' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-300',
-    ].join(' ')
-  }, [])
+      linkClass(isActive),
+    )
+  }, [linkClass])
 
   return (
     <div className="text-nord0 my-2">
-      {title && <div className="p-4 font-medium text-lg">{title}</div>}
+      {title && <div className="p-4 text-lg font-medium">{title}</div>}
       <ul>
         {
           items.map((item, index) => {
@@ -153,7 +156,7 @@ export const SidePanel: FC = () => {
   const events = mode === 'mobile' ? {} : { onMouseEnter: holdSidePanel, onMouseLeave: () => hideSidePanel(500) }
 
   return (
-    <div className="p-3 w-full h-full divide-y flex flex-col" {...events}>
+    <div className="flex h-full w-full flex-col divide-y p-3" {...events}>
       { mode === 'mobile' && !isRoot && <SidePanelGroup items={[{ id: ROOT, onClick: showRootSidePanel, text: 'back', prefixIcon: 'arrow_back' }]} />}
       <SidePanelGroup {...itemsGroup} />
     </div>

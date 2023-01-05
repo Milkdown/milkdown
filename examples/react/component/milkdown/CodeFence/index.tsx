@@ -15,14 +15,14 @@ export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
   const [input, setInput] = useState('')
 
   return (
-        <div className="code-fence" style={{ border: '1px solid #ccc', padding: 10 }}>
-            <div className="control" style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between' }}>
-                <span className="filename">
-                    <span style={{ marginRight: 10 }}>{filename || 'No File Name'}</span>
-                    {showInput
-                      ? (
-                        <>
-                            <input
+    <div className="code-fence" style={{ border: '1px solid #ccc', padding: 10 }}>
+      <div className="control" style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between' }}>
+        <span className="filename">
+          <span style={{ marginRight: 10 }}>{filename || 'No File Name'}</span>
+          {showInput
+            ? (
+              <>
+                <input
                                 onChange={(e) => {
                                   const { target } = e
                                   if (!(target instanceof HTMLInputElement))
@@ -33,7 +33,7 @@ export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
                                   setInput(target.value)
                                 }}
                             />
-                            <button
+                <button
                                 onClick={() => {
                                   const { tr } = view.state
 
@@ -46,12 +46,12 @@ export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
                                   )
                                 }}
                             >
-                                OK
-                            </button>
-                        </>
-                        )
-                      : (
-                        <button
+                  OK
+                </button>
+              </>
+              )
+            : (
+              <button
                             onClick={() => {
                               if (!view.editable)
                                 return
@@ -66,11 +66,11 @@ export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
                               )
                             }}
                         >
-                            edit
-                        </button>
-                        )}
-                </span>
-                <select
+                edit
+              </button>
+              )}
+        </span>
+        <select
                     defaultValue={node.attrs.language}
                     onChange={(event) => {
                       const { target } = event
@@ -91,19 +91,19 @@ export const CodeFence: FC<{ children: ReactNode }> = ({ children }) => {
                       )
                     }}
                 >
-                    {language.map(lang => (
-                        <option key={lang} value={lang}>
-                            {lang}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div
+          {language.map(lang => (
+            <option key={lang} value={lang}>
+              {lang}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div
                 className="code"
                 style={{ background: '#ccc', margin: '0 auto', whiteSpace: 'pre', borderRadius: 4, padding: 10 }}
             >
-                {children}
-            </div>
-        </div>
+        {children}
+      </div>
+    </div>
   )
 }

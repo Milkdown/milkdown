@@ -66,4 +66,3 @@ export const footnoteDefinitionSchema = $nodeSchema('footnote_definition', () =>
     },
   },
 }))
-

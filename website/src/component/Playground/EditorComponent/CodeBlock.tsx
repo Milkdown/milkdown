@@ -10,7 +10,7 @@ export const CodeBlock: FC = () => {
     <div className={[selected ? 'ProseMirror-selectednode' : '', 'not-prose rounded my-4 bg-gray-200 p-5 shadow'].join(' ')}>
       <div contentEditable="false" suppressContentEditableWarning className="mb-2 flex justify-between">
         <select
-          className="rounded cursor-pointer !border-0 focus:ring-2 focus:ring-offset-2 !focus:shadow-none shadow-sm"
+          className="!focus:shadow-none cursor-pointer rounded !border-0 shadow-sm focus:ring-2 focus:ring-offset-2"
           value={node.attrs.language || 'text'}
           onChange={(e) => {
             setAttrs({ language: e.target.value })
@@ -19,7 +19,7 @@ export const CodeBlock: FC = () => {
         </select>
 
         <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={(e) => {
             e.preventDefault()
             navigator.clipboard.writeText(node.textContent)

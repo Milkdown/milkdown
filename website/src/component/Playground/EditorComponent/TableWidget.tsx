@@ -57,7 +57,7 @@ export const TableTooltip: FC = () => {
         {
         !isWholeTable && !isHeading && isRow
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return
@@ -74,7 +74,7 @@ export const TableTooltip: FC = () => {
         {
         !isWholeTable && isCol
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return
@@ -91,7 +91,7 @@ export const TableTooltip: FC = () => {
         {
         (isWholeTable || !isHeading)
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return
@@ -108,7 +108,7 @@ export const TableTooltip: FC = () => {
         {
         !isWholeTable && isRow
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return
@@ -125,7 +125,7 @@ export const TableTooltip: FC = () => {
         {
         !isWholeTable && isCol
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return
@@ -142,7 +142,7 @@ export const TableTooltip: FC = () => {
         {
         !isWholeTable && isCol
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return
@@ -157,7 +157,7 @@ export const TableTooltip: FC = () => {
         {
         !isWholeTable && isCol
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return
@@ -172,7 +172,7 @@ export const TableTooltip: FC = () => {
         {
         !isWholeTable && isCol
         && <button
-          className="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 bg-white border border-gray-200 rounded shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             if (loading)
               return

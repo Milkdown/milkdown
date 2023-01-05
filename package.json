@@ -62,6 +62,7 @@
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-tailwindcss": "^3.8.0",
     "git-cz": "^4.7.6",
     "husky": "^8.0.0",
     "jsdom": "^20.0.0",

@@ -6,12 +6,12 @@ import { useRootUrl } from '../../provider/LocalizationProvider'
 const LinkGroups: FC<{ title: string; items: Array<{ text: string; link: string }> }> = ({ title, items }) => {
   return (
     <div>
-      <div className="text-xl mb-5">
+      <div className="mb-5 text-xl">
         {title}
       </div>
       {
         items.map((item, i) => (
-          <div key={i.toString()} className="text-nord10 mb-2 hover:text-nord9">
+          <div key={i.toString()} className="text-nord10 hover:text-nord9 mb-2">
             <a href={item.link}>{item.text}</a>
           </div>
         ))
@@ -41,22 +41,22 @@ const communityGroup = {
 export const Footer: FC = () => {
   const root = useRootUrl()
   return (
-    <footer className="bg-gray-200 py-12 mt-24 self-end">
-      <div className="xl:mx-80 lg:mx-40 md:mx-24 mx-8">
-        <div className="grid md:grid-cols-4 grid-cols-2 gap-6">
-          <div className="cursor-pointer w-20 h-20 flex justify-center items-center
-            rounded-full shadow-inner
-            bg-white border border-gray-200
-            hover:border-blue-200 hover:ring-2 hover:ring-nord8">
+    <footer className="mt-24 self-end bg-gray-200 py-12">
+      <div className="mx-8 md:mx-24 lg:mx-40 xl:mx-80">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <div className="hover:ring-nord8 flex h-20 w-20 cursor-pointer items-center
+            justify-center rounded-full
+            border border-gray-200 bg-white
+            shadow-inner hover:border-blue-200 hover:ring-2">
             <NavLink to={root}>
-              <img className="w-12 h-12" src="/milkdown-logo.svg" />
+              <img className="h-12 w-12" src="/milkdown-logo.svg" />
             </NavLink>
           </div>
           <LinkGroups {...communityGroup} />
           <LinkGroups {...communityGroup} />
           <LinkGroups {...communityGroup} />
         </div>
-        <div className="text-sm font-light mt-6 text-nord2">
+        <div className="text-nord2 mt-6 text-sm font-light">
           MIT Licensed | Copyright © 2021-present Mirone ♡ Meo
         </div>
       </div>

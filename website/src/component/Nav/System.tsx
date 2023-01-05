@@ -10,8 +10,8 @@ const NavButtonItem: FC<{ children: ReactNode; onClick?: () => void }> = ({ chil
   return (
     <div
       onClick={onClick}
-      className="flex justify-center items-center w-14 h-14 mt-1 cursor-pointer rounded-full
-      text-gray-600 hover:text-gray-900 hover:bg-gray-300">
+      className="mt-1 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full
+      text-gray-600 hover:bg-gray-300 hover:text-gray-900">
       {children}
     </div>
   )
@@ -40,7 +40,7 @@ export const System = () => {
   }, [])
 
   return (
-    <div className="select-none ml-auto flex md:block md:ml-0">
+    <div className="ml-auto flex select-none md:ml-0 md:block">
       <NavButtonItem>
         <div id="docsearch" ref={container}>search</div>
       </NavButtonItem>

@@ -37,7 +37,7 @@ export const LinkWidgetAfter: FC = () => {
                 commands.call(updateLinkCommand.key, { href: e.target.value })
               })
             }}
-           className="py-0 px-2 border-none rounded ring-1"
+           className="rounded border-none py-0 px-2 ring-1"
            type="text"
            defaultValue={href}
           />
@@ -55,7 +55,7 @@ export const LinkWidgetAfter: FC = () => {
                 commands.call(updateLinkCommand.key, { title: e.target.value })
               })
             }}
-            className="py-0 px-2 border-none rounded ring-1"
+            className="rounded border-none py-0 px-2 ring-1"
             type="text"
             defaultValue={title}
           />

@@ -1,0 +1,8 @@
+li::after {
+  all: unset !important;
+}
+
+.ProseMirror-selectednode {
+  outline: none;
+  @apply ring-2 ring-offset-1 ring-nord9;
+}
