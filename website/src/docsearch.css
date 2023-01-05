@@ -13,6 +13,10 @@
   margin: 0;
 }
 
+.DocSearch-Button .DocSearch-Search-Icon {
+  @apply text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-50;
+}
+
 .DocSearch-Modal input {
   background-color: unset;
 }

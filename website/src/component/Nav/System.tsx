@@ -1,17 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import * as Popover from '@radix-ui/react-popover'
+import clsx from 'clsx'
 import type { FC, ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useSetDarkMode } from '../../provider/DarkModeProvider'
 import { useSidePanelState } from '../../provider/SidePanelStateProvider'
+import { useLinkClass } from '../hooks/useLinkClass'
 import { Languages } from './Languages'
 
 const NavButtonItem: FC<{ children: ReactNode; onClick?: () => void }> = ({ children, onClick }) => {
+  const linkClass = useLinkClass()
+  const className = clsx(
+    'mt-1 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full',
+    linkClass(false),
+  )
   return (
     <div
       onClick={onClick}
-      className="mt-1 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full
-      text-gray-600 hover:bg-gray-300 hover:text-gray-900">
+      className={className}>
       {children}
     </div>
   )
