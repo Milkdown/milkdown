@@ -25,7 +25,7 @@ export const Home: React.FC = () => {
               </NavLink>
             </span>
           </button>
-          <button className="hover-shadow-lg dark:bg-nord3 inline-flex h-14 items-center rounded-2xl bg-gray-200 py-4 px-5 shadow-md hover:bg-gray-100">
+          <button className="hover-shadow-lg dark:bg-nord3 hover:dark:bg-nord1 inline-flex h-14 items-center rounded-2xl bg-gray-200 py-4 px-5 shadow-md hover:bg-gray-100">
             <span className="text-sm">
               <a href="https://github.com/Saul-Mirone/milkdown" target="_blank" rel="noreferrer">
                 VIEW ON GITHUB

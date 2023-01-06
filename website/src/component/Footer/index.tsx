@@ -32,8 +32,44 @@ const communityGroup = {
       link: 'https://twitter.com/SaulMirone',
     },
     {
-      text: 'Github Discussion',
-      link: 'TODO',
+      text: 'Github',
+      link: 'https://github.com/Saul-Mirone/milkdown',
+    },
+  ],
+}
+
+const linksGroup = {
+  title: 'Links',
+  items: [
+    {
+      text: 'Prosemirror',
+      link: 'https://prosemirror.net/',
+    },
+    {
+      text: 'Remark',
+      link: 'https://remark.js.org/',
+    },
+    {
+      text: 'Markdown',
+      link: 'https://en.wikipedia.org/wiki/Markdown',
+    },
+  ],
+}
+
+const moreGroup = {
+  title: 'More',
+  items: [
+    {
+      text: 'License',
+      link: 'https://github.com/Saul-Mirone/milkdown/blob/main/LICENSE',
+    },
+    {
+      text: 'Contributors',
+      link: 'https://github.com/Saul-Mirone/milkdown/graphs/contributors',
+    },
+    {
+      text: 'Code of Conduct',
+      link: 'https://github.com/Saul-Mirone/milkdown/blob/main/CODE_OF_CONDUCT.md',
     },
   ],
 }
@@ -53,8 +89,8 @@ export const Footer: FC = () => {
             </NavLink>
           </div>
           <LinkGroups {...communityGroup} />
-          <LinkGroups {...communityGroup} />
-          <LinkGroups {...communityGroup} />
+          <LinkGroups {...linksGroup} />
+          <LinkGroups {...moreGroup} />
         </div>
         <div className="text-nord2 dark:text-nord4 mt-6 text-sm font-light">
           MIT Licensed | Copyright © 2021-present Mirone ♡ Meo

@@ -48,7 +48,7 @@ export const System = () => {
   return (
     <div className="ml-auto flex select-none md:ml-0 md:block">
       <NavButtonItem>
-        <div id="docsearch" ref={container}>search</div>
+        <div id="docsearch" ref={container} />
       </NavButtonItem>
       <Popover.Root open={languagesOpen}>
         <Popover.Trigger onClick={() => setLanguagesOpen(true)}>
