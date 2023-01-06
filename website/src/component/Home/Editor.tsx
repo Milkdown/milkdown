@@ -20,11 +20,11 @@ export const HomeEditor = () => {
       .make()
       .config((ctx) => {
         ctx.set(rootCtx, root)
-        root.className = 'h-96 overflow-auto bg-gray-100 rounded-2xl shadow-inner border-gray-200'
+        root.className = 'h-96 overflow-auto bg-gray-100 rounded-2xl shadow-inner border-gray-200 dark:bg-gray-800 dark:border-gray-700'
 
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4',
+            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4 dark:prose-invert',
           },
         }))
 

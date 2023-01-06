@@ -31,7 +31,7 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
 
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4',
+            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4 dark:prose-invert',
             spellcheck: 'false',
           },
         }))

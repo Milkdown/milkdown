@@ -63,7 +63,7 @@ export const MathBlock: FC = () => {
           defaultValue={code}
         />
         <button
-          className="bg-nord8 absolute right-0 bottom-full mb-1 inline-flex items-center justify-center rounded border border-gray-600 px-6 py-2 text-base font-medium leading-6 text-gray-50 shadow-sm hover:bg-blue-200 focus:ring-2 focus:ring-offset-2"
+          className="bg-nord8 dark:bg-nord9 absolute right-0 bottom-full mb-1 inline-flex items-center justify-center rounded border border-gray-600 px-6 py-2 text-base font-medium leading-6 text-gray-50 shadow-sm hover:bg-blue-200 focus:ring-2 focus:ring-offset-2"
           onClick={() => {
             setAttrs({ value: codeInput.current?.value || '' })
             setValue('preview')

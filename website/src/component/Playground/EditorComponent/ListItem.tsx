@@ -16,7 +16,7 @@ export const ListItem: FC = () => {
         checked != null
           ? <input className="form-checkbox rounded" onChange={() => setAttrs({ checked: !checked }) } type="checkbox" checked={checked} />
           : isBullet
-            ? <span className="bg-nord8 h-2 w-2 rounded-full" />
+            ? <span className="bg-nord8 dark:bg-nord9 h-2 w-2 rounded-full" />
             : <span className="text-nord8">{attrs?.label}</span>
       }
       </span>

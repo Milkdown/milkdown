@@ -63,7 +63,7 @@ const NavItem: FC<{ icon: string; text: string; id?: string; link?: string }> = 
   return (
     <ContainerComponent>
       <div className={`flex justify-center rounded-3xl py-0.5 px-4
-        ${isActive ? 'bg-nord8' : 'hover:bg-gray-300 dark:hover:bg-gray-700'}`}>
+        ${isActive ? 'bg-nord8 dark:bg-nord9' : 'hover:bg-gray-300 dark:hover:bg-gray-700'}`}>
         <div className="material-symbols-outlined">{icon}</div>
       </div>
       <div className="text-xs font-light">{text}</div>
@@ -78,10 +78,10 @@ export const DesktopNav: FC = () => {
   return (
     <nav className="flex h-full w-full flex-col items-center justify-between pt-11 pb-14">
       <div>
-        <div className="hover:ring-nord8 mx-auto flex h-14 w-14 cursor-pointer items-center
-          justify-center rounded-full
-          border border-gray-300 bg-white
-          shadow-inner hover:border-blue-200 hover:ring-2">
+        <div className="mx-auto flex h-14 w-14 cursor-pointer items-center justify-center
+          rounded-full border-2
+          border-gray-300 bg-white shadow-inner hover:bg-gray-200 dark:border-gray-600
+          dark:bg-gray-800 hover:dark:bg-gray-700">
           <NavLink to={root}>
             <img className="h-9 w-9" src="/milkdown-logo.svg" />
           </NavLink>
