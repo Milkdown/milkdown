@@ -16,7 +16,7 @@ importers:
       '@rollup/plugin-commonjs': ^24.0.0
       '@rollup/plugin-json': ^6.0.0
       '@rollup/plugin-node-resolve': ^15.0.0
-      '@rollup/plugin-typescript': ^10.0.0
+      '@rollup/plugin-typescript': ^11.0.0
       '@tailwindcss/forms': ^0.5.3
       '@tailwindcss/typography': ^0.5.8
       '@types/node': ^18.0.0
@@ -66,7 +66,7 @@ importers:
       '@rollup/plugin-commonjs': 24.0.0_rollup@3.7.3
       '@rollup/plugin-json': 6.0.0_rollup@3.7.3
       '@rollup/plugin-node-resolve': 15.0.0_rollup@3.7.3
-      '@rollup/plugin-typescript': 10.0.0_mcmb5eati6bovtnqr4qzkploxm
+      '@rollup/plugin-typescript': 11.0.0_mcmb5eati6bovtnqr4qzkploxm
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
       '@tailwindcss/typography': 0.5.8_tailwindcss@3.2.4
       '@types/node': 18.11.9
@@ -3921,8 +3921,8 @@ packages:
       rollup: 3.7.3
     dev: true
 
-  /@rollup/plugin-typescript/10.0.0_mcmb5eati6bovtnqr4qzkploxm:
-    resolution: {integrity: sha512-iaTcQCbqTBA+vYS8uAVqvZvYXPobHBkz/tPYudqdMIz8QIjlPFNNFLpFX18rHGjLvGT9vUghd6GwE4ZpLhCnfA==}
+  /@rollup/plugin-typescript/11.0.0_mcmb5eati6bovtnqr4qzkploxm:
+    resolution: {integrity: sha512-goPyCWBiimk1iJgSTgsehFD5OOFHiAknrRJjqFCudcW8JtWiBlK284Xnn4flqMqg6YAjVG/EE+3aVzrL5qNSzQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.14.0||^3.0.0
@@ -4008,7 +4008,7 @@ packages:
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
     dependencies:
       ejs: 3.1.8
-      json5: 2.2.1
+      json5: 2.2.3
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.8
     dev: true
