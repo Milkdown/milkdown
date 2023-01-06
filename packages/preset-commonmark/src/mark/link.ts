@@ -7,7 +7,6 @@ import { $command, $markAttr, $markSchema } from '@milkdown/utils'
 
 export const linkAttr = $markAttr('link')
 export const linkSchema = $markSchema('link', ctx => ({
-  inclusive: false,
   attrs: {
     href: {},
     title: { default: null },

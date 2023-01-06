@@ -45,8 +45,8 @@ describe('transform:', () => {
       })
     })
 
-    cy.get('.blockquote p').should('have.length', 2)
-    cy.get('.blockquote .hardbreak').should('exist')
+    cy.get('blockquote p').should('have.length', 2)
+    cy.get('blockquote br').should('exist')
   })
 
   it('list', () => {
@@ -57,25 +57,25 @@ describe('transform:', () => {
       })
     })
 
-    cy.get('.editor>.bullet-list').should('have.length', 2)
-    cy.get('.editor>.bullet-list:first-child .list-item').should('have.length', 4)
-    cy.get('.editor>.bullet-list:first-child>.list-item').should('have.length', 2)
-    cy.get('.editor>.bullet-list:first-child .bullet-list>.list-item:first-child>.list-item_body').should(
+    cy.get('.editor>ul').should('have.length', 2)
+    cy.get('.editor>ul:first-child li').should('have.length', 4)
+    cy.get('.editor>ul:first-child>li').should('have.length', 2)
+    cy.get('.editor>ul:first-child ul>li:first-child').should(
       'have.text',
       'Remembering games and daisy chains and laughs',
     )
 
-    cy.get('.editor>.ordered-list').should('have.length', 1)
-    cy.get('.editor>.ordered-list .list-item').should('have.length', 4)
-    cy.get('.editor>.ordered-list>.list-item').should('have.length', 2)
-    cy.get('.editor>.ordered-list .ordered-list>.list-item:first-child>.list-item_body').should(
+    cy.get('.editor>ol').should('have.length', 1)
+    cy.get('.editor>ol li').should('have.length', 4)
+    cy.get('.editor>ol>li').should('have.length', 2)
+    cy.get('.editor>ol ol>li:first-child').should(
       'have.text',
       'The paper holds their folded faces to the floor',
     )
 
-    cy.get('.editor>.bullet-list:last-child .list-item').should('have.length', 8)
-    cy.get('.editor>.bullet-list:last-child .bullet-list').should('have.length', 1)
-    cy.get('.editor>.bullet-list:last-child .ordered-list').should('have.length', 2)
+    cy.get('.editor>ul:last-child li').should('have.length', 8)
+    cy.get('.editor>ul:last-child ul').should('have.length', 1)
+    cy.get('.editor>ul:last-child ol').should('have.length', 2)
   })
 
   it('hr', () => {
@@ -86,7 +86,7 @@ describe('transform:', () => {
       })
     })
 
-    cy.get('.hr').should('be.visible')
+    cy.get('hr').should('be.visible')
   })
 
   it('code block', () => {
@@ -97,9 +97,9 @@ describe('transform:', () => {
       })
     })
 
-    cy.get('.code-fence').should('have.length', 2)
-    cy.get('.code-fence:first-child').should('have.attr', 'data-language', 'null')
-    cy.get('.code-fence:last-child').should('have.attr', 'data-language', 'javascript')
+    cy.get('pre').should('have.length', 2)
+    cy.get('pre:first-child').should('not.have.attr', 'data-language')
+    cy.get('pre:last-child').should('have.attr', 'data-language', 'javascript')
   })
 
   it('mark', () => {
@@ -110,33 +110,33 @@ describe('transform:', () => {
       })
     })
 
-    cy.get('.strong').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('.em').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('.code-inline').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('.link').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('.link').first().should('have.attr', 'href', 'link')
+    cy.get('strong').first().should('have.text', 'The lunatic is on the grass')
+    cy.get('em').first().should('have.text', 'The lunatic is on the grass')
+    cy.get('code').first().should('have.text', 'The lunatic is on the grass')
+    cy.get('a').first().should('have.text', 'The lunatic is on the grass')
+    cy.get('a').first().should('have.attr', 'href', 'link')
 
-    cy.get('.paragraph')
+    cy.get('p')
       .eq(4)
       .within(() => {
-        cy.get('.strong').should('have.text', 'The lunatic is on the grass')
-        cy.get('.em').should('have.text', 'The lunatic is on the grass')
+        cy.get('strong').should('have.text', 'The lunatic is on the grass')
+        cy.get('em').should('have.text', 'The lunatic is on the grass')
       })
 
-    cy.get('.paragraph')
+    cy.get('p')
       .eq(5)
       .within(() => {
-        cy.get('.strong').should('have.text', 'The lunatic is on the grass')
-        cy.get('.em').should('have.text', 'The lunatic is on the grass')
-        cy.get('.code-inline').should('have.text', 'The lunatic is on the grass')
+        cy.get('strong').should('have.text', 'The lunatic is on the grass')
+        cy.get('em').should('have.text', 'The lunatic is on the grass')
+        cy.get('code').should('have.text', 'The lunatic is on the grass')
       })
 
-    cy.get('.paragraph')
+    cy.get('p')
       .last()
       .within(() => {
-        cy.get('.strong').should('have.text', 'The lunatic is on the grass')
-        cy.get('.em').should('have.text', 'The lunatic is on the grass')
-        cy.get('.link').should('have.text', 'The lunatic is on the grass')
+        cy.get('strong').should('have.text', 'The lunatic is on the grass')
+        cy.get('em').should('have.text', 'The lunatic is on the grass')
+        cy.get('a').should('have.text', 'The lunatic is on the grass')
       })
 
     cy.window().then((win) => {

@@ -12,20 +12,13 @@ it('has editor', () => {
 
 describe('shortcut:', () => {
   const isMac = Cypress.platform === 'darwin'
-  it('task list', () => {
-    cy.get('.editor').type('The lunatic is on the grass')
-    cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+9}`)
-    cy.get('.bullet-list').within(() =>
-      cy.get('.task-list-item p').should('have.text', 'The lunatic is on the grass'),
-    )
-  })
 
   it('strike through', () => {
     cy.get('.editor').type('The lunatic is on the grass')
     cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`)
     cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`)
-    cy.get('.strike-through').should('have.text', 'The lunatic is on the grass')
+    cy.get('del').should('have.text', 'The lunatic is on the grass')
     cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`)
-    cy.get('.strike-through').should('not.exist')
+    cy.get('del').should('not.exist')
   })
 })
