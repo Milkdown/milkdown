@@ -43,27 +43,30 @@ export const Home: React.FC = () => {
       </div>
       <div className="mt-24 grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="dark:bg-nord3 flex-1/2 rounded-2xl bg-gray-50 py-3 px-4">
-          <div className="text-xl font-bold">Header</div>
+          <div className="text-xl font-bold">Plugin Driven</div>
           <p className="mt-7 font-light">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            Everything in milkdown are plugins. Extend your editor with different types of plugins:
+            syntax, theme, UI, etc.
           </p>
         </div>
         <div className="dark:bg-nord3 flex-1/2 rounded-2xl bg-gray-50 py-3 px-4">
-          <div className="text-xl font-bold">Header</div>
+          <div className="text-xl font-bold">Collaborative</div>
           <p className="mt-7 font-light">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            With the support of Y.js, milkdown can be used in real-time collaborative editing.
           </p>
         </div>
         <div className="dark:bg-nord3 flex-1/2 rounded-2xl bg-gray-50 py-3 px-4">
-          <div className="text-xl font-bold">Header</div>
+          <div className="text-xl font-bold">Headless</div>
           <p className="mt-7 font-light">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            Milkdown is headless and comes without any CSS.
+            You can easily customize the editor to fit the style of your application.
           </p>
         </div>
         <div className="dark:bg-nord3 flex-1/2 rounded-2xl bg-gray-50 py-3 px-4">
-          <div className="text-xl font-bold">Header</div>
+          <div className="text-xl font-bold">Reliable</div>
           <p className="mt-7 font-light">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            Milkdown is built on top of some great libraries, such as ProseMirror, Y.js, and Remark.
+            Which means you can use their community and eco system to get help.
           </p>
         </div>
       </div>
