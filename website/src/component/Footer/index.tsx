@@ -11,7 +11,7 @@ const LinkGroups: FC<{ title: string; items: Array<{ text: string; link: string 
       </div>
       {
         items.map((item, i) => (
-          <div key={i.toString()} className="text-nord10 hover:text-nord9 mb-2">
+          <div key={i.toString()} className="text-nord10 hover:text-nord8 dark:text-nord9 hover:dark:text-nord7 mb-2">
             <a href={item.link}>{item.text}</a>
           </div>
         ))
