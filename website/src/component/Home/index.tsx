@@ -12,7 +12,7 @@ export const Home: React.FC = () => {
   const gettingStarted = `${prefix}/getting-started`
 
   return (
-    <div>
+    <div className="mx-8 pt-16 md:mx-24 lg:mx-40 xl:mx-80">
       <div className="mt-24 text-center">
         <h1 className="text-4xl font-medium sm:text-6xl xl:text-8xl">The <span className="text-nord10">WYSIWYG Markdown</span> Editor Framework</h1>
         <p className="mt-6 text-lg font-light sm:text-2xl">🍼 A plugin driven framework to build WYSIWYG Markdown editor.</p>

@@ -672,11 +672,12 @@ importers:
       '@codemirror/autocomplete': ^6.0.0
       '@codemirror/commands': ^6.0.0
       '@codemirror/lang-markdown': ^6.0.0
-      '@codemirror/language': ^6.0.0
+      '@codemirror/language': ^6.2.0
       '@codemirror/lint': ^6.0.0
       '@codemirror/search': ^6.0.0
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
+      '@lezer/highlight': ^1.1.3
       '@milkdown/core': workspace:*
       '@milkdown/ctx': workspace:*
       '@milkdown/exception': workspace:*
@@ -702,6 +703,7 @@ importers:
       '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
       '@prosemirror-adapter/react': ^0.2.2
+      '@radix-ui/react-accordion': ^1.0.1
       '@radix-ui/react-popover': ^1.0.2
       '@radix-ui/react-tabs': ^1.0.1
       '@rollup/pluginutils': '*'
@@ -753,6 +755,7 @@ importers:
       '@codemirror/search': 6.0.0
       '@codemirror/state': 6.1.0
       '@codemirror/view': 6.0.3
+      '@lezer/highlight': 1.1.3
       '@milkdown/core': link:../packages/core
       '@milkdown/ctx': link:../packages/ctx
       '@milkdown/exception': link:../packages/exception
@@ -778,6 +781,7 @@ importers:
       '@milkdown/transformer': link:../packages/transformer
       '@milkdown/utils': link:../packages/utils
       '@prosemirror-adapter/react': 0.2.2_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-accordion': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-popover': 1.0.2_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-tabs': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@types/katex': 0.16.0
@@ -962,7 +966,7 @@ packages:
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.1
+      json5: 2.2.3
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -2614,7 +2618,7 @@ packages:
       '@codemirror/state': 6.1.0
       '@codemirror/view': 6.0.3
       '@lezer/common': 1.0.0
-      '@lezer/highlight': 1.0.0
+      '@lezer/highlight': 1.1.3
       '@lezer/lr': 1.2.0
       style-mod: 4.0.0
     dev: false
@@ -3226,12 +3230,12 @@ packages:
   /@lezer/css/1.0.0:
     resolution: {integrity: sha512-616VqgDKumHmYIuxs3tnX1irEQmoDHgF/TlP4O5ICWwyHwLMErq+8iKVuzTkOdBqvYAVmObqThcDEAaaMJjAdg==}
     dependencies:
-      '@lezer/highlight': 1.0.0
+      '@lezer/highlight': 1.1.3
       '@lezer/lr': 1.2.0
     dev: false
 
-  /@lezer/highlight/1.0.0:
-    resolution: {integrity: sha512-nsCnNtim90UKsB5YxoX65v3GEIw3iCHw9RM2DtdgkiqAbKh9pCdvi8AWNwkYf10Lu6fxNhXPpkpHbW6mihhvJA==}
+  /@lezer/highlight/1.1.3:
+    resolution: {integrity: sha512-3vLKLPThO4td43lYRBygmMY18JN3CPh9w+XS2j8WC30vR4yZeFG4z1iFe4jXE43NtGqe//zHW5q8ENLlHvz9gw==}
     dependencies:
       '@lezer/common': 1.0.0
     dev: false
@@ -3239,14 +3243,14 @@ packages:
   /@lezer/html/1.0.0:
     resolution: {integrity: sha512-wZHBcieArLTxEi198hqRBBHMySzDKo5suWaESdUw0t44IXp01vkSRwX2brG1qBbKdwJ+C6U0iMl00vWNiyAROg==}
     dependencies:
-      '@lezer/highlight': 1.0.0
+      '@lezer/highlight': 1.1.3
       '@lezer/lr': 1.2.0
     dev: false
 
   /@lezer/javascript/1.0.1:
     resolution: {integrity: sha512-t7fpf3+gi/jiAtW+Gv734TbKdpPg6b8qATH01/jprW9H2oR++Tb688IHwJvZbk9F4GjpCEv86beuHMpUyC1b5g==}
     dependencies:
-      '@lezer/highlight': 1.0.0
+      '@lezer/highlight': 1.1.3
       '@lezer/lr': 1.2.0
     dev: false
 
@@ -3260,7 +3264,7 @@ packages:
     resolution: {integrity: sha512-LlpNWLqes3XQvd8TwpJTHf9ENl4fI6H32xQkMgltUITFMMdQpOASXQtDawWR03yS6hskh4bkhATQbgjdGMoUvA==}
     dependencies:
       '@lezer/common': 1.0.0
-      '@lezer/highlight': 1.0.0
+      '@lezer/highlight': 1.1.3
     dev: false
 
   /@manypkg/find-root/1.1.0:
@@ -3511,6 +3515,25 @@ packages:
       '@babel/runtime': 7.18.6
     dev: false
 
+  /@radix-ui/react-accordion/1.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Ka7BQoyRRPwsOb0YEv0fQU8V8aCXCxAzNVI5BRN7WmPG2E1zQKKxmb86NVDqIj6uSnaahJ1E5S6bX5Lk9hTK+g==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0 || 18
+      react-dom: ^16.8 || ^17.0 || ^18.0 || 18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@radix-ui/primitive': 1.0.0
+      '@radix-ui/react-collapsible': 1.0.1_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-collection': 1.0.1_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-compose-refs': 1.0.0_react@18.2.0
+      '@radix-ui/react-context': 1.0.0_react@18.2.0
+      '@radix-ui/react-id': 1.0.0_react@18.2.0
+      '@radix-ui/react-primitive': 1.0.1_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-use-controllable-state': 1.0.0_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@radix-ui/react-arrow/1.0.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-1yientwXqXcErDHEv8av9ZVNEBldH8L9scVR3is20lL+jOCfcJyMFZFEY5cgIrgexsq1qggSXqiEL/d/4f+QXA==}
     peerDependencies:
@@ -3519,6 +3542,25 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.6
       '@radix-ui/react-primitive': 1.0.1_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@radix-ui/react-collapsible/1.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-0maX4q91iYa4gjt3PsNf7dq/yqSR+HGAE8I5p54dQ6gnveS+ETWlMoijxrhmgV1k8svxpm34mQAtqIrJt4XZmA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0 || 18
+      react-dom: ^16.8 || ^17.0 || ^18.0 || 18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@radix-ui/primitive': 1.0.0
+      '@radix-ui/react-compose-refs': 1.0.0_react@18.2.0
+      '@radix-ui/react-context': 1.0.0_react@18.2.0
+      '@radix-ui/react-id': 1.0.0_react@18.2.0
+      '@radix-ui/react-presence': 1.0.0_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-primitive': 1.0.1_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-use-controllable-state': 1.0.0_react@18.2.0
+      '@radix-ui/react-use-layout-effect': 1.0.0_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -5458,7 +5500,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
   /concurrently/7.2.2:
@@ -8425,12 +8467,6 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.6
-    dev: true
-
-  /json5/2.2.1:
-    resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
-    engines: {node: '>=6'}
-    hasBin: true
     dev: true
 
   /json5/2.2.3:

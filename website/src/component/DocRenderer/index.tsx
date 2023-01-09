@@ -77,10 +77,12 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
 
 export const DocRenderer: FC<{ content: Content }> = ({ content }) => {
   return (
-    <MilkdownProvider>
-      <ProsemirrorAdapterProvider>
-        <Inner content={content} />
-      </ProsemirrorAdapterProvider>
-    </MilkdownProvider>
+    <div className="mx-8 pt-16 md:mx-24 lg:mx-40 xl:mx-80">
+      <MilkdownProvider>
+        <ProsemirrorAdapterProvider>
+          <Inner content={content} />
+        </ProsemirrorAdapterProvider>
+      </MilkdownProvider>
+    </div>
   )
 }

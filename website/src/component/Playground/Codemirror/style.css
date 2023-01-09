@@ -1,0 +1,10 @@
+.accordion-content[data-state='open'] {
+  height: var(--radix-accordion-content-height);
+}
+.accordion-content[data-state='closed'] {
+  height: 0;
+}
+
+.accordion-trigger[data-state="closed"] .material-symbols-outlined {
+  transform: rotate(180deg);
+}

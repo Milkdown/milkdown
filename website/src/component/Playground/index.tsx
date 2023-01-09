@@ -1,23 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { Milkdown, MilkdownProvider } from '@milkdown/react'
+import { MilkdownProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { useLocal } from '../../provider/LocalizationProvider'
 import type { Local } from '../../route'
 import { i18nConfig } from '../../route'
-import { usePlayground } from './usePlayground'
+import { Codemirror } from './Codemirror'
+import { Milkdown } from './Milkdown'
 
 const importContent = (local: Local) => {
   const route = i18nConfig[local].route
   const path = ['index', route].filter(x => x).join('.')
   return import(`./content/${path}.md`)
-}
-
-const Editor: FC<{ content: string }> = ({ content }) => {
-  usePlayground(content)
-
-  return <Milkdown />
 }
 
 export const Playground: FC = () => {
@@ -45,10 +40,17 @@ export const Playground: FC = () => {
   return loading || !content
     ? <div>loading...</div>
     : (
-      <MilkdownProvider>
-        <ProsemirrorAdapterProvider>
-          <Editor content={content} />
-        </ProsemirrorAdapterProvider>
-      </MilkdownProvider>
+      <div className="m-0 mt-16 grid border-b border-gray-300 dark:border-gray-600 md:ml-20 md:mt-0 md:grid-cols-2">
+        <MilkdownProvider>
+          <ProsemirrorAdapterProvider>
+            <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none md:h-screen">
+              <Milkdown content={content} />
+            </div>
+            <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none border-l border-gray-300 dark:border-gray-600 md:h-screen">
+              <Codemirror content={content} />
+            </div>
+          </ProsemirrorAdapterProvider>
+        </MilkdownProvider>
+      </div>
       )
 }

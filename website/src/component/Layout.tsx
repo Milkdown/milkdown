@@ -15,7 +15,7 @@ export const Layout: FC<LayoutProps> = ({ NavBar, AppBar, Sidebar, children }) =
   const hideSidePanel = useHideSidePanel()
 
   return (
-    <div className="dark:bg-nord0 grid min-h-screen grid-rows-1 bg-white pt-16 text-gray-900 dark:text-gray-50">
+    <div className="dark:bg-nord0 grid min-h-screen grid-rows-1 bg-white text-gray-900 dark:text-gray-50">
       <div className="bg-nord6/70 dark:bg-nord3/70 fixed inset-y-0 left-0 z-40 hidden w-20 backdrop-blur backdrop-saturate-50 md:block">
         <NavBar />
       </div>
@@ -33,9 +33,7 @@ export const Layout: FC<LayoutProps> = ({ NavBar, AppBar, Sidebar, children }) =
 
       <div onClick={() => hideSidePanel(0)} className={`bg-nord0/50 fixed inset-0 z-10 backdrop-blur backdrop-saturate-50 ${sidePanelVisible ? 'block md:hidden' : 'hidden'}`} />
 
-      <div className="mx-8 md:mx-24 lg:mx-40 xl:mx-80">
-        {children}
-      </div>
+      {children}
       <Footer />
     </div>
   )
