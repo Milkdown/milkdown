@@ -36,9 +36,9 @@ export const Codemirror: FC<CodeMirrorProps> = ({ content, onChange, lock }) => 
 
   return (
     <>
-      <Accordion.Root type="multiple" defaultValue={['markdown']}>
-        <Accordion.Item value="markdown">
-          <Accordion.Header className="border-nord4 border-b dark:border-gray-600">
+      <Accordion.Root type="single" defaultValue="markdown" className="h-full">
+        <Accordion.Item value="markdown" className="accordion-item">
+          <Accordion.Header className="border-nord4 h-10 border-b dark:border-gray-600">
             <Accordion.Trigger className="accordion-trigger flex items-center gap-2 px-4 py-2">
               <span className="material-symbols-outlined">expand_more</span>
               <span>
@@ -46,18 +46,15 @@ export const Codemirror: FC<CodeMirrorProps> = ({ content, onChange, lock }) => 
               </span>
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Content forceMount className="accordion-content overflow-hidden transition-all">
-            <div
-              className="h-full"
+          <Accordion.Content forceMount className="accordion-content h-[calc(100% - 5rem)] overflow-hidden"
               onFocus={() => setFocus(true)}
               onBlur={() => setFocus(false)}
-            >
-              <div ref={divRef} />
-            </div>
+          >
+            <div ref={divRef} />
           </Accordion.Content>
         </Accordion.Item>
         <Accordion.Item value="plugins">
-          <Accordion.Header className="border-nord4 border-b dark:border-gray-600">
+          <Accordion.Header className="border-nord4 h-10 border-b dark:border-gray-600">
             <Accordion.Trigger className="accordion-trigger flex items-center gap-2 px-4 py-2">
               <span className="material-symbols-outlined">expand_more</span>
               <span>
@@ -65,6 +62,9 @@ export const Codemirror: FC<CodeMirrorProps> = ({ content, onChange, lock }) => 
               </span>
             </Accordion.Trigger>
           </Accordion.Header>
+          <Accordion.Content forceMount className="accordion-content h-[calc(100% - 5rem)] overflow-hidden">
+            TODO: add plugins list here
+          </Accordion.Content>
         </Accordion.Item>
       </Accordion.Root>
     </>
