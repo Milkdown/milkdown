@@ -29,7 +29,7 @@ export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock })
           </span>
         </div>
         <div>
-          <button className={clsx(linkClass(false), 'h-6 w-6 rounded-full')}>
+          <button className={clsx(linkClass(false), 'flex h-8 w-8 items-center justify-center rounded-full')}>
             <span className="material-symbols-outlined text-base">share</span>
           </button>
         </div>
