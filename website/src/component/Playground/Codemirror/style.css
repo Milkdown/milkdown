@@ -1,11 +1,13 @@
 .accordion-item[data-state='open'] {
-  height: calc(100% - 2.5rem);
+  height: calc(100% - 5rem);
   overflow: hidden;
 }
 
 .accordion-content[data-state='open'] {
+  @apply border-b dark:border-gray-600;
+
   height: calc(100% - 2.5rem);
-  --radix-collapsible-content-height: calc(100% - 5rem);
+  --radix-collapsible-content-height: calc(100% - 10rem);
   animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
 
   overflow: auto;
