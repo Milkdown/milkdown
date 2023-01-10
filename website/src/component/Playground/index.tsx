@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useLocal } from '../../provider/LocalizationProvider'
 import type { Local } from '../../route'
 import { i18nConfig } from '../../route'
-import { Codemirror } from './Codemirror'
+import { ControlPanel } from './ControlPanel'
 import { Milkdown } from './Milkdown'
 
 const importContent = (local: Local) => {
@@ -47,7 +47,7 @@ export const Playground: FC = () => {
               <Milkdown content={content} />
             </div>
             <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none border-l border-gray-300 dark:border-gray-600 md:h-screen">
-              <Codemirror content={content} />
+              <ControlPanel content={content} />
             </div>
           </ProsemirrorAdapterProvider>
         </MilkdownProvider>
