@@ -27,38 +27,38 @@ export const LinkWidgetAfter: FC = () => {
           <>
             <small className="text-nord8 font-light">link: </small>
             <input
-            size={href.length}
-            placeholder="empty"
-            onBlur={(e) => {
-              if (loading)
-                return
-              editor().action((ctx) => {
-                const commands = ctx.get(commandsCtx)
-                commands.call(updateLinkCommand.key, { href: e.target.value })
-              })
-            }}
-           className="rounded border-none py-0 px-2 ring-1"
-           type="text"
-           defaultValue={href}
-          />
-          &nbsp;
+              size={href.length}
+              placeholder="empty"
+              onBlur={(e) => {
+                if (loading)
+                  return
+                editor().action((ctx) => {
+                  const commands = ctx.get(commandsCtx)
+                  commands.call(updateLinkCommand.key, { href: e.target.value })
+                })
+              }}
+              className="rounded border-none bg-gray-50 py-0 px-2 ring-1 dark:bg-gray-900"
+              type="text"
+              defaultValue={href}
+            />
+            &nbsp;
             <small className="text-nord8 font-light">title: </small>
             &quot;
             <input
-            size={title.length || 5}
-            placeholder="empty"
-            onBlur={(e) => {
-              if (loading)
-                return
-              editor().action((ctx) => {
-                const commands = ctx.get(commandsCtx)
-                commands.call(updateLinkCommand.key, { title: e.target.value })
-              })
-            }}
-            className="rounded border-none py-0 px-2 ring-1"
-            type="text"
-            defaultValue={title}
-          />
+              size={title.length || 5}
+              placeholder="empty"
+              onBlur={(e) => {
+                if (loading)
+                  return
+                editor().action((ctx) => {
+                  const commands = ctx.get(commandsCtx)
+                  commands.call(updateLinkCommand.key, { title: e.target.value })
+                })
+              }}
+              className="rounded border-none bg-gray-50 py-0 px-2 ring-1 dark:bg-gray-900"
+              type="text"
+              defaultValue={title}
+            />
             &quot;
           </>
       })

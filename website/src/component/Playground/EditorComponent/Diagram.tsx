@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import mermaid from 'mermaid'
 import type { FC } from 'react'
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useDarkMode } from '../../../provider/DarkModeProvider'
 
 mermaid.initialize({ startOnLoad: false })
 
@@ -15,6 +16,7 @@ export const Diagram: FC = () => {
   const codeInput = useRef<HTMLTextAreaElement>(null)
   const [value, setValue] = useState('preview')
   const codePanel = useRef<HTMLDivElement>(null)
+  const darkMode = useDarkMode()
 
   const renderMermaid = useCallback((canRetry = 3) => {
     const container = codePanel.current
@@ -25,7 +27,11 @@ export const Diagram: FC = () => {
       if (code.length === 0)
         return
 
-      mermaid.render(id, code, (svg, bind) => {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: darkMode ? 'dark' : 'default',
+      })
+      mermaid.mermaidAPI.render(id, code, (svg, bind) => {
         container.innerHTML = svg
         bind?.(container)
       })
@@ -39,7 +45,7 @@ export const Diagram: FC = () => {
         renderMermaid(canRetry - 1)
       }, 200)
     }
-  }, [code, id])
+  }, [code, darkMode, id])
 
   useLayoutEffect(() => {
     requestAnimationFrame(() => {

@@ -77,7 +77,7 @@ export const ImageTooltip: FC = () => {
 
   return (
     <div>
-      <div ref={ref} className="flex w-96 flex-col gap-2 rounded border-gray-300 bg-white p-4 shadow ring">
+      <div ref={ref} className="flex w-96 flex-col gap-2 rounded border-gray-300 bg-white p-4 shadow ring dark:border-gray-600 dark:bg-black">
         <label className="flex flex-row items-center justify-center gap-4">
           <span className="w-10">Link</span>
           <input
@@ -88,8 +88,8 @@ export const ImageTooltip: FC = () => {
             onChange('src', e)
           }, 2000)}
           type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm
-            focus:border-indigo-300 focus:ring focus:ring-indigo-200/50"
+          className="mt-1 block w-full rounded-md bg-gray-300 shadow-sm focus:border-indigo-300
+            focus:ring focus:ring-indigo-200/50 dark:bg-gray-600"
           defaultValue={src}
         />
         </label>
@@ -103,8 +103,8 @@ export const ImageTooltip: FC = () => {
             onChange('alt', e)
           }, 2000)}
           type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm
-            focus:border-indigo-300 focus:ring focus:ring-indigo-200/50"
+          className="mt-1 block w-full rounded-md bg-gray-300 shadow-sm focus:border-indigo-300
+            focus:ring focus:ring-indigo-200/50 dark:bg-gray-600"
           defaultValue={alt}
         />
         </label>
@@ -118,8 +118,8 @@ export const ImageTooltip: FC = () => {
             onChange('title', e)
           }, 2000)}
           type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm
-            focus:border-indigo-300 focus:ring focus:ring-indigo-200/50"
+          className="mt-1 block w-full rounded-md bg-gray-300 shadow-sm focus:border-indigo-300
+            focus:ring focus:ring-indigo-200/50 dark:bg-gray-600"
           defaultValue={title}
         />
         </label>

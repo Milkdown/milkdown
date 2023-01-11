@@ -55,7 +55,7 @@ export const Slash = () => {
 
   return (
     <div>
-      <div role="tooltip" className="w-96 rounded bg-gray-50 shadow-lg ring-2" ref={ref}>
+      <div role="tooltip" className="w-96 rounded bg-gray-50 shadow-lg ring-2 dark:bg-gray-900" ref={ref}>
         <ul className="m-0 list-none">
           <li
           onClick={() => {
@@ -70,7 +70,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(wrapInHeadingCommand.key, 1)
             })
           }}
-          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200 hover:dark:bg-gray-700"
         >
             Heading 1
           </li>
@@ -87,7 +87,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(wrapInHeadingCommand.key, 2)
             })
           }}
-          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200 hover:dark:bg-gray-700"
         >
             Heading 2
           </li>
@@ -104,7 +104,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(wrapInHeadingCommand.key, 3)
             })
           }}
-          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200 hover:dark:bg-gray-700"
         >
             Heading 3
           </li>
@@ -121,7 +121,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(createCodeBlockCommand.key)
             })
           }}
-          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200 hover:dark:bg-gray-700"
         >
             Code Block
           </li>
@@ -139,7 +139,7 @@ export const Slash = () => {
               ctx.get(commandsCtx).call(insertHrCommand.key)
             })
           }}
-          className="cursor-pointer px-6 py-3 hover:bg-gray-200"
+          className="cursor-pointer px-6 py-3 hover:bg-gray-200 hover:dark:bg-gray-700"
         >
             Horizontal Rule
           </li>

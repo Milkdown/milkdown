@@ -11,10 +11,24 @@ import { useInstance } from '@milkdown/react'
 import { $ctx, $prose } from '@milkdown/utils'
 import type { useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { usePluginViewContext, useWidgetViewContext } from '@prosemirror-adapter/react'
+import clsx from 'clsx'
 import type { FC } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useLinkClass } from '../../hooks/useLinkClass'
 
 export const tableTooltipCtx = $ctx<TooltipProvider | null, 'tableTooltip'>(null, 'tableTooltip')
+
+const TooltipButton: FC<{ onClick: () => void; icon: string }> = ({ onClick, icon }) => {
+  const linkClass = useLinkClass()
+  return (
+    <button
+      className={clsx(linkClass(false), 'inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm dark:bg-black')}
+      onClick={onClick}
+    >
+      <span className="material-symbols-outlined text-base">{icon}</span>
+    </button>
+  )
+}
 
 export const tableTooltip = tooltipFactory('TABLE')
 export const TableTooltip: FC = () => {
@@ -56,8 +70,8 @@ export const TableTooltip: FC = () => {
       <div className="flex" ref={ref}>
         {
         !isWholeTable && !isHeading && isRow
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="arrow_upward"
           onClick={() => {
             if (loading)
               return
@@ -67,14 +81,12 @@ export const TableTooltip: FC = () => {
             })
             tooltipProvider.current?.hide()
           }}
-        >
-          +Row
-        </button>
+        />
       }
         {
         !isWholeTable && isCol
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="arrow_back"
           onClick={() => {
             if (loading)
               return
@@ -84,14 +96,12 @@ export const TableTooltip: FC = () => {
 
             tooltipProvider.current?.hide()
           }}
-        >
-          +Col
-        </button>
+        />
       }
         {
         (isWholeTable || !isHeading)
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="delete"
           onClick={() => {
             if (loading)
               return
@@ -101,14 +111,12 @@ export const TableTooltip: FC = () => {
             })
             tooltipProvider.current?.hide()
           }}
-        >
-          Delete
-        </button>
+        />
       }
         {
         !isWholeTable && isRow
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="arrow_downward"
           onClick={() => {
             if (loading)
               return
@@ -118,14 +126,12 @@ export const TableTooltip: FC = () => {
             })
             tooltipProvider.current?.hide()
           }}
-        >
-          Row+
-        </button>
+        />
       }
         {
         !isWholeTable && isCol
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="arrow_forward"
           onClick={() => {
             if (loading)
               return
@@ -135,14 +141,12 @@ export const TableTooltip: FC = () => {
 
             tooltipProvider.current?.hide()
           }}
-        >
-          Col+
-        </button>
+        />
       }
         {
         !isWholeTable && isCol
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="format_align_left"
           onClick={() => {
             if (loading)
               return
@@ -150,14 +154,12 @@ export const TableTooltip: FC = () => {
               ctx.get(commandsCtx).call(setAlignCommand.key, 'left')
             })
           }}
-        >
-          Left
-        </button>
+        />
       }
         {
         !isWholeTable && isCol
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="format_align_center"
           onClick={() => {
             if (loading)
               return
@@ -165,14 +167,12 @@ export const TableTooltip: FC = () => {
               ctx.get(commandsCtx).call(setAlignCommand.key, 'center')
             })
           }}
-        >
-          Center
-        </button>
+        />
       }
         {
         !isWholeTable && isCol
-        && <button
-          className="inline-flex items-center justify-center rounded border border-gray-200 bg-white px-4 py-2 text-base font-medium leading-6 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-offset-2"
+        && <TooltipButton
+          icon="format_align_right"
           onClick={() => {
             if (loading)
               return
@@ -180,9 +180,7 @@ export const TableTooltip: FC = () => {
               ctx.get(commandsCtx).call(setAlignCommand.key, 'right')
             })
           }}
-        >
-          Right
-        </button>
+        />
       }
       </div>
     </div>
@@ -198,7 +196,7 @@ const TableSelectorWidget: FC = () => {
 
   const [dragOver, setDragOver] = useState(false)
 
-  const common = useMemo(() => ['cursor-pointer absolute bg-blue-200 hover:bg-nord8 hover:dark:bg-nord9', dragOver ? 'ring-2' : ''].join(' '), [dragOver])
+  const common = useMemo(() => clsx('hover:bg-nord8 hover:dark:bg-nord9 absolute cursor-pointer bg-gray-200 dark:bg-gray-600', dragOver ? 'ring-2' : ''), [dragOver])
 
   const className = useMemo(() => {
     if (type === 'left')

@@ -17,7 +17,7 @@ export const FootnoteDef: FC = () => {
   const { node, contentRef } = useNodeViewContext()
   const label = node.attrs.label
   return (
-    <dl className="relative flex gap-2 rounded border-2 border-gray-300 bg-gray-50 p-3" id={`footnote-${label}-def`}>
+    <dl className="relative flex gap-2 rounded border-2 border-gray-300 bg-gray-50 p-3 dark:border-gray-500 dark:bg-gray-900" id={`footnote-${label}-def`}>
       <dt className="text-nord8">
         {label}:
       </dt>

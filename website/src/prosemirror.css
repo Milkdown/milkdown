@@ -4,5 +4,5 @@ li::after {
 
 .ProseMirror-selectednode {
   outline: none;
-  @apply ring-2 ring-offset-1 ring-nord9;
+  @apply outline-nord9 dark:outline-nord10 outline-2 outline outline-offset-2;
 }
