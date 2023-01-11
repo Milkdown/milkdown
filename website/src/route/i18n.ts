@@ -7,6 +7,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Guide',
       'zh-hans': '引导',
+      'zh-tw': '引導',
     },
   ],
   [
@@ -14,13 +15,15 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Why Milkdown',
       'zh-hans': '为什么使用Milkdown',
+      'zh-tw': '為什麼使用Milkdown',
     },
   ],
   [
     'getting-started',
     {
       'en': 'Getting Started',
-      'zh-hans': '开始使用',
+      'zh-hans': '開始使用',
+      'zh-tw': '開始使用',
     },
   ],
   [
@@ -28,6 +31,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Interacting With Editor',
       'zh-hans': '与编辑器交互',
+      'zh-tw': '與編輯器互動',
     },
   ],
   [
@@ -35,6 +39,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Commands',
       'zh-hans': '命令',
+      'zh-tw': '指令',
     },
   ],
   [
@@ -42,6 +47,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Styling',
       'zh-hans': '样式',
+      'zh-tw': '樣式',
     },
   ],
   [
@@ -49,6 +55,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Keyboard Shortcuts',
       'zh-hans': '快捷键',
+      'zh-tw': '快捷鍵',
     },
   ],
   [
@@ -56,6 +63,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Macros',
       'zh-hans': '宏',
+      'zh-tw': '巨集',
     },
   ],
   [
@@ -63,6 +71,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Collaborative Editing',
       'zh-hans': '协同编辑',
+      'zh-tw': '共同編輯',
     },
   ],
   [
@@ -70,6 +79,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'I18n',
       'zh-hans': 'I18n',
+      'zh-tw': 'I18n',
     },
   ],
   [
@@ -77,6 +87,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'FAQ',
       'zh-hans': 'FAQ',
+      'zh-tw': 'FAQ',
     },
   ],
   [
@@ -84,6 +95,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Recipes',
       'zh-hans': '配方',
+      'zh-tw': '配方',
     },
   ],
   [
@@ -91,6 +103,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'React',
       'zh-hans': 'React',
+      'zh-tw': 'React',
     },
   ],
   [
@@ -98,6 +111,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Vue',
       'zh-hans': 'Vue',
+      'zh-tw': 'Vue',
     },
   ],
   [
@@ -105,6 +119,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Angular',
       'zh-hans': 'Angular',
+      'zh-tw': 'Angular',
     },
   ],
   [
@@ -112,6 +127,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Svelte',
       'zh-hans': 'Svelte',
+      'zh-tw': 'Svelte',
     },
   ],
   [
@@ -119,6 +135,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'SolidJS',
       'zh-hans': 'SolidJS',
+      'zh-tw': 'SolidJS',
     },
   ],
   [
@@ -126,6 +143,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Next.js',
       'zh-hans': 'Next.js',
+      'zh-tw': 'Next.js',
     },
   ],
   [
@@ -133,6 +151,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'NuxtJS',
       'zh-hans': 'NuxtJS',
+      'zh-tw': 'NuxtJS',
     },
   ],
   [
@@ -140,6 +159,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Vue2',
       'zh-hans': 'Vue2',
+      'zh-tw': 'Vue2',
     },
   ],
   [
@@ -147,13 +167,15 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugin',
       'zh-hans': '插件',
+      'zh-tw': '外掛',
     },
   ],
   [
     'using-plugins',
     {
       'en': 'Using Plugins',
-      'zh-hans': '使用插件',
+      'zh-hans': '使用外掛',
+      'zh-tw': '使用外掛',
     },
   ],
   [
@@ -161,6 +183,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugins 101',
       'zh-hans': '从0到1写插件',
+      'zh-tw': '從0到1寫外掛',
     },
   ],
   [
@@ -168,6 +191,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugin Factories',
       'zh-hans': '插件工厂',
+      'zh-tw': '外掛工廠',
     },
   ],
   [
@@ -175,6 +199,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Composable Plugins',
       'zh-hans': '可组合插件',
+      'zh-tw': '可組合外掛',
     },
   ],
   [
@@ -182,6 +207,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Example: Iframe Plugin',
       'zh-hans': '例子: Iframe插件',
+      'zh-tw': '例子: Iframe外掛',
     },
   ],
   [
@@ -189,6 +215,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Tools',
       'zh-hans': '内部',
+      'zh-tw': '工具',
     },
   ],
   [
@@ -196,6 +223,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Prose',
       'zh-hans': 'Prose',
+      'zh-tw': 'Prose',
     },
   ],
   [
@@ -203,6 +231,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Using Utils Package',
       'zh-hans': '使用工具包',
+      'zh-tw': '使用工具箱',
     },
   ],
   [
@@ -210,6 +239,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Design System',
       'zh-hans': '设计系统',
+      'zh-tw': '設計系統',
     },
   ],
   [
@@ -217,6 +247,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Internals',
       'zh-hans': '内部',
+      'zh-tw': '內部',
     },
   ],
   [
@@ -224,6 +255,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Architecture',
       'zh-hans': '架构',
+      'zh-tw': '架構',
     },
   ],
   [
@@ -231,6 +263,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Node & Mark',
       'zh-hans': 'Node & Mark',
+      'zh-tw': 'Node & Mark',
     },
   ],
   [
@@ -238,6 +271,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Parser',
       'zh-hans': '解析器',
+      'zh-tw': '解析器',
     },
   ],
   [
@@ -245,6 +279,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Serializer',
       'zh-hans': '序列化',
+      'zh-tw': '序列化',
     },
   ],
   [
@@ -252,6 +287,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Internal Plugins',
       'zh-hans': '内置插件',
+      'zh-tw': '內建外掛',
     },
   ],
   [
@@ -259,6 +295,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Get Started',
       'zh-hans': '快速开始',
+      'zh-tw': '快速開始',
     },
   ],
   [
@@ -266,6 +303,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Try Online',
       'zh-hans': '在线体验',
+      'zh-tw': '線上體驗',
     },
   ],
   [
@@ -273,6 +311,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugin Based WYSIWYG Markdown Editor Framework',
       'zh-hans': '插件驱动的所见即所得的Markdown编辑器框架',
+      'zh-tw': '外掛驅動的所見即所得的Markdown編輯器框架',
     },
   ],
   [
@@ -280,6 +319,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Theme',
       'zh-hans': '主题',
+      'zh-tw': '主題',
     },
   ],
   [
@@ -287,6 +327,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Using Themes',
       'zh-hans': '使用主题',
+      'zh-tw': '使用主題',
     },
   ],
   [
@@ -294,6 +335,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Writing Themes',
       'zh-hans': '编写主题',
+      'zh-tw': '編寫主題',
     },
   ],
   [
@@ -301,6 +343,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'API',
       'zh-hans': 'API',
+      'zh-tw': 'API',
     },
   ],
   [
@@ -308,6 +351,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'core',
       'zh-hans': 'core',
+      'zh-tw': 'core',
     },
   ],
   [
@@ -315,6 +359,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'prose',
       'zh-hans': 'prose',
+      'zh-tw': 'prose',
     },
   ],
   [
@@ -322,6 +367,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'ctx',
       'zh-hans': 'ctx',
+      'zh-tw': 'ctx',
     },
   ],
   [
@@ -329,6 +375,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'transformer',
       'zh-hans': 'transformer',
+      'zh-tw': 'transformer',
     },
   ],
   [
@@ -336,6 +383,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'preset-commonmark',
       'zh-hans': 'preset-commonmark',
+      'zh-tw': 'preset-commonmark',
     },
   ],
   [
@@ -343,6 +391,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'preset-gfm',
       'zh-hans': 'preset-gfm',
+      'zh-tw': 'preset-gfm',
     },
   ],
   [
@@ -350,6 +399,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-listener',
       'zh-hans': 'plugin-listener',
+      'zh-tw': 'plugin-listener',
     },
   ],
   [
@@ -357,6 +407,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-tooltip',
       'zh-hans': 'plugin-tooltip',
+      'zh-tw': 'plugin-tooltip',
     },
   ],
   [
@@ -364,6 +415,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-slash',
       'zh-hans': 'plugin-slash',
+      'zh-tw': 'plugin-slash',
     },
   ],
   [
@@ -371,6 +423,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-menu',
       'zh-hans': 'plugin-menu',
+      'zh-tw': 'plugin-menu',
     },
   ],
   [
@@ -378,6 +431,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-prism',
       'zh-hans': 'plugin-prism',
+      'zh-tw': 'plugin-prism',
     },
   ],
   [
@@ -385,6 +439,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-math',
       'zh-hans': 'plugin-math',
+      'zh-tw': 'plugin-math',
     },
   ],
   [
@@ -392,6 +447,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-clipboard',
       'zh-hans': 'plugin-clipboard',
+      'zh-tw': 'plugin-clipboard',
     },
   ],
   [
@@ -399,6 +455,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-collaborative',
       'zh-hans': 'plugin-collaborative',
+      'zh-tw': 'plugin-collaborative',
     },
   ],
   [
@@ -406,6 +463,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-upload',
       'zh-hans': 'plugin-upload',
+      'zh-tw': 'plugin-upload',
     },
   ],
   [
@@ -413,6 +471,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-cursor',
       'zh-hans': 'plugin-cursor',
+      'zh-tw': 'plugin-cursor',
     },
   ],
   [
@@ -420,6 +479,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-diagram',
       'zh-hans': 'plugin-diagram',
+      'zh-tw': 'plugin-diagram',
     },
   ],
   [
@@ -427,6 +487,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-emoji',
       'zh-hans': 'plugin-emoji',
+      'zh-tw': 'plugin-emoji',
     },
   ],
   [
@@ -434,6 +495,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-history',
       'zh-hans': 'plugin-history',
+      'zh-tw': 'plugin-history',
     },
   ],
   [
@@ -441,6 +503,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-indent',
       'zh-hans': 'plugin-indent',
+      'zh-tw': 'plugin-indent',
     },
   ],
   [
@@ -448,6 +511,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-trailing',
       'zh-hans': 'plugin-trailing',
+      'zh-tw': 'plugin-trailing',
     },
   ],
   [
@@ -455,6 +519,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'plugin-block',
       'zh-hans': 'plugin-block',
+      'zh-tw': 'plugin-block',
     },
   ],
   [
@@ -462,6 +527,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Theme Nord',
       'zh-hans': 'Nord主题',
+      'zh-tw': 'Nord主題',
     },
   ],
   [
@@ -469,6 +535,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Theme Tokyo',
       'zh-hans': 'Tokyo主题',
+      'zh-tw': 'Tokyo主題',
     },
   ],
   [
@@ -476,6 +543,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Theme Pack Helper',
       'zh-hans': '主题包助手',
+      'zh-tw': '主題包助手',
     },
   ],
   [
@@ -483,6 +551,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Playground',
       'zh-hans': '游乐场',
+      'zh-tw': '遊樂場',
     },
   ],
 ])
