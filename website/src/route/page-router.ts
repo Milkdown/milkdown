@@ -40,10 +40,11 @@ const mapConfig = ({ dir, items }: ConfigItem, local: Local): Section => ({
 
 const toRouter = (config: ConfigItem[], local: Local): Section[] => config.map(cfg => mapConfig(cfg, local))
 
-export type Local = 'en' | 'zh-hans'
+export type Local = 'en' | 'zh-hans' | 'zh-tw' 
 export type Dict = Map<string, Record<Local, string>>
 
 export const pageRouter: Record<Local, Section[]> = {
   'en': toRouter(config, 'en'),
   'zh-hans': toRouter(config, 'zh-hans'),
+  'zh-tw': toRouter(config, 'zh-tw'),
 }
