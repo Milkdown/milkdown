@@ -1,9 +1,9 @@
-# 外掛工廠
+# 模組工廠
 
-在[上一章](/zh-tw/plugins-101).我們展示瞭如何不借助任何工具建立一個外掛。
-幸運的是，我們大多數情況下不需要從零開始。我們可以使用外掛工廠和[可組合外掛](/zh-tw/composable-plugins)來建立外掛。
+在[上一章](/zh-tw/plugins-101).我們展示瞭如何不借助任何工具建立一個模組。
+幸運的是，我們大多數情況下不需要從零開始。我們可以使用模組工廠和[可組合模組](/zh-tw/composable-plugins)來建立模組。
 
-我們提供 3 種方式來建立不同型別的外掛：
+我們提供 3 種方式來建立不同型別的模組：
 
 -   createNode
 -   createMark
@@ -11,9 +11,9 @@
 
 ## 概覽
 
-對於每個外掛工廠，它都會接受一個函式，返回一個外掛建立函式。
+對於每個模組工廠，它都會接受一個函式，返回一個模組建立函式。
 
-讓我們建立一個簡單的 blockquote 外掛。
+讓我們建立一個簡單的 blockquote 模組。
 
 ```typescript
 const blockquote = createNode(() => {
@@ -47,21 +47,21 @@ const blockquote = createNode(() => {
 editor.use(blockquote());
 ```
 
-通過這個外掛，我們可以建立 blockquote。
+通過這個模組，我們可以建立 blockquote。
 
 ---
 
 ## 屬性
 
-現在，我們來仔細看看外掛的每個部分。
+現在，我們來仔細看看模組的每個部分。
 
 ### id
 
 > `string`
 
-首先，我們定義了外掛的`id`。
-這個 id 應該是每個外掛的唯一標識。
-它被用於在編輯器中標識外掛。
+首先，我們定義了模組的`id`。
+這個 id 應該是每個模組的唯一標識。
+它被用於在編輯器中標識模組。
 
 ### schema
 
@@ -110,16 +110,14 @@ const myPlugin = createPlugin(() => {
 2. `parseMarkdown`和`toMarkdown`：這是用來定義如何將 node/mark 從 markdown AST 中解析和渲染到 markdown AST 中。這是 milkdown 中特有的屬性。
 3. 其它屬性：這用於定義 node/mark 的行為，與 prosemirror node/mark spec 中的任何屬性都可以放在這裡。
 
-# 到這裡
-
 #### SchemaType
 
-对于每个插件工厂，都会有一个 SchemaType，由 schema 的定义来决定。
-对于`createNode`是`NodeSchema`。
-对于`createMark`是`MarkSchema`。
-对于`createPlugin`，是一个对象。
+對於每個模組工廠，都會有一個 SchemaType，由 schema 的定義來決定。
+對於`createNode`是`NodeSchema`。
+對於`createMark`是`MarkSchema`。
+對於`createPlugin`，是一個對象。
 
-例如，我们在上面定义的`myPlugin`将会有这个 schema 类型：
+例如，我們在上面定義的`myPlugin`將會有這個 schema 型別：
 
 ```typescript
 type SchemaTypeOfMyPlugin = {
@@ -133,7 +131,7 @@ type SchemaTypeOfMyPlugin = {
 };
 ```
 
-SchemaType 可能会被用在插件工厂的以下其它属性中：
+SchemaType 可能會被用在模組工廠的以下其它屬性中：
 
 -   [commands](#commands)
 -   [inputRules](#inputrules)
@@ -143,9 +141,9 @@ SchemaType 可能会被用在插件工厂的以下其它属性中：
 
 > `type commands = (type: SchemaType, ctx: Ctx) => Commands[]`
 
-你可以添加 commands 来让编辑器的其它部分来使用它。
-例如，我们想要其它组件例如菜单栏或者下拉列表可以创建一个 blockquote。我们可以添加一个 command 名为`WrapInBlockquote`。
-然后其它的组件就只需要直接调用`WrapInBlockquote`命令来创建一个 blockquote，而不需要知道具体的细节。
+你可以新增 commands 來讓編輯器的其它部分來使用它。
+例如，我們想要其它元件例如菜單欄或者下拉選單可以建立一個 blockquote。我們可以新增一個 command 名為`WrapInBlockquote`。
+然後其它的元件就只需要直接呼叫`WrapInBlockquote`命令來建立一個 blockquote，而不需要知道具體的細節。
 
 ```typescript
 const WrapInBlockquote = createCmdKey('WrapInBlockquote');
@@ -162,13 +160,13 @@ const blockquote = createNode(() => {
 ctx.get(commandsCtx).call('WrapInBlockquote');
 ```
 
-关于 commands 的更多详情，请参见[commands](/zh-hans/commands)。
+關於 commands 的更多詳情，請參見[commands](/zh-tw/commands)。
 
 ### inputRules
 
 > `(schemaType: SchemaType, ctx: Ctx) => InputRule[]`
 
-这个属性被用于定义当用户输入怎样的字符时，将会触发目标命令。例如，我们期望用户可以通过输入`>`和一个空格来创建一个 blockquote。
+這個屬性被用於定義當用戶輸入怎樣的字元時，將會觸發目標命令。例如，我們期望使用者可以通過輸入`>`和一個空格來建立一個 blockquote。
 
 ```typescript
 import { wrappingInputRule } from '@milkdown/prose/inputrules';
@@ -183,23 +181,23 @@ const blockquote = createNode(() => {
 });
 ```
 
-InputRules 是 prosemirror 的一部分，如果你想要更多的详情或创建你自己的 inputrules，
-请参见[prosemirror-inputrules](https://prosemirror.net/docs/ref/#inputrules)。
+InputRules 是 prosemirror 的一部分，如果你想要更多的詳情或建立你自己的 inputrules，
+請參見[prosemirror-inputrules](https://prosemirror.net/docs/ref/#inputrules)。
 
 ### prosePlugins
 
 > `(schemaType: SchemaType, ctx: Ctx) => ProsemirrorPlugin[]`
 
-这个属性被用于定义[prosemirror 插件](https://prosemirror.net/docs/ref/#state.Plugin_System)。
-Prosemirror 插件可以用来扩展编辑器的行为。
-例如添加 tooltip 或者 placeholder。
+這個屬性被用於定義[prosemirror 模組](https://prosemirror.net/docs/ref/#state.Plugin_System)。
+Prosemirror 模組可以用來擴充套件編輯器的行為。
+例如新增 tooltip 或者 placeholder。
 
 ### shortcuts
 
 > `Record<string, Shortcut>`
 
-Shortcuts 用来定义用户输入的组合键能够出发怎样的命令。
-例如，我们期望用户可以通过输入`Mode-Shift-b`来创建一个 blockquote。
+Shortcuts 用來定義使用者輸入的組合鍵能夠出發怎樣的命令。
+例如，我們期望使用者可以通過輸入`Mode-Shift-b`來建立一個 blockquote。
 
 ```typescript
 const WrapInBlockquote = createCmdKey('WrapInBlockquote');
@@ -216,11 +214,11 @@ const blockquote = createNode<'Blockquote'>(() => {
 });
 ```
 
-这里我们定义了一个快捷键，当用户输入`Mod-Shift-b`时，命令`WrapInBlockquote`将被触发。
+這裡我們定義了一個快捷鍵，當用戶輸入`Mod-Shift-b`時，命令`WrapInBlockquote`將被觸發。
 
 #### 自定义快捷键
 
-使用 shortcuts 的好处是，当其他用户使用你的插件时，他们可以自定义快捷键。
+使用 shortcuts 的好處是，當其他使用者使用你的模組時，他們可以自定義快捷鍵。
 
 ```typescript
 const blockquoteWithUserDefinedShortcut = blockquote({
@@ -230,29 +228,29 @@ const blockquoteWithUserDefinedShortcut = blockquote({
 });
 ```
 
-这里用户可以输入`Mod-Alt-b`来创建一个 blockquote，而不是使用原来的快捷键。
+這裡使用者可以輸入`Mod-Alt-b`來建立一個 blockquote，而不是使用原來的快捷鍵。
 
 ### view
 
 > `(ctx: Ctx) => ViewFactory`
 
-这个属性被用来定义[node view](https://prosemirror.net/docs/ref/#view.NodeView)。
-它为你提供了一种控制渲染出的 DOM 的方式。
-它比起 schema 中的`toDOM`更加复杂，但是更加强大。
+這個屬性被用來定義[node view](https://prosemirror.net/docs/ref/#view.NodeView)。
+它為你提供了一種控制渲染出的 DOM 的方式。
+它比起 schema 中的`toDOM`更加複雜，但是更加強大。
 
 ### remarkPlugin
 
 > `(ctx: Ctx) => RemarkPlugin[]`
 
-这个属性用于定义[remark 插件](https://github.com/remarkjs/remark/blob/main/doc/plugins.md)。
-它用于扩展解析器和序列化器的行为。
-大多数时候如果想要定义自己的 markdown 语法，都需要使用 remark 插件。
+這個屬性用於定義[remark 模組](https://github.com/remarkjs/remark/blob/main/doc/plugins.md)。
+它用於模組解析器和序列化器的行為。
+大多數時候如果想要定義自己的 markdown 語法，都需要使用 remark 模組。
 
 ---
 
 ## 注入 Slice
 
-有时候你可能会想在插件中注入一些 slice，来让他们可以被编辑器的其他部分更新和访问。
+有時候你可能會想在模組中注入一些 slice，來讓他們可以被編輯器的其他部分更新和訪問。
 
 ```typescript
 import { createSlice } from '@milkdown/core';
@@ -293,18 +291,18 @@ Editor.make()
 
 ---
 
-## 样式
+## 樣式
 
-如果你的插件有用户界面，你可能想要为他们添加样式。
-我们提供了一些工具来帮助你做到这一点。
-你可以通过插件工厂的第一个参数获取到它们。
+如果你的模組有用戶界面，你可能想要為他們新增樣式。
+我們提供了一些工具來幫助你做到這一點。
+你可以通過模組工廠的第一個參數獲取到它們。
 
 ### getStyle
 
 > `(callback: (emotion: Emotion) => string | undefined) => void`
 
-函数`getStyle`被用于通过一个回调函数来创建样式。
-这里的`Emotion`和[emotion 库](https://emotion.sh/docs/@emotion/css)中的是一样的。
+函式`getStyle`被用於通過一個回撥函式來建立樣式。
+這裡的`Emotion`和[emotion 庫](https://emotion.sh/docs/@emotion/css)中的是一樣的。
 
 ```typescript
 import { getPalette } from '@milkdown/core';
@@ -339,9 +337,9 @@ const blockquote = createNode(({ getStyle, themeManager }) => {
 });
 ```
 
-我们需要使用`getStyle`来创建样式的原因是，我们可以通过这种方式来让插件自动支持[无头模式](/zh-hans/styling#headless-mode)。
-在无头模式中，所有通过`getStyle`创建的样式都会被擦除。
-用户可以通过以下方法来开启无头模式：
+我們需要使用`getStyle`來建立樣式的原因是，我們可以通過這種方式來讓模組自動支援[無頭模式](/zh-tw/styling#headless-mode)。
+在無頭模式中，所有通過`getStyle`建立的樣式都會被擦除。
+使用者可以通過以下方法來開啟無頭模式：
 
 ```typescript
 const headlessBlockquote = blockquote({
@@ -349,13 +347,13 @@ const headlessBlockquote = blockquote({
 });
 ```
 
-你可能也注意到了我们把样式放在了`themeManager.onFlush`中，这是为了在主题更改时刷新样式。
+你可能也注意到了我們把樣式放在了`themeManager.onFlush`中，這是爲了在主題更改時重新整理樣式。
 
 ### getClassName
 
 > `(attrs: Attrs, ...defaultValue: (string | null | undefined)[]) => string`
 
-函数`getClassName`被用于通过一个回调函数来创建一个或多个 class 类名。
+函式`getClassName`被用於通過一個回撥函式來建立一個或多個 class 類名。
 
 ```typescript
 const blockquote = createNode(({ getClassName }) => {
@@ -379,9 +377,9 @@ const blockquote = createNode(({ getClassName }) => {
 });
 ```
 
-通过以上代码，blockquote 将会有 class `blockquote`和`milkdown-blockquote`。
-这还带来了一个好处，那就是我们可以让用户[自己决定 class 的名字](/zh-hans/styling#option-2:-add-custom-class-name)。
-这里是一个例子：
+通過以上程式碼，blockquote 將會有 class `blockquote`和`milkdown-blockquote`。
+這還帶來了一個好處，那就是我們可以讓使用者[自己決定 class 的名字](/zh-hans/styling#option-2:-add-custom-class-name)。
+這裡是一個例子：
 
 ```typescript
 const blockquoteWithCustomClassName = blockquote({
@@ -391,11 +389,11 @@ const blockquoteWithCustomClassName = blockquote({
 
 ---
 
-## 选项
+## 選項
 
-一些插件可能会想要用户来配置一些选项。例如，一个有文字的插件可能会想要用户来决定文字的内容来做到本地化。
+一些模組可能會想要使用者來配置一些選項。例如，一個有文字的模組可能會想要使用者來決定文字的內容來做到本地化。
 
-你可以通过第二个参数来得到用户传入的选项。
+你可以通過第二個參數來得到使用者傳入的選項。
 
 ```typescript
 type Options = {
@@ -414,13 +412,13 @@ const buttonWithMyText = button({
 });
 ```
 
-需要注意的是，所有的选项都应该被认为是**可选的。**
-也就是说如果用户选择不传递任何选项，你最好为他们都设置合适的默认值。
+需要注意的是，所有的選項都應該被認為是**可選的。**
+也就是說如果使用者選擇不傳遞任何選項，你最好為他們都設定合適的預設值。
 
-## 继承
+## 繼承
 
-被工厂创建的插件可以被继承。
-如果你只是想要修改一个现存插件的一些部分，继承要比重新写一个简单得多。
+被工廠建立的模組可以被繼承。
+如果你只是想要修改一個現存模組的一些部分，繼承要比重新寫一個簡單得多。
 
 ```typescript
 const extendedBlockquote = blockquote.extend((original, utils, options) => {
@@ -436,21 +434,17 @@ const extendedBlockquote = blockquote.extend((original, utils, options) => {
 });
 ```
 
-这里我们有 3 个参数。
-`options`和`utils`已经介绍过了。
-`original`是要被继承的插件的原始声明。
-继承方法应该总是返回一个新的插件。
+這裡我們有 3 個參數。
+`options`和`utils`已經介紹過了。
+`original`是要被繼承的模組的原始聲明。
+繼承方法應該總是返回一個新的模組。
 
 ## AtomList
 
-In a complex real world app, we may want to create a list of plugins.
-Let users `use` them one by one might be a little bit complicated.
-So we provide a utility to create a list of plugins.
-With this list, users can use, extend and configure them easily.
-在一个真实世界的复杂应用中，我们可能需要创建一系列插件。
-如果让用户一个一个的对他们调用`use`可能会有一点复杂。
-所以我们提供了一个工具来创建一个插件列表。
-通过这个列表，用户可以轻松的使用，继承和配置它们。
+在一個真實世界的複雜應用中，我們可能需要建立一系列模組。
+如果讓使用者一個一個的對他們呼叫`use`可能會有一點複雜。
+所以我們提供了一個工具來建立一個模組列表。
+通過這個列表，使用者可以輕鬆的使用，繼承和配置它們。
 
 ```typescript
 import { createNode, AtomList } from '@milkdown/utils';
@@ -492,8 +486,8 @@ const myNode1 = node1.extend(/* ... */);
 Editor.use(mySyntaxPlugin.replace(node1, myNode1()));
 ```
 
-## 现实示例
+## 現實示例
 
-在 Milkdown 中，大多数插件都是通过插件工厂来定义的。
+在 Milkdown 中，大多數模組都是通過模組工廠來定義的。
 
-你可以查看 [preset-commonmark](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-commonmark/src) 的源代码来看看我们是如何使用插件工厂的。
+你可以查看 [preset-commonmark](https://github.com/Saul-Mirone/milkdown/tree/main/packages/preset-commonmark/src) 的原始碼來看看我們是如何使用模組工廠的。
