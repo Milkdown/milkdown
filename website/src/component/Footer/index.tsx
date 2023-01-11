@@ -80,7 +80,7 @@ export const Footer: FC = () => {
     <footer className="mt-24 self-end bg-gray-200 py-12 dark:bg-gray-700">
       <div className="mx-8 md:mx-24 lg:mx-40 xl:mx-80">
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          <div className="mx-auto flex h-20 w-20 cursor-pointer items-center justify-center
+          <div className="mr-auto flex h-20 w-20 cursor-pointer items-center justify-center
             rounded-full border-2
             border-gray-300 bg-white shadow-inner hover:bg-gray-200 dark:border-gray-600
             dark:bg-gray-800 hover:dark:bg-gray-700">
