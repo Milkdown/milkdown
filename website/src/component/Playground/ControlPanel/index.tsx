@@ -3,19 +3,18 @@ import './style.css'
 
 import * as Accordion from '@radix-ui/react-accordion'
 import clsx from 'clsx'
-import type { FC } from 'react'
+import type { FC, RefObject } from 'react'
 import pkgJson from '../../../../package.json'
 import { useLinkClass } from '../../hooks/useLinkClass'
+import type { CodemirrorProps, CodemirrorRef } from '../Codemirror'
 import { Codemirror } from '../Codemirror'
 import { AccordionItem } from './AccordionItem'
 
-interface ControlPanelProps {
-  content: string
-  onChange?: (getString: () => string) => void
-  lock?: React.MutableRefObject<boolean>
+interface ControlPanelProps extends CodemirrorProps {
+  codemirrorRef: RefObject<CodemirrorRef>
 }
 
-export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock }) => {
+export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock, codemirrorRef }) => {
   const linkClass = useLinkClass()
   return (
     <div className="h-full">
@@ -36,7 +35,7 @@ export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock })
       </div>
       <Accordion.Root type="single" defaultValue="markdown" className="h-[calc(100%-2.5rem)]">
         <AccordionItem value="markdown" name="Markdown">
-          <Codemirror content={content} onChange={onChange} lock={lock} />
+          <Codemirror ref={codemirrorRef} content={content} onChange={onChange} lock={lock} />
         </AccordionItem>
         <AccordionItem value="plugin" name="Plugins">
           TODO: add plugins list here

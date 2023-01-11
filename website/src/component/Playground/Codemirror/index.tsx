@@ -1,26 +1,22 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { FC } from 'react'
-import React from 'react'
+import type { MutableRefObject } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import { useDarkMode } from '../../../provider/DarkModeProvider'
-import { createCodeMirrorView } from './setup'
+import { createCodeMirrorState, createCodeMirrorView } from './setup'
 
-interface CodeMirrorProps {
+export interface CodemirrorProps {
   content: string
-  onChange?: (getString: () => string) => void
-  lock?: React.MutableRefObject<boolean>
+  onChange: (getString: () => string) => void
+  lock: MutableRefObject<boolean>
 }
-export interface CodeMirrorRef { update: (markdown: string) => void }
-export const Codemirror: FC<CodeMirrorProps> = ({ content, onChange, lock }) => {
-  const divRef = React.useRef<HTMLDivElement>(null)
-  const editorRef = React.useRef<ReturnType<typeof createCodeMirrorView>>()
+export interface CodemirrorRef { update: (markdown: string) => void }
+export const Codemirror = forwardRef<CodemirrorRef, CodemirrorProps>(({ content, onChange, lock }, ref) => {
+  const divRef = useRef<HTMLDivElement>(null)
+  const editorRef = useRef<ReturnType<typeof createCodeMirrorView>>()
   const dark = useDarkMode()
-  const [focus, setFocus] = React.useState(false)
 
-  // TODO: use focus
-  console.warn(focus)
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (!divRef.current)
       return
 
@@ -32,11 +28,16 @@ export const Codemirror: FC<CodeMirrorProps> = ({ content, onChange, lock }) => 
     }
   }, [onChange, content, lock, dark])
 
-  return (
-    <div
-      onFocus={() => setFocus(true)}
-      onBlur={() => setFocus(false)}
-      ref={divRef}
-    />
-  )
-}
+  useImperativeHandle(ref, () => ({
+    update: (content: string) => {
+      const { current } = editorRef
+      if (!current)
+        return
+
+      current.setState(createCodeMirrorState({ onChange, lock, dark, content }))
+    },
+  }))
+
+  return <div ref={divRef} />
+})
+Codemirror.displayName = 'Codemirror'

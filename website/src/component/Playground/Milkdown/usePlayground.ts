@@ -19,21 +19,21 @@ import { useEditor } from '@milkdown/react'
 import { $view } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { refractor } from 'refractor/lib/common'
-import { Block } from './EditorComponent/Block'
-import { CodeBlock } from './EditorComponent/CodeBlock'
-import { nordPlugins, nordThemeConfig } from './EditorComponent/config'
-import { Diagram } from './EditorComponent/Diagram'
-import { FootnoteDef, FootnoteRef } from './EditorComponent/Footnote'
-import { ImageTooltip, imageTooltip } from './EditorComponent/ImageTooltip'
-import { linkPlugin } from './EditorComponent/LinkWidget'
-import { ListItem } from './EditorComponent/ListItem'
-import { MathBlock } from './EditorComponent/MathBlock'
-import { Slash } from './EditorComponent/Slash'
-import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from './EditorComponent/TableWidget'
+import { Block } from '../EditorComponent/Block'
+import { CodeBlock } from '../EditorComponent/CodeBlock'
+import { nordPlugins, nordThemeConfig } from '../EditorComponent/config'
+import { Diagram } from '../EditorComponent/Diagram'
+import { FootnoteDef, FootnoteRef } from '../EditorComponent/Footnote'
+import { ImageTooltip, imageTooltip } from '../EditorComponent/ImageTooltip'
+import { linkPlugin } from '../EditorComponent/LinkWidget'
+import { ListItem } from '../EditorComponent/ListItem'
+import { MathBlock } from '../EditorComponent/MathBlock'
+import { Slash } from '../EditorComponent/Slash'
+import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from '../EditorComponent/TableWidget'
 
 export const usePlayground = (
   defaultValue: string,
-  onChange?: (markdown: string) => void,
+  onChange: (markdown: string) => void,
 ) => {
   const pluginViewFactory = usePluginViewFactory()
   const nodeViewFactory = useNodeViewFactory()
@@ -47,7 +47,7 @@ export const usePlayground = (
         ctx.set(defaultValueCtx, defaultValue)
         ctx.update(editorViewOptionsCtx, prev => ({ ...prev }))
         ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
-          onChange?.(markdown)
+          onChange(markdown)
         })
         ctx.update(prismConfig.key, prev => ({
           ...prev,

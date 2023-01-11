@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { useNodeViewContext } from '@prosemirror-adapter/react'
 import * as Tabs from '@radix-ui/react-tabs'
+import clsx from 'clsx'
 import mermaid from 'mermaid'
 import type { FC } from 'react'
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -58,20 +59,20 @@ export const Diagram: FC = () => {
         <div className="-mb-px flex flex-wrap">
           <Tabs.Trigger
             value="preview"
-            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'preview' ? 'text-nord9' : ''].join(' ')}
+            className={clsx('inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300', value === 'preview' ? 'text-nord9' : '')}
           >
             Preview
           </Tabs.Trigger>
           <Tabs.Trigger
             value="source"
-            className={['inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', value === 'source' ? 'text-nord9' : ''].join(' ')}
+            className={clsx('inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300', value === 'source' ? 'text-nord9' : '')}
           >
             Source
           </Tabs.Trigger>
         </div>
       </Tabs.List>
       <Tabs.Content value="preview" forceMount>
-        <div ref={codePanel} className={['flex py-3 justify-center', value !== 'preview' ? 'hidden' : ''].join(' ')} />
+        <div ref={codePanel} className={clsx('flex justify-center py-3', value !== 'preview' ? 'hidden' : '')} />
       </Tabs.Content>
       <Tabs.Content value="source" className="relative">
         <textarea

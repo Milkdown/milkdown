@@ -2,11 +2,13 @@
 import { MilkdownProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLocal } from '../../provider/LocalizationProvider'
 import type { Local } from '../../route'
 import { i18nConfig } from '../../route'
+import type { CodemirrorRef } from './Codemirror'
 import { ControlPanel } from './ControlPanel'
+import type { MilkdownRef } from './Milkdown'
 import { Milkdown } from './Milkdown'
 
 const importContent = (local: Local) => {
@@ -37,6 +39,29 @@ export const Playground: FC = () => {
     }
   }, [local])
 
+  const lockCodemirror = useRef(false)
+  const milkdownRef = useRef<MilkdownRef>(null)
+  const codemirrorRef = useRef<CodemirrorRef>(null)
+
+  const onMilkdownChange = useCallback((markdown: string) => {
+    const lock = lockCodemirror.current
+    if (lock)
+      return
+
+    const codemirror = codemirrorRef.current
+    if (!codemirror)
+      return
+    codemirror.update(markdown)
+  }, [])
+
+  const onCodemirrorChange = useCallback((getCode: () => string) => {
+    const { current } = milkdownRef
+    if (!current)
+      return
+    const value = getCode()
+    current.update(value)
+  }, [])
+
   return loading || !content
     ? <div>loading...</div>
     : (
@@ -44,10 +69,10 @@ export const Playground: FC = () => {
         <MilkdownProvider>
           <ProsemirrorAdapterProvider>
             <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none md:h-screen">
-              <Milkdown content={content} />
+              <Milkdown ref={milkdownRef} content={content} onChange={onMilkdownChange} />
             </div>
             <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none border-l border-gray-300 dark:border-gray-600 md:h-screen">
-              <ControlPanel content={content} />
+              <ControlPanel codemirrorRef={codemirrorRef} content={content} onChange={onCodemirrorChange} lock={lockCodemirror} />
             </div>
           </ProsemirrorAdapterProvider>
         </MilkdownProvider>

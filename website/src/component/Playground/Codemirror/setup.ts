@@ -51,12 +51,12 @@ const basicSetup: Extension = [
 
 interface StateOptions {
   dark: boolean
-  onChange?: (getString: () => string) => void
-  lock?: React.MutableRefObject<boolean>
-  content?: string
+  onChange: (getString: () => string) => void
+  lock: React.MutableRefObject<boolean>
+  content: string
 }
 
-const createCodeMirrorState = ({ onChange, lock, content, dark }: StateOptions) => {
+export const createCodeMirrorState = ({ onChange, lock, content, dark }: StateOptions) => {
   return EditorState.create({
     doc: content,
     extensions: [
@@ -64,10 +64,10 @@ const createCodeMirrorState = ({ onChange, lock, content, dark }: StateOptions) 
       basicSetup,
       markdown(),
       EditorView.updateListener.of((viewUpdate) => {
-        if (viewUpdate.focusChanged && lock?.current)
+        if (viewUpdate.focusChanged)
           lock.current = viewUpdate.view.hasFocus
 
-        if (viewUpdate.docChanged && onChange) {
+        if (viewUpdate.docChanged) {
           const getString = () => viewUpdate.state.doc.toString()
           onChange(getString)
         }
@@ -76,9 +76,9 @@ const createCodeMirrorState = ({ onChange, lock, content, dark }: StateOptions) 
   })
 }
 
-type ViewOptions = {
+interface ViewOptions extends StateOptions {
   root: HTMLElement
-} & StateOptions
+}
 export const createCodeMirrorView = ({ root, ...options }: ViewOptions) => {
   return new EditorView({
     state: createCodeMirrorState(options),

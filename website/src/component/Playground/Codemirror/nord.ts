@@ -26,7 +26,7 @@ const darkBg = 'rgb(76 86 106 / 0.7)'
 
 export const nordTheme = (dark: boolean) => {
   const highlightBackground = dark ? '#2c313a' : '#e5e9f0'
-  const selection = dark ? nord10 : nord9
+  const selection = dark ? nord0 : nord4
   return EditorView.theme(
     {
       '&': {
