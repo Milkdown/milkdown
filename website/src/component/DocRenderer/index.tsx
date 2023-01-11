@@ -37,11 +37,11 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
         }))
 
         ctx.set(blockquoteAttr.key, () => ({
-          class: 'border-l-4 border-nord10 pl-4 not-prose',
+          class: 'border-l-4 border-nord10 pl-4 not-prose dark:border-nord8',
         }))
 
         ctx.set(inlineCodeAttr.key, () => ({
-          class: 'font-mono text-nord10 tracking-tight',
+          class: 'font-mono text-nord10 tracking-tight dark:text-nord8',
         }))
 
         ctx.get(listenerCtx)
