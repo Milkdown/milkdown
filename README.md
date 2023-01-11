@@ -24,7 +24,7 @@ The website is designed by [Meo](https://www.meo.cool/). Powered by [Theme Nord]
 
 For more information, please check our official documentations:
 
-[English](https://milkdown.dev/) | [简体中文](https://milkdown.dev/zh-hans/)
+[English](https://milkdown.dev/) | [简体中文](https://milkdown.dev/zh-hans/) | [繁體中文](https://milkdown.dev/zh-tw/)
 
 # What's Next
 
