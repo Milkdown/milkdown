@@ -167,7 +167,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugin',
       'zh-hans': '插件',
-      'zh-tw': '外掛',
+      'zh-tw': '模組',
     },
   ],
   [
@@ -175,7 +175,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Using Plugins',
       'zh-hans': '使用外掛',
-      'zh-tw': '使用外掛',
+      'zh-tw': '使用模組',
     },
   ],
   [
@@ -183,7 +183,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugins 101',
       'zh-hans': '从0到1写插件',
-      'zh-tw': '從0到1寫外掛',
+      'zh-tw': '從0到1寫模組',
     },
   ],
   [
@@ -191,7 +191,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugin Factories',
       'zh-hans': '插件工厂',
-      'zh-tw': '外掛工廠',
+      'zh-tw': '模組工廠',
     },
   ],
   [
@@ -199,7 +199,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Composable Plugins',
       'zh-hans': '可组合插件',
-      'zh-tw': '可組合外掛',
+      'zh-tw': '可組合模組',
     },
   ],
   [
@@ -207,7 +207,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Example: Iframe Plugin',
       'zh-hans': '例子: Iframe插件',
-      'zh-tw': '例子: Iframe外掛',
+      'zh-tw': '例子: Iframe模組',
     },
   ],
   [
@@ -287,7 +287,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Internal Plugins',
       'zh-hans': '内置插件',
-      'zh-tw': '內建外掛',
+      'zh-tw': '內建模組',
     },
   ],
   [
@@ -311,7 +311,7 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'Plugin Based WYSIWYG Markdown Editor Framework',
       'zh-hans': '插件驱动的所见即所得的Markdown编辑器框架',
-      'zh-tw': '外掛驅動的所見即所得的Markdown編輯器框架',
+      'zh-tw': '模組驅動的所見即所得的Markdown編輯器框架',
     },
   ],
   [
