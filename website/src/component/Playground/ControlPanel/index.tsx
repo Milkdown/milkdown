@@ -18,7 +18,7 @@ export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock, c
   const linkClass = useLinkClass()
   return (
     <div className="h-full">
-      <div className="border-nord4 flex h-10 items-center justify-between border-b bg-gray-200 px-4 py-2 font-light dark:border-gray-600 dark:bg-gray-500">
+      <div className="border-nord4 flex h-10 items-center justify-between border-b bg-gray-200 px-4 py-2 font-light dark:border-gray-600 dark:bg-gray-700">
         <div>
           <span>
             Milkdown Playground

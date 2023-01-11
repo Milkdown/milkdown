@@ -44,7 +44,7 @@ export const Milkdown = forwardRef<MilkdownRef, MilkdownProps>(({ content, onCha
 
   return (
     <div className="relative h-full pt-16">
-      <div className="border-nord4 absolute inset-x-0 top-0 flex h-10 divide-x border-b dark:border-gray-600">
+      <div className="border-nord4 divide-nord4 absolute inset-x-0 top-0 flex h-10 divide-x border-b dark:divide-gray-600 dark:border-gray-600">
         <Button icon="undo" />
         <Button icon="redo" />
         <Button icon="format_bold" />
