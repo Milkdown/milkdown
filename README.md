@@ -3,6 +3,8 @@
 > :warning: You're viewing the next major version of Milkdown which is not released yet.
 > 
 > For the code of previous version, please view [v6 branch](https://github.com/Saul-Mirone/milkdown/tree/v6).
+>
+> For the documentation of previous version, please view [v6 documentation](https://milkdown-git-v6-saul-mirone.vercel.app/).
 
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
