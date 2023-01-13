@@ -70,7 +70,7 @@
     "nx": "latest",
     "pathe": "^1.0.0",
     "postcss": "^8.2.12",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.0.0",
     "rollup": "^3.0.0",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-copy": "^3.4.0",
