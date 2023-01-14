@@ -57,7 +57,7 @@
     "autoprefixer": "^10.2.5",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.16.0",
+    "esbuild": "^0.17.0",
     "eslint": "^8.29.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-react": "^7.31.11",
