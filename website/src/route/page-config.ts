@@ -66,7 +66,7 @@ export const i18nConfig: Record<Local, { display: string; route: string }> = {
     display: '简体中文',
     route: 'zh-hans',
   },
-    'zh-tw': {
+  'zh-tw': {
     display: '繁體中文',
     route: 'zh-tw',
   },
