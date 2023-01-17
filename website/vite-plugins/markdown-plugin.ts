@@ -17,6 +17,7 @@ export const markdownPlugin = () =>
 
       const dir = dirname(id)
 
+      // Transform markdown files in the `api` directory to documentation ESM.
       if (/\/api\//.test(id)) {
         const packageDirName = basename(dir)
         const name = `@milkdown/${packageDirName}`

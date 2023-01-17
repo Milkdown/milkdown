@@ -2,6 +2,8 @@
 
 Listener plugin for milkdown.
 
+## Usage
+
 ```typescript
 import { Editor } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -11,35 +13,28 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 Editor.make()
     .config((ctx) => {
-        ctx.get(listenerCtx)
-            .beforeMount((ctx) => {
-                // before the editor mounts
-            })
-            .mounted((ctx) => {
-                // after the editor mounts
-            })
-            .updated((ctx, doc, prevDoc) => {
-                // when editor state updates
-            })
-            .markdownUpdated((ctx, markdown, prevMarkdown) => {
-                // when markdown updates
-            })
-            .blur((ctx) => {
-                // when editor loses focus
-            })
-            .focus((ctx) => {
-                // when focus editor
-            })
-            .destroy((ctx) => {
-                // when editor is being destroyed
-            });
+      const listener = ctx.get(listenerCtx);
+
+      listener.markdownUpdated((ctx, markdown, prevMarkdown) => {
+        if (markdown !== prevMarkdown) {
+          YourMarkdownUpdater(markdown);
+        }
+      })
+
     })
-    .use(nord)
-    .use(commonmark)
     .use(listener)
+    // use other plugins
     .create();
 ```
 
-@listenerCtx
+## Plugin
+
 @key
 @listener
+
+## Listener
+
+@listenerCtx
+
+@ListenerManager
+@Subscribers
