@@ -1,7 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { resolve } from 'path'
+import { basename, dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
 import { dataToEsm } from '@rollup/pluginutils'
 import { build } from 'builddocs'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 export const markdownPlugin = () =>
   ({
@@ -11,11 +15,16 @@ export const markdownPlugin = () =>
       if (!id.endsWith('.md'))
         return null
 
-      // TODO: auto load for modules
-      if (id.includes('core-modules') && id.includes('ctx')) {
+      const dir = dirname(id)
+
+      // Transform markdown files in the `api` directory to documentation ESM.
+      if (/\/api\//.test(id)) {
+        const packageDirName = basename(dir)
+        const name = `@milkdown/${packageDirName}`
+        const filename = resolve(__dirname, `../../packages/${packageDirName}/src/index.ts`)
         const markdown = build({
-          name: '@milkdown/ctx',
-          filename: resolve(__dirname, '../../packages/ctx/src/index.ts'),
+          name,
+          filename,
           main: id,
           format: 'markdown',
         })
