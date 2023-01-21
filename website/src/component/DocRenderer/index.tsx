@@ -6,11 +6,12 @@ import { blockquoteAttr, commonmark, inlineCodeAttr, inlineCodeSchema } from '@m
 import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react'
 import { nord } from '@milkdown/theme-nord'
 import { outline } from '@milkdown/utils'
-import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
+import { ProsemirrorAdapterProvider, useWidgetViewFactory } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
 import { useState } from 'react'
 import type { Content } from '../hooks/useLazy'
 import { useLazy } from '../hooks/useLazy'
+import { linkPlugin } from './LinkWidget'
 import { Outline } from './Outline'
 
 const extendedInlineCode = inlineCodeSchema.extendSchema(prev => ctx => ({
@@ -21,6 +22,7 @@ const extendedInlineCode = inlineCodeSchema.extendSchema(prev => ctx => ({
 export const Inner: FC<{ content: Content }> = ({ content }) => {
   const [loading, md] = useLazy(content)
   const [outlines, setOutlines] = useState<{ text: string; level: number; id: string }[]>([])
+  const widgetViewFactory = useWidgetViewFactory()
 
   useEditor((root) => {
     if (loading || !content)
@@ -62,6 +64,7 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
       .use(commonmark)
       .use(extendedInlineCode)
       .use(prism)
+      .use(linkPlugin(widgetViewFactory))
       .use(listener)
   }, [md, loading])
 
