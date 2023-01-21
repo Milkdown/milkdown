@@ -1,0 +1,68 @@
+{
+  "name": "@milkdown/theme-nord",
+  "type": "module",
+  "version": "6.5.4",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saul-Mirone/milkdown.git",
+    "directory": "packages/utils"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./lib/index.es.js"
+    },
+    "./style.css": "./lib/style.css"
+  },
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+    "tsc": "tsc --noEmit && echo",
+    "build": "tsc --emitDeclarationOnly && vite build"
+  },
+  "peerDependencies": {
+    "@milkdown/core": "^6.0.1",
+    "@milkdown/prose": "^6.0.1"
+  },
+  "dependencies": {
+    "clsx": "^1.2.1",
+    "tslib": "^2.4.0"
+  },
+  "devDependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "prosemirror-tables": "^1.2.5",
+    "prosemirror-view": "^1.28.0",
+    "tailwind-nord": "^1.2.0"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "packages/theme-nord/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
+    }
+  }
+}

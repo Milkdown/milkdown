@@ -58,11 +58,11 @@ importers:
       '@changesets/cli': 2.23.2
       '@commitlint/cli': 17.0.3
       '@commitlint/config-conventional': 17.0.3
-      '@nrwl/cli': 15.5.1
-      '@nrwl/cypress': 15.5.1_6kzcqacmrk7mfxk2m4uyb7zifm
+      '@nrwl/cli': 15.5.3
+      '@nrwl/cypress': 15.5.3_4eh7vny2jeq7zuxt5lacyxvjy4
       '@nrwl/nx-cloud': 15.0.2
-      '@nrwl/tao': 15.5.1
-      '@nrwl/workspace': 15.5.1_s5ps7njkmjlaqajutnox5ntcla
+      '@nrwl/tao': 15.5.3
+      '@nrwl/workspace': 15.5.3_s5ps7njkmjlaqajutnox5ntcla
       '@rollup/plugin-commonjs': 24.0.0_rollup@3.7.3
       '@rollup/plugin-json': 6.0.0_rollup@3.7.3
       '@rollup/plugin-node-resolve': 15.0.0_rollup@3.7.3
@@ -88,7 +88,7 @@ importers:
       husky: 8.0.1
       jsdom: 21.0.0
       lint-staged: 13.0.3
-      nx: 15.5.1
+      nx: 15.5.3
       pathe: 1.0.0
       postcss: 8.4.19
       rimraf: 4.0.4
@@ -111,9 +111,8 @@ importers:
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
+      '@milkdown/theme-nord': workspace:*
       cypress: ^12.0.0
-      prosemirror-tables: ^1.2.5
-      prosemirror-view: ^1.28.0
       start-server-and-test: ^1.13.0
       tslib: ^2.4.0
     dependencies:
@@ -121,8 +120,7 @@ importers:
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/prose': link:../packages/prose
-      prosemirror-tables: 1.2.5
-      prosemirror-view: 1.28.0
+      '@milkdown/theme-nord': link:../packages/theme-nord
       tslib: 2.4.0
     devDependencies:
       '@cypress/snapshot': 2.1.7
@@ -612,6 +610,25 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
+  packages/theme-nord:
+    specifiers:
+      '@milkdown/core': workspace:*
+      '@milkdown/prose': workspace:*
+      clsx: ^1.2.1
+      prosemirror-tables: ^1.2.5
+      prosemirror-view: ^1.28.0
+      tailwind-nord: ^1.2.0
+      tslib: ^2.4.0
+    dependencies:
+      clsx: 1.2.1
+      tslib: 2.4.0
+    devDependencies:
+      '@milkdown/core': link:../core
+      '@milkdown/prose': link:../prose
+      prosemirror-tables: 1.2.5
+      prosemirror-view: 1.28.0
+      tailwind-nord: 1.2.0
+
   packages/transformer:
     specifiers:
       '@milkdown/exception': workspace:*
@@ -700,6 +717,7 @@ importers:
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/react': workspace:*
+      '@milkdown/theme-nord': workspace:*
       '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
       '@prosemirror-adapter/react': ^0.2.2
@@ -778,6 +796,7 @@ importers:
       '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/prose': link:../packages/prose
       '@milkdown/react': link:../packages/react
+      '@milkdown/theme-nord': link:../packages/theme-nord
       '@milkdown/transformer': link:../packages/transformer
       '@milkdown/utils': link:../packages/utils
       '@prosemirror-adapter/react': 0.2.2_biqbaboplfbrettd7655fr4n2y
@@ -3506,29 +3525,28 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@nrwl/cli/15.5.1:
-    resolution: {integrity: sha512-JIypwCrNI7XfouS/9DNNtKPKX5kK6FMPrr8xN7sKfiRPdEwxJXUzFbMQODqudH/mRmUv9EFplA6H/iEeEzd92A==}
+  /@nrwl/cli/15.5.3:
+    resolution: {integrity: sha512-NWf9CWswvdYM6YzXuweaZPAZ2erMtQrrHZdgFbUGeojZBZ+b4TCGzLWNodZj4yQOa/eTwlyPMYO2LEw9CoapDQ==}
     dependencies:
-      nx: 15.5.1
+      nx: 15.5.3
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
       - debug
     dev: true
 
-  /@nrwl/cypress/15.5.1_6kzcqacmrk7mfxk2m4uyb7zifm:
-    resolution: {integrity: sha512-YmiBiRltWGQofrsmtCJGgQPtzHgMwDCEjwUplysOBROBa3tF91doLpIM8rgJRxEACs49leSx7PeaLzHqhbXTGQ==}
+  /@nrwl/cypress/15.5.3_4eh7vny2jeq7zuxt5lacyxvjy4:
+    resolution: {integrity: sha512-qOp0MfD8ot+QGkkBV8tWM3x2repSFmoo6Jn4wSKuQ3Md6UeoCdchKrm5oT8+FRjdaKLydFgA3wZcbDU+m6mQlA==}
     peerDependencies:
       cypress: '>= 3 < 13'
     peerDependenciesMeta:
       cypress:
         optional: true
     dependencies:
-      '@nrwl/devkit': 15.5.1_nx@15.5.1+typescript@4.9.3
-      '@nrwl/linter': 15.5.1_6kzcqacmrk7mfxk2m4uyb7zifm
-      '@nrwl/workspace': 15.5.1_s5ps7njkmjlaqajutnox5ntcla
+      '@nrwl/devkit': 15.5.3_nx@15.5.3+typescript@4.9.3
+      '@nrwl/linter': 15.5.3_4eh7vny2jeq7zuxt5lacyxvjy4
+      '@nrwl/workspace': 15.5.3_s5ps7njkmjlaqajutnox5ntcla
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.9.3
-      chalk: 4.1.0
       dotenv: 10.0.0
       semver: 7.3.4
     transitivePeerDependencies:
@@ -3541,30 +3559,30 @@ packages:
       - typescript
     dev: true
 
-  /@nrwl/devkit/15.5.1_nx@15.5.1+typescript@4.9.3:
-    resolution: {integrity: sha512-SETS7nOr5ady18+rNBCz4bGW64uSYcGmVbMTrYtbl/IZHIAAaTxqd7MoOcOVWfIPWbf2SfhXb6xBiSfo6cbzOQ==}
+  /@nrwl/devkit/15.5.3_nx@15.5.3+typescript@4.9.3:
+    resolution: {integrity: sha512-GGNLLGXDGWflrpaLimnE6hChfZfq3+XWZ0LJWL0IuCnchngPbNzuyh8S8KPgNKKgq4Nv0hglWefIwMg2UhHysA==}
     peerDependencies:
       nx: '>= 14 <= 16'
     dependencies:
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.9.3
       ejs: 3.1.8
       ignore: 5.2.0
-      nx: 15.5.1
+      nx: 15.5.3
       semver: 7.3.4
       tslib: 2.4.0
     transitivePeerDependencies:
       - typescript
     dev: true
 
-  /@nrwl/linter/15.5.1_6kzcqacmrk7mfxk2m4uyb7zifm:
-    resolution: {integrity: sha512-r+AHmPVBVtPOjyPL3YDJUQ1xlUuORC6HS3gJb7gh9zM2qFGRMqDemycUCNjSncDwOAs/SZJmAKBhHeUTRDQXEw==}
+  /@nrwl/linter/15.5.3_4eh7vny2jeq7zuxt5lacyxvjy4:
+    resolution: {integrity: sha512-ZeUtLOT0olORBL4FpEXmJoaiSKq4VIffW/vmCbosRIuHZqL4Cye5uHyQ6/KJXjD44Z+P6QCkyfr0etcy3lhSkg==}
     peerDependencies:
       eslint: ^8.0.0
     peerDependenciesMeta:
       eslint:
         optional: true
     dependencies:
-      '@nrwl/devkit': 15.5.1_nx@15.5.1+typescript@4.9.3
+      '@nrwl/devkit': 15.5.3_nx@15.5.3+typescript@4.9.3
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.9.3
       eslint: 8.29.0
       tmp: 0.2.1
@@ -3590,29 +3608,29 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/tao/15.5.1:
-    resolution: {integrity: sha512-MUaqIsbEXLF8l4qpk/5Q7o+1mzvyCTQOm0usVh96RGowU7SjOvoHErCA2aIQvRK4MKLK9AH8U0AlbpLVLI+5cQ==}
+  /@nrwl/tao/15.5.3:
+    resolution: {integrity: sha512-vgPLIW9IoBfQ4IkHRT5RC4LqNwFBK5jmHYmFIRgbIeFRudFBbnpmOaKRME0OwN7qJ6964PVVbzahAPvYVD02xw==}
     hasBin: true
     dependencies:
-      nx: 15.5.1
+      nx: 15.5.3
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
       - debug
     dev: true
 
-  /@nrwl/workspace/15.5.1_s5ps7njkmjlaqajutnox5ntcla:
-    resolution: {integrity: sha512-UmivhlIzQa3zz+N+sKcwBte7T9caNbpCWRmoC0WDXWCVYE0Som6yo+EeX5oGABZsGxtfJUoRBULm89DNsvYdLQ==}
+  /@nrwl/workspace/15.5.3_s5ps7njkmjlaqajutnox5ntcla:
+    resolution: {integrity: sha512-/Udv+dF4Z/9GZ4QmdCu/6e4QUJYx7zGTcoCOZi+Pt+OPRqOULkBbfKmB+xtiG/D32WnFePsxcssaZGux/aysUQ==}
     peerDependencies:
       prettier: ^2.6.2
     peerDependenciesMeta:
       prettier:
         optional: true
     dependencies:
-      '@nrwl/devkit': 15.5.1_nx@15.5.1+typescript@4.9.3
-      '@nrwl/linter': 15.5.1_6kzcqacmrk7mfxk2m4uyb7zifm
+      '@nrwl/devkit': 15.5.3_nx@15.5.3+typescript@4.9.3
+      '@nrwl/linter': 15.5.3_4eh7vny2jeq7zuxt5lacyxvjy4
       '@parcel/watcher': 2.0.4
-      chalk: 4.1.0
+      chalk: 4.1.2
       chokidar: 3.5.3
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -3626,7 +3644,7 @@ packages:
       jsonc-parser: 3.2.0
       minimatch: 3.0.5
       npm-run-path: 4.0.1
-      nx: 15.5.1
+      nx: 15.5.3
       open: 8.4.0
       rxjs: 6.6.7
       semver: 7.3.4
@@ -9938,8 +9956,8 @@ packages:
     resolution: {integrity: sha512-90yv+6538zuvUMnN+zCr8LuV6bPFdq50304114vJYJ8RDyK8D5O9Phpbd6SZWgI7PwzmmfN1upeOJlvybDSgCw==}
     dev: true
 
-  /nx/15.5.1:
-    resolution: {integrity: sha512-7yvcT6Dc/raLtO7bNK0POmavrV3R1YxfSUVzWylaEgCG6U+rrcDPE+iJMt0TL/ea6szBwvZPi4SmQSE++QMTIA==}
+  /nx/15.5.3:
+    resolution: {integrity: sha512-PHB8VbiBLP108xb+yR8IGEsYWr7OcmDDOjHL+73oP4lVjyPgT8wdTMe6tI5LdBgv+KZ+0kiThK3ckvcPsfgvLQ==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
@@ -9951,14 +9969,14 @@ packages:
       '@swc/core':
         optional: true
     dependencies:
-      '@nrwl/cli': 15.5.1
-      '@nrwl/tao': 15.5.1
+      '@nrwl/cli': 15.5.3
+      '@nrwl/tao': 15.5.3
       '@parcel/watcher': 2.0.4
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.22
       '@zkochan/js-yaml': 0.0.6
       axios: 1.1.2
-      chalk: 4.1.0
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
       cliui: 7.0.4
