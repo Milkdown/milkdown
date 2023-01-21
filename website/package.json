@@ -39,6 +39,7 @@
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/react": "workspace:*",
+    "@milkdown/theme-nord": "workspace:*",
     "@milkdown/transformer": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@prosemirror-adapter/react": "^0.2.2",

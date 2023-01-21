@@ -3,6 +3,7 @@ import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdow
 import { prism } from '@milkdown/plugin-prism'
 import { blockquoteAttr, commonmark, inlineCodeAttr, inlineCodeSchema } from '@milkdown/preset-commonmark'
 import { Milkdown, useEditor } from '@milkdown/react'
+import { nord } from '@milkdown/theme-nord'
 import doc from './home.md'
 
 const extendedInlineCode = inlineCodeSchema.extendSchema((prev) => {
@@ -24,7 +25,7 @@ export const HomeEditor = () => {
 
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4 dark:prose-invert',
+            class: 'w-full max-w-full box-border overflow-hidden p-4',
           },
         }))
 
@@ -39,6 +40,7 @@ export const HomeEditor = () => {
       .config((ctx) => {
         ctx.set(defaultValueCtx, doc)
       })
+      .config(nord)
       .use(commonmark)
       .use(extendedInlineCode)
       .use(prism)

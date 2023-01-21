@@ -1,27 +1,3 @@
 table {
-  @apply !m-0;
-}
-
-.tableWrapper {
-  @apply mb-2 overflow-x-auto relative;
-}
-
-table {
-  @apply text-sm !overflow-visible !m-4 !w-[calc(100%-2rem)] shadow-md sm:rounded-lg;
-}
-
-td, th {
-  @apply !py-3 !px-6;
-}
-
-tr {
-  @apply border-b border-gray-200 dark:border-gray-600;
-}
-
-:where(td, th) p {
-  @apply !m-0;
-}
-
-:where(td, th):nth-child(odd) {
-  @apply bg-gray-50 dark:bg-gray-900;
+  @apply !w-[calc(100%-2rem)];
 }

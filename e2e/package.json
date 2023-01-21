@@ -21,8 +21,7 @@
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "prosemirror-tables": "^1.2.5",
-    "prosemirror-view": "^1.28.0",
+    "@milkdown/theme-nord": "workspace:*",
     "tslib": "^2.4.0"
   },
   "devDependencies": {

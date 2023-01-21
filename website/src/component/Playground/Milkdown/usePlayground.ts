@@ -16,12 +16,13 @@ import { upload } from '@milkdown/plugin-upload'
 import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
 import { footnoteDefinitionSchema, footnoteReferenceSchema, gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
+import { nord } from '@milkdown/theme-nord'
 import { $view } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { refractor } from 'refractor/lib/common'
 import { Block } from '../EditorComponent/Block'
 import { CodeBlock } from '../EditorComponent/CodeBlock'
-import { nordPlugins, nordThemeConfig } from '../EditorComponent/config'
+import { nordThemeConfig } from '../EditorComponent/config'
 import { Diagram } from '../EditorComponent/Diagram'
 import { FootnoteDef, FootnoteRef } from '../EditorComponent/Footnote'
 import { ImageTooltip, imageTooltip } from '../EditorComponent/ImageTooltip'
@@ -73,7 +74,7 @@ export const usePlayground = (
         }))
       })
       .config(nordThemeConfig)
-      .use(nordPlugins)
+      .config(nord)
       .use(commonmark)
       .use(gfm)
       .use(emoji)

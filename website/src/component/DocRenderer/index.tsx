@@ -4,6 +4,7 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { prism } from '@milkdown/plugin-prism'
 import { blockquoteAttr, commonmark, inlineCodeAttr, inlineCodeSchema } from '@milkdown/preset-commonmark'
 import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react'
+import { nord } from '@milkdown/theme-nord'
 import { outline } from '@milkdown/utils'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
@@ -31,7 +32,7 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
 
         ctx.set(editorViewOptionsCtx, ({
           attributes: {
-            class: 'prose w-full max-w-full box-border outline-none overflow-hidden p-4 dark:prose-invert',
+            class: 'w-full max-w-full box-border overflow-hidden p-4',
             spellcheck: 'false',
           },
         }))
@@ -57,6 +58,7 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
       .config((ctx) => {
         ctx.set(defaultValueCtx, md)
       })
+      .config(nord)
       .use(commonmark)
       .use(extendedInlineCode)
       .use(prism)

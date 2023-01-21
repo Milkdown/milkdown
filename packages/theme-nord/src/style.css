@@ -1,0 +1,63 @@
+.milkdown-theme-nord blockquote {
+  @apply not-italic font-serif border-l-4 border-nord10 pl-4;
+}
+
+.milkdown-theme-nord code {
+  @apply text-nord10 font-mono font-normal;
+}
+
+.milkdown-theme-nord pre code {
+  @apply text-inherit;
+}
+
+.milkdown-theme-nord img {
+  @apply max-w-full !my-0 inline-block;
+}
+
+.milkdown-theme-nord.prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+  @apply font-normal;
+}
+
+.milkdown-theme-nord.prose :where(ol > li):not(:where([class~="not-prose"] *))::marker,
+.milkdown-theme-nord.prose :where(ul > li):not(:where([class~="not-prose"] *))::marker {
+  @apply text-nord10;
+}
+
+
+.milkdown-theme-nord.prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::before,
+.milkdown-theme-nord.prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::after {
+  content: '';
+}
+
+.milkdown-theme-nord.prose :where(code):not(:where([class~="not-prose"] *))::before,
+.milkdown-theme-nord.prose :where(code):not(:where([class~="not-prose"] *))::after {
+  content: '';
+}
+
+.milkdown-theme-nord.prose .tableWrapper {
+  @apply mb-2 overflow-x-auto relative;
+}
+
+.milkdown-theme-nord.prose table {
+  @apply text-sm shadow-md sm:rounded-lg !overflow-visible !m-4;
+}
+
+.milkdown-theme-nord.prose td, th {
+  @apply !py-3 !px-6;
+}
+
+.milkdown-theme-nord.prose tr {
+  @apply border-b border-gray-200 dark:border-gray-600;
+}
+
+.milkdown-theme-nord.prose :where(td, th) p {
+  @apply !m-0;
+}
+
+.milkdown-theme-nord.prose :where(td, th):nth-child(odd) {
+  @apply bg-gray-50 dark:bg-gray-900;
+}
+
+.milkdown-theme-nord.prose.ProseMirror .selectedCell:after {
+  @apply bg-nord8/30;
+}
