@@ -6,49 +6,17 @@
  * Please don't use this file for other purpose.
  */
 
-import { resolve } from 'pathe'
-import type { Plugin } from 'rollup'
-import autoExternal from 'rollup-plugin-auto-external'
-import type { BuildOptions, PluginOption, UserConfigExport, UserConfig as ViteUserConfig } from 'vite'
+import { readFileSync } from 'fs'
+import { basename, dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
+import type { BuildOptions, UserConfig } from 'vite'
 import { defineConfig } from 'vite'
 
-export const libFileName = (format: string) => `index.${format}.js`
+import globalPackageJson from './package.json'
 
-export const rollupPlugins: Plugin[] = [autoExternal()]
-
-const resolvePath = (str: string) => resolve(__dirname, str)
-
-function isObject(item: unknown): item is Record<string, unknown> {
-  return Boolean(item && typeof item === 'object' && !Array.isArray(item))
-}
-
-function mergeDeep<T>(target: T, ...sources: T[]): T {
-  if (!sources.length)
-    return target
-  const source = sources.shift()
-
-  if (isObject(target) && isObject(source)) {
-    for (const key in source) {
-      if (isObject(source[key])) {
-        if (!target[key])
-          Object.assign(target, { [key]: {} })
-        mergeDeep(target[key] as T, source[key] as T)
-      }
-      else {
-        Object.assign(target, { [key]: source[key] })
-      }
-    }
-  }
-
-  return mergeDeep(target, ...sources)
-}
-
-export const external = [
+const external = [
   // common
   'tslib',
-  '@emotion/css',
-  '@emotion/cache',
-  '@emotion/sheet',
   'remark',
   'unified',
   'remark-parse',
@@ -57,7 +25,6 @@ export const external = [
   'react',
   'react-dom',
   'refractor',
-
   // core
   '@milkdown/core',
   '@milkdown/ctx',
@@ -101,26 +68,65 @@ export const external = [
   '@milkdown/plugin-trailing',
 ]
 
-export const viteBuild = (packageDirName: string, options: BuildOptions = {}): BuildOptions =>
-  mergeDeep<BuildOptions>(
+export const libFileName = (format: string) => `index.${format}.js`
+
+function isObject(item: unknown): item is Record<string, unknown> {
+  return Boolean(item && typeof item === 'object' && !Array.isArray(item))
+}
+
+function mergeDeep<T>(target: T, ...sources: T[]): T {
+  if (!sources.length)
+    return target
+  const source = sources.shift()
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key])
+          Object.assign(target, { [key]: {} })
+        mergeDeep(target[key] as T, source[key] as T)
+      }
+      else {
+        Object.assign(target, { [key]: source[key] })
+      }
+    }
+  }
+
+  return mergeDeep(target, ...sources)
+}
+
+const viteBuild = (path: string, options: BuildOptions = {}): BuildOptions => {
+  const dir = dirname(fileURLToPath(path))
+  const packageDirName = basename(dir)
+
+  const packageJson = JSON.parse(readFileSync(resolve(dir, 'package.json'), { encoding: 'utf-8' }))
+  const deps = {
+    ...(packageJson.dependencies || {}),
+    ...(packageJson.devDependencies || {}),
+    ...(packageJson.peerDependencies || {}),
+    ...(globalPackageJson.devDependencies || {}),
+    // ...(globalPackageJson.dependencies || {}),
+  }
+  return mergeDeep<BuildOptions>(
     {
       sourcemap: true,
       emptyOutDir: false,
       lib: {
-        entry: resolvePath(`packages/${packageDirName}/src/index.ts`),
+        entry: resolve(dir, 'src', 'index.ts'),
         name: `milkdown_${packageDirName}`,
         fileName: libFileName,
         formats: ['es'],
       },
       rollupOptions: {
-        external,
+        external: Array.from(new Set([...Object.keys(deps), ...external])),
         output: {
-          dir: resolvePath(`packages/${packageDirName}/lib`),
+          dir: resolve(dir, 'lib'),
         },
       },
     },
     options,
   )
+}
 
 /**
  * Config for plugins
@@ -129,12 +135,10 @@ export const viteBuild = (packageDirName: string, options: BuildOptions = {}): B
  * @param options - custom options
  * @returns user config
  */
-export const pluginViteConfig = (packageDirName: string, options: ViteUserConfig = {}) => {
-  const vitePlugins = options.plugins ?? []
+export const pluginViteConfig = (packageDirName: string, options: UserConfig = {}) => {
   return defineConfig({
     ...options,
     build: viteBuild(packageDirName, options.build),
-    plugins: [...vitePlugins, ...(rollupPlugins as PluginOption[])],
   })
 }
 
@@ -143,4 +147,4 @@ export default defineConfig({
     include: ['packages/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     environment: 'jsdom',
   },
-} as UserConfigExport)
+})

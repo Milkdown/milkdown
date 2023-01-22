@@ -2,4 +2,4 @@
 
 import { pluginViteConfig } from '../../vite.config'
 
-export default pluginViteConfig('react')
+export default pluginViteConfig(import.meta.url)
