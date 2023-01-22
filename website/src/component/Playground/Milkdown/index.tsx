@@ -55,6 +55,8 @@ export const Milkdown = forwardRef<MilkdownRef, MilkdownProps>(({ content, onCha
         <Button icon="format_list_numbered" />
         <Button icon="checklist" />
         <Button icon="format_quote" />
+
+        <div />
       </div>
       <div className="h-full overflow-auto overscroll-none pl-10">
         <Editor />
