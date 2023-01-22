@@ -17,6 +17,21 @@ export const useSetDarkMode = () => {
 
 export const DarkModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(window.matchMedia?.('(prefers-color-scheme: dark)').matches)
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)')
+    const listener = (event: MediaQueryListEvent) => {
+      const newColorScheme = !!event.matches
+
+      setDarkMode(newColorScheme)
+    }
+
+    media.addEventListener('change', listener)
+    return () => {
+      media.removeEventListener('change', listener)
+    }
+  }, [])
+
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
   }, [darkMode])
