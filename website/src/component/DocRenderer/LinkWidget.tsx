@@ -12,17 +12,16 @@ export const LinkWidget: FC = () => {
   const { spec } = useWidgetViewContext()
   const href = spec?.href ?? ''
   const linkClass = useLinkClass()
+  const isInnerLink = href.startsWith('#') || href.startsWith('/')
 
   return (
     <span className="not-prose">
-      [
-      <a href={href} target="_blank" className={clsx('inline-flex items-center justify-center gap-1 rounded px-2', linkClass(false))} rel="noreferrer">
+      <a href={href} target={isInnerLink ? '_self' : '_blank'} className={clsx('inline-flex items-center justify-center gap-1 rounded px-2', linkClass(false))} rel="noreferrer">
         <span className="material-symbols-outlined text-nord8 text-sm ">open_in_new</span>
         <small className="text-nord8 font-light">
           {href}
         </small>
       </a>
-      ]
     </span>
   )
 }
