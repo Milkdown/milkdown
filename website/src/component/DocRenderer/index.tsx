@@ -2,7 +2,7 @@
 import { Editor, defaultValueCtx, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { prism } from '@milkdown/plugin-prism'
-import { blockquoteAttr, commonmark, inlineCodeAttr, inlineCodeSchema } from '@milkdown/preset-commonmark'
+import { blockquoteAttr, commonmark, inlineCodeAttr } from '@milkdown/preset-commonmark'
 import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react'
 import { nord } from '@milkdown/theme-nord'
 import { outline } from '@milkdown/utils'
@@ -13,11 +13,6 @@ import type { Content } from '../hooks/useLazy'
 import { useLazy } from '../hooks/useLazy'
 import { linkPlugin } from './LinkWidget'
 import { Outline } from './Outline'
-
-const extendedInlineCode = inlineCodeSchema.extendSchema(prev => ctx => ({
-  ...prev(ctx),
-  toDOM: mark => ['span', { class: 'not-prose' }, ['code', ctx.get(inlineCodeAttr.key)(mark), 0]],
-}))
 
 export const Inner: FC<{ content: Content }> = ({ content }) => {
   const [loading, md] = useLazy(content)
@@ -62,7 +57,6 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
       })
       .config(nord)
       .use(commonmark)
-      .use(extendedInlineCode)
       .use(prism)
       .use(linkPlugin(widgetViewFactory))
       .use(listener)

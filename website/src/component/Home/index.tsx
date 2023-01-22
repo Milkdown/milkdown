@@ -1,12 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { MilkdownProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
-import React from 'react'
+import type { FC } from 'react'
+import { lazy } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocal } from '../../provider/LocalizationProvider'
-import { HomeEditor } from './Editor'
+import { LazyLoad } from '../LazyLoad'
 
-export const Home: React.FC = () => {
+const AsyncHomeEditor = lazy(() => import('./Editor').then(module => ({ default: module.HomeEditor })))
+
+export const Home: FC = () => {
   const lang = useLocal()
   const prefix = lang === 'en' ? '' : `/${lang}`
   const gettingStarted = `${prefix}/getting-started`
@@ -37,7 +40,9 @@ export const Home: React.FC = () => {
       <div className="mt-24">
         <MilkdownProvider>
           <ProsemirrorAdapterProvider>
-            <HomeEditor />
+            <LazyLoad>
+              <AsyncHomeEditor />
+            </LazyLoad>
           </ProsemirrorAdapterProvider>
         </MilkdownProvider>
       </div>
