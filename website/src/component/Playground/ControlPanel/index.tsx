@@ -4,15 +4,18 @@ import './style.css'
 import * as Accordion from '@radix-ui/react-accordion'
 import clsx from 'clsx'
 import type { FC, RefObject } from 'react'
+import { lazy } from 'react'
 import pkgJson from '../../../../package.json'
 import { useLinkClass } from '../../hooks/useLinkClass'
 import type { CodemirrorProps, CodemirrorRef } from '../Codemirror'
-import { Codemirror } from '../Codemirror'
+import { LazyLoad } from '../../LazyLoad'
 import { AccordionItem } from './AccordionItem'
 
 interface ControlPanelProps extends CodemirrorProps {
   codemirrorRef: RefObject<CodemirrorRef>
 }
+
+const AsyncCodemirror = lazy(() => import('../Codemirror').then(module => ({ default: module.Codemirror })))
 
 export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock, codemirrorRef }) => {
   const linkClass = useLinkClass()
@@ -35,7 +38,9 @@ export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock, c
       </div>
       <Accordion.Root type="single" defaultValue="markdown" className="h-[calc(100%-2.5rem)]">
         <AccordionItem value="markdown" name="Markdown">
-          <Codemirror ref={codemirrorRef} content={content} onChange={onChange} lock={lock} />
+          <LazyLoad>
+            <AsyncCodemirror ref={codemirrorRef} content={content} onChange={onChange} lock={lock} />
+          </LazyLoad>
         </AccordionItem>
         <AccordionItem value="plugin" name="Plugins">
           TODO: add plugins list here

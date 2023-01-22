@@ -12,6 +12,15 @@ export default defineConfig({
     assetsDir: 'assets',
     outDir: '../docs',
     emptyOutDir: true,
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'milkdown-vendor': ['@milkdown/core', '@milkdown/ctx', '@milkdown/transformer', '@milkdown/prose'],
+        },
+      },
+    },
   },
   resolve: {
     alias: {

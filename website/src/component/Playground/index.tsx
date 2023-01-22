@@ -2,14 +2,16 @@
 import { MilkdownProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useLocal } from '../../provider/LocalizationProvider'
 import type { Local } from '../../route'
 import { i18nConfig } from '../../route'
+import { LazyLoad } from '../LazyLoad'
 import type { CodemirrorRef } from './Codemirror'
 import { ControlPanel } from './ControlPanel'
 import type { MilkdownRef } from './Milkdown'
-import { Milkdown } from './Milkdown'
+
+const AsyncMilkdown = lazy(() => import('./Milkdown').then(module => ({ default: module.Milkdown })))
 
 const importContent = (local: Local) => {
   const route = i18nConfig[local].route
@@ -69,7 +71,9 @@ export const Playground: FC = () => {
         <MilkdownProvider>
           <ProsemirrorAdapterProvider>
             <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none md:h-screen">
-              <Milkdown ref={milkdownRef} content={content} onChange={onMilkdownChange} />
+              <LazyLoad>
+                <AsyncMilkdown ref={milkdownRef} content={content} onChange={onMilkdownChange} />
+              </LazyLoad>
             </div>
             <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none border-l border-gray-300 dark:border-gray-600 md:h-screen">
               <ControlPanel codemirrorRef={codemirrorRef} content={content} onChange={onCodemirrorChange} lock={lockCodemirror} />
