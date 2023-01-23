@@ -672,7 +672,6 @@ importers:
       '@milkdown/core': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
-      '@prosemirror-adapter/vue': ^0.2.0
       tslib: ^2.4.0
       vue: ^3.2.38
     dependencies:
@@ -681,7 +680,6 @@ importers:
     devDependencies:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
-      '@prosemirror-adapter/vue': 0.2.0_vue@3.2.38
       vue: 3.2.38
 
   website:
@@ -3686,12 +3684,6 @@ packages:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
     dev: false
 
-  /@prosemirror-adapter/core/0.2.0:
-    resolution: {integrity: sha512-Q02n0SzUSAmjQDUmxKQ9sBdFwWpLTB20N7vg0Vx2b+wbgzQDGNkUEmmKDHOGVVJnlrEiFbq3Rm6uche6aQ24Ng==}
-    dependencies:
-      tslib: 2.4.0
-    dev: true
-
   /@prosemirror-adapter/core/0.2.2:
     resolution: {integrity: sha512-rnkh1StLZO5YcA8ELVmUNd+OkqeuneyhoDoXrSDsMuG1HeQLy6WithRurJQcqkJQD5Ak/ebWDykKEFPGKS4a+A==}
     dependencies:
@@ -3710,20 +3702,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       tslib: 2.4.0
     dev: false
-
-  /@prosemirror-adapter/vue/0.2.0_vue@3.2.38:
-    resolution: {integrity: sha512-DER1dzPeLy3ojvANyE3KaTdkeHWyUpNxKyMRtchWjgzEq1818Ts3oItRtVOmR8GletYWP4tFg9i+ztPEDsOK3A==}
-    peerDependencies:
-      vue: ^3.0.0
-    peerDependenciesMeta:
-      vue:
-        optional: true
-    dependencies:
-      '@prosemirror-adapter/core': 0.2.0
-      nanoid: 4.0.0
-      tslib: 2.4.0
-      vue: 3.2.38
-    dev: true
 
   /@radix-ui/primitive/1.0.0:
     resolution: {integrity: sha512-3e7rn8FDMin4CgeL7Z/49smCA3rFYY3Ha2rUQ7HRWFadS5iCRw08ZgVT1LaNTCNqgvrUiyczLflrVrF0SRQtNA==}
@@ -9848,6 +9826,7 @@ packages:
     resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
+    dev: false
 
   /napi-macros/2.0.0:
     resolution: {integrity: sha512-A0xLykHtARfueITVDernsAWdtIMbOJgKgcluwENp3AlsKN/PloyO10HtmoqnFAQAcxPkgZN7wdfPfEd0zNGxbg==}
