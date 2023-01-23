@@ -6,10 +6,12 @@ import { lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useLocal } from '../../provider/LocalizationProvider'
 import type { Local } from '../../route'
 import { i18nConfig } from '../../route'
+import { compose } from '../../utils/compose'
 import { LazyLoad } from '../LazyLoad'
 import type { CodemirrorRef } from './Codemirror'
 import { ControlPanel } from './ControlPanel'
 import type { MilkdownRef } from './Milkdown'
+import { FeatureToggleProvider } from './Milkdown/FeatureToggleProvider'
 
 const AsyncMilkdown = lazy(() => import('./Milkdown').then(module => ({ default: module.Milkdown })))
 
@@ -18,6 +20,8 @@ const importContent = (local: Local) => {
   const path = ['index', route].filter(x => x).join('.')
   return import(`./content/${path}.md`)
 }
+
+const Provider = compose(FeatureToggleProvider, MilkdownProvider, ProsemirrorAdapterProvider)
 
 export const Playground: FC = () => {
   const [content, setContent] = useState('')
@@ -68,18 +72,16 @@ export const Playground: FC = () => {
     ? <div>loading...</div>
     : (
       <div className="m-0 mt-16 grid border-b border-gray-300 dark:border-gray-600 md:ml-20 md:mt-0 md:grid-cols-2">
-        <MilkdownProvider>
-          <ProsemirrorAdapterProvider>
-            <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none md:h-screen">
-              <LazyLoad>
-                <AsyncMilkdown ref={milkdownRef} content={content} onChange={onMilkdownChange} />
-              </LazyLoad>
-            </div>
-            <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none border-l border-gray-300 dark:border-gray-600 md:h-screen">
-              <ControlPanel codemirrorRef={codemirrorRef} content={content} onChange={onCodemirrorChange} lock={lockCodemirror} />
-            </div>
-          </ProsemirrorAdapterProvider>
-        </MilkdownProvider>
+        <Provider>
+          <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none md:h-screen">
+            <LazyLoad>
+              <AsyncMilkdown ref={milkdownRef} content={content} onChange={onMilkdownChange} />
+            </LazyLoad>
+          </div>
+          <div className="h-[calc(50vh-2rem)] overflow-auto overscroll-none border-l border-gray-300 dark:border-gray-600 md:h-screen">
+            <ControlPanel codemirrorRef={codemirrorRef} content={content} onChange={onCodemirrorChange} lock={lockCodemirror} />
+          </div>
+        </Provider>
       </div>
       )
 }

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { commandsCtx, editorViewCtx } from '@milkdown/core'
+import { commandsCtx } from '@milkdown/core'
 import { TooltipProvider, tooltipFactory } from '@milkdown/plugin-tooltip'
 import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, deleteSelectedCellsCommand, getCellsInColumn, getCellsInRow, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '@milkdown/preset-gfm'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
@@ -43,7 +43,7 @@ export const TableTooltip: FC = () => {
   const isHeading = isRow && view.state.doc.nodeAt((view.state.selection as CellSelection).$headCell.pos)?.type.name === 'table_header'
 
   useEffect(() => {
-    if (ref.current && !loading && !tooltipProvider.current) {
+    if (ref.current && !loading && !tooltipProvider.current && view && view.state) {
       const provider = new TooltipProvider({
         content: ref.current,
         tippyOptions: {
@@ -53,7 +53,8 @@ export const TableTooltip: FC = () => {
           return false
         },
       })
-      provider.update(getEditor().ctx.get(editorViewCtx))
+
+      provider.update(view)
 
       getEditor().ctx.set(tableTooltipCtx.key, provider)
 
@@ -63,7 +64,7 @@ export const TableTooltip: FC = () => {
     return () => {
       tooltipProvider.current?.destroy()
     }
-  }, [getEditor, loading])
+  }, [getEditor, loading, view])
 
   return (
     <div>

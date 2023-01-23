@@ -82,6 +82,8 @@ export class Editor {
         const cleanup = loader?.cleanup
         if (remove)
           this.#plugins.delete(plugin)
+        else
+          this.#plugins.set(plugin, { handler: undefined, cleanup: undefined })
 
         if (typeof cleanup === 'function')
           return cleanup(this.#post)
@@ -126,11 +128,11 @@ export class Editor {
   readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
     [plugins].flat().forEach((plugin) => {
       const handler = this.#status === EditorStatus.Created ? plugin(this.#pre) : undefined
-      const cleanup = handler?.(this.#ctx)
+      // const cleanup = handler?.(this.#ctx)
 
       this.#plugins.set(plugin, {
         handler,
-        cleanup,
+        cleanup: undefined,
       })
     })
     return this
@@ -207,11 +209,11 @@ export class Editor {
     plugins: MilkdownPlugin | MilkdownPlugin[],
   ): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate) {
-      setTimeout(() => {
-        this.remove(plugins)
-      }, 50)
-
-      return this
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.remove(plugins))
+        }, 50)
+      })
     }
 
     await this.#cleanup([plugins].flat(), true)

@@ -31,6 +31,8 @@ export const Slash = () => {
     })
 
     const root = getEditor().ctx.get(editorViewCtx).dom
+    if (!root)
+      return
 
     const onKeydown = (e: KeyboardEvent) => {
       const key = e.key

@@ -721,6 +721,7 @@ importers:
       '@prosemirror-adapter/react': ^0.2.2
       '@radix-ui/react-accordion': ^1.0.1
       '@radix-ui/react-popover': ^1.0.2
+      '@radix-ui/react-switch': ^1.0.1
       '@radix-ui/react-tabs': ^1.0.1
       '@rollup/pluginutils': '*'
       '@types/estree': ^1.0.0
@@ -800,6 +801,7 @@ importers:
       '@prosemirror-adapter/react': 0.2.2_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-accordion': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-popover': 1.0.2_bb2bxwco6ptpubzwpazr52qf6i
+      '@radix-ui/react-switch': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-tabs': 1.0.1_biqbaboplfbrettd7655fr4n2y
       '@types/katex': 0.16.0
       '@types/lodash.debounce': 4.0.7
@@ -3967,6 +3969,24 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@radix-ui/react-switch/1.0.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-tTxGluMtwrc5ffgAiOSMrYIx0r3vSTcgM4Vl8rqfpXcHt6ryB9B0OlFKUOiDpKASXlhvzfHf4Y0AYKJdpzjL8w==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0 || 18
+      react-dom: ^16.8 || ^17.0 || ^18.0 || 18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@radix-ui/primitive': 1.0.0
+      '@radix-ui/react-compose-refs': 1.0.0_react@18.2.0
+      '@radix-ui/react-context': 1.0.0_react@18.2.0
+      '@radix-ui/react-primitive': 1.0.1_biqbaboplfbrettd7655fr4n2y
+      '@radix-ui/react-use-controllable-state': 1.0.0_react@18.2.0
+      '@radix-ui/react-use-previous': 1.0.0_react@18.2.0
+      '@radix-ui/react-use-size': 1.0.0_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@radix-ui/react-tabs/1.0.1_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-mVNEwHwgjy2G9F7b39f9VY+jF0QUZykTm0Sdv+Uz6KC4KOEIa4HLDiHU8MeEZluRtZE3aqGYDhl93O7QbJDwhg==}
     peerDependencies:
@@ -4017,6 +4037,15 @@ packages:
 
   /@radix-ui/react-use-layout-effect/1.0.0_react@18.2.0:
     resolution: {integrity: sha512-6Tpkq+R6LOlmQb1R5NNETLG0B4YP0wc+klfXafpUCj6JGyaUc8il7/kUZ7m59rGbXGczE9Bs+iz2qloqsZBduQ==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0 || 18
+    dependencies:
+      '@babel/runtime': 7.18.6
+      react: 18.2.0
+    dev: false
+
+  /@radix-ui/react-use-previous/1.0.0_react@18.2.0:
+    resolution: {integrity: sha512-RG2K8z/K7InnOKpq6YLDmT49HGjNmrK+fr82UCVKT2sW0GYfVnYp4wZWBooT/EYfQ5faA9uIjvsuMMhH61rheg==}
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0 || 18
     dependencies:

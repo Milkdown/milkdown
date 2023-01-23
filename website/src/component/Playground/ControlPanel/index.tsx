@@ -9,6 +9,7 @@ import pkgJson from '../../../../package.json'
 import { useLinkClass } from '../../hooks/useLinkClass'
 import type { CodemirrorProps, CodemirrorRef } from '../Codemirror'
 import { LazyLoad } from '../../LazyLoad'
+import { PluginToggle } from '../PluginToggle'
 import { AccordionItem } from './AccordionItem'
 
 interface ControlPanelProps extends CodemirrorProps {
@@ -43,7 +44,7 @@ export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock, c
           </LazyLoad>
         </AccordionItem>
         <AccordionItem value="plugin" name="Plugins">
-          TODO: add plugins list here
+          <PluginToggle />
         </AccordionItem>
         <AccordionItem value="state" name="State">
           TODO: add prosemirror state here

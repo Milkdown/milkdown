@@ -5,7 +5,7 @@ import { emojiAttr } from '@milkdown/plugin-emoji'
 
 import './style.css'
 
-export const nordThemeConfig = (ctx: Ctx) => {
+export const styleConfig = (ctx: Ctx) => {
   ctx.set(editorViewOptionsCtx, ({
     attributes: {
       class: 'mx-auto p-1 box-border',

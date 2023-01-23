@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import type { Ctx, MilkdownPlugin } from '@milkdown/core'
 import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { block, blockView } from '@milkdown/plugin-block'
 import { clipboard } from '@milkdown/plugin-clipboard'
@@ -19,10 +20,11 @@ import { useEditor } from '@milkdown/react'
 import { nord } from '@milkdown/theme-nord'
 import { $view } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
+import { useEffect, useMemo, useRef } from 'react'
 import { refractor } from 'refractor/lib/common'
 import { Block } from '../EditorComponent/Block'
 import { CodeBlock } from '../EditorComponent/CodeBlock'
-import { nordThemeConfig } from '../EditorComponent/config'
+import { styleConfig } from '../EditorComponent/config'
 import { Diagram } from '../EditorComponent/Diagram'
 import { FootnoteDef, FootnoteRef } from '../EditorComponent/Footnote'
 import { ImageTooltip, imageTooltip } from '../EditorComponent/ImageTooltip'
@@ -31,6 +33,7 @@ import { ListItem } from '../EditorComponent/ListItem'
 import { MathBlock } from '../EditorComponent/MathBlock'
 import { Slash } from '../EditorComponent/Slash'
 import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from '../EditorComponent/TableWidget'
+import { useFeatureToggle } from './FeatureToggleProvider'
 
 export const usePlayground = (
   defaultValue: string,
@@ -39,6 +42,28 @@ export const usePlayground = (
   const pluginViewFactory = usePluginViewFactory()
   const nodeViewFactory = useNodeViewFactory()
   const widgetViewFactory = useWidgetViewFactory()
+  const {
+    enableGFM,
+  } = useFeatureToggle()
+  const GFMEnabled = useRef(true)
+
+  const GFMPlugins: MilkdownPlugin[] = useMemo(() => {
+    return [
+      gfm,
+      tableTooltip,
+      tableTooltipCtx,
+      () => async (ctx: Ctx) => {
+        ctx.set(tableTooltip.key, {
+          view: pluginViewFactory({
+            component: TableTooltip,
+          }),
+        })
+      },
+      $view(footnoteDefinitionSchema.node, () => nodeViewFactory({ component: FootnoteDef })),
+      $view(footnoteReferenceSchema.node, () => nodeViewFactory({ component: FootnoteRef })),
+      tableSelectorPlugin(widgetViewFactory),
+    ].flat()
+  }, [nodeViewFactory, pluginViewFactory, widgetViewFactory])
 
   const editorInfo = useEditor((root) => {
     const editor = Editor
@@ -64,19 +89,14 @@ export const usePlayground = (
             component: Slash,
           }),
         })
-        ctx.set(tableTooltip.key, {
-          view: pluginViewFactory({
-            component: TableTooltip,
-          }),
-        })
         ctx.set(blockView.key, pluginViewFactory({
           component: Block,
         }))
       })
-      .config(nordThemeConfig)
+      .config(styleConfig)
       .config(nord)
       .use(commonmark)
-      .use(gfm)
+      .use(linkPlugin(widgetViewFactory))
       .use(emoji)
       .use(listener)
       .use(clipboard)
@@ -91,8 +111,6 @@ export const usePlayground = (
       .use(slash)
       .use(block)
       .use(diagram)
-      .use(tableTooltipCtx)
-      .use(tableTooltip)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
       .use($view(mathBlockSchema.node, () => nodeViewFactory({
@@ -103,13 +121,33 @@ export const usePlayground = (
         component: Diagram,
         stopEvent: () => true,
       })))
-      .use($view(footnoteDefinitionSchema.node, () => nodeViewFactory({ component: FootnoteDef })))
-      .use($view(footnoteReferenceSchema.node, () => nodeViewFactory({ component: FootnoteRef })))
-      .use(linkPlugin(widgetViewFactory))
-      .use(tableSelectorPlugin(widgetViewFactory))
+      .use(GFMPlugins)
 
     return editor
   }, [defaultValue, onChange])
+
+  const { get } = editorInfo
+
+  useEffect(() => {
+    const effect = async () => {
+      const editor = get()
+      if (!editor || GFMEnabled.current === enableGFM)
+        return
+
+      if (!enableGFM) {
+        await editor.remove(GFMPlugins)
+        GFMEnabled.current = false
+      }
+      else {
+        editor.use(GFMPlugins)
+        GFMEnabled.current = true
+      }
+
+      await editor.create()
+    }
+
+    effect()
+  }, [GFMPlugins, enableGFM, get])
 
   return editorInfo
 }
