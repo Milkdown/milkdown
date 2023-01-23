@@ -29,7 +29,6 @@
   "peerDependencies": {
     "@milkdown/core": "^6.0.1",
     "@milkdown/prose": "^6.0.1",
-    "@prosemirror-adapter/react": "^0.2.0",
     "react": "*",
     "react-dom": "*"
   },

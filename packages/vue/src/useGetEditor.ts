@@ -5,18 +5,17 @@ import type { EditorInfoCtx } from './types'
 import { editorInfoCtxKey } from '.'
 
 export const useGetEditor = () => {
-  const { dom, loading, editor: editorRef, getEditorCallback: getEditor } = inject(editorInfoCtxKey, {} as EditorInfoCtx)
+  const { dom, loading, editor: editorRef, editorFactory: getEditor } = inject(editorInfoCtxKey, {} as EditorInfoCtx)
 
   onMounted(() => {
     if (!dom.value)
       return
 
-    const editor = getEditor.value(dom.value)
+    const editor = getEditor.value!(dom.value)
     if (!editor)
       return
 
     loading.value = true
-
     editor
       .create()
       .then((editor) => {
@@ -25,7 +24,7 @@ export const useGetEditor = () => {
       .finally(() => {
         loading.value = false
       })
-      .catch(e => console.error(e))
+      .catch(console.error)
   })
   onUnmounted(() => {
     editorRef.value?.destroy()
