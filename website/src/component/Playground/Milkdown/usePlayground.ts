@@ -22,6 +22,7 @@ import { $view } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
 import { useEffect, useMemo, useRef } from 'react'
 import { refractor } from 'refractor/lib/common'
+import debounce from 'lodash.debounce'
 import { Block } from '../EditorComponent/Block'
 import { CodeBlock } from '../EditorComponent/CodeBlock'
 import { Diagram } from '../EditorComponent/Diagram'
@@ -33,6 +34,7 @@ import { MathBlock } from '../EditorComponent/MathBlock'
 import { Slash } from '../EditorComponent/Slash'
 import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from '../EditorComponent/TableWidget'
 import { useFeatureToggle } from './FeatureToggleProvider'
+import { useSetProseState } from './ProseStateProvider'
 
 const useToggle = (label: string, state: boolean, get: () => Editor | undefined, plugins: MilkdownPlugin[]) => {
   const ref = useRef(state)
@@ -68,6 +70,7 @@ export const usePlayground = (
   const pluginViewFactory = usePluginViewFactory()
   const nodeViewFactory = useNodeViewFactory()
   const widgetViewFactory = useWidgetViewFactory()
+  const setProseState = useSetProseState()
   const {
     enableGFM,
     enableMath,
@@ -151,9 +154,12 @@ export const usePlayground = (
         ctx.set(rootCtx, root)
         ctx.set(defaultValueCtx, defaultValue)
         ctx.update(editorViewOptionsCtx, prev => ({ ...prev }))
-        ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
-          onChange(markdown)
-        })
+        ctx.get(listenerCtx)
+          .markdownUpdated((_, markdown) => {
+            debounce(onChange, 500)(markdown)
+          }).updated((_, doc) => {
+            debounce(setProseState, 500)(doc.toJSON())
+          })
         ctx.update(prismConfig.key, prev => ({
           ...prev,
           configureRefractor: () => refractor,

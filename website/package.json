@@ -47,6 +47,7 @@
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.1",
     "@radix-ui/react-tabs": "^1.0.1",
+    "@textea/json-viewer": "^2.13.0",
     "@types/katex": "^0.16.0",
     "@types/lodash.debounce": "^4.0.7",
     "clsx": "^1.2.1",
