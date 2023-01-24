@@ -8,8 +8,6 @@ import { forwardRef, useImperativeHandle } from 'react'
 import { useLinkClass } from '../../hooks/useLinkClass'
 import { usePlayground } from './usePlayground'
 
-import './style.css'
-
 const Button: FC<{ icon: string }> = ({ icon }) => {
   const linkClass = useLinkClass()
   return (

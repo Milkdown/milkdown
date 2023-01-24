@@ -12,6 +12,7 @@ import { LazyLoad } from '../../LazyLoad'
 import { PluginToggle } from '../PluginToggle'
 import { useProseState } from '../Milkdown/ProseStateProvider'
 import { useDarkMode } from '../../../provider/DarkModeProvider'
+import { useShare } from '../Share/ShareProvider'
 import { AccordionItem } from './AccordionItem'
 
 interface ControlPanelProps extends CodemirrorProps {
@@ -25,6 +26,8 @@ export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock, c
   const linkClass = useLinkClass()
   const proseState = useProseState()
   const darkMode = useDarkMode()
+  const share = useShare()
+
   return (
     <div className="h-full">
       <div className="border-nord4 flex h-10 items-center justify-between border-b bg-gray-200 px-4 py-2 font-light dark:border-gray-600 dark:bg-gray-700">
@@ -37,7 +40,7 @@ export const ControlPanel: FC<ControlPanelProps> = ({ content, onChange, lock, c
           </span>
         </div>
         <div>
-          <button className={clsx(linkClass(false), 'flex h-8 w-8 items-center justify-center rounded-full')}>
+          <button onClick={() => share()} className={clsx(linkClass(false), 'flex h-8 w-8 items-center justify-center rounded-full')}>
             <span className="material-symbols-outlined text-base">share</span>
           </button>
         </div>

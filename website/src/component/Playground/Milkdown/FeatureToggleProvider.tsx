@@ -19,15 +19,13 @@ const defaultFeatureToggle: FeatureToggle = {
   enableBlockHandle: true,
 }
 
-export const FeatureToggleCtx = createContext(defaultFeatureToggle)
-export const SetFeatureToggleCtx = createContext<React.Dispatch<React.SetStateAction<FeatureToggle>>>(() => {})
+export const featureToggleCtx = createContext(defaultFeatureToggle)
+export const setFeatureToggleCtx = createContext<React.Dispatch<React.SetStateAction<FeatureToggle>>>(() => {})
 
-export const useFeatureToggle = () => {
-  return useContext(FeatureToggleCtx)
-}
+export const useFeatureToggle = () => useContext(featureToggleCtx)
 
 export const useSetFeatureToggle = () => {
-  const setFeatureToggles = useContext(SetFeatureToggleCtx)
+  const setFeatureToggles = useContext(setFeatureToggleCtx)
 
   return useCallback((config: Partial<FeatureToggle>) => {
     setFeatureToggles(prev => ({ ...prev, ...config }))
@@ -38,10 +36,10 @@ export const FeatureToggleProvider: FC<{ children: ReactNode }> = ({ children })
   const [featureToggle, setFeatureToggle] = useState(defaultFeatureToggle)
 
   return (
-    <FeatureToggleCtx.Provider value={featureToggle}>
-      <SetFeatureToggleCtx.Provider value={setFeatureToggle}>
+    <featureToggleCtx.Provider value={featureToggle}>
+      <setFeatureToggleCtx.Provider value={setFeatureToggle}>
         {children}
-      </SetFeatureToggleCtx.Provider>
-    </FeatureToggleCtx.Provider>
+      </setFeatureToggleCtx.Provider>
+    </featureToggleCtx.Provider>
   )
 }

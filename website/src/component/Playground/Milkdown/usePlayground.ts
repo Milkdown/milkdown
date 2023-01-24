@@ -18,11 +18,12 @@ import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-co
 import { footnoteDefinitionSchema, footnoteReferenceSchema, gfm } from '@milkdown/preset-gfm'
 import { useEditor } from '@milkdown/react'
 import { nord } from '@milkdown/theme-nord'
-import { $view } from '@milkdown/utils'
+import { $view, getMarkdown } from '@milkdown/utils'
 import { useNodeViewFactory, usePluginViewFactory, useWidgetViewFactory } from '@prosemirror-adapter/react'
-import { useEffect, useMemo, useRef } from 'react'
-import { refractor } from 'refractor/lib/common'
 import debounce from 'lodash.debounce'
+import { useEffect, useMemo, useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { refractor } from 'refractor/lib/common'
 import { Block } from '../EditorComponent/Block'
 import { CodeBlock } from '../EditorComponent/CodeBlock'
 import { Diagram } from '../EditorComponent/Diagram'
@@ -33,6 +34,8 @@ import { ListItem } from '../EditorComponent/ListItem'
 import { MathBlock } from '../EditorComponent/MathBlock'
 import { Slash } from '../EditorComponent/Slash'
 import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from '../EditorComponent/TableWidget'
+import { encode } from '../Share/share'
+import { useSetShare } from '../Share/ShareProvider'
 import { useFeatureToggle } from './FeatureToggleProvider'
 import { useSetProseState } from './ProseStateProvider'
 
@@ -71,6 +74,8 @@ export const usePlayground = (
   const nodeViewFactory = useNodeViewFactory()
   const widgetViewFactory = useWidgetViewFactory()
   const setProseState = useSetProseState()
+  const setShare = useSetShare()
+  const defaultValueRef = useRef(defaultValue)
   const {
     enableGFM,
     enableMath,
@@ -152,7 +157,7 @@ export const usePlayground = (
           },
         }))
         ctx.set(rootCtx, root)
-        ctx.set(defaultValueCtx, defaultValue)
+        ctx.set(defaultValueCtx, defaultValueRef.current)
         ctx.update(editorViewOptionsCtx, prev => ({ ...prev }))
         ctx.get(listenerCtx)
           .markdownUpdated((_, markdown) => {
@@ -197,15 +202,42 @@ export const usePlayground = (
       .use(twemojiPlugins)
 
     return editor
-  }, [defaultValue, onChange])
+  }, [onChange])
 
   const { get } = editorInfo
+
+  useEffect(() => {
+    onChange(defaultValue)
+  }, [defaultValue, onChange])
 
   useToggle('GFM', enableGFM, get, gfmPlugins)
   useToggle('Math', enableMath, get, mathPlugins)
   useToggle('Diagram', enableDiagram, get, diagramPlugins)
   useToggle('BlockHandle', enableBlockHandle, get, blockPlugins)
   useToggle('Twemoji', enableTwemoji, get, twemojiPlugins)
+
+  const [_, setSearchParams] = useSearchParams()
+
+  useEffect(() => {
+    setShare(() => () => {
+      const editor = get()
+      if (!editor)
+        return
+
+      const content = editor.action(getMarkdown())
+      const base64 = encode(content)
+
+      if (base64.length > 2000) {
+        console.warn('Share content is too long.')
+        return
+      }
+
+      const url = new URL(location.href)
+      url.searchParams.set('text', base64)
+      navigator.clipboard.writeText(url.toString())
+      setSearchParams({ text: base64 })
+    })
+  }, [get, setSearchParams, setShare])
 
   return editorInfo
 }

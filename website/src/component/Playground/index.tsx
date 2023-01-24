@@ -3,6 +3,7 @@ import { MilkdownProvider } from '@milkdown/react'
 import { ProsemirrorAdapterProvider } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
 import { lazy, useCallback, useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useLocal } from '../../provider/LocalizationProvider'
 import type { Local } from '../../route'
 import { i18nConfig } from '../../route'
@@ -13,6 +14,10 @@ import { ControlPanel } from './ControlPanel'
 import type { MilkdownRef } from './Milkdown'
 import { FeatureToggleProvider } from './Milkdown/FeatureToggleProvider'
 import { ProseStateProvider } from './Milkdown/ProseStateProvider'
+import { decode } from './Share/share'
+import { ShareProvider } from './Share/ShareProvider'
+
+import './style.css'
 
 const AsyncMilkdown = lazy(() => import('./Milkdown').then(module => ({ default: module.Milkdown })))
 
@@ -22,29 +27,37 @@ const importContent = (local: Local) => {
   return import(`./content/${path}.md`)
 }
 
-const Provider = compose(FeatureToggleProvider, MilkdownProvider, ProsemirrorAdapterProvider, ProseStateProvider)
+const Provider = compose(FeatureToggleProvider, MilkdownProvider, ProsemirrorAdapterProvider, ProseStateProvider, ShareProvider)
 
 export const Playground: FC = () => {
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(true)
   const local = useLocal()
-  useEffect(() => {
-    let importing = true
+  const [searchParams] = useSearchParams()
 
-    importContent(local)
-      .then((x) => {
-        if (importing) {
-          setContent(x.default)
-          setLoading(false)
-        }
-      })
-      .catch(console.error)
+  useEffect(() => {
+    const text = searchParams.get('text')
+    let importing = true
+    if (text) {
+      setContent(decode(text))
+      setLoading(false)
+    }
+    else {
+      importContent(local)
+        .then((x) => {
+          if (importing) {
+            setContent(x.default)
+            setLoading(false)
+          }
+        })
+        .catch(console.error)
+    }
 
     return () => {
       importing = false
       setLoading(true)
     }
-  }, [local])
+  }, [local, searchParams])
 
   const lockCodemirror = useRef(false)
   const milkdownRef = useRef<MilkdownRef>(null)

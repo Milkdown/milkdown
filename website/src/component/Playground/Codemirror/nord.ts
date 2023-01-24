@@ -21,9 +21,6 @@ const nord13 = '#ebcb8b'
 const nord14 = '#a3be8c'
 const nord15 = '#b48ead'
 
-const lightBg = 'rgb(236 239 244 / 0.7)'
-const darkBg = 'rgb(76 86 106 / 0.7)'
-
 export const nordTheme = (dark: boolean) => {
   const highlightBackground = dark ? '#2c313a' : '#e5e9f0'
   const selection = dark ? nord0 : nord4
@@ -31,7 +28,6 @@ export const nordTheme = (dark: boolean) => {
     {
       '&': {
         color: dark ? nord4 : nord0,
-        backgroundColor: dark ? darkBg : lightBg,
       },
 
       '&.cm-focused': { outline: 'none !important' },

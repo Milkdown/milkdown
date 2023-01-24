@@ -4,24 +4,20 @@ import { createContext, useContext, useState } from 'react'
 
 type Json = Record<string, any>
 
-export const ProseStateCtx = createContext<Json>({})
-export const SetProseStateCtx = createContext<Dispatch<SetStateAction<Json>>>(() => {})
+export const proseStateCtx = createContext<Json>({})
+export const setProseStateCtx = createContext<Dispatch<SetStateAction<Json>>>(() => {})
 
-export const useProseState = () => {
-  return useContext(ProseStateCtx)
-}
+export const useProseState = () => useContext(proseStateCtx)
 
-export const useSetProseState = () => {
-  return useContext(SetProseStateCtx)
-}
+export const useSetProseState = () => useContext(setProseStateCtx)
 
 export const ProseStateProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [proseState, setProseState] = useState<Json>({})
   return (
-    <ProseStateCtx.Provider value={proseState}>
-      <SetProseStateCtx.Provider value={setProseState}>
+    <proseStateCtx.Provider value={proseState}>
+      <setProseStateCtx.Provider value={setProseState}>
         {children}
-      </SetProseStateCtx.Provider>
-    </ProseStateCtx.Provider>
+      </setProseStateCtx.Provider>
+    </proseStateCtx.Provider>
   )
 }

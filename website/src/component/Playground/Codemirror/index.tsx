@@ -38,6 +38,6 @@ export const Codemirror = forwardRef<CodemirrorRef, CodemirrorProps>(({ content,
     },
   }))
 
-  return <div ref={divRef} />
+  return <div className="min-h-full bg-gray-50 dark:bg-gray-900" ref={divRef} />
 })
 Codemirror.displayName = 'Codemirror'
