@@ -1,5 +1,5 @@
 .toast-root {
-  @apply bg-white rounded-md shadow-lg p-4 flex items-center justify-between mt-4 mr-4;
+  @apply bg-white rounded-md shadow-lg p-4 flex items-center justify-between mt-4 mr-4 dark:bg-black dark:text-white;
 }
 
 .toast-viewport {
