@@ -20,13 +20,14 @@ const ToggleItem: FC<{ checked: boolean; onCheckedChange: (value: boolean) => vo
 }
 
 export const PluginToggle: FC = () => {
-  const { enableGFM, enableMath, enableDiagram, enableBlockHandle } = useFeatureToggle()
+  const { enableGFM, enableMath, enableDiagram, enableBlockHandle, enableTwemoji } = useFeatureToggle()
   const setFeatureToggle = useSetFeatureToggle()
   return (
     <div className="my-4 flex flex-col gap-4">
       <ToggleItem label={'Enable GFM'} checked={enableGFM} onCheckedChange={value => setFeatureToggle({ enableGFM: value })} />
       <ToggleItem label={'Enable Math'} checked={enableMath} onCheckedChange={value => setFeatureToggle({ enableMath: value })} />
       <ToggleItem label={'Enable Diagram'} checked={enableDiagram} onCheckedChange={value => setFeatureToggle({ enableDiagram: value })} />
+      <ToggleItem label={'Enable Twemoji'} checked={enableTwemoji} onCheckedChange={value => setFeatureToggle({ enableTwemoji: value })} />
       <ToggleItem label={'Enable Block Handle'} checked={enableBlockHandle} onCheckedChange={value => setFeatureToggle({ enableBlockHandle: value })} />
     </div>
   )

@@ -9,7 +9,6 @@ type FeatureToggle = {
   enableDiagram: boolean
   enableTwemoji: boolean
   enableBlockHandle: boolean
-  enableLinkWidget: boolean
 }
 
 const defaultFeatureToggle: FeatureToggle = {
@@ -18,7 +17,6 @@ const defaultFeatureToggle: FeatureToggle = {
   enableDiagram: true,
   enableTwemoji: true,
   enableBlockHandle: true,
-  enableLinkWidget: true,
 }
 
 export const FeatureToggleCtx = createContext(defaultFeatureToggle)

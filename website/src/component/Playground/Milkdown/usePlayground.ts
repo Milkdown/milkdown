@@ -5,7 +5,7 @@ import { block, blockView } from '@milkdown/plugin-block'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { cursor } from '@milkdown/plugin-cursor'
 import { diagram, diagramSchema } from '@milkdown/plugin-diagram'
-import { emoji } from '@milkdown/plugin-emoji'
+import { emoji, emojiAttr } from '@milkdown/plugin-emoji'
 import { history } from '@milkdown/plugin-history'
 import { indent } from '@milkdown/plugin-indent'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
@@ -24,7 +24,6 @@ import { useEffect, useMemo, useRef } from 'react'
 import { refractor } from 'refractor/lib/common'
 import { Block } from '../EditorComponent/Block'
 import { CodeBlock } from '../EditorComponent/CodeBlock'
-import { styleConfig } from '../EditorComponent/config'
 import { Diagram } from '../EditorComponent/Diagram'
 import { FootnoteDef, FootnoteRef } from '../EditorComponent/Footnote'
 import { ImageTooltip, imageTooltip } from '../EditorComponent/ImageTooltip'
@@ -74,6 +73,7 @@ export const usePlayground = (
     enableMath,
     enableDiagram,
     enableBlockHandle,
+    enableTwemoji,
   } = useFeatureToggle()
 
   const gfmPlugins: MilkdownPlugin[] = useMemo(() => {
@@ -125,10 +125,29 @@ export const usePlayground = (
     ].flat()
   }, [pluginViewFactory])
 
+  const twemojiPlugins: MilkdownPlugin[] = useMemo(() => {
+    return [
+      emoji,
+      () => (ctx: Ctx) => {
+        ctx.set(emojiAttr.key, () => ({
+          span: {},
+          img: {
+            class: 'w-[1em] h-[1em] !m-0 inline-block mr-px align-text-top',
+          },
+        }))
+      },
+    ].flat()
+  }, [])
+
   const editorInfo = useEditor((root) => {
     const editor = Editor
       .make()
       .config((ctx) => {
+        ctx.set(editorViewOptionsCtx, ({
+          attributes: {
+            class: 'mx-auto p-1 box-border',
+          },
+        }))
         ctx.set(rootCtx, root)
         ctx.set(defaultValueCtx, defaultValue)
         ctx.update(editorViewOptionsCtx, prev => ({ ...prev }))
@@ -150,11 +169,9 @@ export const usePlayground = (
           }),
         })
       })
-      .config(styleConfig)
       .config(nord)
       .use(commonmark)
       .use(linkPlugin(widgetViewFactory))
-      .use(emoji)
       .use(listener)
       .use(clipboard)
       .use(history)
@@ -171,6 +188,7 @@ export const usePlayground = (
       .use(mathPlugins)
       .use(diagramPlugins)
       .use(blockPlugins)
+      .use(twemojiPlugins)
 
     return editor
   }, [defaultValue, onChange])
@@ -181,6 +199,7 @@ export const usePlayground = (
   useToggle('Math', enableMath, get, mathPlugins)
   useToggle('Diagram', enableDiagram, get, diagramPlugins)
   useToggle('BlockHandle', enableBlockHandle, get, blockPlugins)
+  useToggle('Twemoji', enableTwemoji, get, twemojiPlugins)
 
   return editorInfo
 }
