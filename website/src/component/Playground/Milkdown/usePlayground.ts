@@ -35,6 +35,33 @@ import { Slash } from '../EditorComponent/Slash'
 import { TableTooltip, tableSelectorPlugin, tableTooltip, tableTooltipCtx } from '../EditorComponent/TableWidget'
 import { useFeatureToggle } from './FeatureToggleProvider'
 
+const useToggle = (label: string, state: boolean, get: () => Editor | undefined, plugins: MilkdownPlugin[]) => {
+  const ref = useRef(state)
+  useEffect(() => {
+    const effect = async () => {
+      const editor = get()
+      if (!editor || ref.current === state)
+        return
+
+      if (!state) {
+        await editor.remove(plugins)
+        ref.current = false
+      }
+      else {
+        editor.use(plugins)
+        ref.current = true
+      }
+
+      await editor.create()
+    }
+
+    effect().catch((e) => {
+      console.error('Error run toggle for: ', label)
+      console.error(e)
+    })
+  }, [get, label, plugins, state])
+}
+
 export const usePlayground = (
   defaultValue: string,
   onChange: (markdown: string) => void,
@@ -44,10 +71,12 @@ export const usePlayground = (
   const widgetViewFactory = useWidgetViewFactory()
   const {
     enableGFM,
+    enableMath,
+    enableDiagram,
+    enableBlockHandle,
   } = useFeatureToggle()
-  const GFMEnabled = useRef(true)
 
-  const GFMPlugins: MilkdownPlugin[] = useMemo(() => {
+  const gfmPlugins: MilkdownPlugin[] = useMemo(() => {
     return [
       gfm,
       tableTooltip,
@@ -64,6 +93,37 @@ export const usePlayground = (
       tableSelectorPlugin(widgetViewFactory),
     ].flat()
   }, [nodeViewFactory, pluginViewFactory, widgetViewFactory])
+
+  const mathPlugins: MilkdownPlugin[] = useMemo(() => {
+    return [
+      $view(mathBlockSchema.node, () => nodeViewFactory({
+        component: MathBlock,
+        stopEvent: () => true,
+      })),
+      math,
+    ].flat()
+  }, [nodeViewFactory])
+
+  const diagramPlugins: MilkdownPlugin[] = useMemo(() => {
+    return [
+      diagram,
+      $view(diagramSchema.node, () => nodeViewFactory({
+        component: Diagram,
+        stopEvent: () => true,
+      })),
+    ].flat()
+  }, [nodeViewFactory])
+
+  const blockPlugins: MilkdownPlugin[] = useMemo(() => {
+    return [
+      block,
+      () => (ctx: Ctx) => {
+        ctx.set(blockView.key, pluginViewFactory({
+          component: Block,
+        }))
+      },
+    ].flat()
+  }, [pluginViewFactory])
 
   const editorInfo = useEditor((root) => {
     const editor = Editor
@@ -89,9 +149,6 @@ export const usePlayground = (
             component: Slash,
           }),
         })
-        ctx.set(blockView.key, pluginViewFactory({
-          component: Block,
-        }))
       })
       .config(styleConfig)
       .config(nord)
@@ -103,51 +160,27 @@ export const usePlayground = (
       .use(history)
       .use(cursor)
       .use(prism)
-      .use(math)
       .use(indent)
       .use(upload)
       .use(trailing)
       .use(imageTooltip)
       .use(slash)
-      .use(block)
-      .use(diagram)
       .use($view(listItemSchema.node, () => nodeViewFactory({ component: ListItem })))
       .use($view(codeBlockSchema.node, () => nodeViewFactory({ component: CodeBlock })))
-      .use($view(mathBlockSchema.node, () => nodeViewFactory({
-        component: MathBlock,
-        stopEvent: () => true,
-      })))
-      .use($view(diagramSchema.node, () => nodeViewFactory({
-        component: Diagram,
-        stopEvent: () => true,
-      })))
-      .use(GFMPlugins)
+      .use(gfmPlugins)
+      .use(mathPlugins)
+      .use(diagramPlugins)
+      .use(blockPlugins)
 
     return editor
   }, [defaultValue, onChange])
 
   const { get } = editorInfo
 
-  useEffect(() => {
-    const effect = async () => {
-      const editor = get()
-      if (!editor || GFMEnabled.current === enableGFM)
-        return
-
-      if (!enableGFM) {
-        await editor.remove(GFMPlugins)
-        GFMEnabled.current = false
-      }
-      else {
-        editor.use(GFMPlugins)
-        GFMEnabled.current = true
-      }
-
-      await editor.create()
-    }
-
-    effect()
-  }, [GFMPlugins, enableGFM, get])
+  useToggle('GFM', enableGFM, get, gfmPlugins)
+  useToggle('Math', enableMath, get, mathPlugins)
+  useToggle('Diagram', enableDiagram, get, diagramPlugins)
+  useToggle('BlockHandle', enableBlockHandle, get, blockPlugins)
 
   return editorInfo
 }

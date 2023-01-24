@@ -48,6 +48,11 @@ export class Editor {
     { handler: CtxHandler | undefined; cleanup: ReturnType<CtxHandler> }
   > = new Map()
 
+  #internalPlugins: Map<
+    MilkdownPlugin,
+    { handler: CtxHandler | undefined; cleanup: ReturnType<CtxHandler> }
+  > = new Map()
+
   readonly #ctx = new Ctx(this.#container, this.#clock)
   readonly #pre = new Pre(this.#container, this.#clock)
   readonly #post = new Post(this.#container, this.#clock)
@@ -65,12 +70,17 @@ export class Editor {
     const configPlugin = config(async (x: Ctx) => {
       await Promise.all(this.#configureList.map(fn => fn(x)))
     })
-    this.use(internalPlugins.concat(configPlugin))
+    internalPlugins.concat(configPlugin).flat().forEach((plugin) => {
+      this.#internalPlugins.set(plugin, {
+        handler: plugin(this.#pre),
+        cleanup: undefined,
+      })
+    })
   }
 
   readonly #prepare = () => {
     [...this.#plugins.entries()].map(async ([key, loader]) => {
-      const handler = loader.handler ?? key(this.#pre)
+      const handler = key(this.#pre)
       this.#plugins.set(key, { ...loader, handler })
     })
   }
@@ -88,9 +98,19 @@ export class Editor {
         if (typeof cleanup === 'function')
           return cleanup(this.#post)
 
-        return undefined
+        return cleanup
       }),
     )
+  }
+
+  readonly #cleanupInternal = async () => {
+    await Promise.all([...this.#internalPlugins.entries()].map(([_, { cleanup }]) => {
+      if (typeof cleanup === 'function')
+        return cleanup(this.#post)
+
+      return cleanup
+    }))
+    this.#internalPlugins.clear()
   }
 
   readonly #setStatus = (status: EditorStatus) => {
@@ -128,7 +148,6 @@ export class Editor {
   readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
     [plugins].flat().forEach((plugin) => {
       const handler = this.#status === EditorStatus.Created ? plugin(this.#pre) : undefined
-      // const cleanup = handler?.(this.#ctx)
 
       this.#plugins.set(plugin, {
         handler,
@@ -183,16 +202,28 @@ export class Editor {
     this.#prepare()
 
     await Promise.all(
-      [...this.#plugins.entries()].map(async ([key, loader]) => {
-        const handler = loader.handler
-        if (!handler)
-          return
+      [
+        [...this.#internalPlugins.entries()].map(async ([key, loader]) => {
+          const handler = loader.handler
+          if (!handler)
+            return
 
-        const cleanup = await handler(this.#ctx)
-        this.#plugins.set(key, { handler, cleanup })
+          const cleanup = await handler(this.#ctx)
+          this.#internalPlugins.set(key, { handler, cleanup })
 
-        return cleanup
-      }),
+          return cleanup
+        }),
+        [...this.#plugins.entries()].map(async ([key, loader]) => {
+          const handler = loader.handler
+          if (!handler)
+            return
+
+          const cleanup = await handler(this.#ctx)
+          this.#plugins.set(key, { handler, cleanup })
+
+          return cleanup
+        }),
+      ].flat(),
     )
 
     this.#setStatus(EditorStatus.Created)
@@ -236,11 +267,11 @@ export class Editor {
       return this
 
     if (this.#status === EditorStatus.OnCreate) {
-      setTimeout(() => {
-        this.destroy(clearPlugins)
-      }, 50)
-
-      return this
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.destroy(clearPlugins))
+        }, 50)
+      })
     }
 
     if (clearPlugins)
@@ -248,6 +279,8 @@ export class Editor {
 
     this.#setStatus(EditorStatus.OnDestroy)
     await this.#cleanup([...this.#plugins.keys()], clearPlugins)
+    await this.#cleanupInternal()
+
     this.#setStatus(EditorStatus.Destroyed)
     return this
   }
