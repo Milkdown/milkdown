@@ -1,54 +1,68 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import * as Toast from '@radix-ui/react-toast'
+import clsx from 'clsx'
 import type { FC, ReactNode } from 'react'
-import { createContext, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
-import className from './style.module.css'
+import './style.css'
 
-const icon = `${className.icon} material-icons-outlined`
-const closeIcon = `${className.close} ${className.icon} material-icons-outlined`
+type Show = (desc: string, type: 'success' | 'fail' | 'warning') => void
+export const setShowCtx = createContext<Show>(() => {})
 
-type ToastType = 'success' | 'warning' | 'error'
-type ShoatToast = (type: ToastType, text: string, time?: number) => void
+export const useToast = () => {
+  return useContext(setShowCtx)
+}
 
-export const showToastCtx = createContext<ShoatToast>(() => undefined)
-
-export const Toast: FC<{ children: ReactNode }> = ({ children }) => {
-  const [type, setType] = useState<ToastType>('success')
+export const ToastProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [open, setOpen] = useState(false)
-  const [text, setText] = useState('')
+  const [desc, setDesc] = useState('')
+  const [type, setType] = useState<'success' | 'fail' | 'warning'>('success')
 
-  const showToast = (type: ToastType, text: string, time = 2000) => {
-    setOpen(true)
+  const show: Show = useCallback((desc: string, type: 'success' | 'fail' | 'warning') => {
+    setDesc(desc)
     setType(type)
-    setText(text)
-    setTimeout(() => {
-      setOpen(false)
-    }, time)
-  }
+    setOpen(true)
+  }, [])
 
-  const getIcon = () => {
+  const icon = useMemo(() => {
     switch (type) {
       case 'warning':
         return 'report_problem'
-      case 'error':
+      case 'fail':
         return 'error_outline'
-      // eslint-disable-next-line default-case-last
-      default:
       case 'success':
+      default:
         return 'check_circle_outline'
     }
-  }
+  }, [type])
+
+  const iconColor = useMemo(() => {
+    switch (type) {
+      case 'warning':
+        return 'text-nord13'
+      case 'fail':
+        return 'text-nord11'
+      case 'success':
+      default:
+        return 'text-nord14'
+    }
+  }, [type])
 
   return (
-    <showToastCtx.Provider value={showToast}>
-      {children}
-      <dialog open={open} className={className.toast}>
-        <span className={icon}>{getIcon()}</span>
-        {text}
-        <span className={closeIcon} onClick={() => setOpen(false)}>
-          close
-        </span>
-      </dialog>
-    </showToastCtx.Provider>
+    <setShowCtx.Provider value={show}>
+      <Toast.Provider swipeDirection="right">
+        {children}
+        <Toast.Root className="toast-root" open={open} onOpenChange={setOpen}>
+          <Toast.Title className="toast-title">
+            <span className={clsx('material-symbols-outlined', iconColor)}>{icon}</span>
+            <span className="text-sm font-light">{desc}</span>
+          </Toast.Title>
+          <Toast.Action className="ToastAction" asChild altText="Close toast.">
+            <button className="material-symbols-outlined">close</button>
+          </Toast.Action>
+        </Toast.Root>
+        <Toast.Viewport className="toast-viewport" />
+      </Toast.Provider>
+    </setShowCtx.Provider>
   )
 }

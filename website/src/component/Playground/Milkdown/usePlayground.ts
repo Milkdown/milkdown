@@ -24,6 +24,7 @@ import debounce from 'lodash.debounce'
 import { useEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { refractor } from 'refractor/lib/common'
+import { useToast } from '../../Toast'
 import { Block } from '../EditorComponent/Block'
 import { CodeBlock } from '../EditorComponent/CodeBlock'
 import { Diagram } from '../EditorComponent/Diagram'
@@ -75,6 +76,7 @@ export const usePlayground = (
   const widgetViewFactory = useWidgetViewFactory()
   const setProseState = useSetProseState()
   const setShare = useSetShare()
+  const toast = useToast()
   const defaultValueRef = useRef(defaultValue)
   const {
     enableGFM,
@@ -229,15 +231,17 @@ export const usePlayground = (
 
       if (base64.length > 2000) {
         console.warn('Share content is too long.')
+        toast('Content is too long to share', 'warning')
         return
       }
 
       const url = new URL(location.href)
       url.searchParams.set('text', base64)
       navigator.clipboard.writeText(url.toString())
+      toast('Share link copied.', 'success')
       setSearchParams({ text: base64 })
     })
-  }, [get, setSearchParams, setShare])
+  }, [get, setSearchParams, setShare, toast])
 
   return editorInfo
 }
