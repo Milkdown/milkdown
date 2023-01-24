@@ -23,7 +23,7 @@ export const PluginToggle: FC = () => {
   const { enableGFM, enableMath, enableDiagram, enableBlockHandle, enableTwemoji } = useFeatureToggle()
   const setFeatureToggle = useSetFeatureToggle()
   return (
-    <div className="mb-1 flex h-full flex-col gap-4 overflow-y-scroll overscroll-none py-4">
+    <div className="mb-1 flex h-full flex-col gap-4 py-4">
       <ToggleItem label={'Enable GFM'} checked={enableGFM} onCheckedChange={value => setFeatureToggle({ enableGFM: value })} />
       <ToggleItem label={'Enable Math'} checked={enableMath} onCheckedChange={value => setFeatureToggle({ enableMath: value })} />
       <ToggleItem label={'Enable Diagram'} checked={enableDiagram} onCheckedChange={value => setFeatureToggle({ enableDiagram: value })} />
