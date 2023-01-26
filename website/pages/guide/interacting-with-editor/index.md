@@ -24,7 +24,15 @@ Editor.make().config((ctx) => {
 });
 ```
 
+---
+
 ## Setting Default Value
+
+We support three types of default value:
+
+* Markdown string.
+* HTML DOM.
+* Prosemirror documentation JSON.
 
 ### Markdown
 
@@ -103,6 +111,44 @@ Editor.make().config((ctx) => {
 
 ---
 
+## Inspecting Editor Status
+
+You can inspect the editor's status through the `status` property.
+
+```typescript
+import { Editor, EditorStatus } from '@milkdown/core';
+
+const editor = Editor.make().use(/* some plugins */);
+
+assert(editor.status === EditorStatus.Idle);
+
+editor.create().then(() => {
+  assert(editor.status === EditorStatus.Created);
+});
+
+assert(editor.status === EditorStatus.OnCreate);
+
+editor.destroy().then(() => {
+  assert(editor.status === EditorStatus.Destroyed);
+});
+
+assert(editor.status === EditorStatus.OnDestroyed);
+```
+
+You can also listen to the status changes:
+
+```typescript
+import { Editor, EditorStatus } from '@milkdown/core';
+
+const editor = Editor.make().use(/* some plugins */);
+
+editor.onStatusChange((status: EditorStatus) => {
+  console.log(status);
+});
+```
+
+---
+
 ## Adding Listener
 
 As mentioned above, you can add listener to the editor, get values when needed.
@@ -145,7 +191,7 @@ Editor.make()
     .use(listener);
 ```
 
-For more details about listener, please check [Using Listeners]().
+For more details about listener, please check [Using Listeners](/plugin-listener).
 
 ---
 
@@ -161,7 +207,10 @@ let readonly = false;
 const editable = () => !readonly;
 
 Editor.make().config((ctx) => {
-    ctx.set(editorViewOptionsCtx, { editable });
+  ctx.update(editorViewOptionsCtx, (prev) => ({
+    ...prev,
+    editable,
+  }))
 });
 
 // set to readonly after 5 secs.
@@ -206,7 +255,9 @@ editor.action(insert('# Hello milkdown'));
 
 For more details about macros, please check [macros](/macros).
 
-## Destroy
+---
+
+## Destroying
 
 You can call `editor.destroy` to destroy an existing editor. You can create a new editor later with `editor.create`.
 
@@ -217,28 +268,42 @@ await editor.destroy();
 await editor.create();
 ```
 
-If you just want to recreate the editor, you can use `editor.create`, it will destroy the old editor and create a new one.
-
-## Editor Status
-
-Users can peek the editor status by calling `editor.status`.
-
-The possible values are:
+If you just want to recreate the editor, you can use `editor.create`, it will **destroy the old editor and create a new one**.
 
 ```typescript
-export enum EditorStatus {
-    Init = 'Init',
-    OnCreated = 'OnCreated',
-    Created = 'Created',
-    OnDestroy = 'OnDestroy',
-    Destroyed = 'Destroyed',
-}
+await editor.create();
+
+// This equals to call `editor.destroy` and `editor.create` again.
+await editor.create();
 ```
 
-Users can also inspect the change by passing a callback to `editor.onStatusChange`.
+If you want to **clear the plugins and configs for the editor** when calling `editor.destroy`, you can pass `true` to `editor.destroy`.
 
 ```typescript
-editor.onStatusChange((status) => {
-    // Do something...
-});
+await editor.destroy(true);
+```
+
+---
+
+## Changing Plugins
+
+You can also change plugins for editor in runtime:
+
+```typescript
+import { Editor } from '@milkdown/core';
+import { someMilkdownPlugin } from 'some-milkdown-plugin';
+
+const editor = await Editor.config(configForPlugin).use(someMilkdownPlugin).use(/* some other plugin */).create();
+
+// remove plugin
+await editor.remove(someMilkdownPlugin);
+
+// remove config
+editor.removeConfig(configForPlugin);
+
+// add another plugin
+editor.use(anotherMilkdownPlugin)
+
+// Recreate the editor to apply changes.
+await editor.create();
 ```

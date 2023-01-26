@@ -87,8 +87,8 @@ export const DesktopNav: FC = () => {
           </NavLink>
         </div>
         <div className="mt-8 flex flex-col gap-4">
-          <NavItem icon="apps" text="Recipes" id="recipes" />
           <NavItem icon="design_services" text="Guide" id="guide" />
+          <NavItem icon="apps" text="Recipes" id="recipes" />
           <NavItem icon="extension" text="Plugin" id="plugin" />
           <NavItem icon="api" text="API" id="api" />
           <NavItem icon="view_carousel" text="Playground" link={playgroundURL} />

@@ -76,18 +76,18 @@ const getRoot = (playgroundURL: string, getI18n: (key: string) => string, showSe
   return {
     items: [
       {
-        id: 'recipes',
-        text: getI18n('recipes'),
-        prefixIcon: 'apps',
-        suffixIcon: 'arrow_forward',
-        onClick: () => showSectionSidePanel('recipes'),
-      },
-      {
         id: 'guide',
         text: getI18n('guide'),
         prefixIcon: 'design_services',
         suffixIcon: 'arrow_forward',
         onClick: () => showSectionSidePanel('guide'),
+      },
+      {
+        id: 'recipes',
+        text: getI18n('recipes'),
+        prefixIcon: 'apps',
+        suffixIcon: 'arrow_forward',
+        onClick: () => showSectionSidePanel('recipes'),
       },
       {
         id: 'plugin',

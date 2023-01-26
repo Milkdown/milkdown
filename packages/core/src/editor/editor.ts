@@ -168,6 +168,11 @@ export class Editor {
     return this
   }
 
+  readonly removeConfig = (configure: CtxHandler) => {
+    this.#configureList = this.#configureList.filter(x => x !== configure)
+    return this
+  }
+
   /**
    * Call when editor status changed.
    *

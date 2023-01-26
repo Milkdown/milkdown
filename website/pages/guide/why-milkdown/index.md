@@ -27,4 +27,4 @@ What's more, plugins in prosemirror and remark community can be easily reused to
 
 ## Themable & Hackable
 
-Themes and plugins for Milkdown can be shared and installed using npm packages. Milkdown also support headless mode, which meas you can fully control the style yourself.
+Themes and plugins for Milkdown can be shared and installed using npm packages. Milkdown is an headless component, which meas you can fully control the style.
