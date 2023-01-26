@@ -1,13 +1,8 @@
 # Styling
 
-Milkdown is headless, there is no style is provided by default. That means you can import themes or even create your own themes to control the style of your editor.
+Milkdown is headless, there is no style provided by default. That means you can import themes or even create your own themes to control the style of your editor.
 
-## Modify a existing theme
-
-All themes have an `override` method that can be used to modify the theme.
-Please check [Override Theme Documentation](/using-themes#override-theme) if you want to use it.
-
-## Style the plain HTML
+## Styling the plain HTML
 
 The whole editor is rendered inside of a container with the class `.milkdown`. And the editable part is wrapped in the container with the class `editor`. You can use that to scope your styling to the editor content:
 
@@ -25,45 +20,61 @@ For every node/mark, milkdown provides a default className, for example, `paragr
 }
 ```
 
-## Add custom class name
+## Adding custom attributes
 
-You can also use `configure` method to add class to node/mark. In this way, you can use css tools like `tailwind` css.
+You can also add attributes to node/mark. In this way, you can use css libraries such as [tailwind css](https://tailwindcss.com/).
 
 ```typescript
-import { commonmark, heading, paragraph } from '@milkdown/preset-commonmark';
+import { Editor, editorViewOptionsCtx } from '@milkdown/core';
+import { commonmark, headingAttr, paragraphAttr } from '@milkdown/preset-commonmark';
 
-const nodes = commonmark
-    .configure(paragraph, {
-        className: () => 'my-custom-paragraph',
+Editor
+  .make()
+  .config((ctx) => {
+    // Add attributes to the editor container
+    ctx.update(editorViewOptionsCtx, (prev) => ({
+      ...prev,
+      attributes: { class: 'milkdown-editor mx-auto outline-none', spellcheck: 'false' },
+    }))
+
+    // Add attributes to nodes and marks
+    ctx.set(headingAttr, (node) => {
+      const level = node.attrs.level;
+      if (level === 1) return { class: 'text-4xl', data-el-type: 'h1' };
+      if (level === 2) return { class: 'text-3xl', data-el-type: 'h2' };
+      // ...
     })
-    .configure(heading, {
-        className: (attrs) => `my-custom-heading my-h${attrs.level}`,
-    });
-
-Editor.make().use(nodes);
+    ctx.set(paragraphAttr, () => ({ class: 'text-lg' }));
+  })
+  .use(commonmark)
 ```
 
 ## Writing you own theme
 
-It's possible to write your own theme. Please check the [writing themes documentation](/writing-themes).
-
-## Headless Mode
-
-For some plugins with components, we provide styles for it to make it can work out of the box.
-We also provide a headless mode for them which means you can remove their style and use your own.
-
-You can simply call `headless` method for plugins which support this mode.
+It's possible to write your own theme. Generally speaking, themes are defined by the two ways above:
+Some configs to add attributes, and some css to style them.
 
 ```typescript
-import { math } from '@milkdown/plugin-math';
+import { Ctx } from '@milkdown/core';
 
-Editor.make().use(math.headless());
+// You should import these predefined prosemirror css styles.
+import 'prosemirror-view/style/prosemirror.css'
+
+// If you need to style tables, you should import this css file.
+import 'prosemirror-tables/style/tables.css'
+
+// You css file.
+import './my-theme.css'
+
+// You config.
+export const myThemeConfig = (ctx: Ctx) => {
+  ctx.update(editorViewOptionsCtx, (prev) => ({
+    ...prev,
+    attributes: {
+      class: 'milkdown milkdown-theme-my-theme',
+    },
+  }))
+}
 ```
 
-Plugins supports this mode:
-
--   [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)
--   [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)
--   [@milkdown/plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)
--   [@milkdown/plugin-emoji](https://www.npmjs.com/package/@milkdown/plugin-emoji)
--   [@milkdown/plugin-menu](https://www.npmjs.com/package/@milkdown/plugin-menu)
+You can view the source code of [@milkdown/theme-nord](https://github.com/Saul-Mirone/milkdown/tree/main/packages/theme-nord) to get some inspirations.

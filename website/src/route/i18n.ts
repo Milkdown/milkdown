@@ -66,13 +66,6 @@ export const i18nDict: Dict = new Map([
     },
   ],
   [
-    'i18n',
-    {
-      'en': 'I18n',
-      'zh-hans': 'I18n',
-    },
-  ],
-  [
     'faq',
     {
       'en': 'FAQ',

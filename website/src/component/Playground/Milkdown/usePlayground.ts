@@ -153,14 +153,14 @@ export const usePlayground = (
     const editor = Editor
       .make()
       .config((ctx) => {
-        ctx.set(editorViewOptionsCtx, ({
+        ctx.update(editorViewOptionsCtx, prev => ({
+          ...prev,
           attributes: {
             class: 'mx-auto p-1 box-border',
           },
         }))
         ctx.set(rootCtx, root)
         ctx.set(defaultValueCtx, defaultValueRef.current)
-        ctx.update(editorViewOptionsCtx, prev => ({ ...prev }))
         ctx.get(listenerCtx)
           .markdownUpdated((_, markdown) => {
             debounce(onChange, 500)(markdown)

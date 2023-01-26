@@ -114,7 +114,3 @@ collabService
 
 Here the nodes we get are [prosemirror node](https://prosemirror.net/docs/ref/#model.Node).
 You should return `true` if the template should be applied, and `false` if not.
-
-# Example
-
-!StackBlitz{milkdown-collab}
