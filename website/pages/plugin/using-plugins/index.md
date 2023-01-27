@@ -1,17 +1,49 @@
 # Using Plugins
 
-All features in milkdown are supported by plugin.
-Such as syntax, components, themes, etc.
+All features in milkdown are provided by plugin.
+Such as syntax, components, etc.
 Now we can try more plugins:
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { nord } from '@milkdown/theme-nord';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { slash } from '@milkdown/plugin-slash';
 
-Editor.make().use(commonmark).use(tooltip).use(slash).use(nord).create();
+Editor
+  .make()
+  .use(commonmark)
+  .use(tooltip)
+  .use(slash)
+  .create();
+```
+
+---
+
+## Toggling Plugins
+
+You can also toggle plugins programmatically:
+
+```typescript
+import { Editor } from '@milkdown/core';
+import { someMilkdownPlugin } from 'some-milkdown-plugin';
+
+const editor = await Editor
+  .config(configForPlugin)
+  .use(someMilkdownPlugin)
+  .create();
+
+// remove plugin
+await editor.remove(someMilkdownPlugin);
+
+// remove config
+editor.removeConfig(configForPlugin);
+
+// add another plugin
+editor.use(anotherMilkdownPlugin)
+
+// Recreate the editor to apply changes.
+await editor.create();
 ```
 
 ---
@@ -20,25 +52,54 @@ Editor.make().use(commonmark).use(tooltip).use(slash).use(nord).create();
 
 Milkdown provides the following official plugins:
 
-| name                                                                                           | description                                                            |
-| :--------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------- |
-| [@milkdown/preset-commonmark](https://www.npmjs.com/package/@milkdown/preset-commonmark)       | Add [commonmark](https://commonmark.org/) syntax support               |
-| [@milkdown/preset-gfm](https://www.npmjs.com/package/@milkdown/preset-gfm)                     | Add [gfm](https://github.github.com/gfm/) syntax support               |
-| [@milkdown/plugin-history](https://www.npmjs.com/package/@milkdown/plugin-history)             | Add undo & redo support                                                |
-| [@milkdown/plugin-clipboard](https://www.npmjs.com/package/@milkdown/plugin-clipboard)         | Add markdown copy & paste support                                      |
-| [@milkdown/plugin-cursor](https://www.npmjs.com/package/@milkdown/plugin-cursor)               | Add drop & gap cursor                                                  |
-| [@milkdown/plugin-listener](https://www.npmjs.com/package/@milkdown/plugin-listener)           | Add listener support                                                   |
-| [@milkdown/plugin-collaborative](https://www.npmjs.com/package/@milkdown/plugin-collaborative) | Add collaborative editing support                                      |
-| [@milkdown/plugin-prism](https://www.npmjs.com/package/@milkdown/plugin-prism)                 | Add [prism](https://prismjs.com/) support for code block highlight     |
-| [@milkdown/plugin-math](https://www.npmjs.com/package/@milkdown/plugin-math)                   | Add [LaTeX](https://en.wikipedia.org/wiki/LaTeX) support for math      |
-| [@milkdown/plugin-tooltip](https://www.npmjs.com/package/@milkdown/plugin-tooltip)             | Add selected tooltip for text                                          |
-| [@milkdown/plugin-slash](https://www.npmjs.com/package/@milkdown/plugin-slash)                 | Add slash commands support                                             |
-| [@milkdown/plugin-emoji](https://www.npmjs.com/package/@milkdown/plugin-emoji)                 | Add emoji support                                                      |
-| [@milkdown/plugin-diagram](https://www.npmjs.com/package/@milkdown/plugin-diagram)             | Add [mermaid](https://mermaid-js.github.io/mermaid/#/) diagram support |
-| [@milkdown/plugin-indent](https://www.npmjs.com/package/@milkdown/plugin-indent)               | Add tab indent support                                                 |
-| [@milkdown/plugin-upload](https://www.npmjs.com/package/@milkdown/plugin-upload)               | Add drop and upload support                                            |
-| [@milkdown/plugin-block](https://www.npmjs.com/package/@milkdown/plugin-block)                 | Add block support                                                      |
+* [@milkdown/preset-commonmark](/preset-commonmark):
+   Add [commonmark](https://commonmark.org/) syntax support
+
+* [@milkdown/preset-gfm](/preset-gfm)
+  Add [gfm](https://github.github.com/gfm/) syntax support
+
+* [@milkdown/plugin-history](/plugin-history)
+  Add undo & redo support
+
+* [@milkdown/plugin-clipboard](/plugin-clipboard)
+  Add markdown copy & paste support
+
+* [@milkdown/plugin-cursor](/plugin-cursor)
+  Add drop & gap cursor
+
+* [@milkdown/plugin-listener](/plugin-listener)
+  Add listener support
+
+* [@milkdown/plugin-collaborative](/plugin-collaborative)
+  Add collaborative editing support, powered by [yjs]()
+
+* [@milkdown/plugin-prism](/plugin-prism)
+  Add [prism](https://prismjs.com/) support for code block highlight
+
+* [@milkdown/plugin-math](/plugin-math)
+  Add [LaTeX](https://en.wikipedia.org/wiki/LaTeX) support for math, powered by [Katex]()
+
+* [@milkdown/plugin-tooltip](/plugin-tooltip)
+  Add selected tooltip for text
+
+* [@milkdown/plugin-slash](/plugin-slash)
+  Add slash commands support
+
+* [@milkdown/plugin-emoji](/plugin-emoji)
+  Add emoji support
+
+* [@milkdown/plugin-diagram](/plugin-diagram)
+  Add [mermaid](https://mermaid-js.github.io/mermaid/#/) diagram support
+
+* [@milkdown/plugin-indent](/plugin-indent)
+  Add tab indent support
+
+* [@milkdown/plugin-upload](/plugin-upload)
+  Add drop and upload support
+
+* [@milkdown/plugin-block](/plugin-block)
+  Add block support
 
 ## Community plugins
 
-Check out [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) to find community plugins - you can also submit a PR to list your plugins there.
+Check out [awesome-milkdown](https://github.com/Saul-Mirone/awesome-milkdown) to find community plugins. You can also submit a PR to list your plugins there.

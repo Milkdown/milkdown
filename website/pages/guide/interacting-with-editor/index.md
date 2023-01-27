@@ -282,28 +282,3 @@ If you want to **clear the plugins and configs for the editor** when calling `ed
 ```typescript
 await editor.destroy(true);
 ```
-
----
-
-## Changing Plugins
-
-You can also change plugins for editor in runtime:
-
-```typescript
-import { Editor } from '@milkdown/core';
-import { someMilkdownPlugin } from 'some-milkdown-plugin';
-
-const editor = await Editor.config(configForPlugin).use(someMilkdownPlugin).use(/* some other plugin */).create();
-
-// remove plugin
-await editor.remove(someMilkdownPlugin);
-
-// remove config
-editor.removeConfig(configForPlugin);
-
-// add another plugin
-editor.use(anotherMilkdownPlugin)
-
-// Recreate the editor to apply changes.
-await editor.create();
-```
