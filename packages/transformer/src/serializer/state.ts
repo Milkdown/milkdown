@@ -42,7 +42,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   }
 
   #runProseMark = (mark: Mark, node: Node) => {
-    const type = this.#matchTarget(node)
+    const type = this.#matchTarget(mark)
     const spec = type.spec as MarkSchema
     return spec.toMarkdown.runner(this, mark, node)
   }
@@ -210,21 +210,26 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     const isIn = mark.isInSet(this.#marks)
 
     if (isIn)
-      return
+      return this
 
     this.#marks = mark.addToSet(this.#marks)
-    this.openNode(type, value, { ...props, isMark: true })
+    return this.openNode(type, value, { ...props, isMark: true })
+  }
+
+  #closeMark = (mark: Mark): void => {
+    const isIn = mark.isInSet(this.#marks)
+
+    if (!isIn)
+      return
+
+    this.#marks = mark.type.removeFromSet(this.#marks)
+    this.#closeNodeAndPush()
+  }
+
+  withMark = (mark: Mark, type: string, value?: string, props?: JSONRecord) => {
+    this.#openMark(mark, type, value, props)
     return this
   }
-
-  #closeMark = (mark: Mark): MarkdownNode | null => {
-    if (!mark.isInSet(this.#marks))
-      return null
-    this.#marks = mark.type.removeFromSet(this.#marks)
-    return this.#closeNodeAndPush()
-  }
-
-  withMark = this.#openMark
 
   build = (): Root => {
     let doc: Root | null = null
