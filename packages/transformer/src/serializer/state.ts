@@ -16,14 +16,14 @@ const isFragment = (x: Node | Fragment): x is Fragment => Object.prototype.hasOw
  */
 export class SerializerState extends Stack<MarkdownNode, SerializerStackElement> {
   #marks: readonly Mark[] = Mark.none
-  readonly #schema: Schema
+  readonly schema: Schema
   constructor(schema: Schema) {
     super()
-    this.#schema = schema
+    this.schema = schema
   }
 
   #matchTarget = (node: Node | Mark): NodeType | MarkType => {
-    const result = Object.values({ ...this.#schema.nodes, ...this.#schema.marks })
+    const result = Object.values({ ...this.schema.nodes, ...this.schema.marks })
       .find((x): x is (NodeType | MarkType) => {
         const spec = x.spec as NodeSchema | MarkSchema
         return spec.toMarkdown.match(node as Node & Mark)
@@ -55,7 +55,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     if (unPreventNext)
       this.#runProseNode(node)
 
-    marks.forEach(mark => this.closeMark(mark))
+    marks.forEach(mark => this.#closeMark(mark))
   }
 
   #searchType = (child: MarkdownNode, type: string): MarkdownNode => {
@@ -184,19 +184,29 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     return this
   }
 
-  addNode = (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord): MarkdownNode => {
+  #addNodeAndPush = (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord): MarkdownNode => {
     const element = SerializerStackElement.create(type, children, value, props)
     const node: MarkdownNode = this.#maybeMergeChildren(this.#createMarkdownNode(element))
     this.push(node)
     return node
   }
 
-  closeNode = (): MarkdownNode => {
-    const element = this.close()
-    return this.addNode(element.type, element.children, element.value, element.props)
+  addNode = (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord) => {
+    this.#addNodeAndPush(type, children, value, props)
+    return this
   }
 
-  openMark = (mark: Mark, type: string, value?: string, props?: JSONRecord) => {
+  #closeNodeAndPush = (): MarkdownNode => {
+    const element = this.close()
+    return this.#addNodeAndPush(element.type, element.children, element.value, element.props)
+  }
+
+  closeNode = () => {
+    this.#closeNodeAndPush()
+    return this
+  }
+
+  #openMark = (mark: Mark, type: string, value?: string, props?: JSONRecord) => {
     const isIn = mark.isInSet(this.#marks)
 
     if (isIn)
@@ -207,18 +217,20 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     return this
   }
 
-  closeMark = (mark: Mark): MarkdownNode | null => {
+  #closeMark = (mark: Mark): MarkdownNode | null => {
     if (!mark.isInSet(this.#marks))
       return null
     this.#marks = mark.type.removeFromSet(this.#marks)
-    return this.closeNode()
+    return this.#closeNodeAndPush()
   }
+
+  withMark = this.#openMark
 
   build = (): Root => {
     let doc: Root | null = null
     do
-      doc = this.closeNode() as Root
-    while (this.size)
+      doc = this.#closeNodeAndPush() as Root
+    while (this.size())
 
     return doc
   }
