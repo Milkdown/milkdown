@@ -157,13 +157,6 @@ export const i18nDict: Dict = new Map([
     },
   ],
   [
-    'plugin-factories',
-    {
-      'en': 'Plugin Factories',
-      'zh-hans': '插件工厂',
-    },
-  ],
-  [
     'composable-plugins',
     {
       'en': 'Composable Plugins',

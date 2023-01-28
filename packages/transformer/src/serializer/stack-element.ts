@@ -1,38 +1,31 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MarkdownNode } from '..'
 import type { JSONRecord } from '../utility'
+import { StackElement } from '../utility'
 
-export interface StackElement {
-  type: string
-  value?: string
-  props: JSONRecord
-  children?: MarkdownNode[]
-  push: (node: MarkdownNode, ...rest: MarkdownNode[]) => void
-  pop: () => MarkdownNode | undefined
-}
-
-const pushElement = (element: StackElement, node: MarkdownNode, ...rest: MarkdownNode[]) => {
-  if (!element.children)
-    element.children = []
-
-  element.children.push(node, ...rest)
-}
-
-const popElement = (element: StackElement): MarkdownNode | undefined => element.children?.pop()
-
-export const createElement = (
-  type: string,
-  children?: MarkdownNode[],
-  value?: string,
-  props: JSONRecord = {},
-): StackElement => {
-  const element: StackElement = {
-    type,
-    children,
-    props,
-    value,
-    push: (...args) => pushElement(element, ...args),
-    pop: () => popElement(element),
+export class SerializerStackElement extends StackElement<MarkdownNode> {
+  constructor(
+    public type: string,
+    public children?: MarkdownNode[],
+    public value?: string,
+    public props: JSONRecord = {},
+  ) {
+    super()
   }
-  return element
+
+  static create = (
+    type: string,
+    children?: MarkdownNode[],
+    value?: string,
+    props: JSONRecord = {},
+  ) => new SerializerStackElement(type, children, value, props)
+
+  push = (node: MarkdownNode, ...rest: MarkdownNode[]) => {
+    if (!this.children)
+      this.children = []
+
+    this.children.push(node, ...rest)
+  }
+
+  pop = (): MarkdownNode | undefined => this.children?.pop()
 }

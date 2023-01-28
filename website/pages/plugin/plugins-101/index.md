@@ -15,14 +15,18 @@ const myPlugin: MilkdownPlugin = (pre) => {
     // #1 prepare plugin
     return async (ctx) => {
         // #2 run plugin
+        return async (post) => {
+          // #3 clean up plugin
+        }
     };
 };
 ```
 
-Each plugin has two parts:
+Each plugin is composed by three parts:
 
 1. _Prepare_: this part will be executed when plugin is registered in milkdown by `.use` method.
 2. _Run_: this part will be executed when plugin is actually loaded.
+3. _Post_: this part will be executed when plugin is removed by `.remove` method or editor is destroyed.
 
 ## Timer
 
@@ -55,16 +59,26 @@ import { MilkdownPlugin, editorStateTimerCtx, defaultValueCtx, createTimer } fro
 const RemoteTimer = createTimer('RemoteTimer');
 
 const remotePlugin: MilkdownPlugin = (pre) => {
-    pre.record(RemoteTimer);
+  // register timer
+  pre.record(RemoteTimer);
 
-    return async (ctx) => {
-        ctx.update(editorStateTimerCtx, (timers) => timers.concat(RemoteTimer));
+  return async (ctx) => {
+    // the editorState plugin will wait for this timer to finish before initialize editor state.
+    ctx.update(editorStateTimerCtx, (timers) => timers.concat(RemoteTimer));
 
-        const defaultMarkdown = await fetchMarkdownAPI();
-        ctx.set(defaultValueCtx, defaultMarkdown);
+    const defaultMarkdown = await fetchMarkdownAPI();
+    ctx.set(defaultValueCtx, defaultMarkdown);
 
-        ctx.done(RemoteTimer);
-    };
+    // mark timer as complete
+    ctx.done(RemoteTimer);
+
+    return async (post) => {
+      await SomeAPI();
+
+      // remove timer when plugin is removed
+      post.clearTimer(RemoteTimer);
+    }
+  };
 };
 ```
 
@@ -77,7 +91,8 @@ It has following steps:
 ## Ctx
 
 We have used `ctx` several times in the above example, now we can try to understand what it is.
-Ctx is a piece of data that can be shared in the entire editor instance.
+
+Ctx is a data container which is shared in the entire editor instance. It's composed by a lot of slices. Every `slice` has a unique key and a value. You can change the value of a slice by `ctx.set` and `ctx.update`. And you can get the value of a slice by `ctx.get` with the slice key or name. Last but not least, you can remove a slice by `post.remove`.
 
 ```typescript
 import { MilkdownPlugin, createSlice } from '@milkdown/core';
@@ -104,6 +119,11 @@ const counterPlugin: MilkdownPlugin = (pre) => {
         const count2 = ctx.get(counterCtx);
         // we can also get value by the slice name
         const count3 = ctx.get('counter');
+
+        return (post) => {
+          // remove the slice
+          post.remove(counterCtx);
+        }
     };
 };
 ```
@@ -132,3 +152,11 @@ const examplePlugin: MilkdownPlugin = (pre) => {
 ```
 
 With this pattern, if other plugins want to delay the process of `examplePlugin`, all they need to do is just add a timer into `examplePluginTimersCtx` with `ctx.update`.
+
+## Summary
+
+Now let's go back to the plugin structure. Since we have the knowledge of `timer` and `ctx`, we can understand what we should do in each part of a plugin.
+
+1. In `prepare` stage of the plugin, we can use `pre.record` to register a timer, and use `pre.inject` to inject a slice.
+2. In `run` stage of the plugin, we can use `ctx.wait` to wait a timer to finish, and use `ctx.get` to get the value of a slice. We can also change values of slices by `ctx.set` and `ctx.update`. And we can use `ctx.done` to mark a timer as complete.
+3. In `post` stage of the plugin, we can use `post.clearTimer` to clear a timer, and use `post.remove` to remove a slice.

@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { Attrs, Ctx } from '@milkdown/core'
+import type { Ctx } from '@milkdown/core'
 import { editorViewCtx } from '@milkdown/core'
+import type { Attrs } from '@milkdown/prose/model'
 
 export const setAttr = (pos: number, update: (prevAttrs: Attrs) => Attrs) => (ctx: Ctx) => {
   const view = ctx.get(editorViewCtx)

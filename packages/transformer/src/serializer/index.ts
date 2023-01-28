@@ -2,13 +2,11 @@
 import type { Node, Schema } from '@milkdown/prose/model'
 
 import type { RemarkParser } from '../utility'
-import { createStack } from './stack'
-import { State } from './state'
-import type { InnerSerializerSpecMap } from './types'
+import { SerializerState } from './state'
 
 export const createSerializer
-    = (schema: Schema, specMap: InnerSerializerSpecMap, remark: RemarkParser) => (content: Node) => {
-      const state = new State(createStack(), schema, specMap)
+    = (schema: Schema, remark: RemarkParser) => (content: Node) => {
+      const state = new SerializerState(schema)
       state.run(content)
       return state.toString(remark)
     }

@@ -1,25 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MarkType, NodeType } from '@milkdown/prose/model'
-import type { Node } from 'unist'
+import type { MarkdownNode } from '../utility/types'
 
-import type { State } from './state'
+import type { ParserState } from './state'
 
-export type Attrs = Record<string, string | number | boolean | null>
-export type MarkdownNode = Node & { children?: MarkdownNode[]; [x: string]: unknown }
-
-export type ParserRunner<T extends NodeType | MarkType = NodeType | MarkType> = (
-  state: State,
-  Node: MarkdownNode,
-  proseType: T,
-) => void
-export interface ParserSpec<T extends NodeType | MarkType = NodeType | MarkType> {
+export type NodeParserSpec = {
   match: (node: MarkdownNode) => boolean
-  runner: ParserRunner<T>
+  runner: (state: ParserState, node: MarkdownNode, proseType: NodeType) => void
 }
-export type NodeParserSpec = ParserSpec<NodeType>
-export type MarkParserSpec = ParserSpec<MarkType>
-
-export type ParserSpecWithType =
-    | (NodeParserSpec & { is: 'node'; key: string })
-    | (MarkParserSpec & { is: 'mark'; key: string })
-export type InnerParserSpecMap = Record<string, ParserSpecWithType>
+export type MarkParserSpec = {
+  match: (node: MarkdownNode) => boolean
+  runner: (state: ParserState, node: MarkdownNode, proseType: MarkType) => void
+}
