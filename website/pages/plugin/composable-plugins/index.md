@@ -1,181 +1,54 @@
 # Composable Plugins
 
-Plugin factories are really powerful. But they might be too heavy for some uses cases.
-For example, if you just want to create a simple wrapper for a existing prosemirror plugin.
-Or if you want to create some small pieces too make some complex plugins.
+In the previous section, we showed you how to create a plugin from scratch. Luckily, you don't need to do that in most cases. Milkdown provides a lot of helpers in [@milkdown/utils](/utils) to make it easier to create plugins. The **composable** here means that you can use the plugin in other plugins. For example, you can use a command plugin in a keymap plugin. This is a very common pattern in Milkdown.
 
-That's why we provides composable plugin API.
-It's designed to make it possible to create simple plugins that can be composed with each other plugins.
+## Schema
 
-## Remark Plugin
+The schema plugin is the most important plugin in Milkdown. It defines the structure of the document. A schema plugin in milkdown is a super set of the [node schema spec](https://prosemirror.net/docs/ref/#model.NodeSpec) or [mark schema spec](https://prosemirror.net/docs/ref/#model.MarkSpec) in ProseMirror.
 
-```typescript
-import { $remark } from '@milkdown/utils';
-
-const myRemarkPlugin = $remark((ctx) => remarkPlugin);
-
-Editor.use(myRemarkPlugin);
-```
-
-After created by `$remark`, the remark plugin has metadata on it:
-
--   plugin: The original remark plugin.
-
-## Node & Mark
+Let's create a simple blockquote node plugin as an example:
 
 ```typescript
 import { $node } from '@milkdown/utils';
 
-const myNode = $node('my-node', (ctx) => {
-    return {
-        atom: true,
-        toDOM: () => ['my-node'],
-        parseDOM: [{ tag: 'my-node' }],
-        toMarkdown: {
-            //...
-        },
-        parseMarkdown: {
-            //...
-        },
-    };
-});
-
-const myMark = $mark('my-mark', (ctx) => {
-    return {
-        /* mark schema */
-    };
-});
-
-Editor.use(myNode).use(myMark);
+const blockquote = $node('blockquote', () => ({
+  content: 'block+',
+  group: 'block',
+  defining: true,
+  parseDOM: [{ tag: 'blockquote' }],
+  toDOM: node => ['blockquote', ctx.get(blockquoteAttr.key)(node), 0],
+  parseMarkdown: {
+    match: ({ type }) => type === 'blockquote',
+    runner: (state, node, type) => {
+      state.openNode(type).next(node.children).closeNode()
+    },
+  },
+  toMarkdown: {
+    match: node => node.type.name === 'blockquote',
+    runner: (state, node) => {
+      state.openNode('blockquote').next(node.content).closeNode()
+    },
+  },
+}));
 ```
 
-Nodes and marks created by `$node` and `$mark` has metadata on it:
+It contains a lot of code, but don't worry, we will explain it one by one.
 
--   id: The id of the node or mark.
--   type: The prosemirror node type or mark type.
--   schema: The original schema of the node or mark.
+1. The first argument of `$node` is the node id.
+2. The second argument is a function that returns a node schema spec.
 
-## InputRule
+### Schema Spec
 
-```typescript
-import { $inputRule } from '@milkdown/utils';
-import { schemaCtx } from '@milkdown/core';
-import { wrappingInputRule } from '@milkdown/prose/inputrules';
+A schema spec is an object that contains the following properties:
 
-const myNode = $node(/* ... */);
+#### 1. `parseDOM` and `toDOM`
 
-const inputRule1 = $inputRule((ctx) => {
-    return wrappingInputRule(/^\[my-node\]/, myNode.type);
-});
+`parseDOM` is used to parse the DOM node to the node in the editor. It should be an array of objects. You can view the API of it in the [ProseMirror ParseRule](https://prosemirror.net/docs/ref/#model.ParseRule).
 
-const inputRule2 = $inputRule((ctx) => {
-    return wrappingInputRule(/^\[my-node\]/, ctx.get(schemaCtx).nodes['my-node'].type);
-});
-```
+`toDOM` is used to convert the node in the editor to a DOM node. It should be a function that returns an array. You can view the API of it in the [ProseMirror DOMOutputSpec](https://prosemirror.net/docs/ref/#model.DOMOutputSpec).
 
-After created by `$inputRule`, the input rule has metadata on it:
+#### 2. `parseMarkdown` and `toMarkdown`
 
--   inputRule: The original input rule.
+#### 3. Other Properties
 
-## Command
-
-```typescript
-import { $command } from '@milkdown/utils';
-import { createCmd, createCmdKey } from '@milkdown/core';
-import { wrapIn } from '@milkdown/prose/command';
-
-const myNode = $node(/* ... */);
-
-export const WrapInMyBlock = createCmdKey<number>();
-
-const myCommand = $command((ctx) => {
-    return createCmd(WrapInMyBlock, (level = 1) => wrapIn(myNode.type, level));
-});
-```
-
-After created by `$command`, the command has metadata on it:
-
--   run: To run the created command.
-    For example: `myCommand.run(1)` will wrap the current selection with `myNode.type` with level 1.
--   key: The key of the command.
-    For example: `myCommand.key` will return `WrapInMyBlock`.
-
-## Shortcut
-
-```typescript
-import { $shortcut } from '@milkdown/utils';
-
-const myCommand = $command(/* ... */);
-
-const myShortcut = $shortcut((ctx) => {
-    return {
-        'Mod-Alt-1': () => myCommand.run(1),
-        'Mod-Alt-2': () => myCommand.run(2),
-    };
-});
-```
-
-After created by `$shortcut`, the shortcut has metadata on it:
-
--   keymap: The shortcut keymap.
-
-## Prosemirror Plugin
-
-```typescript
-import { $prose } from '@milkdown/utils';
-import { Plugin } from '@milkdown/prose/state';
-
-const myProsePlugin = $prose((ctx) => {
-    return new Plugin({
-        //...
-    });
-});
-```
-
-After created by `$prose`, the prosemirror plugin has metadata on it:
-
--   plugin: The original prosemirror plugin.
-
-## View
-
-```typescript
-import { $view } from '@milkdown/utils';
-
-const myNode = $node(/* ... */);
-
-const myNodeView = $view(myNode, (ctx) => {
-    return (node, view, getPos, decorations) => {
-        return nodeViewImpl;
-    };
-});
-```
-
-After created by `$view`, the view has metadata on it:
-
--   type: The original `$node` or `$mark` for the view that passed in as the first parameter.
--   view: The original view.
-
-## Promise Support
-
-For every composable plugin API, there will be an `async` version for it to add promise support,
-
-For example:
-
-```typescript
-import { $prose, $proseAsync } from '@milkdown/utils';
-import { Plugin } from '@milkdown/prose/state';
-
-const myProsePlugin = $prose((ctx) => {
-    return new Plugin({
-        //...
-    });
-});
-
-const myAsyncProsePlugin = $proseAsync(async (ctx) => {
-    await somePromise();
-
-    return new Plugin({
-        //...
-    });
-});
-```
+Other properties are the same as the node/mark spec in ProseMirror. They are used to define the structure of the node/mark. You can view the API of it in the [ProseMirror NodeSpec](https://prosemirror.net/docs/ref/#model.NodeSpec) and [ProseMirror MarkSpec](https://prosemirror.net/docs/ref/#model.MarkSpec).

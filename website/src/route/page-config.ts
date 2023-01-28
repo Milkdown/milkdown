@@ -25,7 +25,6 @@ export const config: ConfigItem[] = [
     items: [
       'using-plugins',
       'plugins-101',
-      'plugin-factories',
       'composable-plugins',
       'example-iframe-plugin',
       'internal-plugins',
@@ -34,6 +33,7 @@ export const config: ConfigItem[] = [
   {
     dir: 'api',
     items: [
+      'core',
       'preset-commonmark',
       'preset-gfm',
       'plugin-listener',
