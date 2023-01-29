@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin, Timer } from '@milkdown/ctx'
+import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { docTypeError } from '@milkdown/exception'
 import { customInputRules as createInputRules } from '@milkdown/prose'
@@ -24,7 +24,7 @@ type StateOptionsOverride = (prev: StateOptions) => StateOptions
 export const defaultValueCtx = createSlice('' as DefaultValue, 'defaultValue')
 export const editorStateCtx = createSlice({} as EditorState, 'editorState')
 export const editorStateOptionsCtx = createSlice<StateOptionsOverride>(x => x, 'stateOptions')
-export const editorStateTimerCtx = createSlice([] as Timer[], 'editorStateTimer')
+export const editorStateTimerCtx = createSlice([] as TimerType[], 'editorStateTimer')
 
 export const EditorStateReady = createTimer('EditorStateReady')
 
@@ -43,14 +43,14 @@ export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schem
   throw docTypeError(defaultValue)
 }
 
-export const editorState: MilkdownPlugin = (pre) => {
-  pre.inject(defaultValueCtx)
+export const editorState: MilkdownPlugin = (ctx) => {
+  ctx.inject(defaultValueCtx)
     .inject(editorStateCtx)
     .inject(editorStateOptionsCtx)
     .inject(editorStateTimerCtx, [ParserReady, SerializerReady, CommandsReady])
     .record(EditorStateReady)
 
-  return async (ctx) => {
+  return async () => {
     await ctx.waitTimers(editorStateTimerCtx)
 
     const schema = ctx.get(schemaCtx)
@@ -90,8 +90,8 @@ export const editorState: MilkdownPlugin = (pre) => {
     ctx.set(editorStateCtx, state)
     ctx.done(EditorStateReady)
 
-    return (post) => {
-      post.remove(defaultValueCtx)
+    return () => {
+      ctx.remove(defaultValueCtx)
         .remove(editorStateCtx)
         .remove(editorStateOptionsCtx)
         .remove(editorStateTimerCtx)

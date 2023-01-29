@@ -13,7 +13,7 @@ export type $Command<T> = MilkdownPlugin & {
 export const $command = <T, K extends string>(key: K, cmd: (ctx: Ctx) => Cmd<T>): $Command<T> => {
   const cmdKey = createCmdKey<T>(key)
 
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     (<$Command<T>>plugin).key = cmdKey
     await ctx.wait(SchemaReady)
     const command = cmd(ctx)

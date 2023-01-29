@@ -23,7 +23,7 @@ export type $Node = MilkdownPlugin & {
 
 export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
   let nodeType: NodeType | undefined
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     const nodeSchema = schema(ctx)
     ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]]);
 

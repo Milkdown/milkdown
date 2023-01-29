@@ -1,37 +1,40 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { contextNotFound } from '@milkdown/exception'
 
-import type { $Slice, Slice } from './slice'
+import type { Slice, SliceType } from './slice'
 
-export interface Container {
-  readonly sliceMap: Map<symbol, $Slice>
-  readonly getSlice: <T, N extends string = string>(slice: Slice<T, N> | N) => $Slice<T, N>
-  readonly removeSlice: <T, N extends string = string>(slice: Slice<T, N> | N) => void
-}
+export type SliceMap = Map<symbol, Slice>
 
-export const createContainer = (): Container => {
-  const sliceMap: Map<symbol, $Slice> = new Map()
+export class Container {
+  sliceMap: SliceMap = new Map()
 
-  const getSlice = <T, N extends string = string>(slice: Slice<T, N> | N): $Slice<T, N> => {
-    const context
-      = typeof slice === 'string' ? [...sliceMap.values()].find(x => x.name === slice) : sliceMap.get(slice.id)
+  get = <T, N extends string = string>(slice: SliceType<T, N> | N): Slice<T, N> => {
+    const context = typeof slice === 'string'
+      ? [...this.sliceMap.values()].find(x => x.type.name === slice)
+      : this.sliceMap.get(slice.id)
 
     if (!context) {
-      const name = typeof slice === 'string' ? slice : slice.sliceName
+      const name = typeof slice === 'string' ? slice : slice.name
       throw contextNotFound(name)
     }
-    return context as $Slice<T, N>
+    return context as Slice<T, N>
   }
 
-  const removeSlice = <T, N extends string = string>(slice: Slice<T, N> | N): void => {
-    const context
-      = typeof slice === 'string' ? [...sliceMap.values()].find(x => x.name === slice) : sliceMap.get(slice.id)
+  has = <T, N extends string = string>(slice: SliceType<T, N> | N): boolean => {
+    if (typeof slice === 'string')
+      return [...this.sliceMap.values()].some(x => x.type.name === slice)
+
+    return this.sliceMap.has(slice.id)
+  }
+
+  remove = <T, N extends string = string>(slice: SliceType<T, N> | N): void => {
+    const context = typeof slice === 'string'
+      ? [...this.sliceMap.values()].find(x => x.type.name === slice)
+      : this.sliceMap.get(slice.id)
 
     if (!context)
       return
 
-    sliceMap.delete(context.id)
+    this.sliceMap.delete(context.type.id)
   }
-
-  return { sliceMap, getSlice, removeSlice }
 }

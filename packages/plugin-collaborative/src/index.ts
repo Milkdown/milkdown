@@ -10,13 +10,16 @@ import { CollabService } from './collab-service'
 export const collabServiceCtx = createSlice(new CollabService(), 'collabServiceCtx')
 export const CollabReady = createTimer('CollabReady')
 
-export const collaborative: MilkdownPlugin = (pre) => {
+export const collaborative: MilkdownPlugin = (ctx) => {
   const collabService = new CollabService()
-  pre.inject(collabServiceCtx, collabService).record(CollabReady)
-  return async (ctx) => {
+  ctx.inject(collabServiceCtx, collabService).record(CollabReady)
+  return async () => {
     await ctx.wait(EditorViewReady)
     collabService.bindCtx(ctx)
     ctx.done(CollabReady)
+    return () => {
+      ctx.remove(collabServiceCtx).clearTimer(CollabReady)
+    }
   }
 }
 

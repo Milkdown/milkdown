@@ -23,7 +23,7 @@ export type $Mark = MilkdownPlugin & {
 
 export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
   let markType: MarkType | undefined
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     const markSchema = schema(ctx)
     ctx.update(marksCtx, ns => [...ns.filter(n => n[0] !== id), [id, markSchema] as [string, MarkSchema]]);
 

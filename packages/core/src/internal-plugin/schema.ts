@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin, Timer } from '@milkdown/ctx'
+import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { Schema } from '@milkdown/prose/model'
 import type {
@@ -11,7 +11,7 @@ import { InitReady, remarkCtx, remarkPluginsCtx } from '.'
 export const SchemaReady = createTimer('schemaReady')
 
 export const schemaCtx = createSlice({} as Schema, 'schema')
-export const schemaTimerCtx = createSlice([] as Timer[], 'schemaTimer')
+export const schemaTimerCtx = createSlice([] as TimerType[], 'schemaTimer')
 
 export const nodesCtx = createSlice([] as Array<[string, NodeSchema]>, 'nodes')
 
@@ -24,10 +24,10 @@ const extendPriority = <T extends NodeSchema | MarkSchema>(x: T): T => {
   }
 }
 
-export const schema: MilkdownPlugin = (pre) => {
-  pre.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [InitReady]).record(SchemaReady)
+export const schema: MilkdownPlugin = (ctx) => {
+  ctx.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [InitReady]).record(SchemaReady)
 
-  return async (ctx) => {
+  return async () => {
     await ctx.waitTimers(schemaTimerCtx)
 
     const remark = ctx.get(remarkCtx)
@@ -49,8 +49,8 @@ export const schema: MilkdownPlugin = (pre) => {
 
     ctx.done(SchemaReady)
 
-    return (post) => {
-      post.remove(schemaCtx).remove(nodesCtx).remove(marksCtx).remove(schemaTimerCtx).clearTimer(SchemaReady)
+    return () => {
+      ctx.remove(schemaCtx).remove(nodesCtx).remove(marksCtx).remove(schemaTimerCtx).clearTimer(SchemaReady)
     }
   }
 }

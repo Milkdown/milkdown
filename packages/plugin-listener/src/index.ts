@@ -108,10 +108,10 @@ export const listenerCtx = createSlice<ListenerManager>(new ListenerManager(), '
 export const key = new PluginKey('MILKDOWN_LISTENER')
 
 /// The listener plugin.
-export const listener: MilkdownPlugin = (pre) => {
-  pre.inject(listenerCtx, new ListenerManager())
+export const listener: MilkdownPlugin = (ctx) => {
+  ctx.inject(listenerCtx, new ListenerManager())
 
-  return async (ctx) => {
+  return async () => {
     await ctx.wait(InitReady)
     const listener = ctx.get(listenerCtx)
     const { listeners } = listener

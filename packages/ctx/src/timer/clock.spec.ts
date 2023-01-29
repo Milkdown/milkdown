@@ -1,25 +1,25 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { describe, expect, it } from 'vitest'
 
-import { createClock } from './clock'
-import { createTimer } from './timing'
+import { Clock } from './clock'
+import { TimerType } from './timer'
 
 describe('timing/clock', () => {
   it('createClock', () => {
-    const clock = createClock()
-    const timer = createTimer('timer')
-    const timerNotRegistered = createTimer('not')
+    const clock = new Clock()
+    const timer = new TimerType('timer')
+    const timerNotRegistered = new TimerType('not')
 
-    timer(clock.store)
+    timer.create(clock.store)
 
     expect(clock.get(timer)).toBe(clock.store.get(timer.id))
     expect(() => clock.get(timerNotRegistered)).toThrow()
   })
 
   it('remove', () => {
-    const clock = createClock()
-    const timer = createTimer('timer')
-    timer(clock.store)
+    const clock = new Clock()
+    const timer = new TimerType('timer')
+    timer.create(clock.store)
     expect(clock.get(timer)).toBe(clock.store.get(timer.id))
 
     clock.remove(timer)

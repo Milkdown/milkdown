@@ -11,7 +11,7 @@ export type $InputRule = MilkdownPlugin & {
 }
 
 export const $inputRule = (inputRule: (ctx: Ctx) => InputRule): $InputRule => {
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const ir = inputRule(ctx)
     ctx.update(inputRulesCtx, irs => [...irs, ir]);

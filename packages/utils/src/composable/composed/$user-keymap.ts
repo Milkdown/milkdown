@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { Ctx, Slice } from '@milkdown/core'
+import type { Ctx, SliceType } from '@milkdown/core'
 import type { Command } from '@milkdown/prose/state'
 import type { $Ctx } from '../$ctx'
 import { $ctx } from '../$ctx'
@@ -17,7 +17,7 @@ export type KeymapItem = {
 export type UserKeymapConfig<Key extends string> = Record<Key, KeymapItem>
 
 export type $UserKeymap<N extends string, Key extends string> = [$Ctx<KeymapConfig<Key>, `${N}Keymap`>, $Shortcut] & {
-  key: Slice<KeymapConfig<Key>, `${N}Keymap`>
+  key: SliceType<KeymapConfig<Key>, `${N}Keymap`>
   keymap: Keymap
 }
 
