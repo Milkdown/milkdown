@@ -1,50 +1,47 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { ctxCallOutOfScope } from '@milkdown/exception'
 
-import { shallowClone } from './shallow-clone'
+export type SliceMap = Map<symbol, Slice>
 
-export interface $Slice<T = unknown, N extends string = string> {
+export class Slice<T = any, N extends string = string> {
+  readonly type: SliceType<T, N>
+  #value: T
+
+  constructor(container: SliceMap, value: T, type: SliceType<T, N>) {
+    this.type = type
+    this.#value = value
+    container.set(type.id, this)
+  }
+
+  set = (value: T) => {
+    this.#value = value
+  }
+
+  get = () => this.#value
+
+  update = (updater: (prev: T) => T) => {
+    this.#value = updater(this.#value)
+  }
+}
+
+export class SliceType<T = any, N extends string = string> {
   readonly id: symbol
   readonly name: N
-  readonly set: (value: T) => void
-  readonly get: () => T
-  readonly update: (updater: (prev: T) => T) => void
-}
-
-export type SliceMap = Map<symbol, $Slice>
-
-export interface Slice<T, N extends string = string> {
-  readonly id: symbol
-  readonly sliceName: N
   readonly _typeInfo: () => T
-  (container: SliceMap, resetValue?: T): $Slice<T>
-}
+  readonly _defaultValue: T
 
-export const createSlice = <T, N extends string = string>(value: T, name: N): Slice<T, N> => {
-  const id = Symbol(`Context-${name}`)
-
-  const factory = (container: SliceMap, resetValue = shallowClone(value)) => {
-    let inner = resetValue
-
-    const context: $Slice<T> = {
-      name,
-      id,
-      set: (next) => {
-        inner = next
-      },
-      get: () => inner,
-      update: (updater) => {
-        inner = updater(inner)
-      },
+  constructor(value: T, name: N) {
+    this.id = Symbol(`Context-${name}`)
+    this.name = name
+    this._defaultValue = value
+    this._typeInfo = (): T => {
+      throw ctxCallOutOfScope()
     }
-    container.set(id, context as $Slice)
-    return context
-  }
-  factory.sliceName = name
-  factory.id = id
-  factory._typeInfo = (): T => {
-    throw ctxCallOutOfScope()
   }
 
-  return factory
+  create(container: SliceMap, value: T = this._defaultValue): Slice<T, N> {
+    return new Slice(container, value, this)
+  }
 }
+
+export const createSlice = <T = any, N extends string = string>(value: T, name: N) => new SliceType(value, name)

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin, Slice, Timer } from '@milkdown/ctx'
+import type { MilkdownPlugin, SliceType, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import type { InputRule } from '@milkdown/prose/inputrules'
 import type { Plugin } from '@milkdown/prose/state'
@@ -14,7 +14,7 @@ import type { Editor } from '../editor'
 
 export const InitReady = createTimer('InitReady')
 
-export const initTimerCtx = createSlice([] as Timer[], 'initTimer')
+export const initTimerCtx = createSlice([] as TimerType[], 'initTimer')
 export const editorCtx = createSlice({} as Editor, 'editor')
 
 export const inputRulesCtx = createSlice([] as InputRule[], 'inputRules')
@@ -26,14 +26,14 @@ export const nodeViewCtx = createSlice([] as NodeView[], 'nodeView')
 type MarkView = [nodeId: string, view: MarkViewConstructor]
 export const markViewCtx = createSlice([] as MarkView[], 'markView')
 
-export const remarkCtx: Slice<RemarkParser> = createSlice(unified().use(remarkParse).use(remarkStringify), 'remark')
+export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(unified().use(remarkParse).use(remarkStringify), 'remark')
 export const remarkStringifyDefaultOptions: Options = {}
 export const remarkStringifyOptionsCtx = createSlice(remarkStringifyDefaultOptions, 'remarkStringifyOptions')
 
 export const init
   = (editor: Editor): MilkdownPlugin =>
-    (pre) => {
-      pre.inject(editorCtx, editor)
+    (ctx) => {
+      ctx.inject(editorCtx, editor)
         .inject(prosePluginsCtx)
         .inject(remarkPluginsCtx)
         .inject(inputRulesCtx)
@@ -44,15 +44,15 @@ export const init
         .inject(initTimerCtx, [])
         .record(InitReady)
 
-      return async (ctx) => {
+      return async () => {
         await ctx.waitTimers(initTimerCtx)
         const options = ctx.get(remarkStringifyOptionsCtx)
         ctx.set(remarkCtx, unified().use(remarkParse).use(remarkStringify, options))
 
         ctx.done(InitReady)
 
-        return (post) => {
-          post.remove(editorCtx)
+        return () => {
+          ctx.remove(editorCtx)
             .remove(prosePluginsCtx)
             .remove(remarkPluginsCtx)
             .remove(inputRulesCtx)

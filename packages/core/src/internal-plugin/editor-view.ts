@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx, MilkdownPlugin, Timer } from '@milkdown/ctx'
+import type { Ctx, MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { DirectEditorProps } from '@milkdown/prose/view'
@@ -13,7 +13,7 @@ type EditorOptions = Omit<DirectEditorProps, 'state'>
 type RootType = Node | undefined | null | string
 
 export const editorViewCtx = createSlice({} as EditorView, 'editorView')
-export const editorViewTimerCtx = createSlice([] as Timer[], 'editorViewTimer')
+export const editorViewTimerCtx = createSlice([] as TimerType[], 'editorViewTimer')
 export const EditorViewReady = createTimer('EditorViewReady')
 
 export const editorViewOptionsCtx = createSlice({} as Partial<EditorOptions>, 'editorViewOptions')
@@ -41,8 +41,8 @@ const prepareViewDom = (dom: Element) => {
 
 const key = new PluginKey('MILKDOWN_VIEW_CLEAR')
 
-export const editorView: MilkdownPlugin = (pre) => {
-  pre.inject(rootCtx, document.body)
+export const editorView: MilkdownPlugin = (ctx) => {
+  ctx.inject(rootCtx, document.body)
     .inject(editorViewCtx)
     .inject(editorViewOptionsCtx)
     .inject(rootDOMCtx)
@@ -50,7 +50,7 @@ export const editorView: MilkdownPlugin = (pre) => {
     .inject(editorViewTimerCtx, [EditorStateReady])
     .record(EditorViewReady)
 
-  return async (ctx) => {
+  return async () => {
     await ctx.wait(InitReady)
 
     const root = ctx.get(rootCtx) || document.body
@@ -99,9 +99,9 @@ export const editorView: MilkdownPlugin = (pre) => {
     ctx.set(editorViewCtx, view)
     ctx.done(EditorViewReady)
 
-    return (post) => {
+    return () => {
       view?.destroy()
-      post.remove(rootCtx)
+      ctx.remove(rootCtx)
         .remove(editorViewCtx)
         .remove(editorViewOptionsCtx)
         .remove(rootDOMCtx)

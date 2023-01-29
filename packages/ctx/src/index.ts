@@ -2,4 +2,4 @@
 
 export * from './context'
 export * from './plugin'
-export * from './timing'
+export * from './timer'

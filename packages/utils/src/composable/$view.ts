@@ -24,7 +24,7 @@ export const $view = <
     type: T,
     view: (ctx: Ctx) => V,
   ): $View<T, V> => {
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const v = view(ctx)
     if (type.type instanceof NodeType)

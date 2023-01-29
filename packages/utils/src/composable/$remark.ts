@@ -10,7 +10,7 @@ export type $Remark = MilkdownPlugin & {
 }
 
 export const $remark = (remark: (ctx: Ctx) => RemarkPlugin): $Remark => {
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(InitReady)
     const re = remark(ctx)
     ctx.update(remarkPluginsCtx, rp => [...rp, re]);

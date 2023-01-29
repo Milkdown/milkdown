@@ -5,32 +5,28 @@ The core module for milkdown.
 ## Ctx
 
 @Container
-@createContainer
-
-@$Slice
 @SliceMap
+
+@SliceType
 @Slice
 @createSlice
 
 ## Timer
 
-@ClockMap
-@Timer
 @Clock
-@createClock
-@Timing
+@ClockMap
+
+@TimerType
+@Timer
 @createTimer
 
 ## Store
 
-@Pre
 @Ctx
-@Post
-@Env
 
 @MilkdownPlugin
-@CtxHandler
-@HandlerReturnType
+@CtxRunner
+@RunnerReturnType
 @Cleanup
 
 ## Editor
@@ -102,6 +98,7 @@ The core module for milkdown.
 ### Config
 
 @config
+@Config
 @ConfigReady
 
 ### EditorState

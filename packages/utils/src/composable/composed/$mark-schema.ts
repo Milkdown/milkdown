@@ -35,7 +35,7 @@ export const $markSchema = (id: string, schema: GetSchema): $MarkSchema => {
   result.schema = markSchema.schema
   result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
-    return () => (ctx) => {
+    return ctx => () => {
       const prev = ctx.get(schemaCtx.key)
       const next = handler(prev)
       const markSchema = next(ctx)

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Slice } from '@milkdown/core'
+import type { SliceType } from '@milkdown/core'
 import type { PluginSpec } from '@milkdown/prose/state'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { $Ctx, $Prose } from '@milkdown/utils'
@@ -8,7 +8,7 @@ import { $ctx, $prose } from '@milkdown/utils'
 export type TooltipSpecId<Id extends string> = `${Id}_TOOLTIP_SPEC`
 
 export type TooltipPlugin<Id extends string, State = any> = [$Ctx<PluginSpec<State>, TooltipSpecId<Id>>, $Prose] & {
-  key: Slice<PluginSpec<State>, TooltipSpecId<Id>>
+  key: SliceType<PluginSpec<State>, TooltipSpecId<Id>>
   pluginKey: $Prose['key']
 }
 

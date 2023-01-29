@@ -91,7 +91,7 @@ export const usePlayground = (
       gfm,
       tableTooltip,
       tableTooltipCtx,
-      () => async (ctx: Ctx) => {
+      (ctx: Ctx) => async () => {
         ctx.set(tableTooltip.key, {
           view: pluginViewFactory({
             component: TableTooltip,
@@ -127,7 +127,7 @@ export const usePlayground = (
   const blockPlugins: MilkdownPlugin[] = useMemo(() => {
     return [
       block,
-      () => (ctx: Ctx) => {
+      (ctx: Ctx) => () => {
         ctx.set(blockView.key, pluginViewFactory({
           component: Block,
         }))
@@ -138,7 +138,7 @@ export const usePlayground = (
   const twemojiPlugins: MilkdownPlugin[] = useMemo(() => {
     return [
       emoji,
-      () => (ctx: Ctx) => {
+      (ctx: Ctx) => () => {
         ctx.set(emojiAttr.key, () => ({
           span: {},
           img: {

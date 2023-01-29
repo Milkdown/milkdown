@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { CtxHandler, MilkdownPlugin } from '@milkdown/ctx'
-import { Ctx, Post, Pre, createClock, createContainer } from '@milkdown/ctx'
+import type { CtxRunner, MilkdownPlugin } from '@milkdown/ctx'
+import { Clock, Container, Ctx } from '@milkdown/ctx'
 
+import type { Config } from '../internal-plugin'
 import {
   commands,
   config,
@@ -37,25 +38,23 @@ export class Editor {
   }
 
   #status = EditorStatus.Idle
-  #configureList: CtxHandler[] = []
+  #configureList: Config[] = []
   #onStatusChange: OnStatusChange = () => undefined
 
-  readonly #container = createContainer()
-  readonly #clock = createClock()
+  readonly #container = new Container()
+  readonly #clock = new Clock()
 
   readonly #plugins: Map<
     MilkdownPlugin,
-    { handler: CtxHandler | undefined; cleanup: ReturnType<CtxHandler> }
+    { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
   > = new Map()
 
   #internalPlugins: Map<
     MilkdownPlugin,
-    { handler: CtxHandler | undefined; cleanup: ReturnType<CtxHandler> }
+    { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
   > = new Map()
 
   readonly #ctx = new Ctx(this.#container, this.#clock)
-  readonly #pre = new Pre(this.#container, this.#clock)
-  readonly #post = new Post(this.#container, this.#clock)
 
   readonly #loadInternal = () => {
     const internalPlugins = [
@@ -67,12 +66,12 @@ export class Editor {
       editorView,
       init(this),
     ]
-    const configPlugin = config(async (x: Ctx) => {
-      await Promise.all(this.#configureList.map(fn => fn(x)))
+    const configPlugin = config(async (ctx) => {
+      await Promise.all(this.#configureList.map(fn => fn(ctx)))
     })
     internalPlugins.concat(configPlugin).flat().forEach((plugin) => {
       this.#internalPlugins.set(plugin, {
-        handler: plugin(this.#pre),
+        handler: plugin(this.#ctx),
         cleanup: undefined,
       })
     })
@@ -80,7 +79,7 @@ export class Editor {
 
   readonly #prepare = () => {
     [...this.#plugins.entries()].map(async ([key, loader]) => {
-      const handler = key(this.#pre)
+      const handler = key(this.#ctx)
       this.#plugins.set(key, { ...loader, handler })
     })
   }
@@ -96,7 +95,7 @@ export class Editor {
           this.#plugins.set(plugin, { handler: undefined, cleanup: undefined })
 
         if (typeof cleanup === 'function')
-          return cleanup(this.#post)
+          return cleanup()
 
         return cleanup
       }),
@@ -106,7 +105,7 @@ export class Editor {
   readonly #cleanupInternal = async () => {
     await Promise.all([...this.#internalPlugins.entries()].map(([_, { cleanup }]) => {
       if (typeof cleanup === 'function')
-        return cleanup(this.#post)
+        return cleanup()
 
       return cleanup
     }))
@@ -147,7 +146,7 @@ export class Editor {
    */
   readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
     [plugins].flat().forEach((plugin) => {
-      const handler = this.#status === EditorStatus.Created ? plugin(this.#pre) : undefined
+      const handler = this.#status === EditorStatus.Created ? plugin(this.#ctx) : undefined
 
       this.#plugins.set(plugin, {
         handler,
@@ -163,12 +162,12 @@ export class Editor {
    * @param configure - The function that configure current editor, can be async, with context as parameter.
    * @returns Editor instance.
    */
-  readonly config = (configure: CtxHandler) => {
+  readonly config = (configure: Config) => {
     this.#configureList.push(configure)
     return this
   }
 
-  readonly removeConfig = (configure: CtxHandler) => {
+  readonly removeConfig = (configure: Config) => {
     this.#configureList = this.#configureList.filter(x => x !== configure)
     return this
   }
@@ -213,7 +212,7 @@ export class Editor {
           if (!handler)
             return
 
-          const cleanup = await handler(this.#ctx)
+          const cleanup = await handler()
           this.#internalPlugins.set(key, { handler, cleanup })
 
           return cleanup
@@ -223,7 +222,7 @@ export class Editor {
           if (!handler)
             return
 
-          const cleanup = await handler(this.#ctx)
+          const cleanup = await handler()
           this.#plugins.set(key, { handler, cleanup })
 
           return cleanup

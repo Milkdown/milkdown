@@ -14,7 +14,7 @@ export type $Shortcut = MilkdownPlugin & {
 }
 
 export const $shortcut = (shortcut: (ctx: Ctx) => Keymap): $Shortcut => {
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const k = shortcut(ctx)
     const keymapPlugin = keymap(k)

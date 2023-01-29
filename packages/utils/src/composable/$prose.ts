@@ -13,7 +13,7 @@ export type $Prose = MilkdownPlugin & {
 
 export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
   let prosePlugin: Plugin | undefined
-  const plugin: MilkdownPlugin = () => async (ctx) => {
+  const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     prosePlugin = prose(ctx)
     ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin!])

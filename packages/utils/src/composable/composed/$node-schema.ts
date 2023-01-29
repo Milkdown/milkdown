@@ -35,7 +35,7 @@ export const $nodeSchema = <T extends string>(id: T, schema: GetSchema): $NodeSc
   result.schema = nodeSchema.schema
   result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
-    return () => (ctx) => {
+    return ctx => () => {
       const prev = ctx.get(schemaCtx.key)
       const next = handler(prev)
       const nodeSchema = next(ctx)

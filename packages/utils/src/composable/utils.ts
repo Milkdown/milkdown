@@ -1,20 +1,20 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Cleanup, Ctx, MilkdownPlugin, Slice, Timer } from '@milkdown/core'
+import type { Cleanup, Ctx, MilkdownPlugin, SliceType, TimerType } from '@milkdown/core'
 import { createTimer } from '@milkdown/core'
 import { customAlphabet } from 'nanoid'
 
 export const nanoid = customAlphabet('abcedfghicklmn', 10)
 
-export const addTimer = <T extends MilkdownPlugin, PluginWithTimer extends T = T & { timer: Timer }>(
+export const addTimer = <T extends MilkdownPlugin, PluginWithTimer extends T = T & { timer: TimerType }>(
   runner: (ctx: Ctx, plugin: PluginWithTimer, done: () => void) => Promise<void | Cleanup>,
-  injectTo: Slice<Timer[], string>,
+  injectTo: SliceType<TimerType[], string>,
   timerName?: string,
 ): PluginWithTimer => {
   const timer = createTimer(timerName || nanoid())
   let doneCalled = false
 
-  const plugin: MilkdownPlugin = () => {
-    return async (ctx) => {
+  const plugin: MilkdownPlugin = (ctx) => {
+    return async () => {
       const done = () => {
         ctx.done(timer)
         doneCalled = true
@@ -26,14 +26,14 @@ export const addTimer = <T extends MilkdownPlugin, PluginWithTimer extends T = T
       if (!doneCalled)
         ctx.done(timer)
 
-      return (post) => {
+      return () => {
         ctx.update(injectTo, x => x.filter(y => y !== timer))
-        post.clearTimer(timer)
-        cleanup?.(post)
+        ctx.clearTimer(timer)
+        cleanup?.()
       }
     }
   };
-  (<T & { timer: Timer }>plugin).timer = timer
+  (<T & { timer: TimerType }>plugin).timer = timer
 
   return <PluginWithTimer>plugin
 }
