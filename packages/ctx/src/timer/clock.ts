@@ -3,10 +3,10 @@ import { timerNotFound } from '@milkdown/exception'
 
 import type { Timer, TimerType } from './timer'
 
-export type ClockMap = Map<symbol, Timer>
+export type TimerMap = Map<symbol, Timer>
 
 export class Clock {
-  readonly store: ClockMap = new Map()
+  readonly store: TimerMap = new Map()
 
   get = (timer: TimerType) => {
     const meta = this.store.get(timer.id)

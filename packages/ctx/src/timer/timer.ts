@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { ClockMap } from './clock'
+import type { TimerMap } from './clock'
 
 export class TimerType {
   readonly id: symbol
@@ -11,7 +11,7 @@ export class TimerType {
     this.timeout = timeout
   }
 
-  create = (clock: ClockMap): Timer => {
+  create = (clock: TimerMap): Timer => {
     return new Timer(clock, this)
   }
 }
@@ -21,7 +21,7 @@ export class Timer {
   #listener: EventListener | null = null
   #eventUniqId: symbol
   type: TimerType
-  constructor(clock: ClockMap, type: TimerType) {
+  constructor(clock: TimerMap, type: TimerType) {
     this.#eventUniqId = Symbol(type.name)
     this.type = type
     clock.set(type.id, this)

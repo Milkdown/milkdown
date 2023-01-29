@@ -1,7 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { ctxCallOutOfScope } from '@milkdown/exception'
-
-export type SliceMap = Map<symbol, Slice>
+import type { SliceMap } from './container'
 
 export class Slice<T = any, N extends string = string> {
   readonly type: SliceType<T, N>

@@ -3,8 +3,10 @@ import { contextNotFound } from '@milkdown/exception'
 
 import type { Slice, SliceType } from './slice'
 
+export type SliceMap = Map<symbol, Slice>
+
 export class Container {
-  sliceMap = new Map<symbol, Slice>()
+  sliceMap: SliceMap = new Map()
 
   get = <T, N extends string = string>(slice: SliceType<T, N> | N): Slice<T, N> => {
     const context = typeof slice === 'string'
