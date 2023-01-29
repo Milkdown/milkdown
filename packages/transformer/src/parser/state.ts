@@ -91,6 +91,7 @@ export class ParserState extends Stack<Node, ParserStackElement> {
 
   closeMark = (markType: MarkType) => {
     this.#marks = markType.removeFromSet(this.#marks)
+    return this
   }
 
   addText = (text: string) => {

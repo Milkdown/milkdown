@@ -61,5 +61,7 @@
     "**/tmp": true,
     "**/docs": true,
     "**/lib": true
-  }
+  },
+  "vitest.enable": true,
+  "vitest.commandLine": "pnpm exec vitest"
 }
