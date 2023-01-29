@@ -19,6 +19,8 @@ module.exports = {
   ],
   rules: {
     'yml/no-empty-mapping-value': 'off',
+    'unused-imports/no-unused-imports': 'off',
+    'unused-imports/no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
   },

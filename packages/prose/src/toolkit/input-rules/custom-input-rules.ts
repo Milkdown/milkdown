@@ -44,7 +44,7 @@ export const customInputRules = ({ rules }: { rules: InputRule[] }): Plugin => {
         const stored = tr.getMeta(this)
         if (stored)
           return stored
-        return tr.selectionSet || tr.docChanged ? null : prev
+        return (tr.selectionSet || tr.docChanged) ? null : prev
       },
     },
     props: {

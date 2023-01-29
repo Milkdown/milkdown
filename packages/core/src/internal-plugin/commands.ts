@@ -56,9 +56,7 @@ export class CommandManager {
 
   remove<T extends CmdKey<any>>(slice: string): void
   remove<T>(slice: CmdKey<T>): void
-
   remove(slice: string | CmdKey<any>): void
-
   remove(slice: string | CmdKey<any>): void {
     return this.#container.removeSlice(slice)
   }

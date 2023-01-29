@@ -48,7 +48,7 @@ const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
                   className={({ isActive }) => getItemClassName(isActive)}
                   to={item.link}
                 >
-                  {item.prefixIcon && item.prefixIcon === '$' ? <span className="w-6" /> : <span className="material-symbols-outlined">{item.prefixIcon}</span>}
+                  {(item.prefixIcon && item.prefixIcon === '$') ? <span className="w-6" /> : <span className="material-symbols-outlined">{item.prefixIcon}</span>}
                   <span className="flex-1">{item.text}</span>
                   {item.suffixIcon && <span className="material-symbols-outlined">{item.suffixIcon}</span>}
                 </NavLink>
@@ -60,7 +60,7 @@ const SidePanelGroup: FC<SidePanelGroupProps> = ({ title, items }) => {
                 className={getItemClassName(page?.parentId === item.id)}
                 onClick={item.onClick}
               >
-                {item.prefixIcon && item.prefixIcon === '$' ? <span className="w-6" /> : <span className="material-symbols-outlined">{item.prefixIcon}</span>}
+                {(item.prefixIcon && item.prefixIcon === '$') ? <span className="w-6" /> : <span className="material-symbols-outlined">{item.prefixIcon}</span>}
                 <span className="flex-1">{item.text}</span>
                 {item.suffixIcon && <span className="material-symbols-outlined">{item.suffixIcon}</span>}
               </div>
