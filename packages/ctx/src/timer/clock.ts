@@ -20,6 +20,6 @@ export class Clock {
   }
 
   has = (timer: TimerType) => {
-    this.store.has(timer.id)
+    return this.store.has(timer.id)
   }
 }

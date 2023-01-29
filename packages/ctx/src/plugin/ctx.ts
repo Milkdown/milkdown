@@ -37,6 +37,10 @@ export class Ctx {
     return this
   }
 
+  readonly isInjected = <T, N extends string = string>(sliceType: SliceType<T, N> | N) => this.#container.has(sliceType)
+
+  readonly isRecorded = (timerType: TimerType) => this.#clock.has(timerType)
+
   /**
       * Get the slice instance.
       *
