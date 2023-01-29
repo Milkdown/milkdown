@@ -14,7 +14,7 @@ The core module for milkdown.
 ## Timer
 
 @Clock
-@ClockMap
+@TimerMap
 
 @TimerType
 @Timer
