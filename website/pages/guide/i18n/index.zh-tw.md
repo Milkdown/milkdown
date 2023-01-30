@@ -80,7 +80,7 @@ const mySlash = slash.configure(slashPlugin, {
                     case 'h2':
                         action.dom = createDropdownItem(ctx.get(themeManagerCtx), '<heading 2>', 'h2');
                         return action;
-                    // others ids
+                    // 其他 id
                     default:
                         return action;
                 }
