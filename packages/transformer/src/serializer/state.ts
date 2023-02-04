@@ -108,15 +108,17 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
         const { children: prevChildren, ...prevRest } = last
         if (
           child.type === last.type
-                && currChildren
-                && prevChildren
-                && JSON.stringify(currRest) === JSON.stringify(prevRest)
+          && currChildren
+          && prevChildren
+          && JSON.stringify(currRest) === JSON.stringify(prevRest)
         ) {
           const next = {
             ...prevRest,
             children: [...prevChildren, ...currChildren],
           }
-          return nextChildren.slice(0, -1).concat(this.#maybeMergeChildren(next))
+          return nextChildren
+            .slice(0, -1)
+            .concat(this.#maybeMergeChildren(next))
         }
       }
       return nextChildren.concat(child)
@@ -228,6 +230,11 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
 
   withMark = (mark: Mark, type: string, value?: string, props?: JSONRecord) => {
     this.#openMark(mark, type, value, props)
+    return this
+  }
+
+  closeMark = (mark: Mark) => {
+    this.#closeMark(mark)
     return this
   }
 
