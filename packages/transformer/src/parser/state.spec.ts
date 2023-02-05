@@ -3,10 +3,6 @@ import type { MarkType, NodeType, Schema } from '@milkdown/prose/model'
 import { describe, expect, it, vi } from 'vitest'
 import { ParserState } from './state'
 
-const schema = {
-  text: (text, marks) => ({ text, marks, isText: true }),
-} as Schema
-
 const docNodeType = {
   createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({ name: 'docNode', content, attrs, marks })),
 } as unknown as NodeType
@@ -26,6 +22,34 @@ const boldType = {
   addToSet: arr => arr.concat('bold'),
   removeFromSet: arr => arr.filter(x => x !== 'bold'),
 } as unknown as MarkType
+
+const schema = {
+  nodes: {
+    paragraph: {
+      spec: {
+        parseMarkdown: {
+          match: node => node.type === 'paragraphNode',
+          runner: (state, node) => {
+            state.addText(node.value)
+          },
+        },
+      },
+    },
+    blockquote: {
+      spec: {
+        parseMarkdown: {
+          match: node => node.type === 'blockquoteNode',
+          runner: (state, node) => {
+            state.openNode(blockquoteNodeType)
+            state.next(node.children)
+            state.closeNode()
+          },
+        },
+      },
+    },
+  },
+  text: (text, marks) => ({ text, marks, isText: true }),
+} as unknown as Schema
 
 describe('parser-state', () => {
   it('node', () => {
@@ -186,6 +210,37 @@ describe('parser-state', () => {
               attrs: {
                 id: 2,
               },
+            },
+          ],
+        },
+      ],
+    })
+  })
+
+  it('next', () => {
+    const state = new ParserState(schema)
+    state.openNode(docNodeType)
+    state.next([
+      {
+        type: 'blockquoteNode',
+        children: [
+          {
+            type: 'paragraphNode',
+            value: 'The lunatic is on the grass.',
+          },
+        ],
+      },
+    ])
+
+    const node = state.build()
+    expect(node).toMatchObject({
+      name: 'docNode',
+      content: [
+        {
+          name: 'blockquoteNode',
+          content: [
+            {
+              text: 'The lunatic is on the grass.',
             },
           ],
         },
