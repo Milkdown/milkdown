@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { RemarkPlugin } from '@milkdown/core'
+import type { RemarkPlugin } from '@milkdown/transformer'
 import emojiRegex from 'emoji-regex'
 import type { Literal, Node, Parent } from 'unist'
 

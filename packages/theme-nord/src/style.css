@@ -61,3 +61,9 @@
 .milkdown-theme-nord.prose.ProseMirror .selectedCell:after {
   @apply bg-nord8/30;
 }
+
+/* A little workaround to turn the element into a space */
+.milkdown-theme-nord.prose br[data-is-inline="true"],
+.milkdown-theme-nord.prose br[data-is-inline="true"]::after {
+  content: ' '
+}

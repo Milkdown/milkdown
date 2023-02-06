@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Cleanup, Ctx, MilkdownPlugin, SliceType, TimerType } from '@milkdown/core'
-import { createTimer } from '@milkdown/core'
+import type { Cleanup, Ctx, MilkdownPlugin, SliceType, TimerType } from '@milkdown/ctx'
+import { createTimer } from '@milkdown/ctx'
 import { customAlphabet } from 'nanoid'
 
 export const nanoid = customAlphabet('abcedfghicklmn', 10)

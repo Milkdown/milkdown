@@ -7,7 +7,7 @@ import type { Node } from 'unist'
 import type { MarkParserSpec, NodeParserSpec } from '../parser/types'
 import type { MarkSerializerSpec, NodeSerializerSpec } from '../serializer/types'
 
-type JSONValue = string | number | boolean | null | JSONValue[] | { [key: string]: JSONValue }
+export type JSONValue = string | number | boolean | null | JSONValue[] | { [key: string]: JSONValue }
 
 export type JSONRecord = Record<string, JSONValue>
 

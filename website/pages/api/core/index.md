@@ -2,56 +2,11 @@
 
 The core module for milkdown.
 
-## Ctx
-
-@Container
-@SliceMap
-
-@SliceType
-@Slice
-@createSlice
-
-## Timer
-
-@Clock
-@TimerMap
-
-@TimerType
-@Timer
-@createTimer
-
-## Store
-
-@Ctx
-
-@MilkdownPlugin
-@CtxRunner
-@RunnerReturnType
-@Cleanup
-
 ## Editor
 
 @Editor
 @EditorStatus
 @OnStatusChange
-
-## Transformer
-
-@StackElement
-@Stack
-
-@createParser
-@MarkdownNode
-@NodeParserSpec
-@MarkParserSpec
-
-@createSerializer
-@NodeSerializerSpec
-@MarkSerializerSpec
-
-@JSONRecord
-@RemarkPlugin
-@RemarkParser
 
 ## Internal Plugins
 
@@ -75,7 +30,6 @@ The core module for milkdown.
 
 ### Schema
 
-@Parser
 @parserCtx
 @parserTimerCtx
 @ParserReady
@@ -86,9 +40,7 @@ The core module for milkdown.
 @SerializerReady
 @serializer
 
-@NodeSchema
 @nodesCtx
-@MarkSchema
 @marksCtx
 @schemaCtx
 @schemaTimerCtx

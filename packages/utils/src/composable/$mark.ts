@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type {
   Ctx,
-  MarkSchema,
   MilkdownPlugin,
-} from '@milkdown/core'
+} from '@milkdown/ctx'
+import type { MarkSchema } from '@milkdown/transformer'
 import {
   SchemaReady,
   marksCtx,

@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx } from '@milkdown/core'
+import type { Ctx } from '@milkdown/ctx'
 import { editorViewCtx, serializerCtx } from '@milkdown/core'
 
 export const getMarkdown

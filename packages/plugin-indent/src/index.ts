@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { MilkdownPlugin } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
 import type { Transaction } from '@milkdown/prose/state'
 import { AllSelection, TextSelection } from '@milkdown/prose/state'
 import { $ctx, $shortcut } from '@milkdown/utils'

@@ -30,6 +30,7 @@
   },
   "peerDependencies": {
     "@milkdown/core": "^6.0.1",
+    "@milkdown/ctx": "^6.0.1",
     "@milkdown/prose": "^6.0.1",
     "yjs": "*"
   },
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "yjs": "^13.5.38"
   },

@@ -27,7 +27,9 @@
   },
   "peerDependencies": {
     "@milkdown/core": "^6.0.1",
-    "@milkdown/prose": "^6.0.1"
+    "@milkdown/ctx": "^6.0.1",
+    "@milkdown/prose": "^6.0.1",
+    "@milkdown/transformer": "^6.0.1"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
@@ -42,7 +44,9 @@
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@milkdown/transformer": "workspace:*",
     "@types/unist": "^2.0.6"
   },
   "nx": {

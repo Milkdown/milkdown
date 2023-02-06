@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
 import { dropCursor } from '@milkdown/prose/dropcursor'
 import { gapCursor } from '@milkdown/prose/gapcursor'
 import { $ctx, $prose } from '@milkdown/utils'

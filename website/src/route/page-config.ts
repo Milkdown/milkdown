@@ -34,6 +34,8 @@ export const config: ConfigItem[] = [
     dir: 'api',
     items: [
       'core',
+      'ctx',
+      'transformer',
       'preset-commonmark',
       'preset-gfm',
       'plugin-listener',

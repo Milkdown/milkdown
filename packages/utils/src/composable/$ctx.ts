@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin, SliceType } from '@milkdown/core'
-import { createSlice } from '@milkdown/core'
+import type { MilkdownPlugin, SliceType } from '@milkdown/ctx'
+import { createSlice } from '@milkdown/ctx'
 
 export type $Ctx<T, N extends string> = MilkdownPlugin & {
   key: SliceType<T, N>

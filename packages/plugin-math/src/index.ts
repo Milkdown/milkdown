@@ -4,7 +4,7 @@ import type { KatexOptions } from 'katex'
 import katex from 'katex'
 import remarkMath from 'remark-math'
 
-import type { MilkdownPlugin } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
 import { InputRule } from '@milkdown/prose/inputrules'
 
 export const remarkMathPlugin = $remark(() => remarkMath)

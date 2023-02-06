@@ -24,15 +24,8 @@ export enum EditorStatus {
 
 export type OnStatusChange = (status: EditorStatus) => void
 
-/**
- * Get the milkdown editor constructor
- */
 export class Editor {
-  /**
-   * Create a new editor instance.
-   *
-   * @returns The new editor instance been created.
-   */
+  /// Create a new editor instance.
   static make() {
     return new Editor()
   }
@@ -117,33 +110,14 @@ export class Editor {
     this.#onStatusChange(status)
   }
 
-  /**
-   * Get the ctx of the editor.
-   */
   get ctx() {
     return this.#ctx
   }
 
-  /**
-   * Get the status of the editor.
-   */
   get status() {
     return this.#status
   }
 
-  /**
-   * Use one plugin or a list of plugins for current editor.
-   *
-   * @example
-   * ```typescript
-   * Editor.make()
-   *   .use(plugin)
-   *   .use([pluginA, pluginB])
-   * ```
-   *
-   * @param plugins - A list of plugins, or one plugin.
-   * @returns Editor instance.
-   */
   readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
     [plugins].flat().forEach((plugin) => {
       const handler = this.#status === EditorStatus.Created ? plugin(this.#ctx) : undefined
@@ -156,12 +130,6 @@ export class Editor {
     return this
   }
 
-  /**
-   * Config the context for current editor.
-   *
-   * @param configure - The function that configure current editor, can be async, with context as parameter.
-   * @returns Editor instance.
-   */
   readonly config = (configure: Config) => {
     this.#configureList.push(configure)
     return this
@@ -172,27 +140,11 @@ export class Editor {
     return this
   }
 
-  /**
-   * Call when editor status changed.
-   *
-   * @param onChange - The function that will be called when the status of the editor changed.
-   * @returns Editor instance.
-   */
   readonly onStatusChange = (onChange: OnStatusChange) => {
     this.#onStatusChange = onChange
     return this
   }
 
-  /**
-   * Create the editor UI.
-   *
-   * @example
-   * ```typescript
-   * Editor.make().use(nord).use(commonmark).create()
-   * ```
-   *
-   * @returns A promise object, will be resolved as editor instance after create finish.
-   */
   readonly create = async (): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate)
       return this
@@ -234,15 +186,7 @@ export class Editor {
     return this
   }
 
-  /**
-   * Remove one plugin or a list of plugins from current editor.
-   *
-   * @param plugins - A list of plugins, or one plugin.
-   * @returns Editor instance.
-   */
-  readonly remove = async (
-    plugins: MilkdownPlugin | MilkdownPlugin[],
-  ): Promise<Editor> => {
+  readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate) {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -255,17 +199,6 @@ export class Editor {
     return this
   }
 
-  /**
-   * Destroy the editor.
-   *
-   * @example
-   * ```typescript
-   * const editor = await Editor.make().use(commonmark).create();
-   * await editor.destroy();
-   * ```
-   *
-   * @returns A promise object, will be resolved as editor instance after destroy finish.
-   */
   readonly destroy = async (clearPlugins = false): Promise<Editor> => {
     if (this.#status === EditorStatus.Destroyed || this.#status === EditorStatus.OnDestroy)
       return this
@@ -289,29 +222,5 @@ export class Editor {
     return this
   }
 
-  /**
-   * Get the context value in a running editor on demand and return the action result.
-   *
-   * @example
-   * ```typescript
-   * import { Editor, editorViewCtx, serializerCtx } from '@milkdown/core';
-   * async function playWithEditor() {
-   *     const editor = await Editor.make().use(commonmark).create();
-   *
-   *     const getMarkdown = () =>
-   *         editor.action((ctx) => {
-   *             const editorView = ctx.get(editorViewCtx);
-   *             const serializer = ctx.get(serializerCtx);
-   *             return serializer(editorView.state.doc);
-   *         });
-   *
-   *     // get markdown string:
-   *     getMarkdown();
-   * }
-   * ```
-   *
-   * @param action - The function that get editor context and return the action result.
-   * @returns The action result.
-   */
   readonly action = <T>(action: (ctx: Ctx) => T) => action(this.#ctx)
 }

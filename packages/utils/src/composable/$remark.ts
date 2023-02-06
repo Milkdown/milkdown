@@ -1,8 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { Ctx, MilkdownPlugin, RemarkPlugin } from '@milkdown/core'
+import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { InitReady, remarkPluginsCtx, schemaTimerCtx } from '@milkdown/core'
 
+import type { RemarkPlugin } from '@milkdown/transformer'
 import { addTimer } from './utils'
 
 export type $Remark = MilkdownPlugin & {

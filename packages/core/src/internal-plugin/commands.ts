@@ -20,12 +20,6 @@ export class CommandManager {
     this.#ctx = ctx
   }
 
-  /**
-     * Create a command with provided key and command function.
-     *
-     * @param meta - The key of the command that needs to be created.
-     * @param value - The implementation of the command function.
-     */
   create<T>(meta: CmdKey<T>, value: Cmd<T>) {
     const slice = meta.create(this.#container.sliceMap)
     slice.set(value)

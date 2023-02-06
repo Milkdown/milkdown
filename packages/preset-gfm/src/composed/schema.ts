@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
 import { strikethroughSchema } from '../mark'
 import { extendListItemSchemaForTask, footnoteDefinitionSchema, footnoteReferenceSchema, tableCellSchema, tableHeaderSchema, tableRowSchema, tableSchema } from '../node'
 

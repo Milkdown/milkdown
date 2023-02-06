@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { Ctx } from '@milkdown/core'
+import type { Ctx } from '@milkdown/ctx'
 import { editorViewCtx } from '@milkdown/core'
 import type { Attrs } from '@milkdown/prose/model'
 

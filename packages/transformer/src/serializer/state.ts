@@ -10,13 +10,24 @@ import { SerializerStackElement } from './stack-element'
 
 const isFragment = (x: Node | Fragment): x is Fragment => Object.prototype.hasOwnProperty.call(x, 'size')
 
-/**
- * State for serializer.
- * Transform prosemirror state into remark AST.
- */
+/// The serializer type which is used to transform prosemirror node into markdown text.
+export type Serializer = (content: Node) => string
+
+/// State for serializer.
+/// Transform prosemirror state into remark AST.
 export class SerializerState extends Stack<MarkdownNode, SerializerStackElement> {
   #marks: readonly Mark[] = Mark.none
+  /// Get the schema of state.
   readonly schema: Schema
+
+  static create = (schema: Schema, remark: RemarkParser): Serializer => {
+    const state = new this(schema)
+    return (content: Node) => {
+      state.run(content)
+      return state.toString(remark)
+    }
+  }
+
   constructor(schema: Schema) {
     super()
     this.schema = schema
@@ -142,34 +153,17 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     return node
   }
 
-  /**
-     * Transform a prosemirror node tree into remark AST.
-     *
-     * @param tree - The prosemirror node tree needs to be transformed.
-     *
-     * @returns The state instance.
-     */
+  /// Transform a prosemirror node tree into remark AST.
   run = (tree: Node) => {
     this.next(tree)
 
     return this
   }
 
-  /**
-     * Use a remark parser to serialize current AST stored.
-     *
-     * @param remark - The remark parser needs to used.
-     * @returns Result markdown string.
-     */
+  /// Use a remark parser to serialize current AST stored.
   override toString = (remark: RemarkParser): string => remark.stringify(this.build()) as string
 
-  /**
-     * Give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
-     *
-     * @param nodes - The node or node list needs to be handled.
-     *
-     * @returns The state instance.
-     */
+  /// Give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
   next = (nodes: Node | Fragment) => {
     if (isFragment(nodes)) {
       nodes.forEach((node) => {

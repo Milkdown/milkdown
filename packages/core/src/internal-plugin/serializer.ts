@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
-import type { Node as ProsemirrorNode } from '@milkdown/prose/model'
-import { createSerializer } from '@milkdown/transformer'
+import type { Serializer } from '@milkdown/transformer'
+import { SerializerState } from '@milkdown/transformer'
 
 import { remarkCtx } from './init'
 import { SchemaReady, schemaCtx } from './schema'
 
-export const serializerCtx = createSlice<(node: ProsemirrorNode) => string, 'serializer'>(() => '', 'serializer')
+export const serializerCtx = createSlice<Serializer, 'serializer'>(() => '', 'serializer')
 export const serializerTimerCtx = createSlice([] as TimerType[], 'serializerTimer')
 
 export const SerializerReady = createTimer('SerializerReady')
@@ -20,7 +20,7 @@ export const serializer: MilkdownPlugin = (ctx) => {
     const remark = ctx.get(remarkCtx)
     const schema = ctx.get(schemaCtx)
 
-    ctx.set(serializerCtx, createSerializer(schema, remark))
+    ctx.set(serializerCtx, SerializerState.create(schema, remark))
     ctx.done(SerializerReady)
 
     return () => {

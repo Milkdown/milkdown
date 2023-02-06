@@ -1,9 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin } from '@milkdown/core'
-import {
-  EditorViewReady,
-  createSlice, createTimer,
-} from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
+import { createSlice, createTimer } from '@milkdown/ctx'
+import { EditorViewReady } from '@milkdown/core'
 
 import { CollabService } from './collab-service'
 

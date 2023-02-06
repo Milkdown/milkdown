@@ -7,14 +7,29 @@ import { Stack } from '../utility'
 
 import { ParserStackElement } from './stack-element'
 
-/**
- * State for parser.
- * Transform remark AST into prosemirror state.
- */
+/// The parser type which is used to transform markdown text into prosemirror node.
+export type Parser = (text: string) => Node
+
+/// State for parser. Transform remark AST into prosemirror state.
 export class ParserState extends Stack<Node, ParserStackElement> {
+  /// Get the schema of state.
   readonly schema: Schema
 
   #marks: readonly Mark[] = Mark.none
+
+  /// Create a parser from schema and remark instance.
+  ///
+  /// ```typescript
+  /// const parser = ParserState(schema, remark)
+  /// const prosemirrorNode = parser(Some Markdown Text)
+  /// ```
+  static create = (schema: Schema, remark: RemarkParser): Parser => {
+    const state = new this(schema)
+    return (text: string): Node => {
+      state.run(remark, text)
+      return state.toDoc()
+    }
+  }
 
   constructor(schema: Schema) {
     super()
@@ -50,6 +65,8 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     spec.parseMarkdown.runner(this, node, type as NodeType & MarkType)
   }
 
+  /// Open a new node, the next operations will
+  /// add nodes into that new node until `closeNode` is called.
   openNode = (nodeType: NodeType, attrs?: Attrs) => {
     this.open(ParserStackElement.create(nodeType, [], attrs))
     return this
@@ -128,13 +145,7 @@ export class ParserState extends Stack<Node, ParserStackElement> {
 
   toDoc = () => this.build()
 
-  /**
-     * Transform a markdown string into prosemirror state.
-     *
-     * @param remark - The remark parser used.
-     * @param markdown - The markdown string needs to be parsed.
-     * @returns The state instance.
-     */
+  /// Transform a markdown string into prosemirror state.
   run = (remark: RemarkParser, markdown: string) => {
     const tree = remark.runSync(remark.parse(markdown), markdown) as MarkdownNode
     this.next(tree)
@@ -142,26 +153,13 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return this
   }
 
-  /**
-     * Give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
-     *
-     * @param nodes - The node or node list needs to be handled.
-     *
-     * @returns The state instance.
-     */
+  /// Give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
   next = (nodes: MarkdownNode | MarkdownNode[] = []) => {
     [nodes].flat().forEach(node => this.#runNode(node))
     return this
   }
 
-  /**
-     * Inject root node for prosemirror state.
-     *
-     * @param node - The target markdown node.
-     * @param nodeType - The root prosemirror nodeType .
-     * @param attrs - The attribute of root type.
-     * @returns The state instance.
-     */
+  /// Inject root node for prosemirror state.
   injectRoot = (node: MarkdownNode, nodeType: NodeType, attrs?: Attrs) => {
     this.openNode(nodeType, attrs)
     this.next(node.children)
