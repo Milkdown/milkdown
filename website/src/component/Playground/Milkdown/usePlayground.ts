@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Ctx, MilkdownPlugin } from '@milkdown/core'
+import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { block, blockView } from '@milkdown/plugin-block'
 import { clipboard } from '@milkdown/plugin-clipboard'

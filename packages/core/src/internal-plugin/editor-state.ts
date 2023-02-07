@@ -16,19 +16,29 @@ import { schemaCtx } from './schema'
 import { SerializerReady } from './serializer'
 import { CommandsReady } from '.'
 
+/// @internal
 export type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: JSONRecord }
 type StateOptions = Parameters<typeof EditorState.create>[0]
 type StateOptionsOverride = (prev: StateOptions) => StateOptions
 
+/// A slice which contains the default value of the editor.
+/// Can be markdown string, html string or json.
 export const defaultValueCtx = createSlice('' as DefaultValue, 'defaultValue')
+
+/// A slice which contains the editor state.
 export const editorStateCtx = createSlice({} as EditorState, 'editorState')
+
+/// A slice which contains the options which is used to create the editor state.
 export const editorStateOptionsCtx = createSlice<StateOptionsOverride>(x => x, 'stateOptions')
+
+/// A slice which stores timers that need to be waited for before starting to run the plugin.
+/// By default, it's `[ParserReady, SerializerReady, CommandsReady]`.
 export const editorStateTimerCtx = createSlice([] as TimerType[], 'editorStateTimer')
 
+/// The timer which will be resolved when the editor state plugin is ready.
 export const EditorStateReady = createTimer('EditorStateReady')
 
-const key = new PluginKey('MILKDOWN_STATE_TRACKER')
-
+/// @internal
 export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
   if (typeof defaultValue === 'string')
     return parser(defaultValue)
@@ -42,6 +52,12 @@ export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schem
   throw docTypeError(defaultValue)
 }
 
+const key = new PluginKey('MILKDOWN_STATE_TRACKER')
+
+/// The editor state plugin.
+/// This plugin will create an prosemirror editor state.
+///
+/// This plugin will wait for the parser plugin, serializer plugin and commands plugin.
 export const editorState: MilkdownPlugin = (ctx) => {
   ctx.inject(defaultValueCtx)
     .inject(editorStateCtx)

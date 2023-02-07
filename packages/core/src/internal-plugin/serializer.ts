@@ -7,11 +7,20 @@ import { SerializerState } from '@milkdown/transformer'
 import { remarkCtx } from './init'
 import { SchemaReady, schemaCtx } from './schema'
 
-export const serializerCtx = createSlice<Serializer, 'serializer'>(() => '', 'serializer')
-export const serializerTimerCtx = createSlice([] as TimerType[], 'serializerTimer')
-
+/// The timer which will be resolved when the serializer plugin is ready.
 export const SerializerReady = createTimer('SerializerReady')
 
+/// A slice which stores timers that need to be waited for before starting to run the plugin.
+/// By default, it's `[SchemaReady]`.
+export const serializerTimerCtx = createSlice([] as TimerType[], 'serializerTimer')
+
+/// A slice which contains the serializer.
+export const serializerCtx = createSlice<Serializer, 'serializer'>(() => '', 'serializer')
+
+/// The serializer plugin.
+/// This plugin will create a serializer.
+///
+/// This plugin will wait for the schema plugin.
 export const serializer: MilkdownPlugin = (ctx) => {
   ctx.inject(serializerCtx).inject(serializerTimerCtx, [SchemaReady]).record(SerializerReady)
 

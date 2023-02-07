@@ -2,18 +2,34 @@
 
 The core module for milkdown.
 
-## Editor
+# Editor
 
 @Editor
+
 @EditorStatus
 @OnStatusChange
 
-## Internal Plugins
+# Internal Plugins
 
-### Init
+## Config
+
+@config
+
+### Timer
+
+@ConfigReady
+
+## Init
+
+@init
+
+### Timer
+
+@InitReady
+
+### Slice
 
 @initTimerCtx
-@InitReady
 
 @editorCtx
 @prosePluginsCtx
@@ -23,69 +39,100 @@ The core module for milkdown.
 
 @remarkPluginsCtx
 @remarkCtx
-@remarkStringifyDefaultOptions
 @remarkStringifyOptionsCtx
 
-@init
+## Schema
 
-### Schema
+@schema
 
-@parserCtx
-@parserTimerCtx
-@ParserReady
-@parser
+### Timer
 
-@serializerCtx
-@serializerTimerCtx
-@SerializerReady
-@serializer
+@SchemaReady
+
+### Slice
+
+@schemaTimerCtx
 
 @nodesCtx
 @marksCtx
 @schemaCtx
-@schemaTimerCtx
-@SchemaReady
-@schema
 
-### Config
+## Parser
 
-@config
-@Config
-@ConfigReady
+@parser
 
-### EditorState
+### Timer
+
+@ParserReady
+
+### Slice
+
+@parserTimerCtx
+
+@parserCtx
+
+## Serializer
+
+@serializer
+
+### Timer
+
+@SerializerReady
+
+### Slice
+
+@serializerTimerCtx
+
+@serializerCtx
+
+## Commands
+
+@commands
+@CommandManager
+@createCmd
+@createCmdKey
+
+### Timer
+
+@CommandsReady
+
+### Slice
+
+@commandsTimerCtx
+
+@commandsCtx
+
+## EditorState
+
+@editorState
+
+### Timer
+
+@EditorStateReady
+
+### Slice
+
+@editorStateTimerCtx
 
 @editorStateCtx
 @editorStateOptionsCtx
-@editorStateTimerCtx
-@EditorStateReady
-@editorState
 
-### EditorView
+## EditorView
 
-@DefaultValue
+@editorView
+
+### Timer
+
+@EditorViewReady
+
+### Ctx
+
+@editorViewTimerCtx
+
 @defaultValueCtx
-@getDoc
-
 @rootCtx
 @rootDOMCtx
 @rootAttrsCtx
 
 @editorViewCtx
 @editorViewOptionsCtx
-@editorViewTimerCtx
-@EditorViewReady
-@editorView
-
-### Commands
-
-@Cmd
-@CmdKey
-@CmdTuple
-@CommandManager
-@createCmd
-@createCmdKey
-@commandsCtx
-@commandsTimerCtx
-@CommandsReady
-@commands

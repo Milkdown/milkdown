@@ -2,21 +2,24 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { createTimer } from '@milkdown/ctx'
 
-export const ConfigReady = createTimer('ConfigReady')
-
+/// @internal
 export type Config = (ctx: Ctx) => void | Promise<void>
 
-export const config
-    = (configure: Config): MilkdownPlugin =>
-      (ctx) => {
-        ctx.record(ConfigReady)
+/// The timer which will be resolved when the config plugin is ready.
+export const ConfigReady = createTimer('ConfigReady')
 
-        return async () => {
-          await configure(ctx)
-          ctx.done(ConfigReady)
+/// The config plugin.
+/// This plugin will load all user configs.
+export const config = (configure: Config): MilkdownPlugin =>
+  (ctx) => {
+    ctx.record(ConfigReady)
 
-          return () => {
-            ctx.clearTimer(ConfigReady)
-          }
-        }
+    return async () => {
+      await configure(ctx)
+      ctx.done(ConfigReady)
+
+      return () => {
+        ctx.clearTimer(ConfigReady)
       }
+    }
+  }
