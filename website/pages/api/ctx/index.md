@@ -1,7 +1,8 @@
 # @milkdown/ctx
 
+## Slice
+
 @Container
-@SliceMap
 
 @SliceType
 @Slice
@@ -10,17 +11,19 @@
 ## Timer
 
 @Clock
-@TimerMap
 
 @TimerType
 @Timer
 @createTimer
 
-## Store
+---
+
+## Ctx
 
 @Ctx
 
+---
+
+## Plugin Types
+
 @MilkdownPlugin
-@CtxRunner
-@RunnerReturnType
-@Cleanup
