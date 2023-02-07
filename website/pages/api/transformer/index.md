@@ -1,33 +1,41 @@
 # @milkdown/transformer
 
 Transformer APIs are used to transform between the editor's prosemirror state and the markdown AST.
-Generally, you don't need to use these APIs directly.
+In most cases, you don't need to use these APIs directly.
 You only need to learn how to use the
 [ParserState](#class-parserstate-extends-stack) and [SerializerState](#class-serializerstate-extends-stack)
 when writing syntax plugins.
 
-### Stack
+## Parser
 
-@Stack
-@StackElement
-
-### Parser
+@ParserState
 
 @Parser
-@ParserState
 @NodeParserSpec
 @MarkParserSpec
 
-@Serializer
+## Serializer
+
 @SerializerState
+
+@Serializer
 @NodeSerializerSpec
 @MarkSerializerSpec
 
-@JSONValue
-@JSONRecord
+---
+
+## Schema
+
+@NodeSchema
+@MarkSchema
+
+## Utility Types
+
 @RemarkPlugin
 @RemarkParser
 @MarkdownNode
 
-@NodeSchema
-@MarkSchema
+## Stack
+
+@Stack
+@StackElement

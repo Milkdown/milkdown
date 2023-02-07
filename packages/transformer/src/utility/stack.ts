@@ -8,10 +8,14 @@ export abstract class StackElement<Node> {
 }
 
 /// The stack that is used to store the elements.
+///
+/// > Generally, you don't need to use this class directly.
+///
 /// When using the stack, users can call `stack.open` to push a new element into the stack.
 /// And use `stack.push` to push a node into the top element.
 /// Then use `stack.close` to close the top element and pop it.
-/// For example: `stack.open(A).push(B).push(C).close()` will get a structure like `[A: children: [ B, C ]]`.
+///
+/// For example: `stack.open(A).push(B).push(C).close()` will generate a structure like `A(B, C)`.
 export class Stack<Node, Element extends StackElement<Node>> {
   protected elements: Element[] = []
 

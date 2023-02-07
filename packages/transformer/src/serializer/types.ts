@@ -1,13 +1,52 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Mark as ProseMark, Node as ProseNode } from '@milkdown/prose/model'
+import type { Mark, Node } from '@milkdown/prose/model'
 
 import type { SerializerState } from './state'
 
+/// The serializer type which is used to transform prosemirror node into markdown text.
+export type Serializer = (content: Node) => string
+
+/// The spec for node serializer in schema.
 export interface NodeSerializerSpec {
-  match: (node: ProseNode) => boolean
-  runner: (state: SerializerState, node: ProseNode) => void
+  /// The match function to check if the node is the target node.
+  /// For example:
+  ///
+  /// ```typescript
+  /// match: (node) => node.type.name === 'paragraph'
+  /// ```
+  match: (node: Node) => boolean
+  /// The runner function to transform the node into markdown text.
+  /// Generally, you should call methods in `state` to add node to state.
+  /// For example:
+  ///
+  /// ```typescript
+  /// runner: (state, node) => {
+  ///   state
+  ///     .openNode(node.type.name)
+  ///     .next(node.content)
+  ///     .closeNode();
+  /// }
+  /// ```
+  runner: (state: SerializerState, node: Node) => void
 }
+
+/// The spec for mark serializer in schema.
 export interface MarkSerializerSpec {
-  match: (mark: ProseMark) => boolean
-  runner: (state: SerializerState, mark: ProseMark, node: ProseNode) => void | boolean
+  /// The match function to check if the node is the target mark.
+  /// For example:
+  ///
+  /// ```typescript
+  /// match: (mark) => mark.type.name === 'emphasis'
+  /// ```
+  match: (mark: Mark) => boolean
+  /// The runner function to transform the node into markdown text.
+  /// Generally, you should call methods in `state` to add mark to state.
+  /// For example:
+  ///
+  /// ```typescript
+  /// runner: (state, mark, node) => {
+  ///   state.withMark(mark, 'emphasis');
+  /// }
+  /// ```
+  runner: (state: SerializerState, mark: Mark, node: Node) => void | boolean
 }

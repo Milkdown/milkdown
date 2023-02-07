@@ -27,6 +27,7 @@ export const markdownPlugin = () =>
           filename,
           main: id,
           format: 'markdown',
+          templates: resolve(__dirname, './templates'),
         })
 
         return dataToEsm(markdown)

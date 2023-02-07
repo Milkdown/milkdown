@@ -776,7 +776,7 @@ importers:
       '@types/react-router-dom': ^5.1.7
       '@types/unist': ^2.0.6
       autoprefixer: ^10.2.5
-      builddocs: ^1.0.6
+      builddocs: ^1.0.7
       clsx: ^1.2.1
       history: ^5.0.1
       katex: ^0.16.0
@@ -875,7 +875,7 @@ importers:
       '@types/react-router-dom': 5.3.3
       '@types/unist': 2.0.6
       autoprefixer: 10.4.7_postcss@8.4.19
-      builddocs: 1.0.6
+      builddocs: 1.0.7
       history: 5.3.0
       postcss: 8.4.19
       postcss-cli: 10.0.0_postcss@8.4.19
@@ -5828,8 +5828,8 @@ packages:
       base64-js: 1.5.1
       ieee754: 1.2.1
 
-  /builddocs/1.0.6:
-    resolution: {integrity: sha512-M0hQvfLTPFCm2Yh8UnTPm2MbEGw3PYfgbSfuNu0gQKeGAVX3xFpng7Cco7SpRsKamYSg2vxYG9JugFpso5L9KA==}
+  /builddocs/1.0.7:
+    resolution: {integrity: sha512-D4KJAD97OFHAWFVqJx2Dx1E9WmMDagLuuYh0Z/mhVlpoUAN9cMBwxzIkutA11RFCu+dabg9VUbu+pgo/58sFPg==}
     hasBin: true
     dependencies:
       getdocs-ts: 0.1.5
