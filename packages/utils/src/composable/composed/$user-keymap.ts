@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { Ctx, SliceType } from '@milkdown/core'
+import type { Ctx, SliceType } from '@milkdown/ctx'
 import type { Command } from '@milkdown/prose/state'
 import type { $Ctx } from '../$ctx'
 import { $ctx } from '../$ctx'

@@ -6,23 +6,40 @@ import type { MarkSchema, MarkdownNode, NodeSchema, RemarkParser } from '../util
 import { Stack } from '../utility'
 
 import { ParserStackElement } from './stack-element'
+import type { Parser } from './types'
 
-/**
- * State for parser.
- * Transform remark AST into prosemirror state.
- */
+/// A state machine for parser. Transform remark AST into prosemirror state.
 export class ParserState extends Stack<Node, ParserStackElement> {
+  /// The schema in current editor.
   readonly schema: Schema
 
+  /// @internal
   #marks: readonly Mark[] = Mark.none
 
-  constructor(schema: Schema) {
+  /// Create a parser from schema and remark instance.
+  ///
+  /// ```typescript
+  /// const parser = ParserState.create(schema, remark)
+  /// const prosemirrorNode = parser(SomeMarkdownText)
+  /// ```
+  static create = (schema: Schema, remark: RemarkParser): Parser => {
+    const state = new this(schema)
+    return (text) => {
+      state.run(remark, text)
+      return state.toDoc()
+    }
+  }
+
+  /// @internal
+  protected constructor(schema: Schema) {
     super()
     this.schema = schema
   }
 
+  /// @internal
   #hasText = (node: Node): node is Node & { text: string } => node.isText
 
+  /// @internal
   #maybeMerge = (a: Node, b: Node): Node | undefined => {
     if (this.#hasText(a) && this.#hasText(b) && Mark.sameSet(a.marks, b.marks))
       return this.schema.text(a.text + b.text, a.marks)
@@ -30,6 +47,7 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return undefined
   }
 
+  /// @internal
   #matchTarget = (node: MarkdownNode): NodeType | MarkType => {
     const result = Object.values({ ...this.schema.nodes, ...this.schema.marks })
       .find((x): x is (NodeType | MarkType) => {
@@ -43,6 +61,7 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return result
   }
 
+  /// @internal
   #runNode = (node: MarkdownNode) => {
     const type = this.#matchTarget(node)
     const spec = type.spec as NodeSchema | MarkSchema
@@ -50,11 +69,22 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     spec.parseMarkdown.runner(this, node, type as NodeType & MarkType)
   }
 
+  /// Inject root node for prosemirror state.
+  injectRoot = (node: MarkdownNode, nodeType: NodeType, attrs?: Attrs) => {
+    this.openNode(nodeType, attrs)
+    this.next(node.children)
+
+    return this
+  }
+
+  /// Open a new node, the next operations will
+  /// add nodes into that new node until `closeNode` is called.
   openNode = (nodeType: NodeType, attrs?: Attrs) => {
     this.open(ParserStackElement.create(nodeType, [], attrs))
     return this
   }
 
+  /// @internal
   #closeNodeAndPush = (): Node => {
     this.#marks = Mark.none
     const element = this.close()
@@ -62,11 +92,13 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return this.#addNodeAndPush(element.type, element.attrs, element.content)
   }
 
+  /// Close the current node and push it into the parent node.
   closeNode = () => {
     this.#closeNodeAndPush()
     return this
   }
 
+  /// @internal
   #addNodeAndPush = (nodeType: NodeType, attrs?: Attrs, content?: Node[]): Node => {
     const node = nodeType.createAndFill(attrs, content, this.#marks)
     if (!node)
@@ -77,11 +109,13 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return node
   }
 
+  /// Add a node into current node.
   addNode = (nodeType: NodeType, attrs?: Attrs, content?: Node[]) => {
     this.#addNodeAndPush(nodeType, attrs, content)
     return this
   }
 
+  /// Open a new mark, the next nodes added will have that mark.
   openMark = (markType: MarkType, attrs?: Attrs) => {
     const mark = markType.create(attrs)
 
@@ -89,11 +123,13 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return this
   }
 
+  /// Close a opened mark.
   closeMark = (markType: MarkType) => {
     this.#marks = markType.removeFromSet(this.#marks)
     return this
   }
 
+  /// Add a text node into current node.
   addText = (text: string) => {
     const topElement = this.top()
     if (!topElement)
@@ -116,6 +152,7 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return this
   }
 
+  /// @internal
   build = (): Node => {
     let doc: Node | undefined
 
@@ -126,45 +163,20 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return doc
   }
 
-  toDoc = () => this.build()
-
-  /**
-     * Transform a markdown string into prosemirror state.
-     *
-     * @param remark - The remark parser used.
-     * @param markdown - The markdown string needs to be parsed.
-     * @returns The state instance.
-     */
-  run = (remark: RemarkParser, markdown: string) => {
-    const tree = remark.runSync(remark.parse(markdown), markdown) as MarkdownNode
-    this.next(tree)
-
-    return this
-  }
-
-  /**
-     * Give the node or node list back to the state and the state will find a proper runner (by `match` method) to handle it.
-     *
-     * @param nodes - The node or node list needs to be handled.
-     *
-     * @returns The state instance.
-     */
+  /// Give the node or node list back to the state and
+  /// the state will find a proper runner (by `match` method in parser spec) to handle it.
   next = (nodes: MarkdownNode | MarkdownNode[] = []) => {
     [nodes].flat().forEach(node => this.#runNode(node))
     return this
   }
 
-  /**
-     * Inject root node for prosemirror state.
-     *
-     * @param node - The target markdown node.
-     * @param nodeType - The root prosemirror nodeType .
-     * @param attrs - The attribute of root type.
-     * @returns The state instance.
-     */
-  injectRoot = (node: MarkdownNode, nodeType: NodeType, attrs?: Attrs) => {
-    this.openNode(nodeType, attrs)
-    this.next(node.children)
+  /// Build the current state into a [prosemirror document](https://prosemirror.net/docs/ref/#model.Document_Structure).
+  toDoc = () => this.build()
+
+  /// Transform a markdown string into prosemirror state.
+  run = (remark: RemarkParser, markdown: string) => {
+    const tree = remark.runSync(remark.parse(markdown), markdown) as MarkdownNode
+    this.next(tree)
 
     return this
   }

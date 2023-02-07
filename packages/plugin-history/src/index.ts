@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
 import { commandsCtx, createCmdKey } from '@milkdown/core'
 import { history as prosemirrorHistory, redo, undo } from '@milkdown/prose/history'
 import { $command, $ctx, $prose, $useKeymap } from '@milkdown/utils'

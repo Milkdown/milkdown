@@ -2,63 +2,34 @@
 
 The core module for milkdown.
 
-## Ctx
-
-@Container
-@SliceMap
-
-@SliceType
-@Slice
-@createSlice
-
-## Timer
-
-@Clock
-@TimerMap
-
-@TimerType
-@Timer
-@createTimer
-
-## Store
-
-@Ctx
-
-@MilkdownPlugin
-@CtxRunner
-@RunnerReturnType
-@Cleanup
-
-## Editor
+# Editor
 
 @Editor
+
 @EditorStatus
 @OnStatusChange
 
-## Transformer
+# Internal Plugins
 
-@StackElement
-@Stack
+## Config
 
-@createParser
-@MarkdownNode
-@NodeParserSpec
-@MarkParserSpec
+@config
 
-@createSerializer
-@NodeSerializerSpec
-@MarkSerializerSpec
+### Timer
 
-@JSONRecord
-@RemarkPlugin
-@RemarkParser
+@ConfigReady
 
-## Internal Plugins
+## Init
 
-### Init
+@init
+
+### Timer
+
+@InitReady
+
+### Slice
 
 @initTimerCtx
-@InitReady
 
 @editorCtx
 @prosePluginsCtx
@@ -68,72 +39,100 @@ The core module for milkdown.
 
 @remarkPluginsCtx
 @remarkCtx
-@remarkStringifyDefaultOptions
 @remarkStringifyOptionsCtx
 
-@init
+## Schema
 
-### Schema
-
-@Parser
-@parserCtx
-@parserTimerCtx
-@ParserReady
-@parser
-
-@serializerCtx
-@serializerTimerCtx
-@SerializerReady
-@serializer
-
-@NodeSchema
-@nodesCtx
-@MarkSchema
-@marksCtx
-@schemaCtx
-@schemaTimerCtx
-@SchemaReady
 @schema
 
-### Config
+### Timer
 
-@config
-@Config
-@ConfigReady
+@SchemaReady
 
-### EditorState
+### Slice
+
+@schemaTimerCtx
+
+@nodesCtx
+@marksCtx
+@schemaCtx
+
+## Parser
+
+@parser
+
+### Timer
+
+@ParserReady
+
+### Slice
+
+@parserTimerCtx
+
+@parserCtx
+
+## Serializer
+
+@serializer
+
+### Timer
+
+@SerializerReady
+
+### Slice
+
+@serializerTimerCtx
+
+@serializerCtx
+
+## Commands
+
+@commands
+@CommandManager
+@createCmd
+@createCmdKey
+
+### Timer
+
+@CommandsReady
+
+### Slice
+
+@commandsTimerCtx
+
+@commandsCtx
+
+## EditorState
+
+@editorState
+
+### Timer
+
+@EditorStateReady
+
+### Slice
+
+@editorStateTimerCtx
 
 @editorStateCtx
 @editorStateOptionsCtx
-@editorStateTimerCtx
-@EditorStateReady
-@editorState
 
-### EditorView
+## EditorView
 
-@DefaultValue
+@editorView
+
+### Timer
+
+@EditorViewReady
+
+### Ctx
+
+@editorViewTimerCtx
+
 @defaultValueCtx
-@getDoc
-
 @rootCtx
 @rootDOMCtx
 @rootAttrsCtx
 
 @editorViewCtx
 @editorViewOptionsCtx
-@editorViewTimerCtx
-@EditorViewReady
-@editorView
-
-### Commands
-
-@Cmd
-@CmdKey
-@CmdTuple
-@CommandManager
-@createCmd
-@createCmdKey
-@commandsCtx
-@commandsTimerCtx
-@CommandsReady
-@commands

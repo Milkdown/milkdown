@@ -6,7 +6,7 @@ import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { refractor } from 'refractor'
 
 import { $ctx, $prose } from '@milkdown/utils'
-import type { MilkdownPlugin } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
 import { getDecorations } from './get-decorations'
 
 export interface Options {

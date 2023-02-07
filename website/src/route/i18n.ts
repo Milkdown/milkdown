@@ -297,6 +297,13 @@ export const i18nDict: Dict = new Map([
     },
   ],
   [
+    'transformer',
+    {
+      'en': 'transformer',
+      'zh-hans': 'transformer',
+    },
+  ],
+  [
     'prose',
     {
       'en': 'prose',

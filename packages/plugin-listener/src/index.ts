@@ -1,13 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
+import { createSlice } from '@milkdown/ctx'
 import type {
   Ctx,
   MilkdownPlugin,
-} from '@milkdown/core'
+} from '@milkdown/ctx'
 import {
   EditorViewReady,
   InitReady,
   SerializerReady,
-  createSlice,
   prosePluginsCtx,
   serializerCtx,
 } from '@milkdown/core'

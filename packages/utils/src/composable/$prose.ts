@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import type { Ctx, MilkdownPlugin } from '@milkdown/core'
+import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { SchemaReady, editorStateTimerCtx, prosePluginsCtx } from '@milkdown/core'
 import type { Plugin, PluginKey } from '@milkdown/prose/state'
 

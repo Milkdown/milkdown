@@ -9,6 +9,7 @@ declare module 'builddocs' {
     main?: string;
     mainText?: string;
     anchorPrefix?: string;
+    templates?: string;
   }
   export function build(config: Config): string
 }

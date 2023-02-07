@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin, RemarkPlugin } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
+import type { RemarkPlugin } from '@milkdown/transformer'
 import { expectDomTypeError } from '@milkdown/exception'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $ctx, $inputRule, $nodeAttr, $nodeSchema, $remark } from '@milkdown/utils'

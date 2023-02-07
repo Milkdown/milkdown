@@ -14,49 +14,62 @@ import {
   serializer,
 } from '../internal-plugin'
 
+/// The status of the editor.
 export enum EditorStatus {
+  /// The editor is not initialized.
   Idle = 'Idle',
+  /// The editor is creating.
   OnCreate = 'OnCreate',
+  /// The editor has been created and ready to use.
   Created = 'Created',
+  /// The editor is destroying.
   OnDestroy = 'OnDestroy',
+  /// The editor has been destroyed.
   Destroyed = 'Destroyed',
 }
 
+/// Type for the callback called when editor status changed.
 export type OnStatusChange = (status: EditorStatus) => void
 
-/**
- * Get the milkdown editor constructor
- */
+/// The milkdown editor class.
 export class Editor {
-  /**
-   * Create a new editor instance.
-   *
-   * @returns The new editor instance been created.
-   */
+  /// Create a new editor instance.
   static make() {
     return new Editor()
   }
 
+  /// @internal
   #status = EditorStatus.Idle
+  /// @internal
   #configureList: Config[] = []
+  /// @internal
   #onStatusChange: OnStatusChange = () => undefined
 
+  /// @internal
   readonly #container = new Container()
+  /// @internal
   readonly #clock = new Clock()
 
+  /// @internal
   readonly #plugins: Map<
     MilkdownPlugin,
     { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
   > = new Map()
 
+  /// @internal
   #internalPlugins: Map<
     MilkdownPlugin,
     { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
   > = new Map()
 
+  /// @internal
   readonly #ctx = new Ctx(this.#container, this.#clock)
 
+  /// @internal
   readonly #loadInternal = () => {
+    const configPlugin = config(async (ctx) => {
+      await Promise.all(this.#configureList.map(fn => fn(ctx)))
+    })
     const internalPlugins = [
       schema,
       parser,
@@ -65,11 +78,9 @@ export class Editor {
       editorState,
       editorView,
       init(this),
+      configPlugin,
     ]
-    const configPlugin = config(async (ctx) => {
-      await Promise.all(this.#configureList.map(fn => fn(ctx)))
-    })
-    internalPlugins.concat(configPlugin).flat().forEach((plugin) => {
+    internalPlugins.forEach((plugin) => {
       this.#internalPlugins.set(plugin, {
         handler: plugin(this.#ctx),
         cleanup: undefined,
@@ -77,6 +88,7 @@ export class Editor {
     })
   }
 
+  /// @internal
   readonly #prepare = () => {
     [...this.#plugins.entries()].map(async ([key, loader]) => {
       const handler = key(this.#ctx)
@@ -84,6 +96,7 @@ export class Editor {
     })
   }
 
+  /// @internal
   readonly #cleanup = (plugins: MilkdownPlugin[], remove = false) => {
     return Promise.all(
       [plugins].flat().map((plugin) => {
@@ -102,6 +115,7 @@ export class Editor {
     )
   }
 
+  /// @internal
   readonly #cleanupInternal = async () => {
     await Promise.all([...this.#internalPlugins.entries()].map(([_, { cleanup }]) => {
       if (typeof cleanup === 'function')
@@ -112,38 +126,42 @@ export class Editor {
     this.#internalPlugins.clear()
   }
 
+  /// @internal
   readonly #setStatus = (status: EditorStatus) => {
     this.#status = status
     this.#onStatusChange(status)
   }
 
-  /**
-   * Get the ctx of the editor.
-   */
+  /// Get the ctx of the editor.
   get ctx() {
     return this.#ctx
   }
 
-  /**
-   * Get the status of the editor.
-   */
+  /// Get the status of the editor.
   get status() {
     return this.#status
   }
 
-  /**
-   * Use one plugin or a list of plugins for current editor.
-   *
-   * @example
-   * ```typescript
-   * Editor.make()
-   *   .use(plugin)
-   *   .use([pluginA, pluginB])
-   * ```
-   *
-   * @param plugins - A list of plugins, or one plugin.
-   * @returns Editor instance.
-   */
+  /// Subscribe to the status change event for the editor.
+  /// The new subscription will replace the old one.
+  readonly onStatusChange = (onChange: OnStatusChange) => {
+    this.#onStatusChange = onChange
+    return this
+  }
+
+  /// Add a config for the editor.
+  readonly config = (configure: Config) => {
+    this.#configureList.push(configure)
+    return this
+  }
+
+  /// Remove a config for the editor.
+  readonly removeConfig = (configure: Config) => {
+    this.#configureList = this.#configureList.filter(x => x !== configure)
+    return this
+  }
+
+  /// Use a plugin or a list of plugins for the editor.
   readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
     [plugins].flat().forEach((plugin) => {
       const handler = this.#status === EditorStatus.Created ? plugin(this.#ctx) : undefined
@@ -156,43 +174,22 @@ export class Editor {
     return this
   }
 
-  /**
-   * Config the context for current editor.
-   *
-   * @param configure - The function that configure current editor, can be async, with context as parameter.
-   * @returns Editor instance.
-   */
-  readonly config = (configure: Config) => {
-    this.#configureList.push(configure)
+  /// Remove a plugin or a list of plugins from the editor.
+  readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]): Promise<Editor> => {
+    if (this.#status === EditorStatus.OnCreate) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.remove(plugins))
+        }, 50)
+      })
+    }
+
+    await this.#cleanup([plugins].flat(), true)
     return this
   }
 
-  readonly removeConfig = (configure: Config) => {
-    this.#configureList = this.#configureList.filter(x => x !== configure)
-    return this
-  }
-
-  /**
-   * Call when editor status changed.
-   *
-   * @param onChange - The function that will be called when the status of the editor changed.
-   * @returns Editor instance.
-   */
-  readonly onStatusChange = (onChange: OnStatusChange) => {
-    this.#onStatusChange = onChange
-    return this
-  }
-
-  /**
-   * Create the editor UI.
-   *
-   * @example
-   * ```typescript
-   * Editor.make().use(nord).use(commonmark).create()
-   * ```
-   *
-   * @returns A promise object, will be resolved as editor instance after create finish.
-   */
+  /// Create the editor with current config and plugins.
+  /// If the editor is already created, it will be recreated.
   readonly create = async (): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate)
       return this
@@ -234,38 +231,8 @@ export class Editor {
     return this
   }
 
-  /**
-   * Remove one plugin or a list of plugins from current editor.
-   *
-   * @param plugins - A list of plugins, or one plugin.
-   * @returns Editor instance.
-   */
-  readonly remove = async (
-    plugins: MilkdownPlugin | MilkdownPlugin[],
-  ): Promise<Editor> => {
-    if (this.#status === EditorStatus.OnCreate) {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.remove(plugins))
-        }, 50)
-      })
-    }
-
-    await this.#cleanup([plugins].flat(), true)
-    return this
-  }
-
-  /**
-   * Destroy the editor.
-   *
-   * @example
-   * ```typescript
-   * const editor = await Editor.make().use(commonmark).create();
-   * await editor.destroy();
-   * ```
-   *
-   * @returns A promise object, will be resolved as editor instance after destroy finish.
-   */
+  /// Destroy the editor.
+  /// If you want to clear all plugins, set `clearPlugins` to `true`.
   readonly destroy = async (clearPlugins = false): Promise<Editor> => {
     if (this.#status === EditorStatus.Destroyed || this.#status === EditorStatus.OnDestroy)
       return this
@@ -289,29 +256,7 @@ export class Editor {
     return this
   }
 
-  /**
-   * Get the context value in a running editor on demand and return the action result.
-   *
-   * @example
-   * ```typescript
-   * import { Editor, editorViewCtx, serializerCtx } from '@milkdown/core';
-   * async function playWithEditor() {
-   *     const editor = await Editor.make().use(commonmark).create();
-   *
-   *     const getMarkdown = () =>
-   *         editor.action((ctx) => {
-   *             const editorView = ctx.get(editorViewCtx);
-   *             const serializer = ctx.get(serializerCtx);
-   *             return serializer(editorView.state.doc);
-   *         });
-   *
-   *     // get markdown string:
-   *     getMarkdown();
-   * }
-   * ```
-   *
-   * @param action - The function that get editor context and return the action result.
-   * @returns The action result.
-   */
+  /// Call an action with the ctx of the editor.
+  /// This method should be used after the editor is created.
   readonly action = <T>(action: (ctx: Ctx) => T) => action(this.#ctx)
 }

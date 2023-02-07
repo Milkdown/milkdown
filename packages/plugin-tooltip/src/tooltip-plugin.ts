@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { SliceType } from '@milkdown/core'
+import type { SliceType } from '@milkdown/ctx'
 import type { PluginSpec } from '@milkdown/prose/state'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { $Ctx, $Prose } from '@milkdown/utils'

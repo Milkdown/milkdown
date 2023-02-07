@@ -3,11 +3,12 @@ import { basename, dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { dataToEsm } from '@rollup/pluginutils'
 import { build } from 'builddocs'
+import type { PluginOption } from 'vite'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-export const markdownPlugin = () =>
+export const markdownPlugin = (): PluginOption =>
   ({
     name: 'vite-plugin-markdown',
     enforce: 'pre',
@@ -27,6 +28,7 @@ export const markdownPlugin = () =>
           filename,
           main: id,
           format: 'markdown',
+          templates: resolve(__dirname, './templates'),
         })
 
         return dataToEsm(markdown)

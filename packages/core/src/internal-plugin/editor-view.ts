@@ -12,14 +12,29 @@ type EditorOptions = Omit<DirectEditorProps, 'state'>
 
 type RootType = Node | undefined | null | string
 
-export const editorViewCtx = createSlice({} as EditorView, 'editorView')
-export const editorViewTimerCtx = createSlice([] as TimerType[], 'editorViewTimer')
+/// The timer which will be resolved when the editor view plugin is ready.
 export const EditorViewReady = createTimer('EditorViewReady')
 
+/// A slice which contains the editor view instance.
+export const editorViewCtx = createSlice({} as EditorView, 'editorView')
+
+/// A slice which stores timers that need to be waited for before starting to run the plugin.
+/// By default, it's `[EditorStateReady]`.
+export const editorViewTimerCtx = createSlice([] as TimerType[], 'editorViewTimer')
+
+/// A slice which contains the editor view options which will be passed to the editor view.
 export const editorViewOptionsCtx = createSlice({} as Partial<EditorOptions>, 'editorViewOptions')
+
+/// A slice which contains the value to get the root element.
+/// Can be a selector string, a node or null.
+/// If it's null, the editor will be created in the body.
 export const rootCtx = createSlice(null as RootType, 'root')
 
+/// A slice which contains the actually root element.
 export const rootDOMCtx = createSlice(null as unknown as HTMLElement, 'rootDOM')
+
+/// A slice which contains the root element attributes.
+/// You can add attributes to the root element by this slice.
 export const rootAttrsCtx = createSlice({} as Record<string, string>, 'rootAttrs')
 
 const createViewContainer = (root: Node, ctx: Ctx) => {
@@ -41,6 +56,10 @@ const prepareViewDom = (dom: Element) => {
 
 const key = new PluginKey('MILKDOWN_VIEW_CLEAR')
 
+/// The editor view plugin.
+/// This plugin will create an editor view.
+///
+/// This plugin will wait for the editor state plugin.
 export const editorView: MilkdownPlugin = (ctx) => {
   ctx.inject(rootCtx, document.body)
     .inject(editorViewCtx)

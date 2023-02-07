@@ -2,8 +2,7 @@
 import type {
   Ctx,
   MilkdownPlugin,
-  NodeSchema,
-} from '@milkdown/core'
+} from '@milkdown/ctx'
 import {
   SchemaReady,
   nodesCtx,
@@ -13,6 +12,7 @@ import {
 import { missingNodeInSchema } from '@milkdown/exception'
 import type { NodeType } from '@milkdown/prose/model'
 
+import type { NodeSchema } from '@milkdown/transformer'
 import { addTimer } from './utils'
 
 export type $Node = MilkdownPlugin & {

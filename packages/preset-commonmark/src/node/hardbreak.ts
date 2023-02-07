@@ -3,24 +3,37 @@ import { commandsCtx } from '@milkdown/core'
 import { Selection } from '@milkdown/prose/state'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
-export const hardbreakAttr = $nodeAttr('hardbreak')
+export const hardbreakAttr = $nodeAttr('hardbreak', (node) => {
+  return {
+    'data-is-inline': node.attrs.isInline,
+  }
+})
 
 export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
   inline: true,
   group: 'inline',
+  attrs: {
+    isInline: {
+      default: false,
+    },
+  },
   selectable: false,
   parseDOM: [{ tag: 'br' }],
   toDOM: node => ['br', ctx.get(hardbreakAttr.key)(node)],
   parseMarkdown: {
     match: ({ type }) => type === 'break',
-    runner: (state, _, type) => {
-      state.addNode(type)
+    runner: (state, node, type) => {
+      state.addNode(type, { isInline: Boolean(node.data?.isInline) })
     },
   },
   toMarkdown: {
     match: node => node.type.name === 'hardbreak',
-    runner: (state) => {
-      state.addNode('break')
+    runner: (state, node) => {
+      if (node.attrs.isInline)
+        state.addNode('text', undefined, '\n')
+
+      else
+        state.addNode('break')
     },
   },
 }))
