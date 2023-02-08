@@ -3,10 +3,6 @@
   "tag": "next",
   "initialVersions": {
     "@milkdown/e2e": "6.5.4",
-    "@milkdown-examples/collaboration": "6.5.4",
-    "@milkdown-examples/react": "6.5.4",
-    "@milkdown-examples/vanilla": "6.5.4",
-    "@milkdown-examples/vue": "6.5.4",
     "@milkdown/core": "6.5.4",
     "@milkdown/ctx": "6.5.4",
     "@milkdown/exception": "6.5.4",
