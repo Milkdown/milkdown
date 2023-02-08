@@ -22,10 +22,10 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/core": "^7.0.0-next.0",
-    "@milkdown/ctx": "^7.0.0-next.0",
-    "@milkdown/prose": "^7.0.0-next.0",
-    "@milkdown/transformer": "^7.0.0-next.0"
+    "@milkdown/core": "^6.5.4",
+    "@milkdown/ctx": "^6.5.4",
+    "@milkdown/prose": "^6.5.4",
+    "@milkdown/transformer": "^6.5.4"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
