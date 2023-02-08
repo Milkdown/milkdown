@@ -9,6 +9,8 @@ The core module for milkdown.
 @EditorStatus
 @OnStatusChange
 
+---
+
 # Internal Plugins
 
 ## Config

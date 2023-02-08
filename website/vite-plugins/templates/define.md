@@ -1,8 +1,11 @@
 <<in {item, name, static, abstract, depth=0}>>
 <<in {isFn=!static && !abstract && item.type === "Function" && !item.optional && item.signatures[0].type != "constructor" && item.id.indexOf('.') < 0}>>
+<<in {isVar=!static && !abstract && item.type !== "Function" && !item.optional && item.id.indexOf('.') < 0}>>
 
   <<if isFn>>
     <<h " ".repeat(depth)>> ### <<h name>> `<<fntype item.signatures[0]>>`
+  <<elif isVar>>
+    <<h " ".repeat(depth)>> ### <<h name>> `<<if item.type>>: <<type item>><</if>>`
   <<else>>
     <<h " ".repeat(depth)>> * <<if abstract>>`abstract `<</if>><<if static>>`static `<</if>>
     <<if item.type == "Function" && !item.optional>>
@@ -16,11 +19,7 @@
      \␤<<h " ".repeat(depth + 3)>><<if sig.type == "constructor">>`new `<</if>>**`<<h name>>`**`<<fntype sig>>`
    <</for>>
    <<if item.description>>
-    <<if isFn>>
-      ␤
-    <<else>>
-      \␤
-    <</if>>
+  <<if isFn||isVar>>␤<<else>>\␤<</if>>
    <<indent {text: item.description, depth: depth + 3}>><</if>>␤␤
    <<for name, prop in item.properties || {}>>
      <<if hasDescription(prop)>>
