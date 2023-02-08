@@ -1,5 +1,40 @@
 # @milkdown/website
 
+## 7.0.0-next.0
+
+### Major Changes
+
+- 069d719b: Pre-release for milkdown v7.
+
+### Patch Changes
+
+- Updated dependencies [069d719b]
+  - @milkdown/core@7.0.0-next.0
+  - @milkdown/ctx@7.0.0-next.0
+  - @milkdown/exception@7.0.0-next.0
+  - @milkdown/plugin-block@7.0.0-next.0
+  - @milkdown/plugin-clipboard@7.0.0-next.0
+  - @milkdown/plugin-collaborative@7.0.0-next.0
+  - @milkdown/plugin-cursor@7.0.0-next.0
+  - @milkdown/plugin-diagram@7.0.0-next.0
+  - @milkdown/plugin-emoji@7.0.0-next.0
+  - @milkdown/plugin-history@7.0.0-next.0
+  - @milkdown/plugin-indent@7.0.0-next.0
+  - @milkdown/plugin-listener@7.0.0-next.0
+  - @milkdown/plugin-math@7.0.0-next.0
+  - @milkdown/plugin-prism@7.0.0-next.0
+  - @milkdown/plugin-slash@7.0.0-next.0
+  - @milkdown/plugin-tooltip@7.0.0-next.0
+  - @milkdown/plugin-trailing@7.0.0-next.0
+  - @milkdown/plugin-upload@7.0.0-next.0
+  - @milkdown/preset-commonmark@7.0.0-next.0
+  - @milkdown/preset-gfm@7.0.0-next.0
+  - @milkdown/prose@7.0.0-next.0
+  - @milkdown/react@7.0.0-next.0
+  - @milkdown/theme-nord@7.0.0-next.0
+  - @milkdown/transformer@7.0.0-next.0
+  - @milkdown/utils@7.0.0-next.0
+
 ## 6.5.4
 
 ### Patch Changes
