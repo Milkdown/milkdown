@@ -4,143 +4,186 @@ Commonmark preset for [milkdown](https://milkdown.dev/).
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { nord } from '@milkdown/theme-nord';
 
 import { commonmark } from '@milkdown/preset-commonmark';
 
-Editor.make().use(nord).use(commonmark).create();
+Editor
+  .make()
+  .use(commonmark)
+  .create();
 ```
 
-## Custom Keymap
+@commonmark
+
+# Attr
+
+The context with the name `attr` is used to set the attributes of the node and mark.
+You can set the attributes by setting the `attr` in `editor.config`.
+
+For example, you can set the `data-test-id` and `class` of all the `paragraph` nodes.
 
 ```typescript
-import { commonmarkNodes, commonmarkPlugins, blockquote, SupportedKeys } from '@milkdown/preset-commonmark';
+import { commonmark, paragraphAttr } from '@milkdown/preset-commonmark';
 
-const nodes = commonmarkNodes.configure(blockquote, {
-    keymap: {
-        [SupportedKeys.Blockquote]: 'Mod-Shift-b',
-    },
-});
-
-Editor.make().use(commonmarkPlugins).use(nodes);
-```
-
-Keymap supported:
-
--   HardBreak
--   Blockquote
--   BulletList
--   OrderedList
--   CodeFence
--   H1
--   H2
--   H3
--   H4
--   H5
--   H6
--   Text
--   CodeInline
--   Em
--   Bold
--   NextListItem
--   SinkListItem
--   LiftListItem
-
-## Custom Class Name
-
-```typescript
-import { commonmark, Paragraph, Heading } from '@milkdown/commonmark';
-
-const nodes = commonmark
-    .configure(Paragraph, {
-        className: () =>
-            'my-custom-paragraph'
+Editor
+  .make()
+  .config((ctx) => {
+    ctx.set(paragraphAttr, {
+      'data-test-id': uuid(),
+      class: 'paragraph',
     })
-    .configure(Heading, {
-        className: (attrs) =>
-            `my-custom-heading my-h${attrs.level}`
-    })
-
-new Editor({ ...  }).use(nodes);
+  })
+  .use(commonmark)
+  .create();
 ```
 
-## Node Options
+---
 
-### Heading
+# Nodes
 
--   getId: (node: PMNode) => string
-    Pass in a option to generate an id for the heading.
--   displayHashtag: boolean
-    Whether to display the hashtag or not. Default is true.
+## Doc
 
-### Image
+@docSchema
 
--   placeholder: The placeholder of empty status.
--   isBlock: Whether the image is a block (render as a row).
--   input:
-    -   placeholder: The placeholder of image url input.
-    -   buttonText: The button text of image url input.
+## Text
 
-### Link
+@textSchema
 
--   input:
-    -   placeholder: The placeholder of link url input.
-    -   buttonText: The button text of link url input.
-    -   displayWhenSelected: Whether to display the input chip when the link text is selected.
+## Paragraph
 
-### CodeFence
+@paragraphAttr
+@paragraphSchema
+@turnIntoTextCommand
+@paragraphKeymap
 
--   languageList: _string[]_. The selectable languages list of code fence needs to be enabled.
+## Heading
 
-## Inline Sync Plugin
+@headingAttr
+@headingSchema
+@headingIdGenerator
+@wrapInHeadingInputRule
+@wrapInHeadingCommand
+@downgradeHeadingCommand
+@headingKeymap
 
-When users type something, the plugin will transform the line (for better performance) to real markdown AST by serializer and render the AST to dom by parser, thus the input texts can be displayed correctly.
+## Image
 
-The inline sync plugin is part of `@milkdown/preset-commonmark` so you don't need to use it yourself. It will be enabled by default.
+@imageAttr
+@imageSchema
+@insertImageCommand
+@updateImageCommand
+@insertImageInputRule
 
-### Config
+## Blockquote
 
-You can configure the behavior of inline sync plugin to adapt for some special cases:
+@blockquoteAttr
+@blockquoteSchema
+@wrapInBlockquoteInputRule
+@wrapInBlockquoteCommand
+@blockquoteKeymap
 
-```typescript
-editor.config((ctx) => {
-    ctx.update(inlineSyncConfigCtx, (prevCfg) => ({
-        ...prevCfg,
-        // your config here.
-    }));
-});
-```
+## Ordered List
 
-The possible properties are:
+@orderedListAttr
+@orderedListSchema
+@wrapInOrderedListInputRule
+@wrapInOrderedListCommand
+@orderedListKeymap
 
-### shouldSyncNode
+## Bullet List
 
-A function to control whether the inline sync plugin should sync for the user change. You can inspect the current prosemirror node and the future prosemirror node (which will replace the current one) to decide whether to skip this sync action.
+@bulletListAttr
+@bulletListSchema
+@wrapInBulletListInputRule
+@wrapInBulletListCommand
+@bulletListKeymap
 
-### movePlaceholder
+## List Item
 
-The inline sync plugin will insert a special charater that stands for the current user's `cursor`, this function is used to control whether we need to move the user's cursor to a right position. For example:
+@listItemAttr
+@listItemSchema
+@sinkListItemCommand
+@liftListItemCommand
+@splitListItemCommand
+@listItemKeymap
 
-```markdown
-This is a *|*test\*\*\* line.
-```
+## Code Block
 
-We use `|` to stand for the user cursor. If user type a `*` now and the cursor will be between two `*`, however, the `***test***` should be a word decorated by inline and bold style. So, the cursor should move to `***|test***`, if it stays at `**|*test***`, we'll get wrong content.
+@codeBlockAttr
+@codeBlockSchema
+@createCodeBlockInputRule
+@createCodeBlockCommand
+@updateCodeBlockLanguageCommand
+@codeBlockKeymap
 
-### placeholderConfig
+## Hard Break
 
-Use to decide which character the plugin will use to insert as placeholder. You should use a character that the user would never insert it themselves.
+@hardbreakAttr
+@hardbreakSchema
+@insertHardbreakCommand
+@hardbreakKeymap
 
-Default value:
+## Horizontal Rule
 
-```typescript
-const placeholderConfig = {
-    hole: '∅',
-    punctuation: '⁂',
-    char: '∴',
-};
-```
+@hrAttr
+@hrSchema
+@insertHrInputRule
+@insertHrCommand
 
-### globalNodes
+---
 
-In markdown, sometimes the parser and serializer needs some additional context for some nodes. For example, if user type `Test[^1]`, the parser will search for footnote definition for `[^1]`, if there is a definition, a footnote reference node will be generated, otherwise it will be a normal text node. So, we need to add `footnote_definition` in `globalNodes` list to tell the inline sync plugin it needs to collect this kind of nodes when sync.
+# Marks
+
+## Emphasis
+
+@emphasisAttr
+@emphasisSchema
+@toggleEmphasisCommand
+@emphasisKeymap
+
+## Strong
+
+@strongAttr
+@strongSchema
+@toggleStrongCommand
+@strongKeymap
+
+## Inline Code
+
+@inlineCodeAttr
+@inlineCodeSchema
+@toggleInlineCodeCommand
+@inlineCodeKeymap
+
+## Link
+
+@linkAttr
+@linkSchema
+@toggleLinkCommand
+@updateLinkCommand
+
+---
+
+# Prosemirror Plugins
+
+@inlineSyncPlugin
+@inlineSyncConfig
+
+@inlineNodesCursorPlugin
+
+@hardbreakFilterPlugin
+@hardbreakFilterNodes
+
+@syncHeadingIdPlugin
+
+@syncListOrderPlugin
+
+@hardbreakClearMarkPlugin
+
+---
+
+# Remark Plugins
+
+@remarkInlineLinkPlugin
+@remarkAddOrderInListPlugin
+@remarkLineBreak

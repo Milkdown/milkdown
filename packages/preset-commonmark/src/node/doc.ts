@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $node } from '@milkdown/utils'
 
+/// The top-level document node.
 export const docSchema = $node('doc', () => ({
   content: 'block+',
   parseMarkdown: {

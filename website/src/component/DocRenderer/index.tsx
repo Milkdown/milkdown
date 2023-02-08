@@ -84,7 +84,7 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
     : (
       <>
         <Milkdown />
-        <div className="fixed inset-y-16 right-10 hidden flex-col gap-4 xl:flex xl:w-60">
+        <div className="fixed inset-y-16 right-10 hidden flex-col gap-4 overflow-y-auto xl:flex xl:w-60">
           <Outline items={outlines} />
         </div>
       </>

@@ -3,7 +3,10 @@ import { commandsCtx } from '@milkdown/core'
 import type { MarkType } from '@milkdown/prose/model'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for the inlineCode mark.
 export const inlineCodeAttr = $markAttr('inlineCode')
+
+/// InlineCode mark schema.
 export const inlineCodeSchema = $markSchema('inlineCode', ctx => ({
   priority: 100,
   code: true,
@@ -26,6 +29,7 @@ export const inlineCodeSchema = $markSchema('inlineCode', ctx => ({
   },
 }))
 
+/// A command to toggle the inlineCode mark.
 export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => (state, dispatch) => {
   const { selection, tr } = state
   if (selection.empty)
@@ -53,6 +57,8 @@ export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => 
   return true
 })
 
+/// Keymap for the inlineCode mark.
+/// - `Mod-e` - Toggle the inlineCode mark.
 export const inlineCodeKeymap = $useKeymap('inlineCodeKeymap', {
   ToggleInlineCode: {
     shortcuts: 'Mod-e',

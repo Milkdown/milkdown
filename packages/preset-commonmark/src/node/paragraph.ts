@@ -5,7 +5,10 @@ import type { Node } from '@milkdown/prose/model'
 import { Fragment } from '@milkdown/prose/model'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for paragraph node.
 export const paragraphAttr = $nodeAttr('paragraph')
+
+/// Schema for paragraph node.
 export const paragraphSchema = $nodeSchema('paragraph', ctx => ({
   content: 'inline*',
   group: 'block',
@@ -47,8 +50,11 @@ export const paragraphSchema = $nodeSchema('paragraph', ctx => ({
   },
 }))
 
+/// This command can turn the selected block into paragraph.
 export const turnIntoTextCommand = $command('TurnIntoText', () => () => setBlockType(paragraphSchema.type()))
 
+/// Keymap for paragraph node.
+/// - `<Mod-Alt-0>`: Turn the selected block into paragraph.
 export const paragraphKeymap = $useKeymap('paragraphKeymap', {
   TurnIntoText: {
     shortcuts: 'Mod-Alt-0',

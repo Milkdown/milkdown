@@ -3,6 +3,7 @@ import { $remark } from '@milkdown/utils'
 import type { Node, Parent } from 'unist'
 import { visit } from 'unist-util-visit'
 
+/// This plugin is used to add order in list for remark AST.
 export const remarkAddOrderInListPlugin = $remark(() => () => (tree: Node) => {
   visit(tree, 'list', (node: Parent & { ordered?: boolean; start?: number }) => {
     if (node.ordered) {

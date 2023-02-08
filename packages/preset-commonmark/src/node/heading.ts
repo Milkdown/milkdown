@@ -19,10 +19,14 @@ const defaultHeadingIdGenerator = (node: Node) =>
     .toLowerCase()
     .trim()
 
+/// This is a slice contains a function to generate heading id.
+/// You can configure it to generate id in your own way.
 export const headingIdGenerator = $ctx(defaultHeadingIdGenerator, 'headingIdGenerator')
 
+/// HTML attributes for heading node.
 export const headingAttr = $nodeAttr('heading')
 
+/// Schema for heading node.
 export const headingSchema = $nodeSchema('heading', (ctx) => {
   const getId = ctx.get(headingIdGenerator.key)
   return {
@@ -89,6 +93,8 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
   }
 })
 
+/// This input rule can turn the selected block into heading.
+/// You can input numbers of `#` and a `space` to create heading.
 export const wrapInHeadingInputRule = $inputRule((ctx) => {
   return textblockTypeInputRule(/^(?<hashes>#+)\s$/, headingSchema.type(), (match) => {
     const x = match.groups?.hashes?.length || 0
@@ -105,9 +111,11 @@ export const wrapInHeadingInputRule = $inputRule((ctx) => {
     }
     return { level: x }
   })
-},
-)
+})
 
+/// This command can turn the selected block into heading.
+/// You can pass the level of heading to this command.
+/// By default, the level is 1, which means it will create a `h1` element.
 export const wrapInHeadingCommand = $command('WrapInHeading', () => {
   return (level?: number) => {
     level ??= 1
@@ -119,6 +127,9 @@ export const wrapInHeadingCommand = $command('WrapInHeading', () => {
   }
 })
 
+/// This command can downgrade the selected heading.
+/// For example, if you have a `h2` element, and you call this command, you will get a `h1` element.
+/// If the element is already a `h1` element, it will turn it into a `p` element.
 export const downgradeHeadingCommand = $command('DowngradeHeading', () => () =>
   (state, dispatch, view) => {
     const { $from } = state.selection
@@ -139,6 +150,9 @@ export const downgradeHeadingCommand = $command('DowngradeHeading', () => () =>
     return true
   })
 
+/// Keymap for heading node.
+/// - `<Mod-Alt-{1-6}>`: Turn the selected block into `h{1-6}` element.
+/// - `<Delete>/<Backspace>`: Downgrade the selected heading.
 export const headingKeymap = $useKeymap('headingKeymap', {
   TurnIntoH1: {
     shortcuts: 'Mod-Alt-1',

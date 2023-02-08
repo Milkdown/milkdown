@@ -5,7 +5,10 @@ import type { Node as ProseNode } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import { $command, $markAttr, $markSchema } from '@milkdown/utils'
 
+/// HTML attributes for the link mark.
 export const linkAttr = $markAttr('link')
+
+/// Link mark schema.
 export const linkSchema = $markSchema('link', ctx => ({
   attrs: {
     href: {},
@@ -44,11 +47,17 @@ export const linkSchema = $markSchema('link', ctx => ({
   },
 }))
 
+/// @internal
 export type UpdateLinkCommandPayload = {
   href?: string
   title?: string
 }
+/// A command to toggle the link mark.
+/// You can pass the `href` and `title` to the link.
 export const toggleLinkCommand = $command('ToggleLink', () => (payload: UpdateLinkCommandPayload = {}) => toggleMark(linkSchema.type(), payload))
+
+/// A command to update the link mark.
+/// You can pass the `href` and `title` to update the link.
 export const updateLinkCommand = $command('UpdateLink', () => (payload: UpdateLinkCommandPayload = {}) => (state, dispatch) => {
   if (!dispatch)
     return false

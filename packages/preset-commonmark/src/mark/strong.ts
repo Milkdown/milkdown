@@ -3,7 +3,10 @@ import { commandsCtx } from '@milkdown/core'
 import { toggleMark } from '@milkdown/prose/commands'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for the strong mark.
 export const strongAttr = $markAttr('strong')
+
+/// Strong mark schema.
 export const strongSchema = $markSchema('strong', ctx => ({
   inclusive: false,
   parseDOM: [
@@ -28,8 +31,11 @@ export const strongSchema = $markSchema('strong', ctx => ({
   },
 }))
 
+/// A command to toggle the strong mark.
 export const toggleStrongCommand = $command('ToggleStrong', () => () => toggleMark(strongSchema.type()))
 
+/// Keymap for the strong mark.
+/// - `Mod-b` - Toggle the strong mark.
 export const strongKeymap = $useKeymap('strongKeymap', {
   ToggleBold: {
     shortcuts: ['Mod-b'],

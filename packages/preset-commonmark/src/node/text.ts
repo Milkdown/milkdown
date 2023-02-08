@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $node } from '@milkdown/utils'
 
+/// The bottom-level node.
 export const textSchema = $node('text', () => ({
   group: 'inline',
   parseMarkdown: {

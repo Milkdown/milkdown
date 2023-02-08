@@ -5,7 +5,10 @@ import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
 import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for bullet list node.
 export const bulletListAttr = $nodeAttr('bulletList')
+
+/// Schema for bullet list node.
 export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
   return {
     content: 'listItem+',
@@ -57,10 +60,14 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
   }
 })
 
+/// Input rule for wrapping a block in bullet list node.
 export const wrapInBulletListInputRule = $inputRule(() => wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type()))
 
+/// Command for creating bullet list node.
 export const wrapInBulletListCommand = $command('WrapInBulletList', () => () => wrapIn(bulletListSchema.type()))
 
+/// Keymap for bullet list node.
+/// - `Mod-Alt-8`: Wrap a block in bullet list.
 export const bulletListKeymap = $useKeymap('bulletListKeymap', {
   WrapInBulletList: {
     shortcuts: 'Mod-Alt-8',

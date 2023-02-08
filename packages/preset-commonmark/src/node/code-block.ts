@@ -5,11 +5,13 @@ import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
 import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for code block node.
 export const codeBlockAttr = $nodeAttr('codeBlock', () => ({
   pre: {},
   code: {},
 }))
 
+/// Schema for code block node.
 export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
   return {
     content: 'text*',
@@ -68,11 +70,17 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
   }
 })
 
+/// A input rule for creating code block.
+/// For example, ` ```javascript ` will create a code block with language javascript.
 export const createCodeBlockInputRule = $inputRule(() => textblockTypeInputRule(/^```(?<language>[a-z]*)?[\s\n]$/, codeBlockSchema.type(), match => ({
   language: match.groups?.language ?? '',
 })))
 
+/// A command for creating code block.
+/// You can pass the language of the code block as the parameter.
 export const createCodeBlockCommand = $command('CreateCodeBlock', () => (language = '') => setBlockType(codeBlockSchema.type(), { language }))
+
+/// A command for updating the code block language of the target position.
 export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage', () => ({ pos, language }: { pos: number; language: string } = { pos: -1, language: '' }) => (state, dispatch) => {
   if (pos >= 0) {
     dispatch?.(state.tr.setNodeAttribute(pos, 'language', language))
@@ -82,6 +90,8 @@ export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage'
   return false
 })
 
+/// Keymap for code block.
+/// - `Mod-Alt-c`: Create a code block.
 export const codeBlockKeymap = $useKeymap('codeBlockKeymap', {
   CreateCodeBlock: {
     shortcuts: 'Mod-Alt-c',

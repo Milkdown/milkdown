@@ -4,8 +4,10 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { liftListItem, sinkListItem, splitListItem } from '@milkdown/prose/schema-list'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for list item node.
 export const listItemAttr = $nodeAttr('listItem')
 
+/// Schema for list item node.
 export const listItemSchema = $nodeSchema('list_item', ctx => ({
   group: 'listItem',
   content: 'paragraph block*',
@@ -67,10 +69,53 @@ export const listItemSchema = $nodeSchema('list_item', ctx => ({
   },
 }))
 
+/// The command to sink list item.
+///
+/// For example:
+/// ```md
+/// * List item 1
+/// * List item 2 <- cursor here
+/// ```
+/// Will get:
+/// ```md
+/// * List item 1
+///   * List item 2
+/// ```
 export const sinkListItemCommand = $command('SinkListItem', () => () => sinkListItem(listItemSchema.type()))
-export const splitListItemCommand = $command('SplitListItem', () => () => splitListItem(listItemSchema.type()))
+
+/// The command to lift list item.
+///
+/// For example:
+/// ```md
+/// * List item 1
+///   * List item 2 <- cursor here
+/// ```
+/// Will get:
+/// ```md
+/// * List item 1
+/// * List item 2
+/// ```
 export const liftListItemCommand = $command('SplitListItem', () => () => liftListItem(listItemSchema.type()))
 
+/// The command to split a list item.
+///
+/// For example:
+/// ```md
+/// * List item 1
+/// * List item 2 <- cursor here
+/// ```
+/// Will get:
+/// ```md
+/// * List item 1
+/// * List item 2
+/// * <- cursor here
+/// ```
+export const splitListItemCommand = $command('SplitListItem', () => () => splitListItem(listItemSchema.type()))
+
+/// Keymap for list item node.
+/// - `<Enter>`: Split the current list item.
+/// - `<Tab>/<Mod-]>`: Sink the current list item.
+/// - `<Shift-Tab>/<Mod-[>`: Lift the current list item.
 export const listItemKeymap = $useKeymap('listItemKeymap', {
   NextListItem: {
     shortcuts: 'Enter',

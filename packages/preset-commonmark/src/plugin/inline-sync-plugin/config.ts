@@ -6,6 +6,7 @@ import { $ctx } from '@milkdown/utils'
 
 import { swap } from './utils'
 
+/// @internal
 export type ShouldSyncNode = (context: {
   prevNode: Node
   nextNode: Node
@@ -14,12 +15,14 @@ export type ShouldSyncNode = (context: {
   text: string
 }) => boolean
 
+/// @internal
 export interface SyncNodePlaceholder {
   hole: string
   punctuation: string
   char: string
 }
 
+/// @internal
 export interface InlineSyncConfig {
   placeholderConfig: SyncNodePlaceholder
   shouldSyncNode: ShouldSyncNode
@@ -27,6 +30,7 @@ export interface InlineSyncConfig {
   movePlaceholder: (placeholderToMove: string, text: string) => string
 }
 
+/// @internal
 export const defaultConfig: InlineSyncConfig = {
   placeholderConfig: {
     hole: '∅',
@@ -54,5 +58,15 @@ export const defaultConfig: InlineSyncConfig = {
   },
 }
 
-// export const inlineSyncConfigCtx = createSlice<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')
+/// A slice that contains the inline sync config.
+/// You can set value to this slice to change the config.
+///
+/// ```typescript
+/// ctx.update(inlineSyncConfigCtx, (prevCfg) => ({
+///   ...prevCfg,
+///   // your config
+/// }));
+/// ```
+///
+/// You can find the default config [here](https://github.com/Saul-Mirone/milkdown/blob/main/packages/preset-commonmark/src/plugin/inline-sync-plugin/config.ts).
 export const inlineSyncConfig = $ctx<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')

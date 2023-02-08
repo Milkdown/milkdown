@@ -4,7 +4,10 @@ import { Selection } from '@milkdown/prose/state'
 import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
 import { paragraphSchema } from './paragraph'
 
+/// HTML attributes for the hr node.
 export const hrAttr = $nodeAttr('hr')
+
+/// Hr node schema.
 export const hrSchema = $nodeSchema('hr', ctx => ({
   group: 'block',
   parseDOM: [{ tag: 'hr' }],
@@ -23,6 +26,8 @@ export const hrSchema = $nodeSchema('hr', ctx => ({
   },
 }))
 
+/// Input rule to insert a hr.
+/// For example, `---` will be converted to a hr.
 export const insertHrInputRule = $inputRule(() => new InputRule(
   /^(?:---|___\s|\*\*\*\s)$/, (state, match, start, end) => {
     const { tr } = state
@@ -34,6 +39,7 @@ export const insertHrInputRule = $inputRule(() => new InputRule(
   },
 ))
 
+/// Command to insert a hr.
 export const insertHrCommand = $command('InsertHr', () => () => (state, dispatch) => {
   if (!dispatch)
     return true

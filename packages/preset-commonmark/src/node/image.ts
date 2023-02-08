@@ -4,8 +4,10 @@ import { findSelectedNodeOfType } from '@milkdown/prose'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
 
+/// HTML attributes for image node.
 export const imageAttr = $nodeAttr('image')
 
+/// Schema for image node.
 export const imageSchema = $nodeSchema('image', (ctx) => {
   return {
     inline: true,
@@ -65,11 +67,15 @@ export const imageSchema = $nodeSchema('image', (ctx) => {
   }
 })
 
+/// @internal
 export type UpdateImageCommandPayload = {
   src?: string
   title?: string
   alt?: string
 }
+
+/// This command will insert a image node.
+/// You can pass a payload to set `src`, `alt` and `title` for the image node.
 export const insertImageCommand = $command('InsertImage', () => (payload: UpdateImageCommandPayload = {}) =>
   (state, dispatch) => {
     if (!dispatch)
@@ -85,6 +91,8 @@ export const insertImageCommand = $command('InsertImage', () => (payload: Update
     return true
   })
 
+/// This command will update the selected image node.
+/// You can pass a payload to update `src`, `alt` and `title` for the image node.
 export const updateImageCommand = $command('UpdateImage', () => (payload: UpdateImageCommandPayload = {}) => (state, dispatch) => {
   const nodeWithPos = findSelectedNodeOfType(state.selection, imageSchema.type())
   if (!nodeWithPos)
@@ -105,6 +113,9 @@ export const updateImageCommand = $command('UpdateImage', () => (payload: Update
   return true
 })
 
+/// This input rule will insert a image node.
+/// You can input `![alt](src "title")` to insert a image node.
+/// The `title` is optional.
 export const insertImageInputRule = $inputRule(() => new InputRule(
   /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
   (state, match, start, end) => {

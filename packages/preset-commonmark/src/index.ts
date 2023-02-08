@@ -7,4 +7,5 @@ export * from './mark'
 export * from './plugin'
 export * from './composed'
 
+/// The commonmark preset, includes all the plugins.
 export const commonmark = [schema, inputrules, commands, keymap, plugins].flat()

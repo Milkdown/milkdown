@@ -5,8 +5,10 @@ import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
 import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for ordered list node.
 export const orderedListAttr = $nodeAttr('orderedList')
 
+/// Schema for ordered list node.
 export const orderedListSchema = $nodeSchema('ordered_list', ctx => ({
   content: 'listItem+',
   group: 'block',
@@ -58,6 +60,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', ctx => ({
   },
 }))
 
+/// Input rule for wrapping a block in ordered list node.
 export const wrapInOrderedListInputRule = $inputRule(() => wrappingInputRule(
   /^\s*(\d+)\.\s$/,
   orderedListSchema.type(),
@@ -65,8 +68,11 @@ export const wrapInOrderedListInputRule = $inputRule(() => wrappingInputRule(
   (match, node) => node.childCount + node.attrs.order === Number(match[1]),
 ))
 
+/// Command for wrapping a block in ordered list node.
 export const wrapInOrderedListCommand = $command('WrapInOrderedList', () => () => wrapIn(orderedListSchema.type()))
 
+/// Keymap for ordered list node.
+/// - `Mod-Alt-7`: Wrap a block in ordered list.
 export const orderedListKeymap = $useKeymap('orderedListKeymap', {
   WrapInOrderedList: {
     shortcuts: 'Mod-Alt-7',

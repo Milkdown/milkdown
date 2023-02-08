@@ -5,8 +5,10 @@ import { wrappingInputRule } from '@milkdown/prose/inputrules'
 import type { $NodeSchema } from '@milkdown/utils'
 import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for blockquote node.
 export const blockquoteAttr = $nodeAttr('blockquote')
 
+/// Schema for blockquote node.
 export const blockquoteSchema: $NodeSchema<'blockquote'> = $nodeSchema('blockquote', ctx => ({
   content: 'block+',
   group: 'block',
@@ -27,10 +29,15 @@ export const blockquoteSchema: $NodeSchema<'blockquote'> = $nodeSchema('blockquo
   },
 }))
 
+/// This input rule will convert a line that starts with `> ` into a blockquote.
+/// You can type `> ` at the start of a line to create a blockquote.
 export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type()))
 
+/// This command will wrap the current selection in a blockquote.
 export const wrapInBlockquoteCommand = $command('WrapInBlockquote', () => () => wrapIn(blockquoteSchema.type()))
 
+/// Keymap for blockquote.
+/// - `Mod-Shift-b`: Wrap selection in blockquote.
 export const blockquoteKeymap = $useKeymap('blockquoteKeymap', {
   WrapInBlockquote: {
     shortcuts: 'Mod-Shift-b',

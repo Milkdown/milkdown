@@ -3,12 +3,17 @@ import { commandsCtx } from '@milkdown/core'
 import { Selection } from '@milkdown/prose/state'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
+/// HTML attributes for the hardbreak node.
+///
+/// Default value:
+/// - `data-is-inline` - Whether the hardbreak is inline.
 export const hardbreakAttr = $nodeAttr('hardbreak', (node) => {
   return {
     'data-is-inline': node.attrs.isInline,
   }
 })
 
+/// Hardbreak node schema.
 export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
   inline: true,
   group: 'inline',
@@ -38,6 +43,7 @@ export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
   },
 }))
 
+/// Command to insert a hardbreak.
 export const insertHardbreakCommand = $command('InsertHardbreak', () => () => (state, dispatch) => {
   const { selection, tr } = state
   if (selection.empty) {
@@ -57,6 +63,8 @@ export const insertHardbreakCommand = $command('InsertHardbreak', () => () => (s
   return true
 })
 
+/// Keymap for the hardbreak node.
+/// - `Shift-Enter` - Insert a hardbreak.
 export const hardbreakKeymap = $useKeymap('hardbreakKeymap', {
   InsertHardbreak: {
     shortcuts: 'Shift-Enter',
