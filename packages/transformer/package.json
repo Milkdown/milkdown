@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/transformer",
   "type": "module",
-  "version": "6.5.4",
+  "version": "7.0.0-next.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/prose": "^6.0.1"
+    "@milkdown/prose": "^7.0.0-next.0"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",

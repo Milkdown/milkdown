@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/react",
   "type": "module",
-  "version": "6.5.4",
+  "version": "7.0.0-next.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -27,8 +27,8 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/core": "^6.0.1",
-    "@milkdown/prose": "^6.0.1",
+    "@milkdown/core": "^7.0.0-next.0",
+    "@milkdown/prose": "^7.0.0-next.0",
     "react": "*",
     "react-dom": "*"
   },

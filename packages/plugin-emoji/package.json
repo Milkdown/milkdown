@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/plugin-emoji",
   "type": "module",
-  "version": "6.5.4",
+  "version": "7.0.0-next.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -26,10 +26,10 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/core": "^6.0.1",
-    "@milkdown/ctx": "^6.0.1",
-    "@milkdown/prose": "^6.0.1",
-    "@milkdown/transformer": "^6.0.1"
+    "@milkdown/core": "^7.0.0-next.0",
+    "@milkdown/ctx": "^7.0.0-next.0",
+    "@milkdown/prose": "^7.0.0-next.0",
+    "@milkdown/transformer": "^7.0.0-next.0"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
