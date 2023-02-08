@@ -3,9 +3,9 @@
 <<in {isVar=!static && !abstract && item.type !== "Function" && !item.optional && item.id.indexOf('.') < 0}>>
 
   <<if isFn>>
-    <<h " ".repeat(depth)>> ### <<h name>> `<<fntype item.signatures[0]>>`
+    <<h " ".repeat(depth)>> #### <<h name>> `<<fntype item.signatures[0]>>`
   <<elif isVar>>
-    <<h " ".repeat(depth)>> ### <<h name>> `<<if item.type>>: <<type item>><</if>>`
+    <<h " ".repeat(depth)>> #### <<h name>> `<<if item.type>>: <<type item>><</if>>`
   <<else>>
     <<h " ".repeat(depth)>> * <<if abstract>>`abstract `<</if>><<if static>>`static `<</if>>
     <<if item.type == "Function" && !item.optional>>
