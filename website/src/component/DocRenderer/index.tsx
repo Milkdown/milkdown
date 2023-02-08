@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Editor, defaultValueCtx, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
-import { prism } from '@milkdown/plugin-prism'
+import { prism, prismConfig } from '@milkdown/plugin-prism'
 import { blockquoteAttr, commonmark, inlineCodeAttr } from '@milkdown/preset-commonmark'
 import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react'
 import { nord } from '@milkdown/theme-nord'
@@ -9,6 +9,12 @@ import { outline } from '@milkdown/utils'
 import { ProsemirrorAdapterProvider, useWidgetViewFactory } from '@prosemirror-adapter/react'
 import type { FC } from 'react'
 import { useState } from 'react'
+import markdown from 'refractor/lang/markdown'
+import css from 'refractor/lang/css'
+import javascript from 'refractor/lang/javascript'
+import typescript from 'refractor/lang/typescript'
+import jsx from 'refractor/lang/jsx'
+import tsx from 'refractor/lang/tsx'
 import type { Content } from '../hooks/useLazy'
 import { useLazy } from '../hooks/useLazy'
 import { linkPlugin } from './LinkWidget'
@@ -51,6 +57,17 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
             if (view.state?.doc)
               setOutlines(outline()(ctx))
           })
+
+        ctx.set(prismConfig.key, {
+          configureRefractor: (refractor) => {
+            refractor.register(markdown)
+            refractor.register(css)
+            refractor.register(javascript)
+            refractor.register(typescript)
+            refractor.register(jsx)
+            refractor.register(tsx)
+          },
+        })
       })
       .config((ctx) => {
         ctx.set(defaultValueCtx, md)
