@@ -1,32 +1,70 @@
 # @milkdown/plugin-tooltip
 
 Tooltip plugin for [milkdown](https://milkdown.dev/).
-Add support for tooltip commands.
+Add support for universal tooltip in milkdown.
 
-## Example Usage
+## Usage
+
+#### Create Tooltip View
+
+Create tooltip view is simple.
+All you need to do is to implement the [Prosemirror Plugin.view](https://prosemirror.net/docs/ref/#state.PluginSpec.view).
+
+```typescript
+import { TooltipProvider } from '@milkdown/plugin-tooltip'
+
+function tooltipPluginView(view) {
+  const content = document.createElement('div');
+
+  const provider = new TooltipProvider({
+    content: this.content,
+  });
+
+  return {
+    update: (updatedView, prevState) => {
+      provider.update(updatedView, prevState);
+    },
+    destroy: () => {
+      provider.destroy();
+      content.remove();
+    }
+  }
+}
+```
+
+#### Bind Tooltip View
+
+You need to bind the tooltip view to the plugin in `editor.config`.
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { nord } from '@milkdown/theme-nord';
 
-import { tooltip } from '@milkdown/plugin-tooltip';
+import { tooltipFactory } from '@milkdown/plugin-tooltip';
 
-Editor.make().use(nord).use(commonmark).use(tooltip).create();
+const tooltip = tooltipFactory('my-tooltip');
+
+Editor
+  .make()
+  .config((ctx) => {
+    ctx.set(tooltip.key, {
+      view: tooltipPluginView
+    })
+  })
+  .use(tooltip)
+  .create();
 ```
 
-## Position
+## Use with React
 
-Modify the tooltip widget's position, to show on the top or the bottom
+TODO: add docs about how to use with prosemirror-adapter/react
 
-Example:
+## Use with Vue
 
-```typescript
-import { tooltipPlugin, tooltip } from '@milkdown/plugin-tooltip';
+TODO: add docs about how to use with prosemirror-adapter/vue
 
-Editor.make().use(
-    tooltip.configure(tooltipPlugin, {
-        bottom: true,
-    }),
-);
-```
+## API
+
+@tooltipFactory
+
+@TooltipProvider
+@TooltipProviderOptions
