@@ -16,7 +16,7 @@ Editor.make()
 
 @diagram
 
-# Plugins
+## Plugins
 
 @mermaidConfigCtx
 @diagramSchema

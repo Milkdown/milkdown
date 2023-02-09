@@ -18,13 +18,16 @@ export interface EmojiConfig {
   twemojiOptions?: TwemojiOptions
 }
 
+/// A slice that contains [options for twemoji](https://github.com/twitter/twemoji#object-as-parameter).
 export const emojiConfig = $ctx<EmojiConfig, 'emojiConfig'>({}, 'emojiConfig')
 
+/// HTML attributes for emoji node.
 export const emojiAttr = $nodeAttr('emoji', () => ({
   span: {},
   img: {},
 }))
 
+/// Schema for emoji node.
 export const emojiSchema = $nodeSchema('emoji', ctx => ({
   group: 'inline',
   inline: true,
@@ -74,6 +77,8 @@ export const emojiSchema = $nodeSchema('emoji', ctx => ({
   },
 }))
 
+/// Input rule for inserting emoji.
+/// For example, `:smile:` will be replaced with `😄`.
 export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+):)$/, (state, match, start, end) => {
   const content = match[0]
   if (!content)
@@ -90,9 +95,13 @@ export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+)
     .scrollIntoView()
 }))
 
+/// This plugin wraps [remark-emoji](https://github.com/rhysd/remark-emoji).
 export const remarkEmojiPlugin = $remark(() => remarkEmoji as RemarkPlugin)
+
+/// This plugin is used for transforming emoji to twemoji.
 export const remarkTwemojiPlugin = $remark(ctx => twemojiPlugin(ctx.get(emojiConfig.key).twemojiOptions))
 
+/// All plugins exported by this package.
 export const emoji: MilkdownPlugin[] = [
   emojiAttr,
   emojiConfig,
