@@ -7,12 +7,29 @@ import remarkMath from 'remark-math'
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { InputRule } from '@milkdown/prose/inputrules'
 
+/// This plugin wraps [remark-math](https://www.npmjs.com/package/remark-math).
 export const remarkMathPlugin = $remark(() => remarkMath)
 
 const mathInlineId = 'math_inline'
 
+/// A slice that contains [options for katex](https://katex.org/docs/options.html).
+/// You can configure katex here.
+/// ```ts
+/// import { katexOptionsCtx } from '@milkdown/plugin-math'
+///
+/// Editor.make()
+///   .config((ctx) => {
+///     ctx.set(katexOptionsCtx.key, { /* some options */ });
+///   })
+/// ```
 export const katexOptionsCtx = $ctx<KatexOptions, 'katexOptions'>({}, 'katexOptions')
 
+/// Schema for inline math node.
+/// Add support for:
+///
+/// ```markdown
+/// $a^2 + b^2 = c^2$
+/// ```
 export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
   group: 'inline',
   inline: true,
@@ -47,6 +64,14 @@ export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
 }))
 
 const mathBlockId = 'math_block'
+/// Schema for block math node.
+/// Add support for:
+///
+/// ```markdown
+/// $$
+/// a^2 + b^2 = c^2
+/// $$
+/// ```
 export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
   content: 'text*',
   group: 'block',
@@ -91,6 +116,8 @@ export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
   },
 }))
 
+/// Input rule for math block.
+/// When you type `$$` and press enter, it will create a math block.
 export const mathBlockInputRule = $inputRule(() => new InputRule(
   /^\$\$\s$/,
   (state, _match, start, end) => {
@@ -101,4 +128,5 @@ export const mathBlockInputRule = $inputRule(() => new InputRule(
   },
 ))
 
+/// All plugins exported by this package.
 export const math: MilkdownPlugin[] = [remarkMathPlugin, katexOptionsCtx, mathInlineSchema, mathBlockSchema, mathBlockInputRule].flat()
