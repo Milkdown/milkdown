@@ -2,6 +2,7 @@
 import { toggleStrikethroughCommand } from '../mark'
 import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, breakTableCommand, deleteSelectedCellsCommand, goToNextTableCellCommand, goToPrevTableCellCommand, insertTableCommand, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '../node'
 
+/// @internal
 export const commands = [
   goToNextTableCellCommand,
   goToPrevTableCellCommand,

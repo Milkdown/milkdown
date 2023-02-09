@@ -5,6 +5,8 @@ import { $nodeSchema } from '@milkdown/utils'
 
 const id = 'footnote_definition'
 const markdownId = 'footnoteDefinition'
+
+/// Footnote definition node schema.
 export const footnoteDefinitionSchema = $nodeSchema('footnote_definition', () => ({
   group: 'block',
   content: 'block+',

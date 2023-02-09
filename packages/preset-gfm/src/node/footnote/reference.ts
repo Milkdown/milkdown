@@ -4,6 +4,8 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { $nodeSchema } from '@milkdown/utils'
 
 const id = 'footnote_reference'
+
+/// Footnote reference node schema.
 export const footnoteReferenceSchema = $nodeSchema('footnote_reference', () => ({
   group: 'inline',
   inline: true,

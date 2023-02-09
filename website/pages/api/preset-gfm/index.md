@@ -4,65 +4,77 @@ Github flavored markdown preset for [milkdown](https://milkdown.dev/).
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { nord } from '@milkdown/theme-nord';
 
 import { gfm } from '@milkdown/preset-gfm';
 
-Editor.make().use(nord).use(gfm).create();
+Editor
+  .make()
+  .use(gfm)
+  .create();
 ```
 
-## Custom Keymap
+@gfm
 
-```typescript
-import { gfm, blockquote, SupportedKeys } from '@milkdown/preset-gfm';
+---
 
-const nodes = gfm.configure(blockquote, {
-    keymap: {
-        [SupportedKeys.Blockquote]: 'Mod-Shift-b',
-    },
-});
+# Table
 
-Editor.make().use(nodes);
-```
+@tableSchema
+@tableRowSchema
+@tableHeaderSchema
+@tableCellSchema
 
-Keymap supported:
+@insertTableInputRule
+@tableKeymap
 
--   HardBreak
--   Blockquote
--   TaskList
--   BulletList
--   OrderedList
--   CodeFence
--   H1
--   H2
--   H3
--   H4
--   H5
--   H6
--   Text
--   CodeInline
--   Em
--   Bold
--   StrikeThrough
--   NextListItem
--   SinkListItem
--   LiftListItem
--   NextCell
--   PrevCell
--   ExitTable
+## Commands
 
-## Custom Class Name
+@goToPrevTableCellCommand
+@goToNextTableCellCommand
+@breakTableCommand
+@insertTableCommand
+@moveRowCommand
+@moveColCommand
+@selectRowCommand
+@selectColCommand
+@selectTableCommand
+@deleteSelectedCellsCommand
+@addColBeforeCommand
+@addColAfterCommand
+@addRowBeforeCommand
+@addRowAfterCommand
+@setAlignCommand
 
-```typescript
-import { gfm, paragraph, heading } from '@milkdown/preset-gfm';
+## Table Utils
 
-const nodes = gfm
-    .configure(paragraph, {
-        className: () => 'my-custom-paragraph',
-    })
-    .configure(heading, {
-        className: (attrs) => `my-custom-heading my-h${attrs.level}`,
-    });
+@findTable
+@getCellsInCol
+@getCellsInRow
+@getAllCellsInTable
+@selectCol
+@selectRow
+@selectTable
+@moveCol
+@moveRow
 
-Editor.make().use(nodes);
-```
+---
+
+# Task List
+
+@extendListItemSchemaForTask
+
+---
+
+# Strike Through
+
+@strikethroughAttr
+@strikethroughSchema
+@toggleStrikethroughCommand
+@strikethroughKeymap
+
+---
+
+# Footnote
+
+@footnoteDefinitionSchema
+@footnoteReferenceSchema

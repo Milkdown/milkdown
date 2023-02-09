@@ -23,6 +23,7 @@ const originalSchema = tableNodes({
   },
 })
 
+/// Schema for table node.
 export const tableSchema = $nodeSchema('table', () => ({
   ...originalSchema.table,
   parseMarkdown: {
@@ -58,6 +59,7 @@ export const tableSchema = $nodeSchema('table', () => ({
 
 }))
 
+/// Schema for table row node.
 export const tableRowSchema = $nodeSchema('table_row', () => ({
   ...originalSchema.table_row,
   parseMarkdown: {
@@ -84,6 +86,7 @@ export const tableRowSchema = $nodeSchema('table_row', () => ({
   },
 }))
 
+/// Schema for table cell node.
 export const tableCellSchema = $nodeSchema('table_cell', () => ({
   ...originalSchema.table_cell,
   parseMarkdown: {
@@ -106,6 +109,7 @@ export const tableCellSchema = $nodeSchema('table_cell', () => ({
   },
 }))
 
+/// Schema for table header node.
 export const tableHeaderSchema = $nodeSchema('table_header', () => ({
   ...originalSchema.table_header,
   parseMarkdown: {
@@ -129,6 +133,8 @@ export const tableHeaderSchema = $nodeSchema('table_header', () => ({
   },
 }))
 
+/// A input rule for creating table.
+/// For example, `|2x2|` will create a 2x2 table.
 export const insertTableInputRule = $inputRule(() => new InputRule(
   /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/, (state, match, start, end) => {
     const $start = state.doc.resolve(start)
@@ -144,10 +150,15 @@ export const insertTableInputRule = $inputRule(() => new InputRule(
   },
 ))
 
+/// A command for moving cursor to previous cell.
 export const goToPrevTableCellCommand = $command('GoToPrevTableCell', () => () => goToNextCell(-1))
 
+/// A command for moving cursor to next cell.
 export const goToNextTableCellCommand = $command('GoToNextTableCell', () => () => goToNextCell(1))
 
+/// A command for splitting current table into two tables.
+/// If the selection is at the end of the table,
+/// it will just quit the table and insert a new paragraph node.
 export const breakTableCommand = $command('BreakTable', () => () => (state, dispatch) => {
   if (!isInTable(state))
     return false
@@ -162,6 +173,9 @@ export const breakTableCommand = $command('BreakTable', () => () => (state, disp
   return true
 })
 
+/// A command for inserting a table.
+/// You can specify the number of rows and columns.
+/// By default, it will insert a 3x3 table.
 export const insertTableCommand = $command('InsertTable', () => ({ row, col }: { row?: number; col?: number } = {}) => (state, dispatch) => {
   const { selection, tr } = state
   const { from } = selection
@@ -174,6 +188,8 @@ export const insertTableCommand = $command('InsertTable', () => ({ row, col }: {
   return true
 })
 
+/// A command for moving a row in a table.
+/// You should specify the `from` and `to` index.
 export const moveRowCommand = $command('MoveRow', () => ({ from, to }: { from?: number; to?: number } = {}) => (state, dispatch) => {
   const { tr } = state
   const result = dispatch?.(moveRow(tr, from ?? 0, to ?? 0, true))
@@ -181,6 +197,8 @@ export const moveRowCommand = $command('MoveRow', () => ({ from, to }: { from?: 
   return Boolean(result)
 })
 
+/// A command for moving a column in a table.
+/// You should specify the `from` and `to` index.
 export const moveColCommand = $command('MoveCol', () => ({ from, to }: { from?: number; to?: number } = {}) => (state, dispatch) => {
   const { tr } = state
   const result = dispatch?.(moveCol(tr, from ?? 0, to ?? 0, true))
@@ -188,6 +206,7 @@ export const moveColCommand = $command('MoveCol', () => ({ from, to }: { from?: 
   return Boolean(result)
 })
 
+/// A command for selecting a row.
 export const selectRowCommand = $command<number, 'SelectRow'>('SelectRow', () => (index = 0) => (state, dispatch) => {
   const { tr } = state
   const result = dispatch?.(selectRow(index)(tr))
@@ -195,6 +214,7 @@ export const selectRowCommand = $command<number, 'SelectRow'>('SelectRow', () =>
   return Boolean(result)
 })
 
+/// A command for selecting a column.
 export const selectColCommand = $command<number, 'SelectCol'>('SelectCol', () => (index = 0) => (state, dispatch) => {
   const { tr } = state
   const result = dispatch?.(selectCol(index)(tr))
@@ -202,6 +222,7 @@ export const selectColCommand = $command<number, 'SelectCol'>('SelectCol', () =>
   return Boolean(result)
 })
 
+/// A command for selecting a table.
 export const selectTableCommand = $command('SelectTable', () => () => (state, dispatch) => {
   const { tr } = state
   const result = dispatch?.(selectTable(tr))
@@ -209,6 +230,9 @@ export const selectTableCommand = $command('SelectTable', () => () => (state, di
   return Boolean(result)
 })
 
+/// A command for deleting selected cells.
+/// If the selection is a row or column, the row or column will be deleted.
+/// If all cells are selected, the table will be deleted.
 export const deleteSelectedCellsCommand = $command('DeleteSelectedCells', () => () => (state, dispatch) => {
   const { selection } = state
   if (!(selection instanceof CellSelection))
@@ -227,10 +251,13 @@ export const deleteSelectedCellsCommand = $command('DeleteSelectedCells', () => 
     return deleteRow(state, dispatch)
 })
 
+/// A command for adding a column before the current column.
 export const addColBeforeCommand = $command('AddColBefore', () => () => addColumnBefore)
 
+/// A command for adding a column after the current column.
 export const addColAfterCommand = $command('AddColAfter', () => () => addColumnAfter)
 
+/// A command for adding a row before the current row.
 export const addRowBeforeCommand = $command('AddRowBefore', () => () => (state, dispatch) => {
   if (!isInTable(state))
     return false
@@ -241,6 +268,7 @@ export const addRowBeforeCommand = $command('AddRowBefore', () => () => (state, 
   return true
 })
 
+/// A command for adding a row after the current row.
 export const addRowAfterCommand = $command('AddRowAfter', () => () => (state, dispatch) => {
   if (!isInTable(state))
     return false
@@ -251,8 +279,15 @@ export const addRowAfterCommand = $command('AddRowAfter', () => () => (state, di
   return true
 })
 
+/// A command for setting alignment property for selected cells.
+/// You can specify the alignment as `left`, `center`, or `right`.
+/// It's `left` by default.
 export const setAlignCommand = $command<'left' | 'center' | 'right', 'SetAlign'>('SetAlign', () => (alignment = 'left') => setCellAttr('alignment', alignment))
 
+/// Keymap for table commands.
+/// - `<Mod-]>`/`<Tab>`: Move to the next cell.
+/// - `<Mod-[>`/`<Shift-Tab>`: Move to the previous cell.
+/// - `<Mod-Enter>`: Exit the table, and break it if possible.
 export const tableKeymap = $useKeymap('tableKeymap', {
   NextCell: {
     shortcuts: ['Mod-]', 'Tab'],

@@ -6,4 +6,5 @@ export * from './node'
 export * from './mark'
 export * from './composed'
 
+/// The GFM preset, includes all the plugins.
 export const gfm = [schema, inputrules, keymap, plugins, commands].flat()

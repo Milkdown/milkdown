@@ -2,6 +2,7 @@
 import { expectDomTypeError } from '@milkdown/exception'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 
+/// This schema extends the [list item](/preset-commonmark#list-item) schema and add task list support for it.
 export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) => {
   return (ctx) => {
     const baseSchema = prev(ctx)

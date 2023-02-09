@@ -9,12 +9,14 @@ import { CellSelection, TableMap } from '@milkdown/prose/tables'
 
 import { tableCellSchema, tableHeaderSchema, tableRowSchema, tableSchema } from '.'
 
+/// @internal
 export interface CellPos {
   pos: number
   start: number
   node: Node
 }
 
+/// @internal
 export const createTable = (rowsCount = 3, colsCount = 3): Node => {
   const cells = Array(colsCount)
     .fill(0)
@@ -31,10 +33,12 @@ export const createTable = (rowsCount = 3, colsCount = 3): Node => {
   return tableSchema.type().create(null, rows)
 }
 
+/// Find the table node with position information for current selection.
 export const findTable = (selection: Selection) =>
   findParentNode(node => node.type.spec.tableRole === 'table')(selection)
 
-export const getCellsInColumn = (columnIndex: number, selection: Selection): CellPos[] | undefined => {
+/// Get cells in a column of a table.
+export const getCellsInCol = (columnIndex: number, selection: Selection): CellPos[] | undefined => {
   const table = findTable(selection)
   if (!table)
     return undefined
@@ -58,6 +62,7 @@ export const getCellsInColumn = (columnIndex: number, selection: Selection): Cel
     .filter((x): x is CellPos => x != null)
 }
 
+/// Get cells in a row of a table.
 export const getCellsInRow = (rowIndex: number, selection: Selection): CellPos[] | undefined => {
   const table = findTable(selection)
   if (!table)
@@ -82,6 +87,7 @@ export const getCellsInRow = (rowIndex: number, selection: Selection): CellPos[]
     .filter((x): x is CellPos => x != null)
 }
 
+/// Get all cells in a table.
 export const getAllCellsInTable = (selection: Selection) => {
   const table = findTable(selection)
   if (!table)
@@ -101,6 +107,7 @@ export const getAllCellsInTable = (selection: Selection) => {
   })
 }
 
+/// Select a possible table in current selection.
 export const selectTable = (tr: Transaction) => {
   const cells = getAllCellsInTable(tr.selection)
   if (cells && cells[0]) {
@@ -114,6 +121,7 @@ export const selectTable = (tr: Transaction) => {
   return tr
 }
 
+/// @internal
 export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }: TableRect, row: number) {
   const rowPos = Array(row)
     .fill(0)
@@ -132,6 +140,7 @@ export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }:
   return tr
 }
 
+/// @internal
 export const selectLine = (type: 'row' | 'col') => (index: number) => (tr: Transaction) => {
   const table = findTable(tr.selection)
   const isRowSelection = type === 'row'
@@ -157,7 +166,12 @@ export const selectLine = (type: 'row' | 'col') => (index: number) => (tr: Trans
   return tr
 }
 
+/// If the selection is in a table,
+/// select the {index} row.
 export const selectRow = selectLine('row')
+
+/// If the selection is in a table,
+/// select the {index} column.
 export const selectCol = selectLine('col')
 
 const transpose = <T>(array: T[][]) => {
@@ -201,7 +215,7 @@ const convertArrayOfRowsToTableNode = (tableNode: Node, arrayOfNodes: (Node | nu
   return newTable
 }
 
-export const convertTableNodeToArrayOfRows = (tableNode: Node) => {
+const convertTableNodeToArrayOfRows = (tableNode: Node) => {
   const map = TableMap.get(tableNode)
   const rows: (Node | null)[][] = []
   for (let rowIndex = 0; rowIndex < map.height; rowIndex++) {
@@ -289,7 +303,7 @@ const getSelectionRangeInColumn = (columnIndex: number, tr: Transaction) => {
 
   // looking for selection start column (startIndex)
   for (let i = columnIndex; i >= 0; i--) {
-    const cells = getCellsInColumn(i, tr.selection)
+    const cells = getCellsInCol(i, tr.selection)
     if (cells) {
       cells.forEach((cell) => {
         const maybeEndIndex = cell.node.attrs.colspan + i - 1
@@ -303,7 +317,7 @@ const getSelectionRangeInColumn = (columnIndex: number, tr: Transaction) => {
   }
   // looking for selection end column (endIndex)
   for (let i = columnIndex; i <= endIndex; i++) {
-    const cells = getCellsInColumn(i, tr.selection)
+    const cells = getCellsInCol(i, tr.selection)
     if (cells) {
       cells.forEach((cell) => {
         const maybeEndIndex = cell.node.attrs.colspan + i - 1
@@ -316,14 +330,14 @@ const getSelectionRangeInColumn = (columnIndex: number, tr: Transaction) => {
   // filter out columns without cells (where all rows have colspan > 1 in the same column)
   const indexes = []
   for (let i = startIndex; i <= endIndex; i++) {
-    const maybeCells = getCellsInColumn(i, tr.selection)
+    const maybeCells = getCellsInCol(i, tr.selection)
     if (maybeCells && maybeCells.length)
       indexes.push(i)
   }
   startIndex = indexes[0]!
   endIndex = indexes[indexes.length - 1]!
 
-  const firstSelectedColumnCells = getCellsInColumn(startIndex, tr.selection)!
+  const firstSelectedColumnCells = getCellsInCol(startIndex, tr.selection)!
   const firstRowCells = getCellsInRow(0, tr.selection)!
   const $anchor = tr.doc.resolve(
     firstSelectedColumnCells[firstSelectedColumnCells.length - 1]!.pos,
@@ -331,7 +345,7 @@ const getSelectionRangeInColumn = (columnIndex: number, tr: Transaction) => {
 
   let headCell: CellPos | undefined
   for (let i = endIndex; i >= startIndex; i--) {
-    const columnCells = getCellsInColumn(i, tr.selection)
+    const columnCells = getCellsInCol(i, tr.selection)
     if (columnCells && columnCells.length) {
       for (let j = firstRowCells.length - 1; j >= 0; j--) {
         if (firstRowCells[j]!.pos === columnCells[0]!.pos) {
@@ -384,7 +398,7 @@ const getSelectionRangeInRow = (rowIndex: number, tr: Transaction) => {
   endIndex = indexes[indexes.length - 1]!
 
   const firstSelectedRowCells = getCellsInRow(startIndex, tr.selection)!
-  const firstColumnCells = getCellsInColumn(0, tr.selection)!
+  const firstColumnCells = getCellsInCol(0, tr.selection)!
   const $anchor = tr.doc.resolve(firstSelectedRowCells[firstSelectedRowCells.length - 1]!.pos)
 
   let headCell: CellPos | undefined
@@ -406,6 +420,9 @@ const getSelectionRangeInRow = (rowIndex: number, tr: Transaction) => {
   return { $anchor, $head, indexes }
 }
 
+/// If the selection is in a table,
+/// Move the columns at `origin` to `target` in current table.
+/// The `select` is true by default, which means the selection will be set to the moved column.
 export function moveCol(tr: Transaction, origin: number, target: number, select = true) {
   const table = findTable(tr.selection)
   if (!table)
@@ -447,6 +464,9 @@ export function moveCol(tr: Transaction, origin: number, target: number, select 
   return _tr.setSelection(createCellSelection($lastCell, $firstCell))
 }
 
+/// If the selection is in a table,
+/// Move the rows at `origin` and `target` in current table.
+/// The `select` is true by default, which means the selection will be set to the moved row.
 export function moveRow(tr: Transaction, origin: number, target: number, select = true) {
   const table = findTable(tr.selection)
   if (!table)
