@@ -4,6 +4,7 @@ import { dropCursor } from '@milkdown/prose/dropcursor'
 import { gapCursor } from '@milkdown/prose/gapcursor'
 import { $ctx, $prose } from '@milkdown/utils'
 
+/// @internal
 export type DropCursorOptions = {
   /**
     The color of the cursor. Defaults to `black`.
@@ -19,9 +20,14 @@ export type DropCursorOptions = {
   class?: string
 }
 
+/// A slice that contains [options for drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor#documentation).
 export const dropCursorConfig = $ctx<DropCursorOptions, 'dropCursorConfig'>({}, 'dropCursorConfig')
+
+/// This plugin wraps [drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor).
 export const dropCursorPlugin = $prose(ctx => dropCursor(ctx.get(dropCursorConfig.key)))
 
+/// This plugin wraps [gap cursor](https://github.com/ProseMirror/prosemirror-gapcursor).
 export const gapCursorPlugin = $prose(() => gapCursor())
 
+/// All plugins exported by this package.
 export const cursor: MilkdownPlugin[] = [dropCursorConfig, dropCursorPlugin, gapCursorPlugin]

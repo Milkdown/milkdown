@@ -1,6 +1,9 @@
 # @milkdown/plugin-cursor
 
-Add [drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor) and [gap cursor](https://github.com/ProseMirror/prosemirror-gapcursor) support.
+Add [drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor) and
+[gap cursor](https://github.com/ProseMirror/prosemirror-gapcursor) support.
+
+## Usage
 
 ```typescript
 import { Editor } from '@milkdown/core';
@@ -11,3 +14,12 @@ import { cursor } from '@milkdown/plugin-cursor';
 
 Editor.make().use(nord).use(commonmark).use(cursor).create();
 ```
+
+@cursor
+
+## Plugins
+
+@dropCursorConfig
+@dropCursorPlugin
+
+@gapCursorPlugin
