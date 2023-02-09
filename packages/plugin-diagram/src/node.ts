@@ -9,9 +9,20 @@ import mermaid from 'mermaid'
 import { remarkMermaid } from './remark-mermaid'
 import { getId } from './utility'
 
+/// A slice that contains [options for mermaid](https://mermaid.js.org/config/setup/modules/config.html).
+/// You can configure mermaid here.
+/// ```ts
+/// import { mermaidConfigCtx } from '@milkdown/plugin-diagram'
+///
+/// Editor.make()
+///   .config((ctx) => {
+///     ctx.set(mermaidConfigCtx.key, { /* some options */ });
+///   })
+/// ```
 export const mermaidConfigCtx = $ctx<MermaidConfig, 'mermaidConfig'>({ startOnLoad: false }, 'mermaidConfig')
 
 const id = 'diagram'
+/// Schema for diagram node.
 export const diagramSchema = $nodeSchema(id, (ctx) => {
   mermaid.initialize({
     ...ctx.get(mermaidConfigCtx.key),
@@ -74,6 +85,7 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
   }
 })
 
+/// A input rule that will insert a diagram node when you type ` ```mermaid `.
 export const insertDiagramInputRules = $inputRule(() =>
   new InputRule(/^```mermaid$/, (state, _match, start, end) => {
     const nodeType = diagramSchema.type()
@@ -83,6 +95,8 @@ export const insertDiagramInputRules = $inputRule(() =>
     return state.tr.delete(start, end).setBlockType(start, start, nodeType, { identity: getId() })
   }))
 
+/// A remark plugin that will parse mermaid code block.
 export const remarkDiagramPlugin = $remark(() => remarkMermaid)
 
+/// A command that will insert a diagram node.
 export const insertDiagramCommand = $command('InsertDiagramCommand', () => () => setBlockType(diagramSchema.type(), { identity: getId() }))

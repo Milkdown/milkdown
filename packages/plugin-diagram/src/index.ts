@@ -5,4 +5,5 @@ import { diagramSchema, insertDiagramCommand, insertDiagramInputRules, mermaidCo
 
 export * from './node'
 
+/// All plugins exported by this package.
 export const diagram: MilkdownPlugin[] = [remarkDiagramPlugin, mermaidConfigCtx, diagramSchema, insertDiagramCommand, insertDiagramInputRules].flat()

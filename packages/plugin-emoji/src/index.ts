@@ -13,6 +13,7 @@ import { twemojiPlugin } from './remark-twemoji'
 
 type TwemojiOptions = Exclude<Parameters<typeof Twemoji.parse>[1], Function | undefined>
 
+/// @internal
 export interface EmojiConfig {
   twemojiOptions?: TwemojiOptions
 }
