@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { strikethroughSchema } from '../mark'
+import { strikethroughAttr, strikethroughSchema } from '../mark'
 import { extendListItemSchemaForTask, footnoteDefinitionSchema, footnoteReferenceSchema, tableCellSchema, tableHeaderSchema, tableRowSchema, tableSchema } from '../node'
 
 /// @internal
@@ -15,5 +15,6 @@ export const schema: MilkdownPlugin[] = [
   footnoteDefinitionSchema,
   footnoteReferenceSchema,
 
+  strikethroughAttr,
   strikethroughSchema,
 ].flat()
