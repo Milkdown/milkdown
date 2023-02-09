@@ -28,7 +28,7 @@ import { commonmark, paragraphAttr } from '@milkdown/preset-commonmark';
 Editor
   .make()
   .config((ctx) => {
-    ctx.set(paragraphAttr, {
+    ctx.set(paragraphAttr.key, {
       'data-test-id': uuid(),
       class: 'paragraph',
     })
