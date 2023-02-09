@@ -2,7 +2,7 @@
 
 import { commandsCtx } from '@milkdown/core'
 import { TooltipProvider, tooltipFactory } from '@milkdown/plugin-tooltip'
-import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, deleteSelectedCellsCommand, getCellsInColumn, getCellsInRow, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '@milkdown/preset-gfm'
+import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, deleteSelectedCellsCommand, getCellsInCol, getCellsInRow, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '@milkdown/preset-gfm'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { CellSelection } from '@milkdown/prose/tables'
 import type { Decoration } from '@milkdown/prose/view'
@@ -298,7 +298,7 @@ export const tableSelectorPlugin = (widgetViewFactory: ReturnType<typeof useWidg
         }
       },
       apply(tr, value: { decorations: DecorationSet; pos: number }, oldState, newState) {
-        const leftCells = getCellsInColumn(0, tr.selection)
+        const leftCells = getCellsInCol(0, tr.selection)
         if (!leftCells)
           return { decorations: DecorationSet.empty, pos: 0 }
         const topCells = getCellsInRow(0, tr.selection)
