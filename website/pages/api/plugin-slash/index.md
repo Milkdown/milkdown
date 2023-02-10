@@ -3,6 +3,11 @@
 Slash plugin for [milkdown](https://milkdown.dev/).
 Add support for slash commands.
 
+> Although this plugin is called _slash_, it is not limited to slash commands.
+> It's also possible to use it for other commands, such as `@` to mentions or `:` to emoji.
+>
+> It's designed to solve one problem: input some characters and get a list of suggestions.
+
 ## Usage
 
 #### Create Slash View
