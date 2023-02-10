@@ -3,70 +3,68 @@
 Slash plugin for [milkdown](https://milkdown.dev/).
 Add support for slash commands.
 
-## Example Usage
+## Usage
+
+#### Create Slash View
+
+Create slash view is simple.
+All you need to do is to implement the [Prosemirror Plugin.view](https://prosemirror.net/docs/ref/#state.PluginSpec.view).
+
+```typescript
+import { SlashProvider } from '@milkdown/plugin-slash'
+
+function slashPluginView(view) {
+  const content = document.createElement('div');
+
+  const provider = new SlashProvider({
+    content: this.content,
+  });
+
+  return {
+    update: (updatedView, prevState) => {
+      provider.update(updatedView, prevState);
+    },
+    destroy: () => {
+      provider.destroy();
+      content.remove();
+    }
+  }
+}
+```
+
+#### Bind Slash View
+
+You need to bind the slash view to the plugin in `editor.config`.
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { nord } from '@milkdown/theme-nord';
 
-import { slash } from '@milkdown/plugin-slash';
+import { slashFactory } from '@milkdown/plugin-slash';
 
-Editor.make().use(nord).use(commonmark).use(slash).create();
+const slash = tooltipFactory('my-slash');
+
+Editor
+  .make()
+  .config((ctx) => {
+    ctx.set(slash.key, {
+      view: slashPluginView
+    })
+  })
+  .use(slash)
+  .create();
 ```
 
-## Config
+## Use with React
 
-Configure the slash plugin placeholders & items with custom status builder.
+TODO: add docs about how to use with prosemirror-adapter/react
 
-Example:
+## Use with Vue
 
-```typescript
-import { slashPlugin, slash, createDropdownItem, defaultActions } from '@milkdown/plugin-slash';
-import { themeManagerCtx, commandsCtx } from '@milkdown/core';
+TODO: add docs about how to use with prosemirror-adapter/vue
 
-Editor.make().use(
-    slash.configure(slashPlugin, {
-        config: (ctx) => {
-            // Get default slash plugin items
-            const actions = defaultActions(ctx);
+## API
 
-            // Define a status builder
-            return ({ isTopLevel, content, parentNode }) => {
-                // You can only show something at root level
-                if (!isTopLevel) return null;
+@slashFactory
 
-                // Empty content ? Set your custom empty placeholder !
-                if (!content) {
-                    return { placeholder: 'Type / to use the slash commands...' };
-                }
-
-                // Define the placeholder & actions (dropdown items) you want to display depending on content
-                if (content.startsWith('/')) {
-                    // Add some actions depending on your content's parent node
-                    if (parentNode.type.name === 'customNode') {
-                        actions.push({
-                            id: 'custom',
-                            dom: createDropdownItem(ctx.get(themeManagerCtx), 'Custom', 'h1'),
-                            command: () => ctx.get(commandsCtx).call(/* Add custom command here */),
-                            keyword: ['custom'],
-                            typeName: 'heading',
-                        });
-                    }
-
-                    return content === '/'
-                        ? {
-                              placeholder: 'Type to filter...',
-                              actions,
-                          }
-                        : {
-                              actions: actions.filter(({ keyword }) =>
-                                  keyword.some((key) => key.includes(content.slice(1).toLocaleLowerCase())),
-                              ),
-                          };
-                }
-            };
-        },
-    }),
-);
-```
+@SlashProvider
+@SlashProviderOptions

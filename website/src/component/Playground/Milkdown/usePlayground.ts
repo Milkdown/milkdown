@@ -11,7 +11,7 @@ import { indent } from '@milkdown/plugin-indent'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { math, mathBlockSchema } from '@milkdown/plugin-math'
 import { prism, prismConfig } from '@milkdown/plugin-prism'
-import { slash } from '@milkdown/plugin-slash'
+import { slashFactory } from '@milkdown/plugin-slash'
 import { trailing } from '@milkdown/plugin-trailing'
 import { upload } from '@milkdown/plugin-upload'
 import { codeBlockSchema, commonmark, listItemSchema } from '@milkdown/preset-commonmark'
@@ -66,6 +66,8 @@ const useToggle = (label: string, state: boolean, get: () => Editor | undefined,
     })
   }, [get, label, plugins, state])
 }
+
+const slash = slashFactory('MILKDOWN')
 
 export const usePlayground = (
   defaultValue: string,

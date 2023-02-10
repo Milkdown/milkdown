@@ -30,7 +30,7 @@ export const Slash = () => {
       },
     })
 
-    const root = getEditor().ctx.get(editorViewCtx).dom
+    const root = getEditor().ctx.isInjected(editorViewCtx) && getEditor().ctx.get(editorViewCtx).dom
     if (!root)
       return
 

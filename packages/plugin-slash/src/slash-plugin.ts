@@ -5,13 +5,16 @@ import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { $Ctx, $Prose } from '@milkdown/utils'
 import { $ctx, $prose } from '@milkdown/utils'
 
+/// @internal
 export type SlashPluginSpecId<Id extends string> = `${Id}_SLASH_SPEC`
 
+/// @internal
 export type SlashPlugin<Id extends string, State = any> = [$Ctx<PluginSpec<State>, SlashPluginSpecId<Id>>, $Prose] & {
   key: SliceType<PluginSpec<State>, SlashPluginSpecId<Id>>
   pluginKey: $Prose['key']
 }
 
+/// Create a slash plugin with a unique id.
 export const slashFactory = <Id extends string, State = any>(id: Id) => {
   const slashSpec = $ctx<PluginSpec<State>, SlashPluginSpecId<Id>>({}, `${id}_SLASH_SPEC`)
   const slashPlugin = $prose((ctx) => {
@@ -27,5 +30,3 @@ export const slashFactory = <Id extends string, State = any>(id: Id) => {
 
   return result
 }
-
-export const slash = slashFactory('MILKDOWN')

@@ -7,31 +7,43 @@ import debounce from 'lodash.debounce'
 import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
 
+/// Options for slash provider.
 export type SlashProviderOptions = {
+  /// The slash content.
   content: HTMLElement
+  /// The options for creating [tippy.js](https://atomiks.github.io/tippyjs/) instance.
   tippyOptions?: Partial<Props>
+  /// The debounce time for updating slash, 200ms by default.
   debounce?: number
+  /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
 }
 
+/// A provider for creating slash.
 export class SlashProvider {
+  /// The root element of the slash.
+  element: HTMLElement
+
+  /// @internal
   #tippy: Instance | undefined
 
-  #element: HTMLElement
-
+  /// @internal
   #tippyOptions: Partial<Props>
 
+  /// @internal
   #debounce: number
 
+  /// @internal
   #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   constructor(options: SlashProviderOptions) {
-    this.#element = options.content
+    this.element = options.content
     this.#tippyOptions = options.tippyOptions ?? {}
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
   }
 
+  /// @internal
   #onUpdate = (view: EditorView, prevState?: EditorState): void => {
     const { state, composing } = view
     const { selection, doc } = state
@@ -45,7 +57,7 @@ export class SlashProvider {
       placement: 'bottom-start',
       interactive: true,
       ...this.#tippyOptions,
-      content: this.#element,
+      content: this.element,
     })
 
     if (composing || isSame)
@@ -63,18 +75,30 @@ export class SlashProvider {
     this.show()
   }
 
+  /// @internal
+  #_shouldShow(view: EditorView): boolean {
+    const currentTextBlockContent = this.getContent(view)
+
+    if (!currentTextBlockContent)
+      return false
+
+    return currentTextBlockContent.at(-1) === '/'
+  }
+
+  /// Update provider state by editor view.
   update = (view: EditorView, prevState?: EditorState): void => {
     const updater = debounce(this.#onUpdate, this.#debounce)
 
     updater(view, prevState)
   }
 
+  /// Get the content of the current text block.
   getContent = (view: EditorView): string | undefined => {
     const { selection } = view.state
     const { empty } = selection
     const isTextBlock = view.state.selection instanceof TextSelection
 
-    const isSlashChildren = this.#element.contains(document.activeElement)
+    const isSlashChildren = this.element.contains(document.activeElement)
 
     const notHasFocus = !view.hasFocus() && !isSlashChildren
 
@@ -92,27 +116,22 @@ export class SlashProvider {
     return currentTextBlockContent
   }
 
-  #_shouldShow(view: EditorView): boolean {
-    const currentTextBlockContent = this.getContent(view)
-
-    if (!currentTextBlockContent)
-      return false
-
-    return currentTextBlockContent.at(-1) === '/'
-  }
-
+  /// Destroy the slash.
   destroy = () => {
     this.#tippy?.destroy()
   }
 
+  /// Show the slash.
   show = () => {
     this.#tippy?.show()
   }
 
+  /// Hide the slash.
   hide = () => {
     this.#tippy?.hide()
   }
 
+  /// Get the [tippy.js](https://atomiks.github.io/tippyjs/) instance.
   getInstance = () => {
     return this.#tippy
   }

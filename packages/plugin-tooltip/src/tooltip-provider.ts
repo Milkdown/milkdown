@@ -19,6 +19,7 @@ export type TooltipProviderOptions = {
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
 }
 
+/// A provider for creating tooltip.
 export class TooltipProvider {
   /// @internal
   #tippy: Instance | undefined
@@ -73,6 +74,7 @@ export class TooltipProvider {
     this.show()
   }
 
+  /// Update provider state by editor view.
   update = (view: EditorView, prevState?: EditorState): void => {
     const updater = debounce(this.#onUpdate, this.#debounce)
 
