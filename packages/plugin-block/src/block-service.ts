@@ -20,17 +20,24 @@ const brokenClipboardAPI
 
 const buffer = 20
 
+/// @internal
 export type BlockServiceMessageType = {
   type: 'hide'
 } | {
   type: 'show'
   active: ActiveNode
 }
+/// @internal
 export type BlockServiceMessage = (message: BlockServiceMessageType) => void
 
+/// @internal
+/// The block service, provide events and methods for block plugin.
+/// Generally you don't need to use this class directly.
 export class BlockService {
+  /// @internal
   #ctx?: Ctx
 
+  /// @internal
   #createSelection: () => null | Selection = () => {
     if (!this.#active)
       return null
@@ -47,39 +54,51 @@ export class BlockService {
     return null
   }
 
+  /// @internal
   #activeSelection: null | Selection = null
+  /// @internal
   #active: null | ActiveNode = null
+  /// @internal
   #activeDOMRect: undefined | DOMRect = undefined
 
+  /// @internal
   #dragging = false
+  /// @internal
   #hovering = false
 
+  /// @internal
   get #filterNodes(): FilterNodes | undefined {
     return this.#ctx?.get(blockConfig.key).filterNodes
   }
 
+  /// @internal
   get #view() {
     return this.#ctx?.get(editorViewCtx)
   }
 
+  /// @internal
   #notify?: BlockServiceMessage
 
+  /// @internal
   #hide = () => {
     this.#notify?.({ type: 'hide' })
     this.#hovering = false
     this.#active = null
   }
 
+  /// @internal
   #show = (active: ActiveNode) => {
     this.#active = active
     this.#notify?.({ type: 'show', active })
   }
 
+  /// Bind editor context and notify function to the service.
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
     this.#notify = notify
   }
 
+  /// Add mouse event to the dom.
   addEvent = (dom: HTMLElement) => {
     dom.addEventListener('mousedown', this.#handleMouseDown)
     dom.addEventListener('mouseenter', this.#handleMouseEnter)
@@ -88,6 +107,7 @@ export class BlockService {
     dom.addEventListener('dragstart', this.#handleDragStart)
   }
 
+  /// Remove mouse event to the dom.
   removeEvent = (dom: HTMLElement) => {
     dom.removeEventListener('mousedown', this.#handleMouseDown)
     dom.removeEventListener('mouseenter', this.#handleMouseEnter)
@@ -96,23 +116,28 @@ export class BlockService {
     dom.removeEventListener('dragstart', this.#handleDragStart)
   }
 
+  /// Unbind the notify function.
   unBind = () => {
     this.#notify = undefined
   }
 
+  /// @internal
   #handleMouseEnter = () => {
     this.#hovering = true
   }
 
+  /// @internal
   #handleMouseLeave = () => {
     this.#hovering = false
   }
 
+  /// @internal
   #handleMouseDown = () => {
     this.#activeDOMRect = this.#active?.el.getBoundingClientRect()
     this.#createSelection()
   }
 
+  /// @internal
   #handleMouseUp = () => {
     if (!this.#dragging) {
       requestAnimationFrame(() => {
@@ -127,6 +152,7 @@ export class BlockService {
     this.#activeSelection = null
   }
 
+  /// @internal
   #handleDragStart = (event: DragEvent) => {
     this.#dragging = true
     const selection = this.#activeSelection
@@ -150,11 +176,13 @@ export class BlockService {
     }
   }
 
+  /// @internal
   keydownCallback = () => {
     this.#hide()
     return false
   }
 
+  /// @internal
   #mousemoveCallback = (view: EditorView, event: MouseEvent) => {
     if (!view.editable)
       return
@@ -184,6 +212,7 @@ export class BlockService {
     this.#show(result)
   }
 
+  /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
     if (view.composing || !view.editable)
       return false
@@ -193,6 +222,7 @@ export class BlockService {
     return false
   }
 
+  /// @internal
   dragoverCallback = (view: EditorView, event: DragEvent) => {
     if (this.#dragging) {
       const root = this.#view?.dom.parentElement
@@ -220,16 +250,19 @@ export class BlockService {
     return false
   }
 
+  /// @internal
   dragenterCallback = () => {
     this.#dragging = true
   }
 
+  /// @internal
   dragleaveCallback = () => {
     this.#dragging = false
     this.#active = null
     this.#hovering = false
   }
 
+  /// @internal
   dropCallback = (view: EditorView, _event: MouseEvent) => {
     if (this.#dragging) {
       const event = _event as DragEvent

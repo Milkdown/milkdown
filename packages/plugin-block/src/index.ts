@@ -7,4 +7,5 @@ export * from './block-provider'
 export * from './block-service'
 export * from './block-plugin'
 
+/// All plugins exported by this package.
 export const block: MilkdownPlugin[] = [blockView, blockConfig, blockService, blockPlugin]

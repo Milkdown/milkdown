@@ -7,8 +7,10 @@ import { $ctx, $prose } from '@milkdown/utils'
 
 import { BlockService } from './block-service'
 
+/// @internal
 export type FilterNodes = (node: Node) => boolean
 
+/// @internal
 export const defaultNodeFilter: FilterNodes = (node) => {
   const { name } = node.type
   if (name.startsWith('table') && name !== 'table')
@@ -17,15 +19,22 @@ export const defaultNodeFilter: FilterNodes = (node) => {
   return true
 }
 
-export const blockConfig = $ctx<{ filterNodes: FilterNodes }, 'blockConfig'>({
-  filterNodes: defaultNodeFilter,
-}, 'blockConfig')
+/// A slice contains the block config.
+/// Possible properties:
+/// - `filterNodes`: A function to filter nodes that can be dragged.
+export const blockConfig = $ctx<{ filterNodes: FilterNodes }, 'blockConfig'>({ filterNodes: defaultNodeFilter }, 'blockConfig')
+
+/// @internal
 export const blockService = $ctx(new BlockService(), 'blockService')
 
+/// @internal
 export type BlockViewFactory = (view: EditorView) => PluginView
 
+/// A slice contains a factory that will return a plugin view.
+/// Users can use this slice to customize the plugin view.
 export const blockView = $ctx<BlockViewFactory, 'blockView'>(() => ({}), 'blockView')
 
+/// The block prosemirror plugin.
 export const blockPlugin = $prose((ctx) => {
   const milkdownPluginBlockKey = new PluginKey('MILKDOWN_BLOCK')
   const service = ctx.get(blockService.key)

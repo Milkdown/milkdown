@@ -1,32 +1,68 @@
 # @milkdown/plugin-block
 
-Block plugin for [milkdown](https://milkdown.dev/) to simulate the behavior of block editor.
+Block plugin for [milkdown](https://milkdown.dev/) to add a handler for every block.
+
+## Usage
+
+#### Create Block View
+
+Create block view is simple.
+All you need to do is to implement the [Prosemirror Plugin.view](https://prosemirror.net/docs/ref/#state.PluginSpec.view).
+
+```typescript
+import { BlockProvider } from '@milkdown/plugin-block'
+
+function createBlockPluginView(ctx) {
+  return (view) => {
+    const content = document.createElement('div');
+
+    const provider = new BlockProvider({
+      ctx,
+      content: this.content,
+    });
+
+    return {
+      update: (updatedView, prevState) => {
+        provider.update(updatedView, prevState);
+      },
+      destroy: () => {
+        provider.destroy();
+        content.remove();
+      }
+    }
+  }
+}
+```
+
+
+#### Bind Block View
+
+You need to bind the block view to the plugin in `editor.config`.
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
 
-import { block } from '@milkdown/plugin-block';
+import { block, blockView } from '@milkdown/plugin-block';
 
-Editor.make().use(commonmark).use(block).create();
+Editor
+  .make()
+  .config((ctx) => {
+    ctx.set(blockView.key, {
+      view: blockPluginView(ctx)
+    })
+  })
+  .use(block)
+  .create();
 ```
 
-## ConfigBuilder
+@block
 
-You can configure the list through `configBuilder` options. You can provide your own configBuilder by:
+## API
 
-```typescript
-import { block, blockPlugin } from '@milkdown/plugin-block';
+@BlockProvider
+@BlockProviderOptions
 
-Editor.make().use(
-    block.configure(blockPlugin, {
-        configBuilder: (ctx) => {
-            return [
-                /* your actions */
-            ];
-        },
-    }),
-);
-```
+@blockPlugin
+@blockView
 
-You can find the [default config builder here](https://github.com/Saul-Mirone/milkdown/blob/main/packages/plugin-block/src/config.ts).
+@blockConfig

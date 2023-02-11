@@ -10,14 +10,14 @@ import { useEffect, useRef, useState } from 'react'
 
 export const Block = () => {
   const { view } = usePluginViewContext()
-  const slashProvider = useRef<BlockProvider>()
+  const blockProvider = useRef<BlockProvider>()
   const [element, setElement] = useState<HTMLDivElement | null>(null)
   const [loading, get] = useInstance()
   const [showMenu, setShowMenu] = useState(false)
 
   useEffect(() => {
     if (element && !loading) {
-      slashProvider.current ??= new BlockProvider({
+      blockProvider.current ??= new BlockProvider({
         ctx: get().ctx,
         content: element,
         tippyOptions: {
@@ -30,12 +30,12 @@ export const Block = () => {
     }
 
     return () => {
-      slashProvider.current?.destroy()
+      blockProvider.current?.destroy()
     }
   }, [loading, get, element])
 
   useEffect(() => {
-    slashProvider.current?.update(view)
+    blockProvider.current?.update(view)
   })
 
   return (

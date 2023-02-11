@@ -9,22 +9,33 @@ import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
 import type { ActiveNode } from './select-node-by-dom'
 
+/// Options for creating block provider.
 export type BlockProviderOptions = {
+  /// The context of the editor.
   ctx: Ctx
+  /// The content of the block.
   content: HTMLElement
+  /// The options of tippy.
   tippyOptions?: Partial<Props>
+  /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
 }
 
+/// A provider for creating block.
 export class BlockProvider {
+  /// @internal
   #tippy: Instance | undefined
 
+  /// @internal
   #element: HTMLElement
 
+  /// @internal
   #tippyOptions: Partial<Props>
 
+  /// @internal
   #ctx: Ctx
 
+  /// @internal
   #service?: BlockService
 
   constructor(options: BlockProviderOptions) {
@@ -33,6 +44,7 @@ export class BlockProvider {
     this.#tippyOptions = options.tippyOptions ?? {}
   }
 
+  /// @internal
   #init(view: EditorView) {
     const service = this.#ctx.get(blockService.key)
     service.bind(this.#ctx, (message) => {
@@ -55,6 +67,7 @@ export class BlockProvider {
     })
   }
 
+  /// Update provider state by editor view.
   update = (view: EditorView): void => {
     requestAnimationFrame(() => {
       if (!this.#tippy) {
@@ -68,6 +81,7 @@ export class BlockProvider {
     })
   }
 
+  /// Destroy the block.
   destroy = () => {
     this.#service?.unBind()
     this.#service?.removeEvent(this.#element)
@@ -75,6 +89,7 @@ export class BlockProvider {
     this.#tippy = undefined
   }
 
+  /// Show the block.
   show = (active: ActiveNode) => {
     const view = this.#ctx.get(editorViewCtx)
     requestAnimationFrame(() => {
@@ -91,6 +106,7 @@ export class BlockProvider {
     })
   }
 
+  /// Hide the block.
   hide = () => {
     this.#tippy?.hide()
   }
