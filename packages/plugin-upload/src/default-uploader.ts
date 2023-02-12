@@ -4,6 +4,7 @@ import type { Node } from '@milkdown/prose/model'
 
 import type { Uploader } from './upload'
 
+/// Read the image file as base64.
 export const readImageAsBase64 = (file: File): Promise<{ alt: string; src: string }> => {
   return new Promise((resolve) => {
     const reader = new FileReader()
@@ -21,6 +22,8 @@ export const readImageAsBase64 = (file: File): Promise<{ alt: string; src: strin
   })
 }
 
+/// The default uploader.
+/// It will upload transform images to base64.
 export const defaultUploader: Uploader = async (files, schema) => {
   const imgs: File[] = []
 

@@ -9,15 +9,31 @@ import { $ctx, $prose } from '@milkdown/utils'
 
 import { defaultUploader } from './default-uploader'
 
-export type Uploader = (files: FileList, schema: Schema) => Promise<Fragment | Node | Node[]>
+/// @internal
+export type Uploader = UploadOptions['uploader']
 interface Spec { id: symbol; pos: number }
-export interface UploadConfig {
-  uploader: Uploader
+
+/// The configuration for upload.
+export interface UploadOptions {
+  /// The uploader for upload plugin.
+  /// It takes the files and schema as parameters.
+  /// It should return a `Promise` of Prosemirror `Fragment` or `Node` or `Node[]`.
+  uploader: (files: FileList, schema: Schema) => Promise<Fragment | Node | Node[]>
+  /// Whether to enable the html file uploader.
+  /// When paste files from html (for example copy images by right click context menu),
+  /// this option will make the plugin to upload the image copied instead of using the original link.
   enableHtmlFileUploader: boolean
+  /// The factory for upload widget.
+  /// The widget will be displayed when the file is uploading.
+  /// It takes the position and spec as parameters.
+  /// It should return a `Decoration` of Prosemirror.
+  /// By default, it will return `<span>Upload in progress...</span>`.
   uploadWidgetFactory: (pos: number, spec: Parameters<typeof Decoration.widget>[2]) => Decoration
 }
 
-export const uploadConfig = $ctx<UploadConfig, 'uploadConfig'>({
+/// A slice that contains the configuration for upload.
+/// It should be type of `UploadConfig`.
+export const uploadConfig = $ctx<UploadOptions, 'uploadConfig'>({
   uploader: defaultUploader,
   enableHtmlFileUploader: false,
   uploadWidgetFactory: (pos, spec) => {
@@ -27,7 +43,8 @@ export const uploadConfig = $ctx<UploadConfig, 'uploadConfig'>({
   },
 }, 'uploadConfig')
 
-export const updatePlugin = $prose((ctx) => {
+/// The prosemirror plugin for upload.
+export const uploadPlugin = $prose((ctx) => {
   const pluginKey = new PluginKey('MILKDOWN_UPLOAD')
 
   const findPlaceholder = (state: EditorState, id: symbol): number => {
