@@ -5,12 +5,15 @@ import type { Transaction } from '@milkdown/prose/state'
 import { AllSelection, TextSelection } from '@milkdown/prose/state'
 import { $ctx, $shortcut } from '@milkdown/utils'
 
-export interface Options {
+/// Add indent config.
+export interface IndentConfigOptions {
+  /// The type of indent, `space` or `tab`. By default, it's `space`.
   type: 'space' | 'tab'
+  /// The size of indent. By default, it's `2`.
   size: number
 }
 
-const updateIndent = (tr: Transaction, options: Options): Transaction => {
+const updateIndent = (tr: Transaction, options: IndentConfigOptions): Transaction => {
   const { doc, selection } = tr
 
   if (!doc || !selection)
@@ -26,8 +29,24 @@ const updateIndent = (tr: Transaction, options: Options): Transaction => {
   return tr.insertText(text, to)
 }
 
-export const indentConfig = $ctx<Options, 'indentConfig'>({ type: 'space', size: 2 }, 'indentConfig')
+/// A slice contains the indent config.
+/// You can use [IndentConfigOptions](#IndentConfigOptions) to customize the behavior of the plugin.
+///
+/// ```ts
+/// import { indent, indentConfig } from '@milkdown/plugin-indent'
+///
+/// Editor
+///   .make()
+///   .config((ctx) => {
+///     ctx.set(indentConfig, {
+///       type: 'space',
+///       size: 4,
+///     })
+///   })
+/// ```
+export const indentConfig = $ctx<IndentConfigOptions, 'indentConfig'>({ type: 'space', size: 2 }, 'indentConfig')
 
+/// Add indent shortcut, when users press `Tab`, the plugin will insert indent text.
 export const indentPlugin = $shortcut(ctx => ({
   Tab: (state, dispatch) => {
     const config = ctx.get(indentConfig.key)
@@ -43,4 +62,5 @@ export const indentPlugin = $shortcut(ctx => ({
   },
 }))
 
+/// The plugin of indent.
 export const indent: MilkdownPlugin[] = [indentConfig, indentPlugin]

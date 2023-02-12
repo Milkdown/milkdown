@@ -4,27 +4,21 @@ Indent support for [milkdown](https://milkdown.dev/).
 
 ```typescript
 import { Editor } from '@milkdown/core';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { nord } from '@milkdown/theme-nord';
-
 import { indent } from '@milkdown/plugin-indent';
 
-Editor.make().use(nord).use(commonmark).use(indent).create();
+Editor
+  .make()
+  .use(indent)
+  .create();
 ```
 
-## Config
+@indent
 
-```typescript
-import { indent, indentPlugin } from '@milkdown/plugin-indent';
+## Options
 
-Editor.make()
-    .use(nord)
-    .use(commonmark)
-    .use(
-        indent.configure(indentPlugin, {
-            type: 'space', // available values: 'tab', 'space',
-            size: 4,
-        }),
-    )
-    .create();
-```
+@indentConfig
+@IndentConfigOptions
+
+## Plugin
+
+@indentPlugin
