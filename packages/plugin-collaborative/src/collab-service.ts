@@ -29,49 +29,68 @@ import type { Awareness } from 'y-protocols/awareness'
 import type { Doc, PermanentUserData } from 'yjs'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
 
+/// @internal
 export interface ColorDef {
   light: string
   dark: string
 }
+
+/// @internal
 export interface YSyncOpts {
   colors?: Array<ColorDef>
   colorMapping?: Map<string, ColorDef>
   permanentUserData?: PermanentUserData | null
 }
+
+/// @internal
 export interface yCursorOpts {
-
   cursorBuilder?: (arg: any) => HTMLElement
-
   selectionBuilder?: (arg: any) => DecorationAttrs
-
   getSelection?: (arg: any) => any
 }
+
+/// @internal
 export interface yUndoOpts {
   protectedNodes?: Set<string>
-
   trackedOrigins?: any[]
-
   undoManager?: any
 }
 
-export interface Options {
-  ySyncOpts?: YSyncOpts
-  yCursorOpts?: yCursorOpts
+/// Options for the collab service.
+export interface CollabServiceOptions {
+  /// The field name of the yCursor plugin.
   yCursorStateField?: string
+
+  /// Options for the ySync plugin.
+  ySyncOpts?: YSyncOpts
+
+  /// Options for the yCursor plugin.
+  yCursorOpts?: yCursorOpts
+
+  /// Options for the yUndo plugin.
   yUndoOpts?: yUndoOpts
 }
 
+/// @internal
 export const CollabKeymapPluginKey = new PluginKey('MILKDOWN_COLLAB_KEYMAP')
 
 const collabPluginKeys = [CollabKeymapPluginKey, ySyncPluginKey, yCursorPluginKey, yUndoPluginKey]
 
+/// The collab service is used to manage the collaboration plugins.
+/// It is used to provide the collaboration plugins to the editor.
 export class CollabService {
-  #options: Options = {}
+  /// @internal
+  #options: CollabServiceOptions = {}
+  /// @internal
   #doc: Doc | null = null
+  /// @internal
   #awareness: Awareness | null = null
+  /// @internal
   #ctx: Ctx | null = null
+  /// @internal
   #connected = false
 
+  /// @internal
   #valueToNode(value: DefaultValue): Node | undefined {
     if (!this.#ctx)
       throw ctxNotBind()
@@ -83,6 +102,7 @@ export class CollabService {
     return doc
   }
 
+  /// @internal
   #createPlugins(): Plugin[] {
     if (!this.#doc)
       throw missingYjsDoc()
@@ -110,6 +130,7 @@ export class CollabService {
     return plugins
   }
 
+  /// @internal
   #flushEditor(plugins: Plugin[]) {
     if (!this.#ctx)
       throw ctxNotBind()
@@ -120,31 +141,39 @@ export class CollabService {
     view.updateState(newState)
   }
 
+  /// Bind the context to the service.
   bindCtx(ctx: Ctx) {
     this.#ctx = ctx
     return this
   }
 
+  /// Bind the document to the service.
   bindDoc(doc: Doc) {
     this.#doc = doc
     return this
   }
 
-  setOptions(options: Options) {
+  /// Set the options of the service.
+  setOptions(options: CollabServiceOptions) {
     this.#options = options
     return this
   }
 
-  mergeOptions(options: Partial<Options>) {
+  /// Merge some options to the service.
+  /// The options will be merged to the existing options.
+  /// THe options should be partial of the `CollabServiceOptions`.
+  mergeOptions(options: Partial<CollabServiceOptions>) {
     Object.assign(this.#options, options)
     return this
   }
 
+  /// Set the awareness of the service.
   setAwareness(awareness: Awareness) {
     this.#awareness = awareness
     return this
   }
 
+  /// Apply the template to the document.
   applyTemplate(template: DefaultValue, condition?: (yDocNode: Node, templateNode: Node) => boolean) {
     if (!this.#ctx)
       throw ctxNotBind()
@@ -168,6 +197,7 @@ export class CollabService {
     return this
   }
 
+  /// Connect the service.
   connect() {
     if (!this.#ctx)
       throw ctxNotBind()
@@ -184,6 +214,7 @@ export class CollabService {
     return this
   }
 
+  /// Disconnect the service.
   disconnect() {
     if (!this.#ctx)
       throw ctxNotBind()

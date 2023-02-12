@@ -8,20 +8,34 @@ Please check the [collaborative editing guide](/collaborative-editing) to learn 
 import { collaborative, collabServiceCtx } from '@milkdown/plugin-collaborative';
 
 async function setup() {
-    const editor = await Editor.make().use(nord).use(commonmark).use(collaborative).create();
+  const editor = await Editor
+    .make()
+    .use(collaborative)
+    .create();
 
-    const doc = new Doc();
-    const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
+  const doc = new Doc();
+  const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
 
-    editor.action((ctx) => {
-        const collabService = ctx.get(collabServiceCtx);
+  editor.action((ctx) => {
+    const collabService = ctx.get(collabServiceCtx);
 
-        collabService
-            // bind doc and awareness
-            .bindDoc(doc)
-            .setAwareness(wsProvider.awareness)
-            // connect yjs with milkdown
-            .connect();
-    });
+    collabService
+      // bind doc and awareness
+      .bindDoc(doc)
+      .setAwareness(wsProvider.awareness)
+      // connect yjs with milkdown
+      .connect();
+  });
 }
 ```
+
+## Plugin
+
+@collaborative
+@CollabReady
+
+## Service
+
+@collabServiceCtx
+@CollabService
+@CollabServiceOptions

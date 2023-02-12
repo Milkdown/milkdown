@@ -5,9 +5,13 @@ import { EditorViewReady } from '@milkdown/core'
 
 import { CollabService } from './collab-service'
 
+/// A slice that contains the collab service.
 export const collabServiceCtx = createSlice(new CollabService(), 'collabServiceCtx')
+
+/// The timer that indicates the collab plugin is ready.
 export const CollabReady = createTimer('CollabReady')
 
+/// The collaborative plugin.
 export const collaborative: MilkdownPlugin = (ctx) => {
   const collabService = new CollabService()
   ctx.inject(collabServiceCtx, collabService).record(CollabReady)
@@ -21,5 +25,4 @@ export const collaborative: MilkdownPlugin = (ctx) => {
   }
 }
 
-export * from 'y-prosemirror'
-export { CollabService } from './collab-service'
+export * from './collab-service'
