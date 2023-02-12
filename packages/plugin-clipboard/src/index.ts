@@ -23,6 +23,7 @@ const isPureText = (content: UnknownRecord | UnknownRecord[] | undefined | null)
   return content.type === 'text'
 }
 
+/// The prosemirror plugin for clipboard.
 export const clipboard = $prose((ctx) => {
   const schema = ctx.get(schemaCtx)
 
