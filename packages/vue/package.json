@@ -38,7 +38,7 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "vue": "^3.2.38"
+    "vue": "^3.2.47"
   },
   "nx": {
     "targets": {
