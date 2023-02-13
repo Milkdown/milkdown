@@ -18,6 +18,7 @@ import tsx from 'refractor/lang/tsx'
 import type { Content } from '../hooks/useLazy'
 import { useLazy } from '../hooks/useLazy'
 import { linkPlugin } from './LinkWidget'
+import { headingAnchorPlugin } from './HeadingWidget'
 import { Outline } from './Outline'
 
 export const Inner: FC<{ content: Content }> = ({ content }) => {
@@ -76,6 +77,7 @@ export const Inner: FC<{ content: Content }> = ({ content }) => {
       .use(commonmark)
       .use(prism)
       .use(linkPlugin(widgetViewFactory))
+      .use(headingAnchorPlugin(widgetViewFactory))
       .use(listener)
   }, [md, loading])
 
