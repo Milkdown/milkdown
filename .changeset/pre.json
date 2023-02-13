@@ -32,6 +32,7 @@
     "@milkdown/website": "6.5.4"
   },
   "changesets": [
+    "funny-pugs-listen",
     "slow-masks-suffer"
   ]
 }

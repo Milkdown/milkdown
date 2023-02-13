@@ -1,5 +1,37 @@
 # @milkdown/website
 
+## 7.0.0-next.1
+
+### Patch Changes
+
+- 2ad4b566: Fix some bugs for rc version.
+- Updated dependencies [2ad4b566]
+  - @milkdown/core@7.0.0-next.1
+  - @milkdown/ctx@7.0.0-next.1
+  - @milkdown/exception@7.0.0-next.1
+  - @milkdown/plugin-block@7.0.0-next.1
+  - @milkdown/plugin-clipboard@7.0.0-next.1
+  - @milkdown/plugin-collaborative@7.0.0-next.1
+  - @milkdown/plugin-cursor@7.0.0-next.1
+  - @milkdown/plugin-diagram@7.0.0-next.1
+  - @milkdown/plugin-emoji@7.0.0-next.1
+  - @milkdown/plugin-history@7.0.0-next.1
+  - @milkdown/plugin-indent@7.0.0-next.1
+  - @milkdown/plugin-listener@7.0.0-next.1
+  - @milkdown/plugin-math@7.0.0-next.1
+  - @milkdown/plugin-prism@7.0.0-next.1
+  - @milkdown/plugin-slash@7.0.0-next.1
+  - @milkdown/plugin-tooltip@7.0.0-next.1
+  - @milkdown/plugin-trailing@7.0.0-next.1
+  - @milkdown/plugin-upload@7.0.0-next.1
+  - @milkdown/preset-commonmark@7.0.0-next.1
+  - @milkdown/preset-gfm@7.0.0-next.1
+  - @milkdown/prose@7.0.0-next.1
+  - @milkdown/react@7.0.0-next.1
+  - @milkdown/theme-nord@7.0.0-next.1
+  - @milkdown/transformer@7.0.0-next.1
+  - @milkdown/utils@7.0.0-next.1
+
 ## 7.0.0-next.0
 
 ### Major Changes
