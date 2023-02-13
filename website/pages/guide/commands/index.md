@@ -12,19 +12,19 @@ import { Editor, commandsCtx } from '@milkdown/core';
 import { commonmark, ToggleItalic } from '@milkdown/preset-commonmark';
 
 async function setup() {
-    const editor = await Editor.make().use(commonmark).create();
+  const editor = await Editor.make().use(commonmark).create();
 
-    const toggleItalic = () =>
-        editor.action((ctx) => {
-            // get command manager
-            const commandManager = ctx.get(commandsCtx);
+  const toggleItalic = () =>
+    editor.action((ctx) => {
+      // get command manager
+      const commandManager = ctx.get(commandsCtx);
 
-            // call command
-            commandManager.call(ToggleItalic);
-        });
+      // call command
+      commandManager.call(ToggleItalic);
+    });
 
-    // get markdown string:
-    $button.onClick = toggleItalic;
+  // get markdown string:
+  $button.onClick = toggleItalic;
 }
 ```
 
@@ -45,14 +45,17 @@ import { createCmdKey, MilkdownPlugin, CommandsReady, commandsCtx, schemaCtx } f
 import { wrapIn } from 'prosemirror-commands';
 
 export const WrapInBlockquote = createCmdKey();
-const plugin: MilkdownPlugin = () => async (ctx) => {
-    // wait for command manager ready
-    await ctx.wait(CommandsReady);
+const plugin: MilkdownPlugin = (ctx) => async () => {
+  // wait for command manager ready
+  await ctx.wait(CommandsReady);
 
-    const commandManager = ctx.get(commandsCtx);
-    const schema = ctx.get(schemaCtx);
+  const commandManager = ctx.get(commandsCtx);
+  const schema = ctx.get(schemaCtx);
 
-    commandManager.create(WrapInBlockquote, () => wrapIn(schema.nodes.blockquote));
+  commandManager.create(
+    WrapInBlockquote,
+    () => wrapIn(schema.nodes.blockquote)
+  );
 };
 
 // call command
@@ -70,14 +73,17 @@ import { setBlockType } from 'prosemirror-commands';
 // use number as the type of argument
 export const WrapInHeading = createCmdKey<number>();
 
-const plugin: MilkdownPlugin = () => async (ctx) => {
-    // wait for command manager ready
-    await ctx.wait(CommandsReady);
+const plugin: MilkdownPlugin = (ctx) => async () => {
+  // wait for command manager ready
+  await ctx.wait(CommandsReady);
 
-    const commandManager = ctx.get(commandsCtx);
-    const schema = ctx.get(schemaCtx);
+  const commandManager = ctx.get(commandsCtx);
+  const schema = ctx.get(schemaCtx);
 
-    commandManager.create(WrapInBlockquote, (level = 1) => setBlockType(schema.nodes.heading, { level }));
+  commandManager.create(
+    WrapInBlockquote,
+    (level = 1) => setBlockType(schema.nodes.heading, { level })
+  );
 };
 
 // call command

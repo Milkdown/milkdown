@@ -27,21 +27,21 @@ After the installation, you can configure your editor:
 import { collaborative, collabServiceCtx } from '@milkdown/plugin-collaborative';
 
 async function setup() {
-    const editor = await Editor.make().use(nord).use(commonmark).use(collaborative).create();
+  const editor = await Editor.make().config(nord).use(commonmark).use(collaborative).create();
 
-    const doc = new Doc();
-    const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
+  const doc = new Doc();
+  const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
 
-    editor.action((ctx) => {
-        const collabService = ctx.get(collabServiceCtx);
+  editor.action((ctx) => {
+    const collabService = ctx.get(collabServiceCtx);
 
-        collabService
-            // bind doc and awareness
-            .bindDoc(doc)
-            .setAwareness(wsProvider.awareness)
-            // connect yjs with milkdown
-            .connect();
-    });
+    collabService
+      // bind doc and awareness
+      .bindDoc(doc)
+      .setAwareness(wsProvider.awareness)
+      // connect yjs with milkdown
+      .connect();
+  });
 }
 ```
 
@@ -53,21 +53,21 @@ You may want to control the connect status of the editor manually.
 
 ```typescript
 editor.action((ctx) => {
-    const collabService = ctx.get(collabServiceCtx);
-    const doc = new Doc();
-    const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
+  const collabService = ctx.get(collabServiceCtx);
+  const doc = new Doc();
+  const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
 
-    collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
+  collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
 
-    document.getElementById('connect').onclick = () => {
-        wsProvider.connect();
-        collabService.connect();
-    };
+  document.getElementById('connect').onclick = () => {
+    wsProvider.connect();
+    collabService.connect();
+  };
 
-    document.getElementById('disconnect').onclick = () => {
-        wsProvider.disconnect();
-        collabService.disconnect();
-    };
+  document.getElementById('disconnect').onclick = () => {
+    wsProvider.disconnect();
+    collabService.disconnect();
+  };
 });
 ```
 
@@ -79,21 +79,21 @@ By default, the editor will show a empty document. You may want to use a templat
 const template = `# Heading`;
 
 editor.action((ctx) => {
-    const collabService = ctx.get(collabServiceCtx);
-    const doc = new Doc();
-    const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
+  const collabService = ctx.get(collabServiceCtx);
+  const doc = new Doc();
+  const wsProvider = new WebsocketProvider('<YOUR_WS_HOST>', 'milkdown', doc);
 
-    collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
+  collabService.bindDoc(doc).setAwareness(wsProvider.awareness);
 
-    wsProvider.once('synced', async (isSynced: boolean) => {
-        if (isSynced) {
-            collabService
-                // apply your template
-                .applyTemplate(markdown)
-                // don't forget connect
-                .connect();
-        }
-    });
+  wsProvider.once('synced', async (isSynced: boolean) => {
+    if (isSynced) {
+      collabService
+        // apply your template
+        .applyTemplate(markdown)
+        // don't forget connect
+        .connect();
+    }
+  });
 });
 ```
 
@@ -105,11 +105,11 @@ You can control this behavior through passing second parameter to `applyTemplate
 
 ```typescript
 collabService
-    .applyTemplate(markdown, (remoteNode, templateNode) => {
-        // return true to apply template
-    })
-    // don't forget connect
-    .connect();
+  .applyTemplate(markdown, (remoteNode, templateNode) => {
+    // return true to apply template
+  })
+  // don't forget connect
+  .connect();
 ```
 
 Here the nodes we get are [prosemirror node](https://prosemirror.net/docs/ref/#model.Node).

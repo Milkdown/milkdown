@@ -36,7 +36,6 @@ export const config: ConfigItem[] = [
       'plugins-101',
       'composable-plugins',
       'example-iframe-plugin',
-      'internal-plugins',
     ],
   },
   {
@@ -59,9 +58,9 @@ export const config: ConfigItem[] = [
       'plugin-block',
       'plugin-indent',
       'plugin-trailing',
-      'plugin-collaborative',
       'plugin-upload',
       'plugin-clipboard',
+      'plugin-collaborative',
     ],
   },
 ]

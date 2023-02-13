@@ -15,7 +15,8 @@ editor.action(insert('# Hello Macro'));
 // With listener
 import { listenerCtx } from '@milkdown/plugin-listener';
 editor.config((ctx) => {
-    ctx.get(listenerCtx).mounted(insert('# Default Title'));
+  ctx.get(listenerCtx)
+    .mounted(insert('# Default Title'));
 });
 ```
 

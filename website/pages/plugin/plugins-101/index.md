@@ -11,14 +11,14 @@ Generally speaking, a plugin will have following structure:
 ```typescript
 import { MilkdownPlugin } from '@milkdown/core';
 
-const myPlugin: MilkdownPlugin = (pre) => {
-    // #1 prepare plugin
-    return async (ctx) => {
-        // #2 run plugin
-        return async (post) => {
-          // #3 clean up plugin
-        }
-    };
+const myPlugin: MilkdownPlugin = (ctx) => {
+  // #1 prepare plugin
+  return async () => {
+    // #2 run plugin
+    return async () => {
+      // #3 clean up plugin
+    }
+  };
 };
 ```
 
@@ -37,16 +37,16 @@ You can use `ctx.wait` to wait a timer to finish.
 ```typescript
 import { MilkdownPlugin, Complete } from '@milkdown/core';
 
-const myPlugin: MilkdownPlugin = () => {
-    return async (ctx) => {
-        const start = Date.now();
+const myPlugin: MilkdownPlugin = (ctx) => {
+  return async () => {
+    const start = Date.now();
 
-        await ctx.wait(Complete);
+    await ctx.wait(Complete);
 
-        const end = Date.now();
+    const end = Date.now();
 
-        console.log('Milkdown load duration: ', end - start);
-    };
+    console.log('Milkdown load duration: ', end - start);
+  };
 };
 ```
 
@@ -58,11 +58,11 @@ import { MilkdownPlugin, editorStateTimerCtx, defaultValueCtx, createTimer } fro
 
 const RemoteTimer = createTimer('RemoteTimer');
 
-const remotePlugin: MilkdownPlugin = (pre) => {
+const remotePlugin: MilkdownPlugin = (ctx) => {
   // register timer
-  pre.record(RemoteTimer);
+  ctx.record(RemoteTimer);
 
-  return async (ctx) => {
+  return async () => {
     // the editorState plugin will wait for this timer to finish before initialize editor state.
     ctx.update(editorStateTimerCtx, (timers) => timers.concat(RemoteTimer));
 
@@ -72,11 +72,11 @@ const remotePlugin: MilkdownPlugin = (pre) => {
     // mark timer as complete
     ctx.done(RemoteTimer);
 
-    return async (post) => {
+    return async () => {
       await SomeAPI();
 
       // remove timer when plugin is removed
-      post.clearTimer(RemoteTimer);
+      ctx.clearTimer(RemoteTimer);
     }
   };
 };
@@ -99,32 +99,32 @@ import { MilkdownPlugin, createSlice } from '@milkdown/core';
 
 const counterCtx = createSlice(0, 'counter');
 
-const counterPlugin: MilkdownPlugin = (pre) => {
-    pre.inject(counterCtx);
+const counterPlugin: MilkdownPlugin = (ctx) => {
+  ctx.inject(counterCtx);
 
-    return (ctx) => {
-        // count is 0
-        const count0 = ctx.get(counterCtx);
+  return () => {
+    // count is 0
+    const count0 = ctx.get(counterCtx);
 
-        // set count to 1
-        ctx.set(counterCtx, 1);
+    // set count to 1
+    ctx.set(counterCtx, 1);
 
-        // now count is 1
-        const count1 = ctx.get(counterCtx);
+    // now count is 1
+    const count1 = ctx.get(counterCtx);
 
-        // set count to n + 2
-        ctx.update(counterCtx, (prev) => prev + 2);
+    // set count to n + 2
+    ctx.update(counterCtx, (prev) => prev + 2);
 
-        // now count is 3
-        const count2 = ctx.get(counterCtx);
-        // we can also get value by the slice name
-        const count3 = ctx.get('counter');
+    // now count is 3
+    const count2 = ctx.get(counterCtx);
+    // we can also get value by the slice name
+    const count3 = ctx.get('counter');
 
-        return (post) => {
-          // remove the slice
-          post.remove(counterCtx);
-        }
-    };
+    return () => {
+      // remove the slice
+      ctx.remove(counterCtx);
+    }
+  };
 };
 ```
 
@@ -139,15 +139,15 @@ import { MilkdownPlugin, SchemaReady, Timer, createSlice } from '@milkdown/core'
 
 const examplePluginTimersCtx = createSlice<Timer[]>([], 'example-timer');
 
-const examplePlugin: MilkdownPlugin = (pre) => {
-    pre.inject(examplePluginTimersCtx, [SchemaReady]);
-    return async (ctx) => {
-        await Promise.all(ctx.get(examplePluginTimersCtx).map((timer) => ctx.wait(timer)));
-        // or we can use a simplified syntax sugar
-        await ctx.waitTimers(examplePluginTimersCtx);
+const examplePlugin: MilkdownPlugin = (ctx) => {
+  ctx.inject(examplePluginTimersCtx, [SchemaReady]);
+  return async () => {
+      await Promise.all(ctx.get(examplePluginTimersCtx).map((timer) => ctx.wait(timer)));
+      // or we can use a simplified syntax sugar
+      await ctx.waitTimers(examplePluginTimersCtx);
 
-        // do something
-    };
+      // do something
+  };
 };
 ```
 
@@ -157,6 +157,6 @@ With this pattern, if other plugins want to delay the process of `examplePlugin`
 
 Now let's go back to the plugin structure. Since we have the knowledge of `timer` and `ctx`, we can understand what we should do in each part of a plugin.
 
-1. In `prepare` stage of the plugin, we can use `pre.record` to register a timer, and use `pre.inject` to inject a slice.
+1. In `prepare` stage of the plugin, we can use `ctx.record` to register a timer, and use `ctx.inject` to inject a slice.
 2. In `run` stage of the plugin, we can use `ctx.wait` to wait a timer to finish, and use `ctx.get` to get the value of a slice. We can also change values of slices by `ctx.set` and `ctx.update`. And we can use `ctx.done` to mark a timer as complete.
-3. In `post` stage of the plugin, we can use `post.clearTimer` to clear a timer, and use `post.remove` to remove a slice.
+3. In `post` stage of the plugin, we can use `ctx.clearTimer` to clear a timer, and use `ctx.remove` to remove a slice.
