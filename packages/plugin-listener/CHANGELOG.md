@@ -1,5 +1,13 @@
 # @milkdown/plugin-listener
 
+## 7.0.0-next.1
+
+### Patch Changes
+
+- 2ad4b566: Fix some bugs for rc version.
+- Updated dependencies [2ad4b566]
+  - @milkdown/utils@7.0.0-next.1
+
 ## 7.0.0-next.0
 
 ### Major Changes
