@@ -15,23 +15,23 @@ Create a component is pretty easy.
 
 ```html
 <script>
-    import { onMount } from 'svelte';
-    import { Editor, rootCtx, defaultValueCtx } from '@milkdown/core';
-    import { commonmark } from '@milkdown/preset-commonmark';
-    import { nord } from '@milkdown/theme-nord';
+  import { onMount } from 'svelte';
+  import { Editor, rootCtx, defaultValueCtx } from '@milkdown/core';
+  import { commonmark } from '@milkdown/preset-commonmark';
+  import { nord } from '@milkdown/theme-nord';
 
-    export let defaultValue;
+  export let defaultValue;
 
-    function editor(dom) {
-        Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, dom);
-                ctx.set(defaultValueCtx, defaultValue);
-            })
-            .use(nord)
-            .use(commonmark)
-            .create();
-    }
+  function editor(dom) {
+    Editor.make()
+      .config((ctx) => {
+        ctx.set(rootCtx, dom);
+        ctx.set(defaultValueCtx, defaultValue);
+      })
+      .config(nord)
+      .use(commonmark)
+      .create();
+  }
 </script>
 
 <style></style>
@@ -39,6 +39,6 @@ Create a component is pretty easy.
 <div use:editor />
 ```
 
-### Online Demo
+## Online Demo
 
-!CodeSandBox{milkdown-svelte-setup-5we3g?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+// TODO: add online demo

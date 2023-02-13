@@ -19,27 +19,65 @@ npm install @milkdown/preset-commonmark @milkdown/theme-nord
 
 Create a component is pretty easy.
 
-```typescript
-import { defineComponent } from 'vue';
-import { Editor, rootCtx } from '@milkdown/core';
-import { nord } from '@milkdown/theme-nord';
-import { VueEditor, useEditor } from '@milkdown/vue';
-import { commonmark } from '@milkdown/preset-commonmark';
+First, we need to create a `MilkdownProvider` component.
 
-export const MilkdownEditor = defineComponent(() => {
-    const { editor } = useEditor((root) =>
-        Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, root);
-            })
-            .use(nord)
-            .use(commonmark),
+```html
+<!-- MilkdownEditor.vue -->
+<template>
+  <Milkdown />
+</template>
+
+<script>
+import { defineComponent } from "vue";
+import { Editor, rootCtx, defaultValueCtx } from "@milkdown/core";
+import { nord } from "@milkdown/theme-nord";
+import { Milkdown, useEditor } from "@milkdown/vue";
+import { commonmark } from "@milkdown/preset-commonmark";
+
+export default defineComponent({
+  name: "Milkdown",
+  components: {
+    Milkdown,
+  },
+  setup: () => {
+    useEditor((root) =>
+      Editor.make()
+        .config((ctx) => {
+          ctx.set(rootCtx, root);
+        })
+        .config(nord)
+        .use(commonmark)
     );
-
-    return () => <VueEditor editor={editor} />;
+  },
 });
+</script>
 ```
 
-### Online Demo
+Then, we need to create a `MilkdownEditorWrapper` component.
 
-!StackBlitz{milkdown-nuxt}
+```html
+<!-- MilkdownEditorWrapper.vue -->
+<template>
+  <MilkdownProvider>
+    <MilkdownEditor />
+  </MilkdownProvider>
+</template>
+
+<script>
+import { defineComponent } from "vue";
+import { MilkdownProvider } from "@milkdown/vue";
+
+export default defineComponent({
+  name: "MilkdownEditorWrapper",
+  components: {
+    MilkdownProvider,
+  },
+  setup: () => {},
+});
+</script>
+```
+
+## Online Demo
+
+// TODO: add online demo
+

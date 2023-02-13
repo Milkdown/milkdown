@@ -29,23 +29,23 @@ import { nord } from '@milkdown/theme-nord';
     templateUrl: './editor.component.html',
 })
 export class AppComponent {
-    @ViewChild('editorRef') editorRef: ElementRef;
+  @ViewChild('editorRef') editorRef: ElementRef;
 
-    defaultValue = '# Milkdown x Angular';
+  defaultValue = '# Milkdown x Angular';
 
-    ngAfterViewInit() {
-        Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, this.editorRef.nativeElement);
-                ctx.set(defaultValueCtx, this.defaultValue);
-            })
-            .use(nord)
-            .use(commonmark)
-            .create();
-    }
+  ngAfterViewInit() {
+    Editor.make()
+      .config((ctx) => {
+          ctx.set(rootCtx, this.editorRef.nativeElement);
+          ctx.set(defaultValueCtx, this.defaultValue);
+      })
+      .config(nord)
+      .use(commonmark)
+      .create();
+  }
 }
 ```
 
-### Online Demo
+## Online Demo
 
-!CodeSandBox{milkdown-angular-setup-wowuy?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+// TODO: add online demo

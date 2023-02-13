@@ -21,23 +21,31 @@ Create a component is pretty easy.
 import React from 'react';
 import { Editor, rootCtx } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
-import { ReactEditor, useEditor } from '@milkdown/react';
+import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 
-export const MilkdownEditor: React.FC = () => {
-    const { editor } = useEditor((root) =>
-        Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, root);
-            })
-            .use(nord)
-            .use(commonmark),
-    );
+const MilkdownEditor: React.FC = () => {
+  const { editor } = useEditor((root) =>
+    Editor.make()
+      .config(nord)
+      .config((ctx) => {
+        ctx.set(rootCtx, root);
+      })
+      .use(commonmark),
+  );
 
-    return <ReactEditor editor={editor} />;
+  return <Milkdown />;
+};
+
+export const MilkdownEditorWrapper: React.FC = () => {
+  return (
+    <MilkdownProvider>
+      <MilkdownEditor />
+    </MilkdownProvider>
+  );
 };
 ```
 
-### Online Demo
+## Online Demo
 
-!CodeSandBox{milkdown-nextjs-setup-9d0766?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+// TODO: add online demo

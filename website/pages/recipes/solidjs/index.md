@@ -22,28 +22,28 @@ import { emoji } from '@milkdown/plugin-emoji';
 import { destroy } from '@milkdown/utils';
 
 const Milkdown = () => {
-    let ref;
-    let editor;
-    onMount(async () => {
-        editor = await Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, ref);
-                ctx.set(defaultValueCtx, '# Milkdown :heartpulse: Solidjs');
-            })
-            .use(commonmark)
-            .use(emoji)
-            .use(nord)
-            .create();
-    });
+  let ref;
+  let editor;
+  onMount(async () => {
+    editor = await Editor.make()
+      .config((ctx) => {
+          ctx.set(rootCtx, ref);
+          ctx.set(defaultValueCtx, '# Milkdown :heartpulse: Solidjs');
+      })
+      .config(nord)
+      .use(commonmark)
+      .use(emoji)
+      .create();
+  });
 
-    onCleanup(() => {
-        editor.action(destroy());
-    });
+  onCleanup(() => {
+      editor.action(destroy());
+  });
 
-    return <div ref={ref} />;
+  return <div ref={ref} />;
 };
 ```
 
-### Online Demo
+## Online Demo
 
-!CodeSandBox{milkdown-solidjs-setup-7tz6qf?fontsize=14&hidenavigation=1&theme=dark&view=preview}
+// TODO: add online demo
