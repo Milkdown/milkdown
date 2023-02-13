@@ -3,9 +3,14 @@ import type { Cleanup, Ctx, MilkdownPlugin, SliceType, TimerType } from '@milkdo
 import { createTimer } from '@milkdown/ctx'
 import { customAlphabet } from 'nanoid'
 
+/// @internal
 export const nanoid = customAlphabet('abcedfghicklmn', 10)
 
-export const addTimer = <T extends MilkdownPlugin, PluginWithTimer extends T = T & { timer: TimerType }>(
+/// @internal
+export type WithTimer<T> = T & { timer: TimerType }
+
+/// @internal
+export const addTimer = <T extends MilkdownPlugin, PluginWithTimer extends T = WithTimer<T>>(
   runner: (ctx: Ctx, plugin: PluginWithTimer, done: () => void) => Promise<void | Cleanup>,
   injectTo: SliceType<TimerType[], string>,
   timerName?: string,

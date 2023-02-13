@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+/// @internal
 export type Many<T> = T | ReadonlyArray<T>
 
 interface Pipe {
@@ -48,6 +49,7 @@ interface Pipe {
   pipe(...func: Array<Many<(...args: any[]) => any>>): (...args: any[]) => any
 }
 
+/// @internal
 export const pipe: Pipe['pipe'] = (...funcs: any[]) => {
   const length = funcs.length
   let index = length

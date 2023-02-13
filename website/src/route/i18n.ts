@@ -199,13 +199,6 @@ export const i18nDict: Dict = new Map([
     },
   ],
   [
-    'internals',
-    {
-      'en': 'Internals',
-      'zh-hans': '内部',
-    },
-  ],
-  [
     'architecture',
     {
       'en': 'Architecture',
@@ -301,6 +294,13 @@ export const i18nDict: Dict = new Map([
     {
       'en': 'transformer',
       'zh-hans': 'transformer',
+    },
+  ],
+  [
+    'utils',
+    {
+      'en': 'utils',
+      'zh-hans': 'utils',
     },
   ],
   [

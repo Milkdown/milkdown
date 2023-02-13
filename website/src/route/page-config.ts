@@ -44,6 +44,7 @@ export const config: ConfigItem[] = [
       'core',
       'ctx',
       'transformer',
+      'utils',
       'preset-commonmark',
       'preset-gfm',
       'plugin-listener',

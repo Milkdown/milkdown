@@ -6,11 +6,18 @@ import type { Plugin, PluginKey } from '@milkdown/prose/state'
 
 import { addTimer } from './utils'
 
+/// @internal
 export type $Prose = MilkdownPlugin & {
   plugin: () => Plugin
   key: () => PluginKey | undefined
 }
 
+/// Create a milkdown wrapper for [prosemirror plugin](https://prosemirror.net/docs/ref/#state.Plugin).
+/// It takes a factory function which returns a [prosemirror plugin](https://prosemirror.net/docs/ref/#state.Plugin).
+///
+/// Additional property:
+/// - `plugin`: The prosemirror plugin created.
+/// - `key`: The [prosemirror plugin key](https://prosemirror.net/docs/ref/#state.PluginKey) of the plugin.
 export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
   let prosePlugin: Plugin | undefined
   const plugin: MilkdownPlugin = ctx => async () => {
@@ -28,6 +35,12 @@ export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
   return <$Prose>plugin
 }
 
+/// The async version for `$prose`. You can use `await` in the factory when creating the plugin.
+///
+/// Additional property:
+/// - `plugin`: The prosemirror plugin created.
+/// - `key`: The [prosemirror plugin key](https://prosemirror.net/docs/ref/#state.PluginKey) of the plugin.
+/// - `timer`: The timer which will be resolved when the plugin is ready.
 export const $proseAsync = (prose: (ctx: Ctx) => Promise<Plugin>, timerName?: string) => {
   let prosePlugin: Plugin | undefined
   const plugin = addTimer<$Prose>(

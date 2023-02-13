@@ -16,7 +16,8 @@
   <</if>>
 
    <<for sig item.signatures?.slice(1) || []>>
-     \␤<<h " ".repeat(depth + 3)>><<if sig.type == "constructor">>`new `<</if>>**`<<h name>>`**`<<fntype sig>>`
+    <<if isFn>>␤<<else>>\␤<</if>>
+    <<h " ".repeat(depth + 3)>><<if sig.type == "constructor">>`new `<</if>>**`<<h name>>`**`<<fntype sig>>`
    <</for>>
    <<if item.description>>
   <<if isFn||isVar>>␤<<else>>\␤<</if>>

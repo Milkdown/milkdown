@@ -7,12 +7,19 @@ import type { Command } from '@milkdown/prose/state'
 
 import { addTimer } from './utils'
 
+/// @internal
 export type Keymap = Record<string, Command>
 
+/// @internal
 export type $Shortcut = MilkdownPlugin & {
   keymap: Keymap
 }
 
+/// Create a shortcut for the editor.
+/// It takes a factory function which returns a [prosemirror keymap](https://prosemirror.net/docs/ref/#keymap).
+///
+/// Additional property:
+/// - `keymap`: The prosemirror keymap created.
 export const $shortcut = (shortcut: (ctx: Ctx) => Keymap): $Shortcut => {
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
@@ -29,6 +36,11 @@ export const $shortcut = (shortcut: (ctx: Ctx) => Keymap): $Shortcut => {
   return <$Shortcut>plugin
 }
 
+/// The async version for `$shortcut`. You can use `await` in the factory when creating the keymap.
+///
+/// Additional property:
+/// - `keymap`: The prosemirror keymap created.
+/// - `timer`: The timer which will be resolved when the plugin is ready.
 export const $shortcutAsync = (shortcut: (ctx: Ctx) => Promise<Keymap>, timerName?: string) =>
   addTimer<$Shortcut>(
     async (ctx, plugin) => {

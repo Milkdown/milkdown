@@ -6,10 +6,16 @@ import type { InputRule } from '@milkdown/prose/inputrules'
 
 import { addTimer } from './utils'
 
+/// @internal
 export type $InputRule = MilkdownPlugin & {
   inputRule: InputRule
 }
 
+/// Create a input rule plugin.
+/// It takes a factory function which returns a [prosemirror input rule](https://prosemirror.net/docs/ref/#inputrules.InputRule).
+///
+/// Additional property:
+/// - `inputRule`: The prosemirror input rule created.
 export const $inputRule = (inputRule: (ctx: Ctx) => InputRule): $InputRule => {
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
@@ -25,6 +31,11 @@ export const $inputRule = (inputRule: (ctx: Ctx) => InputRule): $InputRule => {
   return <$InputRule>plugin
 }
 
+/// The async version for `$inputRule`. You can use `await` in the factory when creating the input rule.
+///
+/// Additional property:
+/// - `inputRule`: The prosemirror input rule created.
+/// - `timer`: The timer which will be resolved when the input rule is ready.
 export const $inputRuleAsync = (inputRule: (ctx: Ctx) => Promise<InputRule>, timerName?: string) => {
   return addTimer<$InputRule>(
     async (ctx, plugin) => {

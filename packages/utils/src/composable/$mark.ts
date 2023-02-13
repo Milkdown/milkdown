@@ -15,12 +15,21 @@ import type { MarkType } from '@milkdown/prose/model'
 
 import { addTimer } from './utils'
 
+/// @internal
 export type $Mark = MilkdownPlugin & {
   id: string
   schema: MarkSchema
   type: () => MarkType
 }
 
+/// Create a mark plugin.
+/// It takes a mark id and a factory function.
+/// The factory should return a function that returns a [mark schema](/transformer#interface-markschema).
+///
+/// Additional property:
+/// - `id`: The id of the mark.
+/// - `schema`: The mark schema created.
+/// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
 export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
   let markType: MarkType | undefined
   const plugin: MilkdownPlugin = ctx => async () => {
@@ -45,6 +54,13 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
   return <$Mark>plugin
 }
 
+/// The async version for `$mark`. You can use `await` in the factory when creating the mark schema.
+///
+/// Additional property:
+/// - `id`: The id of the mark.
+/// - `schema`: The mark schema created.
+/// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
+/// - `timer`: The timer which will be resolved when the mark schema is ready.
 export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>, timerName?: string) => {
   let markType: MarkType | undefined
   const plugin = addTimer<$Mark>(

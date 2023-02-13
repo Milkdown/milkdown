@@ -8,22 +8,31 @@ import type { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/v
 import { addTimer } from './utils'
 import type { $Mark, $Node } from '.'
 
+/// @internal
 export type $View<T extends $Node | $Mark, V extends NodeViewConstructor | MarkViewConstructor> = MilkdownPlugin & {
   view: V
   type: T
 }
 
+/// @internal
+export type GetConstructor<T extends $Node | $Mark> = T extends $Node
+  ? NodeViewConstructor
+  : T extends $Mark
+    ? MarkViewConstructor
+    : NodeViewConstructor | MarkViewConstructor
+
+/// Create a [prosemirror node/mark view](https://prosemirror.net/docs/ref/#view.NodeView) plugin.
+/// It takes two arguments
+/// - `type`: The node/mark plugin that needs to add a view.
+/// - `view`: The factory that creates the view. It should return a function that returns a [node/mark view constructor](https://prosemirror.net/docs/ref/#view.NodeView).
+///
+/// Additional property:
+/// - `view`: The view created.
+/// - `type`: The node/mark plugin that needs to add a view.
 export const $view = <
-    T extends $Node | $Mark,
-    V extends NodeViewConstructor | MarkViewConstructor = T extends $Node
-      ? NodeViewConstructor
-      : T extends $Mark
-        ? MarkViewConstructor
-        : NodeViewConstructor | MarkViewConstructor,
->(
-    type: T,
-    view: (ctx: Ctx) => V,
-  ): $View<T, V> => {
+  T extends $Node | $Mark,
+  V extends NodeViewConstructor | MarkViewConstructor = GetConstructor<T>,
+>(type: T, view: (ctx: Ctx) => V): $View<T, V> => {
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const v = view(ctx)
@@ -46,18 +55,16 @@ export const $view = <
   return <$View<T, V>>plugin
 }
 
+/// The async version for `$view`. You can use `await` in the factory when creating the view.
+///
+/// Additional property:
+/// - `view`: The view created.
+/// - `type`: The node/mark plugin that needs to add a view.
+/// - `timer`: The timer which will be resolved when the view is ready.
 export const $viewAsync = <
-    T extends $Node | $Mark,
-    V extends NodeViewConstructor | MarkViewConstructor = T extends $Node
-      ? NodeViewConstructor
-      : T extends $Mark
-        ? MarkViewConstructor
-        : NodeViewConstructor | MarkViewConstructor,
->(
-    type: T,
-    view: (ctx: Ctx) => Promise<V>,
-    timerName?: string,
-  ) =>
+  T extends $Node | $Mark,
+  V extends NodeViewConstructor | MarkViewConstructor = GetConstructor<T>,
+>(type: T, view: (ctx: Ctx) => Promise<V>, timerName?: string) =>
     addTimer<$View<T, V>>(
       async (ctx, plugin) => {
         await ctx.wait(SchemaReady)

@@ -4,6 +4,7 @@ import type { Ctx } from '@milkdown/ctx'
 import { editorViewCtx } from '@milkdown/core'
 import type { Attrs } from '@milkdown/prose/model'
 
+/// Set the attributes of the node at the given position.
 export const setAttr = (pos: number, update: (prevAttrs: Attrs) => Attrs) => (ctx: Ctx) => {
   const view = ctx.get(editorViewCtx)
   const { tr } = view.state

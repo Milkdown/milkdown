@@ -15,12 +15,21 @@ import type { NodeType } from '@milkdown/prose/model'
 import type { NodeSchema } from '@milkdown/transformer'
 import { addTimer } from './utils'
 
+/// @internal
 export type $Node = MilkdownPlugin & {
   id: string
   schema: NodeSchema
   type: () => NodeType
 }
 
+/// Create a node plugin.
+/// It takes a node id and a factory function.
+/// The factory should return a function that returns a [node schema](/transformer#interface-nodeschema).
+///
+/// Additional property:
+/// - `id`: The id of the node.
+/// - `schema`: The node schema created.
+/// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
 export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
   let nodeType: NodeType | undefined
   const plugin: MilkdownPlugin = ctx => async () => {
@@ -45,6 +54,13 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
   return <$Node>plugin
 }
 
+/// The async version for `$node`. You can use `await` in the factory when creating the node schema.
+///
+/// Additional property:
+/// - `id`: The id of the node.
+/// - `schema`: The node schema created.
+/// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
+/// - `timer`: The timer which will be resolved when the node schema is ready.
 export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>, timerName?: string) => {
   let nodeType: NodeType | undefined
   const plugin = addTimer<$Node>(
