@@ -2,6 +2,8 @@
 
 In the previous section, we showed you how to create a plugin from scratch. Luckily, you don't need to do that in most cases. Milkdown provides a lot of helpers in [@milkdown/utils](/utils) to make it easier to create plugins. The **composable** here means that you can use the plugin in other plugins. For example, you can use a command plugin in a keymap plugin. This is a very common pattern in Milkdown.
 
+I'll show you some examples of how to use composable plugins. But I won't go into detail about the options and the usage of each plugin. You can find the details in the [API reference](/utils#composable).
+
 ## Schema
 
 The schema plugin is the most important plugin in Milkdown. It defines the structure of the document. A schema plugin in milkdown is a super set of the [node schema spec](https://prosemirror.net/docs/ref/#model.NodeSpec) or [mark schema spec](https://prosemirror.net/docs/ref/#model.MarkSpec) in ProseMirror.
@@ -32,23 +34,47 @@ const blockquote = $node('blockquote', () => ({
 }));
 ```
 
-It contains a lot of code, but don't worry, we will explain it one by one.
+## Input Rule
 
-1. The first argument of `$node` is the node id.
-2. The second argument is a function that returns a node schema spec.
+Since we have a blockquote node, we can create an input rule plugin to make it easier to create a blockquote node.
+We expect that when we type `> ` at the beginning of a line, the blockquote node will be created.
 
-### Schema Spec
+```typescript
+import { wrappingInputRule } from '@milkdown/prose/inputrules'
+import { $inputRule } from '@milkdown/utils'
 
-A schema spec is an object that contains the following properties:
+export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type()))
+```
 
-#### 1. `parseDOM` and `toDOM`
+## Command
 
-`parseDOM` is used to parse the DOM node to the node in the editor. It should be an array of objects. You can view the API of it in the [ProseMirror ParseRule](https://prosemirror.net/docs/ref/#model.ParseRule).
+We can also create a command plugin to create a blockquote node.
+The command is useful when we want to create a button to create a blockquote node.
 
-`toDOM` is used to convert the node in the editor to a DOM node. It should be a function that returns an array. You can view the API of it in the [ProseMirror DOMOutputSpec](https://prosemirror.net/docs/ref/#model.DOMOutputSpec).
+```typescript
+import { wrapIn } from '@milkdown/prose/commands'
+import { $command } from '@milkdown/utils'
 
-#### 2. `parseMarkdown` and `toMarkdown`
+export const wrapInBlockquoteCommand = $command('WrapInBlockquote', () => () => wrapIn(blockquoteSchema.type()))
+```
 
-#### 3. Other Properties
+## Shortcut
 
-Other properties are the same as the node/mark spec in ProseMirror. They are used to define the structure of the node/mark. You can view the API of it in the [ProseMirror NodeSpec](https://prosemirror.net/docs/ref/#model.NodeSpec) and [ProseMirror MarkSpec](https://prosemirror.net/docs/ref/#model.MarkSpec).
+We can also create a shortcut plugin for blockquote.
+Here we use `Ctrl + Shift + B` as the shortcut. When we press this shortcut, the blockquote node will be created.
+And we can also use the command we created in the previous section.
+
+```typescript
+import { $useKeymap } from '@milkdown/utils'
+import { commandsCtx } from '@milkdown/core'
+
+export const blockquoteKeymap = $useKeymap('blockquoteKeymap', {
+  WrapInBlockquote: {
+    shortcuts: 'Mod-Shift-b',
+    command: (ctx) => {
+      const commands = ctx.get(commandsCtx)
+      return () => commands.call(wrapInBlockquoteCommand.key)
+    },
+  },
+})
+```
