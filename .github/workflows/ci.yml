@@ -19,13 +19,11 @@ jobs:
     uses: ./.github/workflows/test.yml
     secrets:
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
 
   release:
     needs: test
     uses: ./.github/workflows/release-package.yml
     secrets:
-      CHANGESET_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   stop:
