@@ -54,6 +54,35 @@ If you like this project, please consider fund me to help the maintenance.
   <img src="/../../../../Saul-Mirone/Saul-Mirone/blob/main/sponsors.svg">
 </a>
 
+# Thanks
+
+Thanks to the following projects for their support to milkdown and the open source community.
+
+<p>
+  <a href="https://www.jetbrains.com/">
+    <img src="/assets/jetbrains.svg" height="50" />
+  </a>
+</p>
+
+<p>
+  <a href="https://www.cypress.io/">
+    <img src="/assets/cypress.svg" height="50" />
+  </a>
+</p>
+
+<p>
+  <a href="https://nx.dev/">
+    <img src="/assets/nx.svg" height="50" />
+  </a>
+</p>
+
+<p>
+  <a href="https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss">
+    <img src="/assets/vercel.svg" height="50" />
+  </a>
+</p>
+
+
 # License
 
 [MIT](/LICENSE)
@@ -68,32 +97,3 @@ If you like this project, please consider fund me to help the maintenance.
 [license-badge]: https://img.shields.io/github/license/Saul-Mirone/milkdown
 [discord-badge]: https://img.shields.io/discord/870181036041060352
 [discord-link]: https://discord.gg/SdMnrSMyBX
-
-# Thanks
-
-Thanks to the following projects for their support to milkdown and the open source community.
-
-<p>
-  <a href="https://www.jetbrains.com/">
-    <img src="/assets/jetbrains.svg" height="200" />
-  </a>
-</p>
-
-<p>
-  <a href="https://www.cypress.io/">
-    <img src="/assets/cypress.svg" height="200" />
-  </a>
-</p>
-
-<p>
-  <a href="https://nx.dev/">
-    <img src="/assets/nx.svg" height="200" />
-  </a>
-</p>
-
-<p>
-  <a href="https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss">
-    <img src="/assets/vercel.svg" height="200" />
-  </a>
-</p>
-
