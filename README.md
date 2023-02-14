@@ -1,10 +1,8 @@
 # :baby_bottle:&nbsp;&nbsp;Milkdown
 
-> :warning: You're viewing the next major version of Milkdown which is not released yet.
+> :warning: You're viewing the next major version of Milkdown which is released as `next` tag.
 >
-> For the code of previous version, please view [v6 branch](https://github.com/Saul-Mirone/milkdown/tree/v6).
->
-> For the documentation of previous version, please view [v6 documentation](https://milkdown-git-v6-saul-mirone.vercel.app/).
+> For the code of previous version, please view [v6 branch](https://github.com/Milkdown/milkdown/tree/v6).
 
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
@@ -15,7 +13,7 @@
 ![license][license-badge]
 
 <div align="center">
-  <img src="/website/public/milkdown-logo.svg" />
+  <img src="/assets/logo.svg" />
 </div>
 
 A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/), built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).
@@ -24,9 +22,7 @@ The website is designed by [Meo](https://www.meo.cool/). Powered by [Theme Nord]
 
 # Documentation
 
-For more information, please check our official documentations:
-
-[English](https://milkdown.dev/) | [简体中文](https://milkdown.dev/zh-hans/)
+For more information, please check our [official documentation website](https://milkdown.dev/).
 
 # What's Next
 
@@ -73,4 +69,4 @@ If you like this project, please consider fund me to help the maintenance.
 [discord-badge]: https://img.shields.io/discord/870181036041060352
 [discord-link]: https://discord.gg/SdMnrSMyBX
 
-[![vercel](/vercel.svg)](https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss)
+[![vercel](/assets/vercel.svg)](https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss)
