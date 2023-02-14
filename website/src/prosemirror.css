@@ -1,8 +1,0 @@
-li::after {
-  all: unset !important;
-}
-
-.ProseMirror-selectednode {
-  outline: none;
-  @apply outline-nord9 dark:outline-nord10 outline-2 outline outline-offset-2;
-}

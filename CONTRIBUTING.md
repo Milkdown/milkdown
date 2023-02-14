@@ -5,13 +5,8 @@
 
 After cloning Milkdown, run `pnpm install` to install dependencies.
 
-To get started:
-
-> If you're using vscode, things are much easier.
-> You can just press `F5`.
-
 1. Run `pnpm build:cache`.
-2. Run `pnpm doc` in one terminal to see doc site.
+2. Run `pnpm start:e2e` in one terminal to see test website.
 
 After that,
 you may want to play with any packages,
@@ -26,14 +21,12 @@ You can run several commands:
 -   `pnpm watch` watches all packages except website.
 -   `pnpm clear` remove all build dist.
 -   `pnpm test:unit` runs unit test.
--   `pnpm test:it` runs integration test.
+-   `pnpm test:e2e` runs e2e test.
 -   `pnpm test:lint` checks the code style.
 -   `pnpm test:tsc` runs typescript type checks.
 -   `pnpm test` runs all possible test.
--   `pnpm doc` runs develop mode for website package.
 -   `pnpm build:packs` runs build for all packages.
 -   `pnpm build:cache` runs build for all packages with cache powered by nx.
--   `pnpm build:doc` runs build for website package.
 -   `pnpm commit` runs commit with git hooks.
 
 # Pre Check
@@ -42,9 +35,6 @@ Before you create a pull request, please check the following todo:
 
 -   Pre commit hooks passed, please don't ignore it.
 -   `pnpm test` passed.
--   `pnpm build:packs` passed.
--   `pnpm build:doc` passed.
--   `pnpm doc:preview` works as you expected.
 
 # License
 
