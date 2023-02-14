@@ -69,4 +69,31 @@ If you like this project, please consider fund me to help the maintenance.
 [discord-badge]: https://img.shields.io/discord/870181036041060352
 [discord-link]: https://discord.gg/SdMnrSMyBX
 
-[![vercel](/assets/vercel.svg)](https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss)
+# Thanks
+
+Thanks to the following projects for their support to milkdown and the open source community.
+
+<p>
+  <a href="https://www.jetbrains.com/">
+    <img src="/assets/jetbrains.svg" height="200" />
+  </a>
+</p>
+
+<p>
+  <a href="https://www.cypress.io/">
+    <img src="/assets/cypress.svg" height="200" />
+  </a>
+</p>
+
+<p>
+  <a href="https://nx.dev/">
+    <img src="/assets/nx.svg" height="200" />
+  </a>
+</p>
+
+<p>
+  <a href="https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss">
+    <img src="/assets/vercel.svg" height="200" />
+  </a>
+</p>
+
