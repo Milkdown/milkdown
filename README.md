@@ -1,7 +1,7 @@
 # :baby_bottle:&nbsp;&nbsp;Milkdown
 
 > :warning: You're viewing the next major version of Milkdown which is not released yet.
-> 
+>
 > For the code of previous version, please view [v6 branch](https://github.com/Saul-Mirone/milkdown/tree/v6).
 >
 > For the documentation of previous version, please view [v6 documentation](https://milkdown-git-v6-saul-mirone.vercel.app/).
@@ -72,3 +72,5 @@ If you like this project, please consider fund me to help the maintenance.
 [license-badge]: https://img.shields.io/github/license/Saul-Mirone/milkdown
 [discord-badge]: https://img.shields.io/discord/870181036041060352
 [discord-link]: https://discord.gg/SdMnrSMyBX
+
+[![vercel](/vercel.svg)](https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss)
