@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Saul-Mirone/milkdown.git",
+    "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/ctx"
   },
   "keywords": [
