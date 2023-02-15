@@ -28,11 +28,6 @@
     "noUnusedLocals": true,
     "noUncheckedIndexedAccess": true,
     "useUnknownInCatchVariables": true,
-    "preserveWatchOutput": true,
-    "plugins": [
-      {
-        "name": "typescript-styled-plugin"
-      }
-    ]
+    "preserveWatchOutput": true
   }
 }

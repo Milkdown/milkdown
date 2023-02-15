@@ -26,18 +26,25 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/react/**/*.tsx', '**/react/**/*.ts', '**/website/**/*.tsx', '**/website/**/*.ts'],
+      files: ['**/theme-nord/**/*.ts'],
+      extends: [
+        'plugin:tailwindcss/recommended',
+      ],
+      rules: {
+        'tailwindcss/no-custom-classname': 'off',
+      },
+    },
+    {
+      files: ['**/react/**/*.tsx', '**/react/**/*.ts'],
       extends: [
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
-        'plugin:tailwindcss/recommended',
       ],
       rules: {
         'jsx-quotes': ['error', 'prefer-double'],
         'react/jsx-indent': ['error', 2, { checkAttributes: true, indentLogicalExpressions: true }],
         'react/react-in-jsx-scope': 'off',
         'react/prop-types': 'off',
-        'tailwindcss/no-custom-classname': 'off',
       },
     },
     {
