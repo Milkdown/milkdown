@@ -27,7 +27,7 @@ const isPureText = (content: UnknownRecord | UnknownRecord[] | undefined | null)
 export const clipboard = $prose((ctx) => {
   const schema = ctx.get(schemaCtx)
 
-  // Set editable props for https://github.com/Saul-Mirone/milkdown/issues/190
+  // Set editable props for https://github.com/Milkdown/milkdown/issues/190
   ctx.update(editorViewOptionsCtx, prev => ({
     ...prev,
     editable: prev.editable ?? (() => true),

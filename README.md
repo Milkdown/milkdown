@@ -26,9 +26,9 @@ For more information, please check our [official documentation website](https://
 
 # What's Next
 
-You can check our [Milkdown TODO](https://github.com/users/Saul-Mirone/projects/4/views/5) project page to know what's on the plan.
+You can check our [Milkdown TODO](https://github.com/orgs/Milkdown/projects/1) project page to know what's on the plan.
 
-You can also check [milestones](https://github.com/Saul-Mirone/milkdown/milestones) to know what's being worked on.
+You can also check [milestones](https://github.com/Milkdown/milkdown/milestones) to know what's being worked on.
 
 # Community
 
@@ -36,11 +36,11 @@ Welcome to join our [Discord community][discord-link].
 
 # Contributing
 
-Follow our [contribution guide](https://github.com/Saul-Mirone/milkdown/blob/main/CONTRIBUTING.md) to learn how to contribute to milkdown.
+Follow our [contribution guide](https://github.com/Milkdown/milkdown/blob/main/CONTRIBUTING.md) to learn how to contribute to milkdown.
 
 # Contributor
 
-<a href="https://github.com/Saul-Mirone/milkdown/graphs/contributors">
+<a href="https://github.com/Milkdown/milkdown/graphs/contributors">
   <img src="https://opencollective.com/milkdown/contributors.svg?width=890&button=false" alt="contributors">
 </a>
 
@@ -50,8 +50,8 @@ Special thanks to [@Meo](https://github.com/Saul-Meo) for her work in design.
 
 If you like this project, please consider fund me to help the maintenance.
 
-<a href="https://github.com/sponsors/Saul-Mirone">
-  <img src="/../../../../Saul-Mirone/Saul-Mirone/blob/main/sponsors.svg">
+<a href="https://github.com/sponsors/Milkdown">
+  <img src="/../../../../Milkdown/Milkdown/blob/main/sponsors.svg">
 </a>
 
 # Thanks
@@ -92,13 +92,13 @@ Thanks to the following projects for their support to milkdown and the open sour
 
 [MIT](/LICENSE)
 
-[ci-badge]: https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml/badge.svg
-[ci-link]: https://github.com/Saul-Mirone/milkdown/actions/workflows/ci.yml
+[ci-badge]: https://github.com/Milkdown/milkdown/actions/workflows/ci.yml/badge.svg
+[ci-link]: https://github.com/Milkdown/milkdown/actions/workflows/ci.yml
 [ts-badge]: https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label
 [download-badge]: https://img.shields.io/npm/dm/@milkdown/core
 [download-link]: https://www.npmjs.com/search?q=%40milkdown
 [version-badge]: https://img.shields.io/npm/v/@milkdown/core
-[commit-badge]: https://img.shields.io/github/commit-activity/m/Saul-Mirone/milkdown
-[license-badge]: https://img.shields.io/github/license/Saul-Mirone/milkdown
+[commit-badge]: https://img.shields.io/github/commit-activity/m/Milkdown/milkdown
+[license-badge]: https://img.shields.io/github/license/Milkdown/milkdown
 [discord-badge]: https://img.shields.io/discord/870181036041060352
 [discord-link]: https://discord.gg/SdMnrSMyBX
