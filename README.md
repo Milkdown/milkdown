@@ -82,6 +82,11 @@ Thanks to the following projects for their support to milkdown and the open sour
   </a>
 </p>
 
+<p>
+  <a href="https://www.algolia.com/">
+    <img src="/assets/algolia.svg" height="50" />
+  </a>
+</p>
 
 # License
 
