@@ -1,5 +1,17 @@
 # @milkdown/e2e
 
+## 7.0.0-next.2
+
+### Patch Changes
+
+- fc2f4f94: Bug fix version
+- Updated dependencies [fc2f4f94]
+  - @milkdown/core@7.0.0-next.2
+  - @milkdown/preset-commonmark@7.0.0-next.2
+  - @milkdown/preset-gfm@7.0.0-next.2
+  - @milkdown/prose@7.0.0-next.2
+  - @milkdown/theme-nord@7.0.0-next.2
+
 ## 7.0.0-next.1
 
 ### Patch Changes
