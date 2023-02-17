@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.0.0-next.2
+
+### Patch Changes
+
+- fc2f4f94: Bug fix version
+
 ## 7.0.0-next.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @milkdown/ctx
 
+## 7.0.0-next.2
+
+### Patch Changes
+
+- fc2f4f94: Bug fix version
+- Updated dependencies [fc2f4f94]
+  - @milkdown/exception@7.0.0-next.2
+
 ## 7.0.0-next.1
 
 ### Patch Changes
