@@ -264,20 +264,19 @@ export class BlockService {
 
   /// @internal
   dropCallback = (view: EditorView, _event: MouseEvent) => {
-    if (this.#dragging) {
-      const event = _event as DragEvent
-      const tr = removePossibleTable(view, event)
+    const event = _event as DragEvent
+    const tr = removePossibleTable(view, event)
 
-      this.#dragging = false
+    this.#dragging = false
 
-      if (tr) {
-        view.dispatch(tr)
+    if (tr) {
+      view.dispatch(tr)
 
-        event.preventDefault()
+      event.preventDefault()
 
-        return true
-      }
+      return true
     }
+
     return false
   }
 }
