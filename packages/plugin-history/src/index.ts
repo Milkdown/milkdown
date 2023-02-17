@@ -1,14 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { commandsCtx, createCmdKey } from '@milkdown/core'
+import { commandsCtx } from '@milkdown/core'
 import { history as prosemirrorHistory, redo, undo } from '@milkdown/prose/history'
 import { $command, $ctx, $prose, $useKeymap } from '@milkdown/utils'
-
-/// The milkdown command key for `Undo` command.
-export const Undo = createCmdKey('Undo')
-
-/// The milkdown command key for `Redo` command.
-export const Redo = createCmdKey('Redo')
 
 /// The milkdown command wrapper of [undo API](https://prosemirror.net/docs/ref/#history.undo) in [prosemirror-history](https://prosemirror.net/docs/ref/#history).
 export const undoCommand = $command('Undo', () => () => undo)
