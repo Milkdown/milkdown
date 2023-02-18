@@ -1,5 +1,14 @@
 # @milkdown/plugin-emoji
 
+## 7.0.0-next.3
+
+### Patch Changes
+
+- ff8a568b: Fix issues in nord-theme and block-plugin.
+- Updated dependencies [ff8a568b]
+  - @milkdown/exception@7.0.0-next.3
+  - @milkdown/utils@7.0.0-next.3
+
 ## 7.0.0-next.2
 
 ### Patch Changes
