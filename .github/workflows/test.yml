@@ -101,7 +101,7 @@ jobs:
           record: true
           parallel: true
           working-directory: e2e
-          start: pnpm exec vite preview --port 7000
+          start: pnpm exec vite preview --host --port 7000
           wait-on: 'http://localhost:7000'
           wait-on-timeout: 120
           browser: chrome
@@ -120,7 +120,7 @@ jobs:
           record: true
           parallel: true
           working-directory: e2e
-          start: pnpm exec vite preview --port 7001
+          start: pnpm exec vite preview --host --port 7001
           wait-on: 'http://localhost:7001'
           wait-on-timeout: 120
           browser: firefox
