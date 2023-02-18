@@ -18,7 +18,7 @@ export const nord = (ctx: Ctx): void => {
 
         return {
           ...attrs,
-          class: clsx('prose dark:prose-invert outline-none', attrs?.class || '', 'milkdown milkdown-theme-nord'),
+          class: clsx('prose dark:prose-invert outline-none', attrs?.class || '', 'milkdown-theme-nord'),
         }
       },
     })
