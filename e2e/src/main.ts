@@ -11,6 +11,10 @@ const mapping = {
 }
 
 const main = async () => {
+  if (import.meta.env.PROD) {
+    const ui = document.querySelector<HTMLElement>('#ui')!
+    ui.remove()
+  }
   const url = new URL(location.href)
   if (!url.hash)
     return

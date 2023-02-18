@@ -3,6 +3,7 @@
 /* eslint-disable no-var */
 
 /// <reference types="cypress" />
+/// <reference types="vite/client" />
 
 import { Editor } from '@milkdown/core';
 
