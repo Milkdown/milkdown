@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.0.0-next.3
+
+### Patch Changes
+
+- ff8a568b: Fix issues in nord-theme and block-plugin.
+
 ## 7.0.0-next.2
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @milkdown/e2e
 
+## 7.0.0-next.3
+
+### Patch Changes
+
+- ff8a568b: Fix issues in nord-theme and block-plugin.
+- Updated dependencies [ff8a568b]
+  - @milkdown/core@7.0.0-next.3
+  - @milkdown/preset-commonmark@7.0.0-next.3
+  - @milkdown/preset-gfm@7.0.0-next.3
+  - @milkdown/prose@7.0.0-next.3
+  - @milkdown/theme-nord@7.0.0-next.3
+
 ## 7.0.0-next.2
 
 ### Patch Changes
