@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .milkdown-theme-nord blockquote {
   @apply not-italic font-serif border-l-4 border-nord10 pl-4;
 }

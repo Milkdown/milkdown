@@ -41,3 +41,7 @@ const main = async () => {
 }
 
 main()
+
+window.onhashchange = () => {
+  main()
+}
