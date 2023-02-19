@@ -58,36 +58,25 @@ If you like this project, please consider fund me to help the maintenance.
 
 Thanks to the following projects and companies for their support to milkdown and the open source community.
 
-<table>
-<tr>
-<td>
-  <a href="https://www.jetbrains.com/">
-    <img src="/assets/jetbrains.svg" height="50" />
-  </a>
-</td>
-<td>
-  <a href="https://www.cypress.io/">
-    <img src="/assets/cypress.svg" height="50" />
-  </a>
-</td>
-<td>
-  <a href="https://nx.dev/">
-    <img src="/assets/nx.svg" height="50" />
-  </a>
-</td>
-<td>
-  <a href="https://www.algolia.com/">
-    <img src="/assets/algolia.svg" height="50" />
-  </a>
-</td>
-<td>
-  <a href="https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss">
-    <img src="/assets/vercel.svg" height="50" />
-  </a>
-</td>
-</tr>
-</table>
-
+<a href="https://www.jetbrains.com/">
+  <img src="/assets/jetbrains.svg" height="50" />
+</a>
+&nbsp;&nbsp;
+<a href="https://www.cypress.io/">
+  <img src="/assets/cypress.svg" height="50" />
+</a>
+&nbsp;&nbsp;
+<a href="https://nx.dev/">
+  <img src="/assets/nx.svg" height="50" />
+</a>
+&nbsp;&nbsp;
+<a href="https://www.algolia.com/">
+  <img src="/assets/algolia.svg" height="50" />
+</a>
+&nbsp;&nbsp;
+<a href="https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss">
+  <img src="/assets/vercel.svg" height="50" />
+</a>
 
 # License
 
