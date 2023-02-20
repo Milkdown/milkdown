@@ -19,12 +19,14 @@ export const addTimer = <T extends MilkdownPlugin, PluginWithTimer extends T = W
   let doneCalled = false
 
   const plugin: MilkdownPlugin = (ctx) => {
+    ctx.record(timer)
+    ctx.update(injectTo, x => x.concat(timer))
+
     return async () => {
       const done = () => {
         ctx.done(timer)
         doneCalled = true
       }
-      ctx.update(injectTo, x => x.concat(timer))
 
       const cleanup = await runner(ctx, <PluginWithTimer>plugin, done)
 
