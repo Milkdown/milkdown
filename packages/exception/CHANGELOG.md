@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 7.0.0-next.6
+
+### Patch Changes
+
+- cbe8b734: Upgrade prosemirror version and rename collab plugin
+
 ## 7.0.0-next.5
 
 ### Patch Changes

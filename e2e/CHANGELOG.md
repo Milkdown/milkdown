@@ -1,5 +1,17 @@
 # @milkdown/e2e
 
+## 7.0.0-next.6
+
+### Patch Changes
+
+- cbe8b734: Upgrade prosemirror version and rename collab plugin
+- Updated dependencies [cbe8b734]
+  - @milkdown/core@7.0.0-next.6
+  - @milkdown/preset-commonmark@7.0.0-next.6
+  - @milkdown/preset-gfm@7.0.0-next.6
+  - @milkdown/prose@7.0.0-next.6
+  - @milkdown/theme-nord@7.0.0-next.6
+
 ## 7.0.0-next.5
 
 ### Patch Changes
