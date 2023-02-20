@@ -5,7 +5,7 @@
 "@milkdown/exception": major
 "@milkdown/plugin-block": major
 "@milkdown/plugin-clipboard": major
-"@milkdown/plugin-collaborative": major
+"@milkdown/plugin-collab": major
 "@milkdown/plugin-cursor": major
 "@milkdown/plugin-diagram": major
 "@milkdown/plugin-emoji": major

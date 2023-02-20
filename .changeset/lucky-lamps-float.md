@@ -5,7 +5,7 @@
 "@milkdown/exception": patch
 "@milkdown/plugin-block": patch
 "@milkdown/plugin-clipboard": patch
-"@milkdown/plugin-collaborative": patch
+"@milkdown/plugin-collab": patch
 "@milkdown/plugin-cursor": patch
 "@milkdown/plugin-diagram": patch
 "@milkdown/plugin-emoji": patch

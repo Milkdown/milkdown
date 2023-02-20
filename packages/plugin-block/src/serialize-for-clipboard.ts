@@ -66,7 +66,7 @@ export function serializeForClipboard(view: EditorView, slice: Slice) {
   }
 
   const text
-        = view.someProp('clipboardTextSerializer', f => f(slice))
+        = view.someProp('clipboardTextSerializer', f => f(slice, view))
         || slice.content.textBetween(0, slice.content.size, '\n\n')
 
   return { dom: wrap, text }
