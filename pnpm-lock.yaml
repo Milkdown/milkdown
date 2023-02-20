@@ -196,7 +196,7 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/prose': link:../prose
 
-  packages/plugin-collaborative:
+  packages/plugin-collab:
     specifiers:
       '@milkdown/core': workspace:*
       '@milkdown/ctx': workspace:*
