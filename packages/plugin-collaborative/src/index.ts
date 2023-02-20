@@ -11,8 +11,8 @@ export const collabServiceCtx = createSlice(new CollabService(), 'collabServiceC
 /// The timer that indicates the collab plugin is ready.
 export const CollabReady = createTimer('CollabReady')
 
-/// The collaborative plugin.
-export const collaborative: MilkdownPlugin = (ctx) => {
+/// The collab plugin.
+export const collab: MilkdownPlugin = (ctx) => {
   const collabService = new CollabService()
   ctx.inject(collabServiceCtx, collabService).record(CollabReady)
   return async () => {

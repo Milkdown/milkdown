@@ -52,7 +52,7 @@ const external = [
   // plugin
   '@milkdown/plugin-block',
   '@milkdown/plugin-clipboard',
-  '@milkdown/plugin-collaborative',
+  '@milkdown/plugin-collab',
   '@milkdown/plugin-cursor',
   '@milkdown/plugin-diagram',
   '@milkdown/plugin-emoji',

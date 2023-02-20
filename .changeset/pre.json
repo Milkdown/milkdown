@@ -8,7 +8,7 @@
     "@milkdown/exception": "6.5.4",
     "@milkdown/plugin-block": "6.5.4",
     "@milkdown/plugin-clipboard": "6.5.4",
-    "@milkdown/plugin-collaborative": "6.5.4",
+    "@milkdown/plugin-collab": "6.5.4",
     "@milkdown/plugin-cursor": "6.5.4",
     "@milkdown/plugin-diagram": "6.5.4",
     "@milkdown/plugin-emoji": "6.5.4",

@@ -1,12 +1,12 @@
 {
-  "name": "@milkdown/plugin-collaborative",
+  "name": "@milkdown/plugin-collab",
   "type": "module",
   "version": "7.0.0-next.5",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
-    "directory": "packages/plugin-collaborative"
+    "directory": "packages/plugin-collab"
   },
   "keywords": [
     "milkdown",
@@ -53,7 +53,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-collaborative/lib"
+          "packages/plugin-collab/lib"
         ],
         "dependsOn": [
           {
