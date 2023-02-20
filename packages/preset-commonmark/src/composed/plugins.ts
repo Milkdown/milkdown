@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { hardbreakClearMarkPlugin, hardbreakFilterNodes, hardbreakFilterPlugin, inlineNodesCursorPlugin, inlineSyncConfig, inlineSyncPlugin, remarkAddOrderInListPlugin, remarkInlineLinkPlugin, remarkLineBreak, syncHeadingIdPlugin, syncListOrderPlugin } from '../plugin'
+import { hardbreakClearMarkPlugin, hardbreakFilterNodes, hardbreakFilterPlugin, inlineNodesCursorPlugin, inlineSyncConfig, inlineSyncPlugin, remarkAddOrderInListPlugin, remarkHTMLFilter, remarkInlineLinkPlugin, remarkLineBreak, syncHeadingIdPlugin, syncListOrderPlugin } from '../plugin'
 
 /// @internal
 export const plugins: MilkdownPlugin[] = [
@@ -17,6 +17,7 @@ export const plugins: MilkdownPlugin[] = [
   remarkAddOrderInListPlugin,
   remarkInlineLinkPlugin,
   remarkLineBreak,
+  remarkHTMLFilter,
 
   syncHeadingIdPlugin,
   syncListOrderPlugin,
