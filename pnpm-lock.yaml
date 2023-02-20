@@ -577,8 +577,8 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/ctx': link:../ctx
       '@milkdown/prose': link:../prose
-      prosemirror-tables: 1.2.5
-      prosemirror-view: 1.28.0
+      prosemirror-tables: 1.3.2
+      prosemirror-view: 1.30.1
       tailwind-nord: 1.2.0
 
   packages/transformer:
@@ -8337,16 +8337,6 @@ packages:
       prosemirror-transform: 1.7.1
       prosemirror-view: 1.30.1
 
-  /prosemirror-tables/1.2.5:
-    resolution: {integrity: sha512-UB5XkWQC7YHJ2qubriOnKGxdVe+KujmoSatFyBlV8odVT/G++61XB1JXiU3ZAKJ60lTdq9WsowUhINSFeE7BoA==}
-    dependencies:
-      prosemirror-keymap: 1.2.1
-      prosemirror-model: 1.19.0
-      prosemirror-state: 1.4.2
-      prosemirror-transform: 1.7.1
-      prosemirror-view: 1.30.1
-    dev: true
-
   /prosemirror-tables/1.3.2:
     resolution: {integrity: sha512-/9JTeN6s58Zq66HXaxP6uf8PAmc7XXKZFPlOGVtLvxEd6xBP6WtzaJB9wBjiGUzwbdhdMEy7V62yuHqk/3VrnQ==}
     dependencies:
@@ -8355,20 +8345,11 @@ packages:
       prosemirror-state: 1.4.2
       prosemirror-transform: 1.7.1
       prosemirror-view: 1.30.1
-    dev: false
 
   /prosemirror-transform/1.7.1:
     resolution: {integrity: sha512-VteoifAfpt46z0yEt6Fc73A5OID9t/y2QIeR5MgxEwTuitadEunD/V0c9jQW8ziT8pbFM54uTzRLJ/nLuQjMxg==}
     dependencies:
       prosemirror-model: 1.19.0
-
-  /prosemirror-view/1.28.0:
-    resolution: {integrity: sha512-cmFK9osE7WAQptye6o/I5LjURZkSF4z3H7+LZmQtpJDZ9x4X/Z9v85oOeDvfRiX/J2rsaRYbEkWWbu3l9eBsdQ==}
-    dependencies:
-      prosemirror-model: 1.19.0
-      prosemirror-state: 1.4.2
-      prosemirror-transform: 1.7.1
-    dev: true
 
   /prosemirror-view/1.30.1:
     resolution: {integrity: sha512-pZUfr7lICJkEY7XwzldAKrkflZDeIvnbfuu2RIS01N5NwJmR/dfZzDzJRzhb3SM2QtT/bM8b4Nnib8X3MGpAhA==}
