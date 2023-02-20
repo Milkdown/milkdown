@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/plugin-tooltip",
   "type": "module",
-  "version": "7.0.0-next.5",
+  "version": "7.0.0-next.6",
   "license": "MIT",
   "repository": {
     "type": "git",
