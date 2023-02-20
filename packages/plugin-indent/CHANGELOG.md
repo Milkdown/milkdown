@@ -1,5 +1,13 @@
 # @milkdown/plugin-indent
 
+## 7.0.0-next.4
+
+### Patch Changes
+
+- 46010daf: Fix bugs of async composables.
+- Updated dependencies [46010daf]
+  - @milkdown/utils@7.0.0-next.4
+
 ## 7.0.0-next.3
 
 ### Patch Changes

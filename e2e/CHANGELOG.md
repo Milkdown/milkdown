@@ -1,5 +1,17 @@
 # @milkdown/e2e
 
+## 7.0.0-next.4
+
+### Patch Changes
+
+- 46010daf: Fix bugs of async composables.
+- Updated dependencies [46010daf]
+  - @milkdown/core@7.0.0-next.4
+  - @milkdown/preset-commonmark@7.0.0-next.4
+  - @milkdown/preset-gfm@7.0.0-next.4
+  - @milkdown/prose@7.0.0-next.4
+  - @milkdown/theme-nord@7.0.0-next.4
+
 ## 7.0.0-next.3
 
 ### Patch Changes
