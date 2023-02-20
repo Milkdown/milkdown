@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.0.0-next.5
+
+### Patch Changes
+
+- 76bed778: Align the API of block plugin with slash and tooltip.
+
 ## 7.0.0-next.4
 
 ### Patch Changes
