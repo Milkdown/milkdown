@@ -1,8 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Node } from '@milkdown/prose/model'
-import type { PluginView } from '@milkdown/prose/state'
+import type { PluginSpec } from '@milkdown/prose/state'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
-import type { EditorView } from '@milkdown/prose/view'
 import { $ctx, $prose } from '@milkdown/utils'
 
 import { BlockService } from './block-service'
@@ -27,22 +26,21 @@ export const blockConfig = $ctx<{ filterNodes: FilterNodes }, 'blockConfig'>({ f
 /// @internal
 export const blockService = $ctx(new BlockService(), 'blockService')
 
-/// @internal
-export type BlockViewFactory = (view: EditorView) => PluginView
-
-/// A slice contains a factory that will return a plugin view.
-/// Users can use this slice to customize the plugin view.
-export const blockView = $ctx<BlockViewFactory, 'blockView'>(() => ({}), 'blockView')
+/// A slice contains a factory that will return a plugin spec.
+/// Users can use this slice to customize the plugin.
+export const blockSpec = $ctx<PluginSpec<any>, 'blockSpec'>({}, 'blockSpec')
 
 /// The block prosemirror plugin.
 export const blockPlugin = $prose((ctx) => {
   const milkdownPluginBlockKey = new PluginKey('MILKDOWN_BLOCK')
   const service = ctx.get(blockService.key)
-  const view = ctx.get(blockView.key)
+  const spec = ctx.get(blockSpec.key)
 
   return new Plugin({
     key: milkdownPluginBlockKey,
+    ...spec,
     props: {
+      ...spec.props,
       handleDOMEvents: {
         drop: (view, event) => {
           return service.dropCallback(view, event as DragEvent)
@@ -64,6 +62,5 @@ export const blockPlugin = $prose((ctx) => {
         },
       },
     },
-    view,
   })
 })
