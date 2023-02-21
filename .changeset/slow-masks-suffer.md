@@ -28,4 +28,11 @@
 "@milkdown/vue": major
 ---
 
-Pre-release for milkdown v7.
+Milkdown v7.
+
+* The editor becomes a first-class headless component.
+* Factory plugins are deprecated and replaced by composable plugins.
+* Runtime plugin toggle.
+* Universal widget plugins.
+* Better Vue and React support.
+* API documentation.
