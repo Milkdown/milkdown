@@ -1,5 +1,36 @@
 # @milkdown/plugin-emoji
 
+## 7.0.0
+
+### Major Changes
+
+- 069d719b: Milkdown v7.
+
+  - The editor becomes a first-class headless component.
+  - Factory plugins are deprecated and replaced by composable plugins.
+  - Runtime plugin toggle.
+  - Universal widget plugins.
+  - Better Vue and React support.
+  - API documentation.
+
+### Patch Changes
+
+- 46010daf: Fix bugs of async composables.
+- 2ad4b566: Fix some bugs for rc version.
+- ff8a568b: Fix issues in nord-theme and block-plugin.
+- 76bed778: Align the API of block plugin with slash and tooltip.
+- fc2f4f94: Bug fix version
+- cbe8b734: Upgrade prosemirror version and rename collab plugin
+- Updated dependencies [46010daf]
+- Updated dependencies [2ad4b566]
+- Updated dependencies [ff8a568b]
+- Updated dependencies [76bed778]
+- Updated dependencies [fc2f4f94]
+- Updated dependencies [cbe8b734]
+- Updated dependencies [069d719b]
+  - @milkdown/exception@7.0.0
+  - @milkdown/utils@7.0.0
+
 ## 7.0.0-next.6
 
 ### Patch Changes
