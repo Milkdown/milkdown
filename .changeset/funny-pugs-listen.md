@@ -26,7 +26,6 @@
 "@milkdown/transformer": patch
 "@milkdown/utils": patch
 "@milkdown/vue": patch
-"@milkdown/website": patch
 ---
 
 Fix some bugs for rc version.

@@ -26,7 +26,6 @@
 "@milkdown/transformer": major
 "@milkdown/utils": major
 "@milkdown/vue": major
-"@milkdown/website": major
 ---
 
 Pre-release for milkdown v7.
