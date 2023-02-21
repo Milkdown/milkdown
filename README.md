@@ -1,9 +1,5 @@
 # :baby_bottle:&nbsp;&nbsp;Milkdown
 
-> :warning: You're viewing the next major version of Milkdown which is released as `next` tag.
->
-> For the code of previous version, please view [v6 branch](https://github.com/Milkdown/milkdown/tree/v6).
-
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
 [![download-badge]][download-link]
@@ -15,6 +11,10 @@
 <div align="center">
   <img src="/assets/logo.svg" />
 </div>
+
+> :warning: You're viewing the next major version of Milkdown which is released as `next` tag.
+>
+> For the code of previous version, please view [v6 branch](https://github.com/Milkdown/milkdown/tree/v6).
 
 A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/),
 built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).
