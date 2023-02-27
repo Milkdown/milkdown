@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.0.1
+
+### Patch Changes
+
+- 52dcbbe8: Bug fix.
+
 ## 7.0.0
 
 ### Major Changes

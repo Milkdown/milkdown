@@ -1,5 +1,13 @@
 # @milkdown/plugin-cursor
 
+## 7.0.1
+
+### Patch Changes
+
+- 52dcbbe8: Bug fix.
+- Updated dependencies [52dcbbe8]
+  - @milkdown/utils@7.0.1
+
 ## 7.0.0
 
 ### Major Changes

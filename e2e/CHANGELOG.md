@@ -1,5 +1,17 @@
 # @milkdown/e2e
 
+## 7.0.1
+
+### Patch Changes
+
+- 52dcbbe8: Bug fix.
+- Updated dependencies [52dcbbe8]
+  - @milkdown/core@7.0.1
+  - @milkdown/preset-commonmark@7.0.1
+  - @milkdown/preset-gfm@7.0.1
+  - @milkdown/prose@7.0.1
+  - @milkdown/theme-nord@7.0.1
+
 ## 7.0.0
 
 ### Major Changes
