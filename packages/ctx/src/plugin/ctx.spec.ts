@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { describe, expect, it } from 'vitest'
+import type { SliceType } from '../context'
 import { Container, createSlice } from '../context'
 import { Clock, createTimer } from '../timer'
 import { Ctx } from './ctx'
@@ -20,8 +21,14 @@ describe('ctx', () => {
     ctx.update(sliceType, x => x + 1)
     expect(ctx.get(sliceType)).toBe(1)
 
+    ctx.update<number, 'counter'>('counter', x => x + 1)
+    expect(ctx.get(sliceType)).toBe(2)
+
     ctx.set(sliceType, 100)
     expect(ctx.get(sliceType)).toBe(100)
+
+    ctx.set<number, 'counter'>(sliceType, 200)
+    expect(ctx.get(sliceType)).toBe(200)
 
     ctx.remove(sliceType)
     expect(ctx.isInjected(sliceType)).toBeFalsy()

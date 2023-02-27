@@ -53,13 +53,13 @@ export class Ctx {
     this.#container.get(sliceType)
 
   /// Get a slice value from the ctx.
-  readonly get = <T, N extends string>(sliceType: SliceType<T, N>) => this.use(sliceType).get()
+  readonly get = <T, N extends string>(sliceType: SliceType<T, N> | N) => this.use(sliceType).get()
 
   /// Get a slice value from the ctx.
-  readonly set = <T, N extends string>(sliceType: SliceType<T, N>, value: T) => this.use(sliceType).set(value)
+  readonly set = <T, N extends string>(sliceType: SliceType<T, N> | N, value: T) => this.use(sliceType).set(value)
 
   /// Update a slice value from the ctx by a callback.
-  readonly update = <T, N extends string>(sliceType: SliceType<T, N>, updater: (prev: T) => T) =>
+  readonly update = <T, N extends string>(sliceType: SliceType<T, N> | N, updater: (prev: T) => T) =>
     this.use(sliceType).update(updater)
 
   /// Get a timer from the ctx.
