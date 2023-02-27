@@ -1,57 +1,84 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { EditorState, Transaction } from '@milkdown/prose/state'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
+import type { EditorView } from '@milkdown/prose/view'
 import { listItemSchema } from '../node/list-item'
 
 import { orderedListSchema } from '../node/ordered-list'
+import { bulletListSchema } from '../node'
 
 /// This plugin is used to keep the label of list item up to date in ordered list.
 export const syncListOrderPlugin = $prose(() => {
-  const walkThrough = (state: EditorState, callback: (tr: Transaction) => void) => {
+  const syncOrderLabel = (view: EditorView) => {
+    if (view.composing || !view.editable)
+      return
+
     const orderedListType = orderedListSchema.type()
+    const bulletListType = bulletListSchema.type()
     const listItemType = listItemSchema.type()
+    const state = view.state
+    const handleNodeItem = (attrs: Record<string, any>, index: number): boolean => {
+      let changed = false
+      const expectedLabel = `${index + 1}.`
+      if (attrs.label !== expectedLabel) {
+        attrs.label = expectedLabel
+        changed = true
+      }
+
+      return changed
+    }
+
     let tr = state.tr
+    let needDispatch = false
     state.doc.descendants((node, pos, parent, index) => {
-      if (node.type === listItemType && parent?.type === orderedListType) {
-        let changed = false
+      if (node.type === bulletListType) {
+        const base = node.maybeChild(0)
+        if (base?.type === listItemType && base.attrs.listType === 'ordered') {
+          needDispatch = true
+          tr.setNodeMarkup(pos, orderedListType, { spread: 'true' })
+
+          node.descendants((child, pos, _parent, index) => {
+            if (child.type === listItemType) {
+              const attrs = { ...child.attrs }
+              const changed = handleNodeItem(attrs, index)
+              if (changed)
+                tr = tr.setNodeMarkup(pos, undefined, attrs)
+            }
+            return false
+          })
+        }
+      }
+      else if (node.type === listItemType && parent?.type === orderedListType) {
         const attrs = { ...node.attrs }
-        if (node.attrs.listType !== 'ordered') {
+        let changed = false
+        if (attrs.listType !== 'ordered') {
           attrs.listType = 'ordered'
           changed = true
         }
 
         const base = parent?.maybeChild(0)
-        if (base === node) {
-          attrs.label = '1.'
-          changed = true
-        }
-        else if (base?.type === listItemType && base.attrs.listType === 'ordered') {
-          attrs.label = `${index + 1}.`
-          changed = true
-        }
-        else if (node.attrs.label === '•') {
-          attrs.label = `${index + 1}.`
-          changed = true
-        }
+        if (base)
+          changed = handleNodeItem(attrs, index)
 
-        if (changed)
+        if (changed) {
           tr = tr.setNodeMarkup(pos, undefined, attrs)
+          needDispatch = true
+        }
       }
     })
-    callback(tr)
+
+    if (needDispatch)
+      view.dispatch(tr.setMeta('addToHistory', false))
   }
   return new Plugin({
     key: new PluginKey('MILKDOWN_KEEP_LIST_ORDER'),
-    appendTransaction: (transactions, _oldState, nextState) => {
-      let tr: Transaction | null = null
-      if (transactions.some(transaction => transaction.docChanged)) {
-        walkThrough(nextState, (t) => {
-          tr = t
-        })
+    view: (view) => {
+      syncOrderLabel(view)
+      return {
+        update: (view) => {
+          syncOrderLabel(view)
+        },
       }
-
-      return tr
     },
   })
 })
