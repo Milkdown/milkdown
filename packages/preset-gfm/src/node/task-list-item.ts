@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { expectDomTypeError } from '@milkdown/exception'
 import { listItemSchema } from '@milkdown/preset-commonmark'
+import { InputRule } from '@milkdown/prose/inputrules'
+import { $inputRule } from '@milkdown/utils'
 
 /// This schema extends the [list item](/preset-commonmark#list-item) schema and add task list support for it.
 export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) => {
@@ -85,4 +87,31 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
       },
     }
   }
+})
+
+/// Input rule for wrapping a block in task list node.
+/// Users can type `[ ] ` or `[x] ` to wrap the block in task list node with checked status.
+export const wrapInTaskListInputRule = $inputRule(() => {
+  return new InputRule(/^\[(?<checked>\s|x)\]\s$/, (state, match, start, end) => {
+    const pos = state.doc.resolve(start)
+    let depth = 0
+    let node = pos.node(depth)
+    while (node && node.type.name !== 'list_item') {
+      depth--
+      node = pos.node(depth)
+    }
+
+    if (!node || node.attrs.checked != null)
+      return null
+
+    const checked = Boolean(match.groups?.checked === 'x')
+
+    const finPos = pos.before(depth)
+    const tr = state.tr
+
+    tr.deleteRange(start, end)
+      .setNodeMarkup(finPos, undefined, { ...node.attrs, checked })
+
+    return tr
+  })
 })
