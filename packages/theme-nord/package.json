@@ -39,8 +39,6 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "prosemirror-tables": "^1.2.5",
-    "prosemirror-view": "^1.28.0",
     "tailwind-nord": "^1.2.0"
   },
   "nx": {

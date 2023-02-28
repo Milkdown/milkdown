@@ -7,6 +7,7 @@ import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
+import copy from 'rollup-plugin-copy'
 
 import pkg from './package.json' assert { type: 'json' }
 
@@ -39,6 +40,18 @@ const proseModule = (name) => {
         commonjs(),
         esbuild({
           target: 'es6',
+        }),
+        copy({
+          targets: [
+            {
+              src: 'node_modules/prosemirror-view/style/prosemirror.css',
+              dest: 'lib/style',
+            },
+            {
+              src: 'node_modules/prosemirror-tables/style/tables.css',
+              dest: 'lib/style',
+            },
+          ],
         }),
       ],
     },
