@@ -5,3 +5,7 @@
 .milkdown {
   @apply bg-slate-50 px-2 py-4 mx-5 border rounded;
 }
+
+.editor {
+  @apply mx-auto;
+}

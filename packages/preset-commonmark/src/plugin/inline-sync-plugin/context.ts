@@ -16,11 +16,7 @@ export interface InlineSyncContext {
 }
 
 const getNodeFromSelection = (state: EditorState) => {
-  const { selection } = state
-  const { $from } = selection
-  const node = $from.node()
-
-  return node
+  return state.selection.$from.node()
 }
 
 const getMarkdown = (ctx: Ctx, state: EditorState, node: Node, globalNode: Node[]) => {

@@ -12,3 +12,5 @@ export * from './ordered-list'
 export * from './list-item'
 export * from './paragraph'
 export * from './text'
+
+export * from './html'

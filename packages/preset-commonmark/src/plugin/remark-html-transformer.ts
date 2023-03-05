@@ -33,11 +33,17 @@ function flatMapWithDepth(ast: Node, fn: (node: Node, index: number, parent: Nod
 
 /// @internal
 /// This plugin should be deprecated after we support HTML.
-export const remarkHTMLFilter = $remark(() => () => (tree: Node) => {
-  flatMapWithDepth(tree, (node) => {
+export const remarkHtmlTransformer = $remark(() => () => (tree: Node) => {
+  flatMapWithDepth(tree, (node, _index, parent) => {
     if (!isHTML(node))
       return [node]
 
-    return []
+    if (parent?.type === 'root') {
+      (node as Literal & { children: Literal[] }).children = [{ ...node }]
+      delete (node as Literal).value
+      node.type = 'paragraph'
+    }
+
+    return [node]
   })
 })
