@@ -14,10 +14,6 @@ const mapping = {
 let editor: Editor | undefined
 
 const main = async () => {
-  if (import.meta.env.PROD) {
-    const ui = document.querySelector<HTMLElement>('#ui')!
-    ui.remove()
-  }
   const url = new URL(location.href)
   if (!url.hash)
     return
@@ -50,10 +46,18 @@ const main = async () => {
       return serializer(view.state.doc)
     })
 
-  const logButton = document.querySelector<HTMLDivElement>('#log')!
+  if (import.meta.env.PROD) {
+    const ui = document.querySelector<HTMLElement>('#ui')!
+    ui.remove()
+  }
+  else {
+    const logButton = document.querySelector<HTMLDivElement>('#log')
 
-  // eslint-disable-next-line no-console
-  logButton.onclick = () => console.log(globalThis.__getMarkdown__())
+    if (logButton) {
+      // eslint-disable-next-line no-console
+      logButton.onclick = () => console.log(globalThis.__getMarkdown__())
+    }
+  }
 }
 
 main()
