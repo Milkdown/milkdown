@@ -16,11 +16,7 @@ export interface InlineSyncContext {
 }
 
 const getNodeFromSelection = (state: EditorState) => {
-  const { selection } = state
-  const { $from } = selection
-  const node = $from.node()
-
-  return node
+  return state.selection.$from.node()
 }
 
 const getMarkdown = (ctx: Ctx, state: EditorState, node: Node, globalNode: Node[]) => {
@@ -80,6 +76,10 @@ const collectGlobalNodes = (ctx: Ctx, state: EditorState) => {
 
 const removeGlobalFromText = (text: string) => text.split('\n\n')[0] || ''
 
+const onlyHTML = (node: Node) => {
+  return node.childCount === 1 && node.child(0).type.name === 'html'
+}
+
 export const getContextByState = (ctx: Ctx, state: EditorState): InlineSyncContext | null => {
   try {
     const globalNode = collectGlobalNodes(ctx, state)
@@ -90,7 +90,7 @@ export const getContextByState = (ctx: Ctx, state: EditorState): InlineSyncConte
 
     const newNode = getNewNode(ctx, text)
 
-    if (!newNode || node.type !== newNode.type)
+    if (!newNode || node.type !== newNode.type || onlyHTML(newNode))
       return null
 
     // @ts-expect-error hijack the node attribute

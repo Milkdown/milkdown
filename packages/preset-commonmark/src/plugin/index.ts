@@ -5,7 +5,7 @@ export * from './inline-sync-plugin'
 export * from './remark-add-order-in-list-plugin'
 export * from './remark-line-break'
 export * from './remark-inline-link-plugin'
-export * from './remark-html-filter'
+export * from './remark-html-transformer'
 
 export * from './inline-nodes-cursor-plugin'
 

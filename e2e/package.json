@@ -9,12 +9,11 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "setup": "pnpm serve --port 7000",
+    "setup": "pnpm serve --port $CYPRESS_SERVER_PORT --host",
     "test": "cypress run",
     "test:verbose": "cypress open",
-    "start:test": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
-    "e2e": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test",
-    "start:test:verbose": "cross-env CYPRESS_SERVER_PORT=7000 start-server-and-test setup http-get://localhost:7000 test:verbose"
+    "start:test": "cross-env CYPRESS_SERVER_PORT=8000 start-test setup :8000 test",
+    "start:test:verbose": "cross-env CYPRESS_SERVER_PORT=8000 start-test setup :8000 test:verbose"
   },
   "dependencies": {
     "@milkdown/core": "workspace:*",

@@ -102,6 +102,20 @@ describe('transform:', () => {
     cy.get('pre:last-child').should('have.attr', 'data-language', 'javascript')
   })
 
+  it('html', () => {
+    cy.get('.editor')
+    cy.window().then((win) => {
+      cy.fixture('html.md').then((md) => {
+        win.__setMarkdown__(md)
+      })
+    })
+
+    cy.get('span[data-type="html"]').should('have.length', 3)
+    cy.get('span[data-type="html"]').first().should('have.text', '<h1>Heading</h1>')
+    cy.get('span[data-type="html"]').eq(1).should('have.text', '<strong>')
+    cy.get('span[data-type="html"]').last().should('have.text', '</strong>')
+  })
+
   it('mark', () => {
     cy.get('.editor')
     cy.window().then((win) => {

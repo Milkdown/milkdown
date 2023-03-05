@@ -2,7 +2,32 @@
 
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { emphasisAttr, emphasisSchema, inlineCodeAttr, inlineCodeSchema, linkAttr, linkSchema, strongAttr, strongSchema } from '../mark'
-import { blockquoteAttr, blockquoteSchema, bulletListAttr, bulletListSchema, codeBlockAttr, codeBlockSchema, docSchema, hardbreakAttr, hardbreakSchema, headingAttr, headingIdGenerator, headingSchema, hrAttr, hrSchema, imageAttr, imageSchema, listItemAttr, listItemSchema, orderedListAttr, orderedListSchema, paragraphAttr, paragraphSchema, textSchema } from '../node'
+import {
+  blockquoteAttr,
+  blockquoteSchema,
+  bulletListAttr,
+  bulletListSchema,
+  codeBlockAttr,
+  codeBlockSchema,
+  docSchema,
+  hardbreakAttr,
+  hardbreakSchema,
+  headingAttr,
+  headingIdGenerator,
+  headingSchema,
+  hrAttr,
+  hrSchema, htmlAttr,
+  htmlSchema,
+  imageAttr,
+  imageSchema,
+  listItemAttr,
+  listItemSchema,
+  orderedListAttr,
+  orderedListSchema,
+  paragraphAttr,
+  paragraphSchema,
+  textSchema,
+} from '../node'
 
 /// @internal
 export const schema: MilkdownPlugin[] = [
@@ -50,6 +75,9 @@ export const schema: MilkdownPlugin[] = [
 
   linkAttr,
   linkSchema,
+
+  htmlAttr,
+  htmlSchema,
 
   textSchema,
 ].flat()

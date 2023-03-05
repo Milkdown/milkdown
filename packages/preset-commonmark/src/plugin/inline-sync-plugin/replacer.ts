@@ -35,7 +35,7 @@ export const runReplacer = (
   tr = tr
     .replaceWith(from, to, context.nextNode)
     .setNodeMarkup(from, undefined, attrs)
-  // delete the placeholder
+    // delete the placeholder
     .delete(offset + 1, offset + 2)
 
   // restore the selection

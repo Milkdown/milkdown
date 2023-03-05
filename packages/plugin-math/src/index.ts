@@ -39,7 +39,14 @@ export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
       default: '',
     },
   },
-  parseDOM: [{ tag: `span[data-type="${mathInlineId}"]` }],
+  parseDOM: [
+    {
+      tag: `span[data-type="${mathInlineId}"]`,
+      getAttrs: (dom) => {
+        return { value: (dom as HTMLElement).dataset.value ?? '' }
+      },
+    },
+  ],
   toDOM: (node) => {
     const code: string = node.attrs.value
     const dom = document.createElement('span')
