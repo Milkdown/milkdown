@@ -30,7 +30,7 @@ const main = async () => {
   editor = await module.setup()
   globalThis.__milkdown__ = editor
   globalThis.__setMarkdown__ = (markdown: string) =>
-    editor?.action((ctx) => {
+    editor!.action((ctx) => {
       const view = ctx.get(editorViewCtx)
       const parser = ctx.get(parserCtx)
       const doc = parser(markdown)
