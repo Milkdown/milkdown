@@ -1,5 +1,12 @@
 # @milkdown/theme-nord
 
+## 7.1.0
+
+### Minor Changes
+
+- 4a60eae7: Add support for HTML nodes.
+  Export css files from prosemirror packages.
+
 ## 7.0.1
 
 ### Patch Changes

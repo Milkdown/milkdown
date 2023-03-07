@@ -1,5 +1,18 @@
 # @milkdown/plugin-collaborative
 
+## 7.1.0
+
+### Minor Changes
+
+- 4a60eae7: Add support for HTML nodes.
+  Export css files from prosemirror packages.
+
+### Patch Changes
+
+- Updated dependencies [4a60eae7]
+  - @milkdown/exception@7.1.0
+  - @milkdown/utils@7.1.0
+
 ## 7.0.1
 
 ### Patch Changes
