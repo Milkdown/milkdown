@@ -9,7 +9,7 @@ module.exports = {
         "1": "The lunatic is on the grass\n"
       },
       "heading": {
-        "1": "# Heading1\n\n## Heading2\n"
+        "1": "# Heading1\n\n## Heading 2\n"
       },
       "blockquote": {
         "1": "> Blockquote\n>\n> Next line.\n"

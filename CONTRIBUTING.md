@@ -18,7 +18,7 @@ For example, `pnpm --filter=@milkdown/core start`.
 
 You can run several commands:
 
--   `pnpm watch` watches all packages except website.
+-   `pnpm watch` watches all packages.
 -   `pnpm clear` remove all build dist.
 -   `pnpm test:unit` runs unit test.
 -   `pnpm test:e2e` runs e2e test.

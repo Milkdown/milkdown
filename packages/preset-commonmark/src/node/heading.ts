@@ -6,6 +6,7 @@ import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
 import type { Node } from '@milkdown/prose/model'
 import { Fragment } from '@milkdown/prose/model'
 import { $command, $ctx, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import slugify from '@sindresorhus/slugify'
 import { paragraphSchema } from './paragraph'
 
 const headingIndex = Array(6)
@@ -13,11 +14,7 @@ const headingIndex = Array(6)
   .map((_, i) => i + 1)
 
 const defaultHeadingIdGenerator = (node: Node) =>
-  node.textContent
-    .replace(/[\p{P}\p{S}]/gu, '')
-    .replace(/\s/g, '-')
-    .toLowerCase()
-    .trim()
+  slugify(node.textContent)
 
 /// This is a slice contains a function to generate heading id.
 /// You can configure it to generate id in your own way.
