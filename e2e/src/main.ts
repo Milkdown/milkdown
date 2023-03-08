@@ -9,6 +9,7 @@ import './style.css'
 const mapping = {
   'preset-commonmark': () => import('./preset-commonmark'),
   'preset-gfm': () => import('./preset-gfm'),
+  'plugin-listener': () => import('./plugin-listener'),
 }
 
 let editor: Editor | undefined

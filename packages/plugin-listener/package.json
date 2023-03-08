@@ -32,6 +32,8 @@
   },
   "dependencies": {
     "@milkdown/utils": "workspace:*",
+    "@types/lodash.debounce": "^4.0.7",
+    "lodash.debounce": "^4.0.8",
     "tslib": "^2.4.0"
   },
   "devDependencies": {

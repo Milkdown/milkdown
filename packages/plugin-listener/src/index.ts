@@ -13,6 +13,7 @@ import {
 } from '@milkdown/core'
 import type { Node as ProseNode } from '@milkdown/prose/model'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
+import debounce from 'lodash.debounce'
 
 /// The dictionary of subscribers of each event.
 export interface Subscribers {
@@ -150,24 +151,29 @@ export const listener: MilkdownPlugin = (ctx) => {
           // do nothing
         },
         apply: (tr) => {
-          if (!tr.docChanged)
+          if (!tr.docChanged || tr.getMeta('addToHistory') === false)
             return
-          const { doc } = tr
-          if (listeners.updated.length > 0 && (prevDoc == null || !prevDoc.eq(doc))) {
-            listeners.updated.forEach((fn) => {
-              fn(ctx, doc, prevDoc)
-            })
-          }
 
-          if (listeners.markdownUpdated.length > 0 && (prevDoc == null || !prevDoc.eq(doc))) {
-            const markdown = serializer(doc)
-            listeners.markdownUpdated.forEach((fn) => {
-              fn(ctx, markdown, prevMarkdown)
-            })
-            prevMarkdown = markdown
-          }
+          const handler = debounce(() => {
+            const { doc } = tr
+            if (listeners.updated.length > 0 && (prevDoc == null || !prevDoc.eq(doc))) {
+              listeners.updated.forEach((fn) => {
+                fn(ctx, doc, prevDoc)
+              })
+            }
 
-          prevDoc = doc
+            if (listeners.markdownUpdated.length > 0 && (prevDoc == null || !prevDoc.eq(doc))) {
+              const markdown = serializer(doc)
+              listeners.markdownUpdated.forEach((fn) => {
+                fn(ctx, markdown, prevMarkdown)
+              })
+              prevMarkdown = markdown
+            }
+
+            prevDoc = doc
+          }, 200)
+
+          return handler()
         },
       },
     })
