@@ -13,9 +13,8 @@ declare global {
     var __getMarkdown__: () => string;
 
     namespace Cypress {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         interface Chainable<Subject = any> {
-            snapshot: (options?: { name?: string; json?: boolean }) => void;
+          // Add your method here
         }
     }
 }

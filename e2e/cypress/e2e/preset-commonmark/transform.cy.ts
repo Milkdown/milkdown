@@ -22,7 +22,8 @@ describe('transform:', () => {
     cy.get('p').should('have.text', 'The lunatic is on the grass')
 
     cy.window().then((win) => {
-      cy.wrap(win.__getMarkdown__()).snapshot()
+      cy.wrap(win.__getMarkdown__())
+        .should('equal', 'The lunatic is on the grass\n')
     })
   })
 
@@ -154,7 +155,8 @@ describe('transform:', () => {
       })
 
     cy.window().then((win) => {
-      cy.wrap(win.__getMarkdown__()).snapshot()
+      cy.wrap(win.__getMarkdown__())
+        .should('equal', '**The lunatic is on the grass**\n\n*The lunatic is on the grass*\n\n`The lunatic is on the grass`\n\n[The lunatic is on the grass](link)\n\n***The lunatic is on the grass***\n\n***`The lunatic is on the grass`***\n\n***[The lunatic is on the grass](link)***\n')
     })
   })
 })
