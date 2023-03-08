@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { setBlockType } from '@milkdown/prose/commands'
-import type { Node } from '@milkdown/prose/model'
-import { Fragment } from '@milkdown/prose/model'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { serializeText } from '../utils'
 
 /// HTML attributes for paragraph node.
 export const paragraphAttr = $nodeAttr('paragraph')
@@ -31,20 +30,7 @@ export const paragraphSchema = $nodeSchema('paragraph', ctx => ({
     match: node => node.type.name === 'paragraph',
     runner: (state, node) => {
       state.openNode('paragraph')
-      const lastIsHardbreak = node.childCount >= 1 && node.lastChild?.type.name === 'hardbreak'
-      if (lastIsHardbreak) {
-        const contentArr: Node[] = []
-        node.content.forEach((n, _, i) => {
-          if (i === node.childCount - 1)
-            return
-
-          contentArr.push(n)
-        })
-        state.next(Fragment.fromArray(contentArr))
-      }
-      else {
-        state.next(node.content)
-      }
+      serializeText(state, node)
       state.closeNode()
     },
   },

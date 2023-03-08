@@ -4,9 +4,9 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
 import type { Node } from '@milkdown/prose/model'
-import { Fragment } from '@milkdown/prose/model'
 import { $command, $ctx, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import slugify from '@sindresorhus/slugify'
+import { serializeText } from '../utils'
 import { paragraphSchema } from './paragraph'
 
 const headingIndex = Array(6)
@@ -70,20 +70,7 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
       match: node => node.type.name === 'heading',
       runner: (state, node) => {
         state.openNode('heading', undefined, { depth: node.attrs.level })
-        const lastIsHardbreak = node.childCount >= 1 && node.lastChild?.type.name === 'hardbreak'
-        if (lastIsHardbreak) {
-          const contentArr: Node[] = []
-          node.content.forEach((n, _, i) => {
-            if (i === node.childCount - 1)
-              return
-
-            contentArr.push(n)
-          })
-          state.next(Fragment.fromArray(contentArr))
-        }
-        else {
-          state.next(node.content)
-        }
+        serializeText(state, node)
         state.closeNode()
       },
     },

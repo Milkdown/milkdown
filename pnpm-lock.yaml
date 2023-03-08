@@ -469,6 +469,7 @@ importers:
       '@milkdown/ctx': workspace:*
       '@milkdown/exception': workspace:*
       '@milkdown/prose': workspace:*
+      '@milkdown/transformer': workspace:*
       '@milkdown/utils': workspace:*
       '@sindresorhus/slugify': ^2.2.0
       '@types/unist': ^2.0.6
@@ -486,6 +487,7 @@ importers:
       '@milkdown/core': link:../core
       '@milkdown/ctx': link:../ctx
       '@milkdown/prose': link:../prose
+      '@milkdown/transformer': link:../transformer
       '@types/unist': 2.0.6
 
   packages/preset-gfm:
