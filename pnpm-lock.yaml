@@ -105,6 +105,7 @@ importers:
   e2e:
     specifiers:
       '@milkdown/core': workspace:*
+      '@milkdown/plugin-listener': workspace:*
       '@milkdown/preset-commonmark': workspace:*
       '@milkdown/preset-gfm': workspace:*
       '@milkdown/prose': workspace:*
@@ -114,6 +115,7 @@ importers:
       tslib: ^2.4.0
     dependencies:
       '@milkdown/core': link:../packages/core
+      '@milkdown/plugin-listener': link:../packages/plugin-listener
       '@milkdown/preset-commonmark': link:../packages/preset-commonmark
       '@milkdown/preset-gfm': link:../packages/preset-gfm
       '@milkdown/prose': link:../packages/prose
@@ -328,9 +330,13 @@ importers:
       '@milkdown/ctx': workspace:*
       '@milkdown/prose': workspace:*
       '@milkdown/utils': workspace:*
+      '@types/lodash.debounce': ^4.0.7
+      lodash.debounce: ^4.0.8
       tslib: ^2.4.0
     dependencies:
       '@milkdown/utils': link:../utils
+      '@types/lodash.debounce': 4.0.7
+      lodash.debounce: 4.0.8
       tslib: 2.4.0
     devDependencies:
       '@milkdown/core': link:../core
