@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@milkdown/core": "workspace:*",
+    "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",

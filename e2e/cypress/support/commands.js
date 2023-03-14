@@ -1,4 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
+/* eslint-disable no-undef */
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -25,3 +26,15 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('paste', { prevSubject: true }, (selector, payload) => {
+  // https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event
+  cy.wrap(selector).then(($destination) => {
+    const pasteEvent = Object.assign(new Event('paste', { bubbles: true, cancelable: true }), {
+      clipboardData: {
+        getData: key => payload[key] ? payload[key] : '',
+      },
+    })
+    $destination[0].dispatchEvent(pasteEvent)
+  })
+})
