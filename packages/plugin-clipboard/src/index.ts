@@ -2,7 +2,7 @@
 import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core'
 import { getNodeFromSchema } from '@milkdown/prose'
 import type { Node } from '@milkdown/prose/model'
-import { DOMParser, DOMSerializer } from '@milkdown/prose/model'
+import { DOMParser, Slice } from '@milkdown/prose/model'
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
@@ -74,23 +74,21 @@ export const clipboard = $prose((ctx) => {
         if (html.length === 0 && text.length === 0)
           return false
 
-        const domParser = DOMParser.fromSchema(schema)
-        let dom
         if (html.length === 0) {
           const slice = parser(text)
           if (!slice || typeof slice === 'string')
             return false
 
-          dom = DOMSerializer.fromSchema(schema).serializeFragment(slice.content)
+          view.dispatch(view.state.tr.replaceSelection(new Slice(slice.content, 0, 0)))
         }
         else {
+          const domParser = DOMParser.fromSchema(schema)
           const template = document.createElement('template')
           template.innerHTML = html
-          dom = template.content.cloneNode(true)
+          const dom = template.content.cloneNode(true)
           template.remove()
+          view.dispatch(view.state.tr.replaceSelection(domParser.parseSlice(dom)))
         }
-
-        view.dispatch(view.state.tr.replaceSelection(domParser.parseSlice(dom)))
 
         return true
       },
