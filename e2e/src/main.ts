@@ -10,6 +10,7 @@ const mapping = {
   'preset-commonmark': () => import('./preset-commonmark'),
   'preset-gfm': () => import('./preset-gfm'),
   'plugin-listener': () => import('./plugin-listener'),
+  'plugin-clipboard': () => import('./plugin-clipboard'),
 }
 
 let editor: Editor | undefined

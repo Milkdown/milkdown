@@ -16,15 +16,12 @@ it('has editor', () => {
 
 describe('on markdown updated', () => {
   it('normal', () => {
-    cy.get('.editor')
-
     cy.get('.editor').type('AAA')
 
     cy.get('@log').should('have.callCount', 3)
   })
 
   it('inline sync', () => {
-    cy.get('.editor')
     cy.get('.editor').type('_')
     cy.get('@log').should('have.callCount', 1).should('be.calledWith', '\\_\n')
     cy.get('.editor').type('A')

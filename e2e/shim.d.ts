@@ -13,8 +13,8 @@ declare global {
     var __getMarkdown__: () => string;
 
     namespace Cypress {
-        interface Chainable<Subject = any> {
-          // Add your method here
+        interface Chainable {
+          paste(payload: Record<string, unknown>): Chainable<void>
         }
     }
 }
