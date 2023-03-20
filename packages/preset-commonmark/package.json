@@ -38,7 +38,7 @@
     "@milkdown/utils": "workspace:*",
     "@sindresorhus/slugify": "^2.2.0",
     "remark-inline-links": "^6.0.0",
-    "tslib": "^2.4.0",
+    "tslib": "^2.5.0",
     "unist-util-visit": "^4.0.0"
   },
   "devDependencies": {

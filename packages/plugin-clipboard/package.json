@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@milkdown/utils": "workspace:*",
-    "tslib": "^2.4.0"
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",

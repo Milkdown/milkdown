@@ -38,7 +38,7 @@
     "emoji-regex": "^10.0.0",
     "node-emoji": "^1.10.0",
     "remark-emoji": "^3.0.1",
-    "tslib": "^2.4.0",
+    "tslib": "^2.5.0",
     "twemoji": "^14.0.1",
     "unist-util-visit": "^4.0.0"
   },

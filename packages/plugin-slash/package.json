@@ -37,7 +37,7 @@
     "lodash.debounce": "^4.0.8",
     "smooth-scroll-into-view-if-needed": "^1.1.32",
     "tippy.js": "^6.3.7",
-    "tslib": "^2.4.0"
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",

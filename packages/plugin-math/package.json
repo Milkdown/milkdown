@@ -36,7 +36,7 @@
     "@types/katex": "^0.16.0",
     "katex": "^0.16.0",
     "remark-math": "^5.1.0",
-    "tslib": "^2.4.0"
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
