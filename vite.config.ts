@@ -6,9 +6,9 @@
  * Please don't use this file for other purpose.
  */
 
-import { readFileSync } from 'fs'
-import { basename, dirname, resolve } from 'path'
-import { fileURLToPath } from 'url'
+import { readFileSync } from 'node:fs'
+import { basename, dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { BuildOptions, UserConfig } from 'vite'
 import { defineConfig } from 'vite'
 
