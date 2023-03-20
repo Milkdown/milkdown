@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
-    "tslib": "^2.4.0"
+    "tslib": "^2.5.0"
   },
   "nx": {
     "targets": {

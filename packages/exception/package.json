@@ -22,7 +22,7 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.5.0"
   },
   "nx": {
     "targets": {

@@ -38,7 +38,7 @@
     "@types/dompurify": "^2.4.0",
     "mermaid": "^9.2.2",
     "nanoid": "^4.0.0",
-    "tslib": "^2.4.0",
+    "tslib": "^2.5.0",
     "unist-util-visit": "^4.0.0"
   },
   "devDependencies": {
