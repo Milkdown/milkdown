@@ -1,5 +1,16 @@
 # @milkdown/vue
 
+## 7.1.1
+
+### Patch Changes
+
+- f4aaf467: Use slugify to create id for heading nodes
+  Fix inline sync plugin causes unneeded changes #924
+  Upgrade typescript version to 5 #943
+  Add hard break leafText #944
+- Updated dependencies [f4aaf467]
+  - @milkdown/utils@7.1.1
+
 ## 7.1.0
 
 ### Minor Changes
