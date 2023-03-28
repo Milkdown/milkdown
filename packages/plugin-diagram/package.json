@@ -45,6 +45,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@types/d3": "^7.4.0",
     "@types/unist": "^2.0.6"
   },
   "nx": {
