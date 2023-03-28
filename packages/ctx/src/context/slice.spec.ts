@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { SliceType } from './slice'
 
@@ -49,5 +49,69 @@ describe('context/slice', () => {
     expect(slice1.get()).toEqual([1, 3])
 
     expect(slice2.get()).toEqual([])
+  })
+
+  it('add watcher for slice', () => {
+    const sliceType = new SliceType(0, 'primitive')
+    const map = new Map()
+    const ctx = sliceType.create(map)
+
+    let recordedValue1: number
+    let recordedValue2: number
+    let recordedValue3: number
+    let recordedValue4: number
+    const watcher1 = vi.fn((value: number) => {
+      recordedValue1 = value
+    })
+    const watcher2 = vi.fn((value: number) => {
+      recordedValue2 = value
+    })
+    const watcher3 = vi.fn((value: number) => {
+      recordedValue3 = value
+    })
+    const watcher4 = vi.fn((value: number) => {
+      recordedValue4 = value
+    })
+    const off = ctx.on(watcher1)
+    ctx.on(watcher2)
+    ctx.once(watcher3)
+    ctx.on(watcher4)
+
+    ctx.set(20)
+    expect(watcher1).toBeCalledTimes(1)
+    expect(recordedValue1).toBe(20)
+    expect(watcher2).toBeCalledTimes(1)
+    expect(recordedValue2).toBe(20)
+    expect(watcher3).toBeCalledTimes(1)
+    expect(recordedValue3).toBe(20)
+
+    ctx.set(100)
+    expect(watcher1).toBeCalledTimes(2)
+    expect(recordedValue1).toBe(100)
+    expect(watcher2).toBeCalledTimes(2)
+    expect(recordedValue2).toBe(100)
+    expect(watcher3).toBeCalledTimes(1)
+    expect(recordedValue3).toBe(20)
+
+    off()
+    ctx.set(1000)
+    expect(watcher1).toBeCalledTimes(2)
+    expect(recordedValue1).toBe(100)
+    expect(watcher2).toBeCalledTimes(3)
+    expect(recordedValue2).toBe(1000)
+    expect(watcher3).toBeCalledTimes(1)
+    expect(recordedValue3).toBe(20)
+
+    ctx.off(watcher2)
+    ctx.set(0)
+    expect(watcher2).toBeCalledTimes(3)
+    expect(recordedValue2).toBe(1000)
+    expect(watcher4).toBeCalledTimes(4)
+    expect(recordedValue4).toBe(0)
+
+    ctx.offAll()
+    ctx.set(5)
+    expect(watcher4).toBeCalledTimes(4)
+    expect(recordedValue4).toBe(0)
   })
 })
