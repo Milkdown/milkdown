@@ -35,8 +35,8 @@
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "@types/dompurify": "^2.4.0",
-    "mermaid": "^9.2.2",
+    "@types/dompurify": "^3.0.0",
+    "mermaid": "^10.0.0",
     "nanoid": "^4.0.0",
     "tslib": "^2.5.0",
     "unist-util-visit": "^4.0.0"
@@ -45,6 +45,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@types/d3": "^7.4.0",
     "@types/unist": "^2.0.6"
   },
   "nx": {
