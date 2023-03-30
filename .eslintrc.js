@@ -23,6 +23,7 @@ module.exports = {
     'unused-imports/no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
+    'antfu/top-level-function': 'off',
   },
   overrides: [
     {
