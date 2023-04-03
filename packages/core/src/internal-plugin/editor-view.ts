@@ -133,5 +133,5 @@ export const editorView: MilkdownPlugin = (ctx) => {
 
 editorView.meta = {
   displayName: 'EditorView',
-  groupLabel: 'System',
+  group: 'System',
 }

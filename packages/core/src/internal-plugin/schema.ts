@@ -68,5 +68,5 @@ export const schema: MilkdownPlugin = (ctx) => {
 
 schema.meta = {
   displayName: 'Schema',
-  groupLabel: 'System',
+  group: 'System',
 }

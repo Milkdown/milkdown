@@ -11,7 +11,7 @@ export type $InputRule = MilkdownPlugin & {
   inputRule: InputRule
 }
 
-/// Create a input rule plugin.
+/// Create an input rule plugin.
 /// It takes a factory function which returns a [prosemirror input rule](https://prosemirror.net/docs/ref/#inputrules.InputRule).
 ///
 /// Additional property:

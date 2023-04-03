@@ -26,7 +26,7 @@ export const config = (configure: Config): MilkdownPlugin => {
 
   plugin.meta = {
     displayName: 'Config',
-    groupLabel: 'System',
+    group: 'System',
   }
 
   return plugin

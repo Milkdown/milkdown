@@ -117,5 +117,5 @@ export const editorState: MilkdownPlugin = (ctx) => {
 
 editorState.meta = {
   displayName: 'EditorState',
-  groupLabel: 'System',
+  group: 'System',
 }

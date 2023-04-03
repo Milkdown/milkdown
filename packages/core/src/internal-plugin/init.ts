@@ -91,7 +91,7 @@ export const init = (editor: Editor): MilkdownPlugin => {
   }
   plugin.meta = {
     displayName: 'Init',
-    groupLabel: 'System',
+    group: 'System',
   }
 
   return plugin

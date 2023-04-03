@@ -86,5 +86,6 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
     timerName,
   )
   plugin.type = () => nodeType!
+
   return plugin
 }

@@ -8,8 +8,11 @@ export type Meta = {
   /// The description of the plugin
   description?: string
 
+  /// The package belongs to
+  package?: string
+
   /// The group of the plugin, internal plugins will be grouped by `System`
-  groupLabel?: string
+  group?: string
 
   /// Any additional metadata
   additional?: Record<string, any>

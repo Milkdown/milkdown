@@ -18,6 +18,7 @@ export type $NodeSchema<T extends string> = [
   id: $Node['id']
   type: $Node['type']
   node: $Node
+  ctx: $Ctx<GetNodeSchema, T>
   schema: NodeSchema
   key: $Ctx<GetNodeSchema, T>['key']
   extendSchema: (handler: (prev: GetNodeSchema) => GetNodeSchema) => MilkdownPlugin
@@ -47,6 +48,7 @@ export const $nodeSchema = <T extends string>(id: T, schema: GetNodeSchema): $No
   result.node = nodeSchema
   result.type = nodeSchema.type
   result.schema = nodeSchema.schema
+  result.ctx = schemaCtx
   result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
     return ctx => () => {
