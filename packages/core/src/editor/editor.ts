@@ -31,6 +31,11 @@ export enum EditorStatus {
 /// Type for the callback called when editor status changed.
 export type OnStatusChange = (status: EditorStatus) => void
 
+type EditorPluginStore = Map<
+  MilkdownPlugin,
+  { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
+>
+
 /// The milkdown editor class.
 export class Editor {
   /// Create a new editor instance.
@@ -51,16 +56,10 @@ export class Editor {
   readonly #clock = new Clock()
 
   /// @internal
-  readonly #plugins: Map<
-    MilkdownPlugin,
-    { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
-  > = new Map()
+  readonly #usrPluginStore: EditorPluginStore = new Map()
 
   /// @internal
-  #internalPlugins: Map<
-    MilkdownPlugin,
-    { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
-  > = new Map()
+  readonly #sysPluginStore: EditorPluginStore = new Map()
 
   /// @internal
   readonly #ctx = new Ctx(this.#container, this.#clock)
@@ -81,7 +80,7 @@ export class Editor {
       configPlugin,
     ]
     internalPlugins.forEach((plugin) => {
-      this.#internalPlugins.set(plugin, {
+      this.#sysPluginStore.set(plugin, {
         handler: plugin(this.#ctx),
         cleanup: undefined,
       })
@@ -90,9 +89,9 @@ export class Editor {
 
   /// @internal
   readonly #prepare = () => {
-    [...this.#plugins.entries()].map(async ([key, loader]) => {
+    [...this.#usrPluginStore.entries()].map(async ([key, loader]) => {
       const handler = key(this.#ctx)
-      this.#plugins.set(key, { ...loader, handler })
+      this.#usrPluginStore.set(key, { ...loader, handler })
     })
   }
 
@@ -100,12 +99,12 @@ export class Editor {
   readonly #cleanup = (plugins: MilkdownPlugin[], remove = false) => {
     return Promise.all(
       [plugins].flat().map((plugin) => {
-        const loader = this.#plugins.get(plugin)
+        const loader = this.#usrPluginStore.get(plugin)
         const cleanup = loader?.cleanup
         if (remove)
-          this.#plugins.delete(plugin)
+          this.#usrPluginStore.delete(plugin)
         else
-          this.#plugins.set(plugin, { handler: undefined, cleanup: undefined })
+          this.#usrPluginStore.set(plugin, { handler: undefined, cleanup: undefined })
 
         if (typeof cleanup === 'function')
           return cleanup()
@@ -117,19 +116,31 @@ export class Editor {
 
   /// @internal
   readonly #cleanupInternal = async () => {
-    await Promise.all([...this.#internalPlugins.entries()].map(([_, { cleanup }]) => {
+    await Promise.all([...this.#sysPluginStore.entries()].map(([_, { cleanup }]) => {
       if (typeof cleanup === 'function')
         return cleanup()
 
       return cleanup
     }))
-    this.#internalPlugins.clear()
+    this.#sysPluginStore.clear()
   }
 
   /// @internal
   readonly #setStatus = (status: EditorStatus) => {
     this.#status = status
     this.#onStatusChange(status)
+  }
+
+  /// @internal
+  readonly #loadPluginInStore = (store: EditorPluginStore) => {
+    return [...store.entries()].map(async ([key, loader]) => {
+      const handler = loader.handler
+      if (!handler)
+        return
+
+      const cleanup = await handler()
+      store.set(key, { handler, cleanup })
+    })
   }
 
   /// Get the ctx of the editor.
@@ -166,7 +177,7 @@ export class Editor {
     [plugins].flat().forEach((plugin) => {
       const handler = this.#status === EditorStatus.Created ? plugin(this.#ctx) : undefined
 
-      this.#plugins.set(plugin, {
+      this.#usrPluginStore.set(plugin, {
         handler,
         cleanup: undefined,
       })
@@ -177,6 +188,7 @@ export class Editor {
   /// Remove a plugin or a list of plugins from the editor.
   readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate) {
+      console.warn('[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code.')
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(this.remove(plugins))
@@ -204,26 +216,8 @@ export class Editor {
 
     await Promise.all(
       [
-        [...this.#internalPlugins.entries()].map(async ([key, loader]) => {
-          const handler = loader.handler
-          if (!handler)
-            return
-
-          const cleanup = await handler()
-          this.#internalPlugins.set(key, { handler, cleanup })
-
-          return cleanup
-        }),
-        [...this.#plugins.entries()].map(async ([key, loader]) => {
-          const handler = loader.handler
-          if (!handler)
-            return
-
-          const cleanup = await handler()
-          this.#plugins.set(key, { handler, cleanup })
-
-          return cleanup
-        }),
+        this.#loadPluginInStore(this.#sysPluginStore),
+        this.#loadPluginInStore(this.#usrPluginStore),
       ].flat(),
     )
 
@@ -249,7 +243,7 @@ export class Editor {
       this.#configureList = []
 
     this.#setStatus(EditorStatus.OnDestroy)
-    await this.#cleanup([...this.#plugins.keys()], clearPlugins)
+    await this.#cleanup([...this.#usrPluginStore.keys()], clearPlugins)
     await this.#cleanupInternal()
 
     this.#setStatus(EditorStatus.Destroyed)

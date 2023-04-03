@@ -62,13 +62,6 @@ export const callCommandBeforeEditorView = () =>
     'You\'re trying to call a command before editor view initialized, make sure to get commandManager from ctx after editor view has been initialized',
   )
 
-export const themeMustInstalled = () =>
-  new MilkdownError(
-    ErrorCode.themeMustInstalled,
-        `It seems that no theme found in editor, please make sure you have use theme in front of all plugins.
-If you prefer to use an empty theme, you can use \`themeFactory({})\`.`,
-  )
-
 export const missingRootElement = () =>
   new MilkdownError(
     ErrorCode.missingRootElement,
@@ -87,20 +80,8 @@ export const missingMarkInSchema = (name: string) =>
         `Missing mark in schema, milkdown cannot find "${name}" in schema.`,
   )
 
-export const missingIcon = (name: string) =>
-  new MilkdownError(ErrorCode.missingIcon, `Missing icon in theme, milkdown cannot find icon "${name}" in theme.`)
-
 export const ctxNotBind = () =>
   new MilkdownError(ErrorCode.ctxNotBind, 'Context not bind, please make sure the plugin has been initialized.')
 
 export const missingYjsDoc = () =>
   new MilkdownError(ErrorCode.missingYjsDoc, 'Missing yjs doc, please make sure you have bind one.')
-
-export const vueRendererCallOutOfScope = () =>
-  new MilkdownError(ErrorCode.vueRendererCallOutOfScope, 'Should not call vue renderer before it has been created.')
-
-export const missingMenuWrapper = () =>
-  new MilkdownError(ErrorCode.missingMenuWrapper, 'Missing menu wrapper, should init menu wrapper first.')
-
-export const repeatCallsToMenuWrapperInit = () =>
-  new MilkdownError(ErrorCode.repeatCallsToMenuWrapperInit, 'Repeated calls to menu wrapper initialization')

@@ -11,22 +11,11 @@ export const enum ErrorCode {
   getAtomFromSchemaFail = 'getAtomFromSchemaFail',
   expectDomTypeError = 'expectDomTypeError',
   callCommandBeforeEditorView = 'callCommandBeforeEditorView',
-  themeMustInstalled = 'themeMustInstalled',
   missingRootElement = 'missingRootElement',
   missingNodeInSchema = 'missingNodeInSchema',
   missingMarkInSchema = 'missingMarkInSchema',
 
-  // theme
-  missingIcon = 'missingIcon',
-
-  // vue
-  vueRendererCallOutOfScope = 'vueRendererCallOutOfScope',
-
   // collab plugin
   ctxNotBind = 'ctxNotBind',
   missingYjsDoc = 'missingYjsDoc',
-
-  // menu plugin
-  repeatCallsToMenuWrapperInit = 'repeatCallsToMenuWrapperInit',
-  missingMenuWrapper = 'missingMenuWrapper',
 }
