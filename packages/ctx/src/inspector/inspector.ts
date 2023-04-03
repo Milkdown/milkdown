@@ -36,7 +36,7 @@ export class Inspector {
 
   /// Create an inspector with container, clock and metadata.
   constructor(
-    container: Container, clock: Clock, meta: Meta = {},
+    container: Container, clock: Clock, meta: Meta,
   ) {
     this.#container = container
     this.#clock = clock
