@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
+import type { Meta } from '../inspector'
 import type { Ctx } from './ctx'
 
 /// @internal
@@ -41,4 +42,4 @@ export type CtxRunner = () => RunnerReturnType
 ///   }
 /// }
 /// ```
-export type MilkdownPlugin = (ctx: Ctx) => CtxRunner
+export type MilkdownPlugin = { meta?: Meta } & ((ctx: Ctx) => CtxRunner)

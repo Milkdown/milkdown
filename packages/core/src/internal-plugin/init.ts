@@ -55,36 +55,44 @@ export const remarkStringifyOptionsCtx = createSlice(remarkStringifyDefaultOptio
 /// This plugin prepare slices that needed by other plugins. And create a remark instance.
 ///
 /// This plugin will wait for the config plugin.
-export const init = (editor: Editor): MilkdownPlugin => (ctx) => {
-  ctx.inject(editorCtx, editor)
-    .inject(prosePluginsCtx)
-    .inject(remarkPluginsCtx)
-    .inject(inputRulesCtx)
-    .inject(nodeViewCtx)
-    .inject(markViewCtx)
-    .inject(remarkStringifyOptionsCtx)
-    .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
-    .inject(initTimerCtx, [ConfigReady])
-    .record(InitReady)
+export const init = (editor: Editor): MilkdownPlugin => {
+  const plugin: MilkdownPlugin = (ctx) => {
+    ctx.inject(editorCtx, editor)
+      .inject(prosePluginsCtx)
+      .inject(remarkPluginsCtx)
+      .inject(inputRulesCtx)
+      .inject(nodeViewCtx)
+      .inject(markViewCtx)
+      .inject(remarkStringifyOptionsCtx)
+      .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
+      .inject(initTimerCtx, [ConfigReady])
+      .record(InitReady)
 
-  return async () => {
-    await ctx.waitTimers(initTimerCtx)
-    const options = ctx.get(remarkStringifyOptionsCtx)
-    ctx.set(remarkCtx, unified().use(remarkParse).use(remarkStringify, options))
+    return async () => {
+      await ctx.waitTimers(initTimerCtx)
+      const options = ctx.get(remarkStringifyOptionsCtx)
+      ctx.set(remarkCtx, unified().use(remarkParse).use(remarkStringify, options))
 
-    ctx.done(InitReady)
+      ctx.done(InitReady)
 
-    return () => {
-      ctx.remove(editorCtx)
-        .remove(prosePluginsCtx)
-        .remove(remarkPluginsCtx)
-        .remove(inputRulesCtx)
-        .remove(nodeViewCtx)
-        .remove(markViewCtx)
-        .remove(remarkStringifyOptionsCtx)
-        .remove(remarkCtx)
-        .remove(initTimerCtx)
-        .clearTimer(InitReady)
+      return () => {
+        ctx.remove(editorCtx)
+          .remove(prosePluginsCtx)
+          .remove(remarkPluginsCtx)
+          .remove(inputRulesCtx)
+          .remove(nodeViewCtx)
+          .remove(markViewCtx)
+          .remove(remarkStringifyOptionsCtx)
+          .remove(remarkCtx)
+          .remove(initTimerCtx)
+          .clearTimer(InitReady)
+      }
     }
   }
+  plugin.meta = {
+    displayName: 'Init',
+    groupLabel: 'System',
+  }
+
+  return plugin
 }

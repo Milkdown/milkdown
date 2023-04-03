@@ -55,7 +55,7 @@ export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schem
 const key = new PluginKey('MILKDOWN_STATE_TRACKER')
 
 /// The editor state plugin.
-/// This plugin will create an prosemirror editor state.
+/// This plugin will create a prosemirror editor state.
 ///
 /// This plugin will wait for the parser plugin, serializer plugin and commands plugin.
 export const editorState: MilkdownPlugin = (ctx) => {
@@ -113,4 +113,9 @@ export const editorState: MilkdownPlugin = (ctx) => {
         .clearTimer(EditorStateReady)
     }
   }
+}
+
+editorState.meta = {
+  displayName: 'EditorState',
+  groupLabel: 'System',
 }

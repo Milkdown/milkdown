@@ -39,3 +39,8 @@ export const parser: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+parser.meta = {
+  displayName: 'Parser',
+  groupLabel: 'System',
+}

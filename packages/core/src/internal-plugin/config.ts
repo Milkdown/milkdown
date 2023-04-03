@@ -10,8 +10,8 @@ export const ConfigReady = createTimer('ConfigReady')
 
 /// The config plugin.
 /// This plugin will load all user configs.
-export const config = (configure: Config): MilkdownPlugin =>
-  (ctx) => {
+export const config = (configure: Config): MilkdownPlugin => {
+  const plugin: MilkdownPlugin = (ctx) => {
     ctx.record(ConfigReady)
 
     return async () => {
@@ -23,3 +23,11 @@ export const config = (configure: Config): MilkdownPlugin =>
       }
     }
   }
+
+  plugin.meta = {
+    displayName: 'Config',
+    groupLabel: 'System',
+  }
+
+  return plugin
+}

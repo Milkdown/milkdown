@@ -37,3 +37,8 @@ export const serializer: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+serializer.meta = {
+  displayName: 'Serializer',
+  groupLabel: 'System',
+}

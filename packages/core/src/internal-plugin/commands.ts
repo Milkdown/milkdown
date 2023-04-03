@@ -107,3 +107,8 @@ export const commands: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+commands.meta = {
+  displayName: 'Commands',
+  groupLabel: 'System',
+}
