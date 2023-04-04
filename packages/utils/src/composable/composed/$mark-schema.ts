@@ -31,6 +31,7 @@ export type $MarkSchema<T extends string> = [
 /// The function will return a plugin with additional properties:
 /// - `id`: The id of the mark schema.
 /// - `type`: A function witch will return the type of the mark schema.
+/// - `ctx`: The context of the mark schema.
 /// - `mark`: The mark schema plugin.
 /// - `schema`: The mark schema.
 /// - `key`: The key of slice which contains the mark schema factory.

@@ -31,6 +31,7 @@ export type $NodeSchema<T extends string> = [
 /// The function will return a plugin with additional properties:
 /// - `id`: The id of the node schema.
 /// - `type`: A function witch will return the type of the node schema.
+/// - `ctx`: The context of the node schema.
 /// - `node`: The node schema plugin.
 /// - `schema`: The node schema.
 /// - `key`: The key of slice which contains the node schema factory.
