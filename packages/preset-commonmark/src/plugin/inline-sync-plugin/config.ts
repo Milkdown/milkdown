@@ -4,6 +4,7 @@ import type { Node, NodeType } from '@milkdown/prose/model'
 import type { Transaction } from '@milkdown/prose/state'
 import { $ctx } from '@milkdown/utils'
 
+import { withMeta } from '../../__internal__'
 import { swap } from './utils'
 
 /// @internal
@@ -70,3 +71,8 @@ export const defaultConfig: InlineSyncConfig = {
 ///
 /// You can find the default config [here](https://github.com/Milkdown/milkdown/blob/main/packages/preset-commonmark/src/plugin/inline-sync-plugin/config.ts).
 export const inlineSyncConfig = $ctx<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')
+
+withMeta(inlineSyncConfig, {
+  displayName: 'Ctx<inlineSyncConfig>',
+  group: 'Prose',
+})

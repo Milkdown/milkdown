@@ -8,8 +8,8 @@ export type Meta = {
   /// The description of the plugin
   description?: string
 
-  /// The package belongs to
-  package?: string
+  /// The package that the plugin belongs to
+  package: string
 
   /// The group of the plugin, internal plugins will be grouped by `System`
   group?: string

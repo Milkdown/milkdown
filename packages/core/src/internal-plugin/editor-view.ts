@@ -5,6 +5,7 @@ import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { DirectEditorProps } from '@milkdown/prose/view'
 import { EditorView } from '@milkdown/prose/view'
 
+import { withMeta } from '../__internal__'
 import { EditorStateReady, editorStateCtx } from './editor-state'
 import { InitReady, markViewCtx, nodeViewCtx, prosePluginsCtx } from './init'
 
@@ -131,7 +132,6 @@ export const editorView: MilkdownPlugin = (ctx) => {
   }
 }
 
-editorView.meta = {
+withMeta(editorView, {
   displayName: 'EditorView',
-  group: 'System',
-}
+})

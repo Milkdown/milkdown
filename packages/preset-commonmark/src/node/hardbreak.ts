@@ -2,6 +2,7 @@
 import { commandsCtx } from '@milkdown/core'
 import { Selection } from '@milkdown/prose/state'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for the hardbreak node.
 ///
@@ -11,6 +12,11 @@ export const hardbreakAttr = $nodeAttr('hardbreak', (node) => {
   return {
     'data-is-inline': node.attrs.isInline,
   }
+})
+
+withMeta(hardbreakAttr, {
+  displayName: 'Attr<hardbreak>',
+  group: 'Hardbreak',
 })
 
 /// Hardbreak node schema.
@@ -44,6 +50,16 @@ export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
   },
 }))
 
+withMeta(hardbreakSchema.node, {
+  displayName: 'NodeSchema<hardbreak>',
+  group: 'Hardbreak',
+})
+
+withMeta(hardbreakSchema.ctx, {
+  displayName: 'NodeSchemaCtx<hardbreak>',
+  group: 'Hardbreak',
+})
+
 /// Command to insert a hardbreak.
 export const insertHardbreakCommand = $command('InsertHardbreak', () => () => (state, dispatch) => {
   const { selection, tr } = state
@@ -64,6 +80,11 @@ export const insertHardbreakCommand = $command('InsertHardbreak', () => () => (s
   return true
 })
 
+withMeta(insertHardbreakCommand, {
+  displayName: 'Command<insertHardbreakCommand>',
+  group: 'Hardbreak',
+})
+
 /// Keymap for the hardbreak node.
 /// - `Shift-Enter` - Insert a hardbreak.
 export const hardbreakKeymap = $useKeymap('hardbreakKeymap', {
@@ -74,4 +95,14 @@ export const hardbreakKeymap = $useKeymap('hardbreakKeymap', {
       return () => commands.call(insertHardbreakCommand.key)
     },
   },
+})
+
+withMeta(hardbreakKeymap.ctx, {
+  displayName: 'KeymapCtx<hardbreak>',
+  group: 'Hardbreak',
+})
+
+withMeta(hardbreakKeymap.shortcuts, {
+  displayName: 'Keymap<hardbreak>',
+  group: 'Hardbreak',
 })

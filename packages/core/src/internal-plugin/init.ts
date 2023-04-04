@@ -11,6 +11,7 @@ import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 
 import type { Editor } from '../editor'
+import { withMeta } from '../__internal__'
 import { ConfigReady } from './config'
 
 /// The timer which will be resolved when the init plugin is ready.
@@ -89,10 +90,9 @@ export const init = (editor: Editor): MilkdownPlugin => {
       }
     }
   }
-  plugin.meta = {
+  withMeta(plugin, {
     displayName: 'Init',
-    group: 'System',
-  }
+  })
 
   return plugin
 }

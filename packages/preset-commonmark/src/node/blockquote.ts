@@ -4,9 +4,15 @@ import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
 import type { $NodeSchema } from '@milkdown/utils'
 import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for blockquote node.
 export const blockquoteAttr = $nodeAttr('blockquote')
+
+withMeta(blockquoteAttr, {
+  displayName: 'Attr<blockquote>',
+  group: 'Blockquote',
+})
 
 /// Schema for blockquote node.
 export const blockquoteSchema: $NodeSchema<'blockquote'> = $nodeSchema('blockquote', ctx => ({
@@ -29,12 +35,32 @@ export const blockquoteSchema: $NodeSchema<'blockquote'> = $nodeSchema('blockquo
   },
 }))
 
+withMeta(blockquoteSchema.node, {
+  displayName: 'NodeSchema<blockquote>',
+  group: 'Blockquote',
+})
+
+withMeta(blockquoteSchema.ctx, {
+  displayName: 'NodeSchemaCtx<blockquote>',
+  group: 'Blockquote',
+})
+
 /// This input rule will convert a line that starts with `> ` into a blockquote.
 /// You can type `> ` at the start of a line to create a blockquote.
 export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type()))
 
+withMeta(wrapInBlockquoteInputRule, {
+  displayName: 'InputRule<wrapInBlockquoteInputRule>',
+  group: 'Blockquote',
+})
+
 /// This command will wrap the current selection in a blockquote.
 export const wrapInBlockquoteCommand = $command('WrapInBlockquote', () => () => wrapIn(blockquoteSchema.type()))
+
+withMeta(wrapInBlockquoteCommand, {
+  displayName: 'Command<wrapInBlockquoteCommand>',
+  group: 'Blockquote',
+})
 
 /// Keymap for blockquote.
 /// - `Mod-Shift-b`: Wrap selection in blockquote.
@@ -46,4 +72,14 @@ export const blockquoteKeymap = $useKeymap('blockquoteKeymap', {
       return () => commands.call(wrapInBlockquoteCommand.key)
     },
   },
+})
+
+withMeta(blockquoteKeymap.ctx, {
+  displayName: 'KeymapCtx<blockquote>',
+  group: 'Blockquote',
+})
+
+withMeta(blockquoteKeymap.shortcuts, {
+  displayName: 'Keymap<blockquote>',
+  group: 'Blockquote',
 })

@@ -1,7 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $nodeAttr, $nodeSchema } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 export const htmlAttr = $nodeAttr('html')
+
+withMeta(htmlAttr, {
+  displayName: 'Attr<html>',
+  group: 'Html',
+})
 
 export const htmlSchema = $nodeSchema('html', (ctx) => {
   return {
@@ -44,4 +50,14 @@ export const htmlSchema = $nodeSchema('html', (ctx) => {
       },
     },
   }
+})
+
+withMeta(htmlSchema.node, {
+  displayName: 'NodeSchema<html>',
+  group: 'Html',
+})
+
+withMeta(htmlSchema.ctx, {
+  displayName: 'NodeSchemaCtx<html>',
+  group: 'Html',
 })

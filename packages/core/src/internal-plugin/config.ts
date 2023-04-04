@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { createTimer } from '@milkdown/ctx'
+import { withMeta } from '../__internal__'
 
 /// @internal
 export type Config = (ctx: Ctx) => void | Promise<void>
@@ -24,10 +25,9 @@ export const config = (configure: Config): MilkdownPlugin => {
     }
   }
 
-  plugin.meta = {
+  withMeta(plugin, {
     displayName: 'Config',
-    group: 'System',
-  }
+  })
 
   return plugin
 }

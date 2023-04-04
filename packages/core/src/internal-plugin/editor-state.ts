@@ -10,6 +10,7 @@ import { DOMParser, Node } from '@milkdown/prose/model'
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state'
 import type { JSONRecord, Parser } from '@milkdown/transformer'
 
+import { withMeta } from '../__internal__'
 import { inputRulesCtx, prosePluginsCtx } from './init'
 import { ParserReady, parserCtx } from './parser'
 import { schemaCtx } from './schema'
@@ -115,7 +116,6 @@ export const editorState: MilkdownPlugin = (ctx) => {
   }
 }
 
-editorState.meta = {
+withMeta(editorState, {
   displayName: 'EditorState',
-  group: 'System',
-}
+})

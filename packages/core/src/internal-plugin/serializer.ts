@@ -4,6 +4,7 @@ import { createSlice, createTimer } from '@milkdown/ctx'
 import type { Serializer } from '@milkdown/transformer'
 import { SerializerState } from '@milkdown/transformer'
 
+import { withMeta } from '../__internal__'
 import { remarkCtx } from './init'
 import { SchemaReady, schemaCtx } from './schema'
 
@@ -38,7 +39,6 @@ export const serializer: MilkdownPlugin = (ctx) => {
   }
 }
 
-serializer.meta = {
+withMeta(serializer, {
   displayName: 'Serializer',
-  group: 'System',
-}
+})
