@@ -5,6 +5,7 @@ import { isInTable } from '@milkdown/prose/tables'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { $prose } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// This plugin is used to fix the bug of IME composing in table in Safari browser.
 /// original discussion in https://discuss.prosemirror.net/t/ime-composing-problems-on-td-or-th-element-in-safari-browser/4501
@@ -47,4 +48,9 @@ export const autoInsertZeroSpaceInTablePlugin = $prose(() => {
       },
     },
   })
+})
+
+withMeta(autoInsertZeroSpaceInTablePlugin, {
+  displayName: 'Prose<autoInsertZeroSpaceInTablePlugin>',
+  group: 'Prose',
 })

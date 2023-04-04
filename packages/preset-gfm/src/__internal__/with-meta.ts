@@ -7,7 +7,7 @@ export const withMeta = <T extends MilkdownPlugin>(
 ): T => {
   Object.assign(plugin, {
     meta: {
-      package: '@milkdown/preset-commonmark',
+      package: '@milkdown/preset-gfm',
       ...meta,
     },
   })

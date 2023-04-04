@@ -2,9 +2,15 @@
 import { commandsCtx } from '@milkdown/core'
 import { toggleMark } from '@milkdown/prose/commands'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for the strikethrough mark.
 export const strikethroughAttr = $markAttr('strike_through')
+
+withMeta(strikethroughAttr, {
+  displayName: 'Attr<strikethrough>',
+  group: 'Strikethrough',
+})
 
 /// Strikethrough mark schema.
 export const strikethroughSchema = $markSchema('strike_through', ctx => ({
@@ -30,8 +36,23 @@ export const strikethroughSchema = $markSchema('strike_through', ctx => ({
   },
 }))
 
+withMeta(strikethroughSchema.mark, {
+  displayName: 'MarkSchema<strikethrough>',
+  group: 'Strikethrough',
+})
+
+withMeta(strikethroughSchema.ctx, {
+  displayName: 'MarkSchemaCtx<strikethrough>',
+  group: 'Strikethrough',
+})
+
 /// A command to toggle the strikethrough mark.
 export const toggleStrikethroughCommand = $command('ToggleStrikeThrough', () => () => toggleMark(strikethroughSchema.type()))
+
+withMeta(toggleStrikethroughCommand, {
+  displayName: 'Command<ToggleStrikethrough>',
+  group: 'Strikethrough',
+})
 
 /// Keymap for the strikethrough mark.
 /// - `Mod-Alt-x` - Toggle the strikethrough mark.
@@ -43,4 +64,14 @@ export const strikethroughKeymap = $useKeymap('strikeThroughKeymap', {
       return () => commands.call(toggleStrikethroughCommand.key)
     },
   },
+})
+
+withMeta(strikethroughKeymap.ctx, {
+  displayName: 'KeymapCtx<strikethrough>',
+  group: 'Strikethrough',
+})
+
+withMeta(strikethroughKeymap.shortcuts, {
+  displayName: 'Keymap<strikethrough>',
+  group: 'Strikethrough',
 })
