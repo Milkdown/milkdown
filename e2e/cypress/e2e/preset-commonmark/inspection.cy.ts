@@ -11,6 +11,7 @@ it('has editor', () => {
 })
 
 it('get inspection', () => {
+  cy.get('.editor')
   cy.window().then((win) => {
     cy.wrap(win.__getInspection__()).should('have.length.above', 1)
   })
