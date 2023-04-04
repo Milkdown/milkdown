@@ -1,9 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MilkdownPlugin } from '@milkdown/ctx'
+import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
 import { commandsCtx } from '@milkdown/core'
 import { history as prosemirrorHistory, redo, undo } from '@milkdown/prose/history'
 import { $command, $ctx, $prose, $useKeymap } from '@milkdown/utils'
-import type { Meta } from '@milkdown/ctx'
 
 const withMeta = <T extends MilkdownPlugin>(
   plugin: T,

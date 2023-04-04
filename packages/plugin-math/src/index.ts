@@ -4,11 +4,29 @@ import type { KatexOptions } from 'katex'
 import katex from 'katex'
 import remarkMath from 'remark-math'
 
-import type { MilkdownPlugin } from '@milkdown/ctx'
+import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
 import { InputRule } from '@milkdown/prose/inputrules'
+
+const withMeta = <T extends MilkdownPlugin>(
+  plugin: T,
+  meta: Partial<Meta> & Pick<Meta, 'displayName'>,
+): T => {
+  Object.assign(plugin, {
+    meta: {
+      package: '@milkdown/plugin-math',
+      ...meta,
+    },
+  })
+
+  return plugin
+}
 
 /// This plugin wraps [remark-math](https://www.npmjs.com/package/remark-math).
 export const remarkMathPlugin = $remark(() => remarkMath)
+
+withMeta(remarkMathPlugin, {
+  displayName: 'Remark<remarkMath>',
+})
 
 const mathInlineId = 'math_inline'
 
@@ -23,6 +41,10 @@ const mathInlineId = 'math_inline'
 ///   })
 /// ```
 export const katexOptionsCtx = $ctx<KatexOptions, 'katexOptions'>({}, 'katexOptions')
+
+withMeta(katexOptionsCtx, {
+  displayName: 'Ctx<katexOptions>',
+})
 
 /// Schema for inline math node.
 /// Add support for:
@@ -69,6 +91,13 @@ export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
     },
   },
 }))
+
+withMeta(mathInlineSchema.ctx, {
+  displayName: 'NodeSchemaCtx<mathInline>',
+})
+withMeta(mathInlineSchema.node, {
+  displayName: 'NodeSchema<mathInline>',
+})
 
 const mathBlockId = 'math_block'
 /// Schema for block math node.
@@ -123,6 +152,13 @@ export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
   },
 }))
 
+withMeta(mathBlockSchema.ctx, {
+  displayName: 'NodeSchemaCtx<mathBlock>',
+})
+withMeta(mathBlockSchema.node, {
+  displayName: 'NodeSchema<mathBlock>',
+})
+
 /// Input rule for math block.
 /// When you type `$$` and press enter, it will create a math block.
 export const mathBlockInputRule = $inputRule(() => new InputRule(
@@ -134,6 +170,9 @@ export const mathBlockInputRule = $inputRule(() => new InputRule(
     return state.tr.delete(start, end).setBlockType(start, start, mathBlockSchema.type())
   },
 ))
+withMeta(mathBlockInputRule, {
+  displayName: 'InputRule<mathBlock>',
+})
 
 /// All plugins exported by this package.
 export const math: MilkdownPlugin[] = [remarkMathPlugin, katexOptionsCtx, mathInlineSchema, mathBlockSchema, mathBlockInputRule].flat()
