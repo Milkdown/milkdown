@@ -1,11 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { describe, expect, it } from 'vitest'
-import type { SliceType } from '../context'
 import { Container, createSlice } from '../context'
 import { Clock, createTimer } from '../timer'
 import { Ctx } from './ctx'
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 describe('ctx', () => {
   const container = new Container()
