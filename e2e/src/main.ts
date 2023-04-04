@@ -47,6 +47,7 @@ const main = async () => {
       const serializer = ctx.get(serializerCtx)
       return serializer(view.state.doc)
     })
+  globalThis.__getInspection__ = () => editor!.collectInspection()
 
   if (import.meta.env.PROD) {
     const ui = document.querySelector<HTMLElement>('#ui')!
@@ -58,6 +59,12 @@ const main = async () => {
     if (logButton) {
       // eslint-disable-next-line no-console
       logButton.onclick = () => console.log(globalThis.__getMarkdown__())
+    }
+
+    const inspectButton = document.querySelector<HTMLDivElement>('#inspect')
+    if (inspectButton) {
+      // eslint-disable-next-line no-console
+      inspectButton.onclick = () => console.log(globalThis.__getInspection__())
     }
   }
 }
