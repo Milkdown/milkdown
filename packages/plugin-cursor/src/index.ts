@@ -4,7 +4,7 @@ import { dropCursor } from '@milkdown/prose/dropcursor'
 import { gapCursor } from '@milkdown/prose/gapcursor'
 import { $ctx, $prose } from '@milkdown/utils'
 
-export const withMeta = <T extends MilkdownPlugin>(
+const withMeta = <T extends MilkdownPlugin>(
   plugin: T,
   meta: Partial<Meta> & Pick<Meta, 'displayName'>,
 ): T => {
