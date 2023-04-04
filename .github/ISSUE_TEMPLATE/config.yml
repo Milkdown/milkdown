@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 Github Discussions
-    url: https://github.com/Saul-Mirone/milkdown/discussions
+    url: https://github.com/Milkdown/milkdown/discussions
     about: Use github issues for bug reports and feature requests. For questions please use discussions.
   - name: 🏙 Discord Community
     url: https://discord.gg/SdMnrSMyBX
