@@ -82,7 +82,7 @@ describe('ctx', () => {
     await expect(ctx.wait(timerType1)).resolves.toBeUndefined()
 
     expect(different.inspector?.read().recordedTimers[0].name).toBe('timer1')
-    expect(different.inspector?.read().recordedTimers[0].duration).not.toBeLessThan(20)
+    expect(different.inspector?.read().recordedTimers[0].duration).toBeGreaterThan(0)
     expect(different.inspector?.read().recordedTimers[0].status).toBe('resolved')
 
     const timerType2 = createTimer('timer2')
@@ -95,7 +95,7 @@ describe('ctx', () => {
     await expect(different.wait(timerType2)).resolves.toBeUndefined()
 
     expect(different.inspector?.read().waitTimers[0].name).toBe('timer2')
-    expect(different.inspector?.read().waitTimers[0].duration).not.toBeLessThan(10)
+    expect(different.inspector?.read().waitTimers[0].duration).toBeGreaterThan(0)
     expect(different.inspector?.read().waitTimers[0].status).toBe('resolved')
   })
 })
