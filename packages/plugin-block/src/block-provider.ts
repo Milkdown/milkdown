@@ -7,7 +7,7 @@ import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
-import type { ActiveNode } from './select-node-by-dom'
+import type { ActiveNode } from './__internal__/select-node-by-dom'
 
 /// Options for creating block provider.
 export type BlockProviderOptions = {

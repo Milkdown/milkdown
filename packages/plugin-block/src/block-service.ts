@@ -10,10 +10,10 @@ import debounce from 'lodash.debounce'
 
 import type { FilterNodes } from './block-plugin'
 import { blockConfig } from './block-plugin'
-import { removePossibleTable } from './remove-possible-table'
-import type { ActiveNode } from './select-node-by-dom'
-import { selectRootNodeByDom } from './select-node-by-dom'
-import { serializeForClipboard } from './serialize-for-clipboard'
+import { removePossibleTable } from './__internal__/remove-possible-table'
+import type { ActiveNode } from './__internal__/select-node-by-dom'
+import { selectRootNodeByDom } from './__internal__/select-node-by-dom'
+import { serializeForClipboard } from './__internal__/serialize-for-clipboard'
 
 const brokenClipboardAPI
     = (browser.ie && <number>browser.ie_version < 15) || (browser.ios && browser.webkit_version < 604)
