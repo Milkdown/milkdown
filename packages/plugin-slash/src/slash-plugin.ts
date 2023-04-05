@@ -27,6 +27,14 @@ export const slashFactory = <Id extends string, State = any>(id: Id) => {
   const result = [slashSpec, slashPlugin] as SlashPlugin<Id>
   result.key = slashSpec.key
   result.pluginKey = slashPlugin.key
+  slashSpec.meta = {
+    package: '@milkdown/plugin-slash',
+    displayName: `Ctx<slashSpec>|${id}`,
+  }
+  slashPlugin.meta = {
+    package: '@milkdown/plugin-slash',
+    displayName: `Prose<slash>|${id}`,
+  }
 
   return result
 }

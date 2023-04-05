@@ -32,7 +32,7 @@ export interface UploadOptions {
 }
 
 /// A slice that contains the configuration for upload.
-/// It should be type of `UploadConfig`.
+/// It should be typed of `UploadConfig`.
 export const uploadConfig = $ctx<UploadOptions, 'uploadConfig'>({
   uploader: defaultUploader,
   enableHtmlFileUploader: false,
@@ -42,6 +42,11 @@ export const uploadConfig = $ctx<UploadOptions, 'uploadConfig'>({
     return Decoration.widget(pos, widgetDOM, spec)
   },
 }, 'uploadConfig')
+
+uploadConfig.meta = {
+  package: '@milkdown/plugin-upload',
+  displayName: 'Ctx<uploadConfig>',
+}
 
 /// The prosemirror plugin for upload.
 export const uploadPlugin = $prose((ctx) => {
@@ -137,3 +142,8 @@ export const uploadPlugin = $prose((ctx) => {
     },
   })
 })
+
+uploadPlugin.meta = {
+  package: '@milkdown/plugin-upload',
+  displayName: 'Prose<upload>',
+}
