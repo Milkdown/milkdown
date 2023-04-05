@@ -1,5 +1,20 @@
 # @milkdown/e2e
 
+## 7.1.2-next.0
+
+### Patch Changes
+
+- 828cceb9: Add support for editor inspector #960
+- Updated dependencies [828cceb9]
+  - @milkdown/core@7.1.2-next.0
+  - @milkdown/ctx@7.1.2-next.0
+  - @milkdown/plugin-clipboard@7.1.2-next.0
+  - @milkdown/plugin-listener@7.1.2-next.0
+  - @milkdown/preset-commonmark@7.1.2-next.0
+  - @milkdown/preset-gfm@7.1.2-next.0
+  - @milkdown/prose@7.1.2-next.0
+  - @milkdown/theme-nord@7.1.2-next.0
+
 ## 7.1.1
 
 ### Patch Changes

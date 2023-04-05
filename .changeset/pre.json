@@ -30,5 +30,7 @@
     "@milkdown/utils": "7.1.1",
     "@milkdown/vue": "7.1.1"
   },
-  "changesets": []
+  "changesets": [
+    "wise-buttons-glow"
+  ]
 }
