@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 8.0.0-next.0
+
+### Minor Changes
+
+- ddff3c8e: Add support for editor inspector
+
 ## 7.1.1
 
 ### Patch Changes

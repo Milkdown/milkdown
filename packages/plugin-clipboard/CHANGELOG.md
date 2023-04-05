@@ -1,5 +1,18 @@
 # @milkdown/plugin-clipboard
 
+## 8.0.0-next.0
+
+### Minor Changes
+
+- ddff3c8e: Add support for editor inspector
+
+### Patch Changes
+
+- Updated dependencies [ddff3c8e]
+  - @milkdown/core@8.0.0-next.0
+  - @milkdown/prose@8.0.0-next.0
+  - @milkdown/utils@8.0.0-next.0
+
 ## 7.1.1
 
 ### Patch Changes
