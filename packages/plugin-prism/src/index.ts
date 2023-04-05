@@ -20,6 +20,11 @@ export const prismConfig = $ctx<Options, 'prismConfig'>({
   configureRefractor: () => {},
 }, 'prismConfig')
 
+prismConfig.meta = {
+  package: '@milkdown/plugin-prism',
+  displayName: 'Ctx<prism>',
+}
+
 /// The prism prosemirror plugin.
 export const prismPlugin = $prose((ctx) => {
   const { configureRefractor } = ctx.get(prismConfig.key)
@@ -65,6 +70,11 @@ export const prismPlugin = $prose((ctx) => {
     },
   })
 })
+
+prismPlugin.meta = {
+  package: '@milkdown/plugin-prism',
+  displayName: 'Prose<prism>',
+}
 
 /// All plugins exported by this package.
 export const prism: MilkdownPlugin[] = [prismPlugin, prismConfig]
