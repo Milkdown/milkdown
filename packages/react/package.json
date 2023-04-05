@@ -27,8 +27,8 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/core": "^7.0.0-next.0",
-    "@milkdown/prose": "^7.0.0-next.0",
+    "@milkdown/core": "^7.1.0",
+    "@milkdown/prose": "^7.1.0",
     "react": "*",
     "react-dom": "*"
   },
