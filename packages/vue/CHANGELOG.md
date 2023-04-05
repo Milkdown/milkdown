@@ -1,5 +1,15 @@
 # @milkdown/vue
 
+## 7.1.2-next.0
+
+### Patch Changes
+
+- 828cceb9: Add support for editor inspector #960
+- Updated dependencies [828cceb9]
+  - @milkdown/core@7.1.2-next.0
+  - @milkdown/prose@7.1.2-next.0
+  - @milkdown/utils@7.1.2-next.0
+
 ## 7.1.1
 
 ### Patch Changes

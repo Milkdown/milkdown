@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/plugin-listener",
   "type": "module",
-  "version": "7.1.1",
+  "version": "7.1.2-next.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -26,9 +26,9 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/core": "^7.1.0",
-    "@milkdown/ctx": "^7.1.0",
-    "@milkdown/prose": "^7.1.0"
+    "@milkdown/core": "^7.1.2-next.0",
+    "@milkdown/ctx": "^7.1.2-next.0",
+    "@milkdown/prose": "^7.1.2-next.0"
   },
   "dependencies": {
     "@milkdown/utils": "workspace:*",

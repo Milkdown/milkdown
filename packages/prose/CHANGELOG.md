@@ -1,5 +1,13 @@
 # @milkdown/prose
 
+## 7.1.2-next.0
+
+### Patch Changes
+
+- 828cceb9: Add support for editor inspector #960
+- Updated dependencies [828cceb9]
+  - @milkdown/exception@7.1.2-next.0
+
 ## 7.1.1
 
 ### Patch Changes
