@@ -32,6 +32,11 @@ export const trailingConfig = $ctx<TrailingConfigOptions, 'trailingConfig'>({
   getNode: state => state.schema.nodes.paragraph!.create(),
 }, 'trailingConfig')
 
+trailingConfig.meta = {
+  package: '@milkdown/plugin-trailing',
+  displayName: 'Ctx<trailingConfig>',
+}
+
 /// The prosemirror plugin for trailing.
 export const trailingPlugin = $prose((ctx) => {
   const trailingPluginKey = new PluginKey('MILKDOWN_TRAILING')
@@ -68,6 +73,11 @@ export const trailingPlugin = $prose((ctx) => {
 
   return plugin
 })
+
+trailingPlugin.meta = {
+  package: '@milkdown/plugin-trailing',
+  displayName: 'Prose<trailing>',
+}
 
 /// All plugins exported by this package.
 export const trailing: MilkdownPlugin[] = [trailingConfig, trailingPlugin]

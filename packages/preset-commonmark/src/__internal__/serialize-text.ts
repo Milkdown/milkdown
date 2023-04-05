@@ -1,11 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { SerializerState } from '@milkdown/transformer'
-import { Fragment } from '@milkdown/prose/model'
 import type { Node } from '@milkdown/prose/model'
-import { hardbreakSchema } from '../node'
+import { Fragment } from '@milkdown/prose/model'
 
 export const serializeText = (state: SerializerState, node: Node) => {
-  const lastIsHardBreak = node.childCount >= 1 && node.lastChild?.type === hardbreakSchema.type()
+  const lastIsHardBreak
+    = node.childCount >= 1 && node.lastChild?.type.name === 'hardbreak'
   if (!lastIsHardBreak) {
     state.next(node.content)
     return

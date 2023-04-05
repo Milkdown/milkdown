@@ -2,9 +2,15 @@
 import { commandsCtx } from '@milkdown/core'
 import type { MarkType } from '@milkdown/prose/model'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for the inlineCode mark.
 export const inlineCodeAttr = $markAttr('inlineCode')
+
+withMeta(inlineCodeAttr, {
+  displayName: 'Attr<inlineCode>',
+  group: 'InlineCode',
+})
 
 /// InlineCode mark schema.
 export const inlineCodeSchema = $markSchema('inlineCode', ctx => ({
@@ -28,6 +34,16 @@ export const inlineCodeSchema = $markSchema('inlineCode', ctx => ({
     },
   },
 }))
+
+withMeta(inlineCodeSchema.mark, {
+  displayName: 'MarkSchema<inlineCode>',
+  group: 'InlineCode',
+})
+
+withMeta(inlineCodeSchema.ctx, {
+  displayName: 'MarkSchemaCtx<inlineCode>',
+  group: 'InlineCode',
+})
 
 /// A command to toggle the inlineCode mark.
 export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => (state, dispatch) => {
@@ -57,6 +73,11 @@ export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => 
   return true
 })
 
+withMeta(toggleInlineCodeCommand, {
+  displayName: 'Command<toggleInlineCodeCommand>',
+  group: 'InlineCode',
+})
+
 /// Keymap for the inlineCode mark.
 /// - `Mod-e` - Toggle the inlineCode mark.
 export const inlineCodeKeymap = $useKeymap('inlineCodeKeymap', {
@@ -67,4 +88,14 @@ export const inlineCodeKeymap = $useKeymap('inlineCodeKeymap', {
       return () => commands.call(toggleInlineCodeCommand.key)
     },
   },
+})
+
+withMeta(inlineCodeKeymap.ctx, {
+  displayName: 'KeymapCtx<inlineCode>',
+  group: 'InlineCode',
+})
+
+withMeta(inlineCodeKeymap.shortcuts, {
+  displayName: 'Keymap<inlineCode>',
+  group: 'InlineCode',
 })

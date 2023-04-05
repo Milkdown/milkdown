@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $remark } from '@milkdown/utils'
 import type { Literal, Node, Parent } from 'unist'
+import { withMeta } from '../__internal__'
 
 const isParent = (node: Node): node is Parent => !!(node as Parent).children
 const isHTML = (node: Node): node is Literal<string> => node.type === 'html'
@@ -46,4 +47,9 @@ export const remarkHtmlTransformer = $remark(() => () => (tree: Node) => {
 
     return [node]
   })
+})
+
+withMeta(remarkHtmlTransformer, {
+  displayName: 'Remark<remarkHtmlTransformer>',
+  group: 'Remark',
 })

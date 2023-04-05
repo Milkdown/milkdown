@@ -111,9 +111,7 @@ export class SlashProvider {
     if (notHasFocus || isReadonly || !empty || !isTextBlock || isNotInParagraph)
       return
 
-    const currentTextBlockContent = paragraph.node.textContent
-
-    return currentTextBlockContent
+    return paragraph.node.textContent
   }
 
   /// Destroy the slash.
@@ -132,7 +130,5 @@ export class SlashProvider {
   }
 
   /// Get the [tippy.js](https://atomiks.github.io/tippyjs/) instance.
-  getInstance = () => {
-    return this.#tippy
-  }
+  getInstance = () => this.#tippy
 }

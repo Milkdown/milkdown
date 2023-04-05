@@ -6,6 +6,7 @@ import { listItemSchema } from '../node/list-item'
 
 import { orderedListSchema } from '../node/ordered-list'
 import { bulletListSchema } from '../node'
+import { withMeta } from '../__internal__'
 
 /// This plugin is used to keep the label of list item up to date in ordered list.
 export const syncListOrderPlugin = $prose(() => {
@@ -81,4 +82,9 @@ export const syncListOrderPlugin = $prose(() => {
       }
     },
   })
+})
+
+withMeta(syncListOrderPlugin, {
+  displayName: 'Prose<syncListOrderPlugin>',
+  group: 'Prose',
 })

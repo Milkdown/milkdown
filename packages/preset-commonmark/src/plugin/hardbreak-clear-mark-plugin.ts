@@ -2,7 +2,8 @@
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { AddMarkStep, ReplaceStep } from '@milkdown/prose/transform'
 import { $prose } from '@milkdown/utils'
-import { hardbreakSchema } from '../node/hardbreak'
+import { hardbreakSchema } from '../node'
+import { withMeta } from '../__internal__'
 
 /// This plugin is used to clear the marks around the hardbreak node.
 export const hardbreakClearMarkPlugin = $prose(() => {
@@ -42,4 +43,9 @@ export const hardbreakClearMarkPlugin = $prose(() => {
       return undefined
     },
   })
+})
+
+withMeta(hardbreakClearMarkPlugin, {
+  displayName: 'Prose<hardbreakClearMarkPlugin>',
+  group: 'Prose',
 })

@@ -6,6 +6,7 @@ import type {
   MarkSchema, NodeSchema, RemarkParser,
 } from '@milkdown/transformer'
 
+import { withMeta } from '../__internal__'
 import { InitReady, remarkCtx, remarkPluginsCtx } from '.'
 
 /// The timer which will be resolved when the schema plugin is ready.
@@ -65,3 +66,7 @@ export const schema: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+withMeta(schema, {
+  displayName: 'Schema',
+})

@@ -6,7 +6,7 @@ import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
 import type { Node } from '@milkdown/prose/model'
 import { $command, $ctx, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import slugify from '@sindresorhus/slugify'
-import { serializeText } from '../utils'
+import { serializeText, withMeta } from '../__internal__'
 import { paragraphSchema } from './paragraph'
 
 const headingIndex = Array(6)
@@ -20,8 +20,18 @@ const defaultHeadingIdGenerator = (node: Node) =>
 /// You can configure it to generate id in your own way.
 export const headingIdGenerator = $ctx(defaultHeadingIdGenerator, 'headingIdGenerator')
 
+withMeta(headingIdGenerator, {
+  displayName: 'Ctx<HeadingIdGenerator>',
+  group: 'Heading',
+})
+
 /// HTML attributes for heading node.
 export const headingAttr = $nodeAttr('heading')
+
+withMeta(headingAttr, {
+  displayName: 'Attr<heading>',
+  group: 'Heading',
+})
 
 /// Schema for heading node.
 export const headingSchema = $nodeSchema('heading', (ctx) => {
@@ -77,6 +87,16 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
   }
 })
 
+withMeta(headingSchema.node, {
+  displayName: 'NodeSchema<heading>',
+  group: 'Heading',
+})
+
+withMeta(headingSchema.ctx, {
+  displayName: 'NodeSchemaCtx<heading>',
+  group: 'Heading',
+})
+
 /// This input rule can turn the selected block into heading.
 /// You can input numbers of `#` and a `space` to create heading.
 export const wrapInHeadingInputRule = $inputRule((ctx) => {
@@ -97,6 +117,11 @@ export const wrapInHeadingInputRule = $inputRule((ctx) => {
   })
 })
 
+withMeta(wrapInHeadingInputRule, {
+  displayName: 'InputRule<wrapInHeadingInputRule>',
+  group: 'Heading',
+})
+
 /// This command can turn the selected block into heading.
 /// You can pass the level of heading to this command.
 /// By default, the level is 1, which means it will create a `h1` element.
@@ -109,6 +134,11 @@ export const wrapInHeadingCommand = $command('WrapInHeading', () => {
 
     return setBlockType(headingSchema.type(), { level })
   }
+})
+
+withMeta(wrapInHeadingCommand, {
+  displayName: 'Command<wrapInHeadingCommand>',
+  group: 'Heading',
 })
 
 /// This command can downgrade the selected heading.
@@ -133,6 +163,11 @@ export const downgradeHeadingCommand = $command('DowngradeHeading', () => () =>
     )
     return true
   })
+
+withMeta(downgradeHeadingCommand, {
+  displayName: 'Command<downgradeHeadingCommand>',
+  group: 'Heading',
+})
 
 /// Keymap for heading node.
 /// - `<Mod-Alt-{1-6}>`: Turn the selected block into `h{1-6}` element.
@@ -187,4 +222,14 @@ export const headingKeymap = $useKeymap('headingKeymap', {
       return () => commands.call(downgradeHeadingCommand.key)
     },
   },
+})
+
+withMeta(headingKeymap.ctx, {
+  displayName: 'KeymapCtx<heading>',
+  group: 'Heading',
+})
+
+withMeta(headingKeymap.shortcuts, {
+  displayName: 'Keymap<heading>',
+  group: 'Heading',
 })

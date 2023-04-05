@@ -4,9 +4,15 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
 import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for ordered list node.
 export const orderedListAttr = $nodeAttr('orderedList')
+
+withMeta(orderedListAttr, {
+  displayName: 'Attr<orderedList>',
+  group: 'OrderedList',
+})
 
 /// Schema for ordered list node.
 export const orderedListSchema = $nodeSchema('ordered_list', ctx => ({
@@ -60,6 +66,16 @@ export const orderedListSchema = $nodeSchema('ordered_list', ctx => ({
   },
 }))
 
+withMeta(orderedListSchema.node, {
+  displayName: 'NodeSchema<orderedList>',
+  group: 'OrderedList',
+})
+
+withMeta(orderedListSchema.ctx, {
+  displayName: 'NodeSchemaCtx<orderedList>',
+  group: 'OrderedList',
+})
+
 /// Input rule for wrapping a block in ordered list node.
 export const wrapInOrderedListInputRule = $inputRule(() => wrappingInputRule(
   /^\s*(\d+)\.\s$/,
@@ -68,8 +84,18 @@ export const wrapInOrderedListInputRule = $inputRule(() => wrappingInputRule(
   (match, node) => node.childCount + node.attrs.order === Number(match[1]),
 ))
 
+withMeta(wrapInOrderedListInputRule, {
+  displayName: 'InputRule<wrapInOrderedListInputRule>',
+  group: 'OrderedList',
+})
+
 /// Command for wrapping a block in ordered list node.
 export const wrapInOrderedListCommand = $command('WrapInOrderedList', () => () => wrapIn(orderedListSchema.type()))
+
+withMeta(wrapInOrderedListCommand, {
+  displayName: 'Command<wrapInOrderedListCommand>',
+  group: 'OrderedList',
+})
 
 /// Keymap for ordered list node.
 /// - `Mod-Alt-7`: Wrap a block in ordered list.
@@ -81,4 +107,14 @@ export const orderedListKeymap = $useKeymap('orderedListKeymap', {
       return () => commands.call(wrapInOrderedListCommand.key)
     },
   },
+})
+
+withMeta(orderedListKeymap.ctx, {
+  displayName: 'KeymapCtx<orderedList>',
+  group: 'OrderedList',
+})
+
+withMeta(orderedListKeymap.shortcuts, {
+  displayName: 'Keymap<orderedList>',
+  group: 'OrderedList',
 })

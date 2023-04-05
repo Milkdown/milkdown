@@ -4,6 +4,7 @@ import { editorViewCtx } from '@milkdown/core'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
+import { withMeta } from '../../__internal__'
 import { inlineSyncConfig } from './config'
 import { getContextByState } from './context'
 import { runReplacer } from './replacer'
@@ -65,4 +66,9 @@ export const inlineSyncPlugin = $prose((ctx: Ctx) => {
       },
     },
   })
+})
+
+withMeta(inlineSyncPlugin, {
+  displayName: 'Prose<inlineSyncPlugin>',
+  group: 'Prose',
 })

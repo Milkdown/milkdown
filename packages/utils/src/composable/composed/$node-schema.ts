@@ -18,6 +18,7 @@ export type $NodeSchema<T extends string> = [
   id: $Node['id']
   type: $Node['type']
   node: $Node
+  ctx: $Ctx<GetNodeSchema, T>
   schema: NodeSchema
   key: $Ctx<GetNodeSchema, T>['key']
   extendSchema: (handler: (prev: GetNodeSchema) => GetNodeSchema) => MilkdownPlugin
@@ -30,6 +31,7 @@ export type $NodeSchema<T extends string> = [
 /// The function will return a plugin with additional properties:
 /// - `id`: The id of the node schema.
 /// - `type`: A function witch will return the type of the node schema.
+/// - `ctx`: The context of the node schema.
 /// - `node`: The node schema plugin.
 /// - `schema`: The node schema.
 /// - `key`: The key of slice which contains the node schema factory.
@@ -47,6 +49,7 @@ export const $nodeSchema = <T extends string>(id: T, schema: GetNodeSchema): $No
   result.node = nodeSchema
   result.type = nodeSchema.type
   result.schema = nodeSchema.schema
+  result.ctx = schemaCtx
   result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
     return ctx => () => {

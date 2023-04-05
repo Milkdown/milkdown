@@ -7,7 +7,8 @@ import type { MermaidConfig } from 'mermaid'
 import mermaid from 'mermaid'
 
 import { remarkMermaid } from './remark-mermaid'
-import { getId } from './utility'
+import { getId } from './__internal__/get-id'
+import { withMeta } from './__internal__/with-meta'
 
 /// A slice that contains [options for mermaid](https://mermaid.js.org/config/setup/modules/config.html).
 /// You can configure mermaid here.
@@ -20,6 +21,10 @@ import { getId } from './utility'
 ///   })
 /// ```
 export const mermaidConfigCtx = $ctx<MermaidConfig, 'mermaidConfig'>({ startOnLoad: false }, 'mermaidConfig')
+
+withMeta(mermaidConfigCtx, {
+  displayName: 'Ctx<mermaidConfig>',
+})
 
 const id = 'diagram'
 /// Schema for diagram node.
@@ -85,6 +90,13 @@ export const diagramSchema = $nodeSchema(id, (ctx) => {
   }
 })
 
+withMeta(diagramSchema.node, {
+  displayName: 'NodeSchema<diagram>',
+})
+withMeta(diagramSchema.ctx, {
+  displayName: 'NodeSchemaCtx<diagram>',
+})
+
 /// A input rule that will insert a diagram node when you type ` ```mermaid `.
 export const insertDiagramInputRules = $inputRule(() =>
   new InputRule(/^```mermaid$/, (state, _match, start, end) => {
@@ -95,8 +107,20 @@ export const insertDiagramInputRules = $inputRule(() =>
     return state.tr.delete(start, end).setBlockType(start, start, nodeType, { identity: getId() })
   }))
 
+withMeta(insertDiagramInputRules, {
+  displayName: 'InputRule<insertDiagramInputRules>',
+})
+
 /// A remark plugin that will parse mermaid code block.
 export const remarkDiagramPlugin = $remark(() => remarkMermaid)
 
+withMeta(remarkDiagramPlugin, {
+  displayName: 'Remark<diagram>',
+})
+
 /// A command that will insert a diagram node.
 export const insertDiagramCommand = $command('InsertDiagramCommand', () => () => setBlockType(diagramSchema.type(), { identity: getId() }))
+
+withMeta(insertDiagramCommand, {
+  displayName: 'Command<insertDiagramCommand>',
+})

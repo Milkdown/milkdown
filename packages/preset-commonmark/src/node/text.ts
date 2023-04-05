@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $node } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// The bottom-level node.
 export const textSchema = $node('text', () => ({
@@ -17,3 +18,8 @@ export const textSchema = $node('text', () => ({
     },
   },
 }))
+
+withMeta(textSchema, {
+  displayName: 'NodeSchema<text>',
+  group: 'Text',
+})

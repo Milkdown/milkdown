@@ -3,9 +3,15 @@ import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { liftListItem, sinkListItem, splitListItem } from '@milkdown/prose/schema-list'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for list item node.
 export const listItemAttr = $nodeAttr('listItem')
+
+withMeta(listItemAttr, {
+  displayName: 'Attr<listItem>',
+  group: 'ListItem',
+})
 
 /// Schema for list item node.
 export const listItemSchema = $nodeSchema('list_item', ctx => ({
@@ -69,6 +75,16 @@ export const listItemSchema = $nodeSchema('list_item', ctx => ({
   },
 }))
 
+withMeta(listItemSchema.node, {
+  displayName: 'NodeSchema<listItem>',
+  group: 'ListItem',
+})
+
+withMeta(listItemSchema.ctx, {
+  displayName: 'NodeSchemaCtx<listItem>',
+  group: 'ListItem',
+})
+
 /// The command to sink list item.
 ///
 /// For example:
@@ -82,6 +98,11 @@ export const listItemSchema = $nodeSchema('list_item', ctx => ({
 ///   * List item 2
 /// ```
 export const sinkListItemCommand = $command('SinkListItem', () => () => sinkListItem(listItemSchema.type()))
+
+withMeta(sinkListItemCommand, {
+  displayName: 'Command<sinkListItemCommand>',
+  group: 'ListItem',
+})
 
 /// The command to lift list item.
 ///
@@ -97,6 +118,11 @@ export const sinkListItemCommand = $command('SinkListItem', () => () => sinkList
 /// ```
 export const liftListItemCommand = $command('SplitListItem', () => () => liftListItem(listItemSchema.type()))
 
+withMeta(liftListItemCommand, {
+  displayName: 'Command<liftListItemCommand>',
+  group: 'ListItem',
+})
+
 /// The command to split a list item.
 ///
 /// For example:
@@ -111,6 +137,11 @@ export const liftListItemCommand = $command('SplitListItem', () => () => liftLis
 /// * <- cursor here
 /// ```
 export const splitListItemCommand = $command('SplitListItem', () => () => splitListItem(listItemSchema.type()))
+
+withMeta(splitListItemCommand, {
+  displayName: 'Command<splitListItemCommand>',
+  group: 'ListItem',
+})
 
 /// Keymap for list item node.
 /// - `<Enter>`: Split the current list item.
@@ -138,4 +169,14 @@ export const listItemKeymap = $useKeymap('listItemKeymap', {
       return () => commands.call(liftListItemCommand.key)
     },
   },
+})
+
+withMeta(listItemKeymap.ctx, {
+  displayName: 'KeymapCtx<listItem>',
+  group: 'ListItem',
+})
+
+withMeta(listItemKeymap.shortcuts, {
+  displayName: 'Keymap<listItem>',
+  group: 'ListItem',
 })

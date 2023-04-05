@@ -3,6 +3,7 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $inputRule } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// This schema extends the [list item](/preset-commonmark#list-item) schema and add task list support for it.
 export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) => {
@@ -89,6 +90,11 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
   }
 })
 
+withMeta(extendListItemSchemaForTask, {
+  displayName: 'NodeSchema<listItem>',
+  group: 'ListItem',
+})
+
 /// Input rule for wrapping a block in task list node.
 /// Users can type `[ ] ` or `[x] ` to wrap the block in task list node with checked status.
 export const wrapInTaskListInputRule = $inputRule(() => {
@@ -114,4 +120,9 @@ export const wrapInTaskListInputRule = $inputRule(() => {
 
     return tr
   })
+})
+
+withMeta(wrapInTaskListInputRule, {
+  displayName: 'InputRule<wrapInTaskListInputRule>',
+  group: 'ListItem',
 })

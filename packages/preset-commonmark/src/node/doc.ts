@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $node } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// The top-level document node.
 export const docSchema = $node('doc', () => ({
@@ -18,3 +19,8 @@ export const docSchema = $node('doc', () => ({
     },
   },
 }))
+
+withMeta(docSchema, {
+  displayName: 'NodeSchema<doc>',
+  group: 'Doc',
+})

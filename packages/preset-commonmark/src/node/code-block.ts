@@ -4,12 +4,18 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
 import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for code block node.
 export const codeBlockAttr = $nodeAttr('codeBlock', () => ({
   pre: {},
   code: {},
 }))
+
+withMeta(codeBlockAttr, {
+  displayName: 'Attr<codeBlock>',
+  group: 'CodeBlock',
+})
 
 /// Schema for code block node.
 export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
@@ -70,15 +76,35 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
   }
 })
 
+withMeta(codeBlockSchema.node, {
+  displayName: 'NodeSchema<codeBlock>',
+  group: 'CodeBlock',
+})
+
+withMeta(codeBlockSchema.ctx, {
+  displayName: 'NodeSchemaCtx<codeBlock>',
+  group: 'CodeBlock',
+})
+
 /// A input rule for creating code block.
 /// For example, ` ```javascript ` will create a code block with language javascript.
 export const createCodeBlockInputRule = $inputRule(() => textblockTypeInputRule(/^```(?<language>[a-z]*)?[\s\n]$/, codeBlockSchema.type(), match => ({
   language: match.groups?.language ?? '',
 })))
 
+withMeta(createCodeBlockInputRule, {
+  displayName: 'InputRule<createCodeBlockInputRule>',
+  group: 'CodeBlock',
+})
+
 /// A command for creating code block.
 /// You can pass the language of the code block as the parameter.
 export const createCodeBlockCommand = $command('CreateCodeBlock', () => (language = '') => setBlockType(codeBlockSchema.type(), { language }))
+
+withMeta(createCodeBlockCommand, {
+  displayName: 'Command<createCodeBlockCommand>',
+  group: 'CodeBlock',
+})
 
 /// A command for updating the code block language of the target position.
 export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage', () => ({ pos, language }: { pos: number; language: string } = { pos: -1, language: '' }) => (state, dispatch) => {
@@ -88,6 +114,11 @@ export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage'
   }
 
   return false
+})
+
+withMeta(updateCodeBlockLanguageCommand, {
+  displayName: 'Command<updateCodeBlockLanguageCommand>',
+  group: 'CodeBlock',
 })
 
 /// Keymap for code block.
@@ -100,4 +131,14 @@ export const codeBlockKeymap = $useKeymap('codeBlockKeymap', {
       return () => commands.call(createCodeBlockCommand.key)
     },
   },
+})
+
+withMeta(codeBlockKeymap.ctx, {
+  displayName: 'KeymapCtx<codeBlock>',
+  group: 'CodeBlock',
+})
+
+withMeta(codeBlockKeymap.shortcuts, {
+  displayName: 'Keymap<codeBlock>',
+  group: 'CodeBlock',
 })

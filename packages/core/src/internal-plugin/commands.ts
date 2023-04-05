@@ -4,6 +4,7 @@ import { Container, createSlice, createTimer } from '@milkdown/ctx'
 import { callCommandBeforeEditorView } from '@milkdown/exception'
 import type { Command } from '@milkdown/prose/state'
 
+import { withMeta } from '../__internal__'
 import { EditorViewReady, editorViewCtx } from './editor-view'
 import { SchemaReady } from './schema'
 
@@ -107,3 +108,7 @@ export const commands: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+withMeta(commands, {
+  displayName: 'Commands',
+})

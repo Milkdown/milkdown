@@ -1,9 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $ctx, $prose } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// This slice contains the nodes that within which the hardbreak will be ignored.
 export const hardbreakFilterNodes = $ctx(['table', 'code_block'], 'hardbreakFilterNodes')
+
+withMeta(hardbreakFilterNodes, {
+  displayName: 'Ctx<hardbreakFilterNodes>',
+  group: 'Prose',
+})
 
 /// This plugin is used to filter the hardbreak node.
 /// If the hardbreak is going to be inserted within a node that is in the `hardbreakFilterNodes`, ignore it.
@@ -30,4 +36,9 @@ export const hardbreakFilterPlugin = $prose((ctx) => {
       return true
     },
   })
+})
+
+withMeta(hardbreakFilterPlugin, {
+  displayName: 'Prose<hardbreakFilterPlugin>',
+  group: 'Prose',
 })

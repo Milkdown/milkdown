@@ -5,6 +5,7 @@ import { nord } from '@milkdown/theme-nord'
 
 export const setup = () => {
   return Editor.make()
+    .enableInspector()
     .config((ctx) => {
       ctx.set(rootCtx, document.getElementById('app'))
     })

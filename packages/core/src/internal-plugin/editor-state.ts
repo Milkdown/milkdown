@@ -10,6 +10,7 @@ import { DOMParser, Node } from '@milkdown/prose/model'
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state'
 import type { JSONRecord, Parser } from '@milkdown/transformer'
 
+import { withMeta } from '../__internal__'
 import { inputRulesCtx, prosePluginsCtx } from './init'
 import { ParserReady, parserCtx } from './parser'
 import { schemaCtx } from './schema'
@@ -55,7 +56,7 @@ export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schem
 const key = new PluginKey('MILKDOWN_STATE_TRACKER')
 
 /// The editor state plugin.
-/// This plugin will create an prosemirror editor state.
+/// This plugin will create a prosemirror editor state.
 ///
 /// This plugin will wait for the parser plugin, serializer plugin and commands plugin.
 export const editorState: MilkdownPlugin = (ctx) => {
@@ -114,3 +115,7 @@ export const editorState: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+withMeta(editorState, {
+  displayName: 'EditorState',
+})

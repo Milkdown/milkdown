@@ -24,5 +24,9 @@ export const collab: MilkdownPlugin = (ctx) => {
     }
   }
 }
+collab.meta = {
+  package: '@milkdown/plugin-collab',
+  displayName: 'Collab',
+}
 
 export * from './collab-service'

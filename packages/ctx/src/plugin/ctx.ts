@@ -1,18 +1,47 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Container, Slice, SliceType } from '../context'
 import type { Clock, TimerType } from '../timer'
+import { Inspector } from '../inspector'
+import type { Meta } from '../inspector'
 
 /// The ctx object that can be accessed in plugin and action.
 export class Ctx {
   /// @internal
-  #container: Container
+  readonly #container: Container
   /// @internal
-  #clock: Clock
+  readonly #clock: Clock
+  /// @internal
+  readonly #meta?: Meta
+  /// @internal
+  readonly #inspector?: Inspector
 
   /// Create a ctx object with container and clock.
-  constructor(container: Container, clock: Clock) {
+  constructor(container: Container, clock: Clock, meta?: Meta) {
     this.#container = container
     this.#clock = clock
+    this.#meta = meta
+    if (meta)
+      this.#inspector = new Inspector(container, clock, meta)
+  }
+
+  /// Get metadata of the ctx.
+  get meta() {
+    return this.#meta
+  }
+
+  /// Get the inspector of the ctx.
+  get inspector() {
+    return this.#inspector
+  }
+
+  /// Produce a new ctx with metadata.
+  /// The new ctx will link to the same container and clock with the current ctx.
+  /// If the metadata is empty, it will return the current ctx.
+  readonly produce = (meta?: Meta) => {
+    if (meta && Object.keys(meta).length)
+      return new Ctx(this.#container, this.#clock, { ...meta })
+
+    return this
   }
 
   /// Add a slice into the ctx.
@@ -21,24 +50,29 @@ export class Ctx {
     if (value != null)
       slice.set(value)
 
+    this.#inspector?.onInject(sliceType)
+
     return this
   }
 
   /// Remove a slice from the ctx.
   readonly remove = <T, N extends string = string>(sliceType: SliceType<T, N> | N) => {
     this.#container.remove(sliceType)
+    this.#inspector?.onRemove(sliceType)
     return this
   }
 
   /// Add a timer into the ctx.
   readonly record = (timerType: TimerType) => {
     timerType.create(this.#clock.store)
+    this.#inspector?.onRecord(timerType)
     return this
   }
 
   /// Remove a timer from the ctx.
   readonly clearTimer = (timerType: TimerType) => {
     this.#clock.remove(timerType)
+    this.#inspector?.onClear(timerType)
     return this
   }
 
@@ -49,8 +83,10 @@ export class Ctx {
   readonly isRecorded = (timerType: TimerType) => this.#clock.has(timerType)
 
   /// Get a slice from the ctx.
-  readonly use = <T, N extends string = string>(sliceType: SliceType<T, N> | N): Slice<T, N> =>
-    this.#container.get(sliceType)
+  readonly use = <T, N extends string = string>(sliceType: SliceType<T, N> | N): Slice<T, N> => {
+    this.#inspector?.onUse(sliceType)
+    return this.#container.get(sliceType)
+  }
 
   /// Get a slice value from the ctx.
   readonly get = <T, N extends string>(sliceType: SliceType<T, N> | N) => this.use(sliceType).get()
@@ -66,10 +102,17 @@ export class Ctx {
   readonly timer = (timer: TimerType) => this.#clock.get(timer)
 
   /// Resolve a timer from the ctx.
-  readonly done = (timer: TimerType) => this.timer(timer).done()
+  readonly done = (timer: TimerType) => {
+    this.timer(timer).done()
+    this.#inspector?.onDone(timer)
+  }
 
   /// Start a timer from the ctx.
-  readonly wait = (timer: TimerType) => this.timer(timer).start()
+  readonly wait = (timer: TimerType) => {
+    const promise = this.timer(timer).start()
+    this.#inspector?.onWait(timer, promise)
+    return promise
+  }
 
   /// Start a list of timers from the ctx, the list is stored in a slice in the ctx.
   /// This is equivalent to

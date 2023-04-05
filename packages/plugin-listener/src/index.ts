@@ -183,3 +183,8 @@ export const listener: MilkdownPlugin = (ctx) => {
     listeners.mounted.forEach(fn => fn(ctx))
   }
 }
+
+listener.meta = {
+  package: '@milkdown/plugin-listener',
+  displayName: 'Listener',
+}

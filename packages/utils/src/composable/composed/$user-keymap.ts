@@ -23,6 +23,8 @@ export type UserKeymapConfig<Key extends string> = Record<Key, KeymapItem>
 export type $UserKeymap<N extends string, Key extends string> = [$Ctx<KeymapConfig<Key>, `${N}Keymap`>, $Shortcut] & {
   key: SliceType<KeymapConfig<Key>, `${N}Keymap`>
   keymap: Keymap
+  ctx: $Ctx<KeymapConfig<Key>, `${N}Keymap`>
+  shortcuts: $Shortcut
 }
 
 /// Create a keymap which can be customized by user.
@@ -34,7 +36,7 @@ export const $useKeymap = <N extends string, Key extends string>(name: N, userKe
     return [key, shortcuts]
   })) as Record<Key, string | string[]>
 
-  const keymapDef = $ctx(key, `${name}Keymap`)
+  const keymapDef = $ctx<KeymapConfig<Key>, `${N}Keymap`>(key, `${name}Keymap`)
 
   const shortcuts = $shortcut((ctx) => {
     const keys = ctx.get(keymapDef.key)
@@ -49,6 +51,8 @@ export const $useKeymap = <N extends string, Key extends string>(name: N, userKe
   })
 
   const result = [keymapDef, shortcuts] as $UserKeymap<N, Key>
+  result.ctx = keymapDef
+  result.shortcuts = shortcuts
   result.key = keymapDef.key
   result.keymap = shortcuts.keymap
 

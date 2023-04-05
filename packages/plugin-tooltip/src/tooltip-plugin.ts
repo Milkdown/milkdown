@@ -27,6 +27,14 @@ export const tooltipFactory = <Id extends string, State = any>(id: Id) => {
   const result = [tooltipSpec, tooltipPlugin] as TooltipPlugin<Id>
   result.key = tooltipSpec.key
   result.pluginKey = tooltipPlugin.key
+  tooltipSpec.meta = {
+    package: '@milkdown/plugin-tooltip',
+    displayName: `Ctx<tooltipSpec>|${id}`,
+  }
+  tooltipPlugin.meta = {
+    package: '@milkdown/plugin-tooltip',
+    displayName: `Prose<tooltip>|${id}`,
+  }
 
   return result
 }

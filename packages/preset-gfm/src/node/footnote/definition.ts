@@ -2,6 +2,7 @@
 
 import { expectDomTypeError } from '@milkdown/exception'
 import { $nodeSchema } from '@milkdown/utils'
+import { withMeta } from '../../__internal__'
 
 const id = 'footnote_definition'
 const markdownId = 'footnoteDefinition'
@@ -68,3 +69,13 @@ export const footnoteDefinitionSchema = $nodeSchema('footnote_definition', () =>
     },
   },
 }))
+
+withMeta(footnoteDefinitionSchema.ctx, {
+  displayName: 'NodeSchemaCtx<footnodeDef>',
+  group: 'footnote',
+})
+
+withMeta(footnoteDefinitionSchema.node, {
+  displayName: 'NodeSchema<footnodeDef>',
+  group: 'footnote',
+})

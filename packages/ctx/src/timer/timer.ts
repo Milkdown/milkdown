@@ -1,6 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { TimerMap } from './clock'
 
+export type TimerStatus = 'pending' | 'resolved' | 'rejected'
+
 /// Timer is a promise that can be resolved by calling done.
 export class Timer {
   /// The type of the timer.
@@ -11,13 +13,21 @@ export class Timer {
   /// @internal
   #listener: EventListener | null = null
   /// @internal
-  #eventUniqId: symbol
+  readonly #eventUniqId: symbol
+  /// @internal
+  #status: TimerStatus = 'pending'
 
   /// @internal
   constructor(clock: TimerMap, type: TimerType) {
     this.#eventUniqId = Symbol(type.name)
     this.type = type
     clock.set(type.id, this)
+  }
+
+  /// The status of the timer.
+  /// Can be `pending`, `resolved` or `rejected`.
+  get status() {
+    return this.#status
   }
 
   /// Start the timer, which will return a promise.
@@ -30,6 +40,7 @@ export class Timer {
           return
 
         if (e.detail.id === this.#eventUniqId) {
+          this.#status = 'resolved'
           this.#removeListener()
           e.stopImmediatePropagation()
           resolve()
@@ -37,14 +48,18 @@ export class Timer {
       }
 
       this.#waitTimeout(() => {
+        if (this.#status === 'pending')
+          this.#status = 'rejected'
+
         this.#removeListener()
         reject(new Error(`Timing ${this.type.name} timeout.`))
       })
 
+      this.#status = 'pending'
       addEventListener(this.type.name, this.#listener)
     })
 
-    return this.#promise
+    return this.#promise as Promise<void>
   }
 
   /// Resolve the timer.

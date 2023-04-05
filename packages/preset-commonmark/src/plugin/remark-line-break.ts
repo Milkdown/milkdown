@@ -2,6 +2,7 @@
 import { $remark } from '@milkdown/utils'
 import type { Literal, Node, Parent } from 'unist'
 import { visit } from 'unist-util-visit'
+import { withMeta } from '../__internal__'
 
 /// This plugin is used to add inline line break for remark AST.
 /// The inline line break should be treated as a `space`.
@@ -41,4 +42,9 @@ export const remarkLineBreak = $remark(() => () => (tree: Node) => {
     parent.children.splice(index, 1, ...result)
     return index + result.length
   })
+})
+
+withMeta(remarkLineBreak, {
+  displayName: 'Remark<remarkLineBreak>',
+  group: 'Remark',
 })

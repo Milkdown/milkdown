@@ -2,10 +2,16 @@
 import { InputRule } from '@milkdown/prose/inputrules'
 import { Selection } from '@milkdown/prose/state'
 import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 import { paragraphSchema } from './paragraph'
 
 /// HTML attributes for the hr node.
 export const hrAttr = $nodeAttr('hr')
+
+withMeta(hrAttr, {
+  displayName: 'Attr<hr>',
+  group: 'Hr',
+})
 
 /// Hr node schema.
 export const hrSchema = $nodeSchema('hr', ctx => ({
@@ -26,6 +32,16 @@ export const hrSchema = $nodeSchema('hr', ctx => ({
   },
 }))
 
+withMeta(hrSchema.node, {
+  displayName: 'NodeSchema<hr>',
+  group: 'Hr',
+})
+
+withMeta(hrSchema.ctx, {
+  displayName: 'NodeSchemaCtx<hr>',
+  group: 'Hr',
+})
+
 /// Input rule to insert a hr.
 /// For example, `---` will be converted to a hr.
 export const insertHrInputRule = $inputRule(() => new InputRule(
@@ -38,6 +54,11 @@ export const insertHrInputRule = $inputRule(() => new InputRule(
     return tr
   },
 ))
+
+withMeta(insertHrInputRule, {
+  displayName: 'InputRule<insertHrInputRule>',
+  group: 'Hr',
+})
 
 /// Command to insert a hr.
 export const insertHrCommand = $command('InsertHr', () => () => (state, dispatch) => {
@@ -58,4 +79,9 @@ export const insertHrCommand = $command('InsertHr', () => () => (state, dispatch
 
   dispatch(_tr.setSelection(sel).scrollIntoView())
   return true
+})
+
+withMeta(insertHrCommand, {
+  displayName: 'Command<insertHrCommand>',
+  group: 'Hr',
 })

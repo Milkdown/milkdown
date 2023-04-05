@@ -8,8 +8,9 @@ import nodeEmoji from 'node-emoji'
 import remarkEmoji from 'remark-emoji'
 import type Twemoji from 'twemoji'
 
-import { parse } from './parse'
-import { twemojiPlugin } from './remark-twemoji'
+import { parse } from './__internal__/parse'
+import { twemojiPlugin } from './__internal__/remark-twemoji'
+import { withMeta } from './__internal__/with-meta'
 
 type TwemojiOptions = Exclude<Parameters<typeof Twemoji.parse>[1], Function | undefined>
 
@@ -20,12 +21,18 @@ export interface EmojiConfig {
 
 /// A slice that contains [options for twemoji](https://github.com/twitter/twemoji#object-as-parameter).
 export const emojiConfig = $ctx<EmojiConfig, 'emojiConfig'>({}, 'emojiConfig')
+withMeta(emojiConfig, {
+  displayName: 'Ctx<emojiConfig>',
+})
 
 /// HTML attributes for emoji node.
 export const emojiAttr = $nodeAttr('emoji', () => ({
   span: {},
   img: {},
 }))
+withMeta(emojiAttr, {
+  displayName: 'Attr<emoji>',
+})
 
 /// Schema for emoji node.
 export const emojiSchema = $nodeSchema('emoji', ctx => ({
@@ -77,6 +84,13 @@ export const emojiSchema = $nodeSchema('emoji', ctx => ({
   },
 }))
 
+withMeta(emojiSchema.node, {
+  displayName: 'NodeSchema<emoji>',
+})
+withMeta(emojiSchema.ctx, {
+  displayName: 'NodeSchemaCtx<emoji>',
+})
+
 /// Input rule for inserting emoji.
 /// For example, `:smile:` will be replaced with `😄`.
 export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+):)$/, (state, match, start, end) => {
@@ -95,11 +109,23 @@ export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+)
     .scrollIntoView()
 }))
 
+withMeta(insertEmojiInputRule, {
+  displayName: 'InputRule<insertEmojiInputRule>',
+})
+
 /// This plugin wraps [remark-emoji](https://github.com/rhysd/remark-emoji).
 export const remarkEmojiPlugin = $remark(() => remarkEmoji as RemarkPlugin)
 
+withMeta(remarkEmojiPlugin, {
+  displayName: 'Remark<remarkEmojiPlugin>',
+})
+
 /// This plugin is used for transforming emoji to twemoji.
 export const remarkTwemojiPlugin = $remark(ctx => twemojiPlugin(ctx.get(emojiConfig.key).twemojiOptions))
+
+withMeta(remarkTwemojiPlugin, {
+  displayName: 'Remark<remarkTwemojiPlugin>',
+})
 
 /// All plugins exported by this package.
 export const emoji: MilkdownPlugin[] = [

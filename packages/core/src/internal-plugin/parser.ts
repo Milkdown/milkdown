@@ -5,6 +5,7 @@ import { ctxCallOutOfScope } from '@milkdown/exception'
 import type { Parser } from '@milkdown/transformer'
 import { ParserState } from '@milkdown/transformer'
 
+import { withMeta } from '../__internal__'
 import { remarkCtx } from './init'
 import { SchemaReady, schemaCtx } from './schema'
 
@@ -39,3 +40,7 @@ export const parser: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+withMeta(parser, {
+  displayName: 'Parser',
+})

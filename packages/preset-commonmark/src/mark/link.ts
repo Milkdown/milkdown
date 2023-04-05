@@ -4,9 +4,15 @@ import { toggleMark } from '@milkdown/prose/commands'
 import type { Node as ProseNode } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import { $command, $markAttr, $markSchema } from '@milkdown/utils'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for the link mark.
 export const linkAttr = $markAttr('link')
+
+withMeta(linkAttr, {
+  displayName: 'Attr<link>',
+  group: 'Link',
+})
 
 /// Link mark schema.
 export const linkSchema = $markSchema('link', ctx => ({
@@ -47,6 +53,11 @@ export const linkSchema = $markSchema('link', ctx => ({
   },
 }))
 
+withMeta(linkSchema.mark, {
+  displayName: 'MarkSchema<link>',
+  group: 'Link',
+})
+
 /// @internal
 export type UpdateLinkCommandPayload = {
   href?: string
@@ -55,6 +66,11 @@ export type UpdateLinkCommandPayload = {
 /// A command to toggle the link mark.
 /// You can pass the `href` and `title` to the link.
 export const toggleLinkCommand = $command('ToggleLink', () => (payload: UpdateLinkCommandPayload = {}) => toggleMark(linkSchema.type(), payload))
+
+withMeta(toggleLinkCommand, {
+  displayName: 'Command<toggleLinkCommand>',
+  group: 'Link',
+})
 
 /// A command to update the link mark.
 /// You can pass the `href` and `title` to update the link.
@@ -99,4 +115,9 @@ export const updateLinkCommand = $command('UpdateLink', () => (payload: UpdateLi
   )
 
   return true
+})
+
+withMeta(updateLinkCommand, {
+  displayName: 'Command<updateLinkCommand>',
+  group: 'Link',
 })

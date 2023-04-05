@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { CtxRunner, MilkdownPlugin } from '@milkdown/ctx'
+import type { CtxRunner, Inspection, MilkdownPlugin } from '@milkdown/ctx'
 import { Clock, Container, Ctx } from '@milkdown/ctx'
 
 import type { Config } from '../internal-plugin'
@@ -33,7 +33,11 @@ export type OnStatusChange = (status: EditorStatus) => void
 
 type EditorPluginStore = Map<
   MilkdownPlugin,
-  { handler: CtxRunner | undefined; cleanup: ReturnType<CtxRunner> }
+  {
+    ctx: Ctx | undefined
+    handler: CtxRunner | undefined
+    cleanup: ReturnType<CtxRunner>
+  }
 >
 
 /// The milkdown editor class.
@@ -43,6 +47,8 @@ export class Editor {
     return new Editor()
   }
 
+  /// @internal
+  #enableInspector = false
   /// @internal
   #status = EditorStatus.Idle
   /// @internal
@@ -79,19 +85,15 @@ export class Editor {
       init(this),
       configPlugin,
     ]
-    internalPlugins.forEach((plugin) => {
-      this.#sysPluginStore.set(plugin, {
-        handler: plugin(this.#ctx),
-        cleanup: undefined,
-      })
-    })
+    this.#prepare(internalPlugins)
   }
 
   /// @internal
-  readonly #prepare = () => {
-    [...this.#usrPluginStore.entries()].map(async ([key, loader]) => {
-      const handler = key(this.#ctx)
-      this.#usrPluginStore.set(key, { ...loader, handler })
+  readonly #prepare = (plugins: MilkdownPlugin[]) => {
+    plugins.forEach((plugin) => {
+      const ctx = this.#ctx.produce(this.#enableInspector ? plugin.meta : undefined)
+      const handler = plugin(ctx)
+      this.#usrPluginStore.set(plugin, { ctx, handler, cleanup: undefined })
     })
   }
 
@@ -104,7 +106,7 @@ export class Editor {
         if (remove)
           this.#usrPluginStore.delete(plugin)
         else
-          this.#usrPluginStore.set(plugin, { handler: undefined, cleanup: undefined })
+          this.#usrPluginStore.set(plugin, { ctx: undefined, handler: undefined, cleanup: undefined })
 
         if (typeof cleanup === 'function')
           return cleanup()
@@ -134,12 +136,13 @@ export class Editor {
   /// @internal
   readonly #loadPluginInStore = (store: EditorPluginStore) => {
     return [...store.entries()].map(async ([key, loader]) => {
-      const handler = loader.handler
+      const { ctx, handler } = loader
       if (!handler)
         return
 
       const cleanup = await handler()
-      store.set(key, { handler, cleanup })
+
+      store.set(key, { ctx, handler, cleanup })
     })
   }
 
@@ -151,6 +154,14 @@ export class Editor {
   /// Get the status of the editor.
   get status() {
     return this.#status
+  }
+
+  /// Enable the inspector for the editor.
+  /// You can also pass `false` to disable the inspector.
+  readonly enableInspector = (enable = true) => {
+    this.#enableInspector = enable
+
+    return this
   }
 
   /// Subscribe to the status change event for the editor.
@@ -174,14 +185,18 @@ export class Editor {
 
   /// Use a plugin or a list of plugins for the editor.
   readonly use = (plugins: MilkdownPlugin | MilkdownPlugin[]) => {
-    [plugins].flat().forEach((plugin) => {
-      const handler = this.#status === EditorStatus.Created ? plugin(this.#ctx) : undefined
-
+    const _plugins = [plugins].flat()
+    _plugins.flat().forEach((plugin) => {
       this.#usrPluginStore.set(plugin, {
-        handler,
+        ctx: undefined,
+        handler: undefined,
         cleanup: undefined,
       })
     })
+
+    if (this.#status === EditorStatus.Created)
+      this.#prepare(_plugins)
+
     return this
   }
 
@@ -210,9 +225,9 @@ export class Editor {
       await this.destroy()
 
     this.#setStatus(EditorStatus.OnCreate)
-    this.#loadInternal()
 
-    this.#prepare()
+    this.#loadInternal()
+    this.#prepare([...this.#usrPluginStore.keys()])
 
     await Promise.all(
       [
@@ -253,4 +268,16 @@ export class Editor {
   /// Call an action with the ctx of the editor.
   /// This method should be used after the editor is created.
   readonly action = <T>(action: (ctx: Ctx) => T) => action(this.#ctx)
+
+  /// Get inspections of plugins in editor.
+  /// Make sure you have enabled inspector by `editor.enableInspector()` before calling this method.
+  readonly collectInspection = (): Inspection[] => {
+    if (!this.#enableInspector) {
+      console.warn('[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first.')
+      return []
+    }
+    return [...this.#sysPluginStore.values(), ...this.#usrPluginStore.values()]
+      .map(({ ctx }) => ctx?.inspector?.read())
+      .filter((x): x is Inspection => Boolean(x))
+  }
 }

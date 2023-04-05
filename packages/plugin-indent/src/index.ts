@@ -46,6 +46,11 @@ const updateIndent = (tr: Transaction, options: IndentConfigOptions): Transactio
 /// ```
 export const indentConfig = $ctx<IndentConfigOptions, 'indentConfig'>({ type: 'space', size: 2 }, 'indentConfig')
 
+indentConfig.meta = {
+  package: '@milkdown/plugin-indent',
+  displayName: 'Ctx<indentConfig>',
+}
+
 /// Add indent shortcut, when users press `Tab`, the plugin will insert indent text.
 export const indentPlugin = $shortcut(ctx => ({
   Tab: (state, dispatch) => {
@@ -61,6 +66,11 @@ export const indentPlugin = $shortcut(ctx => ({
     return false
   },
 }))
+
+indentPlugin.meta = {
+  package: '@milkdown/plugin-indent',
+  displayName: 'Shortcut<indent>',
+}
 
 /// The plugin of indent.
 export const indent: MilkdownPlugin[] = [indentConfig, indentPlugin]

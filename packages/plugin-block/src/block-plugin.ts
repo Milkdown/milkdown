@@ -5,6 +5,7 @@ import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $ctx, $prose } from '@milkdown/utils'
 
 import { BlockService } from './block-service'
+import { withMeta } from './__internal__/with-meta'
 
 /// @internal
 export type FilterNodes = (node: Node) => boolean
@@ -23,12 +24,24 @@ export const defaultNodeFilter: FilterNodes = (node) => {
 /// - `filterNodes`: A function to filter nodes that can be dragged.
 export const blockConfig = $ctx<{ filterNodes: FilterNodes }, 'blockConfig'>({ filterNodes: defaultNodeFilter }, 'blockConfig')
 
+withMeta(blockConfig, {
+  displayName: 'Ctx<blockConfig>',
+})
+
 /// @internal
 export const blockService = $ctx(new BlockService(), 'blockService')
+
+withMeta(blockConfig, {
+  displayName: 'Ctx<blockService>',
+})
 
 /// A slice contains a factory that will return a plugin spec.
 /// Users can use this slice to customize the plugin.
 export const blockSpec = $ctx<PluginSpec<any>, 'blockSpec'>({}, 'blockSpec')
+
+withMeta(blockConfig, {
+  displayName: 'Ctx<blockSpec>',
+})
 
 /// The block prosemirror plugin.
 export const blockPlugin = $prose((ctx) => {
@@ -63,4 +76,8 @@ export const blockPlugin = $prose((ctx) => {
       },
     },
   })
+})
+
+withMeta(blockPlugin, {
+  displayName: 'Prose<block>',
 })

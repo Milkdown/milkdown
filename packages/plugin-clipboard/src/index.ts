@@ -111,3 +111,8 @@ export const clipboard = $prose((ctx) => {
 
   return plugin
 })
+
+clipboard.meta = {
+  displayName: 'Prose<clipboard>',
+  package: '@milkdown/plugin-clipboard',
+}
