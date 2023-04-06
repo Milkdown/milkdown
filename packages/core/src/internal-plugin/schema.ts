@@ -10,7 +10,7 @@ import { withMeta } from '../__internal__'
 import { InitReady, remarkCtx, remarkPluginsCtx } from '.'
 
 /// The timer which will be resolved when the schema plugin is ready.
-export const SchemaReady = createTimer('schemaReady')
+export const SchemaReady = createTimer('SchemaReady')
 
 /// A slice which stores timers that need to be waited for before starting to run the plugin.
 /// By default, it's `[InitReady]`.
