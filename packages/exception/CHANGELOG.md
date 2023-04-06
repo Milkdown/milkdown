@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 7.1.2-next.1
+
+### Patch Changes
+
+- 45cd3c76: Fix circular deps in commands plugin.
+
 ## 7.1.2-next.0
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @milkdown/e2e
 
+## 7.1.2-next.1
+
+### Patch Changes
+
+- 45cd3c76: Fix circular deps in commands plugin.
+- Updated dependencies [45cd3c76]
+  - @milkdown/core@7.1.2-next.1
+  - @milkdown/ctx@7.1.2-next.1
+  - @milkdown/plugin-clipboard@7.1.2-next.1
+  - @milkdown/plugin-listener@7.1.2-next.1
+  - @milkdown/preset-commonmark@7.1.2-next.1
+  - @milkdown/preset-gfm@7.1.2-next.1
+  - @milkdown/prose@7.1.2-next.1
+  - @milkdown/theme-nord@7.1.2-next.1
+
 ## 7.1.2-next.0
 
 ### Patch Changes
