@@ -5,7 +5,7 @@ import { callCommandBeforeEditorView } from '@milkdown/exception'
 import type { Command } from '@milkdown/prose/state'
 
 import { withMeta } from '../__internal__'
-import { EditorViewReady, editorViewCtx } from './editor-view'
+import { editorViewCtx } from './editor-view'
 import { SchemaReady } from './schema'
 
 /// @internal
@@ -101,7 +101,6 @@ export const commands: MilkdownPlugin = (ctx) => {
     await ctx.waitTimers(commandsTimerCtx)
 
     ctx.done(CommandsReady)
-    await ctx.wait(EditorViewReady)
 
     return () => {
       ctx.remove(commandsCtx).remove(commandsTimerCtx).clearTimer(CommandsReady)
