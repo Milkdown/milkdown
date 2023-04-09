@@ -43,7 +43,7 @@ export class Inspector {
     this.#meta = meta
   }
 
-  /// Read the runtime environment as an object of the ctx.
+  /// Read the runtime telemetry as an object of the ctx.
   read = (): Telemetry => {
     return {
       metadata: this.#meta,

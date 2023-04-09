@@ -85,15 +85,15 @@ export class Editor {
       init(this),
       configPlugin,
     ]
-    this.#prepare(internalPlugins)
+    this.#prepare(internalPlugins, this.#sysPluginStore)
   }
 
   /// @internal
-  readonly #prepare = (plugins: MilkdownPlugin[]) => {
+  readonly #prepare = (plugins: MilkdownPlugin[], store: EditorPluginStore) => {
     plugins.forEach((plugin) => {
       const ctx = this.#ctx.produce(this.#enableInspector ? plugin.meta : undefined)
       const handler = plugin(ctx)
-      this.#usrPluginStore.set(plugin, { ctx, handler, cleanup: undefined })
+      store.set(plugin, { ctx, handler, cleanup: undefined })
     })
   }
 
@@ -195,7 +195,7 @@ export class Editor {
     })
 
     if (this.#status === EditorStatus.Created)
-      this.#prepare(_plugins)
+      this.#prepare(_plugins, this.#usrPluginStore)
 
     return this
   }
@@ -227,7 +227,7 @@ export class Editor {
     this.#setStatus(EditorStatus.OnCreate)
 
     this.#loadInternal()
-    this.#prepare([...this.#usrPluginStore.keys()])
+    this.#prepare([...this.#usrPluginStore.keys()], this.#usrPluginStore)
 
     await Promise.all(
       [
