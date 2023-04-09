@@ -1,5 +1,20 @@
 # @milkdown/e2e
 
+## 7.1.2-next.2
+
+### Patch Changes
+
+- c69f3076: Rename inspection to telemetry
+- Updated dependencies [c69f3076]
+  - @milkdown/core@7.1.2-next.2
+  - @milkdown/ctx@7.1.2-next.2
+  - @milkdown/plugin-clipboard@7.1.2-next.2
+  - @milkdown/plugin-listener@7.1.2-next.2
+  - @milkdown/preset-commonmark@7.1.2-next.2
+  - @milkdown/preset-gfm@7.1.2-next.2
+  - @milkdown/prose@7.1.2-next.2
+  - @milkdown/theme-nord@7.1.2-next.2
+
 ## 7.1.2-next.1
 
 ### Patch Changes
