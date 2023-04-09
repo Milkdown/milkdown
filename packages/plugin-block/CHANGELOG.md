@@ -1,5 +1,25 @@
 # @milkdown/plugin-block
 
+## 7.2.0
+
+### Minor Changes
+
+- f5e00085: Add inspector and telemetry.
+
+### Patch Changes
+
+- 45cd3c76: Fix circular deps in commands plugin.
+- c69f3076: Rename inspection to telemetry
+- 10139088: Fix incorrect system plugin store ref.
+- 828cceb9: Add support for editor inspector #960
+- Updated dependencies [f5e00085]
+- Updated dependencies [45cd3c76]
+- Updated dependencies [c69f3076]
+- Updated dependencies [10139088]
+- Updated dependencies [828cceb9]
+  - @milkdown/exception@7.2.0
+  - @milkdown/utils@7.2.0
+
 ## 7.1.2-next.3
 
 ### Patch Changes

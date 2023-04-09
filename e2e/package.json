@@ -1,6 +1,6 @@
 {
   "name": "@milkdown/e2e",
-  "version": "7.1.2-next.3",
+  "version": "7.2.0",
   "private": true,
   "files": [
     "style"
