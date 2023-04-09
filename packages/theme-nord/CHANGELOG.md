@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.1.2-next.2
+
+### Patch Changes
+
+- c69f3076: Rename inspection to telemetry
+
 ## 7.1.2-next.1
 
 ### Patch Changes

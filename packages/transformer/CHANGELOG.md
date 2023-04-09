@@ -1,5 +1,13 @@
 # @milkdown/transformer
 
+## 7.1.2-next.2
+
+### Patch Changes
+
+- c69f3076: Rename inspection to telemetry
+- Updated dependencies [c69f3076]
+  - @milkdown/exception@7.1.2-next.2
+
 ## 7.1.2-next.1
 
 ### Patch Changes
