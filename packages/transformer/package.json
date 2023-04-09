@@ -28,7 +28,7 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/prose": "^7.1.2-next.0"
+    "@milkdown/prose": "^7.2.0"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
