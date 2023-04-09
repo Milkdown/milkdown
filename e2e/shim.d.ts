@@ -6,14 +6,14 @@
 /// <reference types="vite/client" />
 
 import { Editor } from '@milkdown/core';
-import type { Inspection } from "@milkdown/ctx";
+import type { Telemetry } from "@milkdown/ctx";
 
 declare global {
     var __milkdown__: Editor;
     var __setMarkdown__: (markdown: string) => void;
     var __getMarkdown__: () => string;
 
-    var __getInspection__: () => Inspection[]
+    var __inspect__: () => Telemetry[]
 
     namespace Cypress {
         interface Chainable {

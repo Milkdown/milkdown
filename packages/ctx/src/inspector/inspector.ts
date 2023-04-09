@@ -3,7 +3,7 @@ import type { Container, SliceType } from '../context'
 import type { Clock, TimerStatus, TimerType } from '../timer'
 import type { Meta } from './meta'
 
-export type Inspection = {
+export type Telemetry = {
   metadata: Meta
   injectedSlices: { name: string; value: unknown }[]
   consumedSlices: { name: string; value: unknown }[]
@@ -44,7 +44,7 @@ export class Inspector {
   }
 
   /// Read the runtime environment as an object of the ctx.
-  read = (): Inspection => {
+  read = (): Telemetry => {
     return {
       metadata: this.#meta,
       injectedSlices: [...this.#injectedSlices].map(slice => ({

@@ -10,9 +10,9 @@ it('has editor', () => {
   cy.get('.milkdown').get('.editor').should('have.attr', 'contenteditable', 'true')
 })
 
-it('get inspection', () => {
+it('get telemetry', () => {
   cy.get('.editor')
   cy.window().then((win) => {
-    cy.wrap(win.__getInspection__()).should('have.length.above', 1)
+    cy.wrap(win.__inspect__()).should('have.length.above', 1)
   })
 })

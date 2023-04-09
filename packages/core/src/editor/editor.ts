@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { CtxRunner, Inspection, MilkdownPlugin } from '@milkdown/ctx'
+import type { CtxRunner, MilkdownPlugin, Telemetry } from '@milkdown/ctx'
 import { Clock, Container, Ctx } from '@milkdown/ctx'
 
 import type { Config } from '../internal-plugin'
@@ -271,13 +271,13 @@ export class Editor {
 
   /// Get inspections of plugins in editor.
   /// Make sure you have enabled inspector by `editor.enableInspector()` before calling this method.
-  readonly collectInspection = (): Inspection[] => {
+  readonly inspect = (): Telemetry[] => {
     if (!this.#enableInspector) {
       console.warn('[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first.')
       return []
     }
     return [...this.#sysPluginStore.values(), ...this.#usrPluginStore.values()]
       .map(({ ctx }) => ctx?.inspector?.read())
-      .filter((x): x is Inspection => Boolean(x))
+      .filter((x): x is Telemetry => Boolean(x))
   }
 }
