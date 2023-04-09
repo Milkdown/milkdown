@@ -50,7 +50,7 @@
     "@vitejs/plugin-react": "^3.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "@vitest/ui": "^0.29.0",
+    "@vitest/ui": "^0.30.0",
     "autoprefixer": "^10.2.5",
     "concurrently": "^8.0.0",
     "cross-env": "^7.0.3",
@@ -77,7 +77,7 @@
     "tslib": "^2.5.0",
     "typescript": "^5.0.2",
     "vite": "^4.0.0",
-    "vitest": "^0.29.0"
+    "vitest": "^0.30.0"
   },
   "pnpm": {
     "peerDependencyRules": {
