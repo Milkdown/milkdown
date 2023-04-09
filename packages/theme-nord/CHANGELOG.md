@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.1.2-next.3
+
+### Patch Changes
+
+- 10139088: Fix incorrect system plugin store ref.
+
 ## 7.1.2-next.2
 
 ### Patch Changes
