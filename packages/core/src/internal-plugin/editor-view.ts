@@ -63,10 +63,10 @@ const key = new PluginKey('MILKDOWN_VIEW_CLEAR')
 /// This plugin will wait for the editor state plugin.
 export const editorView: MilkdownPlugin = (ctx) => {
   ctx.inject(rootCtx, document.body)
-    .inject(editorViewCtx)
-    .inject(editorViewOptionsCtx)
-    .inject(rootDOMCtx)
-    .inject(rootAttrsCtx)
+    .inject(editorViewCtx, {} as EditorView)
+    .inject(editorViewOptionsCtx, {})
+    .inject(rootDOMCtx, null as unknown as HTMLElement)
+    .inject(rootAttrsCtx, {})
     .inject(editorViewTimerCtx, [EditorStateReady])
     .record(EditorViewReady)
 

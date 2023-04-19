@@ -12,10 +12,12 @@ import { SchemaReady, schemaCtx } from './schema'
 /// The timer which will be resolved when the parser plugin is ready.
 export const ParserReady = createTimer('ParserReady')
 
-/// A slice which contains the parser.
-export const parserCtx = createSlice((() => {
+const outOfScope = (() => {
   throw ctxCallOutOfScope()
-}) as Parser, 'parser')
+}) as Parser
+
+/// A slice which contains the parser.
+export const parserCtx = createSlice(outOfScope, 'parser')
 
 /// A slice which stores timers that need to be waited for before starting to run the plugin.
 /// By default, it's `[SchemaReady]`.
@@ -26,7 +28,7 @@ export const parserTimerCtx = createSlice([] as TimerType[], 'parserTimer')
 ///
 /// This plugin will wait for the schema plugin.
 export const parser: MilkdownPlugin = (ctx) => {
-  ctx.inject(parserCtx).inject(parserTimerCtx, [SchemaReady]).record(ParserReady)
+  ctx.inject(parserCtx, outOfScope).inject(parserTimerCtx, [SchemaReady]).record(ParserReady)
 
   return async () => {
     await ctx.waitTimers(parserTimerCtx)

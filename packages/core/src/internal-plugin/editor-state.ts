@@ -60,9 +60,9 @@ const key = new PluginKey('MILKDOWN_STATE_TRACKER')
 ///
 /// This plugin will wait for the parser plugin, serializer plugin and commands plugin.
 export const editorState: MilkdownPlugin = (ctx) => {
-  ctx.inject(defaultValueCtx)
-    .inject(editorStateCtx)
-    .inject(editorStateOptionsCtx)
+  ctx.inject(defaultValueCtx, '')
+    .inject(editorStateCtx, {} as EditorState)
+    .inject(editorStateOptionsCtx, x => x)
     .inject(editorStateTimerCtx, [ParserReady, SerializerReady, CommandsReady])
     .record(EditorStateReady)
 
