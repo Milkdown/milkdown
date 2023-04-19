@@ -4,6 +4,7 @@ import { createSlice, createTimer } from '@milkdown/ctx'
 import type { Serializer } from '@milkdown/transformer'
 import { SerializerState } from '@milkdown/transformer'
 
+import { ctxCallOutOfScope } from '@milkdown/exception'
 import { withMeta } from '../__internal__'
 import { remarkCtx } from './init'
 import { SchemaReady, schemaCtx } from './schema'
@@ -15,15 +16,22 @@ export const SerializerReady = createTimer('SerializerReady')
 /// By default, it's `[SchemaReady]`.
 export const serializerTimerCtx = createSlice([] as TimerType[], 'serializerTimer')
 
+const outOfScope = (() => {
+  throw ctxCallOutOfScope()
+}) as Serializer
+
 /// A slice which contains the serializer.
-export const serializerCtx = createSlice<Serializer, 'serializer'>(() => '', 'serializer')
+export const serializerCtx = createSlice<Serializer, 'serializer'>(outOfScope, 'serializer')
 
 /// The serializer plugin.
 /// This plugin will create a serializer.
 ///
 /// This plugin will wait for the schema plugin.
 export const serializer: MilkdownPlugin = (ctx) => {
-  ctx.inject(serializerCtx).inject(serializerTimerCtx, [SchemaReady]).record(SerializerReady)
+  ctx
+    .inject(serializerCtx, outOfScope)
+    .inject(serializerTimerCtx, [SchemaReady])
+    .record(SerializerReady)
 
   return async () => {
     await ctx.waitTimers(serializerTimerCtx)

@@ -46,11 +46,8 @@ export const markViewCtx = createSlice([] as MarkView[], 'markView')
 /// A slice which stores the remark instance.
 export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(unified().use(remarkParse).use(remarkStringify), 'remark')
 
-/// @internal
-export const remarkStringifyDefaultOptions: Options = {}
-
 /// A slice which stores the remark stringify options.
-export const remarkStringifyOptionsCtx = createSlice(remarkStringifyDefaultOptions, 'remarkStringifyOptions')
+export const remarkStringifyOptionsCtx = createSlice({} as Options, 'remarkStringifyOptions')
 
 /// The init plugin.
 /// This plugin prepare slices that needed by other plugins. And create a remark instance.
@@ -59,12 +56,12 @@ export const remarkStringifyOptionsCtx = createSlice(remarkStringifyDefaultOptio
 export const init = (editor: Editor): MilkdownPlugin => {
   const plugin: MilkdownPlugin = (ctx) => {
     ctx.inject(editorCtx, editor)
-      .inject(prosePluginsCtx)
-      .inject(remarkPluginsCtx)
-      .inject(inputRulesCtx)
-      .inject(nodeViewCtx)
-      .inject(markViewCtx)
-      .inject(remarkStringifyOptionsCtx)
+      .inject(prosePluginsCtx, [])
+      .inject(remarkPluginsCtx, [])
+      .inject(inputRulesCtx, [])
+      .inject(nodeViewCtx, [])
+      .inject(markViewCtx, [])
+      .inject(remarkStringifyOptionsCtx, {})
       .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
       .inject(initTimerCtx, [ConfigReady])
       .record(InitReady)

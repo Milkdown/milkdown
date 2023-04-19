@@ -37,7 +37,12 @@ const extendPriority = <T extends NodeSchema | MarkSchema>(x: T): T => {
 ///
 /// This plugin will wait for the init plugin.
 export const schema: MilkdownPlugin = (ctx) => {
-  ctx.inject(schemaCtx).inject(nodesCtx).inject(marksCtx).inject(schemaTimerCtx, [InitReady]).record(SchemaReady)
+  ctx
+    .inject(schemaCtx, {} as Schema)
+    .inject(nodesCtx, [])
+    .inject(marksCtx, [])
+    .inject(schemaTimerCtx, [InitReady])
+    .record(SchemaReady)
 
   return async () => {
     await ctx.waitTimers(schemaTimerCtx)

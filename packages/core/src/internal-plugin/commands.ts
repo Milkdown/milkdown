@@ -95,7 +95,7 @@ export const CommandsReady = createTimer('CommandsReady')
 ///
 /// This plugin will wait for the schema plugin.
 export const commands: MilkdownPlugin = (ctx) => {
-  ctx.inject(commandsCtx).inject(commandsTimerCtx).record(CommandsReady)
+  ctx.inject(commandsCtx, new CommandManager()).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady)
   ctx.get(commandsCtx).setCtx(ctx)
   return async () => {
     await ctx.waitTimers(commandsTimerCtx)
