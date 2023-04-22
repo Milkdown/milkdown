@@ -47,7 +47,7 @@
     "@tailwindcss/typography": "^0.5.8",
     "@types/node": "^18.0.0",
     "@types/rollup-plugin-auto-external": "^2.0.2",
-    "@vitejs/plugin-react": "^3.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "@vitest/ui": "^0.30.0",
