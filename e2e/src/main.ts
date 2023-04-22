@@ -11,6 +11,7 @@ const mapping = {
   'preset-gfm': () => import('./preset-gfm'),
   'plugin-listener': () => import('./plugin-listener'),
   'plugin-clipboard': () => import('./plugin-clipboard'),
+  'plugin-math': () => import('./plugin-math'),
 }
 
 let editor: Editor | undefined

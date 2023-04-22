@@ -42,20 +42,6 @@ describe('input:', () => {
       cy.get('.editor').type('Lunatic')
       cy.get('p').should('have.text', 'Lunatic')
     })
-
-    // Copy and Paste cannot work in cypress due to: https://github.com/cypress-io/cypress/issues/2752
-    it.skip('copy and paste', () => {
-      cy.get('.editor').type('The lunatic is on the grass')
-      cy.get('.editor').type('{ctrl+a}')
-      cy.get('.editor').type('{ctrl+c}')
-      cy.get('p').should('have.text', 'The lunatic is on the grass')
-      cy.get('.editor').type('{rightarrow}')
-      cy.get('.editor').type('.')
-      cy.get('.editor').type('{enter}QAQ')
-      cy.get('.editor').type('{ctrl+v}')
-      cy.get('p').should('have.length', 2)
-      cy.get('p:first-of-type').should('have.text', 'The lunatic is on the grass.')
-    })
   })
 
   describe('node:', () => {

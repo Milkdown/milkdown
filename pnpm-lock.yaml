@@ -163,6 +163,9 @@ importers:
       '@milkdown/plugin-listener':
         specifier: workspace:*
         version: link:../packages/plugin-listener
+      '@milkdown/plugin-math':
+        specifier: workspace:*
+        version: link:../packages/plugin-math
       '@milkdown/preset-commonmark':
         specifier: workspace:*
         version: link:../packages/preset-commonmark
@@ -175,6 +178,9 @@ importers:
       '@milkdown/theme-nord':
         specifier: workspace:*
         version: link:../packages/theme-nord
+      katex:
+        specifier: ^0.16.0
+        version: 0.16.0
       tslib:
         specifier: ^2.5.0
         version: 2.5.0

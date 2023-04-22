@@ -20,10 +20,12 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
+    "@milkdown/plugin-math": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/theme-nord": "workspace:*",
+    "katex": "^0.16.0",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
