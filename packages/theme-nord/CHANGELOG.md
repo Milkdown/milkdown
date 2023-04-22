@@ -1,5 +1,14 @@
 # @milkdown/theme-nord
 
+## 7.2.1
+
+### Patch Changes
+
+- df03a2cb: Bug fix
+
+  Fix commands not working for multiple editors. #977
+  Fix inline math conflicts with inline sync plugin. #983
+
 ## 7.2.0
 
 ### Minor Changes
