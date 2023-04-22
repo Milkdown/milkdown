@@ -56,6 +56,10 @@ export const calcOffset = (node: Node, from: number, placeholder: string) => {
   node.descendants((n) => {
     if (find)
       return false
+    if (!n.textContent.includes(placeholder)) {
+      offset += n.nodeSize
+      return false
+    }
     if (n.isText) {
       const i = n.text?.indexOf(placeholder)
       if (i != null && i >= 0) {
@@ -64,8 +68,10 @@ export const calcOffset = (node: Node, from: number, placeholder: string) => {
         return false
       }
     }
-    offset += n.nodeSize
-    return undefined
+
+    // enter the node
+    offset += 1
+    return true
   })
   return offset
 }

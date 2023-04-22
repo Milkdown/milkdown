@@ -11,6 +11,7 @@ const mapping = {
   'preset-gfm': () => import('./preset-gfm'),
   'plugin-listener': () => import('./plugin-listener'),
   'plugin-clipboard': () => import('./plugin-clipboard'),
+  'plugin-math': () => import('./plugin-math'),
 }
 
 let editor: Editor | undefined
@@ -49,23 +50,16 @@ const main = async () => {
     })
   globalThis.__inspect__ = () => editor!.inspect()
 
-  if (import.meta.env.PROD) {
-    const ui = document.querySelector<HTMLElement>('#ui')!
-    ui.remove()
+  const logButton = document.querySelector<HTMLDivElement>('#log')
+  if (logButton) {
+    // eslint-disable-next-line no-console
+    logButton.onclick = () => console.log(globalThis.__getMarkdown__())
   }
-  else {
-    const logButton = document.querySelector<HTMLDivElement>('#log')
 
-    if (logButton) {
-      // eslint-disable-next-line no-console
-      logButton.onclick = () => console.log(globalThis.__getMarkdown__())
-    }
-
-    const inspectButton = document.querySelector<HTMLDivElement>('#inspect')
-    if (inspectButton) {
-      // eslint-disable-next-line no-console
-      inspectButton.onclick = () => console.log(globalThis.__inspect__())
-    }
+  const inspectButton = document.querySelector<HTMLDivElement>('#inspect')
+  if (inspectButton) {
+    // eslint-disable-next-line no-console
+    inspectButton.onclick = () => console.log(globalThis.__inspect__())
   }
 }
 

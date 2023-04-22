@@ -14,14 +14,14 @@ describe('input:', () => {
   describe('task list', () => {
     it('unchecked', () => {
       cy.get('.editor').type('- [ ] task list')
-      cy.get('.editor').get('li')
+      cy.get('.editor li')
         .should('have.attr', 'data-item-type', 'task')
         .should('have.attr', 'data-checked', 'false')
     })
 
     it('checked', () => {
       cy.get('.editor').type('- [x] task list')
-      cy.get('.editor').get('li')
+      cy.get('.editor li')
         .should('have.attr', 'data-item-type', 'task')
         .should('have.attr', 'data-checked', 'true')
     })
@@ -29,13 +29,13 @@ describe('input:', () => {
 
   it('strike through', () => {
     cy.get('.editor').type('The lunatic is ~~on the grass~~')
-    cy.get('.editor').get('del').should('have.text', 'on the grass')
+    cy.get('.editor del').should('have.text', 'on the grass')
   })
 
   it('auto link', () => {
     cy.get('.editor').type('Here is https://www.milkdown.dev')
-    cy.get('.editor').get('a').should('have.text', 'https://www.milkdown.dev')
-    cy.get('.editor').get('a').should('have.attr', 'href', 'https://www.milkdown.dev')
+    cy.get('.editor a').should('have.text', 'https://www.milkdown.dev')
+    cy.get('.editor a').should('have.attr', 'href', 'https://www.milkdown.dev')
   })
 
   describe('table', () => {

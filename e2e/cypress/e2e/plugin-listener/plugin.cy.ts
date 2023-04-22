@@ -22,11 +22,11 @@ describe('on markdown updated', () => {
   })
 
   it('inline sync', () => {
-    cy.get('.editor').type('_')
-    cy.get('@log').should('have.callCount', 1).should('be.calledWith', '\\_\n')
+    cy.get('.editor').type('*')
+    cy.get('@log').should('have.callCount', 1).should('be.calledWith', '\\*\n')
     cy.get('.editor').type('A')
-    cy.get('@log').should('have.callCount', 2).should('be.calledWith', '\\_A\n')
-    cy.get('.editor').type('_')
-    cy.get('@log').should('have.callCount', 3).should('be.calledWith', '*A*\n')
+    cy.get('@log').should('have.callCount', 2).should('be.calledWith', '\\*A\n')
+    cy.get('.editor').type('*')
+    cy.get('@log').should('have.callCount', 3).should('be.calledWith', '_A_\n')
   })
 })

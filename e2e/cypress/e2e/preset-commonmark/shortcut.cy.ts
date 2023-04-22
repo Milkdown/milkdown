@@ -42,20 +42,6 @@ describe('input:', () => {
       cy.get('.editor').type('Lunatic')
       cy.get('p').should('have.text', 'Lunatic')
     })
-
-    // Copy and Paste cannot work in cypress due to: https://github.com/cypress-io/cypress/issues/2752
-    it.skip('copy and paste', () => {
-      cy.get('.editor').type('The lunatic is on the grass')
-      cy.get('.editor').type('{ctrl+a}')
-      cy.get('.editor').type('{ctrl+c}')
-      cy.get('p').should('have.text', 'The lunatic is on the grass')
-      cy.get('.editor').type('{rightarrow}')
-      cy.get('.editor').type('.')
-      cy.get('.editor').type('{enter}QAQ')
-      cy.get('.editor').type('{ctrl+v}')
-      cy.get('p').should('have.length', 2)
-      cy.get('p:first-of-type').should('have.text', 'The lunatic is on the grass.')
-    })
   })
 
   describe('node:', () => {
@@ -74,24 +60,24 @@ describe('input:', () => {
     it('list', () => {
       cy.get('.editor').type('The lunatic is on the grass')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+7}`)
-      cy.get('ol>li').should('have.text', 'The lunatic is on the grass')
+      cy.get('.editor ol>li').should('have.text', 'The lunatic is on the grass')
       cy.get('.editor').type('{enter}')
       cy.get('.editor').type('The lunatic is in the hell')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+]}`)
-      cy.get('ol').should('have.length', 2)
+      cy.get('.editor ol').should('have.length', 2)
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+[}`)
-      cy.get('ol').should('have.length', 1)
+      cy.get('.editor ol').should('have.length', 1)
 
       cy.get('.editor').type('{enter}{backspace}')
       cy.get('.editor').type('The lunatic is on the grass')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+8}`)
-      cy.get('ul>li').should('have.text', 'The lunatic is on the grass')
+      cy.get('.editor ul>li').should('have.text', 'The lunatic is on the grass')
       cy.get('.editor').type('{enter}')
       cy.get('.editor').type('The lunatic is in the hell')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+]}`)
-      cy.get('ul').should('have.length', 2)
+      cy.get('.editor ul').should('have.length', 2)
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+[}`)
-      cy.get('ul').should('have.length', 1)
+      cy.get('.editor ul').should('have.length', 1)
       cy.window().then((win) => {
         cy.wrap(win.__getMarkdown__())
           .should('equal', '1.  The lunatic is on the grass\n2.  The lunatic is in the hell\n\n    *   The lunatic is on the grass\n    *   The lunatic is in the hell\n')

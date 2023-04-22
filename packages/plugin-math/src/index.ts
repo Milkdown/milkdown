@@ -5,7 +5,9 @@ import katex from 'katex'
 import remarkMath from 'remark-math'
 
 import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
+import { Fragment } from '@milkdown/prose/model'
 import { InputRule } from '@milkdown/prose/inputrules'
+import { expectDomTypeError } from '@milkdown/exception'
 
 const withMeta = <T extends MilkdownPlugin>(
   plugin: T,
@@ -54,23 +56,22 @@ withMeta(katexOptionsCtx, {
 /// ```
 export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
   group: 'inline',
+  content: 'text*',
   inline: true,
   atom: true,
-  attrs: {
-    value: {
-      default: '',
-    },
-  },
   parseDOM: [
     {
       tag: `span[data-type="${mathInlineId}"]`,
-      getAttrs: (dom) => {
-        return { value: (dom as HTMLElement).dataset.value ?? '' }
+      getContent: (dom, schema) => {
+        if (!(dom instanceof HTMLElement))
+          throw expectDomTypeError(dom)
+
+        return Fragment.from(schema.text(dom.dataset.value ?? ''))
       },
     },
   ],
   toDOM: (node) => {
-    const code: string = node.attrs.value
+    const code: string = node.textContent
     const dom = document.createElement('span')
     dom.dataset.type = mathInlineId
     dom.dataset.value = code
@@ -81,13 +82,15 @@ export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
   parseMarkdown: {
     match: node => node.type === 'inlineMath',
     runner: (state, node, type) => {
-      state.addNode(type, { value: node.value as string })
+      state.openNode(type)
+        .addText(node.value as string)
+        .closeNode()
     },
   },
   toMarkdown: {
     match: node => node.type.name === mathInlineId,
     runner: (state, node) => {
-      state.addNode('inlineMath', undefined, node.attrs.value)
+      state.addNode('inlineMath', undefined, node.textContent)
     },
   },
 }))

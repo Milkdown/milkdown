@@ -118,45 +118,46 @@ describe('transform:', () => {
   })
 
   it('mark', () => {
-    cy.get('.editor')
-    cy.window().then((win) => {
-      cy.fixture('cm-mark.md').then((md) => {
-        win.__setMarkdown__(md)
+    cy.get('.editor').within(() => {
+      cy.window().then((win) => {
+        cy.fixture('cm-mark.md').then((md) => {
+          win.__setMarkdown__(md)
+        })
       })
+
+      cy.get('strong').first().should('have.text', 'The lunatic is on the grass')
+      cy.get('em').first().should('have.text', 'The lunatic is on the grass')
+      cy.get('code').first().should('have.text', 'The lunatic is on the grass')
+      cy.get('a').first().should('have.text', 'The lunatic is on the grass')
+      cy.get('a').first().should('have.attr', 'href', 'link')
+
+      cy.get('p')
+        .eq(4)
+        .within(() => {
+          cy.get('strong').should('have.text', 'The lunatic is on the grass')
+          cy.get('em').should('have.text', 'The lunatic is on the grass')
+        })
+
+      cy.get('p')
+        .eq(5)
+        .within(() => {
+          cy.get('strong').should('have.text', 'The lunatic is on the grass')
+          cy.get('em').should('have.text', 'The lunatic is on the grass')
+          cy.get('code').should('have.text', 'The lunatic is on the grass')
+        })
+
+      cy.get('p')
+        .last()
+        .within(() => {
+          cy.get('strong').should('have.text', 'The lunatic is on the grass')
+          cy.get('em').should('have.text', 'The lunatic is on the grass')
+          cy.get('a').should('have.text', 'The lunatic is on the grass')
+        })
     })
-
-    cy.get('strong').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('em').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('code').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('a').first().should('have.text', 'The lunatic is on the grass')
-    cy.get('a').first().should('have.attr', 'href', 'link')
-
-    cy.get('p')
-      .eq(4)
-      .within(() => {
-        cy.get('strong').should('have.text', 'The lunatic is on the grass')
-        cy.get('em').should('have.text', 'The lunatic is on the grass')
-      })
-
-    cy.get('p')
-      .eq(5)
-      .within(() => {
-        cy.get('strong').should('have.text', 'The lunatic is on the grass')
-        cy.get('em').should('have.text', 'The lunatic is on the grass')
-        cy.get('code').should('have.text', 'The lunatic is on the grass')
-      })
-
-    cy.get('p')
-      .last()
-      .within(() => {
-        cy.get('strong').should('have.text', 'The lunatic is on the grass')
-        cy.get('em').should('have.text', 'The lunatic is on the grass')
-        cy.get('a').should('have.text', 'The lunatic is on the grass')
-      })
 
     cy.window().then((win) => {
       cy.wrap(win.__getMarkdown__())
-        .should('equal', '**The lunatic is on the grass**\n\n*The lunatic is on the grass*\n\n`The lunatic is on the grass`\n\n[The lunatic is on the grass](link)\n\n***The lunatic is on the grass***\n\n***`The lunatic is on the grass`***\n\n***[The lunatic is on the grass](link)***\n')
+        .should('equal', '**The lunatic is on the grass**\n\n_The lunatic is on the grass_\n\n`The lunatic is on the grass`\n\n[The lunatic is on the grass](link)\n\n_**The lunatic is on the grass**_\n\n_**`The lunatic is on the grass`**_\n\n_**[The lunatic is on the grass](link)**_\n')
     })
   })
 })
