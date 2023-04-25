@@ -63,7 +63,8 @@
       "import": "./lib/tables.js"
     },
     "./view/style/prosemirror.css": "./lib/style/prosemirror.css",
-    "./tables/style/tables.css": "./lib/style/tables.css"
+    "./tables/style/tables.css": "./lib/style/tables.css",
+    "./gapcursor/style/gapcurosr.css": "./lib/style/gapcursor.css"
   },
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

@@ -51,6 +51,10 @@ const proseModule = (name) => {
               src: 'node_modules/prosemirror-tables/style/tables.css',
               dest: 'lib/style',
             },
+            {
+              src: 'node_modules/prosemirror-gapcursor/style/gapcursor.css',
+              dest: 'lib/style',
+            },
           ],
         }),
       ],
