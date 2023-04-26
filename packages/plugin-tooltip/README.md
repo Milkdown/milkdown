@@ -4,7 +4,7 @@ The tooltip plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-tooltip).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/plugin-tooltip).
 
 # License
 

@@ -4,7 +4,7 @@ The emoji plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-emoji).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/plugin-emoji).
 
 # License
 

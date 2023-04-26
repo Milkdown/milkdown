@@ -4,7 +4,7 @@ The diagram plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-diagram).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/plugin-diagram).
 
 # License
 

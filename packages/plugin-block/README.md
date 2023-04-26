@@ -4,7 +4,7 @@ The block plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-block).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/plugin-block).
 
 # License
 

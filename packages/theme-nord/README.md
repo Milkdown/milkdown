@@ -4,7 +4,7 @@ THe nord theme of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/theme-nord).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/theme-nord).
 
 # License
 

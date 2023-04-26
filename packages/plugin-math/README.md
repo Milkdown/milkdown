@@ -4,7 +4,7 @@ The math plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/plugin-math).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/plugin-math).
 
 # License
 

@@ -4,7 +4,7 @@ React integration for [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/react).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/react).
 
 # License
 

@@ -4,7 +4,7 @@ The core module of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/core).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/core).
 
 # License
 
