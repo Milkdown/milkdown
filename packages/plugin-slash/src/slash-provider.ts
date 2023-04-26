@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { findParentNode, posToDOMRect } from '@milkdown/prose'
 import type { EditorState } from '@milkdown/prose/state'
+import type { Node } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
@@ -93,7 +94,8 @@ export class SlashProvider {
   }
 
   /// Get the content of the current text block.
-  getContent = (view: EditorView): string | undefined => {
+  /// Pass the `matchNode` function to determine whether the current node should be matched, by default, it will match the paragraph node.
+  getContent = (view: EditorView, matchNode: (node: Node) => boolean = node => node.type.name === 'paragraph'): string | undefined => {
     const { selection } = view.state
     const { empty } = selection
     const isTextBlock = view.state.selection instanceof TextSelection
@@ -104,7 +106,7 @@ export class SlashProvider {
 
     const isReadonly = !view.editable
 
-    const paragraph = findParentNode(({ type }) => type.name === 'paragraph')(view.state.selection)
+    const paragraph = findParentNode(matchNode)(view.state.selection)
 
     const isNotInParagraph = !paragraph
 
