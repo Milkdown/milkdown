@@ -50,7 +50,6 @@
     "@vitejs/plugin-react": "^4.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "@vitest/ui": "^0.31.0",
     "autoprefixer": "^10.2.5",
     "concurrently": "^8.0.0",
     "cross-env": "^7.0.3",
