@@ -1,34 +1,39 @@
 {
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "prepare": {
+      "dependsOn": [
+        "^prepare"
+      ]
+    },
+    "package": {
+      "dependsOn": [
+        "^package"
+      ]
+    }
+  },
   "extends": "@nrwl/workspace/presets/npm.json",
   "npmScope": "milkdown",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/nx-cloud",
+      "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "package", "prepare", "tsc", "e2e"],
+        "cacheableOperations": [
+          "build",
+          "test",
+          "lint",
+          "package",
+          "prepare",
+          "tsc",
+          "e2e"
+        ],
         "accessToken": "YzhmNjI3NzAtZjZiNS00MTk0LWEyYjAtMTc4NDEwZDlmODhifHJlYWQtd3JpdGU="
       }
     }
-  },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "prepare": [
-      {
-        "target": "prepare",
-        "projects": "dependencies"
-      }
-    ],
-    "package": [
-      {
-        "target": "package",
-        "projects": "dependencies"
-      }
-    ]
   },
   "affected": {
     "defaultBase": "main"
@@ -38,7 +43,17 @@
       "analyzeSourceFiles": false
     }
   },
-  "implicitDependencies": {
-    "vite.config.ts": "*"
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
+    "sharedGlobals": [
+      "{workspaceRoot}/vite.config.ts"
+    ],
+    "production": [
+      "default"
+    ]
   }
 }
