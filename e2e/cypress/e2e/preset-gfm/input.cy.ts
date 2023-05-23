@@ -11,6 +11,7 @@ it('has editor', () => {
 })
 
 describe('input:', () => {
+  const isMac = Cypress.platform === 'darwin'
   describe('task list', () => {
     it('unchecked', () => {
       cy.get('.editor').type('- [ ] task list')
@@ -54,5 +55,15 @@ describe('input:', () => {
       cy.get('.editor').get('th').should('have.length', 4)
       cy.get('.editor').get('td').should('have.length', 16)
     })
+  })
+
+  it('remove list item after table', () => {
+    cy.get('.editor').type('|1x1| ')
+    cy.get('.editor table').should('exist')
+    cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+enter}`)
+    cy.get('.editor').type('- ')
+    cy.get('.editor ul').should('exist')
+    cy.get('.editor').type('{backspace}')
+    cy.get('.editor > ul').should('not.exist')
   })
 })
