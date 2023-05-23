@@ -3,6 +3,7 @@ import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { liftListItem, sinkListItem, splitListItem } from '@milkdown/prose/schema-list'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import { type Command, TextSelection } from '@milkdown/prose/state'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for list item node.
@@ -143,6 +144,43 @@ withMeta(splitListItemCommand, {
   group: 'ListItem',
 })
 
+const liftFirstListItem: Command = (state, dispatch, view) => {
+  const { selection } = state
+  if (!(selection instanceof TextSelection))
+    return false
+
+  const { empty, $from } = selection
+
+  // selection should be empty and at the start of the node
+  if (!empty || $from.parentOffset !== 0)
+    return false
+
+  const parentItem = $from.node(-1)
+  // selection should be in list item and list item should be the first child of the list
+  if (parentItem.type !== listItemSchema.type() || parentItem.firstChild !== $from.node())
+    return false
+
+  const list = $from.node(-2)
+  // list should have only one list item
+  if (list.childCount > 1)
+    return false
+
+  return liftListItem(listItemSchema.type())(state, dispatch, view)
+}
+
+/// The command to remove list item **only if**:
+///
+/// - Selection is at the start of the list item.
+/// - List item is the only child of the list.
+///
+/// Most of the time, you shouldn't use this command directly.
+export const liftFirstListItemCommand = $command('LiftFirstListItem', () => () => liftFirstListItem)
+
+withMeta(liftFirstListItemCommand, {
+  displayName: 'Command<liftFirstListItemCommand>',
+  group: 'ListItem',
+})
+
 /// Keymap for list item node.
 /// - `<Enter>`: Split the current list item.
 /// - `<Tab>/<Mod-]>`: Sink the current list item.
@@ -167,6 +205,13 @@ export const listItemKeymap = $useKeymap('listItemKeymap', {
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
       return () => commands.call(liftListItemCommand.key)
+    },
+  },
+  LiftFirstListItem: {
+    shortcuts: ['Backspace', 'Delete'],
+    command: (ctx) => {
+      const commands = ctx.get(commandsCtx)
+      return () => commands.call(liftFirstListItemCommand.key)
     },
   },
 })

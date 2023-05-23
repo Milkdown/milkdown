@@ -1,7 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { toggleEmphasisCommand, toggleInlineCodeCommand, toggleLinkCommand, toggleStrongCommand, updateLinkCommand } from '../mark'
-import { createCodeBlockCommand, downgradeHeadingCommand, insertHardbreakCommand, insertHrCommand, insertImageCommand, liftListItemCommand, sinkListItemCommand, splitListItemCommand, turnIntoTextCommand, updateImageCommand, wrapInBlockquoteCommand, wrapInBulletListCommand, wrapInHeadingCommand, wrapInOrderedListCommand } from '../node'
+import {
+  createCodeBlockCommand,
+  downgradeHeadingCommand,
+  insertHardbreakCommand,
+  insertHrCommand,
+  insertImageCommand,
+  liftFirstListItemCommand,
+  liftListItemCommand,
+  sinkListItemCommand,
+  splitListItemCommand,
+  turnIntoTextCommand,
+  updateImageCommand,
+  wrapInBlockquoteCommand,
+  wrapInBulletListCommand,
+  wrapInHeadingCommand,
+  wrapInOrderedListCommand,
+} from '../node'
 
 /// @internal
 export const commands: MilkdownPlugin[] = [
@@ -21,6 +37,7 @@ export const commands: MilkdownPlugin[] = [
   sinkListItemCommand,
   splitListItemCommand,
   liftListItemCommand,
+  liftFirstListItemCommand,
 
   toggleEmphasisCommand,
   toggleInlineCodeCommand,
