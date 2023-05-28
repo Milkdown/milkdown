@@ -1,5 +1,15 @@
 # @milkdown/exception
 
+## 7.2.2
+
+### Patch Changes
+
+- 01174470: Bug fixes and small improvements.
+
+  Add gapcursor css in prose package. (3d0832e)
+  Add option for `getContent` in slash provider. (6c47b3d)
+  Add a command to lift first lit item. (#1003)
+
 ## 7.2.1
 
 ### Patch Changes

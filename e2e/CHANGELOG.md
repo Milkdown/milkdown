@@ -1,5 +1,26 @@
 # @milkdown/e2e
 
+## 7.2.2
+
+### Patch Changes
+
+- 01174470: Bug fixes and small improvements.
+
+  Add gapcursor css in prose package. (3d0832e)
+  Add option for `getContent` in slash provider. (6c47b3d)
+  Add a command to lift first lit item. (#1003)
+
+- Updated dependencies [01174470]
+  - @milkdown/core@7.2.2
+  - @milkdown/ctx@7.2.2
+  - @milkdown/plugin-clipboard@7.2.2
+  - @milkdown/plugin-listener@7.2.2
+  - @milkdown/plugin-math@7.2.2
+  - @milkdown/preset-commonmark@7.2.2
+  - @milkdown/preset-gfm@7.2.2
+  - @milkdown/prose@7.2.2
+  - @milkdown/theme-nord@7.2.2
+
 ## 7.2.1
 
 ### Patch Changes
