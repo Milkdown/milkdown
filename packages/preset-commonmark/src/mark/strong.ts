@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx } from '@milkdown/core'
+import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
 import { toggleMark } from '@milkdown/prose/commands'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 import { withMeta } from '../__internal__'
@@ -15,6 +15,11 @@ withMeta(strongAttr, {
 /// Strong mark schema.
 export const strongSchema = $markSchema('strong', ctx => ({
   inclusive: false,
+  attrs: {
+    marker: {
+      default: ctx.get(remarkStringifyOptionsCtx).strong || '*',
+    },
+  },
   parseDOM: [
     { tag: 'b' },
     { tag: 'strong' },
@@ -24,7 +29,7 @@ export const strongSchema = $markSchema('strong', ctx => ({
   parseMarkdown: {
     match: node => node.type === 'strong',
     runner: (state, node, markType) => {
-      state.openMark(markType)
+      state.openMark(markType, { marker: node.marker })
       state.next(node.children)
       state.closeMark(markType)
     },
@@ -32,7 +37,9 @@ export const strongSchema = $markSchema('strong', ctx => ({
   toMarkdown: {
     match: mark => mark.type.name === 'strong',
     runner: (state, mark) => {
-      state.withMark(mark, 'strong')
+      state.withMark(mark, 'strong', undefined, {
+        marker: mark.attrs.marker,
+      })
     },
   },
 }))

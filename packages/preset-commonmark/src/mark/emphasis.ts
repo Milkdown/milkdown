@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx } from '@milkdown/core'
+import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
 import { toggleMark } from '@milkdown/prose/commands'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 import { withMeta } from '../__internal__'
@@ -15,6 +15,11 @@ withMeta(emphasisAttr, {
 /// Emphasis mark schema.
 export const emphasisSchema = $markSchema('emphasis', ctx => ({
   inclusive: false,
+  attrs: {
+    marker: {
+      default: ctx.get(remarkStringifyOptionsCtx).emphasis || '*',
+    },
+  },
   parseDOM: [
     { tag: 'i' },
     { tag: 'em' },
@@ -24,7 +29,7 @@ export const emphasisSchema = $markSchema('emphasis', ctx => ({
   parseMarkdown: {
     match: node => node.type === 'emphasis',
     runner: (state, node, markType) => {
-      state.openMark(markType)
+      state.openMark(markType, { marker: node.marker })
       state.next(node.children)
       state.closeMark(markType)
     },
@@ -32,7 +37,9 @@ export const emphasisSchema = $markSchema('emphasis', ctx => ({
   toMarkdown: {
     match: mark => mark.type.name === 'emphasis',
     runner: (state, mark) => {
-      state.withMark(mark, 'emphasis')
+      state.withMark(mark, 'emphasis', undefined, {
+        marker: mark.attrs.marker,
+      })
     },
   },
 }))
