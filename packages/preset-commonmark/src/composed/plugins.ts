@@ -11,7 +11,7 @@ import {
   remarkAddOrderInListPlugin,
   remarkHtmlTransformer,
   remarkInlineLinkPlugin,
-  remarkLineBreak,
+  remarkLineBreak, remarkMarker,
   syncHeadingIdPlugin,
   syncListOrderPlugin,
 } from '../plugin'
@@ -31,6 +31,7 @@ export const plugins: MilkdownPlugin[] = [
   remarkInlineLinkPlugin,
   remarkLineBreak,
   remarkHtmlTransformer,
+  remarkMarker,
 
   syncHeadingIdPlugin,
   syncListOrderPlugin,

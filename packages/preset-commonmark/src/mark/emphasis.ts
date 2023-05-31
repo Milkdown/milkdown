@@ -1,8 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { commandsCtx } from '@milkdown/core'
-import { toggleMark } from '@milkdown/prose/commands'
+import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
-import { withMeta } from '../__internal__'
+import { toggleMarkdownMark, withMeta } from '../__internal__'
 
 /// HTML attributes for the emphasis mark.
 export const emphasisAttr = $markAttr('emphasis')
@@ -14,7 +13,11 @@ withMeta(emphasisAttr, {
 
 /// Emphasis mark schema.
 export const emphasisSchema = $markSchema('emphasis', ctx => ({
-  inclusive: false,
+  attrs: {
+    marker: {
+      default: ctx.get(remarkStringifyOptionsCtx).emphasis || '*',
+    },
+  },
   parseDOM: [
     { tag: 'i' },
     { tag: 'em' },
@@ -24,7 +27,7 @@ export const emphasisSchema = $markSchema('emphasis', ctx => ({
   parseMarkdown: {
     match: node => node.type === 'emphasis',
     runner: (state, node, markType) => {
-      state.openMark(markType)
+      state.openMark(markType, { marker: node.marker })
       state.next(node.children)
       state.closeMark(markType)
     },
@@ -32,7 +35,9 @@ export const emphasisSchema = $markSchema('emphasis', ctx => ({
   toMarkdown: {
     match: mark => mark.type.name === 'emphasis',
     runner: (state, mark) => {
-      state.withMark(mark, 'emphasis')
+      state.withMark(mark, 'emphasis', undefined, {
+        marker: mark.attrs.marker,
+      })
     },
   },
 }))
@@ -48,7 +53,11 @@ withMeta(emphasisSchema.ctx, {
 })
 
 /// A command to toggle the emphasis mark.
-export const toggleEmphasisCommand = $command('ToggleEmphasis', () => () => toggleMark(emphasisSchema.type()))
+export const toggleEmphasisCommand = $command('ToggleEmphasis', ctx => () => {
+  const markType = emphasisSchema.type()
+  const mark = ctx.get(remarkStringifyOptionsCtx).emphasis || '*'
+  return toggleMarkdownMark(markType, mark)
+})
 
 withMeta(toggleEmphasisCommand, {
   displayName: 'Command<toggleEmphasisCommand>',

@@ -11,7 +11,7 @@ import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 
 import type { Editor } from '../editor'
-import { withMeta } from '../__internal__'
+import { remarkHandlers, withMeta } from '../__internal__'
 import { ConfigReady } from './config'
 
 /// The timer which will be resolved when the init plugin is ready.
@@ -47,7 +47,9 @@ export const markViewCtx = createSlice([] as MarkView[], 'markView')
 export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(unified().use(remarkParse).use(remarkStringify), 'remark')
 
 /// A slice which stores the remark stringify options.
-export const remarkStringifyOptionsCtx = createSlice({ emphasis: '_' } as Options, 'remarkStringifyOptions')
+export const remarkStringifyOptionsCtx = createSlice({
+  handlers: remarkHandlers,
+} as Options, 'remarkStringifyOptions')
 
 /// The init plugin.
 /// This plugin prepare slices that needed by other plugins. And create a remark instance.
@@ -61,7 +63,9 @@ export const init = (editor: Editor): MilkdownPlugin => {
       .inject(inputRulesCtx, [])
       .inject(nodeViewCtx, [])
       .inject(markViewCtx, [])
-      .inject(remarkStringifyOptionsCtx, { emphasis: '_' })
+      .inject(remarkStringifyOptionsCtx, {
+        handlers: remarkHandlers,
+      })
       .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
       .inject(initTimerCtx, [ConfigReady])
       .record(InitReady)
