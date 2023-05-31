@@ -1,5 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MarkType } from '@milkdown/prose/model'
+import { AllSelection } from '@milkdown/prose/state'
 import type { Command, TextSelection } from '@milkdown/prose/state'
 
 export const toggleMarkdownMark = (markType: MarkType, mark: string): Command => {
@@ -28,6 +29,9 @@ export const toggleMarkdownMark = (markType: MarkType, mark: string): Command =>
       dispatch?.(tr.scrollIntoView())
       return true
     }
+
+    if (selection instanceof AllSelection)
+      return false
 
     dispatch?.(tr.insertText(mark, from).insertText(mark, to + mark.length).scrollIntoView())
     return true

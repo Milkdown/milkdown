@@ -94,27 +94,30 @@ describe('input:', () => {
   describe('mark:', () => {
     it('bold', () => {
       cy.get('.editor').type('The lunatic is on the grass')
-      cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`)
+      cy.get('.editor').type('{selectAll}')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
       cy.get('strong').should('have.text', 'The lunatic is on the grass')
+      cy.get('.editor').type('{selectAll}')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
       cy.get('strong').should('not.exist')
     })
 
     it('italic', () => {
       cy.get('.editor').type('The lunatic is on the grass')
-      cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`)
+      cy.get('.editor').type('{selectAll}')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+i}`)
       cy.get('em').should('have.text', 'The lunatic is on the grass')
+      cy.get('.editor').type('{selectAll}')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+i}`)
       cy.get('em').should('not.exist')
     })
 
     it('inline code', () => {
       cy.get('.editor').type('The lunatic is on the grass')
-      cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`)
+      cy.get('.editor').type('{selectAll}')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+e}`)
       cy.get('code').should('have.text', 'The lunatic is on the grass')
+      cy.get('.editor').type('{selectAll}')
       cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+e}`)
       cy.get('code').should('not.exist')
     })

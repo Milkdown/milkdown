@@ -41,5 +41,13 @@ export const runReplacer = (
   // restore the selection
   tr = tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)))
 
+  if (tr.selection instanceof TextSelection) {
+    const marks = tr.selection.$cursor?.marks() ?? []
+    marks.forEach((mark) => {
+      if (mark.attrs.marker != null)
+        tr = tr.removeStoredMark(mark.type)
+    })
+  }
+
   dispatch(tr)
 }

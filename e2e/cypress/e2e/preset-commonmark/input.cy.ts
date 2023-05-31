@@ -149,7 +149,7 @@ describe('input:', () => {
         cy.get('.editor strong').should('have.text', 'on the grass')
         cy.window().then((win) => {
           cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is **on the grass**\n')
+            .should('equal', 'The lunatic is __on the grass__\n')
         })
       })
 
@@ -167,12 +167,12 @@ describe('input:', () => {
         cy.get('.editor').get('strong').should('have.text', 'on the grass')
         cy.window().then((win) => {
           cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is \"**on the grass**\"\n')
+            .should('equal', 'The lunatic is \"__on the grass__\"\n')
         })
       })
 
       it('a single word', () => {
-        cy.get('.editor').type('The lunatic is __o__n the grass')
+        cy.get('.editor').type('The lunatic is **o**n the grass')
         cy.get('.editor').get('strong').should('have.text', 'o')
         cy.window().then((win) => {
           cy.wrap(win.__getMarkdown__())
@@ -183,7 +183,7 @@ describe('input:', () => {
 
     describe('italic', () => {
       it('normal italic', () => {
-        cy.get('.editor').type('The lunatic is *on the grass*')
+        cy.get('.editor').type('The lunatic is _on the grass_')
         cy.get('.editor').get('em').should('have.text', 'on the grass')
         cy.window().then((win) => {
           cy.wrap(win.__getMarkdown__())
@@ -210,11 +210,11 @@ describe('input:', () => {
       })
 
       it('a single word', () => {
-        cy.get('.editor').type('The lunatic is *o* n the grass')
+        cy.get('.editor').type('The lunatic is *o*n the grass')
         cy.get('.editor').get('em').should('have.text', 'o')
         cy.window().then((win) => {
           cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is _o_ n the grass\n')
+            .should('equal', 'The lunatic is *o*n the grass\n')
         })
       })
     })
