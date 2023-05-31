@@ -48,7 +48,6 @@ export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(unified(
 
 /// A slice which stores the remark stringify options.
 export const remarkStringifyOptionsCtx = createSlice({
-  emphasis: '_',
   handlers: remarkHandlers,
 } as Options, 'remarkStringifyOptions')
 
@@ -65,7 +64,6 @@ export const init = (editor: Editor): MilkdownPlugin => {
       .inject(nodeViewCtx, [])
       .inject(markViewCtx, [])
       .inject(remarkStringifyOptionsCtx, {
-        emphasis: '_',
         handlers: remarkHandlers,
       })
       .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
