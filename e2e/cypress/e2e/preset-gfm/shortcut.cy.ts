@@ -15,9 +15,10 @@ describe('shortcut:', () => {
 
   it('strike through', () => {
     cy.get('.editor').type('The lunatic is on the grass')
-    cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+a}`)
+    cy.get('.editor').type('{selectAll}')
     cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`)
     cy.get('del').should('have.text', 'The lunatic is on the grass')
+    cy.get('.editor').type('{selectAll}')
     cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+alt+x}`)
     cy.get('del').should('not.exist')
   })
