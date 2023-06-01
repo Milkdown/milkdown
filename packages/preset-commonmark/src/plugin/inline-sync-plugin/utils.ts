@@ -3,16 +3,16 @@
 import type { Node } from '@milkdown/prose/model'
 
 import type { SyncNodePlaceholder } from './config'
-import { linkRegexp, punctuationRegexp } from './regexp'
+import { keepLinkRegexp, punctuationRegexp } from './regexp'
 
 export const keepLink = (str: string) => {
   let text = str
-  let match = text.match(linkRegexp)
+  let match = text.match(keepLinkRegexp)
   while (match && match.groups) {
     const { span } = match.groups
-    text = text.replace(linkRegexp, span as string)
+    text = text.replace(keepLinkRegexp, span as string)
 
-    match = text.match(linkRegexp)
+    match = text.match(keepLinkRegexp)
   }
   return text
 }

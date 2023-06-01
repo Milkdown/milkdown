@@ -2,6 +2,7 @@
 import { Editor, rootCtx } from '@milkdown/core'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { nord } from '@milkdown/theme-nord'
+import { history } from '@milkdown/plugin-history'
 
 export const setup = () => {
   return Editor.make()
@@ -11,5 +12,6 @@ export const setup = () => {
     })
     .config(nord)
     .use(commonmark)
+    .use(history)
     .create()
 }

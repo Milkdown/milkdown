@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { MarkType } from '@milkdown/prose/model'
-import { AllSelection } from '@milkdown/prose/state'
-import type { Command, TextSelection } from '@milkdown/prose/state'
+import type { MarkType } from '../../model'
+import { AllSelection } from '../../state'
+import type { Command, TextSelection } from '../../state'
 
 export const toggleMarkdownMark = (markType: MarkType, mark: string): Command => {
   return (state, dispatch) => {

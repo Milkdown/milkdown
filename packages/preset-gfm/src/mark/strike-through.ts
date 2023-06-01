@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
-import { toggleMark } from '@milkdown/prose/commands'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { toggleMarkdownMark } from '@milkdown/prose'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the strikethrough mark.
@@ -14,7 +14,6 @@ withMeta(strikethroughAttr, {
 
 /// Strikethrough mark schema.
 export const strikethroughSchema = $markSchema('strike_through', ctx => ({
-  inclusive: false,
   parseDOM: [
     { tag: 'del' },
     { style: 'text-decoration', getAttrs: value => (value === 'line-through') as false },
@@ -47,7 +46,11 @@ withMeta(strikethroughSchema.ctx, {
 })
 
 /// A command to toggle the strikethrough mark.
-export const toggleStrikethroughCommand = $command('ToggleStrikeThrough', () => () => toggleMark(strikethroughSchema.type()))
+export const toggleStrikethroughCommand = $command('ToggleStrikeThrough', () => () => {
+  const markType = strikethroughSchema.type()
+  const mark = '~~'
+  return toggleMarkdownMark(markType, mark)
+})
 
 withMeta(toggleStrikethroughCommand, {
   displayName: 'Command<ToggleStrikethrough>',

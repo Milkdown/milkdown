@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
-import { toggleMarkdownMark, withMeta } from '../__internal__'
+import { toggleMarkdownMark } from '@milkdown/prose'
+import { withMeta } from '../__internal__'
 
 /// HTML attributes for the strong mark.
 export const strongAttr = $markAttr('strong')

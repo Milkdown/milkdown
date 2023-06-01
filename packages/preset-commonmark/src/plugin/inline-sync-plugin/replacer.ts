@@ -7,6 +7,7 @@ import { TextSelection } from '@milkdown/prose/state'
 import { inlineSyncConfig } from './config'
 import { getContextByState } from './context'
 import { calcOffset } from './utils'
+import { linkRegexp } from './regexp'
 
 export const runReplacer = (
   ctx: Ctx,
@@ -26,6 +27,8 @@ export const runReplacer = (
   if (!context)
     return
 
+  const lastUserInput = context.text.slice(0, context.text.indexOf(context.placeholder))
+
   const { $from } = nextState.selection
   const from = $from.before()
   const to = $from.after()
@@ -41,11 +44,11 @@ export const runReplacer = (
   // restore the selection
   tr = tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)))
 
-  if (tr.selection instanceof TextSelection) {
+  const needsRestoreMark = linkRegexp.test(lastUserInput) || ['*', '_', '~'].includes(lastUserInput.at(-1) || '')
+  if (needsRestoreMark && tr.selection instanceof TextSelection) {
     const marks = tr.selection.$cursor?.marks() ?? []
     marks.forEach((mark) => {
-      if (mark.attrs.marker != null)
-        tr = tr.removeStoredMark(mark.type)
+      tr = tr.removeStoredMark(mark.type)
     })
   }
 

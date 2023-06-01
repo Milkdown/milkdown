@@ -19,6 +19,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
+    "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
     "@milkdown/plugin-math": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",

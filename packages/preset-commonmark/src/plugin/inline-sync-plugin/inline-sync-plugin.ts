@@ -60,8 +60,6 @@ export const inlineSyncPlugin = $prose((ctx: Ctx) => {
           runReplacer(ctx, inlineSyncPluginKey, state, dispatch, prevNode.attrs)
         })
 
-        tr.setMeta('addToHistory', false)
-
         return null
       },
     },
