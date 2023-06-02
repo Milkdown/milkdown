@@ -4,7 +4,7 @@ import type { RemarkPlugin } from '@milkdown/transformer'
 import { expectDomTypeError } from '@milkdown/exception'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $ctx, $inputRule, $nodeAttr, $nodeSchema, $remark } from '@milkdown/utils'
-import nodeEmoji from 'node-emoji'
+import { get } from 'node-emoji'
 import remarkEmoji from 'remark-emoji'
 import type Twemoji from 'twemoji'
 
@@ -97,7 +97,7 @@ export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+)
   const content = match[0]
   if (!content)
     return null
-  const got = nodeEmoji.get(content)
+  const got = get(content)
   if (!got || content.includes(got))
     return null
 
