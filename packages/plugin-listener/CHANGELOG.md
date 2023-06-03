@@ -1,5 +1,13 @@
 # @milkdown/plugin-listener
 
+## 7.2.3
+
+### Patch Changes
+
+- 84fce58e: Optimize the behavior of inline sync plugin.
+- Updated dependencies [84fce58e]
+  - @milkdown/utils@7.2.3
+
 ## 7.2.2
 
 ### Patch Changes

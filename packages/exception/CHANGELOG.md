@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 7.2.3
+
+### Patch Changes
+
+- 84fce58e: Optimize the behavior of inline sync plugin.
+
 ## 7.2.2
 
 ### Patch Changes
