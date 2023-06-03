@@ -1,5 +1,22 @@
 # @milkdown/e2e
 
+## 7.2.3
+
+### Patch Changes
+
+- 84fce58e: Optimize the behavior of inline sync plugin.
+- Updated dependencies [84fce58e]
+  - @milkdown/core@7.2.3
+  - @milkdown/ctx@7.2.3
+  - @milkdown/plugin-clipboard@7.2.3
+  - @milkdown/plugin-history@7.2.3
+  - @milkdown/plugin-listener@7.2.3
+  - @milkdown/plugin-math@7.2.3
+  - @milkdown/preset-commonmark@7.2.3
+  - @milkdown/preset-gfm@7.2.3
+  - @milkdown/prose@7.2.3
+  - @milkdown/theme-nord@7.2.3
+
 ## 7.2.2
 
 ### Patch Changes
