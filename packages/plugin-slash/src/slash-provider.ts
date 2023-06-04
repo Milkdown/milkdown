@@ -18,6 +18,8 @@ export type SlashProviderOptions = {
   debounce?: number
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
+  /// The key trigger for show
+  trigger: string | string[]
 }
 
 /// A provider for creating slash.
@@ -35,6 +37,9 @@ export class SlashProvider {
   #debounce: number
 
   /// @internal
+  #trigger: string | string[]
+
+  /// @internal
   #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   constructor(options: SlashProviderOptions) {
@@ -42,6 +47,7 @@ export class SlashProvider {
     this.#tippyOptions = options.tippyOptions ?? {}
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
+    this.#trigger = options.trigger ?? '/'
   }
 
   /// @internal
@@ -83,7 +89,12 @@ export class SlashProvider {
     if (!currentTextBlockContent)
       return false
 
-    return currentTextBlockContent.at(-1) === '/'
+    const target = currentTextBlockContent.at(-1)
+
+    if (!target)
+      return false
+
+    return Array.isArray(this.#trigger) ? this.#trigger.includes(target) : this.#trigger === target
   }
 
   /// Update provider state by editor view.
