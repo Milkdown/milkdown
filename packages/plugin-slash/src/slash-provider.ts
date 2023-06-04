@@ -18,8 +18,8 @@ export type SlashProviderOptions = {
   debounce?: number
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
-  /// The key trigger for show
-  trigger: string | string[]
+  /// The key trigger for shouldShow, '/' by default.
+  trigger?: string | string[]
 }
 
 /// A provider for creating slash.
