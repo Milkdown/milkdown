@@ -75,7 +75,7 @@
     "tslib": "^2.5.0",
     "typescript": "^5.0.2",
     "vite": "^4.2.0",
-    "vitest": "^0.31.0"
+    "vitest": "^0.32.0"
   },
   "pnpm": {
     "peerDependencyRules": {
