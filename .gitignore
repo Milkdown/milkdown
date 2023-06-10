@@ -19,6 +19,7 @@ e2e/cypress/downloads
 sitemap.xml
 
 .env
+nx-cloud.env
 *.local
 *.cache
 *error.log
