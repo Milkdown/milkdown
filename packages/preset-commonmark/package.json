@@ -40,7 +40,7 @@
     "remark-inline-links": "^6.0.0",
     "tslib": "^2.5.0",
     "unist-util-visit": "^4.0.0",
-    "vfile": "^5.3.7"
+    "vfile": "^6.0.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",

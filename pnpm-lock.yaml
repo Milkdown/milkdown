@@ -662,8 +662,8 @@ importers:
         specifier: ^4.0.0
         version: 4.1.0
       vfile:
-        specifier: ^5.3.7
-        version: 5.3.7
+        specifier: ^6.0.0
+        version: 6.0.0
     devDependencies:
       '@milkdown/core':
         specifier: workspace:*
@@ -11477,6 +11477,13 @@ packages:
       unist-util-stringify-position: 3.0.2
     dev: false
 
+  /vfile-message@4.0.1:
+    resolution: {integrity: sha512-Z1WqUoIK6T6LLoyO64ncUapmjlA84JqKRQFjcG0kZnnyysfq2rMyg5NvKhkQ16GH9FRCRT+Rk4G0aMxgKYS16g==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-stringify-position: 3.0.2
+    dev: false
+
   /vfile@5.3.7:
     resolution: {integrity: sha512-r7qlzkgErKjobAmyNIkkSpizsFPYiUPuJb5pNW1RB4JcYVZhs4lIbVqk8XPk033CV/1z8ss5pkax8SuhGpcG8g==}
     dependencies:
@@ -11484,6 +11491,14 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.2
       vfile-message: 3.1.2
+    dev: false
+
+  /vfile@6.0.0:
+    resolution: {integrity: sha512-wx7bOMmEl8bY5WPaXTGsK8YxPLoFiUiDg+m+lBACA1QGcagj3sUyxkX0F+W/Nmn4MHH7G4sXBekpYWRxQE2eHg==}
+    dependencies:
+      '@types/unist': 2.0.6
+      unist-util-stringify-position: 3.0.2
+      vfile-message: 4.0.1
     dev: false
 
   /vite-node@0.32.0(@types/node@18.11.9):
