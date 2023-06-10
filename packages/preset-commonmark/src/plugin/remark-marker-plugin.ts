@@ -5,6 +5,7 @@ import type { VFile } from 'vfile'
 import { visit } from 'unist-util-visit'
 import { withMeta } from '../__internal__'
 
+/// This plugin is used to keep the marker (`_` and `*`) of emphasis and strong nodes.
 export const remarkMarker = $remark(() => () => (tree: Node, file: VFile) => {
   const getMarker = (node: Node) => {
     return (file.value as string).charAt(node.position!.start.offset!)
