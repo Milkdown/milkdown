@@ -1,12 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $remark } from '@milkdown/utils'
 import type { Node } from 'unist'
-import type { VFile } from 'vfile'
 import { visit } from 'unist-util-visit'
 import { withMeta } from '../__internal__'
 
 /// This plugin is used to keep the marker (`_` and `*`) of emphasis and strong nodes.
-export const remarkMarker = $remark(() => () => (tree: Node, file: VFile) => {
+export const remarkMarker = $remark(() => () => (tree, file) => {
   const getMarker = (node: Node) => {
     return (file.value as string).charAt(node.position!.start.offset!)
   }
