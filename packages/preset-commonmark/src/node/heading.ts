@@ -198,21 +198,21 @@ export const headingKeymap = $useKeymap('headingKeymap', {
     shortcuts: 'Mod-Alt-4',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(wrapInHeadingCommand.key, 3)
+      return () => commands.call(wrapInHeadingCommand.key, 4)
     },
   },
   TurnIntoH5: {
     shortcuts: 'Mod-Alt-5',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(wrapInHeadingCommand.key, 3)
+      return () => commands.call(wrapInHeadingCommand.key, 5)
     },
   },
   TurnIntoH6: {
     shortcuts: 'Mod-Alt-6',
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(wrapInHeadingCommand.key, 3)
+      return () => commands.call(wrapInHeadingCommand.key, 6)
     },
   },
   DowngradeHeading: {
