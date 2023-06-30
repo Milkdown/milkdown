@@ -16,6 +16,8 @@ const mapping = {
 
 let editor: Editor | undefined
 
+globalThis.commands = {}
+
 const main = async () => {
   const url = new URL(location.href)
   if (!url.hash)

@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
-import { toggleMarkdownMark } from '@milkdown/prose'
+import { toggleMark } from '@milkdown/prose/commands'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the strong mark.
@@ -54,11 +54,8 @@ withMeta(strongSchema.ctx, {
 })
 
 /// A command to toggle the strong mark.
-export const toggleStrongCommand = $command('ToggleStrong', ctx => () => {
-  const markType = strongSchema.type()
-  const markSymbol = ctx.get(remarkStringifyOptionsCtx).strong || '*'
-  const mark = markSymbol + markSymbol
-  return toggleMarkdownMark(markType, mark)
+export const toggleStrongCommand = $command('ToggleStrong', () => () => {
+  return toggleMark(strongSchema.type())
 })
 
 withMeta(toggleStrongCommand, {
