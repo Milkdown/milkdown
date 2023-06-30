@@ -6,7 +6,7 @@
 After cloning Milkdown, run `pnpm install` to install dependencies.
 
 1. Run `pnpm build:cache`.
-2. Run `pnpm start:e2e` in one terminal to see test website.
+2. Run `pnpm start` in one terminal to see test website.
 
 After that,
 you may want to play with any packages,
