@@ -26,6 +26,7 @@
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/theme-nord": "workspace:*",
+    "@milkdown/utils": "workspace:*",
     "katex": "^0.16.0",
     "tslib": "^2.5.0"
   },

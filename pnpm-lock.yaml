@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -179,6 +179,9 @@ importers:
       '@milkdown/theme-nord':
         specifier: workspace:*
         version: link:../packages/theme-nord
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../packages/utils
       katex:
         specifier: ^0.16.0
         version: 0.16.0

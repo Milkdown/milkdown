@@ -20,4 +20,9 @@ declare global {
           paste(payload: Record<string, unknown>): Chainable<void>
         }
     }
+
+    var commands: {
+      toggleStrong?: () => void;
+      toggleEmphasis?: () => void;
+    }
 }

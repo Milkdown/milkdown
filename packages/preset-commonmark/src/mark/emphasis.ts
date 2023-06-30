@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
 import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
-import { toggleMarkdownMark } from '@milkdown/prose'
+import { toggleMark } from '@milkdown/prose/commands'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the emphasis mark.
@@ -54,10 +54,8 @@ withMeta(emphasisSchema.ctx, {
 })
 
 /// A command to toggle the emphasis mark.
-export const toggleEmphasisCommand = $command('ToggleEmphasis', ctx => () => {
-  const markType = emphasisSchema.type()
-  const mark = ctx.get(remarkStringifyOptionsCtx).emphasis || '*'
-  return toggleMarkdownMark(markType, mark)
+export const toggleEmphasisCommand = $command('ToggleEmphasis', () => () => {
+  return toggleMark(emphasisSchema.type())
 })
 
 withMeta(toggleEmphasisCommand, {
