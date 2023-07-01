@@ -24,5 +24,7 @@ declare global {
     var commands: {
       toggleStrong?: () => void;
       toggleEmphasis?: () => void;
+      addTable?: (x?: number, y?: number) => void;
+      addTable2?: (x?: number, y?: number) => void;
     }
 }

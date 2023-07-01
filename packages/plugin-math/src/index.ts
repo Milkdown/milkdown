@@ -164,13 +164,13 @@ withMeta(mathBlockSchema.node, {
 
 /// Input rule for math block.
 /// When you type `$$` and press enter, it will create a math block.
-export const mathBlockInputRule = $inputRule(() => new InputRule(
+export const mathBlockInputRule = $inputRule(ctx => new InputRule(
   /^\$\$\s$/,
   (state, _match, start, end) => {
     const $start = state.doc.resolve(start)
-    if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), mathBlockSchema.type()))
+    if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), mathBlockSchema.type(ctx)))
       return null
-    return state.tr.delete(start, end).setBlockType(start, start, mathBlockSchema.type())
+    return state.tr.delete(start, end).setBlockType(start, start, mathBlockSchema.type(ctx))
   },
 ))
 withMeta(mathBlockInputRule, {

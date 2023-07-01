@@ -9,10 +9,10 @@ import { withMeta } from '../__internal__'
 
 /// This plugin is used to fix the bug of IME composing in table in Safari browser.
 /// original discussion in https://discuss.prosemirror.net/t/ime-composing-problems-on-td-or-th-element-in-safari-browser/4501
-export const autoInsertZeroSpaceInTablePlugin = $prose(() => {
+export const autoInsertZeroSpaceInTablePlugin = $prose((ctx) => {
   const pluginKey = new PluginKey('MILKDOWN_AUTO_INSERT_ZERO_SPACE')
 
-  const isParagraph = (node: Node) => node.type === paragraphSchema.type()
+  const isParagraph = (node: Node) => node.type === paragraphSchema.type(ctx)
 
   const isEmptyParagraph = (node: Node) => isParagraph(node) && node.nodeSize === 2
 

@@ -100,7 +100,7 @@ withMeta(headingSchema.ctx, {
 /// This input rule can turn the selected block into heading.
 /// You can input numbers of `#` and a `space` to create heading.
 export const wrapInHeadingInputRule = $inputRule((ctx) => {
-  return textblockTypeInputRule(/^(?<hashes>#+)\s$/, headingSchema.type(), (match) => {
+  return textblockTypeInputRule(/^(?<hashes>#+)\s$/, headingSchema.type(ctx), (match) => {
     const x = match.groups?.hashes?.length || 0
 
     const view = ctx.get(editorViewCtx)
@@ -125,14 +125,14 @@ withMeta(wrapInHeadingInputRule, {
 /// This command can turn the selected block into heading.
 /// You can pass the level of heading to this command.
 /// By default, the level is 1, which means it will create a `h1` element.
-export const wrapInHeadingCommand = $command('WrapInHeading', () => {
+export const wrapInHeadingCommand = $command('WrapInHeading', (ctx) => {
   return (level?: number) => {
     level ??= 1
 
     if (level < 1)
-      return setBlockType(paragraphSchema.type())
+      return setBlockType(paragraphSchema.type(ctx))
 
-    return setBlockType(headingSchema.type(), { level })
+    return setBlockType(headingSchema.type(ctx), { level })
   }
 })
 
@@ -144,16 +144,16 @@ withMeta(wrapInHeadingCommand, {
 /// This command can downgrade the selected heading.
 /// For example, if you have a `h2` element, and you call this command, you will get a `h1` element.
 /// If the element is already a `h1` element, it will turn it into a `p` element.
-export const downgradeHeadingCommand = $command('DowngradeHeading', () => () =>
+export const downgradeHeadingCommand = $command('DowngradeHeading', ctx => () =>
   (state, dispatch, view) => {
     const { $from } = state.selection
     const node = $from.node()
-    if (node.type !== headingSchema.type() || !state.selection.empty || $from.parentOffset !== 0)
+    if (node.type !== headingSchema.type(ctx) || !state.selection.empty || $from.parentOffset !== 0)
       return false
 
     const level = node.attrs.level - 1
     if (!level)
-      return setBlockType(paragraphSchema.type())(state, dispatch, view)
+      return setBlockType(paragraphSchema.type(ctx))(state, dispatch, view)
 
     dispatch?.(
       state.tr.setNodeMarkup(state.selection.$from.before(), undefined, {

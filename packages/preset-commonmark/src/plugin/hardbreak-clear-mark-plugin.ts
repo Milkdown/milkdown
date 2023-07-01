@@ -6,7 +6,7 @@ import { hardbreakSchema } from '../node'
 import { withMeta } from '../__internal__'
 
 /// This plugin is used to clear the marks around the hardbreak node.
-export const hardbreakClearMarkPlugin = $prose(() => {
+export const hardbreakClearMarkPlugin = $prose((ctx) => {
   return new Plugin({
     key: new PluginKey('MILKDOWN_HARDBREAK_MARKS'),
     appendTransaction: (trs, _oldState, newState) => {
@@ -25,7 +25,7 @@ export const hardbreakClearMarkPlugin = $prose(() => {
           return
 
         const { from } = step as unknown as { from: number }
-        return newState.tr.setNodeMarkup(from, hardbreakSchema.type(), undefined, [])
+        return newState.tr.setNodeMarkup(from, hardbreakSchema.type(ctx), undefined, [])
       }
 
       const isAddMarkStep = step instanceof AddMarkStep
@@ -33,8 +33,8 @@ export const hardbreakClearMarkPlugin = $prose(() => {
         let _tr = newState.tr
         const { from, to } = step as unknown as { from: number; to: number }
         newState.doc.nodesBetween(from, to, (node, pos) => {
-          if (node.type === hardbreakSchema.type())
-            _tr = _tr.setNodeMarkup(pos, hardbreakSchema.type(), undefined, [])
+          if (node.type === hardbreakSchema.type(ctx))
+            _tr = _tr.setNodeMarkup(pos, hardbreakSchema.type(ctx), undefined, [])
         })
 
         return _tr

@@ -4,6 +4,7 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { liftListItem, sinkListItem, splitListItem } from '@milkdown/prose/schema-list'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import { type Command, TextSelection } from '@milkdown/prose/state'
+import type { Ctx } from '@milkdown/ctx'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for list item node.
@@ -98,7 +99,7 @@ withMeta(listItemSchema.ctx, {
 /// * List item 1
 ///   * List item 2
 /// ```
-export const sinkListItemCommand = $command('SinkListItem', () => () => sinkListItem(listItemSchema.type()))
+export const sinkListItemCommand = $command('SinkListItem', ctx => () => sinkListItem(listItemSchema.type(ctx)))
 
 withMeta(sinkListItemCommand, {
   displayName: 'Command<sinkListItemCommand>',
@@ -117,7 +118,7 @@ withMeta(sinkListItemCommand, {
 /// * List item 1
 /// * List item 2
 /// ```
-export const liftListItemCommand = $command('SplitListItem', () => () => liftListItem(listItemSchema.type()))
+export const liftListItemCommand = $command('SplitListItem', ctx => () => liftListItem(listItemSchema.type(ctx)))
 
 withMeta(liftListItemCommand, {
   displayName: 'Command<liftListItemCommand>',
@@ -137,14 +138,14 @@ withMeta(liftListItemCommand, {
 /// * List item 2
 /// * <- cursor here
 /// ```
-export const splitListItemCommand = $command('SplitListItem', () => () => splitListItem(listItemSchema.type()))
+export const splitListItemCommand = $command('SplitListItem', ctx => () => splitListItem(listItemSchema.type(ctx)))
 
 withMeta(splitListItemCommand, {
   displayName: 'Command<splitListItemCommand>',
   group: 'ListItem',
 })
 
-const liftFirstListItem: Command = (state, dispatch, view) => {
+const liftFirstListItem = (ctx: Ctx): Command => (state, dispatch, view) => {
   const { selection } = state
   if (!(selection instanceof TextSelection))
     return false
@@ -157,7 +158,7 @@ const liftFirstListItem: Command = (state, dispatch, view) => {
 
   const parentItem = $from.node(-1)
   // selection should be in list item and list item should be the first child of the list
-  if (parentItem.type !== listItemSchema.type() || parentItem.firstChild !== $from.node())
+  if (parentItem.type !== listItemSchema.type(ctx) || parentItem.firstChild !== $from.node())
     return false
 
   const list = $from.node(-2)
@@ -165,7 +166,7 @@ const liftFirstListItem: Command = (state, dispatch, view) => {
   if (list.childCount > 1)
     return false
 
-  return liftListItem(listItemSchema.type())(state, dispatch, view)
+  return liftListItem(listItemSchema.type(ctx))(state, dispatch, view)
 }
 
 /// The command to remove list item **only if**:
@@ -174,7 +175,7 @@ const liftFirstListItem: Command = (state, dispatch, view) => {
 /// - List item is the only child of the list.
 ///
 /// Most of the time, you shouldn't use this command directly.
-export const liftFirstListItemCommand = $command('LiftFirstListItem', () => () => liftFirstListItem)
+export const liftFirstListItemCommand = $command('LiftFirstListItem', ctx => () => liftFirstListItem(ctx))
 
 withMeta(liftFirstListItemCommand, {
   displayName: 'Command<liftFirstListItemCommand>',

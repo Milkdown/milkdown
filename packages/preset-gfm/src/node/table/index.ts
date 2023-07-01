@@ -175,18 +175,19 @@ withMeta(tableHeaderSchema.ctx, {
 
 /// A input rule for creating table.
 /// For example, `|2x2|` will create a 2x2 table.
-export const insertTableInputRule = $inputRule(() => new InputRule(
+export const insertTableInputRule = $inputRule(ctx => new InputRule(
   /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/, (state, match, start, end) => {
     const $start = state.doc.resolve(start)
-    if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), tableSchema.type()))
+    if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), tableSchema.type(ctx)))
       return null
 
     const tableNode = createTable(
+      ctx,
       Number(match.groups?.row),
       Number(match.groups?.col),
     )
-    const tr = state.tr.replaceRangeWith(start, end, tableNode).scrollIntoView()
-    return tr.setSelection(TextSelection.create(tr.doc, start + 3))
+    const tr = state.tr.replaceRangeWith(start, end, tableNode)
+    return tr.setSelection(TextSelection.create(tr.doc, start + 3)).scrollIntoView()
   },
 ))
 
@@ -214,14 +215,14 @@ withMeta(goToNextTableCellCommand, {
 /// A command for splitting current table into two tables.
 /// If the selection is at the end of the table,
 /// it will just quit the table and insert a new paragraph node.
-export const breakTableCommand = $command('BreakTable', () => () => (state, dispatch) => {
+export const breakTableCommand = $command('BreakTable', ctx => () => (state, dispatch) => {
   if (!isInTable(state))
     return false
 
   const { $head } = state.selection
   const pos = $head.after()
   const tr = state.tr
-    .replaceWith(pos, pos, paragraphSchema.type().createAndFill()!)
+    .replaceWith(pos, pos, paragraphSchema.type(ctx).createAndFill()!)
 
   tr.setSelection(Selection.near(tr.doc.resolve(pos), 1)).scrollIntoView()
   dispatch?.(tr)
@@ -236,14 +237,16 @@ withMeta(breakTableCommand, {
 /// A command for inserting a table.
 /// You can specify the number of rows and columns.
 /// By default, it will insert a 3x3 table.
-export const insertTableCommand = $command('InsertTable', () => ({ row, col }: { row?: number; col?: number } = {}) => (state, dispatch) => {
+export const insertTableCommand = $command('InsertTable', ctx => ({ row, col }: { row?: number; col?: number } = {}) => (state, dispatch) => {
   const { selection, tr } = state
   const { from } = selection
-  const table = createTable(row, col)
+  const table = createTable(ctx, row, col)
   const _tr = tr.replaceSelectionWith(table)
   const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true)
   if (sel)
-    dispatch?.(_tr.setSelection(sel))
+    _tr.setSelection(sel)
+
+  dispatch?.(_tr)
 
   return true
 })
@@ -363,12 +366,12 @@ withMeta(addColAfterCommand, {
 })
 
 /// A command for adding a row before the current row.
-export const addRowBeforeCommand = $command('AddRowBefore', () => () => (state, dispatch) => {
+export const addRowBeforeCommand = $command('AddRowBefore', ctx => () => (state, dispatch) => {
   if (!isInTable(state))
     return false
   if (dispatch) {
     const rect = selectedRect(state)
-    dispatch(addRowWithAlignment(state.tr, rect, rect.top))
+    dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.top))
   }
   return true
 })
@@ -379,12 +382,12 @@ withMeta(addRowBeforeCommand, {
 })
 
 /// A command for adding a row after the current row.
-export const addRowAfterCommand = $command('AddRowAfter', () => () => (state, dispatch) => {
+export const addRowAfterCommand = $command('AddRowAfter', ctx => () => (state, dispatch) => {
   if (!isInTable(state))
     return false
   if (dispatch) {
     const rect = selectedRect(state)
-    dispatch(addRowWithAlignment(state.tr, rect, rect.bottom))
+    dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.bottom))
   }
   return true
 })

@@ -7,6 +7,7 @@ import type { Selection, Transaction } from '@milkdown/prose/state'
 import type { TableRect } from '@milkdown/prose/tables'
 import { CellSelection, TableMap } from '@milkdown/prose/tables'
 
+import type { Ctx } from '@milkdown/ctx'
 import { tableCellSchema, tableHeaderSchema, tableRowSchema, tableSchema } from '.'
 
 /// @internal
@@ -17,20 +18,20 @@ export interface CellPos {
 }
 
 /// @internal
-export const createTable = (rowsCount = 3, colsCount = 3): Node => {
+export const createTable = (ctx: Ctx, rowsCount = 3, colsCount = 3): Node => {
   const cells = Array(colsCount)
     .fill(0)
-    .map(() => tableCellSchema.type().createAndFill()!)
+    .map(() => tableCellSchema.type(ctx).createAndFill()!)
 
   const headerCells = Array(colsCount)
     .fill(0)
-    .map(() => tableHeaderSchema.type().createAndFill()!)
+    .map(() => tableHeaderSchema.type(ctx).createAndFill()!)
 
   const rows = Array(rowsCount)
     .fill(0)
-    .map((_, i) => tableRowSchema.type().create(null, i === 0 ? headerCells : cells))
+    .map((_, i) => tableRowSchema.type(ctx).create(null, i === 0 ? headerCells : cells))
 
-  return tableSchema.type().create(null, rows)
+  return tableSchema.type(ctx).create(null, rows)
 }
 
 /// Find the table node with position information for current selection.
@@ -122,7 +123,7 @@ export const selectTable = (tr: Transaction) => {
 }
 
 /// @internal
-export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }: TableRect, row: number) {
+export function addRowWithAlignment(ctx: Ctx, tr: Transaction, { map, tableStart, table }: TableRect, row: number) {
   const rowPos = Array(row)
     .fill(0)
     .reduce((acc, _, i) => {
@@ -133,10 +134,10 @@ export function addRowWithAlignment(tr: Transaction, { map, tableStart, table }:
     .fill(0)
     .map((_, col) => {
       const headerCol = table.nodeAt(map.map[col] as number)
-      return tableCellSchema.type().createAndFill({ alignment: headerCol?.attrs.alignment }) as Node
+      return tableCellSchema.type(ctx).createAndFill({ alignment: headerCol?.attrs.alignment }) as Node
     })
 
-  tr.insert(rowPos, tableRowSchema.type().create(null, cells))
+  tr.insert(rowPos, tableRowSchema.type(ctx).create(null, cells))
   return tr
 }
 

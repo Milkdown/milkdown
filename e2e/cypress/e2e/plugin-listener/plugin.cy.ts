@@ -7,7 +7,7 @@ Cypress.on('window:before:load', (win) => {
 })
 
 beforeEach(() => {
-  cy.visit('/#/plugin-listener')
+  cy.visit('/plugin-listener/')
 })
 
 it('has editor', () => {

@@ -47,7 +47,8 @@ export const $nodeSchema = <T extends string>(id: T, schema: GetNodeSchema): $No
   const result = [schemaCtx, nodeSchema] as $NodeSchema<T>
   result.id = nodeSchema.id
   result.node = nodeSchema
-  result.type = nodeSchema.type
+
+  result.type = (ctx: Ctx) => nodeSchema.type(ctx)
   result.schema = nodeSchema.schema
   result.ctx = schemaCtx
   result.key = schemaCtx.key

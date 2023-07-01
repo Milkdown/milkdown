@@ -1,18 +1,23 @@
 /* Copyright 2021, Milkdown by Mirone. */
+
 import { Editor, rootCtx } from '@milkdown/core'
-import { commonmark } from '@milkdown/preset-commonmark'
 import { nord } from '@milkdown/theme-nord'
-import { math } from '@milkdown/plugin-math'
+import { commonmark } from '@milkdown/preset-commonmark'
+import { clipboard } from '@milkdown/plugin-clipboard'
 
-import 'katex/dist/katex.min.css'
+import { setup } from '../utils'
 
-export const setup = () => {
+import '@milkdown/theme-nord/style.css'
+
+import '../style.css'
+
+setup(() => {
   return Editor.make()
     .config((ctx) => {
       ctx.set(rootCtx, document.getElementById('app'))
     })
     .config(nord)
     .use(commonmark)
-    .use(math)
+    .use(clipboard)
     .create()
-}
+})

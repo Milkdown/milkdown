@@ -65,7 +65,7 @@ export type UpdateLinkCommandPayload = {
 }
 /// A command to toggle the link mark.
 /// You can pass the `href` and `title` to the link.
-export const toggleLinkCommand = $command('ToggleLink', () => (payload: UpdateLinkCommandPayload = {}) => toggleMark(linkSchema.type(), payload))
+export const toggleLinkCommand = $command('ToggleLink', ctx => (payload: UpdateLinkCommandPayload = {}) => toggleMark(linkSchema.type(ctx), payload))
 
 withMeta(toggleLinkCommand, {
   displayName: 'Command<toggleLinkCommand>',
@@ -74,7 +74,7 @@ withMeta(toggleLinkCommand, {
 
 /// A command to update the link mark.
 /// You can pass the `href` and `title` to update the link.
-export const updateLinkCommand = $command('UpdateLink', () => (payload: UpdateLinkCommandPayload = {}) => (state, dispatch) => {
+export const updateLinkCommand = $command('UpdateLink', ctx => (payload: UpdateLinkCommandPayload = {}) => (state, dispatch) => {
   if (!dispatch)
     return false
 
@@ -83,7 +83,7 @@ export const updateLinkCommand = $command('UpdateLink', () => (payload: UpdateLi
   const { selection } = state
   const { from, to } = selection
   state.doc.nodesBetween(from, from === to ? to + 1 : to, (n, p) => {
-    if (linkSchema.type().isInSet(n.marks)) {
+    if (linkSchema.type(ctx).isInSet(n.marks)) {
       node = n
       pos = p
       return false
@@ -95,14 +95,14 @@ export const updateLinkCommand = $command('UpdateLink', () => (payload: UpdateLi
   if (!node)
     return false
 
-  const mark = node.marks.find(({ type }) => type === linkSchema.type())
+  const mark = node.marks.find(({ type }) => type === linkSchema.type(ctx))
   if (!mark)
     return false
 
   const start = pos
   const end = pos + node.nodeSize
   const { tr } = state
-  const linkMark = linkSchema.type().create({ ...mark.attrs, ...payload })
+  const linkMark = linkSchema.type(ctx).create({ ...mark.attrs, ...payload })
   if (!linkMark)
     return false
 

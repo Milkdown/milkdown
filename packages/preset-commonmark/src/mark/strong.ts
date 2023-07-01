@@ -54,8 +54,8 @@ withMeta(strongSchema.ctx, {
 })
 
 /// A command to toggle the strong mark.
-export const toggleStrongCommand = $command('ToggleStrong', () => () => {
-  return toggleMark(strongSchema.type())
+export const toggleStrongCommand = $command('ToggleStrong', ctx => () => {
+  return toggleMark(strongSchema.type(ctx))
 })
 
 withMeta(toggleStrongCommand, {

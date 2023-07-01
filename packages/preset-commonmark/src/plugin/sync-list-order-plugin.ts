@@ -9,14 +9,14 @@ import { bulletListSchema } from '../node'
 import { withMeta } from '../__internal__'
 
 /// This plugin is used to keep the label of list item up to date in ordered list.
-export const syncListOrderPlugin = $prose(() => {
+export const syncListOrderPlugin = $prose((ctx) => {
   const syncOrderLabel = (view: EditorView) => {
     if (view.composing || !view.editable)
       return
 
-    const orderedListType = orderedListSchema.type()
-    const bulletListType = bulletListSchema.type()
-    const listItemType = listItemSchema.type()
+    const orderedListType = orderedListSchema.type(ctx)
+    const bulletListType = bulletListSchema.type(ctx)
+    const listItemType = listItemSchema.type(ctx)
     const state = view.state
     const handleNodeItem = (attrs: Record<string, any>, index: number): boolean => {
       let changed = false

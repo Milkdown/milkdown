@@ -105,7 +105,7 @@ export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+)
 
   return state.tr
     .setMeta('emoji', true)
-    .replaceRangeWith(start, end, emojiSchema.type().create({ html }))
+    .replaceRangeWith(start, end, emojiSchema.type(ctx).create({ html }))
     .scrollIntoView()
 }))
 

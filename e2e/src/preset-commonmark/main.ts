@@ -1,11 +1,18 @@
 /* Copyright 2021, Milkdown by Mirone. */
+
 import { Editor, rootCtx } from '@milkdown/core'
-import { commonmark, toggleEmphasisCommand, toggleStrongCommand } from '@milkdown/preset-commonmark'
 import { nord } from '@milkdown/theme-nord'
+import { commonmark, toggleEmphasisCommand, toggleStrongCommand } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
 import { callCommand } from '@milkdown/utils'
 
-export const setup = () => {
+import { setup } from '../utils'
+
+import '@milkdown/theme-nord/style.css'
+
+import '../style.css'
+
+setup(() => {
   const editor = Editor.make()
     .enableInspector()
     .config((ctx) => {
@@ -24,4 +31,4 @@ export const setup = () => {
     }
   })
   return editor
-}
+})

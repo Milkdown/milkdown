@@ -55,14 +55,9 @@ export const schema: MilkdownPlugin = (ctx) => {
 
     const nodes = Object.fromEntries(ctx.get(nodesCtx).map(([key, x]) => [key, extendPriority(x)]))
     const marks = Object.fromEntries(ctx.get(marksCtx).map(([key, x]) => [key, extendPriority(x)]))
+    const schema = new Schema({ nodes, marks })
 
-    ctx.set(
-      schemaCtx,
-      new Schema({
-        nodes,
-        marks,
-      }),
-    )
+    ctx.set(schemaCtx, schema)
 
     ctx.done(SchemaReady)
 

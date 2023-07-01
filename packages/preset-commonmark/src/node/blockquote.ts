@@ -47,7 +47,7 @@ withMeta(blockquoteSchema.ctx, {
 
 /// This input rule will convert a line that starts with `> ` into a blockquote.
 /// You can type `> ` at the start of a line to create a blockquote.
-export const wrapInBlockquoteInputRule = $inputRule(() => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type()))
+export const wrapInBlockquoteInputRule = $inputRule(ctx => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type(ctx)))
 
 withMeta(wrapInBlockquoteInputRule, {
   displayName: 'InputRule<wrapInBlockquoteInputRule>',
@@ -55,7 +55,7 @@ withMeta(wrapInBlockquoteInputRule, {
 })
 
 /// This command will wrap the current selection in a blockquote.
-export const wrapInBlockquoteCommand = $command('WrapInBlockquote', () => () => wrapIn(blockquoteSchema.type()))
+export const wrapInBlockquoteCommand = $command('WrapInBlockquote', ctx => () => wrapIn(blockquoteSchema.type(ctx)))
 
 withMeta(wrapInBlockquoteCommand, {
   displayName: 'Command<wrapInBlockquoteCommand>',

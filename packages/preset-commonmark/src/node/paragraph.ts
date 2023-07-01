@@ -51,7 +51,7 @@ withMeta(paragraphSchema.ctx, {
 })
 
 /// This command can turn the selected block into paragraph.
-export const turnIntoTextCommand = $command('TurnIntoText', () => () => setBlockType(paragraphSchema.type()))
+export const turnIntoTextCommand = $command('TurnIntoText', ctx => () => setBlockType(paragraphSchema.type(ctx)))
 
 withMeta(turnIntoTextCommand, {
   displayName: 'Command<turnIntoTextCommand>',
