@@ -46,16 +46,16 @@ withMeta(inlineCodeSchema.ctx, {
 })
 
 /// A command to toggle the inlineCode mark.
-export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => (state, dispatch) => {
+export const toggleInlineCodeCommand = $command('ToggleInlineCode', ctx => () => (state, dispatch) => {
   const { selection, tr } = state
   if (selection.empty)
     return false
   const { from, to } = selection
 
-  const has = state.doc.rangeHasMark(from, to, inlineCodeSchema.type())
+  const has = state.doc.rangeHasMark(from, to, inlineCodeSchema.type(ctx))
   // remove exists inlineCode mark if have
   if (has) {
-    dispatch?.(tr.removeMark(from, to, inlineCodeSchema.type()))
+    dispatch?.(tr.removeMark(from, to, inlineCodeSchema.type(ctx)))
     return true
   }
 
@@ -69,7 +69,7 @@ export const toggleInlineCodeCommand = $command('ToggleInlineCode', () => () => 
     })
 
   // add inlineCode mark
-  dispatch?.(tr.addMark(from, to, inlineCodeSchema.type().create()))
+  dispatch?.(tr.addMark(from, to, inlineCodeSchema.type(ctx).create()))
   return true
 })
 

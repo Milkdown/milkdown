@@ -11,6 +11,7 @@ export const setup = () => {
       ctx.set(rootCtx, document.getElementById('app'))
     })
     .config(nord)
+    .enableInspector()
     .use(commonmark)
     .use(gfm)
     .use(history)

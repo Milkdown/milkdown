@@ -44,12 +44,12 @@ withMeta(hrSchema.ctx, {
 
 /// Input rule to insert a hr.
 /// For example, `---` will be converted to a hr.
-export const insertHrInputRule = $inputRule(() => new InputRule(
+export const insertHrInputRule = $inputRule(ctx => new InputRule(
   /^(?:---|___\s|\*\*\*\s)$/, (state, match, start, end) => {
     const { tr } = state
 
     if (match[0])
-      tr.replaceWith(start - 1, end, hrSchema.type().create())
+      tr.replaceWith(start - 1, end, hrSchema.type(ctx).create())
 
     return tr
   },
@@ -61,14 +61,14 @@ withMeta(insertHrInputRule, {
 })
 
 /// Command to insert a hr.
-export const insertHrCommand = $command('InsertHr', () => () => (state, dispatch) => {
+export const insertHrCommand = $command('InsertHr', ctx => () => (state, dispatch) => {
   if (!dispatch)
     return true
 
-  const paragraph = paragraphSchema.node.type().create()
+  const paragraph = paragraphSchema.node.type(ctx).create()
   const { tr, selection } = state
   const { from } = selection
-  const node = hrSchema.type().create()
+  const node = hrSchema.type(ctx).create()
   if (!node)
     return true
 

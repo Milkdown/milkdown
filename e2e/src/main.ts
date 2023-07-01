@@ -33,6 +33,8 @@ const main = async () => {
 
   const module = await name()
   editor = await module.setup()
+  await module.setup()
+  await module.setup()
   globalThis.__milkdown__ = editor
   globalThis.__setMarkdown__ = (markdown: string) =>
     editor!.action((ctx) => {

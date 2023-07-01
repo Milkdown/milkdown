@@ -77,7 +77,7 @@ withMeta(bulletListSchema.ctx, {
 })
 
 /// Input rule for wrapping a block in bullet list node.
-export const wrapInBulletListInputRule = $inputRule(() => wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type()))
+export const wrapInBulletListInputRule = $inputRule(ctx => wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type(ctx)))
 
 withMeta(wrapInBulletListInputRule, {
   displayName: 'InputRule<wrapInBulletListInputRule>',
@@ -85,7 +85,7 @@ withMeta(wrapInBulletListInputRule, {
 })
 
 /// Command for creating bullet list node.
-export const wrapInBulletListCommand = $command('WrapInBulletList', () => () => wrapIn(bulletListSchema.type()))
+export const wrapInBulletListCommand = $command('WrapInBulletList', ctx => () => wrapIn(bulletListSchema.type(ctx)))
 
 withMeta(wrapInBulletListCommand, {
   displayName: 'Command<wrapInBulletListCommand>',

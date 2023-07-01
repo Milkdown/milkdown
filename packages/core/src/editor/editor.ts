@@ -91,7 +91,8 @@ export class Editor {
   /// @internal
   readonly #prepare = (plugins: MilkdownPlugin[], store: EditorPluginStore) => {
     plugins.forEach((plugin) => {
-      const ctx = this.#ctx.produce(this.#enableInspector ? plugin.meta : undefined)
+      // const ctx = this.#ctx.produce(this.#enableInspector ? plugin.meta : undefined)
+      const ctx = this.#ctx
       const handler = plugin(ctx)
       store.set(plugin, { ctx, handler, cleanup: undefined })
     })

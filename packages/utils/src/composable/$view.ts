@@ -36,7 +36,7 @@ export const $view = <
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const v = view(ctx)
-    if (type.type() instanceof NodeType)
+    if (type.type(ctx) instanceof NodeType)
       ctx.update(nodeViewCtx, ps => [...ps, [type.id, v] as [string, NodeViewConstructor]])
     else
       ctx.update(markViewCtx, ps => [...ps, [type.id, v] as [string, MarkViewConstructor]]);
@@ -45,7 +45,7 @@ export const $view = <
     (<$View<T, V>>plugin).type = type
 
     return () => {
-      if (type.type() instanceof NodeType)
+      if (type.type(ctx) instanceof NodeType)
         ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
       else
         ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))
@@ -69,7 +69,7 @@ export const $viewAsync = <
       async (ctx, plugin) => {
         await ctx.wait(SchemaReady)
         const v = await view(ctx)
-        if (type.type() instanceof NodeType)
+        if (type.type(ctx) instanceof NodeType)
           ctx.update(nodeViewCtx, ps => [...ps, [type.id, v] as [string, NodeViewConstructor]])
         else
           ctx.update(markViewCtx, ps => [...ps, [type.id, v] as [string, MarkViewConstructor]])
@@ -78,7 +78,7 @@ export const $viewAsync = <
         plugin.type = type
 
         return () => {
-          if (type.type() instanceof NodeType)
+          if (type.type(ctx) instanceof NodeType)
             ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
           else
             ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))

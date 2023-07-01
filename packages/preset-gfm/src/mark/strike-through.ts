@@ -46,8 +46,8 @@ withMeta(strikethroughSchema.ctx, {
 })
 
 /// A command to toggle the strikethrough mark.
-export const toggleStrikethroughCommand = $command('ToggleStrikeThrough', () => () => {
-  return toggleMark(strikethroughSchema.type())
+export const toggleStrikethroughCommand = $command('ToggleStrikeThrough', ctx => () => {
+  return toggleMark(strikethroughSchema.type(ctx))
 })
 
 withMeta(toggleStrikethroughCommand, {

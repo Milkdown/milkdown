@@ -2,7 +2,7 @@
 
 import type { Cmd, CmdKey } from '@milkdown/core'
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
-import { SchemaReady, commandsCtx, commandsTimerCtx, createCmdKey } from '@milkdown/core'
+import { CommandsReady, commandsCtx, commandsTimerCtx, createCmdKey } from '@milkdown/core'
 
 import { addTimer } from './utils'
 
@@ -43,7 +43,7 @@ export const $command = <T, K extends string>(key: K, cmd: (ctx: Ctx) => Cmd<T>)
 
   const plugin: MilkdownPlugin = ctx => async () => {
     (<$Command<T>>plugin).key = cmdKey
-    await ctx.wait(SchemaReady)
+    await ctx.wait(CommandsReady)
     const command = cmd(ctx)
     ctx.get(commandsCtx).create(cmdKey, command);
     (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload)
@@ -74,7 +74,7 @@ export const $commandAsync = <T, K extends string>(key: K, cmd: (ctx: Ctx) => Pr
   const cmdKey = createCmdKey<T>(key)
   return addTimer<$Command<T>>(
     async (ctx, plugin) => {
-      await ctx.wait(SchemaReady)
+      await ctx.wait(CommandsReady)
       const command = await cmd(ctx)
       ctx.get(commandsCtx).create(cmdKey, command);
       (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload);

@@ -61,7 +61,7 @@ withMeta(hardbreakSchema.ctx, {
 })
 
 /// Command to insert a hardbreak.
-export const insertHardbreakCommand = $command('InsertHardbreak', () => () => (state, dispatch) => {
+export const insertHardbreakCommand = $command('InsertHardbreak', ctx => () => (state, dispatch) => {
   const { selection, tr } = state
   if (selection.empty) {
     // Transform two successive hardbreak into a new line
@@ -76,7 +76,7 @@ export const insertHardbreakCommand = $command('InsertHardbreak', () => () => (s
       return true
     }
   }
-  dispatch?.(tr.setMeta('hardbreak', true).replaceSelectionWith(hardbreakSchema.type().create()).scrollIntoView())
+  dispatch?.(tr.setMeta('hardbreak', true).replaceSelectionWith(hardbreakSchema.type(ctx).create()).scrollIntoView())
   return true
 })
 

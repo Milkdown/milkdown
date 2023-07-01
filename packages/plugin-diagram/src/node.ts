@@ -98,9 +98,9 @@ withMeta(diagramSchema.ctx, {
 })
 
 /// A input rule that will insert a diagram node when you type ` ```mermaid `.
-export const insertDiagramInputRules = $inputRule(() =>
+export const insertDiagramInputRules = $inputRule(ctx =>
   new InputRule(/^```mermaid$/, (state, _match, start, end) => {
-    const nodeType = diagramSchema.type()
+    const nodeType = diagramSchema.type(ctx)
     const $start = state.doc.resolve(start)
     if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType))
       return null
@@ -119,7 +119,7 @@ withMeta(remarkDiagramPlugin, {
 })
 
 /// A command that will insert a diagram node.
-export const insertDiagramCommand = $command('InsertDiagramCommand', () => () => setBlockType(diagramSchema.type(), { identity: getId() }))
+export const insertDiagramCommand = $command('InsertDiagramCommand', ctx => () => setBlockType(diagramSchema.type(ctx), { identity: getId() }))
 
 withMeta(insertDiagramCommand, {
   displayName: 'Command<insertDiagramCommand>',

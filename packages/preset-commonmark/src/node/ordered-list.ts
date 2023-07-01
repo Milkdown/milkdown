@@ -77,9 +77,9 @@ withMeta(orderedListSchema.ctx, {
 })
 
 /// Input rule for wrapping a block in ordered list node.
-export const wrapInOrderedListInputRule = $inputRule(() => wrappingInputRule(
+export const wrapInOrderedListInputRule = $inputRule(ctx => wrappingInputRule(
   /^\s*(\d+)\.\s$/,
-  orderedListSchema.type(),
+  orderedListSchema.type(ctx),
   match => ({ order: Number(match[1]) }),
   (match, node) => node.childCount + node.attrs.order === Number(match[1]),
 ))
@@ -90,7 +90,7 @@ withMeta(wrapInOrderedListInputRule, {
 })
 
 /// Command for wrapping a block in ordered list node.
-export const wrapInOrderedListCommand = $command('WrapInOrderedList', () => () => wrapIn(orderedListSchema.type()))
+export const wrapInOrderedListCommand = $command('WrapInOrderedList', ctx => () => wrapIn(orderedListSchema.type(ctx)))
 
 withMeta(wrapInOrderedListCommand, {
   displayName: 'Command<wrapInOrderedListCommand>',

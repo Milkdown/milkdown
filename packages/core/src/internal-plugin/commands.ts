@@ -32,6 +32,10 @@ export class CommandManager {
     this.#ctx = ctx
   }
 
+  get ctx() {
+    return this.#ctx
+  }
+
   /// Register a command into the manager.
   create<T>(meta: CmdKey<T>, value: Cmd<T>) {
     const slice = meta.create(this.#container.sliceMap)
@@ -70,12 +74,6 @@ export class CommandManager {
   }
 }
 
-/// @internal
-export type CmdTuple<T = unknown> = [key: CmdKey<T>, value: Cmd<T>]
-
-/// Create a command instance.
-export const createCmd = <T>(key: CmdKey<T>, value: Cmd<T>): CmdTuple => [key, value] as CmdTuple
-
 /// Create a command key, which is a slice type that contains a command.
 export const createCmdKey = <T = undefined>(key = 'cmdKey'): CmdKey<T> =>
   createSlice((() => () => false) as Cmd<T>, key)
@@ -95,8 +93,9 @@ export const CommandsReady = createTimer('CommandsReady')
 ///
 /// This plugin will wait for the schema plugin.
 export const commands: MilkdownPlugin = (ctx) => {
-  ctx.inject(commandsCtx, new CommandManager()).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady)
-  ctx.get(commandsCtx).setCtx(ctx)
+  const cmd = new CommandManager()
+  cmd.setCtx(ctx)
+  ctx.inject(commandsCtx, cmd).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady)
   return async () => {
     await ctx.waitTimers(commandsTimerCtx)
 

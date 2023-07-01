@@ -54,8 +54,8 @@ withMeta(emphasisSchema.ctx, {
 })
 
 /// A command to toggle the emphasis mark.
-export const toggleEmphasisCommand = $command('ToggleEmphasis', () => () => {
-  return toggleMark(emphasisSchema.type())
+export const toggleEmphasisCommand = $command('ToggleEmphasis', ctx => () => {
+  return toggleMark(emphasisSchema.type(ctx))
 })
 
 withMeta(toggleEmphasisCommand, {

@@ -4,7 +4,6 @@ import type {
   MilkdownPlugin,
 } from '@milkdown/ctx'
 import {
-  SchemaReady,
   nodesCtx,
   schemaCtx,
   schemaTimerCtx,
@@ -19,7 +18,7 @@ import { addTimer } from './utils'
 export type $Node = MilkdownPlugin & {
   id: string
   schema: NodeSchema
-  type: () => NodeType
+  type: (ctx: Ctx) => NodeType
 }
 
 /// Create a node plugin.
@@ -31,7 +30,6 @@ export type $Node = MilkdownPlugin & {
 /// - `schema`: The node schema created.
 /// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
 export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
-  let nodeType: NodeType | undefined
   const plugin: MilkdownPlugin = ctx => async () => {
     const nodeSchema = schema(ctx)
     ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]]);
@@ -39,17 +37,18 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
     (<$Node>plugin).id = id;
     (<$Node>plugin).schema = nodeSchema
 
-    await ctx.wait(SchemaReady)
-
-    nodeType = ctx.get(schemaCtx).nodes[id]
-    if (!nodeType)
-      throw missingNodeInSchema(id)
-
     return () => {
       ctx.update(nodesCtx, ns => ns.filter(([x]) => x !== id))
     }
   }
-  (<$Node>plugin).type = () => nodeType!
+
+  (<$Node>plugin).type = (ctx) => {
+    const nodeType = ctx.get(schemaCtx).nodes[id]
+    if (!nodeType)
+      throw missingNodeInSchema(id)
+
+    return nodeType
+  }
 
   return <$Node>plugin
 }
@@ -62,7 +61,6 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
 /// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
 /// - `timer`: The timer which will be resolved when the node schema is ready.
 export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>, timerName?: string) => {
-  let nodeType: NodeType | undefined
   const plugin = addTimer<$Node>(
     async (ctx, plugin, done) => {
       const nodeSchema = await schema(ctx)
@@ -72,12 +70,6 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
       plugin.schema = nodeSchema
       done()
 
-      await ctx.wait(SchemaReady)
-
-      nodeType = ctx.get(schemaCtx).nodes[id]
-      if (!nodeType)
-        throw missingNodeInSchema(id)
-
       return () => {
         ctx.update(nodesCtx, ns => ns.filter(([x]) => x !== id))
       }
@@ -85,7 +77,14 @@ export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>
     schemaTimerCtx,
     timerName,
   )
-  plugin.type = () => nodeType!
+
+  plugin.type = (ctx) => {
+    const nodeType = ctx.get(schemaCtx).nodes[id]
+    if (!nodeType)
+      throw missingNodeInSchema(id)
+
+    return nodeType
+  }
 
   return plugin
 }
