@@ -3,7 +3,7 @@
 Cypress.config('baseUrl', `http://localhost:${Cypress.env('SERVER_PORT')}`)
 
 beforeEach(() => {
-  cy.visit('/#/preset-gfm')
+  cy.visit('/preset-gfm/')
 })
 
 it('has editor', () => {

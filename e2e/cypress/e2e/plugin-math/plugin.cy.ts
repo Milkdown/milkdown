@@ -3,7 +3,7 @@
 Cypress.config('baseUrl', `http://localhost:${Cypress.env('SERVER_PORT')}`)
 
 beforeEach(() => {
-  cy.visit('/#/plugin-math')
+  cy.visit('/plugin-math/')
 })
 
 it('has editor', () => {
