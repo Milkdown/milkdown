@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core'
 import { getNodeFromSchema } from '@milkdown/prose'
-import type { Node } from '@milkdown/prose/model'
+import type { Node, Slice } from '@milkdown/prose/model'
 import { DOMParser, DOMSerializer } from '@milkdown/prose/model'
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
@@ -21,6 +21,19 @@ const isPureText = (content: UnknownRecord | UnknownRecord[] | undefined | null)
     return isPureText(child as UnknownRecord[])
 
   return content.type === 'text'
+}
+
+const isTextOnlySlice = (slice: Slice): Node | false => {
+  if (slice.content.childCount === 1) {
+    const node = slice.content.firstChild
+    if (node?.type.name === 'text')
+      return node
+
+    if (node?.type.name === 'paragraph' && node.childCount === 1 && node.firstChild?.type.name === 'text')
+      return node.firstChild
+  }
+
+  return false
 }
 
 /// The prosemirror plugin for clipboard.
@@ -90,8 +103,14 @@ export const clipboard = $prose((ctx) => {
           template.remove()
         }
 
-        view.dispatch(view.state.tr.replaceSelection(domParser.parseSlice(dom)))
+        const slice = domParser.parseSlice(dom)
+        const node = isTextOnlySlice(slice)
+        if (node) {
+          view.dispatch(view.state.tr.replaceSelectionWith(node, true))
+          return true
+        }
 
+        view.dispatch(view.state.tr.replaceSelection(slice))
         return true
       },
       clipboardTextSerializer: (slice) => {
