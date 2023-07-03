@@ -1,5 +1,27 @@
 # @milkdown/plugin-math
 
+## 7.2.4
+
+### Patch Changes
+
+- 37b2f22a: Bug fix.
+
+  Expose trigger key for slash plugin. (#1018)
+
+  Fix heading commands for h4-h6. (#1033)
+
+  Rollback to toggle mark command. (#1035)
+
+  Fix the issue that commands not work for multi editor instances. (#1038)
+
+  Fix the issue that marks won't be extends when pasting pure text from HTML. (#1040)
+
+  Bump prosemirror versions. (#1041)
+
+- Updated dependencies [37b2f22a]
+  - @milkdown/exception@7.2.4
+  - @milkdown/utils@7.2.4
+
 ## 7.2.3
 
 ### Patch Changes
