@@ -38,7 +38,7 @@ const updateIndent = (tr: Transaction, options: IndentConfigOptions): Transactio
 /// Editor
 ///   .make()
 ///   .config((ctx) => {
-///     ctx.set(indentConfig, {
+///     ctx.set(indentConfig.key, {
 ///       type: 'space',
 ///       size: 4,
 ///     })
