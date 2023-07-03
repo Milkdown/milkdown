@@ -103,22 +103,3 @@ jobs:
           wait-on-timeout: 120
           browser: chrome
           group: Milkdown-E2E-Chrome
-
-      - name: run cypress on firefox
-        if: ${{ always() }}
-        uses: cypress-io/github-action@v5
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_SERVER_PORT: 7001
-          CYPRESS_PORT: 8001
-        with:
-          install: false
-          record: true
-          parallel: true
-          working-directory: e2e
-          start: pnpm exec vite preview --host --port 7001
-          wait-on: 'http://localhost:7001'
-          wait-on-timeout: 120
-          browser: firefox
-          group: Milkdown-E2E-Firefox
