@@ -26,11 +26,14 @@ const isPureText = (content: UnknownRecord | UnknownRecord[] | undefined | null)
 const isTextOnlySlice = (slice: Slice): Node | false => {
   if (slice.content.childCount === 1) {
     const node = slice.content.firstChild
-    if (node?.type.name === 'text')
+    if (node?.type.name === 'text' && node.marks.length === 0)
       return node
 
-    if (node?.type.name === 'paragraph' && node.childCount === 1 && node.firstChild?.type.name === 'text')
-      return node.firstChild
+    if (node?.type.name === 'paragraph' && node.childCount === 1) {
+      const _node = node.firstChild
+      if (_node?.type.name === 'text' && _node.marks.length === 0)
+        return _node
+    }
   }
 
   return false

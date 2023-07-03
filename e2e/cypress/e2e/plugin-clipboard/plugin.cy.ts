@@ -32,12 +32,22 @@ it('paste code from vscode', () => {
   cy.get('.editor pre code').should('have.text', 'const a = 1;')
 })
 
-it('past html', () => {
+it('paste html', () => {
   cy.get('.editor').paste({ 'text/html': '<h1>The Place Where He Inserted the <strong>Blade</strong></h1>' })
   cy.get('.editor h1').should('have.text', 'The Place Where He Inserted the Blade')
   cy.get('.editor strong').should('have.text', 'Blade')
   cy.window().then((win) => {
     cy.wrap(win.__getMarkdown__())
       .should('equal', '# The Place Where He Inserted the **Blade**\n')
+  })
+})
+
+it('paste inline text only html should extend mark', () => {
+  cy.get('.editor').type('[milkdown repo](https://github.com)')
+  cy.get('.editor').type('{leftArrow}{leftArrow}{leftArrow}{leftArrow}')
+  cy.get('.editor').paste({ 'text/html': '<meta charset=\'utf-8\'><span style="color: rgb(36, 41, 47);">mono</span>' })
+  cy.window().then((win) => {
+    cy.wrap(win.__getMarkdown__())
+      .should('equal', '[milkdown monorepo](https://github.com)\n')
   })
 })
