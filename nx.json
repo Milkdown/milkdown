@@ -1,23 +1,16 @@
 {
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "prepare": {
-      "dependsOn": [
-        "^prepare"
-      ]
+      "dependsOn": ["^prepare"]
     },
     "package": {
-      "dependsOn": [
-        "^package"
-      ]
+      "dependsOn": ["^package"]
     }
   },
-  "extends": "@nrwl/workspace/presets/npm.json",
-  "npmScope": "milkdown",
+  "extends": "@nx/workspace/presets/npm.json",
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx-cloud",
@@ -45,15 +38,8 @@
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
-    "sharedGlobals": [
-      "{workspaceRoot}/vite.config.ts"
-    ],
-    "production": [
-      "default"
-    ]
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
+    "production": ["default"]
   }
 }

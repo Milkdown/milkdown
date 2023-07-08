@@ -37,7 +37,7 @@
   "nx": {
     "targets": {
       "e2e": {
-        "executor": "@nrwl/cypress:cypress",
+        "executor": "@nx/cypress:cypress",
         "options": {
           "cypressConfig": "e2e/cypress.config.ts",
           "devServerTarget": "e2e:start",
