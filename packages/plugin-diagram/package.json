@@ -39,14 +39,14 @@
     "mermaid": "^10.0.0",
     "nanoid": "^4.0.0",
     "tslib": "^2.5.0",
-    "unist-util-visit": "^4.0.0"
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@types/d3": "^7.4.0",
-    "@types/unist": "^2.0.6"
+    "@types/unist": "^3.0.0"
   },
   "nx": {
     "targets": {
