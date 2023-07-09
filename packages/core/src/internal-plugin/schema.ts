@@ -2,9 +2,7 @@
 import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { Schema } from '@milkdown/prose/model'
-import type {
-  MarkSchema, NodeSchema, RemarkParser,
-} from '@milkdown/transformer'
+import type { MarkSchema, NodeSchema, RemarkParser } from '@milkdown/transformer'
 
 import { withMeta } from '../__internal__'
 import { InitReady, remarkCtx, remarkPluginsCtx } from '.'

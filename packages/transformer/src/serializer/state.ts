@@ -3,8 +3,7 @@ import { serializerMatchError } from '@milkdown/exception'
 import type { Fragment, MarkType, Node, NodeType, Schema } from '@milkdown/prose/model'
 import { Mark } from '@milkdown/prose/model'
 
-import type { Root } from 'mdast'
-import type { JSONRecord, MarkSchema, MarkdownNode, NodeSchema, RemarkParser } from '../utility'
+import type { JSONRecord, MarkSchema, MarkdownNode, NodeSchema, RemarkParser, Root } from '../utility'
 import { Stack } from '../utility'
 import { SerializerStackElement } from './stack-element'
 import type { Serializer } from './types'
@@ -237,10 +236,10 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   }
 
   /// @internal
-  build = (): Root => {
-    let doc: Root | null = null
+  build = (): MarkdownNode => {
+    let doc: MarkdownNode | null = null
     do
-      doc = this.#closeNodeAndPush() as Root
+      doc = this.#closeNodeAndPush()
     while (this.size())
 
     return doc
@@ -260,7 +259,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   }
 
   /// Use a remark parser to serialize current AST stored.
-  override toString = (remark: RemarkParser): string => remark.stringify(this.build()) as string
+  override toString = (remark: RemarkParser): string => remark.stringify(this.build() as Root) as string
 
   /// Transform a prosemirror node tree into remark AST.
   run = (tree: Node) => {

@@ -1,11 +1,15 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MarkSpec, NodeSpec } from '@milkdown/prose/model'
-import type { Root } from 'mdast'
 import type { remark } from 'remark'
-import type { Plugin } from 'unified'
-import type { Node } from 'unist'
+import type { Plugin, Transformer } from 'unified'
 import type { MarkParserSpec, NodeParserSpec } from '../parser/types'
 import type { MarkSerializerSpec, NodeSerializerSpec } from '../serializer/types'
+
+/// @internal
+export type Node = Parameters<Transformer>[0]
+
+/// @internal
+export type Root = Parameters<typeof remark['stringify']>[0]
 
 /// @internal
 export type JSONValue = string | number | boolean | null | JSONValue[] | { [key: string]: JSONValue }

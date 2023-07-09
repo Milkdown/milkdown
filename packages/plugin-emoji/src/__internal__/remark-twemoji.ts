@@ -1,14 +1,13 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { RemarkPlugin } from '@milkdown/transformer'
+import type { Node, RemarkPlugin } from '@milkdown/transformer'
 import emojiRegex from 'emoji-regex'
-import type { Literal, Node, Parent } from 'unist'
 
 import { parse } from './parse'
 
 const regex = emojiRegex()
 
-const isParent = (node: Node): node is Parent => !!(node as Parent).children
-const isLiteral = (node: Node): node is Literal => !!(node as Literal).value
+const isParent = (node: Node): node is Node & { children: Node[] } => !!(node as Node & { children: Node[] }).children
+const isLiteral = (node: Node): node is Node & { value: string } => !!(node as Node & { value: string }).value
 
 function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null) => Node[]) {
   return transform(ast, 0, null)[0]
@@ -43,7 +42,7 @@ export const twemojiPlugin: (twemojiOptions?: TwemojiOptions) => RemarkPlugin = 
         return [node]
 
       const value = node.value as string
-      const output: Literal<string>[] = []
+      const output: Array<Node & { value: string }> = []
       let match
       let str = value
       // eslint-disable-next-line no-cond-assign

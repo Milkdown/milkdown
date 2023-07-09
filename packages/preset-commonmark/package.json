@@ -45,8 +45,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@milkdown/transformer": "workspace:*",
-    "@types/unist": "^3.0.0"
+    "@milkdown/transformer": "workspace:*"
   },
   "nx": {
     "targets": {

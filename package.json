@@ -94,6 +94,9 @@
         "react-dom": "18",
         "typescript": "5"
       }
+    },
+    "overrides": {
+      "@types/unist": "2"
     }
   }
 }
