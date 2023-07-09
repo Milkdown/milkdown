@@ -32,8 +32,6 @@
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
-    "@types/mdast": "^3.0.10",
-    "@types/unist": "^2.0.6",
     "remark": "^14.0.1",
     "remark-parse": "^10.0.2",
     "remark-stringify": "^10.0.3",

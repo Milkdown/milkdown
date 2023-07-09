@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $remark } from '@milkdown/utils'
-import type { Literal, Node, Parent } from 'unist'
+import type { Node } from '@milkdown/transformer'
 import { visit } from 'unist-util-visit'
 import { withMeta } from '../__internal__'
 
@@ -9,7 +9,7 @@ import { withMeta } from '../__internal__'
 /// And the normal line break should be treated as a `LF`.
 export const remarkLineBreak = $remark(() => () => (tree: Node) => {
   const find = /[\t ]*(?:\r?\n|\r)/g
-  visit(tree, 'text', (node: Literal, index: number, parent: Parent) => {
+  visit(tree, 'text', (node: Node & { value: string }, index: number, parent: Node & { children: Node[] }) => {
     if (!node.value || typeof node.value !== 'string')
       return
 

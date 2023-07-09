@@ -40,14 +40,13 @@
     "remark-emoji": "^3.0.1",
     "tslib": "^2.5.0",
     "twemoji": "^14.0.1",
-    "unist-util-visit": "^4.0.0"
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@milkdown/transformer": "workspace:*",
-    "@types/unist": "^2.0.6"
+    "@milkdown/transformer": "workspace:*"
   },
   "nx": {
     "targets": {

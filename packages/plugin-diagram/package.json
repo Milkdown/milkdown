@@ -30,7 +30,8 @@
   "peerDependencies": {
     "@milkdown/core": "^7.2.0",
     "@milkdown/ctx": "^7.2.0",
-    "@milkdown/prose": "^7.2.0"
+    "@milkdown/prose": "^7.2.0",
+    "@milkdown/transformer": "^7.2.0"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
@@ -39,14 +40,14 @@
     "mermaid": "^10.0.0",
     "nanoid": "^4.0.0",
     "tslib": "^2.5.0",
-    "unist-util-visit": "^4.0.0"
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@types/d3": "^7.4.0",
-    "@types/unist": "^2.0.6"
+    "@milkdown/transformer": "workspace:*",
+    "@types/d3": "^7.4.0"
   },
   "nx": {
     "targets": {

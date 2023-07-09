@@ -1,10 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { $remark } from '@milkdown/utils'
-import type { Literal, Node, Parent } from 'unist'
+import type { Node } from '@milkdown/transformer'
 import { withMeta } from '../__internal__'
 
-const isParent = (node: Node): node is Parent => !!(node as Parent).children
-const isHTML = (node: Node): node is Literal<string> => node.type === 'html'
+const isParent = (node: Node): node is Node & { children: Node[] } => !!(node as Node & { children: Node[] }).children
+const isHTML = (node: Node): node is Node & { children: Node[]; value: unknown } => node.type === 'html'
 
 function flatMapWithDepth(ast: Node, fn: (node: Node, index: number, parent: Node | null) => Node[]) {
   return transform(ast, 0, null)[0]
@@ -40,8 +40,8 @@ export const remarkHtmlTransformer = $remark(() => () => (tree: Node) => {
       return [node]
 
     if (parent?.type === 'root') {
-      (node as Literal & { children: Literal[] }).children = [{ ...node }]
-      delete (node as Literal).value
+      node.children = [{ ...node }]
+      delete node.value
       node.type = 'paragraph'
     }
 
