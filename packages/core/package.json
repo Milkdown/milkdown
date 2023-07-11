@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
-    "mdast-util-to-markdown": "^2.0.0",
     "remark-parse": "^10.0.1",
     "remark-stringify": "^10.0.2",
     "tslib": "^2.5.0",
