@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 /* eslint-disable vue/one-component-per-file */
 import type { Editor } from '@milkdown/core'
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import {
   Fragment,
   defineComponent,
@@ -29,7 +29,7 @@ export const MilkdownProvider = defineComponent({
   setup: (_, { slots }) => {
     const dom = ref<HTMLDivElement | null>(null)
     const editorFactory = ref<GetEditor | undefined>(undefined)
-    const editor = ref<Editor | undefined>(undefined)
+    const editor = ref<Editor | undefined>(undefined) as Ref<Editor | undefined>
     const loading = ref(true)
 
     provide(editorInfoCtxKey, {

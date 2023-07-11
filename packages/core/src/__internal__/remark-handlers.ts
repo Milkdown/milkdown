@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Handlers } from 'mdast-util-to-markdown'
+import type { Options } from 'remark-stringify'
 
-export const remarkHandlers: Partial<Handlers> = {
+export const remarkHandlers: Required<Options>['handlers'] = {
   strong: (node, _, state, info) => {
     const marker = node.marker || state.options.strong || '*'
     const exit = state.enter('strong')
