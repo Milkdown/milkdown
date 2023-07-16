@@ -32,7 +32,7 @@
     "@milkdown/prose": "^7.2.0"
   },
   "dependencies": {
-    "clsx": "^1.2.1",
+    "clsx": "^2.0.0",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
