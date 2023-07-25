@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 18.6.0
 
-      - uses: pnpm/action-setup@v2.2.4
+      - uses: pnpm/action-setup@v2.3.0
         with:
           version: latest
           run_install: false
