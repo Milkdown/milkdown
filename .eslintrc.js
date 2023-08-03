@@ -24,6 +24,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     'antfu/top-level-function': 'off',
+    'antfu/named-tuple-spacing': 'off',
   },
   overrides: [
     {

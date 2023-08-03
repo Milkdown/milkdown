@@ -4,7 +4,7 @@
   "private": true,
   "engines": {
     "node": ">=17",
-    "pnpm": ">=7"
+    "pnpm": ">=8"
   },
   "scripts": {
     "postinstall": "husky install",
@@ -51,7 +51,7 @@
     "concurrently": "^8.0.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.18.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.46.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.3.0",
