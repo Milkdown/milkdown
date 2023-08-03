@@ -12,6 +12,7 @@ import { parse } from './__internal__/parse'
 import { twemojiPlugin } from './__internal__/remark-twemoji'
 import { withMeta } from './__internal__/with-meta'
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 type TwemojiOptions = Exclude<Parameters<typeof Twemoji.parse>[1], Function | undefined>
 
 /// @internal

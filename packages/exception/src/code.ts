@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-export const enum ErrorCode {
+export enum ErrorCode {
   docTypeError = 'docTypeError',
   contextNotFound = 'contextNotFound',
   timerNotFound = 'timerNotFound',
