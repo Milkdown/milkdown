@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Node, RemarkPlugin } from '@milkdown/transformer'
+import type { Node, RemarkPluginRaw } from '@milkdown/transformer'
 import emojiRegex from 'emoji-regex'
 
 import { parse } from './parse'
@@ -35,7 +35,7 @@ function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null)
   }
 }
 
-export const twemojiPlugin: (twemojiOptions?: TwemojiOptions) => RemarkPlugin = twemojiOptions => () => {
+export const twemojiPlugin: RemarkPluginRaw<TwemojiOptions> = (twemojiOptions) => {
   function transformer(tree: Node) {
     flatMap(tree, (node) => {
       if (!isLiteral(node))

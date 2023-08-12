@@ -48,7 +48,7 @@ export const schema: MilkdownPlugin = (ctx) => {
     const remark = ctx.get(remarkCtx)
     const remarkPlugins = ctx.get(remarkPluginsCtx)
 
-    const processor = remarkPlugins.reduce((acc: RemarkParser, plug) => acc.use(plug), remark)
+    const processor = remarkPlugins.reduce((acc: RemarkParser, plug) => acc.use(plug.plugin, plug.options), remark)
     ctx.set(remarkCtx, processor)
 
     const nodes = Object.fromEntries(ctx.get(nodesCtx).map(([key, x]) => [key, extendPriority(x)]))

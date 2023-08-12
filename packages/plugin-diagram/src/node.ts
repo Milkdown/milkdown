@@ -112,10 +112,14 @@ withMeta(insertDiagramInputRules, {
 })
 
 /// A remark plugin that will parse mermaid code block.
-export const remarkDiagramPlugin = $remark(() => remarkMermaid)
+export const remarkDiagramPlugin = $remark('remarkMermaid', () => remarkMermaid)
 
-withMeta(remarkDiagramPlugin, {
+withMeta(remarkDiagramPlugin.plugin, {
   displayName: 'Remark<diagram>',
+})
+
+withMeta(remarkDiagramPlugin.options, {
+  displayName: 'RemarkConfig<diagram>',
 })
 
 /// A command that will insert a diagram node.

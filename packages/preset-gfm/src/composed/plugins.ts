@@ -1,6 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { autoInsertZeroSpaceInTablePlugin, columnResizingPlugin, remarkGFMPlugin, tableEditingPlugin } from '../plugin'
+import {
+  autoInsertZeroSpaceInTablePlugin,
+  columnResizingPlugin,
+  remarkGFMPlugin,
+  tableEditingPlugin,
+} from '../plugin'
 
 /// @internal
 export const plugins: MilkdownPlugin[] = [
@@ -8,4 +13,4 @@ export const plugins: MilkdownPlugin[] = [
   columnResizingPlugin,
   tableEditingPlugin,
   remarkGFMPlugin,
-]
+].flat()
