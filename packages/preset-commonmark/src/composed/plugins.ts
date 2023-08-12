@@ -35,4 +35,4 @@ export const plugins: MilkdownPlugin[] = [
 
   syncHeadingIdPlugin,
   syncListOrderPlugin,
-]
+].flat()

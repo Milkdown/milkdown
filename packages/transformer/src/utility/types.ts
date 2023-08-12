@@ -17,8 +17,14 @@ export type JSONValue = string | number | boolean | null | JSONValue[] | { [key:
 /// @internal
 export type JSONRecord = Record<string, JSONValue>
 
+/// @internal
+export type RemarkPluginRaw<T> = Plugin<[T], Root>
+
 /// The universal type of a [remark plugin](https://github.com/remarkjs/remark/blob/main/doc/plugins.md).
-export type RemarkPlugin = Plugin<never[], Root>
+export type RemarkPlugin<T = Record<string, unknown>> = {
+  plugin: Plugin<[T], Root>
+  options: T
+}
 
 /// The type of [remark instance](https://github.com/remarkjs/remark/tree/main/packages/remark#remark-1).
 export type RemarkParser = ReturnType<typeof remark>

@@ -4,6 +4,7 @@ import { commands, inputrules, keymap, plugins, schema } from './composed'
 
 export * from './node'
 export * from './mark'
+export * from './plugin'
 export * from './composed'
 
 /// The GFM preset, includes all the plugins.

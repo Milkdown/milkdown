@@ -7,7 +7,7 @@ import { withMeta } from '../__internal__'
 /// This plugin is used to add inline line break for remark AST.
 /// The inline line break should be treated as a `space`.
 /// And the normal line break should be treated as a `LF`.
-export const remarkLineBreak = $remark(() => () => (tree: Node) => {
+export const remarkLineBreak = $remark('remarkLineBreak', () => () => (tree: Node) => {
   const find = /[\t ]*(?:\r?\n|\r)/g
   visit(tree, 'text', (node: Node & { value: string }, index: number, parent: Node & { children: Node[] }) => {
     if (!node.value || typeof node.value !== 'string')
@@ -44,7 +44,12 @@ export const remarkLineBreak = $remark(() => () => (tree: Node) => {
   })
 })
 
-withMeta(remarkLineBreak, {
+withMeta(remarkLineBreak.plugin, {
   displayName: 'Remark<remarkLineBreak>',
+  group: 'Remark',
+})
+
+withMeta(remarkLineBreak.options, {
+  displayName: 'RemarkConfig<remarkLineBreak>',
   group: 'Remark',
 })

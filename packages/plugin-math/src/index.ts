@@ -24,10 +24,14 @@ const withMeta = <T extends MilkdownPlugin>(
 }
 
 /// This plugin wraps [remark-math](https://www.npmjs.com/package/remark-math).
-export const remarkMathPlugin = $remark(() => remarkMath)
+export const remarkMathPlugin = $remark<'remarkMath', undefined>('remarkMath', () => remarkMath)
 
-withMeta(remarkMathPlugin, {
+withMeta(remarkMathPlugin.plugin, {
   displayName: 'Remark<remarkMath>',
+})
+
+withMeta(remarkMathPlugin.options, {
+  displayName: 'RemarkConfig<remarkMath>',
 })
 
 const mathInlineId = 'math_inline'
