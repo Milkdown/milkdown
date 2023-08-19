@@ -24,14 +24,14 @@ importers:
         specifier: ^17.0.0
         version: 17.0.3
       '@nrwl/tao':
-        specifier: 16.7.1
-        version: 16.7.1
+        specifier: 16.7.2
+        version: 16.7.2
       '@nx/cypress':
-        specifier: 16.7.1
-        version: 16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3)
+        specifier: 16.7.2
+        version: 16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3)
       '@nx/workspace':
-        specifier: 16.7.1
-        version: 16.7.1
+        specifier: 16.7.2
+        version: 16.7.2
       '@rollup/plugin-commonjs':
         specifier: ^25.0.0
         version: 25.0.0(rollup@3.7.3)
@@ -105,8 +105,8 @@ importers:
         specifier: ^14.0.0
         version: 14.0.0
       nx:
-        specifier: 16.7.1
-        version: 16.7.1
+        specifier: 16.7.2
+        version: 16.7.2
       nx-cloud:
         specifier: 16.3.0
         version: 16.3.0
@@ -992,7 +992,6 @@ packages:
       '@babel/highlight': 7.22.10
       chalk: 2.4.2
     dev: true
-    optional: true
 
   /@babel/code-frame@7.22.5:
     resolution: {integrity: sha512-Xmwn266vad+6DAqEB2A6V/CcZVp62BbwVmcOJc2RPuwih1kw02TjQvWVWlcKGbBPd+8/0V5DEkOcizRGYsspYQ==}
@@ -1282,7 +1281,6 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
     dev: true
-    optional: true
 
   /@babel/highlight@7.22.5:
     resolution: {integrity: sha512-BSKlD1hgnedS5XRnGOljZawtag7H1yPfQp0tdNJCHoH6AZ+Pcm9VvkrK59/Yy593Ypg0zMxH2BxD1VPYUQ7UIw==}
@@ -2529,7 +2527,7 @@ packages:
     resolution: {integrity: sha512-X7yV7eiwAxdj9k94NEylvbVHLiVG1nvzCV2EAowhxLTwODV1jl9UzZ48leOC0sH7OnuHrIkllaBgneUykIcZaw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.22.5
+      '@babel/code-frame': 7.22.10
       '@babel/parser': 7.22.7
       '@babel/types': 7.22.5
     dev: true
@@ -2538,7 +2536,7 @@ packages:
     resolution: {integrity: sha512-y6LPR+wpM2I3qJrsheCTwhIinzkETbplIgPBbwvqPKc+uljeA5gP+3nP8irdYt1mjQaDnlIcG+dw8OjAco4GXw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.22.5
+      '@babel/code-frame': 7.22.10
       '@babel/generator': 7.22.9
       '@babel/helper-environment-visitor': 7.22.5
       '@babel/helper-function-name': 7.22.5
@@ -3484,10 +3482,10 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@nrwl/cypress@16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3):
-    resolution: {integrity: sha512-BhRxtdZrnK6yYgajuv1Q8aSs6Z3AQ0Q26Z3uMiDOc0AzZ+ai4nMisuAR8bF/mvj7BZo0svhPBvCuDCuAszHgjg==}
+  /@nrwl/cypress@16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3):
+    resolution: {integrity: sha512-QAjvfTD/NuBhkciIc0EXttOPzKDwba8VdXFGO9xxMtsq9X9AN9xUHA5ZZStMtP/dnS1qi/BD6vG5d/h1g+c2sw==}
     dependencies:
-      '@nx/cypress': 16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3)
+      '@nx/cypress': 16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -3503,18 +3501,18 @@ packages:
       - verdaccio
     dev: true
 
-  /@nrwl/devkit@16.7.1(nx@16.7.1):
-    resolution: {integrity: sha512-ysAgNju6o7QjG/ZHW0wIRJ8yWxjhErjqQ8GZ2Smqsb1myrr6UbYsuxaXjoOHI56fMmGyNPK04zzyNXXWQw/UAA==}
+  /@nrwl/devkit@16.7.2(nx@16.7.2):
+    resolution: {integrity: sha512-xJIQFtmPoLFWX5gKl6QOGMzXjn+TZPkTMv5pQ12y2StpuGa3T2n8m7TnHPHGAk43ayiPDcDD97cZ75Fue+mK/w==}
     dependencies:
-      '@nx/devkit': 16.7.1(nx@16.7.1)
+      '@nx/devkit': 16.7.2(nx@16.7.2)
     transitivePeerDependencies:
       - nx
     dev: true
 
-  /@nrwl/js@16.7.1(@types/node@18.11.9)(nx@16.7.1)(typescript@5.1.3):
-    resolution: {integrity: sha512-LI/qlKQIBFTaFMTGXu+fUxRVmGiPHEw/9C3HTQS8a+bTYuN2aow+GL/Fg1RN/3qOVutOJbEcDi4XhzbB7VDnOQ==}
+  /@nrwl/js@16.7.2(@types/node@18.11.9)(nx@16.7.2)(typescript@5.1.3):
+    resolution: {integrity: sha512-RflIReJoMmBhvBuSKzWLNJvqhz0uDy3Alg7QylGct0uzrTFqOH9fn35W9gYYN3EE8WQXpBlcQk3t+5xs9oHGXg==}
     dependencies:
-      '@nx/js': 16.7.1(@types/node@18.11.9)(nx@16.7.1)(typescript@5.1.3)
+      '@nx/js': 16.7.2(@types/node@18.11.9)(nx@16.7.2)(typescript@5.1.3)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -3528,10 +3526,10 @@ packages:
       - verdaccio
     dev: true
 
-  /@nrwl/linter@16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3):
-    resolution: {integrity: sha512-slUJjydlWXx+HH+maguORAV/GO0yohHBYR9YiopptYCHPpjPmgAXvmkXsxwUq4uYtoZECxFxduCCim5jDMVIRg==}
+  /@nrwl/linter@16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3):
+    resolution: {integrity: sha512-tY5Vi9I9mjwkeVBD96hkcNAwDxs2gxcWxwIs5bnAoGw4GM93toHnbe2vB72m89NwH4bYxD1UkDAqvYnOfEZ5/Q==}
     dependencies:
-      '@nx/linter': 16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3)
+      '@nx/linter': 16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -3554,11 +3552,11 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/tao@16.7.1:
-    resolution: {integrity: sha512-oIjph3gm+FOB8mB2OTfCejQykpY+LGKdrGe5RpO3fBZzrkADHTdRWhaqaxktmGcRRt1AwMBofEv3mH4+VUOa/g==}
+  /@nrwl/tao@16.7.2:
+    resolution: {integrity: sha512-4Wc3ic5VtZL3t4qqCMJlEad/wWuFxNUX78U5ohEStN3UFFJIjwJJpKZYZDtxhaOLWUdXbk6CI3KfSIpWgwPdbQ==}
     hasBin: true
     dependencies:
-      nx: 16.7.1
+      nx: 16.7.2
       tslib: 2.5.0
     transitivePeerDependencies:
       - '@swc-node/register'
@@ -3566,28 +3564,28 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/workspace@16.7.1:
-    resolution: {integrity: sha512-nj01PoWvoYG3E02rkg2bO7glMQwKMdyECeFQ69Jrc/8epld56JLO9khe+JZeUOvwmvwU2aRgMxB76QjGX/G7/g==}
+  /@nrwl/workspace@16.7.2:
+    resolution: {integrity: sha512-PTYFfSG64DBJPII/AiUQXP9uuPRfllVBMKKLwvMgVp9siClvgmyctlf5XONlbWfYNJ5jRI7/To8FF52EuQ95Zg==}
     dependencies:
-      '@nx/workspace': 16.7.1
+      '@nx/workspace': 16.7.2
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
       - debug
     dev: true
 
-  /@nx/cypress@16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3):
-    resolution: {integrity: sha512-dclYmgWaOUDn6L1JtrjvnkwADvgi0bCUOvKjNfymmPcohv+7hVIXavlEwqTvD5V+xo76q/9QczNYMS5ekZZEHA==}
+  /@nx/cypress@16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3):
+    resolution: {integrity: sha512-KBNd2whuBc/aY2dG9uiyMi7LHl5OUbKzKSY4s6bCjgJUiByFbSX6tP6U9QxWxlPmWWjw1OwcoeCWGuUAs/HUZw==}
     peerDependencies:
       cypress: '>= 3 < 13'
     peerDependenciesMeta:
       cypress:
         optional: true
     dependencies:
-      '@nrwl/cypress': 16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3)
-      '@nx/devkit': 16.7.1(nx@16.7.1)
-      '@nx/js': 16.7.1(@types/node@18.11.9)(nx@16.7.1)(typescript@5.1.3)
-      '@nx/linter': 16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3)
+      '@nrwl/cypress': 16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3)
+      '@nx/devkit': 16.7.2(nx@16.7.2)
+      '@nx/js': 16.7.2(@types/node@18.11.9)(nx@16.7.2)(typescript@5.1.3)
+      '@nx/linter': 16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.1.3)
       detect-port: 1.5.1
       dotenv: 16.3.1
@@ -3607,23 +3605,23 @@ packages:
       - verdaccio
     dev: true
 
-  /@nx/devkit@16.7.1(nx@16.7.1):
-    resolution: {integrity: sha512-PASQGd1YhcAA/hpupCsSakP71Qh1pYle4dtF+wh3KDe2kdeM6BgccClapiGcXAI46JKLUGAbNYJ8pg7GEPY5Nw==}
+  /@nx/devkit@16.7.2(nx@16.7.2):
+    resolution: {integrity: sha512-Gf6FwxhVUH7h3u6Vp/62sDAqgiPR0WvU/etw/DQmJvOqauM9Nj43r0mBCmgh29yZZEgW1zMIMCTOtUYqFFl1ew==}
     peerDependencies:
       nx: '>= 15 <= 17'
     dependencies:
-      '@nrwl/devkit': 16.7.1(nx@16.7.1)
+      '@nrwl/devkit': 16.7.2(nx@16.7.2)
       ejs: 3.1.9
       enquirer: 2.3.6
       ignore: 5.2.4
-      nx: 16.7.1
+      nx: 16.7.2
       semver: 7.5.3
       tmp: 0.2.1
       tslib: 2.5.0
     dev: true
 
-  /@nx/js@16.7.1(@types/node@18.11.9)(nx@16.7.1)(typescript@5.1.3):
-    resolution: {integrity: sha512-13BZz4TgxUu7zcr6ThU3KMq6SnvRfqhbdkPxM06j8hlSbA5KQfX19FUyLgFeYRBbH1eK5YisL/j/gGt4+KtYuA==}
+  /@nx/js@16.7.2(@types/node@18.11.9)(nx@16.7.2)(typescript@5.1.3):
+    resolution: {integrity: sha512-6mkOfZlI+RpqkF8Lwte+ZmC2Lx46cHcDUjvdYkoIud40C2uf7eaqnMKh4zw3M25mdzm51BAf22LV31b8q3mBmg==}
     peerDependencies:
       verdaccio: ^5.0.4
     peerDependenciesMeta:
@@ -3637,9 +3635,9 @@ packages:
       '@babel/preset-env': 7.22.9(@babel/core@7.22.9)
       '@babel/preset-typescript': 7.22.5(@babel/core@7.22.9)
       '@babel/runtime': 7.22.6
-      '@nrwl/js': 16.7.1(@types/node@18.11.9)(nx@16.7.1)(typescript@5.1.3)
-      '@nx/devkit': 16.7.1(nx@16.7.1)
-      '@nx/workspace': 16.7.1
+      '@nrwl/js': 16.7.2(@types/node@18.11.9)(nx@16.7.2)(typescript@5.1.3)
+      '@nx/devkit': 16.7.2(nx@16.7.2)
+      '@nx/workspace': 16.7.2
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.1.3)
       babel-plugin-const-enum: 1.2.0(@babel/core@7.22.9)
       babel-plugin-macros: 2.8.0
@@ -3668,17 +3666,17 @@ packages:
       - typescript
     dev: true
 
-  /@nx/linter@16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3):
-    resolution: {integrity: sha512-vjhbLhioBtp286JYowV5VxjxaRGwLRgsElGzo2i0AbiFCG49bxnBb19YXThroT+uh6+dNENuTWsIcrrojYSmyg==}
+  /@nx/linter@16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3):
+    resolution: {integrity: sha512-rmgE7y0nUupG1iamdTH5S4SVp/+0VC/VvvXnB50mJgVn1XwtvgvmLMb90oFAy1azjxtrboK4y1tI1UC4eSytSw==}
     peerDependencies:
       eslint: ^8.0.0
     peerDependenciesMeta:
       eslint:
         optional: true
     dependencies:
-      '@nrwl/linter': 16.7.1(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.1)(typescript@5.1.3)
-      '@nx/devkit': 16.7.1(nx@16.7.1)
-      '@nx/js': 16.7.1(@types/node@18.11.9)(nx@16.7.1)(typescript@5.1.3)
+      '@nrwl/linter': 16.7.2(@types/node@18.11.9)(eslint@8.46.0)(nx@16.7.2)(typescript@5.1.3)
+      '@nx/devkit': 16.7.2(nx@16.7.2)
+      '@nx/js': 16.7.2(@types/node@18.11.9)(nx@16.7.2)(typescript@5.1.3)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.1.3)
       eslint: 8.46.0
       tmp: 0.2.1
@@ -3696,8 +3694,8 @@ packages:
       - verdaccio
     dev: true
 
-  /@nx/nx-darwin-arm64@16.7.1:
-    resolution: {integrity: sha512-g9N0eOYyirOnVZdpzsmby2VX2ovL/QBzjvT5OlLteKE4XmvksgSjQAhQeUUNY772AW6HoIK5MVxS2Jg3PECatQ==}
+  /@nx/nx-darwin-arm64@16.7.2:
+    resolution: {integrity: sha512-dkTHAzOTbqRHUQtnw7knEJq4ll6hew11u+9B0fThs9gC/X0iPK0eDXD4TqbIKEbcWAsxpuGiWPzGoNPo7Gwl9A==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -3705,8 +3703,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-darwin-x64@16.7.1:
-    resolution: {integrity: sha512-ZoV4J4pR6z7YtBJoxrdNJTYJmjY653iA2M31PZL/WaS/3SHfzf4YYsnbLK5sF6GJI9n0XmOh3mPPHoJMYbQPIQ==}
+  /@nx/nx-darwin-x64@16.7.2:
+    resolution: {integrity: sha512-EKhjX7DCRIA5U8yAxIgGXeIFaq1dhgLJy8OAG4n1Ud8c21px+bBSrcZvv0ww5VoEulhggQ+c6fW1cjKtGgLknQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -3714,8 +3712,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-freebsd-x64@16.7.1:
-    resolution: {integrity: sha512-vpAi4FHtNwcBIjkRf86Oa98r09oN5OirCXT7cInvwCZWRMVUxT5WHs6gEMY1lvMlnTWqAVdWPcec5VipI9EhQA==}
+  /@nx/nx-freebsd-x64@16.7.2:
+    resolution: {integrity: sha512-3QhXZq0wxvi4lg1MJqwq72F7PE/d0Hcl3uwheenYQtwUvAFAmijC/Z4AVPSqbKJ+QaoqASnXRim9z3EIfeD+DQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [freebsd]
@@ -3723,8 +3721,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm-gnueabihf@16.7.1:
-    resolution: {integrity: sha512-In9qaTpUPsle1jf20lBV/c0WrfSo4Qy64OleweZwIea3RW1TsQg4xxORoULtkU+6KB85XOb5Xd5G/zXpLRMykw==}
+  /@nx/nx-linux-arm-gnueabihf@16.7.2:
+    resolution: {integrity: sha512-7bny8NvE9iyfwRfq9/mOZjzMNWthT70Ce1N9suB2zdbgbLUEDPQQhBNbg969yT6/LbWMWuWZXeIbz/Fwndf9zA==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
@@ -3732,8 +3730,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm64-gnu@16.7.1:
-    resolution: {integrity: sha512-+RXFQqGl5SLrcFl0zKAZOZ4pgA3yhXZnI2xYnuhlPOvuNT4Flc6cdPPz12uKhkWIg0nEBnbvsLDyD1PXDNxKJg==}
+  /@nx/nx-linux-arm64-gnu@16.7.2:
+    resolution: {integrity: sha512-+UdeFB1HY/3GU2+mflydFWpztghFRQiVzJV6MTcjtOzE3jfgXzz9TP580pDxozTvNSRPlblH07X+iB8DhVcB9w==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -3741,8 +3739,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm64-musl@16.7.1:
-    resolution: {integrity: sha512-DiJ6Vpq9w2vaE9JgQs9M7K04QF75jAcqpuSlo25TYGU/GLiSZM6QpiAzsXhwZwFHfUjv0mL3iTmAcBmO1z9PBw==}
+  /@nx/nx-linux-arm64-musl@16.7.2:
+    resolution: {integrity: sha512-YfkWu+4GKXageuYiH5a77gIDAXnit5SIyfI+RWe/j04uFy171KnUt167DC417fv/fTGxeXY1tzOu112Y+x5ixw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -3750,8 +3748,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-x64-gnu@16.7.1:
-    resolution: {integrity: sha512-fc/2whXm4ao91LFQ5++2rgYeTIitQKXkfTrHLKLuMynou2Qd+jMUZVcVk+avaHVPKKu6ALbCUQ0YSTGdEfEx3Q==}
+  /@nx/nx-linux-x64-gnu@16.7.2:
+    resolution: {integrity: sha512-/TtSa2rHR+1gNuALR1yafl4fzBK2/GAhosf+skn00OgwsJ0c8ie9tuuftlMo+2n3LcXY/IaPDaD7t6fln4qsQg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -3759,8 +3757,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-x64-musl@16.7.1:
-    resolution: {integrity: sha512-3CzyUg5+/q83g/Pln71HPdkfjpU3dIBriiyuvJan8LwjKuhAdTFubAmu3CUp3ht1gZOdnwBQW1cdG1vx9EuBww==}
+  /@nx/nx-linux-x64-musl@16.7.2:
+    resolution: {integrity: sha512-VC638hxdWSA8VTDU9rAXjr60mmMP3ZyCUbSkJ+8ydEe83StMDY3PAXS5Hw3n/ouxDfCF9r1kWIGFe4g+emvfBw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -3768,8 +3766,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-win32-arm64-msvc@16.7.1:
-    resolution: {integrity: sha512-1uhQGwWEa76jQyEVohcB4g4H5Wn4YNLx49eJe1SHLwMgbPZZZ5PgnSzwECu+I9E/ZCRaCJk2sHiuRGxDa29Dzg==}
+  /@nx/nx-win32-arm64-msvc@16.7.2:
+    resolution: {integrity: sha512-sSUqgANLgQFFzKTvyMczh5D6xiqTQnB8daJTLX+QUCv5vO5+ZSwuVDyNfr6g/HV2+ak0M9/wVQUae11TgUIPYw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -3777,8 +3775,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-win32-x64-msvc@16.7.1:
-    resolution: {integrity: sha512-DLyME4yJKVhNTMgR3gDx7wVQ6ov6d9j2inGbTwoGoigMvzdaSqeoceMR5CSLOAeq9YBnH8FCbugTccg0iyZtvw==}
+  /@nx/nx-win32-x64-msvc@16.7.2:
+    resolution: {integrity: sha512-+n01cT9/P3o95x+FlRWYf9sFZ29ooxYD/WLcmxACeXN0V1bdbnZxKVSuJqrXZhmpHe7P+/+IRmniv9cdpkxz7g==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -3786,14 +3784,14 @@ packages:
     dev: true
     optional: true
 
-  /@nx/workspace@16.7.1:
-    resolution: {integrity: sha512-lXApvxDtgQnnDrM0e067I4u1aC7F7vgGj7+RpUdU/MJ4B13BBdIllrC/jjHrpDeprvr8Pp/0Wq4qc3E9E46kiw==}
+  /@nx/workspace@16.7.2:
+    resolution: {integrity: sha512-6bI2EBXxbMcUI/Gtin+M95l9kQdoov9UIB97j8pX/V/4K8Xvegn01+MF99De9/oApkQjNehmR2dpi4hPo0FFUw==}
     dependencies:
-      '@nrwl/workspace': 16.7.1
-      '@nx/devkit': 16.7.1(nx@16.7.1)
+      '@nrwl/workspace': 16.7.2
+      '@nx/devkit': 16.7.2(nx@16.7.2)
       chalk: 4.1.2
       ignore: 5.2.4
-      nx: 16.7.1
+      nx: 16.7.2
       rxjs: 7.8.0
       tslib: 2.5.0
       yargs-parser: 21.1.1
@@ -9350,8 +9348,8 @@ packages:
       - debug
     dev: true
 
-  /nx@16.7.1:
-    resolution: {integrity: sha512-WdzUpoyPMjYyIwYyxiNqGc76HTked/5DiAdVPEjL9MbjNZVwtFE+aMmyf+qS6GV64yNBlUrQphABfP3GiCbuSQ==}
+  /nx@16.7.2:
+    resolution: {integrity: sha512-T7cRC97qJ4H9fg498ZGwFQaTzJdLQaRp6DFUwzFo1B9qzR56A2tA3HBvT/huo85THaDX+/pcgLyeixJKEE5RPg==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
@@ -9363,7 +9361,7 @@ packages:
       '@swc/core':
         optional: true
     dependencies:
-      '@nrwl/tao': 16.7.1
+      '@nrwl/tao': 16.7.2
       '@parcel/watcher': 2.0.4
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
@@ -9399,16 +9397,16 @@ packages:
       yargs: 17.7.1
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@nx/nx-darwin-arm64': 16.7.1
-      '@nx/nx-darwin-x64': 16.7.1
-      '@nx/nx-freebsd-x64': 16.7.1
-      '@nx/nx-linux-arm-gnueabihf': 16.7.1
-      '@nx/nx-linux-arm64-gnu': 16.7.1
-      '@nx/nx-linux-arm64-musl': 16.7.1
-      '@nx/nx-linux-x64-gnu': 16.7.1
-      '@nx/nx-linux-x64-musl': 16.7.1
-      '@nx/nx-win32-arm64-msvc': 16.7.1
-      '@nx/nx-win32-x64-msvc': 16.7.1
+      '@nx/nx-darwin-arm64': 16.7.2
+      '@nx/nx-darwin-x64': 16.7.2
+      '@nx/nx-freebsd-x64': 16.7.2
+      '@nx/nx-linux-arm-gnueabihf': 16.7.2
+      '@nx/nx-linux-arm64-gnu': 16.7.2
+      '@nx/nx-linux-arm64-musl': 16.7.2
+      '@nx/nx-linux-x64-gnu': 16.7.2
+      '@nx/nx-linux-x64-musl': 16.7.2
+      '@nx/nx-win32-arm64-msvc': 16.7.2
+      '@nx/nx-win32-x64-msvc': 16.7.2
     transitivePeerDependencies:
       - debug
     dev: true
@@ -9633,7 +9631,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.22.5
+      '@babel/code-frame': 7.22.10
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
