@@ -1,5 +1,32 @@
 # @milkdown/e2e
 
+## 7.3.0
+
+### Minor Changes
+
+- 971ff4c0: Improvement features and bug fix.
+
+  Add support for remark plugin config. (#1085)
+
+  Add support for escape character in inline sync plugin. (#1094)
+
+  Fix missing type error in theme nord. (#1095)
+
+### Patch Changes
+
+- Updated dependencies [971ff4c0]
+  - @milkdown/core@7.3.0
+  - @milkdown/ctx@7.3.0
+  - @milkdown/plugin-clipboard@7.3.0
+  - @milkdown/plugin-history@7.3.0
+  - @milkdown/plugin-listener@7.3.0
+  - @milkdown/plugin-math@7.3.0
+  - @milkdown/preset-commonmark@7.3.0
+  - @milkdown/preset-gfm@7.3.0
+  - @milkdown/prose@7.3.0
+  - @milkdown/theme-nord@7.3.0
+  - @milkdown/utils@7.3.0
+
 ## 7.2.4
 
 ### Patch Changes

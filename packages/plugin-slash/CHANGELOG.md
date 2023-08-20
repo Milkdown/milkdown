@@ -1,5 +1,23 @@
 # @milkdown/plugin-slash
 
+## 7.3.0
+
+### Minor Changes
+
+- 971ff4c0: Improvement features and bug fix.
+
+  Add support for remark plugin config. (#1085)
+
+  Add support for escape character in inline sync plugin. (#1094)
+
+  Fix missing type error in theme nord. (#1095)
+
+### Patch Changes
+
+- Updated dependencies [971ff4c0]
+  - @milkdown/exception@7.3.0
+  - @milkdown/utils@7.3.0
+
 ## 7.2.4
 
 ### Patch Changes
