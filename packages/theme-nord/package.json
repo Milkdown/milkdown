@@ -11,6 +11,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.es.js"
     },
     "./style.css": "./lib/style.css"
