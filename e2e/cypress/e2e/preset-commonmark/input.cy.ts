@@ -179,6 +179,18 @@ describe('input:', () => {
             .should('equal', 'The lunatic is **o**n the grass\n')
         })
       })
+
+      it('escape _', () => {
+        cy.get('.editor').type('The lunatic is \\_\\_on the grass__')
+        cy.get('.editor').get('em').should('not.exist')
+        cy.get('.editor').should('contain.text', '_\u200B_on the grass__')
+      })
+
+      it('escape *', () => {
+        cy.get('.editor').type('The lunatic is \\*\\*on the grass**')
+        cy.get('.editor').get('em').should('not.exist')
+        cy.get('.editor').should('contain.text', '*\u200B*on the grass**')
+      })
     })
 
     describe('italic', () => {
@@ -216,6 +228,18 @@ describe('input:', () => {
           cy.wrap(win.__getMarkdown__())
             .should('equal', 'The lunatic is *o*n the grass\n')
         })
+      })
+
+      it('escape _', () => {
+        cy.get('.editor').type('The lunatic is \\_on the grass_')
+        cy.get('.editor').get('em').should('not.exist')
+        cy.get('.editor').should('contain.text', '_on the grass_')
+      })
+
+      it('escape *', () => {
+        cy.get('.editor').type('The lunatic is \\*on the grass*')
+        cy.get('.editor').get('em').should('not.exist')
+        cy.get('.editor').should('contain.text', '*on the grass*')
       })
     })
 

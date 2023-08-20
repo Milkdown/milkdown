@@ -6,7 +6,8 @@ import type { EditorState } from '@milkdown/prose/state'
 import { pipe } from '@milkdown/utils'
 
 import { inlineSyncConfig } from './config'
-import { calculatePlaceholder, keepLink, replacePunctuation } from './utils'
+import { calculatePlaceholder, keepLink, mergeSlash, replacePunctuation } from './utils'
+import { asterisk, asteriskHolder, underline, underlineHolder } from './regexp'
 
 export interface InlineSyncContext {
   text: string
@@ -23,9 +24,7 @@ const getMarkdown = (ctx: Ctx, state: EditorState, node: Node, globalNode: Node[
   const serializer = ctx.get(serializerCtx)
   const doc = state.schema.topNodeType.create(undefined, [node, ...globalNode])
 
-  const markdown = serializer(doc)
-
-  return markdown
+  return serializer(doc)
 }
 
 const addPlaceholder = (ctx: Ctx, markdown: string) => {
@@ -36,7 +35,7 @@ const addPlaceholder = (ctx: Ctx, markdown: string) => {
 
   const movePlaceholder = (text: string) => config.movePlaceholder(holePlaceholder, text)
 
-  const handleText = pipe(replacePunctuation(holePlaceholder), movePlaceholder, keepLink)
+  const handleText = pipe(replacePunctuation(holePlaceholder), movePlaceholder, keepLink, mergeSlash)
 
   let text = handleText(firstLine)
   const placeholder = calculatePlaceholder(config.placeholderConfig)(text)
@@ -102,6 +101,10 @@ export const getContextByState = (ctx: Ctx, state: EditorState): InlineSyncConte
       if (link && node.text?.includes(placeholder) && link.attrs.href.includes(placeholder)) {
         // @ts-expect-error hijack the mark attribute
         link.attrs.href = link.attrs.href.replace(placeholder, '')
+      }
+      if (node.text?.includes(asteriskHolder) || node.text?.includes(underlineHolder)) {
+        // @ts-expect-error hijack the attribute
+        node.text = node.text.replaceAll(asteriskHolder, asterisk).replaceAll(underlineHolder, underline)
       }
     })
 

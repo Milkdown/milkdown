@@ -3,7 +3,14 @@
 import type { Node } from '@milkdown/prose/model'
 
 import type { SyncNodePlaceholder } from './config'
-import { keepLinkRegexp, punctuationRegexp } from './regexp'
+import {
+  asterisk,
+  asteriskHolder,
+  keepLinkRegexp,
+  punctuationRegexp,
+  underline,
+  underlineHolder,
+} from './regexp'
 
 export const keepLink = (str: string) => {
   let text = str
@@ -15,6 +22,14 @@ export const keepLink = (str: string) => {
     match = text.match(keepLinkRegexp)
   }
   return text
+}
+
+export const mergeSlash = (str: string) => {
+  return str
+    .replaceAll(/\\\\\*/g, asterisk)
+    .replaceAll(/\\\\_/g, underline)
+    .replaceAll(asterisk, asteriskHolder)
+    .replaceAll(underline, underlineHolder)
 }
 
 export const swap = (text: string, first: number, last: number) => {
