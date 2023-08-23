@@ -1,0 +1,84 @@
+milkdown-image-block.editing.selected > .image-edit {
+  outline: 2px solid fuchsia;
+}
+
+milkdown-image-block.selected > .image-wrapper img {
+  outline: 2px solid fuchsia;
+}
+
+milkdown-image-block > .image-wrapper .operation {
+  gap: 16px;
+  right: 16px;
+  top: 16px;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+milkdown-image-block:hover > .image-wrapper .operation {
+  opacity: 1;
+}
+
+milkdown-image-block > .image-wrapper .operation > .operation-item {
+  color: antiquewhite;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+}
+
+milkdown-image-block > .image-wrapper .image-resize-handle {
+  height: 8px;
+  bottom: -4px;
+  width: 160px;
+  background: antiquewhite;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+milkdown-image-block:hover > .image-wrapper .image-resize-handle {
+  opacity: 1;
+}
+
+milkdown-image-block > .caption-input {
+  margin: 16px auto;
+}
+
+milkdown-image-block > .image-edit {
+  align-items: center;
+  padding: 24px 40px;
+  gap: 16px;
+  background: oldlace;
+}
+
+milkdown-image-block > .image-edit .image-icon {
+  color: darkgray;
+}
+
+milkdown-image-block > .image-edit .image-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+milkdown-image-block > .image-edit .link-importer .placeholder {
+  color: darkgray;
+}
+
+milkdown-image-block > .image-edit .link-importer .link-input-area {
+  line-height: 48px;
+}
+
+milkdown-image-block > .image-edit .link-importer .placeholder .uploader {
+  color: fuchsia;
+  gap: 8px;
+  justify-content: center;
+}
+
+milkdown-image-block > .image-edit .link-importer .placeholder .text {
+  margin-left: 8px;
+}
+
+milkdown-image-block > .image-edit .confirm {
+  background: darkgray;
+  color: antiquewhite;
+  padding: 10px 24px;
+  border-radius: 100px;
+}

@@ -152,6 +152,9 @@ importers:
 
   e2e:
     dependencies:
+      '@milkdown/components':
+        specifier: workspace:*
+        version: link:../packages/components
       '@milkdown/core':
         specifier: workspace:*
         version: link:../packages/core
@@ -198,6 +201,43 @@ importers:
       start-server-and-test:
         specifier: ^2.0.0
         version: 2.0.0
+
+  packages/components:
+    dependencies:
+      '@atomico/hooks':
+        specifier: ^3.49.1
+        version: 3.49.1(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.74.0)(dollars.js@0.6.2)(element-internals-polyfill@0.1.55)
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../exception
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../utils
+      atomico:
+        specifier: ^1.74.0
+        version: 1.74.0
+      clsx:
+        specifier: ^2.0.0
+        version: 2.0.0
+      tslib:
+        specifier: ^2.5.0
+        version: 2.5.0
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
+    devDependencies:
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../ctx
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../prose
+      '@milkdown/transformer':
+        specifier: workspace:*
+        version: link:../transformer
 
   packages/core:
     dependencies:
@@ -983,6 +1023,35 @@ packages:
       - supports-color
       - typescript
     dev: true
+
+  /@atomico/channel@0.0.1:
+    resolution: {integrity: sha512-4sKzBHVrV6eG1HiifxwweuvNkNwvMWyb3EA9n0Civg3NZFOPWjPsAM9/BFt9HalPNExl49GXPpSVRgWILQiI+A==}
+    dev: false
+
+  /@atomico/hooks@3.49.1(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.74.0)(dollars.js@0.6.2)(element-internals-polyfill@0.1.55):
+    resolution: {integrity: sha512-ctGpDSoPA/qBxIWwC7KUHC3d7Cl9/GfEAJ8mlc5u45vcXyWUI8fnu9ER2KcK+JWk2N8pgXw5YYpsdhsCpMaQ+w==}
+    peerDependencies:
+      '@atomico/channel': ^0.0.1
+      '@lit/reactive-element': ^1.0.2
+      '@uppercod/exp-route': ^1.3.0
+      '@uppercod/hash': ^1.1.1
+      '@uppercod/match-media': ^1.1.0
+      atomico: ^1.68.0
+      dollars.js: ^0.6.2
+      element-internals-polyfill: ^0.1.49
+    peerDependenciesMeta:
+      '@lit/reactive-element':
+        optional: true
+    dependencies:
+      '@atomico/channel': 0.0.1
+      '@uppercod/exp-route': 1.3.0
+      '@uppercod/form-tools': 0.0.0
+      '@uppercod/hash': 1.1.1
+      '@uppercod/match-media': 1.1.1
+      atomico: 1.74.0
+      dollars.js: 0.6.2
+      element-internals-polyfill: 0.1.55
+    dev: false
 
   /@babel/code-frame@7.22.10:
     resolution: {integrity: sha512-/KKIMG4UEL35WmI9OlvMhurwtytjvXoFcGNrOvyG9zIzA8YmPjVtIZUf7b05+TPO7G7/GEmLHDaoCgACHl9hhA==}
@@ -4564,6 +4633,22 @@ packages:
       eslint-visitor-keys: 3.4.2
     dev: true
 
+  /@uppercod/exp-route@1.3.0:
+    resolution: {integrity: sha512-S3snkUhr93a0kq0wfJRVH0pdsE2zAxIHw3BFu41vNYuBCCfbK701ll+nfOVQajNfZV6Wg4WvkOeluprUgOvROg==}
+    dev: false
+
+  /@uppercod/form-tools@0.0.0:
+    resolution: {integrity: sha512-7JtF/LX7nog0J8HMzXNVRaBTC//NxdVS56jAgW5itqpduhUbbLrvHodNI8UsVaUaJVgReO9OzkxhblWiNmPfcg==}
+    dev: false
+
+  /@uppercod/hash@1.1.1:
+    resolution: {integrity: sha512-QMm3SQ/TfaeiWLgmq3kMsTac2x8gpNOs6pZ5vuhZfR5sobLe/U9EwU0RoXXLsM7jPh0+J8gwYHS4lvum0Z6uFQ==}
+    dev: false
+
+  /@uppercod/match-media@1.1.1:
+    resolution: {integrity: sha512-ITGhdyxadb1ypwow3TkXGdF6vWAmRZWxxfUysZz2kvsGjgaCNSuJzbfLTeWEC+BeL651U18RwZlgpX93ZCRTFg==}
+    dev: false
+
   /@vitejs/plugin-react@4.0.0(vite@4.2.3):
     resolution: {integrity: sha512-HX0XzMjL3hhOYm+0s95pb0Z7F8O81G7joUHgfDd/9J/ZZf5k4xX6QAMFkKsHFxaHlf6X7GD7+XuaZ66ULiJuhQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -5043,6 +5128,10 @@ packages:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
     engines: {node: '>= 4.0.0'}
     dev: true
+
+  /atomico@1.74.0:
+    resolution: {integrity: sha512-0Hf4onn21HHk6SovVWvix7/7wP5VTDWp2JBWkxlOicDdEwarXaB28PyuWxlFrMlWZeZ7EALgexGXHOy/1m2Y8A==}
+    dev: false
 
   /autoprefixer@10.4.7(postcss@8.4.19):
     resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==}
@@ -6357,6 +6446,10 @@ packages:
       esutils: 2.0.3
     dev: true
 
+  /dollars.js@0.6.2:
+    resolution: {integrity: sha512-MD+p6YpwsgrGRBU6qeHSE5hluf6tfS7s4nxKVI8OmGM6hIHfAWNmznZcO4D6KoGbH6X0gAGEuG2UbQ+0m9Vpzw==}
+    dev: false
+
   /dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
     dependencies:
@@ -6438,6 +6531,10 @@ packages:
   /electron-to-chromium@1.4.477:
     resolution: {integrity: sha512-shUVy6Eawp33dFBFIoYbIwLHrX0IZ857AlH9ug2o4rvbWmpaCUdBpQ5Zw39HRrfzAFm4APJE9V+E2A/WB0YqJw==}
     dev: true
+
+  /element-internals-polyfill@0.1.55:
+    resolution: {integrity: sha512-clsNGQoOsCs8zlkT3q8Sgk9JcFZgYT0cDuXPEmD7ca8bthrYjhXQ19cIz5JGmo8CfQ+g7+SXJkfqBVw5mWB64w==}
+    dev: false
 
   /elkjs@0.8.2:
     resolution: {integrity: sha512-L6uRgvZTH+4OF5NE/MBbzQx/WYpru1xCBE9respNj6qznEewGUIfhzmm7horWWxbNO2M0WckQypGctR8lH79xQ==}

@@ -16,6 +16,7 @@ export default defineConfig({
         'plugin-math': resolve(__dirname, 'src/plugin-math/index.html'),
         'plugin-listener': resolve(__dirname, 'src/plugin-listener/index.html'),
         'multi-editor': resolve(__dirname, 'src/multi-editor/index.html'),
+        'image-block': resolve(__dirname, 'src/image-block/index.html'),
       },
     },
   },

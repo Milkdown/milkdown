@@ -1,0 +1,90 @@
+{
+  "name": "@milkdown/components",
+  "type": "module",
+  "version": "7.3.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milkdown/milkdown.git",
+    "directory": "packages/components"
+  },
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.es.js"
+    },
+    "./image-block": {
+      "types": "./lib/image-block/index.d.ts",
+      "import": "./lib/image-block/index.es.js"
+    }
+  },
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "image-block": [
+        "./lib/image-block/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "start": "rollup -c -w",
+    "test": "vitest",
+    "tsc": "tsc --noEmit && echo",
+    "build": "rollup -c && echo"
+  },
+  "peerDependencies": {
+    "@milkdown/core": "^7.2.0",
+    "@milkdown/ctx": "^7.2.0",
+    "@milkdown/prose": "^7.2.0",
+    "@milkdown/transformer": "^7.2.0"
+  },
+  "dependencies": {
+    "@atomico/hooks": "^3.49.1",
+    "@milkdown/exception": "workspace:*",
+    "@milkdown/utils": "workspace:*",
+    "atomico": "^1.74.0",
+    "clsx": "^2.0.0",
+    "tslib": "^2.5.0",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/transformer": "workspace:*"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "packages/components/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
+    }
+  }
+}

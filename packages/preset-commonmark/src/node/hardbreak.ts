@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
-import { Selection } from '@milkdown/prose/state'
+import { Selection, TextSelection } from '@milkdown/prose/state'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import { withMeta } from '../__internal__'
 
@@ -63,6 +63,9 @@ withMeta(hardbreakSchema.ctx, {
 /// Command to insert a hardbreak.
 export const insertHardbreakCommand = $command('InsertHardbreak', ctx => () => (state, dispatch) => {
   const { selection, tr } = state
+  if (!(selection instanceof TextSelection))
+    return false
+
   if (selection.empty) {
     // Transform two successive hardbreak into a new line
     const node = selection.$from.node()
