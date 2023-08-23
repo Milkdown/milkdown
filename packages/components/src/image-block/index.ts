@@ -8,6 +8,7 @@ import { imageBlockConfig } from './config'
 
 export * from './schema'
 export * from './remark-plugin'
+export * from './config'
 
 export const imageBlockComponent: MilkdownPlugin[] = [
   remarkImageBlockPlugin,

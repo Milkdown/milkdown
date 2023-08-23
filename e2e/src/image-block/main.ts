@@ -16,9 +16,7 @@ import './style.css'
 const markdown = `
 # Image Block
 
-![0.5](/large-image.jpg)
-
-![](/large-image.jpg)
+![0.5](/milkdown-logo.png)
 
 ![]()
 
