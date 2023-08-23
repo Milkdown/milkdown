@@ -20,7 +20,7 @@ export const defaultConfig: ImageBlockConfig = {
   captionIcon: () => chatBubble,
   uploadButton: () => html`${upload} Upload file`,
   confirmButton: () => html`Confirm ⏎`,
-  uploadPlaceholderText: 'or paste the image link',
+  uploadPlaceholderText: 'or paste the image link ...',
   captionPlaceholderText: 'Image caption',
   onUpload: file => Promise.resolve(URL.createObjectURL(file)),
 }
