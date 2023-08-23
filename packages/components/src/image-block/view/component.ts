@@ -34,6 +34,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const [editing, setEditing] = useState(src.length === 0)
   const [hidePlaceholder, setHidePlaceholder] = useState(src.length !== 0)
   const [uuid, setUuid] = useState('')
+  const [focusLinkInput, setFocusLinkInput] = useState(false)
   useCssLightDom(style)
 
   useBlockEffect({
@@ -102,13 +103,15 @@ export const imageComponent: Component<ImageComponentProps> = ({
       <div class="image-icon">
         ${config?.imageIcon()}
       </div>
-      <div class="link-importer">
+      <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
         <input
           ref=${linkInput}
           class="link-input-area"
           value=${src}
           oninput=${onEditLink}
           onkeydown=${onKeydown}
+          onfocus=${() => setFocusLinkInput(true)}
+          onblur=${() => setFocusLinkInput(false)}
         />
         <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
           <input class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />

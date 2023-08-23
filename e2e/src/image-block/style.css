@@ -67,9 +67,18 @@ milkdown-image-block > .image-edit .link-importer .link-input-area {
 }
 
 milkdown-image-block > .image-edit .link-importer .placeholder .uploader {
-  color: fuchsia;
   gap: 8px;
+  color: fuchsia;
   justify-content: center;
+  transition: color 0.2s;
+}
+
+milkdown-image-block > .image-edit .link-importer.focus .placeholder .uploader {
+  color: unset;
+}
+
+milkdown-image-block > .image-edit .link-importer .placeholder .uploader:hover {
+  color: fuchsia;
 }
 
 milkdown-image-block > .image-edit .link-importer .placeholder .text {
