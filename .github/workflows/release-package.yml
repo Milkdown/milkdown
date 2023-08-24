@@ -42,7 +42,7 @@ jobs:
         run: pnpm install
 
       - name: build packs
-        run: pnpm build:cache
+        run: pnpm build
 
       - name: create versions or publish to npm registry
         uses: changesets/action@v1

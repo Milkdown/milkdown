@@ -46,7 +46,7 @@ jobs:
         run: pnpm install
 
       - name: build packs
-        run: pnpm build:cache
+        run: pnpm build
 
       - name: run test
         run: pnpm test

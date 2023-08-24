@@ -5,7 +5,7 @@
 
 After cloning Milkdown, run `pnpm install` to install dependencies.
 
-1. Run `pnpm build:cache`.
+1. Run `pnpm build`.
 2. Run `pnpm start` in one terminal to see test website.
 
 After that,
@@ -25,8 +25,8 @@ You can run several commands:
 -   `pnpm test:lint` checks the code style.
 -   `pnpm test:tsc` runs typescript type checks.
 -   `pnpm test` runs all possible test.
+-   `pnpm build` runs build for all packages with cache powered by nx.
 -   `pnpm build:packs` runs build for all packages.
--   `pnpm build:cache` runs build for all packages with cache powered by nx.
 -   `pnpm commit` runs commit with git hooks.
 
 # Pre Check
