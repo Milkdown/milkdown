@@ -153,4 +153,8 @@ export class CodeMirrorBlock implements NodeView {
   stopEvent() {
     return true
   }
+
+  destroy() {
+    this.cm.destroy()
+  }
 }
