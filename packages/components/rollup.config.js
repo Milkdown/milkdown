@@ -10,7 +10,7 @@ import esbuild from 'rollup-plugin-esbuild'
 
 import pkg from './package.json' assert { type: 'json' }
 
-const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {})]
+const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {}), /@milkdown\/prose/]
 
 const main = [
   {

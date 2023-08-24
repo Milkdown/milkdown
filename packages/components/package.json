@@ -21,6 +21,10 @@
     "./image-block": {
       "types": "./lib/image-block/index.d.ts",
       "import": "./lib/image-block/index.es.js"
+    },
+    "./code-block": {
+      "types": "./lib/code-block/index.d.ts",
+      "import": "./lib/code-block/index.es.js"
     }
   },
   "main": "./lib/index.es.js",
@@ -29,6 +33,9 @@
     "*": {
       "image-block": [
         "./lib/image-block/index.d.ts"
+      ],
+      "code-block": [
+        "./lib/code-block/index.d.ts"
       ]
     }
   },
@@ -45,11 +52,15 @@
   "peerDependencies": {
     "@milkdown/core": "^7.2.0",
     "@milkdown/ctx": "^7.2.0",
+    "@milkdown/preset-commonmark": "^7.2.0",
     "@milkdown/prose": "^7.2.0",
     "@milkdown/transformer": "^7.2.0"
   },
   "dependencies": {
     "@atomico/hooks": "^3.49.1",
+    "@codemirror/commands": "^6.2.4",
+    "@codemirror/state": "^6.2.1",
+    "@codemirror/view": "^6.16.0",
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "atomico": "^1.74.0",
@@ -60,6 +71,7 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*"
   },

@@ -8,6 +8,7 @@ export const setup = async (createEditor: () => Promise<Editor>) => {
 
   const editor = await createEditor()
   globalThis.__milkdown__ = editor
+  globalThis.__view__ = editor.action(ctx => ctx.get(editorViewCtx))
   globalThis.__setMarkdown__ = (markdown: string) =>
     editor!.action((ctx) => {
       const view = ctx.get(editorViewCtx)

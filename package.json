@@ -65,7 +65,7 @@
     "pathe": "^1.0.0",
     "postcss": "^8.2.12",
     "rimraf": "^5.0.0",
-    "rollup": "^3.0.0",
+    "rollup": "^3.28.1",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-dts": "^6.0.0",

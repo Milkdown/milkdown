@@ -17,6 +17,7 @@ export default defineConfig({
         'plugin-listener': resolve(__dirname, 'src/plugin-listener/index.html'),
         'multi-editor': resolve(__dirname, 'src/multi-editor/index.html'),
         'image-block': resolve(__dirname, 'src/image-block/index.html'),
+        'code-block': resolve(__dirname, 'src/code-block/index.html'),
       },
     },
   },
