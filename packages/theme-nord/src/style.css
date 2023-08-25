@@ -42,7 +42,8 @@
   @apply text-sm shadow-md sm:rounded-lg !overflow-visible !m-4;
 }
 
-.milkdown-theme-nord.prose td, th {
+.milkdown-theme-nord.prose td,
+.milkdown-theme-nord.prose th {
   @apply !py-3 !px-6;
 }
 
