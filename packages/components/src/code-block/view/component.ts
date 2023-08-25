@@ -25,9 +25,10 @@ export const codeComponent: Component<CodeComponentProps> = ({
   language,
   config,
 }) => {
-  const pickerRef = useRef<HTMLButtonElement>()
-  const languageListRef = useRef<HTMLDivElement>()
+  const triggerRef = useRef<HTMLButtonElement>()
+  const pickerRef = useRef<HTMLDivElement>()
   const codemirrorHostRef = useRef<HTMLDivElement>()
+  const releaseRef = useRef<() => void>()
   const [filter, setFilter] = useState('')
   const [showPicker, setShowPicker] = useState(false)
   useCssLightDom(style)
@@ -43,16 +44,16 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
   useEffect(() => {
     const clickHandler = (e: MouseEvent) => {
-      const languageList = languageListRef.current
-      if (!languageList)
+      const picker = pickerRef.current
+      if (!picker)
         return
 
-      if (languageList.dataset.expanded !== 'true')
+      if (picker.dataset.expanded !== 'true')
         return
 
       const target = e.target as HTMLElement
 
-      if (target.closest('.language-list') !== languageList)
+      if (!picker.contains(target))
         setShowPicker(false)
     }
 
@@ -65,8 +66,8 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
   useLayoutEffect(() => {
     setFilter('')
-    const picker = pickerRef.current
-    const languageList = languageListRef.current
+    const picker = triggerRef.current
+    const languageList = pickerRef.current
     if (!picker || !languageList)
       return
 
@@ -83,11 +84,21 @@ export const codeComponent: Component<CodeComponentProps> = ({
   const languages = useMemo(() => {
     if (!showPicker)
       return []
-    return getAllLanguages?.().filter((language) => {
-      return language.name.toLowerCase().includes(filter.toLowerCase())
-        || language.alias.some(alias => alias.toLowerCase().includes(filter.toLowerCase()))
-    }) ?? []
-  }, [filter, showPicker])
+
+    const all = getAllLanguages?.() ?? []
+
+    const selected = all.find(languageInfo => languageInfo.name.toLowerCase() === language?.toLowerCase())
+
+    const filtered = all.filter((languageInfo) => {
+      return (languageInfo.name.toLowerCase().includes(filter.toLowerCase())
+        || languageInfo.alias.some(alias => alias.toLowerCase().includes(filter.toLowerCase()))) && languageInfo !== selected
+    })
+
+    if (!selected)
+      return filtered
+
+    return [selected, ...filtered]
+  }, [filter, showPicker, language])
 
   const changeFilter = (e: InputEvent) => {
     const target = e.target as HTMLInputElement
@@ -97,18 +108,25 @@ export const codeComponent: Component<CodeComponentProps> = ({
   const onTogglePicker = (e: MouseEvent) => {
     e.stopPropagation()
     const next = !showPicker
-    const languageList = languageListRef.current
+    const languageList = pickerRef.current
     if (next && languageList)
-      trapFocus(languageList)
+      releaseRef.current = trapFocus(languageList)
+    else
+      releaseRef.current?.()
 
     setShowPicker(next)
+  }
+
+  const onClear = (e: MouseEvent) => {
+    e.preventDefault()
+    setFilter('')
   }
 
   return html`<host>
     <div class="tools">
       <button
-        ref=${pickerRef}
-        class="picker"
+        ref=${triggerRef}
+        class="language-button"
         onclick=${onTogglePicker}
         data-expanded=${showPicker}
       >
@@ -117,33 +135,33 @@ export const codeComponent: Component<CodeComponentProps> = ({
           ${config?.expandIcon?.()}
         </div>
       </button>
-      <div ref=${languageListRef} data-expanded=${showPicker} class=${clsx('language-list', showPicker && 'show')}>
-        <div class="search-box">
-          <div class="search-icon">
-            ${config?.searchIcon?.()}
+      <div ref=${pickerRef} data-expanded=${showPicker} class=${clsx('language-picker', showPicker && 'show')}>
+        <div class="list-wrapper">
+          <div class="search-box">
+            <div class="search-icon">
+              ${config?.searchIcon?.()}
+            </div>
+            <input class="search-input" autofocus value=${filter} oninput=${changeFilter} />
+            <div class="clear-icon" onmousedown=${onClear}>
+              ${config?.clearSearchIcon?.()}
+            </div>
           </div>
-          <input autofocus oninput=${changeFilter} />
-          <div class="clear-icon">
-            ${config?.clearSearchIcon?.()}
-          </div>
+          <ul class="language-list" role="listbox">
+            ${languages.map(languageInfo =>
+              html`
+                <li
+                  role="listitem"
+                  tabindex="0"
+                  class="language-list-item"
+                  aria-selected=${languageInfo.name.toLowerCase() === language?.toLowerCase()}
+                  data-language=${languageInfo.name}
+                  onclick=${() => setLanguage?.(languageInfo.name)}
+                >
+                  ${config?.renderLanguage?.(languageInfo.name, languageInfo.name.toLowerCase() === language?.toLowerCase())}
+                </li>`,
+            )}
+          </ul>
         </div>
-        <ul role="listbox">
-          ${languages.map(languageInfo =>
-            html`
-              <a
-                role="option"
-                class="language-list-item"
-                aria-selected=${languageInfo.name.toLowerCase() === language?.toLowerCase()}
-                data-language=${languageInfo.name}
-                onclick=${() => setLanguage?.(languageInfo.name)}
-                href="#"
-              >
-                <li>
-                  ${languageInfo.name}
-                </li>
-              </a>`,
-          )}
-        </ul>
       </div>
     </div>
     <div ref=${codemirrorHostRef} class="codemirror-host"></div>

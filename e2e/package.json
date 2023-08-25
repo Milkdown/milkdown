@@ -34,6 +34,7 @@
     "@milkdown/prose": "workspace:*",
     "@milkdown/theme-nord": "workspace:*",
     "@milkdown/utils": "workspace:*",
+    "atomico": "^1.74.0",
     "katex": "^0.16.0",
     "tslib": "^2.5.0"
   },

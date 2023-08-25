@@ -13,16 +13,14 @@ export const trapFocus = (focusNode: HTMLElement, rootNode = document.body) => {
     map.set(node, node.getAttribute('tabindex'))
     node.setAttribute('tabindex', '-1')
   })
-  return {
-    release() {
-      nodes.forEach((node) => {
-        const prev = map.get(node)
-        if (prev) {
-          node.setAttribute('tabindex', prev)
-          return
-        }
-        node.removeAttribute('tabindex')
-      })
-    },
+  return () => {
+    nodes.forEach((node) => {
+      const prev = map.get(node)
+      if (prev) {
+        node.setAttribute('tabindex', prev)
+        return
+      }
+      node.removeAttribute('tabindex')
+    })
   }
 }

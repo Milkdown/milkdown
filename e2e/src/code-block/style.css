@@ -1,0 +1,103 @@
+milkdown-code-block {
+  padding: 24px 40px;
+  background: #F5F5F5;
+}
+
+milkdown-code-block .cm-editor {
+  outline: none !important;
+}
+
+milkdown-code-block .language-button {
+  gap: 8px;
+  padding: 8px;
+  background: antiquewhite;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+milkdown-code-block .language-button:hover {
+  background: bisque;
+}
+
+milkdown-code-block .language-button .expand-icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+milkdown-code-block .language-button[data-expanded="true"] .expand-icon {
+  transform: rotate(180deg);
+}
+
+milkdown-code-block .language-button .expand-icon svg:focus,
+milkdown-code-block .language-button .expand-icon:focus-visible {
+  outline: none;
+}
+
+milkdown-code-block .language-picker {
+  padding-top: 16px;
+}
+
+milkdown-code-block .list-wrapper {
+  background: antiquewhite;
+  border-radius: 16px;
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+}
+
+milkdown-code-block .language-list {
+  height: 356px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+milkdown-code-block .language-list-item {
+  cursor: pointer;
+  margin: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+milkdown-code-block .language-list-item:hover {
+  background: cornsilk;
+}
+
+milkdown-code-block .language-list-item:focus-visible {
+  outline: none;
+  background: cornsilk;
+}
+
+milkdown-code-block .language-list-item .trailing {
+  width: 24px;
+  height: 24px;
+}
+
+milkdown-code-block .list-wrapper {
+  padding-top: 20px;
+}
+
+milkdown-code-block .search-box {
+  margin: 0 16px 12px;
+  background: white;
+  height: 56px;
+  border-radius: 4px;
+  outline: 2px solid fuchsia;
+}
+
+milkdown-code-block .search-box .search-icon {
+  padding: 12px;
+}
+
+milkdown-code-block .search-box .clear-icon {
+  padding: 12px;
+}
+
+milkdown-code-block .search-box input {
+  background: transparent;
+}
+
+milkdown-code-block .search-box input:focus {
+  outline: none;
+}

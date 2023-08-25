@@ -2,7 +2,7 @@
 import { $ctx } from '@milkdown/utils'
 import type { Extension } from '@codemirror/state'
 import type { LanguageDescription } from '@codemirror/language'
-import type { html } from 'atomico'
+import { html } from 'atomico'
 import { chevronDown, search, xCircle } from '../__internal__/icons'
 
 export type CodeBlockConfig = {
@@ -11,6 +11,7 @@ export type CodeBlockConfig = {
   expandIcon: () => ReturnType<typeof html>
   searchIcon: () => ReturnType<typeof html>
   clearSearchIcon: () => ReturnType<typeof html>
+  renderLanguage: (language: string, selected: boolean) => ReturnType<typeof html>
 }
 
 export const defaultConfig: CodeBlockConfig = {
@@ -19,6 +20,7 @@ export const defaultConfig: CodeBlockConfig = {
   expandIcon: () => chevronDown,
   searchIcon: () => search,
   clearSearchIcon: () => xCircle,
+  renderLanguage: language => html`${language}`,
 }
 
 export const codeBlockConfig = $ctx(defaultConfig, 'codeBlockConfigCtx')

@@ -206,6 +206,9 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../packages/utils
+      atomico:
+        specifier: ^1.74.0
+        version: 1.74.0
       katex:
         specifier: ^0.16.0
         version: 0.16.0

@@ -7,24 +7,28 @@ export const style = css`
     position: relative;
   }
 
-  :host .language-list {
+  :host .language-picker {
     width: max-content;
     position: absolute;
     z-index: 1;
     display: none;
   }
 
-  :host .picker {
-    display: flex;
-    align-items: center;
+  :host .language-picker.show {
+    display: block;
   }
 
-  :host .language-list.show {
-    display: block;
+  :host .language-button {
+    display: flex;
+    align-items: center;
   }
 
   :host .search-box {
     display: flex;
     align-items: center;
+  }
+
+  :host .search-box .clear-icon {
+    cursor: pointer;
   }
 `
