@@ -43,7 +43,7 @@ setup(() => {
         languages,
         extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
         renderLanguage: (language, selected) => {
-          return html`<span class="trailing">${selected ? check : null}</span>${language}`
+          return html`<span class="leading">${selected ? check : null}</span>${language}`
         },
       }))
     })

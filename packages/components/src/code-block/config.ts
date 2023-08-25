@@ -8,6 +8,7 @@ import { chevronDown, search, xCircle } from '../__internal__/icons'
 export type CodeBlockConfig = {
   extensions: Extension[]
   languages: LanguageDescription[]
+  searchPlaceholder: string
   expandIcon: () => ReturnType<typeof html>
   searchIcon: () => ReturnType<typeof html>
   clearSearchIcon: () => ReturnType<typeof html>
@@ -17,6 +18,7 @@ export type CodeBlockConfig = {
 export const defaultConfig: CodeBlockConfig = {
   extensions: [],
   languages: [],
+  searchPlaceholder: 'Search language',
   expandIcon: () => chevronDown,
   searchIcon: () => search,
   clearSearchIcon: () => xCircle,

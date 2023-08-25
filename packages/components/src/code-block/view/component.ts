@@ -34,6 +34,13 @@ export const codeComponent: Component<CodeComponentProps> = ({
   useCssLightDom(style)
 
   useEffect(() => {
+    const lang = getAllLanguages?.()?.find(languageInfo => languageInfo.alias.some(alias => alias.toLowerCase() === language?.toLowerCase()))
+
+    if (lang && lang.name !== language)
+      setLanguage?.(lang.name)
+  }, [language])
+
+  useEffect(() => {
     if (codemirrorHostRef.current && codemirror)
       codemirrorHostRef.current.appendChild(codemirror.dom)
   }, [])
@@ -44,6 +51,9 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
   useEffect(() => {
     const clickHandler = (e: MouseEvent) => {
+      if (e.target === triggerRef.current)
+        return
+
       const picker = pickerRef.current
       if (!picker)
         return
@@ -105,8 +115,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
     setFilter(target.value)
   }
 
-  const onTogglePicker = (e: MouseEvent) => {
-    e.stopPropagation()
+  const onTogglePicker = () => {
     const next = !showPicker
     const languageList = pickerRef.current
     if (next && languageList)
@@ -120,6 +129,19 @@ export const codeComponent: Component<CodeComponentProps> = ({
   const onClear = (e: MouseEvent) => {
     e.preventDefault()
     setFilter('')
+  }
+
+  const onSearchKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape')
+      setFilter('')
+  }
+
+  const onListKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      const active = document.activeElement
+      if (active instanceof HTMLElement && active.dataset.language)
+        setLanguage?.(active.dataset.language)
+    }
   }
 
   return html`<host>
@@ -141,12 +163,18 @@ export const codeComponent: Component<CodeComponentProps> = ({
             <div class="search-icon">
               ${config?.searchIcon?.()}
             </div>
-            <input class="search-input" autofocus value=${filter} oninput=${changeFilter} />
+            <input
+              class="search-input"
+              placeholder=${config?.searchPlaceholder}
+              value=${filter}
+              oninput=${changeFilter}
+              onkeydown=${onSearchKeydown}
+            />
             <div class="clear-icon" onmousedown=${onClear}>
               ${config?.clearSearchIcon?.()}
             </div>
           </div>
-          <ul class="language-list" role="listbox">
+          <ul class="language-list" role="listbox" onkeydown=${onListKeydown}>
             ${languages.map(languageInfo =>
               html`
                 <li

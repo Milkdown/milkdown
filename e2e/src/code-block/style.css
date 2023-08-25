@@ -1,6 +1,7 @@
 milkdown-code-block {
   padding: 24px 40px;
   background: #F5F5F5;
+  margin: 20px 0;
 }
 
 milkdown-code-block .cm-editor {
@@ -22,6 +23,11 @@ milkdown-code-block .language-button:hover {
 
 milkdown-code-block .language-button .expand-icon {
   transition: transform 0.2s ease-in-out;
+}
+
+milkdown-code-block .language-button .expand-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 milkdown-code-block .language-button[data-expanded="true"] .expand-icon {
@@ -53,11 +59,12 @@ milkdown-code-block .language-list {
 milkdown-code-block .language-list-item {
   cursor: pointer;
   margin: 0;
-  height: 48px;
+  height: 32px;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 16px;
+  padding: 0 8px;
+  font-size: 12px;
 }
 
 milkdown-code-block .language-list-item:hover {
@@ -69,9 +76,10 @@ milkdown-code-block .language-list-item:focus-visible {
   background: cornsilk;
 }
 
-milkdown-code-block .language-list-item .trailing {
-  width: 24px;
-  height: 24px;
+milkdown-code-block .language-list-item .leading,
+milkdown-code-block .language-list-item .leading svg {
+  width: 16px;
+  height: 16px;
 }
 
 milkdown-code-block .list-wrapper {
@@ -81,17 +89,26 @@ milkdown-code-block .list-wrapper {
 milkdown-code-block .search-box {
   margin: 0 16px 12px;
   background: white;
-  height: 56px;
+  height: 32px;
   border-radius: 4px;
   outline: 2px solid fuchsia;
+  gap: 8px;
+  padding: 0 16px;
+  font-size: 12px;
 }
 
-milkdown-code-block .search-box .search-icon {
-  padding: 12px;
+milkdown-code-block .search-box .search-input {
+  flex: 1;
 }
 
-milkdown-code-block .search-box .clear-icon {
-  padding: 12px;
+milkdown-code-block .search-box .search-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+milkdown-code-block .search-box .clear-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 milkdown-code-block .search-box input {
