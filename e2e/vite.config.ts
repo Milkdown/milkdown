@@ -4,6 +4,9 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   root: 'src',
+  resolve: {
+    dedupe: ['@codemirror/state', '@codemirror/view'],
+  },
   build: {
     outDir: '../lib',
     emptyOutDir: true,

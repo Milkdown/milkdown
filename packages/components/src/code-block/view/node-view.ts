@@ -1,40 +1,109 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView, NodeView } from '@milkdown/prose/view'
-import type { KeyBinding, ViewUpdate } from '@codemirror/view'
+import type { KeyBinding } from '@codemirror/view'
 import { EditorView as CodeMirror, keymap as cmKeymap } from '@codemirror/view'
 import type { Node } from '@milkdown/prose/model'
-import { defaultKeymap } from '@codemirror/commands'
 import { redo, undo } from '@milkdown/prose/history'
-import type { Line, SelectionRange } from '@codemirror/state'
+import { Compartment, EditorState } from '@codemirror/state'
+import type { Line, SelectionRange, Transaction } from '@codemirror/state'
 import { exitCode } from '@milkdown/prose/commands'
 import { TextSelection } from '@milkdown/prose/state'
 
 import type { CodeBlockConfig } from '../config'
 import type { CodeComponentProps } from './component'
+import type { LanguageLoader } from './loader'
 
 export class CodeMirrorBlock implements NodeView {
-  dom: HTMLElement
+  dom: HTMLElement & CodeComponentProps
   cm: CodeMirror
 
-  updating = false
+  private updating = false
+  private languageName: string = ''
+
+  private readonly languageConf: Compartment
 
   constructor(
     public node: Node,
     public view: EditorView,
     public getPos: () => number | undefined,
+    public loader: LanguageLoader,
     public config: CodeBlockConfig,
   ) {
+    this.languageConf = new Compartment()
+    const changeFilter = EditorState.changeFilter.of((tr) => {
+      if (!tr.docChanged && !this.updating)
+        this.forwardSelection()
+
+      return true
+    })
+
     this.cm = new CodeMirror({
       doc: this.node.textContent,
       extensions: [
-        cmKeymap.of([...this.codeMirrorKeymap(), ...defaultKeymap]),
+        cmKeymap.of(this.codeMirrorKeymap()),
+        changeFilter,
+        this.languageConf.of([]),
         ...config.extensions,
-        CodeMirror.updateListener.of(update => this.forwardUpdate(update)),
       ],
+      dispatch: this.valueChanged,
     })
+
+    this.dom = this.createDom()
+
+    this.updateLanguage()
+  }
+
+  private createDom() {
     const dom = document.createElement('milkdown-code-block') as HTMLElement & CodeComponentProps
     dom.codemirror = this.cm
-    this.dom = dom
+    dom.getAllLanguages = this.getAllLanguages
+    dom.setLanguage = this.setLanguage
+    const {
+      languages,
+      extensions,
+      ...viewConfig
+    } = this.config
+    dom.config = viewConfig
+    return dom
+  }
+
+  private updateLanguage() {
+    const languageName = this.node.attrs.language
+
+    if (languageName === this.languageName)
+      return
+
+    this.dom.language = languageName
+    const language = this.loader.load(languageName)
+
+    if (!language)
+      return
+
+    language.then((lang) => {
+      if (lang) {
+        this.cm.dispatch({
+          effects: this.languageConf.reconfigure(lang),
+        })
+        this.languageName = languageName
+      }
+    })
+  }
+
+  private asProseMirrorSelection(doc: Node) {
+    const start = (this.getPos() ?? 0) + 1
+    const { anchor, head } = this.cm.state.selection.main
+    return TextSelection.between(doc.resolve(anchor + start), doc.resolve(head + start))
+  }
+
+  private forwardSelection() {
+    if (!this.cm.hasFocus)
+      return
+
+    const state = this.view.state
+    const selection = this.asProseMirrorSelection(state.doc)
+
+    if (!selection.eq(state.selection))
+      this.view.dispatch(state.tr.setSelection(selection))
   }
 
   private codeMirrorKeymap = (): KeyBinding[] => {
@@ -57,10 +126,56 @@ export class CodeMirrorBlock implements NodeView {
       { key: 'Mod-z', run: () => undo(view.state, view.dispatch) },
       { key: 'Shift-Mod-z', run: () => redo(view.state, view.dispatch) },
       { key: 'Mod-y', run: () => redo(view.state, view.dispatch) },
+      {
+        key: 'Backspace',
+        run: () => {
+          const ranges = this.cm.state.selection.ranges
+
+          if (ranges.length > 1)
+            return false
+
+          const selection = ranges[0]
+
+          if (selection && (!selection.empty || selection.anchor > 0))
+            return false
+
+          if (this.cm.state.doc.lines >= 2)
+            return false
+
+          const state = this.view.state
+          const pos = this.getPos() ?? 0
+          const tr = state.tr.replaceWith(pos, pos + this.node.nodeSize, state.schema.nodes.paragraph!.createChecked({}, this.node.content))
+
+          tr.setSelection(TextSelection.near(tr.doc.resolve(pos)))
+
+          this.view.dispatch(tr)
+          this.view.focus()
+          return true
+        },
+      },
     ]
   }
 
-  maybeEscape = (unit: 'line' | 'char', dir: -1 | 1): boolean => {
+  private valueChanged = (tr: Transaction): void => {
+    this.cm.update([tr])
+
+    if (!tr.docChanged || this.updating)
+      return
+
+    const change = computeChange(this.node.textContent, tr.state.doc.toString())
+
+    if (change) {
+      const start = (this.getPos() ?? 0) + 1
+      const tr = this.view.state.tr.replaceWith(
+        start + change.from,
+        start + change.to,
+        change.text ? this.view.state.schema.text(change.text) : [],
+      )
+      this.view.dispatch(tr)
+    }
+  }
+
+  private maybeEscape = (unit: 'line' | 'char', dir: -1 | 1): boolean => {
     const { state } = this.cm
     let main: SelectionRange | Line = state.selection.main
     if (!main.empty)
@@ -78,27 +193,6 @@ export class CodeMirrorBlock implements NodeView {
     return true
   }
 
-  forwardUpdate(update: ViewUpdate) {
-    if (this.updating || !this.cm.hasFocus)
-      return
-    const { main } = update.state.selection
-    let offset = (this.getPos() ?? 0) + 1
-    const selFrom = offset + main.from
-    const selTo = offset + main.to
-    const pmSel = this.view.state.selection
-    if (update.docChanged || pmSel.from !== selFrom || pmSel.to !== selTo) {
-      const tr = this.view.state.tr
-      update.changes.iterChanges((fromA, toA, fromB, toB, text) => {
-        if (text.length)
-          tr.replaceWith(offset + fromA, offset + toA, this.view.state.schema.text(text.toString()))
-        else tr.delete(offset + fromA, offset + toA)
-        offset += toB - fromB - (toA - fromA)
-      })
-      tr.setSelection(TextSelection.create(tr.doc, selFrom, selTo))
-      this.view.dispatch(tr)
-    }
-  }
-
   setSelection(anchor: number, head: number) {
     if (!this.cm.dom.isConnected) {
       requestAnimationFrame(() => this.setSelection(anchor, head))
@@ -113,33 +207,15 @@ export class CodeMirrorBlock implements NodeView {
   update(node: Node) {
     if (node.type !== this.node.type)
       return false
-    this.node = node
-    if (this.updating)
-      return true
-    const newText = node.textContent
-    const curText = this.cm.state.doc.toString()
-    if (newText !== curText) {
-      let start = 0
-      let curEnd = curText.length
-      let newEnd = newText.length
-      while (start < curEnd && curText.charCodeAt(start) === newText.charCodeAt(start))
-        ++start
 
-      while (
-        curEnd > start
-        && newEnd > start
-        && curText.charCodeAt(curEnd - 1) === newText.charCodeAt(newEnd - 1)
-      ) {
-        curEnd--
-        newEnd--
-      }
+    this.node = node
+    this.updateLanguage()
+
+    const change = computeChange(this.cm.state.doc.toString(), node.textContent)
+    if (change) {
       this.updating = true
       this.cm.dispatch({
-        changes: {
-          from: start,
-          to: curEnd,
-          insert: newText.slice(start, newEnd),
-        },
+        changes: { from: change.from, to: change.to, insert: change.text },
       })
       this.updating = false
     }
@@ -157,4 +233,40 @@ export class CodeMirrorBlock implements NodeView {
   destroy() {
     this.cm.destroy()
   }
+
+  setLanguage = (language: string) => {
+    this.view.dispatch(
+      this.view.state.tr.setNodeAttribute(this.getPos() ?? 0, 'language', language),
+    )
+  }
+
+  getAllLanguages = () => {
+    return this.loader.getAll()
+  }
+}
+
+function computeChange(
+  oldVal: string,
+  newVal: string,
+): { from: number; to: number; text: string } | null {
+  if (oldVal === newVal)
+    return null
+
+  let start = 0
+  let oldEnd = oldVal.length
+  let newEnd = newVal.length
+
+  while (start < oldEnd && oldVal.charCodeAt(start) === newVal.charCodeAt(start))
+    ++start
+
+  while (
+    oldEnd > start
+    && newEnd > start
+    && oldVal.charCodeAt(oldEnd - 1) === newVal.charCodeAt(newEnd - 1)
+  ) {
+    oldEnd--
+    newEnd--
+  }
+
+  return { from: start, to: oldEnd, text: newVal.slice(start, newEnd) }
 }
