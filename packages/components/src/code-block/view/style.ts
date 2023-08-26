@@ -31,4 +31,8 @@ export const style = css`
   :host .search-box .clear-icon {
     cursor: pointer;
   }
+
+  :host .hidden {
+    display: none;
+  }
 `

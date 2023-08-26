@@ -47,6 +47,7 @@ milkdown-code-block .list-wrapper {
   background: antiquewhite;
   border-radius: 16px;
   box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+  width: 220px;
 }
 
 milkdown-code-block .language-list {
@@ -98,7 +99,7 @@ milkdown-code-block .search-box {
 }
 
 milkdown-code-block .search-box .search-input {
-  flex: 1;
+  width: 100%;
 }
 
 milkdown-code-block .search-box .search-icon svg {

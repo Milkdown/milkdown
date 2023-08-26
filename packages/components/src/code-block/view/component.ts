@@ -51,7 +51,9 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
   useEffect(() => {
     const clickHandler = (e: MouseEvent) => {
-      if (e.target === triggerRef.current)
+      const target = e.target as HTMLElement
+
+      if (triggerRef.current && triggerRef.current.contains(target))
         return
 
       const picker = pickerRef.current
@@ -60,8 +62,6 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
       if (picker.dataset.expanded !== 'true')
         return
-
-      const target = e.target as HTMLElement
 
       if (!picker.contains(target))
         setShowPicker(false)
@@ -170,7 +170,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
               oninput=${changeFilter}
               onkeydown=${onSearchKeydown}
             />
-            <div class="clear-icon" onmousedown=${onClear}>
+            <div class=${clsx('clear-icon', filter.length === 0 && 'hidden')} onmousedown=${onClear}>
               ${config?.clearSearchIcon?.()}
             </div>
           </div>
