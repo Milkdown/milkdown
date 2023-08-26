@@ -31,10 +31,10 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const resizeHandle = useRef<HTMLDivElement>()
   const linkInput = useRef<HTMLInputElement>()
   const [showCaption, setShowCaption] = useState(caption.length > 0)
-  const [editing, setEditing] = useState(src.length === 0)
   const [hidePlaceholder, setHidePlaceholder] = useState(src.length !== 0)
-  const [uuid, setUuid] = useState('')
+  const [uuid] = useState(crypto.randomUUID())
   const [focusLinkInput, setFocusLinkInput] = useState(false)
+  const [currentLink, setCurrentLink] = useState(src)
   useCssLightDom(style)
 
   useBlockEffect({
@@ -46,14 +46,9 @@ export const imageComponent: Component<ImageComponentProps> = ({
   })
 
   useEffect(() => {
-    setUuid(crypto.randomUUID())
-  }, [])
-
-  useEffect(() => {
     if (selected)
       return
 
-    setEditing(src.length === 0)
     setShowCaption(caption.length > 0)
   }, [selected])
 
@@ -63,16 +58,11 @@ export const imageComponent: Component<ImageComponentProps> = ({
     setAttr?.('caption', value)
   }
 
-  const onEdit = () => {
-    setEditing(true)
-  }
-
   const onEditLink = (e: InputEvent) => {
     const target = e.target as HTMLInputElement
     const value = target.value
     setHidePlaceholder(value.length !== 0)
-
-    setAttr?.('src', value)
+    setCurrentLink(value)
   }
 
   const onUpload = async (e: InputEvent) => {
@@ -85,7 +75,6 @@ export const imageComponent: Component<ImageComponentProps> = ({
       return
 
     setAttr?.('src', url)
-    setEditing(false)
     setHidePlaceholder(true)
   }
 
@@ -93,13 +82,17 @@ export const imageComponent: Component<ImageComponentProps> = ({
     setShowCaption(x => !x)
   }
 
-  const onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter')
-      setEditing(false)
+  const onConfirmLinkInput = () => {
+    setAttr?.('src', linkInput.current?.value ?? '')
   }
 
-  return html`<host class=${clsx(selected && 'selected', editing && 'editing')}>
-    <div class=${clsx('image-edit', !editing && 'hidden')}>
+  const onKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter')
+      onConfirmLinkInput()
+  }
+
+  return html`<host class=${clsx(selected && 'selected')}>
+    <div class=${clsx('image-edit', src.length > 0 && 'hidden')}>
       <div class="image-icon">
         ${config?.imageIcon()}
       </div>
@@ -107,7 +100,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
         <input
           ref=${linkInput}
           class="link-input-area"
-          value=${src}
+          value=${currentLink}
           oninput=${onEditLink}
           onkeydown=${onKeydown}
           onfocus=${() => setFocusLinkInput(true)}
@@ -124,22 +117,21 @@ export const imageComponent: Component<ImageComponentProps> = ({
         </div>
       </div>
       <button
-        class=${clsx('confirm', src.length === 0 && 'hidden')}
-        onclick=${() => setEditing(false)}
+        class=${clsx('confirm', currentLink.length === 0 && 'hidden')}
+        onclick=${() => onConfirmLinkInput()}
       >
         ${config?.confirmButton()}
       </button>
     </div>
-    <div class=${clsx('image-wrapper', editing && 'hidden')}>
+    <div class=${clsx('image-wrapper', src.length === 0 && 'hidden')}>
       <div class="operation">
-        <div class="operation-item" onmousedown=${onEdit}>${config?.editIcon()}</div>
         <div class="operation-item" onmousedown=${onToggleCaption}>${config?.captionIcon()}</div>
       </div>
       <img ref=${image} src=${src} alt=${caption} />
       <div ref=${resizeHandle} class="image-resize-handle"></div>
     </div>
     <input
-      class=${clsx('caption-input', !(!editing && showCaption) && 'hidden')}
+      class=${clsx('caption-input', !showCaption && 'hidden')}
       placeholder=${config?.captionPlaceholderText}
       oninput=${onInput}
       value=${caption}

@@ -44,9 +44,10 @@ milkdown-image-block > .caption-input {
 
 milkdown-image-block > .image-edit {
   align-items: center;
-  padding: 24px 40px;
+  padding: 16px 24px;
   gap: 16px;
   background: oldlace;
+  height: 56px;
 }
 
 milkdown-image-block > .image-edit .image-icon {
@@ -54,8 +55,8 @@ milkdown-image-block > .image-edit .image-icon {
 }
 
 milkdown-image-block > .image-edit .image-icon svg {
-  width: 48px;
-  height: 48px;
+  width: 24px;
+  height: 24px;
 }
 
 milkdown-image-block > .image-edit .link-importer .placeholder {
@@ -63,7 +64,7 @@ milkdown-image-block > .image-edit .link-importer .placeholder {
 }
 
 milkdown-image-block > .image-edit .link-importer .link-input-area {
-  line-height: 48px;
+  line-height: 24px;
 }
 
 milkdown-image-block > .image-edit .link-importer .placeholder .uploader {
@@ -88,6 +89,8 @@ milkdown-image-block > .image-edit .link-importer .placeholder .text {
 milkdown-image-block > .image-edit .confirm {
   background: darkgray;
   color: antiquewhite;
-  padding: 6px 24px;
+  height: 40px;
+  padding: 0 24px;
   border-radius: 100px;
+  font-size: 14px;
 }

@@ -53,7 +53,7 @@ export const style = css`
     text-align: center;
   }
 
-  :host.editing > .image-edit {
+  :host > .image-edit {
     display: flex;
   }
 
