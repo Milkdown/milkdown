@@ -15,6 +15,12 @@ milkdown-code-block .language-button {
   border-radius: 8px;
   font-size: 14px;
   margin-bottom: 24px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+milkdown-code-block:hover .language-button {
+  opacity: 1;
 }
 
 milkdown-code-block .language-button:hover {
