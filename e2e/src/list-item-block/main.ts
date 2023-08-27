@@ -18,14 +18,17 @@ import './style.css'
 const markdown = `
 # List Item Block
 
-- List Item 1
-- List Item 2
-  - Sub List Item 1
-  - Sub List Item 2
-- List Item 3
+- List item 1
+- List item 2
+  - Sub list item 1
+  - Sub list item 2
+- List item 3
 
-- [ ] Todo List Item 1
-- [ ] Todo List Item 2
+1. numbered list item 1
+2. numbered list item 2
+
+- [ ] Todo list item 1
+- [ ] Todo list item 2
 `
 
 setup(() => {
