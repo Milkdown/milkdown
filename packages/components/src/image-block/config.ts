@@ -13,7 +13,7 @@ export type ImageBlockConfig = {
   onUpload: (file: File) => Promise<string>
 }
 
-export const defaultConfig: ImageBlockConfig = {
+export const defaultImageBlockConfig: ImageBlockConfig = {
   imageIcon: () => image,
   captionIcon: () => chatBubble,
   uploadButton: () => html`Upload file`,
@@ -23,4 +23,4 @@ export const defaultConfig: ImageBlockConfig = {
   onUpload: file => Promise.resolve(URL.createObjectURL(file)),
 }
 
-export const imageBlockConfig = $ctx(defaultConfig, 'imageBlockConfigCtx')
+export const imageBlockConfig = $ctx(defaultImageBlockConfig, 'imageBlockConfigCtx')

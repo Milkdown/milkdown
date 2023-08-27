@@ -25,6 +25,10 @@
     "./code-block": {
       "types": "./lib/code-block/index.d.ts",
       "import": "./lib/code-block/index.es.js"
+    },
+    "./list-item-block": {
+      "types": "./lib/list-item-block/index.d.ts",
+      "import": "./lib/list-item-block/index.es.js"
     }
   },
   "main": "./lib/index.es.js",
@@ -36,6 +40,9 @@
       ],
       "code-block": [
         "./lib/code-block/index.d.ts"
+      ],
+      "list-item-block": [
+        "./lib/list-item-block/index.d.ts"
       ]
     }
   },

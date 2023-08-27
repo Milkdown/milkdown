@@ -1,4 +1,4 @@
-milkdown-image-block.editing.selected > .image-edit {
+milkdown-image-block.selected > .image-edit {
   outline: 2px solid fuchsia;
 }
 

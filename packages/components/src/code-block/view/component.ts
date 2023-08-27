@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView as CodeMirror } from '@codemirror/view'
 import type { Component } from 'atomico'
-import { html, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
+import { h, html, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import { computePosition } from '@floating-ui/dom'
 import clsx from 'clsx'
@@ -27,7 +27,6 @@ export const codeComponent: Component<CodeComponentProps> = ({
 }) => {
   const triggerRef = useRef<HTMLButtonElement>()
   const pickerRef = useRef<HTMLDivElement>()
-  const codemirrorHostRef = useRef<HTMLDivElement>()
   const releaseRef = useRef<() => void>()
   const [filter, setFilter] = useState('')
   const [showPicker, setShowPicker] = useState(false)
@@ -39,11 +38,6 @@ export const codeComponent: Component<CodeComponentProps> = ({
     if (lang && lang.name !== language)
       setLanguage?.(lang.name)
   }, [language])
-
-  useEffect(() => {
-    if (codemirrorHostRef.current && codemirror)
-      codemirrorHostRef.current.appendChild(codemirror.dom)
-  }, [])
 
   useEffect(() => {
     setShowPicker(false)
@@ -192,7 +186,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
         </div>
       </div>
     </div>
-    <div ref=${codemirrorHostRef} class="codemirror-host"></div>
+    <div class="codemirror-host">${h(codemirror?.dom, {})}</div>
   </host>`
 }
 
