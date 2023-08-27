@@ -51,6 +51,9 @@ export const imageBlockView = $view(imageBlockSchema.node, (ctx): NodeViewConstr
       deselectNode: () => {
         dom.selected = false
       },
+      destroy: () => {
+        dom.remove()
+      },
     }
   }
 })
