@@ -61,12 +61,6 @@ export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConst
         bindAttrs(updatedNode)
         return true
       },
-      stopEvent: (e) => {
-        if (dom.selected && e.target instanceof HTMLInputElement)
-          return true
-
-        return false
-      },
       ignoreMutation: (mutation) => {
         if (!dom || !contentDOM)
           return true
