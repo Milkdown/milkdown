@@ -13,6 +13,53 @@ import pkg from './package.json' assert { type: 'json' }
 
 const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {})]
 
+const main = [
+  {
+    input: './src/index.ts',
+    output: {
+      file: 'lib/index.d.ts',
+      format: 'esm',
+      sourcemap: true,
+    },
+    external,
+    plugins: [dts({ respectExternal: true })],
+  },
+  {
+
+    input: './src/index.ts',
+    output: {
+      file: 'lib/index.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+    external,
+    plugins: [
+      resolve({ preferBuiltins: true }),
+      json(),
+      commonjs(),
+      esbuild({
+        target: 'es6',
+      }),
+      copy({
+        targets: [
+          {
+            src: 'node_modules/prosemirror-view/style/prosemirror.css',
+            dest: 'lib/style',
+          },
+          {
+            src: 'node_modules/prosemirror-tables/style/tables.css',
+            dest: 'lib/style',
+          },
+          {
+            src: 'node_modules/prosemirror-gapcursor/style/gapcursor.css',
+            dest: 'lib/style',
+          },
+        ],
+      }),
+    ],
+  },
+]
+
 const proseModule = (name) => {
   const input = `./src/${name}.ts`
   return [
@@ -41,22 +88,6 @@ const proseModule = (name) => {
         esbuild({
           target: 'es6',
         }),
-        copy({
-          targets: [
-            {
-              src: 'node_modules/prosemirror-view/style/prosemirror.css',
-              dest: 'lib/style',
-            },
-            {
-              src: 'node_modules/prosemirror-tables/style/tables.css',
-              dest: 'lib/style',
-            },
-            {
-              src: 'node_modules/prosemirror-gapcursor/style/gapcursor.css',
-              dest: 'lib/style',
-            },
-          ],
-        }),
       ],
     },
   ]
@@ -68,6 +99,7 @@ const dirs = fs.readdirSync(path.resolve(dirname, './src'))
 
 export default () =>
   dirs
-    .filter(x => x.endsWith('.ts'))
+    .filter(x => x.endsWith('.ts') && !x.startsWith('index'))
     .map(x => x.slice(0, -3))
     .flatMap(proseModule)
+    .concat(...main)
