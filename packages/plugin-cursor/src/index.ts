@@ -22,15 +22,15 @@ const withMeta = <T extends MilkdownPlugin>(
 export type DropCursorOptions = {
   /**
     The color of the cursor. Defaults to `black`.
-    */
+   */
   color?: string
   /**
     The precise width of the cursor in pixels. Defaults to 1.
-    */
+   */
   width?: number
   /**
     A CSS class name to add to the cursor element.
-    */
+   */
   class?: string
 }
 
