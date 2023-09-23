@@ -34,7 +34,7 @@ export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
   parseMarkdown: {
     match: ({ type }) => type === 'break',
     runner: (state, node, type) => {
-      state.addNode(type, { isInline: Boolean(node.data?.isInline) })
+      state.addNode(type, { isInline: Boolean((node.data as (undefined | { isInline: boolean }))?.isInline) })
     },
   },
   leafText: () => '\n',
