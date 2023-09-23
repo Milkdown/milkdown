@@ -72,7 +72,7 @@ describe('input:', () => {
       cy.get('.editor ul:first-child>li:last-child').should('have.text', 'list item 3')
       cy.window().then((win) => {
         cy.wrap(win.__getMarkdown__())
-          .should('equal', '*   list item 1\n*   list item 2\n\n    *   sub list item 1\n    *   sub list item 2\n*   list item 3\n')
+          .should('equal', '* list item 1\n* list item 2\n\n  * sub list item 1\n  * sub list item 2\n* list item 3\n')
       })
     })
 
@@ -98,7 +98,7 @@ describe('input:', () => {
       )
       cy.window().then((win) => {
         cy.wrap(win.__getMarkdown__())
-          .should('equal', '1.  list item 1\n2.  list item 2\n\n    1.  sub list item 1\n    2.  sub list item 2\n3.  list item 3\n')
+          .should('equal', '1. list item 1\n2. list item 2\n\n   1. sub list item 1\n   2. sub list item 2\n3. list item 3\n')
       })
     })
 

@@ -80,7 +80,7 @@ describe('input:', () => {
       cy.get('.editor ul').should('have.length', 1)
       cy.window().then((win) => {
         cy.wrap(win.__getMarkdown__())
-          .should('equal', '1.  The lunatic is on the grass\n2.  The lunatic is in the hell\n\n    *   The lunatic is on the grass\n    *   The lunatic is in the hell\n')
+          .should('equal', '1. The lunatic is on the grass\n2. The lunatic is in the hell\n\n   * The lunatic is on the grass\n   * The lunatic is in the hell\n')
       })
     })
 
