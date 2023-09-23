@@ -32,11 +32,11 @@
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
-    "remark": "^14.0.1",
-    "remark-parse": "^10.0.2",
-    "remark-stringify": "^10.0.3",
+    "remark": "^15.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
     "tslib": "^2.5.0",
-    "unified": "^10.1.0"
+    "unified": "^11.0.3"
   },
   "devDependencies": {
     "@milkdown/prose": "workspace:*"

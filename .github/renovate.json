@@ -1,4 +1,3 @@
 {
-  "extends": ["config:base", ":preserveSemverRanges", "group:all"],
-  "ignoreDeps": ["unified", "remark", "remark-parse", "remark-stringify"]
+  "extends": ["config:base", ":preserveSemverRanges", "group:all"]
 }

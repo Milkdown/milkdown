@@ -37,7 +37,7 @@
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "remark-gfm": "^3.0.0",
+    "remark-gfm": "^4.0.0",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
