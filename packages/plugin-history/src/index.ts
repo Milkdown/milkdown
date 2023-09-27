@@ -26,9 +26,9 @@ withMeta(undoCommand, {
 })
 
 /// The milkdown command wrapper of [redo API](https://prosemirror.net/docs/ref/#history.redo) in [prosemirror-history](https://prosemirror.net/docs/ref/#history).
-export const redoCommand = $command('Undo', () => () => redo)
+export const redoCommand = $command('Redo', () => () => redo)
 
-withMeta(undoCommand, {
+withMeta(redoCommand, {
   displayName: 'Command<redo>',
 })
 
