@@ -63,7 +63,7 @@
     "nx": "16.9.0",
     "nx-cloud": "16.4.0",
     "pathe": "^1.0.0",
-    "postcss": "^8.2.12",
+    "postcss": "^8.4.31",
     "rimraf": "^5.0.0",
     "rollup": "^3.28.1",
     "rollup-plugin-auto-external": "^2.0.0",
