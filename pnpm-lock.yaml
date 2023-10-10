@@ -118,8 +118,8 @@ importers:
         specifier: 16.10.0
         version: 16.10.0
       nx-cloud:
-        specifier: 16.4.0
-        version: 16.4.0
+        specifier: 16.5.1
+        version: 16.5.1
       pathe:
         specifier: ^1.0.0
         version: 1.1.1
@@ -4246,10 +4246,10 @@ packages:
       - verdaccio
     dev: true
 
-  /@nrwl/nx-cloud@16.4.0:
-    resolution: {integrity: sha512-QitrYK6z9ceagetBlgLMZnC0T85k2JTk+oK0MxZ5p/woclqeYN7SiGNZgMzDq8TjJwt8Fm/MDnsSo3xtufmLBg==}
+  /@nrwl/nx-cloud@16.5.1:
+    resolution: {integrity: sha512-ICsZNJanMaJg6VLfPQwmhwLPONN7chyf23bJk1VPzDdlF/XytCQ542LkR3PvSyBAH/Uxx5JevwnKoewX8UxIlA==}
     dependencies:
-      nx-cloud: 16.4.0
+      nx-cloud: 16.5.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -10012,11 +10012,11 @@ packages:
     resolution: {integrity: sha512-NHj4rzRo0tQdijE9ZqAx6kYDcoRwYwSYzCA8MY3JzfxlrvEU0jhnhJT9BhqhJs7I/dKcrDm6TyulaRqZPIhN5g==}
     dev: true
 
-  /nx-cloud@16.4.0:
-    resolution: {integrity: sha512-jbq4hWvDwRlJVpxgMgbmNSkue+6XZSn53R6Vo6qmCAWODJ9KY1BZdZ/9VRL8IX/BRKebVFiXp3SapFB1qPhH8A==}
+  /nx-cloud@16.5.1:
+    resolution: {integrity: sha512-CBR/NkPWDBOIYO2NYgJyS9znvQeEX2M9sbW+7lpWqVtY1Gap6Vmg0WlJ0UuwSXY5lyrKkB4I9eDXn3eNLdj7Yg==}
     hasBin: true
     dependencies:
-      '@nrwl/nx-cloud': 16.4.0
+      '@nrwl/nx-cloud': 16.5.1
       axios: 1.1.3
       chalk: 4.1.2
       dotenv: 10.0.0
