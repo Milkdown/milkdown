@@ -24,3 +24,5 @@ nx-cloud.env
 *.cache
 *error.log
 *debug.log
+
+.nx/cache

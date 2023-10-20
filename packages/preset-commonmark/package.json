@@ -51,7 +51,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/preset-commonmark/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

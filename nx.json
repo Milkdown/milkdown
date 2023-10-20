@@ -1,33 +1,31 @@
 {
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": true
     },
     "prepare": {
-      "dependsOn": ["^prepare"]
+      "dependsOn": ["^prepare"],
+      "cache": true
     },
     "package": {
-      "dependsOn": ["^package"]
+      "dependsOn": ["^package"],
+      "cache": true
+    },
+    "test": {
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "tsc": {
+      "cache": true
+    },
+    "e2e": {
+      "cache": true
     }
   },
   "extends": "@nx/workspace/presets/npm.json",
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "package",
-          "prepare",
-          "tsc",
-          "e2e"
-        ],
-        "accessToken": "OTM5ZjkyM2MtZDA4Yy00OTc0LTljYzAtZmVjODI0MDhlYTQzfHJlYWQtb25seQ=="
-      }
-    }
-  },
   "affected": {
     "defaultBase": "main"
   },
@@ -41,5 +39,6 @@
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
     "production": ["default"]
-  }
+  },
+  "nxCloudAccessToken": "OTM5ZjkyM2MtZDA4Yy00OTc0LTljYzAtZmVjODI0MDhlYTQzfHJlYWQtb25seQ=="
 }

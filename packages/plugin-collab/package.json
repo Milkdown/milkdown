@@ -53,7 +53,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-collab/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

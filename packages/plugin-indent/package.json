@@ -43,7 +43,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-indent/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

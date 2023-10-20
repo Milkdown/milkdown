@@ -142,7 +142,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/prose/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

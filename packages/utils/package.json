@@ -42,7 +42,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/utils/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

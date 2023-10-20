@@ -46,7 +46,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/theme-nord/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

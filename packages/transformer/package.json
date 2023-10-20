@@ -45,7 +45,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/transformer/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

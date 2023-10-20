@@ -65,7 +65,7 @@
       },
       "build": {
         "outputs": [
-          "e2e/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

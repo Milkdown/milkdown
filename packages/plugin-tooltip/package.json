@@ -47,7 +47,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-tooltip/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

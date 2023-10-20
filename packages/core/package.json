@@ -51,7 +51,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/core/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

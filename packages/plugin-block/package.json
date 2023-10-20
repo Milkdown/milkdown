@@ -47,7 +47,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-block/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

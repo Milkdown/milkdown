@@ -52,7 +52,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-emoji/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

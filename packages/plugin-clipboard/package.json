@@ -41,7 +41,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-clipboard/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {
