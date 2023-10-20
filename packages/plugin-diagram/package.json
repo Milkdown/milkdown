@@ -53,7 +53,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-diagram/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

@@ -44,7 +44,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-prism/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

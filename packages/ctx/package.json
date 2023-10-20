@@ -38,7 +38,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/ctx/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

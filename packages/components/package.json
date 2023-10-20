@@ -87,7 +87,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/components/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

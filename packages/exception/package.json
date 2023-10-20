@@ -28,7 +28,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/exception/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

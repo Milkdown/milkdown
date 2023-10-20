@@ -44,7 +44,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/vue/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {

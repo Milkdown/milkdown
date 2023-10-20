@@ -43,7 +43,7 @@
     "targets": {
       "build": {
         "outputs": [
-          "packages/plugin-cursor/lib"
+          "{projectRoot}/lib"
         ],
         "dependsOn": [
           {
