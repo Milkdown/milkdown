@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.3.1
+
+### Patch Changes
+
+- f199e63f: Add code block and list item block in components
+
 ## 7.3.0
 
 ### Minor Changes
