@@ -1,5 +1,24 @@
 # @milkdown/e2e
 
+## 7.3.1
+
+### Patch Changes
+
+- f199e63f: Add code block and list item block in components
+- Updated dependencies [f199e63f]
+  - @milkdown/components@7.3.1
+  - @milkdown/core@7.3.1
+  - @milkdown/ctx@7.3.1
+  - @milkdown/plugin-clipboard@7.3.1
+  - @milkdown/plugin-history@7.3.1
+  - @milkdown/plugin-listener@7.3.1
+  - @milkdown/plugin-math@7.3.1
+  - @milkdown/preset-commonmark@7.3.1
+  - @milkdown/preset-gfm@7.3.1
+  - @milkdown/prose@7.3.1
+  - @milkdown/theme-nord@7.3.1
+  - @milkdown/utils@7.3.1
+
 ## 7.3.0
 
 ### Minor Changes
