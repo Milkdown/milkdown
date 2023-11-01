@@ -16,7 +16,7 @@ export type $InputRule = MilkdownPlugin & {
 ///
 /// Additional property:
 /// - `inputRule`: The prosemirror input rule created.
-export const $inputRule = (inputRule: (ctx: Ctx) => InputRule): $InputRule => {
+export function $inputRule(inputRule: (ctx: Ctx) => InputRule): $InputRule {
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const ir = inputRule(ctx)
@@ -36,7 +36,7 @@ export const $inputRule = (inputRule: (ctx: Ctx) => InputRule): $InputRule => {
 /// Additional property:
 /// - `inputRule`: The prosemirror input rule created.
 /// - `timer`: The timer which will be resolved when the input rule is ready.
-export const $inputRuleAsync = (inputRule: (ctx: Ctx) => Promise<InputRule>, timerName?: string) => {
+export function $inputRuleAsync(inputRule: (ctx: Ctx) => Promise<InputRule>, timerName?: string) {
   return addTimer<$InputRule>(
     async (ctx, plugin) => {
       await ctx.wait(SchemaReady)

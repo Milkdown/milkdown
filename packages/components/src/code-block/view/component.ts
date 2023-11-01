@@ -10,7 +10,7 @@ import { style } from './style'
 import type { LanguageInfo } from './loader'
 import { trapFocus } from './utils'
 
-export type CodeComponentProps = {
+export interface CodeComponentProps {
   codemirror: CodeMirror
   language: string
   getAllLanguages: () => Array<LanguageInfo>

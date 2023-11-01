@@ -36,7 +36,7 @@ export type $NodeSchema<T extends string> = [
 /// - `schema`: The node schema.
 /// - `key`: The key of slice which contains the node schema factory.
 /// - `extendSchema`: A function witch will return a plugin that can extend the node schema.
-export const $nodeSchema = <T extends string>(id: T, schema: GetNodeSchema): $NodeSchema<T> => {
+export function $nodeSchema<T extends string>(id: T, schema: GetNodeSchema): $NodeSchema<T> {
   const schemaCtx = $ctx(schema, id)
 
   const nodeSchema = $node(id, (ctx) => {

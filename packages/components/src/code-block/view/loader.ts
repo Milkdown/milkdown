@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { LanguageDescription, LanguageSupport } from '@codemirror/language'
 
-export type LanguageInfo = {
+export interface LanguageInfo {
   name: string
   alias: readonly string[]
 }

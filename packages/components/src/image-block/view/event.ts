@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { type Ref, useEffect, useHost } from 'atomico'
 
-type Options = {
+interface Options {
   image: Ref<HTMLImageElement>
   resizeHandle: Ref<HTMLDivElement>
   ratio: number
@@ -9,13 +9,13 @@ type Options = {
   src: string
 }
 
-export const useBlockEffect = ({
+export function useBlockEffect({
   image,
   resizeHandle,
   ratio,
   setRatio,
   src,
-}: Options) => {
+}: Options) {
   const host = useHost()
 
   useEffect(() => {

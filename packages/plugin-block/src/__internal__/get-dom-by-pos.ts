@@ -3,7 +3,7 @@
 import type { ResolvedPos } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 
-export const getDOMByPos = (view: EditorView, root: HTMLElement, $pos: ResolvedPos) => {
+export function getDOMByPos(view: EditorView, root: HTMLElement, $pos: ResolvedPos) {
   const { node } = view.domAtPos($pos.pos)
 
   let el: HTMLElement = node as HTMLElement

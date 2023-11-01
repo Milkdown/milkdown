@@ -4,7 +4,7 @@ import type { Predicate } from './types'
 
 export interface NodeWithPos { pos: number; node: ProseNode }
 
-export const flatten = (node: ProseNode, descend = true): NodeWithPos[] => {
+export function flatten(node: ProseNode, descend = true): NodeWithPos[] {
   const result: NodeWithPos[] = []
   node.descendants((child, pos) => {
     result.push({ node: child, pos })
@@ -16,10 +16,11 @@ export const flatten = (node: ProseNode, descend = true): NodeWithPos[] => {
   return result
 }
 
-export const findChildren
-    = (predicate: Predicate) =>
-      (node: ProseNode, descend?: boolean): NodeWithPos[] =>
-        flatten(node, descend).filter(child => predicate(child.node))
+export function findChildren(predicate: Predicate) {
+  return (node: ProseNode, descend?: boolean): NodeWithPos[] =>
+    flatten(node, descend).filter(child => predicate(child.node))
+}
 
-export const findChildrenByMark = (node: ProseNode, markType: MarkType, descend?: boolean): NodeWithPos[] =>
-  findChildren(child => Boolean(markType.isInSet(child.marks)))(node, descend)
+export function findChildrenByMark(node: ProseNode, markType: MarkType, descend?: boolean): NodeWithPos[] {
+  return findChildren(child => Boolean(markType.isInSet(child.marks)))(node, descend)
+}

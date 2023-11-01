@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-/* eslint-disable vue/one-component-per-file */
 import type { Editor } from '@milkdown/core'
 import type { InjectionKey, Ref } from 'vue'
 import {
@@ -12,6 +11,11 @@ import {
 
 import type { EditorInfoCtx, GetEditor } from './types'
 import { useGetEditor } from './useGetEditor'
+
+// eslint-disable-next-line no-unused-expressions
+h
+// eslint-disable-next-line no-unused-expressions
+Fragment
 
 export const editorInfoCtxKey: InjectionKey<EditorInfoCtx> = Symbol('editorInfoCtxKey')
 

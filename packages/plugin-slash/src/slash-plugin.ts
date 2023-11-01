@@ -15,7 +15,7 @@ export type SlashPlugin<Id extends string, State = any> = [$Ctx<PluginSpec<State
 }
 
 /// Create a slash plugin with a unique id.
-export const slashFactory = <Id extends string, State = any>(id: Id) => {
+export function slashFactory<Id extends string, State = any>(id: Id) {
   const slashSpec = $ctx<PluginSpec<State>, SlashPluginSpecId<Id>>({}, `${id}_SLASH_SPEC`)
   const slashPlugin = $prose((ctx) => {
     const spec = ctx.get(slashSpec.key)

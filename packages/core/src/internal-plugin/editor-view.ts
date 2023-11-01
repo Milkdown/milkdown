@@ -38,7 +38,7 @@ export const rootDOMCtx = createSlice(null as unknown as HTMLElement, 'rootDOM')
 /// You can add attributes to the root element by this slice.
 export const rootAttrsCtx = createSlice({} as Record<string, string>, 'rootAttrs')
 
-const createViewContainer = (root: Node, ctx: Ctx) => {
+function createViewContainer(root: Node, ctx: Ctx) {
   const container = document.createElement('div')
   container.className = 'milkdown'
   root.appendChild(container)
@@ -50,7 +50,7 @@ const createViewContainer = (root: Node, ctx: Ctx) => {
   return container
 }
 
-const prepareViewDom = (dom: Element) => {
+function prepareViewDom(dom: Element) {
   dom.classList.add('editor')
   dom.setAttribute('role', 'textbox')
 }

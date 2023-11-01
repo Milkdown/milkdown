@@ -6,16 +6,6 @@
 
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-
-    "importHelpers": true,
-    "noEmitOnError": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-
-    "pretty": true,
 
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -26,6 +16,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "useUnknownInCatchVariables": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    "importHelpers": true,
+    "noEmitOnError": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "pretty": true,
     "preserveWatchOutput": true
   }
 }

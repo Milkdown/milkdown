@@ -3,7 +3,7 @@ import type { Transaction } from '@milkdown/prose/state'
 import { dropPoint } from '@milkdown/prose/transform'
 import type { EditorView } from '@milkdown/prose/view'
 
-export const removePossibleTable = (view: EditorView, event: DragEvent): Transaction | null => {
+export function removePossibleTable(view: EditorView, event: DragEvent): Transaction | null {
   const { state } = view
 
   const $pos = state.selection.$anchor

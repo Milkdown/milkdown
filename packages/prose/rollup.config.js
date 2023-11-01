@@ -60,7 +60,7 @@ const main = [
   },
 ]
 
-const proseModule = (name) => {
+function proseModule(name) {
   const input = `./src/${name}.ts`
   return [
     {

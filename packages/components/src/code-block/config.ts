@@ -5,7 +5,7 @@ import type { LanguageDescription } from '@codemirror/language'
 import { html } from 'atomico'
 import { chevronDown, search, xCircle } from '../__internal__/icons'
 
-export type CodeBlockConfig = {
+export interface CodeBlockConfig {
   extensions: Extension[]
   languages: LanguageDescription[]
   searchPlaceholder: string

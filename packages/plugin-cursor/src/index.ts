@@ -4,10 +4,7 @@ import { dropCursor } from '@milkdown/prose/dropcursor'
 import { gapCursor } from '@milkdown/prose/gapcursor'
 import { $ctx, $prose } from '@milkdown/utils'
 
-const withMeta = <T extends MilkdownPlugin>(
-  plugin: T,
-  meta: Partial<Meta> & Pick<Meta, 'displayName'>,
-): T => {
+function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pick<Meta, 'displayName'>): T {
   Object.assign(plugin, {
     meta: {
       package: '@milkdown/plugin-cursor',
@@ -19,7 +16,7 @@ const withMeta = <T extends MilkdownPlugin>(
 }
 
 /// @internal
-export type DropCursorOptions = {
+export interface DropCursorOptions {
   /**
     The color of the cursor. Defaults to `black`.
    */

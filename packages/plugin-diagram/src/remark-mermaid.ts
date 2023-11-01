@@ -3,13 +3,15 @@
 import type { Node } from '@milkdown/transformer'
 import { visit } from 'unist-util-visit'
 
-const createMermaidDiv = (contents: string) => ({
-  type: 'diagram',
-  value: contents,
-})
+function createMermaidDiv(contents: string) {
+  return {
+    type: 'diagram',
+    value: contents,
+  }
+}
 
-const visitCodeBlock = (ast: Node) =>
-  visit(ast, 'code', (node, index, parent: Node & { children: Node[] }) => {
+function visitCodeBlock(ast: Node) {
+  return visit(ast, 'code', (node, index, parent: Node & { children: Node[] }) => {
     const { lang, value } = node
 
     // If this codeblock is not mermaid, bail.
@@ -23,8 +25,9 @@ const visitCodeBlock = (ast: Node) =>
 
     return node
   })
+}
 
-export const remarkMermaid = () => {
+export function remarkMermaid() {
   function transformer(tree: Node) {
     visitCodeBlock(tree)
   }

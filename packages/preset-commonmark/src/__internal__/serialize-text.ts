@@ -3,7 +3,7 @@ import type { SerializerState } from '@milkdown/transformer'
 import type { Node } from '@milkdown/prose/model'
 import { Fragment } from '@milkdown/prose/model'
 
-export const serializeText = (state: SerializerState, node: Node) => {
+export function serializeText(state: SerializerState, node: Node) {
   const lastIsHardBreak
     = node.childCount >= 1 && node.lastChild?.type.name === 'hardbreak'
   if (!lastIsHardBreak) {

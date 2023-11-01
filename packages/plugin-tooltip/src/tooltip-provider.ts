@@ -8,7 +8,7 @@ import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
 
 /// Options for tooltip provider.
-export type TooltipProviderOptions = {
+export interface TooltipProviderOptions {
   /// The tooltip content.
   content: HTMLElement
   /// The options for creating [tippy.js](https://atomiks.github.io/tippyjs/) instance.

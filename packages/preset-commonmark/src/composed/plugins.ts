@@ -11,7 +11,8 @@ import {
   remarkAddOrderInListPlugin,
   remarkHtmlTransformer,
   remarkInlineLinkPlugin,
-  remarkLineBreak, remarkMarker,
+  remarkLineBreak,
+  remarkMarker,
   syncHeadingIdPlugin,
   syncListOrderPlugin,
 } from '../plugin'

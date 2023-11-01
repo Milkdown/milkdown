@@ -6,19 +6,23 @@ const functionReplacer = (_: string, value: unknown) => (typeof value === 'funct
 
 const stringify = (x: unknown): string => JSON.stringify(x, functionReplacer)
 
-export const docTypeError = (type: unknown) =>
-  new MilkdownError(ErrorCode.docTypeError, `Doc type error, unsupported type: ${stringify(type)}`)
+export function docTypeError(type: unknown) {
+  return new MilkdownError(ErrorCode.docTypeError, `Doc type error, unsupported type: ${stringify(type)}`)
+}
 
-export const contextNotFound = (name: string) =>
-  new MilkdownError(ErrorCode.contextNotFound, `Context "${name}" not found, do you forget to inject it?`)
+export function contextNotFound(name: string) {
+  return new MilkdownError(ErrorCode.contextNotFound, `Context "${name}" not found, do you forget to inject it?`)
+}
 
-export const timerNotFound = (name: string) =>
-  new MilkdownError(ErrorCode.timerNotFound, `Timer "${name}" not found, do you forget to record it?`)
+export function timerNotFound(name: string) {
+  return new MilkdownError(ErrorCode.timerNotFound, `Timer "${name}" not found, do you forget to record it?`)
+}
 
-export const ctxCallOutOfScope = () =>
-  new MilkdownError(ErrorCode.ctxCallOutOfScope, 'Should not call a context out of the plugin.')
+export function ctxCallOutOfScope() {
+  return new MilkdownError(ErrorCode.ctxCallOutOfScope, 'Should not call a context out of the plugin.')
+}
 
-export const createNodeInParserFail = (...args: unknown[]) => {
+export function createNodeInParserFail(...args: unknown[]) {
   const message = args.reduce((msg, arg) => {
     if (!arg)
       return msg
@@ -41,47 +45,58 @@ export const createNodeInParserFail = (...args: unknown[]) => {
   return new MilkdownError(ErrorCode.createNodeInParserFail, message)
 }
 
-export const stackOverFlow = () =>
-  new MilkdownError(ErrorCode.stackOverFlow, 'Stack over flow, cannot pop on an empty stack.')
+export function stackOverFlow() {
+  return new MilkdownError(ErrorCode.stackOverFlow, 'Stack over flow, cannot pop on an empty stack.')
+}
 
-export const parserMatchError = (node: unknown) =>
-  new MilkdownError(ErrorCode.parserMatchError, `Cannot match target parser for node: ${stringify(node)}.`)
+export function parserMatchError(node: unknown) {
+  return new MilkdownError(ErrorCode.parserMatchError, `Cannot match target parser for node: ${stringify(node)}.`)
+}
 
-export const serializerMatchError = (node: unknown) =>
-  new MilkdownError(ErrorCode.serializerMatchError, `Cannot match target serializer for node: ${stringify(node)}.`)
+export function serializerMatchError(node: unknown) {
+  return new MilkdownError(ErrorCode.serializerMatchError, `Cannot match target serializer for node: ${stringify(node)}.`)
+}
 
-export const getAtomFromSchemaFail = (type: 'mark' | 'node', name: string) =>
-  new MilkdownError(ErrorCode.getAtomFromSchemaFail, `Cannot get ${type}: ${name} from schema.`)
+export function getAtomFromSchemaFail(type: 'mark' | 'node', name: string) {
+  return new MilkdownError(ErrorCode.getAtomFromSchemaFail, `Cannot get ${type}: ${name} from schema.`)
+}
 
-export const expectDomTypeError = (node: unknown) =>
-  new MilkdownError(ErrorCode.expectDomTypeError, `Expect to be a dom, but get: ${stringify(node)}.`)
+export function expectDomTypeError(node: unknown) {
+  return new MilkdownError(ErrorCode.expectDomTypeError, `Expect to be a dom, but get: ${stringify(node)}.`)
+}
 
-export const callCommandBeforeEditorView = () =>
-  new MilkdownError(
+export function callCommandBeforeEditorView() {
+  return new MilkdownError(
     ErrorCode.callCommandBeforeEditorView,
     'You\'re trying to call a command before editor view initialized, make sure to get commandManager from ctx after editor view has been initialized',
   )
+}
 
-export const missingRootElement = () =>
-  new MilkdownError(
+export function missingRootElement() {
+  return new MilkdownError(
     ErrorCode.missingRootElement,
     'Missing root element, milkdown cannot find root element of the editor.',
   )
+}
 
-export const missingNodeInSchema = (name: string) =>
-  new MilkdownError(
+export function missingNodeInSchema(name: string) {
+  return new MilkdownError(
     ErrorCode.missingNodeInSchema,
         `Missing node in schema, milkdown cannot find "${name}" in schema.`,
   )
+}
 
-export const missingMarkInSchema = (name: string) =>
-  new MilkdownError(
+export function missingMarkInSchema(name: string) {
+  return new MilkdownError(
     ErrorCode.missingMarkInSchema,
         `Missing mark in schema, milkdown cannot find "${name}" in schema.`,
   )
+}
 
-export const ctxNotBind = () =>
-  new MilkdownError(ErrorCode.ctxNotBind, 'Context not bind, please make sure the plugin has been initialized.')
+export function ctxNotBind() {
+  return new MilkdownError(ErrorCode.ctxNotBind, 'Context not bind, please make sure the plugin has been initialized.')
+}
 
-export const missingYjsDoc = () =>
-  new MilkdownError(ErrorCode.missingYjsDoc, 'Missing yjs doc, please make sure you have bind one.')
+export function missingYjsDoc() {
+  return new MilkdownError(ErrorCode.missingYjsDoc, 'Missing yjs doc, please make sure you have bind one.')
+}

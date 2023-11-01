@@ -3,7 +3,7 @@ import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
 import { chatBubble, image } from '../__internal__/icons'
 
-export type ImageBlockConfig = {
+export interface ImageBlockConfig {
   imageIcon: () => ReturnType<typeof html>
   captionIcon: () => ReturnType<typeof html>
   uploadButton: () => ReturnType<typeof html>

@@ -16,7 +16,7 @@ const originalSchema = tableNodes({
   cellAttributes: {
     alignment: {
       default: 'left',
-      getFromDOM: dom => (dom as HTMLElement).style.textAlign || 'left',
+      getFromDOM: dom => (dom).style.textAlign || 'left',
       setDOMAttr: (value, attrs) => {
         attrs.style = `text-align: ${value || 'left'}`
       },
@@ -176,7 +176,8 @@ withMeta(tableHeaderSchema.ctx, {
 /// A input rule for creating table.
 /// For example, `|2x2|` will create a 2x2 table.
 export const insertTableInputRule = $inputRule(ctx => new InputRule(
-  /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/, (state, match, start, end) => {
+  /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/,
+  (state, match, start, end) => {
     const $start = state.doc.resolve(start)
     if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), tableSchema.type(ctx)))
       return null

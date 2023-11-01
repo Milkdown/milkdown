@@ -1,40 +1,40 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.177.0/containers/typescript-node
 {
-    "name": "Milkdown Dev Container",
-    "build": {
-        "dockerfile": "Dockerfile",
-        // Update 'VARIANT' to pick a Node version: 12, 14, 16
-        "args": {
-            "VARIANT": "16"
-        }
-    },
+  "name": "Milkdown Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    // Update 'VARIANT' to pick a Node version: 12, 14, 16
+    "args": {
+      "VARIANT": "16"
+    }
+  },
 
-    // Set *default* container specific settings.json values on container create.
-    "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh",
-        "terminal.integrated.shell.linux": "zsh"
-    },
+  // Set *default* container specific settings.json values on container create.
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.shell.linux": "zsh"
+  },
 
-    // Add the IDs of extensions you want installed when the container is created.
-    "extensions": [
-        "streetsidesoftware.code-spell-checker",
-        "naumovs.color-highlight",
-        "editorconfig.editorconfig",
-        "dbaeumer.vscode-eslint",
-        "eamodio.gitlens",
-        "eg2.vscode-npm-scrip",
-        "gruntfuggly.todo-tree",
-        "visualstudioexptteam.vscodeintellicode",
-        "mhutchie.git-graph"
-    ],
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "streetsidesoftware.code-spell-checker",
+    "naumovs.color-highlight",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "eg2.vscode-npm-scrip",
+    "gruntfuggly.todo-tree",
+    "visualstudioexptteam.vscodeintellicode",
+    "mhutchie.git-graph"
+  ],
 
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // "forwardPorts": [],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
 
-    // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "pnpm install",
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "pnpm install",
 
-    // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-    "remoteUser": "node"
+  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "node"
 }

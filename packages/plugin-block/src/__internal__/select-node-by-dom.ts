@@ -6,7 +6,7 @@ import type { FilterNodes } from '../block-plugin'
 import { getDOMByPos } from './get-dom-by-pos'
 
 const nodeIsNotBlock = (node: Node) => !node.type.isBlock
-const nodeIsFirstChild = (pos: ResolvedPos) => {
+function nodeIsFirstChild(pos: ResolvedPos) {
   let parent = pos.parent
   const node = pos.node()
 
@@ -25,7 +25,7 @@ export type ActiveNode = Readonly<{
   el: HTMLElement
 }>
 
-export const selectRootNodeByDom = (dom: Element, view: EditorView, filterNodes: FilterNodes): ActiveNode | null => {
+export function selectRootNodeByDom(dom: Element, view: EditorView, filterNodes: FilterNodes): ActiveNode | null {
   const root = view.dom.parentElement
   if (!root)
     return null

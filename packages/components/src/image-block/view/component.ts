@@ -7,7 +7,7 @@ import type { ImageBlockConfig } from '../config'
 import { useBlockEffect } from './event'
 import { style } from './style'
 
-export type Attrs = {
+export interface Attrs {
   src: string
   caption: string
   ratio: number

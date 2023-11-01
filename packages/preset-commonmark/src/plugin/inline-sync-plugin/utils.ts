@@ -12,7 +12,7 @@ import {
   underlineHolder,
 } from './regexp'
 
-export const keepLink = (str: string) => {
+export function keepLink(str: string) {
   let text = str
   let match = text.match(keepLinkRegexp)
   while (match && match.groups) {
@@ -24,7 +24,7 @@ export const keepLink = (str: string) => {
   return text
 }
 
-export const mergeSlash = (str: string) => {
+export function mergeSlash(str: string) {
   return str
     .replaceAll(/\\\\\*/g, asterisk)
     .replaceAll(/\\\\_/g, underline)
@@ -32,7 +32,7 @@ export const mergeSlash = (str: string) => {
     .replaceAll(underline, underlineHolder)
 }
 
-export const swap = (text: string, first: number, last: number) => {
+export function swap(text: string, first: number, last: number) {
   const arr = text.split('')
   const temp = arr[first]
   if (arr[first] && arr[last]) {
@@ -42,30 +42,34 @@ export const swap = (text: string, first: number, last: number) => {
   return arr.join('').toString()
 }
 
-export const replacePunctuation = (holePlaceholder: string) => (text: string) =>
-  text.replace(punctuationRegexp(holePlaceholder), '')
-
-export const calculatePlaceholder = (placeholder: SyncNodePlaceholder) => (text: string) => {
-  const index = text.indexOf(placeholder.hole)
-  const left = text.charAt(index - 1)
-  const right = text.charAt(index + 1)
-  const notAWord = /[^\w]|_/
-
-  // cursor on the right
-  if (!right)
-    return placeholder.punctuation
-
-  // cursor on the left
-  if (!left)
-    return placeholder.char
-
-  if (notAWord.test(left) && notAWord.test(right))
-    return placeholder.punctuation
-
-  return placeholder.char
+export function replacePunctuation(holePlaceholder: string) {
+  return (text: string) =>
+    text.replace(punctuationRegexp(holePlaceholder), '')
 }
 
-export const calcOffset = (node: Node, from: number, placeholder: string) => {
+export function calculatePlaceholder(placeholder: SyncNodePlaceholder) {
+  return (text: string) => {
+    const index = text.indexOf(placeholder.hole)
+    const left = text.charAt(index - 1)
+    const right = text.charAt(index + 1)
+    const notAWord = /[^\w]|_/
+
+    // cursor on the right
+    if (!right)
+      return placeholder.punctuation
+
+    // cursor on the left
+    if (!left)
+      return placeholder.char
+
+    if (notAWord.test(left) && notAWord.test(right))
+      return placeholder.punctuation
+
+    return placeholder.char
+  }
+}
+
+export function calcOffset(node: Node, from: number, placeholder: string) {
   let offset = from
   let find = false
   node.descendants((n) => {

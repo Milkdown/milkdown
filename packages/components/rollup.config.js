@@ -42,7 +42,7 @@ const main = [
   },
 ]
 
-const componentModule = (name) => {
+function componentModule(name) {
   const input = `./src/${name}/index.ts`
   return [
     {

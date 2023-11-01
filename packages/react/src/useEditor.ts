@@ -5,7 +5,7 @@ import { useCallback, useContext, useLayoutEffect } from 'react'
 import type { GetEditor, UseEditorReturn } from './types'
 import { editorInfoContext } from './useGetEditor'
 
-export const useEditor = (getEditor: GetEditor, deps: DependencyList = []): UseEditorReturn => {
+export function useEditor(getEditor: GetEditor, deps: DependencyList = []): UseEditorReturn {
   const editorInfo = useContext(editorInfoContext)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

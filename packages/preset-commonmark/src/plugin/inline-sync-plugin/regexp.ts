@@ -4,8 +4,9 @@ export const linkRegexp = /\[([^\]]+)]\([^\s\]]+\)/
 
 export const keepLinkRegexp = /\[(?<span>((www|https:\/\/|http:\/\/)[^\s\]]+))]\((?<url>[^\s\]]+)\)/
 
-export const punctuationRegexp = (holePlaceholder: string) =>
-  new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g')
+export function punctuationRegexp(holePlaceholder: string) {
+  return new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g')
+}
 
 export const ZERO_WIDTH_SPACE = '\u200B'
 

@@ -13,7 +13,7 @@ export interface IndentConfigOptions {
   size: number
 }
 
-const updateIndent = (tr: Transaction, options: IndentConfigOptions): Transaction => {
+function updateIndent(tr: Transaction, options: IndentConfigOptions): Transaction {
   const { doc, selection } = tr
 
   if (!doc || !selection)

@@ -7,7 +7,7 @@ import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
 type UnknownRecord = Record<string, unknown>
-const isPureText = (content: UnknownRecord | UnknownRecord[] | undefined | null): boolean => {
+function isPureText(content: UnknownRecord | UnknownRecord[] | undefined | null): boolean {
   if (!content)
     return false
   if (Array.isArray(content)) {
@@ -23,7 +23,7 @@ const isPureText = (content: UnknownRecord | UnknownRecord[] | undefined | null)
   return content.type === 'text'
 }
 
-const isTextOnlySlice = (slice: Slice): Node | false => {
+function isTextOnlySlice(slice: Slice): Node | false {
   if (slice.content.childCount === 1) {
     const node = slice.content.firstChild
     if (node?.type.name === 'text' && node.marks.length === 0)

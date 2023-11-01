@@ -1,5 +1,4 @@
 /* Copyright 2021, Milkdown by Mirone. */
-/* eslint-disable no-undef */
 
 // ***********************************************
 // This example commands.js shows you how to

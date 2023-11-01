@@ -20,7 +20,7 @@ export type $Shortcut = MilkdownPlugin & {
 ///
 /// Additional property:
 /// - `keymap`: The prosemirror keymap created.
-export const $shortcut = (shortcut: (ctx: Ctx) => Keymap): $Shortcut => {
+export function $shortcut(shortcut: (ctx: Ctx) => Keymap): $Shortcut {
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const k = shortcut(ctx)
@@ -41,8 +41,8 @@ export const $shortcut = (shortcut: (ctx: Ctx) => Keymap): $Shortcut => {
 /// Additional property:
 /// - `keymap`: The prosemirror keymap created.
 /// - `timer`: The timer which will be resolved when the plugin is ready.
-export const $shortcutAsync = (shortcut: (ctx: Ctx) => Promise<Keymap>, timerName?: string) =>
-  addTimer<$Shortcut>(
+export function $shortcutAsync(shortcut: (ctx: Ctx) => Promise<Keymap>, timerName?: string) {
+  return addTimer<$Shortcut>(
     async (ctx, plugin) => {
       await ctx.wait(SchemaReady)
       const k = await shortcut(ctx)
@@ -57,3 +57,4 @@ export const $shortcutAsync = (shortcut: (ctx: Ctx) => Promise<Keymap>, timerNam
     editorStateTimerCtx,
     timerName,
   )
+}

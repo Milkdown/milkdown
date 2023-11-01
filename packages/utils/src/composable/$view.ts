@@ -29,10 +29,10 @@ export type GetConstructor<T extends $Node | $Mark> = T extends $Node
 /// Additional property:
 /// - `view`: The view created.
 /// - `type`: The node/mark plugin that needs to add a view.
-export const $view = <
+export function $view<
   T extends $Node | $Mark,
   V extends NodeViewConstructor | MarkViewConstructor = GetConstructor<T>,
->(type: T, view: (ctx: Ctx) => V): $View<T, V> => {
+>(type: T, view: (ctx: Ctx) => V): $View<T, V> {
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
     const v = view(ctx)
@@ -61,29 +61,30 @@ export const $view = <
 /// - `view`: The view created.
 /// - `type`: The node/mark plugin that needs to add a view.
 /// - `timer`: The timer which will be resolved when the view is ready.
-export const $viewAsync = <
+export function $viewAsync<
   T extends $Node | $Mark,
   V extends NodeViewConstructor | MarkViewConstructor = GetConstructor<T>,
->(type: T, view: (ctx: Ctx) => Promise<V>, timerName?: string) =>
-    addTimer<$View<T, V>>(
-      async (ctx, plugin) => {
-        await ctx.wait(SchemaReady)
-        const v = await view(ctx)
+>(type: T, view: (ctx: Ctx) => Promise<V>, timerName?: string) {
+  return addTimer<$View<T, V>>(
+    async (ctx, plugin) => {
+      await ctx.wait(SchemaReady)
+      const v = await view(ctx)
+      if (type.type(ctx) instanceof NodeType)
+        ctx.update(nodeViewCtx, ps => [...ps, [type.id, v] as [string, NodeViewConstructor]])
+      else
+        ctx.update(markViewCtx, ps => [...ps, [type.id, v] as [string, MarkViewConstructor]])
+
+      plugin.view = v
+      plugin.type = type
+
+      return () => {
         if (type.type(ctx) instanceof NodeType)
-          ctx.update(nodeViewCtx, ps => [...ps, [type.id, v] as [string, NodeViewConstructor]])
+          ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
         else
-          ctx.update(markViewCtx, ps => [...ps, [type.id, v] as [string, MarkViewConstructor]])
-
-        plugin.view = v
-        plugin.type = type
-
-        return () => {
-          if (type.type(ctx) instanceof NodeType)
-            ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
-          else
-            ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))
-        }
-      },
-      editorViewTimerCtx,
-      timerName,
-    )
+          ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))
+      }
+    },
+    editorViewTimerCtx,
+    timerName,
+  )
+}

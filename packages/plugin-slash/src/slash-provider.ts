@@ -9,7 +9,7 @@ import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
 
 /// Options for slash provider.
-export type SlashProviderOptions = {
+export interface SlashProviderOptions {
   /// The slash content.
   content: HTMLElement
   /// The options for creating [tippy.js](https://atomiks.github.io/tippyjs/) instance.

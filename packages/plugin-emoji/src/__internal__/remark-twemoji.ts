@@ -41,7 +41,7 @@ export const twemojiPlugin: RemarkPluginRaw<TwemojiOptions> = (twemojiOptions) =
       if (!isLiteral(node))
         return [node]
 
-      const value = node.value as string
+      const value = node.value
       const output: Array<Node & { value: string }> = []
       let match
       let str = value

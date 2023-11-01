@@ -95,8 +95,7 @@ export class Ctx {
   readonly set = <T, N extends string>(sliceType: SliceType<T, N> | N, value: T) => this.use(sliceType).set(value)
 
   /// Update a slice value from the ctx by a callback.
-  readonly update = <T, N extends string>(sliceType: SliceType<T, N> | N, updater: (prev: T) => T) =>
-    this.use(sliceType).update(updater)
+  readonly update = <T, N extends string>(sliceType: SliceType<T, N> | N, updater: (prev: T) => T) => this.use(sliceType).update(updater)
 
   /// Get a timer from the ctx.
   readonly timer = (timer: TimerType) => this.#clock.get(timer)

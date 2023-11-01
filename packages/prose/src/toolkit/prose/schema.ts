@@ -3,7 +3,7 @@ import { getAtomFromSchemaFail } from '@milkdown/exception'
 
 import type { MarkType, NodeType, Schema } from '../../model'
 
-export const getNodeFromSchema = (type: string, schema: Schema): NodeType => {
+export function getNodeFromSchema(type: string, schema: Schema): NodeType {
   const target = schema.nodes[type]
 
   if (!target)
@@ -12,7 +12,7 @@ export const getNodeFromSchema = (type: string, schema: Schema): NodeType => {
   return target
 }
 
-export const getMarkFromSchema = (type: string, schema: Schema): MarkType => {
+export function getMarkFromSchema(type: string, schema: Schema): MarkType {
   const target = schema.marks[type]
 
   if (!target)

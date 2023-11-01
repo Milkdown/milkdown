@@ -55,7 +55,7 @@ export const remarkStringifyOptionsCtx = createSlice({
 /// This plugin prepare slices that needed by other plugins. And create a remark instance.
 ///
 /// This plugin will wait for the config plugin.
-export const init = (editor: Editor): MilkdownPlugin => {
+export function init(editor: Editor): MilkdownPlugin {
   const plugin: MilkdownPlugin = (ctx) => {
     ctx.inject(editorCtx, editor)
       .inject(prosePluginsCtx, [])

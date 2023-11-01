@@ -16,18 +16,18 @@ export interface InlineSyncContext {
   placeholder: string
 }
 
-const getNodeFromSelection = (state: EditorState) => {
+function getNodeFromSelection(state: EditorState) {
   return state.selection.$from.node()
 }
 
-const getMarkdown = (ctx: Ctx, state: EditorState, node: Node, globalNode: Node[]) => {
+function getMarkdown(ctx: Ctx, state: EditorState, node: Node, globalNode: Node[]) {
   const serializer = ctx.get(serializerCtx)
   const doc = state.schema.topNodeType.create(undefined, [node, ...globalNode])
 
   return serializer(doc)
 }
 
-const addPlaceholder = (ctx: Ctx, markdown: string) => {
+function addPlaceholder(ctx: Ctx, markdown: string) {
   const config = ctx.get(inlineSyncConfig.key)
   const holePlaceholder = config.placeholderConfig.hole
 
@@ -47,7 +47,7 @@ const addPlaceholder = (ctx: Ctx, markdown: string) => {
   return [text, placeholder] as [markdown: string, placeholder: string]
 }
 
-const getNewNode = (ctx: Ctx, text: string) => {
+function getNewNode(ctx: Ctx, text: string) {
   const parser = ctx.get(parserCtx)
   const parsed = parser(text)
 
@@ -57,7 +57,7 @@ const getNewNode = (ctx: Ctx, text: string) => {
   return parsed.firstChild
 }
 
-const collectGlobalNodes = (ctx: Ctx, state: EditorState) => {
+function collectGlobalNodes(ctx: Ctx, state: EditorState) {
   const { globalNodes } = ctx.get(inlineSyncConfig.key)
   const nodes: Node[] = []
 
@@ -75,11 +75,11 @@ const collectGlobalNodes = (ctx: Ctx, state: EditorState) => {
 
 const removeGlobalFromText = (text: string) => text.split('\n\n')[0] || ''
 
-const onlyHTML = (node: Node) => {
+function onlyHTML(node: Node) {
   return node.childCount === 1 && node.child(0).type.name === 'html'
 }
 
-export const getContextByState = (ctx: Ctx, state: EditorState): InlineSyncContext | null => {
+export function getContextByState(ctx: Ctx, state: EditorState): InlineSyncContext | null {
   try {
     const globalNode = collectGlobalNodes(ctx, state)
     const node = getNodeFromSelection(state)

@@ -75,8 +75,9 @@ export class CommandManager {
 }
 
 /// Create a command key, which is a slice type that contains a command.
-export const createCmdKey = <T = undefined>(key = 'cmdKey'): CmdKey<T> =>
-  createSlice((() => () => false) as Cmd<T>, key)
+export function createCmdKey<T = undefined>(key = 'cmdKey'): CmdKey<T> {
+  return createSlice((() => () => false) as Cmd<T>, key)
+}
 
 /// A slice which contains the command manager.
 export const commandsCtx = createSlice(new CommandManager(), 'commands')
