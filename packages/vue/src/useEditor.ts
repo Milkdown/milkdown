@@ -5,7 +5,7 @@ import { editorInfoCtxKey } from './Editor'
 
 import type { GetEditor, UseEditorReturn } from './types'
 
-export const useEditor = (getEditor: GetEditor): UseEditorReturn => {
+export function useEditor(getEditor: GetEditor): UseEditorReturn {
   const { editorFactory, loading, editor } = inject(editorInfoCtxKey)!
 
   editorFactory.value = getEditor

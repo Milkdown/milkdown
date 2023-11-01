@@ -12,7 +12,7 @@ export function markRule(regexp: RegExp, markType: MarkType): InputRule {
     let markEnd = end
 
     if (match[matchLength - 1]) {
-      const first = match[0] as string
+      const first = match[0]
       const last = match[matchLength - 1] as string
       const last1 = match[matchLength - 2] as string
 

@@ -95,7 +95,7 @@ function mergeDeep<T>(target: T, ...sources: T[]): T {
   return mergeDeep(target, ...sources)
 }
 
-const viteBuild = (path: string, options: BuildOptions = {}): BuildOptions => {
+function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
   const dir = dirname(fileURLToPath(path))
   const packageDirName = basename(dir)
 
@@ -135,7 +135,7 @@ const viteBuild = (path: string, options: BuildOptions = {}): BuildOptions => {
  * @param options - custom options
  * @returns user config
  */
-export const pluginViteConfig = (packageDirName: string, options: UserConfig = {}) => {
+export function pluginViteConfig(packageDirName: string, options: UserConfig = {}) {
   return defineConfig({
     ...options,
     build: viteBuild(packageDirName, options.build),

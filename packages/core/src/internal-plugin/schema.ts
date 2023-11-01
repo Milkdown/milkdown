@@ -23,7 +23,7 @@ export const nodesCtx = createSlice([] as Array<[string, NodeSchema]>, 'nodes')
 /// A slice which stores the marks spec.
 export const marksCtx = createSlice([] as Array<[string, MarkSchema]>, 'marks')
 
-const extendPriority = <T extends NodeSchema | MarkSchema>(x: T): T => {
+function extendPriority<T extends NodeSchema | MarkSchema>(x: T): T {
   return {
     ...x,
     parseDOM: x.parseDOM?.map(rule => ({ priority: x.priority, ...rule })),

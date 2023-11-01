@@ -10,7 +10,7 @@ import { blockService } from './block-plugin'
 import type { ActiveNode } from './__internal__/select-node-by-dom'
 
 /// Options for creating block provider.
-export type BlockProviderOptions = {
+export interface BlockProviderOptions {
   /// The context of the editor.
   ctx: Ctx
   /// The content of the block.

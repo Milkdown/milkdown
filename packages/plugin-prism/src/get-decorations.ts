@@ -12,12 +12,13 @@ export interface FlattedNode {
 
 type RefractorNode = RefractorElement | Text
 
-const flatNodes = (nodes: RefractorNode[], className: string[] = []) =>
-  nodes.flatMap((node): FlattedNode[] =>
+function flatNodes(nodes: RefractorNode[], className: string[] = []) {
+  return nodes.flatMap((node): FlattedNode[] =>
     node.type === 'element'
       ? flatNodes(node.children, [...className, ...((node.properties?.className as string[]) || [])])
       : [{ text: node.value, className }],
   )
+}
 
 export function getDecorations(doc: Node, name: string, refractor: Refractor) {
   const { highlight, listLanguages } = refractor

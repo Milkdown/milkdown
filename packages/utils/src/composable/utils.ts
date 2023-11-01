@@ -10,11 +10,7 @@ export const nanoid = customAlphabet('abcedfghicklmn', 10)
 export type WithTimer<T> = T & { timer: TimerType }
 
 /// @internal
-export const addTimer = <T extends MilkdownPlugin, PluginWithTimer extends T = WithTimer<T>>(
-  runner: (ctx: Ctx, plugin: PluginWithTimer, done: () => void) => Promise<void | Cleanup>,
-  injectTo: SliceType<TimerType[], string>,
-  timerName?: string,
-): PluginWithTimer => {
+export function addTimer<T extends MilkdownPlugin, PluginWithTimer extends T = WithTimer<T>>(runner: (ctx: Ctx, plugin: PluginWithTimer, done: () => void) => Promise<void | Cleanup>, injectTo: SliceType<TimerType[], string>, timerName?: string): PluginWithTimer {
   const timer = createTimer(timerName || nanoid())
   let doneCalled = false
 

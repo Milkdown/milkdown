@@ -7,7 +7,7 @@ import '@milkdown/prose/view/style/prosemirror.css'
 import '@milkdown/prose/tables/style/tables.css'
 import './style.css'
 
-export const nord = (ctx: Ctx): void => {
+export function nord(ctx: Ctx): void {
   ctx.update(editorViewOptionsCtx, (prev) => {
     const prevClass = prev.attributes
 

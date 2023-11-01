@@ -5,7 +5,7 @@ import type { EditorInfoCtx } from './types'
 
 export const editorInfoContext = createContext<EditorInfoCtx>({} as EditorInfoCtx)
 
-export const useGetEditor = () => {
+export function useGetEditor() {
   const { dom, editor: editorRef, setLoading, editorFactory: getEditor } = useContext(editorInfoContext)
   const domRef = useRef<HTMLDivElement>(null)
 

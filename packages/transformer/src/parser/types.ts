@@ -8,7 +8,7 @@ import type { ParserState } from './state'
 export type Parser = (text: string) => Node
 
 /// The spec for node parser in schema.
-export type NodeParserSpec = {
+export interface NodeParserSpec {
   /// The match function to check if the node is the target node.
   /// For example:
   ///
@@ -32,7 +32,7 @@ export type NodeParserSpec = {
 }
 
 /// The spec for mark parser in schema.
-export type MarkParserSpec = {
+export interface MarkParserSpec {
   /// The match function to check if the node is the target mark.
   /// For example:
   ///

@@ -17,9 +17,9 @@ export const ie = !!(ie_upto10 || ie_11up || ie_edge)
 export const ie_version = ie_upto10
   ? (document as typeof document & { documentMode: unknown }).documentMode
   : ie_11up
-    ? +ie_11up![1]!
+    ? +ie_11up[1]!
     : ie_edge
-      ? +ie_edge![1]!
+      ? +ie_edge[1]!
       : 0
 export const gecko = !ie && /gecko\/(\d+)/i.test(agent)
 export const gecko_version = gecko && +(/Firefox\/(\d+)/.exec(agent) || [0, 0])![1]!

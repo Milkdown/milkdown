@@ -5,11 +5,7 @@ import type { EditorView } from '../../view'
 
 type Point = [top: number, left: number]
 
-export const calculateNodePosition = (
-  view: EditorView,
-  target: HTMLElement,
-  handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Point,
-) => {
+export function calculateNodePosition(view: EditorView, target: HTMLElement, handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Point) {
   const state = view.state
   const { from } = state.selection
 
@@ -39,11 +35,7 @@ interface Rect {
   bottom: number
 }
 
-export const calculateTextPosition = (
-  view: EditorView,
-  target: HTMLElement,
-  handler: (start: Rect, end: Rect, targetRect: DOMRect, parentRect: DOMRect) => Point,
-) => {
+export function calculateTextPosition(view: EditorView, target: HTMLElement, handler: (start: Rect, end: Rect, targetRect: DOMRect, parentRect: DOMRect) => Point) {
   const state = view.state
   const { from, to } = state.selection
   const start = view.coordsAtPos(from)

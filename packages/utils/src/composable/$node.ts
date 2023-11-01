@@ -29,7 +29,7 @@ export type $Node = MilkdownPlugin & {
 /// - `id`: The id of the node.
 /// - `schema`: The node schema created.
 /// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
-export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
+export function $node(id: string, schema: (ctx: Ctx) => NodeSchema): $Node {
   const plugin: MilkdownPlugin = ctx => async () => {
     const nodeSchema = schema(ctx)
     ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]]);
@@ -60,7 +60,7 @@ export const $node = (id: string, schema: (ctx: Ctx) => NodeSchema): $Node => {
 /// - `schema`: The node schema created.
 /// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
 /// - `timer`: The timer which will be resolved when the node schema is ready.
-export const $nodeAsync = (id: string, schema: (ctx: Ctx) => Promise<NodeSchema>, timerName?: string) => {
+export function $nodeAsync(id: string, schema: (ctx: Ctx) => Promise<NodeSchema>, timerName?: string) {
   const plugin = addTimer<$Node>(
     async (ctx, plugin, done) => {
       const nodeSchema = await schema(ctx)

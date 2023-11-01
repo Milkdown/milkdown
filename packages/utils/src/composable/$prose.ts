@@ -18,7 +18,7 @@ export type $Prose = MilkdownPlugin & {
 /// Additional property:
 /// - `plugin`: The prosemirror plugin created.
 /// - `key`: The [prosemirror plugin key](https://prosemirror.net/docs/ref/#state.PluginKey) of the plugin.
-export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
+export function $prose(prose: (ctx: Ctx) => Plugin): $Prose {
   let prosePlugin: Plugin | undefined
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(SchemaReady)
@@ -41,7 +41,7 @@ export const $prose = (prose: (ctx: Ctx) => Plugin): $Prose => {
 /// - `plugin`: The prosemirror plugin created.
 /// - `key`: The [prosemirror plugin key](https://prosemirror.net/docs/ref/#state.PluginKey) of the plugin.
 /// - `timer`: The timer which will be resolved when the plugin is ready.
-export const $proseAsync = (prose: (ctx: Ctx) => Promise<Plugin>, timerName?: string) => {
+export function $proseAsync(prose: (ctx: Ctx) => Promise<Plugin>, timerName?: string) {
   let prosePlugin: Plugin | undefined
   const plugin = addTimer<$Prose>(
     async (ctx) => {

@@ -21,8 +21,7 @@ export type $Remark<Id extends string, Options> = [optionsCtx: $Ctx<Options, Id>
 /// - `id`: The id of the remark plugin.
 /// - `plugin`: The remark plugin created.
 /// - `options`: The ctx contains the options of the remark plugin.
-export const $remark = <Id extends string, Options>
-  (id: Id, remark: (ctx: Ctx) => RemarkPluginRaw<Options>, initialOptions?: Options): $Remark<Id, Options> => {
+export function $remark<Id extends string, Options>(id: Id, remark: (ctx: Ctx) => RemarkPluginRaw<Options>, initialOptions?: Options): $Remark<Id, Options> {
   const options = $ctx<Options, Id>(initialOptions ?? {} as Options, id)
   const plugin: MilkdownPlugin = ctx => async () => {
     await ctx.wait(InitReady)

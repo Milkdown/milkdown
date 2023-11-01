@@ -9,13 +9,7 @@ import { getContextByState } from './context'
 import { calcOffset } from './utils'
 import { linkRegexp } from './regexp'
 
-export const runReplacer = (
-  ctx: Ctx,
-  key: PluginKey,
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-  attrs: Attrs,
-) => {
+export function runReplacer(ctx: Ctx, key: PluginKey, state: EditorState, dispatch: (tr: Transaction) => void, attrs: Attrs) {
   const { placeholderConfig } = ctx.get(inlineSyncConfig.key)
   const holePlaceholder = placeholderConfig.hole
   // insert a placeholder to restore the selection

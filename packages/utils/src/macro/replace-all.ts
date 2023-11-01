@@ -12,30 +12,30 @@ import { EditorState } from '@milkdown/prose/state'
 
 /// Replace all content of the editor with markdown string.
 /// If flush is true, the editor state will be re-created.
-export const replaceAll
-  = (markdown: string, flush = false) =>
-    (ctx: Ctx): void => {
-      const view = ctx.get(editorViewCtx)
-      const parser = ctx.get(parserCtx)
-      const doc = parser(markdown)
-      if (!doc)
-        return
+export function replaceAll(markdown: string, flush = false) {
+  return (ctx: Ctx): void => {
+    const view = ctx.get(editorViewCtx)
+    const parser = ctx.get(parserCtx)
+    const doc = parser(markdown)
+    if (!doc)
+      return
 
-      if (!flush) {
-        const { state } = view
-        return view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)))
-      }
-
-      const schema = ctx.get(schemaCtx)
-      const options = ctx.get(editorStateOptionsCtx)
-      const plugins = ctx.get(prosePluginsCtx)
-
-      const state = EditorState.create({
-        schema,
-        doc,
-        plugins,
-        ...options,
-      })
-
-      view.updateState(state)
+    if (!flush) {
+      const { state } = view
+      return view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)))
     }
+
+    const schema = ctx.get(schemaCtx)
+    const options = ctx.get(editorStateOptionsCtx)
+    const plugins = ctx.get(prosePluginsCtx)
+
+    const state = EditorState.create({
+      schema,
+      doc,
+      plugins,
+      ...options,
+    })
+
+    view.updateState(state)
+  }
+}

@@ -1,11 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
-/* eslint-disable vue/one-component-per-file */
 import type { Editor } from '@milkdown/core'
 import type { InjectionKey, Ref } from 'vue'
 import {
-  Fragment,
   defineComponent,
-  h,
   provide,
   ref,
 } from 'vue'

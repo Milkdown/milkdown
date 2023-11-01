@@ -145,28 +145,30 @@ withMeta(splitListItemCommand, {
   group: 'ListItem',
 })
 
-const liftFirstListItem = (ctx: Ctx): Command => (state, dispatch, view) => {
-  const { selection } = state
-  if (!(selection instanceof TextSelection))
-    return false
+function liftFirstListItem(ctx: Ctx): Command {
+  return (state, dispatch, view) => {
+    const { selection } = state
+    if (!(selection instanceof TextSelection))
+      return false
 
-  const { empty, $from } = selection
+    const { empty, $from } = selection
 
-  // selection should be empty and at the start of the node
-  if (!empty || $from.parentOffset !== 0)
-    return false
+    // selection should be empty and at the start of the node
+    if (!empty || $from.parentOffset !== 0)
+      return false
 
-  const parentItem = $from.node(-1)
-  // selection should be in list item and list item should be the first child of the list
-  if (parentItem.type !== listItemSchema.type(ctx) || parentItem.firstChild !== $from.node())
-    return false
+    const parentItem = $from.node(-1)
+    // selection should be in list item and list item should be the first child of the list
+    if (parentItem.type !== listItemSchema.type(ctx) || parentItem.firstChild !== $from.node())
+      return false
 
-  const list = $from.node(-2)
-  // list should have only one list item
-  if (list.childCount > 1)
-    return false
+    const list = $from.node(-2)
+    // list should have only one list item
+    if (list.childCount > 1)
+      return false
 
-  return liftListItem(listItemSchema.type(ctx))(state, dispatch, view)
+    return liftListItem(listItemSchema.type(ctx))(state, dispatch, view)
+  }
 }
 
 /// The command to remove list item **only if**:

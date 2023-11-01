@@ -6,7 +6,7 @@ import { editorInfoCtxKey } from './Editor'
 
 export type Instance = [Ref<true>, () => undefined] | [Ref<false>, () => Editor]
 
-export const useInstance = (): Instance => {
+export function useInstance(): Instance {
   const editorInfo = inject(editorInfoCtxKey)!
 
   return [editorInfo.loading, () => editorInfo.editor.value] as Instance

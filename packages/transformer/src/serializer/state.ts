@@ -259,7 +259,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   }
 
   /// Use a remark parser to serialize current AST stored.
-  override toString = (remark: RemarkParser): string => remark.stringify(this.build() as Root) as string
+  override toString = (remark: RemarkParser): string => remark.stringify(this.build() as Root)
 
   /// Transform a prosemirror node tree into remark AST.
   run = (tree: Node) => {

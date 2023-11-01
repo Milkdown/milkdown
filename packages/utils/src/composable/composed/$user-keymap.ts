@@ -11,7 +11,7 @@ import { $shortcut } from '../$shortcut'
 export type KeymapConfig<K extends string> = Record<K, string | string[]>
 
 /// @internal
-export type KeymapItem = {
+export interface KeymapItem {
   shortcuts: string | string[]
   command: (ctx: Ctx) => Command
 }
@@ -31,7 +31,7 @@ export type $UserKeymap<N extends string, Key extends string> = [$Ctx<KeymapConf
 /// It takes two arguments:
 /// - `name`: The name of the keymap.
 /// - `userKeymap`: The keymap config which contains the shortcuts and the command.
-export const $useKeymap = <N extends string, Key extends string>(name: N, userKeymap: UserKeymapConfig<Key>) => {
+export function $useKeymap<N extends string, Key extends string>(name: N, userKeymap: UserKeymapConfig<Key>) {
   const key = Object.fromEntries(Object.entries<KeymapItem>(userKeymap).map(([key, { shortcuts }]) => {
     return [key, shortcuts]
   })) as Record<Key, string | string[]>

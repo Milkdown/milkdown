@@ -15,7 +15,7 @@ export type TooltipPlugin<Id extends string, State = any> = [$Ctx<PluginSpec<Sta
 }
 
 /// Create a tooltip plugin with a unique id.
-export const tooltipFactory = <Id extends string, State = any>(id: Id) => {
+export function tooltipFactory<Id extends string, State = any>(id: Id) {
   const tooltipSpec = $ctx<PluginSpec<State>, TooltipSpecId<Id>>({}, `${id}_TOOLTIP_SPEC`)
   const tooltipPlugin = $prose((ctx) => {
     const spec = ctx.get(tooltipSpec.key)

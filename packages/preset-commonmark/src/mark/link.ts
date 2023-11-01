@@ -59,7 +59,7 @@ withMeta(linkSchema.mark, {
 })
 
 /// @internal
-export type UpdateLinkCommandPayload = {
+export interface UpdateLinkCommandPayload {
   href?: string
   title?: string
 }

@@ -84,7 +84,7 @@ withMeta(imageSchema.ctx, {
 })
 
 /// @internal
-export type UpdateImageCommandPayload = {
+export interface UpdateImageCommandPayload {
   src?: string
   title?: string
   alt?: string

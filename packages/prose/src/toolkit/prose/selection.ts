@@ -7,31 +7,31 @@ import type { Predicate } from './types'
 
 export interface ContentNodeWithPos { pos: number; start: number; depth: number; node: ProseNode }
 
-export const findParentNodeClosestToPos
-    = (predicate: Predicate) =>
-      ($pos: ResolvedPos): ContentNodeWithPos | undefined => {
-        for (let i = $pos.depth; i > 0; i--) {
-          const node = $pos.node(i)
-          if (predicate(node)) {
-            return {
-              pos: i > 0 ? $pos.before(i) : 0,
-              start: $pos.start(i),
-              depth: i,
-              node,
-            }
-          }
+export function findParentNodeClosestToPos(predicate: Predicate) {
+  return ($pos: ResolvedPos): ContentNodeWithPos | undefined => {
+    for (let i = $pos.depth; i > 0; i--) {
+      const node = $pos.node(i)
+      if (predicate(node)) {
+        return {
+          pos: i > 0 ? $pos.before(i) : 0,
+          start: $pos.start(i),
+          depth: i,
+          node,
         }
-
-        return undefined
       }
+    }
 
-export const findParentNode
-    = (predicate: Predicate) =>
-      (selection: Selection): ContentNodeWithPos | undefined => {
-        return findParentNodeClosestToPos(predicate)(selection.$from)
-      }
+    return undefined
+  }
+}
 
-export const findSelectedNodeOfType = (selection: Selection, nodeType: NodeType): ContentNodeWithPos | undefined => {
+export function findParentNode(predicate: Predicate) {
+  return (selection: Selection): ContentNodeWithPos | undefined => {
+    return findParentNodeClosestToPos(predicate)(selection.$from)
+  }
+}
+
+export function findSelectedNodeOfType(selection: Selection, nodeType: NodeType): ContentNodeWithPos | undefined {
   if (!(selection instanceof NodeSelection))
     return
 

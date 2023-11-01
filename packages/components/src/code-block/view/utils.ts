@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-export const trapFocus = (focusNode: HTMLElement, rootNode = document.body) => {
+export function trapFocus(focusNode: HTMLElement, rootNode = document.body) {
   const CANDIDATES = `
     a, button, input, select, textarea, svg, area, details, summary,
     iframe, object, embed,

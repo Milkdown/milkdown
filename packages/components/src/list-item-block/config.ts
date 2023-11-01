@@ -2,7 +2,7 @@
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
 
-export type ListItemBlockConfig = {
+export interface ListItemBlockConfig {
   renderLabel: (label: string, listType: string, checked?: boolean) => void
 }
 

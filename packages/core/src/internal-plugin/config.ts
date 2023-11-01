@@ -11,7 +11,7 @@ export const ConfigReady = createTimer('ConfigReady')
 
 /// The config plugin.
 /// This plugin will load all user configs.
-export const config = (configure: Config): MilkdownPlugin => {
+export function config(configure: Config): MilkdownPlugin {
   const plugin: MilkdownPlugin = (ctx) => {
     ctx.record(ConfigReady)
 

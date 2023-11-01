@@ -40,7 +40,7 @@ export const editorStateTimerCtx = createSlice([] as TimerType[], 'editorStateTi
 export const EditorStateReady = createTimer('EditorStateReady')
 
 /// @internal
-export const getDoc = (defaultValue: DefaultValue, parser: Parser, schema: Schema) => {
+export function getDoc(defaultValue: DefaultValue, parser: Parser, schema: Schema) {
   if (typeof defaultValue === 'string')
     return parser(defaultValue)
 

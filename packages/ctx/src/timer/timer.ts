@@ -59,7 +59,7 @@ export class Timer {
       addEventListener(this.type.name, this.#listener)
     })
 
-    return this.#promise as Promise<void>
+    return this.#promise
   }
 
   /// Resolve the timer.

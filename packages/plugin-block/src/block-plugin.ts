@@ -56,10 +56,10 @@ export const blockPlugin = $prose((ctx) => {
       ...spec.props,
       handleDOMEvents: {
         drop: (view, event) => {
-          return service.dropCallback(view, event as DragEvent)
+          return service.dropCallback(view, event)
         },
         mousemove: (view, event) => {
-          return service.mousemoveCallback(view, event as MouseEvent)
+          return service.mousemoveCallback(view, event)
         },
         keydown: () => {
           return service.keydownCallback()

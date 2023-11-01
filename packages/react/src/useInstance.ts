@@ -5,7 +5,7 @@ import { editorInfoContext } from './useGetEditor'
 
 export type Instance = [true, () => undefined] | [false, () => Editor]
 
-export const useInstance = () => {
+export function useInstance() {
   const editorInfo = useContext(editorInfoContext)
 
   const getInstance = useCallback(() => {

@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import type { ListItemBlockConfig } from './config'
 import { style } from './style'
 
-type Attrs = {
+interface Attrs {
   label: string
   checked: boolean
   listType: string

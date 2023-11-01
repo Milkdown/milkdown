@@ -13,8 +13,9 @@ const headingIndex = Array(6)
   .fill(0)
   .map((_, i) => i + 1)
 
-const defaultHeadingIdGenerator = (node: Node) =>
-  slugify(node.textContent)
+function defaultHeadingIdGenerator(node: Node) {
+  return slugify(node.textContent)
+}
 
 /// This is a slice contains a function to generate heading id.
 /// You can configure it to generate id in your own way.

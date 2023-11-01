@@ -29,7 +29,7 @@ export type $Mark = MilkdownPlugin & {
 /// - `id`: The id of the mark.
 /// - `schema`: The mark schema created.
 /// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
-export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
+export function $mark(id: string, schema: (ctx: Ctx) => MarkSchema): $Mark {
   const plugin: MilkdownPlugin = ctx => async () => {
     const markSchema = schema(ctx)
     ctx.update(marksCtx, ns => [...ns.filter(n => n[0] !== id), [id, markSchema] as [string, MarkSchema]]);
@@ -58,7 +58,7 @@ export const $mark = (id: string, schema: (ctx: Ctx) => MarkSchema): $Mark => {
 /// - `schema`: The mark schema created.
 /// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
 /// - `timer`: The timer which will be resolved when the mark schema is ready.
-export const $markAsync = (id: string, schema: (ctx: Ctx) => Promise<MarkSchema>, timerName?: string) => {
+export function $markAsync(id: string, schema: (ctx: Ctx) => Promise<MarkSchema>, timerName?: string) {
   const plugin = addTimer<$Mark>(
     async (ctx, plugin, done) => {
       const markSchema = await schema(ctx)

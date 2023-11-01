@@ -9,10 +9,7 @@ import { Fragment } from '@milkdown/prose/model'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { expectDomTypeError } from '@milkdown/exception'
 
-const withMeta = <T extends MilkdownPlugin>(
-  plugin: T,
-  meta: Partial<Meta> & Pick<Meta, 'displayName'>,
-): T => {
+function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pick<Meta, 'displayName'>): T {
   Object.assign(plugin, {
     meta: {
       package: '@milkdown/plugin-math',

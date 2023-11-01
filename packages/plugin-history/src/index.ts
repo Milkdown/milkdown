@@ -4,10 +4,7 @@ import { commandsCtx } from '@milkdown/core'
 import { history as prosemirrorHistory, redo, undo } from '@milkdown/prose/history'
 import { $command, $ctx, $prose, $useKeymap } from '@milkdown/utils'
 
-const withMeta = <T extends MilkdownPlugin>(
-  plugin: T,
-  meta: Partial<Meta> & Pick<Meta, 'displayName'>,
-): T => {
+function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pick<Meta, 'displayName'>): T {
   Object.assign(plugin, {
     meta: {
       package: '@milkdown/plugin-history',

@@ -36,7 +36,7 @@ export type $MarkSchema<T extends string> = [
 /// - `schema`: The mark schema.
 /// - `key`: The key of slice which contains the mark schema factory.
 /// - `extendSchema`: A function witch will return a plugin that can extend the mark schema.
-export const $markSchema = <T extends string>(id: T, schema: GetMarkSchema): $MarkSchema<T> => {
+export function $markSchema<T extends string>(id: T, schema: GetMarkSchema): $MarkSchema<T> {
   const schemaCtx = $ctx(schema, id)
 
   const markSchema = $mark(id, (ctx) => {

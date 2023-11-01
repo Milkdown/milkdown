@@ -21,7 +21,7 @@ export type JSONRecord = Record<string, JSONValue>
 export type RemarkPluginRaw<T> = Plugin<[T], Root>
 
 /// The universal type of a [remark plugin](https://github.com/remarkjs/remark/blob/main/doc/plugins.md).
-export type RemarkPlugin<T = Record<string, unknown>> = {
+export interface RemarkPlugin<T = Record<string, unknown>> {
   plugin: Plugin<[T], Root>
   options: T
 }

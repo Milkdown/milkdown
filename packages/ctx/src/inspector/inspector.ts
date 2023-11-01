@@ -3,7 +3,7 @@ import type { Container, SliceType } from '../context'
 import type { Clock, TimerStatus, TimerType } from '../timer'
 import type { Meta } from './meta'
 
-export type Telemetry = {
+export interface Telemetry {
   metadata: Meta
   injectedSlices: { name: string; value: unknown }[]
   consumedSlices: { name: string; value: unknown }[]
@@ -36,7 +36,9 @@ export class Inspector {
 
   /// Create an inspector with container, clock and metadata.
   constructor(
-    container: Container, clock: Clock, meta: Meta,
+    container: Container,
+    clock: Clock,
+    meta: Meta,
   ) {
     this.#container = container
     this.#clock = clock
