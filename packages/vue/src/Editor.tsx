@@ -2,13 +2,20 @@
 import type { Editor } from '@milkdown/core'
 import type { InjectionKey, Ref } from 'vue'
 import {
+  Fragment,
   defineComponent,
+  h,
   provide,
   ref,
 } from 'vue'
 
 import type { EditorInfoCtx, GetEditor } from './types'
 import { useGetEditor } from './useGetEditor'
+
+// eslint-disable-next-line no-unused-expressions
+h
+// eslint-disable-next-line no-unused-expressions
+Fragment
 
 export const editorInfoCtxKey: InjectionKey<EditorInfoCtx> = Symbol('editorInfoCtxKey')
 
