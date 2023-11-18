@@ -1,3 +1,3 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-export default { extends: ['@commitlint/config-conventional'] }
+module.exports = { extends: ['@commitlint/config-conventional'] }
