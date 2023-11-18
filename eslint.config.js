@@ -1,11 +1,11 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-const antfu = require('@antfu/eslint-config').default
-const header = require('eslint-plugin-header')
-const react = require('eslint-plugin-react')
-const hooks = require('eslint-plugin-react-hooks')
+import antfu from '@antfu/eslint-config'
+import header from 'eslint-plugin-header'
+import react from 'eslint-plugin-react'
+import hooks from 'eslint-plugin-react-hooks'
 
-module.exports = antfu(
+export default antfu(
   {
     stylistic: true,
     typescript: {
