@@ -143,7 +143,7 @@ export function pluginViteConfig(packageDirName: string, options: UserConfig = {
 }
 
 export default defineConfig({
-  // @ts-ignore
+  // @ts-expect-error vitest
   test: {
     include: ['packages/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     environment: 'jsdom',
