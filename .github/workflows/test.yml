@@ -99,7 +99,7 @@ jobs:
           parallel: true
           working-directory: e2e
           start: pnpm exec vite preview --host --port 7000
-          wait-on: 'http://localhost:7000'
+          wait-on: pnpm exec wait-on tcp:7000
           wait-on-timeout: 120
           browser: chrome
           group: Milkdown-E2E-Chrome
