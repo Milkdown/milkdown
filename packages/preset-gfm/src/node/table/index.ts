@@ -238,7 +238,7 @@ withMeta(breakTableCommand, {
 /// A command for inserting a table.
 /// You can specify the number of rows and columns.
 /// By default, it will insert a 3x3 table.
-export const insertTableCommand = $command('InsertTable', ctx => ({ row, col }: { row?: number; col?: number } = {}) => (state, dispatch) => {
+export const insertTableCommand = $command('InsertTable', ctx => ({ row, col }: { row?: number, col?: number } = {}) => (state, dispatch) => {
   const { selection, tr } = state
   const { from } = selection
   const table = createTable(ctx, row, col)
@@ -259,7 +259,7 @@ withMeta(insertTableCommand, {
 
 /// A command for moving a row in a table.
 /// You should specify the `from` and `to` index.
-export const moveRowCommand = $command('MoveRow', () => ({ from, to }: { from?: number; to?: number } = {}) => (state, dispatch) => {
+export const moveRowCommand = $command('MoveRow', () => ({ from, to }: { from?: number, to?: number } = {}) => (state, dispatch) => {
   const { tr } = state
   const result = dispatch?.(moveRow(tr, from ?? 0, to ?? 0, true))
 
@@ -273,7 +273,7 @@ withMeta(moveRowCommand, {
 
 /// A command for moving a column in a table.
 /// You should specify the `from` and `to` index.
-export const moveColCommand = $command('MoveCol', () => ({ from, to }: { from?: number; to?: number } = {}) => (state, dispatch) => {
+export const moveColCommand = $command('MoveCol', () => ({ from, to }: { from?: number, to?: number } = {}) => (state, dispatch) => {
   const { tr } = state
   const result = dispatch?.(moveCol(tr, from ?? 0, to ?? 0, true))
 

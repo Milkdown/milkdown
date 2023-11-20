@@ -4,7 +4,7 @@ import type { Node } from '@milkdown/transformer'
 import { withMeta } from '../__internal__'
 
 const isParent = (node: Node): node is Node & { children: Node[] } => !!(node as Node & { children: Node[] }).children
-const isHTML = (node: Node): node is Node & { children: Node[]; value: unknown } => node.type === 'html'
+const isHTML = (node: Node): node is Node & { children: Node[], value: unknown } => node.type === 'html'
 
 function flatMapWithDepth(ast: Node, fn: (node: Node, index: number, parent: Node | null) => Node[]) {
   return transform(ast, 0, null)[0]

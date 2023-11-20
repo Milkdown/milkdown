@@ -18,7 +18,7 @@ import { SerializerReady } from './serializer'
 import { CommandsReady } from '.'
 
 /// @internal
-export type DefaultValue = string | { type: 'html'; dom: HTMLElement } | { type: 'json'; value: JSONRecord }
+export type DefaultValue = string | { type: 'html', dom: HTMLElement } | { type: 'json', value: JSONRecord }
 type StateOptions = Parameters<typeof EditorState.create>[0]
 type StateOptionsOverride = (prev: StateOptions) => StateOptions
 

@@ -13,7 +13,7 @@ function visitImage(ast: Node) {
     if (!firstChild || firstChild.type !== 'image')
       return
 
-    const { url, alt, title } = firstChild as Node & { url: string; alt: string; title: string }
+    const { url, alt, title } = firstChild as Node & { url: string, alt: string, title: string }
     const newNode = {
       type: 'image-block',
       url,

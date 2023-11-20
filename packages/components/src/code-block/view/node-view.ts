@@ -245,7 +245,7 @@ export class CodeMirrorBlock implements NodeView {
 function computeChange(
   oldVal: string,
   newVal: string,
-): { from: number; to: number; text: string } | null {
+): { from: number, to: number, text: string } | null {
   if (oldVal === newVal)
     return null
 

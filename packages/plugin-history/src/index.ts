@@ -30,7 +30,7 @@ withMeta(redoCommand, {
 })
 
 /// The [config](https://prosemirror.net/docs/ref/#history.history%5Econfig) of prosemirror history plugin.
-export const historyProviderConfig = $ctx<{ depth?: number; newGroupDelay?: number }, 'historyProviderConfig'>({}, 'historyProviderConfig')
+export const historyProviderConfig = $ctx<{ depth?: number, newGroupDelay?: number }, 'historyProviderConfig'>({}, 'historyProviderConfig')
 
 withMeta(historyProviderConfig, {
   displayName: 'Ctx<historyProviderConfig>',

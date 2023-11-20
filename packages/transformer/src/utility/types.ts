@@ -30,7 +30,7 @@ export interface RemarkPlugin<T = Record<string, unknown>> {
 export type RemarkParser = ReturnType<typeof remark>
 
 /// The universal type of a node in [mdast](https://github.com/syntax-tree/mdast).
-export type MarkdownNode = Node & { children?: MarkdownNode[]; [x: string]: unknown }
+export type MarkdownNode = Node & { children?: MarkdownNode[], [x: string]: unknown }
 
 /// Schema spec for node. It is a super set of [NodeSpec](https://prosemirror.net/docs/ref/#model.NodeSpec).
 export interface NodeSchema extends NodeSpec {

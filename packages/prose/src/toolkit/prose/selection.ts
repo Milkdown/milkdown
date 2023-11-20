@@ -5,7 +5,7 @@ import { NodeSelection } from '../../state'
 import { equalNodeType } from './helper'
 import type { Predicate } from './types'
 
-export interface ContentNodeWithPos { pos: number; start: number; depth: number; node: ProseNode }
+export interface ContentNodeWithPos { pos: number, start: number, depth: number, node: ProseNode }
 
 export function findParentNodeClosestToPos(predicate: Predicate) {
   return ($pos: ResolvedPos): ContentNodeWithPos | undefined => {
