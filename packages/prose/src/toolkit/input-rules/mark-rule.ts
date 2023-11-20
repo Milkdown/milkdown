@@ -44,7 +44,7 @@ export function markRule(regexp: RegExp, markType: MarkType): InputRule {
 }
 
 function getMarksBetween(start: number, end: number, state: EditorState) {
-  let marks: { start: number; end: number; mark: Mark }[] = []
+  let marks: { start: number, end: number, mark: Mark }[] = []
 
   state.doc.nodesBetween(start, end, (node, pos) => {
     marks = [

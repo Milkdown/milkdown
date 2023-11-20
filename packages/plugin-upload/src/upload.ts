@@ -11,7 +11,7 @@ import { defaultUploader } from './default-uploader'
 
 /// @internal
 export type Uploader = UploadOptions['uploader']
-interface Spec { id: symbol; pos: number }
+interface Spec { id: symbol, pos: number }
 
 /// The configuration for upload.
 export interface UploadOptions {

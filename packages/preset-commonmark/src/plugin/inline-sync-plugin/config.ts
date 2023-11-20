@@ -41,11 +41,11 @@ export const defaultConfig: InlineSyncConfig = {
   globalNodes: ['footnote_definition'],
   shouldSyncNode: ({ prevNode, nextNode }) =>
     prevNode.inlineContent
-        && nextNode
-        // if node type changes, do not sync
-        && prevNode.type === nextNode.type
-        // if two node fully equal, we don't modify them
-        && !prevNode.eq(nextNode),
+    && nextNode
+    // if node type changes, do not sync
+    && prevNode.type === nextNode.type
+    // if two node fully equal, we don't modify them
+    && !prevNode.eq(nextNode),
   movePlaceholder: (placeholderToMove: string, text: string) => {
     const symbolsNeedToMove = ['*', '_']
 

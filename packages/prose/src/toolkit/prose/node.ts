@@ -2,7 +2,7 @@
 import type { MarkType, Node as ProseNode } from '../../model'
 import type { Predicate } from './types'
 
-export interface NodeWithPos { pos: number; node: ProseNode }
+export interface NodeWithPos { pos: number, node: ProseNode }
 
 export function flatten(node: ProseNode, descend = true): NodeWithPos[] {
   const result: NodeWithPos[] = []

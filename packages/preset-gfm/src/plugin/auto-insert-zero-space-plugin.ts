@@ -36,10 +36,10 @@ export const autoInsertZeroSpaceInTablePlugin = $prose((ctx) => {
 
           if (
             browser.safari
-              && isInTable(state)
-              && selection.empty
-              && isParagraph($from.parent)
-              && $from.parent.textContent.startsWith('\u2060')
+            && isInTable(state)
+            && selection.empty
+            && isParagraph($from.parent)
+            && $from.parent.textContent.startsWith('\u2060')
           )
             dispatch(tr.delete($from.start(), $from.start() + 1))
 

@@ -5,7 +5,7 @@ import type { Node } from '@milkdown/prose/model'
 import type { Uploader } from './upload'
 
 /// Read the image file as base64.
-export function readImageAsBase64(file: File): Promise<{ alt: string; src: string }> {
+export function readImageAsBase64(file: File): Promise<{ alt: string, src: string }> {
   return new Promise((resolve) => {
     const reader = new FileReader()
     reader.addEventListener(

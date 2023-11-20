@@ -107,7 +107,7 @@ withMeta(createCodeBlockCommand, {
 })
 
 /// A command for updating the code block language of the target position.
-export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage', () => ({ pos, language }: { pos: number; language: string } = { pos: -1, language: '' }) => (state, dispatch) => {
+export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage', () => ({ pos, language }: { pos: number, language: string } = { pos: -1, language: '' }) => (state, dispatch) => {
   if (pos >= 0) {
     dispatch?.(state.tr.setNodeAttribute(pos, 'language', language))
     return true

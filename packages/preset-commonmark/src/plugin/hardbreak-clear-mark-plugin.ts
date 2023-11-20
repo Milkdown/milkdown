@@ -31,7 +31,7 @@ export const hardbreakClearMarkPlugin = $prose((ctx) => {
       const isAddMarkStep = step instanceof AddMarkStep
       if (isAddMarkStep) {
         let _tr = newState.tr
-        const { from, to } = step as unknown as { from: number; to: number }
+        const { from, to } = step as unknown as { from: number, to: number }
         newState.doc.nodesBetween(from, to, (node, pos) => {
           if (node.type === hardbreakSchema.type(ctx))
             _tr = _tr.setNodeMarkup(pos, hardbreakSchema.type(ctx), undefined, [])

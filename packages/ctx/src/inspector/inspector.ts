@@ -5,10 +5,10 @@ import type { Meta } from './meta'
 
 export interface Telemetry {
   metadata: Meta
-  injectedSlices: { name: string; value: unknown }[]
-  consumedSlices: { name: string; value: unknown }[]
-  recordedTimers: { name: string; duration: number; status: TimerStatus }[]
-  waitTimers: { name: string; duration: number; status: TimerStatus }[]
+  injectedSlices: { name: string, value: unknown }[]
+  consumedSlices: { name: string, value: unknown }[]
+  recordedTimers: { name: string, duration: number, status: TimerStatus }[]
+  waitTimers: { name: string, duration: number, status: TimerStatus }[]
 }
 
 /// The inspector object that is used to inspect the runtime environment of a ctx.
@@ -29,7 +29,7 @@ export class Inspector {
   readonly #consumedSlices: Set<SliceType | string> = new Set()
 
   /// @internal
-  readonly #recordedTimers: Map<TimerType, { duration: number; start: number }> = new Map()
+  readonly #recordedTimers: Map<TimerType, { duration: number, start: number }> = new Map()
 
   /// @internal
   readonly #waitTimers: Map<TimerType, { duration: number }> = new Map()
