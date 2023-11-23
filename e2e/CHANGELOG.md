@@ -1,5 +1,24 @@
 # @milkdown/e2e
 
+## 7.3.2
+
+### Patch Changes
+
+- 5c4a7571: Fix package issues
+- Updated dependencies [5c4a7571]
+  - @milkdown/components@7.3.2
+  - @milkdown/core@7.3.2
+  - @milkdown/ctx@7.3.2
+  - @milkdown/plugin-clipboard@7.3.2
+  - @milkdown/plugin-history@7.3.2
+  - @milkdown/plugin-listener@7.3.2
+  - @milkdown/plugin-math@7.3.2
+  - @milkdown/preset-commonmark@7.3.2
+  - @milkdown/preset-gfm@7.3.2
+  - @milkdown/prose@7.3.2
+  - @milkdown/theme-nord@7.3.2
+  - @milkdown/utils@7.3.2
+
 ## 7.3.1
 
 ### Patch Changes
