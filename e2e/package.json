@@ -16,7 +16,6 @@
     "start:test:verbose": "cross-env CYPRESS_SERVER_PORT=8000 start-test setup tcp:8000 test:verbose"
   },
   "dependencies": {
-    "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/commands": "^6.2.4",
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.2.1",
@@ -35,6 +34,7 @@
     "@milkdown/theme-nord": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "atomico": "^1.74.0",
+    "codemirror": "^6.0.1",
     "katex": "^0.16.0",
     "tslib": "^2.5.0"
   },
