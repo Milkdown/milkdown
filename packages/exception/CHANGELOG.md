@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 7.3.2
+
+### Patch Changes
+
+- 5c4a7571: Fix package issues
+
 ## 7.3.1
 
 ### Patch Changes

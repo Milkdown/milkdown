@@ -1,5 +1,13 @@
 # @milkdown/transformer
 
+## 7.3.2
+
+### Patch Changes
+
+- 5c4a7571: Fix package issues
+- Updated dependencies [5c4a7571]
+  - @milkdown/exception@7.3.2
+
 ## 7.3.1
 
 ### Patch Changes
