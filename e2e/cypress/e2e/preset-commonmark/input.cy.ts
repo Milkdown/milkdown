@@ -152,5 +152,12 @@ describe('input:', () => {
         cy.isMarkdown('The lunatic is `on the grass`\n')
       })
     })
+
+    it('undo input rule when press backspace', () => {
+      cy.get('.editor').type('The lunatic is *on the grass*')
+      cy.get('.editor').get('em').should('have.text', 'on the grass')
+      cy.get('.editor').type('{backspace}')
+      cy.isMarkdown('The lunatic is \\*on the grass\\*\n')
+    })
   })
 })
