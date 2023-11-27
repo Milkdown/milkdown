@@ -4,6 +4,7 @@ import type { Extension } from '@codemirror/state'
 import type { LanguageDescription } from '@codemirror/language'
 import { html } from 'atomico'
 import { chevronDown, search, xCircle } from '../__internal__/icons'
+import { withMeta } from '../__internal__/meta'
 
 export interface CodeBlockConfig {
   extensions: Extension[]
@@ -26,3 +27,8 @@ export const defaultConfig: CodeBlockConfig = {
 }
 
 export const codeBlockConfig = $ctx(defaultConfig, 'codeBlockConfigCtx')
+
+withMeta(codeBlockConfig, {
+  displayName: 'Config<code-block>',
+  group: 'CodeBlock',
+})
