@@ -37,3 +37,10 @@ Cypress.Commands.add('paste', { prevSubject: true }, (selector, payload) => {
     $destination[0].dispatchEvent(pasteEvent)
   })
 })
+
+Cypress.Commands.add('isMarkdown', (markdown) => {
+  cy.window().then((win) => {
+    cy.wrap(win.__getMarkdown__())
+      .should('equal', markdown)
+  })
+})

@@ -22,6 +22,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       paste(payload: Record<string, unknown>): Chainable<void>
+      isMarkdown(markdown: string): Chainable<void>
     }
   }
 

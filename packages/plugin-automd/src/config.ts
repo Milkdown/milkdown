@@ -4,7 +4,7 @@ import type { Node, NodeType } from '@milkdown/prose/model'
 import type { Transaction } from '@milkdown/prose/state'
 import { $ctx } from '@milkdown/utils'
 
-import { withMeta } from '../../__internal__'
+import { withMeta } from './__internal__'
 import { swap } from './utils'
 
 /// @internal

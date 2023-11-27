@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { commands, inputrules, keymap, plugins, schema } from './composed'
+import { commands, inputRules, keymap, markInputRules, plugins, schema } from './composed'
 
 export * from './node'
 export * from './mark'
@@ -8,4 +8,4 @@ export * from './plugin'
 export * from './composed'
 
 /// The GFM preset, includes all the plugins.
-export const gfm = [schema, inputrules, keymap, plugins, commands].flat()
+export const gfm = [schema, inputRules, markInputRules, keymap, plugins, commands].flat()

@@ -20,15 +20,4 @@ describe('on markdown updated', () => {
 
     cy.get('@log').should('have.callCount', 3)
   })
-
-  it('inline sync', () => {
-    cy.get('.editor').type('*')
-    cy.get('@log').should('have.callCount', 1).should('be.calledWith', '\\*\n')
-    cy.get('.editor').type('A')
-    cy.get('@log').should('have.callCount', 2).should('be.calledWith', '\\*A\n')
-    cy.get('.editor').type('*')
-    cy.get('@log').should('have.callCount', 4).should('be.calledWith', '*A*\n')
-    cy.get('.editor').type(' _A_')
-    cy.get('@log').should('be.calledWith', '*A* _A_\n')
-  })
 })

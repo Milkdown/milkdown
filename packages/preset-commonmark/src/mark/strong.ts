@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
-import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 import { toggleMark } from '@milkdown/prose/commands'
+import { markRule } from '@milkdown/prose'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the strong mark.
@@ -60,6 +61,16 @@ export const toggleStrongCommand = $command('ToggleStrong', ctx => () => {
 
 withMeta(toggleStrongCommand, {
   displayName: 'Command<toggleStrongCommand>',
+  group: 'Strong',
+})
+
+/// A input rule that will capture the strong mark.
+export const strongInputRule = $inputRule((ctx) => {
+  return markRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, strongSchema.type(ctx))
+})
+
+withMeta(strongInputRule, {
+  displayName: 'InputRule<strong>',
   group: 'Strong',
 })
 

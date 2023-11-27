@@ -1,9 +1,10 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { createCodeBlockInputRule, insertHrInputRule, wrapInBlockquoteInputRule, wrapInBulletListInputRule, wrapInHeadingInputRule, wrapInOrderedListInputRule } from '../node'
+import { emphasisStarInputRule, emphasisUnderscoreInputRule, inlineCodeInputRule, strongInputRule } from '../mark'
 
 /// @internal
-export const inputrules: MilkdownPlugin[] = [
+export const inputRules: MilkdownPlugin[] = [
   wrapInBlockquoteInputRule,
   wrapInBulletListInputRule,
   wrapInOrderedListInputRule,
@@ -11,3 +12,11 @@ export const inputrules: MilkdownPlugin[] = [
   insertHrInputRule,
   wrapInHeadingInputRule,
 ].flat()
+
+/// @internal
+export const markInputRules: MilkdownPlugin[] = [
+  emphasisStarInputRule,
+  emphasisUnderscoreInputRule,
+  inlineCodeInputRule,
+  strongInputRule,
+]

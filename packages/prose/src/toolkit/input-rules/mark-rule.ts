@@ -1,61 +1,61 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { InputRule } from '../../inputrules'
 import type { Mark, MarkType } from '../../model'
-import type { EditorState } from '../../state'
+import type { Captured, Options } from './common'
 
-export function markRule(regexp: RegExp, markType: MarkType): InputRule {
+/// Create an input rule for a mark.
+export function markRule(regexp: RegExp, markType: MarkType, options: Options = {}): InputRule {
   return new InputRule(regexp, (state, match, start, end) => {
     const { tr } = state
     const matchLength = match.length
 
-    let markStart = start
+    let group = match[matchLength - 1]
+    let fullMatch = match[0]
+    let initialStoredMarks: readonly Mark[] = []
+
     let markEnd = end
 
-    if (match[matchLength - 1]) {
-      const first = match[0]
-      const last = match[matchLength - 1] as string
-      const last1 = match[matchLength - 2] as string
-
-      const matchStart = start + first.indexOf(last1)
-      const matchEnd = matchStart + last1.length - 1
-      const textStart = matchStart + last1.lastIndexOf(last)
-      const textEnd = textStart + last.length
-
-      const excludedMarks = getMarksBetween(start, end, state)
-        .filter(item => item.mark.type.excludes(markType))
-        .filter(item => item.end > matchStart)
-
-      if (excludedMarks.length)
-        return null
-
-      if (textEnd < matchEnd)
-        tr.delete(textEnd, matchEnd)
-
-      if (textStart > matchStart)
-        tr.delete(matchStart, textStart)
-
-      markStart = matchStart
-      markEnd = markStart + last.length
+    const captured: Captured = {
+      group,
+      fullMatch,
+      start,
+      end,
     }
-    tr.addMark(markStart, markEnd, markType.create())
-    tr.removeStoredMark(markType)
+
+    const result = options.updateCaptured?.(captured)
+    Object.assign(captured, result);
+
+    ({ group, fullMatch, start, end } = captured)
+
+    if (fullMatch === null)
+      return null
+
+    if (group?.trim() === '')
+      return null
+
+    if (group) {
+      const startSpaces = fullMatch.search(/\S/)
+      const textStart = start + fullMatch.indexOf(group)
+      const textEnd = textStart + group.length
+
+      initialStoredMarks = tr.storedMarks ?? []
+
+      if (textEnd < end)
+        tr.delete(textEnd, end)
+
+      if (textStart > start)
+        tr.delete(start + startSpaces, textStart)
+
+      markEnd = start + startSpaces + group.length
+
+      const attrs = options.getAttr?.(match)
+
+      tr.addMark(start, markEnd, markType.create(attrs))
+      tr.setStoredMarks(initialStoredMarks)
+
+      options.beforeDispatch?.({ match, start, end, tr })
+    }
+
     return tr
   })
-}
-
-function getMarksBetween(start: number, end: number, state: EditorState) {
-  let marks: { start: number, end: number, mark: Mark }[] = []
-
-  state.doc.nodesBetween(start, end, (node, pos) => {
-    marks = [
-      ...marks,
-      ...node.marks.map(mark => ({
-        start: pos,
-        end: pos + node.nodeSize,
-        mark,
-      })),
-    ]
-  })
-
-  return marks
 }

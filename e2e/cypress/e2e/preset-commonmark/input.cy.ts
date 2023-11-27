@@ -15,10 +15,7 @@ describe('input:', () => {
     it('paragraph', () => {
       cy.get('.editor').type('The lunatic is on the grass')
       cy.get('.editor').get('p').should('have.text', 'The lunatic is on the grass')
-      cy.window().then((win) => {
-        cy.wrap(win.__getMarkdown__())
-          .should('equal', 'The lunatic is on the grass\n')
-      })
+      cy.isMarkdown('The lunatic is on the grass\n')
     })
 
     it('heading', () => {
@@ -46,10 +43,7 @@ describe('input:', () => {
       cy.get('.editor').type('{enter}Next line.')
 
       cy.get('blockquote').get('p:last-child').should('have.text', 'Next line.')
-      cy.window().then((win) => {
-        cy.wrap(win.__getMarkdown__())
-          .should('equal', '> Blockquote\n>\n> Next line.\n')
-      })
+      cy.isMarkdown('> Blockquote\n>\n> Next line.\n')
     })
 
     it('bullet list', () => {
@@ -70,10 +64,7 @@ describe('input:', () => {
 
       cy.get('.editor').type('{enter}{enter}list item 3')
       cy.get('.editor ul:first-child>li:last-child').should('have.text', 'list item 3')
-      cy.window().then((win) => {
-        cy.wrap(win.__getMarkdown__())
-          .should('equal', '* list item 1\n* list item 2\n\n  * sub list item 1\n  * sub list item 2\n* list item 3\n')
-      })
+      cy.isMarkdown('* list item 1\n* list item 2\n\n  * sub list item 1\n  * sub list item 2\n* list item 3\n')
     })
 
     it('ordered list', () => {
@@ -96,19 +87,13 @@ describe('input:', () => {
         'have.text',
         'list item 3',
       )
-      cy.window().then((win) => {
-        cy.wrap(win.__getMarkdown__())
-          .should('equal', '1. list item 1\n2. list item 2\n\n   1. sub list item 1\n   2. sub list item 2\n3. list item 3\n')
-      })
+      cy.isMarkdown('1. list item 1\n2. list item 2\n\n   1. sub list item 1\n   2. sub list item 2\n3. list item 3\n')
     })
 
     it('hr', () => {
       cy.get('.editor').type('---')
       cy.get('hr').should('be.visible')
-      cy.window().then((win) => {
-        cy.wrap(win.__getMarkdown__())
-          .should('equal', '***\n')
-      })
+      cy.isMarkdown('***\n')
     })
 
     it('code block', () => {
@@ -117,129 +102,46 @@ describe('input:', () => {
       cy.get('.editor').type('# Hi markdown')
       cy.get('code').should('have.text', '# Hi markdown')
     })
-
-    describe('image', () => {
-      it('invalid image', () => {
-        cy.get('.editor').type('![image](invalidUrl)')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', '![image](invalidUrl)\n')
-        })
-      })
-
-      it('valid image', () => {
-        cy.intercept('*.png', {
-          delay: 1000,
-          fixture: 'milkdown-mini.png',
-        })
-        cy.get('.editor').type('![image](/milkdown-mini.png)')
-        cy.get('img').should('have.attr', 'src', '/milkdown-mini.png')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', '![image](/milkdown-mini.png)\n')
-        })
-      })
-    })
   })
 
   describe('mark:', () => {
     describe('bold', () => {
-      it('normal bold', () => {
+      it('normal bold with _', () => {
         cy.get('.editor').type('The lunatic is __on the grass__')
         cy.get('.editor strong').should('have.text', 'on the grass')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is __on the grass__\n')
-        })
+        cy.isMarkdown('The lunatic is **on the grass**\n')
       })
 
-      it('not a bold', () => {
-        cy.get('.editor').type('The lunatic is o__"n the grass__')
-        cy.get('.editor').get('p').should('have.text', 'The lunatic is o__"n the grass__')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is o\\_\\_\"n the grass\\_\\_\n')
-        })
-      })
-
-      it('is a bold', () => {
-        cy.get('.editor').type('The lunatic is "__on the grass__"')
-        cy.get('.editor').get('strong').should('have.text', 'on the grass')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is \"__on the grass__\"\n')
-        })
+      it('normal bold with *', () => {
+        cy.get('.editor').type('The lunatic is **on the grass**')
+        cy.get('.editor strong').should('have.text', 'on the grass')
+        cy.isMarkdown('The lunatic is **on the grass**\n')
       })
 
       it('a single word', () => {
         cy.get('.editor').type('The lunatic is **o**n the grass')
         cy.get('.editor').get('strong').should('have.text', 'o')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is **o**n the grass\n')
-        })
-      })
-
-      it('escape _', () => {
-        cy.get('.editor').type('The lunatic is \\_\\_on the grass__')
-        cy.get('.editor').get('em').should('not.exist')
-        cy.get('.editor').should('contain.text', '_\u200B_on the grass__')
-      })
-
-      it('escape *', () => {
-        cy.get('.editor').type('The lunatic is \\*\\*on the grass**')
-        cy.get('.editor').get('em').should('not.exist')
-        cy.get('.editor').should('contain.text', '*\u200B*on the grass**')
+        cy.isMarkdown('The lunatic is **o**n the grass\n')
       })
     })
 
     describe('italic', () => {
-      it('normal italic', () => {
+      it('normal italic with _', () => {
         cy.get('.editor').type('The lunatic is _on the grass_')
         cy.get('.editor').get('em').should('have.text', 'on the grass')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is _on the grass_\n')
-        })
+        cy.isMarkdown('The lunatic is *on the grass*\n')
       })
 
-      it('not an italic', () => {
-        cy.get('.editor').type('The lunatic is o*"n the grass*')
-        cy.get('.editor').get('p').should('have.text', 'The lunatic is o*"n the grass*')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is o\\*\"n the grass\\*\n')
-        })
-      })
-
-      it('is an italic', () => {
-        cy.get('.editor').type('The lunatic is "_on the grass_"')
+      it('normal italic with *', () => {
+        cy.get('.editor').type('The lunatic is *on the grass*')
         cy.get('.editor').get('em').should('have.text', 'on the grass')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is \"_on the grass_\"\n')
-        })
+        cy.isMarkdown('The lunatic is *on the grass*\n')
       })
 
       it('a single word', () => {
         cy.get('.editor').type('The lunatic is *o*n the grass')
         cy.get('.editor').get('em').should('have.text', 'o')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is *o*n the grass\n')
-        })
-      })
-
-      it('escape _', () => {
-        cy.get('.editor').type('The lunatic is \\_on the grass_')
-        cy.get('.editor').get('em').should('not.exist')
-        cy.get('.editor').should('contain.text', '_on the grass_')
-      })
-
-      it('escape *', () => {
-        cy.get('.editor').type('The lunatic is \\*on the grass*')
-        cy.get('.editor').get('em').should('not.exist')
-        cy.get('.editor').should('contain.text', '*on the grass*')
+        cy.isMarkdown('The lunatic is *o*n the grass\n')
       })
     })
 
@@ -247,29 +149,7 @@ describe('input:', () => {
       it('normal inline code', () => {
         cy.get('.editor').type('The lunatic is `on the grass`')
         cy.get('.editor').get('code').should('have.text', 'on the grass')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is `on the grass`\n')
-        })
-      })
-
-      it('inline code with * and _', () => {
-        cy.get('.editor').type('The lunatic is `__`')
-        cy.get('.editor').type('{leftArrow}').type('**on the grass**')
-        cy.get('.editor').get('code').should('have.text', '_**on the grass**_')
-        cy.window().then((win) => {
-          cy.wrap(win.__getMarkdown__())
-            .should('equal', 'The lunatic is `_**on the grass**_`\n')
-        })
-      })
-    })
-
-    it('link', () => {
-      cy.get('.editor').type('The lunatic is [on the grass](url)')
-      cy.get('.editor a').should('have.text', 'on the grass').and('have.attr', 'href', 'url')
-      cy.window().then((win) => {
-        cy.wrap(win.__getMarkdown__())
-          .should('equal', 'The lunatic is [on the grass](url)\n')
+        cy.isMarkdown('The lunatic is `on the grass`\n')
       })
     })
   })

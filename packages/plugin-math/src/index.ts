@@ -8,6 +8,7 @@ import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
 import { Fragment } from '@milkdown/prose/model'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { expectDomTypeError } from '@milkdown/exception'
+import { nodeRule } from '@milkdown/prose'
 
 function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pick<Meta, 'displayName'>): T {
   Object.assign(plugin, {
@@ -103,6 +104,20 @@ withMeta(mathInlineSchema.node, {
   displayName: 'NodeSchema<mathInline>',
 })
 
+/// Input rule for inline math.
+/// When you type $E=MC^2$, it will create an inline math node.
+export const mathInlineInputRule = $inputRule(ctx =>
+  nodeRule(/(?:\$)([^\$]+)(?:\$)$/, mathInlineSchema.type(ctx), {
+    beforeDispatch: ({ tr, match, start }) => {
+      tr.insertText(match[1] ?? '', start + 1)
+    },
+  }),
+)
+
+withMeta(mathInlineInputRule, {
+  displayName: 'InputRule<mathInline>',
+})
+
 const mathBlockId = 'math_block'
 /// Schema for block math node.
 /// Add support for:
@@ -179,4 +194,4 @@ withMeta(mathBlockInputRule, {
 })
 
 /// All plugins exported by this package.
-export const math: MilkdownPlugin[] = [remarkMathPlugin, katexOptionsCtx, mathInlineSchema, mathBlockSchema, mathBlockInputRule].flat()
+export const math: MilkdownPlugin[] = [remarkMathPlugin, katexOptionsCtx, mathInlineSchema, mathBlockSchema, mathBlockInputRule, mathInlineInputRule].flat()

@@ -1,7 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-export * from './inline-sync-plugin'
-
 export * from './remark-add-order-in-list-plugin'
 export * from './remark-line-break'
 export * from './remark-inline-link-plugin'

@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
-import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 import { toggleMark } from '@milkdown/prose/commands'
+import { markRule } from '@milkdown/prose'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the emphasis mark.
@@ -60,6 +61,32 @@ export const toggleEmphasisCommand = $command('ToggleEmphasis', ctx => () => {
 
 withMeta(toggleEmphasisCommand, {
   displayName: 'Command<toggleEmphasisCommand>',
+  group: 'Emphasis',
+})
+
+/// Input rule for use `*` to create emphasis mark.
+export const emphasisStarInputRule = $inputRule((ctx) => {
+  return markRule(/(?:^|[^*])\*([^*]+)\*$/, emphasisSchema.type(ctx), {
+    updateCaptured: ({ fullMatch, start }) =>
+      !fullMatch.startsWith('*') ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {},
+  })
+})
+
+withMeta(emphasisStarInputRule, {
+  displayName: 'InputRule<emphasis>|Star',
+  group: 'Emphasis',
+})
+
+/// Input rule for use `_` to create emphasis mark.
+export const emphasisUnderscoreInputRule = $inputRule((ctx) => {
+  return markRule(/(?:^|[^_])_([^_]+)_$/, emphasisSchema.type(ctx), {
+    updateCaptured: ({ fullMatch, start }) =>
+      !fullMatch.startsWith('_') ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {},
+  })
+})
+
+withMeta(emphasisUnderscoreInputRule, {
+  displayName: 'InputRule<emphasis>|Underscore',
   group: 'Emphasis',
 })
 
