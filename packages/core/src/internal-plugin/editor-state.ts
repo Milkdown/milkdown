@@ -3,10 +3,12 @@ import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { docTypeError } from '@milkdown/exception'
 import { customInputRules as createInputRules } from '@milkdown/prose'
-import { baseKeymap } from '@milkdown/prose/commands'
+import { baseKeymap, chainCommands, deleteSelection, joinBackward, selectNodeBackward } from '@milkdown/prose/commands'
+import { undoInputRule } from '@milkdown/prose/inputrules'
 import { keymap as createKeymap } from '@milkdown/prose/keymap'
 import type { Schema } from '@milkdown/prose/model'
 import { DOMParser, Node } from '@milkdown/prose/model'
+import type { Command } from '@milkdown/prose/state'
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state'
 import type { JSONRecord, Parser } from '@milkdown/transformer'
 
@@ -55,6 +57,17 @@ export function getDoc(defaultValue: DefaultValue, parser: Parser, schema: Schem
 
 const key = new PluginKey('MILKDOWN_STATE_TRACKER')
 
+function overrideBaseKeymap(keymap: Record<string, Command>) {
+  const handleBackspace = chainCommands(
+    undoInputRule,
+    deleteSelection,
+    joinBackward,
+    selectNodeBackward,
+  )
+  keymap.Backspace = handleBackspace
+  return keymap
+}
+
 /// The editor state plugin.
 /// This plugin will create a prosemirror editor state.
 ///
@@ -91,7 +104,7 @@ export const editorState: MilkdownPlugin = (ctx) => {
         },
       }),
       createInputRules({ rules }),
-      createKeymap(baseKeymap),
+      createKeymap(overrideBaseKeymap(baseKeymap)),
     ]
 
     ctx.set(prosePluginsCtx, plugins)
