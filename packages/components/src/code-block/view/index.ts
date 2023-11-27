@@ -4,6 +4,7 @@ import { codeBlockSchema } from '@milkdown/preset-commonmark'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { c } from 'atomico'
 import { codeBlockConfig } from '../config'
+import { withMeta } from '../../__internal__/meta'
 import { CodeMirrorBlock } from './node-view'
 import { LanguageLoader } from './loader'
 import { codeComponent } from './component'
@@ -19,4 +20,9 @@ export const codeBlockView = $view(codeBlockSchema.node, (ctx): NodeViewConstruc
     languageLoader,
     config,
   )
+})
+
+withMeta(codeBlockView, {
+  displayName: 'NodeView<code-block>',
+  group: 'CodeBlock',
 })

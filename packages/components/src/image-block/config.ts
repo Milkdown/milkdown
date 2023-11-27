@@ -2,6 +2,7 @@
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
 import { chatBubble, image } from '../__internal__/icons'
+import { withMeta } from '../__internal__/meta'
 
 export interface ImageBlockConfig {
   imageIcon: () => ReturnType<typeof html>
@@ -24,3 +25,8 @@ export const defaultImageBlockConfig: ImageBlockConfig = {
 }
 
 export const imageBlockConfig = $ctx(defaultImageBlockConfig, 'imageBlockConfigCtx')
+
+withMeta(imageBlockConfig, {
+  displayName: 'Config<image-block>',
+  group: 'ImageBlock',
+})

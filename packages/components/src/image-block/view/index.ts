@@ -5,6 +5,7 @@ import type { Node } from '@milkdown/prose/model'
 import { c } from 'atomico'
 import { imageBlockSchema } from '../schema'
 import { imageBlockConfig } from '../config'
+import { withMeta } from '../../__internal__/meta'
 import type { ImageComponentProps } from './component'
 import { imageComponent } from './component'
 
@@ -56,4 +57,9 @@ export const imageBlockView = $view(imageBlockSchema.node, (ctx): NodeViewConstr
       },
     }
   }
+})
+
+withMeta(imageBlockView, {
+  displayName: 'NodeView<image-block>',
+  group: 'ImageBlock',
 })

@@ -5,6 +5,7 @@ import { TextSelection } from '@milkdown/prose/state'
 import { c } from 'atomico'
 import type { Node } from '@milkdown/prose/lib/model'
 import { listItemSchema } from '@milkdown/preset-commonmark'
+import { withMeta } from '../__internal__/meta'
 import type { ListItemComponentProps } from './component'
 import { listItemComponent } from './component'
 import { listItemBlockConfig } from './config'
@@ -88,4 +89,9 @@ export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConst
       },
     }
   }
+})
+
+withMeta(listItemBlockView, {
+  displayName: 'NodeView<list-item-block>',
+  group: 'ListItemBlock',
 })
