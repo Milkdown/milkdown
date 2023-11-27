@@ -1,9 +1,14 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { insertTableInputRule, wrapInTaskListInputRule } from '../node'
+import { strikethroughInputRule } from '../mark'
 
 /// @internal
-export const inputrules: MilkdownPlugin[] = [
+export const inputRules: MilkdownPlugin[] = [
   insertTableInputRule,
   wrapInTaskListInputRule,
+]
+
+export const markInputRules: MilkdownPlugin[] = [
+  strikethroughInputRule,
 ]

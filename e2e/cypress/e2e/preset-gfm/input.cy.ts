@@ -33,12 +33,6 @@ describe('input:', () => {
     cy.get('.editor del').should('have.text', 'on the grass')
   })
 
-  it('auto link', () => {
-    cy.get('.editor').type('Here is https://www.milkdown.dev')
-    cy.get('.editor a').should('have.text', 'https://www.milkdown.dev')
-    cy.get('.editor a').should('have.attr', 'href', 'https://www.milkdown.dev')
-  })
-
   describe('table', () => {
     it('3x2', () => {
       cy.get('.editor').type('|3x2| ')

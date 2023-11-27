@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import type { MarkType } from '@milkdown/prose/model'
-import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { markRule } from '@milkdown/prose'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the inlineCode mark.
@@ -75,6 +76,16 @@ export const toggleInlineCodeCommand = $command('ToggleInlineCode', ctx => () =>
 
 withMeta(toggleInlineCodeCommand, {
   displayName: 'Command<toggleInlineCodeCommand>',
+  group: 'InlineCode',
+})
+
+/// Input rule for create inlineCode mark.
+export const inlineCodeInputRule = $inputRule((ctx) => {
+  return markRule(/(?:\`)([^\`]+)(?:\`)$/, inlineCodeSchema.type(ctx))
+})
+
+withMeta(inlineCodeInputRule, {
+  displayName: 'InputRule<inlineCodeInputRule>',
   group: 'InlineCode',
 })
 

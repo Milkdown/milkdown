@@ -15,6 +15,7 @@ export default defineConfig({
         'main': resolve(__dirname, 'src/index.html'),
         'preset-gfm': resolve(__dirname, 'src/preset-gfm/index.html'),
         'preset-commonmark': resolve(__dirname, 'src/preset-commonmark/index.html'),
+        'plugin-automd': resolve(__dirname, 'src/plugin-automd/index.html'),
         'plugin-clipboard': resolve(__dirname, 'src/plugin-clipboard/index.html'),
         'plugin-math': resolve(__dirname, 'src/plugin-math/index.html'),
         'plugin-listener': resolve(__dirname, 'src/plugin-listener/index.html'),

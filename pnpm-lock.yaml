@@ -183,6 +183,9 @@ importers:
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../packages/ctx
+      '@milkdown/plugin-automd':
+        specifier: workspace:*
+        version: link:../packages/plugin-automd
       '@milkdown/plugin-clipboard':
         specifier: workspace:*
         version: link:../packages/plugin-clipboard
@@ -327,6 +330,28 @@ importers:
       tslib:
         specifier: ^2.5.0
         version: 2.5.0
+
+  packages/plugin-automd:
+    dependencies:
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../exception
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../utils
+      tslib:
+        specifier: ^2.5.0
+        version: 2.5.0
+    devDependencies:
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../ctx
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../prose
 
   packages/plugin-block:
     dependencies:

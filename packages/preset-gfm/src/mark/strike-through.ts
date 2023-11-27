@@ -1,7 +1,8 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
-import { $command, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 import { toggleMark } from '@milkdown/prose/commands'
+import { markRule } from '@milkdown/prose'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the strikethrough mark.
@@ -52,6 +53,16 @@ export const toggleStrikethroughCommand = $command('ToggleStrikeThrough', ctx =>
 
 withMeta(toggleStrikethroughCommand, {
   displayName: 'Command<ToggleStrikethrough>',
+  group: 'Strikethrough',
+})
+
+/// Input rule to create the strikethrough mark.
+export const strikethroughInputRule = $inputRule((ctx) => {
+  return markRule(/~([^~]+)~$/, strikethroughSchema.type(ctx))
+})
+
+withMeta(strikethroughInputRule, {
+  displayName: 'InputRule<strikethrough>',
   group: 'Strikethrough',
 })
 

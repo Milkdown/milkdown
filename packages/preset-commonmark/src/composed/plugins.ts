@@ -6,8 +6,6 @@ import {
   hardbreakFilterNodes,
   hardbreakFilterPlugin,
   inlineNodesCursorPlugin,
-  inlineSyncConfig,
-  inlineSyncPlugin,
   remarkAddOrderInListPlugin,
   remarkHtmlTransformer,
   remarkInlineLinkPlugin,
@@ -19,9 +17,6 @@ import {
 
 /// @internal
 export const plugins: MilkdownPlugin[] = [
-  inlineSyncConfig,
-  inlineSyncPlugin,
-
   hardbreakClearMarkPlugin,
   hardbreakFilterNodes,
   hardbreakFilterPlugin,
