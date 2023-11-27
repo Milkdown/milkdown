@@ -38,6 +38,14 @@ Cypress.Commands.add('paste', { prevSubject: true }, (selector, payload) => {
   })
 })
 
+Cypress.Commands.add('markdownFixture', (path) => {
+  cy.window().then((win) => {
+    cy.fixture(path).then((md) => {
+      win.__setMarkdown__(md)
+    })
+  })
+})
+
 Cypress.Commands.add('isMarkdown', (markdown) => {
   cy.window().then((win) => {
     cy.wrap(win.__getMarkdown__())

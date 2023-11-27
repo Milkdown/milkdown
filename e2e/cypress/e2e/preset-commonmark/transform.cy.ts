@@ -119,11 +119,7 @@ describe('transform:', () => {
 
   it('mark', () => {
     cy.get('.editor').within(() => {
-      cy.window().then((win) => {
-        cy.fixture('cm-mark.md').then((md) => {
-          win.__setMarkdown__(md)
-        })
-      })
+      cy.markdownFixture('cm-mark.md')
 
       cy.get('strong').first().should('have.text', 'The lunatic is on the grass')
       cy.get('em').first().should('have.text', 'The lunatic is on the grass')

@@ -15,7 +15,6 @@ withMeta(inlineCodeAttr, {
 
 /// InlineCode mark schema.
 export const inlineCodeSchema = $markSchema('inlineCode', ctx => ({
-  excludes: '_',
   priority: 100,
   code: true,
   inclusive: false,

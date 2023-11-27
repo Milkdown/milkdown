@@ -23,6 +23,7 @@ declare global {
     interface Chainable {
       paste(payload: Record<string, unknown>): Chainable<void>
       isMarkdown(markdown: string): Chainable<void>
+      markdownFixture(path: string): Chainable<void>
     }
   }
 
