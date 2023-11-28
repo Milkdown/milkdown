@@ -60,15 +60,3 @@ function App() {
 }
 
 customElements.define('milkdown-test-app', c(App))
-
-const app = document.createElement('milkdown-test-app')
-
-const root = document.getElementById('app')
-
-if (!root)
-  throw new Error('Not found root element #app')
-
-while (root?.firstChild)
-  root.removeChild(root.firstChild)
-
-root.appendChild(app)
