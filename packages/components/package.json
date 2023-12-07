@@ -29,6 +29,10 @@
     "./list-item-block": {
       "types": "./lib/list-item-block/index.d.ts",
       "import": "./lib/list-item-block/index.es.js"
+    },
+    "./link-tooltip": {
+      "types": "./lib/link-tooltip/index.d.ts",
+      "import": "./lib/link-tooltip/index.es.js"
     }
   },
   "main": "./lib/index.es.js",
@@ -43,6 +47,9 @@
       ],
       "list-item-block": [
         "./lib/list-item-block/index.d.ts"
+      ],
+      "link-tooltip": [
+        "./lib/link-tooltip/index.d.ts"
       ]
     }
   },
@@ -62,6 +69,7 @@
     "@codemirror/view": "^6",
     "@milkdown/core": "^7.2.0",
     "@milkdown/ctx": "^7.2.0",
+    "@milkdown/plugin-tooltip": "^7.2.0",
     "@milkdown/preset-commonmark": "^7.2.0",
     "@milkdown/prose": "^7.2.0",
     "@milkdown/transformer": "^7.2.0"
@@ -71,8 +79,10 @@
     "@floating-ui/dom": "^1.5.1",
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
+    "@types/lodash.debounce": "^4.0.7",
     "atomico": "^1.74.0",
     "clsx": "^2.0.0",
+    "lodash.debounce": "^4.0.8",
     "tslib": "^2.5.0",
     "unist-util-visit": "^5.0.0"
   },
@@ -82,6 +92,7 @@
     "@codemirror/view": "^6.16.0",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*"

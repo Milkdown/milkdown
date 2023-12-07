@@ -52,4 +52,9 @@ export const cards: CardComponentProps[] = [
     description: 'List item block component',
     link: '/list-item-block/',
   },
+  {
+    title: 'Link Tooltip',
+    description: 'Link tooltip component',
+    link: '/link-tooltip/',
+  },
 ]
