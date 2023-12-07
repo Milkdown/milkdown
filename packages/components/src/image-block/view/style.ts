@@ -57,6 +57,10 @@ export const style = css`
     display: flex;
   }
 
+  :host > .image-edit .confirm {
+    cursor: pointer;
+  }
+
   :host > .image-edit .link-importer {
     position: relative;
     flex: 1;

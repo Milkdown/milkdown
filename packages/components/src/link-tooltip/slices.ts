@@ -33,6 +33,7 @@ export interface LinkTooltipConfig {
   editButton: () => ReturnType<typeof html>
   confirmButton: () => ReturnType<typeof html>
   removeButton: () => ReturnType<typeof html>
+  onCopyLink: (link: string) => void
 }
 
 const defaultConfig: LinkTooltipConfig = {
@@ -40,6 +41,7 @@ const defaultConfig: LinkTooltipConfig = {
   editButton: () => html`Edit`,
   confirmButton: () => html`Confirm ⏎`,
   removeButton: () => html`Remove`,
+  onCopyLink: () => {},
 }
 
 export const linkTooltipConfig = $ctx({

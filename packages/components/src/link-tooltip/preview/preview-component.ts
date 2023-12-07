@@ -28,15 +28,23 @@ export const linkPreviewComponent: Component<LinkPreviewProps> = ({ config, src,
 
   const onClickPreview = (e: MouseEvent) => {
     e.preventDefault()
+    if (navigator.clipboard && src) {
+      navigator.clipboard.writeText(src)
+        .then(() => {
+          config?.onCopyLink(src)
+        }).catch((e) => {
+          throw e
+        })
+    }
   }
 
   return html`
     <host>
       <div class="link-preview" onmousedown=${onClickPreview}>
-        <span class="link-preview-icon">
+        <span class="link-icon">
           ${config?.linkIcon()}
         </span>
-        <span class="link-preview-display">${src}</span>
+        <span class="link-display">${src}</span>
         <span onmousedown=${onClickEditButton}>
           ${config?.editButton()}
         </span>

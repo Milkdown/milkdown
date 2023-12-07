@@ -2,8 +2,11 @@
 import { css } from 'atomico'
 
 export const style = css`
-  :host > .link-preview {
+  :host > .link-edit {
     display: flex;
+  }
+
+  :host > .link-edit .confirm {
     cursor: pointer;
   }
 `

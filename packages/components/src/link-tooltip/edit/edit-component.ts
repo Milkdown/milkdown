@@ -1,7 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
 import { html, useRef } from 'atomico'
+import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import type { LinkTooltipConfig } from '../slices'
+import { style } from './style'
 
 export interface LinkEditProps {
   config: LinkTooltipConfig
@@ -14,6 +16,7 @@ export const linkEditComponent: Component<LinkEditProps> = ({
   onConfirm,
   config,
 }) => {
+  useCssLightDom(style)
   const linkInput = useRef<HTMLInputElement>()
 
   const onConfirmEdit = () => {
@@ -27,10 +30,12 @@ export const linkEditComponent: Component<LinkEditProps> = ({
 
   return html`
     <host>
-      <input ref=${linkInput} onkeydown=${onKeydown} value=${src} />
-      <span onclick=${onConfirmEdit}>
-        ${config?.confirmButton()}
-      </span>
+      <div class="link-edit">
+        <input class="input-area" ref=${linkInput} onkeydown=${onKeydown} value=${src} />
+        <span class="confirm" onclick=${onConfirmEdit}>
+          ${config?.confirmButton()}
+        </span>
+      </div>
     </host>
   `
 }
