@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
-import { html, useRef } from 'atomico'
+import { html, useEffect, useRef } from 'atomico'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import type { LinkTooltipConfig } from '../slices'
 import { style } from './style'
@@ -18,6 +18,10 @@ export const linkEditComponent: Component<LinkEditProps> = ({
 }) => {
   useCssLightDom(style)
   const linkInput = useRef<HTMLInputElement>()
+
+  useEffect(() => {
+    linkInput.current?.focus()
+  }, [])
 
   const onConfirmEdit = () => {
     onConfirm?.(linkInput.current?.value ?? '')

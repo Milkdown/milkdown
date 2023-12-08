@@ -34,6 +34,7 @@ export class LinkEditTooltip implements PluginView {
       debounce: 0,
       tippyOptions: {
         arrow: false,
+        appendTo: document.body,
       },
     })
     this.#provider.update(view)
