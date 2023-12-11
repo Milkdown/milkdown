@@ -10,6 +10,7 @@
 
 milkdown-link-preview {
   & > .link-preview {
+    height: 42px;
     display: flex;
     justify-content: center;
     padding: 8px;
@@ -71,7 +72,9 @@ milkdown-link-preview {
 
 milkdown-link-edit {
   & > .link-edit {
+    height: 42px;
     display: flex;
+    justify-content: center;
     padding: 8px 12px;
     background: bisque;
     gap: 8px;
@@ -91,6 +94,9 @@ milkdown-link-edit {
       padding: 4px;
       &:hover {
         background: burlywood;
+      }
+      &.hidden {
+        visibility: hidden;
       }
     }
   }

@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
-import { html, useRef } from 'atomico'
+import { html, useEffect, useRef, useState } from 'atomico'
+import clsx from 'clsx'
 import type { LinkTooltipConfig } from '../slices'
 
 export interface LinkEditProps {
@@ -17,16 +18,26 @@ export const linkEditComponent: Component<LinkEditProps> = ({
   config,
 }) => {
   const linkInput = useRef<HTMLInputElement>()
+  const [link, setLink] = useState(src)
+
+  useEffect(() => {
+    setLink(src ?? '')
+  }, [src])
 
   const onConfirmEdit = () => {
     onConfirm?.(linkInput.current?.value ?? '')
   }
 
   const onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter')
+    e.stopPropagation()
+    if (e.key === 'Enter') {
       onConfirm?.(linkInput.current?.value ?? '')
-    if (e.key === 'Escape')
+      e.preventDefault()
+    }
+    if (e.key === 'Escape') {
       onCancel?.()
+      e.preventDefault()
+    }
   }
 
   return html`
@@ -37,9 +48,10 @@ export const linkEditComponent: Component<LinkEditProps> = ({
           placeholder=${config?.inputPlaceholder}
           ref=${linkInput}
           onkeydown=${onKeydown}
-          value=${src}
+          oninput=${(e: InputEvent) => setLink((e.target as HTMLInputElement).value)}
+          value=${link}
         />
-        <span class="button confirm" onclick=${onConfirmEdit}>
+        <span class=${clsx('button confirm', link.length === 0 && 'hidden')} onclick=${onConfirmEdit}>
           ${config?.confirmButton()}
         </span>
       </div>

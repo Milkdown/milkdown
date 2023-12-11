@@ -18,6 +18,7 @@ export class LinkPreviewTooltip implements PluginView {
       appendTo: document.body,
       arrow: false,
       delay: 0,
+      duration: 0,
     },
   })
 
