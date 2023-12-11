@@ -116,12 +116,12 @@ export const imageComponent: Component<ImageComponentProps> = ({
           </span>
         </div>
       </div>
-      <button
+      <div
         class=${clsx('confirm', currentLink.length === 0 && 'hidden')}
         onclick=${() => onConfirmLinkInput()}
       >
         ${config?.confirmButton()}
-      </button>
+      </div>
     </div>
     <div class=${clsx('image-wrapper', src.length === 0 && 'hidden')}>
       <div class="operation">

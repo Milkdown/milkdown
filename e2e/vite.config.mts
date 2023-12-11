@@ -23,6 +23,7 @@ export default defineConfig({
         'image-block': resolve(__dirname, 'src/image-block/index.html'),
         'code-block': resolve(__dirname, 'src/code-block/index.html'),
         'list-item-block': resolve(__dirname, 'src/list-item-block/index.html'),
+        'link-tooltip': resolve(__dirname, 'src/link-tooltip/index.html'),
       },
     },
   },

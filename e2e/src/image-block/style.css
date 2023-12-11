@@ -89,7 +89,7 @@ milkdown-image-block > .image-edit .link-importer .placeholder .text {
 milkdown-image-block > .image-edit .confirm {
   background: darkgray;
   color: antiquewhite;
-  height: 40px;
+  line-height: 40px;
   padding: 0 24px;
   border-radius: 100px;
   font-size: 14px;

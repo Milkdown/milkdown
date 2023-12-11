@@ -2,3 +2,4 @@
 export * from './image-block'
 export * from './list-item-block'
 export * from './code-block'
+export * from './link-tooltip'

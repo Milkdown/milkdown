@@ -29,6 +29,7 @@
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
     "@milkdown/plugin-math": "workspace:*",
+    "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
