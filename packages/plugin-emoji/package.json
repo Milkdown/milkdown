@@ -39,7 +39,7 @@
     "node-emoji": "^2.0.0",
     "remark-emoji": "^4.0.0",
     "tslib": "^2.5.0",
-    "twemoji": "^14.0.1",
+    "twemoji": "^14.0.2",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
