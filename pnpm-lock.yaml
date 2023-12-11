@@ -9,16 +9,17 @@ overrides:
   array.prototype.flat: npm:@nolyfill/array.prototype.flat@latest
   array.prototype.flatmap: npm:@nolyfill/array.prototype.flatmap@latest
   array.prototype.tosorted: npm:@nolyfill/array.prototype.tosorted@latest
+  es-iterator-helpers: npm:@nolyfill/es-iterator-helpers@latest
+  function-bind: npm:@nolyfill/function-bind@latest
   has: npm:@nolyfill/has@latest
   object.assign: npm:@nolyfill/object.assign@latest
   object.entries: npm:@nolyfill/object.entries@latest
   object.fromentries: npm:@nolyfill/object.fromentries@latest
   object.hasown: npm:@nolyfill/object.hasown@latest
   object.values: npm:@nolyfill/object.values@latest
-  string.prototype.matchall: npm:@nolyfill/string.prototype.matchall@latest
-  es-iterator-helpers: npm:@nolyfill/es-iterator-helpers@latest
-  function-bind: npm:@nolyfill/function-bind@latest
   side-channel: npm:@nolyfill/side-channel@latest
+  string.prototype.matchall: npm:@nolyfill/string.prototype.matchall@latest
+  hasown: npm:@nolyfill/hasown@latest
 
 importers:
 
@@ -3921,8 +3922,8 @@ packages:
       '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/function-bind@1.0.21:
-    resolution: {integrity: sha512-0Jsaoxp/9HJqCa3GzEzJcoi4+VfupD/o+1pBG0qJ0X3d+sKbbfSej2Faiyp0fTHH36mhsdAKi2TahEx9JV08ZA==}
+  /@nolyfill/hasown@1.0.25:
+    resolution: {integrity: sha512-RhoW4Hk6B4/DM8B6sjbCkVJkhmtycA38cURrC489u4lwb/YafpUeknuLRzBoaNWvfLqkyR3rM/t0aa8U2/tvkQ==}
     engines: {node: '>=12.4.0'}
     dev: true
 
@@ -8166,13 +8167,6 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
-  /hasown@2.0.0:
-    resolution: {integrity: sha512-vUptKVTpIJhcczKBbgnS+RtcuYMB8+oNzPK2/Hp3hanz8JmpATdmmgLgSaadVREkDm+e2giHwY3ZRkyjSIDDFA==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      function-bind: /@nolyfill/function-bind@1.0.21
-    dev: true
-
   /hast-util-parse-selector@3.1.0:
     resolution: {integrity: sha512-AyjlI2pTAZEOeu7GeBPZhROx0RHBnydkQIXlhnFzDi0qfXTmGUWoCYZtomHbrdrheV4VFUlPcfJ6LMF5T6sQzg==}
     dependencies:
@@ -8392,7 +8386,7 @@ packages:
   /is-core-module@2.13.1:
     resolution: {integrity: sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==}
     dependencies:
-      hasown: 2.0.0
+      hasown: /@nolyfill/hasown@1.0.25
     dev: true
 
   /is-decimal@1.0.4:
