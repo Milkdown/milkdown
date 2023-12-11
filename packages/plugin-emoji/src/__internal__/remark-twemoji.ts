@@ -2,7 +2,7 @@
 import type { Node, RemarkPluginRaw } from '@milkdown/transformer'
 import emojiRegex from 'emoji-regex'
 
-import { parse } from './parse'
+import { type TwemojiOptions, parse } from './parse'
 
 const regex = emojiRegex()
 

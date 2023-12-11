@@ -529,7 +529,7 @@ importers:
         specifier: ^2.5.0
         version: 2.5.0
       twemoji:
-        specifier: ^14.0.1
+        specifier: ^14.0.2
         version: 14.0.2
       unist-util-visit:
         specifier: ^5.0.0
