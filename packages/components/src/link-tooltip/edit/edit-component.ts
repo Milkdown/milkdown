@@ -1,27 +1,22 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
-import { html, useEffect, useRef } from 'atomico'
-import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
+import { html, useRef } from 'atomico'
 import type { LinkTooltipConfig } from '../slices'
-import { style } from './style'
 
 export interface LinkEditProps {
   config: LinkTooltipConfig
   src: string
   onConfirm: (href: string) => void
+  onCancel: () => void
 }
 
 export const linkEditComponent: Component<LinkEditProps> = ({
   src,
   onConfirm,
+  onCancel,
   config,
 }) => {
-  useCssLightDom(style)
   const linkInput = useRef<HTMLInputElement>()
-
-  useEffect(() => {
-    linkInput.current?.focus()
-  }, [])
 
   const onConfirmEdit = () => {
     onConfirm?.(linkInput.current?.value ?? '')
@@ -30,13 +25,21 @@ export const linkEditComponent: Component<LinkEditProps> = ({
   const onKeydown = (e: KeyboardEvent) => {
     if (e.key === 'Enter')
       onConfirm?.(linkInput.current?.value ?? '')
+    if (e.key === 'Escape')
+      onCancel?.()
   }
 
   return html`
     <host>
       <div class="link-edit">
-        <input class="input-area" ref=${linkInput} onkeydown=${onKeydown} value=${src} />
-        <span class="confirm" onclick=${onConfirmEdit}>
+        <input
+          class="input-area"
+          placeholder=${config?.inputPlaceholder}
+          ref=${linkInput}
+          onkeydown=${onKeydown}
+          value=${src}
+        />
+        <span class="button confirm" onclick=${onConfirmEdit}>
           ${config?.confirmButton()}
         </span>
       </div>
@@ -48,4 +51,5 @@ linkEditComponent.props = {
   config: Object,
   src: String,
   onConfirm: Function,
+  onCancel: Function,
 }

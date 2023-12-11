@@ -1,9 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
 import { html } from 'atomico'
-import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import type { LinkTooltipConfig } from '../slices'
-import { style } from './style'
 
 export interface LinkPreviewProps {
   config: LinkTooltipConfig
@@ -13,7 +11,6 @@ export interface LinkPreviewProps {
 }
 
 export const linkPreviewComponent: Component<LinkPreviewProps> = ({ config, src, onEdit, onRemove }) => {
-  useCssLightDom(style)
   const onClickEditButton = (e: MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
@@ -45,10 +42,10 @@ export const linkPreviewComponent: Component<LinkPreviewProps> = ({ config, src,
           ${config?.linkIcon()}
         </span>
         <span class="link-display">${src}</span>
-        <span onmousedown=${onClickEditButton}>
+        <span class="button link-edit-button" onmousedown=${onClickEditButton}>
           ${config?.editButton()}
         </span>
-        <span onmousedown=${onClickRemoveButton}>
+        <span class="button link-remove-button" onmousedown=${onClickRemoveButton}>
           ${config?.removeButton()}
         </span>
       </div>

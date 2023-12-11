@@ -2,7 +2,7 @@
 
 import { Editor, defaultValueCtx, editorViewCtx, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
-import { commonmark } from '@milkdown/preset-commonmark'
+import { commonmark, linkSchema } from '@milkdown/preset-commonmark'
 import {
   configureLinkTooltip,
   linkTooltipAPI,
@@ -35,17 +35,27 @@ const insertLinkTooltip = tooltipFactory('CREATE_LINK')
 function tooltipPluginView(ctx: Ctx) {
   return (_view: EditorView) => {
     const content = document.createElement('div')
-    content.textContent = 'insert link'
+    const provider = new TooltipProvider({
+      content,
+      shouldShow: (view: EditorView) => {
+        const { selection, doc } = view.state
+        const has = doc.rangeHasMark(selection.from, selection.to, linkSchema.type(ctx))
+        if (has || selection.empty)
+          return false
+
+        return true
+      },
+    })
+
+    content.textContent = '🔗'
+    content.className = 'link-insert-button'
     content.onmousedown = (e: MouseEvent) => {
       e.preventDefault()
       const view = ctx.get(editorViewCtx)
       const { selection } = view.state
       ctx.get(linkTooltipAPI.key).addLink(selection.from, selection.to)
+      provider.hide()
     }
-
-    const provider = new TooltipProvider({
-      content,
-    })
 
     return {
       update: (updatedView: EditorView, prevState: EditorState) => {

@@ -13,6 +13,7 @@ export class LinkPreviewTooltip implements PluginView {
   #provider = new TooltipProvider({
     debounce: 0,
     content: this.#content,
+    shouldShow: () => false,
     tippyOptions: {
       appendTo: document.body,
       arrow: false,

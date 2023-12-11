@@ -2,7 +2,7 @@
 import { $ctx } from '@milkdown/utils'
 import type { Mark } from '@milkdown/prose/model'
 import { html } from 'atomico'
-import { link } from '../__internal__/icons'
+import { edit, link, trash } from '../__internal__/icons'
 
 export interface LinkToolTipState {
   mode: 'preview' | 'edit'
@@ -34,14 +34,16 @@ export interface LinkTooltipConfig {
   confirmButton: () => ReturnType<typeof html>
   removeButton: () => ReturnType<typeof html>
   onCopyLink: (link: string) => void
+  inputPlaceholder: string
 }
 
 const defaultConfig: LinkTooltipConfig = {
   linkIcon: () => link,
-  editButton: () => html`Edit`,
+  editButton: () => edit,
+  removeButton: () => trash,
   confirmButton: () => html`Confirm ⏎`,
-  removeButton: () => html`Remove`,
   onCopyLink: () => {},
+  inputPlaceholder: 'Paste link...',
 }
 
 export const linkTooltipConfig = $ctx({

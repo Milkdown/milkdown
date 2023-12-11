@@ -8,6 +8,7 @@ import { TooltipProvider } from '@milkdown/plugin-tooltip'
 import { editorViewCtx } from '@milkdown/core'
 import { posToDOMRect } from '@milkdown/prose'
 import { linkSchema } from '@milkdown/preset-commonmark'
+import type { AtomicoThis } from 'atomico/types/dom'
 import { linkTooltipConfig, linkTooltipState } from '../slices'
 import type { LinkEditProps } from './edit-component'
 
@@ -24,7 +25,7 @@ const defaultData: Data = {
 }
 
 export class LinkEditTooltip implements PluginView {
-  #content = document.createElement('milkdown-link-edit') as HTMLElement & LinkEditProps
+  #content = document.createElement('milkdown-link-edit') as AtomicoThis<LinkEditProps>
   #provider: TooltipProvider
   #data: Data = { ...defaultData }
 
@@ -32,23 +33,30 @@ export class LinkEditTooltip implements PluginView {
     this.#provider = new TooltipProvider({
       content: this.#content,
       debounce: 0,
+      shouldShow: () => false,
       tippyOptions: {
         arrow: false,
         appendTo: document.body,
+        onHidden: () => {
+          this.#content.update().catch((e) => {
+            throw e
+          })
+          ctx.get(editorViewCtx).dom.focus()
+        },
       },
     })
     this.#provider.update(view)
     this.#content.onConfirm = this.#confirmEdit
+    this.#content.onCancel = this.#reset
   }
 
   #reset = () => {
+    this.#provider.hide()
     this.ctx.update(linkTooltipState.key, state => ({
       ...state,
       mode: 'preview' as const,
     }))
-    this.#content.src = ''
     this.#data = { ...defaultData }
-    this.#provider.hide()
   }
 
   #setRect = (rect: DOMRect) => {
@@ -61,6 +69,10 @@ export class LinkEditTooltip implements PluginView {
     const view = this.ctx.get(editorViewCtx)
     const { from, to, mark } = this.#data
     const type = linkSchema.type(this.ctx)
+    if (mark && mark.attrs.href === href) {
+      this.#reset()
+      return
+    }
 
     const tr = view.state.tr
     if (mark)
@@ -84,6 +96,9 @@ export class LinkEditTooltip implements PluginView {
     this.#setRect(posToDOMRect(view, from, to))
     view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
     this.#provider.show()
+    requestAnimationFrame(() => {
+      this.#content.querySelector('input')?.focus()
+    })
   }
 
   update = (view: EditorView) => {
