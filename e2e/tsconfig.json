@@ -3,7 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
-    "module": "es2022",
     "sourceMap": false
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "es2022",
+      "moduleResolution": "node"
+    }
   }
 }
