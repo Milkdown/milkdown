@@ -15,8 +15,11 @@
     "gfm"
   ],
   "sideEffects": false,
-  "main": "./lib/index.es.js",
-  "types": "./lib/index.d.ts",
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./lib/index.es.js",
+    "types": "./lib/index.d.ts"
+  },
   "files": [
     "lib",
     "src"

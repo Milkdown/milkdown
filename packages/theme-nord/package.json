@@ -11,13 +11,22 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.es.js"
+      "import": "./src/index.ts"
     },
-    "./style.css": "./lib/style.css"
+    "./style.css": "./src/style.css"
   },
-  "main": "./lib/index.es.js",
-  "types": "./lib/index.d.ts",
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./lib/index.es.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./lib/index.d.ts",
+        "import": "./lib/index.es.js"
+      },
+      "./style.css": "./lib/style.css"
+    }
+  },
   "files": [
     "lib",
     "src"

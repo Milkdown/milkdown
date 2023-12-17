@@ -8,7 +8,6 @@ import { TooltipProvider } from '@milkdown/plugin-tooltip'
 import { editorViewCtx } from '@milkdown/core'
 import { posToDOMRect } from '@milkdown/prose'
 import { linkSchema } from '@milkdown/preset-commonmark'
-import type { AtomicoThis } from 'atomico/types/dom'
 import { linkTooltipConfig, linkTooltipState } from '../slices'
 import type { LinkEditProps } from './edit-component'
 
@@ -25,7 +24,7 @@ const defaultData: Data = {
 }
 
 export class LinkEditTooltip implements PluginView {
-  #content = document.createElement('milkdown-link-edit') as AtomicoThis<LinkEditProps>
+  #content = document.createElement('milkdown-link-edit') as HTMLElement & LinkEditProps & { update(): Promise<void> }
   #provider: TooltipProvider
   #data: Data = { ...defaultData }
 

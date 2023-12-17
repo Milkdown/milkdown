@@ -15,42 +15,62 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.es.js"
+      "import": "./src/index.ts"
     },
     "./image-block": {
-      "types": "./lib/image-block/index.d.ts",
-      "import": "./lib/image-block/index.es.js"
+      "import": "./src/image-block/index.ts"
     },
     "./code-block": {
-      "types": "./lib/code-block/index.d.ts",
-      "import": "./lib/code-block/index.es.js"
+      "import": "./src/code-block/index.ts"
     },
     "./list-item-block": {
-      "types": "./lib/list-item-block/index.d.ts",
-      "import": "./lib/list-item-block/index.es.js"
+      "import": "./src/list-item-block/index.ts"
     },
     "./link-tooltip": {
-      "types": "./lib/link-tooltip/index.d.ts",
-      "import": "./lib/link-tooltip/index.es.js"
+      "import": "./src/link-tooltip/index.ts"
     }
   },
-  "main": "./lib/index.es.js",
-  "types": "./lib/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "image-block": [
-        "./lib/image-block/index.d.ts"
-      ],
-      "code-block": [
-        "./lib/code-block/index.d.ts"
-      ],
-      "list-item-block": [
-        "./lib/list-item-block/index.d.ts"
-      ],
-      "link-tooltip": [
-        "./lib/link-tooltip/index.d.ts"
-      ]
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./lib/index.es.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./lib/index.d.ts",
+        "import": "./lib/index.es.js"
+      },
+      "./image-block": {
+        "types": "./lib/image-block/index.d.ts",
+        "import": "./lib/image-block/index.es.js"
+      },
+      "./code-block": {
+        "types": "./lib/code-block/index.d.ts",
+        "import": "./lib/code-block/index.es.js"
+      },
+      "./list-item-block": {
+        "types": "./lib/list-item-block/index.d.ts",
+        "import": "./lib/list-item-block/index.es.js"
+      },
+      "./link-tooltip": {
+        "types": "./lib/link-tooltip/index.d.ts",
+        "import": "./lib/link-tooltip/index.es.js"
+      }
+    },
+    "typesVersions": {
+      "*": {
+        "image-block": [
+          "./lib/image-block/index.d.ts"
+        ],
+        "code-block": [
+          "./lib/code-block/index.d.ts"
+        ],
+        "list-item-block": [
+          "./lib/list-item-block/index.d.ts"
+        ],
+        "link-tooltip": [
+          "./lib/link-tooltip/index.d.ts"
+        ]
+      }
     }
   },
   "files": [
@@ -75,7 +95,7 @@
     "@milkdown/transformer": "^7.2.0"
   },
   "dependencies": {
-    "@atomico/hooks": "^3.49.1",
+    "@atomico/hooks": "^3.50.2",
     "@floating-ui/dom": "^1.5.1",
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",

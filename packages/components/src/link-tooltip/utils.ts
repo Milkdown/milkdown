@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Mark, Node } from '@milkdown/prose/model'
 import type { Ctx } from '@milkdown/ctx'
-import type { EditorView } from '@milkdown/prose/lib/view'
+import type { EditorView } from '@milkdown/prose/view'
 import { linkSchema } from '@milkdown/preset-commonmark'
 import { linkPreviewTooltip } from './tooltips'
 
