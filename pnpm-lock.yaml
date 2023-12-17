@@ -246,8 +246,8 @@ importers:
   packages/components:
     dependencies:
       '@atomico/hooks':
-        specifier: ^3.49.1
-        version: 3.49.1(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.74.0)(dollars.js@0.6.2)(element-internals-polyfill@0.1.55)
+        specifier: ^3.50.2
+        version: 3.50.2(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/form-tools@0.0.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.74.0)
       '@floating-ui/dom':
         specifier: ^1.5.1
         version: 1.5.1
@@ -438,8 +438,8 @@ importers:
         specifier: workspace:*
         version: link:../prose
       y-prosemirror:
-        specifier: ^1.2.0
-        version: 1.2.0(y-protocols@1.0.5)(yjs@13.5.39)
+        specifier: ^1.2.1
+        version: 1.2.1(y-protocols@1.0.5)(yjs@13.5.39)
       y-protocols:
         specifier: ^1.0.5
         version: 1.0.5
@@ -1098,19 +1098,21 @@ packages:
     resolution: {integrity: sha512-4sKzBHVrV6eG1HiifxwweuvNkNwvMWyb3EA9n0Civg3NZFOPWjPsAM9/BFt9HalPNExl49GXPpSVRgWILQiI+A==}
     dev: false
 
-  /@atomico/hooks@3.49.1(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.74.0)(dollars.js@0.6.2)(element-internals-polyfill@0.1.55):
-    resolution: {integrity: sha512-ctGpDSoPA/qBxIWwC7KUHC3d7Cl9/GfEAJ8mlc5u45vcXyWUI8fnu9ER2KcK+JWk2N8pgXw5YYpsdhsCpMaQ+w==}
+  /@atomico/hooks@3.50.2(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/form-tools@0.0.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.74.0):
+    resolution: {integrity: sha512-mZvX3G165eiXK3J0GMBdXrs21NpDutSIuC2ULYszdxnBLGWnN43tKbAf/HK8TjJmkIMrO+QgvCIZptlM94afZA==}
     peerDependencies:
       '@atomico/channel': ^0.0.1
       '@lit/reactive-element': ^1.0.2
       '@uppercod/exp-route': ^1.3.0
+      '@uppercod/form-tools': ^0.0.0
       '@uppercod/hash': ^1.1.1
       '@uppercod/match-media': ^1.1.0
       atomico: ^1.68.0
       dollars.js: ^0.6.2
-      element-internals-polyfill: ^0.1.49
     peerDependenciesMeta:
       '@lit/reactive-element':
+        optional: true
+      dollars.js:
         optional: true
     dependencies:
       '@atomico/channel': 0.0.1
@@ -1119,8 +1121,6 @@ packages:
       '@uppercod/hash': 1.1.1
       '@uppercod/match-media': 1.1.1
       atomico: 1.74.0
-      dollars.js: 0.6.2
-      element-internals-polyfill: 0.1.55
     dev: false
 
   /@babel/code-frame@7.22.13:
@@ -7034,10 +7034,6 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dollars.js@0.6.2:
-    resolution: {integrity: sha512-MD+p6YpwsgrGRBU6qeHSE5hluf6tfS7s4nxKVI8OmGM6hIHfAWNmznZcO4D6KoGbH6X0gAGEuG2UbQ+0m9Vpzw==}
-    dev: false
-
   /dompurify@2.4.3:
     resolution: {integrity: sha512-q6QaLcakcRjebxjg8/+NP+h0rPfatOgOzc46Fst9VAA3jF2ApfKBNKMzdP4DYTqtUMXSCd5pRS/8Po/OmoCHZQ==}
     dev: false
@@ -7085,10 +7081,6 @@ packages:
   /electron-to-chromium@1.4.477:
     resolution: {integrity: sha512-shUVy6Eawp33dFBFIoYbIwLHrX0IZ857AlH9ug2o4rvbWmpaCUdBpQ5Zw39HRrfzAFm4APJE9V+E2A/WB0YqJw==}
     dev: true
-
-  /element-internals-polyfill@0.1.55:
-    resolution: {integrity: sha512-clsNGQoOsCs8zlkT3q8Sgk9JcFZgYT0cDuXPEmD7ca8bthrYjhXQ19cIz5JGmo8CfQ+g7+SXJkfqBVw5mWB64w==}
-    dev: false
 
   /elkjs@0.8.2:
     resolution: {integrity: sha512-L6uRgvZTH+4OF5NE/MBbzQx/WYpru1xCBE9respNj6qznEewGUIfhzmm7horWWxbNO2M0WckQypGctR8lH79xQ==}
@@ -11682,12 +11674,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /typescript@4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: true
-
   /typescript@5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
@@ -12202,8 +12188,8 @@ packages:
     engines: {node: '>=0.4'}
     dev: true
 
-  /y-prosemirror@1.2.0(y-protocols@1.0.5)(yjs@13.5.39):
-    resolution: {integrity: sha512-t3uxuX4HIkb1GNt8jV+dplRbNH2OmQD/BNeCCbjLD3Mq0o6JEXxHedv58ZIPFDE6ma24jljlL+u8pGvN6B37XQ==}
+  /y-prosemirror@1.2.1(y-protocols@1.0.5)(yjs@13.5.39):
+    resolution: {integrity: sha512-czMBfB1eL2awqmOSxQM8cS/fsUOGE6fjvyPLInrh4crPxFiw67wDpwIW+EGBYKRa04sYbS0ScGj7ZgvWuDrmBQ==}
     peerDependencies:
       prosemirror-model: ^1.7.1
       prosemirror-state: ^1.2.3
@@ -12219,7 +12205,6 @@ packages:
         optional: true
     dependencies:
       lib0: 0.2.51
-      typescript: 4.9.5
       y-protocols: 1.0.5
       yjs: 13.5.39
     dev: true
