@@ -57,4 +57,9 @@ export const cards: CardComponentProps[] = [
     description: 'Link tooltip component',
     link: '/link-tooltip/',
   },
+  {
+    title: 'Inline Image',
+    description: 'Inline image component',
+    link: '/inline-image/',
+  },
 ]
