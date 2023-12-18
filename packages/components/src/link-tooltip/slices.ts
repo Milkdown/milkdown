@@ -3,6 +3,7 @@ import { $ctx } from '@milkdown/utils'
 import type { Mark } from '@milkdown/prose/model'
 import { html } from 'atomico'
 import { edit, link, trash } from '../__internal__/icons'
+import { withMeta } from '../__internal__/meta'
 
 export interface LinkToolTipState {
   mode: 'preview' | 'edit'
@@ -13,6 +14,11 @@ const defaultState: LinkToolTipState = {
 }
 
 export const linkTooltipState = $ctx({ ...defaultState }, 'linkTooltipStateCtx')
+
+withMeta(linkTooltipState, {
+  displayName: 'State<link-tooltip>',
+  group: 'LinkTooltip',
+})
 
 export interface LinkTooltipAPI {
   addLink: (from: number, to: number) => void
@@ -27,6 +33,11 @@ const defaultAPI: LinkTooltipAPI = {
 }
 
 export const linkTooltipAPI = $ctx({ ...defaultAPI }, 'linkTooltipAPICtx')
+
+withMeta(linkTooltipState, {
+  displayName: 'API<link-tooltip>',
+  group: 'LinkTooltip',
+})
 
 export interface LinkTooltipConfig {
   linkIcon: () => ReturnType<typeof html>
@@ -49,3 +60,8 @@ const defaultConfig: LinkTooltipConfig = {
 export const linkTooltipConfig = $ctx({
   ...defaultConfig,
 }, 'linkTooltipConfigCtx')
+
+withMeta(linkTooltipState, {
+  displayName: 'Config<link-tooltip>',
+  group: 'LinkTooltip',
+})
