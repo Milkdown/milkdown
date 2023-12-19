@@ -110,7 +110,7 @@
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@types/lodash.debounce": "^4.0.7",
-    "atomico": "^1.74.0",
+    "atomico": "^1.75.0",
     "clsx": "^2.0.0",
     "lodash.debounce": "^4.0.8",
     "tslib": "^2.5.0",
