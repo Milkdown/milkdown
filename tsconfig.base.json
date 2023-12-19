@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "ES2020",
     "lib": ["dom", "es2017", "es2018", "es2019", "es2020", "es2021", "es2022"],
-    "module": "esnext",
+    "module": "ESNext",
 
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
 
     "strict": true,
     "noFallthroughCasesInSwitch": true,
