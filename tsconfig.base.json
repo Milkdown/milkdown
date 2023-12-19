@@ -6,6 +6,7 @@
 
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
 
     "strict": true,
     "noFallthroughCasesInSwitch": true,
