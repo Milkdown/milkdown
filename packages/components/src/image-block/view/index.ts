@@ -2,15 +2,14 @@
 import { $view } from '@milkdown/utils'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
 import type { Node } from '@milkdown/prose/model'
-import { c } from 'atomico'
 import { imageBlockSchema } from '../schema'
 import { imageBlockConfig } from '../config'
 import { withMeta } from '../../__internal__/meta'
 import type { ImageComponentProps } from './component'
-import { imageComponent } from './component'
+import { ImageElement } from './component'
 
 export const imageBlockView = $view(imageBlockSchema.node, (ctx): NodeViewConstructor => {
-  customElements.define('milkdown-image-block', c(imageComponent))
+  customElements.define('milkdown-image-block', ImageElement)
 
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-image-block') as HTMLElement & ImageComponentProps

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
-import { html, useEffect, useRef, useState } from 'atomico'
+import { c, html, useEffect, useRef, useState } from 'atomico'
 import clsx from 'clsx'
 import type { LinkTooltipConfig } from '../slices'
 
@@ -65,3 +65,5 @@ linkEditComponent.props = {
   onConfirm: Function,
   onCancel: Function,
 }
+
+export const LinkEditElement = c(linkEditComponent)

@@ -1,13 +1,12 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/ctx'
-import { c } from 'atomico'
 import { linkTooltipAPI } from '../slices'
 import { linkEditTooltip } from '../tooltips'
-import { linkEditComponent } from './edit-component'
+import { LinkEditElement } from './edit-component'
 import { LinkEditTooltip } from './edit-view'
 
 export function configureLinkEditTooltip(ctx: Ctx) {
-  customElements.define('milkdown-link-edit', c(linkEditComponent))
+  customElements.define('milkdown-link-edit', LinkEditElement)
   let linkEditTooltipView: LinkEditTooltip | null
 
   ctx.update(linkTooltipAPI.key, api => ({

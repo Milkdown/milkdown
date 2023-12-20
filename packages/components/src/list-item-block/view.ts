@@ -2,16 +2,15 @@
 import { $view } from '@milkdown/utils'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { TextSelection } from '@milkdown/prose/state'
-import { c } from 'atomico'
 import type { Node } from '@milkdown/prose/model'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 import { withMeta } from '../__internal__/meta'
 import type { ListItemComponentProps } from './component'
-import { listItemComponent } from './component'
+import { ListItemElement } from './component'
 import { listItemBlockConfig } from './config'
 
 export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConstructor => {
-  customElements.define('milkdown-list-item-block', c(listItemComponent))
+  customElements.define('milkdown-list-item-block', ListItemElement)
 
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-list-item-block') as HTMLElement & ListItemComponentProps

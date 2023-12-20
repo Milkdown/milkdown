@@ -1,7 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView as CodeMirror } from '@codemirror/view'
 import type { Component } from 'atomico'
-import { h, html, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
+import { c, h, html, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import { computePosition } from '@floating-ui/dom'
 import clsx from 'clsx'
@@ -197,3 +197,5 @@ codeComponent.props = {
   setLanguage: Function,
   config: Object,
 }
+
+export const CodeElement = c(codeComponent)
