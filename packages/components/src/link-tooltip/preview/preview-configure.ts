@@ -1,6 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/ctx'
-import { c } from 'atomico'
 import debounce from 'lodash.debounce'
 import type { EditorView } from '@milkdown/prose/view'
 import { posToDOMRect } from '@milkdown/prose'
@@ -8,10 +7,10 @@ import { linkTooltipState } from '../slices'
 import { findMarkPosition, shouldShowPreviewWhenHover } from '../utils'
 import { linkPreviewTooltip } from '../tooltips'
 import { LinkPreviewTooltip } from './preview-view'
-import { linkPreviewComponent } from './preview-component'
+import { LinkPreviewElement } from './preview-component'
 
 export function configureLinkPreviewTooltip(ctx: Ctx) {
-  customElements.define('milkdown-link-preview', c(linkPreviewComponent))
+  customElements.define('milkdown-link-preview', LinkPreviewElement)
   let linkPreviewTooltipView: LinkPreviewTooltip | null
 
   const DELAY = 200

@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
-import { html, useHost, useLayoutEffect, useRef } from 'atomico'
+import { c, html, useHost, useLayoutEffect, useRef } from 'atomico'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import clsx from 'clsx'
 import type { ListItemBlockConfig } from './config'
@@ -69,3 +69,5 @@ listItemComponent.props = {
   setAttr: Function,
   onMount: Function,
 }
+
+export const ListItemElement = c(listItemComponent)

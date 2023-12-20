@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
-import { html } from 'atomico'
+import { c, html } from 'atomico'
 import type { LinkTooltipConfig } from '../slices'
 
 export interface LinkPreviewProps {
@@ -59,3 +59,5 @@ linkPreviewComponent.props = {
   onEdit: Function,
   onRemove: Function,
 }
+
+export const LinkPreviewElement = c(linkPreviewComponent)

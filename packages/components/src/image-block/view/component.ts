@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
-import { html, useEffect, useRef, useState } from 'atomico'
+import { c, html, useEffect, useRef, useState } from 'atomico'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import clsx from 'clsx'
 import type { ImageBlockConfig } from '../config'
@@ -147,3 +147,5 @@ imageComponent.props = {
   setAttr: Function,
   config: Object,
 }
+
+export const ImageElement = c(imageComponent)

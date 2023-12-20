@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { html, useRef, useState } from 'atomico'
+import { c, html, useRef, useState } from 'atomico'
 import type { Component } from 'atomico'
 import clsx from 'clsx'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
@@ -108,3 +108,5 @@ inlineImageComponent.props = {
   setAttr: Function,
   config: Object,
 }
+
+export const InlineImageElement = c(inlineImageComponent)

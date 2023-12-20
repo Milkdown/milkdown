@@ -6,10 +6,10 @@ import { TooltipProvider } from '@milkdown/plugin-tooltip'
 import type { Ctx } from '@milkdown/ctx'
 import type { LinkToolTipState } from '../slices'
 import { linkTooltipAPI, linkTooltipConfig, linkTooltipState } from '../slices'
-import type { LinkPreviewProps } from './preview-component'
+import { LinkPreviewElement } from './preview-component'
 
 export class LinkPreviewTooltip implements PluginView {
-  #content = document.createElement('milkdown-link-preview') as HTMLElement & LinkPreviewProps
+  #content = new LinkPreviewElement()
   #provider = new TooltipProvider({
     debounce: 0,
     content: this.#content,

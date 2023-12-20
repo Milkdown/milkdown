@@ -9,7 +9,7 @@ import { editorViewCtx } from '@milkdown/core'
 import { posToDOMRect } from '@milkdown/prose'
 import { linkSchema } from '@milkdown/preset-commonmark'
 import { linkTooltipConfig, linkTooltipState } from '../slices'
-import type { LinkEditProps } from './edit-component'
+import { LinkEditElement } from './edit-component'
 
 interface Data {
   from: number
@@ -24,7 +24,7 @@ const defaultData: Data = {
 }
 
 export class LinkEditTooltip implements PluginView {
-  #content = document.createElement('milkdown-link-edit') as HTMLElement & LinkEditProps & { update(): Promise<void> }
+  #content = new LinkEditElement()
   #provider: TooltipProvider
   #data: Data = { ...defaultData }
 
