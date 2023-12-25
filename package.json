@@ -45,7 +45,7 @@
     "@types/node": "^20.0.0",
     "@types/rollup-plugin-auto-external": "^2.0.2",
     "@vitejs/plugin-react": "^4.0.0",
-    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue": "^5.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "autoprefixer": "^10.2.5",
     "concurrently": "^8.0.0",
