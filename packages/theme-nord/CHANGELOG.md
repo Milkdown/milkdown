@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.3.3
+
+### Patch Changes
+
+- 2770d92: Add inline image component and link tooltip component
+
 ## 7.3.2
 
 ### Patch Changes

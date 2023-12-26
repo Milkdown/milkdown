@@ -1,5 +1,26 @@
 # @milkdown/e2e
 
+## 7.3.3
+
+### Patch Changes
+
+- 2770d92: Add inline image component and link tooltip component
+- Updated dependencies [2770d92]
+  - @milkdown/components@7.3.3
+  - @milkdown/core@7.3.3
+  - @milkdown/ctx@7.3.3
+  - @milkdown/plugin-automd@7.3.3
+  - @milkdown/plugin-clipboard@7.3.3
+  - @milkdown/plugin-history@7.3.3
+  - @milkdown/plugin-listener@7.3.3
+  - @milkdown/plugin-math@7.3.3
+  - @milkdown/plugin-tooltip@7.3.3
+  - @milkdown/preset-commonmark@7.3.3
+  - @milkdown/preset-gfm@7.3.3
+  - @milkdown/prose@7.3.3
+  - @milkdown/theme-nord@7.3.3
+  - @milkdown/utils@7.3.3
+
 ## 7.3.2
 
 ### Patch Changes
