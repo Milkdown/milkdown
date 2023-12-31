@@ -20,4 +20,10 @@ describe('on markdown updated', () => {
 
     cy.get('@log').should('have.callCount', 3)
   })
+
+  it('value and default value', () => {
+    cy.get('.editor').type('A')
+
+    cy.get('@log').should('have.been.calledOnceWith', 'testA\n', 'test\n')
+  })
 })

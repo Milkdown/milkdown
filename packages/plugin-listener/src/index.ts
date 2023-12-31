@@ -19,8 +19,8 @@ import debounce from 'lodash.debounce'
 export interface Subscribers {
   beforeMount: ((ctx: Ctx) => void)[]
   mounted: ((ctx: Ctx) => void)[]
-  updated: ((ctx: Ctx, doc: ProseNode, prevDoc: ProseNode | null) => void)[]
-  markdownUpdated: ((ctx: Ctx, markdown: string, prevMarkdown: string | null) => void)[]
+  updated: ((ctx: Ctx, doc: ProseNode, prevDoc: ProseNode) => void)[]
+  markdownUpdated: ((ctx: Ctx, markdown: string, prevMarkdown: string) => void)[]
   blur: ((ctx: Ctx) => void)[]
   focus: ((ctx: Ctx) => void)[]
   destroy: ((ctx: Ctx) => void)[]
@@ -30,8 +30,8 @@ export interface Subscribers {
 export class ListenerManager {
   private beforeMountedListeners: Array<(ctx: Ctx) => void> = []
   private mountedListeners: Array<(ctx: Ctx) => void> = []
-  private updatedListeners: Array<(ctx: Ctx, doc: ProseNode, prevDoc: ProseNode | null) => void> = []
-  private markdownUpdatedListeners: Array<(ctx: Ctx, markdown: string, prevMarkdown: string | null) => void> = []
+  private updatedListeners: Array<(ctx: Ctx, doc: ProseNode, prevDoc: ProseNode) => void> = []
+  private markdownUpdatedListeners: Array<(ctx: Ctx, markdown: string, prevMarkdown: string) => void> = []
   private blurListeners: Array<(ctx: Ctx) => void> = []
   private focusListeners: Array<(ctx: Ctx) => void> = []
   private destroyListeners: Array<(ctx: Ctx) => void> = []
@@ -74,7 +74,7 @@ export class ListenerManager {
   /// Subscribe to the markdownUpdated event.
   /// This event will be triggered after the editor state is updated and **the document is changed**.
   /// The second parameter is the current markdown and the third parameter is the previous markdown.
-  markdownUpdated(fn: (ctx: Ctx, markdown: string, prevMarkdown: string | null) => void) {
+  markdownUpdated(fn: (ctx: Ctx, markdown: string, prevMarkdown: string) => void) {
     this.markdownUpdatedListeners.push(fn)
     return this
   }
@@ -147,8 +147,9 @@ export const listener: MilkdownPlugin = (ctx) => {
         },
       },
       state: {
-        init: () => {
-          // do nothing
+        init: (_, instance) => {
+          prevDoc = instance.doc
+          prevMarkdown = serializer(instance.doc)
         },
         apply: (tr) => {
           if (!tr.docChanged || tr.getMeta('addToHistory') === false)
@@ -156,16 +157,16 @@ export const listener: MilkdownPlugin = (ctx) => {
 
           const handler = debounce(() => {
             const { doc } = tr
-            if (listeners.updated.length > 0 && (prevDoc == null || !prevDoc.eq(doc))) {
+            if (listeners.updated.length > 0 && (prevDoc && !prevDoc.eq(doc))) {
               listeners.updated.forEach((fn) => {
-                fn(ctx, doc, prevDoc)
+                fn(ctx, doc, prevDoc!)
               })
             }
 
-            if (listeners.markdownUpdated.length > 0 && (prevDoc == null || !prevDoc.eq(doc))) {
+            if (listeners.markdownUpdated.length > 0 && (prevDoc && !prevDoc.eq(doc))) {
               const markdown = serializer(doc)
               listeners.markdownUpdated.forEach((fn) => {
-                fn(ctx, markdown, prevMarkdown)
+                fn(ctx, markdown, prevMarkdown!)
               })
               prevMarkdown = markdown
             }
