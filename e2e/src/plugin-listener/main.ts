@@ -1,6 +1,6 @@
 /* Copyright 2021, Milkdown by Mirone. */
 
-import { Editor, rootCtx } from '@milkdown/core'
+import { Editor, defaultValueCtx, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
@@ -15,9 +15,10 @@ setup(() => {
   return Editor.make()
     .config((ctx) => {
       ctx.set(rootCtx, document.getElementById('app'))
-      ctx.get(listenerCtx).markdownUpdated((_, markdown) => {
+      ctx.set(defaultValueCtx, 'test')
+      ctx.get(listenerCtx).markdownUpdated((_, markdown, prevMarkdown) => {
         // eslint-disable-next-line no-console
-        console.log(markdown)
+        console.log(markdown, prevMarkdown)
       })
     })
     .config(nord)
