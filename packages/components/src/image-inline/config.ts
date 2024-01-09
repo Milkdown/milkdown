@@ -23,6 +23,6 @@ export const defaultInlineImageConfig: InlineImageConfig = {
 export const inlineImageConfig = $ctx(defaultInlineImageConfig, 'inlineImageConfigCtx')
 
 withMeta(inlineImageConfig, {
-  displayName: 'Config<inline-image>',
-  group: 'InlineImage',
+  displayName: 'Config<image-inline>',
+  group: 'ImageInline',
 })

@@ -8,7 +8,7 @@ export * from './config'
 export * from './style'
 export * from './view'
 
-export const inlineImage: MilkdownPlugin[] = [
+export const imageInlineComponent: MilkdownPlugin[] = [
   inlineImageConfig,
   inlineImageView,
 ]

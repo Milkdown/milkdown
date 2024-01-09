@@ -29,8 +29,8 @@
     "./link-tooltip": {
       "import": "./src/link-tooltip/index.ts"
     },
-    "./inline-image": {
-      "import": "./src/inline-image/index.ts"
+    "./image-inline": {
+      "import": "./src/image-inline/index.ts"
     }
   },
   "main": "./src/index.ts",
@@ -58,9 +58,9 @@
         "types": "./lib/link-tooltip/index.d.ts",
         "import": "./lib/link-tooltip/index.es.js"
       },
-      "./inline-image": {
-        "types": "./lib/inline-image/index.d.ts",
-        "import": "./lib/inline-image/index.es.js"
+      "./image-inline": {
+        "types": "./lib/image-inline/index.d.ts",
+        "import": "./lib/image-inline/index.es.js"
       }
     },
     "typesVersions": {
@@ -77,8 +77,8 @@
         "link-tooltip": [
           "./lib/link-tooltip/index.d.ts"
         ],
-        "inline-image": [
-          "./lib/inline-image/index.d.ts"
+        "image-inline": [
+          "./lib/image-inline/index.d.ts"
         ]
       }
     }

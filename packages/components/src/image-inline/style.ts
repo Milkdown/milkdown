@@ -19,24 +19,24 @@ export const style = css`
     vertical-align: bottom;
   }
 
-  :host > .empty-inline-image {
+  :host > .empty-image-inline {
     display: inline-flex;
   }
 
-  :host > .empty-inline-image .confirm {
+  :host > .empty-image-inline .confirm {
     cursor: pointer;
   }
 
-  :host > .empty-inline-image .link-importer {
+  :host > .empty-image-inline .link-importer {
     position: relative;
     flex: 1;
   }
 
-  :host > .empty-inline-image .link-importer > .link-input-area {
+  :host > .empty-image-inline .link-importer > .link-input-area {
     width: 208px;
   }
 
-  :host > .empty-inline-image .link-importer .placeholder {
+  :host > .empty-image-inline .link-importer .placeholder {
     position: absolute;
     top: 0;
     left: 0;
@@ -46,7 +46,7 @@ export const style = css`
     cursor: text;
   }
 
-  :host > .empty-inline-image .link-importer .placeholder .uploader {
+  :host > .empty-image-inline .link-importer .placeholder .uploader {
     cursor: pointer;
     display: flex;
   }
