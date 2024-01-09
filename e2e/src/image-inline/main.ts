@@ -4,7 +4,7 @@ import { Editor, defaultValueCtx, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
-import { inlineImage } from '@milkdown/components/inline-image'
+import { imageInlineComponent } from '@milkdown/components/image-inline'
 
 import { setup } from '../utils'
 
@@ -15,7 +15,7 @@ import '../style.css'
 import './style.css'
 
 const markdown = `
-# Inline Image
+# Image Inline
 
 Inline image: ![milkdown logo](https://github.com/Milkdown/milkdown/actions/workflows/ci.yml/badge.svg) do ![empty image]() you like it?
 `
@@ -28,7 +28,7 @@ setup(() => {
     })
     .config(nord)
     .use(history)
-    .use(inlineImage)
+    .use(imageInlineComponent)
     .use(commonmark)
     .create()
 })

@@ -1,0 +1,59 @@
+milkdown-image-inline.selected > .image-inline {
+  outline: 2px solid fuchsia;
+}
+
+milkdown-image-inline.selected > .empty-image-inline {
+  outline: 2px solid fuchsia;
+}
+
+milkdown-image-inline > .empty-image-inline {
+  align-items: center;
+  padding: 4px 8px;
+  gap: 16px;
+  background: oldlace;
+}
+
+milkdown-image-inline > .empty-image-inline .image-icon {
+  color: darkgray;
+}
+
+milkdown-image-inline > .empty-image-inline .image-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+milkdown-image-inline > .empty-image-inline .link-importer .placeholder {
+  color: darkgray;
+}
+
+milkdown-image-inline > .empty-image-inline .link-importer .link-input-area {
+  line-height: 24px;
+}
+
+milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader {
+  gap: 8px;
+  color: fuchsia;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+milkdown-image-inline > .empty-image-inline .link-importer.focus .placeholder .uploader {
+  color: unset;
+}
+
+milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader:hover {
+  color: fuchsia;
+}
+
+milkdown-image-inline > .empty-image-inline .link-importer .placeholder .text {
+  margin-left: 8px;
+}
+
+milkdown-image-inline > .empty-image-inline .confirm {
+  background: darkgray;
+  color: antiquewhite;
+  line-height: 28px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 12px;
+}

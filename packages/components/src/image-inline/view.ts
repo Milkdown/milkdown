@@ -9,10 +9,10 @@ import { InlineImageElement } from './component'
 import { inlineImageConfig } from './config'
 
 export const inlineImageView = $view(imageSchema.node, (ctx): NodeViewConstructor => {
-  customElements.define('milkdown-inline-image', InlineImageElement)
+  customElements.define('milkdown-image-inline', InlineImageElement)
 
   return (initialNode, view, getPos) => {
-    const dom = document.createElement('milkdown-inline-image') as HTMLElement & InlineImageComponentProps
+    const dom = document.createElement('milkdown-image-inline') as HTMLElement & InlineImageComponentProps
     const config = ctx.get(inlineImageConfig.key)
     const bindAttrs = (node: Node) => {
       dom.src = node.attrs.src
@@ -58,6 +58,6 @@ export const inlineImageView = $view(imageSchema.node, (ctx): NodeViewConstructo
 })
 
 withMeta(inlineImageView, {
-  displayName: 'NodeView<inline-image>',
-  group: 'InlineImage',
+  displayName: 'NodeView<image-inline>',
+  group: 'ImageInline',
 })

@@ -64,7 +64,7 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
 
   return html`<host class=${clsx(selected && 'selected', !src && 'empty')}>
     ${!src
-      ? html`<div class="empty-inline-image">
+      ? html`<div class="empty-image-inline">
         <div class="image-icon">
           ${config?.imageIcon()}
         </div>
@@ -95,7 +95,7 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
           ${config?.confirmButton()}
         </div>
       </div>`
-      : html`<img class="inline-image" src=${src} alt=${alt} title=${title} />`
+      : html`<img class="image-inline" src=${src} alt=${alt} title=${title} />`
     }
   </host>`
 }
