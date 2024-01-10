@@ -9,10 +9,21 @@
     "directory": "packages/exception"
   },
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
   "main": "./src/index.ts",
   "publishConfig": {
     "main": "./lib/index.es.js",
-    "types": "./lib/index.d.ts"
+    "types": "./lib/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./lib/index.es.js",
+        "types": "./lib/index.d.ts"
+      }
+    }
   },
   "files": [
     "lib",
