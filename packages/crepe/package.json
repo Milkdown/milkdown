@@ -1,0 +1,82 @@
+{
+  "name": "@milkdown/crepe",
+  "type": "module",
+  "version": "7.3.3",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milkdown/milkdown.git",
+    "directory": "packages/plugin-cursor"
+  },
+  "keywords": [
+    "milkdown",
+    "milkdown plugin",
+    "crepe",
+    "editor"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./lib/index.es.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./lib/index.es.js",
+        "types": "./lib/index.d.ts"
+      }
+    }
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+    "test": "vitest",
+    "tsc": "tsc --noEmit && echo",
+    "build": "vite build && tsc --emitDeclarationOnly"
+  },
+  "dependencies": {
+    "atomico": "^1.75.1"
+  },
+  "devDependencies": {
+    "@emotion/css": "^11.11.2",
+    "@milkdown/components": "workspace:*",
+    "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
+    "@milkdown/plugin-history": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "nanoid": "^5.0.0",
+    "tslib": "^2.5.0"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
+    }
+  }
+}

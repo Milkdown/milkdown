@@ -35,7 +35,6 @@ export class LinkEditTooltip implements PluginView {
       shouldShow: () => false,
       tippyOptions: {
         arrow: false,
-        appendTo: document.body,
         delay: 0,
         duration: 0,
         onHidden: () => {

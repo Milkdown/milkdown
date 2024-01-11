@@ -1,0 +1,142 @@
+.milkdown {
+  --crepe-color-background: #FFFDFB;
+  --crepe-color-on-background: #1F1B16;
+  --crepe-color-surface: #FFF8F4;
+  --crepe-color-on-surface: #201B13;
+  --crepe-color-outline: #817567;
+  --crepe-color-primary: #805610;
+  --crepe-color-inline-code: #BA1A1A;
+  --crepe-color-error: #BA1A1A;
+  --crepe-color-hover: #F9ECDF;
+  --crepe-color-selected: #EDE0D4;
+  --crepe-color-inline-area: #E4D8CC;
+
+  --crepe-font-title: Georgia, Cambria, "Times New Roman", Times, serif;
+  --crepe-font-default: "Open Sans", Arial, Helvetica, sans-serif;
+  --crepe-font-code: Fira Code, Menlo, Monaco, "Courier New", Courier, monospace;
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  button,
+  input {
+    border:none;
+    background: none;
+    box-shadow: none;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  font-family: var(--crepe-font-default);
+  color: var(--crepe-color-on-background);
+
+  padding: 0 120px;
+
+  .ProseMirror-focused {
+    outline: none;
+  }
+
+  .ProseMirror {
+    & > * {
+      margin: 20px 0 40px;
+    }
+
+    *::selection {
+      background: var(--crepe-color-selected);
+    }
+
+    li.ProseMirror-selectednode {
+      outline: 10px solid var(--crepe-color-selected);
+    }
+    li.ProseMirror-selectednode:after {
+      all: unset;
+    }
+
+    .ProseMirror-selectednode {
+      background: var(--crepe-color-selected);
+      outline: 10px solid var(--crepe-color-selected);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: var(--crepe-font-title);
+      font-weight: 400;
+    }
+
+    h1 {
+      font-size: 42px;
+      line-height: 50px;
+    }
+
+    h2 {
+      font-size: 36px;
+      line-height: 44px;
+    }
+
+    h3 {
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    h4 {
+      font-size: 28px;
+      line-height: 36px;
+    }
+
+    h5 {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    h6 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+
+      code {
+        color: var(--crepe-color-inline-code);
+        background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
+        padding: 0 10px;
+        border-radius: 4px;
+      }
+
+      a {
+        color: var(--crepe-color-primary);
+      }
+    }
+
+    blockquote {
+      position: relative;
+      padding-left: 40px;
+      &::before {
+        content: "";
+        width: 4px;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        background: var(--crepe-color-selected);
+        border-radius: 100px;
+      }
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      background-clip: content-box;
+    }
+  }
+}
