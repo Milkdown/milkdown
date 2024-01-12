@@ -1,9 +1,9 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import type { Editor } from '@milkdown/core'
 import type { Ctx } from '@milkdown/ctx'
 import { listItemBlockComponent, listItemBlockConfig } from '@milkdown/components/list-item-block'
 import { html } from 'atomico'
 import { injectStyle } from '../../core/slice'
+import type { DefineFeature } from '../shared'
 import { bulletIcon } from './consts'
 import style from './style.css?inline'
 
@@ -22,7 +22,7 @@ function configureListItem(ctx: Ctx) {
   })
 }
 
-export function defineFeature(editor: Editor) {
+export const defineFeature: DefineFeature = (editor) => {
   editor
     .config(injectStyle(style))
     .config(configureListItem)

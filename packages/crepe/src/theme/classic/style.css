@@ -105,16 +105,26 @@
     p {
       font-size: 16px;
       line-height: 24px;
+    }
 
+    code {
+      color: var(--crepe-color-inline-code);
+      background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
+      padding: 0 10px;
+      border-radius: 4px;
+    }
+
+    a {
+      color: var(--crepe-color-primary);
+    }
+
+    pre {
+      background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
+      padding: 10px;
+      border-radius: 4px;
       code {
-        color: var(--crepe-color-inline-code);
-        background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
-        padding: 0 10px;
-        border-radius: 4px;
-      }
-
-      a {
-        color: var(--crepe-color-primary);
+        padding: 0;
+        background: transparent;
       }
     }
 

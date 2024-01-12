@@ -7,9 +7,10 @@ export enum CrepeFeature {
   LinkTooltip = 'link-tooltip',
 }
 
-export const defaultFeatures: Partial<Record<CrepeFeature, boolean>> = {
+export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.ListItem]: true,
   [CrepeFeature.LinkTooltip]: true,
+  [CrepeFeature.CodeMirror]: false,
 }
 
 export async function loadFeature(feature: CrepeFeature, editor: Editor) {

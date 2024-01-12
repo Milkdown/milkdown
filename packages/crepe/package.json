@@ -45,6 +45,9 @@
     "atomico": "^1.75.1"
   },
   "devDependencies": {
+    "@codemirror/commands": "^6.2.4",
+    "@codemirror/language-data": "^6.3.1",
+    "@codemirror/view": "^6.16.0",
     "@emotion/css": "^11.11.2",
     "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
@@ -52,7 +55,9 @@
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "codemirror": "^6.0.1",
     "nanoid": "^5.0.0",
+    "thememirror": "^2.0.1",
     "tslib": "^2.5.0"
   },
   "nx": {

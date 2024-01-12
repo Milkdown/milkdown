@@ -4,11 +4,10 @@ import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdow
 
 import { history } from '@milkdown/plugin-history'
 import { commonmark } from '@milkdown/preset-commonmark'
-import type { CrepeTheme } from '../theme'
-import { loadTheme } from '../theme'
+import { CrepeTheme, loadTheme } from '../theme'
 import type { CrepeFeature } from '../feature'
 import { defaultFeatures, loadFeature } from '../feature'
-import { configureEmotion } from './slice'
+import { configureEmotion, configureTheme } from './slice'
 
 export interface CrepeConfig {
   theme?: CrepeTheme
@@ -24,14 +23,15 @@ export class Crepe {
   #editable = true
 
   constructor({
-    theme,
+    theme = CrepeTheme.Classic,
     root,
     features = {},
     defaultValue = '',
   }: CrepeConfig) {
     this.#rootElement = (typeof root === 'string' ? document.querySelector(root) : root) ?? document.body
     this.#editor = Editor.make()
-      .config(ctx => configureEmotion(this.#rootElement, ctx))
+      .config(configureEmotion(this.#rootElement))
+      .config(configureTheme(theme))
       .config((ctx) => {
         ctx.set(rootCtx, this.#rootElement)
         ctx.set(defaultValueCtx, defaultValue)
@@ -42,14 +42,12 @@ export class Crepe {
       .use(commonmark)
       .use(history)
 
-    const promiseList: Promise<unknown>[] = []
+    const promiseList: Promise<unknown>[] = [loadTheme(theme, this.#editor)]
+
     const enabledFeatures = Object.entries({
       ...defaultFeatures,
       ...features,
     }).filter(([, enabled]) => enabled).map(([feature]) => feature as CrepeFeature)
-
-    if (theme)
-      promiseList.push(loadTheme(theme, this.#editor))
 
     enabledFeatures.forEach((feature) => {
       promiseList.push(
