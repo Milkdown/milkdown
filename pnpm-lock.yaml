@@ -362,9 +362,15 @@ importers:
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../ctx
+      '@milkdown/plugin-cursor':
+        specifier: workspace:*
+        version: link:../plugin-cursor
       '@milkdown/plugin-history':
         specifier: workspace:*
         version: link:../plugin-history
+      '@milkdown/plugin-indent':
+        specifier: workspace:*
+        version: link:../plugin-indent
       '@milkdown/preset-commonmark':
         specifier: workspace:*
         version: link:../preset-commonmark

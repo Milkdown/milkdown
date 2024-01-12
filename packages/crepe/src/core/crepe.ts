@@ -4,6 +4,8 @@ import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdow
 
 import { history } from '@milkdown/plugin-history'
 import { commonmark } from '@milkdown/preset-commonmark'
+import { cursor } from '@milkdown/plugin-cursor'
+import { indent, indentConfig } from '@milkdown/plugin-indent'
 import { CrepeTheme, loadTheme } from '../theme'
 import type { CrepeFeature } from '../feature'
 import { defaultFeatures, loadFeature } from '../feature'
@@ -38,16 +40,25 @@ export class Crepe {
         ctx.set(editorViewOptionsCtx, {
           editable: () => this.#editable,
         })
+        ctx.update(indentConfig.key, value => ({
+          ...value,
+          size: 4,
+        }))
       })
       .use(commonmark)
       .use(history)
+      .use(cursor)
+      .use(indent)
 
     const promiseList: Promise<unknown>[] = [loadTheme(theme, this.#editor)]
 
-    const enabledFeatures = Object.entries({
-      ...defaultFeatures,
-      ...features,
-    }).filter(([, enabled]) => enabled).map(([feature]) => feature as CrepeFeature)
+    const enabledFeatures = Object
+      .entries({
+        ...defaultFeatures,
+        ...features,
+      })
+      .filter(([, enabled]) => enabled)
+      .map(([feature]) => feature as CrepeFeature)
 
     enabledFeatures.forEach((feature) => {
       promiseList.push(

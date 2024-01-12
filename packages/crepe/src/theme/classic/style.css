@@ -61,6 +61,16 @@
       outline: 10px solid var(--crepe-color-selected);
     }
 
+    img {
+      vertical-align: bottom;
+      max-width: 100%;
+
+      &.ProseMirror-selectednode {
+        background: none;
+        outline: 2px solid var(--crepe-color-primary);
+      }
+    }
+
     h1,
     h2,
     h3,
@@ -147,6 +157,16 @@
       height: 1px;
       background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
       background-clip: content-box;
+
+      &.ProseMirror-selectednode {
+        outline: 2px solid var(--crepe-color-primary);
+      }
+    }
+
+    .ProseMirror-gapcursor:after {
+      box-sizing: border-box;
+      border-top: 1px solid var(--crepe-color-on-background);
+      top: -40px;
     }
   }
 }
