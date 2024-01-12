@@ -1,0 +1,91 @@
+.milkdown {
+  milkdown-image-inline {
+    &.empty.selected {
+      background: none;
+      outline: none;
+      .empty-image-inline {
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+      }
+    }
+    &.selected {
+      background: none;
+      outline: 2px solid var(--crepe-color-primary);
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    img.image-inline {
+      vertical-align: text-bottom;
+    }
+
+    .empty-image-inline {
+      align-items: center;
+      padding: 4px 10px;
+      gap: 10px;
+      background: oldlace;
+      font-family: var(--crepe-font-default);
+      border-radius: 8px;
+    }
+
+    .empty-image-inline .image-icon {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+      padding: 3px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .empty-image-inline .link-importer {
+      height: 24px;
+    }
+
+    .empty-image-inline .link-importer .placeholder {
+      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    .empty-image-inline .link-importer .link-input-area {
+      line-height: 24px;
+    }
+
+    .empty-image-inline .link-importer .placeholder .uploader {
+      gap: 8px;
+      color: var(--crepe-color-primary);
+      justify-content: center;
+      transition: color 0.2s;
+      font-family: var(--crepe-font-default);
+    }
+
+    .empty-image-inline .link-importer.focus .placeholder .uploader {
+      color: unset;
+    }
+
+    .empty-image-inline .link-importer .placeholder .uploader:hover {
+      color: var(--crepe-color-primary);
+    }
+
+    .empty-image-inline .link-importer .placeholder .text {
+      margin-left: 8px;
+    }
+
+    .empty-image-inline .confirm {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+      width: 24px;
+      height: 24px;
+      padding: 3px;
+      border-radius: 8px;
+      color: var(--crepe-color-primary);
+      &:hover {
+        background: var(--crepe-color-hover);
+      }
+    }
+  }
+}

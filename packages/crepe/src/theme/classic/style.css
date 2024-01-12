@@ -33,14 +33,15 @@
 
   font-family: var(--crepe-font-default);
   color: var(--crepe-color-on-background);
-
-  padding: 0 120px;
+  background: var(--crepe-color-background);
 
   .ProseMirror-focused {
     outline: none;
   }
 
   .ProseMirror {
+    padding: 20px 120px;
+
     & > * {
       margin: 20px 0 40px;
     }

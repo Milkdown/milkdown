@@ -1,10 +1,47 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { imageBlockComponent } from '@milkdown/components/image-block'
-import { imageInlineComponent } from '@milkdown/components/image-inline'
+import { imageInlineComponent, inlineImageConfig } from '@milkdown/components/image-inline'
+import { html } from 'atomico'
 import type { DefineFeature } from '../shared'
+import { injectStyle } from '../../core/slice'
+import style from './style.css?inline'
+
+const imageIcon = html`
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <g clip-path="url(#clip0_1013_1596)">
+      <path d="M19 5V19H5V5H19ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14.14 11.86L11.14 15.73L9 13.14L6 17H18L14.14 11.86Z" fill="#817567"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_1013_1596">
+        <rect width="24" height="24" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+`
+
+const confirmIcon = html`
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <g clip-path="url(#clip0_1013_1606)">
+      <path d="M9.00012 16.1998L5.50012 12.6998C5.11012 12.3098 4.49012 12.3098 4.10012 12.6998C3.71012 13.0898 3.71012 13.7098 4.10012 14.0998L8.29012 18.2898C8.68012 18.6798 9.31012 18.6798 9.70012 18.2898L20.3001 7.69982C20.6901 7.30982 20.6901 6.68982 20.3001 6.29982C19.9101 5.90982 19.2901 5.90982 18.9001 6.29982L9.00012 16.1998Z" fill="#817567"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_1013_1606">
+        <rect width="24" height="24" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+`
 
 export const defineFeature: DefineFeature = (editor) => {
   editor
+    .config(injectStyle(style))
+    .config((ctx) => {
+      ctx.update(inlineImageConfig.key, value => ({
+        ...value,
+        imageIcon: () => imageIcon,
+        confirmButton: () => confirmIcon,
+      }))
+    })
     .use(imageBlockComponent)
     .use(imageInlineComponent)
 }
