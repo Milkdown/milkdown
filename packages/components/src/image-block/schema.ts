@@ -11,6 +11,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
     group: 'block',
     selectable: true,
     draggable: true,
+    isolating: true,
     marks: '',
     atom: true,
     priority: 100,

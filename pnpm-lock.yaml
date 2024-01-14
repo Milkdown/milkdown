@@ -362,6 +362,9 @@ importers:
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../ctx
+      '@milkdown/plugin-block':
+        specifier: workspace:*
+        version: link:../plugin-block
       '@milkdown/plugin-clipboard':
         specifier: workspace:*
         version: link:../plugin-clipboard

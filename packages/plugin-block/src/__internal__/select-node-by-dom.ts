@@ -37,17 +37,24 @@ export function selectRootNodeByDom(dom: Element, view: EditorView, filterNodes:
   let $pos = view.state.doc.resolve(pos)
   let node = $pos.node()
 
-  if (node.type.name === 'doc')
-    return null
+  if (node.type.name === 'doc') {
+    const _node = view.state.doc.nodeAt(pos)
+    if (!_node)
+      return null
+
+    node = _node
+  }
 
   while (node && (nodeIsNotBlock(node) || nodeIsFirstChild($pos) || !filterNodes(node))) {
     $pos = view.state.doc.resolve($pos.before())
     node = $pos.node()
   }
 
-  $pos = view.state.doc.resolve($pos.pos - $pos.parentOffset)
+  $pos = $pos.pos - $pos.parentOffset === 0 ? $pos : view.state.doc.resolve($pos.pos - $pos.parentOffset)
 
   const el = getDOMByPos(view, root, $pos)
+  if (!el)
+    return null
 
   return { node, $pos, el }
 }
