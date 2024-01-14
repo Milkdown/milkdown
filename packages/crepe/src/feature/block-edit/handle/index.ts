@@ -50,6 +50,11 @@ export class BlockHandleView implements PluginView {
     this.#provider = new BlockProvider({
       ctx,
       content,
+      tippyOptions: {
+        arrow: false,
+        delay: 0,
+        duration: 0,
+      },
     })
   }
 
