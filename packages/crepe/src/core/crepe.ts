@@ -5,6 +5,7 @@ import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdow
 import { history } from '@milkdown/plugin-history'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { indent, indentConfig } from '@milkdown/plugin-indent'
+import { clipboard } from '@milkdown/plugin-clipboard'
 import { CrepeTheme, loadTheme } from '../theme'
 import type { CrepeFeature } from '../feature'
 import { defaultFeatures, loadFeature } from '../feature'
@@ -47,6 +48,7 @@ export class Crepe {
       .use(commonmark)
       .use(history)
       .use(indent)
+      .use(clipboard)
 
     const promiseList: Promise<unknown>[] = [loadTheme(theme, this.#editor)]
 

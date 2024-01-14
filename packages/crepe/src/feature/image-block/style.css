@@ -4,12 +4,13 @@
       background: none;
       outline: none;
       .empty-image-inline {
-        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+        box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.30);
       }
     }
+
     &.selected {
       background: none;
-      outline: 2px solid var(--crepe-color-primary);
+      outline: 1px solid var(--crepe-color-primary);
       ::selection {
         background: transparent;
       }
@@ -23,7 +24,7 @@
       align-items: center;
       padding: 4px 10px;
       gap: 10px;
-      background: oldlace;
+      background: #FFF8F4;
       font-family: var(--crepe-font-default);
       border-radius: 8px;
     }
@@ -86,6 +87,121 @@
       &:hover {
         background: var(--crepe-color-hover);
       }
+    }
+  }
+
+  milkdown-image-block {
+    &.selected > .image-edit {
+      outline: 1px solid var(--crepe-color-outline);
+    }
+
+    &.selected {
+      & > .image-wrapper img {
+        outline: 1px solid var(--crepe-color-outline);
+      }
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    .image-wrapper .operation {
+      gap: 16px;
+      right: 16px;
+      top: 16px;
+      opacity: 0;
+      transition: all 0.2s;
+    }
+
+    &:hover > .image-wrapper .operation {
+      opacity: 1;
+    }
+
+    .image-wrapper .operation > .operation-item {
+      color: #FCEFE2;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .image-wrapper .image-resize-handle {
+      height: 4px;
+      bottom: -3px;
+      max-width: 160px;
+      width: 100%;
+      background: var(--crepe-color-outline);
+      opacity: 0;
+      transition: all 0.2s;
+      border-radius: 4px;
+    }
+
+    &:hover > .image-wrapper .image-resize-handle {
+      opacity: 1;
+    }
+
+    .caption-input {
+      margin: 16px auto;
+    }
+
+    .image-edit {
+      align-items: center;
+      padding: 16px 24px;
+      gap: 16px;
+      background: #FFF8F4;
+      height: 56px;
+    }
+
+    .image-edit .image-icon {
+      color: var(--crepe-color-outline);
+    }
+
+    .image-edit .image-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .image-edit .link-importer .placeholder {
+      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    .image-edit .link-importer .link-input-area {
+      line-height: 24px;
+    }
+
+    .image-edit .link-importer .placeholder .uploader {
+      gap: 8px;
+      color: var(--crepe-color-primary);
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .image-edit .link-importer.focus .placeholder .uploader {
+      color: unset;
+    }
+
+    .image-edit .link-importer .placeholder .uploader:hover {
+      color: var(--crepe-color-primary);
+    }
+
+    .image-edit .link-importer .placeholder .text {
+      margin-left: 8px;
+    }
+
+    .image-edit .confirm {
+      background: #FBDEBC;
+      color: #271904;
+      line-height: 40px;
+      padding: 0 24px;
+      border-radius: 100px;
+      font-size: 14px;
     }
   }
 }
