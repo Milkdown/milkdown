@@ -1,0 +1,25 @@
+.milkdown {
+  milkdown-block-handle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    padding-right: 4px;
+
+    .operation-item {
+      border-radius: 4px;
+      width: 24px;
+      height: 24px;
+      padding: 2px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        background: var(--crepe-color-hover);
+      }
+    }
+  }
+}

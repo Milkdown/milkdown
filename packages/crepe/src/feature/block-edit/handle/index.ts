@@ -35,8 +35,12 @@ const plusIcon = html`
 const blockHandleComponent: Component = () => {
   return html`
     <host>
-      ${plusIcon}
-      ${menuIcon}
+      <div class="operation-item">
+        ${plusIcon}
+      </div>
+      <div class="operation-item">
+        ${menuIcon}
+      </div>
     </host>
   `
 }

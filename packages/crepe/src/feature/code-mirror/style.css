@@ -3,134 +3,138 @@
     padding: 24px 40px;
     background: #faf4ed;
     margin: 20px 0;
-  }
 
-  milkdown-code-block .cm-editor {
-    outline: none !important;
-  }
+    &.selected {
+      outline: 1px solid var(--crepe-color-primary);
+    }
 
-  milkdown-code-block .language-button {
-    font-family: var(--crepe-font-code);
-    gap: 6px;
-    padding: 6px 8px 6px 18px;
-    background: antiquewhite;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 24px;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-  }
+    .cm-editor {
+      outline: none !important;
+    }
 
-  milkdown-code-block:hover .language-button {
-    opacity: 1;
-  }
+    .language-button {
+      font-family: var(--crepe-font-code);
+      gap: 6px;
+      padding: 6px 8px 6px 18px;
+      background: antiquewhite;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 24px;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
 
-  milkdown-code-block .language-button:hover {
-    background: bisque;
-  }
+    &:hover .language-button {
+      opacity: 1;
+    }
 
-  milkdown-code-block .language-button .expand-icon {
-    transition: transform 0.2s ease-in-out;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    .language-button:hover {
+      background: bisque;
+    }
 
-  milkdown-code-block .language-button .expand-icon svg {
-    width: 14px;
-    height: 14px;
-  }
+    .language-button .expand-icon {
+      transition: transform 0.2s ease-in-out;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  milkdown-code-block .language-button[data-expanded="true"] .expand-icon {
-    transform: rotate(180deg);
-  }
+    .language-button .expand-icon svg {
+      width: 14px;
+      height: 14px;
+    }
 
-  milkdown-code-block .language-button .expand-icon svg:focus,
-  milkdown-code-block .language-button .expand-icon:focus-visible {
-    outline: none;
-  }
+    .language-button[data-expanded="true"] .expand-icon {
+      transform: rotate(180deg);
+    }
 
-  milkdown-code-block .language-picker {
-    padding-top: 16px;
-  }
+    .language-button .expand-icon svg:focus,
+    .language-button .expand-icon:focus-visible {
+      outline: none;
+    }
 
-  milkdown-code-block .list-wrapper {
-    background: antiquewhite;
-    border-radius: 16px;
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-    width: 220px;
-  }
+    .language-picker {
+      padding-top: 16px;
+    }
 
-  milkdown-code-block .language-list {
-    height: 356px;
-    overflow-y: auto;
-    margin: 0;
-    padding: 0;
-  }
+    .list-wrapper {
+      background: antiquewhite;
+      border-radius: 16px;
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+      width: 220px;
+    }
 
-  milkdown-code-block .language-list-item {
-    cursor: pointer;
-    margin: 0;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 8px;
-    font-size: 12px;
-  }
+    .language-list {
+      height: 356px;
+      overflow-y: auto;
+      margin: 0;
+      padding: 0;
+    }
 
-  milkdown-code-block .language-list-item:hover {
-    background: cornsilk;
-  }
+    .language-list-item {
+      cursor: pointer;
+      margin: 0;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 8px;
+      font-size: 12px;
+    }
 
-  milkdown-code-block .language-list-item:focus-visible {
-    outline: none;
-    background: cornsilk;
-  }
+    .language-list-item:hover {
+      background: cornsilk;
+    }
 
-  milkdown-code-block .language-list-item .leading,
-  milkdown-code-block .language-list-item .leading svg {
-    width: 16px;
-    height: 16px;
-  }
+    .language-list-item:focus-visible {
+      outline: none;
+      background: cornsilk;
+    }
 
-  milkdown-code-block .list-wrapper {
-    padding-top: 20px;
-  }
+    .language-list-item .leading,
+    .language-list-item .leading svg {
+      width: 16px;
+      height: 16px;
+    }
 
-  milkdown-code-block .search-box {
-    margin: 0 16px 12px;
-    background: white;
-    height: 32px;
-    border-radius: 4px;
-    outline: 2px solid fuchsia;
-    gap: 8px;
-    padding: 0 16px;
-    font-size: 12px;
-  }
+    .list-wrapper {
+      padding-top: 20px;
+    }
 
-  milkdown-code-block .search-box .search-input {
-    width: 100%;
-  }
+    .search-box {
+      margin: 0 16px 12px;
+      background: white;
+      height: 32px;
+      border-radius: 4px;
+      outline: 1px solid var(--crepe-color-primary);
+      gap: 8px;
+      padding: 0 16px;
+      font-size: 12px;
+    }
 
-  milkdown-code-block .search-box .search-icon svg {
-    width: 16px;
-    height: 16px;
-  }
+    .search-box .search-input {
+      width: 100%;
+    }
 
-  milkdown-code-block .search-box .clear-icon svg {
-    width: 16px;
-    height: 16px;
-  }
+    .search-box .search-icon svg {
+      width: 16px;
+      height: 16px;
+    }
 
-  milkdown-code-block .search-box input {
-    background: transparent;
-  }
+    .search-box .clear-icon svg {
+      width: 16px;
+      height: 16px;
+    }
 
-  milkdown-code-block .search-box input:focus {
-    outline: none;
+    .search-box input {
+      background: transparent;
+    }
+
+    .search-box input:focus {
+      outline: none;
+    }
   }
 }
