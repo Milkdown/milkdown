@@ -8,13 +8,13 @@
 
     .operation-item {
       border-radius: 4px;
-      width: 24px;
-      height: 24px;
-      padding: 2px;
+      width: 32px;
+      height: 32px;
+      padding: 4px;
 
       svg {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
       }
 
       &:hover {
