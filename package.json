@@ -58,7 +58,7 @@
     "eslint-plugin-tailwindcss": "^3.8.0",
     "git-cz": "^4.7.6",
     "husky": "^8.0.0",
-    "jsdom": "^23.0.0",
+    "jsdom": "^24.0.0",
     "lint-staged": "^15.0.0",
     "nx": "17.2.8",
     "pathe": "^1.0.0",
