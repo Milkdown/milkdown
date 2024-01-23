@@ -1,5 +1,6 @@
 .milkdown {
   milkdown-block-handle {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;

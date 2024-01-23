@@ -217,7 +217,7 @@ export class BlockService {
     if (view.composing || !view.editable)
       return false
 
-    debounce(this.#mousemoveCallback, 200)(view, event)
+    debounce(this.#mousemoveCallback, 20)(view, event)
 
     return false
   }

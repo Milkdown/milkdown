@@ -48,9 +48,11 @@ const blockHandleComponent: Component = () => {
 const blockHandleElement = c(blockHandleComponent)
 
 export class BlockHandleView implements PluginView {
+  #content: HTMLElement
   #provider: BlockProvider
   constructor(ctx: Ctx) {
     const content = document.createElement('milkdown-block-handle')
+    this.#content = content
     this.#provider = new BlockProvider({
       ctx,
       content,
@@ -67,7 +69,8 @@ export class BlockHandleView implements PluginView {
   }
 
   destroy = () => {
-
+    this.#provider.destroy()
+    this.#content.remove()
   }
 }
 
