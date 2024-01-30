@@ -21,6 +21,10 @@ import {
   dividerIcon,
   h1Icon,
   h2Icon,
+  h3Icon,
+  h4Icon,
+  h5Icon,
+  h6Icon,
   imageIcon,
   orderedListIcon,
   quoteIcon,
@@ -150,6 +154,54 @@ export function getGroups(filter?: string) {
             const { dispatch, state } = view
 
             const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 2 })
+            command(state, dispatch)
+          },
+        },
+        {
+          key: 'h3',
+          label: 'Heading 3',
+          icon: h3Icon,
+          onRun: (ctx) => {
+            const view = ctx.get(editorViewCtx)
+            const { dispatch, state } = view
+
+            const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 3 })
+            command(state, dispatch)
+          },
+        },
+        {
+          key: 'h4',
+          label: 'Heading 4',
+          icon: h4Icon,
+          onRun: (ctx) => {
+            const view = ctx.get(editorViewCtx)
+            const { dispatch, state } = view
+
+            const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 4 })
+            command(state, dispatch)
+          },
+        },
+        {
+          key: 'h5',
+          label: 'Heading 5',
+          icon: h5Icon,
+          onRun: (ctx) => {
+            const view = ctx.get(editorViewCtx)
+            const { dispatch, state } = view
+
+            const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 5 })
+            command(state, dispatch)
+          },
+        },
+        {
+          key: 'h6',
+          label: 'Heading 6',
+          icon: h6Icon,
+          onRun: (ctx) => {
+            const view = ctx.get(editorViewCtx)
+            const { dispatch, state } = view
+
+            const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 6 })
             command(state, dispatch)
           },
         },
