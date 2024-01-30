@@ -12,6 +12,10 @@
       outline: none !important;
     }
 
+    .cm-gutters {
+      border-right: none;
+    }
+
     .language-button {
       font-family: var(--crepe-font-code);
       gap: 6px;

@@ -12,6 +12,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        .label {
+          height: 24px;
+          width: 24px;
+          text-align: right;
+        }
       }
     }
   }

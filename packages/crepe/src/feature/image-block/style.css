@@ -104,6 +104,12 @@
       }
     }
 
+    .image-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .image-wrapper .operation {
       gap: 16px;
       right: 16px;

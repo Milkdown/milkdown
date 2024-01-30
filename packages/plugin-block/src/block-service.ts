@@ -193,7 +193,9 @@ export class BlockService {
     if (this.#dragging)
       return
 
-    const dom = event.target
+    const { y } = event
+    const x = view.dom.getBoundingClientRect().width / 2
+    const dom = document.elementFromPoint(x, y)
     if (!(dom instanceof Element)) {
       this.#hide()
       return
