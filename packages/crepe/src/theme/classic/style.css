@@ -162,12 +162,14 @@
 
     hr {
       border: none;
-      height: 1px;
-      background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
-      background-clip: content-box;
+      border-bottom: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      height: 16px;
+      position: relative;
 
       &.ProseMirror-selectednode {
-        outline: 2px solid var(--crepe-color-primary);
+        outline: none;
+        background: none;
+        border-bottom: 1px solid var(--crepe-color-outline);
       }
     }
 
