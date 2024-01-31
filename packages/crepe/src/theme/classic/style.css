@@ -158,6 +158,10 @@
         background: var(--crepe-color-selected);
         border-radius: 100px;
       }
+
+      hr {
+        margin-bottom: 16px;
+      }
     }
 
     hr {
