@@ -51,6 +51,9 @@ export class BlockHandleView implements PluginView {
   onAdd = () => {
     const ctx = this.#ctx
     const view = ctx.get(editorViewCtx)
+    if (!view.hasFocus())
+      view.focus()
+
     const { state, dispatch } = view
     const active = this.#provider.activeNode
     if (!active)
