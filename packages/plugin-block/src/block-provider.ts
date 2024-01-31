@@ -6,7 +6,7 @@ import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
-import type { ActiveNode } from './__internal__/select-node-by-dom'
+import type { ActiveNode } from './types'
 
 /// Options for creating block provider.
 export interface BlockProviderOptions {
@@ -37,6 +37,13 @@ export class BlockProvider {
   /// @internal
   #service?: BlockService
 
+  /// @internal
+  #activeNode: ActiveNode | null = null
+
+  get activeNode() {
+    return this.#activeNode
+  }
+
   constructor(options: BlockProviderOptions) {
     this.#ctx = options.ctx
     this.#element = options.content
@@ -47,11 +54,15 @@ export class BlockProvider {
   #init(view: EditorView) {
     const service = this.#ctx.get(blockService.key)
     service.bind(this.#ctx, (message) => {
-      if (message.type === 'hide')
+      if (message.type === 'hide') {
         this.hide()
+        this.#activeNode = null
+      }
 
-      else
+      else {
         this.show(message.active)
+        this.#activeNode = message.active
+      }
     })
 
     this.#service = service

@@ -11,7 +11,7 @@ import { MenuElement } from './component'
 export const menu = slashFactory('CREPE_MENU')
 
 export interface MenuAPI {
-  show: () => void
+  show: (pos: number) => void
   hide: () => void
 }
 
@@ -23,15 +23,16 @@ export const menuAPI = $ctx({
 export function configureMenu(ctx: Ctx) {
   customElements.define('milkdown-slash-menu', MenuElement)
   ctx.set(menu.key, {
-    view: () => new MenuView(ctx),
+    view: view => new MenuView(ctx, view),
   })
 }
 
 class MenuView implements PluginView {
   readonly #content: AtomicoThis<MenuProps, HTMLElement>
   readonly #slashProvider: SlashProvider
+  #programmaticallyPos: number | null = null
 
-  constructor(ctx: Ctx) {
+  constructor(ctx: Ctx, view: EditorView) {
     this.#content = new MenuElement()
     this.#content.hide = this.hide
     this.#content.ctx = ctx
@@ -57,16 +58,30 @@ class MenuView implements PluginView {
         if (currentText == null)
           return false
 
+        const pos = self.#programmaticallyPos
+
+        self.#content.filter = currentText.startsWith('/') ? currentText.slice(1) : currentText
+
+        if (typeof pos === 'number') {
+          if (view.state.doc.resolve(pos).node() !== view.state.doc.resolve(view.state.selection.from).node()) {
+            self.#programmaticallyPos = null
+
+            return false
+          }
+
+          return true
+        }
+
         if (!currentText.startsWith('/'))
           return false
 
-        self.#content.filter = currentText.slice(1)
         return true
       },
     })
+    this.update(view)
 
     ctx.set(menuAPI.key, {
-      show: () => this.show(),
+      show: pos => this.show(pos),
       hide: () => this.hide(),
     })
   }
@@ -75,11 +90,14 @@ class MenuView implements PluginView {
     this.#slashProvider.update(view)
   }
 
-  show = () => {
+  show = (pos: number) => {
+    this.#programmaticallyPos = pos
+    this.#content.filter = ''
     this.#slashProvider.show()
   }
 
   hide = () => {
+    this.#programmaticallyPos = null
     this.#slashProvider.hide()
   }
 

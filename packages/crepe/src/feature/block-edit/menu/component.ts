@@ -35,9 +35,9 @@ export const menuComponent: Component<MenuProps> = ({
   }, [])
 
   useEffect(() => {
-    if (size === 0)
+    if (size === 0 && show)
       hide?.()
-  })
+  }, [size, show])
 
   const onHover = useCallback((
     index: number | ((prev: number) => number),

@@ -1,16 +1,26 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import type { PluginView } from '@milkdown/prose/state'
+import { TextSelection } from '@milkdown/prose/state'
 import { BlockProvider, block } from '@milkdown/plugin-block'
 import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
-import { blockHandleElement } from './component'
+import type { AtomicoThis } from 'atomico/types/dom'
+import { editorViewCtx } from '@milkdown/core'
+import { paragraphSchema } from '@milkdown/preset-commonmark'
+import { menuAPI } from '../menu'
+import type { BlockHandleProps } from './component'
+import { BlockHandleElement } from './component'
 
 export class BlockHandleView implements PluginView {
-  #content: HTMLElement
+  #content: AtomicoThis<BlockHandleProps>
   #provider: BlockProvider
+  #ctx: Ctx
+
   constructor(ctx: Ctx, view: EditorView) {
-    const content = document.createElement('milkdown-block-handle')
+    this.#ctx = ctx
+    const content = new BlockHandleElement()
     this.#content = content
+    this.#content.onAdd = this.onAdd
     this.#provider = new BlockProvider({
       ctx,
       content,
@@ -31,10 +41,27 @@ export class BlockHandleView implements PluginView {
     this.#provider.destroy()
     this.#content.remove()
   }
+
+  onAdd = () => {
+    const ctx = this.#ctx
+    const view = ctx.get(editorViewCtx)
+    const { state, dispatch } = view
+    const active = this.#provider.activeNode
+    if (!active)
+      return
+    const pos = active.$pos
+    const side = pos.pos + pos.node().content.size
+    const offset = pos.parent.type.name === 'blockquote' ? 1 : 2
+    let tr = state.tr.insert(side, paragraphSchema.type(ctx).create())
+    tr = tr.setSelection(TextSelection.create(tr.doc, side + offset))
+    dispatch(tr.scrollIntoView())
+
+    ctx.get(menuAPI.key).show(tr.selection.from)
+  }
 }
 
 export function configureBlockHandle(ctx: Ctx) {
-  customElements.define('milkdown-block-handle', blockHandleElement)
+  customElements.define('milkdown-block-handle', BlockHandleElement)
   ctx.set(block.key, {
     view: view => new BlockHandleView(ctx, view),
   })

@@ -27,10 +27,19 @@ const plusIcon = html`
   </svg>
 `
 
-const blockHandleComponent: Component = () => {
+export interface BlockHandleProps {
+  onAdd: () => void
+}
+
+const blockHandleComponent: Component<BlockHandleProps> = ({ onAdd }) => {
+  const onMouseDown = (e: MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onAdd?.()
+  }
   return html`
     <host>
-      <div class="operation-item">
+      <div onmousedown=${onMouseDown} class="operation-item">
         ${plusIcon}
       </div>
       <div class="operation-item">
@@ -40,4 +49,8 @@ const blockHandleComponent: Component = () => {
   `
 }
 
-export const blockHandleElement = c(blockHandleComponent)
+blockHandleComponent.props = {
+  onAdd: Function,
+}
+
+export const BlockHandleElement = c(blockHandleComponent)
