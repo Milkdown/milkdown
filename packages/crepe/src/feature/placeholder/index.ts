@@ -1,0 +1,75 @@
+/* Copyright 2021, Milkdown by Mirone. */
+import { $ctx, $prose } from '@milkdown/utils'
+import type { EditorState } from '@milkdown/prose/state'
+import { Plugin, PluginKey } from '@milkdown/prose/state'
+import type { Node } from '@milkdown/prose/model'
+import { Decoration, DecorationSet } from '@milkdown/prose/view'
+import type { DefineFeature } from '../shared'
+import { injectStyle } from '../../core/slice'
+import { isInCodeBlock, isInList } from '../../utils'
+import style from './style.css?inline'
+
+function isDocEmpty(doc: Node) {
+  return doc.childCount <= 1 && !doc.firstChild?.content.size
+}
+
+function createPlaceholderDecoration(
+  state: EditorState,
+  placeholderText: string,
+): Decoration | null {
+  const { selection } = state
+  if (!selection.empty)
+    return null
+
+  const $pos = selection.$anchor
+  const node = $pos.parent
+  if (node.content.size > 0)
+    return null
+
+  const before = $pos.before()
+
+  return Decoration.node(before, before + node.nodeSize, {
+    'class': 'crepe-placeholder',
+    'data-placeholder': placeholderText,
+  })
+}
+
+export interface PlaceholderConfig {
+  text: string
+  mode: 'doc' | 'block'
+}
+
+export const placeholderConfig = $ctx({
+  text: 'Please enter...',
+  mode: 'block',
+} as PlaceholderConfig, 'placeholderConfigCtx')
+
+export const placeholderPlugin = $prose((ctx) => {
+  return new Plugin({
+    key: new PluginKey('CREPE_PLACEHOLDER'),
+    props: {
+      decorations: (state) => {
+        const config = ctx.get(placeholderConfig.key)
+        if (config.mode === 'doc' && !isDocEmpty(state.doc))
+          return null
+
+        if (isInCodeBlock(state.selection) || isInList(state.selection))
+          return null
+
+        const placeholderText = config.text
+        const deco = createPlaceholderDecoration(state, placeholderText)
+        if (!deco)
+          return null
+
+        return DecorationSet.create(state.doc, [deco])
+      },
+    },
+  })
+})
+
+export const defineFeature: DefineFeature = (editor) => {
+  editor
+    .config(injectStyle(style))
+    .use(placeholderPlugin)
+    .use(placeholderConfig)
+}

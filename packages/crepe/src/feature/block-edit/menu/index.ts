@@ -5,6 +5,7 @@ import { SlashProvider, slashFactory } from '@milkdown/plugin-slash'
 import type { Ctx } from '@milkdown/ctx'
 import type { AtomicoThis } from 'atomico/types/dom'
 import { $ctx } from '@milkdown/utils'
+import { isInCodeBlock, isInList } from '../../../utils'
 import type { MenuProps } from './component'
 import { MenuElement } from './component'
 
@@ -53,6 +54,9 @@ class MenuView implements PluginView {
         },
       },
       shouldShow(this: SlashProvider, view: EditorView) {
+        if (isInCodeBlock(view.state.selection) || isInList(view.state.selection))
+          return false
+
         const currentText = this.getContent(view, node =>
           ['paragraph', 'heading'].includes(node.type.name))
 

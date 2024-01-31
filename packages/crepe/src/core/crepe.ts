@@ -7,8 +7,9 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { indent, indentConfig } from '@milkdown/plugin-indent'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { CrepeTheme, loadTheme } from '../theme'
-import type { CrepeFeature } from '../feature'
-import { defaultFeatures, loadFeature } from '../feature'
+import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
+import type { PlaceholderConfig } from '../feature/placeholder'
+import { placeholderConfig } from '../feature/placeholder'
 import { configureEmotion, configureTheme } from './slice'
 
 export interface CrepeConfig {
@@ -16,6 +17,7 @@ export interface CrepeConfig {
   features?: Partial<Record<CrepeFeature, boolean>>
   root?: Node | string | null
   defaultValue?: DefaultValue
+  placeholder?: Partial<PlaceholderConfig>
 }
 
 export class Crepe {
@@ -29,6 +31,7 @@ export class Crepe {
     root,
     features = {},
     defaultValue = '',
+    placeholder = {},
   }: CrepeConfig) {
     this.#rootElement = (typeof root === 'string' ? document.querySelector(root) : root) ?? document.body
     this.#editor = Editor.make()
@@ -65,6 +68,17 @@ export class Crepe {
         loadFeature(feature, this.#editor),
       )
     })
+
+    if (enabledFeatures.includes(CrepeFeature.Placeholder)) {
+      this.editor.config((ctx) => {
+        ctx.update(placeholderConfig.key, (prev) => {
+          return {
+            ...prev,
+            ...placeholder,
+          }
+        })
+      })
+    }
 
     this.#initPromise = Promise.all(promiseList)
   }

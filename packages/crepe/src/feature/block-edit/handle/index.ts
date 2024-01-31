@@ -59,12 +59,13 @@ export class BlockHandleView implements PluginView {
     if (!active)
       return
     const pos = active.$pos
-    const side = pos.pos + pos.node().content.size
-    const offset = pos.parent.type.name === 'blockquote' ? 1 : 2
+    const side = pos.pos + pos.node().content.size + (['blockquote'].includes(pos.parent.type.name) ? 1 : 0)
+    const offset = ['blockquote'].includes(pos.parent.type.name) ? 1 : 2
     let tr = state.tr.insert(side, paragraphSchema.type(ctx).create())
     tr = tr.setSelection(TextSelection.create(tr.doc, side + offset))
     dispatch(tr.scrollIntoView())
 
+    this.#provider.hide()
     ctx.get(menuAPI.key).show(tr.selection.from)
   }
 }

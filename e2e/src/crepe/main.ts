@@ -10,6 +10,9 @@ const crepe = new Crepe({
   features: {
     [CrepeFeature.CodeMirror]: true,
   },
+  placeholder: {
+    text: 'Type / to use slash command',
+  },
 })
 
 crepe.create()
