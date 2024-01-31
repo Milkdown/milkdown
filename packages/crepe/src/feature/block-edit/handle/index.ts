@@ -28,6 +28,12 @@ export class BlockHandleView implements PluginView {
         arrow: false,
         delay: 0,
         duration: 0,
+        onShow: () => {
+          this.#content.show = true
+        },
+        onHidden: () => {
+          this.#content.show = false
+        },
       },
     })
     this.update(view)

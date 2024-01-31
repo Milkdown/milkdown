@@ -173,7 +173,19 @@ export const menuComponent: Component<MenuProps> = ({
                     data-index=${item.index}
                     class=${hoverIndex === item.index ? 'hover' : ''}
                     onmouseenter=${onMouseEnter(item.index)}
-                    onmousedown=${() => runByIndex(item.index)}
+                    onmousedown=${() => {
+                      host
+                        .current
+                        .querySelector(`[data-index="${item.index}"]`)
+                        ?.classList.add('active')
+                    }}
+                    onmouseup=${() => {
+                      host
+                        .current
+                        .querySelector(`[data-index="${item.index}"]`)
+                        ?.classList.remove('active')
+                      runByIndex(item.index)
+                    }}
                   >
                     ${item.icon}
                     <span>${item.label}</span>

@@ -42,6 +42,7 @@ class MenuView implements PluginView {
       content: this.#content,
       debounce: 20,
       tippyOptions: {
+        arrow: false,
         delay: 0,
         duration: 0,
         onShow: () => {

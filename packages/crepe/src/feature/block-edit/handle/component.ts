@@ -1,5 +1,5 @@
 /* Copyright 2021, Milkdown by Mirone. */
-import { type Component, c, html } from 'atomico'
+import { type Component, c, html, useEffect, useRef } from 'atomico'
 
 const menuIcon = html`
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -28,18 +28,29 @@ const plusIcon = html`
 `
 
 export interface BlockHandleProps {
+  show: boolean
   onAdd: () => void
 }
 
 const blockHandleComponent: Component<BlockHandleProps> = ({ onAdd }) => {
+  const ref = useRef<HTMLDivElement>()
+  useEffect(() => {
+    ref.current?.classList.remove('active')
+  })
   const onMouseDown = (e: MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
+    ref.current?.classList.add('active')
+  }
+  const onMouseUp = (e: MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     onAdd?.()
+    ref.current?.classList.remove('active')
   }
   return html`
     <host>
-      <div onmousedown=${onMouseDown} class="operation-item">
+      <div ref=${ref} onmousedown=${onMouseDown} onmouseup=${onMouseUp} class="operation-item">
         ${plusIcon}
       </div>
       <div class="operation-item">
@@ -50,6 +61,7 @@ const blockHandleComponent: Component<BlockHandleProps> = ({ onAdd }) => {
 }
 
 blockHandleComponent.props = {
+  show: Boolean,
   onAdd: Function,
 }
 

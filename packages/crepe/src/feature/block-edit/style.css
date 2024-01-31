@@ -21,6 +21,10 @@
       &:hover {
         background: var(--crepe-color-hover);
       }
+
+      &.active {
+        background: var(--crepe-color-selected);
+      }
     }
   }
 
@@ -91,6 +95,9 @@
           padding: 14px 10px;
           &.hover {
             background: var(--crepe-color-hover);
+          }
+          &.active {
+            background: var(--crepe-color-selected);
           }
 
           & > svg {
