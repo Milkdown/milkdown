@@ -47,7 +47,7 @@
   }
 
   .ProseMirror {
-    padding: 20px 120px;
+    padding: 60px 120px;
 
     & > * {
       margin: 20px 0 40px;

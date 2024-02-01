@@ -1,0 +1,37 @@
+.milkdown {
+  milkdown-toolbar {
+    display: flex;
+    background: var(--crepe-color-surface);
+    box-shadow: var(--crepe-shadow-1);
+    border-radius: 8px;
+    overflow: hidden;
+
+    .divider {
+      width: 1px;
+      background: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      height: 24px;
+      margin: 10px;
+    }
+
+    .toolbar-item {
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--crepe-color-hover)
+      }
+
+      &.active {
+        background: var(--crepe-color-selected);
+      }
+
+      svg {
+        height: 24px;
+        width: 24px;
+        color: var(--crepe-color-outline);
+      }
+    }
+  }
+}

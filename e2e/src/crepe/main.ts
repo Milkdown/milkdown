@@ -15,4 +15,6 @@ const crepe = new Crepe({
   },
 })
 
+Object.assign(window, { crepe })
+
 crepe.create()

@@ -380,6 +380,9 @@ importers:
       '@milkdown/plugin-slash':
         specifier: workspace:*
         version: link:../plugin-slash
+      '@milkdown/plugin-tooltip':
+        specifier: workspace:*
+        version: link:../plugin-tooltip
       '@milkdown/preset-commonmark':
         specifier: workspace:*
         version: link:../preset-commonmark
@@ -389,6 +392,9 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../utils
+      clsx:
+        specifier: ^2.0.0
+        version: 2.0.0
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.1.2)
@@ -6252,7 +6258,6 @@ packages:
   /clsx@2.0.0:
     resolution: {integrity: sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==}
     engines: {node: '>=6'}
-    dev: false
 
   /codemirror@6.0.1(@lezer/common@1.1.2):
     resolution: {integrity: sha512-J8j+nZ+CdWmIeFIGXEFbFPtpiYacFMDR8GlHK3IyHQJMCaVRfGx9NT+Hxivv1ckLWPvNdZqndbr/7lVhrf/Svg==}

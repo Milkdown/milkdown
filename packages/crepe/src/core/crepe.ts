@@ -6,11 +6,12 @@ import { history } from '@milkdown/plugin-history'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { indent, indentConfig } from '@milkdown/plugin-indent'
 import { clipboard } from '@milkdown/plugin-clipboard'
+import { getMarkdown } from '@milkdown/utils'
 import { CrepeTheme, loadTheme } from '../theme'
 import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
 import type { PlaceholderConfig } from '../feature/placeholder'
 import { placeholderConfig } from '../feature/placeholder'
-import { configureEmotion, configureTheme } from './slice'
+import { configureEmotion, configureFeatures, configureTheme } from './slice'
 
 export interface CrepeConfig {
   theme?: CrepeTheme
@@ -33,8 +34,17 @@ export class Crepe {
     defaultValue = '',
     placeholder = {},
   }: CrepeConfig) {
+    const enabledFeatures = Object
+      .entries({
+        ...defaultFeatures,
+        ...features,
+      })
+      .filter(([, enabled]) => enabled)
+      .map(([feature]) => feature as CrepeFeature)
+
     this.#rootElement = (typeof root === 'string' ? document.querySelector(root) : root) ?? document.body
     this.#editor = Editor.make()
+      .config(configureFeatures(enabledFeatures))
       .config(configureEmotion(this.#rootElement))
       .config(configureTheme(theme))
       .config((ctx) => {
@@ -54,14 +64,6 @@ export class Crepe {
       .use(clipboard)
 
     const promiseList: Promise<unknown>[] = [loadTheme(theme, this.#editor)]
-
-    const enabledFeatures = Object
-      .entries({
-        ...defaultFeatures,
-        ...features,
-      })
-      .filter(([, enabled]) => enabled)
-      .map(([feature]) => feature as CrepeFeature)
 
     enabledFeatures.forEach((feature) => {
       promiseList.push(
@@ -97,7 +99,11 @@ export class Crepe {
     return this.#editor
   }
 
-  setEditable(value: boolean) {
-    this.#editable = value
+  setReadonly(value: boolean) {
+    this.#editable = !value
+  }
+
+  getMarkdown() {
+    return this.#editor.action(getMarkdown())
   }
 }
