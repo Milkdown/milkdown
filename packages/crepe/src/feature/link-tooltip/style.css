@@ -18,11 +18,12 @@
       & > .link-display:before {
         content: 'click to copy link';
         position: absolute;
-        transform: translate(50%, -100%);
-        padding: 6px 10px;
+        transform: translate(50%, -120%);
+        padding: 3px 10px;
         font-size: 12px;
-        border-radius: 10px;
-        color: var(--crepe-color-on-surface);
+        border-radius: 8px;
+        color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+        background: var(--crepe-color-background);
         text-align: center;
 
         display: none;
