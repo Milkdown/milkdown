@@ -9,6 +9,7 @@
       gap: 10px;
       border-radius: 8px;
       cursor: pointer;
+      box-shadow: var(--crepe-shadow-1);
 
       & > .link-display:hover:before {
         display: block;
@@ -17,12 +18,11 @@
       & > .link-display:before {
         content: 'click to copy link';
         position: absolute;
-        transform: translate(50%, -130%);
+        transform: translate(50%, -100%);
         padding: 6px 10px;
         font-size: 12px;
         border-radius: 10px;
-        background: #000;
-        color: #fff;
+        color: var(--crepe-color-on-surface);
         text-align: center;
 
         display: none;
@@ -52,7 +52,7 @@
         & > svg {
           width: 18px;
           height: 18px;
-          color: var(--crepe-color-on-background);
+          color: var(--crepe-color-outline);
         }
         padding: 3px;
         border-radius: 8px;
@@ -73,6 +73,7 @@
       background: var(--crepe-color-surface);
       gap: 8px;
       border-radius: 8px;
+      box-shadow: var(--crepe-shadow-1);
 
       & > .input-area {
         outline: none;
@@ -86,7 +87,7 @@
         & > svg {
           width: 18px;
           height: 18px;
-          color: var(--crepe-color-on-background);
+          color: var(--crepe-color-outline);
         }
         padding: 3px;
         cursor: pointer;
