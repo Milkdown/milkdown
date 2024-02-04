@@ -8,8 +8,8 @@ import { CodeMirrorBlock } from './node-view'
 import { LanguageLoader } from './loader'
 import { CodeElement } from './component'
 
+customElements.define('milkdown-code-block', CodeElement)
 export const codeBlockView = $view(codeBlockSchema.node, (ctx): NodeViewConstructor => {
-  customElements.define('milkdown-code-block', CodeElement)
   const config = ctx.get(codeBlockConfig.key)
   const languageLoader = new LanguageLoader(config.languages)
   return (node, view, getPos) => new CodeMirrorBlock(

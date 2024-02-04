@@ -8,9 +8,8 @@ import type { InlineImageComponentProps } from './component'
 import { InlineImageElement } from './component'
 import { inlineImageConfig } from './config'
 
+customElements.define('milkdown-image-inline', InlineImageElement)
 export const inlineImageView = $view(imageSchema.node, (ctx): NodeViewConstructor => {
-  customElements.define('milkdown-image-inline', InlineImageElement)
-
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-image-inline') as HTMLElement & InlineImageComponentProps
     const config = ctx.get(inlineImageConfig.key)

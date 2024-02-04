@@ -73,8 +73,8 @@ export class BlockHandleView implements PluginView {
   }
 }
 
+customElements.define('milkdown-block-handle', BlockHandleElement)
 export function configureBlockHandle(ctx: Ctx) {
-  customElements.define('milkdown-block-handle', BlockHandleElement)
   ctx.set(block.key, {
     view: view => new BlockHandleView(ctx, view),
   })

@@ -21,8 +21,8 @@ export const menuAPI = $ctx({
   hide: () => {},
 } as MenuAPI, 'menuAPICtx')
 
+customElements.define('milkdown-slash-menu', MenuElement)
 export function configureMenu(ctx: Ctx) {
-  customElements.define('milkdown-slash-menu', MenuElement)
   ctx.set(menu.key, {
     view: view => new MenuView(ctx, view),
   })

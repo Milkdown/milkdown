@@ -52,8 +52,8 @@ class ToolbarView implements PluginView {
   }
 }
 
+customElements.define('milkdown-toolbar', ToolbarElement)
 export const defineFeature: DefineFeature = (editor) => {
-  customElements.define('milkdown-toolbar', ToolbarElement)
   editor
     .config(injectStyle(style))
     .config((ctx) => {

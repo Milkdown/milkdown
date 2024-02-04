@@ -9,8 +9,8 @@ import { linkPreviewTooltip } from '../tooltips'
 import { LinkPreviewTooltip } from './preview-view'
 import { LinkPreviewElement } from './preview-component'
 
+customElements.define('milkdown-link-preview', LinkPreviewElement)
 export function configureLinkPreviewTooltip(ctx: Ctx) {
-  customElements.define('milkdown-link-preview', LinkPreviewElement)
   let linkPreviewTooltipView: LinkPreviewTooltip | null
 
   const DELAY = 200
