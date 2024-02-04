@@ -1,6 +1,7 @@
 /* Copyright 2021, Milkdown by Mirone. */
 import { TooltipProvider, tooltipFactory } from '@milkdown/plugin-tooltip'
 import type { EditorState, PluginView } from '@milkdown/prose/state'
+import { TextSelection } from '@milkdown/prose/state'
 import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
@@ -16,7 +17,8 @@ class ToolbarView implements PluginView {
   #tooltipProvider: TooltipProvider
   #content: AtomicoThis<ToolbarProps>
   constructor(ctx: Ctx, view: EditorView) {
-    this.#content = new ToolbarElement()
+    const content = new ToolbarElement()
+    this.#content = content
     this.#content.ctx = ctx
     this.#content.hide = this.hide
 
@@ -33,6 +35,31 @@ class ToolbarView implements PluginView {
         onHidden: () => {
           this.#content.show = false
         },
+      },
+      shouldShow(view: EditorView) {
+        const { doc, selection } = view.state
+        const { empty, from, to } = selection
+
+        const isEmptyTextBlock = !doc.textBetween(from, to).length && selection instanceof TextSelection
+
+        const isNotTextBlock = !(selection instanceof TextSelection)
+
+        const isTooltipChildren = content.contains(document.activeElement)
+
+        const notHasFocus = !view.hasFocus() && !isTooltipChildren
+
+        const isReadonly = !view.editable
+
+        if (
+          notHasFocus
+          || isNotTextBlock
+          || empty
+          || isEmptyTextBlock
+          || isReadonly
+        )
+          return false
+
+        return true
       },
     })
     this.update(view)

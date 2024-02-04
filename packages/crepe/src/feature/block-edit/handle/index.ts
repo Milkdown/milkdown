@@ -59,11 +59,11 @@ export class BlockHandleView implements PluginView {
     if (!active)
       return
     const pos = active.$pos
-    const isHr = active.node.type.name === 'hr'
-    const nodeSize = isHr ? active.node.nodeSize : active.node.content.size
+    const isNoneTextBlock = ['hr', 'image-block'].includes(active.node.type.name)
+    const nodeSize = isNoneTextBlock ? active.node.nodeSize : active.node.content.size
     const side = pos.pos + nodeSize + (['blockquote'].includes(pos.parent.type.name) ? 1 : 0)
     const offset
-      = ['blockquote'].includes(pos.parent.type.name) ? 1 : isHr ? 1 : 2
+      = ['blockquote'].includes(pos.parent.type.name) ? 1 : isNoneTextBlock ? 1 : 2
     let tr = state.tr.insert(side, paragraphSchema.type(ctx).create())
     tr = tr.setSelection(TextSelection.create(tr.doc, side + offset))
     dispatch(tr.scrollIntoView())
