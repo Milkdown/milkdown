@@ -51,6 +51,7 @@ export const defineFeature: DefineFeature = (editor) => {
         imageIcon: () => imageIcon,
         captionIcon: () => captionIcon,
         confirmButton: () => html`Confirm`,
+        captionPlaceholderText: 'Write Image Caption',
       }))
     })
     .use(imageBlockComponent)

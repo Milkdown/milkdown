@@ -6,6 +6,7 @@ import type { DefineTheme } from '../shared'
 import style from './style.css?inline'
 
 export const defineTheme: DefineTheme = (editor) => {
-  editor.config(injectStyle(prosemirrorView))
-  editor.config(injectStyle(style))
+  editor
+    .config(injectStyle(prosemirrorView))
+    .config(injectStyle(style))
 }

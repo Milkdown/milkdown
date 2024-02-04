@@ -123,9 +123,10 @@
     }
 
     .image-wrapper .operation > .operation-item {
-      color: #FCEFE2;
+      color: var(--crepe-color-on-inverse);
       padding: 8px;
-      background: rgba(0, 0, 0, 0.4);
+      background: var(--crepe-color-inverse);
+      opacity: 0.6;
       border-radius: 50%;
       width: 40px;
       height: 40px;
@@ -152,13 +153,14 @@
 
     .caption-input {
       margin: 16px auto;
+      font-family: var(--crepe-font-default);
     }
 
     .image-edit {
       align-items: center;
       padding: 16px 24px;
       gap: 16px;
-      background: #FFF8F4;
+      background: var(--crepe-color-surface);
       height: 56px;
     }
 
@@ -202,8 +204,8 @@
     }
 
     .image-edit .confirm {
-      background: #FBDEBC;
-      color: #271904;
+      background: var(--crepe-color-secondary);
+      color: var(--crepe-color-on-secondary);
       line-height: 40px;
       padding: 0 24px;
       border-radius: 100px;

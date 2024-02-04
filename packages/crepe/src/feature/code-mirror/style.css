@@ -1,7 +1,7 @@
 .milkdown {
   milkdown-code-block {
     padding: 24px 40px;
-    background: #faf4ed;
+    background: var(--crepe-color-surface);
     margin: 20px 0;
 
     &.selected {
@@ -10,22 +10,27 @@
 
     .cm-editor {
       outline: none !important;
+      background: var(--crepe-color-surface);
     }
 
     .cm-gutters {
       border-right: none;
+      background: var(--crepe-color-surface);
     }
 
     .language-button {
-      font-family: var(--crepe-font-code);
+      font-family: var(--crepe-font-default);
       gap: 6px;
       padding: 6px 8px 6px 18px;
-      background: antiquewhite;
+      background: var(--crepe-color-surface-low);
+      color: var(--crepe-color-on-surface-variant);
       border-radius: 8px;
       font-size: 14px;
+      font-weight: 600;
       line-height: 20px;
       margin-bottom: 24px;
       opacity: 0;
+      cursor: pointer;
       transition: opacity 0.2s ease-in-out;
     }
 
@@ -34,7 +39,7 @@
     }
 
     .language-button:hover {
-      background: bisque;
+      background: var(--crepe-color-hover);
     }
 
     .language-button .expand-icon {
@@ -65,14 +70,14 @@
     }
 
     .list-wrapper {
-      background: antiquewhite;
-      border-radius: 16px;
-      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
-      width: 220px;
+      background: var(--crepe-color-surface-low);
+      border-radius: 12px;
+      box-shadow: var(--crepe-shadow-1);
+      width: 244px;
     }
 
     .language-list {
-      height: 356px;
+      height: 410px;
       overflow-y: auto;
       margin: 0;
       padding: 0;
@@ -81,27 +86,28 @@
     .language-list-item {
       cursor: pointer;
       margin: 0;
-      height: 32px;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 0 8px;
-      font-size: 12px;
+      padding: 12px 20px 12px 10px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
     }
 
     .language-list-item:hover {
-      background: cornsilk;
+      background: var(--crepe-color-hover);
     }
 
     .language-list-item:focus-visible {
       outline: none;
-      background: cornsilk;
+      background: var(--crepe-color-hover);
     }
 
     .language-list-item .leading,
     .language-list-item .leading svg {
-      width: 16px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
     }
 
     .list-wrapper {
@@ -110,30 +116,38 @@
 
     .search-box {
       margin: 0 16px 12px;
-      background: white;
-      height: 32px;
+      background: transparent;
       border-radius: 4px;
       outline: 1px solid var(--crepe-color-primary);
       gap: 8px;
-      padding: 0 16px;
-      font-size: 12px;
+      padding: 12px 20px 12px 10px;
     }
 
     .search-box .search-input {
       width: 100%;
     }
 
-    .search-box .search-icon svg {
-      width: 16px;
-      height: 16px;
+    .search-box .search-icon {
+      display: none;
     }
 
-    .search-box .clear-icon svg {
-      width: 16px;
-      height: 16px;
+    .search-box .clear-icon {
+      width: 24px;
+      height: 24px;
+      svg {
+        width: 24px;
+        height: 24px;
+        color: var(--crepe-color-primary);
+      }
+      &:hover {
+        background: var(--crepe-color-hover);
+      }
     }
 
     .search-box input {
+      font-family: var(--crepe-font-default);
+      font-size: 16px;
+      line-height: 24px;
       background: transparent;
     }
 
