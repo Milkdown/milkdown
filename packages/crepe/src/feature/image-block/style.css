@@ -4,7 +4,7 @@
       background: none;
       outline: none;
       .empty-image-inline {
-        box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.30);
+        box-shadow: var(--crepe-shadow-1);
       }
     }
 
@@ -24,7 +24,7 @@
       align-items: center;
       padding: 4px 10px;
       gap: 10px;
-      background: #FFF8F4;
+      background: var(--crepe-color-surface);
       font-family: var(--crepe-font-default);
       border-radius: 8px;
     }
