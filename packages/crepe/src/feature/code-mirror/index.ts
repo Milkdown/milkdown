@@ -4,7 +4,7 @@ import { languages } from '@codemirror/language-data'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap } from '@codemirror/commands'
-import { espresso, rosePineDawn } from 'thememirror'
+import { bespin, espresso, rosePineDawn } from 'thememirror'
 import { html } from 'atomico'
 import { ThemeCtx, injectStyle } from '../../core/slice'
 import type { DefineFeature } from '../shared'
@@ -15,6 +15,8 @@ function pickTheme(theme: CrepeTheme) {
   switch (theme) {
     case CrepeTheme.Classic:
       return rosePineDawn
+    case CrepeTheme.ClassicDark:
+      return bespin
     default:
       return espresso
   }

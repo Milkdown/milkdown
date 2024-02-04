@@ -125,6 +125,7 @@
 
     .search-box .search-input {
       width: 100%;
+      color: var(--crepe-color-on-surface);
     }
 
     .search-box .search-icon {
