@@ -1,7 +1,7 @@
 .milkdown {
   --crepe-color-background: #1F1B16;
   --crepe-color-on-background: #EAE1D9;
-  --crepe-color-surface: #3F3830;
+  --crepe-color-surface: #18120B;
   --crepe-color-surface-low: #201B13;
   --crepe-color-on-surface: #EDE0D4;
   --crepe-color-on-surface-variant: #D3C4B4;
@@ -47,6 +47,11 @@
   font-family: var(--crepe-font-default);
   color: var(--crepe-color-on-background);
   background: var(--crepe-color-background);
+
+  input {
+    font-family: var(--crepe-font-default);
+    color: var(--crepe-color-on-background);
+  }
 
   .ProseMirror-focused {
     outline: none;

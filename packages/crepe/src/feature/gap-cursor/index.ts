@@ -10,6 +10,8 @@ function getColorFromTheme(theme: CrepeTheme) {
   switch (theme) {
     case CrepeTheme.Classic:
       return '#1F1B16'
+    case CrepeTheme.ClassicDark:
+      return '#EAE1D9'
     default:
       return undefined
   }

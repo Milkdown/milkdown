@@ -154,7 +154,6 @@
     .caption-input {
       margin: 16px auto;
       font-family: var(--crepe-font-default);
-      color: var(--crepe-color-on-background);
     }
 
     .image-edit {

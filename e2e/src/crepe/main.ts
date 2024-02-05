@@ -6,7 +6,7 @@ import './style.css'
 
 const crepe = new Crepe({
   root: '#app',
-  theme: CrepeTheme.ClassicDark,
+  theme: CrepeTheme.Classic,
   features: {
     [CrepeFeature.CodeMirror]: true,
   },
