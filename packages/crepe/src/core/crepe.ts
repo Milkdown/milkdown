@@ -8,17 +8,16 @@ import { indent, indentConfig } from '@milkdown/plugin-indent'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { getMarkdown } from '@milkdown/utils'
 import { CrepeTheme, loadTheme } from '../theme'
-import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
-import type { PlaceholderConfig } from '../feature/placeholder'
-import { placeholderConfig } from '../feature/placeholder'
+import type { CrepeFeature, CrepeFeatureConfig } from '../feature'
+import { defaultFeatures, loadFeature } from '../feature'
 import { configureEmotion, configureFeatures, configureTheme } from './slice'
 
 export interface CrepeConfig {
   theme?: CrepeTheme
   features?: Partial<Record<CrepeFeature, boolean>>
+  featureConfigs?: CrepeFeatureConfig
   root?: Node | string | null
   defaultValue?: DefaultValue
-  placeholder?: Partial<PlaceholderConfig>
 }
 
 export class Crepe {
@@ -31,8 +30,8 @@ export class Crepe {
     theme = CrepeTheme.Classic,
     root,
     features = {},
+    featureConfigs = {},
     defaultValue = '',
-    placeholder = {},
   }: CrepeConfig) {
     const enabledFeatures = Object
       .entries({
@@ -66,21 +65,11 @@ export class Crepe {
     const promiseList: Promise<unknown>[] = [loadTheme(theme, this.#editor)]
 
     enabledFeatures.forEach((feature) => {
+      const config = (featureConfigs as Partial<Record<CrepeFeature, never>>)[feature]
       promiseList.push(
-        loadFeature(feature, this.#editor),
+        loadFeature(feature, this.#editor, config),
       )
     })
-
-    if (enabledFeatures.includes(CrepeFeature.Placeholder)) {
-      this.editor.config((ctx) => {
-        ctx.update(placeholderConfig.key, (prev) => {
-          return {
-            ...prev,
-            ...placeholder,
-          }
-        })
-      })
-    }
 
     this.#initPromise = Promise.all(promiseList)
   }

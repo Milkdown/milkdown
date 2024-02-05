@@ -39,6 +39,8 @@ export interface PlaceholderConfig {
   mode: 'doc' | 'block'
 }
 
+export type PlaceHolderFeatureConfig = Partial<PlaceholderConfig>
+
 export const placeholderConfig = $ctx({
   text: 'Please enter...',
   mode: 'block',
@@ -67,9 +69,19 @@ export const placeholderPlugin = $prose((ctx) => {
   })
 })
 
-export const defineFeature: DefineFeature = (editor) => {
+export const defineFeature: DefineFeature<PlaceHolderFeatureConfig> = (editor, config) => {
   editor
     .config(injectStyle(style))
+    .config((ctx) => {
+      if (config) {
+        ctx.update(placeholderConfig.key, (prev) => {
+          return {
+            ...prev,
+            ...config,
+          }
+        })
+      }
+    })
     .use(placeholderPlugin)
     .use(placeholderConfig)
 }

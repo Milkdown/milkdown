@@ -13,7 +13,6 @@ export default defineConfig({
       name: `milkdown_crepe`,
       fileName: libFileName,
       formats: ['es'],
-      // formats: ['es', 'umd', 'cjs'],
     },
     rollupOptions: {
       output: {
