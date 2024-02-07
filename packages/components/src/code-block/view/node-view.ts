@@ -220,7 +220,12 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   selectNode() {
+    this.dom.selected = true
     this.cm.focus()
+  }
+
+  deselectNode() {
+    this.dom.selected = false
   }
 
   stopEvent() {

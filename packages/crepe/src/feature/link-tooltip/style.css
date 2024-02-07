@@ -1,0 +1,107 @@
+.milkdown {
+  milkdown-link-preview {
+    & > .link-preview {
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      padding: 4px 10px;
+      background: var(--crepe-color-surface);
+      gap: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: var(--crepe-shadow-1);
+
+      & > .link-display:hover:before {
+        display: block;
+      }
+
+      & > .link-display:before {
+        content: 'click to copy link';
+        position: absolute;
+        transform: translate(50%, -120%);
+        padding: 3px 10px;
+        font-size: 12px;
+        border-radius: 8px;
+        color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+        background: var(--crepe-color-background);
+        text-align: center;
+
+        display: none;
+      }
+
+      & > .link-icon {
+        & > svg {
+          width: 18px;
+          height: 18px;
+        }
+        padding: 3px;
+        line-height: 24px;
+      }
+
+      & > .link-display {
+        width: 240px;
+        line-height: 24px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      & > .button {
+        & > svg {
+          width: 18px;
+          height: 18px;
+          color: var(--crepe-color-outline);
+        }
+        padding: 3px;
+        border-radius: 8px;
+        line-height: 24px;
+        &:hover {
+          background: var(--crepe-color-hover);
+        }
+      }
+    }
+  }
+
+  milkdown-link-edit {
+    & > .link-edit {
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      padding: 4px 10px 4px 20px;
+      background: var(--crepe-color-surface);
+      gap: 8px;
+      border-radius: 8px;
+      box-shadow: var(--crepe-shadow-1);
+
+      & > .input-area {
+        outline: none;
+        background: transparent;
+        width: 200px;
+        font-size: 14px;
+        color: var(--crepe-color-on-background);
+      }
+
+      & > .button {
+        & > svg {
+          width: 18px;
+          height: 18px;
+          color: var(--crepe-color-outline);
+        }
+        padding: 3px;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 12px;
+        line-height: 24px;
+        &:hover {
+          background: var(--crepe-color-hover);
+        }
+        &.hidden {
+          visibility: hidden;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,215 @@
+.milkdown {
+  milkdown-image-inline {
+    &.empty.selected {
+      background: none;
+      outline: none;
+      .empty-image-inline {
+        box-shadow: var(--crepe-shadow-1);
+      }
+    }
+
+    &.selected {
+      background: none;
+      outline: 1px solid var(--crepe-color-primary);
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    img.image-inline {
+      vertical-align: text-bottom;
+    }
+
+    .empty-image-inline {
+      align-items: center;
+      padding: 4px 10px;
+      gap: 10px;
+      background: var(--crepe-color-surface);
+      font-family: var(--crepe-font-default);
+      border-radius: 8px;
+    }
+
+    .empty-image-inline .image-icon {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+      padding: 3px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .empty-image-inline .link-importer {
+      height: 24px;
+    }
+
+    .empty-image-inline .link-importer .placeholder {
+      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    .empty-image-inline .link-importer .link-input-area {
+      line-height: 24px;
+    }
+
+    .empty-image-inline .link-importer .placeholder .uploader {
+      gap: 8px;
+      color: var(--crepe-color-primary);
+      justify-content: center;
+      transition: color 0.2s;
+      font-family: var(--crepe-font-default);
+    }
+
+    .empty-image-inline .link-importer.focus .placeholder .uploader {
+      color: unset;
+    }
+
+    .empty-image-inline .link-importer .placeholder .uploader:hover {
+      color: var(--crepe-color-primary);
+    }
+
+    .empty-image-inline .link-importer .placeholder .text {
+      margin-left: 8px;
+    }
+
+    .empty-image-inline .confirm {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+      width: 24px;
+      height: 24px;
+      padding: 3px;
+      border-radius: 8px;
+      color: var(--crepe-color-primary);
+      &:hover {
+        background: var(--crepe-color-hover);
+      }
+    }
+  }
+
+  milkdown-image-block {
+    &.selected > .image-edit {
+      outline: 1px solid var(--crepe-color-outline);
+    }
+
+    &.selected {
+      & > .image-wrapper img {
+        outline: 1px solid var(--crepe-color-outline);
+      }
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    .image-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-wrapper .operation {
+      gap: 16px;
+      right: 16px;
+      top: 16px;
+      opacity: 0;
+      transition: all 0.2s;
+    }
+
+    &:hover > .image-wrapper .operation {
+      opacity: 1;
+    }
+
+    .image-wrapper .operation > .operation-item {
+      color: var(--crepe-color-on-inverse);
+      padding: 8px;
+      background: var(--crepe-color-inverse);
+      opacity: 0.6;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .image-wrapper .image-resize-handle {
+      height: 4px;
+      bottom: -3px;
+      max-width: 160px;
+      width: 100%;
+      background: var(--crepe-color-outline);
+      opacity: 0;
+      transition: all 0.2s;
+      border-radius: 4px;
+    }
+
+    &:hover > .image-wrapper .image-resize-handle {
+      opacity: 1;
+    }
+
+    .caption-input {
+      margin: 16px auto;
+      font-family: var(--crepe-font-default);
+    }
+
+    .image-edit {
+      align-items: center;
+      padding: 16px 24px;
+      gap: 16px;
+      background: var(--crepe-color-surface);
+      height: 56px;
+    }
+
+    .image-edit .image-icon {
+      color: var(--crepe-color-outline);
+    }
+
+    .image-edit .image-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .image-edit .link-importer .placeholder {
+      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+    }
+
+    .image-edit .link-importer .link-input-area {
+      line-height: 24px;
+    }
+
+    .image-edit .link-importer .placeholder .uploader {
+      gap: 8px;
+      color: var(--crepe-color-primary);
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .image-edit .link-importer.focus .placeholder .uploader {
+      color: unset;
+    }
+
+    .image-edit .link-importer .placeholder .uploader:hover {
+      color: var(--crepe-color-primary);
+    }
+
+    .image-edit .link-importer .placeholder .text {
+      margin-left: 8px;
+    }
+
+    .image-edit .confirm {
+      background: var(--crepe-color-secondary);
+      color: var(--crepe-color-on-secondary);
+      line-height: 40px;
+      padding: 0 24px;
+      border-radius: 100px;
+      font-size: 14px;
+    }
+  }
+}

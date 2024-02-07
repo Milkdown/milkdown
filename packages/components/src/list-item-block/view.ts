@@ -9,9 +9,8 @@ import type { ListItemComponentProps } from './component'
 import { ListItemElement } from './component'
 import { listItemBlockConfig } from './config'
 
+customElements.define('milkdown-list-item-block', ListItemElement)
 export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConstructor => {
-  customElements.define('milkdown-list-item-block', ListItemElement)
-
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-list-item-block') as HTMLElement & ListItemComponentProps
     const contentDOM = document.createElement('div')

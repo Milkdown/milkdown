@@ -4,9 +4,7 @@ import { css } from 'atomico'
 export const style = css`
   :host {
     outline: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: inline;
   }
 
   :host input {

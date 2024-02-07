@@ -11,9 +11,9 @@ import debounce from 'lodash.debounce'
 import type { FilterNodes } from './block-plugin'
 import { blockConfig } from './block-plugin'
 import { removePossibleTable } from './__internal__/remove-possible-table'
-import type { ActiveNode } from './__internal__/select-node-by-dom'
 import { selectRootNodeByDom } from './__internal__/select-node-by-dom'
 import { serializeForClipboard } from './__internal__/serialize-for-clipboard'
+import type { ActiveNode } from './types'
 
 const brokenClipboardAPI
     = (browser.ie && <number>browser.ie_version < 15) || (browser.ios && browser.webkit_version < 604)
@@ -63,8 +63,6 @@ export class BlockService {
 
   /// @internal
   #dragging = false
-  /// @internal
-  #hovering = false
 
   /// @internal
   get #filterNodes(): FilterNodes | undefined {
@@ -82,7 +80,6 @@ export class BlockService {
   /// @internal
   #hide = () => {
     this.#notify?.({ type: 'hide' })
-    this.#hovering = false
     this.#active = null
   }
 
@@ -101,8 +98,6 @@ export class BlockService {
   /// Add mouse event to the dom.
   addEvent = (dom: HTMLElement) => {
     dom.addEventListener('mousedown', this.#handleMouseDown)
-    dom.addEventListener('mouseenter', this.#handleMouseEnter)
-    dom.addEventListener('mouseleave', this.#handleMouseLeave)
     dom.addEventListener('mouseup', this.#handleMouseUp)
     dom.addEventListener('dragstart', this.#handleDragStart)
   }
@@ -110,8 +105,6 @@ export class BlockService {
   /// Remove mouse event to the dom.
   removeEvent = (dom: HTMLElement) => {
     dom.removeEventListener('mousedown', this.#handleMouseDown)
-    dom.removeEventListener('mouseenter', this.#handleMouseEnter)
-    dom.removeEventListener('mouseleave', this.#handleMouseLeave)
     dom.removeEventListener('mouseup', this.#handleMouseUp)
     dom.removeEventListener('dragstart', this.#handleDragStart)
   }
@@ -119,16 +112,6 @@ export class BlockService {
   /// Unbind the notify function.
   unBind = () => {
     this.#notify = undefined
-  }
-
-  /// @internal
-  #handleMouseEnter = () => {
-    this.#hovering = true
-  }
-
-  /// @internal
-  #handleMouseLeave = () => {
-    this.#hovering = false
   }
 
   /// @internal
@@ -187,13 +170,12 @@ export class BlockService {
     if (!view.editable)
       return
 
-    if (this.#hovering)
-      return
-
     if (this.#dragging)
       return
 
-    const dom = event.target
+    const { y } = event
+    const x = view.dom.getBoundingClientRect().width / 2
+    const dom = document.elementFromPoint(x, y)
     if (!(dom instanceof Element)) {
       this.#hide()
       return
@@ -217,7 +199,7 @@ export class BlockService {
     if (view.composing || !view.editable)
       return false
 
-    debounce(this.#mousemoveCallback, 200)(view, event)
+    debounce(this.#mousemoveCallback, 20)(view, event)
 
     return false
   }
@@ -259,7 +241,6 @@ export class BlockService {
   dragleaveCallback = () => {
     this.#dragging = false
     this.#active = null
-    this.#hovering = false
   }
 
   /// @internal

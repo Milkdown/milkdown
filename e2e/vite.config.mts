@@ -10,6 +10,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'main': resolve(__dirname, 'src/index.html'),
+        'crepe': resolve(__dirname, 'src/crepe/index.html'),
         'preset-gfm': resolve(__dirname, 'src/preset-gfm/index.html'),
         'preset-commonmark': resolve(__dirname, 'src/preset-commonmark/index.html'),
         'plugin-automd': resolve(__dirname, 'src/plugin-automd/index.html'),

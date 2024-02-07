@@ -8,9 +8,8 @@ import { withMeta } from '../../__internal__/meta'
 import type { ImageComponentProps } from './component'
 import { ImageElement } from './component'
 
+customElements.define('milkdown-image-block', ImageElement)
 export const imageBlockView = $view(imageBlockSchema.node, (ctx): NodeViewConstructor => {
-  customElements.define('milkdown-image-block', ImageElement)
-
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-image-block') as HTMLElement & ImageComponentProps
     const config = ctx.get(imageBlockConfig.key)

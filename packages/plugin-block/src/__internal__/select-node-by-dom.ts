@@ -3,6 +3,7 @@ import type { Node, ResolvedPos } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 
 import type { FilterNodes } from '../block-plugin'
+import type { ActiveNode } from '../types'
 import { getDOMByPos } from './get-dom-by-pos'
 
 const nodeIsNotBlock = (node: Node) => !node.type.isBlock
@@ -19,12 +20,6 @@ function nodeIsFirstChild(pos: ResolvedPos) {
   return parent.firstChild === node
 }
 
-export type ActiveNode = Readonly<{
-  $pos: ResolvedPos
-  node: Node
-  el: HTMLElement
-}>
-
 export function selectRootNodeByDom(dom: Element, view: EditorView, filterNodes: FilterNodes): ActiveNode | null {
   const root = view.dom.parentElement
   if (!root)
@@ -37,17 +32,24 @@ export function selectRootNodeByDom(dom: Element, view: EditorView, filterNodes:
   let $pos = view.state.doc.resolve(pos)
   let node = $pos.node()
 
-  if (node.type.name === 'doc')
-    return null
+  if (node.type.name === 'doc') {
+    const _node = view.state.doc.nodeAt(pos)
+    if (!_node)
+      return null
+
+    node = _node
+  }
 
   while (node && (nodeIsNotBlock(node) || nodeIsFirstChild($pos) || !filterNodes(node))) {
     $pos = view.state.doc.resolve($pos.before())
     node = $pos.node()
   }
 
-  $pos = view.state.doc.resolve($pos.pos - $pos.parentOffset)
+  $pos = $pos.pos - $pos.parentOffset === 0 ? $pos : view.state.doc.resolve($pos.pos - $pos.parentOffset)
 
   const el = getDOMByPos(view, root, $pos)
+  if (!el)
+    return null
 
   return { node, $pos, el }
 }

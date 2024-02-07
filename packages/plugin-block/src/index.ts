@@ -10,6 +10,7 @@ import type { BlockService } from './block-service'
 export * from './block-plugin'
 export * from './block-provider'
 export * from './block-service'
+export * from './types'
 
 /// @internal
 export type BlockPlugin = [

@@ -15,7 +15,6 @@ export class LinkPreviewTooltip implements PluginView {
     content: this.#content,
     shouldShow: () => false,
     tippyOptions: {
-      appendTo: document.body,
       arrow: false,
       delay: 0,
       duration: 0,

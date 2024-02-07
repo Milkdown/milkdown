@@ -11,6 +11,7 @@ import type { LanguageInfo } from './loader'
 import { trapFocus } from './utils'
 
 export interface CodeComponentProps {
+  selected: boolean
   codemirror: CodeMirror
   language: string
   getAllLanguages: () => Array<LanguageInfo>
@@ -19,6 +20,7 @@ export interface CodeComponentProps {
 }
 
 export const codeComponent: Component<CodeComponentProps> = ({
+  selected = false,
   codemirror,
   getAllLanguages,
   setLanguage,
@@ -138,7 +140,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
     }
   }
 
-  return html`<host>
+  return html`<host class=${clsx(selected && 'selected')}>
     <div class="tools">
       <button
         ref=${triggerRef}
@@ -191,6 +193,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
 }
 
 codeComponent.props = {
+  selected: Boolean,
   codemirror: Object,
   language: String,
   getAllLanguages: Function,

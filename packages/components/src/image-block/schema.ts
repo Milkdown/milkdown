@@ -3,7 +3,7 @@ import { $nodeSchema } from '@milkdown/utils'
 import { expectDomTypeError } from '@milkdown/exception'
 import { withMeta } from '../__internal__/meta'
 
-const IMAGE_DATA_TYPE = 'image-block'
+export const IMAGE_DATA_TYPE = 'image-block'
 
 export const imageBlockSchema = $nodeSchema('image-block', () => {
   return {
@@ -11,8 +11,10 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
     group: 'block',
     selectable: true,
     draggable: true,
+    isolating: true,
     marks: '',
     atom: true,
+    priority: 100,
     attrs: {
       src: { default: '' },
       caption: { default: '' },

@@ -1,0 +1,95 @@
+{
+  "name": "@milkdown/crepe",
+  "type": "module",
+  "version": "7.3.3",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milkdown/milkdown.git",
+    "directory": "packages/plugin-cursor"
+  },
+  "keywords": [
+    "milkdown",
+    "milkdown plugin",
+    "crepe",
+    "editor"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./lib/index.es.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./lib/index.es.js",
+        "types": "./lib/index.d.ts"
+      }
+    }
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
+    "test": "vitest",
+    "tsc": "tsc --noEmit && echo",
+    "build": "vite build && tsc --emitDeclarationOnly"
+  },
+  "dependencies": {
+    "atomico": "^1.75.1"
+  },
+  "devDependencies": {
+    "@codemirror/commands": "^6.2.4",
+    "@codemirror/language-data": "^6.3.1",
+    "@codemirror/view": "^6.16.0",
+    "@emotion/css": "^11.11.2",
+    "@milkdown/components": "workspace:*",
+    "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
+    "@milkdown/plugin-block": "workspace:*",
+    "@milkdown/plugin-clipboard": "workspace:*",
+    "@milkdown/plugin-cursor": "workspace:*",
+    "@milkdown/plugin-history": "workspace:*",
+    "@milkdown/plugin-indent": "workspace:*",
+    "@milkdown/plugin-slash": "workspace:*",
+    "@milkdown/plugin-tooltip": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/utils": "workspace:*",
+    "clsx": "^2.0.0",
+    "codemirror": "^6.0.1",
+    "nanoid": "^5.0.0",
+    "thememirror": "^2.0.1",
+    "tslib": "^2.5.0"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/lib"
+        ],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          {
+            "target": "build",
+            "projects": "dependencies"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.milkdown {
+  milkdown-list-item-block {
+    display: block;
+    margin-top: 10px;
+
+    li {
+      gap: 10px;
+      .label-wrapper {
+        color: var(--crepe-color-outline);
+        height: 24px;
+        width: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .label {
+          height: 24px;
+          width: 24px;
+          text-align: right;
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { c, html, useEffect, useRef, useState } from 'atomico'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import clsx from 'clsx'
 import type { ImageBlockConfig } from '../config'
+import { IMAGE_DATA_TYPE } from '../schema'
 import { useBlockEffect } from './event'
 import { style } from './style'
 
@@ -127,7 +128,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
       <div class="operation">
         <div class="operation-item" onmousedown=${onToggleCaption}>${config?.captionIcon()}</div>
       </div>
-      <img ref=${image} src=${src} alt=${caption} />
+      <img ref=${image} data-type=${IMAGE_DATA_TYPE} src=${src} alt=${caption} ratio=${ratio} />
       <div ref=${resizeHandle} class="image-resize-handle"></div>
     </div>
     <input

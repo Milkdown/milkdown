@@ -1,0 +1,126 @@
+.milkdown {
+  milkdown-block-handle {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    padding-right: 4px;
+
+    .operation-item {
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      &:hover {
+        background: var(--crepe-color-hover);
+      }
+
+      &.active {
+        background: var(--crepe-color-selected);
+      }
+    }
+  }
+
+  milkdown-slash-menu {
+    display: block;
+    width: 254px;
+    font-family: var(--crepe-font-default);
+    color: var(--crepe-color-on-surface);
+    background: var(--crepe-color-surface);
+    border-radius: 12px;
+    box-shadow: var(--crepe-shadow-1);
+
+    ul {
+      list-style-type: none;
+      li {
+        cursor: pointer;
+        border-radius: 8px;
+      }
+    }
+
+    .tab-group {
+      border-bottom: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      padding: 12px 12px 0;
+
+      ul {
+        padding: 8px 10px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: nowrap;
+
+        li {
+          padding: 6px 10px;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 20px;
+          &:hover {
+            background: var(--crepe-color-hover);
+          }
+          &.selected {
+            background: var(--crepe-color-selected);
+          }
+        }
+      }
+    }
+
+    .menu-groups {
+      padding: 0 12px 12px;
+      max-height: 420px;
+      overflow: auto;
+
+      .menu-group {
+        h6 {
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 20px;
+          padding: 14px 10px;
+          text-transform: uppercase;
+          color: color-mix(in srgb, var(--crepe-color-on-surface), transparent 40%)
+        }
+
+        li {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 16px;
+          padding: 14px 10px;
+          &.hover {
+            background: var(--crepe-color-hover);
+          }
+          &.active {
+            background: var(--crepe-color-selected);
+          }
+
+          & > svg {
+            width: 24px;
+            height: 24px;
+            color: var(--crepe-color-outline);
+          }
+          & > span {
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px;
+          }
+        }
+      }
+
+      .menu-group + .menu-group::before {
+        content: '';
+        display: block;
+        height: 1px;
+        background: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+        margin: 0 10px;
+      }
+    }
+  }
+}
