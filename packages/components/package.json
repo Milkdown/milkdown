@@ -105,7 +105,7 @@
     "@milkdown/transformer": "^7.2.0"
   },
   "dependencies": {
-    "@atomico/hooks": "^3.50.2",
+    "@atomico/hooks": "^4.0.0",
     "@floating-ui/dom": "^1.5.1",
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",

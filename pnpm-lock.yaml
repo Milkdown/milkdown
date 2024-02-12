@@ -38,14 +38,14 @@ importers:
         specifier: ^18.0.0
         version: 18.4.3
       '@nrwl/tao':
-        specifier: 18.0.3
-        version: 18.0.3
+        specifier: 18.0.4
+        version: 18.0.4
       '@nx/cypress':
-        specifier: 18.0.3
-        version: 18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3)
+        specifier: 18.0.4
+        version: 18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3)
       '@nx/workspace':
-        specifier: 18.0.3
-        version: 18.0.3
+        specifier: 18.0.4
+        version: 18.0.4
       '@rollup/plugin-commonjs':
         specifier: ^25.0.0
         version: 25.0.7(rollup@4.9.1)
@@ -119,8 +119,8 @@ importers:
         specifier: ^15.0.0
         version: 15.2.0
       nx:
-        specifier: 18.0.3
-        version: 18.0.3
+        specifier: 18.0.4
+        version: 18.0.4
       pathe:
         specifier: ^1.0.0
         version: 1.1.1
@@ -249,8 +249,8 @@ importers:
   packages/components:
     dependencies:
       '@atomico/hooks':
-        specifier: ^3.50.2
-        version: 3.50.3(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/form-tools@0.0.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.75.1)
+        specifier: ^4.0.0
+        version: 4.0.1(atomico@1.75.1)(element-internals-polyfill@0.1.55)
       '@floating-ui/dom':
         specifier: ^1.5.1
         version: 1.5.3
@@ -1180,32 +1180,316 @@ packages:
       execa: 8.0.1
     dev: true
 
-  /@atomico/channel@0.0.1:
-    resolution: {integrity: sha512-4sKzBHVrV6eG1HiifxwweuvNkNwvMWyb3EA9n0Civg3NZFOPWjPsAM9/BFt9HalPNExl49GXPpSVRgWILQiI+A==}
-    dev: false
-
-  /@atomico/hooks@3.50.3(@atomico/channel@0.0.1)(@uppercod/exp-route@1.3.0)(@uppercod/form-tools@0.0.0)(@uppercod/hash@1.1.1)(@uppercod/match-media@1.1.1)(atomico@1.75.1):
-    resolution: {integrity: sha512-842cVlMCKzsIkwY2YSxPHEHeE1RaZydhJvf9pVZYgQtWtapVEViiFeE4QfjahZN/tORPQkr2KjsGyZdzWGgyFA==}
+  /@atomico/hooks@4.0.1(atomico@1.75.1)(element-internals-polyfill@0.1.55):
+    resolution: {integrity: sha512-ZUQd04cWxJX05gj1fS7JJkKgGeUeUBOu28SO1vcRSGzRABT0v1vV9CkeLxsJwt4Hr8VLsaHFP6Gs+PEj+O2Jcg==}
     peerDependencies:
-      '@atomico/channel': ^0.0.1
-      '@lit/reactive-element': ^1.0.2
-      '@uppercod/exp-route': ^1.3.0
-      '@uppercod/form-tools': ^0.0.0
-      '@uppercod/hash': ^1.1.1
-      '@uppercod/match-media': ^1.1.0
-      atomico: ^1.68.0
-      dollars.js: ^0.6.2
+      '@atomico/react': '*'
+      '@atomico/vue': '*'
+      atomico: ^1.75.1
     peerDependenciesMeta:
-      '@lit/reactive-element':
+      '@atomico/react':
         optional: true
-      dollars.js:
+      '@atomico/vue':
         optional: true
     dependencies:
-      '@atomico/channel': 0.0.1
-      '@uppercod/exp-route': 1.3.0
-      '@uppercod/form-tools': 0.0.0
-      '@uppercod/hash': 1.1.1
+      '@atomico/use-attributes': 1.0.0(atomico@1.75.1)
+      '@atomico/use-click-coordinates': 1.0.0(atomico@1.75.1)
+      '@atomico/use-click-press': 1.0.0(atomico@1.75.1)
+      '@atomico/use-copy': 1.0.0(atomico@1.75.1)
+      '@atomico/use-css-light-dom': 1.0.0(atomico@1.75.1)
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      '@atomico/use-debounce-state': 1.0.0(atomico@1.75.1)
+      '@atomico/use-disabled': 1.0.0(atomico@1.75.1)
+      '@atomico/use-drag-resize': 1.0.2-beta(atomico@1.75.1)
+      '@atomico/use-form': 1.0.0(atomico@1.75.1)(element-internals-polyfill@0.1.55)
+      '@atomico/use-internals': 1.0.0(atomico@1.75.1)
+      '@atomico/use-intersection-observer': 1.0.0(atomico@1.75.1)
+      '@atomico/use-keyboard': 1.0.0(atomico@1.75.1)
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      '@atomico/use-media-query': 1.0.0(atomico@1.75.1)
+      '@atomico/use-mutation-observer': 1.0.0(atomico@1.75.1)
+      '@atomico/use-parallax': 1.0.0(atomico@1.75.1)
+      '@atomico/use-parent': 1.0.0(atomico@1.75.1)
+      '@atomico/use-prop-proxy': 1.0.0(atomico@1.75.1)
+      '@atomico/use-ref-values': 1.0.0(atomico@1.75.1)
+      '@atomico/use-reflect-event': 1.0.0(atomico@1.75.1)
+      '@atomico/use-render': 1.0.0(atomico@1.75.1)
+      '@atomico/use-resize-observer': 1.0.0(atomico@1.75.1)
+      '@atomico/use-resize-state': 1.0.0(atomico@1.75.1)
+      '@atomico/use-responsive-state': 1.0.0(atomico@1.75.1)
+      '@atomico/use-router': 1.0.0(atomico@1.75.1)
+      '@atomico/use-script': 1.0.0(atomico@1.75.1)
+      '@atomico/use-slot': 1.0.0(atomico@1.75.1)
+      '@atomico/use-value-history': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    transitivePeerDependencies:
+      - element-internals-polyfill
+    dev: false
+
+  /@atomico/use-attributes@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-vHMNOE8PsFK71FUvoZ+OrzUy8BoypMtduT5MadcEF0XxMWMzBSGTcYkJpevZkuBu3jja9lpusWBqfX5Mv+kEDA==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-mutation-observer': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-click-coordinates@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-jOG4g/a+OG4fjPUDuNDqVnI1D002HWkcmrunlvZKmYhevujeM819wZeJg0wnKOMs6k88tDvVYc0vCYxC8l0Lqw==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-click-press@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-nvRTd0xgQzb56ahPPuGebAfYs5zWoifPGcajcI0ElPFnmvYaZOBWkN8djEvzjuYK6sRoGEflpuBYhs51gvDYiA==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-copy@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-ffjRajTLuZF89pMBHmodB1Zr9ldd5D1yEUqJkCUm1wvbHKqdC1JtTop2GJmzIitOYcaXQ2q/XiF8YVb87kkqdg==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-css-light-dom@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-e4GoAySORdf1OwJw1qcaep4pOCEiPseNhvEer2olqdmhCOlSQCkzeMbUeV4uyHPmGcFlOR93lf0U49Q40/qSqw==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-current-value@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-ts94Yyw1UulMGtYmy9930GPAyfvZDEe0aThV1Sbr15bgR8UeM68QcnvMOrb8AcLWH4kTm1T96vobBsO4HToD5g==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-debounce-state@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-olBlrh73kXut6i5dUS0U2M5wfcAnZIKgepw7Htbe5vjHa/tEKzsJiigGMLJE4s14Maes4m1EsbkWEgRt/sHaKQ==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-disabled@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-Jj+aN8huOrDkMUzCQri+gcCTHHxU7/fnMd3+HgaTXMIWxarFMAy8cUmQst9j04xkxs1sHGjJqoPS8cU8oaO3VQ==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-mutation-observer': 1.0.0(atomico@1.75.1)
+      '@atomico/use-parent': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-drag-resize@1.0.2-beta(atomico@1.75.1):
+    resolution: {integrity: sha512-TQp6gBcURzEdRtBZy2DQbMw9a544ss3Ii4HKyfN+Zmh34rj97w0E7rYbqUqtBkWyusfefTdqzb6Yb+q6tyO7Hg==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-debounce-state': 1.0.0(atomico@1.75.1)
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-form@1.0.0(atomico@1.75.1)(element-internals-polyfill@0.1.55):
+    resolution: {integrity: sha512-eWSkjOLV70kpUA6s0Z3vEDrqCNVzbFzUs3Aicd6gNFU+KEVy3ZJmDCBQs+4QobhdlLpuCKy2XKD3NRK9rq7avQ==}
+    peerDependencies:
+      atomico: ^1.75.1
+      element-internals-polyfill: ^0.1.49
+    dependencies:
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      '@atomico/use-parent': 1.0.0(atomico@1.75.1)
+      '@atomico/use-render': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+      element-internals-polyfill: 0.1.55
+    dev: false
+
+  /@atomico/use-internals@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-5RE0W33orL62UW+Z1IRNqCl3dFdponhoJm3M/BbVL1MoIMavSJEKIYAqjUsQ5LE9LnTealmPcAPrrHKa8e7d3A==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-intersection-observer@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-XBUPOTzXq4a1c93Q3mrq82sx4h+XwyZMbbCdDOR8OocoHuRQusj9JRN7FE1mtjNu4x/1zrCMkDgOpjRzDAQYAQ==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-ref-values': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-keyboard@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-TLoJZZxFL1SXxDaDwfrbm+bO6Rsn+0O+zEdaxXgzocjmTa2cexLEoDAjjcSg22znscy+wTPnmJxDgijHsHnF/A==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      '@atomico/use-ref-values': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-listener@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-r813DkUzPlyr21k6rEsPWgZqLC0nQAHyJPSgUydcWxiUHst0AMOgbxwO5FvEVfhtsQyHZKv5sIJ/xiT/5U2ejA==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      '@atomico/use-ref-values': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-media-query@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-kctBwJ/cLIHCrQZr85kSBrXzwNFRBbvzpwHXGx0wEEvbfNm+1WkxXRW8ovbJHfJhWs4kZ4dTjIYEQTFnXBlZcw==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-mutation-observer@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-R2VFiA2F32fzOmthSYLBi5zo16sqlqYdwRN7+hQdq/5KnxcN2hPHAozchp+Vml65T5jWoPgtVT93XEd3//BcDw==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      '@atomico/use-ref-values': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-parallax@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-SCMJh+9nOWduT2fpze5gZdNRQOHXhDH4z7eSDtxCZ3Qb7es5bpnn/+JoypnRsag77Ke/EaAQOyVa2nXyVF/cZQ==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-debounce-state': 1.0.0(atomico@1.75.1)
+      '@atomico/use-intersection-observer': 1.0.0(atomico@1.75.1)
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-parent@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-CmHx9ll3+xtAEc6tUwlfyjFKkI3BChbJWvqA2wyyv6lxCYTkexWGXaLUEFz1uRLSz2DfTUbvhVEAYzjzE9v2DA==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-prop-proxy@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-YJsYSkdimi50ScJJAk+0n3K77AcSNsdzuq62Z0OqgoSDVa0wU+q49Yl76GGO7cn94uq8eVl5nNsthkrO5AQqaw==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-ref-values@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-me2zR4jd0+xp3PRDZme32vgQBnzxnIL912itVZOJnUZqcQTjqDeJPyfvEfDPdhpw38PMu5K2VDs5kScDnaA1GA==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-reflect-event@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-paPpt/CpS/Bnv2aVRq2wBEOR6iU6Fe8lvk97N+hiEL8aUUABom6PbsMejyCMnzKBb7O8kStDrUIxWAO0ZOwYFA==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-render@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-w31OXw88lzR1pAQjYKMmgXBbQcg3818wYb+bRfrhZAsvJdeeeID3SqpdU7Qcq2hT6LxpbCZuwXIxd3EUwidAvQ==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-resize-observer@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-XwFQ0hk5DNCmBVf3OKATABeqCX7VJ9+/Fmaso8rZtB7m9ICDYJMBd8D0F0wTMn+wiIQqK8hy334NHHIr1WqiTQ==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      '@atomico/use-ref-values': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-resize-state@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-oOMlawQzGzQEyfAV7qcg6zb7cgyJCNXG1ilob6+Gdx8xMuUZXVBA47AqtwV0wtnCQjg0cCPW+JjWSb9tCr/wqw==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-resize-observer': 1.0.0(atomico@1.75.1)
       '@uppercod/match-media': 1.1.1
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-responsive-state@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-lxRxT3t5I3b6gVyUo5Lsx5hTftgvcZEQPl/VewoljHWx10bJrQ7yARfWdInTftY7MtcF7Mg/cSmQ6KnRbAOgJg==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@uppercod/match-media': 1.1.1
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-router@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-mHmfNOiU/gfkoUqh8XSyXbuTew34NyMpEaqLSM5eNmP+h1Ghs/9i8jAXDT2jasLuUjUq4h2ZlhjOMxeLw7Zfsg==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-current-value': 1.0.0(atomico@1.75.1)
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      '@uppercod/exp-route': 1.4.2
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-script@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-KabWWE6pwlR6OvXb8Vx0h1EZXVZEzEfd0+HUh6D1dWDmviIWDWZhVAULdTzu28yU11cj0ZJ57B3PH5wFNiJrQw==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-slot@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-yHv9jAD57DzRjtOtcZVcDNNN8k/eJuLTdGBCrE46XQj9ig8mpU+IfuiSL0KZbiZ4IIkDx3nNRfvmmfgKoKy+gg==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
+      '@atomico/use-listener': 1.0.0(atomico@1.75.1)
+      atomico: 1.75.1
+    dev: false
+
+  /@atomico/use-value-history@1.0.0(atomico@1.75.1):
+    resolution: {integrity: sha512-PGVDragG7wrjijIQDqzCGtru7h4+wQcnrYPCHSVZw6VD12TVp7CuICs/RjUS+QEEVMqz/hgYkGbT9OAmkS8bjg==}
+    peerDependencies:
+      atomico: ^1.75.1
+    dependencies:
       atomico: 1.75.1
     dev: false
 
@@ -4208,8 +4492,8 @@ packages:
       '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/hasown@1.0.25:
-    resolution: {integrity: sha512-RhoW4Hk6B4/DM8B6sjbCkVJkhmtycA38cURrC489u4lwb/YafpUeknuLRzBoaNWvfLqkyR3rM/t0aa8U2/tvkQ==}
+  /@nolyfill/hasown@1.0.29:
+    resolution: {integrity: sha512-9h/nxZqmCy26r9VXGUz+Q77vq3eINXOYgE4st3dj6DoE7tulfJueCLw5d4hfDy3S8mKg4cFXaP+KxYQ+txvMzw==}
     engines: {node: '>=12.4.0'}
     dev: true
 
@@ -4260,8 +4544,8 @@ packages:
     resolution: {integrity: sha512-UJTshFMDgugBcYXGLopbL1enYpGREOEfjUMQKLPLeJqWfbfElGtYbGbUcucCENa7cicGo3M5u/DnPiZe/PYQyw==}
     dev: true
 
-  /@nolyfill/side-channel@1.0.24:
-    resolution: {integrity: sha512-v6Ook3sifnCVUtvvKedU6KNL1/W27Sj+XrLOVxBgid7+F5nFaaCUbvsfkN1R4Aw91zCt0/l4u4LzfC+NyIXQKA==}
+  /@nolyfill/side-channel@1.0.29:
+    resolution: {integrity: sha512-nqk0vlqUL0wmmoPrm2HqDi0KXGy+jTNHlH/oSx7jsrh2rEApSy1mactsSUGWnhuz2ZsngJSrVHWZIaJKi3WUNA==}
     engines: {node: '>=12.4.0'}
     dev: true
 
@@ -4272,10 +4556,10 @@ packages:
       '@nolyfill/shared': 1.0.28
     dev: true
 
-  /@nrwl/cypress@18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-lyFx8IwWtAvpQFVh+GsH/Nu+S2HjCFxp+GfL1g9BuLMzSKsLCdM/7dMavwrFytFcG+UIs0hZheILFrw/u5+gbQ==}
+  /@nrwl/cypress@18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3):
+    resolution: {integrity: sha512-X7ZORP9Xt3lB+7goAb5JcBfVl6FQx8BPNv6TFi9ZiKayUqovgCMPOlmL2BDizsladv+7iacnTZTdo2X/4aunJA==}
     dependencies:
-      '@nx/cypress': 18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3)
+      '@nx/cypress': 18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4291,18 +4575,18 @@ packages:
       - verdaccio
     dev: true
 
-  /@nrwl/devkit@18.0.3(nx@18.0.3):
-    resolution: {integrity: sha512-ztDAaiEciEL4Gwq42m6+gz392QnBRBZoYwYUEXhLiOrPngAu2eGnkXrQlSvF54ISKLwzD7gnGAKRzpA6nw8u5w==}
+  /@nrwl/devkit@18.0.4(nx@18.0.4):
+    resolution: {integrity: sha512-fKHnjg4/9MdFd2U4e8p6ja9fRa864DCyF70kB4YUB9NuUIgWLQ15Uj6wXC3xjdXmxQRyHDa7ORodVoFzdo4UCg==}
     dependencies:
-      '@nx/devkit': 18.0.3(nx@18.0.3)
+      '@nx/devkit': 18.0.4(nx@18.0.4)
     transitivePeerDependencies:
       - nx
     dev: true
 
-  /@nrwl/js@18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-aXjTEVgPQ2Lu98swfhILTOEXAqjCrhhtG8d8+C4zCitxMMd696QxtWDqHVfCdXWQZdVqX0YXhKKdqxc06oTCWA==}
+  /@nrwl/js@18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3):
+    resolution: {integrity: sha512-7aY6vjHHD99MMF+WtHSdmA7sxLmMNhbd12CQ6lXmSK41Yj82mBgQMwV/Ed+UT10XEh5uMes/iODL460SzwPMZA==}
     dependencies:
-      '@nx/js': 18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3)
+      '@nx/js': 18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4316,11 +4600,11 @@ packages:
       - verdaccio
     dev: true
 
-  /@nrwl/tao@18.0.3:
-    resolution: {integrity: sha512-9EIIkjvaXs7JM0shhZAQIblV3ym+wZyqxZ9nYc39OwPkII2xXtGhWPhd7SRj+If6lbVNpelIc/Xg5DpTMgu16g==}
+  /@nrwl/tao@18.0.4:
+    resolution: {integrity: sha512-/PzGOJevlDQnp5RPXF3WDe+w1cdohGkY+mbJUgDVA4Q5JEPT1DtE10h9GgdHdzkPjVPNYsaI4Vs/53NUdlVHHA==}
     hasBin: true
     dependencies:
-      nx: 18.0.3
+      nx: 18.0.4
       tslib: 2.6.2
     transitivePeerDependencies:
       - '@swc-node/register'
@@ -4328,28 +4612,28 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/workspace@18.0.3:
-    resolution: {integrity: sha512-PKomM6L8tSeBQOg1PdtDpEeILPhCq2rCGPBFcNd00GQsBT/lD48DVCQtA3GOB+zZh0YoufDBO6zAMU0Y3h6b5g==}
+  /@nrwl/workspace@18.0.4:
+    resolution: {integrity: sha512-UFD96NeEeHLKADLBDfF2U5rFOhyMjCwYzpA+D3Yp3X25aB7D89Kan4spq9ZC/Zxethz3911nNaYy+I+L5WlDoA==}
     dependencies:
-      '@nx/workspace': 18.0.3
+      '@nx/workspace': 18.0.4
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
       - debug
     dev: true
 
-  /@nx/cypress@18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-Htu4yG7Vo097BXi9DrRUCCX1GdV/i7B+Mdl0EsACwafelvj+gvaPu9HRbk4PKFz++Vw9caJGUvxu+zhICXvLlA==}
+  /@nx/cypress@18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3):
+    resolution: {integrity: sha512-G/t83/SSYNIor8aGE+u9nNbCrqcsbG4EnhESP0eXwk5k6ycW6eVGMuSlLkRe7debosL/RhGLwcw491alQug7PQ==}
     peerDependencies:
       cypress: '>= 3 < 14'
     peerDependenciesMeta:
       cypress:
         optional: true
     dependencies:
-      '@nrwl/cypress': 18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3)
-      '@nx/devkit': 18.0.3(nx@18.0.3)
-      '@nx/eslint': 18.0.3(@types/node@20.10.5)(nx@18.0.3)
-      '@nx/js': 18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3)
+      '@nrwl/cypress': 18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3)
+      '@nx/devkit': 18.0.4(nx@18.0.4)
+      '@nx/eslint': 18.0.4(@types/node@20.10.5)(nx@18.0.4)
+      '@nx/js': 18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.3.3)
       detect-port: 1.5.1
       semver: 7.5.4
@@ -4368,33 +4652,33 @@ packages:
       - verdaccio
     dev: true
 
-  /@nx/devkit@18.0.3(nx@18.0.3):
-    resolution: {integrity: sha512-HiQq43YHfdjG5WnBxVNTlRm1IhnVaWoBLZrbkFItElX4SIhUqWQUp0gjtdTXy0do8Q2hkj8aITrC4Tm92KiyUw==}
+  /@nx/devkit@18.0.4(nx@18.0.4):
+    resolution: {integrity: sha512-Vs1AXgOjMJyaWpKopD04dy0FwQ22n5ZR1bFf98Ab4Ht0WJwJE90IpUVAkwI03n5BYxAKOlQnFltsB4gu6Y8mZQ==}
     peerDependencies:
       nx: '>= 16 <= 18'
     dependencies:
-      '@nrwl/devkit': 18.0.3(nx@18.0.3)
+      '@nrwl/devkit': 18.0.4(nx@18.0.4)
       ejs: 3.1.9
       enquirer: 2.3.6
       ignore: 5.3.0
-      nx: 18.0.3
+      nx: 18.0.4
       semver: 7.5.4
       tmp: 0.2.1
       tslib: 2.6.2
       yargs-parser: 21.1.1
     dev: true
 
-  /@nx/eslint@18.0.3(@types/node@20.10.5)(nx@18.0.3):
-    resolution: {integrity: sha512-jG5fNfwHPfq14AYbpS9+M1ErsNB3Gt0YFpignQOtQtlmO8THLzW8Y2O9JR7OEN6PiLvJkrICaCeCp8ObR6zZPw==}
+  /@nx/eslint@18.0.4(@types/node@20.10.5)(nx@18.0.4):
+    resolution: {integrity: sha512-6mjtPjXkS0aUWfF17D+PZI+Hhn+Cvm2yWTiDoVANsqt9rTOmlCa4fr01OcSyuaWFtkUlbKiKdQ1YYFyLD8zm7A==}
     peerDependencies:
       js-yaml: 4.1.0
     peerDependenciesMeta:
       js-yaml:
         optional: true
     dependencies:
-      '@nx/devkit': 18.0.3(nx@18.0.3)
-      '@nx/js': 18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3)
-      '@nx/linter': 18.0.3(@types/node@20.10.5)(nx@18.0.3)
+      '@nx/devkit': 18.0.4(nx@18.0.4)
+      '@nx/js': 18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3)
+      '@nx/linter': 18.0.4(@types/node@20.10.5)(nx@18.0.4)
       eslint: 8.56.0
       tslib: 2.6.2
       typescript: 5.3.3
@@ -4410,8 +4694,8 @@ packages:
       - verdaccio
     dev: true
 
-  /@nx/js@18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-oANB7y8N2GnL7kF7FzxxsE89YWySA/9lWlsS6DBcvQxLWSwd8gyPyslP4u102AF6YOkOHyMcDc2hWGYkDWrjIQ==}
+  /@nx/js@18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3):
+    resolution: {integrity: sha512-ma8QMTHZm0LzGYZ1xdVfSUONKb1S5qbiI1DHxhztrsSo3jARZfSAMKM3Bm7ag9MBitpDsoUlgy7JCPmGCAcxAw==}
     peerDependencies:
       verdaccio: ^5.0.4
     peerDependenciesMeta:
@@ -4425,9 +4709,9 @@ packages:
       '@babel/preset-env': 7.23.6(@babel/core@7.23.6)
       '@babel/preset-typescript': 7.23.3(@babel/core@7.23.6)
       '@babel/runtime': 7.23.6
-      '@nrwl/js': 18.0.3(@types/node@20.10.5)(nx@18.0.3)(typescript@5.3.3)
-      '@nx/devkit': 18.0.3(nx@18.0.3)
-      '@nx/workspace': 18.0.3
+      '@nrwl/js': 18.0.4(@types/node@20.10.5)(nx@18.0.4)(typescript@5.3.3)
+      '@nx/devkit': 18.0.4(nx@18.0.4)
+      '@nx/workspace': 18.0.4
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.3.3)
       babel-plugin-const-enum: 1.2.0(@babel/core@7.23.6)
       babel-plugin-macros: 2.8.0
@@ -4460,10 +4744,10 @@ packages:
       - typescript
     dev: true
 
-  /@nx/linter@18.0.3(@types/node@20.10.5)(nx@18.0.3):
-    resolution: {integrity: sha512-sg+6cvnnOjYAXOdc+0YuPdUTYSNLA6zQWRs94PPYvtUuPUCVjdCZFYkZ+98QPWRV9XXXl2tiFu+xaluWGb/Hiw==}
+  /@nx/linter@18.0.4(@types/node@20.10.5)(nx@18.0.4):
+    resolution: {integrity: sha512-yCg7H63eWkjReQUagAFAoICD53ByYZDyRqlkarZe9AGRWJM4GYKhJntihsk1mUOO7Sz0a907BMaWk8Wn5HbHEA==}
     dependencies:
-      '@nx/eslint': 18.0.3(@types/node@20.10.5)(nx@18.0.3)
+      '@nx/eslint': 18.0.4(@types/node@20.10.5)(nx@18.0.4)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4477,8 +4761,8 @@ packages:
       - verdaccio
     dev: true
 
-  /@nx/nx-darwin-arm64@18.0.3:
-    resolution: {integrity: sha512-fsMzaX848KMNyF3+I5JjayHFKPsANsbr/++qTIc9skMLPYz1DQANcD6TSkc1tOWLSn4CV44cEAIwfAddPEBupw==}
+  /@nx/nx-darwin-arm64@18.0.4:
+    resolution: {integrity: sha512-9KJVONxUwdnFHHRNocsg7q5pliOTTfbjlr3rvhLuroV5HeTJFhUipKCQrVEhLy8e4auRdLuSz/HsgpJat3Z2cg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -4486,8 +4770,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-darwin-x64@18.0.3:
-    resolution: {integrity: sha512-W/FcvpQcBmsHuTcLQ2BwVjgARqTzGgLEqUGs6S/PnSEL+IgoBaWvQMavOoiisv8QY9GlLzX5Oq3rAkpJ1EmoNw==}
+  /@nx/nx-darwin-x64@18.0.4:
+    resolution: {integrity: sha512-rFKHjeU0Ngz1R7UJAsbncpqwuFDjUdpcvI783r6s2eP7JoiiwtDBXvDcHiy8Odk0lPYmwDELaFZBhvdENqaDNA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -4495,8 +4779,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-freebsd-x64@18.0.3:
-    resolution: {integrity: sha512-Wx+nRQdQQsXd8DvAy426AtPoo80F3Loku+r8AKp1QBT24NCPzD/yjz6bGyNucGCrt+RKGPmaFHWBw+8qByMi6A==}
+  /@nx/nx-freebsd-x64@18.0.4:
+    resolution: {integrity: sha512-jJx47wgRoUxVpQ+WG5+yLdxtJVuVgjphiTMRc0LOfUwKQaEHWyCA0hMK5fNmo0FAHIhGVCb/j2j9FxnCWTWpkg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [freebsd]
@@ -4504,8 +4788,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm-gnueabihf@18.0.3:
-    resolution: {integrity: sha512-oM2Yraf2JVaLyT8GLUnwGKiIyB5WIi07TbJs9kLiZz1HAoJs6pG9kwrilHoS8o1t1jNR87pYbyfO1nRpa8ZR0Q==}
+  /@nx/nx-linux-arm-gnueabihf@18.0.4:
+    resolution: {integrity: sha512-C3qWbFhEMIdTzvAHlIUHecZN3YBu7bx3S0p3gPNGmEMUMbYHP2zMlimBrZIbAxzntyGqWCqhXiFB21QhJ0t1Dw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
@@ -4513,8 +4797,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm64-gnu@18.0.3:
-    resolution: {integrity: sha512-z5T32HcsoaTUazDiN0HSMSxnuw3W2GG1ASvqaWOn+LU7pCDasPFSVylJx68hNEjo9dYMBg9OCHyuhffwi8ZlOg==}
+  /@nx/nx-linux-arm64-gnu@18.0.4:
+    resolution: {integrity: sha512-PxVMh9ikp8Q3hKagb66FAsek8O/08GcMF5dXBH7xc5AiQMaZ6Az/gAXOeHp274nmu3StQEpl9Il/YH6Z9f4V0w==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -4522,8 +4806,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm64-musl@18.0.3:
-    resolution: {integrity: sha512-1t85YQEPsOSjEWGiho4zuQMH6Zb24yCbAVJJPZpKzASQzOvv+0ayITkY7P4OaJ84oZ9T/GojXmYnINAePTlrNQ==}
+  /@nx/nx-linux-arm64-musl@18.0.4:
+    resolution: {integrity: sha512-Iz7Z4h2/dXJJvBcyeRHa+d3Ncc4Qz+OiGm6iRDXv4zjFm5EyC1tkSZIFNlNiRjmTToNHFr4savrCjCh8wRYejw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -4531,8 +4815,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-x64-gnu@18.0.3:
-    resolution: {integrity: sha512-4sS6mnLt+PGG8oYmV91tvLuAu7jh1YrRuZQlv166nVS61TI0V0oaNREdxUZF92WpvavDA1ftXEImcASEex6n3Q==}
+  /@nx/nx-linux-x64-gnu@18.0.4:
+    resolution: {integrity: sha512-BVLkegIwxHnEB64VBraBxyC01D3C3dVNxq2b4iNaqr4mpWNmos+G/mvcTU3NS7W8ZjpBjlXgdEkpgkl2hMKTEA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -4540,8 +4824,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-x64-musl@18.0.3:
-    resolution: {integrity: sha512-VmiNOH4/dYOQ5X8DaHrmTZyzrIbCUgHE7oco1pRBPEHkid8E0WyvD9sZLCVEipV80Av9nhOaQ1srAtcfOxchVQ==}
+  /@nx/nx-linux-x64-musl@18.0.4:
+    resolution: {integrity: sha512-WgVy41psjCE9uxjFi4P62UrWyKQ1e2IN2FZaIuwXEB9h8OU/+g9PFpL1Cs1llNoEKnapKXX4+9b5FHF9i7EKQw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -4549,8 +4833,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-win32-arm64-msvc@18.0.3:
-    resolution: {integrity: sha512-ymqpAyJ86I5LzFa4O7FByl770U3R//s1nFsrAz9mDm1AIq5uQyyW+EOMJzJwzm0JinRnwtxiK/GdjgWM6dNSDg==}
+  /@nx/nx-win32-arm64-msvc@18.0.4:
+    resolution: {integrity: sha512-YoxhOrVKnS+kcNTnCg9M61cbigzGErYgnlI8kdZzH2ArD7mhv8bfZnSZUInf5Y8oDBVpKusel7AkCSofzSwigA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -4558,8 +4842,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-win32-x64-msvc@18.0.3:
-    resolution: {integrity: sha512-JkBx64Lg7Ezyr6RML/ajOdy9/NIbVO5dI5bG9ZmryeS5mnUPFBY0ExspL0t4X/ud+F4Sh7gN7uGanNd32wRD1Q==}
+  /@nx/nx-win32-x64-msvc@18.0.4:
+    resolution: {integrity: sha512-FdAdl5buvtUXp8hZVRkK0AZeiCu35l0u+yHsulNViYdh3OXRT1hYJ0CeqpxlLfvbHqB9JzDPtJtG0dpKHH/O0Q==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -4567,14 +4851,14 @@ packages:
     dev: true
     optional: true
 
-  /@nx/workspace@18.0.3:
-    resolution: {integrity: sha512-S1nrE6H9RbQ1HI1BKYBW0buNDaPwRVRTbIZWF4z8XQSGeMJBKtaFiGJyPlNON7dNW/fLCe9WNe1BLO3h13foCQ==}
+  /@nx/workspace@18.0.4:
+    resolution: {integrity: sha512-0w7czYCU6+QczvdRN8HnKRU24xnam5Gf12mfw+uuU6ybslOQuRoKW+oUROwyck5P4I27XzgxcqnMTCxNDcQGWQ==}
     dependencies:
-      '@nrwl/workspace': 18.0.3
-      '@nx/devkit': 18.0.3(nx@18.0.3)
+      '@nrwl/workspace': 18.0.4
+      '@nx/devkit': 18.0.4(nx@18.0.4)
       chalk: 4.1.2
       enquirer: 2.3.6
-      nx: 18.0.3
+      nx: 18.0.4
       tslib: 2.6.2
       yargs-parser: 21.1.1
     transitivePeerDependencies:
@@ -5453,16 +5737,8 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@uppercod/exp-route@1.3.0:
-    resolution: {integrity: sha512-S3snkUhr93a0kq0wfJRVH0pdsE2zAxIHw3BFu41vNYuBCCfbK701ll+nfOVQajNfZV6Wg4WvkOeluprUgOvROg==}
-    dev: false
-
-  /@uppercod/form-tools@0.0.0:
-    resolution: {integrity: sha512-7JtF/LX7nog0J8HMzXNVRaBTC//NxdVS56jAgW5itqpduhUbbLrvHodNI8UsVaUaJVgReO9OzkxhblWiNmPfcg==}
-    dev: false
-
-  /@uppercod/hash@1.1.1:
-    resolution: {integrity: sha512-QMm3SQ/TfaeiWLgmq3kMsTac2x8gpNOs6pZ5vuhZfR5sobLe/U9EwU0RoXXLsM7jPh0+J8gwYHS4lvum0Z6uFQ==}
+  /@uppercod/exp-route@1.4.2:
+    resolution: {integrity: sha512-rRljihqBd3fBdWSKi4F+ev7OVJfjQyXSfwAxtjaA6PUcpBPbT0GjlJrXKa3wcFAMqE5brAjW0rMxTpXwbKv0pQ==}
     dev: false
 
   /@uppercod/match-media@1.1.1:
@@ -7278,6 +7554,10 @@ packages:
     resolution: {integrity: sha512-/bKPPcgZVUziECqDc+0HkT87+0zhaWSZHNXqF8FLd2lQcptpmUFwoCSWjCdOng9Gdq+afKArPdEg/0ZW461Eng==}
     dev: true
 
+  /element-internals-polyfill@0.1.55:
+    resolution: {integrity: sha512-clsNGQoOsCs8zlkT3q8Sgk9JcFZgYT0cDuXPEmD7ca8bthrYjhXQ19cIz5JGmo8CfQ+g7+SXJkfqBVw5mWB64w==}
+    dev: false
+
   /elkjs@0.8.2:
     resolution: {integrity: sha512-L6uRgvZTH+4OF5NE/MBbzQx/WYpru1xCBE9respNj6qznEewGUIfhzmm7horWWxbNO2M0WckQypGctR8lH79xQ==}
     dev: false
@@ -8670,7 +8950,7 @@ packages:
   /is-core-module@2.13.1:
     resolution: {integrity: sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==}
     dependencies:
-      hasown: /@nolyfill/hasown@1.0.25
+      hasown: /@nolyfill/hasown@1.0.29
     dev: true
 
   /is-decimal@1.0.4:
@@ -10317,12 +10597,12 @@ packages:
     resolution: {integrity: sha512-ub5E4+FBPKwAZx0UwIQOjYWGHTEq5sPqHQNRN8Z9e4A7u3Tj1weLJsL59yH9vmvqEtBHaOmT6cYQKIZOxp35FQ==}
     dev: true
 
-  /nx@18.0.3:
-    resolution: {integrity: sha512-Lvkd+er641xrBqA7kdEnzf7zvLIEmqLouzONByVZtRrk1BbgEjapUj9r+QLBxXTvmhS7tHFLNiMh1KgpDOWsLQ==}
+  /nx@18.0.4:
+    resolution: {integrity: sha512-Njb1fGppOw/wM7nOA1hYlLduV2aL4PdXSv5QS5cVYicHT5tw5RnG/0z4j9e6QfFj2EydxVeDUtlGR98diZ3/Yw==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
-      '@swc-node/register': ^1.6.7
+      '@swc-node/register': ^1.8.0
       '@swc/core': ^1.3.85
     peerDependenciesMeta:
       '@swc-node/register':
@@ -10330,7 +10610,7 @@ packages:
       '@swc/core':
         optional: true
     dependencies:
-      '@nrwl/tao': 18.0.3
+      '@nrwl/tao': 18.0.4
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
@@ -10365,16 +10645,16 @@ packages:
       yargs: 17.7.2
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@nx/nx-darwin-arm64': 18.0.3
-      '@nx/nx-darwin-x64': 18.0.3
-      '@nx/nx-freebsd-x64': 18.0.3
-      '@nx/nx-linux-arm-gnueabihf': 18.0.3
-      '@nx/nx-linux-arm64-gnu': 18.0.3
-      '@nx/nx-linux-arm64-musl': 18.0.3
-      '@nx/nx-linux-x64-gnu': 18.0.3
-      '@nx/nx-linux-x64-musl': 18.0.3
-      '@nx/nx-win32-arm64-msvc': 18.0.3
-      '@nx/nx-win32-x64-msvc': 18.0.3
+      '@nx/nx-darwin-arm64': 18.0.4
+      '@nx/nx-darwin-x64': 18.0.4
+      '@nx/nx-freebsd-x64': 18.0.4
+      '@nx/nx-linux-arm-gnueabihf': 18.0.4
+      '@nx/nx-linux-arm64-gnu': 18.0.4
+      '@nx/nx-linux-arm64-musl': 18.0.4
+      '@nx/nx-linux-x64-gnu': 18.0.4
+      '@nx/nx-linux-x64-musl': 18.0.4
+      '@nx/nx-win32-arm64-msvc': 18.0.4
+      '@nx/nx-win32-x64-msvc': 18.0.4
     transitivePeerDependencies:
       - debug
     dev: true
@@ -10984,7 +11264,7 @@ packages:
     resolution: {integrity: sha512-OQiU+C+Ds5qiH91qh/mg0w+8nwQuLjM4F4M/PbmhDOoYehPh+Fb0bDjtR1sOvy7YKxvj28Y/M0PhP5uVX0kB+g==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: /@nolyfill/side-channel@1.0.24
+      side-channel: /@nolyfill/side-channel@1.0.29
     dev: true
 
   /querystringify@2.2.0:
