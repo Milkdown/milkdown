@@ -25,9 +25,6 @@ export class BlockHandleView implements PluginView {
       ctx,
       content,
       tippyOptions: {
-        arrow: false,
-        delay: 0,
-        duration: 0,
         onShow: () => {
           this.#content.show = true
         },

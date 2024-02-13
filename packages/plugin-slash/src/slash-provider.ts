@@ -63,6 +63,9 @@ export class SlashProvider {
       trigger: 'manual',
       placement: 'bottom-start',
       interactive: true,
+      delay: 0,
+      arrow: false,
+      duration: 0,
       ...this.#tippyOptions,
       content: this.element,
     })
