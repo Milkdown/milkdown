@@ -9,7 +9,8 @@
   "scripts": {
     "postinstall": "husky install",
     "test": "pnpm test:lint && pnpm test:tsc:cache && pnpm test:unit",
-    "test:unit": "vitest",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
     "test:tsc": "pnpm --filter=@milkdown/* run tsc",
     "test:tsc:cache": "nx run-many --target=tsc --all --parallel",
     "test:lint": "eslint .",
@@ -26,7 +27,8 @@
     "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
     "changeset": "changeset",
     "release": "changeset publish",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.3.4",
@@ -57,7 +59,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-tailwindcss": "^3.8.0",
     "git-cz": "^4.7.6",
-    "husky": "^9.0.0",
+    "husky": "^9.0.10",
     "jsdom": "^24.0.0",
     "lint-staged": "^15.0.0",
     "nx": "18.0.4",

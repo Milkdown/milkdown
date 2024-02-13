@@ -110,8 +110,8 @@ importers:
         specifier: ^4.7.6
         version: 4.9.0
       husky:
-        specifier: ^9.0.0
-        version: 9.0.1
+        specifier: ^9.0.10
+        version: 9.0.10
       jsdom:
         specifier: ^24.0.0
         version: 24.0.0
@@ -8825,8 +8825,8 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /husky@9.0.1:
-    resolution: {integrity: sha512-rXCT8yF2v3awSG03AG6IgICDhJ+m8o3jL1ROwsT4nQZ6urEyKSj0IWFDIh5YC2zgZeAxWksNMbN6rYY4BE1Zrw==}
+  /husky@9.0.10:
+    resolution: {integrity: sha512-TQGNknoiy6bURzIO77pPRu+XHi6zI7T93rX+QnJsoYFf3xdjKOur+IlfqzJGMHIK/wXrLg+GsvMs8Op7vI2jVA==}
     engines: {node: '>=18'}
     hasBin: true
     dev: true
