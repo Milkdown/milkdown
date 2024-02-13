@@ -1,5 +1,13 @@
 # @milkdown/core
 
+## 7.3.5
+
+### Patch Changes
+
+- c2a5bcb: Resolve the tippy warning
+- Updated dependencies [c2a5bcb]
+  - @milkdown/exception@7.3.5
+
 ## 7.3.4
 
 ### Patch Changes

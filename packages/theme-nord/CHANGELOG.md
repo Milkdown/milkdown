@@ -1,5 +1,11 @@
 # @milkdown/theme-nord
 
+## 7.3.5
+
+### Patch Changes
+
+- c2a5bcb: Resolve the tippy warning
+
 ## 7.3.4
 
 ### Patch Changes

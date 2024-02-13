@@ -1,5 +1,27 @@
 # @milkdown/e2e
 
+## 7.3.5
+
+### Patch Changes
+
+- c2a5bcb: Resolve the tippy warning
+- Updated dependencies [c2a5bcb]
+  - @milkdown/components@7.3.5
+  - @milkdown/core@7.3.5
+  - @milkdown/crepe@7.3.5
+  - @milkdown/ctx@7.3.5
+  - @milkdown/plugin-automd@7.3.5
+  - @milkdown/plugin-clipboard@7.3.5
+  - @milkdown/plugin-history@7.3.5
+  - @milkdown/plugin-listener@7.3.5
+  - @milkdown/plugin-math@7.3.5
+  - @milkdown/plugin-tooltip@7.3.5
+  - @milkdown/preset-commonmark@7.3.5
+  - @milkdown/preset-gfm@7.3.5
+  - @milkdown/prose@7.3.5
+  - @milkdown/theme-nord@7.3.5
+  - @milkdown/utils@7.3.5
+
 ## 7.3.4
 
 ### Patch Changes
