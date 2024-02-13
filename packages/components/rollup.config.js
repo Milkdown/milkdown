@@ -5,7 +5,6 @@ import { fileURLToPath } from 'node:url'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
-import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
 import pkg from './package.json' assert { type: 'json' }
@@ -13,16 +12,6 @@ import pkg from './package.json' assert { type: 'json' }
 const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {}), /@milkdown\/prose/]
 
 const main = [
-  {
-    input: './src/index.ts',
-    output: {
-      file: 'lib/index.d.ts',
-      format: 'esm',
-      sourcemap: true,
-    },
-    external,
-    plugins: [dts({ respectExternal: true })],
-  },
   {
     input: './src/index.ts',
     output: {
@@ -45,16 +34,6 @@ const main = [
 function componentModule(name) {
   const input = `./src/${name}/index.ts`
   return [
-    {
-      input,
-      output: {
-        file: `lib/${name}/index.d.ts`,
-        format: 'esm',
-        sourcemap: true,
-      },
-      external,
-      plugins: [dts({ respectExternal: true })],
-    },
     {
       input,
       output: {

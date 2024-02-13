@@ -14,11 +14,6 @@ export class LinkPreviewTooltip implements PluginView {
     debounce: 0,
     content: this.#content,
     shouldShow: () => false,
-    tippyOptions: {
-      arrow: false,
-      delay: 0,
-      duration: 0,
-    },
   })
 
   #hovering = false

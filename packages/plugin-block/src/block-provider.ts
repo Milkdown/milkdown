@@ -72,6 +72,9 @@ export class BlockProvider {
       trigger: 'manual',
       placement: 'left-start',
       interactive: true,
+      delay: 0,
+      arrow: false,
+      duration: 0,
       ...this.#tippyOptions,
       content: this.#element,
     })

@@ -55,6 +55,9 @@ export class TooltipProvider {
     this.#tippy ??= tippy(view.dom, {
       trigger: 'manual',
       interactive: true,
+      delay: 0,
+      arrow: false,
+      duration: 0,
       ...this.#tippyOptions,
       content: this.element,
     })
