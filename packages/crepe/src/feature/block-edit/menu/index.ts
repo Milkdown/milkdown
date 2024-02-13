@@ -5,6 +5,7 @@ import { SlashProvider, slashFactory } from '@milkdown/plugin-slash'
 import type { Ctx } from '@milkdown/ctx'
 import type { AtomicoThis } from 'atomico/types/dom'
 import { $ctx } from '@milkdown/utils'
+import { rootDOMCtx } from '@milkdown/core'
 import { isInCodeBlock, isInList } from '../../../utils'
 import type { MenuProps } from './component'
 import { MenuElement } from './component'
@@ -43,6 +44,7 @@ class MenuView implements PluginView {
       content: this.#content,
       debounce: 20,
       tippyOptions: {
+        appendTo: () => ctx.get(rootDOMCtx),
         onShow: () => {
           this.#content.show = true
         },

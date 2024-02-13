@@ -4,17 +4,14 @@ import type { EditorView } from '@milkdown/prose/view'
 import type { Mark } from '@milkdown/prose/model'
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
 import type { Ctx } from '@milkdown/ctx'
+import { rootDOMCtx } from '@milkdown/core'
 import type { LinkToolTipState } from '../slices'
 import { linkTooltipAPI, linkTooltipConfig, linkTooltipState } from '../slices'
 import { LinkPreviewElement } from './preview-component'
 
 export class LinkPreviewTooltip implements PluginView {
   #content = new LinkPreviewElement()
-  #provider = new TooltipProvider({
-    debounce: 0,
-    content: this.#content,
-    shouldShow: () => false,
-  })
+  #provider: TooltipProvider
 
   #hovering = false
 
@@ -23,6 +20,14 @@ export class LinkPreviewTooltip implements PluginView {
   }
 
   constructor(readonly ctx: Ctx, view: EditorView) {
+    this.#provider = new TooltipProvider({
+      debounce: 0,
+      content: this.#content,
+      shouldShow: () => false,
+      tippyOptions: {
+        appendTo: () => ctx.get(rootDOMCtx),
+      },
+    })
     this.#provider.update(view)
     ctx.use(linkTooltipState.key).on(this.#onStateChange)
   }

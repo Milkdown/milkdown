@@ -5,6 +5,7 @@ import { TextSelection } from '@milkdown/prose/state'
 import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
+import { rootDOMCtx } from '@milkdown/core'
 import type { DefineFeature } from '../shared'
 import { injectStyle } from '../../core/slice'
 import type { ToolbarProps } from './component'
@@ -26,6 +27,7 @@ class ToolbarView implements PluginView {
       content: this.#content,
       debounce: 20,
       tippyOptions: {
+        appendTo: () => ctx.get(rootDOMCtx),
         onShow: () => {
           this.#content.show = true
         },
