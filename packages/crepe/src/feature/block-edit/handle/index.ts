@@ -5,7 +5,7 @@ import { BlockProvider, block } from '@milkdown/plugin-block'
 import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
-import { editorViewCtx } from '@milkdown/core'
+import { editorViewCtx, rootDOMCtx } from '@milkdown/core'
 import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { menuAPI } from '../menu'
 import type { BlockHandleProps } from './component'
@@ -25,6 +25,7 @@ export class BlockHandleView implements PluginView {
       ctx,
       content,
       tippyOptions: {
+        appendTo: () => ctx.get(rootDOMCtx),
         onShow: () => {
           this.#content.show = true
         },

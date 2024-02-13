@@ -5,7 +5,7 @@ import type { PluginView } from '@milkdown/prose/state'
 import type { Mark } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
-import { editorViewCtx } from '@milkdown/core'
+import { editorViewCtx, rootDOMCtx } from '@milkdown/core'
 import { posToDOMRect } from '@milkdown/prose'
 import { linkSchema } from '@milkdown/preset-commonmark'
 import { linkTooltipConfig, linkTooltipState } from '../slices'
@@ -34,6 +34,7 @@ export class LinkEditTooltip implements PluginView {
       debounce: 0,
       shouldShow: () => false,
       tippyOptions: {
+        appendTo: () => ctx.get(rootDOMCtx),
         onHidden: () => {
           this.#content.update().catch((e) => {
             throw e
