@@ -68,3 +68,48 @@ export const Empty: Story = {
     ...defaultArgs,
   },
 }
+
+const longContent = `
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+
+![]()
+
+![0.5](/milkdown-logo.png)
+
+\`\`\`typescript
+const crepe = new Crepe({
+  theme: CrepeTheme.Classic,
+})
+\`\`\`
+
+* List Item 1
+* List Item 2
+    * List Item 3
+    * List Item 4
+* List Item 5
+* List Item 6
+
+1. List Item 1
+2. List Item 2
+    1. List Item 1
+    2. List Item 2
+3. List Item 3
+
+> Is this the **real life**?
+> Is this just *fantasy*?
+> Caught in a \`landslide\`,
+> No escape from [reality](https://en.wikipedia.org/wiki/Bohemian_Rhapsody).
+`
+
+export const WidthDefaultValue: Story = {
+  ...Empty,
+  args: {
+    ...defaultArgs,
+    defaultValue: longContent,
+  },
+}
