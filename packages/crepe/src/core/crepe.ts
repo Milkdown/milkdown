@@ -90,6 +90,7 @@ export class Crepe {
 
   setReadonly(value: boolean) {
     this.#editable = !value
+    return this
   }
 
   getMarkdown() {

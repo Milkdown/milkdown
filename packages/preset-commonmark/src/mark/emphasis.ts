@@ -67,6 +67,9 @@ withMeta(toggleEmphasisCommand, {
 /// Input rule for use `*` to create emphasis mark.
 export const emphasisStarInputRule = $inputRule((ctx) => {
   return markRule(/(?:^|[^*])\*([^*]+)\*$/, emphasisSchema.type(ctx), {
+    getAttr: () => ({
+      marker: '*',
+    }),
     updateCaptured: ({ fullMatch, start }) =>
       !fullMatch.startsWith('*') ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {},
   })
@@ -80,6 +83,9 @@ withMeta(emphasisStarInputRule, {
 /// Input rule for use `_` to create emphasis mark.
 export const emphasisUnderscoreInputRule = $inputRule((ctx) => {
   return markRule(/(?:^|[^_])_([^_]+)_$/, emphasisSchema.type(ctx), {
+    getAttr: () => ({
+      marker: '_',
+    }),
     updateCaptured: ({ fullMatch, start }) =>
       !fullMatch.startsWith('_') ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {},
   })

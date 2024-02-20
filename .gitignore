@@ -26,3 +26,5 @@ nx-cloud.env
 *debug.log
 
 .nx/cache
+
+storybook-static

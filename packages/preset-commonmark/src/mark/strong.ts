@@ -66,7 +66,13 @@ withMeta(toggleStrongCommand, {
 
 /// A input rule that will capture the strong mark.
 export const strongInputRule = $inputRule((ctx) => {
-  return markRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, strongSchema.type(ctx))
+  return markRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, strongSchema.type(ctx), {
+    getAttr: (match) => {
+      return {
+        marker: match[0].startsWith('*') ? '*' : '_',
+      }
+    },
+  })
 })
 
 withMeta(strongInputRule, {
