@@ -109,7 +109,7 @@ describe('input:', () => {
       it('normal bold with _', () => {
         cy.get('.editor').type('The lunatic is __on the grass__')
         cy.get('.editor strong').should('have.text', 'on the grass')
-        cy.isMarkdown('The lunatic is **on the grass**\n')
+        cy.isMarkdown('The lunatic is __on the grass__\n')
       })
 
       it('normal bold with *', () => {
@@ -129,7 +129,7 @@ describe('input:', () => {
       it('normal italic with _', () => {
         cy.get('.editor').type('The lunatic is _on the grass_')
         cy.get('.editor').get('em').should('have.text', 'on the grass')
-        cy.isMarkdown('The lunatic is *on the grass*\n')
+        cy.isMarkdown('The lunatic is _on the grass_\n')
       })
 
       it('normal italic with *', () => {
