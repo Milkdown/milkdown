@@ -23,6 +23,9 @@
     },
     "e2e": {
       "cache": true
+    },
+    "build-storybook": {
+      "cache": true
     }
   },
   "extends": "@nx/workspace/presets/npm.json",
@@ -40,5 +43,16 @@
     "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
     "production": ["default"]
   },
-  "nxCloudAccessToken": "OTM5ZjkyM2MtZDA4Yy00OTc0LTljYzAtZmVjODI0MDhlYTQzfHJlYWQtb25seQ=="
+  "nxCloudAccessToken": "OTM5ZjkyM2MtZDA4Yy00OTc0LTljYzAtZmVjODI0MDhlYTQzfHJlYWQtb25seQ==",
+  "plugins": [
+    {
+      "plugin": "@nx/storybook/plugin",
+      "options": {
+        "buildStorybookTargetName": "build-storybook",
+        "serveStorybookTargetName": "storybook",
+        "testStorybookTargetName": "test-storybook",
+        "staticStorybookTargetName": "static-storybook"
+      }
+    }
+  ]
 }
