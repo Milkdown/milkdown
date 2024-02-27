@@ -37,8 +37,8 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.3.4",
     "@changesets/cli": "^2.22.0",
-    "@commitlint/cli": "^18.0.0",
-    "@commitlint/config-conventional": "^18.0.0",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@nrwl/tao": "18.0.5",
     "@nx/cypress": "18.0.5",
     "@nx/storybook": "18.0.5",
