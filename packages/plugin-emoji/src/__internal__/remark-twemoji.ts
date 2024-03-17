@@ -41,6 +41,10 @@ export const twemojiPlugin: RemarkPluginRaw<TwemojiOptions> = (twemojiOptions) =
       if (!isLiteral(node))
         return [node]
 
+      // Should not convert code block
+      if (node.type === 'code')
+        return [node]
+
       const value = node.value
       const output: Array<Node & { value: string }> = []
       let match

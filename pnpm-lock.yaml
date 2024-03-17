@@ -244,6 +244,9 @@ importers:
       '@milkdown/plugin-clipboard':
         specifier: workspace:*
         version: link:../packages/plugin-clipboard
+      '@milkdown/plugin-emoji':
+        specifier: workspace:*
+        version: link:../packages/plugin-emoji
       '@milkdown/plugin-history':
         specifier: workspace:*
         version: link:../packages/plugin-history
