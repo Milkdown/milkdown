@@ -20,3 +20,11 @@ input:focus {
   outline: none;
   box-shadow: none;
 }
+
+span[data-type='emoji'] {
+  @apply inline-block;
+}
+
+span[data-type='emoji'] .emoji {
+  @apply w-4;
+}

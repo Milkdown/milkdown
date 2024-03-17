@@ -61,7 +61,7 @@ export const ToggleStrong: Story = {
 
     await expect(args.instance.action(getMarkdown())).toContain(`**${text}**`)
 
-    const strong = canvasElement.querySelector('strong')
+    const strong = canvasElement.querySelector('strong') ?? undefined
 
     await expect(strong).toHaveTextContent(text)
     await userEvent.pointer([{ target: strong, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
@@ -91,7 +91,7 @@ export const ToggleItalic: Story = {
 
     await expect(args.instance.action(getMarkdown())).toContain(`*${text}*`)
 
-    const em = canvasElement.querySelector('em')
+    const em = canvasElement.querySelector('em') ?? undefined
 
     await expect(em).toHaveTextContent(text)
     await userEvent.pointer([{ target: em, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
