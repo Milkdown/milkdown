@@ -166,7 +166,7 @@ export class BlockService {
   }
 
   /// @internal
-  #mousemoveCallback = (view: EditorView, event: MouseEvent) => {
+  #mousemoveCallback = debounce((view: EditorView, event: MouseEvent) => {
     if (!view.editable)
       return
 
@@ -192,14 +192,14 @@ export class BlockService {
       return
     }
     this.#show(result)
-  }
+  }, 20)
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
     if (view.composing || !view.editable)
       return false
 
-    debounce(this.#mousemoveCallback, 20)(view, event)
+    this.#mousemoveCallback(view, event)
 
     return false
   }
