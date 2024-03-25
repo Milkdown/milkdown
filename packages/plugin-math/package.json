@@ -48,7 +48,7 @@
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@types/katex": "^0.16.0",
-    "katex": "^0.16.0",
+    "katex": "^0.16.10",
     "remark-math": "^6.0.0",
     "tslib": "^2.5.0"
   },

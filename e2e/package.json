@@ -43,7 +43,7 @@
     "@milkdown/utils": "workspace:*",
     "atomico": "^1.75.1",
     "codemirror": "^6.0.1",
-    "katex": "^0.16.0",
+    "katex": "^0.16.10",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
