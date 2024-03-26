@@ -20,11 +20,11 @@
     "serve-storybook": "serve storybook-static"
   },
   "dependencies": {
-    "@codemirror/commands": "^6.2.4",
-    "@codemirror/language-data": "^6.3.1",
-    "@codemirror/state": "^6.2.1",
+    "@codemirror/commands": "^6.3.3",
+    "@codemirror/language-data": "^6.4.1",
+    "@codemirror/state": "^6.4.1",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@codemirror/view": "^6.16.0",
+    "@codemirror/view": "^6.26.0",
     "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/crepe": "workspace:*",
