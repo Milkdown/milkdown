@@ -51,7 +51,7 @@
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@types/dompurify": "^3.0.0",
-    "mermaid": "^10.0.0",
+    "mermaid": "^10.9.0",
     "nanoid": "^5.0.0",
     "tslib": "^2.5.0",
     "unist-util-visit": "^5.0.0"
