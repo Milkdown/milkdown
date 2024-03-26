@@ -117,9 +117,9 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@codemirror/language": "^6.9.0",
-    "@codemirror/state": "^6.2.1",
-    "@codemirror/view": "^6.16.0",
+    "@codemirror/language": "^6.10.1",
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.26.0",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
