@@ -1,5 +1,28 @@
 # @milkdown/e2e
 
+## 7.3.6
+
+### Patch Changes
+
+- 151b789: Bug fix
+- Updated dependencies [151b789]
+  - @milkdown/components@7.3.6
+  - @milkdown/core@7.3.6
+  - @milkdown/crepe@7.3.6
+  - @milkdown/ctx@7.3.6
+  - @milkdown/plugin-automd@7.3.6
+  - @milkdown/plugin-clipboard@7.3.6
+  - @milkdown/plugin-emoji@7.3.6
+  - @milkdown/plugin-history@7.3.6
+  - @milkdown/plugin-listener@7.3.6
+  - @milkdown/plugin-math@7.3.6
+  - @milkdown/plugin-tooltip@7.3.6
+  - @milkdown/preset-commonmark@7.3.6
+  - @milkdown/preset-gfm@7.3.6
+  - @milkdown/prose@7.3.6
+  - @milkdown/theme-nord@7.3.6
+  - @milkdown/utils@7.3.6
+
 ## 7.3.5
 
 ### Patch Changes
