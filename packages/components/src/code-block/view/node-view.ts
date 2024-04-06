@@ -74,7 +74,7 @@ export class CodeMirrorBlock implements NodeView {
       return
 
     this.dom.language = languageName
-    const language = this.loader.load(languageName)
+    const language = this.loader.load(languageName ?? '')
 
     language.then((lang) => {
       if (lang) {

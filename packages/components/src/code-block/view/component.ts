@@ -35,7 +35,9 @@ export const codeComponent: Component<CodeComponentProps> = ({
   useCssLightDom(style)
 
   useEffect(() => {
-    const lang = getAllLanguages?.()?.find(languageInfo => languageInfo.alias.some(alias => alias.toLowerCase() === language?.toLowerCase()))
+    const lang = getAllLanguages?.()?.find(languageInfo =>
+      languageInfo.alias.some(alias =>
+        alias.toLowerCase() === language?.toLowerCase()))
 
     if (lang && lang.name !== language)
       setLanguage?.(lang.name)
