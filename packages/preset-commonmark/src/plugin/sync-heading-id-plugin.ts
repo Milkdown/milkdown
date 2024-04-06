@@ -11,7 +11,7 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
   const headingIdPluginKey = new PluginKey('MILKDOWN_HEADING_ID')
 
   const updateId = (view: EditorView) => {
-    if (view.composing || !view.editable)
+    if (view.composing)
       return
 
     const getId = ctx.get(headingIdGenerator.key)
