@@ -38,7 +38,7 @@ export interface TwemojiOptions {
    * @param variant variant the optional \uFE0F ("as image") variant, in case this info is anyhow meaningful. By default this is ignored.
    *
    */
-  attributes?(icon: string, variant: string): object
+  attributes?: (icon: string, variant: string) => object
 }
 
 export function parse(emoji: string, twemojiOptions?: TwemojiOptions): string {

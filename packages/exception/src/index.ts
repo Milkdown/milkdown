@@ -31,13 +31,13 @@ export function createNodeInParserFail(...args: unknown[]) {
       if (Array.isArray(x))
         return (x as unknown[]).map(y => serialize(y)).join(', ')
 
-      if ((x as { toJSON(): Record<string, unknown> }).toJSON)
-        return stringify((x as { toJSON(): Record<string, unknown> }).toJSON())
+      if ((x as { toJSON: () => Record<string, unknown> }).toJSON)
+        return stringify((x as { toJSON: () => Record<string, unknown> }).toJSON())
 
       if ((x as { spec: string }).spec)
         return stringify((x as { spec: string }).spec)
 
-      return (x as { toString(): string }).toString()
+      return (x as { toString: () => string }).toString()
     }
     return `${msg}, ${serialize(arg)}`
   }, 'Create prosemirror node from remark failed in parser') as string
