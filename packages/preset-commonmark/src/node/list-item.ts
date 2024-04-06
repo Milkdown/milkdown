@@ -118,7 +118,7 @@ withMeta(sinkListItemCommand, {
 /// * List item 1
 /// * List item 2
 /// ```
-export const liftListItemCommand = $command('SplitListItem', ctx => () => liftListItem(listItemSchema.type(ctx)))
+export const liftListItemCommand = $command('LiftListItem', ctx => () => liftListItem(listItemSchema.type(ctx)))
 
 withMeta(liftListItemCommand, {
   displayName: 'Command<liftListItemCommand>',
