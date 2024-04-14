@@ -3,7 +3,7 @@ import type { PluginView } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import type { Mark } from '@milkdown/prose/model'
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
-import type { Ctx } from '@milkdown/ctx'
+import type { Ctx, Slice } from '@milkdown/ctx'
 import { rootDOMCtx } from '@milkdown/core'
 import type { LinkToolTipState } from '../slices'
 import { linkTooltipAPI, linkTooltipConfig, linkTooltipState } from '../slices'
@@ -12,6 +12,7 @@ import { LinkPreviewElement } from './preview-component'
 export class LinkPreviewTooltip implements PluginView {
   #content = new LinkPreviewElement()
   #provider: TooltipProvider
+  #slice: Slice<LinkToolTipState> = this.ctx.use(linkTooltipState.key)
 
   #hovering = false
 
@@ -29,7 +30,8 @@ export class LinkPreviewTooltip implements PluginView {
       },
     })
     this.#provider.update(view)
-    ctx.use(linkTooltipState.key).on(this.#onStateChange)
+    this.#slice = ctx.use(linkTooltipState.key)
+    this.#slice.on(this.#onStateChange)
   }
 
   setRect = (rect: DOMRect) => {
@@ -58,8 +60,7 @@ export class LinkPreviewTooltip implements PluginView {
   }
 
   show = (mark: Mark, from: number, to: number) => {
-    const config = this.ctx.get(linkTooltipConfig.key)
-    this.#content.config = config
+    this.#content.config = this.ctx.get(linkTooltipConfig.key)
     this.#content.src = mark.attrs.href
     this.#content.onEdit = () => {
       this.ctx.get(linkTooltipAPI.key).editLink(mark, from, to)
@@ -84,7 +85,7 @@ export class LinkPreviewTooltip implements PluginView {
   update = () => {}
 
   destroy = () => {
-    this.ctx.use(linkTooltipState.key).off(this.#onStateChange)
+    this.#slice.off(this.#onStateChange)
     this.#provider.destroy()
     this.#content.remove()
   }
