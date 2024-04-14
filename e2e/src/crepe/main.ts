@@ -19,4 +19,4 @@ const crepe = new Crepe({
 
 Object.assign(window, { crepe })
 
-crepe.create()
+crepe.create().catch(console.error)
