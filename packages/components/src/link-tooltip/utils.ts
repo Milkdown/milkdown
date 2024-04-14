@@ -5,17 +5,17 @@ import type { EditorView } from '@milkdown/prose/view'
 import { linkSchema } from '@milkdown/preset-commonmark'
 import { linkPreviewTooltip } from './tooltips'
 
-export function findMarkPosition(mark: Mark, doc: Node, from: number, to: number) {
+export function findMarkPosition(mark: Mark, node: Node, doc: Node, from: number, to: number) {
   let markPos = { start: -1, end: -1 }
-  doc.nodesBetween(from, to, (node, pos) => {
+  doc.nodesBetween(from, to, (n, pos) => {
     // stop recursive finding if result is found
     if (markPos.start > -1)
       return false
 
-    if (markPos.start === -1 && mark.isInSet(node.marks)) {
+    if (markPos.start === -1 && mark.isInSet(n.marks) && node === n) {
       markPos = {
         start: pos,
-        end: pos + Math.max(node.textContent.length, 1),
+        end: pos + Math.max(n.textContent.length, 1),
       }
     }
 

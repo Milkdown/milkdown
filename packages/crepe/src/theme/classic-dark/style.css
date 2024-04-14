@@ -59,6 +59,7 @@
 
   .ProseMirror {
     padding: 60px 120px;
+    letter-spacing: 0.5px;
 
     & > * {
       margin: 20px 0 40px;
@@ -141,10 +142,13 @@
       background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
       padding: 0 10px;
       border-radius: 4px;
+      display: inline-block;
+      line-height: 24px;
     }
 
     a {
       color: var(--crepe-color-primary);
+      text-decoration: underline;
     }
 
     pre {
@@ -177,7 +181,7 @@
 
     hr {
       border: none;
-      border-bottom: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      border-bottom: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 20%);
       height: 16px;
       position: relative;
 

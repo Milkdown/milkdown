@@ -27,7 +27,7 @@ export function configureLinkPreviewTooltip(ctx: Ctx) {
     const result = shouldShowPreviewWhenHover(ctx, view, event)
     if (result) {
       const position = view.state.doc.resolve(result.pos)
-      const markPosition = findMarkPosition(result.mark, view.state.doc, position.before(), position.after())
+      const markPosition = findMarkPosition(result.mark, result.node, view.state.doc, position.before(), position.after())
       const from = markPosition.start
       const to = markPosition.end
       linkPreviewTooltipView.setRect(posToDOMRect(view, from, to))
