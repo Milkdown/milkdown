@@ -3,5 +3,5 @@ code block without language
 ```
 
 ```javascript
-const lang = 'js';
+const lang = 'js'
 ```
