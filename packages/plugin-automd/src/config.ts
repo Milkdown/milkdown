@@ -69,7 +69,7 @@ export const defaultConfig: InlineSyncConfig = {
 /// }));
 /// ```
 ///
-/// You can find the default config [here](https://github.com/Milkdown/milkdown/blob/main/packages/preset-commonmark/src/plugin/inline-sync-plugin/config.ts).
+/// You can find the default config [here](https://github.com/Milkdown/milkdown/blob/main/packages/plugin-automd/src/config.ts).
 export const inlineSyncConfig = $ctx<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')
 
 withMeta(inlineSyncConfig, {
