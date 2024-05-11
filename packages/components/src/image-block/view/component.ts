@@ -16,6 +16,7 @@ export interface Attrs {
 export type ImageComponentProps = Attrs & {
   config: ImageBlockConfig
   selected: boolean
+  readonly: boolean
   setAttr: <T extends keyof Attrs>(attr: T, value: Attrs[T]) => void
 }
 
@@ -24,6 +25,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
   caption = '',
   ratio = 1,
   selected = false,
+  readonly = false,
   setAttr,
   config,
 }) => {
@@ -79,6 +81,8 @@ export const imageComponent: Component<ImageComponentProps> = ({
   }
 
   const onToggleCaption = () => {
+    if (readonly)
+      return
     setShowCaption(x => !x)
   }
 
@@ -99,6 +103,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
       <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
         <input
           ref=${linkInput}
+          disabled=${readonly}
           class="link-input-area"
           value=${currentLink}
           oninput=${onEditLink}
@@ -107,7 +112,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
           onblur=${() => setFocusLinkInput(false)}
         />
         <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
-          <input class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
+          <input disabled=${readonly} class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
           <label class="uploader" for=${uuid}>
             ${config?.uploadButton()}
           </label>
@@ -144,6 +149,7 @@ imageComponent.props = {
   caption: String,
   ratio: Number,
   selected: Boolean,
+  readonly: Boolean,
   setAttr: Function,
   config: Object,
 }

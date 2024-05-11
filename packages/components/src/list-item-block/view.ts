@@ -4,11 +4,12 @@ import { TextSelection } from '@milkdown/prose/state'
 import type { Node } from '@milkdown/prose/model'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 import { withMeta } from '../__internal__/meta'
+import { defIfNotExists } from '../__internal__/helper'
 import type { ListItemComponentProps } from './component'
 import { ListItemElement } from './component'
 import { listItemBlockConfig } from './config'
 
-customElements.define('milkdown-list-item-block', ListItemElement)
+defIfNotExists('milkdown-list-item-block', ListItemElement)
 export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConstructor => {
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-list-item-block') as HTMLElement & ListItemComponentProps

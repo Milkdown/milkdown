@@ -3,11 +3,12 @@ import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { imageSchema } from '@milkdown/preset-commonmark'
 import type { Node } from '@milkdown/prose/model'
 import { withMeta } from '../__internal__/meta'
+import { defIfNotExists } from '../__internal__/helper'
 import type { InlineImageComponentProps } from './component'
 import { InlineImageElement } from './component'
 import { inlineImageConfig } from './config'
 
-customElements.define('milkdown-image-inline', InlineImageElement)
+defIfNotExists('milkdown-image-inline', InlineImageElement)
 export const inlineImageView = $view(imageSchema.node, (ctx): NodeViewConstructor => {
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-image-inline') as HTMLElement & InlineImageComponentProps

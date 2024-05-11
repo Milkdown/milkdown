@@ -7,6 +7,7 @@ import type { AtomicoThis } from 'atomico/types/dom'
 import { editorViewCtx, rootDOMCtx } from '@milkdown/core'
 import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { menuAPI } from '../menu'
+import { defIfNotExists } from '../../../utils'
 import type { BlockHandleProps } from './component'
 import { BlockHandleElement } from './component'
 
@@ -70,7 +71,7 @@ export class BlockHandleView implements PluginView {
   }
 }
 
-customElements.define('milkdown-block-handle', BlockHandleElement)
+defIfNotExists('milkdown-block-handle', BlockHandleElement)
 export function configureBlockHandle(ctx: Ctx) {
   ctx.set(block.key, {
     view: view => new BlockHandleView(ctx, view),
