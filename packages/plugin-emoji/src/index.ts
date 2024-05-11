@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import type { RemarkPluginRaw } from '@milkdown/transformer'
 import { expectDomTypeError } from '@milkdown/exception'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Node } from '@milkdown/prose/model'
 import { customAlphabet } from 'nanoid'
 

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
 import { withMeta } from '../__internal__/meta'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { c, html, useRef, useState } from 'atomico'
 import type { Component } from 'atomico'
 import clsx from 'clsx'

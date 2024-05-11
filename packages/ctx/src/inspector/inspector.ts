@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Container, SliceType } from '../context'
 import type { Clock, TimerStatus, TimerType } from '../timer'
 import type { Meta } from './meta'

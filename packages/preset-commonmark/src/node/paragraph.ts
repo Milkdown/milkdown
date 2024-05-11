@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { setBlockType } from '@milkdown/prose/commands'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'

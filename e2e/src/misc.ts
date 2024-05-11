@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 export const isMac = () => window.navigator.platform.includes('Mac')
 
 export const mod = () => (isMac() ? 'meta' : 'ctrl')

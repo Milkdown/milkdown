@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { createCodeBlockInputRule, insertHrInputRule, wrapInBlockquoteInputRule, wrapInBulletListInputRule, wrapInHeadingInputRule, wrapInOrderedListInputRule } from '../node'
 import { emphasisStarInputRule, emphasisUnderscoreInputRule, inlineCodeInputRule, strongInputRule } from '../mark'

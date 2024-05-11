@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 declare module 'y-prosemirror' {
   import type { Plugin, PluginKey } from '@milkdown/prose/state'
   import type { Node, Schema } from '@milkdown/prose/model'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MarkType, Node, NodeType } from '@milkdown/prose/model'
 import type { MarkdownNode } from '../utility/types'
 

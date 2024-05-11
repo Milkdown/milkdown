@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 /// @internal
 export type Many<T> = T | ReadonlyArray<T>
 

@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { SchemaReady, editorViewTimerCtx, markViewCtx, nodeViewCtx } from '@milkdown/core'
 import { NodeType } from '@milkdown/prose/model'

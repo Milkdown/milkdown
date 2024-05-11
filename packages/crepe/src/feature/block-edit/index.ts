@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { block } from '@milkdown/plugin-block'
 import type { DefineFeature } from '../shared'
 import { injectStyle } from '../../core/slice'

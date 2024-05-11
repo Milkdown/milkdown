@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { TimerMap } from './clock'
 
 export type TimerStatus = 'pending' | 'resolved' | 'rejected'

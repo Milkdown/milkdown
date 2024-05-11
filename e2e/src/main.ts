@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import './style.css'
 import type { Component } from 'atomico'
 import { c, html } from 'atomico'

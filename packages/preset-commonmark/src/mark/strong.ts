@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
 import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
 import { toggleMark } from '@milkdown/prose/commands'

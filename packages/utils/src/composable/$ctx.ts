@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin, SliceType } from '@milkdown/ctx'
 import { createSlice } from '@milkdown/ctx'
 

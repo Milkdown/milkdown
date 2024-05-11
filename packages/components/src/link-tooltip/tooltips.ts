@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { tooltipFactory } from '@milkdown/plugin-tooltip'
 import { withMeta } from '../__internal__/meta'
 

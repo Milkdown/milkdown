@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 /// The metadata of the plugin.
 export interface Meta {
   /// The name of the plugin

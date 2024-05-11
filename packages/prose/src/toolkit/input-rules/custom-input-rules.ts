@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { InputRule } from '../../inputrules'
 import type { EditorState, TextSelection, Transaction } from '../../state'
 import { Plugin, PluginKey } from '../../state'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { $ctx, $inputRule, $nodeSchema, $remark } from '@milkdown/utils'
 import type { KatexOptions } from 'katex'
 import katex from 'katex'

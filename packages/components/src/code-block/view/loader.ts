@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { LanguageDescription, LanguageSupport } from '@codemirror/language'
 
 export interface LanguageInfo {

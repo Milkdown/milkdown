@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { imageBlockSchema } from './schema'
 import { remarkImageBlockPlugin } from './remark-plugin'

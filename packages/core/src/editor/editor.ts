@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { CtxRunner, MilkdownPlugin, Telemetry } from '@milkdown/ctx'
 import { Clock, Container, Ctx } from '@milkdown/ctx'
 

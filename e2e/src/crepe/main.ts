@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import { Crepe, CrepeFeature, CrepeTheme } from '@milkdown/crepe'
 
 import './style.css'

@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { SchemaReady, editorStateTimerCtx, inputRulesCtx } from '@milkdown/core'
 import type { InputRule } from '@milkdown/prose/inputrules'

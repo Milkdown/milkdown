@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import type { MarkType } from '@milkdown/prose/model'
 import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'

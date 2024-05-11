@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { type Component, c, html, useEffect, useRef } from 'atomico'
 
 const menuIcon = html`

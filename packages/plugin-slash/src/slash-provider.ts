@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { findParentNode, posToDOMRect } from '@milkdown/prose'
 import type { EditorState } from '@milkdown/prose/state'
 import type { Node } from '@milkdown/prose/model'

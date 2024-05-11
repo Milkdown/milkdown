@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MarkSpec, NodeSpec } from '@milkdown/prose/model'
 import type { remark } from 'remark'
 import type { Plugin, Transformer } from 'unified'

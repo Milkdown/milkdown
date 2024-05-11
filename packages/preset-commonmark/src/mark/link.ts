@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { expectDomTypeError } from '@milkdown/exception'
 import { toggleMark } from '@milkdown/prose/commands'
 import type { Node as ProseNode } from '@milkdown/prose/model'

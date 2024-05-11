@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { $remark } from '@milkdown/utils'
 import { visit } from 'unist-util-visit'
 import { withMeta } from '../__internal__'

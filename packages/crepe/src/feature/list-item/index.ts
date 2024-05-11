@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/ctx'
 import { listItemBlockComponent, listItemBlockConfig } from '@milkdown/components/list-item-block'
 import { html } from 'atomico'

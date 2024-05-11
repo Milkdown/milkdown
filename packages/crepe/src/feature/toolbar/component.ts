@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
 import { c, html, useEffect, useUpdate } from 'atomico'
 import type { Ctx } from '@milkdown/ctx'

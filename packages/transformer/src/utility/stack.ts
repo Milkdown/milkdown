@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { stackOverFlow } from '@milkdown/exception'
 
 /// The element of the stack, which holds an array of nodes.

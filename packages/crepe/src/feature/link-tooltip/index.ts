@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { configureLinkTooltip, linkTooltipConfig, linkTooltipPlugin } from '@milkdown/components/link-tooltip'
 import { injectStyle } from '../../core/slice'
 import type { DefineFeature } from '../shared'

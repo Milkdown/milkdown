@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { StorybookConfig } from '@storybook/html-vite'
 
 const config: StorybookConfig = {

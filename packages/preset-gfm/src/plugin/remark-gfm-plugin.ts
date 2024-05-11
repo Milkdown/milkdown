@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { $Remark } from '@milkdown/utils'
 import { $remark } from '@milkdown/utils'
 import type { Options } from 'remark-gfm'

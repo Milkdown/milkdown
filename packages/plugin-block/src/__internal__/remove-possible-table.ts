@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Transaction } from '@milkdown/prose/state'
 import { dropPoint } from '@milkdown/prose/transform'
 import type { EditorView } from '@milkdown/prose/view'

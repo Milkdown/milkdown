@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { DependencyList } from 'react'
 import { useCallback, useContext, useLayoutEffect } from 'react'
 

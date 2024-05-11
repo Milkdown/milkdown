@@ -28,7 +28,8 @@
     "changeset": "changeset",
     "release": "changeset publish",
     "commit": "git-cz",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "pnpm --filter=@milkdown/e2e run storybook"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.16.2",

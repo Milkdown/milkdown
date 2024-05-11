@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 export * from './doc'
 export * from './heading'
 export * from './blockquote'

@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 /* eslint-disable vars-on-top */
 /* eslint-disable no-var */
 

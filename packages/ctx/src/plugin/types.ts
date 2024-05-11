@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { Meta } from '../inspector'
 import type { Ctx } from './ctx'
 

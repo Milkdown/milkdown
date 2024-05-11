@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { imageBlockComponent, imageBlockConfig } from '@milkdown/components/image-block'
 import { imageInlineComponent, inlineImageConfig } from '@milkdown/components/image-inline'
 import { html } from 'atomico'

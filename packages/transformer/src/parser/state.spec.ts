@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MarkType, NodeType, Schema } from '@milkdown/prose/model'
 import { describe, expect, it, vi } from 'vitest'
 import { ParserState } from './state'

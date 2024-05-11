@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { posToDOMRect } from '@milkdown/prose'
 import type { EditorState } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'

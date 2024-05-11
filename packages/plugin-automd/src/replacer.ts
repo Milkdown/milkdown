@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/ctx'
 import type { Attrs } from '@milkdown/prose/model'
 import type { EditorState, PluginKey, Transaction } from '@milkdown/prose/state'

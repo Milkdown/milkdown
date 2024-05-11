@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { cursor, dropCursorConfig } from '@milkdown/plugin-cursor'
 import gapCursor from '@milkdown/prose/gapcursor/style/gapcurosr.css?inline'
 

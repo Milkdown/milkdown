@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
 import { pluginViteConfig } from '../../vite.config.mjs'

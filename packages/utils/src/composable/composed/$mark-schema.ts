@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { marksCtx } from '@milkdown/core'
 import type { MarkSchema } from '@milkdown/transformer'

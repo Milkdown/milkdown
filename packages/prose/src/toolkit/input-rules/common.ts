@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { Attrs } from '../../model'
 import type { Transaction } from '../../state'
 

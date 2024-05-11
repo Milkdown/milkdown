@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Editor } from '@milkdown/core'
 import { useCallback, useContext } from 'react'
 import { editorInfoContext } from './useGetEditor'

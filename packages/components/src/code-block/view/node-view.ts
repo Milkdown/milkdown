@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView, NodeView } from '@milkdown/prose/view'
 import type { KeyBinding } from '@codemirror/view'
 import { EditorView as CodeMirror, keymap as cmKeymap } from '@codemirror/view'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { serializerMatchError } from '@milkdown/exception'
 import type { Fragment, MarkType, Node, NodeType, Schema } from '@milkdown/prose/model'
 import { Mark } from '@milkdown/prose/model'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { createContext, useContext, useEffect, useRef } from 'react'
 
 import type { EditorInfoCtx } from './types'
