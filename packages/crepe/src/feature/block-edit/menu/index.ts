@@ -5,7 +5,7 @@ import type { Ctx } from '@milkdown/ctx'
 import type { AtomicoThis } from 'atomico/types/dom'
 import { $ctx } from '@milkdown/utils'
 import { rootDOMCtx } from '@milkdown/core'
-import { isInCodeBlock, isInList } from '../../../utils'
+import { defIfNotExists, isInCodeBlock, isInList } from '../../../utils'
 import type { MenuProps } from './component'
 import { MenuElement } from './component'
 
@@ -21,7 +21,7 @@ export const menuAPI = $ctx({
   hide: () => {},
 } as MenuAPI, 'menuAPICtx')
 
-customElements.define('milkdown-slash-menu', MenuElement)
+defIfNotExists('milkdown-slash-menu', MenuElement)
 export function configureMenu(ctx: Ctx) {
   ctx.set(menu.key, {
     view: view => new MenuView(ctx, view),

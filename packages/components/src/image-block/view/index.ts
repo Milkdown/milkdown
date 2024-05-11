@@ -4,10 +4,11 @@ import type { Node } from '@milkdown/prose/model'
 import { imageBlockSchema } from '../schema'
 import { imageBlockConfig } from '../config'
 import { withMeta } from '../../__internal__/meta'
+import { defIfNotExists } from '../../__internal__/helper'
 import type { ImageComponentProps } from './component'
 import { ImageElement } from './component'
 
-customElements.define('milkdown-image-block', ImageElement)
+defIfNotExists('milkdown-image-block', ImageElement)
 export const imageBlockView = $view(imageBlockSchema.node, (ctx): NodeViewConstructor => {
   return (initialNode, view, getPos) => {
     const dom = document.createElement('milkdown-image-block') as HTMLElement & ImageComponentProps
@@ -16,6 +17,8 @@ export const imageBlockView = $view(imageBlockSchema.node, (ctx): NodeViewConstr
       dom.src = node.attrs.src
       dom.ratio = node.attrs.ratio
       dom.caption = node.attrs.caption
+
+      dom.readonly = !view.editable
     }
 
     bindAttrs(initialNode)

@@ -20,6 +20,7 @@ export class CodeMirrorBlock implements NodeView {
   private languageName: string = ''
 
   private readonly languageConf: Compartment
+  private readonly readOnlyConf: Compartment
 
   constructor(
     public node: Node,
@@ -29,6 +30,7 @@ export class CodeMirrorBlock implements NodeView {
     public config: CodeBlockConfig,
   ) {
     this.languageConf = new Compartment()
+    this.readOnlyConf = new Compartment()
     const changeFilter = EditorState.changeFilter.of((tr) => {
       if (!tr.docChanged && !this.updating)
         this.forwardSelection()
@@ -39,6 +41,7 @@ export class CodeMirrorBlock implements NodeView {
     this.cm = new CodeMirror({
       doc: this.node.textContent,
       extensions: [
+        this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
         cmKeymap.of(this.codeMirrorKeymap()),
         changeFilter,
         this.languageConf.of([]),
@@ -57,6 +60,7 @@ export class CodeMirrorBlock implements NodeView {
     dom.codemirror = this.cm
     dom.getAllLanguages = this.getAllLanguages
     dom.setLanguage = this.setLanguage
+    dom.isEditorReadonly = () => !this.view.editable
     const {
       languages,
       extensions,
@@ -206,6 +210,11 @@ export class CodeMirrorBlock implements NodeView {
 
     this.node = node
     this.updateLanguage()
+    if (this.view.editable === this.cm.state.readOnly) {
+      this.cm.dispatch({
+        effects: this.readOnlyConf.reconfigure(EditorState.readOnly.of(!this.view.editable)),
+      })
+    }
 
     const change = computeChange(this.cm.state.doc.toString(), node.textContent)
     if (change) {

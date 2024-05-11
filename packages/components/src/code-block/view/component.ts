@@ -15,6 +15,7 @@ export interface CodeComponentProps {
   language: string
   getAllLanguages: () => Array<LanguageInfo>
   setLanguage: (language: string) => void
+  isEditorReadonly: () => boolean
   config: Omit<CodeBlockConfig, 'languages' | 'extensions'>
 }
 
@@ -25,6 +26,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
   setLanguage,
   language,
   config,
+  isEditorReadonly,
 }) => {
   const triggerRef = useRef<HTMLButtonElement>()
   const pickerRef = useRef<HTMLDivElement>()
@@ -113,6 +115,9 @@ export const codeComponent: Component<CodeComponentProps> = ({
   }
 
   const onTogglePicker = () => {
+    if (isEditorReadonly?.())
+      return
+
     const next = !showPicker
     const languageList = pickerRef.current
     if (next && languageList)
@@ -199,6 +204,7 @@ codeComponent.props = {
   language: String,
   getAllLanguages: Function,
   setLanguage: Function,
+  isEditorReadonly: Function,
   config: Object,
 }
 
