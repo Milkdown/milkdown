@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { EditorView as CodeMirror } from '@codemirror/view'
 import type { Component } from 'atomico'
 import { c, h, html, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'atomico'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Meta, StoryObj } from '@storybook/html'
 import { Editor, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'

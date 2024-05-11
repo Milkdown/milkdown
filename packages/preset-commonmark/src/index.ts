@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { commands, inputRules, keymap, markInputRules, plugins, schema } from './composed'
 

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { InputRule } from '@milkdown/prose/inputrules'
 import { Selection } from '@milkdown/prose/state'
 import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'

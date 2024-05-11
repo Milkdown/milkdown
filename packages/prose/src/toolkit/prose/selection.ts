@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { NodeType, Node as ProseNode, ResolvedPos } from '../../model'
 import type { Selection } from '../../state'
 import { NodeSelection } from '../../state'

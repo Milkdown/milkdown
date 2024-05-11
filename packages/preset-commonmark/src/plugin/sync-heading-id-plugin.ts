@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import { $prose } from '@milkdown/utils'

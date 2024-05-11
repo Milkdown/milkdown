@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { wrapIn } from '@milkdown/prose/commands'

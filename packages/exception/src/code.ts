@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 export enum ErrorCode {
   docTypeError = 'docTypeError',
   contextNotFound = 'contextNotFound',

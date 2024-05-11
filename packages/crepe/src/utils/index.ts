@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Selection } from '@milkdown/prose/state'
 
 export function isInCodeBlock(selection: Selection) {

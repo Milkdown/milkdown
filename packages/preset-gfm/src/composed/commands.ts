@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { toggleStrikethroughCommand } from '../mark'
 import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, breakTableCommand, deleteSelectedCellsCommand, goToNextTableCellCommand, goToPrevTableCellCommand, insertTableCommand, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '../node'
 

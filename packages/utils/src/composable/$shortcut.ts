@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { SchemaReady, editorStateTimerCtx, prosePluginsCtx } from '@milkdown/core'
 import { keymap } from '@milkdown/prose/keymap'

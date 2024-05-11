@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { diagramSchema, insertDiagramCommand, insertDiagramInputRules, mermaidConfigCtx, remarkDiagramPlugin } from './node'
 

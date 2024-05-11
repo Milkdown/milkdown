@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 export const linkRegexp = /\[([^\]]+)]\([^\s\]]+\)/
 
 export const keepLinkRegexp = /\[(?<span>((www|https:\/\/|http:\/\/)[^\s\]]+))]\((?<url>[^\s\]]+)\)/

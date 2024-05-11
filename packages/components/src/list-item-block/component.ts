@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Component } from 'atomico'
 import { c, html, useHost, useLayoutEffect, useRef } from 'atomico'
 import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'

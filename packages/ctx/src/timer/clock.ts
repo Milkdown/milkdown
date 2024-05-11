@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { timerNotFound } from '@milkdown/exception'
 
 import type { Timer, TimerType } from './timer'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { linkTooltipAPI, linkTooltipConfig, linkTooltipState } from './slices'
 import { linkEditTooltip, linkPreviewTooltip } from './tooltips'

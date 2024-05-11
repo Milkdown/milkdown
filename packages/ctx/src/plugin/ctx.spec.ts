@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { describe, expect, it } from 'vitest'
 import { Container, createSlice } from '../context'
 import { Clock, createTimer } from '../timer'

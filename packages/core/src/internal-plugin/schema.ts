@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { Schema } from '@milkdown/prose/model'

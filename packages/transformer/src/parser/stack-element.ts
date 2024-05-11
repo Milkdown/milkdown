@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Attrs, Node, NodeType } from '@milkdown/prose/model'
 import { StackElement } from '../utility'
 

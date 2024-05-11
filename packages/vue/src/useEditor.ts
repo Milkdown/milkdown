@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import { inject } from 'vue'
 import { editorInfoCtxKey } from './Editor'
 

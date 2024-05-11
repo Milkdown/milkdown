@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { getAtomFromSchemaFail } from '@milkdown/exception'
 
 import type { MarkType, NodeType, Schema } from '../../model'

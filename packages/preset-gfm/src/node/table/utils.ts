@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { ContentNodeWithPos } from '@milkdown/prose'
 import { cloneTr, findParentNode } from '@milkdown/prose'
 import type { Node } from '@milkdown/prose/model'

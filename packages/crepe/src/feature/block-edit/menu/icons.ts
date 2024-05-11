@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { html } from 'atomico'
 
 export const textIcon = html`

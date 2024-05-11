@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { AddMarkStep, ReplaceStep } from '@milkdown/prose/transform'
 import { $prose } from '@milkdown/utils'

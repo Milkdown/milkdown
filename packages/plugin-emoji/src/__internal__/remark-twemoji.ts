@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Node, RemarkPluginRaw } from '@milkdown/transformer'
 import emojiRegex from 'emoji-regex'
 

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { describe, expect, it, vi } from 'vitest'
 
 import { SliceType } from './slice'

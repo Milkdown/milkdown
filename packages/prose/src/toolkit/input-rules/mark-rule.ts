@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { InputRule } from '../../inputrules'
 import type { Mark, MarkType } from '../../model'
 import type { Captured, Options } from './common'

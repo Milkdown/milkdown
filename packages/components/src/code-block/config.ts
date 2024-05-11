@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { $ctx } from '@milkdown/utils'
 import type { Extension } from '@codemirror/state'
 import type { LanguageDescription } from '@codemirror/language'

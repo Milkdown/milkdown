@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { expectDomTypeError } from '@milkdown/exception'
 import { findSelectedNodeOfType } from '@milkdown/prose'
 import { InputRule } from '@milkdown/prose/inputrules'

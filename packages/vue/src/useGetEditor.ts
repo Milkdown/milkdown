@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { inject, onMounted, onUnmounted } from 'vue'
 
 import type { EditorInfoCtx } from './types'

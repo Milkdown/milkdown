@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 /**
  * Copy paste from:
  * https://github.com/ProseMirror/prosemirror-view/blob/master/src/browser.ts

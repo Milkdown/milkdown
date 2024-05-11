@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { missingNodeInSchema } from '@milkdown/exception'
 import type { Node } from '@milkdown/prose/model'
 

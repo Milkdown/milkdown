@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { CardComponentProps } from './main'
 
 export const cards: CardComponentProps[] = [

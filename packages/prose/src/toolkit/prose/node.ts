@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { MarkType, Node as ProseNode } from '../../model'
 import type { Predicate } from './types'
 

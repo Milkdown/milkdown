@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Cleanup, Ctx, MilkdownPlugin, SliceType, TimerType } from '@milkdown/ctx'
 import { createTimer } from '@milkdown/ctx'
 import { customAlphabet } from 'nanoid'

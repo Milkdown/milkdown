@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { DefaultValue } from '@milkdown/core'
 import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 

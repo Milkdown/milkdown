@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Options } from 'remark-stringify'
 
 export const remarkHandlers: Required<Options>['handlers'] = {

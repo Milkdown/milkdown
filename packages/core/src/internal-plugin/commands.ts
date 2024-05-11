@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx, MilkdownPlugin, SliceType } from '@milkdown/ctx'
 import { Container, createSlice, createTimer } from '@milkdown/ctx'
 import { callCommandBeforeEditorView } from '@milkdown/exception'

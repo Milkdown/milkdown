@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { $nodeSchema } from '@milkdown/utils'
 import { expectDomTypeError } from '@milkdown/exception'
 import { withMeta } from '../__internal__/meta'

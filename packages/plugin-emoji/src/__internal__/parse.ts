@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import twemoji from 'twemoji'
 
 const setAttr = (text: string) => ({ title: text })

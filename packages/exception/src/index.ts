@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { ErrorCode } from './code'
 import { MilkdownError } from './error'
 

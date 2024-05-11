@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $ctx, $prose } from '@milkdown/utils'
 import { withMeta } from '../__internal__'

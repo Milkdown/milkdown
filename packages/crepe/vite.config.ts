@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
 import { chatBubble, image } from '../__internal__/icons'

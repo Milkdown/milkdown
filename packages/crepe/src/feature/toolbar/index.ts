@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { TooltipProvider, tooltipFactory } from '@milkdown/plugin-tooltip'
 import type { EditorState, PluginView } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'

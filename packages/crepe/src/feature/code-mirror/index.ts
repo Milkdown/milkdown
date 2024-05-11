@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { codeBlockComponent, codeBlockConfig } from '@milkdown/components/code-block'
 import { languages } from '@codemirror/language-data'
 import { basicSetup } from 'codemirror'

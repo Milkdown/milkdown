@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Attrs, MarkType, Node, NodeType, Schema } from '@milkdown/prose/model'
 import { createNodeInParserFail, parserMatchError, stackOverFlow } from '@milkdown/exception'
 import { Mark } from '@milkdown/prose/model'

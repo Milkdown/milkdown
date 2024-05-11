@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { contextNotFound } from '@milkdown/exception'
 
 import type { Slice, SliceType } from './slice'

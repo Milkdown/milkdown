@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { ResolvedPos } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 

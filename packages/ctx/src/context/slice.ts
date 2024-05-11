@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { ctxCallOutOfScope } from '@milkdown/exception'
 import type { SliceMap } from './container'
 

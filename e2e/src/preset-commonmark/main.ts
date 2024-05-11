@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import { Editor, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
 import { commonmark, toggleEmphasisCommand, toggleStrongCommand } from '@milkdown/preset-commonmark'

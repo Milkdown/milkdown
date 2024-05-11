@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { expectDomTypeError } from '@milkdown/exception'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 import { InputRule } from '@milkdown/prose/inputrules'

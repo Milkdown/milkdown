@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { type Ref, useEffect, useHost } from 'atomico'
 
 interface Options {

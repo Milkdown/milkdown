@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { Cmd, CmdKey } from '@milkdown/core'
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import { CommandsReady, commandsCtx, commandsTimerCtx, createCmdKey } from '@milkdown/core'

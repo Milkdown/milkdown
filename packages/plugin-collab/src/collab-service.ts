@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Ctx } from '@milkdown/ctx'
 import type { DefaultValue } from '@milkdown/core'
 import {

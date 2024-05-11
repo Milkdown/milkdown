@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { $view } from '@milkdown/utils'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { imageSchema } from '@milkdown/preset-commonmark'

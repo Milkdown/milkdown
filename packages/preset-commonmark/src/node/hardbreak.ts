@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { commandsCtx } from '@milkdown/core'
 import { Selection, TextSelection } from '@milkdown/prose/state'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'

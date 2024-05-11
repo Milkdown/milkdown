@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Refractor } from 'refractor/lib/core'
 
 import { findChildren } from '@milkdown/prose'

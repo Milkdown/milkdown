@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
 import { commandsCtx } from '@milkdown/core'
 import { history as prosemirrorHistory, redo, undo } from '@milkdown/prose/history'

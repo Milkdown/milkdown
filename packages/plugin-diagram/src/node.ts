@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { InputRule } from '@milkdown/prose/inputrules'

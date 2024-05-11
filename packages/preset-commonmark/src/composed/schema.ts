@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { emphasisAttr, emphasisSchema, inlineCodeAttr, inlineCodeSchema, linkAttr, linkSchema, strongAttr, strongSchema } from '../mark'
 import {

@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { expectDomTypeError, missingRootElement } from '@milkdown/exception'
 
 import type { EditorView } from '../../view'

@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 import type { Node } from '@milkdown/transformer'
 import { visit } from 'unist-util-visit'
 

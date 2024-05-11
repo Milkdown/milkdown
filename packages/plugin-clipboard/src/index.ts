@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core'
 import { getNodeFromSchema } from '@milkdown/prose'
 import type { Node, Slice } from '@milkdown/prose/model'
