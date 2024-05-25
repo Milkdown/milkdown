@@ -21,6 +21,8 @@ export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConst
       dom.listType = node.attrs.listType
       dom.label = node.attrs.label
       dom.checked = node.attrs.checked
+
+      dom.readonly = !view.editable
     }
 
     bindAttrs(initialNode)
