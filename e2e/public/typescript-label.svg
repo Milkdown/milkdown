@@ -1,0 +1,20 @@
+<svg width="87.1" height="20" viewBox="0 0 871 200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="TypeScript">
+  <title>TypeScript</title>
+  <linearGradient id="iRgIK" x2="0" y2="100%">
+    <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <mask id="jTmDE"><rect width="871" height="200" rx="30" fill="#FFF"/></mask>
+  <g mask="url(#jTmDE)">
+    <rect width="182" height="200" fill="#555"/>
+    <rect width="689" height="200" fill="#08C" x="182"/>
+    <rect width="871" height="200" fill="url(#iRgIK)"/>
+  </g>
+  <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
+    <text x="142" y="148" textLength="0" fill="#000" opacity="0.25"></text>
+    <text x="132" y="138" textLength="0"></text>
+    <text x="237" y="148" textLength="589" fill="#000" opacity="0.25">TypeScript</text>
+    <text x="227" y="138" textLength="589">TypeScript</text>
+  </g>
+  <image x="40" y="35" width="100" height="130" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0zNSAtMzUgNzAwIDcwMCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTAgMzE1djMxNWg2MzBWMEgwdjMxNXptNTA4LTI1YzE2IDQgMjggMTEgMzkgMjMgNiA2IDE1IDE3IDE1IDIwIDAgMS0yNyAxOS00NCAyOSAwIDEtMy0yLTUtNi04LTEyLTE3LTE3LTMwLTE4LTE5LTEtMzEgOS0zMSAyNiAwIDUgMSA3IDMgMTEgNCA5IDEyIDE0IDM2IDI1IDQ1IDE5IDY0IDMyIDc2IDUwIDE0IDIxIDE3IDUzIDggNzctMTAgMjYtMzUgNDQtNzAgNTAtMTEgMi0zNiAyLTQ4IDAtMjUtNS00OS0xNy02NC0zNC02LTYtMTctMjMtMTctMjRsNi00IDI0LTEzIDE4LTExIDQgNmM1IDggMTYgMTkgMjMgMjMgMjEgMTAgNDggOSA2Mi0zIDYtNiA4LTExIDgtMTlzLTEtMTEtNS0xNmMtNS03LTE1LTEzLTQzLTI1LTMzLTE0LTQ3LTIzLTU5LTM3LTgtOC0xNS0yMS0xOC0zMS0yLTktMy0zMi0xLTQxIDctMzEgMzEtNTMgNjUtNTkgMTEtMyAzNy0yIDQ4IDF6bS0xNDggMjZ2MjZoLTgydjIzM2gtNThWMzQyaC04MnYtMjVsMS0yNiAxMTAtMWgxMTF2MjZ6Ii8+PC9zdmc+Cg=="/>
+</svg>
