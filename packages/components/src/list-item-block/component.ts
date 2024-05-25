@@ -13,6 +13,7 @@ interface Attrs {
 
 export type ListItemComponentProps = Attrs & {
   config: ListItemBlockConfig
+  readonly: boolean
   selected: boolean
   setAttr: <T extends keyof Attrs>(attr: T, value: Attrs[T]) => void
   onMount: () => void
@@ -20,12 +21,13 @@ export type ListItemComponentProps = Attrs & {
 
 export const listItemComponent: Component<ListItemComponentProps> = ({
   selected,
-  label,
-  listType,
+  label = '',
+  listType = '',
   checked,
   onMount,
   setAttr,
   config,
+  readonly,
 }) => {
   const host = useHost()
   const contentWrapperRef = useRef<HTMLDivElement>()
@@ -51,9 +53,18 @@ export const listItemComponent: Component<ListItemComponentProps> = ({
     setAttr?.('checked', !checked)
   }
 
+  const labelProps = {
+    label,
+    listType,
+    checked,
+    readonly,
+  }
+
   return html`<host>
     <li class=${clsx('list-item', selected && 'ProseMirror-selectednode')}>
-      <div class="label-wrapper" onclick=${onClickLabel} contenteditable="false">${config?.renderLabel(label ?? '', listType ?? '', checked)}</div>
+      <div class="label-wrapper" onclick=${onClickLabel} contenteditable="false">
+        ${config?.renderLabel(labelProps)}
+      </div>
       <div class="children" ref=${contentWrapperRef}></div>
     </li>
   </host>`
@@ -62,6 +73,7 @@ export const listItemComponent: Component<ListItemComponentProps> = ({
 listItemComponent.props = {
   label: String,
   checked: Boolean,
+  readonly: Boolean,
   listType: String,
   config: Object,
   selected: Boolean,

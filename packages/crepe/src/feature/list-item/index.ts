@@ -8,7 +8,7 @@ import style from './style.css?inline'
 
 function configureListItem(ctx: Ctx) {
   ctx.set(listItemBlockConfig.key, {
-    renderLabel: (label: string, listType, checked?: boolean) => {
+    renderLabel: ({ label, listType, checked, readonly }) => {
       if (checked == null) {
         if (listType === 'bullet')
           return html`<span class='label'>${bulletIcon}</span>`
@@ -16,7 +16,7 @@ function configureListItem(ctx: Ctx) {
         return html`<span class='label'>${label}</span>`
       }
 
-      return html`<input class='label' type="checkbox" checked=${checked} />`
+      return html`<input disabled=${readonly} class='label' type="checkbox" checked=${checked} />`
     },
   })
 }
