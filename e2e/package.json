@@ -18,9 +18,8 @@
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:test": "test-storybook",
-    "storybook:test:ci": "start-test storybook:serve:ci tcp:6006 storybook:test",
-    "storybook:serve": "serve storybook-static",
-    "storybook:serve:ci": "serve storybook-static -l 6006 -L"
+    "storybook:test:ci": "concurrently -k -s first -n \"Story,Test\" -c \"magenta,blue\" \"serve storybook-static -l 6006 -L\" \"wait-on tcp:6006 && test-storybook\"",
+    "storybook:serve": "serve storybook-static"
   },
   "dependencies": {
     "@codemirror/commands": "^6.3.3",
