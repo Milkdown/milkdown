@@ -1,2 +1,3 @@
 pnpm format
+pnpm build
 pnpm test
