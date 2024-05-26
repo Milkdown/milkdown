@@ -20,7 +20,7 @@
     "storybook:test": "test-storybook",
     "storybook:test:ci": "start-test storybook:serve:ci tcp:6006 storybook:test",
     "storybook:serve": "serve storybook-static",
-    "storybook:serve:ci": "serve storybook-static -l 6006"
+    "storybook:serve:ci": "serve storybook-static -l tcp://127.0.0.1:6006"
   },
   "dependencies": {
     "@codemirror/commands": "^6.3.3",
