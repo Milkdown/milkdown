@@ -9,14 +9,14 @@ import { expect, userEvent, waitFor, within } from '@storybook/test'
 
 import '@milkdown/theme-nord/style.css'
 
-import '../style.css'
+import '../../style.css'
 
 interface Args {
   instance: Editor
 }
 
 const meta: Meta<Args> = {
-  title: 'Commonmark/Commands',
+  title: 'Presets/Commonmark/Commands',
 }
 
 export default meta
