@@ -45,6 +45,10 @@ jobs:
       - name: install dependencies
         run: pnpm install
 
+      # we need to align playwright version with storybook
+      - name: install playwright for storybook
+        run: pnpm --filter=@milkdown/e2e exec playwright install
+
       - name: build packs
         run: pnpm build
 
