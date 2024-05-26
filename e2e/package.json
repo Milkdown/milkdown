@@ -53,7 +53,7 @@
     "@storybook/test-runner": "^0.18.0",
     "cypress": "^13.0.0",
     "playwright": "1.41.2",
-    "serve": "^14.2.1",
+    "serve": "^14.2.3",
     "start-server-and-test": "^2.0.0",
     "wait-on": "^7.2.0"
   },
