@@ -9,15 +9,15 @@ import { expect, userEvent, waitFor, within } from '@storybook/test'
 
 import '@milkdown/theme-nord/style.css'
 
-import '../style.css'
-import { pressMod } from '../misc'
+import '../../style.css'
+import { pressMod } from '../../misc'
 
 interface Args {
   instance: Editor
 }
 
 const meta: Meta<Args> = {
-  title: 'Commonmark/Shortcut',
+  title: 'Presets/Commonmark/Shortcut',
 }
 
 export default meta
@@ -66,7 +66,7 @@ export const StrongByKeyboard: Story = {
     const strong = canvasElement.querySelector('strong')
 
     await expect(strong).toHaveTextContent(text)
-    await userEvent.pointer([{ target: strong, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
+    await userEvent.pointer([{ target: strong as HTMLElement, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
 
     await userEvent.keyboard(pressMod('b'))
 
@@ -96,7 +96,7 @@ export const ItalicByKeyboard: Story = {
     const strong = canvasElement.querySelector('em')
 
     await expect(strong).toHaveTextContent(text)
-    await userEvent.pointer([{ target: strong, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
+    await userEvent.pointer([{ target: strong as HTMLElement, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
 
     await userEvent.keyboard(pressMod('i'))
 

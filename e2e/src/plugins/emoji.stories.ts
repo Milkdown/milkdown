@@ -16,14 +16,20 @@ interface Args {
 }
 
 const meta: Meta<Args> = {
-  title: 'Emoji/Main',
+  title: 'Plugins/Emoji',
 }
 
 export default meta
 
 type Story = StoryObj<Args>
 
-export const Empty: Story = {
+const defaultValue = `
+Raw: 🫥
+
+Shortcut: :+1:
+`
+
+export const Default: Story = {
   render: (args) => {
     const root = document.createElement('div')
     const editor = Editor.make()
@@ -44,19 +50,7 @@ export const Empty: Story = {
 
     return root
   },
-}
-
-const defaultValue = `
-# Milkdown
-
-🫥
-
-:+1:
-`
-
-export const WithDefaultValue: Story = {
-  ...Empty,
   args: {
-    defaultValue: defaultValue.trim(),
+    defaultValue,
   },
 }
