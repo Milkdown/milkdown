@@ -1,0 +1,18 @@
+.preview-content {
+  @apply mx-5;
+
+  code {
+    @apply bg-slate-100 px-8 py-6 my-2 rounded border block relative;
+    &::before {
+      @apply absolute text-xs top-0 left-0 bg-black text-white px-2 py-1 rounded-tl rounded-br;
+    }
+  }
+
+  #editorContent::before {
+    content: 'Current';
+  }
+
+  #prevContent::before {
+    content: 'Prev';
+  }
+}

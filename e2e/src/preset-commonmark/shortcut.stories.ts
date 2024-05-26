@@ -66,7 +66,7 @@ export const StrongByKeyboard: Story = {
     const strong = canvasElement.querySelector('strong')
 
     await expect(strong).toHaveTextContent(text)
-    await userEvent.pointer([{ target: strong, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
+    await userEvent.pointer([{ target: strong as HTMLElement, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
 
     await userEvent.keyboard(pressMod('b'))
 
@@ -96,7 +96,7 @@ export const ItalicByKeyboard: Story = {
     const strong = canvasElement.querySelector('em')
 
     await expect(strong).toHaveTextContent(text)
-    await userEvent.pointer([{ target: strong, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
+    await userEvent.pointer([{ target: strong as HTMLElement, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
 
     await userEvent.keyboard(pressMod('i'))
 
