@@ -1,5 +1,54 @@
 .milkdown {
   milkdown-image-inline {
+    outline: none;
+    display: inline;
+
+    & input {
+      background: transparent;
+      outline: none;
+      border: 0;
+    }
+
+    &.empty {
+      vertical-align: bottom;
+    }
+
+    & > .empty-image-inline {
+      display: inline-flex;
+    }
+
+    & > .empty-image-inline .confirm {
+      cursor: pointer;
+    }
+
+    & > .empty-image-inline .link-importer {
+      position: relative;
+      flex: 1;
+    }
+
+    & > .empty-image-inline .link-importer > .link-input-area {
+      width: 208px;
+    }
+
+    & > .empty-image-inline .link-importer .placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      cursor: text;
+    }
+
+    & > .empty-image-inline .link-importer .placeholder .uploader {
+      cursor: pointer;
+      display: flex;
+    }
+
+    & .hidden {
+      display: none !important;
+    }
+
     &.empty.selected {
       background: none;
       outline: none;
@@ -91,6 +140,91 @@
   }
 
   milkdown-image-block {
+    outline: none;
+    margin: 16px 0;
+    display: block;
+
+    & > .image-wrapper {
+      position: relative;
+      width: fit-content;
+      margin: 0 auto;
+      min-width: 100px;
+    }
+
+    & > .image-wrapper .operation {
+      position: absolute;
+      display: flex;
+    }
+
+    & > .image-wrapper .operation > .operation-item {
+      cursor: pointer;
+    }
+
+    & > .image-wrapper img {
+      max-width: 100%;
+      min-height: 100px;
+      display: block;
+      object-fit: cover;
+    }
+
+    & > .image-wrapper > .image-resize-handle {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    & > .image-wrapper > .image-resize-handle:hover {
+      cursor: row-resize;
+    }
+
+    input {
+      background: transparent;
+      outline: none;
+      border: 0;
+    }
+
+    & > .caption-input {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    & > .image-edit {
+      display: flex;
+    }
+
+    & > .image-edit .confirm {
+      cursor: pointer;
+    }
+
+    & > .image-edit .link-importer {
+      position: relative;
+      flex: 1;
+    }
+
+    & > .image-edit .link-importer > .link-input-area {
+      width: 100%;
+    }
+
+    & > .image-edit .link-importer .placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      cursor: text;
+    }
+
+    & > .image-edit .link-importer .placeholder .uploader {
+      cursor: pointer;
+      display: flex;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
     &.selected > .image-edit {
       outline: 1px solid var(--crepe-color-outline);
     }

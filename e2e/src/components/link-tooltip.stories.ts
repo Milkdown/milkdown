@@ -40,6 +40,7 @@ Caught in a [landslide](https://en.wikipedia.org/wiki/landslide), no escape from
 export const Default: StoryObj<Args> = {
   render: (args) => {
     const root = document.createElement('div')
+    root.classList.add('milkdown-storybook')
     const insertLinkTooltip = tooltipFactory('CREATE_LINK')
 
     function tooltipPluginView(ctx: Ctx) {

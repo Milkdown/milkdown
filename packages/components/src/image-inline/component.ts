@@ -1,9 +1,7 @@
 import { c, html, useRef, useState } from 'atomico'
 import type { Component } from 'atomico'
 import clsx from 'clsx'
-import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import type { InlineImageConfig } from './config'
-import { style } from './style'
 
 export interface Attrs {
   src: string
@@ -30,7 +28,6 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
   const [focusLinkInput, setFocusLinkInput] = useState(false)
   const [hidePlaceholder, setHidePlaceholder] = useState(src.length !== 0)
   const [currentLink, setCurrentLink] = useState(src)
-  useCssLightDom(style)
 
   const onEditLink = (e: InputEvent) => {
     const target = e.target as HTMLInputElement

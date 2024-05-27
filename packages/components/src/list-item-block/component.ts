@@ -1,9 +1,7 @@
 import type { Component } from 'atomico'
 import { c, html, useHost, useLayoutEffect, useRef } from 'atomico'
-import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import clsx from 'clsx'
 import type { ListItemBlockConfig } from './config'
-import { style } from './style'
 
 interface Attrs {
   label: string
@@ -31,7 +29,6 @@ export const listItemComponent: Component<ListItemComponentProps> = ({
 }) => {
   const host = useHost()
   const contentWrapperRef = useRef<HTMLDivElement>()
-  useCssLightDom(style)
 
   useLayoutEffect(() => {
     const current = contentWrapperRef.current

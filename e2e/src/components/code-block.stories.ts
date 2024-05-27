@@ -43,6 +43,7 @@ const a = 1;
 export const Javascript: StoryObj<Args> = {
   render: (args) => {
     const root = document.createElement('div')
+    root.classList.add('milkdown-storybook')
     Editor.make()
       .config((ctx) => {
         ctx.set(rootCtx, root)

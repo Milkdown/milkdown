@@ -1,11 +1,9 @@
 import type { Component } from 'atomico'
 import { c, html, useEffect, useRef, useState } from 'atomico'
-import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import clsx from 'clsx'
 import type { ImageBlockConfig } from '../config'
 import { IMAGE_DATA_TYPE } from '../schema'
 import { useBlockEffect } from './event'
-import { style } from './style'
 
 export interface Attrs {
   src: string
@@ -37,7 +35,6 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const [uuid] = useState(crypto.randomUUID())
   const [focusLinkInput, setFocusLinkInput] = useState(false)
   const [currentLink, setCurrentLink] = useState(src)
-  useCssLightDom(style)
 
   useBlockEffect({
     image,
