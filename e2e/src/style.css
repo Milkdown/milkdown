@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 .milkdown {
-  @apply bg-slate-50 px-8 py-4 mx-5 border rounded;
+  @apply bg-slate-50 border rounded;
+}
+
+.milkdown:not(.crepe .milkdown) {
+  @apply px-8 py-4 mx-5;
 }
 
 .editor {

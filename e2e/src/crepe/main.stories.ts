@@ -40,6 +40,7 @@ const defaultArgs: Omit<Args, 'instance'> = {
 export const Empty: Story = {
   render: (args) => {
     const root = document.createElement('div')
+    root.classList.add('crepe')
 
     const crepe = new Crepe({
       root,
