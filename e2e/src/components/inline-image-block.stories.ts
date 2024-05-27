@@ -31,6 +31,7 @@ const empty = `
 export const Empty: StoryObj<Args> = {
   render: (args) => {
     const root = document.createElement('div')
+    root.classList.add('milkdown-storybook')
     Editor.make()
       .config((ctx) => {
         ctx.set(rootCtx, root)

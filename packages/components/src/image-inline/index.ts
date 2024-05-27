@@ -3,7 +3,6 @@ import { inlineImageConfig } from './config'
 import { inlineImageView } from './view'
 
 export * from './config'
-export * from './style'
 export * from './view'
 
 export const imageInlineComponent: MilkdownPlugin[] = [

@@ -1,8 +1,26 @@
 .milkdown {
   milkdown-code-block {
+    display: block;
+    position: relative;
     padding: 24px 40px;
     background: var(--crepe-color-surface);
     margin: 20px 0;
+
+    .language-picker {
+      padding-top: 16px;
+      width: max-content;
+      position: absolute;
+      z-index: 1;
+      display: none;
+
+      &.show {
+        display: block;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
 
     &.selected {
       outline: 1px solid var(--crepe-color-primary);
@@ -19,6 +37,8 @@
     }
 
     .language-button {
+      display: flex;
+      align-items: center;
       font-family: var(--crepe-font-default);
       gap: 6px;
       padding: 6px 8px 6px 18px;
@@ -32,41 +52,37 @@
       opacity: 0;
       cursor: pointer;
       transition: opacity 0.2s ease-in-out;
+
+      &:hover {
+        background: var(--crepe-color-hover);
+      }
+
+      .expand-icon {
+        transition: transform 0.2s ease-in-out;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .expand-icon svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      &[data-expanded="true"] .expand-icon {
+        transform: rotate(180deg);
+      }
+
+      .expand-icon svg:focus,
+      .expand-icon:focus-visible {
+        outline: none;
+      }
     }
 
     &:hover .language-button {
       opacity: 1;
-    }
-
-    .language-button:hover {
-      background: var(--crepe-color-hover);
-    }
-
-    .language-button .expand-icon {
-      transition: transform 0.2s ease-in-out;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .language-button .expand-icon svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    .language-button[data-expanded="true"] .expand-icon {
-      transform: rotate(180deg);
-    }
-
-    .language-button .expand-icon svg:focus,
-    .language-button .expand-icon:focus-visible {
-      outline: none;
-    }
-
-    .language-picker {
-      padding-top: 16px;
     }
 
     .list-wrapper {
@@ -74,6 +90,7 @@
       border-radius: 12px;
       box-shadow: var(--crepe-shadow-1);
       width: 244px;
+      padding-top: 20px;
     }
 
     .language-list {
@@ -93,67 +110,66 @@
       font-size: 14px;
       font-weight: 600;
       line-height: 20px;
-    }
 
-    .language-list-item:hover {
-      background: var(--crepe-color-hover);
-    }
+      &:hover {
+        background: var(--crepe-color-hover);
+      }
 
-    .language-list-item:focus-visible {
-      outline: none;
-      background: var(--crepe-color-hover);
-    }
+      &:focus-visible {
+        outline: none;
+        background: var(--crepe-color-hover);
+      }
 
-    .language-list-item .leading,
-    .language-list-item .leading svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .list-wrapper {
-      padding-top: 20px;
+      .leading,
+      .leading svg {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     .search-box {
+      display: flex;
+      align-items: center;
       margin: 0 16px 12px;
       background: transparent;
       border-radius: 4px;
       outline: 1px solid var(--crepe-color-primary);
       gap: 8px;
       padding: 12px 20px 12px 10px;
-    }
 
-    .search-box .search-input {
-      width: 100%;
-      color: var(--crepe-color-on-surface);
-    }
+      .search-input {
+        width: 100%;
+        color: var(--crepe-color-on-surface);
+      }
 
-    .search-box .search-icon {
-      display: none;
-    }
+      .search-icon {
+        display: none;
+      }
 
-    .search-box .clear-icon {
-      width: 24px;
-      height: 24px;
-      svg {
+      .clear-icon {
+        cursor: pointer;
         width: 24px;
         height: 24px;
-        color: var(--crepe-color-primary);
+        svg {
+          width: 24px;
+          height: 24px;
+          color: var(--crepe-color-primary);
+        }
+        &:hover {
+          background: var(--crepe-color-hover);
+        }
       }
-      &:hover {
-        background: var(--crepe-color-hover);
+
+      input {
+        font-family: var(--crepe-font-default);
+        font-size: 16px;
+        line-height: 24px;
+        background: transparent;
       }
-    }
 
-    .search-box input {
-      font-family: var(--crepe-font-default);
-      font-size: 16px;
-      line-height: 24px;
-      background: transparent;
-    }
-
-    .search-box input:focus {
-      outline: none;
+      input:focus {
+        outline: none;
+      }
     }
   }
 }

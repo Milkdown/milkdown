@@ -1,11 +1,9 @@
 import type { EditorView as CodeMirror } from '@codemirror/view'
 import type { Component } from 'atomico'
 import { c, h, html, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
-import { useCssLightDom } from '@atomico/hooks/use-css-light-dom'
 import { computePosition } from '@floating-ui/dom'
 import clsx from 'clsx'
 import type { CodeBlockConfig } from '../config'
-import { style } from './style'
 import type { LanguageInfo } from './loader'
 import { trapFocus } from './utils'
 
@@ -33,7 +31,6 @@ export const codeComponent: Component<CodeComponentProps> = ({
   const releaseRef = useRef<() => void>()
   const [filter, setFilter] = useState('')
   const [showPicker, setShowPicker] = useState(false)
-  useCssLightDom(style)
 
   useEffect(() => {
     const lang = getAllLanguages?.()?.find(languageInfo =>

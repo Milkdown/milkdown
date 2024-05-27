@@ -1,64 +1,118 @@
-milkdown-image-inline.selected > .image-inline {
-  outline: 2px solid fuchsia;
-  vertical-align: bottom;
-}
+.milkdown-storybook {
+  milkdown-image-inline.selected > .image-inline {
+    outline: 2px solid fuchsia;
+    vertical-align: bottom;
+  }
 
-milkdown-image-inline.selected > .empty-image-inline {
-  outline: 2px solid fuchsia;
-}
+  milkdown-image-inline.selected > .empty-image-inline {
+    outline: 2px solid fuchsia;
+  }
 
-milkdown-image-inline > .empty-image-inline {
-  align-items: center;
-  padding: 0 8px;
-  gap: 8px;
-  background: oldlace;
-  border-radius: 4px;
-}
+  milkdown-image-inline > .empty-image-inline {
+    align-items: center;
+    padding: 0 8px;
+    gap: 8px;
+    background: oldlace;
+    border-radius: 4px;
+  }
 
-milkdown-image-inline > .empty-image-inline .image-icon {
-  color: darkgray;
-}
+  milkdown-image-inline > .empty-image-inline .image-icon {
+    color: darkgray;
+  }
 
-milkdown-image-inline > .empty-image-inline .image-icon svg {
-  width: 24px;
-  height: 24px;
-}
+  milkdown-image-inline > .empty-image-inline .image-icon svg {
+    width: 24px;
+    height: 24px;
+  }
 
-milkdown-image-inline > .empty-image-inline .link-importer .placeholder {
-  color: darkgray;
-  font-size: 12px;
-}
+  milkdown-image-inline > .empty-image-inline .link-importer .placeholder {
+    color: darkgray;
+    font-size: 12px;
+  }
 
-milkdown-image-inline > .empty-image-inline .link-importer .link-input-area {
-  line-height: 16px;
-  font-size: 12px;
-  padding: 8px 0;
-}
+  milkdown-image-inline > .empty-image-inline .link-importer .link-input-area {
+    line-height: 16px;
+    font-size: 12px;
+    padding: 8px 0;
+  }
 
-milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader {
-  gap: 8px;
-  color: fuchsia;
-  justify-content: center;
-  transition: color 0.2s;
-}
+  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader {
+    gap: 8px;
+    color: fuchsia;
+    justify-content: center;
+    transition: color 0.2s;
+  }
 
-milkdown-image-inline > .empty-image-inline .link-importer.focus .placeholder .uploader {
-  color: unset;
-}
+  milkdown-image-inline > .empty-image-inline .link-importer.focus .placeholder .uploader {
+    color: unset;
+  }
 
-milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader:hover {
-  color: fuchsia;
-}
+  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader:hover {
+    color: fuchsia;
+  }
 
-milkdown-image-inline > .empty-image-inline .link-importer .placeholder .text {
-  margin-left: 8px;
-}
+  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .text {
+    margin-left: 8px;
+  }
 
-milkdown-image-inline > .empty-image-inline .confirm {
-  background: darkgray;
-  color: antiquewhite;
-  line-height: 28px;
-  padding: 0 12px;
-  border-radius: 8px;
-  font-size: 12px;
+  milkdown-image-inline > .empty-image-inline .confirm {
+    background: darkgray;
+    color: antiquewhite;
+    line-height: 28px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  milkdown-image-inline {
+    outline: none;
+    display: inline;
+  }
+
+  milkdown-image-inline input {
+    background: transparent;
+    outline: none;
+    border: 0;
+  }
+
+  milkdown-image-inline.empty {
+    vertical-align: bottom;
+  }
+
+  milkdown-image-inline > .empty-image-inline {
+    display: inline-flex;
+  }
+
+  milkdown-image-inline > .empty-image-inline .confirm {
+    cursor: pointer;
+  }
+
+  milkdown-image-inline > .empty-image-inline .link-importer {
+    position: relative;
+    flex: 1;
+  }
+
+  milkdown-image-inline > .empty-image-inline .link-importer > .link-input-area {
+    width: 208px;
+  }
+
+  milkdown-image-inline > .empty-image-inline .link-importer .placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    cursor: text;
+  }
+
+  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader {
+    cursor: pointer;
+    display: flex;
+  }
+
+  milkdown-image-inline .hidden {
+    display: none !important;
+  }
+
 }

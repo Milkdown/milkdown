@@ -1,97 +1,188 @@
-milkdown-image-block.selected > .image-edit {
-  outline: 2px solid fuchsia;
-}
+.milkdown-storybook {
 
-milkdown-image-block.selected > .image-wrapper img {
-  outline: 2px solid fuchsia;
-}
+  milkdown-image-block.selected > .image-edit {
+    outline: 2px solid fuchsia;
+  }
 
-milkdown-image-block > .image-wrapper .operation {
-  gap: 16px;
-  right: 16px;
-  top: 16px;
-  opacity: 0;
-  transition: all 0.2s;
-}
+  milkdown-image-block.selected > .image-wrapper img {
+    outline: 2px solid fuchsia;
+  }
 
-milkdown-image-block:hover > .image-wrapper .operation {
-  opacity: 1;
-}
+  milkdown-image-block > .image-wrapper .operation {
+    gap: 16px;
+    right: 16px;
+    top: 16px;
+    opacity: 0;
+    transition: all 0.2s;
+  }
 
-milkdown-image-block > .image-wrapper .operation > .operation-item {
-  color: antiquewhite;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 50%;
-}
+  milkdown-image-block:hover > .image-wrapper .operation {
+    opacity: 1;
+  }
 
-milkdown-image-block > .image-wrapper .image-resize-handle {
-  height: 8px;
-  bottom: -4px;
-  width: 160px;
-  background: antiquewhite;
-  opacity: 0;
-  transition: all 0.2s;
-}
+  milkdown-image-block > .image-wrapper .operation > .operation-item {
+    color: antiquewhite;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+  }
 
-milkdown-image-block:hover > .image-wrapper .image-resize-handle {
-  opacity: 1;
-}
+  milkdown-image-block > .image-wrapper .image-resize-handle {
+    height: 8px;
+    bottom: -4px;
+    width: 160px;
+    background: antiquewhite;
+    opacity: 0;
+    transition: all 0.2s;
+  }
 
-milkdown-image-block > .caption-input {
-  margin: 16px auto;
-}
+  milkdown-image-block:hover > .image-wrapper .image-resize-handle {
+    opacity: 1;
+  }
 
-milkdown-image-block > .image-edit {
-  align-items: center;
-  padding: 16px 24px;
-  gap: 16px;
-  background: oldlace;
-  height: 56px;
-}
+  milkdown-image-block > .caption-input {
+    margin: 16px auto;
+  }
 
-milkdown-image-block > .image-edit .image-icon {
-  color: darkgray;
-}
+  milkdown-image-block > .image-edit {
+    align-items: center;
+    padding: 16px 24px;
+    gap: 16px;
+    background: oldlace;
+    height: 56px;
+  }
 
-milkdown-image-block > .image-edit .image-icon svg {
-  width: 24px;
-  height: 24px;
-}
+  milkdown-image-block > .image-edit .image-icon {
+    color: darkgray;
+  }
 
-milkdown-image-block > .image-edit .link-importer .placeholder {
-  color: darkgray;
-}
+  milkdown-image-block > .image-edit .image-icon svg {
+    width: 24px;
+    height: 24px;
+  }
 
-milkdown-image-block > .image-edit .link-importer .link-input-area {
-  line-height: 24px;
-  padding: 8px 0;
-}
+  milkdown-image-block > .image-edit .link-importer .placeholder {
+    color: darkgray;
+  }
 
-milkdown-image-block > .image-edit .link-importer .placeholder .uploader {
-  gap: 8px;
-  color: fuchsia;
-  justify-content: center;
-  transition: color 0.2s;
-}
+  milkdown-image-block > .image-edit .link-importer .link-input-area {
+    line-height: 24px;
+    padding: 8px 0;
+  }
 
-milkdown-image-block > .image-edit .link-importer.focus .placeholder .uploader {
-  color: unset;
-}
+  milkdown-image-block > .image-edit .link-importer .placeholder .uploader {
+    gap: 8px;
+    color: fuchsia;
+    justify-content: center;
+    transition: color 0.2s;
+  }
 
-milkdown-image-block > .image-edit .link-importer .placeholder .uploader:hover {
-  color: fuchsia;
-}
+  milkdown-image-block > .image-edit .link-importer.focus .placeholder .uploader {
+    color: unset;
+  }
 
-milkdown-image-block > .image-edit .link-importer .placeholder .text {
-  margin-left: 8px;
-}
+  milkdown-image-block > .image-edit .link-importer .placeholder .uploader:hover {
+    color: fuchsia;
+  }
 
-milkdown-image-block > .image-edit .confirm {
-  background: darkgray;
-  color: antiquewhite;
-  line-height: 40px;
-  padding: 0 24px;
-  border-radius: 100px;
-  font-size: 14px;
+  milkdown-image-block > .image-edit .link-importer .placeholder .text {
+    margin-left: 8px;
+  }
+
+  milkdown-image-block > .image-edit .confirm {
+    background: darkgray;
+    color: antiquewhite;
+    line-height: 40px;
+    padding: 0 24px;
+    border-radius: 100px;
+    font-size: 14px;
+  }
+
+  milkdown-image-block {
+    outline: none;
+    margin: 16px 0;
+    display: block;
+  }
+
+  milkdown-image-block > .image-wrapper {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    min-width: 100px;
+  }
+
+  milkdown-image-block > .image-wrapper .operation {
+    position: absolute;
+    display: flex;
+  }
+
+  milkdown-image-block > .image-wrapper .operation > .operation-item {
+    cursor: pointer;
+  }
+
+  milkdown-image-block > .image-wrapper img {
+    max-width: 100%;
+    min-height: 100px;
+    display: block;
+    object-fit: cover;
+  }
+
+  milkdown-image-block > .image-wrapper > .image-resize-handle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  milkdown-image-block > .image-wrapper > .image-resize-handle:hover {
+    cursor: row-resize;
+  }
+
+  milkdown-image-block input {
+    background: transparent;
+    outline: none;
+    border: 0;
+  }
+
+  milkdown-image-block > .caption-input {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  milkdown-image-block > .image-edit {
+    display: flex;
+  }
+
+  milkdown-image-block > .image-edit .confirm {
+    cursor: pointer;
+  }
+
+  milkdown-image-block > .image-edit .link-importer {
+    position: relative;
+    flex: 1;
+  }
+
+  milkdown-image-block > .image-edit .link-importer > .link-input-area {
+    width: 100%;
+  }
+
+  milkdown-image-block > .image-edit .link-importer .placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    cursor: text;
+  }
+
+  milkdown-image-block > .image-edit .link-importer .placeholder .uploader {
+    cursor: pointer;
+    display: flex;
+  }
+
+  milkdown-image-block .hidden {
+    display: none !important;
+  }
+
 }

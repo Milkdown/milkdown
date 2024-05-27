@@ -3,6 +3,16 @@
     display: block;
     margin-top: 10px;
 
+    & > .list-item {
+      display: flex;
+      align-items: start;
+    }
+
+    & > .list-item > .children {
+      min-width: 0;
+      flex: 1;
+    }
+
     li {
       gap: 10px;
       .label-wrapper {
