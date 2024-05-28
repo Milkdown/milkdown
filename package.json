@@ -19,7 +19,7 @@
     "test:e2e:verbose": "pnpm --filter=@milkdown/e2e run start:test:verbose",
     "format": "lint-staged",
     "watch": "pnpm --filter=./packages --parallel run start",
-    "start": "pnpm --filter=@milkdown/e2e start --host",
+    "start": "pnpm --filter=@milkdown/e2e run storybook",
     "build": "nx run-many --target=build --all --parallel",
     "build:affected": "nx affected --target=build",
     "build:packs": "pnpm --filter=@milkdown/* run build",
