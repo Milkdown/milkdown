@@ -6,7 +6,7 @@ import { history } from '@milkdown/plugin-history'
 import { imageInlineComponent } from '@milkdown/components/image-inline'
 
 import '@milkdown/theme-nord/style.css'
-import '../style.css'
+import '../../src/style.css'
 import './inline-image-block.css'
 
 const meta: Meta = {

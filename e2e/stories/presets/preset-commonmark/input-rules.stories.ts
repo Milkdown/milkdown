@@ -9,7 +9,7 @@ import { expect, userEvent, waitFor, within } from '@storybook/test'
 
 import '@milkdown/theme-nord/style.css'
 
-import '../../style.css'
+import '../../../src/style.css'
 
 interface Args {
   instance: Editor

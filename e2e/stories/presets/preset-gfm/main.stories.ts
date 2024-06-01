@@ -7,7 +7,7 @@ import { history } from '@milkdown/plugin-history'
 
 import '@milkdown/theme-nord/style.css'
 
-import '../../style.css'
+import '../../../src/style.css'
 
 const meta: Meta = {
   title: 'Presets/GFM/Main',

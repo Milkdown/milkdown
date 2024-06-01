@@ -1,17 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
-import { gfm } from '@milkdown/preset-gfm'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
-import { listItemBlockComponent } from '@milkdown/components/list-item-block'
+import { imageBlockComponent } from '@milkdown/components/image-block'
 
 import '@milkdown/theme-nord/style.css'
-import '../style.css'
-import './list-item-block.css'
+import '../../src/style.css'
+import './image-block.css'
 
 const meta: Meta = {
-  title: 'Components/List Item Block',
+  title: 'Components/Image Block',
 }
 
 export default meta
@@ -21,31 +20,15 @@ interface Args {
   defaultValue: string
 }
 
-const bullet = `
-- List item 1
-    - List item 1.1
-    - List item 1.2
-- List item 2
-- List item 3
+const logo = `
+![0.5](/milkdown-logo.png)
 `
 
-const ordered = `
-1. List item 1
-    1. List item 1.1
-    2. List item 1.2
-2. List item 2
-3. List item 3
+const empty = `
+![]()
 `
 
-const todo = `
-- [ ] Todo list item 1
-    - [ ] Todo List item 1.1
-    - [ ] Todo List item 1.2
-- [ ] Todo list item 2
-- [ ] Todo list item 3
-`
-
-export const Bullet: StoryObj<Args> = {
+export const Empty: StoryObj<Args> = {
   render: (args) => {
     const root = document.createElement('div')
     root.classList.add('milkdown-storybook')
@@ -59,8 +42,7 @@ export const Bullet: StoryObj<Args> = {
       })
       .config(nord)
       .use(commonmark)
-      .use(gfm)
-      .use(listItemBlockComponent)
+      .use(imageBlockComponent)
       .use(history)
       .create()
 
@@ -68,22 +50,14 @@ export const Bullet: StoryObj<Args> = {
   },
   args: {
     readonly: false,
-    defaultValue: bullet,
+    defaultValue: empty,
   },
 }
 
-export const Ordered: StoryObj<Args> = {
-  ...Bullet,
+export const Logo: StoryObj<Args> = {
+  ...Empty,
   args: {
     readonly: false,
-    defaultValue: ordered,
-  },
-}
-
-export const Todo: StoryObj<Args> = {
-  ...Bullet,
-  args: {
-    readonly: false,
-    defaultValue: todo,
+    defaultValue: logo,
   },
 }

@@ -1,22 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { Editor, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
-import { commonmark, toggleEmphasisCommand, toggleStrongCommand } from '@milkdown/preset-commonmark'
+import { commonmark } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
 
-import { callCommand, getMarkdown } from '@milkdown/utils'
+import { getMarkdown } from '@milkdown/utils'
 import { expect, userEvent, waitFor, within } from '@storybook/test'
 
 import '@milkdown/theme-nord/style.css'
 
-import '../../style.css'
+import '../../../src/style.css'
+import { pressMod } from '../../../src/misc'
 
 interface Args {
   instance: Editor
 }
 
 const meta: Meta<Args> = {
-  title: 'Presets/Commonmark/Commands',
+  title: 'Presets/Commonmark/Shortcut',
 }
 
 export default meta
@@ -43,7 +44,7 @@ const preset: Story = {
   },
 }
 
-export const ToggleStrong: Story = {
+export const StrongByKeyboard: Story = {
   ...preset,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement)
@@ -52,28 +53,28 @@ export const ToggleStrong: Story = {
     await waitFor(() => expect(getEditor()).toBeInTheDocument())
     const editor = getEditor()
     await userEvent.click(editor)
+
     await expect(editor).toHaveFocus()
 
-    args.instance.action(callCommand(toggleStrongCommand.key))
+    await userEvent.keyboard(pressMod('b'))
+
     const text = 'Concorde flies in my room'
     await userEvent.keyboard(text)
 
     await expect(args.instance.action(getMarkdown())).toContain(`**${text}**`)
 
-    const strong = canvasElement.querySelector('strong') ?? undefined
+    const strong = canvasElement.querySelector('strong')
 
     await expect(strong).toHaveTextContent(text)
-    await userEvent.pointer([{ target: strong, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
+    await userEvent.pointer([{ target: strong as HTMLElement, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
 
-    args.instance.action(callCommand(toggleStrongCommand.key))
+    await userEvent.keyboard(pressMod('b'))
+
     await expect(canvasElement.querySelector('strong')).toBeNull()
-
-    args.instance.action(callCommand(toggleStrongCommand.key))
-    await expect(canvasElement.querySelector('strong')).toBeInTheDocument()
   },
 }
 
-export const ToggleItalic: Story = {
+export const ItalicByKeyboard: Story = {
   ...preset,
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement)
@@ -82,23 +83,23 @@ export const ToggleItalic: Story = {
     await waitFor(() => expect(getEditor()).toBeInTheDocument())
     const editor = getEditor()
     await userEvent.click(editor)
+
     await expect(editor).toHaveFocus()
 
-    args.instance.action(callCommand(toggleEmphasisCommand.key))
+    await userEvent.keyboard(pressMod('i'))
+
     const text = 'Concorde flies in my room'
     await userEvent.keyboard(text)
 
     await expect(args.instance.action(getMarkdown())).toContain(`*${text}*`)
 
-    const em = canvasElement.querySelector('em') ?? undefined
+    const strong = canvasElement.querySelector('em')
 
-    await expect(em).toHaveTextContent(text)
-    await userEvent.pointer([{ target: em, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
+    await expect(strong).toHaveTextContent(text)
+    await userEvent.pointer([{ target: strong as HTMLElement, offset: 0, keys: '[MouseLeft>]' }, { offset: text.length }])
 
-    args.instance.action(callCommand(toggleEmphasisCommand.key))
+    await userEvent.keyboard(pressMod('i'))
+
     await expect(canvasElement.querySelector('em')).toBeNull()
-
-    args.instance.action(callCommand(toggleEmphasisCommand.key))
-    await expect(canvasElement.querySelector('em')).toBeInTheDocument()
   },
 }
