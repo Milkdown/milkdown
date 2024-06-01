@@ -192,7 +192,7 @@ export class BlockService {
       return
     }
     this.#show(result)
-  }, 20)
+  }, 200)
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
