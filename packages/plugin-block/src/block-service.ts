@@ -4,7 +4,7 @@ import { browser } from '@milkdown/prose'
 import type { Selection } from '@milkdown/prose/state'
 import { NodeSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
-import debounce from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 
 import type { FilterNodes } from './block-plugin'
 import { blockConfig } from './block-plugin'
@@ -166,16 +166,16 @@ export class BlockService {
   }
 
   /// @internal
-  #mousemoveCallback = debounce((view: EditorView, event: MouseEvent) => {
+  #mousemoveCallback = throttle((view: EditorView, event: MouseEvent) => {
     if (!view.editable)
       return
 
     if (this.#dragging)
       return
 
-    const { y } = event
-    const x = view.dom.getBoundingClientRect().width / 2
-    const dom = document.elementFromPoint(x, y)
+    const rect = view.dom.getBoundingClientRect()
+    const x = rect.left + rect.width / 2
+    const dom = document.elementFromPoint(x, event.clientY)
     if (!(dom instanceof Element)) {
       this.#hide()
       return
@@ -192,7 +192,7 @@ export class BlockService {
       return
     }
     this.#show(result)
-  }, 20)
+  }, 200)
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {

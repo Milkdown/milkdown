@@ -3,6 +3,7 @@ import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
+
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
 import type { ActiveNode } from './types'
@@ -103,13 +104,19 @@ export class BlockProvider {
 
   /// Show the block.
   show = (active: ActiveNode) => {
+    const dom = active.el
+    const { height } = dom.getBoundingClientRect()
+    let count = 0
+    active.node.descendants((node) => {
+      if (node.isBlock)
+        count++
+    })
     requestAnimationFrame(() => {
       this.#tippy?.setProps({
         getReferenceClientRect: () => {
-          const dom = active.el
-
-          return dom.getBoundingClientRect()
+          return active.el.getBoundingClientRect()
         },
+        placement: height > 50 || count > 2 ? 'left-start' : 'left',
       })
       this.#tippy?.show()
     })

@@ -47,8 +47,8 @@
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "@types/lodash.debounce": "^4.0.7",
-    "lodash.debounce": "^4.0.8",
+    "@types/lodash.throttle": "^4.1.9",
+    "lodash.throttle": "^4.1.1",
     "tippy.js": "^6.3.7",
     "tslib": "^2.5.0"
   },

@@ -57,7 +57,7 @@ export const blockPlugin = $prose((ctx) => {
         drop: (view, event) => {
           return service.dropCallback(view, event)
         },
-        mousemove: (view, event) => {
+        pointermove: (view, event) => {
           return service.mousemoveCallback(view, event)
         },
         keydown: () => {
