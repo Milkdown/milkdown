@@ -1,39 +1,17 @@
-import type { CardComponentProps } from './main'
+import { crepe } from './crepe'
+import { multiEditor } from './multi-editor'
+import { automd } from './plugin-automd'
+import { math } from './plugin-math'
+import { listener } from './plugin-listener'
+import { commonmark } from './preset-commonmark'
+import { gfm } from './preset-gfm'
 
-export const cards: CardComponentProps[] = [
-  {
-    title: 'Commonmark',
-    description: 'Commonmark spec preset',
-    link: '/preset-commonmark/',
-  },
-  {
-    title: 'GFM',
-    description: 'GFM spec preset',
-    link: '/preset-gfm/',
-  },
-  {
-    title: 'Listener',
-    description: 'Listener plugin',
-    link: '/plugin-listener/',
-  },
-  {
-    title: 'Clipboard',
-    description: 'Clipboard plugin',
-    link: '/plugin-clipboard/',
-  },
-  {
-    title: 'Automd',
-    description: 'Automd plugin with GFM and listener',
-    link: '/plugin-automd/',
-  },
-  {
-    title: 'Math',
-    description: 'Math plugin',
-    link: '/plugin-math/',
-  },
-  {
-    title: 'Multi Editor',
-    description: 'Multi editor instances',
-    link: '/multi-editor/',
-  },
+export const cases: { title: string, link: string }[] = [
+  crepe,
+  commonmark,
+  gfm,
+  multiEditor,
+  listener,
+  automd,
+  math,
 ]

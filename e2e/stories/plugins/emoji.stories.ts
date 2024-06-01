@@ -3,11 +3,11 @@ import { Editor, defaultValueCtx, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
-import { expect, userEvent, waitFor, within } from '@storybook/test'
+import { emoji } from '@milkdown/plugin-emoji'
 
 import '@milkdown/theme-nord/style.css'
 
-import '../../style.css'
+import '../../src/style.css'
 
 interface Args {
   enableInspector: boolean
@@ -16,14 +16,20 @@ interface Args {
 }
 
 const meta: Meta<Args> = {
-  title: 'Presets/Commonmark/Main',
+  title: 'Plugins/Emoji',
 }
 
 export default meta
 
 type Story = StoryObj<Args>
 
-export const Empty: Story = {
+const defaultValue = `
+Raw: 🫥
+
+Shortcut: :+1:
+`
+
+export const Default: Story = {
   render: (args) => {
     const root = document.createElement('div')
     const editor = Editor.make()
@@ -35,6 +41,7 @@ export const Empty: Story = {
       .config(nord)
       .use(commonmark)
       .use(history)
+      .use(emoji)
       .create()
 
     editor.then((instance) => {
@@ -43,37 +50,7 @@ export const Empty: Story = {
 
     return root
   },
-}
-
-const defaultValue = `
-# Milkdown
-
-> A WYSIWYG markdown editor
-
-[Milkdown](https://milkdown.dev) is a **WYSIWYG markdown editor** that provides a clean and simple writing experience.
-`
-
-export const WithDefaultValue: Story = {
-  ...Empty,
   args: {
-    defaultValue: defaultValue.trim(),
-  },
-}
-
-export const WithInspector: Story = {
-  ...Empty,
-  args: {
-    enableInspector: true,
-  },
-  play: async ({ args, canvasElement }) => {
-    const canvas = within(canvasElement)
-    const getEditor = () => canvas.getByRole('textbox')
-
-    await waitFor(() => expect(getEditor()).toBeInTheDocument())
-    const editor = getEditor()
-    await userEvent.click(editor)
-    await expect(editor).toHaveFocus()
-
-    await expect(args.instance.inspect().length).toBeGreaterThan(0)
+    defaultValue,
   },
 }
