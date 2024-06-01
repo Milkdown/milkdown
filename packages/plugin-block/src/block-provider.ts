@@ -3,6 +3,7 @@ import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
+
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
 import type { ActiveNode } from './types'
