@@ -141,7 +141,6 @@ export class BlockService {
     if (!view)
       return
 
-    // Align the behavior with https://github.com/ProseMirror/prosemirror-view/blob/master/src/input.ts#L608
     if (event.dataTransfer && selection) {
       const slice = selection.content()
       event.dataTransfer.effectAllowed = 'copyMove'
@@ -150,6 +149,9 @@ export class BlockService {
       event.dataTransfer.setData(brokenClipboardAPI ? 'Text' : 'text/html', dom.innerHTML)
       if (!brokenClipboardAPI)
         event.dataTransfer.setData('text/plain', text)
+      const activeEl = this.#active?.el
+      if (activeEl)
+        event.dataTransfer.setDragImage(activeEl, 0, 0)
       view.dragging = {
         slice,
         move: true,
