@@ -488,6 +488,9 @@ importers:
 
   packages/plugin-block:
     dependencies:
+      '@floating-ui/dom':
+        specifier: ^1.5.1
+        version: 1.6.3
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../exception

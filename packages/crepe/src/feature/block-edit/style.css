@@ -1,11 +1,16 @@
 .milkdown {
   milkdown-block-handle {
+    &[data-show='false'] {
+      opacity: 0;
+    }
+    transition: opacity 0.2s;
+    position: absolute;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 2px;
-    padding-right: 4px;
+    padding-right: 16px;
 
     .operation-item {
       border-radius: 4px;

@@ -4,7 +4,7 @@ import { BlockProvider, block } from '@milkdown/plugin-block'
 import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
-import { editorViewCtx, rootDOMCtx } from '@milkdown/core'
+import { editorViewCtx } from '@milkdown/core'
 import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { menuAPI } from '../menu'
 import { defIfNotExists } from '../../../utils'
@@ -24,21 +24,13 @@ export class BlockHandleView implements PluginView {
     this.#provider = new BlockProvider({
       ctx,
       content,
-      tippyOptions: {
-        appendTo: () => ctx.get(rootDOMCtx),
-        onShow: () => {
-          this.#content.show = true
-        },
-        onHidden: () => {
-          this.#content.show = false
-        },
-      },
     })
-    this.update(view)
+    this.update()
+    view.dom.parentElement?.appendChild(content)
   }
 
-  update = (view: EditorView) => {
-    this.#provider.update(view)
+  update = () => {
+    this.#provider.update()
   }
 
   destroy = () => {
