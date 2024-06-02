@@ -503,9 +503,6 @@ importers:
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
-      tippy.js:
-        specifier: ^6.3.7
-        version: 6.3.7
       tslib:
         specifier: ^2.5.0
         version: 2.6.2
