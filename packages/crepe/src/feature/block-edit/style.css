@@ -3,7 +3,7 @@
     &[data-show='false'] {
       opacity: 0;
     }
-    transition: opacity 0.2s;
+    transition: all 0.2s;
     position: absolute;
     cursor: pointer;
     display: flex;
