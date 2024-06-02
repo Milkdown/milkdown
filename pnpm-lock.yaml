@@ -488,6 +488,9 @@ importers:
 
   packages/plugin-block:
     dependencies:
+      '@floating-ui/dom':
+        specifier: ^1.5.1
+        version: 1.6.3
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../exception
@@ -500,9 +503,6 @@ importers:
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
-      tippy.js:
-        specifier: ^6.3.7
-        version: 6.3.7
       tslib:
         specifier: ^2.5.0
         version: 2.6.2
@@ -631,14 +631,11 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../utils
-      '@types/node-emoji':
-        specifier: ^2.0.0
-        version: 2.1.0
       emoji-regex:
         specifier: ^10.0.0
         version: 10.3.0
       node-emoji:
-        specifier: ^2.0.0
+        specifier: ^2.1.3
         version: 2.1.3
       remark-emoji:
         specifier: ^5.0.0
@@ -4119,10 +4116,6 @@ packages:
 
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
-
-  '@types/node-emoji@2.1.0':
-    resolution: {integrity: sha512-LBGWP2LL5A+PpcvzrgXCFcHt9N1l5bqQn05ZUQFFM625k/tmc2w9ghT4kUwQN6gIPlX6qnDOfekmJmV9BywV9g==}
-    deprecated: This is a stub types definition. node-emoji provides its own type definitions, so you do not need this installed.
 
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
@@ -14084,10 +14077,6 @@ snapshots:
   '@types/minimist@1.2.5': {}
 
   '@types/ms@0.7.34': {}
-
-  '@types/node-emoji@2.1.0':
-    dependencies:
-      node-emoji: 2.1.3
 
   '@types/node@12.20.55': {}
 
