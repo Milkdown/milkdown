@@ -1,10 +1,8 @@
 import type { Ctx } from '@milkdown/ctx'
 import { listItemBlockComponent, listItemBlockConfig } from '@milkdown/components/list-item-block'
 import { html } from 'atomico'
-import { injectStyle } from '../../core/slice'
 import type { DefineFeature } from '../shared'
 import { bulletIcon } from './consts'
-import style from './style.css?inline'
 
 function configureListItem(ctx: Ctx) {
   ctx.set(listItemBlockConfig.key, {
@@ -23,7 +21,6 @@ function configureListItem(ctx: Ctx) {
 
 export const defineFeature: DefineFeature = (editor) => {
   editor
-    .config(injectStyle(style))
     .config(configureListItem)
     .use(listItemBlockComponent)
 }

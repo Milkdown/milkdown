@@ -1,10 +1,11 @@
-import { Crepe, CrepeFeature, CrepeTheme } from '@milkdown/crepe'
+import { Crepe, CrepeFeature } from '@milkdown/crepe'
+import '@milkdown/crepe/theme/common/style.css'
+import '@milkdown/crepe/theme/classic.css'
 
 import './style.css'
 
 const crepe = new Crepe({
   root: '#app',
-  theme: CrepeTheme.Classic,
   features: {
     [CrepeFeature.CodeMirror]: true,
   },

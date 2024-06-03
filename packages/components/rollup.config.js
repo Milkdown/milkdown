@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -21,7 +20,7 @@ const main = [
     },
     external,
     plugins: [
-      resolve({ preferBuiltins: true }),
+      resolve({ browser: true }),
       json(),
       commonjs(),
       esbuild({
@@ -43,7 +42,7 @@ function componentModule(name) {
       },
       external,
       plugins: [
-        resolve({ preferBuiltins: true }),
+        resolve({ browser: true }),
         json(),
         commonjs(),
         esbuild({

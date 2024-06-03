@@ -1,25 +1,11 @@
 import { codeBlockComponent, codeBlockConfig } from '@milkdown/components/code-block'
-import { languages } from '@codemirror/language-data'
+import type { LanguageDescription } from '@codemirror/language'
+import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap } from '@codemirror/commands'
-import { bespin, espresso, rosePineDawn } from 'thememirror'
 import { html } from 'atomico'
-import { ThemeCtx, injectStyle } from '../../core/slice'
 import type { DefineFeature } from '../shared'
-import { CrepeTheme } from '../../theme'
-import style from './style.css?inline'
-
-function pickTheme(theme: CrepeTheme) {
-  switch (theme) {
-    case CrepeTheme.Classic:
-      return rosePineDawn
-    case CrepeTheme.ClassicDark:
-      return bespin
-    default:
-      return espresso
-  }
-}
 
 const check = html`
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -40,16 +26,32 @@ const clearIcon = html`
   </svg>
 `
 
-export const defineFeature: DefineFeature = (editor) => {
-  editor.config(injectStyle(style))
-    .config(async (ctx) => {
-      const crepeTheme = ctx.get(ThemeCtx)
+interface CodeMirrorConfig {
+  languages: LanguageDescription[]
+  theme: Extension
+}
+export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
+export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, config = {}) => {
+  editor
+    .config(async (ctx) => {
+      let {
+        languages,
+        theme,
+      } = config
+      if (!languages) {
+        const { languages: langList } = await import('@codemirror/language-data')
+        languages = langList
+      }
+      if (!theme) {
+        const { nord } = await import('@uiw/codemirror-theme-nord')
+        theme = nord
+      }
       ctx.update(codeBlockConfig.key, defaultConfig => ({
         ...defaultConfig,
         languages,
         clearSearchIcon: () => clearIcon,
-        extensions: [basicSetup, keymap.of(defaultKeymap), pickTheme(crepeTheme)],
+        extensions: [basicSetup, keymap.of(defaultKeymap), theme],
         renderLanguage: (language, selected) => {
           return html`<span class="leading">${selected ? check : null}</span>${language}`
         },

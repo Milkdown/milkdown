@@ -3,7 +3,9 @@ import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 
 import type { VirtualElement } from '@floating-ui/dom'
-import { computePosition, flip } from '@floating-ui/dom'
+import { computePosition, flip, platform } from '@floating-ui/dom'
+
+import { offsetParent } from 'composed-offset-position'
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
 import type { ActiveNode } from './types'
@@ -42,6 +44,7 @@ export class BlockProvider {
   constructor(options: BlockProviderOptions) {
     this.#ctx = options.ctx
     this.#element = options.content
+    this.hide()
   }
 
   /// @internal
@@ -97,6 +100,11 @@ export class BlockProvider {
     computePosition(virtualEl, this.#element, {
       placement: handleHeight * 1.8 < height ? 'left-start' : 'left',
       middleware: [flip()],
+      platform: {
+        ...platform,
+        getOffsetParent: element =>
+          platform.getOffsetParent(element, offsetParent),
+      },
     }).then(({ x, y }) => {
       Object.assign(this.#element.style, {
         left: `${x}px`,

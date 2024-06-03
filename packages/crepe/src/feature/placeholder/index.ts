@@ -4,9 +4,7 @@ import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { Node } from '@milkdown/prose/model'
 import { Decoration, DecorationSet } from '@milkdown/prose/view'
 import type { DefineFeature } from '../shared'
-import { injectStyle } from '../../core/slice'
 import { isInCodeBlock, isInList } from '../../utils'
-import style from './style.css?inline'
 
 function isDocEmpty(doc: Node) {
   return doc.childCount <= 1 && !doc.firstChild?.content.size
@@ -33,7 +31,7 @@ function createPlaceholderDecoration(
   })
 }
 
-export interface PlaceholderConfig {
+interface PlaceholderConfig {
   text: string
   mode: 'doc' | 'block'
 }
@@ -70,7 +68,6 @@ export const placeholderPlugin = $prose((ctx) => {
 
 export const defineFeature: DefineFeature<PlaceHolderFeatureConfig> = (editor, config) => {
   editor
-    .config(injectStyle(style))
     .config((ctx) => {
       if (config) {
         ctx.update(placeholderConfig.key, (prev) => {

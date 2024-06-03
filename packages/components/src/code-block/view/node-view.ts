@@ -40,6 +40,7 @@ export class CodeMirrorBlock implements NodeView {
 
     this.cm = new CodeMirror({
       doc: this.node.textContent,
+      root: this.view.root,
       extensions: [
         this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
         cmKeymap.of(this.codeMirrorKeymap()),

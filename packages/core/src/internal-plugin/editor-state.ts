@@ -12,11 +12,11 @@ import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state'
 import type { JSONRecord, Parser } from '@milkdown/transformer'
 
 import { withMeta } from '../__internal__'
-import { inputRulesCtx, prosePluginsCtx } from './init'
 import { ParserReady, parserCtx } from './parser'
 import { schemaCtx } from './schema'
 import { SerializerReady } from './serializer'
-import { CommandsReady } from '.'
+import { CommandsReady } from './commands'
+import { editorStateCtx, inputRulesCtx, prosePluginsCtx } from './atoms'
 
 /// @internal
 export type DefaultValue = string | { type: 'html', dom: HTMLElement } | { type: 'json', value: JSONRecord }
@@ -26,9 +26,6 @@ type StateOptionsOverride = (prev: StateOptions) => StateOptions
 /// A slice which contains the default value of the editor.
 /// Can be markdown string, html string or json.
 export const defaultValueCtx = createSlice('' as DefaultValue, 'defaultValue')
-
-/// A slice which contains the editor state.
-export const editorStateCtx = createSlice({} as EditorState, 'editorState')
 
 /// A slice which contains the options which is used to create the editor state.
 export const editorStateOptionsCtx = createSlice<StateOptionsOverride>(x => x, 'stateOptions')

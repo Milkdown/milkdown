@@ -1,8 +1,9 @@
 import type { EditorView as CodeMirror } from '@codemirror/view'
 import type { Component } from 'atomico'
-import { c, h, html, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
-import { computePosition } from '@floating-ui/dom'
+import { c, h, html, useEffect, useHost, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
+import { computePosition, platform } from '@floating-ui/dom'
 import clsx from 'clsx'
+import { offsetParent } from 'composed-offset-position'
 import type { CodeBlockConfig } from '../config'
 import type { LanguageInfo } from './loader'
 import { trapFocus } from './utils'
@@ -26,11 +27,14 @@ export const codeComponent: Component<CodeComponentProps> = ({
   config,
   isEditorReadonly,
 }) => {
+  const host = useHost()
   const triggerRef = useRef<HTMLButtonElement>()
   const pickerRef = useRef<HTMLDivElement>()
   const releaseRef = useRef<() => void>()
   const [filter, setFilter] = useState('')
   const [showPicker, setShowPicker] = useState(false)
+
+  const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
 
   useEffect(() => {
     const lang = getAllLanguages?.()?.find(languageInfo =>
@@ -63,10 +67,10 @@ export const codeComponent: Component<CodeComponentProps> = ({
         setShowPicker(false)
     }
 
-    document.addEventListener('click', clickHandler)
+    root.addEventListener('click', clickHandler)
 
     return () => {
-      document.removeEventListener('click', clickHandler)
+      root.removeEventListener('click', clickHandler)
     }
   }, [])
 
@@ -79,6 +83,11 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
     computePosition(picker, languageList, {
       placement: 'bottom-start',
+      platform: {
+        ...platform,
+        getOffsetParent: element =>
+          platform.getOffsetParent(element, offsetParent),
+      },
     }).then(({ x, y }) => {
       Object.assign(languageList.style, {
         left: `${x}px`,
@@ -118,7 +127,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
     const next = !showPicker
     const languageList = pickerRef.current
     if (next && languageList)
-      releaseRef.current = trapFocus(languageList)
+      releaseRef.current = trapFocus(languageList, root)
     else
       releaseRef.current?.()
 

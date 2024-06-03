@@ -91,7 +91,7 @@
     "start": "rollup -c -w",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
-    "build": "tsc --emitDeclarationOnly && rollup -c && echo"
+    "build": "rimraf './lib' && tsc --emitDeclarationOnly && rollup -c && echo"
   },
   "peerDependencies": {
     "@codemirror/language": "^6",
@@ -112,6 +112,7 @@
     "@types/lodash.debounce": "^4.0.7",
     "atomico": "^1.75.1",
     "clsx": "^2.0.0",
+    "composed-offset-position": "^0.0.4",
     "lodash.debounce": "^4.0.8",
     "tslib": "^2.5.0",
     "unist-util-visit": "^5.0.0"

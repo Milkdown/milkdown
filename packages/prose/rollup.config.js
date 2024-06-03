@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,7 +24,6 @@ const main = [
     plugins: [dts({ respectExternal: true })],
   },
   {
-
     input: './src/index.ts',
     output: {
       file: 'lib/index.js',
@@ -34,7 +32,7 @@ const main = [
     },
     external,
     plugins: [
-      resolve({ preferBuiltins: true }),
+      resolve({ browser: true }),
       json(),
       commonjs(),
       esbuild({
@@ -82,7 +80,7 @@ function proseModule(name) {
       },
       external,
       plugins: [
-        resolve({ preferBuiltins: true }),
+        resolve({ browser: true }),
         json(),
         commonjs(),
         esbuild({

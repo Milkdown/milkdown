@@ -18,17 +18,24 @@
   "exports": {
     ".": {
       "import": "./src/index.ts"
-    }
+    },
+    "./theme/common/*": "./src/theme/common/*",
+    "./theme/classic.css": "./src/theme/classic/style.css",
+    "./theme/classic-dark.css": "./src/theme/classic-dark/style.css"
   },
   "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.es.js",
-    "types": "./lib/index.d.ts",
+    "main": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
     "exports": {
       ".": {
-        "import": "./lib/index.es.js",
-        "types": "./lib/index.d.ts"
-      }
+        "import": "./lib/esm/index.js",
+        "require": "./lib/cjs/index.js",
+        "types": "./lib/types/index.d.ts"
+      },
+      "./theme/common/*": "./lib/theme/common/*",
+      "./theme/classic.css": "./lib/theme/classic/style.css",
+      "./theme/classic-dark.css": "./lib/theme/classic-dark/style.css"
     }
   },
   "files": [
@@ -39,16 +46,20 @@
     "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
-    "build": "vite build && tsc --emitDeclarationOnly"
+    "build": "rimraf './lib' && pnpm run build:type && pnpm run build:es && pnpm run build:theme && echo",
+    "build:type": "tsc --emitDeclarationOnly",
+    "build:es": "rollup -c",
+    "build:theme": "postcss 'src/theme' --base 'src/theme' --dir 'lib/theme'"
   },
   "dependencies": {
     "atomico": "^1.75.1"
   },
   "devDependencies": {
     "@codemirror/commands": "^6.2.4",
+    "@codemirror/language": "^6.10.1",
     "@codemirror/language-data": "^6.3.1",
+    "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.16.0",
-    "@emotion/css": "^11.11.2",
     "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
@@ -62,10 +73,10 @@
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/utils": "workspace:*",
+    "@uiw/codemirror-theme-nord": "^4.22.1",
     "clsx": "^2.0.0",
     "codemirror": "^6.0.1",
     "nanoid": "^5.0.0",
-    "thememirror": "^2.0.1",
     "tslib": "^2.5.0"
   },
   "nx": {

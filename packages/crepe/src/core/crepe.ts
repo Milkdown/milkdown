@@ -6,13 +6,11 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { indent, indentConfig } from '@milkdown/plugin-indent'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { getMarkdown } from '@milkdown/utils'
-import { CrepeTheme, loadTheme } from '../theme'
 import type { CrepeFeature, CrepeFeatureConfig } from '../feature'
 import { defaultFeatures, loadFeature } from '../feature'
-import { configureEmotion, configureFeatures, configureTheme } from './slice'
+import { configureFeatures } from './slice'
 
 export interface CrepeConfig {
-  theme?: CrepeTheme
   features?: Partial<Record<CrepeFeature, boolean>>
   featureConfigs?: CrepeFeatureConfig
   root?: Node | string | null
@@ -26,7 +24,6 @@ export class Crepe {
   #editable = true
 
   constructor({
-    theme = CrepeTheme.Classic,
     root,
     features = {},
     featureConfigs = {},
@@ -43,8 +40,6 @@ export class Crepe {
     this.#rootElement = (typeof root === 'string' ? document.querySelector(root) : root) ?? document.body
     this.#editor = Editor.make()
       .config(configureFeatures(enabledFeatures))
-      .config(configureEmotion(this.#rootElement))
-      .config(configureTheme(theme))
       .config((ctx) => {
         ctx.set(rootCtx, this.#rootElement)
         ctx.set(defaultValueCtx, defaultValue)
@@ -61,7 +56,7 @@ export class Crepe {
       .use(indent)
       .use(clipboard)
 
-    const promiseList: Promise<unknown>[] = [loadTheme(theme, this.#editor)]
+    const promiseList: Promise<unknown>[] = []
 
     enabledFeatures.forEach((feature) => {
       const config = (featureConfigs as Partial<Record<CrepeFeature, never>>)[feature]

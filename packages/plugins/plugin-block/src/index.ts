@@ -1,13 +1,15 @@
 import type { SliceType } from '@milkdown/ctx'
 import type { PluginSpec } from '@milkdown/prose/state'
 import type { $Ctx, $Prose } from '@milkdown/utils'
-import type { FilterNodes } from './block-plugin'
-import { blockConfig, blockPlugin, blockService, blockSpec } from './block-plugin'
+import type { FilterNodes } from './block-config'
+import { blockConfig } from './block-config'
+import { blockPlugin, blockService, blockSpec } from './block-plugin'
 import type { BlockService } from './block-service'
 
 export * from './block-plugin'
 export * from './block-provider'
 export * from './block-service'
+export * from './block-config'
 export * from './types'
 
 /// @internal

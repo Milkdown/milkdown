@@ -1,4 +1,4 @@
-import { type Ref, useEffect, useHost } from 'atomico'
+import { type Ref, useEffect, useHost, useMemo } from 'atomico'
 
 interface Options {
   image: Ref<HTMLImageElement>
@@ -16,6 +16,7 @@ export function useBlockEffect({
   src,
 }: Options) {
   const host = useHost()
+  const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
 
   useEffect(() => {
     const imageRef = image.current
@@ -41,8 +42,8 @@ export function useBlockEffect({
       imageRef.style.height = `${h}px`
     }
     const pointerUp = () => {
-      document.removeEventListener('pointermove', onMove)
-      document.removeEventListener('pointerup', pointerUp)
+      root.removeEventListener('pointermove', onMove)
+      root.removeEventListener('pointerup', pointerUp)
       const originHeight = Number(imageRef.dataset.origin)
       const currentHeight = Number(imageRef.dataset.height)
       const ratio = Number.parseFloat(Number(currentHeight / originHeight).toFixed(2))
@@ -54,8 +55,8 @@ export function useBlockEffect({
 
     const pointerDown = (e: PointerEvent) => {
       e.preventDefault()
-      document.addEventListener('pointermove', onMove)
-      document.addEventListener('pointerup', pointerUp)
+      root.addEventListener('pointermove', onMove)
+      root.addEventListener('pointerup', pointerUp)
     }
 
     const onLoad = (e: Event) => {

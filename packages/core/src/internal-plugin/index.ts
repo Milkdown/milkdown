@@ -1,3 +1,4 @@
+export * from './atoms'
 export * from './commands'
 export * from './config'
 export * from './editor-state'

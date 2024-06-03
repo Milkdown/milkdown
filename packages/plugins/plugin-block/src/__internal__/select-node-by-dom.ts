@@ -1,7 +1,7 @@
 import type { Node, ResolvedPos } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 
-import type { FilterNodes } from '../block-plugin'
+import type { FilterNodes } from '../block-config'
 import type { ActiveNode } from '../types'
 import { getDOMByPos } from './get-dom-by-pos'
 

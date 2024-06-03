@@ -5,7 +5,7 @@ import type { Parser } from '@milkdown/transformer'
 import { ParserState } from '@milkdown/transformer'
 
 import { withMeta } from '../__internal__'
-import { remarkCtx } from './init'
+import { remarkCtx } from './atoms'
 import { SchemaReady, schemaCtx } from './schema'
 
 /// The timer which will be resolved when the parser plugin is ready.

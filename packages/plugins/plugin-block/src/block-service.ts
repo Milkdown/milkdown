@@ -6,8 +6,8 @@ import { NodeSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import throttle from 'lodash.throttle'
 
-import type { FilterNodes } from './block-plugin'
-import { blockConfig } from './block-plugin'
+import type { FilterNodes } from './block-config'
+import { blockConfig } from './block-config'
 import { removePossibleTable } from './__internal__/remove-possible-table'
 import { selectRootNodeByDom } from './__internal__/select-node-by-dom'
 import { serializeForClipboard } from './__internal__/serialize-for-clipboard'
@@ -175,7 +175,7 @@ export class BlockService {
 
     const rect = view.dom.getBoundingClientRect()
     const x = rect.left + rect.width / 2
-    const dom = document.elementFromPoint(x, event.clientY)
+    const dom = view.root.elementFromPoint(x, event.clientY)
     if (!(dom instanceof Element)) {
       this.#hide()
       return

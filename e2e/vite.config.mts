@@ -1,4 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import { cases } from './src/data'
