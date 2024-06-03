@@ -6,9 +6,6 @@ import { history } from '@milkdown/plugin-history'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { expect, userEvent, waitFor, within } from '@storybook/test'
 
-import '@milkdown/theme-nord/style.css'
-
-import '../../src/style.css'
 import './listener.css'
 
 interface Args {

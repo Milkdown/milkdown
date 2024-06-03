@@ -5,8 +5,6 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
 import { imageBlockComponent } from '@milkdown/components/image-block'
 
-import '@milkdown/theme-nord/style.css'
-import '../../src/style.css'
 import './image-block.css'
 
 const meta: Meta = {

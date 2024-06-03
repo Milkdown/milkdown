@@ -7,10 +7,6 @@ import { history } from '@milkdown/plugin-history'
 import { getMarkdown } from '@milkdown/utils'
 import { expect, userEvent, waitFor, within } from '@storybook/test'
 
-import '@milkdown/theme-nord/style.css'
-
-import '../../../src/style.css'
-
 interface Args {
   instance: Editor
 }

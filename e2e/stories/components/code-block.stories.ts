@@ -11,8 +11,6 @@ import { defaultKeymap } from '@codemirror/commands'
 import { keymap } from '@codemirror/view'
 import { html } from 'atomico'
 
-import '@milkdown/theme-nord/style.css'
-import '../../src/style.css'
 import './code-block.css'
 
 const meta: Meta = {

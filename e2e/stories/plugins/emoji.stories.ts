@@ -5,10 +5,6 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
 import { emoji } from '@milkdown/plugin-emoji'
 
-import '@milkdown/theme-nord/style.css'
-
-import '../../src/style.css'
-
 interface Args {
   enableInspector: boolean
   defaultValue: string

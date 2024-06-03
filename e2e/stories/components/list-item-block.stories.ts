@@ -6,8 +6,6 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { history } from '@milkdown/plugin-history'
 import { listItemBlockComponent } from '@milkdown/components/list-item-block'
 
-import '@milkdown/theme-nord/style.css'
-import '../../src/style.css'
 import './list-item-block.css'
 
 const meta: Meta = {

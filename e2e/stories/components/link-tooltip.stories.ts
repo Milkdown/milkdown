@@ -14,8 +14,6 @@ import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { EditorState } from '@milkdown/prose/state'
 
-import '@milkdown/theme-nord/style.css'
-import '../../src/style.css'
 import './link-tooltip.css'
 
 const meta: Meta = {
