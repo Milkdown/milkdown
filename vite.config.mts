@@ -1,5 +1,3 @@
-/* Copyright 2021, Milkdown by Mirone. */
-
 /* This file only:
  * 1. provide common vite config for submodules in `packages` dir,
  * 2. as config file for vitest.

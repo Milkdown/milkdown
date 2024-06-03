@@ -2,8 +2,6 @@ import { imageBlockComponent, imageBlockConfig } from '@milkdown/components/imag
 import { imageInlineComponent, inlineImageConfig } from '@milkdown/components/image-inline'
 import { html } from 'atomico'
 import type { DefineFeature } from '../shared'
-import { injectStyle } from '../../core/slice'
-import style from './style.css?inline'
 
 const imageIcon = html`
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -37,7 +35,6 @@ const captionIcon = html`
 
 export const defineFeature: DefineFeature = (editor) => {
   editor
-    .config(injectStyle(style))
     .config((ctx) => {
       ctx.update(inlineImageConfig.key, value => ({
         ...value,

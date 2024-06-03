@@ -175,7 +175,7 @@ export class BlockService {
 
     const rect = view.dom.getBoundingClientRect()
     const x = rect.left + rect.width / 2
-    const dom = document.elementFromPoint(x, event.clientY)
+    const dom = view.root.elementFromPoint(x, event.clientY)
     if (!(dom instanceof Element)) {
       this.#hide()
       return

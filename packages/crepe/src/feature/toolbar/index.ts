@@ -6,11 +6,9 @@ import type { EditorView } from '@milkdown/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
 import { rootDOMCtx } from '@milkdown/core'
 import type { DefineFeature } from '../shared'
-import { injectStyle } from '../../core/slice'
 import { defIfNotExists } from '../../utils'
 import type { ToolbarProps } from './component'
 import { ToolbarElement } from './component'
-import style from './style.css?inline'
 
 const toolbar = tooltipFactory('CREPE_TOOLBAR')
 
@@ -81,7 +79,6 @@ class ToolbarView implements PluginView {
 defIfNotExists('milkdown-toolbar', ToolbarElement)
 export const defineFeature: DefineFeature = (editor) => {
   editor
-    .config(injectStyle(style))
     .config((ctx) => {
       ctx.set(toolbar.key, {
         view: view => new ToolbarView(ctx, view),

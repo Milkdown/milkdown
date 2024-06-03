@@ -1,19 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { Crepe, CrepeFeature, CrepeTheme } from '@milkdown/crepe'
+import { Crepe, CrepeFeature } from '@milkdown/crepe'
+import { basicLight } from '@uiw/codemirror-theme-basic'
+
+import all from '@milkdown/crepe/theme/common/all.css?inline'
+import classic from '@milkdown/crepe/theme/classic.css?inline'
 
 const meta: Meta = {
   title: 'Crepe/Main',
-  argTypes: {
-    theme: {
-      control: 'select',
-      options: ['Classic', 'Classic Dark', 'Headless'],
-      mapping: {
-        'Classic': CrepeTheme.Classic,
-        'Classic Dark': CrepeTheme.ClassicDark,
-        'Headless': CrepeTheme.Headless,
-      },
-    },
-  },
 }
 
 interface Args {
@@ -40,11 +33,18 @@ const defaultArgs: Omit<Args, 'instance'> = {
 export const Empty: Story = {
   render: (args) => {
     const root = document.createElement('div')
-    root.classList.add('crepe')
+    const shadow = root.attachShadow({ mode: 'open' })
+    const allSheet = new CSSStyleSheet()
+    allSheet.replaceSync(all)
+    const classicSheet = new CSSStyleSheet()
+    classicSheet.replaceSync(classic)
+    shadow.adoptedStyleSheets = [allSheet, classicSheet]
+    root.appendChild(shadow)
+    const crepeRoot = document.createElement('div')
+    shadow.appendChild(crepeRoot)
 
     const crepe = new Crepe({
-      root,
-      theme: args.theme as CrepeTheme,
+      root: crepeRoot,
       defaultValue: args.defaultValue,
       features: {
         [CrepeFeature.CodeMirror]: args.enableCodemirror,
@@ -52,6 +52,9 @@ export const Empty: Story = {
       featureConfigs: {
         [CrepeFeature.Placeholder]: {
           text: args.placeholder,
+        },
+        [CrepeFeature.CodeMirror]: {
+          theme: basicLight,
         },
       },
     })

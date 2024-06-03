@@ -21,6 +21,8 @@ export const menuComponent: Component<MenuProps> = ({
   const host = useHost()
   const [hoverIndex, setHoverIndex] = useState(0)
 
+  const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
+
   const prevMousePosition = useRef({ x: -999, y: -999 })
 
   const onMouseMove = useCallback((e: MouseEvent) => {
@@ -137,12 +139,12 @@ export const menuComponent: Component<MenuProps> = ({
 
   useEffect(() => {
     if (show)
-      document.addEventListener('keydown', onKeydown, { capture: true })
+      root.addEventListener('keydown', onKeydown, { capture: true })
 
-    else document.removeEventListener('keydown', onKeydown, { capture: true })
+    else root.removeEventListener('keydown', onKeydown, { capture: true })
 
     return () => {
-      document.removeEventListener('keydown', onKeydown, { capture: true })
+      root.removeEventListener('keydown', onKeydown, { capture: true })
     }
   }, [show, onKeydown])
 

@@ -1,4 +1,4 @@
-/* Copyright 2021, Milkdown by Mirone. */
+
 
 import antfu from '@antfu/eslint-config'
 

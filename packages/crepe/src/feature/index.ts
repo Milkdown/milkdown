@@ -1,5 +1,6 @@
 import type { Editor } from '@milkdown/core'
 import type { PlaceHolderFeatureConfig } from './placeholder'
+import type { CodeMirrorFeatureConfig } from './code-mirror'
 
 export enum CrepeFeature {
   CodeMirror = 'code-mirror',
@@ -14,6 +15,7 @@ export enum CrepeFeature {
 
 export interface CrepeFeatureConfig {
   [CrepeFeature.Placeholder]?: PlaceHolderFeatureConfig
+  [CrepeFeature.CodeMirror]?: CodeMirrorFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
