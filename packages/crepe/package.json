@@ -25,8 +25,8 @@
   },
   "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.es.js",
-    "types": "./lib/index.d.ts",
+    "main": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/esm/index.js",

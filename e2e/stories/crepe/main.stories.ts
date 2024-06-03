@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html'
 import { Crepe, CrepeFeature } from '@milkdown/crepe'
 import { basicLight } from '@uiw/codemirror-theme-basic'
 
-import all from '@milkdown/crepe/theme/common/all.css?inline'
+import all from '@milkdown/crepe/theme/common/style.css?inline'
 import classic from '@milkdown/crepe/theme/classic.css?inline'
 
 const meta: Meta = {

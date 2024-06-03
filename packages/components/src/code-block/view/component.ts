@@ -127,7 +127,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
     const next = !showPicker
     const languageList = pickerRef.current
     if (next && languageList)
-      releaseRef.current = trapFocus(languageList)
+      releaseRef.current = trapFocus(languageList, root)
     else
       releaseRef.current?.()
 
