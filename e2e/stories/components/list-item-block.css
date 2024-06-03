@@ -40,7 +40,7 @@
     & > .list-item {
       gap: 8px;
       display: flex;
-      align-items: start;
+      align-items: flex-start;
     }
 
     & > .list-item > .children {

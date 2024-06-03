@@ -24,7 +24,6 @@ const main = [
     plugins: [dts({ respectExternal: true })],
   },
   {
-
     input: './src/index.ts',
     output: {
       file: 'lib/index.js',

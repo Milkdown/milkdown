@@ -5,7 +5,7 @@
 
     & > .list-item {
       display: flex;
-      align-items: start;
+      align-items: flex-start;
     }
 
     & > .list-item > .children {
