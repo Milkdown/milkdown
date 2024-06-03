@@ -5,10 +5,6 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { gfm } from '@milkdown/preset-gfm'
 import { history } from '@milkdown/plugin-history'
 
-import '@milkdown/theme-nord/style.css'
-
-import '../../../src/style.css'
-
 const meta: Meta = {
   title: 'Presets/GFM/Main',
 }
