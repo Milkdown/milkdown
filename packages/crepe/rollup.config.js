@@ -8,10 +8,10 @@ const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDepen
 
 export default () => {
   const jsPlugins = [
-    resolve({ preferBuiltins: true }),
+    resolve({ browser: true }),
     json(),
     commonjs(),
-    esbuild({ target: 'es6' }),
+    esbuild({ target: 'es2018' }),
   ]
   return [
     {

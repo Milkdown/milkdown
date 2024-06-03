@@ -20,7 +20,7 @@ const main = [
     },
     external,
     plugins: [
-      resolve({ preferBuiltins: true }),
+      resolve({ browser: true }),
       json(),
       commonjs(),
       esbuild({
@@ -42,7 +42,7 @@ function componentModule(name) {
       },
       external,
       plugins: [
-        resolve({ preferBuiltins: true }),
+        resolve({ browser: true }),
         json(),
         commonjs(),
         esbuild({

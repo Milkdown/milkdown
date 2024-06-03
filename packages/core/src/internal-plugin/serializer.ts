@@ -5,7 +5,7 @@ import { SerializerState } from '@milkdown/transformer'
 
 import { ctxCallOutOfScope } from '@milkdown/exception'
 import { withMeta } from '../__internal__'
-import { remarkCtx } from './init'
+import { remarkCtx } from './atoms'
 import { SchemaReady, schemaCtx } from './schema'
 
 /// The timer which will be resolved when the serializer plugin is ready.

@@ -1,6 +1,6 @@
 import { Crepe, CrepeFeature } from '@milkdown/crepe'
 import '@milkdown/crepe/theme/common/style.css'
-import '@milkdown/crepe/theme/theme/classic.css'
+import '@milkdown/crepe/theme/classic.css'
 
 import './style.css'
 

@@ -4,7 +4,8 @@ import { Schema } from '@milkdown/prose/model'
 import type { MarkSchema, NodeSchema, RemarkParser } from '@milkdown/transformer'
 
 import { withMeta } from '../__internal__'
-import { InitReady, remarkCtx, remarkPluginsCtx } from '.'
+import { InitReady } from './init'
+import { remarkCtx, remarkPluginsCtx } from './atoms'
 
 /// The timer which will be resolved when the schema plugin is ready.
 export const SchemaReady = createTimer('SchemaReady')

@@ -4,8 +4,8 @@ import { callCommandBeforeEditorView } from '@milkdown/exception'
 import type { Command } from '@milkdown/prose/state'
 
 import { withMeta } from '../__internal__'
-import { editorViewCtx } from './editor-view'
 import { SchemaReady } from './schema'
+import { editorViewCtx } from './atoms'
 
 /// @internal
 export type Cmd<T = undefined> = (payload?: T) => Command

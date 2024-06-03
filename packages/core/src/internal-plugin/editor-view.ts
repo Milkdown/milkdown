@@ -5,8 +5,9 @@ import type { DirectEditorProps } from '@milkdown/prose/view'
 import { EditorView } from '@milkdown/prose/view'
 
 import { withMeta } from '../__internal__'
-import { EditorStateReady, editorStateCtx } from './editor-state'
-import { InitReady, markViewCtx, nodeViewCtx, prosePluginsCtx } from './init'
+import { EditorStateReady } from './editor-state'
+import { InitReady } from './init'
+import { editorStateCtx, editorViewCtx, markViewCtx, nodeViewCtx, prosePluginsCtx } from './atoms'
 
 type EditorOptions = Omit<DirectEditorProps, 'state'>
 
@@ -14,9 +15,6 @@ type RootType = Node | undefined | null | string
 
 /// The timer which will be resolved when the editor view plugin is ready.
 export const EditorViewReady = createTimer('EditorViewReady')
-
-/// A slice which contains the editor view instance.
-export const editorViewCtx = createSlice({} as EditorView, 'editorView')
 
 /// A slice which stores timers that need to be waited for before starting to run the plugin.
 /// By default, it's `[EditorStateReady]`.
