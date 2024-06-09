@@ -25,7 +25,7 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema((prev) =>
 
             return {
               label: dom.dataset.label,
-              listType: dom.dataset['list-type'],
+              listType: dom.dataset.listType,
               spread: dom.dataset.spread,
               checked: dom.dataset.checked ? dom.dataset.checked === 'true' : null,
             }
