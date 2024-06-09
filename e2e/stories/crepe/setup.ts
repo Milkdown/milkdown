@@ -1,6 +1,7 @@
 import { Crepe, CrepeFeature } from '@milkdown/crepe'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
 import type { Extension } from '@codemirror/state'
+import { wrapInShadow } from '../utils/shadow'
 
 export interface Args {
   instance: Crepe
@@ -17,16 +18,7 @@ export interface setupConfig {
 }
 
 export function setup({ args, style, theme }: setupConfig) {
-  const root = document.createElement('div')
-  const shadow = root.attachShadow({ mode: 'open' })
-  const allSheet = new CSSStyleSheet()
-  allSheet.replaceSync(all)
-  const classicSheet = new CSSStyleSheet()
-  classicSheet.replaceSync(style)
-  shadow.adoptedStyleSheets = [allSheet, classicSheet]
-  root.appendChild(shadow)
-  const crepeRoot = document.createElement('div')
-  shadow.appendChild(crepeRoot)
+  const { wrapper: crepeRoot, root } = wrapInShadow([all, style])
 
   const crepe = new Crepe({
     root: crepeRoot,
@@ -85,7 +77,11 @@ const crepe = new Crepe({
 3. List Item 3
 
 > Is this the **real life**?
+>
 > Is this just *fantasy*?
+>
 > Caught in a \`landslide\`,
+>
 > No escape from [reality](https://en.wikipedia.org/wiki/Bohemian_Rhapsody).
+
 `

@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { Editor, defaultValueCtx, editorViewCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
-import { nord } from '@milkdown/theme-nord'
-import { commonmark, linkSchema } from '@milkdown/preset-commonmark'
-import { history } from '@milkdown/plugin-history'
+import { editorViewCtx } from '@milkdown/core'
+import { linkSchema } from '@milkdown/preset-commonmark'
 import {
   configureLinkTooltip,
   linkTooltipAPI,
@@ -14,18 +12,15 @@ import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { EditorState } from '@milkdown/prose/state'
 
-import './link-tooltip.css'
+import type { CommonArgs } from '../utils/shadow'
+import { setupMilkdown } from '../utils/shadow'
+import style from './link-tooltip.css?inline'
 
 const meta: Meta = {
   title: 'Components/Link Tooltip',
 }
 
 export default meta
-
-interface Args {
-  readonly: boolean
-  defaultValue: string
-}
 
 const link = `
 # Link tooltip
@@ -35,10 +30,8 @@ Is this the real [life](https://en.wikipedia.org/wiki/Life)? Is this just [fanta
 Caught in a [landslide](https://en.wikipedia.org/wiki/landslide), no escape from [reality](https://en.wikipedia.org/wiki/reality).
 `
 
-export const Default: StoryObj<Args> = {
+export const Default: StoryObj<CommonArgs> = {
   render: (args) => {
-    const root = document.createElement('div')
-    root.classList.add('milkdown-storybook')
     const insertLinkTooltip = tooltipFactory('CREATE_LINK')
 
     function tooltipPluginView(ctx: Ctx) {
@@ -79,26 +72,17 @@ export const Default: StoryObj<Args> = {
         }
       }
     }
-    Editor.make()
-      .config((ctx) => {
-        ctx.set(rootCtx, root)
-        ctx.set(defaultValueCtx, args.defaultValue)
-        ctx.set(editorViewOptionsCtx, {
-          editable: () => !args.readonly,
-        })
+
+    return setupMilkdown([style], args, (editor) => {
+      editor.config((ctx) => {
         ctx.set(insertLinkTooltip.key, {
           view: tooltipPluginView(ctx),
         })
         configureLinkTooltip(ctx)
       })
-      .config(nord)
-      .use(commonmark)
-      .use(linkTooltipPlugin)
-      .use(insertLinkTooltip)
-      .use(history)
-      .create()
-
-    return root
+        .use(linkTooltipPlugin)
+        .use(insertLinkTooltip)
+    })
   },
   args: {
     readonly: false,
