@@ -39,7 +39,7 @@ export const listItemSchema = $nodeSchema('list_item', ctx => ({
 
         return {
           label: dom.dataset.label,
-          listType: dom.dataset['list-type'],
+          listType: dom.dataset.listType,
           spread: dom.dataset.spread,
         }
       },
