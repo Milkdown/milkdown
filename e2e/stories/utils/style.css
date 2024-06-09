@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.milkdown {
+  @apply bg-slate-50 border rounded;
+}
+
+.milkdown:not(.crepe .milkdown) {
+  @apply px-8 py-4 mx-5;
+}
+
+.editor {
+  @apply mx-auto max-w-full;
+}
+
+input {
+  border: 0;
+  outline: none;
+}
+
+input:focus {
+  border: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+span[data-type='emoji'] {
+  @apply inline-block;
+}
+
+span[data-type='emoji'] .emoji {
+  @apply w-4;
+}

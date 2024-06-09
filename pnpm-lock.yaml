@@ -75,12 +75,12 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.0.0
         version: 11.1.5(rollup@4.9.1)(tslib@2.6.2)(typescript@5.4.4)
+      '@storybook/addon-actions':
+        specifier: ^8.1.6
+        version: 8.1.6
       '@storybook/addon-essentials':
         specifier: 8.1.6
         version: 8.1.6(@types/react-dom@18.2.18)(@types/react@18.2.45)(prettier@3.2.5)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@storybook/addon-interactions':
-        specifier: ^8.0.0
-        version: 8.0.0
       '@storybook/builder-vite':
         specifier: ^8.0.0
         version: 8.0.0(typescript@5.4.4)(vite@5.0.13(@types/node@20.10.5))
@@ -2866,10 +2866,6 @@ packages:
     resolution: {integrity: sha512-ok/BTPFzFKVMwO5eOHRrvnBVHdRy9IrsrW1GpMaQ9MCnilNLXQKmAX8s1YXDFaai9xJpac2ySzV0YeRRECr2Vw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  '@jest/types@27.5.1':
-    resolution: {integrity: sha512-Cx46iJ9QpwQTjIdq5VJu2QTMMs3QlEjI0x1QbBP5W1+nMzyc2XmimiRR/CbX9TO0cPTeUlxWMOu8mslYsJ8DEw==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
   '@jest/types@29.6.3':
     resolution: {integrity: sha512-u3UPsIilWKOM3F9CXtrG8LEJmNxwoCQC/XVj4IKYXvvpx7QIi/Kg1LI5uDmDpKlac62NUtX7eLjRh+jVZcLOzw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -3498,9 +3494,6 @@ packages:
 
   '@storybook/addon-highlight@8.1.6':
     resolution: {integrity: sha512-QT95TS4OT0SJJVz/1m038COUdS2yWukQOwyq2rCgSM6nU3OHOPf/CldDK4Sdch7Z4jV9kRdRS0Pu4FB5SV+uOw==}
-
-  '@storybook/addon-interactions@8.0.0':
-    resolution: {integrity: sha512-lb6WZAeF3MIT05wSVbz2ZKDpTIoTmHW5e8hImdquNlOm8qNm4fl5BLpVrZT1YkC6v42MM8yU/DeeUw+8w7rXDg==}
 
   '@storybook/addon-measure@8.1.6':
     resolution: {integrity: sha512-afG6XzClrkBQ9ZUZQs0rI9z/RYB+qhebG5k1NTCGYJnj7K4c+jso9nQ9vmypOBqlYKwTT2ZG+9xSK1/IhudEvg==}
@@ -4221,9 +4214,6 @@ packages:
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
-
-  '@types/yargs@16.0.9':
-    resolution: {integrity: sha512-tHhzvkFXZQeTECenFoRljLBYPZJ7jAVxqqtEI0qTLOmuultnFp4I9yKE17vTuhf7BkhCu7I4XuemPgikDVuYqA==}
 
   '@types/yargs@17.0.32':
     resolution: {integrity: sha512-xQ67Yc/laOG5uMfX/093MRlGGCIBzZMarVa+gfNKJxWAIgykYpVGkBdbqEzGDDfCrVUj6Hiff4mTZ5BA6TmAog==}
@@ -7095,10 +7085,6 @@ packages:
   jest-message-util@29.7.0:
     resolution: {integrity: sha512-GBEV4GRADeP+qtB2+6u61stea8mGcOT4mCtrYISZwfu9/ISHFJ/5zOMXYbpBE9RsS5+Gb63DW4FgmnKJ79Kf6w==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  jest-mock@27.5.1:
-    resolution: {integrity: sha512-K4jKbY1d4ENhbrG2zuPWaQBvDly+iZ2yAW+T1fATN78hc0sInwn7wZB8XtlNnvHug5RMwV897Xm4LqmPM4e2Og==}
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
   jest-mock@29.7.0:
     resolution: {integrity: sha512-ITOMZn+UkYS4ZFh83xYAOzWStloNzJFO2s8DWrE4lhtGD+AorgnbkiKERe4wQVBydIGPx059g6riW5Btp6Llnw==}
@@ -12407,14 +12393,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@jest/types@27.5.1':
-    dependencies:
-      '@types/istanbul-lib-coverage': 2.0.6
-      '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.10.5
-      '@types/yargs': 16.0.9
-      chalk: 4.1.2
-
   '@jest/types@29.6.3':
     dependencies:
       '@jest/schemas': 29.6.3
@@ -13279,14 +13257,6 @@ snapshots:
   '@storybook/addon-highlight@8.1.6':
     dependencies:
       '@storybook/global': 5.0.0
-
-  '@storybook/addon-interactions@8.0.0':
-    dependencies:
-      '@storybook/global': 5.0.0
-      '@storybook/types': 8.0.0
-      jest-mock: 27.5.1
-      polished: 4.3.1
-      ts-dedent: 2.2.0
 
   '@storybook/addon-measure@8.1.6':
     dependencies:
@@ -14636,10 +14606,6 @@ snapshots:
       '@types/node': 20.10.5
 
   '@types/yargs-parser@21.0.3': {}
-
-  '@types/yargs@16.0.9':
-    dependencies:
-      '@types/yargs-parser': 21.0.3
 
   '@types/yargs@17.0.32':
     dependencies:
@@ -18127,11 +18093,6 @@ snapshots:
       pretty-format: 29.7.0
       slash: 3.0.0
       stack-utils: 2.0.6
-
-  jest-mock@27.5.1:
-    dependencies:
-      '@jest/types': 27.5.1
-      '@types/node': 20.10.5
 
   jest-mock@29.7.0:
     dependencies:

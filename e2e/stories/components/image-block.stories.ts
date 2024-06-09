@@ -1,22 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
-import { nord } from '@milkdown/theme-nord'
-import { commonmark } from '@milkdown/preset-commonmark'
-import { history } from '@milkdown/plugin-history'
 import { imageBlockComponent } from '@milkdown/components/image-block'
 
-import './image-block.css'
+import type { CommonArgs } from '../utils/shadow'
+import { setupMilkdown } from '../utils/shadow'
+import style from './image-block.css?inline'
 
 const meta: Meta = {
   title: 'Components/Image Block',
 }
 
 export default meta
-
-interface Args {
-  readonly: boolean
-  defaultValue: string
-}
 
 const logo = `
 ![0.5](/milkdown-logo.png)
@@ -26,25 +19,11 @@ const empty = `
 ![]()
 `
 
-export const Empty: StoryObj<Args> = {
+export const Empty: StoryObj<CommonArgs> = {
   render: (args) => {
-    const root = document.createElement('div')
-    root.classList.add('milkdown-storybook')
-    Editor.make()
-      .config((ctx) => {
-        ctx.set(rootCtx, root)
-        ctx.set(defaultValueCtx, args.defaultValue)
-        ctx.set(editorViewOptionsCtx, {
-          editable: () => !args.readonly,
-        })
-      })
-      .config(nord)
-      .use(commonmark)
-      .use(imageBlockComponent)
-      .use(history)
-      .create()
-
-    return root
+    return setupMilkdown([style], args, (editor) => {
+      editor.use(imageBlockComponent)
+    })
   },
   args: {
     readonly: false,
@@ -52,7 +31,7 @@ export const Empty: StoryObj<Args> = {
   },
 }
 
-export const Logo: StoryObj<Args> = {
+export const Logo: StoryObj<CommonArgs> = {
   ...Empty,
   args: {
     readonly: false,

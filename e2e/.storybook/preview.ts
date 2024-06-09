@@ -1,8 +1,6 @@
 import type { Preview } from '@storybook/html'
 
-import '@milkdown/theme-nord/style.css'
-
-import '../src/style.css'
+import './style.css'
 
 const preview: Preview = {
   parameters: {

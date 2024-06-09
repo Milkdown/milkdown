@@ -1,8 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
-import { nord } from '@milkdown/theme-nord'
-import { commonmark } from '@milkdown/preset-commonmark'
-import { history } from '@milkdown/plugin-history'
 import { codeBlockComponent, codeBlockConfig } from '@milkdown/components/code-block'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { languages } from '@codemirror/language-data'
@@ -11,7 +7,9 @@ import { defaultKeymap } from '@codemirror/commands'
 import { keymap } from '@codemirror/view'
 import { html } from 'atomico'
 
-import './code-block.css'
+import type { CommonArgs } from '../utils/shadow'
+import { setupMilkdown } from '../utils/shadow'
+import style from './code-block.css?inline'
 
 const meta: Meta = {
   title: 'Components/Code Block',
@@ -25,11 +23,6 @@ const check = html`
   </svg>
 `
 
-interface Args {
-  defaultValue: string
-  readonly: boolean
-}
-
 const markdown = `
 # Code Block
 
@@ -38,17 +31,10 @@ const a = 1;
 \`\`\`
 `
 
-export const Javascript: StoryObj<Args> = {
+export const Javascript: StoryObj<CommonArgs> = {
   render: (args) => {
-    const root = document.createElement('div')
-    root.classList.add('milkdown-storybook')
-    Editor.make()
-      .config((ctx) => {
-        ctx.set(rootCtx, root)
-        ctx.set(defaultValueCtx, args.defaultValue)
-        ctx.set(editorViewOptionsCtx, {
-          editable: () => !args.readonly,
-        })
+    return setupMilkdown([style], args, (editor) => {
+      editor.config((ctx) => {
         ctx.update(codeBlockConfig.key, defaultConfig => ({
           ...defaultConfig,
           languages,
@@ -58,13 +44,8 @@ export const Javascript: StoryObj<Args> = {
           },
         }))
       })
-      .config(nord)
-      .use(commonmark)
-      .use(codeBlockComponent)
-      .use(history)
-      .create()
-
-    return root
+        .use(codeBlockComponent)
+    })
   },
   args: {
     defaultValue: markdown,
