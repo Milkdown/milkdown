@@ -30,8 +30,7 @@ export function configureLinkPreviewTooltip(ctx: Ctx) {
       const markPosition = findMarkPosition(result.mark, result.node, view.state.doc, position.before(), position.after())
       const from = markPosition.start
       const to = markPosition.end
-      linkPreviewTooltipView.setRect(posToDOMRect(view, from, to))
-      linkPreviewTooltipView.show(result.mark, from, to)
+      linkPreviewTooltipView.show(result.mark, from, to, posToDOMRect(view, from, to))
       return
     }
 

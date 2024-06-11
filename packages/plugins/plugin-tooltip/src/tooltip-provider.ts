@@ -1,17 +1,16 @@
-import { posToDOMRect } from '@milkdown/prose'
 import type { EditorState } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
-import type { Instance, Props } from 'tippy.js'
-import tippy from 'tippy.js'
+import type { VirtualElement } from '@floating-ui/dom'
+import { computePosition, flip, platform } from '@floating-ui/dom'
+import { posToDOMRect } from '@milkdown/prose'
+import { offsetParent } from 'composed-offset-position'
 
 /// Options for tooltip provider.
 export interface TooltipProviderOptions {
   /// The tooltip content.
   content: HTMLElement
-  /// The options for creating [tippy.js](https://atomiks.github.io/tippyjs/) instance.
-  tippyOptions?: Partial<Props>
   /// The debounce time for updating tooltip, 200ms by default.
   debounce?: number
   /// The function to determine whether the tooltip should be shown.
@@ -21,23 +20,26 @@ export interface TooltipProviderOptions {
 /// A provider for creating tooltip.
 export class TooltipProvider {
   /// @internal
-  #tippy: Instance | undefined
-
-  /// @internal
-  #tippyOptions: Partial<Props>
-
-  /// @internal
   #debounce: number
 
   /// @internal
   #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
+  /// @internal
+  #initialized = false
+
   /// The root element of the tooltip.
   element: HTMLElement
 
+  /// On show callback.
+  onShow = () => {}
+
+  /// On hide callback.
+  onHide = () => {}
+
   constructor(options: TooltipProviderOptions) {
     this.element = options.content
-    this.#tippyOptions = options.tippyOptions ?? {}
+    // this.#tippyOptions = options.tippyOptions ?? {}
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
   }
@@ -51,15 +53,10 @@ export class TooltipProvider {
     const to = Math.max(...ranges.map(range => range.$to.pos))
     const isSame = prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
 
-    this.#tippy ??= tippy(view.dom, {
-      trigger: 'manual',
-      interactive: true,
-      delay: 0,
-      arrow: false,
-      duration: 0,
-      ...this.#tippyOptions,
-      content: this.element,
-    })
+    if (!this.#initialized) {
+      view.dom.parentElement?.appendChild(this.element)
+      this.#initialized = true
+    }
 
     if (composing || isSame)
       return
@@ -69,9 +66,24 @@ export class TooltipProvider {
       return
     }
 
-    this.#tippy.setProps({
-      getReferenceClientRect: () => posToDOMRect(view, from, to),
+    const virtualEl: VirtualElement = {
+      getBoundingClientRect: () => posToDOMRect(view, from, to),
+    }
+    computePosition(virtualEl, this.element, {
+      placement: 'top',
+      middleware: [flip()],
+      platform: {
+        ...platform,
+        getOffsetParent: element =>
+          platform.getOffsetParent(element, offsetParent),
+      },
     })
+      .then(({ x, y }) => {
+        Object.assign(this.element.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+      })
 
     this.show()
   }
@@ -108,22 +120,37 @@ export class TooltipProvider {
   }
 
   /// Destroy the tooltip.
-  destroy = () => {
-    this.#tippy?.destroy()
-  }
+  destroy = () => {}
 
   /// Show the tooltip.
-  show = () => {
-    this.#tippy?.show()
+  show = (virtualElement?: VirtualElement) => {
+    this.element.dataset.show = 'true'
+
+    if (virtualElement) {
+      computePosition(virtualElement, this.element, {
+        placement: 'top',
+        middleware: [flip()],
+        platform: {
+          ...platform,
+          getOffsetParent: element =>
+            platform.getOffsetParent(element, offsetParent),
+        },
+      })
+        .then(({ x, y }) => {
+          Object.assign(this.element.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          })
+        })
+    }
+
+    this.onShow()
   }
 
   /// Hide the tooltip.
   hide = () => {
-    this.#tippy?.hide()
-  }
+    this.element.dataset.show = 'false'
 
-  /// Get the [tippy.js](https://atomiks.github.io/tippyjs/) instance.
-  getInstance = () => {
-    return this.#tippy
+    this.onHide()
   }
 }

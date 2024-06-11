@@ -2,7 +2,6 @@ import type { PluginView } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'
 import { BlockProvider, block } from '@milkdown/plugin-block'
 import type { Ctx } from '@milkdown/ctx'
-import type { EditorView } from '@milkdown/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
 import { editorViewCtx } from '@milkdown/core'
 import { paragraphSchema } from '@milkdown/preset-commonmark'
@@ -16,7 +15,7 @@ export class BlockHandleView implements PluginView {
   #provider: BlockProvider
   #ctx: Ctx
 
-  constructor(ctx: Ctx, view: EditorView) {
+  constructor(ctx: Ctx) {
     this.#ctx = ctx
     const content = new BlockHandleElement()
     this.#content = content
@@ -26,7 +25,6 @@ export class BlockHandleView implements PluginView {
       content,
     })
     this.update()
-    view.dom.parentElement?.appendChild(content)
   }
 
   update = () => {
@@ -66,6 +64,6 @@ export class BlockHandleView implements PluginView {
 defIfNotExists('milkdown-block-handle', BlockHandleElement)
 export function configureBlockHandle(ctx: Ctx) {
   ctx.set(block.key, {
-    view: view => new BlockHandleView(ctx, view),
+    view: () => new BlockHandleView(ctx),
   })
 }

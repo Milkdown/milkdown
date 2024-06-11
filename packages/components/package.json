@@ -101,6 +101,7 @@
     "@milkdown/ctx": "^7.2.0",
     "@milkdown/plugin-tooltip": "^7.2.0",
     "@milkdown/preset-commonmark": "^7.2.0",
+    "@milkdown/preset-gfm": "^7.2.0",
     "@milkdown/prose": "^7.2.0",
     "@milkdown/transformer": "^7.2.0"
   },
@@ -125,6 +126,7 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*"
   },

@@ -9,7 +9,7 @@ import {
 /// @internal
 export const plugins: MilkdownPlugin[] = [
   autoInsertZeroSpaceInTablePlugin,
+  remarkGFMPlugin,
   columnResizingPlugin,
   tableEditingPlugin,
-  remarkGFMPlugin,
 ].flat()

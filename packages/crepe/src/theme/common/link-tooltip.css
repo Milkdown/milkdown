@@ -1,5 +1,9 @@
 .milkdown {
   milkdown-link-preview {
+    position: absolute;
+    &[data-show='false'] {
+      display: none;
+    }
     & > .link-preview {
       height: 32px;
       display: flex;
@@ -66,6 +70,10 @@
   }
 
   milkdown-link-edit {
+    position: absolute;
+    &[data-show='false'] {
+      display: none;
+    }
     & > .link-edit {
       height: 32px;
       display: flex;
