@@ -4,9 +4,9 @@ import type { PluginView } from '@milkdown/prose/state'
 import type { Mark } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
-import { editorViewCtx, rootDOMCtx } from '@milkdown/core'
-import { posToDOMRect } from '@milkdown/prose'
+import { editorViewCtx } from '@milkdown/core'
 import { linkSchema } from '@milkdown/preset-commonmark'
+import { posToDOMRect } from '@milkdown/prose'
 import { linkTooltipConfig, linkTooltipState } from '../slices'
 import { LinkEditElement } from './edit-component'
 
@@ -32,16 +32,13 @@ export class LinkEditTooltip implements PluginView {
       content: this.#content,
       debounce: 0,
       shouldShow: () => false,
-      tippyOptions: {
-        appendTo: () => ctx.get(rootDOMCtx),
-        onHidden: () => {
-          this.#content.update().catch((e) => {
-            throw e
-          })
-          ctx.get(editorViewCtx).dom.focus()
-        },
-      },
     })
+    this.#provider.onHide = () => {
+      this.#content.update().catch((e) => {
+        throw e
+      })
+      view.dom.focus({ preventScroll: true })
+    }
     this.#provider.update(view)
     this.#content.onConfirm = this.#confirmEdit
     this.#content.onCancel = this.#reset
@@ -54,12 +51,6 @@ export class LinkEditTooltip implements PluginView {
       mode: 'preview' as const,
     }))
     this.#data = { ...defaultData }
-  }
-
-  #setRect = (rect: DOMRect) => {
-    this.#provider.getInstance()?.setProps({
-      getReferenceClientRect: () => rect,
-    })
   }
 
   #confirmEdit = (href: string) => {
@@ -90,9 +81,11 @@ export class LinkEditTooltip implements PluginView {
       mode: 'edit' as const,
     }))
     const view = this.ctx.get(editorViewCtx)
-    this.#setRect(posToDOMRect(view, from, to))
+    // this.#setRect(posToDOMRect(view, from, to))
     view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
-    this.#provider.show()
+    this.#provider.show({
+      getBoundingClientRect: () => posToDOMRect(view, from, to),
+    })
     requestAnimationFrame(() => {
       this.#content.querySelector('input')?.focus()
     })

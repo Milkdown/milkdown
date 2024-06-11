@@ -1,5 +1,9 @@
 .milkdown {
   milkdown-toolbar {
+    &[data-show="false"] {
+      display: none;
+    }
+    position: absolute;
     display: flex;
     background: var(--crepe-color-surface);
     box-shadow: var(--crepe-shadow-1);

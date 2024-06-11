@@ -6,6 +6,7 @@ import type { VirtualElement } from '@floating-ui/dom'
 import { computePosition, flip, platform } from '@floating-ui/dom'
 
 import { offsetParent } from 'composed-offset-position'
+import { editorViewCtx } from '@milkdown/core'
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
 import type { ActiveNode } from './types'
@@ -49,6 +50,9 @@ export class BlockProvider {
 
   /// @internal
   #init() {
+    const view = this.#ctx.get(editorViewCtx)
+    view.dom.parentElement?.appendChild(this.#element)
+
     const service = this.#ctx.get(blockService.key)
     service.bind(this.#ctx, (message) => {
       if (message.type === 'hide') {

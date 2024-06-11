@@ -4,7 +4,6 @@ import { TextSelection } from '@milkdown/prose/state'
 import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
-import { rootDOMCtx } from '@milkdown/core'
 import type { DefineFeature } from '../shared'
 import { defIfNotExists } from '../../utils'
 import type { ToolbarProps } from './component'
@@ -24,15 +23,6 @@ class ToolbarView implements PluginView {
     this.#tooltipProvider = new TooltipProvider({
       content: this.#content,
       debounce: 20,
-      tippyOptions: {
-        appendTo: () => ctx.get(rootDOMCtx),
-        onShow: () => {
-          this.#content.show = true
-        },
-        onHidden: () => {
-          this.#content.show = false
-        },
-      },
       shouldShow(view: EditorView) {
         const { doc, selection } = view.state
         const { empty, from, to } = selection
@@ -41,7 +31,8 @@ class ToolbarView implements PluginView {
 
         const isNotTextBlock = !(selection instanceof TextSelection)
 
-        const isTooltipChildren = content.contains(document.activeElement)
+        const activeElement = (view.dom.getRootNode() as ShadowRoot | Document).activeElement
+        const isTooltipChildren = content.contains(activeElement)
 
         const notHasFocus = !view.hasFocus() && !isTooltipChildren
 
@@ -59,6 +50,12 @@ class ToolbarView implements PluginView {
         return true
       },
     })
+    this.#tooltipProvider.onShow = () => {
+      this.#content.show = true
+    }
+    this.#tooltipProvider.onHide = () => {
+      this.#content.show = false
+    }
     this.update(view)
   }
 

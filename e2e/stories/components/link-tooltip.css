@@ -1,6 +1,10 @@
 .milkdown-storybook {
 
   .link-insert-button {
+    position: absolute;
+    &[data-show="false"] {
+      display: none;
+    }
     background: bisque;
     cursor: pointer;
     padding: 4px 16px;
@@ -12,6 +16,10 @@
   }
 
   milkdown-link-preview {
+    position: absolute;
+    &[data-show="false"] {
+      display: none;
+    }
     & > .link-preview {
       height: 42px;
       display: flex;
@@ -78,6 +86,10 @@
   }
 
   milkdown-link-edit {
+    position: absolute;
+    &[data-show="false"] {
+      display: none;
+    }
     & > .link-edit {
       height: 42px;
       display: flex;
