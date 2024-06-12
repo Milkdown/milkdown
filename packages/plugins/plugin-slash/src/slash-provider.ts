@@ -4,15 +4,14 @@ import type { Node } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
-import type { Instance, Props } from 'tippy.js'
-import tippy from 'tippy.js'
+import type { VirtualElement } from '@floating-ui/dom'
+import { computePosition, flip, platform } from '@floating-ui/dom'
+import { offsetParent } from 'composed-offset-position'
 
 /// Options for slash provider.
 export interface SlashProviderOptions {
   /// The slash content.
   content: HTMLElement
-  /// The options for creating [tippy.js](https://atomiks.github.io/tippyjs/) instance.
-  tippyOptions?: Partial<Props>
   /// The debounce time for updating slash, 200ms by default.
   debounce?: number
   /// The function to determine whether the tooltip should be shown.
@@ -27,10 +26,7 @@ export class SlashProvider {
   element: HTMLElement
 
   /// @internal
-  #tippy: Instance | undefined
-
-  /// @internal
-  #tippyOptions: Partial<Props>
+  #initialized = false
 
   /// @internal
   #debounce: number
@@ -41,9 +37,14 @@ export class SlashProvider {
   /// @internal
   #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
+  /// On show callback.
+  onShow = () => {}
+
+  /// On hide callback.
+  onHide = () => {}
+
   constructor(options: SlashProviderOptions) {
     this.element = options.content
-    this.#tippyOptions = options.tippyOptions ?? {}
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#trigger = options.trigger ?? '/'
@@ -58,16 +59,10 @@ export class SlashProvider {
     const to = Math.max(...ranges.map(range => range.$to.pos))
     const isSame = prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
 
-    this.#tippy ??= tippy(view.dom, {
-      trigger: 'manual',
-      placement: 'bottom-start',
-      interactive: true,
-      delay: 0,
-      arrow: false,
-      duration: 0,
-      ...this.#tippyOptions,
-      content: this.element,
-    })
+    if (!this.#initialized) {
+      view.dom.parentElement?.appendChild(this.element)
+      this.#initialized = true
+    }
 
     if (composing || isSame)
       return
@@ -77,9 +72,24 @@ export class SlashProvider {
       return
     }
 
-    this.#tippy.setProps({
-      getReferenceClientRect: () => posToDOMRect(view, from, to),
+    const virtualEl: VirtualElement = {
+      getBoundingClientRect: () => posToDOMRect(view, from, to),
+    }
+    computePosition(virtualEl, this.element, {
+      placement: 'bottom-start',
+      middleware: [flip()],
+      platform: {
+        ...platform,
+        getOffsetParent: element =>
+          platform.getOffsetParent(element, offsetParent),
+      },
     })
+      .then(({ x, y }) => {
+        Object.assign(this.element.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+      })
 
     this.show()
   }
@@ -131,19 +141,17 @@ export class SlashProvider {
 
   /// Destroy the slash.
   destroy = () => {
-    this.#tippy?.destroy()
   }
 
   /// Show the slash.
   show = () => {
-    this.#tippy?.show()
+    this.element.dataset.show = 'true'
+    this.onShow()
   }
 
   /// Hide the slash.
   hide = () => {
-    this.#tippy?.hide()
+    this.element.dataset.show = 'false'
+    this.onHide()
   }
-
-  /// Get the [tippy.js](https://atomiks.github.io/tippyjs/) instance.
-  getInstance = () => this.#tippy
 }

@@ -34,6 +34,11 @@
   }
 
   milkdown-slash-menu {
+    &[data-show='false'] {
+      opacity: 0;
+    }
+    transition: opacity 0.2s;
+    position: absolute;
     display: block;
     width: 254px;
     font-family: var(--crepe-font-default);

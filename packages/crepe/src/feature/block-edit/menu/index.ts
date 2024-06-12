@@ -4,7 +4,6 @@ import { SlashProvider, slashFactory } from '@milkdown/plugin-slash'
 import type { Ctx } from '@milkdown/ctx'
 import type { AtomicoThis } from 'atomico/types/dom'
 import { $ctx } from '@milkdown/utils'
-import { rootDOMCtx } from '@milkdown/core'
 import { defIfNotExists, isInCodeBlock, isInList } from '../../../utils'
 import type { MenuProps } from './component'
 import { MenuElement } from './component'
@@ -42,15 +41,6 @@ class MenuView implements PluginView {
     this.#slashProvider = new SlashProvider({
       content: this.#content,
       debounce: 20,
-      tippyOptions: {
-        appendTo: () => ctx.get(rootDOMCtx),
-        onShow: () => {
-          this.#content.show = true
-        },
-        onHidden: () => {
-          this.#content.show = false
-        },
-      },
       shouldShow(this: SlashProvider, view: EditorView) {
         if (isInCodeBlock(view.state.selection) || isInList(view.state.selection))
           return false
@@ -81,6 +71,13 @@ class MenuView implements PluginView {
         return true
       },
     })
+
+    this.#slashProvider.onShow = () => {
+      this.#content.show = true
+    }
+    this.#slashProvider.onHide = () => {
+      this.#content.show = false
+    }
     this.update(view)
 
     ctx.set(menuAPI.key, {
