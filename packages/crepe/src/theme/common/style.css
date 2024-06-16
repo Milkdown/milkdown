@@ -1,7 +1,7 @@
 @import "./prosemirror.css";
 @import "./block-edit.css";
 @import "./code-mirror.css";
-@import "./gap-cursor.css";
+@import "./cursor.css";
 @import "./image-block.css";
 @import "./link-tooltip.css";
 @import "./list-item.css";

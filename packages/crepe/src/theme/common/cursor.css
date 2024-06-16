@@ -1,0 +1,9 @@
+@import "@milkdown/prose/gapcursor/style/gapcurosr.css";
+
+.milkdown {
+  .crepe-drop-cursor {
+    background-color: var(--crepe-color-outline);
+    opacity: 0.5;
+    transition: all 0.2s;
+  }
+}

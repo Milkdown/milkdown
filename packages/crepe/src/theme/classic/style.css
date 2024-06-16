@@ -64,10 +64,18 @@
 
     *::selection {
       background: var(--crepe-color-selected);
+      //background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
     }
 
     li.ProseMirror-selectednode {
       outline: 10px solid var(--crepe-color-selected);
+      //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+      &::selection {
+        background: transparent;
+      }
     }
     li.ProseMirror-selectednode:after {
       all: unset;
@@ -76,6 +84,14 @@
     .ProseMirror-selectednode {
       background: var(--crepe-color-selected);
       outline: 10px solid var(--crepe-color-selected);
+      //background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+      &::selection {
+        background: transparent;
+      }
     }
 
     img {

@@ -6,7 +6,7 @@ export enum CrepeFeature {
   CodeMirror = 'code-mirror',
   ListItem = 'list-item',
   LinkTooltip = 'link-tooltip',
-  GapCursor = 'gap-cursor',
+  Cursor = 'cursor',
   ImageBlock = 'image-block',
   BlockEdit = 'block-edit',
   Toolbar = 'toolbar',
@@ -22,7 +22,7 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.ListItem]: true,
   [CrepeFeature.LinkTooltip]: true,
   [CrepeFeature.ImageBlock]: true,
-  [CrepeFeature.GapCursor]: true,
+  [CrepeFeature.Cursor]: true,
   [CrepeFeature.BlockEdit]: true,
   [CrepeFeature.Placeholder]: true,
   [CrepeFeature.Toolbar]: true,
@@ -47,8 +47,8 @@ export async function loadFeature(feature: CrepeFeature, editor: Editor, config?
       const { defineFeature } = await import('./image-block')
       return defineFeature(editor, config)
     }
-    case CrepeFeature.GapCursor: {
-      const { defineFeature } = await import('./gap-cursor')
+    case CrepeFeature.Cursor: {
+      const { defineFeature } = await import('./cursor')
       return defineFeature(editor, config)
     }
     case CrepeFeature.BlockEdit: {

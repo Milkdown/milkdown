@@ -9,10 +9,16 @@ overrides:
   array.prototype.flat: npm:@nolyfill/array.prototype.flat@latest
   array.prototype.flatmap: npm:@nolyfill/array.prototype.flatmap@latest
   array.prototype.tosorted: npm:@nolyfill/array.prototype.tosorted@latest
+  assert: npm:@nolyfill/assert@latest
+  deep-equal: npm:@nolyfill/deep-equal@latest
   es-iterator-helpers: npm:@nolyfill/es-iterator-helpers@latest
   function-bind: npm:@nolyfill/function-bind@latest
   has: npm:@nolyfill/has@latest
   hasown: npm:@nolyfill/hasown@latest
+  is-arguments: npm:@nolyfill/is-arguments@latest
+  is-generator-function: npm:@nolyfill/is-generator-function@latest
+  is-typed-array: npm:@nolyfill/is-typed-array@latest
+  isarray: npm:@nolyfill/isarray@latest
   object.assign: npm:@nolyfill/object.assign@latest
   object.entries: npm:@nolyfill/object.entries@latest
   object.fromentries: npm:@nolyfill/object.fromentries@latest
@@ -20,14 +26,13 @@ overrides:
   object.values: npm:@nolyfill/object.values@latest
   side-channel: npm:@nolyfill/side-channel@latest
   string.prototype.matchall: npm:@nolyfill/string.prototype.matchall@latest
-  assert: npm:@nolyfill/assert@latest
-  deep-equal: npm:@nolyfill/deep-equal@latest
-  is-arguments: npm:@nolyfill/is-arguments@latest
-  is-generator-function: npm:@nolyfill/is-generator-function@latest
-  is-typed-array: npm:@nolyfill/is-typed-array@latest
-  isarray: npm:@nolyfill/isarray@latest
   typedarray: npm:@nolyfill/typedarray@latest
   which-typed-array: npm:@nolyfill/which-typed-array@latest
+
+patchedDependencies:
+  prosemirror-dropcursor@1.8.1:
+    hash: m6voq4yyqnh2ebafyxr7kuthki
+    path: patches/prosemirror-dropcursor@1.8.1.patch
 
 importers:
 
@@ -1062,7 +1067,7 @@ importers:
         version: 1.5.2
       prosemirror-dropcursor:
         specifier: ^1.8.1
-        version: 1.8.1
+        version: 1.8.1(patch_hash=m6voq4yyqnh2ebafyxr7kuthki)
       prosemirror-gapcursor:
         specifier: ^1.3.2
         version: 1.3.2
@@ -20151,7 +20156,7 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.8.0
 
-  prosemirror-dropcursor@1.8.1:
+  prosemirror-dropcursor@1.8.1(patch_hash=m6voq4yyqnh2ebafyxr7kuthki):
     dependencies:
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.8.0

@@ -133,6 +133,9 @@
       "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@latest",
       "typedarray": "npm:@nolyfill/typedarray@latest",
       "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
+    },
+    "patchedDependencies": {
+      "prosemirror-dropcursor@1.8.1": "patches/prosemirror-dropcursor@1.8.1.patch"
     }
   }
 }
