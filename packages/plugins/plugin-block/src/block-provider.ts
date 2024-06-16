@@ -97,12 +97,33 @@ export class BlockProvider {
     const dom = active.el
     const { height } = dom.getBoundingClientRect()
     const { height: handleHeight } = this.#element.getBoundingClientRect()
+    const style = window.getComputedStyle(dom)
+    const paddingTop = Number.parseInt(style.paddingTop, 10) || 0
+    const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
+    const paddingLeft = Number.parseInt(style.paddingLeft, 10) || 0
+    const paddingRight = Number.parseInt(style.paddingRight, 10) || 0
+    const rect = dom.getBoundingClientRect()
     const virtualEl: VirtualElement = {
       contextElement: dom,
-      getBoundingClientRect: () => dom.getBoundingClientRect(),
+      getBoundingClientRect: () => {
+        const value = {
+          x: rect.x + paddingLeft,
+          y: rect.y + paddingTop,
+          top: rect.top + paddingTop,
+          bottom: rect.bottom - paddingBottom,
+          left: rect.left + paddingLeft,
+          right: rect.right - paddingRight,
+          width: rect.width - paddingLeft - paddingRight,
+          height: rect.height - paddingTop - paddingBottom,
+        }
+        return {
+          ...value,
+          toJSON: () => value,
+        }
+      },
     }
     computePosition(virtualEl, this.#element, {
-      placement: handleHeight * 1.8 < height ? 'left-start' : 'left',
+      placement: handleHeight * 1.8 < (height - paddingTop - paddingBottom) ? 'left-start' : 'left',
       middleware: [flip()],
       platform: {
         ...platform,

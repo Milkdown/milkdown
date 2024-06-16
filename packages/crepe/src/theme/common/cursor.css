@@ -6,4 +6,10 @@
     opacity: 0.5;
     transition: all 0.2s;
   }
+
+  .ProseMirror-gapcursor:after {
+    box-sizing: border-box;
+    border-top: 1px solid var(--crepe-color-on-background);
+    top: -40px;
+  }
 }

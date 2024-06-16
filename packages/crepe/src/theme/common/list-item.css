@@ -1,7 +1,7 @@
 .milkdown {
   milkdown-list-item-block {
     display: block;
-    margin-top: 10px;
+    padding: 5px 0;
 
     & > .list-item {
       display: flex;

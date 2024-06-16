@@ -2,7 +2,7 @@
   milkdown-code-block {
     display: block;
     position: relative;
-    padding: 24px 40px;
+    padding: 24px 40px !important;
     background: var(--crepe-color-surface);
     margin: 20px 0;
 

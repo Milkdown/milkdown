@@ -35,9 +35,8 @@
 
   milkdown-slash-menu {
     &[data-show='false'] {
-      opacity: 0;
+      display: none;
     }
-    transition: opacity 0.2s;
     position: absolute;
     display: block;
     width: 254px;

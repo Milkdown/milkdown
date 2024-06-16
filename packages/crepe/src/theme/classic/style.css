@@ -59,7 +59,7 @@
     letter-spacing: 0.5px;
 
     & > * {
-      margin: 20px 0 40px;
+      padding: 20px 0;
     }
 
     *::selection {
@@ -68,7 +68,8 @@
     }
 
     li.ProseMirror-selectednode {
-      outline: 10px solid var(--crepe-color-selected);
+      background: var(--crepe-color-selected);
+      outline: none;
       //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
       ::selection {
         background: transparent;
@@ -83,7 +84,8 @@
 
     .ProseMirror-selectednode {
       background: var(--crepe-color-selected);
-      outline: 10px solid var(--crepe-color-selected);
+      outline: none;
+      //outline: 10px solid var(--crepe-color-selected);
       //background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
       //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
       ::selection {
@@ -177,11 +179,13 @@
     blockquote {
       position: relative;
       padding-left: 40px;
+      box-sizing: content-box;
       &::before {
         content: "";
         width: 4px;
-        height: 100%;
         left: 0;
+        top: 20px;
+        bottom: 20px;
         position: absolute;
         background: var(--crepe-color-selected);
         border-radius: 100px;
@@ -203,12 +207,6 @@
         background: none;
         border-bottom: 1px solid var(--crepe-color-outline);
       }
-    }
-
-    .ProseMirror-gapcursor:after {
-      box-sizing: border-box;
-      border-top: 1px solid var(--crepe-color-on-background);
-      top: -40px;
     }
   }
 }
