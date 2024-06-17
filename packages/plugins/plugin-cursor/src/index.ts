@@ -19,7 +19,7 @@ export interface DropCursorOptions {
   /**
     The color of the cursor. Defaults to `black`.
    */
-  color?: string
+  color?: string | false
   /**
     The precise width of the cursor in pixels. Defaults to 1.
    */

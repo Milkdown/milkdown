@@ -50,11 +50,6 @@
   color: var(--crepe-color-on-background);
   background: var(--crepe-color-background);
 
-  input {
-    font-family: var(--crepe-font-default);
-    color: var(--crepe-color-on-background);
-  }
-
   .ProseMirror-focused {
     outline: none;
   }
@@ -64,15 +59,24 @@
     letter-spacing: 0.5px;
 
     & > * {
-      margin: 20px 0 40px;
+      padding: 20px 0;
     }
 
     *::selection {
       background: var(--crepe-color-selected);
+      //background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
     }
 
     li.ProseMirror-selectednode {
-      outline: 10px solid var(--crepe-color-selected);
+      background: var(--crepe-color-selected);
+      outline: none;
+      //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+      &::selection {
+        background: transparent;
+      }
     }
     li.ProseMirror-selectednode:after {
       all: unset;
@@ -80,7 +84,24 @@
 
     .ProseMirror-selectednode {
       background: var(--crepe-color-selected);
-      outline: 10px solid var(--crepe-color-selected);
+      outline: none;
+      //outline: 10px solid var(--crepe-color-selected);
+      //background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      ::selection {
+        background: transparent;
+      }
+      &::selection {
+        background: transparent;
+      }
+    }
+
+    &[data-dragging="true"] {
+      .ProseMirror-selectednode,
+      &::selection,
+      *::selection {
+        background: transparent;
+      }
     }
 
     img {
@@ -166,11 +187,16 @@
     blockquote {
       position: relative;
       padding-left: 40px;
+      padding-top: 0;
+      padding-bottom: 0;
+      box-sizing: content-box;
+
       &::before {
         content: "";
         width: 4px;
-        height: 100%;
         left: 0;
+        top: 0;
+        bottom: 0;
         position: absolute;
         background: var(--crepe-color-selected);
         border-radius: 100px;
@@ -194,10 +220,8 @@
       }
     }
 
-    .ProseMirror-gapcursor:after {
-      box-sizing: border-box;
-      border-top: 1px solid var(--crepe-color-on-background);
-      top: -40px;
+    ul,ol {
+      padding: 0;
     }
   }
 }

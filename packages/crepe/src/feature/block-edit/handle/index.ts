@@ -23,6 +23,21 @@ export class BlockHandleView implements PluginView {
     this.#provider = new BlockProvider({
       ctx,
       content,
+      getPlacement: ({ active, blockDom }) => {
+        let totalDescendant = 0
+        active.node.descendants((node) => {
+          totalDescendant += node.childCount
+        })
+        const dom = active.el
+        const domRect = dom.getBoundingClientRect()
+        const handleRect = blockDom.getBoundingClientRect()
+        const style = window.getComputedStyle(dom)
+        const paddingTop = Number.parseInt(style.paddingTop, 10) || 0
+        const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
+        const height = domRect.height - paddingTop - paddingBottom
+        const handleHeight = handleRect.height
+        return totalDescendant > 2 || handleHeight * 2 < height ? 'left-start' : 'left'
+      },
     })
     this.update()
   }
@@ -43,9 +58,10 @@ export class BlockHandleView implements PluginView {
       view.focus()
 
     const { state, dispatch } = view
-    const active = this.#provider.activeNode
+    const active = this.#provider.active
     if (!active)
       return
+
     const pos = active.$pos
     const isNoneTextBlock = ['hr', 'image-block'].includes(active.node.type.name)
     const nodeSize = isNoneTextBlock ? active.node.nodeSize : active.node.content.size

@@ -39,17 +39,20 @@ export const blockPlugin = $prose((ctx) => {
         pointermove: (view, event) => {
           return service.mousemoveCallback(view, event)
         },
-        keydown: () => {
-          return service.keydownCallback()
+        keydown: (view) => {
+          return service.keydownCallback(view)
         },
         dragover: (view, event) => {
           return service.dragoverCallback(view, event)
         },
-        dragleave: () => {
-          return service.dragleaveCallback()
+        dragleave: (view, event) => {
+          return service.dragleaveCallback(view, event)
         },
-        dragenter: () => {
-          return service.dragenterCallback()
+        dragenter: (view) => {
+          return service.dragenterCallback(view)
+        },
+        dragend: (view) => {
+          return service.dragendCallback(view)
         },
       },
     },

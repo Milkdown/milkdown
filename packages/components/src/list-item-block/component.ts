@@ -1,6 +1,5 @@
 import type { Component } from 'atomico'
 import { c, html, useHost, useLayoutEffect, useRef } from 'atomico'
-import clsx from 'clsx'
 import type { ListItemBlockConfig } from './config'
 
 interface Attrs {
@@ -57,8 +56,8 @@ export const listItemComponent: Component<ListItemComponentProps> = ({
     readonly,
   }
 
-  return html`<host>
-    <li class=${clsx('list-item', selected && 'ProseMirror-selectednode')}>
+  return html`<host class=${selected && 'ProseMirror-selectednode'}>
+    <li class='list-item'>
       <div class="label-wrapper" onclick=${onClickLabel} contenteditable="false">
         ${config?.renderLabel(labelProps)}
       </div>
