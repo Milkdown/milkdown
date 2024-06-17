@@ -2,14 +2,22 @@ import type { Ctx } from '@milkdown/ctx'
 import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 
-import type { VirtualElement } from '@floating-ui/dom'
-import { computePosition, flip, platform } from '@floating-ui/dom'
+import type { Placement, VirtualElement } from '@floating-ui/dom'
+import { computePosition, flip, offset, platform } from '@floating-ui/dom'
 
 import { offsetParent } from 'composed-offset-position'
 import { editorViewCtx } from '@milkdown/core'
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
 import type { ActiveNode } from './types'
+
+/// The context of the block provider.
+export interface DeriveContext {
+  ctx: Ctx
+  active: ActiveNode
+  editorDom: HTMLElement
+  blockDom: HTMLElement
+}
 
 /// Options for creating block provider.
 export interface BlockProviderOptions {
@@ -19,6 +27,16 @@ export interface BlockProviderOptions {
   content: HTMLElement
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
+  /// The offset to get the block. Default is 0.
+  getOffset?: (deriveContext: DeriveContext) => number | {
+    mainAxis?: number
+    crossAxis?: number
+    alignmentAxis?: number | null
+  }
+  /// The function to get the position of the block. Default is the position of the active node.
+  getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>
+  /// The function to get the placement of the block. Default is 'left'.
+  getPlacement?: (deriveContext: DeriveContext) => Placement
 }
 
 /// A provider for creating block.
@@ -38,13 +56,30 @@ export class BlockProvider {
   /// @internal
   #initialized = false
 
-  get activeNode() {
+  /// @internal
+  readonly #getOffset?: (deriveContext: DeriveContext) => number | {
+    mainAxis?: number
+    crossAxis?: number
+    alignmentAxis?: number | null
+  }
+
+  /// @internal
+  readonly #getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>
+
+  /// @internal
+  readonly #getPlacement?: (deriveContext: DeriveContext) => Placement
+
+  /// The context of current active node.
+  get active() {
     return this.#activeNode
   }
 
   constructor(options: BlockProviderOptions) {
     this.#ctx = options.ctx
     this.#element = options.content
+    this.#getOffset = options.getOffset
+    this.#getPosition = options.getPosition
+    this.#getPlacement = options.getPlacement
     this.hide()
   }
 
@@ -95,36 +130,34 @@ export class BlockProvider {
   /// Show the block.
   show = (active: ActiveNode) => {
     const dom = active.el
-    const { height } = dom.getBoundingClientRect()
-    const { height: handleHeight } = this.#element.getBoundingClientRect()
-    const style = window.getComputedStyle(dom)
-    const paddingTop = Number.parseInt(style.paddingTop, 10) || 0
-    const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
-    const paddingLeft = Number.parseInt(style.paddingLeft, 10) || 0
-    const paddingRight = Number.parseInt(style.paddingRight, 10) || 0
-    const rect = dom.getBoundingClientRect()
+    const editorDom = this.#ctx.get(editorViewCtx).dom
+    const deriveContext: DeriveContext = {
+      ctx: this.#ctx,
+      active,
+      editorDom,
+      blockDom: this.#element,
+    }
     const virtualEl: VirtualElement = {
       contextElement: dom,
       getBoundingClientRect: () => {
-        const value = {
-          x: rect.x + paddingLeft,
-          y: rect.y + paddingTop,
-          top: rect.top + paddingTop,
-          bottom: rect.bottom - paddingBottom,
-          left: rect.left + paddingLeft,
-          right: rect.right - paddingRight,
-          width: rect.width - paddingLeft - paddingRight,
-          height: rect.height - paddingTop - paddingBottom,
-        }
-        return {
-          ...value,
-          toJSON: () => value,
-        }
+        if (this.#getPosition)
+          return this.#getPosition(deriveContext)
+
+        return dom.getBoundingClientRect()
       },
     }
+    const middleware = [flip()]
+    if (this.#getOffset) {
+      const offsetOption = this.#getOffset(deriveContext)
+      const offsetExt = offset(offsetOption)
+      middleware.push(offsetExt)
+    }
+
     computePosition(virtualEl, this.#element, {
-      placement: handleHeight * 1.8 < (height - paddingTop - paddingBottom) ? 'left-start' : 'left',
-      middleware: [flip()],
+      placement: this.#getPlacement
+        ? this.#getPlacement(deriveContext)
+        : 'left',
+      middleware,
       platform: {
         ...platform,
         getOffsetParent: element =>
@@ -142,5 +175,9 @@ export class BlockProvider {
   /// Hide the block.
   hide = () => {
     this.#element.dataset.show = 'false'
+    Object.assign(this.#element.style, {
+      left: `-999px`,
+      top: `-999px`,
+    })
   }
 }

@@ -43,7 +43,7 @@ export class BlockService {
     const view = this.#view
 
     if (view && NodeSelection.isSelectable(result.node)) {
-      const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos - (result.node.isLeaf ? 0 : 1))
+      const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos)
       view.dispatch(view.state.tr.setSelection(nodeSelection))
       view.focus()
       this.#activeSelection = nodeSelection
@@ -185,7 +185,7 @@ export class BlockService {
     if (!filterNodes)
       return
 
-    const result = selectRootNodeByDom(dom, view, filterNodes)
+    const result = selectRootNodeByDom(view, { x, y: event.clientY }, filterNodes)
 
     if (!result) {
       this.#hide()

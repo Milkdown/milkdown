@@ -179,13 +179,16 @@
     blockquote {
       position: relative;
       padding-left: 40px;
+      padding-top: 0;
+      padding-bottom: 0;
       box-sizing: content-box;
+
       &::before {
         content: "";
         width: 4px;
         left: 0;
-        top: 20px;
-        bottom: 20px;
+        top: 0;
+        bottom: 0;
         position: absolute;
         background: var(--crepe-color-selected);
         border-radius: 100px;
@@ -207,6 +210,10 @@
         background: none;
         border-bottom: 1px solid var(--crepe-color-outline);
       }
+    }
+
+    ul,ol {
+      padding: 0;
     }
   }
 }

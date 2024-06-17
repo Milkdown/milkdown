@@ -1,13 +1,13 @@
-import type { Node } from '@milkdown/prose/model'
+import type { Node, ResolvedPos } from '@milkdown/prose/model'
 import { $ctx } from '@milkdown/utils'
 
 import { withMeta } from './__internal__/with-meta'
 
 /// @internal
-export type FilterNodes = (node: Node) => boolean
+export type FilterNodes = (pos: ResolvedPos, node: Node) => boolean
 
 /// @internal
-export const defaultNodeFilter: FilterNodes = (node) => {
+export const defaultNodeFilter: FilterNodes = (_pos, node) => {
   const { name } = node.type
   if (name.startsWith('table') && name !== 'table')
     return false
