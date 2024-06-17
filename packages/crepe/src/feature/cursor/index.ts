@@ -14,7 +14,7 @@ export const defineFeature: DefineFeature<CursorFeatureConfig> = (editor, config
       ctx.update(dropCursorConfig.key, value => ({
         ...value,
         class: 'crepe-drop-cursor',
-        width: config?.width ?? 2,
+        width: config?.width ?? 4,
         color: config?.color ?? false,
       }))
     })

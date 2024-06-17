@@ -96,6 +96,14 @@
       }
     }
 
+    &[data-dragging="true"] {
+      .ProseMirror-selectednode,
+      &::selection,
+      *::selection {
+        background: transparent;
+      }
+    }
+
     img {
       vertical-align: bottom;
       max-width: 100%;

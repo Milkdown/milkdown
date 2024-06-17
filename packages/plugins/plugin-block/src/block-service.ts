@@ -25,6 +25,7 @@ export type BlockServiceMessageType = {
   type: 'show'
   active: ActiveNode
 }
+
 /// @internal
 export type BlockServiceMessage = (message: BlockServiceMessageType) => void
 
@@ -136,11 +137,13 @@ export class BlockService {
   /// @internal
   #handleDragStart = (event: DragEvent) => {
     this.#dragging = true
-    const selection = this.#activeSelection
+
     const view = this.#view
     if (!view)
       return
+    view.dom.dataset.dragging = 'true'
 
+    const selection = this.#activeSelection
     if (event.dataTransfer && selection) {
       const slice = selection.content()
       event.dataTransfer.effectAllowed = 'copyMove'
@@ -152,25 +155,27 @@ export class BlockService {
       const activeEl = this.#active?.el
       if (activeEl)
         event.dataTransfer.setDragImage(activeEl, 0, 0)
+
       view.dragging = {
         slice,
         move: true,
       }
+      this.#hide()
     }
   }
 
   /// @internal
-  keydownCallback = () => {
+  keydownCallback = (view: EditorView) => {
     this.#hide()
+
+    this.#dragging = false
+    view.dom.dataset.dragging = 'false'
     return false
   }
 
   /// @internal
   #mousemoveCallback = throttle((view: EditorView, event: MouseEvent) => {
     if (!view.editable)
-      return
-
-    if (this.#dragging)
       return
 
     const rect = view.dom.getBoundingClientRect()
@@ -233,22 +238,27 @@ export class BlockService {
   }
 
   /// @internal
-  dragenterCallback = () => {
+  dragenterCallback = (view: EditorView) => {
     this.#dragging = true
+    view.dom.dataset.dragging = 'true'
   }
 
   /// @internal
-  dragleaveCallback = () => {
-    this.#dragging = false
-    this.#active = null
+  dragleaveCallback = (view: EditorView, event: DragEvent) => {
+    const x = event.clientX
+    const y = event.clientY
+    // if cursor out of the editor
+    if (x < 0 || y < 0 || x > window.innerWidth || y > window.innerHeight) {
+      this.#active = null
+      this.#dragEnd(view)
+    }
   }
 
   /// @internal
-  dropCallback = (view: EditorView, _event: MouseEvent) => {
-    const event = _event as DragEvent
+  dropCallback = (view: EditorView, event: DragEvent) => {
     const tr = removePossibleTable(view, event)
 
-    this.#dragging = false
+    this.#dragEnd(view)
 
     if (tr) {
       view.dispatch(tr)
@@ -259,5 +269,16 @@ export class BlockService {
     }
 
     return false
+  }
+
+  /// @internal
+  dragendCallback = (view: EditorView) => {
+    this.#dragEnd(view)
+  }
+
+  /// @internal
+  #dragEnd = (view: EditorView) => {
+    this.#dragging = false
+    view.dom.dataset.dragging = 'false'
   }
 }

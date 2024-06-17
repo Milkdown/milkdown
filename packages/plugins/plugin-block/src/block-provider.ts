@@ -95,7 +95,7 @@ export class BlockProvider {
         this.#activeNode = null
       }
 
-      else {
+      else if (message.type === 'show') {
         this.show(message.active)
         this.#activeNode = message.active
       }
@@ -125,6 +125,7 @@ export class BlockProvider {
   destroy = () => {
     this.#service?.unBind()
     this.#service?.removeEvent(this.#element)
+    this.#element.remove()
   }
 
   /// Show the block.
