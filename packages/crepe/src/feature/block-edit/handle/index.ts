@@ -13,7 +13,7 @@ import { BlockHandleElement } from './component'
 export class BlockHandleView implements PluginView {
   #content: AtomicoThis<BlockHandleProps>
   #provider: BlockProvider
-  #ctx: Ctx
+  readonly #ctx: Ctx
 
   constructor(ctx: Ctx) {
     this.#ctx = ctx
@@ -23,6 +23,7 @@ export class BlockHandleView implements PluginView {
     this.#provider = new BlockProvider({
       ctx,
       content,
+      getOffset: () => 16,
       getPlacement: ({ active, blockDom }) => {
         let totalDescendant = 0
         active.node.descendants((node) => {
