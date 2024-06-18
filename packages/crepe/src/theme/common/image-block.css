@@ -28,6 +28,7 @@
 
     & > .empty-image-inline .link-importer > .link-input-area {
       width: 208px;
+      color: var(--crepe-color-on-background);
     }
 
     & > .empty-image-inline .link-importer .placeholder {
@@ -187,6 +188,7 @@
       display: block;
       width: 100%;
       text-align: center;
+      color: var(--crepe-color-on-background);
     }
 
     & > .image-edit {
@@ -338,6 +340,7 @@
 
     .image-edit .link-importer .link-input-area {
       line-height: 24px;
+      color: var(--crepe-color-on-background);
     }
 
     .image-edit .link-importer .placeholder .uploader {
