@@ -3,7 +3,7 @@ import { basicDark } from '@uiw/codemirror-theme-basic'
 
 import classic from '@milkdown/crepe/theme/classic-dark.css?inline'
 import type { Args } from './setup'
-import { longContent, setup } from './setup'
+import { longContent, setup, wikiContent } from './setup'
 
 const meta: Meta = {
   title: 'Crepe/Classic Dark',
@@ -33,10 +33,18 @@ export const Empty: Story = {
   },
 }
 
-export const WidthDefaultValue: Story = {
+export const WithDefaultValue: Story = {
   ...Empty,
   args: {
     ...defaultArgs,
     defaultValue: longContent,
+  },
+}
+
+export const WikiValue: Story = {
+  ...Empty,
+  args: {
+    ...defaultArgs,
+    defaultValue: wikiContent,
   },
 }
