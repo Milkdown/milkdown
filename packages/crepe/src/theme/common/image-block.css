@@ -28,6 +28,7 @@
 
     & > .empty-image-inline .link-importer > .link-input-area {
       width: 208px;
+      color: var(--crepe-color-on-background);
     }
 
     & > .empty-image-inline .link-importer .placeholder {
@@ -141,7 +142,7 @@
 
   milkdown-image-block {
     outline: none;
-    margin: 16px 0;
+    margin: 4px 0;
     display: block;
 
     & > .image-wrapper {
@@ -187,6 +188,7 @@
       display: block;
       width: 100%;
       text-align: center;
+      color: var(--crepe-color-on-background);
     }
 
     & > .image-edit {
@@ -225,13 +227,32 @@
       display: none !important;
     }
 
-    &.selected > .image-edit {
-      outline: 1px solid var(--crepe-color-outline);
+    &.selected > .image-edit:not(:has(input:focus)) {
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+        pointer-events: none;
+      }
     }
 
     &.selected {
-      & > .image-wrapper img {
-        outline: 1px solid var(--crepe-color-outline);
+      & > .image-wrapper {
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+        }
       }
       :not(input)::selection {
         background: transparent;
@@ -245,9 +266,9 @@
     }
 
     .image-wrapper .operation {
-      gap: 16px;
-      right: 16px;
-      top: 16px;
+      gap: 12px;
+      right: 12px;
+      top: 12px;
       opacity: 0;
       transition: all 0.2s;
     }
@@ -258,12 +279,12 @@
 
     .image-wrapper .operation > .operation-item {
       color: var(--crepe-color-on-inverse);
-      padding: 8px;
+      padding: 4px;
       background: var(--crepe-color-inverse);
       opacity: 0.6;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       svg {
         width: 24px;
         height: 24px;
@@ -272,7 +293,7 @@
 
     .image-wrapper .image-resize-handle {
       height: 4px;
-      bottom: -3px;
+      bottom: -2px;
       max-width: 160px;
       width: 100%;
       background: var(--crepe-color-outline);
@@ -286,7 +307,7 @@
     }
 
     .caption-input {
-      margin: 16px auto;
+      margin: 4px auto;
       font-family: var(--crepe-font-default);
     }
 
@@ -319,6 +340,7 @@
 
     .image-edit .link-importer .link-input-area {
       line-height: 24px;
+      color: var(--crepe-color-on-background);
     }
 
     .image-edit .link-importer .placeholder .uploader {
@@ -326,6 +348,7 @@
       color: var(--crepe-color-primary);
       justify-content: center;
       transition: color 0.2s;
+      font-weight: 600;
     }
 
     .image-edit .link-importer.focus .placeholder .uploader {
@@ -347,6 +370,10 @@
       padding: 0 24px;
       border-radius: 100px;
       font-size: 14px;
+      font-weight: 600;
+      &:hover {
+        background: linear-gradient(0deg, rgba(29, 25, 43, 0.08) 0%, rgba(29, 25, 43, 0.08) 100%), var(--crepe-color-secondary);
+      }
     }
   }
 }

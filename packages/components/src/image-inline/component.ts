@@ -63,6 +63,11 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
     e.stopPropagation()
   }
 
+  const onClickUploader = (e: PointerEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+  }
+
   return html`<host class=${clsx(selected && 'selected', !src && 'empty')}>
     ${!src
       ? html`<div class="empty-image-inline">
@@ -83,7 +88,7 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
           />
           <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
             <input class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
-            <label class="uploader" for=${uuid}>
+            <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
               ${config?.uploadButton()}
             </label>
             <span class="text" onclick=${() => linkInput.current?.focus()}>
