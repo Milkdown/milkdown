@@ -110,6 +110,11 @@ export const imageComponent: Component<ImageComponentProps> = ({
       onConfirmLinkInput()
   }
 
+  const preventDrag = (e: Event) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
   return html`<host class=${clsx(selected && 'selected')}>
     <div class=${clsx('image-edit', src.length > 0 && 'hidden')}>
       <div class="image-icon">
@@ -118,6 +123,8 @@ export const imageComponent: Component<ImageComponentProps> = ({
       <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
         <input
           ref=${linkInput}
+          draggable="true"
+          ondragstart=${preventDrag}
           disabled=${readonly}
           class="link-input-area"
           value=${currentLink}
@@ -151,6 +158,8 @@ export const imageComponent: Component<ImageComponentProps> = ({
       <div ref=${resizeHandle} class="image-resize-handle"></div>
     </div>
     <input
+      draggable="true"
+      ondragstart=${preventDrag}
       class=${clsx('caption-input', !showCaption && 'hidden')}
       placeholder=${config?.captionPlaceholderText}
       oninput=${onInput}

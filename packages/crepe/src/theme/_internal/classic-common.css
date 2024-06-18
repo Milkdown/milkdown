@@ -73,6 +73,10 @@
       *::selection {
         background: transparent;
       }
+
+      input::selection {
+        background: var(--crepe-color-selected);
+      }
     }
 
     img {

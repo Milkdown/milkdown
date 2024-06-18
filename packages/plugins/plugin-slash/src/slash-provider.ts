@@ -5,7 +5,7 @@ import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
 import type { VirtualElement } from '@floating-ui/dom'
-import { computePosition, flip, platform } from '@floating-ui/dom'
+import { computePosition, flip, offset, platform } from '@floating-ui/dom'
 import { offsetParent } from 'composed-offset-position'
 
 /// Options for slash provider.
@@ -18,6 +18,12 @@ export interface SlashProviderOptions {
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
   /// The key trigger for shouldShow, '/' by default.
   trigger?: string | string[]
+  /// The offset to get the block. Default is 0.
+  offset?: number | {
+    mainAxis?: number
+    crossAxis?: number
+    alignmentAxis?: number | null
+  }
 }
 
 /// A provider for creating slash.
@@ -29,13 +35,20 @@ export class SlashProvider {
   #initialized = false
 
   /// @internal
-  #debounce: number
+  readonly #debounce: number
 
   /// @internal
-  #trigger: string | string[]
+  readonly #trigger: string | string[]
 
   /// @internal
-  #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
+  readonly #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
+
+  /// The offset to get the block. Default is 0.
+  readonly #offset?: number | {
+    mainAxis?: number
+    crossAxis?: number
+    alignmentAxis?: number | null
+  }
 
   /// On show callback.
   onShow = () => {}
@@ -48,6 +61,7 @@ export class SlashProvider {
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#trigger = options.trigger ?? '/'
+    this.#offset = options.offset
   }
 
   /// @internal
@@ -77,7 +91,7 @@ export class SlashProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: 'bottom-start',
-      middleware: [flip()],
+      middleware: [flip(), offset(this.#offset)],
       platform: {
         ...platform,
         getOffsetParent: element =>

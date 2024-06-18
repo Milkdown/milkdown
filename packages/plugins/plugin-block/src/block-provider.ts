@@ -42,10 +42,10 @@ export interface BlockProviderOptions {
 /// A provider for creating block.
 export class BlockProvider {
   /// @internal
-  #element: HTMLElement
+  readonly #element: HTMLElement
 
   /// @internal
-  #ctx: Ctx
+  readonly #ctx: Ctx
 
   /// @internal
   #service?: BlockService

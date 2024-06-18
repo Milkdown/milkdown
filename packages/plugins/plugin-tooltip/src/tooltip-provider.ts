@@ -3,7 +3,7 @@ import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
 import type { VirtualElement } from '@floating-ui/dom'
-import { computePosition, flip, platform } from '@floating-ui/dom'
+import { computePosition, flip, offset, platform } from '@floating-ui/dom'
 import { posToDOMRect } from '@milkdown/prose'
 import { offsetParent } from 'composed-offset-position'
 
@@ -15,18 +15,31 @@ export interface TooltipProviderOptions {
   debounce?: number
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
+  /// The offset to get the block. Default is 0.
+  offset?: number | {
+    mainAxis?: number
+    crossAxis?: number
+    alignmentAxis?: number | null
+  }
 }
 
 /// A provider for creating tooltip.
 export class TooltipProvider {
   /// @internal
-  #debounce: number
+  readonly #debounce: number
 
   /// @internal
-  #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
+  readonly #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   /// @internal
   #initialized = false
+
+  /// @internal
+  readonly #offset?: number | {
+    mainAxis?: number
+    crossAxis?: number
+    alignmentAxis?: number | null
+  }
 
   /// The root element of the tooltip.
   element: HTMLElement
@@ -39,9 +52,9 @@ export class TooltipProvider {
 
   constructor(options: TooltipProviderOptions) {
     this.element = options.content
-    // this.#tippyOptions = options.tippyOptions ?? {}
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
+    this.#offset = options.offset
   }
 
   /// @internal
@@ -129,7 +142,7 @@ export class TooltipProvider {
     if (virtualElement) {
       computePosition(virtualElement, this.element, {
         placement: 'top',
-        middleware: [flip()],
+        middleware: [flip(), offset(this.#offset)],
         platform: {
           ...platform,
           getOffsetParent: element =>
