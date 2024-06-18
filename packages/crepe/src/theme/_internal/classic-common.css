@@ -31,17 +31,14 @@
 
   .ProseMirror {
     padding: 60px 120px;
-    //letter-spacing: 0.5px;
 
     *::selection {
       background: var(--crepe-color-selected);
-      //background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
     }
 
     li.ProseMirror-selectednode {
       background: var(--crepe-color-selected);
       outline: none;
-      //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
       ::selection {
         background: transparent;
       }
@@ -56,9 +53,7 @@
     .ProseMirror-selectednode {
       background: var(--crepe-color-selected);
       outline: none;
-      //outline: 10px solid var(--crepe-color-selected);
-      //background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
-      //outline: 10px solid color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
       ::selection {
         background: transparent;
       }
@@ -97,6 +92,7 @@
     h6 {
       font-family: var(--crepe-font-title);
       font-weight: 400;
+      padding: 2px 0;
     }
 
     h1 {
@@ -147,8 +143,9 @@
       background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
       padding: 0 10px;
       border-radius: 4px;
+      font-size: 14px;
       display: inline-block;
-      line-height: 24px;
+      line-height: 20px;
     }
 
     a {
@@ -172,6 +169,7 @@
       padding-top: 0;
       padding-bottom: 0;
       box-sizing: content-box;
+      margin: 4px 0;
 
       &::before {
         content: "";
@@ -191,14 +189,26 @@
 
     hr {
       border: none;
-      border-bottom: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 20%);
-      height: 16px;
+      background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      background-clip: content-box;
+      padding: 6px 0;
+      height: 13px;
       position: relative;
 
       &.ProseMirror-selectednode {
         outline: none;
-        background: none;
-        border-bottom: 1px solid var(--crepe-color-outline);
+        background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 20%);
+        background-clip: content-box;
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+          pointer-events: none;
+        }
       }
     }
 

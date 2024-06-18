@@ -95,7 +95,9 @@ export const imageComponent: Component<ImageComponentProps> = ({
     setHidePlaceholder(true)
   }
 
-  const onToggleCaption = () => {
+  const onToggleCaption = (e: Event) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (readonly)
       return
     setShowCaption(x => !x)
@@ -113,6 +115,11 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const preventDrag = (e: Event) => {
     e.preventDefault()
     e.stopPropagation()
+  }
+
+  const onClickUploader = (e: PointerEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
   }
 
   return html`<host class=${clsx(selected && 'selected')}>
@@ -135,7 +142,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
         />
         <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
           <input disabled=${readonly} class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
-          <label class="uploader" for=${uuid}>
+          <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
             ${config?.uploadButton()}
           </label>
           <span class="text" onclick=${() => linkInput.current?.focus()}>
@@ -152,7 +159,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
     </div>
     <div class=${clsx('image-wrapper', src.length === 0 && 'hidden')}>
       <div class="operation">
-        <div class="operation-item" onmousedown=${onToggleCaption}>${config?.captionIcon()}</div>
+        <div class="operation-item" onpointerdown=${onToggleCaption}>${config?.captionIcon()}</div>
       </div>
       <img ref=${image} data-type=${IMAGE_DATA_TYPE} src=${src} alt=${caption} ratio=${ratio} />
       <div ref=${resizeHandle} class="image-resize-handle"></div>
