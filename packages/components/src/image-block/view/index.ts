@@ -41,7 +41,7 @@ export const imageBlockView = $view(imageBlockSchema.node, (ctx): NodeViewConstr
         return true
       },
       stopEvent: (e) => {
-        if (dom.selected && e.target instanceof HTMLInputElement)
+        if (e.target instanceof HTMLInputElement)
           return true
 
         return false

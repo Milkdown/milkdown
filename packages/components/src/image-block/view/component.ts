@@ -18,6 +18,8 @@ export type ImageComponentProps = Attrs & {
   setAttr: <T extends keyof Attrs>(attr: T, value: Attrs[T]) => void
 }
 
+let timer: number = 0
+
 export const imageComponent: Component<ImageComponentProps> = ({
   src = '',
   caption = '',
@@ -54,6 +56,22 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const onInput = (e: InputEvent) => {
     const target = e.target as HTMLInputElement
     const value = target.value
+    if (timer)
+      window.clearTimeout(timer)
+
+    timer = window.setTimeout(() => {
+      setAttr?.('caption', value)
+    }, 1000)
+  }
+
+  const onBlurCaption = (e: InputEvent) => {
+    const target = e.target as HTMLInputElement
+    const value = target.value
+    if (timer) {
+      window.clearTimeout(timer)
+      timer = 0
+    }
+
     setAttr?.('caption', value)
   }
 
@@ -136,6 +154,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
       class=${clsx('caption-input', !showCaption && 'hidden')}
       placeholder=${config?.captionPlaceholderText}
       oninput=${onInput}
+      onblur=${onBlurCaption}
       value=${caption}
     />
   </host>`
