@@ -60,7 +60,7 @@
     &.selected {
       background: none;
       outline: 1px solid var(--crepe-color-primary);
-      ::selection {
+      :not(input)::selection {
         background: transparent;
       }
     }
@@ -94,7 +94,7 @@
 
     .empty-image-inline .link-importer .placeholder {
       color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
-      ::selection {
+      :not(input)::selection {
         background: transparent;
       }
     }
@@ -233,7 +233,7 @@
       & > .image-wrapper img {
         outline: 1px solid var(--crepe-color-outline);
       }
-      ::selection {
+      :not(input)::selection {
         background: transparent;
       }
     }
@@ -312,7 +312,7 @@
 
     .image-edit .link-importer .placeholder {
       color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
-      ::selection {
+      :not(input)::selection {
         background: transparent;
       }
     }

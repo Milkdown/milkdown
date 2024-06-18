@@ -58,6 +58,11 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
       onConfirmLinkInput()
   }
 
+  const preventDrag = (e: Event) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
   return html`<host class=${clsx(selected && 'selected', !src && 'empty')}>
     ${!src
       ? html`<div class="empty-image-inline">
@@ -66,7 +71,9 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
         </div>
         <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
           <input
+            draggable="true"
             ref=${linkInput}
+            ondragstart=${preventDrag}
             class="link-input-area"
             value=${currentLink}
             oninput=${onEditLink}
