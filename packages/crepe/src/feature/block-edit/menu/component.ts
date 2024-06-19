@@ -53,13 +53,20 @@ export const menuComponent: Component<MenuProps> = ({
   }, [])
 
   const scrollToIndex = useCallback((index: number) => {
-    host
+    const target = host
       .current
-      .querySelector(`[data-index="${index}"]`)
-      ?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-      })
+      .querySelector<HTMLElement>(`[data-index="${index}"]`)
+    const scrollRoot = host.current.querySelector<HTMLElement>('.menu-groups')
+
+    if (!target || !scrollRoot)
+      return
+
+    scrollRoot.scrollTop = target.offsetTop - scrollRoot.offsetTop
+
+    // target?.scrollIntoView({
+    //   behavior: 'smooth',
+    //   block: 'end',
+    // })
   }, [])
 
   const runByIndex = useCallback((index: number) => {
