@@ -1,7 +1,7 @@
 # Development Workflow
 
-> We use pnpm for development.
-> Please make sure you have node.js, npm and pnpm installed on your machine.
+> We use [corepack with pnpm](https://pnpm.io/installation#using-corepack) for development.
+> Please make sure you have node.js, npm installed and corepack enabled.
 
 After cloning Milkdown, run `pnpm install` to install dependencies.
 
