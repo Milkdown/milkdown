@@ -1,10 +1,9 @@
 import type { EditorView, NodeView } from '@milkdown/prose/view'
-import type { KeyBinding } from '@codemirror/view'
-import { EditorView as CodeMirror, keymap as cmKeymap } from '@codemirror/view'
+import { EditorView as CodeMirror, type KeyBinding, type ViewUpdate, keymap as cmKeymap } from '@codemirror/view'
 import type { Node } from '@milkdown/prose/model'
 import { redo, undo } from '@milkdown/prose/history'
 import { Compartment, EditorState } from '@codemirror/state'
-import type { Line, SelectionRange, Transaction } from '@codemirror/state'
+import type { Line, SelectionRange } from '@codemirror/state'
 import { exitCode } from '@milkdown/prose/commands'
 import { TextSelection } from '@milkdown/prose/state'
 
@@ -31,12 +30,6 @@ export class CodeMirrorBlock implements NodeView {
   ) {
     this.languageConf = new Compartment()
     this.readOnlyConf = new Compartment()
-    const changeFilter = EditorState.changeFilter.of((tr) => {
-      if (!tr.docChanged && !this.updating)
-        this.forwardSelection()
-
-      return true
-    })
 
     this.cm = new CodeMirror({
       doc: this.node.textContent,
@@ -44,16 +37,36 @@ export class CodeMirrorBlock implements NodeView {
       extensions: [
         this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
         cmKeymap.of(this.codeMirrorKeymap()),
-        changeFilter,
         this.languageConf.of([]),
         ...config.extensions,
+        CodeMirror.updateListener.of(this.forwardUpdate),
       ],
-      dispatch: this.valueChanged,
     })
 
     this.dom = this.createDom()
 
     this.updateLanguage()
+  }
+
+  private forwardUpdate = (update: ViewUpdate) => {
+    if (this.updating || !this.cm.hasFocus)
+      return
+    let offset = (this.getPos() ?? 0) + 1
+    const { main } = update.state.selection
+    const selFrom = offset + main.from
+    const selTo = offset + main.to
+    const pmSel = this.view.state.selection
+    if (update.docChanged || pmSel.from !== selFrom || pmSel.to !== selTo) {
+      const tr = this.view.state.tr
+      update.changes.iterChanges((fromA, toA, fromB, toB, text) => {
+        if (text.length)
+          tr.replaceWith(offset + fromA, offset + toA, this.view.state.schema.text(text.toString()))
+        else tr.delete(offset + fromA, offset + toA)
+        offset += (toB - fromB) - (toA - fromA)
+      })
+      tr.setSelection(TextSelection.create(tr.doc, selFrom, selTo))
+      this.view.dispatch(tr)
+    }
   }
 
   private createDom() {
@@ -88,23 +101,6 @@ export class CodeMirrorBlock implements NodeView {
         this.languageName = languageName
       }
     })
-  }
-
-  private asProseMirrorSelection(doc: Node) {
-    const start = (this.getPos() ?? 0) + 1
-    const { anchor, head } = this.cm.state.selection.main
-    return TextSelection.between(doc.resolve(anchor + start), doc.resolve(head + start))
-  }
-
-  private forwardSelection() {
-    if (!this.cm.hasFocus)
-      return
-
-    const state = this.view.state
-    const selection = this.asProseMirrorSelection(state.doc)
-
-    if (!selection.eq(state.selection))
-      this.view.dispatch(state.tr.setSelection(selection))
   }
 
   private codeMirrorKeymap = (): KeyBinding[] => {
@@ -157,25 +153,6 @@ export class CodeMirrorBlock implements NodeView {
     ]
   }
 
-  private valueChanged = (tr: Transaction): void => {
-    this.cm.update([tr])
-
-    if (!tr.docChanged || this.updating)
-      return
-
-    const change = computeChange(this.node.textContent, tr.state.doc.toString())
-
-    if (change) {
-      const start = (this.getPos() ?? 0) + 1
-      const tr = this.view.state.tr.replaceWith(
-        start + change.from,
-        start + change.to,
-        change.text ? this.view.state.schema.text(change.text) : [],
-      )
-      this.view.dispatch(tr)
-    }
-  }
-
   private maybeEscape = (unit: 'line' | 'char', dir: -1 | 1): boolean => {
     const { state } = this.cm
     let main: SelectionRange | Line = state.selection.main
@@ -195,10 +172,9 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   setSelection(anchor: number, head: number) {
-    if (!this.cm.dom.isConnected) {
-      requestAnimationFrame(() => this.setSelection(anchor, head))
+    if (!this.cm.dom.isConnected)
       return
-    }
+
     this.cm.focus()
     this.updating = true
     this.cm.dispatch({ selection: { anchor, head } })
@@ -208,6 +184,9 @@ export class CodeMirrorBlock implements NodeView {
   update(node: Node) {
     if (node.type !== this.node.type)
       return false
+
+    if (this.updating)
+      return true
 
     this.node = node
     this.updateLanguage()
