@@ -6,7 +6,6 @@ import clsx from 'clsx'
 import { offsetParent } from 'composed-offset-position'
 import type { CodeBlockConfig } from '../config'
 import type { LanguageInfo } from './loader'
-import { trapFocus } from './utils'
 
 export interface CodeComponentProps {
   selected: boolean
@@ -30,7 +29,6 @@ export const codeComponent: Component<CodeComponentProps> = ({
   const host = useHost()
   const triggerRef = useRef<HTMLButtonElement>()
   const pickerRef = useRef<HTMLDivElement>()
-  const releaseRef = useRef<() => void>()
   const [filter, setFilter] = useState('')
   const [showPicker, setShowPicker] = useState(false)
 
@@ -120,18 +118,15 @@ export const codeComponent: Component<CodeComponentProps> = ({
     setFilter(target.value)
   }
 
-  const onTogglePicker = () => {
+  const onTogglePicker = (e: Event) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (isEditorReadonly?.())
       return
 
-    const next = !showPicker
-    const languageList = pickerRef.current
-    if (next && languageList)
-      releaseRef.current = trapFocus(languageList, root)
-    else
-      releaseRef.current?.()
-
-    setShowPicker(next)
+    setShowPicker((show) => {
+      return !show
+    })
   }
 
   const onClear = (e: MouseEvent) => {
@@ -157,10 +152,10 @@ export const codeComponent: Component<CodeComponentProps> = ({
       <button
         ref=${triggerRef}
         class="language-button"
-        onclick=${onTogglePicker}
+        onpointerdown=${onTogglePicker}
         data-expanded=${showPicker}
       >
-        ${language}
+        ${language || 'text'}
         <div class="expand-icon">
           ${config?.expandIcon?.()}
         </div>

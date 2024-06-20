@@ -2,12 +2,12 @@
   milkdown-code-block {
     display: block;
     position: relative;
-    padding: 24px 40px !important;
+    padding: 8px 20px 20px;
     background: var(--crepe-color-surface);
-    margin: 20px 0;
+    margin: 4px 0;
 
     .language-picker {
-      padding-top: 16px;
+      padding-top: 10px;
       width: max-content;
       position: absolute;
       z-index: 1;
@@ -41,14 +41,14 @@
       align-items: center;
       font-family: var(--crepe-font-default);
       gap: 6px;
-      padding: 6px 8px 6px 18px;
+      padding: 2px 4px 2px 8px;
       background: var(--crepe-color-surface-low);
       color: var(--crepe-color-on-surface-variant);
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 4px;
+      font-size: 12px;
       font-weight: 600;
-      line-height: 20px;
-      margin-bottom: 24px;
+      line-height: 16px;
+      margin-bottom: 8px;
       opacity: 0;
       cursor: pointer;
       transition: opacity 0.2s ease-in-out;
@@ -89,13 +89,14 @@
       background: var(--crepe-color-surface-low);
       border-radius: 12px;
       box-shadow: var(--crepe-shadow-1);
-      width: 244px;
-      padding-top: 20px;
+      width: 240px;
+      padding-top: 12px;
     }
 
     .language-list {
       height: 410px;
       overflow-y: auto;
+      overscroll-behavior: contain;
       margin: 0;
       padding: 0;
     }
@@ -106,7 +107,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 20px 12px 10px;
+      padding: 4px 22px;
       font-size: 14px;
       font-weight: 600;
       line-height: 20px;
@@ -130,12 +131,12 @@
     .search-box {
       display: flex;
       align-items: center;
-      margin: 0 16px 12px;
+      margin: 0 12px 8px;
       background: transparent;
       border-radius: 4px;
       outline: 1px solid var(--crepe-color-primary);
       gap: 8px;
-      padding: 12px 20px 12px 10px;
+      padding: 6px 10px;
 
       .search-input {
         width: 100%;
@@ -148,11 +149,11 @@
 
       .clear-icon {
         cursor: pointer;
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         svg {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
           color: var(--crepe-color-primary);
         }
         &:hover {
@@ -162,8 +163,8 @@
 
       input {
         font-family: var(--crepe-font-default);
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 14px;
+        line-height: 20px;
         background: transparent;
       }
 

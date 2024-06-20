@@ -3,15 +3,9 @@ import type { LanguageDescription } from '@codemirror/language'
 import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
-import { defaultKeymap } from '@codemirror/commands'
+import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { html } from 'atomico'
 import type { DefineFeature } from '../shared'
-
-const check = html`
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M5.99986 10.7799L3.21986 7.9999L2.27319 8.9399L5.99986 12.6666L13.9999 4.66656L13.0599 3.72656L5.99986 10.7799Z" fill="#49454F"/>
-  </svg>
-`
 
 const clearIcon = html`
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -51,10 +45,7 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
         ...defaultConfig,
         languages,
         clearSearchIcon: () => clearIcon,
-        extensions: [basicSetup, keymap.of(defaultKeymap), theme],
-        renderLanguage: (language, selected) => {
-          return html`<span class="leading">${selected ? check : null}</span>${language}`
-        },
+        extensions: [basicSetup, keymap.of(defaultKeymap.concat(indentWithTab)), theme],
       }))
     })
     .use(codeBlockComponent)

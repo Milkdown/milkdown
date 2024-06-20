@@ -23,7 +23,8 @@
         justify-content: center;
         align-items: center;
         .label {
-          height: 24px;
+          height: 32px;
+          padding: 4px 0;
           width: 24px;
           text-align: right;
         }
