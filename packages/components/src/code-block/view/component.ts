@@ -155,7 +155,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
         onpointerdown=${onTogglePicker}
         data-expanded=${showPicker}
       >
-        ${language || 'text'}
+        ${language || 'Text'}
         <div class="expand-icon">
           ${config?.expandIcon?.()}
         </div>
