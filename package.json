@@ -64,7 +64,7 @@
     "autoprefixer": "^10.2.5",
     "concurrently": "^8.0.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.21.0",
+    "esbuild": "^0.22.0",
     "eslint": "^9.0.0",
     "eslint-plugin-tailwindcss": "^3.15.1",
     "git-cz": "^4.7.6",
