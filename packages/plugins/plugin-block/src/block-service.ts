@@ -160,7 +160,6 @@ export class BlockService {
         slice,
         move: true,
       }
-      this.#hide()
     }
   }
 
