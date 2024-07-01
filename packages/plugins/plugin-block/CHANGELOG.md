@@ -1,5 +1,11 @@
 # @milkdown/plugin-block
 
+## 7.4.1
+
+### Patch Changes
+
+- 9444253: Fatal error, hide when drag will prevent the drag behavior.
+
 ## 7.4.0
 
 ### Minor Changes
