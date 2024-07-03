@@ -143,7 +143,7 @@ export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
       tag: `div[data-type="${mathBlockId}"]`,
       preserveWhitespace: 'full',
       getAttrs: (dom) => {
-        return { value: (dom as HTMLElement).dataset.value ?? '' }
+        return { value: dom.dataset.value ?? '' }
       },
     },
   ],

@@ -32,7 +32,7 @@ export const htmlSchema = $nodeSchema('html', (ctx) => {
       tag: 'span[data-type="html"]',
       getAttrs: (dom) => {
         return {
-          value: (dom as HTMLElement).dataset.value ?? '',
+          value: dom.dataset.value ?? '',
         }
       },
     }],

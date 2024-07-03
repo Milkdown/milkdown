@@ -8,6 +8,8 @@ import { withMeta } from '../__internal__'
 
 /// This plugin is used to fix the bug of IME composing in table in Safari browser.
 /// original discussion in https://discuss.prosemirror.net/t/ime-composing-problems-on-td-or-th-element-in-safari-browser/4501
+///
+/// @deprecated: Use `autoInsertSpanPlugin` instead
 export const autoInsertZeroSpaceInTablePlugin = $prose((ctx) => {
   const pluginKey = new PluginKey('MILKDOWN_AUTO_INSERT_ZERO_SPACE')
 
