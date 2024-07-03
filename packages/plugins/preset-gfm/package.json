@@ -51,6 +51,7 @@
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
+    "prosemirror-safari-ime-span": "^1.0.1",
     "remark-gfm": "^4.0.0",
     "tslib": "^2.5.0"
   },

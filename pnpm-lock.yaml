@@ -633,7 +633,7 @@ importers:
         version: link:../../prose
       y-prosemirror:
         specifier: ^1.2.1
-        version: 1.2.2(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10)
+        version: 1.2.2(prosemirror-model@1.21.3)(prosemirror-state@1.4.3)(prosemirror-view@1.33.8)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10)
       y-protocols:
         specifier: ^1.0.5
         version: 1.0.6(yjs@13.6.10)
@@ -1010,6 +1010,9 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
+      prosemirror-safari-ime-span:
+        specifier: ^1.0.1
+        version: 1.0.1
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.0
@@ -8725,6 +8728,12 @@ packages:
   prosemirror-model@1.19.4:
     resolution: {integrity: sha512-RPmVXxUfOhyFdayHawjuZCxiROsm9L4FCUA6pWI+l7n2yCBsWy9VpdE1hpDHUS8Vad661YLY9AzqfjLhAKQ4iQ==}
 
+  prosemirror-model@1.21.3:
+    resolution: {integrity: sha512-nt2Xs/RNGepD9hrrkzXvtCm1mpGJoQfFSPktGa0BF/aav6XsnmVGZ9sTXNWRLupAz5SCLa3EyKlFeK7zJWROKg==}
+
+  prosemirror-safari-ime-span@1.0.1:
+    resolution: {integrity: sha512-4WjIR6d5HfKJ5JP4UK7SOzV7aOMqy8Q3b09IzGoFDPWA2GdeNWls6zxO37g4Ny3DRhoYg0hFaXu7JGpzzUlprw==}
+
   prosemirror-schema-list@1.3.0:
     resolution: {integrity: sha512-Hz/7gM4skaaYfRPNgr421CU4GSwotmEwBVvJh5ltGiffUJwm7C8GfN/Bc6DR1EKEp5pDKhODmdXXyi9uIsZl5A==}
 
@@ -8739,6 +8748,9 @@ packages:
 
   prosemirror-view@1.32.7:
     resolution: {integrity: sha512-pvxiOoD4shW41X5bYDjRQk3DSG4fMqxh36yPMt7VYgU3dWRmqFzWJM/R6zeo1KtC8nyk717ZbQND3CC9VNeptw==}
+
+  prosemirror-view@1.33.8:
+    resolution: {integrity: sha512-4PhMr/ufz2cdvFgpUAnZfs+0xij3RsFysreeG9V/utpwX7AJtYCDVyuRxzWoMJIEf4C7wVihuBNMPpFLPCiLQw==}
 
   proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
@@ -20217,6 +20229,15 @@ snapshots:
     dependencies:
       orderedmap: 2.1.1
 
+  prosemirror-model@1.21.3:
+    dependencies:
+      orderedmap: 2.1.1
+
+  prosemirror-safari-ime-span@1.0.1:
+    dependencies:
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.33.8
+
   prosemirror-schema-list@1.3.0:
     dependencies:
       prosemirror-model: 1.19.4
@@ -20244,6 +20265,12 @@ snapshots:
   prosemirror-view@1.32.7:
     dependencies:
       prosemirror-model: 1.19.4
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.8.0
+
+  prosemirror-view@1.33.8:
+    dependencies:
+      prosemirror-model: 1.21.3
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.8.0
 
@@ -21818,12 +21845,12 @@ snapshots:
 
   xtend@4.0.2: {}
 
-  y-prosemirror@1.2.2(prosemirror-model@1.19.4)(prosemirror-state@1.4.3)(prosemirror-view@1.32.7)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10):
+  y-prosemirror@1.2.2(prosemirror-model@1.21.3)(prosemirror-state@1.4.3)(prosemirror-view@1.33.8)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10):
     dependencies:
       lib0: 0.2.88
-      prosemirror-model: 1.19.4
+      prosemirror-model: 1.21.3
       prosemirror-state: 1.4.3
-      prosemirror-view: 1.32.7
+      prosemirror-view: 1.33.8
       y-protocols: 1.0.6(yjs@13.6.10)
       yjs: 13.6.10
 
