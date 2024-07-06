@@ -1,3 +1,3 @@
-import type { Node as ProseNode } from '../../model'
+import type { Node } from '../../model'
 
-export type Predicate = (node: ProseNode) => boolean
+export type Predicate = (node: Node) => boolean

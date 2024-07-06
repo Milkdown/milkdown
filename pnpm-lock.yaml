@@ -240,6 +240,9 @@ importers:
       '@milkdown/plugin-clipboard':
         specifier: workspace:*
         version: link:../packages/plugins/plugin-clipboard
+      '@milkdown/plugin-cursor':
+        specifier: workspace:*
+        version: link:../packages/plugins/plugin-cursor
       '@milkdown/plugin-emoji':
         specifier: workspace:*
         version: link:../packages/plugins/plugin-emoji
@@ -1094,8 +1097,8 @@ importers:
         specifier: ^1.4.3
         version: 1.4.3
       prosemirror-tables:
-        specifier: ^1.3.4
-        version: 1.3.5
+        specifier: ^1.3.7
+        version: 1.3.7
       prosemirror-transform:
         specifier: ^1.7.5
         version: 1.8.0
@@ -8677,8 +8680,8 @@ packages:
   prosemirror-state@1.4.3:
     resolution: {integrity: sha512-goFKORVbvPuAQaXhpbemJFRKJ2aixr+AZMGiquiqKxaucC6hlpHNZHWgz5R7dS4roHiwq9vDctE//CZ++o0W1Q==}
 
-  prosemirror-tables@1.3.5:
-    resolution: {integrity: sha512-JSZ2cCNlApu/ObAhdPyotrjBe2cimniniTpz60YXzbL0kZ+47nEYk2LWbfKU2lKpBkUNquta2PjteoNi4YCluQ==}
+  prosemirror-tables@1.3.7:
+    resolution: {integrity: sha512-oEwX1wrziuxMtwFvdDWSFHVUWrFJWt929kVVfHvtTi8yvw+5ppxjXZkMG/fuTdFo+3DXyIPSKfid+Be1npKXDA==}
 
   prosemirror-transform@1.8.0:
     resolution: {integrity: sha512-BaSBsIMv52F1BVVMvOmp1yzD3u65uC3HTzCBQV1WDPqJRQ2LuHKcyfn0jwqodo8sR9vVzMzZyI+Dal5W9E6a9A==}
@@ -20048,7 +20051,7 @@ snapshots:
       prosemirror-transform: 1.8.0
       prosemirror-view: 1.33.8
 
-  prosemirror-tables@1.3.5:
+  prosemirror-tables@1.3.7:
     dependencies:
       prosemirror-keymap: 1.2.2
       prosemirror-model: 1.21.3

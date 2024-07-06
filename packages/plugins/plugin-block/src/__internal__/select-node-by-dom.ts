@@ -19,18 +19,25 @@ export function selectRootNodeByDom(view: EditorView, coords: { x: number, y: nu
   let node = view.state.doc.nodeAt(pos)
   let element = view.nodeDOM(pos) as HTMLElement | null
 
-  const filter = () => {
-    if ($pos.depth >= 1 && $pos.index($pos.depth) === 0) {
-      const ancestorPos = $pos.before($pos.depth)
-      node = view.state.doc.nodeAt(ancestorPos)
-      element = view.nodeDOM(ancestorPos) as HTMLElement | null
-      $pos = view.state.doc.resolve(ancestorPos)
-      if (!filterNodes($pos, node!))
-        filter()
-    }
+  const filter = (needLookup: boolean) => {
+    const checkDepth = $pos.depth >= 1 && $pos.index($pos.depth) === 0
+    const shouldLookUp = needLookup || checkDepth
+
+    if (!shouldLookUp)
+      return
+
+    const ancestorPos = $pos.before($pos.depth)
+    node = view.state.doc.nodeAt(ancestorPos)
+    element = view.nodeDOM(ancestorPos) as HTMLElement | null
+    $pos = view.state.doc.resolve(ancestorPos)
+
+    if (!filterNodes($pos, node!))
+      filter(true)
   }
 
-  filter()
+  // If filterNodes returns false, we should look up the parent node.
+  const filterResult = filterNodes($pos, node!)
+  filter(!filterResult)
 
   if (!element || !node)
     return null

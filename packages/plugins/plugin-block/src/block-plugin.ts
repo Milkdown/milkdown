@@ -33,8 +33,8 @@ export const blockPlugin = $prose((ctx) => {
     props: {
       ...spec.props,
       handleDOMEvents: {
-        drop: (view, event) => {
-          return service.dropCallback(view, event)
+        drop: (view) => {
+          return service.dropCallback(view)
         },
         pointermove: (view, event) => {
           return service.mousemoveCallback(view, event)
