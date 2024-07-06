@@ -35,11 +35,11 @@
 }
 
 .milkdown-theme-nord.prose .tableWrapper {
-  @apply mb-2 overflow-x-auto relative;
+  @apply overflow-x-auto relative;
 }
 
 .milkdown-theme-nord.prose table {
-  @apply text-sm shadow-md sm:rounded-lg !overflow-visible !m-4;
+  @apply text-sm border shadow-md sm:rounded-lg;
 }
 
 .milkdown-theme-nord.prose td,

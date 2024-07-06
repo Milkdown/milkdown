@@ -1,15 +1,16 @@
 import type { Node, ResolvedPos } from '@milkdown/prose/model'
 import { $ctx } from '@milkdown/utils'
 
+import { findParent } from '@milkdown/prose'
 import { withMeta } from './__internal__/with-meta'
 
 /// @internal
 export type FilterNodes = (pos: ResolvedPos, node: Node) => boolean
 
 /// @internal
-export const defaultNodeFilter: FilterNodes = (_pos, node) => {
-  const { name } = node.type
-  if (name.startsWith('table') && name !== 'table')
+export const defaultNodeFilter: FilterNodes = (pos) => {
+  const table = findParent(node => node.type.name === 'table')(pos)
+  if (table)
     return false
 
   return true

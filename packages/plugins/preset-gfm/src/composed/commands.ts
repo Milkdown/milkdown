@@ -1,11 +1,11 @@
 import { toggleStrikethroughCommand } from '../mark'
-import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, breakTableCommand, deleteSelectedCellsCommand, goToNextTableCellCommand, goToPrevTableCellCommand, insertTableCommand, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '../node'
+import { addColAfterCommand, addColBeforeCommand, addRowAfterCommand, addRowBeforeCommand, deleteSelectedCellsCommand, exitTable, goToNextTableCellCommand, goToPrevTableCellCommand, insertTableCommand, moveColCommand, moveRowCommand, selectColCommand, selectRowCommand, selectTableCommand, setAlignCommand } from '../node'
 
 /// @internal
 export const commands = [
   goToNextTableCellCommand,
   goToPrevTableCellCommand,
-  breakTableCommand,
+  exitTable,
   insertTableCommand,
   moveRowCommand,
   moveColCommand,

@@ -8,7 +8,6 @@ import throttle from 'lodash.throttle'
 
 import type { FilterNodes } from './block-config'
 import { blockConfig } from './block-config'
-import { removePossibleTable } from './__internal__/remove-possible-table'
 import { selectRootNodeByDom } from './__internal__/select-node-by-dom'
 import { serializeForClipboard } from './__internal__/serialize-for-clipboard'
 import type { ActiveNode } from './types'
@@ -254,18 +253,8 @@ export class BlockService {
   }
 
   /// @internal
-  dropCallback = (view: EditorView, event: DragEvent) => {
-    const tr = removePossibleTable(view, event)
-
+  dropCallback = (view: EditorView) => {
     this.#dragEnd(view)
-
-    if (tr) {
-      view.dispatch(tr)
-
-      event.preventDefault()
-
-      return true
-    }
 
     return false
   }

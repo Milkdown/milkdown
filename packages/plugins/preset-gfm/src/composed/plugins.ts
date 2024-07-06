@@ -1,15 +1,15 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import {
   autoInsertSpanPlugin,
-  columnResizingPlugin,
+  keepTableAlignPlugin,
   remarkGFMPlugin,
   tableEditingPlugin,
 } from '../plugin'
 
 /// @internal
 export const plugins: MilkdownPlugin[] = [
+  keepTableAlignPlugin,
   autoInsertSpanPlugin,
   remarkGFMPlugin,
-  columnResizingPlugin,
   tableEditingPlugin,
 ].flat()
