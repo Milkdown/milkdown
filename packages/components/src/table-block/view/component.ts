@@ -122,7 +122,9 @@ export const tableComponent: Component<TableComponentProps> = ({
         headerCol: col,
       } = dom
       colHandle.dataset.show = 'true'
+
       colHandle.querySelector('.button-group')?.setAttribute('data-show', 'true')
+
       computePosition(col, colHandle, { placement: 'top' }).then(({ x, y }) => {
         Object.assign(colHandle.style, {
           left: `${x}px`,
@@ -149,7 +151,10 @@ export const tableComponent: Component<TableComponentProps> = ({
         row,
       } = dom
       rowHandle.dataset.show = 'true'
-      rowHandle.querySelector('.button-group')?.setAttribute('data-show', 'true')
+
+      if (rowIndex > 0)
+        rowHandle.querySelector('.button-group')?.setAttribute('data-show', 'true')
+
       computePosition(row, rowHandle, { placement: 'left' }).then(({ x, y }) => {
         Object.assign(rowHandle.style, {
           left: `${x}px`,
@@ -205,6 +210,8 @@ export const tableComponent: Component<TableComponentProps> = ({
       const contentBoundary = content.getBoundingClientRect()
       rowHandle.dataset.show = 'false'
       colHandle.dataset.show = 'false'
+      xHandle.dataset.displayType = 'tool'
+      yHandle.dataset.displayType = 'tool'
 
       const yHandleWidth = yHandle.getBoundingClientRect().width
       const xHandleHeight = xHandle.getBoundingClientRect().height
@@ -299,6 +306,8 @@ export const tableComponent: Component<TableComponentProps> = ({
   }, [])
 
   const dragRow = useCallback((event: DragEvent) => {
+    if (event.dataTransfer)
+      event.dataTransfer.effectAllowed = 'move'
     const preview = dragPreviewRef.current
     if (!preview)
       return
@@ -311,6 +320,15 @@ export const tableComponent: Component<TableComponentProps> = ({
     const previewRoot = preview.querySelector('tbody')
     if (!previewRoot)
       return
+    const yHandle = yLineHandleRef.current
+    if (!yHandle)
+      return
+    const xHandle = xLineHandleRef.current
+    if (!xHandle)
+      return
+
+    xHandle.dataset.displayType = 'indicator'
+    yHandle.dataset.displayType = 'indicator'
 
     const [rowIndex] = hoverIndex.current!
 
@@ -343,6 +361,8 @@ export const tableComponent: Component<TableComponentProps> = ({
   }, [])
 
   const dragCol = useCallback((event: DragEvent) => {
+    if (event.dataTransfer)
+      event.dataTransfer.effectAllowed = 'move'
     const preview = dragPreviewRef.current
     if (!preview)
       return
@@ -357,6 +377,15 @@ export const tableComponent: Component<TableComponentProps> = ({
       return
     if (!ctx)
       return
+    const yHandle = yLineHandleRef.current
+    if (!yHandle)
+      return
+    const xHandle = xLineHandleRef.current
+    if (!xHandle)
+      return
+
+    xHandle.dataset.displayType = 'indicator'
+    yHandle.dataset.displayType = 'indicator'
 
     const [_, colIndex] = hoverIndex.current!
 

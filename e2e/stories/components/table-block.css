@@ -21,6 +21,7 @@ milkdown-table-block table {
 milkdown-table-block .handle {
   position: absolute;
   z-index: 50;
+  cursor: grab;
 }
 milkdown-table-block .cell-handle[data-show="false"] {
   opacity: 0;
@@ -90,6 +91,10 @@ milkdown-table-block .line-handle[data-role="y-line-drag-handle"] .add-button  {
   width: 24px;
   color: red;
   border: 1px solid red;
+}
+
+milkdown-table-block .line-handle[data-display-type="indicator"] .add-button  {
+  display: none;
 }
 
 milkdown-table-block .drag-preview {
