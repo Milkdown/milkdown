@@ -1,28 +1,41 @@
 import type { Component } from 'atomico'
-import { c, html, useCallback, useEffect, useHost, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
+import { c, html, useCallback, useEffect, useHost, useLayoutEffect, useMemo, useRef } from 'atomico'
 import { computePosition, offset } from '@floating-ui/dom'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 import { findParent } from '@milkdown/prose'
 import throttle from 'lodash.throttle'
 import type { Ctx } from '@milkdown/ctx'
-import { commandsCtx } from '@milkdown/core'
-import { moveColCommand, moveRowCommand } from '@milkdown/preset-gfm'
+import { commandsCtx, editorViewCtx } from '@milkdown/core'
+import {
+  addColAfterCommand,
+  addColBeforeCommand,
+  addRowAfterCommand,
+  addRowBeforeCommand,
+  deleteSelectedCellsCommand,
+  findTable,
+  moveColCommand,
+  moveRowCommand,
+  selectColCommand,
+  selectRowCommand,
+  setAlignCommand,
+} from '@milkdown/preset-gfm'
+import { CellSelection } from '@milkdown/prose/tables'
 
 export interface TableComponentProps {
-  onMount: () => void
   view: EditorView
   ctx: Ctx
   getPos: () => number | undefined
+  node: Node
 }
 
 type CellIndex = [row: number, col: number]
 
 export const tableComponent: Component<TableComponentProps> = ({
-  onMount,
   view,
   ctx,
   getPos,
+  node,
 }) => {
   const host = useHost()
   const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
@@ -33,7 +46,8 @@ export const tableComponent: Component<TableComponentProps> = ({
   const yLineHandleRef = useRef<HTMLDivElement>()
   const tableWrapperRef = useRef<HTMLDivElement>()
   const dragPreviewRef = useRef<HTMLDivElement>()
-  const [hoverIndex, setHoverIndex] = useState<CellIndex>([0, 0])
+  const hoverIndex = useRef<CellIndex>([0, 0])
+  const lineHoverIndex = useRef<CellIndex>([-1, -1])
   const dragInfo = useRef<{
     startCoords: [x: number, y: number]
     startIndex: number
@@ -76,9 +90,72 @@ export const tableComponent: Component<TableComponentProps> = ({
 
     const contentDOM = host.current.querySelector('[data-content-dom]')
 
-    if (contentDOM) {
+    if (contentDOM)
       current.appendChild(contentDOM)
-      onMount?.()
+
+    if (!ctx)
+      return
+    if (!node)
+      return
+
+    const { selection } = ctx.get(editorViewCtx).state
+    if (!(selection instanceof CellSelection))
+      return
+
+    const { $from } = selection
+    const table = findTable($from)
+    if (!table || table.node !== node)
+      return
+
+    if (selection.isColSelection()) {
+      const { $head } = selection
+      const colIndex = $head.index($head.depth - 1)
+      const index: CellIndex = [0, colIndex]
+      hoverIndex.current = index
+      const colHandle = colHandleRef.current
+      if (!colHandle)
+        return
+      const dom = getRelatedDOM(index)
+      if (!dom)
+        return
+      const {
+        headerCol: col,
+      } = dom
+      colHandle.dataset.show = 'true'
+      colHandle.querySelector('.button-group')?.setAttribute('data-show', 'true')
+      computePosition(col, colHandle, { placement: 'top' }).then(({ x, y }) => {
+        Object.assign(colHandle.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+      })
+      return
+    }
+    if (selection.isRowSelection()) {
+      const { $head } = selection
+      const rowNode = findParent(node => node.type.name === 'table_row' || node.type.name === 'table_header_row')($head)
+      if (!rowNode)
+        return
+      const rowIndex = findIndex(table.node, rowNode.node)
+      const index: CellIndex = [rowIndex, 0]
+      hoverIndex.current = index
+      const rowHandle = rowHandleRef.current
+      if (!rowHandle)
+        return
+      const dom = getRelatedDOM(index)
+      if (!dom)
+        return
+      const {
+        row,
+      } = dom
+      rowHandle.dataset.show = 'true'
+      rowHandle.querySelector('.button-group')?.setAttribute('data-show', 'true')
+      computePosition(row, rowHandle, { placement: 'left' }).then(({ x, y }) => {
+        Object.assign(rowHandle.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+      })
     }
   }, [])
 
@@ -108,6 +185,7 @@ export const tableComponent: Component<TableComponentProps> = ({
     if (!colHandle)
       return
 
+    const [rowIndex, colIndex] = index
     const boundary = dom.col.getBoundingClientRect()
     const closeToBoundaryLeft = Math.abs(e.clientX - boundary.left) < 8
     const closeToBoundaryRight = Math.abs(boundary.right - e.clientX) < 8
@@ -115,6 +193,13 @@ export const tableComponent: Component<TableComponentProps> = ({
     const closeToBoundaryBottom = Math.abs(boundary.bottom - e.clientY) < 8
 
     const closeToBoundary = closeToBoundaryLeft || closeToBoundaryRight || closeToBoundaryTop || closeToBoundaryBottom
+
+    const rowButtonGroup = rowHandle.querySelector<HTMLElement>('.button-group')
+    const colButtonGroup = colHandle.querySelector<HTMLElement>('.button-group')
+    if (rowButtonGroup)
+      rowButtonGroup.dataset.show = 'false'
+    if (colButtonGroup)
+      colButtonGroup.dataset.show = 'false'
 
     if (closeToBoundary) {
       const contentBoundary = content.getBoundingClientRect()
@@ -125,6 +210,7 @@ export const tableComponent: Component<TableComponentProps> = ({
       const xHandleHeight = xHandle.getBoundingClientRect().height
 
       if (closeToBoundaryLeft || closeToBoundaryRight) {
+        lineHoverIndex.current![1] = closeToBoundaryLeft ? colIndex : colIndex + 1
         computePosition(dom.col, yHandle, {
           placement: closeToBoundaryLeft ? 'left' : 'right',
           middleware: [offset(closeToBoundaryLeft ? -1 * yHandleWidth : 0)],
@@ -142,6 +228,7 @@ export const tableComponent: Component<TableComponentProps> = ({
       }
 
       if (index[0] !== 0 && (closeToBoundaryTop || closeToBoundaryBottom)) {
+        lineHoverIndex.current![0] = closeToBoundaryTop ? rowIndex : rowIndex + 1
         computePosition(dom.row, xHandle, {
           placement: closeToBoundaryTop ? 'top' : 'bottom',
           middleware: [offset(closeToBoundaryTop ? -1 * xHandleHeight : 0)],
@@ -161,17 +248,32 @@ export const tableComponent: Component<TableComponentProps> = ({
       return
     }
 
+    lineHoverIndex.current = [-1, -1]
+
     yHandle.dataset.show = 'false'
     xHandle.dataset.show = 'false'
     rowHandle.dataset.show = 'true'
     colHandle.dataset.show = 'true'
 
-    setHoverIndex((prev) => {
-      if (equalCellIndex(prev, index))
-        return prev
-
-      return index
+    const {
+      row,
+      headerCol: col,
+    } = dom
+    computePosition(row, rowHandle, { placement: 'left' }).then(({ x, y }) => {
+      rowHandle.dataset.show = 'true'
+      Object.assign(rowHandle.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      })
     })
+    computePosition(col, colHandle, { placement: 'top' }).then(({ x, y }) => {
+      colHandle.dataset.show = 'true'
+      Object.assign(colHandle.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      })
+    })
+    hoverIndex.current = index
   }, 200), [])
 
   const pointerLeave = useCallback(() => {
@@ -196,52 +298,6 @@ export const tableComponent: Component<TableComponentProps> = ({
     }, 200)
   }, [])
 
-  useEffect(() => {
-    const rowHandle = rowHandleRef.current
-    if (!rowHandle)
-      return
-    const colHandle = colHandleRef.current
-    if (!colHandle)
-      return
-    const yHandle = yLineHandleRef.current
-    if (!yHandle)
-      return
-    const xHandle = xLineHandleRef.current
-    if (!xHandle)
-      return
-
-    if (!hoverIndex) {
-      rowHandle.dataset.show = 'false'
-      colHandle.dataset.show = 'false'
-      yHandle.dataset.show = 'false'
-      xHandle.dataset.show = 'false'
-      return
-    }
-    const dom = getRelatedDOM(hoverIndex)
-    if (!dom)
-      return
-
-    const {
-      row,
-      headerCol: col,
-    } = dom
-
-    computePosition(row, rowHandle, { placement: 'left' }).then(({ x, y }) => {
-      rowHandle.dataset.show = 'true'
-      Object.assign(rowHandle.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      })
-    })
-    computePosition(col, colHandle, { placement: 'top' }).then(({ x, y }) => {
-      colHandle.dataset.show = 'true'
-      Object.assign(colHandle.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      })
-    })
-  }, [hoverIndex])
-
   const dragRow = useCallback((event: DragEvent) => {
     const preview = dragPreviewRef.current
     if (!preview)
@@ -256,7 +312,7 @@ export const tableComponent: Component<TableComponentProps> = ({
     if (!previewRoot)
       return
 
-    const [rowIndex] = hoverIndex
+    const [rowIndex] = hoverIndex.current!
 
     dragInfo.current = {
       startCoords: [event.clientX, event.clientY],
@@ -284,7 +340,7 @@ export const tableComponent: Component<TableComponentProps> = ({
     })
 
     preview.dataset.show = 'true'
-  }, [hoverIndex])
+  }, [])
 
   const dragCol = useCallback((event: DragEvent) => {
     const preview = dragPreviewRef.current
@@ -302,7 +358,7 @@ export const tableComponent: Component<TableComponentProps> = ({
     if (!ctx)
       return
 
-    const [_, colIndex] = hoverIndex
+    const [_, colIndex] = hoverIndex.current!
 
     dragInfo.current = {
       startCoords: [event.clientX, event.clientY],
@@ -339,7 +395,7 @@ export const tableComponent: Component<TableComponentProps> = ({
     })
 
     preview.dataset.show = 'true'
-  }, [hoverIndex])
+  }, [])
 
   useEffect(() => {
     const onDragEnd = () => {
@@ -416,7 +472,7 @@ export const tableComponent: Component<TableComponentProps> = ({
       const wrapperRoot = content.querySelector('tbody')
       if (!wrapperRoot)
         return
-      const dom = getRelatedDOM(hoverIndex)
+      const dom = getRelatedDOM(hoverIndex.current!)
       if (!dom)
         return
       const firstRow = wrapperRoot.querySelector('tr')
@@ -546,6 +602,103 @@ export const tableComponent: Component<TableComponentProps> = ({
     }
   }, [])
 
+  const onAddRow = useCallback(() => {
+    if (!ctx)
+      return
+    const xHandle = xLineHandleRef.current
+    if (!xHandle)
+      return
+
+    const [rowIndex] = lineHoverIndex.current!
+    if (rowIndex < 0)
+      return
+
+    const rows = Array.from(contentWrapperRef.current?.querySelectorAll('tr') ?? [])
+    const commands = ctx.get(commandsCtx)
+    const pos = (getPos?.() ?? 0) + 1
+    if (rows.length === rowIndex) {
+      commands.call(selectRowCommand.key, { pos, index: rowIndex - 1 })
+      commands.call(addRowAfterCommand.key)
+    }
+    else {
+      commands.call(selectRowCommand.key, { pos, index: rowIndex })
+      commands.call(addRowBeforeCommand.key)
+    }
+
+    commands.call(selectRowCommand.key, { pos, index: rowIndex })
+    xHandle.dataset.show = 'false'
+  }, [])
+
+  const onAddCol = useCallback(() => {
+    if (!ctx)
+      return
+    const xHandle = xLineHandleRef.current
+    if (!xHandle)
+      return
+
+    const [_, colIndex] = lineHoverIndex.current!
+    if (colIndex < 0)
+      return
+
+    const cols = Array.from(contentWrapperRef.current?.querySelector('tr')?.children ?? [])
+    const commands = ctx.get(commandsCtx)
+
+    const pos = (getPos?.() ?? 0) + 1
+    if (cols.length === colIndex) {
+      commands.call(selectColCommand.key, { pos, index: colIndex - 1 })
+      commands.call(addColAfterCommand.key)
+    }
+    else {
+      commands.call(selectColCommand.key, { pos, index: colIndex })
+      commands.call(addColBeforeCommand.key)
+    }
+
+    commands.call(selectColCommand.key, { pos, index: colIndex })
+  }, [])
+
+  const selectCol = useCallback(() => {
+    if (!ctx)
+      return
+    const [_, colIndex] = hoverIndex.current!
+    const commands = ctx.get(commandsCtx)
+    const pos = (getPos?.() ?? 0) + 1
+    commands.call(selectColCommand.key, { pos, index: colIndex })
+    const buttonGroup = colHandleRef.current?.querySelector<HTMLElement>('.button-group')
+    if (buttonGroup)
+      buttonGroup.dataset.show = buttonGroup.dataset.show === 'true' ? 'false' : 'true'
+  }, [])
+
+  const selectRow = useCallback(() => {
+    if (!ctx)
+      return
+    const [rowIndex, _] = hoverIndex.current!
+    const commands = ctx.get(commandsCtx)
+    const pos = (getPos?.() ?? 0) + 1
+    commands.call(selectRowCommand.key, { pos, index: rowIndex })
+    const buttonGroup = rowHandleRef.current?.querySelector<HTMLElement>('.button-group')
+    if (buttonGroup && rowIndex > 0)
+      buttonGroup.dataset.show = buttonGroup.dataset.show === 'true' ? 'false' : 'true'
+  }, [])
+
+  const deleteSelected = useCallback((e: PointerEvent) => {
+    if (!ctx)
+      return
+    e.preventDefault()
+    e.stopPropagation()
+    const commands = ctx.get(commandsCtx)
+    commands.call(deleteSelectedCellsCommand.key)
+  }, [])
+
+  const onAlign = useCallback((direction: 'left' | 'center' | 'right') =>
+    (e: PointerEvent) => {
+      if (!ctx)
+        return
+      e.preventDefault()
+      e.stopPropagation()
+      const commands = ctx.get(commandsCtx)
+      commands.call(setAlignCommand.key, direction)
+    }, [])
+
   return html`
     <host
       ondragover=${(e: DragEvent) => e.preventDefault()}
@@ -553,24 +706,43 @@ export const tableComponent: Component<TableComponentProps> = ({
       onpointermove=${pointerMove}
       onpointerleave=${pointerLeave}
     >
-      <div
+      <button
         data-show="false"
         contenteditable="false"
         draggable="true"
         data-role="col-drag-handle"
         class="handle cell-handle"
         ondragstart=${dragCol}
+        onclick=${selectCol}
         ref=${colHandleRef}
-      ></div>
-      <div
+      >
+        <div
+          data-show="false"
+          class="button-group"
+        >
+          <button onpointerdown=${onAlign('left')}>Left</button>
+          <button onpointerdown=${onAlign('center')}>Center</button>
+          <button onpointerdown=${onAlign('right')}>Right</button>
+          <button onpointerdown=${deleteSelected}>Delete</button>
+        </div>
+      </button>
+      <button
         data-show="false"
         contenteditable="false"
         draggable="true"
         data-role="row-drag-handle"
         class="handle cell-handle"
         ondragstart=${dragRow}
-        ref=${rowHandleRef}>
-      </div>
+        onclick=${selectRow}
+        ref=${rowHandleRef}
+      >
+        <div
+          data-show="false"
+          class="button-group"
+        >
+          <button onpointerdown=${deleteSelected}>Delete</button>
+        </div>
+      </button>
       <div class="table-wrapper" ref=${tableWrapperRef}>
         <div
           data-show="false"
@@ -583,11 +755,25 @@ export const tableComponent: Component<TableComponentProps> = ({
             </tbody>
           </table>
         </div>
-        <div data-show="false" contenteditable="false" data-role="x-line-drag-handle" class="handle line-handle" ref=${xLineHandleRef}>
-          <button class="add-button">+</button>
+        <div
+          data-show="false"
+          contenteditable="false"
+          data-display-type="tool"
+          data-role="x-line-drag-handle"
+          class="handle line-handle"
+          ref=${xLineHandleRef}
+        >
+          <button onclick=${onAddRow} class="add-button">+</button>
         </div>
-        <div data-show="false" contenteditable="false" data-role="y-line-drag-handle" class="handle line-handle" ref=${yLineHandleRef}>
-          <button class="add-button">+</button>
+        <div
+          data-show="false"
+          contenteditable="false"
+          data-display-type="tool"
+          data-role="y-line-drag-handle"
+          class="handle line-handle"
+          ref=${yLineHandleRef}
+        >
+          <button onclick=${onAddCol} class="add-button">+</button>
         </div>
         <table class="children" ref=${contentWrapperRef}></table>
       </div>
@@ -596,19 +782,13 @@ export const tableComponent: Component<TableComponentProps> = ({
 }
 
 tableComponent.props = {
-  onMount: Function,
   getPos: Function,
   view: Object,
   ctx: Object,
+  node: Object,
 }
 
 export const TableElement = c(tableComponent)
-
-function equalCellIndex(a: CellIndex | undefined, b: CellIndex | undefined) {
-  if (!a || !b)
-    return false
-  return a[0] === b[0] && a[1] === b[1]
-}
 
 function findIndex(parent: Node, child: Node) {
   for (let i = 0; i < parent.childCount; i++) {

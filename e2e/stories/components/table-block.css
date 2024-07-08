@@ -39,6 +39,28 @@ milkdown-table-block .cell-handle {
   transition: opacity 0.2s ease-in-out 0.2s;
 }
 
+milkdown-table-block .cell-handle .button-group {
+  position: absolute;
+  height: 30px;
+  top: -32px;
+  display: flex;
+  transform: translateX(-50%);
+  left: 50%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+milkdown-table-block .cell-handle .button-group[data-show="false"] {
+  display: none;
+}
+milkdown-table-block .cell-handle .button-group button {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+milkdown-table-block .cell-handle .button-group button:hover {
+  background-color: #f0f0f0;
+}
+
 milkdown-table-block .line-handle {
   background-color: red;
   transition: opacity 0.2s ease-in-out;
