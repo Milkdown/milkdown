@@ -72,12 +72,14 @@ withMeta(insertTableCommand, {
 
 /// A command for moving a row in a table.
 /// You should specify the `from` and `to` index.
-export const moveRowCommand = $command('MoveRow', () => ({ from, to }: { from?: number, to?: number } = {}) => (state, dispatch) => {
-  const { tr } = state
-  const result = dispatch?.(moveRow(tr, from ?? 0, to ?? 0, true))
+export const moveRowCommand = $command('MoveRow', () =>
+  ({ from, to, pos }: { from?: number, to?: number, pos?: number } = {}) =>
+    (state, dispatch) => {
+      const { tr } = state
+      const result = dispatch?.(moveRow({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true }))
 
-  return Boolean(result)
-})
+      return Boolean(result)
+    })
 
 withMeta(moveRowCommand, {
   displayName: 'Command<moveRowCommand>',
@@ -86,12 +88,14 @@ withMeta(moveRowCommand, {
 
 /// A command for moving a column in a table.
 /// You should specify the `from` and `to` index.
-export const moveColCommand = $command('MoveCol', () => ({ from, to }: { from?: number, to?: number } = {}) => (state, dispatch) => {
-  const { tr } = state
-  const result = dispatch?.(moveCol(tr, from ?? 0, to ?? 0, true))
+export const moveColCommand = $command('MoveCol', () =>
+  ({ from, to, pos }: { from?: number, to?: number, pos?: number } = {}) =>
+    (state, dispatch) => {
+      const { tr } = state
+      const result = dispatch?.(moveCol({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true }))
 
-  return Boolean(result)
-})
+      return Boolean(result)
+    })
 
 withMeta(moveColCommand, {
   displayName: 'Command<moveColCommand>',
@@ -99,12 +103,13 @@ withMeta(moveColCommand, {
 })
 
 /// A command for selecting a row.
-export const selectRowCommand = $command<number, 'SelectRow'>('SelectRow', () => (index = 0) => (state, dispatch) => {
-  const { tr } = state
-  const result = dispatch?.(selectRow(index)(tr))
+export const selectRowCommand = $command<{ index: number, pos?: number }, 'SelectRow'>('SelectRow', () =>
+  (payload: { index: number, pos?: number } = { index: 0 }) => (state, dispatch) => {
+    const { tr } = state
+    const result = dispatch?.(selectRow(payload.index, payload.pos)(tr))
 
-  return Boolean(result)
-})
+    return Boolean(result)
+  })
 
 withMeta(selectRowCommand, {
   displayName: 'Command<selectRowCommand>',
@@ -112,12 +117,13 @@ withMeta(selectRowCommand, {
 })
 
 /// A command for selecting a column.
-export const selectColCommand = $command<number, 'SelectCol'>('SelectCol', () => (index = 0) => (state, dispatch) => {
-  const { tr } = state
-  const result = dispatch?.(selectCol(index)(tr))
+export const selectColCommand = $command<{ index: number, pos?: number }, 'SelectCol'>('SelectCol', () =>
+  (payload: { index: number, pos?: number } = { index: 0 }) => (state, dispatch) => {
+    const { tr } = state
+    const result = dispatch?.(selectCol(payload.index, payload.pos)(tr))
 
-  return Boolean(result)
-})
+    return Boolean(result)
+  })
 
 withMeta(selectColCommand, {
   displayName: 'Command<selectColCommand>',
