@@ -309,6 +309,7 @@ export const tableComponent: Component<TableComponentProps> = ({
   }, [])
 
   const dragRow = useCallback((event: DragEvent) => {
+    event.stopPropagation()
     if (event.dataTransfer)
       event.dataTransfer.effectAllowed = 'move'
     const preview = dragPreviewRef.current
@@ -364,6 +365,7 @@ export const tableComponent: Component<TableComponentProps> = ({
   }, [])
 
   const dragCol = useCallback((event: DragEvent) => {
+    event.stopPropagation()
     if (event.dataTransfer)
       event.dataTransfer.effectAllowed = 'move'
     const preview = dragPreviewRef.current
@@ -733,6 +735,7 @@ export const tableComponent: Component<TableComponentProps> = ({
 
   return html`
     <host
+      ondragstart=${(e: DragEvent) => e.preventDefault()}
       ondragover=${(e: DragEvent) => e.preventDefault()}
       ondragleave=${(e: DragEvent) => e.preventDefault()}
       onpointermove=${pointerMove}
