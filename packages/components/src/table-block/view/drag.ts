@@ -1,7 +1,11 @@
 import throttle from 'lodash.throttle'
 import { computePosition, offset } from '@floating-ui/dom'
-import type { Ref } from 'atomico'
-import type { CellIndex, DragContext, Refs } from './types'
+import { useEffect, useHost, useMemo } from 'atomico'
+import { commandsCtx } from '@milkdown/core'
+import { moveColCommand, moveRowCommand } from '@milkdown/preset-gfm'
+import type { Ctx } from '@milkdown/ctx'
+import { getRelatedDOM } from './utils'
+import type { DragContext, Refs } from './types'
 
 function prepareDndContext(refs: Refs): DragContext | undefined {
   const {
@@ -177,34 +181,6 @@ export function createDragColHandler(refs: Refs) {
   }
 }
 
-function getRelatedDOM(contentWrapperRef: Ref<HTMLDivElement>, [rowIndex, columnIndex]: CellIndex) {
-  const content = contentWrapperRef.current
-  if (!content)
-    return
-  const rows = content.querySelectorAll('tr')
-  const row = rows[rowIndex]
-  if (!row)
-    return
-
-  const firstRow = rows[0]
-  if (!firstRow)
-    return
-
-  const headerCol = firstRow.children[columnIndex]
-  if (!headerCol)
-    return
-
-  const col = row.children[columnIndex]
-  if (!col)
-    return
-
-  return {
-    row,
-    col,
-    headerCol,
-  }
-}
-
 export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
   return throttle((e: DragEvent) => {
     const context = prepareDndContext(refs)
@@ -341,4 +317,92 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
       }
     }
   }, 20)
+}
+
+export function useDragHandlers(
+  refs: Refs,
+  ctx?: Ctx,
+  getPos?: () => number | undefined,
+) {
+  const {
+    dragPreviewRef,
+    yLineHandleRef,
+    xLineHandleRef,
+    dragInfo,
+  } = refs
+  const host = useHost()
+  const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
+
+  const dragRow = useMemo(() => createDragRowHandler(refs), [refs])
+  const dragCol = useMemo(() => createDragColHandler(refs), [refs])
+
+  useEffect(() => {
+    const onDragEnd = () => {
+      const preview = dragPreviewRef.current
+      if (!preview)
+        return
+
+      if (preview.dataset.show === 'false')
+        return
+
+      const previewRoot = preview?.querySelector('tbody')
+
+      while (previewRoot?.firstChild)
+        previewRoot?.removeChild(previewRoot.firstChild)
+
+      if (preview)
+        preview.dataset.show = 'false'
+    }
+
+    const onDrop = () => {
+      const preview = dragPreviewRef.current
+      if (!preview)
+        return
+      const yHandle = yLineHandleRef.current
+      if (!yHandle)
+        return
+      const xHandle = xLineHandleRef.current
+      if (!xHandle)
+        return
+      const info = dragInfo.current
+      if (!info)
+        return
+      if (!ctx)
+        return
+      if (preview.dataset.show === 'false')
+        return
+
+      yHandle.dataset.show = 'false'
+      xHandle.dataset.show = 'false'
+
+      if (info.startIndex === info.endIndex)
+        return
+
+      const commands = ctx.get(commandsCtx)
+      const payload = {
+        from: info.startIndex,
+        to: info.endIndex,
+        pos: (getPos?.() ?? 0) + 1,
+      }
+      if (info.type === 'col')
+        commands.call(moveColCommand.key, payload)
+      else
+        commands.call(moveRowCommand.key, payload)
+    }
+    const onDragOver = createDragOverHandler(refs)
+
+    root.addEventListener('dragover', onDragOver)
+    root.addEventListener('dragend', onDragEnd)
+    root.addEventListener('drop', onDrop)
+    return () => {
+      root.removeEventListener('dragover', onDragOver)
+      root.removeEventListener('dragend', onDragEnd)
+      root.removeEventListener('drop', onDrop)
+    }
+  }, [])
+
+  return {
+    dragRow,
+    dragCol,
+  }
 }

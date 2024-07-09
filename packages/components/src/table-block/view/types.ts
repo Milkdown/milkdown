@@ -30,5 +30,6 @@ export interface Refs {
   colHandleRef: Ref<HTMLDivElement>
   rowHandleRef: Ref<HTMLDivElement>
   hoverIndex: Ref<CellIndex>
+  lineHoverIndex: Ref<CellIndex>
   dragInfo: Ref<DragInfo>
 }
