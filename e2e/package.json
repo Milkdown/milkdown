@@ -68,23 +68,13 @@
             "devServerTarget": "e2e:serve"
           }
         },
-        "dependsOn": [
-          {
-            "target": "build",
-            "projects": "dependencies"
-          }
-        ]
+        "dependsOn": ["build"]
       },
       "build": {
         "outputs": [
           "{projectRoot}/lib"
         ],
-        "dependsOn": [
-          {
-            "target": "build",
-            "projects": "dependencies"
-          }
-        ]
+        "dependsOn": ["build"]
       }
     }
   }

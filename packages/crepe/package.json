@@ -85,21 +85,11 @@
         "outputs": [
           "{projectRoot}/lib"
         ],
-        "dependsOn": [
-          {
-            "target": "build",
-            "projects": "dependencies"
-          }
-        ]
+        "dependsOn": ["build"]
       },
       "tsc": {
         "outputs": [],
-        "dependsOn": [
-          {
-            "target": "build",
-            "projects": "dependencies"
-          }
-        ]
+        "dependsOn": ["build"]
       }
     }
   }
