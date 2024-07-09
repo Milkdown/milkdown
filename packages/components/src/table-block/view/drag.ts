@@ -3,7 +3,7 @@ import { computePosition, offset } from '@floating-ui/dom'
 import type { Ref } from 'atomico'
 import type { CellIndex, DragContext, Refs } from './types'
 
-function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => void) {
+function prepareDndContext(refs: Refs): DragContext | undefined {
   const {
     dragPreviewRef,
     tableWrapperRef,
@@ -14,10 +14,6 @@ function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => 
     rowHandleRef,
   } = refs
 
-  event.stopPropagation()
-  if (event.dataTransfer)
-    event.dataTransfer.effectAllowed = 'move'
-
   const preview = dragPreviewRef.current
   if (!preview)
     return
@@ -26,6 +22,9 @@ function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => 
     return
   const content = contentWrapperRef.current
   if (!content)
+    return
+  const contentRoot = content.querySelector('tbody')
+  if (!contentRoot)
     return
   const previewRoot = preview.querySelector('tbody')
   if (!previewRoot)
@@ -47,12 +46,26 @@ function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => 
     preview,
     wrapper,
     content,
+    contentRoot,
     previewRoot,
     yHandle,
     xHandle,
     colHandle,
     rowHandle,
   }
+
+  return context
+}
+
+function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => void) {
+  event.stopPropagation()
+  if (event.dataTransfer)
+    event.dataTransfer.effectAllowed = 'move'
+
+  const context = prepareDndContext(refs)
+
+  if (!context)
+    return
 
   fn(context)
 }
@@ -194,48 +207,39 @@ function getRelatedDOM(contentWrapperRef: Ref<HTMLDivElement>, [rowIndex, column
 
 export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
   return throttle((e: DragEvent) => {
+    const context = prepareDndContext(refs)
+    if (!context)
+      return
     const {
-      dragPreviewRef,
-      contentWrapperRef,
-      yLineHandleRef,
-      xLineHandleRef,
+      preview,
+      content,
+      contentRoot,
+      xHandle,
+      yHandle,
+    } = context
+    const {
       dragInfo,
       hoverIndex,
     } = refs
 
-    const preview = dragPreviewRef.current
-    if (!preview)
-      return
     if (preview.dataset.show === 'false')
-      return
-    const content = contentWrapperRef.current
-    if (!content)
-      return
-    const wrapperRoot = content.querySelector('tbody')
-    if (!wrapperRoot)
       return
     const dom = getRelatedDOM(refs.contentWrapperRef, hoverIndex.current!)
     if (!dom)
       return
-    const firstRow = wrapperRoot.querySelector('tr')
+    const firstRow = contentRoot.querySelector('tr')
     if (!firstRow)
-      return
-    const xHandle = xLineHandleRef.current
-    if (!xHandle)
-      return
-    const yHandle = yLineHandleRef.current
-    if (!yHandle)
       return
     const info = dragInfo.current
     if (!info)
       return
 
-    const wrapperOffsetTop = (wrapperRoot.offsetParent as HTMLElement).offsetTop
-    const wrapperOffsetLeft = (wrapperRoot.offsetParent as HTMLElement).offsetLeft
+    const wrapperOffsetTop = (contentRoot.offsetParent as HTMLElement).offsetTop
+    const wrapperOffsetLeft = (contentRoot.offsetParent as HTMLElement).offsetLeft
 
     if (info.type === 'col') {
       const width = dom.col.getBoundingClientRect().width
-      const left = wrapperRoot.getBoundingClientRect().left
+      const left = contentRoot.getBoundingClientRect().left
       const previewLeft = e.clientX + wrapperOffsetLeft - left - width / 2
       const previewRight = e.clientX + wrapperOffsetLeft - left + width / 2
 
@@ -287,7 +291,7 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
     }
     else if (info.type === 'row') {
       const height = dom.row.getBoundingClientRect().height
-      const top = wrapperRoot.getBoundingClientRect().top
+      const top = contentRoot.getBoundingClientRect().top
 
       const previewTop = e.clientY - top + wrapperOffsetTop - height / 2
       const previewBottom = e.clientY - top + wrapperOffsetTop + height / 2
@@ -298,7 +302,7 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
       preview.style.top = `${previewTop}px`
       preview.style.left = `${wrapperOffsetLeft}px`
 
-      const rows = Array.from(wrapperRoot.querySelectorAll('tr'))
+      const rows = Array.from(contentRoot.querySelectorAll('tr'))
       const row = rows.find((row, index) => {
         const boundary = row.getBoundingClientRect()
         const boundaryTop = boundary.top + wrapperOffsetTop - top

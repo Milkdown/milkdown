@@ -11,9 +11,10 @@ export interface DragInfo {
 
 export interface DragContext {
   preview: HTMLDivElement
+  previewRoot: HTMLTableSectionElement
   wrapper: HTMLDivElement
   content: HTMLDivElement
-  previewRoot: HTMLTableSectionElement
+  contentRoot: HTMLTableSectionElement
   yHandle: HTMLDivElement
   xHandle: HTMLDivElement
   colHandle: HTMLDivElement

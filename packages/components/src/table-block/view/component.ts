@@ -149,7 +149,7 @@ export const tableComponent: Component<TableComponentProps> = ({
       const rowNode = findParent(node => node.type.name === 'table_row' || node.type.name === 'table_header_row')($head)
       if (!rowNode)
         return
-      const rowIndex = findIndex(table.node, rowNode.node)
+      const rowIndex = findNodeIndex(table.node, rowNode.node)
       const index: CellIndex = [rowIndex, 0]
       hoverIndex.current = index
       const rowHandle = rowHandleRef.current
@@ -600,7 +600,7 @@ tableComponent.props = {
 
 export const TableElement = c(tableComponent)
 
-function findIndex(parent: Node, child: Node) {
+function findNodeIndex(parent: Node, child: Node) {
   for (let i = 0; i < parent.childCount; i++) {
     if (parent.child(i) === child)
       return i
@@ -632,8 +632,8 @@ function findPointerIndex(event: PointerEvent, view?: EditorView): CellIndex | u
   if (!cell || !row || !table)
     return
 
-  const columnIndex = findIndex(row, cell)
-  const rowIndex = findIndex(table, row)
+  const columnIndex = findNodeIndex(row, cell)
+  const rowIndex = findNodeIndex(table, row)
 
   return [rowIndex, columnIndex]
 }
