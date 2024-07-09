@@ -22,6 +22,7 @@ milkdown-table-block .handle {
   position: absolute;
   z-index: 50;
   cursor: grab;
+  font-size: 14px;
 }
 milkdown-table-block .cell-handle[data-show="false"] {
   opacity: 0;
@@ -34,10 +35,19 @@ milkdown-table-block .handle:hover {
 }
 
 milkdown-table-block .cell-handle {
-  width: 24px;
   height: 24px;
-  background-color: red;
   transition: opacity 0.2s ease-in-out 0.2s;
+  background-color: #FFB4AB;
+  padding: 0 8px;
+  border-radius: 8px;
+}
+
+milkdown-table-block .cell-handle[data-role="col-drag-handle"] {
+  transform: translateY(50%);
+}
+
+milkdown-table-block .cell-handle[data-role="row-drag-handle"] {
+  transform: translateX(50%);
 }
 
 milkdown-table-block .cell-handle .button-group {
@@ -57,13 +67,14 @@ milkdown-table-block .cell-handle .button-group[data-show="false"] {
 milkdown-table-block .cell-handle .button-group button {
   padding-left: 8px;
   padding-right: 8px;
+  width: max-content;
 }
 milkdown-table-block .cell-handle .button-group button:hover {
   background-color: #f0f0f0;
 }
 
 milkdown-table-block .line-handle {
-  background-color: red;
+  background-color: #FFB4AB;
   transition: opacity 0.2s ease-in-out;
 }
 milkdown-table-block .line-handle[data-role="x-line-drag-handle"] {
@@ -73,24 +84,26 @@ milkdown-table-block .line-handle[data-role="y-line-drag-handle"] {
   width: 2px;
 }
 
+milkdown-table-block .line-handle .add-button  {
+  color: #FFB4AB;
+  border: 1px solid #FFB4AB;
+  padding: 0 4px;
+  border-radius: 8px;
+  width: max-content;
+}
+
 milkdown-table-block .line-handle[data-role="x-line-drag-handle"] .add-button  {
   position: absolute;
-  left: -24px;
+  transform: translateX(-100%);
   top: -12px;
   height: 24px;
-  width: 24px;
-  color: red;
-  border: 1px solid red;
 }
 
 milkdown-table-block .line-handle[data-role="y-line-drag-handle"] .add-button  {
   position: absolute;
-  left: -12px;
+  transform: translateX(-50%);
   top: -24px;
   height: 24px;
-  width: 24px;
-  color: red;
-  border: 1px solid red;
 }
 
 milkdown-table-block .line-handle[data-display-type="indicator"] .add-button  {

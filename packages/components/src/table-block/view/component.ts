@@ -21,12 +21,14 @@ import {
   setAlignCommand,
 } from '@milkdown/preset-gfm'
 import { CellSelection } from '@milkdown/prose/tables'
+import type { TableBlockConfig } from '../config'
 
 export interface TableComponentProps {
   view: EditorView
   ctx: Ctx
   getPos: () => number | undefined
   node: Node
+  config: TableBlockConfig
 }
 
 type CellIndex = [row: number, col: number]
@@ -36,6 +38,7 @@ export const tableComponent: Component<TableComponentProps> = ({
   ctx,
   getPos,
   node,
+  config,
 }) => {
   const host = useHost()
   const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
@@ -743,16 +746,26 @@ export const tableComponent: Component<TableComponentProps> = ({
         class="handle cell-handle"
         ondragstart=${dragCol}
         onclick=${selectCol}
+        onpointermove=${(e: PointerEvent) => e.stopPropagation()}
         ref=${colHandleRef}
       >
+        ${config?.renderButton('col_drag_handle')}
         <div
           data-show="false"
           class="button-group"
         >
-          <button onpointerdown=${onAlign('left')}>Left</button>
-          <button onpointerdown=${onAlign('center')}>Center</button>
-          <button onpointerdown=${onAlign('right')}>Right</button>
-          <button onpointerdown=${deleteSelected}>Delete</button>
+          <button onpointerdown=${onAlign('left')}>
+            ${config?.renderButton('align_col_left')}
+          </button>
+          <button onpointerdown=${onAlign('center')}>
+            ${config?.renderButton('align_col_center')}
+          </button>
+          <button onpointerdown=${onAlign('right')}>
+            ${config?.renderButton('align_col_right')}
+          </button>
+          <button onpointerdown=${deleteSelected}>
+            ${config?.renderButton('delete_col')}
+          </button>
         </div>
       </button>
       <button
@@ -763,13 +776,17 @@ export const tableComponent: Component<TableComponentProps> = ({
         class="handle cell-handle"
         ondragstart=${dragRow}
         onclick=${selectRow}
+        onpointermove=${(e: PointerEvent) => e.stopPropagation()}
         ref=${rowHandleRef}
       >
+        ${config?.renderButton('row_drag_handle')}
         <div
           data-show="false"
           class="button-group"
         >
-          <button onpointerdown=${deleteSelected}>Delete</button>
+          <button onpointerdown=${deleteSelected}>
+            ${config?.renderButton('delete_row')}
+          </button>
         </div>
       </button>
       <div class="table-wrapper" ref=${tableWrapperRef}>
@@ -792,7 +809,9 @@ export const tableComponent: Component<TableComponentProps> = ({
           class="handle line-handle"
           ref=${xLineHandleRef}
         >
-          <button onclick=${onAddRow} class="add-button">+</button>
+          <button onclick=${onAddRow} class="add-button">
+            ${config?.renderButton('add_row')}
+          </button>
         </div>
         <div
           data-show="false"
@@ -802,7 +821,9 @@ export const tableComponent: Component<TableComponentProps> = ({
           class="handle line-handle"
           ref=${yLineHandleRef}
         >
-          <button onclick=${onAddCol} class="add-button">+</button>
+          <button onclick=${onAddCol} class="add-button">
+            ${config?.renderButton('add_col')}
+          </button>
         </div>
         <table class="children" ref=${contentWrapperRef}></table>
       </div>
@@ -815,6 +836,7 @@ tableComponent.props = {
   view: Object,
   ctx: Object,
   node: Object,
+  config: Object,
 }
 
 export const TableElement = c(tableComponent)

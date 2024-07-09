@@ -4,6 +4,7 @@ import type { Node } from '@milkdown/prose/model'
 import type { EditorView, NodeView, NodeViewConstructor } from '@milkdown/prose/view'
 import type { Ctx } from '@milkdown/ctx'
 import { defIfNotExists } from '../../__internal__/helper'
+import { tableBlockConfig } from '../config'
 import type { TableComponentProps } from './component'
 import { TableElement } from './component'
 
@@ -22,6 +23,7 @@ export class TableNodeView implements NodeView {
     dom.ctx = ctx
     dom.getPos = getPos
     dom.node = node
+    dom.config = ctx.get(tableBlockConfig.key)
 
     const contentDOM = document.createElement('tbody')
     this.contentDOM = contentDOM
