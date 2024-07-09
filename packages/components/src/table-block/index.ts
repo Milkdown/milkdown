@@ -1,6 +1,6 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { tableView } from './view'
+import { tableBlockView } from './view'
 
 export const tableBlock: MilkdownPlugin[] = [
-  tableView,
+  tableBlockView,
 ]

@@ -72,7 +72,7 @@ export class TableNodeView implements NodeView {
 }
 
 defIfNotExists('milkdown-table-block', TableElement)
-export const tableView = $view(tableSchema.node, (ctx): NodeViewConstructor => {
+export const tableBlockView = $view(tableSchema.node, (ctx): NodeViewConstructor => {
   return (initialNode, view, getPos) => {
     return new TableNodeView(ctx, initialNode, view, getPos)
   }
