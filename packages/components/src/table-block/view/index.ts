@@ -47,7 +47,7 @@ export class TableNodeView implements NodeView {
   }
 
   stopEvent(e: Event) {
-    if (['drop', 'dragstart', 'dragover', 'dragend', 'dragleave'].includes(e.type))
+    if (e.type === 'drop' || e.type.startsWith('drag'))
       return true
 
     if (e.type === 'mousedown' && e.target instanceof HTMLButtonElement)

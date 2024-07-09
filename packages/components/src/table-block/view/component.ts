@@ -312,6 +312,7 @@ export const tableComponent: Component<TableComponentProps> = ({
     event.stopPropagation()
     if (event.dataTransfer)
       event.dataTransfer.effectAllowed = 'move'
+
     const preview = dragPreviewRef.current
     if (!preview)
       return
@@ -330,9 +331,17 @@ export const tableComponent: Component<TableComponentProps> = ({
     const xHandle = xLineHandleRef.current
     if (!xHandle)
       return
+    const colHandle = colHandleRef.current
+    if (!colHandle)
+      return
+    const rowHandle = rowHandleRef.current
+    if (!rowHandle)
+      return
 
     xHandle.dataset.displayType = 'indicator'
-    yHandle.dataset.displayType = 'indicator'
+    yHandle.dataset.show = 'false'
+    colHandle.dataset.show = 'false'
+    rowHandle.querySelector('.button-group')?.setAttribute('data-show', 'false')
 
     const [rowIndex] = hoverIndex.current!
 
@@ -388,9 +397,17 @@ export const tableComponent: Component<TableComponentProps> = ({
     const xHandle = xLineHandleRef.current
     if (!xHandle)
       return
+    const colHandle = colHandleRef.current
+    if (!colHandle)
+      return
+    const rowHandle = rowHandleRef.current
+    if (!rowHandle)
+      return
 
-    xHandle.dataset.displayType = 'indicator'
+    xHandle.dataset.show = 'false'
     yHandle.dataset.displayType = 'indicator'
+    rowHandle.dataset.show = 'false'
+    colHandle.querySelector('.button-group')?.setAttribute('data-show', 'false')
 
     const [_, colIndex] = hoverIndex.current!
 
@@ -749,6 +766,7 @@ export const tableComponent: Component<TableComponentProps> = ({
         class="handle cell-handle"
         ondragstart=${dragCol}
         onclick=${selectCol}
+        onpointerdown=${(e: PointerEvent) => e.stopPropagation()}
         onpointermove=${(e: PointerEvent) => e.stopPropagation()}
         ref=${colHandleRef}
       >
@@ -779,6 +797,7 @@ export const tableComponent: Component<TableComponentProps> = ({
         class="handle cell-handle"
         ondragstart=${dragRow}
         onclick=${selectRow}
+        onpointerdown=${(e: PointerEvent) => e.stopPropagation()}
         onpointermove=${(e: PointerEvent) => e.stopPropagation()}
         ref=${rowHandleRef}
       >
@@ -828,7 +847,7 @@ export const tableComponent: Component<TableComponentProps> = ({
             ${config?.renderButton('add_col')}
           </button>
         </div>
-        <table class="children" ref=${contentWrapperRef}></table>
+        <table ref=${contentWrapperRef} class="children"></table>
       </div>
     </host>
   `

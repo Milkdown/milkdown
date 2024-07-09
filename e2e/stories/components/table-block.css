@@ -24,6 +24,11 @@ milkdown-table-block .handle {
   cursor: grab;
   font-size: 14px;
 }
+milkdown-table-block .cell-handle {
+  left: -999px;
+  top: -999px;
+  z-index: 100;
+}
 milkdown-table-block .cell-handle[data-show="false"] {
   opacity: 0;
 }
