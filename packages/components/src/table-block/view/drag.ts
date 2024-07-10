@@ -5,7 +5,7 @@ import { commandsCtx } from '@milkdown/core'
 import { moveColCommand, moveRowCommand } from '@milkdown/preset-gfm'
 import type { Ctx } from '@milkdown/ctx'
 import { getRelatedDOM } from './utils'
-import type { DragContext, Refs } from './types'
+import type { CellIndex, DragContext, Refs } from './types'
 
 function prepareDndContext(refs: Refs): DragContext | undefined {
   const {
@@ -71,7 +71,11 @@ function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => 
   if (!context)
     return
 
-  fn(context)
+  // This is to avoid a chrome bug:
+  // https://stackoverflow.com/questions/14203734/dragend-dragenter-and-dragleave-firing-off-immediately-when-i-drag
+  requestAnimationFrame(() => {
+    fn(context)
+  })
 }
 
 export function createDragRowHandler(refs: Refs) {
@@ -328,7 +332,9 @@ export function useDragHandlers(
     dragPreviewRef,
     yLineHandleRef,
     xLineHandleRef,
+    contentWrapperRef,
     dragInfo,
+    hoverIndex,
   } = refs
   const host = useHost()
   const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
@@ -371,6 +377,12 @@ export function useDragHandlers(
         return
       if (preview.dataset.show === 'false')
         return
+      const colHandle = refs.colHandleRef.current
+      if (!colHandle)
+        return
+      const rowHandle = refs.rowHandleRef.current
+      if (!rowHandle)
+        return
 
       yHandle.dataset.show = 'false'
       xHandle.dataset.show = 'false'
@@ -384,14 +396,46 @@ export function useDragHandlers(
         to: info.endIndex,
         pos: (getPos?.() ?? 0) + 1,
       }
-      if (info.type === 'col')
+      if (info.type === 'col') {
         commands.call(moveColCommand.key, payload)
-      else
+        const index: CellIndex = [0, info.endIndex]
+        hoverIndex.current = index
+        const dom = getRelatedDOM(contentWrapperRef, index)
+        if (!dom)
+          return
+        const { headerCol: col } = dom
+        rowHandle.dataset.show = 'false'
+        colHandle.dataset.show = 'true'
+        computePosition(col, colHandle, { placement: 'top' })
+          .then(({ x, y }) => {
+            Object.assign(colHandle.style, {
+              left: `${x}px`,
+              top: `${y}px`,
+            })
+          })
+      }
+      else {
         commands.call(moveRowCommand.key, payload)
+        const index: CellIndex = [info.endIndex, 0]
+        hoverIndex.current = index
+        const dom = getRelatedDOM(contentWrapperRef, index)
+        if (!dom)
+          return
+        const { row } = dom
+        colHandle.dataset.show = 'false'
+        rowHandle.dataset.show = 'true'
+        computePosition(row, rowHandle, { placement: 'left' })
+          .then(({ x, y }) => {
+            Object.assign(rowHandle.style, {
+              left: `${x}px`,
+              top: `${y}px`,
+            })
+          })
+      }
     }
     const onDragOver = createDragOverHandler(refs)
 
-    root.addEventListener('dragover', onDragOver)
+    root.addEventListener('dragover', onDragOver, { capture: true })
     root.addEventListener('dragend', onDragEnd)
     root.addEventListener('drop', onDrop)
     return () => {
