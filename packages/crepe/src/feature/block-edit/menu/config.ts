@@ -29,6 +29,7 @@ import {
   imageIcon,
   orderedListIcon,
   quoteIcon,
+  tableIcon,
   textIcon,
 } from './icons'
 
@@ -293,7 +294,7 @@ export function getGroups(filter?: string) {
         {
           key: 'table',
           label: 'Table',
-          icon: codeIcon,
+          icon: tableIcon,
           onRun: (ctx) => {
             const view = ctx.get(editorViewCtx)
             const { dispatch, state } = view
