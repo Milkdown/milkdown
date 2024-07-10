@@ -7,7 +7,7 @@
 
     th,td {
       border: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
-      padding: 0 16px;
+      padding: 4px 16px;
       .ProseMirror-selectednode {
         background-color: transparent !important;
       }
@@ -141,20 +141,20 @@
         }
       }
       &[data-role="x-line-drag-handle"] {
-        height: 2px;
+        height: 1px;
         .add-button {
           position: absolute;
-          transform: translateX(-100%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
           padding: 6px 0;
           width: 16px;
           height: 28px;
         }
       }
       &[data-role="y-line-drag-handle"] {
-        width: 2px;
+        width: 1px;
         .add-button {
           position: absolute;
-          transform: translateY(-100%) translateX(-50%);
+          transform: translateY(-50%) translateX(-50%);
           padding: 0 6px;
           width: 28px;
           height: 16px;

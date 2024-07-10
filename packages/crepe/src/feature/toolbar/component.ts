@@ -14,7 +14,8 @@ import {
 import type { MarkType } from '@milkdown/prose/model'
 import clsx from 'clsx'
 import { linkTooltipAPI } from '@milkdown/components'
-import { boldIcon, codeIcon, italicIcon, linkIcon } from './consts'
+import { strikethroughSchema, toggleStrikethroughCommand } from '@milkdown/preset-gfm'
+import { boldIcon, codeIcon, italicIcon, linkIcon, strikethroughIcon } from './consts'
 
 export interface ToolbarProps {
   ctx: Ctx
@@ -60,6 +61,15 @@ export const toolbarComponent: Component<ToolbarProps> = ({ ctx, hide, show }) =
       })}
     >
       ${italicIcon}
+    </button>
+    <button
+      class=${clsx('toolbar-item', ctx && isActive(strikethroughSchema.type(ctx)) && 'active')}
+      onmousedown=${onClick((ctx) => {
+        const commands = ctx.get(commandsCtx)
+        commands.call(toggleStrikethroughCommand.key)
+      })}
+    >
+      ${strikethroughIcon}
     </button>
     <div class="divider"></div>
     <button
