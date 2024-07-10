@@ -413,7 +413,7 @@ export function useDragHandlers(
     }
     const onDragOver = createDragOverHandler(refs)
 
-    root.addEventListener('dragover', onDragOver, { capture: true })
+    root.addEventListener('dragover', onDragOver)
     root.addEventListener('dragend', onDragEnd)
     root.addEventListener('drop', onDrop)
     return () => {
