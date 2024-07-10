@@ -1,8 +1,9 @@
 import type { Ctx } from '@milkdown/ctx'
 import { listItemBlockComponent, listItemBlockConfig } from '@milkdown/components/list-item-block'
 import { html } from 'atomico'
+import clsx from 'clsx'
 import type { DefineFeature } from '../shared'
-import { bulletIcon } from './consts'
+import { bulletIcon, checkBoxCheckedIcon, checkBoxEmptyIcon } from './consts'
 
 function configureListItem(ctx: Ctx) {
   ctx.set(listItemBlockConfig.key, {
@@ -14,7 +15,10 @@ function configureListItem(ctx: Ctx) {
         return html`<span class='label'>${label}</span>`
       }
 
-      return html`<input disabled=${readonly} class='label' type="checkbox" checked=${checked} />`
+      if (checked)
+        return html`<span class=${clsx('label checkbox', readonly && 'readonly')}>${checkBoxCheckedIcon}</span>`
+
+      return html`<span class=${clsx('label checkbox', readonly && 'readonly')}>${checkBoxEmptyIcon}</span>`
     },
   })
 }

@@ -28,6 +28,12 @@
           width: 24px;
           text-align: right;
         }
+        .checkbox {
+          cursor: pointer;
+        }
+        .readonly {
+          cursor: not-allowed;
+        }
       }
     }
   }

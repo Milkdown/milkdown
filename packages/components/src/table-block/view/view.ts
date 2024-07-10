@@ -58,14 +58,14 @@ export class TableNodeView implements NodeView {
     if (!pos)
       return false
 
-    const $pos = state.doc.resolve(pos.inside + 1)
-    const node = findParent(node => NodeSelection.isSelectable(node))($pos)
+    const $pos = state.doc.resolve(pos.inside)
+    const node = findParent(node => node.type.name === 'table_cell' || node.type.name === 'table_header')($pos)
     if (!node)
       return false
 
     const { from } = node
 
-    const selection = NodeSelection.create(state.doc, from)
+    const selection = NodeSelection.create(state.doc, from + 1)
     if (state.selection.eq(selection))
       return false
 

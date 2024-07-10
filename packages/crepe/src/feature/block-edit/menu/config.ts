@@ -7,6 +7,7 @@ import {
   codeBlockSchema,
   headingSchema,
   hrSchema,
+  listItemSchema,
   orderedListSchema,
   paragraphSchema,
 } from '@milkdown/preset-commonmark'
@@ -29,7 +30,9 @@ import {
   imageIcon,
   orderedListIcon,
   quoteIcon,
+  tableIcon,
   textIcon,
+  todoListIcon,
 } from './icons'
 
 interface MenuItem {
@@ -260,6 +263,18 @@ export function getGroups(filter?: string) {
             command(state, dispatch)
           },
         },
+        {
+          key: 'todo-list',
+          label: 'Todo List',
+          icon: todoListIcon,
+          onRun: (ctx) => {
+            const view = ctx.get(editorViewCtx)
+            const { dispatch, state } = view
+
+            const command = clearContentAndWrapInBlockType(listItemSchema.type(ctx), { checked: false })
+            command(state, dispatch)
+          },
+        },
       ],
     },
     {
@@ -293,7 +308,7 @@ export function getGroups(filter?: string) {
         {
           key: 'table',
           label: 'Table',
-          icon: codeIcon,
+          icon: tableIcon,
           onRun: (ctx) => {
             const view = ctx.get(editorViewCtx)
             const { dispatch, state } = view
