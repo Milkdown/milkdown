@@ -3,7 +3,12 @@ import type { EditorView } from '@milkdown/prose/view'
 import throttle from 'lodash.throttle'
 import { useMemo } from 'atomico'
 import type { Refs } from './types'
-import { findPointerIndex, getRelatedDOM } from './utils'
+import {
+  computeColHandlePositionByIndex,
+  computeRowHandlePositionByIndex,
+  findPointerIndex,
+  getRelatedDOM,
+} from './utils'
 
 export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: PointerEvent) => void {
   return throttle((e: PointerEvent) => {
@@ -115,23 +120,13 @@ export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: Poi
     rowHandle.dataset.show = 'true'
     colHandle.dataset.show = 'true'
 
-    const {
-      row,
-      headerCol: col,
-    } = dom
-    computePosition(row, rowHandle, { placement: 'left' }).then(({ x, y }) => {
-      rowHandle.dataset.show = 'true'
-      Object.assign(rowHandle.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      })
+    computeRowHandlePositionByIndex({
+      refs,
+      index,
     })
-    computePosition(col, colHandle, { placement: 'top' }).then(({ x, y }) => {
-      colHandle.dataset.show = 'true'
-      Object.assign(colHandle.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      })
+    computeColHandlePositionByIndex({
+      refs,
+      index,
     })
     hoverIndex.current = index
   }, 200)

@@ -24,27 +24,17 @@ milkdown-table-block .handle {
   cursor: grab;
   font-size: 14px;
 }
+
 milkdown-table-block .cell-handle {
   left: -999px;
   top: -999px;
   z-index: 100;
-}
-milkdown-table-block .cell-handle[data-show="false"] {
-  opacity: 0;
-}
-milkdown-table-block .line-handle[data-show="false"] {
-  opacity: 0;
-}
-milkdown-table-block .handle:hover {
-  opacity: 1;
-}
-
-milkdown-table-block .cell-handle {
   height: 24px;
-  transition: opacity 0.2s ease-in-out 0.2s;
+  transition: opacity 0.2s ease 0.2s;
   background-color: #FFB4AB;
   padding: 0 8px;
   border-radius: 8px;
+  position: absolute;
 }
 
 milkdown-table-block .cell-handle[data-role="col-drag-handle"] {
@@ -53,6 +43,18 @@ milkdown-table-block .cell-handle[data-role="col-drag-handle"] {
 
 milkdown-table-block .cell-handle[data-role="row-drag-handle"] {
   transform: translateX(50%);
+}
+
+milkdown-table-block .cell-handle[data-show="false"] {
+  opacity: 0;
+}
+
+milkdown-table-block .line-handle[data-show="false"] {
+  opacity: 0;
+}
+
+milkdown-table-block .handle:hover {
+  opacity: 1;
 }
 
 milkdown-table-block .cell-handle .button-group {

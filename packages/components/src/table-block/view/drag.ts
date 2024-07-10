@@ -4,8 +4,8 @@ import { useEffect, useHost, useMemo } from 'atomico'
 import { commandsCtx } from '@milkdown/core'
 import { moveColCommand, moveRowCommand } from '@milkdown/preset-gfm'
 import type { Ctx } from '@milkdown/ctx'
-import { getRelatedDOM } from './utils'
-import type { DragContext, Refs } from './types'
+import { computeColHandlePositionByIndex, computeRowHandlePositionByIndex, getRelatedDOM } from './utils'
+import type { CellIndex, DragContext, Refs } from './types'
 
 function prepareDndContext(refs: Refs): DragContext | undefined {
   const {
@@ -71,7 +71,11 @@ function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => 
   if (!context)
     return
 
-  fn(context)
+  // This is to avoid a chrome bug:
+  // https://stackoverflow.com/questions/14203734/dragend-dragenter-and-dragleave-firing-off-immediately-when-i-drag
+  requestAnimationFrame(() => {
+    fn(context)
+  })
 }
 
 export function createDragRowHandler(refs: Refs) {
@@ -371,6 +375,12 @@ export function useDragHandlers(
         return
       if (preview.dataset.show === 'false')
         return
+      const colHandle = refs.colHandleRef.current
+      if (!colHandle)
+        return
+      const rowHandle = refs.rowHandleRef.current
+      if (!rowHandle)
+        return
 
       yHandle.dataset.show = 'false'
       xHandle.dataset.show = 'false'
@@ -384,10 +394,22 @@ export function useDragHandlers(
         to: info.endIndex,
         pos: (getPos?.() ?? 0) + 1,
       }
-      if (info.type === 'col')
+      if (info.type === 'col') {
         commands.call(moveColCommand.key, payload)
-      else
+        const index: CellIndex = [0, info.endIndex]
+        computeColHandlePositionByIndex({
+          refs,
+          index,
+        })
+      }
+      else {
         commands.call(moveRowCommand.key, payload)
+        const index: CellIndex = [info.endIndex, 0]
+        computeRowHandlePositionByIndex({
+          refs,
+          index,
+        })
+      }
     }
     const onDragOver = createDragOverHandler(refs)
 
