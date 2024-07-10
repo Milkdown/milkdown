@@ -94,6 +94,8 @@ export class LinkEditTooltip implements PluginView {
   update = (view: EditorView) => {
     const { state } = view
     const { selection } = state
+    if (!(selection instanceof TextSelection))
+      return
     const { from, to } = selection
     if (from === this.#data.from && to === this.#data.to)
       return

@@ -46,7 +46,9 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
       updateId(view)
 
       return {
-        update: (view) => {
+        update: (view, prevState) => {
+          if (view.state.doc.eq(prevState.doc))
+            return
           updateId(view)
         },
       }

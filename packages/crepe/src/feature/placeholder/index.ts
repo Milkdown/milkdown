@@ -3,6 +3,7 @@ import type { EditorState } from '@milkdown/prose/state'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { Node } from '@milkdown/prose/model'
 import { Decoration, DecorationSet } from '@milkdown/prose/view'
+import { findParent } from '@milkdown/prose'
 import type { DefineFeature } from '../shared'
 import { isInCodeBlock, isInList } from '../../utils'
 
@@ -21,6 +22,10 @@ function createPlaceholderDecoration(
   const $pos = selection.$anchor
   const node = $pos.parent
   if (node.content.size > 0)
+    return null
+
+  const inTable = findParent(node => node.type.name === 'table')($pos)
+  if (inTable)
     return null
 
   const before = $pos.before()

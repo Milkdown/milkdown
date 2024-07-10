@@ -84,6 +84,12 @@ const crepe = new Crepe({
 >
 > No escape from [reality](https://en.wikipedia.org/wiki/Bohemian_Rhapsody).
 
+| Fruit | Animal | Vegetable |
+| ----- | :----: | --------: |
+| Apple | Cat    | Carrot    |
+| Banana| Dog    | Cabbage   |
+| Cherry| Horse  | Celery    |
+
 `
 
 /* eslint-disable no-irregular-whitespace */

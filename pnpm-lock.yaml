@@ -457,6 +457,9 @@ importers:
       '@milkdown/preset-commonmark':
         specifier: workspace:*
         version: link:../plugins/preset-commonmark
+      '@milkdown/preset-gfm':
+        specifier: workspace:*
+        version: link:../plugins/preset-gfm
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../prose

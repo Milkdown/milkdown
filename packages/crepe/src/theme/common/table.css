@@ -1,0 +1,140 @@
+@import "@milkdown/prose/tables/style/tables.css";
+
+.milkdown {
+  milkdown-table-block {
+    display: block;
+
+    th,td {
+      border: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      padding: 0 16px;
+    }
+
+    .selectedCell::after {
+      background-color: var(--crepe-color-selected);
+      opacity: 0.5;
+    }
+
+    .drag-preview {
+      position: absolute;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      opacity: 0.4;
+      border: 1px solid var(--crepe-color-primary);
+      &[data-show="false"] {
+        display: none;
+      }
+    }
+
+    .handle {
+      position: absolute;
+      z-index: 50;
+      font-size: 14px;
+      transition: opacity ease-in-out 0.2s;
+    }
+
+    .handle[data-show="false"] {
+      opacity: 0;
+    }
+
+    .cell-handle {
+      cursor: grab;
+      background-color: var(--crepe-color-surface);
+      color: var(--crepe-color-outline);
+      border-radius: 100px;
+      box-shadow: var(--crepe-shadow-1);
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: var(--crepe-color-hover);
+      }
+      &:has(.button-group:hover) {
+        background-color: var(--crepe-color-surface);
+      }
+
+      &[data-role="col-drag-handle"] {
+        transform: translateY(50%);
+        padding: 0 6px;
+        width: 28px;
+        height: 16px;
+      }
+      &[data-role="row-drag-handle"] {
+        transform: translateX(50%);
+        padding: 6px 0;
+        width: 16px;
+        height: 28px;
+      }
+
+      .button-group {
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        top: -52px;
+        display: flex;
+        background-color: var(--crepe-color-surface);
+        border-radius: 8px;
+        box-shadow: var(--crepe-shadow-1);
+
+        &[data-show="false"] {
+          display: none;
+        }
+
+        button {
+          cursor: pointer;
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+          &:hover {
+            border-radius: 8px;
+            background-color: var(--crepe-color-hover);
+          }
+        }
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .line-handle {
+      background-color: var(--crepe-color-primary);
+      .add-button {
+        cursor: pointer;
+        background-color: var(--crepe-color-surface);
+        color: var(--crepe-color-outline);
+        border-radius: 100px;
+        box-shadow: var(--crepe-shadow-1);
+
+        &:hover {
+          transition: background-color 0.2s ease-in-out;
+          background-color: var(--crepe-color-hover);
+        }
+      }
+      &[data-role="x-line-drag-handle"] {
+        height: 2px;
+        .add-button {
+          position: absolute;
+          transform: translateX(-100%) translateY(-50%);
+          padding: 6px 0;
+          width: 16px;
+          height: 28px;
+        }
+      }
+      &[data-role="y-line-drag-handle"] {
+        width: 2px;
+        .add-button {
+          position: absolute;
+          transform: translateY(-100%) translateX(-50%);
+          padding: 0 6px;
+          width: 28px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}

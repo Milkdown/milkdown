@@ -71,6 +71,7 @@
     "@milkdown/plugin-slash": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@uiw/codemirror-theme-nord": "^4.22.1",
