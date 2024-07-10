@@ -23,12 +23,14 @@
     }
 
     .drag-preview {
+      background-color: var(--crepe-color-selected);
+      opacity: 0.4;
       position: absolute;
       z-index: 100;
       display: flex;
       flex-direction: column;
-      opacity: 0.4;
-      border: 1px solid var(--crepe-color-primary);
+      outline: 1px solid var(--crepe-color-primary);
+      outline-offset: -1px;
       &[data-show="false"] {
         display: none;
       }
@@ -156,6 +158,11 @@
           padding: 0 6px;
           width: 28px;
           height: 16px;
+        }
+      }
+      &[data-display-type="indicator"]  {
+        .add-button {
+          display: none;
         }
       }
     }

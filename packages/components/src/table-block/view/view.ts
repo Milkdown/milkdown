@@ -5,6 +5,7 @@ import type { EditorView, NodeView, NodeViewConstructor } from '@milkdown/prose/
 import type { Ctx } from '@milkdown/ctx'
 import { NodeSelection } from '@milkdown/prose/state'
 import { findParent } from '@milkdown/prose'
+import { CellSelection } from '@milkdown/prose/tables'
 import { defIfNotExists } from '../../__internal__/helper'
 import { tableBlockConfig } from '../config'
 import { withMeta } from '../../__internal__/meta'
@@ -62,15 +63,22 @@ export class TableNodeView implements NodeView {
     if (!node)
       return false
 
-    const selection = NodeSelection.create(state.doc, node.from)
+    const { from } = node
+
+    const selection = NodeSelection.create(state.doc, from)
     if (state.selection.eq(selection))
       return false
 
-    requestAnimationFrame(() => {
-      dispatch(
-        state.tr.setSelection(selection),
-      )
-    })
+    if (state.selection instanceof CellSelection) {
+      setTimeout(() => {
+        dispatch(state.tr.setSelection(selection).scrollIntoView())
+      }, 20)
+    }
+    else {
+      requestAnimationFrame(() => {
+        dispatch(state.tr.setSelection(selection).scrollIntoView())
+      })
+    }
     return true
   }
 
