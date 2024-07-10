@@ -6,6 +6,7 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { indent, indentConfig } from '@milkdown/plugin-indent'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { getMarkdown } from '@milkdown/utils'
+import { gfm } from '@milkdown/preset-gfm'
 import type { CrepeFeature, CrepeFeatureConfig } from '../feature'
 import { defaultFeatures, loadFeature } from '../feature'
 import { configureFeatures } from './slice'
@@ -55,6 +56,7 @@ export class Crepe {
       .use(history)
       .use(indent)
       .use(clipboard)
+      .use(gfm)
 
     const promiseList: Promise<unknown>[] = []
 

@@ -100,6 +100,7 @@ export const tableComponent: Component<TableComponentProps> = ({
         <div
           data-show="false"
           class="button-group"
+          onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
           <button onpointerdown=${onAlign('left')}>
             ${config?.renderButton('align_col_left')}
@@ -131,6 +132,7 @@ export const tableComponent: Component<TableComponentProps> = ({
         <div
           data-show="false"
           class="button-group"
+          onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
           <button onpointerdown=${deleteSelected}>
             ${config?.renderButton('delete_row')}
@@ -155,6 +157,7 @@ export const tableComponent: Component<TableComponentProps> = ({
           data-display-type="tool"
           data-role="x-line-drag-handle"
           class="handle line-handle"
+          onpointermove=${(e: PointerEvent) => e.stopPropagation}
           ref=${xLineHandleRef}
         >
           <button onclick=${onAddRow} class="add-button">
@@ -167,6 +170,7 @@ export const tableComponent: Component<TableComponentProps> = ({
           data-display-type="tool"
           data-role="y-line-drag-handle"
           class="handle line-handle"
+          onpointermove=${(e: PointerEvent) => e.stopPropagation}
           ref=${yLineHandleRef}
         >
           <button onclick=${onAddCol} class="add-button">

@@ -6,7 +6,7 @@ import type { TableRect } from '@milkdown/prose/tables'
 import { CellSelection, TableMap } from '@milkdown/prose/tables'
 
 import type { Ctx } from '@milkdown/ctx'
-import { tableCellSchema, tableHeaderSchema, tableRowSchema, tableSchema } from '.'
+import { tableCellSchema, tableHeaderRowSchema, tableHeaderSchema, tableRowSchema, tableSchema } from '.'
 
 /// @internal
 export interface CellPos {
@@ -27,7 +27,9 @@ export function createTable(ctx: Ctx, rowsCount = 3, colsCount = 3): Node {
 
   const rows = Array(rowsCount)
     .fill(0)
-    .map((_, i) => tableRowSchema.type(ctx).create(null, i === 0 ? headerCells : cells))
+    .map((_, i) => i === 0
+      ? tableHeaderRowSchema.type(ctx).create(null, headerCells)
+      : tableRowSchema.type(ctx).create(null, cells))
 
   return tableSchema.type(ctx).create(null, rows)
 }

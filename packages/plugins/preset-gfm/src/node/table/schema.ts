@@ -22,6 +22,7 @@ const originalSchema = tableNodes({
 export const tableSchema = $nodeSchema('table', () => ({
   ...originalSchema.table,
   content: 'table_header_row table_row+',
+  disableDropCursor: true,
   parseMarkdown: {
     match: node => node.type === 'table',
     runner: (state, node, type) => {
@@ -67,6 +68,7 @@ withMeta(tableSchema.ctx, {
 /// Schema for table header row node.
 export const tableHeaderRowSchema = $nodeSchema('table_header_row', () => ({
   ...originalSchema.table_row,
+  disableDropCursor: true,
   content: '(table_header)*',
   parseDOM: [{ tag: 'tr[data-is-header]' }],
   toDOM() {
@@ -109,6 +111,7 @@ withMeta(tableHeaderRowSchema.ctx, {
 /// Schema for table row node.
 export const tableRowSchema = $nodeSchema('table_row', () => ({
   ...originalSchema.table_row,
+  disableDropCursor: true,
   content: '(table_cell)*',
   parseMarkdown: {
     match: node => node.type === 'tableRow',
@@ -146,6 +149,7 @@ withMeta(tableRowSchema.ctx, {
 /// Schema for table cell node.
 export const tableCellSchema = $nodeSchema('table_cell', () => ({
   ...originalSchema.table_cell,
+  disableDropCursor: true,
   parseMarkdown: {
     match: node => node.type === 'tableCell' && !node.isHeader,
     runner: (state, node, type) => {
@@ -179,6 +183,7 @@ withMeta(tableCellSchema.ctx, {
 /// Schema for table header node.
 export const tableHeaderSchema = $nodeSchema('table_header', () => ({
   ...originalSchema.table_header,
+  disableDropCursor: true,
   parseMarkdown: {
     match: node => node.type === 'tableCell' && !!node.isHeader,
     runner: (state, node, type) => {

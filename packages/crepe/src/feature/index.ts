@@ -11,6 +11,7 @@ export enum CrepeFeature {
   BlockEdit = 'block-edit',
   Toolbar = 'toolbar',
   Placeholder = 'placeholder',
+  Table = 'table',
 }
 
 export interface CrepeFeatureConfig {
@@ -19,14 +20,15 @@ export interface CrepeFeatureConfig {
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
+  [CrepeFeature.Cursor]: true,
   [CrepeFeature.ListItem]: true,
   [CrepeFeature.LinkTooltip]: true,
   [CrepeFeature.ImageBlock]: true,
-  [CrepeFeature.Cursor]: true,
   [CrepeFeature.BlockEdit]: true,
   [CrepeFeature.Placeholder]: true,
   [CrepeFeature.Toolbar]: true,
   [CrepeFeature.CodeMirror]: false,
+  [CrepeFeature.Table]: true,
 }
 
 export async function loadFeature(feature: CrepeFeature, editor: Editor, config?: never) {
@@ -61,6 +63,10 @@ export async function loadFeature(feature: CrepeFeature, editor: Editor, config?
     }
     case CrepeFeature.Toolbar: {
       const { defineFeature } = await import('./toolbar')
+      return defineFeature(editor, config)
+    }
+    case CrepeFeature.Table: {
+      const { defineFeature } = await import('./table')
       return defineFeature(editor, config)
     }
   }
