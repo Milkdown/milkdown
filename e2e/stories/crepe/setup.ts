@@ -76,6 +76,12 @@ const crepe = new Crepe({
     2. List Item 2
 3. List Item 3
 
+* [ ] List Item 1
+* [ ] List Item 2
+    * [x] List Item 1
+    * [x] List Item 2
+* [ ] List Item 3
+
 > Is this the **real life**?
 >
 > Is this just *fantasy*?
@@ -86,9 +92,9 @@ const crepe = new Crepe({
 
 | Fruit | Animal | Vegetable |
 | ----- | :----: | --------: |
-| Apple | Cat    | Carrot    |
-| Banana| Dog    | Cabbage   |
-| Cherry| Horse  | Celery    |
+|   🍎 | 🐱  | 🥕 |
+|   🍌 | 🐶  | 🥦 |
+|   🍒 | 🐎  | 🎃 |
 
 `
 
