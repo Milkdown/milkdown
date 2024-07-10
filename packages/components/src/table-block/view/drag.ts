@@ -4,7 +4,7 @@ import { useEffect, useHost, useMemo } from 'atomico'
 import { commandsCtx } from '@milkdown/core'
 import { moveColCommand, moveRowCommand } from '@milkdown/preset-gfm'
 import type { Ctx } from '@milkdown/ctx'
-import { getRelatedDOM } from './utils'
+import { computeColHandlePositionByIndex, computeRowHandlePositionByIndex, getRelatedDOM } from './utils'
 import type { CellIndex, DragContext, Refs } from './types'
 
 function prepareDndContext(refs: Refs): DragContext | undefined {
@@ -332,9 +332,7 @@ export function useDragHandlers(
     dragPreviewRef,
     yLineHandleRef,
     xLineHandleRef,
-    contentWrapperRef,
     dragInfo,
-    hoverIndex,
   } = refs
   const host = useHost()
   const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
@@ -399,38 +397,18 @@ export function useDragHandlers(
       if (info.type === 'col') {
         commands.call(moveColCommand.key, payload)
         const index: CellIndex = [0, info.endIndex]
-        hoverIndex.current = index
-        const dom = getRelatedDOM(contentWrapperRef, index)
-        if (!dom)
-          return
-        const { headerCol: col } = dom
-        rowHandle.dataset.show = 'false'
-        colHandle.dataset.show = 'true'
-        computePosition(col, colHandle, { placement: 'top' })
-          .then(({ x, y }) => {
-            Object.assign(colHandle.style, {
-              left: `${x}px`,
-              top: `${y}px`,
-            })
-          })
+        computeColHandlePositionByIndex({
+          refs,
+          index,
+        })
       }
       else {
         commands.call(moveRowCommand.key, payload)
         const index: CellIndex = [info.endIndex, 0]
-        hoverIndex.current = index
-        const dom = getRelatedDOM(contentWrapperRef, index)
-        if (!dom)
-          return
-        const { row } = dom
-        colHandle.dataset.show = 'false'
-        rowHandle.dataset.show = 'true'
-        computePosition(row, rowHandle, { placement: 'left' })
-          .then(({ x, y }) => {
-            Object.assign(rowHandle.style, {
-              left: `${x}px`,
-              top: `${y}px`,
-            })
-          })
+        computeRowHandlePositionByIndex({
+          refs,
+          index,
+        })
       }
     }
     const onDragOver = createDragOverHandler(refs)

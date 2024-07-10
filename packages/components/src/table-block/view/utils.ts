@@ -93,34 +93,15 @@ export function recoveryStateBetweenUpdate(
   if (!table || table.node !== node)
     return
 
-  const {
-    hoverIndex,
-    colHandleRef,
-    rowHandleRef,
-    contentWrapperRef,
-  } = refs
-
   if (selection.isColSelection()) {
     const { $head } = selection
     const colIndex = $head.index($head.depth - 1)
-    const index: CellIndex = [0, colIndex]
-    hoverIndex.current = index
-    const colHandle = colHandleRef.current
-    if (!colHandle)
-      return
-    const dom = getRelatedDOM(contentWrapperRef, index)
-    if (!dom)
-      return
-    const { headerCol: col } = dom
-    colHandle.dataset.show = 'true'
-
-    colHandle.querySelector('.button-group')?.setAttribute('data-show', 'true')
-
-    computePosition(col, colHandle, { placement: 'top' }).then(({ x, y }) => {
-      Object.assign(colHandle.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      })
+    computeColHandlePositionByIndex({
+      refs,
+      index: [0, colIndex],
+      before: (handleDOM) => {
+        handleDOM.querySelector('.button-group')?.setAttribute('data-show', 'true')
+      },
     })
     return
   }
@@ -130,25 +111,88 @@ export function recoveryStateBetweenUpdate(
     if (!rowNode)
       return
     const rowIndex = findNodeIndex(table.node, rowNode.node)
-    const index: CellIndex = [rowIndex, 0]
-    hoverIndex.current = index
-    const rowHandle = rowHandleRef.current
-    if (!rowHandle)
-      return
-    const dom = getRelatedDOM(contentWrapperRef, index)
-    if (!dom)
-      return
-    const { row } = dom
-    rowHandle.dataset.show = 'true'
+    computeRowHandlePositionByIndex({
+      refs,
+      index: [rowIndex, 0],
+      before: (handleDOM) => {
+        if (rowIndex > 0)
+          handleDOM.querySelector('.button-group')?.setAttribute('data-show', 'true')
+      },
+    })
+  }
+}
 
-    if (rowIndex > 0)
-      rowHandle.querySelector('.button-group')?.setAttribute('data-show', 'true')
+interface ComputeHandlePositionByIndexProps {
+  refs: Refs
+  index: CellIndex
+  before?: (handleDOM: HTMLDivElement) => void
+  after?: (handleDOM: HTMLDivElement) => void
+}
 
-    computePosition(row, rowHandle, { placement: 'left' }).then(({ x, y }) => {
+export function computeColHandlePositionByIndex({
+  refs,
+  index,
+  before,
+  after,
+}: ComputeHandlePositionByIndexProps) {
+  const {
+    contentWrapperRef,
+    colHandleRef,
+    hoverIndex,
+  } = refs
+  const colHandle = colHandleRef.current
+  if (!colHandle)
+    return
+
+  hoverIndex.current = index
+  const dom = getRelatedDOM(contentWrapperRef, index)
+  if (!dom)
+    return
+  const { headerCol: col } = dom
+  colHandle.dataset.show = 'true'
+  if (before)
+    before(colHandle)
+  computePosition(col, colHandle, { placement: 'top' })
+    .then(({ x, y }) => {
+      Object.assign(colHandle.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      })
+      if (after)
+        after(colHandle)
+    })
+}
+
+export function computeRowHandlePositionByIndex({
+  refs,
+  index,
+  before,
+  after,
+}: ComputeHandlePositionByIndexProps) {
+  const {
+    contentWrapperRef,
+    rowHandleRef,
+    hoverIndex,
+  } = refs
+  const rowHandle = rowHandleRef.current
+  if (!rowHandle)
+    return
+
+  hoverIndex.current = index
+  const dom = getRelatedDOM(contentWrapperRef, index)
+  if (!dom)
+    return
+  const { row } = dom
+  rowHandle.dataset.show = 'true'
+  if (before)
+    before(rowHandle)
+  computePosition(row, rowHandle, { placement: 'left' })
+    .then(({ x, y }) => {
       Object.assign(rowHandle.style, {
         left: `${x}px`,
         top: `${y}px`,
       })
+      if (after)
+        after(rowHandle)
     })
-  }
 }
