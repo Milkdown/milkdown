@@ -13,7 +13,9 @@ import {
 import type { Attrs, NodeType } from '@milkdown/prose/model'
 import { findWrapping } from '@milkdown/prose/transform'
 import type { Command, Transaction } from '@milkdown/prose/state'
+import { NodeSelection } from '@milkdown/prose/state'
 import { imageBlockSchema } from '@milkdown/components'
+import { createTable } from '@milkdown/preset-gfm'
 import {
   bulletListIcon,
   codeIcon,
@@ -286,6 +288,25 @@ export function getGroups(filter?: string) {
 
             const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx))
             command(state, dispatch)
+          },
+        },
+        {
+          key: 'table',
+          label: 'Table',
+          icon: codeIcon,
+          onRun: (ctx) => {
+            const view = ctx.get(editorViewCtx)
+            const { dispatch, state } = view
+            const tr = clearRange(state.tr)
+            const table = createTable(ctx, 3, 3)
+            tr.replaceSelectionWith(table)
+            const { from } = tr.selection
+            const pos = from - table.nodeSize + 2
+            dispatch(tr)
+            requestAnimationFrame(() => {
+              const selection = NodeSelection.create(view.state.tr.doc, pos)
+              dispatch(view.state.tr.setSelection(selection).scrollIntoView())
+            })
           },
         },
       ],

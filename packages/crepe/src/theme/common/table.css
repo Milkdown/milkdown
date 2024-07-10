@@ -3,6 +3,7 @@
 .milkdown {
   milkdown-table-block {
     display: block;
+    margin: 4px;
 
     th,td {
       border: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
@@ -30,6 +31,11 @@
       border: 1px solid var(--crepe-color-primary);
       &[data-show="false"] {
         display: none;
+      }
+      th,td {
+        &:has(.ProseMirror-selectednode) {
+          outline: none;
+        }
       }
     }
 

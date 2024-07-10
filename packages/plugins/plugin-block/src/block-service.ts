@@ -237,6 +237,9 @@ export class BlockService {
 
   /// @internal
   dragenterCallback = (view: EditorView) => {
+    if (!view.dragging)
+      return
+
     this.#dragging = true
     view.dom.dataset.dragging = 'true'
   }

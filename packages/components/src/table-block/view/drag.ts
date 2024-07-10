@@ -2,7 +2,7 @@ import throttle from 'lodash.throttle'
 import { computePosition, offset } from '@floating-ui/dom'
 import { useEffect, useHost, useMemo } from 'atomico'
 import { commandsCtx } from '@milkdown/core'
-import { moveColCommand, moveRowCommand } from '@milkdown/preset-gfm'
+import { moveColCommand, moveRowCommand, selectColCommand, selectRowCommand } from '@milkdown/preset-gfm'
 import type { Ctx } from '@milkdown/ctx'
 import { computeColHandlePositionByIndex, computeRowHandlePositionByIndex, getRelatedDOM } from './utils'
 import type { CellIndex, DragContext, Refs } from './types'
@@ -395,6 +395,10 @@ export function useDragHandlers(
         pos: (getPos?.() ?? 0) + 1,
       }
       if (info.type === 'col') {
+        commands.call(selectColCommand.key, {
+          pos: payload.pos,
+          index: info.startIndex,
+        })
         commands.call(moveColCommand.key, payload)
         const index: CellIndex = [0, info.endIndex]
         computeColHandlePositionByIndex({
@@ -403,6 +407,10 @@ export function useDragHandlers(
         })
       }
       else {
+        commands.call(selectRowCommand.key, {
+          pos: payload.pos,
+          index: info.startIndex,
+        })
         commands.call(moveRowCommand.key, payload)
         const index: CellIndex = [info.endIndex, 0]
         computeRowHandlePositionByIndex({

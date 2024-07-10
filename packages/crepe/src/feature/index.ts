@@ -20,10 +20,10 @@ export interface CrepeFeatureConfig {
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
+  [CrepeFeature.Cursor]: true,
   [CrepeFeature.ListItem]: true,
   [CrepeFeature.LinkTooltip]: true,
   [CrepeFeature.ImageBlock]: true,
-  [CrepeFeature.Cursor]: true,
   [CrepeFeature.BlockEdit]: true,
   [CrepeFeature.Placeholder]: true,
   [CrepeFeature.Toolbar]: true,
