@@ -219,15 +219,22 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
 
     if (info.type === 'col') {
       const width = dom.col.getBoundingClientRect().width
-      const left = contentRoot.getBoundingClientRect().left
-      const previewLeft = e.clientX + wrapperOffsetLeft - left - width / 2
-      const previewRight = e.clientX + wrapperOffsetLeft - left + width / 2
+      const { left, width: fullWidth } = contentRoot.getBoundingClientRect()
+      const leftGap = wrapperOffsetLeft - left
+      const previewLeft = e.clientX + leftGap - width / 2
+      const previewRight = e.clientX + leftGap + width / 2
 
       const [startX] = info.startCoords
       const direction = startX < e.clientX ? 'right' : 'left'
 
       preview.style.top = `${wrapperOffsetTop}px`
-      preview.style.left = `${previewLeft}px`
+      const previewLeftOffset = previewLeft < left + leftGap - 20
+        ? left + leftGap - 20
+        : previewLeft > left + fullWidth + leftGap - width + 20
+          ? left + fullWidth + leftGap - width + 20
+          : previewLeft
+
+      preview.style.left = `${previewLeftOffset}px`
 
       const children = Array.from(firstRow.children)
       const col = children.find((col, index) => {
@@ -271,15 +278,22 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
     }
     else if (info.type === 'row') {
       const height = dom.row.getBoundingClientRect().height
-      const top = contentRoot.getBoundingClientRect().top
+      const { top, height: fullHeight } = contentRoot.getBoundingClientRect()
 
-      const previewTop = e.clientY - top + wrapperOffsetTop - height / 2
-      const previewBottom = e.clientY - top + wrapperOffsetTop + height / 2
+      const topGap = wrapperOffsetTop - top
+      const previewTop = e.clientY + topGap - height / 2
+      const previewBottom = e.clientY + topGap + height / 2
 
       const [_, startY] = info.startCoords
       const direction = startY < e.clientY ? 'down' : 'up'
 
-      preview.style.top = `${previewTop}px`
+      const previewTopOffset = previewTop < top + topGap - 20
+        ? top + topGap - 20
+        : previewTop > top + fullHeight + topGap - height + 20
+          ? top + fullHeight + topGap - height + 20
+          : previewTop
+
+      preview.style.top = `${previewTopOffset}px`
       preview.style.left = `${wrapperOffsetLeft}px`
 
       const rows = Array.from(contentRoot.querySelectorAll('tr'))

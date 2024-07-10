@@ -3,7 +3,7 @@
 .milkdown {
   milkdown-table-block {
     display: block;
-    margin: 4px;
+    margin: 4px 0;
 
     th,td {
       border: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
@@ -23,7 +23,7 @@
     }
 
     .drag-preview {
-      background-color: var(--crepe-color-selected);
+      background-color: var(--crepe-color-surface);
       opacity: 0.4;
       position: absolute;
       z-index: 100;
