@@ -129,7 +129,7 @@ export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: Poi
       index,
     })
     hoverIndex.current = index
-  }, 200)
+  }, 20)
 }
 
 export function createPointerLeaveHandler(refs: Refs): () => void {
