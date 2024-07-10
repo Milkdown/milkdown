@@ -7,11 +7,18 @@
     th,td {
       border: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
       padding: 0 16px;
+      .ProseMirror-selectednode {
+        background-color: transparent !important;
+      }
+      &:has(.ProseMirror-selectednode) {
+        outline: 1px solid var(--crepe-color-primary);
+        outline-offset: -1px;
+      }
     }
 
     .selectedCell::after {
       background-color: var(--crepe-color-selected);
-      opacity: 0.5;
+      opacity: 0.4;
     }
 
     .drag-preview {
@@ -28,7 +35,6 @@
 
     .handle {
       position: absolute;
-      z-index: 50;
       font-size: 14px;
       transition: opacity ease-in-out 0.2s;
     }
@@ -38,6 +44,7 @@
     }
 
     .cell-handle {
+      z-index: 50;
       cursor: grab;
       background-color: var(--crepe-color-surface);
       color: var(--crepe-color-outline);
@@ -75,6 +82,15 @@
         border-radius: 8px;
         box-shadow: var(--crepe-shadow-1);
 
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -8px;
+          height: 8px;
+          background-color: transparent;
+          width: 100%;
+        }
+
         &[data-show="false"] {
           display: none;
         }
@@ -102,6 +118,7 @@
     }
 
     .line-handle {
+      z-index: 20;
       background-color: var(--crepe-color-primary);
       .add-button {
         cursor: pointer;
