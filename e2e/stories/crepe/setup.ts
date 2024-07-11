@@ -59,7 +59,7 @@ export const longContent = `
 
 \`\`\`typescript
 const crepe = new Crepe({
-  theme: CrepeTheme.Classic,
+  root: '#editor'
 })
 \`\`\`
 
