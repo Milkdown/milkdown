@@ -12,6 +12,8 @@ import {
 
 export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: PointerEvent) => void {
   return throttle((e: PointerEvent) => {
+    if (!view?.editable)
+      return
     const {
       contentWrapperRef,
       yLineHandleRef,
