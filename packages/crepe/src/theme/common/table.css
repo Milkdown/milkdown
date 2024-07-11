@@ -117,7 +117,8 @@
 
         button {
           cursor: pointer;
-          padding: 10px;
+          margin: 6px;
+          padding: 4px;
           display: flex;
           justify-content: center;
           align-items: center;
