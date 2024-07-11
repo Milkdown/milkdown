@@ -1,7 +1,6 @@
 import { $ctx } from '@milkdown/utils'
 import type { html } from 'atomico'
 import { withMeta } from '../__internal__/meta'
-import { alignCenter, alignLeft, alignRight, cellDragHandle, deleteButton, lineAddButton } from './svg'
 
 export type RenderType =
   | 'add_row'
@@ -22,23 +21,23 @@ const defaultTableBlockConfig: TableBlockConfig = {
   renderButton: (renderType) => {
     switch (renderType) {
       case 'add_row':
-        return lineAddButton
+        return '+'
       case 'add_col':
-        return lineAddButton
+        return '+'
       case 'delete_row':
-        return deleteButton
+        return '-'
       case 'delete_col':
-        return deleteButton
+        return '-'
       case 'align_col_left':
-        return alignLeft
+        return 'left'
       case 'align_col_center':
-        return alignCenter
+        return 'center'
       case 'align_col_right':
-        return alignRight
+        return 'right'
       case 'col_drag_handle':
-        return cellDragHandle
+        return '='
       case 'row_drag_handle':
-        return cellDragHandle
+        return '='
     }
   },
 }

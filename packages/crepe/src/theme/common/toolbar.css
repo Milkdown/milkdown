@@ -18,16 +18,18 @@
     }
 
     .toolbar-item {
-      width: 44px;
-      height: 44px;
-      padding: 10px;
+      width: 32px;
+      height: 32px;
+      margin: 6px;
+      padding: 4px;
       cursor: pointer;
+      border-radius: 4px;
 
       &:hover {
         background: var(--crepe-color-hover)
       }
 
-      &.active {
+      &:active {
         background: var(--crepe-color-selected);
       }
 
@@ -35,6 +37,14 @@
         height: 24px;
         width: 24px;
         color: var(--crepe-color-outline);
+        fill: var(--crepe-color-outline);
+      }
+
+      &.active {
+        svg {
+          color: var(--crepe-color-primary);
+          fill: var(--crepe-color-primary);
+        }
       }
     }
   }

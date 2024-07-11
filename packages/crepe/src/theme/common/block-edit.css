@@ -20,6 +20,7 @@
       svg {
         width: 24px;
         height: 24px;
+        fill: var(--crepe-color-outline);
       }
 
       &:hover {
@@ -114,6 +115,7 @@
             width: 24px;
             height: 24px;
             color: var(--crepe-color-outline);
+            fill: var(--crepe-color-outline);
           }
           & > span {
             font-size: 14px;
