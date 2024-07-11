@@ -62,11 +62,6 @@ export const menuComponent: Component<MenuProps> = ({
       return
 
     scrollRoot.scrollTop = target.offsetTop - scrollRoot.offsetTop
-
-    // target?.scrollIntoView({
-    //   behavior: 'smooth',
-    //   block: 'end',
-    // })
   }, [])
 
   const runByIndex = useCallback((index: number) => {

@@ -23,6 +23,7 @@ class ToolbarView implements PluginView {
     this.#tooltipProvider = new TooltipProvider({
       content: this.#content,
       debounce: 20,
+      offset: 10,
       shouldShow(view: EditorView) {
         const { doc, selection } = view.state
         const { empty, from, to } = selection

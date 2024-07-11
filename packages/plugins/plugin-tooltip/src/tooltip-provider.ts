@@ -84,7 +84,7 @@ export class TooltipProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: 'top',
-      middleware: [flip()],
+      middleware: [flip(), offset(this.#offset)],
       platform: {
         ...platform,
         getOffsetParent: element =>
