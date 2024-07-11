@@ -122,6 +122,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          border-radius: 4px;
           svg {
             width: 24px;
             height: 24px;
@@ -129,6 +130,9 @@
           &:hover {
             border-radius: 8px;
             background-color: var(--crepe-color-hover);
+          }
+          &:active {
+            background: var(--crepe-color-selected);
           }
         }
       }
@@ -154,6 +158,9 @@
 
         &:hover {
           background-color: var(--crepe-color-hover);
+        }
+        &:active {
+          background: var(--crepe-color-selected);
         }
       }
       &[data-role="x-line-drag-handle"] {
