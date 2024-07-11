@@ -70,6 +70,7 @@ class MenuView implements PluginView {
 
         return true
       },
+      offset: 10,
     })
 
     this.#slashProvider.onShow = () => {
