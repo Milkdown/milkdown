@@ -17,6 +17,9 @@
       gap: 10px;
       .label-wrapper {
         color: var(--crepe-color-outline);
+        svg {
+          fill: var(--crepe-color-outline);
+        }
         height: 32px;
         width: 24px;
         display: flex;

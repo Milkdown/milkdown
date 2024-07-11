@@ -37,6 +37,8 @@
         & > svg {
           width: 18px;
           height: 18px;
+          color: var(--crepe-color-outline);
+          fill: var(--crepe-color-outline);
         }
         padding: 3px;
         line-height: 24px;
@@ -58,6 +60,7 @@
           width: 18px;
           height: 18px;
           color: var(--crepe-color-outline);
+          fill: var(--crepe-color-outline);
         }
         padding: 3px;
         border-radius: 8px;
@@ -97,6 +100,7 @@
           width: 18px;
           height: 18px;
           color: var(--crepe-color-outline);
+          fill: var(--crepe-color-outline);
         }
         padding: 3px;
         cursor: pointer;

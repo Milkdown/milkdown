@@ -69,6 +69,7 @@
       .expand-icon svg {
         width: 14px;
         height: 14px;
+        fill: var(--crepe-color-outline);
       }
 
       &[data-expanded="true"] .expand-icon {

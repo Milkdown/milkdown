@@ -17,9 +17,15 @@
       }
     }
 
-    .selectedCell::after {
-      background-color: var(--crepe-color-selected);
-      opacity: 0.4;
+    .selectedCell {
+      &::after {
+        background-color: var(--crepe-color-selected);
+        opacity: 0.4;
+      }
+
+      ::selection {
+        background: transparent;
+      }
     }
 
     .drag-preview {
@@ -49,6 +55,10 @@
 
     .handle[data-show="false"] {
       opacity: 0;
+    }
+
+    svg {
+      fill: var(--crepe-color-outline);
     }
 
     .cell-handle {
