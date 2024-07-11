@@ -1,7 +1,7 @@
 import throttle from 'lodash.throttle'
 import { computePosition, offset } from '@floating-ui/dom'
 import { useEffect, useHost, useMemo } from 'atomico'
-import { commandsCtx } from '@milkdown/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import { moveColCommand, moveRowCommand, selectColCommand, selectRowCommand } from '@milkdown/preset-gfm'
 import type { Ctx } from '@milkdown/ctx'
 import { computeColHandlePositionByIndex, computeRowHandlePositionByIndex, getRelatedDOM } from './utils'
@@ -61,7 +61,11 @@ function prepareDndContext(refs: Refs): DragContext | undefined {
   return context
 }
 
-function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => void) {
+function handleDrag(refs: Refs, event: DragEvent, ctx: Ctx | undefined, fn: (context: DragContext) => void) {
+  const view = ctx?.get(editorViewCtx)
+  if (!view?.editable)
+    return
+
   event.stopPropagation()
   if (event.dataTransfer)
     event.dataTransfer.effectAllowed = 'move'
@@ -78,9 +82,9 @@ function handleDrag(refs: Refs, event: DragEvent, fn: (context: DragContext) => 
   })
 }
 
-export function createDragRowHandler(refs: Refs) {
+export function createDragRowHandler(refs: Refs, ctx?: Ctx) {
   return (event: DragEvent) => {
-    handleDrag(refs, event, ({
+    handleDrag(refs, event, ctx, ({
       preview,
       content,
       previewRoot,
@@ -127,9 +131,9 @@ export function createDragRowHandler(refs: Refs) {
   }
 }
 
-export function createDragColHandler(refs: Refs) {
+export function createDragColHandler(refs: Refs, ctx?: Ctx) {
   return (event: DragEvent) => {
-    handleDrag(refs, event, ({
+    handleDrag(refs, event, ctx, ({
       preview,
       content,
       previewRoot,
@@ -351,8 +355,8 @@ export function useDragHandlers(
   const host = useHost()
   const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
 
-  const dragRow = useMemo(() => createDragRowHandler(refs), [refs])
-  const dragCol = useMemo(() => createDragColHandler(refs), [refs])
+  const dragRow = useMemo(() => createDragRowHandler(refs, ctx), [refs])
+  const dragCol = useMemo(() => createDragColHandler(refs, ctx), [refs])
 
   useEffect(() => {
     const onDragEnd = () => {

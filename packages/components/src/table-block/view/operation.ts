@@ -1,5 +1,5 @@
 import { useCallback } from 'atomico'
-import { commandsCtx } from '@milkdown/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import {
   addColAfterCommand,
   addColBeforeCommand,
@@ -34,6 +34,9 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
     if (rowIndex < 0)
       return
 
+    if (!ctx.get(editorViewCtx).editable)
+      return
+
     const rows = Array.from(contentWrapperRef.current?.querySelectorAll('tr') ?? [])
     const commands = ctx.get(commandsCtx)
     const pos = (getPos?.() ?? 0) + 1
@@ -59,6 +62,9 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
 
     const [_, colIndex] = lineHoverIndex.current!
     if (colIndex < 0)
+      return
+
+    if (!ctx.get(editorViewCtx).editable)
       return
 
     const cols = Array.from(contentWrapperRef.current?.querySelector('tr')?.children ?? [])
@@ -104,6 +110,10 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
   const deleteSelected = useCallback((e: PointerEvent) => {
     if (!ctx)
       return
+
+    if (!ctx.get(editorViewCtx).editable)
+      return
+
     e.preventDefault()
     e.stopPropagation()
     const commands = ctx.get(commandsCtx)
@@ -114,6 +124,10 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
     (e: PointerEvent) => {
       if (!ctx)
         return
+
+      if (!ctx.get(editorViewCtx).editable)
+        return
+
       e.preventDefault()
       e.stopPropagation()
       const commands = ctx.get(commandsCtx)

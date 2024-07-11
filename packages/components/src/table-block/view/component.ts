@@ -4,6 +4,7 @@ import type { Node } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 import type { Ctx } from '@milkdown/ctx'
 
+import clsx from 'clsx'
 import type { TableBlockConfig } from '../config'
 import { useDragHandlers } from './drag'
 import type { CellIndex, DragInfo, Refs } from './types'
@@ -62,7 +63,8 @@ export const tableComponent: Component<TableComponentProps> = ({
     if (contentDOM)
       current.appendChild(contentDOM)
 
-    recoveryStateBetweenUpdate(refs, ctx, node)
+    if (view?.editable)
+      recoveryStateBetweenUpdate(refs, ctx, node)
   }, [])
 
   const { pointerLeave, pointerMove } = usePointerHandlers(refs, view)
@@ -78,6 +80,7 @@ export const tableComponent: Component<TableComponentProps> = ({
 
   return html`
     <host
+      class=${clsx(!view?.editable && 'readonly')}
       ondragstart=${(e: DragEvent) => e.preventDefault()}
       ondragover=${(e: DragEvent) => e.preventDefault()}
       ondragleave=${(e: DragEvent) => e.preventDefault()}

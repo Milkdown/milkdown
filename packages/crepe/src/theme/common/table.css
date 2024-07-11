@@ -53,6 +53,8 @@
 
     .cell-handle {
       z-index: 50;
+      left: -999px;
+      top: -999px;
       cursor: grab;
       background-color: var(--crepe-color-surface);
       color: var(--crepe-color-outline);
@@ -128,15 +130,18 @@
     .line-handle {
       z-index: 20;
       background-color: var(--crepe-color-primary);
+      &:hover{
+        opacity: 1;
+      }
       .add-button {
         cursor: pointer;
         background-color: var(--crepe-color-surface);
         color: var(--crepe-color-outline);
         border-radius: 100px;
         box-shadow: var(--crepe-shadow-1);
+        transition: background-color 0.2s ease-in-out;
 
         &:hover {
-          transition: background-color 0.2s ease-in-out;
           background-color: var(--crepe-color-hover);
         }
       }
@@ -165,6 +170,10 @@
           display: none;
         }
       }
+    }
+
+    &.readonly .handle {
+      display: none;
     }
   }
 }

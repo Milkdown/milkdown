@@ -52,6 +52,9 @@ export class TableNodeView implements NodeView {
 
   #handleClick(event: PointerEvent) {
     const view = this.view
+    if (!view.editable)
+      return false
+
     const { state, dispatch } = view
     const pos = view.posAtCoords({ left: event.clientX, top: event.clientY })
 
