@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
-    "directory": "packages/plugin-cursor"
+    "directory": "packages/plugins/plugin-cursor"
   },
   "keywords": [
     "milkdown",
