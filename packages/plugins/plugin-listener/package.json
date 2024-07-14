@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
-    "directory": "packages/plugin-listener"
+    "directory": "packages/plugins/plugin-listener"
   },
   "keywords": [
     "milkdown",

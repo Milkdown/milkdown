@@ -1,4 +1,4 @@
-import { tableBlock, tableBlockConfig } from '@milkdown/components'
+import { tableBlock, tableBlockConfig } from 'milkdown/component/table-block'
 import type { DefineFeature } from '../shared'
 import {
   alignCenter,

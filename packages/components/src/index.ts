@@ -1,7 +1,1 @@
-export * from './image-block'
-export * from './list-item-block'
-export * from './code-block'
-export * from './link-tooltip'
-export * from './image-inline'
-export * from './table-block'
 export { html } from 'atomico'

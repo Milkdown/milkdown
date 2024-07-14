@@ -1,4 +1,4 @@
-import type { Selection } from '@milkdown/prose/state'
+import type { Selection } from 'milkdown/prose/state'
 
 export function isInCodeBlock(selection: Selection) {
   const type = selection.$from.parent.type

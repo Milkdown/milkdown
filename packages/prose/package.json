@@ -16,6 +16,9 @@
     "./commands": {
       "import": "./src/commands.ts"
     },
+    "./changeset": {
+      "import": "./src/changeset.ts"
+    },
     "./dropcursor": {
       "import": "./src/dropcursor.ts"
     },
@@ -51,7 +54,7 @@
     },
     "./view/style/prosemirror.css": "./node_modules/prosemirror-view/style/prosemirror.css",
     "./tables/style/tables.css": "./node_modules/prosemirror-tables/style/tables.css",
-    "./gapcursor/style/gapcurosr.css": "./node_modules/prosemirror-gapcursor/style/gapcursor.css"
+    "./gapcursor/style/gapcursor.css": "./node_modules/prosemirror-gapcursor/style/gapcursor.css"
   },
   "main": "./src/index.ts",
   "publishConfig": {
@@ -59,6 +62,10 @@
       ".": {
         "types": "./lib/index.d.ts",
         "import": "./lib/index.js"
+      },
+      "./changeset": {
+        "types": "./lib/changeset.d.ts",
+        "import": "./lib/changeset.js"
       },
       "./commands": {
         "types": "./lib/commands.d.ts",
@@ -110,7 +117,7 @@
       },
       "./view/style/prosemirror.css": "./lib/style/prosemirror.css",
       "./tables/style/tables.css": "./lib/style/tables.css",
-      "./gapcursor/style/gapcurosr.css": "./lib/style/gapcursor.css"
+      "./gapcursor/style/gapcursor.css": "./lib/style/gapcursor.css"
     },
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",

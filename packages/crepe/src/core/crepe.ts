@@ -1,12 +1,14 @@
-import type { DefaultValue } from '@milkdown/core'
-import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import type { DefaultValue } from 'milkdown/core'
+import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from 'milkdown/core'
 
-import { history } from '@milkdown/plugin-history'
-import { commonmark } from '@milkdown/preset-commonmark'
-import { indent, indentConfig } from '@milkdown/plugin-indent'
-import { clipboard } from '@milkdown/plugin-clipboard'
-import { getMarkdown } from '@milkdown/utils'
-import { gfm } from '@milkdown/preset-gfm'
+import { commonmark } from 'milkdown/preset/commonmark'
+import { gfm } from 'milkdown/preset/gfm'
+import { history } from 'milkdown/plugin/history'
+import { indent, indentConfig } from 'milkdown/plugin/indent'
+import { getMarkdown } from 'milkdown/utils'
+import { clipboard } from 'milkdown/plugin/clipboard'
+import { trailing } from 'milkdown/plugin/trailing'
+
 import type { CrepeFeature, CrepeFeatureConfig } from '../feature'
 import { defaultFeatures, loadFeature } from '../feature'
 import { configureFeatures } from './slice'
@@ -55,6 +57,7 @@ export class Crepe {
       .use(commonmark)
       .use(history)
       .use(indent)
+      .use(trailing)
       .use(clipboard)
       .use(gfm)
 

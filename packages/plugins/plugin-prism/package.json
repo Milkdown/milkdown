@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
-    "directory": "packages/plugin-prism"
+    "directory": "packages/plugins/plugin-prism"
   },
   "keywords": [
     "milkdown",
