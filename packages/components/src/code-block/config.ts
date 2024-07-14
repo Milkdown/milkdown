@@ -12,6 +12,7 @@ export interface CodeBlockConfig {
   expandIcon: () => ReturnType<typeof html>
   searchIcon: () => ReturnType<typeof html>
   clearSearchIcon: () => ReturnType<typeof html>
+  noResultText: () => ReturnType<typeof html> | string
   renderLanguage: (language: string, selected: boolean) => ReturnType<typeof html>
 }
 
@@ -22,6 +23,7 @@ export const defaultConfig: CodeBlockConfig = {
   expandIcon: () => chevronDown,
   searchIcon: () => search,
   clearSearchIcon: () => xCircle,
+  noResultText: () => 'No result',
   renderLanguage: language => html`${language}`,
 }
 
