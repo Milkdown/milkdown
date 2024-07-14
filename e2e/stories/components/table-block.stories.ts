@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { gfm } from '@milkdown/preset-gfm'
 
-import { tableBlock } from '@milkdown/components'
+import { tableBlock } from '@milkdown/components/table-block'
 import tableStyle from '@milkdown/prose/tables/style/tables.css?inline'
 import { cursor } from '@milkdown/plugin-cursor'
 import { history } from '@milkdown/plugin-history'
