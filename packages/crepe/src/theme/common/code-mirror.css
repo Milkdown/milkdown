@@ -69,7 +69,7 @@
       .expand-icon svg {
         width: 14px;
         height: 14px;
-        fill: var(--crepe-color-outline);
+        color: var(--crepe-color-outline);
       }
 
       &[data-expanded="true"] .expand-icon {
@@ -127,6 +127,14 @@
         width: 24px;
         height: 24px;
       }
+
+      &.no-result {
+        cursor: default;
+        opacity: 0.6;
+        &:hover {
+          background: transparent;
+        }
+      }
     }
 
     .search-box {
@@ -138,6 +146,9 @@
       outline: 1px solid var(--crepe-color-primary);
       gap: 8px;
       padding: 6px 10px;
+      &:has(input:focus) {
+        outline: 2px solid var(--crepe-color-primary);
+      }
 
       .search-input {
         width: 100%;
@@ -156,6 +167,7 @@
           width: 20px;
           height: 20px;
           color: var(--crepe-color-primary);
+          fill: var(--crepe-color-primary);
         }
         &:hover {
           background: var(--crepe-color-hover);

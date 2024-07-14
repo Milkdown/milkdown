@@ -107,6 +107,9 @@ export const codeComponent: Component<CodeComponentProps> = ({
         || languageInfo.alias.some(alias => alias.toLowerCase().includes(filter.toLowerCase()))) && languageInfo !== selected
     })
 
+    if (filtered.length === 0)
+      return []
+
     if (!selected)
       return filtered
 
@@ -147,6 +150,24 @@ export const codeComponent: Component<CodeComponentProps> = ({
     }
   }
 
+  const renderedLanguageList = useMemo(() => {
+    if (!languages?.length)
+      return html`<li class="language-list-item no-result">no result</li>`
+
+    return languages.map(languageInfo =>
+      html`<li
+        role="listitem"
+        tabindex="0"
+        class="language-list-item"
+        aria-selected=${languageInfo.name.toLowerCase() === language?.toLowerCase()}
+        data-language=${languageInfo.name}
+        onclick=${() => setLanguage?.(languageInfo.name)}
+      >
+        ${config?.renderLanguage?.(languageInfo.name, languageInfo.name.toLowerCase() === language?.toLowerCase())}
+      </li>`,
+    )
+  }, [languages])
+
   return html`<host class=${clsx(selected && 'selected')}>
     <div class="tools">
       <button
@@ -178,19 +199,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
             </div>
           </div>
           <ul class="language-list" role="listbox" onkeydown=${onListKeydown}>
-            ${languages.map(languageInfo =>
-              html`
-                <li
-                  role="listitem"
-                  tabindex="0"
-                  class="language-list-item"
-                  aria-selected=${languageInfo.name.toLowerCase() === language?.toLowerCase()}
-                  data-language=${languageInfo.name}
-                  onclick=${() => setLanguage?.(languageInfo.name)}
-                >
-                  ${config?.renderLanguage?.(languageInfo.name, languageInfo.name.toLowerCase() === language?.toLowerCase())}
-                </li>`,
-            )}
+            ${renderedLanguageList}
           </ul>
         </div>
       </div>
