@@ -1,5 +1,5 @@
-import type { Ctx } from '@milkdown/ctx'
-import { listItemBlockComponent, listItemBlockConfig } from '@milkdown/components/list-item-block'
+import type { Ctx } from 'milkdown/ctx'
+import { listItemBlockComponent, listItemBlockConfig } from 'milkdown/component/list-item-block'
 import { html } from 'atomico'
 import clsx from 'clsx'
 import type { DefineFeature } from '../shared'

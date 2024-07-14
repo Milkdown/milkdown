@@ -1,4 +1,4 @@
-import { cursor, dropCursorConfig } from '@milkdown/plugin-cursor'
+import { cursor, dropCursorConfig } from 'milkdown/plugin/cursor'
 
 import type { DefineFeature } from '../shared'
 

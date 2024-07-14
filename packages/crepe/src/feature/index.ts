@@ -1,4 +1,4 @@
-import type { Editor } from '@milkdown/core'
+import type { Editor } from 'milkdown/core'
 import type { PlaceHolderFeatureConfig } from './placeholder'
 import type { CodeMirrorFeatureConfig } from './code-mirror'
 
