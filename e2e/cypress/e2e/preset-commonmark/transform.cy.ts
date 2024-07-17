@@ -45,7 +45,7 @@ describe('transform:', () => {
     })
 
     cy.get('blockquote p').should('have.length', 2)
-    cy.get('blockquote br').should('exist')
+    cy.get('blockquote span[data-type="hardbreak"]').should('exist')
   })
 
   it('list', () => {
