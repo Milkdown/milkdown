@@ -181,7 +181,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
       if (!node)
         return
       node.forEach((child, index) => {
-        if (child.type === 'text') {
+        if (child.type === 'text' && child.value) {
           if (first < 0)
             first = index
 
