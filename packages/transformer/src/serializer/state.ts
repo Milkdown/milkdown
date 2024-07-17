@@ -172,7 +172,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   }
 
   #moveSpaces = (element: SerializerStackElement, onPush: () => MarkdownNode) => {
-    let startdSpaces = ''
+    let startSpaces = ''
     let endSpaces = ''
     const children = element.children
     let first = -1
@@ -198,13 +198,13 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
         lastChild.value = lastChild.value.trimEnd()
       }
       if (firstChild && firstChild.value.startsWith(' ')) {
-        startdSpaces = firstChild.value.match(/^ +/)![0]
+        startSpaces = firstChild.value.match(/^ +/)![0]
         firstChild.value = firstChild.value.trimStart()
       }
     }
 
-    if (startdSpaces.length)
-      this.#addNodeAndPush('text', undefined, startdSpaces)
+    if (startSpaces.length)
+      this.#addNodeAndPush('text', undefined, startSpaces)
 
     const result = onPush()
 
