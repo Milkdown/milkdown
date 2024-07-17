@@ -90,14 +90,76 @@ describe('input:', () => {
   })
 
   describe('mark:', () => {
-    it('bold', () => {
-      cy.get('.editor').type('The lunatic is on the grass')
-      cy.get('.editor').type('{selectAll}')
-      cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
-      cy.get('strong').should('have.text', 'The lunatic is on the grass')
-      cy.get('.editor').type('{selectAll}')
-      cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
-      cy.get('strong').should('not.exist')
+    describe('bold', () => {
+      it('standard bold', () => {
+        cy.get('.editor').type('The lunatic is on the grass')
+        cy.get('.editor').type('{selectAll}')
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('strong').should('have.text', 'The lunatic is on the grass')
+        cy.get('.editor').type('{selectAll}')
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('strong').should('not.exist')
+      })
+
+      it('end with space', () => {
+        cy.get('.editor').type('The lunatic ')
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(`on the `)
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(' grass')
+        cy.window().then((win) => {
+          cy.wrap(win.__getMarkdown__())
+            .should('equal', 'The lunatic **on the**  grass\n')
+        })
+      })
+
+      it('end with spaces', () => {
+        cy.get('.editor').type('The lunatic ')
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(`on the    `)
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(' grass')
+        cy.window().then((win) => {
+          cy.wrap(win.__getMarkdown__())
+            .should('equal', 'The lunatic **on the**     grass\n')
+        })
+      })
+
+      it('start with space', () => {
+        cy.get('.editor').type('The lunatic ')
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(` is on the`)
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(' grass')
+        cy.window().then((win) => {
+          cy.wrap(win.__getMarkdown__())
+            .should('equal', 'The lunatic  **is on the** grass\n')
+        })
+      })
+
+      it('start with spaces', () => {
+        cy.get('.editor').type('The lunatic ')
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(`    is on the`)
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(' grass')
+        cy.window().then((win) => {
+          cy.wrap(win.__getMarkdown__())
+            .should('equal', 'The lunatic     **is on the** grass\n')
+        })
+      })
+
+      it('start and end with spaces', () => {
+        cy.get('.editor').type('The lunatic ')
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(`    is on the    `)
+        cy.get('.editor').type(`{${isMac ? 'cmd' : 'ctrl'}+b}`)
+        cy.get('.editor').type(' grass')
+        cy.window().then((win) => {
+          cy.wrap(win.__getMarkdown__())
+            .should('equal', 'The lunatic     **is on the**     grass\n')
+        })
+      })
     })
 
     it('italic', () => {

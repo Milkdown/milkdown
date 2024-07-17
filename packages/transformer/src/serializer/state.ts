@@ -171,10 +171,59 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     return this
   }
 
+  #moveSpaces = (element: SerializerStackElement, onPush: () => MarkdownNode) => {
+    let startdSpaces = ''
+    let endSpaces = ''
+    const children = element.children
+    let first = -1
+    let last = -1
+    const findIndex = (node: MarkdownNode[]) => {
+      if (!node)
+        return
+      node.forEach((child, index) => {
+        if (child.type === 'text') {
+          if (first < 0)
+            first = index
+
+          last = index
+        }
+      })
+    }
+    if (children) {
+      findIndex(children)
+      const lastChild = children?.at(last) as MarkdownNode & { value: string } | undefined
+      const firstChild = children?.at(first) as MarkdownNode & { value: string } | undefined
+      if (lastChild && lastChild.value.endsWith(' ')) {
+        endSpaces = lastChild.value.match(/ +$/)![0]
+        lastChild.value = lastChild.value.trimEnd()
+      }
+      if (firstChild && firstChild.value.startsWith(' ')) {
+        startdSpaces = firstChild.value.match(/^ +/)![0]
+        firstChild.value = firstChild.value.trimStart()
+      }
+    }
+
+    if (startdSpaces.length)
+      this.#addNodeAndPush('text', undefined, startdSpaces)
+
+    const result = onPush()
+
+    if (endSpaces.length)
+      this.#addNodeAndPush('text', undefined, endSpaces)
+
+    return result
+  }
+
   /// @internal
-  #closeNodeAndPush = (): MarkdownNode => {
+  #closeNodeAndPush = (trim: boolean = false): MarkdownNode => {
     const element = this.close()
-    return this.#addNodeAndPush(element.type, element.children, element.value, element.props)
+
+    const onPush = () => this.#addNodeAndPush(element.type, element.children, element.value, element.props)
+
+    if (trim)
+      return this.#moveSpaces(element, onPush)
+
+    return onPush()
   }
 
   /// Close the current node and push it into the parent node.
@@ -216,7 +265,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
       return
 
     this.#marks = mark.type.removeFromSet(this.#marks)
-    this.#closeNodeAndPush()
+    this.#closeNodeAndPush(true)
   }
 
   /// Open a new mark, the next nodes added will have that mark.
