@@ -189,10 +189,11 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
         }
       })
     }
+
     if (children) {
       findIndex(children)
-      const lastChild = children?.at(last) as MarkdownNode & { value: string } | undefined
-      const firstChild = children?.at(first) as MarkdownNode & { value: string } | undefined
+      const lastChild = children?.[last] as MarkdownNode & { value: string } | undefined
+      const firstChild = children?.[first] as MarkdownNode & { value: string } | undefined
       if (lastChild && lastChild.value.endsWith(' ')) {
         endSpaces = lastChild.value.match(/ +$/)![0]
         lastChild.value = lastChild.value.trimEnd()
