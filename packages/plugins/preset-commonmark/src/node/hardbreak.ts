@@ -9,6 +9,7 @@ import { withMeta } from '../__internal__'
 /// - `data-is-inline` - Whether the hardbreak is inline.
 export const hardbreakAttr = $nodeAttr('hardbreak', (node) => {
   return {
+    'data-type': 'hardbreak',
     'data-is-inline': node.attrs.isInline,
   }
 })
@@ -28,8 +29,8 @@ export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
     },
   },
   selectable: false,
-  parseDOM: [{ tag: 'br' }],
-  toDOM: node => ['br', ctx.get(hardbreakAttr.key)(node)],
+  parseDOM: [{ tag: 'br' }, { tag: 'span[data-type="hardbreak"]', getAttrs: () => ({ isInline: true }) }],
+  toDOM: node => node.attrs.isInline ? ['span', ctx.get(hardbreakAttr.key)(node), ' '] : ['br', ctx.get(hardbreakAttr.key)(node)],
   parseMarkdown: {
     match: ({ type }) => type === 'break',
     runner: (state, node, type) => {
