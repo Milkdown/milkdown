@@ -45,7 +45,7 @@ describe('transform:', () => {
     })
 
     cy.get('blockquote p').should('have.length', 2)
-    cy.get('blockquote br').should('exist')
+    cy.get('blockquote span[data-type="hardbreak"]').should('exist')
   })
 
   it('list', () => {
@@ -86,6 +86,24 @@ describe('transform:', () => {
     })
 
     cy.get('hr').should('be.visible')
+  })
+
+  it('hardbreak', () => {
+    cy.get('.editor')
+    cy.window().then((win) => {
+      cy.fixture('hardbreak.md').then((md) => {
+        win.__setMarkdown__(md)
+      })
+    })
+
+    cy.get('.editor').type('{moveToStart}')
+    cy.window().then((win) => {
+      expect(win.__view__.state.selection.from).eq(1)
+    })
+    cy.get('.editor').type('{downArrow}')
+    cy.window().then((win) => {
+      expect(win.__view__.state.selection.$from.node().type.name).eq('code_block')
+    })
   })
 
   it('code block', () => {
