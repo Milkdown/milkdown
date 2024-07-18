@@ -124,7 +124,7 @@
     "@types/lodash.throttle": "^4.1.9",
     "atomico": "^1.75.1",
     "clsx": "^2.0.0",
-    "composed-offset-position": "^0.0.4",
+    "composed-offset-position": "0.0.4",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "tslib": "^2.5.0",

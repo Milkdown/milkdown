@@ -49,7 +49,7 @@
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@types/lodash.throttle": "^4.1.9",
-    "composed-offset-position": "^0.0.4",
+    "composed-offset-position": "0.0.4",
     "lodash.throttle": "^4.1.1",
     "tslib": "^2.5.0"
   },
