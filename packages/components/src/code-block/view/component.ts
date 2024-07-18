@@ -1,9 +1,8 @@
 import type { EditorView as CodeMirror } from '@codemirror/view'
 import type { Component } from 'atomico'
 import { c, h, html, useEffect, useHost, useLayoutEffect, useMemo, useRef, useState } from 'atomico'
-import { computePosition, platform } from '@floating-ui/dom'
+import { computePosition } from '@floating-ui/dom'
 import clsx from 'clsx'
-import { offsetParent } from 'composed-offset-position'
 import type { CodeBlockConfig } from '../config'
 import type { LanguageInfo } from './loader'
 
@@ -81,11 +80,6 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
     computePosition(picker, languageList, {
       placement: 'bottom-start',
-      platform: {
-        ...platform,
-        getOffsetParent: element =>
-          platform.getOffsetParent(element, offsetParent),
-      },
     }).then(({ x, y }) => {
       Object.assign(languageList.style, {
         left: `${x}px`,

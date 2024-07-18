@@ -331,9 +331,6 @@ importers:
       clsx:
         specifier: ^2.0.0
         version: 2.0.0
-      composed-offset-position:
-        specifier: 0.0.4
-        version: 0.0.4
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
@@ -604,9 +601,6 @@ importers:
       '@types/lodash.throttle':
         specifier: ^4.1.9
         version: 4.1.9
-      composed-offset-position:
-        specifier: 0.0.4
-        version: 0.0.4
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
@@ -900,9 +894,6 @@ importers:
       '@types/lodash.debounce':
         specifier: ^4.0.7
         version: 4.0.9
-      composed-offset-position:
-        specifier: 0.0.4
-        version: 0.0.4
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
@@ -934,9 +925,6 @@ importers:
       '@types/lodash.debounce':
         specifier: ^4.0.7
         version: 4.0.9
-      composed-offset-position:
-        specifier: 0.0.4
-        version: 0.0.4
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
@@ -5007,9 +4995,6 @@ packages:
 
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
-
-  composed-offset-position@0.0.4:
-    resolution: {integrity: sha512-vMlvu1RuNegVE0YsCDSV/X4X10j56mq7PCIyOKK74FxkXzGLwhOUmdkJLSdOBOMwWycobGUMgft2lp+YgTe8hw==}
 
   compressible@2.0.18:
     resolution: {integrity: sha512-AF3r7P5dWxL8MxyITRMlORQNaOA2IkAFaTr4k7BUumjPtRpGDTZpl0Pb1XCO6JeDCBdp126Cgs9sMxqSjgYyRg==}
@@ -15020,8 +15005,6 @@ snapshots:
     dependencies:
       array-ify: 1.0.0
       dot-prop: 5.3.0
-
-  composed-offset-position@0.0.4: {}
 
   compressible@2.0.18:
     dependencies:

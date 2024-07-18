@@ -49,7 +49,6 @@
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "@types/lodash.debounce": "^4.0.7",
-    "composed-offset-position": "0.0.4",
     "lodash.debounce": "^4.0.8",
     "tslib": "^2.5.0"
   },

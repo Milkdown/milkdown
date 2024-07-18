@@ -3,9 +3,8 @@ import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
 import type { VirtualElement } from '@floating-ui/dom'
-import { computePosition, flip, offset, platform } from '@floating-ui/dom'
+import { computePosition, flip, offset } from '@floating-ui/dom'
 import { posToDOMRect } from '@milkdown/prose'
-import { offsetParent } from 'composed-offset-position'
 
 /// Options for tooltip provider.
 export interface TooltipProviderOptions {
@@ -85,11 +84,6 @@ export class TooltipProvider {
     computePosition(virtualEl, this.element, {
       placement: 'top',
       middleware: [flip(), offset(this.#offset)],
-      platform: {
-        ...platform,
-        getOffsetParent: element =>
-          platform.getOffsetParent(element, offsetParent),
-      },
     })
       .then(({ x, y }) => {
         Object.assign(this.element.style, {
@@ -143,11 +137,6 @@ export class TooltipProvider {
       computePosition(virtualElement, this.element, {
         placement: 'top',
         middleware: [flip(), offset(this.#offset)],
-        platform: {
-          ...platform,
-          getOffsetParent: element =>
-            platform.getOffsetParent(element, offsetParent),
-        },
       })
         .then(({ x, y }) => {
           Object.assign(this.element.style, {

@@ -3,9 +3,8 @@ import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 
 import type { Placement, VirtualElement } from '@floating-ui/dom'
-import { computePosition, flip, offset, platform } from '@floating-ui/dom'
+import { computePosition, flip, offset } from '@floating-ui/dom'
 
-import { offsetParent } from 'composed-offset-position'
 import { editorViewCtx } from '@milkdown/core'
 import type { BlockService } from './block-service'
 import { blockService } from './block-plugin'
@@ -159,11 +158,6 @@ export class BlockProvider {
         ? this.#getPlacement(deriveContext)
         : 'left',
       middleware,
-      platform: {
-        ...platform,
-        getOffsetParent: element =>
-          platform.getOffsetParent(element, offsetParent),
-      },
     }).then(({ x, y }) => {
       Object.assign(this.#element.style, {
         left: `${x}px`,
