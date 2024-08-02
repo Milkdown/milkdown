@@ -1,5 +1,5 @@
 {
-  "name": "milkdown",
+  "name": "@milkdown/kit",
   "type": "module",
   "version": "7.4.0",
   "license": "MIT",

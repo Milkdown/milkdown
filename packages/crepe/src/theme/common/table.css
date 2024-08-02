@@ -1,4 +1,4 @@
-@import "milkdown/prose/tables/style/tables.css";
+@import "@milkdown/kit/prose/tables/style/tables.css";
 
 .milkdown {
   milkdown-table-block {
