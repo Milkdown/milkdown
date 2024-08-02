@@ -3,7 +3,7 @@ import { listItemBlockComponent, listItemBlockConfig } from '@milkdown/kit/compo
 import { html } from 'atomico'
 import clsx from 'clsx'
 import type { DefineFeature } from '../shared'
-import { bulletIcon, checkBoxCheckedIcon, checkBoxEmptyIcon } from './consts'
+import { bulletIcon, checkBoxCheckedIcon, checkBoxUncheckedIcon } from '../../icons'
 
 function configureListItem(ctx: Ctx) {
   ctx.set(listItemBlockConfig.key, {
@@ -18,7 +18,7 @@ function configureListItem(ctx: Ctx) {
       if (checked)
         return html`<span class=${clsx('label checkbox', readonly && 'readonly')}>${checkBoxCheckedIcon}</span>`
 
-      return html`<span class=${clsx('label checkbox', readonly && 'readonly')}>${checkBoxEmptyIcon}</span>`
+      return html`<span class=${clsx('label checkbox', readonly && 'readonly')}>${checkBoxUncheckedIcon}</span>`
     },
   })
 }

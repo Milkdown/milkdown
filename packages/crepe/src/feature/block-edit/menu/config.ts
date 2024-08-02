@@ -33,7 +33,7 @@ import {
   tableIcon,
   textIcon,
   todoListIcon,
-} from './icons'
+} from '../../../icons'
 
 interface MenuItem {
   index: number

@@ -156,6 +156,11 @@
         box-shadow: var(--crepe-shadow-1);
         transition: background-color 0.2s ease-in-out;
 
+        & > svg {
+          width: 16px;
+          height: 16px;
+        }
+
         &:hover {
           background-color: var(--crepe-color-hover);
         }
@@ -165,6 +170,7 @@
       }
       &[data-role="x-line-drag-handle"] {
         height: 1px;
+        z-index: 2;
         .add-button {
           position: absolute;
           transform: translateX(-50%) translateY(-50%);
@@ -175,6 +181,7 @@
       }
       &[data-role="y-line-drag-handle"] {
         width: 1px;
+        z-index: 1;
         .add-button {
           position: absolute;
           transform: translateY(-50%) translateX(-50%);
