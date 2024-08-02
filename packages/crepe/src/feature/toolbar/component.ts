@@ -15,7 +15,7 @@ import type { MarkType } from '@milkdown/kit/prose/model'
 import clsx from 'clsx'
 import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
 import { strikethroughSchema, toggleStrikethroughCommand } from '@milkdown/kit/preset/gfm'
-import { boldIcon, codeIcon, italicIcon, linkIcon, strikethroughIcon } from './consts'
+import { boldIcon, codeIcon, italicIcon, linkIcon, strikethroughIcon } from '../../icons'
 
 export interface ToolbarProps {
   ctx: Ctx

@@ -1,13 +1,14 @@
 import { tableBlock, tableBlockConfig } from '@milkdown/kit/component/table-block'
 import type { DefineFeature } from '../shared'
-import {
-  alignCenter,
-  alignLeft,
-  alignRight,
-  cellDragHandle,
-  deleteButton,
-  lineAddButton,
-} from './consts'
+import { alignCenterIcon, alignLeftIcon, alignRightIcon, dragHandleIcon, plusIcon, removeIcon } from '../../icons'
+// import {
+//   alignCenter,
+//   alignLeft,
+//   alignRight,
+//   cellDragHandle,
+//   deleteButton,
+//   lineAddButton,
+// } from './consts'
 
 export const defineFeature: DefineFeature = (editor) => {
   editor.config((ctx) => {
@@ -16,23 +17,23 @@ export const defineFeature: DefineFeature = (editor) => {
       renderButton: (renderType) => {
         switch (renderType) {
           case 'add_row':
-            return lineAddButton
+            return plusIcon
           case 'add_col':
-            return lineAddButton
+            return plusIcon
           case 'delete_row':
-            return deleteButton
+            return removeIcon
           case 'delete_col':
-            return deleteButton
+            return removeIcon
           case 'align_col_left':
-            return alignLeft
+            return alignLeftIcon
           case 'align_col_center':
-            return alignCenter
+            return alignCenterIcon
           case 'align_col_right':
-            return alignRight
+            return alignRightIcon
           case 'col_drag_handle':
-            return cellDragHandle
+            return dragHandleIcon
           case 'row_drag_handle':
-            return cellDragHandle
+            return dragHandleIcon
         }
       },
     }))
