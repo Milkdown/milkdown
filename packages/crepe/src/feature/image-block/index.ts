@@ -1,5 +1,5 @@
-import { imageBlockComponent, imageBlockConfig } from 'milkdown/component/image-block'
-import { imageInlineComponent, inlineImageConfig } from 'milkdown/component/image-inline'
+import { imageBlockComponent, imageBlockConfig } from '@milkdown/kit/component/image-block'
+import { imageInlineComponent, inlineImageConfig } from '@milkdown/kit/component/image-inline'
 import { html } from 'atomico'
 import type { DefineFeature } from '../shared'
 

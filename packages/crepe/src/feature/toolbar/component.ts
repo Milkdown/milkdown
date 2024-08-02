@@ -1,7 +1,7 @@
 import type { Component } from 'atomico'
 import { c, html, useEffect, useUpdate } from 'atomico'
-import type { Ctx } from 'milkdown/ctx'
-import { commandsCtx, editorViewCtx } from 'milkdown/core'
+import type { Ctx } from '@milkdown/kit/ctx'
+import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import {
   emphasisSchema,
   inlineCodeSchema,
@@ -10,11 +10,11 @@ import {
   toggleEmphasisCommand,
   toggleInlineCodeCommand,
   toggleStrongCommand,
-} from 'milkdown/preset/commonmark'
-import type { MarkType } from 'milkdown/prose/model'
+} from '@milkdown/kit/preset/commonmark'
+import type { MarkType } from '@milkdown/kit/prose/model'
 import clsx from 'clsx'
-import { linkTooltipAPI } from 'milkdown/component/link-tooltip'
-import { strikethroughSchema, toggleStrikethroughCommand } from 'milkdown/preset/gfm'
+import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
+import { strikethroughSchema, toggleStrikethroughCommand } from '@milkdown/kit/preset/gfm'
 import { boldIcon, codeIcon, italicIcon, linkIcon, strikethroughIcon } from './consts'
 
 export interface ToolbarProps {

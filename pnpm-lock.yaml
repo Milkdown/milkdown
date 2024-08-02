@@ -424,6 +424,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.16.0
         version: 6.26.0
+      '@milkdown/kit':
+        specifier: workspace:*
+        version: link:../kit
       '@uiw/codemirror-theme-nord':
         specifier: ^4.22.1
         version: 4.22.1(@codemirror/language@6.10.1)(@codemirror/state@6.4.1)(@codemirror/view@6.26.0)
@@ -433,9 +436,6 @@ importers:
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.2.1)
-      milkdown:
-        specifier: workspace:*
-        version: link:../milkdown
       nanoid:
         specifier: ^5.0.0
         version: 5.0.4
@@ -505,7 +505,7 @@ importers:
         specifier: ^3.3.4
         version: 3.3.12(typescript@5.4.4)
 
-  packages/milkdown:
+  packages/kit:
     dependencies:
       '@milkdown/components':
         specifier: workspace:*

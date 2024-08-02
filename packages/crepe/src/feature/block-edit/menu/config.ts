@@ -1,6 +1,6 @@
 import type { html } from 'atomico'
-import type { Ctx } from 'milkdown/ctx'
-import { editorViewCtx } from 'milkdown/core'
+import type { Ctx } from '@milkdown/kit/ctx'
+import { editorViewCtx } from '@milkdown/kit/core'
 import {
   blockquoteSchema,
   bulletListSchema,
@@ -10,13 +10,13 @@ import {
   listItemSchema,
   orderedListSchema,
   paragraphSchema,
-} from 'milkdown/preset/commonmark'
-import type { Attrs, NodeType } from 'milkdown/prose/model'
-import { findWrapping } from 'milkdown/prose/transform'
-import type { Command, Transaction } from 'milkdown/prose/state'
-import { NodeSelection } from 'milkdown/prose/state'
-import { imageBlockSchema } from 'milkdown/component/image-block'
-import { createTable } from 'milkdown/preset/gfm'
+} from '@milkdown/kit/preset/commonmark'
+import type { Attrs, NodeType } from '@milkdown/kit/prose/model'
+import { findWrapping } from '@milkdown/kit/prose/transform'
+import type { Command, Transaction } from '@milkdown/kit/prose/state'
+import { NodeSelection } from '@milkdown/kit/prose/state'
+import { imageBlockSchema } from '@milkdown/kit/component/image-block'
+import { createTable } from '@milkdown/kit/preset/gfm'
 import {
   bulletListIcon,
   codeIcon,
