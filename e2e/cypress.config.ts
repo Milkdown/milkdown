@@ -12,11 +12,10 @@ export default defineConfig({
       },
       webServerCommands: {
         default: 'nx run @milkdown/e2e:start',
-        production: 'nx run @milkdown/e2e:start',
       },
-      ciWebServerCommand: 'nx run @milkdown/e2e:serve',
+      ciWebServerCommand: 'nx run @milkdown/e2e:start',
     }),
-    baseUrl: `http://localhost:${process.env.CI ? 4173 : 5173}`,
+    baseUrl: 'http://localhost:5173',
   },
   retries: process.env.CI ? 2 : 0,
 })
