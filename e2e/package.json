@@ -14,10 +14,7 @@
     "test": "nx cypress:e2e",
     "test:verbose": "nx open-cypress",
     "start:test": "cross-env CYPRESS_SERVER_PORT=8000 start-test setup tcp:8000 test",
-    "start:test:verbose": "cross-env CYPRESS_SERVER_PORT=8000 start-test setup:verbose tcp:8000 test:verbose",
-    "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build",
-    "storybook:serve": "serve storybook-static"
+    "start:test:verbose": "cross-env CYPRESS_SERVER_PORT=8000 start-test setup:verbose tcp:8000 test:verbose"
   },
   "dependencies": {
     "@codemirror/commands": "^6.3.3",

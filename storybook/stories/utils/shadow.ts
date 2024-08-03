@@ -1,9 +1,9 @@
 import nordStyle from '@milkdown/theme-nord/style.css?inline'
-import pmStyle from '@milkdown/prose/view/style/prosemirror.css?inline'
-import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/core'
+import pmStyle from '@milkdown/kit/prose/view/style/prosemirror.css?inline'
+import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/kit/core'
 import { nord } from '@milkdown/theme-nord'
-import { commonmark } from '@milkdown/preset-commonmark'
-import { history } from '@milkdown/plugin-history'
+import { commonmark } from '@milkdown/kit/preset/commonmark'
+import { history } from '@milkdown/kit/plugin/history'
 import commonStyle from './style.css?inline'
 
 export function wrapInShadow(styles: string[]) {
