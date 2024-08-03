@@ -21,6 +21,8 @@ jobs:
         with:
           run_install: false
 
+      - uses: nrwl/nx-set-shas@v4
+
       - run: npx nx-cloud start-ci-run --distribute-on="8 linux-medium-js"
 
       - name: get pnpm store directory

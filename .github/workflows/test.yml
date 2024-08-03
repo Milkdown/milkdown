@@ -79,4 +79,4 @@ jobs:
       - run: pnpm test:e2e:build
 
       - name: run cypress on chrome
-        run: pnpm nx e2e-ci @milkdown/e2e
+        run: pnpm nx affected -t e2e-ci @milkdown/e2e
