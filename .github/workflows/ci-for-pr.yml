@@ -24,9 +24,8 @@ jobs:
   test:
     needs: start
     uses: ./.github/workflows/test.yml
-    secrets:
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+#    secrets:
+#      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 #  stop:
 #    if: ${{ always() }}
