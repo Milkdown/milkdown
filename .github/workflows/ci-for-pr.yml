@@ -18,8 +18,8 @@ jobs:
   start:
     uses: ./.github/workflows/start-nx-cloud.yml
 
-  agent:
-    uses: ./.github/workflows/start-agents.yml
+  #  agent:
+  #    uses: ./.github/workflows/start-agents.yml
 
   test:
     needs: start
@@ -28,16 +28,16 @@ jobs:
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
-  stop:
-    if: ${{ always() }}
-    needs: test
-    uses: ./.github/workflows/stop-nx-cloud.yml
+#  stop:
+#    if: ${{ always() }}
+#    needs: test
+#    uses: ./.github/workflows/stop-nx-cloud.yml
 
-  report:
-    if: ${{ always() }}
-    needs: [stop, test, start]
-    runs-on: ubuntu-latest
-    steps:
-      - name: on error
-        if: ${{ needs.start.result != 'success' || needs.test.result != 'success' }}
-        run: exit 1
+#  report:
+#    if: ${{ always() }}
+#    needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: on error
+#        if: ${{ needs.test.result != 'success' }}
+#        run: exit 1
