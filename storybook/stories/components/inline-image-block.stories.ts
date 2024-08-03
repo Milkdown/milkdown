@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { imageInlineComponent } from '@milkdown/components/image-inline'
+import { imageInlineComponent } from '@milkdown/kit/component/image-inline'
 
 import type { CommonArgs } from '../utils/shadow'
 import { setupMilkdown } from '../utils/shadow'

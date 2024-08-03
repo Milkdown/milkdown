@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { gfm } from '@milkdown/preset-gfm'
-import { listItemBlockComponent } from '@milkdown/components/list-item-block'
+import { gfm } from '@milkdown/kit/preset/gfm'
+import { listItemBlockComponent } from '@milkdown/kit/component/list-item-block'
 
 import type { CommonArgs } from '../utils/shadow'
 import { setupMilkdown } from '../utils/shadow'

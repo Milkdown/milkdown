@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { codeBlockComponent, codeBlockConfig } from '@milkdown/components/code-block'
+import { codeBlockComponent, codeBlockConfig } from '@milkdown/kit/component/code-block'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { languages } from '@codemirror/language-data'
 import { basicSetup } from 'codemirror'
