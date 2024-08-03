@@ -53,10 +53,6 @@ jobs:
   e2e-test:
     needs: unit-test
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        containers: [1, 2, 3]
     steps:
       - name: checkout code repository
         uses: actions/checkout@v4
@@ -85,19 +81,4 @@ jobs:
       - run: pnpm test:e2e:build
 
       - name: run cypress on chrome
-        uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_SERVER_PORT: 7000
-          CYPRESS_PORT: 8000
-        with:
-          install: false
-          record: true
-          parallel: true
-          working-directory: e2e
-          start: pnpm exec vite preview --host --port 7000
-          wait-on: pnpm exec wait-on tcp:7000
-          wait-on-timeout: 120
-          browser: chrome
-          group: Milkdown-E2E-Chrome
+        run: pnpm nx e2e-ci @milkdown/e2e

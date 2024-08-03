@@ -31,6 +31,7 @@
     "prepare": "husky",
     "storybook": "pnpm --filter=@milkdown/e2e run storybook"
   },
+  "dependencies": {},
   "devDependencies": {
     "@antfu/eslint-config": "^2.16.2",
     "@changesets/cli": "^2.22.0",
@@ -64,6 +65,7 @@
     "autoprefixer": "^10.2.5",
     "concurrently": "^8.0.0",
     "cross-env": "^7.0.3",
+    "cypress": "^13.13.0",
     "esbuild": "^0.23.0",
     "eslint": "^9.0.0",
     "eslint-plugin-tailwindcss": "^3.15.1",

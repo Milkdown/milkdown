@@ -21,6 +21,8 @@ jobs:
         with:
           run_install: false
 
+      - run: npx nx-cloud start-ci-run --distribute-on="8 linux-medium-js"
+
       - name: get pnpm store directory
         id: pnpm-cache
         run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
@@ -35,5 +37,3 @@ jobs:
 
       - name: install dependencies
         run: pnpm install
-
-      - run: pnpm exec nx-cloud start-ci-run

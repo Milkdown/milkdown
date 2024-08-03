@@ -1,21 +1,15 @@
 {
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "cache": true
     },
     "prepare": {
-      "dependsOn": [
-        "^prepare"
-      ],
+      "dependsOn": ["^prepare"],
       "cache": true
     },
     "package": {
-      "dependsOn": [
-        "^package"
-      ],
+      "dependsOn": ["^package"],
       "cache": true
     },
     "test": {
@@ -45,15 +39,13 @@
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
-    "sharedGlobals": [
-      "{workspaceRoot}/vite.config.ts"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
     "production": [
-      "default"
+      "default",
+      "!{projectRoot}/cypress/**/*",
+      "!{projectRoot}/**/*.cy.[jt]s?(x)",
+      "!{projectRoot}/cypress.config.[jt]s"
     ]
   },
   "nxCloudAccessToken": "ODhlMWM3YmItMjRmOC00OTBjLTk4N2ItN2Q1OWJhMWVlODcyfHJlYWQtd3JpdGU=",
@@ -65,6 +57,15 @@
         "serveStorybookTargetName": "storybook",
         "testStorybookTargetName": "test-storybook",
         "staticStorybookTargetName": "static-storybook"
+      }
+    },
+    {
+      "plugin": "@nx/cypress/plugin",
+      "options": {
+        "targetName": "cypress:e2e",
+        "openTargetName": "open-cypress",
+        "componentTestingTargetName": "component-test",
+        "ciTargetName": "e2e-ci"
       }
     }
   ]
