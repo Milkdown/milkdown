@@ -7,6 +7,7 @@ import { editorViewCtx } from '@milkdown/kit/core'
 import { paragraphSchema } from '@milkdown/kit/preset/commonmark'
 import { menuAPI } from '../menu'
 import { defIfNotExists } from '../../../utils'
+import type { BlockEditFeatureConfig } from '../index'
 import type { BlockHandleProps } from './component'
 import { BlockHandleElement } from './component'
 
@@ -15,11 +16,13 @@ export class BlockHandleView implements PluginView {
   #provider: BlockProvider
   readonly #ctx: Ctx
 
-  constructor(ctx: Ctx) {
+  constructor(ctx: Ctx, config?: BlockEditFeatureConfig) {
     this.#ctx = ctx
     const content = new BlockHandleElement()
     this.#content = content
     this.#content.onAdd = this.onAdd
+    this.#content.addIcon = config?.handleAddIcon
+    this.#content.handleIcon = config?.handleDragIcon
     this.#provider = new BlockProvider({
       ctx,
       content,
@@ -79,8 +82,8 @@ export class BlockHandleView implements PluginView {
 }
 
 defIfNotExists('milkdown-block-handle', BlockHandleElement)
-export function configureBlockHandle(ctx: Ctx) {
+export function configureBlockHandle(ctx: Ctx, config?: BlockEditFeatureConfig) {
   ctx.set(block.key, {
-    view: () => new BlockHandleView(ctx),
+    view: () => new BlockHandleView(ctx, config),
   })
 }

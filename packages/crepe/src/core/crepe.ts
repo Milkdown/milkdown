@@ -9,8 +9,8 @@ import { getMarkdown } from '@milkdown/kit/utils'
 import { clipboard } from '@milkdown/kit/plugin/clipboard'
 import { trailing } from '@milkdown/kit/plugin/trailing'
 
-import type { CrepeFeature, CrepeFeatureConfig } from '../feature'
-import { defaultFeatures, loadFeature } from '../feature'
+import type { CrepeFeatureConfig } from '../feature'
+import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
 import { configureFeatures } from './slice'
 
 export interface CrepeConfig {
@@ -21,6 +21,7 @@ export interface CrepeConfig {
 }
 
 export class Crepe {
+  static Feature = CrepeFeature
   readonly #editor: Editor
   readonly #initPromise: Promise<unknown>
   readonly #rootElement: Node

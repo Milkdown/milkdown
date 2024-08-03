@@ -1,6 +1,7 @@
 import type { Component } from 'atomico'
 import { c, html, useCallback, useEffect, useHost, useMemo, useRef, useState } from 'atomico'
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { BlockEditFeatureConfig } from '../index'
 import { getGroups } from './config'
 
 export interface MenuProps {
@@ -8,6 +9,7 @@ export interface MenuProps {
   show: boolean
   filter: string
   hide: () => void
+  config?: BlockEditFeatureConfig
 }
 
 export const menuComponent: Component<MenuProps> = ({
@@ -15,8 +17,9 @@ export const menuComponent: Component<MenuProps> = ({
   hide,
   ctx,
   filter,
+  config,
 }) => {
-  const { groups, size } = useMemo(() => getGroups(filter), [filter])
+  const { groups, size } = useMemo(() => getGroups(filter, config), [filter])
 
   const host = useHost()
   const [hoverIndex, setHoverIndex] = useState(0)
@@ -205,6 +208,7 @@ export const menuComponent: Component<MenuProps> = ({
 
 menuComponent.props = {
   ctx: Object,
+  config: Object,
   show: Boolean,
   filter: String,
   hide: Function,

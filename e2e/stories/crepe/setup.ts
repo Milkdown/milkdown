@@ -1,4 +1,4 @@
-import { Crepe, CrepeFeature } from '@milkdown/crepe'
+import { Crepe } from '@milkdown/crepe'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
 import type { Extension } from '@codemirror/state'
 import { wrapInShadow } from '../utils/shadow'
@@ -24,13 +24,13 @@ export function setup({ args, style, theme }: setupConfig) {
     root: crepeRoot,
     defaultValue: args.defaultValue,
     features: {
-      [CrepeFeature.CodeMirror]: args.enableCodemirror,
+      [Crepe.Feature.CodeMirror]: args.enableCodemirror,
     },
     featureConfigs: {
-      [CrepeFeature.Placeholder]: {
+      [Crepe.Feature.Placeholder]: {
         text: args.placeholder,
       },
-      [CrepeFeature.CodeMirror]: {
+      [Crepe.Feature.CodeMirror]: {
         theme,
       },
     },

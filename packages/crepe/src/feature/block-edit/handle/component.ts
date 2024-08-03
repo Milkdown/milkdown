@@ -1,12 +1,19 @@
 import { type Component, c, html, useEffect, useRef } from 'atomico'
 import { menuIcon, plusIcon } from '../../../icons'
+import type { Icon } from '../../shared'
 
 export interface BlockHandleProps {
   show: boolean
   onAdd: () => void
+  addIcon: Icon
+  handleIcon: Icon
 }
 
-const blockHandleComponent: Component<BlockHandleProps> = ({ onAdd }) => {
+const blockHandleComponent: Component<BlockHandleProps> = ({
+  onAdd,
+  addIcon,
+  handleIcon,
+}) => {
   const ref = useRef<HTMLDivElement>()
   useEffect(() => {
     ref.current?.classList.remove('active')
@@ -25,10 +32,10 @@ const blockHandleComponent: Component<BlockHandleProps> = ({ onAdd }) => {
   return html`
     <host>
       <div ref=${ref} onmousedown=${onMouseDown} onmouseup=${onMouseUp} class="operation-item">
-        ${plusIcon}
+        ${addIcon?.() || plusIcon}
       </div>
       <div class="operation-item">
-        ${menuIcon}
+        ${handleIcon?.() || menuIcon}
       </div>
     </host>
   `
@@ -37,6 +44,8 @@ const blockHandleComponent: Component<BlockHandleProps> = ({ onAdd }) => {
 blockHandleComponent.props = {
   show: Boolean,
   onAdd: Function,
+  addIcon: Function,
+  handleIcon: Function,
 }
 
 export const BlockHandleElement = c(blockHandleComponent)

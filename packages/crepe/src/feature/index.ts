@@ -1,6 +1,13 @@
 import type { Editor } from '@milkdown/kit/core'
 import type { PlaceHolderFeatureConfig } from './placeholder'
 import type { CodeMirrorFeatureConfig } from './code-mirror'
+import type { BlockEditFeatureConfig } from './block-edit'
+import type { CursorFeatureConfig } from './cursor'
+import type { ImageBlockFeatureConfig } from './image-block'
+import type { LinkTooltipFeatureConfig } from './link-tooltip'
+import type { ListItemFeatureConfig } from './list-item'
+import type { ToolbarFeatureConfig } from './toolbar'
+import type { TableFeatureConfig } from './table'
 
 export enum CrepeFeature {
   CodeMirror = 'code-mirror',
@@ -15,8 +22,15 @@ export enum CrepeFeature {
 }
 
 export interface CrepeFeatureConfig {
+  [CrepeFeature.Cursor]?: CursorFeatureConfig
+  [CrepeFeature.ListItem]?: ListItemFeatureConfig
+  [CrepeFeature.LinkTooltip]?: LinkTooltipFeatureConfig
+  [CrepeFeature.ImageBlock]?: ImageBlockFeatureConfig
+  [CrepeFeature.BlockEdit]?: BlockEditFeatureConfig
   [CrepeFeature.Placeholder]?: PlaceHolderFeatureConfig
+  [CrepeFeature.Toolbar]?: ToolbarFeatureConfig
   [CrepeFeature.CodeMirror]?: CodeMirrorFeatureConfig
+  [CrepeFeature.Table]?: TableFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
