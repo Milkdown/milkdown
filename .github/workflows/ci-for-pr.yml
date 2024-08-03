@@ -9,6 +9,11 @@ on:
 env:
   CI: true
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   start:
     uses: ./.github/workflows/start-nx-cloud.yml
