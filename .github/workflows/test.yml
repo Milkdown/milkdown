@@ -3,8 +3,6 @@ name: Run Test
 on:
   workflow_call:
     secrets:
-      CYPRESS_RECORD_KEY:
-        required: true
       NX_CLOUD_ACCESS_TOKEN:
         required: true
 
@@ -19,6 +17,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - uses: nrwl/nx-set-shas@v4
 
       - name: setup node.js
         uses: actions/setup-node@v4
@@ -45,23 +45,24 @@ jobs:
         run: pnpm install
 
       - name: build packs
-        run: pnpm build
+        run: pnpm nx affected -t build
 
-      - name: run test
-        run: pnpm test
+      - name: run lint
+        run: pnpm test:lint
+
+      - name: run type check
+        run: pnpm nx affected -t tsc
 
   e2e-test:
     needs: unit-test
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        containers: [1, 2, 3]
     steps:
       - name: checkout code repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - uses: nrwl/nx-set-shas@v4
 
       - uses: pnpm/action-setup@v4.0.0
         with:
@@ -85,19 +86,4 @@ jobs:
       - run: pnpm test:e2e:build
 
       - name: run cypress on chrome
-        uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_SERVER_PORT: 7000
-          CYPRESS_PORT: 8000
-        with:
-          install: false
-          record: true
-          parallel: true
-          working-directory: e2e
-          start: pnpm exec vite preview --host --port 7000
-          wait-on: pnpm exec wait-on tcp:7000
-          wait-on-timeout: 120
-          browser: chrome
-          group: Milkdown-E2E-Chrome
+        run: pnpm nx affected -t e2e-ci @milkdown/e2e
