@@ -4,12 +4,13 @@ import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
-import type { DefineFeature } from '../shared'
+import type { DefineFeature, Icon } from '../shared'
 import { clearIcon } from '../../icons'
 
 interface CodeMirrorConfig {
   languages: LanguageDescription[]
   theme: Extension
+  clearSearchIcon: Icon
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
@@ -19,6 +20,7 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
       let {
         languages,
         theme,
+        clearSearchIcon,
       } = config
       if (!languages) {
         const { languages: langList } = await import('@codemirror/language-data')
@@ -31,7 +33,7 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
       ctx.update(codeBlockConfig.key, defaultConfig => ({
         ...defaultConfig,
         languages,
-        clearSearchIcon: () => clearIcon,
+        clearSearchIcon: clearSearchIcon || (() => clearIcon),
         extensions: [basicSetup, keymap.of(defaultKeymap.concat(indentWithTab)), theme],
       }))
     })

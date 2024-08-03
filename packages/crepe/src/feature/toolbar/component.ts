@@ -16,14 +16,21 @@ import clsx from 'clsx'
 import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
 import { strikethroughSchema, toggleStrikethroughCommand } from '@milkdown/kit/preset/gfm'
 import { boldIcon, codeIcon, italicIcon, linkIcon, strikethroughIcon } from '../../icons'
+import type { ToolbarFeatureConfig } from './index'
 
 export interface ToolbarProps {
   ctx: Ctx
   hide: () => void
   show: boolean
+  config?: ToolbarFeatureConfig
 }
 
-export const toolbarComponent: Component<ToolbarProps> = ({ ctx, hide, show }) => {
+export const toolbarComponent: Component<ToolbarProps> = ({
+  ctx,
+  hide,
+  show,
+  config,
+}) => {
   const update = useUpdate()
   useEffect(() => {
     update()
@@ -51,7 +58,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({ ctx, hide, show }) =
         commands.call(toggleStrongCommand.key)
       })}
     >
-      ${boldIcon}
+      ${config?.boldIcon?.() ?? boldIcon}
     </button>
     <button
       class=${clsx('toolbar-item', ctx && isActive(emphasisSchema.type(ctx)) && 'active')}
@@ -60,7 +67,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({ ctx, hide, show }) =
         commands.call(toggleEmphasisCommand.key)
       })}
     >
-      ${italicIcon}
+      ${config?.italicIcon?.() ?? italicIcon}
     </button>
     <button
       class=${clsx('toolbar-item', ctx && isActive(strikethroughSchema.type(ctx)) && 'active')}
@@ -69,7 +76,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({ ctx, hide, show }) =
         commands.call(toggleStrikethroughCommand.key)
       })}
     >
-      ${strikethroughIcon}
+      ${config?.strikethroughIcon?.() ?? strikethroughIcon}
     </button>
     <div class="divider"></div>
     <button
@@ -79,7 +86,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({ ctx, hide, show }) =
         commands.call(toggleInlineCodeCommand.key)
       })}
     >
-      ${codeIcon}
+      ${config?.codeIcon?.() ?? codeIcon}
     </button>
     <button
       class=${clsx('toolbar-item', ctx && isActive(linkSchema.type(ctx)) && 'active')}
@@ -96,7 +103,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({ ctx, hide, show }) =
         hide?.()
       })}
     >
-      ${linkIcon}
+      ${config?.linkIcon?.() ?? linkIcon}
     </button>
   </host>`
 }
@@ -105,6 +112,7 @@ toolbarComponent.props = {
   ctx: Object,
   hide: Function,
   show: Boolean,
+  config: Object,
 }
 
 export const ToolbarElement = c(toolbarComponent)

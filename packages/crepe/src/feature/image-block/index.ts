@@ -1,23 +1,30 @@
 import { imageBlockComponent, imageBlockConfig } from '@milkdown/kit/component/image-block'
 import { imageInlineComponent, inlineImageConfig } from '@milkdown/kit/component/image-inline'
-import { html } from 'atomico'
-import type { DefineFeature } from '../shared'
+import type { DefineFeature, Icon } from '../shared'
 import { captionIcon, confirmIcon, imageIcon } from '../../icons'
 
-export const defineFeature: DefineFeature = (editor) => {
+interface ImageBlockConfig {
+  imageIcon: Icon
+  confirmButton: Icon
+  captionIcon: Icon
+}
+
+export type ImageBlockFeatureConfig = Partial<ImageBlockConfig>
+
+export const defineFeature: DefineFeature<ImageBlockFeatureConfig> = (editor, config) => {
   editor
     .config((ctx) => {
       ctx.update(inlineImageConfig.key, value => ({
         ...value,
-        imageIcon: () => imageIcon,
-        confirmButton: () => confirmIcon,
+        imageIcon: config?.imageIcon ?? (() => imageIcon),
+        confirmButton: config?.confirmButton ?? (() => confirmIcon),
         uploadPlaceholderText: 'or paste link',
       }))
       ctx.update(imageBlockConfig.key, value => ({
         ...value,
-        imageIcon: () => imageIcon,
-        captionIcon: () => captionIcon,
-        confirmButton: () => html`Confirm`,
+        imageIcon: config?.imageIcon ?? (() => imageIcon),
+        captionIcon: config?.captionIcon ?? (() => captionIcon),
+        confirmButton: () => 'Confirm',
         captionPlaceholderText: 'Write Image Caption',
       }))
     })
