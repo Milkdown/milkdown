@@ -18,25 +18,8 @@ jobs:
   start:
     uses: ./.github/workflows/start-nx-cloud.yml
 
-  #  agent:
-  #    uses: ./.github/workflows/start-agents.yml
-
-  test:
+  report:
     needs: start
     uses: ./.github/workflows/test.yml
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-
-#  stop:
-#    if: ${{ always() }}
-#    needs: test
-#    uses: ./.github/workflows/stop-nx-cloud.yml
-
-#  report:
-#    if: ${{ always() }}
-#    needs: test
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: on error
-#        if: ${{ needs.test.result != 'success' }}
-#        run: exit 1

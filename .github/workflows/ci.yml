@@ -11,14 +11,10 @@ jobs:
   start:
     uses: ./.github/workflows/start-nx-cloud.yml
 
-  agent:
-    uses: ./.github/workflows/start-agents.yml
-
   test:
     needs: start
     uses: ./.github/workflows/test.yml
     secrets:
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
   release:
@@ -28,14 +24,9 @@ jobs:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
-  stop:
-    if: ${{ always() }}
-    needs: release
-    uses: ./.github/workflows/stop-nx-cloud.yml
-
   report:
     if: ${{ always() }}
-    needs: [stop, test, start, release]
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - name: on error

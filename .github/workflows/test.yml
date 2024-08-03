@@ -45,10 +45,13 @@ jobs:
         run: pnpm install
 
       - name: build packs
-        run: pnpm build
+        run: pnpm nx affected -t build
 
-      - name: run test
-        run: pnpm test
+      - name: run lint
+        run: pnpm test:lint
+
+      - name: run type check
+        run: pnpm nx affected -t tsc
 
   e2e-test:
     needs: unit-test
