@@ -3,8 +3,6 @@ name: Run Test
 on:
   workflow_call:
     secrets:
-      CYPRESS_RECORD_KEY:
-        required: true
       NX_CLOUD_ACCESS_TOKEN:
         required: true
 
