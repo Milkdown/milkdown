@@ -26,9 +26,9 @@ jobs:
 
   report:
     if: ${{ always() }}
-    needs: release
+    needs: [release]
     runs-on: ubuntu-latest
     steps:
       - name: on error
-        if: ${{ needs.start.result != 'success' || needs.test.result != 'success' || needs.release.result != 'success' }}
+        if: ${{ needs.release.result != 'success' }}
         run: exit 1
