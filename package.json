@@ -16,7 +16,7 @@
     "test:lint": "eslint .",
     "test:e2e": "nx e2e @milkdown/e2e",
     "test:e2e:build": "nx build @milkdown/e2e",
-    "test:e2e:verbose": "nx open-cypress @milkdown/e2e",
+    "test:e2e:debug": "nx open-cypress @milkdown/e2e",
     "format": "lint-staged",
     "start": "pnpm --filter=@milkdown/storybook run start",
     "build": "nx run-many --target=build --all --parallel",
