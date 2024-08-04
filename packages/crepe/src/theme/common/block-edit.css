@@ -39,7 +39,6 @@
     }
     position: absolute;
     display: block;
-    width: 254px;
     font-family: var(--crepe-font-default);
     color: var(--crepe-color-on-surface);
     background: var(--crepe-color-surface);

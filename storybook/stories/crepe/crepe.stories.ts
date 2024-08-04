@@ -7,6 +7,12 @@ import { longContent, setup, wikiContent } from './setup'
 
 const meta: Meta = {
   title: 'Crepe/Crepe',
+  argTypes: {
+    language: {
+      options: ['EN', 'JA'],
+      control: { type: 'radio' },
+    },
+  },
 }
 
 export default meta
@@ -16,8 +22,8 @@ type Story = StoryObj<Args>
 const defaultArgs: Omit<Args, 'instance'> = {
   readonly: false,
   defaultValue: '',
-  placeholder: 'Type / to use slash command',
   enableCodemirror: true,
+  language: 'EN',
 }
 
 export const Empty: Story = {
