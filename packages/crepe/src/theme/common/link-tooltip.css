@@ -15,22 +15,13 @@
       cursor: pointer;
       box-shadow: var(--crepe-shadow-1);
 
-      & > .link-display:hover:before {
-        display: block;
+      & > .link-display {
+        text-decoration: none;
+        color: unset;
       }
 
-      & > .link-display:before {
-        content: 'click to copy link';
-        position: absolute;
-        transform: translate(50%, -120%);
-        padding: 3px 10px;
-        font-size: 12px;
-        border-radius: 8px;
-        color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
-        background: var(--crepe-color-background);
-        text-align: center;
-
-        display: none;
+      & > .link-display:hover:before {
+        display: block;
       }
 
       & > .link-icon {

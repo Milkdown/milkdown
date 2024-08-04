@@ -1,21 +1,20 @@
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
-import { chatBubble, image } from '../__internal__/icons'
 import { withMeta } from '../__internal__/meta'
 
 export interface ImageBlockConfig {
-  imageIcon: () => ReturnType<typeof html>
-  captionIcon: () => ReturnType<typeof html>
-  uploadButton: () => ReturnType<typeof html>
-  confirmButton: () => ReturnType<typeof html>
+  imageIcon: () => ReturnType<typeof html> | string | HTMLElement
+  captionIcon: () => ReturnType<typeof html> | string | HTMLElement
+  uploadButton: () => ReturnType<typeof html> | string | HTMLElement
+  confirmButton: () => ReturnType<typeof html> | string | HTMLElement
   uploadPlaceholderText: string
   captionPlaceholderText: string
   onUpload: (file: File) => Promise<string>
 }
 
 export const defaultImageBlockConfig: ImageBlockConfig = {
-  imageIcon: () => image,
-  captionIcon: () => chatBubble,
+  imageIcon: () => '🌌',
+  captionIcon: () => '💬',
   uploadButton: () => html`Upload file`,
   confirmButton: () => html`Confirm ⏎`,
   uploadPlaceholderText: 'or paste the image link ...',

@@ -4,6 +4,7 @@ import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+import type { html } from 'atomico'
 import type { DefineFeature, Icon } from '../shared'
 import { chevronDownIcon, clearIcon, searchIcon } from '../../icons'
 
@@ -18,6 +19,8 @@ interface CodeMirrorConfig {
 
   searchPlaceholder: string
   noResultText: string
+
+  renderLanguage: (language: string, selected: boolean) => ReturnType<typeof html> | string | HTMLElement
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
@@ -37,7 +40,6 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
         theme = nord
       }
       ctx.update(codeBlockConfig.key, defaultConfig => ({
-        ...defaultConfig,
         extensions: [
           keymap.of(defaultKeymap.concat(indentWithTab)),
           basicSetup,
@@ -51,6 +53,7 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
         clearSearchIcon: config.clearSearchIcon || (() => clearIcon),
         searchPlaceholder: config.searchPlaceholder || 'Search language',
         noResultText: config.noResultText || 'No result',
+        renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,
       }))
     })
     .use(codeBlockComponent)

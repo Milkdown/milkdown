@@ -1,6 +1,5 @@
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
-import { image } from '../__internal__/icons'
 import { withMeta } from '../__internal__/meta'
 
 export interface InlineImageConfig {
@@ -12,7 +11,7 @@ export interface InlineImageConfig {
 }
 
 export const defaultInlineImageConfig: InlineImageConfig = {
-  imageIcon: () => image,
+  imageIcon: () => '🌌',
   uploadButton: () => html`Upload`,
   confirmButton: () => html`⏎`,
   uploadPlaceholderText: '/Paste',

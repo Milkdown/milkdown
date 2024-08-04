@@ -25,6 +25,11 @@
     padding: 8px;
     background: rgba(0, 0, 0, 0.4);
     border-radius: 50%;
+    height: 28px;
+    width: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   milkdown-image-block > .image-wrapper .image-resize-handle {
