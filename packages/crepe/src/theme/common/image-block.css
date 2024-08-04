@@ -83,6 +83,7 @@
       svg {
         width: 18px;
         height: 18px;
+        fill: var(--crepe-color-outline);
       }
       padding: 3px;
       width: 24px;
@@ -329,6 +330,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      fill: var(--crepe-color-outline);
     }
 
     .image-edit .link-importer .placeholder {
