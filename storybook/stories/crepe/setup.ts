@@ -36,7 +36,7 @@ export function setup({ args, style, theme }: setupConfig) {
         inlineUploadPlaceholderText: language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
         inlineConfirmButton: () => language === 'JA' ? '確認' : 'Confirm',
         blockUploadButton: () => language === 'JA' ? 'ファイルをアップロード' : 'Upload file',
-        blockUploadPlaceholderText: language === 'JA' ? '画像をアップロード...' : 'Upload',
+        blockUploadPlaceholderText: language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
         blockCaptionPlaceholderText: language === 'JA' ? '画像の説明を書く...' : 'Write Image Caption',
         blockConfirmButton: () => language === 'JA' ? '確認' : 'Confirm',
       },
