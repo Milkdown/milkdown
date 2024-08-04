@@ -4,13 +4,23 @@ import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+import type { html } from 'atomico'
 import type { DefineFeature, Icon } from '../shared'
-import { clearIcon } from '../../icons'
+import { chevronDownIcon, clearIcon, searchIcon } from '../../icons'
 
 interface CodeMirrorConfig {
+  extensions: Extension[]
   languages: LanguageDescription[]
   theme: Extension
+
+  expandIcon: Icon
+  searchIcon: Icon
   clearSearchIcon: Icon
+
+  searchPlaceholder: string
+  noResultText: string
+
+  renderLanguage: (language: string, selected: boolean) => ReturnType<typeof html> | string | HTMLElement
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
@@ -20,7 +30,6 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
       let {
         languages,
         theme,
-        clearSearchIcon,
       } = config
       if (!languages) {
         const { languages: langList } = await import('@codemirror/language-data')
@@ -31,10 +40,20 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
         theme = nord
       }
       ctx.update(codeBlockConfig.key, defaultConfig => ({
-        ...defaultConfig,
+        extensions: [
+          keymap.of(defaultKeymap.concat(indentWithTab)),
+          basicSetup,
+          theme,
+          ...config?.extensions ?? [],
+        ],
         languages,
-        clearSearchIcon: clearSearchIcon || (() => clearIcon),
-        extensions: [basicSetup, keymap.of(defaultKeymap.concat(indentWithTab)), theme],
+
+        expandIcon: config.expandIcon || (() => chevronDownIcon),
+        searchIcon: config.searchIcon || (() => searchIcon),
+        clearSearchIcon: config.clearSearchIcon || (() => clearIcon),
+        searchPlaceholder: config.searchPlaceholder || 'Search language',
+        noResultText: config.noResultText || 'No result',
+        renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,
       }))
     })
     .use(codeBlockComponent)

@@ -60,7 +60,7 @@ export const placeholderPlugin = $prose((ctx) => {
         if (isInCodeBlock(state.selection) || isInList(state.selection))
           return null
 
-        const placeholderText = config.text
+        const placeholderText = config.text ?? 'Please enter...'
         const deco = createPlaceholderDecoration(state, placeholderText)
         if (!deco)
           return null

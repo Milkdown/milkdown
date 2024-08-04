@@ -20,6 +20,7 @@
     &[data-show="false"] {
       display: none;
     }
+
     & > .link-preview {
       height: 42px;
       display: flex;
@@ -49,12 +50,10 @@
       }
 
       & > .link-icon {
-        & > svg {
-          width: 14px;
-          height: 14px;
-        }
-
         padding: 5px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
       }
 
       & > .link-display {
@@ -70,13 +69,11 @@
       }
 
       & > .button {
-        & > svg {
-          width: 14px;
-          height: 14px;
-        }
-
         padding: 5px;
         border-radius: 99px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &:hover {
           background: burlywood;
