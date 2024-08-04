@@ -26,6 +26,16 @@
     "katex": "^0.16.0",
     "tslib": "^2.5.0"
   },
+  "devDependencies": {
+    "@storybook/addon-actions": "^8.2.7",
+    "@storybook/addon-essentials": "^8.2.7",
+    "@storybook/builder-vite": "^8.2.7",
+    "@storybook/core-server": "^8.2.7",
+    "@storybook/html": "^8.2.7",
+    "@storybook/html-vite": "^8.2.7",
+    "@storybook/test": "^8.2.7",
+    "storybook": "^8.2.7"
+  },
   "nx": {
     "targets": {
       "build": {
