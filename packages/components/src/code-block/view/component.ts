@@ -146,7 +146,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
   const renderedLanguageList = useMemo(() => {
     if (!languages?.length)
-      return html`<li class="language-list-item no-result">${config?.noResultText()}</li>`
+      return html`<li class="language-list-item no-result">${config?.noResultText}</li>`
 
     return languages.map(languageInfo =>
       html`<li

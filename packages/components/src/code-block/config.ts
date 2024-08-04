@@ -2,28 +2,27 @@ import { $ctx } from '@milkdown/utils'
 import type { Extension } from '@codemirror/state'
 import type { LanguageDescription } from '@codemirror/language'
 import { html } from 'atomico'
-import { chevronDown, search, xCircle } from '../__internal__/icons'
 import { withMeta } from '../__internal__/meta'
 
 export interface CodeBlockConfig {
   extensions: Extension[]
   languages: LanguageDescription[]
+  expandIcon: () => ReturnType<typeof html> | string | HTMLElement
+  searchIcon: () => ReturnType<typeof html> | string | HTMLElement
+  clearSearchIcon: () => ReturnType<typeof html> | string | HTMLElement
   searchPlaceholder: string
-  expandIcon: () => ReturnType<typeof html>
-  searchIcon: () => ReturnType<typeof html>
-  clearSearchIcon: () => ReturnType<typeof html>
-  noResultText: () => ReturnType<typeof html> | string
+  noResultText: string
   renderLanguage: (language: string, selected: boolean) => ReturnType<typeof html>
 }
 
 export const defaultConfig: CodeBlockConfig = {
   extensions: [],
   languages: [],
+  expandIcon: () => '⬇',
+  searchIcon: () => '🔍',
+  clearSearchIcon: () => '⌫',
   searchPlaceholder: 'Search language',
-  expandIcon: () => chevronDown,
-  searchIcon: () => search,
-  clearSearchIcon: () => xCircle,
-  noResultText: () => 'No result',
+  noResultText: 'No result',
   renderLanguage: language => html`${language}`,
 }
 
