@@ -33,7 +33,6 @@
     "@storybook/core-server": "^8.2.7",
     "@storybook/html": "^8.2.7",
     "@storybook/html-vite": "^8.2.7",
-    "@storybook/test": "^8.2.7",
     "storybook": "^8.2.7"
   },
   "nx": {
