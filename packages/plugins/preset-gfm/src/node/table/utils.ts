@@ -6,7 +6,7 @@ import type { TableRect } from '@milkdown/prose/tables'
 import { CellSelection, TableMap } from '@milkdown/prose/tables'
 
 import type { Ctx } from '@milkdown/ctx'
-import { tableCellSchema, tableHeaderRowSchema, tableHeaderSchema, tableRowSchema, tableSchema } from '.'
+import { tableCellSchema, tableHeaderRowSchema, tableHeaderSchema, tableRowSchema, tableSchema } from './schema'
 
 /// @internal
 export interface CellPos {
