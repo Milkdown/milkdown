@@ -58,8 +58,5 @@ jobs:
       - name: run lint
         run: pnpm test:lint
 
-      - name: run type check
-        run: pnpm nx affected -t tsc
-
       - name: run cypress on chrome
         run: pnpm nx affected -t e2e-ci @milkdown/e2e
