@@ -45,6 +45,8 @@ jobs:
             ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
+      - uses: nrwl/nx-set-shas@v4
+
       - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js"
 
       - name: install dependencies
