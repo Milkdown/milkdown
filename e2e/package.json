@@ -8,7 +8,8 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "serve": "vite preview",
+    "preview": "vite preview",
+    "serve": "serve lib --listen 4173 -L",
     "test": "nx cypress:e2e",
     "test:verbose": "nx open-cypress"
   },
@@ -43,7 +44,8 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "cypress": "^13.0.0"
+    "cypress": "^13.0.0",
+    "serve": "^14.2.3"
   },
   "nx": {
     "targets": {
@@ -51,10 +53,19 @@
         "outputs": [
           "{projectRoot}/lib"
         ],
-        "dependsOn": ["build"]
+        "dependsOn": [
+          "build"
+        ]
+      },
+      "preview": {
+        "dependsOn": [
+          "build"
+        ]
       },
       "serve": {
-        "dependsOn": ["build"]
+        "dependsOn": [
+          "build"
+        ]
       }
     }
   }
