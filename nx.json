@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
@@ -28,16 +29,6 @@
       "cache": true
     }
   },
-  "extends": "@nx/workspace/presets/npm.json",
-  "affected": {
-    "defaultBase": "main"
-  },
-  "pluginsConfig": {
-    "@nrwl/js": {
-      "analyzeSourceFiles": false
-    }
-  },
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
@@ -63,7 +54,7 @@
       "plugin": "@nx/cypress/plugin",
       "options": {
         "targetName": "e2e",
-        "openTargetName": "open-cypress",
+        "openTargetName": "e2e-open",
         "componentTestingTargetName": "component-test",
         "ciTargetName": "e2e-ci"
       }

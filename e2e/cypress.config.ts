@@ -1,6 +1,7 @@
 import * as process from 'node:process'
 import { defineConfig } from 'cypress'
 import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset'
+import { input } from './entry'
 
 export default defineConfig({
   e2e: {
@@ -13,9 +14,16 @@ export default defineConfig({
       webServerCommands: {
         default: 'nx run @milkdown/e2e:start',
       },
-      ciWebServerCommand: 'nx run @milkdown/e2e:start',
+      ciWebServerCommand: 'nx serve @milkdown/e2e',
+      viteConfigOverrides: {
+        build: {
+          rollupOptions: {
+            input,
+          },
+        },
+      },
     }),
-    baseUrl: 'http://localhost:5173',
+    baseUrl: `http://localhost:${process.env.CI ? 4173 : 5173}`,
   },
   retries: process.env.CI ? 2 : 0,
 })

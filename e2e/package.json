@@ -51,9 +51,10 @@
         "outputs": [
           "{projectRoot}/lib"
         ],
-        "dependsOn": [
-          "build"
-        ]
+        "dependsOn": ["build"]
+      },
+      "serve": {
+        "dependsOn": ["build"]
       }
     }
   }
