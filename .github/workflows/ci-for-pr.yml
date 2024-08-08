@@ -57,7 +57,7 @@ jobs:
       - name: run lint
         run: pnpm test:lint
 
-      - name: run cypress on chrome
+      - name: run cypress
         run: pnpm nx affected -t e2e-ci @milkdown/e2e
 
       - run: npx nx-cloud complete-ci-run
