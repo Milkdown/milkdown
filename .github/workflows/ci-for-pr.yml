@@ -8,7 +8,6 @@ on:
 
 env:
   CI: true
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 concurrency:
@@ -47,7 +46,7 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
 
-      - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js"
+      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --require-explicit-completion
 
       - name: install dependencies
         run: pnpm install
@@ -60,3 +59,6 @@ jobs:
 
       - name: run cypress on chrome
         run: pnpm nx affected -t e2e-ci @milkdown/e2e
+
+      - run: npx nx-cloud complete-ci-run
+        if: always()
