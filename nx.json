@@ -32,12 +32,7 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
-    "production": [
-      "default",
-      "!{projectRoot}/cypress/**/*",
-      "!{projectRoot}/**/*.cy.[jt]s?(x)",
-      "!{projectRoot}/cypress.config.[jt]s"
-    ]
+    "production": ["default"]
   },
   "nxCloudAccessToken": "YTAwYWM5ZDgtOGM3OC00YTQwLThlZjUtNjQwZWE5NzUxZjk4fHJlYWQ=",
   "plugins": [
