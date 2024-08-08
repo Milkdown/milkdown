@@ -39,7 +39,6 @@
       "!{projectRoot}/cypress.config.[jt]s"
     ]
   },
-  "nxCloudAccessToken": "ODhlMWM3YmItMjRmOC00OTBjLTk4N2ItN2Q1OWJhMWVlODcyfHJlYWQtd3JpdGU=",
   "plugins": [
     {
       "plugin": "@nx/storybook/plugin",
