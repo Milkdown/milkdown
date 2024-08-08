@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
@@ -28,27 +29,12 @@
       "cache": true
     }
   },
-  "extends": "@nx/workspace/presets/npm.json",
-  "affected": {
-    "defaultBase": "main"
-  },
-  "pluginsConfig": {
-    "@nrwl/js": {
-      "analyzeSourceFiles": false
-    }
-  },
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
-    "production": [
-      "default",
-      "!{projectRoot}/cypress/**/*",
-      "!{projectRoot}/**/*.cy.[jt]s?(x)",
-      "!{projectRoot}/cypress.config.[jt]s"
-    ]
+    "production": ["default"]
   },
-  "nxCloudAccessToken": "ODhlMWM3YmItMjRmOC00OTBjLTk4N2ItN2Q1OWJhMWVlODcyfHJlYWQtd3JpdGU=",
+  "nxCloudAccessToken": "YTAwYWM5ZDgtOGM3OC00YTQwLThlZjUtNjQwZWE5NzUxZjk4fHJlYWQ=",
   "plugins": [
     {
       "plugin": "@nx/storybook/plugin",
@@ -63,7 +49,7 @@
       "plugin": "@nx/cypress/plugin",
       "options": {
         "targetName": "e2e",
-        "openTargetName": "open-cypress",
+        "openTargetName": "e2e-open",
         "componentTestingTargetName": "component-test",
         "ciTargetName": "e2e-ci"
       }

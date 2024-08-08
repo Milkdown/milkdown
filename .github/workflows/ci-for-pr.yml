@@ -8,27 +8,65 @@ on:
 
 env:
   CI: true
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  start:
-    uses: ./.github/workflows/start-nx-cloud.yml
-
-  test:
-    needs: start
-    uses: ./.github/workflows/test.yml
-    secrets:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-
-  report:
-    if: ${{ always() }}
-    needs: [test]
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: on error
-        if: ${{ needs.test.result != 'success' }}
-        run: exit 1
+      - name: checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.0
+
+      - uses: pnpm/action-setup@v4.0.0
+        with:
+          run_install: false
+
+      - name: get pnpm store directory
+        id: pnpm-cache
+        run: echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: load cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/Cypress
+            ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --require-explicit-completion
+
+      - name: install dependencies
+        run: pnpm install
+
+      - name: build packs
+        run: pnpm nx affected -t build
+
+      - name: run lint
+        run: pnpm test:lint
+
+      - name: run cypress
+        run: pnpm nx affected -t e2e-ci @milkdown/e2e
+
+      - run: npx nx-cloud complete-ci-run
+        if: always()
+
+      - name: Upload test results
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results-main
+          path: dist/cypress
+          if-no-files-found: ignore
