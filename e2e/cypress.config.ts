@@ -6,9 +6,8 @@ export default defineConfig({
   e2e: {
     ...nxE2EPreset(__filename, {
       cypressDir: 'cypress',
-      bundler: 'vite',
       webServerConfig: {
-        reuseExistingServer: true,
+        reuseExistingServer: !process.env.CI,
       },
       webServerCommands: {
         default: 'nx run @milkdown/e2e:start',
@@ -16,6 +15,7 @@ export default defineConfig({
       ciWebServerCommand: 'nx serve @milkdown/e2e',
     }),
     baseUrl: `http://localhost:${process.env.CI ? 4173 : 5173}`,
+    fileServerFolder: '.',
   },
   retries: process.env.CI ? 2 : 0,
 })
