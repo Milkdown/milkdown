@@ -48,6 +48,9 @@ jobs:
 
       - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --require-explicit-completion
 
+      - name: install dependencies
+        run: pnpm install
+
       - name: build packs
         run: pnpm nx affected -t build
 
