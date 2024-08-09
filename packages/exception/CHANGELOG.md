@@ -1,5 +1,19 @@
 # @milkdown/exception
 
+## 7.5.0
+
+### Minor Changes
+
+- be28e7b: All in one kit package and crepe config.
+
+  - Add all-in-one kit package.
+  - Add crepe config for:
+    - Widgets texts
+    - Icons
+  - Add new frame theme for crepe.
+  - Add new table component.
+  - Add GFM support for crepe.
+
 ## 7.4.0
 
 ### Minor Changes

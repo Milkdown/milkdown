@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/plugin-prism",
   "type": "module",
-  "version": "7.4.0",
+  "version": "7.5.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -60,11 +60,15 @@
         "outputs": [
           "{projectRoot}/lib"
         ],
-        "dependsOn": ["build"]
+        "dependsOn": [
+          "build"
+        ]
       },
       "tsc": {
         "outputs": [],
-        "dependsOn": ["build"]
+        "dependsOn": [
+          "build"
+        ]
       }
     }
   }
