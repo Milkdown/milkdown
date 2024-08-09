@@ -52,6 +52,9 @@ jobs:
       - name: run lint
         run: pnpm test:lint
 
+      - name: run unit tests
+        run: pnpm test:unit
+
       - name: run cypress
         run: pnpm nx affected -t e2e-ci @milkdown/e2e
 

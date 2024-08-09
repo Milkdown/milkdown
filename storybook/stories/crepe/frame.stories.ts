@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { basicLight } from '@uiw/codemirror-theme-basic'
 
-import crepe from '@milkdown/crepe/theme/crepe.css?inline'
+import frame from '@milkdown/crepe/theme/frame.css?inline'
 import type { Args } from './setup'
 import { longContent, setup, wikiContent } from './setup'
 
 const meta: Meta = {
-  title: 'Crepe/Crepe',
+  title: 'Crepe/Frame',
   argTypes: {
     language: {
       options: ['EN', 'JA'],
@@ -30,7 +30,7 @@ export const Empty: Story = {
   render: (args) => {
     return setup({
       args,
-      style: crepe,
+      style: frame,
       theme: basicLight,
     })
   },

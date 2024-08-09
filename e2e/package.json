@@ -2,9 +2,6 @@
   "name": "@milkdown/e2e",
   "version": "7.4.0",
   "private": true,
-  "files": [
-    "style"
-  ],
   "scripts": {
     "start": "vite",
     "build": "vite build",
@@ -19,9 +16,7 @@
     "@codemirror/state": "^6.4.1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.26.0",
-    "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
-    "@milkdown/crepe": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-automd": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
@@ -36,10 +31,7 @@
     "@milkdown/prose": "workspace:*",
     "@milkdown/theme-nord": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "@uiw/codemirror-theme-basic": "^4.22.1",
-    "@uiw/codemirror-theme-nord": "^4.22.1",
     "atomico": "^1.75.1",
-    "codemirror": "^6.0.1",
     "katex": "^0.16.0",
     "tslib": "^2.5.0"
   },
