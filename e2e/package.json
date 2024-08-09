@@ -2,9 +2,6 @@
   "name": "@milkdown/e2e",
   "version": "7.4.0",
   "private": true,
-  "files": [
-    "style"
-  ],
   "scripts": {
     "start": "vite",
     "build": "vite build",
