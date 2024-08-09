@@ -48,14 +48,14 @@ jobs:
 
       - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --require-explicit-completion
 
-      - name: install dependencies
-        run: pnpm install
-
       - name: build packs
         run: pnpm nx affected -t build
 
       - name: run lint
         run: pnpm test:lint
+
+      - name: run unit tests
+        run: pnpm test:unit
 
       - name: run cypress
         run: pnpm nx affected -t e2e-ci @milkdown/e2e
