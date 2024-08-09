@@ -41,7 +41,7 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.BlockEdit]: true,
   [CrepeFeature.Placeholder]: true,
   [CrepeFeature.Toolbar]: true,
-  [CrepeFeature.CodeMirror]: false,
+  [CrepeFeature.CodeMirror]: true,
   [CrepeFeature.Table]: true,
 }
 

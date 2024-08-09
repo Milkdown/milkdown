@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html'
 import { basicDark } from '@uiw/codemirror-theme-basic'
 
-import classic from '@milkdown/crepe/theme/crepe-dark.css?inline'
+import crepeDark from '@milkdown/crepe/theme/crepe-dark.css?inline'
 import type { Args } from './setup'
 import { longContent, setup, wikiContent } from './setup'
 
@@ -30,7 +30,7 @@ export const Empty: Story = {
   render: (args) => {
     return setup({
       args,
-      style: classic,
+      style: crepeDark,
       theme: basicDark,
     })
   },
