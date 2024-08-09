@@ -208,15 +208,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.26.0
         version: 6.26.0
-      '@milkdown/components':
-        specifier: workspace:*
-        version: link:../packages/components
       '@milkdown/core':
         specifier: workspace:*
         version: link:../packages/core
-      '@milkdown/crepe':
-        specifier: workspace:*
-        version: link:../packages/crepe
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../packages/ctx
@@ -259,18 +253,9 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../packages/utils
-      '@uiw/codemirror-theme-basic':
-        specifier: ^4.22.1
-        version: 4.22.1(@codemirror/language@6.10.1)(@codemirror/state@6.4.1)(@codemirror/view@6.26.0)
-      '@uiw/codemirror-theme-nord':
-        specifier: ^4.22.1
-        version: 4.22.1(@codemirror/language@6.10.1)(@codemirror/state@6.4.1)(@codemirror/view@6.26.0)
       atomico:
         specifier: ^1.75.1
         version: 1.75.1
-      codemirror:
-        specifier: ^6.0.1
-        version: 6.0.1(@lezer/common@1.2.1)
       katex:
         specifier: ^0.16.0
         version: 0.16.10
