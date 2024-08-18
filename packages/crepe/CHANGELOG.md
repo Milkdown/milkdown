@@ -1,5 +1,11 @@
 # @milkdown/crepe
 
+## 7.5.2
+
+### Patch Changes
+
+- c133e60: Fix dependencies and bundle
+
 ## 7.5.1
 
 ### Patch Changes
