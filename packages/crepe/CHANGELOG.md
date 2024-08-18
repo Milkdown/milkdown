@@ -1,5 +1,11 @@
 # @milkdown/crepe
 
+## 7.5.1
+
+### Patch Changes
+
+- 4083d63: Fix crepe bundle
+
 ## 7.5.0
 
 ### Minor Changes
