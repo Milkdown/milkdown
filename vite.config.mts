@@ -48,6 +48,7 @@ const external = [
   '@milkdown/preset-gfm',
   '@milkdown/preset-commonmark',
   // plugin
+  '@milkdown/plugin-automd',
   '@milkdown/plugin-block',
   '@milkdown/plugin-clipboard',
   '@milkdown/plugin-collab',
