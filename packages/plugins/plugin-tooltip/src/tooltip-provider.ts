@@ -54,6 +54,7 @@ export class TooltipProvider {
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#offset = options.offset
+    this.element.dataset.show = 'false'
   }
 
   /// @internal
@@ -151,6 +152,8 @@ export class TooltipProvider {
 
   /// Hide the tooltip.
   hide = () => {
+    if (this.element.dataset.show === 'false')
+      return
     this.element.dataset.show = 'false'
 
     this.onHide()
