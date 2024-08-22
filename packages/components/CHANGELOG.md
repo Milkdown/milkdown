@@ -1,5 +1,11 @@
 # @milkdown/components
 
+## 7.5.3
+
+### Patch Changes
+
+- 9cb69ae: Fix the link component will make the editor autofocus when loaded
+
 ## 7.5.0
 
 ### Minor Changes

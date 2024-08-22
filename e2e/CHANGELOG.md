@@ -1,5 +1,12 @@
 # @milkdown/e2e
 
+## 7.5.3
+
+### Patch Changes
+
+- Updated dependencies [9cb69ae]
+  - @milkdown/plugin-tooltip@7.5.3
+
 ## 7.5.0
 
 ### Minor Changes
