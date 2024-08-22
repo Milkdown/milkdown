@@ -1,5 +1,13 @@
 # @milkdown/crepe
 
+## 7.5.3
+
+### Patch Changes
+
+- 9cb69ae: Fix the link component will make the editor autofocus when loaded
+- Updated dependencies [9cb69ae]
+  - @milkdown/kit@7.5.3
+
 ## 7.5.2
 
 ### Patch Changes
