@@ -1,5 +1,11 @@
 # @milkdown/components
 
+## 7.5.4
+
+### Patch Changes
+
+- 705c263: Fix plugin block bugs
+
 ## 7.5.3
 
 ### Patch Changes

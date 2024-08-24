@@ -1,5 +1,13 @@
 # @milkdown/crepe
 
+## 7.5.4
+
+### Patch Changes
+
+- 705c263: Fix plugin block bugs
+- Updated dependencies [705c263]
+  - @milkdown/kit@7.5.4
+
 ## 7.5.3
 
 ### Patch Changes
