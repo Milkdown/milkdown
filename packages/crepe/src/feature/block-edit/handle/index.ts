@@ -1,10 +1,11 @@
 import type { PluginView } from '@milkdown/kit/prose/state'
 import { TextSelection } from '@milkdown/kit/prose/state'
-import { BlockProvider, block } from '@milkdown/kit/plugin/block'
+import { BlockProvider, block, blockConfig } from '@milkdown/kit/plugin/block'
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { AtomicoThis } from 'atomico/types/dom'
 import { editorViewCtx } from '@milkdown/kit/core'
 import { paragraphSchema } from '@milkdown/kit/preset/commonmark'
+import { findParent } from '@milkdown/kit/prose'
 import { menuAPI } from '../menu'
 import { defIfNotExists } from '../../../utils'
 import type { BlockEditFeatureConfig } from '../index'
@@ -28,6 +29,9 @@ export class BlockHandleView implements PluginView {
       content,
       getOffset: () => 16,
       getPlacement: ({ active, blockDom }) => {
+        if (active.node.type.name === 'heading')
+          return 'left'
+
         let totalDescendant = 0
         active.node.descendants((node) => {
           totalDescendant += node.childCount
@@ -40,7 +44,7 @@ export class BlockHandleView implements PluginView {
         const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
         const height = domRect.height - paddingTop - paddingBottom
         const handleHeight = handleRect.height
-        return totalDescendant > 2 || handleHeight * 2 < height ? 'left-start' : 'left'
+        return totalDescendant > 2 || handleHeight < height ? 'left-start' : 'left'
       },
     })
     this.update()
@@ -79,6 +83,15 @@ export class BlockHandleView implements PluginView {
 
 defIfNotExists('milkdown-block-handle', BlockHandleElement)
 export function configureBlockHandle(ctx: Ctx, config?: BlockEditFeatureConfig) {
+  ctx.set(blockConfig.key, {
+    filterNodes: (pos) => {
+      const filter = findParent(node => ['table', 'blockquote'].includes(node.type.name))(pos)
+      if (filter)
+        return false
+
+      return true
+    },
+  })
   ctx.set(block.key, {
     view: () => new BlockHandleView(ctx, config),
   })

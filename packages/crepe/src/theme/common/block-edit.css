@@ -2,6 +2,7 @@
   milkdown-block-handle {
     &[data-show='false'] {
       opacity: 0;
+      pointer-events: none;
     }
     transition: all 0.2s;
     position: absolute;

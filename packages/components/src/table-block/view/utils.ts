@@ -20,31 +20,37 @@ export function findNodeIndex(parent: Node, child: Node) {
 export function findPointerIndex(event: PointerEvent, view?: EditorView): CellIndex | undefined {
   if (!view)
     return
-  const posAtCoords = view.posAtCoords({ left: event.clientX, top: event.clientY })
-  if (!posAtCoords)
-    return
-  const pos = posAtCoords?.inside
-  if (pos == null || pos < 0)
-    return
 
-  const $pos = view.state.doc.resolve(pos)
-  const node = view.state.doc.nodeAt(pos)
-  if (!node)
-    return
+  try {
+    const posAtCoords = view.posAtCoords({ left: event.clientX, top: event.clientY })
+    if (!posAtCoords)
+      return
+    const pos = posAtCoords?.inside
+    if (pos == null || pos < 0)
+      return
 
-  const cellType = ['table_cell', 'table_header']
-  const rowType = ['table_row', 'table_header_row']
+    const $pos = view.state.doc.resolve(pos)
+    const node = view.state.doc.nodeAt(pos)
+    if (!node)
+      return
 
-  const cell = cellType.includes(node.type.name) ? node : findParent(node => cellType.includes(node.type.name))($pos)?.node
-  const row = findParent(node => rowType.includes(node.type.name))($pos)?.node
-  const table = findParent(node => node.type.name === 'table')($pos)?.node
-  if (!cell || !row || !table)
-    return
+    const cellType = ['table_cell', 'table_header']
+    const rowType = ['table_row', 'table_header_row']
 
-  const columnIndex = findNodeIndex(row, cell)
-  const rowIndex = findNodeIndex(table, row)
+    const cell = cellType.includes(node.type.name) ? node : findParent(node => cellType.includes(node.type.name))($pos)?.node
+    const row = findParent(node => rowType.includes(node.type.name))($pos)?.node
+    const table = findParent(node => node.type.name === 'table')($pos)?.node
+    if (!cell || !row || !table)
+      return
 
-  return [rowIndex, columnIndex]
+    const columnIndex = findNodeIndex(row, cell)
+    const rowIndex = findNodeIndex(table, row)
+
+    return [rowIndex, columnIndex]
+  }
+  catch {
+    return undefined
+  }
 }
 
 export function getRelatedDOM(contentWrapperRef: Ref<HTMLDivElement>, [rowIndex, columnIndex]: CellIndex) {

@@ -127,6 +127,10 @@ const crepe = new Crepe({
 >
 > No escape from [reality](https://en.wikipedia.org/wiki/Bohemian_Rhapsody).
 
+Open your eyes, look up to the skies and see.
+
+I'm just a poor boy, I need no sympathy, because I'm easy come, easy go, little high, little low.
+
 | Fruit | Animal | Vegetable |
 | ----- | :----: | --------: |
 |   🍎 | 🐱  | 🥕 |
