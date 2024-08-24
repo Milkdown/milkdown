@@ -170,11 +170,5 @@ export class BlockProvider {
   /// Hide the block.
   hide = () => {
     this.#element.dataset.show = 'false'
-    setTimeout(() => {
-      Object.assign(this.#element.style, {
-        left: `-999px`,
-        top: `-999px`,
-      })
-    }, 200)
   }
 }

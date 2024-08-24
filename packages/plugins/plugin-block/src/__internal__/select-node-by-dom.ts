@@ -8,39 +8,44 @@ export function selectRootNodeByDom(view: EditorView, coords: { x: number, y: nu
   if (!root)
     return null
 
-  const pos = view.posAtCoords({
-    left: coords.x,
-    top: coords.y,
-  })?.inside
-  if (pos == null || pos < 0)
-    return null
+  try {
+    const pos = view.posAtCoords({
+      left: coords.x,
+      top: coords.y,
+    })?.inside
+    if (pos == null || pos < 0)
+      return null
 
-  let $pos = view.state.doc.resolve(pos)
-  let node = view.state.doc.nodeAt(pos)
-  let element = view.nodeDOM(pos) as HTMLElement | null
+    let $pos = view.state.doc.resolve(pos)
+    let node = view.state.doc.nodeAt(pos)
+    let element = view.nodeDOM(pos) as HTMLElement | null
 
-  const filter = (needLookup: boolean) => {
-    const checkDepth = $pos.depth >= 1 && $pos.index($pos.depth) === 0
-    const shouldLookUp = needLookup || checkDepth
+    const filter = (needLookup: boolean) => {
+      const checkDepth = $pos.depth >= 1 && $pos.index($pos.depth) === 0
+      const shouldLookUp = needLookup || checkDepth
 
-    if (!shouldLookUp)
-      return
+      if (!shouldLookUp)
+        return
 
-    const ancestorPos = $pos.before($pos.depth)
-    node = view.state.doc.nodeAt(ancestorPos)
-    element = view.nodeDOM(ancestorPos) as HTMLElement | null
-    $pos = view.state.doc.resolve(ancestorPos)
+      const ancestorPos = $pos.before($pos.depth)
+      node = view.state.doc.nodeAt(ancestorPos)
+      element = view.nodeDOM(ancestorPos) as HTMLElement | null
+      $pos = view.state.doc.resolve(ancestorPos)
 
-    if (!filterNodes($pos, node!))
-      filter(true)
+      if (!filterNodes($pos, node!))
+        filter(true)
+    }
+
+    // If filterNodes returns false, we should look up the parent node.
+    const filterResult = filterNodes($pos, node!)
+    filter(!filterResult)
+
+    if (!element || !node)
+      return null
+
+    return { node, $pos, el: element }
   }
-
-  // If filterNodes returns false, we should look up the parent node.
-  const filterResult = filterNodes($pos, node!)
-  filter(!filterResult)
-
-  if (!element || !node)
+  catch {
     return null
-
-  return { node, $pos, el: element }
+  }
 }
