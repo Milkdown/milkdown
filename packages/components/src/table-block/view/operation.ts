@@ -118,6 +118,9 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
     e.stopPropagation()
     const commands = ctx.get(commandsCtx)
     commands.call(deleteSelectedCellsCommand.key)
+    requestAnimationFrame(() => {
+      ctx.get(editorViewCtx).focus()
+    })
   }, [])
 
   const onAlign = useCallback((direction: 'left' | 'center' | 'right') =>
@@ -132,6 +135,9 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
       e.stopPropagation()
       const commands = ctx.get(commandsCtx)
       commands.call(setAlignCommand.key, direction)
+      requestAnimationFrame(() => {
+        ctx.get(editorViewCtx).focus()
+      })
     }, [])
 
   return {
