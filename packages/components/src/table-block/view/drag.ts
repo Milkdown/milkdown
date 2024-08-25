@@ -444,6 +444,10 @@ export function useDragHandlers(
           index,
         })
       }
+
+      requestAnimationFrame(() => {
+        ctx.get(editorViewCtx).focus()
+      })
     }
     const onDragOver = createDragOverHandler(refs)
 
