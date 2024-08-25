@@ -243,8 +243,8 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
       const children = Array.from(firstRow.children)
       const col = children.find((col, index) => {
         const boundary = col.getBoundingClientRect()
-        const boundaryLeft = boundary.left + wrapperOffsetLeft - left
-        const boundaryRight = boundary.right + wrapperOffsetLeft - left
+        const boundaryLeft = boundary.left + wrapperOffsetLeft - left + boundary.width / 2
+        const boundaryRight = boundary.right + wrapperOffsetLeft - left + boundary.width / 2
         if (direction === 'right') {
           if (boundaryLeft <= previewRight && boundaryRight >= previewRight)
             return true
@@ -303,8 +303,8 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
       const rows = Array.from(contentRoot.querySelectorAll('tr'))
       const row = rows.find((row, index) => {
         const boundary = row.getBoundingClientRect()
-        const boundaryTop = boundary.top + wrapperOffsetTop - top
-        const boundaryBottom = boundary.bottom + wrapperOffsetTop - top
+        const boundaryTop = boundary.top + wrapperOffsetTop - top + boundary.height / 2
+        const boundaryBottom = boundary.bottom + wrapperOffsetTop - top + boundary.height / 2
         if (direction === 'down') {
           if (boundaryTop <= previewBottom && boundaryBottom >= previewBottom)
             return true
