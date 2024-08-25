@@ -1,5 +1,13 @@
 # @milkdown/kit
 
+## 7.5.5
+
+### Patch Changes
+
+- 56af3f5: Optimize table drag behavior
+- Updated dependencies [56af3f5]
+  - @milkdown/components@7.5.5
+
 ## 7.5.4
 
 ### Patch Changes
