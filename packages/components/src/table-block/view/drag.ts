@@ -243,15 +243,19 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
       const children = Array.from(firstRow.children)
       const col = children.find((col, index) => {
         const boundary = col.getBoundingClientRect()
-        const boundaryLeft = boundary.left + wrapperOffsetLeft - left + boundary.width / 2
-        const boundaryRight = boundary.right + wrapperOffsetLeft - left + boundary.width / 2
+        let boundaryLeft = boundary.left + wrapperOffsetLeft - left
+        let boundaryRight = boundary.right + wrapperOffsetLeft - left
         if (direction === 'right') {
+          boundaryLeft = boundaryLeft + boundary.width / 2
+          boundaryRight = boundaryRight + boundary.width / 2
           if (boundaryLeft <= previewRight && boundaryRight >= previewRight)
             return true
           if (index === firstRow.children.length - 1 && previewRight > boundaryRight)
             return true
         }
         else {
+          boundaryLeft = boundaryLeft - boundary.width / 2
+          boundaryRight = boundaryRight - boundary.width / 2
           if (boundaryLeft <= previewLeft && boundaryRight >= previewLeft)
             return true
           if (index === 0 && previewLeft < boundaryLeft)
@@ -303,15 +307,19 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
       const rows = Array.from(contentRoot.querySelectorAll('tr'))
       const row = rows.find((row, index) => {
         const boundary = row.getBoundingClientRect()
-        const boundaryTop = boundary.top + wrapperOffsetTop - top + boundary.height / 2
-        const boundaryBottom = boundary.bottom + wrapperOffsetTop - top + boundary.height / 2
+        let boundaryTop = boundary.top + wrapperOffsetTop - top
+        let boundaryBottom = boundary.bottom + wrapperOffsetTop - top
         if (direction === 'down') {
+          boundaryTop = boundaryTop + boundary.height / 2
+          boundaryBottom = boundaryBottom + boundary.height / 2
           if (boundaryTop <= previewBottom && boundaryBottom >= previewBottom)
             return true
           if (index === rows.length - 1 && previewBottom > boundaryBottom)
             return true
         }
         else {
+          boundaryTop = boundaryTop - boundary.height / 2
+          boundaryBottom = boundaryBottom - boundary.height / 2
           if (boundaryTop <= previewTop && boundaryBottom >= previewTop)
             return true
           if (index === 0 && previewTop < boundaryTop)
