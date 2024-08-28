@@ -32,8 +32,12 @@
           color: var(--crepe-color-outline);
           fill: var(--crepe-color-outline);
         }
+        border-radius: 8px;
         padding: 3px;
         line-height: 24px;
+        &:hover {
+          background: var(--crepe-color-hover);
+        }
       }
 
       & > .link-display {
