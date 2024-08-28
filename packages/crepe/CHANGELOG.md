@@ -1,5 +1,11 @@
 # @milkdown/crepe
 
+## 7.5.6
+
+### Patch Changes
+
+- 8e2c866: Add copy link button
+
 ## 7.5.5
 
 ### Patch Changes
