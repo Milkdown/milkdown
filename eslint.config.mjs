@@ -3,9 +3,6 @@ import antfu from '@antfu/eslint-config'
 export default antfu(
   {
     stylistic: true,
-    typescript: {
-      tsconfigPath: 'tsconfig.json',
-    },
     ignores: [
       '.idea',
       'lib',
@@ -13,11 +10,13 @@ export default antfu(
       'docs',
       'CHANGELOG.md',
     ],
-    overrides: {
-      vue: {
+    vue: {
+      overrides: {
         'vue/one-component-per-file': 'off',
       },
-      typescript: {
+    },
+    typescript: {
+      overrides: {
         'ts/no-unsafe-assignment': 'off',
         'ts/no-unsafe-member-access': 'off',
         'ts/no-unsafe-argument': 'off',
