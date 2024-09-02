@@ -106,7 +106,7 @@ withMeta(mathInlineSchema.node, {
 /// Input rule for inline math.
 /// When you type $E=MC^2$, it will create an inline math node.
 export const mathInlineInputRule = $inputRule(ctx =>
-  nodeRule(/(?:\$)([^\$]+)(?:\$)$/, mathInlineSchema.type(ctx), {
+  nodeRule(/(?:\$)([^$]+)(?:\$)$/, mathInlineSchema.type(ctx), {
     beforeDispatch: ({ tr, match, start }) => {
       tr.insertText(match[1] ?? '', start + 1)
     },

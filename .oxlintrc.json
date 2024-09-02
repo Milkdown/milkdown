@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "eslint/no-unused-vars": "off",
+    "no-console": "error"
+  }
+}

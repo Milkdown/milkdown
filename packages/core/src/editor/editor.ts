@@ -202,6 +202,7 @@ export class Editor {
   /// Remove a plugin or a list of plugins from the editor.
   readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate) {
+      // eslint-disable-next-line no-console
       console.warn('[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code.')
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -272,6 +273,7 @@ export class Editor {
   /// Make sure you have enabled inspector by `editor.enableInspector()` before calling this method.
   readonly inspect = (): Telemetry[] => {
     if (!this.#enableInspector) {
+      // eslint-disable-next-line no-console
       console.warn('[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first.')
       return []
     }

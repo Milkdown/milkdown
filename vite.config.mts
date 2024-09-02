@@ -100,10 +100,10 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
 
   const packageJson = JSON.parse(readFileSync(resolve(dir, 'package.json'), { encoding: 'utf-8' }))
   const deps = {
-    ...(packageJson.dependencies || {}),
-    ...(packageJson.devDependencies || {}),
-    ...(packageJson.peerDependencies || {}),
-    ...(globalPackageJson.devDependencies || {}),
+    ...packageJson.dependencies,
+    ...packageJson.devDependencies,
+    ...packageJson.peerDependencies,
+    ...globalPackageJson.devDependencies,
     // ...(globalPackageJson.dependencies || {}),
   }
   return mergeDeep<BuildOptions>(

@@ -22,7 +22,7 @@ describe('keep mark symbol', () => {
   it('not a bold', () => {
     cy.get('.editor').type('The lunatic is o__"n the grass__')
     cy.get('.editor').get('p').should('have.text', 'The lunatic is o__"n the grass__')
-    cy.isMarkdown('The lunatic is o\\_\\_\"n the grass\\_\\_\n')
+    cy.isMarkdown('The lunatic is o\\_\\_"n the grass\\_\\_\n')
   })
 
   it('escape _', () => {
@@ -34,19 +34,19 @@ describe('keep mark symbol', () => {
   it('italic with _', () => {
     cy.get('.editor').type('The lunatic is "_on the grass_"')
     cy.get('.editor').get('em').should('have.text', 'on the grass')
-    cy.isMarkdown('The lunatic is \"_on the grass_\"\n')
+    cy.isMarkdown('The lunatic is "_on the grass_"\n')
   })
 
   it('not an italic', () => {
     cy.get('.editor').type('The lunatic is o*"n the grass*')
     cy.get('.editor').get('p').should('have.text', 'The lunatic is o*"n the grass*')
-    cy.isMarkdown('The lunatic is o\\*\"n the grass\\*\n')
+    cy.isMarkdown('The lunatic is o\\*"n the grass\\*\n')
   })
 
   it('italic with *', () => {
     cy.get('.editor').type('The lunatic is "*on the grass*"')
     cy.get('.editor').get('em').should('have.text', 'on the grass')
-    cy.isMarkdown('The lunatic is \"*on the grass*\"\n')
+    cy.isMarkdown('The lunatic is "*on the grass*"\n')
   })
 
   it('escape _ in italic', () => {

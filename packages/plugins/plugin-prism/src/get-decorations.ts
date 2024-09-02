@@ -28,6 +28,7 @@ export function getDecorations(doc: Node, name: string, refractor: Refractor) {
     let from = block.pos + 1
     const { language } = block.node.attrs
     if (!language || !allLanguages.includes(language)) {
+      // eslint-disable-next-line no-console
       console.warn('Unsupported language detected, this language has not been supported by current prism config: ', language)
       return
     }

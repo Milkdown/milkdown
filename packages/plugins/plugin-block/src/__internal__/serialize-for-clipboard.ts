@@ -45,7 +45,6 @@ export function serializeForClipboard(view: EditorView, slice: Slice) {
   let firstChild = wrap.firstChild
   let needsWrap
   let wrappers = 0
-  // eslint-disable-next-line no-cond-assign
   while (firstChild && firstChild.nodeType === 1 && (needsWrap = wrapMap[firstChild.nodeName.toLowerCase()])) {
     for (let i = needsWrap.length - 1; i >= 0; i--) {
       const wrapper = doc.createElement(needsWrap[i] as string)

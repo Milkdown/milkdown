@@ -13,7 +13,7 @@
     "test:unit:watch": "vitest",
     "test:tsc": "pnpm --filter=@milkdown/* run tsc",
     "test:tsc:cache": "nx run-many --target=tsc --all --parallel",
-    "test:lint": "eslint .",
+    "test:lint": "oxlint -c .oxlintrc.json",
     "test:e2e": "nx e2e @milkdown/e2e",
     "test:e2e:build": "nx build @milkdown/e2e",
     "test:e2e:debug": "nx open-cypress @milkdown/e2e",
@@ -31,11 +31,9 @@
     "storybook": "pnpm --filter=@milkdown/e2e run storybook"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.2",
     "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
-    "@eslint-react/eslint-plugin": "^1.5.10",
     "@nrwl/tao": "19.6.4",
     "@nx/cypress": "19.6.4",
     "@nx/storybook": "19.6.4",
@@ -60,13 +58,12 @@
     "cross-env": "^7.0.3",
     "cypress": "^13.13.0",
     "esbuild": "^0.23.0",
-    "eslint": "^9.0.0",
-    "eslint-plugin-tailwindcss": "^3.15.1",
     "git-cz": "^4.7.6",
     "husky": "^9.0.10",
     "jsdom": "^25.0.0",
     "lint-staged": "^15.0.0",
     "nx": "19.6.4",
+    "oxlint": "^0.9.2",
     "pathe": "^1.0.0",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
@@ -100,8 +97,7 @@
       "allowedVersions": {
         "react": "18",
         "react-dom": "18",
-        "typescript": "5",
-        "eslint": "9"
+        "typescript": "5"
       }
     },
     "overrides": {
