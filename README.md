@@ -15,7 +15,7 @@
 A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/),
 built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).
 
-The website is designed by [Meo](https://github.com/Saul-Meo) and [Mirone](https://github.com/Saul-Mirone).
+The website is designed by [Meo](https://meo.cool/) and [Mirone](https://github.com/Saul-Mirone).
 Powered by [Theme Nord](https://www.nordtheme.com/) and [Material Design](https://material.io/design).
 
 # Documentation
@@ -42,7 +42,7 @@ Follow our [contribution guide](https://github.com/Milkdown/milkdown/blob/main/C
   <img src="https://opencollective.com/milkdown/contributors.svg?width=890&button=false" alt="contributors">
 </a>
 
-Special thanks to [@Meo](https://github.com/Saul-Meo) for her work in design.
+Special thanks to [@Meo](https://meo.cool/) for her work in design.
 
 # Sponsors
 
