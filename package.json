@@ -31,7 +31,7 @@
     "storybook": "pnpm --filter=@milkdown/e2e run storybook"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.2",
+    "@antfu/eslint-config": "^3.0.0",
     "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
