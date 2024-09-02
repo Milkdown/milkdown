@@ -1,6 +1,3 @@
-/* eslint-disable vars-on-top */
-/* eslint-disable no-var */
-
 /// <reference types="cypress" />
 /// <reference types="vite/client" />
 

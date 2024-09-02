@@ -80,7 +80,7 @@ withMeta(toggleInlineCodeCommand, {
 
 /// Input rule for create inlineCode mark.
 export const inlineCodeInputRule = $inputRule((ctx) => {
-  return markRule(/(?:\`)([^\`]+)(?:\`)$/, inlineCodeSchema.type(ctx))
+  return markRule(/(?:`)([^`]+)(?:`)$/, inlineCodeSchema.type(ctx))
 })
 
 withMeta(inlineCodeInputRule, {

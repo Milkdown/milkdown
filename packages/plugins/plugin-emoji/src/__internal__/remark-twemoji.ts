@@ -48,7 +48,6 @@ export const twemojiPlugin: RemarkPluginRaw<TwemojiOptions> = (twemojiOptions) =
       const output: Array<Node & { value: string }> = []
       let match
       let str = value
-      // eslint-disable-next-line no-cond-assign
       while ((match = regex.exec(str))) {
         const { index } = match
         const emoji = match[0]
