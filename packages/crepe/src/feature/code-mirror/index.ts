@@ -36,8 +36,8 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, co
         languages = langList
       }
       if (!theme) {
-        const { nord } = await import('@uiw/codemirror-theme-nord')
-        theme = nord
+        const { oneDark } = await import('@codemirror/theme-one-dark')
+        theme = oneDark
       }
       ctx.update(codeBlockConfig.key, defaultConfig => ({
         extensions: [
