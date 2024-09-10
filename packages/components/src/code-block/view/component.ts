@@ -123,7 +123,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
       return
 
     setShowPicker((show) => {
-      if (show) {
+      if (!show) {
         setTimeout(() => searchRef.current?.focus(), 0);
       }
       return !show
