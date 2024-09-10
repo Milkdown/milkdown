@@ -50,7 +50,7 @@ jobs:
         run: pnpm build
 
       - name: run lint
-        run: pnpm test:lint
+        run: pnpm test:lint --format github
 
       - name: run unit tests
         run: pnpm test:unit
