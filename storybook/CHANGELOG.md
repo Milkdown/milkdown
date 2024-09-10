@@ -1,5 +1,12 @@
 # @milkdown/storybook
 
+## 7.5.7
+
+### Patch Changes
+
+- Updated dependencies [2da95f9]
+  - @milkdown/crepe@7.5.7
+
 ## 7.5.6
 
 ### Patch Changes
