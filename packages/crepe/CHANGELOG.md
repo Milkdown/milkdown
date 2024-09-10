@@ -1,5 +1,11 @@
 # @milkdown/crepe
 
+## 7.5.7
+
+### Patch Changes
+
+- 2da95f9: The default nord theme has unacceptable dependency @babel/runtime
+
 ## 7.5.6
 
 ### Patch Changes
