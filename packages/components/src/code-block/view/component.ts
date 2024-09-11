@@ -28,6 +28,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
   const host = useHost()
   const triggerRef = useRef<HTMLButtonElement>()
   const pickerRef = useRef<HTMLDivElement>()
+  const searchRef = useRef<HTMLInputElement>()
   const [filter, setFilter] = useState('')
   const [showPicker, setShowPicker] = useState(false)
 
@@ -122,6 +123,9 @@ export const codeComponent: Component<CodeComponentProps> = ({
       return
 
     setShowPicker((show) => {
+      if (!show) {
+        setTimeout(() => searchRef.current?.focus(), 0);
+      }
       return !show
     })
   }
@@ -182,6 +186,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
               ${config?.searchIcon?.()}
             </div>
             <input
+              ref=${searchRef}
               class="search-input"
               placeholder=${config?.searchPlaceholder}
               value=${filter}
