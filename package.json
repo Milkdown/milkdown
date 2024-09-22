@@ -57,7 +57,7 @@
     "concurrently": "^9.0.0",
     "cross-env": "^7.0.3",
     "cypress": "^13.13.0",
-    "esbuild": "^0.23.0",
+    "esbuild": "^0.24.0",
     "git-cz": "^4.7.6",
     "husky": "^9.0.10",
     "jsdom": "^25.0.0",
