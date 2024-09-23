@@ -68,8 +68,8 @@ importers:
         specifier: ^15.0.0
         version: 15.2.3(rollup@4.9.1)
       '@rollup/plugin-typescript':
-        specifier: ^11.0.0
-        version: 11.1.5(rollup@4.9.1)(tslib@2.6.3)(typescript@5.4.4)
+        specifier: ^12.0.0
+        version: 12.1.0(rollup@4.9.1)(tslib@2.6.3)(typescript@5.4.4)
       '@swc-node/register':
         specifier: ^1.10.9
         version: 1.10.9(@swc/core@1.7.5(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.4.4)
@@ -3138,8 +3138,8 @@ packages:
       rollup:
         optional: true
 
-  '@rollup/plugin-typescript@11.1.5':
-    resolution: {integrity: sha512-rnMHrGBB0IUEv69Q8/JGRD/n4/n6b3nfpufUu26axhUcboUzv/twfZU8fIBbTOphRAe0v8EyxzeDpKXqGHfyDA==}
+  '@rollup/plugin-typescript@12.1.0':
+    resolution: {integrity: sha512-Kzs8KGJofe7cfTRODsnG1jNGxSvU8gVoNNd7Z/QaY25AYwe2LSSUpx/kPxqF38NYkpR8de3m51r9uwJpDlz6dg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.14.0||^3.0.0||^4.0.0
@@ -10794,7 +10794,7 @@ snapshots:
     optionalDependencies:
       rollup: 4.9.1
 
-  '@rollup/plugin-typescript@11.1.5(rollup@4.9.1)(tslib@2.6.3)(typescript@5.4.4)':
+  '@rollup/plugin-typescript@12.1.0(rollup@4.9.1)(tslib@2.6.3)(typescript@5.4.4)':
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.9.1)
       resolve: 1.22.8
