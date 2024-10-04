@@ -52,6 +52,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({
 
   return html`<host>
     <button
+      type="button"
       class=${clsx('toolbar-item', ctx && isActive(strongSchema.type(ctx)) && 'active')}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
@@ -61,6 +62,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({
       ${config?.boldIcon?.() ?? boldIcon}
     </button>
     <button
+      type="button"
       class=${clsx('toolbar-item', ctx && isActive(emphasisSchema.type(ctx)) && 'active')}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
@@ -70,6 +72,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({
       ${config?.italicIcon?.() ?? italicIcon}
     </button>
     <button
+      type="button"
       class=${clsx('toolbar-item', ctx && isActive(strikethroughSchema.type(ctx)) && 'active')}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
@@ -80,6 +83,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({
     </button>
     <div class="divider"></div>
     <button
+      type="button"
       class=${clsx('toolbar-item', ctx && isActive(inlineCodeSchema.type(ctx)) && 'active')}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
@@ -89,6 +93,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({
       ${config?.codeIcon?.() ?? codeIcon}
     </button>
     <button
+      type="button"
       class=${clsx('toolbar-item', ctx && isActive(linkSchema.type(ctx)) && 'active')}
       onmousedown=${onClick((ctx) => {
         const view = ctx.get(editorViewCtx)
