@@ -107,27 +107,23 @@ export const tableComponent: Component<TableComponentProps> = ({
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
           <button
-          type="button"
-          onpointerdown=${onAlign('left')}
-          >
+            type="button"
+            onpointerdown=${onAlign('left')}>
             ${config?.renderButton('align_col_left')}
           </button>
           <button
-          type="button"
-          onpointerdown=${onAlign('center')}
-          >
+            type="button"
+            onpointerdown=${onAlign('center')}>
             ${config?.renderButton('align_col_center')}
           </button>
           <button
-          type="button"
-          onpointerdown=${onAlign('right')}
-          >
+            type="button"
+            onpointerdown=${onAlign('right')}>
             ${config?.renderButton('align_col_right')}
           </button>
           <button
-          type="button"
-          onpointerdown=${deleteSelected}
-          >
+            type="button"
+            onpointerdown=${deleteSelected}>
             ${config?.renderButton('delete_col')}
           </button>
         </div>
