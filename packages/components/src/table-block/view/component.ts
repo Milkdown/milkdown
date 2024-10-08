@@ -147,7 +147,9 @@ export const tableComponent: Component<TableComponentProps> = ({
           class="button-group"
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
-          <button type="button" onpointerdown=${deleteSelected}>
+          <button
+            type="button"
+            onpointerdown=${deleteSelected}>
             ${config?.renderButton('delete_row')}
           </button>
         </div>
@@ -175,7 +177,8 @@ export const tableComponent: Component<TableComponentProps> = ({
         >
           <button
             type="button"
-            onclick=${onAddRow} class="add-button">
+            onclick=${onAddRow}
+            class="add-button">
             ${config?.renderButton('add_row')}
           </button>
         </div>
@@ -190,7 +193,8 @@ export const tableComponent: Component<TableComponentProps> = ({
         >
           <button
             type="button"
-            onclick=${onAddCol} class="add-button">
+            onclick=${onAddCol}
+            class="add-button">
             ${config?.renderButton('add_col')}
           </button>
         </div>
