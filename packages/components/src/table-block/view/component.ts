@@ -88,6 +88,7 @@ export const tableComponent: Component<TableComponentProps> = ({
       onpointerleave=${pointerLeave}
     >
       <button
+        type="button"
         data-show="false"
         contenteditable="false"
         draggable="true"
@@ -105,21 +106,34 @@ export const tableComponent: Component<TableComponentProps> = ({
           class="button-group"
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
-          <button onpointerdown=${onAlign('left')}>
+          <button
+          type="button"
+          onpointerdown=${onAlign('left')}
+          >
             ${config?.renderButton('align_col_left')}
           </button>
-          <button onpointerdown=${onAlign('center')}>
+          <button
+          type="button"
+          onpointerdown=${onAlign('center')}
+          >
             ${config?.renderButton('align_col_center')}
           </button>
-          <button onpointerdown=${onAlign('right')}>
+          <button
+          type="button"
+          onpointerdown=${onAlign('right')}
+          >
             ${config?.renderButton('align_col_right')}
           </button>
-          <button onpointerdown=${deleteSelected}>
+          <button
+          type="button"
+          onpointerdown=${deleteSelected}
+          >
             ${config?.renderButton('delete_col')}
           </button>
         </div>
       </button>
       <button
+        type="button"
         data-show="false"
         contenteditable="false"
         draggable="true"
@@ -137,7 +151,7 @@ export const tableComponent: Component<TableComponentProps> = ({
           class="button-group"
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
-          <button onpointerdown=${deleteSelected}>
+          <button type="button" onpointerdown=${deleteSelected}>
             ${config?.renderButton('delete_row')}
           </button>
         </div>
@@ -163,7 +177,9 @@ export const tableComponent: Component<TableComponentProps> = ({
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
           ref=${xLineHandleRef}
         >
-          <button onclick=${onAddRow} class="add-button">
+          <button
+            type="button"
+            onclick=${onAddRow} class="add-button">
             ${config?.renderButton('add_row')}
           </button>
         </div>
@@ -176,7 +192,9 @@ export const tableComponent: Component<TableComponentProps> = ({
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
           ref=${yLineHandleRef}
         >
-          <button onclick=${onAddCol} class="add-button">
+          <button
+            type="button"
+            onclick=${onAddCol} class="add-button">
             ${config?.renderButton('add_col')}
           </button>
         </div>
