@@ -39,8 +39,8 @@ export const menuComponent: Component<MenuProps> = ({
   }, [])
 
   useEffect(() => {
-    if (size === 0 && show)
-      hide?.()
+    if (size === 0 && show) hide?.()
+    else if (hoverIndex >= size) setHoverIndex(0)
   }, [size, show])
 
   const onHover = useCallback((
