@@ -169,6 +169,7 @@ export const codeComponent: Component<CodeComponentProps> = ({
   return html`<host class=${clsx(selected && 'selected')}>
     <div class="tools">
       <button
+        type="button"
         ref=${triggerRef}
         class="language-button"
         onpointerdown=${onTogglePicker}
