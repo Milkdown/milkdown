@@ -11,29 +11,30 @@
     "serve": "serve storybook-static"
   },
   "dependencies": {
-    "@codemirror/commands": "^6.3.3",
-    "@codemirror/language-data": "^6.4.1",
+    "@codemirror/commands": "^6.7.1",
+    "@codemirror/language-data": "^6.5.1",
     "@codemirror/state": "^6.4.1",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@codemirror/view": "^6.26.0",
+    "@codemirror/view": "^6.34.1",
     "@milkdown/crepe": "workspace:*",
     "@milkdown/kit": "workspace:*",
     "@milkdown/theme-nord": "workspace:*",
-    "@uiw/codemirror-theme-basic": "^4.22.1",
-    "@uiw/codemirror-theme-nord": "^4.22.1",
-    "atomico": "^1.75.1",
+    "@uiw/codemirror-theme-basic": "^4.23.6",
+    "@uiw/codemirror-theme-nord": "^4.23.6",
+    "atomico": "^1.79.2",
     "codemirror": "^6.0.1",
-    "katex": "^0.16.0",
-    "tslib": "^2.5.0"
+    "katex": "^0.16.11",
+    "tslib": "^2.8.1",
+    "yjs": "^13.6.20"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^8.2.7",
-    "@storybook/addon-essentials": "^8.2.7",
-    "@storybook/builder-vite": "^8.2.7",
-    "@storybook/core-server": "^8.2.7",
-    "@storybook/html": "^8.2.7",
-    "@storybook/html-vite": "^8.2.7",
-    "storybook": "^8.2.7"
+    "@storybook/addon-actions": "^8.4.1",
+    "@storybook/addon-essentials": "^8.4.1",
+    "@storybook/builder-vite": "^8.4.1",
+    "@storybook/core-server": "^8.4.1",
+    "@storybook/html": "^8.4.1",
+    "@storybook/html-vite": "^8.4.1",
+    "storybook": "^8.4.1"
   },
   "nx": {
     "targets": {

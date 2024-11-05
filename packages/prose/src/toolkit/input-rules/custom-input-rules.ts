@@ -13,12 +13,12 @@ function run(view: EditorView, from: number, to: number, text: string, rules: In
   const textBefore
         = $from.parent.textBetween(Math.max(0, $from.parentOffset - 500), $from.parentOffset, undefined, '\uFFFC') + text
   for (let i = 0; i < rules.length; i++) {
-    const match = (rules[i] as { match: RegExp }).match.exec(textBefore)
+    const match = (rules[i] as unknown as { match: RegExp }).match.exec(textBefore)
     const tr
             = match
             && match[0]
             && (
-              rules[i] as { handler: (state: EditorState, match: string[], from: number, to: number) => Transaction }
+              rules[i] as unknown as { handler: (state: EditorState, match: string[], from: number, to: number) => Transaction }
             ).handler(state, match, from - (match[0].length - text.length), to)
     if (!tr)
       continue

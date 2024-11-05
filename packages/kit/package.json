@@ -44,6 +44,7 @@
     "./plugin/block": "./src/plugin/block.ts",
     "./plugin/clipboard": "./src/plugin/clipboard.ts",
     "./plugin/cursor": "./src/plugin/cursor.ts",
+    "./plugin/collab": "./src/plugin/collab.ts",
     "./plugin/history": "./src/plugin/history.ts",
     "./plugin/indent": "./src/plugin/indent.ts",
     "./plugin/listener": "./src/plugin/listener.ts",
@@ -175,6 +176,10 @@
         "types": "./lib/plugin/listener.d.ts",
         "import": "./lib/plugin/listener.js"
       },
+      "./plugin/collab": {
+        "types": "./lib/plugin/collab.d.ts",
+        "import": "./lib/plugin/collab.js"
+      },
       "./plugin/slash": {
         "types": "./lib/plugin/slash.d.ts",
         "import": "./lib/plugin/slash.js"
@@ -294,6 +299,9 @@
         "plugin/cursor": [
           "lib/plugin/cursor.d.ts"
         ],
+        "plugin/collab": [
+          "lib/plugin/collab.d.ts"
+        ],
         "plugin/history": [
           "lib/plugin/history.d.ts"
         ],
@@ -357,6 +365,7 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-block": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
+    "@milkdown/plugin-collab": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-indent": "workspace:*",
