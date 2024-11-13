@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { imageBlockComponent } from '@milkdown/kit/component/image-block'
+import { imageBlockComponent, imageBlockConfig } from '@milkdown/kit/component/image-block'
 
 import type { CommonArgs } from '../utils/shadow'
 import { setupMilkdown } from '../utils/shadow'
@@ -23,6 +23,33 @@ export const Empty: StoryObj<CommonArgs> = {
   render: (args) => {
     return setupMilkdown([style], args, (editor) => {
       editor.use(imageBlockComponent)
+    })
+  },
+  args: {
+    readonly: false,
+    defaultValue: empty,
+  },
+}
+
+export const CustomUpload: StoryObj<CommonArgs> = {
+  render: (args) => {
+    return setupMilkdown([style], args, (editor) => {
+      editor.config((ctx) => {
+        ctx.update(imageBlockConfig.key, value => ({
+          uploadButton: (() => 'Select image'),
+          imageIcon: value.imageIcon,
+          captionIcon: value.captionIcon,
+          confirmButton: value.confirmButton,
+          captionPlaceholderText: value.captionPlaceholderText,
+          uploadPlaceholderText: value.uploadPlaceholderText,
+          onUpload: value.onUpload,
+          selectUpload: () => {
+            return new Promise(resolve => {
+              resolve('/milkdown-logo.png');
+            });
+          }
+        }))
+      }).use(imageBlockComponent)
     })
   },
   args: {
