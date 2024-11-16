@@ -43,6 +43,7 @@
   "peerDependencies": {
     "@milkdown/core": "^7.2.0",
     "@milkdown/prose": "^7.2.0",
+    "@milkdown/crepe": "^7.3.3",
     "vue": "^3.0.0"
   },
   "dependencies": {
@@ -52,6 +53,7 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@milkdown/crepe": "workspace:*",
     "vue": "^3.3.4"
   },
   "nx": {

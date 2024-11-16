@@ -1,3 +1,4 @@
+import { Crepe } from '@milkdown/crepe'
 import { createContext, useContext, useEffect, useRef } from 'react'
 
 import type { EditorInfoCtx } from './types'
@@ -5,7 +6,7 @@ import type { EditorInfoCtx } from './types'
 export const editorInfoContext = createContext<EditorInfoCtx>({} as EditorInfoCtx)
 
 export function useGetEditor() {
-  const { dom, editor: editorRef, setLoading, editorFactory: getEditor } = useContext(editorInfoContext)
+  const { dom, editor: editorRef, setLoading, editorFactory: getEditor, crepe } = useContext(editorInfoContext)
   const domRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -24,15 +25,28 @@ export function useGetEditor() {
       return
 
     setLoading(true)
-    editor
-      .create()
-      .then((editor) => {
-        editorRef.current = editor
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-      .catch(console.error)
+    if (editor instanceof Crepe) {
+      crepe.current = editor
+      editor
+        .create()
+        .then((editor) => {
+          editorRef.current = editor
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+        .catch(console.error)
+    } else {
+      editor
+        .create()
+        .then((editor) => {
+          editorRef.current = editor
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+        .catch(console.error)
+    }
 
     return () => {
       editorRef.current?.destroy()

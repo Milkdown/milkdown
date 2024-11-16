@@ -425,6 +425,9 @@ importers:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
+      '@milkdown/crepe':
+        specifier: workspace:*
+        version: link:../../crepe
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
@@ -453,6 +456,9 @@ importers:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
+      '@milkdown/crepe':
+        specifier: workspace:*
+        version: link:../../crepe
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose

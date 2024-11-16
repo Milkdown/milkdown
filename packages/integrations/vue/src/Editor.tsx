@@ -1,3 +1,4 @@
+import type { Crepe } from '@milkdown/crepe'
 import type { Editor } from '@milkdown/core'
 import type { InjectionKey, Ref } from 'vue'
 import {
@@ -21,7 +22,10 @@ export const Milkdown = defineComponent({
   setup: () => {
     const domRef = useGetEditor()
 
-    return () => <div data-milkdown-root ref={domRef} />
+    return () => h('div', {
+      'data-milkdown-root': true,
+      ref: domRef,
+    })
   },
 })
 
@@ -31,6 +35,7 @@ export const MilkdownProvider = defineComponent({
     const dom = ref<HTMLDivElement | null>(null)
     const editorFactory = ref<GetEditor | undefined>(undefined)
     const editor = ref<Editor | undefined>(undefined) as Ref<Editor | undefined>
+    const crepe = ref<Crepe | undefined>(undefined) as Ref<Crepe | undefined>
     const loading = ref(true)
 
     provide(editorInfoCtxKey, {
@@ -38,8 +43,9 @@ export const MilkdownProvider = defineComponent({
       dom,
       editor,
       editorFactory,
+      crepe,
     })
 
-    return () => <>{slots.default?.()}</>
+    return () => slots.default?.()
   },
 })
