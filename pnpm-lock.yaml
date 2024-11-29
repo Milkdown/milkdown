@@ -471,6 +471,9 @@ importers:
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../ctx
+      '@milkdown/plugin-automd':
+        specifier: workspace:*
+        version: link:../plugins/plugin-automd
       '@milkdown/plugin-block':
         specifier: workspace:*
         version: link:../plugins/plugin-block
