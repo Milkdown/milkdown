@@ -1,3 +1,4 @@
+import type { Crepe } from '@milkdown/crepe'
 import type { Editor } from '@milkdown/core'
 import type { FC, ReactNode } from 'react'
 import React, { useMemo, useRef, useState } from 'react'
@@ -15,12 +16,14 @@ export const MilkdownProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const dom = useRef<HTMLDivElement | undefined>(undefined)
   const [editorFactory, setEditorFactory] = useState<GetEditor | undefined>(undefined)
   const editor = useRef<Editor>()
+  const crepe = useRef<Crepe>()
   const [loading, setLoading] = useState(true)
 
   const editorInfoCtx = useMemo<EditorInfoCtx>(() => ({
     loading,
     dom,
     editor,
+    crepe,
     setLoading,
     editorFactory,
     setEditorFactory,

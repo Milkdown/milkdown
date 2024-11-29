@@ -16,5 +16,6 @@ export function useEditor(getEditor: GetEditor, deps: DependencyList = []): UseE
   return {
     loading: editorInfo.loading,
     get: () => editorInfo.editor.current,
+    getCrepe: () => editorInfo.crepe.current,
   }
 }

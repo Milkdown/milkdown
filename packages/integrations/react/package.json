@@ -43,6 +43,7 @@
   "peerDependencies": {
     "@milkdown/core": "^7.2.0",
     "@milkdown/prose": "^7.2.0",
+    "@milkdown/crepe": "^7.3.3",
     "react": "*",
     "react-dom": "*"
   },
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@milkdown/crepe": "workspace:*",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.0.0",
