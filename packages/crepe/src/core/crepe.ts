@@ -3,6 +3,7 @@ import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdow
 
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { gfm } from '@milkdown/kit/preset/gfm'
+import { automd } from '@milkdown/kit/plugin/automd'
 import { history } from '@milkdown/kit/plugin/history'
 import { indent, indentConfig } from '@milkdown/kit/plugin/indent'
 import { getMarkdown } from '@milkdown/kit/utils'
@@ -61,6 +62,7 @@ export class Crepe {
       .use(trailing)
       .use(clipboard)
       .use(gfm)
+      .use(automd)
 
     const promiseList: Promise<unknown>[] = []
 
