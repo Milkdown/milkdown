@@ -122,6 +122,21 @@ export const imageComponent: Component<ImageComponentProps> = ({
     e.preventDefault()
   }
 
+  const handleUpload = async (e: PointerEvent) => {
+    if (readonly) {
+      return;
+    }
+    if (typeof config?.selectUpload !== 'undefined') {
+      e.stopPropagation();
+      e.preventDefault();
+      const url = await config.selectUpload();
+      if (url) {
+        setAttr?.('src', url)
+        setHidePlaceholder(true);
+      }
+    }
+  }
+
   return html`<host class=${clsx(selected && 'selected')}>
     <div class=${clsx('image-edit', src.length > 0 && 'hidden')}>
       <div class="image-icon">
@@ -142,7 +157,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
         />
         <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
           <input disabled=${readonly} class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
-          <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
+          <label onpointerdown=${onClickUploader} onclick=${handleUpload} class="uploader" for=${uuid}>
             ${config?.uploadButton()}
           </label>
           <span class="text" onclick=${() => linkInput.current?.focus()}>
