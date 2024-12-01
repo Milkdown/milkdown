@@ -40,7 +40,7 @@ export const linkPreviewComponent: Component<LinkPreviewProps> = ({ config, src,
         <span class="link-icon">
           ${config?.linkIcon()}
         </span>
-        <a href=${src} target="_blank" class="link-display">${src}</a>
+        <a href=${config.getActualSrc(src)} target=${config?.shouldOpenOutside(src ?? "") ? "_blank" : "_self"} class="link-display">${src}</a>
         <span class="button link-edit-button" onmousedown=${onClickEditButton}>
           ${config?.editButton()}
         </span>
