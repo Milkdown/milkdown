@@ -36,13 +36,12 @@ export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConst
       view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
     }
     dom.onMount = () => {
-      const pos = getPos() ?? 0
-      const end = pos + initialNode.nodeSize
-      const { from, to } = view.state.selection
-      if (view.hasFocus() && pos < from && to < end) {
+      const { anchor, head } = view.state.selection
+      if (view.hasFocus()) {
         Promise.resolve().then(() => {
-          const p = view.state.doc.resolve(pos)
-          view.dispatch(view.state.tr.setSelection(TextSelection.near(p, 1)))
+          const anchorPos = view.state.doc.resolve(anchor)
+          const headPos = view.state.doc.resolve(head)
+          view.dispatch(view.state.tr.setSelection(new TextSelection(anchorPos, headPos)))
         })
       }
     }
@@ -56,7 +55,7 @@ export const listItemBlockView = $view(listItemSchema.node, (ctx): NodeViewConst
           return false
 
         if (updatedNode.sameMarkup(node) && updatedNode.content.eq(node.content))
-          return false
+          return true
 
         node = updatedNode
         bindAttrs(updatedNode)

@@ -22,7 +22,10 @@ function run(view: EditorView, from: number, to: number, text: string, rules: In
             ).handler(state, match, from - (match[0].length - text.length), to)
     if (!tr)
       continue
-    view.dispatch(tr.setMeta(plugin, { transform: tr, from, to, text }))
+    // @ts-expect-error Internal property that should be in the class; only relevant if explicitly false.
+    if (rules[i]?.undoable !== false)
+      tr.setMeta(plugin, { transform: tr, from, to, text })
+    view.dispatch(tr)
     return true
   }
   return false
