@@ -38,3 +38,31 @@ export async function selectAll(page: Page) {
   await page.keyboard.press('KeyA')
   await up();
 }
+
+export async function paste(
+  page: Page,
+  payload: Record<string, string>,
+  selector = '.editor',
+) {
+  await page.evaluate(async ({ payload, selector }) => {
+    const pasteEvent = Object.assign(new Event('paste', { bubbles: true, cancelable: true }), {
+      clipboardData: {
+        getData: (key: string) => payload[key] ? payload[key] : '',
+      },
+    })
+    const editor = document.querySelector(selector)
+    editor?.dispatchEvent(pasteEvent)
+  }, { payload, selector })
+}
+
+export async function waitNextFrame(page: Page) {
+  await page.evaluate(() => {
+    return new Promise<void>((resolve) => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          resolve();
+        });
+      });
+    });
+  });
+}
