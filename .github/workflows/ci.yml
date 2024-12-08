@@ -36,7 +36,7 @@ jobs:
         run: pnpm test:lint --format github
 
       - name: install browsers
-        run: pnpm test:install
+        run: pnpm --filter=@milkdown/e2e test:install
 
       - name: run cypress
         run: pnpm test:e2e
