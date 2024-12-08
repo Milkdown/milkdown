@@ -145,6 +145,9 @@ importers:
       postcss-nested:
         specifier: ^7.0.0
         version: 7.0.2(postcss@8.4.38)
+      prettier:
+        specifier: ^3.4.2
+        version: 3.4.2
       rimraf:
         specifier: ^6.0.0
         version: 6.0.0
@@ -7210,6 +7213,11 @@ packages:
 
   prettier@3.2.5:
     resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+  prettier@3.4.2:
+    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -15545,6 +15553,8 @@ snapshots:
   prettier@2.8.8: {}
 
   prettier@3.2.5: {}
+
+  prettier@3.4.2: {}
 
   pretty-bytes@5.6.0: {}
 
