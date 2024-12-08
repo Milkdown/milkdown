@@ -7,7 +7,7 @@ export class SerializerStackElement extends StackElement<MarkdownNode> {
     public type: string,
     public children?: MarkdownNode[],
     public value?: string,
-    public props: JSONRecord = {},
+    public props: JSONRecord = {}
   ) {
     super()
   }
@@ -16,12 +16,11 @@ export class SerializerStackElement extends StackElement<MarkdownNode> {
     type: string,
     children?: MarkdownNode[],
     value?: string,
-    props: JSONRecord = {},
+    props: JSONRecord = {}
   ) => new SerializerStackElement(type, children, value, props)
 
   push = (node: MarkdownNode, ...rest: MarkdownNode[]) => {
-    if (!this.children)
-      this.children = []
+    if (!this.children) this.children = []
 
     this.children.push(node, ...rest)
   }

@@ -4,15 +4,18 @@ import type { EditorInfoCtx } from './types'
 import { editorInfoCtxKey } from './consts'
 
 export function useGetEditor() {
-  const { dom, loading, editor: editorRef, editorFactory: getEditor } = inject(editorInfoCtxKey, {} as EditorInfoCtx)
+  const {
+    dom,
+    loading,
+    editor: editorRef,
+    editorFactory: getEditor,
+  } = inject(editorInfoCtxKey, {} as EditorInfoCtx)
 
   onMounted(() => {
-    if (!dom.value)
-      return
+    if (!dom.value) return
 
     const editor = getEditor.value!(dom.value)
-    if (!editor)
-      return
+    if (!editor) return
 
     loading.value = true
     editor

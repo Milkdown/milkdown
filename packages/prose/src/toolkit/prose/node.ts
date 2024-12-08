@@ -1,15 +1,21 @@
 import type { MarkType, Node, NodeType, ResolvedPos } from '../../model'
 import type { Predicate } from './types'
 
-export interface NodeWithPos { pos: number, node: Node }
-export interface NodeWithFromTo { from: number, to: number, node: Node }
+export interface NodeWithPos {
+  pos: number
+  node: Node
+}
+export interface NodeWithFromTo {
+  from: number
+  to: number
+  node: Node
+}
 
 export function flatten(node: Node, descend = true): NodeWithPos[] {
   const result: NodeWithPos[] = []
   node.descendants((child, pos) => {
     result.push({ node: child, pos })
-    if (!descend)
-      return false
+    if (!descend) return false
 
     return undefined
   })
@@ -18,11 +24,18 @@ export function flatten(node: Node, descend = true): NodeWithPos[] {
 
 export function findChildren(predicate: Predicate) {
   return (node: Node, descend?: boolean): NodeWithPos[] =>
-    flatten(node, descend).filter(child => predicate(child.node))
+    flatten(node, descend).filter((child) => predicate(child.node))
 }
 
-export function findChildrenByMark(node: Node, markType: MarkType, descend?: boolean): NodeWithPos[] {
-  return findChildren(child => Boolean(markType.isInSet(child.marks)))(node, descend)
+export function findChildrenByMark(
+  node: Node,
+  markType: MarkType,
+  descend?: boolean
+): NodeWithPos[] {
+  return findChildren((child) => Boolean(markType.isInSet(child.marks)))(
+    node,
+    descend
+  )
 }
 
 export function findParent(predicate: Predicate) {
@@ -45,9 +58,6 @@ export function findParent(predicate: Predicate) {
   }
 }
 
-export function findParentNodeType(
-  $pos: ResolvedPos,
-  nodeType: NodeType,
-) {
-  return findParent(node => node.type === nodeType)($pos)
+export function findParentNodeType($pos: ResolvedPos, nodeType: NodeType) {
+  return findParent((node) => node.type === nodeType)($pos)
 }

@@ -18,11 +18,13 @@ export interface SlashProviderOptions {
   /// The key trigger for shouldShow, '/' by default.
   trigger?: string | string[]
   /// The offset to get the block. Default is 0.
-  offset?: number | {
-    mainAxis?: number
-    crossAxis?: number
-    alignmentAxis?: number | null
-  }
+  offset?:
+    | number
+    | {
+        mainAxis?: number
+        crossAxis?: number
+        alignmentAxis?: number | null
+      }
 }
 
 /// A provider for creating slash.
@@ -43,11 +45,13 @@ export class SlashProvider {
   readonly #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   /// The offset to get the block. Default is 0.
-  readonly #offset?: number | {
-    mainAxis?: number
-    crossAxis?: number
-    alignmentAxis?: number | null
-  }
+  readonly #offset?:
+    | number
+    | {
+        mainAxis?: number
+        crossAxis?: number
+        alignmentAxis?: number | null
+      }
 
   /// On show callback.
   onShow = () => {}
@@ -68,17 +72,17 @@ export class SlashProvider {
     const { state, composing } = view
     const { selection, doc } = state
     const { ranges } = selection
-    const from = Math.min(...ranges.map(range => range.$from.pos))
-    const to = Math.max(...ranges.map(range => range.$to.pos))
-    const isSame = prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
+    const from = Math.min(...ranges.map((range) => range.$from.pos))
+    const to = Math.max(...ranges.map((range) => range.$to.pos))
+    const isSame =
+      prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
 
     if (!this.#initialized) {
       view.dom.parentElement?.appendChild(this.element)
       this.#initialized = true
     }
 
-    if (composing || isSame)
-      return
+    if (composing || isSame) return
 
     if (!this.#shouldShow(view, prevState)) {
       this.hide()
@@ -91,13 +95,12 @@ export class SlashProvider {
     computePosition(virtualEl, this.element, {
       placement: 'bottom-start',
       middleware: [flip(), offset(this.#offset)],
-    })
-      .then(({ x, y }) => {
-        Object.assign(this.element.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        })
+    }).then(({ x, y }) => {
+      Object.assign(this.element.style, {
+        left: `${x}px`,
+        top: `${y}px`,
       })
+    })
 
     this.show()
   }
@@ -106,15 +109,15 @@ export class SlashProvider {
   #_shouldShow(view: EditorView): boolean {
     const currentTextBlockContent = this.getContent(view)
 
-    if (!currentTextBlockContent)
-      return false
+    if (!currentTextBlockContent) return false
 
     const target = currentTextBlockContent.at(-1)
 
-    if (!target)
-      return false
+    if (!target) return false
 
-    return Array.isArray(this.#trigger) ? this.#trigger.includes(target) : this.#trigger === target
+    return Array.isArray(this.#trigger)
+      ? this.#trigger.includes(target)
+      : this.#trigger === target
   }
 
   /// Update provider state by editor view.
@@ -126,7 +129,11 @@ export class SlashProvider {
 
   /// Get the content of the current text block.
   /// Pass the `matchNode` function to determine whether the current node should be matched, by default, it will match the paragraph node.
-  getContent = (view: EditorView, matchNode: (node: Node) => boolean = node => node.type.name === 'paragraph'): string | undefined => {
+  getContent = (
+    view: EditorView,
+    matchNode: (node: Node) => boolean = (node) =>
+      node.type.name === 'paragraph'
+  ): string | undefined => {
     const { selection } = view.state
     const { empty, $from } = selection
     const isTextBlock = view.state.selection instanceof TextSelection
@@ -144,12 +151,16 @@ export class SlashProvider {
     if (notHasFocus || isReadonly || !empty || !isTextBlock || isNotInParagraph)
       return
 
-    return $from.parent.textBetween(Math.max(0, $from.parentOffset - 500), $from.parentOffset, undefined, '\uFFFC')
+    return $from.parent.textBetween(
+      Math.max(0, $from.parentOffset - 500),
+      $from.parentOffset,
+      undefined,
+      '\uFFFC'
+    )
   }
 
   /// Destroy the slash.
-  destroy = () => {
-  }
+  destroy = () => {}
 
   /// Show the slash.
   show = () => {

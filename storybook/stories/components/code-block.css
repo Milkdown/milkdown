@@ -3,7 +3,7 @@
     display: block;
     position: relative;
     padding: 24px 40px;
-    background: #F5F5F5;
+    background: #f5f5f5;
     margin: 20px 0;
 
     .language-picker {
@@ -68,7 +68,7 @@
       height: 16px;
     }
 
-    .language-button[data-expanded="true"] .expand-icon {
+    .language-button[data-expanded='true'] .expand-icon {
       transform: rotate(180deg);
     }
 
@@ -80,7 +80,9 @@
     .list-wrapper {
       background: antiquewhite;
       border-radius: 16px;
-      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+      box-shadow:
+        0px 2px 6px 0px rgba(0, 0, 0, 0.15),
+        0px 1px 2px 0px rgba(0, 0, 0, 0.3);
       width: 220px;
     }
 
@@ -153,7 +155,5 @@
     .search-box input:focus {
       outline: none;
     }
-
   }
-
 }

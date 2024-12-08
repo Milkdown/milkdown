@@ -1,16 +1,10 @@
 import type { Editor } from '@milkdown/core'
 import type { Ref } from 'vue'
-import {
-  Fragment,
-  defineComponent,
-  h,
-  provide,
-  ref,
-} from 'vue'
+import { Fragment, defineComponent, h, provide, ref } from 'vue'
 
 import type { GetEditor } from './types'
 import { useGetEditor } from './useGetEditor'
-import { editorInfoCtxKey } from "./consts";
+import { editorInfoCtxKey } from './consts'
 
 h
 Fragment

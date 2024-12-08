@@ -10,7 +10,7 @@ const originalSchema = tableNodes({
   cellAttributes: {
     alignment: {
       default: 'left',
-      getFromDOM: dom => (dom).style.textAlign || 'left',
+      getFromDOM: (dom) => dom.style.textAlign || 'left',
       setDOMAttr: (value, attrs) => {
         attrs.style = `text-align: ${value || 'left'}`
       },
@@ -24,7 +24,7 @@ export const tableSchema = $nodeSchema('table', () => ({
   content: 'table_header_row table_row+',
   disableDropCursor: true,
   parseMarkdown: {
-    match: node => node.type === 'table',
+    match: (node) => node.type === 'table',
     runner: (state, node, type) => {
       const align = node.align as (string | null)[]
       const children = (node.children as MarkdownNode[]).map((x, i) => ({
@@ -38,11 +38,10 @@ export const tableSchema = $nodeSchema('table', () => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'table',
+    match: (node) => node.type.name === 'table',
     runner: (state, node) => {
       const firstLine = node.content.firstChild?.content
-      if (!firstLine)
-        return
+      if (!firstLine) return
 
       const align: (string | null)[] = []
       firstLine.forEach((cell) => {
@@ -75,7 +74,7 @@ export const tableHeaderRowSchema = $nodeSchema('table_header_row', () => ({
     return ['tr', { 'data-is-header': true }, 0]
   },
   parseMarkdown: {
-    match: node => Boolean(node.type === 'tableRow' && node.isHeader),
+    match: (node) => Boolean(node.type === 'tableRow' && node.isHeader),
     runner: (state, node, type) => {
       const align = node.align as (string | null)[]
       const children = (node.children as MarkdownNode[]).map((x, i) => ({
@@ -89,7 +88,7 @@ export const tableHeaderRowSchema = $nodeSchema('table_header_row', () => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'table_header_row',
+    match: (node) => node.type.name === 'table_header_row',
     runner: (state, node) => {
       state.openNode('tableRow', undefined, { isHeader: true })
       state.next(node.content)
@@ -114,7 +113,7 @@ export const tableRowSchema = $nodeSchema('table_row', () => ({
   disableDropCursor: true,
   content: '(table_cell)*',
   parseMarkdown: {
-    match: node => node.type === 'tableRow',
+    match: (node) => node.type === 'tableRow',
     runner: (state, node, type) => {
       const align = node.align as (string | null)[]
       const children = (node.children as MarkdownNode[]).map((x, i) => ({
@@ -127,7 +126,7 @@ export const tableRowSchema = $nodeSchema('table_row', () => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'table_row',
+    match: (node) => node.type.name === 'table_row',
     runner: (state, node) => {
       state.openNode('tableRow')
       state.next(node.content)
@@ -151,7 +150,7 @@ export const tableCellSchema = $nodeSchema('table_cell', () => ({
   ...originalSchema.table_cell,
   disableDropCursor: true,
   parseMarkdown: {
-    match: node => node.type === 'tableCell' && !node.isHeader,
+    match: (node) => node.type === 'tableCell' && !node.isHeader,
     runner: (state, node, type) => {
       const align = node.align as string
       state
@@ -163,7 +162,7 @@ export const tableCellSchema = $nodeSchema('table_cell', () => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'table_cell',
+    match: (node) => node.type.name === 'table_cell',
     runner: (state, node) => {
       state.openNode('tableCell').next(node.content).closeNode()
     },
@@ -185,7 +184,7 @@ export const tableHeaderSchema = $nodeSchema('table_header', () => ({
   ...originalSchema.table_header,
   disableDropCursor: true,
   parseMarkdown: {
-    match: node => node.type === 'tableCell' && !!node.isHeader,
+    match: (node) => node.type === 'tableCell' && !!node.isHeader,
     runner: (state, node, type) => {
       const align = node.align as string
       state.openNode(type, { alignment: align })
@@ -196,7 +195,7 @@ export const tableHeaderSchema = $nodeSchema('table_header', () => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'table_header',
+    match: (node) => node.type.name === 'table_header',
     runner: (state, node) => {
       state.openNode('tableCell')
       state.next(node.content)

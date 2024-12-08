@@ -1,9 +1,16 @@
 import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
 import { commandsCtx } from '@milkdown/core'
-import { history as prosemirrorHistory, redo, undo } from '@milkdown/prose/history'
+import {
+  history as prosemirrorHistory,
+  redo,
+  undo,
+} from '@milkdown/prose/history'
 import { $command, $ctx, $prose, $useKeymap } from '@milkdown/utils'
 
-function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pick<Meta, 'displayName'>): T {
+function withMeta<T extends MilkdownPlugin>(
+  plugin: T,
+  meta: Partial<Meta> & Pick<Meta, 'displayName'>
+): T {
   Object.assign(plugin, {
     meta: {
       package: '@milkdown/plugin-history',
@@ -29,14 +36,19 @@ withMeta(redoCommand, {
 })
 
 /// The [config](https://prosemirror.net/docs/ref/#history.history%5Econfig) of prosemirror history plugin.
-export const historyProviderConfig = $ctx<{ depth?: number, newGroupDelay?: number }, 'historyProviderConfig'>({}, 'historyProviderConfig')
+export const historyProviderConfig = $ctx<
+  { depth?: number; newGroupDelay?: number },
+  'historyProviderConfig'
+>({}, 'historyProviderConfig')
 
 withMeta(historyProviderConfig, {
   displayName: 'Ctx<historyProviderConfig>',
 })
 
 /// The milkdown wrapper of [history API](https://prosemirror.net/docs/ref/#history.history) in [prosemirror-history](https://prosemirror.net/docs/ref/#history).
-export const historyProviderPlugin = $prose(ctx => prosemirrorHistory(ctx.get(historyProviderConfig.key)))
+export const historyProviderPlugin = $prose((ctx) =>
+  prosemirrorHistory(ctx.get(historyProviderConfig.key))
+)
 
 withMeta(historyProviderPlugin, {
   displayName: 'Ctx<historyProviderPlugin>',
@@ -68,4 +80,10 @@ withMeta(historyKeymap.shortcuts, {
 })
 
 /// The milkdown history plugin.
-export const history: MilkdownPlugin[] = [historyProviderConfig, historyProviderPlugin, historyKeymap, undoCommand, redoCommand].flat()
+export const history: MilkdownPlugin[] = [
+  historyProviderConfig,
+  historyProviderPlugin,
+  historyKeymap,
+  undoCommand,
+  redoCommand,
+].flat()

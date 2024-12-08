@@ -8,19 +8,29 @@ import { getContextByState } from './context'
 import { calcOffset } from './utils'
 import { linkRegexp } from './regexp'
 
-export function runReplacer(ctx: Ctx, key: PluginKey, state: EditorState, dispatch: (tr: Transaction) => void, attrs: Attrs) {
+export function runReplacer(
+  ctx: Ctx,
+  key: PluginKey,
+  state: EditorState,
+  dispatch: (tr: Transaction) => void,
+  attrs: Attrs
+) {
   const { placeholderConfig } = ctx.get(inlineSyncConfig.key)
   const holePlaceholder = placeholderConfig.hole
   // insert a placeholder to restore the selection
-  let tr = state.tr.setMeta(key, true).insertText(holePlaceholder, state.selection.from)
+  let tr = state.tr
+    .setMeta(key, true)
+    .insertText(holePlaceholder, state.selection.from)
 
   const nextState = state.apply(tr)
   const context = getContextByState(ctx, nextState)
 
-  if (!context)
-    return
+  if (!context) return
 
-  const lastUserInput = context.text.slice(0, context.text.indexOf(context.placeholder))
+  const lastUserInput = context.text.slice(
+    0,
+    context.text.indexOf(context.placeholder)
+  )
 
   const { $from } = nextState.selection
   const from = $from.before()
@@ -37,7 +47,9 @@ export function runReplacer(ctx: Ctx, key: PluginKey, state: EditorState, dispat
   // restore the selection
   tr = tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)))
 
-  const needsRestoreMark = linkRegexp.test(lastUserInput) || ['*', '_', '~'].includes(lastUserInput.at(-1) || '')
+  const needsRestoreMark =
+    linkRegexp.test(lastUserInput) ||
+    ['*', '_', '~'].includes(lastUserInput.at(-1) || '')
   if (needsRestoreMark && tr.selection instanceof TextSelection) {
     const marks = tr.selection.$cursor?.marks() ?? []
     marks.forEach((mark) => {

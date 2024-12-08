@@ -32,27 +32,29 @@ export default defineConfig({
   },
 
   /* Configure projects for major browsers */
-  projects: process.env.CI ? [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+  projects: process.env.CI
+    ? [
+        {
+          name: 'chromium',
+          use: { ...devices['Desktop Chrome'] },
+        },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+        {
+          name: 'firefox',
+          use: { ...devices['Desktop Firefox'] },
+        },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-  ] : [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    }
-  ],
+        {
+          name: 'webkit',
+          use: { ...devices['Desktop Safari'] },
+        },
+      ]
+    : [
+        {
+          name: 'chromium',
+          use: { ...devices['Desktop Chrome'] },
+        },
+      ],
 
   /* Run your local dev server before starting the tests */
   webServer: {

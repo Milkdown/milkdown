@@ -21,7 +21,7 @@ withMeta(emojiAttr, {
 })
 
 /// Schema for emoji node.
-export const emojiSchema = $nodeSchema('emoji', ctx => ({
+export const emojiSchema = $nodeSchema('emoji', (ctx) => ({
   group: 'inline',
   inline: true,
   attrs: {
@@ -33,8 +33,7 @@ export const emojiSchema = $nodeSchema('emoji', ctx => ({
     {
       tag: 'span[data-type="emoji"]',
       getAttrs: (dom) => {
-        if (!(dom instanceof HTMLElement))
-          throw expectDomTypeError(dom)
+        if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
         return { html: dom.innerHTML }
       },
@@ -47,7 +46,9 @@ export const emojiSchema = $nodeSchema('emoji', ctx => ({
     const dom = tmp.firstElementChild?.cloneNode()
     tmp.remove()
     if (dom && dom instanceof HTMLElement)
-      Object.entries<string>(attrs.img).forEach(([key, value]) => dom.setAttribute(key, value))
+      Object.entries<string>(attrs.img).forEach(([key, value]) =>
+        dom.setAttribute(key, value)
+      )
 
     return ['span', { ...attrs.container, 'data-type': 'emoji' }, dom]
   },
@@ -58,7 +59,7 @@ export const emojiSchema = $nodeSchema('emoji', ctx => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'emoji',
+    match: (node) => node.type.name === 'emoji',
     runner: (state, node) => {
       const span = document.createElement('span')
       span.innerHTML = node.attrs.html
@@ -78,7 +79,10 @@ withMeta(emojiSchema.ctx, {
 })
 
 /// This plugin wraps [remark-emoji](https://github.com/rhysd/remark-emoji).
-export const remarkEmojiPlugin = $remark('remarkEmoji', () => remarkEmoji as RemarkPluginRaw<RemarkEmojiOptions>)
+export const remarkEmojiPlugin = $remark(
+  'remarkEmoji',
+  () => remarkEmoji as RemarkPluginRaw<RemarkEmojiOptions>
+)
 
 withMeta(remarkEmojiPlugin.plugin, {
   displayName: 'Remark<remarkEmojiPlugin>',
@@ -101,21 +105,22 @@ withMeta(remarkTwemojiPlugin.options, {
 
 /// Input rule for inserting emoji.
 /// For example, `:smile:` will be replaced with `😄`.
-export const insertEmojiInputRule = $inputRule(ctx => new InputRule(/(:([^:\s]+):)$/, (state, match, start, end) => {
-  const content = match[0]
-  if (!content)
-    return null
-  const got = get(content)
-  if (!got || content.includes(got))
-    return null
+export const insertEmojiInputRule = $inputRule(
+  (ctx) =>
+    new InputRule(/(:([^:\s]+):)$/, (state, match, start, end) => {
+      const content = match[0]
+      if (!content) return null
+      const got = get(content)
+      if (!got || content.includes(got)) return null
 
-  const html = parse(got, ctx.get(remarkTwemojiPlugin.options.key))
+      const html = parse(got, ctx.get(remarkTwemojiPlugin.options.key))
 
-  return state.tr
-    .setMeta('emoji', true)
-    .replaceRangeWith(start, end, emojiSchema.type(ctx).create({ html }))
-    .scrollIntoView()
-}))
+      return state.tr
+        .setMeta('emoji', true)
+        .replaceRangeWith(start, end, emojiSchema.type(ctx).create({ html }))
+        .scrollIntoView()
+    })
+)
 
 withMeta(insertEmojiInputRule, {
   displayName: 'InputRule<insertEmojiInputRule>',

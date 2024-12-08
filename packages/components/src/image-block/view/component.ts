@@ -42,13 +42,12 @@ export const imageComponent: Component<ImageComponentProps> = ({
     image,
     resizeHandle,
     ratio,
-    setRatio: r => setAttr?.('ratio', r),
+    setRatio: (r) => setAttr?.('ratio', r),
     src,
   })
 
   useEffect(() => {
-    if (selected)
-      return
+    if (selected) return
 
     setShowCaption(caption.length > 0)
   }, [selected])
@@ -56,8 +55,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const onInput = (e: InputEvent) => {
     const target = e.target as HTMLInputElement
     const value = target.value
-    if (timer)
-      window.clearTimeout(timer)
+    if (timer) window.clearTimeout(timer)
 
     timer = window.setTimeout(() => {
       setAttr?.('caption', value)
@@ -84,12 +82,10 @@ export const imageComponent: Component<ImageComponentProps> = ({
 
   const onUpload = async (e: InputEvent) => {
     const file = (e.target as HTMLInputElement).files?.[0]
-    if (!file)
-      return
+    if (!file) return
 
     const url = await config?.onUpload(file)
-    if (!url)
-      return
+    if (!url) return
 
     setAttr?.('src', url)
     setHidePlaceholder(true)
@@ -98,9 +94,8 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const onToggleCaption = (e: Event) => {
     e.preventDefault()
     e.stopPropagation()
-    if (readonly)
-      return
-    setShowCaption(x => !x)
+    if (readonly) return
+    setShowCaption((x) => !x)
   }
 
   const onConfirmLinkInput = () => {
@@ -108,8 +103,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
   }
 
   const onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter')
-      onConfirmLinkInput()
+    if (e.key === 'Enter') onConfirmLinkInput()
   }
 
   const preventDrag = (e: Event) => {
@@ -124,9 +118,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
 
   return html`<host class=${clsx(selected && 'selected')}>
     <div class=${clsx('image-edit', src.length > 0 && 'hidden')}>
-      <div class="image-icon">
-        ${config?.imageIcon()}
-      </div>
+      <div class="image-icon">${config?.imageIcon()}</div>
       <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
         <input
           ref=${linkInput}
@@ -141,7 +133,14 @@ export const imageComponent: Component<ImageComponentProps> = ({
           onblur=${() => setFocusLinkInput(false)}
         />
         <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
-          <input disabled=${readonly} class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
+          <input
+            disabled=${readonly}
+            class="hidden"
+            id=${uuid}
+            type="file"
+            accept="image/*"
+            onchange=${onUpload}
+          />
           <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
             ${config?.uploadButton()}
           </label>
@@ -159,9 +158,17 @@ export const imageComponent: Component<ImageComponentProps> = ({
     </div>
     <div class=${clsx('image-wrapper', src.length === 0 && 'hidden')}>
       <div class="operation">
-        <div class="operation-item" onpointerdown=${onToggleCaption}>${config?.captionIcon()}</div>
+        <div class="operation-item" onpointerdown=${onToggleCaption}>
+          ${config?.captionIcon()}
+        </div>
       </div>
-      <img ref=${image} data-type=${IMAGE_DATA_TYPE} src=${src} alt=${caption} ratio=${ratio} />
+      <img
+        ref=${image}
+        data-type=${IMAGE_DATA_TYPE}
+        src=${src}
+        alt=${caption}
+        ratio=${ratio}
+      />
       <div ref=${resizeHandle} class="image-resize-handle"></div>
     </div>
     <input

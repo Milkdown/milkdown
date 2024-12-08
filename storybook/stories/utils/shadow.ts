@@ -1,6 +1,11 @@
 import nordStyle from '@milkdown/theme-nord/style.css?inline'
 import pmStyle from '@milkdown/kit/prose/view/style/prosemirror.css?inline'
-import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/kit/core'
+import {
+  Editor,
+  defaultValueCtx,
+  editorViewOptionsCtx,
+  rootCtx,
+} from '@milkdown/kit/core'
 import { nord } from '@milkdown/theme-nord'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { history } from '@milkdown/kit/plugin/history'
@@ -37,7 +42,7 @@ export interface CommonArgs {
 export function setupMilkdown(
   styles: string[],
   args: CommonArgs,
-  setup?: (editor: Editor, root: HTMLElement, wrapper: HTMLElement) => void,
+  setup?: (editor: Editor, root: HTMLElement, wrapper: HTMLElement) => void
 ) {
   const { wrapper, root } = wrapInShadowWithNord(styles)
   wrapper.classList.add('milkdown-storybook')
@@ -56,10 +61,9 @@ export function setupMilkdown(
 
   setup?.(editor, root, wrapper)
 
-  editor.create()
-    .then(() => {
-      args.instance = editor
-    })
+  editor.create().then(() => {
+    args.instance = editor
+  })
 
   return root
 }

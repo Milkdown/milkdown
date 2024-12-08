@@ -31,12 +31,15 @@ const blockHandleComponent: Component<BlockHandleProps> = ({
   }
   return html`
     <host>
-      <div ref=${ref} onmousedown=${onMouseDown} onmouseup=${onMouseUp} class="operation-item">
+      <div
+        ref=${ref}
+        onmousedown=${onMouseDown}
+        onmouseup=${onMouseUp}
+        class="operation-item"
+      >
         ${addIcon?.() || plusIcon}
       </div>
-      <div class="operation-item">
-        ${handleIcon?.() || menuIcon}
-      </div>
+      <div class="operation-item">${handleIcon?.() || menuIcon}</div>
     </host>
   `
 }

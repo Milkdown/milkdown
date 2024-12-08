@@ -12,13 +12,18 @@ export interface MenuItem {
   onRun: (ctx: Ctx) => void
 }
 
-type WithRange<T, HasIndex extends true | false = true> = HasIndex extends true ? T & { range: [start: number, end: number] } : T
+type WithRange<T, HasIndex extends true | false = true> = HasIndex extends true
+  ? T & { range: [start: number, end: number] }
+  : T
 
-export type MenuItemGroup<HasIndex extends true | false = true> = WithRange<{
-  key: string
-  label: string
-  items: HasIndex extends true ? MenuItem[] : Omit<MenuItem, 'index'>[]
-}, HasIndex>
+export type MenuItemGroup<HasIndex extends true | false = true> = WithRange<
+  {
+    key: string
+    label: string
+    items: HasIndex extends true ? MenuItem[] : Omit<MenuItem, 'index'>[]
+  },
+  HasIndex
+>
 
 export function clearRange(tr: Transaction) {
   const { $from, $to } = tr.selection
@@ -28,31 +33,44 @@ export function clearRange(tr: Transaction) {
   return tr
 }
 
-export function setBlockType(tr: Transaction, nodeType: NodeType, attrs: Attrs | null = null) {
+export function setBlockType(
+  tr: Transaction,
+  nodeType: NodeType,
+  attrs: Attrs | null = null
+) {
   const { from, to } = tr.selection
   return tr.setBlockType(from, to, nodeType, attrs)
 }
 
-export function wrapInBlockType(tr: Transaction, nodeType: NodeType, attrs: Attrs | null = null) {
+export function wrapInBlockType(
+  tr: Transaction,
+  nodeType: NodeType,
+  attrs: Attrs | null = null
+) {
   const { $from, $to } = tr.selection
 
   const range = $from.blockRange($to)
   const wrapping = range && findWrapping(range, nodeType, attrs)
-  if (!wrapping)
-    return null
+  if (!wrapping) return null
 
   return tr.wrap(range, wrapping)
 }
 
-export function addBlockType(tr: Transaction, nodeType: NodeType, attrs: Attrs | null = null) {
+export function addBlockType(
+  tr: Transaction,
+  nodeType: NodeType,
+  attrs: Attrs | null = null
+) {
   const node = nodeType.createAndFill(attrs)
-  if (!node)
-    return null
+  if (!node) return null
 
   return tr.replaceSelectionWith(node)
 }
 
-export function clearContentAndSetBlockType(nodeType: NodeType, attrs: Attrs | null = null): Command {
+export function clearContentAndSetBlockType(
+  nodeType: NodeType,
+  attrs: Attrs | null = null
+): Command {
   return (state, dispatch) => {
     if (dispatch) {
       const tr = setBlockType(clearRange(state.tr), nodeType, attrs)
@@ -62,27 +80,29 @@ export function clearContentAndSetBlockType(nodeType: NodeType, attrs: Attrs | n
   }
 }
 
-export function clearContentAndWrapInBlockType(nodeType: NodeType, attrs: Attrs | null = null): Command {
+export function clearContentAndWrapInBlockType(
+  nodeType: NodeType,
+  attrs: Attrs | null = null
+): Command {
   return (state, dispatch) => {
     const tr = wrapInBlockType(clearRange(state.tr), nodeType, attrs)
-    if (!tr)
-      return false
+    if (!tr) return false
 
-    if (dispatch)
-      dispatch(tr.scrollIntoView())
+    if (dispatch) dispatch(tr.scrollIntoView())
 
     return true
   }
 }
 
-export function clearContentAndAddBlockType(nodeType: NodeType, attrs: Attrs | null = null): Command {
+export function clearContentAndAddBlockType(
+  nodeType: NodeType,
+  attrs: Attrs | null = null
+): Command {
   return (state, dispatch) => {
     const tr = addBlockType(clearRange(state.tr), nodeType, attrs)
-    if (!tr)
-      return false
+    if (!tr) return false
 
-    if (dispatch)
-      dispatch(tr.scrollIntoView())
+    if (dispatch) dispatch(tr.scrollIntoView())
 
     return true
   }
