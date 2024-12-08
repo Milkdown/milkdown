@@ -2,7 +2,13 @@ import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { docTypeError } from '@milkdown/exception'
 import { customInputRules as createInputRules } from '@milkdown/prose'
-import { baseKeymap, chainCommands, deleteSelection, joinBackward, selectNodeBackward } from '@milkdown/prose/commands'
+import {
+  baseKeymap,
+  chainCommands,
+  deleteSelection,
+  joinBackward,
+  selectNodeBackward,
+} from '@milkdown/prose/commands'
 import { undoInputRule } from '@milkdown/prose/inputrules'
 import { keymap as createKeymap } from '@milkdown/prose/keymap'
 import type { Schema } from '@milkdown/prose/model'
@@ -19,7 +25,10 @@ import { CommandsReady } from './commands'
 import { editorStateCtx, inputRulesCtx, prosePluginsCtx } from './atoms'
 
 /// @internal
-export type DefaultValue = string | { type: 'html', dom: HTMLElement } | { type: 'json', value: JSONRecord }
+export type DefaultValue =
+  | string
+  | { type: 'html'; dom: HTMLElement }
+  | { type: 'json'; value: JSONRecord }
 type StateOptions = Parameters<typeof EditorState.create>[0]
 type StateOptionsOverride = (prev: StateOptions) => StateOptions
 
@@ -28,19 +37,28 @@ type StateOptionsOverride = (prev: StateOptions) => StateOptions
 export const defaultValueCtx = createSlice('' as DefaultValue, 'defaultValue')
 
 /// A slice which contains the options which is used to create the editor state.
-export const editorStateOptionsCtx = createSlice<StateOptionsOverride>(x => x, 'stateOptions')
+export const editorStateOptionsCtx = createSlice<StateOptionsOverride>(
+  (x) => x,
+  'stateOptions'
+)
 
 /// A slice which stores timers that need to be waited for before starting to run the plugin.
 /// By default, it's `[ParserReady, SerializerReady, CommandsReady]`.
-export const editorStateTimerCtx = createSlice([] as TimerType[], 'editorStateTimer')
+export const editorStateTimerCtx = createSlice(
+  [] as TimerType[],
+  'editorStateTimer'
+)
 
 /// The timer which will be resolved when the editor state plugin is ready.
 export const EditorStateReady = createTimer('EditorStateReady')
 
 /// @internal
-export function getDoc(defaultValue: DefaultValue, parser: Parser, schema: Schema) {
-  if (typeof defaultValue === 'string')
-    return parser(defaultValue)
+export function getDoc(
+  defaultValue: DefaultValue,
+  parser: Parser,
+  schema: Schema
+) {
+  if (typeof defaultValue === 'string') return parser(defaultValue)
 
   if (defaultValue.type === 'html')
     return DOMParser.fromSchema(schema).parse(defaultValue.dom)
@@ -58,7 +76,7 @@ function overrideBaseKeymap(keymap: Record<string, Command>) {
     undoInputRule,
     deleteSelection,
     joinBackward,
-    selectNodeBackward,
+    selectNodeBackward
   )
   keymap.Backspace = handleBackspace
   return keymap
@@ -69,9 +87,10 @@ function overrideBaseKeymap(keymap: Record<string, Command>) {
 ///
 /// This plugin will wait for the parser plugin, serializer plugin and commands plugin.
 export const editorState: MilkdownPlugin = (ctx) => {
-  ctx.inject(defaultValueCtx, '')
+  ctx
+    .inject(defaultValueCtx, '')
     .inject(editorStateCtx, {} as EditorState)
-    .inject(editorStateOptionsCtx, x => x)
+    .inject(editorStateOptionsCtx, (x) => x)
     .inject(editorStateTimerCtx, [ParserReady, SerializerReady, CommandsReady])
     .record(EditorStateReady)
 
@@ -116,7 +135,8 @@ export const editorState: MilkdownPlugin = (ctx) => {
     ctx.done(EditorStateReady)
 
     return () => {
-      ctx.remove(defaultValueCtx)
+      ctx
+        .remove(defaultValueCtx)
         .remove(editorStateCtx)
         .remove(editorStateOptionsCtx)
         .remove(editorStateTimerCtx)

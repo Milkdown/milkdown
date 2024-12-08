@@ -41,5 +41,9 @@ export interface TwemojiOptions {
 }
 
 export function parse(emoji: string, twemojiOptions?: TwemojiOptions): string {
-  return twemoji.parse(emoji, { attributes: setAttr, base: 'https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/', ...twemojiOptions }) as unknown as string
+  return twemoji.parse(emoji, {
+    attributes: setAttr,
+    base: 'https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/',
+    ...twemojiOptions,
+  }) as unknown as string
 }

@@ -2,7 +2,13 @@ import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
-import { $command, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import {
+  $command,
+  $inputRule,
+  $nodeAttr,
+  $nodeSchema,
+  $useKeymap,
+} from '@milkdown/utils'
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for code block node.
@@ -34,8 +40,7 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
         tag: 'pre',
         preserveWhitespace: 'full',
         getAttrs: (dom) => {
-          if (!(dom instanceof HTMLElement))
-            throw expectDomTypeError(dom)
+          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
           return { language: dom.dataset.language }
         },
@@ -58,14 +63,13 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
         const language = node.lang as string
         const value = node.value as string
         state.openNode(type, { language })
-        if (value)
-          state.addText(value)
+        if (value) state.addText(value)
 
         state.closeNode()
       },
     },
     toMarkdown: {
-      match: node => node.type.name === 'code_block',
+      match: (node) => node.type.name === 'code_block',
       runner: (state, node) => {
         state.addNode('code', undefined, node.content.firstChild?.text || '', {
           lang: node.attrs.language,
@@ -87,9 +91,15 @@ withMeta(codeBlockSchema.ctx, {
 
 /// A input rule for creating code block.
 /// For example, ` ```javascript ` will create a code block with language javascript.
-export const createCodeBlockInputRule = $inputRule(ctx => textblockTypeInputRule(/^```(?<language>[a-z]*)?[\s\n]$/, codeBlockSchema.type(ctx), match => ({
-  language: match.groups?.language ?? '',
-})))
+export const createCodeBlockInputRule = $inputRule((ctx) =>
+  textblockTypeInputRule(
+    /^```(?<language>[a-z]*)?[\s\n]$/,
+    codeBlockSchema.type(ctx),
+    (match) => ({
+      language: match.groups?.language ?? '',
+    })
+  )
+)
 
 withMeta(createCodeBlockInputRule, {
   displayName: 'InputRule<createCodeBlockInputRule>',
@@ -98,7 +108,12 @@ withMeta(createCodeBlockInputRule, {
 
 /// A command for creating code block.
 /// You can pass the language of the code block as the parameter.
-export const createCodeBlockCommand = $command('CreateCodeBlock', ctx => (language = '') => setBlockType(codeBlockSchema.type(ctx), { language }))
+export const createCodeBlockCommand = $command(
+  'CreateCodeBlock',
+  (ctx) =>
+    (language = '') =>
+      setBlockType(codeBlockSchema.type(ctx), { language })
+)
 
 withMeta(createCodeBlockCommand, {
   displayName: 'Command<createCodeBlockCommand>',
@@ -106,14 +121,24 @@ withMeta(createCodeBlockCommand, {
 })
 
 /// A command for updating the code block language of the target position.
-export const updateCodeBlockLanguageCommand = $command('UpdateCodeBlockLanguage', () => ({ pos, language }: { pos: number, language: string } = { pos: -1, language: '' }) => (state, dispatch) => {
-  if (pos >= 0) {
-    dispatch?.(state.tr.setNodeAttribute(pos, 'language', language))
-    return true
-  }
+export const updateCodeBlockLanguageCommand = $command(
+  'UpdateCodeBlockLanguage',
+  () =>
+    (
+      { pos, language }: { pos: number; language: string } = {
+        pos: -1,
+        language: '',
+      }
+    ) =>
+    (state, dispatch) => {
+      if (pos >= 0) {
+        dispatch?.(state.tr.setNodeAttribute(pos, 'language', language))
+        return true
+      }
 
-  return false
-})
+      return false
+    }
+)
 
 withMeta(updateCodeBlockLanguageCommand, {
   displayName: 'Command<updateCodeBlockLanguageCommand>',

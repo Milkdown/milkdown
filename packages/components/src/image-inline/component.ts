@@ -38,12 +38,10 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
 
   const onUpload = async (e: InputEvent) => {
     const file = (e.target as HTMLInputElement).files?.[0]
-    if (!file)
-      return
+    if (!file) return
 
     const url = await config?.onUpload(file)
-    if (!url)
-      return
+    if (!url) return
 
     setAttr?.('src', url)
     setHidePlaceholder(true)
@@ -54,8 +52,7 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
   }
 
   const onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Enter')
-      onConfirmLinkInput()
+    if (e.key === 'Enter') onConfirmLinkInput()
   }
 
   const preventDrag = (e: Event) => {
@@ -71,40 +68,47 @@ export const inlineImageComponent: Component<InlineImageComponentProps> = ({
   return html`<host class=${clsx(selected && 'selected', !src && 'empty')}>
     ${!src
       ? html`<div class="empty-image-inline">
-        <div class="image-icon">
-          ${config?.imageIcon()}
-        </div>
-        <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
-          <input
-            draggable="true"
-            ref=${linkInput}
-            ondragstart=${preventDrag}
-            class="link-input-area"
-            value=${currentLink}
-            oninput=${onEditLink}
-            onkeydown=${onKeydown}
-            onfocus=${() => setFocusLinkInput(true)}
-            onblur=${() => setFocusLinkInput(false)}
-          />
-          <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
-            <input class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
-            <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
-              ${config?.uploadButton()}
-            </label>
-            <span class="text" onclick=${() => linkInput.current?.focus()}>
-              ${config?.uploadPlaceholderText}
-            </span>
+          <div class="image-icon">${config?.imageIcon()}</div>
+          <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
+            <input
+              draggable="true"
+              ref=${linkInput}
+              ondragstart=${preventDrag}
+              class="link-input-area"
+              value=${currentLink}
+              oninput=${onEditLink}
+              onkeydown=${onKeydown}
+              onfocus=${() => setFocusLinkInput(true)}
+              onblur=${() => setFocusLinkInput(false)}
+            />
+            <div class=${clsx('placeholder', hidePlaceholder && 'hidden')}>
+              <input
+                class="hidden"
+                id=${uuid}
+                type="file"
+                accept="image/*"
+                onchange=${onUpload}
+              />
+              <label
+                onpointerdown=${onClickUploader}
+                class="uploader"
+                for=${uuid}
+              >
+                ${config?.uploadButton()}
+              </label>
+              <span class="text" onclick=${() => linkInput.current?.focus()}>
+                ${config?.uploadPlaceholderText}
+              </span>
+            </div>
           </div>
-        </div>
-        <div
-          class=${clsx('confirm', currentLink.length === 0 && 'hidden')}
-          onclick=${() => onConfirmLinkInput()}
-        >
-          ${config?.confirmButton()}
-        </div>
-      </div>`
-      : html`<img class="image-inline" src=${src} alt=${alt} title=${title} />`
-    }
+          <div
+            class=${clsx('confirm', currentLink.length === 0 && 'hidden')}
+            onclick=${() => onConfirmLinkInput()}
+          >
+            ${config?.confirmButton()}
+          </div>
+        </div>`
+      : html`<img class="image-inline" src=${src} alt=${alt} title=${title} />`}
   </host>`
 }
 

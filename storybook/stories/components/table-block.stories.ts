@@ -26,11 +26,7 @@ const table = `
 export const Table: StoryObj<CommonArgs> = {
   render: (args) => {
     return setupMilkdown([style, tableStyle], args, (editor) => {
-      editor
-        .use(history)
-        .use(cursor)
-        .use(tableBlock)
-        .use(gfm)
+      editor.use(history).use(cursor).use(tableBlock).use(gfm)
     })
   },
   args: {

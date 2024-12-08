@@ -13,8 +13,7 @@ export class Clock {
   /// Get a timer from the clock by timer type.
   get = (timer: TimerType) => {
     const meta = this.store.get(timer.id)
-    if (!meta)
-      throw timerNotFound(timer.name)
+    if (!meta) throw timerNotFound(timer.name)
     return meta
   }
 

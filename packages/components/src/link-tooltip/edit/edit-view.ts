@@ -27,7 +27,10 @@ export class LinkEditTooltip implements PluginView {
   #provider: TooltipProvider
   #data: Data = { ...defaultData }
 
-  constructor(readonly ctx: Ctx, view: EditorView) {
+  constructor(
+    readonly ctx: Ctx,
+    view: EditorView
+  ) {
     this.#provider = new TooltipProvider({
       content: this.#content,
       debounce: 0,
@@ -46,7 +49,7 @@ export class LinkEditTooltip implements PluginView {
 
   #reset = () => {
     this.#provider.hide()
-    this.ctx.update(linkTooltipState.key, state => ({
+    this.ctx.update(linkTooltipState.key, (state) => ({
       ...state,
       mode: 'preview' as const,
     }))
@@ -63,8 +66,7 @@ export class LinkEditTooltip implements PluginView {
     }
 
     const tr = view.state.tr
-    if (mark)
-      tr.removeMark(from, to, mark)
+    if (mark) tr.removeMark(from, to, mark)
 
     tr.addMark(from, to, type.create({ href }))
     view.dispatch(tr)
@@ -76,13 +78,15 @@ export class LinkEditTooltip implements PluginView {
     const config = this.ctx.get(linkTooltipConfig.key)
     this.#content.config = config
     this.#content.src = value
-    this.ctx.update(linkTooltipState.key, state => ({
+    this.ctx.update(linkTooltipState.key, (state) => ({
       ...state,
       mode: 'edit' as const,
     }))
     const view = this.ctx.get(editorViewCtx)
     // this.#setRect(posToDOMRect(view, from, to))
-    view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
+    view.dispatch(
+      view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to))
+    )
     this.#provider.show({
       getBoundingClientRect: () => posToDOMRect(view, from, to),
     })
@@ -94,11 +98,9 @@ export class LinkEditTooltip implements PluginView {
   update = (view: EditorView) => {
     const { state } = view
     const { selection } = state
-    if (!(selection instanceof TextSelection))
-      return
+    if (!(selection instanceof TextSelection)) return
     const { from, to } = selection
-    if (from === this.#data.from && to === this.#data.to)
-      return
+    if (from === this.#data.from && to === this.#data.to) return
 
     this.#reset()
   }

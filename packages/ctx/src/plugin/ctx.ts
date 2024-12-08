@@ -19,8 +19,7 @@ export class Ctx {
     this.#container = container
     this.#clock = clock
     this.#meta = meta
-    if (meta)
-      this.#inspector = new Inspector(container, clock, meta)
+    if (meta) this.#inspector = new Inspector(container, clock, meta)
   }
 
   /// Get metadata of the ctx.
@@ -46,8 +45,7 @@ export class Ctx {
   /// Add a slice into the ctx.
   readonly inject = <T>(sliceType: SliceType<T>, value?: T) => {
     const slice = sliceType.create(this.#container.sliceMap)
-    if (value != null)
-      slice.set(value)
+    if (value != null) slice.set(value)
 
     this.#inspector?.onInject(sliceType)
 
@@ -55,7 +53,9 @@ export class Ctx {
   }
 
   /// Remove a slice from the ctx.
-  readonly remove = <T, N extends string = string>(sliceType: SliceType<T, N> | N) => {
+  readonly remove = <T, N extends string = string>(
+    sliceType: SliceType<T, N> | N
+  ) => {
     this.#container.remove(sliceType)
     this.#inspector?.onRemove(sliceType)
     return this
@@ -76,25 +76,36 @@ export class Ctx {
   }
 
   /// Check if the ctx has a slice.
-  readonly isInjected = <T, N extends string = string>(sliceType: SliceType<T, N> | N) => this.#container.has(sliceType)
+  readonly isInjected = <T, N extends string = string>(
+    sliceType: SliceType<T, N> | N
+  ) => this.#container.has(sliceType)
 
   /// Check if the ctx has a timer.
   readonly isRecorded = (timerType: TimerType) => this.#clock.has(timerType)
 
   /// Get a slice from the ctx.
-  readonly use = <T, N extends string = string>(sliceType: SliceType<T, N> | N): Slice<T, N> => {
+  readonly use = <T, N extends string = string>(
+    sliceType: SliceType<T, N> | N
+  ): Slice<T, N> => {
     this.#inspector?.onUse(sliceType)
     return this.#container.get(sliceType)
   }
 
   /// Get a slice value from the ctx.
-  readonly get = <T, N extends string>(sliceType: SliceType<T, N> | N) => this.use(sliceType).get()
+  readonly get = <T, N extends string>(sliceType: SliceType<T, N> | N) =>
+    this.use(sliceType).get()
 
   /// Get a slice value from the ctx.
-  readonly set = <T, N extends string>(sliceType: SliceType<T, N> | N, value: T) => this.use(sliceType).set(value)
+  readonly set = <T, N extends string>(
+    sliceType: SliceType<T, N> | N,
+    value: T
+  ) => this.use(sliceType).set(value)
 
   /// Update a slice value from the ctx by a callback.
-  readonly update = <T, N extends string>(sliceType: SliceType<T, N> | N, updater: (prev: T) => T) => this.use(sliceType).update(updater)
+  readonly update = <T, N extends string>(
+    sliceType: SliceType<T, N> | N,
+    updater: (prev: T) => T
+  ) => this.use(sliceType).update(updater)
 
   /// Get a timer from the ctx.
   readonly timer = (timer: TimerType) => this.#clock.get(timer)
@@ -119,6 +130,6 @@ export class Ctx {
   /// Promise.all(ctx.get(slice).map(x => ctx.wait(x))).
   /// ```
   readonly waitTimers = async (slice: SliceType<TimerType[]>) => {
-    await Promise.all(this.get(slice).map(x => this.wait(x)))
+    await Promise.all(this.get(slice).map((x) => this.wait(x)))
   }
 }

@@ -6,4 +6,10 @@ export * from './slices'
 export * from './configure'
 export * from './tooltips'
 
-export const linkTooltipPlugin: MilkdownPlugin[] = [linkTooltipState, linkTooltipAPI, linkTooltipConfig, linkPreviewTooltip, linkEditTooltip].flat()
+export const linkTooltipPlugin: MilkdownPlugin[] = [
+  linkTooltipState,
+  linkTooltipAPI,
+  linkTooltipConfig,
+  linkPreviewTooltip,
+  linkEditTooltip,
+].flat()

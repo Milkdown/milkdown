@@ -55,7 +55,8 @@
     }
 
     .tab-group {
-      border-bottom: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      border-bottom: 1px solid
+        color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
       padding: 12px 12px 0;
 
       ul {
@@ -95,7 +96,11 @@
           line-height: 20px;
           padding: 14px 10px;
           text-transform: uppercase;
-          color: color-mix(in srgb, var(--crepe-color-on-surface), transparent 40%)
+          color: color-mix(
+            in srgb,
+            var(--crepe-color-on-surface),
+            transparent 40%
+          );
         }
 
         li {
@@ -131,7 +136,11 @@
         content: '';
         display: block;
         height: 1px;
-        background: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+        background: color-mix(
+          in srgb,
+          var(--crepe-color-outline),
+          transparent 80%
+        );
         margin: 0 10px;
       }
     }

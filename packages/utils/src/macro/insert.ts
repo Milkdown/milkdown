@@ -8,14 +8,15 @@ export function insert(markdown: string) {
     const view = ctx.get(editorViewCtx)
     const parser = ctx.get(parserCtx)
     const doc = parser(markdown)
-    if (!doc)
-      return
+    if (!doc) return
 
     const contentSlice = view.state.selection.content()
     return view.dispatch(
       view.state.tr
-        .replaceSelection(new Slice(doc.content, contentSlice.openStart, contentSlice.openEnd))
-        .scrollIntoView(),
+        .replaceSelection(
+          new Slice(doc.content, contentSlice.openStart, contentSlice.openEnd)
+        )
+        .scrollIntoView()
     )
   }
 }

@@ -9,7 +9,7 @@ defIfNotExists('milkdown-link-edit', LinkEditElement)
 export function configureLinkEditTooltip(ctx: Ctx) {
   let linkEditTooltipView: LinkEditTooltip | null
 
-  ctx.update(linkTooltipAPI.key, api => ({
+  ctx.update(linkTooltipAPI.key, (api) => ({
     ...api,
     addLink: (from, to) => {
       linkEditTooltipView?.addLink(from, to)

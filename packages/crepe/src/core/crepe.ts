@@ -1,5 +1,10 @@
 import type { DefaultValue } from '@milkdown/kit/core'
-import { Editor, defaultValueCtx, editorViewOptionsCtx, rootCtx } from '@milkdown/kit/core'
+import {
+  Editor,
+  defaultValueCtx,
+  editorViewOptionsCtx,
+  rootCtx,
+} from '@milkdown/kit/core'
 
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { gfm } from '@milkdown/kit/preset/gfm'
@@ -33,15 +38,16 @@ export class Crepe {
     featureConfigs = {},
     defaultValue = '',
   }: CrepeConfig) {
-    const enabledFeatures = Object
-      .entries({
-        ...defaultFeatures,
-        ...features,
-      })
+    const enabledFeatures = Object.entries({
+      ...defaultFeatures,
+      ...features,
+    })
       .filter(([, enabled]) => enabled)
       .map(([feature]) => feature as CrepeFeature)
 
-    this.#rootElement = (typeof root === 'string' ? document.querySelector(root) : root) ?? document.body
+    this.#rootElement =
+      (typeof root === 'string' ? document.querySelector(root) : root) ??
+      document.body
     this.#editor = Editor.make()
       .config(configureFeatures(enabledFeatures))
       .config((ctx) => {
@@ -50,7 +56,7 @@ export class Crepe {
         ctx.set(editorViewOptionsCtx, {
           editable: () => this.#editable,
         })
-        ctx.update(indentConfig.key, value => ({
+        ctx.update(indentConfig.key, (value) => ({
           ...value,
           size: 4,
         }))
@@ -65,10 +71,10 @@ export class Crepe {
     const promiseList: Promise<unknown>[] = []
 
     enabledFeatures.forEach((feature) => {
-      const config = (featureConfigs as Partial<Record<CrepeFeature, never>>)[feature]
-      promiseList.push(
-        loadFeature(feature, this.#editor, config),
-      )
+      const config = (featureConfigs as Partial<Record<CrepeFeature, never>>)[
+        feature
+      ]
+      promiseList.push(loadFeature(feature, this.#editor, config))
     })
 
     this.#initPromise = Promise.all(promiseList)

@@ -74,18 +74,15 @@ function isObject(item: unknown): item is Record<string, unknown> {
 }
 
 function mergeDeep<T>(target: T, ...sources: T[]): T {
-  if (!sources.length)
-    return target
+  if (!sources.length) return target
   const source = sources.shift()
 
   if (isObject(target) && isObject(source)) {
     for (const key in source) {
       if (isObject(source[key])) {
-        if (!target[key])
-          Object.assign(target, { [key]: {} })
+        if (!target[key]) Object.assign(target, { [key]: {} })
         mergeDeep(target[key] as T, source[key] as T)
-      }
-      else {
+      } else {
         Object.assign(target, { [key]: source[key] })
       }
     }
@@ -98,7 +95,9 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
   const dir = dirname(fileURLToPath(path))
   const packageDirName = basename(dir)
 
-  const packageJson = JSON.parse(readFileSync(resolve(dir, 'package.json'), { encoding: 'utf-8' }))
+  const packageJson = JSON.parse(
+    readFileSync(resolve(dir, 'package.json'), { encoding: 'utf-8' })
+  )
   const deps = {
     ...packageJson.dependencies,
     ...packageJson.devDependencies,
@@ -123,7 +122,7 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
         },
       },
     },
-    options,
+    options
   )
 }
 
@@ -134,7 +133,10 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
  * @param options - custom options
  * @returns user config
  */
-export function pluginViteConfig(packageDirName: string, options: UserConfig = {}) {
+export function pluginViteConfig(
+  packageDirName: string,
+  options: UserConfig = {}
+) {
   return defineConfig({
     ...options,
     build: viteBuild(packageDirName, options.build),

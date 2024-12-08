@@ -20,7 +20,7 @@ withMeta(hardbreakAttr, {
 })
 
 /// Hardbreak node schema.
-export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
+export const hardbreakSchema = $nodeSchema('hardbreak', (ctx) => ({
   inline: true,
   group: 'inline',
   attrs: {
@@ -29,23 +29,33 @@ export const hardbreakSchema = $nodeSchema('hardbreak', ctx => ({
     },
   },
   selectable: false,
-  parseDOM: [{ tag: 'br' }, { tag: 'span[data-type="hardbreak"]', getAttrs: () => ({ isInline: true }) }],
-  toDOM: node => node.attrs.isInline ? ['span', ctx.get(hardbreakAttr.key)(node), ' '] : ['br', ctx.get(hardbreakAttr.key)(node)],
+  parseDOM: [
+    { tag: 'br' },
+    {
+      tag: 'span[data-type="hardbreak"]',
+      getAttrs: () => ({ isInline: true }),
+    },
+  ],
+  toDOM: (node) =>
+    node.attrs.isInline
+      ? ['span', ctx.get(hardbreakAttr.key)(node), ' ']
+      : ['br', ctx.get(hardbreakAttr.key)(node)],
   parseMarkdown: {
     match: ({ type }) => type === 'break',
     runner: (state, node, type) => {
-      state.addNode(type, { isInline: Boolean((node.data as (undefined | { isInline: boolean }))?.isInline) })
+      state.addNode(type, {
+        isInline: Boolean(
+          (node.data as undefined | { isInline: boolean })?.isInline
+        ),
+      })
     },
   },
   leafText: () => '\n',
   toMarkdown: {
-    match: node => node.type.name === 'hardbreak',
+    match: (node) => node.type.name === 'hardbreak',
     runner: (state, node) => {
-      if (node.attrs.isInline)
-        state.addNode('text', undefined, '\n')
-
-      else
-        state.addNode('break')
+      if (node.attrs.isInline) state.addNode('text', undefined, '\n')
+      else state.addNode('break')
     },
   },
 }))
@@ -61,27 +71,38 @@ withMeta(hardbreakSchema.ctx, {
 })
 
 /// Command to insert a hardbreak.
-export const insertHardbreakCommand = $command('InsertHardbreak', ctx => () => (state, dispatch) => {
-  const { selection, tr } = state
-  if (!(selection instanceof TextSelection))
-    return false
+export const insertHardbreakCommand = $command(
+  'InsertHardbreak',
+  (ctx) => () => (state, dispatch) => {
+    const { selection, tr } = state
+    if (!(selection instanceof TextSelection)) return false
 
-  if (selection.empty) {
-    // Transform two successive hardbreak into a new line
-    const node = selection.$from.node()
-    if (node.childCount > 0 && node.lastChild?.type.name === 'hardbreak') {
-      dispatch?.(
-        tr
-          .replaceRangeWith(selection.to - 1, selection.to, state.schema.node('paragraph'))
-          .setSelection(Selection.near(tr.doc.resolve(selection.to)))
-          .scrollIntoView(),
-      )
-      return true
+    if (selection.empty) {
+      // Transform two successive hardbreak into a new line
+      const node = selection.$from.node()
+      if (node.childCount > 0 && node.lastChild?.type.name === 'hardbreak') {
+        dispatch?.(
+          tr
+            .replaceRangeWith(
+              selection.to - 1,
+              selection.to,
+              state.schema.node('paragraph')
+            )
+            .setSelection(Selection.near(tr.doc.resolve(selection.to)))
+            .scrollIntoView()
+        )
+        return true
+      }
     }
+    dispatch?.(
+      tr
+        .setMeta('hardbreak', true)
+        .replaceSelectionWith(hardbreakSchema.type(ctx).create())
+        .scrollIntoView()
+    )
+    return true
   }
-  dispatch?.(tr.setMeta('hardbreak', true).replaceSelectionWith(hardbreakSchema.type(ctx).create()).scrollIntoView())
-  return true
-})
+)
 
 withMeta(insertHardbreakCommand, {
   displayName: 'Command<insertHardbreakCommand>',

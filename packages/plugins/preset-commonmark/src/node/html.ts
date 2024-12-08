@@ -28,14 +28,16 @@ export const htmlSchema = $nodeSchema('html', (ctx) => {
       span.textContent = node.attrs.value
       return ['span', attr, node.attrs.value]
     },
-    parseDOM: [{
-      tag: 'span[data-type="html"]',
-      getAttrs: (dom) => {
-        return {
-          value: dom.dataset.value ?? '',
-        }
+    parseDOM: [
+      {
+        tag: 'span[data-type="html"]',
+        getAttrs: (dom) => {
+          return {
+            value: dom.dataset.value ?? '',
+          }
+        },
       },
-    }],
+    ],
     parseMarkdown: {
       match: ({ type }) => Boolean(type === 'html'),
       runner: (state, node, type) => {
@@ -43,7 +45,7 @@ export const htmlSchema = $nodeSchema('html', (ctx) => {
       },
     },
     toMarkdown: {
-      match: node => node.type.name === 'html',
+      match: (node) => node.type.name === 'html',
       runner: (state, node) => {
         state.addNode('html', undefined, node.attrs.value)
       },

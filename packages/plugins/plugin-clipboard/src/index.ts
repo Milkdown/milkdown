@@ -1,4 +1,9 @@
-import { editorViewOptionsCtx, parserCtx, schemaCtx, serializerCtx } from '@milkdown/core'
+import {
+  editorViewOptionsCtx,
+  parserCtx,
+  schemaCtx,
+  serializerCtx,
+} from '@milkdown/core'
 import { getNodeFromSchema } from '@milkdown/prose'
 import type { Node, Slice } from '@milkdown/prose/model'
 import { DOMParser, DOMSerializer } from '@milkdown/prose/model'
@@ -6,18 +11,17 @@ import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
 type UnknownRecord = Record<string, unknown>
-function isPureText(content: UnknownRecord | UnknownRecord[] | undefined | null): boolean {
-  if (!content)
-    return false
+function isPureText(
+  content: UnknownRecord | UnknownRecord[] | undefined | null
+): boolean {
+  if (!content) return false
   if (Array.isArray(content)) {
-    if (content.length > 1)
-      return false
+    if (content.length > 1) return false
     return isPureText(content[0])
   }
 
   const child = content.content
-  if (child)
-    return isPureText(child as UnknownRecord[])
+  if (child) return isPureText(child as UnknownRecord[])
 
   return content.type === 'text'
 }
@@ -25,13 +29,11 @@ function isPureText(content: UnknownRecord | UnknownRecord[] | undefined | null)
 function isTextOnlySlice(slice: Slice): Node | false {
   if (slice.content.childCount === 1) {
     const node = slice.content.firstChild
-    if (node?.type.name === 'text' && node.marks.length === 0)
-      return node
+    if (node?.type.name === 'text' && node.marks.length === 0) return node
 
     if (node?.type.name === 'paragraph' && node.childCount === 1) {
       const _node = node.firstChild
-      if (_node?.type.name === 'text' && _node.marks.length === 0)
-        return _node
+      if (_node?.type.name === 'text' && _node.marks.length === 0) return _node
     }
   }
 
@@ -43,7 +45,7 @@ export const clipboard = $prose((ctx) => {
   const schema = ctx.get(schemaCtx)
 
   // Set editable props for https://github.com/Milkdown/milkdown/issues/190
-  ctx.update(editorViewOptionsCtx, prev => ({
+  ctx.update(editorViewOptionsCtx, (prev) => ({
     ...prev,
     editable: prev.editable ?? (() => true),
   }))
@@ -56,12 +58,10 @@ export const clipboard = $prose((ctx) => {
         const parser = ctx.get(parserCtx)
         const editable = view.props.editable?.(view.state)
         const { clipboardData } = event
-        if (!editable || !clipboardData)
-          return false
+        if (!editable || !clipboardData) return false
 
         const currentNode = view.state.selection.$from.node()
-        if (currentNode.type.spec.code)
-          return false
+        if (currentNode.type.spec.code) return false
 
         const text = clipboardData.getData('text/plain')
 
@@ -76,7 +76,9 @@ export const clipboard = $prose((ctx) => {
 
             tr.replaceSelectionWith(codeBlock.create({ language }))
               .setSelection(
-                TextSelection.near(tr.doc.resolve(Math.max(0, tr.selection.from - 2))),
+                TextSelection.near(
+                  tr.doc.resolve(Math.max(0, tr.selection.from - 2))
+                )
               )
               .insertText(text.replace(/\r\n?/g, '\n'))
 
@@ -86,19 +88,18 @@ export const clipboard = $prose((ctx) => {
         }
 
         const html = clipboardData.getData('text/html')
-        if (html.length === 0 && text.length === 0)
-          return false
+        if (html.length === 0 && text.length === 0) return false
 
         const domParser = DOMParser.fromSchema(schema)
         let dom
         if (html.length === 0) {
           const slice = parser(text)
-          if (!slice || typeof slice === 'string')
-            return false
+          if (!slice || typeof slice === 'string') return false
 
-          dom = DOMSerializer.fromSchema(schema).serializeFragment(slice.content)
-        }
-        else {
+          dom = DOMSerializer.fromSchema(schema).serializeFragment(
+            slice.content
+          )
+        } else {
           const template = document.createElement('template')
           template.innerHTML = html
           dom = template.content.cloneNode(true)
@@ -119,11 +120,14 @@ export const clipboard = $prose((ctx) => {
         const serializer = ctx.get(serializerCtx)
         const isText = isPureText(slice.content.toJSON())
         if (isText)
-          return (slice.content as unknown as Node).textBetween(0, slice.content.size, '\n\n')
+          return (slice.content as unknown as Node).textBetween(
+            0,
+            slice.content.size,
+            '\n\n'
+          )
 
         const doc = schema.topNodeType.createAndFill(undefined, slice.content)
-        if (!doc)
-          return ''
+        if (!doc) return ''
         const value = serializer(doc)
         return value
       },

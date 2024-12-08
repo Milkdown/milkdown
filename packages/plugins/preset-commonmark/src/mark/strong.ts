@@ -1,5 +1,11 @@
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
-import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import {
+  $command,
+  $inputRule,
+  $markAttr,
+  $markSchema,
+  $useKeymap,
+} from '@milkdown/utils'
 import { toggleMark } from '@milkdown/prose/commands'
 import { markRule } from '@milkdown/prose'
 import { withMeta } from '../__internal__'
@@ -13,7 +19,7 @@ withMeta(strongAttr, {
 })
 
 /// Strong mark schema.
-export const strongSchema = $markSchema('strong', ctx => ({
+export const strongSchema = $markSchema('strong', (ctx) => ({
   attrs: {
     marker: {
       default: ctx.get(remarkStringifyOptionsCtx).strong || '*',
@@ -22,11 +28,11 @@ export const strongSchema = $markSchema('strong', ctx => ({
   parseDOM: [
     { tag: 'b' },
     { tag: 'strong' },
-    { style: 'font-style', getAttrs: value => (value === 'bold') as false },
+    { style: 'font-style', getAttrs: (value) => (value === 'bold') as false },
   ],
-  toDOM: mark => ['strong', ctx.get(strongAttr.key)(mark)],
+  toDOM: (mark) => ['strong', ctx.get(strongAttr.key)(mark)],
   parseMarkdown: {
-    match: node => node.type === 'strong',
+    match: (node) => node.type === 'strong',
     runner: (state, node, markType) => {
       state.openMark(markType, { marker: node.marker })
       state.next(node.children)
@@ -34,7 +40,7 @@ export const strongSchema = $markSchema('strong', ctx => ({
     },
   },
   toMarkdown: {
-    match: mark => mark.type.name === 'strong',
+    match: (mark) => mark.type.name === 'strong',
     runner: (state, mark) => {
       state.withMark(mark, 'strong', undefined, {
         marker: mark.attrs.marker,
@@ -54,7 +60,7 @@ withMeta(strongSchema.ctx, {
 })
 
 /// A command to toggle the strong mark.
-export const toggleStrongCommand = $command('ToggleStrong', ctx => () => {
+export const toggleStrongCommand = $command('ToggleStrong', (ctx) => () => {
   return toggleMark(strongSchema.type(ctx))
 })
 

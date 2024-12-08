@@ -1,5 +1,9 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
-import { SchemaReady, editorStateTimerCtx, prosePluginsCtx } from '@milkdown/core'
+import {
+  SchemaReady,
+  editorStateTimerCtx,
+  prosePluginsCtx,
+} from '@milkdown/core'
 import type { Plugin, PluginKey } from '@milkdown/prose/state'
 
 import { addTimer } from './utils'
@@ -18,17 +22,17 @@ export type $Prose = MilkdownPlugin & {
 /// - `key`: The [prosemirror plugin key](https://prosemirror.net/docs/ref/#state.PluginKey) of the plugin.
 export function $prose(prose: (ctx: Ctx) => Plugin): $Prose {
   let prosePlugin: Plugin | undefined
-  const plugin: MilkdownPlugin = ctx => async () => {
+  const plugin: MilkdownPlugin = (ctx) => async () => {
     await ctx.wait(SchemaReady)
     prosePlugin = prose(ctx)
-    ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin!])
+    ctx.update(prosePluginsCtx, (ps) => [...ps, prosePlugin!])
 
     return () => {
-      ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== prosePlugin))
+      ctx.update(prosePluginsCtx, (ps) => ps.filter((x) => x !== prosePlugin))
     }
   }
-  (<$Prose>plugin).plugin = () => prosePlugin!;
-  (<$Prose>plugin).key = () => prosePlugin!.spec.key
+  ;(<$Prose>plugin).plugin = () => prosePlugin!
+  ;(<$Prose>plugin).key = () => prosePlugin!.spec.key
 
   return <$Prose>plugin
 }
@@ -39,20 +43,23 @@ export function $prose(prose: (ctx: Ctx) => Plugin): $Prose {
 /// - `plugin`: The prosemirror plugin created.
 /// - `key`: The [prosemirror plugin key](https://prosemirror.net/docs/ref/#state.PluginKey) of the plugin.
 /// - `timer`: The timer which will be resolved when the plugin is ready.
-export function $proseAsync(prose: (ctx: Ctx) => Promise<Plugin>, timerName?: string) {
+export function $proseAsync(
+  prose: (ctx: Ctx) => Promise<Plugin>,
+  timerName?: string
+) {
   let prosePlugin: Plugin | undefined
   const plugin = addTimer<$Prose>(
     async (ctx) => {
       await ctx.wait(SchemaReady)
       prosePlugin = await prose(ctx)
-      ctx.update(prosePluginsCtx, ps => [...ps, prosePlugin!])
+      ctx.update(prosePluginsCtx, (ps) => [...ps, prosePlugin!])
 
       return () => {
-        ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== prosePlugin))
+        ctx.update(prosePluginsCtx, (ps) => ps.filter((x) => x !== prosePlugin))
       }
     },
     editorStateTimerCtx,
-    timerName,
+    timerName
   )
 
   plugin.plugin = () => prosePlugin!

@@ -20,7 +20,9 @@ export type $NodeSchema<T extends string> = [
   ctx: $Ctx<GetNodeSchema, T>
   schema: NodeSchema
   key: $Ctx<GetNodeSchema, T>['key']
-  extendSchema: (handler: (prev: GetNodeSchema) => GetNodeSchema) => MilkdownPlugin
+  extendSchema: (
+    handler: (prev: GetNodeSchema) => GetNodeSchema
+  ) => MilkdownPlugin
 }
 
 /// Create a plugin for node schema.
@@ -35,7 +37,10 @@ export type $NodeSchema<T extends string> = [
 /// - `schema`: The node schema.
 /// - `key`: The key of slice which contains the node schema factory.
 /// - `extendSchema`: A function witch will return a plugin that can extend the node schema.
-export function $nodeSchema<T extends string>(id: T, schema: GetNodeSchema): $NodeSchema<T> {
+export function $nodeSchema<T extends string>(
+  id: T,
+  schema: GetNodeSchema
+): $NodeSchema<T> {
   const schemaCtx = $ctx(schema, id)
 
   const nodeSchema = $node(id, (ctx) => {
@@ -52,11 +57,14 @@ export function $nodeSchema<T extends string>(id: T, schema: GetNodeSchema): $No
   result.ctx = schemaCtx
   result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
-    return ctx => () => {
+    return (ctx) => () => {
       const prev = ctx.get(schemaCtx.key)
       const next = handler(prev)
       const nodeSchema = next(ctx)
-      ctx.update(nodesCtx, ns => [...ns.filter(n => n[0] !== id), [id, nodeSchema] as [string, NodeSchema]])
+      ctx.update(nodesCtx, (ns) => [
+        ...ns.filter((n) => n[0] !== id),
+        [id, nodeSchema] as [string, NodeSchema],
+      ])
       result.schema = nodeSchema
     }
   }

@@ -3,7 +3,10 @@ import { dropCursor } from '@milkdown/prose/dropcursor'
 import { gapCursor } from '@milkdown/prose/gapcursor'
 import { $ctx, $prose } from '@milkdown/utils'
 
-function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pick<Meta, 'displayName'>): T {
+function withMeta<T extends MilkdownPlugin>(
+  plugin: T,
+  meta: Partial<Meta> & Pick<Meta, 'displayName'>
+): T {
   Object.assign(plugin, {
     meta: {
       package: '@milkdown/plugin-cursor',
@@ -31,14 +34,19 @@ export interface DropCursorOptions {
 }
 
 /// A slice that contains [options for drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor#documentation).
-export const dropCursorConfig = $ctx<DropCursorOptions, 'dropCursorConfig'>({}, 'dropCursorConfig')
+export const dropCursorConfig = $ctx<DropCursorOptions, 'dropCursorConfig'>(
+  {},
+  'dropCursorConfig'
+)
 
 withMeta(dropCursorConfig, {
   displayName: 'Ctx<dropCursor>',
 })
 
 /// This plugin wraps [drop cursor](https://github.com/ProseMirror/prosemirror-dropcursor).
-export const dropCursorPlugin = $prose(ctx => dropCursor(ctx.get(dropCursorConfig.key)))
+export const dropCursorPlugin = $prose((ctx) =>
+  dropCursor(ctx.get(dropCursorConfig.key))
+)
 
 withMeta(dropCursorPlugin, {
   displayName: 'Prose<dropCursor>',
@@ -52,4 +60,8 @@ withMeta(gapCursorPlugin, {
 })
 
 /// All plugins exported by this package.
-export const cursor: MilkdownPlugin[] = [dropCursorConfig, dropCursorPlugin, gapCursorPlugin]
+export const cursor: MilkdownPlugin[] = [
+  dropCursorConfig,
+  dropCursorPlugin,
+  gapCursorPlugin,
+]

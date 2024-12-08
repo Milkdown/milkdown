@@ -11,7 +11,7 @@ export const textSchema = $node('text', () => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'text',
+    match: (node) => node.type.name === 'text',
     runner: (state, node) => {
       state.addNode('text', undefined, node.text as string)
     },

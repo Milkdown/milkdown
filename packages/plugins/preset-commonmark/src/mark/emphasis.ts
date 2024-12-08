@@ -1,5 +1,11 @@
 import { commandsCtx, remarkStringifyOptionsCtx } from '@milkdown/core'
-import { $command, $inputRule, $markAttr, $markSchema, $useKeymap } from '@milkdown/utils'
+import {
+  $command,
+  $inputRule,
+  $markAttr,
+  $markSchema,
+  $useKeymap,
+} from '@milkdown/utils'
 import { toggleMark } from '@milkdown/prose/commands'
 import { markRule } from '@milkdown/prose'
 import { withMeta } from '../__internal__'
@@ -13,7 +19,7 @@ withMeta(emphasisAttr, {
 })
 
 /// Emphasis mark schema.
-export const emphasisSchema = $markSchema('emphasis', ctx => ({
+export const emphasisSchema = $markSchema('emphasis', (ctx) => ({
   attrs: {
     marker: {
       default: ctx.get(remarkStringifyOptionsCtx).emphasis || '*',
@@ -22,11 +28,11 @@ export const emphasisSchema = $markSchema('emphasis', ctx => ({
   parseDOM: [
     { tag: 'i' },
     { tag: 'em' },
-    { style: 'font-style', getAttrs: value => (value === 'italic') as false },
+    { style: 'font-style', getAttrs: (value) => (value === 'italic') as false },
   ],
-  toDOM: mark => ['em', ctx.get(emphasisAttr.key)(mark)],
+  toDOM: (mark) => ['em', ctx.get(emphasisAttr.key)(mark)],
   parseMarkdown: {
-    match: node => node.type === 'emphasis',
+    match: (node) => node.type === 'emphasis',
     runner: (state, node, markType) => {
       state.openMark(markType, { marker: node.marker })
       state.next(node.children)
@@ -34,7 +40,7 @@ export const emphasisSchema = $markSchema('emphasis', ctx => ({
     },
   },
   toMarkdown: {
-    match: mark => mark.type.name === 'emphasis',
+    match: (mark) => mark.type.name === 'emphasis',
     runner: (state, mark) => {
       state.withMark(mark, 'emphasis', undefined, {
         marker: mark.attrs.marker,
@@ -54,7 +60,7 @@ withMeta(emphasisSchema.ctx, {
 })
 
 /// A command to toggle the emphasis mark.
-export const toggleEmphasisCommand = $command('ToggleEmphasis', ctx => () => {
+export const toggleEmphasisCommand = $command('ToggleEmphasis', (ctx) => () => {
   return toggleMark(emphasisSchema.type(ctx))
 })
 
@@ -70,7 +76,9 @@ export const emphasisStarInputRule = $inputRule((ctx) => {
       marker: '*',
     }),
     updateCaptured: ({ fullMatch, start }) =>
-      !fullMatch.startsWith('*') ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {},
+      !fullMatch.startsWith('*')
+        ? { fullMatch: fullMatch.slice(1), start: start + 1 }
+        : {},
   })
 })
 
@@ -86,7 +94,9 @@ export const emphasisUnderscoreInputRule = $inputRule((ctx) => {
       marker: '_',
     }),
     updateCaptured: ({ fullMatch, start }) =>
-      !fullMatch.startsWith('_') ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {},
+      !fullMatch.startsWith('_')
+        ? { fullMatch: fullMatch.slice(1), start: start + 1 }
+        : {},
   })
 })
 

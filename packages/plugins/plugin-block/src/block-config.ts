@@ -9,9 +9,8 @@ export type FilterNodes = (pos: ResolvedPos, node: Node) => boolean
 
 /// @internal
 export const defaultNodeFilter: FilterNodes = (pos) => {
-  const table = findParent(node => node.type.name === 'table')(pos)
-  if (table)
-    return false
+  const table = findParent((node) => node.type.name === 'table')(pos)
+  if (table) return false
 
   return true
 }
@@ -19,7 +18,10 @@ export const defaultNodeFilter: FilterNodes = (pos) => {
 /// A slice contains the block config.
 /// Possible properties:
 /// - `filterNodes`: A function to filter nodes that can be dragged.
-export const blockConfig = $ctx<{ filterNodes: FilterNodes }, 'blockConfig'>({ filterNodes: defaultNodeFilter }, 'blockConfig')
+export const blockConfig = $ctx<{ filterNodes: FilterNodes }, 'blockConfig'>(
+  { filterNodes: defaultNodeFilter },
+  'blockConfig'
+)
 
 withMeta(blockConfig, {
   displayName: 'Ctx<blockConfig>',

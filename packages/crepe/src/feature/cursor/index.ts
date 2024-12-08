@@ -8,7 +8,10 @@ interface CursorConfig {
 }
 export type CursorFeatureConfig = Partial<CursorConfig>
 
-export const defineFeature: DefineFeature<CursorFeatureConfig> = (editor, config) => {
+export const defineFeature: DefineFeature<CursorFeatureConfig> = (
+  editor,
+  config
+) => {
   editor
     .config((ctx) => {
       ctx.update(dropCursorConfig.key, () => ({

@@ -9,8 +9,7 @@ const pluginKey = new PluginKey('MILKDOWN_KEEP_TABLE_ALIGN_PLUGIN')
 function getChildIndex(node: Node, parent: Node) {
   let index = 0
   parent.forEach((child, _offset, i) => {
-    if (child === node)
-      index = i
+    if (child === node) index = i
   })
   return index
 }
@@ -21,33 +20,27 @@ export const keepTableAlignPlugin = $prose(() => {
     appendTransaction: (_tr, oldState, state) => {
       let tr: Transaction | undefined
       const check = (node: Node, pos: number) => {
-        if (!tr)
-          tr = state.tr
+        if (!tr) tr = state.tr
 
-        if (node.type.name !== 'table_cell')
-          return
+        if (node.type.name !== 'table_cell') return
 
         const $pos = state.doc.resolve(pos)
         const tableRow = $pos.node($pos.depth)
         const table = $pos.node($pos.depth - 1)
         const tableHeaderRow = table.firstChild
         // TODO: maybe consider add a header row
-        if (!tableHeaderRow)
-          return
+        if (!tableHeaderRow) return
 
         const index = getChildIndex(node, tableRow)
         const headerCell = tableHeaderRow.maybeChild(index)
-        if (!headerCell)
-          return
+        if (!headerCell) return
         const align = headerCell.attrs.alignment
         const currentAlign = node.attrs.alignment
-        if (align === currentAlign)
-          return
+        if (align === currentAlign) return
 
         tr.setNodeMarkup(pos, undefined, { ...node.attrs, alignment: align })
       }
-      if (oldState.doc !== state.doc)
-        state.doc.descendants(check)
+      if (oldState.doc !== state.doc) state.doc.descendants(check)
 
       return tr
     },

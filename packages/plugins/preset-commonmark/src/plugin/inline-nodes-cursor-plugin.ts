@@ -6,7 +6,9 @@ import { withMeta } from '../__internal__'
 /// This plugin is to solve the [chrome 98 bug](https://discuss.prosemirror.net/t/cursor-jumps-at-the-end-of-line-when-it-betweens-two-inline-nodes/4641).
 export const inlineNodesCursorPlugin = $prose(() => {
   let lock = false
-  const inlineNodesCursorPluginKey = new PluginKey('MILKDOWN_INLINE_NODES_CURSOR')
+  const inlineNodesCursorPluginKey = new PluginKey(
+    'MILKDOWN_INLINE_NODES_CURSOR'
+  )
   const inlineNodesCursorPlugin: Plugin = new Plugin({
     key: inlineNodesCursorPluginKey,
     state: {
@@ -14,13 +16,19 @@ export const inlineNodesCursorPlugin = $prose(() => {
         return false
       },
       apply(tr) {
-        if (!tr.selection.empty)
-          return false
+        if (!tr.selection.empty) return false
 
         const pos = tr.selection.$from
         const left = pos.nodeBefore
         const right = pos.nodeAfter
-        if (left && right && left.isInline && !left.isText && right.isInline && !right.isText)
+        if (
+          left &&
+          right &&
+          left.isInline &&
+          !left.isText &&
+          right.isInline &&
+          !right.isText
+        )
           return true
 
         return false
@@ -46,8 +54,7 @@ export const inlineNodesCursorPlugin = $prose(() => {
         },
         compositionstart: (view) => {
           const active = inlineNodesCursorPlugin.getState(view.state)
-          if (active)
-            lock = true
+          if (active) lock = true
 
           return false
         },

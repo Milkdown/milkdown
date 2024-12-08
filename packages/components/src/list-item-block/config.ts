@@ -16,13 +16,23 @@ export interface ListItemBlockConfig {
 export const defaultListItemBlockConfig: ListItemBlockConfig = {
   renderLabel: ({ label, listType, checked, readonly }: RenderLabelProps) => {
     if (checked == null)
-      return html`<span class='label'>${listType === 'bullet' ? '⦿' : label}</span>`
+      return html`<span class="label"
+        >${listType === 'bullet' ? '⦿' : label}</span
+      >`
 
-    return html`<input disabled=${readonly} class='label' type="checkbox" checked=${checked} />`
+    return html`<input
+      disabled=${readonly}
+      class="label"
+      type="checkbox"
+      checked=${checked}
+    />`
   },
 }
 
-export const listItemBlockConfig = $ctx(defaultListItemBlockConfig, 'listItemBlockConfigCtx')
+export const listItemBlockConfig = $ctx(
+  defaultListItemBlockConfig,
+  'listItemBlockConfigCtx'
+)
 
 withMeta(listItemBlockConfig, {
   displayName: 'Config<list-item-block>',

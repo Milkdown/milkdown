@@ -1,12 +1,14 @@
-@import "@milkdown/kit/prose/tables/style/tables.css";
+@import '@milkdown/kit/prose/tables/style/tables.css';
 
 .milkdown {
   milkdown-table-block {
     display: block;
     margin: 4px 0;
 
-    th,td {
-      border: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+    th,
+    td {
+      border: 1px solid
+        color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
       padding: 4px 16px;
       .ProseMirror-selectednode {
         background-color: transparent !important;
@@ -37,10 +39,11 @@
       flex-direction: column;
       outline: 1px solid var(--crepe-color-primary);
       outline-offset: -1px;
-      &[data-show="false"] {
+      &[data-show='false'] {
         display: none;
       }
-      th,td {
+      th,
+      td {
         &:has(.ProseMirror-selectednode) {
           outline: none;
         }
@@ -53,7 +56,7 @@
       transition: opacity ease-in-out 0.2s;
     }
 
-    .handle[data-show="false"] {
+    .handle[data-show='false'] {
       opacity: 0;
     }
 
@@ -79,13 +82,13 @@
         background-color: var(--crepe-color-surface);
       }
 
-      &[data-role="col-drag-handle"] {
+      &[data-role='col-drag-handle'] {
         transform: translateY(50%);
         padding: 0 6px;
         width: 28px;
         height: 16px;
       }
-      &[data-role="row-drag-handle"] {
+      &[data-role='row-drag-handle'] {
         transform: translateX(50%);
         padding: 6px 0;
         width: 16px;
@@ -103,7 +106,7 @@
         box-shadow: var(--crepe-shadow-1);
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           bottom: -8px;
           height: 8px;
@@ -111,7 +114,7 @@
           width: 100%;
         }
 
-        &[data-show="false"] {
+        &[data-show='false'] {
           display: none;
         }
 
@@ -145,7 +148,7 @@
     .line-handle {
       z-index: 20;
       background-color: var(--crepe-color-primary);
-      &:hover{
+      &:hover {
         opacity: 1;
       }
       .add-button {
@@ -168,7 +171,7 @@
           background: var(--crepe-color-selected);
         }
       }
-      &[data-role="x-line-drag-handle"] {
+      &[data-role='x-line-drag-handle'] {
         height: 1px;
         z-index: 2;
         .add-button {
@@ -179,7 +182,7 @@
           height: 28px;
         }
       }
-      &[data-role="y-line-drag-handle"] {
+      &[data-role='y-line-drag-handle'] {
         width: 1px;
         z-index: 1;
         .add-button {
@@ -190,7 +193,7 @@
           height: 16px;
         }
       }
-      &[data-display-type="indicator"]  {
+      &[data-display-type='indicator'] {
         .add-button {
           display: none;
         }

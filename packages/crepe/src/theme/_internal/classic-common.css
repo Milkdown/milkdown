@@ -9,7 +9,7 @@
 
   button,
   input {
-    border:none;
+    border: none;
     background: none;
     box-shadow: none;
     &:focus {
@@ -53,7 +53,11 @@
     .ProseMirror-selectednode {
       background: var(--crepe-color-selected);
       outline: none;
-      background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+      background: color-mix(
+        in srgb,
+        var(--crepe-color-selected),
+        transparent 60%
+      );
       ::selection {
         background: transparent;
       }
@@ -62,7 +66,7 @@
       }
     }
 
-    &[data-dragging="true"] {
+    &[data-dragging='true'] {
       .ProseMirror-selectednode,
       &::selection,
       *::selection {
@@ -116,20 +120,20 @@
     h4 {
       font-size: 28px;
       line-height: 36px;
-      margin-top: 20px
+      margin-top: 20px;
     }
 
     h5 {
       font-size: 24px;
       line-height: 32px;
-      margin-top: 16px
+      margin-top: 16px;
     }
 
     h6 {
       font-size: 18px;
       font-weight: 700;
       line-height: 28px;
-      margin-top: 16px
+      margin-top: 16px;
     }
 
     p {
@@ -140,7 +144,11 @@
 
     code {
       color: var(--crepe-color-inline-code);
-      background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
+      background: color-mix(
+        in srgb,
+        var(--crepe-color-inline-area),
+        transparent 40%
+      );
       font-family: var(--crepe-font-code);
       padding: 0 10px;
       border-radius: 4px;
@@ -155,7 +163,11 @@
     }
 
     pre {
-      background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
+      background: color-mix(
+        in srgb,
+        var(--crepe-color-inline-area),
+        transparent 40%
+      );
       padding: 10px;
       border-radius: 4px;
       code {
@@ -173,7 +185,7 @@
       margin: 4px 0;
 
       &::before {
-        content: "";
+        content: '';
         width: 4px;
         left: 0;
         top: 4px;
@@ -190,7 +202,11 @@
 
     hr {
       border: none;
-      background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      background-color: color-mix(
+        in srgb,
+        var(--crepe-color-outline),
+        transparent 80%
+      );
       background-clip: content-box;
       padding: 6px 0;
       height: 13px;
@@ -198,22 +214,31 @@
 
       &.ProseMirror-selectednode {
         outline: none;
-        background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 20%);
+        background-color: color-mix(
+          in srgb,
+          var(--crepe-color-outline),
+          transparent 20%
+        );
         background-clip: content-box;
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           left: 0;
           top: 0;
           bottom: 0;
           right: 0;
-          background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+          background-color: color-mix(
+            in srgb,
+            var(--crepe-color-outline),
+            transparent 80%
+          );
           pointer-events: none;
         }
       }
     }
 
-    ul,ol {
+    ul,
+    ol {
       padding: 0;
     }
   }

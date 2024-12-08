@@ -8,7 +8,9 @@ export function getHTML() {
     const div = document.createElement('div')
     const schema = ctx.get(schemaCtx)
     const view = ctx.get(editorViewCtx)
-    const fragment = DOMSerializer.fromSchema(schema).serializeFragment(view.state.doc.content)
+    const fragment = DOMSerializer.fromSchema(schema).serializeFragment(
+      view.state.doc.content
+    )
 
     div.appendChild(fragment)
 

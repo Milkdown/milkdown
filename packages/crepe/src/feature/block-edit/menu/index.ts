@@ -16,15 +16,18 @@ export interface MenuAPI {
   hide: () => void
 }
 
-export const menuAPI = $ctx({
-  show: () => {},
-  hide: () => {},
-} as MenuAPI, 'menuAPICtx')
+export const menuAPI = $ctx(
+  {
+    show: () => {},
+    hide: () => {},
+  } as MenuAPI,
+  'menuAPICtx'
+)
 
 defIfNotExists('milkdown-slash-menu', MenuElement)
 export function configureMenu(ctx: Ctx, config?: BlockEditFeatureConfig) {
   ctx.set(menu.key, {
-    view: view => new MenuView(ctx, view, config),
+    view: (view) => new MenuView(ctx, view, config),
   })
 }
 
@@ -44,21 +47,29 @@ class MenuView implements PluginView {
       content: this.#content,
       debounce: 20,
       shouldShow(this: SlashProvider, view: EditorView) {
-        if (isInCodeBlock(view.state.selection) || isInList(view.state.selection))
+        if (
+          isInCodeBlock(view.state.selection) ||
+          isInList(view.state.selection)
+        )
           return false
 
-        const currentText = this.getContent(view, node =>
-          ['paragraph', 'heading'].includes(node.type.name))
+        const currentText = this.getContent(view, (node) =>
+          ['paragraph', 'heading'].includes(node.type.name)
+        )
 
-        if (currentText == null)
-          return false
+        if (currentText == null) return false
 
         const pos = self.#programmaticallyPos
 
-        self.#content.filter = currentText.startsWith('/') ? currentText.slice(1) : currentText
+        self.#content.filter = currentText.startsWith('/')
+          ? currentText.slice(1)
+          : currentText
 
         if (typeof pos === 'number') {
-          if (view.state.doc.resolve(pos).node() !== view.state.doc.resolve(view.state.selection.from).node()) {
+          if (
+            view.state.doc.resolve(pos).node() !==
+            view.state.doc.resolve(view.state.selection.from).node()
+          ) {
             self.#programmaticallyPos = null
 
             return false
@@ -67,8 +78,7 @@ class MenuView implements PluginView {
           return true
         }
 
-        if (!currentText.startsWith('/'))
-          return false
+        if (!currentText.startsWith('/')) return false
 
         return true
       },
@@ -84,7 +94,7 @@ class MenuView implements PluginView {
     this.update(view)
 
     ctx.set(menuAPI.key, {
-      show: pos => this.show(pos),
+      show: (pos) => this.show(pos),
       hide: () => this.hide(),
     })
   }

@@ -32,8 +32,7 @@ export const imageSchema = $nodeSchema('image', (ctx) => {
       {
         tag: 'img[src]',
         getAttrs: (dom) => {
-          if (!(dom instanceof HTMLElement))
-            throw expectDomTypeError(dom)
+          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
           return {
             src: dom.getAttribute('src') || '',
@@ -60,7 +59,7 @@ export const imageSchema = $nodeSchema('image', (ctx) => {
       },
     },
     toMarkdown: {
-      match: node => node.type.name === 'image',
+      match: (node) => node.type.name === 'image',
       runner: (state, node) => {
         state.addNode('image', undefined, undefined, {
           title: node.attrs.title,
@@ -91,20 +90,22 @@ export interface UpdateImageCommandPayload {
 
 /// This command will insert a image node.
 /// You can pass a payload to set `src`, `alt` and `title` for the image node.
-export const insertImageCommand = $command('InsertImage', ctx => (payload: UpdateImageCommandPayload = {}) =>
-  (state, dispatch) => {
-    if (!dispatch)
+export const insertImageCommand = $command(
+  'InsertImage',
+  (ctx) =>
+    (payload: UpdateImageCommandPayload = {}) =>
+    (state, dispatch) => {
+      if (!dispatch) return true
+
+      const { src = '', alt = '', title = '' } = payload
+
+      const node = imageSchema.type(ctx).create({ src, alt, title })
+      if (!node) return true
+
+      dispatch(state.tr.replaceSelectionWith(node).scrollIntoView())
       return true
-
-    const { src = '', alt = '', title = '' } = payload
-
-    const node = imageSchema.type(ctx).create({ src, alt, title })
-    if (!node)
-      return true
-
-    dispatch(state.tr.replaceSelectionWith(node).scrollIntoView())
-    return true
-  })
+    }
+)
 
 withMeta(insertImageCommand, {
   displayName: 'Command<insertImageCommand>',
@@ -113,25 +114,31 @@ withMeta(insertImageCommand, {
 
 /// This command will update the selected image node.
 /// You can pass a payload to update `src`, `alt` and `title` for the image node.
-export const updateImageCommand = $command('UpdateImage', ctx => (payload: UpdateImageCommandPayload = {}) => (state, dispatch) => {
-  const nodeWithPos = findSelectedNodeOfType(state.selection, imageSchema.type(ctx))
-  if (!nodeWithPos)
-    return false
+export const updateImageCommand = $command(
+  'UpdateImage',
+  (ctx) =>
+    (payload: UpdateImageCommandPayload = {}) =>
+    (state, dispatch) => {
+      const nodeWithPos = findSelectedNodeOfType(
+        state.selection,
+        imageSchema.type(ctx)
+      )
+      if (!nodeWithPos) return false
 
-  const { node, pos } = nodeWithPos
+      const { node, pos } = nodeWithPos
 
-  const newAttrs = { ...node.attrs }
-  const { src, alt, title } = payload
-  if (src !== undefined)
-    newAttrs.src = src
-  if (alt !== undefined)
-    newAttrs.alt = alt
-  if (title !== undefined)
-    newAttrs.title = title
+      const newAttrs = { ...node.attrs }
+      const { src, alt, title } = payload
+      if (src !== undefined) newAttrs.src = src
+      if (alt !== undefined) newAttrs.alt = alt
+      if (title !== undefined) newAttrs.title = title
 
-  dispatch?.(state.tr.setNodeMarkup(pos, undefined, newAttrs).scrollIntoView())
-  return true
-})
+      dispatch?.(
+        state.tr.setNodeMarkup(pos, undefined, newAttrs).scrollIntoView()
+      )
+      return true
+    }
+)
 
 withMeta(updateImageCommand, {
   displayName: 'Command<updateImageCommand>',
@@ -141,16 +148,23 @@ withMeta(updateImageCommand, {
 /// This input rule will insert a image node.
 /// You can input `![alt](src "title")` to insert a image node.
 /// The `title` is optional.
-export const insertImageInputRule = $inputRule(ctx => new InputRule(
-  /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
-  (state, match, start, end) => {
-    const [matched, alt, src = '', title] = match
-    if (matched)
-      return state.tr.replaceWith(start, end, imageSchema.type(ctx).create({ src, alt, title }))
+export const insertImageInputRule = $inputRule(
+  (ctx) =>
+    new InputRule(
+      /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
+      (state, match, start, end) => {
+        const [matched, alt, src = '', title] = match
+        if (matched)
+          return state.tr.replaceWith(
+            start,
+            end,
+            imageSchema.type(ctx).create({ src, alt, title })
+          )
 
-    return null
-  },
-))
+        return null
+      }
+    )
+)
 
 withMeta(insertImageInputRule, {
   displayName: 'InputRule<insertImageInputRule>',

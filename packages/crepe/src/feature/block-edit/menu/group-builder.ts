@@ -37,9 +37,8 @@ export class GroupBuilder {
   }
 
   getGroup = (key: string) => {
-    const group = this.#groups.find(group => group.key === key)
-    if (!group)
-      throw new Error(`Group with key ${key} not found`)
+    const group = this.#groups.find((group) => group.key === key)
+    if (!group) throw new Error(`Group with key ${key} not found`)
 
     return this.#getGroupInstance(group)
   }

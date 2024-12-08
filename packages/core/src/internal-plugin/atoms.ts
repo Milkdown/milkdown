@@ -1,6 +1,10 @@
 import { createSlice } from '@milkdown/ctx'
 import type { EditorState, Plugin } from '@milkdown/prose/state'
-import type { EditorView, MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view'
+import type {
+  EditorView,
+  MarkViewConstructor,
+  NodeViewConstructor,
+} from '@milkdown/prose/view'
 import type { SliceType, TimerType } from '@milkdown/ctx'
 import type { InputRule } from '@milkdown/prose/inputrules'
 import type { RemarkParser, RemarkPlugin } from '@milkdown/transformer'
@@ -31,7 +35,10 @@ export const inputRulesCtx = createSlice([] as InputRule[], 'inputRules')
 export const prosePluginsCtx = createSlice([] as Plugin[], 'prosePlugins')
 
 /// A slice which stores the remark plugins.
-export const remarkPluginsCtx = createSlice([] as RemarkPlugin[], 'remarkPlugins')
+export const remarkPluginsCtx = createSlice(
+  [] as RemarkPlugin[],
+  'remarkPlugins'
+)
 
 type NodeView = [nodeId: string, view: NodeViewConstructor]
 
@@ -44,9 +51,15 @@ type MarkView = [nodeId: string, view: MarkViewConstructor]
 export const markViewCtx = createSlice([] as MarkView[], 'markView')
 
 /// A slice which stores the remark instance.
-export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(unified().use(remarkParse).use(remarkStringify), 'remark')
+export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(
+  unified().use(remarkParse).use(remarkStringify),
+  'remark'
+)
 
 /// A slice which stores the remark stringify options.
-export const remarkStringifyOptionsCtx = createSlice({
-  handlers: remarkHandlers,
-} as Options, 'remarkStringifyOptions')
+export const remarkStringifyOptionsCtx = createSlice(
+  {
+    handlers: remarkHandlers,
+  } as Options,
+  'remarkStringifyOptions'
+)

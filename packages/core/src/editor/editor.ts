@@ -72,7 +72,7 @@ export class Editor {
   /// @internal
   readonly #loadInternal = () => {
     const configPlugin = config(async (ctx) => {
-      await Promise.all(this.#configureList.map(fn => fn(ctx)))
+      await Promise.all(this.#configureList.map((fn) => fn(ctx)))
     })
     const internalPlugins = [
       schema,
@@ -90,7 +90,9 @@ export class Editor {
   /// @internal
   readonly #prepare = (plugins: MilkdownPlugin[], store: EditorPluginStore) => {
     plugins.forEach((plugin) => {
-      const ctx = this.#ctx.produce(this.#enableInspector ? plugin.meta : undefined)
+      const ctx = this.#ctx.produce(
+        this.#enableInspector ? plugin.meta : undefined
+      )
       const handler = plugin(ctx)
       store.set(plugin, { ctx, handler, cleanup: undefined })
     })
@@ -102,27 +104,30 @@ export class Editor {
       [plugins].flat().map((plugin) => {
         const loader = this.#usrPluginStore.get(plugin)
         const cleanup = loader?.cleanup
-        if (remove)
-          this.#usrPluginStore.delete(plugin)
+        if (remove) this.#usrPluginStore.delete(plugin)
         else
-          this.#usrPluginStore.set(plugin, { ctx: undefined, handler: undefined, cleanup: undefined })
+          this.#usrPluginStore.set(plugin, {
+            ctx: undefined,
+            handler: undefined,
+            cleanup: undefined,
+          })
 
-        if (typeof cleanup === 'function')
-          return cleanup()
+        if (typeof cleanup === 'function') return cleanup()
 
         return cleanup
-      }),
+      })
     )
   }
 
   /// @internal
   readonly #cleanupInternal = async () => {
-    await Promise.all([...this.#sysPluginStore.entries()].map(([_, { cleanup }]) => {
-      if (typeof cleanup === 'function')
-        return cleanup()
+    await Promise.all(
+      [...this.#sysPluginStore.entries()].map(([_, { cleanup }]) => {
+        if (typeof cleanup === 'function') return cleanup()
 
-      return cleanup
-    }))
+        return cleanup
+      })
+    )
     this.#sysPluginStore.clear()
   }
 
@@ -136,8 +141,7 @@ export class Editor {
   readonly #loadPluginInStore = (store: EditorPluginStore) => {
     return [...store.entries()].map(async ([key, loader]) => {
       const { ctx, handler } = loader
-      if (!handler)
-        return
+      if (!handler) return
 
       const cleanup = await handler()
 
@@ -178,7 +182,7 @@ export class Editor {
 
   /// Remove a config for the editor.
   readonly removeConfig = (configure: Config) => {
-    this.#configureList = this.#configureList.filter(x => x !== configure)
+    this.#configureList = this.#configureList.filter((x) => x !== configure)
     return this
   }
 
@@ -200,10 +204,14 @@ export class Editor {
   }
 
   /// Remove a plugin or a list of plugins from the editor.
-  readonly remove = async (plugins: MilkdownPlugin | MilkdownPlugin[]): Promise<Editor> => {
+  readonly remove = async (
+    plugins: MilkdownPlugin | MilkdownPlugin[]
+  ): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate) {
       // eslint-disable-next-line no-console
-      console.warn('[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code.')
+      console.warn(
+        '[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code.'
+      )
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(this.remove(plugins))
@@ -218,11 +226,9 @@ export class Editor {
   /// Create the editor with current config and plugins.
   /// If the editor is already created, it will be recreated.
   readonly create = async (): Promise<Editor> => {
-    if (this.#status === EditorStatus.OnCreate)
-      return this
+    if (this.#status === EditorStatus.OnCreate) return this
 
-    if (this.#status === EditorStatus.Created)
-      await this.destroy()
+    if (this.#status === EditorStatus.Created) await this.destroy()
 
     this.#setStatus(EditorStatus.OnCreate)
 
@@ -233,7 +239,7 @@ export class Editor {
       [
         this.#loadPluginInStore(this.#sysPluginStore),
         this.#loadPluginInStore(this.#usrPluginStore),
-      ].flat(),
+      ].flat()
     )
 
     this.#setStatus(EditorStatus.Created)
@@ -243,7 +249,10 @@ export class Editor {
   /// Destroy the editor.
   /// If you want to clear all plugins, set `clearPlugins` to `true`.
   readonly destroy = async (clearPlugins = false): Promise<Editor> => {
-    if (this.#status === EditorStatus.Destroyed || this.#status === EditorStatus.OnDestroy)
+    if (
+      this.#status === EditorStatus.Destroyed ||
+      this.#status === EditorStatus.OnDestroy
+    )
       return this
 
     if (this.#status === EditorStatus.OnCreate) {
@@ -254,8 +263,7 @@ export class Editor {
       })
     }
 
-    if (clearPlugins)
-      this.#configureList = []
+    if (clearPlugins) this.#configureList = []
 
     this.#setStatus(EditorStatus.OnDestroy)
     await this.#cleanup([...this.#usrPluginStore.keys()], clearPlugins)
@@ -274,7 +282,9 @@ export class Editor {
   readonly inspect = (): Telemetry[] => {
     if (!this.#enableInspector) {
       // eslint-disable-next-line no-console
-      console.warn('[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first.')
+      console.warn(
+        '[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first.'
+      )
       return []
     }
     return [...this.#sysPluginStore.values(), ...this.#usrPluginStore.values()]

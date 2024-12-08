@@ -9,20 +9,22 @@ function createMermaidDiv(contents: string) {
 }
 
 function visitCodeBlock(ast: Node) {
-  return visit(ast, 'code', (node, index, parent: Node & { children: Node[] }) => {
-    const { lang, value } = node
+  return visit(
+    ast,
+    'code',
+    (node, index, parent: Node & { children: Node[] }) => {
+      const { lang, value } = node
 
-    // If this codeblock is not mermaid, bail.
-    if (lang !== 'mermaid')
+      // If this codeblock is not mermaid, bail.
+      if (lang !== 'mermaid') return node
+
+      const newNode = createMermaidDiv(value)
+
+      if (parent && index != null) parent.children.splice(index, 1, newNode)
+
       return node
-
-    const newNode = createMermaidDiv(value)
-
-    if (parent && index != null)
-      parent.children.splice(index, 1, newNode)
-
-    return node
-  })
+    }
+  )
 }
 
 export function remarkMermaid() {

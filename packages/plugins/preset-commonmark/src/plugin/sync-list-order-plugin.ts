@@ -10,14 +10,16 @@ import { withMeta } from '../__internal__'
 /// This plugin is used to keep the label of list item up to date in ordered list.
 export const syncListOrderPlugin = $prose((ctx) => {
   const syncOrderLabel = (view: EditorView) => {
-    if (view.composing || !view.editable)
-      return
+    if (view.composing || !view.editable) return
 
     const orderedListType = orderedListSchema.type(ctx)
     const bulletListType = bulletListSchema.type(ctx)
     const listItemType = listItemSchema.type(ctx)
     const state = view.state
-    const handleNodeItem = (attrs: Record<string, any>, index: number): boolean => {
+    const handleNodeItem = (
+      attrs: Record<string, any>,
+      index: number
+    ): boolean => {
       let changed = false
       const expectedLabel = `${index + 1}.`
       if (attrs.label !== expectedLabel) {
@@ -41,14 +43,15 @@ export const syncListOrderPlugin = $prose((ctx) => {
             if (child.type === listItemType) {
               const attrs = { ...child.attrs }
               const changed = handleNodeItem(attrs, index)
-              if (changed)
-                tr = tr.setNodeMarkup(pos, undefined, attrs)
+              if (changed) tr = tr.setNodeMarkup(pos, undefined, attrs)
             }
             return false
           })
         }
-      }
-      else if (node.type === listItemType && parent?.type === orderedListType) {
+      } else if (
+        node.type === listItemType &&
+        parent?.type === orderedListType
+      ) {
         const attrs = { ...node.attrs }
         let changed = false
         if (attrs.listType !== 'ordered') {
@@ -57,8 +60,7 @@ export const syncListOrderPlugin = $prose((ctx) => {
         }
 
         const base = parent?.maybeChild(0)
-        if (base)
-          changed = handleNodeItem(attrs, index)
+        if (base) changed = handleNodeItem(attrs, index)
 
         if (changed) {
           tr = tr.setNodeMarkup(pos, undefined, attrs)
@@ -67,8 +69,7 @@ export const syncListOrderPlugin = $prose((ctx) => {
       }
     })
 
-    if (needDispatch)
-      view.dispatch(tr.setMeta('addToHistory', false))
+    if (needDispatch) view.dispatch(tr.setMeta('addToHistory', false))
   }
   return new Plugin({
     key: new PluginKey('MILKDOWN_KEEP_LIST_ORDER'),

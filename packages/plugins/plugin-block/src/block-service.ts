@@ -12,18 +12,21 @@ import { selectRootNodeByDom } from './__internal__/select-node-by-dom'
 import { serializeForClipboard } from './__internal__/serialize-for-clipboard'
 import type { ActiveNode } from './types'
 
-const brokenClipboardAPI
-    = (browser.ie && <number>browser.ie_version < 15) || (browser.ios && browser.webkit_version < 604)
+const brokenClipboardAPI =
+  (browser.ie && <number>browser.ie_version < 15) ||
+  (browser.ios && browser.webkit_version < 604)
 
 const buffer = 20
 
 /// @internal
-export type BlockServiceMessageType = {
-  type: 'hide'
-} | {
-  type: 'show'
-  active: ActiveNode
-}
+export type BlockServiceMessageType =
+  | {
+      type: 'hide'
+    }
+  | {
+      type: 'show'
+      active: ActiveNode
+    }
 
 /// @internal
 export type BlockServiceMessage = (message: BlockServiceMessageType) => void
@@ -37,13 +40,15 @@ export class BlockService {
 
   /// @internal
   #createSelection: () => null | Selection = () => {
-    if (!this.#active)
-      return null
+    if (!this.#active) return null
     const result = this.#active
     const view = this.#view
 
     if (view && NodeSelection.isSelectable(result.node)) {
-      const nodeSelection = NodeSelection.create(view.state.doc, result.$pos.pos)
+      const nodeSelection = NodeSelection.create(
+        view.state.doc,
+        result.$pos.pos
+      )
       view.dispatch(view.state.tr.setSelection(nodeSelection))
       view.focus()
       this.#activeSelection = nodeSelection
@@ -122,8 +127,7 @@ export class BlockService {
   #handleMouseUp = () => {
     if (!this.#dragging) {
       requestAnimationFrame(() => {
-        if (!this.#activeDOMRect)
-          return
+        if (!this.#activeDOMRect) return
         this.#view?.focus()
       })
 
@@ -138,8 +142,7 @@ export class BlockService {
     this.#dragging = true
 
     const view = this.#view
-    if (!view)
-      return
+    if (!view) return
     view.dom.dataset.dragging = 'true'
 
     const selection = this.#activeSelection
@@ -148,12 +151,13 @@ export class BlockService {
       event.dataTransfer.effectAllowed = 'copyMove'
       const { dom, text } = serializeForClipboard(view, slice)
       event.dataTransfer.clearData()
-      event.dataTransfer.setData(brokenClipboardAPI ? 'Text' : 'text/html', dom.innerHTML)
-      if (!brokenClipboardAPI)
-        event.dataTransfer.setData('text/plain', text)
+      event.dataTransfer.setData(
+        brokenClipboardAPI ? 'Text' : 'text/html',
+        dom.innerHTML
+      )
+      if (!brokenClipboardAPI) event.dataTransfer.setData('text/plain', text)
       const activeEl = this.#active?.el
-      if (activeEl)
-        event.dataTransfer.setDragImage(activeEl, 0, 0)
+      if (activeEl) event.dataTransfer.setDragImage(activeEl, 0, 0)
 
       view.dragging = {
         slice,
@@ -173,8 +177,7 @@ export class BlockService {
 
   /// @internal
   #mousemoveCallback = throttle((view: EditorView, event: MouseEvent) => {
-    if (!view.editable)
-      return
+    if (!view.editable) return
 
     const rect = view.dom.getBoundingClientRect()
     const x = rect.left + rect.width / 2
@@ -185,10 +188,13 @@ export class BlockService {
     }
 
     const filterNodes = this.#filterNodes
-    if (!filterNodes)
-      return
+    if (!filterNodes) return
 
-    const result = selectRootNodeByDom(view, { x, y: event.clientY }, filterNodes)
+    const result = selectRootNodeByDom(
+      view,
+      { x, y: event.clientY },
+      filterNodes
+    )
 
     if (!result) {
       this.#hide()
@@ -199,8 +205,7 @@ export class BlockService {
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
-    if (view.composing || !view.editable)
-      return false
+    if (view.composing || !view.editable) return false
 
     this.#mousemoveCallback(view, event)
 
@@ -211,8 +216,7 @@ export class BlockService {
   dragoverCallback = (view: EditorView, event: DragEvent) => {
     if (this.#dragging) {
       const root = this.#view?.dom.parentElement
-      if (!root)
-        return false
+      if (!root) return false
 
       const hasHorizontalScrollbar = root.scrollHeight > root.clientHeight
 
@@ -225,7 +229,10 @@ export class BlockService {
         }
         const totalHeight = Math.round(view.dom.getBoundingClientRect().height)
         const scrollBottom = Math.round(root.scrollTop + rootRect.height)
-        if (scrollBottom < totalHeight && Math.abs(event.y - (rootRect.height + rootRect.y)) < buffer) {
+        if (
+          scrollBottom < totalHeight &&
+          Math.abs(event.y - (rootRect.height + rootRect.y)) < buffer
+        ) {
           const top = root.scrollTop + 10
           root.scrollTop = top
           return false
@@ -237,8 +244,7 @@ export class BlockService {
 
   /// @internal
   dragenterCallback = (view: EditorView) => {
-    if (!view.dragging)
-      return
+    if (!view.dragging) return
 
     this.#dragging = true
     view.dom.dataset.dragging = 'true'

@@ -12,7 +12,10 @@ export interface CodeBlockConfig {
   clearSearchIcon: () => ReturnType<typeof html> | string | HTMLElement
   searchPlaceholder: string
   noResultText: string
-  renderLanguage: (language: string, selected: boolean) => ReturnType<typeof html>
+  renderLanguage: (
+    language: string,
+    selected: boolean
+  ) => ReturnType<typeof html>
 }
 
 export const defaultConfig: CodeBlockConfig = {
@@ -23,7 +26,7 @@ export const defaultConfig: CodeBlockConfig = {
   clearSearchIcon: () => '⌫',
   searchPlaceholder: 'Search language',
   noResultText: 'No result',
-  renderLanguage: language => html`${language}`,
+  renderLanguage: (language) => html`${language}`,
 }
 
 export const codeBlockConfig = $ctx(defaultConfig, 'codeBlockConfigCtx')

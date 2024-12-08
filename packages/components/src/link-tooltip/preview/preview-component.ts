@@ -9,7 +9,12 @@ export interface LinkPreviewProps {
   onRemove: () => void
 }
 
-export const linkPreviewComponent: Component<LinkPreviewProps> = ({ config, src, onEdit, onRemove }) => {
+export const linkPreviewComponent: Component<LinkPreviewProps> = ({
+  config,
+  src,
+  onEdit,
+  onRemove,
+}) => {
   const onClickEditButton = (e: MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
@@ -25,10 +30,12 @@ export const linkPreviewComponent: Component<LinkPreviewProps> = ({ config, src,
   const onClickPreview = (e: MouseEvent) => {
     e.preventDefault()
     if (navigator.clipboard && src) {
-      navigator.clipboard.writeText(src)
+      navigator.clipboard
+        .writeText(src)
         .then(() => {
           config?.onCopyLink(src)
-        }).catch((e) => {
+        })
+        .catch((e) => {
           throw e
         })
     }
@@ -37,14 +44,15 @@ export const linkPreviewComponent: Component<LinkPreviewProps> = ({ config, src,
   return html`
     <host>
       <div class="link-preview" onmousedown=${onClickPreview}>
-        <span class="link-icon">
-          ${config?.linkIcon()}
-        </span>
+        <span class="link-icon"> ${config?.linkIcon()} </span>
         <a href=${src} target="_blank" class="link-display">${src}</a>
         <span class="button link-edit-button" onmousedown=${onClickEditButton}>
           ${config?.editButton()}
         </span>
-        <span class="button link-remove-button" onmousedown=${onClickRemoveButton}>
+        <span
+          class="button link-remove-button"
+          onmousedown=${onClickRemoveButton}
+        >
           ${config?.removeButton()}
         </span>
       </div>

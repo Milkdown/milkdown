@@ -13,7 +13,11 @@ import {
 import type { Ctx } from '@milkdown/ctx'
 import type { Refs } from './types'
 
-export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | undefined) {
+export function useOperation(
+  refs: Refs,
+  ctx?: Ctx,
+  getPos?: () => number | undefined
+) {
   const {
     xLineHandleRef,
     contentWrapperRef,
@@ -24,27 +28,24 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
   } = refs
 
   const onAddRow = useCallback(() => {
-    if (!ctx)
-      return
+    if (!ctx) return
     const xHandle = xLineHandleRef.current
-    if (!xHandle)
-      return
+    if (!xHandle) return
 
     const [rowIndex] = lineHoverIndex.current!
-    if (rowIndex < 0)
-      return
+    if (rowIndex < 0) return
 
-    if (!ctx.get(editorViewCtx).editable)
-      return
+    if (!ctx.get(editorViewCtx).editable) return
 
-    const rows = Array.from(contentWrapperRef.current?.querySelectorAll('tr') ?? [])
+    const rows = Array.from(
+      contentWrapperRef.current?.querySelectorAll('tr') ?? []
+    )
     const commands = ctx.get(commandsCtx)
     const pos = (getPos?.() ?? 0) + 1
     if (rows.length === rowIndex) {
       commands.call(selectRowCommand.key, { pos, index: rowIndex - 1 })
       commands.call(addRowAfterCommand.key)
-    }
-    else {
+    } else {
       commands.call(selectRowCommand.key, { pos, index: rowIndex })
       commands.call(addRowBeforeCommand.key)
     }
@@ -54,28 +55,25 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
   }, [])
 
   const onAddCol = useCallback(() => {
-    if (!ctx)
-      return
+    if (!ctx) return
     const xHandle = xLineHandleRef.current
-    if (!xHandle)
-      return
+    if (!xHandle) return
 
     const [_, colIndex] = lineHoverIndex.current!
-    if (colIndex < 0)
-      return
+    if (colIndex < 0) return
 
-    if (!ctx.get(editorViewCtx).editable)
-      return
+    if (!ctx.get(editorViewCtx).editable) return
 
-    const cols = Array.from(contentWrapperRef.current?.querySelector('tr')?.children ?? [])
+    const cols = Array.from(
+      contentWrapperRef.current?.querySelector('tr')?.children ?? []
+    )
     const commands = ctx.get(commandsCtx)
 
     const pos = (getPos?.() ?? 0) + 1
     if (cols.length === colIndex) {
       commands.call(selectColCommand.key, { pos, index: colIndex - 1 })
       commands.call(addColAfterCommand.key)
-    }
-    else {
+    } else {
       commands.call(selectColCommand.key, { pos, index: colIndex })
       commands.call(addColBeforeCommand.key)
     }
@@ -84,35 +82,35 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
   }, [])
 
   const selectCol = useCallback(() => {
-    if (!ctx)
-      return
+    if (!ctx) return
     const [_, colIndex] = hoverIndex.current!
     const commands = ctx.get(commandsCtx)
     const pos = (getPos?.() ?? 0) + 1
     commands.call(selectColCommand.key, { pos, index: colIndex })
-    const buttonGroup = colHandleRef.current?.querySelector<HTMLElement>('.button-group')
+    const buttonGroup =
+      colHandleRef.current?.querySelector<HTMLElement>('.button-group')
     if (buttonGroup)
-      buttonGroup.dataset.show = buttonGroup.dataset.show === 'true' ? 'false' : 'true'
+      buttonGroup.dataset.show =
+        buttonGroup.dataset.show === 'true' ? 'false' : 'true'
   }, [])
 
   const selectRow = useCallback(() => {
-    if (!ctx)
-      return
+    if (!ctx) return
     const [rowIndex, _] = hoverIndex.current!
     const commands = ctx.get(commandsCtx)
     const pos = (getPos?.() ?? 0) + 1
     commands.call(selectRowCommand.key, { pos, index: rowIndex })
-    const buttonGroup = rowHandleRef.current?.querySelector<HTMLElement>('.button-group')
+    const buttonGroup =
+      rowHandleRef.current?.querySelector<HTMLElement>('.button-group')
     if (buttonGroup && rowIndex > 0)
-      buttonGroup.dataset.show = buttonGroup.dataset.show === 'true' ? 'false' : 'true'
+      buttonGroup.dataset.show =
+        buttonGroup.dataset.show === 'true' ? 'false' : 'true'
   }, [])
 
   const deleteSelected = useCallback((e: PointerEvent) => {
-    if (!ctx)
-      return
+    if (!ctx) return
 
-    if (!ctx.get(editorViewCtx).editable)
-      return
+    if (!ctx.get(editorViewCtx).editable) return
 
     e.preventDefault()
     e.stopPropagation()
@@ -123,13 +121,11 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
     })
   }, [])
 
-  const onAlign = useCallback((direction: 'left' | 'center' | 'right') =>
-    (e: PointerEvent) => {
-      if (!ctx)
-        return
+  const onAlign = useCallback(
+    (direction: 'left' | 'center' | 'right') => (e: PointerEvent) => {
+      if (!ctx) return
 
-      if (!ctx.get(editorViewCtx).editable)
-        return
+      if (!ctx.get(editorViewCtx).editable) return
 
       e.preventDefault()
       e.stopPropagation()
@@ -138,7 +134,9 @@ export function useOperation(refs: Refs, ctx?: Ctx, getPos?: () => number | unde
       requestAnimationFrame(() => {
         ctx.get(editorViewCtx).focus()
       })
-    }, [])
+    },
+    []
+  )
 
   return {
     onAddRow,

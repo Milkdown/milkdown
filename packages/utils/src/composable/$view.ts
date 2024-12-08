@@ -1,13 +1,24 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
-import { SchemaReady, editorViewTimerCtx, markViewCtx, nodeViewCtx } from '@milkdown/core'
+import {
+  SchemaReady,
+  editorViewTimerCtx,
+  markViewCtx,
+  nodeViewCtx,
+} from '@milkdown/core'
 import { NodeType } from '@milkdown/prose/model'
-import type { MarkViewConstructor, NodeViewConstructor } from '@milkdown/prose/view'
+import type {
+  MarkViewConstructor,
+  NodeViewConstructor,
+} from '@milkdown/prose/view'
 
 import { addTimer } from './utils'
 import type { $Mark, $Node } from '.'
 
 /// @internal
-export type $View<T extends $Node | $Mark, V extends NodeViewConstructor | MarkViewConstructor> = MilkdownPlugin & {
+export type $View<
+  T extends $Node | $Mark,
+  V extends NodeViewConstructor | MarkViewConstructor,
+> = MilkdownPlugin & {
   view: V
   type: T
 }
@@ -31,22 +42,27 @@ export function $view<
   T extends $Node | $Mark,
   V extends NodeViewConstructor | MarkViewConstructor = GetConstructor<T>,
 >(type: T, view: (ctx: Ctx) => V): $View<T, V> {
-  const plugin: MilkdownPlugin = ctx => async () => {
+  const plugin: MilkdownPlugin = (ctx) => async () => {
     await ctx.wait(SchemaReady)
     const v = view(ctx)
     if (type.type(ctx) instanceof NodeType)
-      ctx.update(nodeViewCtx, ps => [...ps, [type.id, v] as [string, NodeViewConstructor]])
+      ctx.update(nodeViewCtx, (ps) => [
+        ...ps,
+        [type.id, v] as [string, NodeViewConstructor],
+      ])
     else
-      ctx.update(markViewCtx, ps => [...ps, [type.id, v] as [string, MarkViewConstructor]]);
+      ctx.update(markViewCtx, (ps) => [
+        ...ps,
+        [type.id, v] as [string, MarkViewConstructor],
+      ])
 
-    (<$View<T, V>>plugin).view = v;
-    (<$View<T, V>>plugin).type = type
+    ;(<$View<T, V>>plugin).view = v
+    ;(<$View<T, V>>plugin).type = type
 
     return () => {
       if (type.type(ctx) instanceof NodeType)
-        ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
-      else
-        ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))
+        ctx.update(nodeViewCtx, (ps) => ps.filter((x) => x[0] !== type.id))
+      else ctx.update(markViewCtx, (ps) => ps.filter((x) => x[0] !== type.id))
     }
   }
 
@@ -68,21 +84,26 @@ export function $viewAsync<
       await ctx.wait(SchemaReady)
       const v = await view(ctx)
       if (type.type(ctx) instanceof NodeType)
-        ctx.update(nodeViewCtx, ps => [...ps, [type.id, v] as [string, NodeViewConstructor]])
+        ctx.update(nodeViewCtx, (ps) => [
+          ...ps,
+          [type.id, v] as [string, NodeViewConstructor],
+        ])
       else
-        ctx.update(markViewCtx, ps => [...ps, [type.id, v] as [string, MarkViewConstructor]])
+        ctx.update(markViewCtx, (ps) => [
+          ...ps,
+          [type.id, v] as [string, MarkViewConstructor],
+        ])
 
       plugin.view = v
       plugin.type = type
 
       return () => {
         if (type.type(ctx) instanceof NodeType)
-          ctx.update(nodeViewCtx, ps => ps.filter(x => x[0] !== type.id))
-        else
-          ctx.update(markViewCtx, ps => ps.filter(x => x[0] !== type.id))
+          ctx.update(nodeViewCtx, (ps) => ps.filter((x) => x[0] !== type.id))
+        else ctx.update(markViewCtx, (ps) => ps.filter((x) => x[0] !== type.id))
       }
     },
     editorViewTimerCtx,
-    timerName,
+    timerName
   )
 }

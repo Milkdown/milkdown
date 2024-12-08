@@ -20,7 +20,9 @@ export type $MarkSchema<T extends string> = [
   ctx: $Ctx<GetMarkSchema, T>
   schema: MarkSchema
   key: $Ctx<GetMarkSchema, T>['key']
-  extendSchema: (handler: (prev: GetMarkSchema) => GetMarkSchema) => MilkdownPlugin
+  extendSchema: (
+    handler: (prev: GetMarkSchema) => GetMarkSchema
+  ) => MilkdownPlugin
 }
 
 /// Create a plugin for mark schema.
@@ -35,7 +37,10 @@ export type $MarkSchema<T extends string> = [
 /// - `schema`: The mark schema.
 /// - `key`: The key of slice which contains the mark schema factory.
 /// - `extendSchema`: A function witch will return a plugin that can extend the mark schema.
-export function $markSchema<T extends string>(id: T, schema: GetMarkSchema): $MarkSchema<T> {
+export function $markSchema<T extends string>(
+  id: T,
+  schema: GetMarkSchema
+): $MarkSchema<T> {
   const schemaCtx = $ctx(schema, id)
 
   const markSchema = $mark(id, (ctx) => {
@@ -51,11 +56,14 @@ export function $markSchema<T extends string>(id: T, schema: GetMarkSchema): $Ma
   result.ctx = schemaCtx
   result.key = schemaCtx.key
   result.extendSchema = (handler): MilkdownPlugin => {
-    return ctx => () => {
+    return (ctx) => () => {
       const prev = ctx.get(schemaCtx.key)
       const next = handler(prev)
       const markSchema = next(ctx)
-      ctx.update(marksCtx, ms => [...ms.filter(m => m[0] !== id), [id, markSchema] as [string, MarkSchema]])
+      ctx.update(marksCtx, (ms) => [
+        ...ms.filter((m) => m[0] !== id),
+        [id, markSchema] as [string, MarkSchema],
+      ])
       result.schema = markSchema
     }
   }

@@ -24,6 +24,11 @@ export type BlockPlugin = [
 }
 
 /// All plugins exported by this package.
-export const block = [blockSpec, blockConfig, blockService, blockPlugin] as BlockPlugin
+export const block = [
+  blockSpec,
+  blockConfig,
+  blockService,
+  blockPlugin,
+] as BlockPlugin
 block.key = blockSpec.key
 block.pluginKey = blockPlugin.key

@@ -15,22 +15,30 @@ export function configureLinkPreviewTooltip(ctx: Ctx) {
 
   const DELAY = 200
   const onMouseMove = debounce((view: EditorView, event: MouseEvent) => {
-    if (!linkPreviewTooltipView)
-      return
-    if (!view.hasFocus())
-      return
+    if (!linkPreviewTooltipView) return
+    if (!view.hasFocus()) return
 
     const state = ctx.get(linkTooltipState.key)
-    if (state.mode === 'edit')
-      return
+    if (state.mode === 'edit') return
 
     const result = shouldShowPreviewWhenHover(ctx, view, event)
     if (result) {
       const position = view.state.doc.resolve(result.pos)
-      const markPosition = findMarkPosition(result.mark, result.node, view.state.doc, position.before(), position.after())
+      const markPosition = findMarkPosition(
+        result.mark,
+        result.node,
+        view.state.doc,
+        position.before(),
+        position.after()
+      )
       const from = markPosition.start
       const to = markPosition.end
-      linkPreviewTooltipView.show(result.mark, from, to, posToDOMRect(view, from, to))
+      linkPreviewTooltipView.show(
+        result.mark,
+        from,
+        to,
+        posToDOMRect(view, from, to)
+      )
       return
     }
 

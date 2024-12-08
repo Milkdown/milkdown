@@ -19,10 +19,13 @@ export const defaultImageBlockConfig: ImageBlockConfig = {
   confirmButton: () => html`Confirm ⏎`,
   uploadPlaceholderText: 'or paste the image link ...',
   captionPlaceholderText: 'Image caption',
-  onUpload: file => Promise.resolve(URL.createObjectURL(file)),
+  onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),
 }
 
-export const imageBlockConfig = $ctx(defaultImageBlockConfig, 'imageBlockConfigCtx')
+export const imageBlockConfig = $ctx(
+  defaultImageBlockConfig,
+  'imageBlockConfigCtx'
+)
 
 withMeta(imageBlockConfig, {
   displayName: 'Config<image-block>',

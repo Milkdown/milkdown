@@ -21,7 +21,11 @@ declare module 'y-prosemirror' {
   export function prosemirrorToYDoc(doc: Node, xmlFragment?: string): Y.Doc
   export function undo(state: any): boolean
   export function redo(state: any): boolean
-  export function yUndoPlugin({ protectedNodes, trackedOrigins, undoManager }?: {
+  export function yUndoPlugin({
+    protectedNodes,
+    trackedOrigins,
+    undoManager,
+  }?: {
     protectedNodes?: Set<string>
     trackedOrigins?: any[]
     undoManager?: any
@@ -31,14 +35,25 @@ declare module 'y-prosemirror' {
     hasUndoOps: boolean
     hasRedoOps: boolean
   }>
-  export function yCursorPlugin(awareness: Awareness, { cursorBuilder, selectionBuilder, getSelection }?: {
-    cursorBuilder?: (arg0: any) => HTMLElement
-    selectionBuilder?: (arg0: any) => DecorationAttrs
-    getSelection?: (arg0: any) => any
-  }, cursorStateField?: string): any
+  export function yCursorPlugin(
+    awareness: Awareness,
+    {
+      cursorBuilder,
+      selectionBuilder,
+      getSelection,
+    }?: {
+      cursorBuilder?: (arg0: any) => HTMLElement
+      selectionBuilder?: (arg0: any) => DecorationAttrs
+      getSelection?: (arg0: any) => any
+    },
+    cursorStateField?: string
+  ): any
   export const yCursorPluginKey: PluginKey<any>
   export const ySyncPluginKey: PluginKey<any>
   export const yUndoPluginKey: PluginKey<any>
   export function yDocToProsemirror(schema: Schema, ydoc: Y.Doc): Node
-  export function ySyncPlugin(yXmlFragment: Y.XmlFragment, { colors, colorMapping, permanentUserData, onFirstRender }?: YSyncOpts): any
+  export function ySyncPlugin(
+    yXmlFragment: Y.XmlFragment,
+    { colors, colorMapping, permanentUserData, onFirstRender }?: YSyncOpts
+  ): any
 }

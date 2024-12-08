@@ -15,14 +15,14 @@ export type $InputRule = MilkdownPlugin & {
 /// Additional property:
 /// - `inputRule`: The prosemirror input rule created.
 export function $inputRule(inputRule: (ctx: Ctx) => InputRule): $InputRule {
-  const plugin: MilkdownPlugin = ctx => async () => {
+  const plugin: MilkdownPlugin = (ctx) => async () => {
     await ctx.wait(SchemaReady)
     const ir = inputRule(ctx)
-    ctx.update(inputRulesCtx, irs => [...irs, ir]);
-    (<$InputRule>plugin).inputRule = ir
+    ctx.update(inputRulesCtx, (irs) => [...irs, ir])
+    ;(<$InputRule>plugin).inputRule = ir
 
     return () => {
-      ctx.update(inputRulesCtx, irs => irs.filter(x => x !== ir))
+      ctx.update(inputRulesCtx, (irs) => irs.filter((x) => x !== ir))
     }
   }
 
@@ -34,18 +34,21 @@ export function $inputRule(inputRule: (ctx: Ctx) => InputRule): $InputRule {
 /// Additional property:
 /// - `inputRule`: The prosemirror input rule created.
 /// - `timer`: The timer which will be resolved when the input rule is ready.
-export function $inputRuleAsync(inputRule: (ctx: Ctx) => Promise<InputRule>, timerName?: string) {
+export function $inputRuleAsync(
+  inputRule: (ctx: Ctx) => Promise<InputRule>,
+  timerName?: string
+) {
   return addTimer<$InputRule>(
     async (ctx, plugin) => {
       await ctx.wait(SchemaReady)
       const ir = await inputRule(ctx)
-      ctx.update(inputRulesCtx, irs => [...irs, ir])
+      ctx.update(inputRulesCtx, (irs) => [...irs, ir])
       plugin.inputRule = ir
       return () => {
-        ctx.update(inputRulesCtx, irs => irs.filter(x => x !== ir))
+        ctx.update(inputRulesCtx, (irs) => irs.filter((x) => x !== ir))
       }
     },
     editorStateTimerCtx,
-    timerName,
+    timerName
   )
 }

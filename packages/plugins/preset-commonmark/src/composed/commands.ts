@@ -1,5 +1,11 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { toggleEmphasisCommand, toggleInlineCodeCommand, toggleLinkCommand, toggleStrongCommand, updateLinkCommand } from '../mark'
+import {
+  toggleEmphasisCommand,
+  toggleInlineCodeCommand,
+  toggleLinkCommand,
+  toggleStrongCommand,
+  updateLinkCommand,
+} from '../mark'
 import {
   createCodeBlockCommand,
   downgradeHeadingCommand,

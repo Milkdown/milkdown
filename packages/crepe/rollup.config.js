@@ -4,7 +4,11 @@ import resolve from '@rollup/plugin-node-resolve'
 import esbuild from 'rollup-plugin-esbuild'
 import pkg from './package.json' assert { type: 'json' }
 
-const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {}), /@milkdown\/kit/]
+const external = [
+  ...Object.keys(pkg.dependencies),
+  ...Object.keys(pkg.peerDependencies || {}),
+  /@milkdown\/kit/,
+]
 
 export default () => {
   const jsPlugins = [

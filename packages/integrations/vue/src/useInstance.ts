@@ -1,7 +1,7 @@
 import type { Editor } from '@milkdown/core'
 import type { Ref } from 'vue'
 import { inject } from 'vue'
-import { editorInfoCtxKey } from './Editor'
+import { editorInfoCtxKey } from './consts'
 
 export type Instance = [Ref<true>, () => undefined] | [Ref<false>, () => Editor]
 

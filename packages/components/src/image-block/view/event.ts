@@ -20,8 +20,7 @@ export function useBlockEffect({
 
   useEffect(() => {
     const imageRef = image.current
-    if (!imageRef)
-      return
+    if (!imageRef) return
 
     delete imageRef.dataset.origin
     delete imageRef.dataset.height
@@ -31,8 +30,7 @@ export function useBlockEffect({
   useEffect(() => {
     const resizeHandleRef = resizeHandle.current
     const imageRef = image.current
-    if (!resizeHandleRef || !imageRef)
-      return
+    if (!resizeHandleRef || !imageRef) return
     const onMove = (e: PointerEvent) => {
       e.preventDefault()
       const top = imageRef.getBoundingClientRect().top
@@ -46,9 +44,10 @@ export function useBlockEffect({
       root.removeEventListener('pointerup', pointerUp)
       const originHeight = Number(imageRef.dataset.origin)
       const currentHeight = Number(imageRef.dataset.height)
-      const ratio = Number.parseFloat(Number(currentHeight / originHeight).toFixed(2))
-      if (Number.isNaN(ratio))
-        return
+      const ratio = Number.parseFloat(
+        Number(currentHeight / originHeight).toFixed(2)
+      )
+      if (Number.isNaN(ratio)) return
 
       setRatio(ratio)
     }
@@ -61,13 +60,13 @@ export function useBlockEffect({
 
     const onLoad = (e: Event) => {
       const maxWidth = host.current.getBoundingClientRect().width
-      if (!maxWidth)
-        return
+      if (!maxWidth) return
 
       const target = e.target as HTMLImageElement
       const height = target.height
       const width = target.width
-      const transformedHeight = width < maxWidth ? height : maxWidth * (height / width)
+      const transformedHeight =
+        width < maxWidth ? height : maxWidth * (height / width)
       const h = (transformedHeight * ratio).toFixed(2)
       imageRef.dataset.origin = transformedHeight.toFixed(2)
       imageRef.dataset.height = h

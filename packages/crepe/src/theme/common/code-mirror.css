@@ -72,7 +72,7 @@
         color: var(--crepe-color-outline);
       }
 
-      &[data-expanded="true"] .expand-icon {
+      &[data-expanded='true'] .expand-icon {
         transform: rotate(180deg);
       }
 

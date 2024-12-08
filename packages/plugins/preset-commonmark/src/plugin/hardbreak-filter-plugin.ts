@@ -3,7 +3,10 @@ import { $ctx, $prose } from '@milkdown/utils'
 import { withMeta } from '../__internal__'
 
 /// This slice contains the nodes that within which the hardbreak will be ignored.
-export const hardbreakFilterNodes = $ctx(['table', 'code_block'], 'hardbreakFilterNodes')
+export const hardbreakFilterNodes = $ctx(
+  ['table', 'code_block'],
+  'hardbreakFilterNodes'
+)
 
 withMeta(hardbreakFilterNodes, {
   displayName: 'Ctx<hardbreakFilterNodes>',
@@ -25,8 +28,7 @@ export const hardbreakFilterPlugin = $prose((ctx) => {
         let curDepth = $from.depth
         let canApply = true
         while (curDepth > 0) {
-          if (notIn.includes($from.node(curDepth).type.name))
-            canApply = false
+          if (notIn.includes($from.node(curDepth).type.name)) canApply = false
 
           curDepth--
         }

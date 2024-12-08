@@ -1,6 +1,15 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import { emphasisKeymap, inlineCodeKeymap, strongKeymap } from '../mark'
-import { blockquoteKeymap, bulletListKeymap, codeBlockKeymap, hardbreakKeymap, headingKeymap, listItemKeymap, orderedListKeymap, paragraphKeymap } from '../node'
+import {
+  blockquoteKeymap,
+  bulletListKeymap,
+  codeBlockKeymap,
+  hardbreakKeymap,
+  headingKeymap,
+  listItemKeymap,
+  orderedListKeymap,
+  paragraphKeymap,
+} from '../node'
 
 /// @internal
 export const keymap: MilkdownPlugin[] = [

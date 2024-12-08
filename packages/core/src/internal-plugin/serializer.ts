@@ -13,14 +13,20 @@ export const SerializerReady = createTimer('SerializerReady')
 
 /// A slice which stores timers that need to be waited for before starting to run the plugin.
 /// By default, it's `[SchemaReady]`.
-export const serializerTimerCtx = createSlice([] as TimerType[], 'serializerTimer')
+export const serializerTimerCtx = createSlice(
+  [] as TimerType[],
+  'serializerTimer'
+)
 
 const outOfScope = (() => {
   throw ctxCallOutOfScope()
 }) as Serializer
 
 /// A slice which contains the serializer.
-export const serializerCtx = createSlice<Serializer, 'serializer'>(outOfScope, 'serializer')
+export const serializerCtx = createSlice<Serializer, 'serializer'>(
+  outOfScope,
+  'serializer'
+)
 
 /// The serializer plugin.
 /// This plugin will create a serializer.
@@ -41,7 +47,10 @@ export const serializer: MilkdownPlugin = (ctx) => {
     ctx.done(SerializerReady)
 
     return () => {
-      ctx.remove(serializerCtx).remove(serializerTimerCtx).clearTimer(SerializerReady)
+      ctx
+        .remove(serializerCtx)
+        .remove(serializerTimerCtx)
+        .clearTimer(SerializerReady)
     }
   }
 }

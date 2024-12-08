@@ -35,8 +35,7 @@ export class Timer {
   start = () => {
     this.#promise ??= new Promise((resolve, reject) => {
       this.#listener = (e: Event) => {
-        if (!(e instanceof CustomEvent))
-          return
+        if (!(e instanceof CustomEvent)) return
 
         if (e.detail.id === this.#eventUniqId) {
           this.#status = 'resolved'
@@ -47,8 +46,7 @@ export class Timer {
       }
 
       this.#waitTimeout(() => {
-        if (this.#status === 'pending')
-          this.#status = 'rejected'
+        if (this.#status === 'pending') this.#status = 'rejected'
 
         this.#removeListener()
         reject(new Error(`Timing ${this.type.name} timeout.`))
@@ -63,14 +61,15 @@ export class Timer {
 
   /// Resolve the timer.
   done = () => {
-    const event = new CustomEvent(this.type.name, { detail: { id: this.#eventUniqId } })
+    const event = new CustomEvent(this.type.name, {
+      detail: { id: this.#eventUniqId },
+    })
     dispatchEvent(event)
   }
 
   /// @internal
   #removeListener = () => {
-    if (this.#listener)
-      removeEventListener(this.type.name, this.#listener)
+    if (this.#listener) removeEventListener(this.type.name, this.#listener)
   }
 
   /// @internal
@@ -106,4 +105,5 @@ export class TimerType {
 
 /// Create a timer type with a name and a timeout.
 /// This is equivalent to `new TimerType(name, timeout)`.
-export const createTimer = (name: string, timeout = 3000) => new TimerType(name, timeout)
+export const createTimer = (name: string, timeout = 3000) =>
+  new TimerType(name, timeout)

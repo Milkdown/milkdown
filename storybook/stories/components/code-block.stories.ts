@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { codeBlockComponent, codeBlockConfig } from '@milkdown/kit/component/code-block'
+import {
+  codeBlockComponent,
+  codeBlockConfig,
+} from '@milkdown/kit/component/code-block'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { languages } from '@codemirror/language-data'
 import { basicSetup } from 'codemirror'
@@ -18,8 +21,19 @@ const meta: Meta = {
 export default meta
 
 const check = html`
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-6 h-6"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M4.5 12.75l6 6 9-13.5"
+    />
   </svg>
 `
 
@@ -34,16 +48,18 @@ const a = 1;
 export const Javascript: StoryObj<CommonArgs> = {
   render: (args) => {
     return setupMilkdown([style], args, (editor) => {
-      editor.config((ctx) => {
-        ctx.update(codeBlockConfig.key, defaultConfig => ({
-          ...defaultConfig,
-          languages,
-          extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
-          renderLanguage: (language, selected) => {
-            return html`<span class="leading">${selected ? check : null}</span>${language}`
-          },
-        }))
-      })
+      editor
+        .config((ctx) => {
+          ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+            ...defaultConfig,
+            languages,
+            extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
+            renderLanguage: (language, selected) => {
+              return html`<span class="leading">${selected ? check : null}</span
+                >${language}`
+            },
+          }))
+        })
         .use(codeBlockComponent)
     })
   },

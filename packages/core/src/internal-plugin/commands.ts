@@ -63,8 +63,7 @@ export class CommandManager {
   call<T>(slice: CmdKey<T>, payload?: T): boolean
   call(slice: string | CmdKey<any>, payload?: any): boolean
   call(slice: string | CmdKey<any>, payload?: any): boolean {
-    if (this.#ctx == null)
-      throw callCommandBeforeEditorView()
+    if (this.#ctx == null) throw callCommandBeforeEditorView()
 
     const cmd = this.get(slice)
     const command = cmd(payload)
@@ -95,7 +94,10 @@ export const CommandsReady = createTimer('CommandsReady')
 export const commands: MilkdownPlugin = (ctx) => {
   const cmd = new CommandManager()
   cmd.setCtx(ctx)
-  ctx.inject(commandsCtx, cmd).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady)
+  ctx
+    .inject(commandsCtx, cmd)
+    .inject(commandsTimerCtx, [SchemaReady])
+    .record(CommandsReady)
   return async () => {
     await ctx.waitTimers(commandsTimerCtx)
 

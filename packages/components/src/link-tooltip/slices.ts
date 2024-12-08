@@ -55,9 +55,12 @@ const defaultConfig: LinkTooltipConfig = {
   inputPlaceholder: 'Paste link...',
 }
 
-export const linkTooltipConfig = $ctx({
-  ...defaultConfig,
-}, 'linkTooltipConfigCtx')
+export const linkTooltipConfig = $ctx(
+  {
+    ...defaultConfig,
+  },
+  'linkTooltipConfigCtx'
+)
 
 withMeta(linkTooltipState, {
   displayName: 'Config<link-tooltip>',

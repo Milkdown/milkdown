@@ -18,7 +18,7 @@ describe('context/slice', () => {
     ctx.set(20)
     expect(ctx.get()).toBe(20)
 
-    ctx.update(x => x + 1)
+    ctx.update((x) => x + 1)
     expect(ctx.get()).toBe(21)
   })
 
@@ -44,7 +44,7 @@ describe('context/slice', () => {
 
     expect(slice2.get()).toEqual([])
 
-    slice1.update(x => x.concat(3))
+    slice1.update((x) => x.concat(3))
     expect(slice1.get()).toEqual([1, 3])
 
     expect(slice2.get()).toEqual([])

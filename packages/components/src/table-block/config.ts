@@ -14,7 +14,9 @@ export type RenderType =
   | 'row_drag_handle'
 
 export interface TableBlockConfig {
-  renderButton: (renderType: RenderType) => HTMLElement | ReturnType<typeof html> | string
+  renderButton: (
+    renderType: RenderType
+  ) => HTMLElement | ReturnType<typeof html> | string
 }
 
 const defaultTableBlockConfig: TableBlockConfig = {
@@ -42,7 +44,10 @@ const defaultTableBlockConfig: TableBlockConfig = {
   },
 }
 
-export const tableBlockConfig = $ctx({ ...defaultTableBlockConfig }, 'tableBlockConfigCtx')
+export const tableBlockConfig = $ctx(
+  { ...defaultTableBlockConfig },
+  'tableBlockConfigCtx'
+)
 
 withMeta(tableBlockConfig, {
   displayName: 'Config<table-block>',
