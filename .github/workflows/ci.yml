@@ -1,4 +1,4 @@
-name: On Push
+name: build-and-test
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
       - name: install browsers
         run: pnpm --filter=@milkdown/e2e test:install
 
-      - name: run cypress
+      - name: run playwright
         run: pnpm test:e2e
 
       - name: Upload test results
