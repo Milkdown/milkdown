@@ -16,7 +16,7 @@ export const MilkdownProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [editorFactory, setEditorFactory] = useState<GetEditor | undefined>(
     undefined
   )
-  const editor = useRef<Editor>()
+  const editor = useRef<Editor | undefined>(undefined)
   const [loading, setLoading] = useState(true)
 
   const editorInfoCtx = useMemo<EditorInfoCtx>(
