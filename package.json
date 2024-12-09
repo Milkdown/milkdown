@@ -15,8 +15,7 @@
     "test:tsc:cache": "nx run-many --target=tsc --all --parallel",
     "test:lint": "oxlint -c .oxlintrc.json",
     "test:e2e": "pnpm --filter=@milkdown/e2e test",
-    "test:e2e:build": "nx build @milkdown/e2e",
-    "test:e2e:debug": "nx open-cypress @milkdown/e2e",
+    "test:e2e:build": "pnpm --filter=@milkdown/e2e run build",
     "format": "lint-staged",
     "fix": "prettier . --write",
     "start": "pnpm --filter=@milkdown/storybook run start",
@@ -36,8 +35,6 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@nrwl/tao": "19.8.4",
-    "@nx/cypress": "20.2.1",
-    "@nx/storybook": "20.2.1",
     "@nx/web": "20.2.1",
     "@nx/workspace": "20.2.1",
     "@rollup/plugin-commonjs": "^28.0.0",
@@ -126,7 +123,10 @@
       "side-channel": "npm:@nolyfill/side-channel@^1",
       "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1",
       "typedarray": "npm:@nolyfill/typedarray@^1",
-      "which-typed-array": "npm:@nolyfill/which-typed-array@^1"
+      "which-typed-array": "npm:@nolyfill/which-typed-array@^1",
+      "array-flatten": "npm:@nolyfill/array-flatten@^1",
+      "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+      "safer-buffer": "npm:@nolyfill/safer-buffer@^1"
     }
   }
 }
