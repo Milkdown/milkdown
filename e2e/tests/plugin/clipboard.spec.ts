@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { focusEditor, paste, getMarkdown, setMarkdown } from '../misc'
+import { focusEditor, paste, getMarkdown, setMarkdown, waitNextFrame } from "../misc";
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/preset-commonmark/')
@@ -71,6 +71,7 @@ test('paste inline text only html should extend mark', async ({ page }) => {
     'text/html':
       '<meta charset=\'utf-8\'><span style="color: rgb(36, 41, 47);">mono</span>',
   })
+  await waitNextFrame(page)
   expect(await getMarkdown(page)).toBe(
     '[milkdown monorepo](https://milkdown.dev)\n'
   )

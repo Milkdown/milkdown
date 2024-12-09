@@ -126,6 +126,7 @@ test('image', async ({ page }) => {
 test('auto link', async ({ page }) => {
   await focusEditor(page)
   await page.keyboard.type('https://milkdown.dev')
+  await waitNextFrame(page)
   await expect(page.locator('.editor a')).toHaveText('https://milkdown.dev')
   expect(await getMarkdown(page)).toBe('<https://milkdown.dev>\n')
 })
