@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test'
-import { focusEditor, paste, getMarkdown, setMarkdown, waitNextFrame } from "../misc";
+import {
+  focusEditor,
+  paste,
+  getMarkdown,
+  setMarkdown,
+  waitNextFrame,
+} from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/preset-commonmark/')
