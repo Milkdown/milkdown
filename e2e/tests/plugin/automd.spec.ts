@@ -119,7 +119,7 @@ test.describe('keep mark symbol', () => {
 test('image', async ({ page }) => {
   await focusEditor(page)
   await page.keyboard.type('![image](invalidUrl)')
-  await waitNextFrame(page);
+  await waitNextFrame(page)
   expect(await getMarkdown(page)).toBe('![image](invalidUrl)\n')
 })
 
