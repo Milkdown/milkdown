@@ -16,13 +16,20 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
     const tr = view.state.tr.setMeta('addToHistory', false)
 
     let found = false
+    const idMap: Record<string, number> = {}
 
     view.state.doc.descendants((node, pos) => {
       if (node.type === headingSchema.type(ctx)) {
         if (node.textContent.trim().length === 0) return
 
         const attrs = node.attrs
-        const id = getId(node)
+        let id = getId(node)
+        if (idMap[id]) {
+          idMap[id]! += 1
+          id += `-${idMap[id]}`
+        } else {
+          idMap[id] = 1
+        }
 
         if (attrs.id !== id) {
           found = true
