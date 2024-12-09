@@ -26,7 +26,7 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
         let id = getId(node)
         if (idMap[id]) {
           idMap[id]! += 1
-          id += `-${idMap[id]}`
+          id += `-#${idMap[id]}`
         } else {
           idMap[id] = 1
         }
