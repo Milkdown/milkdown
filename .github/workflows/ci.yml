@@ -1,4 +1,4 @@
-name: build-and-test
+name: ci
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   CI: true
 
 jobs:
-  build-test-release:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code repository
@@ -18,9 +18,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: ./.github/actions/setup
-
       - uses: nrwl/nx-set-shas@v4
+
+      - uses: ./.github/actions/setup
 
       - name: install dependencies
         run: pnpm install
