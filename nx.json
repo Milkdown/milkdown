@@ -37,15 +37,6 @@
   "nxCloudAccessToken": "YTAwYWM5ZDgtOGM3OC00YTQwLThlZjUtNjQwZWE5NzUxZjk4fHJlYWQ=",
   "plugins": [
     {
-      "plugin": "@nx/storybook/plugin",
-      "options": {
-        "buildStorybookTargetName": "build-storybook",
-        "serveStorybookTargetName": "storybook",
-        "testStorybookTargetName": "test-storybook",
-        "staticStorybookTargetName": "static-storybook"
-      }
-    },
-    {
       "plugin": "@nx/cypress/plugin",
       "options": {
         "targetName": "e2e",
