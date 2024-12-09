@@ -21,12 +21,6 @@
     },
     "tsc": {
       "cache": true
-    },
-    "e2e": {
-      "cache": true
-    },
-    "build-storybook": {
-      "cache": true
     }
   },
   "namedInputs": {
@@ -34,25 +28,5 @@
     "sharedGlobals": ["{workspaceRoot}/vite.config.ts"],
     "production": ["default"]
   },
-  "nxCloudAccessToken": "YTAwYWM5ZDgtOGM3OC00YTQwLThlZjUtNjQwZWE5NzUxZjk4fHJlYWQ=",
-  "plugins": [
-    {
-      "plugin": "@nx/storybook/plugin",
-      "options": {
-        "buildStorybookTargetName": "build-storybook",
-        "serveStorybookTargetName": "storybook",
-        "testStorybookTargetName": "test-storybook",
-        "staticStorybookTargetName": "static-storybook"
-      }
-    },
-    {
-      "plugin": "@nx/cypress/plugin",
-      "options": {
-        "targetName": "e2e",
-        "openTargetName": "e2e-open",
-        "componentTestingTargetName": "component-test",
-        "ciTargetName": "e2e-ci"
-      }
-    }
-  ]
+  "nxCloudAccessToken": "YTAwYWM5ZDgtOGM3OC00YTQwLThlZjUtNjQwZWE5NzUxZjk4fHJlYWQ="
 }
