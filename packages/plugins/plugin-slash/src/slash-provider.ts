@@ -4,7 +4,7 @@ import type { Node } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
-import type { VirtualElement } from '@floating-ui/dom'
+import type { Middleware, VirtualElement } from '@floating-ui/dom'
 import { computePosition, flip, offset } from '@floating-ui/dom'
 
 /// Options for slash provider.
@@ -25,6 +25,8 @@ export interface SlashProviderOptions {
         crossAxis?: number
         alignmentAxis?: number | null
       }
+  /// Other middlewares for floating ui.
+  middleware?: Middleware[]
 }
 
 /// A provider for creating slash.
@@ -34,6 +36,9 @@ export class SlashProvider {
 
   /// @internal
   #initialized = false
+
+  /// @internal
+  readonly #middleware: Middleware[]
 
   /// @internal
   readonly #debounce: number
@@ -65,6 +70,7 @@ export class SlashProvider {
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#trigger = options.trigger ?? '/'
     this.#offset = options.offset
+    this.#middleware = options.middleware ?? []
   }
 
   /// @internal
@@ -94,7 +100,7 @@ export class SlashProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: 'bottom-start',
-      middleware: [flip(), offset(this.#offset)],
+      middleware: [flip(), offset(this.#offset), ...this.#middleware],
     }).then(({ x, y }) => {
       Object.assign(this.element.style, {
         left: `${x}px`,
