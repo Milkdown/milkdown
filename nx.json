@@ -21,12 +21,6 @@
     },
     "tsc": {
       "cache": true
-    },
-    "e2e": {
-      "cache": true
-    },
-    "build-storybook": {
-      "cache": true
     }
   },
   "namedInputs": {
