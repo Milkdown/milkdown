@@ -10,16 +10,21 @@ export function nord(ctx: Ctx): void {
   ctx.update(editorViewOptionsCtx, (prev) => {
     const prevClass = prev.attributes
 
-    return ({
+    return {
       ...prev,
       attributes: (state) => {
-        const attrs = typeof prevClass === 'function' ? prevClass(state) : prevClass
+        const attrs =
+          typeof prevClass === 'function' ? prevClass(state) : prevClass
 
         return {
           ...attrs,
-          class: clsx('prose dark:prose-invert outline-none', attrs?.class || '', 'milkdown-theme-nord'),
+          class: clsx(
+            'prose dark:prose-invert outline-none',
+            attrs?.class || '',
+            'milkdown-theme-nord'
+          ),
         }
       },
-    })
+    }
   })
 }

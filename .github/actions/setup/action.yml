@@ -1,0 +1,30 @@
+name: Setup
+description: Setup the environment
+
+inputs:
+  node-version:
+    description: The version of node.js
+    required: false
+    default: '20'
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4.0.0
+      with:
+        run_install: false
+
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Install
+      run: pnpm install
+      shell: bash
+
+    - name: Build packages
+      run: pnpm build
+      shell: bash

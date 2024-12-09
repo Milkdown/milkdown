@@ -15,10 +15,13 @@ export const defaultInlineImageConfig: InlineImageConfig = {
   uploadButton: () => html`Upload`,
   confirmButton: () => html`⏎`,
   uploadPlaceholderText: '/Paste',
-  onUpload: file => Promise.resolve(URL.createObjectURL(file)),
+  onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),
 }
 
-export const inlineImageConfig = $ctx(defaultInlineImageConfig, 'inlineImageConfigCtx')
+export const inlineImageConfig = $ctx(
+  defaultInlineImageConfig,
+  'inlineImageConfigCtx'
+)
 
 withMeta(inlineImageConfig, {
   displayName: 'Config<image-inline>',

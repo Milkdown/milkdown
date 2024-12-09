@@ -6,8 +6,13 @@ function App() {
   return html`
     <host>
       <ul class="m-10">
-        ${cases.map(data =>
-          html`<li class="py-3 hover:text-blue-500 block w-full cursor-pointer"><a href=${data.link}>${data.title}</a></li>`,
+        ${cases.map(
+          (data) =>
+            html`<li
+              class="py-3 hover:text-blue-500 block w-full cursor-pointer"
+            >
+              <a href=${data.link}>${data.title}</a>
+            </li>`
         )}
       </ul>
     </host>

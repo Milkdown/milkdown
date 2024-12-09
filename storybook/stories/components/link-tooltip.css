@@ -1,8 +1,7 @@
 .milkdown-storybook {
-
   .link-insert-button {
     position: absolute;
-    &[data-show="false"] {
+    &[data-show='false'] {
       display: none;
     }
     background: bisque;
@@ -17,7 +16,7 @@
 
   milkdown-link-preview {
     position: absolute;
-    &[data-show="false"] {
+    &[data-show='false'] {
       display: none;
     }
 
@@ -85,7 +84,7 @@
 
   milkdown-link-edit {
     position: absolute;
-    &[data-show="false"] {
+    &[data-show='false'] {
       display: none;
     }
     & > .link-edit {
@@ -120,5 +119,4 @@
       }
     }
   }
-
 }

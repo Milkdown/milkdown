@@ -14,8 +14,17 @@ import {
 import type { MarkType } from '@milkdown/kit/prose/model'
 import clsx from 'clsx'
 import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
-import { strikethroughSchema, toggleStrikethroughCommand } from '@milkdown/kit/preset/gfm'
-import { boldIcon, codeIcon, italicIcon, linkIcon, strikethroughIcon } from '../../icons'
+import {
+  strikethroughSchema,
+  toggleStrikethroughCommand,
+} from '@milkdown/kit/preset/gfm'
+import {
+  boldIcon,
+  codeIcon,
+  italicIcon,
+  linkIcon,
+  strikethroughIcon,
+} from '../../icons'
 import type { ToolbarFeatureConfig } from './index'
 
 export interface ToolbarProps {
@@ -43,17 +52,21 @@ export const toolbarComponent: Component<ToolbarProps> = ({
   }
 
   const isActive = (mark: MarkType) => {
-    if (!ctx)
-      return false
+    if (!ctx) return false
     const view = ctx.get(editorViewCtx)
-    const { state: { doc, selection } } = view
+    const {
+      state: { doc, selection },
+    } = view
     return doc.rangeHasMark(selection.from, selection.to, mark)
   }
 
   return html`<host>
     <button
       type="button"
-      class=${clsx('toolbar-item', ctx && isActive(strongSchema.type(ctx)) && 'active')}
+      class=${clsx(
+        'toolbar-item',
+        ctx && isActive(strongSchema.type(ctx)) && 'active'
+      )}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
         commands.call(toggleStrongCommand.key)
@@ -63,7 +76,10 @@ export const toolbarComponent: Component<ToolbarProps> = ({
     </button>
     <button
       type="button"
-      class=${clsx('toolbar-item', ctx && isActive(emphasisSchema.type(ctx)) && 'active')}
+      class=${clsx(
+        'toolbar-item',
+        ctx && isActive(emphasisSchema.type(ctx)) && 'active'
+      )}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
         commands.call(toggleEmphasisCommand.key)
@@ -73,7 +89,10 @@ export const toolbarComponent: Component<ToolbarProps> = ({
     </button>
     <button
       type="button"
-      class=${clsx('toolbar-item', ctx && isActive(strikethroughSchema.type(ctx)) && 'active')}
+      class=${clsx(
+        'toolbar-item',
+        ctx && isActive(strikethroughSchema.type(ctx)) && 'active'
+      )}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
         commands.call(toggleStrikethroughCommand.key)
@@ -84,7 +103,10 @@ export const toolbarComponent: Component<ToolbarProps> = ({
     <div class="divider"></div>
     <button
       type="button"
-      class=${clsx('toolbar-item', ctx && isActive(inlineCodeSchema.type(ctx)) && 'active')}
+      class=${clsx(
+        'toolbar-item',
+        ctx && isActive(inlineCodeSchema.type(ctx)) && 'active'
+      )}
       onmousedown=${onClick((ctx) => {
         const commands = ctx.get(commandsCtx)
         commands.call(toggleInlineCodeCommand.key)
@@ -94,7 +116,10 @@ export const toolbarComponent: Component<ToolbarProps> = ({
     </button>
     <button
       type="button"
-      class=${clsx('toolbar-item', ctx && isActive(linkSchema.type(ctx)) && 'active')}
+      class=${clsx(
+        'toolbar-item',
+        ctx && isActive(linkSchema.type(ctx)) && 'active'
+      )}
       onmousedown=${onClick((ctx) => {
         const view = ctx.get(editorViewCtx)
         const { selection } = view.state

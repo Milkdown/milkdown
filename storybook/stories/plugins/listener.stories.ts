@@ -35,14 +35,16 @@ export const Default: Story = {
           listener.markdownUpdated((_, markdown, prevMarkdown) => {
             code.textContent = markdown
             prevCode.textContent = prevMarkdown
-            action('markdown')({ markdown: JSON.stringify(markdown), prevMarkdown: JSON.stringify(prevMarkdown) })
+            action('markdown')({
+              markdown: JSON.stringify(markdown),
+              prevMarkdown: JSON.stringify(prevMarkdown),
+            })
           })
         })
         .use(listener)
 
       editor.onStatusChange((status) => {
-        if (status === EditorStatus.Created)
-          wrapper.appendChild(content)
+        if (status === EditorStatus.Created) wrapper.appendChild(content)
       })
     })
   },

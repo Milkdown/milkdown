@@ -8,6 +8,4 @@ export const inputRules: MilkdownPlugin[] = [
   wrapInTaskListInputRule,
 ]
 
-export const markInputRules: MilkdownPlugin[] = [
-  strikethroughInputRule,
-]
+export const markInputRules: MilkdownPlugin[] = [strikethroughInputRule]

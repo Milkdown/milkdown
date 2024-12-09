@@ -28,7 +28,8 @@ export const InitReady = createTimer('InitReady')
 /// This plugin will wait for the config plugin.
 export function init(editor: Editor): MilkdownPlugin {
   const plugin: MilkdownPlugin = (ctx) => {
-    ctx.inject(editorCtx, editor)
+    ctx
+      .inject(editorCtx, editor)
       .inject(prosePluginsCtx, [])
       .inject(remarkPluginsCtx, [])
       .inject(inputRulesCtx, [])
@@ -44,12 +45,16 @@ export function init(editor: Editor): MilkdownPlugin {
     return async () => {
       await ctx.waitTimers(initTimerCtx)
       const options = ctx.get(remarkStringifyOptionsCtx)
-      ctx.set(remarkCtx, unified().use(remarkParse).use(remarkStringify, options))
+      ctx.set(
+        remarkCtx,
+        unified().use(remarkParse).use(remarkStringify, options)
+      )
 
       ctx.done(InitReady)
 
       return () => {
-        ctx.remove(editorCtx)
+        ctx
+          .remove(editorCtx)
           .remove(prosePluginsCtx)
           .remove(remarkPluginsCtx)
           .remove(inputRulesCtx)

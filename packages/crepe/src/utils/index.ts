@@ -10,7 +10,10 @@ export function isInList(selection: Selection) {
   return type?.name === 'list_item'
 }
 
-export function defIfNotExists(tagName: string, element: CustomElementConstructor) {
+export function defIfNotExists(
+  tagName: string,
+  element: CustomElementConstructor
+) {
   if (customElements.get(tagName) == null)
     customElements.define(tagName, element)
 }

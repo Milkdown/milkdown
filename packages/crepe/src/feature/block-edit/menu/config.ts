@@ -61,7 +61,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 1 })
+        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+          level: 1,
+        })
         command(state, dispatch)
       },
     })
@@ -72,7 +74,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 2 })
+        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+          level: 2,
+        })
         command(state, dispatch)
       },
     })
@@ -83,7 +87,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 3 })
+        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+          level: 3,
+        })
         command(state, dispatch)
       },
     })
@@ -94,7 +100,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 4 })
+        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+          level: 4,
+        })
         command(state, dispatch)
       },
     })
@@ -105,7 +113,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 5 })
+        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+          level: 5,
+        })
         command(state, dispatch)
       },
     })
@@ -116,7 +126,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), { level: 6 })
+        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+          level: 6,
+        })
         command(state, dispatch)
       },
     })
@@ -127,7 +139,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndWrapInBlockType(blockquoteSchema.type(ctx))
+        const command = clearContentAndWrapInBlockType(
+          blockquoteSchema.type(ctx)
+        )
         command(state, dispatch)
       },
     })
@@ -143,7 +157,8 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
       },
     })
 
-  groupBuilder.addGroup('list', config?.slashMenuListGroupLabel ?? 'List')
+  groupBuilder
+    .addGroup('list', config?.slashMenuListGroupLabel ?? 'List')
     .addItem('bullet-list', {
       label: config?.slashMenuBulletListLabel ?? 'Bullet List',
       icon: config?.slashMenuBulletListIcon?.() ?? bulletListIcon,
@@ -151,7 +166,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndWrapInBlockType(bulletListSchema.type(ctx))
+        const command = clearContentAndWrapInBlockType(
+          bulletListSchema.type(ctx)
+        )
         command(state, dispatch)
       },
     })
@@ -162,7 +179,9 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndWrapInBlockType(orderedListSchema.type(ctx))
+        const command = clearContentAndWrapInBlockType(
+          orderedListSchema.type(ctx)
+        )
         command(state, dispatch)
       },
     })
@@ -173,12 +192,16 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
 
-        const command = clearContentAndWrapInBlockType(listItemSchema.type(ctx), { checked: false })
+        const command = clearContentAndWrapInBlockType(
+          listItemSchema.type(ctx),
+          { checked: false }
+        )
         command(state, dispatch)
       },
     })
 
-  groupBuilder.addGroup('advanced', config?.slashMenuAdvancedGroupLabel ?? 'Advanced')
+  groupBuilder
+    .addGroup('advanced', config?.slashMenuAdvancedGroupLabel ?? 'Advanced')
     .addItem('image', {
       label: config?.slashMenuImageLabel ?? 'Image',
       icon: config?.slashMenuImageIcon?.() ?? imageIcon,
@@ -227,26 +250,22 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
   if (filter) {
     groups = groups
       .map((group) => {
-        const items = group
-          .items
-          .filter(item =>
-            item
-              .label
-              .toLowerCase()
-              .includes(filter.toLowerCase()))
+        const items = group.items.filter((item) =>
+          item.label.toLowerCase().includes(filter.toLowerCase())
+        )
 
         return {
           ...group,
           items,
         }
       })
-      .filter(group => group.items.length > 0)
+      .filter((group) => group.items.length > 0)
   }
 
-  const items = groups.flatMap(groups => groups.items)
-  items.forEach(((item, index) => {
+  const items = groups.flatMap((groups) => groups.items)
+  items.forEach((item, index) => {
     Object.assign(item, { index })
-  }))
+  })
 
   groups.reduce((acc, group) => {
     const end = acc + group.items.length

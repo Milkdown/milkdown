@@ -5,10 +5,15 @@ import { type TwemojiOptions, parse } from './parse'
 
 const regex = emojiRegex()
 
-const isParent = (node: Node): node is Node & { children: Node[] } => !!(node as Node & { children: Node[] }).children
-const isLiteral = (node: Node): node is Node & { value: string } => !!(node as Node & { value: string }).value
+const isParent = (node: Node): node is Node & { children: Node[] } =>
+  !!(node as Node & { children: Node[] }).children
+const isLiteral = (node: Node): node is Node & { value: string } =>
+  !!(node as Node & { value: string }).value
 
-function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null) => Node[]) {
+function flatMap(
+  ast: Node,
+  fn: (node: Node, index: number, parent: Node | null) => Node[]
+) {
   return transform(ast, 0, null)[0]
 
   function transform(node: Node, index: number, parent: Node | null) {
@@ -21,8 +26,7 @@ function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null)
           if (xs) {
             for (let j = 0, m = xs.length; j < m; j++) {
               const item = xs[j]
-              if (item)
-                out.push(item)
+              if (item) out.push(item)
             }
           }
         }
@@ -34,15 +38,15 @@ function flatMap(ast: Node, fn: (node: Node, index: number, parent: Node | null)
   }
 }
 
-export const twemojiPlugin: RemarkPluginRaw<TwemojiOptions> = (twemojiOptions) => {
+export const twemojiPlugin: RemarkPluginRaw<TwemojiOptions> = (
+  twemojiOptions
+) => {
   function transformer(tree: Node) {
     flatMap(tree, (node) => {
-      if (!isLiteral(node))
-        return [node]
+      if (!isLiteral(node)) return [node]
 
       // Should not convert code block
-      if (node.type === 'code')
-        return [node]
+      if (node.type === 'code') return [node]
 
       const value = node.value
       const output: Array<Node & { value: string }> = []
@@ -52,16 +56,18 @@ export const twemojiPlugin: RemarkPluginRaw<TwemojiOptions> = (twemojiOptions) =
         const { index } = match
         const emoji = match[0]
         if (emoji) {
-          if (index > 0)
-            output.push({ ...node, value: str.slice(0, index) })
+          if (index > 0) output.push({ ...node, value: str.slice(0, index) })
 
-          output.push({ ...node, value: parse(emoji, twemojiOptions), type: 'emoji' })
+          output.push({
+            ...node,
+            value: parse(emoji, twemojiOptions),
+            type: 'emoji',
+          })
           str = str.slice(index + emoji.length)
         }
         regex.lastIndex = 0
       }
-      if (str.length)
-        output.push({ ...node, value: str })
+      if (str.length) output.push({ ...node, value: str })
 
       return output
     })

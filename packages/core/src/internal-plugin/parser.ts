@@ -27,7 +27,10 @@ export const parserTimerCtx = createSlice([] as TimerType[], 'parserTimer')
 ///
 /// This plugin will wait for the schema plugin.
 export const parser: MilkdownPlugin = (ctx) => {
-  ctx.inject(parserCtx, outOfScope).inject(parserTimerCtx, [SchemaReady]).record(ParserReady)
+  ctx
+    .inject(parserCtx, outOfScope)
+    .inject(parserTimerCtx, [SchemaReady])
+    .record(ParserReady)
 
   return async () => {
     await ctx.waitTimers(parserTimerCtx)

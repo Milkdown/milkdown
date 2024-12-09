@@ -8,8 +8,7 @@ export function setAttr(pos: number, update: (prevAttrs: Attrs) => Attrs) {
     const view = ctx.get(editorViewCtx)
     const { tr } = view.state
     const node = tr.doc.nodeAt(pos)
-    if (!node)
-      return
+    if (!node) return
     const nextAttr = update(node.attrs)
     return view.dispatch(tr.setNodeMarkup(pos, undefined, nextAttr))
   }

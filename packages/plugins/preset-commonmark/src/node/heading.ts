@@ -3,7 +3,14 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
 import type { Node } from '@milkdown/prose/model'
-import { $command, $ctx, $inputRule, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+import {
+  $command,
+  $ctx,
+  $inputRule,
+  $nodeAttr,
+  $nodeSchema,
+  $useKeymap,
+} from '@milkdown/utils'
 import slugify from '@sindresorhus/slugify'
 import { serializeText, withMeta } from '../__internal__'
 import { paragraphSchema } from './paragraph'
@@ -18,7 +25,10 @@ function defaultHeadingIdGenerator(node: Node) {
 
 /// This is a slice contains a function to generate heading id.
 /// You can configure it to generate id in your own way.
-export const headingIdGenerator = $ctx(defaultHeadingIdGenerator, 'headingIdGenerator')
+export const headingIdGenerator = $ctx(
+  defaultHeadingIdGenerator,
+  'headingIdGenerator'
+)
 
 withMeta(headingIdGenerator, {
   displayName: 'Ctx<HeadingIdGenerator>',
@@ -48,11 +58,10 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
         default: 1,
       },
     },
-    parseDOM: headingIndex.map(x => ({
+    parseDOM: headingIndex.map((x) => ({
       tag: `h${x}`,
       getAttrs: (node) => {
-        if (!(node instanceof HTMLElement))
-          throw expectDomTypeError(node)
+        if (!(node instanceof HTMLElement)) throw expectDomTypeError(node)
 
         return { level: x, id: node.id }
       },
@@ -77,7 +86,7 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
       },
     },
     toMarkdown: {
-      match: node => node.type.name === 'heading',
+      match: (node) => node.type.name === 'heading',
       runner: (state, node) => {
         state.openNode('heading', undefined, { depth: node.attrs.level })
         serializeText(state, node)
@@ -100,21 +109,24 @@ withMeta(headingSchema.ctx, {
 /// This input rule can turn the selected block into heading.
 /// You can input numbers of `#` and a `space` to create heading.
 export const wrapInHeadingInputRule = $inputRule((ctx) => {
-  return textblockTypeInputRule(/^(?<hashes>#+)\s$/, headingSchema.type(ctx), (match) => {
-    const x = match.groups?.hashes?.length || 0
+  return textblockTypeInputRule(
+    /^(?<hashes>#+)\s$/,
+    headingSchema.type(ctx),
+    (match) => {
+      const x = match.groups?.hashes?.length || 0
 
-    const view = ctx.get(editorViewCtx)
-    const { $from } = view.state.selection
-    const node = $from.node()
-    if (node.type.name === 'heading') {
-      let level = Number(node.attrs.level) + Number(x)
-      if (level > 6)
-        level = 6
+      const view = ctx.get(editorViewCtx)
+      const { $from } = view.state.selection
+      const node = $from.node()
+      if (node.type.name === 'heading') {
+        let level = Number(node.attrs.level) + Number(x)
+        if (level > 6) level = 6
 
-      return { level }
+        return { level }
+      }
+      return { level: x }
     }
-    return { level: x }
-  })
+  )
 })
 
 withMeta(wrapInHeadingInputRule, {
@@ -129,8 +141,7 @@ export const wrapInHeadingCommand = $command('WrapInHeading', (ctx) => {
   return (level?: number) => {
     level ??= 1
 
-    if (level < 1)
-      return setBlockType(paragraphSchema.type(ctx))
+    if (level < 1) return setBlockType(paragraphSchema.type(ctx))
 
     return setBlockType(headingSchema.type(ctx), { level })
   }
@@ -144,11 +155,16 @@ withMeta(wrapInHeadingCommand, {
 /// This command can downgrade the selected heading.
 /// For example, if you have a `h2` element, and you call this command, you will get a `h1` element.
 /// If the element is already a `h1` element, it will turn it into a `p` element.
-export const downgradeHeadingCommand = $command('DowngradeHeading', ctx => () =>
-  (state, dispatch, view) => {
+export const downgradeHeadingCommand = $command(
+  'DowngradeHeading',
+  (ctx) => () => (state, dispatch, view) => {
     const { $from } = state.selection
     const node = $from.node()
-    if (node.type !== headingSchema.type(ctx) || !state.selection.empty || $from.parentOffset !== 0)
+    if (
+      node.type !== headingSchema.type(ctx) ||
+      !state.selection.empty ||
+      $from.parentOffset !== 0
+    )
       return false
 
     const level = node.attrs.level - 1
@@ -159,10 +175,11 @@ export const downgradeHeadingCommand = $command('DowngradeHeading', ctx => () =>
       state.tr.setNodeMarkup(state.selection.$from.before(), undefined, {
         ...node.attrs,
         level,
-      }),
+      })
     )
     return true
-  })
+  }
+)
 
 withMeta(downgradeHeadingCommand, {
   displayName: 'Command<downgradeHeadingCommand>',

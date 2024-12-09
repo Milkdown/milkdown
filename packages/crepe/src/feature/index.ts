@@ -45,7 +45,11 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.Table]: true,
 }
 
-export async function loadFeature(feature: CrepeFeature, editor: Editor, config?: never) {
+export async function loadFeature(
+  feature: CrepeFeature,
+  editor: Editor,
+  config?: never
+) {
   switch (feature) {
     case CrepeFeature.CodeMirror: {
       const { defineFeature } = await import('./code-mirror')

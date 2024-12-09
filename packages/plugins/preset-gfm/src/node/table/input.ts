@@ -5,26 +5,43 @@ import { $inputRule, $useKeymap } from '@milkdown/utils'
 import { withMeta } from '../../__internal__'
 import { createTable } from './utils'
 import { tableSchema } from './schema'
-import { exitTable, goToNextTableCellCommand, goToPrevTableCellCommand } from './command'
+import {
+  exitTable,
+  goToNextTableCellCommand,
+  goToPrevTableCellCommand,
+} from './command'
 
 /// A input rule for creating table.
 /// For example, `|2x2|` will create a 2x2 table.
-export const insertTableInputRule = $inputRule(ctx => new InputRule(
-  /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/,
-  (state, match, start, end) => {
-    const $start = state.doc.resolve(start)
-    if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), tableSchema.type(ctx)))
-      return null
+export const insertTableInputRule = $inputRule(
+  (ctx) =>
+    new InputRule(
+      /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/,
+      (state, match, start, end) => {
+        const $start = state.doc.resolve(start)
+        if (
+          !$start
+            .node(-1)
+            .canReplaceWith(
+              $start.index(-1),
+              $start.indexAfter(-1),
+              tableSchema.type(ctx)
+            )
+        )
+          return null
 
-    const tableNode = createTable(
-      ctx,
-      Number(match.groups?.row),
-      Number(match.groups?.col),
+        const tableNode = createTable(
+          ctx,
+          Number(match.groups?.row),
+          Number(match.groups?.col)
+        )
+        const tr = state.tr.replaceRangeWith(start, end, tableNode)
+        return tr
+          .setSelection(TextSelection.create(tr.doc, start + 3))
+          .scrollIntoView()
+      }
     )
-    const tr = state.tr.replaceRangeWith(start, end, tableNode)
-    return tr.setSelection(TextSelection.create(tr.doc, start + 3)).scrollIntoView()
-  },
-))
+)
 
 withMeta(insertTableInputRule, {
   displayName: 'InputRule<insertTableInputRule>',

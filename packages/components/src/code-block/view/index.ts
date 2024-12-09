@@ -9,17 +9,15 @@ import { LanguageLoader } from './loader'
 import { CodeElement } from './component'
 
 defIfNotExists('milkdown-code-block', CodeElement)
-export const codeBlockView = $view(codeBlockSchema.node, (ctx): NodeViewConstructor => {
-  const config = ctx.get(codeBlockConfig.key)
-  const languageLoader = new LanguageLoader(config.languages)
-  return (node, view, getPos) => new CodeMirrorBlock(
-    node,
-    view,
-    getPos,
-    languageLoader,
-    config,
-  )
-})
+export const codeBlockView = $view(
+  codeBlockSchema.node,
+  (ctx): NodeViewConstructor => {
+    const config = ctx.get(codeBlockConfig.key)
+    const languageLoader = new LanguageLoader(config.languages)
+    return (node, view, getPos) =>
+      new CodeMirrorBlock(node, view, getPos, languageLoader, config)
+  }
+)
 
 withMeta(codeBlockView, {
   displayName: 'NodeView<code-block>',

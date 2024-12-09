@@ -95,7 +95,11 @@
     }
 
     .empty-image-inline .link-importer .placeholder {
-      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+      color: color-mix(
+        in srgb,
+        var(--crepe-color-on-background),
+        transparent 60%
+      );
       :not(input)::selection {
         background: transparent;
       }
@@ -231,13 +235,17 @@
     &.selected > .image-edit:not(:has(input:focus)) {
       position: relative;
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+        background: color-mix(
+          in srgb,
+          var(--crepe-color-selected),
+          transparent 60%
+        );
         pointer-events: none;
       }
     }
@@ -246,13 +254,17 @@
       & > .image-wrapper {
         position: relative;
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+          background: color-mix(
+            in srgb,
+            var(--crepe-color-selected),
+            transparent 60%
+          );
         }
       }
       :not(input)::selection {
@@ -334,7 +346,11 @@
     }
 
     .image-edit .link-importer .placeholder {
-      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+      color: color-mix(
+        in srgb,
+        var(--crepe-color-on-background),
+        transparent 60%
+      );
       :not(input)::selection {
         background: transparent;
       }
@@ -374,7 +390,12 @@
       font-size: 14px;
       font-weight: 600;
       &:hover {
-        background: linear-gradient(0deg, rgba(29, 25, 43, 0.08) 0%, rgba(29, 25, 43, 0.08) 100%), var(--crepe-color-secondary);
+        background: linear-gradient(
+            0deg,
+            rgba(29, 25, 43, 0.08) 0%,
+            rgba(29, 25, 43, 0.08) 100%
+          ),
+          var(--crepe-color-secondary);
       }
     }
   }
