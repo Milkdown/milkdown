@@ -2,7 +2,12 @@ import type { Ctx } from '@milkdown/ctx'
 import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 
-import type { Placement, VirtualElement } from '@floating-ui/dom'
+import type {
+  ComputePositionConfig,
+  Middleware,
+  Placement,
+  VirtualElement,
+} from '@floating-ui/dom'
 import { computePosition, flip, offset } from '@floating-ui/dom'
 
 import { editorViewCtx } from '@milkdown/core'
@@ -38,6 +43,10 @@ export interface BlockProviderOptions {
   getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>
   /// The function to get the placement of the block. Default is 'left'.
   getPlacement?: (deriveContext: DeriveContext) => Placement
+  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  middleware?: Middleware[]
+  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  floatingUIOptions?: Partial<ComputePositionConfig>
 }
 
 /// A provider for creating block.
@@ -56,6 +65,12 @@ export class BlockProvider {
 
   /// @internal
   #initialized = false
+
+  /// @internal
+  readonly #middleware: Middleware[]
+
+  /// @internal
+  readonly #floatingUIOptions: Partial<ComputePositionConfig>
 
   /// @internal
   readonly #getOffset?: (deriveContext: DeriveContext) =>
@@ -85,6 +100,8 @@ export class BlockProvider {
     this.#getOffset = options.getOffset
     this.#getPosition = options.getPosition
     this.#getPlacement = options.getPlacement
+    this.#middleware = options.middleware ?? []
+    this.#floatingUIOptions = options.floatingUIOptions ?? {}
     this.hide()
   }
 
@@ -159,7 +176,8 @@ export class BlockProvider {
       placement: this.#getPlacement
         ? this.#getPlacement(deriveContext)
         : 'left',
-      middleware,
+      middleware: [...middleware, ...this.#middleware],
+      ...this.#floatingUIOptions,
     }).then(({ x, y }) => {
       Object.assign(this.#element.style, {
         left: `${x}px`,

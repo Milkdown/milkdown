@@ -2,7 +2,11 @@ import type { EditorState } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
-import type { VirtualElement } from '@floating-ui/dom'
+import type {
+  ComputePositionConfig,
+  Middleware,
+  VirtualElement,
+} from '@floating-ui/dom'
 import { computePosition, flip, offset, shift } from '@floating-ui/dom'
 import { posToDOMRect } from '@milkdown/prose'
 
@@ -22,6 +26,10 @@ export interface TooltipProviderOptions {
         crossAxis?: number
         alignmentAxis?: number | null
       }
+  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  middleware?: Middleware[]
+  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  floatingUIOptions?: Partial<ComputePositionConfig>
 }
 
 /// A provider for creating tooltip.
@@ -31,6 +39,12 @@ export class TooltipProvider {
 
   /// @internal
   readonly #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
+
+  /// @internal
+  readonly #middleware: Middleware[]
+
+  /// @internal
+  readonly #floatingUIOptions: Partial<ComputePositionConfig>
 
   /// @internal
   #initialized = false
@@ -58,6 +72,8 @@ export class TooltipProvider {
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#offset = options.offset
+    this.#middleware = options.middleware ?? []
+    this.#floatingUIOptions = options.floatingUIOptions ?? {}
     this.element.dataset.show = 'false'
   }
 
@@ -88,7 +104,7 @@ export class TooltipProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: 'top',
-      middleware: [flip(), offset(this.#offset), shift()],
+      middleware: [flip(), offset(this.#offset), shift(), ...this.#middleware],
     }).then(({ x, y }) => {
       Object.assign(this.element.style, {
         left: `${x}px`,
@@ -137,6 +153,7 @@ export class TooltipProvider {
       computePosition(virtualElement, this.element, {
         placement: 'top',
         middleware: [flip(), offset(this.#offset)],
+        ...this.#floatingUIOptions,
       }).then(({ x, y }) => {
         Object.assign(this.element.style, {
           left: `${x}px`,

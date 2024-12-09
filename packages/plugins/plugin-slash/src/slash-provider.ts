@@ -4,7 +4,11 @@ import type { Node } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
-import type { VirtualElement } from '@floating-ui/dom'
+import type {
+  ComputePositionConfig,
+  Middleware,
+  VirtualElement,
+} from '@floating-ui/dom'
 import { computePosition, flip, offset } from '@floating-ui/dom'
 
 /// Options for slash provider.
@@ -25,6 +29,10 @@ export interface SlashProviderOptions {
         crossAxis?: number
         alignmentAxis?: number | null
       }
+  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  middleware?: Middleware[]
+  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  floatingUIOptions?: Partial<ComputePositionConfig>
 }
 
 /// A provider for creating slash.
@@ -34,6 +42,12 @@ export class SlashProvider {
 
   /// @internal
   #initialized = false
+
+  /// @internal
+  readonly #middleware: Middleware[]
+
+  /// @internal
+  readonly #floatingUIOptions: Partial<ComputePositionConfig>
 
   /// @internal
   readonly #debounce: number
@@ -65,6 +79,8 @@ export class SlashProvider {
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#trigger = options.trigger ?? '/'
     this.#offset = options.offset
+    this.#middleware = options.middleware ?? []
+    this.#floatingUIOptions = options.floatingUIOptions ?? {}
   }
 
   /// @internal
@@ -94,7 +110,8 @@ export class SlashProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: 'bottom-start',
-      middleware: [flip(), offset(this.#offset)],
+      middleware: [flip(), offset(this.#offset), ...this.#middleware],
+      ...this.#floatingUIOptions,
     }).then(({ x, y }) => {
       Object.assign(this.element.style, {
         left: `${x}px`,
