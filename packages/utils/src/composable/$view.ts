@@ -55,7 +55,6 @@ export function $view<
         ...ps,
         [type.id, v] as [string, MarkViewConstructor],
       ])
-
     ;(<$View<T, V>>plugin).view = v
     ;(<$View<T, V>>plugin).type = type
 

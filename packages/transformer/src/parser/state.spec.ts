@@ -3,34 +3,28 @@ import { describe, expect, it, vi } from 'vitest'
 import { ParserState } from './state'
 
 const docNodeType = {
-  createAndFill: vi
-    .fn()
-    .mockImplementation((attrs, content, marks) => ({
-      name: 'docNode',
-      content,
-      attrs,
-      marks,
-    })),
+  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({
+    name: 'docNode',
+    content,
+    attrs,
+    marks,
+  })),
 } as unknown as NodeType
 const paragraphNodeType = {
-  createAndFill: vi
-    .fn()
-    .mockImplementation((attrs, content, marks) => ({
-      name: 'paragraphNode',
-      content,
-      attrs,
-      marks,
-    })),
+  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({
+    name: 'paragraphNode',
+    content,
+    attrs,
+    marks,
+  })),
 } as unknown as NodeType
 const blockquoteNodeType = {
-  createAndFill: vi
-    .fn()
-    .mockImplementation((attrs, content, marks) => ({
-      name: 'blockquoteNode',
-      content,
-      attrs,
-      marks,
-    })),
+  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({
+    name: 'blockquoteNode',
+    content,
+    attrs,
+    marks,
+  })),
 } as unknown as NodeType
 const boldType = {
   create: vi.fn().mockImplementation((attrs) => ({

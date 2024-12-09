@@ -28,7 +28,6 @@ export function $node(id: string, schema: (ctx: Ctx) => NodeSchema): $Node {
       ...ns.filter((n) => n[0] !== id),
       [id, nodeSchema] as [string, NodeSchema],
     ])
-
     ;(<$Node>plugin).id = id
     ;(<$Node>plugin).schema = nodeSchema
 

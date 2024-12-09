@@ -27,7 +27,6 @@ export function markRule(
 
     const result = options.updateCaptured?.(captured)
     Object.assign(captured, result)
-
     ;({ group, fullMatch, start, end } = captured)
 
     if (fullMatch === null) return null

@@ -28,7 +28,6 @@ export function $mark(id: string, schema: (ctx: Ctx) => MarkSchema): $Mark {
       ...ns.filter((n) => n[0] !== id),
       [id, markSchema] as [string, MarkSchema],
     ])
-
     ;(<$Mark>plugin).id = id
     ;(<$Mark>plugin).schema = markSchema
 
