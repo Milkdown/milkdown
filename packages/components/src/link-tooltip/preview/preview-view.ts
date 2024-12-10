@@ -18,7 +18,10 @@ export class LinkPreviewTooltip implements PluginView {
   //   return this.#provider.getInstance()
   // }
 
-  constructor(readonly ctx: Ctx, view: EditorView) {
+  constructor(
+    readonly ctx: Ctx,
+    view: EditorView
+  ) {
     this.#provider = new TooltipProvider({
       debounce: 0,
       content: this.#content,
@@ -39,8 +42,7 @@ export class LinkPreviewTooltip implements PluginView {
   // }
 
   #onStateChange = ({ mode }: LinkToolTipState) => {
-    if (mode === 'edit')
-      this.#hide()
+    if (mode === 'edit') this.#hide()
   }
 
   #onMouseEnter = () => {
@@ -76,8 +78,7 @@ export class LinkPreviewTooltip implements PluginView {
   }
 
   hide = () => {
-    if (this.#hovering)
-      return
+    if (this.#hovering) return
 
     this.#hide()
   }

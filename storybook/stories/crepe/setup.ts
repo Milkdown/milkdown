@@ -29,16 +29,22 @@ export function setup({ args, style, theme }: setupConfig) {
     },
     featureConfigs: {
       [Crepe.Feature.LinkTooltip]: {
-        inputPlaceholder: language === 'JA' ? 'リンクを貼り付け...' : 'Paste link...',
+        inputPlaceholder:
+          language === 'JA' ? 'リンクを貼り付け...' : 'Paste link...',
       },
       [Crepe.Feature.ImageBlock]: {
-        inlineUploadButton: () => language === 'JA' ? 'アップロード' : 'Upload',
-        inlineUploadPlaceholderText: language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
-        inlineConfirmButton: () => language === 'JA' ? '確認' : 'Confirm',
-        blockUploadButton: () => language === 'JA' ? 'ファイルをアップロード' : 'Upload file',
-        blockUploadPlaceholderText: language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
-        blockCaptionPlaceholderText: language === 'JA' ? '画像の説明を書く...' : 'Write Image Caption',
-        blockConfirmButton: () => language === 'JA' ? '確認' : 'Confirm',
+        inlineUploadButton: () =>
+          language === 'JA' ? 'アップロード' : 'Upload',
+        inlineUploadPlaceholderText:
+          language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
+        inlineConfirmButton: () => (language === 'JA' ? '確認' : 'Confirm'),
+        blockUploadButton: () =>
+          language === 'JA' ? 'ファイルをアップロード' : 'Upload file',
+        blockUploadPlaceholderText:
+          language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
+        blockCaptionPlaceholderText:
+          language === 'JA' ? '画像の説明を書く...' : 'Write Image Caption',
+        blockConfirmButton: () => (language === 'JA' ? '確認' : 'Confirm'),
       },
       [Crepe.Feature.BlockEdit]: {
         slashMenuTextGroupLabel: language === 'JA' ? 'テキスト' : 'Text',
@@ -53,17 +59,24 @@ export function setup({ args, style, theme }: setupConfig) {
         slashMenuDividerLabel: language === 'JA' ? '区切り線' : 'Divider',
 
         slashMenuListGroupLabel: language === 'JA' ? 'リスト' : 'List',
-        slashMenuBulletListLabel: language === 'JA' ? '箇条書き' : 'Bullet List',
-        slashMenuOrderedListLabel: language === 'JA' ? '番号付きリスト' : 'Ordered List',
-        slashMenuTaskListLabel: language === 'JA' ? 'タスクリスト' : 'Task List',
+        slashMenuBulletListLabel:
+          language === 'JA' ? '箇条書き' : 'Bullet List',
+        slashMenuOrderedListLabel:
+          language === 'JA' ? '番号付きリスト' : 'Ordered List',
+        slashMenuTaskListLabel:
+          language === 'JA' ? 'タスクリスト' : 'Task List',
 
-        slashMenuAdvancedGroupLabel: language === 'JA' ? '高度な機能' : 'Advanced',
+        slashMenuAdvancedGroupLabel:
+          language === 'JA' ? '高度な機能' : 'Advanced',
         slashMenuImageLabel: language === 'JA' ? '画像' : 'Image',
         slashMenuCodeBlockLabel: language === 'JA' ? 'コード' : 'Code',
         slashMenuTableLabel: language === 'JA' ? '表' : 'Table',
       },
       [Crepe.Feature.Placeholder]: {
-        text: language === 'JA' ? 'スラッシュコマンドを使用するには/と入力します' : 'Type / to use slash command',
+        text:
+          language === 'JA'
+            ? 'スラッシュコマンドを使用するには/と入力します'
+            : 'Type / to use slash command',
       },
       [Crepe.Feature.CodeMirror]: {
         theme,

@@ -2,7 +2,7 @@
   "name": "@milkdown/monorepo",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.14.3",
+  "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=17"
   },
@@ -14,10 +14,10 @@
     "test:tsc": "pnpm --filter=@milkdown/* run tsc",
     "test:tsc:cache": "nx run-many --target=tsc --all --parallel",
     "test:lint": "oxlint -c .oxlintrc.json",
-    "test:e2e": "nx e2e @milkdown/e2e",
-    "test:e2e:build": "nx build @milkdown/e2e",
-    "test:e2e:debug": "nx open-cypress @milkdown/e2e",
+    "test:e2e": "pnpm --filter=@milkdown/e2e test",
+    "test:e2e:build": "pnpm --filter=@milkdown/e2e run build",
     "format": "lint-staged",
+    "fix": "prettier . --write",
     "start": "pnpm --filter=@milkdown/storybook run start",
     "build": "nx run-many --target=build --all --parallel",
     "build:affected": "nx affected --target=build",
@@ -35,10 +35,8 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@nrwl/tao": "19.8.4",
-    "@nx/cypress": "20.1.3",
-    "@nx/storybook": "20.1.3",
-    "@nx/web": "20.1.3",
-    "@nx/workspace": "20.1.3",
+    "@nx/web": "20.2.1",
+    "@nx/workspace": "20.2.1",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
@@ -62,14 +60,15 @@
     "husky": "^9.0.10",
     "jsdom": "^25.0.0",
     "lint-staged": "^15.0.0",
-    "nx": "20.1.3",
-    "oxlint": "^0.13.0",
+    "nx": "20.2.1",
+    "oxlint": "^0.14.0",
     "pathe": "^1.0.0",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^7.0.0",
+    "prettier": "^3.4.2",
     "rimraf": "^6.0.0",
-    "rollup": "^4.0.0",
+    "rollup": "^4.22.4",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-dts": "^6.0.0",
@@ -78,7 +77,7 @@
     "tailwindcss": "^3.2.4",
     "tslib": "^2.5.0",
     "typescript": "^5.4.4",
-    "vite": "^5.0.12",
+    "vite": "^6.0.0",
     "vitest": "^2.0.0"
   },
   "pnpm": {
@@ -124,7 +123,10 @@
       "side-channel": "npm:@nolyfill/side-channel@^1",
       "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1",
       "typedarray": "npm:@nolyfill/typedarray@^1",
-      "which-typed-array": "npm:@nolyfill/which-typed-array@^1"
+      "which-typed-array": "npm:@nolyfill/which-typed-array@^1",
+      "array-flatten": "npm:@nolyfill/array-flatten@^1",
+      "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+      "safer-buffer": "npm:@nolyfill/safer-buffer@^1"
     }
   }
 }

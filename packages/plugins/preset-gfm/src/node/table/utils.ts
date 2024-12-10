@@ -6,7 +6,13 @@ import type { TableRect } from '@milkdown/prose/tables'
 import { CellSelection, TableMap } from '@milkdown/prose/tables'
 
 import type { Ctx } from '@milkdown/ctx'
-import { tableCellSchema, tableHeaderRowSchema, tableHeaderSchema, tableRowSchema, tableSchema } from './schema'
+import {
+  tableCellSchema,
+  tableHeaderRowSchema,
+  tableHeaderSchema,
+  tableRowSchema,
+  tableSchema,
+} from './schema'
 
 /// @internal
 export interface CellPos {
@@ -27,33 +33,42 @@ export function createTable(ctx: Ctx, rowsCount = 3, colsCount = 3): Node {
 
   const rows = Array(rowsCount)
     .fill(0)
-    .map((_, i) => i === 0
-      ? tableHeaderRowSchema.type(ctx).create(null, headerCells)
-      : tableRowSchema.type(ctx).create(null, cells))
+    .map((_, i) =>
+      i === 0
+        ? tableHeaderRowSchema.type(ctx).create(null, headerCells)
+        : tableRowSchema.type(ctx).create(null, cells)
+    )
 
   return tableSchema.type(ctx).create(null, rows)
 }
 
 /// Find the table node with position information for target pos.
 export function findTable($pos: ResolvedPos) {
-  return findParentNodeClosestToPos(node => node.type.spec.tableRole === 'table')($pos)
+  return findParentNodeClosestToPos(
+    (node) => node.type.spec.tableRole === 'table'
+  )($pos)
 }
 
 /// Get cells in a column of a table.
-export function getCellsInCol(columnIndex: number, selection: Selection): CellPos[] | undefined {
+export function getCellsInCol(
+  columnIndex: number,
+  selection: Selection
+): CellPos[] | undefined {
   const table = findTable(selection.$from)
-  if (!table)
-    return undefined
+  if (!table) return undefined
   const map = TableMap.get(table.node)
-  if (columnIndex < 0 || columnIndex >= map.width)
-    return undefined
+  if (columnIndex < 0 || columnIndex >= map.width) return undefined
 
   return map
-    .cellsInRect({ left: columnIndex, right: columnIndex + 1, top: 0, bottom: map.height })
+    .cellsInRect({
+      left: columnIndex,
+      right: columnIndex + 1,
+      top: 0,
+      bottom: map.height,
+    })
     .map((pos) => {
       const node = table.node.nodeAt(pos)
-      if (!node)
-        return undefined
+      if (!node) return undefined
       const start = pos + table.start
       return {
         pos: start,
@@ -65,20 +80,25 @@ export function getCellsInCol(columnIndex: number, selection: Selection): CellPo
 }
 
 /// Get cells in a row of a table.
-export function getCellsInRow(rowIndex: number, selection: Selection): CellPos[] | undefined {
+export function getCellsInRow(
+  rowIndex: number,
+  selection: Selection
+): CellPos[] | undefined {
   const table = findTable(selection.$from)
-  if (!table)
-    return undefined
+  if (!table) return undefined
   const map = TableMap.get(table.node)
-  if (rowIndex < 0 || rowIndex >= map.height)
-    return undefined
+  if (rowIndex < 0 || rowIndex >= map.height) return undefined
 
   return map
-    .cellsInRect({ left: 0, right: map.width, top: rowIndex, bottom: rowIndex + 1 })
+    .cellsInRect({
+      left: 0,
+      right: map.width,
+      top: rowIndex,
+      bottom: rowIndex + 1,
+    })
     .map((pos) => {
       const node = table.node.nodeAt(pos)
-      if (!node)
-        return undefined
+      if (!node) return undefined
       const start = pos + table.start
       return {
         pos: start,
@@ -92,8 +112,7 @@ export function getCellsInRow(rowIndex: number, selection: Selection): CellPos[]
 /// Get all cells in a table.
 export function getAllCellsInTable(selection: Selection) {
   const table = findTable(selection.$from)
-  if (!table)
-    return
+  if (!table) return
 
   const map = TableMap.get(table.node)
   const cells = map.cellsInRect({
@@ -124,7 +143,12 @@ export function selectTable(tr: Transaction) {
 }
 
 /// @internal
-export function addRowWithAlignment(ctx: Ctx, tr: Transaction, { map, tableStart, table }: TableRect, row: number) {
+export function addRowWithAlignment(
+  ctx: Ctx,
+  tr: Transaction,
+  { map, tableStart, table }: TableRect,
+  row: number
+) {
   const rowPos = Array(row)
     .fill(0)
     .reduce((acc, _, i) => {
@@ -135,7 +159,9 @@ export function addRowWithAlignment(ctx: Ctx, tr: Transaction, { map, tableStart
     .fill(0)
     .map((_, col) => {
       const headerCol = table.nodeAt(map.map[col] as number)
-      return tableCellSchema.type(ctx).createAndFill({ alignment: headerCol?.attrs.alignment }) as Node
+      return tableCellSchema
+        .type(ctx)
+        .createAndFill({ alignment: headerCol?.attrs.alignment }) as Node
     })
 
   tr.insert(rowPos, tableRowSchema.type(ctx).create(null, cells))
@@ -147,7 +173,9 @@ export function selectLine(type: 'row' | 'col') {
   return (index: number, pos?: number) => (tr: Transaction) => {
     pos = pos ?? tr.selection.from
     const $pos = tr.doc.resolve(pos)
-    const $node = findParentNodeClosestToPos(node => node.type.name === 'table')($pos)
+    const $node = findParentNodeClosestToPos(
+      (node) => node.type.name === 'table'
+    )($pos)
     const table = $node
       ? {
           node: $node.node,
@@ -164,15 +192,25 @@ export function selectLine(type: 'row' | 'col') {
         const lastCell = map.positionAt(
           isRowSelection ? index : map.height - 1,
           isRowSelection ? map.width - 1 : index,
-          table.node,
+          table.node
         )
         const $lastCell = tr.doc.resolve(table.from + lastCell)
 
-        const createCellSelection = isRowSelection ? CellSelection.rowSelection : CellSelection.colSelection
+        const createCellSelection = isRowSelection
+          ? CellSelection.rowSelection
+          : CellSelection.colSelection
 
-        const firstCell = map.positionAt(isRowSelection ? index : 0, isRowSelection ? 0 : index, table.node)
+        const firstCell = map.positionAt(
+          isRowSelection ? index : 0,
+          isRowSelection ? 0 : index,
+          table.node
+        )
         const $firstCell = tr.doc.resolve(table.from + firstCell)
-        return cloneTr(tr.setSelection(createCellSelection($lastCell, $firstCell) as unknown as Selection))
+        return cloneTr(
+          tr.setSelection(
+            createCellSelection($lastCell, $firstCell) as unknown as Selection
+          )
+        )
       }
     }
     return tr
@@ -189,11 +227,14 @@ export const selectCol = selectLine('col')
 
 function transpose<T>(array: T[][]) {
   return array[0]!.map((_, i) => {
-    return array.map(column => column[i])
+    return array.map((column) => column[i])
   }) as T[][]
 }
 
-function convertArrayOfRowsToTableNode(tableNode: Node, arrayOfNodes: (Node | null)[][]) {
+function convertArrayOfRowsToTableNode(
+  tableNode: Node,
+  arrayOfNodes: (Node | null)[][]
+) {
   const rowsPM = []
   const map = TableMap.get(tableNode)
   for (let rowIndex = 0; rowIndex < map.height; rowIndex++) {
@@ -201,8 +242,7 @@ function convertArrayOfRowsToTableNode(tableNode: Node, arrayOfNodes: (Node | nu
     const rowCells = []
 
     for (let colIndex = 0; colIndex < map.width; colIndex++) {
-      if (!arrayOfNodes[rowIndex]![colIndex])
-        continue
+      if (!arrayOfNodes[rowIndex]![colIndex]) continue
 
       const cellPos = map.map[rowIndex * map.width + colIndex]!
 
@@ -211,7 +251,7 @@ function convertArrayOfRowsToTableNode(tableNode: Node, arrayOfNodes: (Node | nu
       const newCell = oldCell.type.createChecked(
         Object.assign({}, cell.attrs),
         cell.content,
-        cell.marks,
+        cell.marks
       )
       rowCells.push(newCell)
     }
@@ -222,7 +262,7 @@ function convertArrayOfRowsToTableNode(tableNode: Node, arrayOfNodes: (Node | nu
   const newTable = tableNode.type.createChecked(
     tableNode.attrs,
     rowsPM,
-    tableNode.marks,
+    tableNode.marks
   )
 
   return newTable
@@ -254,7 +294,12 @@ function convertTableNodeToArrayOfRows(tableNode: Node) {
   return rows
 }
 
-function moveRowInArrayOfRows(rows: (Node | null)[][], indexesOrigin: number[], indexesTarget: number[], directionOverride: -1 | 1 | 0) {
+function moveRowInArrayOfRows(
+  rows: (Node | null)[][],
+  indexesOrigin: number[],
+  indexesTarget: number[],
+  directionOverride: -1 | 1 | 0
+) {
   const direction = indexesOrigin[0]! > indexesTarget[0]! ? -1 : 1
 
   const rowsExtracted = rows.splice(indexesOrigin[0]!, indexesOrigin.length)
@@ -263,13 +308,11 @@ function moveRowInArrayOfRows(rows: (Node | null)[][], indexesOrigin: number[], 
 
   if (directionOverride === -1 && direction === 1) {
     target = indexesTarget[0]! - 1
-  }
-  else if (directionOverride === 1 && direction === -1) {
+  } else if (directionOverride === 1 && direction === -1) {
     target = indexesTarget[indexesTarget.length - 1]! - positionOffset + 1
-  }
-  else {
-    target
-      = direction === -1
+  } else {
+    target =
+      direction === -1
         ? indexesTarget[0]!
         : indexesTarget[indexesTarget.length - 1]! - positionOffset
   }
@@ -278,7 +321,12 @@ function moveRowInArrayOfRows(rows: (Node | null)[][], indexesOrigin: number[], 
   return rows
 }
 
-function moveTableColumn(table: ContentNodeWithPos, indexesOrigin: number[], indexesTarget: number[], direction: -1 | 1 | 0) {
+function moveTableColumn(
+  table: ContentNodeWithPos,
+  indexesOrigin: number[],
+  indexesTarget: number[],
+  direction: -1 | 1 | 0
+) {
   let rows = transpose(convertTableNodeToArrayOfRows(table.node))
 
   rows = moveRowInArrayOfRows(rows, indexesOrigin, indexesTarget, direction)
@@ -287,7 +335,12 @@ function moveTableColumn(table: ContentNodeWithPos, indexesOrigin: number[], ind
   return convertArrayOfRowsToTableNode(table.node, rows)
 }
 
-function moveTableRow(table: ContentNodeWithPos, indexesOrigin: number[], indexesTarget: number[], direction: -1 | 1 | 0) {
+function moveTableRow(
+  table: ContentNodeWithPos,
+  indexesOrigin: number[],
+  indexesTarget: number[],
+  direction: -1 | 1 | 0
+) {
   let rows = convertTableNodeToArrayOfRows(table.node)
 
   rows = moveRowInArrayOfRows(rows, indexesOrigin, indexesTarget, direction)
@@ -305,11 +358,9 @@ function getSelectionRangeInColumn(columnIndex: number, tr: Transaction) {
     if (cells) {
       cells.forEach((cell) => {
         const maybeEndIndex = cell.node.attrs.colspan + i - 1
-        if (maybeEndIndex >= startIndex)
-          startIndex = i
+        if (maybeEndIndex >= startIndex) startIndex = i
 
-        if (maybeEndIndex > endIndex)
-          endIndex = maybeEndIndex
+        if (maybeEndIndex > endIndex) endIndex = maybeEndIndex
       })
     }
   }
@@ -329,8 +380,7 @@ function getSelectionRangeInColumn(columnIndex: number, tr: Transaction) {
   const indexes = []
   for (let i = startIndex; i <= endIndex; i++) {
     const maybeCells = getCellsInCol(i, tr.selection)
-    if (maybeCells && maybeCells.length)
-      indexes.push(i)
+    if (maybeCells && maybeCells.length) indexes.push(i)
   }
   startIndex = indexes[0]!
   endIndex = indexes[indexes.length - 1]!
@@ -338,7 +388,7 @@ function getSelectionRangeInColumn(columnIndex: number, tr: Transaction) {
   const firstSelectedColumnCells = getCellsInCol(startIndex, tr.selection)!
   const firstRowCells = getCellsInRow(0, tr.selection)!
   const $anchor = tr.doc.resolve(
-    firstSelectedColumnCells[firstSelectedColumnCells.length - 1]!.pos,
+    firstSelectedColumnCells[firstSelectedColumnCells.length - 1]!.pos
   )
 
   let headCell: CellPos | undefined
@@ -351,8 +401,7 @@ function getSelectionRangeInColumn(columnIndex: number, tr: Transaction) {
           break
         }
       }
-      if (headCell)
-        break
+      if (headCell) break
     }
   }
 
@@ -368,11 +417,9 @@ function getSelectionRangeInRow(rowIndex: number, tr: Transaction) {
     const cells = getCellsInRow(i, tr.selection)
     cells!.forEach((cell) => {
       const maybeEndIndex = cell.node.attrs.rowspan + i - 1
-      if (maybeEndIndex >= startIndex)
-        startIndex = i
+      if (maybeEndIndex >= startIndex) startIndex = i
 
-      if (maybeEndIndex > endIndex)
-        endIndex = maybeEndIndex
+      if (maybeEndIndex > endIndex) endIndex = maybeEndIndex
     })
   }
   // looking for selection end row (endIndex)
@@ -389,15 +436,16 @@ function getSelectionRangeInRow(rowIndex: number, tr: Transaction) {
   const indexes = []
   for (let i = startIndex; i <= endIndex; i++) {
     const maybeCells = getCellsInRow(i, tr.selection)
-    if (maybeCells && maybeCells.length)
-      indexes.push(i)
+    if (maybeCells && maybeCells.length) indexes.push(i)
   }
   startIndex = indexes[0]!
   endIndex = indexes[indexes.length - 1]!
 
   const firstSelectedRowCells = getCellsInRow(startIndex, tr.selection)!
   const firstColumnCells = getCellsInCol(0, tr.selection)!
-  const $anchor = tr.doc.resolve(firstSelectedRowCells[firstSelectedRowCells.length - 1]!.pos)
+  const $anchor = tr.doc.resolve(
+    firstSelectedRowCells[firstSelectedRowCells.length - 1]!.pos
+  )
 
   let headCell: CellPos | undefined
   for (let i = endIndex; i >= startIndex; i--) {
@@ -409,8 +457,7 @@ function getSelectionRangeInRow(rowIndex: number, tr: Transaction) {
           break
         }
       }
-      if (headCell)
-        break
+      if (headCell) break
     }
   }
 
@@ -433,30 +480,27 @@ export function moveCol(moveColParams: MoveColParams) {
   const { tr, origin, target, select = true, pos } = moveColParams
   const $pos = pos != null ? tr.doc.resolve(pos) : tr.selection.$from
   const table = findTable($pos)
-  if (!table)
-    return tr
+  if (!table) return tr
 
   const { indexes: indexesOriginColumn } = getSelectionRangeInColumn(origin, tr)
   const { indexes: indexesTargetColumn } = getSelectionRangeInColumn(target, tr)
 
-  if (indexesOriginColumn.includes(target))
-    return tr
+  if (indexesOriginColumn.includes(target)) return tr
 
   const newTable = moveTableColumn(
     table,
     indexesOriginColumn,
     indexesTargetColumn,
-    0,
+    0
   )
 
   const _tr = cloneTr(tr).replaceWith(
     table.pos,
     table.pos + table.node.nodeSize,
-    newTable,
+    newTable
   )
 
-  if (!select)
-    return _tr
+  if (!select) return _tr
 
   const map = TableMap.get(newTable)
   const start = table.start
@@ -487,30 +531,22 @@ export function moveRow(moveRowParams: MoveRowParams) {
   const { tr, origin, target, select = true, pos } = moveRowParams
   const $pos = pos != null ? tr.doc.resolve(pos) : tr.selection.$from
   const table = findTable($pos)
-  if (!table)
-    return tr
+  if (!table) return tr
 
   const { indexes: indexesOriginRow } = getSelectionRangeInRow(origin, tr)
   const { indexes: indexesTargetRow } = getSelectionRangeInRow(target, tr)
 
-  if (indexesOriginRow.includes(target))
-    return tr
+  if (indexesOriginRow.includes(target)) return tr
 
-  const newTable = moveTableRow(
-    table,
-    indexesOriginRow,
-    indexesTargetRow,
-    0,
-  )
+  const newTable = moveTableRow(table, indexesOriginRow, indexesTargetRow, 0)
 
   const _tr = cloneTr(tr).replaceWith(
     table.pos,
     table.pos + table.node.nodeSize,
-    newTable,
+    newTable
   )
 
-  if (!select)
-    return _tr
+  if (!select) return _tr
 
   const map = TableMap.get(newTable)
   const start = table.start

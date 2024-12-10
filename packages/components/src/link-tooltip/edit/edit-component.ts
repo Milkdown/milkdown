@@ -47,10 +47,14 @@ export const linkEditComponent: Component<LinkEditProps> = ({
           placeholder=${config?.inputPlaceholder}
           ref=${linkInput}
           onkeydown=${onKeydown}
-          oninput=${(e: InputEvent) => setLink((e.target as HTMLInputElement).value)}
+          oninput=${(e: InputEvent) =>
+            setLink((e.target as HTMLInputElement).value)}
           value=${link}
         />
-        <span class=${clsx('button confirm', !link && 'hidden')} onclick=${onConfirmEdit}>
+        <span
+          class=${clsx('button confirm', !link && 'hidden')}
+          onclick=${onConfirmEdit}
+        >
           ${config?.confirmButton()}
         </span>
       </div>

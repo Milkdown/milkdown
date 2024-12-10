@@ -9,7 +9,10 @@ import { InputRule } from '@milkdown/prose/inputrules'
 import { expectDomTypeError } from '@milkdown/exception'
 import { nodeRule } from '@milkdown/prose'
 
-function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pick<Meta, 'displayName'>): T {
+function withMeta<T extends MilkdownPlugin>(
+  plugin: T,
+  meta: Partial<Meta> & Pick<Meta, 'displayName'>
+): T {
   Object.assign(plugin, {
     meta: {
       package: '@milkdown/plugin-math',
@@ -21,7 +24,10 @@ function withMeta<T extends MilkdownPlugin>(plugin: T, meta: Partial<Meta> & Pic
 }
 
 /// This plugin wraps [remark-math](https://www.npmjs.com/package/remark-math).
-export const remarkMathPlugin = $remark<'remarkMath', undefined>('remarkMath', () => remarkMath)
+export const remarkMathPlugin = $remark<'remarkMath', undefined>(
+  'remarkMath',
+  () => remarkMath
+)
 
 withMeta(remarkMathPlugin.plugin, {
   displayName: 'Remark<remarkMath>',
@@ -43,7 +49,10 @@ const mathInlineId = 'math_inline'
 ///     ctx.set(katexOptionsCtx.key, { /* some options */ });
 ///   })
 /// ```
-export const katexOptionsCtx = $ctx<KatexOptions, 'katexOptions'>({}, 'katexOptions')
+export const katexOptionsCtx = $ctx<KatexOptions, 'katexOptions'>(
+  {},
+  'katexOptions'
+)
 
 withMeta(katexOptionsCtx, {
   displayName: 'Ctx<katexOptions>',
@@ -55,7 +64,7 @@ withMeta(katexOptionsCtx, {
 /// ```markdown
 /// $a^2 + b^2 = c^2$
 /// ```
-export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
+export const mathInlineSchema = $nodeSchema('math_inline', (ctx) => ({
   group: 'inline',
   content: 'text*',
   inline: true,
@@ -64,8 +73,7 @@ export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
     {
       tag: `span[data-type="${mathInlineId}"]`,
       getContent: (dom, schema) => {
-        if (!(dom instanceof HTMLElement))
-          throw expectDomTypeError(dom)
+        if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
         return Fragment.from(schema.text(dom.dataset.value ?? ''))
       },
@@ -81,15 +89,16 @@ export const mathInlineSchema = $nodeSchema('math_inline', ctx => ({
     return dom
   },
   parseMarkdown: {
-    match: node => node.type === 'inlineMath',
+    match: (node) => node.type === 'inlineMath',
     runner: (state, node, type) => {
-      state.openNode(type)
+      state
+        .openNode(type)
         .addText(node.value as string)
         .closeNode()
     },
   },
   toMarkdown: {
-    match: node => node.type.name === mathInlineId,
+    match: (node) => node.type.name === mathInlineId,
     runner: (state, node) => {
       state.addNode('inlineMath', undefined, node.textContent)
     },
@@ -105,12 +114,12 @@ withMeta(mathInlineSchema.node, {
 
 /// Input rule for inline math.
 /// When you type $E=MC^2$, it will create an inline math node.
-export const mathInlineInputRule = $inputRule(ctx =>
+export const mathInlineInputRule = $inputRule((ctx) =>
   nodeRule(/(?:\$)([^$]+)(?:\$)$/, mathInlineSchema.type(ctx), {
     beforeDispatch: ({ tr, match, start }) => {
       tr.insertText(match[1] ?? '', start + 1)
     },
-  }),
+  })
 )
 
 withMeta(mathInlineInputRule, {
@@ -126,7 +135,7 @@ const mathBlockId = 'math_block'
 /// a^2 + b^2 = c^2
 /// $$
 /// ```
-export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
+export const mathBlockSchema = $nodeSchema('math_block', (ctx) => ({
   content: 'text*',
   group: 'block',
   marks: '',
@@ -163,7 +172,7 @@ export const mathBlockSchema = $nodeSchema('math_block', ctx => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === mathBlockId,
+    match: (node) => node.type.name === mathBlockId,
     runner: (state, node) => {
       state.addNode('math', undefined, node.attrs.value)
     },
@@ -179,18 +188,35 @@ withMeta(mathBlockSchema.node, {
 
 /// Input rule for math block.
 /// When you type `$$` and press enter, it will create a math block.
-export const mathBlockInputRule = $inputRule(ctx => new InputRule(
-  /^\$\$\s$/,
-  (state, _match, start, end) => {
-    const $start = state.doc.resolve(start)
-    if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), mathBlockSchema.type(ctx)))
-      return null
-    return state.tr.delete(start, end).setBlockType(start, start, mathBlockSchema.type(ctx))
-  },
-))
+export const mathBlockInputRule = $inputRule(
+  (ctx) =>
+    new InputRule(/^\$\$\s$/, (state, _match, start, end) => {
+      const $start = state.doc.resolve(start)
+      if (
+        !$start
+          .node(-1)
+          .canReplaceWith(
+            $start.index(-1),
+            $start.indexAfter(-1),
+            mathBlockSchema.type(ctx)
+          )
+      )
+        return null
+      return state.tr
+        .delete(start, end)
+        .setBlockType(start, start, mathBlockSchema.type(ctx))
+    })
+)
 withMeta(mathBlockInputRule, {
   displayName: 'InputRule<mathBlock>',
 })
 
 /// All plugins exported by this package.
-export const math: MilkdownPlugin[] = [remarkMathPlugin, katexOptionsCtx, mathInlineSchema, mathBlockSchema, mathBlockInputRule, mathInlineInputRule].flat()
+export const math: MilkdownPlugin[] = [
+  remarkMathPlugin,
+  katexOptionsCtx,
+  mathInlineSchema,
+  mathBlockSchema,
+  mathBlockInputRule,
+  mathInlineInputRule,
+].flat()

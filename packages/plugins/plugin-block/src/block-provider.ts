@@ -2,7 +2,12 @@ import type { Ctx } from '@milkdown/ctx'
 import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 
-import type { Placement, VirtualElement } from '@floating-ui/dom'
+import type {
+  ComputePositionConfig,
+  Middleware,
+  Placement,
+  VirtualElement,
+} from '@floating-ui/dom'
 import { computePosition, flip, offset } from '@floating-ui/dom'
 
 import { editorViewCtx } from '@milkdown/core'
@@ -27,15 +32,21 @@ export interface BlockProviderOptions {
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
   /// The offset to get the block. Default is 0.
-  getOffset?: (deriveContext: DeriveContext) => number | {
-    mainAxis?: number
-    crossAxis?: number
-    alignmentAxis?: number | null
-  }
+  getOffset?: (deriveContext: DeriveContext) =>
+    | number
+    | {
+        mainAxis?: number
+        crossAxis?: number
+        alignmentAxis?: number | null
+      }
   /// The function to get the position of the block. Default is the position of the active node.
   getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>
   /// The function to get the placement of the block. Default is 'left'.
   getPlacement?: (deriveContext: DeriveContext) => Placement
+  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  middleware?: Middleware[]
+  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  floatingUIOptions?: Partial<ComputePositionConfig>
 }
 
 /// A provider for creating block.
@@ -56,14 +67,24 @@ export class BlockProvider {
   #initialized = false
 
   /// @internal
-  readonly #getOffset?: (deriveContext: DeriveContext) => number | {
-    mainAxis?: number
-    crossAxis?: number
-    alignmentAxis?: number | null
-  }
+  readonly #middleware: Middleware[]
 
   /// @internal
-  readonly #getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>
+  readonly #floatingUIOptions: Partial<ComputePositionConfig>
+
+  /// @internal
+  readonly #getOffset?: (deriveContext: DeriveContext) =>
+    | number
+    | {
+        mainAxis?: number
+        crossAxis?: number
+        alignmentAxis?: number | null
+      }
+
+  /// @internal
+  readonly #getPosition?: (
+    deriveContext: DeriveContext
+  ) => Omit<DOMRect, 'toJSON'>
 
   /// @internal
   readonly #getPlacement?: (deriveContext: DeriveContext) => Placement
@@ -79,6 +100,8 @@ export class BlockProvider {
     this.#getOffset = options.getOffset
     this.#getPosition = options.getPosition
     this.#getPlacement = options.getPlacement
+    this.#middleware = options.middleware ?? []
+    this.#floatingUIOptions = options.floatingUIOptions ?? {}
     this.hide()
   }
 
@@ -92,9 +115,7 @@ export class BlockProvider {
       if (message.type === 'hide') {
         this.hide()
         this.#activeNode = null
-      }
-
-      else if (message.type === 'show') {
+      } else if (message.type === 'show') {
         this.show(message.active)
         this.#activeNode = message.active
       }
@@ -112,8 +133,7 @@ export class BlockProvider {
         try {
           this.#init()
           this.#initialized = true
-        }
-        catch {
+        } catch {
           // ignore
         }
       }
@@ -140,8 +160,7 @@ export class BlockProvider {
     const virtualEl: VirtualElement = {
       contextElement: dom,
       getBoundingClientRect: () => {
-        if (this.#getPosition)
-          return this.#getPosition(deriveContext)
+        if (this.#getPosition) return this.#getPosition(deriveContext)
 
         return dom.getBoundingClientRect()
       },
@@ -157,7 +176,8 @@ export class BlockProvider {
       placement: this.#getPlacement
         ? this.#getPlacement(deriveContext)
         : 'left',
-      middleware,
+      middleware: [...middleware, ...this.#middleware],
+      ...this.#floatingUIOptions,
     }).then(({ x, y }) => {
       Object.assign(this.#element.style, {
         left: `${x}px`,

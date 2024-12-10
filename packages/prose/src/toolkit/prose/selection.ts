@@ -4,7 +4,12 @@ import { NodeSelection } from '../../state'
 import { equalNodeType } from './helper'
 import type { Predicate } from './types'
 
-export interface ContentNodeWithPos { pos: number, start: number, depth: number, node: ProseNode }
+export interface ContentNodeWithPos {
+  pos: number
+  start: number
+  depth: number
+  node: ProseNode
+}
 
 export function findParentNodeClosestToPos(predicate: Predicate) {
   return ($pos: ResolvedPos): ContentNodeWithPos | undefined => {
@@ -30,13 +35,20 @@ export function findParentNode(predicate: Predicate) {
   }
 }
 
-export function findSelectedNodeOfType(selection: Selection, nodeType: NodeType): ContentNodeWithPos | undefined {
-  if (!(selection instanceof NodeSelection))
-    return
+export function findSelectedNodeOfType(
+  selection: Selection,
+  nodeType: NodeType
+): ContentNodeWithPos | undefined {
+  if (!(selection instanceof NodeSelection)) return
 
   const { node, $from } = selection
   if (equalNodeType(nodeType, node))
-    return { node, pos: $from.pos, start: $from.start($from.depth), depth: $from.depth }
+    return {
+      node,
+      pos: $from.pos,
+      start: $from.start($from.depth),
+      depth: $from.depth,
+    }
 
   return undefined
 }

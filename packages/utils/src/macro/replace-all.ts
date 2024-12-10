@@ -16,12 +16,17 @@ export function replaceAll(markdown: string, flush = false) {
     const view = ctx.get(editorViewCtx)
     const parser = ctx.get(parserCtx)
     const doc = parser(markdown)
-    if (!doc)
-      return
+    if (!doc) return
 
     if (!flush) {
       const { state } = view
-      return view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)))
+      return view.dispatch(
+        state.tr.replace(
+          0,
+          state.doc.content.size,
+          new Slice(doc.content, 0, 0)
+        )
+      )
     }
 
     const schema = ctx.get(schemaCtx)

@@ -4,20 +4,26 @@ import type { EditorView } from '../../view'
 
 type Point = [top: number, left: number]
 
-export function calculateNodePosition(view: EditorView, target: HTMLElement, handler: (selectedRect: DOMRect, targetRect: DOMRect, parentRect: DOMRect) => Point) {
+export function calculateNodePosition(
+  view: EditorView,
+  target: HTMLElement,
+  handler: (
+    selectedRect: DOMRect,
+    targetRect: DOMRect,
+    parentRect: DOMRect
+  ) => Point
+) {
   const state = view.state
   const { from } = state.selection
 
   const { node } = view.domAtPos(from)
   const element = node instanceof Text ? node.parentElement : node
-  if (!(element instanceof HTMLElement))
-    throw expectDomTypeError(element)
+  if (!(element instanceof HTMLElement)) throw expectDomTypeError(element)
 
   const selectedNodeRect = element.getBoundingClientRect()
   const targetNodeRect = target.getBoundingClientRect()
   const parent = target.parentElement
-  if (!parent)
-    throw expectDomTypeError(parent)
+  if (!parent) throw expectDomTypeError(parent)
 
   const parentNodeRect = parent.getBoundingClientRect()
 
@@ -34,7 +40,16 @@ interface Rect {
   bottom: number
 }
 
-export function calculateTextPosition(view: EditorView, target: HTMLElement, handler: (start: Rect, end: Rect, targetRect: DOMRect, parentRect: DOMRect) => Point) {
+export function calculateTextPosition(
+  view: EditorView,
+  target: HTMLElement,
+  handler: (
+    start: Rect,
+    end: Rect,
+    targetRect: DOMRect,
+    parentRect: DOMRect
+  ) => Point
+) {
   const state = view.state
   const { from, to } = state.selection
   const start = view.coordsAtPos(from)
@@ -42,8 +57,7 @@ export function calculateTextPosition(view: EditorView, target: HTMLElement, han
 
   const targetNodeRect = target.getBoundingClientRect()
   const parent = target.parentElement
-  if (!parent)
-    throw missingRootElement()
+  if (!parent) throw missingRootElement()
 
   const parentNodeRect = parent.getBoundingClientRect()
 
@@ -57,7 +71,11 @@ function minMax(value = 0, min = 0, max = 0): number {
   return Math.min(Math.max(value, min), max)
 }
 
-export function posToDOMRect(view: EditorView, from: number, to: number): DOMRect {
+export function posToDOMRect(
+  view: EditorView,
+  from: number,
+  to: number
+): DOMRect {
   const minPos = 0
   const maxPos = view.state.doc.content.size
   const resolvedFrom = minMax(from, minPos, maxPos)

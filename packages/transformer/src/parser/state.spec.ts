@@ -3,23 +3,38 @@ import { describe, expect, it, vi } from 'vitest'
 import { ParserState } from './state'
 
 const docNodeType = {
-  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({ name: 'docNode', content, attrs, marks })),
+  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({
+    name: 'docNode',
+    content,
+    attrs,
+    marks,
+  })),
 } as unknown as NodeType
 const paragraphNodeType = {
-  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({ name: 'paragraphNode', content, attrs, marks })),
+  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({
+    name: 'paragraphNode',
+    content,
+    attrs,
+    marks,
+  })),
 } as unknown as NodeType
 const blockquoteNodeType = {
-  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({ name: 'blockquoteNode', content, attrs, marks })),
+  createAndFill: vi.fn().mockImplementation((attrs, content, marks) => ({
+    name: 'blockquoteNode',
+    content,
+    attrs,
+    marks,
+  })),
 } as unknown as NodeType
 const boldType = {
-  create: vi.fn().mockImplementation(attrs => ({
+  create: vi.fn().mockImplementation((attrs) => ({
     name: 'boldMark',
     attrs,
-    addToSet: arr => arr.concat('bold'),
-    removeFromSet: arr => arr.filter(x => x !== 'bold'),
+    addToSet: (arr) => arr.concat('bold'),
+    removeFromSet: (arr) => arr.filter((x) => x !== 'bold'),
   })),
-  addToSet: arr => arr.concat('bold'),
-  removeFromSet: arr => arr.filter(x => x !== 'bold'),
+  addToSet: (arr) => arr.concat('bold'),
+  removeFromSet: (arr) => arr.filter((x) => x !== 'bold'),
 } as unknown as MarkType
 
 const schema = {
@@ -27,7 +42,7 @@ const schema = {
     paragraph: {
       spec: {
         parseMarkdown: {
-          match: node => node.type === 'paragraphNode',
+          match: (node) => node.type === 'paragraphNode',
           runner: (state, node) => {
             state.addText(node.value)
           },
@@ -37,7 +52,7 @@ const schema = {
     blockquote: {
       spec: {
         parseMarkdown: {
-          match: node => node.type === 'blockquoteNode',
+          match: (node) => node.type === 'blockquoteNode',
           runner: (state, node) => {
             state.openNode(blockquoteNodeType)
             state.next(node.children)
@@ -87,10 +102,7 @@ describe('parser-state', () => {
   it('mark', () => {
     const state = new ParserState(schema)
     state.openNode(docNodeType)
-    state
-      .openMark(boldType)
-      .addNode(paragraphNodeType)
-      .closeMark(boldType)
+    state.openMark(boldType).addNode(paragraphNodeType).closeMark(boldType)
 
     expect(state.top()).toMatchObject({
       content: [
@@ -109,7 +121,7 @@ describe('parser-state', () => {
     state
       .openNode(paragraphNodeType)
       .addText('The lunatic is on the grass.\n')
-      .addText('I\'ll see you on the dark side of the moon.')
+      .addText("I'll see you on the dark side of the moon.")
       .closeNode()
 
     expect(state.top()).toMatchObject({
@@ -118,7 +130,7 @@ describe('parser-state', () => {
           name: 'paragraphNode',
           content: [
             {
-              text: 'The lunatic is on the grass.\nI\'ll see you on the dark side of the moon.',
+              text: "The lunatic is on the grass.\nI'll see you on the dark side of the moon.",
             },
           ],
         },
@@ -134,7 +146,7 @@ describe('parser-state', () => {
       .openNode(paragraphNodeType)
       .openMark(boldType)
       .addText('The lunatic is on the grass.\n')
-      .addText('I\'ll see you on the dark side of the moon.')
+      .addText("I'll see you on the dark side of the moon.")
       .closeMark(boldType)
       .closeNode()
 
@@ -144,7 +156,7 @@ describe('parser-state', () => {
           name: 'paragraphNode',
           content: [
             {
-              text: 'The lunatic is on the grass.\nI\'ll see you on the dark side of the moon.',
+              text: "The lunatic is on the grass.\nI'll see you on the dark side of the moon.",
             },
           ],
         },
@@ -161,7 +173,7 @@ describe('parser-state', () => {
       .openMark(boldType)
       .addText('The lunatic is on the grass.\n')
       .closeMark(boldType)
-      .addText('I\'ll see you on the dark side of the moon.')
+      .addText("I'll see you on the dark side of the moon.")
       .closeNode()
 
     expect(state.top()).toMatchObject({
@@ -173,7 +185,7 @@ describe('parser-state', () => {
               text: 'The lunatic is on the grass.\n',
             },
             {
-              text: 'I\'ll see you on the dark side of the moon.',
+              text: "I'll see you on the dark side of the moon.",
             },
           ],
         },

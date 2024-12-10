@@ -41,8 +41,7 @@ export function swap(text: string, first: number, last: number) {
 }
 
 export function replacePunctuation(holePlaceholder: string) {
-  return (text: string) =>
-    text.replace(punctuationRegexp(holePlaceholder), '')
+  return (text: string) => text.replace(punctuationRegexp(holePlaceholder), '')
 }
 
 export function calculatePlaceholder(placeholder: SyncNodePlaceholder) {
@@ -53,12 +52,10 @@ export function calculatePlaceholder(placeholder: SyncNodePlaceholder) {
     const notAWord = /[^\w]|_/
 
     // cursor on the right
-    if (!right)
-      return placeholder.punctuation
+    if (!right) return placeholder.punctuation
 
     // cursor on the left
-    if (!left)
-      return placeholder.char
+    if (!left) return placeholder.char
 
     if (notAWord.test(left) && notAWord.test(right))
       return placeholder.punctuation
@@ -71,8 +68,7 @@ export function calcOffset(node: Node, from: number, placeholder: string) {
   let offset = from
   let find = false
   node.descendants((n) => {
-    if (find)
-      return false
+    if (find) return false
     if (!n.textContent.includes(placeholder)) {
       offset += n.nodeSize
       return false

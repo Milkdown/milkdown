@@ -1,12 +1,13 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "preserve",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
     "rootDir": "src",
     "types": ["vue"],
-    "outDir": "lib"
+    "outDir": "lib",
+    "jsxImportSource": "vue"
   },
   "include": ["src"]
 }

@@ -12,26 +12,23 @@ withMeta(paragraphAttr, {
 })
 
 /// Schema for paragraph node.
-export const paragraphSchema = $nodeSchema('paragraph', ctx => ({
+export const paragraphSchema = $nodeSchema('paragraph', (ctx) => ({
   content: 'inline*',
   group: 'block',
   parseDOM: [{ tag: 'p' }],
-  toDOM: node => ['p', ctx.get(paragraphAttr.key)(node), 0],
+  toDOM: (node) => ['p', ctx.get(paragraphAttr.key)(node), 0],
   parseMarkdown: {
-    match: node => node.type === 'paragraph',
+    match: (node) => node.type === 'paragraph',
     runner: (state, node, type) => {
       state.openNode(type)
-      if (node.children)
-        state.next(node.children)
-
-      else
-        state.addText((node.value || '') as string)
+      if (node.children) state.next(node.children)
+      else state.addText((node.value || '') as string)
 
       state.closeNode()
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'paragraph',
+    match: (node) => node.type.name === 'paragraph',
     runner: (state, node) => {
       state.openNode('paragraph')
       serializeText(state, node)
@@ -50,7 +47,10 @@ withMeta(paragraphSchema.ctx, {
 })
 
 /// This command can turn the selected block into paragraph.
-export const turnIntoTextCommand = $command('TurnIntoText', ctx => () => setBlockType(paragraphSchema.type(ctx)))
+export const turnIntoTextCommand = $command(
+  'TurnIntoText',
+  (ctx) => () => setBlockType(paragraphSchema.type(ctx))
+)
 
 withMeta(turnIntoTextCommand, {
   displayName: 'Command<turnIntoTextCommand>',

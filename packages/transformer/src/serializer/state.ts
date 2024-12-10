@@ -1,17 +1,34 @@
 import { serializerMatchError } from '@milkdown/exception'
-import type { Fragment, MarkType, Node, NodeType, Schema } from '@milkdown/prose/model'
+import type {
+  Fragment,
+  MarkType,
+  Node,
+  NodeType,
+  Schema,
+} from '@milkdown/prose/model'
 import { Mark } from '@milkdown/prose/model'
 
-import type { JSONRecord, MarkSchema, MarkdownNode, NodeSchema, RemarkParser, Root } from '../utility'
+import type {
+  JSONRecord,
+  MarkSchema,
+  MarkdownNode,
+  NodeSchema,
+  RemarkParser,
+  Root,
+} from '../utility'
 import { Stack } from '../utility'
 import { SerializerStackElement } from './stack-element'
 import type { Serializer } from './types'
 
-const isFragment = (x: Node | Fragment): x is Fragment => Object.prototype.hasOwnProperty.call(x, 'size')
+const isFragment = (x: Node | Fragment): x is Fragment =>
+  Object.prototype.hasOwnProperty.call(x, 'size')
 
 /// State for serializer.
 /// Transform prosemirror state into remark AST.
-export class SerializerState extends Stack<MarkdownNode, SerializerStackElement> {
+export class SerializerState extends Stack<
+  MarkdownNode,
+  SerializerStackElement
+> {
   /// @internal
   #marks: readonly Mark[] = Mark.none
   /// Get the schema of state.
@@ -39,14 +56,15 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
 
   /// @internal
   #matchTarget = (node: Node | Mark): NodeType | MarkType => {
-    const result = Object.values({ ...this.schema.nodes, ...this.schema.marks })
-      .find((x): x is (NodeType | MarkType) => {
-        const spec = x.spec as NodeSchema | MarkSchema
-        return spec.toMarkdown.match(node as Node & Mark)
-      })
+    const result = Object.values({
+      ...this.schema.nodes,
+      ...this.schema.marks,
+    }).find((x): x is NodeType | MarkType => {
+      const spec = x.spec as NodeSchema | MarkSchema
+      return spec.toMarkdown.match(node as Node & Mark)
+    })
 
-    if (!result)
-      throw serializerMatchError(node.type)
+    if (!result) throw serializerMatchError(node.type)
 
     return result
   }
@@ -70,39 +88,32 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     const { marks } = node
     const getPriority = (x: Mark) => x.type.spec.priority ?? 50
     const tmp = [...marks].sort((a, b) => getPriority(a) - getPriority(b))
-    const unPreventNext = tmp.every(mark => !this.#runProseMark(mark, node))
-    if (unPreventNext)
-      this.#runProseNode(node)
+    const unPreventNext = tmp.every((mark) => !this.#runProseMark(mark, node))
+    if (unPreventNext) this.#runProseNode(node)
 
-    marks.forEach(mark => this.#closeMark(mark))
+    marks.forEach((mark) => this.#closeMark(mark))
   }
 
   /// @internal
   #searchType = (child: MarkdownNode, type: string): MarkdownNode => {
-    if (child.type === type)
-      return child
+    if (child.type === type) return child
 
-    if (child.children?.length !== 1)
-      return child
+    if (child.children?.length !== 1) return child
 
     const searchNode = (node: MarkdownNode): MarkdownNode | null => {
-      if (node.type === type)
-        return node
+      if (node.type === type) return node
 
-      if (node.children?.length !== 1)
-        return null
+      if (node.children?.length !== 1) return null
 
       const [firstChild] = node.children
-      if (!firstChild)
-        return null
+      if (!firstChild) return null
 
       return searchNode(firstChild)
     }
 
     const target = searchNode(child)
 
-    if (!target)
-      return child
+    if (!target) return child
 
     const tmp = target.children ? [...target.children] : undefined
     const node = { ...child, children: tmp }
@@ -115,12 +126,10 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   /// @internal
   #maybeMergeChildren = (node: MarkdownNode): MarkdownNode => {
     const { children } = node
-    if (!children)
-      return node
+    if (!children) return node
 
     node.children = children.reduce((nextChildren, child, index) => {
-      if (index === 0)
-        return [child]
+      if (index === 0) return [child]
 
       const last = nextChildren.at(-1)
       if (last && last.isMark && child.isMark) {
@@ -128,10 +137,10 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
         const { children: currChildren, ...currRest } = child
         const { children: prevChildren, ...prevRest } = last
         if (
-          child.type === last.type
-          && currChildren
-          && prevChildren
-          && JSON.stringify(currRest) === JSON.stringify(prevRest)
+          child.type === last.type &&
+          currChildren &&
+          prevChildren &&
+          JSON.stringify(currRest) === JSON.stringify(prevRest)
         ) {
           const next = {
             ...prevRest,
@@ -155,11 +164,9 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
       type: element.type,
     }
 
-    if (element.children)
-      node.children = element.children
+    if (element.children) node.children = element.children
 
-    if (element.value)
-      node.value = element.value
+    if (element.value) node.value = element.value
 
     return node
   }
@@ -171,19 +178,20 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
     return this
   }
 
-  #moveSpaces = (element: SerializerStackElement, onPush: () => MarkdownNode) => {
+  #moveSpaces = (
+    element: SerializerStackElement,
+    onPush: () => MarkdownNode
+  ) => {
     let startSpaces = ''
     let endSpaces = ''
     const children = element.children
     let first = -1
     let last = -1
     const findIndex = (node: MarkdownNode[]) => {
-      if (!node)
-        return
+      if (!node) return
       node.forEach((child, index) => {
         if (child.type === 'text' && child.value) {
-          if (first < 0)
-            first = index
+          if (first < 0) first = index
 
           last = index
         }
@@ -192,8 +200,12 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
 
     if (children) {
       findIndex(children)
-      const lastChild = children?.[last] as MarkdownNode & { value: string } | undefined
-      const firstChild = children?.[first] as MarkdownNode & { value: string } | undefined
+      const lastChild = children?.[last] as
+        | (MarkdownNode & { value: string })
+        | undefined
+      const firstChild = children?.[first] as
+        | (MarkdownNode & { value: string })
+        | undefined
       if (lastChild && lastChild.value.endsWith(' ')) {
         endSpaces = lastChild.value.match(/ +$/)![0]
         lastChild.value = lastChild.value.trimEnd()
@@ -204,13 +216,11 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
       }
     }
 
-    if (startSpaces.length)
-      this.#addNodeAndPush('text', undefined, startSpaces)
+    if (startSpaces.length) this.#addNodeAndPush('text', undefined, startSpaces)
 
     const result = onPush()
 
-    if (endSpaces.length)
-      this.#addNodeAndPush('text', undefined, endSpaces)
+    if (endSpaces.length) this.#addNodeAndPush('text', undefined, endSpaces)
 
     return result
   }
@@ -219,10 +229,15 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   #closeNodeAndPush = (trim: boolean = false): MarkdownNode => {
     const element = this.close()
 
-    const onPush = () => this.#addNodeAndPush(element.type, element.children, element.value, element.props)
+    const onPush = () =>
+      this.#addNodeAndPush(
+        element.type,
+        element.children,
+        element.value,
+        element.props
+      )
 
-    if (trim)
-      return this.#moveSpaces(element, onPush)
+    if (trim) return this.#moveSpaces(element, onPush)
 
     return onPush()
   }
@@ -234,25 +249,41 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   }
 
   /// @internal
-  #addNodeAndPush = (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord): MarkdownNode => {
+  #addNodeAndPush = (
+    type: string,
+    children?: MarkdownNode[],
+    value?: string,
+    props?: JSONRecord
+  ): MarkdownNode => {
     const element = SerializerStackElement.create(type, children, value, props)
-    const node: MarkdownNode = this.#maybeMergeChildren(this.#createMarkdownNode(element))
+    const node: MarkdownNode = this.#maybeMergeChildren(
+      this.#createMarkdownNode(element)
+    )
     this.push(node)
     return node
   }
 
   /// Add a node into current node.
-  addNode = (type: string, children?: MarkdownNode[], value?: string, props?: JSONRecord) => {
+  addNode = (
+    type: string,
+    children?: MarkdownNode[],
+    value?: string,
+    props?: JSONRecord
+  ) => {
     this.#addNodeAndPush(type, children, value, props)
     return this
   }
 
   /// @internal
-  #openMark = (mark: Mark, type: string, value?: string, props?: JSONRecord) => {
+  #openMark = (
+    mark: Mark,
+    type: string,
+    value?: string,
+    props?: JSONRecord
+  ) => {
     const isIn = mark.isInSet(this.#marks)
 
-    if (isIn)
-      return this
+    if (isIn) return this
 
     this.#marks = mark.addToSet(this.#marks)
     return this.openNode(type, value, { ...props, isMark: true })
@@ -262,8 +293,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   #closeMark = (mark: Mark): void => {
     const isIn = mark.isInSet(this.#marks)
 
-    if (!isIn)
-      return
+    if (!isIn) return
 
     this.#marks = mark.type.removeFromSet(this.#marks)
     this.#closeNodeAndPush(true)
@@ -287,8 +317,7 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   /// @internal
   build = (): MarkdownNode => {
     let doc: MarkdownNode | null = null
-    do
-      doc = this.#closeNodeAndPush()
+    do doc = this.#closeNodeAndPush()
     while (this.size())
 
     return doc
@@ -308,7 +337,8 @@ export class SerializerState extends Stack<MarkdownNode, SerializerStackElement>
   }
 
   /// Use a remark parser to serialize current AST stored.
-  override toString = (remark: RemarkParser): string => remark.stringify(this.build() as Root)
+  override toString = (remark: RemarkParser): string =>
+    remark.stringify(this.build() as Root)
 
   /// Transform a prosemirror node tree into remark AST.
   run = (tree: Node) => {

@@ -1,20 +1,13 @@
 import type { Editor } from '@milkdown/core'
-import type { InjectionKey, Ref } from 'vue'
-import {
-  Fragment,
-  defineComponent,
-  h,
-  provide,
-  ref,
-} from 'vue'
+import type { Ref } from 'vue'
+import { Fragment, defineComponent, h, provide, ref } from 'vue'
 
-import type { EditorInfoCtx, GetEditor } from './types'
+import type { GetEditor } from './types'
 import { useGetEditor } from './useGetEditor'
+import { editorInfoCtxKey } from './consts'
 
 h
 Fragment
-
-export const editorInfoCtxKey: InjectionKey<EditorInfoCtx> = Symbol('editorInfoCtxKey')
 
 export const Milkdown = defineComponent({
   name: 'Milkdown',

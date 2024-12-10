@@ -73,7 +73,12 @@ export interface CollabServiceOptions {
 /// @internal
 export const CollabKeymapPluginKey = new PluginKey('MILKDOWN_COLLAB_KEYMAP')
 
-const collabPluginKeys = [CollabKeymapPluginKey, ySyncPluginKey, yCursorPluginKey, yUndoPluginKey]
+const collabPluginKeys = [
+  CollabKeymapPluginKey,
+  ySyncPluginKey,
+  yCursorPluginKey,
+  yUndoPluginKey,
+]
 
 /// The collab service is used to manage the collaboration plugins.
 /// It is used to provide the collaboration plugins to the editor.
@@ -91,8 +96,7 @@ export class CollabService {
 
   /// @internal
   #valueToNode(value: DefaultValue): Node | undefined {
-    if (!this.#ctx)
-      throw ctxNotBind()
+    if (!this.#ctx) throw ctxNotBind()
 
     const schema = this.#ctx.get(schemaCtx)
     const parser = this.#ctx.get(parserCtx)
@@ -103,8 +107,7 @@ export class CollabService {
 
   /// @internal
   #createPlugins(): Plugin[] {
-    if (!this.#xmlFragment)
-      throw missingYjsDoc()
+    if (!this.#xmlFragment) throw missingYjsDoc()
     const { ySyncOpts, yUndoOpts } = this.#options
     const plugins = [
       ySyncPlugin(this.#xmlFragment, ySyncOpts),
@@ -122,7 +125,13 @@ export class CollabService {
     ]
     if (this.#awareness) {
       const { yCursorOpts, yCursorStateField } = this.#options
-      plugins.push(yCursorPlugin(this.#awareness, yCursorOpts as Required<yCursorOpts>, yCursorStateField))
+      plugins.push(
+        yCursorPlugin(
+          this.#awareness,
+          yCursorOpts as Required<yCursorOpts>,
+          yCursorStateField
+        )
+      )
     }
 
     return plugins
@@ -130,8 +139,7 @@ export class CollabService {
 
   /// @internal
   #flushEditor(plugins: Plugin[]) {
-    if (!this.#ctx)
-      throw ctxNotBind()
+    if (!this.#ctx) throw ctxNotBind()
     this.#ctx.set(prosePluginsCtx, plugins)
 
     const view = this.#ctx.get(editorViewCtx)
@@ -178,12 +186,14 @@ export class CollabService {
   }
 
   /// Apply the template to the document.
-  applyTemplate(template: DefaultValue, condition?: (yDocNode: Node, templateNode: Node) => boolean) {
-    if (!this.#ctx)
-      throw ctxNotBind()
-    if (!this.#xmlFragment)
-      throw missingYjsDoc()
-    const conditionFn = condition || (yDocNode => yDocNode.textContent.length === 0)
+  applyTemplate(
+    template: DefaultValue,
+    condition?: (yDocNode: Node, templateNode: Node) => boolean
+  ) {
+    if (!this.#ctx) throw ctxNotBind()
+    if (!this.#xmlFragment) throw missingYjsDoc()
+    const conditionFn =
+      condition || ((yDocNode) => yDocNode.textContent.length === 0)
 
     const node = this.#valueToNode(template)
     const schema = this.#ctx.get(schemaCtx)
@@ -204,10 +214,8 @@ export class CollabService {
 
   /// Connect the service.
   connect() {
-    if (!this.#ctx)
-      throw ctxNotBind()
-    if (this.#connected)
-      return
+    if (!this.#ctx) throw ctxNotBind()
+    if (this.#connected) return
 
     const prosePlugins = this.#ctx.get(prosePluginsCtx)
     const collabPlugins = this.#createPlugins()
@@ -221,14 +229,13 @@ export class CollabService {
 
   /// Disconnect the service.
   disconnect() {
-    if (!this.#ctx)
-      throw ctxNotBind()
-    if (!this.#connected)
-      return this
+    if (!this.#ctx) throw ctxNotBind()
+    if (!this.#connected) return this
 
     const prosePlugins = this.#ctx.get(prosePluginsCtx)
     const plugins = prosePlugins.filter(
-      plugin => !plugin.spec.key || !collabPluginKeys.includes(plugin.spec.key),
+      (plugin) =>
+        !plugin.spec.key || !collabPluginKeys.includes(plugin.spec.key)
     )
 
     this.#flushEditor(plugins)

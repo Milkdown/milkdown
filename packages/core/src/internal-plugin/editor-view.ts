@@ -7,7 +7,13 @@ import { EditorView } from '@milkdown/prose/view'
 import { withMeta } from '../__internal__'
 import { EditorStateReady } from './editor-state'
 import { InitReady } from './init'
-import { editorStateCtx, editorViewCtx, markViewCtx, nodeViewCtx, prosePluginsCtx } from './atoms'
+import {
+  editorStateCtx,
+  editorViewCtx,
+  markViewCtx,
+  nodeViewCtx,
+  prosePluginsCtx,
+} from './atoms'
 
 type EditorOptions = Omit<DirectEditorProps, 'state'>
 
@@ -18,10 +24,16 @@ export const EditorViewReady = createTimer('EditorViewReady')
 
 /// A slice which stores timers that need to be waited for before starting to run the plugin.
 /// By default, it's `[EditorStateReady]`.
-export const editorViewTimerCtx = createSlice([] as TimerType[], 'editorViewTimer')
+export const editorViewTimerCtx = createSlice(
+  [] as TimerType[],
+  'editorViewTimer'
+)
 
 /// A slice which contains the editor view options which will be passed to the editor view.
-export const editorViewOptionsCtx = createSlice({} as Partial<EditorOptions>, 'editorViewOptions')
+export const editorViewOptionsCtx = createSlice(
+  {} as Partial<EditorOptions>,
+  'editorViewOptions'
+)
 
 /// A slice which contains the value to get the root element.
 /// Can be a selector string, a node or null.
@@ -33,7 +45,10 @@ export const rootDOMCtx = createSlice(null as unknown as HTMLElement, 'rootDOM')
 
 /// A slice which contains the root element attributes.
 /// You can add attributes to the root element by this slice.
-export const rootAttrsCtx = createSlice({} as Record<string, string>, 'rootAttrs')
+export const rootAttrsCtx = createSlice(
+  {} as Record<string, string>,
+  'rootAttrs'
+)
 
 function createViewContainer(root: Node, ctx: Ctx) {
   const container = document.createElement('div')
@@ -42,7 +57,9 @@ function createViewContainer(root: Node, ctx: Ctx) {
   ctx.set(rootDOMCtx, container)
 
   const attrs = ctx.get(rootAttrsCtx)
-  Object.entries(attrs).forEach(([key, value]) => container.setAttribute(key, value))
+  Object.entries(attrs).forEach(([key, value]) =>
+    container.setAttribute(key, value)
+  )
 
   return container
 }
@@ -59,7 +76,8 @@ const key = new PluginKey('MILKDOWN_VIEW_CLEAR')
 ///
 /// This plugin will wait for the editor state plugin.
 export const editorView: MilkdownPlugin = (ctx) => {
-  ctx.inject(rootCtx, document.body)
+  ctx
+    .inject(rootCtx, document.body)
     .inject(editorViewCtx, {} as EditorView)
     .inject(editorViewOptionsCtx, {})
     .inject(rootDOMCtx, null as unknown as HTMLElement)
@@ -73,7 +91,7 @@ export const editorView: MilkdownPlugin = (ctx) => {
     const root = ctx.get(rootCtx) || document.body
     const el = typeof root === 'string' ? document.querySelector(root) : root
 
-    ctx.update(prosePluginsCtx, xs => [
+    ctx.update(prosePluginsCtx, (xs) => [
       new Plugin({
         key,
         view: (editorView) => {
@@ -118,7 +136,8 @@ export const editorView: MilkdownPlugin = (ctx) => {
 
     return () => {
       view?.destroy()
-      ctx.remove(rootCtx)
+      ctx
+        .remove(rootCtx)
         .remove(editorViewCtx)
         .remove(editorViewOptionsCtx)
         .remove(rootDOMCtx)

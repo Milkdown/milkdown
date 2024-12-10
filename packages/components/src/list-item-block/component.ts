@@ -31,8 +31,7 @@ export const listItemComponent: Component<ListItemComponentProps> = ({
 
   useLayoutEffect(() => {
     const current = contentWrapperRef.current
-    if (!current)
-      return
+    if (!current) return
 
     const contentDOM = host.current.querySelector('[data-content-dom]')
 
@@ -43,8 +42,7 @@ export const listItemComponent: Component<ListItemComponentProps> = ({
   }, [])
 
   const onClickLabel = () => {
-    if (checked == null)
-      return
+    if (checked == null) return
 
     setAttr?.('checked', !checked)
   }
@@ -57,8 +55,12 @@ export const listItemComponent: Component<ListItemComponentProps> = ({
   }
 
   return html`<host class=${selected && 'ProseMirror-selectednode'}>
-    <li class='list-item'>
-      <div class="label-wrapper" onclick=${onClickLabel} contenteditable="false">
+    <li class="list-item">
+      <div
+        class="label-wrapper"
+        onclick=${onClickLabel}
+        contenteditable="false"
+      >
         ${config?.renderLabel(labelProps)}
       </div>
       <div class="children" ref=${contentWrapperRef}></div>

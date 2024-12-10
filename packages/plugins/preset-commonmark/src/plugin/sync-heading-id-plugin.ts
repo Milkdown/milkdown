@@ -10,21 +10,26 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
   const headingIdPluginKey = new PluginKey('MILKDOWN_HEADING_ID')
 
   const updateId = (view: EditorView) => {
-    if (view.composing)
-      return
+    if (view.composing) return
 
     const getId = ctx.get(headingIdGenerator.key)
     const tr = view.state.tr.setMeta('addToHistory', false)
 
     let found = false
+    const idMap: Record<string, number> = {}
 
     view.state.doc.descendants((node, pos) => {
       if (node.type === headingSchema.type(ctx)) {
-        if (node.textContent.trim().length === 0)
-          return
+        if (node.textContent.trim().length === 0) return
 
         const attrs = node.attrs
-        const id = getId(node)
+        let id = getId(node)
+        if (idMap[id]) {
+          idMap[id]! += 1
+          id += `-#${idMap[id]}`
+        } else {
+          idMap[id] = 1
+        }
 
         if (attrs.id !== id) {
           found = true
@@ -36,8 +41,7 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
       }
     })
 
-    if (found)
-      view.dispatch(tr)
+    if (found) view.dispatch(tr)
   }
 
   return new Plugin({
@@ -47,8 +51,7 @@ export const syncHeadingIdPlugin = $prose((ctx) => {
 
       return {
         update: (view, prevState) => {
-          if (view.state.doc.eq(prevState.doc))
-            return
+          if (view.state.doc.eq(prevState.doc)) return
           updateId(view)
         },
       }

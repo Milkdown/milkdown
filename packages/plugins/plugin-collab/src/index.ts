@@ -5,7 +5,10 @@ import { EditorViewReady } from '@milkdown/core'
 import { CollabService } from './collab-service'
 
 /// A slice that contains the collab service.
-export const collabServiceCtx = createSlice(new CollabService(), 'collabServiceCtx')
+export const collabServiceCtx = createSlice(
+  new CollabService(),
+  'collabServiceCtx'
+)
 
 /// The timer that indicates the collab plugin is ready.
 export const CollabReady = createTimer('CollabReady')

@@ -4,7 +4,10 @@ import { useCallback, useContext, useLayoutEffect } from 'react'
 import type { GetEditor, UseEditorReturn } from './types'
 import { editorInfoContext } from './useGetEditor'
 
-export function useEditor(getEditor: GetEditor, deps: DependencyList = []): UseEditorReturn {
+export function useEditor(
+  getEditor: GetEditor,
+  deps: DependencyList = []
+): UseEditorReturn {
   const editorInfo = useContext(editorInfoContext)
 
   const factory = useCallback(getEditor, deps)

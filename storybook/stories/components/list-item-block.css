@@ -1,15 +1,16 @@
 .milkdown-storybook {
-  .prose :where(li):not(:where([class~="not-prose"] *)) {
+  .prose :where(li):not(:where([class~='not-prose'] *)) {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
 
-  .prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+  .prose :where(blockquote):not(:where([class~='not-prose'] *)) {
     font-style: inherit;
     font-weight: inherit;
   }
 
-  .prose :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~="not-prose"] *)) {
+  .prose
+    :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~='not-prose'] *)) {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
