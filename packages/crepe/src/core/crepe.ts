@@ -23,7 +23,7 @@ export interface CrepeConfig {
 export class Crepe {
   static Feature = CrepeFeature
   readonly #editor: Editor
-  readonly #initPromise: Promise<unknown>
+  // readonly #initPromise: Promise<unknown>
   readonly #rootElement: Node
   #editable = true
 
@@ -62,25 +62,25 @@ export class Crepe {
       .use(clipboard)
       .use(gfm)
 
-    const promiseList: Promise<unknown>[] = []
+    // const promiseList: Promise<unknown>[] = []
 
     enabledFeatures.forEach((feature) => {
       const config = (featureConfigs as Partial<Record<CrepeFeature, never>>)[feature]
-      promiseList.push(
-        loadFeature(feature, this.#editor, config),
-      )
+      // promiseList.push(
+      loadFeature(feature, this.#editor, config)
+      // )
     })
 
-    this.#initPromise = Promise.all(promiseList)
+    // this.#initPromise = Promise.all(promiseList)
   }
 
   async create() {
-    await this.#initPromise
+    // await this.#initPromise
     return this.#editor.create()
   }
 
   async destroy() {
-    await this.#initPromise
+    // await this.#initPromise
     return this.#editor.destroy()
   }
 

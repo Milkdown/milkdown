@@ -9,6 +9,16 @@ import type { ListItemFeatureConfig } from './list-item'
 import type { ToolbarFeatureConfig } from './toolbar'
 import type { TableFeatureConfig } from './table'
 
+import { defineFeature as codeMirrorDefineFeature } from './code-mirror'
+import { defineFeature as listItemDefineFeature } from './list-item'
+import { defineFeature as linkTooltipDefineFeature }from './link-tooltip'
+import { defineFeature as imageBlockDefineFeature } from './image-block'
+import { defineFeature as cursorDefineFeature }from './cursor'
+import { defineFeature as blockEditDefineFeature } from './block-edit'
+import { defineFeature as placeholderDefineFeature } from './placeholder'
+import { defineFeature as toolbarDefineFeature } from './toolbar'
+import { defineFeature as tableDefineFeature } from './table'
+
 export enum CrepeFeature {
   CodeMirror = 'code-mirror',
   ListItem = 'list-item',
@@ -45,43 +55,34 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.Table]: true,
 }
 
-export async function loadFeature(feature: CrepeFeature, editor: Editor, config?: never) {
+export function loadFeature(feature: CrepeFeature, editor: Editor, config?: never) {
   switch (feature) {
     case CrepeFeature.CodeMirror: {
-      const { defineFeature } = await import('./code-mirror')
-      return defineFeature(editor, config)
+      return codeMirrorDefineFeature(editor, config)
     }
     case CrepeFeature.ListItem: {
-      const { defineFeature } = await import('./list-item')
-      return defineFeature(editor, config)
+      return listItemDefineFeature(editor, config)
     }
     case CrepeFeature.LinkTooltip: {
-      const { defineFeature } = await import('./link-tooltip')
-      return defineFeature(editor, config)
+      return linkTooltipDefineFeature(editor, config)
     }
     case CrepeFeature.ImageBlock: {
-      const { defineFeature } = await import('./image-block')
-      return defineFeature(editor, config)
+      return imageBlockDefineFeature(editor, config)
     }
     case CrepeFeature.Cursor: {
-      const { defineFeature } = await import('./cursor')
-      return defineFeature(editor, config)
+      return cursorDefineFeature(editor, config)
     }
     case CrepeFeature.BlockEdit: {
-      const { defineFeature } = await import('./block-edit')
-      return defineFeature(editor, config)
+      return blockEditDefineFeature(editor, config)
     }
     case CrepeFeature.Placeholder: {
-      const { defineFeature } = await import('./placeholder')
-      return defineFeature(editor, config)
+      return placeholderDefineFeature(editor, config)
     }
     case CrepeFeature.Toolbar: {
-      const { defineFeature } = await import('./toolbar')
-      return defineFeature(editor, config)
+      return toolbarDefineFeature(editor, config)
     }
     case CrepeFeature.Table: {
-      const { defineFeature } = await import('./table')
-      return defineFeature(editor, config)
+      return tableDefineFeature(editor, config)
     }
   }
 }

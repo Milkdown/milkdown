@@ -7,6 +7,8 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import type { html } from 'atomico'
 import type { DefineFeature, Icon } from '../shared'
 import { chevronDownIcon, clearIcon, searchIcon } from '../../icons'
+import { languages as langList } from '@codemirror/language-data'
+import { oneDark } from '@codemirror/theme-one-dark'
 
 interface CodeMirrorConfig {
   extensions: Extension[]
@@ -26,17 +28,15 @@ export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
 export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, config = {}) => {
   editor
-    .config(async (ctx) => {
+    .config((ctx) => {
       let {
         languages,
         theme,
       } = config
       if (!languages) {
-        const { languages: langList } = await import('@codemirror/language-data')
         languages = langList
       }
       if (!theme) {
-        const { oneDark } = await import('@codemirror/theme-one-dark')
         theme = oneDark
       }
       ctx.update(codeBlockConfig.key, defaultConfig => ({
