@@ -1,0 +1,121 @@
+.milkdown milkdown-block-handle[data-show='false'] {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .milkdown milkdown-block-handle {
+    transition: all 0.2s;
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+    .milkdown milkdown-block-handle .operation-item {
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+    }
+    .milkdown milkdown-block-handle .operation-item svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--crepe-color-outline);
+      }
+    .milkdown milkdown-block-handle .operation-item:hover {
+        background: var(--crepe-color-hover);
+      }
+    .milkdown milkdown-block-handle .operation-item.active {
+        background: var(--crepe-color-selected);
+      }
+  .milkdown milkdown-slash-menu[data-show='false'] {
+      display: none;
+    }
+  .milkdown milkdown-slash-menu {
+    position: absolute;
+    display: block;
+    font-family: var(--crepe-font-default);
+    color: var(--crepe-color-on-surface);
+    background: var(--crepe-color-surface);
+    border-radius: 12px;
+    box-shadow: var(--crepe-shadow-1);
+}
+  .milkdown milkdown-slash-menu ul {
+      list-style-type: none;
+    }
+  .milkdown milkdown-slash-menu ul li {
+        cursor: pointer;
+        border-radius: 8px;
+      }
+  .milkdown milkdown-slash-menu .tab-group {
+      border-bottom: 1px solid color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      padding: 12px 12px 0;
+    }
+  .milkdown milkdown-slash-menu .tab-group ul {
+        padding: 8px 10px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: nowrap;
+      }
+  .milkdown milkdown-slash-menu .tab-group ul li {
+          padding: 6px 10px;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 20px;
+        }
+  .milkdown milkdown-slash-menu .tab-group ul li:hover {
+            background: var(--crepe-color-hover);
+          }
+  .milkdown milkdown-slash-menu .tab-group ul li.selected {
+            background: var(--crepe-color-selected);
+          }
+  .milkdown milkdown-slash-menu .menu-groups {
+      padding: 0 12px 12px;
+      max-height: 420px;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scroll-behavior: smooth;
+    }
+  .milkdown milkdown-slash-menu .menu-groups .menu-group h6 {
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 20px;
+          padding: 14px 10px;
+          text-transform: uppercase;
+          color: color-mix(in srgb, var(--crepe-color-on-surface), transparent 40%)
+        }
+  .milkdown milkdown-slash-menu .menu-groups .menu-group li {
+          min-width: 220px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 16px;
+          padding: 14px 10px;
+        }
+  .milkdown milkdown-slash-menu .menu-groups .menu-group li.hover {
+            background: var(--crepe-color-hover);
+          }
+  .milkdown milkdown-slash-menu .menu-groups .menu-group li.active {
+            background: var(--crepe-color-selected);
+          }
+  .milkdown milkdown-slash-menu .menu-groups .menu-group li > svg {
+            width: 24px;
+            height: 24px;
+            color: var(--crepe-color-outline);
+            fill: var(--crepe-color-outline);
+          }
+  .milkdown milkdown-slash-menu .menu-groups .menu-group li > span {
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px;
+          }
+  .milkdown milkdown-slash-menu .menu-groups .menu-group + .menu-group::before {
+        content: '';
+        display: block;
+        height: 1px;
+        background: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+        margin: 0 10px;
+      }

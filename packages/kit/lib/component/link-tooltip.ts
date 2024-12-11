@@ -1,0 +1,3 @@
+export * from '@milkdown/components/link-tooltip'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9jb21wb25lbnQvbGluay10b29sdGlwLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBIiwiZmlsZSI6ImxpbmstdG9vbHRpcC50cyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gJ0BtaWxrZG93bi9jb21wb25lbnRzL2xpbmstdG9vbHRpcCdcbiJdfQ== */

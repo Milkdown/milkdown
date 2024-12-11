@@ -1,0 +1,1 @@
+{"version":3,"file":"useInstance.d.ts","sourceRoot":"","sources":["../src/useInstance.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,gBAAgB,CAAA;AAI5C,MAAM,MAAM,QAAQ,GAAG,CAAC,IAAI,EAAE,MAAM,SAAS,CAAC,GAAG,CAAC,KAAK,EAAE,MAAM,MAAM,CAAC,CAAA;AAEtE,wBAAgB,WAAW,IAOmB,QAAQ,CACrD"}

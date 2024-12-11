@@ -1,0 +1,3 @@
+export * from '@milkdown/prose/schema-list'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wcm9zZS9zY2hlbWEtbGlzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSIsImZpbGUiOiJzY2hlbWEtbGlzdC50cyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gJ0BtaWxrZG93bi9wcm9zZS9zY2hlbWEtbGlzdCdcbiJdfQ== */

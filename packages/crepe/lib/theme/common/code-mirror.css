@@ -1,0 +1,192 @@
+.milkdown milkdown-code-block {
+    display: block;
+    position: relative;
+    padding: 8px 20px 20px;
+    background: var(--crepe-color-surface);
+    margin: 4px 0;
+  }
+
+    .milkdown milkdown-code-block .language-picker {
+      padding-top: 10px;
+      width: -moz-max-content;
+      width: max-content;
+      position: absolute;
+      z-index: 1;
+      display: none;
+    }
+
+    .milkdown milkdown-code-block .language-picker.show {
+        display: block;
+      }
+
+    .milkdown milkdown-code-block .hidden {
+      display: none;
+    }
+
+    .milkdown milkdown-code-block.selected {
+      outline: 1px solid var(--crepe-color-primary);
+    }
+
+    .milkdown milkdown-code-block .cm-editor {
+      outline: none !important;
+      background: var(--crepe-color-surface);
+    }
+
+    .milkdown milkdown-code-block .cm-gutters {
+      border-right: none;
+      background: var(--crepe-color-surface);
+    }
+
+    .milkdown milkdown-code-block .language-button {
+      display: flex;
+      align-items: center;
+      font-family: var(--crepe-font-default);
+      gap: 6px;
+      padding: 2px 4px 2px 8px;
+      background: var(--crepe-color-surface-low);
+      color: var(--crepe-color-on-surface-variant);
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      margin-bottom: 8px;
+      opacity: 0;
+      cursor: pointer;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .milkdown milkdown-code-block .language-button:hover {
+        background: var(--crepe-color-hover);
+      }
+
+    .milkdown milkdown-code-block .language-button .expand-icon {
+        transition: transform 0.2s ease-in-out;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+    .milkdown milkdown-code-block .language-button .expand-icon svg {
+        width: 14px;
+        height: 14px;
+        color: var(--crepe-color-outline);
+      }
+
+    .milkdown milkdown-code-block .language-button[data-expanded="true"] .expand-icon {
+        transform: rotate(180deg);
+      }
+
+    .milkdown milkdown-code-block .language-button .expand-icon svg:focus,
+      .milkdown milkdown-code-block .language-button .expand-icon:focus-visible {
+        outline: none;
+      }
+
+    .milkdown milkdown-code-block:hover .language-button {
+      opacity: 1;
+    }
+
+    .milkdown milkdown-code-block .list-wrapper {
+      background: var(--crepe-color-surface-low);
+      border-radius: 12px;
+      box-shadow: var(--crepe-shadow-1);
+      width: 240px;
+      padding-top: 12px;
+    }
+
+    .milkdown milkdown-code-block .language-list {
+      height: 410px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      margin: 0;
+      padding: 0;
+    }
+
+    .milkdown milkdown-code-block .language-list-item {
+      cursor: pointer;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+
+    .milkdown milkdown-code-block .language-list-item:hover {
+        background: var(--crepe-color-hover);
+      }
+
+    .milkdown milkdown-code-block .language-list-item:focus-visible {
+        outline: none;
+        background: var(--crepe-color-hover);
+      }
+
+    .milkdown milkdown-code-block .language-list-item .leading,
+      .milkdown milkdown-code-block .language-list-item .leading svg {
+        width: 24px;
+        height: 24px;
+      }
+
+    .milkdown milkdown-code-block .language-list-item.no-result {
+        cursor: default;
+        opacity: 0.6;
+      }
+
+    .milkdown milkdown-code-block .language-list-item.no-result:hover {
+          background: transparent;
+        }
+
+    .milkdown milkdown-code-block .search-box {
+      display: flex;
+      align-items: center;
+      margin: 0 12px 8px;
+      background: transparent;
+      border-radius: 4px;
+      outline: 1px solid var(--crepe-color-primary);
+      gap: 8px;
+      padding: 6px 10px;
+    }
+
+    .milkdown milkdown-code-block .search-box:has(input:focus) {
+        outline: 2px solid var(--crepe-color-primary);
+      }
+
+    .milkdown milkdown-code-block .search-box .search-input {
+        width: 100%;
+        color: var(--crepe-color-on-surface);
+      }
+
+    .milkdown milkdown-code-block .search-box .search-icon {
+        display: none;
+      }
+
+    .milkdown milkdown-code-block .search-box .clear-icon {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+      }
+
+    .milkdown milkdown-code-block .search-box .clear-icon svg {
+          width: 20px;
+          height: 20px;
+          color: var(--crepe-color-primary);
+          fill: var(--crepe-color-primary);
+        }
+
+    .milkdown milkdown-code-block .search-box .clear-icon:hover {
+          background: var(--crepe-color-hover);
+        }
+
+    .milkdown milkdown-code-block .search-box input {
+        font-family: var(--crepe-font-default);
+        font-size: 14px;
+        line-height: 20px;
+        background: transparent;
+      }
+
+    .milkdown milkdown-code-block .search-box input:focus {
+        outline: none;
+      }

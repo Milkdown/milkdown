@@ -1,0 +1,364 @@
+.milkdown milkdown-image-inline {
+    outline: none;
+    display: inline;
+  }
+
+    .milkdown milkdown-image-inline input {
+      background: transparent;
+      outline: none;
+      border: 0;
+    }
+
+    .milkdown milkdown-image-inline.empty {
+      vertical-align: bottom;
+    }
+
+    .milkdown milkdown-image-inline > .empty-image-inline {
+      display: inline-flex;
+    }
+
+    .milkdown milkdown-image-inline > .empty-image-inline .confirm {
+      cursor: pointer;
+    }
+
+    .milkdown milkdown-image-inline > .empty-image-inline .link-importer {
+      position: relative;
+      flex: 1;
+    }
+
+    .milkdown milkdown-image-inline > .empty-image-inline .link-importer > .link-input-area {
+      width: 208px;
+      color: var(--crepe-color-on-background);
+    }
+
+    .milkdown milkdown-image-inline > .empty-image-inline .link-importer .placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      cursor: text;
+    }
+
+    .milkdown milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader {
+      cursor: pointer;
+      display: flex;
+    }
+
+    .milkdown milkdown-image-inline .hidden {
+      display: none !important;
+    }
+
+    .milkdown milkdown-image-inline.empty.selected {
+      background: none;
+      outline: none;
+    }
+
+    .milkdown milkdown-image-inline.empty.selected .empty-image-inline {
+        box-shadow: var(--crepe-shadow-1);
+      }
+
+    .milkdown milkdown-image-inline.selected {
+      background: none;
+      outline: 1px solid var(--crepe-color-primary);
+    }
+
+    .milkdown milkdown-image-inline.selected :not(input)::-moz-selection {
+        background: transparent;
+      }
+
+    .milkdown milkdown-image-inline.selected :not(input)::selection {
+        background: transparent;
+      }
+
+    .milkdown milkdown-image-inline img.image-inline {
+      vertical-align: text-bottom;
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline {
+      align-items: center;
+      padding: 4px 10px;
+      gap: 10px;
+      background: var(--crepe-color-surface);
+      font-family: var(--crepe-font-default);
+      border-radius: 8px;
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .image-icon svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--crepe-color-outline);
+      }
+
+    .milkdown milkdown-image-inline .empty-image-inline .image-icon {
+      padding: 3px;
+      width: 24px;
+      height: 24px;
+}
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer {
+      height: 24px;
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer .placeholder {
+      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer .placeholder :not(input)::-moz-selection {
+        background: transparent;
+      }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer .placeholder :not(input)::selection {
+        background: transparent;
+      }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer .link-input-area {
+      line-height: 24px;
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer .placeholder .uploader {
+      gap: 8px;
+      color: var(--crepe-color-primary);
+      justify-content: center;
+      transition: color 0.2s;
+      font-family: var(--crepe-font-default);
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer.focus .placeholder .uploader {
+      color: unset;
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer .placeholder .uploader:hover {
+      color: var(--crepe-color-primary);
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .link-importer .placeholder .text {
+      margin-left: 8px;
+    }
+
+    .milkdown milkdown-image-inline .empty-image-inline .confirm svg {
+        width: 18px;
+        height: 18px;
+      }
+
+    .milkdown milkdown-image-inline .empty-image-inline .confirm {
+      width: 24px;
+      height: 24px;
+      padding: 3px;
+      border-radius: 8px;
+      color: var(--crepe-color-primary);
+}
+
+    .milkdown milkdown-image-inline .empty-image-inline .confirm:hover {
+        background: var(--crepe-color-hover);
+      }
+  .milkdown milkdown-image-block {
+    outline: none;
+    margin: 4px 0;
+    display: block;
+  }
+  .milkdown milkdown-image-block > .image-wrapper {
+      position: relative;
+      width: -moz-fit-content;
+      width: fit-content;
+      margin: 0 auto;
+      min-width: 100px;
+    }
+  .milkdown milkdown-image-block > .image-wrapper .operation {
+      position: absolute;
+      display: flex;
+    }
+  .milkdown milkdown-image-block > .image-wrapper .operation > .operation-item {
+      cursor: pointer;
+    }
+  .milkdown milkdown-image-block > .image-wrapper img {
+      max-width: 100%;
+      min-height: 100px;
+      display: block;
+      -o-object-fit: cover;
+         object-fit: cover;
+    }
+  .milkdown milkdown-image-block > .image-wrapper > .image-resize-handle {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  .milkdown milkdown-image-block > .image-wrapper > .image-resize-handle:hover {
+      cursor: row-resize;
+    }
+  .milkdown milkdown-image-block input {
+      background: transparent;
+      outline: none;
+      border: 0;
+    }
+  .milkdown milkdown-image-block > .caption-input {
+      display: block;
+      width: 100%;
+      text-align: center;
+      color: var(--crepe-color-on-background);
+    }
+  .milkdown milkdown-image-block > .image-edit {
+      display: flex;
+    }
+  .milkdown milkdown-image-block > .image-edit .confirm {
+      cursor: pointer;
+    }
+  .milkdown milkdown-image-block > .image-edit .link-importer {
+      position: relative;
+      flex: 1;
+    }
+  .milkdown milkdown-image-block > .image-edit .link-importer > .link-input-area {
+      width: 100%;
+    }
+  .milkdown milkdown-image-block > .image-edit .link-importer .placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      cursor: text;
+    }
+  .milkdown milkdown-image-block > .image-edit .link-importer .placeholder .uploader {
+      cursor: pointer;
+      display: flex;
+    }
+  .milkdown milkdown-image-block .hidden {
+      display: none !important;
+    }
+  .milkdown milkdown-image-block.selected > .image-edit:not(:has(input:focus)) {
+      position: relative;
+    }
+  .milkdown milkdown-image-block.selected > .image-edit:not(:has(input:focus))::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+        pointer-events: none;
+      }
+  .milkdown milkdown-image-block.selected > .image-wrapper {
+        position: relative;
+      }
+  .milkdown milkdown-image-block.selected > .image-wrapper::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+        }
+  .milkdown milkdown-image-block.selected :not(input)::-moz-selection {
+        background: transparent;
+      }
+  .milkdown milkdown-image-block.selected :not(input)::selection {
+        background: transparent;
+      }
+  .milkdown milkdown-image-block .image-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  .milkdown milkdown-image-block .image-wrapper .operation {
+      gap: 12px;
+      right: 12px;
+      top: 12px;
+      opacity: 0;
+      transition: all 0.2s;
+    }
+  .milkdown milkdown-image-block:hover > .image-wrapper .operation {
+      opacity: 1;
+    }
+  .milkdown milkdown-image-block .image-wrapper .operation > .operation-item {
+      color: var(--crepe-color-on-inverse);
+      padding: 4px;
+      background: var(--crepe-color-inverse);
+      opacity: 0.6;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+    }
+  .milkdown milkdown-image-block .image-wrapper .operation > .operation-item svg {
+        width: 24px;
+        height: 24px;
+      }
+  .milkdown milkdown-image-block .image-wrapper .image-resize-handle {
+      height: 4px;
+      bottom: -2px;
+      max-width: 160px;
+      width: 100%;
+      background: var(--crepe-color-outline);
+      opacity: 0;
+      transition: all 0.2s;
+      border-radius: 4px;
+    }
+  .milkdown milkdown-image-block:hover > .image-wrapper .image-resize-handle {
+      opacity: 1;
+    }
+  .milkdown milkdown-image-block .caption-input {
+      margin: 4px auto;
+      font-family: var(--crepe-font-default);
+    }
+  .milkdown milkdown-image-block .image-edit {
+      align-items: center;
+      padding: 16px 24px;
+      gap: 16px;
+      background: var(--crepe-color-surface);
+      height: 56px;
+    }
+  .milkdown milkdown-image-block .image-edit .image-icon {
+      color: var(--crepe-color-outline);
+    }
+  .milkdown milkdown-image-block .image-edit .image-icon svg {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      fill: var(--crepe-color-outline);
+    }
+  .milkdown milkdown-image-block .image-edit .link-importer .placeholder {
+      color: color-mix(in srgb, var(--crepe-color-on-background), transparent 60%);
+    }
+  .milkdown milkdown-image-block .image-edit .link-importer .placeholder :not(input)::-moz-selection {
+        background: transparent;
+      }
+  .milkdown milkdown-image-block .image-edit .link-importer .placeholder :not(input)::selection {
+        background: transparent;
+      }
+  .milkdown milkdown-image-block .image-edit .link-importer .link-input-area {
+      line-height: 24px;
+      color: var(--crepe-color-on-background);
+    }
+  .milkdown milkdown-image-block .image-edit .link-importer .placeholder .uploader {
+      gap: 8px;
+      color: var(--crepe-color-primary);
+      justify-content: center;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+  .milkdown milkdown-image-block .image-edit .link-importer.focus .placeholder .uploader {
+      color: unset;
+    }
+  .milkdown milkdown-image-block .image-edit .link-importer .placeholder .uploader:hover {
+      color: var(--crepe-color-primary);
+    }
+  .milkdown milkdown-image-block .image-edit .link-importer .placeholder .text {
+      margin-left: 8px;
+    }
+  .milkdown milkdown-image-block .image-edit .confirm {
+      background: var(--crepe-color-secondary);
+      color: var(--crepe-color-on-secondary);
+      line-height: 40px;
+      padding: 0 24px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  .milkdown milkdown-image-block .image-edit .confirm:hover {
+        background: linear-gradient(0deg, rgba(29, 25, 43, 0.08) 0%, rgba(29, 25, 43, 0.08) 100%), var(--crepe-color-secondary);
+      }

@@ -1,0 +1,28 @@
+@import "../_internal/classic-common.css";
+
+.milkdown {
+  --crepe-color-background: #1B1C1D;
+  --crepe-color-on-background: #F8F9FF;
+  --crepe-color-surface: #111418;
+  --crepe-color-surface-low: #191C20;
+  --crepe-color-on-surface: #E1E2E8;
+  --crepe-color-on-surface-variant: #C3C6CF;
+  --crepe-color-outline: #8D9199;
+  --crepe-color-primary: #A1C9FD;
+  --crepe-color-secondary: #3C4858;
+  --crepe-color-on-secondary: #D7E3F8;
+  --crepe-color-inverse: #E1E2E8;
+  --crepe-color-on-inverse: #2E3135;
+  --crepe-color-inline-code: #FFB4AB;
+  --crepe-color-error: #FFB4AB;
+  --crepe-color-hover: #1D2024;
+  --crepe-color-selected: #32353A;
+  --crepe-color-inline-area: #111418;
+
+  --crepe-font-title: Rubik, Cambria, "Times New Roman", Times, serif;
+  --crepe-font-default: Inter, Arial, Helvetica, sans-serif;
+  --crepe-font-code: "JetBrains Mono", Menlo, Monaco, "Courier New", Courier, monospace;
+
+  --crepe-shadow-1: 0px 1px 2px 0px rgba(255, 255, 255, 0.30), 0px 1px 3px 1px rgba(255, 255, 255, 0.15);
+  --crepe-shadow-2: 0px 1px 2px 0px rgba(255, 255, 255, 0.30), 0px 2px 6px 2px rgba(255, 255, 255, 0.15);
+}

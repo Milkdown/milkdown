@@ -1,0 +1,1 @@
+{"version":3,"file":"regexp.d.ts","sourceRoot":"","sources":["../src/regexp.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,UAAU,QAA4B,CAAA;AAEnD,eAAO,MAAM,cAAc,QAAyE,CAAA;AAEpG,wBAAgB,iBAAiB,CAAC,eAAe,EAAE,MAAM,UAExD;AAED,eAAO,MAAM,gBAAgB,WAAW,CAAA;AAExC,eAAO,MAAM,QAAQ,YAAyB,CAAA;AAC9C,eAAO,MAAM,cAAc,iBAAyB,CAAA;AACpD,eAAO,MAAM,SAAS,YAAyB,CAAA;AAC/C,eAAO,MAAM,eAAe,iBAAyB,CAAA"}

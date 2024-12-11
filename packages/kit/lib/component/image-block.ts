@@ -1,0 +1,3 @@
+export * from '@milkdown/components/image-block'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9jb21wb25lbnQvaW1hZ2UtYmxvY2sudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoiaW1hZ2UtYmxvY2sudHMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgKiBmcm9tICdAbWlsa2Rvd24vY29tcG9uZW50cy9pbWFnZS1ibG9jaydcbiJdfQ== */

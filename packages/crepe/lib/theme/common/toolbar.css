@@ -1,0 +1,41 @@
+.milkdown milkdown-toolbar[data-show="false"] {
+      display: none;
+    }
+    .milkdown milkdown-toolbar {
+    position: absolute;
+    display: flex;
+    background: var(--crepe-color-surface);
+    box-shadow: var(--crepe-shadow-1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+    .milkdown milkdown-toolbar .divider {
+      width: 1px;
+      background: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      height: 24px;
+      margin: 10px;
+    }
+    .milkdown milkdown-toolbar .toolbar-item {
+      width: 32px;
+      height: 32px;
+      margin: 6px;
+      padding: 4px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .milkdown milkdown-toolbar .toolbar-item:hover {
+        background: var(--crepe-color-hover)
+      }
+    .milkdown milkdown-toolbar .toolbar-item:active {
+        background: var(--crepe-color-selected);
+      }
+    .milkdown milkdown-toolbar .toolbar-item svg {
+        height: 24px;
+        width: 24px;
+        color: var(--crepe-color-outline);
+        fill: var(--crepe-color-outline);
+      }
+    .milkdown milkdown-toolbar .toolbar-item.active svg {
+          color: var(--crepe-color-primary);
+          fill: var(--crepe-color-primary);
+        }

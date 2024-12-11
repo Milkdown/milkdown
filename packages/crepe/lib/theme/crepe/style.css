@@ -1,0 +1,28 @@
+@import "../_internal/classic-common.css";
+
+.milkdown {
+  --crepe-color-background: #FFFDFB;
+  --crepe-color-on-background: #1F1B16;
+  --crepe-color-surface: #FFF8F4;
+  --crepe-color-surface-low: #FFF1E5;
+  --crepe-color-on-surface: #201B13;
+  --crepe-color-on-surface-variant: #4F4539;
+  --crepe-color-outline: #817567;
+  --crepe-color-primary: #805610;
+  --crepe-color-secondary: #FBDEBC;
+  --crepe-color-on-secondary: #271904;
+  --crepe-color-inverse: #362F27;
+  --crepe-color-on-inverse: #FCEFE2;
+  --crepe-color-inline-code: #BA1A1A;
+  --crepe-color-error: #BA1A1A;
+  --crepe-color-hover: #F9ECDF;
+  --crepe-color-selected: #EDE0D4;
+  --crepe-color-inline-area: #E4D8CC;
+
+  --crepe-font-title: Georgia, Cambria, "Times New Roman", Times, serif;
+  --crepe-font-default: "Open Sans", Arial, Helvetica, sans-serif;
+  --crepe-font-code: Fira Code, Menlo, Monaco, "Courier New", Courier, monospace;
+
+  --crepe-shadow-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+  --crepe-shadow-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
+}

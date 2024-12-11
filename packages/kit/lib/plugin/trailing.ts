@@ -1,0 +1,3 @@
+export * from '@milkdown/plugin-trailing'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wbHVnaW4vdHJhaWxpbmcudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoidHJhaWxpbmcudHMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgKiBmcm9tICdAbWlsa2Rvd24vcGx1Z2luLXRyYWlsaW5nJ1xuIl19 */

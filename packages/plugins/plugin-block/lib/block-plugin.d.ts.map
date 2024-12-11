@@ -1,0 +1,1 @@
+{"version":3,"file":"block-plugin.d.ts","sourceRoot":"","sources":["../src/block-plugin.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,uBAAuB,CAAA;AAIvD,OAAO,EAAE,YAAY,EAAE,MAAM,iBAAiB,CAAA;AAK9C,eAAO,MAAM,YAAY,8DAA2C,CAAA;AAQpE,eAAO,MAAM,SAAS,8DAAsD,CAAA;AAO5E,eAAO,MAAM,WAAW,kCAmCtB,CAAA"}

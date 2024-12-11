@@ -1,0 +1,257 @@
+.milkdown {
+  position: relative;
+}
+
+  .milkdown * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .milkdown button,
+  .milkdown input {
+    border:none;
+    background: none;
+    box-shadow: none;
+  }
+
+  .milkdown button:focus, .milkdown input:focus {
+      outline: none;
+    }
+
+  .milkdown :focus-visible {
+    outline: none;
+  }
+
+  .milkdown {
+
+  font-family: var(--crepe-font-default);
+  color: var(--crepe-color-on-background);
+  background: var(--crepe-color-background);
+}
+
+  .milkdown .ProseMirror-focused {
+    outline: none;
+  }
+
+  .milkdown .ProseMirror {
+    padding: 60px 120px;
+  }
+
+  .milkdown .ProseMirror *::-moz-selection {
+      background: var(--crepe-color-selected);
+    }
+
+  .milkdown .ProseMirror *::selection {
+      background: var(--crepe-color-selected);
+    }
+
+  .milkdown .ProseMirror li.ProseMirror-selectednode {
+      background: var(--crepe-color-selected);
+      outline: none;
+    }
+
+  .milkdown .ProseMirror li.ProseMirror-selectednode ::-moz-selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror li.ProseMirror-selectednode ::selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror li.ProseMirror-selectednode::-moz-selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror li.ProseMirror-selectednode::selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror li.ProseMirror-selectednode:after {
+      all: unset;
+    }
+
+  .milkdown .ProseMirror .ProseMirror-selectednode {
+      background: var(--crepe-color-selected);
+      outline: none;
+      background: color-mix(in srgb, var(--crepe-color-selected), transparent 60%);
+    }
+
+  .milkdown .ProseMirror .ProseMirror-selectednode ::-moz-selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror .ProseMirror-selectednode ::selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror .ProseMirror-selectednode::-moz-selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror .ProseMirror-selectednode::selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror[data-dragging="true"]::-moz-selection, .milkdown .ProseMirror[data-dragging="true"] *::-moz-selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror[data-dragging="true"] .ProseMirror-selectednode,
+      .milkdown .ProseMirror[data-dragging="true"]::selection,
+      .milkdown .ProseMirror[data-dragging="true"] *::selection {
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror[data-dragging="true"] input::-moz-selection {
+        background: var(--crepe-color-selected);
+      }
+
+  .milkdown .ProseMirror[data-dragging="true"] input::selection {
+        background: var(--crepe-color-selected);
+      }
+
+  .milkdown .ProseMirror img {
+      vertical-align: bottom;
+      max-width: 100%;
+    }
+
+  .milkdown .ProseMirror img.ProseMirror-selectednode {
+        background: none;
+        outline: 2px solid var(--crepe-color-primary);
+      }
+
+  .milkdown .ProseMirror h1,
+    .milkdown .ProseMirror h2,
+    .milkdown .ProseMirror h3,
+    .milkdown .ProseMirror h4,
+    .milkdown .ProseMirror h5,
+    .milkdown .ProseMirror h6 {
+      font-family: var(--crepe-font-title);
+      font-weight: 400;
+      padding: 2px 0;
+    }
+
+  .milkdown .ProseMirror h1 {
+      font-size: 42px;
+      line-height: 50px;
+      margin-top: 32px;
+    }
+
+  .milkdown .ProseMirror h2 {
+      font-size: 36px;
+      line-height: 44px;
+      margin-top: 28px;
+    }
+
+  .milkdown .ProseMirror h3 {
+      font-size: 32px;
+      line-height: 40px;
+      margin-top: 24px;
+    }
+
+  .milkdown .ProseMirror h4 {
+      font-size: 28px;
+      line-height: 36px;
+      margin-top: 20px
+    }
+
+  .milkdown .ProseMirror h5 {
+      font-size: 24px;
+      line-height: 32px;
+      margin-top: 16px
+    }
+
+  .milkdown .ProseMirror h6 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px;
+      margin-top: 16px
+    }
+
+  .milkdown .ProseMirror p {
+      font-size: 16px;
+      line-height: 24px;
+      padding: 4px 0;
+    }
+
+  .milkdown .ProseMirror code {
+      color: var(--crepe-color-inline-code);
+      background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
+      font-family: var(--crepe-font-code);
+      padding: 0 10px;
+      border-radius: 4px;
+      font-size: 87.5%;
+      display: inline-block;
+      line-height: 1.4286;
+    }
+
+  .milkdown .ProseMirror a {
+      color: var(--crepe-color-primary);
+      text-decoration: underline;
+    }
+
+  .milkdown .ProseMirror pre {
+      background: color-mix(in srgb, var(--crepe-color-inline-area), transparent 40%);
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+  .milkdown .ProseMirror pre code {
+        padding: 0;
+        background: transparent;
+      }
+
+  .milkdown .ProseMirror blockquote {
+      position: relative;
+      padding-left: 40px;
+      padding-top: 0;
+      padding-bottom: 0;
+      box-sizing: content-box;
+      margin: 4px 0;
+    }
+
+  .milkdown .ProseMirror blockquote::before {
+        content: "";
+        width: 4px;
+        left: 0;
+        top: 4px;
+        bottom: 4px;
+        position: absolute;
+        background: var(--crepe-color-selected);
+        border-radius: 100px;
+      }
+
+  .milkdown .ProseMirror blockquote hr {
+        margin-bottom: 16px;
+      }
+
+  .milkdown .ProseMirror hr {
+      border: none;
+      background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+      background-clip: content-box;
+      padding: 6px 0;
+      height: 13px;
+      position: relative;
+    }
+
+  .milkdown .ProseMirror hr.ProseMirror-selectednode {
+        outline: none;
+        background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 20%);
+        background-clip: content-box;
+      }
+
+  .milkdown .ProseMirror hr.ProseMirror-selectednode::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          background-color: color-mix(in srgb, var(--crepe-color-outline), transparent 80%);
+          pointer-events: none;
+        }
+
+  .milkdown .ProseMirror ul,.milkdown .ProseMirror ol {
+      padding: 0;
+    }

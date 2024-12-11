@@ -3,7 +3,7 @@ node_modules
 .idea
 .vscode
 
-lib
+# lib
 dist
 dist-ssr
 docs

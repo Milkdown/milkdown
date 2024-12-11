@@ -1,0 +1,106 @@
+.milkdown milkdown-link-preview {
+    position: absolute;
+    z-index: 10;
+  }
+    .milkdown milkdown-link-preview[data-show='false'] {
+      display: none;
+    }
+    .milkdown milkdown-link-preview > .link-preview {
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      padding: 4px 10px;
+      background: var(--crepe-color-surface);
+      gap: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: var(--crepe-shadow-1);
+    }
+    .milkdown milkdown-link-preview > .link-preview > .link-display {
+        text-decoration: none;
+        color: unset;
+      }
+    .milkdown milkdown-link-preview > .link-preview > .link-display:hover:before {
+        display: block;
+      }
+    .milkdown milkdown-link-preview > .link-preview > .link-icon > svg {
+          width: 18px;
+          height: 18px;
+          color: var(--crepe-color-outline);
+          fill: var(--crepe-color-outline);
+        }
+    .milkdown milkdown-link-preview > .link-preview > .link-icon {
+        border-radius: 8px;
+        padding: 3px;
+        line-height: 24px;
+}
+    .milkdown milkdown-link-preview > .link-preview > .link-icon:hover {
+          background: var(--crepe-color-hover);
+        }
+    .milkdown milkdown-link-preview > .link-preview > .link-display {
+        width: 240px;
+        line-height: 24px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+      }
+    .milkdown milkdown-link-preview > .link-preview > .link-display:hover {
+          text-decoration: underline;
+        }
+    .milkdown milkdown-link-preview > .link-preview > .button > svg {
+          width: 18px;
+          height: 18px;
+          color: var(--crepe-color-outline);
+          fill: var(--crepe-color-outline);
+        }
+    .milkdown milkdown-link-preview > .link-preview > .button {
+        padding: 3px;
+        border-radius: 8px;
+        line-height: 24px;
+}
+    .milkdown milkdown-link-preview > .link-preview > .button:hover {
+          background: var(--crepe-color-hover);
+        }
+  .milkdown milkdown-link-edit {
+    position: absolute;
+    z-index: 10;
+  }
+  .milkdown milkdown-link-edit[data-show='false'] {
+      display: none;
+    }
+  .milkdown milkdown-link-edit > .link-edit {
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      padding: 4px 10px 4px 20px;
+      background: var(--crepe-color-surface);
+      gap: 8px;
+      border-radius: 8px;
+      box-shadow: var(--crepe-shadow-1);
+    }
+  .milkdown milkdown-link-edit > .link-edit > .input-area {
+        outline: none;
+        background: transparent;
+        width: 200px;
+        font-size: 14px;
+        color: var(--crepe-color-on-background);
+      }
+  .milkdown milkdown-link-edit > .link-edit > .button > svg {
+          width: 18px;
+          height: 18px;
+          color: var(--crepe-color-outline);
+          fill: var(--crepe-color-outline);
+        }
+  .milkdown milkdown-link-edit > .link-edit > .button {
+        padding: 3px;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 12px;
+        line-height: 24px;
+}
+  .milkdown milkdown-link-edit > .link-edit > .button:hover {
+          background: var(--crepe-color-hover);
+        }
+  .milkdown milkdown-link-edit > .link-edit > .button.hidden {
+          visibility: hidden;
+        }

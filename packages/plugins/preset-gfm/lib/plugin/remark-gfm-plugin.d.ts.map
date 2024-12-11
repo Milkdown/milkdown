@@ -1,0 +1,1 @@
+{"version":3,"file":"remark-gfm-plugin.d.ts","sourceRoot":"","sources":["../../src/plugin/remark-gfm-plugin.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,iBAAiB,CAAA;AAE9C,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,YAAY,CAAA;AAKzC,eAAO,MAAM,eAAe,EAAE,OAAO,CAAC,WAAW,EAAE,OAAO,GAAG,IAAI,GAAG,SAAS,CAAyC,CAAA"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"block-config.d.ts","sourceRoot":"","sources":["../src/block-config.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,IAAI,EAAE,WAAW,EAAE,MAAM,uBAAuB,CAAA;AAO9D,MAAM,MAAM,WAAW,GAAG,CAAC,GAAG,EAAE,WAAW,EAAE,IAAI,EAAE,IAAI,KAAK,OAAO,CAAA;AAGnE,eAAO,MAAM,iBAAiB,EAAE,WAM/B,CAAA;AAKD,eAAO,MAAM,WAAW;iBAAuB,WAAW;iBAAqE,CAAA"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"component.d.ts","sourceRoot":"","sources":["../../../../../src/feature/block-edit/handle/component.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,cAAc,CAAA;AAExC,MAAM,WAAW,gBAAgB;IAC/B,IAAI,EAAE,OAAO,CAAA;IACb,KAAK,EAAE,MAAM,IAAI,CAAA;IACjB,OAAO,EAAE,IAAI,CAAA;IACb,UAAU,EAAE,IAAI,CAAA;CACjB;AAyCD,eAAO,MAAM,kBAAkB;;;EAA0B,CAAA"}
