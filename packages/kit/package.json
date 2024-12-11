@@ -1,11 +1,11 @@
 {
-  "name": "@milkdown/kit",
+  "name": "@milkdown-nota/kit",
   "type": "module",
   "version": "7.5.5",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Milkdown/milkdown.git",
+    "url": "git+https://github.com/SNKK62/milkdown-nota.git",
     "directory": "packages/milkdown"
   },
   "keywords": [

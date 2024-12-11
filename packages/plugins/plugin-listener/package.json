@@ -1,11 +1,11 @@
 {
-  "name": "@milkdown/plugin-listener",
+  "name": "@milkdown-nota/plugin-listener",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Milkdown/milkdown.git",
+    "url": "git+https://github.com/SNKK62/milkdown-nota.git",
     "directory": "packages/plugins/plugin-listener"
   },
   "keywords": [

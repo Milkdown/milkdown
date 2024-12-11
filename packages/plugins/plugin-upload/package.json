@@ -1,11 +1,11 @@
 {
-  "name": "@milkdown/plugin-upload",
+  "name": "@milkdown-nota/plugin-upload",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Milkdown/milkdown.git",
+    "url": "git+https://github.com/SNKK62/milkdown-nota.git",
     "directory": "packages/plugins/plugin-upload"
   },
   "keywords": [
