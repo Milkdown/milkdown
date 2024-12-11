@@ -2,5 +2,6 @@ packages:
   - 'packages/*'
   - 'packages/plugins/*'
   - 'packages/integrations/*'
+  - '!packages/integrations/vue'
   - e2e
   - storybook
