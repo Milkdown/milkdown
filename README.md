@@ -12,69 +12,24 @@
   <img src="/assets/logo.svg" />
 </div>
 
-A plugin-driven WYSIWYG markdown Editor, inspired by [Typora](https://typora.io/),
-built on top of [prosemirror](https://prosemirror.net/) and [remark](https://github.com/remarkjs/remark).
+A Milkdown fork for [Nota](https://www.nota-sync.com/) application.
 
-The website is designed by [Meo](https://meo.cool/) and [Mirone](https://github.com/Saul-Mirone).
-Powered by [Theme Nord](https://www.nordtheme.com/) and [Material Design](https://material.io/design).
+# How to develop
 
-# Documentation
+first, you need to download `pnpm` package manager.<br>
+You can download it from [here](https://pnpm.io/installation).
+
+```sh
+# Install dependencies
+pnpm install
+
+# build packages
+pnpm run build:packs
+```
+
+# Documentation of Original Milkdown
 
 For more information, please check our [official documentation website](https://milkdown.dev/).
-
-# What's Next
-
-You can check our [Milkdown TODO](https://github.com/orgs/Milkdown/projects/1) project page to know what's on the plan.
-
-You can also check [milestones](https://github.com/Milkdown/milkdown/milestones) to know what's being worked on.
-
-# Community
-
-Welcome to join our [Discord community][discord-link].
-
-# Contributing
-
-Follow our [contribution guide](https://github.com/Milkdown/milkdown/blob/main/CONTRIBUTING.md) to learn how to contribute to milkdown.
-
-# Contributor
-
-<a href="https://github.com/Milkdown/milkdown/graphs/contributors">
-  <img src="https://opencollective.com/milkdown/contributors.svg?width=890&button=false" alt="contributors">
-</a>
-
-Special thanks to [@Meo](https://meo.cool/) for her work in design.
-
-# Sponsors
-
-If you like this project, please consider fund me to help the maintenance.
-
-<a href="https://github.com/sponsors/Saul-Mirone">
-  <img src="/../../../../Saul-Mirone/Saul-Mirone/blob/main/sponsors.svg">
-</a>
-
-# Thanks
-
-Thanks to the following projects and companies for their support to milkdown and the open source community.
-
-<a href="https://www.jetbrains.com/">
-  <img src="/assets/jetbrains.svg" height="50" />
-</a>
-&nbsp;&nbsp;
-<a href="https://www.cypress.io/">
-  <img src="/assets/cypress.svg" height="50" />
-</a>
-&nbsp;&nbsp;
-<a href="https://nx.dev/">
-  <img src="/assets/nx.svg" height="50" />
-</a>
-&nbsp;&nbsp;
-<a href="https://www.algolia.com/">
-  <img src="/assets/algolia.svg" height="50" />
-</a>
-&nbsp;&nbsp;
-<a href="https://vercel.com/milkdown?utm_source=milkdown&utm_campaign=oss">
-  <img src="/assets/vercel.svg" height="50" />
-</a>
 
 # License
 
@@ -90,3 +45,10 @@ Thanks to the following projects and companies for their support to milkdown and
 [license-badge]: https://img.shields.io/github/license/Milkdown/milkdown
 [discord-badge]: https://img.shields.io/discord/870181036041060352
 [discord-link]: https://discord.gg/SdMnrSMyBX
+
+
+## Memo
+
+- `prosemirror-table` and `prosemirror-view` had dependency conflict, so I set the version of `prosemirror-table` to `1.36.0` in `package.json` as workaround.
+- `rimraf` and `glob` had dependency conflict, so I set the version of `rimraf` to `^11.0.0` in `package.json` as workaround.
+- `glob` and `minimatch` had dependency conflict, so I set the version of `minimatch` to `^10.0.0` in `package.json` as workaround.
