@@ -613,8 +613,8 @@ importers:
         specifier: workspace:*
         version: link:../../prose
       y-prosemirror:
-        specifier: ^1.2.1
-        version: 1.2.2(prosemirror-model@1.21.3)(prosemirror-state@1.4.3)(prosemirror-view@1.33.8)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10)
+        specifier: ^1.2.12
+        version: 1.2.15(prosemirror-model@1.21.3)(prosemirror-state@1.4.3)(prosemirror-view@1.33.8)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10)
       y-protocols:
         specifier: ^1.0.5
         version: 1.0.6(yjs@13.6.10)
@@ -8175,8 +8175,8 @@ packages:
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
 
-  y-prosemirror@1.2.2:
-    resolution: {integrity: sha512-hHdnIAhfa8mIoLWtTkMDb6RBzN3lye1QVkaZwVm58sledAA1zTl+yyEtgkrY/sdH6SaQL0rsLj61zHjgr5D0HQ==}
+  y-prosemirror@1.2.15:
+    resolution: {integrity: sha512-XDdrytq2M5bIy3qusQvfRclLu2eWZYPA+BbGWAb9FFWEhOB5FCrnzez2vsA+gvAd0FJTAcr89mjJ5g45r0j7TQ==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
     peerDependencies:
       prosemirror-model: ^1.7.1
@@ -16374,7 +16374,7 @@ snapshots:
 
   xmlchars@2.2.0: {}
 
-  y-prosemirror@1.2.2(prosemirror-model@1.21.3)(prosemirror-state@1.4.3)(prosemirror-view@1.33.8)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10):
+  y-prosemirror@1.2.15(prosemirror-model@1.21.3)(prosemirror-state@1.4.3)(prosemirror-view@1.33.8)(y-protocols@1.0.6(yjs@13.6.10))(yjs@13.6.10):
     dependencies:
       lib0: 0.2.88
       prosemirror-model: 1.21.3
