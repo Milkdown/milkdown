@@ -51,7 +51,10 @@ declare module 'y-prosemirror' {
   export const yCursorPluginKey: PluginKey<any>
   export const ySyncPluginKey: PluginKey<any>
   export const yUndoPluginKey: PluginKey<any>
-  export function yXmlFragmentToProseMirrorRootNode(yXmlFragment: Y.XmlFragment, schema: Schema): Node
+  export function yXmlFragmentToProseMirrorRootNode(
+    yXmlFragment: Y.XmlFragment,
+    schema: Schema
+  ): Node
   export function ySyncPlugin(
     yXmlFragment: Y.XmlFragment,
     { colors, colorMapping, permanentUserData, onFirstRender }?: YSyncOpts

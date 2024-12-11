@@ -23,7 +23,9 @@ function run(
       '\uFFFC'
     ) + text
   for (let i = 0; i < rules.length; i++) {
-    const match = (rules[i] as unknown as { match: RegExp }).match.exec(textBefore)
+    const match = (rules[i] as unknown as { match: RegExp }).match.exec(
+      textBefore
+    )
     const tr =
       match &&
       match[0] &&

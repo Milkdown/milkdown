@@ -197,15 +197,17 @@ export class CollabService {
 
     const node = this.#valueToNode(template)
     const schema = this.#ctx.get(schemaCtx)
-    const yDocNode = yXmlFragmentToProseMirrorRootNode(this.#xmlFragment, schema)
+    const yDocNode = yXmlFragmentToProseMirrorRootNode(
+      this.#xmlFragment,
+      schema
+    )
 
     if (node && conditionFn(yDocNode, node)) {
       const fragment = this.#xmlFragment
       fragment.delete(0, fragment.length)
       const templateDoc = prosemirrorToYDoc(node)
       const template = encodeStateAsUpdate(templateDoc)
-      if (fragment.doc)
-        applyUpdate(fragment.doc, template)
+      if (fragment.doc) applyUpdate(fragment.doc, template)
       templateDoc.destroy()
     }
 
