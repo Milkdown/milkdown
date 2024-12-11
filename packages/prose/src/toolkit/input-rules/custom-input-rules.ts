@@ -1,5 +1,6 @@
 import type { InputRule } from '../../inputrules'
-import type { EditorState, TextSelection, Transaction } from '../../state'
+// import type { EditorState, TextSelection, Transaction } from '../../state'
+import type { TextSelection } from '../../state'
 import { Plugin, PluginKey } from '../../state'
 import type { EditorView } from '../../view'
 
@@ -13,12 +14,16 @@ function run(view: EditorView, from: number, to: number, text: string, rules: In
   const textBefore
         = $from.parent.textBetween(Math.max(0, $from.parentOffset - 500), $from.parentOffset, undefined, '\uFFFC') + text
   for (let i = 0; i < rules.length; i++) {
-    const match = (rules[i] as { match: RegExp }).match.exec(textBefore)
+    // NOTE: This is a workaround for the lack of type safety in the inputrules module.
+    // const match = (rules[i] as { match: RegExp }).match.exec(textBefore)
+    const match = (rules[i] as any).match.exec(textBefore)
     const tr
             = match
             && match[0]
             && (
-              rules[i] as { handler: (state: EditorState, match: string[], from: number, to: number) => Transaction }
+              // NOTE: This is a workaround for the lack of type safety in the inputrules module.
+              // rules[i] as { handler: (state: EditorState, match: string[], from: number, to: number) => Transaction }
+              rules[i] as any
             ).handler(state, match, from - (match[0].length - text.length), to)
     if (!tr)
       continue
