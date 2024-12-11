@@ -50,5 +50,14 @@ For more information, please check our [official documentation website](https://
 ## Memo
 
 - `prosemirror-table` and `prosemirror-view` had dependency conflict, so I set the version of `prosemirror-table` to `1.36.0` in `package.json` as workaround.
+- solved `node_modules/minimatch/dist/cjs/index"' has no exported member named 'IMinimatch'. Did you mean 'Minimatch'?`
+  - added `overrides` in `package.json` (ref: https://stackoverflow.com/questions/76012669/node-modules-minimatch-dist-cjs-index-has-no-exported-member-named-iminimatch/77810047#77810047)
+```sh
+"overrides": {
+  "minimatch": "5.1.2",
+  "glob": "8.1.0"
+},
+
+```
 - `rimraf` and `glob` had dependency conflict, so I set the version of `rimraf` to `^11.0.0` in `package.json` as workaround.
 - `glob` and `minimatch` had dependency conflict, so I set the version of `minimatch` to `^10.0.0` in `package.json` as workaround.
