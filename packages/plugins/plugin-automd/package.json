@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/plugin-automd",
+  "name": "@milkdown/plugin-automd",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",

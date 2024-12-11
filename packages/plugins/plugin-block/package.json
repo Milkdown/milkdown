@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/plugin-block",
+  "name": "@milkdown/plugin-block",
   "type": "module",
   "version": "7.5.4",
   "license": "MIT",

@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/e2e",
+  "name": "@milkdown/e2e",
   "version": "7.5.3",
   "private": true,
   "scripts": {

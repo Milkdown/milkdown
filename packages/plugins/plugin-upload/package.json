@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/plugin-upload",
+  "name": "@milkdown/plugin-upload",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",

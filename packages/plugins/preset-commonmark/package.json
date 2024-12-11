@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/preset-commonmark",
+  "name": "@milkdown/preset-commonmark",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",

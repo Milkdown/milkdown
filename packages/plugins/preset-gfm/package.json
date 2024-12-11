@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/preset-gfm",
+  "name": "@milkdown/preset-gfm",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",

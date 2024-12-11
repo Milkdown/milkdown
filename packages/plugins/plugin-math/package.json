@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/plugin-math",
+  "name": "@milkdown/plugin-math",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",

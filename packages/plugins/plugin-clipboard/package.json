@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/plugin-clipboard",
+  "name": "@milkdown/plugin-clipboard",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",

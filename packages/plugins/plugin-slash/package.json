@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/plugin-slash",
+  "name": "@milkdown/plugin-slash",
   "type": "module",
   "version": "7.5.0",
   "license": "MIT",

@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/plugin-tooltip",
+  "name": "@milkdown/plugin-tooltip",
   "type": "module",
   "version": "7.5.3",
   "license": "MIT",

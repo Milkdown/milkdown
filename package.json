@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown-nota/monorepo",
+  "name": "@milkdown/monorepo",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.14.3",
