@@ -1,5 +1,5 @@
 {
-  "name": "@milkdown/kit",
+  "name": "@milkdown-nota/kit",
   "type": "module",
   "version": "7.5.5",
   "license": "MIT",
@@ -361,6 +361,7 @@
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-indent": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
+    "@milkdown/plugin-math": "workspace:*",
     "@milkdown/plugin-slash": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/plugin-trailing": "workspace:*",

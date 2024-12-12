@@ -384,7 +384,7 @@ importers:
       '@codemirror/view':
         specifier: ^6.16.0
         version: 6.35.3
-      '@milkdown/kit':
+      '@milkdown-nota/kit':
         specifier: workspace:*
         version: link:../kit
       atomico:
@@ -475,6 +475,9 @@ importers:
       '@milkdown/plugin-listener':
         specifier: workspace:*
         version: link:../plugins/plugin-listener
+      '@milkdown/plugin-math':
+        specifier: workspace:*
+        version: link:../plugins/plugin-math
       '@milkdown/plugin-slash':
         specifier: workspace:*
         version: link:../plugins/plugin-slash
@@ -1132,10 +1135,10 @@ importers:
       '@codemirror/view':
         specifier: ^6.26.0
         version: 6.35.3
-      '@milkdown/crepe':
+      '@milkdown-nota/crepe':
         specifier: workspace:*
         version: link:../packages/crepe
-      '@milkdown/kit':
+      '@milkdown-nota/kit':
         specifier: workspace:*
         version: link:../packages/kit
       '@milkdown/theme-nord':

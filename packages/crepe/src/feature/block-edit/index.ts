@@ -1,4 +1,4 @@
-import { block } from '@milkdown/kit/plugin/block'
+import { block } from '@milkdown-nota/kit/plugin/block'
 import type { DefineFeature, Icon } from '../shared'
 import { configureBlockHandle } from './handle'
 import { configureMenu, menu, menuAPI } from './menu'

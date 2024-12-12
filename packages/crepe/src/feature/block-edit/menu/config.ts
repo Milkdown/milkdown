@@ -1,4 +1,4 @@
-import { editorViewCtx } from '@milkdown/kit/core'
+import { editorViewCtx } from '@milkdown-nota/kit/core'
 import {
   blockquoteSchema,
   bulletListSchema,
@@ -8,10 +8,10 @@ import {
   listItemSchema,
   orderedListSchema,
   paragraphSchema,
-} from '@milkdown/kit/preset/commonmark'
-import { NodeSelection } from '@milkdown/kit/prose/state'
-import { imageBlockSchema } from '@milkdown/kit/component/image-block'
-import { createTable } from '@milkdown/kit/preset/gfm'
+} from '@milkdown-nota/kit/preset/commonmark'
+import { NodeSelection } from '@milkdown-nota/kit/prose/state'
+import { imageBlockSchema } from '@milkdown-nota/kit/component/image-block'
+import { createTable } from '@milkdown-nota/kit/preset/gfm'
 import {
   bulletListIcon,
   codeIcon,

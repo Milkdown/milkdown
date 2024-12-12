@@ -1,4 +1,4 @@
-import { configureLinkTooltip, linkTooltipConfig, linkTooltipPlugin } from '@milkdown/kit/component/link-tooltip'
+import { configureLinkTooltip, linkTooltipConfig, linkTooltipPlugin } from '@milkdown-nota/kit/component/link-tooltip'
 import type { DefineFeature, Icon } from '../shared'
 import { confirmIcon, copyIcon, editIcon, removeIcon } from '../../icons'
 

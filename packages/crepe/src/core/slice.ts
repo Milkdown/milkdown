@@ -1,5 +1,5 @@
-import type { Ctx } from '@milkdown/kit/ctx'
-import { createSlice } from '@milkdown/kit/ctx'
+import type { Ctx } from '@milkdown-nota/kit/ctx'
+import { createSlice } from '@milkdown-nota/kit/ctx'
 import type { CrepeFeature } from '../feature'
 
 export const FeaturesCtx = createSlice([] as CrepeFeature[], 'FeaturesCtx')

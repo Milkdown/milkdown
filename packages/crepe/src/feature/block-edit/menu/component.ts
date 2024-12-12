@@ -1,6 +1,6 @@
 import type { Component } from 'atomico'
 import { c, html, useCallback, useEffect, useHost, useMemo, useRef, useState } from 'atomico'
-import type { Ctx } from '@milkdown/kit/ctx'
+import type { Ctx } from '@milkdown-nota/kit/ctx'
 import type { BlockEditFeatureConfig } from '../index'
 import { getGroups } from './config'
 

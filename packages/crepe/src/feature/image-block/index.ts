@@ -1,5 +1,5 @@
-import { imageBlockComponent, imageBlockConfig } from '@milkdown/kit/component/image-block'
-import { imageInlineComponent, inlineImageConfig } from '@milkdown/kit/component/image-inline'
+import { imageBlockComponent, imageBlockConfig } from '@milkdown-nota/kit/component/image-block'
+import { imageInlineComponent, inlineImageConfig } from '@milkdown-nota/kit/component/image-inline'
 import type { DefineFeature, Icon } from '../shared'
 import { captionIcon, confirmIcon, imageIcon } from '../../icons'
 

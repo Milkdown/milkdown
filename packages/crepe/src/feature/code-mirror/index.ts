@@ -1,4 +1,4 @@
-import { codeBlockComponent, codeBlockConfig } from '@milkdown/kit/component/code-block'
+import { codeBlockComponent, codeBlockConfig } from '@milkdown-nota/kit/component/code-block'
 import type { LanguageDescription } from '@codemirror/language'
 import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'

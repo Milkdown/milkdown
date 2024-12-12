@@ -1,8 +1,8 @@
 import type { html } from 'atomico'
-import type { Ctx } from '@milkdown/kit/ctx'
-import type { Command, Transaction } from '@milkdown/kit/prose/state'
-import type { Attrs, NodeType } from '@milkdown/kit/prose/model'
-import { findWrapping } from '@milkdown/kit/prose/transform'
+import type { Ctx } from '@milkdown-nota/kit/ctx'
+import type { Command, Transaction } from '@milkdown-nota/kit/prose/state'
+import type { Attrs, NodeType } from '@milkdown-nota/kit/prose/model'
+import { findWrapping } from '@milkdown-nota/kit/prose/transform'
 
 export interface MenuItem {
   index: number
