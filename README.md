@@ -65,3 +65,4 @@ For more information, please check our [official documentation website](https://
 - update package names
   - `@milkdown/kit` -> `@milkdown-nota/kit`
   - `@milkdown/crepe` -> `@milkdown-nota/crepe`
+  - `@milkdown/react` -> `@milkdown-nota/react`
