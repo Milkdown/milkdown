@@ -1,6 +1,7 @@
 import type { EditorState } from '@milkdown/prose/state';
 import type { Node } from '@milkdown/prose/model';
 import type { EditorView } from '@milkdown/prose/view';
+import type { ComputePositionConfig, Middleware } from '@floating-ui/dom';
 export interface SlashProviderOptions {
     content: HTMLElement;
     debounce?: number;
@@ -11,6 +12,8 @@ export interface SlashProviderOptions {
         crossAxis?: number;
         alignmentAxis?: number | null;
     };
+    middleware?: Middleware[];
+    floatingUIOptions?: Partial<ComputePositionConfig>;
 }
 export declare class SlashProvider {
     #private;

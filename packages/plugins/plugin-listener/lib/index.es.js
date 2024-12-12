@@ -40,7 +40,10 @@ class l {
     return this.destroyListeners.push(s), this;
   }
 }
-const h = c(new l(), "listener"), M = new g("MILKDOWN_LISTENER"), U = (t) => (t.inject(h, new l()), async () => {
+const h = c(
+  new l(),
+  "listener"
+), M = new g("MILKDOWN_LISTENER"), U = (t) => (t.inject(h, new l()), async () => {
   await t.wait(m);
   const s = t.get(h), { listeners: r } = s;
   r.beforeMount.forEach((e) => e(t)), await t.wait(L);

@@ -8,7 +8,10 @@ export interface KeymapItem {
     command: (ctx: Ctx) => Command;
 }
 export type UserKeymapConfig<Key extends string> = Record<Key, KeymapItem>;
-export type $UserKeymap<N extends string, Key extends string> = [$Ctx<KeymapConfig<Key>, `${N}Keymap`>, $Shortcut] & {
+export type $UserKeymap<N extends string, Key extends string> = [
+    $Ctx<KeymapConfig<Key>, `${N}Keymap`>,
+    $Shortcut
+] & {
     key: SliceType<KeymapConfig<Key>, `${N}Keymap`>;
     keymap: Keymap;
     ctx: $Ctx<KeymapConfig<Key>, `${N}Keymap`>;

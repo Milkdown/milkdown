@@ -9,11 +9,16 @@ function o(r, a) {
     }
   }), r;
 }
-const s = n({}, "dropCursorConfig");
+const s = n(
+  {},
+  "dropCursorConfig"
+);
 o(s, {
   displayName: "Ctx<dropCursor>"
 });
-const t = p((r) => e(r.get(s.key)));
+const t = p(
+  (r) => e(r.get(s.key))
+);
 o(t, {
   displayName: "Prose<dropCursor>"
 });
@@ -21,7 +26,11 @@ const u = p(() => i());
 o(u, {
   displayName: "Prose<gapCursor>"
 });
-const d = [s, t, u];
+const d = [
+  s,
+  t,
+  u
+];
 export {
   d as cursor,
   s as dropCursorConfig,

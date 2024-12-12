@@ -4,7 +4,7 @@ import type { Plugin, Transformer } from 'unified';
 import type { MarkParserSpec, NodeParserSpec } from '../parser/types';
 import type { MarkSerializerSpec, NodeSerializerSpec } from '../serializer/types';
 export type Node = Parameters<Transformer>[0];
-export type Root = Parameters<typeof remark['stringify']>[0];
+export type Root = Parameters<(typeof remark)['stringify']>[0];
 export type JSONValue = string | number | boolean | null | JSONValue[] | {
     [key: string]: JSONValue;
 };

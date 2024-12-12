@@ -15,8 +15,7 @@ function defIfNotExists(tagName, element) {
     customElements.define(tagName, element);
     return;
   }
-  if (current === element)
-    return;
+  if (current === element) return;
   console.warn(`Custom element ${tagName} has been defined before.`);
 }
 
@@ -85,7 +84,10 @@ const defaultTableBlockConfig = {
     }
   }
 };
-const tableBlockConfig = $ctx(__spreadValues({}, defaultTableBlockConfig), "tableBlockConfigCtx");
+const tableBlockConfig = $ctx(
+  __spreadValues({}, defaultTableBlockConfig),
+  "tableBlockConfigCtx"
+);
 withMeta(tableBlockConfig, {
   displayName: "Config<table-block>",
   group: "TableBlock"
@@ -93,33 +95,32 @@ withMeta(tableBlockConfig, {
 
 function findNodeIndex(parent, child) {
   for (let i = 0; i < parent.childCount; i++) {
-    if (parent.child(i) === child)
-      return i;
+    if (parent.child(i) === child) return i;
   }
   return -1;
 }
 function findPointerIndex(event, view) {
   var _a, _b, _c;
-  if (!view)
-    return;
+  if (!view) return;
   try {
-    const posAtCoords = view.posAtCoords({ left: event.clientX, top: event.clientY });
-    if (!posAtCoords)
-      return;
+    const posAtCoords = view.posAtCoords({
+      left: event.clientX,
+      top: event.clientY
+    });
+    if (!posAtCoords) return;
     const pos = posAtCoords == null ? void 0 : posAtCoords.inside;
-    if (pos == null || pos < 0)
-      return;
+    if (pos == null || pos < 0) return;
     const $pos = view.state.doc.resolve(pos);
     const node = view.state.doc.nodeAt(pos);
-    if (!node)
-      return;
+    if (!node) return;
     const cellType = ["table_cell", "table_header"];
     const rowType = ["table_row", "table_header_row"];
     const cell = cellType.includes(node.type.name) ? node : (_a = findParent((node2) => cellType.includes(node2.type.name))($pos)) == null ? void 0 : _a.node;
-    const row = (_b = findParent((node2) => rowType.includes(node2.type.name))($pos)) == null ? void 0 : _b.node;
+    const row = (_b = findParent((node2) => rowType.includes(node2.type.name))(
+      $pos
+    )) == null ? void 0 : _b.node;
     const table = (_c = findParent((node2) => node2.type.name === "table")($pos)) == null ? void 0 : _c.node;
-    if (!cell || !row || !table)
-      return;
+    if (!cell || !row || !table) return;
     const columnIndex = findNodeIndex(row, cell);
     const rowIndex = findNodeIndex(table, row);
     return [rowIndex, columnIndex];
@@ -129,21 +130,16 @@ function findPointerIndex(event, view) {
 }
 function getRelatedDOM(contentWrapperRef, [rowIndex, columnIndex]) {
   const content = contentWrapperRef.current;
-  if (!content)
-    return;
+  if (!content) return;
   const rows = content.querySelectorAll("tr");
   const row = rows[rowIndex];
-  if (!row)
-    return;
+  if (!row) return;
   const firstRow = rows[0];
-  if (!firstRow)
-    return;
+  if (!firstRow) return;
   const headerCol = firstRow.children[columnIndex];
-  if (!headerCol)
-    return;
+  if (!headerCol) return;
   const col = row.children[columnIndex];
-  if (!col)
-    return;
+  if (!col) return;
   return {
     row,
     col,
@@ -151,17 +147,13 @@ function getRelatedDOM(contentWrapperRef, [rowIndex, columnIndex]) {
   };
 }
 function recoveryStateBetweenUpdate(refs, ctx, node) {
-  if (!ctx)
-    return;
-  if (!node)
-    return;
+  if (!ctx) return;
+  if (!node) return;
   const { selection } = ctx.get(editorViewCtx).state;
-  if (!(selection instanceof CellSelection))
-    return;
+  if (!(selection instanceof CellSelection)) return;
   const { $from } = selection;
   const table = findTable($from);
-  if (!table || table.node !== node)
-    return;
+  if (!table || table.node !== node) return;
   if (selection.isColSelection()) {
     const { $head } = selection;
     const colIndex = $head.index($head.depth - 1);
@@ -177,9 +169,10 @@ function recoveryStateBetweenUpdate(refs, ctx, node) {
   }
   if (selection.isRowSelection()) {
     const { $head } = selection;
-    const rowNode = findParent((node2) => node2.type.name === "table_row" || node2.type.name === "table_header_row")($head);
-    if (!rowNode)
-      return;
+    const rowNode = findParent(
+      (node2) => node2.type.name === "table_row" || node2.type.name === "table_header_row"
+    )($head);
+    if (!rowNode) return;
     const rowIndex = findNodeIndex(table.node, rowNode.node);
     computeRowHandlePositionByIndex({
       refs,
@@ -198,29 +191,21 @@ function computeColHandlePositionByIndex({
   before,
   after
 }) {
-  const {
-    contentWrapperRef,
-    colHandleRef,
-    hoverIndex
-  } = refs;
+  const { contentWrapperRef, colHandleRef, hoverIndex } = refs;
   const colHandle = colHandleRef.current;
-  if (!colHandle)
-    return;
+  if (!colHandle) return;
   hoverIndex.current = index;
   const dom = getRelatedDOM(contentWrapperRef, index);
-  if (!dom)
-    return;
+  if (!dom) return;
   const { headerCol: col } = dom;
   colHandle.dataset.show = "true";
-  if (before)
-    before(colHandle);
+  if (before) before(colHandle);
   computePosition(col, colHandle, { placement: "top" }).then(({ x, y }) => {
     Object.assign(colHandle.style, {
       left: `${x}px`,
       top: `${y}px`
     });
-    if (after)
-      after(colHandle);
+    if (after) after(colHandle);
   });
 }
 function computeRowHandlePositionByIndex({
@@ -229,29 +214,21 @@ function computeRowHandlePositionByIndex({
   before,
   after
 }) {
-  const {
-    contentWrapperRef,
-    rowHandleRef,
-    hoverIndex
-  } = refs;
+  const { contentWrapperRef, rowHandleRef, hoverIndex } = refs;
   const rowHandle = rowHandleRef.current;
-  if (!rowHandle)
-    return;
+  if (!rowHandle) return;
   hoverIndex.current = index;
   const dom = getRelatedDOM(contentWrapperRef, index);
-  if (!dom)
-    return;
+  if (!dom) return;
   const { row } = dom;
   rowHandle.dataset.show = "true";
-  if (before)
-    before(rowHandle);
+  if (before) before(rowHandle);
   computePosition(row, rowHandle, { placement: "left" }).then(({ x, y }) => {
     Object.assign(rowHandle.style, {
       left: `${x}px`,
       top: `${y}px`
     });
-    if (after)
-      after(rowHandle);
+    if (after) after(rowHandle);
   });
 }
 
@@ -266,32 +243,23 @@ function prepareDndContext(refs) {
     rowHandleRef
   } = refs;
   const preview = dragPreviewRef.current;
-  if (!preview)
-    return;
+  if (!preview) return;
   const wrapper = tableWrapperRef.current;
-  if (!wrapper)
-    return;
+  if (!wrapper) return;
   const content = contentWrapperRef.current;
-  if (!content)
-    return;
+  if (!content) return;
   const contentRoot = content.querySelector("tbody");
-  if (!contentRoot)
-    return;
+  if (!contentRoot) return;
   const previewRoot = preview.querySelector("tbody");
-  if (!previewRoot)
-    return;
+  if (!previewRoot) return;
   const yHandle = yLineHandleRef.current;
-  if (!yHandle)
-    return;
+  if (!yHandle) return;
   const xHandle = xLineHandleRef.current;
-  if (!xHandle)
-    return;
+  if (!xHandle) return;
   const colHandle = colHandleRef.current;
-  if (!colHandle)
-    return;
+  if (!colHandle) return;
   const rowHandle = rowHandleRef.current;
-  if (!rowHandle)
-    return;
+  if (!rowHandle) return;
   const context = {
     preview,
     wrapper,
@@ -307,136 +275,126 @@ function prepareDndContext(refs) {
 }
 function handleDrag(refs, event, ctx, fn) {
   const view = ctx == null ? void 0 : ctx.get(editorViewCtx);
-  if (!(view == null ? void 0 : view.editable))
-    return;
+  if (!(view == null ? void 0 : view.editable)) return;
   event.stopPropagation();
-  if (event.dataTransfer)
-    event.dataTransfer.effectAllowed = "move";
+  if (event.dataTransfer) event.dataTransfer.effectAllowed = "move";
   const context = prepareDndContext(refs);
-  if (!context)
-    return;
+  if (!context) return;
   requestAnimationFrame(() => {
     fn(context);
   });
 }
 function createDragRowHandler(refs, ctx) {
   return (event) => {
-    handleDrag(refs, event, ctx, ({
-      preview,
-      content,
-      previewRoot,
-      yHandle,
-      xHandle,
-      colHandle,
-      rowHandle
-    }) => {
-      var _a;
-      const { hoverIndex, dragInfo } = refs;
-      xHandle.dataset.displayType = "indicator";
-      yHandle.dataset.show = "false";
-      colHandle.dataset.show = "false";
-      (_a = rowHandle.querySelector(".button-group")) == null ? void 0 : _a.setAttribute("data-show", "false");
-      const [rowIndex] = hoverIndex.current;
-      dragInfo.current = {
-        startCoords: [event.clientX, event.clientY],
-        startIndex: rowIndex,
-        endIndex: rowIndex,
-        type: "row"
-      };
-      preview.dataset.direction = "vertical";
-      const rows = content.querySelectorAll("tr");
-      while (previewRoot.firstChild)
-        previewRoot.removeChild(previewRoot.firstChild);
-      const row = rows[rowIndex];
-      if (!row)
-        return;
-      previewRoot.appendChild(row.cloneNode(true));
-      const height = row.getBoundingClientRect().height;
-      const { width } = content.querySelector("tbody").getBoundingClientRect();
-      Object.assign(preview.style, {
-        width: `${width}px`,
-        height: `${height}px`
-      });
-      preview.dataset.show = "true";
-    });
+    handleDrag(
+      refs,
+      event,
+      ctx,
+      ({
+        preview,
+        content,
+        previewRoot,
+        yHandle,
+        xHandle,
+        colHandle,
+        rowHandle
+      }) => {
+        var _a;
+        const { hoverIndex, dragInfo } = refs;
+        xHandle.dataset.displayType = "indicator";
+        yHandle.dataset.show = "false";
+        colHandle.dataset.show = "false";
+        (_a = rowHandle.querySelector(".button-group")) == null ? void 0 : _a.setAttribute("data-show", "false");
+        const [rowIndex] = hoverIndex.current;
+        dragInfo.current = {
+          startCoords: [event.clientX, event.clientY],
+          startIndex: rowIndex,
+          endIndex: rowIndex,
+          type: "row"
+        };
+        preview.dataset.direction = "vertical";
+        const rows = content.querySelectorAll("tr");
+        while (previewRoot.firstChild)
+          previewRoot.removeChild(previewRoot.firstChild);
+        const row = rows[rowIndex];
+        if (!row) return;
+        previewRoot.appendChild(row.cloneNode(true));
+        const height = row.getBoundingClientRect().height;
+        const { width } = content.querySelector("tbody").getBoundingClientRect();
+        Object.assign(preview.style, {
+          width: `${width}px`,
+          height: `${height}px`
+        });
+        preview.dataset.show = "true";
+      }
+    );
   };
 }
 function createDragColHandler(refs, ctx) {
   return (event) => {
-    handleDrag(refs, event, ctx, ({
-      preview,
-      content,
-      previewRoot,
-      yHandle,
-      xHandle,
-      colHandle,
-      rowHandle
-    }) => {
-      var _a;
-      const { hoverIndex, dragInfo } = refs;
-      xHandle.dataset.show = "false";
-      yHandle.dataset.displayType = "indicator";
-      rowHandle.dataset.show = "false";
-      (_a = colHandle.querySelector(".button-group")) == null ? void 0 : _a.setAttribute("data-show", "false");
-      const [_, colIndex] = hoverIndex.current;
-      dragInfo.current = {
-        startCoords: [event.clientX, event.clientY],
-        startIndex: colIndex,
-        endIndex: colIndex,
-        type: "col"
-      };
-      preview.dataset.direction = "horizontal";
-      const rows = content.querySelectorAll("tr");
-      while (previewRoot.firstChild)
-        previewRoot.removeChild(previewRoot.firstChild);
-      let width;
-      Array.from(rows).forEach((row) => {
-        const col = row.children[colIndex];
-        if (!col)
-          return;
-        if (width === void 0)
-          width = col.getBoundingClientRect().width;
-        const tr = col.parentElement.cloneNode(false);
-        const clone = col.cloneNode(true);
-        tr.appendChild(clone);
-        previewRoot.appendChild(tr);
-      });
-      const { height } = content.querySelector("tbody").getBoundingClientRect();
-      Object.assign(preview.style, {
-        width: `${width}px`,
-        height: `${height}px`
-      });
-      preview.dataset.show = "true";
-    });
+    handleDrag(
+      refs,
+      event,
+      ctx,
+      ({
+        preview,
+        content,
+        previewRoot,
+        yHandle,
+        xHandle,
+        colHandle,
+        rowHandle
+      }) => {
+        var _a;
+        const { hoverIndex, dragInfo } = refs;
+        xHandle.dataset.show = "false";
+        yHandle.dataset.displayType = "indicator";
+        rowHandle.dataset.show = "false";
+        (_a = colHandle.querySelector(".button-group")) == null ? void 0 : _a.setAttribute("data-show", "false");
+        const [_, colIndex] = hoverIndex.current;
+        dragInfo.current = {
+          startCoords: [event.clientX, event.clientY],
+          startIndex: colIndex,
+          endIndex: colIndex,
+          type: "col"
+        };
+        preview.dataset.direction = "horizontal";
+        const rows = content.querySelectorAll("tr");
+        while (previewRoot.firstChild)
+          previewRoot.removeChild(previewRoot.firstChild);
+        let width;
+        Array.from(rows).forEach((row) => {
+          const col = row.children[colIndex];
+          if (!col) return;
+          if (width === void 0) width = col.getBoundingClientRect().width;
+          const tr = col.parentElement.cloneNode(false);
+          const clone = col.cloneNode(true);
+          tr.appendChild(clone);
+          previewRoot.appendChild(tr);
+        });
+        const { height } = content.querySelector("tbody").getBoundingClientRect();
+        Object.assign(preview.style, {
+          width: `${width}px`,
+          height: `${height}px`
+        });
+        preview.dataset.show = "true";
+      }
+    );
   };
 }
 function createDragOverHandler(refs) {
   return throttle((e) => {
     const context = prepareDndContext(refs);
-    if (!context)
-      return;
-    const {
-      preview,
-      content,
-      contentRoot,
-      xHandle,
-      yHandle
-    } = context;
-    const {
-      dragInfo,
-      hoverIndex
-    } = refs;
-    if (preview.dataset.show === "false")
-      return;
+    if (!context) return;
+    const { preview, content, contentRoot, xHandle, yHandle } = context;
+    const { dragInfo, hoverIndex } = refs;
+    if (preview.dataset.show === "false") return;
     const dom = getRelatedDOM(refs.contentWrapperRef, hoverIndex.current);
-    if (!dom)
-      return;
+    if (!dom) return;
     const firstRow = contentRoot.querySelector("tr");
-    if (!firstRow)
-      return;
+    if (!firstRow) return;
     const info = dragInfo.current;
-    if (!info)
-      return;
+    if (!info) return;
     const wrapperOffsetTop = contentRoot.offsetParent.offsetTop;
     const wrapperOffsetLeft = contentRoot.offsetParent.offsetLeft;
     if (info.type === "col") {
@@ -467,8 +425,7 @@ function createDragOverHandler(refs) {
           boundaryRight = boundaryRight - boundary.width / 2;
           if (boundaryLeft <= previewLeft && boundaryRight >= previewLeft)
             return true;
-          if (index === 0 && previewLeft < boundaryLeft)
-            return true;
+          if (index === 0 && previewLeft < boundaryLeft) return true;
         }
         return false;
       });
@@ -517,8 +474,7 @@ function createDragOverHandler(refs) {
           boundaryBottom = boundaryBottom - boundary.height / 2;
           if (boundaryTop <= previewTop && boundaryBottom >= previewTop)
             return true;
-          if (index === 0 && previewTop < boundaryTop)
-            return true;
+          if (index === 0 && previewTop < boundaryTop) return true;
         }
         return false;
       });
@@ -542,12 +498,7 @@ function createDragOverHandler(refs) {
   }, 20);
 }
 function useDragHandlers(refs, ctx, getPos) {
-  const {
-    dragPreviewRef,
-    yLineHandleRef,
-    xLineHandleRef,
-    dragInfo
-  } = refs;
+  const { dragPreviewRef, yLineHandleRef, xLineHandleRef, dragInfo } = refs;
   const host = useHost();
   const root = useMemo(() => host.current.getRootNode(), [host]);
   const dragRow = useMemo(() => createDragRowHandler(refs, ctx), [refs]);
@@ -555,44 +506,32 @@ function useDragHandlers(refs, ctx, getPos) {
   useEffect(() => {
     const onDragEnd = () => {
       const preview = dragPreviewRef.current;
-      if (!preview)
-        return;
-      if (preview.dataset.show === "false")
-        return;
+      if (!preview) return;
+      if (preview.dataset.show === "false") return;
       const previewRoot = preview == null ? void 0 : preview.querySelector("tbody");
       while (previewRoot == null ? void 0 : previewRoot.firstChild)
         previewRoot == null ? void 0 : previewRoot.removeChild(previewRoot.firstChild);
-      if (preview)
-        preview.dataset.show = "false";
+      if (preview) preview.dataset.show = "false";
     };
     const onDrop = () => {
       var _a;
       const preview = dragPreviewRef.current;
-      if (!preview)
-        return;
+      if (!preview) return;
       const yHandle = yLineHandleRef.current;
-      if (!yHandle)
-        return;
+      if (!yHandle) return;
       const xHandle = xLineHandleRef.current;
-      if (!xHandle)
-        return;
+      if (!xHandle) return;
       const info = dragInfo.current;
-      if (!info)
-        return;
-      if (!ctx)
-        return;
-      if (preview.dataset.show === "false")
-        return;
+      if (!info) return;
+      if (!ctx) return;
+      if (preview.dataset.show === "false") return;
       const colHandle = refs.colHandleRef.current;
-      if (!colHandle)
-        return;
+      if (!colHandle) return;
       const rowHandle = refs.rowHandleRef.current;
-      if (!rowHandle)
-        return;
+      if (!rowHandle) return;
       yHandle.dataset.show = "false";
       xHandle.dataset.show = "false";
-      if (info.startIndex === info.endIndex)
-        return;
+      if (info.startIndex === info.endIndex) return;
       const commands = ctx.get(commandsCtx);
       const payload = {
         from: info.startIndex,
@@ -644,8 +583,7 @@ function useDragHandlers(refs, ctx, getPos) {
 
 function createPointerMoveHandler(refs, view) {
   return throttle((e) => {
-    if (!(view == null ? void 0 : view.editable))
-      return;
+    if (!(view == null ? void 0 : view.editable)) return;
     const {
       contentWrapperRef,
       yLineHandleRef,
@@ -656,26 +594,19 @@ function createPointerMoveHandler(refs, view) {
       lineHoverIndex
     } = refs;
     const yHandle = yLineHandleRef.current;
-    if (!yHandle)
-      return;
+    if (!yHandle) return;
     const xHandle = xLineHandleRef.current;
-    if (!xHandle)
-      return;
+    if (!xHandle) return;
     const content = contentWrapperRef.current;
-    if (!content)
-      return;
+    if (!content) return;
     const rowHandle = rowHandleRef.current;
-    if (!rowHandle)
-      return;
+    if (!rowHandle) return;
     const colHandle = colHandleRef.current;
-    if (!colHandle)
-      return;
+    if (!colHandle) return;
     const index = findPointerIndex(e, view);
-    if (!index)
-      return;
+    if (!index) return;
     const dom = getRelatedDOM(contentWrapperRef, index);
-    if (!dom)
-      return;
+    if (!dom) return;
     const [rowIndex, colIndex] = index;
     const boundary = dom.col.getBoundingClientRect();
     const closeToBoundaryLeft = Math.abs(e.clientX - boundary.left) < 8;
@@ -685,10 +616,8 @@ function createPointerMoveHandler(refs, view) {
     const closeToBoundary = closeToBoundaryLeft || closeToBoundaryRight || closeToBoundaryTop || closeToBoundaryBottom;
     const rowButtonGroup = rowHandle.querySelector(".button-group");
     const colButtonGroup = colHandle.querySelector(".button-group");
-    if (rowButtonGroup)
-      rowButtonGroup.dataset.show = "false";
-    if (colButtonGroup)
-      colButtonGroup.dataset.show = "false";
+    if (rowButtonGroup) rowButtonGroup.dataset.show = "false";
+    if (colButtonGroup) colButtonGroup.dataset.show = "false";
     if (closeToBoundary) {
       const contentBoundary = content.getBoundingClientRect();
       rowHandle.dataset.show = "false";
@@ -747,25 +676,16 @@ function createPointerMoveHandler(refs, view) {
 }
 function createPointerLeaveHandler(refs) {
   return () => {
-    const {
-      rowHandleRef,
-      colHandleRef,
-      yLineHandleRef,
-      xLineHandleRef
-    } = refs;
+    const { rowHandleRef, colHandleRef, yLineHandleRef, xLineHandleRef } = refs;
     setTimeout(() => {
       const rowHandle = rowHandleRef.current;
-      if (!rowHandle)
-        return;
+      if (!rowHandle) return;
       const colHandle = colHandleRef.current;
-      if (!colHandle)
-        return;
+      if (!colHandle) return;
       const yHandle = yLineHandleRef.current;
-      if (!yHandle)
-        return;
+      if (!yHandle) return;
       const xHandle = xLineHandleRef.current;
-      if (!xHandle)
-        return;
+      if (!xHandle) return;
       rowHandle.dataset.show = "false";
       colHandle.dataset.show = "false";
       yHandle.dataset.show = "false";
@@ -793,17 +713,15 @@ function useOperation(refs, ctx, getPos) {
   } = refs;
   const onAddRow = useCallback(() => {
     var _a, _b, _c;
-    if (!ctx)
-      return;
+    if (!ctx) return;
     const xHandle = xLineHandleRef.current;
-    if (!xHandle)
-      return;
+    if (!xHandle) return;
     const [rowIndex] = lineHoverIndex.current;
-    if (rowIndex < 0)
-      return;
-    if (!ctx.get(editorViewCtx).editable)
-      return;
-    const rows = Array.from((_b = (_a = contentWrapperRef.current) == null ? void 0 : _a.querySelectorAll("tr")) != null ? _b : []);
+    if (rowIndex < 0) return;
+    if (!ctx.get(editorViewCtx).editable) return;
+    const rows = Array.from(
+      (_b = (_a = contentWrapperRef.current) == null ? void 0 : _a.querySelectorAll("tr")) != null ? _b : []
+    );
     const commands = ctx.get(commandsCtx);
     const pos = ((_c = getPos == null ? void 0 : getPos()) != null ? _c : 0) + 1;
     if (rows.length === rowIndex) {
@@ -818,17 +736,15 @@ function useOperation(refs, ctx, getPos) {
   }, []);
   const onAddCol = useCallback(() => {
     var _a, _b, _c, _d;
-    if (!ctx)
-      return;
+    if (!ctx) return;
     const xHandle = xLineHandleRef.current;
-    if (!xHandle)
-      return;
+    if (!xHandle) return;
     const [_, colIndex] = lineHoverIndex.current;
-    if (colIndex < 0)
-      return;
-    if (!ctx.get(editorViewCtx).editable)
-      return;
-    const cols = Array.from((_c = (_b = (_a = contentWrapperRef.current) == null ? void 0 : _a.querySelector("tr")) == null ? void 0 : _b.children) != null ? _c : []);
+    if (colIndex < 0) return;
+    if (!ctx.get(editorViewCtx).editable) return;
+    const cols = Array.from(
+      (_c = (_b = (_a = contentWrapperRef.current) == null ? void 0 : _a.querySelector("tr")) == null ? void 0 : _b.children) != null ? _c : []
+    );
     const commands = ctx.get(commandsCtx);
     const pos = ((_d = getPos == null ? void 0 : getPos()) != null ? _d : 0) + 1;
     if (cols.length === colIndex) {
@@ -842,8 +758,7 @@ function useOperation(refs, ctx, getPos) {
   }, []);
   const selectCol = useCallback(() => {
     var _a, _b;
-    if (!ctx)
-      return;
+    if (!ctx) return;
     const [_, colIndex] = hoverIndex.current;
     const commands = ctx.get(commandsCtx);
     const pos = ((_a = getPos == null ? void 0 : getPos()) != null ? _a : 0) + 1;
@@ -854,8 +769,7 @@ function useOperation(refs, ctx, getPos) {
   }, []);
   const selectRow = useCallback(() => {
     var _a, _b;
-    if (!ctx)
-      return;
+    if (!ctx) return;
     const [rowIndex, _] = hoverIndex.current;
     const commands = ctx.get(commandsCtx);
     const pos = ((_a = getPos == null ? void 0 : getPos()) != null ? _a : 0) + 1;
@@ -865,10 +779,8 @@ function useOperation(refs, ctx, getPos) {
       buttonGroup.dataset.show = buttonGroup.dataset.show === "true" ? "false" : "true";
   }, []);
   const deleteSelected = useCallback((e) => {
-    if (!ctx)
-      return;
-    if (!ctx.get(editorViewCtx).editable)
-      return;
+    if (!ctx) return;
+    if (!ctx.get(editorViewCtx).editable) return;
     e.preventDefault();
     e.stopPropagation();
     const commands = ctx.get(commandsCtx);
@@ -877,19 +789,20 @@ function useOperation(refs, ctx, getPos) {
       ctx.get(editorViewCtx).focus();
     });
   }, []);
-  const onAlign = useCallback((direction) => (e) => {
-    if (!ctx)
-      return;
-    if (!ctx.get(editorViewCtx).editable)
-      return;
-    e.preventDefault();
-    e.stopPropagation();
-    const commands = ctx.get(commandsCtx);
-    commands.call(setAlignCommand.key, direction);
-    requestAnimationFrame(() => {
-      ctx.get(editorViewCtx).focus();
-    });
-  }, []);
+  const onAlign = useCallback(
+    (direction) => (e) => {
+      if (!ctx) return;
+      if (!ctx.get(editorViewCtx).editable) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const commands = ctx.get(commandsCtx);
+      commands.call(setAlignCommand.key, direction);
+      requestAnimationFrame(() => {
+        ctx.get(editorViewCtx).focus();
+      });
+    },
+    []
+  );
   return {
     onAddRow,
     onAddCol,
@@ -934,24 +847,14 @@ const tableComponent = ({
   }, []);
   useLayoutEffect(() => {
     const current = contentWrapperRef.current;
-    if (!current)
-      return;
+    if (!current) return;
     const contentDOM = host.current.querySelector("[data-content-dom]");
-    if (contentDOM)
-      current.appendChild(contentDOM);
-    if (view == null ? void 0 : view.editable)
-      recoveryStateBetweenUpdate(refs, ctx, node);
+    if (contentDOM) current.appendChild(contentDOM);
+    if (view == null ? void 0 : view.editable) recoveryStateBetweenUpdate(refs, ctx, node);
   }, []);
   const { pointerLeave, pointerMove } = usePointerHandlers(refs, view);
   const { dragRow, dragCol } = useDragHandlers(refs, ctx, getPos);
-  const {
-    onAddRow,
-    onAddCol,
-    selectCol,
-    selectRow,
-    deleteSelected,
-    onAlign
-  } = useOperation(refs, ctx, getPos);
+  const { onAddRow, onAddCol, selectCol, selectRow, deleteSelected, onAlign } = useOperation(refs, ctx, getPos);
   return html`
     <host
       class=${clsx(!(view == null ? void 0 : view.editable) && "readonly")}
@@ -980,24 +883,16 @@ const tableComponent = ({
           class="button-group"
           onpointermove=${(e) => e.stopPropagation}
         >
-          <button
-            type="button"
-            onpointerdown=${onAlign("left")}>
+          <button type="button" onpointerdown=${onAlign("left")}>
             ${config == null ? void 0 : config.renderButton("align_col_left")}
           </button>
-          <button
-            type="button"
-            onpointerdown=${onAlign("center")}>
+          <button type="button" onpointerdown=${onAlign("center")}>
             ${config == null ? void 0 : config.renderButton("align_col_center")}
           </button>
-          <button
-            type="button"
-            onpointerdown=${onAlign("right")}>
+          <button type="button" onpointerdown=${onAlign("right")}>
             ${config == null ? void 0 : config.renderButton("align_col_right")}
           </button>
-          <button
-            type="button"
-            onpointerdown=${deleteSelected}>
+          <button type="button" onpointerdown=${deleteSelected}>
             ${config == null ? void 0 : config.renderButton("delete_col")}
           </button>
         </div>
@@ -1021,9 +916,7 @@ const tableComponent = ({
           class="button-group"
           onpointermove=${(e) => e.stopPropagation}
         >
-          <button
-            type="button"
-            onpointerdown=${deleteSelected}>
+          <button type="button" onpointerdown=${deleteSelected}>
             ${config == null ? void 0 : config.renderButton("delete_row")}
           </button>
         </div>
@@ -1036,8 +929,7 @@ const tableComponent = ({
           ref=${dragPreviewRef}
         >
           <table>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
         <div
@@ -1049,10 +941,7 @@ const tableComponent = ({
           onpointermove=${(e) => e.stopPropagation}
           ref=${xLineHandleRef}
         >
-          <button
-            type="button"
-            onclick=${onAddRow}
-            class="add-button">
+          <button type="button" onclick=${onAddRow} class="add-button">
             ${config == null ? void 0 : config.renderButton("add_row")}
           </button>
         </div>
@@ -1065,10 +954,7 @@ const tableComponent = ({
           onpointermove=${(e) => e.stopPropagation}
           ref=${yLineHandleRef}
         >
-          <button
-            type="button"
-            onclick=${onAddCol}
-            class="add-button">
+          <button type="button" onclick=${onAddCol} class="add-button">
             ${config == null ? void 0 : config.renderButton("add_col")}
           </button>
         </div>
@@ -1114,8 +1000,7 @@ class TableNodeView {
     dom.appendChild(contentDOM);
   }
   update(node) {
-    if (node.type !== this.node.type)
-      return false;
+    if (node.type !== this.node.type) return false;
     if (node.sameMarkup(this.node) && node.content.eq(this.node.content))
       return false;
     this.node = node;
@@ -1123,11 +1008,9 @@ class TableNodeView {
     return true;
   }
   stopEvent(e) {
-    if (e.type === "drop" || e.type.startsWith("drag"))
-      return true;
+    if (e.type === "drop" || e.type.startsWith("drag")) return true;
     if (e.type === "mousedown") {
-      if (e.target instanceof HTMLButtonElement)
-        return true;
+      if (e.target instanceof HTMLButtonElement) return true;
       const target = e.target;
       if (target instanceof HTMLElement && (target.closest("th") || target.closest("td"))) {
         const event = e;
@@ -1137,34 +1020,29 @@ class TableNodeView {
     return false;
   }
   ignoreMutation(mutation) {
-    if (!this.dom || !this.contentDOM)
-      return true;
-    if (mutation.type === "selection")
-      return false;
+    if (!this.dom || !this.contentDOM) return true;
+    if (mutation.type === "selection") return false;
     if (this.contentDOM === mutation.target && mutation.type === "attributes")
       return true;
-    if (this.contentDOM.contains(mutation.target))
-      return false;
+    if (this.contentDOM.contains(mutation.target)) return false;
     return true;
   }
 }
 _TableNodeView_instances = new WeakSet();
 handleClick_fn = function(event) {
   const view = this.view;
-  if (!view.editable)
-    return false;
+  if (!view.editable) return false;
   const { state, dispatch } = view;
   const pos = view.posAtCoords({ left: event.clientX, top: event.clientY });
-  if (!pos)
-    return false;
+  if (!pos) return false;
   const $pos = state.doc.resolve(pos.inside);
-  const node = findParent((node2) => node2.type.name === "table_cell" || node2.type.name === "table_header")($pos);
-  if (!node)
-    return false;
+  const node = findParent(
+    (node2) => node2.type.name === "table_cell" || node2.type.name === "table_header"
+  )($pos);
+  if (!node) return false;
   const { from } = node;
   const selection = NodeSelection.create(state.doc, from + 1);
-  if (state.selection.eq(selection))
-    return false;
+  if (state.selection.eq(selection)) return false;
   if (state.selection instanceof CellSelection) {
     setTimeout(() => {
       dispatch(state.tr.setSelection(selection).scrollIntoView());
@@ -1177,20 +1055,20 @@ handleClick_fn = function(event) {
   return true;
 };
 defIfNotExists("milkdown-table-block", TableElement);
-const tableBlockView = $view(tableSchema.node, (ctx) => {
-  return (initialNode, view, getPos) => {
-    return new TableNodeView(ctx, initialNode, view, getPos);
-  };
-});
+const tableBlockView = $view(
+  tableSchema.node,
+  (ctx) => {
+    return (initialNode, view, getPos) => {
+      return new TableNodeView(ctx, initialNode, view, getPos);
+    };
+  }
+);
 withMeta(tableBlockView, {
   displayName: "NodeView<table-block>",
   group: "TableBlock"
 });
 
-const tableBlock = [
-  tableBlockConfig,
-  tableBlockView
-];
+const tableBlock = [tableBlockConfig, tableBlockView];
 
 export { TableNodeView, tableBlock, tableBlockConfig, tableBlockView };
 //# sourceMappingURL=index.es.js.map

@@ -7,7 +7,11 @@ import I from "twemoji";
 import L from "emoji-regex";
 const b = (r) => ({ title: r });
 function w(r, e) {
-  return I.parse(r, { attributes: b, base: "https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/", ...e });
+  return I.parse(r, {
+    attributes: b,
+    base: "https://cdn.jsdelivr.net/gh/twitter/twemoji/assets/",
+    ...e
+  });
 }
 const k = L(), C = (r) => !!r.children, H = (r) => !!r.value;
 function S(r, e) {
@@ -34,15 +38,17 @@ function S(r, e) {
 const $ = (r) => {
   function e(m) {
     S(m, (t) => {
-      if (!H(t))
-        return [t];
-      if (t.type === "code")
-        return [t];
+      if (!H(t)) return [t];
+      if (t.type === "code") return [t];
       const n = t.value, i = [];
       let a, o = n;
       for (; a = k.exec(o); ) {
         const { index: c } = a, l = a[0];
-        l && (c > 0 && i.push({ ...t, value: o.slice(0, c) }), i.push({ ...t, value: w(l, r), type: "emoji" }), o = o.slice(c + l.length)), k.lastIndex = 0;
+        l && (c > 0 && i.push({ ...t, value: o.slice(0, c) }), i.push({
+          ...t,
+          value: w(l, r),
+          type: "emoji"
+        }), o = o.slice(c + l.length)), k.lastIndex = 0;
       }
       return o.length && i.push({ ...t, value: o }), i;
     });
@@ -76,8 +82,7 @@ const u = x("emoji", (r) => ({
     {
       tag: 'span[data-type="emoji"]',
       getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw M(e);
+        if (!(e instanceof HTMLElement)) throw M(e);
         return { html: e.innerHTML };
       }
     }
@@ -87,7 +92,9 @@ const u = x("emoji", (r) => ({
     const m = r.get(j.key)(e), t = document.createElement("span");
     t.innerHTML = e.attrs.html;
     const n = (i = t.firstElementChild) == null ? void 0 : i.cloneNode();
-    return t.remove(), n && n instanceof HTMLElement && Object.entries(m.img).forEach(([a, o]) => n.setAttribute(a, o)), ["span", { ...m.container, "data-type": "emoji" }, n];
+    return t.remove(), n && n instanceof HTMLElement && Object.entries(m.img).forEach(
+      ([a, o]) => n.setAttribute(a, o)
+    ), ["span", { ...m.container, "data-type": "emoji" }, n];
   },
   parseMarkdown: {
     match: ({ type: e }) => e === "emoji",
@@ -111,7 +118,10 @@ s(u.node, {
 s(u.ctx, {
   displayName: "NodeSchemaCtx<emoji>"
 });
-const g = y("remarkEmoji", () => A);
+const g = y(
+  "remarkEmoji",
+  () => A
+);
 s(g.plugin, {
   displayName: "Remark<remarkEmojiPlugin>"
 });
@@ -125,16 +135,16 @@ s(p.plugin, {
 s(p.options, {
   displayName: "RemarkConfig<remarkTwemojiPlugin>"
 });
-const E = T((r) => new v(/(:([^:\s]+):)$/, (e, m, t, n) => {
-  const i = m[0];
-  if (!i)
-    return null;
-  const a = P(i);
-  if (!a || i.includes(a))
-    return null;
-  const o = w(a, r.get(p.options.key));
-  return e.tr.setMeta("emoji", !0).replaceRangeWith(t, n, u.type(r).create({ html: o })).scrollIntoView();
-}));
+const E = T(
+  (r) => new v(/(:([^:\s]+):)$/, (e, m, t, n) => {
+    const i = m[0];
+    if (!i) return null;
+    const a = P(i);
+    if (!a || i.includes(a)) return null;
+    const o = w(a, r.get(p.options.key));
+    return e.tr.setMeta("emoji", !0).replaceRangeWith(t, n, u.type(r).create({ html: o })).scrollIntoView();
+  })
+);
 s(E, {
   displayName: "InputRule<insertEmojiInputRule>"
 });

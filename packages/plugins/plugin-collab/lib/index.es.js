@@ -1,130 +1,142 @@
-var D = (o) => {
+var K = (o) => {
   throw TypeError(o);
 };
-var C = (o, t, s) => t.has(o) || D("Cannot " + s);
-var e = (o, t, s) => (C(o, t, "read from private field"), s ? s.call(o) : t.get(o)), a = (o, t, s) => t.has(o) ? D("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(o) : t.set(o, s), h = (o, t, s, n) => (C(o, t, "write to private field"), n ? n.call(o, s) : t.set(o, s), s), m = (o, t, s) => (C(o, t, "access private method"), s);
-import { createSlice as F, createTimer as j } from "@milkdown/ctx";
-import { schemaCtx as x, parserCtx as E, getDoc as L, prosePluginsCtx as P, editorViewCtx as R, EditorViewReady as Y } from "@milkdown/core";
-import { ctxNotBind as g, missingYjsDoc as O } from "@milkdown/exception";
-import { keydownHandler as z } from "@milkdown/prose/keymap";
-import { PluginKey as B, Plugin as V } from "@milkdown/prose/state";
-import { ySyncPlugin as X, yUndoPlugin as _, undo as H, redo as v, yCursorPlugin as I, yDocToProsemirror as W, prosemirrorToYDoc as q, ySyncPluginKey as G, yCursorPluginKey as J, yUndoPluginKey as Q } from "y-prosemirror";
+var w = (o, t, e) => t.has(o) || K("Cannot " + e);
+var s = (o, t, e) => (w(o, t, "read from private field"), e ? e.call(o) : t.get(o)), a = (o, t, e) => t.has(o) ? K("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(o) : t.set(o, e), l = (o, t, e, i) => (w(o, t, "write to private field"), i ? i.call(o, e) : t.set(o, e), e), g = (o, t, e) => (w(o, t, "access private method"), e);
+import { createSlice as A, createTimer as R } from "@milkdown/ctx";
+import { schemaCtx as x, parserCtx as j, getDoc as E, prosePluginsCtx as C, editorViewCtx as L, EditorViewReady as X } from "@milkdown/core";
+import { ctxNotBind as y, missingYjsDoc as D } from "@milkdown/exception";
+import { keydownHandler as Y } from "@milkdown/prose/keymap";
+import { PluginKey as z, Plugin as B } from "@milkdown/prose/state";
+import { ySyncPlugin as V, yUndoPlugin as _, undo as H, redo as O, yCursorPlugin as I, yXmlFragmentToProseMirrorRootNode as W, prosemirrorToYDoc as q, ySyncPluginKey as G, yCursorPluginKey as J, yUndoPluginKey as Q } from "y-prosemirror";
 import { encodeStateAsUpdate as Z, applyUpdate as $ } from "yjs";
-const T = new B("MILKDOWN_COLLAB_KEYMAP"), tt = [T, G, J, Q];
-var u, r, d, i, p, c, N, U, S;
-class M {
+const k = new z("MILKDOWN_COLLAB_KEYMAP"), tt = [
+  k,
+  G,
+  J,
+  Q
+];
+var h, r, m, n, u, c, M, N, b;
+class F {
   constructor() {
     a(this, c);
     /// @internal
-    a(this, u, {});
+    a(this, h, {});
     /// @internal
     a(this, r, null);
     /// @internal
-    a(this, d, null);
+    a(this, m, null);
     /// @internal
-    a(this, i, null);
+    a(this, n, null);
     /// @internal
-    a(this, p, !1);
+    a(this, u, !1);
   }
   /// Bind the context to the service.
   bindCtx(t) {
-    return h(this, i, t), this;
+    return l(this, n, t), this;
   }
   /// Bind the document to the service.
   bindDoc(t) {
-    return h(this, r, t), this;
+    return l(this, r, t.getXmlFragment("prosemirror")), this;
+  }
+  /// Bind the Yjs XmlFragment to the service.
+  bindXmlFragment(t) {
+    return l(this, r, t), this;
   }
   /// Set the options of the service.
   setOptions(t) {
-    return h(this, u, t), this;
+    return l(this, h, t), this;
   }
   /// Merge some options to the service.
   /// The options will be merged to the existing options.
   /// THe options should be partial of the `CollabServiceOptions`.
   mergeOptions(t) {
-    return Object.assign(e(this, u), t), this;
+    return Object.assign(s(this, h), t), this;
   }
   /// Set the awareness of the service.
   setAwareness(t) {
-    return h(this, d, t), this;
+    return l(this, m, t), this;
   }
   /// Apply the template to the document.
-  applyTemplate(t, s) {
-    if (!e(this, i))
-      throw g();
-    if (!e(this, r))
-      throw O();
-    const n = s || ((y) => y.textContent.length === 0), l = m(this, c, N).call(this, t), f = e(this, i).get(x), w = W(f, e(this, r));
-    if (l && n(w, l)) {
-      const y = e(this, r).getXmlFragment("prosemirror");
-      y.delete(0, y.length);
-      const K = q(l), A = Z(K);
-      $(e(this, r), A), K.destroy();
+  applyTemplate(t, e) {
+    if (!s(this, n)) throw y();
+    if (!s(this, r)) throw D();
+    const i = e || ((p) => p.textContent.length === 0), d = g(this, c, M).call(this, t), f = s(this, n).get(x), T = W(
+      s(this, r),
+      f
+    );
+    if (d && i(T, d)) {
+      const p = s(this, r);
+      p.delete(0, p.length);
+      const S = q(d), U = Z(S);
+      p.doc && $(p.doc, U), S.destroy();
     }
     return this;
   }
   /// Connect the service.
   connect() {
-    if (!e(this, i))
-      throw g();
-    if (e(this, p))
-      return;
-    const t = e(this, i).get(P), s = m(this, c, U).call(this), n = t.concat(s);
-    return m(this, c, S).call(this, n), h(this, p, !0), this;
+    if (!s(this, n)) throw y();
+    if (s(this, u)) return;
+    const t = s(this, n).get(C), e = g(this, c, N).call(this), i = t.concat(e);
+    return g(this, c, b).call(this, i), l(this, u, !0), this;
   }
   /// Disconnect the service.
   disconnect() {
-    if (!e(this, i))
-      throw g();
-    if (!e(this, p))
-      return this;
-    const s = e(this, i).get(P).filter(
-      (n) => !n.spec.key || !tt.includes(n.spec.key)
+    if (!s(this, n)) throw y();
+    if (!s(this, u)) return this;
+    const e = s(this, n).get(C).filter(
+      (i) => !i.spec.key || !tt.includes(i.spec.key)
     );
-    return m(this, c, S).call(this, s), h(this, p, !1), this;
+    return g(this, c, b).call(this, e), l(this, u, !1), this;
   }
 }
-u = new WeakMap(), r = new WeakMap(), d = new WeakMap(), i = new WeakMap(), p = new WeakMap(), c = new WeakSet(), /// @internal
-N = function(t) {
-  if (!e(this, i))
-    throw g();
-  const s = e(this, i).get(x), n = e(this, i).get(E);
-  return L(t, n, s);
+h = new WeakMap(), r = new WeakMap(), m = new WeakMap(), n = new WeakMap(), u = new WeakMap(), c = new WeakSet(), /// @internal
+M = function(t) {
+  if (!s(this, n)) throw y();
+  const e = s(this, n).get(x), i = s(this, n).get(j);
+  return E(t, i, e);
 }, /// @internal
-U = function() {
-  if (!e(this, r))
-    throw O();
-  const { ySyncOpts: t, yUndoOpts: s } = e(this, u), n = e(this, r).getXmlFragment("prosemirror"), l = [
-    X(n, t),
-    _(s),
-    new V({
-      key: T,
+N = function() {
+  if (!s(this, r)) throw D();
+  const { ySyncOpts: t, yUndoOpts: e } = s(this, h), i = [
+    V(s(this, r), t),
+    _(e),
+    new B({
+      key: k,
       props: {
-        handleKeyDown: z({
+        handleKeyDown: Y({
           "Mod-z": H,
-          "Mod-y": v,
-          "Mod-Shift-z": v
+          "Mod-y": O,
+          "Mod-Shift-z": O
         })
       }
     })
   ];
-  if (e(this, d)) {
-    const { yCursorOpts: f, yCursorStateField: w } = e(this, u);
-    l.push(I(e(this, d), f, w));
+  if (s(this, m)) {
+    const { yCursorOpts: d, yCursorStateField: f } = s(this, h);
+    i.push(
+      I(
+        s(this, m),
+        d,
+        f
+      )
+    );
   }
-  return l;
+  return i;
 }, /// @internal
-S = function(t) {
-  if (!e(this, i))
-    throw g();
-  e(this, i).set(P, t);
-  const s = e(this, i).get(R), n = s.state.reconfigure({ plugins: t });
-  s.updateState(n);
+b = function(t) {
+  if (!s(this, n)) throw y();
+  s(this, n).set(C, t);
+  const e = s(this, n).get(L), i = e.state.reconfigure({ plugins: t });
+  e.updateState(i);
 };
-const k = F(new M(), "collabServiceCtx"), b = j("CollabReady"), et = (o) => {
-  const t = new M();
-  return o.inject(k, t).record(b), async () => (await o.wait(Y), t.bindCtx(o), o.done(b), () => {
-    o.remove(k).clearTimer(b);
+const v = A(
+  new F(),
+  "collabServiceCtx"
+), P = R("CollabReady"), et = (o) => {
+  const t = new F();
+  return o.inject(v, t).record(P), async () => (await o.wait(X), t.bindCtx(o), o.done(P), () => {
+    o.remove(v).clearTimer(P);
   });
 };
 et.meta = {
@@ -132,10 +144,10 @@ et.meta = {
   displayName: "Collab"
 };
 export {
-  T as CollabKeymapPluginKey,
-  b as CollabReady,
-  M as CollabService,
+  k as CollabKeymapPluginKey,
+  P as CollabReady,
+  F as CollabService,
   et as collab,
-  k as collabServiceCtx
+  v as collabServiceCtx
 };
 //# sourceMappingURL=index.es.js.map

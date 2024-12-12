@@ -1,7 +1,7 @@
 import type { Ctx } from '@milkdown/ctx';
 import type { EditorState } from '@milkdown/prose/state';
 import type { EditorView } from '@milkdown/prose/view';
-import type { Placement } from '@floating-ui/dom';
+import type { ComputePositionConfig, Middleware, Placement } from '@floating-ui/dom';
 import type { ActiveNode } from './types';
 export interface DeriveContext {
     ctx: Ctx;
@@ -20,6 +20,8 @@ export interface BlockProviderOptions {
     };
     getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>;
     getPlacement?: (deriveContext: DeriveContext) => Placement;
+    middleware?: Middleware[];
+    floatingUIOptions?: Partial<ComputePositionConfig>;
 }
 export declare class BlockProvider {
     #private;

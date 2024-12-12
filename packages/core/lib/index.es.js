@@ -46,9 +46,18 @@ const Ee = {
       })
     ), m += h.move(n), a(), m;
   }
-}, L = o({}, "editorView"), V = o({}, "editorState"), G = o([], "initTimer"), Te = o({}, "editor"), ue = o([], "inputRules"), N = o([], "prosePlugins"), pe = o([], "remarkPlugins"), fe = o([], "nodeView"), ye = o([], "markView"), P = o(le().use(de).use(he), "remark"), Q = o({
-  handlers: Ee
-}, "remarkStringifyOptions"), W = v("ConfigReady");
+}, L = o({}, "editorView"), V = o({}, "editorState"), G = o([], "initTimer"), Te = o({}, "editor"), ue = o([], "inputRules"), N = o([], "prosePlugins"), pe = o(
+  [],
+  "remarkPlugins"
+), fe = o([], "nodeView"), ye = o([], "markView"), P = o(
+  le().use(de).use(he),
+  "remark"
+), Q = o(
+  {
+    handlers: Ee
+  },
+  "remarkStringifyOptions"
+), W = v("ConfigReady");
 function at(e) {
   const t = (r) => (r.record(W), async () => (await e(r), r.done(W), () => {
     r.clearTimer(W);
@@ -64,7 +73,10 @@ function ct(e) {
   }).inject(P, le().use(de).use(he)).inject(G, [W]).record(M), async () => {
     await r.waitTimers(G);
     const i = r.get(Q);
-    return r.set(P, le().use(de).use(he, i)), r.done(M), () => {
+    return r.set(
+      P,
+      le().use(de).use(he, i)
+    ), r.done(M), () => {
       r.remove(Te).remove(N).remove(pe).remove(ue).remove(fe).remove(ye).remove(Q).remove(P).remove(G).clearTimer(M);
     };
   });
@@ -82,9 +94,16 @@ function je(e) {
 }
 const Ie = (e) => (e.inject(b, {}).inject(X, []).inject(Z, []).inject(U, [M]).record(R), async () => {
   await e.waitTimers(U);
-  const t = e.get(P), i = e.get(pe).reduce((m, f) => m.use(f.plugin, f.options), t);
+  const t = e.get(P), i = e.get(pe).reduce(
+    (m, f) => m.use(f.plugin, f.options),
+    t
+  );
   e.set(P, i);
-  const n = Object.fromEntries(e.get(X).map(([m, f]) => [m, je(f)])), a = Object.fromEntries(e.get(Z).map(([m, f]) => [m, je(f)])), h = new qe({ nodes: n, marks: a });
+  const n = Object.fromEntries(
+    e.get(X).map(([m, f]) => [m, je(f)])
+  ), a = Object.fromEntries(
+    e.get(Z).map(([m, f]) => [m, je(f)])
+  ), h = new qe({ nodes: n, marks: a });
   return e.set(b, h), e.done(R), () => {
     e.remove(b).remove(X).remove(Z).remove(U).clearTimer(R);
   };
@@ -116,8 +135,7 @@ class Ve {
     return s(this, T).remove(t);
   }
   call(t, r) {
-    if (s(this, g) == null)
-      throw Fe();
+    if (s(this, g) == null) throw Fe();
     const n = this.get(t)(r), a = s(this, g).get(L);
     return n(a.state, a.dispatch, a);
   }
@@ -147,9 +165,15 @@ const $ = v("ParserReady"), Ne = () => {
 k(_e, {
   displayName: "Parser"
 });
-const H = v("SerializerReady"), te = o([], "serializerTimer"), ze = () => {
+const H = v("SerializerReady"), te = o(
+  [],
+  "serializerTimer"
+), ze = () => {
   throw Re();
-}, re = o(ze, "serializer"), Ke = (e) => (e.inject(re, ze).inject(te, [R]).record(H), async () => {
+}, re = o(
+  ze,
+  "serializer"
+), Ke = (e) => (e.inject(re, ze).inject(te, [R]).record(H), async () => {
   await e.waitTimers(te);
   const t = e.get(P), r = e.get(b);
   return e.set(re, Ue.create(r, t)), e.done(H), () => {
@@ -159,10 +183,15 @@ const H = v("SerializerReady"), te = o([], "serializerTimer"), ze = () => {
 k(Ke, {
   displayName: "Serializer"
 });
-const se = o("", "defaultValue"), ie = o((e) => e, "stateOptions"), ne = o([], "editorStateTimer"), J = v("EditorStateReady");
+const se = o("", "defaultValue"), ie = o(
+  (e) => e,
+  "stateOptions"
+), ne = o(
+  [],
+  "editorStateTimer"
+), J = v("EditorStateReady");
 function mt(e, t, r) {
-  if (typeof e == "string")
-    return t(e);
+  if (typeof e == "string") return t(e);
   if (e.type === "html")
     return He.fromSchema(r).parse(e.dom);
   if (e.type === "json")
@@ -209,12 +238,23 @@ const Ae = (e) => (e.inject(se, "").inject(V, {}).inject(ie, (t) => t).inject(ne
 k(Ae, {
   displayName: "EditorState"
 });
-const oe = v("EditorViewReady"), ae = o([], "editorViewTimer"), ce = o({}, "editorViewOptions"), me = o(null, "root"), we = o(null, "rootDOM"), ge = o({}, "rootAttrs");
+const oe = v("EditorViewReady"), ae = o(
+  [],
+  "editorViewTimer"
+), ce = o(
+  {},
+  "editorViewOptions"
+), me = o(null, "root"), we = o(null, "rootDOM"), ge = o(
+  {},
+  "rootAttrs"
+);
 function lt(e, t) {
   const r = document.createElement("div");
   r.className = "milkdown", e.appendChild(r), t.set(we, r);
   const i = t.get(ge);
-  return Object.entries(i).forEach(([n, a]) => r.setAttribute(n, a)), r;
+  return Object.entries(i).forEach(
+    ([n, a]) => r.setAttribute(n, a)
+  ), r;
 }
 function ut(e) {
   e.classList.add("editor"), e.setAttribute("role", "textbox");
@@ -289,22 +329,29 @@ const Ce = class Ce {
       s(this, S).call(this, r, s(this, w));
     }), c(this, S, (t, r) => {
       t.forEach((i) => {
-        const n = s(this, O).produce(s(this, j) ? i.meta : void 0), a = i(n);
+        const n = s(this, O).produce(
+          s(this, j) ? i.meta : void 0
+        ), a = i(n);
         r.set(i, { ctx: n, handler: a, cleanup: void 0 });
       });
     }), c(this, E, (t, r = !1) => Promise.all(
       [t].flat().map((i) => {
         const n = s(this, u).get(i), a = n == null ? void 0 : n.cleanup;
-        return r ? s(this, u).delete(i) : s(this, u).set(i, { ctx: void 0, handler: void 0, cleanup: void 0 }), typeof a == "function" ? a() : a;
+        return r ? s(this, u).delete(i) : s(this, u).set(i, {
+          ctx: void 0,
+          handler: void 0,
+          cleanup: void 0
+        }), typeof a == "function" ? a() : a;
       })
     )), c(this, A, async () => {
-      await Promise.all([...s(this, w).entries()].map(([t, { cleanup: r }]) => typeof r == "function" ? r() : r)), s(this, w).clear();
+      await Promise.all(
+        [...s(this, w).entries()].map(([t, { cleanup: r }]) => typeof r == "function" ? r() : r)
+      ), s(this, w).clear();
     }), c(this, C, (t) => {
       c(this, p, t), s(this, D).call(this, t);
     }), c(this, I, (t) => [...t.entries()].map(async ([r, i]) => {
       const { ctx: n, handler: a } = i;
-      if (!a)
-        return;
+      if (!a) return;
       const h = await a();
       t.set(r, { ctx: n, handler: a, cleanup: h });
     })), this.enableInspector = (t = !0) => (c(this, j, t), this), this.onStatusChange = (t) => (c(this, D, t), this), this.config = (t) => (s(this, y).push(t), this), this.removeConfig = (t) => (c(this, y, s(this, y).filter((r) => r !== t)), this), this.use = (t) => {
@@ -316,7 +363,9 @@ const Ce = class Ce {
           cleanup: void 0
         });
       }), s(this, p) === "Created" && s(this, S).call(this, r, s(this, u)), this;
-    }, this.remove = async (t) => s(this, p) === "OnCreate" ? (console.warn("[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code."), new Promise((r) => {
+    }, this.remove = async (t) => s(this, p) === "OnCreate" ? (console.warn(
+      "[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code."
+    ), new Promise((r) => {
       setTimeout(() => {
         r(this.remove(t));
       }, 50);
@@ -332,7 +381,9 @@ const Ce = class Ce {
     }) : (t && c(this, y, []), s(this, C).call(this, "OnDestroy"), await s(this, E).call(this, [...s(this, u).keys()], t), await s(this, A).call(this), s(this, C).call(this, "Destroyed"), this), this.action = (t) => t(s(this, O)), this.inspect = () => s(this, j) ? [...s(this, w).values(), ...s(this, u).values()].map(({ ctx: t }) => {
       var r;
       return (r = t == null ? void 0 : t.inspector) == null ? void 0 : r.read();
-    }).filter((t) => !!t) : (console.warn("[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first."), []);
+    }).filter((t) => !!t) : (console.warn(
+      "[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first."
+    ), []);
   }
   /// Create a new editor instance.
   static make() {

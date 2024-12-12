@@ -9,7 +9,11 @@ function c(e) {
         const t = typeof o == "function" ? o(n) : o;
         return {
           ...t,
-          class: i("prose dark:prose-invert outline-none", (t == null ? void 0 : t.class) || "", "milkdown-theme-nord")
+          class: i(
+            "prose dark:prose-invert outline-none",
+            (t == null ? void 0 : t.class) || "",
+            "milkdown-theme-nord"
+          )
         };
       }
     };

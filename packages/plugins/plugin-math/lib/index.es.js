@@ -13,14 +13,20 @@ function o(n, e) {
     }
   }), n;
 }
-const s = f("remarkMath", () => v);
+const s = f(
+  "remarkMath",
+  () => v
+);
 o(s.plugin, {
   displayName: "Remark<remarkMath>"
 });
 o(s.options, {
   displayName: "RemarkConfig<remarkMath>"
 });
-const c = "math_inline", m = N({}, "katexOptions");
+const c = "math_inline", m = N(
+  {},
+  "katexOptions"
+);
 o(m, {
   displayName: "Ctx<katexOptions>"
 });
@@ -33,8 +39,7 @@ const l = u("math_inline", (n) => ({
     {
       tag: `span[data-type="${c}"]`,
       getContent: (e, a) => {
-        if (!(e instanceof HTMLElement))
-          throw $(e);
+        if (!(e instanceof HTMLElement)) throw $(e);
         return M.from(a.text(e.dataset.value ?? ""));
       }
     }
@@ -115,17 +120,27 @@ o(r.ctx, {
 o(r.node, {
   displayName: "NodeSchema<mathBlock>"
 });
-const x = h((n) => new g(
-  /^\$\$\s$/,
-  (e, a, t, i) => {
+const x = h(
+  (n) => new g(/^\$\$\s$/, (e, a, t, i) => {
     const d = e.doc.resolve(t);
-    return d.node(-1).canReplaceWith(d.index(-1), d.indexAfter(-1), r.type(n)) ? e.tr.delete(t, i).setBlockType(t, t, r.type(n)) : null;
-  }
-));
+    return d.node(-1).canReplaceWith(
+      d.index(-1),
+      d.indexAfter(-1),
+      r.type(n)
+    ) ? e.tr.delete(t, i).setBlockType(t, t, r.type(n)) : null;
+  })
+);
 o(x, {
   displayName: "InputRule<mathBlock>"
 });
-const b = [s, m, l, r, x, y].flat();
+const b = [
+  s,
+  m,
+  l,
+  r,
+  x,
+  y
+].flat();
 export {
   m as katexOptionsCtx,
   b as math,

@@ -4,7 +4,7 @@ import type { Node } from '@milkdown/prose/model';
 import { PluginKey } from '@milkdown/prose/state';
 import type { DecorationAttrs } from '@milkdown/prose/view';
 import type { Awareness } from 'y-protocols/awareness';
-import type { Doc, PermanentUserData } from 'yjs';
+import type { Doc, PermanentUserData, XmlFragment } from 'yjs';
 export interface ColorDef {
     light: string;
     dark: string;
@@ -35,6 +35,7 @@ export declare class CollabService {
     #private;
     bindCtx(ctx: Ctx): this;
     bindDoc(doc: Doc): this;
+    bindXmlFragment(xmlFragment: XmlFragment): this;
     setOptions(options: CollabServiceOptions): this;
     mergeOptions(options: Partial<CollabServiceOptions>): this;
     setAwareness(awareness: Awareness): this;

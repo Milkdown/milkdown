@@ -66,8 +66,7 @@ const imageBlockSchema = $nodeSchema("image-block", () => {
         tag: `img[data-type="${IMAGE_DATA_TYPE}"]`,
         getAttrs: (dom) => {
           var _a;
-          if (!(dom instanceof HTMLElement))
-            throw expectDomTypeError(dom);
+          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
           return {
             src: dom.getAttribute("src") || "",
             caption: dom.getAttribute("caption") || "",
@@ -83,8 +82,7 @@ const imageBlockSchema = $nodeSchema("image-block", () => {
         const src = node.url;
         const caption = node.title;
         let ratio = Number(node.alt || 1);
-        if (Number.isNaN(ratio) || ratio === 0)
-          ratio = 1;
+        if (Number.isNaN(ratio) || ratio === 0) ratio = 1;
         state.addNode(type, {
           src,
           caption,
@@ -112,24 +110,29 @@ withMeta(imageBlockSchema.node, {
 });
 
 function visitImage(ast) {
-  return visit(ast, "paragraph", (node, index, parent) => {
-    var _a, _b;
-    if (((_a = node.children) == null ? void 0 : _a.length) !== 1)
-      return;
-    const firstChild = (_b = node.children) == null ? void 0 : _b[0];
-    if (!firstChild || firstChild.type !== "image")
-      return;
-    const { url, alt, title } = firstChild;
-    const newNode = {
-      type: "image-block",
-      url,
-      alt,
-      title
-    };
-    parent.children.splice(index, 1, newNode);
-  });
+  return visit(
+    ast,
+    "paragraph",
+    (node, index, parent) => {
+      var _a, _b;
+      if (((_a = node.children) == null ? void 0 : _a.length) !== 1) return;
+      const firstChild = (_b = node.children) == null ? void 0 : _b[0];
+      if (!firstChild || firstChild.type !== "image") return;
+      const { url, alt, title } = firstChild;
+      const newNode = {
+        type: "image-block",
+        url,
+        alt,
+        title
+      };
+      parent.children.splice(index, 1, newNode);
+    }
+  );
 }
-const remarkImageBlockPlugin = $remark("remark-image-block", () => () => visitImage);
+const remarkImageBlockPlugin = $remark(
+  "remark-image-block",
+  () => () => visitImage
+);
 withMeta(remarkImageBlockPlugin.plugin, {
   displayName: "Remark<remarkImageBlock>",
   group: "ImageBlock"
@@ -148,7 +151,10 @@ const defaultImageBlockConfig = {
   captionPlaceholderText: "Image caption",
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file))
 };
-const imageBlockConfig = $ctx(defaultImageBlockConfig, "imageBlockConfigCtx");
+const imageBlockConfig = $ctx(
+  defaultImageBlockConfig,
+  "imageBlockConfigCtx"
+);
 withMeta(imageBlockConfig, {
   displayName: "Config<image-block>",
   group: "ImageBlock"
@@ -160,8 +166,7 @@ function defIfNotExists(tagName, element) {
     customElements.define(tagName, element);
     return;
   }
-  if (current === element)
-    return;
+  if (current === element) return;
   console.warn(`Custom element ${tagName} has been defined before.`);
 }
 
@@ -176,8 +181,7 @@ function useBlockEffect({
   const root = useMemo(() => host.current.getRootNode(), [host]);
   useEffect(() => {
     const imageRef = image.current;
-    if (!imageRef)
-      return;
+    if (!imageRef) return;
     delete imageRef.dataset.origin;
     delete imageRef.dataset.height;
     imageRef.style.height = "";
@@ -185,8 +189,7 @@ function useBlockEffect({
   useEffect(() => {
     const resizeHandleRef = resizeHandle.current;
     const imageRef = image.current;
-    if (!resizeHandleRef || !imageRef)
-      return;
+    if (!resizeHandleRef || !imageRef) return;
     const onMove = (e) => {
       e.preventDefault();
       const top = imageRef.getBoundingClientRect().top;
@@ -200,9 +203,10 @@ function useBlockEffect({
       root.removeEventListener("pointerup", pointerUp);
       const originHeight = Number(imageRef.dataset.origin);
       const currentHeight = Number(imageRef.dataset.height);
-      const ratio2 = Number.parseFloat(Number(currentHeight / originHeight).toFixed(2));
-      if (Number.isNaN(ratio2))
-        return;
+      const ratio2 = Number.parseFloat(
+        Number(currentHeight / originHeight).toFixed(2)
+      );
+      if (Number.isNaN(ratio2)) return;
       setRatio(ratio2);
     };
     const pointerDown = (e) => {
@@ -212,8 +216,7 @@ function useBlockEffect({
     };
     const onLoad = (e) => {
       const maxWidth = host.current.getBoundingClientRect().width;
-      if (!maxWidth)
-        return;
+      if (!maxWidth) return;
       const target = e.target;
       const height = target.height;
       const width = target.width;
@@ -278,15 +281,13 @@ const imageComponent = ({
     src
   });
   useEffect(() => {
-    if (selected)
-      return;
+    if (selected) return;
     setShowCaption(caption.length > 0);
   }, [selected]);
   const onInput = (e) => {
     const target = e.target;
     const value = target.value;
-    if (timer)
-      window.clearTimeout(timer);
+    if (timer) window.clearTimeout(timer);
     timer = window.setTimeout(() => {
       setAttr == null ? void 0 : setAttr("caption", value);
     }, 1e3);
@@ -309,19 +310,16 @@ const imageComponent = ({
   const onUpload = (e) => __async(void 0, null, function* () {
     var _a;
     const file = (_a = e.target.files) == null ? void 0 : _a[0];
-    if (!file)
-      return;
+    if (!file) return;
     const url = yield config == null ? void 0 : config.onUpload(file);
-    if (!url)
-      return;
+    if (!url) return;
     setAttr == null ? void 0 : setAttr("src", url);
     setHidePlaceholder(true);
   });
   const onToggleCaption = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (readonly)
-      return;
+    if (readonly) return;
     setShowCaption((x) => !x);
   };
   const onConfirmLinkInput = () => {
@@ -329,8 +327,7 @@ const imageComponent = ({
     setAttr == null ? void 0 : setAttr("src", (_b = (_a = linkInput.current) == null ? void 0 : _a.value) != null ? _b : "");
   };
   const onKeydown = (e) => {
-    if (e.key === "Enter")
-      onConfirmLinkInput();
+    if (e.key === "Enter") onConfirmLinkInput();
   };
   const preventDrag = (e) => {
     e.preventDefault();
@@ -342,9 +339,7 @@ const imageComponent = ({
   };
   return html`<host class=${clsx(selected && "selected")}>
     <div class=${clsx("image-edit", src.length > 0 && "hidden")}>
-      <div class="image-icon">
-        ${config == null ? void 0 : config.imageIcon()}
-      </div>
+      <div class="image-icon">${config == null ? void 0 : config.imageIcon()}</div>
       <div class=${clsx("link-importer", focusLinkInput && "focus")}>
         <input
           ref=${linkInput}
@@ -359,7 +354,14 @@ const imageComponent = ({
           onblur=${() => setFocusLinkInput(false)}
         />
         <div class=${clsx("placeholder", hidePlaceholder && "hidden")}>
-          <input disabled=${readonly} class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
+          <input
+            disabled=${readonly}
+            class="hidden"
+            id=${uuid}
+            type="file"
+            accept="image/*"
+            onchange=${onUpload}
+          />
           <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
             ${config == null ? void 0 : config.uploadButton()}
           </label>
@@ -380,9 +382,17 @@ const imageComponent = ({
     </div>
     <div class=${clsx("image-wrapper", src.length === 0 && "hidden")}>
       <div class="operation">
-        <div class="operation-item" onpointerdown=${onToggleCaption}>${config == null ? void 0 : config.captionIcon()}</div>
+        <div class="operation-item" onpointerdown=${onToggleCaption}>
+          ${config == null ? void 0 : config.captionIcon()}
+        </div>
       </div>
-      <img ref=${image} data-type=${IMAGE_DATA_TYPE} src=${src} alt=${caption} ratio=${ratio} />
+      <img
+        ref=${image}
+        data-type=${IMAGE_DATA_TYPE}
+        src=${src}
+        alt=${caption}
+        ratio=${ratio}
+      />
       <div ref=${resizeHandle} class="image-resize-handle"></div>
     </div>
     <input
@@ -408,50 +418,52 @@ imageComponent.props = {
 const ImageElement = c(imageComponent);
 
 defIfNotExists("milkdown-image-block", ImageElement);
-const imageBlockView = $view(imageBlockSchema.node, (ctx) => {
-  return (initialNode, view, getPos) => {
-    const dom = document.createElement("milkdown-image-block");
-    const config = ctx.get(imageBlockConfig.key);
-    const bindAttrs = (node) => {
-      dom.src = node.attrs.src;
-      dom.ratio = node.attrs.ratio;
-      dom.caption = node.attrs.caption;
-      dom.readonly = !view.editable;
-    };
-    bindAttrs(initialNode);
-    dom.selected = false;
-    dom.setAttr = (attr, value) => {
-      const pos = getPos();
-      if (pos == null)
-        return;
-      view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value));
-    };
-    dom.config = config;
-    return {
-      dom,
-      update: (updatedNode) => {
-        if (updatedNode.type !== initialNode.type)
-          return false;
-        bindAttrs(updatedNode);
-        return true;
-      },
-      stopEvent: (e) => {
-        if (e.target instanceof HTMLInputElement)
+const imageBlockView = $view(
+  imageBlockSchema.node,
+  (ctx) => {
+    return (initialNode, view, getPos) => {
+      const dom = document.createElement(
+        "milkdown-image-block"
+      );
+      const config = ctx.get(imageBlockConfig.key);
+      const bindAttrs = (node) => {
+        dom.src = node.attrs.src;
+        dom.ratio = node.attrs.ratio;
+        dom.caption = node.attrs.caption;
+        dom.readonly = !view.editable;
+      };
+      bindAttrs(initialNode);
+      dom.selected = false;
+      dom.setAttr = (attr, value) => {
+        const pos = getPos();
+        if (pos == null) return;
+        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value));
+      };
+      dom.config = config;
+      return {
+        dom,
+        update: (updatedNode) => {
+          if (updatedNode.type !== initialNode.type) return false;
+          bindAttrs(updatedNode);
           return true;
-        return false;
-      },
-      selectNode: () => {
-        dom.selected = true;
-      },
-      deselectNode: () => {
-        dom.selected = false;
-      },
-      destroy: () => {
-        dom.remove();
-      }
+        },
+        stopEvent: (e) => {
+          if (e.target instanceof HTMLInputElement) return true;
+          return false;
+        },
+        selectNode: () => {
+          dom.selected = true;
+        },
+        deselectNode: () => {
+          dom.selected = false;
+        },
+        destroy: () => {
+          dom.remove();
+        }
+      };
     };
-  };
-});
+  }
+);
 withMeta(imageBlockView, {
   displayName: "NodeView<image-block>",
   group: "ImageBlock"

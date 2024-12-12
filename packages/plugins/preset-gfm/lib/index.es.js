@@ -25,7 +25,10 @@ i(W, {
 const T = He("strike_through", (e) => ({
   parseDOM: [
     { tag: "del" },
-    { style: "text-decoration", getAttrs: (t) => t === "line-through" }
+    {
+      style: "text-decoration",
+      getAttrs: (t) => t === "line-through"
+    }
   ],
   toDOM: (t) => ["del", e.get(W.key)(t)],
   parseMarkdown: {
@@ -49,7 +52,10 @@ i(T.ctx, {
   displayName: "MarkSchemaCtx<strikethrough>",
   group: "Strikethrough"
 });
-const z = g("ToggleStrikeThrough", (e) => () => Xe(T.type(e)));
+const z = g(
+  "ToggleStrikeThrough",
+  (e) => () => Xe(T.type(e))
+);
 i(z, {
   displayName: "Command<ToggleStrikethrough>",
   group: "Strikethrough"
@@ -108,8 +114,7 @@ const S = Le({
     runner: (e, t) => {
       var l;
       const n = (l = t.content.firstChild) == null ? void 0 : l.content;
-      if (!n)
-        return;
+      if (!n) return;
       const o = [];
       n.forEach((r) => {
         o.push(r.attrs.alignment);
@@ -239,22 +244,29 @@ i(I.ctx, {
   group: "Table"
 });
 function de(e, t = 3, n = 3) {
-  const o = Array(n).fill(0).map(() => x.type(e).createAndFill()), l = Array(n).fill(0).map(() => I.type(e).createAndFill()), r = Array(t).fill(0).map((s, c) => c === 0 ? $.type(e).create(null, l) : R.type(e).create(null, o));
+  const o = Array(n).fill(0).map(() => x.type(e).createAndFill()), l = Array(n).fill(0).map(() => I.type(e).createAndFill()), r = Array(t).fill(0).map(
+    (s, c) => c === 0 ? $.type(e).create(null, l) : R.type(e).create(null, o)
+  );
   return N.type(e).create(null, r);
 }
 function M(e) {
-  return se((t) => t.type.spec.tableRole === "table")(e);
+  return se(
+    (t) => t.type.spec.tableRole === "table"
+  )(e);
 }
 function y(e, t) {
   const n = M(t.$from);
-  if (!n)
-    return;
+  if (!n) return;
   const o = h.get(n.node);
   if (!(e < 0 || e >= o.width))
-    return o.cellsInRect({ left: e, right: e + 1, top: 0, bottom: o.height }).map((l) => {
+    return o.cellsInRect({
+      left: e,
+      right: e + 1,
+      top: 0,
+      bottom: o.height
+    }).map((l) => {
       const r = n.node.nodeAt(l);
-      if (!r)
-        return;
+      if (!r) return;
       const s = l + n.start;
       return {
         pos: s,
@@ -265,14 +277,17 @@ function y(e, t) {
 }
 function w(e, t) {
   const n = M(t.$from);
-  if (!n)
-    return;
+  if (!n) return;
   const o = h.get(n.node);
   if (!(e < 0 || e >= o.height))
-    return o.cellsInRect({ left: 0, right: o.width, top: e, bottom: e + 1 }).map((l) => {
+    return o.cellsInRect({
+      left: 0,
+      right: o.width,
+      top: e,
+      bottom: e + 1
+    }).map((l) => {
       const r = n.node.nodeAt(l);
-      if (!r)
-        return;
+      if (!r) return;
       const s = l + n.start;
       return {
         pos: s,
@@ -283,8 +298,7 @@ function w(e, t) {
 }
 function ot(e) {
   const t = M(e.$from);
-  if (!t)
-    return;
+  if (!t) return;
   const n = h.get(t.node);
   return n.cellsInRect({
     left: 0,
@@ -317,7 +331,9 @@ function me(e, t, { map: n, tableStart: o, table: l }, r) {
 function ue(e) {
   return (t, n) => (o) => {
     n = n ?? o.selection.from;
-    const l = o.doc.resolve(n), r = se((d) => d.type.name === "table")(l), s = r ? {
+    const l = o.doc.resolve(n), r = se(
+      (d) => d.type.name === "table"
+    )(l), s = r ? {
       node: r.node,
       from: r.start
     } : void 0, c = e === "row";
@@ -328,8 +344,16 @@ function ue(e) {
           c ? t : d.height - 1,
           c ? d.width - 1 : t,
           s.node
-        ), a = o.doc.resolve(s.from + p), m = c ? k.rowSelection : k.colSelection, u = d.positionAt(c ? t : 0, c ? 0 : t, s.node), f = o.doc.resolve(s.from + u);
-        return _(o.setSelection(m(a, f)));
+        ), a = o.doc.resolve(s.from + p), m = c ? k.rowSelection : k.colSelection, u = d.positionAt(
+          c ? t : 0,
+          c ? 0 : t,
+          s.node
+        ), f = o.doc.resolve(s.from + u);
+        return _(
+          o.setSelection(
+            m(a, f)
+          )
+        );
       }
     }
     return o;
@@ -344,8 +368,7 @@ function pe(e, t) {
   for (let r = 0; r < o.height; r++) {
     const s = e.child(r), c = [];
     for (let d = 0; d < o.width; d++) {
-      if (!t[r][d])
-        continue;
+      if (!t[r][d]) continue;
       const p = o.map[r * o.width + d], a = t[r][d], u = e.nodeAt(p).type.createChecked(
         Object.assign({}, a.attrs),
         a.content,
@@ -424,8 +447,7 @@ function ee(e, t) {
           d = m[0];
           break;
         }
-      if (d)
-        break;
+      if (d) break;
     }
   }
   const p = t.doc.resolve(d.pos);
@@ -449,7 +471,9 @@ function te(e, t) {
     m && m.length && l.push(a);
   }
   n = l[0], o = l[l.length - 1];
-  const r = w(n, t.selection), s = y(0, t.selection), c = t.doc.resolve(r[r.length - 1].pos);
+  const r = w(n, t.selection), s = y(0, t.selection), c = t.doc.resolve(
+    r[r.length - 1].pos
+  );
   let d;
   for (let a = o; a >= n; a--) {
     const m = w(a, t.selection);
@@ -459,8 +483,7 @@ function te(e, t) {
           d = m[0];
           break;
         }
-      if (d)
-        break;
+      if (d) break;
     }
   }
   const p = t.doc.resolve(d.pos);
@@ -468,11 +491,9 @@ function te(e, t) {
 }
 function ct(e) {
   const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = M(s);
-  if (!c)
-    return t;
+  if (!c) return t;
   const { indexes: d } = ee(n, t), { indexes: p } = ee(o, t);
-  if (d.includes(o))
-    return t;
+  if (d.includes(o)) return t;
   const a = at(
     c,
     d,
@@ -482,170 +503,216 @@ function ct(e) {
     c.pos + c.node.nodeSize,
     a
   );
-  if (!l)
-    return m;
+  if (!l) return m;
   const u = h.get(a), f = c.start, b = o, P = u.positionAt(u.height - 1, b, a), D = m.doc.resolve(f + P), E = k.colSelection, O = u.positionAt(0, b, a), H = m.doc.resolve(f + O);
   return m.setSelection(E(D, H));
 }
 function it(e) {
   const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = M(s);
-  if (!c)
-    return t;
+  if (!c) return t;
   const { indexes: d } = te(n, t), { indexes: p } = te(o, t);
-  if (d.includes(o))
-    return t;
-  const a = st(
-    c,
-    d,
-    p
-  ), m = _(t).replaceWith(
+  if (d.includes(o)) return t;
+  const a = st(c, d, p), m = _(t).replaceWith(
     c.pos,
     c.pos + c.node.nodeSize,
     a
   );
-  if (!l)
-    return m;
+  if (!l) return m;
   const u = h.get(a), f = c.start, b = o, P = u.positionAt(b, u.width - 1, a), D = m.doc.resolve(f + P), E = k.rowSelection, O = u.positionAt(b, 0, a), H = m.doc.resolve(f + O);
   return m.setSelection(E(D, H));
 }
-const V = g("GoToPrevTableCell", () => () => re(-1));
+const V = g(
+  "GoToPrevTableCell",
+  () => () => re(-1)
+);
 i(V, {
   displayName: "Command<goToPrevTableCellCommand>",
   group: "Table"
 });
-const U = g("GoToNextTableCell", () => () => re(1));
+const U = g(
+  "GoToNextTableCell",
+  () => () => re(1)
+);
 i(U, {
   displayName: "Command<goToNextTableCellCommand>",
   group: "Table"
 });
-const X = g("ExitTable", (e) => () => (t, n) => {
-  if (!G(t))
-    return !1;
-  const { $head: o } = t.selection, l = Je(o, N.type(e));
-  if (!l)
-    return !1;
-  const { to: r } = l, s = t.tr.replaceWith(r, r, De.type(e).createAndFill());
-  return s.setSelection(ce.near(s.doc.resolve(r), 1)).scrollIntoView(), n == null || n(s), !0;
-});
+const X = g(
+  "ExitTable",
+  (e) => () => (t, n) => {
+    if (!G(t)) return !1;
+    const { $head: o } = t.selection, l = Je(o, N.type(e));
+    if (!l) return !1;
+    const { to: r } = l, s = t.tr.replaceWith(
+      r,
+      r,
+      De.type(e).createAndFill()
+    );
+    return s.setSelection(ce.near(s.doc.resolve(r), 1)).scrollIntoView(), n == null || n(s), !0;
+  }
+);
 i(X, {
   displayName: "Command<breakTableCommand>",
   group: "Table"
 });
-const he = g("InsertTable", (e) => ({ row: t, col: n } = {}) => (o, l) => {
-  const { selection: r, tr: s } = o, { from: c } = r, d = de(e, t, n), p = s.replaceSelectionWith(d), a = ce.findFrom(p.doc.resolve(c), 1, !0);
-  return a && p.setSelection(a), l == null || l(p), !0;
-});
+const he = g(
+  "InsertTable",
+  (e) => ({ row: t, col: n } = {}) => (o, l) => {
+    const { selection: r, tr: s } = o, { from: c } = r, d = de(e, t, n), p = s.replaceSelectionWith(d), a = ce.findFrom(p.doc.resolve(c), 1, !0);
+    return a && p.setSelection(a), l == null || l(p), !0;
+  }
+);
 i(he, {
   displayName: "Command<insertTableCommand>",
   group: "Table"
 });
-const be = g("MoveRow", () => ({ from: e, to: t, pos: n } = {}) => (o, l) => {
-  const { tr: r } = o;
-  return !!(l == null ? void 0 : l(it({ tr: r, origin: e ?? 0, target: t ?? 0, pos: n, select: !0 })));
-});
+const be = g(
+  "MoveRow",
+  () => ({ from: e, to: t, pos: n } = {}) => (o, l) => {
+    const { tr: r } = o;
+    return !!(l == null ? void 0 : l(
+      it({ tr: r, origin: e ?? 0, target: t ?? 0, pos: n, select: !0 })
+    ));
+  }
+);
 i(be, {
   displayName: "Command<moveRowCommand>",
   group: "Table"
 });
-const Ce = g("MoveCol", () => ({ from: e, to: t, pos: n } = {}) => (o, l) => {
-  const { tr: r } = o;
-  return !!(l == null ? void 0 : l(ct({ tr: r, origin: e ?? 0, target: t ?? 0, pos: n, select: !0 })));
-});
+const Ce = g(
+  "MoveCol",
+  () => ({ from: e, to: t, pos: n } = {}) => (o, l) => {
+    const { tr: r } = o;
+    return !!(l == null ? void 0 : l(
+      ct({ tr: r, origin: e ?? 0, target: t ?? 0, pos: n, select: !0 })
+    ));
+  }
+);
 i(Ce, {
   displayName: "Command<moveColCommand>",
   group: "Table"
 });
-const ye = g("SelectRow", () => (e = { index: 0 }) => (t, n) => {
-  const { tr: o } = t;
-  return !!(n == null ? void 0 : n(lt(e.index, e.pos)(o)));
-});
+const ye = g(
+  "SelectRow",
+  () => (e = { index: 0 }) => (t, n) => {
+    const { tr: o } = t;
+    return !!(n == null ? void 0 : n(lt(e.index, e.pos)(o)));
+  }
+);
 i(ye, {
   displayName: "Command<selectRowCommand>",
   group: "Table"
 });
-const we = g("SelectCol", () => (e = { index: 0 }) => (t, n) => {
-  const { tr: o } = t;
-  return !!(n == null ? void 0 : n(rt(e.index, e.pos)(o)));
-});
+const we = g(
+  "SelectCol",
+  () => (e = { index: 0 }) => (t, n) => {
+    const { tr: o } = t;
+    return !!(n == null ? void 0 : n(rt(e.index, e.pos)(o)));
+  }
+);
 i(we, {
   displayName: "Command<selectColCommand>",
   group: "Table"
 });
-const ke = g("SelectTable", () => () => (e, t) => {
-  const { tr: n } = e;
-  return !!(t == null ? void 0 : t(nt(n)));
-});
+const ke = g(
+  "SelectTable",
+  () => () => (e, t) => {
+    const { tr: n } = e;
+    return !!(t == null ? void 0 : t(nt(n)));
+  }
+);
 i(ke, {
   displayName: "Command<selectTableCommand>",
   group: "Table"
 });
-const Ne = g("DeleteSelectedCells", () => () => (e, t) => {
-  const { selection: n } = e;
-  if (!(n instanceof k))
-    return !1;
-  const o = n.isRowSelection(), l = n.isColSelection();
-  return o && l ? Ke(e, t) : l ? Fe(e, t) : Ge(e, t);
-});
+const Ne = g(
+  "DeleteSelectedCells",
+  () => () => (e, t) => {
+    const { selection: n } = e;
+    if (!(n instanceof k)) return !1;
+    const o = n.isRowSelection(), l = n.isColSelection();
+    return o && l ? Ke(e, t) : l ? Fe(e, t) : Ge(e, t);
+  }
+);
 i(Ne, {
   displayName: "Command<deleteSelectedCellsCommand>",
   group: "Table"
 });
-const Te = g("AddColBefore", () => () => We);
+const Te = g(
+  "AddColBefore",
+  () => () => We
+);
 i(Te, {
   displayName: "Command<addColBeforeCommand>",
   group: "Table"
 });
-const Se = g("AddColAfter", () => () => ze);
+const Se = g(
+  "AddColAfter",
+  () => () => ze
+);
 i(Se, {
   displayName: "Command<addColAfterCommand>",
   group: "Table"
 });
-const Re = g("AddRowBefore", (e) => () => (t, n) => {
-  if (!G(t))
-    return !1;
-  if (n) {
-    const o = ae(t);
-    n(me(e, t.tr, o, o.top));
+const Re = g(
+  "AddRowBefore",
+  (e) => () => (t, n) => {
+    if (!G(t)) return !1;
+    if (n) {
+      const o = ae(t);
+      n(me(e, t.tr, o, o.top));
+    }
+    return !0;
   }
-  return !0;
-});
+);
 i(Re, {
   displayName: "Command<addRowBeforeCommand>",
   group: "Table"
 });
-const xe = g("AddRowAfter", (e) => () => (t, n) => {
-  if (!G(t))
-    return !1;
-  if (n) {
-    const o = ae(t);
-    n(me(e, t.tr, o, o.bottom));
+const xe = g(
+  "AddRowAfter",
+  (e) => () => (t, n) => {
+    if (!G(t)) return !1;
+    if (n) {
+      const o = ae(t);
+      n(me(e, t.tr, o, o.bottom));
+    }
+    return !0;
   }
-  return !0;
-});
+);
 i(xe, {
   displayName: "Command<addRowAfterCommand>",
   group: "Table"
 });
-const Me = g("SetAlign", () => (e = "left") => je("alignment", e));
+const Me = g(
+  "SetAlign",
+  () => (e = "left") => je("alignment", e)
+);
 i(Me, {
   displayName: "Command<setAlignCommand>",
   group: "Table"
 });
-const Ae = F((e) => new ne(
-  /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/,
-  (t, n, o, l) => {
-    var d, p;
-    const r = t.doc.resolve(o);
-    if (!r.node(-1).canReplaceWith(r.index(-1), r.indexAfter(-1), N.type(e)))
-      return null;
-    const s = de(
-      e,
-      Number((d = n.groups) == null ? void 0 : d.row),
-      Number((p = n.groups) == null ? void 0 : p.col)
-    ), c = t.tr.replaceRangeWith(o, l, s);
-    return c.setSelection(Qe.create(c.doc, o + 3)).scrollIntoView();
-  }
-));
+const Ae = F(
+  (e) => new ne(
+    /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/,
+    (t, n, o, l) => {
+      var d, p;
+      const r = t.doc.resolve(o);
+      if (!r.node(-1).canReplaceWith(
+        r.index(-1),
+        r.indexAfter(-1),
+        N.type(e)
+      ))
+        return null;
+      const s = de(
+        e,
+        Number((d = n.groups) == null ? void 0 : d.row),
+        Number((p = n.groups) == null ? void 0 : p.col)
+      ), c = t.tr.replaceRangeWith(o, l, s);
+      return c.setSelection(Qe.create(c.doc, o + 3)).scrollIntoView();
+    }
+  )
+);
 i(Ae, {
   displayName: "InputRule<insertTableInputRule>",
   group: "Table"
@@ -681,59 +748,61 @@ i(q.shortcuts, {
   displayName: "Keymap<table>",
   group: "Table"
 });
-const B = "footnote_definition", oe = "footnoteDefinition", J = C("footnote_definition", () => ({
-  group: "block",
-  content: "block+",
-  defining: !0,
-  attrs: {
-    label: {
-      default: ""
-    }
-  },
-  parseDOM: [
-    {
-      tag: `dl[data-type="${B}"]`,
-      getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw K(e);
-        return {
-          label: e.dataset.label
-        };
-      },
-      contentElement: "dd"
-    }
-  ],
-  toDOM: (e) => {
-    const t = e.attrs.label;
-    return [
-      "dl",
+const B = "footnote_definition", oe = "footnoteDefinition", J = C(
+  "footnote_definition",
+  () => ({
+    group: "block",
+    content: "block+",
+    defining: !0,
+    attrs: {
+      label: {
+        default: ""
+      }
+    },
+    parseDOM: [
       {
-        // TODO: add a prosemirror plugin to sync label on change
-        "data-label": t,
-        "data-type": B
-      },
-      ["dt", t],
-      ["dd", 0]
-    ];
-  },
-  parseMarkdown: {
-    match: ({ type: e }) => e === oe,
-    runner: (e, t, n) => {
-      e.openNode(n, {
-        label: t.label
-      }).next(t.children).closeNode();
+        tag: `dl[data-type="${B}"]`,
+        getAttrs: (e) => {
+          if (!(e instanceof HTMLElement)) throw K(e);
+          return {
+            label: e.dataset.label
+          };
+        },
+        contentElement: "dd"
+      }
+    ],
+    toDOM: (e) => {
+      const t = e.attrs.label;
+      return [
+        "dl",
+        {
+          // TODO: add a prosemirror plugin to sync label on change
+          "data-label": t,
+          "data-type": B
+        },
+        ["dt", t],
+        ["dd", 0]
+      ];
+    },
+    parseMarkdown: {
+      match: ({ type: e }) => e === oe,
+      runner: (e, t, n) => {
+        e.openNode(n, {
+          label: t.label
+        }).next(t.children).closeNode();
+      }
+    },
+    toMarkdown: {
+      match: (e) => e.type.name === B,
+      runner: (e, t) => {
+        e.openNode(oe, void 0, {
+          label: t.attrs.label,
+          identifier: t.attrs.label
+        }).next(t.content).closeNode();
+      }
     }
-  },
-  toMarkdown: {
-    match: (e) => e.type.name === B,
-    runner: (e, t) => {
-      e.openNode(oe, void 0, {
-        label: t.attrs.label,
-        identifier: t.attrs.label
-      }).next(t.content).closeNode();
-    }
-  }
-}));
+  })
+);
 i(J.ctx, {
   displayName: "NodeSchemaCtx<footnodeDef>",
   group: "footnote"
@@ -742,57 +811,59 @@ i(J.node, {
   displayName: "NodeSchema<footnodeDef>",
   group: "footnote"
 });
-const L = "footnote_reference", Q = C("footnote_reference", () => ({
-  group: "inline",
-  inline: !0,
-  atom: !0,
-  attrs: {
-    label: {
-      default: ""
-    }
-  },
-  parseDOM: [
-    {
-      tag: `sup[data-type="${L}"]`,
-      getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw K(e);
-        return {
-          label: e.dataset.label
-        };
+const L = "footnote_reference", Q = C(
+  "footnote_reference",
+  () => ({
+    group: "inline",
+    inline: !0,
+    atom: !0,
+    attrs: {
+      label: {
+        default: ""
+      }
+    },
+    parseDOM: [
+      {
+        tag: `sup[data-type="${L}"]`,
+        getAttrs: (e) => {
+          if (!(e instanceof HTMLElement)) throw K(e);
+          return {
+            label: e.dataset.label
+          };
+        }
+      }
+    ],
+    toDOM: (e) => {
+      const t = e.attrs.label;
+      return [
+        "sup",
+        {
+          // TODO: add a prosemirror plugin to sync label on change
+          "data-label": t,
+          "data-type": L
+        },
+        t
+      ];
+    },
+    parseMarkdown: {
+      match: ({ type: e }) => e === "footnoteReference",
+      runner: (e, t, n) => {
+        e.addNode(n, {
+          label: t.label
+        });
+      }
+    },
+    toMarkdown: {
+      match: (e) => e.type.name === L,
+      runner: (e, t) => {
+        e.addNode("footnoteReference", void 0, void 0, {
+          label: t.attrs.label,
+          identifier: t.attrs.label
+        });
       }
     }
-  ],
-  toDOM: (e) => {
-    const t = e.attrs.label;
-    return [
-      "sup",
-      {
-        // TODO: add a prosemirror plugin to sync label on change
-        "data-label": t,
-        "data-type": L
-      },
-      t
-    ];
-  },
-  parseMarkdown: {
-    match: ({ type: e }) => e === "footnoteReference",
-    runner: (e, t, n) => {
-      e.addNode(n, {
-        label: t.label
-      });
-    }
-  },
-  toMarkdown: {
-    match: (e) => e.type.name === L,
-    runner: (e, t) => {
-      e.addNode("footnoteReference", void 0, void 0, {
-        label: t.attrs.label,
-        identifier: t.attrs.label
-      });
-    }
-  }
-}));
+  })
+);
 i(Q.ctx, {
   displayName: "NodeSchemaCtx<footnodeRef>",
   group: "footnote"
@@ -801,82 +872,93 @@ i(Q.node, {
   displayName: "NodeSchema<footnodeRef>",
   group: "footnote"
 });
-const ve = Ee.extendSchema((e) => (t) => {
-  const n = e(t);
-  return {
-    ...n,
-    attrs: {
-      ...n.attrs,
-      checked: {
-        default: null
-      }
-    },
-    parseDOM: [
-      {
-        tag: 'li[data-item-type="task"]',
-        getAttrs: (o) => {
-          if (!(o instanceof HTMLElement))
-            throw K(o);
-          return {
-            label: o.dataset.label,
-            listType: o.dataset.listType,
-            spread: o.dataset.spread,
-            checked: o.dataset.checked ? o.dataset.checked === "true" : null
-          };
+const ve = Ee.extendSchema(
+  (e) => (t) => {
+    const n = e(t);
+    return {
+      ...n,
+      attrs: {
+        ...n.attrs,
+        checked: {
+          default: null
         }
       },
-      ...(n == null ? void 0 : n.parseDOM) || []
-    ],
-    toDOM: (o) => n.toDOM && o.attrs.checked == null ? n.toDOM(o) : [
-      "li",
-      {
-        "data-item-type": "task",
-        "data-label": o.attrs.label,
-        "data-list-type": o.attrs.listType,
-        "data-spread": o.attrs.spread,
-        "data-checked": o.attrs.checked
+      parseDOM: [
+        {
+          tag: 'li[data-item-type="task"]',
+          getAttrs: (o) => {
+            if (!(o instanceof HTMLElement)) throw K(o);
+            return {
+              label: o.dataset.label,
+              listType: o.dataset.listType,
+              spread: o.dataset.spread,
+              checked: o.dataset.checked ? o.dataset.checked === "true" : null
+            };
+          }
+        },
+        ...(n == null ? void 0 : n.parseDOM) || []
+      ],
+      toDOM: (o) => n.toDOM && o.attrs.checked == null ? n.toDOM(o) : [
+        "li",
+        {
+          "data-item-type": "task",
+          "data-label": o.attrs.label,
+          "data-list-type": o.attrs.listType,
+          "data-spread": o.attrs.spread,
+          "data-checked": o.attrs.checked
+        },
+        0
+      ],
+      parseMarkdown: {
+        match: ({ type: o }) => o === "listItem",
+        runner: (o, l, r) => {
+          if (l.checked == null) {
+            n.parseMarkdown.runner(o, l, r);
+            return;
+          }
+          const s = l.label != null ? `${l.label}.` : "•", c = l.checked != null ? !!l.checked : null, d = l.label != null ? "ordered" : "bullet", p = l.spread != null ? `${l.spread}` : "true";
+          o.openNode(r, { label: s, listType: d, spread: p, checked: c }), o.next(l.children), o.closeNode();
+        }
       },
-      0
-    ],
-    parseMarkdown: {
-      match: ({ type: o }) => o === "listItem",
-      runner: (o, l, r) => {
-        if (l.checked == null) {
-          n.parseMarkdown.runner(o, l, r);
-          return;
+      toMarkdown: {
+        match: (o) => o.type.name === "list_item",
+        runner: (o, l) => {
+          if (l.attrs.checked == null) {
+            n.toMarkdown.runner(o, l);
+            return;
+          }
+          const r = l.attrs.label, s = l.attrs.listType, c = l.attrs.spread === "true", d = l.attrs.checked;
+          o.openNode("listItem", void 0, {
+            label: r,
+            listType: s,
+            spread: c,
+            checked: d
+          }), o.next(l.content), o.closeNode();
         }
-        const s = l.label != null ? `${l.label}.` : "•", c = l.checked != null ? !!l.checked : null, d = l.label != null ? "ordered" : "bullet", p = l.spread != null ? `${l.spread}` : "true";
-        o.openNode(r, { label: s, listType: d, spread: p, checked: c }), o.next(l.children), o.closeNode();
       }
-    },
-    toMarkdown: {
-      match: (o) => o.type.name === "list_item",
-      runner: (o, l) => {
-        if (l.attrs.checked == null) {
-          n.toMarkdown.runner(o, l);
-          return;
-        }
-        const r = l.attrs.label, s = l.attrs.listType, c = l.attrs.spread === "true", d = l.attrs.checked;
-        o.openNode("listItem", void 0, { label: r, listType: s, spread: c, checked: d }), o.next(l.content), o.closeNode();
-      }
-    }
-  };
-});
+    };
+  }
+);
 i(ve, {
   displayName: "NodeSchema<listItem>",
   group: "ListItem"
 });
-const _e = F(() => new ne(/^\[(?<checked>\s|x)\]\s$/, (e, t, n, o) => {
-  var a;
-  const l = e.doc.resolve(n);
-  let r = 0, s = l.node(r);
-  for (; s && s.type.name !== "list_item"; )
-    r--, s = l.node(r);
-  if (!s || s.attrs.checked != null)
-    return null;
-  const c = ((a = t.groups) == null ? void 0 : a.checked) === "x", d = l.before(r), p = e.tr;
-  return p.deleteRange(n, o).setNodeMarkup(d, void 0, { ...s.attrs, checked: c }), p;
-}));
+const _e = F(() => new ne(
+  /^\[(?<checked>\s|x)\]\s$/,
+  (e, t, n, o) => {
+    var a;
+    const l = e.doc.resolve(n);
+    let r = 0, s = l.node(r);
+    for (; s && s.type.name !== "list_item"; )
+      r--, s = l.node(r);
+    if (!s || s.attrs.checked != null) return null;
+    const c = ((a = t.groups) == null ? void 0 : a.checked) === "x", d = l.before(r), p = e.tr;
+    return p.deleteRange(n, o).setNodeMarkup(d, void 0, {
+      ...s.attrs,
+      checked: c
+    }), p;
+  }
+));
 i(_e, {
   displayName: "InputRule<wrapInTaskListInputRule>",
   group: "ListItem"
@@ -887,9 +969,7 @@ const dt = [
 ].flat(), mt = [
   Ae,
   _e
-], ut = [
-  ie
-], $e = v(() => et);
+], ut = [ie], $e = v(() => et);
 i($e, {
   displayName: "Prose<autoInsertSpanPlugin>",
   group: "Prose"
@@ -899,7 +979,9 @@ i(pt, {
   displayName: "Prose<columnResizingPlugin>",
   group: "Prose"
 });
-const Ie = v(() => Ue({ allowTableNodeSelection: !0 }));
+const Ie = v(
+  () => Ue({ allowTableNodeSelection: !0 })
+);
 i(Ie, {
   displayName: "Prose<tableEditingPlugin>",
   group: "Prose"
@@ -925,14 +1007,11 @@ const Pe = v(() => new Ze({
   appendTransaction: (e, t, n) => {
     let o;
     const l = (r, s) => {
-      if (o || (o = n.tr), r.type.name !== "table_cell")
-        return;
+      if (o || (o = n.tr), r.type.name !== "table_cell") return;
       const c = n.doc.resolve(s), d = c.node(c.depth), a = c.node(c.depth - 1).firstChild;
-      if (!a)
-        return;
+      if (!a) return;
       const m = gt(r, d), u = a.maybeChild(m);
-      if (!u)
-        return;
+      if (!u) return;
       const f = u.attrs.alignment, b = r.attrs.alignment;
       f !== b && o.setNodeMarkup(s, void 0, { ...r.attrs, alignment: f });
     };
@@ -976,7 +1055,14 @@ const ht = [
   Se,
   Me,
   z
-], _t = [bt, mt, ut, dt, Ct, ht].flat();
+], _t = [
+  bt,
+  mt,
+  ut,
+  dt,
+  Ct,
+  ht
+].flat();
 export {
   Se as addColAfterCommand,
   Te as addColBeforeCommand,

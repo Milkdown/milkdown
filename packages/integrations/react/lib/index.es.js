@@ -1,11 +1,17 @@
-import l, { createContext as g, useContext as a, useRef as u, useEffect as E, useState as f, useMemo as y, useCallback as m, useLayoutEffect as v } from "react";
-const s = g({});
+import l, { createContext as g, useContext as a, useRef as u, useEffect as E, useState as f, useMemo as v, useCallback as m, useLayoutEffect as y } from "react";
+const s = g(
+  {}
+);
 function I() {
-  const { dom: t, editor: o, setLoading: e, editorFactory: r } = a(s), i = u(null);
+  const {
+    dom: t,
+    editor: o,
+    setLoading: e,
+    editorFactory: r
+  } = a(s), i = u(null);
   return E(() => {
     const n = i.current;
-    if (!r || !n)
-      return;
+    if (!r || !n) return;
     t.current = n;
     const d = r(n);
     if (d)
@@ -23,19 +29,24 @@ const C = () => {
   const t = I();
   return /* @__PURE__ */ l.createElement("div", { "data-milkdown-root": !0, ref: t });
 }, R = ({ children: t }) => {
-  const o = u(void 0), [e, r] = f(void 0), i = u(), [n, d] = f(!0), c = y(() => ({
-    loading: n,
-    dom: o,
-    editor: i,
-    setLoading: d,
-    editorFactory: e,
-    setEditorFactory: r
-  }), [n, e]);
+  const o = u(void 0), [e, r] = f(
+    void 0
+  ), i = u(void 0), [n, d] = f(!0), c = v(
+    () => ({
+      loading: n,
+      dom: o,
+      editor: i,
+      setLoading: d,
+      editorFactory: e,
+      setEditorFactory: r
+    }),
+    [n, e]
+  );
   return /* @__PURE__ */ l.createElement(s.Provider, { value: c }, t);
 };
 function k(t, o = []) {
   const e = a(s), r = m(t, o);
-  return v(() => {
+  return y(() => {
     e.setEditorFactory(() => r);
   }, [e, r]), {
     loading: e.loading,

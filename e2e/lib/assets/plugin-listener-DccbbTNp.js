@@ -1,1 +1,0 @@
-import"./style-DeZY9Jm1.js";import{d as a,E as s,r,m,n,f as d}from"./utils-CZPcvWg1.js";import{l as i,a as l}from"./index-CoqkUwom.js";a(()=>s.make().config(e=>{e.set(r,document.getElementById("app")),e.set(m,"test"),e.get(i).markdownUpdated((p,t,o)=>{console.log(t,o)})}).config(n).use(d).use(l).create());

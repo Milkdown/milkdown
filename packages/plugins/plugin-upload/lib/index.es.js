@@ -25,17 +25,19 @@ const A = async (n, s) => {
     e && e.type.includes("image") && r.push(e);
   }
   const { image: l } = s.nodes;
-  if (!l)
-    throw F("image");
+  if (!l) throw F("image");
   return (await Promise.all(r.map((t) => w(t)))).map(({ alt: t, src: e }) => l.createAndFill({ src: e, alt: t }));
-}, c = b({
-  uploader: A,
-  enableHtmlFileUploader: !1,
-  uploadWidgetFactory: (n, s) => {
-    const r = document.createElement("span");
-    return r.textContent = "Upload in progress...", k.widget(n, r, s);
-  }
-}, "uploadConfig");
+}, c = b(
+  {
+    uploader: A,
+    enableHtmlFileUploader: !1,
+    uploadWidgetFactory: (n, s) => {
+      const r = document.createElement("span");
+      return r.textContent = "Upload in progress...", k.widget(n, r, s);
+    }
+  },
+  "uploadConfig"
+);
 c.meta = {
   package: "@milkdown/plugin-upload",
   displayName: "Ctx<uploadConfig>"
@@ -44,14 +46,16 @@ const f = U((n) => {
   const s = new D("MILKDOWN_UPLOAD"), r = (o, t) => {
     var i;
     const e = s.getState(o);
-    if (!e)
-      return -1;
-    const a = e.find(void 0, void 0, (d) => d.id === t);
+    if (!e) return -1;
+    const a = e.find(
+      void 0,
+      void 0,
+      (d) => d.id === t
+    );
     return a.length ? ((i = a[0]) == null ? void 0 : i.from) ?? -1 : -1;
   }, l = (o, t, e) => {
     var m;
-    if (!e || e.length <= 0)
-      return !1;
+    if (!e || e.length <= 0) return !1;
     const a = Symbol("upload symbol"), i = n.get(y), { tr: d } = o.state, g = t instanceof DragEvent ? ((m = o.posAtCoords({ left: t.clientX, top: t.clientY })) == null ? void 0 : m.pos) ?? d.selection.from : d.selection.from;
     o.dispatch(d.setMeta(s, { add: { id: a, pos: g } }));
     const { uploader: h } = n.get(c.key);
@@ -72,14 +76,19 @@ const f = U((n) => {
       },
       apply(o, t) {
         const e = t.map(o.mapping, o.doc), a = o.getMeta(this);
-        if (!a)
-          return e;
+        if (!a) return e;
         if (a.add) {
-          const { uploadWidgetFactory: i } = n.get(c.key), d = i(a.add.pos, { id: a.add.id });
+          const { uploadWidgetFactory: i } = n.get(c.key), d = i(a.add.pos, {
+            id: a.add.id
+          });
           return e.add(o.doc, [d]);
         }
         if (a.remove) {
-          const i = e.find(void 0, void 0, (d) => d.id === a.remove.id);
+          const i = e.find(
+            void 0,
+            void 0,
+            (d) => d.id === a.remove.id
+          );
           return e.remove(i);
         }
         return e;

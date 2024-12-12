@@ -7,7 +7,10 @@ function w(r, s = []) {
   return r.flatMap(
     (e) => {
       var t;
-      return e.type === "element" ? w(e.children, [...s, ...((t = e.properties) == null ? void 0 : t.className) || []]) : [{ text: e.value, className: s }];
+      return e.type === "element" ? w(e.children, [
+        ...s,
+        ...((t = e.properties) == null ? void 0 : t.className) || []
+      ]) : [{ text: e.value, className: s }];
     }
   );
 }
@@ -17,7 +20,10 @@ function k(r, s, e) {
     let p = n.pos + 1;
     const { language: o } = n.node.attrs;
     if (!o || !a.includes(o)) {
-      console.warn("Unsupported language detected, this language has not been supported by current prism config: ", o);
+      console.warn(
+        "Unsupported language detected, this language has not been supported by current prism config: ",
+        o
+      );
       return;
     }
     const g = t(n.node.textContent, o);
@@ -33,10 +39,13 @@ function k(r, s, e) {
     });
   }), M.create(r, c);
 }
-const C = D({
-  configureRefractor: () => {
-  }
-}, "prismConfig");
+const C = D(
+  {
+    configureRefractor: () => {
+    }
+  },
+  "prismConfig"
+);
 C.meta = {
   package: "@milkdown/plugin-prism",
   displayName: "Ctx<prism>"
@@ -52,7 +61,11 @@ const x = $((r) => {
       },
       apply: (t, i, a, c) => {
         var m, u;
-        const n = c.selection.$head.parent.type.name === e, p = a.selection.$head.parent.type.name === e, o = N((l) => l.type.name === e)(a.doc), g = N((l) => l.type.name === e)(c.doc);
+        const n = c.selection.$head.parent.type.name === e, p = a.selection.$head.parent.type.name === e, o = N((l) => l.type.name === e)(
+          a.doc
+        ), g = N((l) => l.type.name === e)(
+          c.doc
+        );
         return t.docChanged && (n || p || o.length !== g.length || ((m = o[0]) == null ? void 0 : m.node.attrs.language) !== ((u = g[0]) == null ? void 0 : u.node.attrs.language) || t.steps.some((l) => {
           const f = l;
           return f.from !== void 0 && f.to !== void 0 && o.some((h) => h.pos >= f.from && h.pos + h.node.nodeSize <= f.to);

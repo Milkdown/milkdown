@@ -1,6 +1,6 @@
 import type { EditorState } from '@milkdown/prose/state';
 import type { EditorView } from '@milkdown/prose/view';
-import type { VirtualElement } from '@floating-ui/dom';
+import type { ComputePositionConfig, Middleware, VirtualElement } from '@floating-ui/dom';
 export interface TooltipProviderOptions {
     content: HTMLElement;
     debounce?: number;
@@ -10,6 +10,8 @@ export interface TooltipProviderOptions {
         crossAxis?: number;
         alignmentAxis?: number | null;
     };
+    middleware?: Middleware[];
+    floatingUIOptions?: Partial<ComputePositionConfig>;
 }
 export declare class TooltipProvider {
     #private;

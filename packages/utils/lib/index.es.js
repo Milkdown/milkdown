@@ -69,14 +69,16 @@ function se(n, o) {
 function Q(n, o) {
   const r = (t) => async () => {
     const e = o(t);
-    return t.update(w, (a) => [...a.filter((s) => s[0] !== n), [n, e]]), r.id = n, r.schema = e, () => {
+    return t.update(w, (a) => [
+      ...a.filter((s) => s[0] !== n),
+      [n, e]
+    ]), r.id = n, r.schema = e, () => {
       t.update(w, (a) => a.filter(([s]) => s !== n));
     };
   };
   return r.type = (t) => {
     const e = t.get(g).marks[n];
-    if (!e)
-      throw P(n);
+    if (!e) throw P(n);
     return e;
   }, r;
 }
@@ -84,7 +86,10 @@ function ie(n, o, r) {
   const t = y(
     async (e, a, s) => {
       const i = await o(e);
-      return e.update(w, (u) => [...u.filter((c) => c[0] !== n), [n, i]]), a.id = n, a.schema = i, s(), () => {
+      return e.update(w, (u) => [
+        ...u.filter((c) => c[0] !== n),
+        [n, i]
+      ]), a.id = n, a.schema = i, s(), () => {
         e.update(w, (u) => u.filter(([c]) => c !== n));
       };
     },
@@ -93,22 +98,23 @@ function ie(n, o, r) {
   );
   return t.type = (e) => {
     const a = e.get(g).marks[n];
-    if (!a)
-      throw P(n);
+    if (!a) throw P(n);
     return a;
   }, t;
 }
 function W(n, o) {
   const r = (t) => async () => {
     const e = o(t);
-    return t.update(k, (a) => [...a.filter((s) => s[0] !== n), [n, e]]), r.id = n, r.schema = e, () => {
+    return t.update(k, (a) => [
+      ...a.filter((s) => s[0] !== n),
+      [n, e]
+    ]), r.id = n, r.schema = e, () => {
       t.update(k, (a) => a.filter(([s]) => s !== n));
     };
   };
   return r.type = (t) => {
     const e = t.get(g).nodes[n];
-    if (!e)
-      throw j(n);
+    if (!e) throw j(n);
     return e;
   }, r;
 }
@@ -116,7 +122,10 @@ function ce(n, o, r) {
   const t = y(
     async (e, a, s) => {
       const i = await o(e);
-      return e.update(k, (u) => [...u.filter((c) => c[0] !== n), [n, i]]), a.id = n, a.schema = i, s(), () => {
+      return e.update(k, (u) => [
+        ...u.filter((c) => c[0] !== n),
+        [n, i]
+      ]), a.id = n, a.schema = i, s(), () => {
         e.update(k, (u) => u.filter(([c]) => c !== n));
       };
     },
@@ -125,8 +134,7 @@ function ce(n, o, r) {
   );
   return t.type = (e) => {
     const a = e.get(g).nodes[n];
-    if (!a)
-      throw j(n);
+    if (!a) throw j(n);
     return a;
   }, t;
 }
@@ -164,7 +172,10 @@ function pe(n, o) {
       await r.wait(l);
       const e = await n(r), a = z(e);
       return r.update(p, (s) => [...s, a]), t.keymap = e, () => {
-        r.update(p, (s) => s.filter((i) => i !== a));
+        r.update(
+          p,
+          (s) => s.filter((i) => i !== a)
+        );
       };
     },
     A,
@@ -175,7 +186,13 @@ function le(n, o) {
   const r = (t) => async () => {
     await t.wait(l);
     const e = o(t);
-    return n.type(t) instanceof T ? t.update(v, (a) => [...a, [n.id, e]]) : t.update($, (a) => [...a, [n.id, e]]), r.view = e, r.type = n, () => {
+    return n.type(t) instanceof T ? t.update(v, (a) => [
+      ...a,
+      [n.id, e]
+    ]) : t.update($, (a) => [
+      ...a,
+      [n.id, e]
+    ]), r.view = e, r.type = n, () => {
       n.type(t) instanceof T ? t.update(v, (a) => a.filter((s) => s[0] !== n.id)) : t.update($, (a) => a.filter((s) => s[0] !== n.id));
     };
   };
@@ -186,7 +203,13 @@ function de(n, o, r) {
     async (t, e) => {
       await t.wait(l);
       const a = await o(t);
-      return n.type(t) instanceof T ? t.update(v, (s) => [...s, [n.id, a]]) : t.update($, (s) => [...s, [n.id, a]]), e.view = a, e.type = n, () => {
+      return n.type(t) instanceof T ? t.update(v, (s) => [
+        ...s,
+        [n.id, a]
+      ]) : t.update($, (s) => [
+        ...s,
+        [n.id, a]
+      ]), e.view = a, e.type = n, () => {
         n.type(t) instanceof T ? t.update(v, (s) => s.filter((i) => i[0] !== n.id)) : t.update($, (s) => s.filter((i) => i[0] !== n.id));
       };
     },
@@ -204,19 +227,29 @@ function fe(n, o) {
   const r = h(o, n), t = W(n, (a) => a.get(r.key)(a)), e = [r, t];
   return e.id = t.id, e.node = t, e.type = (a) => t.type(a), e.schema = t.schema, e.ctx = r, e.key = r.key, e.extendSchema = (a) => (s) => () => {
     const i = s.get(r.key), c = a(i)(s);
-    s.update(k, (m) => [...m.filter((S) => S[0] !== n), [n, c]]), e.schema = c;
+    s.update(k, (m) => [
+      ...m.filter((S) => S[0] !== n),
+      [n, c]
+    ]), e.schema = c;
   }, e;
 }
 function ye(n, o) {
   const r = h(o, n), t = Q(n, (a) => a.get(r.key)(a)), e = [r, t];
   return e.id = t.id, e.mark = t, e.type = t.type, e.schema = t.schema, e.ctx = r, e.key = r.key, e.extendSchema = (a) => (s) => () => {
     const i = s.get(r.key), c = a(i)(s);
-    s.update(w, (m) => [...m.filter((S) => S[0] !== n), [n, c]]), e.schema = c;
+    s.update(w, (m) => [
+      ...m.filter((S) => S[0] !== n),
+      [n, c]
+    ]), e.schema = c;
   }, e;
 }
 function ge(n, o) {
-  const r = Object.fromEntries(Object.entries(o).map(([s, { shortcuts: i }]) => [s, i])), t = h(r, `${n}Keymap`), e = X((s) => {
-    const i = s.get(t.key), u = Object.entries(o).flatMap(([c, { command: m }]) => [i[c]].flat().map((V) => [V, m(s)]));
+  const r = Object.fromEntries(
+    Object.entries(o).map(([s, { shortcuts: i }]) => [s, i])
+  ), t = h(r, `${n}Keymap`), e = X((s) => {
+    const i = s.get(t.key), u = Object.entries(o).flatMap(
+      ([c, { command: m }]) => [i[c]].flat().map((V) => [V, m(s)])
+    );
     return Object.fromEntries(u);
   }), a = [t, e];
   return a.ctx = t, a.shortcuts = e, a.key = t.key, a.keymap = e.keymap, a;
@@ -246,7 +279,9 @@ function Ce() {
 }
 function ve() {
   return (n) => {
-    const o = document.createElement("div"), r = n.get(g), t = n.get(f), e = B.fromSchema(r).serializeFragment(t.state.doc.content);
+    const o = document.createElement("div"), r = n.get(g), t = n.get(f), e = B.fromSchema(r).serializeFragment(
+      t.state.doc.content
+    );
     return o.appendChild(e), o.innerHTML;
   };
 }
@@ -259,11 +294,12 @@ function $e() {
 function Te(n) {
   return (o) => {
     const r = o.get(f), e = o.get(M)(n);
-    if (!e)
-      return;
+    if (!e) return;
     const a = r.state.selection.content();
     return r.dispatch(
-      r.state.tr.replaceSelection(new K(e.content, a.openStart, a.openEnd)).scrollIntoView()
+      r.state.tr.replaceSelection(
+        new K(e.content, a.openStart, a.openEnd)
+      ).scrollIntoView()
     );
   };
 }
@@ -271,18 +307,27 @@ function Ae() {
   return (n) => {
     const o = n.get(f), r = [];
     return o.state.doc.descendants((e) => {
-      e.type.name === "heading" && e.attrs.level && r.push({ text: e.textContent, level: e.attrs.level, id: e.attrs.id });
+      e.type.name === "heading" && e.attrs.level && r.push({
+        text: e.textContent,
+        level: e.attrs.level,
+        id: e.attrs.id
+      });
     }), r;
   };
 }
 function be(n, o = !1) {
   return (r) => {
     const t = r.get(f), a = r.get(M)(n);
-    if (!a)
-      return;
+    if (!a) return;
     if (!o) {
       const { state: m } = t;
-      return t.dispatch(m.tr.replace(0, m.doc.content.size, new K(a.content, 0, 0)));
+      return t.dispatch(
+        m.tr.replace(
+          0,
+          m.doc.content.size,
+          new K(a.content, 0, 0)
+        )
+      );
     }
     const s = r.get(g), i = r.get(L), u = r.get(p), c = G.create({
       schema: s,
@@ -296,8 +341,7 @@ function be(n, o = !1) {
 function Oe(n, o) {
   return (r) => {
     const t = r.get(f), { tr: e } = t.state, a = e.doc.nodeAt(n);
-    if (!a)
-      return;
+    if (!a) return;
     const s = o(a.attrs);
     return t.dispatch(e.setNodeMarkup(n, void 0, s));
   };
@@ -310,8 +354,7 @@ const Re = (...n) => {
       throw new TypeError("Expected a function");
   return (...t) => {
     let e = 0, a = o ? n[e](...t) : t[0];
-    for (; ++e < o; )
-      a = n[e](a);
+    for (; ++e < o; ) a = n[e](a);
     return a;
   };
 };

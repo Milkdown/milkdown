@@ -21,7 +21,9 @@ const e = p({}, "historyProviderConfig");
 t(e, {
   displayName: "Ctx<historyProviderConfig>"
 });
-const n = l((o) => h(o.get(e.key)));
+const n = l(
+  (o) => h(o.get(e.key))
+);
 t(n, {
   displayName: "Ctx<historyProviderPlugin>"
 });
@@ -47,7 +49,13 @@ t(i.ctx, {
 t(i.shortcuts, {
   displayName: "Keymap<history>"
 });
-const x = [e, n, i, s, m].flat();
+const x = [
+  e,
+  n,
+  i,
+  s,
+  m
+].flat();
 export {
   x as history,
   i as historyKeymap,

@@ -42,8 +42,7 @@ function D(e, t, o) {
   let n = t, l = !1;
   return e.descendants((s) => {
     var a;
-    if (l)
-      return !1;
+    if (l) return !1;
     if (!s.textContent.includes(o))
       return n += s.nodeSize, !1;
     if (s.isText) {
@@ -61,7 +60,9 @@ const G = {
     char: "∴"
   },
   globalNodes: ["footnote_definition"],
-  shouldSyncNode: ({ prevNode: e, nextNode: t }) => e.inlineContent && t && e.type === t.type && !e.eq(t),
+  shouldSyncNode: ({ prevNode: e, nextNode: t }) => e.inlineContent && t && // if node type changes, do not sync
+  e.type === t.type && // if two node fully equal, we don't modify them
+  !e.eq(t),
   movePlaceholder: (e, t) => {
     const o = ["*", "_"];
     let n = t.indexOf(e);
@@ -69,7 +70,10 @@ const G = {
       t = q(t, n, n + 1), n = n + 1;
     return t;
   }
-}, g = $(G, "inlineSyncConfig");
+}, g = $(
+  G,
+  "inlineSyncConfig"
+);
 A(g, {
   displayName: "Ctx<inlineSyncConfig>",
   group: "Prose"
@@ -85,7 +89,12 @@ function V(e, t) {
   const o = e.get(g.key), n = o.placeholderConfig.hole, [l = "", ...s] = t.split(`
 
 `), a = (u) => o.movePlaceholder(n, u);
-  let c = b(z(n), a, W, j)(l);
+  let c = b(
+    z(n),
+    a,
+    W,
+    j
+  )(l);
   const i = K(o.placeholderConfig)(c);
   return c = c.replace(n, i), c = [c, ...s].join(`
 
@@ -130,9 +139,11 @@ function X(e, t, o, n, l) {
   const { placeholderConfig: s } = e.get(g.key), a = s.hole;
   let r = o.tr.setMeta(t, !0).insertText(a, o.selection.from);
   const c = o.apply(r), i = M(e, c);
-  if (!i)
-    return;
-  const u = i.text.slice(0, i.text.indexOf(i.placeholder)), { $from: p } = c.selection, d = p.before(), h = p.after(), f = D(i.nextNode, d, i.placeholder);
+  if (!i) return;
+  const u = i.text.slice(
+    0,
+    i.text.indexOf(i.placeholder)
+  ), { $from: p } = c.selection, d = p.before(), h = p.after(), f = D(i.nextNode, d, i.placeholder);
   r = r.replaceWith(d, h, i.nextNode).setNodeMarkup(d, void 0, l).delete(f + 1, f + 2), r = r.setSelection(_.near(r.doc.resolve(f + 1))), (F.test(u) || ["*", "_", "~"].includes(u.at(-1) || "")) && r.selection instanceof _ && (((m = r.selection.$cursor) == null ? void 0 : m.marks()) ?? []).forEach((T) => {
     r = r.removeStoredMark(T.type);
   }), n(r);
@@ -147,11 +158,9 @@ const v = O((e) => {
       apply: (n, l, s, a) => {
         var f;
         const r = e.get(P);
-        if (!((f = r.hasFocus) != null && f.call(r)) || !r.editable || !n.docChanged || n.getMeta(o))
-          return null;
+        if (!((f = r.hasFocus) != null && f.call(r)) || !r.editable || !n.docChanged || n.getMeta(o)) return null;
         const i = M(e, a);
-        if (!i)
-          return null;
+        if (!i) return null;
         t && (cancelAnimationFrame(t), t = null);
         const { prevNode: u, nextNode: p, text: d } = i, { shouldSyncNode: h } = e.get(g.key);
         return h({ prevNode: u, nextNode: p, ctx: e, tr: n, text: d }) && (t = requestAnimationFrame(() => {
@@ -167,10 +176,7 @@ A(v, {
   displayName: "Prose<inlineSyncPlugin>",
   group: "Prose"
 });
-const re = [
-  g,
-  v
-];
+const re = [g, v];
 export {
   re as automd,
   G as defaultConfig,

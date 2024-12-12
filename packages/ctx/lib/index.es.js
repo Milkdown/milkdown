@@ -102,11 +102,13 @@ class q {
         name: typeof t == "string" ? t : t.name,
         value: e(this, T).call(this, t)
       })),
-      recordedTimers: [...e(this, f)].map(([t, { duration: h }]) => ({
-        name: t.name,
-        duration: h,
-        status: e(this, j).call(this, t)
-      })),
+      recordedTimers: [...e(this, f)].map(
+        ([t, { duration: h }]) => ({
+          name: t.name,
+          duration: h,
+          status: e(this, j).call(this, t)
+        })
+      ),
       waitTimers: [...e(this, M)].map(([t, { duration: h }]) => ({
         name: t.name,
         duration: h,
@@ -188,8 +190,7 @@ class K {
   constructor() {
     this.store = /* @__PURE__ */ new Map(), this.get = (s) => {
       const i = this.store.get(s.id);
-      if (!i)
-        throw V(s.name);
+      if (!i) throw V(s.name);
       return i;
     }, this.remove = (s) => {
       this.store.delete(s.id);
@@ -214,7 +215,9 @@ class A {
         e(this, p) === "pending" && n(this, p, "rejected"), e(this, I).call(this), t(new Error(`Timing ${this.type.name} timeout.`));
       }), n(this, p, "pending"), addEventListener(this.type.name, e(this, g));
     })), e(this, C)), this.done = () => {
-      const r = new CustomEvent(this.type.name, { detail: { id: e(this, E) } });
+      const r = new CustomEvent(this.type.name, {
+        detail: { id: e(this, E) }
+      });
       dispatchEvent(r);
     }, n(this, I, () => {
       e(this, g) && removeEventListener(this.type.name, e(this, g));

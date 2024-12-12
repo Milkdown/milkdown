@@ -35,7 +35,10 @@ const defaultInlineImageConfig = {
   uploadPlaceholderText: "/Paste",
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file))
 };
-const inlineImageConfig = $ctx(defaultInlineImageConfig, "inlineImageConfigCtx");
+const inlineImageConfig = $ctx(
+  defaultInlineImageConfig,
+  "inlineImageConfigCtx"
+);
 withMeta(inlineImageConfig, {
   displayName: "Config<image-inline>",
   group: "ImageInline"
@@ -47,8 +50,7 @@ function defIfNotExists(tagName, element) {
     customElements.define(tagName, element);
     return;
   }
-  if (current === element)
-    return;
+  if (current === element) return;
   console.warn(`Custom element ${tagName} has been defined before.`);
 }
 
@@ -94,11 +96,9 @@ const inlineImageComponent = ({
   const onUpload = (e) => __async(void 0, null, function* () {
     var _a;
     const file = (_a = e.target.files) == null ? void 0 : _a[0];
-    if (!file)
-      return;
+    if (!file) return;
     const url = yield config == null ? void 0 : config.onUpload(file);
-    if (!url)
-      return;
+    if (!url) return;
     setAttr == null ? void 0 : setAttr("src", url);
     setHidePlaceholder(true);
   });
@@ -107,8 +107,7 @@ const inlineImageComponent = ({
     setAttr == null ? void 0 : setAttr("src", (_b = (_a = linkInput.current) == null ? void 0 : _a.value) != null ? _b : "");
   };
   const onKeydown = (e) => {
-    if (e.key === "Enter")
-      onConfirmLinkInput();
+    if (e.key === "Enter") onConfirmLinkInput();
   };
   const preventDrag = (e) => {
     e.preventDefault();
@@ -120,41 +119,49 @@ const inlineImageComponent = ({
   };
   return html`<host class=${clsx(selected && "selected", !src && "empty")}>
     ${!src ? html`<div class="empty-image-inline">
-        <div class="image-icon">
-          ${config == null ? void 0 : config.imageIcon()}
-        </div>
-        <div class=${clsx("link-importer", focusLinkInput && "focus")}>
-          <input
-            draggable="true"
-            ref=${linkInput}
-            ondragstart=${preventDrag}
-            class="link-input-area"
-            value=${currentLink}
-            oninput=${onEditLink}
-            onkeydown=${onKeydown}
-            onfocus=${() => setFocusLinkInput(true)}
-            onblur=${() => setFocusLinkInput(false)}
-          />
-          <div class=${clsx("placeholder", hidePlaceholder && "hidden")}>
-            <input class="hidden" id=${uuid} type="file" accept="image/*" onchange=${onUpload} />
-            <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
-              ${config == null ? void 0 : config.uploadButton()}
-            </label>
-            <span class="text" onclick=${() => {
+          <div class="image-icon">${config == null ? void 0 : config.imageIcon()}</div>
+          <div class=${clsx("link-importer", focusLinkInput && "focus")}>
+            <input
+              draggable="true"
+              ref=${linkInput}
+              ondragstart=${preventDrag}
+              class="link-input-area"
+              value=${currentLink}
+              oninput=${onEditLink}
+              onkeydown=${onKeydown}
+              onfocus=${() => setFocusLinkInput(true)}
+              onblur=${() => setFocusLinkInput(false)}
+            />
+            <div class=${clsx("placeholder", hidePlaceholder && "hidden")}>
+              <input
+                class="hidden"
+                id=${uuid}
+                type="file"
+                accept="image/*"
+                onchange=${onUpload}
+              />
+              <label
+                onpointerdown=${onClickUploader}
+                class="uploader"
+                for=${uuid}
+              >
+                ${config == null ? void 0 : config.uploadButton()}
+              </label>
+              <span class="text" onclick=${() => {
     var _a;
     return (_a = linkInput.current) == null ? void 0 : _a.focus();
   }}>
-              ${config == null ? void 0 : config.uploadPlaceholderText}
-            </span>
+                ${config == null ? void 0 : config.uploadPlaceholderText}
+              </span>
+            </div>
           </div>
-        </div>
-        <div
-          class=${clsx("confirm", currentLink.length === 0 && "hidden")}
-          onclick=${() => onConfirmLinkInput()}
-        >
-          ${config == null ? void 0 : config.confirmButton()}
-        </div>
-      </div>` : html`<img class="image-inline" src=${src} alt=${alt} title=${title} />`}
+          <div
+            class=${clsx("confirm", currentLink.length === 0 && "hidden")}
+            onclick=${() => onConfirmLinkInput()}
+          >
+            ${config == null ? void 0 : config.confirmButton()}
+          </div>
+        </div>` : html`<img class="image-inline" src=${src} alt=${alt} title=${title} />`}
   </host>`;
 };
 inlineImageComponent.props = {
@@ -168,49 +175,51 @@ inlineImageComponent.props = {
 const InlineImageElement = c(inlineImageComponent);
 
 defIfNotExists("milkdown-image-inline", InlineImageElement);
-const inlineImageView = $view(imageSchema.node, (ctx) => {
-  return (initialNode, view, getPos) => {
-    const dom = document.createElement("milkdown-image-inline");
-    const config = ctx.get(inlineImageConfig.key);
-    const bindAttrs = (node) => {
-      dom.src = node.attrs.src;
-      dom.alt = node.attrs.alt;
-      dom.title = node.attrs.title;
-    };
-    bindAttrs(initialNode);
-    dom.selected = false;
-    dom.setAttr = (attr, value) => {
-      const pos = getPos();
-      if (pos == null)
-        return;
-      view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value));
-    };
-    dom.config = config;
-    return {
-      dom,
-      update: (updatedNode) => {
-        if (updatedNode.type !== initialNode.type)
-          return false;
-        bindAttrs(updatedNode);
-        return true;
-      },
-      stopEvent: (e) => {
-        if (dom.selected && e.target instanceof HTMLInputElement)
+const inlineImageView = $view(
+  imageSchema.node,
+  (ctx) => {
+    return (initialNode, view, getPos) => {
+      const dom = document.createElement(
+        "milkdown-image-inline"
+      );
+      const config = ctx.get(inlineImageConfig.key);
+      const bindAttrs = (node) => {
+        dom.src = node.attrs.src;
+        dom.alt = node.attrs.alt;
+        dom.title = node.attrs.title;
+      };
+      bindAttrs(initialNode);
+      dom.selected = false;
+      dom.setAttr = (attr, value) => {
+        const pos = getPos();
+        if (pos == null) return;
+        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value));
+      };
+      dom.config = config;
+      return {
+        dom,
+        update: (updatedNode) => {
+          if (updatedNode.type !== initialNode.type) return false;
+          bindAttrs(updatedNode);
           return true;
-        return false;
-      },
-      selectNode: () => {
-        dom.selected = true;
-      },
-      deselectNode: () => {
-        dom.selected = false;
-      },
-      destroy: () => {
-        dom.remove();
-      }
+        },
+        stopEvent: (e) => {
+          if (dom.selected && e.target instanceof HTMLInputElement) return true;
+          return false;
+        },
+        selectNode: () => {
+          dom.selected = true;
+        },
+        deselectNode: () => {
+          dom.selected = false;
+        },
+        destroy: () => {
+          dom.remove();
+        }
+      };
     };
-  };
-});
+  }
+);
 withMeta(inlineImageView, {
   displayName: "NodeView<image-inline>",
   group: "ImageInline"

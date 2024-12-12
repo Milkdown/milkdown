@@ -16,8 +16,7 @@ class X {
       this.elements.push(h);
     }, this.close = () => {
       const h = this.elements.pop();
-      if (!h)
-        throw U();
+      if (!h) throw U();
       return h;
     };
   }
@@ -52,9 +51,11 @@ const $ = class $ extends X {
       if (i(this, M).call(this, t) && i(this, M).call(this, s) && J.sameSet(t.marks, s.marks))
         return this.schema.text(t.text + s.text, t.marks);
     }), o(this, T, (t) => {
-      const s = Object.values({ ...this.schema.nodes, ...this.schema.marks }).find((e) => e.spec.parseMarkdown.match(t));
-      if (!s)
-        throw Y(t);
+      const s = Object.values({
+        ...this.schema.nodes,
+        ...this.schema.marks
+      }).find((e) => e.spec.parseMarkdown.match(t));
+      if (!s) throw Y(t);
       return s;
     }), o(this, F, (t) => {
       const s = i(this, T).call(this, t);
@@ -65,16 +66,14 @@ const $ = class $ extends X {
       return i(this, g).call(this, t.type, t.attrs, t.content);
     }), this.closeNode = () => (i(this, w).call(this), this), o(this, g, (t, s, e) => {
       const r = t.createAndFill(s, e, i(this, d));
-      if (!r)
-        throw Z(t, s, e);
+      if (!r) throw Z(t, s, e);
       return this.push(r), r;
     }), this.addNode = (t, s, e) => (i(this, g).call(this, t, s, e), this), this.openMark = (t, s) => {
       const e = t.create(s);
       return o(this, d, e.addToSet(i(this, d))), this;
     }, this.closeMark = (t) => (o(this, d, t.removeFromSet(i(this, d))), this), this.addText = (t) => {
       const s = this.top();
-      if (!s)
-        throw U();
+      if (!s) throw U();
       const e = s.pop(), r = this.schema.text(t, i(this, d));
       if (!e)
         return s.push(r), this;
@@ -87,7 +86,10 @@ const $ = class $ extends X {
       while (this.size());
       return t;
     }, this.next = (t = []) => ([t].flat().forEach((s) => i(this, F).call(this, s)), this), this.toDoc = () => this.build(), this.run = (t, s) => {
-      const e = t.runSync(t.parse(s), s);
+      const e = t.runSync(
+        t.parse(s),
+        s
+      );
       return this.next(e), this;
     }, this.schema = n;
   }
@@ -129,35 +131,32 @@ const z = class z extends X {
     u(this, D);
     u(this, E);
     o(this, v, J.none), o(this, P, (t) => {
-      const s = Object.values({ ...this.schema.nodes, ...this.schema.marks }).find((e) => e.spec.toMarkdown.match(t));
-      if (!s)
-        throw _(t.type);
+      const s = Object.values({
+        ...this.schema.nodes,
+        ...this.schema.marks
+      }).find((e) => e.spec.toMarkdown.match(t));
+      if (!s) throw _(t.type);
       return s;
     }), o(this, A, (t) => i(this, P).call(this, t).spec.toMarkdown.runner(this, t)), o(this, S, (t, s) => i(this, P).call(this, t).spec.toMarkdown.runner(this, t, s)), o(this, I, (t) => {
       const { marks: s } = t, e = (c) => c.type.spec.priority ?? 50;
       [...s].sort((c, f) => e(c) - e(f)).every((c) => !i(this, S).call(this, c, t)) && i(this, A).call(this, t), s.forEach((c) => i(this, E).call(this, c));
     }), o(this, j, (t, s) => {
       var f;
-      if (t.type === s || ((f = t.children) == null ? void 0 : f.length) !== 1)
-        return t;
+      if (t.type === s || ((f = t.children) == null ? void 0 : f.length) !== 1) return t;
       const e = (y) => {
         var l;
-        if (y.type === s)
-          return y;
-        if (((l = y.children) == null ? void 0 : l.length) !== 1)
-          return null;
+        if (y.type === s) return y;
+        if (((l = y.children) == null ? void 0 : l.length) !== 1) return null;
         const [k] = y.children;
         return k ? e(k) : null;
       }, r = e(t);
-      if (!r)
-        return t;
+      if (!r) return t;
       const a = r.children ? [...r.children] : void 0, c = { ...t, children: a };
       return c.children = a, r.children = [c], r;
     }), o(this, b, (t) => {
       const { children: s } = t;
       return s && (t.children = s.reduce((e, r, a) => {
-        if (a === 0)
-          return [r];
+        if (a === 0) return [r];
         const c = e.at(-1);
         if (c && c.isMark && r.isMark) {
           r = i(this, j).call(this, r, c.type);

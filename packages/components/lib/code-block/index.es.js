@@ -56,8 +56,7 @@ function defIfNotExists(tagName, element) {
     customElements.define(tagName, element);
     return;
   }
-  if (current === element)
-    return;
+  if (current === element) return;
   console.warn(`Custom element ${tagName} has been defined before.`);
 }
 
@@ -87,8 +86,7 @@ class CodeMirrorBlock {
     this.languageName = "";
     this.forwardUpdate = (update) => {
       var _a;
-      if (this.updating || !this.cm.hasFocus)
-        return;
+      if (this.updating || !this.cm.hasFocus) return;
       let offset = ((_a = this.getPos()) != null ? _a : 0) + 1;
       const { main } = update.state.selection;
       const selFrom = offset + main.from;
@@ -98,7 +96,11 @@ class CodeMirrorBlock {
         const tr = this.view.state.tr;
         update.changes.iterChanges((fromA, toA, fromB, toB, text) => {
           if (text.length)
-            tr.replaceWith(offset + fromA, offset + toA, this.view.state.schema.text(text.toString()));
+            tr.replaceWith(
+              offset + fromA,
+              offset + toA,
+              this.view.state.schema.text(text.toString())
+            );
           else tr.delete(offset + fromA, offset + toA);
           offset += toB - fromB - (toA - fromA);
         });
@@ -116,8 +118,7 @@ class CodeMirrorBlock {
         {
           key: "Mod-Enter",
           run: () => {
-            if (!exitCode(view.state, view.dispatch))
-              return false;
+            if (!exitCode(view.state, view.dispatch)) return false;
             view.focus();
             return true;
           }
@@ -130,16 +131,18 @@ class CodeMirrorBlock {
           run: () => {
             var _a;
             const ranges = this.cm.state.selection.ranges;
-            if (ranges.length > 1)
-              return false;
+            if (ranges.length > 1) return false;
             const selection = ranges[0];
             if (selection && (!selection.empty || selection.anchor > 0))
               return false;
-            if (this.cm.state.doc.lines >= 2)
-              return false;
+            if (this.cm.state.doc.lines >= 2) return false;
             const state = this.view.state;
             const pos = (_a = this.getPos()) != null ? _a : 0;
-            const tr = state.tr.replaceWith(pos, pos + this.node.nodeSize, state.schema.nodes.paragraph.createChecked({}, this.node.content));
+            const tr = state.tr.replaceWith(
+              pos,
+              pos + this.node.nodeSize,
+              state.schema.nodes.paragraph.createChecked({}, this.node.content)
+            );
             tr.setSelection(TextSelection.near(tr.doc.resolve(pos)));
             this.view.dispatch(tr);
             this.view.focus();
@@ -152,14 +155,14 @@ class CodeMirrorBlock {
       var _a;
       const { state } = this.cm;
       let main = state.selection.main;
-      if (!main.empty)
-        return false;
-      if (unit === "line")
-        main = state.doc.lineAt(main.head);
-      if (dir < 0 ? main.from > 0 : main.to < state.doc.length)
-        return false;
+      if (!main.empty) return false;
+      if (unit === "line") main = state.doc.lineAt(main.head);
+      if (dir < 0 ? main.from > 0 : main.to < state.doc.length) return false;
       const targetPos = ((_a = this.getPos()) != null ? _a : 0) + (dir < 0 ? 0 : this.node.nodeSize);
-      const selection = TextSelection.near(this.view.state.doc.resolve(targetPos), dir);
+      const selection = TextSelection.near(
+        this.view.state.doc.resolve(targetPos),
+        dir
+      );
       const tr = this.view.state.tr.setSelection(selection).scrollIntoView();
       this.view.dispatch(tr);
       this.view.focus();
@@ -168,7 +171,11 @@ class CodeMirrorBlock {
     this.setLanguage = (language) => {
       var _a;
       this.view.dispatch(
-        this.view.state.tr.setNodeAttribute((_a = this.getPos()) != null ? _a : 0, "language", language)
+        this.view.state.tr.setNodeAttribute(
+          (_a = this.getPos()) != null ? _a : 0,
+          "language",
+          language
+        )
       );
     };
     this.getAllLanguages = () => {
@@ -196,17 +203,13 @@ class CodeMirrorBlock {
     dom.getAllLanguages = this.getAllLanguages;
     dom.setLanguage = this.setLanguage;
     dom.isEditorReadonly = () => !this.view.editable;
-    const _a = this.config, viewConfig = __objRest(_a, [
-      "languages",
-      "extensions"
-    ]);
+    const _a = this.config, viewConfig = __objRest(_a, ["languages", "extensions"]);
     dom.config = viewConfig;
     return dom;
   }
   updateLanguage() {
     const languageName = this.node.attrs.language;
-    if (languageName === this.languageName)
-      return;
+    if (languageName === this.languageName) return;
     this.dom.language = languageName;
     const language = this.loader.load(languageName != null ? languageName : "");
     language.then((lang) => {
@@ -219,23 +222,22 @@ class CodeMirrorBlock {
     });
   }
   setSelection(anchor, head) {
-    if (!this.cm.dom.isConnected)
-      return;
+    if (!this.cm.dom.isConnected) return;
     this.cm.focus();
     this.updating = true;
     this.cm.dispatch({ selection: { anchor, head } });
     this.updating = false;
   }
   update(node) {
-    if (node.type !== this.node.type)
-      return false;
-    if (this.updating)
-      return true;
+    if (node.type !== this.node.type) return false;
+    if (this.updating) return true;
     this.node = node;
     this.updateLanguage();
     if (this.view.editable === this.cm.state.readOnly) {
       this.cm.dispatch({
-        effects: this.readOnlyConf.reconfigure(EditorState.readOnly.of(!this.view.editable))
+        effects: this.readOnlyConf.reconfigure(
+          EditorState.readOnly.of(!this.view.editable)
+        )
       });
     }
     const change = computeChange(this.cm.state.doc.toString(), node.textContent);
@@ -263,8 +265,7 @@ class CodeMirrorBlock {
   }
 }
 function computeChange(oldVal, newVal) {
-  if (oldVal === newVal)
-    return null;
+  if (oldVal === newVal) return null;
   let start = 0;
   let oldEnd = oldVal.length;
   let newEnd = newVal.length;
@@ -298,10 +299,8 @@ class LanguageLoader {
   load(languageName) {
     const languageMap = this.map;
     const language = languageMap[languageName.toLowerCase()];
-    if (!language)
-      return Promise.resolve(void 0);
-    if (language.support)
-      return Promise.resolve(language.support);
+    if (!language) return Promise.resolve(void 0);
+    if (language.support) return Promise.resolve(language.support);
     return language.load();
   }
 }
@@ -325,9 +324,12 @@ const codeComponent = ({
   const root = useMemo(() => host.current.getRootNode(), [host]);
   useEffect(() => {
     var _a2;
-    const lang = (_a2 = getAllLanguages == null ? void 0 : getAllLanguages()) == null ? void 0 : _a2.find((languageInfo) => languageInfo.alias.some((alias) => alias.toLowerCase() === (language == null ? void 0 : language.toLowerCase())));
-    if (lang && lang.name !== language)
-      setLanguage == null ? void 0 : setLanguage(lang.name);
+    const lang = (_a2 = getAllLanguages == null ? void 0 : getAllLanguages()) == null ? void 0 : _a2.find(
+      (languageInfo) => languageInfo.alias.some(
+        (alias) => alias.toLowerCase() === (language == null ? void 0 : language.toLowerCase())
+      )
+    );
+    if (lang && lang.name !== language) setLanguage == null ? void 0 : setLanguage(lang.name);
   }, [language]);
   useEffect(() => {
     setShowPicker(false);
@@ -335,15 +337,11 @@ const codeComponent = ({
   useEffect(() => {
     const clickHandler = (e) => {
       const target = e.target;
-      if (triggerRef.current && triggerRef.current.contains(target))
-        return;
+      if (triggerRef.current && triggerRef.current.contains(target)) return;
       const picker = pickerRef.current;
-      if (!picker)
-        return;
-      if (picker.dataset.expanded !== "true")
-        return;
-      if (!picker.contains(target))
-        setShowPicker(false);
+      if (!picker) return;
+      if (picker.dataset.expanded !== "true") return;
+      if (!picker.contains(target)) setShowPicker(false);
     };
     root.addEventListener("click", clickHandler);
     return () => {
@@ -354,8 +352,7 @@ const codeComponent = ({
     setFilter("");
     const picker = triggerRef.current;
     const languageList = pickerRef.current;
-    if (!picker || !languageList)
-      return;
+    if (!picker || !languageList) return;
     computePosition(picker, languageList, {
       placement: "bottom-start"
     }).then(({ x, y }) => {
@@ -367,17 +364,18 @@ const codeComponent = ({
   }, [showPicker]);
   const languages = useMemo(() => {
     var _a2;
-    if (!showPicker)
-      return [];
+    if (!showPicker) return [];
     const all = (_a2 = getAllLanguages == null ? void 0 : getAllLanguages()) != null ? _a2 : [];
-    const selected2 = all.find((languageInfo) => languageInfo.name.toLowerCase() === (language == null ? void 0 : language.toLowerCase()));
+    const selected2 = all.find(
+      (languageInfo) => languageInfo.name.toLowerCase() === (language == null ? void 0 : language.toLowerCase())
+    );
     const filtered = all.filter((languageInfo) => {
-      return (languageInfo.name.toLowerCase().includes(filter.toLowerCase()) || languageInfo.alias.some((alias) => alias.toLowerCase().includes(filter.toLowerCase()))) && languageInfo !== selected2;
+      return (languageInfo.name.toLowerCase().includes(filter.toLowerCase()) || languageInfo.alias.some(
+        (alias) => alias.toLowerCase().includes(filter.toLowerCase())
+      )) && languageInfo !== selected2;
     });
-    if (filtered.length === 0)
-      return [];
-    if (!selected2)
-      return filtered;
+    if (filtered.length === 0) return [];
+    if (!selected2) return filtered;
     return [selected2, ...filtered];
   }, [filter, showPicker, language]);
   const changeFilter = (e) => {
@@ -387,8 +385,7 @@ const codeComponent = ({
   const onTogglePicker = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isEditorReadonly == null ? void 0 : isEditorReadonly())
-      return;
+    if (isEditorReadonly == null ? void 0 : isEditorReadonly()) return;
     setShowPicker((show) => {
       if (!show) {
         setTimeout(() => {
@@ -404,8 +401,7 @@ const codeComponent = ({
     setFilter("");
   };
   const onSearchKeydown = (e) => {
-    if (e.key === "Escape")
-      setFilter("");
+    if (e.key === "Escape") setFilter("");
   };
   const onListKeydown = (e) => {
     if (e.key === "Enter") {
@@ -416,20 +412,26 @@ const codeComponent = ({
   };
   const renderedLanguageList = useMemo(() => {
     if (!(languages == null ? void 0 : languages.length))
-      return html`<li class="language-list-item no-result">${config == null ? void 0 : config.noResultText}</li>`;
+      return html`<li class="language-list-item no-result">
+        ${config == null ? void 0 : config.noResultText}
+      </li>`;
     return languages.map(
       (languageInfo) => {
         var _a2;
         return html`<li
-        role="listitem"
-        tabindex="0"
-        class="language-list-item"
-        aria-selected=${languageInfo.name.toLowerCase() === (language == null ? void 0 : language.toLowerCase())}
-        data-language=${languageInfo.name}
-        onclick=${() => setLanguage == null ? void 0 : setLanguage(languageInfo.name)}
-      >
-        ${(_a2 = config == null ? void 0 : config.renderLanguage) == null ? void 0 : _a2.call(config, languageInfo.name, languageInfo.name.toLowerCase() === (language == null ? void 0 : language.toLowerCase()))}
-      </li>`;
+          role="listitem"
+          tabindex="0"
+          class="language-list-item"
+          aria-selected=${languageInfo.name.toLowerCase() === (language == null ? void 0 : language.toLowerCase())}
+          data-language=${languageInfo.name}
+          onclick=${() => setLanguage == null ? void 0 : setLanguage(languageInfo.name)}
+        >
+          ${(_a2 = config == null ? void 0 : config.renderLanguage) == null ? void 0 : _a2.call(
+          config,
+          languageInfo.name,
+          languageInfo.name.toLowerCase() === (language == null ? void 0 : language.toLowerCase())
+        )}
+        </li>`;
       }
     );
   }, [languages]);
@@ -443,16 +445,16 @@ const codeComponent = ({
         data-expanded=${showPicker}
       >
         ${language || "Text"}
-        <div class="expand-icon">
-          ${(_a = config == null ? void 0 : config.expandIcon) == null ? void 0 : _a.call(config)}
-        </div>
+        <div class="expand-icon">${(_a = config == null ? void 0 : config.expandIcon) == null ? void 0 : _a.call(config)}</div>
       </button>
-      <div ref=${pickerRef} data-expanded=${showPicker} class=${clsx("language-picker", showPicker && "show")}>
+      <div
+        ref=${pickerRef}
+        data-expanded=${showPicker}
+        class=${clsx("language-picker", showPicker && "show")}
+      >
         <div class="list-wrapper">
           <div class="search-box">
-            <div class="search-icon">
-              ${(_b = config == null ? void 0 : config.searchIcon) == null ? void 0 : _b.call(config)}
-            </div>
+            <div class="search-icon">${(_b = config == null ? void 0 : config.searchIcon) == null ? void 0 : _b.call(config)}</div>
             <input
               ref=${searchRef}
               class="search-input"
@@ -461,7 +463,10 @@ const codeComponent = ({
               oninput=${changeFilter}
               onkeydown=${onSearchKeydown}
             />
-            <div class=${clsx("clear-icon", filter.length === 0 && "hidden")} onmousedown=${onClear}>
+            <div
+              class=${clsx("clear-icon", filter.length === 0 && "hidden")}
+              onmousedown=${onClear}
+            >
               ${(_c = config == null ? void 0 : config.clearSearchIcon) == null ? void 0 : _c.call(config)}
             </div>
           </div>
@@ -486,17 +491,14 @@ codeComponent.props = {
 const CodeElement = c(codeComponent);
 
 defIfNotExists("milkdown-code-block", CodeElement);
-const codeBlockView = $view(codeBlockSchema.node, (ctx) => {
-  const config = ctx.get(codeBlockConfig.key);
-  const languageLoader = new LanguageLoader(config.languages);
-  return (node, view, getPos) => new CodeMirrorBlock(
-    node,
-    view,
-    getPos,
-    languageLoader,
-    config
-  );
-});
+const codeBlockView = $view(
+  codeBlockSchema.node,
+  (ctx) => {
+    const config = ctx.get(codeBlockConfig.key);
+    const languageLoader = new LanguageLoader(config.languages);
+    return (node, view, getPos) => new CodeMirrorBlock(node, view, getPos, languageLoader, config);
+  }
+);
 withMeta(codeBlockView, {
   displayName: "NodeView<code-block>",
   group: "CodeBlock"

@@ -7,7 +7,10 @@ function u(n, i) {
   const { to: c } = e, o = i.type === "space" ? Array(i.size).fill(" ").join("") : "	";
   return n.insertText(o, c);
 }
-const r = f({ type: "space", size: 2 }, "indentConfig");
+const r = f(
+  { type: "space", size: 2 },
+  "indentConfig"
+);
 r.meta = {
   package: "@milkdown/plugin-indent",
   displayName: "Ctx<indentConfig>"

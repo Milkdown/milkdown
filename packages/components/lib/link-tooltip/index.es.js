@@ -81,7 +81,10 @@ const defaultConfig = {
   shouldOpenOutside: () => true,
   getActualSrc: (src) => src
 };
-const linkTooltipConfig = $ctx(__spreadValues$2({}, defaultConfig), "linkTooltipConfigCtx");
+const linkTooltipConfig = $ctx(
+  __spreadValues$2({}, defaultConfig),
+  "linkTooltipConfigCtx"
+);
 withMeta(linkTooltipState, {
   displayName: "Config<link-tooltip>",
   group: "LinkTooltip"
@@ -109,8 +112,7 @@ withMeta(linkEditTooltip[1], {
 function findMarkPosition(mark, node, doc, from, to) {
   let markPos = { start: -1, end: -1 };
   doc.nodesBetween(from, to, (n, pos) => {
-    if (markPos.start > -1)
-      return false;
+    if (markPos.start > -1) return false;
     if (markPos.start === -1 && mark.isInSet(n.marks) && node === n) {
       markPos = {
         start: pos,
@@ -123,18 +125,16 @@ function findMarkPosition(mark, node, doc, from, to) {
 }
 function shouldShowPreviewWhenHover(ctx, view, event) {
   const $pos = view.posAtCoords({ left: event.clientX, top: event.clientY });
-  if (!$pos)
-    return;
+  if (!$pos) return;
   const { pos } = $pos;
   const node = view.state.doc.nodeAt(pos);
-  if (!node)
-    return;
-  const mark = node.marks.find((mark2) => mark2.type === linkSchema.mark.type(ctx));
-  if (!mark)
-    return;
+  if (!node) return;
+  const mark = node.marks.find(
+    (mark2) => mark2.type === linkSchema.mark.type(ctx)
+  );
+  if (!mark) return;
   const key = linkPreviewTooltip.pluginKey();
-  if (!key)
-    return;
+  if (!key) return;
   return { show: true, pos, node, mark };
 }
 
@@ -144,12 +144,16 @@ function defIfNotExists(tagName, element) {
     customElements.define(tagName, element);
     return;
   }
-  if (current === element)
-    return;
+  if (current === element) return;
   console.warn(`Custom element ${tagName} has been defined before.`);
 }
 
-const linkPreviewComponent = ({ config, src, onEdit, onRemove }) => {
+const linkPreviewComponent = ({
+  config,
+  src,
+  onEdit,
+  onRemove
+}) => {
   const onClickEditButton = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -173,14 +177,20 @@ const linkPreviewComponent = ({ config, src, onEdit, onRemove }) => {
   return html`
     <host>
       <div class="link-preview" onmousedown=${onClickPreview}>
-        <span class="link-icon">
-          ${config == null ? void 0 : config.linkIcon()}
-        </span>
-        <a href=${config == null ? void 0 : config.getActualSrc(src != null ? src : "")} target=${(config == null ? void 0 : config.shouldOpenOutside(src != null ? src : "")) ? "_blank" : "_self"} class="link-display">${src}</a>
+        <span class="link-icon"> ${config == null ? void 0 : config.linkIcon()} </span>
+        <a
+          href=${config == null ? void 0 : config.getActualSrc(src != null ? src : "")}
+          target=${(config == null ? void 0 : config.shouldOpenOutside(src != null ? src : "")) ? "_blank" : "_self"}
+          class="link-display"
+          >${src}</a
+        >
         <span class="button link-edit-button" onmousedown=${onClickEditButton}>
           ${config == null ? void 0 : config.editButton()}
         </span>
-        <span class="button link-remove-button" onmousedown=${onClickRemoveButton}>
+        <span
+          class="button link-remove-button"
+          onmousedown=${onClickRemoveButton}
+        >
           ${config == null ? void 0 : config.removeButton()}
         </span>
       </div>
@@ -223,8 +233,7 @@ class LinkPreviewTooltip {
     //   }
     // }
     __privateAdd$1(this, _onStateChange, ({ mode }) => {
-      if (mode === "edit")
-        __privateGet$1(this, _hide).call(this);
+      if (mode === "edit") __privateGet$1(this, _hide).call(this);
     });
     __privateAdd$1(this, _onMouseEnter, () => {
       __privateSet$1(this, _hovering, true);
@@ -254,8 +263,7 @@ class LinkPreviewTooltip {
       __privateGet$1(this, _provider$1).element.addEventListener("mouseleave", __privateGet$1(this, _onMouseLeave));
     };
     this.hide = () => {
-      if (__privateGet$1(this, _hovering))
-        return;
+      if (__privateGet$1(this, _hovering)) return;
       __privateGet$1(this, _hide).call(this);
     };
     this.update = () => {
@@ -289,20 +297,28 @@ function configureLinkPreviewTooltip(ctx) {
   let linkPreviewTooltipView;
   const DELAY = 200;
   const onMouseMove = debounce((view, event) => {
-    if (!linkPreviewTooltipView)
-      return;
-    if (!view.hasFocus())
-      return;
+    if (!linkPreviewTooltipView) return;
+    if (!view.hasFocus()) return;
     const state = ctx.get(linkTooltipState.key);
-    if (state.mode === "edit")
-      return;
+    if (state.mode === "edit") return;
     const result = shouldShowPreviewWhenHover(ctx, view, event);
     if (result) {
       const position = view.state.doc.resolve(result.pos);
-      const markPosition = findMarkPosition(result.mark, result.node, view.state.doc, position.before(), position.after());
+      const markPosition = findMarkPosition(
+        result.mark,
+        result.node,
+        view.state.doc,
+        position.before(),
+        position.after()
+      );
       const from = markPosition.start;
       const to = markPosition.end;
-      linkPreviewTooltipView.show(result.mark, from, to, posToDOMRect(view, from, to));
+      linkPreviewTooltipView.show(
+        result.mark,
+        from,
+        to,
+        posToDOMRect(view, from, to)
+      );
       return;
     }
     linkPreviewTooltipView.hide();
@@ -364,7 +380,10 @@ const linkEditComponent = ({
           oninput=${(e) => setLink(e.target.value)}
           value=${link}
         />
-        <span class=${clsx("button confirm", !link && "hidden")} onclick=${onConfirmEdit}>
+        <span
+          class=${clsx("button confirm", !link && "hidden")}
+          onclick=${onConfirmEdit}
+        >
           ${config == null ? void 0 : config.confirmButton()}
         </span>
       </div>
@@ -433,8 +452,7 @@ class LinkEditTooltip {
         return;
       }
       const tr = view.state.tr;
-      if (mark)
-        tr.removeMark(from, to, mark);
+      if (mark) tr.removeMark(from, to, mark);
       tr.addMark(from, to, type.create({ href }));
       view.dispatch(tr);
       __privateGet(this, _reset).call(this);
@@ -447,7 +465,9 @@ class LinkEditTooltip {
         mode: "edit"
       }));
       const view = this.ctx.get(editorViewCtx);
-      view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)));
+      view.dispatch(
+        view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to))
+      );
       __privateGet(this, _provider).show({
         getBoundingClientRect: () => posToDOMRect(view, from, to)
       });
@@ -459,11 +479,9 @@ class LinkEditTooltip {
     this.update = (view) => {
       const { state } = view;
       const { selection } = state;
-      if (!(selection instanceof TextSelection))
-        return;
+      if (!(selection instanceof TextSelection)) return;
       const { from, to } = selection;
-      if (from === __privateGet(this, _data).from && to === __privateGet(this, _data).to)
-        return;
+      if (from === __privateGet(this, _data).from && to === __privateGet(this, _data).to) return;
       __privateGet(this, _reset).call(this);
     };
     this.destroy = () => {
@@ -562,7 +580,13 @@ function configureLinkTooltip(ctx) {
   configureLinkEditTooltip(ctx);
 }
 
-const linkTooltipPlugin = [linkTooltipState, linkTooltipAPI, linkTooltipConfig, linkPreviewTooltip, linkEditTooltip].flat();
+const linkTooltipPlugin = [
+  linkTooltipState,
+  linkTooltipAPI,
+  linkTooltipConfig,
+  linkPreviewTooltip,
+  linkEditTooltip
+].flat();
 
 export { configureLinkTooltip, linkEditTooltip, linkPreviewTooltip, linkTooltipAPI, linkTooltipConfig, linkTooltipPlugin, linkTooltipState };
 //# sourceMappingURL=index.es.js.map

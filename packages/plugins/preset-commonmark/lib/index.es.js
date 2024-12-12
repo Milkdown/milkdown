@@ -1,5 +1,5 @@
-import { $markAttr as U, $markSchema as G, $command as c, $inputRule as h, $useKeymap as f, $node as Qe, $nodeAttr as N, $nodeSchema as I, $ctx as Xe, $remark as D, $prose as _ } from "@milkdown/utils";
-import { remarkStringifyOptionsCtx as Ye, commandsCtx as u, editorViewCtx as At } from "@milkdown/core";
+import { $markAttr as U, $markSchema as G, $command as u, $inputRule as h, $useKeymap as f, $node as Qe, $nodeAttr as N, $nodeSchema as I, $ctx as Xe, $remark as D, $prose as _ } from "@milkdown/utils";
+import { remarkStringifyOptionsCtx as Ye, commandsCtx as g, editorViewCtx as At } from "@milkdown/core";
 import { toggleMark as J, setBlockType as K, wrapIn as Q } from "@milkdown/prose/commands";
 import { Fragment as wt } from "@milkdown/prose/model";
 import { expectDomTypeError as A } from "@milkdown/exception";
@@ -71,7 +71,7 @@ n(R.ctx, {
   displayName: "MarkSchemaCtx<emphasis>",
   group: "Emphasis"
 });
-const te = c("ToggleEmphasis", (t) => () => J(R.type(t)));
+const te = u("ToggleEmphasis", (t) => () => J(R.type(t)));
 n(te, {
   displayName: "Command<toggleEmphasisCommand>",
   group: "Emphasis"
@@ -100,7 +100,7 @@ const re = f("emphasisKeymap", {
   ToggleEmphasis: {
     shortcuts: "Mod-i",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(te.key);
     }
   }
@@ -153,7 +153,7 @@ n($.ctx, {
   displayName: "MarkSchemaCtx<strong>",
   group: "Strong"
 });
-const ne = c("ToggleStrong", (t) => () => J($.type(t)));
+const ne = u("ToggleStrong", (t) => () => J($.type(t)));
 n(ne, {
   displayName: "Command<toggleStrongCommand>",
   group: "Strong"
@@ -171,7 +171,7 @@ const oe = f("strongKeymap", {
   ToggleBold: {
     shortcuts: ["Mod-b"],
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(ne.key);
     }
   }
@@ -216,15 +216,19 @@ n(x.ctx, {
   displayName: "MarkSchemaCtx<inlineCode>",
   group: "InlineCode"
 });
-const le = c("ToggleInlineCode", (t) => () => (e, r) => {
-  const { selection: a, tr: o } = e;
-  if (a.empty)
-    return !1;
-  const { from: s, to: l } = a;
-  return e.doc.rangeHasMark(s, l, x.type(t)) ? (r == null || r(o.removeMark(s, l, x.type(t))), !0) : (Object.keys(e.schema.marks).filter((m) => m !== x.type.name).map((m) => e.schema.marks[m]).forEach((m) => {
-    o.removeMark(s, l, m);
-  }), r == null || r(o.addMark(s, l, x.type(t).create())), !0);
-});
+const le = u(
+  "ToggleInlineCode",
+  (t) => () => (e, r) => {
+    const { selection: a, tr: o } = e;
+    if (a.empty) return !1;
+    const { from: s, to: l } = a;
+    return e.doc.rangeHasMark(s, l, x.type(t)) ? (r == null || r(o.removeMark(s, l, x.type(t))), !0) : (Object.keys(e.schema.marks).filter(
+      (m) => m !== x.type.name
+    ).map((m) => e.schema.marks[m]).forEach((m) => {
+      o.removeMark(s, l, m);
+    }), r == null || r(o.addMark(s, l, x.type(t).create())), !0);
+  }
+);
 n(le, {
   displayName: "Command<toggleInlineCodeCommand>",
   group: "InlineCode"
@@ -238,7 +242,7 @@ const ie = f("inlineCodeKeymap", {
   ToggleInlineCode: {
     shortcuts: "Mod-e",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(le.key);
     }
   }
@@ -265,9 +269,11 @@ const B = G("link", (t) => ({
     {
       tag: "a[href]",
       getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw A(e);
-        return { href: e.getAttribute("href"), title: e.getAttribute("title") };
+        if (!(e instanceof HTMLElement)) throw A(e);
+        return {
+          href: e.getAttribute("href"),
+          title: e.getAttribute("title")
+        };
       }
     }
   ],
@@ -293,29 +299,32 @@ n(B.mark, {
   displayName: "MarkSchema<link>",
   group: "Link"
 });
-const it = c("ToggleLink", (t) => (e = {}) => J(B.type(t), e));
+const it = u(
+  "ToggleLink",
+  (t) => (e = {}) => J(B.type(t), e)
+);
 n(it, {
   displayName: "Command<toggleLinkCommand>",
   group: "Link"
 });
-const dt = c("UpdateLink", (t) => (e = {}) => (r, a) => {
-  if (!a)
-    return !1;
-  let o, s = -1;
-  const { selection: l } = r, { from: i, to: d } = l;
-  if (r.doc.nodesBetween(i, i === d ? d + 1 : d, (k, b) => {
-    if (B.type(t).isInSet(k.marks))
-      return o = k, s = b, !1;
-  }), !o)
-    return !1;
-  const m = o.marks.find(({ type: k }) => k === B.type(t));
-  if (!m)
-    return !1;
-  const p = s, y = s + o.nodeSize, { tr: g } = r, C = B.type(t).create({ ...m.attrs, ...e });
-  return C ? (a(
-    g.removeMark(p, y, m).addMark(p, y, C).setSelection(new Y(g.selection.$anchor)).scrollIntoView()
-  ), !0) : !1;
-});
+const dt = u(
+  "UpdateLink",
+  (t) => (e = {}) => (r, a) => {
+    if (!a) return !1;
+    let o, s = -1;
+    const { selection: l } = r, { from: i, to: d } = l;
+    if (r.doc.nodesBetween(i, i === d ? d + 1 : d, (y, b) => {
+      if (B.type(t).isInSet(y.marks))
+        return o = y, s = b, !1;
+    }), !o) return !1;
+    const m = o.marks.find(({ type: y }) => y === B.type(t));
+    if (!m) return !1;
+    const p = s, c = s + o.nodeSize, { tr: k } = r, C = B.type(t).create({ ...m.attrs, ...e });
+    return C ? (a(
+      k.removeMark(p, c, m).addMark(p, c, C).setSelection(new Y(k.selection.$anchor)).scrollIntoView()
+    ), !0) : !1;
+  }
+);
 n(dt, {
   displayName: "Command<updateLinkCommand>",
   group: "Link"
@@ -370,7 +379,10 @@ n(w.ctx, {
   displayName: "NodeSchemaCtx<paragraph>",
   group: "Paragraph"
 });
-const pe = c("TurnIntoText", (t) => () => K(w.type(t)));
+const pe = u(
+  "TurnIntoText",
+  (t) => () => K(w.type(t))
+);
 n(pe, {
   displayName: "Command<turnIntoTextCommand>",
   group: "Paragraph"
@@ -379,7 +391,7 @@ const ce = f("paragraphKeymap", {
   TurnIntoText: {
     shortcuts: "Mod-Alt-0",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(pe.key);
     }
   }
@@ -396,7 +408,10 @@ const Dt = Array(6).fill(0).map((t, e) => e + 1);
 function _t(t) {
   return Ht(t.textContent);
 }
-const z = Xe(_t, "headingIdGenerator");
+const z = Xe(
+  _t,
+  "headingIdGenerator"
+);
 n(z, {
   displayName: "Ctx<HeadingIdGenerator>",
   group: "Heading"
@@ -423,8 +438,7 @@ const H = I("heading", (t) => {
     parseDOM: Dt.map((r) => ({
       tag: `h${r}`,
       getAttrs: (a) => {
-        if (!(a instanceof HTMLElement))
-          throw A(a);
+        if (!(a instanceof HTMLElement)) throw A(a);
         return { level: r, id: a.id };
       }
     })),
@@ -459,36 +473,43 @@ n(H.ctx, {
   displayName: "NodeSchemaCtx<heading>",
   group: "Heading"
 });
-const pt = h((t) => Ze(/^(?<hashes>#+)\s$/, H.type(t), (e) => {
-  var l, i;
-  const r = ((i = (l = e.groups) == null ? void 0 : l.hashes) == null ? void 0 : i.length) || 0, a = t.get(At), { $from: o } = a.state.selection, s = o.node();
-  if (s.type.name === "heading") {
-    let d = Number(s.attrs.level) + Number(r);
-    return d > 6 && (d = 6), { level: d };
+const pt = h((t) => Ze(
+  /^(?<hashes>#+)\s$/,
+  H.type(t),
+  (e) => {
+    var l, i;
+    const r = ((i = (l = e.groups) == null ? void 0 : l.hashes) == null ? void 0 : i.length) || 0, a = t.get(At), { $from: o } = a.state.selection, s = o.node();
+    if (s.type.name === "heading") {
+      let d = Number(s.attrs.level) + Number(r);
+      return d > 6 && (d = 6), { level: d };
+    }
+    return { level: r };
   }
-  return { level: r };
-}));
+));
 n(pt, {
   displayName: "InputRule<wrapInHeadingInputRule>",
   group: "Heading"
 });
-const L = c("WrapInHeading", (t) => (e) => (e ?? (e = 1), e < 1 ? K(w.type(t)) : K(H.type(t), { level: e })));
+const L = u("WrapInHeading", (t) => (e) => (e ?? (e = 1), e < 1 ? K(w.type(t)) : K(H.type(t), { level: e })));
 n(L, {
   displayName: "Command<wrapInHeadingCommand>",
   group: "Heading"
 });
-const ge = c("DowngradeHeading", (t) => () => (e, r, a) => {
-  const { $from: o } = e.selection, s = o.node();
-  if (s.type !== H.type(t) || !e.selection.empty || o.parentOffset !== 0)
-    return !1;
-  const l = s.attrs.level - 1;
-  return l ? (r == null || r(
-    e.tr.setNodeMarkup(e.selection.$from.before(), void 0, {
-      ...s.attrs,
-      level: l
-    })
-  ), !0) : K(w.type(t))(e, r, a);
-});
+const ge = u(
+  "DowngradeHeading",
+  (t) => () => (e, r, a) => {
+    const { $from: o } = e.selection, s = o.node();
+    if (s.type !== H.type(t) || !e.selection.empty || o.parentOffset !== 0)
+      return !1;
+    const l = s.attrs.level - 1;
+    return l ? (r == null || r(
+      e.tr.setNodeMarkup(e.selection.$from.before(), void 0, {
+        ...s.attrs,
+        level: l
+      })
+    ), !0) : K(w.type(t))(e, r, a);
+  }
+);
 n(ge, {
   displayName: "Command<downgradeHeadingCommand>",
   group: "Heading"
@@ -497,49 +518,49 @@ const ke = f("headingKeymap", {
   TurnIntoH1: {
     shortcuts: "Mod-Alt-1",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(L.key, 1);
     }
   },
   TurnIntoH2: {
     shortcuts: "Mod-Alt-2",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(L.key, 2);
     }
   },
   TurnIntoH3: {
     shortcuts: "Mod-Alt-3",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(L.key, 3);
     }
   },
   TurnIntoH4: {
     shortcuts: "Mod-Alt-4",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(L.key, 4);
     }
   },
   TurnIntoH5: {
     shortcuts: "Mod-Alt-5",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(L.key, 5);
     }
   },
   TurnIntoH6: {
     shortcuts: "Mod-Alt-6",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(L.key, 6);
     }
   },
   DowngradeHeading: {
     shortcuts: ["Delete", "Backspace"],
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(ge.key);
     }
   }
@@ -557,25 +578,28 @@ n(ye, {
   displayName: "Attr<blockquote>",
   group: "Blockquote"
 });
-const q = I("blockquote", (t) => ({
-  content: "block+",
-  group: "block",
-  defining: !0,
-  parseDOM: [{ tag: "blockquote" }],
-  toDOM: (e) => ["blockquote", t.get(ye.key)(e), 0],
-  parseMarkdown: {
-    match: ({ type: e }) => e === "blockquote",
-    runner: (e, r, a) => {
-      e.openNode(a).next(r.children).closeNode();
+const q = I(
+  "blockquote",
+  (t) => ({
+    content: "block+",
+    group: "block",
+    defining: !0,
+    parseDOM: [{ tag: "blockquote" }],
+    toDOM: (e) => ["blockquote", t.get(ye.key)(e), 0],
+    parseMarkdown: {
+      match: ({ type: e }) => e === "blockquote",
+      runner: (e, r, a) => {
+        e.openNode(a).next(r.children).closeNode();
+      }
+    },
+    toMarkdown: {
+      match: (e) => e.type.name === "blockquote",
+      runner: (e, r) => {
+        e.openNode("blockquote").next(r.content).closeNode();
+      }
     }
-  },
-  toMarkdown: {
-    match: (e) => e.type.name === "blockquote",
-    runner: (e, r) => {
-      e.openNode("blockquote").next(r.content).closeNode();
-    }
-  }
-}));
+  })
+);
 n(q.node, {
   displayName: "NodeSchema<blockquote>",
   group: "Blockquote"
@@ -584,12 +608,17 @@ n(q.ctx, {
   displayName: "NodeSchemaCtx<blockquote>",
   group: "Blockquote"
 });
-const ct = h((t) => X(/^\s*>\s$/, q.type(t)));
+const ct = h(
+  (t) => X(/^\s*>\s$/, q.type(t))
+);
 n(ct, {
   displayName: "InputRule<wrapInBlockquoteInputRule>",
   group: "Blockquote"
 });
-const he = c("WrapInBlockquote", (t) => () => Q(q.type(t)));
+const he = u(
+  "WrapInBlockquote",
+  (t) => () => Q(q.type(t))
+);
 n(he, {
   displayName: "Command<wrapInBlockquoteCommand>",
   group: "Blockquote"
@@ -598,7 +627,7 @@ const fe = f("blockquoteKeymap", {
   WrapInBlockquote: {
     shortcuts: "Mod-Shift-b",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(he.key);
     }
   }
@@ -635,8 +664,7 @@ const W = I("code_block", (t) => ({
       tag: "pre",
       preserveWhitespace: "full",
       getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw A(e);
+        if (!(e instanceof HTMLElement)) throw A(e);
         return { language: e.dataset.language };
       }
     }
@@ -677,22 +705,37 @@ n(W.ctx, {
   displayName: "NodeSchemaCtx<codeBlock>",
   group: "CodeBlock"
 });
-const ut = h((t) => Ze(/^```(?<language>[a-z]*)?[\s\n]$/, W.type(t), (e) => {
-  var r;
-  return {
-    language: ((r = e.groups) == null ? void 0 : r.language) ?? ""
-  };
-}));
+const ut = h(
+  (t) => Ze(
+    /^```(?<language>[a-z]*)?[\s\n]$/,
+    W.type(t),
+    (e) => {
+      var r;
+      return {
+        language: ((r = e.groups) == null ? void 0 : r.language) ?? ""
+      };
+    }
+  )
+);
 n(ut, {
   displayName: "InputRule<createCodeBlockInputRule>",
   group: "CodeBlock"
 });
-const Ie = c("CreateCodeBlock", (t) => (e = "") => K(W.type(t), { language: e }));
+const Ie = u(
+  "CreateCodeBlock",
+  (t) => (e = "") => K(W.type(t), { language: e })
+);
 n(Ie, {
   displayName: "Command<createCodeBlockCommand>",
   group: "CodeBlock"
 });
-const Et = c("UpdateCodeBlockLanguage", () => ({ pos: t, language: e } = { pos: -1, language: "" }) => (r, a) => t >= 0 ? (a == null || a(r.tr.setNodeAttribute(t, "language", e)), !0) : !1);
+const Et = u(
+  "UpdateCodeBlockLanguage",
+  () => ({ pos: t, language: e } = {
+    pos: -1,
+    language: ""
+  }) => (r, a) => t >= 0 ? (a == null || a(r.tr.setNodeAttribute(t, "language", e)), !0) : !1
+);
 n(Et, {
   displayName: "Command<updateCodeBlockLanguageCommand>",
   group: "CodeBlock"
@@ -701,7 +744,7 @@ const Ce = f("codeBlockKeymap", {
   CreateCodeBlock: {
     shortcuts: "Mod-Alt-c",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(Ie.key);
     }
   }
@@ -737,8 +780,7 @@ const v = I("image", (t) => ({
     {
       tag: "img[src]",
       getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw A(e);
+        if (!(e instanceof HTMLElement)) throw A(e);
         return {
           src: e.getAttribute("src") || "",
           alt: e.getAttribute("alt") || "",
@@ -778,34 +820,49 @@ n(v.ctx, {
   displayName: "NodeSchemaCtx<image>",
   group: "Image"
 });
-const gt = c("InsertImage", (t) => (e = {}) => (r, a) => {
-  if (!a)
-    return !0;
-  const { src: o = "", alt: s = "", title: l = "" } = e, i = v.type(t).create({ src: o, alt: s, title: l });
-  return i && a(r.tr.replaceSelectionWith(i).scrollIntoView()), !0;
-});
+const gt = u(
+  "InsertImage",
+  (t) => (e = {}) => (r, a) => {
+    if (!a) return !0;
+    const { src: o = "", alt: s = "", title: l = "" } = e, i = v.type(t).create({ src: o, alt: s, title: l });
+    return i && a(r.tr.replaceSelectionWith(i).scrollIntoView()), !0;
+  }
+);
 n(gt, {
   displayName: "Command<insertImageCommand>",
   group: "Image"
 });
-const kt = c("UpdateImage", (t) => (e = {}) => (r, a) => {
-  const o = Bt(r.selection, v.type(t));
-  if (!o)
-    return !1;
-  const { node: s, pos: l } = o, i = { ...s.attrs }, { src: d, alt: m, title: p } = e;
-  return d !== void 0 && (i.src = d), m !== void 0 && (i.alt = m), p !== void 0 && (i.title = p), a == null || a(r.tr.setNodeMarkup(l, void 0, i).scrollIntoView()), !0;
-});
+const kt = u(
+  "UpdateImage",
+  (t) => (e = {}) => (r, a) => {
+    const o = Bt(
+      r.selection,
+      v.type(t)
+    );
+    if (!o) return !1;
+    const { node: s, pos: l } = o, i = { ...s.attrs }, { src: d, alt: m, title: p } = e;
+    return d !== void 0 && (i.src = d), m !== void 0 && (i.alt = m), p !== void 0 && (i.title = p), a == null || a(
+      r.tr.setNodeMarkup(l, void 0, i).scrollIntoView()
+    ), !0;
+  }
+);
 n(kt, {
   displayName: "Command<updateImageCommand>",
   group: "Image"
 });
-const Pt = h((t) => new et(
-  /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
-  (e, r, a, o) => {
-    const [s, l, i = "", d] = r;
-    return s ? e.tr.replaceWith(a, o, v.type(t).create({ src: i, alt: l, title: d })) : null;
-  }
-));
+const Pt = h(
+  (t) => new et(
+    /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
+    (e, r, a, o) => {
+      const [s, l, i = "", d] = r;
+      return s ? e.tr.replaceWith(
+        a,
+        o,
+        v.type(t).create({ src: i, alt: l, title: d })
+      ) : null;
+    }
+  )
+);
 n(Pt, {
   displayName: "InputRule<insertImageInputRule>",
   group: "Image"
@@ -827,13 +884,21 @@ const S = I("hardbreak", (t) => ({
     }
   },
   selectable: !1,
-  parseDOM: [{ tag: "br" }, { tag: 'span[data-type="hardbreak"]', getAttrs: () => ({ isInline: !0 }) }],
+  parseDOM: [
+    { tag: "br" },
+    {
+      tag: 'span[data-type="hardbreak"]',
+      getAttrs: () => ({ isInline: !0 })
+    }
+  ],
   toDOM: (e) => e.attrs.isInline ? ["span", t.get(V.key)(e), " "] : ["br", t.get(V.key)(e)],
   parseMarkdown: {
     match: ({ type: e }) => e === "break",
     runner: (e, r, a) => {
       var o;
-      e.addNode(a, { isInline: !!((o = r.data) != null && o.isInline) });
+      e.addNode(a, {
+        isInline: !!((o = r.data) != null && o.isInline)
+      });
     }
   },
   leafText: () => `
@@ -854,20 +919,28 @@ n(S.ctx, {
   displayName: "NodeSchemaCtx<hardbreak>",
   group: "Hardbreak"
 });
-const be = c("InsertHardbreak", (t) => () => (e, r) => {
-  var s;
-  const { selection: a, tr: o } = e;
-  if (!(a instanceof Y))
-    return !1;
-  if (a.empty) {
-    const l = a.$from.node();
-    if (l.childCount > 0 && ((s = l.lastChild) == null ? void 0 : s.type.name) === "hardbreak")
-      return r == null || r(
-        o.replaceRangeWith(a.to - 1, a.to, e.schema.node("paragraph")).setSelection(tt.near(o.doc.resolve(a.to))).scrollIntoView()
-      ), !0;
+const be = u(
+  "InsertHardbreak",
+  (t) => () => (e, r) => {
+    var s;
+    const { selection: a, tr: o } = e;
+    if (!(a instanceof Y)) return !1;
+    if (a.empty) {
+      const l = a.$from.node();
+      if (l.childCount > 0 && ((s = l.lastChild) == null ? void 0 : s.type.name) === "hardbreak")
+        return r == null || r(
+          o.replaceRangeWith(
+            a.to - 1,
+            a.to,
+            e.schema.node("paragraph")
+          ).setSelection(tt.near(o.doc.resolve(a.to))).scrollIntoView()
+        ), !0;
+    }
+    return r == null || r(
+      o.setMeta("hardbreak", !0).replaceSelectionWith(S.type(t).create()).scrollIntoView()
+    ), !0;
   }
-  return r == null || r(o.setMeta("hardbreak", !0).replaceSelectionWith(S.type(t).create()).scrollIntoView()), !0;
-});
+);
 n(be, {
   displayName: "Command<insertHardbreakCommand>",
   group: "Hardbreak"
@@ -876,7 +949,7 @@ const Le = f("hardbreakKeymap", {
   InsertHardbreak: {
     shortcuts: "Shift-Enter",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(be.key);
     }
   }
@@ -919,26 +992,26 @@ n(F.ctx, {
   displayName: "NodeSchemaCtx<hr>",
   group: "Hr"
 });
-const yt = h((t) => new et(
-  /^(?:---|___\s|\*\*\*\s)$/,
-  (e, r, a, o) => {
+const yt = h(
+  (t) => new et(/^(?:---|___\s|\*\*\*\s)$/, (e, r, a, o) => {
     const { tr: s } = e;
     return r[0] && s.replaceWith(a - 1, o, F.type(t).create()), s;
-  }
-));
+  })
+);
 n(yt, {
   displayName: "InputRule<insertHrInputRule>",
   group: "Hr"
 });
-const ht = c("InsertHr", (t) => () => (e, r) => {
-  if (!r)
-    return !0;
-  const a = w.node.type(t).create(), { tr: o, selection: s } = e, { from: l } = s, i = F.type(t).create();
-  if (!i)
-    return !0;
-  const d = o.replaceSelectionWith(i).insert(l, a), m = tt.findFrom(d.doc.resolve(l), 1, !0);
-  return m && r(d.setSelection(m).scrollIntoView()), !0;
-});
+const ht = u(
+  "InsertHr",
+  (t) => () => (e, r) => {
+    if (!r) return !0;
+    const a = w.node.type(t).create(), { tr: o, selection: s } = e, { from: l } = s, i = F.type(t).create();
+    if (!i) return !0;
+    const d = o.replaceSelectionWith(i).insert(l, a), m = tt.findFrom(d.doc.resolve(l), 1, !0);
+    return m && r(d.setSelection(m).scrollIntoView()), !0;
+  }
+);
 n(ht, {
   displayName: "Command<insertHrCommand>",
   group: "Hr"
@@ -960,8 +1033,7 @@ const O = I("bullet_list", (t) => ({
     {
       tag: "ul",
       getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw A(e);
+        if (!(e instanceof HTMLElement)) throw A(e);
         return {
           spread: e.dataset.spread
         };
@@ -986,7 +1058,10 @@ const O = I("bullet_list", (t) => ({
   toMarkdown: {
     match: (e) => e.type.name === "bullet_list",
     runner: (e, r) => {
-      e.openNode("list", void 0, { ordered: !1, spread: r.attrs.spread === "true" }).next(r.content).closeNode();
+      e.openNode("list", void 0, {
+        ordered: !1,
+        spread: r.attrs.spread === "true"
+      }).next(r.content).closeNode();
     }
   }
 }));
@@ -998,12 +1073,17 @@ n(O.ctx, {
   displayName: "NodeSchemaCtx<bulletList>",
   group: "BulletList"
 });
-const ft = h((t) => X(/^\s*([-+*])\s$/, O.type(t)));
+const ft = h(
+  (t) => X(/^\s*([-+*])\s$/, O.type(t))
+);
 n(ft, {
   displayName: "InputRule<wrapInBulletListInputRule>",
   group: "BulletList"
 });
-const Ae = c("WrapInBulletList", (t) => () => Q(O.type(t)));
+const Ae = u(
+  "WrapInBulletList",
+  (t) => () => Q(O.type(t))
+);
 n(Ae, {
   displayName: "Command<wrapInBulletListCommand>",
   group: "BulletList"
@@ -1012,7 +1092,7 @@ const we = f("bulletListKeymap", {
   WrapInBulletList: {
     shortcuts: "Mod-Alt-8",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(Ae.key);
     }
   }
@@ -1045,8 +1125,7 @@ const T = I("ordered_list", (t) => ({
     {
       tag: "ol",
       getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw A(e);
+        if (!(e instanceof HTMLElement)) throw A(e);
         return {
           spread: e.dataset.spread,
           order: e.hasAttribute("start") ? Number(e.getAttribute("start")) : 1
@@ -1073,7 +1152,11 @@ const T = I("ordered_list", (t) => ({
   toMarkdown: {
     match: (e) => e.type.name === "ordered_list",
     runner: (e, r) => {
-      e.openNode("list", void 0, { ordered: !0, start: 1, spread: r.attrs.spread === "true" }), e.next(r.content), e.closeNode();
+      e.openNode("list", void 0, {
+        ordered: !0,
+        start: 1,
+        spread: r.attrs.spread === "true"
+      }), e.next(r.content), e.closeNode();
     }
   }
 }));
@@ -1085,17 +1168,22 @@ n(T.ctx, {
   displayName: "NodeSchemaCtx<orderedList>",
   group: "OrderedList"
 });
-const Nt = h((t) => X(
-  /^\s*(\d+)\.\s$/,
-  T.type(t),
-  (e) => ({ order: Number(e[1]) }),
-  (e, r) => r.childCount + r.attrs.order === Number(e[1])
-));
+const Nt = h(
+  (t) => X(
+    /^\s*(\d+)\.\s$/,
+    T.type(t),
+    (e) => ({ order: Number(e[1]) }),
+    (e, r) => r.childCount + r.attrs.order === Number(e[1])
+  )
+);
 n(Nt, {
   displayName: "InputRule<wrapInOrderedListInputRule>",
   group: "OrderedList"
 });
-const Be = c("WrapInOrderedList", (t) => () => Q(T.type(t)));
+const Be = u(
+  "WrapInOrderedList",
+  (t) => () => Q(T.type(t))
+);
 n(Be, {
   displayName: "Command<wrapInOrderedListCommand>",
   group: "OrderedList"
@@ -1104,7 +1192,7 @@ const Re = f("orderedListKeymap", {
   WrapInOrderedList: {
     shortcuts: "Mod-Alt-7",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(Be.key);
     }
   }
@@ -1141,8 +1229,7 @@ const M = I("list_item", (t) => ({
     {
       tag: "li",
       getAttrs: (e) => {
-        if (!(e instanceof HTMLElement))
-          throw A(e);
+        if (!(e instanceof HTMLElement)) throw A(e);
         return {
           label: e.dataset.label,
           listType: e.dataset.listType,
@@ -1171,7 +1258,9 @@ const M = I("list_item", (t) => ({
   toMarkdown: {
     match: (e) => e.type.name === "list_item",
     runner: (e, r) => {
-      e.openNode("listItem", void 0, { spread: r.attrs.spread === "true" }), e.next(r.content), e.closeNode();
+      e.openNode("listItem", void 0, {
+        spread: r.attrs.spread === "true"
+      }), e.next(r.content), e.closeNode();
     }
   }
 }));
@@ -1183,17 +1272,26 @@ n(M.ctx, {
   displayName: "NodeSchemaCtx<listItem>",
   group: "ListItem"
 });
-const Oe = c("SinkListItem", (t) => () => Rt(M.type(t)));
+const Oe = u(
+  "SinkListItem",
+  (t) => () => Rt(M.type(t))
+);
 n(Oe, {
   displayName: "Command<sinkListItemCommand>",
   group: "ListItem"
 });
-const Te = c("LiftListItem", (t) => () => rt(M.type(t)));
+const Te = u(
+  "LiftListItem",
+  (t) => () => rt(M.type(t))
+);
 n(Te, {
   displayName: "Command<liftListItemCommand>",
   group: "ListItem"
 });
-const Ke = c("SplitListItem", (t) => () => vt(M.type(t)));
+const Ke = u(
+  "SplitListItem",
+  (t) => () => vt(M.type(t))
+);
 n(Ke, {
   displayName: "Command<splitListItemCommand>",
   group: "ListItem"
@@ -1201,16 +1299,17 @@ n(Ke, {
 function $t(t) {
   return (e, r, a) => {
     const { selection: o } = e;
-    if (!(o instanceof Y))
-      return !1;
+    if (!(o instanceof Y)) return !1;
     const { empty: s, $from: l } = o;
-    if (!s || l.parentOffset !== 0)
-      return !1;
+    if (!s || l.parentOffset !== 0) return !1;
     const i = l.node(-1);
     return i.type !== M.type(t) || i.firstChild !== l.node() || l.node(-2).childCount > 1 ? !1 : rt(M.type(t))(e, r, a);
   };
 }
-const De = c("LiftFirstListItem", (t) => () => $t(t));
+const De = u(
+  "LiftFirstListItem",
+  (t) => () => $t(t)
+);
 n(De, {
   displayName: "Command<liftFirstListItemCommand>",
   group: "ListItem"
@@ -1219,28 +1318,28 @@ const _e = f("listItemKeymap", {
   NextListItem: {
     shortcuts: "Enter",
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(Ke.key);
     }
   },
   SinkListItem: {
     shortcuts: ["Tab", "Mod-]"],
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(Oe.key);
     }
   },
   LiftListItem: {
     shortcuts: ["Shift-Tab", "Mod-["],
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(Te.key);
     }
   },
   LiftFirstListItem: {
     shortcuts: ["Backspace", "Delete"],
     command: (t) => {
-      const e = t.get(u);
+      const e = t.get(g);
       return () => e.call(De.key);
     }
   }
@@ -1294,12 +1393,14 @@ const Pe = I("html", (t) => ({
     };
     return r.textContent = e.attrs.value, ["span", a, e.attrs.value];
   },
-  parseDOM: [{
-    tag: 'span[data-type="html"]',
-    getAttrs: (e) => ({
-      value: e.dataset.value ?? ""
-    })
-  }],
+  parseDOM: [
+    {
+      tag: 'span[data-type="html"]',
+      getAttrs: (e) => ({
+        value: e.dataset.value ?? ""
+      })
+    }
+  ],
   parseMarkdown: {
     match: ({ type: e }) => e === "html",
     runner: (e, r, a) => {
@@ -1400,16 +1501,19 @@ const qt = [
   re,
   ie,
   oe
-].flat(), $e = D("remarkAddOrderInList", () => () => (t) => {
-  Z(t, "list", (e) => {
-    if (e.ordered) {
-      const r = e.start ?? 1;
-      e.children.forEach((a, o) => {
-        a.label = o + r;
-      });
-    }
-  });
-});
+].flat(), $e = D(
+  "remarkAddOrderInList",
+  () => () => (t) => {
+    Z(t, "list", (e) => {
+      if (e.ordered) {
+        const r = e.start ?? 1;
+        e.children.forEach((a, o) => {
+          a.label = o + r;
+        });
+      }
+    });
+  }
+);
 n($e.plugin, {
   displayName: "Remark<remarkAddOrderInListPlugin>",
   group: "Remark"
@@ -1418,23 +1522,32 @@ n($e.options, {
   displayName: "RemarkConfig<remarkAddOrderInListPlugin>",
   group: "Remark"
 });
-const qe = D("remarkLineBreak", () => () => (t) => {
-  const e = /[\t ]*(?:\r?\n|\r)/g;
-  Z(t, "text", (r, a, o) => {
-    if (!r.value || typeof r.value != "string")
-      return;
-    const s = [];
-    let l = 0;
-    e.lastIndex = 0;
-    let i = e.exec(r.value);
-    for (; i; ) {
-      const m = i.index;
-      l !== m && s.push({ type: "text", value: r.value.slice(l, m) }), s.push({ type: "break", data: { isInline: !0 } }), l = m + i[0].length, i = e.exec(r.value);
-    }
-    if (s.length > 0 && o && typeof a == "number")
-      return l < r.value.length && s.push({ type: "text", value: r.value.slice(l) }), o.children.splice(a, 1, ...s), a + s.length;
-  });
-});
+const qe = D(
+  "remarkLineBreak",
+  () => () => (t) => {
+    const e = /[\t ]*(?:\r?\n|\r)/g;
+    Z(
+      t,
+      "text",
+      (r, a, o) => {
+        if (!r.value || typeof r.value != "string") return;
+        const s = [];
+        let l = 0;
+        e.lastIndex = 0;
+        let i = e.exec(r.value);
+        for (; i; ) {
+          const m = i.index;
+          l !== m && s.push({
+            type: "text",
+            value: r.value.slice(l, m)
+          }), s.push({ type: "break", data: { isInline: !0 } }), l = m + i[0].length, i = e.exec(r.value);
+        }
+        if (s.length > 0 && o && typeof a == "number")
+          return l < r.value.length && s.push({ type: "text", value: r.value.slice(l) }), o.children.splice(a, 1, ...s), a + s.length;
+      }
+    );
+  }
+);
 n(qe.plugin, {
   displayName: "Remark<remarkLineBreak>",
   group: "Remark"
@@ -1443,7 +1556,10 @@ n(qe.options, {
   displayName: "RemarkConfig<remarkLineBreak>",
   group: "Remark"
 });
-const We = D("remarkInlineLink", () => Kt);
+const We = D(
+  "remarkInlineLink",
+  () => Kt
+);
 n(We.plugin, {
   displayName: "Remark<remarkInlineLinkPlugin>",
   group: "Remark"
@@ -1463,8 +1579,8 @@ function zt(t, e) {
         if (m) {
           const p = r(m, i, a);
           if (p)
-            for (let y = 0, g = p.length; y < g; y++) {
-              const C = p[y];
+            for (let c = 0, k = p.length; c < k; c++) {
+              const C = p[c];
               C && l.push(C);
             }
         }
@@ -1474,9 +1590,12 @@ function zt(t, e) {
     return e(a, o, s);
   }
 }
-const Fe = D("remarkHTMLTransformer", () => () => (t) => {
-  zt(t, (e, r, a) => jt(e) ? ((a == null ? void 0 : a.type) === "root" && (e.children = [{ ...e }], delete e.value, e.type = "paragraph"), [e]) : [e]);
-});
+const Fe = D(
+  "remarkHTMLTransformer",
+  () => () => (t) => {
+    zt(t, (e, r, a) => jt(e) ? ((a == null ? void 0 : a.type) === "root" && (e.children = [{ ...e }], delete e.value, e.type = "paragraph"), [e]) : [e]);
+  }
+);
 n(Fe.plugin, {
   displayName: "Remark<remarkHtmlTransformer>",
   group: "Remark"
@@ -1485,12 +1604,19 @@ n(Fe.options, {
   displayName: "RemarkConfig<remarkHtmlTransformer>",
   group: "Remark"
 });
-const Ve = D("remarkMarker", () => () => (t, e) => {
-  const r = (a) => e.value.charAt(a.position.start.offset);
-  Z(t, (a) => ["strong", "emphasis"].includes(a.type), (a) => {
-    a.marker = r(a);
-  });
-});
+const Ve = D(
+  "remarkMarker",
+  () => () => (t, e) => {
+    const r = (a) => e.value.charAt(a.position.start.offset);
+    Z(
+      t,
+      (a) => ["strong", "emphasis"].includes(a.type),
+      (a) => {
+        a.marker = r(a);
+      }
+    );
+  }
+);
 n(Ve.plugin, {
   displayName: "Remark<remarkMarker>",
   group: "Remark"
@@ -1501,15 +1627,16 @@ n(Ve.options, {
 });
 const Ct = _(() => {
   let t = !1;
-  const e = new E("MILKDOWN_INLINE_NODES_CURSOR"), r = new P({
+  const e = new E(
+    "MILKDOWN_INLINE_NODES_CURSOR"
+  ), r = new P({
     key: e,
     state: {
       init() {
         return !1;
       },
       apply(a) {
-        if (!a.selection.empty)
-          return !1;
+        if (!a.selection.empty) return !1;
         const o = a.selection.$from, s = o.nodeBefore, l = o.nodeAfter;
         return !!(s && l && s.isInline && !s.isText && l.isInline && !l.isText);
       }
@@ -1553,23 +1680,30 @@ n(Ct, {
 const Mt = _((t) => new P({
   key: new E("MILKDOWN_HARDBREAK_MARKS"),
   appendTransaction: (e, r, a) => {
-    if (!e.length)
-      return;
+    if (!e.length) return;
     const [o] = e;
-    if (!o)
-      return;
+    if (!o) return;
     const [s] = o.steps;
     if (o.getMeta("hardbreak")) {
-      if (!(s instanceof Ot))
-        return;
+      if (!(s instanceof Ot)) return;
       const { from: d } = s;
-      return a.tr.setNodeMarkup(d, S.type(t), void 0, []);
+      return a.tr.setNodeMarkup(
+        d,
+        S.type(t),
+        void 0,
+        []
+      );
     }
     if (s instanceof Tt) {
       let d = a.tr;
       const { from: m, to: p } = s;
-      return a.doc.nodesBetween(m, p, (y, g) => {
-        y.type === S.type(t) && (d = d.setNodeMarkup(g, S.type(t), void 0, []));
+      return a.doc.nodesBetween(m, p, (c, k) => {
+        c.type === S.type(t) && (d = d.setNodeMarkup(
+          k,
+          S.type(t),
+          void 0,
+          []
+        ));
       }), d;
     }
   }
@@ -1578,7 +1712,10 @@ n(Mt, {
   displayName: "Prose<hardbreakClearMarkPlugin>",
   group: "Prose"
 });
-const Ue = Xe(["table", "code_block"], "hardbreakFilterNodes");
+const Ue = Xe(
+  ["table", "code_block"],
+  "hardbreakFilterNodes"
+);
 n(Ue, {
   displayName: "Ctx<hardbreakFilterNodes>",
   group: "Prose"
@@ -1606,18 +1743,18 @@ n(bt, {
 });
 const Lt = _((t) => {
   const e = new E("MILKDOWN_HEADING_ID"), r = (a) => {
-    if (a.composing)
-      return;
+    if (a.composing) return;
     const o = t.get(z.key), s = a.state.tr.setMeta("addToHistory", !1);
     let l = !1;
-    a.state.doc.descendants((i, d) => {
-      if (i.type === H.type(t)) {
-        if (i.textContent.trim().length === 0)
-          return;
-        const m = i.attrs, p = o(i);
-        m.id !== p && (l = !0, s.setMeta(e, !0).setNodeMarkup(d, void 0, {
-          ...m,
-          id: p
+    const i = {};
+    a.state.doc.descendants((d, m) => {
+      if (d.type === H.type(t)) {
+        if (d.textContent.trim().length === 0) return;
+        const p = d.attrs;
+        let c = o(d);
+        i[c] ? (i[c] += 1, c += `-#${i[c]}`) : i[c] = 1, p.id !== c && (l = !0, s.setMeta(e, !0).setNodeMarkup(m, void 0, {
+          ...p,
+          id: c
         }));
       }
     }), l && a.dispatch(s);
@@ -1637,28 +1774,27 @@ n(Lt, {
 });
 const xt = _((t) => {
   const e = (r) => {
-    if (r.composing || !r.editable)
-      return;
-    const a = T.type(t), o = O.type(t), s = M.type(t), l = r.state, i = (p, y) => {
-      let g = !1;
-      const C = `${y + 1}.`;
-      return p.label !== C && (p.label = C, g = !0), g;
+    if (r.composing || !r.editable) return;
+    const a = T.type(t), o = O.type(t), s = M.type(t), l = r.state, i = (p, c) => {
+      let k = !1;
+      const C = `${c + 1}.`;
+      return p.label !== C && (p.label = C, k = !0), k;
     };
     let d = l.tr, m = !1;
-    l.doc.descendants((p, y, g, C) => {
+    l.doc.descendants((p, c, k, C) => {
       if (p.type === o) {
-        const k = p.maybeChild(0);
-        (k == null ? void 0 : k.type) === s && k.attrs.listType === "ordered" && (m = !0, d.setNodeMarkup(y, a, { spread: "true" }), p.descendants((b, Ge, Qt, St) => {
+        const y = p.maybeChild(0);
+        (y == null ? void 0 : y.type) === s && y.attrs.listType === "ordered" && (m = !0, d.setNodeMarkup(c, a, { spread: "true" }), p.descendants((b, Ge, Qt, St) => {
           if (b.type === s) {
             const je = { ...b.attrs };
             i(je, St) && (d = d.setNodeMarkup(Ge, void 0, je));
           }
           return !1;
         }));
-      } else if (p.type === s && (g == null ? void 0 : g.type) === a) {
-        const k = { ...p.attrs };
+      } else if (p.type === s && (k == null ? void 0 : k.type) === a) {
+        const y = { ...p.attrs };
         let b = !1;
-        k.listType !== "ordered" && (k.listType = "ordered", b = !0), (g == null ? void 0 : g.maybeChild(0)) && (b = i(k, C)), b && (d = d.setNodeMarkup(y, void 0, k), m = !0);
+        y.listType !== "ordered" && (y.listType = "ordered", b = !0), (k == null ? void 0 : k.maybeChild(0)) && (b = i(y, C)), b && (d = d.setNodeMarkup(c, void 0, y), m = !0);
       }
     }), m && r.dispatch(d.setMeta("addToHistory", !1));
   };
@@ -1687,7 +1823,14 @@ const Jt = [
   Ve,
   Lt,
   xt
-].flat(), cr = [qt, Wt, Ft, Vt, Ut, Jt].flat();
+].flat(), cr = [
+  qt,
+  Wt,
+  Ft,
+  Vt,
+  Ut,
+  Jt
+].flat();
 export {
   ye as blockquoteAttr,
   fe as blockquoteKeymap,

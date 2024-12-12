@@ -1,9 +1,12 @@
 import { PluginKey as f, Plugin as h } from "@milkdown/prose/state";
 import { $ctx as y, $prose as C } from "@milkdown/utils";
-const l = y({
-  shouldAppend: (n) => !(!n || ["heading", "paragraph"].includes(n.type.name)),
-  getNode: (n) => n.schema.nodes.paragraph.create()
-}, "trailingConfig");
+const l = y(
+  {
+    shouldAppend: (n) => !(!n || ["heading", "paragraph"].includes(n.type.name)),
+    getNode: (n) => n.schema.nodes.paragraph.create()
+  },
+  "trailingConfig"
+);
 l.meta = {
   package: "@milkdown/plugin-trailing",
   displayName: "Ctx<trailingConfig>"
@@ -17,8 +20,7 @@ const p = C((n) => {
         return s(t, e);
       },
       apply: (i, e, t, o) => {
-        if (!i.docChanged)
-          return e;
+        if (!i.docChanged) return e;
         const a = i.doc.lastChild;
         return s(a, o);
       }
