@@ -1,0 +1,3 @@
+export * from '@milkdown/preset-gfm'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wcmVzZXQvZ2ZtLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBIiwiZmlsZSI6ImdmbS50cyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gJ0BtaWxrZG93bi9wcmVzZXQtZ2ZtJ1xuIl19 */

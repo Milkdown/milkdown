@@ -1,0 +1,31 @@
+@import '../_internal/classic-common.css';
+
+.milkdown {
+  --crepe-color-background: #fdfcff;
+  --crepe-color-on-background: #1b1c1d;
+  --crepe-color-surface: #f8f9ff;
+  --crepe-color-surface-low: #f2f3fa;
+  --crepe-color-on-surface: #191c20;
+  --crepe-color-on-surface-variant: #43474e;
+  --crepe-color-outline: #73777f;
+  --crepe-color-primary: #37618e;
+  --crepe-color-secondary: #d7e3f8;
+  --crepe-color-on-secondary: #101c2b;
+  --crepe-color-inverse: #2e3135;
+  --crepe-color-on-inverse: #eff0f7;
+  --crepe-color-inline-code: #ba1a1a;
+  --crepe-color-error: #ba1a1a;
+  --crepe-color-hover: #eceef4;
+  --crepe-color-selected: #e1e2e8;
+  --crepe-color-inline-area: #d8dae0;
+
+  --crepe-font-title: Rubik, Cambria, 'Times New Roman', Times, serif;
+  --crepe-font-default: Inter, Arial, Helvetica, sans-serif;
+  --crepe-font-code: 'JetBrains Mono', Menlo, Monaco, 'Courier New', Courier,
+    monospace;
+
+  --crepe-shadow-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  --crepe-shadow-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+}

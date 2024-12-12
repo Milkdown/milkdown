@@ -1,0 +1,3 @@
+export * from '@milkdown/prose/changeset'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wcm9zZS9jaGFuZ2VzZXQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoiY2hhbmdlc2V0LnRzIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0ICogZnJvbSAnQG1pbGtkb3duL3Byb3NlL2NoYW5nZXNldCdcbiJdfQ== */

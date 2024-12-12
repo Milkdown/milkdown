@@ -1,0 +1,3 @@
+export * from '@milkdown/prose/inputrules'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wcm9zZS9pbnB1dHJ1bGVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBIiwiZmlsZSI6ImlucHV0cnVsZXMudHMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgKiBmcm9tICdAbWlsa2Rvd24vcHJvc2UvaW5wdXRydWxlcydcbiJdfQ== */
