@@ -9,8 +9,10 @@
 ![license][license-badge]
 
 <div align="center">
-  <img src="/assets/logo.svg" />
-  <img src="/assets/nota.png" />
+  <div allign="display: flex;">
+    <img src="/assets/logo.svg" />
+    <img src="/assets/nota.png" style="width: 200px;" />
+  </div>
 </div>
 
 A Milkdown fork for [Nota](https://www.nota-sync.com/) application.
