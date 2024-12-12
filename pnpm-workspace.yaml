@@ -4,4 +4,4 @@ packages:
   - 'packages/integrations/*'
   - '!packages/integrations/vue'
   - e2e
-  - storybook
+  # - storybook
