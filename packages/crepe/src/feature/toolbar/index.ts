@@ -39,11 +39,14 @@ class ToolbarView implements PluginView {
         const { doc, selection } = view.state
         const { empty, from, to } = selection
 
-        const isEmptyTextBlock = !doc.textBetween(from, to).length && selection instanceof TextSelection
+        const isEmptyTextBlock =
+          !doc.textBetween(from, to).length &&
+          selection instanceof TextSelection
 
         const isNotTextBlock = !(selection instanceof TextSelection)
 
-        const activeElement = (view.dom.getRootNode() as ShadowRoot | Document).activeElement
+        const activeElement = (view.dom.getRootNode() as ShadowRoot | Document)
+          .activeElement
         const isTooltipChildren = content.contains(activeElement)
 
         const notHasFocus = !view.hasFocus() && !isTooltipChildren
@@ -51,11 +54,11 @@ class ToolbarView implements PluginView {
         const isReadonly = !view.editable
 
         if (
-          notHasFocus
-          || isNotTextBlock
-          || empty
-          || isEmptyTextBlock
-          || isReadonly
+          notHasFocus ||
+          isNotTextBlock ||
+          empty ||
+          isEmptyTextBlock ||
+          isReadonly
         )
           return false
 
@@ -86,11 +89,14 @@ class ToolbarView implements PluginView {
 }
 
 defIfNotExists('milkdown-toolbar', ToolbarElement)
-export const defineFeature: DefineFeature<ToolbarFeatureConfig> = (editor, config) => {
+export const defineFeature: DefineFeature<ToolbarFeatureConfig> = (
+  editor,
+  config
+) => {
   editor
     .config((ctx) => {
       ctx.set(toolbar.key, {
-        view: view => new ToolbarView(ctx, view, config),
+        view: (view) => new ToolbarView(ctx, view, config),
       })
     })
     .use(toolbar)

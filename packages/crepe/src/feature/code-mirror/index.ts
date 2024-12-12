@@ -1,4 +1,7 @@
-import { codeBlockComponent, codeBlockConfig } from '@milkdown-nota/kit/component/code-block'
+import {
+  codeBlockComponent,
+  codeBlockConfig,
+} from '@milkdown-nota/kit/component/code-block'
 import type { LanguageDescription } from '@codemirror/language'
 import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
@@ -22,29 +25,32 @@ interface CodeMirrorConfig {
   searchPlaceholder: string
   noResultText: string
 
-  renderLanguage: (language: string, selected: boolean) => ReturnType<typeof html> | string | HTMLElement
+  renderLanguage: (
+    language: string,
+    selected: boolean
+  ) => ReturnType<typeof html> | string | HTMLElement
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
-export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (editor, config = {}) => {
+export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (
+  editor,
+  config = {}
+) => {
   editor
     .config((ctx) => {
-      let {
-        languages,
-        theme,
-      } = config
+      let { languages, theme } = config
       if (!languages) {
         languages = langList
       }
       if (!theme) {
         theme = oneDark
       }
-      ctx.update(codeBlockConfig.key, defaultConfig => ({
+      ctx.update(codeBlockConfig.key, (defaultConfig) => ({
         extensions: [
           keymap.of(defaultKeymap.concat(indentWithTab)),
           basicSetup,
           theme,
-          ...config?.extensions ?? [],
+          ...(config?.extensions ?? []),
         ],
         languages,
 

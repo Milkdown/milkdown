@@ -1,4 +1,8 @@
-import { configureLinkTooltip, linkTooltipConfig, linkTooltipPlugin } from '@milkdown-nota/kit/component/link-tooltip'
+import {
+  configureLinkTooltip,
+  linkTooltipConfig,
+  linkTooltipPlugin,
+} from '@milkdown-nota/kit/component/link-tooltip'
 import type { DefineFeature, Icon } from '../shared'
 import { confirmIcon, copyIcon, editIcon, removeIcon } from '../../icons'
 
@@ -13,11 +17,14 @@ interface LinkTooltipConfig {
 
 export type LinkTooltipFeatureConfig = Partial<LinkTooltipConfig>
 
-export const defineFeature: DefineFeature<LinkTooltipFeatureConfig> = (editor, config) => {
+export const defineFeature: DefineFeature<LinkTooltipFeatureConfig> = (
+  editor,
+  config
+) => {
   editor
     .config(configureLinkTooltip)
     .config((ctx) => {
-      ctx.update(linkTooltipConfig.key, prev => ({
+      ctx.update(linkTooltipConfig.key, (prev) => ({
         ...prev,
         linkIcon: config?.linkIcon ?? (() => copyIcon),
         editButton: config?.editButton ?? (() => editIcon),

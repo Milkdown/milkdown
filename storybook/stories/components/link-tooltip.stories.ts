@@ -41,9 +41,12 @@ export const Default: StoryObj<CommonArgs> = {
           content,
           shouldShow: (view: EditorView) => {
             const { selection, doc } = view.state
-            const has = doc.rangeHasMark(selection.from, selection.to, linkSchema.type(ctx))
-            if (has || selection.empty)
-              return false
+            const has = doc.rangeHasMark(
+              selection.from,
+              selection.to,
+              linkSchema.type(ctx)
+            )
+            if (has || selection.empty) return false
 
             return true
           },
@@ -61,8 +64,7 @@ export const Default: StoryObj<CommonArgs> = {
 
         return {
           update: (updatedView: EditorView, prevState: EditorState) => {
-            if (ctx.get(linkTooltipState.key).mode === 'edit')
-              return
+            if (ctx.get(linkTooltipState.key).mode === 'edit') return
             provider.update(updatedView, prevState)
           },
           destroy: () => {
@@ -74,12 +76,13 @@ export const Default: StoryObj<CommonArgs> = {
     }
 
     return setupMilkdown([style], args, (editor) => {
-      editor.config((ctx) => {
-        ctx.set(insertLinkTooltip.key, {
-          view: tooltipPluginView(ctx),
+      editor
+        .config((ctx) => {
+          ctx.set(insertLinkTooltip.key, {
+            view: tooltipPluginView(ctx),
+          })
+          configureLinkTooltip(ctx)
         })
-        configureLinkTooltip(ctx)
-      })
         .use(linkTooltipPlugin)
         .use(insertLinkTooltip)
     })

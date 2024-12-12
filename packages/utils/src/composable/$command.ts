@@ -1,6 +1,11 @@
 import type { Cmd, CmdKey } from '@milkdown/core'
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
-import { CommandsReady, commandsCtx, commandsTimerCtx, createCmdKey } from '@milkdown/core'
+import {
+  CommandsReady,
+  commandsCtx,
+  commandsTimerCtx,
+  createCmdKey,
+} from '@milkdown/core'
 
 import { addTimer } from './utils'
 
@@ -36,15 +41,19 @@ export type $Command<T> = MilkdownPlugin & {
 ///
 /// editor.action(callCommand(commandPlugin.key, 3));
 /// ```
-export function $command<T, K extends string>(key: K, cmd: (ctx: Ctx) => Cmd<T>): $Command<T> {
+export function $command<T, K extends string>(
+  key: K,
+  cmd: (ctx: Ctx) => Cmd<T>
+): $Command<T> {
   const cmdKey = createCmdKey<T>(key)
 
-  const plugin: MilkdownPlugin = ctx => async () => {
-    (<$Command<T>>plugin).key = cmdKey
+  const plugin: MilkdownPlugin = (ctx) => async () => {
+    ;(<$Command<T>>plugin).key = cmdKey
     await ctx.wait(CommandsReady)
     const command = cmd(ctx)
-    ctx.get(commandsCtx).create(cmdKey, command);
-    (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload)
+    ctx.get(commandsCtx).create(cmdKey, command)
+    ;(<$Command<T>>plugin).run = (payload?: T) =>
+      ctx.get(commandsCtx).call(key, payload)
 
     return () => {
       ctx.get(commandsCtx).remove(cmdKey)
@@ -68,20 +77,25 @@ export function $command<T, K extends string>(key: K, cmd: (ctx: Ctx) => Cmd<T>)
 /// - `key`: The key of the command.
 /// - `run`: The function to run the command.
 /// - `timer`: The timer which will be resolved when the command is ready.
-export function $commandAsync<T, K extends string>(key: K, cmd: (ctx: Ctx) => Promise<Cmd<T>>, timerName?: string) {
+export function $commandAsync<T, K extends string>(
+  key: K,
+  cmd: (ctx: Ctx) => Promise<Cmd<T>>,
+  timerName?: string
+) {
   const cmdKey = createCmdKey<T>(key)
   return addTimer<$Command<T>>(
     async (ctx, plugin) => {
       await ctx.wait(CommandsReady)
       const command = await cmd(ctx)
-      ctx.get(commandsCtx).create(cmdKey, command);
-      (<$Command<T>>plugin).run = (payload?: T) => ctx.get(commandsCtx).call(key, payload);
-      (<$Command<T>>plugin).key = cmdKey
+      ctx.get(commandsCtx).create(cmdKey, command)
+      ;(<$Command<T>>plugin).run = (payload?: T) =>
+        ctx.get(commandsCtx).call(key, payload)
+      ;(<$Command<T>>plugin).key = cmdKey
       return () => {
         ctx.get(commandsCtx).remove(cmdKey)
       }
     },
     commandsTimerCtx,
-    timerName,
+    timerName
   )
 }

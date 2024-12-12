@@ -59,9 +59,12 @@ const defaultConfig: LinkTooltipConfig = {
   getActualSrc: (src: string) => src,
 }
 
-export const linkTooltipConfig = $ctx({
-  ...defaultConfig,
-}, 'linkTooltipConfigCtx')
+export const linkTooltipConfig = $ctx(
+  {
+    ...defaultConfig,
+  },
+  'linkTooltipConfigCtx'
+)
 
 withMeta(linkTooltipState, {
   displayName: 'Config<link-tooltip>',

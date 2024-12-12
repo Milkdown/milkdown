@@ -2,7 +2,11 @@ import type { EditorState } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 import debounce from 'lodash.debounce'
-import type { VirtualElement } from '@floating-ui/dom'
+import type {
+  ComputePositionConfig,
+  Middleware,
+  VirtualElement,
+} from '@floating-ui/dom'
 import { computePosition, flip, offset, shift } from '@floating-ui/dom'
 import { posToDOMRect } from '@milkdown/prose'
 
@@ -15,11 +19,17 @@ export interface TooltipProviderOptions {
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
   /// The offset to get the block. Default is 0.
-  offset?: number | {
-    mainAxis?: number
-    crossAxis?: number
-    alignmentAxis?: number | null
-  }
+  offset?:
+    | number
+    | {
+        mainAxis?: number
+        crossAxis?: number
+        alignmentAxis?: number | null
+      }
+  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  middleware?: Middleware[]
+  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  floatingUIOptions?: Partial<ComputePositionConfig>
 }
 
 /// A provider for creating tooltip.
@@ -31,14 +41,22 @@ export class TooltipProvider {
   readonly #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   /// @internal
+  readonly #middleware: Middleware[]
+
+  /// @internal
+  readonly #floatingUIOptions: Partial<ComputePositionConfig>
+
+  /// @internal
   #initialized = false
 
   /// @internal
-  readonly #offset?: number | {
-    mainAxis?: number
-    crossAxis?: number
-    alignmentAxis?: number | null
-  }
+  readonly #offset?:
+    | number
+    | {
+        mainAxis?: number
+        crossAxis?: number
+        alignmentAxis?: number | null
+      }
 
   /// The root element of the tooltip.
   element: HTMLElement
@@ -54,6 +72,8 @@ export class TooltipProvider {
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#offset = options.offset
+    this.#middleware = options.middleware ?? []
+    this.#floatingUIOptions = options.floatingUIOptions ?? {}
     this.element.dataset.show = 'false'
   }
 
@@ -62,17 +82,17 @@ export class TooltipProvider {
     const { state, composing } = view
     const { selection, doc } = state
     const { ranges } = selection
-    const from = Math.min(...ranges.map(range => range.$from.pos))
-    const to = Math.max(...ranges.map(range => range.$to.pos))
-    const isSame = prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
+    const from = Math.min(...ranges.map((range) => range.$from.pos))
+    const to = Math.max(...ranges.map((range) => range.$to.pos))
+    const isSame =
+      prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
 
     if (!this.#initialized) {
       view.dom.parentElement?.appendChild(this.element)
       this.#initialized = true
     }
 
-    if (composing || isSame)
-      return
+    if (composing || isSame) return
 
     if (!this.#shouldShow(view, prevState)) {
       this.hide()
@@ -84,14 +104,13 @@ export class TooltipProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: 'top',
-      middleware: [flip(), offset(this.#offset), shift()],
-    })
-      .then(({ x, y }) => {
-        Object.assign(this.element.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        })
+      middleware: [flip(), offset(this.#offset), shift(), ...this.#middleware],
+    }).then(({ x, y }) => {
+      Object.assign(this.element.style, {
+        left: `${x}px`,
+        top: `${y}px`,
       })
+    })
 
     this.show()
   }
@@ -108,7 +127,9 @@ export class TooltipProvider {
     const { doc, selection } = view.state
     const { empty, from, to } = selection
 
-    const isEmptyTextBlock = !doc.textBetween(from, to).length && view.state.selection instanceof TextSelection
+    const isEmptyTextBlock =
+      !doc.textBetween(from, to).length &&
+      view.state.selection instanceof TextSelection
 
     const isTooltipChildren = this.element.contains(document.activeElement)
 
@@ -116,13 +137,7 @@ export class TooltipProvider {
 
     const isReadonly = !view.editable
 
-    if (
-      notHasFocus
-      || empty
-      || isEmptyTextBlock
-      || isReadonly
-    )
-      return false
+    if (notHasFocus || empty || isEmptyTextBlock || isReadonly) return false
 
     return true
   }
@@ -138,13 +153,13 @@ export class TooltipProvider {
       computePosition(virtualElement, this.element, {
         placement: 'top',
         middleware: [flip(), offset(this.#offset)],
-      })
-        .then(({ x, y }) => {
-          Object.assign(this.element.style, {
-            left: `${x}px`,
-            top: `${y}px`,
-          })
+        ...this.#floatingUIOptions,
+      }).then(({ x, y }) => {
+        Object.assign(this.element.style, {
+          left: `${x}px`,
+          top: `${y}px`,
         })
+      })
     }
 
     this.onShow()
@@ -152,8 +167,7 @@ export class TooltipProvider {
 
   /// Hide the tooltip.
   hide = () => {
-    if (this.element.dataset.show === 'false')
-      return
+    if (this.element.dataset.show === 'false') return
     this.element.dataset.show = 'false'
 
     this.onHide()

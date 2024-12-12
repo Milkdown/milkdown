@@ -11,9 +11,9 @@ import type { TableFeatureConfig } from './table'
 
 import { defineFeature as codeMirrorDefineFeature } from './code-mirror'
 import { defineFeature as listItemDefineFeature } from './list-item'
-import { defineFeature as linkTooltipDefineFeature }from './link-tooltip'
+import { defineFeature as linkTooltipDefineFeature } from './link-tooltip'
 import { defineFeature as imageBlockDefineFeature } from './image-block'
-import { defineFeature as cursorDefineFeature }from './cursor'
+import { defineFeature as cursorDefineFeature } from './cursor'
 import { defineFeature as blockEditDefineFeature } from './block-edit'
 import { defineFeature as placeholderDefineFeature } from './placeholder'
 import { defineFeature as toolbarDefineFeature } from './toolbar'
@@ -55,7 +55,11 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.Table]: true,
 }
 
-export function loadFeature(feature: CrepeFeature, editor: Editor, config?: never) {
+export function loadFeature(
+  feature: CrepeFeature,
+  editor: Editor,
+  config?: never
+) {
   switch (feature) {
     case CrepeFeature.CodeMirror: {
       return codeMirrorDefineFeature(editor, config)

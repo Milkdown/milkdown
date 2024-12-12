@@ -16,10 +16,10 @@ describe('ctx', () => {
     expect(ctx.isInjected(sliceType)).toBeTruthy()
     expect(ctx.get(sliceType)).toBe(0)
 
-    ctx.update(sliceType, x => x + 1)
+    ctx.update(sliceType, (x) => x + 1)
     expect(ctx.get(sliceType)).toBe(1)
 
-    ctx.update<number, 'counter'>('counter', x => x + 1)
+    ctx.update<number, 'counter'>('counter', (x) => x + 1)
     expect(ctx.get(sliceType)).toBe(2)
 
     ctx.set(sliceType, 100)
@@ -58,7 +58,10 @@ describe('ctx', () => {
     different.inject(sliceType)
 
     expect(same.get(sliceType)).toBe('Foo')
-    expect(different.inspector?.read().injectedSlices[0]).toEqual({ name: 'message', value: 'Foo' })
+    expect(different.inspector?.read().injectedSlices[0]).toEqual({
+      name: 'message',
+      value: 'Foo',
+    })
 
     expect(ctx.inspector?.read().injectedSlices).toBeUndefined()
 
@@ -66,7 +69,10 @@ describe('ctx', () => {
     same.inject(sliceType2)
 
     expect(different.get(sliceType2)).toBe(true)
-    expect(different.inspector?.read().consumedSlices[0]).toEqual({ name: 'boolean', value: true })
+    expect(different.inspector?.read().consumedSlices[0]).toEqual({
+      name: 'boolean',
+      value: true,
+    })
 
     const timerType1 = createTimer('timer1')
     different.record(timerType1)
@@ -78,8 +84,12 @@ describe('ctx', () => {
     await expect(ctx.wait(timerType1)).resolves.toBeUndefined()
 
     expect(different.inspector?.read().recordedTimers[0].name).toBe('timer1')
-    expect(different.inspector?.read().recordedTimers[0].duration).toBeGreaterThan(0)
-    expect(different.inspector?.read().recordedTimers[0].status).toBe('resolved')
+    expect(
+      different.inspector?.read().recordedTimers[0].duration
+    ).toBeGreaterThan(0)
+    expect(different.inspector?.read().recordedTimers[0].status).toBe(
+      'resolved'
+    )
 
     const timerType2 = createTimer('timer2')
     ctx.record(timerType2)
@@ -91,7 +101,9 @@ describe('ctx', () => {
     await expect(different.wait(timerType2)).resolves.toBeUndefined()
 
     expect(different.inspector?.read().waitTimers[0].name).toBe('timer2')
-    expect(different.inspector?.read().waitTimers[0].duration).toBeGreaterThan(0)
+    expect(different.inspector?.read().waitTimers[0].duration).toBeGreaterThan(
+      0
+    )
     expect(different.inspector?.read().waitTimers[0].status).toBe('resolved')
   })
 })

@@ -14,23 +14,33 @@
   @apply max-w-full !my-0 inline-block;
 }
 
-.milkdown-theme-nord.prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+.milkdown-theme-nord.prose
+  :where(blockquote):not(:where([class~='not-prose'] *)) {
   @apply font-normal;
 }
 
-.milkdown-theme-nord.prose :where(ol > li):not(:where([class~="not-prose"] *))::marker,
-.milkdown-theme-nord.prose :where(ul > li):not(:where([class~="not-prose"] *))::marker {
+.milkdown-theme-nord.prose
+  :where(ol > li):not(:where([class~='not-prose'] *))::marker,
+.milkdown-theme-nord.prose
+  :where(ul > li):not(:where([class~='not-prose'] *))::marker {
   @apply text-nord10;
 }
 
-
-.milkdown-theme-nord.prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::before,
-.milkdown-theme-nord.prose :where(blockquote p:first-of-type):not(:where([class~="not-prose"] *))::after {
+.milkdown-theme-nord.prose
+  :where(blockquote p:first-of-type):not(
+    :where([class~='not-prose'] *)
+  )::before,
+.milkdown-theme-nord.prose
+  :where(blockquote p:first-of-type):not(
+    :where([class~='not-prose'] *)
+  )::after {
   content: '';
 }
 
-.milkdown-theme-nord.prose :where(code):not(:where([class~="not-prose"] *))::before,
-.milkdown-theme-nord.prose :where(code):not(:where([class~="not-prose"] *))::after {
+.milkdown-theme-nord.prose
+  :where(code):not(:where([class~='not-prose'] *))::before,
+.milkdown-theme-nord.prose
+  :where(code):not(:where([class~='not-prose'] *))::after {
   content: '';
 }
 

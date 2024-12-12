@@ -15,9 +15,12 @@ export interface Options {
 
 /// Config for prism.
 /// You can configure refractor here.
-export const prismConfig = $ctx<Options, 'prismConfig'>({
-  configureRefractor: () => {},
-}, 'prismConfig')
+export const prismConfig = $ctx<Options, 'prismConfig'>(
+  {
+    configureRefractor: () => {},
+  },
+  'prismConfig'
+)
 
 prismConfig.meta = {
   package: '@milkdown/plugin-prism',
@@ -37,24 +40,33 @@ export const prismPlugin = $prose((ctx) => {
       },
       apply: (transaction, decorationSet, oldState, state) => {
         const isNodeName = state.selection.$head.parent.type.name === name
-        const isPreviousNodeName = oldState.selection.$head.parent.type.name === name
-        const oldNode = findChildren(node => node.type.name === name)(oldState.doc)
-        const newNode = findChildren(node => node.type.name === name)(state.doc)
-        const codeBlockChanged = transaction.docChanged
-          && (isNodeName
-          || isPreviousNodeName
-          || oldNode.length !== newNode.length
-          || oldNode[0]?.node.attrs.language !== newNode[0]?.node.attrs.language
-          || transaction.steps.some((step) => {
-            const s = step as unknown as { from: number, to: number }
-            return (
-              s.from !== undefined
-              && s.to !== undefined
-              && oldNode.some((node) => {
-                return node.pos >= s.from && node.pos + node.node.nodeSize <= s.to
-              })
-            )
-          }))
+        const isPreviousNodeName =
+          oldState.selection.$head.parent.type.name === name
+        const oldNode = findChildren((node) => node.type.name === name)(
+          oldState.doc
+        )
+        const newNode = findChildren((node) => node.type.name === name)(
+          state.doc
+        )
+        const codeBlockChanged =
+          transaction.docChanged &&
+          (isNodeName ||
+            isPreviousNodeName ||
+            oldNode.length !== newNode.length ||
+            oldNode[0]?.node.attrs.language !==
+              newNode[0]?.node.attrs.language ||
+            transaction.steps.some((step) => {
+              const s = step as unknown as { from: number; to: number }
+              return (
+                s.from !== undefined &&
+                s.to !== undefined &&
+                oldNode.some((node) => {
+                  return (
+                    node.pos >= s.from && node.pos + node.node.nodeSize <= s.to
+                  )
+                })
+              )
+            }))
 
         if (codeBlockChanged)
           return getDecorations(transaction.doc, name, refractor)

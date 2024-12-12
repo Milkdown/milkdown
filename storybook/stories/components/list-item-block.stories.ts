@@ -39,8 +39,7 @@ const todo = `
 export const Bullet: StoryObj<CommonArgs> = {
   render: (args) => {
     return setupMilkdown([style], args, (editor) => {
-      editor.use(gfm)
-        .use(listItemBlockComponent)
+      editor.use(gfm).use(listItemBlockComponent)
     })
   },
   args: {

@@ -1,13 +1,6 @@
-import type {
-  Ctx,
-  MilkdownPlugin,
-} from '@milkdown/ctx'
+import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import type { MarkSchema } from '@milkdown/transformer'
-import {
-  marksCtx,
-  schemaCtx,
-  schemaTimerCtx,
-} from '@milkdown/core'
+import { marksCtx, schemaCtx, schemaTimerCtx } from '@milkdown/core'
 import { missingMarkInSchema } from '@milkdown/exception'
 import type { MarkType } from '@milkdown/prose/model'
 
@@ -29,21 +22,22 @@ export type $Mark = MilkdownPlugin & {
 /// - `schema`: The mark schema created.
 /// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
 export function $mark(id: string, schema: (ctx: Ctx) => MarkSchema): $Mark {
-  const plugin: MilkdownPlugin = ctx => async () => {
+  const plugin: MilkdownPlugin = (ctx) => async () => {
     const markSchema = schema(ctx)
-    ctx.update(marksCtx, ns => [...ns.filter(n => n[0] !== id), [id, markSchema] as [string, MarkSchema]]);
-
-    (<$Mark>plugin).id = id;
-    (<$Mark>plugin).schema = markSchema
+    ctx.update(marksCtx, (ns) => [
+      ...ns.filter((n) => n[0] !== id),
+      [id, markSchema] as [string, MarkSchema],
+    ])
+    ;(<$Mark>plugin).id = id
+    ;(<$Mark>plugin).schema = markSchema
 
     return () => {
-      ctx.update(marksCtx, ns => ns.filter(([x]) => x !== id))
+      ctx.update(marksCtx, (ns) => ns.filter(([x]) => x !== id))
     }
   }
-  (<$Mark>plugin).type = (ctx) => {
+  ;(<$Mark>plugin).type = (ctx) => {
     const markType = ctx.get(schemaCtx).marks[id]
-    if (!markType)
-      throw missingMarkInSchema(id)
+    if (!markType) throw missingMarkInSchema(id)
     return markType
   }
 
@@ -57,28 +51,34 @@ export function $mark(id: string, schema: (ctx: Ctx) => MarkSchema): $Mark {
 /// - `schema`: The mark schema created.
 /// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
 /// - `timer`: The timer which will be resolved when the mark schema is ready.
-export function $markAsync(id: string, schema: (ctx: Ctx) => Promise<MarkSchema>, timerName?: string) {
+export function $markAsync(
+  id: string,
+  schema: (ctx: Ctx) => Promise<MarkSchema>,
+  timerName?: string
+) {
   const plugin = addTimer<$Mark>(
     async (ctx, plugin, done) => {
       const markSchema = await schema(ctx)
-      ctx.update(marksCtx, ns => [...ns.filter(n => n[0] !== id), [id, markSchema] as [string, MarkSchema]])
+      ctx.update(marksCtx, (ns) => [
+        ...ns.filter((n) => n[0] !== id),
+        [id, markSchema] as [string, MarkSchema],
+      ])
 
       plugin.id = id
       plugin.schema = markSchema
       done()
 
       return () => {
-        ctx.update(marksCtx, ns => ns.filter(([x]) => x !== id))
+        ctx.update(marksCtx, (ns) => ns.filter(([x]) => x !== id))
       }
     },
     schemaTimerCtx,
-    timerName,
+    timerName
   )
 
   plugin.type = (ctx) => {
     const markType = ctx.get(schemaCtx).marks[id]
-    if (!markType)
-      throw missingMarkInSchema(id)
+    if (!markType) throw missingMarkInSchema(id)
     return markType
   }
 

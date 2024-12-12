@@ -10,10 +10,12 @@ import {
   getRelatedDOM,
 } from './utils'
 
-export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: PointerEvent) => void {
+export function createPointerMoveHandler(
+  refs: Refs,
+  view?: EditorView
+): (e: PointerEvent) => void {
   return throttle((e: PointerEvent) => {
-    if (!view?.editable)
-      return
+    if (!view?.editable) return
     const {
       contentWrapperRef,
       yLineHandleRef,
@@ -24,28 +26,21 @@ export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: Poi
       lineHoverIndex,
     } = refs
     const yHandle = yLineHandleRef.current
-    if (!yHandle)
-      return
+    if (!yHandle) return
     const xHandle = xLineHandleRef.current
-    if (!xHandle)
-      return
+    if (!xHandle) return
     const content = contentWrapperRef.current
-    if (!content)
-      return
+    if (!content) return
     const rowHandle = rowHandleRef.current
-    if (!rowHandle)
-      return
+    if (!rowHandle) return
     const colHandle = colHandleRef.current
-    if (!colHandle)
-      return
+    if (!colHandle) return
 
     const index = findPointerIndex(e, view)
-    if (!index)
-      return
+    if (!index) return
 
     const dom = getRelatedDOM(contentWrapperRef, index)
-    if (!dom)
-      return
+    if (!dom) return
 
     const [rowIndex, colIndex] = index
     const boundary = dom.col.getBoundingClientRect()
@@ -54,14 +49,16 @@ export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: Poi
     const closeToBoundaryTop = Math.abs(e.clientY - boundary.top) < 8
     const closeToBoundaryBottom = Math.abs(boundary.bottom - e.clientY) < 8
 
-    const closeToBoundary = closeToBoundaryLeft || closeToBoundaryRight || closeToBoundaryTop || closeToBoundaryBottom
+    const closeToBoundary =
+      closeToBoundaryLeft ||
+      closeToBoundaryRight ||
+      closeToBoundaryTop ||
+      closeToBoundaryBottom
 
     const rowButtonGroup = rowHandle.querySelector<HTMLElement>('.button-group')
     const colButtonGroup = colHandle.querySelector<HTMLElement>('.button-group')
-    if (rowButtonGroup)
-      rowButtonGroup.dataset.show = 'false'
-    if (colButtonGroup)
-      colButtonGroup.dataset.show = 'false'
+    if (rowButtonGroup) rowButtonGroup.dataset.show = 'false'
+    if (colButtonGroup) colButtonGroup.dataset.show = 'false'
 
     if (closeToBoundary) {
       const contentBoundary = content.getBoundingClientRect()
@@ -75,40 +72,40 @@ export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: Poi
 
       // display vertical line handle
       if (closeToBoundaryLeft || closeToBoundaryRight) {
-        lineHoverIndex.current![1] = closeToBoundaryLeft ? colIndex : colIndex + 1
+        lineHoverIndex.current![1] = closeToBoundaryLeft
+          ? colIndex
+          : colIndex + 1
         computePosition(dom.col, yHandle, {
           placement: closeToBoundaryLeft ? 'left' : 'right',
           middleware: [offset(closeToBoundaryLeft ? -1 * yHandleWidth : 0)],
-        })
-          .then(({ x }) => {
-            yHandle.dataset.show = 'true'
-            Object.assign(yHandle.style, {
-              height: `${contentBoundary.height}px`,
-              left: `${x}px`,
-            })
+        }).then(({ x }) => {
+          yHandle.dataset.show = 'true'
+          Object.assign(yHandle.style, {
+            height: `${contentBoundary.height}px`,
+            left: `${x}px`,
           })
-      }
-      else {
+        })
+      } else {
         yHandle.dataset.show = 'false'
       }
 
       // display horizontal line handle
       // won't display if the row is the header row
       if (index[0] !== 0 && (closeToBoundaryTop || closeToBoundaryBottom)) {
-        lineHoverIndex.current![0] = closeToBoundaryTop ? rowIndex : rowIndex + 1
+        lineHoverIndex.current![0] = closeToBoundaryTop
+          ? rowIndex
+          : rowIndex + 1
         computePosition(dom.row, xHandle, {
           placement: closeToBoundaryTop ? 'top' : 'bottom',
           middleware: [offset(closeToBoundaryTop ? -1 * xHandleHeight : 0)],
-        })
-          .then(({ y }) => {
-            xHandle.dataset.show = 'true'
-            Object.assign(xHandle.style, {
-              width: `${contentBoundary.width}px`,
-              top: `${y}px`,
-            })
+        }).then(({ y }) => {
+          xHandle.dataset.show = 'true'
+          Object.assign(xHandle.style, {
+            width: `${contentBoundary.width}px`,
+            top: `${y}px`,
           })
-      }
-      else {
+        })
+      } else {
         xHandle.dataset.show = 'false'
       }
 
@@ -136,25 +133,16 @@ export function createPointerMoveHandler(refs: Refs, view?: EditorView): (e: Poi
 
 export function createPointerLeaveHandler(refs: Refs): () => void {
   return () => {
-    const {
-      rowHandleRef,
-      colHandleRef,
-      yLineHandleRef,
-      xLineHandleRef,
-    } = refs
+    const { rowHandleRef, colHandleRef, yLineHandleRef, xLineHandleRef } = refs
     setTimeout(() => {
       const rowHandle = rowHandleRef.current
-      if (!rowHandle)
-        return
+      if (!rowHandle) return
       const colHandle = colHandleRef.current
-      if (!colHandle)
-        return
+      if (!colHandle) return
       const yHandle = yLineHandleRef.current
-      if (!yHandle)
-        return
+      if (!yHandle) return
       const xHandle = xLineHandleRef.current
-      if (!xHandle)
-        return
+      if (!xHandle) return
 
       rowHandle.dataset.show = 'false'
       colHandle.dataset.show = 'false'

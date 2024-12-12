@@ -11,7 +11,7 @@ export const docSchema = $node('doc', () => ({
     },
   },
   toMarkdown: {
-    match: node => node.type.name === 'doc',
+    match: (node) => node.type.name === 'doc',
     runner: (state, node) => {
       state.openNode('root')
       state.next(node.content)

@@ -22,8 +22,7 @@ const empty = `
 export const Empty: StoryObj<CommonArgs> = {
   render: (args) => {
     return setupMilkdown([style], args, (editor) => {
-      editor
-        .use(imageInlineComponent)
+      editor.use(imageInlineComponent)
     })
   },
   args: {

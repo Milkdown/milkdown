@@ -5,7 +5,4 @@ import { tableBlockConfig } from './config'
 export * from './view'
 export * from './config'
 
-export const tableBlock: MilkdownPlugin[] = [
-  tableBlockConfig,
-  tableBlockView,
-]
+export const tableBlock: MilkdownPlugin[] = [tableBlockConfig, tableBlockView]

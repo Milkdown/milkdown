@@ -10,7 +10,10 @@ import copy from 'rollup-plugin-copy'
 
 import pkg from './package.json' with { type: 'json' }
 
-const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDependencies || {})]
+const external = [
+  ...Object.keys(pkg.dependencies),
+  ...Object.keys(pkg.peerDependencies || {}),
+]
 
 const main = [
   {
@@ -97,7 +100,7 @@ const dirs = fs.readdirSync(path.resolve(dirname, './src'))
 
 export default () =>
   dirs
-    .filter(x => x.endsWith('.ts') && !x.startsWith('index'))
-    .map(x => x.slice(0, -3))
+    .filter((x) => x.endsWith('.ts') && !x.startsWith('index'))
+    .map((x) => x.slice(0, -3))
     .flatMap(proseModule)
     .concat(...main)

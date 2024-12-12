@@ -7,16 +7,21 @@ export async function setup(createEditor: () => Promise<Editor>) {
 
   const editor = await createEditor()
   globalThis.__milkdown__ = editor
-  globalThis.__view__ = editor.action(ctx => ctx.get(editorViewCtx))
+  globalThis.__view__ = editor.action((ctx) => ctx.get(editorViewCtx))
   globalThis.__setMarkdown__ = (markdown: string) =>
     editor.action((ctx) => {
       const view = ctx.get(editorViewCtx)
       const parser = ctx.get(parserCtx)
       const doc = parser(markdown)
-      if (!doc)
-        return
+      if (!doc) return
       const state = view.state
-      view.dispatch(state.tr.replace(0, state.doc.content.size, new Slice(doc.content, 0, 0)))
+      view.dispatch(
+        state.tr.replace(
+          0,
+          state.doc.content.size,
+          new Slice(doc.content, 0, 0)
+        )
+      )
     })
   globalThis.__getMarkdown__ = () =>
     editor.action((ctx) => {

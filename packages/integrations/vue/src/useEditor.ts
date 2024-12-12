@@ -1,5 +1,5 @@
 import { inject } from 'vue'
-import { editorInfoCtxKey } from './Editor'
+import { editorInfoCtxKey } from './consts'
 
 import type { GetEditor, UseEditorReturn } from './types'
 
