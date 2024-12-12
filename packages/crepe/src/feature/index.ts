@@ -1,4 +1,4 @@
-import type { Editor } from '@milkdown/kit/core'
+import type { Editor } from '@milkdown-nota/kit/core'
 import type { PlaceHolderFeatureConfig } from './placeholder'
 import type { CodeMirrorFeatureConfig } from './code-mirror'
 import type { BlockEditFeatureConfig } from './block-edit'

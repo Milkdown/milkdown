@@ -1,7 +1,7 @@
 import type { Component } from 'atomico'
 import { c, html, useEffect, useUpdate } from 'atomico'
 import type { Ctx } from '@milkdown-nota/kit/ctx'
-import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import { commandsCtx, editorViewCtx } from '@milkdown-nota/kit/core'
 import {
   emphasisSchema,
   inlineCodeSchema,
