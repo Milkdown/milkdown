@@ -1,4 +1,4 @@
-# :baby_bottle:&nbsp;&nbsp;Milkdown
+# :baby_bottle:&nbsp;&nbsp;Milkdown-Nota
 
 [![ci][ci-badge]][ci-link]
 ![ts][ts-badge]
@@ -10,6 +10,7 @@
 
 <div align="center">
   <img src="/assets/logo.svg" />
+  <img src="/assets/nota.svg" />
 </div>
 
 A Milkdown fork for [Nota](https://www.nota-sync.com/) application.
