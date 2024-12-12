@@ -1,14 +1,36 @@
 import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { Selection } from '@milkdown/prose/state'
-import { CellSelection, addColumnAfter, addColumnBefore, deleteColumn, deleteRow, deleteTable, goToNextCell, isInTable, selectedRect, setCellAttr } from '@milkdown/prose/tables'
+import {
+  CellSelection,
+  addColumnAfter,
+  addColumnBefore,
+  deleteColumn,
+  deleteRow,
+  deleteTable,
+  goToNextCell,
+  isInTable,
+  selectedRect,
+  setCellAttr,
+} from '@milkdown/prose/tables'
 import { $command } from '@milkdown/utils'
 import { findParentNodeType } from '@milkdown/prose'
 import { withMeta } from '../../__internal__'
-import { addRowWithAlignment, createTable, moveCol, moveRow, selectCol, selectRow, selectTable } from './utils'
+import {
+  addRowWithAlignment,
+  createTable,
+  moveCol,
+  moveRow,
+  selectCol,
+  selectRow,
+  selectTable,
+} from './utils'
 import { tableSchema } from './schema'
 
 /// A command for moving cursor to previous cell.
-export const goToPrevTableCellCommand = $command('GoToPrevTableCell', () => () => goToNextCell(-1))
+export const goToPrevTableCellCommand = $command(
+  'GoToPrevTableCell',
+  () => () => goToNextCell(-1)
+)
 
 withMeta(goToPrevTableCellCommand, {
   displayName: 'Command<goToPrevTableCellCommand>',
@@ -16,7 +38,10 @@ withMeta(goToPrevTableCellCommand, {
 })
 
 /// A command for moving cursor to next cell.
-export const goToNextTableCellCommand = $command('GoToNextTableCell', () => () => goToNextCell(1))
+export const goToNextTableCellCommand = $command(
+  'GoToNextTableCell',
+  () => () => goToNextCell(1)
+)
 
 withMeta(goToNextTableCellCommand, {
   displayName: 'Command<goToNextTableCellCommand>',
@@ -24,24 +49,28 @@ withMeta(goToNextTableCellCommand, {
 })
 
 /// A command for quitting current table and insert a new paragraph node.
-export const exitTable = $command('ExitTable', ctx => () => (state, dispatch) => {
-  if (!isInTable(state))
-    return false
+export const exitTable = $command(
+  'ExitTable',
+  (ctx) => () => (state, dispatch) => {
+    if (!isInTable(state)) return false
 
-  const { $head } = state.selection
-  const table = findParentNodeType($head, tableSchema.type(ctx))
-  if (!table)
-    return false
+    const { $head } = state.selection
+    const table = findParentNodeType($head, tableSchema.type(ctx))
+    if (!table) return false
 
-  const { to } = table
+    const { to } = table
 
-  const tr = state.tr
-    .replaceWith(to, to, paragraphSchema.type(ctx).createAndFill()!)
+    const tr = state.tr.replaceWith(
+      to,
+      to,
+      paragraphSchema.type(ctx).createAndFill()!
+    )
 
-  tr.setSelection(Selection.near(tr.doc.resolve(to), 1)).scrollIntoView()
-  dispatch?.(tr)
-  return true
-})
+    tr.setSelection(Selection.near(tr.doc.resolve(to), 1)).scrollIntoView()
+    dispatch?.(tr)
+    return true
+  }
+)
 
 withMeta(exitTable, {
   displayName: 'Command<breakTableCommand>',
@@ -51,19 +80,23 @@ withMeta(exitTable, {
 /// A command for inserting a table.
 /// You can specify the number of rows and columns.
 /// By default, it will insert a 3x3 table.
-export const insertTableCommand = $command('InsertTable', ctx => ({ row, col }: { row?: number, col?: number } = {}) => (state, dispatch) => {
-  const { selection, tr } = state
-  const { from } = selection
-  const table = createTable(ctx, row, col)
-  const _tr = tr.replaceSelectionWith(table)
-  const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true)
-  if (sel)
-    _tr.setSelection(sel)
+export const insertTableCommand = $command(
+  'InsertTable',
+  (ctx) =>
+    ({ row, col }: { row?: number; col?: number } = {}) =>
+    (state, dispatch) => {
+      const { selection, tr } = state
+      const { from } = selection
+      const table = createTable(ctx, row, col)
+      const _tr = tr.replaceSelectionWith(table)
+      const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true)
+      if (sel) _tr.setSelection(sel)
 
-  dispatch?.(_tr)
+      dispatch?.(_tr)
 
-  return true
-})
+      return true
+    }
+)
 
 withMeta(insertTableCommand, {
   displayName: 'Command<insertTableCommand>',
@@ -72,14 +105,19 @@ withMeta(insertTableCommand, {
 
 /// A command for moving a row in a table.
 /// You should specify the `from` and `to` index.
-export const moveRowCommand = $command('MoveRow', () =>
-  ({ from, to, pos }: { from?: number, to?: number, pos?: number } = {}) =>
+export const moveRowCommand = $command(
+  'MoveRow',
+  () =>
+    ({ from, to, pos }: { from?: number; to?: number; pos?: number } = {}) =>
     (state, dispatch) => {
       const { tr } = state
-      const result = dispatch?.(moveRow({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true }))
+      const result = dispatch?.(
+        moveRow({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true })
+      )
 
       return Boolean(result)
-    })
+    }
+)
 
 withMeta(moveRowCommand, {
   displayName: 'Command<moveRowCommand>',
@@ -88,14 +126,19 @@ withMeta(moveRowCommand, {
 
 /// A command for moving a column in a table.
 /// You should specify the `from` and `to` index.
-export const moveColCommand = $command('MoveCol', () =>
-  ({ from, to, pos }: { from?: number, to?: number, pos?: number } = {}) =>
+export const moveColCommand = $command(
+  'MoveCol',
+  () =>
+    ({ from, to, pos }: { from?: number; to?: number; pos?: number } = {}) =>
     (state, dispatch) => {
       const { tr } = state
-      const result = dispatch?.(moveCol({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true }))
+      const result = dispatch?.(
+        moveCol({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true })
+      )
 
       return Boolean(result)
-    })
+    }
+)
 
 withMeta(moveColCommand, {
   displayName: 'Command<moveColCommand>',
@@ -103,13 +146,20 @@ withMeta(moveColCommand, {
 })
 
 /// A command for selecting a row.
-export const selectRowCommand = $command<{ index: number, pos?: number }, 'SelectRow'>('SelectRow', () =>
-  (payload: { index: number, pos?: number } = { index: 0 }) => (state, dispatch) => {
-    const { tr } = state
-    const result = dispatch?.(selectRow(payload.index, payload.pos)(tr))
+export const selectRowCommand = $command<
+  { index: number; pos?: number },
+  'SelectRow'
+>(
+  'SelectRow',
+  () =>
+    (payload: { index: number; pos?: number } = { index: 0 }) =>
+    (state, dispatch) => {
+      const { tr } = state
+      const result = dispatch?.(selectRow(payload.index, payload.pos)(tr))
 
-    return Boolean(result)
-  })
+      return Boolean(result)
+    }
+)
 
 withMeta(selectRowCommand, {
   displayName: 'Command<selectRowCommand>',
@@ -117,13 +167,20 @@ withMeta(selectRowCommand, {
 })
 
 /// A command for selecting a column.
-export const selectColCommand = $command<{ index: number, pos?: number }, 'SelectCol'>('SelectCol', () =>
-  (payload: { index: number, pos?: number } = { index: 0 }) => (state, dispatch) => {
-    const { tr } = state
-    const result = dispatch?.(selectCol(payload.index, payload.pos)(tr))
+export const selectColCommand = $command<
+  { index: number; pos?: number },
+  'SelectCol'
+>(
+  'SelectCol',
+  () =>
+    (payload: { index: number; pos?: number } = { index: 0 }) =>
+    (state, dispatch) => {
+      const { tr } = state
+      const result = dispatch?.(selectCol(payload.index, payload.pos)(tr))
 
-    return Boolean(result)
-  })
+      return Boolean(result)
+    }
+)
 
 withMeta(selectColCommand, {
   displayName: 'Command<selectColCommand>',
@@ -131,12 +188,15 @@ withMeta(selectColCommand, {
 })
 
 /// A command for selecting a table.
-export const selectTableCommand = $command('SelectTable', () => () => (state, dispatch) => {
-  const { tr } = state
-  const result = dispatch?.(selectTable(tr))
+export const selectTableCommand = $command(
+  'SelectTable',
+  () => () => (state, dispatch) => {
+    const { tr } = state
+    const result = dispatch?.(selectTable(tr))
 
-  return Boolean(result)
-})
+    return Boolean(result)
+  }
+)
 
 withMeta(selectTableCommand, {
   displayName: 'Command<selectTableCommand>',
@@ -146,23 +206,21 @@ withMeta(selectTableCommand, {
 /// A command for deleting selected cells.
 /// If the selection is a row or column, the row or column will be deleted.
 /// If all cells are selected, the table will be deleted.
-export const deleteSelectedCellsCommand = $command('DeleteSelectedCells', () => () => (state, dispatch) => {
-  const { selection } = state
-  if (!(selection instanceof CellSelection))
-    return false
+export const deleteSelectedCellsCommand = $command(
+  'DeleteSelectedCells',
+  () => () => (state, dispatch) => {
+    const { selection } = state
+    if (!(selection instanceof CellSelection)) return false
 
-  const isRow = selection.isRowSelection()
-  const isCol = selection.isColSelection()
+    const isRow = selection.isRowSelection()
+    const isCol = selection.isColSelection()
 
-  if (isRow && isCol)
-    return deleteTable(state, dispatch)
+    if (isRow && isCol) return deleteTable(state, dispatch)
 
-  if (isCol)
-    return deleteColumn(state, dispatch)
-
-  else
-    return deleteRow(state, dispatch)
-})
+    if (isCol) return deleteColumn(state, dispatch)
+    else return deleteRow(state, dispatch)
+  }
+)
 
 withMeta(deleteSelectedCellsCommand, {
   displayName: 'Command<deleteSelectedCellsCommand>',
@@ -170,7 +228,10 @@ withMeta(deleteSelectedCellsCommand, {
 })
 
 /// A command for adding a column before the current column.
-export const addColBeforeCommand = $command('AddColBefore', () => () => addColumnBefore)
+export const addColBeforeCommand = $command(
+  'AddColBefore',
+  () => () => addColumnBefore
+)
 
 withMeta(addColBeforeCommand, {
   displayName: 'Command<addColBeforeCommand>',
@@ -178,7 +239,10 @@ withMeta(addColBeforeCommand, {
 })
 
 /// A command for adding a column after the current column.
-export const addColAfterCommand = $command('AddColAfter', () => () => addColumnAfter)
+export const addColAfterCommand = $command(
+  'AddColAfter',
+  () => () => addColumnAfter
+)
 
 withMeta(addColAfterCommand, {
   displayName: 'Command<addColAfterCommand>',
@@ -186,15 +250,17 @@ withMeta(addColAfterCommand, {
 })
 
 /// A command for adding a row before the current row.
-export const addRowBeforeCommand = $command('AddRowBefore', ctx => () => (state, dispatch) => {
-  if (!isInTable(state))
-    return false
-  if (dispatch) {
-    const rect = selectedRect(state)
-    dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.top))
+export const addRowBeforeCommand = $command(
+  'AddRowBefore',
+  (ctx) => () => (state, dispatch) => {
+    if (!isInTable(state)) return false
+    if (dispatch) {
+      const rect = selectedRect(state)
+      dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.top))
+    }
+    return true
   }
-  return true
-})
+)
 
 withMeta(addRowBeforeCommand, {
   displayName: 'Command<addRowBeforeCommand>',
@@ -202,15 +268,17 @@ withMeta(addRowBeforeCommand, {
 })
 
 /// A command for adding a row after the current row.
-export const addRowAfterCommand = $command('AddRowAfter', ctx => () => (state, dispatch) => {
-  if (!isInTable(state))
-    return false
-  if (dispatch) {
-    const rect = selectedRect(state)
-    dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.bottom))
+export const addRowAfterCommand = $command(
+  'AddRowAfter',
+  (ctx) => () => (state, dispatch) => {
+    if (!isInTable(state)) return false
+    if (dispatch) {
+      const rect = selectedRect(state)
+      dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.bottom))
+    }
+    return true
   }
-  return true
-})
+)
 
 withMeta(addRowAfterCommand, {
   displayName: 'Command<addRowAfterCommand>',
@@ -220,7 +288,15 @@ withMeta(addRowAfterCommand, {
 /// A command for setting alignment property for selected cells.
 /// You can specify the alignment as `left`, `center`, or `right`.
 /// It's `left` by default.
-export const setAlignCommand = $command<'left' | 'center' | 'right', 'SetAlign'>('SetAlign', () => (alignment = 'left') => setCellAttr('alignment', alignment))
+export const setAlignCommand = $command<
+  'left' | 'center' | 'right',
+  'SetAlign'
+>(
+  'SetAlign',
+  () =>
+    (alignment = 'left') =>
+      setCellAttr('alignment', alignment)
+)
 
 withMeta(setAlignCommand, {
   displayName: 'Command<setAlignCommand>',

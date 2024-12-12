@@ -1,6 +1,14 @@
 {
+  "plugins": ["import", "typescript", "unicorn", "promise"],
   "rules": {
     "eslint/no-unused-vars": "off",
-    "no-console": "error"
+    "no-console": "error",
+    "unicorn/no-useless-promise-resolve-reject": "error",
+    "import/no-cycle": [
+      "error",
+      {
+        "ignoreTypes": true
+      }
+    ]
   }
 }

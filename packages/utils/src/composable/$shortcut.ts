@@ -1,5 +1,9 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
-import { SchemaReady, editorStateTimerCtx, prosePluginsCtx } from '@milkdown/core'
+import {
+  SchemaReady,
+  editorStateTimerCtx,
+  prosePluginsCtx,
+} from '@milkdown/core'
 import { keymap } from '@milkdown/prose/keymap'
 import type { Command } from '@milkdown/prose/state'
 
@@ -19,15 +23,15 @@ export type $Shortcut = MilkdownPlugin & {
 /// Additional property:
 /// - `keymap`: The prosemirror keymap created.
 export function $shortcut(shortcut: (ctx: Ctx) => Keymap): $Shortcut {
-  const plugin: MilkdownPlugin = ctx => async () => {
+  const plugin: MilkdownPlugin = (ctx) => async () => {
     await ctx.wait(SchemaReady)
     const k = shortcut(ctx)
     const keymapPlugin = keymap(k)
-    ctx.update(prosePluginsCtx, ps => [...ps, keymapPlugin]);
-    (<$Shortcut>plugin).keymap = k
+    ctx.update(prosePluginsCtx, (ps) => [...ps, keymapPlugin])
+    ;(<$Shortcut>plugin).keymap = k
 
     return () => {
-      ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== keymapPlugin))
+      ctx.update(prosePluginsCtx, (ps) => ps.filter((x) => x !== keymapPlugin))
     }
   }
 
@@ -39,20 +43,25 @@ export function $shortcut(shortcut: (ctx: Ctx) => Keymap): $Shortcut {
 /// Additional property:
 /// - `keymap`: The prosemirror keymap created.
 /// - `timer`: The timer which will be resolved when the plugin is ready.
-export function $shortcutAsync(shortcut: (ctx: Ctx) => Promise<Keymap>, timerName?: string) {
+export function $shortcutAsync(
+  shortcut: (ctx: Ctx) => Promise<Keymap>,
+  timerName?: string
+) {
   return addTimer<$Shortcut>(
     async (ctx, plugin) => {
       await ctx.wait(SchemaReady)
       const k = await shortcut(ctx)
       const keymapPlugin = keymap(k)
-      ctx.update(prosePluginsCtx, ps => [...ps, keymapPlugin])
+      ctx.update(prosePluginsCtx, (ps) => [...ps, keymapPlugin])
       plugin.keymap = k
 
       return () => {
-        ctx.update(prosePluginsCtx, ps => ps.filter(x => x !== keymapPlugin))
+        ctx.update(prosePluginsCtx, (ps) =>
+          ps.filter((x) => x !== keymapPlugin)
+        )
       }
     },
     editorStateTimerCtx,
-    timerName,
+    timerName
   )
 }

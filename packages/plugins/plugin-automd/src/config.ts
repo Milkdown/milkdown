@@ -39,17 +39,20 @@ export const defaultConfig: InlineSyncConfig = {
   },
   globalNodes: ['footnote_definition'],
   shouldSyncNode: ({ prevNode, nextNode }) =>
-    prevNode.inlineContent
-    && nextNode
+    prevNode.inlineContent &&
+    nextNode &&
     // if node type changes, do not sync
-    && prevNode.type === nextNode.type
+    prevNode.type === nextNode.type &&
     // if two node fully equal, we don't modify them
-    && !prevNode.eq(nextNode),
+    !prevNode.eq(nextNode),
   movePlaceholder: (placeholderToMove: string, text: string) => {
     const symbolsNeedToMove = ['*', '_']
 
     let index = text.indexOf(placeholderToMove)
-    while (symbolsNeedToMove.includes(text[index - 1] || '') && symbolsNeedToMove.includes(text[index + 1] || '')) {
+    while (
+      symbolsNeedToMove.includes(text[index - 1] || '') &&
+      symbolsNeedToMove.includes(text[index + 1] || '')
+    ) {
       text = swap(text, index, index + 1)
       index = index + 1
     }
@@ -69,7 +72,10 @@ export const defaultConfig: InlineSyncConfig = {
 /// ```
 ///
 /// You can find the default config [here](https://github.com/Milkdown/milkdown/blob/main/packages/plugin-automd/src/config.ts).
-export const inlineSyncConfig = $ctx<InlineSyncConfig, 'inlineSyncConfig'>(defaultConfig, 'inlineSyncConfig')
+export const inlineSyncConfig = $ctx<InlineSyncConfig, 'inlineSyncConfig'>(
+  defaultConfig,
+  'inlineSyncConfig'
+)
 
 withMeta(inlineSyncConfig, {
   displayName: 'Ctx<inlineSyncConfig>',

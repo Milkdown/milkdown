@@ -17,18 +17,19 @@ export interface TrailingConfigOptions {
 
 /// A slice contains the trailing config.
 /// You can use [TrailingConfigOptions](#TrailingConfigOptions) to customize the behavior of the plugin.
-export const trailingConfig = $ctx<TrailingConfigOptions, 'trailingConfig'>({
-  shouldAppend: (lastNode) => {
-    if (!lastNode)
-      return false
+export const trailingConfig = $ctx<TrailingConfigOptions, 'trailingConfig'>(
+  {
+    shouldAppend: (lastNode) => {
+      if (!lastNode) return false
 
-    if (['heading', 'paragraph'].includes(lastNode.type.name))
-      return false
+      if (['heading', 'paragraph'].includes(lastNode.type.name)) return false
 
-    return true
+      return true
+    },
+    getNode: (state) => state.schema.nodes.paragraph!.create(),
   },
-  getNode: state => state.schema.nodes.paragraph!.create(),
-}, 'trailingConfig')
+  'trailingConfig'
+)
 
 trailingConfig.meta = {
   package: '@milkdown/plugin-trailing',
@@ -48,8 +49,7 @@ export const trailingPlugin = $prose((ctx) => {
         return shouldAppend(lastNode, state)
       },
       apply: (tr, value, _, state) => {
-        if (!tr.docChanged)
-          return value
+        if (!tr.docChanged) return value
 
         const lastNode = tr.doc.lastChild
 
@@ -62,8 +62,7 @@ export const trailingPlugin = $prose((ctx) => {
       const shouldInsertNodeAtEnd = plugin.getState(state)
       const endPosition = doc.content.size
 
-      if (!shouldInsertNodeAtEnd || !nodeType)
-        return
+      if (!shouldInsertNodeAtEnd || !nodeType) return
 
       return tr.insert(endPosition, nodeType)
     },

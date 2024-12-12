@@ -11,7 +11,7 @@ export const remarkHandlers: Required<Options>['handlers'] = {
         before: value,
         after: marker,
         ...tracker.current(),
-      }),
+      })
     )
     value += tracker.move(marker + marker)
     exit()
@@ -27,7 +27,7 @@ export const remarkHandlers: Required<Options>['handlers'] = {
         before: value,
         after: marker,
         ...tracker.current(),
-      }),
+      })
     )
     value += tracker.move(marker)
     exit()

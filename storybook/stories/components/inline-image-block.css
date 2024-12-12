@@ -36,22 +36,38 @@
     padding: 8px 0;
   }
 
-  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader {
+  milkdown-image-inline
+    > .empty-image-inline
+    .link-importer
+    .placeholder
+    .uploader {
     gap: 8px;
     color: fuchsia;
     justify-content: center;
     transition: color 0.2s;
   }
 
-  milkdown-image-inline > .empty-image-inline .link-importer.focus .placeholder .uploader {
+  milkdown-image-inline
+    > .empty-image-inline
+    .link-importer.focus
+    .placeholder
+    .uploader {
     color: unset;
   }
 
-  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader:hover {
+  milkdown-image-inline
+    > .empty-image-inline
+    .link-importer
+    .placeholder
+    .uploader:hover {
     color: fuchsia;
   }
 
-  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .text {
+  milkdown-image-inline
+    > .empty-image-inline
+    .link-importer
+    .placeholder
+    .text {
     margin-left: 8px;
   }
 
@@ -92,7 +108,10 @@
     flex: 1;
   }
 
-  milkdown-image-inline > .empty-image-inline .link-importer > .link-input-area {
+  milkdown-image-inline
+    > .empty-image-inline
+    .link-importer
+    > .link-input-area {
     width: 208px;
   }
 
@@ -106,7 +125,11 @@
     cursor: text;
   }
 
-  milkdown-image-inline > .empty-image-inline .link-importer .placeholder .uploader {
+  milkdown-image-inline
+    > .empty-image-inline
+    .link-importer
+    .placeholder
+    .uploader {
     cursor: pointer;
     display: flex;
   }
@@ -114,5 +137,4 @@
   milkdown-image-inline .hidden {
     display: none !important;
   }
-
 }

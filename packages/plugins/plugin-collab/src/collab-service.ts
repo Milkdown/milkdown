@@ -18,14 +18,14 @@ import {
   undo,
   yCursorPlugin,
   yCursorPluginKey,
-  yDocToProsemirror,
+  yXmlFragmentToProseMirrorRootNode,
   ySyncPlugin,
   ySyncPluginKey,
   yUndoPlugin,
   yUndoPluginKey,
 } from 'y-prosemirror'
 import type { Awareness } from 'y-protocols/awareness'
-import type { Doc, PermanentUserData } from 'yjs'
+import type { Doc, PermanentUserData, XmlFragment } from 'yjs'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
 
 /// @internal
@@ -73,7 +73,12 @@ export interface CollabServiceOptions {
 /// @internal
 export const CollabKeymapPluginKey = new PluginKey('MILKDOWN_COLLAB_KEYMAP')
 
-const collabPluginKeys = [CollabKeymapPluginKey, ySyncPluginKey, yCursorPluginKey, yUndoPluginKey]
+const collabPluginKeys = [
+  CollabKeymapPluginKey,
+  ySyncPluginKey,
+  yCursorPluginKey,
+  yUndoPluginKey,
+]
 
 /// The collab service is used to manage the collaboration plugins.
 /// It is used to provide the collaboration plugins to the editor.
@@ -81,7 +86,7 @@ export class CollabService {
   /// @internal
   #options: CollabServiceOptions = {}
   /// @internal
-  #doc: Doc | null = null
+  #xmlFragment: XmlFragment | null = null
   /// @internal
   #awareness: Awareness | null = null
   /// @internal
@@ -91,8 +96,7 @@ export class CollabService {
 
   /// @internal
   #valueToNode(value: DefaultValue): Node | undefined {
-    if (!this.#ctx)
-      throw ctxNotBind()
+    if (!this.#ctx) throw ctxNotBind()
 
     const schema = this.#ctx.get(schemaCtx)
     const parser = this.#ctx.get(parserCtx)
@@ -103,12 +107,10 @@ export class CollabService {
 
   /// @internal
   #createPlugins(): Plugin[] {
-    if (!this.#doc)
-      throw missingYjsDoc()
+    if (!this.#xmlFragment) throw missingYjsDoc()
     const { ySyncOpts, yUndoOpts } = this.#options
-    const type = this.#doc.getXmlFragment('prosemirror')
     const plugins = [
-      ySyncPlugin(type, ySyncOpts),
+      ySyncPlugin(this.#xmlFragment, ySyncOpts),
       yUndoPlugin(yUndoOpts),
       new Plugin({
         key: CollabKeymapPluginKey,
@@ -123,7 +125,13 @@ export class CollabService {
     ]
     if (this.#awareness) {
       const { yCursorOpts, yCursorStateField } = this.#options
-      plugins.push(yCursorPlugin(this.#awareness, yCursorOpts as Required<yCursorOpts>, yCursorStateField))
+      plugins.push(
+        yCursorPlugin(
+          this.#awareness,
+          yCursorOpts as Required<yCursorOpts>,
+          yCursorStateField
+        )
+      )
     }
 
     return plugins
@@ -131,8 +139,7 @@ export class CollabService {
 
   /// @internal
   #flushEditor(plugins: Plugin[]) {
-    if (!this.#ctx)
-      throw ctxNotBind()
+    if (!this.#ctx) throw ctxNotBind()
     this.#ctx.set(prosePluginsCtx, plugins)
 
     const view = this.#ctx.get(editorViewCtx)
@@ -148,7 +155,13 @@ export class CollabService {
 
   /// Bind the document to the service.
   bindDoc(doc: Doc) {
-    this.#doc = doc
+    this.#xmlFragment = doc.getXmlFragment('prosemirror')
+    return this
+  }
+
+  /// Bind the Yjs XmlFragment to the service.
+  bindXmlFragment(xmlFragment: XmlFragment) {
+    this.#xmlFragment = xmlFragment
     return this
   }
 
@@ -173,23 +186,28 @@ export class CollabService {
   }
 
   /// Apply the template to the document.
-  applyTemplate(template: DefaultValue, condition?: (yDocNode: Node, templateNode: Node) => boolean) {
-    if (!this.#ctx)
-      throw ctxNotBind()
-    if (!this.#doc)
-      throw missingYjsDoc()
-    const conditionFn = condition || (yDocNode => yDocNode.textContent.length === 0)
+  applyTemplate(
+    template: DefaultValue,
+    condition?: (yDocNode: Node, templateNode: Node) => boolean
+  ) {
+    if (!this.#ctx) throw ctxNotBind()
+    if (!this.#xmlFragment) throw missingYjsDoc()
+    const conditionFn =
+      condition || ((yDocNode) => yDocNode.textContent.length === 0)
 
     const node = this.#valueToNode(template)
     const schema = this.#ctx.get(schemaCtx)
-    const yDocNode = yDocToProsemirror(schema, this.#doc)
+    const yDocNode = yXmlFragmentToProseMirrorRootNode(
+      this.#xmlFragment,
+      schema
+    )
 
     if (node && conditionFn(yDocNode, node)) {
-      const fragment = this.#doc.getXmlFragment('prosemirror')
+      const fragment = this.#xmlFragment
       fragment.delete(0, fragment.length)
       const templateDoc = prosemirrorToYDoc(node)
       const template = encodeStateAsUpdate(templateDoc)
-      applyUpdate(this.#doc, template)
+      if (fragment.doc) applyUpdate(fragment.doc, template)
       templateDoc.destroy()
     }
 
@@ -198,10 +216,8 @@ export class CollabService {
 
   /// Connect the service.
   connect() {
-    if (!this.#ctx)
-      throw ctxNotBind()
-    if (this.#connected)
-      return
+    if (!this.#ctx) throw ctxNotBind()
+    if (this.#connected) return
 
     const prosePlugins = this.#ctx.get(prosePluginsCtx)
     const collabPlugins = this.#createPlugins()
@@ -215,14 +231,13 @@ export class CollabService {
 
   /// Disconnect the service.
   disconnect() {
-    if (!this.#ctx)
-      throw ctxNotBind()
-    if (!this.#connected)
-      return this
+    if (!this.#ctx) throw ctxNotBind()
+    if (!this.#connected) return this
 
     const prosePlugins = this.#ctx.get(prosePluginsCtx)
     const plugins = prosePlugins.filter(
-      plugin => !plugin.spec.key || !collabPluginKeys.includes(plugin.spec.key),
+      (plugin) =>
+        !plugin.spec.key || !collabPluginKeys.includes(plugin.spec.key)
     )
 
     this.#flushEditor(plugins)

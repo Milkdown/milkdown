@@ -55,28 +55,19 @@ export const tableComponent: Component<TableComponentProps> = ({
 
   useLayoutEffect(() => {
     const current = contentWrapperRef.current
-    if (!current)
-      return
+    if (!current) return
 
     const contentDOM = host.current.querySelector('[data-content-dom]')
 
-    if (contentDOM)
-      current.appendChild(contentDOM)
+    if (contentDOM) current.appendChild(contentDOM)
 
-    if (view?.editable)
-      recoveryStateBetweenUpdate(refs, ctx, node)
+    if (view?.editable) recoveryStateBetweenUpdate(refs, ctx, node)
   }, [])
 
   const { pointerLeave, pointerMove } = usePointerHandlers(refs, view)
   const { dragRow, dragCol } = useDragHandlers(refs, ctx, getPos)
-  const {
-    onAddRow,
-    onAddCol,
-    selectCol,
-    selectRow,
-    deleteSelected,
-    onAlign,
-  } = useOperation(refs, ctx, getPos)
+  const { onAddRow, onAddCol, selectCol, selectRow, deleteSelected, onAlign } =
+    useOperation(refs, ctx, getPos)
 
   return html`
     <host
@@ -106,24 +97,16 @@ export const tableComponent: Component<TableComponentProps> = ({
           class="button-group"
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
-          <button
-            type="button"
-            onpointerdown=${onAlign('left')}>
+          <button type="button" onpointerdown=${onAlign('left')}>
             ${config?.renderButton('align_col_left')}
           </button>
-          <button
-            type="button"
-            onpointerdown=${onAlign('center')}>
+          <button type="button" onpointerdown=${onAlign('center')}>
             ${config?.renderButton('align_col_center')}
           </button>
-          <button
-            type="button"
-            onpointerdown=${onAlign('right')}>
+          <button type="button" onpointerdown=${onAlign('right')}>
             ${config?.renderButton('align_col_right')}
           </button>
-          <button
-            type="button"
-            onpointerdown=${deleteSelected}>
+          <button type="button" onpointerdown=${deleteSelected}>
             ${config?.renderButton('delete_col')}
           </button>
         </div>
@@ -147,9 +130,7 @@ export const tableComponent: Component<TableComponentProps> = ({
           class="button-group"
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
         >
-          <button
-            type="button"
-            onpointerdown=${deleteSelected}>
+          <button type="button" onpointerdown=${deleteSelected}>
             ${config?.renderButton('delete_row')}
           </button>
         </div>
@@ -162,8 +143,7 @@ export const tableComponent: Component<TableComponentProps> = ({
           ref=${dragPreviewRef}
         >
           <table>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
         <div
@@ -175,10 +155,7 @@ export const tableComponent: Component<TableComponentProps> = ({
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
           ref=${xLineHandleRef}
         >
-          <button
-            type="button"
-            onclick=${onAddRow}
-            class="add-button">
+          <button type="button" onclick=${onAddRow} class="add-button">
             ${config?.renderButton('add_row')}
           </button>
         </div>
@@ -191,10 +168,7 @@ export const tableComponent: Component<TableComponentProps> = ({
           onpointermove=${(e: PointerEvent) => e.stopPropagation}
           ref=${yLineHandleRef}
         >
-          <button
-            type="button"
-            onclick=${onAddCol}
-            class="add-button">
+          <button type="button" onclick=${onAddCol} class="add-button">
             ${config?.renderButton('add_col')}
           </button>
         </div>

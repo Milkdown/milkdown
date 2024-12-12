@@ -1,6 +1,10 @@
 import { Editor, rootCtx } from '@milkdown/core'
 import { nord } from '@milkdown/theme-nord'
-import { commonmark, toggleEmphasisCommand, toggleStrongCommand } from '@milkdown/preset-commonmark'
+import {
+  commonmark,
+  toggleEmphasisCommand,
+  toggleStrongCommand,
+} from '@milkdown/preset-commonmark'
 import { clipboard } from '@milkdown/plugin-clipboard'
 import { history } from '@milkdown/plugin-history'
 import { callCommand } from '@milkdown/utils'

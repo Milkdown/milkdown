@@ -48,10 +48,13 @@ interface BlockEditConfig {
 
 export type BlockEditFeatureConfig = Partial<BlockEditConfig>
 
-export const defineFeature: DefineFeature<BlockEditFeatureConfig> = (editor, config) => {
+export const defineFeature: DefineFeature<BlockEditFeatureConfig> = (
+  editor,
+  config
+) => {
   editor
-    .config(ctx => configureBlockHandle(ctx, config))
-    .config(ctx => configureMenu(ctx, config))
+    .config((ctx) => configureBlockHandle(ctx, config))
+    .config((ctx) => configureMenu(ctx, config))
     .use(menuAPI)
     .use(block)
     .use(menu)

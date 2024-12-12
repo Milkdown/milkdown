@@ -1,5 +1,4 @@
 .milkdown-storybook {
-
   milkdown-image-block.selected > .image-edit {
     outline: 2px solid fuchsia;
   }
@@ -82,11 +81,19 @@
     transition: color 0.2s;
   }
 
-  milkdown-image-block > .image-edit .link-importer.focus .placeholder .uploader {
+  milkdown-image-block
+    > .image-edit
+    .link-importer.focus
+    .placeholder
+    .uploader {
     color: unset;
   }
 
-  milkdown-image-block > .image-edit .link-importer .placeholder .uploader:hover {
+  milkdown-image-block
+    > .image-edit
+    .link-importer
+    .placeholder
+    .uploader:hover {
     color: fuchsia;
   }
 
@@ -189,5 +196,4 @@
   milkdown-image-block .hidden {
     display: none !important;
   }
-
 }
