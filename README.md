@@ -10,7 +10,7 @@
 
 <div align="center">
   <img src="/assets/logo.svg" />
-  <img src="/assets/nota.svg" />
+  <img src="/assets/nota.png" />
 </div>
 
 A Milkdown fork for [Nota](https://www.nota-sync.com/) application.
