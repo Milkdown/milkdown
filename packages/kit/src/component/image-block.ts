@@ -1,1 +1,1 @@
-export * from '@milkdown/components/image-block'
+export * from '@milkdown-nota/components/image-block'

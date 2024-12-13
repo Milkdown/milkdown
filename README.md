@@ -69,3 +69,4 @@ For more information, please check our [official documentation website](https://
   - `@milkdown/kit` -> `@milkdown-nota/kit`
   - `@milkdown/crepe` -> `@milkdown-nota/crepe`
   - `@milkdown/react` -> `@milkdown-nota/react`
+  - `@milkdown/components` -> `@milkdown-nota/compoents`

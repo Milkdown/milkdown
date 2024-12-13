@@ -47,12 +47,12 @@
     "react-dom": "*"
   },
   "dependencies": {
-    "@milkdown/utils": "workspace:*",
+    "@milkdown/utils": "^7.5.0",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@milkdown/core": "workspace:*",
-    "@milkdown/prose": "workspace:*",
+    "@milkdown/core": "^7.5.0",
+    "@milkdown/prose": "^7.5.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",

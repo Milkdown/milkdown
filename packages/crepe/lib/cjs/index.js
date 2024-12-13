@@ -2,582 +2,3913 @@
 
 var codemirror = require('codemirror');
 var view = require('@codemirror/view');
-var commands$3 = require('@codemirror/commands');
+var commands = require('@codemirror/commands');
 var atomico = require('atomico');
 var languageData = require('@codemirror/language-data');
 var themeOneDark = require('@codemirror/theme-one-dark');
+var nanoid = require('nanoid');
 var state = require('@codemirror/state');
 var clsx = require('clsx');
-var nanoid = require('nanoid');
 
-var ErrorCode = /* @__PURE__ */ ((ErrorCode2) => {
-  ErrorCode2["docTypeError"] = "docTypeError";
-  ErrorCode2["contextNotFound"] = "contextNotFound";
-  ErrorCode2["timerNotFound"] = "timerNotFound";
-  ErrorCode2["ctxCallOutOfScope"] = "ctxCallOutOfScope";
-  ErrorCode2["createNodeInParserFail"] = "createNodeInParserFail";
-  ErrorCode2["stackOverFlow"] = "stackOverFlow";
-  ErrorCode2["parserMatchError"] = "parserMatchError";
-  ErrorCode2["serializerMatchError"] = "serializerMatchError";
-  ErrorCode2["getAtomFromSchemaFail"] = "getAtomFromSchemaFail";
-  ErrorCode2["expectDomTypeError"] = "expectDomTypeError";
-  ErrorCode2["callCommandBeforeEditorView"] = "callCommandBeforeEditorView";
-  ErrorCode2["missingRootElement"] = "missingRootElement";
-  ErrorCode2["missingNodeInSchema"] = "missingNodeInSchema";
-  ErrorCode2["missingMarkInSchema"] = "missingMarkInSchema";
-  ErrorCode2["ctxNotBind"] = "ctxNotBind";
-  ErrorCode2["missingYjsDoc"] = "missingYjsDoc";
-  return ErrorCode2;
-})(ErrorCode || {});
-
-class MilkdownError extends Error {
-  constructor(code, message) {
-    super(message);
-    this.name = "MilkdownError";
-    this.code = code;
+var n$5 = /* @__PURE__ */ ((e) => (e.docTypeError = "docTypeError", e.contextNotFound = "contextNotFound", e.timerNotFound = "timerNotFound", e.ctxCallOutOfScope = "ctxCallOutOfScope", e.createNodeInParserFail = "createNodeInParserFail", e.stackOverFlow = "stackOverFlow", e.parserMatchError = "parserMatchError", e.serializerMatchError = "serializerMatchError", e.getAtomFromSchemaFail = "getAtomFromSchemaFail", e.expectDomTypeError = "expectDomTypeError", e.callCommandBeforeEditorView = "callCommandBeforeEditorView", e.missingRootElement = "missingRootElement", e.missingNodeInSchema = "missingNodeInSchema", e.missingMarkInSchema = "missingMarkInSchema", e.ctxNotBind = "ctxNotBind", e.missingYjsDoc = "missingYjsDoc", e))(n$5 || {});
+let t$2 = class t extends Error {
+  constructor(o, a) {
+    super(a), this.name = "MilkdownError", this.code = o;
   }
+};
+const u$7 = (e, o) => typeof o == "function" ? "[Function]" : o, i$5 = (e) => JSON.stringify(e, u$7);
+function l$4(e) {
+  return new t$2(n$5.docTypeError, `Doc type error, unsupported type: ${i$5(e)}`);
 }
-
-const functionReplacer = (_, value) => typeof value === "function" ? "[Function]" : value;
-const stringify = (x) => JSON.stringify(x, functionReplacer);
-function docTypeError(type) {
-  return new MilkdownError(
-    ErrorCode.docTypeError,
-    `Doc type error, unsupported type: ${stringify(type)}`
-  );
+function d$6(e) {
+  return new t$2(n$5.contextNotFound, `Context "${e}" not found, do you forget to inject it?`);
 }
-function contextNotFound(name) {
-  return new MilkdownError(
-    ErrorCode.contextNotFound,
-    `Context "${name}" not found, do you forget to inject it?`
-  );
+function f$3(e) {
+  return new t$2(n$5.timerNotFound, `Timer "${e}" not found, do you forget to record it?`);
 }
-function timerNotFound(name) {
-  return new MilkdownError(
-    ErrorCode.timerNotFound,
-    `Timer "${name}" not found, do you forget to record it?`
-  );
+function p$4() {
+  return new t$2(n$5.ctxCallOutOfScope, "Should not call a context out of the plugin.");
 }
-function ctxCallOutOfScope() {
-  return new MilkdownError(
-    ErrorCode.ctxCallOutOfScope,
-    "Should not call a context out of the plugin."
-  );
-}
-function createNodeInParserFail(...args) {
-  const message = args.reduce((msg, arg) => {
-    if (!arg) return msg;
-    const serialize = (x) => {
-      if (Array.isArray(x))
-        return x.map((y) => serialize(y)).join(", ");
-      if (x.toJSON)
-        return stringify(
-          x.toJSON()
-        );
-      if (x.spec)
-        return stringify(x.spec);
-      return x.toString();
-    };
-    return `${msg}, ${serialize(arg)}`;
+function g$5(...e) {
+  const o = e.reduce((a, c) => {
+    if (!c)
+      return a;
+    const s = (r) => Array.isArray(r) ? r.map((m) => s(m)).join(", ") : r.toJSON ? i$5(r.toJSON()) : r.spec ? i$5(r.spec) : r.toString();
+    return `${a}, ${s(c)}`;
   }, "Create prosemirror node from remark failed in parser");
-  return new MilkdownError(ErrorCode.createNodeInParserFail, message);
+  return new t$2(n$5.createNodeInParserFail, o);
 }
-function stackOverFlow() {
-  return new MilkdownError(
-    ErrorCode.stackOverFlow,
-    "Stack over flow, cannot pop on an empty stack."
-  );
+function h$3() {
+  return new t$2(n$5.stackOverFlow, "Stack over flow, cannot pop on an empty stack.");
 }
-function parserMatchError(node) {
-  return new MilkdownError(
-    ErrorCode.parserMatchError,
-    `Cannot match target parser for node: ${stringify(node)}.`
-  );
+function w$6(e) {
+  return new t$2(n$5.parserMatchError, `Cannot match target parser for node: ${i$5(e)}.`);
 }
-function serializerMatchError(node) {
-  return new MilkdownError(
-    ErrorCode.serializerMatchError,
-    `Cannot match target serializer for node: ${stringify(node)}.`
-  );
+function F$3(e) {
+  return new t$2(n$5.serializerMatchError, `Cannot match target serializer for node: ${i$5(e)}.`);
 }
-function getAtomFromSchemaFail(type, name) {
-  return new MilkdownError(
-    ErrorCode.getAtomFromSchemaFail,
-    `Cannot get ${type}: ${name} from schema.`
-  );
+function N$4(e, o) {
+  return new t$2(n$5.getAtomFromSchemaFail, `Cannot get ${e}: ${o} from schema.`);
 }
-function expectDomTypeError(node) {
-  return new MilkdownError(
-    ErrorCode.expectDomTypeError,
-    `Expect to be a dom, but get: ${stringify(node)}.`
-  );
+function S$6(e) {
+  return new t$2(n$5.expectDomTypeError, `Expect to be a dom, but get: ${i$5(e)}.`);
 }
-function callCommandBeforeEditorView() {
-  return new MilkdownError(
-    ErrorCode.callCommandBeforeEditorView,
+function y$5() {
+  return new t$2(
+    n$5.callCommandBeforeEditorView,
     "You're trying to call a command before editor view initialized, make sure to get commandManager from ctx after editor view has been initialized"
   );
 }
-function missingNodeInSchema(name) {
-  return new MilkdownError(
-    ErrorCode.missingNodeInSchema,
-    `Missing node in schema, milkdown cannot find "${name}" in schema.`
+function M$6(e) {
+  return new t$2(
+    n$5.missingNodeInSchema,
+    `Missing node in schema, milkdown cannot find "${e}" in schema.`
   );
 }
-function missingMarkInSchema(name) {
-  return new MilkdownError(
-    ErrorCode.missingMarkInSchema,
-    `Missing mark in schema, milkdown cannot find "${name}" in schema.`
+function x$7(e) {
+  return new t$2(
+    n$5.missingMarkInSchema,
+    `Missing mark in schema, milkdown cannot find "${e}" in schema.`
   );
 }
 
-class Container {
-  constructor() {
-    /// @internal
-    this.sliceMap = /* @__PURE__ */ new Map();
-    /// Get a slice from the container by slice type or slice name.
-    this.get = (slice) => {
-      const context = typeof slice === "string" ? [...this.sliceMap.values()].find((x) => x.type.name === slice) : this.sliceMap.get(slice.id);
-      if (!context) {
-        const name = typeof slice === "string" ? slice : slice.name;
-        throw contextNotFound(name);
-      }
-      return context;
-    };
-    /// Remove a slice from the container by slice type or slice name.
-    this.remove = (slice) => {
-      const context = typeof slice === "string" ? [...this.sliceMap.values()].find((x) => x.type.name === slice) : this.sliceMap.get(slice.id);
-      if (!context) return;
-      this.sliceMap.delete(context.type.id);
-    };
-    /// Check if the container has a slice by slice type or slice name.
-    this.has = (slice) => {
-      if (typeof slice === "string")
-        return [...this.sliceMap.values()].some((x) => x.type.name === slice);
-      return this.sliceMap.has(slice.id);
-    };
-  }
-}
-
-var __typeError$j = (msg) => {
-  throw TypeError(msg);
+var P$5 = (o, s, i) => {
+  if (!s.has(o))
+    throw TypeError("Cannot " + i);
 };
-var __accessCheck$j = (obj, member, msg) => member.has(obj) || __typeError$j("Cannot " + msg);
-var __privateGet$i = (obj, member, getter) => (__accessCheck$j(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$j = (obj, member, value) => member.has(obj) ? __typeError$j("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$i = (obj, member, value, setter) => (__accessCheck$j(obj, member, "write to private field"), member.set(obj, value), value);
-var _watchers, _value, _emit;
-let Slice$1 = class Slice {
+var e$1 = (o, s, i) => (P$5(o, s, "read from private field"), i ? i.call(o) : s.get(o)), a$3 = (o, s, i) => {
+  if (s.has(o))
+    throw TypeError("Cannot add the same private member more than once");
+  s instanceof WeakSet ? s.add(o) : s.set(o, i);
+}, n$4 = (o, s, i, r) => (P$5(o, s, "write to private field"), s.set(o, i), i);
+let G$3 = class G {
+  constructor() {
+    this.sliceMap = /* @__PURE__ */ new Map(), this.get = (s) => {
+      const i = typeof s == "string" ? [...this.sliceMap.values()].find((r) => r.type.name === s) : this.sliceMap.get(s.id);
+      if (!i) {
+        const r = typeof s == "string" ? s : s.name;
+        throw d$6(r);
+      }
+      return i;
+    }, this.remove = (s) => {
+      const i = typeof s == "string" ? [...this.sliceMap.values()].find((r) => r.type.name === s) : this.sliceMap.get(s.id);
+      i && this.sliceMap.delete(i.type.id);
+    }, this.has = (s) => typeof s == "string" ? [...this.sliceMap.values()].some((i) => i.type.name === s) : this.sliceMap.has(s.id);
+  }
+};
+var u$6, m$3, y$4;
+let V$4 = class V {
   /// @internal
-  constructor(container, value, type) {
+  constructor(s, i, r) {
+    a$3(this, u$6, void 0);
     /// @internal
-    __privateAdd$j(this, _watchers, []);
-    /// @internal
-    __privateAdd$j(this, _value);
-    /// @internal
-    __privateAdd$j(this, _emit, () => {
-      __privateGet$i(this, _watchers).forEach((watcher) => watcher(__privateGet$i(this, _value)));
-    });
-    /// Set the value of the slice.
-    this.set = (value) => {
-      __privateSet$i(this, _value, value);
-      __privateGet$i(this, _emit).call(this);
-    };
-    /// Get the value of the slice.
-    this.get = () => __privateGet$i(this, _value);
-    /// Update the value of the slice with a callback.
-    this.update = (updater) => {
-      __privateSet$i(this, _value, updater(__privateGet$i(this, _value)));
-      __privateGet$i(this, _emit).call(this);
-    };
-    this.type = type;
-    __privateSet$i(this, _value, value);
-    container.set(type.id, this);
+    a$3(this, m$3, void 0);
+    a$3(this, y$4, void 0);
+    n$4(this, u$6, []), n$4(this, y$4, () => {
+      e$1(this, u$6).forEach((t) => t(e$1(this, m$3)));
+    }), this.set = (t) => {
+      n$4(this, m$3, t), e$1(this, y$4).call(this);
+    }, this.get = () => e$1(this, m$3), this.update = (t) => {
+      n$4(this, m$3, t(e$1(this, m$3))), e$1(this, y$4).call(this);
+    }, this.type = r, n$4(this, m$3, i), s.set(r.id, this);
   }
   /// Add a watcher for changes in the slice.
   /// Returns a function to remove the watcher.
-  on(watcher) {
-    __privateGet$i(this, _watchers).push(watcher);
-    return () => {
-      __privateSet$i(this, _watchers, __privateGet$i(this, _watchers).filter((w) => w !== watcher));
+  on(s) {
+    return e$1(this, u$6).push(s), () => {
+      n$4(this, u$6, e$1(this, u$6).filter((i) => i !== s));
     };
   }
   /// Add a one-time watcher for changes in the slice.
   /// The watcher will be removed after it is called.
   /// Returns a function to remove the watcher.
-  once(watcher) {
-    const off = this.on((value) => {
-      watcher(value);
-      off();
+  once(s) {
+    const i = this.on((r) => {
+      s(r), i();
     });
-    return off;
+    return i;
   }
   /// Remove a watcher.
-  off(watcher) {
-    __privateSet$i(this, _watchers, __privateGet$i(this, _watchers).filter((w) => w !== watcher));
+  off(s) {
+    n$4(this, u$6, e$1(this, u$6).filter((i) => i !== s));
   }
   /// Remove all watchers.
   offAll() {
-    __privateSet$i(this, _watchers, []);
+    n$4(this, u$6, []);
   }
 };
-_watchers = new WeakMap();
-_value = new WeakMap();
-_emit = new WeakMap();
-class SliceType {
+u$6 = new WeakMap(), m$3 = new WeakMap(), y$4 = new WeakMap();
+let W$7 = class W {
   /// Create a slice type with a default value and a name.
   /// The name should be unique in the container.
-  constructor(value, name) {
-    this.id = Symbol(`Context-${name}`);
-    this.name = name;
-    this._defaultValue = value;
-    this._typeInfo = () => {
-      throw ctxCallOutOfScope();
+  constructor(s, i) {
+    this.id = Symbol(`Context-${i}`), this.name = i, this._defaultValue = s, this._typeInfo = () => {
+      throw p$4();
     };
   }
   /// Create a slice with a container.
   /// You can also pass a value to override the default value.
-  create(container, value = this._defaultValue) {
-    return new Slice$1(container, value, this);
+  create(s, i = this._defaultValue) {
+    return new V$4(s, i, this);
   }
-}
-const createSlice = (value, name) => new SliceType(value, name);
-
-var __typeError$i = (msg) => {
-  throw TypeError(msg);
 };
-var __accessCheck$i = (obj, member, msg) => member.has(obj) || __typeError$i("Cannot " + msg);
-var __privateGet$h = (obj, member, getter) => (__accessCheck$i(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$i = (obj, member, value) => member.has(obj) ? __typeError$i("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$h = (obj, member, value, setter) => (__accessCheck$i(obj, member, "write to private field"), member.set(obj, value), value);
-var _meta$1, _container$3, _clock$2, _injectedSlices, _consumedSlices, _recordedTimers, _waitTimers, _getSlice, _getTimer;
-class Inspector {
+const H$5 = (o, s) => new W$7(o, s);
+var D$3, x$6, R$5, w$5, S$5, f$2, M$5, T$6, j$3;
+let _$3 = class _ {
   /// Create an inspector with container, clock and metadata.
-  constructor(container, clock, meta) {
+  constructor(s, i, r) {
     /// @internal
-    __privateAdd$i(this, _meta$1);
+    a$3(this, D$3, void 0);
     /// @internal
-    __privateAdd$i(this, _container$3);
+    a$3(this, x$6, void 0);
     /// @internal
-    __privateAdd$i(this, _clock$2);
-    /// @internal
-    __privateAdd$i(this, _injectedSlices, /* @__PURE__ */ new Set());
-    /// @internal
-    __privateAdd$i(this, _consumedSlices, /* @__PURE__ */ new Set());
-    /// @internal
-    __privateAdd$i(this, _recordedTimers, /* @__PURE__ */ new Map());
-    /// @internal
-    __privateAdd$i(this, _waitTimers, /* @__PURE__ */ new Map());
-    /// Read the runtime telemetry as an object of the ctx.
-    this.read = () => {
-      return {
-        metadata: __privateGet$h(this, _meta$1),
-        injectedSlices: [...__privateGet$h(this, _injectedSlices)].map((slice) => ({
-          name: typeof slice === "string" ? slice : slice.name,
-          value: __privateGet$h(this, _getSlice).call(this, slice)
-        })),
-        consumedSlices: [...__privateGet$h(this, _consumedSlices)].map((slice) => ({
-          name: typeof slice === "string" ? slice : slice.name,
-          value: __privateGet$h(this, _getSlice).call(this, slice)
-        })),
-        recordedTimers: [...__privateGet$h(this, _recordedTimers)].map(
-          ([timer, { duration }]) => ({
-            name: timer.name,
-            duration,
-            status: __privateGet$h(this, _getTimer).call(this, timer)
-          })
-        ),
-        waitTimers: [...__privateGet$h(this, _waitTimers)].map(([timer, { duration }]) => ({
-          name: timer.name,
-          duration,
-          status: __privateGet$h(this, _getTimer).call(this, timer)
-        }))
-      };
-    };
-    /// @internal
-    this.onRecord = (timerType) => {
-      __privateGet$h(this, _recordedTimers).set(timerType, { start: Date.now(), duration: 0 });
-    };
-    /// @internal
-    this.onClear = (timerType) => {
-      __privateGet$h(this, _recordedTimers).delete(timerType);
-    };
-    /// @internal
-    this.onDone = (timerType) => {
-      const timer = __privateGet$h(this, _recordedTimers).get(timerType);
-      if (!timer) return;
-      timer.duration = Date.now() - timer.start;
-    };
-    /// @internal
-    this.onWait = (timerType, promise) => {
-      const start = Date.now();
-      promise.finally(() => {
-        __privateGet$h(this, _waitTimers).set(timerType, { duration: Date.now() - start });
+    a$3(this, R$5, void 0);
+    a$3(this, w$5, void 0);
+    a$3(this, S$5, void 0);
+    a$3(this, f$2, void 0);
+    a$3(this, M$5, void 0);
+    a$3(this, T$6, void 0);
+    a$3(this, j$3, void 0);
+    n$4(this, w$5, /* @__PURE__ */ new Set()), n$4(this, S$5, /* @__PURE__ */ new Set()), n$4(this, f$2, /* @__PURE__ */ new Map()), n$4(this, M$5, /* @__PURE__ */ new Map()), this.read = () => ({
+      metadata: e$1(this, D$3),
+      injectedSlices: [...e$1(this, w$5)].map((t) => ({
+        name: typeof t == "string" ? t : t.name,
+        value: e$1(this, T$6).call(this, t)
+      })),
+      consumedSlices: [...e$1(this, S$5)].map((t) => ({
+        name: typeof t == "string" ? t : t.name,
+        value: e$1(this, T$6).call(this, t)
+      })),
+      recordedTimers: [...e$1(this, f$2)].map(([t, { duration: h }]) => ({
+        name: t.name,
+        duration: h,
+        status: e$1(this, j$3).call(this, t)
+      })),
+      waitTimers: [...e$1(this, M$5)].map(([t, { duration: h }]) => ({
+        name: t.name,
+        duration: h,
+        status: e$1(this, j$3).call(this, t)
+      }))
+    }), this.onRecord = (t) => {
+      e$1(this, f$2).set(t, { start: Date.now(), duration: 0 });
+    }, this.onClear = (t) => {
+      e$1(this, f$2).delete(t);
+    }, this.onDone = (t) => {
+      const h = e$1(this, f$2).get(t);
+      h && (h.duration = Date.now() - h.start);
+    }, this.onWait = (t, h) => {
+      const v = Date.now();
+      h.finally(() => {
+        e$1(this, M$5).set(t, { duration: Date.now() - v });
       });
-    };
-    /// @internal
-    this.onInject = (sliceType) => {
-      __privateGet$h(this, _injectedSlices).add(sliceType);
-    };
-    /// @internal
-    this.onRemove = (sliceType) => {
-      __privateGet$h(this, _injectedSlices).delete(sliceType);
-    };
-    /// @internal
-    this.onUse = (sliceType) => {
-      __privateGet$h(this, _consumedSlices).add(sliceType);
-    };
-    /// @internal
-    __privateAdd$i(this, _getSlice, (sliceType) => {
-      return __privateGet$h(this, _container$3).get(sliceType).get();
-    });
-    /// @internal
-    __privateAdd$i(this, _getTimer, (timerType) => {
-      return __privateGet$h(this, _clock$2).get(timerType).status;
-    });
-    __privateSet$h(this, _container$3, container);
-    __privateSet$h(this, _clock$2, clock);
-    __privateSet$h(this, _meta$1, meta);
+    }, this.onInject = (t) => {
+      e$1(this, w$5).add(t);
+    }, this.onRemove = (t) => {
+      e$1(this, w$5).delete(t);
+    }, this.onUse = (t) => {
+      e$1(this, S$5).add(t);
+    }, n$4(this, T$6, (t) => e$1(this, x$6).get(t).get()), n$4(this, j$3, (t) => e$1(this, R$5).get(t).status), n$4(this, x$6, s), n$4(this, R$5, i), n$4(this, D$3, r);
   }
-}
-_meta$1 = new WeakMap();
-_container$3 = new WeakMap();
-_clock$2 = new WeakMap();
-_injectedSlices = new WeakMap();
-_consumedSlices = new WeakMap();
-_recordedTimers = new WeakMap();
-_waitTimers = new WeakMap();
-_getSlice = new WeakMap();
-_getTimer = new WeakMap();
-
-var __typeError$h = (msg) => {
-  throw TypeError(msg);
 };
-var __accessCheck$h = (obj, member, msg) => member.has(obj) || __typeError$h("Cannot " + msg);
-var __privateGet$g = (obj, member, getter) => (__accessCheck$h(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$h = (obj, member, value) => member.has(obj) ? __typeError$h("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$g = (obj, member, value, setter) => (__accessCheck$h(obj, member, "write to private field"), member.set(obj, value), value);
-var _container$2, _clock$1, _meta, _inspector;
-const _Ctx = class _Ctx {
+D$3 = new WeakMap(), x$6 = new WeakMap(), R$5 = new WeakMap(), w$5 = new WeakMap(), S$5 = new WeakMap(), f$2 = new WeakMap(), M$5 = new WeakMap(), T$6 = new WeakMap(), j$3 = new WeakMap();
+var d$5, l$3, b$3, c$2;
+const L$6 = class L {
   /// Create a ctx object with container and clock.
-  constructor(container, clock, meta) {
+  constructor(s, i, r) {
     /// @internal
-    __privateAdd$h(this, _container$2);
+    a$3(this, d$5, void 0);
     /// @internal
-    __privateAdd$h(this, _clock$1);
+    a$3(this, l$3, void 0);
     /// @internal
-    __privateAdd$h(this, _meta);
+    a$3(this, b$3, void 0);
     /// @internal
-    __privateAdd$h(this, _inspector);
-    /// Produce a new ctx with metadata.
-    /// The new ctx will link to the same container and clock with the current ctx.
-    /// If the metadata is empty, it will return the current ctx.
-    this.produce = (meta) => {
-      if (meta && Object.keys(meta).length)
-        return new _Ctx(__privateGet$g(this, _container$2), __privateGet$g(this, _clock$1), { ...meta });
-      return this;
-    };
-    /// Add a slice into the ctx.
-    this.inject = (sliceType, value) => {
-      var _a;
-      const slice = sliceType.create(__privateGet$g(this, _container$2).sliceMap);
-      if (value != null) slice.set(value);
-      (_a = __privateGet$g(this, _inspector)) == null ? void 0 : _a.onInject(sliceType);
-      return this;
-    };
-    /// Remove a slice from the ctx.
-    this.remove = (sliceType) => {
-      var _a;
-      __privateGet$g(this, _container$2).remove(sliceType);
-      (_a = __privateGet$g(this, _inspector)) == null ? void 0 : _a.onRemove(sliceType);
-      return this;
-    };
-    /// Add a timer into the ctx.
-    this.record = (timerType) => {
-      var _a;
-      timerType.create(__privateGet$g(this, _clock$1).store);
-      (_a = __privateGet$g(this, _inspector)) == null ? void 0 : _a.onRecord(timerType);
-      return this;
-    };
-    /// Remove a timer from the ctx.
-    this.clearTimer = (timerType) => {
-      var _a;
-      __privateGet$g(this, _clock$1).remove(timerType);
-      (_a = __privateGet$g(this, _inspector)) == null ? void 0 : _a.onClear(timerType);
-      return this;
-    };
-    /// Check if the ctx has a slice.
-    this.isInjected = (sliceType) => __privateGet$g(this, _container$2).has(sliceType);
-    /// Check if the ctx has a timer.
-    this.isRecorded = (timerType) => __privateGet$g(this, _clock$1).has(timerType);
-    /// Get a slice from the ctx.
-    this.use = (sliceType) => {
-      var _a;
-      (_a = __privateGet$g(this, _inspector)) == null ? void 0 : _a.onUse(sliceType);
-      return __privateGet$g(this, _container$2).get(sliceType);
-    };
-    /// Get a slice value from the ctx.
-    this.get = (sliceType) => this.use(sliceType).get();
-    /// Get a slice value from the ctx.
-    this.set = (sliceType, value) => this.use(sliceType).set(value);
-    /// Update a slice value from the ctx by a callback.
-    this.update = (sliceType, updater) => this.use(sliceType).update(updater);
-    /// Get a timer from the ctx.
-    this.timer = (timer) => __privateGet$g(this, _clock$1).get(timer);
-    /// Resolve a timer from the ctx.
-    this.done = (timer) => {
-      var _a;
-      this.timer(timer).done();
-      (_a = __privateGet$g(this, _inspector)) == null ? void 0 : _a.onDone(timer);
-    };
-    /// Start a timer from the ctx.
-    this.wait = (timer) => {
-      var _a;
-      const promise = this.timer(timer).start();
-      (_a = __privateGet$g(this, _inspector)) == null ? void 0 : _a.onWait(timer, promise);
-      return promise;
-    };
-    /// Start a list of timers from the ctx, the list is stored in a slice in the ctx.
-    /// This is equivalent to
-    ///
-    /// ```typescript
-    /// Promise.all(ctx.get(slice).map(x => ctx.wait(x))).
-    /// ```
-    this.waitTimers = async (slice) => {
-      await Promise.all(this.get(slice).map((x) => this.wait(x)));
-    };
-    __privateSet$g(this, _container$2, container);
-    __privateSet$g(this, _clock$1, clock);
-    __privateSet$g(this, _meta, meta);
-    if (meta) __privateSet$g(this, _inspector, new Inspector(container, clock, meta));
+    a$3(this, c$2, void 0);
+    this.produce = (t) => t && Object.keys(t).length ? new L(e$1(this, d$5), e$1(this, l$3), { ...t }) : this, this.inject = (t, h) => {
+      var O;
+      const v = t.create(e$1(this, d$5).sliceMap);
+      return h != null && v.set(h), (O = e$1(this, c$2)) == null || O.onInject(t), this;
+    }, this.remove = (t) => {
+      var h;
+      return e$1(this, d$5).remove(t), (h = e$1(this, c$2)) == null || h.onRemove(t), this;
+    }, this.record = (t) => {
+      var h;
+      return t.create(e$1(this, l$3).store), (h = e$1(this, c$2)) == null || h.onRecord(t), this;
+    }, this.clearTimer = (t) => {
+      var h;
+      return e$1(this, l$3).remove(t), (h = e$1(this, c$2)) == null || h.onClear(t), this;
+    }, this.isInjected = (t) => e$1(this, d$5).has(t), this.isRecorded = (t) => e$1(this, l$3).has(t), this.use = (t) => {
+      var h;
+      return (h = e$1(this, c$2)) == null || h.onUse(t), e$1(this, d$5).get(t);
+    }, this.get = (t) => this.use(t).get(), this.set = (t, h) => this.use(t).set(h), this.update = (t, h) => this.use(t).update(h), this.timer = (t) => e$1(this, l$3).get(t), this.done = (t) => {
+      var h;
+      this.timer(t).done(), (h = e$1(this, c$2)) == null || h.onDone(t);
+    }, this.wait = (t) => {
+      var v;
+      const h = this.timer(t).start();
+      return (v = e$1(this, c$2)) == null || v.onWait(t, h), h;
+    }, this.waitTimers = async (t) => {
+      await Promise.all(this.get(t).map((h) => this.wait(h)));
+    }, n$4(this, d$5, s), n$4(this, l$3, i), n$4(this, b$3, r), r && n$4(this, c$2, new _$3(s, i, r));
   }
   /// Get metadata of the ctx.
   get meta() {
-    return __privateGet$g(this, _meta);
+    return e$1(this, b$3);
   }
   /// Get the inspector of the ctx.
   get inspector() {
-    return __privateGet$g(this, _inspector);
+    return e$1(this, c$2);
   }
 };
-_container$2 = new WeakMap();
-_clock$1 = new WeakMap();
-_meta = new WeakMap();
-_inspector = new WeakMap();
-let Ctx = _Ctx;
-
-class Clock {
+d$5 = new WeakMap(), l$3 = new WeakMap(), b$3 = new WeakMap(), c$2 = new WeakMap();
+let U$4 = L$6;
+let J$3 = class J {
   constructor() {
-    /// @internal
-    this.store = /* @__PURE__ */ new Map();
-    /// Get a timer from the clock by timer type.
-    this.get = (timer) => {
-      const meta = this.store.get(timer.id);
-      if (!meta) throw timerNotFound(timer.name);
-      return meta;
-    };
-    /// Remove a timer from the clock by timer type.
-    this.remove = (timer) => {
-      this.store.delete(timer.id);
-    };
-    // Check if the clock has a timer by timer type.
-    this.has = (timer) => {
-      return this.store.has(timer.id);
-    };
+    this.store = /* @__PURE__ */ new Map(), this.get = (s) => {
+      const i = this.store.get(s.id);
+      if (!i)
+        throw f$3(s.name);
+      return i;
+    }, this.remove = (s) => {
+      this.store.delete(s.id);
+    }, this.has = (s) => this.store.has(s.id);
   }
-}
-
-var __typeError$g = (msg) => {
-  throw TypeError(msg);
 };
-var __accessCheck$g = (obj, member, msg) => member.has(obj) || __typeError$g("Cannot " + msg);
-var __privateGet$f = (obj, member, getter) => (__accessCheck$g(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$g = (obj, member, value) => member.has(obj) ? __typeError$g("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$f = (obj, member, value, setter) => (__accessCheck$g(obj, member, "write to private field"), member.set(obj, value), value);
-var _promise, _listener, _eventUniqId, _status$1, _removeListener, _waitTimeout;
-class Timer {
+var C$4, g$4, E$4, p$3, I$3, k$3;
+let q$5 = class q {
   /// @internal
-  constructor(clock, type) {
+  constructor(s, i) {
+    a$3(this, C$4, void 0);
+    a$3(this, g$4, void 0);
     /// @internal
-    __privateAdd$g(this, _promise, null);
-    /// @internal
-    __privateAdd$g(this, _listener, null);
-    /// @internal
-    __privateAdd$g(this, _eventUniqId);
-    /// @internal
-    __privateAdd$g(this, _status$1, "pending");
-    /// Start the timer, which will return a promise.
-    /// If the timer is already started, it will return the same promise.
-    /// If the timer is not resolved in the timeout, it will reject the promise.
-    this.start = () => {
-      var _a;
-      (_a = __privateGet$f(this, _promise)) != null ? _a : __privateSet$f(this, _promise, new Promise((resolve, reject) => {
-        __privateSet$f(this, _listener, (e) => {
-          if (!(e instanceof CustomEvent)) return;
-          if (e.detail.id === __privateGet$f(this, _eventUniqId)) {
-            __privateSet$f(this, _status$1, "resolved");
-            __privateGet$f(this, _removeListener).call(this);
-            e.stopImmediatePropagation();
-            resolve();
-          }
-        });
-        __privateGet$f(this, _waitTimeout).call(this, () => {
-          if (__privateGet$f(this, _status$1) === "pending") __privateSet$f(this, _status$1, "rejected");
-          __privateGet$f(this, _removeListener).call(this);
-          reject(new Error(`Timing ${this.type.name} timeout.`));
-        });
-        __privateSet$f(this, _status$1, "pending");
-        addEventListener(this.type.name, __privateGet$f(this, _listener));
-      }));
-      return __privateGet$f(this, _promise);
-    };
-    /// Resolve the timer.
-    this.done = () => {
-      const event = new CustomEvent(this.type.name, {
-        detail: { id: __privateGet$f(this, _eventUniqId) }
-      });
-      dispatchEvent(event);
-    };
-    /// @internal
-    __privateAdd$g(this, _removeListener, () => {
-      if (__privateGet$f(this, _listener)) removeEventListener(this.type.name, __privateGet$f(this, _listener));
-    });
-    /// @internal
-    __privateAdd$g(this, _waitTimeout, (ifTimeout) => {
+    a$3(this, E$4, void 0);
+    a$3(this, p$3, void 0);
+    a$3(this, I$3, void 0);
+    a$3(this, k$3, void 0);
+    n$4(this, C$4, null), n$4(this, g$4, null), n$4(this, p$3, "pending"), this.start = () => (e$1(this, C$4) ?? n$4(this, C$4, new Promise((r, t) => {
+      n$4(this, g$4, (h) => {
+        h instanceof CustomEvent && h.detail.id === e$1(this, E$4) && (n$4(this, p$3, "resolved"), e$1(this, I$3).call(this), h.stopImmediatePropagation(), r());
+      }), e$1(this, k$3).call(this, () => {
+        e$1(this, p$3) === "pending" && n$4(this, p$3, "rejected"), e$1(this, I$3).call(this), t(new Error(`Timing ${this.type.name} timeout.`));
+      }), n$4(this, p$3, "pending"), addEventListener(this.type.name, e$1(this, g$4));
+    })), e$1(this, C$4)), this.done = () => {
+      const r = new CustomEvent(this.type.name, { detail: { id: e$1(this, E$4) } });
+      dispatchEvent(r);
+    }, n$4(this, I$3, () => {
+      e$1(this, g$4) && removeEventListener(this.type.name, e$1(this, g$4));
+    }), n$4(this, k$3, (r) => {
       setTimeout(() => {
-        ifTimeout();
+        r();
       }, this.type.timeout);
-    });
-    __privateSet$f(this, _eventUniqId, Symbol(type.name));
-    this.type = type;
-    clock.set(type.id, this);
+    }), n$4(this, E$4, Symbol(i.name)), this.type = i, s.set(i.id, this);
   }
   /// The status of the timer.
   /// Can be `pending`, `resolved` or `rejected`.
   get status() {
-    return __privateGet$f(this, _status$1);
+    return e$1(this, p$3);
   }
-}
-_promise = new WeakMap();
-_listener = new WeakMap();
-_eventUniqId = new WeakMap();
-_status$1 = new WeakMap();
-_removeListener = new WeakMap();
-_waitTimeout = new WeakMap();
-class TimerType {
+};
+C$4 = new WeakMap(), g$4 = new WeakMap(), E$4 = new WeakMap(), p$3 = new WeakMap(), I$3 = new WeakMap(), k$3 = new WeakMap();
+let A$4 = class A {
   /// Create a timer type with a name and a timeout.
   /// The name should be unique in the clock.
-  constructor(name, timeout = 3e3) {
-    /// Create a timer with a clock.
-    this.create = (clock) => {
-      return new Timer(clock, this);
-    };
-    this.id = Symbol(`Timer-${name}`);
-    this.name = name;
-    this.timeout = timeout;
+  constructor(s, i = 3e3) {
+    this.create = (r) => new q$5(r, this), this.id = Symbol(`Timer-${s}`), this.name = s, this.timeout = i;
   }
+};
+const K$3 = (o, s = 3e3) => new A$4(o, s);
+
+// ::- Persistent data structure representing an ordered mapping from
+// strings to values, with some convenient update methods.
+function OrderedMap(content) {
+  this.content = content;
 }
-const createTimer = (name, timeout = 3e3) => new TimerType(name, timeout);
+
+OrderedMap.prototype = {
+  constructor: OrderedMap,
+
+  find: function(key) {
+    for (var i = 0; i < this.content.length; i += 2)
+      if (this.content[i] === key) return i
+    return -1
+  },
+
+  // :: (string) → ?any
+  // Retrieve the value stored under `key`, or return undefined when
+  // no such key exists.
+  get: function(key) {
+    var found = this.find(key);
+    return found == -1 ? undefined : this.content[found + 1]
+  },
+
+  // :: (string, any, ?string) → OrderedMap
+  // Create a new map by replacing the value of `key` with a new
+  // value, or adding a binding to the end of the map. If `newKey` is
+  // given, the key of the binding will be replaced with that key.
+  update: function(key, value, newKey) {
+    var self = newKey && newKey != key ? this.remove(newKey) : this;
+    var found = self.find(key), content = self.content.slice();
+    if (found == -1) {
+      content.push(newKey || key, value);
+    } else {
+      content[found + 1] = value;
+      if (newKey) content[found] = newKey;
+    }
+    return new OrderedMap(content)
+  },
+
+  // :: (string) → OrderedMap
+  // Return a map with the given key removed, if it existed.
+  remove: function(key) {
+    var found = this.find(key);
+    if (found == -1) return this
+    var content = this.content.slice();
+    content.splice(found, 2);
+    return new OrderedMap(content)
+  },
+
+  // :: (string, any) → OrderedMap
+  // Add a new key to the start of the map.
+  addToStart: function(key, value) {
+    return new OrderedMap([key, value].concat(this.remove(key).content))
+  },
+
+  // :: (string, any) → OrderedMap
+  // Add a new key to the end of the map.
+  addToEnd: function(key, value) {
+    var content = this.remove(key).content.slice();
+    content.push(key, value);
+    return new OrderedMap(content)
+  },
+
+  // :: (string, string, any) → OrderedMap
+  // Add a key after the given key. If `place` is not found, the new
+  // key is added to the end.
+  addBefore: function(place, key, value) {
+    var without = this.remove(key), content = without.content.slice();
+    var found = without.find(place);
+    content.splice(found == -1 ? content.length : found, 0, key, value);
+    return new OrderedMap(content)
+  },
+
+  // :: ((key: string, value: any))
+  // Call the given function for each key/value pair in the map, in
+  // order.
+  forEach: function(f) {
+    for (var i = 0; i < this.content.length; i += 2)
+      f(this.content[i], this.content[i + 1]);
+  },
+
+  // :: (union<Object, OrderedMap>) → OrderedMap
+  // Create a new map by prepending the keys in this map that don't
+  // appear in `map` before the keys in `map`.
+  prepend: function(map) {
+    map = OrderedMap.from(map);
+    if (!map.size) return this
+    return new OrderedMap(map.content.concat(this.subtract(map).content))
+  },
+
+  // :: (union<Object, OrderedMap>) → OrderedMap
+  // Create a new map by appending the keys in this map that don't
+  // appear in `map` after the keys in `map`.
+  append: function(map) {
+    map = OrderedMap.from(map);
+    if (!map.size) return this
+    return new OrderedMap(this.subtract(map).content.concat(map.content))
+  },
+
+  // :: (union<Object, OrderedMap>) → OrderedMap
+  // Create a map containing all the keys in this map that don't
+  // appear in `map`.
+  subtract: function(map) {
+    var result = this;
+    map = OrderedMap.from(map);
+    for (var i = 0; i < map.content.length; i += 2)
+      result = result.remove(map.content[i]);
+    return result
+  },
+
+  // :: () → Object
+  // Turn ordered map into a plain object.
+  toObject: function() {
+    var result = {};
+    this.forEach(function(key, value) { result[key] = value; });
+    return result
+  },
+
+  // :: number
+  // The amount of keys in this map.
+  get size() {
+    return this.content.length >> 1
+  }
+};
+
+// :: (?union<Object, OrderedMap>) → OrderedMap
+// Return a map with the given content. If null, create an empty
+// map. If given an ordered map, return that map itself. If given an
+// object, create a map from the object's properties.
+OrderedMap.from = function(value) {
+  if (value instanceof OrderedMap) return value
+  var content = [];
+  if (value) for (var prop in value) content.push(prop, value[prop]);
+  return new OrderedMap(content)
+};
+
+function findDiffStart(a, b, pos) {
+    for (let i = 0;; i++) {
+        if (i == a.childCount || i == b.childCount)
+            return a.childCount == b.childCount ? null : pos;
+        let childA = a.child(i), childB = b.child(i);
+        if (childA == childB) {
+            pos += childA.nodeSize;
+            continue;
+        }
+        if (!childA.sameMarkup(childB))
+            return pos;
+        if (childA.isText && childA.text != childB.text) {
+            for (let j = 0; childA.text[j] == childB.text[j]; j++)
+                pos++;
+            return pos;
+        }
+        if (childA.content.size || childB.content.size) {
+            let inner = findDiffStart(childA.content, childB.content, pos + 1);
+            if (inner != null)
+                return inner;
+        }
+        pos += childA.nodeSize;
+    }
+}
+function findDiffEnd(a, b, posA, posB) {
+    for (let iA = a.childCount, iB = b.childCount;;) {
+        if (iA == 0 || iB == 0)
+            return iA == iB ? null : { a: posA, b: posB };
+        let childA = a.child(--iA), childB = b.child(--iB), size = childA.nodeSize;
+        if (childA == childB) {
+            posA -= size;
+            posB -= size;
+            continue;
+        }
+        if (!childA.sameMarkup(childB))
+            return { a: posA, b: posB };
+        if (childA.isText && childA.text != childB.text) {
+            let same = 0, minSize = Math.min(childA.text.length, childB.text.length);
+            while (same < minSize && childA.text[childA.text.length - same - 1] == childB.text[childB.text.length - same - 1]) {
+                same++;
+                posA--;
+                posB--;
+            }
+            return { a: posA, b: posB };
+        }
+        if (childA.content.size || childB.content.size) {
+            let inner = findDiffEnd(childA.content, childB.content, posA - 1, posB - 1);
+            if (inner)
+                return inner;
+        }
+        posA -= size;
+        posB -= size;
+    }
+}
+
+/**
+A fragment represents a node's collection of child nodes.
+
+Like nodes, fragments are persistent data structures, and you
+should not mutate them or their content. Rather, you create new
+instances whenever needed. The API tries to make this easy.
+*/
+class Fragment {
+    /**
+    @internal
+    */
+    constructor(
+    /**
+    The child nodes in this fragment.
+    */
+    content, size) {
+        this.content = content;
+        this.size = size || 0;
+        if (size == null)
+            for (let i = 0; i < content.length; i++)
+                this.size += content[i].nodeSize;
+    }
+    /**
+    Invoke a callback for all descendant nodes between the given two
+    positions (relative to start of this fragment). Doesn't descend
+    into a node when the callback returns `false`.
+    */
+    nodesBetween(from, to, f, nodeStart = 0, parent) {
+        for (let i = 0, pos = 0; pos < to; i++) {
+            let child = this.content[i], end = pos + child.nodeSize;
+            if (end > from && f(child, nodeStart + pos, parent || null, i) !== false && child.content.size) {
+                let start = pos + 1;
+                child.nodesBetween(Math.max(0, from - start), Math.min(child.content.size, to - start), f, nodeStart + start);
+            }
+            pos = end;
+        }
+    }
+    /**
+    Call the given callback for every descendant node. `pos` will be
+    relative to the start of the fragment. The callback may return
+    `false` to prevent traversal of a given node's children.
+    */
+    descendants(f) {
+        this.nodesBetween(0, this.size, f);
+    }
+    /**
+    Extract the text between `from` and `to`. See the same method on
+    [`Node`](https://prosemirror.net/docs/ref/#model.Node.textBetween).
+    */
+    textBetween(from, to, blockSeparator, leafText) {
+        let text = "", first = true;
+        this.nodesBetween(from, to, (node, pos) => {
+            let nodeText = node.isText ? node.text.slice(Math.max(from, pos) - pos, to - pos)
+                : !node.isLeaf ? ""
+                    : leafText ? (typeof leafText === "function" ? leafText(node) : leafText)
+                        : node.type.spec.leafText ? node.type.spec.leafText(node)
+                            : "";
+            if (node.isBlock && (node.isLeaf && nodeText || node.isTextblock) && blockSeparator) {
+                if (first)
+                    first = false;
+                else
+                    text += blockSeparator;
+            }
+            text += nodeText;
+        }, 0);
+        return text;
+    }
+    /**
+    Create a new fragment containing the combined content of this
+    fragment and the other.
+    */
+    append(other) {
+        if (!other.size)
+            return this;
+        if (!this.size)
+            return other;
+        let last = this.lastChild, first = other.firstChild, content = this.content.slice(), i = 0;
+        if (last.isText && last.sameMarkup(first)) {
+            content[content.length - 1] = last.withText(last.text + first.text);
+            i = 1;
+        }
+        for (; i < other.content.length; i++)
+            content.push(other.content[i]);
+        return new Fragment(content, this.size + other.size);
+    }
+    /**
+    Cut out the sub-fragment between the two given positions.
+    */
+    cut(from, to = this.size) {
+        if (from == 0 && to == this.size)
+            return this;
+        let result = [], size = 0;
+        if (to > from)
+            for (let i = 0, pos = 0; pos < to; i++) {
+                let child = this.content[i], end = pos + child.nodeSize;
+                if (end > from) {
+                    if (pos < from || end > to) {
+                        if (child.isText)
+                            child = child.cut(Math.max(0, from - pos), Math.min(child.text.length, to - pos));
+                        else
+                            child = child.cut(Math.max(0, from - pos - 1), Math.min(child.content.size, to - pos - 1));
+                    }
+                    result.push(child);
+                    size += child.nodeSize;
+                }
+                pos = end;
+            }
+        return new Fragment(result, size);
+    }
+    /**
+    @internal
+    */
+    cutByIndex(from, to) {
+        if (from == to)
+            return Fragment.empty;
+        if (from == 0 && to == this.content.length)
+            return this;
+        return new Fragment(this.content.slice(from, to));
+    }
+    /**
+    Create a new fragment in which the node at the given index is
+    replaced by the given node.
+    */
+    replaceChild(index, node) {
+        let current = this.content[index];
+        if (current == node)
+            return this;
+        let copy = this.content.slice();
+        let size = this.size + node.nodeSize - current.nodeSize;
+        copy[index] = node;
+        return new Fragment(copy, size);
+    }
+    /**
+    Create a new fragment by prepending the given node to this
+    fragment.
+    */
+    addToStart(node) {
+        return new Fragment([node].concat(this.content), this.size + node.nodeSize);
+    }
+    /**
+    Create a new fragment by appending the given node to this
+    fragment.
+    */
+    addToEnd(node) {
+        return new Fragment(this.content.concat(node), this.size + node.nodeSize);
+    }
+    /**
+    Compare this fragment to another one.
+    */
+    eq(other) {
+        if (this.content.length != other.content.length)
+            return false;
+        for (let i = 0; i < this.content.length; i++)
+            if (!this.content[i].eq(other.content[i]))
+                return false;
+        return true;
+    }
+    /**
+    The first child of the fragment, or `null` if it is empty.
+    */
+    get firstChild() { return this.content.length ? this.content[0] : null; }
+    /**
+    The last child of the fragment, or `null` if it is empty.
+    */
+    get lastChild() { return this.content.length ? this.content[this.content.length - 1] : null; }
+    /**
+    The number of child nodes in this fragment.
+    */
+    get childCount() { return this.content.length; }
+    /**
+    Get the child node at the given index. Raise an error when the
+    index is out of range.
+    */
+    child(index) {
+        let found = this.content[index];
+        if (!found)
+            throw new RangeError("Index " + index + " out of range for " + this);
+        return found;
+    }
+    /**
+    Get the child node at the given index, if it exists.
+    */
+    maybeChild(index) {
+        return this.content[index] || null;
+    }
+    /**
+    Call `f` for every child node, passing the node, its offset
+    into this parent node, and its index.
+    */
+    forEach(f) {
+        for (let i = 0, p = 0; i < this.content.length; i++) {
+            let child = this.content[i];
+            f(child, p, i);
+            p += child.nodeSize;
+        }
+    }
+    /**
+    Find the first position at which this fragment and another
+    fragment differ, or `null` if they are the same.
+    */
+    findDiffStart(other, pos = 0) {
+        return findDiffStart(this, other, pos);
+    }
+    /**
+    Find the first position, searching from the end, at which this
+    fragment and the given fragment differ, or `null` if they are
+    the same. Since this position will not be the same in both
+    nodes, an object with two separate positions is returned.
+    */
+    findDiffEnd(other, pos = this.size, otherPos = other.size) {
+        return findDiffEnd(this, other, pos, otherPos);
+    }
+    /**
+    Find the index and inner offset corresponding to a given relative
+    position in this fragment. The result object will be reused
+    (overwritten) the next time the function is called. @internal
+    */
+    findIndex(pos, round = -1) {
+        if (pos == 0)
+            return retIndex(0, pos);
+        if (pos == this.size)
+            return retIndex(this.content.length, pos);
+        if (pos > this.size || pos < 0)
+            throw new RangeError(`Position ${pos} outside of fragment (${this})`);
+        for (let i = 0, curPos = 0;; i++) {
+            let cur = this.child(i), end = curPos + cur.nodeSize;
+            if (end >= pos) {
+                if (end == pos || round > 0)
+                    return retIndex(i + 1, end);
+                return retIndex(i, curPos);
+            }
+            curPos = end;
+        }
+    }
+    /**
+    Return a debugging string that describes this fragment.
+    */
+    toString() { return "<" + this.toStringInner() + ">"; }
+    /**
+    @internal
+    */
+    toStringInner() { return this.content.join(", "); }
+    /**
+    Create a JSON-serializeable representation of this fragment.
+    */
+    toJSON() {
+        return this.content.length ? this.content.map(n => n.toJSON()) : null;
+    }
+    /**
+    Deserialize a fragment from its JSON representation.
+    */
+    static fromJSON(schema, value) {
+        if (!value)
+            return Fragment.empty;
+        if (!Array.isArray(value))
+            throw new RangeError("Invalid input for Fragment.fromJSON");
+        return new Fragment(value.map(schema.nodeFromJSON));
+    }
+    /**
+    Build a fragment from an array of nodes. Ensures that adjacent
+    text nodes with the same marks are joined together.
+    */
+    static fromArray(array) {
+        if (!array.length)
+            return Fragment.empty;
+        let joined, size = 0;
+        for (let i = 0; i < array.length; i++) {
+            let node = array[i];
+            size += node.nodeSize;
+            if (i && node.isText && array[i - 1].sameMarkup(node)) {
+                if (!joined)
+                    joined = array.slice(0, i);
+                joined[joined.length - 1] = node
+                    .withText(joined[joined.length - 1].text + node.text);
+            }
+            else if (joined) {
+                joined.push(node);
+            }
+        }
+        return new Fragment(joined || array, size);
+    }
+    /**
+    Create a fragment from something that can be interpreted as a
+    set of nodes. For `null`, it returns the empty fragment. For a
+    fragment, the fragment itself. For a node or array of nodes, a
+    fragment containing those nodes.
+    */
+    static from(nodes) {
+        if (!nodes)
+            return Fragment.empty;
+        if (nodes instanceof Fragment)
+            return nodes;
+        if (Array.isArray(nodes))
+            return this.fromArray(nodes);
+        if (nodes.attrs)
+            return new Fragment([nodes], nodes.nodeSize);
+        throw new RangeError("Can not convert " + nodes + " to a Fragment" +
+            (nodes.nodesBetween ? " (looks like multiple versions of prosemirror-model were loaded)" : ""));
+    }
+}
+/**
+An empty fragment. Intended to be reused whenever a node doesn't
+contain anything (rather than allocating a new empty fragment for
+each leaf node).
+*/
+Fragment.empty = new Fragment([], 0);
+const found = { index: 0, offset: 0 };
+function retIndex(index, offset) {
+    found.index = index;
+    found.offset = offset;
+    return found;
+}
+
+function compareDeep(a, b) {
+    if (a === b)
+        return true;
+    if (!(a && typeof a == "object") ||
+        !(b && typeof b == "object"))
+        return false;
+    let array = Array.isArray(a);
+    if (Array.isArray(b) != array)
+        return false;
+    if (array) {
+        if (a.length != b.length)
+            return false;
+        for (let i = 0; i < a.length; i++)
+            if (!compareDeep(a[i], b[i]))
+                return false;
+    }
+    else {
+        for (let p in a)
+            if (!(p in b) || !compareDeep(a[p], b[p]))
+                return false;
+        for (let p in b)
+            if (!(p in a))
+                return false;
+    }
+    return true;
+}
+
+/**
+A mark is a piece of information that can be attached to a node,
+such as it being emphasized, in code font, or a link. It has a
+type and optionally a set of attributes that provide further
+information (such as the target of the link). Marks are created
+through a `Schema`, which controls which types exist and which
+attributes they have.
+*/
+class Mark {
+    /**
+    @internal
+    */
+    constructor(
+    /**
+    The type of this mark.
+    */
+    type, 
+    /**
+    The attributes associated with this mark.
+    */
+    attrs) {
+        this.type = type;
+        this.attrs = attrs;
+    }
+    /**
+    Given a set of marks, create a new set which contains this one as
+    well, in the right position. If this mark is already in the set,
+    the set itself is returned. If any marks that are set to be
+    [exclusive](https://prosemirror.net/docs/ref/#model.MarkSpec.excludes) with this mark are present,
+    those are replaced by this one.
+    */
+    addToSet(set) {
+        let copy, placed = false;
+        for (let i = 0; i < set.length; i++) {
+            let other = set[i];
+            if (this.eq(other))
+                return set;
+            if (this.type.excludes(other.type)) {
+                if (!copy)
+                    copy = set.slice(0, i);
+            }
+            else if (other.type.excludes(this.type)) {
+                return set;
+            }
+            else {
+                if (!placed && other.type.rank > this.type.rank) {
+                    if (!copy)
+                        copy = set.slice(0, i);
+                    copy.push(this);
+                    placed = true;
+                }
+                if (copy)
+                    copy.push(other);
+            }
+        }
+        if (!copy)
+            copy = set.slice();
+        if (!placed)
+            copy.push(this);
+        return copy;
+    }
+    /**
+    Remove this mark from the given set, returning a new set. If this
+    mark is not in the set, the set itself is returned.
+    */
+    removeFromSet(set) {
+        for (let i = 0; i < set.length; i++)
+            if (this.eq(set[i]))
+                return set.slice(0, i).concat(set.slice(i + 1));
+        return set;
+    }
+    /**
+    Test whether this mark is in the given set of marks.
+    */
+    isInSet(set) {
+        for (let i = 0; i < set.length; i++)
+            if (this.eq(set[i]))
+                return true;
+        return false;
+    }
+    /**
+    Test whether this mark has the same type and attributes as
+    another mark.
+    */
+    eq(other) {
+        return this == other ||
+            (this.type == other.type && compareDeep(this.attrs, other.attrs));
+    }
+    /**
+    Convert this mark to a JSON-serializeable representation.
+    */
+    toJSON() {
+        let obj = { type: this.type.name };
+        for (let _ in this.attrs) {
+            obj.attrs = this.attrs;
+            break;
+        }
+        return obj;
+    }
+    /**
+    Deserialize a mark from JSON.
+    */
+    static fromJSON(schema, json) {
+        if (!json)
+            throw new RangeError("Invalid input for Mark.fromJSON");
+        let type = schema.marks[json.type];
+        if (!type)
+            throw new RangeError(`There is no mark type ${json.type} in this schema`);
+        let mark = type.create(json.attrs);
+        type.checkAttrs(mark.attrs);
+        return mark;
+    }
+    /**
+    Test whether two sets of marks are identical.
+    */
+    static sameSet(a, b) {
+        if (a == b)
+            return true;
+        if (a.length != b.length)
+            return false;
+        for (let i = 0; i < a.length; i++)
+            if (!a[i].eq(b[i]))
+                return false;
+        return true;
+    }
+    /**
+    Create a properly sorted mark set from null, a single mark, or an
+    unsorted array of marks.
+    */
+    static setFrom(marks) {
+        if (!marks || Array.isArray(marks) && marks.length == 0)
+            return Mark.none;
+        if (marks instanceof Mark)
+            return [marks];
+        let copy = marks.slice();
+        copy.sort((a, b) => a.type.rank - b.type.rank);
+        return copy;
+    }
+}
+/**
+The empty set of marks.
+*/
+Mark.none = [];
+
+/**
+Error type raised by [`Node.replace`](https://prosemirror.net/docs/ref/#model.Node.replace) when
+given an invalid replacement.
+*/
+class ReplaceError extends Error {
+}
+/*
+ReplaceError = function(this: any, message: string) {
+  let err = Error.call(this, message)
+  ;(err as any).__proto__ = ReplaceError.prototype
+  return err
+} as any
+
+ReplaceError.prototype = Object.create(Error.prototype)
+ReplaceError.prototype.constructor = ReplaceError
+ReplaceError.prototype.name = "ReplaceError"
+*/
+/**
+A slice represents a piece cut out of a larger document. It
+stores not only a fragment, but also the depth up to which nodes on
+both side are ‘open’ (cut through).
+*/
+class Slice {
+    /**
+    Create a slice. When specifying a non-zero open depth, you must
+    make sure that there are nodes of at least that depth at the
+    appropriate side of the fragment—i.e. if the fragment is an
+    empty paragraph node, `openStart` and `openEnd` can't be greater
+    than 1.
+    
+    It is not necessary for the content of open nodes to conform to
+    the schema's content constraints, though it should be a valid
+    start/end/middle for such a node, depending on which sides are
+    open.
+    */
+    constructor(
+    /**
+    The slice's content.
+    */
+    content, 
+    /**
+    The open depth at the start of the fragment.
+    */
+    openStart, 
+    /**
+    The open depth at the end.
+    */
+    openEnd) {
+        this.content = content;
+        this.openStart = openStart;
+        this.openEnd = openEnd;
+    }
+    /**
+    The size this slice would add when inserted into a document.
+    */
+    get size() {
+        return this.content.size - this.openStart - this.openEnd;
+    }
+    /**
+    @internal
+    */
+    insertAt(pos, fragment) {
+        let content = insertInto(this.content, pos + this.openStart, fragment);
+        return content && new Slice(content, this.openStart, this.openEnd);
+    }
+    /**
+    @internal
+    */
+    removeBetween(from, to) {
+        return new Slice(removeRange(this.content, from + this.openStart, to + this.openStart), this.openStart, this.openEnd);
+    }
+    /**
+    Tests whether this slice is equal to another slice.
+    */
+    eq(other) {
+        return this.content.eq(other.content) && this.openStart == other.openStart && this.openEnd == other.openEnd;
+    }
+    /**
+    @internal
+    */
+    toString() {
+        return this.content + "(" + this.openStart + "," + this.openEnd + ")";
+    }
+    /**
+    Convert a slice to a JSON-serializable representation.
+    */
+    toJSON() {
+        if (!this.content.size)
+            return null;
+        let json = { content: this.content.toJSON() };
+        if (this.openStart > 0)
+            json.openStart = this.openStart;
+        if (this.openEnd > 0)
+            json.openEnd = this.openEnd;
+        return json;
+    }
+    /**
+    Deserialize a slice from its JSON representation.
+    */
+    static fromJSON(schema, json) {
+        if (!json)
+            return Slice.empty;
+        let openStart = json.openStart || 0, openEnd = json.openEnd || 0;
+        if (typeof openStart != "number" || typeof openEnd != "number")
+            throw new RangeError("Invalid input for Slice.fromJSON");
+        return new Slice(Fragment.fromJSON(schema, json.content), openStart, openEnd);
+    }
+    /**
+    Create a slice from a fragment by taking the maximum possible
+    open value on both side of the fragment.
+    */
+    static maxOpen(fragment, openIsolating = true) {
+        let openStart = 0, openEnd = 0;
+        for (let n = fragment.firstChild; n && !n.isLeaf && (openIsolating || !n.type.spec.isolating); n = n.firstChild)
+            openStart++;
+        for (let n = fragment.lastChild; n && !n.isLeaf && (openIsolating || !n.type.spec.isolating); n = n.lastChild)
+            openEnd++;
+        return new Slice(fragment, openStart, openEnd);
+    }
+}
+/**
+The empty slice.
+*/
+Slice.empty = new Slice(Fragment.empty, 0, 0);
+function removeRange(content, from, to) {
+    let { index, offset } = content.findIndex(from), child = content.maybeChild(index);
+    let { index: indexTo, offset: offsetTo } = content.findIndex(to);
+    if (offset == from || child.isText) {
+        if (offsetTo != to && !content.child(indexTo).isText)
+            throw new RangeError("Removing non-flat range");
+        return content.cut(0, from).append(content.cut(to));
+    }
+    if (index != indexTo)
+        throw new RangeError("Removing non-flat range");
+    return content.replaceChild(index, child.copy(removeRange(child.content, from - offset - 1, to - offset - 1)));
+}
+function insertInto(content, dist, insert, parent) {
+    let { index, offset } = content.findIndex(dist), child = content.maybeChild(index);
+    if (offset == dist || child.isText) {
+        return content.cut(0, dist).append(insert).append(content.cut(dist));
+    }
+    let inner = insertInto(child.content, dist - offset - 1, insert);
+    return inner && content.replaceChild(index, child.copy(inner));
+}
+function replace$1($from, $to, slice) {
+    if (slice.openStart > $from.depth)
+        throw new ReplaceError("Inserted content deeper than insertion position");
+    if ($from.depth - slice.openStart != $to.depth - slice.openEnd)
+        throw new ReplaceError("Inconsistent open depths");
+    return replaceOuter($from, $to, slice, 0);
+}
+function replaceOuter($from, $to, slice, depth) {
+    let index = $from.index(depth), node = $from.node(depth);
+    if (index == $to.index(depth) && depth < $from.depth - slice.openStart) {
+        let inner = replaceOuter($from, $to, slice, depth + 1);
+        return node.copy(node.content.replaceChild(index, inner));
+    }
+    else if (!slice.content.size) {
+        return close(node, replaceTwoWay($from, $to, depth));
+    }
+    else if (!slice.openStart && !slice.openEnd && $from.depth == depth && $to.depth == depth) { // Simple, flat case
+        let parent = $from.parent, content = parent.content;
+        return close(parent, content.cut(0, $from.parentOffset).append(slice.content).append(content.cut($to.parentOffset)));
+    }
+    else {
+        let { start, end } = prepareSliceForReplace(slice, $from);
+        return close(node, replaceThreeWay($from, start, end, $to, depth));
+    }
+}
+function checkJoin(main, sub) {
+    if (!sub.type.compatibleContent(main.type))
+        throw new ReplaceError("Cannot join " + sub.type.name + " onto " + main.type.name);
+}
+function joinable$1($before, $after, depth) {
+    let node = $before.node(depth);
+    checkJoin(node, $after.node(depth));
+    return node;
+}
+function addNode(child, target) {
+    let last = target.length - 1;
+    if (last >= 0 && child.isText && child.sameMarkup(target[last]))
+        target[last] = child.withText(target[last].text + child.text);
+    else
+        target.push(child);
+}
+function addRange($start, $end, depth, target) {
+    let node = ($end || $start).node(depth);
+    let startIndex = 0, endIndex = $end ? $end.index(depth) : node.childCount;
+    if ($start) {
+        startIndex = $start.index(depth);
+        if ($start.depth > depth) {
+            startIndex++;
+        }
+        else if ($start.textOffset) {
+            addNode($start.nodeAfter, target);
+            startIndex++;
+        }
+    }
+    for (let i = startIndex; i < endIndex; i++)
+        addNode(node.child(i), target);
+    if ($end && $end.depth == depth && $end.textOffset)
+        addNode($end.nodeBefore, target);
+}
+function close(node, content) {
+    node.type.checkContent(content);
+    return node.copy(content);
+}
+function replaceThreeWay($from, $start, $end, $to, depth) {
+    let openStart = $from.depth > depth && joinable$1($from, $start, depth + 1);
+    let openEnd = $to.depth > depth && joinable$1($end, $to, depth + 1);
+    let content = [];
+    addRange(null, $from, depth, content);
+    if (openStart && openEnd && $start.index(depth) == $end.index(depth)) {
+        checkJoin(openStart, openEnd);
+        addNode(close(openStart, replaceThreeWay($from, $start, $end, $to, depth + 1)), content);
+    }
+    else {
+        if (openStart)
+            addNode(close(openStart, replaceTwoWay($from, $start, depth + 1)), content);
+        addRange($start, $end, depth, content);
+        if (openEnd)
+            addNode(close(openEnd, replaceTwoWay($end, $to, depth + 1)), content);
+    }
+    addRange($to, null, depth, content);
+    return new Fragment(content);
+}
+function replaceTwoWay($from, $to, depth) {
+    let content = [];
+    addRange(null, $from, depth, content);
+    if ($from.depth > depth) {
+        let type = joinable$1($from, $to, depth + 1);
+        addNode(close(type, replaceTwoWay($from, $to, depth + 1)), content);
+    }
+    addRange($to, null, depth, content);
+    return new Fragment(content);
+}
+function prepareSliceForReplace(slice, $along) {
+    let extra = $along.depth - slice.openStart, parent = $along.node(extra);
+    let node = parent.copy(slice.content);
+    for (let i = extra - 1; i >= 0; i--)
+        node = $along.node(i).copy(Fragment.from(node));
+    return { start: node.resolveNoCache(slice.openStart + extra),
+        end: node.resolveNoCache(node.content.size - slice.openEnd - extra) };
+}
+
+/**
+You can [_resolve_](https://prosemirror.net/docs/ref/#model.Node.resolve) a position to get more
+information about it. Objects of this class represent such a
+resolved position, providing various pieces of context
+information, and some helper methods.
+
+Throughout this interface, methods that take an optional `depth`
+parameter will interpret undefined as `this.depth` and negative
+numbers as `this.depth + value`.
+*/
+class ResolvedPos {
+    /**
+    @internal
+    */
+    constructor(
+    /**
+    The position that was resolved.
+    */
+    pos, 
+    /**
+    @internal
+    */
+    path, 
+    /**
+    The offset this position has into its parent node.
+    */
+    parentOffset) {
+        this.pos = pos;
+        this.path = path;
+        this.parentOffset = parentOffset;
+        this.depth = path.length / 3 - 1;
+    }
+    /**
+    @internal
+    */
+    resolveDepth(val) {
+        if (val == null)
+            return this.depth;
+        if (val < 0)
+            return this.depth + val;
+        return val;
+    }
+    /**
+    The parent node that the position points into. Note that even if
+    a position points into a text node, that node is not considered
+    the parent—text nodes are ‘flat’ in this model, and have no content.
+    */
+    get parent() { return this.node(this.depth); }
+    /**
+    The root node in which the position was resolved.
+    */
+    get doc() { return this.node(0); }
+    /**
+    The ancestor node at the given level. `p.node(p.depth)` is the
+    same as `p.parent`.
+    */
+    node(depth) { return this.path[this.resolveDepth(depth) * 3]; }
+    /**
+    The index into the ancestor at the given level. If this points
+    at the 3rd node in the 2nd paragraph on the top level, for
+    example, `p.index(0)` is 1 and `p.index(1)` is 2.
+    */
+    index(depth) { return this.path[this.resolveDepth(depth) * 3 + 1]; }
+    /**
+    The index pointing after this position into the ancestor at the
+    given level.
+    */
+    indexAfter(depth) {
+        depth = this.resolveDepth(depth);
+        return this.index(depth) + (depth == this.depth && !this.textOffset ? 0 : 1);
+    }
+    /**
+    The (absolute) position at the start of the node at the given
+    level.
+    */
+    start(depth) {
+        depth = this.resolveDepth(depth);
+        return depth == 0 ? 0 : this.path[depth * 3 - 1] + 1;
+    }
+    /**
+    The (absolute) position at the end of the node at the given
+    level.
+    */
+    end(depth) {
+        depth = this.resolveDepth(depth);
+        return this.start(depth) + this.node(depth).content.size;
+    }
+    /**
+    The (absolute) position directly before the wrapping node at the
+    given level, or, when `depth` is `this.depth + 1`, the original
+    position.
+    */
+    before(depth) {
+        depth = this.resolveDepth(depth);
+        if (!depth)
+            throw new RangeError("There is no position before the top-level node");
+        return depth == this.depth + 1 ? this.pos : this.path[depth * 3 - 1];
+    }
+    /**
+    The (absolute) position directly after the wrapping node at the
+    given level, or the original position when `depth` is `this.depth + 1`.
+    */
+    after(depth) {
+        depth = this.resolveDepth(depth);
+        if (!depth)
+            throw new RangeError("There is no position after the top-level node");
+        return depth == this.depth + 1 ? this.pos : this.path[depth * 3 - 1] + this.path[depth * 3].nodeSize;
+    }
+    /**
+    When this position points into a text node, this returns the
+    distance between the position and the start of the text node.
+    Will be zero for positions that point between nodes.
+    */
+    get textOffset() { return this.pos - this.path[this.path.length - 1]; }
+    /**
+    Get the node directly after the position, if any. If the position
+    points into a text node, only the part of that node after the
+    position is returned.
+    */
+    get nodeAfter() {
+        let parent = this.parent, index = this.index(this.depth);
+        if (index == parent.childCount)
+            return null;
+        let dOff = this.pos - this.path[this.path.length - 1], child = parent.child(index);
+        return dOff ? parent.child(index).cut(dOff) : child;
+    }
+    /**
+    Get the node directly before the position, if any. If the
+    position points into a text node, only the part of that node
+    before the position is returned.
+    */
+    get nodeBefore() {
+        let index = this.index(this.depth);
+        let dOff = this.pos - this.path[this.path.length - 1];
+        if (dOff)
+            return this.parent.child(index).cut(0, dOff);
+        return index == 0 ? null : this.parent.child(index - 1);
+    }
+    /**
+    Get the position at the given index in the parent node at the
+    given depth (which defaults to `this.depth`).
+    */
+    posAtIndex(index, depth) {
+        depth = this.resolveDepth(depth);
+        let node = this.path[depth * 3], pos = depth == 0 ? 0 : this.path[depth * 3 - 1] + 1;
+        for (let i = 0; i < index; i++)
+            pos += node.child(i).nodeSize;
+        return pos;
+    }
+    /**
+    Get the marks at this position, factoring in the surrounding
+    marks' [`inclusive`](https://prosemirror.net/docs/ref/#model.MarkSpec.inclusive) property. If the
+    position is at the start of a non-empty node, the marks of the
+    node after it (if any) are returned.
+    */
+    marks() {
+        let parent = this.parent, index = this.index();
+        // In an empty parent, return the empty array
+        if (parent.content.size == 0)
+            return Mark.none;
+        // When inside a text node, just return the text node's marks
+        if (this.textOffset)
+            return parent.child(index).marks;
+        let main = parent.maybeChild(index - 1), other = parent.maybeChild(index);
+        // If the `after` flag is true of there is no node before, make
+        // the node after this position the main reference.
+        if (!main) {
+            let tmp = main;
+            main = other;
+            other = tmp;
+        }
+        // Use all marks in the main node, except those that have
+        // `inclusive` set to false and are not present in the other node.
+        let marks = main.marks;
+        for (var i = 0; i < marks.length; i++)
+            if (marks[i].type.spec.inclusive === false && (!other || !marks[i].isInSet(other.marks)))
+                marks = marks[i--].removeFromSet(marks);
+        return marks;
+    }
+    /**
+    Get the marks after the current position, if any, except those
+    that are non-inclusive and not present at position `$end`. This
+    is mostly useful for getting the set of marks to preserve after a
+    deletion. Will return `null` if this position is at the end of
+    its parent node or its parent node isn't a textblock (in which
+    case no marks should be preserved).
+    */
+    marksAcross($end) {
+        let after = this.parent.maybeChild(this.index());
+        if (!after || !after.isInline)
+            return null;
+        let marks = after.marks, next = $end.parent.maybeChild($end.index());
+        for (var i = 0; i < marks.length; i++)
+            if (marks[i].type.spec.inclusive === false && (!next || !marks[i].isInSet(next.marks)))
+                marks = marks[i--].removeFromSet(marks);
+        return marks;
+    }
+    /**
+    The depth up to which this position and the given (non-resolved)
+    position share the same parent nodes.
+    */
+    sharedDepth(pos) {
+        for (let depth = this.depth; depth > 0; depth--)
+            if (this.start(depth) <= pos && this.end(depth) >= pos)
+                return depth;
+        return 0;
+    }
+    /**
+    Returns a range based on the place where this position and the
+    given position diverge around block content. If both point into
+    the same textblock, for example, a range around that textblock
+    will be returned. If they point into different blocks, the range
+    around those blocks in their shared ancestor is returned. You can
+    pass in an optional predicate that will be called with a parent
+    node to see if a range into that parent is acceptable.
+    */
+    blockRange(other = this, pred) {
+        if (other.pos < this.pos)
+            return other.blockRange(this);
+        for (let d = this.depth - (this.parent.inlineContent || this.pos == other.pos ? 1 : 0); d >= 0; d--)
+            if (other.pos <= this.end(d) && (!pred || pred(this.node(d))))
+                return new NodeRange(this, other, d);
+        return null;
+    }
+    /**
+    Query whether the given position shares the same parent node.
+    */
+    sameParent(other) {
+        return this.pos - this.parentOffset == other.pos - other.parentOffset;
+    }
+    /**
+    Return the greater of this and the given position.
+    */
+    max(other) {
+        return other.pos > this.pos ? other : this;
+    }
+    /**
+    Return the smaller of this and the given position.
+    */
+    min(other) {
+        return other.pos < this.pos ? other : this;
+    }
+    /**
+    @internal
+    */
+    toString() {
+        let str = "";
+        for (let i = 1; i <= this.depth; i++)
+            str += (str ? "/" : "") + this.node(i).type.name + "_" + this.index(i - 1);
+        return str + ":" + this.parentOffset;
+    }
+    /**
+    @internal
+    */
+    static resolve(doc, pos) {
+        if (!(pos >= 0 && pos <= doc.content.size))
+            throw new RangeError("Position " + pos + " out of range");
+        let path = [];
+        let start = 0, parentOffset = pos;
+        for (let node = doc;;) {
+            let { index, offset } = node.content.findIndex(parentOffset);
+            let rem = parentOffset - offset;
+            path.push(node, index, start + offset);
+            if (!rem)
+                break;
+            node = node.child(index);
+            if (node.isText)
+                break;
+            parentOffset = rem - 1;
+            start += offset + 1;
+        }
+        return new ResolvedPos(pos, path, parentOffset);
+    }
+    /**
+    @internal
+    */
+    static resolveCached(doc, pos) {
+        let cache = resolveCache.get(doc);
+        if (cache) {
+            for (let i = 0; i < cache.elts.length; i++) {
+                let elt = cache.elts[i];
+                if (elt.pos == pos)
+                    return elt;
+            }
+        }
+        else {
+            resolveCache.set(doc, cache = new ResolveCache);
+        }
+        let result = cache.elts[cache.i] = ResolvedPos.resolve(doc, pos);
+        cache.i = (cache.i + 1) % resolveCacheSize;
+        return result;
+    }
+}
+class ResolveCache {
+    constructor() {
+        this.elts = [];
+        this.i = 0;
+    }
+}
+const resolveCacheSize = 12, resolveCache = new WeakMap();
+/**
+Represents a flat range of content, i.e. one that starts and
+ends in the same node.
+*/
+class NodeRange {
+    /**
+    Construct a node range. `$from` and `$to` should point into the
+    same node until at least the given `depth`, since a node range
+    denotes an adjacent set of nodes in a single parent node.
+    */
+    constructor(
+    /**
+    A resolved position along the start of the content. May have a
+    `depth` greater than this object's `depth` property, since
+    these are the positions that were used to compute the range,
+    not re-resolved positions directly at its boundaries.
+    */
+    $from, 
+    /**
+    A position along the end of the content. See
+    caveat for [`$from`](https://prosemirror.net/docs/ref/#model.NodeRange.$from).
+    */
+    $to, 
+    /**
+    The depth of the node that this range points into.
+    */
+    depth) {
+        this.$from = $from;
+        this.$to = $to;
+        this.depth = depth;
+    }
+    /**
+    The position at the start of the range.
+    */
+    get start() { return this.$from.before(this.depth + 1); }
+    /**
+    The position at the end of the range.
+    */
+    get end() { return this.$to.after(this.depth + 1); }
+    /**
+    The parent node that the range points into.
+    */
+    get parent() { return this.$from.node(this.depth); }
+    /**
+    The start index of the range in the parent node.
+    */
+    get startIndex() { return this.$from.index(this.depth); }
+    /**
+    The end index of the range in the parent node.
+    */
+    get endIndex() { return this.$to.indexAfter(this.depth); }
+}
+
+const emptyAttrs = Object.create(null);
+/**
+This class represents a node in the tree that makes up a
+ProseMirror document. So a document is an instance of `Node`, with
+children that are also instances of `Node`.
+
+Nodes are persistent data structures. Instead of changing them, you
+create new ones with the content you want. Old ones keep pointing
+at the old document shape. This is made cheaper by sharing
+structure between the old and new data as much as possible, which a
+tree shape like this (without back pointers) makes easy.
+
+**Do not** directly mutate the properties of a `Node` object. See
+[the guide](/docs/guide/#doc) for more information.
+*/
+let Node$1 = class Node {
+    /**
+    @internal
+    */
+    constructor(
+    /**
+    The type of node that this is.
+    */
+    type, 
+    /**
+    An object mapping attribute names to values. The kind of
+    attributes allowed and required are
+    [determined](https://prosemirror.net/docs/ref/#model.NodeSpec.attrs) by the node type.
+    */
+    attrs, 
+    // A fragment holding the node's children.
+    content, 
+    /**
+    The marks (things like whether it is emphasized or part of a
+    link) applied to this node.
+    */
+    marks = Mark.none) {
+        this.type = type;
+        this.attrs = attrs;
+        this.marks = marks;
+        this.content = content || Fragment.empty;
+    }
+    /**
+    The array of this node's child nodes.
+    */
+    get children() { return this.content.content; }
+    /**
+    The size of this node, as defined by the integer-based [indexing
+    scheme](/docs/guide/#doc.indexing). For text nodes, this is the
+    amount of characters. For other leaf nodes, it is one. For
+    non-leaf nodes, it is the size of the content plus two (the
+    start and end token).
+    */
+    get nodeSize() { return this.isLeaf ? 1 : 2 + this.content.size; }
+    /**
+    The number of children that the node has.
+    */
+    get childCount() { return this.content.childCount; }
+    /**
+    Get the child node at the given index. Raises an error when the
+    index is out of range.
+    */
+    child(index) { return this.content.child(index); }
+    /**
+    Get the child node at the given index, if it exists.
+    */
+    maybeChild(index) { return this.content.maybeChild(index); }
+    /**
+    Call `f` for every child node, passing the node, its offset
+    into this parent node, and its index.
+    */
+    forEach(f) { this.content.forEach(f); }
+    /**
+    Invoke a callback for all descendant nodes recursively between
+    the given two positions that are relative to start of this
+    node's content. The callback is invoked with the node, its
+    position relative to the original node (method receiver),
+    its parent node, and its child index. When the callback returns
+    false for a given node, that node's children will not be
+    recursed over. The last parameter can be used to specify a
+    starting position to count from.
+    */
+    nodesBetween(from, to, f, startPos = 0) {
+        this.content.nodesBetween(from, to, f, startPos, this);
+    }
+    /**
+    Call the given callback for every descendant node. Doesn't
+    descend into a node when the callback returns `false`.
+    */
+    descendants(f) {
+        this.nodesBetween(0, this.content.size, f);
+    }
+    /**
+    Concatenates all the text nodes found in this fragment and its
+    children.
+    */
+    get textContent() {
+        return (this.isLeaf && this.type.spec.leafText)
+            ? this.type.spec.leafText(this)
+            : this.textBetween(0, this.content.size, "");
+    }
+    /**
+    Get all text between positions `from` and `to`. When
+    `blockSeparator` is given, it will be inserted to separate text
+    from different block nodes. If `leafText` is given, it'll be
+    inserted for every non-text leaf node encountered, otherwise
+    [`leafText`](https://prosemirror.net/docs/ref/#model.NodeSpec^leafText) will be used.
+    */
+    textBetween(from, to, blockSeparator, leafText) {
+        return this.content.textBetween(from, to, blockSeparator, leafText);
+    }
+    /**
+    Returns this node's first child, or `null` if there are no
+    children.
+    */
+    get firstChild() { return this.content.firstChild; }
+    /**
+    Returns this node's last child, or `null` if there are no
+    children.
+    */
+    get lastChild() { return this.content.lastChild; }
+    /**
+    Test whether two nodes represent the same piece of document.
+    */
+    eq(other) {
+        return this == other || (this.sameMarkup(other) && this.content.eq(other.content));
+    }
+    /**
+    Compare the markup (type, attributes, and marks) of this node to
+    those of another. Returns `true` if both have the same markup.
+    */
+    sameMarkup(other) {
+        return this.hasMarkup(other.type, other.attrs, other.marks);
+    }
+    /**
+    Check whether this node's markup correspond to the given type,
+    attributes, and marks.
+    */
+    hasMarkup(type, attrs, marks) {
+        return this.type == type &&
+            compareDeep(this.attrs, attrs || type.defaultAttrs || emptyAttrs) &&
+            Mark.sameSet(this.marks, marks || Mark.none);
+    }
+    /**
+    Create a new node with the same markup as this node, containing
+    the given content (or empty, if no content is given).
+    */
+    copy(content = null) {
+        if (content == this.content)
+            return this;
+        return new Node(this.type, this.attrs, content, this.marks);
+    }
+    /**
+    Create a copy of this node, with the given set of marks instead
+    of the node's own marks.
+    */
+    mark(marks) {
+        return marks == this.marks ? this : new Node(this.type, this.attrs, this.content, marks);
+    }
+    /**
+    Create a copy of this node with only the content between the
+    given positions. If `to` is not given, it defaults to the end of
+    the node.
+    */
+    cut(from, to = this.content.size) {
+        if (from == 0 && to == this.content.size)
+            return this;
+        return this.copy(this.content.cut(from, to));
+    }
+    /**
+    Cut out the part of the document between the given positions, and
+    return it as a `Slice` object.
+    */
+    slice(from, to = this.content.size, includeParents = false) {
+        if (from == to)
+            return Slice.empty;
+        let $from = this.resolve(from), $to = this.resolve(to);
+        let depth = includeParents ? 0 : $from.sharedDepth(to);
+        let start = $from.start(depth), node = $from.node(depth);
+        let content = node.content.cut($from.pos - start, $to.pos - start);
+        return new Slice(content, $from.depth - depth, $to.depth - depth);
+    }
+    /**
+    Replace the part of the document between the given positions with
+    the given slice. The slice must 'fit', meaning its open sides
+    must be able to connect to the surrounding content, and its
+    content nodes must be valid children for the node they are placed
+    into. If any of this is violated, an error of type
+    [`ReplaceError`](https://prosemirror.net/docs/ref/#model.ReplaceError) is thrown.
+    */
+    replace(from, to, slice) {
+        return replace$1(this.resolve(from), this.resolve(to), slice);
+    }
+    /**
+    Find the node directly after the given position.
+    */
+    nodeAt(pos) {
+        for (let node = this;;) {
+            let { index, offset } = node.content.findIndex(pos);
+            node = node.maybeChild(index);
+            if (!node)
+                return null;
+            if (offset == pos || node.isText)
+                return node;
+            pos -= offset + 1;
+        }
+    }
+    /**
+    Find the (direct) child node after the given offset, if any,
+    and return it along with its index and offset relative to this
+    node.
+    */
+    childAfter(pos) {
+        let { index, offset } = this.content.findIndex(pos);
+        return { node: this.content.maybeChild(index), index, offset };
+    }
+    /**
+    Find the (direct) child node before the given offset, if any,
+    and return it along with its index and offset relative to this
+    node.
+    */
+    childBefore(pos) {
+        if (pos == 0)
+            return { node: null, index: 0, offset: 0 };
+        let { index, offset } = this.content.findIndex(pos);
+        if (offset < pos)
+            return { node: this.content.child(index), index, offset };
+        let node = this.content.child(index - 1);
+        return { node, index: index - 1, offset: offset - node.nodeSize };
+    }
+    /**
+    Resolve the given position in the document, returning an
+    [object](https://prosemirror.net/docs/ref/#model.ResolvedPos) with information about its context.
+    */
+    resolve(pos) { return ResolvedPos.resolveCached(this, pos); }
+    /**
+    @internal
+    */
+    resolveNoCache(pos) { return ResolvedPos.resolve(this, pos); }
+    /**
+    Test whether a given mark or mark type occurs in this document
+    between the two given positions.
+    */
+    rangeHasMark(from, to, type) {
+        let found = false;
+        if (to > from)
+            this.nodesBetween(from, to, node => {
+                if (type.isInSet(node.marks))
+                    found = true;
+                return !found;
+            });
+        return found;
+    }
+    /**
+    True when this is a block (non-inline node)
+    */
+    get isBlock() { return this.type.isBlock; }
+    /**
+    True when this is a textblock node, a block node with inline
+    content.
+    */
+    get isTextblock() { return this.type.isTextblock; }
+    /**
+    True when this node allows inline content.
+    */
+    get inlineContent() { return this.type.inlineContent; }
+    /**
+    True when this is an inline node (a text node or a node that can
+    appear among text).
+    */
+    get isInline() { return this.type.isInline; }
+    /**
+    True when this is a text node.
+    */
+    get isText() { return this.type.isText; }
+    /**
+    True when this is a leaf node.
+    */
+    get isLeaf() { return this.type.isLeaf; }
+    /**
+    True when this is an atom, i.e. when it does not have directly
+    editable content. This is usually the same as `isLeaf`, but can
+    be configured with the [`atom` property](https://prosemirror.net/docs/ref/#model.NodeSpec.atom)
+    on a node's spec (typically used when the node is displayed as
+    an uneditable [node view](https://prosemirror.net/docs/ref/#view.NodeView)).
+    */
+    get isAtom() { return this.type.isAtom; }
+    /**
+    Return a string representation of this node for debugging
+    purposes.
+    */
+    toString() {
+        if (this.type.spec.toDebugString)
+            return this.type.spec.toDebugString(this);
+        let name = this.type.name;
+        if (this.content.size)
+            name += "(" + this.content.toStringInner() + ")";
+        return wrapMarks(this.marks, name);
+    }
+    /**
+    Get the content match in this node at the given index.
+    */
+    contentMatchAt(index) {
+        let match = this.type.contentMatch.matchFragment(this.content, 0, index);
+        if (!match)
+            throw new Error("Called contentMatchAt on a node with invalid content");
+        return match;
+    }
+    /**
+    Test whether replacing the range between `from` and `to` (by
+    child index) with the given replacement fragment (which defaults
+    to the empty fragment) would leave the node's content valid. You
+    can optionally pass `start` and `end` indices into the
+    replacement fragment.
+    */
+    canReplace(from, to, replacement = Fragment.empty, start = 0, end = replacement.childCount) {
+        let one = this.contentMatchAt(from).matchFragment(replacement, start, end);
+        let two = one && one.matchFragment(this.content, to);
+        if (!two || !two.validEnd)
+            return false;
+        for (let i = start; i < end; i++)
+            if (!this.type.allowsMarks(replacement.child(i).marks))
+                return false;
+        return true;
+    }
+    /**
+    Test whether replacing the range `from` to `to` (by index) with
+    a node of the given type would leave the node's content valid.
+    */
+    canReplaceWith(from, to, type, marks) {
+        if (marks && !this.type.allowsMarks(marks))
+            return false;
+        let start = this.contentMatchAt(from).matchType(type);
+        let end = start && start.matchFragment(this.content, to);
+        return end ? end.validEnd : false;
+    }
+    /**
+    Test whether the given node's content could be appended to this
+    node. If that node is empty, this will only return true if there
+    is at least one node type that can appear in both nodes (to avoid
+    merging completely incompatible nodes).
+    */
+    canAppend(other) {
+        if (other.content.size)
+            return this.canReplace(this.childCount, this.childCount, other.content);
+        else
+            return this.type.compatibleContent(other.type);
+    }
+    /**
+    Check whether this node and its descendants conform to the
+    schema, and raise an exception when they do not.
+    */
+    check() {
+        this.type.checkContent(this.content);
+        this.type.checkAttrs(this.attrs);
+        let copy = Mark.none;
+        for (let i = 0; i < this.marks.length; i++) {
+            let mark = this.marks[i];
+            mark.type.checkAttrs(mark.attrs);
+            copy = mark.addToSet(copy);
+        }
+        if (!Mark.sameSet(copy, this.marks))
+            throw new RangeError(`Invalid collection of marks for node ${this.type.name}: ${this.marks.map(m => m.type.name)}`);
+        this.content.forEach(node => node.check());
+    }
+    /**
+    Return a JSON-serializeable representation of this node.
+    */
+    toJSON() {
+        let obj = { type: this.type.name };
+        for (let _ in this.attrs) {
+            obj.attrs = this.attrs;
+            break;
+        }
+        if (this.content.size)
+            obj.content = this.content.toJSON();
+        if (this.marks.length)
+            obj.marks = this.marks.map(n => n.toJSON());
+        return obj;
+    }
+    /**
+    Deserialize a node from its JSON representation.
+    */
+    static fromJSON(schema, json) {
+        if (!json)
+            throw new RangeError("Invalid input for Node.fromJSON");
+        let marks = undefined;
+        if (json.marks) {
+            if (!Array.isArray(json.marks))
+                throw new RangeError("Invalid mark data for Node.fromJSON");
+            marks = json.marks.map(schema.markFromJSON);
+        }
+        if (json.type == "text") {
+            if (typeof json.text != "string")
+                throw new RangeError("Invalid text node in JSON");
+            return schema.text(json.text, marks);
+        }
+        let content = Fragment.fromJSON(schema, json.content);
+        let node = schema.nodeType(json.type).create(json.attrs, content, marks);
+        node.type.checkAttrs(node.attrs);
+        return node;
+    }
+};
+Node$1.prototype.text = undefined;
+class TextNode extends Node$1 {
+    /**
+    @internal
+    */
+    constructor(type, attrs, content, marks) {
+        super(type, attrs, null, marks);
+        if (!content)
+            throw new RangeError("Empty text nodes are not allowed");
+        this.text = content;
+    }
+    toString() {
+        if (this.type.spec.toDebugString)
+            return this.type.spec.toDebugString(this);
+        return wrapMarks(this.marks, JSON.stringify(this.text));
+    }
+    get textContent() { return this.text; }
+    textBetween(from, to) { return this.text.slice(from, to); }
+    get nodeSize() { return this.text.length; }
+    mark(marks) {
+        return marks == this.marks ? this : new TextNode(this.type, this.attrs, this.text, marks);
+    }
+    withText(text) {
+        if (text == this.text)
+            return this;
+        return new TextNode(this.type, this.attrs, text, this.marks);
+    }
+    cut(from = 0, to = this.text.length) {
+        if (from == 0 && to == this.text.length)
+            return this;
+        return this.withText(this.text.slice(from, to));
+    }
+    eq(other) {
+        return this.sameMarkup(other) && this.text == other.text;
+    }
+    toJSON() {
+        let base = super.toJSON();
+        base.text = this.text;
+        return base;
+    }
+}
+function wrapMarks(marks, str) {
+    for (let i = marks.length - 1; i >= 0; i--)
+        str = marks[i].type.name + "(" + str + ")";
+    return str;
+}
+
+/**
+Instances of this class represent a match state of a node type's
+[content expression](https://prosemirror.net/docs/ref/#model.NodeSpec.content), and can be used to
+find out whether further content matches here, and whether a given
+position is a valid end of the node.
+*/
+class ContentMatch {
+    /**
+    @internal
+    */
+    constructor(
+    /**
+    True when this match state represents a valid end of the node.
+    */
+    validEnd) {
+        this.validEnd = validEnd;
+        /**
+        @internal
+        */
+        this.next = [];
+        /**
+        @internal
+        */
+        this.wrapCache = [];
+    }
+    /**
+    @internal
+    */
+    static parse(string, nodeTypes) {
+        let stream = new TokenStream(string, nodeTypes);
+        if (stream.next == null)
+            return ContentMatch.empty;
+        let expr = parseExpr(stream);
+        if (stream.next)
+            stream.err("Unexpected trailing text");
+        let match = dfa(nfa(expr));
+        checkForDeadEnds(match, stream);
+        return match;
+    }
+    /**
+    Match a node type, returning a match after that node if
+    successful.
+    */
+    matchType(type) {
+        for (let i = 0; i < this.next.length; i++)
+            if (this.next[i].type == type)
+                return this.next[i].next;
+        return null;
+    }
+    /**
+    Try to match a fragment. Returns the resulting match when
+    successful.
+    */
+    matchFragment(frag, start = 0, end = frag.childCount) {
+        let cur = this;
+        for (let i = start; cur && i < end; i++)
+            cur = cur.matchType(frag.child(i).type);
+        return cur;
+    }
+    /**
+    @internal
+    */
+    get inlineContent() {
+        return this.next.length != 0 && this.next[0].type.isInline;
+    }
+    /**
+    Get the first matching node type at this match position that can
+    be generated.
+    */
+    get defaultType() {
+        for (let i = 0; i < this.next.length; i++) {
+            let { type } = this.next[i];
+            if (!(type.isText || type.hasRequiredAttrs()))
+                return type;
+        }
+        return null;
+    }
+    /**
+    @internal
+    */
+    compatible(other) {
+        for (let i = 0; i < this.next.length; i++)
+            for (let j = 0; j < other.next.length; j++)
+                if (this.next[i].type == other.next[j].type)
+                    return true;
+        return false;
+    }
+    /**
+    Try to match the given fragment, and if that fails, see if it can
+    be made to match by inserting nodes in front of it. When
+    successful, return a fragment of inserted nodes (which may be
+    empty if nothing had to be inserted). When `toEnd` is true, only
+    return a fragment if the resulting match goes to the end of the
+    content expression.
+    */
+    fillBefore(after, toEnd = false, startIndex = 0) {
+        let seen = [this];
+        function search(match, types) {
+            let finished = match.matchFragment(after, startIndex);
+            if (finished && (!toEnd || finished.validEnd))
+                return Fragment.from(types.map(tp => tp.createAndFill()));
+            for (let i = 0; i < match.next.length; i++) {
+                let { type, next } = match.next[i];
+                if (!(type.isText || type.hasRequiredAttrs()) && seen.indexOf(next) == -1) {
+                    seen.push(next);
+                    let found = search(next, types.concat(type));
+                    if (found)
+                        return found;
+                }
+            }
+            return null;
+        }
+        return search(this, []);
+    }
+    /**
+    Find a set of wrapping node types that would allow a node of the
+    given type to appear at this position. The result may be empty
+    (when it fits directly) and will be null when no such wrapping
+    exists.
+    */
+    findWrapping(target) {
+        for (let i = 0; i < this.wrapCache.length; i += 2)
+            if (this.wrapCache[i] == target)
+                return this.wrapCache[i + 1];
+        let computed = this.computeWrapping(target);
+        this.wrapCache.push(target, computed);
+        return computed;
+    }
+    /**
+    @internal
+    */
+    computeWrapping(target) {
+        let seen = Object.create(null), active = [{ match: this, type: null, via: null }];
+        while (active.length) {
+            let current = active.shift(), match = current.match;
+            if (match.matchType(target)) {
+                let result = [];
+                for (let obj = current; obj.type; obj = obj.via)
+                    result.push(obj.type);
+                return result.reverse();
+            }
+            for (let i = 0; i < match.next.length; i++) {
+                let { type, next } = match.next[i];
+                if (!type.isLeaf && !type.hasRequiredAttrs() && !(type.name in seen) && (!current.type || next.validEnd)) {
+                    active.push({ match: type.contentMatch, type, via: current });
+                    seen[type.name] = true;
+                }
+            }
+        }
+        return null;
+    }
+    /**
+    The number of outgoing edges this node has in the finite
+    automaton that describes the content expression.
+    */
+    get edgeCount() {
+        return this.next.length;
+    }
+    /**
+    Get the _n_​th outgoing edge from this node in the finite
+    automaton that describes the content expression.
+    */
+    edge(n) {
+        if (n >= this.next.length)
+            throw new RangeError(`There's no ${n}th edge in this content match`);
+        return this.next[n];
+    }
+    /**
+    @internal
+    */
+    toString() {
+        let seen = [];
+        function scan(m) {
+            seen.push(m);
+            for (let i = 0; i < m.next.length; i++)
+                if (seen.indexOf(m.next[i].next) == -1)
+                    scan(m.next[i].next);
+        }
+        scan(this);
+        return seen.map((m, i) => {
+            let out = i + (m.validEnd ? "*" : " ") + " ";
+            for (let i = 0; i < m.next.length; i++)
+                out += (i ? ", " : "") + m.next[i].type.name + "->" + seen.indexOf(m.next[i].next);
+            return out;
+        }).join("\n");
+    }
+}
+/**
+@internal
+*/
+ContentMatch.empty = new ContentMatch(true);
+class TokenStream {
+    constructor(string, nodeTypes) {
+        this.string = string;
+        this.nodeTypes = nodeTypes;
+        this.inline = null;
+        this.pos = 0;
+        this.tokens = string.split(/\s*(?=\b|\W|$)/);
+        if (this.tokens[this.tokens.length - 1] == "")
+            this.tokens.pop();
+        if (this.tokens[0] == "")
+            this.tokens.shift();
+    }
+    get next() { return this.tokens[this.pos]; }
+    eat(tok) { return this.next == tok && (this.pos++ || true); }
+    err(str) { throw new SyntaxError(str + " (in content expression '" + this.string + "')"); }
+}
+function parseExpr(stream) {
+    let exprs = [];
+    do {
+        exprs.push(parseExprSeq(stream));
+    } while (stream.eat("|"));
+    return exprs.length == 1 ? exprs[0] : { type: "choice", exprs };
+}
+function parseExprSeq(stream) {
+    let exprs = [];
+    do {
+        exprs.push(parseExprSubscript(stream));
+    } while (stream.next && stream.next != ")" && stream.next != "|");
+    return exprs.length == 1 ? exprs[0] : { type: "seq", exprs };
+}
+function parseExprSubscript(stream) {
+    let expr = parseExprAtom(stream);
+    for (;;) {
+        if (stream.eat("+"))
+            expr = { type: "plus", expr };
+        else if (stream.eat("*"))
+            expr = { type: "star", expr };
+        else if (stream.eat("?"))
+            expr = { type: "opt", expr };
+        else if (stream.eat("{"))
+            expr = parseExprRange(stream, expr);
+        else
+            break;
+    }
+    return expr;
+}
+function parseNum(stream) {
+    if (/\D/.test(stream.next))
+        stream.err("Expected number, got '" + stream.next + "'");
+    let result = Number(stream.next);
+    stream.pos++;
+    return result;
+}
+function parseExprRange(stream, expr) {
+    let min = parseNum(stream), max = min;
+    if (stream.eat(",")) {
+        if (stream.next != "}")
+            max = parseNum(stream);
+        else
+            max = -1;
+    }
+    if (!stream.eat("}"))
+        stream.err("Unclosed braced range");
+    return { type: "range", min, max, expr };
+}
+function resolveName(stream, name) {
+    let types = stream.nodeTypes, type = types[name];
+    if (type)
+        return [type];
+    let result = [];
+    for (let typeName in types) {
+        let type = types[typeName];
+        if (type.isInGroup(name))
+            result.push(type);
+    }
+    if (result.length == 0)
+        stream.err("No node type or group '" + name + "' found");
+    return result;
+}
+function parseExprAtom(stream) {
+    if (stream.eat("(")) {
+        let expr = parseExpr(stream);
+        if (!stream.eat(")"))
+            stream.err("Missing closing paren");
+        return expr;
+    }
+    else if (!/\W/.test(stream.next)) {
+        let exprs = resolveName(stream, stream.next).map(type => {
+            if (stream.inline == null)
+                stream.inline = type.isInline;
+            else if (stream.inline != type.isInline)
+                stream.err("Mixing inline and block content");
+            return { type: "name", value: type };
+        });
+        stream.pos++;
+        return exprs.length == 1 ? exprs[0] : { type: "choice", exprs };
+    }
+    else {
+        stream.err("Unexpected token '" + stream.next + "'");
+    }
+}
+// Construct an NFA from an expression as returned by the parser. The
+// NFA is represented as an array of states, which are themselves
+// arrays of edges, which are `{term, to}` objects. The first state is
+// the entry state and the last node is the success state.
+//
+// Note that unlike typical NFAs, the edge ordering in this one is
+// significant, in that it is used to contruct filler content when
+// necessary.
+function nfa(expr) {
+    let nfa = [[]];
+    connect(compile(expr, 0), node());
+    return nfa;
+    function node() { return nfa.push([]) - 1; }
+    function edge(from, to, term) {
+        let edge = { term, to };
+        nfa[from].push(edge);
+        return edge;
+    }
+    function connect(edges, to) {
+        edges.forEach(edge => edge.to = to);
+    }
+    function compile(expr, from) {
+        if (expr.type == "choice") {
+            return expr.exprs.reduce((out, expr) => out.concat(compile(expr, from)), []);
+        }
+        else if (expr.type == "seq") {
+            for (let i = 0;; i++) {
+                let next = compile(expr.exprs[i], from);
+                if (i == expr.exprs.length - 1)
+                    return next;
+                connect(next, from = node());
+            }
+        }
+        else if (expr.type == "star") {
+            let loop = node();
+            edge(from, loop);
+            connect(compile(expr.expr, loop), loop);
+            return [edge(loop)];
+        }
+        else if (expr.type == "plus") {
+            let loop = node();
+            connect(compile(expr.expr, from), loop);
+            connect(compile(expr.expr, loop), loop);
+            return [edge(loop)];
+        }
+        else if (expr.type == "opt") {
+            return [edge(from)].concat(compile(expr.expr, from));
+        }
+        else if (expr.type == "range") {
+            let cur = from;
+            for (let i = 0; i < expr.min; i++) {
+                let next = node();
+                connect(compile(expr.expr, cur), next);
+                cur = next;
+            }
+            if (expr.max == -1) {
+                connect(compile(expr.expr, cur), cur);
+            }
+            else {
+                for (let i = expr.min; i < expr.max; i++) {
+                    let next = node();
+                    edge(cur, next);
+                    connect(compile(expr.expr, cur), next);
+                    cur = next;
+                }
+            }
+            return [edge(cur)];
+        }
+        else if (expr.type == "name") {
+            return [edge(from, undefined, expr.value)];
+        }
+        else {
+            throw new Error("Unknown expr type");
+        }
+    }
+}
+function cmp(a, b) { return b - a; }
+// Get the set of nodes reachable by null edges from `node`. Omit
+// nodes with only a single null-out-edge, since they may lead to
+// needless duplicated nodes.
+function nullFrom(nfa, node) {
+    let result = [];
+    scan(node);
+    return result.sort(cmp);
+    function scan(node) {
+        let edges = nfa[node];
+        if (edges.length == 1 && !edges[0].term)
+            return scan(edges[0].to);
+        result.push(node);
+        for (let i = 0; i < edges.length; i++) {
+            let { term, to } = edges[i];
+            if (!term && result.indexOf(to) == -1)
+                scan(to);
+        }
+    }
+}
+// Compiles an NFA as produced by `nfa` into a DFA, modeled as a set
+// of state objects (`ContentMatch` instances) with transitions
+// between them.
+function dfa(nfa) {
+    let labeled = Object.create(null);
+    return explore(nullFrom(nfa, 0));
+    function explore(states) {
+        let out = [];
+        states.forEach(node => {
+            nfa[node].forEach(({ term, to }) => {
+                if (!term)
+                    return;
+                let set;
+                for (let i = 0; i < out.length; i++)
+                    if (out[i][0] == term)
+                        set = out[i][1];
+                nullFrom(nfa, to).forEach(node => {
+                    if (!set)
+                        out.push([term, set = []]);
+                    if (set.indexOf(node) == -1)
+                        set.push(node);
+                });
+            });
+        });
+        let state = labeled[states.join(",")] = new ContentMatch(states.indexOf(nfa.length - 1) > -1);
+        for (let i = 0; i < out.length; i++) {
+            let states = out[i][1].sort(cmp);
+            state.next.push({ type: out[i][0], next: labeled[states.join(",")] || explore(states) });
+        }
+        return state;
+    }
+}
+function checkForDeadEnds(match, stream) {
+    for (let i = 0, work = [match]; i < work.length; i++) {
+        let state = work[i], dead = !state.validEnd, nodes = [];
+        for (let j = 0; j < state.next.length; j++) {
+            let { type, next } = state.next[j];
+            nodes.push(type.name);
+            if (dead && !(type.isText || type.hasRequiredAttrs()))
+                dead = false;
+            if (work.indexOf(next) == -1)
+                work.push(next);
+        }
+        if (dead)
+            stream.err("Only non-generatable nodes (" + nodes.join(", ") + ") in a required position (see https://prosemirror.net/docs/guide/#generatable)");
+    }
+}
+
+// For node types where all attrs have a default value (or which don't
+// have any attributes), build up a single reusable default attribute
+// object, and use it for all nodes that don't specify specific
+// attributes.
+function defaultAttrs(attrs) {
+    let defaults = Object.create(null);
+    for (let attrName in attrs) {
+        let attr = attrs[attrName];
+        if (!attr.hasDefault)
+            return null;
+        defaults[attrName] = attr.default;
+    }
+    return defaults;
+}
+function computeAttrs(attrs, value) {
+    let built = Object.create(null);
+    for (let name in attrs) {
+        let given = value && value[name];
+        if (given === undefined) {
+            let attr = attrs[name];
+            if (attr.hasDefault)
+                given = attr.default;
+            else
+                throw new RangeError("No value supplied for attribute " + name);
+        }
+        built[name] = given;
+    }
+    return built;
+}
+function checkAttrs(attrs, values, type, name) {
+    for (let name in values)
+        if (!(name in attrs))
+            throw new RangeError(`Unsupported attribute ${name} for ${type} of type ${name}`);
+    for (let name in attrs) {
+        let attr = attrs[name];
+        if (attr.validate)
+            attr.validate(values[name]);
+    }
+}
+function initAttrs(typeName, attrs) {
+    let result = Object.create(null);
+    if (attrs)
+        for (let name in attrs)
+            result[name] = new Attribute(typeName, name, attrs[name]);
+    return result;
+}
+/**
+Node types are objects allocated once per `Schema` and used to
+[tag](https://prosemirror.net/docs/ref/#model.Node.type) `Node` instances. They contain information
+about the node type, such as its name and what kind of node it
+represents.
+*/
+let NodeType$1 = class NodeType {
+    /**
+    @internal
+    */
+    constructor(
+    /**
+    The name the node type has in this schema.
+    */
+    name, 
+    /**
+    A link back to the `Schema` the node type belongs to.
+    */
+    schema, 
+    /**
+    The spec that this type is based on
+    */
+    spec) {
+        this.name = name;
+        this.schema = schema;
+        this.spec = spec;
+        /**
+        The set of marks allowed in this node. `null` means all marks
+        are allowed.
+        */
+        this.markSet = null;
+        this.groups = spec.group ? spec.group.split(" ") : [];
+        this.attrs = initAttrs(name, spec.attrs);
+        this.defaultAttrs = defaultAttrs(this.attrs);
+        this.contentMatch = null;
+        this.inlineContent = null;
+        this.isBlock = !(spec.inline || name == "text");
+        this.isText = name == "text";
+    }
+    /**
+    True if this is an inline type.
+    */
+    get isInline() { return !this.isBlock; }
+    /**
+    True if this is a textblock type, a block that contains inline
+    content.
+    */
+    get isTextblock() { return this.isBlock && this.inlineContent; }
+    /**
+    True for node types that allow no content.
+    */
+    get isLeaf() { return this.contentMatch == ContentMatch.empty; }
+    /**
+    True when this node is an atom, i.e. when it does not have
+    directly editable content.
+    */
+    get isAtom() { return this.isLeaf || !!this.spec.atom; }
+    /**
+    Return true when this node type is part of the given
+    [group](https://prosemirror.net/docs/ref/#model.NodeSpec.group).
+    */
+    isInGroup(group) {
+        return this.groups.indexOf(group) > -1;
+    }
+    /**
+    The node type's [whitespace](https://prosemirror.net/docs/ref/#model.NodeSpec.whitespace) option.
+    */
+    get whitespace() {
+        return this.spec.whitespace || (this.spec.code ? "pre" : "normal");
+    }
+    /**
+    Tells you whether this node type has any required attributes.
+    */
+    hasRequiredAttrs() {
+        for (let n in this.attrs)
+            if (this.attrs[n].isRequired)
+                return true;
+        return false;
+    }
+    /**
+    Indicates whether this node allows some of the same content as
+    the given node type.
+    */
+    compatibleContent(other) {
+        return this == other || this.contentMatch.compatible(other.contentMatch);
+    }
+    /**
+    @internal
+    */
+    computeAttrs(attrs) {
+        if (!attrs && this.defaultAttrs)
+            return this.defaultAttrs;
+        else
+            return computeAttrs(this.attrs, attrs);
+    }
+    /**
+    Create a `Node` of this type. The given attributes are
+    checked and defaulted (you can pass `null` to use the type's
+    defaults entirely, if no required attributes exist). `content`
+    may be a `Fragment`, a node, an array of nodes, or
+    `null`. Similarly `marks` may be `null` to default to the empty
+    set of marks.
+    */
+    create(attrs = null, content, marks) {
+        if (this.isText)
+            throw new Error("NodeType.create can't construct text nodes");
+        return new Node$1(this, this.computeAttrs(attrs), Fragment.from(content), Mark.setFrom(marks));
+    }
+    /**
+    Like [`create`](https://prosemirror.net/docs/ref/#model.NodeType.create), but check the given content
+    against the node type's content restrictions, and throw an error
+    if it doesn't match.
+    */
+    createChecked(attrs = null, content, marks) {
+        content = Fragment.from(content);
+        this.checkContent(content);
+        return new Node$1(this, this.computeAttrs(attrs), content, Mark.setFrom(marks));
+    }
+    /**
+    Like [`create`](https://prosemirror.net/docs/ref/#model.NodeType.create), but see if it is
+    necessary to add nodes to the start or end of the given fragment
+    to make it fit the node. If no fitting wrapping can be found,
+    return null. Note that, due to the fact that required nodes can
+    always be created, this will always succeed if you pass null or
+    `Fragment.empty` as content.
+    */
+    createAndFill(attrs = null, content, marks) {
+        attrs = this.computeAttrs(attrs);
+        content = Fragment.from(content);
+        if (content.size) {
+            let before = this.contentMatch.fillBefore(content);
+            if (!before)
+                return null;
+            content = before.append(content);
+        }
+        let matched = this.contentMatch.matchFragment(content);
+        let after = matched && matched.fillBefore(Fragment.empty, true);
+        if (!after)
+            return null;
+        return new Node$1(this, attrs, content.append(after), Mark.setFrom(marks));
+    }
+    /**
+    Returns true if the given fragment is valid content for this node
+    type.
+    */
+    validContent(content) {
+        let result = this.contentMatch.matchFragment(content);
+        if (!result || !result.validEnd)
+            return false;
+        for (let i = 0; i < content.childCount; i++)
+            if (!this.allowsMarks(content.child(i).marks))
+                return false;
+        return true;
+    }
+    /**
+    Throws a RangeError if the given fragment is not valid content for this
+    node type.
+    @internal
+    */
+    checkContent(content) {
+        if (!this.validContent(content))
+            throw new RangeError(`Invalid content for node ${this.name}: ${content.toString().slice(0, 50)}`);
+    }
+    /**
+    @internal
+    */
+    checkAttrs(attrs) {
+        checkAttrs(this.attrs, attrs, "node", this.name);
+    }
+    /**
+    Check whether the given mark type is allowed in this node.
+    */
+    allowsMarkType(markType) {
+        return this.markSet == null || this.markSet.indexOf(markType) > -1;
+    }
+    /**
+    Test whether the given set of marks are allowed in this node.
+    */
+    allowsMarks(marks) {
+        if (this.markSet == null)
+            return true;
+        for (let i = 0; i < marks.length; i++)
+            if (!this.allowsMarkType(marks[i].type))
+                return false;
+        return true;
+    }
+    /**
+    Removes the marks that are not allowed in this node from the given set.
+    */
+    allowedMarks(marks) {
+        if (this.markSet == null)
+            return marks;
+        let copy;
+        for (let i = 0; i < marks.length; i++) {
+            if (!this.allowsMarkType(marks[i].type)) {
+                if (!copy)
+                    copy = marks.slice(0, i);
+            }
+            else if (copy) {
+                copy.push(marks[i]);
+            }
+        }
+        return !copy ? marks : copy.length ? copy : Mark.none;
+    }
+    /**
+    @internal
+    */
+    static compile(nodes, schema) {
+        let result = Object.create(null);
+        nodes.forEach((name, spec) => result[name] = new NodeType(name, schema, spec));
+        let topType = schema.spec.topNode || "doc";
+        if (!result[topType])
+            throw new RangeError("Schema is missing its top node type ('" + topType + "')");
+        if (!result.text)
+            throw new RangeError("Every schema needs a 'text' type");
+        for (let _ in result.text.attrs)
+            throw new RangeError("The text node type should not have attributes");
+        return result;
+    }
+};
+function validateType(typeName, attrName, type) {
+    let types = type.split("|");
+    return (value) => {
+        let name = value === null ? "null" : typeof value;
+        if (types.indexOf(name) < 0)
+            throw new RangeError(`Expected value of type ${types} for attribute ${attrName} on type ${typeName}, got ${name}`);
+    };
+}
+// Attribute descriptors
+class Attribute {
+    constructor(typeName, attrName, options) {
+        this.hasDefault = Object.prototype.hasOwnProperty.call(options, "default");
+        this.default = options.default;
+        this.validate = typeof options.validate == "string" ? validateType(typeName, attrName, options.validate) : options.validate;
+    }
+    get isRequired() {
+        return !this.hasDefault;
+    }
+}
+// Marks
+/**
+Like nodes, marks (which are associated with nodes to signify
+things like emphasis or being part of a link) are
+[tagged](https://prosemirror.net/docs/ref/#model.Mark.type) with type objects, which are
+instantiated once per `Schema`.
+*/
+class MarkType {
+    /**
+    @internal
+    */
+    constructor(
+    /**
+    The name of the mark type.
+    */
+    name, 
+    /**
+    @internal
+    */
+    rank, 
+    /**
+    The schema that this mark type instance is part of.
+    */
+    schema, 
+    /**
+    The spec on which the type is based.
+    */
+    spec) {
+        this.name = name;
+        this.rank = rank;
+        this.schema = schema;
+        this.spec = spec;
+        this.attrs = initAttrs(name, spec.attrs);
+        this.excluded = null;
+        let defaults = defaultAttrs(this.attrs);
+        this.instance = defaults ? new Mark(this, defaults) : null;
+    }
+    /**
+    Create a mark of this type. `attrs` may be `null` or an object
+    containing only some of the mark's attributes. The others, if
+    they have defaults, will be added.
+    */
+    create(attrs = null) {
+        if (!attrs && this.instance)
+            return this.instance;
+        return new Mark(this, computeAttrs(this.attrs, attrs));
+    }
+    /**
+    @internal
+    */
+    static compile(marks, schema) {
+        let result = Object.create(null), rank = 0;
+        marks.forEach((name, spec) => result[name] = new MarkType(name, rank++, schema, spec));
+        return result;
+    }
+    /**
+    When there is a mark of this type in the given set, a new set
+    without it is returned. Otherwise, the input set is returned.
+    */
+    removeFromSet(set) {
+        for (var i = 0; i < set.length; i++)
+            if (set[i].type == this) {
+                set = set.slice(0, i).concat(set.slice(i + 1));
+                i--;
+            }
+        return set;
+    }
+    /**
+    Tests whether there is a mark of this type in the given set.
+    */
+    isInSet(set) {
+        for (let i = 0; i < set.length; i++)
+            if (set[i].type == this)
+                return set[i];
+    }
+    /**
+    @internal
+    */
+    checkAttrs(attrs) {
+        checkAttrs(this.attrs, attrs, "mark", this.name);
+    }
+    /**
+    Queries whether a given mark type is
+    [excluded](https://prosemirror.net/docs/ref/#model.MarkSpec.excludes) by this one.
+    */
+    excludes(other) {
+        return this.excluded.indexOf(other) > -1;
+    }
+}
+/**
+A document schema. Holds [node](https://prosemirror.net/docs/ref/#model.NodeType) and [mark
+type](https://prosemirror.net/docs/ref/#model.MarkType) objects for the nodes and marks that may
+occur in conforming documents, and provides functionality for
+creating and deserializing such documents.
+
+When given, the type parameters provide the names of the nodes and
+marks in this schema.
+*/
+class Schema {
+    /**
+    Construct a schema from a schema [specification](https://prosemirror.net/docs/ref/#model.SchemaSpec).
+    */
+    constructor(spec) {
+        /**
+        The [linebreak
+        replacement](https://prosemirror.net/docs/ref/#model.NodeSpec.linebreakReplacement) node defined
+        in this schema, if any.
+        */
+        this.linebreakReplacement = null;
+        /**
+        An object for storing whatever values modules may want to
+        compute and cache per schema. (If you want to store something
+        in it, try to use property names unlikely to clash.)
+        */
+        this.cached = Object.create(null);
+        let instanceSpec = this.spec = {};
+        for (let prop in spec)
+            instanceSpec[prop] = spec[prop];
+        instanceSpec.nodes = OrderedMap.from(spec.nodes),
+            instanceSpec.marks = OrderedMap.from(spec.marks || {}),
+            this.nodes = NodeType$1.compile(this.spec.nodes, this);
+        this.marks = MarkType.compile(this.spec.marks, this);
+        let contentExprCache = Object.create(null);
+        for (let prop in this.nodes) {
+            if (prop in this.marks)
+                throw new RangeError(prop + " can not be both a node and a mark");
+            let type = this.nodes[prop], contentExpr = type.spec.content || "", markExpr = type.spec.marks;
+            type.contentMatch = contentExprCache[contentExpr] ||
+                (contentExprCache[contentExpr] = ContentMatch.parse(contentExpr, this.nodes));
+            type.inlineContent = type.contentMatch.inlineContent;
+            if (type.spec.linebreakReplacement) {
+                if (this.linebreakReplacement)
+                    throw new RangeError("Multiple linebreak nodes defined");
+                if (!type.isInline || !type.isLeaf)
+                    throw new RangeError("Linebreak replacement nodes must be inline leaf nodes");
+                this.linebreakReplacement = type;
+            }
+            type.markSet = markExpr == "_" ? null :
+                markExpr ? gatherMarks(this, markExpr.split(" ")) :
+                    markExpr == "" || !type.inlineContent ? [] : null;
+        }
+        for (let prop in this.marks) {
+            let type = this.marks[prop], excl = type.spec.excludes;
+            type.excluded = excl == null ? [type] : excl == "" ? [] : gatherMarks(this, excl.split(" "));
+        }
+        this.nodeFromJSON = this.nodeFromJSON.bind(this);
+        this.markFromJSON = this.markFromJSON.bind(this);
+        this.topNodeType = this.nodes[this.spec.topNode || "doc"];
+        this.cached.wrappings = Object.create(null);
+    }
+    /**
+    Create a node in this schema. The `type` may be a string or a
+    `NodeType` instance. Attributes will be extended with defaults,
+    `content` may be a `Fragment`, `null`, a `Node`, or an array of
+    nodes.
+    */
+    node(type, attrs = null, content, marks) {
+        if (typeof type == "string")
+            type = this.nodeType(type);
+        else if (!(type instanceof NodeType$1))
+            throw new RangeError("Invalid node type: " + type);
+        else if (type.schema != this)
+            throw new RangeError("Node type from different schema used (" + type.name + ")");
+        return type.createChecked(attrs, content, marks);
+    }
+    /**
+    Create a text node in the schema. Empty text nodes are not
+    allowed.
+    */
+    text(text, marks) {
+        let type = this.nodes.text;
+        return new TextNode(type, type.defaultAttrs, text, Mark.setFrom(marks));
+    }
+    /**
+    Create a mark with the given type and attributes.
+    */
+    mark(type, attrs) {
+        if (typeof type == "string")
+            type = this.marks[type];
+        return type.create(attrs);
+    }
+    /**
+    Deserialize a node from its JSON representation. This method is
+    bound.
+    */
+    nodeFromJSON(json) {
+        return Node$1.fromJSON(this, json);
+    }
+    /**
+    Deserialize a mark from its JSON representation. This method is
+    bound.
+    */
+    markFromJSON(json) {
+        return Mark.fromJSON(this, json);
+    }
+    /**
+    @internal
+    */
+    nodeType(name) {
+        let found = this.nodes[name];
+        if (!found)
+            throw new RangeError("Unknown node type: " + name);
+        return found;
+    }
+}
+function gatherMarks(schema, marks) {
+    let found = [];
+    for (let i = 0; i < marks.length; i++) {
+        let name = marks[i], mark = schema.marks[name], ok = mark;
+        if (mark) {
+            found.push(mark);
+        }
+        else {
+            for (let prop in schema.marks) {
+                let mark = schema.marks[prop];
+                if (name == "_" || (mark.spec.group && mark.spec.group.split(" ").indexOf(name) > -1))
+                    found.push(ok = mark);
+            }
+        }
+        if (!ok)
+            throw new SyntaxError("Unknown mark type: '" + marks[i] + "'");
+    }
+    return found;
+}
+
+function isTagRule(rule) { return rule.tag != null; }
+function isStyleRule(rule) { return rule.style != null; }
+/**
+A DOM parser represents a strategy for parsing DOM content into a
+ProseMirror document conforming to a given schema. Its behavior is
+defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule).
+*/
+class DOMParser {
+    /**
+    Create a parser that targets the given schema, using the given
+    parsing rules.
+    */
+    constructor(
+    /**
+    The schema into which the parser parses.
+    */
+    schema, 
+    /**
+    The set of [parse rules](https://prosemirror.net/docs/ref/#model.ParseRule) that the parser
+    uses, in order of precedence.
+    */
+    rules) {
+        this.schema = schema;
+        this.rules = rules;
+        /**
+        @internal
+        */
+        this.tags = [];
+        /**
+        @internal
+        */
+        this.styles = [];
+        let matchedStyles = this.matchedStyles = [];
+        rules.forEach(rule => {
+            if (isTagRule(rule)) {
+                this.tags.push(rule);
+            }
+            else if (isStyleRule(rule)) {
+                let prop = /[^=]*/.exec(rule.style)[0];
+                if (matchedStyles.indexOf(prop) < 0)
+                    matchedStyles.push(prop);
+                this.styles.push(rule);
+            }
+        });
+        // Only normalize list elements when lists in the schema can't directly contain themselves
+        this.normalizeLists = !this.tags.some(r => {
+            if (!/^(ul|ol)\b/.test(r.tag) || !r.node)
+                return false;
+            let node = schema.nodes[r.node];
+            return node.contentMatch.matchType(node);
+        });
+    }
+    /**
+    Parse a document from the content of a DOM node.
+    */
+    parse(dom, options = {}) {
+        let context = new ParseContext(this, options, false);
+        context.addAll(dom, Mark.none, options.from, options.to);
+        return context.finish();
+    }
+    /**
+    Parses the content of the given DOM node, like
+    [`parse`](https://prosemirror.net/docs/ref/#model.DOMParser.parse), and takes the same set of
+    options. But unlike that method, which produces a whole node,
+    this one returns a slice that is open at the sides, meaning that
+    the schema constraints aren't applied to the start of nodes to
+    the left of the input and the end of nodes at the end.
+    */
+    parseSlice(dom, options = {}) {
+        let context = new ParseContext(this, options, true);
+        context.addAll(dom, Mark.none, options.from, options.to);
+        return Slice.maxOpen(context.finish());
+    }
+    /**
+    @internal
+    */
+    matchTag(dom, context, after) {
+        for (let i = after ? this.tags.indexOf(after) + 1 : 0; i < this.tags.length; i++) {
+            let rule = this.tags[i];
+            if (matches(dom, rule.tag) &&
+                (rule.namespace === undefined || dom.namespaceURI == rule.namespace) &&
+                (!rule.context || context.matchesContext(rule.context))) {
+                if (rule.getAttrs) {
+                    let result = rule.getAttrs(dom);
+                    if (result === false)
+                        continue;
+                    rule.attrs = result || undefined;
+                }
+                return rule;
+            }
+        }
+    }
+    /**
+    @internal
+    */
+    matchStyle(prop, value, context, after) {
+        for (let i = after ? this.styles.indexOf(after) + 1 : 0; i < this.styles.length; i++) {
+            let rule = this.styles[i], style = rule.style;
+            if (style.indexOf(prop) != 0 ||
+                rule.context && !context.matchesContext(rule.context) ||
+                // Test that the style string either precisely matches the prop,
+                // or has an '=' sign after the prop, followed by the given
+                // value.
+                style.length > prop.length &&
+                    (style.charCodeAt(prop.length) != 61 || style.slice(prop.length + 1) != value))
+                continue;
+            if (rule.getAttrs) {
+                let result = rule.getAttrs(value);
+                if (result === false)
+                    continue;
+                rule.attrs = result || undefined;
+            }
+            return rule;
+        }
+    }
+    /**
+    @internal
+    */
+    static schemaRules(schema) {
+        let result = [];
+        function insert(rule) {
+            let priority = rule.priority == null ? 50 : rule.priority, i = 0;
+            for (; i < result.length; i++) {
+                let next = result[i], nextPriority = next.priority == null ? 50 : next.priority;
+                if (nextPriority < priority)
+                    break;
+            }
+            result.splice(i, 0, rule);
+        }
+        for (let name in schema.marks) {
+            let rules = schema.marks[name].spec.parseDOM;
+            if (rules)
+                rules.forEach(rule => {
+                    insert(rule = copy(rule));
+                    if (!(rule.mark || rule.ignore || rule.clearMark))
+                        rule.mark = name;
+                });
+        }
+        for (let name in schema.nodes) {
+            let rules = schema.nodes[name].spec.parseDOM;
+            if (rules)
+                rules.forEach(rule => {
+                    insert(rule = copy(rule));
+                    if (!(rule.node || rule.ignore || rule.mark))
+                        rule.node = name;
+                });
+        }
+        return result;
+    }
+    /**
+    Construct a DOM parser using the parsing rules listed in a
+    schema's [node specs](https://prosemirror.net/docs/ref/#model.NodeSpec.parseDOM), reordered by
+    [priority](https://prosemirror.net/docs/ref/#model.ParseRule.priority).
+    */
+    static fromSchema(schema) {
+        return schema.cached.domParser ||
+            (schema.cached.domParser = new DOMParser(schema, DOMParser.schemaRules(schema)));
+    }
+}
+const blockTags = {
+    address: true, article: true, aside: true, blockquote: true, canvas: true,
+    dd: true, div: true, dl: true, fieldset: true, figcaption: true, figure: true,
+    footer: true, form: true, h1: true, h2: true, h3: true, h4: true, h5: true,
+    h6: true, header: true, hgroup: true, hr: true, li: true, noscript: true, ol: true,
+    output: true, p: true, pre: true, section: true, table: true, tfoot: true, ul: true
+};
+const ignoreTags = {
+    head: true, noscript: true, object: true, script: true, style: true, title: true
+};
+const listTags = { ol: true, ul: true };
+// Using a bitfield for node context options
+const OPT_PRESERVE_WS = 1, OPT_PRESERVE_WS_FULL = 2, OPT_OPEN_LEFT = 4;
+function wsOptionsFor(type, preserveWhitespace, base) {
+    if (preserveWhitespace != null)
+        return (preserveWhitespace ? OPT_PRESERVE_WS : 0) |
+            (preserveWhitespace === "full" ? OPT_PRESERVE_WS_FULL : 0);
+    return type && type.whitespace == "pre" ? OPT_PRESERVE_WS | OPT_PRESERVE_WS_FULL : base & ~OPT_OPEN_LEFT;
+}
+class NodeContext {
+    constructor(type, attrs, marks, solid, match, options) {
+        this.type = type;
+        this.attrs = attrs;
+        this.marks = marks;
+        this.solid = solid;
+        this.options = options;
+        this.content = [];
+        // Marks applied to the node's children
+        this.activeMarks = Mark.none;
+        this.match = match || (options & OPT_OPEN_LEFT ? null : type.contentMatch);
+    }
+    findWrapping(node) {
+        if (!this.match) {
+            if (!this.type)
+                return [];
+            let fill = this.type.contentMatch.fillBefore(Fragment.from(node));
+            if (fill) {
+                this.match = this.type.contentMatch.matchFragment(fill);
+            }
+            else {
+                let start = this.type.contentMatch, wrap;
+                if (wrap = start.findWrapping(node.type)) {
+                    this.match = start;
+                    return wrap;
+                }
+                else {
+                    return null;
+                }
+            }
+        }
+        return this.match.findWrapping(node.type);
+    }
+    finish(openEnd) {
+        if (!(this.options & OPT_PRESERVE_WS)) { // Strip trailing whitespace
+            let last = this.content[this.content.length - 1], m;
+            if (last && last.isText && (m = /[ \t\r\n\u000c]+$/.exec(last.text))) {
+                let text = last;
+                if (last.text.length == m[0].length)
+                    this.content.pop();
+                else
+                    this.content[this.content.length - 1] = text.withText(text.text.slice(0, text.text.length - m[0].length));
+            }
+        }
+        let content = Fragment.from(this.content);
+        if (!openEnd && this.match)
+            content = content.append(this.match.fillBefore(Fragment.empty, true));
+        return this.type ? this.type.create(this.attrs, content, this.marks) : content;
+    }
+    inlineContext(node) {
+        if (this.type)
+            return this.type.inlineContent;
+        if (this.content.length)
+            return this.content[0].isInline;
+        return node.parentNode && !blockTags.hasOwnProperty(node.parentNode.nodeName.toLowerCase());
+    }
+}
+class ParseContext {
+    constructor(
+    // The parser we are using.
+    parser, 
+    // The options passed to this parse.
+    options, isOpen) {
+        this.parser = parser;
+        this.options = options;
+        this.isOpen = isOpen;
+        this.open = 0;
+        this.localPreserveWS = false;
+        let topNode = options.topNode, topContext;
+        let topOptions = wsOptionsFor(null, options.preserveWhitespace, 0) | (isOpen ? OPT_OPEN_LEFT : 0);
+        if (topNode)
+            topContext = new NodeContext(topNode.type, topNode.attrs, Mark.none, true, options.topMatch || topNode.type.contentMatch, topOptions);
+        else if (isOpen)
+            topContext = new NodeContext(null, null, Mark.none, true, null, topOptions);
+        else
+            topContext = new NodeContext(parser.schema.topNodeType, null, Mark.none, true, null, topOptions);
+        this.nodes = [topContext];
+        this.find = options.findPositions;
+        this.needsBlock = false;
+    }
+    get top() {
+        return this.nodes[this.open];
+    }
+    // Add a DOM node to the content. Text is inserted as text node,
+    // otherwise, the node is passed to `addElement` or, if it has a
+    // `style` attribute, `addElementWithStyles`.
+    addDOM(dom, marks) {
+        if (dom.nodeType == 3)
+            this.addTextNode(dom, marks);
+        else if (dom.nodeType == 1)
+            this.addElement(dom, marks);
+    }
+    addTextNode(dom, marks) {
+        let value = dom.nodeValue;
+        let top = this.top, preserveWS = (top.options & OPT_PRESERVE_WS_FULL) ? "full"
+            : this.localPreserveWS || (top.options & OPT_PRESERVE_WS) > 0;
+        if (preserveWS === "full" ||
+            top.inlineContext(dom) ||
+            /[^ \t\r\n\u000c]/.test(value)) {
+            if (!preserveWS) {
+                value = value.replace(/[ \t\r\n\u000c]+/g, " ");
+                // If this starts with whitespace, and there is no node before it, or
+                // a hard break, or a text node that ends with whitespace, strip the
+                // leading space.
+                if (/^[ \t\r\n\u000c]/.test(value) && this.open == this.nodes.length - 1) {
+                    let nodeBefore = top.content[top.content.length - 1];
+                    let domNodeBefore = dom.previousSibling;
+                    if (!nodeBefore ||
+                        (domNodeBefore && domNodeBefore.nodeName == 'BR') ||
+                        (nodeBefore.isText && /[ \t\r\n\u000c]$/.test(nodeBefore.text)))
+                        value = value.slice(1);
+                }
+            }
+            else if (preserveWS !== "full") {
+                value = value.replace(/\r?\n|\r/g, " ");
+            }
+            else {
+                value = value.replace(/\r\n?/g, "\n");
+            }
+            if (value)
+                this.insertNode(this.parser.schema.text(value), marks);
+            this.findInText(dom);
+        }
+        else {
+            this.findInside(dom);
+        }
+    }
+    // Try to find a handler for the given tag and use that to parse. If
+    // none is found, the element's content nodes are added directly.
+    addElement(dom, marks, matchAfter) {
+        let outerWS = this.localPreserveWS, top = this.top;
+        if (dom.tagName == "PRE" || /pre/.test(dom.style && dom.style.whiteSpace))
+            this.localPreserveWS = true;
+        let name = dom.nodeName.toLowerCase(), ruleID;
+        if (listTags.hasOwnProperty(name) && this.parser.normalizeLists)
+            normalizeList(dom);
+        let rule = (this.options.ruleFromNode && this.options.ruleFromNode(dom)) ||
+            (ruleID = this.parser.matchTag(dom, this, matchAfter));
+        out: if (rule ? rule.ignore : ignoreTags.hasOwnProperty(name)) {
+            this.findInside(dom);
+            this.ignoreFallback(dom, marks);
+        }
+        else if (!rule || rule.skip || rule.closeParent) {
+            if (rule && rule.closeParent)
+                this.open = Math.max(0, this.open - 1);
+            else if (rule && rule.skip.nodeType)
+                dom = rule.skip;
+            let sync, oldNeedsBlock = this.needsBlock;
+            if (blockTags.hasOwnProperty(name)) {
+                if (top.content.length && top.content[0].isInline && this.open) {
+                    this.open--;
+                    top = this.top;
+                }
+                sync = true;
+                if (!top.type)
+                    this.needsBlock = true;
+            }
+            else if (!dom.firstChild) {
+                this.leafFallback(dom, marks);
+                break out;
+            }
+            let innerMarks = rule && rule.skip ? marks : this.readStyles(dom, marks);
+            if (innerMarks)
+                this.addAll(dom, innerMarks);
+            if (sync)
+                this.sync(top);
+            this.needsBlock = oldNeedsBlock;
+        }
+        else {
+            let innerMarks = this.readStyles(dom, marks);
+            if (innerMarks)
+                this.addElementByRule(dom, rule, innerMarks, rule.consuming === false ? ruleID : undefined);
+        }
+        this.localPreserveWS = outerWS;
+    }
+    // Called for leaf DOM nodes that would otherwise be ignored
+    leafFallback(dom, marks) {
+        if (dom.nodeName == "BR" && this.top.type && this.top.type.inlineContent)
+            this.addTextNode(dom.ownerDocument.createTextNode("\n"), marks);
+    }
+    // Called for ignored nodes
+    ignoreFallback(dom, marks) {
+        // Ignored BR nodes should at least create an inline context
+        if (dom.nodeName == "BR" && (!this.top.type || !this.top.type.inlineContent))
+            this.findPlace(this.parser.schema.text("-"), marks);
+    }
+    // Run any style parser associated with the node's styles. Either
+    // return an updated array of marks, or null to indicate some of the
+    // styles had a rule with `ignore` set.
+    readStyles(dom, marks) {
+        let styles = dom.style;
+        // Because many properties will only show up in 'normalized' form
+        // in `style.item` (i.e. text-decoration becomes
+        // text-decoration-line, text-decoration-color, etc), we directly
+        // query the styles mentioned in our rules instead of iterating
+        // over the items.
+        if (styles && styles.length)
+            for (let i = 0; i < this.parser.matchedStyles.length; i++) {
+                let name = this.parser.matchedStyles[i], value = styles.getPropertyValue(name);
+                if (value)
+                    for (let after = undefined;;) {
+                        let rule = this.parser.matchStyle(name, value, this, after);
+                        if (!rule)
+                            break;
+                        if (rule.ignore)
+                            return null;
+                        if (rule.clearMark)
+                            marks = marks.filter(m => !rule.clearMark(m));
+                        else
+                            marks = marks.concat(this.parser.schema.marks[rule.mark].create(rule.attrs));
+                        if (rule.consuming === false)
+                            after = rule;
+                        else
+                            break;
+                    }
+            }
+        return marks;
+    }
+    // Look up a handler for the given node. If none are found, return
+    // false. Otherwise, apply it, use its return value to drive the way
+    // the node's content is wrapped, and return true.
+    addElementByRule(dom, rule, marks, continueAfter) {
+        let sync, nodeType;
+        if (rule.node) {
+            nodeType = this.parser.schema.nodes[rule.node];
+            if (!nodeType.isLeaf) {
+                let inner = this.enter(nodeType, rule.attrs || null, marks, rule.preserveWhitespace);
+                if (inner) {
+                    sync = true;
+                    marks = inner;
+                }
+            }
+            else if (!this.insertNode(nodeType.create(rule.attrs), marks)) {
+                this.leafFallback(dom, marks);
+            }
+        }
+        else {
+            let markType = this.parser.schema.marks[rule.mark];
+            marks = marks.concat(markType.create(rule.attrs));
+        }
+        let startIn = this.top;
+        if (nodeType && nodeType.isLeaf) {
+            this.findInside(dom);
+        }
+        else if (continueAfter) {
+            this.addElement(dom, marks, continueAfter);
+        }
+        else if (rule.getContent) {
+            this.findInside(dom);
+            rule.getContent(dom, this.parser.schema).forEach(node => this.insertNode(node, marks));
+        }
+        else {
+            let contentDOM = dom;
+            if (typeof rule.contentElement == "string")
+                contentDOM = dom.querySelector(rule.contentElement);
+            else if (typeof rule.contentElement == "function")
+                contentDOM = rule.contentElement(dom);
+            else if (rule.contentElement)
+                contentDOM = rule.contentElement;
+            this.findAround(dom, contentDOM, true);
+            this.addAll(contentDOM, marks);
+            this.findAround(dom, contentDOM, false);
+        }
+        if (sync && this.sync(startIn))
+            this.open--;
+    }
+    // Add all child nodes between `startIndex` and `endIndex` (or the
+    // whole node, if not given). If `sync` is passed, use it to
+    // synchronize after every block element.
+    addAll(parent, marks, startIndex, endIndex) {
+        let index = startIndex || 0;
+        for (let dom = startIndex ? parent.childNodes[startIndex] : parent.firstChild, end = endIndex == null ? null : parent.childNodes[endIndex]; dom != end; dom = dom.nextSibling, ++index) {
+            this.findAtPoint(parent, index);
+            this.addDOM(dom, marks);
+        }
+        this.findAtPoint(parent, index);
+    }
+    // Try to find a way to fit the given node type into the current
+    // context. May add intermediate wrappers and/or leave non-solid
+    // nodes that we're in.
+    findPlace(node, marks) {
+        let route, sync;
+        for (let depth = this.open; depth >= 0; depth--) {
+            let cx = this.nodes[depth];
+            let found = cx.findWrapping(node);
+            if (found && (!route || route.length > found.length)) {
+                route = found;
+                sync = cx;
+                if (!found.length)
+                    break;
+            }
+            if (cx.solid)
+                break;
+        }
+        if (!route)
+            return null;
+        this.sync(sync);
+        for (let i = 0; i < route.length; i++)
+            marks = this.enterInner(route[i], null, marks, false);
+        return marks;
+    }
+    // Try to insert the given node, adjusting the context when needed.
+    insertNode(node, marks) {
+        if (node.isInline && this.needsBlock && !this.top.type) {
+            let block = this.textblockFromContext();
+            if (block)
+                marks = this.enterInner(block, null, marks);
+        }
+        let innerMarks = this.findPlace(node, marks);
+        if (innerMarks) {
+            this.closeExtra();
+            let top = this.top;
+            if (top.match)
+                top.match = top.match.matchType(node.type);
+            let nodeMarks = Mark.none;
+            for (let m of innerMarks.concat(node.marks))
+                if (top.type ? top.type.allowsMarkType(m.type) : markMayApply(m.type, node.type))
+                    nodeMarks = m.addToSet(nodeMarks);
+            top.content.push(node.mark(nodeMarks));
+            return true;
+        }
+        return false;
+    }
+    // Try to start a node of the given type, adjusting the context when
+    // necessary.
+    enter(type, attrs, marks, preserveWS) {
+        let innerMarks = this.findPlace(type.create(attrs), marks);
+        if (innerMarks)
+            innerMarks = this.enterInner(type, attrs, marks, true, preserveWS);
+        return innerMarks;
+    }
+    // Open a node of the given type
+    enterInner(type, attrs, marks, solid = false, preserveWS) {
+        this.closeExtra();
+        let top = this.top;
+        top.match = top.match && top.match.matchType(type);
+        let options = wsOptionsFor(type, preserveWS, top.options);
+        if ((top.options & OPT_OPEN_LEFT) && top.content.length == 0)
+            options |= OPT_OPEN_LEFT;
+        let applyMarks = Mark.none;
+        marks = marks.filter(m => {
+            if (top.type ? top.type.allowsMarkType(m.type) : markMayApply(m.type, type)) {
+                applyMarks = m.addToSet(applyMarks);
+                return false;
+            }
+            return true;
+        });
+        this.nodes.push(new NodeContext(type, attrs, applyMarks, solid, null, options));
+        this.open++;
+        return marks;
+    }
+    // Make sure all nodes above this.open are finished and added to
+    // their parents
+    closeExtra(openEnd = false) {
+        let i = this.nodes.length - 1;
+        if (i > this.open) {
+            for (; i > this.open; i--)
+                this.nodes[i - 1].content.push(this.nodes[i].finish(openEnd));
+            this.nodes.length = this.open + 1;
+        }
+    }
+    finish() {
+        this.open = 0;
+        this.closeExtra(this.isOpen);
+        return this.nodes[0].finish(!!(this.isOpen || this.options.topOpen));
+    }
+    sync(to) {
+        for (let i = this.open; i >= 0; i--) {
+            if (this.nodes[i] == to) {
+                this.open = i;
+                return true;
+            }
+            else if (this.localPreserveWS) {
+                this.nodes[i].options |= OPT_PRESERVE_WS;
+            }
+        }
+        return false;
+    }
+    get currentPos() {
+        this.closeExtra();
+        let pos = 0;
+        for (let i = this.open; i >= 0; i--) {
+            let content = this.nodes[i].content;
+            for (let j = content.length - 1; j >= 0; j--)
+                pos += content[j].nodeSize;
+            if (i)
+                pos++;
+        }
+        return pos;
+    }
+    findAtPoint(parent, offset) {
+        if (this.find)
+            for (let i = 0; i < this.find.length; i++) {
+                if (this.find[i].node == parent && this.find[i].offset == offset)
+                    this.find[i].pos = this.currentPos;
+            }
+    }
+    findInside(parent) {
+        if (this.find)
+            for (let i = 0; i < this.find.length; i++) {
+                if (this.find[i].pos == null && parent.nodeType == 1 && parent.contains(this.find[i].node))
+                    this.find[i].pos = this.currentPos;
+            }
+    }
+    findAround(parent, content, before) {
+        if (parent != content && this.find)
+            for (let i = 0; i < this.find.length; i++) {
+                if (this.find[i].pos == null && parent.nodeType == 1 && parent.contains(this.find[i].node)) {
+                    let pos = content.compareDocumentPosition(this.find[i].node);
+                    if (pos & (before ? 2 : 4))
+                        this.find[i].pos = this.currentPos;
+                }
+            }
+    }
+    findInText(textNode) {
+        if (this.find)
+            for (let i = 0; i < this.find.length; i++) {
+                if (this.find[i].node == textNode)
+                    this.find[i].pos = this.currentPos - (textNode.nodeValue.length - this.find[i].offset);
+            }
+    }
+    // Determines whether the given context string matches this context.
+    matchesContext(context) {
+        if (context.indexOf("|") > -1)
+            return context.split(/\s*\|\s*/).some(this.matchesContext, this);
+        let parts = context.split("/");
+        let option = this.options.context;
+        let useRoot = !this.isOpen && (!option || option.parent.type == this.nodes[0].type);
+        let minDepth = -(option ? option.depth + 1 : 0) + (useRoot ? 0 : 1);
+        let match = (i, depth) => {
+            for (; i >= 0; i--) {
+                let part = parts[i];
+                if (part == "") {
+                    if (i == parts.length - 1 || i == 0)
+                        continue;
+                    for (; depth >= minDepth; depth--)
+                        if (match(i - 1, depth))
+                            return true;
+                    return false;
+                }
+                else {
+                    let next = depth > 0 || (depth == 0 && useRoot) ? this.nodes[depth].type
+                        : option && depth >= minDepth ? option.node(depth - minDepth).type
+                            : null;
+                    if (!next || (next.name != part && !next.isInGroup(part)))
+                        return false;
+                    depth--;
+                }
+            }
+            return true;
+        };
+        return match(parts.length - 1, this.open);
+    }
+    textblockFromContext() {
+        let $context = this.options.context;
+        if ($context)
+            for (let d = $context.depth; d >= 0; d--) {
+                let deflt = $context.node(d).contentMatchAt($context.indexAfter(d)).defaultType;
+                if (deflt && deflt.isTextblock && deflt.defaultAttrs)
+                    return deflt;
+            }
+        for (let name in this.parser.schema.nodes) {
+            let type = this.parser.schema.nodes[name];
+            if (type.isTextblock && type.defaultAttrs)
+                return type;
+        }
+    }
+}
+// Kludge to work around directly nested list nodes produced by some
+// tools and allowed by browsers to mean that the nested list is
+// actually part of the list item above it.
+function normalizeList(dom) {
+    for (let child = dom.firstChild, prevItem = null; child; child = child.nextSibling) {
+        let name = child.nodeType == 1 ? child.nodeName.toLowerCase() : null;
+        if (name && listTags.hasOwnProperty(name) && prevItem) {
+            prevItem.appendChild(child);
+            child = prevItem;
+        }
+        else if (name == "li") {
+            prevItem = child;
+        }
+        else if (name) {
+            prevItem = null;
+        }
+    }
+}
+// Apply a CSS selector.
+function matches(dom, selector) {
+    return (dom.matches || dom.msMatchesSelector || dom.webkitMatchesSelector || dom.mozMatchesSelector).call(dom, selector);
+}
+function copy(obj) {
+    let copy = {};
+    for (let prop in obj)
+        copy[prop] = obj[prop];
+    return copy;
+}
+// Used when finding a mark at the top level of a fragment parse.
+// Checks whether it would be reasonable to apply a given mark type to
+// a given node, by looking at the way the mark occurs in the schema.
+function markMayApply(markType, nodeType) {
+    let nodes = nodeType.schema.nodes;
+    for (let name in nodes) {
+        let parent = nodes[name];
+        if (!parent.allowsMarkType(markType))
+            continue;
+        let seen = [], scan = (match) => {
+            seen.push(match);
+            for (let i = 0; i < match.edgeCount; i++) {
+                let { type, next } = match.edge(i);
+                if (type == nodeType)
+                    return true;
+                if (seen.indexOf(next) < 0 && scan(next))
+                    return true;
+            }
+        };
+        if (scan(parent.contentMatch))
+            return true;
+    }
+}
+
+/**
+A DOM serializer knows how to convert ProseMirror nodes and
+marks of various types to DOM nodes.
+*/
+class DOMSerializer {
+    /**
+    Create a serializer. `nodes` should map node names to functions
+    that take a node and return a description of the corresponding
+    DOM. `marks` does the same for mark names, but also gets an
+    argument that tells it whether the mark's content is block or
+    inline content (for typical use, it'll always be inline). A mark
+    serializer may be `null` to indicate that marks of that type
+    should not be serialized.
+    */
+    constructor(
+    /**
+    The node serialization functions.
+    */
+    nodes, 
+    /**
+    The mark serialization functions.
+    */
+    marks) {
+        this.nodes = nodes;
+        this.marks = marks;
+    }
+    /**
+    Serialize the content of this fragment to a DOM fragment. When
+    not in the browser, the `document` option, containing a DOM
+    document, should be passed so that the serializer can create
+    nodes.
+    */
+    serializeFragment(fragment, options = {}, target) {
+        if (!target)
+            target = doc$2(options).createDocumentFragment();
+        let top = target, active = [];
+        fragment.forEach(node => {
+            if (active.length || node.marks.length) {
+                let keep = 0, rendered = 0;
+                while (keep < active.length && rendered < node.marks.length) {
+                    let next = node.marks[rendered];
+                    if (!this.marks[next.type.name]) {
+                        rendered++;
+                        continue;
+                    }
+                    if (!next.eq(active[keep][0]) || next.type.spec.spanning === false)
+                        break;
+                    keep++;
+                    rendered++;
+                }
+                while (keep < active.length)
+                    top = active.pop()[1];
+                while (rendered < node.marks.length) {
+                    let add = node.marks[rendered++];
+                    let markDOM = this.serializeMark(add, node.isInline, options);
+                    if (markDOM) {
+                        active.push([add, top]);
+                        top.appendChild(markDOM.dom);
+                        top = markDOM.contentDOM || markDOM.dom;
+                    }
+                }
+            }
+            top.appendChild(this.serializeNodeInner(node, options));
+        });
+        return target;
+    }
+    /**
+    @internal
+    */
+    serializeNodeInner(node, options) {
+        let { dom, contentDOM } = renderSpec(doc$2(options), this.nodes[node.type.name](node), null, node.attrs);
+        if (contentDOM) {
+            if (node.isLeaf)
+                throw new RangeError("Content hole not allowed in a leaf node spec");
+            this.serializeFragment(node.content, options, contentDOM);
+        }
+        return dom;
+    }
+    /**
+    Serialize this node to a DOM node. This can be useful when you
+    need to serialize a part of a document, as opposed to the whole
+    document. To serialize a whole document, use
+    [`serializeFragment`](https://prosemirror.net/docs/ref/#model.DOMSerializer.serializeFragment) on
+    its [content](https://prosemirror.net/docs/ref/#model.Node.content).
+    */
+    serializeNode(node, options = {}) {
+        let dom = this.serializeNodeInner(node, options);
+        for (let i = node.marks.length - 1; i >= 0; i--) {
+            let wrap = this.serializeMark(node.marks[i], node.isInline, options);
+            if (wrap) {
+                (wrap.contentDOM || wrap.dom).appendChild(dom);
+                dom = wrap.dom;
+            }
+        }
+        return dom;
+    }
+    /**
+    @internal
+    */
+    serializeMark(mark, inline, options = {}) {
+        let toDOM = this.marks[mark.type.name];
+        return toDOM && renderSpec(doc$2(options), toDOM(mark, inline), null, mark.attrs);
+    }
+    static renderSpec(doc, structure, xmlNS = null, blockArraysIn) {
+        return renderSpec(doc, structure, xmlNS, blockArraysIn);
+    }
+    /**
+    Build a serializer using the [`toDOM`](https://prosemirror.net/docs/ref/#model.NodeSpec.toDOM)
+    properties in a schema's node and mark specs.
+    */
+    static fromSchema(schema) {
+        return schema.cached.domSerializer ||
+            (schema.cached.domSerializer = new DOMSerializer(this.nodesFromSchema(schema), this.marksFromSchema(schema)));
+    }
+    /**
+    Gather the serializers in a schema's node specs into an object.
+    This can be useful as a base to build a custom serializer from.
+    */
+    static nodesFromSchema(schema) {
+        let result = gatherToDOM(schema.nodes);
+        if (!result.text)
+            result.text = node => node.text;
+        return result;
+    }
+    /**
+    Gather the serializers in a schema's mark specs into an object.
+    */
+    static marksFromSchema(schema) {
+        return gatherToDOM(schema.marks);
+    }
+}
+function gatherToDOM(obj) {
+    let result = {};
+    for (let name in obj) {
+        let toDOM = obj[name].spec.toDOM;
+        if (toDOM)
+            result[name] = toDOM;
+    }
+    return result;
+}
+function doc$2(options) {
+    return options.document || window.document;
+}
+const suspiciousAttributeCache = new WeakMap();
+function suspiciousAttributes(attrs) {
+    let value = suspiciousAttributeCache.get(attrs);
+    if (value === undefined)
+        suspiciousAttributeCache.set(attrs, value = suspiciousAttributesInner(attrs));
+    return value;
+}
+function suspiciousAttributesInner(attrs) {
+    let result = null;
+    function scan(value) {
+        if (value && typeof value == "object") {
+            if (Array.isArray(value)) {
+                if (typeof value[0] == "string") {
+                    if (!result)
+                        result = [];
+                    result.push(value);
+                }
+                else {
+                    for (let i = 0; i < value.length; i++)
+                        scan(value[i]);
+                }
+            }
+            else {
+                for (let prop in value)
+                    scan(value[prop]);
+            }
+        }
+    }
+    scan(attrs);
+    return result;
+}
+function renderSpec(doc, structure, xmlNS, blockArraysIn) {
+    if (typeof structure == "string")
+        return { dom: doc.createTextNode(structure) };
+    if (structure.nodeType != null)
+        return { dom: structure };
+    if (structure.dom && structure.dom.nodeType != null)
+        return structure;
+    let tagName = structure[0], suspicious;
+    if (typeof tagName != "string")
+        throw new RangeError("Invalid array passed to renderSpec");
+    if (blockArraysIn && (suspicious = suspiciousAttributes(blockArraysIn)) &&
+        suspicious.indexOf(structure) > -1)
+        throw new RangeError("Using an array from an attribute object as a DOM spec. This may be an attempted cross site scripting attack.");
+    let space = tagName.indexOf(" ");
+    if (space > 0) {
+        xmlNS = tagName.slice(0, space);
+        tagName = tagName.slice(space + 1);
+    }
+    let contentDOM;
+    let dom = (xmlNS ? doc.createElementNS(xmlNS, tagName) : doc.createElement(tagName));
+    let attrs = structure[1], start = 1;
+    if (attrs && typeof attrs == "object" && attrs.nodeType == null && !Array.isArray(attrs)) {
+        start = 2;
+        for (let name in attrs)
+            if (attrs[name] != null) {
+                let space = name.indexOf(" ");
+                if (space > 0)
+                    dom.setAttributeNS(name.slice(0, space), name.slice(space + 1), attrs[name]);
+                else
+                    dom.setAttribute(name, attrs[name]);
+            }
+    }
+    for (let i = start; i < structure.length; i++) {
+        let child = structure[i];
+        if (child === 0) {
+            if (i < structure.length - 1 || i > start)
+                throw new RangeError("Content hole must be the only child of its parent node");
+            return { dom, contentDOM: dom };
+        }
+        else {
+            let { dom: inner, contentDOM: innerContent } = renderSpec(doc, child, xmlNS, blockArraysIn);
+            dom.appendChild(inner);
+            if (innerContent) {
+                if (contentDOM)
+                    throw new RangeError("Multiple content holes");
+                contentDOM = innerContent;
+            }
+        }
+    }
+    return { dom, contentDOM };
+}
 
 /**
  * @typedef {import('mdast').Nodes} Nodes
@@ -16618,3833 +19949,229 @@ function isUint8Array(value) {
   )
 }
 
-function withMeta$6(plugin, meta) {
-  plugin.meta = {
-    package: "@milkdown/core",
-    group: "System",
-    ...meta
-  };
-  return plugin;
-}
-
-const remarkHandlers = {
-  strong: (node, _, state, info) => {
-    const marker = node.marker || state.options.strong || "*";
-    const exit = state.enter("strong");
-    const tracker = state.createTracker(info);
-    let value = tracker.move(marker + marker);
-    value += tracker.move(
-      state.containerPhrasing(node, {
-        before: value,
-        after: marker,
-        ...tracker.current()
-      })
-    );
-    value += tracker.move(marker + marker);
-    exit();
-    return value;
-  },
-  emphasis: (node, _, state, info) => {
-    const marker = node.marker || state.options.emphasis || "*";
-    const exit = state.enter("emphasis");
-    const tracker = state.createTracker(info);
-    let value = tracker.move(marker);
-    value += tracker.move(
-      state.containerPhrasing(node, {
-        before: value,
-        after: marker,
-        ...tracker.current()
-      })
-    );
-    value += tracker.move(marker);
-    exit();
-    return value;
-  }
+var H$4 = (p, h, n) => {
+  if (!h.has(p))
+    throw TypeError("Cannot " + n);
 };
-
-const editorViewCtx = createSlice({}, "editorView");
-const editorStateCtx = createSlice({}, "editorState");
-const initTimerCtx = createSlice([], "initTimer");
-const editorCtx = createSlice({}, "editor");
-const inputRulesCtx = createSlice([], "inputRules");
-const prosePluginsCtx = createSlice([], "prosePlugins");
-const remarkPluginsCtx = createSlice(
-  [],
-  "remarkPlugins"
-);
-const nodeViewCtx = createSlice([], "nodeView");
-const markViewCtx = createSlice([], "markView");
-const remarkCtx = createSlice(
-  unified().use(remarkParse).use(remarkStringify),
-  "remark"
-);
-const remarkStringifyOptionsCtx = createSlice(
-  {
-    handlers: remarkHandlers
-  },
-  "remarkStringifyOptions"
-);
-
-// ::- Persistent data structure representing an ordered mapping from
-// strings to values, with some convenient update methods.
-function OrderedMap(content) {
-  this.content = content;
-}
-
-OrderedMap.prototype = {
-  constructor: OrderedMap,
-
-  find: function(key) {
-    for (var i = 0; i < this.content.length; i += 2)
-      if (this.content[i] === key) return i
-    return -1
-  },
-
-  // :: (string) → ?any
-  // Retrieve the value stored under `key`, or return undefined when
-  // no such key exists.
-  get: function(key) {
-    var found = this.find(key);
-    return found == -1 ? undefined : this.content[found + 1]
-  },
-
-  // :: (string, any, ?string) → OrderedMap
-  // Create a new map by replacing the value of `key` with a new
-  // value, or adding a binding to the end of the map. If `newKey` is
-  // given, the key of the binding will be replaced with that key.
-  update: function(key, value, newKey) {
-    var self = newKey && newKey != key ? this.remove(newKey) : this;
-    var found = self.find(key), content = self.content.slice();
-    if (found == -1) {
-      content.push(newKey || key, value);
-    } else {
-      content[found + 1] = value;
-      if (newKey) content[found] = newKey;
-    }
-    return new OrderedMap(content)
-  },
-
-  // :: (string) → OrderedMap
-  // Return a map with the given key removed, if it existed.
-  remove: function(key) {
-    var found = this.find(key);
-    if (found == -1) return this
-    var content = this.content.slice();
-    content.splice(found, 2);
-    return new OrderedMap(content)
-  },
-
-  // :: (string, any) → OrderedMap
-  // Add a new key to the start of the map.
-  addToStart: function(key, value) {
-    return new OrderedMap([key, value].concat(this.remove(key).content))
-  },
-
-  // :: (string, any) → OrderedMap
-  // Add a new key to the end of the map.
-  addToEnd: function(key, value) {
-    var content = this.remove(key).content.slice();
-    content.push(key, value);
-    return new OrderedMap(content)
-  },
-
-  // :: (string, string, any) → OrderedMap
-  // Add a key after the given key. If `place` is not found, the new
-  // key is added to the end.
-  addBefore: function(place, key, value) {
-    var without = this.remove(key), content = without.content.slice();
-    var found = without.find(place);
-    content.splice(found == -1 ? content.length : found, 0, key, value);
-    return new OrderedMap(content)
-  },
-
-  // :: ((key: string, value: any))
-  // Call the given function for each key/value pair in the map, in
-  // order.
-  forEach: function(f) {
-    for (var i = 0; i < this.content.length; i += 2)
-      f(this.content[i], this.content[i + 1]);
-  },
-
-  // :: (union<Object, OrderedMap>) → OrderedMap
-  // Create a new map by prepending the keys in this map that don't
-  // appear in `map` before the keys in `map`.
-  prepend: function(map) {
-    map = OrderedMap.from(map);
-    if (!map.size) return this
-    return new OrderedMap(map.content.concat(this.subtract(map).content))
-  },
-
-  // :: (union<Object, OrderedMap>) → OrderedMap
-  // Create a new map by appending the keys in this map that don't
-  // appear in `map` after the keys in `map`.
-  append: function(map) {
-    map = OrderedMap.from(map);
-    if (!map.size) return this
-    return new OrderedMap(this.subtract(map).content.concat(map.content))
-  },
-
-  // :: (union<Object, OrderedMap>) → OrderedMap
-  // Create a map containing all the keys in this map that don't
-  // appear in `map`.
-  subtract: function(map) {
-    var result = this;
-    map = OrderedMap.from(map);
-    for (var i = 0; i < map.content.length; i += 2)
-      result = result.remove(map.content[i]);
-    return result
-  },
-
-  // :: () → Object
-  // Turn ordered map into a plain object.
-  toObject: function() {
-    var result = {};
-    this.forEach(function(key, value) { result[key] = value; });
-    return result
-  },
-
-  // :: number
-  // The amount of keys in this map.
-  get size() {
-    return this.content.length >> 1
-  }
+var i$4 = (p, h, n) => (H$4(p, h, "read from private field"), n ? n.call(p) : h.get(p)), u$5 = (p, h, n) => {
+  if (h.has(p))
+    throw TypeError("Cannot add the same private member more than once");
+  h instanceof WeakSet ? h.add(p) : h.set(p, n);
+}, o$2 = (p, h, n, t) => (H$4(p, h, "write to private field"), h.set(p, n), n);
+let U$3 = class U {
 };
-
-// :: (?union<Object, OrderedMap>) → OrderedMap
-// Return a map with the given content. If null, create an empty
-// map. If given an ordered map, return that map itself. If given an
-// object, create a map from the object's properties.
-OrderedMap.from = function(value) {
-  if (value instanceof OrderedMap) return value
-  var content = [];
-  if (value) for (var prop in value) content.push(prop, value[prop]);
-  return new OrderedMap(content)
-};
-
-function findDiffStart(a, b, pos) {
-    for (let i = 0;; i++) {
-        if (i == a.childCount || i == b.childCount)
-            return a.childCount == b.childCount ? null : pos;
-        let childA = a.child(i), childB = b.child(i);
-        if (childA == childB) {
-            pos += childA.nodeSize;
-            continue;
-        }
-        if (!childA.sameMarkup(childB))
-            return pos;
-        if (childA.isText && childA.text != childB.text) {
-            for (let j = 0; childA.text[j] == childB.text[j]; j++)
-                pos++;
-            return pos;
-        }
-        if (childA.content.size || childB.content.size) {
-            let inner = findDiffStart(childA.content, childB.content, pos + 1);
-            if (inner != null)
-                return inner;
-        }
-        pos += childA.nodeSize;
-    }
-}
-function findDiffEnd(a, b, posA, posB) {
-    for (let iA = a.childCount, iB = b.childCount;;) {
-        if (iA == 0 || iB == 0)
-            return iA == iB ? null : { a: posA, b: posB };
-        let childA = a.child(--iA), childB = b.child(--iB), size = childA.nodeSize;
-        if (childA == childB) {
-            posA -= size;
-            posB -= size;
-            continue;
-        }
-        if (!childA.sameMarkup(childB))
-            return { a: posA, b: posB };
-        if (childA.isText && childA.text != childB.text) {
-            let same = 0, minSize = Math.min(childA.text.length, childB.text.length);
-            while (same < minSize && childA.text[childA.text.length - same - 1] == childB.text[childB.text.length - same - 1]) {
-                same++;
-                posA--;
-                posB--;
-            }
-            return { a: posA, b: posB };
-        }
-        if (childA.content.size || childB.content.size) {
-            let inner = findDiffEnd(childA.content, childB.content, posA - 1, posB - 1);
-            if (inner)
-                return inner;
-        }
-        posA -= size;
-        posB -= size;
-    }
-}
-
-/**
-A fragment represents a node's collection of child nodes.
-
-Like nodes, fragments are persistent data structures, and you
-should not mutate them or their content. Rather, you create new
-instances whenever needed. The API tries to make this easy.
-*/
-class Fragment {
-    /**
-    @internal
-    */
-    constructor(
-    /**
-    The child nodes in this fragment.
-    */
-    content, size) {
-        this.content = content;
-        this.size = size || 0;
-        if (size == null)
-            for (let i = 0; i < content.length; i++)
-                this.size += content[i].nodeSize;
-    }
-    /**
-    Invoke a callback for all descendant nodes between the given two
-    positions (relative to start of this fragment). Doesn't descend
-    into a node when the callback returns `false`.
-    */
-    nodesBetween(from, to, f, nodeStart = 0, parent) {
-        for (let i = 0, pos = 0; pos < to; i++) {
-            let child = this.content[i], end = pos + child.nodeSize;
-            if (end > from && f(child, nodeStart + pos, parent || null, i) !== false && child.content.size) {
-                let start = pos + 1;
-                child.nodesBetween(Math.max(0, from - start), Math.min(child.content.size, to - start), f, nodeStart + start);
-            }
-            pos = end;
-        }
-    }
-    /**
-    Call the given callback for every descendant node. `pos` will be
-    relative to the start of the fragment. The callback may return
-    `false` to prevent traversal of a given node's children.
-    */
-    descendants(f) {
-        this.nodesBetween(0, this.size, f);
-    }
-    /**
-    Extract the text between `from` and `to`. See the same method on
-    [`Node`](https://prosemirror.net/docs/ref/#model.Node.textBetween).
-    */
-    textBetween(from, to, blockSeparator, leafText) {
-        let text = "", first = true;
-        this.nodesBetween(from, to, (node, pos) => {
-            let nodeText = node.isText ? node.text.slice(Math.max(from, pos) - pos, to - pos)
-                : !node.isLeaf ? ""
-                    : leafText ? (typeof leafText === "function" ? leafText(node) : leafText)
-                        : node.type.spec.leafText ? node.type.spec.leafText(node)
-                            : "";
-            if (node.isBlock && (node.isLeaf && nodeText || node.isTextblock) && blockSeparator) {
-                if (first)
-                    first = false;
-                else
-                    text += blockSeparator;
-            }
-            text += nodeText;
-        }, 0);
-        return text;
-    }
-    /**
-    Create a new fragment containing the combined content of this
-    fragment and the other.
-    */
-    append(other) {
-        if (!other.size)
-            return this;
-        if (!this.size)
-            return other;
-        let last = this.lastChild, first = other.firstChild, content = this.content.slice(), i = 0;
-        if (last.isText && last.sameMarkup(first)) {
-            content[content.length - 1] = last.withText(last.text + first.text);
-            i = 1;
-        }
-        for (; i < other.content.length; i++)
-            content.push(other.content[i]);
-        return new Fragment(content, this.size + other.size);
-    }
-    /**
-    Cut out the sub-fragment between the two given positions.
-    */
-    cut(from, to = this.size) {
-        if (from == 0 && to == this.size)
-            return this;
-        let result = [], size = 0;
-        if (to > from)
-            for (let i = 0, pos = 0; pos < to; i++) {
-                let child = this.content[i], end = pos + child.nodeSize;
-                if (end > from) {
-                    if (pos < from || end > to) {
-                        if (child.isText)
-                            child = child.cut(Math.max(0, from - pos), Math.min(child.text.length, to - pos));
-                        else
-                            child = child.cut(Math.max(0, from - pos - 1), Math.min(child.content.size, to - pos - 1));
-                    }
-                    result.push(child);
-                    size += child.nodeSize;
-                }
-                pos = end;
-            }
-        return new Fragment(result, size);
-    }
-    /**
-    @internal
-    */
-    cutByIndex(from, to) {
-        if (from == to)
-            return Fragment.empty;
-        if (from == 0 && to == this.content.length)
-            return this;
-        return new Fragment(this.content.slice(from, to));
-    }
-    /**
-    Create a new fragment in which the node at the given index is
-    replaced by the given node.
-    */
-    replaceChild(index, node) {
-        let current = this.content[index];
-        if (current == node)
-            return this;
-        let copy = this.content.slice();
-        let size = this.size + node.nodeSize - current.nodeSize;
-        copy[index] = node;
-        return new Fragment(copy, size);
-    }
-    /**
-    Create a new fragment by prepending the given node to this
-    fragment.
-    */
-    addToStart(node) {
-        return new Fragment([node].concat(this.content), this.size + node.nodeSize);
-    }
-    /**
-    Create a new fragment by appending the given node to this
-    fragment.
-    */
-    addToEnd(node) {
-        return new Fragment(this.content.concat(node), this.size + node.nodeSize);
-    }
-    /**
-    Compare this fragment to another one.
-    */
-    eq(other) {
-        if (this.content.length != other.content.length)
-            return false;
-        for (let i = 0; i < this.content.length; i++)
-            if (!this.content[i].eq(other.content[i]))
-                return false;
-        return true;
-    }
-    /**
-    The first child of the fragment, or `null` if it is empty.
-    */
-    get firstChild() { return this.content.length ? this.content[0] : null; }
-    /**
-    The last child of the fragment, or `null` if it is empty.
-    */
-    get lastChild() { return this.content.length ? this.content[this.content.length - 1] : null; }
-    /**
-    The number of child nodes in this fragment.
-    */
-    get childCount() { return this.content.length; }
-    /**
-    Get the child node at the given index. Raise an error when the
-    index is out of range.
-    */
-    child(index) {
-        let found = this.content[index];
-        if (!found)
-            throw new RangeError("Index " + index + " out of range for " + this);
-        return found;
-    }
-    /**
-    Get the child node at the given index, if it exists.
-    */
-    maybeChild(index) {
-        return this.content[index] || null;
-    }
-    /**
-    Call `f` for every child node, passing the node, its offset
-    into this parent node, and its index.
-    */
-    forEach(f) {
-        for (let i = 0, p = 0; i < this.content.length; i++) {
-            let child = this.content[i];
-            f(child, p, i);
-            p += child.nodeSize;
-        }
-    }
-    /**
-    Find the first position at which this fragment and another
-    fragment differ, or `null` if they are the same.
-    */
-    findDiffStart(other, pos = 0) {
-        return findDiffStart(this, other, pos);
-    }
-    /**
-    Find the first position, searching from the end, at which this
-    fragment and the given fragment differ, or `null` if they are
-    the same. Since this position will not be the same in both
-    nodes, an object with two separate positions is returned.
-    */
-    findDiffEnd(other, pos = this.size, otherPos = other.size) {
-        return findDiffEnd(this, other, pos, otherPos);
-    }
-    /**
-    Find the index and inner offset corresponding to a given relative
-    position in this fragment. The result object will be reused
-    (overwritten) the next time the function is called. @internal
-    */
-    findIndex(pos, round = -1) {
-        if (pos == 0)
-            return retIndex(0, pos);
-        if (pos == this.size)
-            return retIndex(this.content.length, pos);
-        if (pos > this.size || pos < 0)
-            throw new RangeError(`Position ${pos} outside of fragment (${this})`);
-        for (let i = 0, curPos = 0;; i++) {
-            let cur = this.child(i), end = curPos + cur.nodeSize;
-            if (end >= pos) {
-                if (end == pos || round > 0)
-                    return retIndex(i + 1, end);
-                return retIndex(i, curPos);
-            }
-            curPos = end;
-        }
-    }
-    /**
-    Return a debugging string that describes this fragment.
-    */
-    toString() { return "<" + this.toStringInner() + ">"; }
-    /**
-    @internal
-    */
-    toStringInner() { return this.content.join(", "); }
-    /**
-    Create a JSON-serializeable representation of this fragment.
-    */
-    toJSON() {
-        return this.content.length ? this.content.map(n => n.toJSON()) : null;
-    }
-    /**
-    Deserialize a fragment from its JSON representation.
-    */
-    static fromJSON(schema, value) {
-        if (!value)
-            return Fragment.empty;
-        if (!Array.isArray(value))
-            throw new RangeError("Invalid input for Fragment.fromJSON");
-        return new Fragment(value.map(schema.nodeFromJSON));
-    }
-    /**
-    Build a fragment from an array of nodes. Ensures that adjacent
-    text nodes with the same marks are joined together.
-    */
-    static fromArray(array) {
-        if (!array.length)
-            return Fragment.empty;
-        let joined, size = 0;
-        for (let i = 0; i < array.length; i++) {
-            let node = array[i];
-            size += node.nodeSize;
-            if (i && node.isText && array[i - 1].sameMarkup(node)) {
-                if (!joined)
-                    joined = array.slice(0, i);
-                joined[joined.length - 1] = node
-                    .withText(joined[joined.length - 1].text + node.text);
-            }
-            else if (joined) {
-                joined.push(node);
-            }
-        }
-        return new Fragment(joined || array, size);
-    }
-    /**
-    Create a fragment from something that can be interpreted as a
-    set of nodes. For `null`, it returns the empty fragment. For a
-    fragment, the fragment itself. For a node or array of nodes, a
-    fragment containing those nodes.
-    */
-    static from(nodes) {
-        if (!nodes)
-            return Fragment.empty;
-        if (nodes instanceof Fragment)
-            return nodes;
-        if (Array.isArray(nodes))
-            return this.fromArray(nodes);
-        if (nodes.attrs)
-            return new Fragment([nodes], nodes.nodeSize);
-        throw new RangeError("Can not convert " + nodes + " to a Fragment" +
-            (nodes.nodesBetween ? " (looks like multiple versions of prosemirror-model were loaded)" : ""));
-    }
-}
-/**
-An empty fragment. Intended to be reused whenever a node doesn't
-contain anything (rather than allocating a new empty fragment for
-each leaf node).
-*/
-Fragment.empty = new Fragment([], 0);
-const found = { index: 0, offset: 0 };
-function retIndex(index, offset) {
-    found.index = index;
-    found.offset = offset;
-    return found;
-}
-
-function compareDeep(a, b) {
-    if (a === b)
-        return true;
-    if (!(a && typeof a == "object") ||
-        !(b && typeof b == "object"))
-        return false;
-    let array = Array.isArray(a);
-    if (Array.isArray(b) != array)
-        return false;
-    if (array) {
-        if (a.length != b.length)
-            return false;
-        for (let i = 0; i < a.length; i++)
-            if (!compareDeep(a[i], b[i]))
-                return false;
-    }
-    else {
-        for (let p in a)
-            if (!(p in b) || !compareDeep(a[p], b[p]))
-                return false;
-        for (let p in b)
-            if (!(p in a))
-                return false;
-    }
-    return true;
-}
-
-/**
-A mark is a piece of information that can be attached to a node,
-such as it being emphasized, in code font, or a link. It has a
-type and optionally a set of attributes that provide further
-information (such as the target of the link). Marks are created
-through a `Schema`, which controls which types exist and which
-attributes they have.
-*/
-class Mark {
-    /**
-    @internal
-    */
-    constructor(
-    /**
-    The type of this mark.
-    */
-    type, 
-    /**
-    The attributes associated with this mark.
-    */
-    attrs) {
-        this.type = type;
-        this.attrs = attrs;
-    }
-    /**
-    Given a set of marks, create a new set which contains this one as
-    well, in the right position. If this mark is already in the set,
-    the set itself is returned. If any marks that are set to be
-    [exclusive](https://prosemirror.net/docs/ref/#model.MarkSpec.excludes) with this mark are present,
-    those are replaced by this one.
-    */
-    addToSet(set) {
-        let copy, placed = false;
-        for (let i = 0; i < set.length; i++) {
-            let other = set[i];
-            if (this.eq(other))
-                return set;
-            if (this.type.excludes(other.type)) {
-                if (!copy)
-                    copy = set.slice(0, i);
-            }
-            else if (other.type.excludes(this.type)) {
-                return set;
-            }
-            else {
-                if (!placed && other.type.rank > this.type.rank) {
-                    if (!copy)
-                        copy = set.slice(0, i);
-                    copy.push(this);
-                    placed = true;
-                }
-                if (copy)
-                    copy.push(other);
-            }
-        }
-        if (!copy)
-            copy = set.slice();
-        if (!placed)
-            copy.push(this);
-        return copy;
-    }
-    /**
-    Remove this mark from the given set, returning a new set. If this
-    mark is not in the set, the set itself is returned.
-    */
-    removeFromSet(set) {
-        for (let i = 0; i < set.length; i++)
-            if (this.eq(set[i]))
-                return set.slice(0, i).concat(set.slice(i + 1));
-        return set;
-    }
-    /**
-    Test whether this mark is in the given set of marks.
-    */
-    isInSet(set) {
-        for (let i = 0; i < set.length; i++)
-            if (this.eq(set[i]))
-                return true;
-        return false;
-    }
-    /**
-    Test whether this mark has the same type and attributes as
-    another mark.
-    */
-    eq(other) {
-        return this == other ||
-            (this.type == other.type && compareDeep(this.attrs, other.attrs));
-    }
-    /**
-    Convert this mark to a JSON-serializeable representation.
-    */
-    toJSON() {
-        let obj = { type: this.type.name };
-        for (let _ in this.attrs) {
-            obj.attrs = this.attrs;
-            break;
-        }
-        return obj;
-    }
-    /**
-    Deserialize a mark from JSON.
-    */
-    static fromJSON(schema, json) {
-        if (!json)
-            throw new RangeError("Invalid input for Mark.fromJSON");
-        let type = schema.marks[json.type];
-        if (!type)
-            throw new RangeError(`There is no mark type ${json.type} in this schema`);
-        let mark = type.create(json.attrs);
-        type.checkAttrs(mark.attrs);
-        return mark;
-    }
-    /**
-    Test whether two sets of marks are identical.
-    */
-    static sameSet(a, b) {
-        if (a == b)
-            return true;
-        if (a.length != b.length)
-            return false;
-        for (let i = 0; i < a.length; i++)
-            if (!a[i].eq(b[i]))
-                return false;
-        return true;
-    }
-    /**
-    Create a properly sorted mark set from null, a single mark, or an
-    unsorted array of marks.
-    */
-    static setFrom(marks) {
-        if (!marks || Array.isArray(marks) && marks.length == 0)
-            return Mark.none;
-        if (marks instanceof Mark)
-            return [marks];
-        let copy = marks.slice();
-        copy.sort((a, b) => a.type.rank - b.type.rank);
-        return copy;
-    }
-}
-/**
-The empty set of marks.
-*/
-Mark.none = [];
-
-/**
-Error type raised by [`Node.replace`](https://prosemirror.net/docs/ref/#model.Node.replace) when
-given an invalid replacement.
-*/
-class ReplaceError extends Error {
-}
-/*
-ReplaceError = function(this: any, message: string) {
-  let err = Error.call(this, message)
-  ;(err as any).__proto__ = ReplaceError.prototype
-  return err
-} as any
-
-ReplaceError.prototype = Object.create(Error.prototype)
-ReplaceError.prototype.constructor = ReplaceError
-ReplaceError.prototype.name = "ReplaceError"
-*/
-/**
-A slice represents a piece cut out of a larger document. It
-stores not only a fragment, but also the depth up to which nodes on
-both side are ‘open’ (cut through).
-*/
-class Slice {
-    /**
-    Create a slice. When specifying a non-zero open depth, you must
-    make sure that there are nodes of at least that depth at the
-    appropriate side of the fragment—i.e. if the fragment is an
-    empty paragraph node, `openStart` and `openEnd` can't be greater
-    than 1.
-    
-    It is not necessary for the content of open nodes to conform to
-    the schema's content constraints, though it should be a valid
-    start/end/middle for such a node, depending on which sides are
-    open.
-    */
-    constructor(
-    /**
-    The slice's content.
-    */
-    content, 
-    /**
-    The open depth at the start of the fragment.
-    */
-    openStart, 
-    /**
-    The open depth at the end.
-    */
-    openEnd) {
-        this.content = content;
-        this.openStart = openStart;
-        this.openEnd = openEnd;
-    }
-    /**
-    The size this slice would add when inserted into a document.
-    */
-    get size() {
-        return this.content.size - this.openStart - this.openEnd;
-    }
-    /**
-    @internal
-    */
-    insertAt(pos, fragment) {
-        let content = insertInto(this.content, pos + this.openStart, fragment);
-        return content && new Slice(content, this.openStart, this.openEnd);
-    }
-    /**
-    @internal
-    */
-    removeBetween(from, to) {
-        return new Slice(removeRange(this.content, from + this.openStart, to + this.openStart), this.openStart, this.openEnd);
-    }
-    /**
-    Tests whether this slice is equal to another slice.
-    */
-    eq(other) {
-        return this.content.eq(other.content) && this.openStart == other.openStart && this.openEnd == other.openEnd;
-    }
-    /**
-    @internal
-    */
-    toString() {
-        return this.content + "(" + this.openStart + "," + this.openEnd + ")";
-    }
-    /**
-    Convert a slice to a JSON-serializable representation.
-    */
-    toJSON() {
-        if (!this.content.size)
-            return null;
-        let json = { content: this.content.toJSON() };
-        if (this.openStart > 0)
-            json.openStart = this.openStart;
-        if (this.openEnd > 0)
-            json.openEnd = this.openEnd;
-        return json;
-    }
-    /**
-    Deserialize a slice from its JSON representation.
-    */
-    static fromJSON(schema, json) {
-        if (!json)
-            return Slice.empty;
-        let openStart = json.openStart || 0, openEnd = json.openEnd || 0;
-        if (typeof openStart != "number" || typeof openEnd != "number")
-            throw new RangeError("Invalid input for Slice.fromJSON");
-        return new Slice(Fragment.fromJSON(schema, json.content), openStart, openEnd);
-    }
-    /**
-    Create a slice from a fragment by taking the maximum possible
-    open value on both side of the fragment.
-    */
-    static maxOpen(fragment, openIsolating = true) {
-        let openStart = 0, openEnd = 0;
-        for (let n = fragment.firstChild; n && !n.isLeaf && (openIsolating || !n.type.spec.isolating); n = n.firstChild)
-            openStart++;
-        for (let n = fragment.lastChild; n && !n.isLeaf && (openIsolating || !n.type.spec.isolating); n = n.lastChild)
-            openEnd++;
-        return new Slice(fragment, openStart, openEnd);
-    }
-}
-/**
-The empty slice.
-*/
-Slice.empty = new Slice(Fragment.empty, 0, 0);
-function removeRange(content, from, to) {
-    let { index, offset } = content.findIndex(from), child = content.maybeChild(index);
-    let { index: indexTo, offset: offsetTo } = content.findIndex(to);
-    if (offset == from || child.isText) {
-        if (offsetTo != to && !content.child(indexTo).isText)
-            throw new RangeError("Removing non-flat range");
-        return content.cut(0, from).append(content.cut(to));
-    }
-    if (index != indexTo)
-        throw new RangeError("Removing non-flat range");
-    return content.replaceChild(index, child.copy(removeRange(child.content, from - offset - 1, to - offset - 1)));
-}
-function insertInto(content, dist, insert, parent) {
-    let { index, offset } = content.findIndex(dist), child = content.maybeChild(index);
-    if (offset == dist || child.isText) {
-        return content.cut(0, dist).append(insert).append(content.cut(dist));
-    }
-    let inner = insertInto(child.content, dist - offset - 1, insert);
-    return inner && content.replaceChild(index, child.copy(inner));
-}
-function replace$1($from, $to, slice) {
-    if (slice.openStart > $from.depth)
-        throw new ReplaceError("Inserted content deeper than insertion position");
-    if ($from.depth - slice.openStart != $to.depth - slice.openEnd)
-        throw new ReplaceError("Inconsistent open depths");
-    return replaceOuter($from, $to, slice, 0);
-}
-function replaceOuter($from, $to, slice, depth) {
-    let index = $from.index(depth), node = $from.node(depth);
-    if (index == $to.index(depth) && depth < $from.depth - slice.openStart) {
-        let inner = replaceOuter($from, $to, slice, depth + 1);
-        return node.copy(node.content.replaceChild(index, inner));
-    }
-    else if (!slice.content.size) {
-        return close(node, replaceTwoWay($from, $to, depth));
-    }
-    else if (!slice.openStart && !slice.openEnd && $from.depth == depth && $to.depth == depth) { // Simple, flat case
-        let parent = $from.parent, content = parent.content;
-        return close(parent, content.cut(0, $from.parentOffset).append(slice.content).append(content.cut($to.parentOffset)));
-    }
-    else {
-        let { start, end } = prepareSliceForReplace(slice, $from);
-        return close(node, replaceThreeWay($from, start, end, $to, depth));
-    }
-}
-function checkJoin(main, sub) {
-    if (!sub.type.compatibleContent(main.type))
-        throw new ReplaceError("Cannot join " + sub.type.name + " onto " + main.type.name);
-}
-function joinable$1($before, $after, depth) {
-    let node = $before.node(depth);
-    checkJoin(node, $after.node(depth));
-    return node;
-}
-function addNode(child, target) {
-    let last = target.length - 1;
-    if (last >= 0 && child.isText && child.sameMarkup(target[last]))
-        target[last] = child.withText(target[last].text + child.text);
-    else
-        target.push(child);
-}
-function addRange($start, $end, depth, target) {
-    let node = ($end || $start).node(depth);
-    let startIndex = 0, endIndex = $end ? $end.index(depth) : node.childCount;
-    if ($start) {
-        startIndex = $start.index(depth);
-        if ($start.depth > depth) {
-            startIndex++;
-        }
-        else if ($start.textOffset) {
-            addNode($start.nodeAfter, target);
-            startIndex++;
-        }
-    }
-    for (let i = startIndex; i < endIndex; i++)
-        addNode(node.child(i), target);
-    if ($end && $end.depth == depth && $end.textOffset)
-        addNode($end.nodeBefore, target);
-}
-function close(node, content) {
-    node.type.checkContent(content);
-    return node.copy(content);
-}
-function replaceThreeWay($from, $start, $end, $to, depth) {
-    let openStart = $from.depth > depth && joinable$1($from, $start, depth + 1);
-    let openEnd = $to.depth > depth && joinable$1($end, $to, depth + 1);
-    let content = [];
-    addRange(null, $from, depth, content);
-    if (openStart && openEnd && $start.index(depth) == $end.index(depth)) {
-        checkJoin(openStart, openEnd);
-        addNode(close(openStart, replaceThreeWay($from, $start, $end, $to, depth + 1)), content);
-    }
-    else {
-        if (openStart)
-            addNode(close(openStart, replaceTwoWay($from, $start, depth + 1)), content);
-        addRange($start, $end, depth, content);
-        if (openEnd)
-            addNode(close(openEnd, replaceTwoWay($end, $to, depth + 1)), content);
-    }
-    addRange($to, null, depth, content);
-    return new Fragment(content);
-}
-function replaceTwoWay($from, $to, depth) {
-    let content = [];
-    addRange(null, $from, depth, content);
-    if ($from.depth > depth) {
-        let type = joinable$1($from, $to, depth + 1);
-        addNode(close(type, replaceTwoWay($from, $to, depth + 1)), content);
-    }
-    addRange($to, null, depth, content);
-    return new Fragment(content);
-}
-function prepareSliceForReplace(slice, $along) {
-    let extra = $along.depth - slice.openStart, parent = $along.node(extra);
-    let node = parent.copy(slice.content);
-    for (let i = extra - 1; i >= 0; i--)
-        node = $along.node(i).copy(Fragment.from(node));
-    return { start: node.resolveNoCache(slice.openStart + extra),
-        end: node.resolveNoCache(node.content.size - slice.openEnd - extra) };
-}
-
-/**
-You can [_resolve_](https://prosemirror.net/docs/ref/#model.Node.resolve) a position to get more
-information about it. Objects of this class represent such a
-resolved position, providing various pieces of context
-information, and some helper methods.
-
-Throughout this interface, methods that take an optional `depth`
-parameter will interpret undefined as `this.depth` and negative
-numbers as `this.depth + value`.
-*/
-class ResolvedPos {
-    /**
-    @internal
-    */
-    constructor(
-    /**
-    The position that was resolved.
-    */
-    pos, 
-    /**
-    @internal
-    */
-    path, 
-    /**
-    The offset this position has into its parent node.
-    */
-    parentOffset) {
-        this.pos = pos;
-        this.path = path;
-        this.parentOffset = parentOffset;
-        this.depth = path.length / 3 - 1;
-    }
-    /**
-    @internal
-    */
-    resolveDepth(val) {
-        if (val == null)
-            return this.depth;
-        if (val < 0)
-            return this.depth + val;
-        return val;
-    }
-    /**
-    The parent node that the position points into. Note that even if
-    a position points into a text node, that node is not considered
-    the parent—text nodes are ‘flat’ in this model, and have no content.
-    */
-    get parent() { return this.node(this.depth); }
-    /**
-    The root node in which the position was resolved.
-    */
-    get doc() { return this.node(0); }
-    /**
-    The ancestor node at the given level. `p.node(p.depth)` is the
-    same as `p.parent`.
-    */
-    node(depth) { return this.path[this.resolveDepth(depth) * 3]; }
-    /**
-    The index into the ancestor at the given level. If this points
-    at the 3rd node in the 2nd paragraph on the top level, for
-    example, `p.index(0)` is 1 and `p.index(1)` is 2.
-    */
-    index(depth) { return this.path[this.resolveDepth(depth) * 3 + 1]; }
-    /**
-    The index pointing after this position into the ancestor at the
-    given level.
-    */
-    indexAfter(depth) {
-        depth = this.resolveDepth(depth);
-        return this.index(depth) + (depth == this.depth && !this.textOffset ? 0 : 1);
-    }
-    /**
-    The (absolute) position at the start of the node at the given
-    level.
-    */
-    start(depth) {
-        depth = this.resolveDepth(depth);
-        return depth == 0 ? 0 : this.path[depth * 3 - 1] + 1;
-    }
-    /**
-    The (absolute) position at the end of the node at the given
-    level.
-    */
-    end(depth) {
-        depth = this.resolveDepth(depth);
-        return this.start(depth) + this.node(depth).content.size;
-    }
-    /**
-    The (absolute) position directly before the wrapping node at the
-    given level, or, when `depth` is `this.depth + 1`, the original
-    position.
-    */
-    before(depth) {
-        depth = this.resolveDepth(depth);
-        if (!depth)
-            throw new RangeError("There is no position before the top-level node");
-        return depth == this.depth + 1 ? this.pos : this.path[depth * 3 - 1];
-    }
-    /**
-    The (absolute) position directly after the wrapping node at the
-    given level, or the original position when `depth` is `this.depth + 1`.
-    */
-    after(depth) {
-        depth = this.resolveDepth(depth);
-        if (!depth)
-            throw new RangeError("There is no position after the top-level node");
-        return depth == this.depth + 1 ? this.pos : this.path[depth * 3 - 1] + this.path[depth * 3].nodeSize;
-    }
-    /**
-    When this position points into a text node, this returns the
-    distance between the position and the start of the text node.
-    Will be zero for positions that point between nodes.
-    */
-    get textOffset() { return this.pos - this.path[this.path.length - 1]; }
-    /**
-    Get the node directly after the position, if any. If the position
-    points into a text node, only the part of that node after the
-    position is returned.
-    */
-    get nodeAfter() {
-        let parent = this.parent, index = this.index(this.depth);
-        if (index == parent.childCount)
-            return null;
-        let dOff = this.pos - this.path[this.path.length - 1], child = parent.child(index);
-        return dOff ? parent.child(index).cut(dOff) : child;
-    }
-    /**
-    Get the node directly before the position, if any. If the
-    position points into a text node, only the part of that node
-    before the position is returned.
-    */
-    get nodeBefore() {
-        let index = this.index(this.depth);
-        let dOff = this.pos - this.path[this.path.length - 1];
-        if (dOff)
-            return this.parent.child(index).cut(0, dOff);
-        return index == 0 ? null : this.parent.child(index - 1);
-    }
-    /**
-    Get the position at the given index in the parent node at the
-    given depth (which defaults to `this.depth`).
-    */
-    posAtIndex(index, depth) {
-        depth = this.resolveDepth(depth);
-        let node = this.path[depth * 3], pos = depth == 0 ? 0 : this.path[depth * 3 - 1] + 1;
-        for (let i = 0; i < index; i++)
-            pos += node.child(i).nodeSize;
-        return pos;
-    }
-    /**
-    Get the marks at this position, factoring in the surrounding
-    marks' [`inclusive`](https://prosemirror.net/docs/ref/#model.MarkSpec.inclusive) property. If the
-    position is at the start of a non-empty node, the marks of the
-    node after it (if any) are returned.
-    */
-    marks() {
-        let parent = this.parent, index = this.index();
-        // In an empty parent, return the empty array
-        if (parent.content.size == 0)
-            return Mark.none;
-        // When inside a text node, just return the text node's marks
-        if (this.textOffset)
-            return parent.child(index).marks;
-        let main = parent.maybeChild(index - 1), other = parent.maybeChild(index);
-        // If the `after` flag is true of there is no node before, make
-        // the node after this position the main reference.
-        if (!main) {
-            let tmp = main;
-            main = other;
-            other = tmp;
-        }
-        // Use all marks in the main node, except those that have
-        // `inclusive` set to false and are not present in the other node.
-        let marks = main.marks;
-        for (var i = 0; i < marks.length; i++)
-            if (marks[i].type.spec.inclusive === false && (!other || !marks[i].isInSet(other.marks)))
-                marks = marks[i--].removeFromSet(marks);
-        return marks;
-    }
-    /**
-    Get the marks after the current position, if any, except those
-    that are non-inclusive and not present at position `$end`. This
-    is mostly useful for getting the set of marks to preserve after a
-    deletion. Will return `null` if this position is at the end of
-    its parent node or its parent node isn't a textblock (in which
-    case no marks should be preserved).
-    */
-    marksAcross($end) {
-        let after = this.parent.maybeChild(this.index());
-        if (!after || !after.isInline)
-            return null;
-        let marks = after.marks, next = $end.parent.maybeChild($end.index());
-        for (var i = 0; i < marks.length; i++)
-            if (marks[i].type.spec.inclusive === false && (!next || !marks[i].isInSet(next.marks)))
-                marks = marks[i--].removeFromSet(marks);
-        return marks;
-    }
-    /**
-    The depth up to which this position and the given (non-resolved)
-    position share the same parent nodes.
-    */
-    sharedDepth(pos) {
-        for (let depth = this.depth; depth > 0; depth--)
-            if (this.start(depth) <= pos && this.end(depth) >= pos)
-                return depth;
-        return 0;
-    }
-    /**
-    Returns a range based on the place where this position and the
-    given position diverge around block content. If both point into
-    the same textblock, for example, a range around that textblock
-    will be returned. If they point into different blocks, the range
-    around those blocks in their shared ancestor is returned. You can
-    pass in an optional predicate that will be called with a parent
-    node to see if a range into that parent is acceptable.
-    */
-    blockRange(other = this, pred) {
-        if (other.pos < this.pos)
-            return other.blockRange(this);
-        for (let d = this.depth - (this.parent.inlineContent || this.pos == other.pos ? 1 : 0); d >= 0; d--)
-            if (other.pos <= this.end(d) && (!pred || pred(this.node(d))))
-                return new NodeRange(this, other, d);
-        return null;
-    }
-    /**
-    Query whether the given position shares the same parent node.
-    */
-    sameParent(other) {
-        return this.pos - this.parentOffset == other.pos - other.parentOffset;
-    }
-    /**
-    Return the greater of this and the given position.
-    */
-    max(other) {
-        return other.pos > this.pos ? other : this;
-    }
-    /**
-    Return the smaller of this and the given position.
-    */
-    min(other) {
-        return other.pos < this.pos ? other : this;
-    }
-    /**
-    @internal
-    */
-    toString() {
-        let str = "";
-        for (let i = 1; i <= this.depth; i++)
-            str += (str ? "/" : "") + this.node(i).type.name + "_" + this.index(i - 1);
-        return str + ":" + this.parentOffset;
-    }
-    /**
-    @internal
-    */
-    static resolve(doc, pos) {
-        if (!(pos >= 0 && pos <= doc.content.size))
-            throw new RangeError("Position " + pos + " out of range");
-        let path = [];
-        let start = 0, parentOffset = pos;
-        for (let node = doc;;) {
-            let { index, offset } = node.content.findIndex(parentOffset);
-            let rem = parentOffset - offset;
-            path.push(node, index, start + offset);
-            if (!rem)
-                break;
-            node = node.child(index);
-            if (node.isText)
-                break;
-            parentOffset = rem - 1;
-            start += offset + 1;
-        }
-        return new ResolvedPos(pos, path, parentOffset);
-    }
-    /**
-    @internal
-    */
-    static resolveCached(doc, pos) {
-        let cache = resolveCache.get(doc);
-        if (cache) {
-            for (let i = 0; i < cache.elts.length; i++) {
-                let elt = cache.elts[i];
-                if (elt.pos == pos)
-                    return elt;
-            }
-        }
-        else {
-            resolveCache.set(doc, cache = new ResolveCache);
-        }
-        let result = cache.elts[cache.i] = ResolvedPos.resolve(doc, pos);
-        cache.i = (cache.i + 1) % resolveCacheSize;
-        return result;
-    }
-}
-class ResolveCache {
-    constructor() {
-        this.elts = [];
-        this.i = 0;
-    }
-}
-const resolveCacheSize = 12, resolveCache = new WeakMap();
-/**
-Represents a flat range of content, i.e. one that starts and
-ends in the same node.
-*/
-class NodeRange {
-    /**
-    Construct a node range. `$from` and `$to` should point into the
-    same node until at least the given `depth`, since a node range
-    denotes an adjacent set of nodes in a single parent node.
-    */
-    constructor(
-    /**
-    A resolved position along the start of the content. May have a
-    `depth` greater than this object's `depth` property, since
-    these are the positions that were used to compute the range,
-    not re-resolved positions directly at its boundaries.
-    */
-    $from, 
-    /**
-    A position along the end of the content. See
-    caveat for [`$from`](https://prosemirror.net/docs/ref/#model.NodeRange.$from).
-    */
-    $to, 
-    /**
-    The depth of the node that this range points into.
-    */
-    depth) {
-        this.$from = $from;
-        this.$to = $to;
-        this.depth = depth;
-    }
-    /**
-    The position at the start of the range.
-    */
-    get start() { return this.$from.before(this.depth + 1); }
-    /**
-    The position at the end of the range.
-    */
-    get end() { return this.$to.after(this.depth + 1); }
-    /**
-    The parent node that the range points into.
-    */
-    get parent() { return this.$from.node(this.depth); }
-    /**
-    The start index of the range in the parent node.
-    */
-    get startIndex() { return this.$from.index(this.depth); }
-    /**
-    The end index of the range in the parent node.
-    */
-    get endIndex() { return this.$to.indexAfter(this.depth); }
-}
-
-const emptyAttrs = Object.create(null);
-/**
-This class represents a node in the tree that makes up a
-ProseMirror document. So a document is an instance of `Node`, with
-children that are also instances of `Node`.
-
-Nodes are persistent data structures. Instead of changing them, you
-create new ones with the content you want. Old ones keep pointing
-at the old document shape. This is made cheaper by sharing
-structure between the old and new data as much as possible, which a
-tree shape like this (without back pointers) makes easy.
-
-**Do not** directly mutate the properties of a `Node` object. See
-[the guide](/docs/guide/#doc) for more information.
-*/
-let Node$1 = class Node {
-    /**
-    @internal
-    */
-    constructor(
-    /**
-    The type of node that this is.
-    */
-    type, 
-    /**
-    An object mapping attribute names to values. The kind of
-    attributes allowed and required are
-    [determined](https://prosemirror.net/docs/ref/#model.NodeSpec.attrs) by the node type.
-    */
-    attrs, 
-    // A fragment holding the node's children.
-    content, 
-    /**
-    The marks (things like whether it is emphasized or part of a
-    link) applied to this node.
-    */
-    marks = Mark.none) {
-        this.type = type;
-        this.attrs = attrs;
-        this.marks = marks;
-        this.content = content || Fragment.empty;
-    }
-    /**
-    The array of this node's child nodes.
-    */
-    get children() { return this.content.content; }
-    /**
-    The size of this node, as defined by the integer-based [indexing
-    scheme](/docs/guide/#doc.indexing). For text nodes, this is the
-    amount of characters. For other leaf nodes, it is one. For
-    non-leaf nodes, it is the size of the content plus two (the
-    start and end token).
-    */
-    get nodeSize() { return this.isLeaf ? 1 : 2 + this.content.size; }
-    /**
-    The number of children that the node has.
-    */
-    get childCount() { return this.content.childCount; }
-    /**
-    Get the child node at the given index. Raises an error when the
-    index is out of range.
-    */
-    child(index) { return this.content.child(index); }
-    /**
-    Get the child node at the given index, if it exists.
-    */
-    maybeChild(index) { return this.content.maybeChild(index); }
-    /**
-    Call `f` for every child node, passing the node, its offset
-    into this parent node, and its index.
-    */
-    forEach(f) { this.content.forEach(f); }
-    /**
-    Invoke a callback for all descendant nodes recursively between
-    the given two positions that are relative to start of this
-    node's content. The callback is invoked with the node, its
-    position relative to the original node (method receiver),
-    its parent node, and its child index. When the callback returns
-    false for a given node, that node's children will not be
-    recursed over. The last parameter can be used to specify a
-    starting position to count from.
-    */
-    nodesBetween(from, to, f, startPos = 0) {
-        this.content.nodesBetween(from, to, f, startPos, this);
-    }
-    /**
-    Call the given callback for every descendant node. Doesn't
-    descend into a node when the callback returns `false`.
-    */
-    descendants(f) {
-        this.nodesBetween(0, this.content.size, f);
-    }
-    /**
-    Concatenates all the text nodes found in this fragment and its
-    children.
-    */
-    get textContent() {
-        return (this.isLeaf && this.type.spec.leafText)
-            ? this.type.spec.leafText(this)
-            : this.textBetween(0, this.content.size, "");
-    }
-    /**
-    Get all text between positions `from` and `to`. When
-    `blockSeparator` is given, it will be inserted to separate text
-    from different block nodes. If `leafText` is given, it'll be
-    inserted for every non-text leaf node encountered, otherwise
-    [`leafText`](https://prosemirror.net/docs/ref/#model.NodeSpec^leafText) will be used.
-    */
-    textBetween(from, to, blockSeparator, leafText) {
-        return this.content.textBetween(from, to, blockSeparator, leafText);
-    }
-    /**
-    Returns this node's first child, or `null` if there are no
-    children.
-    */
-    get firstChild() { return this.content.firstChild; }
-    /**
-    Returns this node's last child, or `null` if there are no
-    children.
-    */
-    get lastChild() { return this.content.lastChild; }
-    /**
-    Test whether two nodes represent the same piece of document.
-    */
-    eq(other) {
-        return this == other || (this.sameMarkup(other) && this.content.eq(other.content));
-    }
-    /**
-    Compare the markup (type, attributes, and marks) of this node to
-    those of another. Returns `true` if both have the same markup.
-    */
-    sameMarkup(other) {
-        return this.hasMarkup(other.type, other.attrs, other.marks);
-    }
-    /**
-    Check whether this node's markup correspond to the given type,
-    attributes, and marks.
-    */
-    hasMarkup(type, attrs, marks) {
-        return this.type == type &&
-            compareDeep(this.attrs, attrs || type.defaultAttrs || emptyAttrs) &&
-            Mark.sameSet(this.marks, marks || Mark.none);
-    }
-    /**
-    Create a new node with the same markup as this node, containing
-    the given content (or empty, if no content is given).
-    */
-    copy(content = null) {
-        if (content == this.content)
-            return this;
-        return new Node(this.type, this.attrs, content, this.marks);
-    }
-    /**
-    Create a copy of this node, with the given set of marks instead
-    of the node's own marks.
-    */
-    mark(marks) {
-        return marks == this.marks ? this : new Node(this.type, this.attrs, this.content, marks);
-    }
-    /**
-    Create a copy of this node with only the content between the
-    given positions. If `to` is not given, it defaults to the end of
-    the node.
-    */
-    cut(from, to = this.content.size) {
-        if (from == 0 && to == this.content.size)
-            return this;
-        return this.copy(this.content.cut(from, to));
-    }
-    /**
-    Cut out the part of the document between the given positions, and
-    return it as a `Slice` object.
-    */
-    slice(from, to = this.content.size, includeParents = false) {
-        if (from == to)
-            return Slice.empty;
-        let $from = this.resolve(from), $to = this.resolve(to);
-        let depth = includeParents ? 0 : $from.sharedDepth(to);
-        let start = $from.start(depth), node = $from.node(depth);
-        let content = node.content.cut($from.pos - start, $to.pos - start);
-        return new Slice(content, $from.depth - depth, $to.depth - depth);
-    }
-    /**
-    Replace the part of the document between the given positions with
-    the given slice. The slice must 'fit', meaning its open sides
-    must be able to connect to the surrounding content, and its
-    content nodes must be valid children for the node they are placed
-    into. If any of this is violated, an error of type
-    [`ReplaceError`](https://prosemirror.net/docs/ref/#model.ReplaceError) is thrown.
-    */
-    replace(from, to, slice) {
-        return replace$1(this.resolve(from), this.resolve(to), slice);
-    }
-    /**
-    Find the node directly after the given position.
-    */
-    nodeAt(pos) {
-        for (let node = this;;) {
-            let { index, offset } = node.content.findIndex(pos);
-            node = node.maybeChild(index);
-            if (!node)
-                return null;
-            if (offset == pos || node.isText)
-                return node;
-            pos -= offset + 1;
-        }
-    }
-    /**
-    Find the (direct) child node after the given offset, if any,
-    and return it along with its index and offset relative to this
-    node.
-    */
-    childAfter(pos) {
-        let { index, offset } = this.content.findIndex(pos);
-        return { node: this.content.maybeChild(index), index, offset };
-    }
-    /**
-    Find the (direct) child node before the given offset, if any,
-    and return it along with its index and offset relative to this
-    node.
-    */
-    childBefore(pos) {
-        if (pos == 0)
-            return { node: null, index: 0, offset: 0 };
-        let { index, offset } = this.content.findIndex(pos);
-        if (offset < pos)
-            return { node: this.content.child(index), index, offset };
-        let node = this.content.child(index - 1);
-        return { node, index: index - 1, offset: offset - node.nodeSize };
-    }
-    /**
-    Resolve the given position in the document, returning an
-    [object](https://prosemirror.net/docs/ref/#model.ResolvedPos) with information about its context.
-    */
-    resolve(pos) { return ResolvedPos.resolveCached(this, pos); }
-    /**
-    @internal
-    */
-    resolveNoCache(pos) { return ResolvedPos.resolve(this, pos); }
-    /**
-    Test whether a given mark or mark type occurs in this document
-    between the two given positions.
-    */
-    rangeHasMark(from, to, type) {
-        let found = false;
-        if (to > from)
-            this.nodesBetween(from, to, node => {
-                if (type.isInSet(node.marks))
-                    found = true;
-                return !found;
-            });
-        return found;
-    }
-    /**
-    True when this is a block (non-inline node)
-    */
-    get isBlock() { return this.type.isBlock; }
-    /**
-    True when this is a textblock node, a block node with inline
-    content.
-    */
-    get isTextblock() { return this.type.isTextblock; }
-    /**
-    True when this node allows inline content.
-    */
-    get inlineContent() { return this.type.inlineContent; }
-    /**
-    True when this is an inline node (a text node or a node that can
-    appear among text).
-    */
-    get isInline() { return this.type.isInline; }
-    /**
-    True when this is a text node.
-    */
-    get isText() { return this.type.isText; }
-    /**
-    True when this is a leaf node.
-    */
-    get isLeaf() { return this.type.isLeaf; }
-    /**
-    True when this is an atom, i.e. when it does not have directly
-    editable content. This is usually the same as `isLeaf`, but can
-    be configured with the [`atom` property](https://prosemirror.net/docs/ref/#model.NodeSpec.atom)
-    on a node's spec (typically used when the node is displayed as
-    an uneditable [node view](https://prosemirror.net/docs/ref/#view.NodeView)).
-    */
-    get isAtom() { return this.type.isAtom; }
-    /**
-    Return a string representation of this node for debugging
-    purposes.
-    */
-    toString() {
-        if (this.type.spec.toDebugString)
-            return this.type.spec.toDebugString(this);
-        let name = this.type.name;
-        if (this.content.size)
-            name += "(" + this.content.toStringInner() + ")";
-        return wrapMarks(this.marks, name);
-    }
-    /**
-    Get the content match in this node at the given index.
-    */
-    contentMatchAt(index) {
-        let match = this.type.contentMatch.matchFragment(this.content, 0, index);
-        if (!match)
-            throw new Error("Called contentMatchAt on a node with invalid content");
-        return match;
-    }
-    /**
-    Test whether replacing the range between `from` and `to` (by
-    child index) with the given replacement fragment (which defaults
-    to the empty fragment) would leave the node's content valid. You
-    can optionally pass `start` and `end` indices into the
-    replacement fragment.
-    */
-    canReplace(from, to, replacement = Fragment.empty, start = 0, end = replacement.childCount) {
-        let one = this.contentMatchAt(from).matchFragment(replacement, start, end);
-        let two = one && one.matchFragment(this.content, to);
-        if (!two || !two.validEnd)
-            return false;
-        for (let i = start; i < end; i++)
-            if (!this.type.allowsMarks(replacement.child(i).marks))
-                return false;
-        return true;
-    }
-    /**
-    Test whether replacing the range `from` to `to` (by index) with
-    a node of the given type would leave the node's content valid.
-    */
-    canReplaceWith(from, to, type, marks) {
-        if (marks && !this.type.allowsMarks(marks))
-            return false;
-        let start = this.contentMatchAt(from).matchType(type);
-        let end = start && start.matchFragment(this.content, to);
-        return end ? end.validEnd : false;
-    }
-    /**
-    Test whether the given node's content could be appended to this
-    node. If that node is empty, this will only return true if there
-    is at least one node type that can appear in both nodes (to avoid
-    merging completely incompatible nodes).
-    */
-    canAppend(other) {
-        if (other.content.size)
-            return this.canReplace(this.childCount, this.childCount, other.content);
-        else
-            return this.type.compatibleContent(other.type);
-    }
-    /**
-    Check whether this node and its descendants conform to the
-    schema, and raise an exception when they do not.
-    */
-    check() {
-        this.type.checkContent(this.content);
-        this.type.checkAttrs(this.attrs);
-        let copy = Mark.none;
-        for (let i = 0; i < this.marks.length; i++) {
-            let mark = this.marks[i];
-            mark.type.checkAttrs(mark.attrs);
-            copy = mark.addToSet(copy);
-        }
-        if (!Mark.sameSet(copy, this.marks))
-            throw new RangeError(`Invalid collection of marks for node ${this.type.name}: ${this.marks.map(m => m.type.name)}`);
-        this.content.forEach(node => node.check());
-    }
-    /**
-    Return a JSON-serializeable representation of this node.
-    */
-    toJSON() {
-        let obj = { type: this.type.name };
-        for (let _ in this.attrs) {
-            obj.attrs = this.attrs;
-            break;
-        }
-        if (this.content.size)
-            obj.content = this.content.toJSON();
-        if (this.marks.length)
-            obj.marks = this.marks.map(n => n.toJSON());
-        return obj;
-    }
-    /**
-    Deserialize a node from its JSON representation.
-    */
-    static fromJSON(schema, json) {
-        if (!json)
-            throw new RangeError("Invalid input for Node.fromJSON");
-        let marks = undefined;
-        if (json.marks) {
-            if (!Array.isArray(json.marks))
-                throw new RangeError("Invalid mark data for Node.fromJSON");
-            marks = json.marks.map(schema.markFromJSON);
-        }
-        if (json.type == "text") {
-            if (typeof json.text != "string")
-                throw new RangeError("Invalid text node in JSON");
-            return schema.text(json.text, marks);
-        }
-        let content = Fragment.fromJSON(schema, json.content);
-        let node = schema.nodeType(json.type).create(json.attrs, content, marks);
-        node.type.checkAttrs(node.attrs);
-        return node;
-    }
-};
-Node$1.prototype.text = undefined;
-class TextNode extends Node$1 {
-    /**
-    @internal
-    */
-    constructor(type, attrs, content, marks) {
-        super(type, attrs, null, marks);
-        if (!content)
-            throw new RangeError("Empty text nodes are not allowed");
-        this.text = content;
-    }
-    toString() {
-        if (this.type.spec.toDebugString)
-            return this.type.spec.toDebugString(this);
-        return wrapMarks(this.marks, JSON.stringify(this.text));
-    }
-    get textContent() { return this.text; }
-    textBetween(from, to) { return this.text.slice(from, to); }
-    get nodeSize() { return this.text.length; }
-    mark(marks) {
-        return marks == this.marks ? this : new TextNode(this.type, this.attrs, this.text, marks);
-    }
-    withText(text) {
-        if (text == this.text)
-            return this;
-        return new TextNode(this.type, this.attrs, text, this.marks);
-    }
-    cut(from = 0, to = this.text.length) {
-        if (from == 0 && to == this.text.length)
-            return this;
-        return this.withText(this.text.slice(from, to));
-    }
-    eq(other) {
-        return this.sameMarkup(other) && this.text == other.text;
-    }
-    toJSON() {
-        let base = super.toJSON();
-        base.text = this.text;
-        return base;
-    }
-}
-function wrapMarks(marks, str) {
-    for (let i = marks.length - 1; i >= 0; i--)
-        str = marks[i].type.name + "(" + str + ")";
-    return str;
-}
-
-/**
-Instances of this class represent a match state of a node type's
-[content expression](https://prosemirror.net/docs/ref/#model.NodeSpec.content), and can be used to
-find out whether further content matches here, and whether a given
-position is a valid end of the node.
-*/
-class ContentMatch {
-    /**
-    @internal
-    */
-    constructor(
-    /**
-    True when this match state represents a valid end of the node.
-    */
-    validEnd) {
-        this.validEnd = validEnd;
-        /**
-        @internal
-        */
-        this.next = [];
-        /**
-        @internal
-        */
-        this.wrapCache = [];
-    }
-    /**
-    @internal
-    */
-    static parse(string, nodeTypes) {
-        let stream = new TokenStream(string, nodeTypes);
-        if (stream.next == null)
-            return ContentMatch.empty;
-        let expr = parseExpr(stream);
-        if (stream.next)
-            stream.err("Unexpected trailing text");
-        let match = dfa(nfa(expr));
-        checkForDeadEnds(match, stream);
-        return match;
-    }
-    /**
-    Match a node type, returning a match after that node if
-    successful.
-    */
-    matchType(type) {
-        for (let i = 0; i < this.next.length; i++)
-            if (this.next[i].type == type)
-                return this.next[i].next;
-        return null;
-    }
-    /**
-    Try to match a fragment. Returns the resulting match when
-    successful.
-    */
-    matchFragment(frag, start = 0, end = frag.childCount) {
-        let cur = this;
-        for (let i = start; cur && i < end; i++)
-            cur = cur.matchType(frag.child(i).type);
-        return cur;
-    }
-    /**
-    @internal
-    */
-    get inlineContent() {
-        return this.next.length != 0 && this.next[0].type.isInline;
-    }
-    /**
-    Get the first matching node type at this match position that can
-    be generated.
-    */
-    get defaultType() {
-        for (let i = 0; i < this.next.length; i++) {
-            let { type } = this.next[i];
-            if (!(type.isText || type.hasRequiredAttrs()))
-                return type;
-        }
-        return null;
-    }
-    /**
-    @internal
-    */
-    compatible(other) {
-        for (let i = 0; i < this.next.length; i++)
-            for (let j = 0; j < other.next.length; j++)
-                if (this.next[i].type == other.next[j].type)
-                    return true;
-        return false;
-    }
-    /**
-    Try to match the given fragment, and if that fails, see if it can
-    be made to match by inserting nodes in front of it. When
-    successful, return a fragment of inserted nodes (which may be
-    empty if nothing had to be inserted). When `toEnd` is true, only
-    return a fragment if the resulting match goes to the end of the
-    content expression.
-    */
-    fillBefore(after, toEnd = false, startIndex = 0) {
-        let seen = [this];
-        function search(match, types) {
-            let finished = match.matchFragment(after, startIndex);
-            if (finished && (!toEnd || finished.validEnd))
-                return Fragment.from(types.map(tp => tp.createAndFill()));
-            for (let i = 0; i < match.next.length; i++) {
-                let { type, next } = match.next[i];
-                if (!(type.isText || type.hasRequiredAttrs()) && seen.indexOf(next) == -1) {
-                    seen.push(next);
-                    let found = search(next, types.concat(type));
-                    if (found)
-                        return found;
-                }
-            }
-            return null;
-        }
-        return search(this, []);
-    }
-    /**
-    Find a set of wrapping node types that would allow a node of the
-    given type to appear at this position. The result may be empty
-    (when it fits directly) and will be null when no such wrapping
-    exists.
-    */
-    findWrapping(target) {
-        for (let i = 0; i < this.wrapCache.length; i += 2)
-            if (this.wrapCache[i] == target)
-                return this.wrapCache[i + 1];
-        let computed = this.computeWrapping(target);
-        this.wrapCache.push(target, computed);
-        return computed;
-    }
-    /**
-    @internal
-    */
-    computeWrapping(target) {
-        let seen = Object.create(null), active = [{ match: this, type: null, via: null }];
-        while (active.length) {
-            let current = active.shift(), match = current.match;
-            if (match.matchType(target)) {
-                let result = [];
-                for (let obj = current; obj.type; obj = obj.via)
-                    result.push(obj.type);
-                return result.reverse();
-            }
-            for (let i = 0; i < match.next.length; i++) {
-                let { type, next } = match.next[i];
-                if (!type.isLeaf && !type.hasRequiredAttrs() && !(type.name in seen) && (!current.type || next.validEnd)) {
-                    active.push({ match: type.contentMatch, type, via: current });
-                    seen[type.name] = true;
-                }
-            }
-        }
-        return null;
-    }
-    /**
-    The number of outgoing edges this node has in the finite
-    automaton that describes the content expression.
-    */
-    get edgeCount() {
-        return this.next.length;
-    }
-    /**
-    Get the _n_​th outgoing edge from this node in the finite
-    automaton that describes the content expression.
-    */
-    edge(n) {
-        if (n >= this.next.length)
-            throw new RangeError(`There's no ${n}th edge in this content match`);
-        return this.next[n];
-    }
-    /**
-    @internal
-    */
-    toString() {
-        let seen = [];
-        function scan(m) {
-            seen.push(m);
-            for (let i = 0; i < m.next.length; i++)
-                if (seen.indexOf(m.next[i].next) == -1)
-                    scan(m.next[i].next);
-        }
-        scan(this);
-        return seen.map((m, i) => {
-            let out = i + (m.validEnd ? "*" : " ") + " ";
-            for (let i = 0; i < m.next.length; i++)
-                out += (i ? ", " : "") + m.next[i].type.name + "->" + seen.indexOf(m.next[i].next);
-            return out;
-        }).join("\n");
-    }
-}
-/**
-@internal
-*/
-ContentMatch.empty = new ContentMatch(true);
-class TokenStream {
-    constructor(string, nodeTypes) {
-        this.string = string;
-        this.nodeTypes = nodeTypes;
-        this.inline = null;
-        this.pos = 0;
-        this.tokens = string.split(/\s*(?=\b|\W|$)/);
-        if (this.tokens[this.tokens.length - 1] == "")
-            this.tokens.pop();
-        if (this.tokens[0] == "")
-            this.tokens.shift();
-    }
-    get next() { return this.tokens[this.pos]; }
-    eat(tok) { return this.next == tok && (this.pos++ || true); }
-    err(str) { throw new SyntaxError(str + " (in content expression '" + this.string + "')"); }
-}
-function parseExpr(stream) {
-    let exprs = [];
-    do {
-        exprs.push(parseExprSeq(stream));
-    } while (stream.eat("|"));
-    return exprs.length == 1 ? exprs[0] : { type: "choice", exprs };
-}
-function parseExprSeq(stream) {
-    let exprs = [];
-    do {
-        exprs.push(parseExprSubscript(stream));
-    } while (stream.next && stream.next != ")" && stream.next != "|");
-    return exprs.length == 1 ? exprs[0] : { type: "seq", exprs };
-}
-function parseExprSubscript(stream) {
-    let expr = parseExprAtom(stream);
-    for (;;) {
-        if (stream.eat("+"))
-            expr = { type: "plus", expr };
-        else if (stream.eat("*"))
-            expr = { type: "star", expr };
-        else if (stream.eat("?"))
-            expr = { type: "opt", expr };
-        else if (stream.eat("{"))
-            expr = parseExprRange(stream, expr);
-        else
-            break;
-    }
-    return expr;
-}
-function parseNum(stream) {
-    if (/\D/.test(stream.next))
-        stream.err("Expected number, got '" + stream.next + "'");
-    let result = Number(stream.next);
-    stream.pos++;
-    return result;
-}
-function parseExprRange(stream, expr) {
-    let min = parseNum(stream), max = min;
-    if (stream.eat(",")) {
-        if (stream.next != "}")
-            max = parseNum(stream);
-        else
-            max = -1;
-    }
-    if (!stream.eat("}"))
-        stream.err("Unclosed braced range");
-    return { type: "range", min, max, expr };
-}
-function resolveName(stream, name) {
-    let types = stream.nodeTypes, type = types[name];
-    if (type)
-        return [type];
-    let result = [];
-    for (let typeName in types) {
-        let type = types[typeName];
-        if (type.isInGroup(name))
-            result.push(type);
-    }
-    if (result.length == 0)
-        stream.err("No node type or group '" + name + "' found");
-    return result;
-}
-function parseExprAtom(stream) {
-    if (stream.eat("(")) {
-        let expr = parseExpr(stream);
-        if (!stream.eat(")"))
-            stream.err("Missing closing paren");
-        return expr;
-    }
-    else if (!/\W/.test(stream.next)) {
-        let exprs = resolveName(stream, stream.next).map(type => {
-            if (stream.inline == null)
-                stream.inline = type.isInline;
-            else if (stream.inline != type.isInline)
-                stream.err("Mixing inline and block content");
-            return { type: "name", value: type };
-        });
-        stream.pos++;
-        return exprs.length == 1 ? exprs[0] : { type: "choice", exprs };
-    }
-    else {
-        stream.err("Unexpected token '" + stream.next + "'");
-    }
-}
-// Construct an NFA from an expression as returned by the parser. The
-// NFA is represented as an array of states, which are themselves
-// arrays of edges, which are `{term, to}` objects. The first state is
-// the entry state and the last node is the success state.
-//
-// Note that unlike typical NFAs, the edge ordering in this one is
-// significant, in that it is used to contruct filler content when
-// necessary.
-function nfa(expr) {
-    let nfa = [[]];
-    connect(compile(expr, 0), node());
-    return nfa;
-    function node() { return nfa.push([]) - 1; }
-    function edge(from, to, term) {
-        let edge = { term, to };
-        nfa[from].push(edge);
-        return edge;
-    }
-    function connect(edges, to) {
-        edges.forEach(edge => edge.to = to);
-    }
-    function compile(expr, from) {
-        if (expr.type == "choice") {
-            return expr.exprs.reduce((out, expr) => out.concat(compile(expr, from)), []);
-        }
-        else if (expr.type == "seq") {
-            for (let i = 0;; i++) {
-                let next = compile(expr.exprs[i], from);
-                if (i == expr.exprs.length - 1)
-                    return next;
-                connect(next, from = node());
-            }
-        }
-        else if (expr.type == "star") {
-            let loop = node();
-            edge(from, loop);
-            connect(compile(expr.expr, loop), loop);
-            return [edge(loop)];
-        }
-        else if (expr.type == "plus") {
-            let loop = node();
-            connect(compile(expr.expr, from), loop);
-            connect(compile(expr.expr, loop), loop);
-            return [edge(loop)];
-        }
-        else if (expr.type == "opt") {
-            return [edge(from)].concat(compile(expr.expr, from));
-        }
-        else if (expr.type == "range") {
-            let cur = from;
-            for (let i = 0; i < expr.min; i++) {
-                let next = node();
-                connect(compile(expr.expr, cur), next);
-                cur = next;
-            }
-            if (expr.max == -1) {
-                connect(compile(expr.expr, cur), cur);
-            }
-            else {
-                for (let i = expr.min; i < expr.max; i++) {
-                    let next = node();
-                    edge(cur, next);
-                    connect(compile(expr.expr, cur), next);
-                    cur = next;
-                }
-            }
-            return [edge(cur)];
-        }
-        else if (expr.type == "name") {
-            return [edge(from, undefined, expr.value)];
-        }
-        else {
-            throw new Error("Unknown expr type");
-        }
-    }
-}
-function cmp(a, b) { return b - a; }
-// Get the set of nodes reachable by null edges from `node`. Omit
-// nodes with only a single null-out-edge, since they may lead to
-// needless duplicated nodes.
-function nullFrom(nfa, node) {
-    let result = [];
-    scan(node);
-    return result.sort(cmp);
-    function scan(node) {
-        let edges = nfa[node];
-        if (edges.length == 1 && !edges[0].term)
-            return scan(edges[0].to);
-        result.push(node);
-        for (let i = 0; i < edges.length; i++) {
-            let { term, to } = edges[i];
-            if (!term && result.indexOf(to) == -1)
-                scan(to);
-        }
-    }
-}
-// Compiles an NFA as produced by `nfa` into a DFA, modeled as a set
-// of state objects (`ContentMatch` instances) with transitions
-// between them.
-function dfa(nfa) {
-    let labeled = Object.create(null);
-    return explore(nullFrom(nfa, 0));
-    function explore(states) {
-        let out = [];
-        states.forEach(node => {
-            nfa[node].forEach(({ term, to }) => {
-                if (!term)
-                    return;
-                let set;
-                for (let i = 0; i < out.length; i++)
-                    if (out[i][0] == term)
-                        set = out[i][1];
-                nullFrom(nfa, to).forEach(node => {
-                    if (!set)
-                        out.push([term, set = []]);
-                    if (set.indexOf(node) == -1)
-                        set.push(node);
-                });
-            });
-        });
-        let state = labeled[states.join(",")] = new ContentMatch(states.indexOf(nfa.length - 1) > -1);
-        for (let i = 0; i < out.length; i++) {
-            let states = out[i][1].sort(cmp);
-            state.next.push({ type: out[i][0], next: labeled[states.join(",")] || explore(states) });
-        }
-        return state;
-    }
-}
-function checkForDeadEnds(match, stream) {
-    for (let i = 0, work = [match]; i < work.length; i++) {
-        let state = work[i], dead = !state.validEnd, nodes = [];
-        for (let j = 0; j < state.next.length; j++) {
-            let { type, next } = state.next[j];
-            nodes.push(type.name);
-            if (dead && !(type.isText || type.hasRequiredAttrs()))
-                dead = false;
-            if (work.indexOf(next) == -1)
-                work.push(next);
-        }
-        if (dead)
-            stream.err("Only non-generatable nodes (" + nodes.join(", ") + ") in a required position (see https://prosemirror.net/docs/guide/#generatable)");
-    }
-}
-
-// For node types where all attrs have a default value (or which don't
-// have any attributes), build up a single reusable default attribute
-// object, and use it for all nodes that don't specify specific
-// attributes.
-function defaultAttrs(attrs) {
-    let defaults = Object.create(null);
-    for (let attrName in attrs) {
-        let attr = attrs[attrName];
-        if (!attr.hasDefault)
-            return null;
-        defaults[attrName] = attr.default;
-    }
-    return defaults;
-}
-function computeAttrs(attrs, value) {
-    let built = Object.create(null);
-    for (let name in attrs) {
-        let given = value && value[name];
-        if (given === undefined) {
-            let attr = attrs[name];
-            if (attr.hasDefault)
-                given = attr.default;
-            else
-                throw new RangeError("No value supplied for attribute " + name);
-        }
-        built[name] = given;
-    }
-    return built;
-}
-function checkAttrs(attrs, values, type, name) {
-    for (let name in values)
-        if (!(name in attrs))
-            throw new RangeError(`Unsupported attribute ${name} for ${type} of type ${name}`);
-    for (let name in attrs) {
-        let attr = attrs[name];
-        if (attr.validate)
-            attr.validate(values[name]);
-    }
-}
-function initAttrs(typeName, attrs) {
-    let result = Object.create(null);
-    if (attrs)
-        for (let name in attrs)
-            result[name] = new Attribute(typeName, name, attrs[name]);
-    return result;
-}
-/**
-Node types are objects allocated once per `Schema` and used to
-[tag](https://prosemirror.net/docs/ref/#model.Node.type) `Node` instances. They contain information
-about the node type, such as its name and what kind of node it
-represents.
-*/
-let NodeType$1 = class NodeType {
-    /**
-    @internal
-    */
-    constructor(
-    /**
-    The name the node type has in this schema.
-    */
-    name, 
-    /**
-    A link back to the `Schema` the node type belongs to.
-    */
-    schema, 
-    /**
-    The spec that this type is based on
-    */
-    spec) {
-        this.name = name;
-        this.schema = schema;
-        this.spec = spec;
-        /**
-        The set of marks allowed in this node. `null` means all marks
-        are allowed.
-        */
-        this.markSet = null;
-        this.groups = spec.group ? spec.group.split(" ") : [];
-        this.attrs = initAttrs(name, spec.attrs);
-        this.defaultAttrs = defaultAttrs(this.attrs);
-        this.contentMatch = null;
-        this.inlineContent = null;
-        this.isBlock = !(spec.inline || name == "text");
-        this.isText = name == "text";
-    }
-    /**
-    True if this is an inline type.
-    */
-    get isInline() { return !this.isBlock; }
-    /**
-    True if this is a textblock type, a block that contains inline
-    content.
-    */
-    get isTextblock() { return this.isBlock && this.inlineContent; }
-    /**
-    True for node types that allow no content.
-    */
-    get isLeaf() { return this.contentMatch == ContentMatch.empty; }
-    /**
-    True when this node is an atom, i.e. when it does not have
-    directly editable content.
-    */
-    get isAtom() { return this.isLeaf || !!this.spec.atom; }
-    /**
-    Return true when this node type is part of the given
-    [group](https://prosemirror.net/docs/ref/#model.NodeSpec.group).
-    */
-    isInGroup(group) {
-        return this.groups.indexOf(group) > -1;
-    }
-    /**
-    The node type's [whitespace](https://prosemirror.net/docs/ref/#model.NodeSpec.whitespace) option.
-    */
-    get whitespace() {
-        return this.spec.whitespace || (this.spec.code ? "pre" : "normal");
-    }
-    /**
-    Tells you whether this node type has any required attributes.
-    */
-    hasRequiredAttrs() {
-        for (let n in this.attrs)
-            if (this.attrs[n].isRequired)
-                return true;
-        return false;
-    }
-    /**
-    Indicates whether this node allows some of the same content as
-    the given node type.
-    */
-    compatibleContent(other) {
-        return this == other || this.contentMatch.compatible(other.contentMatch);
-    }
-    /**
-    @internal
-    */
-    computeAttrs(attrs) {
-        if (!attrs && this.defaultAttrs)
-            return this.defaultAttrs;
-        else
-            return computeAttrs(this.attrs, attrs);
-    }
-    /**
-    Create a `Node` of this type. The given attributes are
-    checked and defaulted (you can pass `null` to use the type's
-    defaults entirely, if no required attributes exist). `content`
-    may be a `Fragment`, a node, an array of nodes, or
-    `null`. Similarly `marks` may be `null` to default to the empty
-    set of marks.
-    */
-    create(attrs = null, content, marks) {
-        if (this.isText)
-            throw new Error("NodeType.create can't construct text nodes");
-        return new Node$1(this, this.computeAttrs(attrs), Fragment.from(content), Mark.setFrom(marks));
-    }
-    /**
-    Like [`create`](https://prosemirror.net/docs/ref/#model.NodeType.create), but check the given content
-    against the node type's content restrictions, and throw an error
-    if it doesn't match.
-    */
-    createChecked(attrs = null, content, marks) {
-        content = Fragment.from(content);
-        this.checkContent(content);
-        return new Node$1(this, this.computeAttrs(attrs), content, Mark.setFrom(marks));
-    }
-    /**
-    Like [`create`](https://prosemirror.net/docs/ref/#model.NodeType.create), but see if it is
-    necessary to add nodes to the start or end of the given fragment
-    to make it fit the node. If no fitting wrapping can be found,
-    return null. Note that, due to the fact that required nodes can
-    always be created, this will always succeed if you pass null or
-    `Fragment.empty` as content.
-    */
-    createAndFill(attrs = null, content, marks) {
-        attrs = this.computeAttrs(attrs);
-        content = Fragment.from(content);
-        if (content.size) {
-            let before = this.contentMatch.fillBefore(content);
-            if (!before)
-                return null;
-            content = before.append(content);
-        }
-        let matched = this.contentMatch.matchFragment(content);
-        let after = matched && matched.fillBefore(Fragment.empty, true);
-        if (!after)
-            return null;
-        return new Node$1(this, attrs, content.append(after), Mark.setFrom(marks));
-    }
-    /**
-    Returns true if the given fragment is valid content for this node
-    type.
-    */
-    validContent(content) {
-        let result = this.contentMatch.matchFragment(content);
-        if (!result || !result.validEnd)
-            return false;
-        for (let i = 0; i < content.childCount; i++)
-            if (!this.allowsMarks(content.child(i).marks))
-                return false;
-        return true;
-    }
-    /**
-    Throws a RangeError if the given fragment is not valid content for this
-    node type.
-    @internal
-    */
-    checkContent(content) {
-        if (!this.validContent(content))
-            throw new RangeError(`Invalid content for node ${this.name}: ${content.toString().slice(0, 50)}`);
-    }
-    /**
-    @internal
-    */
-    checkAttrs(attrs) {
-        checkAttrs(this.attrs, attrs, "node", this.name);
-    }
-    /**
-    Check whether the given mark type is allowed in this node.
-    */
-    allowsMarkType(markType) {
-        return this.markSet == null || this.markSet.indexOf(markType) > -1;
-    }
-    /**
-    Test whether the given set of marks are allowed in this node.
-    */
-    allowsMarks(marks) {
-        if (this.markSet == null)
-            return true;
-        for (let i = 0; i < marks.length; i++)
-            if (!this.allowsMarkType(marks[i].type))
-                return false;
-        return true;
-    }
-    /**
-    Removes the marks that are not allowed in this node from the given set.
-    */
-    allowedMarks(marks) {
-        if (this.markSet == null)
-            return marks;
-        let copy;
-        for (let i = 0; i < marks.length; i++) {
-            if (!this.allowsMarkType(marks[i].type)) {
-                if (!copy)
-                    copy = marks.slice(0, i);
-            }
-            else if (copy) {
-                copy.push(marks[i]);
-            }
-        }
-        return !copy ? marks : copy.length ? copy : Mark.none;
-    }
-    /**
-    @internal
-    */
-    static compile(nodes, schema) {
-        let result = Object.create(null);
-        nodes.forEach((name, spec) => result[name] = new NodeType(name, schema, spec));
-        let topType = schema.spec.topNode || "doc";
-        if (!result[topType])
-            throw new RangeError("Schema is missing its top node type ('" + topType + "')");
-        if (!result.text)
-            throw new RangeError("Every schema needs a 'text' type");
-        for (let _ in result.text.attrs)
-            throw new RangeError("The text node type should not have attributes");
-        return result;
-    }
-};
-function validateType(typeName, attrName, type) {
-    let types = type.split("|");
-    return (value) => {
-        let name = value === null ? "null" : typeof value;
-        if (types.indexOf(name) < 0)
-            throw new RangeError(`Expected value of type ${types} for attribute ${attrName} on type ${typeName}, got ${name}`);
-    };
-}
-// Attribute descriptors
-class Attribute {
-    constructor(typeName, attrName, options) {
-        this.hasDefault = Object.prototype.hasOwnProperty.call(options, "default");
-        this.default = options.default;
-        this.validate = typeof options.validate == "string" ? validateType(typeName, attrName, options.validate) : options.validate;
-    }
-    get isRequired() {
-        return !this.hasDefault;
-    }
-}
-// Marks
-/**
-Like nodes, marks (which are associated with nodes to signify
-things like emphasis or being part of a link) are
-[tagged](https://prosemirror.net/docs/ref/#model.Mark.type) with type objects, which are
-instantiated once per `Schema`.
-*/
-class MarkType {
-    /**
-    @internal
-    */
-    constructor(
-    /**
-    The name of the mark type.
-    */
-    name, 
-    /**
-    @internal
-    */
-    rank, 
-    /**
-    The schema that this mark type instance is part of.
-    */
-    schema, 
-    /**
-    The spec on which the type is based.
-    */
-    spec) {
-        this.name = name;
-        this.rank = rank;
-        this.schema = schema;
-        this.spec = spec;
-        this.attrs = initAttrs(name, spec.attrs);
-        this.excluded = null;
-        let defaults = defaultAttrs(this.attrs);
-        this.instance = defaults ? new Mark(this, defaults) : null;
-    }
-    /**
-    Create a mark of this type. `attrs` may be `null` or an object
-    containing only some of the mark's attributes. The others, if
-    they have defaults, will be added.
-    */
-    create(attrs = null) {
-        if (!attrs && this.instance)
-            return this.instance;
-        return new Mark(this, computeAttrs(this.attrs, attrs));
-    }
-    /**
-    @internal
-    */
-    static compile(marks, schema) {
-        let result = Object.create(null), rank = 0;
-        marks.forEach((name, spec) => result[name] = new MarkType(name, rank++, schema, spec));
-        return result;
-    }
-    /**
-    When there is a mark of this type in the given set, a new set
-    without it is returned. Otherwise, the input set is returned.
-    */
-    removeFromSet(set) {
-        for (var i = 0; i < set.length; i++)
-            if (set[i].type == this) {
-                set = set.slice(0, i).concat(set.slice(i + 1));
-                i--;
-            }
-        return set;
-    }
-    /**
-    Tests whether there is a mark of this type in the given set.
-    */
-    isInSet(set) {
-        for (let i = 0; i < set.length; i++)
-            if (set[i].type == this)
-                return set[i];
-    }
-    /**
-    @internal
-    */
-    checkAttrs(attrs) {
-        checkAttrs(this.attrs, attrs, "mark", this.name);
-    }
-    /**
-    Queries whether a given mark type is
-    [excluded](https://prosemirror.net/docs/ref/#model.MarkSpec.excludes) by this one.
-    */
-    excludes(other) {
-        return this.excluded.indexOf(other) > -1;
-    }
-}
-/**
-A document schema. Holds [node](https://prosemirror.net/docs/ref/#model.NodeType) and [mark
-type](https://prosemirror.net/docs/ref/#model.MarkType) objects for the nodes and marks that may
-occur in conforming documents, and provides functionality for
-creating and deserializing such documents.
-
-When given, the type parameters provide the names of the nodes and
-marks in this schema.
-*/
-class Schema {
-    /**
-    Construct a schema from a schema [specification](https://prosemirror.net/docs/ref/#model.SchemaSpec).
-    */
-    constructor(spec) {
-        /**
-        The [linebreak
-        replacement](https://prosemirror.net/docs/ref/#model.NodeSpec.linebreakReplacement) node defined
-        in this schema, if any.
-        */
-        this.linebreakReplacement = null;
-        /**
-        An object for storing whatever values modules may want to
-        compute and cache per schema. (If you want to store something
-        in it, try to use property names unlikely to clash.)
-        */
-        this.cached = Object.create(null);
-        let instanceSpec = this.spec = {};
-        for (let prop in spec)
-            instanceSpec[prop] = spec[prop];
-        instanceSpec.nodes = OrderedMap.from(spec.nodes),
-            instanceSpec.marks = OrderedMap.from(spec.marks || {}),
-            this.nodes = NodeType$1.compile(this.spec.nodes, this);
-        this.marks = MarkType.compile(this.spec.marks, this);
-        let contentExprCache = Object.create(null);
-        for (let prop in this.nodes) {
-            if (prop in this.marks)
-                throw new RangeError(prop + " can not be both a node and a mark");
-            let type = this.nodes[prop], contentExpr = type.spec.content || "", markExpr = type.spec.marks;
-            type.contentMatch = contentExprCache[contentExpr] ||
-                (contentExprCache[contentExpr] = ContentMatch.parse(contentExpr, this.nodes));
-            type.inlineContent = type.contentMatch.inlineContent;
-            if (type.spec.linebreakReplacement) {
-                if (this.linebreakReplacement)
-                    throw new RangeError("Multiple linebreak nodes defined");
-                if (!type.isInline || !type.isLeaf)
-                    throw new RangeError("Linebreak replacement nodes must be inline leaf nodes");
-                this.linebreakReplacement = type;
-            }
-            type.markSet = markExpr == "_" ? null :
-                markExpr ? gatherMarks(this, markExpr.split(" ")) :
-                    markExpr == "" || !type.inlineContent ? [] : null;
-        }
-        for (let prop in this.marks) {
-            let type = this.marks[prop], excl = type.spec.excludes;
-            type.excluded = excl == null ? [type] : excl == "" ? [] : gatherMarks(this, excl.split(" "));
-        }
-        this.nodeFromJSON = this.nodeFromJSON.bind(this);
-        this.markFromJSON = this.markFromJSON.bind(this);
-        this.topNodeType = this.nodes[this.spec.topNode || "doc"];
-        this.cached.wrappings = Object.create(null);
-    }
-    /**
-    Create a node in this schema. The `type` may be a string or a
-    `NodeType` instance. Attributes will be extended with defaults,
-    `content` may be a `Fragment`, `null`, a `Node`, or an array of
-    nodes.
-    */
-    node(type, attrs = null, content, marks) {
-        if (typeof type == "string")
-            type = this.nodeType(type);
-        else if (!(type instanceof NodeType$1))
-            throw new RangeError("Invalid node type: " + type);
-        else if (type.schema != this)
-            throw new RangeError("Node type from different schema used (" + type.name + ")");
-        return type.createChecked(attrs, content, marks);
-    }
-    /**
-    Create a text node in the schema. Empty text nodes are not
-    allowed.
-    */
-    text(text, marks) {
-        let type = this.nodes.text;
-        return new TextNode(type, type.defaultAttrs, text, Mark.setFrom(marks));
-    }
-    /**
-    Create a mark with the given type and attributes.
-    */
-    mark(type, attrs) {
-        if (typeof type == "string")
-            type = this.marks[type];
-        return type.create(attrs);
-    }
-    /**
-    Deserialize a node from its JSON representation. This method is
-    bound.
-    */
-    nodeFromJSON(json) {
-        return Node$1.fromJSON(this, json);
-    }
-    /**
-    Deserialize a mark from its JSON representation. This method is
-    bound.
-    */
-    markFromJSON(json) {
-        return Mark.fromJSON(this, json);
-    }
-    /**
-    @internal
-    */
-    nodeType(name) {
-        let found = this.nodes[name];
-        if (!found)
-            throw new RangeError("Unknown node type: " + name);
-        return found;
-    }
-}
-function gatherMarks(schema, marks) {
-    let found = [];
-    for (let i = 0; i < marks.length; i++) {
-        let name = marks[i], mark = schema.marks[name], ok = mark;
-        if (mark) {
-            found.push(mark);
-        }
-        else {
-            for (let prop in schema.marks) {
-                let mark = schema.marks[prop];
-                if (name == "_" || (mark.spec.group && mark.spec.group.split(" ").indexOf(name) > -1))
-                    found.push(ok = mark);
-            }
-        }
-        if (!ok)
-            throw new SyntaxError("Unknown mark type: '" + marks[i] + "'");
-    }
-    return found;
-}
-
-function isTagRule(rule) { return rule.tag != null; }
-function isStyleRule(rule) { return rule.style != null; }
-/**
-A DOM parser represents a strategy for parsing DOM content into a
-ProseMirror document conforming to a given schema. Its behavior is
-defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule).
-*/
-class DOMParser {
-    /**
-    Create a parser that targets the given schema, using the given
-    parsing rules.
-    */
-    constructor(
-    /**
-    The schema into which the parser parses.
-    */
-    schema, 
-    /**
-    The set of [parse rules](https://prosemirror.net/docs/ref/#model.ParseRule) that the parser
-    uses, in order of precedence.
-    */
-    rules) {
-        this.schema = schema;
-        this.rules = rules;
-        /**
-        @internal
-        */
-        this.tags = [];
-        /**
-        @internal
-        */
-        this.styles = [];
-        let matchedStyles = this.matchedStyles = [];
-        rules.forEach(rule => {
-            if (isTagRule(rule)) {
-                this.tags.push(rule);
-            }
-            else if (isStyleRule(rule)) {
-                let prop = /[^=]*/.exec(rule.style)[0];
-                if (matchedStyles.indexOf(prop) < 0)
-                    matchedStyles.push(prop);
-                this.styles.push(rule);
-            }
-        });
-        // Only normalize list elements when lists in the schema can't directly contain themselves
-        this.normalizeLists = !this.tags.some(r => {
-            if (!/^(ul|ol)\b/.test(r.tag) || !r.node)
-                return false;
-            let node = schema.nodes[r.node];
-            return node.contentMatch.matchType(node);
-        });
-    }
-    /**
-    Parse a document from the content of a DOM node.
-    */
-    parse(dom, options = {}) {
-        let context = new ParseContext(this, options, false);
-        context.addAll(dom, Mark.none, options.from, options.to);
-        return context.finish();
-    }
-    /**
-    Parses the content of the given DOM node, like
-    [`parse`](https://prosemirror.net/docs/ref/#model.DOMParser.parse), and takes the same set of
-    options. But unlike that method, which produces a whole node,
-    this one returns a slice that is open at the sides, meaning that
-    the schema constraints aren't applied to the start of nodes to
-    the left of the input and the end of nodes at the end.
-    */
-    parseSlice(dom, options = {}) {
-        let context = new ParseContext(this, options, true);
-        context.addAll(dom, Mark.none, options.from, options.to);
-        return Slice.maxOpen(context.finish());
-    }
-    /**
-    @internal
-    */
-    matchTag(dom, context, after) {
-        for (let i = after ? this.tags.indexOf(after) + 1 : 0; i < this.tags.length; i++) {
-            let rule = this.tags[i];
-            if (matches(dom, rule.tag) &&
-                (rule.namespace === undefined || dom.namespaceURI == rule.namespace) &&
-                (!rule.context || context.matchesContext(rule.context))) {
-                if (rule.getAttrs) {
-                    let result = rule.getAttrs(dom);
-                    if (result === false)
-                        continue;
-                    rule.attrs = result || undefined;
-                }
-                return rule;
-            }
-        }
-    }
-    /**
-    @internal
-    */
-    matchStyle(prop, value, context, after) {
-        for (let i = after ? this.styles.indexOf(after) + 1 : 0; i < this.styles.length; i++) {
-            let rule = this.styles[i], style = rule.style;
-            if (style.indexOf(prop) != 0 ||
-                rule.context && !context.matchesContext(rule.context) ||
-                // Test that the style string either precisely matches the prop,
-                // or has an '=' sign after the prop, followed by the given
-                // value.
-                style.length > prop.length &&
-                    (style.charCodeAt(prop.length) != 61 || style.slice(prop.length + 1) != value))
-                continue;
-            if (rule.getAttrs) {
-                let result = rule.getAttrs(value);
-                if (result === false)
-                    continue;
-                rule.attrs = result || undefined;
-            }
-            return rule;
-        }
-    }
-    /**
-    @internal
-    */
-    static schemaRules(schema) {
-        let result = [];
-        function insert(rule) {
-            let priority = rule.priority == null ? 50 : rule.priority, i = 0;
-            for (; i < result.length; i++) {
-                let next = result[i], nextPriority = next.priority == null ? 50 : next.priority;
-                if (nextPriority < priority)
-                    break;
-            }
-            result.splice(i, 0, rule);
-        }
-        for (let name in schema.marks) {
-            let rules = schema.marks[name].spec.parseDOM;
-            if (rules)
-                rules.forEach(rule => {
-                    insert(rule = copy(rule));
-                    if (!(rule.mark || rule.ignore || rule.clearMark))
-                        rule.mark = name;
-                });
-        }
-        for (let name in schema.nodes) {
-            let rules = schema.nodes[name].spec.parseDOM;
-            if (rules)
-                rules.forEach(rule => {
-                    insert(rule = copy(rule));
-                    if (!(rule.node || rule.ignore || rule.mark))
-                        rule.node = name;
-                });
-        }
-        return result;
-    }
-    /**
-    Construct a DOM parser using the parsing rules listed in a
-    schema's [node specs](https://prosemirror.net/docs/ref/#model.NodeSpec.parseDOM), reordered by
-    [priority](https://prosemirror.net/docs/ref/#model.ParseRule.priority).
-    */
-    static fromSchema(schema) {
-        return schema.cached.domParser ||
-            (schema.cached.domParser = new DOMParser(schema, DOMParser.schemaRules(schema)));
-    }
-}
-const blockTags = {
-    address: true, article: true, aside: true, blockquote: true, canvas: true,
-    dd: true, div: true, dl: true, fieldset: true, figcaption: true, figure: true,
-    footer: true, form: true, h1: true, h2: true, h3: true, h4: true, h5: true,
-    h6: true, header: true, hgroup: true, hr: true, li: true, noscript: true, ol: true,
-    output: true, p: true, pre: true, section: true, table: true, tfoot: true, ul: true
-};
-const ignoreTags = {
-    head: true, noscript: true, object: true, script: true, style: true, title: true
-};
-const listTags = { ol: true, ul: true };
-// Using a bitfield for node context options
-const OPT_PRESERVE_WS = 1, OPT_PRESERVE_WS_FULL = 2, OPT_OPEN_LEFT = 4;
-function wsOptionsFor(type, preserveWhitespace, base) {
-    if (preserveWhitespace != null)
-        return (preserveWhitespace ? OPT_PRESERVE_WS : 0) |
-            (preserveWhitespace === "full" ? OPT_PRESERVE_WS_FULL : 0);
-    return type && type.whitespace == "pre" ? OPT_PRESERVE_WS | OPT_PRESERVE_WS_FULL : base & ~OPT_OPEN_LEFT;
-}
-class NodeContext {
-    constructor(type, attrs, marks, solid, match, options) {
-        this.type = type;
-        this.attrs = attrs;
-        this.marks = marks;
-        this.solid = solid;
-        this.options = options;
-        this.content = [];
-        // Marks applied to the node's children
-        this.activeMarks = Mark.none;
-        this.match = match || (options & OPT_OPEN_LEFT ? null : type.contentMatch);
-    }
-    findWrapping(node) {
-        if (!this.match) {
-            if (!this.type)
-                return [];
-            let fill = this.type.contentMatch.fillBefore(Fragment.from(node));
-            if (fill) {
-                this.match = this.type.contentMatch.matchFragment(fill);
-            }
-            else {
-                let start = this.type.contentMatch, wrap;
-                if (wrap = start.findWrapping(node.type)) {
-                    this.match = start;
-                    return wrap;
-                }
-                else {
-                    return null;
-                }
-            }
-        }
-        return this.match.findWrapping(node.type);
-    }
-    finish(openEnd) {
-        if (!(this.options & OPT_PRESERVE_WS)) { // Strip trailing whitespace
-            let last = this.content[this.content.length - 1], m;
-            if (last && last.isText && (m = /[ \t\r\n\u000c]+$/.exec(last.text))) {
-                let text = last;
-                if (last.text.length == m[0].length)
-                    this.content.pop();
-                else
-                    this.content[this.content.length - 1] = text.withText(text.text.slice(0, text.text.length - m[0].length));
-            }
-        }
-        let content = Fragment.from(this.content);
-        if (!openEnd && this.match)
-            content = content.append(this.match.fillBefore(Fragment.empty, true));
-        return this.type ? this.type.create(this.attrs, content, this.marks) : content;
-    }
-    inlineContext(node) {
-        if (this.type)
-            return this.type.inlineContent;
-        if (this.content.length)
-            return this.content[0].isInline;
-        return node.parentNode && !blockTags.hasOwnProperty(node.parentNode.nodeName.toLowerCase());
-    }
-}
-class ParseContext {
-    constructor(
-    // The parser we are using.
-    parser, 
-    // The options passed to this parse.
-    options, isOpen) {
-        this.parser = parser;
-        this.options = options;
-        this.isOpen = isOpen;
-        this.open = 0;
-        this.localPreserveWS = false;
-        let topNode = options.topNode, topContext;
-        let topOptions = wsOptionsFor(null, options.preserveWhitespace, 0) | (isOpen ? OPT_OPEN_LEFT : 0);
-        if (topNode)
-            topContext = new NodeContext(topNode.type, topNode.attrs, Mark.none, true, options.topMatch || topNode.type.contentMatch, topOptions);
-        else if (isOpen)
-            topContext = new NodeContext(null, null, Mark.none, true, null, topOptions);
-        else
-            topContext = new NodeContext(parser.schema.topNodeType, null, Mark.none, true, null, topOptions);
-        this.nodes = [topContext];
-        this.find = options.findPositions;
-        this.needsBlock = false;
-    }
-    get top() {
-        return this.nodes[this.open];
-    }
-    // Add a DOM node to the content. Text is inserted as text node,
-    // otherwise, the node is passed to `addElement` or, if it has a
-    // `style` attribute, `addElementWithStyles`.
-    addDOM(dom, marks) {
-        if (dom.nodeType == 3)
-            this.addTextNode(dom, marks);
-        else if (dom.nodeType == 1)
-            this.addElement(dom, marks);
-    }
-    addTextNode(dom, marks) {
-        let value = dom.nodeValue;
-        let top = this.top, preserveWS = (top.options & OPT_PRESERVE_WS_FULL) ? "full"
-            : this.localPreserveWS || (top.options & OPT_PRESERVE_WS) > 0;
-        if (preserveWS === "full" ||
-            top.inlineContext(dom) ||
-            /[^ \t\r\n\u000c]/.test(value)) {
-            if (!preserveWS) {
-                value = value.replace(/[ \t\r\n\u000c]+/g, " ");
-                // If this starts with whitespace, and there is no node before it, or
-                // a hard break, or a text node that ends with whitespace, strip the
-                // leading space.
-                if (/^[ \t\r\n\u000c]/.test(value) && this.open == this.nodes.length - 1) {
-                    let nodeBefore = top.content[top.content.length - 1];
-                    let domNodeBefore = dom.previousSibling;
-                    if (!nodeBefore ||
-                        (domNodeBefore && domNodeBefore.nodeName == 'BR') ||
-                        (nodeBefore.isText && /[ \t\r\n\u000c]$/.test(nodeBefore.text)))
-                        value = value.slice(1);
-                }
-            }
-            else if (preserveWS !== "full") {
-                value = value.replace(/\r?\n|\r/g, " ");
-            }
-            else {
-                value = value.replace(/\r\n?/g, "\n");
-            }
-            if (value)
-                this.insertNode(this.parser.schema.text(value), marks);
-            this.findInText(dom);
-        }
-        else {
-            this.findInside(dom);
-        }
-    }
-    // Try to find a handler for the given tag and use that to parse. If
-    // none is found, the element's content nodes are added directly.
-    addElement(dom, marks, matchAfter) {
-        let outerWS = this.localPreserveWS, top = this.top;
-        if (dom.tagName == "PRE" || /pre/.test(dom.style && dom.style.whiteSpace))
-            this.localPreserveWS = true;
-        let name = dom.nodeName.toLowerCase(), ruleID;
-        if (listTags.hasOwnProperty(name) && this.parser.normalizeLists)
-            normalizeList(dom);
-        let rule = (this.options.ruleFromNode && this.options.ruleFromNode(dom)) ||
-            (ruleID = this.parser.matchTag(dom, this, matchAfter));
-        out: if (rule ? rule.ignore : ignoreTags.hasOwnProperty(name)) {
-            this.findInside(dom);
-            this.ignoreFallback(dom, marks);
-        }
-        else if (!rule || rule.skip || rule.closeParent) {
-            if (rule && rule.closeParent)
-                this.open = Math.max(0, this.open - 1);
-            else if (rule && rule.skip.nodeType)
-                dom = rule.skip;
-            let sync, oldNeedsBlock = this.needsBlock;
-            if (blockTags.hasOwnProperty(name)) {
-                if (top.content.length && top.content[0].isInline && this.open) {
-                    this.open--;
-                    top = this.top;
-                }
-                sync = true;
-                if (!top.type)
-                    this.needsBlock = true;
-            }
-            else if (!dom.firstChild) {
-                this.leafFallback(dom, marks);
-                break out;
-            }
-            let innerMarks = rule && rule.skip ? marks : this.readStyles(dom, marks);
-            if (innerMarks)
-                this.addAll(dom, innerMarks);
-            if (sync)
-                this.sync(top);
-            this.needsBlock = oldNeedsBlock;
-        }
-        else {
-            let innerMarks = this.readStyles(dom, marks);
-            if (innerMarks)
-                this.addElementByRule(dom, rule, innerMarks, rule.consuming === false ? ruleID : undefined);
-        }
-        this.localPreserveWS = outerWS;
-    }
-    // Called for leaf DOM nodes that would otherwise be ignored
-    leafFallback(dom, marks) {
-        if (dom.nodeName == "BR" && this.top.type && this.top.type.inlineContent)
-            this.addTextNode(dom.ownerDocument.createTextNode("\n"), marks);
-    }
-    // Called for ignored nodes
-    ignoreFallback(dom, marks) {
-        // Ignored BR nodes should at least create an inline context
-        if (dom.nodeName == "BR" && (!this.top.type || !this.top.type.inlineContent))
-            this.findPlace(this.parser.schema.text("-"), marks);
-    }
-    // Run any style parser associated with the node's styles. Either
-    // return an updated array of marks, or null to indicate some of the
-    // styles had a rule with `ignore` set.
-    readStyles(dom, marks) {
-        let styles = dom.style;
-        // Because many properties will only show up in 'normalized' form
-        // in `style.item` (i.e. text-decoration becomes
-        // text-decoration-line, text-decoration-color, etc), we directly
-        // query the styles mentioned in our rules instead of iterating
-        // over the items.
-        if (styles && styles.length)
-            for (let i = 0; i < this.parser.matchedStyles.length; i++) {
-                let name = this.parser.matchedStyles[i], value = styles.getPropertyValue(name);
-                if (value)
-                    for (let after = undefined;;) {
-                        let rule = this.parser.matchStyle(name, value, this, after);
-                        if (!rule)
-                            break;
-                        if (rule.ignore)
-                            return null;
-                        if (rule.clearMark)
-                            marks = marks.filter(m => !rule.clearMark(m));
-                        else
-                            marks = marks.concat(this.parser.schema.marks[rule.mark].create(rule.attrs));
-                        if (rule.consuming === false)
-                            after = rule;
-                        else
-                            break;
-                    }
-            }
-        return marks;
-    }
-    // Look up a handler for the given node. If none are found, return
-    // false. Otherwise, apply it, use its return value to drive the way
-    // the node's content is wrapped, and return true.
-    addElementByRule(dom, rule, marks, continueAfter) {
-        let sync, nodeType;
-        if (rule.node) {
-            nodeType = this.parser.schema.nodes[rule.node];
-            if (!nodeType.isLeaf) {
-                let inner = this.enter(nodeType, rule.attrs || null, marks, rule.preserveWhitespace);
-                if (inner) {
-                    sync = true;
-                    marks = inner;
-                }
-            }
-            else if (!this.insertNode(nodeType.create(rule.attrs), marks)) {
-                this.leafFallback(dom, marks);
-            }
-        }
-        else {
-            let markType = this.parser.schema.marks[rule.mark];
-            marks = marks.concat(markType.create(rule.attrs));
-        }
-        let startIn = this.top;
-        if (nodeType && nodeType.isLeaf) {
-            this.findInside(dom);
-        }
-        else if (continueAfter) {
-            this.addElement(dom, marks, continueAfter);
-        }
-        else if (rule.getContent) {
-            this.findInside(dom);
-            rule.getContent(dom, this.parser.schema).forEach(node => this.insertNode(node, marks));
-        }
-        else {
-            let contentDOM = dom;
-            if (typeof rule.contentElement == "string")
-                contentDOM = dom.querySelector(rule.contentElement);
-            else if (typeof rule.contentElement == "function")
-                contentDOM = rule.contentElement(dom);
-            else if (rule.contentElement)
-                contentDOM = rule.contentElement;
-            this.findAround(dom, contentDOM, true);
-            this.addAll(contentDOM, marks);
-            this.findAround(dom, contentDOM, false);
-        }
-        if (sync && this.sync(startIn))
-            this.open--;
-    }
-    // Add all child nodes between `startIndex` and `endIndex` (or the
-    // whole node, if not given). If `sync` is passed, use it to
-    // synchronize after every block element.
-    addAll(parent, marks, startIndex, endIndex) {
-        let index = startIndex || 0;
-        for (let dom = startIndex ? parent.childNodes[startIndex] : parent.firstChild, end = endIndex == null ? null : parent.childNodes[endIndex]; dom != end; dom = dom.nextSibling, ++index) {
-            this.findAtPoint(parent, index);
-            this.addDOM(dom, marks);
-        }
-        this.findAtPoint(parent, index);
-    }
-    // Try to find a way to fit the given node type into the current
-    // context. May add intermediate wrappers and/or leave non-solid
-    // nodes that we're in.
-    findPlace(node, marks) {
-        let route, sync;
-        for (let depth = this.open; depth >= 0; depth--) {
-            let cx = this.nodes[depth];
-            let found = cx.findWrapping(node);
-            if (found && (!route || route.length > found.length)) {
-                route = found;
-                sync = cx;
-                if (!found.length)
-                    break;
-            }
-            if (cx.solid)
-                break;
-        }
-        if (!route)
-            return null;
-        this.sync(sync);
-        for (let i = 0; i < route.length; i++)
-            marks = this.enterInner(route[i], null, marks, false);
-        return marks;
-    }
-    // Try to insert the given node, adjusting the context when needed.
-    insertNode(node, marks) {
-        if (node.isInline && this.needsBlock && !this.top.type) {
-            let block = this.textblockFromContext();
-            if (block)
-                marks = this.enterInner(block, null, marks);
-        }
-        let innerMarks = this.findPlace(node, marks);
-        if (innerMarks) {
-            this.closeExtra();
-            let top = this.top;
-            if (top.match)
-                top.match = top.match.matchType(node.type);
-            let nodeMarks = Mark.none;
-            for (let m of innerMarks.concat(node.marks))
-                if (top.type ? top.type.allowsMarkType(m.type) : markMayApply(m.type, node.type))
-                    nodeMarks = m.addToSet(nodeMarks);
-            top.content.push(node.mark(nodeMarks));
-            return true;
-        }
-        return false;
-    }
-    // Try to start a node of the given type, adjusting the context when
-    // necessary.
-    enter(type, attrs, marks, preserveWS) {
-        let innerMarks = this.findPlace(type.create(attrs), marks);
-        if (innerMarks)
-            innerMarks = this.enterInner(type, attrs, marks, true, preserveWS);
-        return innerMarks;
-    }
-    // Open a node of the given type
-    enterInner(type, attrs, marks, solid = false, preserveWS) {
-        this.closeExtra();
-        let top = this.top;
-        top.match = top.match && top.match.matchType(type);
-        let options = wsOptionsFor(type, preserveWS, top.options);
-        if ((top.options & OPT_OPEN_LEFT) && top.content.length == 0)
-            options |= OPT_OPEN_LEFT;
-        let applyMarks = Mark.none;
-        marks = marks.filter(m => {
-            if (top.type ? top.type.allowsMarkType(m.type) : markMayApply(m.type, type)) {
-                applyMarks = m.addToSet(applyMarks);
-                return false;
-            }
-            return true;
-        });
-        this.nodes.push(new NodeContext(type, attrs, applyMarks, solid, null, options));
-        this.open++;
-        return marks;
-    }
-    // Make sure all nodes above this.open are finished and added to
-    // their parents
-    closeExtra(openEnd = false) {
-        let i = this.nodes.length - 1;
-        if (i > this.open) {
-            for (; i > this.open; i--)
-                this.nodes[i - 1].content.push(this.nodes[i].finish(openEnd));
-            this.nodes.length = this.open + 1;
-        }
-    }
-    finish() {
-        this.open = 0;
-        this.closeExtra(this.isOpen);
-        return this.nodes[0].finish(!!(this.isOpen || this.options.topOpen));
-    }
-    sync(to) {
-        for (let i = this.open; i >= 0; i--) {
-            if (this.nodes[i] == to) {
-                this.open = i;
-                return true;
-            }
-            else if (this.localPreserveWS) {
-                this.nodes[i].options |= OPT_PRESERVE_WS;
-            }
-        }
-        return false;
-    }
-    get currentPos() {
-        this.closeExtra();
-        let pos = 0;
-        for (let i = this.open; i >= 0; i--) {
-            let content = this.nodes[i].content;
-            for (let j = content.length - 1; j >= 0; j--)
-                pos += content[j].nodeSize;
-            if (i)
-                pos++;
-        }
-        return pos;
-    }
-    findAtPoint(parent, offset) {
-        if (this.find)
-            for (let i = 0; i < this.find.length; i++) {
-                if (this.find[i].node == parent && this.find[i].offset == offset)
-                    this.find[i].pos = this.currentPos;
-            }
-    }
-    findInside(parent) {
-        if (this.find)
-            for (let i = 0; i < this.find.length; i++) {
-                if (this.find[i].pos == null && parent.nodeType == 1 && parent.contains(this.find[i].node))
-                    this.find[i].pos = this.currentPos;
-            }
-    }
-    findAround(parent, content, before) {
-        if (parent != content && this.find)
-            for (let i = 0; i < this.find.length; i++) {
-                if (this.find[i].pos == null && parent.nodeType == 1 && parent.contains(this.find[i].node)) {
-                    let pos = content.compareDocumentPosition(this.find[i].node);
-                    if (pos & (before ? 2 : 4))
-                        this.find[i].pos = this.currentPos;
-                }
-            }
-    }
-    findInText(textNode) {
-        if (this.find)
-            for (let i = 0; i < this.find.length; i++) {
-                if (this.find[i].node == textNode)
-                    this.find[i].pos = this.currentPos - (textNode.nodeValue.length - this.find[i].offset);
-            }
-    }
-    // Determines whether the given context string matches this context.
-    matchesContext(context) {
-        if (context.indexOf("|") > -1)
-            return context.split(/\s*\|\s*/).some(this.matchesContext, this);
-        let parts = context.split("/");
-        let option = this.options.context;
-        let useRoot = !this.isOpen && (!option || option.parent.type == this.nodes[0].type);
-        let minDepth = -(option ? option.depth + 1 : 0) + (useRoot ? 0 : 1);
-        let match = (i, depth) => {
-            for (; i >= 0; i--) {
-                let part = parts[i];
-                if (part == "") {
-                    if (i == parts.length - 1 || i == 0)
-                        continue;
-                    for (; depth >= minDepth; depth--)
-                        if (match(i - 1, depth))
-                            return true;
-                    return false;
-                }
-                else {
-                    let next = depth > 0 || (depth == 0 && useRoot) ? this.nodes[depth].type
-                        : option && depth >= minDepth ? option.node(depth - minDepth).type
-                            : null;
-                    if (!next || (next.name != part && !next.isInGroup(part)))
-                        return false;
-                    depth--;
-                }
-            }
-            return true;
-        };
-        return match(parts.length - 1, this.open);
-    }
-    textblockFromContext() {
-        let $context = this.options.context;
-        if ($context)
-            for (let d = $context.depth; d >= 0; d--) {
-                let deflt = $context.node(d).contentMatchAt($context.indexAfter(d)).defaultType;
-                if (deflt && deflt.isTextblock && deflt.defaultAttrs)
-                    return deflt;
-            }
-        for (let name in this.parser.schema.nodes) {
-            let type = this.parser.schema.nodes[name];
-            if (type.isTextblock && type.defaultAttrs)
-                return type;
-        }
-    }
-}
-// Kludge to work around directly nested list nodes produced by some
-// tools and allowed by browsers to mean that the nested list is
-// actually part of the list item above it.
-function normalizeList(dom) {
-    for (let child = dom.firstChild, prevItem = null; child; child = child.nextSibling) {
-        let name = child.nodeType == 1 ? child.nodeName.toLowerCase() : null;
-        if (name && listTags.hasOwnProperty(name) && prevItem) {
-            prevItem.appendChild(child);
-            child = prevItem;
-        }
-        else if (name == "li") {
-            prevItem = child;
-        }
-        else if (name) {
-            prevItem = null;
-        }
-    }
-}
-// Apply a CSS selector.
-function matches(dom, selector) {
-    return (dom.matches || dom.msMatchesSelector || dom.webkitMatchesSelector || dom.mozMatchesSelector).call(dom, selector);
-}
-function copy(obj) {
-    let copy = {};
-    for (let prop in obj)
-        copy[prop] = obj[prop];
-    return copy;
-}
-// Used when finding a mark at the top level of a fragment parse.
-// Checks whether it would be reasonable to apply a given mark type to
-// a given node, by looking at the way the mark occurs in the schema.
-function markMayApply(markType, nodeType) {
-    let nodes = nodeType.schema.nodes;
-    for (let name in nodes) {
-        let parent = nodes[name];
-        if (!parent.allowsMarkType(markType))
-            continue;
-        let seen = [], scan = (match) => {
-            seen.push(match);
-            for (let i = 0; i < match.edgeCount; i++) {
-                let { type, next } = match.edge(i);
-                if (type == nodeType)
-                    return true;
-                if (seen.indexOf(next) < 0 && scan(next))
-                    return true;
-            }
-        };
-        if (scan(parent.contentMatch))
-            return true;
-    }
-}
-
-/**
-A DOM serializer knows how to convert ProseMirror nodes and
-marks of various types to DOM nodes.
-*/
-class DOMSerializer {
-    /**
-    Create a serializer. `nodes` should map node names to functions
-    that take a node and return a description of the corresponding
-    DOM. `marks` does the same for mark names, but also gets an
-    argument that tells it whether the mark's content is block or
-    inline content (for typical use, it'll always be inline). A mark
-    serializer may be `null` to indicate that marks of that type
-    should not be serialized.
-    */
-    constructor(
-    /**
-    The node serialization functions.
-    */
-    nodes, 
-    /**
-    The mark serialization functions.
-    */
-    marks) {
-        this.nodes = nodes;
-        this.marks = marks;
-    }
-    /**
-    Serialize the content of this fragment to a DOM fragment. When
-    not in the browser, the `document` option, containing a DOM
-    document, should be passed so that the serializer can create
-    nodes.
-    */
-    serializeFragment(fragment, options = {}, target) {
-        if (!target)
-            target = doc$2(options).createDocumentFragment();
-        let top = target, active = [];
-        fragment.forEach(node => {
-            if (active.length || node.marks.length) {
-                let keep = 0, rendered = 0;
-                while (keep < active.length && rendered < node.marks.length) {
-                    let next = node.marks[rendered];
-                    if (!this.marks[next.type.name]) {
-                        rendered++;
-                        continue;
-                    }
-                    if (!next.eq(active[keep][0]) || next.type.spec.spanning === false)
-                        break;
-                    keep++;
-                    rendered++;
-                }
-                while (keep < active.length)
-                    top = active.pop()[1];
-                while (rendered < node.marks.length) {
-                    let add = node.marks[rendered++];
-                    let markDOM = this.serializeMark(add, node.isInline, options);
-                    if (markDOM) {
-                        active.push([add, top]);
-                        top.appendChild(markDOM.dom);
-                        top = markDOM.contentDOM || markDOM.dom;
-                    }
-                }
-            }
-            top.appendChild(this.serializeNodeInner(node, options));
-        });
-        return target;
-    }
-    /**
-    @internal
-    */
-    serializeNodeInner(node, options) {
-        let { dom, contentDOM } = renderSpec(doc$2(options), this.nodes[node.type.name](node), null, node.attrs);
-        if (contentDOM) {
-            if (node.isLeaf)
-                throw new RangeError("Content hole not allowed in a leaf node spec");
-            this.serializeFragment(node.content, options, contentDOM);
-        }
-        return dom;
-    }
-    /**
-    Serialize this node to a DOM node. This can be useful when you
-    need to serialize a part of a document, as opposed to the whole
-    document. To serialize a whole document, use
-    [`serializeFragment`](https://prosemirror.net/docs/ref/#model.DOMSerializer.serializeFragment) on
-    its [content](https://prosemirror.net/docs/ref/#model.Node.content).
-    */
-    serializeNode(node, options = {}) {
-        let dom = this.serializeNodeInner(node, options);
-        for (let i = node.marks.length - 1; i >= 0; i--) {
-            let wrap = this.serializeMark(node.marks[i], node.isInline, options);
-            if (wrap) {
-                (wrap.contentDOM || wrap.dom).appendChild(dom);
-                dom = wrap.dom;
-            }
-        }
-        return dom;
-    }
-    /**
-    @internal
-    */
-    serializeMark(mark, inline, options = {}) {
-        let toDOM = this.marks[mark.type.name];
-        return toDOM && renderSpec(doc$2(options), toDOM(mark, inline), null, mark.attrs);
-    }
-    static renderSpec(doc, structure, xmlNS = null, blockArraysIn) {
-        return renderSpec(doc, structure, xmlNS, blockArraysIn);
-    }
-    /**
-    Build a serializer using the [`toDOM`](https://prosemirror.net/docs/ref/#model.NodeSpec.toDOM)
-    properties in a schema's node and mark specs.
-    */
-    static fromSchema(schema) {
-        return schema.cached.domSerializer ||
-            (schema.cached.domSerializer = new DOMSerializer(this.nodesFromSchema(schema), this.marksFromSchema(schema)));
-    }
-    /**
-    Gather the serializers in a schema's node specs into an object.
-    This can be useful as a base to build a custom serializer from.
-    */
-    static nodesFromSchema(schema) {
-        let result = gatherToDOM(schema.nodes);
-        if (!result.text)
-            result.text = node => node.text;
-        return result;
-    }
-    /**
-    Gather the serializers in a schema's mark specs into an object.
-    */
-    static marksFromSchema(schema) {
-        return gatherToDOM(schema.marks);
-    }
-}
-function gatherToDOM(obj) {
-    let result = {};
-    for (let name in obj) {
-        let toDOM = obj[name].spec.toDOM;
-        if (toDOM)
-            result[name] = toDOM;
-    }
-    return result;
-}
-function doc$2(options) {
-    return options.document || window.document;
-}
-const suspiciousAttributeCache = new WeakMap();
-function suspiciousAttributes(attrs) {
-    let value = suspiciousAttributeCache.get(attrs);
-    if (value === undefined)
-        suspiciousAttributeCache.set(attrs, value = suspiciousAttributesInner(attrs));
-    return value;
-}
-function suspiciousAttributesInner(attrs) {
-    let result = null;
-    function scan(value) {
-        if (value && typeof value == "object") {
-            if (Array.isArray(value)) {
-                if (typeof value[0] == "string") {
-                    if (!result)
-                        result = [];
-                    result.push(value);
-                }
-                else {
-                    for (let i = 0; i < value.length; i++)
-                        scan(value[i]);
-                }
-            }
-            else {
-                for (let prop in value)
-                    scan(value[prop]);
-            }
-        }
-    }
-    scan(attrs);
-    return result;
-}
-function renderSpec(doc, structure, xmlNS, blockArraysIn) {
-    if (typeof structure == "string")
-        return { dom: doc.createTextNode(structure) };
-    if (structure.nodeType != null)
-        return { dom: structure };
-    if (structure.dom && structure.dom.nodeType != null)
-        return structure;
-    let tagName = structure[0], suspicious;
-    if (typeof tagName != "string")
-        throw new RangeError("Invalid array passed to renderSpec");
-    if (blockArraysIn && (suspicious = suspiciousAttributes(blockArraysIn)) &&
-        suspicious.indexOf(structure) > -1)
-        throw new RangeError("Using an array from an attribute object as a DOM spec. This may be an attempted cross site scripting attack.");
-    let space = tagName.indexOf(" ");
-    if (space > 0) {
-        xmlNS = tagName.slice(0, space);
-        tagName = tagName.slice(space + 1);
-    }
-    let contentDOM;
-    let dom = (xmlNS ? doc.createElementNS(xmlNS, tagName) : doc.createElement(tagName));
-    let attrs = structure[1], start = 1;
-    if (attrs && typeof attrs == "object" && attrs.nodeType == null && !Array.isArray(attrs)) {
-        start = 2;
-        for (let name in attrs)
-            if (attrs[name] != null) {
-                let space = name.indexOf(" ");
-                if (space > 0)
-                    dom.setAttributeNS(name.slice(0, space), name.slice(space + 1), attrs[name]);
-                else
-                    dom.setAttribute(name, attrs[name]);
-            }
-    }
-    for (let i = start; i < structure.length; i++) {
-        let child = structure[i];
-        if (child === 0) {
-            if (i < structure.length - 1 || i > start)
-                throw new RangeError("Content hole must be the only child of its parent node");
-            return { dom, contentDOM: dom };
-        }
-        else {
-            let { dom: inner, contentDOM: innerContent } = renderSpec(doc, child, xmlNS, blockArraysIn);
-            dom.appendChild(inner);
-            if (innerContent) {
-                if (contentDOM)
-                    throw new RangeError("Multiple content holes");
-                contentDOM = innerContent;
-            }
-        }
-    }
-    return { dom, contentDOM };
-}
-
-const ConfigReady = createTimer("ConfigReady");
-function config(configure) {
-  const plugin = (ctx) => {
-    ctx.record(ConfigReady);
-    return async () => {
-      await configure(ctx);
-      ctx.done(ConfigReady);
-      return () => {
-        ctx.clearTimer(ConfigReady);
-      };
-    };
-  };
-  withMeta$6(plugin, {
-    displayName: "Config"
-  });
-  return plugin;
-}
-
-const InitReady = createTimer("InitReady");
-function init(editor) {
-  const plugin = (ctx) => {
-    ctx.inject(editorCtx, editor).inject(prosePluginsCtx, []).inject(remarkPluginsCtx, []).inject(inputRulesCtx, []).inject(nodeViewCtx, []).inject(markViewCtx, []).inject(remarkStringifyOptionsCtx, {
-      handlers: remarkHandlers
-    }).inject(remarkCtx, unified().use(remarkParse).use(remarkStringify)).inject(initTimerCtx, [ConfigReady]).record(InitReady);
-    return async () => {
-      await ctx.waitTimers(initTimerCtx);
-      const options = ctx.get(remarkStringifyOptionsCtx);
-      ctx.set(
-        remarkCtx,
-        unified().use(remarkParse).use(remarkStringify, options)
-      );
-      ctx.done(InitReady);
-      return () => {
-        ctx.remove(editorCtx).remove(prosePluginsCtx).remove(remarkPluginsCtx).remove(inputRulesCtx).remove(nodeViewCtx).remove(markViewCtx).remove(remarkStringifyOptionsCtx).remove(remarkCtx).remove(initTimerCtx).clearTimer(InitReady);
-      };
-    };
-  };
-  withMeta$6(plugin, {
-    displayName: "Init"
-  });
-  return plugin;
-}
-
-const SchemaReady = createTimer("SchemaReady");
-const schemaTimerCtx = createSlice([], "schemaTimer");
-const schemaCtx = createSlice({}, "schema");
-const nodesCtx = createSlice([], "nodes");
-const marksCtx = createSlice([], "marks");
-function extendPriority(x) {
-  var _a;
-  return {
-    ...x,
-    parseDOM: (_a = x.parseDOM) == null ? void 0 : _a.map((rule) => ({ priority: x.priority, ...rule }))
-  };
-}
-const schema$2 = (ctx) => {
-  ctx.inject(schemaCtx, {}).inject(nodesCtx, []).inject(marksCtx, []).inject(schemaTimerCtx, [InitReady]).record(SchemaReady);
-  return async () => {
-    await ctx.waitTimers(schemaTimerCtx);
-    const remark = ctx.get(remarkCtx);
-    const remarkPlugins = ctx.get(remarkPluginsCtx);
-    const processor = remarkPlugins.reduce(
-      (acc, plug) => acc.use(plug.plugin, plug.options),
-      remark
-    );
-    ctx.set(remarkCtx, processor);
-    const nodes = Object.fromEntries(
-      ctx.get(nodesCtx).map(([key, x]) => [key, extendPriority(x)])
-    );
-    const marks = Object.fromEntries(
-      ctx.get(marksCtx).map(([key, x]) => [key, extendPriority(x)])
-    );
-    const schema2 = new Schema({ nodes, marks });
-    ctx.set(schemaCtx, schema2);
-    ctx.done(SchemaReady);
-    return () => {
-      ctx.remove(schemaCtx).remove(nodesCtx).remove(marksCtx).remove(schemaTimerCtx).clearTimer(SchemaReady);
-    };
-  };
-};
-withMeta$6(schema$2, {
-  displayName: "Schema"
-});
-
-var __typeError$f = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck$f = (obj, member, msg) => member.has(obj) || __typeError$f("Cannot " + msg);
-var __privateGet$e = (obj, member, getter) => (__accessCheck$f(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$f = (obj, member, value) => member.has(obj) ? __typeError$f("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$e = (obj, member, value, setter) => (__accessCheck$f(obj, member, "write to private field"), member.set(obj, value), value);
-var _container$1, _ctx$4;
-class CommandManager {
+let V$3 = class V {
   constructor() {
-    /// @internal
-    __privateAdd$f(this, _container$1, new Container());
-    /// @internal
-    __privateAdd$f(this, _ctx$4, null);
-    /// @internal
-    this.setCtx = (ctx) => {
-      __privateSet$e(this, _ctx$4, ctx);
+    this.elements = [], this.size = () => this.elements.length, this.top = () => this.elements.at(-1), this.push = (h) => {
+      var n;
+      (n = this.top()) == null || n.push(h);
+    }, this.open = (h) => {
+      this.elements.push(h);
+    }, this.close = () => {
+      const h = this.elements.pop();
+      if (!h)
+        throw h$3();
+      return h;
     };
   }
-  get ctx() {
-    return __privateGet$e(this, _ctx$4);
-  }
-  /// Register a command into the manager.
-  create(meta, value) {
-    const slice = meta.create(__privateGet$e(this, _container$1).sliceMap);
-    slice.set(value);
-    return slice;
-  }
-  get(slice) {
-    return __privateGet$e(this, _container$1).get(slice).get();
-  }
-  remove(slice) {
-    return __privateGet$e(this, _container$1).remove(slice);
-  }
-  call(slice, payload) {
-    if (__privateGet$e(this, _ctx$4) == null) throw callCommandBeforeEditorView();
-    const cmd = this.get(slice);
-    const command = cmd(payload);
-    const view = __privateGet$e(this, _ctx$4).get(editorViewCtx);
-    return command(view.state, view.dispatch, view);
-  }
-}
-_container$1 = new WeakMap();
-_ctx$4 = new WeakMap();
-function createCmdKey(key = "cmdKey") {
-  return createSlice(() => () => false, key);
-}
-const commandsCtx = createSlice(new CommandManager(), "commands");
-const commandsTimerCtx = createSlice([SchemaReady], "commandsTimer");
-const CommandsReady = createTimer("CommandsReady");
-const commands$2 = (ctx) => {
-  const cmd = new CommandManager();
-  cmd.setCtx(ctx);
-  ctx.inject(commandsCtx, cmd).inject(commandsTimerCtx, [SchemaReady]).record(CommandsReady);
-  return async () => {
-    await ctx.waitTimers(commandsTimerCtx);
-    ctx.done(CommandsReady);
-    return () => {
-      ctx.remove(commandsCtx).remove(commandsTimerCtx).clearTimer(CommandsReady);
-    };
-  };
 };
-withMeta$6(commands$2, {
-  displayName: "Commands"
-});
-
-const nav$2 = typeof navigator != "undefined" ? navigator : null;
-const doc$1 = typeof document != "undefined" ? document : null;
-const agent$2 = nav$2 && nav$2.userAgent || "";
-const ie_edge$2 = /Edge\/(\d+)/.exec(agent$2);
-const ie_upto10$2 = /MSIE \d/.exec(agent$2);
-const ie_11up$2 = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(agent$2);
-const ie$3 = !!(ie_upto10$2 || ie_11up$2 || ie_edge$2);
-const ie_version$1 = ie_upto10$2 ? document.documentMode : ie_11up$2 ? +ie_11up$2[1] : ie_edge$2 ? +ie_edge$2[1] : 0;
-const gecko$1 = !ie$3 && /gecko\/(\d+)/i.test(agent$2);
-gecko$1 && +(/Firefox\/(\d+)/.exec(agent$2) || [0, 0])[1];
-const _chrome$1 = !ie$3 && /Chrome\/(\d+)/.exec(agent$2);
-_chrome$1 ? +_chrome$1[1] : 0;
-const safari$2 = !ie$3 && !!nav$2 && /Apple Computer/.test(nav$2.vendor);
-const ios$1 = safari$2 && (/Mobile\/\w+/.test(agent$2) || !!nav$2 && nav$2.maxTouchPoints > 2);
-ios$1 || (nav$2 ? /Mac/.test(nav$2.platform) : false);
-const webkit$1 = !!doc$1 && "webkitFontSmoothing" in doc$1.documentElement.style;
-const webkit_version$1 = webkit$1 ? +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [0, 0])[1] : 0;
+let B$3 = class B extends U$3 {
+  constructor(h, n, t) {
+    super(), this.type = h, this.content = n, this.attrs = t;
+  }
+  push(h, ...n) {
+    this.content.push(h, ...n);
+  }
+  pop() {
+    return this.content.pop();
+  }
+  static create(h, n, t) {
+    return new B(h, n, t);
+  }
+};
+var d$4, M$4, O$3, T$5, F$2, w$4, g$3;
+const $$4 = class $ extends V$3 {
+  /// @internal
+  constructor(n) {
+    super();
+    u$5(this, d$4, void 0);
+    u$5(this, M$4, void 0);
+    u$5(this, O$3, void 0);
+    u$5(this, T$5, void 0);
+    u$5(this, F$2, void 0);
+    u$5(this, w$4, void 0);
+    u$5(this, g$3, void 0);
+    o$2(this, d$4, Mark.none), o$2(this, M$4, (t) => t.isText), o$2(this, O$3, (t, s) => {
+      if (i$4(this, M$4).call(this, t) && i$4(this, M$4).call(this, s) && Mark.sameSet(t.marks, s.marks))
+        return this.schema.text(t.text + s.text, t.marks);
+    }), o$2(this, T$5, (t) => {
+      const s = Object.values({ ...this.schema.nodes, ...this.schema.marks }).find((e) => e.spec.parseMarkdown.match(t));
+      if (!s)
+        throw w$6(t);
+      return s;
+    }), o$2(this, F$2, (t) => {
+      const s = i$4(this, T$5).call(this, t);
+      s.spec.parseMarkdown.runner(this, t, s);
+    }), this.injectRoot = (t, s, e) => (this.openNode(s, e), this.next(t.children), this), this.openNode = (t, s) => (this.open(B$3.create(t, [], s)), this), o$2(this, w$4, () => {
+      o$2(this, d$4, Mark.none);
+      const t = this.close();
+      return i$4(this, g$3).call(this, t.type, t.attrs, t.content);
+    }), this.closeNode = () => (i$4(this, w$4).call(this), this), o$2(this, g$3, (t, s, e) => {
+      const r = t.createAndFill(s, e, i$4(this, d$4));
+      if (!r)
+        throw g$5(t, s, e);
+      return this.push(r), r;
+    }), this.addNode = (t, s, e) => (i$4(this, g$3).call(this, t, s, e), this), this.openMark = (t, s) => {
+      const e = t.create(s);
+      return o$2(this, d$4, e.addToSet(i$4(this, d$4))), this;
+    }, this.closeMark = (t) => (o$2(this, d$4, t.removeFromSet(i$4(this, d$4))), this), this.addText = (t) => {
+      const s = this.top();
+      if (!s)
+        throw h$3();
+      const e = s.pop(), r = this.schema.text(t, i$4(this, d$4));
+      if (!e)
+        return s.push(r), this;
+      const a = i$4(this, O$3).call(this, e, r);
+      return a ? (s.push(a), this) : (s.push(e, r), this);
+    }, this.build = () => {
+      let t;
+      do
+        t = i$4(this, w$4).call(this);
+      while (this.size());
+      return t;
+    }, this.next = (t = []) => ([t].flat().forEach((s) => i$4(this, F$2).call(this, s)), this), this.toDoc = () => this.build(), this.run = (t, s) => {
+      const e = t.runSync(t.parse(s), s);
+      return this.next(e), this;
+    }, this.schema = n;
+  }
+};
+d$4 = new WeakMap(), M$4 = new WeakMap(), O$3 = new WeakMap(), T$5 = new WeakMap(), F$2 = new WeakMap(), w$4 = new WeakMap(), g$3 = new WeakMap(), $$4.create = (n, t) => {
+  const s = new $$4(n);
+  return (e) => (s.run(t, e), s.toDoc());
+};
+let K$2 = $$4;
+const q$4 = class q extends U$3 {
+  constructor(h, n, t, s = {}) {
+    super(), this.type = h, this.children = n, this.value = t, this.props = s, this.push = (e, ...r) => {
+      this.children || (this.children = []), this.children.push(e, ...r);
+    }, this.pop = () => {
+      var e;
+      return (e = this.children) == null ? void 0 : e.pop();
+    };
+  }
+};
+q$4.create = (h, n, t, s = {}) => new q$4(h, n, t, s);
+let W$6 = q$4;
+const _$2 = (p) => Object.prototype.hasOwnProperty.call(p, "size");
+var v$2, P$4, A$3, S$4, I$2, j$2, b$2, C$3, R$4, x$5, N$3, D$2, E$3;
+const z$3 = class z extends V$3 {
+  /// @internal
+  constructor(n) {
+    super();
+    u$5(this, v$2, void 0);
+    u$5(this, P$4, void 0);
+    u$5(this, A$3, void 0);
+    u$5(this, S$4, void 0);
+    u$5(this, I$2, void 0);
+    u$5(this, j$2, void 0);
+    u$5(this, b$2, void 0);
+    u$5(this, C$3, void 0);
+    u$5(this, R$4, void 0);
+    u$5(this, x$5, void 0);
+    u$5(this, N$3, void 0);
+    u$5(this, D$2, void 0);
+    u$5(this, E$3, void 0);
+    o$2(this, v$2, Mark.none), o$2(this, P$4, (t) => {
+      const s = Object.values({ ...this.schema.nodes, ...this.schema.marks }).find((e) => e.spec.toMarkdown.match(t));
+      if (!s)
+        throw F$3(t.type);
+      return s;
+    }), o$2(this, A$3, (t) => i$4(this, P$4).call(this, t).spec.toMarkdown.runner(this, t)), o$2(this, S$4, (t, s) => i$4(this, P$4).call(this, t).spec.toMarkdown.runner(this, t, s)), o$2(this, I$2, (t) => {
+      const { marks: s } = t, e = (c) => c.type.spec.priority ?? 50;
+      [...s].sort((c, f) => e(c) - e(f)).every((c) => !i$4(this, S$4).call(this, c, t)) && i$4(this, A$3).call(this, t), s.forEach((c) => i$4(this, E$3).call(this, c));
+    }), o$2(this, j$2, (t, s) => {
+      var f;
+      if (t.type === s || ((f = t.children) == null ? void 0 : f.length) !== 1)
+        return t;
+      const e = (y) => {
+        var l;
+        if (y.type === s)
+          return y;
+        if (((l = y.children) == null ? void 0 : l.length) !== 1)
+          return null;
+        const [k] = y.children;
+        return k ? e(k) : null;
+      }, r = e(t);
+      if (!r)
+        return t;
+      const a = r.children ? [...r.children] : void 0, c = { ...t, children: a };
+      return c.children = a, r.children = [c], r;
+    }), o$2(this, b$2, (t) => {
+      const { children: s } = t;
+      return s && (t.children = s.reduce((e, r, a) => {
+        if (a === 0)
+          return [r];
+        const c = e.at(-1);
+        if (c && c.isMark && r.isMark) {
+          r = i$4(this, j$2).call(this, r, c.type);
+          const { children: f, ...y } = r, { children: k, ...l } = c;
+          if (r.type === c.type && f && k && JSON.stringify(y) === JSON.stringify(l)) {
+            const m = {
+              ...l,
+              children: [...k, ...f]
+            };
+            return e.slice(0, -1).concat(i$4(this, b$2).call(this, m));
+          }
+        }
+        return e.concat(r);
+      }, [])), t;
+    }), o$2(this, C$3, (t) => {
+      const s = {
+        ...t.props,
+        type: t.type
+      };
+      return t.children && (s.children = t.children), t.value && (s.value = t.value), s;
+    }), this.openNode = (t, s, e) => (this.open(W$6.create(t, void 0, s, e)), this), o$2(this, R$4, (t, s) => {
+      let e = "", r = "";
+      const a = t.children;
+      let c = -1, f = -1;
+      const y = (l) => {
+        l && l.forEach((m, G) => {
+          m.type === "text" && m.value && (c < 0 && (c = G), f = G);
+        });
+      };
+      if (a) {
+        y(a);
+        const l = a == null ? void 0 : a[f], m = a == null ? void 0 : a[c];
+        l && l.value.endsWith(" ") && (r = l.value.match(/ +$/)[0], l.value = l.value.trimEnd()), m && m.value.startsWith(" ") && (e = m.value.match(/^ +/)[0], m.value = m.value.trimStart());
+      }
+      e.length && i$4(this, N$3).call(this, "text", void 0, e);
+      const k = s();
+      return r.length && i$4(this, N$3).call(this, "text", void 0, r), k;
+    }), o$2(this, x$5, (t = !1) => {
+      const s = this.close(), e = () => i$4(this, N$3).call(this, s.type, s.children, s.value, s.props);
+      return t ? i$4(this, R$4).call(this, s, e) : e();
+    }), this.closeNode = () => (i$4(this, x$5).call(this), this), o$2(this, N$3, (t, s, e, r) => {
+      const a = W$6.create(t, s, e, r), c = i$4(this, b$2).call(this, i$4(this, C$3).call(this, a));
+      return this.push(c), c;
+    }), this.addNode = (t, s, e, r) => (i$4(this, N$3).call(this, t, s, e, r), this), o$2(this, D$2, (t, s, e, r) => t.isInSet(i$4(this, v$2)) ? this : (o$2(this, v$2, t.addToSet(i$4(this, v$2))), this.openNode(s, e, { ...r, isMark: !0 }))), o$2(this, E$3, (t) => {
+      t.isInSet(i$4(this, v$2)) && (o$2(this, v$2, t.type.removeFromSet(i$4(this, v$2))), i$4(this, x$5).call(this, !0));
+    }), this.withMark = (t, s, e, r) => (i$4(this, D$2).call(this, t, s, e, r), this), this.closeMark = (t) => (i$4(this, E$3).call(this, t), this), this.build = () => {
+      let t = null;
+      do
+        t = i$4(this, x$5).call(this);
+      while (this.size());
+      return t;
+    }, this.next = (t) => _$2(t) ? (t.forEach((s) => {
+      i$4(this, I$2).call(this, s);
+    }), this) : (i$4(this, I$2).call(this, t), this), this.toString = (t) => t.stringify(this.build()), this.run = (t) => (this.next(t), this), this.schema = n;
+  }
+};
+v$2 = new WeakMap(), P$4 = new WeakMap(), A$3 = new WeakMap(), S$4 = new WeakMap(), I$2 = new WeakMap(), j$2 = new WeakMap(), b$2 = new WeakMap(), C$3 = new WeakMap(), R$4 = new WeakMap(), x$5 = new WeakMap(), N$3 = new WeakMap(), D$2 = new WeakMap(), E$3 = new WeakMap(), z$3.create = (n, t) => {
+  const s = new z$3(n);
+  return (e) => (s.run(e), s.toString(t));
+};
+let L$5 = z$3;
 
 // Recovery values encode a range index and an offset. They are
 // represented as numbers, because tons of them will be created when
@@ -23561,76 +23288,6 @@ class PluginKey {
     getState(state) { return state[this.key]; }
 }
 
-function run(view, from, to, text, rules, plugin) {
-  var _a;
-  if (view.composing) return false;
-  const state = view.state;
-  const $from = state.doc.resolve(from);
-  if ($from.parent.type.spec.code) return false;
-  const textBefore = $from.parent.textBetween(
-    Math.max(0, $from.parentOffset - 500),
-    $from.parentOffset,
-    void 0,
-    "\uFFFC"
-  ) + text;
-  for (let i = 0; i < rules.length; i++) {
-    const match = rules[i].match.exec(textBefore);
-    const tr = match && match[0] && // NOTE: This is a workaround for the lack of type safety in the inputrules module.
-    // rules[i] as { handler: (state: EditorState, match: string[], from: number, to: number) => Transaction }
-    rules[i].handler(
-      state,
-      match,
-      from - (match[0].length - text.length),
-      to
-    );
-    if (!tr) continue;
-    if (((_a = rules[i]) == null ? void 0 : _a.undoable) !== false)
-      tr.setMeta(plugin, { transform: tr, from, to, text });
-    view.dispatch(tr);
-    return true;
-  }
-  return false;
-}
-const customInputRulesKey = new PluginKey("MILKDOWN_CUSTOM_INPUTRULES");
-function customInputRules({ rules }) {
-  const plugin = new Plugin({
-    key: customInputRulesKey,
-    isInputRules: true,
-    state: {
-      init() {
-        return null;
-      },
-      apply(tr, prev) {
-        const stored = tr.getMeta(this);
-        if (stored) return stored;
-        return tr.selectionSet || tr.docChanged ? null : prev;
-      }
-    },
-    props: {
-      handleTextInput(view, from, to, text) {
-        return run(view, from, to, text, rules, plugin);
-      },
-      handleDOMEvents: {
-        compositionend: (view) => {
-          setTimeout(() => {
-            const { $cursor } = view.state.selection;
-            if ($cursor) run(view, $cursor.pos, $cursor.pos, "", rules, plugin);
-          });
-          return false;
-        }
-      },
-      handleKeyDown(view, event) {
-        if (event.key !== "Enter") return false;
-        const { $cursor } = view.state.selection;
-        if ($cursor)
-          return run(view, $cursor.pos, $cursor.pos, "\n", rules, plugin);
-        return false;
-      }
-    }
-  });
-  return plugin;
-}
-
 /**
 Input rules are regular expressions describing a piece of text
 that, when typed, causes something to happen. This might be
@@ -23788,6 +23445,103 @@ function textblockTypeInputRule(regexp, nodeType, getAttrs = null) {
     });
 }
 
+const nav$2 = typeof navigator != "undefined" ? navigator : null;
+const doc$1 = typeof document != "undefined" ? document : null;
+const agent$2 = nav$2 && nav$2.userAgent || "";
+const ie_edge$2 = /Edge\/(\d+)/.exec(agent$2);
+const ie_upto10$2 = /MSIE \d/.exec(agent$2);
+const ie_11up$2 = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(agent$2);
+const ie$6 = !!(ie_upto10$2 || ie_11up$2 || ie_edge$2);
+const ie_version$1 = ie_upto10$2 ? document.documentMode : ie_11up$2 ? +ie_11up$2[1] : ie_edge$2 ? +ie_edge$2[1] : 0;
+const gecko$1 = !ie$6 && /gecko\/(\d+)/i.test(agent$2);
+const gecko_version = gecko$1 && +(/Firefox\/(\d+)/.exec(agent$2) || [0, 0])[1];
+const _chrome$1 = !ie$6 && /Chrome\/(\d+)/.exec(agent$2);
+const chrome$1 = !!_chrome$1;
+const chrome_version$1 = _chrome$1 ? +_chrome$1[1] : 0;
+const safari$2 = !ie$6 && !!nav$2 && /Apple Computer/.test(nav$2.vendor);
+const ios$1 = safari$2 && (/Mobile\/\w+/.test(agent$2) || !!nav$2 && nav$2.maxTouchPoints > 2);
+const mac$4 = ios$1 || (nav$2 ? /Mac/.test(nav$2.platform) : false);
+const android$1 = /Android \d/.test(agent$2);
+const webkit$1 = !!doc$1 && "webkitFontSmoothing" in doc$1.documentElement.style;
+const webkit_version$1 = webkit$1 ? +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [0, 0])[1] : 0;
+
+var browser = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  android: android$1,
+  chrome: chrome$1,
+  chrome_version: chrome_version$1,
+  gecko: gecko$1,
+  gecko_version: gecko_version,
+  ie: ie$6,
+  ie_version: ie_version$1,
+  ios: ios$1,
+  mac: mac$4,
+  safari: safari$2,
+  webkit: webkit$1,
+  webkit_version: webkit_version$1
+});
+
+function run(view, from, to, text, rules, plugin) {
+  if (view.composing)
+    return false;
+  const state = view.state;
+  const $from = state.doc.resolve(from);
+  if ($from.parent.type.spec.code)
+    return false;
+  const textBefore = $from.parent.textBetween(Math.max(0, $from.parentOffset - 500), $from.parentOffset, void 0, "\uFFFC") + text;
+  for (let i = 0; i < rules.length; i++) {
+    const match = rules[i].match.exec(textBefore);
+    const tr = match && match[0] && rules[i].handler(state, match, from - (match[0].length - text.length), to);
+    if (!tr)
+      continue;
+    view.dispatch(tr.setMeta(plugin, { transform: tr, from, to, text }));
+    return true;
+  }
+  return false;
+}
+const customInputRulesKey = new PluginKey("MILKDOWN_CUSTOM_INPUTRULES");
+function customInputRules({ rules }) {
+  const plugin = new Plugin({
+    key: customInputRulesKey,
+    isInputRules: true,
+    state: {
+      init() {
+        return null;
+      },
+      apply(tr, prev) {
+        const stored = tr.getMeta(this);
+        if (stored)
+          return stored;
+        return tr.selectionSet || tr.docChanged ? null : prev;
+      }
+    },
+    props: {
+      handleTextInput(view, from, to, text) {
+        return run(view, from, to, text, rules, plugin);
+      },
+      handleDOMEvents: {
+        compositionend: (view) => {
+          setTimeout(() => {
+            const { $cursor } = view.state.selection;
+            if ($cursor)
+              run(view, $cursor.pos, $cursor.pos, "", rules, plugin);
+          });
+          return false;
+        }
+      },
+      handleKeyDown(view, event) {
+        if (event.key !== "Enter")
+          return false;
+        const { $cursor } = view.state.selection;
+        if ($cursor)
+          return run(view, $cursor.pos, $cursor.pos, "\n", rules, plugin);
+        return false;
+      }
+    }
+  });
+  return plugin;
+}
+
 function markRule(regexp, markType, options = {}) {
   return new InputRule(regexp, (state, match, start, end) => {
     var _a, _b, _c, _d;
@@ -23806,15 +23560,19 @@ function markRule(regexp, markType, options = {}) {
     const result = (_a = options.updateCaptured) == null ? void 0 : _a.call(options, captured);
     Object.assign(captured, result);
     ({ group, fullMatch, start, end } = captured);
-    if (fullMatch === null) return null;
-    if ((group == null ? void 0 : group.trim()) === "") return null;
+    if (fullMatch === null)
+      return null;
+    if ((group == null ? void 0 : group.trim()) === "")
+      return null;
     if (group) {
       const startSpaces = fullMatch.search(/\S/);
       const textStart = start + fullMatch.indexOf(group);
       const textEnd = textStart + group.length;
       initialStoredMarks = (_b = tr.storedMarks) != null ? _b : [];
-      if (textEnd < end) tr.delete(textEnd, end);
-      if (textStart > start) tr.delete(start + startSpaces, textStart);
+      if (textEnd < end)
+        tr.delete(textEnd, end);
+      if (textStart > start)
+        tr.delete(start + startSpaces, textStart);
       markEnd = start + startSpaces + group.length;
       const attrs = (_c = options.getAttr) == null ? void 0 : _c.call(options, match);
       tr.addMark(start, markEnd, markType.create(attrs));
@@ -23825,6 +23583,25 @@ function markRule(regexp, markType, options = {}) {
   });
 }
 
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 function minMax(value = 0, min = 0, max = 0) {
   return Math.min(Math.max(value, min), max);
 }
@@ -23853,10 +23630,9 @@ function posToDOMRect(view, from, to) {
     x,
     y
   };
-  return {
-    ...data,
+  return __spreadProps(__spreadValues({}, data), {
     toJSON: () => data
-  };
+  });
 }
 
 function cloneTr(tr) {
@@ -23865,7 +23641,6 @@ function cloneTr(tr) {
 function equalNodeType(nodeType, node) {
   return Array.isArray(nodeType) && nodeType.includes(node.type) || node.type === nodeType;
 }
-
 function findParent(predicate) {
   return ($pos) => {
     for (let depth = $pos.depth; depth > 0; depth -= 1) {
@@ -23889,7 +23664,8 @@ function findParentNodeType($pos, nodeType) {
 
 function getNodeFromSchema(type, schema) {
   const target = schema.nodes[type];
-  if (!target) throw getAtomFromSchemaFail("node", type);
+  if (!target)
+    throw N$4("node", type);
   return target;
 }
 
@@ -23915,15 +23691,11 @@ function findParentNode(predicate) {
   };
 }
 function findSelectedNodeOfType(selection, nodeType) {
-  if (!(selection instanceof NodeSelection)) return;
+  if (!(selection instanceof NodeSelection))
+    return;
   const { node, $from } = selection;
   if (equalNodeType(nodeType, node))
-    return {
-      node,
-      pos: $from.pos,
-      start: $from.start($from.depth),
-      depth: $from.depth
-    };
+    return { node, pos: $from.pos, start: $from.start($from.depth), depth: $from.depth };
   return void 0;
 }
 
@@ -24602,7 +24374,7 @@ var base = {
   222: "'"
 };
 
-var shift$2 = {
+var shift = {
   48: ")",
   49: "!",
   50: "@",
@@ -24630,31 +24402,31 @@ var shift$2 = {
 };
 
 var mac$2 = typeof navigator != "undefined" && /Mac/.test(navigator.platform);
-var ie$2 = typeof navigator != "undefined" && /MSIE \d|Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent);
+var ie$5 = typeof navigator != "undefined" && /MSIE \d|Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent);
 
 // Fill in the digit keys
-for (var i = 0; i < 10; i++) base[48 + i] = base[96 + i] = String(i);
+for (var i$3 = 0; i$3 < 10; i$3++) base[48 + i$3] = base[96 + i$3] = String(i$3);
 
 // The function keys
-for (var i = 1; i <= 24; i++) base[i + 111] = "F" + i;
+for (var i$3 = 1; i$3 <= 24; i$3++) base[i$3 + 111] = "F" + i$3;
 
 // And the alphabetic keys
-for (var i = 65; i <= 90; i++) {
-  base[i] = String.fromCharCode(i + 32);
-  shift$2[i] = String.fromCharCode(i);
+for (var i$3 = 65; i$3 <= 90; i$3++) {
+  base[i$3] = String.fromCharCode(i$3 + 32);
+  shift[i$3] = String.fromCharCode(i$3);
 }
 
 // For each code that doesn't have a shift-equivalent, copy the base name
-for (var code$1 in base) if (!shift$2.hasOwnProperty(code$1)) shift$2[code$1] = base[code$1];
+for (var code$1 in base) if (!shift.hasOwnProperty(code$1)) shift[code$1] = base[code$1];
 
 function keyName(event) {
   // On macOS, keys held with Shift and Cmd don't reflect the effect of Shift in `.key`.
   // On IE, shift effect is never included in `.key`.
   var ignoreKey = mac$2 && event.metaKey && event.shiftKey && !event.ctrlKey && !event.altKey ||
-      ie$2 && event.shiftKey && event.key && event.key.length == 1 ||
+      ie$5 && event.shiftKey && event.key && event.key.length == 1 ||
       event.key == "Unidentified";
   var name = (!ignoreKey && event.key) ||
-    (event.shiftKey ? shift$2 : base)[event.keyCode] ||
+    (event.shiftKey ? shift : base)[event.keyCode] ||
     event.key || "Unidentified";
   // Edge sometimes produces wrong names (Issue #3)
   if (name == "Esc") name = "Escape";
@@ -24750,7 +24522,7 @@ You can add multiple keymap plugins to an editor. The order in
 which they appear determines their precedence (the ones early in
 the array get to dispatch first).
 */
-function keymap$2(bindings) {
+function keymap(bindings) {
     return new Plugin({ props: { handleKeyDown: keydownHandler(bindings) } });
 }
 /**
@@ -24787,607 +24559,6 @@ function keydownHandler(bindings) {
         return false;
     };
 }
-
-class StackElement {
-}
-class Stack {
-  constructor() {
-    this.elements = [];
-    /// Get the size of the stack.
-    this.size = () => {
-      return this.elements.length;
-    };
-    /// Get the top element of the stack.
-    this.top = () => {
-      return this.elements.at(-1);
-    };
-    /// Push a node into the top element.
-    this.push = (node) => {
-      var _a;
-      (_a = this.top()) == null ? void 0 : _a.push(node);
-    };
-    /// Push a new element.
-    this.open = (node) => {
-      this.elements.push(node);
-    };
-    /// Close the top element and pop it.
-    this.close = () => {
-      const el = this.elements.pop();
-      if (!el) throw stackOverFlow();
-      return el;
-    };
-  }
-}
-
-class ParserStackElement extends StackElement {
-  constructor(type, content, attrs) {
-    super();
-    this.type = type;
-    this.content = content;
-    this.attrs = attrs;
-  }
-  push(node, ...rest) {
-    this.content.push(node, ...rest);
-  }
-  pop() {
-    return this.content.pop();
-  }
-  static create(type, content, attrs) {
-    return new ParserStackElement(type, content, attrs);
-  }
-}
-
-var __typeError$e = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck$e = (obj, member, msg) => member.has(obj) || __typeError$e("Cannot " + msg);
-var __privateGet$d = (obj, member, getter) => (__accessCheck$e(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$e = (obj, member, value) => member.has(obj) ? __typeError$e("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$d = (obj, member, value, setter) => (__accessCheck$e(obj, member, "write to private field"), member.set(obj, value), value);
-var _marks$1, _hasText, _maybeMerge, _matchTarget$1, _runNode$1, _closeNodeAndPush$1, _addNodeAndPush$1;
-const _ParserState = class _ParserState extends Stack {
-  /// @internal
-  constructor(schema) {
-    super();
-    /// @internal
-    __privateAdd$e(this, _marks$1, Mark.none);
-    /// @internal
-    __privateAdd$e(this, _hasText, (node) => node.isText);
-    /// @internal
-    __privateAdd$e(this, _maybeMerge, (a, b) => {
-      if (__privateGet$d(this, _hasText).call(this, a) && __privateGet$d(this, _hasText).call(this, b) && Mark.sameSet(a.marks, b.marks))
-        return this.schema.text(a.text + b.text, a.marks);
-      return void 0;
-    });
-    /// @internal
-    __privateAdd$e(this, _matchTarget$1, (node) => {
-      const result = Object.values({
-        ...this.schema.nodes,
-        ...this.schema.marks
-      }).find((x) => {
-        const spec = x.spec;
-        return spec.parseMarkdown.match(node);
-      });
-      if (!result) throw parserMatchError(node);
-      return result;
-    });
-    /// @internal
-    __privateAdd$e(this, _runNode$1, (node) => {
-      const type = __privateGet$d(this, _matchTarget$1).call(this, node);
-      const spec = type.spec;
-      spec.parseMarkdown.runner(this, node, type);
-    });
-    /// Inject root node for prosemirror state.
-    this.injectRoot = (node, nodeType, attrs) => {
-      this.openNode(nodeType, attrs);
-      this.next(node.children);
-      return this;
-    };
-    /// Open a new node, the next operations will
-    /// add nodes into that new node until `closeNode` is called.
-    this.openNode = (nodeType, attrs) => {
-      this.open(ParserStackElement.create(nodeType, [], attrs));
-      return this;
-    };
-    /// @internal
-    __privateAdd$e(this, _closeNodeAndPush$1, () => {
-      __privateSet$d(this, _marks$1, Mark.none);
-      const element = this.close();
-      return __privateGet$d(this, _addNodeAndPush$1).call(this, element.type, element.attrs, element.content);
-    });
-    /// Close the current node and push it into the parent node.
-    this.closeNode = () => {
-      __privateGet$d(this, _closeNodeAndPush$1).call(this);
-      return this;
-    };
-    /// @internal
-    __privateAdd$e(this, _addNodeAndPush$1, (nodeType, attrs, content) => {
-      const node = nodeType.createAndFill(attrs, content, __privateGet$d(this, _marks$1));
-      if (!node) throw createNodeInParserFail(nodeType, attrs, content);
-      this.push(node);
-      return node;
-    });
-    /// Add a node into current node.
-    this.addNode = (nodeType, attrs, content) => {
-      __privateGet$d(this, _addNodeAndPush$1).call(this, nodeType, attrs, content);
-      return this;
-    };
-    /// Open a new mark, the next nodes added will have that mark.
-    this.openMark = (markType, attrs) => {
-      const mark = markType.create(attrs);
-      __privateSet$d(this, _marks$1, mark.addToSet(__privateGet$d(this, _marks$1)));
-      return this;
-    };
-    /// Close a opened mark.
-    this.closeMark = (markType) => {
-      __privateSet$d(this, _marks$1, markType.removeFromSet(__privateGet$d(this, _marks$1)));
-      return this;
-    };
-    /// Add a text node into current node.
-    this.addText = (text) => {
-      const topElement = this.top();
-      if (!topElement) throw stackOverFlow();
-      const prevNode = topElement.pop();
-      const currNode = this.schema.text(text, __privateGet$d(this, _marks$1));
-      if (!prevNode) {
-        topElement.push(currNode);
-        return this;
-      }
-      const merged = __privateGet$d(this, _maybeMerge).call(this, prevNode, currNode);
-      if (merged) {
-        topElement.push(merged);
-        return this;
-      }
-      topElement.push(prevNode, currNode);
-      return this;
-    };
-    /// @internal
-    this.build = () => {
-      let doc;
-      do
-        doc = __privateGet$d(this, _closeNodeAndPush$1).call(this);
-      while (this.size());
-      return doc;
-    };
-    /// Give the node or node list back to the state and
-    /// the state will find a proper runner (by `match` method in parser spec) to handle it.
-    this.next = (nodes = []) => {
-      [nodes].flat().forEach((node) => __privateGet$d(this, _runNode$1).call(this, node));
-      return this;
-    };
-    /// Build the current state into a [prosemirror document](https://prosemirror.net/docs/ref/#model.Document_Structure).
-    this.toDoc = () => this.build();
-    /// Transform a markdown string into prosemirror state.
-    this.run = (remark, markdown) => {
-      const tree = remark.runSync(
-        remark.parse(markdown),
-        markdown
-      );
-      this.next(tree);
-      return this;
-    };
-    this.schema = schema;
-  }
-};
-_marks$1 = new WeakMap();
-_hasText = new WeakMap();
-_maybeMerge = new WeakMap();
-_matchTarget$1 = new WeakMap();
-_runNode$1 = new WeakMap();
-_closeNodeAndPush$1 = new WeakMap();
-_addNodeAndPush$1 = new WeakMap();
-/// Create a parser from schema and remark instance.
-///
-/// ```typescript
-/// const parser = ParserState.create(schema, remark)
-/// const prosemirrorNode = parser(SomeMarkdownText)
-/// ```
-_ParserState.create = (schema, remark) => {
-  const state = new _ParserState(schema);
-  return (text) => {
-    state.run(remark, text);
-    return state.toDoc();
-  };
-};
-let ParserState = _ParserState;
-
-const _SerializerStackElement = class _SerializerStackElement extends StackElement {
-  constructor(type, children, value, props = {}) {
-    super();
-    this.type = type;
-    this.children = children;
-    this.value = value;
-    this.props = props;
-    this.push = (node, ...rest) => {
-      if (!this.children) this.children = [];
-      this.children.push(node, ...rest);
-    };
-    this.pop = () => {
-      var _a;
-      return (_a = this.children) == null ? void 0 : _a.pop();
-    };
-  }
-};
-_SerializerStackElement.create = (type, children, value, props = {}) => new _SerializerStackElement(type, children, value, props);
-let SerializerStackElement = _SerializerStackElement;
-
-var __typeError$d = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck$d = (obj, member, msg) => member.has(obj) || __typeError$d("Cannot " + msg);
-var __privateGet$c = (obj, member, getter) => (__accessCheck$d(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$d = (obj, member, value) => member.has(obj) ? __typeError$d("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$c = (obj, member, value, setter) => (__accessCheck$d(obj, member, "write to private field"), member.set(obj, value), value);
-var _marks, _matchTarget, _runProseNode, _runProseMark, _runNode, _searchType, _maybeMergeChildren, _createMarkdownNode, _moveSpaces, _closeNodeAndPush, _addNodeAndPush, _openMark, _closeMark;
-const isFragment = (x) => Object.prototype.hasOwnProperty.call(x, "size");
-const _SerializerState = class _SerializerState extends Stack {
-  /// @internal
-  constructor(schema) {
-    super();
-    /// @internal
-    __privateAdd$d(this, _marks, Mark.none);
-    /// @internal
-    __privateAdd$d(this, _matchTarget, (node) => {
-      const result = Object.values({
-        ...this.schema.nodes,
-        ...this.schema.marks
-      }).find((x) => {
-        const spec = x.spec;
-        return spec.toMarkdown.match(node);
-      });
-      if (!result) throw serializerMatchError(node.type);
-      return result;
-    });
-    /// @internal
-    __privateAdd$d(this, _runProseNode, (node) => {
-      const type = __privateGet$c(this, _matchTarget).call(this, node);
-      const spec = type.spec;
-      return spec.toMarkdown.runner(this, node);
-    });
-    /// @internal
-    __privateAdd$d(this, _runProseMark, (mark, node) => {
-      const type = __privateGet$c(this, _matchTarget).call(this, mark);
-      const spec = type.spec;
-      return spec.toMarkdown.runner(this, mark, node);
-    });
-    /// @internal
-    __privateAdd$d(this, _runNode, (node) => {
-      const { marks } = node;
-      const getPriority = (x) => {
-        var _a;
-        return (_a = x.type.spec.priority) != null ? _a : 50;
-      };
-      const tmp = [...marks].sort((a, b) => getPriority(a) - getPriority(b));
-      const unPreventNext = tmp.every((mark) => !__privateGet$c(this, _runProseMark).call(this, mark, node));
-      if (unPreventNext) __privateGet$c(this, _runProseNode).call(this, node);
-      marks.forEach((mark) => __privateGet$c(this, _closeMark).call(this, mark));
-    });
-    /// @internal
-    __privateAdd$d(this, _searchType, (child, type) => {
-      var _a;
-      if (child.type === type) return child;
-      if (((_a = child.children) == null ? void 0 : _a.length) !== 1) return child;
-      const searchNode = (node2) => {
-        var _a2;
-        if (node2.type === type) return node2;
-        if (((_a2 = node2.children) == null ? void 0 : _a2.length) !== 1) return null;
-        const [firstChild] = node2.children;
-        if (!firstChild) return null;
-        return searchNode(firstChild);
-      };
-      const target = searchNode(child);
-      if (!target) return child;
-      const tmp = target.children ? [...target.children] : void 0;
-      const node = { ...child, children: tmp };
-      node.children = tmp;
-      target.children = [node];
-      return target;
-    });
-    /// @internal
-    __privateAdd$d(this, _maybeMergeChildren, (node) => {
-      const { children } = node;
-      if (!children) return node;
-      node.children = children.reduce((nextChildren, child, index) => {
-        if (index === 0) return [child];
-        const last = nextChildren.at(-1);
-        if (last && last.isMark && child.isMark) {
-          child = __privateGet$c(this, _searchType).call(this, child, last.type);
-          const { children: currChildren, ...currRest } = child;
-          const { children: prevChildren, ...prevRest } = last;
-          if (child.type === last.type && currChildren && prevChildren && JSON.stringify(currRest) === JSON.stringify(prevRest)) {
-            const next = {
-              ...prevRest,
-              children: [...prevChildren, ...currChildren]
-            };
-            return nextChildren.slice(0, -1).concat(__privateGet$c(this, _maybeMergeChildren).call(this, next));
-          }
-        }
-        return nextChildren.concat(child);
-      }, []);
-      return node;
-    });
-    /// @internal
-    __privateAdd$d(this, _createMarkdownNode, (element) => {
-      const node = {
-        ...element.props,
-        type: element.type
-      };
-      if (element.children) node.children = element.children;
-      if (element.value) node.value = element.value;
-      return node;
-    });
-    /// Open a new node, the next operations will
-    /// add nodes into that new node until `closeNode` is called.
-    this.openNode = (type, value, props) => {
-      this.open(SerializerStackElement.create(type, void 0, value, props));
-      return this;
-    };
-    __privateAdd$d(this, _moveSpaces, (element, onPush) => {
-      let startSpaces = "";
-      let endSpaces = "";
-      const children = element.children;
-      let first = -1;
-      let last = -1;
-      const findIndex = (node) => {
-        if (!node) return;
-        node.forEach((child, index) => {
-          if (child.type === "text" && child.value) {
-            if (first < 0) first = index;
-            last = index;
-          }
-        });
-      };
-      if (children) {
-        findIndex(children);
-        const lastChild = children == null ? void 0 : children[last];
-        const firstChild = children == null ? void 0 : children[first];
-        if (lastChild && lastChild.value.endsWith(" ")) {
-          endSpaces = lastChild.value.match(/ +$/)[0];
-          lastChild.value = lastChild.value.trimEnd();
-        }
-        if (firstChild && firstChild.value.startsWith(" ")) {
-          startSpaces = firstChild.value.match(/^ +/)[0];
-          firstChild.value = firstChild.value.trimStart();
-        }
-      }
-      if (startSpaces.length) __privateGet$c(this, _addNodeAndPush).call(this, "text", void 0, startSpaces);
-      const result = onPush();
-      if (endSpaces.length) __privateGet$c(this, _addNodeAndPush).call(this, "text", void 0, endSpaces);
-      return result;
-    });
-    /// @internal
-    __privateAdd$d(this, _closeNodeAndPush, (trim = false) => {
-      const element = this.close();
-      const onPush = () => __privateGet$c(this, _addNodeAndPush).call(this, element.type, element.children, element.value, element.props);
-      if (trim) return __privateGet$c(this, _moveSpaces).call(this, element, onPush);
-      return onPush();
-    });
-    /// Close the current node and push it into the parent node.
-    this.closeNode = () => {
-      __privateGet$c(this, _closeNodeAndPush).call(this);
-      return this;
-    };
-    /// @internal
-    __privateAdd$d(this, _addNodeAndPush, (type, children, value, props) => {
-      const element = SerializerStackElement.create(type, children, value, props);
-      const node = __privateGet$c(this, _maybeMergeChildren).call(this, __privateGet$c(this, _createMarkdownNode).call(this, element));
-      this.push(node);
-      return node;
-    });
-    /// Add a node into current node.
-    this.addNode = (type, children, value, props) => {
-      __privateGet$c(this, _addNodeAndPush).call(this, type, children, value, props);
-      return this;
-    };
-    /// @internal
-    __privateAdd$d(this, _openMark, (mark, type, value, props) => {
-      const isIn = mark.isInSet(__privateGet$c(this, _marks));
-      if (isIn) return this;
-      __privateSet$c(this, _marks, mark.addToSet(__privateGet$c(this, _marks)));
-      return this.openNode(type, value, { ...props, isMark: true });
-    });
-    /// @internal
-    __privateAdd$d(this, _closeMark, (mark) => {
-      const isIn = mark.isInSet(__privateGet$c(this, _marks));
-      if (!isIn) return;
-      __privateSet$c(this, _marks, mark.type.removeFromSet(__privateGet$c(this, _marks)));
-      __privateGet$c(this, _closeNodeAndPush).call(this, true);
-    });
-    /// Open a new mark, the next nodes added will have that mark.
-    /// The mark will be closed automatically.
-    this.withMark = (mark, type, value, props) => {
-      __privateGet$c(this, _openMark).call(this, mark, type, value, props);
-      return this;
-    };
-    /// Close a opened mark.
-    /// In most cases you don't need this because
-    /// marks will be closed automatically.
-    this.closeMark = (mark) => {
-      __privateGet$c(this, _closeMark).call(this, mark);
-      return this;
-    };
-    /// @internal
-    this.build = () => {
-      let doc = null;
-      do
-        doc = __privateGet$c(this, _closeNodeAndPush).call(this);
-      while (this.size());
-      return doc;
-    };
-    /// Give the node or node list back to the state and
-    /// the state will find a proper runner (by `match` method in serializer spec) to handle it.
-    this.next = (nodes) => {
-      if (isFragment(nodes)) {
-        nodes.forEach((node) => {
-          __privateGet$c(this, _runNode).call(this, node);
-        });
-        return this;
-      }
-      __privateGet$c(this, _runNode).call(this, nodes);
-      return this;
-    };
-    /// Use a remark parser to serialize current AST stored.
-    this.toString = (remark) => remark.stringify(this.build());
-    /// Transform a prosemirror node tree into remark AST.
-    this.run = (tree) => {
-      this.next(tree);
-      return this;
-    };
-    this.schema = schema;
-  }
-};
-_marks = new WeakMap();
-_matchTarget = new WeakMap();
-_runProseNode = new WeakMap();
-_runProseMark = new WeakMap();
-_runNode = new WeakMap();
-_searchType = new WeakMap();
-_maybeMergeChildren = new WeakMap();
-_createMarkdownNode = new WeakMap();
-_moveSpaces = new WeakMap();
-_closeNodeAndPush = new WeakMap();
-_addNodeAndPush = new WeakMap();
-_openMark = new WeakMap();
-_closeMark = new WeakMap();
-/// Create a serializer from schema and remark instance.
-///
-/// ```typescript
-/// const serializer = SerializerState.create(schema, remark)
-/// const markdown = parser(prosemirrorDoc)
-/// ```
-_SerializerState.create = (schema, remark) => {
-  const state = new _SerializerState(schema);
-  return (content) => {
-    state.run(content);
-    return state.toString(remark);
-  };
-};
-let SerializerState = _SerializerState;
-
-const ParserReady = createTimer("ParserReady");
-const outOfScope$1 = () => {
-  throw ctxCallOutOfScope();
-};
-const parserCtx = createSlice(outOfScope$1, "parser");
-const parserTimerCtx = createSlice([], "parserTimer");
-const parser = (ctx) => {
-  ctx.inject(parserCtx, outOfScope$1).inject(parserTimerCtx, [SchemaReady]).record(ParserReady);
-  return async () => {
-    await ctx.waitTimers(parserTimerCtx);
-    const remark = ctx.get(remarkCtx);
-    const schema = ctx.get(schemaCtx);
-    ctx.set(parserCtx, ParserState.create(schema, remark));
-    ctx.done(ParserReady);
-    return () => {
-      ctx.remove(parserCtx).remove(parserTimerCtx).clearTimer(ParserReady);
-    };
-  };
-};
-withMeta$6(parser, {
-  displayName: "Parser"
-});
-
-const SerializerReady = createTimer("SerializerReady");
-const serializerTimerCtx = createSlice(
-  [],
-  "serializerTimer"
-);
-const outOfScope = () => {
-  throw ctxCallOutOfScope();
-};
-const serializerCtx = createSlice(
-  outOfScope,
-  "serializer"
-);
-const serializer = (ctx) => {
-  ctx.inject(serializerCtx, outOfScope).inject(serializerTimerCtx, [SchemaReady]).record(SerializerReady);
-  return async () => {
-    await ctx.waitTimers(serializerTimerCtx);
-    const remark = ctx.get(remarkCtx);
-    const schema = ctx.get(schemaCtx);
-    ctx.set(serializerCtx, SerializerState.create(schema, remark));
-    ctx.done(SerializerReady);
-    return () => {
-      ctx.remove(serializerCtx).remove(serializerTimerCtx).clearTimer(SerializerReady);
-    };
-  };
-};
-withMeta$6(serializer, {
-  displayName: "Serializer"
-});
-
-const defaultValueCtx = createSlice("", "defaultValue");
-const editorStateOptionsCtx = createSlice(
-  (x) => x,
-  "stateOptions"
-);
-const editorStateTimerCtx = createSlice(
-  [],
-  "editorStateTimer"
-);
-const EditorStateReady = createTimer("EditorStateReady");
-function getDoc(defaultValue, parser, schema) {
-  if (typeof defaultValue === "string") return parser(defaultValue);
-  if (defaultValue.type === "html")
-    return DOMParser.fromSchema(schema).parse(defaultValue.dom);
-  if (defaultValue.type === "json")
-    return Node$1.fromJSON(schema, defaultValue.value);
-  throw docTypeError(defaultValue);
-}
-const key$2 = new PluginKey("MILKDOWN_STATE_TRACKER");
-function overrideBaseKeymap(keymap) {
-  const handleBackspace = chainCommands(
-    undoInputRule,
-    deleteSelection,
-    joinBackward,
-    selectNodeBackward
-  );
-  keymap.Backspace = handleBackspace;
-  return keymap;
-}
-const editorState = (ctx) => {
-  ctx.inject(defaultValueCtx, "").inject(editorStateCtx, {}).inject(editorStateOptionsCtx, (x) => x).inject(editorStateTimerCtx, [ParserReady, SerializerReady, CommandsReady]).record(EditorStateReady);
-  return async () => {
-    await ctx.waitTimers(editorStateTimerCtx);
-    const schema = ctx.get(schemaCtx);
-    const parser = ctx.get(parserCtx);
-    const rules = ctx.get(inputRulesCtx);
-    const optionsOverride = ctx.get(editorStateOptionsCtx);
-    const prosePlugins = ctx.get(prosePluginsCtx);
-    const defaultValue = ctx.get(defaultValueCtx);
-    const doc = getDoc(defaultValue, parser, schema);
-    const plugins = [
-      ...prosePlugins,
-      new Plugin({
-        key: key$2,
-        state: {
-          init: () => {
-          },
-          apply: (_tr, _value, _oldState, newState) => {
-            ctx.set(editorStateCtx, newState);
-          }
-        }
-      }),
-      customInputRules({ rules }),
-      keymap$2(overrideBaseKeymap(baseKeymap))
-    ];
-    ctx.set(prosePluginsCtx, plugins);
-    const options = optionsOverride({
-      schema,
-      doc,
-      plugins
-    });
-    const state = EditorState.create(options);
-    ctx.set(editorStateCtx, state);
-    ctx.done(EditorStateReady);
-    return () => {
-      ctx.remove(defaultValueCtx).remove(editorStateCtx).remove(editorStateOptionsCtx).remove(editorStateTimerCtx).clearTimer(EditorStateReady);
-    };
-  };
-};
-withMeta$6(editorState, {
-  displayName: "EditorState"
-});
 
 const domIndex = function (node) {
     for (var index = 0;; index++) {
@@ -25547,14 +24718,14 @@ const agent$1 = (nav$1 && nav$1.userAgent) || "";
 const ie_edge$1 = /Edge\/(\d+)/.exec(agent$1);
 const ie_upto10$1 = /MSIE \d/.exec(agent$1);
 const ie_11up$1 = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(agent$1);
-const ie$1 = !!(ie_upto10$1 || ie_11up$1 || ie_edge$1);
+const ie$4 = !!(ie_upto10$1 || ie_11up$1 || ie_edge$1);
 const ie_version = ie_upto10$1 ? document.documentMode : ie_11up$1 ? +ie_11up$1[1] : ie_edge$1 ? +ie_edge$1[1] : 0;
-const gecko = !ie$1 && /gecko\/(\d+)/i.test(agent$1);
+const gecko = !ie$4 && /gecko\/(\d+)/i.test(agent$1);
 gecko && +(/Firefox\/(\d+)/.exec(agent$1) || [0, 0])[1];
-const _chrome = !ie$1 && /Chrome\/(\d+)/.exec(agent$1);
+const _chrome = !ie$4 && /Chrome\/(\d+)/.exec(agent$1);
 const chrome = !!_chrome;
 const chrome_version = _chrome ? +_chrome[1] : 0;
-const safari$1 = !ie$1 && !!nav$1 && /Apple Computer/.test(nav$1.vendor);
+const safari$1 = !ie$4 && !!nav$1 && /Apple Computer/.test(nav$1.vendor);
 // Is true for both iOS and iPadOS for convenience
 const ios = safari$1 && (/Mobile\/\w+/.test(agent$1) || !!nav$1 && nav$1.maxTouchPoints > 2);
 const mac = ios || (nav$1 ? /Mac/.test(nav$1.platform) : false);
@@ -27710,7 +26881,7 @@ function selectCursorWrapper(view) {
     // resize handles and a selection that considers the absolutely
     // positioned wrapper, rather than the root editable node, the
     // focused element.
-    if (!img && !view.state.selection.visible && ie$1 && ie_version <= 11) {
+    if (!img && !view.state.selection.visible && ie$4 && ie_version <= 11) {
         node.disabled = true;
         node.disabled = false;
     }
@@ -28146,7 +27317,7 @@ function captureKeyDown(view, event) {
     return false;
 }
 
-function serializeForClipboard$1(view, slice) {
+function serializeForClipboard(view, slice) {
     view.someProp("transformCopied", f => { slice = f(slice, view); });
     let context = [], { content, openStart, openEnd } = slice;
     while (openStart > 1 && openEnd > 1 && content.childCount == 1 && content.firstChild.childCount == 1) {
@@ -28157,10 +27328,10 @@ function serializeForClipboard$1(view, slice) {
         content = node.content;
     }
     let serializer = view.someProp("clipboardSerializer") || DOMSerializer.fromSchema(view.state.schema);
-    let doc = detachedDoc$1(), wrap = doc.createElement("div");
+    let doc = detachedDoc(), wrap = doc.createElement("div");
     wrap.appendChild(serializer.serializeFragment(content, { document: doc }));
     let firstChild = wrap.firstChild, needsWrap, wrappers = 0;
-    while (firstChild && firstChild.nodeType == 1 && (needsWrap = wrapMap$1[firstChild.nodeName.toLowerCase()])) {
+    while (firstChild && firstChild.nodeType == 1 && (needsWrap = wrapMap[firstChild.nodeName.toLowerCase()])) {
         for (let i = needsWrap.length - 1; i >= 0; i--) {
             let wrapper = doc.createElement(needsWrap[i]);
             while (wrap.firstChild)
@@ -28331,7 +27502,7 @@ function closeSlice(slice, openStart, openEnd) {
 // Trick from jQuery -- some elements must be wrapped in other
 // elements for innerHTML to work. I.e. if you do `div.innerHTML =
 // "<td>..</td>"` the table cells are ignored.
-const wrapMap$1 = {
+const wrapMap = {
     thead: ["table"],
     tbody: ["table"],
     tfoot: ["table"],
@@ -28342,9 +27513,9 @@ const wrapMap$1 = {
     td: ["table", "tbody", "tr"],
     th: ["table", "tbody", "tr"]
 };
-let _detachedDoc$1 = null;
-function detachedDoc$1() {
-    return _detachedDoc$1 || (_detachedDoc$1 = document.implementation.createHTMLDocument("title"));
+let _detachedDoc = null;
+function detachedDoc() {
+    return _detachedDoc || (_detachedDoc = document.implementation.createHTMLDocument("title"));
 }
 let _policy = null;
 function maybeWrapTrusted(html) {
@@ -28362,9 +27533,9 @@ function readHTML(html) {
     let metas = /^(\s*<meta [^>]*>)*/.exec(html);
     if (metas)
         html = html.slice(metas[0].length);
-    let elt = detachedDoc$1().createElement("div");
+    let elt = detachedDoc().createElement("div");
     let firstTag = /<([a-z][^>\s]+)/i.exec(html), wrap;
-    if (wrap = firstTag && wrapMap$1[firstTag[1].toLowerCase()])
+    if (wrap = firstTag && wrapMap[firstTag[1].toLowerCase()])
         html = wrap.map(n => "<" + n + ">").join("") + html + wrap.map(n => "</" + n + ">").reverse().join("");
     elt.innerHTML = maybeWrapTrusted(html);
     if (wrap)
@@ -28958,7 +28129,7 @@ function captureCopy(view, dom) {
 // This is very crude, but unfortunately both these browsers _pretend_
 // that they have a clipboard API—all the objects and methods are
 // there, they just don't work, and they are hard to test.
-const brokenClipboardAPI$1 = (ie$1 && ie_version < 15) ||
+const brokenClipboardAPI = (ie$4 && ie_version < 15) ||
     (ios && webkit_version < 604);
 handlers.copy = editHandlers.cut = (view, _event) => {
     let event = _event;
@@ -28966,8 +28137,8 @@ handlers.copy = editHandlers.cut = (view, _event) => {
     if (sel.empty)
         return;
     // IE and Edge's clipboard interface is completely broken
-    let data = brokenClipboardAPI$1 ? null : event.clipboardData;
-    let slice = sel.content(), { dom, text } = serializeForClipboard$1(view, slice);
+    let data = brokenClipboardAPI ? null : event.clipboardData;
+    let slice = sel.content(), { dom, text } = serializeForClipboard(view, slice);
     if (data) {
         event.preventDefault();
         data.clearData();
@@ -29031,7 +28202,7 @@ editHandlers.paste = (view, _event) => {
     // where the editor is almost always composing.
     if (view.composing && !android)
         return;
-    let data = brokenClipboardAPI$1 ? null : event.clipboardData;
+    let data = brokenClipboardAPI ? null : event.clipboardData;
     let plain = view.input.shiftKey && view.input.lastKeyCode != 45;
     if (data && doPaste(view, getText(data), data.getData("text/html"), plain, event))
         event.preventDefault();
@@ -29066,14 +28237,14 @@ handlers.dragstart = (view, _event) => {
             node = NodeSelection.create(view.state.doc, desc.posBefore);
     }
     let draggedSlice = (node || view.state.selection).content();
-    let { dom, text, slice } = serializeForClipboard$1(view, draggedSlice);
+    let { dom, text, slice } = serializeForClipboard(view, draggedSlice);
     // Pre-120 Chrome versions clear files when calling `clearData` (#1472)
     if (!event.dataTransfer.files.length || !chrome || chrome_version > 120)
         event.dataTransfer.clearData();
-    event.dataTransfer.setData(brokenClipboardAPI$1 ? "Text" : "text/html", dom.innerHTML);
+    event.dataTransfer.setData(brokenClipboardAPI ? "Text" : "text/html", dom.innerHTML);
     // See https://github.com/ProseMirror/prosemirror/issues/1156
     event.dataTransfer.effectAllowed = "copyMove";
-    if (!brokenClipboardAPI$1)
+    if (!brokenClipboardAPI)
         event.dataTransfer.setData("text/plain", text);
     view.dragging = new Dragging(slice, !event[dragCopyModifier], node);
 };
@@ -29100,7 +28271,7 @@ editHandlers.drop = (view, _event) => {
         view.someProp("transformPasted", f => { slice = f(slice, view); });
     }
     else {
-        slice = parseFromClipboard(view, getText(event.dataTransfer), brokenClipboardAPI$1 ? null : event.dataTransfer.getData("text/html"), false, $mouse);
+        slice = parseFromClipboard(view, getText(event.dataTransfer), brokenClipboardAPI ? null : event.dataTransfer.getData("text/html"), false, $mouse);
     }
     let move = !!(dragging && !event[dragCopyModifier]);
     if (view.someProp("handleDrop", f => f(view, event, slice || Slice.empty, move))) {
@@ -29885,7 +29056,7 @@ const observeOptions = {
     subtree: true
 };
 // IE11 has very broken mutation observers, so we also listen to DOMCharacterDataModified
-const useCharData = ie$1 && ie_version <= 11;
+const useCharData = ie$4 && ie_version <= 11;
 class SelectionState {
     constructor() {
         this.anchorNode = null;
@@ -29926,7 +29097,7 @@ class DOMObserver {
                 // text node after a BR node) call the observer callback
                 // before actually updating the DOM, which will cause
                 // ProseMirror to miss the change (see #930)
-                if (ie$1 && ie_version <= 11 && mutations.some(m => m.type == "childList" && m.removedNodes.length ||
+                if (ie$4 && ie_version <= 11 && mutations.some(m => m.type == "childList" && m.removedNodes.length ||
                     m.type == "characterData" && m.oldValue.length > m.target.nodeValue.length))
                     this.flushSoon();
                 else
@@ -29992,7 +29163,7 @@ class DOMObserver {
         // Deletions on IE11 fire their events in the wrong order, giving
         // us a selection change event before the DOM changes are
         // reported.
-        if (ie$1 && ie_version <= 11 && !this.view.state.selection.empty) {
+        if (ie$4 && ie_version <= 11 && !this.view.state.selection.empty) {
             let sel = this.view.domSelectionRange();
             // Selection.isCollapsed isn't reliable on IE
             if (sel.focusNode && isEquivalentPosition(sel.focusNode, sel.focusOffset, sel.anchorNode, sel.anchorOffset))
@@ -30116,7 +29287,7 @@ class DOMObserver {
             if (desc.contentDOM && desc.contentDOM != desc.dom && !desc.contentDOM.contains(mut.target))
                 return { from: desc.posBefore, to: desc.posAfter };
             let prev = mut.previousSibling, next = mut.nextSibling;
-            if (ie$1 && ie_version <= 11 && mut.addedNodes.length) {
+            if (ie$4 && ie_version <= 11 && mut.addedNodes.length) {
                 // IE11 gives us incorrect next/prev siblings for some
                 // insertions, so if there are added nodes, recompute those
                 for (let i = 0; i < mut.addedNodes.length; i++) {
@@ -30371,7 +29542,7 @@ function readDOMChange(view, from, to, typeOver, addedNodes) {
     // IE11 will insert a non-breaking space _ahead_ of the space after
     // the cursor space when adding a space before another space. When
     // that happened, adjust the change to cover the space instead.
-    if (ie$1 && ie_version <= 11 && change.endB == change.start + 1 &&
+    if (ie$4 && ie_version <= 11 && change.endB == change.start + 1 &&
         change.endA == change.start && change.start > parse.from &&
         parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) == " \u00a0") {
         change.start--;
@@ -30429,7 +29600,7 @@ function readDOMChange(view, from, to, typeOver, addedNodes) {
         if ($from.pos == $to.pos) { // Deletion
             // IE11 sometimes weirdly moves the DOM selection around after
             // backspacing out the first element in a textblock
-            if (ie$1 && ie_version <= 11 && $from.parentOffset == 0) {
+            if (ie$4 && ie_version <= 11 && $from.parentOffset == 0) {
                 view.domObserver.suppressSelectionUpdates();
                 setTimeout(() => selectionToDOM(view), 20);
             }
@@ -30465,7 +29636,7 @@ function readDOMChange(view, from, to, typeOver, addedNodes) {
         if (sel && !(chrome && android && view.composing && sel.empty &&
             (change.start != change.endB || view.input.lastAndroidDelete < Date.now() - 100) &&
             (sel.head == chFrom || sel.head == tr.mapping.map(chTo) - 1) ||
-            ie$1 && sel.empty && sel.head == chFrom))
+            ie$4 && sel.empty && sel.head == chFrom))
             tr.setSelection(sel);
     }
     if (storedMarks)
@@ -30749,7 +29920,7 @@ class EditorView {
             // state where the thing the user sees differs from the
             // selection reported by the Selection object (#710, #973,
             // #1011, #1013, #1035).
-            let forceSelUpdate = updateDoc && (ie$1 || chrome) && !this.composing &&
+            let forceSelUpdate = updateDoc && (ie$4 || chrome) && !this.composing &&
                 !prev.selection.empty && !state.selection.empty && selectionContextChanged(prev.selection, state.selection);
             if (updateDoc) {
                 // If the node that the selection points into is written to,
@@ -30876,7 +30047,7 @@ class EditorView {
         // Work around IE not handling focus correctly if resize handles are shown.
         // If the cursor is inside an element with resize handles, activeElement
         // will be that element instead of this.dom.
-        if (ie$1) {
+        if (ie$4) {
             // If activeElement is within this.dom, and there are no other elements
             // setting `contenteditable` to false in between, treat it as focused.
             let node = this.root.activeElement;
@@ -31153,966 +30324,472 @@ function checkStateComponent(plugin) {
         throw new RangeError("Plugins passed directly to the view must not have a state component");
 }
 
-const EditorViewReady = createTimer("EditorViewReady");
-const editorViewTimerCtx = createSlice(
-  [],
-  "editorViewTimer"
-);
-const editorViewOptionsCtx = createSlice(
-  {},
-  "editorViewOptions"
-);
-const rootCtx = createSlice(null, "root");
-const rootDOMCtx = createSlice(null, "rootDOM");
-const rootAttrsCtx = createSlice(
-  {},
-  "rootAttrs"
-);
-function createViewContainer(root, ctx) {
-  const container = document.createElement("div");
-  container.className = "milkdown";
-  root.appendChild(container);
-  ctx.set(rootDOMCtx, container);
-  const attrs = ctx.get(rootAttrsCtx);
-  Object.entries(attrs).forEach(
-    ([key2, value]) => container.setAttribute(key2, value)
-  );
-  return container;
-}
-function prepareViewDom(dom) {
-  dom.classList.add("editor");
-  dom.setAttribute("role", "textbox");
-}
-const key$1 = new PluginKey("MILKDOWN_VIEW_CLEAR");
-const editorView = (ctx) => {
-  ctx.inject(rootCtx, document.body).inject(editorViewCtx, {}).inject(editorViewOptionsCtx, {}).inject(rootDOMCtx, null).inject(rootAttrsCtx, {}).inject(editorViewTimerCtx, [EditorStateReady]).record(EditorViewReady);
-  return async () => {
-    await ctx.wait(InitReady);
-    const root = ctx.get(rootCtx) || document.body;
-    const el = typeof root === "string" ? document.querySelector(root) : root;
-    ctx.update(prosePluginsCtx, (xs) => [
-      new Plugin({
-        key: key$1,
-        view: (editorView2) => {
-          const container = el ? createViewContainer(el, ctx) : void 0;
-          const handleDOM = () => {
-            if (container && el) {
-              const editor = editorView2.dom;
-              el.replaceChild(container, editor);
-              container.appendChild(editor);
-            }
-          };
-          handleDOM();
-          return {
-            destroy: () => {
-              if (container == null ? void 0 : container.parentNode)
-                container == null ? void 0 : container.parentNode.replaceChild(editorView2.dom, container);
-              container == null ? void 0 : container.remove();
-            }
-          };
-        }
-      }),
-      ...xs
-    ]);
-    await ctx.waitTimers(editorViewTimerCtx);
-    const state = ctx.get(editorStateCtx);
-    const options = ctx.get(editorViewOptionsCtx);
-    const nodeViews = Object.fromEntries(ctx.get(nodeViewCtx));
-    const markViews = Object.fromEntries(ctx.get(markViewCtx));
-    const view = new EditorView(el, {
-      state,
-      nodeViews,
-      markViews,
-      ...options
-    });
-    prepareViewDom(view.dom);
-    ctx.set(editorViewCtx, view);
-    ctx.done(EditorViewReady);
-    return () => {
-      view == null ? void 0 : view.destroy();
-      ctx.remove(rootCtx).remove(editorViewCtx).remove(editorViewOptionsCtx).remove(rootDOMCtx).remove(rootAttrsCtx).remove(editorViewTimerCtx).clearTimer(EditorViewReady);
-    };
-  };
+var ve$2 = (e, t, r) => {
+  if (!t.has(e))
+    throw TypeError("Cannot " + r);
 };
-withMeta$6(editorView, {
+var s$3 = (e, t, r) => (ve$2(e, t, "read from private field"), r ? r.call(e) : t.get(e)), d$3 = (e, t, r) => {
+  if (t.has(e))
+    throw TypeError("Cannot add the same private member more than once");
+  t instanceof WeakSet ? t.add(e) : t.set(e, r);
+}, c$1 = (e, t, r, i) => (ve$2(e, t, "write to private field"), t.set(e, r), r);
+function k$2(e, t) {
+  return e.meta = {
+    package: "@milkdown/core",
+    group: "System",
+    ...t
+  }, e;
+}
+const De$1 = {
+  strong: (e, t, r, i) => {
+    const n = e.marker || r.options.strong || "*", a = r.enter("strong"), h = r.createTracker(i);
+    let m = h.move(n + n);
+    return m += h.move(
+      r.containerPhrasing(e, {
+        before: m,
+        after: n,
+        ...h.current()
+      })
+    ), m += h.move(n + n), a(), m;
+  },
+  emphasis: (e, t, r, i) => {
+    const n = e.marker || r.options.emphasis || "*", a = r.enter("emphasis"), h = r.createTracker(i);
+    let m = h.move(n);
+    return m += h.move(
+      r.containerPhrasing(e, {
+        before: m,
+        after: n,
+        ...h.current()
+      })
+    ), m += h.move(n), a(), m;
+  }
+}, L$4 = H$5({}, "editorView"), V$2 = H$5({}, "editorState"), G$2 = H$5([], "initTimer"), ke$3 = H$5({}, "editor"), ue$3 = H$5([], "inputRules"), N$2 = H$5([], "prosePlugins"), pe$2 = H$5([], "remarkPlugins"), fe$3 = H$5([], "nodeView"), ye$3 = H$5([], "markView"), P$3 = H$5(unified().use(remarkParse).use(remarkStringify), "remark"), Q$4 = H$5({
+  handlers: De$1
+}, "remarkStringifyOptions"), W$5 = K$3("ConfigReady");
+function ot$3(e) {
+  const t = (r) => (r.record(W$5), async () => (await e(r), r.done(W$5), () => {
+    r.clearTimer(W$5);
+  }));
+  return k$2(t, {
+    displayName: "Config"
+  }), t;
+}
+const M$3 = K$3("InitReady");
+function at$2(e) {
+  const t = (r) => (r.inject(ke$3, e).inject(N$2, []).inject(pe$2, []).inject(ue$3, []).inject(fe$3, []).inject(ye$3, []).inject(Q$4, {
+    handlers: De$1
+  }).inject(P$3, unified().use(remarkParse).use(remarkStringify)).inject(G$2, [W$5]).record(M$3), async () => {
+    await r.waitTimers(G$2);
+    const i = r.get(Q$4);
+    return r.set(P$3, unified().use(remarkParse).use(remarkStringify, i)), r.done(M$3), () => {
+      r.remove(ke$3).remove(N$2).remove(pe$2).remove(ue$3).remove(fe$3).remove(ye$3).remove(Q$4).remove(P$3).remove(G$2).clearTimer(M$3);
+    };
+  });
+  return k$2(t, {
+    displayName: "Init"
+  }), t;
+}
+const R$3 = K$3("SchemaReady"), U$2 = H$5([], "schemaTimer"), b$1 = H$5({}, "schema"), X$3 = H$5([], "nodes"), Z$2 = H$5([], "marks");
+function Te$2(e) {
+  var t;
+  return {
+    ...e,
+    parseDOM: (t = e.parseDOM) == null ? void 0 : t.map((r) => ({ priority: e.priority, ...r }))
+  };
+}
+const Ee$1 = (e) => (e.inject(b$1, {}).inject(X$3, []).inject(Z$2, []).inject(U$2, [M$3]).record(R$3), async () => {
+  await e.waitTimers(U$2);
+  const t = e.get(P$3), i = e.get(pe$2).reduce((m, f) => m.use(f.plugin, f.options), t);
+  e.set(P$3, i);
+  const n = Object.fromEntries(e.get(X$3).map(([m, f]) => [m, Te$2(f)])), a = Object.fromEntries(e.get(Z$2).map(([m, f]) => [m, Te$2(f)])), h = new Schema({ nodes: n, marks: a });
+  return e.set(b$1, h), e.done(R$3), () => {
+    e.remove(b$1).remove(X$3).remove(Z$2).remove(U$2).clearTimer(R$3);
+  };
+});
+k$2(Ee$1, {
+  displayName: "Schema"
+});
+var T$4, g$2;
+let Ie$2 = class Ie {
+  constructor() {
+    d$3(this, T$4, void 0);
+    d$3(this, g$2, void 0);
+    c$1(this, T$4, new G$3()), c$1(this, g$2, null), this.setCtx = (t) => {
+      c$1(this, g$2, t);
+    };
+  }
+  get ctx() {
+    return s$3(this, g$2);
+  }
+  /// Register a command into the manager.
+  create(t, r) {
+    const i = t.create(s$3(this, T$4).sliceMap);
+    return i.set(r), i;
+  }
+  get(t) {
+    return s$3(this, T$4).get(t).get();
+  }
+  remove(t) {
+    return s$3(this, T$4).remove(t);
+  }
+  call(t, r) {
+    if (s$3(this, g$2) == null)
+      throw y$5();
+    const n = this.get(t)(r), a = s$3(this, g$2).get(L$4);
+    return n(a.state, a.dispatch, a);
+  }
+};
+T$4 = new WeakMap(), g$2 = new WeakMap();
+function Et$1(e = "cmdKey") {
+  return H$5(() => () => !1, e);
+}
+const je = H$5(new Ie$2(), "commands"), x$4 = H$5([R$3], "commandsTimer"), Y$2 = K$3("CommandsReady"), Ve$1 = (e) => {
+  const t = new Ie$2();
+  return t.setCtx(e), e.inject(je, t).inject(x$4, [R$3]).record(Y$2), async () => (await e.waitTimers(x$4), e.done(Y$2), () => {
+    e.remove(je).remove(x$4).clearTimer(Y$2);
+  });
+};
+k$2(Ve$1, {
+  displayName: "Commands"
+});
+const $$3 = K$3("ParserReady"), Me$2 = () => {
+  throw p$4();
+}, q$3 = H$5(Me$2, "parser"), ee$2 = H$5([], "parserTimer"), Ne$2 = (e) => (e.inject(q$3, Me$2).inject(ee$2, [R$3]).record($$3), async () => {
+  await e.waitTimers(ee$2);
+  const t = e.get(P$3), r = e.get(b$1);
+  return e.set(q$3, K$2.create(r, t)), e.done($$3), () => {
+    e.remove(q$3).remove(ee$2).clearTimer($$3);
+  };
+});
+k$2(Ne$2, {
+  displayName: "Parser"
+});
+const H$3 = K$3("SerializerReady"), te$2 = H$5([], "serializerTimer"), _e$2 = () => {
+  throw p$4();
+}, re$2 = H$5(_e$2, "serializer"), ze = (e) => (e.inject(re$2, _e$2).inject(te$2, [R$3]).record(H$3), async () => {
+  await e.waitTimers(te$2);
+  const t = e.get(P$3), r = e.get(b$1);
+  return e.set(re$2, L$5.create(r, t)), e.done(H$3), () => {
+    e.remove(re$2).remove(te$2).clearTimer(H$3);
+  };
+});
+k$2(ze, {
+  displayName: "Serializer"
+});
+const se$1 = H$5("", "defaultValue"), ie$3 = H$5((e) => e, "stateOptions"), ne$1 = H$5([], "editorStateTimer"), J$2 = K$3("EditorStateReady");
+function ct$2(e, t, r) {
+  if (typeof e == "string")
+    return t(e);
+  if (e.type === "html")
+    return DOMParser.fromSchema(r).parse(e.dom);
+  if (e.type === "json")
+    return Node$1.fromJSON(r, e.value);
+  throw l$4(e);
+}
+const mt$3 = new PluginKey("MILKDOWN_STATE_TRACKER");
+function dt$2(e) {
+  const t = chainCommands(
+    undoInputRule,
+    deleteSelection,
+    joinBackward,
+    selectNodeBackward
+  );
+  return e.Backspace = t, e;
+}
+const Ke$1 = (e) => (e.inject(se$1, "").inject(V$2, {}).inject(ie$3, (t) => t).inject(ne$1, [$$3, H$3, Y$2]).record(J$2), async () => {
+  await e.waitTimers(ne$1);
+  const t = e.get(b$1), r = e.get(q$3), i = e.get(ue$3), n = e.get(ie$3), a = e.get(N$2), h = e.get(se$1), m = ct$2(h, r, t), f = [
+    ...a,
+    new Plugin({
+      key: mt$3,
+      state: {
+        init: () => {
+        },
+        apply: (Be, F, ft, Le) => {
+          e.set(V$2, Le);
+        }
+      }
+    }),
+    customInputRules({ rules: i }),
+    keymap(dt$2(baseKeymap))
+  ];
+  e.set(N$2, f);
+  const B = n({
+    schema: t,
+    doc: m,
+    plugins: f
+  }), l = EditorState.create(B);
+  return e.set(V$2, l), e.done(J$2), () => {
+    e.remove(se$1).remove(V$2).remove(ie$3).remove(ne$1).clearTimer(J$2);
+  };
+});
+k$2(Ke$1, {
+  displayName: "EditorState"
+});
+const oe$3 = K$3("EditorViewReady"), ae$1 = H$5([], "editorViewTimer"), ce$1 = H$5({}, "editorViewOptions"), me$2 = H$5(null, "root"), we$3 = H$5(null, "rootDOM"), ge$3 = H$5({}, "rootAttrs");
+function ht$2(e, t) {
+  const r = document.createElement("div");
+  r.className = "milkdown", e.appendChild(r), t.set(we$3, r);
+  const i = t.get(ge$3);
+  return Object.entries(i).forEach(([n, a]) => r.setAttribute(n, a)), r;
+}
+function lt$2(e) {
+  e.classList.add("editor"), e.setAttribute("role", "textbox");
+}
+const ut$2 = new PluginKey("MILKDOWN_VIEW_CLEAR"), Ae$2 = (e) => (e.inject(me$2, document.body).inject(L$4, {}).inject(ce$1, {}).inject(we$3, null).inject(ge$3, {}).inject(ae$1, [J$2]).record(oe$3), async () => {
+  await e.wait(M$3);
+  const t = e.get(me$2) || document.body, r = typeof t == "string" ? document.querySelector(t) : t;
+  e.update(N$2, (f) => [
+    new Plugin({
+      key: ut$2,
+      view: (B) => {
+        const l = r ? ht$2(r, e) : void 0;
+        return (() => {
+          if (l && r) {
+            const F = B.dom;
+            r.replaceChild(l, F), l.appendChild(F);
+          }
+        })(), {
+          destroy: () => {
+            l != null && l.parentNode && (l == null || l.parentNode.replaceChild(B.dom, l)), l == null || l.remove();
+          }
+        };
+      }
+    }),
+    ...f
+  ]), await e.waitTimers(ae$1);
+  const i = e.get(V$2), n = e.get(ce$1), a = Object.fromEntries(e.get(fe$3)), h = Object.fromEntries(e.get(ye$3)), m = new EditorView(r, {
+    state: i,
+    nodeViews: a,
+    markViews: h,
+    ...n
+  });
+  return lt$2(m.dom), e.set(L$4, m), e.done(oe$3), () => {
+    m == null || m.destroy(), e.remove(me$2).remove(L$4).remove(ce$1).remove(we$3).remove(ge$3).remove(ae$1).clearTimer(oe$3);
+  };
+});
+k$2(Ae$2, {
   displayName: "EditorView"
 });
-
-var __typeError$c = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck$c = (obj, member, msg) => member.has(obj) || __typeError$c("Cannot " + msg);
-var __privateGet$b = (obj, member, getter) => (__accessCheck$c(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$c = (obj, member, value) => member.has(obj) ? __typeError$c("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$b = (obj, member, value, setter) => (__accessCheck$c(obj, member, "write to private field"), member.set(obj, value), value);
-var _enableInspector, _status, _configureList, _onStatusChange, _container, _clock, _usrPluginStore, _sysPluginStore, _ctx$3, _loadInternal, _prepare, _cleanup, _cleanupInternal, _setStatus, _loadPluginInStore;
-const _Editor = class _Editor {
+var j$1, p$2, y$3, D$1, _$1, z$2, u$4, w$3, O$2, K$1, S$3, E$2, A$2, C$2, I$1;
+const Ce$2 = class Ce {
   constructor() {
-    /// @internal
-    __privateAdd$c(this, _enableInspector, false);
-    /// @internal
-    __privateAdd$c(this, _status, "Idle" /* Idle */);
-    /// @internal
-    __privateAdd$c(this, _configureList, []);
-    /// @internal
-    __privateAdd$c(this, _onStatusChange, () => void 0);
-    /// @internal
-    __privateAdd$c(this, _container, new Container());
-    /// @internal
-    __privateAdd$c(this, _clock, new Clock());
-    /// @internal
-    __privateAdd$c(this, _usrPluginStore, /* @__PURE__ */ new Map());
-    /// @internal
-    __privateAdd$c(this, _sysPluginStore, /* @__PURE__ */ new Map());
-    /// @internal
-    __privateAdd$c(this, _ctx$3, new Ctx(__privateGet$b(this, _container), __privateGet$b(this, _clock)));
-    /// @internal
-    __privateAdd$c(this, _loadInternal, () => {
-      const configPlugin = config(async (ctx) => {
-        await Promise.all(__privateGet$b(this, _configureList).map((fn) => fn(ctx)));
-      });
-      const internalPlugins = [
-        schema$2,
-        parser,
-        serializer,
-        commands$2,
-        editorState,
-        editorView,
-        init(this),
-        configPlugin
+    d$3(this, j$1, void 0);
+    d$3(this, p$2, void 0);
+    d$3(this, y$3, void 0);
+    d$3(this, D$1, void 0);
+    d$3(this, _$1, void 0);
+    d$3(this, z$2, void 0);
+    d$3(this, u$4, void 0);
+    d$3(this, w$3, void 0);
+    d$3(this, O$2, void 0);
+    d$3(this, K$1, void 0);
+    d$3(this, S$3, void 0);
+    d$3(this, E$2, void 0);
+    d$3(this, A$2, void 0);
+    d$3(this, C$2, void 0);
+    d$3(this, I$1, void 0);
+    c$1(this, j$1, !1), c$1(this, p$2, "Idle"), c$1(this, y$3, []), c$1(this, D$1, () => {
+    }), c$1(this, _$1, new G$3()), c$1(this, z$2, new J$3()), c$1(this, u$4, /* @__PURE__ */ new Map()), c$1(this, w$3, /* @__PURE__ */ new Map()), c$1(this, O$2, new U$4(s$3(this, _$1), s$3(this, z$2))), c$1(this, K$1, () => {
+      const t = ot$3(async (i) => {
+        await Promise.all(s$3(this, y$3).map((n) => n(i)));
+      }), r = [
+        Ee$1,
+        Ne$2,
+        ze,
+        Ve$1,
+        Ke$1,
+        Ae$2,
+        at$2(this),
+        t
       ];
-      __privateGet$b(this, _prepare).call(this, internalPlugins, __privateGet$b(this, _sysPluginStore));
-    });
-    /// @internal
-    __privateAdd$c(this, _prepare, (plugins, store) => {
-      plugins.forEach((plugin) => {
-        const ctx = __privateGet$b(this, _ctx$3).produce(
-          __privateGet$b(this, _enableInspector) ? plugin.meta : void 0
-        );
-        const handler = plugin(ctx);
-        store.set(plugin, { ctx, handler, cleanup: void 0 });
+      s$3(this, S$3).call(this, r, s$3(this, w$3));
+    }), c$1(this, S$3, (t, r) => {
+      t.forEach((i) => {
+        const n = s$3(this, O$2).produce(s$3(this, j$1) ? i.meta : void 0), a = i(n);
+        r.set(i, { ctx: n, handler: a, cleanup: void 0 });
       });
-    });
-    /// @internal
-    __privateAdd$c(this, _cleanup, (plugins, remove = false) => {
-      return Promise.all(
-        [plugins].flat().map((plugin) => {
-          const loader = __privateGet$b(this, _usrPluginStore).get(plugin);
-          const cleanup = loader == null ? void 0 : loader.cleanup;
-          if (remove) __privateGet$b(this, _usrPluginStore).delete(plugin);
-          else
-            __privateGet$b(this, _usrPluginStore).set(plugin, {
-              ctx: void 0,
-              handler: void 0,
-              cleanup: void 0
-            });
-          if (typeof cleanup === "function") return cleanup();
-          return cleanup;
-        })
-      );
-    });
-    /// @internal
-    __privateAdd$c(this, _cleanupInternal, async () => {
-      await Promise.all(
-        [...__privateGet$b(this, _sysPluginStore).entries()].map(([_, { cleanup }]) => {
-          if (typeof cleanup === "function") return cleanup();
-          return cleanup;
-        })
-      );
-      __privateGet$b(this, _sysPluginStore).clear();
-    });
-    /// @internal
-    __privateAdd$c(this, _setStatus, (status) => {
-      __privateSet$b(this, _status, status);
-      __privateGet$b(this, _onStatusChange).call(this, status);
-    });
-    /// @internal
-    __privateAdd$c(this, _loadPluginInStore, (store) => {
-      return [...store.entries()].map(async ([key, loader]) => {
-        const { ctx, handler } = loader;
-        if (!handler) return;
-        const cleanup = await handler();
-        store.set(key, { ctx, handler, cleanup });
-      });
-    });
-    /// Enable the inspector for the editor.
-    /// You can also pass `false` to disable the inspector.
-    this.enableInspector = (enable = true) => {
-      __privateSet$b(this, _enableInspector, enable);
-      return this;
-    };
-    /// Subscribe to the status change event for the editor.
-    /// The new subscription will replace the old one.
-    this.onStatusChange = (onChange) => {
-      __privateSet$b(this, _onStatusChange, onChange);
-      return this;
-    };
-    /// Add a config for the editor.
-    this.config = (configure) => {
-      __privateGet$b(this, _configureList).push(configure);
-      return this;
-    };
-    /// Remove a config for the editor.
-    this.removeConfig = (configure) => {
-      __privateSet$b(this, _configureList, __privateGet$b(this, _configureList).filter((x) => x !== configure));
-      return this;
-    };
-    /// Use a plugin or a list of plugins for the editor.
-    this.use = (plugins) => {
-      const _plugins = [plugins].flat();
-      _plugins.flat().forEach((plugin) => {
-        __privateGet$b(this, _usrPluginStore).set(plugin, {
+    }), c$1(this, E$2, (t, r = !1) => Promise.all(
+      [t].flat().map((i) => {
+        const n = s$3(this, u$4).get(i), a = n == null ? void 0 : n.cleanup;
+        return r ? s$3(this, u$4).delete(i) : s$3(this, u$4).set(i, { ctx: void 0, handler: void 0, cleanup: void 0 }), typeof a == "function" ? a() : a;
+      })
+    )), c$1(this, A$2, async () => {
+      await Promise.all([...s$3(this, w$3).entries()].map(([t, { cleanup: r }]) => typeof r == "function" ? r() : r)), s$3(this, w$3).clear();
+    }), c$1(this, C$2, (t) => {
+      c$1(this, p$2, t), s$3(this, D$1).call(this, t);
+    }), c$1(this, I$1, (t) => [...t.entries()].map(async ([r, i]) => {
+      const { ctx: n, handler: a } = i;
+      if (!a)
+        return;
+      const h = await a();
+      t.set(r, { ctx: n, handler: a, cleanup: h });
+    })), this.enableInspector = (t = !0) => (c$1(this, j$1, t), this), this.onStatusChange = (t) => (c$1(this, D$1, t), this), this.config = (t) => (s$3(this, y$3).push(t), this), this.removeConfig = (t) => (c$1(this, y$3, s$3(this, y$3).filter((r) => r !== t)), this), this.use = (t) => {
+      const r = [t].flat();
+      return r.flat().forEach((i) => {
+        s$3(this, u$4).set(i, {
           ctx: void 0,
           handler: void 0,
           cleanup: void 0
         });
-      });
-      if (__privateGet$b(this, _status) === "Created" /* Created */)
-        __privateGet$b(this, _prepare).call(this, _plugins, __privateGet$b(this, _usrPluginStore));
-      return this;
-    };
-    /// Remove a plugin or a list of plugins from the editor.
-    this.remove = async (plugins) => {
-      if (__privateGet$b(this, _status) === "OnCreate" /* OnCreate */) {
-        console.warn(
-          "[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code."
-        );
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(this.remove(plugins));
-          }, 50);
-        });
-      }
-      await __privateGet$b(this, _cleanup).call(this, [plugins].flat(), true);
-      return this;
-    };
-    /// Create the editor with current config and plugins.
-    /// If the editor is already created, it will be recreated.
-    this.create = async () => {
-      if (__privateGet$b(this, _status) === "OnCreate" /* OnCreate */) return this;
-      if (__privateGet$b(this, _status) === "Created" /* Created */) await this.destroy();
-      __privateGet$b(this, _setStatus).call(this, "OnCreate" /* OnCreate */);
-      __privateGet$b(this, _loadInternal).call(this);
-      __privateGet$b(this, _prepare).call(this, [...__privateGet$b(this, _usrPluginStore).keys()], __privateGet$b(this, _usrPluginStore));
-      await Promise.all(
-        [
-          __privateGet$b(this, _loadPluginInStore).call(this, __privateGet$b(this, _sysPluginStore)),
-          __privateGet$b(this, _loadPluginInStore).call(this, __privateGet$b(this, _usrPluginStore))
-        ].flat()
-      );
-      __privateGet$b(this, _setStatus).call(this, "Created" /* Created */);
-      return this;
-    };
-    /// Destroy the editor.
-    /// If you want to clear all plugins, set `clearPlugins` to `true`.
-    this.destroy = async (clearPlugins = false) => {
-      if (__privateGet$b(this, _status) === "Destroyed" /* Destroyed */ || __privateGet$b(this, _status) === "OnDestroy" /* OnDestroy */)
-        return this;
-      if (__privateGet$b(this, _status) === "OnCreate" /* OnCreate */) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(this.destroy(clearPlugins));
-          }, 50);
-        });
-      }
-      if (clearPlugins) __privateSet$b(this, _configureList, []);
-      __privateGet$b(this, _setStatus).call(this, "OnDestroy" /* OnDestroy */);
-      await __privateGet$b(this, _cleanup).call(this, [...__privateGet$b(this, _usrPluginStore).keys()], clearPlugins);
-      await __privateGet$b(this, _cleanupInternal).call(this);
-      __privateGet$b(this, _setStatus).call(this, "Destroyed" /* Destroyed */);
-      return this;
-    };
-    /// Call an action with the ctx of the editor.
-    /// This method should be used after the editor is created.
-    this.action = (action) => action(__privateGet$b(this, _ctx$3));
-    /// Get inspections of plugins in editor.
-    /// Make sure you have enabled inspector by `editor.enableInspector()` before calling this method.
-    this.inspect = () => {
-      if (!__privateGet$b(this, _enableInspector)) {
-        console.warn(
-          "[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first."
-        );
-        return [];
-      }
-      return [...__privateGet$b(this, _sysPluginStore).values(), ...__privateGet$b(this, _usrPluginStore).values()].map(({ ctx }) => {
-        var _a;
-        return (_a = ctx == null ? void 0 : ctx.inspector) == null ? void 0 : _a.read();
-      }).filter((x) => Boolean(x));
-    };
+      }), s$3(this, p$2) === "Created" && s$3(this, S$3).call(this, r, s$3(this, u$4)), this;
+    }, this.remove = async (t) => s$3(this, p$2) === "OnCreate" ? (console.warn("[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code."), new Promise((r) => {
+      setTimeout(() => {
+        r(this.remove(t));
+      }, 50);
+    })) : (await s$3(this, E$2).call(this, [t].flat(), !0), this), this.create = async () => s$3(this, p$2) === "OnCreate" ? this : (s$3(this, p$2) === "Created" && await this.destroy(), s$3(this, C$2).call(this, "OnCreate"), s$3(this, K$1).call(this), s$3(this, S$3).call(this, [...s$3(this, u$4).keys()], s$3(this, u$4)), await Promise.all(
+      [
+        s$3(this, I$1).call(this, s$3(this, w$3)),
+        s$3(this, I$1).call(this, s$3(this, u$4))
+      ].flat()
+    ), s$3(this, C$2).call(this, "Created"), this), this.destroy = async (t = !1) => s$3(this, p$2) === "Destroyed" || s$3(this, p$2) === "OnDestroy" ? this : s$3(this, p$2) === "OnCreate" ? new Promise((r) => {
+      setTimeout(() => {
+        r(this.destroy(t));
+      }, 50);
+    }) : (t && c$1(this, y$3, []), s$3(this, C$2).call(this, "OnDestroy"), await s$3(this, E$2).call(this, [...s$3(this, u$4).keys()], t), await s$3(this, A$2).call(this), s$3(this, C$2).call(this, "Destroyed"), this), this.action = (t) => t(s$3(this, O$2)), this.inspect = () => s$3(this, j$1) ? [...s$3(this, w$3).values(), ...s$3(this, u$4).values()].map(({ ctx: t }) => {
+      var r;
+      return (r = t == null ? void 0 : t.inspector) == null ? void 0 : r.read();
+    }).filter((t) => !!t) : (console.warn("[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first."), []);
   }
   /// Create a new editor instance.
   static make() {
-    return new _Editor();
+    return new Ce();
   }
   /// Get the ctx of the editor.
   get ctx() {
-    return __privateGet$b(this, _ctx$3);
+    return s$3(this, O$2);
   }
   /// Get the status of the editor.
   get status() {
-    return __privateGet$b(this, _status);
+    return s$3(this, p$2);
   }
 };
-_enableInspector = new WeakMap();
-_status = new WeakMap();
-_configureList = new WeakMap();
-_onStatusChange = new WeakMap();
-_container = new WeakMap();
-_clock = new WeakMap();
-_usrPluginStore = new WeakMap();
-_sysPluginStore = new WeakMap();
-_ctx$3 = new WeakMap();
-_loadInternal = new WeakMap();
-_prepare = new WeakMap();
-_cleanup = new WeakMap();
-_cleanupInternal = new WeakMap();
-_setStatus = new WeakMap();
-_loadPluginInStore = new WeakMap();
-let Editor = _Editor;
+j$1 = new WeakMap(), p$2 = new WeakMap(), y$3 = new WeakMap(), D$1 = new WeakMap(), _$1 = new WeakMap(), z$2 = new WeakMap(), u$4 = new WeakMap(), w$3 = new WeakMap(), O$2 = new WeakMap(), K$1 = new WeakMap(), S$3 = new WeakMap(), E$2 = new WeakMap(), A$2 = new WeakMap(), C$2 = new WeakMap(), I$1 = new WeakMap();
+let Oe$1 = Ce$2;
 
 nanoid.customAlphabet("abcedfghicklmn", 10);
-
-function $command(key, cmd) {
-  const cmdKey = createCmdKey(key);
-  const plugin = (ctx) => async () => {
-    plugin.key = cmdKey;
-    await ctx.wait(CommandsReady);
-    const command = cmd(ctx);
-    ctx.get(commandsCtx).create(cmdKey, command);
-    plugin.run = (payload) => ctx.get(commandsCtx).call(key, payload);
-    return () => {
-      ctx.get(commandsCtx).remove(cmdKey);
+function re$1(n, o) {
+  const r = Et$1(n), t = (e) => async () => {
+    t.key = r, await e.wait(Y$2);
+    const a = o(e);
+    return e.get(je).create(r, a), t.run = (s) => e.get(je).call(n, s), () => {
+      e.get(je).remove(r);
     };
   };
-  return plugin;
+  return t;
 }
-
-function $inputRule(inputRule) {
-  const plugin = (ctx) => async () => {
-    await ctx.wait(SchemaReady);
-    const ir = inputRule(ctx);
-    ctx.update(inputRulesCtx, (irs) => [...irs, ir]);
-    plugin.inputRule = ir;
-    return () => {
-      ctx.update(inputRulesCtx, (irs) => irs.filter((x) => x !== ir));
+function oe$2(n) {
+  const o = (r) => async () => {
+    await r.wait(R$3);
+    const t = n(r);
+    return r.update(ue$3, (e) => [...e, t]), o.inputRule = t, () => {
+      r.update(ue$3, (e) => e.filter((a) => a !== t));
     };
   };
-  return plugin;
+  return o;
 }
-
-function $mark(id, schema) {
-  const plugin = (ctx) => async () => {
-    const markSchema = schema(ctx);
-    ctx.update(marksCtx, (ns) => [
-      ...ns.filter((n) => n[0] !== id),
-      [id, markSchema]
-    ]);
-    plugin.id = id;
-    plugin.schema = markSchema;
-    return () => {
-      ctx.update(marksCtx, (ns) => ns.filter(([x]) => x !== id));
+function Q$3(n, o) {
+  const r = (t) => async () => {
+    const e = o(t);
+    return t.update(Z$2, (a) => [...a.filter((s) => s[0] !== n), [n, e]]), r.id = n, r.schema = e, () => {
+      t.update(Z$2, (a) => a.filter(([s]) => s !== n));
     };
   };
-  plugin.type = (ctx) => {
-    const markType = ctx.get(schemaCtx).marks[id];
-    if (!markType) throw missingMarkInSchema(id);
-    return markType;
-  };
-  return plugin;
+  return r.type = (t) => {
+    const e = t.get(b$1).marks[n];
+    if (!e)
+      throw x$7(n);
+    return e;
+  }, r;
 }
-
-function $node(id, schema) {
-  const plugin = (ctx) => async () => {
-    const nodeSchema = schema(ctx);
-    ctx.update(nodesCtx, (ns) => [
-      ...ns.filter((n) => n[0] !== id),
-      [id, nodeSchema]
-    ]);
-    plugin.id = id;
-    plugin.schema = nodeSchema;
-    return () => {
-      ctx.update(nodesCtx, (ns) => ns.filter(([x]) => x !== id));
+function W$4(n, o) {
+  const r = (t) => async () => {
+    const e = o(t);
+    return t.update(X$3, (a) => [...a.filter((s) => s[0] !== n), [n, e]]), r.id = n, r.schema = e, () => {
+      t.update(X$3, (a) => a.filter(([s]) => s !== n));
     };
   };
-  plugin.type = (ctx) => {
-    const nodeType = ctx.get(schemaCtx).nodes[id];
-    if (!nodeType) throw missingNodeInSchema(id);
-    return nodeType;
-  };
-  return plugin;
+  return r.type = (t) => {
+    const e = t.get(b$1).nodes[n];
+    if (!e)
+      throw M$6(n);
+    return e;
+  }, r;
 }
-
-function $prose(prose) {
-  let prosePlugin;
-  const plugin = (ctx) => async () => {
-    await ctx.wait(SchemaReady);
-    prosePlugin = prose(ctx);
-    ctx.update(prosePluginsCtx, (ps) => [...ps, prosePlugin]);
-    return () => {
-      ctx.update(prosePluginsCtx, (ps) => ps.filter((x) => x !== prosePlugin));
-    };
-  };
-  plugin.plugin = () => prosePlugin;
-  plugin.key = () => prosePlugin.spec.key;
-  return plugin;
-}
-
-function $shortcut(shortcut) {
-  const plugin = (ctx) => async () => {
-    await ctx.wait(SchemaReady);
-    const k = shortcut(ctx);
-    const keymapPlugin = keymap$2(k);
-    ctx.update(prosePluginsCtx, (ps) => [...ps, keymapPlugin]);
-    plugin.keymap = k;
-    return () => {
-      ctx.update(prosePluginsCtx, (ps) => ps.filter((x) => x !== keymapPlugin));
-    };
-  };
-  return plugin;
-}
-
-function $view(type, view) {
-  const plugin = (ctx) => async () => {
-    await ctx.wait(SchemaReady);
-    const v = view(ctx);
-    if (type.type(ctx) instanceof NodeType$1)
-      ctx.update(nodeViewCtx, (ps) => [
-        ...ps,
-        [type.id, v]
-      ]);
-    else
-      ctx.update(markViewCtx, (ps) => [
-        ...ps,
-        [type.id, v]
-      ]);
-    plugin.view = v;
-    plugin.type = type;
-    return () => {
-      if (type.type(ctx) instanceof NodeType$1)
-        ctx.update(nodeViewCtx, (ps) => ps.filter((x) => x[0] !== type.id));
-      else ctx.update(markViewCtx, (ps) => ps.filter((x) => x[0] !== type.id));
-    };
-  };
-  return plugin;
-}
-
-function $ctx(value, name) {
-  const slice = createSlice(value, name);
-  const plugin = (ctx) => {
-    ctx.inject(slice);
-    return () => {
-      return () => {
-        ctx.remove(slice);
-      };
-    };
-  };
-  plugin.key = slice;
-  return plugin;
-}
-
-function $nodeSchema(id, schema) {
-  const schemaCtx = $ctx(schema, id);
-  const nodeSchema = $node(id, (ctx) => {
-    const userSchema = ctx.get(schemaCtx.key);
-    return userSchema(ctx);
+function ue$2(n) {
+  let o;
+  const r = (t) => async () => (await t.wait(R$3), o = n(t), t.update(N$2, (e) => [...e, o]), () => {
+    t.update(N$2, (e) => e.filter((a) => a !== o));
   });
-  const result = [schemaCtx, nodeSchema];
-  result.id = nodeSchema.id;
-  result.node = nodeSchema;
-  result.type = (ctx) => nodeSchema.type(ctx);
-  result.schema = nodeSchema.schema;
-  result.ctx = schemaCtx;
-  result.key = schemaCtx.key;
-  result.extendSchema = (handler) => {
-    return (ctx) => () => {
-      const prev = ctx.get(schemaCtx.key);
-      const next = handler(prev);
-      const nodeSchema2 = next(ctx);
-      ctx.update(nodesCtx, (ns) => [
-        ...ns.filter((n) => n[0] !== id),
-        [id, nodeSchema2]
-      ]);
-      result.schema = nodeSchema2;
+  return r.plugin = () => o, r.key = () => o.spec.key, r;
+}
+function X$2(n) {
+  const o = (r) => async () => {
+    await r.wait(R$3);
+    const t = n(r), e = keymap(t);
+    return r.update(N$2, (a) => [...a, e]), o.keymap = t, () => {
+      r.update(N$2, (a) => a.filter((s) => s !== e));
     };
   };
-  return result;
+  return o;
 }
-
-function $markSchema(id, schema) {
-  const schemaCtx = $ctx(schema, id);
-  const markSchema = $mark(id, (ctx) => {
-    const userSchema = ctx.get(schemaCtx.key);
-    return userSchema(ctx);
-  });
-  const result = [schemaCtx, markSchema];
-  result.id = markSchema.id;
-  result.mark = markSchema;
-  result.type = markSchema.type;
-  result.schema = markSchema.schema;
-  result.ctx = schemaCtx;
-  result.key = schemaCtx.key;
-  result.extendSchema = (handler) => {
-    return (ctx) => () => {
-      const prev = ctx.get(schemaCtx.key);
-      const next = handler(prev);
-      const markSchema2 = next(ctx);
-      ctx.update(marksCtx, (ms) => [
-        ...ms.filter((m) => m[0] !== id),
-        [id, markSchema2]
-      ]);
-      result.schema = markSchema2;
+function le$1(n, o) {
+  const r = (t) => async () => {
+    await t.wait(R$3);
+    const e = o(t);
+    return n.type(t) instanceof NodeType$1 ? t.update(fe$3, (a) => [...a, [n.id, e]]) : t.update(ye$3, (a) => [...a, [n.id, e]]), r.view = e, r.type = n, () => {
+      n.type(t) instanceof NodeType$1 ? t.update(fe$3, (a) => a.filter((s) => s[0] !== n.id)) : t.update(ye$3, (a) => a.filter((s) => s[0] !== n.id));
     };
   };
-  return result;
+  return r;
 }
-
-function $useKeymap(name, userKeymap) {
-  const key = Object.fromEntries(
-    Object.entries(userKeymap).map(([key2, { shortcuts: shortcuts2 }]) => {
-      return [key2, shortcuts2];
-    })
-  );
-  const keymapDef = $ctx(key, `${name}Keymap`);
-  const shortcuts = $shortcut((ctx) => {
-    const keys = ctx.get(keymapDef.key);
-    const keymapTuple = Object.entries(userKeymap).flatMap(
-      ([key2, { command }]) => {
-        const targetKeys = [keys[key2]].flat();
-        return targetKeys.map((targetKey) => [targetKey, command(ctx)]);
-      }
-    );
-    return Object.fromEntries(keymapTuple);
+function h$2(n, o) {
+  const r = H$5(n, o), t = (e) => (e.inject(r), () => () => {
+    e.remove(r);
   });
-  const result = [keymapDef, shortcuts];
-  result.ctx = keymapDef;
-  result.shortcuts = shortcuts;
-  result.key = keymapDef.key;
-  result.keymap = shortcuts.keymap;
-  return result;
+  return t.key = r, t;
 }
-
-const $nodeAttr = (name, value = () => ({})) => $ctx(value, `${name}Attr`);
-const $markAttr = (name, value = () => ({})) => $ctx(value, `${name}Attr`);
-
-function $remark(id, remark, initialOptions) {
-  const options = $ctx({}, id);
-  const plugin = (ctx) => async () => {
-    await ctx.wait(InitReady);
-    const re = remark(ctx);
-    const remarkPlugin = {
-      plugin: re,
-      options: ctx.get(options.key)
-    };
-    ctx.update(remarkPluginsCtx, (rp) => [...rp, remarkPlugin]);
-    return () => {
-      ctx.update(remarkPluginsCtx, (rp) => rp.filter((x) => x !== remarkPlugin));
-    };
-  };
-  const result = [options, plugin];
-  result.id = id;
-  result.plugin = plugin;
-  result.options = options;
-  return result;
+function fe$2(n, o) {
+  const r = h$2(o, n), t = W$4(n, (a) => a.get(r.key)(a)), e = [r, t];
+  return e.id = t.id, e.node = t, e.type = (a) => t.type(a), e.schema = t.schema, e.ctx = r, e.key = r.key, e.extendSchema = (a) => (s) => () => {
+    const i = s.get(r.key), c = a(i)(s);
+    s.update(X$3, (m) => [...m.filter((S) => S[0] !== n), [n, c]]), e.schema = c;
+  }, e;
 }
-
-function getMarkdown() {
-  return (ctx) => {
-    const view = ctx.get(editorViewCtx);
-    const serializer = ctx.get(serializerCtx);
-    return serializer(view.state.doc);
+function ye$2(n, o) {
+  const r = h$2(o, n), t = Q$3(n, (a) => a.get(r.key)(a)), e = [r, t];
+  return e.id = t.id, e.mark = t, e.type = t.type, e.schema = t.schema, e.ctx = r, e.key = r.key, e.extendSchema = (a) => (s) => () => {
+    const i = s.get(r.key), c = a(i)(s);
+    s.update(Z$2, (m) => [...m.filter((S) => S[0] !== n), [n, c]]), e.schema = c;
+  }, e;
+}
+function ge$2(n, o) {
+  const r = Object.fromEntries(Object.entries(o).map(([s, { shortcuts: i }]) => [s, i])), t = h$2(r, `${n}Keymap`), e = X$2((s) => {
+    const i = s.get(t.key), u = Object.entries(o).flatMap(([c, { command: m }]) => [i[c]].flat().map((V) => [V, m(s)]));
+    return Object.fromEntries(u);
+  }), a = [t, e];
+  return a.ctx = t, a.shortcuts = e, a.key = t.key, a.keymap = e.keymap, a;
+}
+const he$2 = (n, o = () => ({})) => h$2(o, `${n}Attr`), we$2 = (n, o = () => ({})) => h$2(o, `${n}Attr`);
+function ke$2(n, o, r) {
+  const t = h$2({}, n), e = (s) => async () => {
+    await s.wait(M$3);
+    const u = {
+      plugin: o(s),
+      options: s.get(t.key)
+    };
+    return s.update(pe$2, (c) => [...c, u]), () => {
+      s.update(pe$2, (c) => c.filter((m) => m !== u));
+    };
+  }, a = [t, e];
+  return a.id = n, a.plugin = e, a.options = t, a;
+}
+function $e$2() {
+  return (n) => {
+    const o = n.get(L$4);
+    return n.get(re$2)(o.state.doc);
   };
 }
-
-function serializeText(state, node) {
-  var _a;
-  const lastIsHardBreak = node.childCount >= 1 && ((_a = node.lastChild) == null ? void 0 : _a.type.name) === "hardbreak";
-  if (!lastIsHardBreak) {
-    state.next(node.content);
-    return;
-  }
-  const contentArr = [];
-  node.content.forEach((n, _, i) => {
-    if (i === node.childCount - 1) return;
-    contentArr.push(n);
-  });
-  state.next(Fragment.fromArray(contentArr));
-}
-
-function withMeta$5(plugin, meta) {
-  Object.assign(plugin, {
-    meta: {
-      package: "@milkdown/preset-commonmark",
-      ...meta
-    }
-  });
-  return plugin;
-}
-
-const emphasisAttr = $markAttr("emphasis");
-withMeta$5(emphasisAttr, {
-  displayName: "Attr<emphasis>",
-  group: "Emphasis"
-});
-const emphasisSchema = $markSchema("emphasis", (ctx) => ({
-  attrs: {
-    marker: {
-      default: ctx.get(remarkStringifyOptionsCtx).emphasis || "*"
-    }
-  },
-  parseDOM: [
-    { tag: "i" },
-    { tag: "em" },
-    { style: "font-style", getAttrs: (value) => value === "italic" }
-  ],
-  toDOM: (mark) => ["em", ctx.get(emphasisAttr.key)(mark)],
-  parseMarkdown: {
-    match: (node) => node.type === "emphasis",
-    runner: (state, node, markType) => {
-      state.openMark(markType, { marker: node.marker });
-      state.next(node.children);
-      state.closeMark(markType);
-    }
-  },
-  toMarkdown: {
-    match: (mark) => mark.type.name === "emphasis",
-    runner: (state, mark) => {
-      state.withMark(mark, "emphasis", void 0, {
-        marker: mark.attrs.marker
-      });
-    }
-  }
-}));
-withMeta$5(emphasisSchema.mark, {
-  displayName: "MarkSchema<emphasis>",
-  group: "Emphasis"
-});
-withMeta$5(emphasisSchema.ctx, {
-  displayName: "MarkSchemaCtx<emphasis>",
-  group: "Emphasis"
-});
-const toggleEmphasisCommand = $command("ToggleEmphasis", (ctx) => () => {
-  return toggleMark(emphasisSchema.type(ctx));
-});
-withMeta$5(toggleEmphasisCommand, {
-  displayName: "Command<toggleEmphasisCommand>",
-  group: "Emphasis"
-});
-const emphasisStarInputRule = $inputRule((ctx) => {
-  return markRule(/(?:^|[^*])\*([^*]+)\*$/, emphasisSchema.type(ctx), {
-    getAttr: () => ({
-      marker: "*"
-    }),
-    updateCaptured: ({ fullMatch, start }) => !fullMatch.startsWith("*") ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {}
-  });
-});
-withMeta$5(emphasisStarInputRule, {
-  displayName: "InputRule<emphasis>|Star",
-  group: "Emphasis"
-});
-const emphasisUnderscoreInputRule = $inputRule((ctx) => {
-  return markRule(/(?:^|[^_])_([^_]+)_$/, emphasisSchema.type(ctx), {
-    getAttr: () => ({
-      marker: "_"
-    }),
-    updateCaptured: ({ fullMatch, start }) => !fullMatch.startsWith("_") ? { fullMatch: fullMatch.slice(1), start: start + 1 } : {}
-  });
-});
-withMeta$5(emphasisUnderscoreInputRule, {
-  displayName: "InputRule<emphasis>|Underscore",
-  group: "Emphasis"
-});
-const emphasisKeymap = $useKeymap("emphasisKeymap", {
-  ToggleEmphasis: {
-    shortcuts: "Mod-i",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(toggleEmphasisCommand.key);
-    }
-  }
-});
-withMeta$5(emphasisKeymap.ctx, {
-  displayName: "KeymapCtx<emphasis>",
-  group: "Emphasis"
-});
-withMeta$5(emphasisKeymap.shortcuts, {
-  displayName: "Keymap<emphasis>",
-  group: "Emphasis"
-});
-
-const strongAttr = $markAttr("strong");
-withMeta$5(strongAttr, {
-  displayName: "Attr<strong>",
-  group: "Strong"
-});
-const strongSchema = $markSchema("strong", (ctx) => ({
-  attrs: {
-    marker: {
-      default: ctx.get(remarkStringifyOptionsCtx).strong || "*"
-    }
-  },
-  parseDOM: [
-    { tag: "b" },
-    { tag: "strong" },
-    { style: "font-style", getAttrs: (value) => value === "bold" }
-  ],
-  toDOM: (mark) => ["strong", ctx.get(strongAttr.key)(mark)],
-  parseMarkdown: {
-    match: (node) => node.type === "strong",
-    runner: (state, node, markType) => {
-      state.openMark(markType, { marker: node.marker });
-      state.next(node.children);
-      state.closeMark(markType);
-    }
-  },
-  toMarkdown: {
-    match: (mark) => mark.type.name === "strong",
-    runner: (state, mark) => {
-      state.withMark(mark, "strong", void 0, {
-        marker: mark.attrs.marker
-      });
-    }
-  }
-}));
-withMeta$5(strongSchema.mark, {
-  displayName: "MarkSchema<strong>",
-  group: "Strong"
-});
-withMeta$5(strongSchema.ctx, {
-  displayName: "MarkSchemaCtx<strong>",
-  group: "Strong"
-});
-const toggleStrongCommand = $command("ToggleStrong", (ctx) => () => {
-  return toggleMark(strongSchema.type(ctx));
-});
-withMeta$5(toggleStrongCommand, {
-  displayName: "Command<toggleStrongCommand>",
-  group: "Strong"
-});
-const strongInputRule = $inputRule((ctx) => {
-  return markRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, strongSchema.type(ctx), {
-    getAttr: (match) => {
-      return {
-        marker: match[0].startsWith("*") ? "*" : "_"
-      };
-    }
-  });
-});
-withMeta$5(strongInputRule, {
-  displayName: "InputRule<strong>",
-  group: "Strong"
-});
-const strongKeymap = $useKeymap("strongKeymap", {
-  ToggleBold: {
-    shortcuts: ["Mod-b"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(toggleStrongCommand.key);
-    }
-  }
-});
-withMeta$5(strongKeymap.ctx, {
-  displayName: "KeymapCtx<strong>",
-  group: "Strong"
-});
-withMeta$5(strongKeymap.shortcuts, {
-  displayName: "Keymap<strong>",
-  group: "Strong"
-});
-
-const inlineCodeAttr = $markAttr("inlineCode");
-withMeta$5(inlineCodeAttr, {
-  displayName: "Attr<inlineCode>",
-  group: "InlineCode"
-});
-const inlineCodeSchema = $markSchema("inlineCode", (ctx) => ({
-  priority: 100,
-  code: true,
-  inclusive: false,
-  parseDOM: [{ tag: "code" }],
-  toDOM: (mark) => ["code", ctx.get(inlineCodeAttr.key)(mark)],
-  parseMarkdown: {
-    match: (node) => node.type === "inlineCode",
-    runner: (state, node, markType) => {
-      state.openMark(markType);
-      state.addText(node.value);
-      state.closeMark(markType);
-    }
-  },
-  toMarkdown: {
-    match: (mark) => mark.type.name === "inlineCode",
-    runner: (state, mark, node) => {
-      state.withMark(mark, "inlineCode", node.text || "");
-    }
-  }
-}));
-withMeta$5(inlineCodeSchema.mark, {
-  displayName: "MarkSchema<inlineCode>",
-  group: "InlineCode"
-});
-withMeta$5(inlineCodeSchema.ctx, {
-  displayName: "MarkSchemaCtx<inlineCode>",
-  group: "InlineCode"
-});
-const toggleInlineCodeCommand = $command(
-  "ToggleInlineCode",
-  (ctx) => () => (state, dispatch) => {
-    const { selection, tr } = state;
-    if (selection.empty) return false;
-    const { from, to } = selection;
-    const has = state.doc.rangeHasMark(from, to, inlineCodeSchema.type(ctx));
-    if (has) {
-      dispatch == null ? void 0 : dispatch(tr.removeMark(from, to, inlineCodeSchema.type(ctx)));
-      return true;
-    }
-    const restMarksName = Object.keys(state.schema.marks).filter(
-      (x) => x !== inlineCodeSchema.type.name
-    );
-    restMarksName.map((name) => state.schema.marks[name]).forEach((t) => {
-      tr.removeMark(from, to, t);
-    });
-    dispatch == null ? void 0 : dispatch(tr.addMark(from, to, inlineCodeSchema.type(ctx).create()));
-    return true;
-  }
-);
-withMeta$5(toggleInlineCodeCommand, {
-  displayName: "Command<toggleInlineCodeCommand>",
-  group: "InlineCode"
-});
-const inlineCodeInputRule = $inputRule((ctx) => {
-  return markRule(/(?:`)([^`]+)(?:`)$/, inlineCodeSchema.type(ctx));
-});
-withMeta$5(inlineCodeInputRule, {
-  displayName: "InputRule<inlineCodeInputRule>",
-  group: "InlineCode"
-});
-const inlineCodeKeymap = $useKeymap("inlineCodeKeymap", {
-  ToggleInlineCode: {
-    shortcuts: "Mod-e",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(toggleInlineCodeCommand.key);
-    }
-  }
-});
-withMeta$5(inlineCodeKeymap.ctx, {
-  displayName: "KeymapCtx<inlineCode>",
-  group: "InlineCode"
-});
-withMeta$5(inlineCodeKeymap.shortcuts, {
-  displayName: "Keymap<inlineCode>",
-  group: "InlineCode"
-});
-
-const linkAttr = $markAttr("link");
-withMeta$5(linkAttr, {
-  displayName: "Attr<link>",
-  group: "Link"
-});
-const linkSchema = $markSchema("link", (ctx) => ({
-  attrs: {
-    href: {},
-    title: { default: null }
-  },
-  parseDOM: [
-    {
-      tag: "a[href]",
-      getAttrs: (dom) => {
-        if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-        return {
-          href: dom.getAttribute("href"),
-          title: dom.getAttribute("title")
-        };
-      }
-    }
-  ],
-  toDOM: (mark) => ["a", { ...ctx.get(linkAttr.key)(mark), ...mark.attrs }],
-  parseMarkdown: {
-    match: (node) => node.type === "link",
-    runner: (state, node, markType) => {
-      const url = node.url;
-      const title = node.title;
-      state.openMark(markType, { href: url, title });
-      state.next(node.children);
-      state.closeMark(markType);
-    }
-  },
-  toMarkdown: {
-    match: (mark) => mark.type.name === "link",
-    runner: (state, mark) => {
-      state.withMark(mark, "link", void 0, {
-        title: mark.attrs.title,
-        url: mark.attrs.href
-      });
-    }
-  }
-}));
-withMeta$5(linkSchema.mark, {
-  displayName: "MarkSchema<link>",
-  group: "Link"
-});
-const toggleLinkCommand = $command(
-  "ToggleLink",
-  (ctx) => (payload = {}) => toggleMark(linkSchema.type(ctx), payload)
-);
-withMeta$5(toggleLinkCommand, {
-  displayName: "Command<toggleLinkCommand>",
-  group: "Link"
-});
-const updateLinkCommand = $command(
-  "UpdateLink",
-  (ctx) => (payload = {}) => (state, dispatch) => {
-    if (!dispatch) return false;
-    let node;
-    let pos = -1;
-    const { selection } = state;
-    const { from, to } = selection;
-    state.doc.nodesBetween(from, from === to ? to + 1 : to, (n, p) => {
-      if (linkSchema.type(ctx).isInSet(n.marks)) {
-        node = n;
-        pos = p;
-        return false;
-      }
-      return void 0;
-    });
-    if (!node) return false;
-    const mark = node.marks.find(({ type }) => type === linkSchema.type(ctx));
-    if (!mark) return false;
-    const start = pos;
-    const end = pos + node.nodeSize;
-    const { tr } = state;
-    const linkMark = linkSchema.type(ctx).create({ ...mark.attrs, ...payload });
-    if (!linkMark) return false;
-    dispatch(
-      tr.removeMark(start, end, mark).addMark(start, end, linkMark).setSelection(new TextSelection(tr.selection.$anchor)).scrollIntoView()
-    );
-    return true;
-  }
-);
-withMeta$5(updateLinkCommand, {
-  displayName: "Command<updateLinkCommand>",
-  group: "Link"
-});
-
-const docSchema = $node("doc", () => ({
-  content: "block+",
-  parseMarkdown: {
-    match: ({ type }) => type === "root",
-    runner: (state, node, type) => {
-      state.injectRoot(node, type);
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "doc",
-    runner: (state, node) => {
-      state.openNode("root");
-      state.next(node.content);
-    }
-  }
-}));
-withMeta$5(docSchema, {
-  displayName: "NodeSchema<doc>",
-  group: "Doc"
-});
 
 function escapeStringRegexp(string) {
 	if (typeof string !== 'string') {
@@ -34313,946 +32990,6 @@ function slugify(string, options) {
 	return string;
 }
 
-const paragraphAttr = $nodeAttr("paragraph");
-withMeta$5(paragraphAttr, {
-  displayName: "Attr<paragraph>",
-  group: "Paragraph"
-});
-const paragraphSchema = $nodeSchema("paragraph", (ctx) => ({
-  content: "inline*",
-  group: "block",
-  parseDOM: [{ tag: "p" }],
-  toDOM: (node) => ["p", ctx.get(paragraphAttr.key)(node), 0],
-  parseMarkdown: {
-    match: (node) => node.type === "paragraph",
-    runner: (state, node, type) => {
-      state.openNode(type);
-      if (node.children) state.next(node.children);
-      else state.addText(node.value || "");
-      state.closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "paragraph",
-    runner: (state, node) => {
-      state.openNode("paragraph");
-      serializeText(state, node);
-      state.closeNode();
-    }
-  }
-}));
-withMeta$5(paragraphSchema.node, {
-  displayName: "NodeSchema<paragraph>",
-  group: "Paragraph"
-});
-withMeta$5(paragraphSchema.ctx, {
-  displayName: "NodeSchemaCtx<paragraph>",
-  group: "Paragraph"
-});
-const turnIntoTextCommand = $command(
-  "TurnIntoText",
-  (ctx) => () => setBlockType$1(paragraphSchema.type(ctx))
-);
-withMeta$5(turnIntoTextCommand, {
-  displayName: "Command<turnIntoTextCommand>",
-  group: "Paragraph"
-});
-const paragraphKeymap = $useKeymap("paragraphKeymap", {
-  TurnIntoText: {
-    shortcuts: "Mod-Alt-0",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(turnIntoTextCommand.key);
-    }
-  }
-});
-withMeta$5(paragraphKeymap.ctx, {
-  displayName: "KeymapCtx<paragraph>",
-  group: "Paragraph"
-});
-withMeta$5(paragraphKeymap.shortcuts, {
-  displayName: "Keymap<paragraph>",
-  group: "Paragraph"
-});
-
-const headingIndex = Array(6).fill(0).map((_, i) => i + 1);
-function defaultHeadingIdGenerator(node) {
-  return slugify(node.textContent);
-}
-const headingIdGenerator = $ctx(
-  defaultHeadingIdGenerator,
-  "headingIdGenerator"
-);
-withMeta$5(headingIdGenerator, {
-  displayName: "Ctx<HeadingIdGenerator>",
-  group: "Heading"
-});
-const headingAttr = $nodeAttr("heading");
-withMeta$5(headingAttr, {
-  displayName: "Attr<heading>",
-  group: "Heading"
-});
-const headingSchema = $nodeSchema("heading", (ctx) => {
-  const getId = ctx.get(headingIdGenerator.key);
-  return {
-    content: "inline*",
-    group: "block",
-    defining: true,
-    attrs: {
-      id: {
-        default: ""
-      },
-      level: {
-        default: 1
-      }
-    },
-    parseDOM: headingIndex.map((x) => ({
-      tag: `h${x}`,
-      getAttrs: (node) => {
-        if (!(node instanceof HTMLElement)) throw expectDomTypeError(node);
-        return { level: x, id: node.id };
-      }
-    })),
-    toDOM: (node) => {
-      return [
-        `h${node.attrs.level}`,
-        {
-          ...ctx.get(headingAttr.key)(node),
-          id: node.attrs.id || getId(node)
-        },
-        0
-      ];
-    },
-    parseMarkdown: {
-      match: ({ type }) => type === "heading",
-      runner: (state, node, type) => {
-        const depth = node.depth;
-        state.openNode(type, { level: depth });
-        state.next(node.children);
-        state.closeNode();
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === "heading",
-      runner: (state, node) => {
-        state.openNode("heading", void 0, { depth: node.attrs.level });
-        serializeText(state, node);
-        state.closeNode();
-      }
-    }
-  };
-});
-withMeta$5(headingSchema.node, {
-  displayName: "NodeSchema<heading>",
-  group: "Heading"
-});
-withMeta$5(headingSchema.ctx, {
-  displayName: "NodeSchemaCtx<heading>",
-  group: "Heading"
-});
-const wrapInHeadingInputRule = $inputRule((ctx) => {
-  return textblockTypeInputRule(
-    /^(?<hashes>#+)\s$/,
-    headingSchema.type(ctx),
-    (match) => {
-      var _a, _b;
-      const x = ((_b = (_a = match.groups) == null ? void 0 : _a.hashes) == null ? void 0 : _b.length) || 0;
-      const view = ctx.get(editorViewCtx);
-      const { $from } = view.state.selection;
-      const node = $from.node();
-      if (node.type.name === "heading") {
-        let level = Number(node.attrs.level) + Number(x);
-        if (level > 6) level = 6;
-        return { level };
-      }
-      return { level: x };
-    }
-  );
-});
-withMeta$5(wrapInHeadingInputRule, {
-  displayName: "InputRule<wrapInHeadingInputRule>",
-  group: "Heading"
-});
-const wrapInHeadingCommand = $command("WrapInHeading", (ctx) => {
-  return (level) => {
-    level != null ? level : level = 1;
-    if (level < 1) return setBlockType$1(paragraphSchema.type(ctx));
-    return setBlockType$1(headingSchema.type(ctx), { level });
-  };
-});
-withMeta$5(wrapInHeadingCommand, {
-  displayName: "Command<wrapInHeadingCommand>",
-  group: "Heading"
-});
-const downgradeHeadingCommand = $command(
-  "DowngradeHeading",
-  (ctx) => () => (state, dispatch, view) => {
-    const { $from } = state.selection;
-    const node = $from.node();
-    if (node.type !== headingSchema.type(ctx) || !state.selection.empty || $from.parentOffset !== 0)
-      return false;
-    const level = node.attrs.level - 1;
-    if (!level)
-      return setBlockType$1(paragraphSchema.type(ctx))(state, dispatch, view);
-    dispatch == null ? void 0 : dispatch(
-      state.tr.setNodeMarkup(state.selection.$from.before(), void 0, {
-        ...node.attrs,
-        level
-      })
-    );
-    return true;
-  }
-);
-withMeta$5(downgradeHeadingCommand, {
-  displayName: "Command<downgradeHeadingCommand>",
-  group: "Heading"
-});
-const headingKeymap = $useKeymap("headingKeymap", {
-  TurnIntoH1: {
-    shortcuts: "Mod-Alt-1",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInHeadingCommand.key, 1);
-    }
-  },
-  TurnIntoH2: {
-    shortcuts: "Mod-Alt-2",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInHeadingCommand.key, 2);
-    }
-  },
-  TurnIntoH3: {
-    shortcuts: "Mod-Alt-3",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInHeadingCommand.key, 3);
-    }
-  },
-  TurnIntoH4: {
-    shortcuts: "Mod-Alt-4",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInHeadingCommand.key, 4);
-    }
-  },
-  TurnIntoH5: {
-    shortcuts: "Mod-Alt-5",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInHeadingCommand.key, 5);
-    }
-  },
-  TurnIntoH6: {
-    shortcuts: "Mod-Alt-6",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInHeadingCommand.key, 6);
-    }
-  },
-  DowngradeHeading: {
-    shortcuts: ["Delete", "Backspace"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(downgradeHeadingCommand.key);
-    }
-  }
-});
-withMeta$5(headingKeymap.ctx, {
-  displayName: "KeymapCtx<heading>",
-  group: "Heading"
-});
-withMeta$5(headingKeymap.shortcuts, {
-  displayName: "Keymap<heading>",
-  group: "Heading"
-});
-
-const blockquoteAttr = $nodeAttr("blockquote");
-withMeta$5(blockquoteAttr, {
-  displayName: "Attr<blockquote>",
-  group: "Blockquote"
-});
-const blockquoteSchema = $nodeSchema(
-  "blockquote",
-  (ctx) => ({
-    content: "block+",
-    group: "block",
-    defining: true,
-    parseDOM: [{ tag: "blockquote" }],
-    toDOM: (node) => ["blockquote", ctx.get(blockquoteAttr.key)(node), 0],
-    parseMarkdown: {
-      match: ({ type }) => type === "blockquote",
-      runner: (state, node, type) => {
-        state.openNode(type).next(node.children).closeNode();
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === "blockquote",
-      runner: (state, node) => {
-        state.openNode("blockquote").next(node.content).closeNode();
-      }
-    }
-  })
-);
-withMeta$5(blockquoteSchema.node, {
-  displayName: "NodeSchema<blockquote>",
-  group: "Blockquote"
-});
-withMeta$5(blockquoteSchema.ctx, {
-  displayName: "NodeSchemaCtx<blockquote>",
-  group: "Blockquote"
-});
-const wrapInBlockquoteInputRule = $inputRule(
-  (ctx) => wrappingInputRule(/^\s*>\s$/, blockquoteSchema.type(ctx))
-);
-withMeta$5(wrapInBlockquoteInputRule, {
-  displayName: "InputRule<wrapInBlockquoteInputRule>",
-  group: "Blockquote"
-});
-const wrapInBlockquoteCommand = $command(
-  "WrapInBlockquote",
-  (ctx) => () => wrapIn(blockquoteSchema.type(ctx))
-);
-withMeta$5(wrapInBlockquoteCommand, {
-  displayName: "Command<wrapInBlockquoteCommand>",
-  group: "Blockquote"
-});
-const blockquoteKeymap = $useKeymap("blockquoteKeymap", {
-  WrapInBlockquote: {
-    shortcuts: "Mod-Shift-b",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInBlockquoteCommand.key);
-    }
-  }
-});
-withMeta$5(blockquoteKeymap.ctx, {
-  displayName: "KeymapCtx<blockquote>",
-  group: "Blockquote"
-});
-withMeta$5(blockquoteKeymap.shortcuts, {
-  displayName: "Keymap<blockquote>",
-  group: "Blockquote"
-});
-
-const codeBlockAttr = $nodeAttr("codeBlock", () => ({
-  pre: {},
-  code: {}
-}));
-withMeta$5(codeBlockAttr, {
-  displayName: "Attr<codeBlock>",
-  group: "CodeBlock"
-});
-const codeBlockSchema = $nodeSchema("code_block", (ctx) => {
-  return {
-    content: "text*",
-    group: "block",
-    marks: "",
-    defining: true,
-    code: true,
-    attrs: {
-      language: {
-        default: ""
-      }
-    },
-    parseDOM: [
-      {
-        tag: "pre",
-        preserveWhitespace: "full",
-        getAttrs: (dom) => {
-          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-          return { language: dom.dataset.language };
-        }
-      }
-    ],
-    toDOM: (node) => {
-      const attr = ctx.get(codeBlockAttr.key)(node);
-      return [
-        "pre",
-        {
-          ...attr.pre,
-          "data-language": node.attrs.language
-        },
-        ["code", attr.code, 0]
-      ];
-    },
-    parseMarkdown: {
-      match: ({ type }) => type === "code",
-      runner: (state, node, type) => {
-        const language = node.lang;
-        const value = node.value;
-        state.openNode(type, { language });
-        if (value) state.addText(value);
-        state.closeNode();
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === "code_block",
-      runner: (state, node) => {
-        var _a;
-        state.addNode("code", void 0, ((_a = node.content.firstChild) == null ? void 0 : _a.text) || "", {
-          lang: node.attrs.language
-        });
-      }
-    }
-  };
-});
-withMeta$5(codeBlockSchema.node, {
-  displayName: "NodeSchema<codeBlock>",
-  group: "CodeBlock"
-});
-withMeta$5(codeBlockSchema.ctx, {
-  displayName: "NodeSchemaCtx<codeBlock>",
-  group: "CodeBlock"
-});
-const createCodeBlockInputRule = $inputRule(
-  (ctx) => textblockTypeInputRule(
-    /^```(?<language>[a-z]*)?[\s\n]$/,
-    codeBlockSchema.type(ctx),
-    (match) => {
-      var _a, _b;
-      return {
-        language: (_b = (_a = match.groups) == null ? void 0 : _a.language) != null ? _b : ""
-      };
-    }
-  )
-);
-withMeta$5(createCodeBlockInputRule, {
-  displayName: "InputRule<createCodeBlockInputRule>",
-  group: "CodeBlock"
-});
-const createCodeBlockCommand = $command(
-  "CreateCodeBlock",
-  (ctx) => (language = "") => setBlockType$1(codeBlockSchema.type(ctx), { language })
-);
-withMeta$5(createCodeBlockCommand, {
-  displayName: "Command<createCodeBlockCommand>",
-  group: "CodeBlock"
-});
-const updateCodeBlockLanguageCommand = $command(
-  "UpdateCodeBlockLanguage",
-  () => ({ pos, language } = {
-    pos: -1,
-    language: ""
-  }) => (state, dispatch) => {
-    if (pos >= 0) {
-      dispatch == null ? void 0 : dispatch(state.tr.setNodeAttribute(pos, "language", language));
-      return true;
-    }
-    return false;
-  }
-);
-withMeta$5(updateCodeBlockLanguageCommand, {
-  displayName: "Command<updateCodeBlockLanguageCommand>",
-  group: "CodeBlock"
-});
-const codeBlockKeymap = $useKeymap("codeBlockKeymap", {
-  CreateCodeBlock: {
-    shortcuts: "Mod-Alt-c",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(createCodeBlockCommand.key);
-    }
-  }
-});
-withMeta$5(codeBlockKeymap.ctx, {
-  displayName: "KeymapCtx<codeBlock>",
-  group: "CodeBlock"
-});
-withMeta$5(codeBlockKeymap.shortcuts, {
-  displayName: "Keymap<codeBlock>",
-  group: "CodeBlock"
-});
-
-const imageAttr = $nodeAttr("image");
-withMeta$5(imageAttr, {
-  displayName: "Attr<image>",
-  group: "Image"
-});
-const imageSchema = $nodeSchema("image", (ctx) => {
-  return {
-    inline: true,
-    group: "inline",
-    selectable: true,
-    draggable: true,
-    marks: "",
-    atom: true,
-    defining: true,
-    isolating: true,
-    attrs: {
-      src: { default: "" },
-      alt: { default: "" },
-      title: { default: "" }
-    },
-    parseDOM: [
-      {
-        tag: "img[src]",
-        getAttrs: (dom) => {
-          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-          return {
-            src: dom.getAttribute("src") || "",
-            alt: dom.getAttribute("alt") || "",
-            title: dom.getAttribute("title") || dom.getAttribute("alt") || ""
-          };
-        }
-      }
-    ],
-    toDOM: (node) => {
-      return ["img", { ...ctx.get(imageAttr.key)(node), ...node.attrs }];
-    },
-    parseMarkdown: {
-      match: ({ type }) => type === "image",
-      runner: (state, node, type) => {
-        const url = node.url;
-        const alt = node.alt;
-        const title = node.title;
-        state.addNode(type, {
-          src: url,
-          alt,
-          title
-        });
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === "image",
-      runner: (state, node) => {
-        state.addNode("image", void 0, void 0, {
-          title: node.attrs.title,
-          url: node.attrs.src,
-          alt: node.attrs.alt
-        });
-      }
-    }
-  };
-});
-withMeta$5(imageSchema.node, {
-  displayName: "NodeSchema<image>",
-  group: "Image"
-});
-withMeta$5(imageSchema.ctx, {
-  displayName: "NodeSchemaCtx<image>",
-  group: "Image"
-});
-const insertImageCommand = $command(
-  "InsertImage",
-  (ctx) => (payload = {}) => (state, dispatch) => {
-    if (!dispatch) return true;
-    const { src = "", alt = "", title = "" } = payload;
-    const node = imageSchema.type(ctx).create({ src, alt, title });
-    if (!node) return true;
-    dispatch(state.tr.replaceSelectionWith(node).scrollIntoView());
-    return true;
-  }
-);
-withMeta$5(insertImageCommand, {
-  displayName: "Command<insertImageCommand>",
-  group: "Image"
-});
-const updateImageCommand = $command(
-  "UpdateImage",
-  (ctx) => (payload = {}) => (state, dispatch) => {
-    const nodeWithPos = findSelectedNodeOfType(
-      state.selection,
-      imageSchema.type(ctx)
-    );
-    if (!nodeWithPos) return false;
-    const { node, pos } = nodeWithPos;
-    const newAttrs = { ...node.attrs };
-    const { src, alt, title } = payload;
-    if (src !== void 0) newAttrs.src = src;
-    if (alt !== void 0) newAttrs.alt = alt;
-    if (title !== void 0) newAttrs.title = title;
-    dispatch == null ? void 0 : dispatch(
-      state.tr.setNodeMarkup(pos, void 0, newAttrs).scrollIntoView()
-    );
-    return true;
-  }
-);
-withMeta$5(updateImageCommand, {
-  displayName: "Command<updateImageCommand>",
-  group: "Image"
-});
-const insertImageInputRule = $inputRule(
-  (ctx) => new InputRule(
-    /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
-    (state, match, start, end) => {
-      const [matched, alt, src = "", title] = match;
-      if (matched)
-        return state.tr.replaceWith(
-          start,
-          end,
-          imageSchema.type(ctx).create({ src, alt, title })
-        );
-      return null;
-    }
-  )
-);
-withMeta$5(insertImageInputRule, {
-  displayName: "InputRule<insertImageInputRule>",
-  group: "Image"
-});
-
-const hardbreakAttr = $nodeAttr("hardbreak", (node) => {
-  return {
-    "data-type": "hardbreak",
-    "data-is-inline": node.attrs.isInline
-  };
-});
-withMeta$5(hardbreakAttr, {
-  displayName: "Attr<hardbreak>",
-  group: "Hardbreak"
-});
-const hardbreakSchema = $nodeSchema("hardbreak", (ctx) => ({
-  inline: true,
-  group: "inline",
-  attrs: {
-    isInline: {
-      default: false
-    }
-  },
-  selectable: false,
-  parseDOM: [
-    { tag: "br" },
-    {
-      tag: 'span[data-type="hardbreak"]',
-      getAttrs: () => ({ isInline: true })
-    }
-  ],
-  toDOM: (node) => node.attrs.isInline ? ["span", ctx.get(hardbreakAttr.key)(node), " "] : ["br", ctx.get(hardbreakAttr.key)(node)],
-  parseMarkdown: {
-    match: ({ type }) => type === "break",
-    runner: (state, node, type) => {
-      var _a;
-      state.addNode(type, {
-        isInline: Boolean(
-          (_a = node.data) == null ? void 0 : _a.isInline
-        )
-      });
-    }
-  },
-  leafText: () => "\n",
-  toMarkdown: {
-    match: (node) => node.type.name === "hardbreak",
-    runner: (state, node) => {
-      if (node.attrs.isInline) state.addNode("text", void 0, "\n");
-      else state.addNode("break");
-    }
-  }
-}));
-withMeta$5(hardbreakSchema.node, {
-  displayName: "NodeSchema<hardbreak>",
-  group: "Hardbreak"
-});
-withMeta$5(hardbreakSchema.ctx, {
-  displayName: "NodeSchemaCtx<hardbreak>",
-  group: "Hardbreak"
-});
-const insertHardbreakCommand = $command(
-  "InsertHardbreak",
-  (ctx) => () => (state, dispatch) => {
-    var _a;
-    const { selection, tr } = state;
-    if (!(selection instanceof TextSelection)) return false;
-    if (selection.empty) {
-      const node = selection.$from.node();
-      if (node.childCount > 0 && ((_a = node.lastChild) == null ? void 0 : _a.type.name) === "hardbreak") {
-        dispatch == null ? void 0 : dispatch(
-          tr.replaceRangeWith(
-            selection.to - 1,
-            selection.to,
-            state.schema.node("paragraph")
-          ).setSelection(Selection.near(tr.doc.resolve(selection.to))).scrollIntoView()
-        );
-        return true;
-      }
-    }
-    dispatch == null ? void 0 : dispatch(
-      tr.setMeta("hardbreak", true).replaceSelectionWith(hardbreakSchema.type(ctx).create()).scrollIntoView()
-    );
-    return true;
-  }
-);
-withMeta$5(insertHardbreakCommand, {
-  displayName: "Command<insertHardbreakCommand>",
-  group: "Hardbreak"
-});
-const hardbreakKeymap = $useKeymap("hardbreakKeymap", {
-  InsertHardbreak: {
-    shortcuts: "Shift-Enter",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(insertHardbreakCommand.key);
-    }
-  }
-});
-withMeta$5(hardbreakKeymap.ctx, {
-  displayName: "KeymapCtx<hardbreak>",
-  group: "Hardbreak"
-});
-withMeta$5(hardbreakKeymap.shortcuts, {
-  displayName: "Keymap<hardbreak>",
-  group: "Hardbreak"
-});
-
-const hrAttr = $nodeAttr("hr");
-withMeta$5(hrAttr, {
-  displayName: "Attr<hr>",
-  group: "Hr"
-});
-const hrSchema = $nodeSchema("hr", (ctx) => ({
-  group: "block",
-  parseDOM: [{ tag: "hr" }],
-  toDOM: (node) => ["hr", ctx.get(hrAttr.key)(node)],
-  parseMarkdown: {
-    match: ({ type }) => type === "thematicBreak",
-    runner: (state, _, type) => {
-      state.addNode(type);
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "hr",
-    runner: (state) => {
-      state.addNode("thematicBreak");
-    }
-  }
-}));
-withMeta$5(hrSchema.node, {
-  displayName: "NodeSchema<hr>",
-  group: "Hr"
-});
-withMeta$5(hrSchema.ctx, {
-  displayName: "NodeSchemaCtx<hr>",
-  group: "Hr"
-});
-const insertHrInputRule = $inputRule(
-  (ctx) => new InputRule(/^(?:---|___\s|\*\*\*\s)$/, (state, match, start, end) => {
-    const { tr } = state;
-    if (match[0]) tr.replaceWith(start - 1, end, hrSchema.type(ctx).create());
-    return tr;
-  })
-);
-withMeta$5(insertHrInputRule, {
-  displayName: "InputRule<insertHrInputRule>",
-  group: "Hr"
-});
-const insertHrCommand = $command(
-  "InsertHr",
-  (ctx) => () => (state, dispatch) => {
-    if (!dispatch) return true;
-    const paragraph = paragraphSchema.node.type(ctx).create();
-    const { tr, selection } = state;
-    const { from } = selection;
-    const node = hrSchema.type(ctx).create();
-    if (!node) return true;
-    const _tr = tr.replaceSelectionWith(node).insert(from, paragraph);
-    const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true);
-    if (!sel) return true;
-    dispatch(_tr.setSelection(sel).scrollIntoView());
-    return true;
-  }
-);
-withMeta$5(insertHrCommand, {
-  displayName: "Command<insertHrCommand>",
-  group: "Hr"
-});
-
-const bulletListAttr = $nodeAttr("bulletList");
-withMeta$5(bulletListAttr, {
-  displayName: "Attr<bulletList>",
-  group: "BulletList"
-});
-const bulletListSchema = $nodeSchema("bullet_list", (ctx) => {
-  return {
-    content: "listItem+",
-    group: "block",
-    attrs: {
-      spread: {
-        default: false
-      }
-    },
-    parseDOM: [
-      {
-        tag: "ul",
-        getAttrs: (dom) => {
-          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-          return {
-            spread: dom.dataset.spread
-          };
-        }
-      }
-    ],
-    toDOM: (node) => {
-      return [
-        "ul",
-        {
-          ...ctx.get(bulletListAttr.key)(node),
-          "data-spread": node.attrs.spread
-        },
-        0
-      ];
-    },
-    parseMarkdown: {
-      match: ({ type, ordered }) => type === "list" && !ordered,
-      runner: (state, node, type) => {
-        const spread = node.spread != null ? `${node.spread}` : "false";
-        state.openNode(type, { spread }).next(node.children).closeNode();
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === "bullet_list",
-      runner: (state, node) => {
-        state.openNode("list", void 0, {
-          ordered: false,
-          spread: node.attrs.spread === "true"
-        }).next(node.content).closeNode();
-      }
-    }
-  };
-});
-withMeta$5(bulletListSchema.node, {
-  displayName: "NodeSchema<bulletList>",
-  group: "BulletList"
-});
-withMeta$5(bulletListSchema.ctx, {
-  displayName: "NodeSchemaCtx<bulletList>",
-  group: "BulletList"
-});
-const wrapInBulletListInputRule = $inputRule(
-  (ctx) => wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type(ctx))
-);
-withMeta$5(wrapInBulletListInputRule, {
-  displayName: "InputRule<wrapInBulletListInputRule>",
-  group: "BulletList"
-});
-const wrapInBulletListCommand = $command(
-  "WrapInBulletList",
-  (ctx) => () => wrapIn(bulletListSchema.type(ctx))
-);
-withMeta$5(wrapInBulletListCommand, {
-  displayName: "Command<wrapInBulletListCommand>",
-  group: "BulletList"
-});
-const bulletListKeymap = $useKeymap("bulletListKeymap", {
-  WrapInBulletList: {
-    shortcuts: "Mod-Alt-8",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInBulletListCommand.key);
-    }
-  }
-});
-withMeta$5(bulletListKeymap.ctx, {
-  displayName: "KeymapCtx<bulletListKeymap>",
-  group: "BulletList"
-});
-withMeta$5(bulletListKeymap.shortcuts, {
-  displayName: "Keymap<bulletListKeymap>",
-  group: "BulletList"
-});
-
-const orderedListAttr = $nodeAttr("orderedList");
-withMeta$5(orderedListAttr, {
-  displayName: "Attr<orderedList>",
-  group: "OrderedList"
-});
-const orderedListSchema = $nodeSchema("ordered_list", (ctx) => ({
-  content: "listItem+",
-  group: "block",
-  attrs: {
-    order: {
-      default: 1
-    },
-    spread: {
-      default: false
-    }
-  },
-  parseDOM: [
-    {
-      tag: "ol",
-      getAttrs: (dom) => {
-        if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-        return {
-          spread: dom.dataset.spread,
-          order: dom.hasAttribute("start") ? Number(dom.getAttribute("start")) : 1
-        };
-      }
-    }
-  ],
-  toDOM: (node) => [
-    "ol",
-    {
-      ...ctx.get(orderedListAttr.key)(node),
-      ...node.attrs.order === 1 ? {} : node.attrs.order,
-      "data-spread": node.attrs.spread
-    },
-    0
-  ],
-  parseMarkdown: {
-    match: ({ type, ordered }) => type === "list" && !!ordered,
-    runner: (state, node, type) => {
-      const spread = node.spread != null ? `${node.spread}` : "true";
-      state.openNode(type, { spread }).next(node.children).closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "ordered_list",
-    runner: (state, node) => {
-      state.openNode("list", void 0, {
-        ordered: true,
-        start: 1,
-        spread: node.attrs.spread === "true"
-      });
-      state.next(node.content);
-      state.closeNode();
-    }
-  }
-}));
-withMeta$5(orderedListSchema.node, {
-  displayName: "NodeSchema<orderedList>",
-  group: "OrderedList"
-});
-withMeta$5(orderedListSchema.ctx, {
-  displayName: "NodeSchemaCtx<orderedList>",
-  group: "OrderedList"
-});
-const wrapInOrderedListInputRule = $inputRule(
-  (ctx) => wrappingInputRule(
-    /^\s*(\d+)\.\s$/,
-    orderedListSchema.type(ctx),
-    (match) => ({ order: Number(match[1]) }),
-    (match, node) => node.childCount + node.attrs.order === Number(match[1])
-  )
-);
-withMeta$5(wrapInOrderedListInputRule, {
-  displayName: "InputRule<wrapInOrderedListInputRule>",
-  group: "OrderedList"
-});
-const wrapInOrderedListCommand = $command(
-  "WrapInOrderedList",
-  (ctx) => () => wrapIn(orderedListSchema.type(ctx))
-);
-withMeta$5(wrapInOrderedListCommand, {
-  displayName: "Command<wrapInOrderedListCommand>",
-  group: "OrderedList"
-});
-const orderedListKeymap = $useKeymap("orderedListKeymap", {
-  WrapInOrderedList: {
-    shortcuts: "Mod-Alt-7",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(wrapInOrderedListCommand.key);
-    }
-  }
-});
-withMeta$5(orderedListKeymap.ctx, {
-  displayName: "KeymapCtx<orderedList>",
-  group: "OrderedList"
-});
-withMeta$5(orderedListKeymap.shortcuts, {
-  displayName: "Keymap<orderedList>",
-  group: "OrderedList"
-});
-
 /**
 Build a command that splits a non-empty textblock at the top level
 of a list item by also splitting that list item.
@@ -35395,397 +33132,6 @@ function sinkListItem(itemType) {
     };
 }
 
-const listItemAttr = $nodeAttr("listItem");
-withMeta$5(listItemAttr, {
-  displayName: "Attr<listItem>",
-  group: "ListItem"
-});
-const listItemSchema = $nodeSchema("list_item", (ctx) => ({
-  group: "listItem",
-  content: "(paragraph|blockquote) block*",
-  attrs: {
-    label: {
-      default: "\u2022"
-    },
-    listType: {
-      default: "bullet"
-    },
-    spread: {
-      default: "true"
-    }
-  },
-  defining: true,
-  parseDOM: [
-    {
-      tag: "li",
-      getAttrs: (dom) => {
-        if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-        return {
-          label: dom.dataset.label,
-          listType: dom.dataset.listType,
-          spread: dom.dataset.spread
-        };
-      }
-    }
-  ],
-  toDOM: (node) => [
-    "li",
-    {
-      ...ctx.get(listItemAttr.key)(node),
-      "data-label": node.attrs.label,
-      "data-list-type": node.attrs.listType,
-      "data-spread": node.attrs.spread
-    },
-    0
-  ],
-  parseMarkdown: {
-    match: ({ type }) => type === "listItem",
-    runner: (state, node, type) => {
-      const label = node.label != null ? `${node.label}.` : "\u2022";
-      const listType = node.label != null ? "ordered" : "bullet";
-      const spread = node.spread != null ? `${node.spread}` : "true";
-      state.openNode(type, { label, listType, spread });
-      state.next(node.children);
-      state.closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "list_item",
-    runner: (state, node) => {
-      state.openNode("listItem", void 0, {
-        spread: node.attrs.spread === "true"
-      });
-      state.next(node.content);
-      state.closeNode();
-    }
-  }
-}));
-withMeta$5(listItemSchema.node, {
-  displayName: "NodeSchema<listItem>",
-  group: "ListItem"
-});
-withMeta$5(listItemSchema.ctx, {
-  displayName: "NodeSchemaCtx<listItem>",
-  group: "ListItem"
-});
-const sinkListItemCommand = $command(
-  "SinkListItem",
-  (ctx) => () => sinkListItem(listItemSchema.type(ctx))
-);
-withMeta$5(sinkListItemCommand, {
-  displayName: "Command<sinkListItemCommand>",
-  group: "ListItem"
-});
-const liftListItemCommand = $command(
-  "LiftListItem",
-  (ctx) => () => liftListItem(listItemSchema.type(ctx))
-);
-withMeta$5(liftListItemCommand, {
-  displayName: "Command<liftListItemCommand>",
-  group: "ListItem"
-});
-const splitListItemCommand = $command(
-  "SplitListItem",
-  (ctx) => () => splitListItem(listItemSchema.type(ctx))
-);
-withMeta$5(splitListItemCommand, {
-  displayName: "Command<splitListItemCommand>",
-  group: "ListItem"
-});
-function liftFirstListItem(ctx) {
-  return (state, dispatch, view) => {
-    const { selection } = state;
-    if (!(selection instanceof TextSelection)) return false;
-    const { empty, $from } = selection;
-    if (!empty || $from.parentOffset !== 0) return false;
-    const parentItem = $from.node(-1);
-    if (parentItem.type !== listItemSchema.type(ctx) || parentItem.firstChild !== $from.node())
-      return false;
-    const list = $from.node(-2);
-    if (list.childCount > 1) return false;
-    return liftListItem(listItemSchema.type(ctx))(state, dispatch, view);
-  };
-}
-const liftFirstListItemCommand = $command(
-  "LiftFirstListItem",
-  (ctx) => () => liftFirstListItem(ctx)
-);
-withMeta$5(liftFirstListItemCommand, {
-  displayName: "Command<liftFirstListItemCommand>",
-  group: "ListItem"
-});
-const listItemKeymap = $useKeymap("listItemKeymap", {
-  NextListItem: {
-    shortcuts: "Enter",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(splitListItemCommand.key);
-    }
-  },
-  SinkListItem: {
-    shortcuts: ["Tab", "Mod-]"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(sinkListItemCommand.key);
-    }
-  },
-  LiftListItem: {
-    shortcuts: ["Shift-Tab", "Mod-["],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(liftListItemCommand.key);
-    }
-  },
-  LiftFirstListItem: {
-    shortcuts: ["Backspace", "Delete"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(liftFirstListItemCommand.key);
-    }
-  }
-});
-withMeta$5(listItemKeymap.ctx, {
-  displayName: "KeymapCtx<listItem>",
-  group: "ListItem"
-});
-withMeta$5(listItemKeymap.shortcuts, {
-  displayName: "Keymap<listItem>",
-  group: "ListItem"
-});
-
-const textSchema = $node("text", () => ({
-  group: "inline",
-  parseMarkdown: {
-    match: ({ type }) => type === "text",
-    runner: (state, node) => {
-      state.addText(node.value);
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "text",
-    runner: (state, node) => {
-      state.addNode("text", void 0, node.text);
-    }
-  }
-}));
-withMeta$5(textSchema, {
-  displayName: "NodeSchema<text>",
-  group: "Text"
-});
-
-const htmlAttr = $nodeAttr("html");
-withMeta$5(htmlAttr, {
-  displayName: "Attr<html>",
-  group: "Html"
-});
-const htmlSchema = $nodeSchema("html", (ctx) => {
-  return {
-    atom: true,
-    group: "inline",
-    inline: true,
-    attrs: {
-      value: {
-        default: ""
-      }
-    },
-    toDOM: (node) => {
-      const span = document.createElement("span");
-      const attr = {
-        ...ctx.get(htmlAttr.key)(node),
-        "data-value": node.attrs.value,
-        "data-type": "html"
-      };
-      span.textContent = node.attrs.value;
-      return ["span", attr, node.attrs.value];
-    },
-    parseDOM: [
-      {
-        tag: 'span[data-type="html"]',
-        getAttrs: (dom) => {
-          var _a;
-          return {
-            value: (_a = dom.dataset.value) != null ? _a : ""
-          };
-        }
-      }
-    ],
-    parseMarkdown: {
-      match: ({ type }) => Boolean(type === "html"),
-      runner: (state, node, type) => {
-        state.addNode(type, { value: node.value });
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === "html",
-      runner: (state, node) => {
-        state.addNode("html", void 0, node.attrs.value);
-      }
-    }
-  };
-});
-withMeta$5(htmlSchema.node, {
-  displayName: "NodeSchema<html>",
-  group: "Html"
-});
-withMeta$5(htmlSchema.ctx, {
-  displayName: "NodeSchemaCtx<html>",
-  group: "Html"
-});
-
-const schema$1 = [
-  docSchema,
-  paragraphAttr,
-  paragraphSchema,
-  headingIdGenerator,
-  headingAttr,
-  headingSchema,
-  hardbreakAttr,
-  hardbreakSchema,
-  blockquoteAttr,
-  blockquoteSchema,
-  codeBlockAttr,
-  codeBlockSchema,
-  hrAttr,
-  hrSchema,
-  imageAttr,
-  imageSchema,
-  bulletListAttr,
-  bulletListSchema,
-  orderedListAttr,
-  orderedListSchema,
-  listItemAttr,
-  listItemSchema,
-  emphasisAttr,
-  emphasisSchema,
-  strongAttr,
-  strongSchema,
-  inlineCodeAttr,
-  inlineCodeSchema,
-  linkAttr,
-  linkSchema,
-  htmlAttr,
-  htmlSchema,
-  textSchema
-].flat();
-
-const inputRules$1 = [
-  wrapInBlockquoteInputRule,
-  wrapInBulletListInputRule,
-  wrapInOrderedListInputRule,
-  createCodeBlockInputRule,
-  insertHrInputRule,
-  wrapInHeadingInputRule
-].flat();
-const markInputRules$1 = [
-  emphasisStarInputRule,
-  emphasisUnderscoreInputRule,
-  inlineCodeInputRule,
-  strongInputRule
-];
-
-const commands$1 = [
-  turnIntoTextCommand,
-  wrapInBlockquoteCommand,
-  wrapInHeadingCommand,
-  downgradeHeadingCommand,
-  createCodeBlockCommand,
-  insertHardbreakCommand,
-  insertHrCommand,
-  insertImageCommand,
-  updateImageCommand,
-  wrapInOrderedListCommand,
-  wrapInBulletListCommand,
-  sinkListItemCommand,
-  splitListItemCommand,
-  liftListItemCommand,
-  liftFirstListItemCommand,
-  toggleEmphasisCommand,
-  toggleInlineCodeCommand,
-  toggleStrongCommand,
-  toggleLinkCommand,
-  updateLinkCommand
-];
-
-const keymap$1 = [
-  blockquoteKeymap,
-  codeBlockKeymap,
-  hardbreakKeymap,
-  headingKeymap,
-  listItemKeymap,
-  orderedListKeymap,
-  bulletListKeymap,
-  paragraphKeymap,
-  emphasisKeymap,
-  inlineCodeKeymap,
-  strongKeymap
-].flat();
-
-const remarkAddOrderInListPlugin = $remark(
-  "remarkAddOrderInList",
-  () => () => (tree) => {
-    visit(tree, "list", (node) => {
-      var _a;
-      if (node.ordered) {
-        const start = (_a = node.start) != null ? _a : 1;
-        node.children.forEach((child, index) => {
-          child.label = index + start;
-        });
-      }
-    });
-  }
-);
-withMeta$5(remarkAddOrderInListPlugin.plugin, {
-  displayName: "Remark<remarkAddOrderInListPlugin>",
-  group: "Remark"
-});
-withMeta$5(remarkAddOrderInListPlugin.options, {
-  displayName: "RemarkConfig<remarkAddOrderInListPlugin>",
-  group: "Remark"
-});
-
-const remarkLineBreak = $remark(
-  "remarkLineBreak",
-  () => () => (tree) => {
-    const find = /[\t ]*(?:\r?\n|\r)/g;
-    visit(
-      tree,
-      "text",
-      (node, index, parent) => {
-        if (!node.value || typeof node.value !== "string") return;
-        const result = [];
-        let start = 0;
-        find.lastIndex = 0;
-        let match = find.exec(node.value);
-        while (match) {
-          const position = match.index;
-          if (start !== position)
-            result.push({
-              type: "text",
-              value: node.value.slice(start, position)
-            });
-          result.push({ type: "break", data: { isInline: true } });
-          start = position + match[0].length;
-          match = find.exec(node.value);
-        }
-        const hasResultAndIndex = result.length > 0 && parent && typeof index === "number";
-        if (!hasResultAndIndex) return;
-        if (start < node.value.length)
-          result.push({ type: "text", value: node.value.slice(start) });
-        parent.children.splice(index, 1, ...result);
-        return index + result.length;
-      }
-    );
-  }
-);
-withMeta$5(remarkLineBreak.plugin, {
-  displayName: "Remark<remarkLineBreak>",
-  group: "Remark"
-});
-withMeta$5(remarkLineBreak.options, {
-  displayName: "RemarkConfig<remarkLineBreak>",
-  group: "Remark"
-});
-
 /**
  * @typedef {import('mdast').Definition} Definition
  * @typedef {import('mdast').Nodes} Nodes
@@ -35888,389 +33234,1684 @@ function remarkInlineLinks() {
   }
 }
 
-const remarkInlineLinkPlugin = $remark(
-  "remarkInlineLink",
-  () => remarkInlineLinks
-);
-withMeta$5(remarkInlineLinkPlugin.plugin, {
+function at$1(t, e) {
+  var o;
+  if (!(e.childCount >= 1 && ((o = e.lastChild) == null ? void 0 : o.type.name) === "hardbreak")) {
+    t.next(e.content);
+    return;
+  }
+  const a = [];
+  e.content.forEach((s, l, i) => {
+    i !== e.childCount - 1 && a.push(s);
+  }), t.next(Fragment.fromArray(a));
+}
+function n$3(t, e) {
+  return Object.assign(t, {
+    meta: {
+      package: "@milkdown/preset-commonmark",
+      ...e
+    }
+  }), t;
+}
+const ee$1 = we$2("emphasis");
+n$3(ee$1, {
+  displayName: "Attr<emphasis>",
+  group: "Emphasis"
+});
+const R$2 = ye$2("emphasis", (t) => ({
+  attrs: {
+    marker: {
+      default: t.get(Q$4).emphasis || "*"
+    }
+  },
+  parseDOM: [
+    { tag: "i" },
+    { tag: "em" },
+    { style: "font-style", getAttrs: (e) => e === "italic" }
+  ],
+  toDOM: (e) => ["em", t.get(ee$1.key)(e)],
+  parseMarkdown: {
+    match: (e) => e.type === "emphasis",
+    runner: (e, r, a) => {
+      e.openMark(a, { marker: r.marker }), e.next(r.children), e.closeMark(a);
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "emphasis",
+    runner: (e, r) => {
+      e.withMark(r, "emphasis", void 0, {
+        marker: r.attrs.marker
+      });
+    }
+  }
+}));
+n$3(R$2.mark, {
+  displayName: "MarkSchema<emphasis>",
+  group: "Emphasis"
+});
+n$3(R$2.ctx, {
+  displayName: "MarkSchemaCtx<emphasis>",
+  group: "Emphasis"
+});
+const te$1 = re$1("ToggleEmphasis", (t) => () => toggleMark(R$2.type(t)));
+n$3(te$1, {
+  displayName: "Command<toggleEmphasisCommand>",
+  group: "Emphasis"
+});
+const nt$2 = oe$2((t) => markRule(/(?:^|[^*])\*([^*]+)\*$/, R$2.type(t), {
+  getAttr: () => ({
+    marker: "*"
+  }),
+  updateCaptured: ({ fullMatch: e, start: r }) => e.startsWith("*") ? {} : { fullMatch: e.slice(1), start: r + 1 }
+}));
+n$3(nt$2, {
+  displayName: "InputRule<emphasis>|Star",
+  group: "Emphasis"
+});
+const ot$2 = oe$2((t) => markRule(/(?:^|[^_])_([^_]+)_$/, R$2.type(t), {
+  getAttr: () => ({
+    marker: "_"
+  }),
+  updateCaptured: ({ fullMatch: e, start: r }) => e.startsWith("_") ? {} : { fullMatch: e.slice(1), start: r + 1 }
+}));
+n$3(ot$2, {
+  displayName: "InputRule<emphasis>|Underscore",
+  group: "Emphasis"
+});
+const re = ge$2("emphasisKeymap", {
+  ToggleEmphasis: {
+    shortcuts: "Mod-i",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(te$1.key);
+    }
+  }
+});
+n$3(re.ctx, {
+  displayName: "KeymapCtx<emphasis>",
+  group: "Emphasis"
+});
+n$3(re.shortcuts, {
+  displayName: "Keymap<emphasis>",
+  group: "Emphasis"
+});
+const ae = we$2("strong");
+n$3(ae, {
+  displayName: "Attr<strong>",
+  group: "Strong"
+});
+const $$2 = ye$2("strong", (t) => ({
+  attrs: {
+    marker: {
+      default: t.get(Q$4).strong || "*"
+    }
+  },
+  parseDOM: [
+    { tag: "b" },
+    { tag: "strong" },
+    { style: "font-style", getAttrs: (e) => e === "bold" }
+  ],
+  toDOM: (e) => ["strong", t.get(ae.key)(e)],
+  parseMarkdown: {
+    match: (e) => e.type === "strong",
+    runner: (e, r, a) => {
+      e.openMark(a, { marker: r.marker }), e.next(r.children), e.closeMark(a);
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "strong",
+    runner: (e, r) => {
+      e.withMark(r, "strong", void 0, {
+        marker: r.attrs.marker
+      });
+    }
+  }
+}));
+n$3($$2.mark, {
+  displayName: "MarkSchema<strong>",
+  group: "Strong"
+});
+n$3($$2.ctx, {
+  displayName: "MarkSchemaCtx<strong>",
+  group: "Strong"
+});
+const ne = re$1("ToggleStrong", (t) => () => toggleMark($$2.type(t)));
+n$3(ne, {
+  displayName: "Command<toggleStrongCommand>",
+  group: "Strong"
+});
+const st$2 = oe$2((t) => markRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, $$2.type(t), {
+  getAttr: (e) => ({
+    marker: e[0].startsWith("*") ? "*" : "_"
+  })
+}));
+n$3(st$2, {
+  displayName: "InputRule<strong>",
+  group: "Strong"
+});
+const oe$1 = ge$2("strongKeymap", {
+  ToggleBold: {
+    shortcuts: ["Mod-b"],
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(ne.key);
+    }
+  }
+});
+n$3(oe$1.ctx, {
+  displayName: "KeymapCtx<strong>",
+  group: "Strong"
+});
+n$3(oe$1.shortcuts, {
+  displayName: "Keymap<strong>",
+  group: "Strong"
+});
+const se = we$2("inlineCode");
+n$3(se, {
+  displayName: "Attr<inlineCode>",
+  group: "InlineCode"
+});
+const x$3 = ye$2("inlineCode", (t) => ({
+  priority: 100,
+  code: !0,
+  inclusive: !1,
+  parseDOM: [{ tag: "code" }],
+  toDOM: (e) => ["code", t.get(se.key)(e)],
+  parseMarkdown: {
+    match: (e) => e.type === "inlineCode",
+    runner: (e, r, a) => {
+      e.openMark(a), e.addText(r.value), e.closeMark(a);
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "inlineCode",
+    runner: (e, r, a) => {
+      e.withMark(r, "inlineCode", a.text || "");
+    }
+  }
+}));
+n$3(x$3.mark, {
+  displayName: "MarkSchema<inlineCode>",
+  group: "InlineCode"
+});
+n$3(x$3.ctx, {
+  displayName: "MarkSchemaCtx<inlineCode>",
+  group: "InlineCode"
+});
+const le = re$1("ToggleInlineCode", (t) => () => (e, r) => {
+  const { selection: a, tr: o } = e;
+  if (a.empty)
+    return !1;
+  const { from: s, to: l } = a;
+  return e.doc.rangeHasMark(s, l, x$3.type(t)) ? (r == null || r(o.removeMark(s, l, x$3.type(t))), !0) : (Object.keys(e.schema.marks).filter((m) => m !== x$3.type.name).map((m) => e.schema.marks[m]).forEach((m) => {
+    o.removeMark(s, l, m);
+  }), r == null || r(o.addMark(s, l, x$3.type(t).create())), !0);
+});
+n$3(le, {
+  displayName: "Command<toggleInlineCodeCommand>",
+  group: "InlineCode"
+});
+const lt$1 = oe$2((t) => markRule(/(?:\`)([^\`]+)(?:\`)$/, x$3.type(t)));
+n$3(lt$1, {
+  displayName: "InputRule<inlineCodeInputRule>",
+  group: "InlineCode"
+});
+const ie$2 = ge$2("inlineCodeKeymap", {
+  ToggleInlineCode: {
+    shortcuts: "Mod-e",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(le.key);
+    }
+  }
+});
+n$3(ie$2.ctx, {
+  displayName: "KeymapCtx<inlineCode>",
+  group: "InlineCode"
+});
+n$3(ie$2.shortcuts, {
+  displayName: "Keymap<inlineCode>",
+  group: "InlineCode"
+});
+const de$1 = we$2("link");
+n$3(de$1, {
+  displayName: "Attr<link>",
+  group: "Link"
+});
+const B$2 = ye$2("link", (t) => ({
+  attrs: {
+    href: {},
+    title: { default: null }
+  },
+  parseDOM: [
+    {
+      tag: "a[href]",
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return { href: e.getAttribute("href"), title: e.getAttribute("title") };
+      }
+    }
+  ],
+  toDOM: (e) => ["a", { ...t.get(de$1.key)(e), ...e.attrs }],
+  parseMarkdown: {
+    match: (e) => e.type === "link",
+    runner: (e, r, a) => {
+      const o = r.url, s = r.title;
+      e.openMark(a, { href: o, title: s }), e.next(r.children), e.closeMark(a);
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "link",
+    runner: (e, r) => {
+      e.withMark(r, "link", void 0, {
+        title: r.attrs.title,
+        url: r.attrs.href
+      });
+    }
+  }
+}));
+n$3(B$2.mark, {
+  displayName: "MarkSchema<link>",
+  group: "Link"
+});
+const it$2 = re$1("ToggleLink", (t) => (e = {}) => toggleMark(B$2.type(t), e));
+n$3(it$2, {
+  displayName: "Command<toggleLinkCommand>",
+  group: "Link"
+});
+const dt$1 = re$1("UpdateLink", (t) => (e = {}) => (r, a) => {
+  if (!a)
+    return !1;
+  let o, s = -1;
+  const { selection: l } = r, { from: i, to: d } = l;
+  if (r.doc.nodesBetween(i, i === d ? d + 1 : d, (k, b) => {
+    if (B$2.type(t).isInSet(k.marks))
+      return o = k, s = b, !1;
+  }), !o)
+    return !1;
+  const m = o.marks.find(({ type: k }) => k === B$2.type(t));
+  if (!m)
+    return !1;
+  const p = s, y = s + o.nodeSize, { tr: g } = r, C = B$2.type(t).create({ ...m.attrs, ...e });
+  return C ? (a(
+    g.removeMark(p, y, m).addMark(p, y, C).setSelection(new TextSelection(g.selection.$anchor)).scrollIntoView()
+  ), !0) : !1;
+});
+n$3(dt$1, {
+  displayName: "Command<updateLinkCommand>",
+  group: "Link"
+});
+const mt$2 = W$4("doc", () => ({
+  content: "block+",
+  parseMarkdown: {
+    match: ({ type: t }) => t === "root",
+    runner: (t, e, r) => {
+      t.injectRoot(e, r);
+    }
+  },
+  toMarkdown: {
+    match: (t) => t.type.name === "doc",
+    runner: (t, e) => {
+      t.openNode("root"), t.next(e.content);
+    }
+  }
+}));
+n$3(mt$2, {
+  displayName: "NodeSchema<doc>",
+  group: "Doc"
+});
+const me$1 = he$2("paragraph");
+n$3(me$1, {
+  displayName: "Attr<paragraph>",
+  group: "Paragraph"
+});
+const w$2 = fe$2("paragraph", (t) => ({
+  content: "inline*",
+  group: "block",
+  parseDOM: [{ tag: "p" }],
+  toDOM: (e) => ["p", t.get(me$1.key)(e), 0],
+  parseMarkdown: {
+    match: (e) => e.type === "paragraph",
+    runner: (e, r, a) => {
+      e.openNode(a), r.children ? e.next(r.children) : e.addText(r.value || ""), e.closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "paragraph",
+    runner: (e, r) => {
+      e.openNode("paragraph"), at$1(e, r), e.closeNode();
+    }
+  }
+}));
+n$3(w$2.node, {
+  displayName: "NodeSchema<paragraph>",
+  group: "Paragraph"
+});
+n$3(w$2.ctx, {
+  displayName: "NodeSchemaCtx<paragraph>",
+  group: "Paragraph"
+});
+const pe$1 = re$1("TurnIntoText", (t) => () => setBlockType$1(w$2.type(t)));
+n$3(pe$1, {
+  displayName: "Command<turnIntoTextCommand>",
+  group: "Paragraph"
+});
+const ce = ge$2("paragraphKeymap", {
+  TurnIntoText: {
+    shortcuts: "Mod-Alt-0",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(pe$1.key);
+    }
+  }
+});
+n$3(ce.ctx, {
+  displayName: "KeymapCtx<paragraph>",
+  group: "Paragraph"
+});
+n$3(ce.shortcuts, {
+  displayName: "Keymap<paragraph>",
+  group: "Paragraph"
+});
+const Dt = Array(6).fill(0).map((t, e) => e + 1);
+function _t$1(t) {
+  return slugify(t.textContent);
+}
+const z$1 = h$2(_t$1, "headingIdGenerator");
+n$3(z$1, {
+  displayName: "Ctx<HeadingIdGenerator>",
+  group: "Heading"
+});
+const ue$1 = he$2("heading");
+n$3(ue$1, {
+  displayName: "Attr<heading>",
+  group: "Heading"
+});
+const H$2 = fe$2("heading", (t) => {
+  const e = t.get(z$1.key);
+  return {
+    content: "inline*",
+    group: "block",
+    defining: !0,
+    attrs: {
+      id: {
+        default: ""
+      },
+      level: {
+        default: 1
+      }
+    },
+    parseDOM: Dt.map((r) => ({
+      tag: `h${r}`,
+      getAttrs: (a) => {
+        if (!(a instanceof HTMLElement))
+          throw S$6(a);
+        return { level: r, id: a.id };
+      }
+    })),
+    toDOM: (r) => [
+      `h${r.attrs.level}`,
+      {
+        ...t.get(ue$1.key)(r),
+        id: r.attrs.id || e(r)
+      },
+      0
+    ],
+    parseMarkdown: {
+      match: ({ type: r }) => r === "heading",
+      runner: (r, a, o) => {
+        const s = a.depth;
+        r.openNode(o, { level: s }), r.next(a.children), r.closeNode();
+      }
+    },
+    toMarkdown: {
+      match: (r) => r.type.name === "heading",
+      runner: (r, a) => {
+        r.openNode("heading", void 0, { depth: a.attrs.level }), at$1(r, a), r.closeNode();
+      }
+    }
+  };
+});
+n$3(H$2.node, {
+  displayName: "NodeSchema<heading>",
+  group: "Heading"
+});
+n$3(H$2.ctx, {
+  displayName: "NodeSchemaCtx<heading>",
+  group: "Heading"
+});
+const pt$1 = oe$2((t) => textblockTypeInputRule(/^(?<hashes>#+)\s$/, H$2.type(t), (e) => {
+  var l, i;
+  const r = ((i = (l = e.groups) == null ? void 0 : l.hashes) == null ? void 0 : i.length) || 0, a = t.get(L$4), { $from: o } = a.state.selection, s = o.node();
+  if (s.type.name === "heading") {
+    let d = Number(s.attrs.level) + Number(r);
+    return d > 6 && (d = 6), { level: d };
+  }
+  return { level: r };
+}));
+n$3(pt$1, {
+  displayName: "InputRule<wrapInHeadingInputRule>",
+  group: "Heading"
+});
+const L$3 = re$1("WrapInHeading", (t) => (e) => (e ?? (e = 1), e < 1 ? setBlockType$1(w$2.type(t)) : setBlockType$1(H$2.type(t), { level: e })));
+n$3(L$3, {
+  displayName: "Command<wrapInHeadingCommand>",
+  group: "Heading"
+});
+const ge$1 = re$1("DowngradeHeading", (t) => () => (e, r, a) => {
+  const { $from: o } = e.selection, s = o.node();
+  if (s.type !== H$2.type(t) || !e.selection.empty || o.parentOffset !== 0)
+    return !1;
+  const l = s.attrs.level - 1;
+  return l ? (r == null || r(
+    e.tr.setNodeMarkup(e.selection.$from.before(), void 0, {
+      ...s.attrs,
+      level: l
+    })
+  ), !0) : setBlockType$1(w$2.type(t))(e, r, a);
+});
+n$3(ge$1, {
+  displayName: "Command<downgradeHeadingCommand>",
+  group: "Heading"
+});
+const ke$1 = ge$2("headingKeymap", {
+  TurnIntoH1: {
+    shortcuts: "Mod-Alt-1",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(L$3.key, 1);
+    }
+  },
+  TurnIntoH2: {
+    shortcuts: "Mod-Alt-2",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(L$3.key, 2);
+    }
+  },
+  TurnIntoH3: {
+    shortcuts: "Mod-Alt-3",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(L$3.key, 3);
+    }
+  },
+  TurnIntoH4: {
+    shortcuts: "Mod-Alt-4",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(L$3.key, 4);
+    }
+  },
+  TurnIntoH5: {
+    shortcuts: "Mod-Alt-5",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(L$3.key, 5);
+    }
+  },
+  TurnIntoH6: {
+    shortcuts: "Mod-Alt-6",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(L$3.key, 6);
+    }
+  },
+  DowngradeHeading: {
+    shortcuts: ["Delete", "Backspace"],
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(ge$1.key);
+    }
+  }
+});
+n$3(ke$1.ctx, {
+  displayName: "KeymapCtx<heading>",
+  group: "Heading"
+});
+n$3(ke$1.shortcuts, {
+  displayName: "Keymap<heading>",
+  group: "Heading"
+});
+const ye$1 = he$2("blockquote");
+n$3(ye$1, {
+  displayName: "Attr<blockquote>",
+  group: "Blockquote"
+});
+const q$2 = fe$2("blockquote", (t) => ({
+  content: "block+",
+  group: "block",
+  defining: !0,
+  parseDOM: [{ tag: "blockquote" }],
+  toDOM: (e) => ["blockquote", t.get(ye$1.key)(e), 0],
+  parseMarkdown: {
+    match: ({ type: e }) => e === "blockquote",
+    runner: (e, r, a) => {
+      e.openNode(a).next(r.children).closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "blockquote",
+    runner: (e, r) => {
+      e.openNode("blockquote").next(r.content).closeNode();
+    }
+  }
+}));
+n$3(q$2.node, {
+  displayName: "NodeSchema<blockquote>",
+  group: "Blockquote"
+});
+n$3(q$2.ctx, {
+  displayName: "NodeSchemaCtx<blockquote>",
+  group: "Blockquote"
+});
+const ct$1 = oe$2((t) => wrappingInputRule(/^\s*>\s$/, q$2.type(t)));
+n$3(ct$1, {
+  displayName: "InputRule<wrapInBlockquoteInputRule>",
+  group: "Blockquote"
+});
+const he$1 = re$1("WrapInBlockquote", (t) => () => wrapIn(q$2.type(t)));
+n$3(he$1, {
+  displayName: "Command<wrapInBlockquoteCommand>",
+  group: "Blockquote"
+});
+const fe$1 = ge$2("blockquoteKeymap", {
+  WrapInBlockquote: {
+    shortcuts: "Mod-Shift-b",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(he$1.key);
+    }
+  }
+});
+n$3(fe$1.ctx, {
+  displayName: "KeymapCtx<blockquote>",
+  group: "Blockquote"
+});
+n$3(fe$1.shortcuts, {
+  displayName: "Keymap<blockquote>",
+  group: "Blockquote"
+});
+const Ne$1 = he$2("codeBlock", () => ({
+  pre: {},
+  code: {}
+}));
+n$3(Ne$1, {
+  displayName: "Attr<codeBlock>",
+  group: "CodeBlock"
+});
+const W$3 = fe$2("code_block", (t) => ({
+  content: "text*",
+  group: "block",
+  marks: "",
+  defining: !0,
+  code: !0,
+  attrs: {
+    language: {
+      default: ""
+    }
+  },
+  parseDOM: [
+    {
+      tag: "pre",
+      preserveWhitespace: "full",
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return { language: e.dataset.language };
+      }
+    }
+  ],
+  toDOM: (e) => {
+    const r = t.get(Ne$1.key)(e);
+    return [
+      "pre",
+      {
+        ...r.pre,
+        "data-language": e.attrs.language
+      },
+      ["code", r.code, 0]
+    ];
+  },
+  parseMarkdown: {
+    match: ({ type: e }) => e === "code",
+    runner: (e, r, a) => {
+      const o = r.lang, s = r.value;
+      e.openNode(a, { language: o }), s && e.addText(s), e.closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "code_block",
+    runner: (e, r) => {
+      var a;
+      e.addNode("code", void 0, ((a = r.content.firstChild) == null ? void 0 : a.text) || "", {
+        lang: r.attrs.language
+      });
+    }
+  }
+}));
+n$3(W$3.node, {
+  displayName: "NodeSchema<codeBlock>",
+  group: "CodeBlock"
+});
+n$3(W$3.ctx, {
+  displayName: "NodeSchemaCtx<codeBlock>",
+  group: "CodeBlock"
+});
+const ut$1 = oe$2((t) => textblockTypeInputRule(/^```(?<language>[a-z]*)?[\s\n]$/, W$3.type(t), (e) => {
+  var r;
+  return {
+    language: ((r = e.groups) == null ? void 0 : r.language) ?? ""
+  };
+}));
+n$3(ut$1, {
+  displayName: "InputRule<createCodeBlockInputRule>",
+  group: "CodeBlock"
+});
+const Ie$1 = re$1("CreateCodeBlock", (t) => (e = "") => setBlockType$1(W$3.type(t), { language: e }));
+n$3(Ie$1, {
+  displayName: "Command<createCodeBlockCommand>",
+  group: "CodeBlock"
+});
+const Et = re$1("UpdateCodeBlockLanguage", () => ({ pos: t, language: e } = { pos: -1, language: "" }) => (r, a) => t >= 0 ? (a == null || a(r.tr.setNodeAttribute(t, "language", e)), !0) : !1);
+n$3(Et, {
+  displayName: "Command<updateCodeBlockLanguageCommand>",
+  group: "CodeBlock"
+});
+const Ce$1 = ge$2("codeBlockKeymap", {
+  CreateCodeBlock: {
+    shortcuts: "Mod-Alt-c",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(Ie$1.key);
+    }
+  }
+});
+n$3(Ce$1.ctx, {
+  displayName: "KeymapCtx<codeBlock>",
+  group: "CodeBlock"
+});
+n$3(Ce$1.shortcuts, {
+  displayName: "Keymap<codeBlock>",
+  group: "CodeBlock"
+});
+const Me$1 = he$2("image");
+n$3(Me$1, {
+  displayName: "Attr<image>",
+  group: "Image"
+});
+const v$1 = fe$2("image", (t) => ({
+  inline: !0,
+  group: "inline",
+  selectable: !0,
+  draggable: !0,
+  marks: "",
+  atom: !0,
+  defining: !0,
+  isolating: !0,
+  attrs: {
+    src: { default: "" },
+    alt: { default: "" },
+    title: { default: "" }
+  },
+  parseDOM: [
+    {
+      tag: "img[src]",
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return {
+          src: e.getAttribute("src") || "",
+          alt: e.getAttribute("alt") || "",
+          title: e.getAttribute("title") || e.getAttribute("alt") || ""
+        };
+      }
+    }
+  ],
+  toDOM: (e) => ["img", { ...t.get(Me$1.key)(e), ...e.attrs }],
+  parseMarkdown: {
+    match: ({ type: e }) => e === "image",
+    runner: (e, r, a) => {
+      const o = r.url, s = r.alt, l = r.title;
+      e.addNode(a, {
+        src: o,
+        alt: s,
+        title: l
+      });
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "image",
+    runner: (e, r) => {
+      e.addNode("image", void 0, void 0, {
+        title: r.attrs.title,
+        url: r.attrs.src,
+        alt: r.attrs.alt
+      });
+    }
+  }
+}));
+n$3(v$1.node, {
+  displayName: "NodeSchema<image>",
+  group: "Image"
+});
+n$3(v$1.ctx, {
+  displayName: "NodeSchemaCtx<image>",
+  group: "Image"
+});
+const gt$1 = re$1("InsertImage", (t) => (e = {}) => (r, a) => {
+  if (!a)
+    return !0;
+  const { src: o = "", alt: s = "", title: l = "" } = e, i = v$1.type(t).create({ src: o, alt: s, title: l });
+  return i && a(r.tr.replaceSelectionWith(i).scrollIntoView()), !0;
+});
+n$3(gt$1, {
+  displayName: "Command<insertImageCommand>",
+  group: "Image"
+});
+const kt$1 = re$1("UpdateImage", (t) => (e = {}) => (r, a) => {
+  const o = findSelectedNodeOfType(r.selection, v$1.type(t));
+  if (!o)
+    return !1;
+  const { node: s, pos: l } = o, i = { ...s.attrs }, { src: d, alt: m, title: p } = e;
+  return d !== void 0 && (i.src = d), m !== void 0 && (i.alt = m), p !== void 0 && (i.title = p), a == null || a(r.tr.setNodeMarkup(l, void 0, i).scrollIntoView()), !0;
+});
+n$3(kt$1, {
+  displayName: "Command<updateImageCommand>",
+  group: "Image"
+});
+const Pt = oe$2((t) => new InputRule(
+  /!\[(?<alt>.*?)]\((?<filename>.*?)\s*(?="|\))"?(?<title>[^"]+)?"?\)/,
+  (e, r, a, o) => {
+    const [s, l, i = "", d] = r;
+    return s ? e.tr.replaceWith(a, o, v$1.type(t).create({ src: i, alt: l, title: d })) : null;
+  }
+));
+n$3(Pt, {
+  displayName: "InputRule<insertImageInputRule>",
+  group: "Image"
+});
+const V$1 = he$2("hardbreak", (t) => ({
+  "data-type": "hardbreak",
+  "data-is-inline": t.attrs.isInline
+}));
+n$3(V$1, {
+  displayName: "Attr<hardbreak>",
+  group: "Hardbreak"
+});
+const S$2 = fe$2("hardbreak", (t) => ({
+  inline: !0,
+  group: "inline",
+  attrs: {
+    isInline: {
+      default: !1
+    }
+  },
+  selectable: !1,
+  parseDOM: [{ tag: "br" }, { tag: 'span[data-type="hardbreak"]', getAttrs: () => ({ isInline: !0 }) }],
+  toDOM: (e) => e.attrs.isInline ? ["span", t.get(V$1.key)(e), " "] : ["br", t.get(V$1.key)(e)],
+  parseMarkdown: {
+    match: ({ type: e }) => e === "break",
+    runner: (e, r, a) => {
+      var o;
+      e.addNode(a, { isInline: !!((o = r.data) != null && o.isInline) });
+    }
+  },
+  leafText: () => `
+`,
+  toMarkdown: {
+    match: (e) => e.type.name === "hardbreak",
+    runner: (e, r) => {
+      r.attrs.isInline ? e.addNode("text", void 0, `
+`) : e.addNode("break");
+    }
+  }
+}));
+n$3(S$2.node, {
+  displayName: "NodeSchema<hardbreak>",
+  group: "Hardbreak"
+});
+n$3(S$2.ctx, {
+  displayName: "NodeSchemaCtx<hardbreak>",
+  group: "Hardbreak"
+});
+const be$1 = re$1("InsertHardbreak", (t) => () => (e, r) => {
+  var s;
+  const { selection: a, tr: o } = e;
+  if (!(a instanceof TextSelection))
+    return !1;
+  if (a.empty) {
+    const l = a.$from.node();
+    if (l.childCount > 0 && ((s = l.lastChild) == null ? void 0 : s.type.name) === "hardbreak")
+      return r == null || r(
+        o.replaceRangeWith(a.to - 1, a.to, e.schema.node("paragraph")).setSelection(Selection.near(o.doc.resolve(a.to))).scrollIntoView()
+      ), !0;
+  }
+  return r == null || r(o.setMeta("hardbreak", !0).replaceSelectionWith(S$2.type(t).create()).scrollIntoView()), !0;
+});
+n$3(be$1, {
+  displayName: "Command<insertHardbreakCommand>",
+  group: "Hardbreak"
+});
+const Le = ge$2("hardbreakKeymap", {
+  InsertHardbreak: {
+    shortcuts: "Shift-Enter",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(be$1.key);
+    }
+  }
+});
+n$3(Le.ctx, {
+  displayName: "KeymapCtx<hardbreak>",
+  group: "Hardbreak"
+});
+n$3(Le.shortcuts, {
+  displayName: "Keymap<hardbreak>",
+  group: "Hardbreak"
+});
+const xe$1 = he$2("hr");
+n$3(xe$1, {
+  displayName: "Attr<hr>",
+  group: "Hr"
+});
+const F$1 = fe$2("hr", (t) => ({
+  group: "block",
+  parseDOM: [{ tag: "hr" }],
+  toDOM: (e) => ["hr", t.get(xe$1.key)(e)],
+  parseMarkdown: {
+    match: ({ type: e }) => e === "thematicBreak",
+    runner: (e, r, a) => {
+      e.addNode(a);
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "hr",
+    runner: (e) => {
+      e.addNode("thematicBreak");
+    }
+  }
+}));
+n$3(F$1.node, {
+  displayName: "NodeSchema<hr>",
+  group: "Hr"
+});
+n$3(F$1.ctx, {
+  displayName: "NodeSchemaCtx<hr>",
+  group: "Hr"
+});
+const yt$1 = oe$2((t) => new InputRule(
+  /^(?:---|___\s|\*\*\*\s)$/,
+  (e, r, a, o) => {
+    const { tr: s } = e;
+    return r[0] && s.replaceWith(a - 1, o, F$1.type(t).create()), s;
+  }
+));
+n$3(yt$1, {
+  displayName: "InputRule<insertHrInputRule>",
+  group: "Hr"
+});
+const ht$1 = re$1("InsertHr", (t) => () => (e, r) => {
+  if (!r)
+    return !0;
+  const a = w$2.node.type(t).create(), { tr: o, selection: s } = e, { from: l } = s, i = F$1.type(t).create();
+  if (!i)
+    return !0;
+  const d = o.replaceSelectionWith(i).insert(l, a), m = Selection.findFrom(d.doc.resolve(l), 1, !0);
+  return m && r(d.setSelection(m).scrollIntoView()), !0;
+});
+n$3(ht$1, {
+  displayName: "Command<insertHrCommand>",
+  group: "Hr"
+});
+const Se$1 = he$2("bulletList");
+n$3(Se$1, {
+  displayName: "Attr<bulletList>",
+  group: "BulletList"
+});
+const O$1 = fe$2("bullet_list", (t) => ({
+  content: "listItem+",
+  group: "block",
+  attrs: {
+    spread: {
+      default: !1
+    }
+  },
+  parseDOM: [
+    {
+      tag: "ul",
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return {
+          spread: e.dataset.spread
+        };
+      }
+    }
+  ],
+  toDOM: (e) => [
+    "ul",
+    {
+      ...t.get(Se$1.key)(e),
+      "data-spread": e.attrs.spread
+    },
+    0
+  ],
+  parseMarkdown: {
+    match: ({ type: e, ordered: r }) => e === "list" && !r,
+    runner: (e, r, a) => {
+      const o = r.spread != null ? `${r.spread}` : "false";
+      e.openNode(a, { spread: o }).next(r.children).closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "bullet_list",
+    runner: (e, r) => {
+      e.openNode("list", void 0, { ordered: !1, spread: r.attrs.spread === "true" }).next(r.content).closeNode();
+    }
+  }
+}));
+n$3(O$1.node, {
+  displayName: "NodeSchema<bulletList>",
+  group: "BulletList"
+});
+n$3(O$1.ctx, {
+  displayName: "NodeSchemaCtx<bulletList>",
+  group: "BulletList"
+});
+const ft$1 = oe$2((t) => wrappingInputRule(/^\s*([-+*])\s$/, O$1.type(t)));
+n$3(ft$1, {
+  displayName: "InputRule<wrapInBulletListInputRule>",
+  group: "BulletList"
+});
+const Ae$1 = re$1("WrapInBulletList", (t) => () => wrapIn(O$1.type(t)));
+n$3(Ae$1, {
+  displayName: "Command<wrapInBulletListCommand>",
+  group: "BulletList"
+});
+const we$1 = ge$2("bulletListKeymap", {
+  WrapInBulletList: {
+    shortcuts: "Mod-Alt-8",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(Ae$1.key);
+    }
+  }
+});
+n$3(we$1.ctx, {
+  displayName: "KeymapCtx<bulletListKeymap>",
+  group: "BulletList"
+});
+n$3(we$1.shortcuts, {
+  displayName: "Keymap<bulletListKeymap>",
+  group: "BulletList"
+});
+const He = he$2("orderedList");
+n$3(He, {
+  displayName: "Attr<orderedList>",
+  group: "OrderedList"
+});
+const T$3 = fe$2("ordered_list", (t) => ({
+  content: "listItem+",
+  group: "block",
+  attrs: {
+    order: {
+      default: 1
+    },
+    spread: {
+      default: !1
+    }
+  },
+  parseDOM: [
+    {
+      tag: "ol",
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return {
+          spread: e.dataset.spread,
+          order: e.hasAttribute("start") ? Number(e.getAttribute("start")) : 1
+        };
+      }
+    }
+  ],
+  toDOM: (e) => [
+    "ol",
+    {
+      ...t.get(He.key)(e),
+      ...e.attrs.order === 1 ? {} : e.attrs.order,
+      "data-spread": e.attrs.spread
+    },
+    0
+  ],
+  parseMarkdown: {
+    match: ({ type: e, ordered: r }) => e === "list" && !!r,
+    runner: (e, r, a) => {
+      const o = r.spread != null ? `${r.spread}` : "true";
+      e.openNode(a, { spread: o }).next(r.children).closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "ordered_list",
+    runner: (e, r) => {
+      e.openNode("list", void 0, { ordered: !0, start: 1, spread: r.attrs.spread === "true" }), e.next(r.content), e.closeNode();
+    }
+  }
+}));
+n$3(T$3.node, {
+  displayName: "NodeSchema<orderedList>",
+  group: "OrderedList"
+});
+n$3(T$3.ctx, {
+  displayName: "NodeSchemaCtx<orderedList>",
+  group: "OrderedList"
+});
+const Nt = oe$2((t) => wrappingInputRule(
+  /^\s*(\d+)\.\s$/,
+  T$3.type(t),
+  (e) => ({ order: Number(e[1]) }),
+  (e, r) => r.childCount + r.attrs.order === Number(e[1])
+));
+n$3(Nt, {
+  displayName: "InputRule<wrapInOrderedListInputRule>",
+  group: "OrderedList"
+});
+const Be = re$1("WrapInOrderedList", (t) => () => wrapIn(T$3.type(t)));
+n$3(Be, {
+  displayName: "Command<wrapInOrderedListCommand>",
+  group: "OrderedList"
+});
+const Re$1 = ge$2("orderedListKeymap", {
+  WrapInOrderedList: {
+    shortcuts: "Mod-Alt-7",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(Be.key);
+    }
+  }
+});
+n$3(Re$1.ctx, {
+  displayName: "KeymapCtx<orderedList>",
+  group: "OrderedList"
+});
+n$3(Re$1.shortcuts, {
+  displayName: "Keymap<orderedList>",
+  group: "OrderedList"
+});
+const ve$1 = he$2("listItem");
+n$3(ve$1, {
+  displayName: "Attr<listItem>",
+  group: "ListItem"
+});
+const M$2 = fe$2("list_item", (t) => ({
+  group: "listItem",
+  content: "(paragraph|blockquote) block*",
+  attrs: {
+    label: {
+      default: "•"
+    },
+    listType: {
+      default: "bullet"
+    },
+    spread: {
+      default: "true"
+    }
+  },
+  defining: !0,
+  parseDOM: [
+    {
+      tag: "li",
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return {
+          label: e.dataset.label,
+          listType: e.dataset.listType,
+          spread: e.dataset.spread
+        };
+      }
+    }
+  ],
+  toDOM: (e) => [
+    "li",
+    {
+      ...t.get(ve$1.key)(e),
+      "data-label": e.attrs.label,
+      "data-list-type": e.attrs.listType,
+      "data-spread": e.attrs.spread
+    },
+    0
+  ],
+  parseMarkdown: {
+    match: ({ type: e }) => e === "listItem",
+    runner: (e, r, a) => {
+      const o = r.label != null ? `${r.label}.` : "•", s = r.label != null ? "ordered" : "bullet", l = r.spread != null ? `${r.spread}` : "true";
+      e.openNode(a, { label: o, listType: s, spread: l }), e.next(r.children), e.closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "list_item",
+    runner: (e, r) => {
+      e.openNode("listItem", void 0, { spread: r.attrs.spread === "true" }), e.next(r.content), e.closeNode();
+    }
+  }
+}));
+n$3(M$2.node, {
+  displayName: "NodeSchema<listItem>",
+  group: "ListItem"
+});
+n$3(M$2.ctx, {
+  displayName: "NodeSchemaCtx<listItem>",
+  group: "ListItem"
+});
+const Oe = re$1("SinkListItem", (t) => () => sinkListItem(M$2.type(t)));
+n$3(Oe, {
+  displayName: "Command<sinkListItemCommand>",
+  group: "ListItem"
+});
+const Te$1 = re$1("LiftListItem", (t) => () => liftListItem(M$2.type(t)));
+n$3(Te$1, {
+  displayName: "Command<liftListItemCommand>",
+  group: "ListItem"
+});
+const Ke = re$1("SplitListItem", (t) => () => splitListItem(M$2.type(t)));
+n$3(Ke, {
+  displayName: "Command<splitListItemCommand>",
+  group: "ListItem"
+});
+function $t(t) {
+  return (e, r, a) => {
+    const { selection: o } = e;
+    if (!(o instanceof TextSelection))
+      return !1;
+    const { empty: s, $from: l } = o;
+    if (!s || l.parentOffset !== 0)
+      return !1;
+    const i = l.node(-1);
+    return i.type !== M$2.type(t) || i.firstChild !== l.node() || l.node(-2).childCount > 1 ? !1 : liftListItem(M$2.type(t))(e, r, a);
+  };
+}
+const De = re$1("LiftFirstListItem", (t) => () => $t(t));
+n$3(De, {
+  displayName: "Command<liftFirstListItemCommand>",
+  group: "ListItem"
+});
+const _e$1 = ge$2("listItemKeymap", {
+  NextListItem: {
+    shortcuts: "Enter",
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(Ke.key);
+    }
+  },
+  SinkListItem: {
+    shortcuts: ["Tab", "Mod-]"],
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(Oe.key);
+    }
+  },
+  LiftListItem: {
+    shortcuts: ["Shift-Tab", "Mod-["],
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(Te$1.key);
+    }
+  },
+  LiftFirstListItem: {
+    shortcuts: ["Backspace", "Delete"],
+    command: (t) => {
+      const e = t.get(je);
+      return () => e.call(De.key);
+    }
+  }
+});
+n$3(_e$1.ctx, {
+  displayName: "KeymapCtx<listItem>",
+  group: "ListItem"
+});
+n$3(_e$1.shortcuts, {
+  displayName: "Keymap<listItem>",
+  group: "ListItem"
+});
+const It = W$4("text", () => ({
+  group: "inline",
+  parseMarkdown: {
+    match: ({ type: t }) => t === "text",
+    runner: (t, e) => {
+      t.addText(e.value);
+    }
+  },
+  toMarkdown: {
+    match: (t) => t.type.name === "text",
+    runner: (t, e) => {
+      t.addNode("text", void 0, e.text);
+    }
+  }
+}));
+n$3(It, {
+  displayName: "NodeSchema<text>",
+  group: "Text"
+});
+const Ee = he$2("html");
+n$3(Ee, {
+  displayName: "Attr<html>",
+  group: "Html"
+});
+const Pe$1 = fe$2("html", (t) => ({
+  atom: !0,
+  group: "inline",
+  inline: !0,
+  attrs: {
+    value: {
+      default: ""
+    }
+  },
+  toDOM: (e) => {
+    const r = document.createElement("span"), a = {
+      ...t.get(Ee.key)(e),
+      "data-value": e.attrs.value,
+      "data-type": "html"
+    };
+    return r.textContent = e.attrs.value, ["span", a, e.attrs.value];
+  },
+  parseDOM: [{
+    tag: 'span[data-type="html"]',
+    getAttrs: (e) => ({
+      value: e.dataset.value ?? ""
+    })
+  }],
+  parseMarkdown: {
+    match: ({ type: e }) => e === "html",
+    runner: (e, r, a) => {
+      e.addNode(a, { value: r.value });
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "html",
+    runner: (e, r) => {
+      e.addNode("html", void 0, r.attrs.value);
+    }
+  }
+}));
+n$3(Pe$1.node, {
+  displayName: "NodeSchema<html>",
+  group: "Html"
+});
+n$3(Pe$1.ctx, {
+  displayName: "NodeSchemaCtx<html>",
+  group: "Html"
+});
+const qt = [
+  mt$2,
+  me$1,
+  w$2,
+  z$1,
+  ue$1,
+  H$2,
+  V$1,
+  S$2,
+  ye$1,
+  q$2,
+  Ne$1,
+  W$3,
+  xe$1,
+  F$1,
+  Me$1,
+  v$1,
+  Se$1,
+  O$1,
+  He,
+  T$3,
+  ve$1,
+  M$2,
+  ee$1,
+  R$2,
+  ae,
+  $$2,
+  se,
+  x$3,
+  de$1,
+  B$2,
+  Ee,
+  Pe$1,
+  It
+].flat(), Wt = [
+  ct$1,
+  ft$1,
+  Nt,
+  ut$1,
+  yt$1,
+  pt$1
+].flat(), Ft = [
+  nt$2,
+  ot$2,
+  lt$1,
+  st$2
+], Vt = [
+  pe$1,
+  he$1,
+  L$3,
+  ge$1,
+  Ie$1,
+  be$1,
+  ht$1,
+  gt$1,
+  kt$1,
+  Be,
+  Ae$1,
+  Oe,
+  Ke,
+  Te$1,
+  De,
+  te$1,
+  le,
+  ne,
+  it$2,
+  dt$1
+], Ut = [
+  fe$1,
+  Ce$1,
+  Le,
+  ke$1,
+  _e$1,
+  Re$1,
+  we$1,
+  ce,
+  re,
+  ie$2,
+  oe$1
+].flat(), $e$1 = ke$2("remarkAddOrderInList", () => () => (t) => {
+  visit(t, "list", (e) => {
+    if (e.ordered) {
+      const r = e.start ?? 1;
+      e.children.forEach((a, o) => {
+        a.label = o + r;
+      });
+    }
+  });
+});
+n$3($e$1.plugin, {
+  displayName: "Remark<remarkAddOrderInListPlugin>",
+  group: "Remark"
+});
+n$3($e$1.options, {
+  displayName: "RemarkConfig<remarkAddOrderInListPlugin>",
+  group: "Remark"
+});
+const qe = ke$2("remarkLineBreak", () => () => (t) => {
+  const e = /[\t ]*(?:\r?\n|\r)/g;
+  visit(t, "text", (r, a, o) => {
+    if (!r.value || typeof r.value != "string")
+      return;
+    const s = [];
+    let l = 0;
+    e.lastIndex = 0;
+    let i = e.exec(r.value);
+    for (; i; ) {
+      const m = i.index;
+      l !== m && s.push({ type: "text", value: r.value.slice(l, m) }), s.push({ type: "break", data: { isInline: !0 } }), l = m + i[0].length, i = e.exec(r.value);
+    }
+    if (s.length > 0 && o && typeof a == "number")
+      return l < r.value.length && s.push({ type: "text", value: r.value.slice(l) }), o.children.splice(a, 1, ...s), a + s.length;
+  });
+});
+n$3(qe.plugin, {
+  displayName: "Remark<remarkLineBreak>",
+  group: "Remark"
+});
+n$3(qe.options, {
+  displayName: "RemarkConfig<remarkLineBreak>",
+  group: "Remark"
+});
+const We = ke$2("remarkInlineLink", () => remarkInlineLinks);
+n$3(We.plugin, {
   displayName: "Remark<remarkInlineLinkPlugin>",
   group: "Remark"
 });
-withMeta$5(remarkInlineLinkPlugin.options, {
+n$3(We.options, {
   displayName: "RemarkConfig<remarkInlineLinkPlugin>",
   group: "Remark"
 });
-
-const isParent = (node) => !!node.children;
-const isHTML = (node) => node.type === "html";
-function flatMapWithDepth(ast, fn) {
-  return transform(ast, 0, null)[0];
-  function transform(node, index, parent) {
-    if (isParent(node)) {
-      const out = [];
-      for (let i = 0, n = node.children.length; i < n; i++) {
-        const nthChild = node.children[i];
-        if (nthChild) {
-          const xs = transform(nthChild, i, node);
-          if (xs) {
-            for (let j = 0, m = xs.length; j < m; j++) {
-              const item = xs[j];
-              if (item) out.push(item);
+const Gt = (t) => !!t.children, jt = (t) => t.type === "html";
+function zt(t, e) {
+  return r(t, 0, null)[0];
+  function r(a, o, s) {
+    if (Gt(a)) {
+      const l = [];
+      for (let i = 0, d = a.children.length; i < d; i++) {
+        const m = a.children[i];
+        if (m) {
+          const p = r(m, i, a);
+          if (p)
+            for (let y = 0, g = p.length; y < g; y++) {
+              const C = p[y];
+              C && l.push(C);
             }
-          }
         }
       }
-      node.children = out;
+      a.children = l;
     }
-    return fn(node, index, parent);
+    return e(a, o, s);
   }
 }
-const remarkHtmlTransformer = $remark(
-  "remarkHTMLTransformer",
-  () => () => (tree) => {
-    flatMapWithDepth(tree, (node, _index, parent) => {
-      if (!isHTML(node)) return [node];
-      if ((parent == null ? void 0 : parent.type) === "root") {
-        node.children = [{ ...node }];
-        delete node.value;
-        node.type = "paragraph";
-      }
-      return [node];
-    });
-  }
-);
-withMeta$5(remarkHtmlTransformer.plugin, {
+const Fe = ke$2("remarkHTMLTransformer", () => () => (t) => {
+  zt(t, (e, r, a) => jt(e) ? ((a == null ? void 0 : a.type) === "root" && (e.children = [{ ...e }], delete e.value, e.type = "paragraph"), [e]) : [e]);
+});
+n$3(Fe.plugin, {
   displayName: "Remark<remarkHtmlTransformer>",
   group: "Remark"
 });
-withMeta$5(remarkHtmlTransformer.options, {
+n$3(Fe.options, {
   displayName: "RemarkConfig<remarkHtmlTransformer>",
   group: "Remark"
 });
-
-const remarkMarker = $remark(
-  "remarkMarker",
-  () => () => (tree, file) => {
-    const getMarker = (node) => {
-      return file.value.charAt(node.position.start.offset);
-    };
-    visit(
-      tree,
-      (node) => ["strong", "emphasis"].includes(node.type),
-      (node) => {
-        node.marker = getMarker(node);
-      }
-    );
-  }
-);
-withMeta$5(remarkMarker.plugin, {
+const Ve = ke$2("remarkMarker", () => () => (t, e) => {
+  const r = (a) => e.value.charAt(a.position.start.offset);
+  visit(t, (a) => ["strong", "emphasis"].includes(a.type), (a) => {
+    a.marker = r(a);
+  });
+});
+n$3(Ve.plugin, {
   displayName: "Remark<remarkMarker>",
   group: "Remark"
 });
-withMeta$5(remarkMarker.options, {
+n$3(Ve.options, {
   displayName: "RemarkConfig<remarkMarker>",
   group: "Remark"
 });
-
-const inlineNodesCursorPlugin = $prose(() => {
-  let lock = false;
-  const inlineNodesCursorPluginKey = new PluginKey(
-    "MILKDOWN_INLINE_NODES_CURSOR"
-  );
-  const inlineNodesCursorPlugin2 = new Plugin({
-    key: inlineNodesCursorPluginKey,
+const Ct$2 = ue$2(() => {
+  let t = !1;
+  const e = new PluginKey("MILKDOWN_INLINE_NODES_CURSOR"), r = new Plugin({
+    key: e,
     state: {
       init() {
-        return false;
+        return !1;
       },
-      apply(tr) {
-        if (!tr.selection.empty) return false;
-        const pos = tr.selection.$from;
-        const left = pos.nodeBefore;
-        const right = pos.nodeAfter;
-        if (left && right && left.isInline && !left.isText && right.isInline && !right.isText)
-          return true;
-        return false;
+      apply(a) {
+        if (!a.selection.empty)
+          return !1;
+        const o = a.selection.$from, s = o.nodeBefore, l = o.nodeAfter;
+        return !!(s && l && s.isInline && !s.isText && l.isInline && !l.isText);
       }
     },
     props: {
       handleDOMEvents: {
-        compositionend: (view, e) => {
-          if (lock) {
-            lock = false;
-            requestAnimationFrame(() => {
-              const active = inlineNodesCursorPlugin2.getState(view.state);
-              if (active) {
-                const from = view.state.selection.from;
-                e.preventDefault();
-                view.dispatch(view.state.tr.insertText(e.data || "", from));
-              }
-            });
-            return true;
+        compositionend: (a, o) => t ? (t = !1, requestAnimationFrame(() => {
+          if (r.getState(a.state)) {
+            const l = a.state.selection.from;
+            o.preventDefault(), a.dispatch(a.state.tr.insertText(o.data || "", l));
           }
-          return false;
-        },
-        compositionstart: (view) => {
-          const active = inlineNodesCursorPlugin2.getState(view.state);
-          if (active) lock = true;
-          return false;
-        },
-        beforeinput: (view, e) => {
-          const active = inlineNodesCursorPlugin2.getState(view.state);
-          if (active && e instanceof InputEvent && e.data && !lock) {
-            const from = view.state.selection.from;
-            e.preventDefault();
-            view.dispatch(view.state.tr.insertText(e.data || "", from));
-            return true;
+        }), !0) : !1,
+        compositionstart: (a) => (r.getState(a.state) && (t = !0), !1),
+        beforeinput: (a, o) => {
+          if (r.getState(a.state) && o instanceof InputEvent && o.data && !t) {
+            const l = a.state.selection.from;
+            return o.preventDefault(), a.dispatch(a.state.tr.insertText(o.data || "", l)), !0;
           }
-          return false;
+          return !1;
         }
       },
-      decorations(state) {
-        const active = inlineNodesCursorPlugin2.getState(state);
-        if (active) {
-          const pos = state.selection.$from;
-          const position = pos.pos;
-          const left = document.createElement("span");
-          const leftDec = Decoration.widget(position, left, {
+      decorations(a) {
+        if (r.getState(a)) {
+          const l = a.selection.$from.pos, i = document.createElement("span"), d = Decoration.widget(l, i, {
             side: -1
-          });
-          const right = document.createElement("span");
-          const rightDec = Decoration.widget(position, right);
-          setTimeout(() => {
-            left.contentEditable = "true";
-            right.contentEditable = "true";
-          });
-          return DecorationSet.create(state.doc, [leftDec, rightDec]);
+          }), m = document.createElement("span"), p = Decoration.widget(l, m);
+          return setTimeout(() => {
+            i.contentEditable = "true", m.contentEditable = "true";
+          }), DecorationSet.create(a.doc, [d, p]);
         }
         return DecorationSet.empty;
       }
     }
   });
-  return inlineNodesCursorPlugin2;
+  return r;
 });
-withMeta$5(inlineNodesCursorPlugin, {
+n$3(Ct$2, {
   displayName: "Prose<inlineNodesCursorPlugin>",
   group: "Prose"
 });
-
-const hardbreakClearMarkPlugin = $prose((ctx) => {
-  return new Plugin({
-    key: new PluginKey("MILKDOWN_HARDBREAK_MARKS"),
-    appendTransaction: (trs, _oldState, newState) => {
-      if (!trs.length) return;
-      const [tr] = trs;
-      if (!tr) return;
-      const [step] = tr.steps;
-      const isInsertHr = tr.getMeta("hardbreak");
-      if (isInsertHr) {
-        if (!(step instanceof ReplaceStep)) return;
-        const { from } = step;
-        return newState.tr.setNodeMarkup(
-          from,
-          hardbreakSchema.type(ctx),
-          void 0,
-          []
-        );
-      }
-      const isAddMarkStep = step instanceof AddMarkStep;
-      if (isAddMarkStep) {
-        let _tr = newState.tr;
-        const { from, to } = step;
-        newState.doc.nodesBetween(from, to, (node, pos) => {
-          if (node.type === hardbreakSchema.type(ctx))
-            _tr = _tr.setNodeMarkup(
-              pos,
-              hardbreakSchema.type(ctx),
-              void 0,
-              []
-            );
-        });
-        return _tr;
-      }
-      return void 0;
+const Mt = ue$2((t) => new Plugin({
+  key: new PluginKey("MILKDOWN_HARDBREAK_MARKS"),
+  appendTransaction: (e, r, a) => {
+    if (!e.length)
+      return;
+    const [o] = e;
+    if (!o)
+      return;
+    const [s] = o.steps;
+    if (o.getMeta("hardbreak")) {
+      if (!(s instanceof ReplaceStep))
+        return;
+      const { from: d } = s;
+      return a.tr.setNodeMarkup(d, S$2.type(t), void 0, []);
     }
-  });
-});
-withMeta$5(hardbreakClearMarkPlugin, {
+    if (s instanceof AddMarkStep) {
+      let d = a.tr;
+      const { from: m, to: p } = s;
+      return a.doc.nodesBetween(m, p, (y, g) => {
+        y.type === S$2.type(t) && (d = d.setNodeMarkup(g, S$2.type(t), void 0, []));
+      }), d;
+    }
+  }
+}));
+n$3(Mt, {
   displayName: "Prose<hardbreakClearMarkPlugin>",
   group: "Prose"
 });
-
-const hardbreakFilterNodes = $ctx(
-  ["table", "code_block"],
-  "hardbreakFilterNodes"
-);
-withMeta$5(hardbreakFilterNodes, {
+const Ue = h$2(["table", "code_block"], "hardbreakFilterNodes");
+n$3(Ue, {
   displayName: "Ctx<hardbreakFilterNodes>",
   group: "Prose"
 });
-const hardbreakFilterPlugin = $prose((ctx) => {
-  const notIn = ctx.get(hardbreakFilterNodes.key);
+const bt$2 = ue$2((t) => {
+  const e = t.get(Ue.key);
   return new Plugin({
     key: new PluginKey("MILKDOWN_HARDBREAK_FILTER"),
-    filterTransaction: (tr, state) => {
-      const isInsertHr = tr.getMeta("hardbreak");
-      const [step] = tr.steps;
-      if (isInsertHr && step) {
-        const { from } = step;
-        const $from = state.doc.resolve(from);
-        let curDepth = $from.depth;
-        let canApply = true;
-        while (curDepth > 0) {
-          if (notIn.includes($from.node(curDepth).type.name)) canApply = false;
-          curDepth--;
-        }
-        return canApply;
+    filterTransaction: (r, a) => {
+      const o = r.getMeta("hardbreak"), [s] = r.steps;
+      if (o && s) {
+        const { from: l } = s, i = a.doc.resolve(l);
+        let d = i.depth, m = !0;
+        for (; d > 0; )
+          e.includes(i.node(d).type.name) && (m = !1), d--;
+        return m;
       }
-      return true;
+      return !0;
     }
   });
 });
-withMeta$5(hardbreakFilterPlugin, {
+n$3(bt$2, {
   displayName: "Prose<hardbreakFilterPlugin>",
   group: "Prose"
 });
-
-const syncHeadingIdPlugin = $prose((ctx) => {
-  const headingIdPluginKey = new PluginKey("MILKDOWN_HEADING_ID");
-  const updateId = (view) => {
-    if (view.composing) return;
-    const getId = ctx.get(headingIdGenerator.key);
-    const tr = view.state.tr.setMeta("addToHistory", false);
-    let found = false;
-    const idMap = {};
-    view.state.doc.descendants((node, pos) => {
-      if (node.type === headingSchema.type(ctx)) {
-        if (node.textContent.trim().length === 0) return;
-        const attrs = node.attrs;
-        let id = getId(node);
-        if (idMap[id]) {
-          idMap[id] += 1;
-          id += `-#${idMap[id]}`;
-        } else {
-          idMap[id] = 1;
-        }
-        if (attrs.id !== id) {
-          found = true;
-          tr.setMeta(headingIdPluginKey, true).setNodeMarkup(pos, void 0, {
-            ...attrs,
-            id
-          });
-        }
+const Lt = ue$2((t) => {
+  const e = new PluginKey("MILKDOWN_HEADING_ID"), r = (a) => {
+    if (a.composing)
+      return;
+    const o = t.get(z$1.key), s = a.state.tr.setMeta("addToHistory", !1);
+    let l = !1;
+    a.state.doc.descendants((i, d) => {
+      if (i.type === H$2.type(t)) {
+        if (i.textContent.trim().length === 0)
+          return;
+        const m = i.attrs, p = o(i);
+        m.id !== p && (l = !0, s.setMeta(e, !0).setNodeMarkup(d, void 0, {
+          ...m,
+          id: p
+        }));
       }
-    });
-    if (found) view.dispatch(tr);
+    }), l && a.dispatch(s);
   };
   return new Plugin({
-    key: headingIdPluginKey,
-    view: (view) => {
-      updateId(view);
-      return {
-        update: (view2, prevState) => {
-          if (view2.state.doc.eq(prevState.doc)) return;
-          updateId(view2);
-        }
-      };
-    }
+    key: e,
+    view: (a) => (r(a), {
+      update: (o, s) => {
+        o.state.doc.eq(s.doc) || r(o);
+      }
+    })
   });
 });
-withMeta$5(syncHeadingIdPlugin, {
+n$3(Lt, {
   displayName: "Prose<syncHeadingIdPlugin>",
   group: "Prose"
 });
-
-const syncListOrderPlugin = $prose((ctx) => {
-  const syncOrderLabel = (view) => {
-    if (view.composing || !view.editable) return;
-    const orderedListType = orderedListSchema.type(ctx);
-    const bulletListType = bulletListSchema.type(ctx);
-    const listItemType = listItemSchema.type(ctx);
-    const state = view.state;
-    const handleNodeItem = (attrs, index) => {
-      let changed = false;
-      const expectedLabel = `${index + 1}.`;
-      if (attrs.label !== expectedLabel) {
-        attrs.label = expectedLabel;
-        changed = true;
-      }
-      return changed;
+const xt = ue$2((t) => {
+  const e = (r) => {
+    if (r.composing || !r.editable)
+      return;
+    const a = T$3.type(t), o = O$1.type(t), s = M$2.type(t), l = r.state, i = (p, y) => {
+      let g = !1;
+      const C = `${y + 1}.`;
+      return p.label !== C && (p.label = C, g = !0), g;
     };
-    let tr = state.tr;
-    let needDispatch = false;
-    state.doc.descendants((node, pos, parent, index) => {
-      if (node.type === bulletListType) {
-        const base = node.maybeChild(0);
-        if ((base == null ? void 0 : base.type) === listItemType && base.attrs.listType === "ordered") {
-          needDispatch = true;
-          tr.setNodeMarkup(pos, orderedListType, { spread: "true" });
-          node.descendants((child, pos2, _parent, index2) => {
-            if (child.type === listItemType) {
-              const attrs = { ...child.attrs };
-              const changed = handleNodeItem(attrs, index2);
-              if (changed) tr = tr.setNodeMarkup(pos2, void 0, attrs);
-            }
-            return false;
-          });
-        }
-      } else if (node.type === listItemType && (parent == null ? void 0 : parent.type) === orderedListType) {
-        const attrs = { ...node.attrs };
-        let changed = false;
-        if (attrs.listType !== "ordered") {
-          attrs.listType = "ordered";
-          changed = true;
-        }
-        const base = parent == null ? void 0 : parent.maybeChild(0);
-        if (base) changed = handleNodeItem(attrs, index);
-        if (changed) {
-          tr = tr.setNodeMarkup(pos, void 0, attrs);
-          needDispatch = true;
-        }
+    let d = l.tr, m = !1;
+    l.doc.descendants((p, y, g, C) => {
+      if (p.type === o) {
+        const k = p.maybeChild(0);
+        (k == null ? void 0 : k.type) === s && k.attrs.listType === "ordered" && (m = !0, d.setNodeMarkup(y, a, { spread: "true" }), p.descendants((b, Ge, Qt, St) => {
+          if (b.type === s) {
+            const je = { ...b.attrs };
+            i(je, St) && (d = d.setNodeMarkup(Ge, void 0, je));
+          }
+          return !1;
+        }));
+      } else if (p.type === s && (g == null ? void 0 : g.type) === a) {
+        const k = { ...p.attrs };
+        let b = !1;
+        k.listType !== "ordered" && (k.listType = "ordered", b = !0), (g == null ? void 0 : g.maybeChild(0)) && (b = i(k, C)), b && (d = d.setNodeMarkup(y, void 0, k), m = !0);
       }
-    });
-    if (needDispatch) view.dispatch(tr.setMeta("addToHistory", false));
+    }), m && r.dispatch(d.setMeta("addToHistory", !1));
   };
   return new Plugin({
     key: new PluginKey("MILKDOWN_KEEP_LIST_ORDER"),
-    view: (view) => {
-      syncOrderLabel(view);
-      return {
-        update: (view2) => {
-          syncOrderLabel(view2);
-        }
-      };
-    }
+    view: (r) => (e(r), {
+      update: (a) => {
+        e(a);
+      }
+    })
   });
 });
-withMeta$5(syncListOrderPlugin, {
+n$3(xt, {
   displayName: "Prose<syncListOrderPlugin>",
   group: "Prose"
 });
+const Jt = [
+  Mt,
+  Ue,
+  bt$2,
+  Ct$2,
+  $e$1,
+  We,
+  qe,
+  Fe,
+  Ve,
+  Lt,
+  xt
+].flat(), cr = [qt, Wt, Ft, Vt, Ut, Jt].flat();
 
-const plugins$1 = [
-  hardbreakClearMarkPlugin,
-  hardbreakFilterNodes,
-  hardbreakFilterPlugin,
-  inlineNodesCursorPlugin,
-  remarkAddOrderInListPlugin,
-  remarkInlineLinkPlugin,
-  remarkLineBreak,
-  remarkHtmlTransformer,
-  remarkMarker,
-  syncHeadingIdPlugin,
-  syncListOrderPlugin
-].flat();
-
-const commonmark = [
-  schema$1,
-  inputRules$1,
-  markInputRules$1,
-  commands$1,
-  keymap$1,
-  plugins$1
-].flat();
-
-function withMeta$4(plugin, meta) {
+function withMeta(plugin, meta) {
   Object.assign(plugin, {
     meta: {
       package: "@milkdown/components",
@@ -36290,8 +34931,8 @@ const defaultConfig$1 = {
   noResultText: "No result",
   renderLanguage: (language) => atomico.html`${language}`
 };
-const codeBlockConfig = $ctx(defaultConfig$1, "codeBlockConfigCtx");
-withMeta$4(codeBlockConfig, {
+const codeBlockConfig = h$2(defaultConfig$1, "codeBlockConfigCtx");
+withMeta(codeBlockConfig, {
   displayName: "Config<code-block>",
   group: "CodeBlock"
 });
@@ -36871,7 +35512,7 @@ You can set an `"addToHistory"` [metadata
 property](https://prosemirror.net/docs/ref/#state.Transaction.setMeta) of `false` on a transaction
 to prevent it from being rolled back by undo.
 */
-function history$1(config = {}) {
+function history(config = {}) {
     config = { depth: config.depth || 100,
         newGroupDelay: config.newGroupDelay || 500 };
     return new Plugin({
@@ -37173,9 +35814,6 @@ const oppositeAlignmentMap = {
   start: 'end',
   end: 'start'
 };
-function clamp(start, value, end) {
-  return max(start, min(value, end));
-}
 function evaluate(value, param) {
   return typeof value === 'function' ? value(param) : value;
 }
@@ -37700,84 +36338,6 @@ const offset$1 = function (options) {
         data: {
           ...diffCoords,
           placement
-        }
-      };
-    }
-  };
-};
-
-/**
- * Optimizes the visibility of the floating element by shifting it in order to
- * keep it in view when it will overflow the clipping boundary.
- * @see https://floating-ui.com/docs/shift
- */
-const shift$1 = function (options) {
-  if (options === void 0) {
-    options = {};
-  }
-  return {
-    name: 'shift',
-    options,
-    async fn(state) {
-      const {
-        x,
-        y,
-        placement
-      } = state;
-      const {
-        mainAxis: checkMainAxis = true,
-        crossAxis: checkCrossAxis = false,
-        limiter = {
-          fn: _ref => {
-            let {
-              x,
-              y
-            } = _ref;
-            return {
-              x,
-              y
-            };
-          }
-        },
-        ...detectOverflowOptions
-      } = evaluate(options, state);
-      const coords = {
-        x,
-        y
-      };
-      const overflow = await detectOverflow(state, detectOverflowOptions);
-      const crossAxis = getSideAxis(getSide(placement));
-      const mainAxis = getOppositeAxis(crossAxis);
-      let mainAxisCoord = coords[mainAxis];
-      let crossAxisCoord = coords[crossAxis];
-      if (checkMainAxis) {
-        const minSide = mainAxis === 'y' ? 'top' : 'left';
-        const maxSide = mainAxis === 'y' ? 'bottom' : 'right';
-        const min = mainAxisCoord + overflow[minSide];
-        const max = mainAxisCoord - overflow[maxSide];
-        mainAxisCoord = clamp(min, mainAxisCoord, max);
-      }
-      if (checkCrossAxis) {
-        const minSide = crossAxis === 'y' ? 'top' : 'left';
-        const maxSide = crossAxis === 'y' ? 'bottom' : 'right';
-        const min = crossAxisCoord + overflow[minSide];
-        const max = crossAxisCoord - overflow[maxSide];
-        crossAxisCoord = clamp(min, crossAxisCoord, max);
-      }
-      const limitedCoords = limiter.fn({
-        ...state,
-        [mainAxis]: mainAxisCoord,
-        [crossAxis]: crossAxisCoord
-      });
-      return {
-        ...limitedCoords,
-        data: {
-          x: limitedCoords.x - x,
-          y: limitedCoords.y - y,
-          enabled: {
-            [mainAxis]: checkMainAxis,
-            [crossAxis]: checkCrossAxis
-          }
         }
       };
     }
@@ -38422,13 +36982,6 @@ const platform = {
 const offset = offset$1;
 
 /**
- * Optimizes the visibility of the floating element by shifting it in order to
- * keep it in view when it will overflow the clipping boundary.
- * @see https://floating-ui.com/docs/shift
- */
-const shift = shift$1;
-
-/**
  * Optimizes the visibility of the floating element by flipping the `placement`
  * in order to keep it in view when the preferred placement(s) will overflow the
  * clipping boundary. Alternative to `autoPlacement`.
@@ -38645,15 +37198,15 @@ codeComponent.props = {
 const CodeElement = atomico.c(codeComponent);
 
 defIfNotExists$1("milkdown-code-block", CodeElement);
-const codeBlockView = $view(
-  codeBlockSchema.node,
+const codeBlockView = le$1(
+  W$3.node,
   (ctx) => {
     const config = ctx.get(codeBlockConfig.key);
     const languageLoader = new LanguageLoader(config.languages);
     return (node, view, getPos) => new CodeMirrorBlock(node, view, getPos, languageLoader, config);
   }
 );
-withMeta$4(codeBlockView, {
+withMeta(codeBlockView, {
   displayName: "NodeView<code-block>",
   group: "CodeBlock"
 });
@@ -39310,7 +37863,7 @@ const defineFeature$8 = (editor, config = {}) => {
       var _a;
       return {
         extensions: [
-          view.keymap.of(commands$3.defaultKeymap.concat(commands$3.indentWithTab)),
+          view.keymap.of(commands.defaultKeymap.concat(commands.indentWithTab)),
           codemirror.basicSetup,
           theme,
           ...(_a = config == null ? void 0 : config.extensions) != null ? _a : []
@@ -39397,18 +37950,18 @@ const defaultListItemBlockConfig = {
     />`;
   }
 };
-const listItemBlockConfig = $ctx(
+const listItemBlockConfig = h$2(
   defaultListItemBlockConfig,
   "listItemBlockConfigCtx"
 );
-withMeta$4(listItemBlockConfig, {
+withMeta(listItemBlockConfig, {
   displayName: "Config<list-item-block>",
   group: "ListItemBlock"
 });
 
 defIfNotExists$1("milkdown-list-item-block", ListItemElement);
-const listItemBlockView = $view(
-  listItemSchema.node,
+const listItemBlockView = le$1(
+  M$2.node,
   (ctx) => {
     return (initialNode, view, getPos) => {
       const dom = document.createElement(
@@ -39479,7 +38032,7 @@ const listItemBlockView = $view(
     };
   }
 );
-withMeta$4(listItemBlockView, {
+withMeta(listItemBlockView, {
   displayName: "NodeView<list-item-block>",
   group: "ListItemBlock"
 });
@@ -39518,8 +38071,8 @@ const defineFeature$7 = (editor, config) => {
 const defaultState = {
   mode: "preview"
 };
-const linkTooltipState = $ctx({ ...defaultState }, "linkTooltipStateCtx");
-withMeta$4(linkTooltipState, {
+const linkTooltipState = h$2({ ...defaultState }, "linkTooltipStateCtx");
+withMeta(linkTooltipState, {
   displayName: "State<link-tooltip>",
   group: "LinkTooltip"
 });
@@ -39531,8 +38084,8 @@ const defaultAPI = {
   removeLink: () => {
   }
 };
-const linkTooltipAPI = $ctx({ ...defaultAPI }, "linkTooltipAPICtx");
-withMeta$4(linkTooltipState, {
+const linkTooltipAPI = h$2({ ...defaultAPI }, "linkTooltipAPICtx");
+withMeta(linkTooltipState, {
   displayName: "API<link-tooltip>",
   group: "LinkTooltip"
 });
@@ -39547,13 +38100,13 @@ const defaultConfig = {
   shouldOpenOutside: () => true,
   getActualSrc: (src) => src
 };
-const linkTooltipConfig = $ctx(
+const linkTooltipConfig = h$2(
   {
     ...defaultConfig
   },
   "linkTooltipConfigCtx"
 );
-withMeta$4(linkTooltipState, {
+withMeta(linkTooltipState, {
   displayName: "Config<link-tooltip>",
   group: "LinkTooltip"
 });
@@ -39945,172 +38498,107 @@ function requireLodash_debounce () {
 }
 
 var lodash_debounceExports = requireLodash_debounce();
-var debounce = /*@__PURE__*/getDefaultExportFromCjs(lodash_debounceExports);
+var R$1 = /*@__PURE__*/getDefaultExportFromCjs(lodash_debounceExports);
 
-var __typeError$b = (msg) => {
-  throw TypeError(msg);
+var k$1 = (o, t, e) => {
+  if (!t.has(o))
+    throw TypeError("Cannot " + e);
 };
-var __accessCheck$b = (obj, member, msg) => member.has(obj) || __typeError$b("Cannot " + msg);
-var __privateGet$a = (obj, member, getter) => (__accessCheck$b(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$b = (obj, member, value) => member.has(obj) ? __typeError$b("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$a = (obj, member, value, setter) => (__accessCheck$b(obj, member, "write to private field"), member.set(obj, value), value);
-var __privateMethod$3 = (obj, member, method) => (__accessCheck$b(obj, member, "access private method"), method);
-var _debounce$1, _shouldShow$1, _middleware$2, _floatingUIOptions$2, _initialized$2, _offset$1, _onUpdate$1, _TooltipProvider_instances, _shouldShow_fn$1;
-class TooltipProvider {
-  constructor(options) {
-    __privateAdd$b(this, _TooltipProvider_instances);
+var n$2 = (o, t, e) => (k$1(o, t, "read from private field"), e ? e.call(o) : t.get(o)), l$2 = (o, t, e) => {
+  if (t.has(o))
+    throw TypeError("Cannot add the same private member more than once");
+  t instanceof WeakSet ? t.add(o) : t.set(o, e);
+}, h$1 = (o, t, e, s) => (k$1(o, t, "write to private field"), t.set(o, e), e);
+var T$2 = (o, t, e) => (k$1(o, t, "access private method"), e);
+var r$2, d$2, c, a$2, u$3, y$2, C$1;
+let A$1 = class A {
+  constructor(t) {
     /// @internal
-    __privateAdd$b(this, _debounce$1);
+    l$2(this, y$2);
     /// @internal
-    __privateAdd$b(this, _shouldShow$1);
+    l$2(this, r$2, void 0);
     /// @internal
-    __privateAdd$b(this, _middleware$2);
+    l$2(this, d$2, void 0);
+    l$2(this, c, void 0);
     /// @internal
-    __privateAdd$b(this, _floatingUIOptions$2);
-    /// @internal
-    __privateAdd$b(this, _initialized$2, false);
-    /// @internal
-    __privateAdd$b(this, _offset$1);
-    /// On show callback.
-    this.onShow = () => {
-    };
-    /// On hide callback.
-    this.onHide = () => {
-    };
-    /// @internal
-    __privateAdd$b(this, _onUpdate$1, (view, prevState) => {
-      var _a;
-      const { state, composing } = view;
-      const { selection, doc } = state;
-      const { ranges } = selection;
-      const from = Math.min(...ranges.map((range) => range.$from.pos));
-      const to = Math.max(...ranges.map((range) => range.$to.pos));
-      const isSame = prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection);
-      if (!__privateGet$a(this, _initialized$2)) {
-        (_a = view.dom.parentElement) == null ? void 0 : _a.appendChild(this.element);
-        __privateSet$a(this, _initialized$2, true);
-      }
-      if (composing || isSame) return;
-      if (!__privateGet$a(this, _shouldShow$1).call(this, view, prevState)) {
+    l$2(this, a$2, void 0);
+    l$2(this, u$3, void 0);
+    h$1(this, c, !1), this.onShow = () => {
+    }, this.onHide = () => {
+    }, h$1(this, u$3, (e, s) => {
+      var P;
+      const { state: i, composing: p } = e, { selection: f, doc: w } = i, { ranges: g } = f, $ = Math.min(...g.map((m) => m.$from.pos)), x = Math.max(...g.map((m) => m.$to.pos)), E = s && s.doc.eq(w) && s.selection.eq(f);
+      if (n$2(this, c) || ((P = e.dom.parentElement) == null || P.appendChild(this.element), h$1(this, c, !0)), p || E)
+        return;
+      if (!n$2(this, d$2).call(this, e, s)) {
         this.hide();
         return;
       }
-      const virtualEl = {
-        getBoundingClientRect: () => posToDOMRect(view, from, to)
-      };
-      computePosition(virtualEl, this.element, {
+      computePosition({
+        getBoundingClientRect: () => posToDOMRect(e, $, x)
+      }, this.element, {
         placement: "top",
-        middleware: [flip(), offset(__privateGet$a(this, _offset$1)), shift(), ...__privateGet$a(this, _middleware$2)]
-      }).then(({ x, y }) => {
+        middleware: [flip(), offset(n$2(this, a$2))]
+      }).then(({ x: m, y: _ }) => {
         Object.assign(this.element.style, {
-          left: `${x}px`,
-          top: `${y}px`
+          left: `${m}px`,
+          top: `${_}px`
         });
-      });
-      this.show();
-    });
-    /// Update provider state by editor view.
-    this.update = (view, prevState) => {
-      const updater = debounce(__privateGet$a(this, _onUpdate$1), __privateGet$a(this, _debounce$1));
-      updater(view, prevState);
-    };
-    /// Destroy the tooltip.
-    this.destroy = () => {
-    };
-    /// Show the tooltip.
-    this.show = (virtualElement) => {
-      this.element.dataset.show = "true";
-      if (virtualElement) {
-        computePosition(virtualElement, this.element, {
-          placement: "top",
-          middleware: [flip(), offset(__privateGet$a(this, _offset$1))],
-          ...__privateGet$a(this, _floatingUIOptions$2)
-        }).then(({ x, y }) => {
-          Object.assign(this.element.style, {
-            left: `${x}px`,
-            top: `${y}px`
-          });
+      }), this.show();
+    }), this.update = (e, s) => {
+      R$1(n$2(this, u$3), n$2(this, r$2))(e, s);
+    }, this.destroy = () => {
+    }, this.show = (e) => {
+      this.element.dataset.show = "true", e && computePosition(e, this.element, {
+        placement: "top",
+        middleware: [flip(), offset(n$2(this, a$2))]
+      }).then(({ x: s, y: i }) => {
+        Object.assign(this.element.style, {
+          left: `${s}px`,
+          top: `${i}px`
         });
-      }
-      this.onShow();
-    };
-    /// Hide the tooltip.
-    this.hide = () => {
-      if (this.element.dataset.show === "false") return;
-      this.element.dataset.show = "false";
-      this.onHide();
-    };
-    var _a, _b, _c, _d;
-    this.element = options.content;
-    __privateSet$a(this, _debounce$1, (_a = options.debounce) != null ? _a : 200);
-    __privateSet$a(this, _shouldShow$1, (_b = options.shouldShow) != null ? _b : __privateMethod$3(this, _TooltipProvider_instances, _shouldShow_fn$1));
-    __privateSet$a(this, _offset$1, options.offset);
-    __privateSet$a(this, _middleware$2, (_c = options.middleware) != null ? _c : []);
-    __privateSet$a(this, _floatingUIOptions$2, (_d = options.floatingUIOptions) != null ? _d : {});
-    this.element.dataset.show = "false";
+      }), this.onShow();
+    }, this.hide = () => {
+      this.element.dataset.show !== "false" && (this.element.dataset.show = "false", this.onHide());
+    }, this.element = t.content, h$1(this, r$2, t.debounce ?? 200), h$1(this, d$2, t.shouldShow ?? T$2(this, y$2, C$1)), h$1(this, a$2, t.offset), this.element.dataset.show = "false";
   }
-}
-_debounce$1 = new WeakMap();
-_shouldShow$1 = new WeakMap();
-_middleware$2 = new WeakMap();
-_floatingUIOptions$2 = new WeakMap();
-_initialized$2 = new WeakMap();
-_offset$1 = new WeakMap();
-_onUpdate$1 = new WeakMap();
-_TooltipProvider_instances = new WeakSet();
-/// @internal
-_shouldShow_fn$1 = function(view) {
-  const { doc, selection } = view.state;
-  const { empty, from, to } = selection;
-  const isEmptyTextBlock = !doc.textBetween(from, to).length && view.state.selection instanceof TextSelection;
-  const isTooltipChildren = this.element.contains(document.activeElement);
-  const notHasFocus = !view.hasFocus() && !isTooltipChildren;
-  const isReadonly = !view.editable;
-  if (notHasFocus || empty || isEmptyTextBlock || isReadonly) return false;
-  return true;
 };
-
-function tooltipFactory(id) {
-  const tooltipSpec = $ctx(
-    {},
-    `${id}_TOOLTIP_SPEC`
-  );
-  const tooltipPlugin = $prose((ctx) => {
-    const spec = ctx.get(tooltipSpec.key);
+r$2 = new WeakMap(), d$2 = new WeakMap(), c = new WeakMap(), a$2 = new WeakMap(), u$3 = new WeakMap(), y$2 = new WeakSet(), C$1 = function(t) {
+  const { doc: e, selection: s } = t.state, { empty: i, from: p, to: f } = s, w = !e.textBetween(p, f).length && t.state.selection instanceof TextSelection, g = this.element.contains(document.activeElement), $ = !t.hasFocus() && !g, x = !t.editable;
+  return !($ || i || w || x);
+};
+function G$1(o) {
+  const t = h$2({}, `${o}_TOOLTIP_SPEC`), e = ue$2((i) => {
+    const p = i.get(t.key);
     return new Plugin({
-      key: new PluginKey(`${id}_TOOLTIP`),
-      ...spec
+      key: new PluginKey(`${o}_TOOLTIP`),
+      ...p
     });
-  });
-  const result = [tooltipSpec, tooltipPlugin];
-  result.key = tooltipSpec.key;
-  result.pluginKey = tooltipPlugin.key;
-  tooltipSpec.meta = {
+  }), s = [t, e];
+  return s.key = t.key, s.pluginKey = e.key, t.meta = {
     package: "@milkdown/plugin-tooltip",
-    displayName: `Ctx<tooltipSpec>|${id}`
-  };
-  tooltipPlugin.meta = {
+    displayName: `Ctx<tooltipSpec>|${o}`
+  }, e.meta = {
     package: "@milkdown/plugin-tooltip",
-    displayName: `Prose<tooltip>|${id}`
-  };
-  return result;
+    displayName: `Prose<tooltip>|${o}`
+  }, s;
 }
 
-const linkPreviewTooltip = tooltipFactory("LINK_PREVIEW");
-withMeta$4(linkPreviewTooltip[0], {
+const linkPreviewTooltip = G$1("LINK_PREVIEW");
+withMeta(linkPreviewTooltip[0], {
   displayName: "PreviewTooltipSpec<link-tooltip>",
   group: "LinkTooltip"
 });
-withMeta$4(linkPreviewTooltip[1], {
+withMeta(linkPreviewTooltip[1], {
   displayName: "PreviewTooltipPlugin<link-tooltip>",
   group: "LinkTooltip"
 });
-const linkEditTooltip = tooltipFactory("LINK_EDIT");
-withMeta$4(linkEditTooltip[0], {
+const linkEditTooltip = G$1("LINK_EDIT");
+withMeta(linkEditTooltip[0], {
   displayName: "EditTooltipSpec<link-tooltip>",
   group: "LinkTooltip"
 });
-withMeta$4(linkEditTooltip[1], {
+withMeta(linkEditTooltip[1], {
   displayName: "EditTooltipPlugin<link-tooltip>",
   group: "LinkTooltip"
 });
@@ -40136,7 +38624,7 @@ function shouldShowPreviewWhenHover(ctx, view, event) {
   const node = view.state.doc.nodeAt(pos);
   if (!node) return;
   const mark = node.marks.find(
-    (mark2) => mark2.type === linkSchema.mark.type(ctx)
+    (mark2) => mark2.type === B$2.mark.type(ctx)
   );
   if (!mark) return;
   const key = linkPreviewTooltip.pluginKey();
@@ -40201,25 +38689,25 @@ linkPreviewComponent.props = {
 };
 const LinkPreviewElement = atomico.c(linkPreviewComponent);
 
-var __typeError$a = (msg) => {
+var __typeError$7 = (msg) => {
   throw TypeError(msg);
 };
-var __accessCheck$a = (obj, member, msg) => member.has(obj) || __typeError$a("Cannot " + msg);
-var __privateGet$9 = (obj, member, getter) => (__accessCheck$a(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$a = (obj, member, value) => member.has(obj) ? __typeError$a("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$9 = (obj, member, value, setter) => (__accessCheck$a(obj, member, "write to private field"), member.set(obj, value), value);
-var _content$4, _provider$2, _slice, _hovering, _onStateChange, _onMouseEnter, _onMouseLeave, _hide$1;
+var __accessCheck$7 = (obj, member, msg) => member.has(obj) || __typeError$7("Cannot " + msg);
+var __privateGet$6 = (obj, member, getter) => (__accessCheck$7(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
+var __privateAdd$7 = (obj, member, value) => member.has(obj) ? __typeError$7("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+var __privateSet$6 = (obj, member, value, setter) => (__accessCheck$7(obj, member, "write to private field"), member.set(obj, value), value);
+var _content$4, _provider$2, _slice, _hovering, _onStateChange, _onMouseEnter, _onMouseLeave, _hide;
 class LinkPreviewTooltip {
   // get #instance() {
   //   return this.#provider.getInstance()
   // }
   constructor(ctx, view) {
     this.ctx = ctx;
-    __privateAdd$a(this, _content$4, new LinkPreviewElement());
-    __privateAdd$a(this, _provider$2);
-    __privateAdd$a(this, _slice);
+    __privateAdd$7(this, _content$4, new LinkPreviewElement());
+    __privateAdd$7(this, _provider$2);
+    __privateAdd$7(this, _slice);
     // #slice: Slice<LinkToolTipState> = this.ctx.use(linkTooltipState.key)
-    __privateAdd$a(this, _hovering, false);
+    __privateAdd$7(this, _hovering, false);
     // setRect = (rect: DOMRect) => {
     //   // this.#provider.getInstance()?.setProps({
     //   //   getReferenceClientRect: () => rect,
@@ -40228,55 +38716,55 @@ class LinkPreviewTooltip {
     //     getBoundingClientRect: () => rect,
     //   }
     // }
-    __privateAdd$a(this, _onStateChange, ({ mode }) => {
-      if (mode === "edit") __privateGet$9(this, _hide$1).call(this);
+    __privateAdd$7(this, _onStateChange, ({ mode }) => {
+      if (mode === "edit") __privateGet$6(this, _hide).call(this);
     });
-    __privateAdd$a(this, _onMouseEnter, () => {
-      __privateSet$9(this, _hovering, true);
+    __privateAdd$7(this, _onMouseEnter, () => {
+      __privateSet$6(this, _hovering, true);
     });
-    __privateAdd$a(this, _onMouseLeave, () => {
-      __privateSet$9(this, _hovering, false);
+    __privateAdd$7(this, _onMouseLeave, () => {
+      __privateSet$6(this, _hovering, false);
     });
-    __privateAdd$a(this, _hide$1, () => {
-      __privateGet$9(this, _provider$2).hide();
-      __privateGet$9(this, _provider$2).element.removeEventListener("mouseenter", __privateGet$9(this, _onMouseEnter));
-      __privateGet$9(this, _provider$2).element.removeEventListener("mouseleave", __privateGet$9(this, _onMouseLeave));
+    __privateAdd$7(this, _hide, () => {
+      __privateGet$6(this, _provider$2).hide();
+      __privateGet$6(this, _provider$2).element.removeEventListener("mouseenter", __privateGet$6(this, _onMouseEnter));
+      __privateGet$6(this, _provider$2).element.removeEventListener("mouseleave", __privateGet$6(this, _onMouseLeave));
     });
     this.show = (mark, from, to, rect) => {
-      __privateGet$9(this, _content$4).config = this.ctx.get(linkTooltipConfig.key);
-      __privateGet$9(this, _content$4).src = mark.attrs.href;
-      __privateGet$9(this, _content$4).onEdit = () => {
+      __privateGet$6(this, _content$4).config = this.ctx.get(linkTooltipConfig.key);
+      __privateGet$6(this, _content$4).src = mark.attrs.href;
+      __privateGet$6(this, _content$4).onEdit = () => {
         this.ctx.get(linkTooltipAPI.key).editLink(mark, from, to);
       };
-      __privateGet$9(this, _content$4).onRemove = () => {
+      __privateGet$6(this, _content$4).onRemove = () => {
         this.ctx.get(linkTooltipAPI.key).removeLink(from, to);
-        __privateGet$9(this, _hide$1).call(this);
+        __privateGet$6(this, _hide).call(this);
       };
-      __privateGet$9(this, _provider$2).show({
+      __privateGet$6(this, _provider$2).show({
         getBoundingClientRect: () => rect
       });
-      __privateGet$9(this, _provider$2).element.addEventListener("mouseenter", __privateGet$9(this, _onMouseEnter));
-      __privateGet$9(this, _provider$2).element.addEventListener("mouseleave", __privateGet$9(this, _onMouseLeave));
+      __privateGet$6(this, _provider$2).element.addEventListener("mouseenter", __privateGet$6(this, _onMouseEnter));
+      __privateGet$6(this, _provider$2).element.addEventListener("mouseleave", __privateGet$6(this, _onMouseLeave));
     };
     this.hide = () => {
-      if (__privateGet$9(this, _hovering)) return;
-      __privateGet$9(this, _hide$1).call(this);
+      if (__privateGet$6(this, _hovering)) return;
+      __privateGet$6(this, _hide).call(this);
     };
     this.update = () => {
     };
     this.destroy = () => {
-      __privateGet$9(this, _slice).off(__privateGet$9(this, _onStateChange));
-      __privateGet$9(this, _provider$2).destroy();
-      __privateGet$9(this, _content$4).remove();
+      __privateGet$6(this, _slice).off(__privateGet$6(this, _onStateChange));
+      __privateGet$6(this, _provider$2).destroy();
+      __privateGet$6(this, _content$4).remove();
     };
-    __privateSet$9(this, _provider$2, new TooltipProvider({
+    __privateSet$6(this, _provider$2, new A$1({
       debounce: 0,
-      content: __privateGet$9(this, _content$4),
+      content: __privateGet$6(this, _content$4),
       shouldShow: () => false
     }));
-    __privateGet$9(this, _provider$2).update(view);
-    __privateSet$9(this, _slice, ctx.use(linkTooltipState.key));
-    __privateGet$9(this, _slice).on(__privateGet$9(this, _onStateChange));
+    __privateGet$6(this, _provider$2).update(view);
+    __privateSet$6(this, _slice, ctx.use(linkTooltipState.key));
+    __privateGet$6(this, _slice).on(__privateGet$6(this, _onStateChange));
   }
 }
 _content$4 = new WeakMap();
@@ -40286,13 +38774,13 @@ _hovering = new WeakMap();
 _onStateChange = new WeakMap();
 _onMouseEnter = new WeakMap();
 _onMouseLeave = new WeakMap();
-_hide$1 = new WeakMap();
+_hide = new WeakMap();
 
 defIfNotExists$1("milkdown-link-preview", LinkPreviewElement);
 function configureLinkPreviewTooltip(ctx) {
   let linkPreviewTooltipView;
   const DELAY = 200;
-  const onMouseMove = debounce((view, event) => {
+  const onMouseMove = R$1((view, event) => {
     if (!linkPreviewTooltipView) return;
     if (!view.hasFocus()) return;
     const state = ctx.get(linkTooltipState.key);
@@ -40394,13 +38882,13 @@ linkEditComponent.props = {
 };
 const LinkEditElement = atomico.c(linkEditComponent);
 
-var __typeError$9 = (msg) => {
+var __typeError$6 = (msg) => {
   throw TypeError(msg);
 };
-var __accessCheck$9 = (obj, member, msg) => member.has(obj) || __typeError$9("Cannot " + msg);
-var __privateGet$8 = (obj, member, getter) => (__accessCheck$9(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$9 = (obj, member, value) => member.has(obj) ? __typeError$9("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$8 = (obj, member, value, setter) => (__accessCheck$9(obj, member, "write to private field"), member.set(obj, value), value);
+var __accessCheck$6 = (obj, member, msg) => member.has(obj) || __typeError$6("Cannot " + msg);
+var __privateGet$5 = (obj, member, getter) => (__accessCheck$6(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
+var __privateAdd$6 = (obj, member, value) => member.has(obj) ? __typeError$6("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+var __privateSet$5 = (obj, member, value, setter) => (__accessCheck$6(obj, member, "write to private field"), member.set(obj, value), value);
 var _content$3, _provider$1, _data, _reset, _confirmEdit, _enterEditMode;
 const defaultData = {
   from: -1,
@@ -40410,49 +38898,49 @@ const defaultData = {
 class LinkEditTooltip {
   constructor(ctx, view) {
     this.ctx = ctx;
-    __privateAdd$9(this, _content$3, new LinkEditElement());
-    __privateAdd$9(this, _provider$1);
-    __privateAdd$9(this, _data, { ...defaultData });
-    __privateAdd$9(this, _reset, () => {
-      __privateGet$8(this, _provider$1).hide();
+    __privateAdd$6(this, _content$3, new LinkEditElement());
+    __privateAdd$6(this, _provider$1);
+    __privateAdd$6(this, _data, { ...defaultData });
+    __privateAdd$6(this, _reset, () => {
+      __privateGet$5(this, _provider$1).hide();
       this.ctx.update(linkTooltipState.key, (state) => ({
         ...state,
         mode: "preview"
       }));
-      __privateSet$8(this, _data, { ...defaultData });
+      __privateSet$5(this, _data, { ...defaultData });
     });
-    __privateAdd$9(this, _confirmEdit, (href) => {
-      const view = this.ctx.get(editorViewCtx);
-      const { from, to, mark } = __privateGet$8(this, _data);
-      const type = linkSchema.type(this.ctx);
+    __privateAdd$6(this, _confirmEdit, (href) => {
+      const view = this.ctx.get(L$4);
+      const { from, to, mark } = __privateGet$5(this, _data);
+      const type = B$2.type(this.ctx);
       if (mark && mark.attrs.href === href) {
-        __privateGet$8(this, _reset).call(this);
+        __privateGet$5(this, _reset).call(this);
         return;
       }
       const tr = view.state.tr;
       if (mark) tr.removeMark(from, to, mark);
       tr.addMark(from, to, type.create({ href }));
       view.dispatch(tr);
-      __privateGet$8(this, _reset).call(this);
+      __privateGet$5(this, _reset).call(this);
     });
-    __privateAdd$9(this, _enterEditMode, (value, from, to) => {
+    __privateAdd$6(this, _enterEditMode, (value, from, to) => {
       const config = this.ctx.get(linkTooltipConfig.key);
-      __privateGet$8(this, _content$3).config = config;
-      __privateGet$8(this, _content$3).src = value;
+      __privateGet$5(this, _content$3).config = config;
+      __privateGet$5(this, _content$3).src = value;
       this.ctx.update(linkTooltipState.key, (state) => ({
         ...state,
         mode: "edit"
       }));
-      const view = this.ctx.get(editorViewCtx);
+      const view = this.ctx.get(L$4);
       view.dispatch(
         view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to))
       );
-      __privateGet$8(this, _provider$1).show({
+      __privateGet$5(this, _provider$1).show({
         getBoundingClientRect: () => posToDOMRect(view, from, to)
       });
       requestAnimationFrame(() => {
         var _a;
-        (_a = __privateGet$8(this, _content$3).querySelector("input")) == null ? void 0 : _a.focus();
+        (_a = __privateGet$5(this, _content$3).querySelector("input")) == null ? void 0 : _a.focus();
       });
     });
     this.update = (view) => {
@@ -40460,50 +38948,50 @@ class LinkEditTooltip {
       const { selection } = state;
       if (!(selection instanceof TextSelection)) return;
       const { from, to } = selection;
-      if (from === __privateGet$8(this, _data).from && to === __privateGet$8(this, _data).to) return;
-      __privateGet$8(this, _reset).call(this);
+      if (from === __privateGet$5(this, _data).from && to === __privateGet$5(this, _data).to) return;
+      __privateGet$5(this, _reset).call(this);
     };
     this.destroy = () => {
-      __privateGet$8(this, _provider$1).destroy();
-      __privateGet$8(this, _content$3).remove();
+      __privateGet$5(this, _provider$1).destroy();
+      __privateGet$5(this, _content$3).remove();
     };
     this.addLink = (from, to) => {
-      __privateSet$8(this, _data, {
+      __privateSet$5(this, _data, {
         from,
         to,
         mark: null
       });
-      __privateGet$8(this, _enterEditMode).call(this, "", from, to);
+      __privateGet$5(this, _enterEditMode).call(this, "", from, to);
     };
     this.editLink = (mark, from, to) => {
-      __privateSet$8(this, _data, {
+      __privateSet$5(this, _data, {
         from,
         to,
         mark
       });
-      __privateGet$8(this, _enterEditMode).call(this, mark.attrs.href, from, to);
+      __privateGet$5(this, _enterEditMode).call(this, mark.attrs.href, from, to);
     };
     this.removeLink = (from, to) => {
-      const view = this.ctx.get(editorViewCtx);
+      const view = this.ctx.get(L$4);
       const tr = view.state.tr;
-      tr.removeMark(from, to, linkSchema.type(this.ctx));
+      tr.removeMark(from, to, B$2.type(this.ctx));
       view.dispatch(tr);
-      __privateGet$8(this, _reset).call(this);
+      __privateGet$5(this, _reset).call(this);
     };
-    __privateSet$8(this, _provider$1, new TooltipProvider({
-      content: __privateGet$8(this, _content$3),
+    __privateSet$5(this, _provider$1, new A$1({
+      content: __privateGet$5(this, _content$3),
       debounce: 0,
       shouldShow: () => false
     }));
-    __privateGet$8(this, _provider$1).onHide = () => {
-      __privateGet$8(this, _content$3).update().catch((e) => {
+    __privateGet$5(this, _provider$1).onHide = () => {
+      __privateGet$5(this, _content$3).update().catch((e) => {
         throw e;
       });
       view.dom.focus({ preventScroll: true });
     };
-    __privateGet$8(this, _provider$1).update(view);
-    __privateGet$8(this, _content$3).onConfirm = __privateGet$8(this, _confirmEdit);
-    __privateGet$8(this, _content$3).onCancel = __privateGet$8(this, _reset);
+    __privateGet$5(this, _provider$1).update(view);
+    __privateGet$5(this, _content$3).onConfirm = __privateGet$5(this, _confirmEdit);
+    __privateGet$5(this, _content$3).onCancel = __privateGet$5(this, _reset);
   }
 }
 _content$3 = new WeakMap();
@@ -40568,7 +39056,7 @@ const defineFeature$6 = (editor, config) => {
 };
 
 const IMAGE_DATA_TYPE = "image-block";
-const imageBlockSchema = $nodeSchema("image-block", () => {
+const imageBlockSchema = fe$2("image-block", () => {
   return {
     inline: false,
     group: "block",
@@ -40588,7 +39076,7 @@ const imageBlockSchema = $nodeSchema("image-block", () => {
         tag: `img[data-type="${IMAGE_DATA_TYPE}"]`,
         getAttrs: (dom) => {
           var _a;
-          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
+          if (!(dom instanceof HTMLElement)) throw S$6(dom);
           return {
             src: dom.getAttribute("src") || "",
             caption: dom.getAttribute("caption") || "",
@@ -40626,7 +39114,7 @@ const imageBlockSchema = $nodeSchema("image-block", () => {
     }
   };
 });
-withMeta$4(imageBlockSchema.node, {
+withMeta(imageBlockSchema.node, {
   displayName: "NodeSchema<image-block>",
   group: "ImageBlock"
 });
@@ -40651,15 +39139,15 @@ function visitImage(ast) {
     }
   );
 }
-const remarkImageBlockPlugin = $remark(
+const remarkImageBlockPlugin = ke$2(
   "remark-image-block",
   () => () => visitImage
 );
-withMeta$4(remarkImageBlockPlugin.plugin, {
+withMeta(remarkImageBlockPlugin.plugin, {
   displayName: "Remark<remarkImageBlock>",
   group: "ImageBlock"
 });
-withMeta$4(remarkImageBlockPlugin.options, {
+withMeta(remarkImageBlockPlugin.options, {
   displayName: "RemarkConfig<remarkImageBlock>",
   group: "ImageBlock"
 });
@@ -40673,11 +39161,11 @@ const defaultImageBlockConfig = {
   captionPlaceholderText: "Image caption",
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file))
 };
-const imageBlockConfig = $ctx(
+const imageBlockConfig = h$2(
   defaultImageBlockConfig,
   "imageBlockConfigCtx"
 );
-withMeta$4(imageBlockConfig, {
+withMeta(imageBlockConfig, {
   displayName: "Config<image-block>",
   group: "ImageBlock"
 });
@@ -40910,7 +39398,7 @@ imageComponent.props = {
 const ImageElement = atomico.c(imageComponent);
 
 defIfNotExists$1("milkdown-image-block", ImageElement);
-const imageBlockView = $view(
+const imageBlockView = le$1(
   imageBlockSchema.node,
   (ctx) => {
     return (initialNode, view, getPos) => {
@@ -40956,7 +39444,7 @@ const imageBlockView = $view(
     };
   }
 );
-withMeta$4(imageBlockView, {
+withMeta(imageBlockView, {
   displayName: "NodeView<image-block>",
   group: "ImageBlock"
 });
@@ -40975,11 +39463,11 @@ const defaultInlineImageConfig = {
   uploadPlaceholderText: "/Paste",
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file))
 };
-const inlineImageConfig = $ctx(
+const inlineImageConfig = h$2(
   defaultInlineImageConfig,
   "inlineImageConfigCtx"
 );
-withMeta$4(inlineImageConfig, {
+withMeta(inlineImageConfig, {
   displayName: "Config<image-inline>",
   group: "ImageInline"
 });
@@ -41085,8 +39573,8 @@ inlineImageComponent.props = {
 const InlineImageElement = atomico.c(inlineImageComponent);
 
 defIfNotExists$1("milkdown-image-inline", InlineImageElement);
-const inlineImageView = $view(
-  imageSchema.node,
+const inlineImageView = le$1(
+  v$1.node,
   (ctx) => {
     return (initialNode, view, getPos) => {
       const dom = document.createElement(
@@ -41130,7 +39618,7 @@ const inlineImageView = $view(
     };
   }
 );
-withMeta$4(inlineImageView, {
+withMeta(inlineImageView, {
   displayName: "NodeView<image-inline>",
   group: "ImageInline"
 });
@@ -41532,41 +40020,31 @@ function drawGapCursor(state) {
     return DecorationSet.create(state.doc, [Decoration.widget(state.selection.head, node, { key: "gapcursor" })]);
 }
 
-function withMeta$3(plugin, meta) {
-  Object.assign(plugin, {
+function o$1(r, a) {
+  return Object.assign(r, {
     meta: {
       package: "@milkdown/plugin-cursor",
-      ...meta
+      ...a
     }
-  });
-  return plugin;
+  }), r;
 }
-const dropCursorConfig = $ctx(
-  {},
-  "dropCursorConfig"
-);
-withMeta$3(dropCursorConfig, {
+const s$2 = h$2({}, "dropCursorConfig");
+o$1(s$2, {
   displayName: "Ctx<dropCursor>"
 });
-const dropCursorPlugin = $prose(
-  (ctx) => dropCursor(ctx.get(dropCursorConfig.key))
-);
-withMeta$3(dropCursorPlugin, {
+const t$1 = ue$2((r) => dropCursor(r.get(s$2.key)));
+o$1(t$1, {
   displayName: "Prose<dropCursor>"
 });
-const gapCursorPlugin = $prose(() => gapCursor());
-withMeta$3(gapCursorPlugin, {
+const u$2 = ue$2(() => gapCursor());
+o$1(u$2, {
   displayName: "Prose<gapCursor>"
 });
-const cursor = [
-  dropCursorConfig,
-  dropCursorPlugin,
-  gapCursorPlugin
-];
+const d$1 = [s$2, t$1, u$2];
 
 const defineFeature$4 = (editor, config) => {
   editor.config((ctx) => {
-    ctx.update(dropCursorConfig.key, () => {
+    ctx.update(s$2.key, () => {
       var _a, _b;
       return {
         class: "crepe-drop-cursor",
@@ -41574,31 +40052,8 @@ const defineFeature$4 = (editor, config) => {
         color: (_b = config == null ? void 0 : config.color) != null ? _b : false
       };
     });
-  }).use(cursor);
+  }).use(d$1);
 };
-
-function withMeta$2(plugin, meta) {
-  Object.assign(plugin, {
-    meta: {
-      package: "@milkdown/plugin-block",
-      ...meta
-    }
-  });
-  return plugin;
-}
-
-const defaultNodeFilter = (pos) => {
-  const table = findParent((node) => node.type.name === "table")(pos);
-  if (table) return false;
-  return true;
-};
-const blockConfig = $ctx(
-  { filterNodes: defaultNodeFilter },
-  "blockConfig"
-);
-withMeta$2(blockConfig, {
-  displayName: "Ctx<blockConfig>"
-});
 
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -42051,43 +40506,57 @@ function requireLodash_throttle () {
 var lodash_throttleExports = requireLodash_throttle();
 var throttle = /*@__PURE__*/getDefaultExportFromCjs(lodash_throttleExports);
 
-function selectRootNodeByDom(view, coords, filterNodes) {
-  var _a;
-  const root = view.dom.parentElement;
-  if (!root) return null;
+var q$1 = (s, t, e) => {
+  if (!t.has(s))
+    throw TypeError("Cannot " + e);
+};
+var i$2 = (s, t, e) => (q$1(s, t, "read from private field"), e ? e.call(s) : t.get(s)), a$1 = (s, t, e) => {
+  if (t.has(s))
+    throw TypeError("Cannot add the same private member more than once");
+  t instanceof WeakSet ? t.add(s) : t.set(s, e);
+}, n$1 = (s, t, e, r) => (q$1(s, t, "write to private field"), t.set(s, e), e);
+var Z$1 = (s, t, e) => (q$1(s, t, "access private method"), e);
+function Y$1(s, t) {
+  return Object.assign(s, {
+    meta: {
+      package: "@milkdown/plugin-block",
+      ...t
+    }
+  }), s;
+}
+const mt$1 = (s) => !findParent((e) => e.type.name === "table")(s), _ = h$2({ filterNodes: mt$1 }, "blockConfig");
+Y$1(_, {
+  displayName: "Ctx<blockConfig>"
+});
+function bt$1(s, t, e) {
+  var o;
+  if (!s.dom.parentElement)
+    return null;
   try {
-    const pos = (_a = view.posAtCoords({
-      left: coords.x,
-      top: coords.y
-    })) == null ? void 0 : _a.inside;
-    if (pos == null || pos < 0) return null;
-    let $pos = view.state.doc.resolve(pos);
-    let node = view.state.doc.nodeAt(pos);
-    let element = view.nodeDOM(pos);
-    const filter = (needLookup) => {
-      const checkDepth = $pos.depth >= 1 && $pos.index($pos.depth) === 0;
-      const shouldLookUp = needLookup || checkDepth;
-      if (!shouldLookUp) return;
-      const ancestorPos = $pos.before($pos.depth);
-      node = view.state.doc.nodeAt(ancestorPos);
-      element = view.nodeDOM(ancestorPos);
-      $pos = view.state.doc.resolve(ancestorPos);
-      if (!filterNodes($pos, node)) filter(true);
-    };
-    const filterResult = filterNodes($pos, node);
-    filter(!filterResult);
-    if (!element || !node) return null;
-    return { node, $pos, el: element };
-  } catch (e) {
+    const l = (o = s.posAtCoords({
+      left: t.x,
+      top: t.y
+    })) == null ? void 0 : o.inside;
+    if (l == null || l < 0)
+      return null;
+    let c = s.state.doc.resolve(l), h = s.state.doc.nodeAt(l), d = s.nodeDOM(l);
+    const u = (z) => {
+      const j = c.depth >= 1 && c.index(c.depth) === 0;
+      if (!(z || j))
+        return;
+      const S = c.before(c.depth);
+      h = s.state.doc.nodeAt(S), d = s.nodeDOM(S), c = s.state.doc.resolve(S), e(c, h) || u(!0);
+    }, R = e(c, h);
+    return u(!R), !d || !h ? null : { node: h, $pos: c, el: d };
+  } catch {
     return null;
   }
 }
-
-let _detachedDoc = null;
-function detachedDoc() {
-  return _detachedDoc || (_detachedDoc = document.implementation.createHTMLDocument("title"));
+let et = null;
+function kt() {
+  return et || (et = document.implementation.createHTMLDocument("title"));
 }
-const wrapMap = {
+const Ct$1 = {
   thead: ["table"],
   tbody: ["table"],
   tfoot: ["table"],
@@ -42098,628 +40567,359 @@ const wrapMap = {
   td: ["table", "tbody", "tr"],
   th: ["table", "tbody", "tr"]
 };
-function serializeForClipboard(view, slice) {
-  const context = [];
-  let { openStart, openEnd, content } = slice;
-  while (openStart > 1 && openEnd > 1 && content.childCount === 1 && content.firstChild.childCount === 1) {
-    openStart -= 1;
-    openEnd -= 1;
-    const node = content.firstChild;
-    context.push(
-      node.type.name,
-      node.attrs !== node.type.defaultAttrs ? node.attrs : null
-    );
-    content = node.content;
+function yt(s, t) {
+  const e = [];
+  let { openStart: r, openEnd: o, content: l } = t;
+  for (; r > 1 && o > 1 && l.childCount === 1 && l.firstChild.childCount === 1; ) {
+    r -= 1, o -= 1;
+    const p = l.firstChild;
+    e.push(
+      p.type.name,
+      p.attrs !== p.type.defaultAttrs ? p.attrs : null
+    ), l = p.content;
   }
-  const serializer = view.someProp("clipboardSerializer") || DOMSerializer.fromSchema(view.state.schema);
-  const doc = detachedDoc();
-  const wrap = doc.createElement("div");
-  wrap.appendChild(serializer.serializeFragment(content, { document: doc }));
-  let firstChild = wrap.firstChild;
-  let needsWrap;
-  let wrappers = 0;
-  while (firstChild && firstChild.nodeType === 1 && (needsWrap = wrapMap[firstChild.nodeName.toLowerCase()])) {
-    for (let i = needsWrap.length - 1; i >= 0; i--) {
-      const wrapper = doc.createElement(needsWrap[i]);
-      while (wrap.firstChild) wrapper.appendChild(wrap.firstChild);
-      wrap.appendChild(wrapper);
-      wrappers++;
+  const c = s.someProp("clipboardSerializer") || DOMSerializer.fromSchema(s.state.schema), h = kt(), d = h.createElement("div");
+  d.appendChild(c.serializeFragment(l, { document: h }));
+  let u = d.firstChild, R, z = 0;
+  for (; u && u.nodeType === 1 && (R = Ct$1[u.nodeName.toLowerCase()]); ) {
+    for (let p = R.length - 1; p >= 0; p--) {
+      const S = h.createElement(R[p]);
+      for (; d.firstChild; )
+        S.appendChild(d.firstChild);
+      d.appendChild(S), z++;
     }
-    firstChild = wrap.firstChild;
+    u = d.firstChild;
   }
-  if (firstChild && firstChild.nodeType === 1) {
-    firstChild.setAttribute(
-      "data-pm-slice",
-      `${openStart} ${openEnd}${wrappers ? ` -${wrappers}` : ""} ${JSON.stringify(context)}`
-    );
-  }
-  const text = view.someProp("clipboardTextSerializer", (f) => f(slice, view)) || slice.content.textBetween(0, slice.content.size, "\n\n");
-  return { dom: wrap, text };
-}
+  u && u.nodeType === 1 && u.setAttribute(
+    "data-pm-slice",
+    `${r} ${o}${z ? ` -${z}` : ""} ${JSON.stringify(e)}`
+  );
+  const j = s.someProp("clipboardTextSerializer", (p) => p(t, s)) || t.content.textBetween(0, t.content.size, `
 
-var __typeError$8 = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck$8 = (obj, member, msg) => member.has(obj) || __typeError$8("Cannot " + msg);
-var __privateGet$7 = (obj, member, getter) => (__accessCheck$8(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$8 = (obj, member, value) => member.has(obj) ? __typeError$8("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$7 = (obj, member, value, setter) => (__accessCheck$8(obj, member, "write to private field"), member.set(obj, value), value);
-var _ctx$2, _createSelection, _activeSelection, _active, _activeDOMRect, _dragging, _BlockService_instances, filterNodes_get, view_get, _notify, _hide, _show, _handleMouseDown, _handleMouseUp, _handleDragStart, _mousemoveCallback, _dragEnd;
-const brokenClipboardAPI = ie$3 && ie_version$1 < 15 || ios$1 && webkit_version$1 < 604;
-const buffer = 20;
-class BlockService {
+`);
+  return { dom: d, text: j };
+}
+const it$1 = browser.ie && browser.ie_version < 15 || browser.ios && browser.webkit_version < 604, ot$1 = 20;
+var D, H$1, k, g$1, T$1, m$2, U$1, st$1, C, A, y$1, v, F, M$1, P$2, B$1, K, w$1;
+class vt {
   constructor() {
-    __privateAdd$8(this, _BlockService_instances);
     /// @internal
-    __privateAdd$8(this, _ctx$2);
+    a$1(this, U$1);
     /// @internal
-    __privateAdd$8(this, _createSelection, () => {
-      if (!__privateGet$7(this, _active)) return null;
-      const result = __privateGet$7(this, _active);
-      const view = __privateGet$7(this, _BlockService_instances, view_get);
-      if (view && NodeSelection.isSelectable(result.node)) {
-        const nodeSelection = NodeSelection.create(
-          view.state.doc,
-          result.$pos.pos
-        );
-        view.dispatch(view.state.tr.setSelection(nodeSelection));
-        view.focus();
-        __privateSet$7(this, _activeSelection, nodeSelection);
-        return nodeSelection;
+    a$1(this, C);
+    /// @internal
+    a$1(this, D, void 0);
+    a$1(this, H$1, void 0);
+    a$1(this, k, void 0);
+    a$1(this, g$1, void 0);
+    a$1(this, T$1, void 0);
+    a$1(this, m$2, void 0);
+    /// @internal
+    a$1(this, y$1, void 0);
+    a$1(this, v, void 0);
+    a$1(this, F, void 0);
+    a$1(this, M$1, void 0);
+    a$1(this, P$2, void 0);
+    a$1(this, B$1, void 0);
+    a$1(this, K, void 0);
+    a$1(this, w$1, void 0);
+    n$1(this, H$1, () => {
+      if (!i$2(this, g$1))
+        return null;
+      const t = i$2(this, g$1), e = i$2(this, C, A);
+      if (e && NodeSelection.isSelectable(t.node)) {
+        const r = NodeSelection.create(e.state.doc, t.$pos.pos);
+        return e.dispatch(e.state.tr.setSelection(r)), e.focus(), n$1(this, k, r), r;
       }
       return null;
-    });
-    /// @internal
-    __privateAdd$8(this, _activeSelection, null);
-    /// @internal
-    __privateAdd$8(this, _active, null);
-    /// @internal
-    __privateAdd$8(this, _activeDOMRect);
-    /// @internal
-    __privateAdd$8(this, _dragging, false);
-    /// @internal
-    __privateAdd$8(this, _notify);
-    /// @internal
-    __privateAdd$8(this, _hide, () => {
-      var _a;
-      (_a = __privateGet$7(this, _notify)) == null ? void 0 : _a.call(this, { type: "hide" });
-      __privateSet$7(this, _active, null);
-    });
-    /// @internal
-    __privateAdd$8(this, _show, (active) => {
-      var _a;
-      __privateSet$7(this, _active, active);
-      (_a = __privateGet$7(this, _notify)) == null ? void 0 : _a.call(this, { type: "show", active });
-    });
-    /// Bind editor context and notify function to the service.
-    this.bind = (ctx, notify) => {
-      __privateSet$7(this, _ctx$2, ctx);
-      __privateSet$7(this, _notify, notify);
-    };
-    /// Add mouse event to the dom.
-    this.addEvent = (dom) => {
-      dom.addEventListener("mousedown", __privateGet$7(this, _handleMouseDown));
-      dom.addEventListener("mouseup", __privateGet$7(this, _handleMouseUp));
-      dom.addEventListener("dragstart", __privateGet$7(this, _handleDragStart));
-    };
-    /// Remove mouse event to the dom.
-    this.removeEvent = (dom) => {
-      dom.removeEventListener("mousedown", __privateGet$7(this, _handleMouseDown));
-      dom.removeEventListener("mouseup", __privateGet$7(this, _handleMouseUp));
-      dom.removeEventListener("dragstart", __privateGet$7(this, _handleDragStart));
-    };
-    /// Unbind the notify function.
-    this.unBind = () => {
-      __privateSet$7(this, _notify, void 0);
-    };
-    /// @internal
-    __privateAdd$8(this, _handleMouseDown, () => {
-      var _a;
-      __privateSet$7(this, _activeDOMRect, (_a = __privateGet$7(this, _active)) == null ? void 0 : _a.el.getBoundingClientRect());
-      __privateGet$7(this, _createSelection).call(this);
-    });
-    /// @internal
-    __privateAdd$8(this, _handleMouseUp, () => {
-      if (!__privateGet$7(this, _dragging)) {
+    }), n$1(this, k, null), n$1(this, g$1, null), n$1(this, T$1, void 0), n$1(this, m$2, !1), n$1(this, v, () => {
+      var t;
+      (t = i$2(this, y$1)) == null || t.call(this, { type: "hide" }), n$1(this, g$1, null);
+    }), n$1(this, F, (t) => {
+      var e;
+      n$1(this, g$1, t), (e = i$2(this, y$1)) == null || e.call(this, { type: "show", active: t });
+    }), this.bind = (t, e) => {
+      n$1(this, D, t), n$1(this, y$1, e);
+    }, this.addEvent = (t) => {
+      t.addEventListener("mousedown", i$2(this, M$1)), t.addEventListener("mouseup", i$2(this, P$2)), t.addEventListener("dragstart", i$2(this, B$1));
+    }, this.removeEvent = (t) => {
+      t.removeEventListener("mousedown", i$2(this, M$1)), t.removeEventListener("mouseup", i$2(this, P$2)), t.removeEventListener("dragstart", i$2(this, B$1));
+    }, this.unBind = () => {
+      n$1(this, y$1, void 0);
+    }, n$1(this, M$1, () => {
+      var t;
+      n$1(this, T$1, (t = i$2(this, g$1)) == null ? void 0 : t.el.getBoundingClientRect()), i$2(this, H$1).call(this);
+    }), n$1(this, P$2, () => {
+      if (!i$2(this, m$2)) {
         requestAnimationFrame(() => {
-          var _a;
-          if (!__privateGet$7(this, _activeDOMRect)) return;
-          (_a = __privateGet$7(this, _BlockService_instances, view_get)) == null ? void 0 : _a.focus();
+          var t;
+          i$2(this, T$1) && ((t = i$2(this, C, A)) == null || t.focus());
         });
         return;
       }
-      __privateSet$7(this, _dragging, false);
-      __privateSet$7(this, _activeSelection, null);
-    });
-    /// @internal
-    __privateAdd$8(this, _handleDragStart, (event) => {
-      var _a;
-      __privateSet$7(this, _dragging, true);
-      const view = __privateGet$7(this, _BlockService_instances, view_get);
-      if (!view) return;
-      view.dom.dataset.dragging = "true";
-      const selection = __privateGet$7(this, _activeSelection);
-      if (event.dataTransfer && selection) {
-        const slice = selection.content();
-        event.dataTransfer.effectAllowed = "copyMove";
-        const { dom, text } = serializeForClipboard(view, slice);
-        event.dataTransfer.clearData();
-        event.dataTransfer.setData(
-          brokenClipboardAPI ? "Text" : "text/html",
-          dom.innerHTML
-        );
-        if (!brokenClipboardAPI) event.dataTransfer.setData("text/plain", text);
-        const activeEl = (_a = __privateGet$7(this, _active)) == null ? void 0 : _a.el;
-        if (activeEl) event.dataTransfer.setDragImage(activeEl, 0, 0);
-        view.dragging = {
-          slice,
-          move: true
+      n$1(this, m$2, !1), n$1(this, k, null);
+    }), n$1(this, B$1, (t) => {
+      var o;
+      n$1(this, m$2, !0);
+      const e = i$2(this, C, A);
+      if (!e)
+        return;
+      e.dom.dataset.dragging = "true";
+      const r = i$2(this, k);
+      if (t.dataTransfer && r) {
+        const l = r.content();
+        t.dataTransfer.effectAllowed = "copyMove";
+        const { dom: c, text: h } = yt(e, l);
+        t.dataTransfer.clearData(), t.dataTransfer.setData(it$1 ? "Text" : "text/html", c.innerHTML), it$1 || t.dataTransfer.setData("text/plain", h);
+        const d = (o = i$2(this, g$1)) == null ? void 0 : o.el;
+        d && t.dataTransfer.setDragImage(d, 0, 0), e.dragging = {
+          slice: l,
+          move: !0
         };
       }
-    });
-    /// @internal
-    this.keydownCallback = (view) => {
-      __privateGet$7(this, _hide).call(this);
-      __privateSet$7(this, _dragging, false);
-      view.dom.dataset.dragging = "false";
-      return false;
-    };
-    /// @internal
-    __privateAdd$8(this, _mousemoveCallback, throttle((view, event) => {
-      if (!view.editable) return;
-      const rect = view.dom.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const dom = view.root.elementFromPoint(x, event.clientY);
-      if (!(dom instanceof Element)) {
-        __privateGet$7(this, _hide).call(this);
+    }), this.keydownCallback = (t) => (i$2(this, v).call(this), n$1(this, m$2, !1), t.dom.dataset.dragging = "false", !1), n$1(this, K, throttle((t, e) => {
+      if (!t.editable)
+        return;
+      const r = t.dom.getBoundingClientRect(), o = r.left + r.width / 2;
+      if (!(t.root.elementFromPoint(o, e.clientY) instanceof Element)) {
+        i$2(this, v).call(this);
         return;
       }
-      const filterNodes = __privateGet$7(this, _BlockService_instances, filterNodes_get);
-      if (!filterNodes) return;
-      const result = selectRootNodeByDom(
-        view,
-        { x, y: event.clientY },
-        filterNodes
-      );
-      if (!result) {
-        __privateGet$7(this, _hide).call(this);
+      const c = i$2(this, U$1, st$1);
+      if (!c)
+        return;
+      const h = bt$1(t, { x: o, y: e.clientY }, c);
+      if (!h) {
+        i$2(this, v).call(this);
         return;
       }
-      __privateGet$7(this, _show).call(this, result);
-    }, 200));
-    /// @internal
-    this.mousemoveCallback = (view, event) => {
-      if (view.composing || !view.editable) return false;
-      __privateGet$7(this, _mousemoveCallback).call(this, view, event);
-      return false;
-    };
-    /// @internal
-    this.dragoverCallback = (view, event) => {
-      var _a;
-      if (__privateGet$7(this, _dragging)) {
-        const root = (_a = __privateGet$7(this, _BlockService_instances, view_get)) == null ? void 0 : _a.dom.parentElement;
-        if (!root) return false;
-        const hasHorizontalScrollbar = root.scrollHeight > root.clientHeight;
-        const rootRect = root.getBoundingClientRect();
-        if (hasHorizontalScrollbar) {
-          if (root.scrollTop > 0 && Math.abs(event.y - rootRect.y) < buffer) {
-            const top = root.scrollTop > 10 ? root.scrollTop - 10 : 0;
-            root.scrollTop = top;
-            return false;
+      i$2(this, F).call(this, h);
+    }, 200)), this.mousemoveCallback = (t, e) => (t.composing || !t.editable || i$2(this, K).call(this, t, e), !1), this.dragoverCallback = (t, e) => {
+      var r;
+      if (i$2(this, m$2)) {
+        const o = (r = i$2(this, C, A)) == null ? void 0 : r.dom.parentElement;
+        if (!o)
+          return !1;
+        const l = o.scrollHeight > o.clientHeight, c = o.getBoundingClientRect();
+        if (l) {
+          if (o.scrollTop > 0 && Math.abs(e.y - c.y) < ot$1) {
+            const u = o.scrollTop > 10 ? o.scrollTop - 10 : 0;
+            return o.scrollTop = u, !1;
           }
-          const totalHeight = Math.round(view.dom.getBoundingClientRect().height);
-          const scrollBottom = Math.round(root.scrollTop + rootRect.height);
-          if (scrollBottom < totalHeight && Math.abs(event.y - (rootRect.height + rootRect.y)) < buffer) {
-            const top = root.scrollTop + 10;
-            root.scrollTop = top;
-            return false;
+          const h = Math.round(t.dom.getBoundingClientRect().height);
+          if (Math.round(o.scrollTop + c.height) < h && Math.abs(e.y - (c.height + c.y)) < ot$1) {
+            const u = o.scrollTop + 10;
+            return o.scrollTop = u, !1;
           }
         }
       }
-      return false;
-    };
-    /// @internal
-    this.dragenterCallback = (view) => {
-      if (!view.dragging) return;
-      __privateSet$7(this, _dragging, true);
-      view.dom.dataset.dragging = "true";
-    };
-    /// @internal
-    this.dragleaveCallback = (view, event) => {
-      const x = event.clientX;
-      const y = event.clientY;
-      if (x < 0 || y < 0 || x > window.innerWidth || y > window.innerHeight) {
-        __privateSet$7(this, _active, null);
-        __privateGet$7(this, _dragEnd).call(this, view);
-      }
-    };
-    /// @internal
-    this.dropCallback = (view) => {
-      __privateGet$7(this, _dragEnd).call(this, view);
-      return false;
-    };
-    /// @internal
-    this.dragendCallback = (view) => {
-      __privateGet$7(this, _dragEnd).call(this, view);
-    };
-    /// @internal
-    __privateAdd$8(this, _dragEnd, (view) => {
-      __privateSet$7(this, _dragging, false);
-      view.dom.dataset.dragging = "false";
+      return !1;
+    }, this.dragenterCallback = (t) => {
+      t.dragging && (n$1(this, m$2, !0), t.dom.dataset.dragging = "true");
+    }, this.dragleaveCallback = (t, e) => {
+      const r = e.clientX, o = e.clientY;
+      (r < 0 || o < 0 || r > window.innerWidth || o > window.innerHeight) && (n$1(this, g$1, null), i$2(this, w$1).call(this, t));
+    }, this.dropCallback = (t) => (i$2(this, w$1).call(this, t), !1), this.dragendCallback = (t) => {
+      i$2(this, w$1).call(this, t);
+    }, n$1(this, w$1, (t) => {
+      n$1(this, m$2, !1), t.dom.dataset.dragging = "false";
     });
   }
 }
-_ctx$2 = new WeakMap();
-_createSelection = new WeakMap();
-_activeSelection = new WeakMap();
-_active = new WeakMap();
-_activeDOMRect = new WeakMap();
-_dragging = new WeakMap();
-_BlockService_instances = new WeakSet();
-filterNodes_get = function() {
-  var _a;
-  return (_a = __privateGet$7(this, _ctx$2)) == null ? void 0 : _a.get(blockConfig.key).filterNodes;
-};
-view_get = function() {
-  var _a;
-  return (_a = __privateGet$7(this, _ctx$2)) == null ? void 0 : _a.get(editorViewCtx);
-};
-_notify = new WeakMap();
-_hide = new WeakMap();
-_show = new WeakMap();
-_handleMouseDown = new WeakMap();
-_handleMouseUp = new WeakMap();
-_handleDragStart = new WeakMap();
-_mousemoveCallback = new WeakMap();
-_dragEnd = new WeakMap();
-
-const blockService = $ctx(new BlockService(), "blockService");
-withMeta$2(blockConfig, {
+D = new WeakMap(), H$1 = new WeakMap(), k = new WeakMap(), g$1 = new WeakMap(), T$1 = new WeakMap(), m$2 = new WeakMap(), U$1 = new WeakSet(), st$1 = function() {
+  var t;
+  return (t = i$2(this, D)) == null ? void 0 : t.get(_.key).filterNodes;
+}, C = new WeakSet(), A = function() {
+  var t;
+  return (t = i$2(this, D)) == null ? void 0 : t.get(L$4);
+}, y$1 = new WeakMap(), v = new WeakMap(), F = new WeakMap(), M$1 = new WeakMap(), P$2 = new WeakMap(), B$1 = new WeakMap(), K = new WeakMap(), w$1 = new WeakMap();
+const X$1 = h$2(new vt(), "blockService");
+Y$1(_, {
   displayName: "Ctx<blockService>"
 });
-const blockSpec = $ctx({}, "blockSpec");
-withMeta$2(blockConfig, {
+const G = h$2({}, "blockSpec");
+Y$1(_, {
   displayName: "Ctx<blockSpec>"
 });
-const blockPlugin = $prose((ctx) => {
-  const milkdownPluginBlockKey = new PluginKey("MILKDOWN_BLOCK");
-  const service = ctx.get(blockService.key);
-  const spec = ctx.get(blockSpec.key);
+const Q$2 = ue$2((s) => {
+  const t = new PluginKey("MILKDOWN_BLOCK"), e = s.get(X$1.key), r = s.get(G.key);
   return new Plugin({
-    key: milkdownPluginBlockKey,
-    ...spec,
+    key: t,
+    ...r,
     props: {
-      ...spec.props,
+      ...r.props,
       handleDOMEvents: {
-        drop: (view) => {
-          return service.dropCallback(view);
-        },
-        pointermove: (view, event) => {
-          return service.mousemoveCallback(view, event);
-        },
-        keydown: (view) => {
-          return service.keydownCallback(view);
-        },
-        dragover: (view, event) => {
-          return service.dragoverCallback(view, event);
-        },
-        dragleave: (view, event) => {
-          return service.dragleaveCallback(view, event);
-        },
-        dragenter: (view) => {
-          return service.dragenterCallback(view);
-        },
-        dragend: (view) => {
-          return service.dragendCallback(view);
-        }
+        drop: (o) => e.dropCallback(o),
+        pointermove: (o, l) => e.mousemoveCallback(o, l),
+        keydown: (o) => e.keydownCallback(o),
+        dragover: (o, l) => e.dragoverCallback(o, l),
+        dragleave: (o, l) => e.dragleaveCallback(o, l),
+        dragenter: (o) => e.dragenterCallback(o),
+        dragend: (o) => e.dragendCallback(o)
       }
     }
   });
 });
-withMeta$2(blockPlugin, {
+Y$1(Q$2, {
   displayName: "Prose<block>"
 });
-
-var __typeError$7 = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck$7 = (obj, member, msg) => member.has(obj) || __typeError$7("Cannot " + msg);
-var __privateGet$6 = (obj, member, getter) => (__accessCheck$7(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$7 = (obj, member, value) => member.has(obj) ? __typeError$7("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$6 = (obj, member, value, setter) => (__accessCheck$7(obj, member, "write to private field"), member.set(obj, value), value);
-var __privateMethod$2 = (obj, member, method) => (__accessCheck$7(obj, member, "access private method"), method);
-var _element, _ctx$1, _service, _activeNode, _initialized$1, _middleware$1, _floatingUIOptions$1, _getOffset, _getPosition, _getPlacement, _BlockProvider_instances, init_fn;
-class BlockProvider {
-  constructor(options) {
-    __privateAdd$7(this, _BlockProvider_instances);
+var f$1, b, x$2, E$1, N$1, L$2, O, $$1, W$2, nt$1;
+class Bt {
+  constructor(t) {
     /// @internal
-    __privateAdd$7(this, _element);
+    a$1(this, W$2);
     /// @internal
-    __privateAdd$7(this, _ctx$1);
+    a$1(this, f$1, void 0);
     /// @internal
-    __privateAdd$7(this, _service);
+    a$1(this, b, void 0);
     /// @internal
-    __privateAdd$7(this, _activeNode, null);
+    a$1(this, x$2, void 0);
+    a$1(this, E$1, void 0);
+    a$1(this, N$1, void 0);
     /// @internal
-    __privateAdd$7(this, _initialized$1, false);
+    a$1(this, L$2, void 0);
     /// @internal
-    __privateAdd$7(this, _middleware$1);
+    a$1(this, O, void 0);
     /// @internal
-    __privateAdd$7(this, _floatingUIOptions$1);
-    /// @internal
-    __privateAdd$7(this, _getOffset);
-    /// @internal
-    __privateAdd$7(this, _getPosition);
-    /// @internal
-    __privateAdd$7(this, _getPlacement);
-    /// Update provider state by editor view.
-    this.update = () => {
+    a$1(this, $$1, void 0);
+    n$1(this, E$1, null), n$1(this, N$1, !1), this.update = () => {
       requestAnimationFrame(() => {
-        if (!__privateGet$6(this, _initialized$1)) {
+        if (!i$2(this, N$1))
           try {
-            __privateMethod$2(this, _BlockProvider_instances, init_fn).call(this);
-            __privateSet$6(this, _initialized$1, true);
-          } catch (e) {
+            Z$1(this, W$2, nt$1).call(this), n$1(this, N$1, !0);
+          } catch {
           }
-        }
       });
-    };
-    /// Destroy the block.
-    this.destroy = () => {
-      var _a, _b;
-      (_a = __privateGet$6(this, _service)) == null ? void 0 : _a.unBind();
-      (_b = __privateGet$6(this, _service)) == null ? void 0 : _b.removeEvent(__privateGet$6(this, _element));
-      __privateGet$6(this, _element).remove();
-    };
-    /// Show the block.
-    this.show = (active) => {
-      const dom = active.el;
-      const editorDom = __privateGet$6(this, _ctx$1).get(editorViewCtx).dom;
-      const deriveContext = {
-        ctx: __privateGet$6(this, _ctx$1),
-        active,
-        editorDom,
-        blockDom: __privateGet$6(this, _element)
-      };
-      const virtualEl = {
-        contextElement: dom,
-        getBoundingClientRect: () => {
-          if (__privateGet$6(this, _getPosition)) return __privateGet$6(this, _getPosition).call(this, deriveContext);
-          return dom.getBoundingClientRect();
-        }
-      };
-      const middleware = [flip()];
-      if (__privateGet$6(this, _getOffset)) {
-        const offsetOption = __privateGet$6(this, _getOffset).call(this, deriveContext);
-        const offsetExt = offset(offsetOption);
-        middleware.push(offsetExt);
+    }, this.destroy = () => {
+      var e, r;
+      (e = i$2(this, x$2)) == null || e.unBind(), (r = i$2(this, x$2)) == null || r.removeEvent(i$2(this, f$1)), i$2(this, f$1).remove();
+    }, this.show = (e) => {
+      const r = e.el, o = i$2(this, b).get(L$4).dom, l = {
+        ctx: i$2(this, b),
+        active: e,
+        editorDom: o,
+        blockDom: i$2(this, f$1)
+      }, c = {
+        contextElement: r,
+        getBoundingClientRect: () => i$2(this, O) ? i$2(this, O).call(this, l) : r.getBoundingClientRect()
+      }, h = [flip()];
+      if (i$2(this, L$2)) {
+        const d = i$2(this, L$2).call(this, l), u = offset(d);
+        h.push(u);
       }
-      computePosition(virtualEl, __privateGet$6(this, _element), {
-        placement: __privateGet$6(this, _getPlacement) ? __privateGet$6(this, _getPlacement).call(this, deriveContext) : "left",
-        middleware: [...middleware, ...__privateGet$6(this, _middleware$1)],
-        ...__privateGet$6(this, _floatingUIOptions$1)
-      }).then(({ x, y }) => {
-        Object.assign(__privateGet$6(this, _element).style, {
-          left: `${x}px`,
-          top: `${y}px`
-        });
-        __privateGet$6(this, _element).dataset.show = "true";
+      computePosition(c, i$2(this, f$1), {
+        placement: i$2(this, $$1) ? i$2(this, $$1).call(this, l) : "left",
+        middleware: h
+      }).then(({ x: d, y: u }) => {
+        Object.assign(i$2(this, f$1).style, {
+          left: `${d}px`,
+          top: `${u}px`
+        }), i$2(this, f$1).dataset.show = "true";
       });
-    };
-    /// Hide the block.
-    this.hide = () => {
-      __privateGet$6(this, _element).dataset.show = "false";
-    };
-    var _a, _b;
-    __privateSet$6(this, _ctx$1, options.ctx);
-    __privateSet$6(this, _element, options.content);
-    __privateSet$6(this, _getOffset, options.getOffset);
-    __privateSet$6(this, _getPosition, options.getPosition);
-    __privateSet$6(this, _getPlacement, options.getPlacement);
-    __privateSet$6(this, _middleware$1, (_a = options.middleware) != null ? _a : []);
-    __privateSet$6(this, _floatingUIOptions$1, (_b = options.floatingUIOptions) != null ? _b : {});
-    this.hide();
+    }, this.hide = () => {
+      i$2(this, f$1).dataset.show = "false";
+    }, n$1(this, b, t.ctx), n$1(this, f$1, t.content), n$1(this, L$2, t.getOffset), n$1(this, O, t.getPosition), n$1(this, $$1, t.getPlacement), this.hide();
   }
   /// The context of current active node.
   get active() {
-    return __privateGet$6(this, _activeNode);
+    return i$2(this, E$1);
   }
 }
-_element = new WeakMap();
-_ctx$1 = new WeakMap();
-_service = new WeakMap();
-_activeNode = new WeakMap();
-_initialized$1 = new WeakMap();
-_middleware$1 = new WeakMap();
-_floatingUIOptions$1 = new WeakMap();
-_getOffset = new WeakMap();
-_getPosition = new WeakMap();
-_getPlacement = new WeakMap();
-_BlockProvider_instances = new WeakSet();
-/// @internal
-init_fn = function() {
-  var _a;
-  const view = __privateGet$6(this, _ctx$1).get(editorViewCtx);
-  (_a = view.dom.parentElement) == null ? void 0 : _a.appendChild(__privateGet$6(this, _element));
-  const service = __privateGet$6(this, _ctx$1).get(blockService.key);
-  service.bind(__privateGet$6(this, _ctx$1), (message) => {
-    if (message.type === "hide") {
-      this.hide();
-      __privateSet$6(this, _activeNode, null);
-    } else if (message.type === "show") {
-      this.show(message.active);
-      __privateSet$6(this, _activeNode, message.active);
-    }
-  });
-  __privateSet$6(this, _service, service);
-  __privateGet$6(this, _service).addEvent(__privateGet$6(this, _element));
-  __privateGet$6(this, _element).draggable = true;
+f$1 = new WeakMap(), b = new WeakMap(), x$2 = new WeakMap(), E$1 = new WeakMap(), N$1 = new WeakMap(), L$2 = new WeakMap(), O = new WeakMap(), $$1 = new WeakMap(), W$2 = new WeakSet(), nt$1 = function() {
+  var r;
+  (r = i$2(this, b).get(L$4).dom.parentElement) == null || r.appendChild(i$2(this, f$1));
+  const e = i$2(this, b).get(X$1.key);
+  e.bind(i$2(this, b), (o) => {
+    o.type === "hide" ? (this.hide(), n$1(this, E$1, null)) : o.type === "show" && (this.show(o.active), n$1(this, E$1, o.active));
+  }), n$1(this, x$2, e), i$2(this, x$2).addEvent(i$2(this, f$1)), i$2(this, f$1).draggable = !0;
 };
+const rt$1 = [G, _, X$1, Q$2];
+rt$1.key = G.key;
+rt$1.pluginKey = Q$2.key;
 
-const block = [
-  blockSpec,
-  blockConfig,
-  blockService,
-  blockPlugin
-];
-block.key = blockSpec.key;
-block.pluginKey = blockPlugin.key;
-
-function slashFactory(id) {
-  const slashSpec = $ctx(
-    {},
-    `${id}_SLASH_SPEC`
-  );
-  const slashPlugin = $prose((ctx) => {
-    const spec = ctx.get(slashSpec.key);
+var P$1 = (s, e, t) => {
+  if (!e.has(s))
+    throw TypeError("Cannot " + t);
+};
+var o = (s, e, t) => (P$1(s, e, "read from private field"), t ? t.call(s) : e.get(s)), a = (s, e, t) => {
+  if (e.has(s))
+    throw TypeError("Cannot add the same private member more than once");
+  e instanceof WeakSet ? e.add(s) : e.set(s, t);
+}, r$1 = (s, e, t, n) => (P$1(s, e, "write to private field"), e.set(s, t), t);
+var E = (s, e, t) => (P$1(s, e, "access private method"), t);
+function J$1(s) {
+  const e = h$2({}, `${s}_SLASH_SPEC`), t = ue$2((i) => {
+    const m = i.get(e.key);
     return new Plugin({
-      key: new PluginKey(`${id}_SLASH`),
-      ...spec
+      key: new PluginKey(`${s}_SLASH`),
+      ...m
     });
-  });
-  const result = [slashSpec, slashPlugin];
-  result.key = slashSpec.key;
-  result.pluginKey = slashPlugin.key;
-  slashSpec.meta = {
+  }), n = [e, t];
+  return n.key = e.key, n.pluginKey = t.key, e.meta = {
     package: "@milkdown/plugin-slash",
-    displayName: `Ctx<slashSpec>|${id}`
-  };
-  slashPlugin.meta = {
+    displayName: `Ctx<slashSpec>|${s}`
+  }, t.meta = {
     package: "@milkdown/plugin-slash",
-    displayName: `Prose<slash>|${id}`
-  };
-  return result;
+    displayName: `Prose<slash>|${s}`
+  }, n;
 }
-
-var __typeError$6 = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck$6 = (obj, member, msg) => member.has(obj) || __typeError$6("Cannot " + msg);
-var __privateGet$5 = (obj, member, getter) => (__accessCheck$6(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd$6 = (obj, member, value) => member.has(obj) ? __typeError$6("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet$5 = (obj, member, value, setter) => (__accessCheck$6(obj, member, "write to private field"), member.set(obj, value), value);
-var __privateMethod$1 = (obj, member, method) => (__accessCheck$6(obj, member, "access private method"), method);
-var _initialized, _middleware, _floatingUIOptions, _debounce, _trigger, _shouldShow, _offset, _onUpdate, _SlashProvider_instances, _shouldShow_fn;
-class SlashProvider {
-  constructor(options) {
-    __privateAdd$6(this, _SlashProvider_instances);
+var l$1, u$1, h, d, f, g, S$1, H;
+let Q$1 = class Q {
+  constructor(e) {
     /// @internal
-    __privateAdd$6(this, _initialized, false);
+    a(this, S$1);
+    a(this, l$1, void 0);
     /// @internal
-    __privateAdd$6(this, _middleware);
+    a(this, u$1, void 0);
     /// @internal
-    __privateAdd$6(this, _floatingUIOptions);
+    a(this, h, void 0);
     /// @internal
-    __privateAdd$6(this, _debounce);
-    /// @internal
-    __privateAdd$6(this, _trigger);
-    /// @internal
-    __privateAdd$6(this, _shouldShow);
+    a(this, d, void 0);
     /// The offset to get the block. Default is 0.
-    __privateAdd$6(this, _offset);
-    /// On show callback.
-    this.onShow = () => {
-    };
-    /// On hide callback.
-    this.onHide = () => {
-    };
-    /// @internal
-    __privateAdd$6(this, _onUpdate, (view, prevState) => {
-      var _a;
-      const { state, composing } = view;
-      const { selection, doc } = state;
-      const { ranges } = selection;
-      const from = Math.min(...ranges.map((range) => range.$from.pos));
-      const to = Math.max(...ranges.map((range) => range.$to.pos));
-      const isSame = prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection);
-      if (!__privateGet$5(this, _initialized)) {
-        (_a = view.dom.parentElement) == null ? void 0 : _a.appendChild(this.element);
-        __privateSet$5(this, _initialized, true);
-      }
-      if (composing || isSame) return;
-      if (!__privateGet$5(this, _shouldShow).call(this, view, prevState)) {
+    a(this, f, void 0);
+    a(this, g, void 0);
+    r$1(this, l$1, !1), this.onShow = () => {
+    }, this.onHide = () => {
+    }, r$1(this, g, (t, n) => {
+      var b;
+      const { state: i, composing: m } = t, { selection: c, doc: k } = i, { ranges: y } = c, x = Math.min(...y.map((p) => p.$from.pos)), $ = Math.max(...y.map((p) => p.$to.pos)), w = n && n.doc.eq(k) && n.selection.eq(c);
+      if (o(this, l$1) || ((b = t.dom.parentElement) == null || b.appendChild(this.element), r$1(this, l$1, !0)), m || w)
+        return;
+      if (!o(this, d).call(this, t, n)) {
         this.hide();
         return;
       }
-      const virtualEl = {
-        getBoundingClientRect: () => posToDOMRect(view, from, to)
-      };
-      computePosition(virtualEl, this.element, {
+      computePosition({
+        getBoundingClientRect: () => posToDOMRect(t, x, $)
+      }, this.element, {
         placement: "bottom-start",
-        middleware: [flip(), offset(__privateGet$5(this, _offset)), ...__privateGet$5(this, _middleware)],
-        ...__privateGet$5(this, _floatingUIOptions)
-      }).then(({ x, y }) => {
+        middleware: [flip(), offset(o(this, f))]
+      }).then(({ x: p, y: A }) => {
         Object.assign(this.element.style, {
-          left: `${x}px`,
-          top: `${y}px`
+          left: `${p}px`,
+          top: `${A}px`
         });
-      });
-      this.show();
-    });
-    /// Update provider state by editor view.
-    this.update = (view, prevState) => {
-      const updater = debounce(__privateGet$5(this, _onUpdate), __privateGet$5(this, _debounce));
-      updater(view, prevState);
-    };
-    /// Get the content of the current text block.
-    /// Pass the `matchNode` function to determine whether the current node should be matched, by default, it will match the paragraph node.
-    this.getContent = (view, matchNode = (node) => node.type.name === "paragraph") => {
-      const { selection } = view.state;
-      const { empty, $from } = selection;
-      const isTextBlock = view.state.selection instanceof TextSelection;
-      const isSlashChildren = this.element.contains(document.activeElement);
-      const notHasFocus = !view.hasFocus() && !isSlashChildren;
-      const isReadonly = !view.editable;
-      const paragraph = findParentNode(matchNode)(view.state.selection);
-      const isNotInParagraph = !paragraph;
-      if (notHasFocus || isReadonly || !empty || !isTextBlock || isNotInParagraph)
-        return;
-      return $from.parent.textBetween(
-        Math.max(0, $from.parentOffset - 500),
-        $from.parentOffset,
-        void 0,
-        "\uFFFC"
-      );
-    };
-    /// Destroy the slash.
-    this.destroy = () => {
-    };
-    /// Show the slash.
-    this.show = () => {
-      this.element.dataset.show = "true";
-      this.onShow();
-    };
-    /// Hide the slash.
-    this.hide = () => {
-      this.element.dataset.show = "false";
-      this.onHide();
-    };
-    var _a, _b, _c, _d, _e;
-    this.element = options.content;
-    __privateSet$5(this, _debounce, (_a = options.debounce) != null ? _a : 200);
-    __privateSet$5(this, _shouldShow, (_b = options.shouldShow) != null ? _b : __privateMethod$1(this, _SlashProvider_instances, _shouldShow_fn));
-    __privateSet$5(this, _trigger, (_c = options.trigger) != null ? _c : "/");
-    __privateSet$5(this, _offset, options.offset);
-    __privateSet$5(this, _middleware, (_d = options.middleware) != null ? _d : []);
-    __privateSet$5(this, _floatingUIOptions, (_e = options.floatingUIOptions) != null ? _e : {});
+      }), this.show();
+    }), this.update = (t, n) => {
+      R$1(o(this, g), o(this, u$1))(t, n);
+    }, this.getContent = (t, n = (i) => i.type.name === "paragraph") => {
+      const { selection: i } = t.state, { empty: m, $from: c } = i, k = t.state.selection instanceof TextSelection, y = this.element.contains(document.activeElement), x = !t.hasFocus() && !y, $ = !t.editable, C = !findParentNode(n)(t.state.selection);
+      if (!(x || $ || !m || !k || C))
+        return c.parent.textBetween(Math.max(0, c.parentOffset - 500), c.parentOffset, void 0, "￼");
+    }, this.destroy = () => {
+    }, this.show = () => {
+      this.element.dataset.show = "true", this.onShow();
+    }, this.hide = () => {
+      this.element.dataset.show = "false", this.onHide();
+    }, this.element = e.content, r$1(this, u$1, e.debounce ?? 200), r$1(this, d, e.shouldShow ?? E(this, S$1, H)), r$1(this, h, e.trigger ?? "/"), r$1(this, f, e.offset);
   }
-}
-_initialized = new WeakMap();
-_middleware = new WeakMap();
-_floatingUIOptions = new WeakMap();
-_debounce = new WeakMap();
-_trigger = new WeakMap();
-_shouldShow = new WeakMap();
-_offset = new WeakMap();
-_onUpdate = new WeakMap();
-_SlashProvider_instances = new WeakSet();
-/// @internal
-_shouldShow_fn = function(view) {
-  const currentTextBlockContent = this.getContent(view);
-  if (!currentTextBlockContent) return false;
-  const target = currentTextBlockContent.at(-1);
-  if (!target) return false;
-  return Array.isArray(__privateGet$5(this, _trigger)) ? __privateGet$5(this, _trigger).includes(target) : __privateGet$5(this, _trigger) === target;
+};
+l$1 = new WeakMap(), u$1 = new WeakMap(), h = new WeakMap(), d = new WeakMap(), f = new WeakMap(), g = new WeakMap(), S$1 = new WeakSet(), H = function(e) {
+  const t = this.getContent(e);
+  if (!t)
+    return !1;
+  const n = t.at(-1);
+  return n ? Array.isArray(o(this, h)) ? o(this, h).includes(n) : o(this, h) === n : !1;
 };
 
 function isInCodeBlock(selection) {
@@ -42735,88 +40935,6 @@ function defIfNotExists(tagName, element) {
   if (customElements.get(tagName) == null)
     customElements.define(tagName, element);
 }
-
-function withMeta$1(plugin, meta) {
-  Object.assign(plugin, {
-    meta: {
-      package: "@milkdown/preset-gfm",
-      ...meta
-    }
-  });
-  return plugin;
-}
-
-const strikethroughAttr = $markAttr("strike_through");
-withMeta$1(strikethroughAttr, {
-  displayName: "Attr<strikethrough>",
-  group: "Strikethrough"
-});
-const strikethroughSchema = $markSchema("strike_through", (ctx) => ({
-  parseDOM: [
-    { tag: "del" },
-    {
-      style: "text-decoration",
-      getAttrs: (value) => value === "line-through"
-    }
-  ],
-  toDOM: (mark) => ["del", ctx.get(strikethroughAttr.key)(mark)],
-  parseMarkdown: {
-    match: (node) => node.type === "delete",
-    runner: (state, node, markType) => {
-      state.openMark(markType);
-      state.next(node.children);
-      state.closeMark(markType);
-    }
-  },
-  toMarkdown: {
-    match: (mark) => mark.type.name === "strike_through",
-    runner: (state, mark) => {
-      state.withMark(mark, "delete");
-    }
-  }
-}));
-withMeta$1(strikethroughSchema.mark, {
-  displayName: "MarkSchema<strikethrough>",
-  group: "Strikethrough"
-});
-withMeta$1(strikethroughSchema.ctx, {
-  displayName: "MarkSchemaCtx<strikethrough>",
-  group: "Strikethrough"
-});
-const toggleStrikethroughCommand = $command(
-  "ToggleStrikeThrough",
-  (ctx) => () => {
-    return toggleMark(strikethroughSchema.type(ctx));
-  }
-);
-withMeta$1(toggleStrikethroughCommand, {
-  displayName: "Command<ToggleStrikethrough>",
-  group: "Strikethrough"
-});
-const strikethroughInputRule = $inputRule((ctx) => {
-  return markRule(/~([^~]+)~$/, strikethroughSchema.type(ctx));
-});
-withMeta$1(strikethroughInputRule, {
-  displayName: "InputRule<strikethrough>",
-  group: "Strikethrough"
-});
-const strikethroughKeymap = $useKeymap("strikeThroughKeymap", {
-  ToggleStrikethrough: {
-    shortcuts: "Mod-Alt-x",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(toggleStrikethroughCommand.key);
-    }
-  }
-});
-withMeta$1(strikethroughKeymap.ctx, {
-  displayName: "KeymapCtx<strikethrough>",
-  group: "Strikethrough"
-});
-withMeta$1(strikethroughKeymap.shortcuts, {
-  displayName: "Keymap<strikethrough>",
-  group: "Strikethrough"
-});
 
 // src/index.ts
 
@@ -44973,1056 +43091,6 @@ function tableEditing({
   });
 }
 
-const originalSchema = tableNodes({
-  tableGroup: "block",
-  cellContent: "paragraph",
-  cellAttributes: {
-    alignment: {
-      default: "left",
-      getFromDOM: (dom) => dom.style.textAlign || "left",
-      setDOMAttr: (value, attrs) => {
-        attrs.style = `text-align: ${value || "left"}`;
-      }
-    }
-  }
-});
-const tableSchema = $nodeSchema("table", () => ({
-  ...originalSchema.table,
-  content: "table_header_row table_row+",
-  disableDropCursor: true,
-  parseMarkdown: {
-    match: (node) => node.type === "table",
-    runner: (state, node, type) => {
-      const align = node.align;
-      const children = node.children.map((x, i) => ({
-        ...x,
-        align,
-        isHeader: i === 0
-      }));
-      state.openNode(type);
-      state.next(children);
-      state.closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "table",
-    runner: (state, node) => {
-      var _a;
-      const firstLine = (_a = node.content.firstChild) == null ? void 0 : _a.content;
-      if (!firstLine) return;
-      const align = [];
-      firstLine.forEach((cell) => {
-        align.push(cell.attrs.alignment);
-      });
-      state.openNode("table", void 0, { align });
-      state.next(node.content);
-      state.closeNode();
-    }
-  }
-}));
-withMeta$1(tableSchema.node, {
-  displayName: "NodeSchema<table>",
-  group: "Table"
-});
-withMeta$1(tableSchema.ctx, {
-  displayName: "NodeSchemaCtx<table>",
-  group: "Table"
-});
-const tableHeaderRowSchema = $nodeSchema("table_header_row", () => ({
-  ...originalSchema.table_row,
-  disableDropCursor: true,
-  content: "(table_header)*",
-  parseDOM: [{ tag: "tr[data-is-header]" }],
-  toDOM() {
-    return ["tr", { "data-is-header": true }, 0];
-  },
-  parseMarkdown: {
-    match: (node) => Boolean(node.type === "tableRow" && node.isHeader),
-    runner: (state, node, type) => {
-      const align = node.align;
-      const children = node.children.map((x, i) => ({
-        ...x,
-        align: align[i],
-        isHeader: node.isHeader
-      }));
-      state.openNode(type);
-      state.next(children);
-      state.closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "table_header_row",
-    runner: (state, node) => {
-      state.openNode("tableRow", void 0, { isHeader: true });
-      state.next(node.content);
-      state.closeNode();
-    }
-  }
-}));
-withMeta$1(tableHeaderRowSchema.node, {
-  displayName: "NodeSchema<tableHeaderRow>",
-  group: "Table"
-});
-withMeta$1(tableHeaderRowSchema.ctx, {
-  displayName: "NodeSchemaCtx<tableHeaderRow>",
-  group: "Table"
-});
-const tableRowSchema = $nodeSchema("table_row", () => ({
-  ...originalSchema.table_row,
-  disableDropCursor: true,
-  content: "(table_cell)*",
-  parseMarkdown: {
-    match: (node) => node.type === "tableRow",
-    runner: (state, node, type) => {
-      const align = node.align;
-      const children = node.children.map((x, i) => ({
-        ...x,
-        align: align[i]
-      }));
-      state.openNode(type);
-      state.next(children);
-      state.closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "table_row",
-    runner: (state, node) => {
-      state.openNode("tableRow");
-      state.next(node.content);
-      state.closeNode();
-    }
-  }
-}));
-withMeta$1(tableRowSchema.node, {
-  displayName: "NodeSchema<tableRow>",
-  group: "Table"
-});
-withMeta$1(tableRowSchema.ctx, {
-  displayName: "NodeSchemaCtx<tableRow>",
-  group: "Table"
-});
-const tableCellSchema = $nodeSchema("table_cell", () => ({
-  ...originalSchema.table_cell,
-  disableDropCursor: true,
-  parseMarkdown: {
-    match: (node) => node.type === "tableCell" && !node.isHeader,
-    runner: (state, node, type) => {
-      const align = node.align;
-      state.openNode(type, { alignment: align }).openNode(state.schema.nodes.paragraph).next(node.children).closeNode().closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "table_cell",
-    runner: (state, node) => {
-      state.openNode("tableCell").next(node.content).closeNode();
-    }
-  }
-}));
-withMeta$1(tableCellSchema.node, {
-  displayName: "NodeSchema<tableCell>",
-  group: "Table"
-});
-withMeta$1(tableCellSchema.ctx, {
-  displayName: "NodeSchemaCtx<tableCell>",
-  group: "Table"
-});
-const tableHeaderSchema = $nodeSchema("table_header", () => ({
-  ...originalSchema.table_header,
-  disableDropCursor: true,
-  parseMarkdown: {
-    match: (node) => node.type === "tableCell" && !!node.isHeader,
-    runner: (state, node, type) => {
-      const align = node.align;
-      state.openNode(type, { alignment: align });
-      state.openNode(state.schema.nodes.paragraph);
-      state.next(node.children);
-      state.closeNode();
-      state.closeNode();
-    }
-  },
-  toMarkdown: {
-    match: (node) => node.type.name === "table_header",
-    runner: (state, node) => {
-      state.openNode("tableCell");
-      state.next(node.content);
-      state.closeNode();
-    }
-  }
-}));
-withMeta$1(tableHeaderSchema.node, {
-  displayName: "NodeSchema<tableHeader>",
-  group: "Table"
-});
-withMeta$1(tableHeaderSchema.ctx, {
-  displayName: "NodeSchemaCtx<tableHeader>",
-  group: "Table"
-});
-
-function createTable(ctx, rowsCount = 3, colsCount = 3) {
-  const cells = Array(colsCount).fill(0).map(() => tableCellSchema.type(ctx).createAndFill());
-  const headerCells = Array(colsCount).fill(0).map(() => tableHeaderSchema.type(ctx).createAndFill());
-  const rows = Array(rowsCount).fill(0).map(
-    (_, i) => i === 0 ? tableHeaderRowSchema.type(ctx).create(null, headerCells) : tableRowSchema.type(ctx).create(null, cells)
-  );
-  return tableSchema.type(ctx).create(null, rows);
-}
-function findTable($pos) {
-  return findParentNodeClosestToPos(
-    (node) => node.type.spec.tableRole === "table"
-  )($pos);
-}
-function getCellsInCol(columnIndex, selection) {
-  const table = findTable(selection.$from);
-  if (!table) return void 0;
-  const map = TableMap.get(table.node);
-  if (columnIndex < 0 || columnIndex >= map.width) return void 0;
-  return map.cellsInRect({
-    left: columnIndex,
-    right: columnIndex + 1,
-    top: 0,
-    bottom: map.height
-  }).map((pos) => {
-    const node = table.node.nodeAt(pos);
-    if (!node) return void 0;
-    const start = pos + table.start;
-    return {
-      pos: start,
-      start: start + 1,
-      node
-    };
-  }).filter((x) => x != null);
-}
-function getCellsInRow(rowIndex, selection) {
-  const table = findTable(selection.$from);
-  if (!table) return void 0;
-  const map = TableMap.get(table.node);
-  if (rowIndex < 0 || rowIndex >= map.height) return void 0;
-  return map.cellsInRect({
-    left: 0,
-    right: map.width,
-    top: rowIndex,
-    bottom: rowIndex + 1
-  }).map((pos) => {
-    const node = table.node.nodeAt(pos);
-    if (!node) return void 0;
-    const start = pos + table.start;
-    return {
-      pos: start,
-      start: start + 1,
-      node
-    };
-  }).filter((x) => x != null);
-}
-function getAllCellsInTable(selection) {
-  const table = findTable(selection.$from);
-  if (!table) return;
-  const map = TableMap.get(table.node);
-  const cells = map.cellsInRect({
-    left: 0,
-    right: map.width,
-    top: 0,
-    bottom: map.height
-  });
-  return cells.map((nodePos) => {
-    const node = table.node.nodeAt(nodePos);
-    const pos = nodePos + table.start;
-    return { pos, start: pos + 1, node };
-  });
-}
-function selectTable(tr) {
-  const cells = getAllCellsInTable(tr.selection);
-  if (cells && cells[0]) {
-    const $firstCell = tr.doc.resolve(cells[0].pos);
-    const last = cells[cells.length - 1];
-    if (last) {
-      const $lastCell = tr.doc.resolve(last.pos);
-      return cloneTr(tr.setSelection(new CellSelection($lastCell, $firstCell)));
-    }
-  }
-  return tr;
-}
-function addRowWithAlignment(ctx, tr, { map, tableStart, table }, row) {
-  const rowPos = Array(row).fill(0).reduce((acc, _, i) => {
-    return acc + table.child(i).nodeSize;
-  }, tableStart);
-  const cells = Array(map.width).fill(0).map((_, col) => {
-    const headerCol = table.nodeAt(map.map[col]);
-    return tableCellSchema.type(ctx).createAndFill({ alignment: headerCol == null ? void 0 : headerCol.attrs.alignment });
-  });
-  tr.insert(rowPos, tableRowSchema.type(ctx).create(null, cells));
-  return tr;
-}
-function selectLine(type) {
-  return (index, pos) => (tr) => {
-    pos = pos != null ? pos : tr.selection.from;
-    const $pos = tr.doc.resolve(pos);
-    const $node = findParentNodeClosestToPos(
-      (node) => node.type.name === "table"
-    )($pos);
-    const table = $node ? {
-      node: $node.node,
-      from: $node.start
-    } : void 0;
-    const isRowSelection = type === "row";
-    if (table) {
-      const map = TableMap.get(table.node);
-      if (index >= 0 && index < (isRowSelection ? map.height : map.width)) {
-        const lastCell = map.positionAt(
-          isRowSelection ? index : map.height - 1,
-          isRowSelection ? map.width - 1 : index,
-          table.node
-        );
-        const $lastCell = tr.doc.resolve(table.from + lastCell);
-        const createCellSelection = isRowSelection ? CellSelection.rowSelection : CellSelection.colSelection;
-        const firstCell = map.positionAt(
-          isRowSelection ? index : 0,
-          isRowSelection ? 0 : index,
-          table.node
-        );
-        const $firstCell = tr.doc.resolve(table.from + firstCell);
-        return cloneTr(
-          tr.setSelection(
-            createCellSelection($lastCell, $firstCell)
-          )
-        );
-      }
-    }
-    return tr;
-  };
-}
-const selectRow = selectLine("row");
-const selectCol = selectLine("col");
-function transpose(array) {
-  return array[0].map((_, i) => {
-    return array.map((column) => column[i]);
-  });
-}
-function convertArrayOfRowsToTableNode(tableNode, arrayOfNodes) {
-  const rowsPM = [];
-  const map = TableMap.get(tableNode);
-  for (let rowIndex = 0; rowIndex < map.height; rowIndex++) {
-    const row = tableNode.child(rowIndex);
-    const rowCells = [];
-    for (let colIndex = 0; colIndex < map.width; colIndex++) {
-      if (!arrayOfNodes[rowIndex][colIndex]) continue;
-      const cellPos = map.map[rowIndex * map.width + colIndex];
-      const cell = arrayOfNodes[rowIndex][colIndex];
-      const oldCell = tableNode.nodeAt(cellPos);
-      const newCell = oldCell.type.createChecked(
-        Object.assign({}, cell.attrs),
-        cell.content,
-        cell.marks
-      );
-      rowCells.push(newCell);
-    }
-    rowsPM.push(row.type.createChecked(row.attrs, rowCells, row.marks));
-  }
-  const newTable = tableNode.type.createChecked(
-    tableNode.attrs,
-    rowsPM,
-    tableNode.marks
-  );
-  return newTable;
-}
-function convertTableNodeToArrayOfRows(tableNode) {
-  const map = TableMap.get(tableNode);
-  const rows = [];
-  for (let rowIndex = 0; rowIndex < map.height; rowIndex++) {
-    const rowCells = [];
-    const seen = {};
-    for (let colIndex = 0; colIndex < map.width; colIndex++) {
-      const cellPos = map.map[rowIndex * map.width + colIndex];
-      const cell = tableNode.nodeAt(cellPos);
-      const rect = map.findCell(cellPos);
-      if (seen[cellPos] || rect.top !== rowIndex) {
-        rowCells.push(null);
-        continue;
-      }
-      seen[cellPos] = true;
-      rowCells.push(cell);
-    }
-    rows.push(rowCells);
-  }
-  return rows;
-}
-function moveRowInArrayOfRows(rows, indexesOrigin, indexesTarget, directionOverride) {
-  const direction = indexesOrigin[0] > indexesTarget[0] ? -1 : 1;
-  const rowsExtracted = rows.splice(indexesOrigin[0], indexesOrigin.length);
-  const positionOffset = rowsExtracted.length % 2 === 0 ? 1 : 0;
-  let target;
-  {
-    target = direction === -1 ? indexesTarget[0] : indexesTarget[indexesTarget.length - 1] - positionOffset;
-  }
-  rows.splice(target, 0, ...rowsExtracted);
-  return rows;
-}
-function moveTableColumn(table, indexesOrigin, indexesTarget, direction) {
-  let rows = transpose(convertTableNodeToArrayOfRows(table.node));
-  rows = moveRowInArrayOfRows(rows, indexesOrigin, indexesTarget);
-  rows = transpose(rows);
-  return convertArrayOfRowsToTableNode(table.node, rows);
-}
-function moveTableRow(table, indexesOrigin, indexesTarget, direction) {
-  let rows = convertTableNodeToArrayOfRows(table.node);
-  rows = moveRowInArrayOfRows(rows, indexesOrigin, indexesTarget);
-  return convertArrayOfRowsToTableNode(table.node, rows);
-}
-function getSelectionRangeInColumn(columnIndex, tr) {
-  let startIndex = columnIndex;
-  let endIndex = columnIndex;
-  for (let i = columnIndex; i >= 0; i--) {
-    const cells = getCellsInCol(i, tr.selection);
-    if (cells) {
-      cells.forEach((cell) => {
-        const maybeEndIndex = cell.node.attrs.colspan + i - 1;
-        if (maybeEndIndex >= startIndex) startIndex = i;
-        if (maybeEndIndex > endIndex) endIndex = maybeEndIndex;
-      });
-    }
-  }
-  for (let i = columnIndex; i <= endIndex; i++) {
-    const cells = getCellsInCol(i, tr.selection);
-    if (cells) {
-      cells.forEach((cell) => {
-        const maybeEndIndex = cell.node.attrs.colspan + i - 1;
-        if (cell.node.attrs.colspan > 1 && maybeEndIndex > endIndex)
-          endIndex = maybeEndIndex;
-      });
-    }
-  }
-  const indexes = [];
-  for (let i = startIndex; i <= endIndex; i++) {
-    const maybeCells = getCellsInCol(i, tr.selection);
-    if (maybeCells && maybeCells.length) indexes.push(i);
-  }
-  startIndex = indexes[0];
-  endIndex = indexes[indexes.length - 1];
-  const firstSelectedColumnCells = getCellsInCol(startIndex, tr.selection);
-  const firstRowCells = getCellsInRow(0, tr.selection);
-  const $anchor = tr.doc.resolve(
-    firstSelectedColumnCells[firstSelectedColumnCells.length - 1].pos
-  );
-  let headCell;
-  for (let i = endIndex; i >= startIndex; i--) {
-    const columnCells = getCellsInCol(i, tr.selection);
-    if (columnCells && columnCells.length) {
-      for (let j = firstRowCells.length - 1; j >= 0; j--) {
-        if (firstRowCells[j].pos === columnCells[0].pos) {
-          headCell = columnCells[0];
-          break;
-        }
-      }
-      if (headCell) break;
-    }
-  }
-  const $head = tr.doc.resolve(headCell.pos);
-  return { $anchor, $head, indexes };
-}
-function getSelectionRangeInRow(rowIndex, tr) {
-  let startIndex = rowIndex;
-  let endIndex = rowIndex;
-  for (let i = rowIndex; i >= 0; i--) {
-    const cells = getCellsInRow(i, tr.selection);
-    cells.forEach((cell) => {
-      const maybeEndIndex = cell.node.attrs.rowspan + i - 1;
-      if (maybeEndIndex >= startIndex) startIndex = i;
-      if (maybeEndIndex > endIndex) endIndex = maybeEndIndex;
-    });
-  }
-  for (let i = rowIndex; i <= endIndex; i++) {
-    const cells = getCellsInRow(i, tr.selection);
-    cells.forEach((cell) => {
-      const maybeEndIndex = cell.node.attrs.rowspan + i - 1;
-      if (cell.node.attrs.rowspan > 1 && maybeEndIndex > endIndex)
-        endIndex = maybeEndIndex;
-    });
-  }
-  const indexes = [];
-  for (let i = startIndex; i <= endIndex; i++) {
-    const maybeCells = getCellsInRow(i, tr.selection);
-    if (maybeCells && maybeCells.length) indexes.push(i);
-  }
-  startIndex = indexes[0];
-  endIndex = indexes[indexes.length - 1];
-  const firstSelectedRowCells = getCellsInRow(startIndex, tr.selection);
-  const firstColumnCells = getCellsInCol(0, tr.selection);
-  const $anchor = tr.doc.resolve(
-    firstSelectedRowCells[firstSelectedRowCells.length - 1].pos
-  );
-  let headCell;
-  for (let i = endIndex; i >= startIndex; i--) {
-    const rowCells = getCellsInRow(i, tr.selection);
-    if (rowCells && rowCells.length) {
-      for (let j = firstColumnCells.length - 1; j >= 0; j--) {
-        if (firstColumnCells[j].pos === rowCells[0].pos) {
-          headCell = rowCells[0];
-          break;
-        }
-      }
-      if (headCell) break;
-    }
-  }
-  const $head = tr.doc.resolve(headCell.pos);
-  return { $anchor, $head, indexes };
-}
-function moveCol(moveColParams) {
-  const { tr, origin, target, select = true, pos } = moveColParams;
-  const $pos = pos != null ? tr.doc.resolve(pos) : tr.selection.$from;
-  const table = findTable($pos);
-  if (!table) return tr;
-  const { indexes: indexesOriginColumn } = getSelectionRangeInColumn(origin, tr);
-  const { indexes: indexesTargetColumn } = getSelectionRangeInColumn(target, tr);
-  if (indexesOriginColumn.includes(target)) return tr;
-  const newTable = moveTableColumn(
-    table,
-    indexesOriginColumn,
-    indexesTargetColumn);
-  const _tr = cloneTr(tr).replaceWith(
-    table.pos,
-    table.pos + table.node.nodeSize,
-    newTable
-  );
-  if (!select) return _tr;
-  const map = TableMap.get(newTable);
-  const start = table.start;
-  const index = target;
-  const lastCell = map.positionAt(map.height - 1, index, newTable);
-  const $lastCell = _tr.doc.resolve(start + lastCell);
-  const createCellSelection = CellSelection.colSelection;
-  const firstCell = map.positionAt(0, index, newTable);
-  const $firstCell = _tr.doc.resolve(start + firstCell);
-  return _tr.setSelection(createCellSelection($lastCell, $firstCell));
-}
-function moveRow(moveRowParams) {
-  const { tr, origin, target, select = true, pos } = moveRowParams;
-  const $pos = pos != null ? tr.doc.resolve(pos) : tr.selection.$from;
-  const table = findTable($pos);
-  if (!table) return tr;
-  const { indexes: indexesOriginRow } = getSelectionRangeInRow(origin, tr);
-  const { indexes: indexesTargetRow } = getSelectionRangeInRow(target, tr);
-  if (indexesOriginRow.includes(target)) return tr;
-  const newTable = moveTableRow(table, indexesOriginRow, indexesTargetRow);
-  const _tr = cloneTr(tr).replaceWith(
-    table.pos,
-    table.pos + table.node.nodeSize,
-    newTable
-  );
-  if (!select) return _tr;
-  const map = TableMap.get(newTable);
-  const start = table.start;
-  const index = target;
-  const lastCell = map.positionAt(index, map.width - 1, newTable);
-  const $lastCell = _tr.doc.resolve(start + lastCell);
-  const createCellSelection = CellSelection.rowSelection;
-  const firstCell = map.positionAt(index, 0, newTable);
-  const $firstCell = _tr.doc.resolve(start + firstCell);
-  return _tr.setSelection(createCellSelection($lastCell, $firstCell));
-}
-
-const goToPrevTableCellCommand = $command(
-  "GoToPrevTableCell",
-  () => () => goToNextCell(-1)
-);
-withMeta$1(goToPrevTableCellCommand, {
-  displayName: "Command<goToPrevTableCellCommand>",
-  group: "Table"
-});
-const goToNextTableCellCommand = $command(
-  "GoToNextTableCell",
-  () => () => goToNextCell(1)
-);
-withMeta$1(goToNextTableCellCommand, {
-  displayName: "Command<goToNextTableCellCommand>",
-  group: "Table"
-});
-const exitTable$1 = $command(
-  "ExitTable",
-  (ctx) => () => (state, dispatch) => {
-    if (!isInTable(state)) return false;
-    const { $head } = state.selection;
-    const table = findParentNodeType($head, tableSchema.type(ctx));
-    if (!table) return false;
-    const { to } = table;
-    const tr = state.tr.replaceWith(
-      to,
-      to,
-      paragraphSchema.type(ctx).createAndFill()
-    );
-    tr.setSelection(Selection.near(tr.doc.resolve(to), 1)).scrollIntoView();
-    dispatch == null ? void 0 : dispatch(tr);
-    return true;
-  }
-);
-withMeta$1(exitTable$1, {
-  displayName: "Command<breakTableCommand>",
-  group: "Table"
-});
-const insertTableCommand = $command(
-  "InsertTable",
-  (ctx) => ({ row, col } = {}) => (state, dispatch) => {
-    const { selection, tr } = state;
-    const { from } = selection;
-    const table = createTable(ctx, row, col);
-    const _tr = tr.replaceSelectionWith(table);
-    const sel = Selection.findFrom(_tr.doc.resolve(from), 1, true);
-    if (sel) _tr.setSelection(sel);
-    dispatch == null ? void 0 : dispatch(_tr);
-    return true;
-  }
-);
-withMeta$1(insertTableCommand, {
-  displayName: "Command<insertTableCommand>",
-  group: "Table"
-});
-const moveRowCommand = $command(
-  "MoveRow",
-  () => ({ from, to, pos } = {}) => (state, dispatch) => {
-    const { tr } = state;
-    const result = dispatch == null ? void 0 : dispatch(
-      moveRow({ tr, origin: from != null ? from : 0, target: to != null ? to : 0, pos, select: true })
-    );
-    return Boolean(result);
-  }
-);
-withMeta$1(moveRowCommand, {
-  displayName: "Command<moveRowCommand>",
-  group: "Table"
-});
-const moveColCommand = $command(
-  "MoveCol",
-  () => ({ from, to, pos } = {}) => (state, dispatch) => {
-    const { tr } = state;
-    const result = dispatch == null ? void 0 : dispatch(
-      moveCol({ tr, origin: from != null ? from : 0, target: to != null ? to : 0, pos, select: true })
-    );
-    return Boolean(result);
-  }
-);
-withMeta$1(moveColCommand, {
-  displayName: "Command<moveColCommand>",
-  group: "Table"
-});
-const selectRowCommand = $command(
-  "SelectRow",
-  () => (payload = { index: 0 }) => (state, dispatch) => {
-    const { tr } = state;
-    const result = dispatch == null ? void 0 : dispatch(selectRow(payload.index, payload.pos)(tr));
-    return Boolean(result);
-  }
-);
-withMeta$1(selectRowCommand, {
-  displayName: "Command<selectRowCommand>",
-  group: "Table"
-});
-const selectColCommand = $command(
-  "SelectCol",
-  () => (payload = { index: 0 }) => (state, dispatch) => {
-    const { tr } = state;
-    const result = dispatch == null ? void 0 : dispatch(selectCol(payload.index, payload.pos)(tr));
-    return Boolean(result);
-  }
-);
-withMeta$1(selectColCommand, {
-  displayName: "Command<selectColCommand>",
-  group: "Table"
-});
-const selectTableCommand = $command(
-  "SelectTable",
-  () => () => (state, dispatch) => {
-    const { tr } = state;
-    const result = dispatch == null ? void 0 : dispatch(selectTable(tr));
-    return Boolean(result);
-  }
-);
-withMeta$1(selectTableCommand, {
-  displayName: "Command<selectTableCommand>",
-  group: "Table"
-});
-const deleteSelectedCellsCommand = $command(
-  "DeleteSelectedCells",
-  () => () => (state, dispatch) => {
-    const { selection } = state;
-    if (!(selection instanceof CellSelection)) return false;
-    const isRow = selection.isRowSelection();
-    const isCol = selection.isColSelection();
-    if (isRow && isCol) return deleteTable(state, dispatch);
-    if (isCol) return deleteColumn(state, dispatch);
-    else return deleteRow(state, dispatch);
-  }
-);
-withMeta$1(deleteSelectedCellsCommand, {
-  displayName: "Command<deleteSelectedCellsCommand>",
-  group: "Table"
-});
-const addColBeforeCommand = $command(
-  "AddColBefore",
-  () => () => addColumnBefore
-);
-withMeta$1(addColBeforeCommand, {
-  displayName: "Command<addColBeforeCommand>",
-  group: "Table"
-});
-const addColAfterCommand = $command(
-  "AddColAfter",
-  () => () => addColumnAfter
-);
-withMeta$1(addColAfterCommand, {
-  displayName: "Command<addColAfterCommand>",
-  group: "Table"
-});
-const addRowBeforeCommand = $command(
-  "AddRowBefore",
-  (ctx) => () => (state, dispatch) => {
-    if (!isInTable(state)) return false;
-    if (dispatch) {
-      const rect = selectedRect(state);
-      dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.top));
-    }
-    return true;
-  }
-);
-withMeta$1(addRowBeforeCommand, {
-  displayName: "Command<addRowBeforeCommand>",
-  group: "Table"
-});
-const addRowAfterCommand = $command(
-  "AddRowAfter",
-  (ctx) => () => (state, dispatch) => {
-    if (!isInTable(state)) return false;
-    if (dispatch) {
-      const rect = selectedRect(state);
-      dispatch(addRowWithAlignment(ctx, state.tr, rect, rect.bottom));
-    }
-    return true;
-  }
-);
-withMeta$1(addRowAfterCommand, {
-  displayName: "Command<addRowAfterCommand>",
-  group: "Table"
-});
-const setAlignCommand = $command(
-  "SetAlign",
-  () => (alignment = "left") => setCellAttr("alignment", alignment)
-);
-withMeta$1(setAlignCommand, {
-  displayName: "Command<setAlignCommand>",
-  group: "Table"
-});
-
-const insertTableInputRule = $inputRule(
-  (ctx) => new InputRule(
-    /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/,
-    (state, match, start, end) => {
-      var _a, _b;
-      const $start = state.doc.resolve(start);
-      if (!$start.node(-1).canReplaceWith(
-        $start.index(-1),
-        $start.indexAfter(-1),
-        tableSchema.type(ctx)
-      ))
-        return null;
-      const tableNode = createTable(
-        ctx,
-        Number((_a = match.groups) == null ? void 0 : _a.row),
-        Number((_b = match.groups) == null ? void 0 : _b.col)
-      );
-      const tr = state.tr.replaceRangeWith(start, end, tableNode);
-      return tr.setSelection(TextSelection.create(tr.doc, start + 3)).scrollIntoView();
-    }
-  )
-);
-withMeta$1(insertTableInputRule, {
-  displayName: "InputRule<insertTableInputRule>",
-  group: "Table"
-});
-const tableKeymap = $useKeymap("tableKeymap", {
-  NextCell: {
-    shortcuts: ["Mod-]", "Tab"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(goToNextTableCellCommand.key);
-    }
-  },
-  PrevCell: {
-    shortcuts: ["Mod-[", "Shift-Tab"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(goToPrevTableCellCommand.key);
-    }
-  },
-  ExitTable: {
-    shortcuts: ["Mod-Enter"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(exitTable$1.key);
-    }
-  }
-});
-withMeta$1(tableKeymap.ctx, {
-  displayName: "KeymapCtx<table>",
-  group: "Table"
-});
-withMeta$1(tableKeymap.shortcuts, {
-  displayName: "Keymap<table>",
-  group: "Table"
-});
-
-const id$1 = "footnote_definition";
-const markdownId = "footnoteDefinition";
-const footnoteDefinitionSchema = $nodeSchema(
-  "footnote_definition",
-  () => ({
-    group: "block",
-    content: "block+",
-    defining: true,
-    attrs: {
-      label: {
-        default: ""
-      }
-    },
-    parseDOM: [
-      {
-        tag: `dl[data-type="${id$1}"]`,
-        getAttrs: (dom) => {
-          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-          return {
-            label: dom.dataset.label
-          };
-        },
-        contentElement: "dd"
-      }
-    ],
-    toDOM: (node) => {
-      const label = node.attrs.label;
-      return [
-        "dl",
-        {
-          // TODO: add a prosemirror plugin to sync label on change
-          "data-label": label,
-          "data-type": id$1
-        },
-        ["dt", label],
-        ["dd", 0]
-      ];
-    },
-    parseMarkdown: {
-      match: ({ type }) => type === markdownId,
-      runner: (state, node, type) => {
-        state.openNode(type, {
-          label: node.label
-        }).next(node.children).closeNode();
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === id$1,
-      runner: (state, node) => {
-        state.openNode(markdownId, void 0, {
-          label: node.attrs.label,
-          identifier: node.attrs.label
-        }).next(node.content).closeNode();
-      }
-    }
-  })
-);
-withMeta$1(footnoteDefinitionSchema.ctx, {
-  displayName: "NodeSchemaCtx<footnodeDef>",
-  group: "footnote"
-});
-withMeta$1(footnoteDefinitionSchema.node, {
-  displayName: "NodeSchema<footnodeDef>",
-  group: "footnote"
-});
-
-const id = "footnote_reference";
-const footnoteReferenceSchema = $nodeSchema(
-  "footnote_reference",
-  () => ({
-    group: "inline",
-    inline: true,
-    atom: true,
-    attrs: {
-      label: {
-        default: ""
-      }
-    },
-    parseDOM: [
-      {
-        tag: `sup[data-type="${id}"]`,
-        getAttrs: (dom) => {
-          if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-          return {
-            label: dom.dataset.label
-          };
-        }
-      }
-    ],
-    toDOM: (node) => {
-      const label = node.attrs.label;
-      return [
-        "sup",
-        {
-          // TODO: add a prosemirror plugin to sync label on change
-          "data-label": label,
-          "data-type": id
-        },
-        label
-      ];
-    },
-    parseMarkdown: {
-      match: ({ type }) => type === "footnoteReference",
-      runner: (state, node, type) => {
-        state.addNode(type, {
-          label: node.label
-        });
-      }
-    },
-    toMarkdown: {
-      match: (node) => node.type.name === id,
-      runner: (state, node) => {
-        state.addNode("footnoteReference", void 0, void 0, {
-          label: node.attrs.label,
-          identifier: node.attrs.label
-        });
-      }
-    }
-  })
-);
-withMeta$1(footnoteReferenceSchema.ctx, {
-  displayName: "NodeSchemaCtx<footnodeRef>",
-  group: "footnote"
-});
-withMeta$1(footnoteReferenceSchema.node, {
-  displayName: "NodeSchema<footnodeRef>",
-  group: "footnote"
-});
-
-const extendListItemSchemaForTask = listItemSchema.extendSchema(
-  (prev) => {
-    return (ctx) => {
-      const baseSchema = prev(ctx);
-      return {
-        ...baseSchema,
-        attrs: {
-          ...baseSchema.attrs,
-          checked: {
-            default: null
-          }
-        },
-        parseDOM: [
-          {
-            tag: 'li[data-item-type="task"]',
-            getAttrs: (dom) => {
-              if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom);
-              return {
-                label: dom.dataset.label,
-                listType: dom.dataset.listType,
-                spread: dom.dataset.spread,
-                checked: dom.dataset.checked ? dom.dataset.checked === "true" : null
-              };
-            }
-          },
-          ...(baseSchema == null ? void 0 : baseSchema.parseDOM) || []
-        ],
-        toDOM: (node) => {
-          if (baseSchema.toDOM && node.attrs.checked == null)
-            return baseSchema.toDOM(node);
-          return [
-            "li",
-            {
-              "data-item-type": "task",
-              "data-label": node.attrs.label,
-              "data-list-type": node.attrs.listType,
-              "data-spread": node.attrs.spread,
-              "data-checked": node.attrs.checked
-            },
-            0
-          ];
-        },
-        parseMarkdown: {
-          match: ({ type }) => type === "listItem",
-          runner: (state, node, type) => {
-            if (node.checked == null) {
-              baseSchema.parseMarkdown.runner(state, node, type);
-              return;
-            }
-            const label = node.label != null ? `${node.label}.` : "\u2022";
-            const checked = node.checked != null ? Boolean(node.checked) : null;
-            const listType = node.label != null ? "ordered" : "bullet";
-            const spread = node.spread != null ? `${node.spread}` : "true";
-            state.openNode(type, { label, listType, spread, checked });
-            state.next(node.children);
-            state.closeNode();
-          }
-        },
-        toMarkdown: {
-          match: (node) => node.type.name === "list_item",
-          runner: (state, node) => {
-            if (node.attrs.checked == null) {
-              baseSchema.toMarkdown.runner(state, node);
-              return;
-            }
-            const label = node.attrs.label;
-            const listType = node.attrs.listType;
-            const spread = node.attrs.spread === "true";
-            const checked = node.attrs.checked;
-            state.openNode("listItem", void 0, {
-              label,
-              listType,
-              spread,
-              checked
-            });
-            state.next(node.content);
-            state.closeNode();
-          }
-        }
-      };
-    };
-  }
-);
-withMeta$1(extendListItemSchemaForTask, {
-  displayName: "NodeSchema<listItem>",
-  group: "ListItem"
-});
-const wrapInTaskListInputRule = $inputRule(() => {
-  return new InputRule(
-    /^\[(?<checked>\s|x)\]\s$/,
-    (state, match, start, end) => {
-      var _a;
-      const pos = state.doc.resolve(start);
-      let depth = 0;
-      let node = pos.node(depth);
-      while (node && node.type.name !== "list_item") {
-        depth--;
-        node = pos.node(depth);
-      }
-      if (!node || node.attrs.checked != null) return null;
-      const checked = Boolean(((_a = match.groups) == null ? void 0 : _a.checked) === "x");
-      const finPos = pos.before(depth);
-      const tr = state.tr;
-      tr.deleteRange(start, end).setNodeMarkup(finPos, void 0, {
-        ...node.attrs,
-        checked
-      });
-      return tr;
-    }
-  );
-});
-withMeta$1(wrapInTaskListInputRule, {
-  displayName: "InputRule<wrapInTaskListInputRule>",
-  group: "ListItem"
-});
-
-const keymap = [
-  strikethroughKeymap,
-  tableKeymap
-].flat();
-
-const inputRules = [
-  insertTableInputRule,
-  wrapInTaskListInputRule
-];
-const markInputRules = [strikethroughInputRule];
-
 // src/index.ts
 
 // src/browser.ts
@@ -46031,8 +43099,8 @@ var agent = nav && nav.userAgent || "";
 var ie_edge = /Edge\/(\d+)/.exec(agent);
 var ie_upto10 = /MSIE \d/.exec(agent);
 var ie_11up = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(agent);
-var ie = !!(ie_upto10 || ie_11up || ie_edge);
-var safari = !ie && !!nav && /Apple Computer/.test(nav.vendor);
+var ie$1 = !!(ie_upto10 || ie_11up || ie_edge);
+var safari = !ie$1 && !!nav && /Apple Computer/.test(nav.vendor);
 
 // src/index.ts
 var key = new PluginKey("safari-ime-span");
@@ -46067,26 +43135,6 @@ function createSpan(view) {
   return span;
 }
 var imeSpan = new Plugin(safari ? spec : { key });
-
-const autoInsertSpanPlugin = $prose(() => imeSpan);
-withMeta$1(autoInsertSpanPlugin, {
-  displayName: "Prose<autoInsertSpanPlugin>",
-  group: "Prose"
-});
-
-const columnResizingPlugin = $prose(() => columnResizing({}));
-withMeta$1(columnResizingPlugin, {
-  displayName: "Prose<columnResizingPlugin>",
-  group: "Prose"
-});
-
-const tableEditingPlugin = $prose(
-  () => tableEditing({ allowTableNodeSelection: true })
-);
-withMeta$1(tableEditingPlugin, {
-  displayName: "Prose<tableEditingPlugin>",
-  group: "Prose"
-});
 
 /**
  * Count how often a character (or substring) is used in a string.
@@ -48631,7 +45679,7 @@ function previousUnbalanced(events) {
  * @import {Event, Exiter, Extension, Resolver, State, Token, TokenizeContext, Tokenizer} from 'micromark-util-types'
  */
 
-const indent$1 = {
+const indent = {
   tokenize: tokenizeIndent,
   partial: true
 };
@@ -49082,7 +46130,7 @@ function tokenizeDefinitionContinuation(effects, ok, nok) {
   /// ```
   //
   // Either a blank line, which is okay, or an indented thing.
-  return effects.check(blankLine, ok, effects.attempt(indent$1, ok, nok));
+  return effects.check(blankLine, ok, effects.attempt(indent, ok, nok));
 }
 
 /** @type {Exiter} */
@@ -50485,7 +47533,7 @@ function spaceThenNonSpace(effects, ok, nok) {
  *   Extension for `micromark` that can be passed in `extensions` to enable GFM
  *   syntax.
  */
-function gfm$1(options) {
+function gfm(options) {
   return combineExtensions([
     gfmAutolinkLiteral(),
     gfmFootnote(),
@@ -50525,107 +47573,977 @@ function remarkGfm(options) {
   const toMarkdownExtensions =
     data.toMarkdownExtensions || (data.toMarkdownExtensions = []);
 
-  micromarkExtensions.push(gfm$1(settings));
+  micromarkExtensions.push(gfm(settings));
   fromMarkdownExtensions.push(gfmFromMarkdown());
   toMarkdownExtensions.push(gfmToMarkdown(settings));
 }
 
-const remarkGFMPlugin = $remark("remarkGFM", () => remarkGfm);
-withMeta$1(remarkGFMPlugin.plugin, {
+function i$1(e, t) {
+  return Object.assign(e, {
+    meta: {
+      package: "@milkdown/preset-gfm",
+      ...t
+    }
+  }), e;
+}
+const W$1 = we$2("strike_through");
+i$1(W$1, {
+  displayName: "Attr<strikethrough>",
+  group: "Strikethrough"
+});
+const T = ye$2("strike_through", (e) => ({
+  parseDOM: [
+    { tag: "del" },
+    { style: "text-decoration", getAttrs: (t) => t === "line-through" }
+  ],
+  toDOM: (t) => ["del", e.get(W$1.key)(t)],
+  parseMarkdown: {
+    match: (t) => t.type === "delete",
+    runner: (t, n, o) => {
+      t.openMark(o), t.next(n.children), t.closeMark(o);
+    }
+  },
+  toMarkdown: {
+    match: (t) => t.type.name === "strike_through",
+    runner: (t, n) => {
+      t.withMark(n, "delete");
+    }
+  }
+}));
+i$1(T.mark, {
+  displayName: "MarkSchema<strikethrough>",
+  group: "Strikethrough"
+});
+i$1(T.ctx, {
+  displayName: "MarkSchemaCtx<strikethrough>",
+  group: "Strikethrough"
+});
+const z = re$1("ToggleStrikeThrough", (e) => () => toggleMark(T.type(e)));
+i$1(z, {
+  displayName: "Command<ToggleStrikethrough>",
+  group: "Strikethrough"
+});
+const ie = oe$2((e) => markRule(/~([^~]+)~$/, T.type(e)));
+i$1(ie, {
+  displayName: "InputRule<strikethrough>",
+  group: "Strikethrough"
+});
+const j = ge$2("strikeThroughKeymap", {
+  ToggleStrikethrough: {
+    shortcuts: "Mod-Alt-x",
+    command: (e) => {
+      const t = e.get(je);
+      return () => t.call(z.key);
+    }
+  }
+});
+i$1(j.ctx, {
+  displayName: "KeymapCtx<strikethrough>",
+  group: "Strikethrough"
+});
+i$1(j.shortcuts, {
+  displayName: "Keymap<strikethrough>",
+  group: "Strikethrough"
+});
+const S = tableNodes({
+  tableGroup: "block",
+  cellContent: "paragraph",
+  cellAttributes: {
+    alignment: {
+      default: "left",
+      getFromDOM: (e) => e.style.textAlign || "left",
+      setDOMAttr: (e, t) => {
+        t.style = `text-align: ${e || "left"}`;
+      }
+    }
+  }
+}), N = fe$2("table", () => ({
+  ...S.table,
+  content: "table_header_row table_row+",
+  disableDropCursor: !0,
+  parseMarkdown: {
+    match: (e) => e.type === "table",
+    runner: (e, t, n) => {
+      const o = t.align, l = t.children.map((r, s) => ({
+        ...r,
+        align: o,
+        isHeader: s === 0
+      }));
+      e.openNode(n), e.next(l), e.closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "table",
+    runner: (e, t) => {
+      var l;
+      const n = (l = t.content.firstChild) == null ? void 0 : l.content;
+      if (!n)
+        return;
+      const o = [];
+      n.forEach((r) => {
+        o.push(r.attrs.alignment);
+      }), e.openNode("table", void 0, { align: o }), e.next(t.content), e.closeNode();
+    }
+  }
+}));
+i$1(N.node, {
+  displayName: "NodeSchema<table>",
+  group: "Table"
+});
+i$1(N.ctx, {
+  displayName: "NodeSchemaCtx<table>",
+  group: "Table"
+});
+const $ = fe$2("table_header_row", () => ({
+  ...S.table_row,
+  disableDropCursor: !0,
+  content: "(table_header)*",
+  parseDOM: [{ tag: "tr[data-is-header]" }],
+  toDOM() {
+    return ["tr", { "data-is-header": !0 }, 0];
+  },
+  parseMarkdown: {
+    match: (e) => !!(e.type === "tableRow" && e.isHeader),
+    runner: (e, t, n) => {
+      const o = t.align, l = t.children.map((r, s) => ({
+        ...r,
+        align: o[s],
+        isHeader: t.isHeader
+      }));
+      e.openNode(n), e.next(l), e.closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "table_header_row",
+    runner: (e, t) => {
+      e.openNode("tableRow", void 0, { isHeader: !0 }), e.next(t.content), e.closeNode();
+    }
+  }
+}));
+i$1($.node, {
+  displayName: "NodeSchema<tableHeaderRow>",
+  group: "Table"
+});
+i$1($.ctx, {
+  displayName: "NodeSchemaCtx<tableHeaderRow>",
+  group: "Table"
+});
+const R = fe$2("table_row", () => ({
+  ...S.table_row,
+  disableDropCursor: !0,
+  content: "(table_cell)*",
+  parseMarkdown: {
+    match: (e) => e.type === "tableRow",
+    runner: (e, t, n) => {
+      const o = t.align, l = t.children.map((r, s) => ({
+        ...r,
+        align: o[s]
+      }));
+      e.openNode(n), e.next(l), e.closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "table_row",
+    runner: (e, t) => {
+      e.openNode("tableRow"), e.next(t.content), e.closeNode();
+    }
+  }
+}));
+i$1(R.node, {
+  displayName: "NodeSchema<tableRow>",
+  group: "Table"
+});
+i$1(R.ctx, {
+  displayName: "NodeSchemaCtx<tableRow>",
+  group: "Table"
+});
+const M = fe$2("table_cell", () => ({
+  ...S.table_cell,
+  disableDropCursor: !0,
+  parseMarkdown: {
+    match: (e) => e.type === "tableCell" && !e.isHeader,
+    runner: (e, t, n) => {
+      const o = t.align;
+      e.openNode(n, { alignment: o }).openNode(e.schema.nodes.paragraph).next(t.children).closeNode().closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "table_cell",
+    runner: (e, t) => {
+      e.openNode("tableCell").next(t.content).closeNode();
+    }
+  }
+}));
+i$1(M.node, {
+  displayName: "NodeSchema<tableCell>",
+  group: "Table"
+});
+i$1(M.ctx, {
+  displayName: "NodeSchemaCtx<tableCell>",
+  group: "Table"
+});
+const I = fe$2("table_header", () => ({
+  ...S.table_header,
+  disableDropCursor: !0,
+  parseMarkdown: {
+    match: (e) => e.type === "tableCell" && !!e.isHeader,
+    runner: (e, t, n) => {
+      const o = t.align;
+      e.openNode(n, { alignment: o }), e.openNode(e.schema.nodes.paragraph), e.next(t.children), e.closeNode(), e.closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === "table_header",
+    runner: (e, t) => {
+      e.openNode("tableCell"), e.next(t.content), e.closeNode();
+    }
+  }
+}));
+i$1(I.node, {
+  displayName: "NodeSchema<tableHeader>",
+  group: "Table"
+});
+i$1(I.ctx, {
+  displayName: "NodeSchemaCtx<tableHeader>",
+  group: "Table"
+});
+function de(e, t = 3, n = 3) {
+  const o = Array(n).fill(0).map(() => M.type(e).createAndFill()), l = Array(n).fill(0).map(() => I.type(e).createAndFill()), r = Array(t).fill(0).map((s, c) => c === 0 ? $.type(e).create(null, l) : R.type(e).create(null, o));
+  return N.type(e).create(null, r);
+}
+function x$1(e) {
+  return findParentNodeClosestToPos((t) => t.type.spec.tableRole === "table")(e);
+}
+function y(e, t) {
+  const n = x$1(t.$from);
+  if (!n)
+    return;
+  const o = TableMap.get(n.node);
+  if (!(e < 0 || e >= o.width))
+    return o.cellsInRect({ left: e, right: e + 1, top: 0, bottom: o.height }).map((l) => {
+      const r = n.node.nodeAt(l);
+      if (!r)
+        return;
+      const s = l + n.start;
+      return {
+        pos: s,
+        start: s + 1,
+        node: r
+      };
+    }).filter((l) => l != null);
+}
+function w(e, t) {
+  const n = x$1(t.$from);
+  if (!n)
+    return;
+  const o = TableMap.get(n.node);
+  if (!(e < 0 || e >= o.height))
+    return o.cellsInRect({ left: 0, right: o.width, top: e, bottom: e + 1 }).map((l) => {
+      const r = n.node.nodeAt(l);
+      if (!r)
+        return;
+      const s = l + n.start;
+      return {
+        pos: s,
+        start: s + 1,
+        node: r
+      };
+    }).filter((l) => l != null);
+}
+function ot(e) {
+  const t = x$1(e.$from);
+  if (!t)
+    return;
+  const n = TableMap.get(t.node);
+  return n.cellsInRect({
+    left: 0,
+    right: n.width,
+    top: 0,
+    bottom: n.height
+  }).map((l) => {
+    const r = t.node.nodeAt(l), s = l + t.start;
+    return { pos: s, start: s + 1, node: r };
+  });
+}
+function nt(e) {
+  const t = ot(e.selection);
+  if (t && t[0]) {
+    const n = e.doc.resolve(t[0].pos), o = t[t.length - 1];
+    if (o) {
+      const l = e.doc.resolve(o.pos);
+      return cloneTr(e.setSelection(new CellSelection(l, n)));
+    }
+  }
+  return e;
+}
+function me(e, t, { map: n, tableStart: o, table: l }, r) {
+  const s = Array(r).fill(0).reduce((d, p, a) => d + l.child(a).nodeSize, o), c = Array(n.width).fill(0).map((d, p) => {
+    const a = l.nodeAt(n.map[p]);
+    return M.type(e).createAndFill({ alignment: a == null ? void 0 : a.attrs.alignment });
+  });
+  return t.insert(s, R.type(e).create(null, c)), t;
+}
+function ue(e) {
+  return (t, n) => (o) => {
+    n = n ?? o.selection.from;
+    const l = o.doc.resolve(n), r = findParentNodeClosestToPos((d) => d.type.name === "table")(l), s = r ? {
+      node: r.node,
+      from: r.start
+    } : void 0, c = e === "row";
+    if (s) {
+      const d = TableMap.get(s.node);
+      if (t >= 0 && t < (c ? d.height : d.width)) {
+        const p = d.positionAt(
+          c ? t : d.height - 1,
+          c ? d.width - 1 : t,
+          s.node
+        ), a = o.doc.resolve(s.from + p), m = c ? CellSelection.rowSelection : CellSelection.colSelection, u = d.positionAt(c ? t : 0, c ? 0 : t, s.node), f = o.doc.resolve(s.from + u);
+        return cloneTr(o.setSelection(m(a, f)));
+      }
+    }
+    return o;
+  };
+}
+const lt = ue("row"), rt = ue("col");
+function Z(e) {
+  return e[0].map((t, n) => e.map((o) => o[n]));
+}
+function pe(e, t) {
+  const n = [], o = TableMap.get(e);
+  for (let r = 0; r < o.height; r++) {
+    const s = e.child(r), c = [];
+    for (let d = 0; d < o.width; d++) {
+      if (!t[r][d])
+        continue;
+      const p = o.map[r * o.width + d], a = t[r][d], u = e.nodeAt(p).type.createChecked(
+        Object.assign({}, a.attrs),
+        a.content,
+        a.marks
+      );
+      c.push(u);
+    }
+    n.push(s.type.createChecked(s.attrs, c, s.marks));
+  }
+  return e.type.createChecked(
+    e.attrs,
+    n,
+    e.marks
+  );
+}
+function fe(e) {
+  const t = TableMap.get(e), n = [];
+  for (let o = 0; o < t.height; o++) {
+    const l = [], r = {};
+    for (let s = 0; s < t.width; s++) {
+      const c = t.map[o * t.width + s], d = e.nodeAt(c), p = t.findCell(c);
+      if (r[c] || p.top !== o) {
+        l.push(null);
+        continue;
+      }
+      r[c] = !0, l.push(d);
+    }
+    n.push(l);
+  }
+  return n;
+}
+function ge(e, t, n, o) {
+  const l = t[0] > n[0] ? -1 : 1, r = e.splice(t[0], t.length), s = r.length % 2 === 0 ? 1 : 0;
+  let c;
+  return c = l === -1 ? n[0] : n[n.length - 1] - s, e.splice(c, 0, ...r), e;
+}
+function at(e, t, n, o) {
+  let l = Z(fe(e.node));
+  return l = ge(l, t, n), l = Z(l), pe(e.node, l);
+}
+function st(e, t, n, o) {
+  let l = fe(e.node);
+  return l = ge(l, t, n), pe(e.node, l);
+}
+function ee(e, t) {
+  let n = e, o = e;
+  for (let a = e; a >= 0; a--) {
+    const m = y(a, t.selection);
+    m && m.forEach((u) => {
+      const f = u.node.attrs.colspan + a - 1;
+      f >= n && (n = a), f > o && (o = f);
+    });
+  }
+  for (let a = e; a <= o; a++) {
+    const m = y(a, t.selection);
+    m && m.forEach((u) => {
+      const f = u.node.attrs.colspan + a - 1;
+      u.node.attrs.colspan > 1 && f > o && (o = f);
+    });
+  }
+  const l = [];
+  for (let a = n; a <= o; a++) {
+    const m = y(a, t.selection);
+    m && m.length && l.push(a);
+  }
+  n = l[0], o = l[l.length - 1];
+  const r = y(n, t.selection), s = w(0, t.selection), c = t.doc.resolve(
+    r[r.length - 1].pos
+  );
+  let d;
+  for (let a = o; a >= n; a--) {
+    const m = y(a, t.selection);
+    if (m && m.length) {
+      for (let u = s.length - 1; u >= 0; u--)
+        if (s[u].pos === m[0].pos) {
+          d = m[0];
+          break;
+        }
+      if (d)
+        break;
+    }
+  }
+  const p = t.doc.resolve(d.pos);
+  return { $anchor: c, $head: p, indexes: l };
+}
+function te(e, t) {
+  let n = e, o = e;
+  for (let a = e; a >= 0; a--)
+    w(a, t.selection).forEach((u) => {
+      const f = u.node.attrs.rowspan + a - 1;
+      f >= n && (n = a), f > o && (o = f);
+    });
+  for (let a = e; a <= o; a++)
+    w(a, t.selection).forEach((u) => {
+      const f = u.node.attrs.rowspan + a - 1;
+      u.node.attrs.rowspan > 1 && f > o && (o = f);
+    });
+  const l = [];
+  for (let a = n; a <= o; a++) {
+    const m = w(a, t.selection);
+    m && m.length && l.push(a);
+  }
+  n = l[0], o = l[l.length - 1];
+  const r = w(n, t.selection), s = y(0, t.selection), c = t.doc.resolve(r[r.length - 1].pos);
+  let d;
+  for (let a = o; a >= n; a--) {
+    const m = w(a, t.selection);
+    if (m && m.length) {
+      for (let u = s.length - 1; u >= 0; u--)
+        if (s[u].pos === m[0].pos) {
+          d = m[0];
+          break;
+        }
+      if (d)
+        break;
+    }
+  }
+  const p = t.doc.resolve(d.pos);
+  return { $anchor: c, $head: p, indexes: l };
+}
+function ct(e) {
+  const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = x$1(s);
+  if (!c)
+    return t;
+  const { indexes: d } = ee(n, t), { indexes: p } = ee(o, t);
+  if (d.includes(o))
+    return t;
+  const a = at(
+    c,
+    d,
+    p), m = cloneTr(t).replaceWith(
+    c.pos,
+    c.pos + c.node.nodeSize,
+    a
+  );
+  if (!l)
+    return m;
+  const u = TableMap.get(a), f = c.start, b = o, P = u.positionAt(u.height - 1, b, a), D = m.doc.resolve(f + P), E = CellSelection.colSelection, O = u.positionAt(0, b, a), H = m.doc.resolve(f + O);
+  return m.setSelection(E(D, H));
+}
+function it(e) {
+  const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = x$1(s);
+  if (!c)
+    return t;
+  const { indexes: d } = te(n, t), { indexes: p } = te(o, t);
+  if (d.includes(o))
+    return t;
+  const a = st(
+    c,
+    d,
+    p), m = cloneTr(t).replaceWith(
+    c.pos,
+    c.pos + c.node.nodeSize,
+    a
+  );
+  if (!l)
+    return m;
+  const u = TableMap.get(a), f = c.start, b = o, P = u.positionAt(b, u.width - 1, a), D = m.doc.resolve(f + P), E = CellSelection.rowSelection, O = u.positionAt(b, 0, a), H = m.doc.resolve(f + O);
+  return m.setSelection(E(D, H));
+}
+const V = re$1("GoToPrevTableCell", () => () => goToNextCell(-1));
+i$1(V, {
+  displayName: "Command<goToPrevTableCellCommand>",
+  group: "Table"
+});
+const U = re$1("GoToNextTableCell", () => () => goToNextCell(1));
+i$1(U, {
+  displayName: "Command<goToNextTableCellCommand>",
+  group: "Table"
+});
+const X = re$1("ExitTable", (e) => () => (t, n) => {
+  if (!isInTable(t))
+    return !1;
+  const { $head: o } = t.selection, l = findParentNodeType(o, N.type(e));
+  if (!l)
+    return !1;
+  const { to: r } = l, s = t.tr.replaceWith(r, r, w$2.type(e).createAndFill());
+  return s.setSelection(Selection.near(s.doc.resolve(r), 1)).scrollIntoView(), n == null || n(s), !0;
+});
+i$1(X, {
+  displayName: "Command<breakTableCommand>",
+  group: "Table"
+});
+const he = re$1("InsertTable", (e) => ({ row: t, col: n } = {}) => (o, l) => {
+  const { selection: r, tr: s } = o, { from: c } = r, d = de(e, t, n), p = s.replaceSelectionWith(d), a = Selection.findFrom(p.doc.resolve(c), 1, !0);
+  return a && p.setSelection(a), l == null || l(p), !0;
+});
+i$1(he, {
+  displayName: "Command<insertTableCommand>",
+  group: "Table"
+});
+const be = re$1("MoveRow", () => ({ from: e, to: t, pos: n } = {}) => (o, l) => {
+  const { tr: r } = o;
+  return !!(l == null ? void 0 : l(it({ tr: r, origin: e ?? 0, target: t ?? 0, pos: n, select: !0 })));
+});
+i$1(be, {
+  displayName: "Command<moveRowCommand>",
+  group: "Table"
+});
+const Ce = re$1("MoveCol", () => ({ from: e, to: t, pos: n } = {}) => (o, l) => {
+  const { tr: r } = o;
+  return !!(l == null ? void 0 : l(ct({ tr: r, origin: e ?? 0, target: t ?? 0, pos: n, select: !0 })));
+});
+i$1(Ce, {
+  displayName: "Command<moveColCommand>",
+  group: "Table"
+});
+const ye = re$1("SelectRow", () => (e = { index: 0 }) => (t, n) => {
+  const { tr: o } = t;
+  return !!(n == null ? void 0 : n(lt(e.index, e.pos)(o)));
+});
+i$1(ye, {
+  displayName: "Command<selectRowCommand>",
+  group: "Table"
+});
+const we = re$1("SelectCol", () => (e = { index: 0 }) => (t, n) => {
+  const { tr: o } = t;
+  return !!(n == null ? void 0 : n(rt(e.index, e.pos)(o)));
+});
+i$1(we, {
+  displayName: "Command<selectColCommand>",
+  group: "Table"
+});
+const ke = re$1("SelectTable", () => () => (e, t) => {
+  const { tr: n } = e;
+  return !!(t == null ? void 0 : t(nt(n)));
+});
+i$1(ke, {
+  displayName: "Command<selectTableCommand>",
+  group: "Table"
+});
+const Ne = re$1("DeleteSelectedCells", () => () => (e, t) => {
+  const { selection: n } = e;
+  if (!(n instanceof CellSelection))
+    return !1;
+  const o = n.isRowSelection(), l = n.isColSelection();
+  return o && l ? deleteTable(e, t) : l ? deleteColumn(e, t) : deleteRow(e, t);
+});
+i$1(Ne, {
+  displayName: "Command<deleteSelectedCellsCommand>",
+  group: "Table"
+});
+const Te = re$1("AddColBefore", () => () => addColumnBefore);
+i$1(Te, {
+  displayName: "Command<addColBeforeCommand>",
+  group: "Table"
+});
+const Se = re$1("AddColAfter", () => () => addColumnAfter);
+i$1(Se, {
+  displayName: "Command<addColAfterCommand>",
+  group: "Table"
+});
+const Re = re$1("AddRowBefore", (e) => () => (t, n) => {
+  if (!isInTable(t))
+    return !1;
+  if (n) {
+    const o = selectedRect(t);
+    n(me(e, t.tr, o, o.top));
+  }
+  return !0;
+});
+i$1(Re, {
+  displayName: "Command<addRowBeforeCommand>",
+  group: "Table"
+});
+const Me = re$1("AddRowAfter", (e) => () => (t, n) => {
+  if (!isInTable(t))
+    return !1;
+  if (n) {
+    const o = selectedRect(t);
+    n(me(e, t.tr, o, o.bottom));
+  }
+  return !0;
+});
+i$1(Me, {
+  displayName: "Command<addRowAfterCommand>",
+  group: "Table"
+});
+const xe = re$1("SetAlign", () => (e = "left") => setCellAttr("alignment", e));
+i$1(xe, {
+  displayName: "Command<setAlignCommand>",
+  group: "Table"
+});
+const Ae = oe$2((e) => new InputRule(
+  /^\|(?<col>\d+)[xX](?<row>\d+)\|\s$/,
+  (t, n, o, l) => {
+    var d, p;
+    const r = t.doc.resolve(o);
+    if (!r.node(-1).canReplaceWith(r.index(-1), r.indexAfter(-1), N.type(e)))
+      return null;
+    const s = de(
+      e,
+      Number((d = n.groups) == null ? void 0 : d.row),
+      Number((p = n.groups) == null ? void 0 : p.col)
+    ), c = t.tr.replaceRangeWith(o, l, s);
+    return c.setSelection(TextSelection.create(c.doc, o + 3)).scrollIntoView();
+  }
+));
+i$1(Ae, {
+  displayName: "InputRule<insertTableInputRule>",
+  group: "Table"
+});
+const q = ge$2("tableKeymap", {
+  NextCell: {
+    shortcuts: ["Mod-]", "Tab"],
+    command: (e) => {
+      const t = e.get(je);
+      return () => t.call(U.key);
+    }
+  },
+  PrevCell: {
+    shortcuts: ["Mod-[", "Shift-Tab"],
+    command: (e) => {
+      const t = e.get(je);
+      return () => t.call(V.key);
+    }
+  },
+  ExitTable: {
+    shortcuts: ["Mod-Enter"],
+    command: (e) => {
+      const t = e.get(je);
+      return () => t.call(X.key);
+    }
+  }
+});
+i$1(q.ctx, {
+  displayName: "KeymapCtx<table>",
+  group: "Table"
+});
+i$1(q.shortcuts, {
+  displayName: "Keymap<table>",
+  group: "Table"
+});
+const B = "footnote_definition", oe = "footnoteDefinition", J = fe$2("footnote_definition", () => ({
+  group: "block",
+  content: "block+",
+  defining: !0,
+  attrs: {
+    label: {
+      default: ""
+    }
+  },
+  parseDOM: [
+    {
+      tag: `dl[data-type="${B}"]`,
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return {
+          label: e.dataset.label
+        };
+      },
+      contentElement: "dd"
+    }
+  ],
+  toDOM: (e) => {
+    const t = e.attrs.label;
+    return [
+      "dl",
+      {
+        // TODO: add a prosemirror plugin to sync label on change
+        "data-label": t,
+        "data-type": B
+      },
+      ["dt", t],
+      ["dd", 0]
+    ];
+  },
+  parseMarkdown: {
+    match: ({ type: e }) => e === oe,
+    runner: (e, t, n) => {
+      e.openNode(n, {
+        label: t.label
+      }).next(t.children).closeNode();
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === B,
+    runner: (e, t) => {
+      e.openNode(oe, void 0, {
+        label: t.attrs.label,
+        identifier: t.attrs.label
+      }).next(t.content).closeNode();
+    }
+  }
+}));
+i$1(J.ctx, {
+  displayName: "NodeSchemaCtx<footnodeDef>",
+  group: "footnote"
+});
+i$1(J.node, {
+  displayName: "NodeSchema<footnodeDef>",
+  group: "footnote"
+});
+const L$1 = "footnote_reference", Q = fe$2("footnote_reference", () => ({
+  group: "inline",
+  inline: !0,
+  atom: !0,
+  attrs: {
+    label: {
+      default: ""
+    }
+  },
+  parseDOM: [
+    {
+      tag: `sup[data-type="${L$1}"]`,
+      getAttrs: (e) => {
+        if (!(e instanceof HTMLElement))
+          throw S$6(e);
+        return {
+          label: e.dataset.label
+        };
+      }
+    }
+  ],
+  toDOM: (e) => {
+    const t = e.attrs.label;
+    return [
+      "sup",
+      {
+        // TODO: add a prosemirror plugin to sync label on change
+        "data-label": t,
+        "data-type": L$1
+      },
+      t
+    ];
+  },
+  parseMarkdown: {
+    match: ({ type: e }) => e === "footnoteReference",
+    runner: (e, t, n) => {
+      e.addNode(n, {
+        label: t.label
+      });
+    }
+  },
+  toMarkdown: {
+    match: (e) => e.type.name === L$1,
+    runner: (e, t) => {
+      e.addNode("footnoteReference", void 0, void 0, {
+        label: t.attrs.label,
+        identifier: t.attrs.label
+      });
+    }
+  }
+}));
+i$1(Q.ctx, {
+  displayName: "NodeSchemaCtx<footnodeRef>",
+  group: "footnote"
+});
+i$1(Q.node, {
+  displayName: "NodeSchema<footnodeRef>",
+  group: "footnote"
+});
+const ve = M$2.extendSchema((e) => (t) => {
+  const n = e(t);
+  return {
+    ...n,
+    attrs: {
+      ...n.attrs,
+      checked: {
+        default: null
+      }
+    },
+    parseDOM: [
+      {
+        tag: 'li[data-item-type="task"]',
+        getAttrs: (o) => {
+          if (!(o instanceof HTMLElement))
+            throw S$6(o);
+          return {
+            label: o.dataset.label,
+            listType: o.dataset.listType,
+            spread: o.dataset.spread,
+            checked: o.dataset.checked ? o.dataset.checked === "true" : null
+          };
+        }
+      },
+      ...(n == null ? void 0 : n.parseDOM) || []
+    ],
+    toDOM: (o) => n.toDOM && o.attrs.checked == null ? n.toDOM(o) : [
+      "li",
+      {
+        "data-item-type": "task",
+        "data-label": o.attrs.label,
+        "data-list-type": o.attrs.listType,
+        "data-spread": o.attrs.spread,
+        "data-checked": o.attrs.checked
+      },
+      0
+    ],
+    parseMarkdown: {
+      match: ({ type: o }) => o === "listItem",
+      runner: (o, l, r) => {
+        if (l.checked == null) {
+          n.parseMarkdown.runner(o, l, r);
+          return;
+        }
+        const s = l.label != null ? `${l.label}.` : "•", c = l.checked != null ? !!l.checked : null, d = l.label != null ? "ordered" : "bullet", p = l.spread != null ? `${l.spread}` : "true";
+        o.openNode(r, { label: s, listType: d, spread: p, checked: c }), o.next(l.children), o.closeNode();
+      }
+    },
+    toMarkdown: {
+      match: (o) => o.type.name === "list_item",
+      runner: (o, l) => {
+        if (l.attrs.checked == null) {
+          n.toMarkdown.runner(o, l);
+          return;
+        }
+        const r = l.attrs.label, s = l.attrs.listType, c = l.attrs.spread === "true", d = l.attrs.checked;
+        o.openNode("listItem", void 0, { label: r, listType: s, spread: c, checked: d }), o.next(l.content), o.closeNode();
+      }
+    }
+  };
+});
+i$1(ve, {
+  displayName: "NodeSchema<listItem>",
+  group: "ListItem"
+});
+const _e = oe$2(() => new InputRule(/^\[(?<checked>\s|x)\]\s$/, (e, t, n, o) => {
+  var a;
+  const l = e.doc.resolve(n);
+  let r = 0, s = l.node(r);
+  for (; s && s.type.name !== "list_item"; )
+    r--, s = l.node(r);
+  if (!s || s.attrs.checked != null)
+    return null;
+  const c = ((a = t.groups) == null ? void 0 : a.checked) === "x", d = l.before(r), p = e.tr;
+  return p.deleteRange(n, o).setNodeMarkup(d, void 0, { ...s.attrs, checked: c }), p;
+}));
+i$1(_e, {
+  displayName: "InputRule<wrapInTaskListInputRule>",
+  group: "ListItem"
+});
+const dt = [
+  j,
+  q
+].flat(), mt = [
+  Ae,
+  _e
+], ut = [
+  ie
+], $e = ue$2(() => imeSpan);
+i$1($e, {
+  displayName: "Prose<autoInsertSpanPlugin>",
+  group: "Prose"
+});
+const pt = ue$2(() => columnResizing({}));
+i$1(pt, {
+  displayName: "Prose<columnResizingPlugin>",
+  group: "Prose"
+});
+const Ie = ue$2(() => tableEditing({ allowTableNodeSelection: !0 }));
+i$1(Ie, {
+  displayName: "Prose<tableEditingPlugin>",
+  group: "Prose"
+});
+const Y = ke$2("remarkGFM", () => remarkGfm);
+i$1(Y.plugin, {
   displayName: "Remark<remarkGFMPlugin>",
   group: "Remark"
 });
-withMeta$1(remarkGFMPlugin.options, {
+i$1(Y.options, {
   displayName: "RemarkConfig<remarkGFMPlugin>",
   group: "Remark"
 });
-
-const pluginKey = new PluginKey("MILKDOWN_KEEP_TABLE_ALIGN_PLUGIN");
-function getChildIndex(node, parent) {
-  let index = 0;
-  parent.forEach((child, _offset, i) => {
-    if (child === node) index = i;
-  });
-  return index;
+const ft = new PluginKey("MILKDOWN_KEEP_TABLE_ALIGN_PLUGIN");
+function gt(e, t) {
+  let n = 0;
+  return t.forEach((o, l, r) => {
+    o === e && (n = r);
+  }), n;
 }
-const keepTableAlignPlugin = $prose(() => {
-  return new Plugin({
-    key: pluginKey,
-    appendTransaction: (_tr, oldState, state) => {
-      let tr;
-      const check = (node, pos) => {
-        if (!tr) tr = state.tr;
-        if (node.type.name !== "table_cell") return;
-        const $pos = state.doc.resolve(pos);
-        const tableRow = $pos.node($pos.depth);
-        const table = $pos.node($pos.depth - 1);
-        const tableHeaderRow = table.firstChild;
-        if (!tableHeaderRow) return;
-        const index = getChildIndex(node, tableRow);
-        const headerCell = tableHeaderRow.maybeChild(index);
-        if (!headerCell) return;
-        const align = headerCell.attrs.alignment;
-        const currentAlign = node.attrs.alignment;
-        if (align === currentAlign) return;
-        tr.setNodeMarkup(pos, void 0, { ...node.attrs, alignment: align });
-      };
-      if (oldState.doc !== state.doc) state.doc.descendants(check);
-      return tr;
-    }
-  });
-});
-withMeta$1(keepTableAlignPlugin, {
+const Pe = ue$2(() => new Plugin({
+  key: ft,
+  appendTransaction: (e, t, n) => {
+    let o;
+    const l = (r, s) => {
+      if (o || (o = n.tr), r.type.name !== "table_cell")
+        return;
+      const c = n.doc.resolve(s), d = c.node(c.depth), a = c.node(c.depth - 1).firstChild;
+      if (!a)
+        return;
+      const m = gt(r, d), u = a.maybeChild(m);
+      if (!u)
+        return;
+      const f = u.attrs.alignment, b = r.attrs.alignment;
+      f !== b && o.setNodeMarkup(s, void 0, { ...r.attrs, alignment: f });
+    };
+    return t.doc !== n.doc && n.doc.descendants(l), o;
+  }
+}));
+i$1(Pe, {
   displayName: "Prose<keepTableAlignPlugin>",
   group: "Prose"
 });
-
-const plugins = [
-  keepTableAlignPlugin,
-  autoInsertSpanPlugin,
-  remarkGFMPlugin,
-  tableEditingPlugin
-].flat();
-
-const schema = [
-  extendListItemSchemaForTask,
-  tableSchema,
-  tableHeaderRowSchema,
-  tableRowSchema,
-  tableHeaderSchema,
-  tableCellSchema,
-  footnoteDefinitionSchema,
-  footnoteReferenceSchema,
-  strikethroughAttr,
-  strikethroughSchema
-].flat();
-
-const commands = [
-  goToNextTableCellCommand,
-  goToPrevTableCellCommand,
-  exitTable$1,
-  insertTableCommand,
-  moveRowCommand,
-  moveColCommand,
-  selectRowCommand,
-  selectColCommand,
-  selectTableCommand,
-  deleteSelectedCellsCommand,
-  addRowBeforeCommand,
-  addRowAfterCommand,
-  addColBeforeCommand,
-  addColAfterCommand,
-  setAlignCommand,
-  toggleStrikethroughCommand
-];
-
-const gfm = [
-  schema,
-  inputRules,
-  markInputRules,
-  keymap,
-  commands,
-  plugins
-].flat();
+const ht = [
+  Pe,
+  $e,
+  Y,
+  Ie
+].flat(), bt = [
+  ve,
+  N,
+  $,
+  R,
+  I,
+  M,
+  J,
+  Q,
+  W$1,
+  T
+].flat(), Ct = [
+  U,
+  V,
+  X,
+  he,
+  be,
+  Ce,
+  ye,
+  we,
+  ke,
+  Ne,
+  Re,
+  Me,
+  Te,
+  Se,
+  xe,
+  z
+], _t = [bt, mt, ut, dt, Ct, ht].flat();
 
 function clearRange(tr) {
   const { $from, $to } = tr.selection;
@@ -50736,18 +48654,18 @@ function getGroups(filter, config) {
     label: (_b = config == null ? void 0 : config.slashMenuTextGroupLabel) != null ? _b : "Text",
     icon: (_d = (_c = config == null ? void 0 : config.slashMenuTextIcon) == null ? void 0 : _c.call(config)) != null ? _d : textIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndSetBlockType(paragraphSchema.type(ctx));
+      const command = clearContentAndSetBlockType(w$2.type(ctx));
       command(state, dispatch);
     }
   }).addItem("h1", {
     label: (_e = config == null ? void 0 : config.slashMenuH1Label) != null ? _e : "Heading 1",
     icon: (_g = (_f = config == null ? void 0 : config.slashMenuH1Icon) == null ? void 0 : _f.call(config)) != null ? _g : h1Icon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+      const command = clearContentAndSetBlockType(H$2.type(ctx), {
         level: 1
       });
       command(state, dispatch);
@@ -50756,9 +48674,9 @@ function getGroups(filter, config) {
     label: (_h = config == null ? void 0 : config.slashMenuH2Label) != null ? _h : "Heading 2",
     icon: (_j = (_i = config == null ? void 0 : config.slashMenuH2Icon) == null ? void 0 : _i.call(config)) != null ? _j : h2Icon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+      const command = clearContentAndSetBlockType(H$2.type(ctx), {
         level: 2
       });
       command(state, dispatch);
@@ -50767,9 +48685,9 @@ function getGroups(filter, config) {
     label: (_k = config == null ? void 0 : config.slashMenuH3Label) != null ? _k : "Heading 3",
     icon: (_m = (_l = config == null ? void 0 : config.slashMenuH3Icon) == null ? void 0 : _l.call(config)) != null ? _m : h3Icon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+      const command = clearContentAndSetBlockType(H$2.type(ctx), {
         level: 3
       });
       command(state, dispatch);
@@ -50778,9 +48696,9 @@ function getGroups(filter, config) {
     label: (_n = config == null ? void 0 : config.slashMenuH4Label) != null ? _n : "Heading 4",
     icon: (_p = (_o = config == null ? void 0 : config.slashMenuH4Icon) == null ? void 0 : _o.call(config)) != null ? _p : h4Icon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+      const command = clearContentAndSetBlockType(H$2.type(ctx), {
         level: 4
       });
       command(state, dispatch);
@@ -50789,9 +48707,9 @@ function getGroups(filter, config) {
     label: (_q = config == null ? void 0 : config.slashMenuH5Label) != null ? _q : "Heading 5",
     icon: (_s = (_r = config == null ? void 0 : config.slashMenuH5Icon) == null ? void 0 : _r.call(config)) != null ? _s : h5Icon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+      const command = clearContentAndSetBlockType(H$2.type(ctx), {
         level: 5
       });
       command(state, dispatch);
@@ -50800,9 +48718,9 @@ function getGroups(filter, config) {
     label: (_t = config == null ? void 0 : config.slashMenuH6Label) != null ? _t : "Heading 6",
     icon: (_v = (_u = config == null ? void 0 : config.slashMenuH6Icon) == null ? void 0 : _u.call(config)) != null ? _v : h6Icon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
+      const command = clearContentAndSetBlockType(H$2.type(ctx), {
         level: 6
       });
       command(state, dispatch);
@@ -50811,10 +48729,10 @@ function getGroups(filter, config) {
     label: (_w = config == null ? void 0 : config.slashMenuQuoteLabel) != null ? _w : "Quote",
     icon: (_y = (_x = config == null ? void 0 : config.slashMenuQuoteIcon) == null ? void 0 : _x.call(config)) != null ? _y : quoteIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const command = clearContentAndWrapInBlockType(
-        blockquoteSchema.type(ctx)
+        q$2.type(ctx)
       );
       command(state, dispatch);
     }
@@ -50822,9 +48740,9 @@ function getGroups(filter, config) {
     label: (_z = config == null ? void 0 : config.slashMenuDividerLabel) != null ? _z : "Divider",
     icon: (_B = (_A = config == null ? void 0 : config.slashMenuDividerIcon) == null ? void 0 : _A.call(config)) != null ? _B : dividerIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndAddBlockType(hrSchema.type(ctx));
+      const command = clearContentAndAddBlockType(F$1.type(ctx));
       command(state, dispatch);
     }
   });
@@ -50832,10 +48750,10 @@ function getGroups(filter, config) {
     label: (_D = config == null ? void 0 : config.slashMenuBulletListLabel) != null ? _D : "Bullet List",
     icon: (_F = (_E = config == null ? void 0 : config.slashMenuBulletListIcon) == null ? void 0 : _E.call(config)) != null ? _F : bulletListIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const command = clearContentAndWrapInBlockType(
-        bulletListSchema.type(ctx)
+        O$1.type(ctx)
       );
       command(state, dispatch);
     }
@@ -50843,10 +48761,10 @@ function getGroups(filter, config) {
     label: (_G = config == null ? void 0 : config.slashMenuOrderedListLabel) != null ? _G : "Ordered List",
     icon: (_I = (_H = config == null ? void 0 : config.slashMenuOrderedListIcon) == null ? void 0 : _H.call(config)) != null ? _I : orderedListIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const command = clearContentAndWrapInBlockType(
-        orderedListSchema.type(ctx)
+        T$3.type(ctx)
       );
       command(state, dispatch);
     }
@@ -50854,10 +48772,10 @@ function getGroups(filter, config) {
     label: (_J = config == null ? void 0 : config.slashMenuTaskListLabel) != null ? _J : "Todo List",
     icon: (_L = (_K = config == null ? void 0 : config.slashMenuTaskListIcon) == null ? void 0 : _K.call(config)) != null ? _L : todoListIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const command = clearContentAndWrapInBlockType(
-        listItemSchema.type(ctx),
+        M$2.type(ctx),
         { checked: false }
       );
       command(state, dispatch);
@@ -50867,7 +48785,7 @@ function getGroups(filter, config) {
     label: (_N = config == null ? void 0 : config.slashMenuImageLabel) != null ? _N : "Image",
     icon: (_P = (_O = config == null ? void 0 : config.slashMenuImageIcon) == null ? void 0 : _O.call(config)) != null ? _P : imageIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const command = clearContentAndAddBlockType(imageBlockSchema.type(ctx));
       command(state, dispatch);
@@ -50876,19 +48794,19 @@ function getGroups(filter, config) {
     label: (_Q = config == null ? void 0 : config.slashMenuCodeBlockLabel) != null ? _Q : "Code",
     icon: (_S = (_R = config == null ? void 0 : config.slashMenuCodeBlockIcon) == null ? void 0 : _R.call(config)) != null ? _S : codeIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
-      const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx));
+      const command = clearContentAndAddBlockType(W$3.type(ctx));
       command(state, dispatch);
     }
   }).addItem("table", {
     label: (_T = config == null ? void 0 : config.slashMenuTableLabel) != null ? _T : "Table",
     icon: (_V = (_U = config == null ? void 0 : config.slashMenuTableIcon) == null ? void 0 : _U.call(config)) != null ? _V : tableIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const tr = clearRange(state.tr);
-      const table = createTable(ctx, 3, 3);
+      const table = de(ctx, 3, 3);
       tr.replaceSelectionWith(table);
       const { from } = tr.selection;
       const pos = from - table.nodeSize + 2;
@@ -51112,8 +49030,8 @@ var __privateGet$3 = (obj, member, getter) => (__accessCheck$4(obj, member, "rea
 var __privateAdd$4 = (obj, member, value) => member.has(obj) ? __typeError$4("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet$3 = (obj, member, value, setter) => (__accessCheck$4(obj, member, "write to private field"), member.set(obj, value), value);
 var _content$2, _slashProvider, _programmaticallyPos;
-const menu = slashFactory("CREPE_MENU");
-const menuAPI = $ctx(
+const menu = J$1("CREPE_MENU");
+const menuAPI = h$2(
   {
     show: () => {
     },
@@ -51154,7 +49072,7 @@ class MenuView {
     __privateGet$3(this, _content$2).ctx = ctx;
     __privateGet$3(this, _content$2).config = config;
     const self = this;
-    __privateSet$3(this, _slashProvider, new SlashProvider({
+    __privateSet$3(this, _slashProvider, new Q$1({
       content: __privateGet$3(this, _content$2),
       debounce: 20,
       shouldShow(view2) {
@@ -51263,14 +49181,14 @@ class BlockHandleView {
     };
     this.onAdd = () => {
       const ctx = __privateGet$2(this, _ctx);
-      const view = ctx.get(editorViewCtx);
+      const view = ctx.get(L$4);
       if (!view.hasFocus()) view.focus();
       const { state, dispatch } = view;
       const active = __privateGet$2(this, _provider).active;
       if (!active) return;
       const $pos = active.$pos;
       const pos = $pos.pos + active.node.nodeSize;
-      let tr = state.tr.insert(pos, paragraphSchema.type(ctx).create());
+      let tr = state.tr.insert(pos, w$2.type(ctx).create());
       tr = tr.setSelection(TextSelection.near(tr.doc.resolve(pos)));
       dispatch(tr.scrollIntoView());
       __privateGet$2(this, _provider).hide();
@@ -51286,7 +49204,7 @@ class BlockHandleView {
     if (config == null ? void 0 : config.handleDragIcon) {
       __privateGet$2(this, _content$1).handleIcon = config == null ? void 0 : config.handleDragIcon;
     }
-    __privateSet$2(this, _provider, new BlockProvider({
+    __privateSet$2(this, _provider, new Bt({
       ctx,
       content,
       getOffset: () => 16,
@@ -51315,7 +49233,7 @@ _provider = new WeakMap();
 _ctx = new WeakMap();
 defIfNotExists("milkdown-block-handle", BlockHandleElement);
 function configureBlockHandle(ctx, config) {
-  ctx.set(blockConfig.key, {
+  ctx.set(_.key, {
     filterNodes: (pos) => {
       const filter = findParent(
         (node) => ["table", "blockquote"].includes(node.type.name)
@@ -51324,13 +49242,13 @@ function configureBlockHandle(ctx, config) {
       return true;
     }
   });
-  ctx.set(block.key, {
+  ctx.set(rt$1.key, {
     view: () => new BlockHandleView(ctx, config)
   });
 }
 
 const defineFeature$3 = (editor, config) => {
-  editor.config((ctx) => configureBlockHandle(ctx, config)).config((ctx) => configureMenu(ctx, config)).use(menuAPI).use(block).use(menu);
+  editor.config((ctx) => configureBlockHandle(ctx, config)).config((ctx) => configureMenu(ctx, config)).use(menuAPI).use(rt$1).use(menu);
 };
 
 function isDocEmpty(doc) {
@@ -51351,14 +49269,14 @@ function createPlaceholderDecoration(state, placeholderText) {
     "data-placeholder": placeholderText
   });
 }
-const placeholderConfig = $ctx(
+const placeholderConfig = h$2(
   {
     text: "Please enter...",
     mode: "block"
   },
   "placeholderConfigCtx"
 );
-const placeholderPlugin = $prose((ctx) => {
+const placeholderPlugin = ue$2((ctx) => {
   return new Plugin({
     key: new PluginKey("CREPE_PLACEHOLDER"),
     props: {
@@ -51407,7 +49325,7 @@ const toolbarComponent = ({
   };
   const isActive = (mark) => {
     if (!ctx) return false;
-    const view = ctx.get(editorViewCtx);
+    const view = ctx.get(L$4);
     const {
       state: { doc, selection }
     } = view;
@@ -51418,11 +49336,11 @@ const toolbarComponent = ({
       type="button"
       class=${clsx(
     "toolbar-item",
-    ctx && isActive(strongSchema.type(ctx)) && "active"
+    ctx && isActive($$2.type(ctx)) && "active"
   )}
       onmousedown=${onClick((ctx2) => {
-    const commands = ctx2.get(commandsCtx);
-    commands.call(toggleStrongCommand.key);
+    const commands = ctx2.get(je);
+    commands.call(ne.key);
   })}
     >
       ${(_b = (_a = config == null ? void 0 : config.boldIcon) == null ? void 0 : _a.call(config)) != null ? _b : boldIcon}
@@ -51431,11 +49349,11 @@ const toolbarComponent = ({
       type="button"
       class=${clsx(
     "toolbar-item",
-    ctx && isActive(emphasisSchema.type(ctx)) && "active"
+    ctx && isActive(R$2.type(ctx)) && "active"
   )}
       onmousedown=${onClick((ctx2) => {
-    const commands = ctx2.get(commandsCtx);
-    commands.call(toggleEmphasisCommand.key);
+    const commands = ctx2.get(je);
+    commands.call(te$1.key);
   })}
     >
       ${(_d = (_c = config == null ? void 0 : config.italicIcon) == null ? void 0 : _c.call(config)) != null ? _d : italicIcon}
@@ -51444,11 +49362,11 @@ const toolbarComponent = ({
       type="button"
       class=${clsx(
     "toolbar-item",
-    ctx && isActive(strikethroughSchema.type(ctx)) && "active"
+    ctx && isActive(T.type(ctx)) && "active"
   )}
       onmousedown=${onClick((ctx2) => {
-    const commands = ctx2.get(commandsCtx);
-    commands.call(toggleStrikethroughCommand.key);
+    const commands = ctx2.get(je);
+    commands.call(z.key);
   })}
     >
       ${(_f = (_e = config == null ? void 0 : config.strikethroughIcon) == null ? void 0 : _e.call(config)) != null ? _f : strikethroughIcon}
@@ -51458,11 +49376,11 @@ const toolbarComponent = ({
       type="button"
       class=${clsx(
     "toolbar-item",
-    ctx && isActive(inlineCodeSchema.type(ctx)) && "active"
+    ctx && isActive(x$3.type(ctx)) && "active"
   )}
       onmousedown=${onClick((ctx2) => {
-    const commands = ctx2.get(commandsCtx);
-    commands.call(toggleInlineCodeCommand.key);
+    const commands = ctx2.get(je);
+    commands.call(le.key);
   })}
     >
       ${(_h = (_g = config == null ? void 0 : config.codeIcon) == null ? void 0 : _g.call(config)) != null ? _h : codeIcon}
@@ -51471,12 +49389,12 @@ const toolbarComponent = ({
       type="button"
       class=${clsx(
     "toolbar-item",
-    ctx && isActive(linkSchema.type(ctx)) && "active"
+    ctx && isActive(B$2.type(ctx)) && "active"
   )}
       onmousedown=${onClick((ctx2) => {
-    const view = ctx2.get(editorViewCtx);
+    const view = ctx2.get(L$4);
     const { selection } = view.state;
-    if (isActive(linkSchema.type(ctx2))) {
+    if (isActive(B$2.type(ctx2))) {
       ctx2.get(linkTooltipAPI.key).removeLink(selection.from, selection.to);
       return;
     }
@@ -51504,7 +49422,7 @@ var __privateGet$1 = (obj, member, getter) => (__accessCheck$2(obj, member, "rea
 var __privateAdd$2 = (obj, member, value) => member.has(obj) ? __typeError$2("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet$1 = (obj, member, value, setter) => (__accessCheck$2(obj, member, "write to private field"), member.set(obj, value), value);
 var _tooltipProvider, _content;
-const toolbar = tooltipFactory("CREPE_TOOLBAR");
+const toolbar = G$1("CREPE_TOOLBAR");
 class ToolbarView {
   constructor(ctx, view, config) {
     __privateAdd$2(this, _tooltipProvider);
@@ -51524,7 +49442,7 @@ class ToolbarView {
     __privateGet$1(this, _content).ctx = ctx;
     __privateGet$1(this, _content).hide = this.hide;
     __privateGet$1(this, _content).config = config;
-    __privateSet$1(this, _tooltipProvider, new TooltipProvider({
+    __privateSet$1(this, _tooltipProvider, new A$1({
       content: __privateGet$1(this, _content),
       debounce: 20,
       offset: 10,
@@ -51586,11 +49504,11 @@ const defaultTableBlockConfig = {
     }
   }
 };
-const tableBlockConfig = $ctx(
+const tableBlockConfig = h$2(
   { ...defaultTableBlockConfig },
   "tableBlockConfigCtx"
 );
-withMeta$4(tableBlockConfig, {
+withMeta(tableBlockConfig, {
   displayName: "Config<table-block>",
   group: "TableBlock"
 });
@@ -51651,10 +49569,10 @@ function getRelatedDOM(contentWrapperRef, [rowIndex, columnIndex]) {
 function recoveryStateBetweenUpdate(refs, ctx, node) {
   if (!ctx) return;
   if (!node) return;
-  const { selection } = ctx.get(editorViewCtx).state;
+  const { selection } = ctx.get(L$4).state;
   if (!(selection instanceof CellSelection)) return;
   const { $from } = selection;
-  const table = findTable($from);
+  const table = x$1($from);
   if (!table || table.node !== node) return;
   if (selection.isColSelection()) {
     const { $head } = selection;
@@ -51776,7 +49694,7 @@ function prepareDndContext(refs) {
   return context;
 }
 function handleDrag(refs, event, ctx, fn) {
-  const view = ctx == null ? void 0 : ctx.get(editorViewCtx);
+  const view = ctx == null ? void 0 : ctx.get(L$4);
   if (!(view == null ? void 0 : view.editable)) return;
   event.stopPropagation();
   if (event.dataTransfer) event.dataTransfer.effectAllowed = "move";
@@ -52034,29 +49952,29 @@ function useDragHandlers(refs, ctx, getPos) {
       yHandle.dataset.show = "false";
       xHandle.dataset.show = "false";
       if (info.startIndex === info.endIndex) return;
-      const commands = ctx.get(commandsCtx);
+      const commands = ctx.get(je);
       const payload = {
         from: info.startIndex,
         to: info.endIndex,
         pos: ((_a = getPos == null ? void 0 : getPos()) != null ? _a : 0) + 1
       };
       if (info.type === "col") {
-        commands.call(selectColCommand.key, {
+        commands.call(we.key, {
           pos: payload.pos,
           index: info.startIndex
         });
-        commands.call(moveColCommand.key, payload);
+        commands.call(Ce.key, payload);
         const index = [0, info.endIndex];
         computeColHandlePositionByIndex({
           refs,
           index
         });
       } else {
-        commands.call(selectRowCommand.key, {
+        commands.call(ye.key, {
           pos: payload.pos,
           index: info.startIndex
         });
-        commands.call(moveRowCommand.key, payload);
+        commands.call(be.key, payload);
         const index = [info.endIndex, 0];
         computeRowHandlePositionByIndex({
           refs,
@@ -52064,7 +49982,7 @@ function useDragHandlers(refs, ctx, getPos) {
         });
       }
       requestAnimationFrame(() => {
-        ctx.get(editorViewCtx).focus();
+        ctx.get(L$4).focus();
       });
     };
     const onDragOver = createDragOverHandler(refs);
@@ -52220,20 +50138,20 @@ function useOperation(refs, ctx, getPos) {
     if (!xHandle) return;
     const [rowIndex] = lineHoverIndex.current;
     if (rowIndex < 0) return;
-    if (!ctx.get(editorViewCtx).editable) return;
+    if (!ctx.get(L$4).editable) return;
     const rows = Array.from(
       (_b = (_a = contentWrapperRef.current) == null ? void 0 : _a.querySelectorAll("tr")) != null ? _b : []
     );
-    const commands = ctx.get(commandsCtx);
+    const commands = ctx.get(je);
     const pos = ((_c = getPos == null ? void 0 : getPos()) != null ? _c : 0) + 1;
     if (rows.length === rowIndex) {
-      commands.call(selectRowCommand.key, { pos, index: rowIndex - 1 });
-      commands.call(addRowAfterCommand.key);
+      commands.call(ye.key, { pos, index: rowIndex - 1 });
+      commands.call(Me.key);
     } else {
-      commands.call(selectRowCommand.key, { pos, index: rowIndex });
-      commands.call(addRowBeforeCommand.key);
+      commands.call(ye.key, { pos, index: rowIndex });
+      commands.call(Re.key);
     }
-    commands.call(selectRowCommand.key, { pos, index: rowIndex });
+    commands.call(ye.key, { pos, index: rowIndex });
     xHandle.dataset.show = "false";
   }, []);
   const onAddCol = atomico.useCallback(() => {
@@ -52243,28 +50161,28 @@ function useOperation(refs, ctx, getPos) {
     if (!xHandle) return;
     const [_, colIndex] = lineHoverIndex.current;
     if (colIndex < 0) return;
-    if (!ctx.get(editorViewCtx).editable) return;
+    if (!ctx.get(L$4).editable) return;
     const cols = Array.from(
       (_c = (_b = (_a = contentWrapperRef.current) == null ? void 0 : _a.querySelector("tr")) == null ? void 0 : _b.children) != null ? _c : []
     );
-    const commands = ctx.get(commandsCtx);
+    const commands = ctx.get(je);
     const pos = ((_d = getPos == null ? void 0 : getPos()) != null ? _d : 0) + 1;
     if (cols.length === colIndex) {
-      commands.call(selectColCommand.key, { pos, index: colIndex - 1 });
-      commands.call(addColAfterCommand.key);
+      commands.call(we.key, { pos, index: colIndex - 1 });
+      commands.call(Se.key);
     } else {
-      commands.call(selectColCommand.key, { pos, index: colIndex });
-      commands.call(addColBeforeCommand.key);
+      commands.call(we.key, { pos, index: colIndex });
+      commands.call(Te.key);
     }
-    commands.call(selectColCommand.key, { pos, index: colIndex });
+    commands.call(we.key, { pos, index: colIndex });
   }, []);
   const selectCol = atomico.useCallback(() => {
     var _a, _b;
     if (!ctx) return;
     const [_, colIndex] = hoverIndex.current;
-    const commands = ctx.get(commandsCtx);
+    const commands = ctx.get(je);
     const pos = ((_a = getPos == null ? void 0 : getPos()) != null ? _a : 0) + 1;
-    commands.call(selectColCommand.key, { pos, index: colIndex });
+    commands.call(we.key, { pos, index: colIndex });
     const buttonGroup = (_b = colHandleRef.current) == null ? void 0 : _b.querySelector(".button-group");
     if (buttonGroup)
       buttonGroup.dataset.show = buttonGroup.dataset.show === "true" ? "false" : "true";
@@ -52273,34 +50191,34 @@ function useOperation(refs, ctx, getPos) {
     var _a, _b;
     if (!ctx) return;
     const [rowIndex, _] = hoverIndex.current;
-    const commands = ctx.get(commandsCtx);
+    const commands = ctx.get(je);
     const pos = ((_a = getPos == null ? void 0 : getPos()) != null ? _a : 0) + 1;
-    commands.call(selectRowCommand.key, { pos, index: rowIndex });
+    commands.call(ye.key, { pos, index: rowIndex });
     const buttonGroup = (_b = rowHandleRef.current) == null ? void 0 : _b.querySelector(".button-group");
     if (buttonGroup && rowIndex > 0)
       buttonGroup.dataset.show = buttonGroup.dataset.show === "true" ? "false" : "true";
   }, []);
   const deleteSelected = atomico.useCallback((e) => {
     if (!ctx) return;
-    if (!ctx.get(editorViewCtx).editable) return;
+    if (!ctx.get(L$4).editable) return;
     e.preventDefault();
     e.stopPropagation();
-    const commands = ctx.get(commandsCtx);
-    commands.call(deleteSelectedCellsCommand.key);
+    const commands = ctx.get(je);
+    commands.call(Ne.key);
     requestAnimationFrame(() => {
-      ctx.get(editorViewCtx).focus();
+      ctx.get(L$4).focus();
     });
   }, []);
   const onAlign = atomico.useCallback(
     (direction) => (e) => {
       if (!ctx) return;
-      if (!ctx.get(editorViewCtx).editable) return;
+      if (!ctx.get(L$4).editable) return;
       e.preventDefault();
       e.stopPropagation();
-      const commands = ctx.get(commandsCtx);
-      commands.call(setAlignCommand.key, direction);
+      const commands = ctx.get(je);
+      commands.call(xe.key, direction);
       requestAnimationFrame(() => {
-        ctx.get(editorViewCtx).focus();
+        ctx.get(L$4).focus();
       });
     },
     []
@@ -52557,15 +50475,15 @@ handleClick_fn = function(event) {
   return true;
 };
 defIfNotExists$1("milkdown-table-block", TableElement);
-const tableBlockView = $view(
-  tableSchema.node,
+const tableBlockView = le$1(
+  N.node,
   (ctx) => {
     return (initialNode, view, getPos) => {
       return new TableNodeView(ctx, initialNode, view, getPos);
     };
   }
 );
-withMeta$4(tableBlockView, {
+withMeta(tableBlockView, {
   displayName: "NodeView<table-block>",
   group: "TableBlock"
 });
@@ -52658,254 +50576,197 @@ function loadFeature(feature, editor, config) {
   }
 }
 
-function withMeta(plugin, meta) {
-  Object.assign(plugin, {
+function t(o, r) {
+  return Object.assign(o, {
     meta: {
       package: "@milkdown/plugin-history",
-      ...meta
+      ...r
     }
-  });
-  return plugin;
+  }), o;
 }
-const undoCommand = $command("Undo", () => () => undo);
-withMeta(undoCommand, {
+const s$1 = re$1("Undo", () => () => undo);
+t(s$1, {
   displayName: "Command<undo>"
 });
-const redoCommand = $command("Redo", () => () => redo);
-withMeta(redoCommand, {
+const m$1 = re$1("Redo", () => () => redo);
+t(m$1, {
   displayName: "Command<redo>"
 });
-const historyProviderConfig = $ctx({}, "historyProviderConfig");
-withMeta(historyProviderConfig, {
+const e = h$2({}, "historyProviderConfig");
+t(e, {
   displayName: "Ctx<historyProviderConfig>"
 });
-const historyProviderPlugin = $prose(
-  (ctx) => history$1(ctx.get(historyProviderConfig.key))
-);
-withMeta(historyProviderPlugin, {
+const n = ue$2((o) => history(o.get(e.key)));
+t(n, {
   displayName: "Ctx<historyProviderPlugin>"
 });
-const historyKeymap = $useKeymap("historyKeymap", {
+const i = ge$2("historyKeymap", {
   Undo: {
     shortcuts: "Mod-z",
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(undoCommand.key);
+    command: (o) => {
+      const r = o.get(je);
+      return () => r.call(s$1.key);
     }
   },
   Redo: {
     shortcuts: ["Mod-y", "Shift-Mod-z"],
-    command: (ctx) => {
-      const commands = ctx.get(commandsCtx);
-      return () => commands.call(redoCommand.key);
+    command: (o) => {
+      const r = o.get(je);
+      return () => r.call(m$1.key);
     }
   }
 });
-withMeta(historyKeymap.ctx, {
+t(i.ctx, {
   displayName: "KeymapCtx<history>"
 });
-withMeta(historyKeymap.shortcuts, {
+t(i.shortcuts, {
   displayName: "Keymap<history>"
 });
-const history = [
-  historyProviderConfig,
-  historyProviderPlugin,
-  historyKeymap,
-  undoCommand,
-  redoCommand
-].flat();
+const x = [e, n, i, s$1, m$1].flat();
 
-function updateIndent(tr, options) {
-  const { doc, selection } = tr;
-  if (!doc || !selection) return tr;
-  if (!(selection instanceof TextSelection || selection instanceof AllSelection))
-    return tr;
-  const { to } = selection;
-  const text = options.type === "space" ? Array(options.size).fill(" ").join("") : "	";
-  return tr.insertText(text, to);
+function u(n, i) {
+  const { doc: t, selection: e } = n;
+  if (!t || !e || !(e instanceof TextSelection || e instanceof AllSelection))
+    return n;
+  const { to: c } = e, o = i.type === "space" ? Array(i.size).fill(" ").join("") : "	";
+  return n.insertText(o, c);
 }
-const indentConfig = $ctx(
-  { type: "space", size: 2 },
-  "indentConfig"
-);
-indentConfig.meta = {
+const r = h$2({ type: "space", size: 2 }, "indentConfig");
+r.meta = {
   package: "@milkdown/plugin-indent",
   displayName: "Ctx<indentConfig>"
 };
-const indentPlugin = $shortcut((ctx) => ({
-  Tab: (state, dispatch) => {
-    const config = ctx.get(indentConfig.key);
-    const { tr } = state;
-    const _tr = updateIndent(tr, config);
-    if (_tr.docChanged) {
-      dispatch == null ? void 0 : dispatch(_tr);
-      return true;
-    }
-    return false;
+const s = X$2((n) => ({
+  Tab: (i, t) => {
+    const e = n.get(r.key), { tr: c } = i, o = u(c, e);
+    return o.docChanged ? (t == null || t(o), !0) : !1;
   }
 }));
-indentPlugin.meta = {
+s.meta = {
   package: "@milkdown/plugin-indent",
   displayName: "Shortcut<indent>"
 };
-const indent = [indentConfig, indentPlugin];
+const p$1 = [r, s];
 
-function isPureText(content) {
-  if (!content) return false;
-  if (Array.isArray(content)) {
-    if (content.length > 1) return false;
-    return isPureText(content[0]);
-  }
-  const child = content.content;
-  if (child) return isPureText(child);
-  return content.type === "text";
+function m(r) {
+  if (!r)
+    return !1;
+  if (Array.isArray(r))
+    return r.length > 1 ? !1 : m(r[0]);
+  const e = r.content;
+  return e ? m(e) : r.type === "text";
 }
-function isTextOnlySlice(slice) {
-  if (slice.content.childCount === 1) {
-    const node = slice.content.firstChild;
-    if ((node == null ? void 0 : node.type.name) === "text" && node.marks.length === 0) return node;
-    if ((node == null ? void 0 : node.type.name) === "paragraph" && node.childCount === 1) {
-      const _node = node.firstChild;
-      if ((_node == null ? void 0 : _node.type.name) === "text" && _node.marks.length === 0) return _node;
+function L(r) {
+  if (r.content.childCount === 1) {
+    const e = r.content.firstChild;
+    if ((e == null ? void 0 : e.type.name) === "text" && e.marks.length === 0)
+      return e;
+    if ((e == null ? void 0 : e.type.name) === "paragraph" && e.childCount === 1) {
+      const o = e.firstChild;
+      if ((o == null ? void 0 : o.type.name) === "text" && o.marks.length === 0)
+        return o;
     }
   }
-  return false;
+  return !1;
 }
-const clipboard = $prose((ctx) => {
-  const schema = ctx.get(schemaCtx);
-  ctx.update(editorViewOptionsCtx, (prev) => {
-    var _a;
-    return {
-      ...prev,
-      editable: (_a = prev.editable) != null ? _a : () => true
-    };
-  });
-  const key = new PluginKey("MILKDOWN_CLIPBOARD");
-  const plugin = new Plugin({
-    key,
+const W = ue$2((r) => {
+  const e = r.get(b$1);
+  r.update(ce$1, (t) => ({
+    ...t,
+    editable: t.editable ?? (() => !0)
+  }));
+  const o = new PluginKey("MILKDOWN_CLIPBOARD");
+  return new Plugin({
+    key: o,
     props: {
-      handlePaste: (view, event) => {
-        var _a, _b;
-        const parser = ctx.get(parserCtx);
-        const editable = (_b = (_a = view.props).editable) == null ? void 0 : _b.call(_a, view.state);
-        const { clipboardData } = event;
-        if (!editable || !clipboardData) return false;
-        const currentNode = view.state.selection.$from.node();
-        if (currentNode.type.spec.code) return false;
-        const text = clipboardData.getData("text/plain");
-        const vscodeData = clipboardData.getData("vscode-editor-data");
-        if (vscodeData) {
-          const data = JSON.parse(vscodeData);
-          const language = data == null ? void 0 : data.mode;
-          if (text && language) {
-            const { tr } = view.state;
-            const codeBlock = getNodeFromSchema("code_block", schema);
-            tr.replaceSelectionWith(codeBlock.create({ language })).setSelection(
-              TextSelection.near(
-                tr.doc.resolve(Math.max(0, tr.selection.from - 2))
-              )
-            ).insertText(text.replace(/\r\n?/g, "\n"));
-            view.dispatch(tr);
-            return true;
+      handlePaste: (t, l) => {
+        var x, S;
+        const d = r.get(q$3), i = (S = (x = t.props).editable) == null ? void 0 : S.call(x, t.state), { clipboardData: a } = l;
+        if (!i || !a || t.state.selection.$from.node().type.spec.code)
+          return !1;
+        const s = a.getData("text/plain"), f = a.getData("vscode-editor-data");
+        if (f) {
+          const n = JSON.parse(f), y = n == null ? void 0 : n.mode;
+          if (s && y) {
+            const { tr: c } = t.state, C = getNodeFromSchema("code_block", e);
+            return c.replaceSelectionWith(C.create({ language: y })).setSelection(
+              TextSelection.near(c.doc.resolve(Math.max(0, c.selection.from - 2)))
+            ).insertText(s.replace(/\r\n?/g, `
+`)), t.dispatch(c), !0;
           }
         }
-        const html = clipboardData.getData("text/html");
-        if (html.length === 0 && text.length === 0) return false;
-        const domParser = DOMParser.fromSchema(schema);
-        let dom;
-        if (html.length === 0) {
-          const slice2 = parser(text);
-          if (!slice2 || typeof slice2 === "string") return false;
-          dom = DOMSerializer.fromSchema(schema).serializeFragment(
-            slice2.content
-          );
+        const p = a.getData("text/html");
+        if (p.length === 0 && s.length === 0)
+          return !1;
+        const b = DOMParser.fromSchema(e);
+        let u;
+        if (p.length === 0) {
+          const n = d(s);
+          if (!n || typeof n == "string")
+            return !1;
+          u = DOMSerializer.fromSchema(e).serializeFragment(n.content);
         } else {
-          const template = document.createElement("template");
-          template.innerHTML = html;
-          dom = template.content.cloneNode(true);
-          template.remove();
+          const n = document.createElement("template");
+          n.innerHTML = p, u = n.content.cloneNode(!0), n.remove();
         }
-        const slice = domParser.parseSlice(dom);
-        const node = isTextOnlySlice(slice);
-        if (node) {
-          view.dispatch(view.state.tr.replaceSelectionWith(node, true));
-          return true;
-        }
-        view.dispatch(view.state.tr.replaceSelection(slice));
-        return true;
+        const h = b.parseSlice(u), g = L(h);
+        return g ? (t.dispatch(t.state.tr.replaceSelectionWith(g, !0)), !0) : (t.dispatch(t.state.tr.replaceSelection(h)), !0);
       },
-      clipboardTextSerializer: (slice) => {
-        const serializer = ctx.get(serializerCtx);
-        const isText = isPureText(slice.content.toJSON());
-        if (isText)
-          return slice.content.textBetween(
-            0,
-            slice.content.size,
-            "\n\n"
-          );
-        const doc = schema.topNodeType.createAndFill(void 0, slice.content);
-        if (!doc) return "";
-        const value = serializer(doc);
-        return value;
+      clipboardTextSerializer: (t) => {
+        const l = r.get(re$2);
+        if (m(t.content.toJSON()))
+          return t.content.textBetween(0, t.content.size, `
+
+`);
+        const i = e.topNodeType.createAndFill(void 0, t.content);
+        return i ? l(i) : "";
       }
     }
   });
-  return plugin;
 });
-clipboard.meta = {
+W.meta = {
   displayName: "Prose<clipboard>",
   package: "@milkdown/plugin-clipboard"
 };
 
-const trailingConfig = $ctx(
-  {
-    shouldAppend: (lastNode) => {
-      if (!lastNode) return false;
-      if (["heading", "paragraph"].includes(lastNode.type.name)) return false;
-      return true;
-    },
-    getNode: (state) => state.schema.nodes.paragraph.create()
-  },
-  "trailingConfig"
-);
-trailingConfig.meta = {
+const l = h$2({
+  shouldAppend: (n) => !(!n || ["heading", "paragraph"].includes(n.type.name)),
+  getNode: (n) => n.schema.nodes.paragraph.create()
+}, "trailingConfig");
+l.meta = {
   package: "@milkdown/plugin-trailing",
   displayName: "Ctx<trailingConfig>"
 };
-const trailingPlugin = $prose((ctx) => {
-  const trailingPluginKey = new PluginKey("MILKDOWN_TRAILING");
-  const { shouldAppend, getNode } = ctx.get(trailingConfig.key);
-  const plugin = new Plugin({
-    key: trailingPluginKey,
+const p = ue$2((n) => {
+  const c = new PluginKey("MILKDOWN_TRAILING"), { shouldAppend: s, getNode: r } = n.get(l.key), g = new Plugin({
+    key: c,
     state: {
-      init: (_, state) => {
-        const lastNode = state.tr.doc.lastChild;
-        return shouldAppend(lastNode, state);
+      init: (i, e) => {
+        const t = e.tr.doc.lastChild;
+        return s(t, e);
       },
-      apply: (tr, value, _, state) => {
-        if (!tr.docChanged) return value;
-        const lastNode = tr.doc.lastChild;
-        return shouldAppend(lastNode, state);
+      apply: (i, e, t, o) => {
+        if (!i.docChanged)
+          return e;
+        const a = i.doc.lastChild;
+        return s(a, o);
       }
     },
-    appendTransaction: (_, __, state) => {
-      const { doc, tr } = state;
-      const nodeType = getNode == null ? void 0 : getNode(state);
-      const shouldInsertNodeAtEnd = plugin.getState(state);
-      const endPosition = doc.content.size;
-      if (!shouldInsertNodeAtEnd || !nodeType) return;
-      return tr.insert(endPosition, nodeType);
+    appendTransaction: (i, e, t) => {
+      const { doc: o, tr: a } = t, d = r == null ? void 0 : r(t), u = g.getState(t), m = o.content.size;
+      if (!(!u || !d))
+        return a.insert(m, d);
     }
   });
-  return plugin;
+  return g;
 });
-trailingPlugin.meta = {
+p.meta = {
   package: "@milkdown/plugin-trailing",
   displayName: "Prose<trailing>"
 };
-const trailing = [trailingConfig, trailingPlugin];
+const P = [l, p];
 
-const FeaturesCtx = createSlice([], "FeaturesCtx");
+const FeaturesCtx = H$5([], "FeaturesCtx");
 function configureFeatures(features) {
   return (ctx) => {
     ctx.inject(FeaturesCtx, features);
@@ -52937,17 +50798,17 @@ class Crepe {
       ...features
     }).filter(([, enabled]) => enabled).map(([feature]) => feature);
     __privateSet(this, _rootElement, (_a = typeof root === "string" ? document.querySelector(root) : root) != null ? _a : document.body);
-    __privateSet(this, _editor, Editor.make().config(configureFeatures(enabledFeatures)).config((ctx) => {
-      ctx.set(rootCtx, __privateGet(this, _rootElement));
-      ctx.set(defaultValueCtx, defaultValue);
-      ctx.set(editorViewOptionsCtx, {
+    __privateSet(this, _editor, Oe$1.make().config(configureFeatures(enabledFeatures)).config((ctx) => {
+      ctx.set(me$2, __privateGet(this, _rootElement));
+      ctx.set(se$1, defaultValue);
+      ctx.set(ce$1, {
         editable: () => __privateGet(this, _editable)
       });
-      ctx.update(indentConfig.key, (value) => ({
+      ctx.update(r.key, (value) => ({
         ...value,
         size: 4
       }));
-    }).use(commonmark).use(history).use(indent).use(trailing).use(clipboard).use(gfm));
+    }).use(cr).use(x).use(p$1).use(P).use(W).use(_t));
     enabledFeatures.forEach((feature) => {
       const config = featureConfigs[feature];
       loadFeature(feature, __privateGet(this, _editor), config);
@@ -52967,7 +50828,7 @@ class Crepe {
     return this;
   }
   getMarkdown() {
-    return __privateGet(this, _editor).action(getMarkdown());
+    return __privateGet(this, _editor).action($e$2());
   }
 }
 _editor = new WeakMap();

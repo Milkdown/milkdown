@@ -1,1 +1,1 @@
-export * from '@milkdown/components'
+export * from '@milkdown-nota/components'
