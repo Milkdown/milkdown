@@ -1,0 +1,49 @@
+.milkdown milkdown-list-item-block {
+    display: block;
+    padding: 0;
+  }
+
+    .milkdown milkdown-list-item-block > .list-item {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .milkdown milkdown-list-item-block > .list-item > .children {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .milkdown milkdown-list-item-block li {
+      gap: 10px;
+    }
+
+    .milkdown milkdown-list-item-block li .label-wrapper {
+        color: var(--crepe-color-outline);
+      }
+
+    .milkdown milkdown-list-item-block li .label-wrapper svg {
+          fill: var(--crepe-color-outline);
+        }
+
+    .milkdown milkdown-list-item-block li .label-wrapper {
+        height: 32px;
+        width: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+    .milkdown milkdown-list-item-block li .label-wrapper .label {
+          height: 32px;
+          padding: 4px 0;
+          width: 24px;
+          text-align: right;
+        }
+
+    .milkdown milkdown-list-item-block li .label-wrapper .checkbox {
+          cursor: pointer;
+        }
+
+    .milkdown milkdown-list-item-block li .label-wrapper .readonly {
+          cursor: not-allowed;
+        }
