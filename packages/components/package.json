@@ -15,25 +15,32 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./src/index.ts"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.es.js"
     },
     "./image-block": {
-      "import": "./src/image-block/index.ts"
+      "types": "./lib/image-block/index.d.ts",
+      "import": "./lib/image-block/index.es.js"
     },
     "./code-block": {
-      "import": "./src/code-block/index.ts"
+      "types": "./lib/code-block/index.d.ts",
+      "import": "./lib/code-block/index.es.js"
     },
     "./list-item-block": {
-      "import": "./src/list-item-block/index.ts"
+      "types": "./lib/list-item-block/index.d.ts",
+      "import": "./lib/list-item-block/index.es.js"
     },
     "./link-tooltip": {
-      "import": "./src/link-tooltip/index.ts"
+      "types": "./lib/link-tooltip/index.d.ts",
+      "import": "./lib/link-tooltip/index.es.js"
     },
     "./image-inline": {
-      "import": "./src/image-inline/index.ts"
+      "types": "./lib/image-inline/index.d.ts",
+      "import": "./lib/image-inline/index.es.js"
     },
     "./table-block": {
-      "import": "./src/table-block/index.ts"
+      "types": "./lib/table-block/index.d.ts",
+      "import": "./lib/table-block/index.es.js"
     }
   },
   "main": "./src/index.ts",

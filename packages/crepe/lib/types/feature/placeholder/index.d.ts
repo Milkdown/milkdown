@@ -4,8 +4,8 @@ interface PlaceholderConfig {
     mode: 'doc' | 'block';
 }
 export type PlaceHolderFeatureConfig = Partial<PlaceholderConfig>;
-export declare const placeholderConfig: import("@milkdown/utils").$Ctx<PlaceholderConfig, "placeholderConfigCtx">;
-export declare const placeholderPlugin: import("@milkdown/utils").$Prose;
+export declare const placeholderConfig: import("@milkdown-nota/kit/utils").$Ctx<PlaceholderConfig, "placeholderConfigCtx">;
+export declare const placeholderPlugin: import("@milkdown-nota/kit/utils").$Prose;
 export declare const defineFeature: DefineFeature<PlaceHolderFeatureConfig>;
 export {};
 //# sourceMappingURL=index.d.ts.map
