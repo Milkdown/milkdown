@@ -17,7 +17,9 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./src/index.ts"
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js",
+      "types": "./lib/types/index.d.ts"
     },
     "./theme/common/*": "./src/theme/common/*",
     "./theme/crepe.css": "./src/theme/crepe/style.css",
@@ -65,7 +67,7 @@
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.16.0",
-    "@milkdown-nota/kit": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?58b9f5af",
+    "@milkdown-nota/kit": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?df5e2bd5",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@rollup/plugin-typescript": "^12.1.1",
     "atomico": "^1.75.1",
