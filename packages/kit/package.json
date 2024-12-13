@@ -352,7 +352,7 @@
     "build": "rimraf './lib' && pnpm run build:es && pnpm run build:css && echo"
   },
   "dependencies": {
-    "@milkdown-nota/components": "workspace:*",
+    "@milkdown-nota/components": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?16bc1e60",
     "@milkdown/core": "^7.5.0",
     "@milkdown/ctx": "^7.5.0",
     "@milkdown/plugin-block": "^7.5.4",
