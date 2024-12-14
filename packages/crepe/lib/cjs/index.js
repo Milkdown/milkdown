@@ -51164,6 +51164,7 @@ Crepe.Feature = CrepeFeature;
 
 exports.Crepe = Crepe;
 exports.CrepeFeature = CrepeFeature;
+exports.configureFeatures = configureFeatures;
 exports.defaultFeatures = defaultFeatures;
 exports.loadFeature = loadFeature;
 //# sourceMappingURL=index.js.map

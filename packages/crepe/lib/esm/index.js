@@ -51160,5 +51160,5 @@ _rootElement = new WeakMap();
 _editable = new WeakMap();
 Crepe.Feature = CrepeFeature;
 
-export { Crepe, CrepeFeature, defaultFeatures, loadFeature };
+export { Crepe, CrepeFeature, configureFeatures, defaultFeatures, loadFeature };
 //# sourceMappingURL=index.js.map
