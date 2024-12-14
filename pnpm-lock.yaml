@@ -306,8 +306,8 @@ importers:
         specifier: ^6.16.0
         version: 6.35.3
       '@milkdown-nota/kit':
-        specifier: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?772584a1
-        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?772584a1(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)
+        specifier: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?0795c83f
+        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?0795c83f(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)
       atomico:
         specifier: ^1.75.1
         version: 1.79.2
@@ -2395,8 +2395,8 @@ packages:
       '@milkdown/transformer': ^7.2.0
       '@milkdown/utils': ^7.2.0
 
-  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?772584a1':
-    resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?772584a1}
+  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?0795c83f':
+    resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?0795c83f}
     version: 1.0.0
 
   '@milkdown/core@7.5.0':
@@ -8712,7 +8712,7 @@ snapshots:
       - '@atomico/vue'
       - element-internals-polyfill
 
-  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?772584a1(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)':
+  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?0795c83f(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)':
     dependencies:
       '@milkdown-nota/components': https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?edc5b145(wqtm2xhtdaiscyaqvdfg2sgd2y)
       '@milkdown/core': 7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
