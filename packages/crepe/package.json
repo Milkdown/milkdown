@@ -29,25 +29,8 @@
     "./theme/frame.css": "./src/theme/frame/style.css",
     "./theme/frame-dark.css": "./src/theme/frame-dark/style.css"
   },
-  "main": "./src/index.ts",
-  "publishConfig": {
-    "main": "./lib/esm/index.js",
-    "types": "./lib/types/index.d.ts",
-    "exports": {
-      ".": {
-        "import": "./lib/esm/index.js",
-        "require": "./lib/cjs/index.js",
-        "types": "./lib/types/index.d.ts"
-      },
-      "./theme/common/*": "./lib/theme/common/*",
-      "./theme/classic.css": "./lib/theme/classic/style.css",
-      "./theme/classic-dark.css": "./lib/theme/classic-dark/style.css",
-      "./theme/nord.css": "./lib/theme/nord/style.css",
-      "./theme/nord-dark.css": "./lib/theme/nord-dark/style.css",
-      "./theme/frame.css": "./lib/theme/frame/style.css",
-      "./theme/frame-dark.css": "./lib/theme/frame-dark/style.css"
-    }
-  },
+  "main": "./lib/esm/index.js",
+  "types": "./lib/types/index.d.ts",
   "files": [
     "lib",
     "src"
@@ -67,7 +50,7 @@
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.16.0",
-    "@milkdown-nota/kit": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?02dc2b63",
+    "@milkdown-nota/kit": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?772584a1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "atomico": "^1.75.1",
     "clsx": "^2.0.0",
