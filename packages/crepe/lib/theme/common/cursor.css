@@ -1,4 +1,4 @@
-@import '@milkdown/kit/prose/gapcursor/style/gapcursor.css';
+@import '@milkdown-nota/kit/prose/gapcursor/style/gapcursor.css';
 
 .milkdown .crepe-drop-cursor {
     background-color: color-mix(
