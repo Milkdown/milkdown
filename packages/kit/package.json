@@ -274,6 +274,9 @@
       "plugin/upload": [
         "lib/plugin/upload.d.ts"
       ],
+      "plugin/math": [
+        "lib/plugin/math.d.ts"
+      ],
       "component": [
         "lib/component/index.d.ts"
       ],
