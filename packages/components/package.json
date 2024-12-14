@@ -43,61 +43,28 @@
       "import": "./lib/table-block/index.es.js"
     }
   },
-  "main": "./src/index.ts",
-  "publishConfig": {
-    "main": "./lib/index.es.js",
-    "types": "./lib/index.d.ts",
-    "exports": {
-      ".": {
-        "types": "./lib/index.d.ts",
-        "import": "./lib/index.es.js"
-      },
-      "./image-block": {
-        "types": "./lib/image-block/index.d.ts",
-        "import": "./lib/image-block/index.es.js"
-      },
-      "./code-block": {
-        "types": "./lib/code-block/index.d.ts",
-        "import": "./lib/code-block/index.es.js"
-      },
-      "./list-item-block": {
-        "types": "./lib/list-item-block/index.d.ts",
-        "import": "./lib/list-item-block/index.es.js"
-      },
-      "./link-tooltip": {
-        "types": "./lib/link-tooltip/index.d.ts",
-        "import": "./lib/link-tooltip/index.es.js"
-      },
-      "./image-inline": {
-        "types": "./lib/image-inline/index.d.ts",
-        "import": "./lib/image-inline/index.es.js"
-      },
-      "./table-block": {
-        "types": "./lib/table-block/index.d.ts",
-        "import": "./lib/table-block/index.es.js"
-      }
-    },
-    "typesVersions": {
-      "*": {
-        "image-block": [
-          "./lib/image-block/index.d.ts"
-        ],
-        "code-block": [
-          "./lib/code-block/index.d.ts"
-        ],
-        "list-item-block": [
-          "./lib/list-item-block/index.d.ts"
-        ],
-        "link-tooltip": [
-          "./lib/link-tooltip/index.d.ts"
-        ],
-        "image-inline": [
-          "./lib/image-inline/index.d.ts"
-        ],
-        "table-block": [
-          "./lib/table-block/index.d.ts"
-        ]
-      }
+  "main": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "image-block": [
+        "./lib/image-block/index.d.ts"
+      ],
+      "code-block": [
+        "./lib/code-block/index.d.ts"
+      ],
+      "list-item-block": [
+        "./lib/list-item-block/index.d.ts"
+      ],
+      "link-tooltip": [
+        "./lib/link-tooltip/index.d.ts"
+      ],
+      "image-inline": [
+        "./lib/image-inline/index.d.ts"
+      ],
+      "table-block": [
+        "./lib/table-block/index.d.ts"
+      ]
     }
   },
   "files": [
