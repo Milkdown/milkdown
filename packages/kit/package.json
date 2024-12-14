@@ -177,288 +177,124 @@
       "import": "./lib/component/table-block.js"
     }
   },
-  "main": "./src/index.ts",
-  "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
-    "exports": {
-      ".": {
-        "import": "./lib/index.js",
-        "types": "./lib/index.d.ts"
-      },
-      "./core": {
-        "types": "./lib/core.d.ts",
-        "import": "./lib/core.js"
-      },
-      "./ctx": {
-        "types": "./lib/ctx.d.ts",
-        "import": "./lib/ctx.js"
-      },
-      "./transformer": {
-        "types": "./lib/transformer.d.ts",
-        "import": "./lib/transformer.js"
-      },
-      "./utils": {
-        "types": "./lib/utils.d.ts",
-        "import": "./lib/utils.js"
-      },
-      "./prose": {
-        "types": "./lib/prose/index.d.ts",
-        "import": "./lib/prose/index.js"
-      },
-      "./prose/commands": {
-        "types": "./lib/prose/commands.d.ts",
-        "import": "./lib/prose/commands.js"
-      },
-      "./prose/changeset": {
-        "types": "./lib/prose/changeset.d.ts",
-        "import": "./lib/prose/changeset.js"
-      },
-      "./prose/dropcursor": {
-        "types": "./lib/prose/dropcursor.d.ts",
-        "import": "./lib/prose/dropcursor.js"
-      },
-      "./prose/gapcursor": {
-        "types": "./lib/prose/gapcursor.d.ts",
-        "import": "./lib/prose/gapcursor.js"
-      },
-      "./prose/history": {
-        "types": "./lib/prose/history.d.ts",
-        "import": "./lib/prose/history.js"
-      },
-      "./prose/inputrules": {
-        "types": "./lib/prose/inputrules.d.ts",
-        "import": "./lib/prose/inputrules.js"
-      },
-      "./prose/keymap": {
-        "types": "./lib/prose/keymap.d.ts",
-        "import": "./lib/prose/keymap.js"
-      },
-      "./prose/model": {
-        "types": "./lib/prose/model.d.ts",
-        "import": "./lib/prose/model.js"
-      },
-      "./prose/schema-list": {
-        "types": "./lib/prose/schema-list.d.ts",
-        "import": "./lib/prose/schema-list.js"
-      },
-      "./prose/state": {
-        "types": "./lib/prose/state.d.ts",
-        "import": "./lib/prose/state.js"
-      },
-      "./prose/transform": {
-        "types": "./lib/prose/transform.d.ts",
-        "import": "./lib/prose/transform.js"
-      },
-      "./prose/view": {
-        "types": "./lib/prose/view.d.ts",
-        "import": "./lib/prose/view.js"
-      },
-      "./prose/tables": {
-        "types": "./lib/prose/tables.d.ts",
-        "import": "./lib/prose/tables.js"
-      },
-      "./prose/gapcursor/style/gapcursor.css": "./lib/prose/gapcursor/style/gapcursor.css",
-      "./prose/view/style/prosemirror.css": "./lib/prose/view/style/prosemirror.css",
-      "./prose/tables/style/tables.css": "./lib/prose/tables/style/tables.css",
-      "./preset/commonmark": {
-        "types": "./lib/preset/commonmark.d.ts",
-        "import": "./lib/preset/commonmark.js"
-      },
-      "./preset/gfm": {
-        "types": "./lib/preset/gfm.d.ts",
-        "import": "./lib/preset/gfm.js"
-      },
-      "./plugin/block": {
-        "types": "./lib/plugin/block.d.ts",
-        "import": "./lib/plugin/block.js"
-      },
-      "./plugin/clipboard": {
-        "types": "./lib/plugin/clipboard.d.ts",
-        "import": "./lib/plugin/clipboard.js"
-      },
-      "./plugin/cursor": {
-        "types": "./lib/plugin/cursor.d.ts",
-        "import": "./lib/plugin/cursor.js"
-      },
-      "./plugin/history": {
-        "types": "./lib/plugin/history.d.ts",
-        "import": "./lib/plugin/history.js"
-      },
-      "./plugin/indent": {
-        "types": "./lib/plugin/indent.d.ts",
-        "import": "./lib/plugin/indent.js"
-      },
-      "./plugin/listener": {
-        "types": "./lib/plugin/listener.d.ts",
-        "import": "./lib/plugin/listener.js"
-      },
-      "./plugin/math": {
-        "types": "./lib/plugin/math.d.ts",
-        "import": "./lib/plugin/math.js"
-      },
-      "./plugin/slash": {
-        "types": "./lib/plugin/slash.d.ts",
-        "import": "./lib/plugin/slash.js"
-      },
-      "./plugin/tooltip": {
-        "types": "./lib/plugin/tooltip.d.ts",
-        "import": "./lib/plugin/tooltip.js"
-      },
-      "./plugin/trailing": {
-        "types": "./lib/plugin/trailing.d.ts",
-        "import": "./lib/plugin/trailing.js"
-      },
-      "./plugin/upload": {
-        "types": "./lib/plugin/upload.d.ts",
-        "import": "./lib/plugin/upload.js"
-      },
-      "./component": {
-        "types": "./lib/component/index.d.ts",
-        "import": "./lib/component/index.js"
-      },
-      "./component/code-block": {
-        "types": "./lib/component/code-block.d.ts",
-        "import": "./lib/component/code-block.js"
-      },
-      "./component/image-block": {
-        "types": "./lib/component/image-block.d.ts",
-        "import": "./lib/component/image-block.js"
-      },
-      "./component/image-inline": {
-        "types": "./lib/component/image-inline.d.ts",
-        "import": "./lib/component/image-inline.js"
-      },
-      "./component/link-tooltip": {
-        "types": "./lib/component/link-tooltip.d.ts",
-        "import": "./lib/component/link-tooltip.js"
-      },
-      "./component/list-item-block": {
-        "types": "./lib/component/list-item-block.d.ts",
-        "import": "./lib/component/list-item-block.js"
-      },
-      "./component/table-block": {
-        "types": "./lib/component/table-block.d.ts",
-        "import": "./lib/component/table-block.js"
-      }
-    },
-    "typesVersions": {
-      "*": {
-        ".": [
-          "lib/index.d.ts"
-        ],
-        "core": [
-          "lib/core.d.ts"
-        ],
-        "ctx": [
-          "lib/ctx.d.ts"
-        ],
-        "transformer": [
-          "lib/transformer.d.ts"
-        ],
-        "utils": [
-          "lib/utils.d.ts"
-        ],
-        "prose": [
-          "lib/prose/index.d.ts"
-        ],
-        "prose/changeset": [
-          "lib/prose/changeset.d.ts"
-        ],
-        "prose/commands": [
-          "lib/prose/commands.d.ts"
-        ],
-        "prose/dropcursor": [
-          "lib/prose/dropcursor.d.ts"
-        ],
-        "prose/gapcursor": [
-          "lib/prose/gapcursor.d.ts"
-        ],
-        "prose/history": [
-          "lib/prose/history.d.ts"
-        ],
-        "prose/inputrules": [
-          "lib/prose/inputrules.d.ts"
-        ],
-        "prose/keymap": [
-          "lib/prose/keymap.d.ts"
-        ],
-        "prose/model": [
-          "lib/prose/model.d.ts"
-        ],
-        "prose/schema-list": [
-          "lib/prose/schema-list.d.ts"
-        ],
-        "prose/state": [
-          "lib/prose/state.d.ts"
-        ],
-        "prose/transform": [
-          "lib/prose/transform.d.ts"
-        ],
-        "prose/view": [
-          "lib/prose/view.d.ts"
-        ],
-        "prose/tables": [
-          "lib/prose/tables.d.ts"
-        ],
-        "preset/commonmark": [
-          "lib/preset/commonmark.d.ts"
-        ],
-        "preset/gfm": [
-          "lib/preset/gfm.d.ts"
-        ],
-        "plugin/block": [
-          "lib/plugin/block.d.ts"
-        ],
-        "plugin/clipboard": [
-          "lib/plugin/clipboard.d.ts"
-        ],
-        "plugin/cursor": [
-          "lib/plugin/cursor.d.ts"
-        ],
-        "plugin/history": [
-          "lib/plugin/history.d.ts"
-        ],
-        "plugin/indent": [
-          "lib/plugin/indent.d.ts"
-        ],
-        "plugin/listener": [
-          "lib/plugin/listener.d.ts"
-        ],
-        "plugin/slash": [
-          "lib/plugin/slash.d.ts"
-        ],
-        "plugin/tooltip": [
-          "lib/plugin/tooltip.d.ts"
-        ],
-        "plugin/trailing": [
-          "lib/plugin/trailing.d.ts"
-        ],
-        "plugin/upload": [
-          "lib/plugin/upload.d.ts"
-        ],
-        "component": [
-          "lib/component/index.d.ts"
-        ],
-        "component/code-block": [
-          "lib/component/code-block.d.ts"
-        ],
-        "component/image-block": [
-          "lib/component/image-block.d.ts"
-        ],
-        "component/image-inline": [
-          "lib/component/image-inline.d.ts"
-        ],
-        "component/link-tooltip": [
-          "lib/component/link-tooltip.d.ts"
-        ],
-        "component/list-item-block": [
-          "lib/component/list-item-block.d.ts"
-        ],
-        "component/table-block": [
-          "lib/component/table-block.d.ts"
-        ]
-      }
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "lib/index.d.ts"
+      ],
+      "core": [
+        "lib/core.d.ts"
+      ],
+      "ctx": [
+        "lib/ctx.d.ts"
+      ],
+      "transformer": [
+        "lib/transformer.d.ts"
+      ],
+      "utils": [
+        "lib/utils.d.ts"
+      ],
+      "prose": [
+        "lib/prose/index.d.ts"
+      ],
+      "prose/changeset": [
+        "lib/prose/changeset.d.ts"
+      ],
+      "prose/commands": [
+        "lib/prose/commands.d.ts"
+      ],
+      "prose/dropcursor": [
+        "lib/prose/dropcursor.d.ts"
+      ],
+      "prose/gapcursor": [
+        "lib/prose/gapcursor.d.ts"
+      ],
+      "prose/history": [
+        "lib/prose/history.d.ts"
+      ],
+      "prose/inputrules": [
+        "lib/prose/inputrules.d.ts"
+      ],
+      "prose/keymap": [
+        "lib/prose/keymap.d.ts"
+      ],
+      "prose/model": [
+        "lib/prose/model.d.ts"
+      ],
+      "prose/schema-list": [
+        "lib/prose/schema-list.d.ts"
+      ],
+      "prose/state": [
+        "lib/prose/state.d.ts"
+      ],
+      "prose/transform": [
+        "lib/prose/transform.d.ts"
+      ],
+      "prose/view": [
+        "lib/prose/view.d.ts"
+      ],
+      "prose/tables": [
+        "lib/prose/tables.d.ts"
+      ],
+      "preset/commonmark": [
+        "lib/preset/commonmark.d.ts"
+      ],
+      "preset/gfm": [
+        "lib/preset/gfm.d.ts"
+      ],
+      "plugin/block": [
+        "lib/plugin/block.d.ts"
+      ],
+      "plugin/clipboard": [
+        "lib/plugin/clipboard.d.ts"
+      ],
+      "plugin/cursor": [
+        "lib/plugin/cursor.d.ts"
+      ],
+      "plugin/history": [
+        "lib/plugin/history.d.ts"
+      ],
+      "plugin/indent": [
+        "lib/plugin/indent.d.ts"
+      ],
+      "plugin/listener": [
+        "lib/plugin/listener.d.ts"
+      ],
+      "plugin/slash": [
+        "lib/plugin/slash.d.ts"
+      ],
+      "plugin/tooltip": [
+        "lib/plugin/tooltip.d.ts"
+      ],
+      "plugin/trailing": [
+        "lib/plugin/trailing.d.ts"
+      ],
+      "plugin/upload": [
+        "lib/plugin/upload.d.ts"
+      ],
+      "component": [
+        "lib/component/index.d.ts"
+      ],
+      "component/code-block": [
+        "lib/component/code-block.d.ts"
+      ],
+      "component/image-block": [
+        "lib/component/image-block.d.ts"
+      ],
+      "component/image-inline": [
+        "lib/component/image-inline.d.ts"
+      ],
+      "component/link-tooltip": [
+        "lib/component/link-tooltip.d.ts"
+      ],
+      "component/list-item-block": [
+        "lib/component/list-item-block.d.ts"
+      ],
+      "component/table-block": [
+        "lib/component/table-block.d.ts"
+      ]
     }
   },
   "files": [
@@ -474,7 +310,7 @@
     "build": "rimraf './lib' && pnpm run build:es && pnpm run build:css && echo"
   },
   "dependencies": {
-    "@milkdown-nota/components": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?df5e2bd5",
+    "@milkdown-nota/components": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?edc5b145",
     "@milkdown/core": "^7.5.0",
     "@milkdown/ctx": "^7.5.0",
     "@milkdown/plugin-block": "^7.5.4",

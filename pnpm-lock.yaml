@@ -373,8 +373,8 @@ importers:
   packages/kit:
     dependencies:
       '@milkdown-nota/components':
-        specifier: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?df5e2bd5
-        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?df5e2bd5(wqtm2xhtdaiscyaqvdfg2sgd2y)
+        specifier: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?edc5b145
+        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?edc5b145(c7eblbswksmszzjfvltms2qkzm)
       '@milkdown/core':
         specifier: ^7.5.0
         version: 7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
@@ -2381,6 +2381,22 @@ packages:
 
   '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?df5e2bd5':
     resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?df5e2bd5}
+    version: 1.0.0
+    peerDependencies:
+      '@codemirror/language': ^6
+      '@codemirror/state': ^6
+      '@codemirror/view': ^6
+      '@milkdown/core': ^7.2.0
+      '@milkdown/ctx': ^7.2.0
+      '@milkdown/plugin-tooltip': ^7.2.0
+      '@milkdown/preset-commonmark': ^7.2.0
+      '@milkdown/preset-gfm': ^7.2.0
+      '@milkdown/prose': ^7.2.0
+      '@milkdown/transformer': ^7.2.0
+      '@milkdown/utils': ^7.2.0
+
+  '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?edc5b145':
+    resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?edc5b145}
     version: 1.0.0
     peerDependencies:
       '@codemirror/language': ^6
@@ -8684,6 +8700,35 @@ snapshots:
   '@marijn/find-cluster-break@1.0.2': {}
 
   '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?df5e2bd5(wqtm2xhtdaiscyaqvdfg2sgd2y)':
+    dependencies:
+      '@atomico/hooks': 4.4.1(atomico@1.79.2)(element-internals-polyfill@0.1.55)
+      '@codemirror/language': 6.10.6
+      '@codemirror/state': 6.5.0
+      '@codemirror/view': 6.35.3
+      '@floating-ui/dom': 1.6.12
+      '@milkdown/core': 7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
+      '@milkdown/ctx': 7.5.0
+      '@milkdown/exception': 7.5.0
+      '@milkdown/plugin-tooltip': 7.5.3(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
+      '@milkdown/preset-commonmark': 7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
+      '@milkdown/preset-gfm': 7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/preset-commonmark@7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
+      '@milkdown/prose': 7.5.0
+      '@milkdown/transformer': 7.5.0(@milkdown/prose@7.5.0)
+      '@milkdown/utils': 7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
+      '@types/lodash.debounce': 4.0.9
+      '@types/lodash.throttle': 4.1.9
+      atomico: 1.79.2
+      clsx: 2.1.1
+      lodash.debounce: 4.0.8
+      lodash.throttle: 4.1.1
+      tslib: 2.8.1
+      unist-util-visit: 5.0.0
+    transitivePeerDependencies:
+      - '@atomico/react'
+      - '@atomico/vue'
+      - element-internals-polyfill
+
+  '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?edc5b145(c7eblbswksmszzjfvltms2qkzm)':
     dependencies:
       '@atomico/hooks': 4.4.1(atomico@1.79.2)(element-internals-polyfill@0.1.55)
       '@codemirror/language': 6.10.6
