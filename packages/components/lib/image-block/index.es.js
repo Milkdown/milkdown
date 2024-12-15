@@ -23,7 +23,7 @@ var __spreadValues$1 = (a, b) => {
 function withMeta(plugin, meta) {
   Object.assign(plugin, {
     meta: __spreadValues$1({
-      package: "@milkdown/components"
+      package: "@milkdown-nota/components"
     }, meta)
   });
   return plugin;

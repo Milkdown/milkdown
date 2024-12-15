@@ -6,7 +6,7 @@ export function withMeta<T extends MilkdownPlugin>(
 ): T {
   Object.assign(plugin, {
     meta: {
-      package: '@milkdown/components',
+      package: '@milkdown-nota/components',
       ...meta,
     },
   })
