@@ -41,13 +41,16 @@ export const linkPreviewComponent: Component<LinkPreviewProps> = ({
     }
   }
 
+  const shouldOpenOutside = config?.shouldOpenOutside(src ?? '')
+  const actualSrc = shouldOpenOutside ? src : config?.getActualSrc(src ?? '')
+
   return html`
     <host>
       <div class="link-preview" onmousedown=${onClickPreview}>
         <span class="link-icon"> ${config?.linkIcon()} </span>
         <a
-          href=${config?.getActualSrc(src ?? '')}
-          target=${config?.shouldOpenOutside(src ?? '') ? '_blank' : '_self'}
+          href=${actualSrc}
+          target=${shouldOpenOutside ? '_blank' : '_self'}
           class="link-display"
           >${src}</a
         >
