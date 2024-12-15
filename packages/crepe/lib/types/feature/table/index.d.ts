@@ -1,3 +1,4 @@
+import { Ctx } from '@milkdown-nota/kit/ctx';
 import type { DefineFeature, Icon } from '../shared';
 interface TableConfig {
     addRowIcon: Icon;
@@ -11,6 +12,7 @@ interface TableConfig {
     rowDragHandleIcon: Icon;
 }
 export type TableFeatureConfig = Partial<TableConfig>;
+export declare function crepeTableBlockConfig(config: TableFeatureConfig | undefined): (ctx: Ctx) => void;
 export declare const defineFeature: DefineFeature<TableFeatureConfig>;
 export {};
 //# sourceMappingURL=index.d.ts.map
