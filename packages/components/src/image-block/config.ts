@@ -10,6 +10,7 @@ export interface ImageBlockConfig {
   uploadPlaceholderText: string
   captionPlaceholderText: string
   onUpload: (file: File) => Promise<string>
+  proxyDomURL?: (url: string) => Promise<string>
 }
 
 export const defaultImageBlockConfig: ImageBlockConfig = {

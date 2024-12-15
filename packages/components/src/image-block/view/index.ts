@@ -17,8 +17,15 @@ export const imageBlockView = $view(
         'milkdown-image-block'
       ) as HTMLElement & ImageComponentProps
       const config = ctx.get(imageBlockConfig.key)
+      const proxyDomURL = config.proxyDomURL
       const bindAttrs = (node: Node) => {
-        dom.src = node.attrs.src
+        if (!proxyDomURL) {
+          dom.src = node.attrs.src
+        } else {
+          proxyDomURL(node.attrs.src).then((url) => {
+            dom.src = url
+          })
+        }
         dom.ratio = node.attrs.ratio
         dom.caption = node.attrs.caption
 

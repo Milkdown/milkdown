@@ -17,8 +17,15 @@ export const inlineImageView = $view(
         'milkdown-image-inline'
       ) as HTMLElement & InlineImageComponentProps
       const config = ctx.get(inlineImageConfig.key)
+      const proxyDomURL = config.proxyDomURL
       const bindAttrs = (node: Node) => {
-        dom.src = node.attrs.src
+        if (!proxyDomURL) {
+          dom.src = node.attrs.src
+        } else {
+          proxyDomURL(node.attrs.src).then((url) => {
+            dom.src = url
+          })
+        }
         dom.alt = node.attrs.alt
         dom.title = node.attrs.title
       }

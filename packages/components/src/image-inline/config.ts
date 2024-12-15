@@ -8,6 +8,7 @@ export interface InlineImageConfig {
   confirmButton: () => ReturnType<typeof html>
   uploadPlaceholderText: string
   onUpload: (file: File) => Promise<string>
+  proxyDomURL?: (url: string) => Promise<string>
 }
 
 export const defaultInlineImageConfig: InlineImageConfig = {
