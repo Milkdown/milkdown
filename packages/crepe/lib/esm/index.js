@@ -38799,13 +38799,15 @@ const linkPreviewComponent = ({
       });
     }
   };
+  const shouldOpenOutside = config == null ? void 0 : config.shouldOpenOutside(src != null ? src : "");
+  const actualSrc = shouldOpenOutside ? src : config == null ? void 0 : config.getActualSrc(src != null ? src : "");
   return html$1`
     <host>
       <div class="link-preview" onmousedown=${onClickPreview}>
         <span class="link-icon"> ${config == null ? void 0 : config.linkIcon()} </span>
         <a
-          href=${config == null ? void 0 : config.getActualSrc(src != null ? src : "")}
-          target=${(config == null ? void 0 : config.shouldOpenOutside(src != null ? src : "")) ? "_blank" : "_self"}
+          href=${actualSrc}
+          target=${shouldOpenOutside ? "_blank" : "_self"}
           class="link-display"
           >${src}</a
         >
