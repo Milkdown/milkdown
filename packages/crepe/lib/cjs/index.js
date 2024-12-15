@@ -36765,7 +36765,7 @@ var __spreadValues$6 = (a, b) => {
 function withMeta$5(plugin, meta) {
   Object.assign(plugin, {
     meta: __spreadValues$6({
-      package: "@milkdown/components"
+      package: "@milkdown-nota/components"
     }, meta)
   });
   return plugin;
@@ -37929,7 +37929,7 @@ var __spreadValues$5 = (a, b) => {
 function withMeta$4(plugin, meta) {
   Object.assign(plugin, {
     meta: __spreadValues$5({
-      package: "@milkdown/components"
+      package: "@milkdown-nota/components"
     }, meta)
   });
   return plugin;
@@ -38625,7 +38625,7 @@ var __spreadValues$3$1 = (a, b) => {
 function withMeta$3(plugin, meta) {
   Object.assign(plugin, {
     meta: __spreadValues$3$1({
-      package: "@milkdown/components"
+      package: "@milkdown-nota/components"
     }, meta)
   });
   return plugin;
@@ -39223,7 +39223,7 @@ var __spreadValues$1$1 = (a, b) => {
 function withMeta$2(plugin, meta) {
   Object.assign(plugin, {
     meta: __spreadValues$1$1({
-      package: "@milkdown/components"
+      package: "@milkdown-nota/components"
     }, meta)
   });
   return plugin;
@@ -39695,7 +39695,7 @@ var __spreadValues$2 = (a, b) => {
 function withMeta$1(plugin, meta) {
   Object.assign(plugin, {
     meta: __spreadValues$2({
-      package: "@milkdown/components"
+      package: "@milkdown-nota/components"
     }, meta)
   });
   return plugin;
@@ -49784,7 +49784,7 @@ var __spreadValues$1 = (a, b) => {
 function withMeta(plugin, meta) {
   Object.assign(plugin, {
     meta: __spreadValues$1({
-      package: "@milkdown/components"
+      package: "@milkdown-nota/components"
     }, meta)
   });
   return plugin;
