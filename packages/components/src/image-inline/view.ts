@@ -22,9 +22,14 @@ export const inlineImageView = $view(
         if (!proxyDomURL) {
           dom.src = node.attrs.src
         } else {
-          proxyDomURL(node.attrs.src).then((url) => {
-            dom.src = url
-          })
+          const proxiedURL = proxyDomURL(node.attrs.src)
+          if (typeof proxiedURL === 'string') {
+            dom.src = proxiedURL
+          } else {
+            proxiedURL.then((url) => {
+              dom.src = url
+            })
+          }
         }
         dom.alt = node.attrs.alt
         dom.title = node.attrs.title

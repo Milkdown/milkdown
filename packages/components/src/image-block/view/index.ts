@@ -22,9 +22,14 @@ export const imageBlockView = $view(
         if (!proxyDomURL) {
           dom.src = node.attrs.src
         } else {
-          proxyDomURL(node.attrs.src).then((url) => {
-            dom.src = url
-          })
+          const proxiedURL = proxyDomURL(node.attrs.src)
+          if (typeof proxiedURL === 'string') {
+            dom.src = proxiedURL
+          } else {
+            proxiedURL.then((url) => {
+              dom.src = url
+            })
+          }
         }
         dom.ratio = node.attrs.ratio
         dom.caption = node.attrs.caption
