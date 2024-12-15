@@ -50,7 +50,7 @@
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.16.0",
-    "@milkdown-nota/kit": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?a3a4cd38",
+    "@milkdown-nota/kit": "https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?0abd0cfb",
     "@codemirror/theme-one-dark": "^6.1.2",
     "atomico": "^1.75.1",
     "clsx": "^2.0.0",
