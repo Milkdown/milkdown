@@ -22,6 +22,7 @@
     "build": "nx run-many --target=build --all --parallel",
     "build:affected": "nx affected --target=build",
     "build:packs": "pnpm --filter=@milkdown/* run build",
+    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "pnpm build:packs && pnpm publish --access public -r --no-git-checks --tag latest",
     "graph": "nx dep-graph",
     "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
