@@ -13,6 +13,8 @@ interface LinkTooltipConfig {
   confirmButton: Icon
   inputPlaceholder: string
   onCopyLink: (link: string) => void
+  shouldOpenOutside: (src: string) => boolean
+  getActualSrc: (src: string) => string
 }
 
 export type LinkTooltipFeatureConfig = Partial<LinkTooltipConfig>
@@ -32,6 +34,8 @@ export const defineFeature: DefineFeature<LinkTooltipFeatureConfig> = (
         confirmButton: config?.confirmButton ?? (() => confirmIcon),
         inputPlaceholder: config?.inputPlaceholder ?? 'Paste link...',
         onCopyLink: config?.onCopyLink ?? (() => {}),
+        shouldOpenOutside: config?.shouldOpenOutside ?? (() => true),
+        getActualSrc: config?.getActualSrc ?? ((src: string) => src),
       }))
     })
     .use(linkTooltipPlugin)

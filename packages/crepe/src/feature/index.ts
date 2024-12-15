@@ -18,7 +18,6 @@ import { defineFeature as blockEditDefineFeature } from './block-edit'
 import { defineFeature as placeholderDefineFeature } from './placeholder'
 import { defineFeature as toolbarDefineFeature } from './toolbar'
 import { defineFeature as tableDefineFeature } from './table'
-export { crepeTableBlockConfig } from './table'
 
 export enum CrepeFeature {
   CodeMirror = 'code-mirror',

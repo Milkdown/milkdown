@@ -13,6 +13,7 @@ import { indent, indentConfig } from '@milkdown-nota/kit/plugin/indent'
 import { getMarkdown } from '@milkdown-nota/kit/utils'
 import { clipboard } from '@milkdown-nota/kit/plugin/clipboard'
 import { trailing } from '@milkdown-nota/kit/plugin/trailing'
+import { math } from '@milkdown-nota/kit/plugin/math'
 
 import type { CrepeFeatureConfig } from '../feature'
 import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
@@ -28,7 +29,6 @@ export interface CrepeConfig {
 export class Crepe {
   static Feature = CrepeFeature
   readonly #editor: Editor
-  // readonly #initPromise: Promise<unknown>
   readonly #rootElement: Node
   #editable = true
 
@@ -67,28 +67,21 @@ export class Crepe {
       .use(trailing)
       .use(clipboard)
       .use(gfm)
-
-    // const promiseList: Promise<unknown>[] = []
+      .use(math)
 
     enabledFeatures.forEach((feature) => {
       const config = (featureConfigs as Partial<Record<CrepeFeature, never>>)[
         feature
       ]
-      // promiseList.push(
       loadFeature(feature, this.#editor, config)
-      // )
     })
-
-    // this.#initPromise = Promise.all(promiseList)
   }
 
   async create() {
-    // await this.#initPromise
     return this.#editor.create()
   }
 
   async destroy() {
-    // await this.#initPromise
     return this.#editor.destroy()
   }
 

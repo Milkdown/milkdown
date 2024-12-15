@@ -8,7 +8,6 @@ import type { LinkTooltipFeatureConfig } from './link-tooltip';
 import type { ListItemFeatureConfig } from './list-item';
 import type { ToolbarFeatureConfig } from './toolbar';
 import type { TableFeatureConfig } from './table';
-export { crepeTableBlockConfig } from './table';
 export declare enum CrepeFeature {
     CodeMirror = "code-mirror",
     ListItem = "list-item",
