@@ -1,5 +1,25 @@
 # @milkdown/exception
 
+## 7.5.8
+
+### Patch Changes
+
+- db4ec60: Bug fixes and api improvements.
+
+  # Crepe
+
+  - Add image proxy config.
+  - Fix link preview text not properly truncated.
+  - Fix list item unstable selection.
+  - Fix button types.
+  - Reset index when slash menu out of bound.
+
+  # Core
+
+  - Prevent duplicate ids in the editor.
+  - Allow options to floating ui.
+  - Add undoable input rules.
+
 ## 7.5.0
 
 ### Minor Changes
