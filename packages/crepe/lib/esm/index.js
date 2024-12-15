@@ -50814,9 +50814,9 @@ withMeta(tableBlockView, {
 
 const tableBlock = [tableBlockConfig, tableBlockView];
 
-function crepeTableBlockConfig(config) {
+function crepeTableBlockConfig(configKey, config) {
   return (ctx) => {
-    ctx.update(tableBlockConfig.key, (defaultConfig) => ({
+    ctx.update(configKey, (defaultConfig) => ({
       ...defaultConfig,
       renderButton: (renderType) => {
         var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r;
@@ -50845,7 +50845,7 @@ function crepeTableBlockConfig(config) {
   };
 }
 const defineFeature = (editor, config) => {
-  editor.config(crepeTableBlockConfig(config)).use(tableBlock);
+  editor.config(crepeTableBlockConfig(tableBlockConfig.key, config)).use(tableBlock);
 };
 
 var CrepeFeature = /* @__PURE__ */ ((CrepeFeature2) => {

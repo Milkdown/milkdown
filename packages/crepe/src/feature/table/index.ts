@@ -1,8 +1,9 @@
 import {
+  RenderType,
   tableBlock,
   tableBlockConfig,
 } from '@milkdown-nota/kit/component/table-block'
-import { Ctx } from '@milkdown-nota/kit/ctx'
+import { Ctx, SliceType } from '@milkdown-nota/kit/ctx'
 import type { DefineFeature, Icon } from '../shared'
 import {
   alignCenterIcon,
@@ -12,6 +13,7 @@ import {
   plusIcon,
   removeIcon,
 } from '../../icons'
+import { html } from 'atomico'
 
 interface TableConfig {
   addRowIcon: Icon
@@ -27,9 +29,19 @@ interface TableConfig {
 
 export type TableFeatureConfig = Partial<TableConfig>
 
-export function crepeTableBlockConfig(config: TableFeatureConfig | undefined) {
+export function crepeTableBlockConfig(
+  configKey: SliceType<
+    {
+      renderButton: (
+        renderType: RenderType
+      ) => HTMLElement | ReturnType<typeof html> | string
+    },
+    'tableBlockConfigCtx'
+  >,
+  config: TableFeatureConfig | undefined
+) {
   return (ctx: Ctx) => {
-    ctx.update(tableBlockConfig.key, (defaultConfig) => ({
+    ctx.update(configKey, (defaultConfig) => ({
       ...defaultConfig,
       renderButton: (renderType) => {
         switch (renderType) {
@@ -62,6 +74,6 @@ export const defineFeature: DefineFeature<TableFeatureConfig> = (
   config
 ) => {
   editor
-    .config(crepeTableBlockConfig(config))
+    .config(crepeTableBlockConfig(tableBlockConfig.key, config))
     .use(tableBlock)
 }
