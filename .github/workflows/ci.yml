@@ -12,6 +12,11 @@ env:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          [1, 2, 3, 4, 5]
     steps:
       - name: checkout code repository
         uses: actions/checkout@v4
@@ -22,15 +27,8 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      - name: install dependencies
-        run: pnpm install
-
       - name: run unit tests
         run: pnpm test:unit
-
-      # build all the packages to prepare for release
-      - name: build packs
-        run: pnpm build
 
       - name: run lint
         run: pnpm test:lint --format github
@@ -39,12 +37,12 @@ jobs:
         run: pnpm --filter=@milkdown/e2e test:install
 
       - name: run playwright
-        run: pnpm test:e2e
+        run: pnpm test:e2e --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: upload test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-main
+          name: test-results-e2e-${{ matrix.shard }}
           path: e2e/playwright-report/
           retention-days: 7
