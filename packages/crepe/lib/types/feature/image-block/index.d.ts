@@ -13,6 +13,7 @@ interface ImageBlockConfig {
     blockCaptionPlaceholderText: string;
     blockUploadPlaceholderText: string;
     blockOnUpload: (file: File) => Promise<string>;
+    getActualSrc: (src: string) => string;
 }
 export type ImageBlockFeatureConfig = Partial<ImageBlockConfig>;
 export declare const defineFeature: DefineFeature<ImageBlockFeatureConfig>;

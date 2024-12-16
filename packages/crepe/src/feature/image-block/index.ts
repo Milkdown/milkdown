@@ -25,6 +25,8 @@ interface ImageBlockConfig {
   blockCaptionPlaceholderText: string
   blockUploadPlaceholderText: string
   blockOnUpload: (file: File) => Promise<string>
+
+  getActualSrc: (src: string) => string
 }
 
 export type ImageBlockFeatureConfig = Partial<ImageBlockConfig>
@@ -53,6 +55,7 @@ export const defineFeature: DefineFeature<ImageBlockFeatureConfig> = (
         uploadPlaceholderText:
           config?.blockUploadPlaceholderText ?? 'or paste link',
         onUpload: config?.blockOnUpload ?? config?.onUpload ?? value.onUpload,
+        getActualSrc: config?.getActualSrc ?? value.getActualSrc,
       }))
     })
     .use(imageBlockComponent)

@@ -39382,7 +39382,8 @@ const defaultImageBlockConfig = {
   confirmButton: () => atomico.html`Confirm ⏎`,
   uploadPlaceholderText: "or paste the image link ...",
   captionPlaceholderText: "Image caption",
-  onUpload: (file) => Promise.resolve(URL.createObjectURL(file))
+  onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),
+  getActualSrc: (src) => src
 };
 const imageBlockConfig = h$2(
   defaultImageBlockConfig,
@@ -39498,20 +39499,22 @@ const imageComponent = ({
   setAttr,
   config
 }) => {
+  var _a;
+  const actualSrc = (_a = config == null ? void 0 : config.getActualSrc(src)) != null ? _a : "";
   const image = atomico.useRef();
   const resizeHandle = atomico.useRef();
   const linkInput = atomico.useRef();
   const [showCaption, setShowCaption] = atomico.useState(caption.length > 0);
-  const [hidePlaceholder, setHidePlaceholder] = atomico.useState(src.length !== 0);
+  const [hidePlaceholder, setHidePlaceholder] = atomico.useState(actualSrc.length !== 0);
   const [uuid] = atomico.useState(crypto.randomUUID());
   const [focusLinkInput, setFocusLinkInput] = atomico.useState(false);
-  const [currentLink, setCurrentLink] = atomico.useState(src);
+  const [currentLink, setCurrentLink] = atomico.useState(actualSrc);
   useBlockEffect({
     image,
     resizeHandle,
     ratio,
     setRatio: (r) => setAttr == null ? void 0 : setAttr("ratio", r),
-    src
+    src: actualSrc
   });
   atomico.useEffect(() => {
     if (selected) return;
@@ -39541,8 +39544,8 @@ const imageComponent = ({
     setCurrentLink(value);
   };
   const onUpload = (e) => __async$1(void 0, null, function* () {
-    var _a;
-    const file = (_a = e.target.files) == null ? void 0 : _a[0];
+    var _a2;
+    const file = (_a2 = e.target.files) == null ? void 0 : _a2[0];
     if (!file) return;
     const url = yield config == null ? void 0 : config.onUpload(file);
     if (!url) return;
@@ -39556,8 +39559,8 @@ const imageComponent = ({
     setShowCaption((x) => !x);
   };
   const onConfirmLinkInput = () => {
-    var _a, _b;
-    setAttr == null ? void 0 : setAttr("src", (_b = (_a = linkInput.current) == null ? void 0 : _a.value) != null ? _b : "");
+    var _a2, _b;
+    setAttr == null ? void 0 : setAttr("src", (_b = (_a2 = linkInput.current) == null ? void 0 : _a2.value) != null ? _b : "");
   };
   const onKeydown = (e) => {
     if (e.key === "Enter") onConfirmLinkInput();
@@ -39571,7 +39574,7 @@ const imageComponent = ({
     e.preventDefault();
   };
   return atomico.html`<host class=${clsx(selected && "selected")}>
-    <div class=${clsx("image-edit", src.length > 0 && "hidden")}>
+    <div class=${clsx("image-edit", actualSrc.length > 0 && "hidden")}>
       <div class="image-icon">${config == null ? void 0 : config.imageIcon()}</div>
       <div class=${clsx("link-importer", focusLinkInput && "focus")}>
         <input
@@ -39599,8 +39602,8 @@ const imageComponent = ({
             ${config == null ? void 0 : config.uploadButton()}
           </label>
           <span class="text" onclick=${() => {
-    var _a;
-    return (_a = linkInput.current) == null ? void 0 : _a.focus();
+    var _a2;
+    return (_a2 = linkInput.current) == null ? void 0 : _a2.focus();
   }}>
             ${config == null ? void 0 : config.uploadPlaceholderText}
           </span>
@@ -39613,7 +39616,7 @@ const imageComponent = ({
         ${config == null ? void 0 : config.confirmButton()}
       </div>
     </div>
-    <div class=${clsx("image-wrapper", src.length === 0 && "hidden")}>
+    <div class=${clsx("image-wrapper", actualSrc.length === 0 && "hidden")}>
       <div class="operation">
         <div class="operation-item" onpointerdown=${onToggleCaption}>
           ${config == null ? void 0 : config.captionIcon()}
@@ -39622,7 +39625,7 @@ const imageComponent = ({
       <img
         ref=${image}
         data-type=${IMAGE_DATA_TYPE}
-        src=${src}
+        src=${actualSrc}
         alt=${caption}
         ratio=${ratio}
       />
@@ -39949,7 +39952,7 @@ const defineFeature$5 = (editor, config) => {
       };
     });
     ctx.update(imageBlockConfig.key, (value) => {
-      var _a, _b, _c, _d, _e, _f, _g, _h;
+      var _a, _b, _c, _d, _e, _f, _g, _h, _i;
       return {
         uploadButton: (_a = config == null ? void 0 : config.blockUploadButton) != null ? _a : () => "Upload file",
         imageIcon: (_b = config == null ? void 0 : config.blockImageIcon) != null ? _b : () => imageIcon,
@@ -39957,7 +39960,8 @@ const defineFeature$5 = (editor, config) => {
         confirmButton: (_d = config == null ? void 0 : config.blockConfirmButton) != null ? _d : () => "Confirm",
         captionPlaceholderText: (_e = config == null ? void 0 : config.blockCaptionPlaceholderText) != null ? _e : "Write Image Caption",
         uploadPlaceholderText: (_f = config == null ? void 0 : config.blockUploadPlaceholderText) != null ? _f : "or paste link",
-        onUpload: (_h = (_g = config == null ? void 0 : config.blockOnUpload) != null ? _g : config == null ? void 0 : config.onUpload) != null ? _h : value.onUpload
+        onUpload: (_h = (_g = config == null ? void 0 : config.blockOnUpload) != null ? _g : config == null ? void 0 : config.onUpload) != null ? _h : value.onUpload,
+        getActualSrc: (_i = config == null ? void 0 : config.getActualSrc) != null ? _i : value.getActualSrc
       };
     });
   }).use(imageBlockComponent).use(imageInlineComponent);
