@@ -10,8 +10,53 @@ env:
   CI: true
 
 jobs:
-  build-and-test:
+  install-deps:
     runs-on: ubuntu-latest
+    steps:
+      - name: checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - uses: ./.github/actions/setup
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: install-deps
+    steps:
+      - name: checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: run lint
+        run: pnpm test:lint --format github
+
+  unit:
+    runs-on: ubuntu-latest
+    needs: install-deps
+    steps:
+      - name: checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: run unit tests
+        run: pnpm test:unit
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: install-deps
     strategy:
       fail-fast: false
       matrix:
@@ -26,12 +71,6 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      - name: run unit tests
-        run: pnpm test:unit
-
-      - name: run lint
-        run: pnpm test:lint --format github
-
       - name: install browsers
         run: pnpm --filter=@milkdown/e2e test:install
 
@@ -45,3 +84,13 @@ jobs:
           name: test-results-e2e-${{ matrix.shard }}
           path: e2e/playwright-report/
           retention-days: 7
+
+  build-and-test:
+    if: ${{ always() }}
+    name: Build & Test
+    needs: [lint, unit, e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: on error
+        if: ${{ needs.e2e.result != 'success' || needs.unit.result != 'success' || needs.lint.result != 'success' }}
+        run: exit 1
