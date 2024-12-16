@@ -306,8 +306,8 @@ importers:
         specifier: ^6.16.0
         version: 6.35.3
       '@milkdown-nota/kit':
-        specifier: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?d59004ca
-        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?d59004ca(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)
+        specifier: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?c95aedbe
+        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?c95aedbe(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)
       atomico:
         specifier: ^1.75.1
         version: 1.79.2
@@ -374,7 +374,7 @@ importers:
     dependencies:
       '@milkdown-nota/components':
         specifier: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767
-        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767(c7eblbswksmszzjfvltms2qkzm)
+        version: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767(wqtm2xhtdaiscyaqvdfg2sgd2y)
       '@milkdown/core':
         specifier: ^7.5.0
         version: 7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
@@ -2379,22 +2379,6 @@ packages:
   '@marijn/find-cluster-break@1.0.2':
     resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
 
-  '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?300d491f':
-    resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?300d491f}
-    version: 1.0.0
-    peerDependencies:
-      '@codemirror/language': ^6
-      '@codemirror/state': ^6
-      '@codemirror/view': ^6
-      '@milkdown/core': ^7.2.0
-      '@milkdown/ctx': ^7.2.0
-      '@milkdown/plugin-tooltip': ^7.2.0
-      '@milkdown/preset-commonmark': ^7.2.0
-      '@milkdown/preset-gfm': ^7.2.0
-      '@milkdown/prose': ^7.2.0
-      '@milkdown/transformer': ^7.2.0
-      '@milkdown/utils': ^7.2.0
-
   '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767':
     resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767}
     version: 1.0.0
@@ -2411,8 +2395,8 @@ packages:
       '@milkdown/transformer': ^7.2.0
       '@milkdown/utils': ^7.2.0
 
-  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?d59004ca':
-    resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?d59004ca}
+  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?c95aedbe':
+    resolution: {tarball: https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?c95aedbe}
     version: 1.0.0
 
   '@milkdown/core@7.5.0':
@@ -8699,7 +8683,7 @@ snapshots:
 
   '@marijn/find-cluster-break@1.0.2': {}
 
-  '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?300d491f(wqtm2xhtdaiscyaqvdfg2sgd2y)':
+  '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767(wqtm2xhtdaiscyaqvdfg2sgd2y)':
     dependencies:
       '@atomico/hooks': 4.4.1(atomico@1.79.2)(element-internals-polyfill@0.1.55)
       '@codemirror/language': 6.10.6
@@ -8728,38 +8712,9 @@ snapshots:
       - '@atomico/vue'
       - element-internals-polyfill
 
-  '@milkdown-nota/components@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767(c7eblbswksmszzjfvltms2qkzm)':
+  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?c95aedbe(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)':
     dependencies:
-      '@atomico/hooks': 4.4.1(atomico@1.79.2)(element-internals-polyfill@0.1.55)
-      '@codemirror/language': 6.10.6
-      '@codemirror/state': 6.5.0
-      '@codemirror/view': 6.35.3
-      '@floating-ui/dom': 1.6.12
-      '@milkdown/core': 7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
-      '@milkdown/ctx': 7.5.0
-      '@milkdown/exception': 7.5.0
-      '@milkdown/plugin-tooltip': 7.5.3(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
-      '@milkdown/preset-commonmark': 7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
-      '@milkdown/preset-gfm': 7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/preset-commonmark@7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
-      '@milkdown/prose': 7.5.0
-      '@milkdown/transformer': 7.5.0(@milkdown/prose@7.5.0)
-      '@milkdown/utils': 7.5.0(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
-      '@types/lodash.debounce': 4.0.9
-      '@types/lodash.throttle': 4.1.9
-      atomico: 1.79.2
-      clsx: 2.1.1
-      lodash.debounce: 4.0.8
-      lodash.throttle: 4.1.1
-      tslib: 2.8.1
-      unist-util-visit: 5.0.0
-    transitivePeerDependencies:
-      - '@atomico/react'
-      - '@atomico/vue'
-      - element-internals-polyfill
-
-  '@milkdown-nota/kit@https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/kit?d59004ca(@codemirror/language@6.10.6)(@codemirror/state@6.5.0)(@codemirror/view@6.35.3)':
-    dependencies:
-      '@milkdown-nota/components': https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?300d491f(wqtm2xhtdaiscyaqvdfg2sgd2y)
+      '@milkdown-nota/components': https://gitpkg.now.sh/SNKK62/milkdown-nota/packages/components?831ce767(wqtm2xhtdaiscyaqvdfg2sgd2y)
       '@milkdown/core': 7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
       '@milkdown/ctx': 7.5.0
       '@milkdown/plugin-block': 7.5.4(@milkdown/core@7.5.0(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0)))(@milkdown/ctx@7.5.0)(@milkdown/prose@7.5.0)(@milkdown/transformer@7.5.0(@milkdown/prose@7.5.0))
