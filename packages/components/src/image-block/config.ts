@@ -10,7 +10,7 @@ export interface ImageBlockConfig {
   uploadPlaceholderText: string
   captionPlaceholderText: string
   onUpload: (file: File) => Promise<string>
-  getActualSrc: (src: string) => string
+  getActualSrc: (src: string) => Promise<string>
 }
 
 export const defaultImageBlockConfig: ImageBlockConfig = {
@@ -21,7 +21,7 @@ export const defaultImageBlockConfig: ImageBlockConfig = {
   uploadPlaceholderText: 'or paste the image link ...',
   captionPlaceholderText: 'Image caption',
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),
-  getActualSrc: (src: string) => src,
+  getActualSrc: async (src: string) => src,
 }
 
 export const imageBlockConfig = $ctx(
