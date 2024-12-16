@@ -41,7 +41,7 @@
     "@nx/workspace": "20.2.2",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-typescript": "^12.0.0",
     "@swc-node/register": "^1.10.9",
     "@swc/core": "^1.7.5",
