@@ -7,7 +7,7 @@ export interface ImageBlockConfig {
     uploadPlaceholderText: string;
     captionPlaceholderText: string;
     onUpload: (file: File) => Promise<string>;
-    getActualSrc: (src: string) => string;
+    getActualSrc: (src: string) => Promise<string>;
 }
 export declare const defaultImageBlockConfig: ImageBlockConfig;
 export declare const imageBlockConfig: import("@milkdown/utils").$Ctx<ImageBlockConfig, "imageBlockConfigCtx">;

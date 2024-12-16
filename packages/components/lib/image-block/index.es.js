@@ -142,6 +142,26 @@ withMeta(remarkImageBlockPlugin.options, {
   group: "ImageBlock"
 });
 
+var __async$1 = (__this, __arguments, generator) => {
+  return new Promise((resolve, reject) => {
+    var fulfilled = (value) => {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var rejected = (value) => {
+      try {
+        step(generator.throw(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+    step((generator = generator.apply(__this, __arguments)).next());
+  });
+};
 const defaultImageBlockConfig = {
   imageIcon: () => "\u{1F30C}",
   captionIcon: () => "\u{1F4AC}",
@@ -150,7 +170,9 @@ const defaultImageBlockConfig = {
   uploadPlaceholderText: "or paste the image link ...",
   captionPlaceholderText: "Image caption",
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),
-  getActualSrc: (src) => src
+  getActualSrc: (src) => __async$1(void 0, null, function* () {
+    return src;
+  })
 };
 const imageBlockConfig = $ctx(
   defaultImageBlockConfig,
@@ -266,27 +288,30 @@ const imageComponent = ({
   setAttr,
   config
 }) => {
-  var _a;
-  const actualSrc = (_a = config == null ? void 0 : config.getActualSrc(src)) != null ? _a : "";
   const image = useRef();
   const resizeHandle = useRef();
   const linkInput = useRef();
   const [showCaption, setShowCaption] = useState(caption.length > 0);
-  const [hidePlaceholder, setHidePlaceholder] = useState(actualSrc.length !== 0);
+  const [hidePlaceholder, setHidePlaceholder] = useState(src.length !== 0);
   const [uuid] = useState(crypto.randomUUID());
   const [focusLinkInput, setFocusLinkInput] = useState(false);
-  const [currentLink, setCurrentLink] = useState(actualSrc);
+  const [currentLink, setCurrentLink] = useState(src);
   useBlockEffect({
     image,
     resizeHandle,
     ratio,
     setRatio: (r) => setAttr == null ? void 0 : setAttr("ratio", r),
-    src: actualSrc
+    src
   });
   useEffect(() => {
     if (selected) return;
     setShowCaption(caption.length > 0);
   }, [selected]);
+  useEffect(() => {
+    config == null ? void 0 : config.getActualSrc(src).then((actualSrc) => {
+      setAttr == null ? void 0 : setAttr("src", actualSrc);
+    });
+  }, [src]);
   const onInput = (e) => {
     const target = e.target;
     const value = target.value;
@@ -311,8 +336,8 @@ const imageComponent = ({
     setCurrentLink(value);
   };
   const onUpload = (e) => __async(void 0, null, function* () {
-    var _a2;
-    const file = (_a2 = e.target.files) == null ? void 0 : _a2[0];
+    var _a;
+    const file = (_a = e.target.files) == null ? void 0 : _a[0];
     if (!file) return;
     const url = yield config == null ? void 0 : config.onUpload(file);
     if (!url) return;
@@ -326,8 +351,8 @@ const imageComponent = ({
     setShowCaption((x) => !x);
   };
   const onConfirmLinkInput = () => {
-    var _a2, _b;
-    setAttr == null ? void 0 : setAttr("src", (_b = (_a2 = linkInput.current) == null ? void 0 : _a2.value) != null ? _b : "");
+    var _a, _b;
+    setAttr == null ? void 0 : setAttr("src", (_b = (_a = linkInput.current) == null ? void 0 : _a.value) != null ? _b : "");
   };
   const onKeydown = (e) => {
     if (e.key === "Enter") onConfirmLinkInput();
@@ -341,7 +366,7 @@ const imageComponent = ({
     e.preventDefault();
   };
   return html`<host class=${clsx(selected && "selected")}>
-    <div class=${clsx("image-edit", actualSrc.length > 0 && "hidden")}>
+    <div class=${clsx("image-edit", src.length > 0 && "hidden")}>
       <div class="image-icon">${config == null ? void 0 : config.imageIcon()}</div>
       <div class=${clsx("link-importer", focusLinkInput && "focus")}>
         <input
@@ -369,8 +394,8 @@ const imageComponent = ({
             ${config == null ? void 0 : config.uploadButton()}
           </label>
           <span class="text" onclick=${() => {
-    var _a2;
-    return (_a2 = linkInput.current) == null ? void 0 : _a2.focus();
+    var _a;
+    return (_a = linkInput.current) == null ? void 0 : _a.focus();
   }}>
             ${config == null ? void 0 : config.uploadPlaceholderText}
           </span>
@@ -383,7 +408,7 @@ const imageComponent = ({
         ${config == null ? void 0 : config.confirmButton()}
       </div>
     </div>
-    <div class=${clsx("image-wrapper", actualSrc.length === 0 && "hidden")}>
+    <div class=${clsx("image-wrapper", src.length === 0 && "hidden")}>
       <div class="operation">
         <div class="operation-item" onpointerdown=${onToggleCaption}>
           ${config == null ? void 0 : config.captionIcon()}
@@ -392,7 +417,7 @@ const imageComponent = ({
       <img
         ref=${image}
         data-type=${IMAGE_DATA_TYPE}
-        src=${actualSrc}
+        src=${src}
         alt=${caption}
         ratio=${ratio}
       />
