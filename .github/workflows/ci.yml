@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CI: true
 
@@ -18,8 +22,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: nrwl/nx-set-shas@v4
-
       - uses: ./.github/actions/setup
 
   lint:
@@ -30,8 +32,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - uses: nrwl/nx-set-shas@v4
 
       - uses: ./.github/actions/setup
 
@@ -46,8 +46,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - uses: nrwl/nx-set-shas@v4
 
       - uses: ./.github/actions/setup
 
@@ -66,8 +64,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - uses: nrwl/nx-set-shas@v4
 
       - uses: ./.github/actions/setup
 
