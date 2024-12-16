@@ -149,7 +149,8 @@ const defaultImageBlockConfig = {
   confirmButton: () => html`Confirm ⏎`,
   uploadPlaceholderText: "or paste the image link ...",
   captionPlaceholderText: "Image caption",
-  onUpload: (file) => Promise.resolve(URL.createObjectURL(file))
+  onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),
+  getActualSrc: (src) => src
 };
 const imageBlockConfig = $ctx(
   defaultImageBlockConfig,
@@ -265,20 +266,22 @@ const imageComponent = ({
   setAttr,
   config
 }) => {
+  var _a;
+  const actualSrc = (_a = config == null ? void 0 : config.getActualSrc(src)) != null ? _a : "";
   const image = useRef();
   const resizeHandle = useRef();
   const linkInput = useRef();
   const [showCaption, setShowCaption] = useState(caption.length > 0);
-  const [hidePlaceholder, setHidePlaceholder] = useState(src.length !== 0);
+  const [hidePlaceholder, setHidePlaceholder] = useState(actualSrc.length !== 0);
   const [uuid] = useState(crypto.randomUUID());
   const [focusLinkInput, setFocusLinkInput] = useState(false);
-  const [currentLink, setCurrentLink] = useState(src);
+  const [currentLink, setCurrentLink] = useState(actualSrc);
   useBlockEffect({
     image,
     resizeHandle,
     ratio,
     setRatio: (r) => setAttr == null ? void 0 : setAttr("ratio", r),
-    src
+    src: actualSrc
   });
   useEffect(() => {
     if (selected) return;
@@ -308,8 +311,8 @@ const imageComponent = ({
     setCurrentLink(value);
   };
   const onUpload = (e) => __async(void 0, null, function* () {
-    var _a;
-    const file = (_a = e.target.files) == null ? void 0 : _a[0];
+    var _a2;
+    const file = (_a2 = e.target.files) == null ? void 0 : _a2[0];
     if (!file) return;
     const url = yield config == null ? void 0 : config.onUpload(file);
     if (!url) return;
@@ -323,8 +326,8 @@ const imageComponent = ({
     setShowCaption((x) => !x);
   };
   const onConfirmLinkInput = () => {
-    var _a, _b;
-    setAttr == null ? void 0 : setAttr("src", (_b = (_a = linkInput.current) == null ? void 0 : _a.value) != null ? _b : "");
+    var _a2, _b;
+    setAttr == null ? void 0 : setAttr("src", (_b = (_a2 = linkInput.current) == null ? void 0 : _a2.value) != null ? _b : "");
   };
   const onKeydown = (e) => {
     if (e.key === "Enter") onConfirmLinkInput();
@@ -338,7 +341,7 @@ const imageComponent = ({
     e.preventDefault();
   };
   return html`<host class=${clsx(selected && "selected")}>
-    <div class=${clsx("image-edit", src.length > 0 && "hidden")}>
+    <div class=${clsx("image-edit", actualSrc.length > 0 && "hidden")}>
       <div class="image-icon">${config == null ? void 0 : config.imageIcon()}</div>
       <div class=${clsx("link-importer", focusLinkInput && "focus")}>
         <input
@@ -366,8 +369,8 @@ const imageComponent = ({
             ${config == null ? void 0 : config.uploadButton()}
           </label>
           <span class="text" onclick=${() => {
-    var _a;
-    return (_a = linkInput.current) == null ? void 0 : _a.focus();
+    var _a2;
+    return (_a2 = linkInput.current) == null ? void 0 : _a2.focus();
   }}>
             ${config == null ? void 0 : config.uploadPlaceholderText}
           </span>
@@ -380,7 +383,7 @@ const imageComponent = ({
         ${config == null ? void 0 : config.confirmButton()}
       </div>
     </div>
-    <div class=${clsx("image-wrapper", src.length === 0 && "hidden")}>
+    <div class=${clsx("image-wrapper", actualSrc.length === 0 && "hidden")}>
       <div class="operation">
         <div class="operation-item" onpointerdown=${onToggleCaption}>
           ${config == null ? void 0 : config.captionIcon()}
@@ -389,7 +392,7 @@ const imageComponent = ({
       <img
         ref=${image}
         data-type=${IMAGE_DATA_TYPE}
-        src=${src}
+        src=${actualSrc}
         alt=${caption}
         ratio=${ratio}
       />

@@ -29,21 +29,22 @@ export const imageComponent: Component<ImageComponentProps> = ({
   setAttr,
   config,
 }) => {
+  const actualSrc = config?.getActualSrc(src) ?? ''
   const image = useRef<HTMLImageElement>()
   const resizeHandle = useRef<HTMLDivElement>()
   const linkInput = useRef<HTMLInputElement>()
   const [showCaption, setShowCaption] = useState(caption.length > 0)
-  const [hidePlaceholder, setHidePlaceholder] = useState(src.length !== 0)
+  const [hidePlaceholder, setHidePlaceholder] = useState(actualSrc.length !== 0)
   const [uuid] = useState(crypto.randomUUID())
   const [focusLinkInput, setFocusLinkInput] = useState(false)
-  const [currentLink, setCurrentLink] = useState(src)
+  const [currentLink, setCurrentLink] = useState(actualSrc)
 
   useBlockEffect({
     image,
     resizeHandle,
     ratio,
     setRatio: (r) => setAttr?.('ratio', r),
-    src,
+    src: actualSrc,
   })
 
   useEffect(() => {
@@ -117,7 +118,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
   }
 
   return html`<host class=${clsx(selected && 'selected')}>
-    <div class=${clsx('image-edit', src.length > 0 && 'hidden')}>
+    <div class=${clsx('image-edit', actualSrc.length > 0 && 'hidden')}>
       <div class="image-icon">${config?.imageIcon()}</div>
       <div class=${clsx('link-importer', focusLinkInput && 'focus')}>
         <input
@@ -156,7 +157,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
         ${config?.confirmButton()}
       </div>
     </div>
-    <div class=${clsx('image-wrapper', src.length === 0 && 'hidden')}>
+    <div class=${clsx('image-wrapper', actualSrc.length === 0 && 'hidden')}>
       <div class="operation">
         <div class="operation-item" onpointerdown=${onToggleCaption}>
           ${config?.captionIcon()}
@@ -165,7 +166,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
       <img
         ref=${image}
         data-type=${IMAGE_DATA_TYPE}
-        src=${src}
+        src=${actualSrc}
         alt=${caption}
         ratio=${ratio}
       />
