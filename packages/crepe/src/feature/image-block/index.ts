@@ -55,7 +55,12 @@ export const defineFeature: DefineFeature<ImageBlockFeatureConfig> = (
         uploadPlaceholderText:
           config?.blockUploadPlaceholderText ?? 'or paste link',
         onUpload: config?.blockOnUpload ?? config?.onUpload ?? value.onUpload,
-        getActualSrc: config?.getActualSrc ?? value.getActualSrc,
+        getActualSrc: async (src: string) => {
+          if (config?.getActualSrc) {
+            return config.getActualSrc(src)
+          }
+          return value.getActualSrc(src)
+        },
       }))
     })
     .use(imageBlockComponent)
