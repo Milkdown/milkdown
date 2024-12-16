@@ -11,6 +11,7 @@ import { captionIcon, confirmIcon, imageIcon } from '../../icons'
 
 interface ImageBlockConfig {
   onUpload: (file: File) => Promise<string>
+  proxyDomURL: (url: string) => Promise<string> | string
 
   inlineImageIcon: Icon
   inlineConfirmButton: Icon
@@ -42,6 +43,7 @@ export const defineFeature: DefineFeature<ImageBlockFeatureConfig> = (
         uploadPlaceholderText:
           config?.inlineUploadPlaceholderText ?? 'or paste link',
         onUpload: config?.inlineOnUpload ?? config?.onUpload ?? value.onUpload,
+        proxyDomURL: config?.proxyDomURL,
       }))
       ctx.update(imageBlockConfig.key, (value) => ({
         uploadButton: config?.blockUploadButton ?? (() => 'Upload file'),
@@ -53,6 +55,7 @@ export const defineFeature: DefineFeature<ImageBlockFeatureConfig> = (
         uploadPlaceholderText:
           config?.blockUploadPlaceholderText ?? 'or paste link',
         onUpload: config?.blockOnUpload ?? config?.onUpload ?? value.onUpload,
+        proxyDomURL: config?.proxyDomURL,
       }))
     })
     .use(imageBlockComponent)
