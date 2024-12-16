@@ -18,7 +18,7 @@ jobs:
   install-deps:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code repository
+      - name: Checkout code repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -29,28 +29,28 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
-      - name: checkout code repository
+      - name: Checkout code repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
 
-      - name: run lint
+      - name: Run lint
         run: pnpm test:lint --format github
 
   unit:
     runs-on: ubuntu-latest
     needs: install-deps
     steps:
-      - name: checkout code repository
+      - name: Checkout code repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
 
-      - name: run unit tests
+      - name: Run unit tests
         run: pnpm test:unit
 
   e2e:
@@ -61,20 +61,20 @@ jobs:
       matrix:
         shard: [1, 2, 3, 4, 5]
     steps:
-      - name: checkout code repository
+      - name: Checkout code repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
 
-      - name: install browsers
+      - name: Install browsers
         run: pnpm --filter=@milkdown/e2e test:install
 
-      - name: run playwright
+      - name: Run playwright
         run: pnpm test:e2e -- --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
-      - name: upload test results
+      - name: Upload test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
@@ -82,12 +82,11 @@ jobs:
           path: e2e/playwright-report/
           retention-days: 7
 
-  build-and-test:
+  summary:
     if: ${{ always() }}
-    name: Build & Test
     needs: [lint, unit, e2e]
     runs-on: ubuntu-latest
     steps:
-      - name: on error
+      - name: On error
         if: ${{ needs.e2e.result != 'success' || needs.unit.result != 'success' || needs.lint.result != 'success' }}
         run: exit 1
