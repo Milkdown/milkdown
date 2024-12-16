@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/vue",
   "type": "module",
-  "version": "7.5.8",
+  "version": "7.5.9",
   "license": "MIT",
   "repository": {
     "type": "git",

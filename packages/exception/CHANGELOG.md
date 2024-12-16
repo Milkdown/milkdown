@@ -1,5 +1,11 @@
 # @milkdown/exception
 
+## 7.5.9
+
+### Patch Changes
+
+- a3dde0c: Enable image proxy.
+
 ## 7.5.8
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @milkdown/vue
 
+## 7.5.9
+
+### Patch Changes
+
+- a3dde0c: Enable image proxy.
+- Updated dependencies [a3dde0c]
+  - @milkdown/utils@7.5.9
+
 ## 7.5.8
 
 ### Patch Changes

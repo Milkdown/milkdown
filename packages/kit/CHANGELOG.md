@@ -1,5 +1,30 @@
 # @milkdown/kit
 
+## 7.5.9
+
+### Patch Changes
+
+- a3dde0c: Enable image proxy.
+- Updated dependencies [a3dde0c]
+  - @milkdown/components@7.5.9
+  - @milkdown/core@7.5.9
+  - @milkdown/ctx@7.5.9
+  - @milkdown/plugin-block@7.5.9
+  - @milkdown/plugin-clipboard@7.5.9
+  - @milkdown/plugin-cursor@7.5.9
+  - @milkdown/plugin-history@7.5.9
+  - @milkdown/plugin-indent@7.5.9
+  - @milkdown/plugin-listener@7.5.9
+  - @milkdown/plugin-slash@7.5.9
+  - @milkdown/plugin-tooltip@7.5.9
+  - @milkdown/plugin-trailing@7.5.9
+  - @milkdown/plugin-upload@7.5.9
+  - @milkdown/preset-commonmark@7.5.9
+  - @milkdown/preset-gfm@7.5.9
+  - @milkdown/prose@7.5.9
+  - @milkdown/transformer@7.5.9
+  - @milkdown/utils@7.5.9
+
 ## 7.5.8
 
 ### Patch Changes
