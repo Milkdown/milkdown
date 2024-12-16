@@ -15,8 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard:
-          [1, 2, 3, 4, 5]
+        shard: [1, 2, 3, 4, 5]
     steps:
       - name: checkout code repository
         uses: actions/checkout@v4
@@ -37,7 +36,7 @@ jobs:
         run: pnpm --filter=@milkdown/e2e test:install
 
       - name: run playwright
-        run: pnpm test:e2e --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: pnpm test:e2e -- --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: upload test results
         if: ${{ failure() }}
