@@ -5,8 +5,8 @@ import type { Icon } from '../../shared'
 export interface BlockHandleProps {
   show: boolean
   onAdd: () => void
-  addIcon: Icon
-  handleIcon: Icon
+  addIcon?: Icon
+  handleIcon?: Icon
 }
 
 const blockHandleComponent: Component<BlockHandleProps> = ({

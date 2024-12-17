@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/plugin-diagram",
   "type": "module",
-  "version": "7.5.0",
+  "version": "7.5.9",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -50,7 +50,6 @@
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "dompurify": "^3.0.0",
     "mermaid": "^10.9.0",
     "nanoid": "^5.0.0",
     "tslib": "^2.5.0",

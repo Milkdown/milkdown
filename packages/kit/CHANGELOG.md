@@ -1,5 +1,70 @@
 # @milkdown/kit
 
+## 7.5.9
+
+### Patch Changes
+
+- a3dde0c: Enable image proxy.
+- Updated dependencies [a3dde0c]
+  - @milkdown/components@7.5.9
+  - @milkdown/core@7.5.9
+  - @milkdown/ctx@7.5.9
+  - @milkdown/plugin-block@7.5.9
+  - @milkdown/plugin-clipboard@7.5.9
+  - @milkdown/plugin-cursor@7.5.9
+  - @milkdown/plugin-history@7.5.9
+  - @milkdown/plugin-indent@7.5.9
+  - @milkdown/plugin-listener@7.5.9
+  - @milkdown/plugin-slash@7.5.9
+  - @milkdown/plugin-tooltip@7.5.9
+  - @milkdown/plugin-trailing@7.5.9
+  - @milkdown/plugin-upload@7.5.9
+  - @milkdown/preset-commonmark@7.5.9
+  - @milkdown/preset-gfm@7.5.9
+  - @milkdown/prose@7.5.9
+  - @milkdown/transformer@7.5.9
+  - @milkdown/utils@7.5.9
+
+## 7.5.8
+
+### Patch Changes
+
+- db4ec60: Bug fixes and api improvements.
+
+  # Crepe
+
+  - Add image proxy config.
+  - Fix link preview text not properly truncated.
+  - Fix list item unstable selection.
+  - Fix button types.
+  - Reset index when slash menu out of bound.
+
+  # Core
+
+  - Prevent duplicate ids in the editor.
+  - Allow options to floating ui.
+  - Add undoable input rules.
+
+- Updated dependencies [db4ec60]
+  - @milkdown/components@7.5.8
+  - @milkdown/core@7.5.8
+  - @milkdown/ctx@7.5.8
+  - @milkdown/plugin-block@7.5.8
+  - @milkdown/plugin-clipboard@7.5.8
+  - @milkdown/plugin-cursor@7.5.8
+  - @milkdown/plugin-history@7.5.8
+  - @milkdown/plugin-indent@7.5.8
+  - @milkdown/plugin-listener@7.5.8
+  - @milkdown/plugin-slash@7.5.8
+  - @milkdown/plugin-tooltip@7.5.8
+  - @milkdown/plugin-trailing@7.5.8
+  - @milkdown/plugin-upload@7.5.8
+  - @milkdown/preset-commonmark@7.5.8
+  - @milkdown/preset-gfm@7.5.8
+  - @milkdown/prose@7.5.8
+  - @milkdown/transformer@7.5.8
+  - @milkdown/utils@7.5.8
+
 ## 7.5.5
 
 ### Patch Changes

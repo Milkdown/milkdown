@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+env:
+  CI: true
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
 jobs:
   fix:
     runs-on: ubuntu-latest

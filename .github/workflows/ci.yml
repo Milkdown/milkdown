@@ -6,45 +6,87 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CI: true
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
-  build-and-test:
+  install-deps:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code repository
+      - name: Checkout code repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: nrwl/nx-set-shas@v4
+      - uses: ./.github/actions/setup
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: install-deps
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: ./.github/actions/setup
 
-      - name: install dependencies
-        run: pnpm install
-
-      - name: run unit tests
-        run: pnpm test:unit
-
-      # build all the packages to prepare for release
-      - name: build packs
-        run: pnpm build
-
-      - name: run lint
+      - name: Run lint
         run: pnpm test:lint --format github
 
-      - name: install browsers
+  unit:
+    runs-on: ubuntu-latest
+    needs: install-deps
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Run unit tests
+        run: pnpm test:unit
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: install-deps
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5]
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Install browsers
         run: pnpm --filter=@milkdown/e2e test:install
 
-      - name: run playwright
-        run: pnpm test:e2e
+      - name: Run playwright
+        run: pnpm test:e2e -- --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
-      - name: upload test results
+      - name: Upload test results
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-main
+          name: test-results-e2e-${{ matrix.shard }}
           path: e2e/playwright-report/
           retention-days: 7
+
+  summary:
+    if: ${{ always() }}
+    needs: [lint, unit, e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: On error
+        if: ${{ needs.e2e.result != 'success' || needs.unit.result != 'success' || needs.lint.result != 'success' }}
+        run: exit 1

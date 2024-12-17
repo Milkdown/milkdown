@@ -24,20 +24,22 @@ function run(
       '\uFFFC'
     ) + text
   for (let i = 0; i < rules.length; i++) {
-    // NOTE: This is a workaround for the lack of type safety in the inputrules module.
-    // const match = (rules[i] as { match: RegExp }).match.exec(textBefore)
-    const match = (rules[i] as any).match.exec(textBefore)
+    const match = (rules[i] as unknown as { match: RegExp }).match.exec(
+      textBefore
+    )
     const tr =
       match &&
       match[0] &&
-      // NOTE: This is a workaround for the lack of type safety in the inputrules module.
-      // rules[i] as { handler: (state: EditorState, match: string[], from: number, to: number) => Transaction }
-      (rules[i] as any).handler(
-        state,
-        match,
-        from - (match[0].length - text.length),
-        to
-      )
+      (
+        rules[i] as unknown as {
+          handler: (
+            state: EditorState,
+            match: string[],
+            from: number,
+            to: number
+          ) => Transaction
+        }
+      ).handler(state, match, from - (match[0].length - text.length), to)
     if (!tr) continue
     // @ts-expect-error Internal property that should be in the class; only relevant if explicitly false.
     if (rules[i]?.undoable !== false)
