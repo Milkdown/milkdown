@@ -7,11 +7,12 @@ export interface CrepeConfig {
     featureConfigs?: CrepeFeatureConfig;
     root?: Node | string | null;
     defaultValue?: DefaultValue;
+    onChange: (markdown: string) => void;
 }
 export declare class Crepe {
     #private;
     static Feature: typeof CrepeFeature;
-    constructor({ root, features, featureConfigs, defaultValue, }: CrepeConfig);
+    constructor({ root, features, featureConfigs, defaultValue, onChange, }: CrepeConfig);
     create(): Promise<Editor>;
     destroy(): Promise<Editor>;
     get editor(): Editor;

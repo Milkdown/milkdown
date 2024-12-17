@@ -6,6 +6,7 @@ import {
   rootCtx,
 } from '@milkdown-nota/kit/core'
 
+import { listener, listenerCtx } from '@milkdown-nota/kit/plugin/listener'
 import { commonmark } from '@milkdown-nota/kit/preset/commonmark'
 import { gfm } from '@milkdown-nota/kit/preset/gfm'
 import { history } from '@milkdown-nota/kit/plugin/history'
@@ -24,6 +25,7 @@ export interface CrepeConfig {
   featureConfigs?: CrepeFeatureConfig
   root?: Node | string | null
   defaultValue?: DefaultValue
+  onChange: (markdown: string) => void
 }
 
 export class Crepe {
@@ -37,6 +39,7 @@ export class Crepe {
     features = {},
     featureConfigs = {},
     defaultValue = '',
+    onChange,
   }: CrepeConfig) {
     const enabledFeatures = Object.entries({
       ...defaultFeatures,
@@ -61,6 +64,16 @@ export class Crepe {
           size: 4,
         }))
       })
+      .config((ctx) => {
+        // sync markdown to the outside
+        const lis = ctx.get(listenerCtx)
+        lis.markdownUpdated((_ctx, newMarkdown, prevMarkdown) => {
+          if (newMarkdown !== prevMarkdown) {
+            onChange(newMarkdown)
+          }
+        })
+      })
+      .use(listener)
       .use(commonmark)
       .use(history)
       .use(indent)

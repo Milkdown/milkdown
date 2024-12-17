@@ -17,7 +17,7 @@ let t$2 = class t extends Error {
   }
 };
 const u$7 = (e, o) => typeof o == "function" ? "[Function]" : o, i$8 = (e) => JSON.stringify(e, u$7);
-function l$4(e) {
+function l$5(e) {
   return new t$2(
     n$5.docTypeError,
     `Doc type error, unsupported type: ${i$8(e)}`
@@ -51,7 +51,7 @@ function g$6(...e) {
   }, "Create prosemirror node from remark failed in parser");
   return new t$2(n$5.createNodeInParserFail, o);
 }
-function h$2() {
+function h$3() {
   return new t$2(
     n$5.stackOverFlow,
     "Stack over flow, cannot pop on an empty stack."
@@ -87,7 +87,7 @@ function y$6() {
     "You're trying to call a command before editor view initialized, make sure to get commandManager from ctx after editor view has been initialized"
   );
 }
-function M$6(e) {
+function M$7(e) {
   return new t$2(
     n$5.missingNodeInSchema,
     `Missing node in schema, milkdown cannot find "${e}" in schema.`
@@ -103,8 +103,8 @@ function x$9(e) {
 var P$5 = (o) => {
   throw TypeError(o);
 };
-var U$3 = (o, s, i) => s.has(o) || P$5("Cannot " + i);
-var e$1 = (o, s, i) => (U$3(o, s, "read from private field"), i ? i.call(o) : s.get(o)), a$3 = (o, s, i) => s.has(o) ? P$5("Cannot add the same private member more than once") : s instanceof WeakSet ? s.add(o) : s.set(o, i), n$4 = (o, s, i, r) => (U$3(o, s, "write to private field"), s.set(o, i), i);
+var U$4 = (o, s, i) => s.has(o) || P$5("Cannot " + i);
+var e$1 = (o, s, i) => (U$4(o, s, "read from private field"), i ? i.call(o) : s.get(o)), a$3 = (o, s, i) => s.has(o) ? P$5("Cannot add the same private member more than once") : s instanceof WeakSet ? s.add(o) : s.set(o, i), n$4 = (o, s, i, r) => (U$4(o, s, "write to private field"), s.set(o, i), i);
 let H$5 = class H {
   constructor() {
     this.sliceMap = /* @__PURE__ */ new Map(), this.get = (s) => {
@@ -177,8 +177,8 @@ let _$3 = class _ {
   }
 };
 const J$3 = (o, s) => new _$3(o, s);
-var D$4, x$8, R$4, w$5, S$7, f$3, M$5, T$6, j$4;
-let q$5 = class q {
+var D$4, x$8, R$4, w$5, S$7, f$3, M$6, T$6, j$4;
+let q$4 = class q {
   /// Create an inspector with container, clock and metadata.
   constructor(s, i, r) {
     /// @internal
@@ -190,10 +190,10 @@ let q$5 = class q {
     a$3(this, w$5);
     a$3(this, S$7);
     a$3(this, f$3);
-    a$3(this, M$5);
+    a$3(this, M$6);
     a$3(this, T$6);
     a$3(this, j$4);
-    n$4(this, w$5, /* @__PURE__ */ new Set()), n$4(this, S$7, /* @__PURE__ */ new Set()), n$4(this, f$3, /* @__PURE__ */ new Map()), n$4(this, M$5, /* @__PURE__ */ new Map()), this.read = () => ({
+    n$4(this, w$5, /* @__PURE__ */ new Set()), n$4(this, S$7, /* @__PURE__ */ new Set()), n$4(this, f$3, /* @__PURE__ */ new Map()), n$4(this, M$6, /* @__PURE__ */ new Map()), this.read = () => ({
       metadata: e$1(this, D$4),
       injectedSlices: [...e$1(this, w$5)].map((t) => ({
         name: typeof t == "string" ? t : t.name,
@@ -210,7 +210,7 @@ let q$5 = class q {
           status: e$1(this, j$4).call(this, t)
         })
       ),
-      waitTimers: [...e$1(this, M$5)].map(([t, { duration: h }]) => ({
+      waitTimers: [...e$1(this, M$6)].map(([t, { duration: h }]) => ({
         name: t.name,
         duration: h,
         status: e$1(this, j$4).call(this, t)
@@ -225,7 +225,7 @@ let q$5 = class q {
     }, this.onWait = (t, h) => {
       const v = Date.now();
       h.finally(() => {
-        e$1(this, M$5).set(t, { duration: Date.now() - v });
+        e$1(this, M$6).set(t, { duration: Date.now() - v });
       });
     }, this.onInject = (t) => {
       e$1(this, w$5).add(t);
@@ -236,20 +236,20 @@ let q$5 = class q {
     }, n$4(this, T$6, (t) => e$1(this, x$8).get(t).get()), n$4(this, j$4, (t) => e$1(this, R$4).get(t).status), n$4(this, x$8, s), n$4(this, R$4, i), n$4(this, D$4, r);
   }
 };
-D$4 = new WeakMap(), x$8 = new WeakMap(), R$4 = new WeakMap(), w$5 = new WeakMap(), S$7 = new WeakMap(), f$3 = new WeakMap(), M$5 = new WeakMap(), T$6 = new WeakMap(), j$4 = new WeakMap();
-var d$5, l$3, b$5, c$4;
+D$4 = new WeakMap(), x$8 = new WeakMap(), R$4 = new WeakMap(), w$5 = new WeakMap(), S$7 = new WeakMap(), f$3 = new WeakMap(), M$6 = new WeakMap(), T$6 = new WeakMap(), j$4 = new WeakMap();
+var d$5, l$4, b$5, c$4;
 const L$6 = class L {
   /// Create a ctx object with container and clock.
   constructor(s, i, r) {
     /// @internal
     a$3(this, d$5);
     /// @internal
-    a$3(this, l$3);
+    a$3(this, l$4);
     /// @internal
     a$3(this, b$5);
     /// @internal
     a$3(this, c$4);
-    this.produce = (t) => t && Object.keys(t).length ? new L(e$1(this, d$5), e$1(this, l$3), { ...t }) : this, this.inject = (t, h) => {
+    this.produce = (t) => t && Object.keys(t).length ? new L(e$1(this, d$5), e$1(this, l$4), { ...t }) : this, this.inject = (t, h) => {
       var O;
       const v = t.create(e$1(this, d$5).sliceMap);
       return h != null && v.set(h), (O = e$1(this, c$4)) == null || O.onInject(t), this;
@@ -258,14 +258,14 @@ const L$6 = class L {
       return e$1(this, d$5).remove(t), (h = e$1(this, c$4)) == null || h.onRemove(t), this;
     }, this.record = (t) => {
       var h;
-      return t.create(e$1(this, l$3).store), (h = e$1(this, c$4)) == null || h.onRecord(t), this;
+      return t.create(e$1(this, l$4).store), (h = e$1(this, c$4)) == null || h.onRecord(t), this;
     }, this.clearTimer = (t) => {
       var h;
-      return e$1(this, l$3).remove(t), (h = e$1(this, c$4)) == null || h.onClear(t), this;
-    }, this.isInjected = (t) => e$1(this, d$5).has(t), this.isRecorded = (t) => e$1(this, l$3).has(t), this.use = (t) => {
+      return e$1(this, l$4).remove(t), (h = e$1(this, c$4)) == null || h.onClear(t), this;
+    }, this.isInjected = (t) => e$1(this, d$5).has(t), this.isRecorded = (t) => e$1(this, l$4).has(t), this.use = (t) => {
       var h;
       return (h = e$1(this, c$4)) == null || h.onUse(t), e$1(this, d$5).get(t);
-    }, this.get = (t) => this.use(t).get(), this.set = (t, h) => this.use(t).set(h), this.update = (t, h) => this.use(t).update(h), this.timer = (t) => e$1(this, l$3).get(t), this.done = (t) => {
+    }, this.get = (t) => this.use(t).get(), this.set = (t, h) => this.use(t).set(h), this.update = (t, h) => this.use(t).update(h), this.timer = (t) => e$1(this, l$4).get(t), this.done = (t) => {
       var h;
       this.timer(t).done(), (h = e$1(this, c$4)) == null || h.onDone(t);
     }, this.wait = (t) => {
@@ -274,7 +274,7 @@ const L$6 = class L {
       return (v = e$1(this, c$4)) == null || v.onWait(t, h), h;
     }, this.waitTimers = async (t) => {
       await Promise.all(this.get(t).map((h) => this.wait(h)));
-    }, n$4(this, d$5, s), n$4(this, l$3, i), n$4(this, b$5, r), r && n$4(this, c$4, new q$5(s, i, r));
+    }, n$4(this, d$5, s), n$4(this, l$4, i), n$4(this, b$5, r), r && n$4(this, c$4, new q$4(s, i, r));
   }
   /// Get metadata of the ctx.
   get meta() {
@@ -285,7 +285,7 @@ const L$6 = class L {
     return e$1(this, c$4);
   }
 };
-d$5 = new WeakMap(), l$3 = new WeakMap(), b$5 = new WeakMap(), c$4 = new WeakMap();
+d$5 = new WeakMap(), l$4 = new WeakMap(), b$5 = new WeakMap(), c$4 = new WeakMap();
 let $$6 = L$6;
 let K$3 = class K {
   constructor() {
@@ -298,26 +298,26 @@ let K$3 = class K {
     }, this.has = (s) => this.store.has(s.id);
   }
 };
-var C$4, g$5, E$3, p$4, I$4, k$2;
+var C$4, g$5, E$4, p$4, I$4, k$2;
 let A$4 = class A {
   /// @internal
   constructor(s, i) {
     a$3(this, C$4);
     a$3(this, g$5);
     /// @internal
-    a$3(this, E$3);
+    a$3(this, E$4);
     a$3(this, p$4);
     a$3(this, I$4);
     a$3(this, k$2);
     n$4(this, C$4, null), n$4(this, g$5, null), n$4(this, p$4, "pending"), this.start = () => (e$1(this, C$4) ?? n$4(this, C$4, new Promise((r, t) => {
       n$4(this, g$5, (h) => {
-        h instanceof CustomEvent && h.detail.id === e$1(this, E$3) && (n$4(this, p$4, "resolved"), e$1(this, I$4).call(this), h.stopImmediatePropagation(), r());
+        h instanceof CustomEvent && h.detail.id === e$1(this, E$4) && (n$4(this, p$4, "resolved"), e$1(this, I$4).call(this), h.stopImmediatePropagation(), r());
       }), e$1(this, k$2).call(this, () => {
         e$1(this, p$4) === "pending" && n$4(this, p$4, "rejected"), e$1(this, I$4).call(this), t(new Error(`Timing ${this.type.name} timeout.`));
       }), n$4(this, p$4, "pending"), addEventListener(this.type.name, e$1(this, g$5));
     })), e$1(this, C$4)), this.done = () => {
       const r = new CustomEvent(this.type.name, {
-        detail: { id: e$1(this, E$3) }
+        detail: { id: e$1(this, E$4) }
       });
       dispatchEvent(r);
     }, n$4(this, I$4, () => {
@@ -326,7 +326,7 @@ let A$4 = class A {
       setTimeout(() => {
         r();
       }, this.type.timeout);
-    }), n$4(this, E$3, Symbol(i.name)), this.type = i, s.set(i.id, this);
+    }), n$4(this, E$4, Symbol(i.name)), this.type = i, s.set(i.id, this);
   }
   /// The status of the timer.
   /// Can be `pending`, `resolved` or `rejected`.
@@ -334,7 +334,7 @@ let A$4 = class A {
     return e$1(this, p$4);
   }
 };
-C$4 = new WeakMap(), g$5 = new WeakMap(), E$3 = new WeakMap(), p$4 = new WeakMap(), I$4 = new WeakMap(), k$2 = new WeakMap();
+C$4 = new WeakMap(), g$5 = new WeakMap(), E$4 = new WeakMap(), p$4 = new WeakMap(), I$4 = new WeakMap(), k$2 = new WeakMap();
 let z$4 = class z {
   /// Create a timer type with a name and a timeout.
   /// The name should be unique in the clock.
@@ -19992,7 +19992,7 @@ let X$4 = class X {
       this.elements.push(h);
     }, this.close = () => {
       const h = this.elements.pop();
-      if (!h) throw h$2();
+      if (!h) throw h$3();
       return h;
     };
   }
@@ -20011,20 +20011,20 @@ let B$4 = class B extends V$4 {
     return new B(h, n, t);
   }
 };
-var d$4, M$4, O$3, T$5, F$2, w$4, g$4;
+var d$4, M$5, O$3, T$5, F$2, w$4, g$4;
 const $$5 = class $ extends X$4 {
   /// @internal
   constructor(n) {
     super();
     u$5(this, d$4);
-    u$5(this, M$4);
+    u$5(this, M$5);
     u$5(this, O$3);
     u$5(this, T$5);
     u$5(this, F$2);
     u$5(this, w$4);
     u$5(this, g$4);
-    o$3(this, d$4, Mark.none), o$3(this, M$4, (t) => t.isText), o$3(this, O$3, (t, s) => {
-      if (i$7(this, M$4).call(this, t) && i$7(this, M$4).call(this, s) && Mark.sameSet(t.marks, s.marks))
+    o$3(this, d$4, Mark.none), o$3(this, M$5, (t) => t.isText), o$3(this, O$3, (t, s) => {
+      if (i$7(this, M$5).call(this, t) && i$7(this, M$5).call(this, s) && Mark.sameSet(t.marks, s.marks))
         return this.schema.text(t.text + s.text, t.marks);
     }), o$3(this, T$5, (t) => {
       const s = Object.values({
@@ -20049,7 +20049,7 @@ const $$5 = class $ extends X$4 {
       return o$3(this, d$4, e.addToSet(i$7(this, d$4))), this;
     }, this.closeMark = (t) => (o$3(this, d$4, t.removeFromSet(i$7(this, d$4))), this), this.addText = (t) => {
       const s = this.top();
-      if (!s) throw h$2();
+      if (!s) throw h$3();
       const e = s.pop(), r = this.schema.text(t, i$7(this, d$4));
       if (!e)
         return s.push(r), this;
@@ -20070,12 +20070,12 @@ const $$5 = class $ extends X$4 {
     }, this.schema = n;
   }
 };
-d$4 = new WeakMap(), M$4 = new WeakMap(), O$3 = new WeakMap(), T$5 = new WeakMap(), F$2 = new WeakMap(), w$4 = new WeakMap(), g$4 = new WeakMap(), $$5.create = (n, t) => {
+d$4 = new WeakMap(), M$5 = new WeakMap(), O$3 = new WeakMap(), T$5 = new WeakMap(), F$2 = new WeakMap(), w$4 = new WeakMap(), g$4 = new WeakMap(), $$5.create = (n, t) => {
   const s = new $$5(n);
   return (e) => (s.run(t, e), s.toDoc());
 };
 let L$5 = $$5;
-const q$4 = class q extends V$4 {
+const q$3 = class q extends V$4 {
   constructor(h, n, t, s = {}) {
     super(), this.type = h, this.children = n, this.value = t, this.props = s, this.push = (e, ...r) => {
       this.children || (this.children = []), this.children.push(e, ...r);
@@ -20085,10 +20085,10 @@ const q$4 = class q extends V$4 {
     };
   }
 };
-q$4.create = (h, n, t, s = {}) => new q$4(h, n, t, s);
-let W$7 = q$4;
+q$3.create = (h, n, t, s = {}) => new q$3(h, n, t, s);
+let W$7 = q$3;
 const tt$1 = (p) => Object.prototype.hasOwnProperty.call(p, "size");
-var v$2, P$4, A$3, S$6, I$3, j$3, b$4, C$3, R$3, x$7, N$3, D$3, E$2;
+var v$2, P$4, A$3, S$6, I$3, j$3, b$4, C$3, R$3, x$7, N$3, D$3, E$3;
 const z$3 = class z extends X$4 {
   /// @internal
   constructor(n) {
@@ -20105,7 +20105,7 @@ const z$3 = class z extends X$4 {
     u$5(this, x$7);
     u$5(this, N$3);
     u$5(this, D$3);
-    u$5(this, E$2);
+    u$5(this, E$3);
     o$3(this, v$2, Mark.none), o$3(this, P$4, (t) => {
       const s = Object.values({
         ...this.schema.nodes,
@@ -20115,7 +20115,7 @@ const z$3 = class z extends X$4 {
       return s;
     }), o$3(this, A$3, (t) => i$7(this, P$4).call(this, t).spec.toMarkdown.runner(this, t)), o$3(this, S$6, (t, s) => i$7(this, P$4).call(this, t).spec.toMarkdown.runner(this, t, s)), o$3(this, I$3, (t) => {
       const { marks: s } = t, e = (c) => c.type.spec.priority ?? 50;
-      [...s].sort((c, f) => e(c) - e(f)).every((c) => !i$7(this, S$6).call(this, c, t)) && i$7(this, A$3).call(this, t), s.forEach((c) => i$7(this, E$2).call(this, c));
+      [...s].sort((c, f) => e(c) - e(f)).every((c) => !i$7(this, S$6).call(this, c, t)) && i$7(this, A$3).call(this, t), s.forEach((c) => i$7(this, E$3).call(this, c));
     }), o$3(this, j$3, (t, s) => {
       var f;
       if (t.type === s || ((f = t.children) == null ? void 0 : f.length) !== 1) return t;
@@ -20176,9 +20176,9 @@ const z$3 = class z extends X$4 {
     }), this.closeNode = () => (i$7(this, x$7).call(this), this), o$3(this, N$3, (t, s, e, r) => {
       const a = W$7.create(t, s, e, r), c = i$7(this, b$4).call(this, i$7(this, C$3).call(this, a));
       return this.push(c), c;
-    }), this.addNode = (t, s, e, r) => (i$7(this, N$3).call(this, t, s, e, r), this), o$3(this, D$3, (t, s, e, r) => t.isInSet(i$7(this, v$2)) ? this : (o$3(this, v$2, t.addToSet(i$7(this, v$2))), this.openNode(s, e, { ...r, isMark: !0 }))), o$3(this, E$2, (t) => {
+    }), this.addNode = (t, s, e, r) => (i$7(this, N$3).call(this, t, s, e, r), this), o$3(this, D$3, (t, s, e, r) => t.isInSet(i$7(this, v$2)) ? this : (o$3(this, v$2, t.addToSet(i$7(this, v$2))), this.openNode(s, e, { ...r, isMark: !0 }))), o$3(this, E$3, (t) => {
       t.isInSet(i$7(this, v$2)) && (o$3(this, v$2, t.type.removeFromSet(i$7(this, v$2))), i$7(this, x$7).call(this, !0));
-    }), this.withMark = (t, s, e, r) => (i$7(this, D$3).call(this, t, s, e, r), this), this.closeMark = (t) => (i$7(this, E$2).call(this, t), this), this.build = () => {
+    }), this.withMark = (t, s, e, r) => (i$7(this, D$3).call(this, t, s, e, r), this), this.closeMark = (t) => (i$7(this, E$3).call(this, t), this), this.build = () => {
       let t = null;
       do
         t = i$7(this, x$7).call(this);
@@ -20189,7 +20189,7 @@ const z$3 = class z extends X$4 {
     }), this) : (i$7(this, I$3).call(this, t), this), this.toString = (t) => t.stringify(this.build()), this.run = (t) => (this.next(t), this), this.schema = n;
   }
 };
-v$2 = new WeakMap(), P$4 = new WeakMap(), A$3 = new WeakMap(), S$6 = new WeakMap(), I$3 = new WeakMap(), j$3 = new WeakMap(), b$4 = new WeakMap(), C$3 = new WeakMap(), R$3 = new WeakMap(), x$7 = new WeakMap(), N$3 = new WeakMap(), D$3 = new WeakMap(), E$2 = new WeakMap(), z$3.create = (n, t) => {
+v$2 = new WeakMap(), P$4 = new WeakMap(), A$3 = new WeakMap(), S$6 = new WeakMap(), I$3 = new WeakMap(), j$3 = new WeakMap(), b$4 = new WeakMap(), C$3 = new WeakMap(), R$3 = new WeakMap(), x$7 = new WeakMap(), N$3 = new WeakMap(), D$3 = new WeakMap(), E$3 = new WeakMap(), z$3.create = (n, t) => {
   const s = new z$3(n);
   return (e) => (s.run(e), s.toString(t));
 };
@@ -30440,25 +30440,25 @@ function at$3(e) {
     displayName: "Config"
   }), t;
 }
-const M$3 = Q$5("InitReady");
+const M$4 = Q$5("InitReady");
 function ct$2(e) {
   const t = (r) => (r.inject(Te$2, e).inject(N$2, []).inject(pe$2, []).inject(ue$3, []).inject(fe$3, []).inject(ye$3, []).inject(Q$3, {
     handlers: Ee$1
-  }).inject(P$3, unified().use(remarkParse).use(remarkStringify)).inject(G$1, [W$6]).record(M$3), async () => {
+  }).inject(P$3, unified().use(remarkParse).use(remarkStringify)).inject(G$1, [W$6]).record(M$4), async () => {
     await r.waitTimers(G$1);
     const i = r.get(Q$3);
     return r.set(
       P$3,
       unified().use(remarkParse).use(remarkStringify, i)
-    ), r.done(M$3), () => {
-      r.remove(Te$2).remove(N$2).remove(pe$2).remove(ue$3).remove(fe$3).remove(ye$3).remove(Q$3).remove(P$3).remove(G$1).clearTimer(M$3);
+    ), r.done(M$4), () => {
+      r.remove(Te$2).remove(N$2).remove(pe$2).remove(ue$3).remove(fe$3).remove(ye$3).remove(Q$3).remove(P$3).remove(G$1).clearTimer(M$4);
     };
   });
   return k$1(t, {
     displayName: "Init"
   }), t;
 }
-const R$2 = Q$5("SchemaReady"), U$2 = J$3([], "schemaTimer"), b$3 = J$3({}, "schema"), X$3 = J$3([], "nodes"), Z$2 = J$3([], "marks");
+const R$2 = Q$5("SchemaReady"), U$3 = J$3([], "schemaTimer"), b$3 = J$3({}, "schema"), X$3 = J$3([], "nodes"), Z$2 = J$3([], "marks");
 function je(e) {
   var t;
   return {
@@ -30466,8 +30466,8 @@ function je(e) {
     parseDOM: (t = e.parseDOM) == null ? void 0 : t.map((r) => ({ priority: e.priority, ...r }))
   };
 }
-const Ie$2 = (e) => (e.inject(b$3, {}).inject(X$3, []).inject(Z$2, []).inject(U$2, [M$3]).record(R$2), async () => {
-  await e.waitTimers(U$2);
+const Ie$2 = (e) => (e.inject(b$3, {}).inject(X$3, []).inject(Z$2, []).inject(U$3, [M$4]).record(R$2), async () => {
+  await e.waitTimers(U$3);
   const t = e.get(P$3), i = e.get(pe$2).reduce(
     (m, f) => m.use(f.plugin, f.options),
     t
@@ -30479,7 +30479,7 @@ const Ie$2 = (e) => (e.inject(b$3, {}).inject(X$3, []).inject(Z$2, []).inject(U$
     e.get(Z$2).map(([m, f]) => [m, je(f)])
   ), h = new Schema({ nodes: n, marks: a });
   return e.set(b$3, h), e.done(R$2), () => {
-    e.remove(b$3).remove(X$3).remove(Z$2).remove(U$2).clearTimer(R$2);
+    e.remove(b$3).remove(X$3).remove(Z$2).remove(U$3).clearTimer(R$2);
   };
 });
 k$1(Ie$2, {
@@ -30529,11 +30529,11 @@ k$1(Me$2, {
 });
 const $$4 = Q$5("ParserReady"), Ne$2 = () => {
   throw p$5();
-}, q$3 = J$3(Ne$2, "parser"), ee$2 = J$3([], "parserTimer"), _e$2 = (e) => (e.inject(q$3, Ne$2).inject(ee$2, [R$2]).record($$4), async () => {
+}, q$2 = J$3(Ne$2, "parser"), ee$2 = J$3([], "parserTimer"), _e$2 = (e) => (e.inject(q$2, Ne$2).inject(ee$2, [R$2]).record($$4), async () => {
   await e.waitTimers(ee$2);
   const t = e.get(P$3), r = e.get(b$3);
-  return e.set(q$3, L$5.create(r, t)), e.done($$4), () => {
-    e.remove(q$3).remove(ee$2).clearTimer($$4);
+  return e.set(q$2, L$5.create(r, t)), e.done($$4), () => {
+    e.remove(q$2).remove(ee$2).clearTimer($$4);
   };
 });
 k$1(_e$2, {
@@ -30570,7 +30570,7 @@ function mt$2(e, t, r) {
     return DOMParser.fromSchema(r).parse(e.dom);
   if (e.type === "json")
     return Node$1.fromJSON(r, e.value);
-  throw l$4(e);
+  throw l$5(e);
 }
 const dt$2 = new PluginKey("MILKDOWN_STATE_TRACKER");
 function ht$2(e) {
@@ -30584,7 +30584,7 @@ function ht$2(e) {
 }
 const Ae$2 = (e) => (e.inject(se$1, "").inject(V$3, {}).inject(ie$3, (t) => t).inject(ne$1, [$$4, H$3, Y$2]).record(J$2), async () => {
   await e.waitTimers(ne$1);
-  const t = e.get(b$3), r = e.get(q$3), i = e.get(ue$3), n = e.get(ie$3), a = e.get(N$2), h = e.get(se$1), m = mt$2(h, r, t), f = [
+  const t = e.get(b$3), r = e.get(q$2), i = e.get(ue$3), n = e.get(ie$3), a = e.get(N$2), h = e.get(se$1), m = mt$2(h, r, t), f = [
     ...a,
     new Plugin({
       key: dt$2,
@@ -30634,7 +30634,7 @@ function ut$2(e) {
   e.classList.add("editor"), e.setAttribute("role", "textbox");
 }
 const pt$2 = new PluginKey("MILKDOWN_VIEW_CLEAR"), Be$1 = (e) => (e.inject(me$2, document.body).inject(L$4, {}).inject(ce$1, {}).inject(we$3, null).inject(ge$3, {}).inject(ae$1, [J$2]).record(oe$3), async () => {
-  await e.wait(M$3);
+  await e.wait(M$4);
   const t = e.get(me$2) || document.body, r = typeof t == "string" ? document.querySelector(t) : t;
   e.update(N$2, (f) => [
     new Plugin({
@@ -30668,7 +30668,7 @@ const pt$2 = new PluginKey("MILKDOWN_VIEW_CLEAR"), Be$1 = (e) => (e.inject(me$2,
 k$1(Be$1, {
   displayName: "EditorView"
 });
-var j$2, p$3, y$4, D$2, _$2, z$2, u$4, w$3, O$2, K$1, S$5, E$1, A$2, C$2, I$2;
+var j$2, p$3, y$4, D$2, _$2, z$2, u$4, w$3, O$2, K$1, S$5, E$2, A$2, C$2, I$2;
 const Ce$2 = class Ce {
   constructor() {
     d$3(this, j$2);
@@ -30682,7 +30682,7 @@ const Ce$2 = class Ce {
     d$3(this, O$2);
     d$3(this, K$1);
     d$3(this, S$5);
-    d$3(this, E$1);
+    d$3(this, E$2);
     d$3(this, A$2);
     d$3(this, C$2);
     d$3(this, I$2);
@@ -30708,7 +30708,7 @@ const Ce$2 = class Ce {
         ), a = i(n);
         r.set(i, { ctx: n, handler: a, cleanup: void 0 });
       });
-    }), c$3(this, E$1, (t, r = !1) => Promise.all(
+    }), c$3(this, E$2, (t, r = !1) => Promise.all(
       [t].flat().map((i) => {
         const n = s$4(this, u$4).get(i), a = n == null ? void 0 : n.cleanup;
         return r ? s$4(this, u$4).delete(i) : s$4(this, u$4).set(i, {
@@ -30743,7 +30743,7 @@ const Ce$2 = class Ce {
       setTimeout(() => {
         r(this.remove(t));
       }, 50);
-    })) : (await s$4(this, E$1).call(this, [t].flat(), !0), this), this.create = async () => s$4(this, p$3) === "OnCreate" ? this : (s$4(this, p$3) === "Created" && await this.destroy(), s$4(this, C$2).call(this, "OnCreate"), s$4(this, K$1).call(this), s$4(this, S$5).call(this, [...s$4(this, u$4).keys()], s$4(this, u$4)), await Promise.all(
+    })) : (await s$4(this, E$2).call(this, [t].flat(), !0), this), this.create = async () => s$4(this, p$3) === "OnCreate" ? this : (s$4(this, p$3) === "Created" && await this.destroy(), s$4(this, C$2).call(this, "OnCreate"), s$4(this, K$1).call(this), s$4(this, S$5).call(this, [...s$4(this, u$4).keys()], s$4(this, u$4)), await Promise.all(
       [
         s$4(this, I$2).call(this, s$4(this, w$3)),
         s$4(this, I$2).call(this, s$4(this, u$4))
@@ -30752,7 +30752,7 @@ const Ce$2 = class Ce {
       setTimeout(() => {
         r(this.destroy(t));
       }, 50);
-    }) : (t && c$3(this, y$4, []), s$4(this, C$2).call(this, "OnDestroy"), await s$4(this, E$1).call(this, [...s$4(this, u$4).keys()], t), await s$4(this, A$2).call(this), s$4(this, C$2).call(this, "Destroyed"), this), this.action = (t) => t(s$4(this, O$2)), this.inspect = () => s$4(this, j$2) ? [...s$4(this, w$3).values(), ...s$4(this, u$4).values()].map(({ ctx: t }) => {
+    }) : (t && c$3(this, y$4, []), s$4(this, C$2).call(this, "OnDestroy"), await s$4(this, E$2).call(this, [...s$4(this, u$4).keys()], t), await s$4(this, A$2).call(this), s$4(this, C$2).call(this, "Destroyed"), this), this.action = (t) => t(s$4(this, O$2)), this.inspect = () => s$4(this, j$2) ? [...s$4(this, w$3).values(), ...s$4(this, u$4).values()].map(({ ctx: t }) => {
       var r;
       return (r = t == null ? void 0 : t.inspector) == null ? void 0 : r.read();
     }).filter((t) => !!t) : (console.warn(
@@ -30772,7 +30772,7 @@ const Ce$2 = class Ce {
     return s$4(this, p$3);
   }
 };
-j$2 = new WeakMap(), p$3 = new WeakMap(), y$4 = new WeakMap(), D$2 = new WeakMap(), _$2 = new WeakMap(), z$2 = new WeakMap(), u$4 = new WeakMap(), w$3 = new WeakMap(), O$2 = new WeakMap(), K$1 = new WeakMap(), S$5 = new WeakMap(), E$1 = new WeakMap(), A$2 = new WeakMap(), C$2 = new WeakMap(), I$2 = new WeakMap();
+j$2 = new WeakMap(), p$3 = new WeakMap(), y$4 = new WeakMap(), D$2 = new WeakMap(), _$2 = new WeakMap(), z$2 = new WeakMap(), u$4 = new WeakMap(), w$3 = new WeakMap(), O$2 = new WeakMap(), K$1 = new WeakMap(), S$5 = new WeakMap(), E$2 = new WeakMap(), A$2 = new WeakMap(), C$2 = new WeakMap(), I$2 = new WeakMap();
 let Se$2 = Ce$2;
 
 nanoid.customAlphabet("abcedfghicklmn", 10);
@@ -30824,7 +30824,7 @@ function W$5(n, o) {
   };
   return r.type = (t) => {
     const e = t.get(b$3).nodes[n];
-    if (!e) throw M$6(n);
+    if (!e) throw M$7(n);
     return e;
   }, r;
 }
@@ -30861,14 +30861,14 @@ function le$1(n, o) {
   };
   return r;
 }
-function h$1(n, o) {
+function h$2(n, o) {
   const r = J$3(n, o), t = (e) => (e.inject(r), () => () => {
     e.remove(r);
   });
   return t.key = r, t;
 }
 function fe$2(n, o) {
-  const r = h$1(o, n), t = W$5(n, (a) => a.get(r.key)(a)), e = [r, t];
+  const r = h$2(o, n), t = W$5(n, (a) => a.get(r.key)(a)), e = [r, t];
   return e.id = t.id, e.node = t, e.type = (a) => t.type(a), e.schema = t.schema, e.ctx = r, e.key = r.key, e.extendSchema = (a) => (s) => () => {
     const i = s.get(r.key), c = a(i)(s);
     s.update(X$3, (m) => [
@@ -30878,7 +30878,7 @@ function fe$2(n, o) {
   }, e;
 }
 function ye$2(n, o) {
-  const r = h$1(o, n), t = Q$2(n, (a) => a.get(r.key)(a)), e = [r, t];
+  const r = h$2(o, n), t = Q$2(n, (a) => a.get(r.key)(a)), e = [r, t];
   return e.id = t.id, e.mark = t, e.type = t.type, e.schema = t.schema, e.ctx = r, e.key = r.key, e.extendSchema = (a) => (s) => () => {
     const i = s.get(r.key), c = a(i)(s);
     s.update(Z$2, (m) => [
@@ -30890,7 +30890,7 @@ function ye$2(n, o) {
 function ge$2(n, o) {
   const r = Object.fromEntries(
     Object.entries(o).map(([s, { shortcuts: i }]) => [s, i])
-  ), t = h$1(r, `${n}Keymap`), e = X$2((s) => {
+  ), t = h$2(r, `${n}Keymap`), e = X$2((s) => {
     const i = s.get(t.key), u = Object.entries(o).flatMap(
       ([c, { command: m }]) => [i[c]].flat().map((V) => [V, m(s)])
     );
@@ -30898,10 +30898,10 @@ function ge$2(n, o) {
   }), a = [t, e];
   return a.ctx = t, a.shortcuts = e, a.key = t.key, a.keymap = e.keymap, a;
 }
-const he$2 = (n, o = () => ({})) => h$1(o, `${n}Attr`), we$2 = (n, o = () => ({})) => h$1(o, `${n}Attr`);
+const he$2 = (n, o = () => ({})) => h$2(o, `${n}Attr`), we$2 = (n, o = () => ({})) => h$2(o, `${n}Attr`);
 function ke$2(n, o, r) {
-  const t = h$1({}, n), e = (s) => async () => {
-    await s.wait(M$3);
+  const t = h$2({}, n), e = (s) => async () => {
+    await s.wait(M$4);
     const u = {
       plugin: o(s),
       options: s.get(t.key)
@@ -33758,7 +33758,7 @@ const Dt = Array(6).fill(0).map((t, e) => e + 1);
 function _t$1(t) {
   return slugify(t.textContent);
 }
-const z$1 = h$1(
+const z$1 = h$2(
   _t$1,
   "headingIdGenerator"
 );
@@ -33928,7 +33928,7 @@ n$3(ye$1, {
   displayName: "Attr<blockquote>",
   group: "Blockquote"
 });
-const q$2 = fe$2(
+const q$1 = fe$2(
   "blockquote",
   (t) => ({
     content: "block+",
@@ -33950,16 +33950,16 @@ const q$2 = fe$2(
     }
   })
 );
-n$3(q$2.node, {
+n$3(q$1.node, {
   displayName: "NodeSchema<blockquote>",
   group: "Blockquote"
 });
-n$3(q$2.ctx, {
+n$3(q$1.ctx, {
   displayName: "NodeSchemaCtx<blockquote>",
   group: "Blockquote"
 });
 const ct$1 = oe$2(
-  (t) => wrappingInputRule(/^\s*>\s$/, q$2.type(t))
+  (t) => wrappingInputRule(/^\s*>\s$/, q$1.type(t))
 );
 n$3(ct$1, {
   displayName: "InputRule<wrapInBlockquoteInputRule>",
@@ -33967,7 +33967,7 @@ n$3(ct$1, {
 });
 const he$1 = re$1(
   "WrapInBlockquote",
-  (t) => () => wrapIn(q$2.type(t))
+  (t) => () => wrapIn(q$1.type(t))
 );
 n$3(he$1, {
   displayName: "Command<wrapInBlockquoteCommand>",
@@ -34560,7 +34560,7 @@ n$3(ve$1, {
   displayName: "Attr<listItem>",
   group: "ListItem"
 });
-const M$2 = fe$2("list_item", (t) => ({
+const M$3 = fe$2("list_item", (t) => ({
   group: "listItem",
   content: "(paragraph|blockquote) block*",
   attrs: {
@@ -34614,17 +34614,17 @@ const M$2 = fe$2("list_item", (t) => ({
     }
   }
 }));
-n$3(M$2.node, {
+n$3(M$3.node, {
   displayName: "NodeSchema<listItem>",
   group: "ListItem"
 });
-n$3(M$2.ctx, {
+n$3(M$3.ctx, {
   displayName: "NodeSchemaCtx<listItem>",
   group: "ListItem"
 });
 const Oe = re$1(
   "SinkListItem",
-  (t) => () => sinkListItem(M$2.type(t))
+  (t) => () => sinkListItem(M$3.type(t))
 );
 n$3(Oe, {
   displayName: "Command<sinkListItemCommand>",
@@ -34632,7 +34632,7 @@ n$3(Oe, {
 });
 const Te$1 = re$1(
   "LiftListItem",
-  (t) => () => liftListItem(M$2.type(t))
+  (t) => () => liftListItem(M$3.type(t))
 );
 n$3(Te$1, {
   displayName: "Command<liftListItemCommand>",
@@ -34640,7 +34640,7 @@ n$3(Te$1, {
 });
 const Ke = re$1(
   "SplitListItem",
-  (t) => () => splitListItem(M$2.type(t))
+  (t) => () => splitListItem(M$3.type(t))
 );
 n$3(Ke, {
   displayName: "Command<splitListItemCommand>",
@@ -34653,7 +34653,7 @@ function $t(t) {
     const { empty: s, $from: l } = o;
     if (!s || l.parentOffset !== 0) return !1;
     const i = l.node(-1);
-    return i.type !== M$2.type(t) || i.firstChild !== l.node() || l.node(-2).childCount > 1 ? !1 : liftListItem(M$2.type(t))(e, r, a);
+    return i.type !== M$3.type(t) || i.firstChild !== l.node() || l.node(-2).childCount > 1 ? !1 : liftListItem(M$3.type(t))(e, r, a);
   };
 }
 const De = re$1(
@@ -34782,7 +34782,7 @@ const qt = [
   V$2,
   S$4,
   ye$1,
-  q$2,
+  q$1,
   Ne$1,
   W$4,
   xe$1,
@@ -34794,7 +34794,7 @@ const qt = [
   He,
   T$3,
   ve$1,
-  M$2,
+  M$3,
   ee$1,
   R$1,
   ae,
@@ -35062,7 +35062,7 @@ n$3(Mt, {
   displayName: "Prose<hardbreakClearMarkPlugin>",
   group: "Prose"
 });
-const Ue = h$1(
+const Ue = h$2(
   ["table", "code_block"],
   "hardbreakFilterNodes"
 );
@@ -35125,7 +35125,7 @@ n$3(Lt, {
 const xt$1 = ue$2((t) => {
   const e = (r) => {
     if (r.composing || !r.editable) return;
-    const a = T$3.type(t), o = O$1.type(t), s = M$2.type(t), l = r.state, i = (p, c) => {
+    const a = T$3.type(t), o = O$1.type(t), s = M$3.type(t), l = r.state, i = (p, c) => {
       let k = !1;
       const C = `${c + 1}.`;
       return p.label !== C && (p.label = C, k = !0), k;
@@ -37140,7 +37140,7 @@ const defaultConfig$1 = {
   noResultText: "No result",
   renderLanguage: (language) => atomico.html`${language}`
 };
-const codeBlockConfig = h$1(defaultConfig$1, "codeBlockConfigCtx");
+const codeBlockConfig = h$2(defaultConfig$1, "codeBlockConfigCtx");
 withMeta$5(codeBlockConfig, {
   displayName: "Config<code-block>",
   group: "CodeBlock"
@@ -38374,7 +38374,7 @@ const defaultListItemBlockConfig = {
     />`;
   }
 };
-const listItemBlockConfig = h$1(
+const listItemBlockConfig = h$2(
   defaultListItemBlockConfig,
   "listItemBlockConfigCtx"
 );
@@ -38385,7 +38385,7 @@ withMeta$4(listItemBlockConfig, {
 
 defIfNotExists$5("milkdown-list-item-block", ListItemElement);
 const listItemBlockView = le$1(
-  M$2.node,
+  M$3.node,
   (ctx) => {
     return (initialNode, view, getPos) => {
       const dom = document.createElement(
@@ -38879,13 +38879,13 @@ function requireLodash_debounce () {
 }
 
 var lodash_debounceExports = requireLodash_debounce();
-var q$1 = /*@__PURE__*/getDefaultExportFromCjs(lodash_debounceExports);
+var E$1 = /*@__PURE__*/getDefaultExportFromCjs(lodash_debounceExports);
 
 var S$3 = (o) => {
   throw TypeError(o);
 };
 var P$2 = (o, t, e) => t.has(o) || S$3("Cannot " + e);
-var i$5 = (o, t, e) => (P$2(o, t, "read from private field"), e ? e.call(o) : t.get(o)), n$2 = (o, t, e) => t.has(o) ? S$3("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(o) : t.set(o, e), l$2 = (o, t, e, s) => (P$2(o, t, "write to private field"), t.set(o, e), e), b$2 = (o, t, e) => (P$2(o, t, "access private method"), e);
+var i$5 = (o, t, e) => (P$2(o, t, "read from private field"), e ? e.call(o) : t.get(o)), n$2 = (o, t, e) => t.has(o) ? S$3("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(o) : t.set(o, e), l$3 = (o, t, e, s) => (P$2(o, t, "write to private field"), t.set(o, e), e), b$2 = (o, t, e) => (P$2(o, t, "access private method"), e);
 var r$2, d$2, u$3, f$2, a$2, c$2, g$2, $$2, _$1;
 let V$1 = class V {
   constructor(t) {
@@ -38902,12 +38902,12 @@ let V$1 = class V {
     /// @internal
     n$2(this, c$2);
     n$2(this, g$2);
-    l$2(this, a$2, !1), this.onShow = () => {
+    l$3(this, a$2, !1), this.onShow = () => {
     }, this.onHide = () => {
-    }, l$2(this, g$2, (e, s) => {
+    }, l$3(this, g$2, (e, s) => {
       var T;
       const { state: h, composing: m } = e, { selection: y, doc: x } = h, { ranges: w } = y, k = Math.min(...w.map((p) => p.$from.pos)), O = Math.max(...w.map((p) => p.$to.pos)), B = s && s.doc.eq(x) && s.selection.eq(y);
-      if (i$5(this, a$2) || ((T = e.dom.parentElement) == null || T.appendChild(this.element), l$2(this, a$2, !0)), m || B) return;
+      if (i$5(this, a$2) || ((T = e.dom.parentElement) == null || T.appendChild(this.element), l$3(this, a$2, !0)), m || B) return;
       if (!i$5(this, d$2).call(this, e, s)) {
         this.hide();
         return;
@@ -38924,7 +38924,7 @@ let V$1 = class V {
         });
       }), this.show();
     }), this.update = (e, s) => {
-      q$1(i$5(this, g$2), i$5(this, r$2))(e, s);
+      E$1(i$5(this, g$2), i$5(this, r$2))(e, s);
     }, this.destroy = () => {
     }, this.show = (e) => {
       this.element.dataset.show = "true", e && computePosition(e, this.element, {
@@ -38939,7 +38939,7 @@ let V$1 = class V {
       }), this.onShow();
     }, this.hide = () => {
       this.element.dataset.show !== "false" && (this.element.dataset.show = "false", this.onHide());
-    }, this.element = t.content, l$2(this, r$2, t.debounce ?? 200), l$2(this, d$2, t.shouldShow ?? b$2(this, $$2, _$1)), l$2(this, c$2, t.offset), l$2(this, u$3, t.middleware ?? []), l$2(this, f$2, t.floatingUIOptions ?? {}), this.element.dataset.show = "false";
+    }, this.element = t.content, l$3(this, r$2, t.debounce ?? 200), l$3(this, d$2, t.shouldShow ?? b$2(this, $$2, _$1)), l$3(this, c$2, t.offset), l$3(this, u$3, t.middleware ?? []), l$3(this, f$2, t.floatingUIOptions ?? {}), this.element.dataset.show = "false";
   }
 };
 r$2 = new WeakMap(), d$2 = new WeakMap(), u$3 = new WeakMap(), f$2 = new WeakMap(), a$2 = new WeakMap(), c$2 = new WeakMap(), g$2 = new WeakMap(), $$2 = new WeakSet(), /// @internal
@@ -38948,7 +38948,7 @@ _$1 = function(t) {
   return !(k || h || x || O);
 };
 function W$3(o) {
-  const t = h$1(
+  const t = h$2(
     {},
     `${o}_TOOLTIP_SPEC`
   ), e = ue$2((h) => {
@@ -39011,7 +39011,7 @@ var __spreadValues$2$1 = (a, b) => {
 const defaultState = {
   mode: "preview"
 };
-const linkTooltipState = h$1(__spreadValues$2$1({}, defaultState), "linkTooltipStateCtx");
+const linkTooltipState = h$2(__spreadValues$2$1({}, defaultState), "linkTooltipStateCtx");
 withMeta$3(linkTooltipState, {
   displayName: "State<link-tooltip>",
   group: "LinkTooltip"
@@ -39024,7 +39024,7 @@ const defaultAPI = {
   removeLink: () => {
   }
 };
-const linkTooltipAPI = h$1(__spreadValues$2$1({}, defaultAPI), "linkTooltipAPICtx");
+const linkTooltipAPI = h$2(__spreadValues$2$1({}, defaultAPI), "linkTooltipAPICtx");
 withMeta$3(linkTooltipState, {
   displayName: "API<link-tooltip>",
   group: "LinkTooltip"
@@ -39040,7 +39040,7 @@ const defaultConfig = {
   shouldOpenOutside: () => true,
   getActualSrc: (src) => src
 };
-const linkTooltipConfig = h$1(
+const linkTooltipConfig = h$2(
   __spreadValues$2$1({}, defaultConfig),
   "linkTooltipConfigCtx"
 );
@@ -39257,7 +39257,7 @@ defIfNotExists$4("milkdown-link-preview", LinkPreviewElement);
 function configureLinkPreviewTooltip(ctx) {
   let linkPreviewTooltipView;
   const DELAY = 200;
-  const onMouseMove = q$1((view, event) => {
+  const onMouseMove = E$1((view, event) => {
     if (!linkPreviewTooltipView) return;
     if (!view.hasFocus()) return;
     const state = ctx.get(linkTooltipState.key);
@@ -39739,7 +39739,7 @@ const defaultImageBlockConfig = {
     return src;
   })
 };
-const imageBlockConfig = h$1(
+const imageBlockConfig = h$2(
   defaultImageBlockConfig,
   "imageBlockConfigCtx"
 );
@@ -40101,7 +40101,7 @@ const defaultInlineImageConfig = {
   uploadPlaceholderText: "/Paste",
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file))
 };
-const inlineImageConfig = h$1(
+const inlineImageConfig = h$2(
   defaultInlineImageConfig,
   "inlineImageConfigCtx"
 );
@@ -40702,7 +40702,7 @@ function o$2(r, a) {
     }
   }), r;
 }
-const s$3 = h$1(
+const s$3 = h$2(
   {},
   "dropCursorConfig"
 );
@@ -41202,7 +41202,7 @@ function j$1(o, t) {
     }
   }), o;
 }
-const kt = (o) => !findParent((e) => e.type.name === "table")(o), _ = h$1(
+const kt = (o) => !findParent((e) => e.type.name === "table")(o), _ = h$2(
   { filterNodes: kt },
   "blockConfig"
 );
@@ -41277,7 +41277,7 @@ function wt(o, t) {
   return { dom: h, text: q };
 }
 const ot$1 = browser.ie && browser.ie_version < 15 || browser.ios && browser.webkit_version < 604, nt$1 = 20;
-var D$1, H$1, C$1, m$3, T$2, g$1, k, rt$1, A$1, y$3, v, F, M$1, P$1, B$2, I$1, w$1;
+var D$1, H$1, C$1, m$3, T$2, g$1, k, rt$1, A$1, y$3, v, F, M$2, P$1, B$2, I$1, w$1;
 class xt {
   constructor() {
     a$1(this, k);
@@ -41292,7 +41292,7 @@ class xt {
     a$1(this, y$3);
     a$1(this, v);
     a$1(this, F);
-    a$1(this, M$1);
+    a$1(this, M$2);
     a$1(this, P$1);
     a$1(this, B$2);
     a$1(this, I$1);
@@ -41317,12 +41317,12 @@ class xt {
     }), this.bind = (t, e) => {
       n$1(this, D$1, t), n$1(this, y$3, e);
     }, this.addEvent = (t) => {
-      t.addEventListener("mousedown", i$4(this, M$1)), t.addEventListener("mouseup", i$4(this, P$1)), t.addEventListener("dragstart", i$4(this, B$2));
+      t.addEventListener("mousedown", i$4(this, M$2)), t.addEventListener("mouseup", i$4(this, P$1)), t.addEventListener("dragstart", i$4(this, B$2));
     }, this.removeEvent = (t) => {
-      t.removeEventListener("mousedown", i$4(this, M$1)), t.removeEventListener("mouseup", i$4(this, P$1)), t.removeEventListener("dragstart", i$4(this, B$2));
+      t.removeEventListener("mousedown", i$4(this, M$2)), t.removeEventListener("mouseup", i$4(this, P$1)), t.removeEventListener("dragstart", i$4(this, B$2));
     }, this.unBind = () => {
       n$1(this, y$3, void 0);
-    }, n$1(this, M$1, () => {
+    }, n$1(this, M$2, () => {
       var t;
       n$1(this, T$2, (t = i$4(this, m$3)) == null ? void 0 : t.el.getBoundingClientRect()), i$4(this, H$1).call(this);
     }), n$1(this, P$1, () => {
@@ -41411,12 +41411,12 @@ D$1 = new WeakMap(), H$1 = new WeakMap(), C$1 = new WeakMap(), m$3 = new WeakMap
 }, A$1 = function() {
   var t;
   return (t = i$4(this, D$1)) == null ? void 0 : t.get(L$4);
-}, y$3 = new WeakMap(), v = new WeakMap(), F = new WeakMap(), M$1 = new WeakMap(), P$1 = new WeakMap(), B$2 = new WeakMap(), I$1 = new WeakMap(), w$1 = new WeakMap();
-const G = h$1(new xt(), "blockService");
+}, y$3 = new WeakMap(), v = new WeakMap(), F = new WeakMap(), M$2 = new WeakMap(), P$1 = new WeakMap(), B$2 = new WeakMap(), I$1 = new WeakMap(), w$1 = new WeakMap();
+const G = h$2(new xt(), "blockService");
 j$1(_, {
   displayName: "Ctx<blockService>"
 });
-const Q$1 = h$1({}, "blockSpec");
+const Q$1 = h$2({}, "blockSpec");
 j$1(_, {
   displayName: "Ctx<blockSpec>"
 });
@@ -41442,7 +41442,7 @@ const Z$1 = ue$2((o) => {
 j$1(Z$1, {
   displayName: "Prose<block>"
 });
-var f$1, b$1, x$4, E, O, K, U$1, N$1, L$2, $$1, Y$1, lt$1;
+var f$1, b$1, x$4, E, O, K, U$2, N$1, L$2, $$1, Y$1, lt$1;
 class Nt {
   constructor(t) {
     a$1(this, Y$1);
@@ -41457,7 +41457,7 @@ class Nt {
     /// @internal
     a$1(this, K);
     /// @internal
-    a$1(this, U$1);
+    a$1(this, U$2);
     /// @internal
     a$1(this, N$1);
     /// @internal
@@ -41492,7 +41492,7 @@ class Nt {
       computePosition(c, i$4(this, f$1), {
         placement: i$4(this, $$1) ? i$4(this, $$1).call(this, l) : "left",
         middleware: [...d, ...i$4(this, K)],
-        ...i$4(this, U$1)
+        ...i$4(this, U$2)
       }).then(({ x: h, y: u }) => {
         Object.assign(i$4(this, f$1).style, {
           left: `${h}px`,
@@ -41501,14 +41501,14 @@ class Nt {
       });
     }, this.hide = () => {
       i$4(this, f$1).dataset.show = "false";
-    }, n$1(this, b$1, t.ctx), n$1(this, f$1, t.content), n$1(this, N$1, t.getOffset), n$1(this, L$2, t.getPosition), n$1(this, $$1, t.getPlacement), n$1(this, K, t.middleware ?? []), n$1(this, U$1, t.floatingUIOptions ?? {}), this.hide();
+    }, n$1(this, b$1, t.ctx), n$1(this, f$1, t.content), n$1(this, N$1, t.getOffset), n$1(this, L$2, t.getPosition), n$1(this, $$1, t.getPlacement), n$1(this, K, t.middleware ?? []), n$1(this, U$2, t.floatingUIOptions ?? {}), this.hide();
   }
   /// The context of current active node.
   get active() {
     return i$4(this, E);
   }
 }
-f$1 = new WeakMap(), b$1 = new WeakMap(), x$4 = new WeakMap(), E = new WeakMap(), O = new WeakMap(), K = new WeakMap(), U$1 = new WeakMap(), N$1 = new WeakMap(), L$2 = new WeakMap(), $$1 = new WeakMap(), Y$1 = new WeakSet(), /// @internal
+f$1 = new WeakMap(), b$1 = new WeakMap(), x$4 = new WeakMap(), E = new WeakMap(), O = new WeakMap(), K = new WeakMap(), U$2 = new WeakMap(), N$1 = new WeakMap(), L$2 = new WeakMap(), $$1 = new WeakMap(), Y$1 = new WeakSet(), /// @internal
 lt$1 = function() {
   var r;
   (r = i$4(this, b$1).get(L$4).dom.parentElement) == null || r.appendChild(i$4(this, f$1));
@@ -41532,7 +41532,7 @@ var H = (s) => {
 var C = (s, e, t) => e.has(s) || H("Cannot " + t);
 var o$1 = (s, e, t) => (C(s, e, "read from private field"), t ? t.call(s) : e.get(s)), i$3 = (s, e, t) => e.has(s) ? H("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(s) : e.set(s, t), a = (s, e, t, n) => (C(s, e, "write to private field"), e.set(s, t), t), A = (s, e, t) => (C(s, e, "access private method"), t);
 function W$2(s) {
-  const e = h$1(
+  const e = h$2(
     {},
     `${s}_SLASH_SPEC`
   ), t = ue$2((r) => {
@@ -41550,7 +41550,7 @@ function W$2(s) {
     displayName: `Prose<slash>|${s}`
   }, n;
 }
-var c$1, d, u$1, f, h, g, y$2, S$2, x$3, B$1;
+var c$1, d, u$1, f, h$1, g, y$2, S$2, x$3, B$1;
 let X$1 = class X {
   constructor(e) {
     i$3(this, x$3);
@@ -41562,7 +41562,7 @@ let X$1 = class X {
     /// @internal
     i$3(this, f);
     /// @internal
-    i$3(this, h);
+    i$3(this, h$1);
     /// @internal
     i$3(this, g);
     /// The offset to get the block. Default is 0.
@@ -41591,7 +41591,7 @@ let X$1 = class X {
         });
       }), this.show();
     }), this.update = (t, n) => {
-      q$1(o$1(this, S$2), o$1(this, f))(t, n);
+      E$1(o$1(this, S$2), o$1(this, f))(t, n);
     }, this.getContent = (t, n = (r) => r.type.name === "paragraph") => {
       const { selection: r } = t.state, { empty: m, $from: l } = r, $ = t.state.selection instanceof TextSelection, k = this.element.contains(document.activeElement), w = !t.hasFocus() && !k, P = !t.editable, O = !findParentNode(n)(t.state.selection);
       if (!(w || P || !m || !$ || O))
@@ -41606,15 +41606,15 @@ let X$1 = class X {
       this.element.dataset.show = "true", this.onShow();
     }, this.hide = () => {
       this.element.dataset.show = "false", this.onHide();
-    }, this.element = e.content, a(this, f, e.debounce ?? 200), a(this, g, e.shouldShow ?? A(this, x$3, B$1)), a(this, h, e.trigger ?? "/"), a(this, y$2, e.offset), a(this, d, e.middleware ?? []), a(this, u$1, e.floatingUIOptions ?? {});
+    }, this.element = e.content, a(this, f, e.debounce ?? 200), a(this, g, e.shouldShow ?? A(this, x$3, B$1)), a(this, h$1, e.trigger ?? "/"), a(this, y$2, e.offset), a(this, d, e.middleware ?? []), a(this, u$1, e.floatingUIOptions ?? {});
   }
 };
-c$1 = new WeakMap(), d = new WeakMap(), u$1 = new WeakMap(), f = new WeakMap(), h = new WeakMap(), g = new WeakMap(), y$2 = new WeakMap(), S$2 = new WeakMap(), x$3 = new WeakSet(), /// @internal
+c$1 = new WeakMap(), d = new WeakMap(), u$1 = new WeakMap(), f = new WeakMap(), h$1 = new WeakMap(), g = new WeakMap(), y$2 = new WeakMap(), S$2 = new WeakMap(), x$3 = new WeakSet(), /// @internal
 B$1 = function(e) {
   const t = this.getContent(e);
   if (!t) return !1;
   const n = t.at(-1);
-  return n ? Array.isArray(o$1(this, h)) ? o$1(this, h).includes(n) : o$1(this, h) === n : !1;
+  return n ? Array.isArray(o$1(this, h$1)) ? o$1(this, h$1).includes(n) : o$1(this, h$1) === n : !1;
 };
 
 function isInCodeBlock(selection) {
@@ -48513,13 +48513,13 @@ function de(e, t = 3, n = 3) {
   );
   return N.type(e).create(null, r);
 }
-function M(e) {
+function M$1(e) {
   return findParentNodeClosestToPos(
     (t) => t.type.spec.tableRole === "table"
   )(e);
 }
 function y$1(e, t) {
-  const n = M(t.$from);
+  const n = M$1(t.$from);
   if (!n) return;
   const o = TableMap.get(n.node);
   if (!(e < 0 || e >= o.width))
@@ -48540,7 +48540,7 @@ function y$1(e, t) {
     }).filter((l) => l != null);
 }
 function w(e, t) {
-  const n = M(t.$from);
+  const n = M$1(t.$from);
   if (!n) return;
   const o = TableMap.get(n.node);
   if (!(e < 0 || e >= o.height))
@@ -48561,7 +48561,7 @@ function w(e, t) {
     }).filter((l) => l != null);
 }
 function ot(e) {
-  const t = M(e.$from);
+  const t = M$1(e.$from);
   if (!t) return;
   const n = TableMap.get(t.node);
   return n.cellsInRect({
@@ -48754,7 +48754,7 @@ function te(e, t) {
   return { $anchor: c, $head: p, indexes: l };
 }
 function ct(e) {
-  const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = M(s);
+  const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = M$1(s);
   if (!c) return t;
   const { indexes: d } = ee(n, t), { indexes: p } = ee(o, t);
   if (d.includes(o)) return t;
@@ -48772,7 +48772,7 @@ function ct(e) {
   return m.setSelection(E(D, H));
 }
 function it(e) {
-  const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = M(s);
+  const { tr: t, origin: n, target: o, select: l = !0, pos: r } = e, s = r != null ? t.doc.resolve(r) : t.selection.$from, c = M$1(s);
   if (!c) return t;
   const { indexes: d } = te(n, t), { indexes: p } = te(o, t);
   if (d.includes(o)) return t;
@@ -48793,11 +48793,11 @@ i$2(V, {
   displayName: "Command<goToPrevTableCellCommand>",
   group: "Table"
 });
-const U = re$1(
+const U$1 = re$1(
   "GoToNextTableCell",
   () => () => goToNextCell(1)
 );
-i$2(U, {
+i$2(U$1, {
   displayName: "Command<goToNextTableCellCommand>",
   group: "Table"
 });
@@ -48986,7 +48986,7 @@ const q = ge$2("tableKeymap", {
     shortcuts: ["Mod-]", "Tab"],
     command: (e) => {
       const t = e.get(Oe$1);
-      return () => t.call(U.key);
+      return () => t.call(U$1.key);
     }
   },
   PrevCell: {
@@ -49136,7 +49136,7 @@ i$2(Q.node, {
   displayName: "NodeSchema<footnodeRef>",
   group: "footnote"
 });
-const ve = M$2.extendSchema(
+const ve = M$3.extendSchema(
   (e) => (t) => {
     const n = e(t);
     return {
@@ -49303,7 +49303,7 @@ const ht = [
   W$1,
   T$1
 ].flat(), Ct = [
-  U,
+  U$1,
   V,
   X,
   he,
@@ -49515,7 +49515,7 @@ function getGroups(filter, config) {
       const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const command = clearContentAndWrapInBlockType(
-        q$2.type(ctx)
+        q$1.type(ctx)
       );
       command(state, dispatch);
     }
@@ -49558,7 +49558,7 @@ function getGroups(filter, config) {
       const view = ctx.get(L$4);
       const { dispatch, state } = view;
       const command = clearContentAndWrapInBlockType(
-        M$2.type(ctx),
+        M$3.type(ctx),
         { checked: false }
       );
       command(state, dispatch);
@@ -49814,7 +49814,7 @@ var __privateAdd$4 = (obj, member, value) => member.has(obj) ? __typeError$4("Ca
 var __privateSet$3 = (obj, member, value, setter) => (__accessCheck$4(obj, member, "write to private field"), member.set(obj, value), value);
 var _content$2, _slashProvider, _programmaticallyPos;
 const menu = W$2("CREPE_MENU");
-const menuAPI = h$1(
+const menuAPI = h$2(
   {
     show: () => {
     },
@@ -50052,7 +50052,7 @@ function createPlaceholderDecoration(state, placeholderText) {
     "data-placeholder": placeholderText
   });
 }
-const placeholderConfig = h$1(
+const placeholderConfig = h$2(
   {
     text: "Please enter...",
     mode: "block"
@@ -50338,7 +50338,7 @@ const defaultTableBlockConfig = {
     }
   }
 };
-const tableBlockConfig = h$1(
+const tableBlockConfig = h$2(
   __spreadValues({}, defaultTableBlockConfig),
   "tableBlockConfigCtx"
 );
@@ -50406,7 +50406,7 @@ function recoveryStateBetweenUpdate(refs, ctx, node) {
   const { selection } = ctx.get(L$4).state;
   if (!(selection instanceof CellSelection)) return;
   const { $from } = selection;
-  const table = M($from);
+  const table = M$1($from);
   if (!table || table.node !== node) return;
   if (selection.isColSelection()) {
     const { $head } = selection;
@@ -51410,6 +51410,91 @@ function loadFeature(feature, editor, config) {
   }
 }
 
+let l$2 = class l {
+  constructor() {
+    this.beforeMountedListeners = [], this.mountedListeners = [], this.updatedListeners = [], this.markdownUpdatedListeners = [], this.blurListeners = [], this.focusListeners = [], this.destroyListeners = [], this.beforeMount = (s) => (this.beforeMountedListeners.push(s), this), this.mounted = (s) => (this.mountedListeners.push(s), this), this.updated = (s) => (this.updatedListeners.push(s), this);
+  }
+  /// A getter to get all [subscribers](#interface-subscribers). You should not use this method directly.
+  get listeners() {
+    return {
+      beforeMount: this.beforeMountedListeners,
+      mounted: this.mountedListeners,
+      updated: this.updatedListeners,
+      markdownUpdated: this.markdownUpdatedListeners,
+      blur: this.blurListeners,
+      focus: this.focusListeners,
+      destroy: this.destroyListeners
+    };
+  }
+  /// Subscribe to the markdownUpdated event.
+  /// This event will be triggered after the editor state is updated and **the document is changed**.
+  /// The second parameter is the current markdown and the third parameter is the previous markdown.
+  markdownUpdated(s) {
+    return this.markdownUpdatedListeners.push(s), this;
+  }
+  /// Subscribe to the blur event.
+  /// This event will be triggered when the editor is blurred.
+  blur(s) {
+    return this.blurListeners.push(s), this;
+  }
+  /// Subscribe to the focus event.
+  /// This event will be triggered when the editor is focused.
+  focus(s) {
+    return this.focusListeners.push(s), this;
+  }
+  /// Subscribe to the destroy event.
+  /// This event will be triggered before the editor is destroyed.
+  destroy(s) {
+    return this.destroyListeners.push(s), this;
+  }
+};
+const h = J$3(
+  new l$2(),
+  "listener"
+), M = new PluginKey("MILKDOWN_LISTENER"), U = (t) => (t.inject(h, new l$2()), async () => {
+  await t.wait(M$4);
+  const s = t.get(h), { listeners: r } = s;
+  r.beforeMount.forEach((e) => e(t)), await t.wait(H$3);
+  const u = t.get(re$2);
+  let n = null, d = null;
+  const p = new Plugin({
+    key: M,
+    view: () => ({
+      destroy: () => {
+        r.destroy.forEach((e) => e(t));
+      }
+    }),
+    props: {
+      handleDOMEvents: {
+        focus: () => (r.focus.forEach((e) => e(t)), !1),
+        blur: () => (r.blur.forEach((e) => e(t)), !1)
+      }
+    },
+    state: {
+      init: (e, a) => {
+        n = a.doc, d = u(a.doc);
+      },
+      apply: (e) => !e.docChanged || e.getMeta("addToHistory") === !1 ? void 0 : E$1(() => {
+        const { doc: i } = e;
+        if (r.updated.length > 0 && n && !n.eq(i) && r.updated.forEach((o) => {
+          o(t, i, n);
+        }), r.markdownUpdated.length > 0 && n && !n.eq(i)) {
+          const o = u(i);
+          r.markdownUpdated.forEach((f) => {
+            f(t, o, d);
+          }), d = o;
+        }
+        n = i;
+      }, 200)()
+    }
+  });
+  t.update(N$2, (e) => e.concat(p)), await t.wait(oe$3), r.mounted.forEach((e) => e(t));
+});
+U.meta = {
+  package: "@milkdown/plugin-listener",
+  displayName: "Listener"
+};
+
 function t(o, r) {
   return Object.assign(o, {
     meta: {
@@ -51426,7 +51511,7 @@ const m$2 = re$1("Redo", () => () => redo);
 t(m$2, {
   displayName: "Command<redo>"
 });
-const e = h$1({}, "historyProviderConfig");
+const e = h$2({}, "historyProviderConfig");
 t(e, {
   displayName: "Ctx<historyProviderConfig>"
 });
@@ -51473,7 +51558,7 @@ function u(n, i) {
   const { to: c } = e, o = i.type === "space" ? Array(i.size).fill(" ").join("") : "	";
   return n.insertText(o, c);
 }
-const r$1 = h$1(
+const r$1 = h$2(
   { type: "space", size: 2 },
   "indentConfig"
 );
@@ -51523,7 +51608,7 @@ const W = ue$2((r) => {
     props: {
       handlePaste: (t, l) => {
         var x, S;
-        const d = r.get(q$3), i = (S = (x = t.props).editable) == null ? void 0 : S.call(x, t.state), { clipboardData: a } = l;
+        const d = r.get(q$2), i = (S = (x = t.props).editable) == null ? void 0 : S.call(x, t.state), { clipboardData: a } = l;
         if (!i || !a || t.state.selection.$from.node().type.spec.code) return !1;
         const s = a.getData("text/plain"), f = a.getData("vscode-editor-data");
         if (f) {
@@ -51576,7 +51661,7 @@ W.meta = {
   package: "@milkdown/plugin-clipboard"
 };
 
-const l$1 = h$1(
+const l$1 = h$2(
   {
     shouldAppend: (n) => !(!n || ["heading", "paragraph"].includes(n.type.name)),
     getNode: (n) => n.schema.nodes.paragraph.create()
@@ -71053,7 +71138,7 @@ o(s.plugin, {
 o(s.options, {
   displayName: "RemarkConfig<remarkMath>"
 });
-const c = "math_inline", m = h$1(
+const c = "math_inline", m = h$2(
   {},
   "katexOptions"
 );
@@ -71192,7 +71277,8 @@ class Crepe {
     root,
     features = {},
     featureConfigs = {},
-    defaultValue = ""
+    defaultValue = "",
+    onChange
   }) {
     __privateAdd(this, _editor);
     __privateAdd(this, _rootElement);
@@ -71213,7 +71299,14 @@ class Crepe {
         ...value,
         size: 4
       }));
-    }).use(cr).use(x$1).use(p$2).use(P).use(W).use(_t).use(b));
+    }).config((ctx) => {
+      const lis = ctx.get(h);
+      lis.markdownUpdated((_ctx, newMarkdown, prevMarkdown) => {
+        if (newMarkdown !== prevMarkdown) {
+          onChange(newMarkdown);
+        }
+      });
+    }).use(U).use(cr).use(x$1).use(p$2).use(P).use(W).use(_t).use(b));
     enabledFeatures.forEach((feature) => {
       const config = featureConfigs[feature];
       loadFeature(feature, __privateGet(this, _editor), config);
