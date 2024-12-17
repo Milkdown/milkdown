@@ -21,7 +21,7 @@
     "start": "pnpm --filter=@milkdown/storybook run start",
     "build": "nx run-many --target=build --all --parallel",
     "build:affected": "nx affected --target=build",
-    "build:packs": "pnpm --filter=@milkdown/* run build && pnpm --filter=@milkdown-nota/* run build",
+    "build:packs": "pnpm --filter=@milkdown-nota/* run build",
     "graph": "nx dep-graph",
     "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
     "changeset": "changeset",

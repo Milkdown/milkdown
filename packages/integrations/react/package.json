@@ -1,11 +1,11 @@
 {
-  "name": "@milkdown-nota/react",
+  "name": "@milkdown/react",
   "type": "module",
-  "version": "1.0.0",
+  "version": "7.5.9",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SNKK62/milkdown-nota.git",
+    "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/integrations/react"
   },
   "keywords": [

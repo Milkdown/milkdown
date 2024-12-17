@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SNKK62/milkdown-nota.git",
+    "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/plugins/plugin-clipboard"
   },
   "keywords": [
