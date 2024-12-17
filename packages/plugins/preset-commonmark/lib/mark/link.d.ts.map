@@ -1,1 +1,0 @@
-{"version":3,"file":"link.d.ts","sourceRoot":"","sources":["../../src/mark/link.ts"],"names":[],"mappings":"AAQA,eAAO,MAAM,QAAQ,qCAAoB,CAAA;AAQzC,eAAO,MAAM,UAAU,+CAsCpB,CAAA;AAQH,MAAM,WAAW,wBAAwB;IACvC,IAAI,CAAC,EAAE,MAAM,CAAA;IACb,KAAK,CAAC,EAAE,MAAM,CAAA;CACf;AAGD,eAAO,MAAM,iBAAiB,8DAK7B,CAAA;AASD,eAAO,MAAM,iBAAiB,8DA4C7B,CAAA"}

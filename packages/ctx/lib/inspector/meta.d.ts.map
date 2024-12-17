@@ -1,1 +1,0 @@
-{"version":3,"file":"meta.d.ts","sourceRoot":"","sources":["../../src/inspector/meta.ts"],"names":[],"mappings":"AACA,MAAM,WAAW,IAAI;IAEnB,WAAW,EAAE,MAAM,CAAA;IAGnB,WAAW,CAAC,EAAE,MAAM,CAAA;IAGpB,OAAO,EAAE,MAAM,CAAA;IAGf,KAAK,CAAC,EAAE,MAAM,CAAA;IAGd,UAAU,CAAC,EAAE,MAAM,CAAC,MAAM,EAAE,GAAG,CAAC,CAAA;CACjC"}

@@ -1,1 +1,0 @@
-{"version":3,"file":"get-dom-by-pos.d.ts","sourceRoot":"","sources":["../../src/__internal__/get-dom-by-pos.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,uBAAuB,CAAA;AACxD,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,sBAAsB,CAAA;AAEtD,wBAAgB,WAAW,CACzB,IAAI,EAAE,UAAU,EAChB,IAAI,EAAE,WAAW,EACjB,IAAI,EAAE,WAAW,sBAYlB"}
