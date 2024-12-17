@@ -1,0 +1,3 @@
+export * from '@milkdown/plugin-history'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wbHVnaW4vaGlzdG9yeS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSIsImZpbGUiOiJoaXN0b3J5LnRzIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0ICogZnJvbSAnQG1pbGtkb3duL3BsdWdpbi1oaXN0b3J5J1xuIl19 */

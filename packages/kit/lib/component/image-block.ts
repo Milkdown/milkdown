@@ -1,0 +1,3 @@
+export * from '@milkdown-nota/components/image-block'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9jb21wb25lbnQvaW1hZ2UtYmxvY2sudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoiaW1hZ2UtYmxvY2sudHMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgKiBmcm9tICdAbWlsa2Rvd24tbm90YS9jb21wb25lbnRzL2ltYWdlLWJsb2NrJ1xuIl19 */

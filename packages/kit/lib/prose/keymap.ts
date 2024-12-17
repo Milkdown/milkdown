@@ -1,0 +1,3 @@
+export * from '@milkdown/prose/keymap'
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9wcm9zZS9rZXltYXAudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoia2V5bWFwLnRzIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0ICogZnJvbSAnQG1pbGtkb3duL3Byb3NlL2tleW1hcCdcbiJdfQ== */

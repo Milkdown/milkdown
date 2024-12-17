@@ -3,7 +3,10 @@ node_modules
 .idea
 .vscode
 
-# lib
+lib
+!packages/crepe/lib
+!packages/components/lib
+!packages/kit/lib
 dist
 dist-ssr
 docs
