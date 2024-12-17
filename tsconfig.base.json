@@ -16,6 +16,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "useUnknownInCatchVariables": true,
+    "skipLibCheck": true,
     "declaration": true,
     "declarationMap": true,
 

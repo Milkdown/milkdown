@@ -11,6 +11,7 @@ export interface ImageBlockConfig {
   captionPlaceholderText: string
   onUpload: (file: File) => Promise<string>
   getActualSrc: (src: string) => Promise<string>
+  proxyDomURL?: (url: string) => Promise<string> | string
 }
 
 export const defaultImageBlockConfig: ImageBlockConfig = {

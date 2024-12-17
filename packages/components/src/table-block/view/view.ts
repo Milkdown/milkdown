@@ -5,6 +5,7 @@ import type {
   EditorView,
   NodeView,
   NodeViewConstructor,
+  ViewMutationRecord,
 } from '@milkdown/prose/view'
 import type { Ctx } from '@milkdown/ctx'
 import { NodeSelection } from '@milkdown/prose/state'
@@ -106,7 +107,7 @@ export class TableNodeView implements NodeView {
     return false
   }
 
-  ignoreMutation(mutation: MutationRecord) {
+  ignoreMutation(mutation: ViewMutationRecord) {
     if (!this.dom || !this.contentDOM) return true
 
     if ((mutation.type as unknown) === 'selection') return false
