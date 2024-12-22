@@ -1,4 +1,4 @@
-export * from './Editor'
+export * from './editor'
 export * from './types'
-export * from './useEditor'
-export * from './useInstance'
+export * from './use-editor'
+export * from './use-instance'
