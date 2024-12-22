@@ -1,14 +1,33 @@
 {
   "plugins": ["import", "typescript", "unicorn", "promise"],
   "rules": {
-    "eslint/no-unused-vars": "off",
     "no-console": "error",
+    "eslint/no-unused-vars": "off",
+    "unicorn/prefer-array-some": "error",
     "unicorn/no-useless-promise-resolve-reject": "error",
+    "unicorn/no-unnecessary-await": "error",
+    "unicorn/no-useless-fallback-in-spread": "error",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "case": "kebabCase"
+      }
+    ],
+    "unicorn/prefer-date-now": "error",
+    "unicorn/prefer-blob-reading-methods": "error",
+    "unicorn/no-typeof-undefined": "error",
+    "unicorn/no-new-array": "error",
     "import/no-cycle": [
       "error",
       {
         "ignoreTypes": true
       }
-    ]
+    ],
+    "import/sort-imports": "error",
+    "import/no-duplicates": "error",
+    "import/no-import-assign": "error",
+    "import/no-self-import": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/no-import-type-side-effects": "error"
   }
 }

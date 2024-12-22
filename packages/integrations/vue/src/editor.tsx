@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { Fragment, defineComponent, h, provide, ref } from 'vue'
 
 import type { GetEditor } from './types'
-import { useGetEditor } from './useGetEditor'
+import { useGetEditor } from './use-get-editor'
 import { editorInfoCtxKey } from './consts'
 
 h
