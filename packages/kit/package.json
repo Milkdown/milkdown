@@ -41,6 +41,7 @@
     "./prose/tables/style/tables.css": "./src/prose/tables/style/tables.css",
     "./preset/commonmark": "./src/preset/commonmark.ts",
     "./preset/gfm": "./src/preset/gfm.ts",
+    "./plugin/automd": "./src/plugin/automd.ts",
     "./plugin/block": "./src/plugin/block.ts",
     "./plugin/clipboard": "./src/plugin/clipboard.ts",
     "./plugin/cursor": "./src/plugin/cursor.ts",
@@ -150,6 +151,10 @@
       "./preset/gfm": {
         "types": "./lib/preset/gfm.d.ts",
         "import": "./lib/preset/gfm.js"
+      },
+      "./plugin/automd": {
+        "types": "./lib/plugin/automd.d.ts",
+        "import": "./lib/plugin/automd.js"
       },
       "./plugin/block": {
         "types": "./lib/plugin/block.d.ts",
@@ -285,6 +290,9 @@
         "preset/gfm": [
           "lib/preset/gfm.d.ts"
         ],
+        "plugin/automd": [
+          "lib/plugin/automd.d.ts"
+        ],
         "plugin/block": [
           "lib/plugin/block.d.ts"
         ],
@@ -355,6 +363,7 @@
     "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/plugin-automd": "workspace:*",
     "@milkdown/plugin-block": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",
