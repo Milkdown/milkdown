@@ -8,6 +8,7 @@ import { LatexInlineEditElement } from './component'
 import type { LatexConfig } from '..'
 import { keymap } from '@milkdown/kit/prose/keymap'
 import { redo, undo } from '@milkdown/kit/prose/history'
+import { Schema } from '@milkdown/kit/prose/model'
 
 export class LatexInlineTooltip implements PluginView {
   #content = new LatexInlineEditElement()
@@ -60,6 +61,22 @@ export class LatexInlineTooltip implements PluginView {
       const innerView = new EditorView(this.#dom, {
         state: EditorState.create({
           doc: paragraph,
+          schema: new Schema({
+            nodes: {
+              doc: {
+                content: "block+"
+              },
+              paragraph: {
+                content: "inline*",
+                group: "block",
+                parseDOM: [{tag: "p"}],
+                toDOM() { return ["p", 0] }
+              },
+              text: {
+                group: "inline"
+              }
+            },
+          }),
           plugins: [
             keymap({
               'Mod-z': undo,

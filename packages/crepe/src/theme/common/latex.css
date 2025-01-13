@@ -3,7 +3,9 @@
 .milkdown {
   span[data-type='math_inline'] {
     padding: 0 4px;
-    display: inline;
+    display: inline-block;
+    vertical-align: bottom;
+    color: var(--crepe-color-primary);
   }
 
   milkdown-latex-inline-edit {
@@ -24,6 +26,11 @@
       button {
         width: 24px;
         height: 24px;
+        cursor: pointer;
+        border-radius: 8px;
+        &:hover {
+          background: var(--crepe-color-hover);
+        }
       }
     }
 
