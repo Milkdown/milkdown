@@ -24,6 +24,7 @@ export class LatexInlineTooltip implements PluginView {
       debounce: 0,
       content: this.#content,
       shouldShow: this.#shouldShow,
+      offset: 10,
       floatingUIOptions: {
         placement: 'bottom',
       },

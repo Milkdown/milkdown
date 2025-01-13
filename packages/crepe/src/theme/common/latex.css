@@ -31,6 +31,7 @@
       padding: 0;
       min-width: 174px;
       max-width: 294px;
+      font-family: var(--crepe-font-code);
     }
   }
 }
