@@ -1,39 +1,43 @@
-import type { Ctx } from "@milkdown/kit/ctx";
-import { TooltipProvider } from "@milkdown/kit/plugin/tooltip";
-import type { PluginView} from "@milkdown/kit/prose/state";
-import { EditorState, NodeSelection } from "@milkdown/kit/prose/state";
-import { EditorView } from "@milkdown/kit/prose/view";
-import { mathInlineId } from "../inline-latex";
-import { LatexInlineEditElement } from "./component";
-import type { LatexConfig } from "..";
-import { keymap } from "@milkdown/kit/prose/keymap";
-import { redo, undo } from "@milkdown/kit/prose/history";
+import type { Ctx } from '@milkdown/kit/ctx'
+import { TooltipProvider } from '@milkdown/kit/plugin/tooltip'
+import type { PluginView } from '@milkdown/kit/prose/state'
+import { EditorState, NodeSelection } from '@milkdown/kit/prose/state'
+import { EditorView } from '@milkdown/kit/prose/view'
+import { mathInlineId } from '../inline-latex'
+import { LatexInlineEditElement } from './component'
+import type { LatexConfig } from '..'
+import { keymap } from '@milkdown/kit/prose/keymap'
+import { redo, undo } from '@milkdown/kit/prose/history'
 
 export class LatexInlineTooltip implements PluginView {
   #content = new LatexInlineEditElement()
   #provider: TooltipProvider
-  #dom: HTMLElement;
-  #innerView: EditorView | null;
+  #dom: HTMLElement
+  #innerView: EditorView | null
 
-  constructor(readonly ctx: Ctx, view: EditorView, config: Partial<LatexConfig>) {
+  constructor(
+    readonly ctx: Ctx,
+    view: EditorView,
+    config: Partial<LatexConfig>
+  ) {
     this.#provider = new TooltipProvider({
       debounce: 0,
       content: this.#content,
       shouldShow: this.#shouldShow,
       floatingUIOptions: {
-        placement: 'bottom'
-      }
+        placement: 'bottom',
+      },
     })
-    this.#content.config = config;
+    this.#content.config = config
     this.#provider.update(view)
-    this.#dom = document.createElement('div');
-    this.#innerView = null;
+    this.#dom = document.createElement('div')
+    this.#innerView = null
   }
 
   #onHide = () => {
     if (this.#innerView) {
-      this.#innerView.destroy();
-      this.#innerView = null;
+      this.#innerView.destroy()
+      this.#innerView = null
     }
   }
 
@@ -41,13 +45,16 @@ export class LatexInlineTooltip implements PluginView {
     const shouldShow = () => {
       const { selection, schema } = view.state
       if (selection.empty) return false
-      if (!(selection instanceof NodeSelection)) return false;
-      const node = selection.node;
+      if (!(selection instanceof NodeSelection)) return false
+      const node = selection.node
       if (node.type.name !== mathInlineId) return false
 
-      const textFrom = selection.from;
+      const textFrom = selection.from
 
-      const paragraph = schema.nodes.paragraph!.create(null, schema.text(node.attrs.value))
+      const paragraph = schema.nodes.paragraph!.create(
+        null,
+        schema.text(node.attrs.value)
+      )
 
       const innerView = new EditorView(this.#dom, {
         state: EditorState.create({
@@ -57,31 +64,31 @@ export class LatexInlineTooltip implements PluginView {
               'Mod-z': undo,
               'Mod-Z': redo,
               'Mod-y': redo,
-              'Enter': () => {
-                this.#content.updateValue?.();
-                return true;
+              Enter: () => {
+                this.#content.updateValue?.()
+                return true
               },
-            })
-          ]
-        })
+            }),
+          ],
+        }),
       })
 
-      this.#innerView = innerView;
-      this.#content.innerView = this.#innerView;
+      this.#innerView = innerView
+      this.#content.innerView = this.#innerView
       this.#content.updateValue = () => {
-        const { tr } = view.state;
+        const { tr } = view.state
         tr.setNodeAttribute(textFrom, 'value', innerView.state.doc.textContent)
         view.dispatch(tr)
         requestAnimationFrame(() => {
-          view.focus();
+          view.focus()
         })
       }
-      return true;
+      return true
     }
 
-    const show = shouldShow();
-    if (!show) this.#onHide();
-    return show;
+    const show = shouldShow()
+    if (!show) this.#onHide()
+    return show
   }
 
   update = (view: EditorView, prevState?: EditorState) => {

@@ -16,17 +16,17 @@ export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
   atom: true,
   attrs: {
     value: {
-      default: ''
-    }
+      default: '',
+    },
   },
   parseDOM: [
     {
       tag: `span[data-type="${mathInlineId}"]`,
       getAttrs: (dom) => {
         return {
-          value: (dom as HTMLElement).dataset.value ?? ''
+          value: (dom as HTMLElement).dataset.value ?? '',
         }
-      }
+      },
     },
   ],
   toDOM: (node) => {
@@ -43,8 +43,7 @@ export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
   parseMarkdown: {
     match: (node) => node.type === 'inlineMath',
     runner: (state, node, type) => {
-      state
-        .addNode(type, { value: node.value as string });
+      state.addNode(type, { value: node.value as string })
     },
   },
   toMarkdown: {

@@ -12,7 +12,11 @@ function visitMathBlock(ast: Node) {
   return visit(
     ast,
     'math',
-    (node: Node & { value: string }, index: number, parent: Node & { children: Node[] }) => {
+    (
+      node: Node & { value: string },
+      index: number,
+      parent: Node & { children: Node[] }
+    ) => {
       const { value } = node as Node & { value: string }
       const newNode = {
         type: 'code',
@@ -25,4 +29,7 @@ function visitMathBlock(ast: Node) {
 }
 
 /// Turn math block into code block with language LaTeX.
-export const remarkMathBlockPlugin = $remark('remarkMathBlock', () => () => visitMathBlock)
+export const remarkMathBlockPlugin = $remark(
+  'remarkMathBlock',
+  () => () => visitMathBlock
+)

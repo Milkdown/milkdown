@@ -4,24 +4,26 @@ import type { EditorView } from '@milkdown/kit/prose/view'
 
 type LatexEditComponentProps = {
   config: Partial<LatexConfig>
-  innerView: EditorView;
-  updateValue: () => void;
+  innerView: EditorView
+  updateValue: () => void
 }
 
 export const latexEditComponent: Component<LatexEditComponentProps> = ({
   config,
   innerView,
-  updateValue
+  updateValue,
 }) => {
   const onMouseDown = (e: MouseEvent) => {
-    e.preventDefault();
-    updateValue?.();
+    e.preventDefault()
+    updateValue?.()
   }
   return html`
     <host>
       <div class="container">
         ${innerView && h(innerView.dom, {})}
-        <button onmousedown=${onMouseDown}>${config?.inlineEditConfirm?.()}</button>
+        <button onmousedown=${onMouseDown}>
+          ${config?.inlineEditConfirm?.()}
+        </button>
       </div>
     </host>
   `
