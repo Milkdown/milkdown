@@ -7,9 +7,10 @@ import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
-import type { html } from 'atomico'
+import { html } from 'atomico'
 import type { DefineFeature, Icon } from '../shared'
-import { chevronDownIcon, clearIcon, searchIcon } from '../../icons'
+import { chevronDownIcon, clearIcon, editIcon, searchIcon } from '../../icons'
+import { visibilityOffIcon } from '../../icons/visibility-off'
 
 interface CodeMirrorConfig {
   extensions: Extension[]
@@ -26,7 +27,16 @@ interface CodeMirrorConfig {
   renderLanguage: (
     language: string,
     selected: boolean
-  ) => ReturnType<typeof html> | string | HTMLElement
+  ) => ReturnType<typeof html> | string
+
+  renderPreview: (
+    language: string,
+    content: string,
+  ) => string | HTMLElement | null
+
+  previewToggleIcon: (previewOnlyMode: boolean) => ReturnType<Icon>;
+  previewToggleText: (previewOnlyMode: boolean) => ReturnType<typeof html>
+  previewLabel: () => ReturnType<typeof html>
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
@@ -62,6 +72,14 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (
         searchPlaceholder: config.searchPlaceholder || 'Search language',
         noResultText: config.noResultText || 'No result',
         renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,
+        renderPreview: config.renderPreview || defaultConfig.renderPreview,
+        previewToggleButton: (previewOnlyMode) => {
+          return html`
+            ${config.previewToggleText?.(previewOnlyMode) || previewOnlyMode ? editIcon : visibilityOffIcon }
+            ${config.previewToggleIcon?.(previewOnlyMode) || previewOnlyMode ? 'Edit' : 'Hide'}
+          `
+        },
+        previewLabel: config.previewLabel || defaultConfig.previewLabel,
       }))
     })
     .use(codeBlockComponent)

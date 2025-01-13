@@ -390,6 +390,9 @@ importers:
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1
+      katex:
+        specifier: ^0.16.0
+        version: 0.16.20
       nanoid:
         specifier: ^5.0.0
         version: 5.0.9

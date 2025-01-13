@@ -7,15 +7,21 @@ import { withMeta } from '../__internal__/meta'
 export interface CodeBlockConfig {
   extensions: Extension[]
   languages: LanguageDescription[]
-  expandIcon: () => ReturnType<typeof html> | string | HTMLElement
-  searchIcon: () => ReturnType<typeof html> | string | HTMLElement
-  clearSearchIcon: () => ReturnType<typeof html> | string | HTMLElement
+  expandIcon: () => ReturnType<typeof html> | string
+  searchIcon: () => ReturnType<typeof html> | string
+  clearSearchIcon: () => ReturnType<typeof html> | string
   searchPlaceholder: string
   noResultText: string
   renderLanguage: (
     language: string,
     selected: boolean
   ) => ReturnType<typeof html>
+  renderPreview: (
+    language: string,
+    content: string,
+  ) => null | string | HTMLElement
+  previewToggleButton: (previewOnlyMode: boolean) => ReturnType<typeof html>
+  previewLabel: () => ReturnType<typeof html>
 }
 
 export const defaultConfig: CodeBlockConfig = {
@@ -27,6 +33,9 @@ export const defaultConfig: CodeBlockConfig = {
   searchPlaceholder: 'Search language',
   noResultText: 'No result',
   renderLanguage: (language) => html`${language}`,
+  renderPreview: () => null,
+  previewToggleButton: (previewOnlyMode) => previewOnlyMode ? 'Edit' : 'Hide',
+  previewLabel: () => 'Preview',
 }
 
 export const codeBlockConfig = $ctx(defaultConfig, 'codeBlockConfigCtx')

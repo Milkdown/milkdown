@@ -17,6 +17,7 @@ import type { CodeBlockConfig } from '../config'
 import type { LanguageInfo } from './loader'
 
 export interface CodeComponentProps {
+  text: string
   selected: boolean
   codemirror: CodeMirror
   language: string
@@ -34,13 +35,16 @@ export const codeComponent: Component<CodeComponentProps> = ({
   language,
   config,
   isEditorReadonly,
+  text,
 }) => {
   const host = useHost()
   const triggerRef = useRef<HTMLButtonElement>()
   const pickerRef = useRef<HTMLDivElement>()
   const searchRef = useRef<HTMLInputElement>()
+  const previewRef = useRef<HTMLDivElement>()
   const [filter, setFilter] = useState('')
   const [showPicker, setShowPicker] = useState(false)
+  const [previewOnlyMode, setPreviewOnlyMode] = useState(false)
 
   const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
 
@@ -182,6 +186,26 @@ export const codeComponent: Component<CodeComponentProps> = ({
     )
   }, [languages])
 
+  const preview = useMemo(() => {
+    const preview = config?.renderPreview?.(language ?? '', text ?? '')
+    return preview;
+  }, [language, text])
+
+  useEffect(() => {
+    if (!previewRef.current) {
+      return;
+    }
+
+    while (previewRef.current.firstChild) {
+      previewRef.current.removeChild(previewRef.current.firstChild)
+    }
+    if (typeof preview === 'string') {
+      previewRef.current.innerHTML = preview
+    } else if (preview instanceof HTMLElement) {
+      previewRef.current.appendChild(preview)
+    }
+  }, [preview])
+
   return html`<host class=${clsx(selected && 'selected')}>
     <div class="tools">
       <button
@@ -222,8 +246,18 @@ export const codeComponent: Component<CodeComponentProps> = ({
           </ul>
         </div>
       </div>
+      <button class=${clsx('preview-toggle-button', !preview && 'hidden')} onclick=${() => setPreviewOnlyMode(!previewOnlyMode)}>
+        ${config?.previewToggleButton?.(previewOnlyMode)}
+      </button>
     </div>
-    <div class="codemirror-host">${h(codemirror?.dom, {})}</div>
+    <div class=${clsx('codemirror-host', preview && previewOnlyMode && 'hidden')}>${h(codemirror?.dom, {})}</div>
+    <div class=${clsx('preview-panel', !preview && 'hidden')}>
+      <div class=${clsx('preview-divider', previewOnlyMode && 'hidden')}></div>
+      <div class=${clsx('preview-label', previewOnlyMode && 'hidden')}>
+        ${config?.previewLabel?.()}
+      </div>
+      <div ref=${previewRef} class="preview"></div>
+    </div>
   </host>`
 }
 
@@ -235,6 +269,7 @@ codeComponent.props = {
   setLanguage: Function,
   isEditorReadonly: Function,
   config: Object,
+  text: String,
 }
 
 export const CodeElement = c(codeComponent)
