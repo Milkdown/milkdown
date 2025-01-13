@@ -1,9 +1,9 @@
-import type { KatexOptions } from 'katex';
+import type { KatexOptions } from 'katex'
 import katex from 'katex'
-import { codeBlockConfig } from "@milkdown/kit/component/code-block"
-import { CrepeFeature } from "../.."
-import { FeaturesCtx } from "../../core/slice"
-import type { DefineFeature } from "../shared"
+import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import { CrepeFeature } from '../..'
+import { FeaturesCtx } from '../../core/slice'
+import type { DefineFeature } from '../shared'
 
 export interface LatexConfig {
   katexOptions: KatexOptions
@@ -41,5 +41,5 @@ function renderLatex(content: string, options?: KatexOptions) {
     throwOnError: false,
     displayMode: true,
   })
-  return html;
+  return html
 }

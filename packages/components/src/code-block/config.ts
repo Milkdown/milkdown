@@ -18,7 +18,7 @@ export interface CodeBlockConfig {
   ) => ReturnType<typeof html>
   renderPreview: (
     language: string,
-    content: string,
+    content: string
   ) => null | string | HTMLElement
   previewToggleButton: (previewOnlyMode: boolean) => ReturnType<typeof html>
   previewLabel: () => ReturnType<typeof html>
@@ -34,7 +34,7 @@ export const defaultConfig: CodeBlockConfig = {
   noResultText: 'No result',
   renderLanguage: (language) => html`${language}`,
   renderPreview: () => null,
-  previewToggleButton: (previewOnlyMode) => previewOnlyMode ? 'Edit' : 'Hide',
+  previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? 'Edit' : 'Hide'),
   previewLabel: () => 'Preview',
 }
 

@@ -188,12 +188,12 @@ export const codeComponent: Component<CodeComponentProps> = ({
 
   const preview = useMemo(() => {
     const preview = config?.renderPreview?.(language ?? '', text ?? '')
-    return preview;
+    return preview
   }, [language, text])
 
   useEffect(() => {
     if (!previewRef.current) {
-      return;
+      return
     }
 
     while (previewRef.current.firstChild) {
@@ -246,11 +246,18 @@ export const codeComponent: Component<CodeComponentProps> = ({
           </ul>
         </div>
       </div>
-      <button class=${clsx('preview-toggle-button', !preview && 'hidden')} onclick=${() => setPreviewOnlyMode(!previewOnlyMode)}>
+      <button
+        class=${clsx('preview-toggle-button', !preview && 'hidden')}
+        onclick=${() => setPreviewOnlyMode(!previewOnlyMode)}
+      >
         ${config?.previewToggleButton?.(previewOnlyMode)}
       </button>
     </div>
-    <div class=${clsx('codemirror-host', preview && previewOnlyMode && 'hidden')}>${h(codemirror?.dom, {})}</div>
+    <div
+      class=${clsx('codemirror-host', preview && previewOnlyMode && 'hidden')}
+    >
+      ${h(codemirror?.dom, {})}
+    </div>
     <div class=${clsx('preview-panel', !preview && 'hidden')}>
       <div class=${clsx('preview-divider', previewOnlyMode && 'hidden')}></div>
       <div class=${clsx('preview-label', previewOnlyMode && 'hidden')}>

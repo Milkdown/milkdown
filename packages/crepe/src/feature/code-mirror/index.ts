@@ -31,10 +31,10 @@ interface CodeMirrorConfig {
 
   renderPreview: (
     language: string,
-    content: string,
+    content: string
   ) => string | HTMLElement | null
 
-  previewToggleIcon: (previewOnlyMode: boolean) => ReturnType<Icon>;
+  previewToggleIcon: (previewOnlyMode: boolean) => ReturnType<Icon>
   previewToggleText: (previewOnlyMode: boolean) => ReturnType<typeof html>
   previewLabel: () => ReturnType<typeof html>
 }
@@ -75,8 +75,12 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (
         renderPreview: config.renderPreview || defaultConfig.renderPreview,
         previewToggleButton: (previewOnlyMode) => {
           return html`
-            ${config.previewToggleText?.(previewOnlyMode) || previewOnlyMode ? editIcon : visibilityOffIcon }
-            ${config.previewToggleIcon?.(previewOnlyMode) || previewOnlyMode ? 'Edit' : 'Hide'}
+            ${config.previewToggleText?.(previewOnlyMode) || previewOnlyMode
+              ? editIcon
+              : visibilityOffIcon}
+            ${config.previewToggleIcon?.(previewOnlyMode) || previewOnlyMode
+              ? 'Edit'
+              : 'Hide'}
           `
         },
         previewLabel: config.previewLabel || defaultConfig.previewLabel,

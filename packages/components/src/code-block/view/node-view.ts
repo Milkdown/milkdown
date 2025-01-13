@@ -85,7 +85,11 @@ export class CodeMirrorBlock implements NodeView {
     dom.setLanguage = this.setLanguage
     dom.isEditorReadonly = () => !this.view.editable
     dom.text = this.node.textContent
-    const { languages: _languages, extensions: _extensions, ...viewConfig } = this.config
+    const {
+      languages: _languages,
+      extensions: _extensions,
+      ...viewConfig
+    } = this.config
     dom.config = viewConfig
     return dom
   }
@@ -192,7 +196,7 @@ export class CodeMirrorBlock implements NodeView {
     if (this.updating) return true
 
     this.node = node
-    this.dom.text = node.textContent;
+    this.dom.text = node.textContent
     this.updateLanguage()
     if (this.view.editable === this.cm.state.readOnly) {
       this.cm.dispatch({

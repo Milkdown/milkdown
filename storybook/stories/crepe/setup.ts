@@ -82,7 +82,7 @@ export function setup({ args, style, theme }: setupConfig) {
         theme,
         searchPlaceholder: language === 'JA' ? '言語を検索' : 'Search language',
         noResultText: language === 'JA' ? '見つかりません' : 'No result',
-        previewLabel: () => language === 'JA' ? 'プレビュー' : 'Preview',
+        previewLabel: () => (language === 'JA' ? 'プレビュー' : 'Preview'),
       },
     },
   })
