@@ -103,7 +103,7 @@ export class TooltipProvider {
       getBoundingClientRect: () => posToDOMRect(view, from, to),
     }
     computePosition(virtualEl, this.element, {
-      placement: 'top',
+      placement: this.#floatingUIOptions.placement ?? 'top',
       middleware: [flip(), offset(this.#offset), shift(), ...this.#middleware],
     }).then(({ x, y }) => {
       Object.assign(this.element.style, {

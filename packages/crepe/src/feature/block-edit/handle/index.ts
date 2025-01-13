@@ -88,7 +88,7 @@ export function configureBlockHandle(
   ctx.set(blockConfig.key, {
     filterNodes: (pos) => {
       const filter = findParent((node) =>
-        ['table', 'blockquote'].includes(node.type.name)
+        ['table', 'blockquote', 'math_inline'].includes(node.type.name)
       )(pos)
       if (filter) return false
 

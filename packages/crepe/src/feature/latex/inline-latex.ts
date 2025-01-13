@@ -1,4 +1,3 @@
-import { Fragment } from '@milkdown/kit/prose/model'
 import { $nodeSchema } from '@milkdown/kit/utils'
 import katex from 'katex'
 
@@ -15,20 +14,29 @@ export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
   content: 'text*',
   inline: true,
   atom: true,
+  attrs: {
+    value: {
+      default: ''
+    }
+  },
   parseDOM: [
     {
       tag: `span[data-type="${mathInlineId}"]`,
-      getContent: (dom, schema) => {
-        return Fragment.from(schema.text((dom as HTMLElement).dataset.value ?? ''))
-      },
+      getAttrs: (dom) => {
+        return {
+          value: (dom as HTMLElement).dataset.value ?? ''
+        }
+      }
     },
   ],
   toDOM: (node) => {
-    const code: string = node.textContent
+    const code: string = node.attrs.value
     const dom = document.createElement('span')
     dom.dataset.type = mathInlineId
     dom.dataset.value = code
-    katex.render(code, dom)
+    katex.render(code, dom, {
+      throwOnError: false,
+    })
 
     return dom
   },
@@ -36,15 +44,13 @@ export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
     match: (node) => node.type === 'inlineMath',
     runner: (state, node, type) => {
       state
-        .openNode(type)
-        .addText(node.value as string)
-        .closeNode()
+        .addNode(type, { value: node.value as string });
     },
   },
   toMarkdown: {
     match: (node) => node.type.name === mathInlineId,
     runner: (state, node) => {
-      state.addNode('inlineMath', undefined, node.textContent)
+      state.addNode('inlineMath', undefined, node.attrs.value)
     },
   },
 }))
