@@ -4,6 +4,12 @@ import { codeBlockConfig } from '@milkdown/kit/component/code-block'
 import { CrepeFeature } from '../..'
 import { FeaturesCtx } from '../../core/slice'
 import type { DefineFeature } from '../shared'
+import { remarkMathBlockPlugin, remarkMathPlugin } from './remark'
+import { mathInlineSchema } from './inline-latex'
+import { defIfNotExists } from '../../utils'
+import { LatexInlineEditElement } from './inline-tooltip/component'
+import { inlineLatexTooltip } from './inline-tooltip/tooltip'
+import { LatexInlineTooltip } from './inline-tooltip/view'
 
 export interface LatexConfig {
   katexOptions: KatexOptions
@@ -11,6 +17,7 @@ export interface LatexConfig {
 
 export type LatexFeatureConfig = Partial<LatexConfig>
 
+defIfNotExists('milkdown-latex-inline-edit', LatexInlineEditElement)
 export const defineFeature: DefineFeature<LatexFeatureConfig> = (
   editor,
   config
@@ -19,7 +26,7 @@ export const defineFeature: DefineFeature<LatexFeatureConfig> = (
     const flags = ctx.get(FeaturesCtx)
     const isCodeMirrorEnabled = flags.includes(CrepeFeature.CodeMirror)
     if (!isCodeMirrorEnabled) {
-      throw new Error('CodeMirror is not enabled')
+      throw new Error('You need to enable CodeMirror to use LaTeX feature')
     }
 
     ctx.update(codeBlockConfig.key, (prev) => ({
@@ -32,7 +39,17 @@ export const defineFeature: DefineFeature<LatexFeatureConfig> = (
         return renderPreview(language, content)
       },
     }))
+
+    ctx.set(inlineLatexTooltip.key, {
+      view: (view) => {
+        return new LatexInlineTooltip(ctx, view)
+      }
+    });
   })
+  .use(remarkMathPlugin)
+  .use(remarkMathBlockPlugin)
+  .use(mathInlineSchema)
+  .use(inlineLatexTooltip)
 }
 
 function renderLatex(content: string, options?: KatexOptions) {

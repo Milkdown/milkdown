@@ -14,10 +14,6 @@ export class LinkPreviewTooltip implements PluginView {
 
   #hovering = false
 
-  // get #instance() {
-  //   return this.#provider.getInstance()
-  // }
-
   constructor(
     readonly ctx: Ctx,
     view: EditorView
@@ -31,15 +27,6 @@ export class LinkPreviewTooltip implements PluginView {
     this.#slice = ctx.use(linkTooltipState.key)
     this.#slice.on(this.#onStateChange)
   }
-
-  // setRect = (rect: DOMRect) => {
-  //   // this.#provider.getInstance()?.setProps({
-  //   //   getReferenceClientRect: () => rect,
-  //   // })
-  //   this.#provider.virtualElement = {
-  //     getBoundingClientRect: () => rect,
-  //   }
-  // }
 
   #onStateChange = ({ mode }: LinkToolTipState) => {
     if (mode === 'edit') this.#hide()

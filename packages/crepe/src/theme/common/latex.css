@@ -1,1 +1,14 @@
 @import 'katex/dist/katex.min.css';
+
+.milkdown {
+  span[data-type="math_inline"] {
+    padding: 0 4px;
+  }
+
+  milkdown-latex-inline-edit {
+    &[data-show='false'] {
+      display: none;
+    }
+    position: absolute;
+  }
+}
