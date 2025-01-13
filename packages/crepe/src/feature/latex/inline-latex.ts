@@ -11,8 +11,8 @@ export const mathInlineId = 'math_inline'
 /// ```
 export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
   group: 'inline',
-  content: 'text*',
   inline: true,
+  draggable: true,
   atom: true,
   attrs: {
     value: {
