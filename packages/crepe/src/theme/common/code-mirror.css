@@ -231,7 +231,11 @@
       .preview-label {
         margin: 6px 0;
         font-size: 12px;
-        color: color-mix(in srgb, var(--crepe-color-on-surface), transparent 40%);
+        color: color-mix(
+          in srgb,
+          var(--crepe-color-on-surface),
+          transparent 40%
+        );
         font-weight: 600;
         text-transform: uppercase;
         font-family: var(--crepe-font-default);

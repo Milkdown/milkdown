@@ -12,18 +12,14 @@ export const mathInlineInputRule = $inputRule((ctx) =>
       return {
         value: match[1] ?? '',
       }
-    }
+    },
   })
 )
 
 /// A input rule for creating block math.
 /// For example, `$$ ` will create a code block with language javascript.
 export const mathBlockInputRule = $inputRule((ctx) =>
-  textblockTypeInputRule(
-    /^\$\$[\s\n]$/,
-    codeBlockSchema.type(ctx),
-    () => ({
-      language: 'LaTeX',
-    })
-  )
+  textblockTypeInputRule(/^\$\$[\s\n]$/, codeBlockSchema.type(ctx), () => ({
+    language: 'LaTeX',
+  }))
 )

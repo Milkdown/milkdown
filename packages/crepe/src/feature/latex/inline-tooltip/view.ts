@@ -64,17 +64,19 @@ export class LatexInlineTooltip implements PluginView {
           schema: new Schema({
             nodes: {
               doc: {
-                content: "block+"
+                content: 'block+',
               },
               paragraph: {
-                content: "inline*",
-                group: "block",
-                parseDOM: [{tag: "p"}],
-                toDOM() { return ["p", 0] }
+                content: 'inline*',
+                group: 'block',
+                parseDOM: [{ tag: 'p' }],
+                toDOM() {
+                  return ['p', 0]
+                },
               },
               text: {
-                group: "inline"
-              }
+                group: 'inline',
+              },
             },
           }),
           plugins: [

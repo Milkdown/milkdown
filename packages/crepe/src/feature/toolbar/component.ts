@@ -48,7 +48,6 @@ export const toolbarComponent: Component<ToolbarProps> = ({
   config,
   selection,
 }) => {
-
   const update = useUpdate()
   useEffect(() => {
     update()
@@ -72,9 +71,11 @@ export const toolbarComponent: Component<ToolbarProps> = ({
   const containsNode = (node: NodeType) => {
     if (!ctx || !selection) return false
     const view = ctx.get(editorViewCtx)
-    const { state: { doc } } = view
+    const {
+      state: { doc },
+    } = view
     if (selection instanceof NodeSelection) {
-      return selection.node.type === node;
+      return selection.node.type === node
     }
 
     const { from, to } = selection
@@ -88,46 +89,50 @@ export const toolbarComponent: Component<ToolbarProps> = ({
       return true
     })
 
-    return hasNode;
+    return hasNode
   }
 
   const flags = ctx?.get(FeaturesCtx)
   const isLatexEnabled = flags?.includes(CrepeFeature.Latex)
 
   const toggleLatex = (ctx: Ctx) => {
-    const hasLatex = containsNode(mathInlineSchema.type(ctx));
+    const hasLatex = containsNode(mathInlineSchema.type(ctx))
     const view = ctx.get(editorViewCtx)
     const { selection, doc, tr } = view.state
     if (!hasLatex) {
       const text = doc.textBetween(selection.from, selection.to)
-      let _tr = tr.replaceSelectionWith(mathInlineSchema.type(ctx).create({
-        value: text
-      }))
+      let _tr = tr.replaceSelectionWith(
+        mathInlineSchema.type(ctx).create({
+          value: text,
+        })
+      )
       view.dispatch(
         _tr.setSelection(NodeSelection.create(_tr.doc, selection.from))
       )
-      return;
+      return
     }
 
     const { from, to } = selection
-    let pos = -1;
-    let node: Node | null = null;
+    let pos = -1
+    let node: Node | null = null
     doc.nodesBetween(from, to, (n, p) => {
-      if (node) return false;
+      if (node) return false
       if (n.type === mathInlineSchema.type(ctx)) {
-        pos = p;
-        node = n;
+        pos = p
+        node = n
         return false
       }
       return true
     })
-    if (!node || pos < 0) return;
+    if (!node || pos < 0) return
 
     let _tr = tr.delete(pos, pos + 1)
     const content = (node as Node).attrs.value
     _tr = _tr.insertText(content, pos)
     view.dispatch(
-      _tr.setSelection(TextSelection.create(_tr.doc, from, to + content.length - 1))
+      _tr.setSelection(
+        TextSelection.create(_tr.doc, from, to + content.length - 1)
+      )
     )
   }
 
@@ -185,7 +190,8 @@ export const toolbarComponent: Component<ToolbarProps> = ({
     >
       ${config?.codeIcon?.() ?? codeIcon}
     </button>
-    ${isLatexEnabled && html`<button
+    ${isLatexEnabled &&
+    html`<button
       type="button"
       class=${clsx(
         'toolbar-item',
