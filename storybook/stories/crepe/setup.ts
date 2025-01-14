@@ -21,11 +21,15 @@ export interface setupConfig {
 }
 
 export function setup({ args, style, theme }: setupConfig) {
-  const { wrapper: crepeRoot, root, shadow } = wrapInShadow([all, style, localStyle])
+  const {
+    wrapper: crepeRoot,
+    root,
+    shadow,
+  } = wrapInShadow([all, style, localStyle])
   const { language } = args
-  const markdownContainer = document.createElement('div');
-  markdownContainer.classList.add('markdown-container');
-  shadow.appendChild(markdownContainer);
+  const markdownContainer = document.createElement('div')
+  markdownContainer.classList.add('markdown-container')
+  shadow.appendChild(markdownContainer)
 
   const crepe = new Crepe({
     root: crepeRoot,
@@ -102,15 +106,14 @@ export function setup({ args, style, theme }: setupConfig) {
   })
 
   if (args.defaultValue) {
-    injectMarkdown(args.defaultValue, markdownContainer);
+    injectMarkdown(args.defaultValue, markdownContainer)
   }
 
-  crepe
-    .editor
-    .config(ctx => {
-      const listenerAPI = ctx.get(listenerCtx);
+  crepe.editor
+    .config((ctx) => {
+      const listenerAPI = ctx.get(listenerCtx)
       listenerAPI.markdownUpdated((_, markdown) => {
-        injectMarkdown(markdown, markdownContainer);
+        injectMarkdown(markdown, markdownContainer)
       })
     })
     .use(listener)

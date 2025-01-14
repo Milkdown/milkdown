@@ -36,18 +36,23 @@ export function wrapInShadowWithNord(styles: string[]) {
   return wrapInShadow([nordStyle, pmStyle, commonStyle, ...styles])
 }
 
-let running = false;
-export function injectMarkdown(markdown: string, markdownContainer: HTMLElement) {
-  if (running) return;
-  running = true;
+let running = false
+export function injectMarkdown(
+  markdown: string,
+  markdownContainer: HTMLElement
+) {
+  if (running) return
+  running = true
   codeToHtml(markdown, {
     lang: 'markdown',
-    theme: 'vitesse-light'
-  }).then(html => {
-    markdownContainer.innerHTML = html;
-  }).finally(() => {
-    running = false;
+    theme: 'vitesse-light',
   })
+    .then((html) => {
+      markdownContainer.innerHTML = html
+    })
+    .finally(() => {
+      running = false
+    })
 }
 
 export interface CommonArgs {
@@ -63,9 +68,9 @@ export function setupMilkdown(
 ) {
   const { wrapper, root, shadow } = wrapInShadowWithNord(styles)
   wrapper.classList.add('milkdown-storybook')
-  const markdownContainer = document.createElement('div');
-  markdownContainer.classList.add('markdown-container');
-  shadow.appendChild(markdownContainer);
+  const markdownContainer = document.createElement('div')
+  markdownContainer.classList.add('markdown-container')
+  shadow.appendChild(markdownContainer)
 
   const editor = Editor.make()
     .enableInspector(args.enableInspector ?? false)
@@ -77,14 +82,14 @@ export function setupMilkdown(
       })
     })
     .config(nord)
-    .config(ctx => {
-      const listenerAPI = ctx.get(listenerCtx);
+    .config((ctx) => {
+      const listenerAPI = ctx.get(listenerCtx)
       if (args.defaultValue) {
-        injectMarkdown(args.defaultValue, markdownContainer);
+        injectMarkdown(args.defaultValue, markdownContainer)
       }
 
       listenerAPI.markdownUpdated((_, markdown) => {
-        injectMarkdown(markdown, markdownContainer);
+        injectMarkdown(markdown, markdownContainer)
       })
     })
     .use(listener)
