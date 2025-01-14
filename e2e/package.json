@@ -18,6 +18,7 @@
     "@codemirror/view": "^6.26.0",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/crepe": "workspace:*",
     "@milkdown/plugin-automd": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",

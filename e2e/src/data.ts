@@ -1,3 +1,4 @@
+import { crepe } from './crepe'
 import { multiEditor } from './multi-editor'
 import { automd } from './plugin-automd'
 import { listener } from './plugin-listener'
@@ -10,4 +11,5 @@ export const cases: { title: string; link: string }[] = [
   multiEditor,
   listener,
   automd,
+  crepe,
 ]

@@ -199,6 +199,9 @@ importers:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../packages/core
+      '@milkdown/crepe':
+        specifier: workspace:*
+        version: link:../packages/crepe
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../packages/ctx
