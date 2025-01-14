@@ -19,7 +19,7 @@ test('latex block preview toggle', async ({ page }) => {
   await expect(codeBlock).toBeVisible()
 
   // when code block is empty, preview toggle button is not visible
-  await codeTools.hover();
+  await codeTools.hover()
   await expect(previewToggleButton).not.toBeVisible()
 
   await page.keyboard.press('ArrowUp')
@@ -29,7 +29,7 @@ test('latex block preview toggle', async ({ page }) => {
   const markdown = await getMarkdown(page)
   expect(markdown.trim()).toEqual('$$\nE=mc^2\n$$')
 
-  await codeTools.hover();
+  await codeTools.hover()
   await expect(previewToggleButton).toBeVisible()
 
   await expect(codemirror).toBeVisible()
@@ -45,8 +45,8 @@ test('latex inline', async ({ page }) => {
   await page.keyboard.type('$E=mc^2$')
 
   const inlineLatex = page.locator('span[data-type="math_inline"]')
-  const inlineLatexInput = page.locator('milkdown-latex-inline-edit');
-  const inlineLatexInputConfirm = inlineLatexInput.locator('button');
+  const inlineLatexInput = page.locator('milkdown-latex-inline-edit')
+  const inlineLatexInputConfirm = inlineLatexInput.locator('button')
 
   await expect(inlineLatex).toBeVisible()
 
