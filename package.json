@@ -7,7 +7,6 @@
     "node": ">=17"
   },
   "scripts": {
-    "postinstall": "husky install",
     "test": "pnpm test:lint && pnpm test:tsc:cache && pnpm test:unit",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
