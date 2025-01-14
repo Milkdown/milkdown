@@ -12,6 +12,7 @@ import { inlineLatexTooltip } from './inline-tooltip/tooltip'
 import { LatexInlineTooltip } from './inline-tooltip/view'
 import { confirmIcon } from '../../icons'
 import { mathBlockInputRule, mathInlineInputRule } from './input-rule'
+import { blockLatexSchema } from './block-latex'
 
 export interface LatexConfig {
   katexOptions: KatexOptions
@@ -59,6 +60,7 @@ export const defineFeature: DefineFeature<LatexFeatureConfig> = (
     .use(inlineLatexTooltip)
     .use(mathInlineInputRule)
     .use(mathBlockInputRule)
+    .use(blockLatexSchema)
 }
 
 function renderLatex(content: string, options?: KatexOptions) {
