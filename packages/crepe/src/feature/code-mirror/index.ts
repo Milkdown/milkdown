@@ -75,12 +75,10 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (
         renderPreview: config.renderPreview || defaultConfig.renderPreview,
         previewToggleButton: (previewOnlyMode) => {
           return html`
-            ${config.previewToggleText?.(previewOnlyMode) || previewOnlyMode
-              ? editIcon
-              : visibilityOffIcon}
-            ${config.previewToggleIcon?.(previewOnlyMode) || previewOnlyMode
-              ? 'Edit'
-              : 'Hide'}
+            ${config.previewToggleIcon?.(previewOnlyMode) ||
+            (previewOnlyMode ? editIcon : visibilityOffIcon)}
+            ${config.previewToggleText?.(previewOnlyMode) ||
+            (previewOnlyMode ? 'Edit' : 'Hide')}
           `
         },
         previewLabel: config.previewLabel || defaultConfig.previewLabel,

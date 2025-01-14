@@ -7,7 +7,7 @@
 }
 
 .milkdown:not(.crepe .milkdown) {
-  @apply px-8 py-4 mx-5;
+  @apply px-8 py-4;
 }
 
 .editor {
@@ -31,4 +31,11 @@ span[data-type='emoji'] {
 
 span[data-type='emoji'] .emoji {
   @apply w-4;
+}
+
+.markdown-container {
+  border: 1px solid #ccc;
+  min-height: 100px;
+  padding: 10px;
+  overflow: auto;
 }

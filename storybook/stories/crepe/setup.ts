@@ -1,7 +1,10 @@
 import { Crepe } from '@milkdown/crepe'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
+import localStyle from './style.css?inline'
 import type { Extension } from '@codemirror/state'
-import { wrapInShadow } from '../utils/shadow'
+import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
+import { codeToHtml } from 'shiki'
+import { injectMarkdown, wrapInShadow } from '../utils/shadow'
 
 export interface Args {
   instance: Crepe
@@ -18,8 +21,15 @@ export interface setupConfig {
 }
 
 export function setup({ args, style, theme }: setupConfig) {
-  const { wrapper: crepeRoot, root } = wrapInShadow([all, style])
+  const {
+    wrapper: crepeRoot,
+    root,
+    shadow,
+  } = wrapInShadow([all, style, localStyle])
   const { language } = args
+  const markdownContainer = document.createElement('div')
+  markdownContainer.classList.add('markdown-container')
+  shadow.appendChild(markdownContainer)
 
   const crepe = new Crepe({
     root: crepeRoot,
@@ -83,9 +93,31 @@ export function setup({ args, style, theme }: setupConfig) {
         searchPlaceholder: language === 'JA' ? '言語を検索' : 'Search language',
         noResultText: language === 'JA' ? '見つかりません' : 'No result',
         previewLabel: () => (language === 'JA' ? 'プレビュー' : 'Preview'),
+        previewToggleText: (previewOnlyMode) =>
+          language === 'JA'
+            ? previewOnlyMode
+              ? '編集'
+              : '非表示'
+            : previewOnlyMode
+              ? 'Edit'
+              : 'Hide',
       },
     },
   })
+
+  if (args.defaultValue) {
+    injectMarkdown(args.defaultValue, markdownContainer)
+  }
+
+  crepe.editor
+    .config((ctx) => {
+      const listenerAPI = ctx.get(listenerCtx)
+      listenerAPI.markdownUpdated((_, markdown) => {
+        injectMarkdown(markdown, markdownContainer)
+      })
+    })
+    .use(listener)
+
   crepe
     .setReadonly(args.readonly)
     .create()
