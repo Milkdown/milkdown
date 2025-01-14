@@ -58,7 +58,6 @@ const external = [
   '@milkdown/plugin-history',
   '@milkdown/plugin-indent',
   '@milkdown/plugin-listener',
-  '@milkdown/plugin-menu',
   '@milkdown/plugin-prism',
   '@milkdown/plugin-slash',
   '@milkdown/plugin-tooltip',
