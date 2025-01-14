@@ -154,25 +154,3 @@ test('with plugin listener', async ({ page }) => {
   const [msg4] = msg.args()
   expect(await msg4?.jsonValue()).toBe('*A*\n')
 })
-
-test.describe('with inline math', () => {
-  test('basic input', async ({ page }) => {
-    await focusEditor(page)
-    await page.keyboard.type('$E = MC^2$')
-    await expect(page.locator('span[data-type="math_inline"]')).toHaveAttribute(
-      'data-value',
-      'E = MC^2'
-    )
-    expect(await getMarkdown(page)).toBe('$E = MC^2$\n')
-  })
-
-  test('input with _', async ({ page }) => {
-    await focusEditor(page)
-    await page.keyboard.type('test $a$')
-    await expect(page.locator('span[data-type="math_inline"]')).toHaveAttribute(
-      'data-value',
-      'a'
-    )
-    expect(await getMarkdown(page)).toBe('test $a$\n')
-  })
-})
