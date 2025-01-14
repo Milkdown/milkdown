@@ -6,4 +6,4 @@ export type DefineFeature<Config = unknown> = (
   config?: Config
 ) => void | Promise<void>
 
-export type Icon = () => HTMLElement | ReturnType<typeof html> | string | null
+export type Icon = () => ReturnType<typeof html> | string | null

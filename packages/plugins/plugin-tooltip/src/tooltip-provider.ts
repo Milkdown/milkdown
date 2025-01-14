@@ -1,7 +1,7 @@
 import type { EditorState } from '@milkdown/prose/state'
 import { TextSelection } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
-import debounce from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 import type {
   ComputePositionConfig,
   Middleware,
@@ -103,7 +103,7 @@ export class TooltipProvider {
       getBoundingClientRect: () => posToDOMRect(view, from, to),
     }
     computePosition(virtualEl, this.element, {
-      placement: 'top',
+      placement: this.#floatingUIOptions.placement ?? 'top',
       middleware: [flip(), offset(this.#offset), shift(), ...this.#middleware],
     }).then(({ x, y }) => {
       Object.assign(this.element.style, {
@@ -117,7 +117,7 @@ export class TooltipProvider {
 
   /// Update provider state by editor view.
   update = (view: EditorView, prevState?: EditorState): void => {
-    const updater = debounce(this.#onUpdate, this.#debounce)
+    const updater = throttle(this.#onUpdate, this.#debounce)
 
     updater(view, prevState)
   }

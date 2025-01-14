@@ -15,6 +15,7 @@ interface ToolbarConfig {
   italicIcon: Icon
   linkIcon: Icon
   strikethroughIcon: Icon
+  latexIcon: Icon
 }
 
 export type ToolbarFeatureConfig = Partial<ToolbarConfig>
@@ -30,7 +31,7 @@ class ToolbarView implements PluginView {
     this.#content.ctx = ctx
     this.#content.hide = this.hide
     this.#content.config = config
-
+    this.#content.selection = view.state.selection
     this.#tooltipProvider = new TooltipProvider({
       content: this.#content,
       debounce: 20,
@@ -76,6 +77,7 @@ class ToolbarView implements PluginView {
 
   update = (view: EditorView, prevState?: EditorState) => {
     this.#tooltipProvider.update(view, prevState)
+    this.#content.selection = view.state.selection
   }
 
   destroy = () => {

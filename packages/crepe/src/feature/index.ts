@@ -8,6 +8,7 @@ import type { LinkTooltipFeatureConfig } from './link-tooltip'
 import type { ListItemFeatureConfig } from './list-item'
 import type { ToolbarFeatureConfig } from './toolbar'
 import type { TableFeatureConfig } from './table'
+import type { LatexFeatureConfig } from './latex'
 
 export enum CrepeFeature {
   CodeMirror = 'code-mirror',
@@ -19,6 +20,7 @@ export enum CrepeFeature {
   Toolbar = 'toolbar',
   Placeholder = 'placeholder',
   Table = 'table',
+  Latex = 'latex',
 }
 
 export interface CrepeFeatureConfig {
@@ -31,6 +33,7 @@ export interface CrepeFeatureConfig {
   [CrepeFeature.Toolbar]?: ToolbarFeatureConfig
   [CrepeFeature.CodeMirror]?: CodeMirrorFeatureConfig
   [CrepeFeature.Table]?: TableFeatureConfig
+  [CrepeFeature.Latex]?: LatexFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -43,6 +46,7 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.Toolbar]: true,
   [CrepeFeature.CodeMirror]: true,
   [CrepeFeature.Table]: true,
+  [CrepeFeature.Latex]: true,
 }
 
 export async function loadFeature(
@@ -85,6 +89,10 @@ export async function loadFeature(
     }
     case CrepeFeature.Table: {
       const { defineFeature } = await import('./table')
+      return defineFeature(editor, config)
+    }
+    case CrepeFeature.Latex: {
+      const { defineFeature } = await import('./latex')
       return defineFeature(editor, config)
     }
   }
