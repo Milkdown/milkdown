@@ -4,7 +4,6 @@ import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { automd } from '@milkdown/plugin-automd'
 import { commonmark, markInputRules } from '@milkdown/preset-commonmark'
 import { markInputRules as GFMMarkInputRules, gfm } from '@milkdown/preset-gfm'
-import { math, mathInlineInputRule } from '@milkdown/plugin-math'
 
 import { setup } from '../utils'
 
@@ -24,7 +23,6 @@ setup(() => {
     .config(nord)
     .use(commonmark.filter((x) => !markInputRules.includes(x)))
     .use(gfm.filter((x) => !GFMMarkInputRules.includes(x)))
-    .use(math.filter((x) => x !== mathInlineInputRule))
     .use(listener)
     .use(automd)
     .create()

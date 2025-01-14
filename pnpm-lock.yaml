@@ -220,9 +220,6 @@ importers:
       '@milkdown/plugin-listener':
         specifier: workspace:*
         version: link:../packages/plugins/plugin-listener
-      '@milkdown/plugin-math':
-        specifier: workspace:*
-        version: link:../packages/plugins/plugin-math
       '@milkdown/plugin-tooltip':
         specifier: workspace:*
         version: link:../packages/plugins/plugin-tooltip
@@ -773,37 +770,6 @@ importers:
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
-      tslib:
-        specifier: ^2.5.0
-        version: 2.8.1
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
-
-  packages/plugins/plugin-math:
-    dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../../exception
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      '@types/katex':
-        specifier: ^0.16.0
-        version: 0.16.7
-      katex:
-        specifier: ^0.16.0
-        version: 0.16.20
-      remark-math:
-        specifier: ^6.0.0
-        version: 6.0.0
       tslib:
         specifier: ^2.5.0
         version: 2.8.1
