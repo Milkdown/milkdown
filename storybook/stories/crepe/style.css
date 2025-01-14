@@ -1,0 +1,6 @@
+.markdown-container {
+  border: 1px solid #ccc;
+  min-height: 100px;
+  padding: 10px;
+  overflow: auto;
+}
