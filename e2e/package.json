@@ -17,8 +17,8 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.26.0",
     "@milkdown/core": "workspace:*",
-    "@milkdown/ctx": "workspace:*",
     "@milkdown/crepe": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-automd": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",
@@ -35,8 +35,8 @@
     "@types/node": "^22.0.0",
     "atomico": "^1.75.1",
     "katex": "^0.16.0",
-    "tslib": "^2.5.0",
-    "serve": "^14.2.3"
+    "serve": "^14.2.3",
+    "tslib": "^2.8.1"
   },
   "nx": {
     "targets": {

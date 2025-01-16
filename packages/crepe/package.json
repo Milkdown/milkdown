@@ -73,7 +73,7 @@
     "katex": "^0.16.0",
     "nanoid": "^5.0.0",
     "remark-math": "^6.0.0",
-    "tslib": "^2.5.0",
+    "tslib": "^2.8.1",
     "unist-util-visit": "^5.0.0"
   },
   "nx": {
