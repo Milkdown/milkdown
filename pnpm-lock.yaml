@@ -619,14 +619,14 @@ importers:
         specifier: workspace:*
         version: link:../../prose
       y-prosemirror:
-        specifier: ^1.2.12
-        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.22))(yjs@13.6.22)
+        specifier: ^1.2.15
+        version: 1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
       y-protocols:
-        specifier: ^1.0.5
-        version: 1.0.6(yjs@13.6.22)
+        specifier: ^1.0.6
+        version: 1.0.6(yjs@13.6.23)
       yjs:
-        specifier: ^13.5.38
-        version: 13.6.22
+        specifier: ^13.6.23
+        version: 13.6.23
 
   packages/plugins/plugin-cursor:
     dependencies:
@@ -7190,8 +7190,8 @@ packages:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
     engines: {node: '>=12'}
 
-  yjs@13.6.22:
-    resolution: {integrity: sha512-+mJxdbmitioqqsql1Zro4dqT3t9HgmW4dxlPtkcsKFJhXSAMyk3lwawhQFxZjj2upJXzhrTUDsaDkZgJWnv3NA==}
+  yjs@13.6.23:
+    resolution: {integrity: sha512-ExtnT5WIOVpkL56bhLeisG/N5c4fmzKn4k0ROVfJa5TY2QHbH7F0Wu2T5ZhR7ErsFWQEFafyrnSI8TPKVF9Few==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
   yn@3.1.1:
@@ -14108,19 +14108,19 @@ snapshots:
 
   xmlchars@2.2.0: {}
 
-  y-prosemirror@1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.22))(yjs@13.6.22):
+  y-prosemirror@1.2.15(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.1)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23):
     dependencies:
       lib0: 0.2.99
       prosemirror-model: 1.24.1
       prosemirror-state: 1.4.3
       prosemirror-view: 1.37.1
-      y-protocols: 1.0.6(yjs@13.6.22)
-      yjs: 13.6.22
+      y-protocols: 1.0.6(yjs@13.6.23)
+      yjs: 13.6.23
 
-  y-protocols@1.0.6(yjs@13.6.22):
+  y-protocols@1.0.6(yjs@13.6.23):
     dependencies:
       lib0: 0.2.99
-      yjs: 13.6.22
+      yjs: 13.6.23
 
   y18n@5.0.8: {}
 
@@ -14144,7 +14144,7 @@ snapshots:
       y18n: 5.0.8
       yargs-parser: 21.1.1
 
-  yjs@13.6.22:
+  yjs@13.6.23:
     dependencies:
       lib0: 0.2.99
 
