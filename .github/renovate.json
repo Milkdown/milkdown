@@ -9,10 +9,14 @@
       "groupName": "oxlint"
     },
     {
+      "matchDepNames": ["prosemirror-*"],
+      "groupName": "prosemirror"
+    },
+    {
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["*", "!/oxlint/"]
+      "matchPackageNames": ["*", "!/oxlint/", "!/prosemirror-*"]
     }
   ],
   "commitMessagePrefix": "chore: ",
