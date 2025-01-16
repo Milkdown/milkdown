@@ -51,7 +51,7 @@
     "@types/lodash.throttle": "^4.1.9",
     "lodash.throttle": "^4.1.1",
     "tippy.js": "^6.3.7",
-    "tslib": "^2.5.0"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@milkdown/core": "workspace:*",

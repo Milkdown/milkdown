@@ -53,7 +53,7 @@
     "@milkdown/exception": "workspace:*",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
-    "tslib": "^2.5.0",
+    "tslib": "^2.8.1",
     "unified": "^11.0.3"
   },
   "devDependencies": {

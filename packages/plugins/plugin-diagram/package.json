@@ -52,7 +52,7 @@
     "@milkdown/utils": "workspace:*",
     "mermaid": "^10.9.0",
     "nanoid": "^5.0.0",
-    "tslib": "^2.5.0",
+    "tslib": "^2.8.1",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
