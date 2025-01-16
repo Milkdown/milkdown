@@ -108,7 +108,7 @@ export function setup({ args, style, theme }: setupConfig) {
   }
 
   crepe
-    .on(listener => {
+    .on((listener) => {
       listener.markdownUpdated((_, markdown) => {
         injectMarkdown(markdown, markdownContainer)
       })

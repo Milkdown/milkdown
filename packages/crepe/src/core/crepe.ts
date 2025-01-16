@@ -18,7 +18,7 @@ import { trailing } from '@milkdown/kit/plugin/trailing'
 import type { CrepeFeatureConfig } from '../feature'
 import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
 import { configureFeatures } from './slice'
-import type { ListenerManager } from '@milkdown/kit/plugin/listener';
+import type { ListenerManager } from '@milkdown/kit/plugin/listener'
 import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
 
 export interface CrepeConfig {
@@ -109,16 +109,16 @@ export class Crepe {
 
   on(fn: (api: ListenerManager) => void) {
     if (this.#editor.status !== EditorStatus.Created) {
-      this.#editor.config(ctx => {
-        const listener = ctx.get(listenerCtx);
-        fn(listener);
-      });
-      return this;
+      this.#editor.config((ctx) => {
+        const listener = ctx.get(listenerCtx)
+        fn(listener)
+      })
+      return this
     }
-    this.#editor.action(ctx => {
-      const listener = ctx.get(listenerCtx);
-      fn(listener);
+    this.#editor.action((ctx) => {
+      const listener = ctx.get(listenerCtx)
+      fn(listener)
     })
-    return this;
+    return this
   }
 }
