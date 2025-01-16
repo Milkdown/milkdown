@@ -1,6 +1,7 @@
 import type { DefaultValue } from '@milkdown/kit/core'
 import {
   Editor,
+  EditorStatus,
   defaultValueCtx,
   editorViewOptionsCtx,
   rootCtx,
@@ -17,6 +18,8 @@ import { trailing } from '@milkdown/kit/plugin/trailing'
 import type { CrepeFeatureConfig } from '../feature'
 import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
 import { configureFeatures } from './slice'
+import type { ListenerManager } from '@milkdown/kit/plugin/listener';
+import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
 
 export interface CrepeConfig {
   features?: Partial<Record<CrepeFeature, boolean>>
@@ -62,6 +65,7 @@ export class Crepe {
         }))
       })
       .use(commonmark)
+      .use(listener)
       .use(history)
       .use(indent)
       .use(trailing)
@@ -101,5 +105,20 @@ export class Crepe {
 
   getMarkdown() {
     return this.#editor.action(getMarkdown())
+  }
+
+  on(fn: (api: ListenerManager) => void) {
+    if (this.#editor.status !== EditorStatus.Created) {
+      this.#editor.config(ctx => {
+        const listener = ctx.get(listenerCtx);
+        fn(listener);
+      });
+      return this;
+    }
+    this.#editor.action(ctx => {
+      const listener = ctx.get(listenerCtx);
+      fn(listener);
+    })
+    return this;
   }
 }

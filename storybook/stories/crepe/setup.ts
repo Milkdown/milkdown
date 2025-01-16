@@ -2,8 +2,6 @@ import { Crepe } from '@milkdown/crepe'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
 import localStyle from './style.css?inline'
 import type { Extension } from '@codemirror/state'
-import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
-import { codeToHtml } from 'shiki'
 import { injectMarkdown, wrapInShadow } from '../utils/shadow'
 
 export interface Args {
@@ -109,16 +107,12 @@ export function setup({ args, style, theme }: setupConfig) {
     injectMarkdown(args.defaultValue, markdownContainer)
   }
 
-  crepe.editor
-    .config((ctx) => {
-      const listenerAPI = ctx.get(listenerCtx)
-      listenerAPI.markdownUpdated((_, markdown) => {
+  crepe
+    .on(listener => {
+      listener.markdownUpdated((_, markdown) => {
         injectMarkdown(markdown, markdownContainer)
       })
     })
-    .use(listener)
-
-  crepe
     .setReadonly(args.readonly)
     .create()
     .then(() => {
