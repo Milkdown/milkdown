@@ -1,5 +1,28 @@
 # @milkdown/kit
 
+## 7.6.1
+
+### Patch Changes
+
+- @milkdown/components@7.6.1
+- @milkdown/core@7.6.1
+- @milkdown/ctx@7.6.1
+- @milkdown/plugin-block@7.6.1
+- @milkdown/plugin-clipboard@7.6.1
+- @milkdown/plugin-cursor@7.6.1
+- @milkdown/plugin-history@7.6.1
+- @milkdown/plugin-indent@7.6.1
+- @milkdown/plugin-listener@7.6.1
+- @milkdown/plugin-slash@7.6.1
+- @milkdown/plugin-tooltip@7.6.1
+- @milkdown/plugin-trailing@7.6.1
+- @milkdown/plugin-upload@7.6.1
+- @milkdown/preset-commonmark@7.6.1
+- @milkdown/preset-gfm@7.6.1
+- @milkdown/prose@7.6.1
+- @milkdown/transformer@7.6.1
+- @milkdown/utils@7.6.1
+
 ## 7.6.0
 
 ### Minor Changes

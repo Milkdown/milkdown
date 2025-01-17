@@ -1,5 +1,11 @@
 # @milkdown/react
 
+## 7.6.1
+
+### Patch Changes
+
+- @milkdown/kit@7.6.1
+
 ## 7.6.0
 
 ### Minor Changes
