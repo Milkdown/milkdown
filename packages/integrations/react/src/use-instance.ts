@@ -1,4 +1,4 @@
-import type { Editor } from '@milkdown/core'
+import type { Editor } from '@milkdown/kit/core'
 import { useCallback, useContext } from 'react'
 import { editorInfoContext } from './use-get-editor'
 

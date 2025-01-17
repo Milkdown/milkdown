@@ -23,6 +23,9 @@ const external = [
   'react',
   'react-dom',
   'refractor',
+  // all
+  '@milkdown/crepe',
+  '@milkdown/kit',
   // core
   '@milkdown/core',
   '@milkdown/ctx',

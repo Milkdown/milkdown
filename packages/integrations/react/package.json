@@ -41,18 +41,14 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
-    "@milkdown/core": "^7.2.0",
-    "@milkdown/prose": "^7.2.0",
     "react": "*",
     "react-dom": "*"
   },
   "dependencies": {
-    "@milkdown/utils": "workspace:*",
+    "@milkdown/kit": "workspace:*",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@milkdown/core": "workspace:*",
-    "@milkdown/prose": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",

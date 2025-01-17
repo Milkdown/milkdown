@@ -423,19 +423,13 @@ importers:
 
   packages/integrations/react:
     dependencies:
-      '@milkdown/utils':
+      '@milkdown/kit':
         specifier: workspace:*
-        version: link:../../utils
+        version: link:../../kit
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
       '@types/react':
         specifier: ^19.0.0
         version: 19.0.6
@@ -451,19 +445,13 @@ importers:
 
   packages/integrations/vue:
     dependencies:
-      '@milkdown/utils':
+      '@milkdown/kit':
         specifier: workspace:*
-        version: link:../../utils
+        version: link:../../kit
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
       vue:
         specifier: ^3.3.4
         version: 3.5.13(typescript@5.7.3)

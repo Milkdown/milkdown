@@ -1,4 +1,4 @@
-import type { Editor } from '@milkdown/core'
+import type { Editor } from '@milkdown/kit/core'
 import type { Ref } from 'vue'
 import { Fragment, defineComponent, h, provide, ref } from 'vue'
 
