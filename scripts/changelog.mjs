@@ -1,3 +1,4 @@
+/* oxlint-disable no-console */
 import { execSync } from 'child_process'
 import { appendFileSync, readdirSync, existsSync } from 'fs'
 import { join, basename } from 'path'
