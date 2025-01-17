@@ -25,7 +25,7 @@
     "ci:publish": "pnpm build:packs && pnpm publish --access public -r --no-git-checks --tag latest",
     "graph": "nx dep-graph",
     "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
-    "changeset": "changeset",
+    "changeset": "changeset && node scripts/changelog.mjs",
     "release": "changeset publish",
     "commit": "git-cz",
     "prepare": "husky",
