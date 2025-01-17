@@ -1,5 +1,5 @@
-import type { Editor } from '@milkdown/core'
-import type { Dispatch, MutableRefObject, SetStateAction } from 'react'
+import type { Editor } from '@milkdown/kit/core'
+import type { Dispatch, RefObject, SetStateAction } from 'react'
 
 export type GetEditor = (container: HTMLElement) => Editor | undefined
 
@@ -11,8 +11,8 @@ export interface UseEditorReturn {
 export interface EditorInfoCtx {
   loading: boolean
   setLoading: Dispatch<SetStateAction<boolean>>
-  dom: MutableRefObject<HTMLDivElement | undefined>
-  editor: MutableRefObject<Editor | undefined>
+  dom: RefObject<HTMLDivElement | undefined>
+  editor: RefObject<Editor | undefined>
   editorFactory: GetEditor | undefined
   setEditorFactory: Dispatch<SetStateAction<GetEditor | undefined>>
 }

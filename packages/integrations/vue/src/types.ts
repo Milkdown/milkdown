@@ -1,4 +1,4 @@
-import type { Editor } from '@milkdown/core'
+import type { Editor } from '@milkdown/kit/core'
 import type { Ref } from 'vue'
 
 export type GetEditor = (container: HTMLDivElement) => Editor

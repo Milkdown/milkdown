@@ -1,4 +1,4 @@
-import type { Editor } from '@milkdown/core'
+import type { Editor } from '@milkdown/kit/core'
 import type { FC, ReactNode } from 'react'
 import React, { useMemo, useRef, useState } from 'react'
 
