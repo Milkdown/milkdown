@@ -1,5 +1,12 @@
 # @milkdown/plugin-emoji
 
+## 7.6.1
+
+### Patch Changes
+
+- @milkdown/exception@7.6.1
+- @milkdown/utils@7.6.1
+
 ## 7.6.0
 
 ### Minor Changes

@@ -1,5 +1,7 @@
 # @milkdown/exception
 
+## 7.6.1
+
 ## 7.6.0
 
 ### Minor Changes

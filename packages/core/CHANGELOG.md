@@ -1,5 +1,11 @@
 # @milkdown/core
 
+## 7.6.1
+
+### Patch Changes
+
+- @milkdown/exception@7.6.1
+
 ## 7.6.0
 
 ### Minor Changes

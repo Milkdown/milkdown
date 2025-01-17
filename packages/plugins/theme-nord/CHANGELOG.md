@@ -1,5 +1,15 @@
 # @milkdown/theme-nord
 
+## 7.6.1
+
+### Patch Changes
+
+- 31da7f9: Fix nord theme.
+
+  ## Fix
+
+  - fix: 🐛 theme nord css generated file (#1629)
+
 ## 7.6.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @milkdown/plugin-listener
 
+## 7.6.1
+
+### Patch Changes
+
+- @milkdown/utils@7.6.1
+
 ## 7.6.0
 
 ### Minor Changes
