@@ -1,5 +1,46 @@
 # @milkdown/kit
 
+## 7.6.0
+
+### Minor Changes
+
+- 9421082: Minor version release for milkdown.
+
+  ## Feat
+
+  - feat: 🎸 add `on` api for crepe (#1622)
+  - feat: add markdown inspector in storybook (#1619)
+  - feat: add latex feature for crepe (#1613)
+
+  ## Chore
+
+  - chore: use kit in integrations (#1626)
+  - chore: bump prosemirror versions (#1621)
+  - chore: remove math plugin since we provides latex in crepe (#1617)
+  - chore: remove husky install since it's deprecated (#1616)
+
+### Patch Changes
+
+- Updated dependencies [9421082]
+  - @milkdown/components@7.6.0
+  - @milkdown/core@7.6.0
+  - @milkdown/ctx@7.6.0
+  - @milkdown/plugin-block@7.6.0
+  - @milkdown/plugin-clipboard@7.6.0
+  - @milkdown/plugin-cursor@7.6.0
+  - @milkdown/plugin-history@7.6.0
+  - @milkdown/plugin-indent@7.6.0
+  - @milkdown/plugin-listener@7.6.0
+  - @milkdown/plugin-slash@7.6.0
+  - @milkdown/plugin-tooltip@7.6.0
+  - @milkdown/plugin-trailing@7.6.0
+  - @milkdown/plugin-upload@7.6.0
+  - @milkdown/preset-commonmark@7.6.0
+  - @milkdown/preset-gfm@7.6.0
+  - @milkdown/prose@7.6.0
+  - @milkdown/transformer@7.6.0
+  - @milkdown/utils@7.6.0
+
 ## 7.5.9
 
 ### Patch Changes
