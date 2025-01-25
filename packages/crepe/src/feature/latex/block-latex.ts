@@ -8,7 +8,7 @@ export const blockLatexSchema = codeBlockSchema.extendSchema((prev) => {
       toMarkdown: {
         match: baseSchema.toMarkdown.match,
         runner: (state, node) => {
-          const language = node.attrs.language
+          const language = node.attrs.language ?? ''
           if (language.toLowerCase() === 'latex') {
             state.addNode(
               'math',
