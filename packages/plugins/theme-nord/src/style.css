@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@plugin "@tailwindcss/typography";
-@plugin "@tailwindcss/forms";
 
 @theme {
   --color-nord0: #2E3440;
@@ -116,4 +114,81 @@
 
 .milkdown-theme-nord.prose.ProseMirror .selectedCell:after {
   @apply bg-nord8/30;
+}
+
+.milkdown-theme-nord h1 {
+  @apply text-3xl font-bold leading-tight mt-6;
+}
+
+.milkdown-theme-nord h2 {
+  @apply text-2xl font-semibold mt-5;
+}
+
+.milkdown-theme-nord  h3 {
+  @apply text-xl font-medium mt-4;
+}
+
+.milkdown-theme-nord h4 {
+  @apply text-base font-medium mt-3;
+}
+
+.milkdown-theme-nord h5 {
+  @apply text-sm font-medium mt-2;
+}
+
+.milkdown-theme-nord h6 {
+  @apply text-sm font-medium mt-2;
+}
+
+.milkdown-theme-nord p {
+  @apply text-base leading-relaxed;
+}
+
+.milkdown-theme-nord a {
+  @apply underline;
+}
+
+.milkdown-theme-nord ul {
+  @apply list-disc list-inside space-y-2 pl-5;
+}
+
+.milkdown-theme-nord ol {
+  @apply list-decimal list-inside space-y-2 pl-5;
+}
+
+.milkdown-theme-nord li {
+  @apply mb-1;
+}
+
+.milkdown-theme-nord pre {
+  @apply bg-gray-100 dark:bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto;
+}
+
+.milkdown-theme-nord code {
+  @apply bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded text-sm;
+}
+
+.milkdown-theme-nord pre code {
+  @apply bg-transparent;
+}
+
+.milkdown-theme-nord img {
+  @apply rounded-lg shadow-md my-4;
+}
+
+.milkdown-theme-nord table {
+  @apply w-full border-collapse border text-sm;
+}
+
+.milkdown-theme-nord th,
+.milkdown-theme-nord td {
+  @apply border px-3 py-2;
+}
+
+.milkdown-theme-nord th {
+  @apply font-semibold;
+}
+
+.milkdown-theme-nord hr {
+  @apply border-t my-6;
 }
