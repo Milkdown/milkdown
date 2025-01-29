@@ -149,11 +149,11 @@
 }
 
 .milkdown-theme-nord ul {
-  @apply list-disc list-inside space-y-2 pl-5;
+  @apply list-outside list-disc space-y-2 pl-5;
 }
 
 .milkdown-theme-nord ol {
-  @apply list-decimal list-inside space-y-2 pl-5;
+  @apply list-outside list-decimal space-y-2 pl-5;
 }
 
 .milkdown-theme-nord li {
