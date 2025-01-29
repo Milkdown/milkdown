@@ -1,3 +1,7 @@
+@import 'tailwindcss';
+
+@source "../node_modules/@milkdown/theme-nord";
+
 .milkdown-storybook {
   .prose :where(li):not(:where([class~='not-prose'] *)) {
     margin-top: 0.5em;

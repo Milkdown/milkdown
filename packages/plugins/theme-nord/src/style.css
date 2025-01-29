@@ -1,3 +1,48 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+@theme {
+  --color-nord0: #2E3440;
+  --color-nord1: #3B4252;
+  --color-nord2: #434C5E;
+  --color-nord3: #4C566A;
+  --color-nord4: #D8DEE9;
+  --color-nord5: #E5E9F0;
+  --color-nord6: #ECEFF4;
+  --color-nord7: #8FBCBB;
+  --color-nord8: #88C0D0;
+  --color-nord9: #81A1C1;
+  --color-nord10: #5E81AC;
+  --color-nord11: #BF616A;
+  --color-nord12: #D08770;
+  --color-nord13: #EBCB8B;
+  --color-nord14: #A3BE8C;
+  --color-nord15: #B48EAD;
+
+  /* Tailwind-like Nord color names */
+  --color-nord-0: #2E3440;
+  --color-nord-1: #3B4252;
+  --color-nord-2: #434C5E;
+  --color-nord-3: #4C566A;
+  --color-nord-4: #D8DEE9;
+  --color-nord-5: #E5E9F0;
+  --color-nord-6: #ECEFF4;
+  --color-nord-7: #8FBCBB;
+  --color-nord-8: #88C0D0;
+  --color-nord-9: #81A1C1;
+  --color-nord-10: #5E81AC;
+  --color-nord-11: #BF616A;
+  --color-nord-12: #D08770;
+  --color-nord-13: #EBCB8B;
+  --color-nord-14: #A3BE8C;
+  --color-nord-15: #B48EAD;
+}
+
+.milkdown-theme-nord {
+  @apply outline-none;
+}
+
 .milkdown-theme-nord blockquote {
   @apply not-italic font-serif border-l-4 border-nord10 pl-4;
 }
