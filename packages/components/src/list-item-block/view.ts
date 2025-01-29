@@ -41,7 +41,7 @@ export const listItemBlockView = $view(
       dom.onMount = () => {
         const { anchor, head } = view.state.selection
         if (view.hasFocus()) {
-          Promise.resolve().then(() => {
+          setTimeout(() => {
             const anchorPos = view.state.doc.resolve(anchor)
             const headPos = view.state.doc.resolve(head)
             view.dispatch(
