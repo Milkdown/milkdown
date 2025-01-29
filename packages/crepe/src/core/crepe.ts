@@ -17,7 +17,7 @@ import { trailing } from '@milkdown/kit/plugin/trailing'
 
 import type { CrepeFeatureConfig } from '../feature'
 import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
-import { configureFeatures } from './slice'
+import { configureFeatures, crepeCtx } from './slice'
 import type { ListenerManager } from '@milkdown/kit/plugin/listener'
 import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
 
@@ -54,6 +54,7 @@ export class Crepe {
     this.#editor = Editor.make()
       .config(configureFeatures(enabledFeatures))
       .config((ctx) => {
+        ctx.set(crepeCtx, this)
         ctx.set(rootCtx, this.#rootElement)
         ctx.set(defaultValueCtx, defaultValue)
         ctx.set(editorViewOptionsCtx, {
