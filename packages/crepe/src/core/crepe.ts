@@ -52,9 +52,11 @@ export class Crepe {
       (typeof root === 'string' ? document.querySelector(root) : root) ??
       document.body
     this.#editor = Editor.make()
+      .config((ctx) => {
+        ctx.inject(crepeCtx, this)
+      })
       .config(configureFeatures(enabledFeatures))
       .config((ctx) => {
-        ctx.set(crepeCtx, this)
         ctx.set(rootCtx, this.#rootElement)
         ctx.set(defaultValueCtx, defaultValue)
         ctx.set(editorViewOptionsCtx, {
