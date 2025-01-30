@@ -45,6 +45,7 @@
     "react-dom": "*"
   },
   "dependencies": {
+    "@milkdown/crepe": "workspace:*",
     "@milkdown/kit": "workspace:*",
     "tslib": "^2.8.1"
   },

@@ -44,6 +44,7 @@
     "vue": "^3.0.0"
   },
   "dependencies": {
+    "@milkdown/crepe": "workspace:*",
     "@milkdown/kit": "workspace:*",
     "tslib": "^2.8.1"
   },
