@@ -423,6 +423,9 @@ importers:
 
   packages/integrations/react:
     dependencies:
+      '@milkdown/crepe':
+        specifier: workspace:*
+        version: link:../../crepe
       '@milkdown/kit':
         specifier: workspace:*
         version: link:../../kit
@@ -445,6 +448,9 @@ importers:
 
   packages/integrations/vue:
     dependencies:
+      '@milkdown/crepe':
+        specifier: workspace:*
+        version: link:../../crepe
       '@milkdown/kit':
         specifier: workspace:*
         version: link:../../kit
