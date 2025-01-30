@@ -1,5 +1,36 @@
 # @milkdown/components
 
+## 7.6.2
+
+### Patch Changes
+
+- 061f740: Release milkdown patch version.
+
+  ## Feat
+
+  - feat: make integrations accept crepe editor (#1649)
+  - feat: add crepe ctx to make users can access crepe from editor (#1648)
+
+  ## Fix
+
+  - fix: 🐛 incompatibility between Promise.resolve and angular change detection mechanism (#1647)
+  - fix: 🐛 remark transform error when no code block lang (#1642)
+
+  ## Chore
+
+  - chore: bump up tailwindcss version to v4 (#1638)
+  - chore: bump up all non-major dependencies to v20.4.0 (#1646)
+  - chore: Lock file maintenance (#1645)
+  - chore: bump up all non-major dependencies to v20.3.3 (#1641)
+  - chore: bump up vite version to v6.0.9 [SECURITY] (#1636)
+  - chore: bump up shiki version to v2 (#1634)
+  - chore: Lock file maintenance (#1633)
+  - chore: bump up all non-major dependencies to v20.3.2 (#1632)
+  - chore: bump up katex version to v0.16.21 [SECURITY] (#1631)
+
+- Updated dependencies [061f740]
+  - @milkdown/exception@7.6.2
+
 ## 7.6.1
 
 ### Patch Changes
