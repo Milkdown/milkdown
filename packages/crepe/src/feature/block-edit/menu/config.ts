@@ -9,7 +9,7 @@ import {
   orderedListSchema,
   paragraphSchema,
 } from '@milkdown/kit/preset/commonmark'
-import { NodeSelection } from '@milkdown/kit/prose/state'
+import { TextSelection } from '@milkdown/kit/prose/state'
 import { imageBlockSchema } from '@milkdown/kit/component/image-block'
 import { createTable } from '@milkdown/kit/preset/gfm'
 import {
@@ -230,15 +230,22 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
-        const tr = clearRange(state.tr)
+        let { tr } = state
+        tr = clearRange(tr)
+        const from = tr.selection.from
         const table = createTable(ctx, 3, 3)
-        tr.replaceSelectionWith(table)
-        const { from } = tr.selection
-        const pos = from - table.nodeSize + 2
+        tr = tr.replaceSelectionWith(table)
         dispatch(tr)
+
         requestAnimationFrame(() => {
-          const selection = NodeSelection.create(view.state.tr.doc, pos)
-          dispatch(view.state.tr.setSelection(selection).scrollIntoView())
+          const docSize = view.state.doc.content.size
+          const $pos = view.state.doc.resolve(
+            from > docSize ? docSize : from < 0 ? 0 : from
+          )
+          const selection = TextSelection.near($pos)
+          const tr = view.state.tr
+          tr.setSelection(selection)
+          dispatch(tr.scrollIntoView())
         })
       },
     })

@@ -221,6 +221,8 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
     const info = dragInfo.current
     if (!info) return
 
+    if (!contentRoot.offsetParent) return
+
     const wrapperOffsetTop = (contentRoot.offsetParent as HTMLElement).offsetTop
     const wrapperOffsetLeft = (contentRoot.offsetParent as HTMLElement)
       .offsetLeft
