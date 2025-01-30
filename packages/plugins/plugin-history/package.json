@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/plugin-history",
   "type": "module",
-  "version": "7.6.1",
+  "version": "7.6.2",
   "license": "MIT",
   "repository": {
     "type": "git",
