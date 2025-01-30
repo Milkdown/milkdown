@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 .preview-content {
   code {
     @apply bg-slate-100 px-8 py-6 my-2 rounded border block relative;

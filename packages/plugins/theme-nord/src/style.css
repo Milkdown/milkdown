@@ -1,3 +1,46 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-nord0: #2e3440;
+  --color-nord1: #3b4252;
+  --color-nord2: #434c5e;
+  --color-nord3: #4c566a;
+  --color-nord4: #d8dee9;
+  --color-nord5: #e5e9f0;
+  --color-nord6: #eceff4;
+  --color-nord7: #8fbcbb;
+  --color-nord8: #88c0d0;
+  --color-nord9: #81a1c1;
+  --color-nord10: #5e81ac;
+  --color-nord11: #bf616a;
+  --color-nord12: #d08770;
+  --color-nord13: #ebcb8b;
+  --color-nord14: #a3be8c;
+  --color-nord15: #b48ead;
+
+  /* Tailwind-like Nord color names */
+  --color-nord-0: #2e3440;
+  --color-nord-1: #3b4252;
+  --color-nord-2: #434c5e;
+  --color-nord-3: #4c566a;
+  --color-nord-4: #d8dee9;
+  --color-nord-5: #e5e9f0;
+  --color-nord-6: #eceff4;
+  --color-nord-7: #8fbcbb;
+  --color-nord-8: #88c0d0;
+  --color-nord-9: #81a1c1;
+  --color-nord-10: #5e81ac;
+  --color-nord-11: #bf616a;
+  --color-nord-12: #d08770;
+  --color-nord-13: #ebcb8b;
+  --color-nord-14: #a3be8c;
+  --color-nord-15: #b48ead;
+}
+
+.milkdown-theme-nord {
+  @apply outline-none;
+}
+
 .milkdown-theme-nord blockquote {
   @apply not-italic font-serif border-l-4 border-nord10 pl-4;
 }
@@ -71,4 +114,81 @@
 
 .milkdown-theme-nord.prose.ProseMirror .selectedCell:after {
   @apply bg-nord8/30;
+}
+
+.milkdown-theme-nord h1 {
+  @apply text-3xl font-bold leading-tight mt-6;
+}
+
+.milkdown-theme-nord h2 {
+  @apply text-2xl font-semibold mt-5;
+}
+
+.milkdown-theme-nord h3 {
+  @apply text-xl font-medium mt-4;
+}
+
+.milkdown-theme-nord h4 {
+  @apply text-base font-medium mt-3;
+}
+
+.milkdown-theme-nord h5 {
+  @apply text-sm font-medium mt-2;
+}
+
+.milkdown-theme-nord h6 {
+  @apply text-sm font-medium mt-2;
+}
+
+.milkdown-theme-nord p {
+  @apply text-base leading-relaxed;
+}
+
+.milkdown-theme-nord a {
+  @apply underline;
+}
+
+.milkdown-theme-nord ul {
+  @apply list-outside list-disc space-y-2 pl-5;
+}
+
+.milkdown-theme-nord ol {
+  @apply list-outside list-decimal space-y-2 pl-5;
+}
+
+.milkdown-theme-nord li {
+  @apply mb-1;
+}
+
+.milkdown-theme-nord pre {
+  @apply bg-gray-100 dark:bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto;
+}
+
+.milkdown-theme-nord code {
+  @apply bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded text-sm;
+}
+
+.milkdown-theme-nord pre code {
+  @apply bg-transparent;
+}
+
+.milkdown-theme-nord img {
+  @apply rounded-lg shadow-md my-4;
+}
+
+.milkdown-theme-nord table {
+  @apply w-full border-collapse border text-sm;
+}
+
+.milkdown-theme-nord th,
+.milkdown-theme-nord td {
+  @apply border px-3 py-2;
+}
+
+.milkdown-theme-nord th {
+  @apply font-semibold;
+}
+
+.milkdown-theme-nord hr {
+  @apply border-t my-6;
 }

@@ -8,7 +8,7 @@ import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 import copy from 'rollup-plugin-copy'
 
-import pkg from './package.json' assert { type: 'json' }
+import pkg from './package.json' with { type: 'json' }
 
 const external = [
   ...Object.keys(pkg.dependencies),
