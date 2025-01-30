@@ -1,2 +1,2 @@
 export { CrepeFeature } from './feature'
-export * from './core'
+export { Crepe, type CrepeConfig, crepeCtx } from './core'
