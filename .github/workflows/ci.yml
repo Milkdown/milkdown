@@ -73,7 +73,7 @@ jobs:
         run: pnpm --filter=@milkdown/e2e test:install
 
       - name: Run playwright
-        run: pnpm test:e2e -- --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+        run: pnpm test:e2e --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload test results
         if: ${{ failure() }}
