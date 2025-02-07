@@ -10,7 +10,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: pnpm/action-setup@v4.0.0
+    - uses: pnpm/action-setup@v4.1.0
       with:
         run_install: false
 
