@@ -390,7 +390,8 @@
       font-size: 14px;
       font-weight: 600;
       &:hover {
-        background: linear-gradient(
+        background:
+          linear-gradient(
             0deg,
             rgba(29, 25, 43, 0.08) 0%,
             rgba(29, 25, 43, 0.08) 100%
