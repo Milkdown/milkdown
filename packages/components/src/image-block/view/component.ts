@@ -1,6 +1,6 @@
 import type { Component } from 'atomico'
 import { c, html, useEffect, useRef, useState } from 'atomico'
-import { nanoid } from 'nanoid'
+import { customAlphabet } from 'nanoid'
 import clsx from 'clsx'
 import type { ImageBlockConfig } from '../config'
 import { IMAGE_DATA_TYPE } from '../schema'
@@ -20,6 +20,8 @@ export type ImageComponentProps = Attrs & {
 }
 
 let timer: number = 0
+
+const nanoid = customAlphabet('abcdefg', 8)
 
 export const imageComponent: Component<ImageComponentProps> = ({
   src = '',

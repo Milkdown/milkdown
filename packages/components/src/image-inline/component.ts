@@ -1,6 +1,6 @@
 import { c, html, useRef, useState } from 'atomico'
 import type { Component } from 'atomico'
-import { nanoid } from 'nanoid'
+import { customAlphabet } from 'nanoid'
 import clsx from 'clsx'
 import type { InlineImageConfig } from './config'
 
@@ -15,6 +15,8 @@ export type InlineImageComponentProps = Attrs & {
   selected: boolean
   config: InlineImageConfig
 }
+
+const nanoid = customAlphabet('abcdefg', 8)
 
 export const inlineImageComponent: Component<InlineImageComponentProps> = ({
   src = '',

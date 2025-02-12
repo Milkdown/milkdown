@@ -397,7 +397,7 @@ importers:
         specifier: ^0.16.0
         version: 0.16.21
       nanoid:
-        specifier: ^5.0.0
+        specifier: ^5.0.9
         version: 5.0.9
       remark-math:
         specifier: ^6.0.0
@@ -656,7 +656,7 @@ importers:
         specifier: ^10.9.0
         version: 10.9.3
       nanoid:
-        specifier: ^5.0.0
+        specifier: ^5.0.9
         version: 5.0.9
       tslib:
         specifier: ^2.8.1
@@ -1081,7 +1081,7 @@ importers:
         specifier: workspace:*
         version: link:../exception
       nanoid:
-        specifier: ^5.0.0
+        specifier: ^5.0.9
         version: 5.0.9
       tslib:
         specifier: ^2.8.1
