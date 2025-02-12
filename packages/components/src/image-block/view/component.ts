@@ -1,5 +1,6 @@
 import type { Component } from 'atomico'
 import { c, html, useEffect, useRef, useState } from 'atomico'
+import { nanoid } from 'nanoid'
 import clsx from 'clsx'
 import type { ImageBlockConfig } from '../config'
 import { IMAGE_DATA_TYPE } from '../schema'
@@ -34,7 +35,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
   const linkInput = useRef<HTMLInputElement>()
   const [showCaption, setShowCaption] = useState(caption.length > 0)
   const [hidePlaceholder, setHidePlaceholder] = useState(src.length !== 0)
-  const [uuid] = useState(crypto.randomUUID())
+  const [uuid] = useState(nanoid())
   const [focusLinkInput, setFocusLinkInput] = useState(false)
   const [currentLink, setCurrentLink] = useState(src)
 
