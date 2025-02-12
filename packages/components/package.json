@@ -127,7 +127,8 @@
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "tslib": "^2.8.1",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "nanoid": "^5.0.9"
   },
   "devDependencies": {
     "@codemirror/language": "^6.10.1",

@@ -289,6 +289,9 @@ importers:
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
+      nanoid:
+        specifier: ^5.0.9
+        version: 5.0.9
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
