@@ -4,7 +4,7 @@ Collaborative editing support for [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/collab-editing).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/).
 
 # License
 

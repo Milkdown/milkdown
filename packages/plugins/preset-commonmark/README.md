@@ -4,7 +4,7 @@ The commonmark preset of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/preset-commonmark).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/).
 
 # License
 

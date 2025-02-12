@@ -4,7 +4,7 @@ Vue integration for [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/vue).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/).
 
 # License
 

@@ -4,7 +4,7 @@ The prose module of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/guide/prosemirror-api).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/).
 
 # License
 

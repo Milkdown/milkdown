@@ -4,7 +4,7 @@ The history plugin of [milkdown](https://milkdown.dev/).
 
 # Official Documentation
 
-Documentation can be found on the [Milkdown website](https://milkdown.dev/docs/api/plugin-history).
+Documentation can be found on the [Milkdown website](https://milkdown.dev/).
 
 # License
 
