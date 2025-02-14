@@ -11,7 +11,6 @@ import {
   $nodeSchema,
   $useKeymap,
 } from '@milkdown/utils'
-import slugify from '@sindresorhus/slugify'
 import { serializeText, withMeta } from '../__internal__'
 import { paragraphSchema } from './paragraph'
 
@@ -20,7 +19,11 @@ const headingIndex = Array(6)
   .map((_, i) => i + 1)
 
 function defaultHeadingIdGenerator(node: Node) {
-  return slugify(node.textContent)
+  return node.textContent
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
 }
 
 /// This is a slice contains a function to generate heading id.
