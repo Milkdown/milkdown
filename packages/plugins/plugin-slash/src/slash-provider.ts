@@ -33,6 +33,8 @@ export interface SlashProviderOptions {
   middleware?: Middleware[]
   /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
   floatingUIOptions?: Partial<ComputePositionConfig>
+  /// The root element that the slash will be appended to.
+  root?: HTMLElement
 }
 
 /// A provider for creating slash.
@@ -48,6 +50,9 @@ export class SlashProvider {
 
   /// @internal
   readonly #floatingUIOptions: Partial<ComputePositionConfig>
+
+  /// @internal
+  readonly #root?: HTMLElement
 
   /// @internal
   readonly #debounce: number
@@ -81,6 +86,7 @@ export class SlashProvider {
     this.#offset = options.offset
     this.#middleware = options.middleware ?? []
     this.#floatingUIOptions = options.floatingUIOptions ?? {}
+    this.#root = options.root
   }
 
   /// @internal
@@ -94,7 +100,8 @@ export class SlashProvider {
       prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
 
     if (!this.#initialized) {
-      view.dom.parentElement?.appendChild(this.element)
+      const root = this.#root ?? view.dom.parentElement ?? document.body
+      root.appendChild(this.element)
       this.#initialized = true
     }
 
