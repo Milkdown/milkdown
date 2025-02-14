@@ -30,6 +30,8 @@ export interface TooltipProviderOptions {
   middleware?: Middleware[]
   /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
   floatingUIOptions?: Partial<ComputePositionConfig>
+  /// The root element that the tooltip will be appended to.
+  root?: HTMLElement
 }
 
 /// A provider for creating tooltip.
@@ -45,6 +47,9 @@ export class TooltipProvider {
 
   /// @internal
   readonly #floatingUIOptions: Partial<ComputePositionConfig>
+
+  /// @internal
+  readonly #root?: HTMLElement
 
   /// @internal
   #initialized = false
@@ -74,6 +79,7 @@ export class TooltipProvider {
     this.#offset = options.offset
     this.#middleware = options.middleware ?? []
     this.#floatingUIOptions = options.floatingUIOptions ?? {}
+    this.#root = options.root
     this.element.dataset.show = 'false'
   }
 
@@ -88,7 +94,8 @@ export class TooltipProvider {
       prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
 
     if (!this.#initialized) {
-      view.dom.parentElement?.appendChild(this.element)
+      const root = this.#root ?? view.dom.parentElement ?? document.body
+      root.appendChild(this.element)
       this.#initialized = true
     }
 

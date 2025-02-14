@@ -47,6 +47,8 @@ export interface BlockProviderOptions {
   middleware?: Middleware[]
   /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
   floatingUIOptions?: Partial<ComputePositionConfig>
+  /// The root element that the block will be appended to.
+  root?: HTMLElement
 }
 
 /// A provider for creating block.
@@ -62,6 +64,9 @@ export class BlockProvider {
 
   /// @internal
   #activeNode: ActiveNode | null = null
+
+  /// @internal
+  readonly #root?: HTMLElement
 
   /// @internal
   #initialized = false
@@ -102,13 +107,15 @@ export class BlockProvider {
     this.#getPlacement = options.getPlacement
     this.#middleware = options.middleware ?? []
     this.#floatingUIOptions = options.floatingUIOptions ?? {}
+    this.#root = options.root
     this.hide()
   }
 
   /// @internal
   #init() {
     const view = this.#ctx.get(editorViewCtx)
-    view.dom.parentElement?.appendChild(this.#element)
+    const root = this.#root ?? view.dom.parentElement ?? document.body
+    root.appendChild(this.#element)
 
     const service = this.#ctx.get(blockService.key)
     service.bind(this.#ctx, (message) => {
