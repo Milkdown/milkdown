@@ -39,7 +39,7 @@ export function useGetEditor() {
       .catch(console.error)
 
     return () => {
-      editorRef.current?.destroy()
+      editor.destroy()
     }
   }, [dom, editorRef, getEditor, setLoading])
 

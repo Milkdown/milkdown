@@ -1,7 +1,9 @@
-import { inject, onMounted, onUnmounted } from 'vue'
+import { inject, onMounted, onUnmounted, ref } from 'vue'
 
 import type { EditorInfoCtx } from './types'
 import { editorInfoCtxKey } from './consts'
+import type { Crepe } from '@milkdown/crepe'
+import type { Editor } from '@milkdown/kit/core'
 
 export function useGetEditor() {
   const {
@@ -10,6 +12,7 @@ export function useGetEditor() {
     editor: editorRef,
     editorFactory: getEditor,
   } = inject(editorInfoCtxKey, {} as EditorInfoCtx)
+  const currentEditorRef = ref<Editor | Crepe>()
 
   onMounted(() => {
     if (!dom.value) return
@@ -18,6 +21,7 @@ export function useGetEditor() {
     if (!editor) return
 
     loading.value = true
+    currentEditorRef.value = editor
     editor
       .create()
       .then((editor) => {
@@ -29,7 +33,7 @@ export function useGetEditor() {
       .catch(console.error)
   })
   onUnmounted(() => {
-    editorRef.value?.destroy()
+    currentEditorRef.value?.destroy()
   })
 
   return dom
