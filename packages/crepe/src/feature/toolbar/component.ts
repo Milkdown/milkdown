@@ -25,9 +25,9 @@ import {
   italicIcon,
   linkIcon,
   strikethroughIcon,
+  functionsIcon,
 } from '../../icons'
 import type { ToolbarFeatureConfig } from './index'
-import { functionsIcon } from '../../icons/functions'
 import { NodeSelection, TextSelection } from '@milkdown/kit/prose/state'
 import { mathInlineSchema } from '../latex/inline-latex'
 import { FeaturesCtx } from '../../core/slice'

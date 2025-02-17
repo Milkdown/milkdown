@@ -28,6 +28,7 @@ import {
   tableIcon,
   textIcon,
   todoListIcon,
+  functionsIcon,
 } from '../../../icons'
 import type { BlockEditFeatureConfig } from '../index'
 import type { MenuItemGroup } from './utils'
@@ -38,8 +39,18 @@ import {
   clearRange,
 } from './utils'
 import { GroupBuilder } from './group-builder'
+import type { Ctx } from '@milkdown/kit/ctx'
+import { FeaturesCtx } from '../../../core/slice'
+import { CrepeFeature } from '../../..'
 
-export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
+export function getGroups(
+  filter?: string,
+  config?: BlockEditFeatureConfig,
+  ctx?: Ctx
+) {
+  const flags = ctx?.get(FeaturesCtx)
+  const isLatexEnabled = flags?.includes(CrepeFeature.Latex)
+
   const groupBuilder = new GroupBuilder()
   groupBuilder
     .addGroup('text', config?.slashMenuTextGroupLabel ?? 'Text')
@@ -200,7 +211,7 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
       },
     })
 
-  groupBuilder
+  const advancedGroup = groupBuilder
     .addGroup('advanced', config?.slashMenuAdvancedGroupLabel ?? 'Advanced')
     .addItem('image', {
       label: config?.slashMenuImageLabel ?? 'Image',
@@ -249,6 +260,22 @@ export function getGroups(filter?: string, config?: BlockEditFeatureConfig) {
         })
       },
     })
+
+  if (isLatexEnabled) {
+    advancedGroup.addItem('math', {
+      label: config?.slashMenuMathLabel ?? 'Math',
+      icon: config?.slashMenuMathIcon?.() ?? functionsIcon,
+      onRun: (ctx) => {
+        const view = ctx.get(editorViewCtx)
+        const { dispatch, state } = view
+
+        const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx), {
+          language: 'LaTex',
+        })
+        command(state, dispatch)
+      },
+    })
+  }
 
   config?.buildMenu?.(groupBuilder)
 
