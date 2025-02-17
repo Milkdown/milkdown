@@ -28,7 +28,10 @@ export const menuComponent: Component<MenuProps> = ({
   filter,
   config,
 }) => {
-  const { groups, size } = useMemo(() => getGroups(filter, config), [filter])
+  const { groups, size } = useMemo(
+    () => getGroups(filter, config, ctx),
+    [filter]
+  )
 
   const host = useHost()
   const [hoverIndex, setHoverIndex] = useState(0)

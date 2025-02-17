@@ -44,6 +44,8 @@ interface BlockEditConfig {
   slashMenuCodeBlockLabel: string
   slashMenuTableIcon: Icon
   slashMenuTableLabel: string
+  slashMenuMathIcon: Icon
+  slashMenuMathLabel: string
 }
 
 export type BlockEditFeatureConfig = Partial<BlockEditConfig>
