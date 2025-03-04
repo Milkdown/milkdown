@@ -122,6 +122,8 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
           dir: resolve(dir, 'lib'),
         },
       },
+      minify: false,
+      terserOptions: { compress: false, mangle: false },
     },
     options
   )
