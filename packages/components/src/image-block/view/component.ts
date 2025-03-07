@@ -114,11 +114,6 @@ export const imageComponent: Component<ImageComponentProps> = ({
     e.stopPropagation()
   }
 
-  const onClickUploader = (e: PointerEvent) => {
-    e.stopPropagation()
-    e.preventDefault()
-  }
-
   return html`<host class=${clsx(selected && 'selected')}>
     <div class=${clsx('image-edit', src.length > 0 && 'hidden')}>
       <div class="image-icon">${config?.imageIcon()}</div>
@@ -144,7 +139,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
             accept="image/*"
             onchange=${onUpload}
           />
-          <label onpointerdown=${onClickUploader} class="uploader" for=${uuid}>
+          <label class="uploader" for=${uuid}>
             ${config?.uploadButton()}
           </label>
           <span class="text" onclick=${() => linkInput.current?.focus()}>
