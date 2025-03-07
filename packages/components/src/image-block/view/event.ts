@@ -6,6 +6,7 @@ interface Options {
   ratio: number
   setRatio: (ratio: number) => void
   src: string
+  readonly: boolean
 }
 
 export function useBlockEffect({
@@ -14,6 +15,7 @@ export function useBlockEffect({
   ratio,
   setRatio,
   src,
+  readonly,
 }: Options) {
   const host = useHost()
   const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
@@ -53,6 +55,7 @@ export function useBlockEffect({
     }
 
     const pointerDown = (e: PointerEvent) => {
+      if (readonly) return
       e.preventDefault()
       root.addEventListener('pointermove', onMove)
       root.addEventListener('pointerup', pointerUp)

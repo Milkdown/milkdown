@@ -47,6 +47,7 @@ export const imageComponent: Component<ImageComponentProps> = ({
     ratio,
     setRatio: (r) => setAttr?.('ratio', r),
     src,
+    readonly,
   })
 
   useEffect(() => {
