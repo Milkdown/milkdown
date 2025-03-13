@@ -21,7 +21,7 @@ withMeta(listItemAttr, {
 /// Schema for list item node.
 export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
   group: 'listItem',
-  content: '(paragraph|blockquote) block*',
+  content: 'paragraph block*',
   attrs: {
     label: {
       default: '•',
