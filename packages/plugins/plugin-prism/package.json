@@ -46,7 +46,8 @@
   },
   "dependencies": {
     "@milkdown/utils": "workspace:*",
-    "refractor": "^4.0.0",
+    "@types/hast": "^3.0.4",
+    "refractor": "^5.0.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

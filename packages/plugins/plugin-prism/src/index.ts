@@ -1,4 +1,4 @@
-import type { Refractor } from 'refractor/lib/core'
+import type { Refractor } from 'refractor/core'
 
 import { findChildren } from '@milkdown/prose'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
