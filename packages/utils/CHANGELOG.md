@@ -1,5 +1,30 @@
 # @milkdown/utils
 
+## 7.6.4
+
+### Patch Changes
+
+- fbd3cf7: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: multi block handle (#1731)
+  - fix: should not support blockquote in list (#1730)
+  - fix: image upload button stop working when selected (#1718)
+  - fix: should disable image resizer for readonly mode (#1717)
+
+  ## Chore
+
+  - chore: bump up refractor version to v5 (#1727)
+  - chore: bump up shiki version to v3 (#1691)
+
+  ## Build
+
+  - build: disable minification #1709 (#1710)
+
+- Updated dependencies [fbd3cf7]
+  - @milkdown/exception@7.6.4
+
 ## 7.6.3
 
 ### Patch Changes
