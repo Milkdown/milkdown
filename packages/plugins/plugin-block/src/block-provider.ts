@@ -12,7 +12,7 @@ import { computePosition, flip, offset } from '@floating-ui/dom'
 
 import { editorViewCtx } from '@milkdown/core'
 import type { BlockService } from './block-service'
-import { blockService } from './block-plugin'
+import { blockServiceInstance } from './block-plugin'
 import type { ActiveNode } from './types'
 
 /// The context of the block provider.
@@ -117,7 +117,7 @@ export class BlockProvider {
     const root = this.#root ?? view.dom.parentElement ?? document.body
     root.appendChild(this.#element)
 
-    const service = this.#ctx.get(blockService.key)
+    const service = this.#ctx.get(blockServiceInstance.key)
     service.bind(this.#ctx, (message) => {
       if (message.type === 'hide') {
         this.hide()

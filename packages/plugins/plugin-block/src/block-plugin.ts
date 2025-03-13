@@ -4,27 +4,38 @@ import { $ctx, $prose } from '@milkdown/utils'
 
 import { BlockService } from './block-service'
 import { withMeta } from './__internal__/with-meta'
-import { blockConfig } from './block-config'
 
 /// @internal
-export const blockService = $ctx(new BlockService(), 'blockService')
+export const blockService = $ctx(() => new BlockService(), 'blockService')
 
-withMeta(blockConfig, {
+/// @internal
+export const blockServiceInstance = $ctx(
+  {} as BlockService,
+  'blockServiceInstance'
+)
+
+withMeta(blockService, {
   displayName: 'Ctx<blockService>',
+})
+
+withMeta(blockServiceInstance, {
+  displayName: 'Ctx<blockServiceInstance>',
 })
 
 /// A slice contains a factory that will return a plugin spec.
 /// Users can use this slice to customize the plugin.
 export const blockSpec = $ctx<PluginSpec<any>, 'blockSpec'>({}, 'blockSpec')
 
-withMeta(blockConfig, {
+withMeta(blockSpec, {
   displayName: 'Ctx<blockSpec>',
 })
 
 /// The block prosemirror plugin.
 export const blockPlugin = $prose((ctx) => {
   const milkdownPluginBlockKey = new PluginKey('MILKDOWN_BLOCK')
-  const service = ctx.get(blockService.key)
+  const getService = ctx.get(blockService.key)
+  const service = getService()
+  ctx.set(blockServiceInstance.key, service)
   const spec = ctx.get(blockSpec.key)
 
   return new Plugin({
