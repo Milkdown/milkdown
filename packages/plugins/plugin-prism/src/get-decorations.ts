@@ -1,24 +1,22 @@
 import { findChildren } from '@milkdown/prose'
 import type { Node } from '@milkdown/prose/model'
 import { Decoration, DecorationSet } from '@milkdown/prose/view'
-import type { RefractorElement, Text } from 'refractor/lib/common'
-import type { Refractor } from 'refractor/lib/core'
+import type { Refractor } from 'refractor/core'
+import type { RootContent, Text } from 'hast'
 
 export interface FlattedNode {
   text: string
   className: string[]
 }
 
-type RefractorNode = RefractorElement | Text
-
-function flatNodes(nodes: RefractorNode[], className: string[] = []) {
+function flatNodes(nodes: RootContent[], className: string[] = []) {
   return nodes.flatMap((node): FlattedNode[] =>
     node.type === 'element'
       ? flatNodes(node.children, [
           ...className,
           ...((node.properties?.className as string[]) || []),
         ])
-      : [{ text: node.value, className }]
+      : [{ text: (node as Text).value, className }]
   )
 }
 

@@ -789,6 +789,9 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
+      '@types/hast':
+        specifier: ^3.0.4
+        version: 3.0.4
       refractor:
         specifier: ^5.0.0
         version: 5.0.0
