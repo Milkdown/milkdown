@@ -30,11 +30,9 @@ export const insertTableInputRule = $inputRule(
         )
           return null
 
-        const tableNode = createTable(
-          ctx,
-          Number(match.groups?.row),
-          Number(match.groups?.col)
-        )
+        const row = Math.max(Number(match.groups?.row ?? 0), 2)
+
+        const tableNode = createTable(ctx, row, Number(match.groups?.col))
         const tr = state.tr.replaceRangeWith(start, end, tableNode)
         return tr
           .setSelection(TextSelection.create(tr.doc, start + 3))
@@ -70,7 +68,7 @@ export const tableKeymap = $useKeymap('tableKeymap', {
     },
   },
   ExitTable: {
-    shortcuts: ['Mod-Enter'],
+    shortcuts: ['Mod-Enter', 'Enter'],
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
 
