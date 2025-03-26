@@ -1,3 +1,8 @@
+import {
+  createNodeInParserFail,
+  parserMatchError,
+  stackOverFlow,
+} from '@milkdown/exception'
 import type {
   Attrs,
   MarkType,
@@ -5,11 +10,6 @@ import type {
   NodeType,
   Schema,
 } from '@milkdown/prose/model'
-import {
-  createNodeInParserFail,
-  parserMatchError,
-  stackOverFlow,
-} from '@milkdown/exception'
 import { Mark } from '@milkdown/prose/model'
 import type {
   MarkSchema,
@@ -189,10 +189,28 @@ export class ParserState extends Stack<Node, ParserStackElement> {
   /// Build the current state into a [prosemirror document](https://prosemirror.net/docs/ref/#model.Document_Structure).
   toDoc = () => this.build()
 
+  /**
+   * Preserves consecutive line breaks in markdown by inserting non-breaking spaces.
+   *
+   * This is needed because the markdown parser typically collapses consecutive empty lines.
+   * By inserting a non-breaking space between consecutive newlines, we ensure that:
+   * 1. Empty lines are preserved in the document structure
+   * 2. Each empty line creates a proper paragraph node in the resulting AST
+   * 3. The visual whitespace/formatting in the original markdown is maintained
+   *
+   * Without this transformation, multiple consecutive newlines would be treated
+   * as a single paragraph break by the markdown parser.
+   */
+  /// @internal
+  #preserveConsecutiveLineBreaks = (markdown: string) => {
+    // Add non-breaking space between consecutive newlines to prevent collapsing
+    return markdown.replace(/\n(?=\n)/g, '\n&nbsp;\n')
+  }
+
   /// Transform a markdown string into prosemirror state.
   run = (remark: RemarkParser, markdown: string) => {
     const tree = remark.runSync(
-      remark.parse(markdown),
+      remark.parse(this.#preserveConsecutiveLineBreaks(markdown)),
       markdown
     ) as MarkdownNode
     this.next(tree)
