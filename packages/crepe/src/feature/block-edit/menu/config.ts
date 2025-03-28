@@ -1,4 +1,6 @@
+import { imageBlockSchema } from '@milkdown/kit/component/image-block'
 import { editorViewCtx } from '@milkdown/kit/core'
+import type { Ctx } from '@milkdown/kit/ctx'
 import {
   blockquoteSchema,
   bulletListSchema,
@@ -9,13 +11,15 @@ import {
   orderedListSchema,
   paragraphSchema,
 } from '@milkdown/kit/preset/commonmark'
-import { TextSelection } from '@milkdown/kit/prose/state'
-import { imageBlockSchema } from '@milkdown/kit/component/image-block'
 import { createTable } from '@milkdown/kit/preset/gfm'
+import { TextSelection } from '@milkdown/kit/prose/state'
+import { CrepeFeature } from '../../..'
+import { FeaturesCtx } from '../../../core/slice'
 import {
   bulletListIcon,
   codeIcon,
   dividerIcon,
+  functionsIcon,
   h1Icon,
   h2Icon,
   h3Icon,
@@ -28,9 +32,9 @@ import {
   tableIcon,
   textIcon,
   todoListIcon,
-  functionsIcon,
 } from '../../../icons'
 import type { BlockEditFeatureConfig } from '../index'
+import { GroupBuilder } from './group-builder'
 import type { MenuItemGroup } from './utils'
 import {
   clearContentAndAddBlockType,
@@ -38,10 +42,6 @@ import {
   clearContentAndWrapInBlockType,
   clearRange,
 } from './utils'
-import { GroupBuilder } from './group-builder'
-import type { Ctx } from '@milkdown/kit/ctx'
-import { FeaturesCtx } from '../../../core/slice'
-import { CrepeFeature } from '../../..'
 
 export function getGroups(
   filter?: string,
@@ -50,6 +50,8 @@ export function getGroups(
 ) {
   const flags = ctx?.get(FeaturesCtx)
   const isLatexEnabled = flags?.includes(CrepeFeature.Latex)
+  const isImageBlockEnabled = flags?.includes(CrepeFeature.ImageBlock)
+  const isTableEnabled = flags?.includes(CrepeFeature.Table)
 
   const groupBuilder = new GroupBuilder()
   groupBuilder
@@ -211,9 +213,13 @@ export function getGroups(
       },
     })
 
-  const advancedGroup = groupBuilder
-    .addGroup('advanced', config?.slashMenuAdvancedGroupLabel ?? 'Advanced')
-    .addItem('image', {
+  const advancedGroup = groupBuilder.addGroup(
+    'advanced',
+    config?.slashMenuAdvancedGroupLabel ?? 'Advanced'
+  )
+
+  if (isImageBlockEnabled) {
+    advancedGroup.addItem('image', {
       label: config?.slashMenuImageLabel ?? 'Image',
       icon: config?.slashMenuImageIcon?.() ?? imageIcon,
       onRun: (ctx) => {
@@ -224,18 +230,22 @@ export function getGroups(
         command(state, dispatch)
       },
     })
-    .addItem('code', {
-      label: config?.slashMenuCodeBlockLabel ?? 'Code',
-      icon: config?.slashMenuCodeBlockIcon?.() ?? codeIcon,
-      onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+  }
 
-        const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx))
-        command(state, dispatch)
-      },
-    })
-    .addItem('table', {
+  advancedGroup.addItem('code', {
+    label: config?.slashMenuCodeBlockLabel ?? 'Code',
+    icon: config?.slashMenuCodeBlockIcon?.() ?? codeIcon,
+    onRun: (ctx) => {
+      const view = ctx.get(editorViewCtx)
+      const { dispatch, state } = view
+
+      const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx))
+      command(state, dispatch)
+    },
+  })
+
+  if (isTableEnabled) {
+    advancedGroup.addItem('table', {
       label: config?.slashMenuTableLabel ?? 'Table',
       icon: config?.slashMenuTableIcon?.() ?? tableIcon,
       onRun: (ctx) => {
@@ -260,6 +270,7 @@ export function getGroups(
         })
       },
     })
+  }
 
   if (isLatexEnabled) {
     advancedGroup.addItem('math', {
