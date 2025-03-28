@@ -213,10 +213,12 @@ export function getGroups(
       },
     })
 
-  const advancedGroup = groupBuilder
-    .addGroup('advanced', config?.slashMenuAdvancedGroupLabel ?? 'Advanced')
+  const advancedGroup = groupBuilder.addGroup(
+    'advanced',
+    config?.slashMenuAdvancedGroupLabel ?? 'Advanced'
+  )
 
-    if ( isImageBlockEnabled ) {
+  if (isImageBlockEnabled) {
     advancedGroup.addItem('image', {
       label: config?.slashMenuImageLabel ?? 'Image',
       icon: config?.slashMenuImageIcon?.() ?? imageIcon,
@@ -231,18 +233,18 @@ export function getGroups(
   }
 
   advancedGroup.addItem('code', {
-      label: config?.slashMenuCodeBlockLabel ?? 'Code',
-      icon: config?.slashMenuCodeBlockIcon?.() ?? codeIcon,
-      onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+    label: config?.slashMenuCodeBlockLabel ?? 'Code',
+    icon: config?.slashMenuCodeBlockIcon?.() ?? codeIcon,
+    onRun: (ctx) => {
+      const view = ctx.get(editorViewCtx)
+      const { dispatch, state } = view
 
-        const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx))
-        command(state, dispatch)
-      },
-    })
+      const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx))
+      command(state, dispatch)
+    },
+  })
 
-    if ( isTableEnabled ) {
+  if (isTableEnabled) {
     advancedGroup.addItem('table', {
       label: config?.slashMenuTableLabel ?? 'Table',
       icon: config?.slashMenuTableIcon?.() ?? tableIcon,
