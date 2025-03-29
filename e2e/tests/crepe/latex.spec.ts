@@ -27,7 +27,7 @@ test('latex block preview toggle', async ({ page }) => {
 
   await expect(preview).toBeVisible()
   const markdown = await getMarkdown(page)
-  expect(markdown.trim()).toEqual('$$\nE=mc^2\n$$')
+  expect(markdown.trim()).toEqual('$$\nE=mc^2\n$$\n\n<br />')
 
   await codeTools.hover()
   await expect(previewToggleButton).toBeVisible()
