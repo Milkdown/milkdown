@@ -2,6 +2,8 @@ import { commandsCtx } from '@milkdown/core'
 import { setBlockType } from '@milkdown/prose/commands'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import { serializeText, withMeta } from '../__internal__'
+import { remarkPreserveEmptyLinePlugin } from '../plugin/remark-preserve-empty-line'
+import type { Ctx } from '@milkdown/ctx'
 
 /// HTML attributes for paragraph node.
 export const paragraphAttr = $nodeAttr('paragraph')
@@ -31,11 +33,26 @@ export const paragraphSchema = $nodeSchema('paragraph', (ctx) => ({
     match: (node) => node.type.name === 'paragraph',
     runner: (state, node) => {
       state.openNode('paragraph')
-      serializeText(state, node)
+      if ((!node.content || node.content.size === 0) && shouldPreserveEmptyLine(ctx)) {
+        state.addNode('html', undefined, '<br />')
+      } else {
+        serializeText(state, node)
+      }
       state.closeNode()
     },
   },
 }))
+
+function shouldPreserveEmptyLine(ctx: Ctx) {
+  let shouldPreserveEmptyLine = false
+  try {
+    ctx.get(remarkPreserveEmptyLinePlugin.id)
+    shouldPreserveEmptyLine = true
+  } catch (e) {
+    shouldPreserveEmptyLine = false
+  }
+  return shouldPreserveEmptyLine
+}
 
 withMeta(paragraphSchema.node, {
   displayName: 'NodeSchema<paragraph>',
