@@ -33,7 +33,10 @@ export const paragraphSchema = $nodeSchema('paragraph', (ctx) => ({
     match: (node) => node.type.name === 'paragraph',
     runner: (state, node) => {
       state.openNode('paragraph')
-      if ((!node.content || node.content.size === 0) && shouldPreserveEmptyLine(ctx)) {
+      if (
+        (!node.content || node.content.size === 0) &&
+        shouldPreserveEmptyLine(ctx)
+      ) {
         state.addNode('html', undefined, '<br />')
       } else {
         serializeText(state, node)

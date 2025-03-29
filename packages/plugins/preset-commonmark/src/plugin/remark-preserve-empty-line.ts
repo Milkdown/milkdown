@@ -4,27 +4,21 @@ import { $remark } from '@milkdown/utils'
 import { withMeta } from '../__internal__'
 
 function visitImage(ast: Node) {
-  return visit(
-    ast,
-    'paragraph',
-    (
-      node: Node & { children?: Node[] },
-    ) => {
-      if (node.children?.length !== 1) return
-      const firstChild = node.children?.[0]
-      if (!firstChild || firstChild.type !== 'html') return
+  return visit(ast, 'paragraph', (node: Node & { children?: Node[] }) => {
+    if (node.children?.length !== 1) return
+    const firstChild = node.children?.[0]
+    if (!firstChild || firstChild.type !== 'html') return
 
-      const { value } = firstChild as Node & {
-        value: string
-      }
-
-      if (!['<br />', '<br>', '<br/>'].includes(value)) {
-        return;
-      }
-
-      node.children.splice(0, 1)
+    const { value } = firstChild as Node & {
+      value: string
     }
-  )
+
+    if (!['<br />', '<br>', '<br/>'].includes(value)) {
+      return
+    }
+
+    node.children.splice(0, 1)
+  })
 }
 
 /// @internal
