@@ -2,7 +2,7 @@
 
 Utils package for [milkdown](https://milkdown.dev/).
 
-Check API on [document website](https://milkdown.dev/#/using-utils-package).
+Check API on [document website](https://milkdown.dev/).
 
 # License
 
