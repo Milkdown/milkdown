@@ -29,11 +29,19 @@ export const strongSchema = $markSchema('strong', (ctx) => ({
     // This works around a Google Docs misbehavior where
     // pasted content will be inexplicably wrapped in `<b>`
     // tags with a font-weight normal.
-    {tag: "b", getAttrs: (node: HTMLElement) => node.style.fontWeight != "normal" && null},
+    {
+      tag: 'b',
+      getAttrs: (node: HTMLElement) =>
+        node.style.fontWeight != 'normal' && null,
+    },
     { tag: 'strong' },
     { style: 'font-style', getAttrs: (value) => (value === 'bold') as false },
-    {style: "font-weight=400", clearMark: m => m.type.name == "strong"},
-    {style: "font-weight", getAttrs: (value: string) => /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null},
+    { style: 'font-weight=400', clearMark: (m) => m.type.name == 'strong' },
+    {
+      style: 'font-weight',
+      getAttrs: (value: string) =>
+        /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null,
+    },
   ],
   toDOM: (mark) => ['strong', ctx.get(strongAttr.key)(mark)],
   parseMarkdown: {
