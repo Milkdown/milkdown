@@ -8,7 +8,7 @@ import type {
   ViewMutationRecord,
 } from '@milkdown/prose/view'
 import type { Ctx } from '@milkdown/ctx'
-import { NodeSelection } from '@milkdown/prose/state'
+import { NodeSelection, TextSelection } from '@milkdown/prose/state'
 import { findParent } from '@milkdown/prose'
 import { CellSelection } from '@milkdown/prose/tables'
 import { defIfNotExists } from '../../__internal__/helper'
@@ -69,7 +69,17 @@ export class TableNodeView implements NodeView {
       (node) =>
         node.type.name === 'table_cell' || node.type.name === 'table_header'
     )($pos)
+
     if (!node) return false
+
+    // if the selection is a text selection, and the current node is the same as the node, return false
+    if (state.selection instanceof TextSelection) {
+      const currentNode = findParent(
+        (node) =>
+          node.type.name === 'table_cell' || node.type.name === 'table_header'
+      )(state.selection.$from)
+      if (currentNode?.node === node.node) return false
+    }
 
     const { from } = node
 
