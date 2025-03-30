@@ -1,4 +1,4 @@
-import type { Selection} from '@milkdown/kit/prose/state';
+import type { Selection } from '@milkdown/kit/prose/state'
 import { TextSelection, type PluginView } from '@milkdown/kit/prose/state'
 import type { EditorView } from '@milkdown/kit/prose/view'
 import { SlashProvider, slashFactory } from '@milkdown/kit/plugin/slash'
@@ -125,13 +125,12 @@ class MenuView implements PluginView {
   }
 }
 
-
 function isSelectionAtEndOfNode(selection: Selection) {
-  if (!(selection instanceof TextSelection)) return false;
+  if (!(selection instanceof TextSelection)) return false
 
-  const { $head } = selection;
-  const parent = $head.parent;
-  const offset = $head.parentOffset;
+  const { $head } = selection
+  const parent = $head.parent
+  const offset = $head.parentOffset
 
-  return offset === parent.content.size;
+  return offset === parent.content.size
 }
