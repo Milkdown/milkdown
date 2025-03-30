@@ -22,7 +22,6 @@ withMeta(inlineCodeAttr, {
 export const inlineCodeSchema = $markSchema('inlineCode', (ctx) => ({
   priority: 100,
   code: true,
-  inclusive: false,
   parseDOM: [{ tag: 'code' }],
   toDOM: (mark) => ['code', ctx.get(inlineCodeAttr.key)(mark)],
   parseMarkdown: {
