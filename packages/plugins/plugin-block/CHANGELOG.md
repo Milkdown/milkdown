@@ -1,5 +1,35 @@
 # @milkdown/plugin-block
 
+## 7.7.0
+
+### Minor Changes
+
+- 58e628c: Milkdown minor release.
+
+  ## Feat
+
+  - feat: add preserve empty line plugin (#1765)
+  - feat: check for isImageBlockEnabled and isTableEnabled (#1761)
+
+  ## Fix
+
+  - fix: 🐛 backward select text in table cell (#1766)
+  - fix: table enter and minimal rows (#1738)
+
+  ## Chore
+
+  - chore: update readme
+
+  ## Style
+
+  - style: 💄 enable more oxlint rules (#1767)
+
+### Patch Changes
+
+- Updated dependencies [58e628c]
+  - @milkdown/exception@7.7.0
+  - @milkdown/utils@7.7.0
+
 ## 7.6.4
 
 ### Patch Changes
