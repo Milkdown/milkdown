@@ -2,7 +2,65 @@
   "plugins": ["import", "typescript", "unicorn", "promise"],
   "rules": {
     "no-console": "error",
+    "for-direction": "error",
+    "require-yield": "error",
+    "use-isnan": "error",
+    "valid-typeof": "error",
+    "no-empty-character-class": "error",
+    "no-self-compare": "error",
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
+    "no-constant-binary-expression": "error",
+    "no-constructor-return": "error",
+    "no-func-assign": "error",
+    "no-global-assign": "error",
+    "no-ex-assign": "error",
+    "no-loss-of-precision": "error",
+    "no-fallthrough": "error",
+    "no-nonoctal-decimal-escape": "error",
+    "no-irregular-whitespace": "error",
+    "no-control-regex": "error",
+    "no-with": "error",
+    "no-debugger": "error",
+    "no-const-assign": "error",
+    "no-setter-return": "error",
+    "no-obj-calls": "error",
+    "no-unsafe-negation": "error",
+    "no-dupe-class-members": "error",
+    "no-dupe-keys": "error",
+    "no-this-before-super": "error",
+    "no-useless-catch": "error",
+    "no-async-promise-executor": "error",
+    "no-unreachable": "error",
+    "no-duplicate-case": "error",
+    "no-empty-pattern": "error",
+    "no-unused-labels": "error",
+    "no-sparse-arrays": "error",
+    "no-delete-var": "error",
+    "no-compare-neg-zero": "error",
+    "no-case-declarations": "error",
+    "no-class-assign": "error",
+    "no-var": "error",
+    "no-self-assign": "error",
+    "no-inner-declarations": "error",
+    "no-dupe-else-if": "error",
+    "no-invalid-regexp": "error",
+    "no-unsafe-finally": "error",
+    "no-prototype-builtins": "error",
+    "no-array-constructor": "error",
+    "no-shadow-restricted-names": "error",
+    "no-constant-condition": "error",
+    "no-useless-escape": "error",
+    "no-unsafe-optional-chaining": "error",
+    "no-extra-boolean-cast": "error",
+    "no-regex-spaces": "error",
+
     "eslint/no-unused-vars": "off",
+
     "unicorn/prefer-array-some": "error",
     "unicorn/no-useless-promise-resolve-reject": "error",
     "unicorn/no-unnecessary-await": "error",
@@ -17,17 +75,42 @@
     "unicorn/prefer-blob-reading-methods": "error",
     "unicorn/no-typeof-undefined": "error",
     "unicorn/no-new-array": "error",
+
     "import/no-cycle": [
       "error",
       {
         "ignoreTypes": true
       }
     ],
+    "import/named": "error",
     "import/sort-imports": "error",
     "import/no-duplicates": "error",
     "import/no-import-assign": "error",
     "import/no-self-import": "error",
+
     "typescript/consistent-type-imports": "error",
-    "typescript/no-import-type-side-effects": "error"
+    "typescript/triple-slash-reference": "error",
+    "typescript/no-non-null-asserted-optional-chain": "error",
+    "typescript/no-import-type-side-effects": "error",
+    "typescript/no-duplicate-enum-values": "error",
+    "typescript/no-extra-non-null-assertion": "error",
+    "typescript/no-misused-new": "error",
+    "typescript/prefer-for-of": "error",
+    "typescript/no-unsafe-declaration-merging": "error",
+    "typescript/no-this-alias": [
+      "error",
+      {
+        "allowDestructuring": true
+      }
+    ],
+    "typescript/prefer-as-const": "error",
+    "typescript/no-var-requires": "error",
+    "typescript/no-namespace": [
+      "error",
+      {
+        "allowDeclarations": true
+      }
+    ],
+    "typescript/no-unnecessary-type-constraint": "error"
   }
 }

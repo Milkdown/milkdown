@@ -51,7 +51,7 @@ function shouldPreserveEmptyLine(ctx: Ctx) {
   try {
     ctx.get(remarkPreserveEmptyLinePlugin.id)
     shouldPreserveEmptyLine = true
-  } catch (e) {
+  } catch {
     shouldPreserveEmptyLine = false
   }
   return shouldPreserveEmptyLine

@@ -22,26 +22,24 @@ function run(
       undefined,
       '\uFFFC'
     ) + text
-  for (let i = 0; i < rules.length; i++) {
-    const match = (rules[i] as unknown as { match: RegExp }).match.exec(
-      textBefore
-    )
+  for (let _matcher of rules) {
+    const matcher = _matcher as unknown as {
+      match: RegExp
+      handler: (
+        state: EditorState,
+        match: string[],
+        from: number,
+        to: number
+      ) => Transaction
+      undoable?: boolean
+    }
+    const match = matcher.match.exec(textBefore)
     const tr =
       match &&
       match[0] &&
-      (
-        rules[i] as unknown as {
-          handler: (
-            state: EditorState,
-            match: string[],
-            from: number,
-            to: number
-          ) => Transaction
-        }
-      ).handler(state, match, from - (match[0].length - text.length), to)
+      matcher.handler(state, match, from - (match[0].length - text.length), to)
     if (!tr) continue
-    // @ts-expect-error Internal property that should be in the class; only relevant if explicitly false.
-    if (rules[i]?.undoable !== false)
+    if (matcher.undoable !== false)
       tr.setMeta(plugin, { transform: tr, from, to, text })
     view.dispatch(tr)
     return true
