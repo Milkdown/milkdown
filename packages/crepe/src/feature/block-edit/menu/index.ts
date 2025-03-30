@@ -1,4 +1,8 @@
-import type { PluginView } from '@milkdown/kit/prose/state'
+import {
+  TextSelection,
+  type PluginView,
+  type Selection,
+} from '@milkdown/kit/prose/state'
 import type { EditorView } from '@milkdown/kit/prose/view'
 import { SlashProvider, slashFactory } from '@milkdown/kit/plugin/slash'
 import type { Ctx } from '@milkdown/kit/ctx'
@@ -59,6 +63,10 @@ class MenuView implements PluginView {
 
         if (currentText == null) return false
 
+        if (!isSelectionAtEndOfNode(view.state.selection)) {
+          return false
+        }
+
         const pos = self.#programmaticallyPos
 
         self.#content.filter = currentText.startsWith('/')
@@ -118,4 +126,14 @@ class MenuView implements PluginView {
     this.#slashProvider.destroy()
     this.#content.remove()
   }
+}
+
+function isSelectionAtEndOfNode(selection: Selection) {
+  if (!(selection instanceof TextSelection)) return false
+
+  const { $head } = selection
+  const parent = $head.parent
+  const offset = $head.parentOffset
+
+  return offset === parent.content.size
 }
