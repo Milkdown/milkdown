@@ -1,4 +1,8 @@
-import { TextSelection, type PluginView, type Selection } from '@milkdown/kit/prose/state'
+import {
+  TextSelection,
+  type PluginView,
+  type Selection,
+} from '@milkdown/kit/prose/state'
 import type { EditorView } from '@milkdown/kit/prose/view'
 import { SlashProvider, slashFactory } from '@milkdown/kit/plugin/slash'
 import type { Ctx } from '@milkdown/kit/ctx'
