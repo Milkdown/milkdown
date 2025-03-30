@@ -1,4 +1,5 @@
 @import '@milkdown/kit/prose/gapcursor/style/gapcursor.css';
+@import 'prosemirror-virtual-cursor/style/virtual-cursor.css';
 
 .milkdown {
   .crepe-drop-cursor {
@@ -15,5 +16,9 @@
   .ProseMirror-gapcursor:after {
     box-sizing: border-box;
     border-top: 1px solid var(--crepe-color-on-background);
+  }
+
+  .ProseMirror-focused {
+    --prosemirror-virtual-cursor-color: var(--crepe-color-outline);
   }
 }
