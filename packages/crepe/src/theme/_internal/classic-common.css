@@ -150,7 +150,7 @@
         transparent 40%
       );
       font-family: var(--crepe-font-code);
-      padding: 0 10px;
+      padding: 0 2px;
       border-radius: 4px;
       font-size: 87.5%;
       display: inline-block;
