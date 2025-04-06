@@ -1,0 +1,36 @@
+{
+  "name": "@milkdown/dev",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./vite": {
+      "import": "./lib/vite.js",
+      "types": "./lib/vite.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rimraf './lib' && tsc"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/lib"
+        ],
+        "dependsOn": [
+          "build"
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          "build"
+        ]
+      }
+    }
+  }
+}

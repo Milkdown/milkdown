@@ -1,6 +1,6 @@
 import type { LibraryOptions } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
-import { pluginViteConfig } from '../../../vite.config.mjs'
+import { pluginViteConfig } from '@milkdown/dev/vite'
 
 export default pluginViteConfig(import.meta.url, {
   plugins: [tailwindcss()],

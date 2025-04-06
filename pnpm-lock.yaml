@@ -46,6 +46,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.0.0
         version: 19.8.0
+      '@milkdown/dev':
+        specifier: workspace:*
+        version: link:dev
       '@nrwl/tao':
         specifier: 19.8.4
         version: 19.8.4(@swc-node/register@1.10.10(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/types@0.1.20)(typescript@5.8.2))(@swc/core@1.11.13(@swc/helpers@0.5.15))
@@ -178,6 +181,8 @@ importers:
       vitest:
         specifier: ^3.0.0
         version: 3.0.9(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(yaml@2.7.1)
+
+  dev: {}
 
   e2e:
     dependencies:

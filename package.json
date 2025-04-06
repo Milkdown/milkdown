@@ -35,6 +35,7 @@
     "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
+    "@milkdown/dev": "workspace:*",
     "@nrwl/tao": "19.8.4",
     "@nx/web": "20.7.1",
     "@nx/workspace": "20.7.1",
