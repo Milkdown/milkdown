@@ -264,10 +264,6 @@ importers:
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
-      '@milkdown/dev':
-        specifier: workspace:^
-        version: link:../dev
 
   packages/components:
     dependencies:
@@ -1212,9 +1208,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@milkdown/dev':
-        specifier: workspace:^
-        version: link:../dev
       '@storybook/addon-actions':
         specifier: ^8.2.7
         version: 8.6.11(storybook@8.6.11(prettier@3.5.3))
