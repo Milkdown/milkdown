@@ -56,7 +56,6 @@ const external = [
   '@milkdown/plugin-clipboard',
   '@milkdown/plugin-collab',
   '@milkdown/plugin-cursor',
-  '@milkdown/plugin-diagram',
   '@milkdown/plugin-emoji',
   '@milkdown/plugin-history',
   '@milkdown/plugin-indent',
