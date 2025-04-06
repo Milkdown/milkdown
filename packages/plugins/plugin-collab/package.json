@@ -57,6 +57,7 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/dev": "workspace:^",
     "@milkdown/prose": "workspace:*",
     "y-prosemirror": "^1.2.15",
     "y-protocols": "^1.0.6",

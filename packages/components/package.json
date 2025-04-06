@@ -125,9 +125,9 @@
     "clsx": "^2.0.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
+    "nanoid": "^5.0.9",
     "tslib": "^2.8.1",
-    "unist-util-visit": "^5.0.0",
-    "nanoid": "^5.0.9"
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@codemirror/language": "^6.10.1",
@@ -135,6 +135,7 @@
     "@codemirror/view": "^6.26.0",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/dev": "workspace:^",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",
