@@ -170,7 +170,6 @@
     "src"
   ],
   "scripts": {
-    "start": "rollup -c -w",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
     "build": "rollup -c && echo"

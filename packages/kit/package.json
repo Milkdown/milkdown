@@ -344,7 +344,6 @@
     "src"
   ],
   "scripts": {
-    "start": "tsc --watch",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
     "build:css": "postcss 'src' --base 'src' --dir 'lib'",

@@ -98,7 +98,6 @@
     "src"
   ],
   "scripts": {
-    "start": "rollup -c -w",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
     "build": "rimraf './lib' && tsc --emitDeclarationOnly && rollup -c && echo"

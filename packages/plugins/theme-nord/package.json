@@ -32,7 +32,6 @@
     "src"
   ],
   "scripts": {
-    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
     "tsc": "tsc --noEmit && echo",
     "build": "rimraf './lib' && tsc --emitDeclarationOnly && vite build"
   },
