@@ -1,5 +1,32 @@
 # @milkdown/react
 
+## 7.8.0
+
+### Minor Changes
+
+- eeb7c58: Milkdown minor version release.
+
+  ## Feat
+
+  - feat: 🎸 add bike-style virtual cursor (#1770)
+
+  ## Fix
+
+  - fix: crepe inline code padding
+  - fix: 🐛 google doc paste (#1773)
+  - fix: 🐛 should not display slash menu if has following chars (#1772)
+  - fix: remove inline code mark inclusive config (#1771)
+
+  ## Chore
+
+  - chore: remove deprecated diagram package (#1786)
+
+### Patch Changes
+
+- Updated dependencies [eeb7c58]
+  - @milkdown/crepe@7.8.0
+  - @milkdown/kit@7.8.0
+
 ## 7.7.0
 
 ### Minor Changes
