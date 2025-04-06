@@ -22,7 +22,6 @@
   "commitMessagePrefix": "chore: ",
   "commitMessageAction": "bump up",
   "commitMessageTopic": "{{depName}} version",
-  "ignoreDeps": ["mermaid"],
   "lockFileMaintenance": {
     "enabled": true,
     "extends": ["schedule:weekly"]
