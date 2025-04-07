@@ -47,7 +47,6 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
-    "@milkdown/dev": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "tailwind-nord": "^1.2.0"
   },

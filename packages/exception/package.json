@@ -54,8 +54,5 @@
         ]
       }
     }
-  },
-  "devDependencies": {
-    "@milkdown/dev": "workspace:*"
   }
 }
