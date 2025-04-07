@@ -36,10 +36,9 @@
     "src"
   ],
   "scripts": {
-    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
-    "build": "tsc --emitDeclarationOnly && vite build"
+    "build": "rimraf './lib' && tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
     "@milkdown/prose": "^7.2.0"
@@ -53,6 +52,7 @@
     "unified": "^11.0.3"
   },
   "devDependencies": {
+    "@milkdown/dev": "workspace:^",
     "@milkdown/prose": "workspace:*"
   },
   "nx": {

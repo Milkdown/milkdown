@@ -35,10 +35,9 @@
     "src"
   ],
   "scripts": {
-    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
-    "build": "tsc --emitDeclarationOnly && vite build"
+    "build": "rimraf './lib' && tsc --emitDeclarationOnly && vite build"
   },
   "peerDependencies": {
     "react": "*",
@@ -50,6 +49,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@milkdown/dev": "workspace:^",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",

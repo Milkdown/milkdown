@@ -51,7 +51,6 @@
     "src"
   ],
   "scripts": {
-    "start": "concurrently -n es,dts \"vite build --watch\"  \"tsc --emitDeclarationOnly --watch\"",
     "test": "vitest",
     "tsc": "tsc --noEmit && echo",
     "build": "rimraf './lib' && pnpm run build:type && pnpm run build:es && pnpm run build:theme && echo",
@@ -94,5 +93,8 @@
         ]
       }
     }
+  },
+  "devDependencies": {
+    "@milkdown/dev": "workspace:^"
   }
 }
