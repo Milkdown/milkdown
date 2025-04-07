@@ -52,7 +52,6 @@
     "unified": "^11.0.3"
   },
   "devDependencies": {
-    "@milkdown/dev": "workspace:*",
     "@milkdown/prose": "workspace:*"
   },
   "nx": {
