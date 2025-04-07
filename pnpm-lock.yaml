@@ -320,7 +320,7 @@ importers:
         specifier: workspace:*
         version: link:../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
       '@milkdown/plugin-tooltip':
         specifier: workspace:*
@@ -363,7 +363,7 @@ importers:
         specifier: workspace:*
         version: link:../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -424,7 +424,7 @@ importers:
         version: 5.0.0
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
 
   packages/ctx:
@@ -437,7 +437,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
 
   packages/exception:
@@ -447,7 +447,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
 
   packages/integrations/react:
@@ -463,7 +463,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@types/react':
         specifier: ^19.0.0
@@ -491,7 +491,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       vue:
         specifier: ^3.3.4
@@ -558,7 +558,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
 
   packages/plugins/plugin-automd:
@@ -580,7 +580,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -614,7 +614,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -633,7 +633,7 @@ importers:
         specifier: workspace:*
         version: link:../../core
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -658,7 +658,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -689,7 +689,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -729,7 +729,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -754,7 +754,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -776,7 +776,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -804,7 +804,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -832,7 +832,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -866,7 +866,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -903,7 +903,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -925,7 +925,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -950,7 +950,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -981,7 +981,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -1015,7 +1015,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/preset-commonmark':
         specifier: workspace:*
@@ -1043,7 +1043,7 @@ importers:
         specifier: workspace:*
         version: link:../../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -1101,7 +1101,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
 
   packages/transformer:
@@ -1126,7 +1126,7 @@ importers:
         version: 11.0.5
     devDependencies:
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
       '@milkdown/prose':
         specifier: workspace:*
@@ -1151,7 +1151,7 @@ importers:
         specifier: workspace:*
         version: link:../ctx
       '@milkdown/dev':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../dev
       '@milkdown/prose':
         specifier: workspace:*

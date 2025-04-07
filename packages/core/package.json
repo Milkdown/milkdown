@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@milkdown/ctx": "workspace:*",
-    "@milkdown/dev": "workspace:^",
+    "@milkdown/dev": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*"
   },

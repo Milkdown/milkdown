@@ -135,7 +135,7 @@
     "@codemirror/view": "^6.26.0",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
-    "@milkdown/dev": "workspace:^",
+    "@milkdown/dev": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",

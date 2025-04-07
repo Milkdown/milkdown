@@ -95,6 +95,6 @@
     }
   },
   "devDependencies": {
-    "@milkdown/dev": "workspace:^"
+    "@milkdown/dev": "workspace:*"
   }
 }

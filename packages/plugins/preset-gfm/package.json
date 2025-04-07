@@ -57,7 +57,7 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
-    "@milkdown/dev": "workspace:^",
+    "@milkdown/dev": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*"
