@@ -24,3 +24,7 @@ runs:
     - name: Install
       run: pnpm install
       shell: bash
+
+    - name: Build
+      run: pnpm build
+      shell: bash

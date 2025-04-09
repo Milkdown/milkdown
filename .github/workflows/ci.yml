@@ -68,9 +68,6 @@ jobs:
 
       - uses: ./.github/actions/setup
 
-      - name: Build packages
-        run: pnpm build
-
       - name: Install browsers
         run: pnpm --filter=@milkdown/e2e test:install
 
