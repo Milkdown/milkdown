@@ -261,9 +261,33 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.5.1
         version: 1.6.13
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../ctx
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../exception
+      '@milkdown/plugin-tooltip':
+        specifier: workspace:*
+        version: link:../plugins/plugin-tooltip
+      '@milkdown/preset-commonmark':
+        specifier: workspace:*
+        version: link:../plugins/preset-commonmark
+      '@milkdown/preset-gfm':
+        specifier: workspace:*
+        version: link:../plugins/preset-gfm
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../prose
+      '@milkdown/transformer':
+        specifier: workspace:*
+        version: link:../transformer
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/lodash.debounce':
         specifier: ^4.0.7
         version: 4.0.9
@@ -301,36 +325,21 @@ importers:
       '@codemirror/view':
         specifier: ^6.26.0
         version: 6.36.5
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../core
+
+  packages/core:
+    dependencies:
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../ctx
-      '@milkdown/plugin-tooltip':
+      '@milkdown/exception':
         specifier: workspace:*
-        version: link:../plugins/plugin-tooltip
-      '@milkdown/preset-commonmark':
-        specifier: workspace:*
-        version: link:../plugins/preset-commonmark
-      '@milkdown/preset-gfm':
-        specifier: workspace:*
-        version: link:../plugins/preset-gfm
+        version: link:../exception
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../prose
       '@milkdown/transformer':
         specifier: workspace:*
         version: link:../transformer
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/core:
-    dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../exception
       remark-parse:
         specifier: ^11.0.0
         version: 11.0.0
@@ -343,16 +352,6 @@ importers:
       unified:
         specifier: ^11.0.3
         version: 11.0.5
-    devDependencies:
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../prose
-      '@milkdown/transformer':
-        specifier: workspace:*
-        version: link:../transformer
 
   packages/crepe:
     dependencies:
@@ -432,18 +431,6 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
-      '@milkdown/transformer':
-        specifier: workspace:*
-        version: link:../../transformer
       '@types/react':
         specifier: ^19.0.0
         version: 19.1.0
@@ -471,19 +458,6 @@ importers:
       vue:
         specifier: ^3.0.0
         version: 3.5.13(typescript@5.8.3)
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
-      '@milkdown/transformer':
-        specifier: workspace:*
-        version: link:../../transformer
 
   packages/kit:
     dependencies:
@@ -547,37 +521,42 @@ importers:
 
   packages/plugins/plugin-automd:
     dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../../exception
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../../exception
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-      '@milkdown/transformer':
+      '@milkdown/utils':
         specifier: workspace:*
-        version: link:../../transformer
+        version: link:../../utils
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   packages/plugins/plugin-block:
     dependencies:
       '@floating-ui/dom':
         specifier: ^1.5.1
         version: 1.6.13
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../../exception
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -590,26 +569,9 @@ importers:
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
 
   packages/plugins/plugin-clipboard:
     dependencies:
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
@@ -619,53 +581,46 @@ importers:
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-      '@milkdown/transformer':
+      '@milkdown/utils':
         specifier: workspace:*
-        version: link:../../transformer
+        version: link:../../utils
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   packages/plugins/plugin-collab:
     dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../../exception
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-      y-prosemirror:
-        specifier: '*'
-        version: 1.3.0(prosemirror-model@1.25.0)(prosemirror-state@1.4.3)(prosemirror-view@1.39.1)(y-protocols@1.0.6(yjs@13.6.24))(yjs@13.6.24)
-      y-protocols:
-        specifier: '*'
-        version: 1.0.6(yjs@13.6.24)
-      yjs:
-        specifier: '*'
-        version: 13.6.24
-    devDependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../../exception
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-      '@milkdown/transformer':
+      '@milkdown/utils':
         specifier: workspace:*
-        version: link:../../transformer
+        version: link:../../utils
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      y-prosemirror:
+        specifier: ^1.2.15
+        version: 1.3.0(prosemirror-model@1.25.0)(prosemirror-state@1.4.3)(prosemirror-view@1.39.1)(y-protocols@1.0.6(yjs@13.6.24))(yjs@13.6.24)
+      y-protocols:
+        specifier: ^1.0.6
+        version: 1.0.6(yjs@13.6.24)
+      yjs:
+        specifier: ^13.6.23
+        version: 13.6.24
 
   packages/plugins/plugin-cursor:
     dependencies:
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
@@ -675,15 +630,30 @@ importers:
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-      '@milkdown/transformer':
+      '@milkdown/utils':
         specifier: workspace:*
-        version: link:../../transformer
+        version: link:../../utils
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   packages/plugins/plugin-emoji:
     dependencies:
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../../exception
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
+      '@milkdown/transformer':
+        specifier: workspace:*
+        version: link:../../transformer
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -705,29 +675,9 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
-      '@milkdown/transformer':
-        specifier: workspace:*
-        version: link:../../transformer
 
   packages/plugins/plugin-history:
     dependencies:
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
@@ -737,16 +687,15 @@ importers:
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../../utils
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   packages/plugins/plugin-indent:
     dependencies:
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
@@ -756,12 +705,24 @@ importers:
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-      '@milkdown/transformer':
+      '@milkdown/utils':
         specifier: workspace:*
-        version: link:../../transformer
+        version: link:../../utils
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   packages/plugins/plugin-listener:
     dependencies:
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -774,7 +735,9 @@ importers:
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
+
+  packages/plugins/plugin-prism:
+    dependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
@@ -784,9 +747,6 @@ importers:
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-
-  packages/plugins/plugin-prism:
-    dependencies:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -799,28 +759,24 @@ importers:
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
-      '@milkdown/transformer':
-        specifier: workspace:*
-        version: link:../../transformer
 
   packages/plugins/plugin-slash:
     dependencies:
       '@floating-ui/dom':
         specifier: ^1.5.1
         version: 1.6.13
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../../exception
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -833,25 +789,24 @@ importers:
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
 
   packages/plugins/plugin-tooltip:
     dependencies:
       '@floating-ui/dom':
         specifier: ^1.5.1
         version: 1.6.13
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../../exception
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -861,13 +816,12 @@ importers:
       lodash.throttle:
         specifier: ^4.1.1
         version: 4.1.1
-      tippy.js:
-        specifier: ^6.3.7
-        version: 6.3.7
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
+
+  packages/plugins/plugin-trailing:
+    dependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
@@ -877,56 +831,51 @@ importers:
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-
-  packages/plugins/plugin-trailing:
-    dependencies:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
+
+  packages/plugins/plugin-upload:
+    dependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../../exception
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../../utils
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+
+  packages/plugins/preset-commonmark:
+    dependencies:
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../../exception
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
       '@milkdown/transformer':
         specifier: workspace:*
         version: link:../../transformer
-
-  packages/plugins/plugin-upload:
-    dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../../exception
-      '@milkdown/utils':
-        specifier: workspace:*
-        version: link:../../utils
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
-
-  packages/plugins/preset-commonmark:
-    dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../../exception
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -939,28 +888,24 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
-    devDependencies:
+
+  packages/plugins/preset-gfm:
+    dependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../../exception
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
       '@milkdown/transformer':
         specifier: workspace:*
         version: link:../../transformer
-
-  packages/plugins/preset-gfm:
-    dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../../exception
-      '@milkdown/preset-commonmark':
-        specifier: ^7.2.0
-        version: 7.8.0(@milkdown/core@packages+core)(@milkdown/ctx@packages+ctx)(@milkdown/prose@packages+prose)(@milkdown/transformer@packages+transformer)
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -973,7 +918,9 @@ importers:
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
+
+  packages/plugins/theme-nord:
+    dependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
@@ -983,31 +930,12 @@ importers:
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
-      '@milkdown/transformer':
-        specifier: workspace:*
-        version: link:../../transformer
-
-  packages/plugins/theme-nord:
-    dependencies:
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
-    devDependencies:
-      '@milkdown/core':
-        specifier: workspace:*
-        version: link:../../core
-      '@milkdown/ctx':
-        specifier: workspace:*
-        version: link:../../ctx
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../../prose
-      tailwind-nord:
-        specifier: ^1.2.0
-        version: 1.3.0
 
   packages/prose:
     dependencies:
@@ -1062,6 +990,9 @@ importers:
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../exception
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../prose
       remark:
         specifier: ^15.0.1
         version: 15.0.1
@@ -1077,35 +1008,30 @@ importers:
       unified:
         specifier: ^11.0.3
         version: 11.0.5
-    devDependencies:
-      '@milkdown/prose':
-        specifier: workspace:*
-        version: link:../prose
 
   packages/utils:
     dependencies:
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../exception
-      nanoid:
-        specifier: ^5.0.9
-        version: 5.1.5
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../core
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../exception
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../prose
       '@milkdown/transformer':
         specifier: workspace:*
         version: link:../transformer
+      nanoid:
+        specifier: ^5.0.9
+        version: 5.1.5
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   storybook:
     dependencies:
@@ -1982,25 +1908,6 @@ packages:
       '@types/react': '>=16'
       react: '>=16'
 
-  '@milkdown/exception@7.8.0':
-    resolution: {integrity: sha512-jwKjUV5LZjFXUjP0BbPQYtdET62szUQ8bH6hjG5p7kXbdzvbMURmF8gzFnNSfUw94uzjdPTKOeZV06veICeVyw==}
-
-  '@milkdown/preset-commonmark@7.8.0':
-    resolution: {integrity: sha512-HbnktClO9pTJ1V3y88TNj8Y87h+eUEiWnVBRoT2bDvO4+B5GZxRfMD9KVEZCas2/dHB+CEZFXk6hkmqlAf0WBA==}
-    peerDependencies:
-      '@milkdown/core': ^7.2.0
-      '@milkdown/ctx': ^7.2.0
-      '@milkdown/prose': ^7.2.0
-      '@milkdown/transformer': ^7.2.0
-
-  '@milkdown/utils@7.8.0':
-    resolution: {integrity: sha512-7gFlva4Op4JqzkDZ1lbUCSG2tB9LpKUYcLstSNtS5OSomfXY4Xyk21czhIfeE/TjskTUqpZAZq+/zE/pyPhHoA==}
-    peerDependencies:
-      '@milkdown/core': ^7.2.0
-      '@milkdown/ctx': ^7.2.0
-      '@milkdown/prose': ^7.2.0
-      '@milkdown/transformer': ^7.2.0
-
   '@napi-rs/wasm-runtime@0.2.8':
     resolution: {integrity: sha512-OBlgKdX7gin7OIq4fadsjpg+cp2ZphvAIKucHsNfTdJiqdOmOEwQd/bHi0VwNrcw5xpBJyUw6cK/QilCqy1BSg==}
 
@@ -2154,9 +2061,6 @@ packages:
     resolution: {integrity: sha512-nM+kEaTSAoVlXmMPH10017vn3FSiFqr/bh4fKg9vmAdMfd9SDqRZNvPSiAHADc/itWak+qPvMPZQOPwCBW7k7Q==}
     engines: {node: '>=18'}
     hasBin: true
-
-  '@popperjs/core@2.11.8':
-    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
   '@rollup/plugin-commonjs@28.0.3':
     resolution: {integrity: sha512-pyltgilam1QPdn+Zd9gaCfOLcnjMEJ9gV+bTw6/r73INdvzf1ah9zLIJBm+kW7R6IUFIQ1YO+VqZtYxZNWFPEQ==}
@@ -5289,9 +5193,6 @@ packages:
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
-  tailwind-nord@1.3.0:
-    resolution: {integrity: sha512-F5tdTG3n9zzctAuRqjX2sdpmwSjbYC/HQdXSg/TQIxaynO1DNvnqBaE+IhmPbQIttMvvY54KiYMDXJqMdQLi1Q==}
-
   tailwindcss@4.1.3:
     resolution: {integrity: sha512-2Q+rw9vy1WFXu5cIxlvsabCwhU2qUwodGq03ODhLJ0jW4ek5BUtoCsnLB0qG+m8AHgEsSJcJGDSDe06FXlP74g==}
 
@@ -5337,9 +5238,6 @@ packages:
   tinyspy@3.0.2:
     resolution: {integrity: sha512-n1cw8k1k0x4pgA2+9XrOkFydTerNcJ1zWCO5Nn9scWHTD+5tp8dghT2x1uduQePZTZgd3Tupf+x9BxJjeJi77Q==}
     engines: {node: '>=14.0.0'}
-
-  tippy.js@6.3.7:
-    resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
 
   tldts-core@6.1.85:
     resolution: {integrity: sha512-DTjUVvxckL1fIoPSb3KE7ISNtkWSawZdpfxGxwiIrZoO6EbHVDXXUIlIuWympPaeS+BLGyggozX/HTMsRAdsoA==}
@@ -6828,32 +6726,6 @@ snapshots:
       '@types/react': 19.1.0
       react: 19.1.0
 
-  '@milkdown/exception@7.8.0':
-    dependencies:
-      tslib: 2.8.1
-
-  '@milkdown/preset-commonmark@7.8.0(@milkdown/core@packages+core)(@milkdown/ctx@packages+ctx)(@milkdown/prose@packages+prose)(@milkdown/transformer@packages+transformer)':
-    dependencies:
-      '@milkdown/core': link:packages/core
-      '@milkdown/ctx': link:packages/ctx
-      '@milkdown/exception': 7.8.0
-      '@milkdown/prose': link:packages/prose
-      '@milkdown/transformer': link:packages/transformer
-      '@milkdown/utils': 7.8.0(@milkdown/core@packages+core)(@milkdown/ctx@packages+ctx)(@milkdown/prose@packages+prose)(@milkdown/transformer@packages+transformer)
-      remark-inline-links: 7.0.0
-      tslib: 2.8.1
-      unist-util-visit: 5.0.0
-
-  '@milkdown/utils@7.8.0(@milkdown/core@packages+core)(@milkdown/ctx@packages+ctx)(@milkdown/prose@packages+prose)(@milkdown/transformer@packages+transformer)':
-    dependencies:
-      '@milkdown/core': link:packages/core
-      '@milkdown/ctx': link:packages/ctx
-      '@milkdown/exception': 7.8.0
-      '@milkdown/prose': link:packages/prose
-      '@milkdown/transformer': link:packages/transformer
-      nanoid: 5.1.5
-      tslib: 2.8.1
-
   '@napi-rs/wasm-runtime@0.2.8':
     dependencies:
       '@emnapi/core': 1.4.0
@@ -6959,8 +6831,6 @@ snapshots:
   '@playwright/test@1.51.1':
     dependencies:
       playwright: 1.51.1
-
-  '@popperjs/core@2.11.8': {}
 
   '@rollup/plugin-commonjs@28.0.3(rollup@4.39.0)':
     dependencies:
@@ -10389,8 +10259,6 @@ snapshots:
 
   symbol-tree@3.2.4: {}
 
-  tailwind-nord@1.3.0: {}
-
   tailwindcss@4.1.3: {}
 
   tapable@2.2.1: {}
@@ -10419,10 +10287,6 @@ snapshots:
   tinyrainbow@2.0.0: {}
 
   tinyspy@3.0.2: {}
-
-  tippy.js@6.3.7:
-    dependencies:
-      '@popperjs/core': 2.11.8
 
   tldts-core@6.1.85: {}
 

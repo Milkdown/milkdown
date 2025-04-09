@@ -370,12 +370,5 @@
     "@milkdown/transformer": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "tslib": "^2.8.1"
-  },
-  "devDependencies": {
-    "@milkdown/core": "workspace:*",
-    "@milkdown/ctx": "workspace:*",
-    "@milkdown/prose": "workspace:*",
-    "@milkdown/transformer": "workspace:*",
-    "tslib": "^2.8.1"
   }
 }

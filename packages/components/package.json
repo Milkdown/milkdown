@@ -105,17 +105,17 @@
   "peerDependencies": {
     "@codemirror/language": "^6",
     "@codemirror/state": "^6",
-    "@codemirror/view": "^6",
-    "@milkdown/core": "^7.2.0",
-    "@milkdown/ctx": "^7.2.0",
-    "@milkdown/plugin-tooltip": "^7.2.0",
-    "@milkdown/preset-commonmark": "^7.2.0",
-    "@milkdown/preset-gfm": "^7.2.0",
-    "@milkdown/prose": "^7.2.0",
-    "@milkdown/transformer": "^7.2.0",
-    "@milkdown/utils": "^7.2.0"
+    "@codemirror/view": "^6"
   },
   "dependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
+    "@milkdown/plugin-tooltip": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/preset-gfm": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/transformer": "workspace:*",
+    "@milkdown/utils": "workspace:*",
     "@atomico/hooks": "^4.1.2",
     "@floating-ui/dom": "^1.5.1",
     "@milkdown/exception": "workspace:*",
@@ -132,15 +132,6 @@
   "devDependencies": {
     "@codemirror/language": "^6.10.1",
     "@codemirror/state": "^6.4.1",
-    "@codemirror/view": "^6.26.0",
-    "@milkdown/core": "workspace:*",
-    "@milkdown/ctx": "workspace:*",
-    "@milkdown/plugin-tooltip": "workspace:*",
-    "@milkdown/preset-commonmark": "workspace:*",
-    "@milkdown/preset-gfm": "workspace:*",
-    "@milkdown/prose": "workspace:*",
-    "@milkdown/transformer": "workspace:*",
-    "@milkdown/utils": "workspace:*",
-    "tslib": "^2.8.1"
+    "@codemirror/view": "^6.26.0"
   }
 }
