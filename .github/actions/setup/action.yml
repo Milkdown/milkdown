@@ -28,5 +28,5 @@ runs:
     - uses: nrwl/nx-set-shas@v4
 
     - name: Build packages
-      run: pnpm build
+      run: pnpm build:nx
       shell: bash

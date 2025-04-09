@@ -18,7 +18,7 @@
     "format": "lint-staged",
     "fix": "prettier . --write",
     "start": "pnpm --filter=@milkdown/storybook run start",
-    "build": "nx run-many --target=build --all --parallel",
+    "build:nx": "nx run-many --target=build --all --parallel",
     "build:affected": "nx affected --target=build",
     "build:packs": "pnpm --filter=@milkdown/* run build",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
@@ -128,6 +128,24 @@
       "array-flatten": "npm:@nolyfill/array-flatten@^1",
       "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
       "safer-buffer": "npm:@nolyfill/safer-buffer@^1"
+    }
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/lib"
+        ],
+        "dependsOn": [
+          "build"
+        ]
+      },
+      "tsc": {
+        "outputs": [],
+        "dependsOn": [
+          "build"
+        ]
+      }
     }
   }
 }
