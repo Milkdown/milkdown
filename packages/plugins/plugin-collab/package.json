@@ -58,26 +58,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "y-prosemirror": "^1.2.15",
-    "y-protocols": "^1.0.6",
-    "yjs": "^13.6.23"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
+    "@milkdown/transformer": "workspace:*",
+    "tslib": "^2.8.1"
   }
 }

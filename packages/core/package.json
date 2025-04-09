@@ -59,23 +59,5 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
   }
 }

@@ -49,23 +49,5 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "tailwind-nord": "^1.2.0"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
   }
 }

@@ -57,26 +57,8 @@
   "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
-    "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@milkdown/transformer": "workspace:*"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
+    "@milkdown/transformer": "workspace:*",
+    "tslib": "^2.8.1"
   }
 }

@@ -48,24 +48,10 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "vue": "^3.3.4"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
+    "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/transformer": "workspace:*",
+    "tslib": "^2.8.1"
   }
 }

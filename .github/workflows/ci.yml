@@ -13,7 +13,6 @@ concurrency:
 
 env:
   CI: true
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
   install-deps:
@@ -69,6 +68,9 @@ jobs:
 
       - uses: ./.github/actions/setup
 
+      - name: Build packages
+        run: pnpm build
+
       - name: Install browsers
         run: pnpm --filter=@milkdown/e2e test:install
 
@@ -89,5 +91,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: On error
-        if: ${{ needs.e2e.result != 'success' || needs.unit.result != 'success' || needs.lint.result != 'success' }}
+        if: ${{ always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
         run: exit 1
