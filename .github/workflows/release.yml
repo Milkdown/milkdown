@@ -38,6 +38,9 @@ jobs:
 
       - uses: ./.github/actions/setup
 
+      - name: Build packages
+        run: pnpm build
+
       - name: Publish to NPM
         run: pnpm ci:publish
         env:
