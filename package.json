@@ -19,7 +19,7 @@
     "start": "pnpm --filter=@milkdown/storybook run start",
     "build": "pnpm -r run build",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:publish": "pnpm build:packs && pnpm publish --access public -r --no-git-checks --tag latest",
+    "ci:publish": "pnpm build && pnpm publish --access public -r --no-git-checks --tag latest",
     "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
     "changeset": "changeset && node scripts/changelog.mjs",
     "release": "changeset publish",
