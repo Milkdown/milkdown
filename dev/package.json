@@ -10,9 +10,23 @@
     "./vite": {
       "import": "./lib/vite.js",
       "types": "./lib/vite.d.ts"
+    },
+    "./logger": {
+      "import": "./lib/logger.js",
+      "types": "./lib/logger.d.ts"
+    },
+    "./exec": {
+      "import": "./lib/exec.js",
+      "types": "./lib/exec.d.ts"
     }
   },
   "scripts": {
     "build": "rimraf './lib' && tsc"
+  },
+  "dependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "chalk": "^5.4.1",
+    "jsonc-parser": "^3.3.1",
+    "lodash-es": "^4.17.21"
   }
 }
