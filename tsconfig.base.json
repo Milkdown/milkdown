@@ -26,6 +26,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
 
+    "emitDeclarationOnly": true,
+
     "pretty": true,
     "preserveWatchOutput": true,
 
