@@ -44,6 +44,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/transformer": "workspace:*",
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",

@@ -900,6 +900,9 @@ importers:
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../../exception
+      '@milkdown/preset-commonmark':
+        specifier: workspace:*
+        version: link:../preset-commonmark
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose
