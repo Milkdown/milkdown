@@ -1,8 +1,15 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [
+    { "path": "../../utils" },
+    { "path": "../../core" },
+    { "path": "../../ctx" },
+    { "path": "../../prose" }
+  ]
 }

@@ -1,9 +1,30 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "include": ["src"],
-  "exclude": ["src/**/*.spec.ts"]
+  "exclude": ["src/**/*.spec.ts"],
+  "references": [
+    { "path": "../components" },
+    { "path": "../core" },
+    { "path": "../ctx" },
+    { "path": "../plugins/plugin-block" },
+    { "path": "../plugins/plugin-clipboard" },
+    { "path": "../plugins/plugin-cursor" },
+    { "path": "../plugins/plugin-history" },
+    { "path": "../plugins/plugin-indent" },
+    { "path": "../plugins/plugin-listener" },
+    { "path": "../plugins/plugin-slash" },
+    { "path": "../plugins/plugin-tooltip" },
+    { "path": "../plugins/plugin-trailing" },
+    { "path": "../plugins/plugin-upload" },
+    { "path": "../plugins/preset-commonmark" },
+    { "path": "../plugins/preset-gfm" },
+    { "path": "../prose" },
+    { "path": "../transformer" },
+    { "path": "../utils" }
+  ]
 }

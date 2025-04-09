@@ -1,9 +1,21 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "include": ["src"],
-  "exclude": ["src/**/*.spec.ts"]
+  "exclude": ["src/**/*.spec.ts"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../ctx" },
+    { "path": "../plugins/plugin-tooltip" },
+    { "path": "../plugins/preset-commonmark" },
+    { "path": "../plugins/preset-gfm" },
+    { "path": "../prose" },
+    { "path": "../transformer" },
+    { "path": "../utils" },
+    { "path": "../exception" }
+  ]
 }

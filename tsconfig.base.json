@@ -27,6 +27,9 @@
     "forceConsistentCasingInFileNames": true,
 
     "pretty": true,
-    "preserveWatchOutput": true
+    "preserveWatchOutput": true,
+
+    "incremental": true,
+    "composite": true,
   }
 }

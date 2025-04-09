@@ -1,4 +1,37 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": ["**/*", "**/.storybook/*"]
+  "include": [],
+  "references": [
+    { "path": "./dev" },
+    { "path": "./e2e" },
+    { "path": "./packages/components" },
+    { "path": "./packages/core" },
+    { "path": "./packages/crepe" },
+    { "path": "./packages/ctx" },
+    { "path": "./packages/exception" },
+    { "path": "./packages/integrations/react" },
+    { "path": "./packages/integrations/vue" },
+    { "path": "./packages/kit" },
+    { "path": "./packages/plugins/plugin-automd" },
+    { "path": "./packages/plugins/plugin-block" },
+    { "path": "./packages/plugins/plugin-clipboard" },
+    { "path": "./packages/plugins/plugin-collab" },
+    { "path": "./packages/plugins/plugin-cursor" },
+    { "path": "./packages/plugins/plugin-emoji" },
+    { "path": "./packages/plugins/plugin-history" },
+    { "path": "./packages/plugins/plugin-indent" },
+    { "path": "./packages/plugins/plugin-listener" },
+    { "path": "./packages/plugins/plugin-prism" },
+    { "path": "./packages/plugins/plugin-slash" },
+    { "path": "./packages/plugins/plugin-tooltip" },
+    { "path": "./packages/plugins/plugin-trailing" },
+    { "path": "./packages/plugins/plugin-upload" },
+    { "path": "./packages/plugins/preset-commonmark" },
+    { "path": "./packages/plugins/preset-gfm" },
+    { "path": "./packages/plugins/theme-nord" },
+    { "path": "./packages/prose" },
+    { "path": "./packages/transformer" },
+    { "path": "./packages/utils" },
+    { "path": "./storybook" }
+  ]
 }
