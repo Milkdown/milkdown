@@ -18,6 +18,7 @@
     "fix": "prettier . --write",
     "start": "pnpm --filter=@milkdown/storybook run start",
     "build": "pnpm -r run build",
+    "codegen": "tsx ./scripts/gen-ts-config.mts",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "pnpm build && pnpm publish --access public -r --no-git-checks --tag latest",
     "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
