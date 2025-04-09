@@ -20,5 +20,5 @@ export const pnpmList = once(() => {
     p.path = p.path.replaceAll(/\\/g, '/');
   });
 
-  return packageList;
+  return packageList.filter(p => p.name !== '@milkdown/monorepo');
 });
