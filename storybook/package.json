@@ -35,17 +35,5 @@
     "@storybook/html-vite": "^8.2.7",
     "serve": "^14.2.3",
     "storybook": "^8.2.7"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
   }
 }

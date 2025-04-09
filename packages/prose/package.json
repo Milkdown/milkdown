@@ -190,23 +190,5 @@
     "prosemirror-transform": "^1.10.2",
     "prosemirror-view": "^1.37.1",
     "tslib": "^2.8.1"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
   }
 }

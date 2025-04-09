@@ -13,7 +13,6 @@ concurrency:
 
 env:
   CI: true
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
   install-deps:
@@ -54,6 +53,20 @@ jobs:
       - name: Run unit tests
         run: pnpm test:unit
 
+  build:
+    runs-on: ubuntu-latest
+    needs: install-deps
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Build packages
+        run: pnpm build
+
   e2e:
     runs-on: ubuntu-latest
     needs: install-deps
@@ -68,6 +81,9 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
+
+      - name: Build e2e
+        run: pnpm --filter=@milkdown/e2e run build
 
       - name: Install browsers
         run: pnpm --filter=@milkdown/e2e test:install
@@ -85,9 +101,9 @@ jobs:
 
   summary:
     if: ${{ always() }}
-    needs: [lint, unit, e2e]
+    needs: [lint, unit, e2e, build]
     runs-on: ubuntu-latest
     steps:
       - name: On error
-        if: ${{ needs.e2e.result != 'success' || needs.unit.result != 'success' || needs.lint.result != 'success' }}
+        if: ${{ always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
         run: exit 1

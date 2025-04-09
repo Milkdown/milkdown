@@ -11,19 +11,15 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:tsc": "pnpm --filter=@milkdown/* run tsc",
-    "test:tsc:cache": "nx run-many --target=tsc --all --parallel",
     "test:lint": "oxlint -c .oxlintrc.json",
     "test:e2e": "pnpm --filter=@milkdown/e2e test",
     "test:e2e:build": "pnpm --filter=@milkdown/e2e run build",
     "format": "lint-staged",
     "fix": "prettier . --write",
     "start": "pnpm --filter=@milkdown/storybook run start",
-    "build:nx": "nx run-many --target=build --all --parallel",
-    "build:affected": "nx affected --target=build",
-    "build:packs": "pnpm --filter=@milkdown/* run build",
+    "build": "pnpm -r run build",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "pnpm build:packs && pnpm publish --access public -r --no-git-checks --tag latest",
-    "graph": "nx dep-graph",
     "clear": "rimraf 'packages/*/{lib,tsconfig.tsbuildinfo,node_modules,.rollup.cache}' && rimraf node_modules",
     "changeset": "changeset && node scripts/changelog.mjs",
     "release": "changeset publish",
@@ -36,9 +32,6 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@milkdown/dev": "workspace:*",
-    "@nrwl/tao": "19.8.4",
-    "@nx/web": "20.7.2",
-    "@nx/workspace": "20.7.2",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
@@ -61,7 +54,6 @@
     "husky": "^9.0.10",
     "jsdom": "^26.0.0",
     "lint-staged": "^15.0.0",
-    "nx": "20.7.2",
     "oxlint": "^0.16.3",
     "pathe": "^2.0.0",
     "postcss": "^8.4.38",
@@ -128,24 +120,6 @@
       "array-flatten": "npm:@nolyfill/array-flatten@^1",
       "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
       "safer-buffer": "npm:@nolyfill/safer-buffer@^1"
-    }
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
     }
   }
 }

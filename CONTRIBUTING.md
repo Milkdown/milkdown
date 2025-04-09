@@ -5,7 +5,7 @@
 
 After cloning Milkdown, run `pnpm install` to install dependencies.
 
-1. Run `pnpm build:nx`.
+1. Run `pnpm build`.
 2. Run `pnpm start` in one terminal to see storybook.
 
 # Commands
@@ -18,7 +18,7 @@ You can run several commands:
 - `pnpm test:e2e:debug` runs e2e test with UI.
 - `pnpm test:lint` checks the code style.
 - `pnpm test:tsc` runs typescript type checks.
-- `pnpm build:nx` runs build for all packages with cache powered by nx.
+- `pnpm build` runs build for all packages.
 - `pnpm commit` runs commit with git hooks.
 
 # Pre Check

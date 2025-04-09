@@ -38,36 +38,11 @@
     "tsc": "tsc --noEmit && echo",
     "build": "rimraf './lib' && tsc --emitDeclarationOnly && vite build"
   },
-  "peerDependencies": {
-    "@milkdown/core": "^7.2.0",
-    "@milkdown/ctx": "^7.2.0",
-    "@milkdown/prose": "^7.2.0"
-  },
   "dependencies": {
-    "@milkdown/utils": "workspace:*",
-    "tslib": "^2.8.1"
-  },
-  "devDependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
-    "@milkdown/prose": "workspace:*"
-  },
-  "nx": {
-    "targets": {
-      "build": {
-        "outputs": [
-          "{projectRoot}/lib"
-        ],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "tsc": {
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/utils": "workspace:*",
+    "tslib": "^2.8.1"
   }
 }

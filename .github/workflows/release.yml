@@ -8,7 +8,6 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   CI: true
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
   prepare:
@@ -38,6 +37,9 @@ jobs:
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
+
+      - name: Build packages
+        run: pnpm build
 
       - name: Publish to NPM
         run: pnpm ci:publish
