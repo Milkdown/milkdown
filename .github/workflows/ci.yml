@@ -101,7 +101,7 @@ jobs:
 
   summary:
     if: ${{ always() }}
-    needs: [lint, unit, e2e]
+    needs: [lint, unit, e2e, build]
     runs-on: ubuntu-latest
     steps:
       - name: On error
