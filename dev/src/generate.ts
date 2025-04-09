@@ -28,7 +28,7 @@ export class Generator {
     this.logger.info('Workspace files generated');
   }
 
-  async generateWorkspaceFiles() {
+  generateWorkspaceFiles = async () => {
     const filesToGenerate: [
       Path,
       (prev: string) => string,
@@ -58,7 +58,7 @@ export class Generator {
     }
   }
 
-  format(content: string, parser: BuiltInParserName) {
+  format = (content: string, parser: BuiltInParserName) => {
     const config = JSON.parse(
       readFileSync(this.workspace.join('.prettierrc').value, 'utf-8')
     );
@@ -81,7 +81,7 @@ export class Generator {
     return content.join('\n');
   };
 
-  genProjectTsConfig(prev: string) {
+  genProjectTsConfig = (prev: string) => {
     return applyEdits(
       prev,
       modify(
