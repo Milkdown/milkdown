@@ -18,6 +18,10 @@
     "./exec": {
       "import": "./lib/exec.js",
       "types": "./lib/exec.d.ts"
+    },
+    "./generate": {
+      "import": "./lib/generate.js",
+      "types": "./lib/generate.d.ts"
     }
   },
   "dependencies": {
