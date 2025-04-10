@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 const styles = [
   'prosemirror-view/style/prosemirror.css',
   'prosemirror-tables/style/tables.css',
-  'prosemirror-gapcursor/style/gapcursor.css'
+  'prosemirror-gapcursor/style/gapcursor.css',
 ]
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

@@ -1,30 +1,30 @@
-import { applyEdits, modify } from "jsonc-parser";
-import { Workspace } from "./workspace";
-import type { Path } from "./path";
-import { type BuiltInParserName, format } from 'prettier';
-import { readFileSync, writeFileSync } from "node:fs";
-import { Logger } from "./logger";
-import type { Package } from "./package";
+import { applyEdits, modify } from 'jsonc-parser'
+import { Workspace } from './workspace'
+import type { Path } from './path'
+import { type BuiltInParserName, format } from 'prettier'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { Logger } from './logger'
+import type { Package } from './package'
 
 export function generateTsConfig() {
-  const generator = new Generator();
-  generator.run();
+  const generator = new Generator()
+  generator.run()
 }
 
 export class Generator {
-  workspace: Workspace;
-  logger: Logger;
+  workspace: Workspace
+  logger: Logger
 
   constructor() {
-    this.workspace = new Workspace();
-    this.workspace.join('tsconfig.json');
-    this.logger = new Logger('TS Config');
+    this.workspace = new Workspace()
+    this.workspace.join('tsconfig.json')
+    this.logger = new Logger('TS Config')
   }
 
   async run() {
-    this.logger.info('Generating workspace files');
-    await this.generateWorkspaceFiles();
-    this.logger.info('Workspace files generated');
+    this.logger.info('Generating workspace files')
+    await this.generateWorkspaceFiles()
+    this.logger.info('Workspace files generated')
   }
 
   generateWorkspaceFiles = async () => {
@@ -35,33 +35,33 @@ export class Generator {
     ][] = [
       [this.workspace.join('tsconfig.json'), this.genProjectTsConfig, 'json'],
       ...this.workspace.packages
-        .filter(p => p.isTsProject)
+        .filter((p) => p.isTsProject)
         .map(
-          p =>
+          (p) =>
             [
               p.join('tsconfig.json'),
               this.genPackageTsConfig.bind(this, p),
               'json',
             ] as any
         ),
-    ];
+    ]
 
     for (const [path, content, formatter] of filesToGenerate) {
-      this.logger.info(`Generating: ${path}`);
-      const previous = readFileSync(path.value, 'utf-8');
-      let file = content(previous);
+      this.logger.info(`Generating: ${path}`)
+      const previous = readFileSync(path.value, 'utf-8')
+      let file = content(previous)
       if (formatter) {
-        file = await this.format(file, formatter);
+        file = await this.format(file, formatter)
       }
-      writeFileSync(path.value, file);
+      writeFileSync(path.value, file)
     }
   }
 
   format = (content: string, parser: BuiltInParserName) => {
     const config = JSON.parse(
       readFileSync(this.workspace.join('.prettierrc').value, 'utf-8')
-    );
-    return format(content, { parser, ...config });
+    )
+    return format(content, { parser, ...config })
   }
 
   genProjectTsConfig = (prev: string) => {
@@ -71,11 +71,11 @@ export class Generator {
         prev,
         ['references'],
         this.workspace.packages
-          .filter(p => p.isTsProject)
-          .map(p => ({ path: p.path.relativePath })),
+          .filter((p) => p.isTsProject)
+          .map((p) => ({ path: p.path.relativePath })),
         {}
       )
-    );
+    )
   }
 
   genPackageTsConfig = (pkg: Package, prev: string) => {
@@ -85,10 +85,10 @@ export class Generator {
         prev,
         ['references'],
         pkg.deps
-          .filter(p => p.isTsProject)
-          .map(d => ({ path: pkg.path.relative(d.path.value) })),
+          .filter((p) => p.isTsProject)
+          .map((d) => ({ path: pkg.path.relative(d.path.value) })),
         {}
       )
-    );
-  };
+    )
+  }
 }

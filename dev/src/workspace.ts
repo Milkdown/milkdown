@@ -1,12 +1,12 @@
-import { Logger } from './logger';
-import { Package, readPackageJson } from './package';
-import { ProjectRoot } from './path';
-import type { CommonPackageJsonContent } from './types';
-import { pnpmList } from './pnpm';
+import { Logger } from './logger'
+import { Package, readPackageJson } from './package'
+import { ProjectRoot } from './path'
+import type { CommonPackageJsonContent } from './types'
+import { pnpmList } from './pnpm'
 
 class CircularDependenciesError extends Error {
   constructor(public currentName: string) {
-    super('Circular dependencies error');
+    super('Circular dependencies error')
   }
 }
 
@@ -17,89 +17,89 @@ class ForbiddenPackageRefError extends Error {
   ) {
     super(
       `Public package cannot reference private package. Found '${refName}' in dependencies of '${currentName}'`
-    );
+    )
   }
 }
 
 export class Workspace {
-  static PackageNames = pnpmList().map(p => p.name);
+  static PackageNames = pnpmList().map((p) => p.name)
 
-  readonly packages: Package[];
+  readonly packages: Package[]
 
-  readonly packageJson: CommonPackageJsonContent;
+  readonly packageJson: CommonPackageJsonContent
 
-  private readonly logger = new Logger('Milkdown');
+  private readonly logger = new Logger('Milkdown')
 
-  readonly path = ProjectRoot;
+  readonly path = ProjectRoot
 
   get version() {
-    return this.packageJson.version;
+    return this.packageJson.version
   }
 
   get devDependencies() {
-    return this.packageJson.devDependencies ?? {};
+    return this.packageJson.devDependencies ?? {}
   }
 
   get dependencies() {
-    return this.packageJson.dependencies ?? {};
+    return this.packageJson.dependencies ?? {}
   }
 
   get isTsProject() {
-    return this.join('tsconfig.json').exists();
+    return this.join('tsconfig.json').exists()
   }
 
   constructor(list = pnpmList()) {
-    this.packageJson = readPackageJson(ProjectRoot);
-    const packages = new Map<string, Package>();
+    this.packageJson = readPackageJson(ProjectRoot)
+    const packages = new Map<string, Package>()
 
     for (const meta of list) {
       try {
-        const pkg = new Package(meta.name, meta);
-        pkg.workspace = this;
-        packages.set(pkg.name, pkg);
+        const pkg = new Package(meta.name, meta)
+        pkg.workspace = this
+        packages.set(pkg.name, pkg)
       } catch (e) {
-        this.logger.error(e as Error);
+        this.logger.error(e as Error)
       }
     }
 
-    const building = new Set<string>();
+    const building = new Set<string>()
     try {
-      packages.forEach(pkg => this.buildDeps(pkg, packages, building));
+      packages.forEach((pkg) => this.buildDeps(pkg, packages, building))
     } catch (e) {
       if (e instanceof CircularDependenciesError) {
-        const inProcessPackages = Array.from(building);
+        const inProcessPackages = Array.from(building)
         // console.log(inProcessPackages, e.currentName);
         const circle = inProcessPackages
           .slice(inProcessPackages.indexOf(e.currentName))
-          .concat(e.currentName);
+          .concat(e.currentName)
         this.logger.error(
           `Circular dependencies found: \n  ${circle.join(' -> ')}`
-        );
-        process.exit(1);
+        )
+        process.exit(1)
       }
 
-      throw e;
+      throw e
     }
 
-    this.packages = Array.from(packages.values());
+    this.packages = Array.from(packages.values())
   }
 
   tryGetPackage(name: string) {
-    return this.packages.find(p => p.name === name);
+    return this.packages.find((p) => p.name === name)
   }
 
   getPackage(name: string) {
-    const pkg = this.tryGetPackage(name);
+    const pkg = this.tryGetPackage(name)
 
     if (!pkg) {
-      throw new Error(`Cannot find package with name '${name}'`);
+      throw new Error(`Cannot find package with name '${name}'`)
     }
 
-    return pkg;
+    return pkg
   }
 
   join(...paths: string[]) {
-    return this.path.join(...paths);
+    return this.path.join(...paths)
   }
 
   buildDeps(
@@ -108,39 +108,39 @@ export class Workspace {
     building: Set<string>
   ) {
     if (pkg.deps.length) {
-      return;
+      return
     }
 
-    building.add(pkg.name);
+    building.add(pkg.name)
 
     pkg.deps = pkg.workspaceDependencies
-      .map(relativeDepPath => {
-        const dep = packages.get(relativeDepPath);
+      .map((relativeDepPath) => {
+        const dep = packages.get(relativeDepPath)
 
         if (!dep) {
           this.logger.error(
             `Cannot find package at ${relativeDepPath}. While build dependencies of ${pkg.name}`
-          );
-          return null;
+          )
+          return null
         }
 
         if (building.has(dep.name)) {
-          throw new CircularDependenciesError(dep.name);
+          throw new CircularDependenciesError(dep.name)
         }
 
         if (!pkg.packageJson.private && dep.packageJson.private) {
-          throw new ForbiddenPackageRefError(pkg.name, dep.name);
+          throw new ForbiddenPackageRefError(pkg.name, dep.name)
         }
 
-        this.buildDeps(dep, packages, building);
-        return dep;
+        this.buildDeps(dep, packages, building)
+        return dep
       })
-      .filter(Boolean) as Package[];
+      .filter(Boolean) as Package[]
 
-    building.delete(pkg.name);
+    building.delete(pkg.name)
   }
 
   forEach(callback: (pkg: Package) => void) {
-    this.packages.forEach(callback);
+    this.packages.forEach(callback)
   }
 }

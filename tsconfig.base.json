@@ -30,6 +30,6 @@
     "preserveWatchOutput": true,
 
     "incremental": true,
-    "composite": true,
+    "composite": true
   }
 }

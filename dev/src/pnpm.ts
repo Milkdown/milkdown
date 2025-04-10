@@ -1,12 +1,12 @@
-import { once } from 'lodash-es';
+import { once } from 'lodash-es'
 
-import { exec } from './exec';
+import { exec } from './exec'
 
 export type PackageItem = {
-  name: string;
-  version: string;
-  path: string;
-  private: boolean;
+  name: string
+  version: string
+  path: string
+  private: boolean
 }
 
 export const pnpmList = once(() => {
@@ -16,9 +16,9 @@ export const pnpmList = once(() => {
 
   let packageList = JSON.parse(output) as PackageItem[]
 
-  packageList.forEach(p => {
-    p.path = p.path.replaceAll(/\\/g, '/');
-  });
+  packageList.forEach((p) => {
+    p.path = p.path.replaceAll(/\\/g, '/')
+  })
 
-  return packageList.filter(p => p.name !== '@milkdown/monorepo');
-});
+  return packageList.filter((p) => p.name !== '@milkdown/monorepo')
+})

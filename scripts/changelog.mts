@@ -113,7 +113,9 @@ readGitLogInChunks()
       // Prepend a newline before the markdown content
       appendFileSync(changesetFilePath, '\n' + markdownContent)
 
-      logger.info(`Changelog has been appended to ${basename(changesetFilePath)}`)
+      logger.info(
+        `Changelog has been appended to ${basename(changesetFilePath)}`
+      )
     }
   })
   .catch((err) => {

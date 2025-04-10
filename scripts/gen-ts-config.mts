@@ -1,3 +1,3 @@
-import { generateTsConfig } from '@milkdown/dev/generate';
+import { generateTsConfig } from '@milkdown/dev/generate'
 
-generateTsConfig();
+generateTsConfig()
