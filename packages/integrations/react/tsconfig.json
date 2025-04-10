@@ -1,9 +1,11 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react",
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../../crepe" }, { "path": "../../kit" }]
 }

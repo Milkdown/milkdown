@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "jsx": "preserve",
     "jsxFactory": "h",
@@ -7,7 +7,9 @@
     "rootDir": "src",
     "types": ["vue"],
     "outDir": "lib",
-    "jsxImportSource": "vue"
+    "jsxImportSource": "vue",
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../../crepe" }, { "path": "../../kit" }]
 }

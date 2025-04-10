@@ -32,8 +32,7 @@
     "src"
   ],
   "scripts": {
-    "tsc": "tsc --noEmit && echo",
-    "build": "rimraf './lib' && tsc --emitDeclarationOnly && vite build"
+    "build": "vite build"
   },
   "dependencies": {
     "@milkdown/core": "workspace:*",

@@ -21,11 +21,11 @@
   },
   "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.es.js",
+    "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
     "exports": {
       ".": {
-        "import": "./lib/index.es.js",
+        "import": "./lib/index.js",
         "types": "./lib/index.d.ts"
       }
     }
@@ -34,11 +34,6 @@
     "lib",
     "src"
   ],
-  "scripts": {
-    "test": "vitest",
-    "tsc": "tsc --noEmit && echo",
-    "build": "rimraf './lib' && tsc --emitDeclarationOnly && vite build"
-  },
   "peerDependencies": {
     "react": "*",
     "react-dom": "*"

@@ -344,11 +344,7 @@
     "src"
   ],
   "scripts": {
-    "test": "vitest",
-    "tsc": "tsc --noEmit && echo",
-    "build:css": "postcss 'src' --base 'src' --dir 'lib'",
-    "build:es": "tsc",
-    "build": "rimraf './lib' && pnpm run build:es && pnpm run build:css && echo"
+    "build": "postcss 'src' --base 'src' --dir 'lib'"
   },
   "dependencies": {
     "@milkdown/components": "workspace:*",

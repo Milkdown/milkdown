@@ -1,15 +1,20 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["dom"],
     "baseUrl": ".",
     "rootDir": ".",
-    "sourceMap": false
+    "sourceMap": false,
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "ts-node": {
     "compilerOptions": {
       "module": "es2022",
       "moduleResolution": "node"
     }
-  }
+  },
+  "references": [
+    { "path": "../packages/crepe" },
+    { "path": "../packages/kit" },
+    { "path": "../packages/plugins/theme-nord" }
+  ]
 }

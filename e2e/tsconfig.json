@@ -1,15 +1,32 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["dom"],
     "baseUrl": ".",
     "rootDir": ".",
-    "sourceMap": false
+    "sourceMap": false,
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "ts-node": {
     "compilerOptions": {
       "module": "es2022",
       "moduleResolution": "node"
     }
-  }
+  },
+  "references": [
+    { "path": "../packages/core" },
+    { "path": "../packages/crepe" },
+    { "path": "../packages/ctx" },
+    { "path": "../packages/plugins/plugin-automd" },
+    { "path": "../packages/plugins/plugin-clipboard" },
+    { "path": "../packages/plugins/plugin-cursor" },
+    { "path": "../packages/plugins/plugin-emoji" },
+    { "path": "../packages/plugins/plugin-history" },
+    { "path": "../packages/plugins/plugin-listener" },
+    { "path": "../packages/plugins/plugin-tooltip" },
+    { "path": "../packages/plugins/preset-commonmark" },
+    { "path": "../packages/plugins/preset-gfm" },
+    { "path": "../packages/prose" },
+    { "path": "../packages/plugins/theme-nord" },
+    { "path": "../packages/utils" }
+  ]
 }

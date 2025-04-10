@@ -1,9 +1,17 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "lib"]
+  "exclude": ["node_modules", "lib"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../ctx" },
+    { "path": "../prose" },
+    { "path": "../transformer" },
+    { "path": "../exception" }
+  ]
 }

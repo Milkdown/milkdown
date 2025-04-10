@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2018",
     "lib": ["dom", "es2017", "es2018", "es2019", "es2020", "es2021", "es2022"],
     "module": "ESNext",
 
@@ -27,6 +27,9 @@
     "forceConsistentCasingInFileNames": true,
 
     "pretty": true,
-    "preserveWatchOutput": true
+    "preserveWatchOutput": true,
+
+    "incremental": true,
+    "composite": true
   }
 }
