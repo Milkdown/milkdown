@@ -2,7 +2,6 @@ import { applyEdits, modify } from "jsonc-parser";
 import { Workspace } from "./workspace";
 import type { Path } from "./path";
 import { type BuiltInParserName, format } from 'prettier';
-import { pnpmList } from "./pnpm";
 import { readFileSync, writeFileSync } from "node:fs";
 import { Logger } from "./logger";
 import type { Package } from "./package";
@@ -19,7 +18,7 @@ export class Generator {
   constructor() {
     this.workspace = new Workspace();
     this.workspace.join('tsconfig.json');
-    this.logger = new Logger('Generator');
+    this.logger = new Logger('TS Config');
   }
 
   async run() {
@@ -64,22 +63,6 @@ export class Generator {
     );
     return format(content, { parser, ...config });
   }
-
-  genWorkspaceInfo = () => {
-    const list = pnpmList();
-
-    const names = list.map(p => p.name);
-
-    const content = [
-      '// Auto generated content',
-      '// DO NOT MODIFY THIS FILE MANUALLY',
-      `export const PackageList = ${JSON.stringify(list, null, 2)}`,
-      '',
-      `export type PackageName = ${names.map(n => `'${n}'`).join(' | ')}`,
-    ];
-
-    return content.join('\n');
-  };
 
   genProjectTsConfig = (prev: string) => {
     return applyEdits(
