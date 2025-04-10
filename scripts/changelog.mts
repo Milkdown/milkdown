@@ -1,7 +1,9 @@
-/* oxlint-disable no-console */
 import { execSync } from 'child_process'
 import { appendFileSync, readdirSync, existsSync } from 'fs'
 import { join, basename } from 'path'
+import { Logger } from '@milkdown/dev/logger'
+
+const logger = new Logger('changelog')
 
 const commitTypes = [
   'feat',
@@ -22,7 +24,7 @@ commitTypes.forEach((type) => {
   commits[type] = []
 })
 
-const processLogChunk = (log) => {
+const processLogChunk = (log: string) => {
   const logLines = log.split('\n')
 
   for (const line of logLines) {
@@ -63,7 +65,7 @@ const readGitLogInChunks = async (chunkSize = 20) => {
   }
 }
 
-const generateMarkdown = (commitGroups) => {
+const generateMarkdown = (commitGroups: Record<string, string[]>) => {
   let markdown = ''
 
   for (const [type, messages] of Object.entries(commitGroups)) {
@@ -88,7 +90,7 @@ const getChangesetFile = () => {
   const changesetDir = join(gitRoot, '.changeset')
 
   if (!existsSync(changesetDir)) {
-    console.error('The .changeset directory does not exist.')
+    logger.error('The .changeset directory does not exist.')
     process.exit(1)
   }
 
@@ -104,18 +106,16 @@ readGitLogInChunks()
     const markdownContent = generateMarkdown(commits)
 
     if (!changesetFilePath) {
-      console.warn('No changeset file found. Outputting to console instead.')
-      console.log(markdownContent)
+      logger.warn('No changeset file found. Outputting to console instead.')
+      logger.log(markdownContent)
       process.exit(1)
     } else {
       appendFileSync(changesetFilePath, markdownContent)
 
-      console.log(
-        `Changelog has been appended to ${basename(changesetFilePath)}`
-      )
+      logger.info(`Changelog has been appended to ${basename(changesetFilePath)}`)
     }
   })
   .catch((err) => {
-    console.error('An error occurred while processing the git log.', err)
+    logger.error('An error occurred while processing the git log.', err)
     process.exit(1)
   })

@@ -7,6 +7,7 @@
       background: transparent;
       outline: none;
       border: 0;
+      caret-color: var(--crepe-color-outline);
     }
 
     &.empty {
@@ -187,6 +188,7 @@
       background: transparent;
       outline: none;
       border: 0;
+      caret-color: var(--crepe-color-outline);
     }
 
     & > .caption-input {

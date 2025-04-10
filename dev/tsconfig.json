@@ -3,8 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo",
-    "emitDeclarationOnly": false
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "include": ["src"],
   "references": []

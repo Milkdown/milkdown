@@ -38,36 +38,36 @@
   },
   "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.es.js",
+    "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "types": "./lib/index.d.ts",
-        "import": "./lib/index.es.js"
+        "import": "./lib/index.js"
       },
       "./image-block": {
         "types": "./lib/image-block/index.d.ts",
-        "import": "./lib/image-block/index.es.js"
+        "import": "./lib/image-block/index.js"
       },
       "./code-block": {
         "types": "./lib/code-block/index.d.ts",
-        "import": "./lib/code-block/index.es.js"
+        "import": "./lib/code-block/index.js"
       },
       "./list-item-block": {
         "types": "./lib/list-item-block/index.d.ts",
-        "import": "./lib/list-item-block/index.es.js"
+        "import": "./lib/list-item-block/index.js"
       },
       "./link-tooltip": {
         "types": "./lib/link-tooltip/index.d.ts",
-        "import": "./lib/link-tooltip/index.es.js"
+        "import": "./lib/link-tooltip/index.js"
       },
       "./image-inline": {
         "types": "./lib/image-inline/index.d.ts",
-        "import": "./lib/image-inline/index.es.js"
+        "import": "./lib/image-inline/index.js"
       },
       "./table-block": {
         "types": "./lib/table-block/index.d.ts",
-        "import": "./lib/table-block/index.es.js"
+        "import": "./lib/table-block/index.js"
       }
     },
     "typesVersions": {
@@ -97,11 +97,6 @@
     "lib",
     "src"
   ],
-  "scripts": {
-    "test": "vitest",
-    "tsc": "tsc --noEmit && echo",
-    "build": "rimraf './lib' && tsc --emitDeclarationOnly && rollup -c && echo"
-  },
   "peerDependencies": {
     "@codemirror/language": "^6",
     "@codemirror/state": "^6",

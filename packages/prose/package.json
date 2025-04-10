@@ -171,8 +171,8 @@
   ],
   "scripts": {
     "test": "vitest",
-    "tsc": "tsc --noEmit && echo",
-    "build": "rollup -c && echo"
+    "tsc": "tsc",
+    "build": "tsx copy-style.mts"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",

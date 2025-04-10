@@ -20,9 +20,6 @@
       "types": "./lib/exec.d.ts"
     }
   },
-  "scripts": {
-    "build": "rimraf './lib' && tsc"
-  },
   "dependencies": {
     "@types/lodash-es": "^4.17.12",
     "chalk": "^5.4.1",
