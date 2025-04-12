@@ -16,7 +16,7 @@ export const imageBlockView = $view(
       const ratio = ref(initialNode.attrs.ratio)
       const selected = ref(false)
       const readonly = ref(!view.editable)
-      const setAttr = (attr: string, value: string) => {
+      const setAttr = (attr: string, value: unknown) => {
         const pos = getPos()
         if (pos == null) return
         view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
@@ -34,7 +34,7 @@ export const imageBlockView = $view(
       const dom = document.createElement('div')
       dom.className = 'milkdown-image-block'
       app.mount(dom)
-      const selectedWatcher = watchEffect(() => {
+      const disposeSelectedWatcher = watchEffect(() => {
         const isSelected = selected.value
         if (isSelected) {
           dom.classList.add('selected')
@@ -63,7 +63,6 @@ export const imageBlockView = $view(
       }
 
       bindAttrs(initialNode)
-      selected.value = false
       return {
         dom,
         update: (updatedNode) => {
@@ -84,7 +83,7 @@ export const imageBlockView = $view(
           selected.value = false
         },
         destroy: () => {
-          selectedWatcher()
+          disposeSelectedWatcher()
           app.unmount()
           dom.remove()
         },

@@ -83,7 +83,7 @@
       }
     ],
     "import/named": "error",
-    "import/sort-imports": "error",
+    "import/order": "error",
     "import/no-duplicates": "error",
     "import/no-import-assign": "error",
     "import/no-self-import": "error",

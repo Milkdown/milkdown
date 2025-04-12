@@ -1,24 +1,31 @@
-import { defineComponent, ref, h } from 'vue'
-import type { MilkdownImageBlockProps } from './image-block'
+import { defineComponent, ref, h, type Ref } from 'vue'
 import clsx from 'clsx'
 import { customAlphabet } from 'nanoid'
-import { Icon } from '../../../__internal__/components/icon'
+import { Icon } from './icon'
 
 h
 
 const nanoid = customAlphabet('abcdefg', 8)
 
-export const ImageInput = defineComponent<MilkdownImageBlockProps>({
+type ImageInputProps = {
+  src: Ref<string | undefined>
+  selected: Ref<boolean>
+  readonly: Ref<boolean>
+  setLink: (link: string) => void
+
+  imageIcon?: string
+  uploadButton?: string
+  confirmButton?: string
+  uploadPlaceholderText?: string
+
+  className?: string
+
+  onUpload: (file: File) => Promise<string>
+}
+
+export const ImageInput = defineComponent<ImageInputProps>({
   props: {
     src: {
-      type: Object,
-      required: true,
-    },
-    caption: {
-      type: Object,
-      required: true,
-    },
-    ratio: {
       type: Object,
       required: true,
     },
@@ -30,16 +37,42 @@ export const ImageInput = defineComponent<MilkdownImageBlockProps>({
       type: Object,
       required: true,
     },
-    setAttr: {
+    setLink: {
       type: Function,
       required: true,
     },
-    config: {
-      type: Object,
+    imageIcon: {
+      type: String,
+      required: false,
+    },
+    uploadButton: {
+      type: String,
+      required: false,
+    },
+    confirmButton: {
+      type: String,
+      required: false,
+    },
+    uploadPlaceholderText: {
+      type: String,
+      required: false,
+    },
+    onUpload: {
+      type: Function,
       required: true,
     },
   },
-  setup({ config, readonly, src, setAttr }) {
+  setup({
+    readonly,
+    src,
+    setLink,
+    onUpload,
+    imageIcon,
+    uploadButton,
+    confirmButton,
+    uploadPlaceholderText,
+    className,
+  }) {
     const focusLinkInput = ref(false)
     const linkInputRef = ref<HTMLInputElement>()
     const currentLink = ref(src.value ?? '')
@@ -54,24 +87,23 @@ export const ImageInput = defineComponent<MilkdownImageBlockProps>({
 
     const onKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        setAttr('src', linkInputRef.value?.value ?? '')
+        setLink(linkInputRef.value?.value ?? '')
       }
     }
 
     const onConfirmLinkInput = () => {
-      setAttr('src', linkInputRef.value?.value ?? '')
+      setLink(linkInputRef.value?.value ?? '')
     }
 
-    const onUpload = (e: Event) => {
+    const onUploadFile = (e: Event) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (!file) return
 
-      config
-        .onUpload(file)
+      onUpload(file)
         .then((url) => {
           if (!url) return
 
-          setAttr('src', url)
+          setLink(url)
           hidePlaceholder.value = true
         })
         .catch((err) => {
@@ -82,8 +114,8 @@ export const ImageInput = defineComponent<MilkdownImageBlockProps>({
 
     return () => {
       return (
-        <div class="image-edit">
-          <Icon icon={config.imageIcon()} class="image-icon" />
+        <div class={clsx('image-edit', className)}>
+          <Icon icon={imageIcon} class="image-icon" />
           <div class={clsx('link-importer', focusLinkInput.value && 'focus')}>
             <input
               ref={linkInputRef}
@@ -108,20 +140,20 @@ export const ImageInput = defineComponent<MilkdownImageBlockProps>({
                   id={uuid.value}
                   type="file"
                   accept="image/*"
-                  onChange={onUpload}
+                  onChange={onUploadFile}
                 />
                 <label class="uploader" for={uuid.value}>
-                  <Icon icon={config.uploadButton()} />
+                  <Icon icon={uploadButton} />
                 </label>
                 <span class="text" onClick={() => linkInputRef.value?.focus()}>
-                  {config.uploadPlaceholderText}
+                  {uploadPlaceholderText}
                 </span>
               </div>
             )}
           </div>
           {currentLink.value && (
             <div class="confirm" onClick={() => onConfirmLinkInput()}>
-              <Icon icon={config.confirmButton()} />
+              <Icon icon={confirmButton} />
             </div>
           )}
         </div>

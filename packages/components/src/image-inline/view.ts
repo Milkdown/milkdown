@@ -3,46 +3,63 @@ import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { imageSchema } from '@milkdown/preset-commonmark'
 import type { Node } from '@milkdown/prose/model'
 import { withMeta } from '../__internal__/meta'
-import { defIfNotExists } from '../__internal__/helper'
-import type { InlineImageComponentProps } from './component'
-import { InlineImageElement } from './component'
 import { inlineImageConfig } from './config'
+import { createApp, ref, watchEffect } from 'vue'
+import { MilkdownImageInline } from './components/image-inline'
 
-defIfNotExists('milkdown-image-inline', InlineImageElement)
 export const inlineImageView = $view(
   imageSchema.node,
   (ctx): NodeViewConstructor => {
     return (initialNode, view, getPos) => {
-      const dom = document.createElement(
-        'milkdown-image-inline'
-      ) as HTMLElement & InlineImageComponentProps
+      const src = ref(initialNode.attrs.src)
+      const alt = ref(initialNode.attrs.alt)
+      const title = ref(initialNode.attrs.title)
+      const selected = ref(false)
+      const readonly = ref(!view.editable)
+      const setAttr = (attr: string, value: unknown) => {
+        const pos = getPos()
+        if (pos == null) return
+        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
+      }
       const config = ctx.get(inlineImageConfig.key)
+      const app = createApp(MilkdownImageInline, {
+        src,
+        alt,
+        title,
+        selected,
+        readonly,
+        setAttr,
+        config,
+      })
+      const dom = document.createElement('span')
+      dom.className = 'milkdown-image-inline'
+      app.mount(dom)
+      const disposeSelectedWatcher = watchEffect(() => {
+        const isSelected = selected.value
+        if (isSelected) {
+          dom.classList.add('selected')
+        } else {
+          dom.classList.remove('selected')
+        }
+      })
       const proxyDomURL = config.proxyDomURL
       const bindAttrs = (node: Node) => {
         if (!proxyDomURL) {
-          dom.src = node.attrs.src
+          src.value = node.attrs.src
         } else {
           const proxiedURL = proxyDomURL(node.attrs.src)
           if (typeof proxiedURL === 'string') {
-            dom.src = proxiedURL
+            src.value = proxiedURL
           } else {
             proxiedURL.then((url) => {
-              dom.src = url
+              src.value = url
             })
           }
         }
-        dom.alt = node.attrs.alt
-        dom.title = node.attrs.title
+        alt.value = node.attrs.alt
+        title.value = node.attrs.title
       }
       bindAttrs(initialNode)
-      dom.selected = false
-      dom.setAttr = (attr, value) => {
-        const pos = getPos()
-        if (pos == null) return
-
-        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
-      }
-      dom.config = config
       return {
         dom,
         update: (updatedNode) => {
@@ -52,17 +69,19 @@ export const inlineImageView = $view(
           return true
         },
         stopEvent: (e) => {
-          if (dom.selected && e.target instanceof HTMLInputElement) return true
+          if (e.target instanceof HTMLInputElement) return true
 
           return false
         },
         selectNode: () => {
-          dom.selected = true
+          selected.value = true
         },
         deselectNode: () => {
-          dom.selected = false
+          selected.value = false
         },
         destroy: () => {
+          disposeSelectedWatcher()
+          app.unmount()
           dom.remove()
         },
       }

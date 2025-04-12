@@ -4,7 +4,7 @@ import { h } from 'vue'
 h
 
 type IconProps = {
-  icon: string | null
+  icon?: string | null
   class?: string
 }
 
