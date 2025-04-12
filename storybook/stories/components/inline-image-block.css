@@ -1,7 +1,12 @@
 .milkdown-storybook {
+  .milkdown-image-inline {
+    outline: none;
+    display: inline-flex;
+    vertical-align: text-bottom;
+  }
+
   .milkdown-image-inline.selected > .image-inline {
     outline: 2px solid fuchsia;
-    vertical-align: bottom;
   }
 
   .milkdown-image-inline.selected > .empty-image-inline {
@@ -89,10 +94,6 @@
     background: transparent;
     outline: none;
     border: 0;
-  }
-
-  .milkdown-image-inline.empty {
-    vertical-align: bottom;
   }
 
   .milkdown-image-inline > .empty-image-inline {
