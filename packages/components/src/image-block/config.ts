@@ -2,10 +2,10 @@ import { $ctx } from '@milkdown/utils'
 import { withMeta } from '../__internal__/meta'
 
 export interface ImageBlockConfig {
-  imageIcon: () => string | null
-  captionIcon: () => string | null
-  uploadButton: () => string | null
-  confirmButton: () => string | null
+  imageIcon: () => string | undefined
+  captionIcon: () => string | undefined
+  uploadButton: () => string | undefined
+  confirmButton: () => string | undefined
   uploadPlaceholderText: string
   captionPlaceholderText: string
   onUpload: (file: File) => Promise<string>

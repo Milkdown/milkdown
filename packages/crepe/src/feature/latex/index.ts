@@ -10,7 +10,7 @@ import { defIfNotExists } from '../../utils'
 import { LatexInlineEditElement } from './inline-tooltip/component'
 import { inlineLatexTooltip } from './inline-tooltip/tooltip'
 import { LatexInlineTooltip } from './inline-tooltip/view'
-import { confirmIcon } from '../../icons'
+import { legacyConfirmIcon } from '../../icons'
 import { mathBlockInputRule, mathInlineInputRule } from './input-rule'
 import { blockLatexSchema } from './block-latex'
 
@@ -48,7 +48,8 @@ export const defineFeature: DefineFeature<LatexFeatureConfig> = (
       ctx.set(inlineLatexTooltip.key, {
         view: (view) => {
           return new LatexInlineTooltip(ctx, view, {
-            inlineEditConfirm: config?.inlineEditConfirm ?? (() => confirmIcon),
+            inlineEditConfirm:
+              config?.inlineEditConfirm ?? (() => legacyConfirmIcon),
             ...config,
           })
         },

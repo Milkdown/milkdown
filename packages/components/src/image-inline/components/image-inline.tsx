@@ -1,37 +1,36 @@
 import { h, Fragment, type Ref, defineComponent } from 'vue'
-import type { ImageBlockConfig } from '../../config'
-import { ImageViewer } from './image-viewer'
-import { ImageInput } from '../../../__internal__/components/image-input'
+import type { InlineImageConfig } from '../config'
+import { ImageInput } from '../../__internal__/components/image-input'
 
 h
 Fragment
 
 type Attrs = {
   src: string
-  caption: string
-  ratio: number
+  alt: string
+  title: string
 }
 
-export type MilkdownImageBlockProps = {
+export type MilkdownImageInlineProps = {
   selected: Ref<boolean>
   readonly: Ref<boolean>
   setAttr: <T extends keyof Attrs>(attr: T, value: Attrs[T]) => void
-  config: ImageBlockConfig
+  config: InlineImageConfig
 } & {
   [P in keyof Attrs]: Ref<Attrs[P] | undefined>
 }
 
-export const MilkdownImageBlock = defineComponent<MilkdownImageBlockProps>({
+export const MilkdownImageInline = defineComponent<MilkdownImageInlineProps>({
   props: {
     src: {
       type: Object,
       required: true,
     },
-    caption: {
+    alt: {
       type: Object,
       required: true,
     },
-    ratio: {
+    title: {
       type: Object,
       required: true,
     },
@@ -53,8 +52,7 @@ export const MilkdownImageBlock = defineComponent<MilkdownImageBlockProps>({
     },
   },
   setup(props) {
-    const { src } = props
-
+    const { src, alt, title } = props
     return () => {
       if (!src.value?.length) {
         return (
@@ -68,10 +66,18 @@ export const MilkdownImageBlock = defineComponent<MilkdownImageBlockProps>({
             confirmButton={props.config.confirmButton()}
             uploadPlaceholderText={props.config.uploadPlaceholderText}
             onUpload={props.config.onUpload}
+            className="empty-image-inline"
           />
         )
       }
-      return <ImageViewer {...props} />
+      return (
+        <img
+          class="image-inline"
+          src={src.value}
+          alt={alt.value}
+          title={title.value}
+        />
+      )
     }
   },
 })

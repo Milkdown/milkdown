@@ -1,17 +1,14 @@
 .milkdown {
-  milkdown-image-inline {
+  .milkdown-image-inline {
     outline: none;
-    display: inline;
+    display: inline-flex;
+    vertical-align: baseline;
 
     & input {
       background: transparent;
       outline: none;
       border: 0;
       caret-color: var(--crepe-color-outline);
-    }
-
-    &.empty {
-      vertical-align: bottom;
     }
 
     & > .empty-image-inline {
@@ -30,6 +27,7 @@
     & > .empty-image-inline .link-importer > .link-input-area {
       width: 208px;
       color: var(--crepe-color-on-background);
+      display: flex;
     }
 
     & > .empty-image-inline .link-importer .placeholder {
@@ -67,10 +65,6 @@
       }
     }
 
-    img.image-inline {
-      vertical-align: text-bottom;
-    }
-
     .empty-image-inline {
       align-items: center;
       padding: 4px 10px;
@@ -78,6 +72,7 @@
       background: var(--crepe-color-surface);
       font-family: var(--crepe-font-default);
       border-radius: 8px;
+      font-size: 16px;
     }
 
     .empty-image-inline .image-icon {
@@ -135,6 +130,7 @@
         width: 18px;
         height: 18px;
       }
+      display: flex;
       width: 24px;
       height: 24px;
       padding: 3px;
