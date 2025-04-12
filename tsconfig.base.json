@@ -7,6 +7,8 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
 
+    "verbatimModuleSyntax": true,
+
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,

@@ -1,6 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "vue",
     "rootDir": "src",
     "outDir": "lib",
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
@@ -10,12 +14,12 @@
   "references": [
     { "path": "../core" },
     { "path": "../ctx" },
+    { "path": "../exception" },
     { "path": "../plugins/plugin-tooltip" },
     { "path": "../plugins/preset-commonmark" },
     { "path": "../plugins/preset-gfm" },
     { "path": "../prose" },
     { "path": "../transformer" },
-    { "path": "../utils" },
-    { "path": "../exception" }
+    { "path": "../utils" }
   ]
 }

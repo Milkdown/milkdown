@@ -71,6 +71,7 @@
     "prosemirror-virtual-cursor": "^0.4.2",
     "remark-math": "^6.0.0",
     "tslib": "^2.8.1",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "vue": "^3.5.13"
   }
 }

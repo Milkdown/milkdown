@@ -7,7 +7,12 @@ import {
   inlineImageConfig,
 } from '@milkdown/kit/component/image-inline'
 import type { DefineFeature, Icon } from '../shared'
-import { captionIcon, confirmIcon, imageIcon } from '../../icons'
+import {
+  captionIcon,
+  confirmIcon,
+  imageIcon,
+  legacyImageIcon,
+} from '../../icons'
 
 interface ImageBlockConfig {
   onUpload: (file: File) => Promise<string>
@@ -38,7 +43,7 @@ export const defineFeature: DefineFeature<ImageBlockFeatureConfig> = (
     .config((ctx) => {
       ctx.update(inlineImageConfig.key, (value) => ({
         uploadButton: config?.inlineUploadButton ?? (() => 'Upload'),
-        imageIcon: config?.inlineImageIcon ?? (() => imageIcon),
+        imageIcon: config?.inlineImageIcon ?? (() => legacyImageIcon),
         confirmButton: config?.inlineConfirmButton ?? (() => confirmIcon),
         uploadPlaceholderText:
           config?.inlineUploadPlaceholderText ?? 'or paste link',
