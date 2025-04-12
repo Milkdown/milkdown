@@ -19,6 +19,8 @@ jobs:
 
       - uses: ./.github/actions/setup
 
+      - run: pnpm build:tsc
+
       - name: Fix
         run: pnpm codegen && pnpm fix
 
