@@ -2,7 +2,7 @@
   .milkdown-image-inline {
     outline: none;
     display: inline-flex;
-    vertical-align: baseline;
+    vertical-align: text-bottom;
 
     & input {
       background: transparent;
