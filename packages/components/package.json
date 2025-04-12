@@ -103,17 +103,17 @@
     "@codemirror/view": "^6"
   },
   "dependencies": {
+    "@atomico/hooks": "^4.1.2",
+    "@floating-ui/dom": "^1.5.1",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/exception": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "@atomico/hooks": "^4.1.2",
-    "@floating-ui/dom": "^1.5.1",
-    "@milkdown/exception": "workspace:*",
     "@types/lodash.debounce": "^4.0.7",
     "@types/lodash.throttle": "^4.1.9",
     "atomico": "^1.75.1",
@@ -122,7 +122,8 @@
     "lodash.throttle": "^4.1.1",
     "nanoid": "^5.0.9",
     "tslib": "^2.8.1",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@codemirror/language": "^6.10.1",

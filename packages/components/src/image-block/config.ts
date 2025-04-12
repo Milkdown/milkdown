@@ -1,12 +1,11 @@
 import { $ctx } from '@milkdown/utils'
-import { html } from 'atomico'
 import { withMeta } from '../__internal__/meta'
 
 export interface ImageBlockConfig {
-  imageIcon: () => ReturnType<typeof html> | string | HTMLElement
-  captionIcon: () => ReturnType<typeof html> | string | HTMLElement
-  uploadButton: () => ReturnType<typeof html> | string | HTMLElement
-  confirmButton: () => ReturnType<typeof html> | string | HTMLElement
+  imageIcon: () => string | null
+  captionIcon: () => string | null
+  uploadButton: () => string | null
+  confirmButton: () => string | null
   uploadPlaceholderText: string
   captionPlaceholderText: string
   onUpload: (file: File) => Promise<string>
@@ -16,8 +15,8 @@ export interface ImageBlockConfig {
 export const defaultImageBlockConfig: ImageBlockConfig = {
   imageIcon: () => '🌌',
   captionIcon: () => '💬',
-  uploadButton: () => html`Upload file`,
-  confirmButton: () => html`Confirm ⏎`,
+  uploadButton: () => 'Upload file',
+  confirmButton: () => 'Confirm ⏎',
   uploadPlaceholderText: 'or paste the image link ...',
   captionPlaceholderText: 'Image caption',
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),

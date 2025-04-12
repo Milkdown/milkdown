@@ -1,7 +1,7 @@
 {
   "plugins": ["import", "typescript", "unicorn", "promise"],
   "rules": {
-    "no-console": "error",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "for-direction": "error",
     "require-yield": "error",
     "use-isnan": "error",

@@ -25,6 +25,12 @@
   color: var(--crepe-color-on-background);
   background: var(--crepe-color-background);
 
+  .milkdown-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .ProseMirror-focused {
     outline: none;
   }
