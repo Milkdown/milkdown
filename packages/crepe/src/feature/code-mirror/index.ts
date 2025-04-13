@@ -7,7 +7,6 @@ import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { keymap } from '@codemirror/view'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
-import { html } from 'atomico'
 import type { DefineFeature, Icon } from '../shared'
 import { chevronDownIcon, clearIcon, editIcon, searchIcon } from '../../icons'
 import { visibilityOffIcon } from '../../icons/visibility-off'
@@ -24,10 +23,7 @@ interface CodeMirrorConfig {
   searchPlaceholder: string
   noResultText: string
 
-  renderLanguage: (
-    language: string,
-    selected: boolean
-  ) => ReturnType<typeof html> | string
+  renderLanguage: (language: string, selected: boolean) => string
 
   renderPreview: (
     language: string,
@@ -35,8 +31,8 @@ interface CodeMirrorConfig {
   ) => string | HTMLElement | null
 
   previewToggleIcon: (previewOnlyMode: boolean) => ReturnType<Icon>
-  previewToggleText: (previewOnlyMode: boolean) => ReturnType<typeof html>
-  previewLabel: () => ReturnType<typeof html>
+  previewToggleText: (previewOnlyMode: boolean) => string
+  previewLabel: () => string
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
@@ -66,20 +62,21 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (
         ],
         languages,
 
-        expandIcon: config.expandIcon || (() => chevronDownIcon),
-        searchIcon: config.searchIcon || (() => searchIcon),
-        clearSearchIcon: config.clearSearchIcon || (() => clearIcon),
+        expandIcon: () => config.expandIcon?.() || chevronDownIcon,
+        searchIcon: () => config.searchIcon?.() || searchIcon,
+        clearSearchIcon: () => config.clearSearchIcon?.() || clearIcon,
         searchPlaceholder: config.searchPlaceholder || 'Search language',
         noResultText: config.noResultText || 'No result',
         renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,
         renderPreview: config.renderPreview || defaultConfig.renderPreview,
         previewToggleButton: (previewOnlyMode) => {
-          return html`
-            ${config.previewToggleIcon?.(previewOnlyMode) ||
-            (previewOnlyMode ? editIcon : visibilityOffIcon)}
-            ${config.previewToggleText?.(previewOnlyMode) ||
-            (previewOnlyMode ? 'Edit' : 'Hide')}
-          `
+          const icon =
+            config.previewToggleIcon?.(previewOnlyMode) ||
+            (previewOnlyMode ? editIcon : visibilityOffIcon)
+          const text =
+            config.previewToggleText?.(previewOnlyMode) ||
+            (previewOnlyMode ? 'Edit' : 'Hide')
+          return [icon, text].map((v) => v.trim()).join(' ')
         },
         previewLabel: config.previewLabel || defaultConfig.previewLabel,
       }))

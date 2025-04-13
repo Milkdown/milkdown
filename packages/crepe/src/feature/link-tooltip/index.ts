@@ -4,7 +4,12 @@ import {
   linkTooltipPlugin,
 } from '@milkdown/kit/component/link-tooltip'
 import type { DefineFeature, Icon } from '../shared'
-import { legacyConfirmIcon, copyIcon, editIcon, removeIcon } from '../../icons'
+import {
+  legacyConfirmIcon,
+  copyIcon,
+  removeIcon,
+  legacyEditIcon,
+} from '../../icons'
 
 interface LinkTooltipConfig {
   linkIcon: Icon
@@ -27,7 +32,7 @@ export const defineFeature: DefineFeature<LinkTooltipFeatureConfig> = (
       ctx.update(linkTooltipConfig.key, (prev) => ({
         ...prev,
         linkIcon: config?.linkIcon ?? (() => copyIcon),
-        editButton: config?.editButton ?? (() => editIcon),
+        editButton: config?.editButton ?? (() => legacyEditIcon),
         removeButton: config?.removeButton ?? (() => removeIcon),
         confirmButton: config?.confirmButton ?? (() => legacyConfirmIcon),
         inputPlaceholder: config?.inputPlaceholder ?? 'Paste link...',

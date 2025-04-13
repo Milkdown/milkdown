@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 /// <reference types="vite/client" />
 
 import type { Editor } from '@milkdown/core'
