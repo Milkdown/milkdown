@@ -80,7 +80,7 @@ export class TooltipProvider {
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#offset = options.offset
-    this.#shift = options.shift 
+    this.#shift = options.shift
     this.#middleware = options.middleware ?? []
     this.#floatingUIOptions = options.floatingUIOptions ?? {}
     this.#root = options.root
@@ -115,7 +115,12 @@ export class TooltipProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: this.#floatingUIOptions.placement ?? 'top',
-      middleware: [flip(), offset(this.#offset), shift(this.#shift), ...this.#middleware],
+      middleware: [
+        flip(),
+        offset(this.#offset),
+        shift(this.#shift),
+        ...this.#middleware,
+      ],
     }).then(({ x, y }) => {
       Object.assign(this.element.style, {
         left: `${x}px`,
