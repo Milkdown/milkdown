@@ -122,24 +122,20 @@ export const LanguagePicker = defineComponent<LanguagePickerProps>({
       if (triggerRef.value && triggerRef.value.contains(target)) return
 
       const picker = pickerRef.value
-      if (!picker) return
+      const trigger = triggerRef.value
+      if (!trigger || !picker) return
 
-      if (picker.dataset.expanded !== 'true') return
+      if (trigger.dataset.expanded !== 'true') return
 
       if (!picker.contains(target)) showPicker.value = false
     }
 
-    const host = computed(() => {
-      if (!triggerRef.value) return null
-      return triggerRef.value.closest<HTMLElement>('.milkdown-code-block')
-    })
-
     onMounted(() => {
-      host.value?.addEventListener('click', clickHandler)
+      window.addEventListener('click', clickHandler)
     })
 
     onUnmounted(() => {
-      host.value?.removeEventListener('click', clickHandler)
+      window.removeEventListener('click', clickHandler)
     })
 
     return () => {
@@ -150,19 +146,15 @@ export const LanguagePicker = defineComponent<LanguagePickerProps>({
             type="button"
             ref={triggerRef}
             class="language-button"
-            onPointerdown={onTogglePicker}
-            data-expanded={showPicker.value}
+            onClick={onTogglePicker}
+            data-expanded={String(showPicker.value)}
           >
             {language.value || 'Text'}
             <div class="expand-icon">
               <Icon icon={config.expandIcon()} />
             </div>
           </button>
-          <div
-            ref={pickerRef}
-            data-expanded={showPicker.value}
-            class="language-picker"
-          >
+          <div ref={pickerRef} class="language-picker">
             {showPicker.value ? (
               <div class="list-wrapper">
                 <div class="search-box">
