@@ -14,7 +14,7 @@ export function Icon({ icon, class: className }: IconProps) {
       class={clsx('milkdown-icon', className)}
       ref={(el) => {
         if (el && icon) {
-          ;(el as HTMLElement).innerHTML = icon
+          ;(el as HTMLElement).innerHTML = icon.trim()
         }
       }}
     />

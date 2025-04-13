@@ -54,10 +54,8 @@ export const Javascript: StoryObj<CommonArgs> = {
             ...defaultConfig,
             languages,
             extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
-            renderLanguage: (language, selected) => {
-              return html`<span class="leading">${selected ? check : null}</span
-                >${language}`
-            },
+            renderLanguage: (language, selected) =>
+              `${selected ? '✓' : '   '} ${language}`,
           }))
         })
         .use(codeBlockComponent)

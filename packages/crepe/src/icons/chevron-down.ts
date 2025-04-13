@@ -1,6 +1,4 @@
-import { html } from 'atomico'
-
-export const chevronDownIcon = html`
+export const chevronDownIcon = `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

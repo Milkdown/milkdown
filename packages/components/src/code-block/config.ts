@@ -1,27 +1,23 @@
 import { $ctx } from '@milkdown/utils'
 import type { Extension } from '@codemirror/state'
 import type { LanguageDescription } from '@codemirror/language'
-import { html } from 'atomico'
 import { withMeta } from '../__internal__/meta'
 
 export interface CodeBlockConfig {
   extensions: Extension[]
   languages: LanguageDescription[]
-  expandIcon: () => ReturnType<typeof html> | string
-  searchIcon: () => ReturnType<typeof html> | string
-  clearSearchIcon: () => ReturnType<typeof html> | string
+  expandIcon: () => string
+  searchIcon: () => string
+  clearSearchIcon: () => string
   searchPlaceholder: string
   noResultText: string
-  renderLanguage: (
-    language: string,
-    selected: boolean
-  ) => ReturnType<typeof html>
+  renderLanguage: (language: string, selected: boolean) => string
   renderPreview: (
     language: string,
     content: string
   ) => null | string | HTMLElement
-  previewToggleButton: (previewOnlyMode: boolean) => ReturnType<typeof html>
-  previewLabel: () => ReturnType<typeof html>
+  previewToggleButton: (previewOnlyMode: boolean) => string
+  previewLabel: () => string
 }
 
 export const defaultConfig: CodeBlockConfig = {
@@ -32,7 +28,7 @@ export const defaultConfig: CodeBlockConfig = {
   clearSearchIcon: () => '⌫',
   searchPlaceholder: 'Search language',
   noResultText: 'No result',
-  renderLanguage: (language) => html`${language}`,
+  renderLanguage: (language) => language,
   renderPreview: () => null,
   previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? 'Edit' : 'Hide'),
   previewLabel: () => 'Preview',

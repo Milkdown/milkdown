@@ -1,5 +1,5 @@
 .milkdown-storybook {
-  milkdown-code-block {
+  .milkdown-code-block {
     display: block;
     position: relative;
     padding: 24px 40px;
@@ -10,12 +10,7 @@
       width: max-content;
       position: absolute;
       z-index: 1;
-      display: none;
       padding-top: 16px;
-    }
-
-    .language-picker.show {
-      display: block;
     }
 
     .language-button {
