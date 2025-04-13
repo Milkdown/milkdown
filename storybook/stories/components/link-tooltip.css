@@ -14,7 +14,7 @@
     }
   }
 
-  milkdown-link-preview {
+  .milkdown-link-preview {
     position: absolute;
     &[data-show='false'] {
       display: none;
@@ -82,7 +82,7 @@
     }
   }
 
-  milkdown-link-edit {
+  .milkdown-link-edit {
     position: absolute;
     &[data-show='false'] {
       display: none;

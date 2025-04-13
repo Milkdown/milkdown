@@ -5,11 +5,8 @@ import { posToDOMRect } from '@milkdown/prose'
 import { linkTooltipState } from '../slices'
 import { findMarkPosition, shouldShowPreviewWhenHover } from '../utils'
 import { linkPreviewTooltip } from '../tooltips'
-import { defIfNotExists } from '../../__internal__/helper'
 import { LinkPreviewTooltip } from './preview-view'
-import { LinkPreviewElement } from './preview-component'
 
-defIfNotExists('milkdown-link-preview', LinkPreviewElement)
 export function configureLinkPreviewTooltip(ctx: Ctx) {
   let linkPreviewTooltipView: LinkPreviewTooltip | null
 

@@ -5,4 +5,4 @@ export type DefineFeature<Config = unknown> = (
   config?: Config
 ) => void | Promise<void>
 
-export type Icon = () => string | undefined
+export type Icon = () => string

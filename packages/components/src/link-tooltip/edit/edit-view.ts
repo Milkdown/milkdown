@@ -7,8 +7,13 @@ import { TooltipProvider } from '@milkdown/plugin-tooltip'
 import { editorViewCtx } from '@milkdown/core'
 import { linkSchema } from '@milkdown/preset-commonmark'
 import { posToDOMRect } from '@milkdown/prose'
-import { linkTooltipConfig, linkTooltipState } from '../slices'
-import { LinkEditElement } from './edit-component'
+import {
+  linkTooltipConfig,
+  linkTooltipState,
+  type LinkTooltipConfig,
+} from '../slices'
+import { createApp, ref, type App, type Ref } from 'vue'
+import { EditLink } from './component'
 
 interface Data {
   from: number
@@ -23,28 +28,43 @@ const defaultData: Data = {
 }
 
 export class LinkEditTooltip implements PluginView {
-  #content = new LinkEditElement()
+  #content: HTMLElement
   #provider: TooltipProvider
   #data: Data = { ...defaultData }
+  #app: App
+  #config: Ref<LinkTooltipConfig>
+  #src = ref('')
 
   constructor(
     readonly ctx: Ctx,
     view: EditorView
   ) {
+    this.#config = ref(this.ctx.get(linkTooltipConfig.key))
+
+    const content = document.createElement('div')
+    content.className = 'milkdown-link-edit'
+
+    const app = createApp(EditLink, {
+      config: this.#config,
+      src: this.#src,
+      onConfirm: this.#confirmEdit,
+      onCancel: this.#reset,
+    })
+    app.mount(content)
+    this.#app = app
+
+    this.#content = content
     this.#provider = new TooltipProvider({
-      content: this.#content,
+      content,
       debounce: 0,
       shouldShow: () => false,
     })
     this.#provider.onHide = () => {
-      this.#content.update().catch((e) => {
-        throw e
+      requestAnimationFrame(() => {
+        view.dom.focus({ preventScroll: true })
       })
-      view.dom.focus({ preventScroll: true })
     }
     this.#provider.update(view)
-    this.#content.onConfirm = this.#confirmEdit
-    this.#content.onCancel = this.#reset
   }
 
   #reset = () => {
@@ -76,14 +96,13 @@ export class LinkEditTooltip implements PluginView {
 
   #enterEditMode = (value: string, from: number, to: number) => {
     const config = this.ctx.get(linkTooltipConfig.key)
-    this.#content.config = config
-    this.#content.src = value
+    this.#config.value = config
+    this.#src.value = value
     this.ctx.update(linkTooltipState.key, (state) => ({
       ...state,
       mode: 'edit' as const,
     }))
     const view = this.ctx.get(editorViewCtx)
-    // this.#setRect(posToDOMRect(view, from, to))
     view.dispatch(
       view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to))
     )
@@ -106,6 +125,7 @@ export class LinkEditTooltip implements PluginView {
   }
 
   destroy = () => {
+    this.#app.unmount()
     this.#provider.destroy()
     this.#content.remove()
   }
