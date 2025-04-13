@@ -3,14 +3,20 @@ import type { EditorView } from '@milkdown/prose/view'
 import type { Mark } from '@milkdown/prose/model'
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
 import type { Ctx, Slice } from '@milkdown/ctx'
-import type { LinkToolTipState } from '../slices'
+import type { LinkTooltipConfig, LinkToolTipState } from '../slices'
 import { linkTooltipAPI, linkTooltipConfig, linkTooltipState } from '../slices'
-import { LinkPreviewElement } from './preview-component'
+import { createApp, ref, type App, type Ref } from 'vue'
+import { PreviewLink } from './component'
 
 export class LinkPreviewTooltip implements PluginView {
-  #content = new LinkPreviewElement()
+  #content: HTMLElement
   #provider: TooltipProvider
   #slice: Slice<LinkToolTipState> = this.ctx.use(linkTooltipState.key)
+  #config: Ref<LinkTooltipConfig>
+  #src = ref('')
+  #onEdit = ref(() => {})
+  #onRemove = ref(() => {})
+  #app: App
 
   #hovering = false
 
@@ -18,6 +24,17 @@ export class LinkPreviewTooltip implements PluginView {
     readonly ctx: Ctx,
     view: EditorView
   ) {
+    this.#config = ref(this.ctx.get(linkTooltipConfig.key))
+    this.#app = createApp(PreviewLink, {
+      config: this.#config,
+      src: this.#src,
+      onEdit: this.#onEdit,
+      onRemove: this.#onRemove,
+    })
+    this.#content = document.createElement('div')
+    this.#content.className = 'milkdown-link-preview'
+    this.#app.mount(this.#content)
+
     this.#provider = new TooltipProvider({
       debounce: 0,
       content: this.#content,
@@ -47,12 +64,12 @@ export class LinkPreviewTooltip implements PluginView {
   }
 
   show = (mark: Mark, from: number, to: number, rect: DOMRect) => {
-    this.#content.config = this.ctx.get(linkTooltipConfig.key)
-    this.#content.src = mark.attrs.href
-    this.#content.onEdit = () => {
+    this.#config.value = this.ctx.get(linkTooltipConfig.key)
+    this.#src.value = mark.attrs.href
+    this.#onEdit.value = () => {
       this.ctx.get(linkTooltipAPI.key).editLink(mark, from, to)
     }
-    this.#content.onRemove = () => {
+    this.#onRemove.value = () => {
       this.ctx.get(linkTooltipAPI.key).removeLink(from, to)
       this.#hide()
     }
@@ -73,6 +90,7 @@ export class LinkPreviewTooltip implements PluginView {
   update = () => {}
 
   destroy = () => {
+    this.#app.unmount()
     this.#slice.off(this.#onStateChange)
     this.#provider.destroy()
     this.#content.remove()

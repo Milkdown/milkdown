@@ -11,7 +11,7 @@ import { Compartment, EditorState } from '@codemirror/state'
 import type { Line, SelectionRange } from '@codemirror/state'
 import { exitCode } from '@milkdown/prose/commands'
 import { TextSelection } from '@milkdown/prose/state'
-import { createApp, ref, watchEffect, type WatchHandle } from 'vue'
+import { createApp, ref, watchEffect, type App, type WatchHandle } from 'vue'
 
 import type { CodeBlockConfig } from '../config'
 import type { LanguageLoader } from './loader'
@@ -20,6 +20,7 @@ import { CodeBlock } from './components/code-block'
 export class CodeMirrorBlock implements NodeView {
   dom: HTMLElement
   cm: CodeMirror
+  app: App
 
   readonly = ref(false)
   selected = ref(false)
@@ -55,7 +56,9 @@ export class CodeMirrorBlock implements NodeView {
       ],
     })
 
-    this.dom = this.createDom()
+    this.app = this.createApp()
+
+    this.dom = this.createDom(this.app)
 
     this.disposeSelectedWatcher = watchEffect(() => {
       const isSelected = this.selected.value
@@ -93,11 +96,8 @@ export class CodeMirrorBlock implements NodeView {
     }
   }
 
-  private createDom() {
-    const dom = document.createElement('div')
-    dom.className = 'milkdown-code-block'
-    this.text.value = this.node.textContent
-    const app = createApp(CodeBlock, {
+  private createApp = () => {
+    return createApp(CodeBlock, {
       text: this.text,
       selected: this.selected,
       readonly: this.readonly,
@@ -107,6 +107,12 @@ export class CodeMirrorBlock implements NodeView {
       setLanguage: this.setLanguage,
       config: this.config,
     })
+  }
+
+  private createDom(app: App) {
+    const dom = document.createElement('div')
+    dom.className = 'milkdown-code-block'
+    this.text.value = this.node.textContent
     app.mount(dom)
     return dom
   }
@@ -248,6 +254,7 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   destroy() {
+    this.app.unmount()
     this.cm.destroy()
     this.disposeSelectedWatcher()
   }
