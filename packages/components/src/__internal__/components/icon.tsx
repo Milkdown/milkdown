@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import DOMPurify from 'dompurify'
 import { h } from 'vue'
 
 h
@@ -16,7 +17,7 @@ export function Icon({ icon, class: className, onClick }: IconProps) {
       onPointerdown={onClick}
       ref={(el) => {
         if (el && icon) {
-          ;(el as HTMLElement).innerHTML = icon.trim()
+          ;(el as HTMLElement).innerHTML = DOMPurify.sanitize(icon.trim())
         }
       }}
     />

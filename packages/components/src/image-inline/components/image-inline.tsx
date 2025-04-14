@@ -14,7 +14,7 @@ type Attrs = {
 export type MilkdownImageInlineProps = {
   selected: Ref<boolean>
   readonly: Ref<boolean>
-  setAttr: <T extends keyof Attrs>(attr: T, value: Attrs[T]) => void
+  setLink: (link: string) => void
   config: InlineImageConfig
 } & {
   [P in keyof Attrs]: Ref<Attrs[P] | undefined>
@@ -42,7 +42,7 @@ export const MilkdownImageInline = defineComponent<MilkdownImageInlineProps>({
       type: Object,
       required: true,
     },
-    setAttr: {
+    setLink: {
       type: Function,
       required: true,
     },
@@ -60,7 +60,7 @@ export const MilkdownImageInline = defineComponent<MilkdownImageInlineProps>({
             src={props.src}
             selected={props.selected}
             readonly={props.readonly}
-            setLink={(link) => props.setAttr('src', link)}
+            setLink={props.setLink}
             imageIcon={props.config.imageIcon()}
             uploadButton={props.config.uploadButton()}
             confirmButton={props.config.confirmButton()}

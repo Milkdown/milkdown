@@ -6,6 +6,7 @@ import { imageBlockConfig } from '../config'
 import { withMeta } from '../../__internal__/meta'
 import { createApp, ref, watchEffect } from 'vue'
 import { MilkdownImageBlock } from './components/image-block'
+import DOMPurify from 'dompurify'
 
 export const imageBlockView = $view(
   imageBlockSchema.node,
@@ -19,7 +20,13 @@ export const imageBlockView = $view(
       const setAttr = (attr: string, value: unknown) => {
         const pos = getPos()
         if (pos == null) return
-        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
+        view.dispatch(
+          view.state.tr.setNodeAttribute(
+            pos,
+            attr,
+            attr === 'src' ? DOMPurify.sanitize(value as string) : value
+          )
+        )
       }
       const config = ctx.get(imageBlockConfig.key)
       const app = createApp(MilkdownImageBlock, {

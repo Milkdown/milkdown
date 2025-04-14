@@ -2,9 +2,11 @@ import { $view } from '@milkdown/utils'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { imageSchema } from '@milkdown/preset-commonmark'
 import type { Node } from '@milkdown/prose/model'
+import { createApp, ref, watchEffect } from 'vue'
+import DOMPurify from 'dompurify'
+
 import { withMeta } from '../__internal__/meta'
 import { inlineImageConfig } from './config'
-import { createApp, ref, watchEffect } from 'vue'
 import { MilkdownImageInline } from './components/image-inline'
 
 export const inlineImageView = $view(
@@ -16,11 +18,13 @@ export const inlineImageView = $view(
       const title = ref(initialNode.attrs.title)
       const selected = ref(false)
       const readonly = ref(!view.editable)
-      const setAttr = (attr: string, value: unknown) => {
+      const setLink = (link: string) => {
         const pos = getPos()
         if (pos == null) return
-        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
+        const url = DOMPurify.sanitize(link)
+        view.dispatch(view.state.tr.setNodeAttribute(pos, 'src', url))
       }
+
       const config = ctx.get(inlineImageConfig.key)
       const app = createApp(MilkdownImageInline, {
         src,
@@ -28,7 +32,7 @@ export const inlineImageView = $view(
         title,
         selected,
         readonly,
-        setAttr,
+        setLink,
         config,
       })
       const dom = document.createElement('span')
