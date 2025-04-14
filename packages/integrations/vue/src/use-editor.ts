@@ -1,7 +1,8 @@
 import { inject } from 'vue'
-import { editorInfoCtxKey } from './consts'
 
 import type { GetEditor, UseEditorReturn } from './types'
+
+import { editorInfoCtxKey } from './consts'
 
 export function useEditor(getEditor: GetEditor): UseEditorReturn {
   const { editorFactory, loading, editor } = inject(editorInfoCtxKey)!

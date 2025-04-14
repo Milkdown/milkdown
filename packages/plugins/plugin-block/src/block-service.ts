@@ -1,16 +1,18 @@
 import type { Ctx } from '@milkdown/ctx'
+import type { Selection } from '@milkdown/prose/state'
+import type { EditorView } from '@milkdown/prose/view'
+
 import { editorViewCtx } from '@milkdown/core'
 import { browser } from '@milkdown/prose'
-import type { Selection } from '@milkdown/prose/state'
 import { NodeSelection } from '@milkdown/prose/state'
-import type { EditorView } from '@milkdown/prose/view'
 import throttle from 'lodash.throttle'
 
 import type { FilterNodes } from './block-config'
-import { blockConfig } from './block-config'
+import type { ActiveNode } from './types'
+
 import { selectRootNodeByDom } from './__internal__/select-node-by-dom'
 import { serializeForClipboard } from './__internal__/serialize-for-clipboard'
-import type { ActiveNode } from './types'
+import { blockConfig } from './block-config'
 
 const brokenClipboardAPI =
   (browser.ie && <number>browser.ie_version < 15) ||

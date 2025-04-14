@@ -1,5 +1,7 @@
 import { h, Fragment, type Ref, defineComponent } from 'vue'
+
 import type { InlineImageConfig } from '../config'
+
 import { ImageInput } from '../../__internal__/components/image-input'
 
 h

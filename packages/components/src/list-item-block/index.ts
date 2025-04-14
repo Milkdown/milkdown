@@ -1,6 +1,7 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { listItemBlockView } from './view'
+
 import { listItemBlockConfig } from './config'
+import { listItemBlockView } from './view'
 
 export * from './component'
 export * from './config'

@@ -18,6 +18,8 @@ e2e/cypress/downloads
 
 sitemap.xml
 
+.eslintcache
+
 .env
 *.local
 *.cache

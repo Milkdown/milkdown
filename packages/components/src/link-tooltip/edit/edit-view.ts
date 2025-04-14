@@ -1,20 +1,22 @@
 import type { Ctx } from '@milkdown/ctx'
-import { TextSelection } from '@milkdown/prose/state'
-import type { PluginView } from '@milkdown/prose/state'
 import type { Mark } from '@milkdown/prose/model'
+import type { PluginView } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
-import { TooltipProvider } from '@milkdown/plugin-tooltip'
+
 import { editorViewCtx } from '@milkdown/core'
+import { TooltipProvider } from '@milkdown/plugin-tooltip'
 import { linkSchema } from '@milkdown/preset-commonmark'
 import { posToDOMRect } from '@milkdown/prose'
+import { TextSelection } from '@milkdown/prose/state'
+import DOMPurify from 'dompurify'
+import { createApp, ref, type App, type Ref } from 'vue'
+
 import {
   linkTooltipConfig,
   linkTooltipState,
   type LinkTooltipConfig,
 } from '../slices'
-import { createApp, ref, type App, type Ref } from 'vue'
 import { EditLink } from './component'
-import DOMPurify from 'dompurify'
 
 interface Data {
   from: number

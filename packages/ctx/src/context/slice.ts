@@ -1,4 +1,5 @@
 import { ctxCallOutOfScope } from '@milkdown/exception'
+
 import type { SliceMap } from './container'
 
 /// Slice is a value of slice type.

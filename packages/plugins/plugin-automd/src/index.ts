@@ -1,4 +1,5 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
+
 import { inlineSyncConfig } from './config'
 import { inlineSyncPlugin } from './inline-sync-plugin'
 

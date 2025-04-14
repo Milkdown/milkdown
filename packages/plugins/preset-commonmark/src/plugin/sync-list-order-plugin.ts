@@ -1,11 +1,12 @@
+import type { EditorView } from '@milkdown/prose/view'
+
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
-import type { EditorView } from '@milkdown/prose/view'
-import { listItemSchema } from '../node/list-item'
 
-import { orderedListSchema } from '../node/ordered-list'
-import { bulletListSchema } from '../node'
 import { withMeta } from '../__internal__'
+import { bulletListSchema } from '../node'
+import { listItemSchema } from '../node/list-item'
+import { orderedListSchema } from '../node/ordered-list'
 
 /// This plugin is used to keep the label of list item up to date in ordered list.
 export const syncListOrderPlugin = $prose((ctx) => {

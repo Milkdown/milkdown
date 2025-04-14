@@ -1,6 +1,7 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
+
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $ctx, $prose } from '@milkdown/utils'
 

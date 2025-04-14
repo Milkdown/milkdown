@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+
 import { editorViewCtx, schemaCtx } from '@milkdown/core'
 import { DOMSerializer } from '@milkdown/prose/model'
 

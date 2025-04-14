@@ -1,6 +1,9 @@
-import type { Component } from 'atomico'
-import { c, html, useEffect, useUpdate } from 'atomico'
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { MarkType, Node, NodeType } from '@milkdown/kit/prose/model'
+import type { Selection } from '@milkdown/kit/prose/state'
+import type { Component } from 'atomico'
+
+import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
 import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import {
   emphasisSchema,
@@ -11,14 +14,18 @@ import {
   toggleInlineCodeCommand,
   toggleStrongCommand,
 } from '@milkdown/kit/preset/commonmark'
-import type { MarkType, Node, NodeType } from '@milkdown/kit/prose/model'
-import type { Selection } from '@milkdown/kit/prose/state'
-import clsx from 'clsx'
-import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
 import {
   strikethroughSchema,
   toggleStrikethroughCommand,
 } from '@milkdown/kit/preset/gfm'
+import { NodeSelection, TextSelection } from '@milkdown/kit/prose/state'
+import { c, html, useEffect, useUpdate } from 'atomico'
+import clsx from 'clsx'
+
+import type { ToolbarFeatureConfig } from './index'
+
+import { CrepeFeature } from '../..'
+import { FeaturesCtx } from '../../core/slice'
 import {
   boldIcon,
   codeIcon,
@@ -27,11 +34,7 @@ import {
   strikethroughIcon,
   functionsIcon,
 } from '../../icons'
-import type { ToolbarFeatureConfig } from './index'
-import { NodeSelection, TextSelection } from '@milkdown/kit/prose/state'
 import { mathInlineSchema } from '../latex/inline-latex'
-import { FeaturesCtx } from '../../core/slice'
-import { CrepeFeature } from '../..'
 
 export interface ToolbarProps {
   ctx: Ctx

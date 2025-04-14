@@ -1,6 +1,7 @@
 import type { Ctx } from '@milkdown/ctx'
 import type { Node, NodeType } from '@milkdown/prose/model'
 import type { Transaction } from '@milkdown/prose/state'
+
 import { $ctx } from '@milkdown/utils'
 
 import { withMeta } from './__internal__'

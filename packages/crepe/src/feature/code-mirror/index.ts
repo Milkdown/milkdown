@@ -1,13 +1,16 @@
+import type { LanguageDescription } from '@codemirror/language'
+import type { Extension } from '@codemirror/state'
+
+import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+import { keymap } from '@codemirror/view'
 import {
   codeBlockComponent,
   codeBlockConfig,
 } from '@milkdown/kit/component/code-block'
-import type { LanguageDescription } from '@codemirror/language'
-import type { Extension } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
-import { keymap } from '@codemirror/view'
-import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+
 import type { DefineFeature, Icon } from '../shared'
+
 import { chevronDownIcon, clearIcon, editIcon, searchIcon } from '../../icons'
 import { visibilityOffIcon } from '../../icons/visibility-off'
 

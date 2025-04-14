@@ -1,17 +1,18 @@
-import nordStyle from '@milkdown/theme-nord/style.css?inline'
-import pmStyle from '@milkdown/kit/prose/view/style/prosemirror.css?inline'
 import {
   Editor,
   defaultValueCtx,
   editorViewOptionsCtx,
   rootCtx,
 } from '@milkdown/kit/core'
-import { nord } from '@milkdown/theme-nord'
-import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { history } from '@milkdown/kit/plugin/history'
-import commonStyle from './style.css?inline'
 import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
+import { commonmark } from '@milkdown/kit/preset/commonmark'
+import pmStyle from '@milkdown/kit/prose/view/style/prosemirror.css?inline'
+import { nord } from '@milkdown/theme-nord'
+import nordStyle from '@milkdown/theme-nord/style.css?inline'
 import { codeToHtml } from 'shiki'
+
+import commonStyle from './style.css?inline'
 
 export function wrapInShadow(styles: string[]) {
   const root = document.createElement('div')
@@ -53,6 +54,7 @@ export function injectMarkdown(
     .finally(() => {
       running = false
     })
+    .catch(console.error)
 }
 
 export interface CommonArgs {
@@ -98,9 +100,12 @@ export function setupMilkdown(
 
   setup?.(editor, root, wrapper)
 
-  editor.create().then(() => {
-    args.instance = editor
-  })
+  editor
+    .create()
+    .then(() => {
+      args.instance = editor
+    })
+    .catch(console.error)
 
   return root
 }

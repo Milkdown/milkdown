@@ -1,6 +1,7 @@
-import remarkMath from 'remark-math'
-import { $remark } from '@milkdown/kit/utils'
 import type { Node } from '@milkdown/kit/transformer'
+
+import { $remark } from '@milkdown/kit/utils'
+import remarkMath from 'remark-math'
 import { visit } from 'unist-util-visit'
 
 export const remarkMathPlugin = $remark<'remarkMath', undefined>(

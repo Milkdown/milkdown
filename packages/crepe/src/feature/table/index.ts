@@ -2,7 +2,9 @@ import {
   tableBlock,
   tableBlockConfig,
 } from '@milkdown/kit/component/table-block'
+
 import type { DefineFeature, Icon } from '../shared'
+
 import {
   alignCenterIcon,
   alignLeftIcon,

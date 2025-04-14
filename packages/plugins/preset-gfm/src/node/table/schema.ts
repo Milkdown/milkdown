@@ -1,7 +1,9 @@
+import type { NodeType } from '@milkdown/prose/model'
+import type { MarkdownNode } from '@milkdown/transformer'
+
 import { tableNodes } from '@milkdown/prose/tables'
 import { $nodeSchema } from '@milkdown/utils'
-import type { MarkdownNode } from '@milkdown/transformer'
-import type { NodeType } from '@milkdown/prose/model'
+
 import { withMeta } from '../../__internal__'
 
 const originalSchema = tableNodes({

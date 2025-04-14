@@ -1,14 +1,17 @@
 import type { Ctx } from '@milkdown/kit/ctx'
-import { TooltipProvider } from '@milkdown/kit/plugin/tooltip'
 import type { PluginView } from '@milkdown/kit/prose/state'
+
+import { TooltipProvider } from '@milkdown/kit/plugin/tooltip'
+import { redo, undo } from '@milkdown/kit/prose/history'
+import { keymap } from '@milkdown/kit/prose/keymap'
+import { Schema } from '@milkdown/kit/prose/model'
 import { EditorState, NodeSelection } from '@milkdown/kit/prose/state'
 import { EditorView } from '@milkdown/kit/prose/view'
+
+import type { LatexConfig } from '..'
+
 import { mathInlineId } from '../inline-latex'
 import { LatexInlineEditElement } from './component'
-import type { LatexConfig } from '..'
-import { keymap } from '@milkdown/kit/prose/keymap'
-import { redo, undo } from '@milkdown/kit/prose/history'
-import { Schema } from '@milkdown/kit/prose/model'
 
 export class LatexInlineTooltip implements PluginView {
   #content = new LatexInlineEditElement()

@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+import DOMPurify from 'dompurify'
 import {
   defineComponent,
   ref,
@@ -7,9 +9,8 @@ import {
   Fragment,
   type ComputedRef,
 } from 'vue'
+
 import type { CodeBlockProps } from './code-block'
-import clsx from 'clsx'
-import DOMPurify from 'dompurify'
 
 h
 Fragment

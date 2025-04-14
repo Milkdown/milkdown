@@ -1,5 +1,7 @@
 import type { Mark, Node } from '@milkdown/prose/model'
+
 import type { $Ctx } from '../$ctx'
+
 import { $ctx } from '../$ctx'
 
 /// @internal

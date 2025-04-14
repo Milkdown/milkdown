@@ -1,4 +1,8 @@
 import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
+import type { Schema } from '@milkdown/prose/model'
+import type { Command } from '@milkdown/prose/state'
+import type { JSONRecord, Parser } from '@milkdown/transformer'
+
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { docTypeError } from '@milkdown/exception'
 import { customInputRules as createInputRules } from '@milkdown/prose'
@@ -11,18 +15,15 @@ import {
 } from '@milkdown/prose/commands'
 import { undoInputRule } from '@milkdown/prose/inputrules'
 import { keymap as createKeymap } from '@milkdown/prose/keymap'
-import type { Schema } from '@milkdown/prose/model'
 import { DOMParser, Node } from '@milkdown/prose/model'
-import type { Command } from '@milkdown/prose/state'
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state'
-import type { JSONRecord, Parser } from '@milkdown/transformer'
 
 import { withMeta } from '../__internal__'
+import { editorStateCtx, inputRulesCtx, prosePluginsCtx } from './atoms'
+import { CommandsReady } from './commands'
 import { ParserReady, parserCtx } from './parser'
 import { schemaCtx } from './schema'
 import { SerializerReady } from './serializer'
-import { CommandsReady } from './commands'
-import { editorStateCtx, inputRulesCtx, prosePluginsCtx } from './atoms'
 
 /// @internal
 export type DefaultValue =

@@ -1,6 +1,6 @@
-import throttle from 'lodash.throttle'
+import type { Ctx } from '@milkdown/ctx'
+
 import { computePosition, offset } from '@floating-ui/dom'
-import { useEffect, useHost, useMemo } from 'atomico'
 import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import {
   moveColCommand,
@@ -8,13 +8,16 @@ import {
   selectColCommand,
   selectRowCommand,
 } from '@milkdown/preset-gfm'
-import type { Ctx } from '@milkdown/ctx'
+import { useEffect, useHost, useMemo } from 'atomico'
+import throttle from 'lodash.throttle'
+
+import type { CellIndex, DragContext, Refs } from './types'
+
 import {
   computeColHandlePositionByIndex,
   computeRowHandlePositionByIndex,
   getRelatedDOM,
 } from './utils'
-import type { CellIndex, DragContext, Refs } from './types'
 
 function prepareDndContext(refs: Refs): DragContext | undefined {
   const {
@@ -281,14 +284,16 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
         computePosition(col, yHandle, {
           placement: direction === 'left' ? 'left' : 'right',
           middleware: [offset(direction === 'left' ? -1 * yHandleWidth : 0)],
-        }).then(({ x }) => {
-          yHandle.dataset.show = 'true'
-          Object.assign(yHandle.style, {
-            height: `${contentBoundary.height}px`,
-            left: `${x}px`,
-            top: `${wrapperOffsetTop}px`,
-          })
         })
+          .then(({ x }) => {
+            yHandle.dataset.show = 'true'
+            Object.assign(yHandle.style, {
+              height: `${contentBoundary.height}px`,
+              left: `${x}px`,
+              top: `${wrapperOffsetTop}px`,
+            })
+          })
+          .catch(console.error)
       }
     } else if (info.type === 'row') {
       const height = dom.row.getBoundingClientRect().height
@@ -341,13 +346,15 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
         computePosition(row, xHandle, {
           placement: direction === 'up' ? 'top' : 'bottom',
           middleware: [offset(direction === 'up' ? -1 * xHandleHeight : 0)],
-        }).then(({ y }) => {
-          xHandle.dataset.show = 'true'
-          Object.assign(xHandle.style, {
-            width: `${contentBoundary.width}px`,
-            top: `${y}px`,
-          })
         })
+          .then(({ y }) => {
+            xHandle.dataset.show = 'true'
+            Object.assign(xHandle.style, {
+              width: `${contentBoundary.width}px`,
+              top: `${y}px`,
+            })
+          })
+          .catch(console.error)
       }
     }
   }, 20)

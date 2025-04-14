@@ -1,12 +1,13 @@
 import type { Ctx } from '@milkdown/ctx'
 import type { Attrs } from '@milkdown/prose/model'
 import type { EditorState, PluginKey, Transaction } from '@milkdown/prose/state'
+
 import { TextSelection } from '@milkdown/prose/state'
 
 import { inlineSyncConfig } from './config'
 import { getContextByState } from './context'
-import { calcOffset } from './utils'
 import { linkRegexp } from './regexp'
+import { calcOffset } from './utils'
 
 export function runReplacer(
   ctx: Ctx,

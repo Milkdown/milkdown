@@ -1,3 +1,5 @@
+import type { Ctx } from '@milkdown/ctx'
+
 import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import {
@@ -5,9 +7,9 @@ import {
   sinkListItem,
   splitListItem,
 } from '@milkdown/prose/schema-list'
-import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import { type Command, TextSelection } from '@milkdown/prose/state'
-import type { Ctx } from '@milkdown/ctx'
+import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for list item node.

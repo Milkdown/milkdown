@@ -1,10 +1,11 @@
 import { readFileSync } from 'node:fs'
 import { parse } from 'node:path'
 
-import { Path } from './path'
+import type { PackageItem } from './pnpm'
 import type { CommonPackageJsonContent } from './types'
 import type { Workspace } from './workspace'
-import type { PackageItem } from './pnpm'
+
+import { Path } from './path'
 import { pnpmList } from './pnpm'
 
 export function readPackageJson(path: Path): CommonPackageJsonContent {

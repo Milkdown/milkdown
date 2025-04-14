@@ -1,7 +1,8 @@
+import type { CommonPackageJsonContent } from './types'
+
 import { Logger } from './logger'
 import { Package, readPackageJson } from './package'
 import { ProjectRoot } from './path'
-import type { CommonPackageJsonContent } from './types'
 import { pnpmList } from './pnpm'
 
 class CircularDependenciesError extends Error {

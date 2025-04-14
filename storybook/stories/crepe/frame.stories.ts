@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { basicLight } from '@uiw/codemirror-theme-basic'
 
 import frame from '@milkdown/crepe/theme/frame.css?inline'
+import { basicLight } from '@uiw/codemirror-theme-basic'
+
 import type { Args } from './setup'
+
 import { longContent, setup, wikiContent } from './setup'
 
 const meta: Meta = {

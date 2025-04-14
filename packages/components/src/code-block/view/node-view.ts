@@ -1,20 +1,22 @@
+import type { Line, SelectionRange } from '@codemirror/state'
+import type { Node } from '@milkdown/prose/model'
 import type { EditorView, NodeView } from '@milkdown/prose/view'
+
+import { Compartment, EditorState } from '@codemirror/state'
 import {
   EditorView as CodeMirror,
   type KeyBinding,
   type ViewUpdate,
   keymap as cmKeymap,
 } from '@codemirror/view'
-import type { Node } from '@milkdown/prose/model'
-import { redo, undo } from '@milkdown/prose/history'
-import { Compartment, EditorState } from '@codemirror/state'
-import type { Line, SelectionRange } from '@codemirror/state'
 import { exitCode } from '@milkdown/prose/commands'
+import { redo, undo } from '@milkdown/prose/history'
 import { TextSelection } from '@milkdown/prose/state'
 import { createApp, ref, watchEffect, type App, type WatchHandle } from 'vue'
 
 import type { CodeBlockConfig } from '../config'
 import type { LanguageLoader } from './loader'
+
 import { CodeBlock } from './components/code-block'
 
 export class CodeMirrorBlock implements NodeView {
@@ -125,14 +127,16 @@ export class CodeMirrorBlock implements NodeView {
     this.language.value = languageName
     const language = this.loader.load(languageName ?? '')
 
-    language.then((lang) => {
-      if (lang) {
-        this.cm.dispatch({
-          effects: this.languageConf.reconfigure(lang),
-        })
-        this.languageName = languageName
-      }
-    })
+    language
+      .then((lang) => {
+        if (lang) {
+          this.cm.dispatch({
+            effects: this.languageConf.reconfigure(lang),
+          })
+          this.languageName = languageName
+        }
+      })
+      .catch(console.error)
   }
 
   private codeMirrorKeymap = (): KeyBinding[] => {

@@ -1,4 +1,5 @@
 import type { Node, RemarkPluginRaw } from '@milkdown/transformer'
+
 import emojiRegex from 'emoji-regex'
 
 import { type TwemojiOptions, parse } from './parse'

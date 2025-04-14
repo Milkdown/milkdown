@@ -1,4 +1,9 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type {
+  MarkViewConstructor,
+  NodeViewConstructor,
+} from '@milkdown/prose/view'
+
 import {
   SchemaReady,
   editorViewTimerCtx,
@@ -6,13 +11,10 @@ import {
   nodeViewCtx,
 } from '@milkdown/core'
 import { NodeType } from '@milkdown/prose/model'
-import type {
-  MarkViewConstructor,
-  NodeViewConstructor,
-} from '@milkdown/prose/view'
+
+import type { $Mark, $Node } from '.'
 
 import { addTimer } from './utils'
-import type { $Mark, $Node } from '.'
 
 /// @internal
 export type $View<

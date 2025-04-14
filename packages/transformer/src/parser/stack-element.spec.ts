@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { ParserStackElement } from './stack-element'
 
 it('parser-stack-element', () => {

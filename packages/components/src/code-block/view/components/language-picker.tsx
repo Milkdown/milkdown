@@ -1,3 +1,5 @@
+import { computePosition } from '@floating-ui/dom'
+import clsx from 'clsx'
 import {
   computed,
   defineComponent,
@@ -8,9 +10,9 @@ import {
   onUnmounted,
   watch,
 } from 'vue'
+
 import type { CodeBlockProps } from './code-block'
-import clsx from 'clsx'
-import { computePosition } from '@floating-ui/dom'
+
 import { Icon } from '../../../__internal__/components/icon'
 
 type LanguagePickerProps = Pick<
@@ -58,12 +60,14 @@ export const LanguagePicker = defineComponent<LanguagePickerProps>({
 
       computePosition(picker, languageList, {
         placement: 'bottom-start',
-      }).then(({ x, y }) => {
-        Object.assign(languageList.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        })
       })
+        .then(({ x, y }) => {
+          Object.assign(languageList.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          })
+        })
+        .catch(console.error)
     })
 
     const onTogglePicker = (e: Event) => {

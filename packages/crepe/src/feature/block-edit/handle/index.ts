@@ -1,15 +1,18 @@
-import type { PluginView } from '@milkdown/kit/prose/state'
-import { TextSelection } from '@milkdown/kit/prose/state'
-import { BlockProvider, block, blockConfig } from '@milkdown/kit/plugin/block'
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { PluginView } from '@milkdown/kit/prose/state'
 import type { AtomicoThis } from 'atomico/types/dom'
+
 import { editorViewCtx } from '@milkdown/kit/core'
+import { BlockProvider, block, blockConfig } from '@milkdown/kit/plugin/block'
 import { paragraphSchema } from '@milkdown/kit/preset/commonmark'
 import { findParent } from '@milkdown/kit/prose'
-import { menuAPI } from '../menu'
-import { defIfNotExists } from '../../../utils'
+import { TextSelection } from '@milkdown/kit/prose/state'
+
 import type { BlockEditFeatureConfig } from '../index'
 import type { BlockHandleProps } from './component'
+
+import { defIfNotExists } from '../../../utils'
+import { menuAPI } from '../menu'
 import { BlockHandleElement } from './component'
 
 export class BlockHandleView implements PluginView {

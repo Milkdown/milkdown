@@ -1,9 +1,10 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type { NodeType } from '@milkdown/prose/model'
+import type { NodeSchema } from '@milkdown/transformer'
+
 import { nodesCtx, schemaCtx, schemaTimerCtx } from '@milkdown/core'
 import { missingNodeInSchema } from '@milkdown/exception'
-import type { NodeType } from '@milkdown/prose/model'
 
-import type { NodeSchema } from '@milkdown/transformer'
 import { addTimer } from './utils'
 
 /// @internal

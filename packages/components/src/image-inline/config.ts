@@ -1,5 +1,6 @@
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
+
 import { withMeta } from '../__internal__/meta'
 
 export interface InlineImageConfig {

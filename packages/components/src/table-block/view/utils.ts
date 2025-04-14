@@ -1,12 +1,14 @@
+import type { Ctx } from '@milkdown/ctx'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
-import { findParent } from '@milkdown/prose'
 import type { Ref } from 'atomico'
-import { editorViewCtx } from '@milkdown/core'
-import { CellSelection } from '@milkdown/prose/tables'
-import { findTable } from '@milkdown/preset-gfm'
+
 import { computePosition } from '@floating-ui/dom'
-import type { Ctx } from '@milkdown/ctx'
+import { editorViewCtx } from '@milkdown/core'
+import { findTable } from '@milkdown/preset-gfm'
+import { findParent } from '@milkdown/prose'
+import { CellSelection } from '@milkdown/prose/tables'
+
 import type { CellIndex, Refs } from './types'
 
 export function findNodeIndex(parent: Node, child: Node) {
@@ -150,13 +152,15 @@ export function computeColHandlePositionByIndex({
   const { headerCol: col } = dom
   colHandle.dataset.show = 'true'
   if (before) before(colHandle)
-  computePosition(col, colHandle, { placement: 'top' }).then(({ x, y }) => {
-    Object.assign(colHandle.style, {
-      left: `${x}px`,
-      top: `${y}px`,
+  computePosition(col, colHandle, { placement: 'top' })
+    .then(({ x, y }) => {
+      Object.assign(colHandle.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      })
+      if (after) after(colHandle)
     })
-    if (after) after(colHandle)
-  })
+    .catch(console.error)
 }
 
 export function computeRowHandlePositionByIndex({
@@ -175,11 +179,13 @@ export function computeRowHandlePositionByIndex({
   const { row } = dom
   rowHandle.dataset.show = 'true'
   if (before) before(rowHandle)
-  computePosition(row, rowHandle, { placement: 'left' }).then(({ x, y }) => {
-    Object.assign(rowHandle.style, {
-      left: `${x}px`,
-      top: `${y}px`,
+  computePosition(row, rowHandle, { placement: 'left' })
+    .then(({ x, y }) => {
+      Object.assign(rowHandle.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      })
+      if (after) after(rowHandle)
     })
-    if (after) after(rowHandle)
-  })
+    .catch(console.error)
 }

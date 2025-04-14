@@ -1,5 +1,7 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+
 import { createTimer } from '@milkdown/ctx'
+
 import { withMeta } from '../__internal__'
 
 /// @internal

@@ -1,7 +1,9 @@
 import { defineComponent, ref, h, Fragment } from 'vue'
+
 import type { MilkdownImageBlockProps } from './image-block'
-import { IMAGE_DATA_TYPE } from '../../schema'
+
 import { Icon } from '../../../__internal__/components/icon'
+import { IMAGE_DATA_TYPE } from '../../schema'
 
 h
 Fragment

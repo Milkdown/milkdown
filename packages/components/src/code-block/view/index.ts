@@ -1,10 +1,12 @@
-import { $view } from '@milkdown/utils'
-import { codeBlockSchema } from '@milkdown/preset-commonmark'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
-import { codeBlockConfig } from '../config'
+
+import { codeBlockSchema } from '@milkdown/preset-commonmark'
+import { $view } from '@milkdown/utils'
+
 import { withMeta } from '../../__internal__/meta'
-import { CodeMirrorBlock } from './node-view'
+import { codeBlockConfig } from '../config'
 import { LanguageLoader } from './loader'
+import { CodeMirrorBlock } from './node-view'
 
 export const codeBlockView = $view(
   codeBlockSchema.node,

@@ -1,5 +1,6 @@
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $ctx, $prose } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// This slice contains the nodes that within which the hardbreak will be ignored.

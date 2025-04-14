@@ -1,7 +1,9 @@
-import { defineComponent, ref, h } from 'vue'
-import type { MilkdownImageBlockProps } from './image-block'
 import clsx from 'clsx'
 import { customAlphabet } from 'nanoid'
+import { defineComponent, ref, h } from 'vue'
+
+import type { MilkdownImageBlockProps } from './image-block'
+
 import { Icon } from '../../../__internal__/components/icon'
 
 h

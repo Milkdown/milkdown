@@ -3,8 +3,9 @@
  */
 
 import type { NodeType, Slice } from '@milkdown/prose/model'
-import { DOMSerializer } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
+
+import { DOMSerializer } from '@milkdown/prose/model'
 
 let _detachedDoc: Document | null = null
 function detachedDoc() {

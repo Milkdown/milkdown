@@ -1,6 +1,8 @@
 import { type Component, c, html, useEffect, useRef } from 'atomico'
-import { menuIcon, plusIcon } from '../../../icons'
+
 import type { Icon } from '../../shared'
+
+import { menuIcon, plusIcon } from '../../../icons'
 
 export interface BlockHandleProps {
   show: boolean

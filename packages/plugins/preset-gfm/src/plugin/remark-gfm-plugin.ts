@@ -1,7 +1,9 @@
 import type { $Remark } from '@milkdown/utils'
-import { $remark } from '@milkdown/utils'
 import type { Options } from 'remark-gfm'
+
+import { $remark } from '@milkdown/utils'
 import remarkGFM from 'remark-gfm'
+
 import { withMeta } from '../__internal__'
 
 /// This plugin is wrapping the [remark-gfm](https://github.com/remarkjs/remark-gfm).

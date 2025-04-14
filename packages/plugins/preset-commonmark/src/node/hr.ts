@@ -1,6 +1,7 @@
 import { InputRule } from '@milkdown/prose/inputrules'
 import { Selection } from '@milkdown/prose/state'
 import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 import { paragraphSchema } from './paragraph'
 

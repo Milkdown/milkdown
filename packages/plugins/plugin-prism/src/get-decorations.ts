@@ -1,8 +1,9 @@
-import { findChildren } from '@milkdown/prose'
 import type { Node } from '@milkdown/prose/model'
-import { Decoration, DecorationSet } from '@milkdown/prose/view'
-import type { Refractor } from 'refractor/core'
 import type { RootContent, Text } from 'hast'
+import type { Refractor } from 'refractor/core'
+
+import { findChildren } from '@milkdown/prose'
+import { Decoration, DecorationSet } from '@milkdown/prose/view'
 
 export interface FlattedNode {
   text: string
@@ -29,7 +30,6 @@ export function getDecorations(doc: Node, name: string, refractor: Refractor) {
     let from = block.pos + 1
     const { language } = block.node.attrs
     if (!language || !allLanguages.includes(language)) {
-      // eslint-disable-next-line no-console
       console.warn(
         'Unsupported language detected, this language has not been supported by current prism config: ',
         language

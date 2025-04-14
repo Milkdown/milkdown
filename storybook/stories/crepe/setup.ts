@@ -1,8 +1,10 @@
+import type { Extension } from '@codemirror/state'
+
 import { Crepe } from '@milkdown/crepe'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
-import localStyle from './style.css?inline'
-import type { Extension } from '@codemirror/state'
+
 import { injectMarkdown, wrapInShadow } from '../utils/shadow'
+import localStyle from './style.css?inline'
 
 export interface Args {
   instance: Crepe
@@ -117,7 +119,7 @@ export function setup({ args, style, theme }: setupConfig) {
     .then(() => {
       args.instance = crepe
     })
-
+    .catch(console.error)
   return root
 }
 

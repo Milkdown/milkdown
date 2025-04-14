@@ -1,9 +1,12 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
-import { marksCtx } from '@milkdown/core'
 import type { MarkSchema } from '@milkdown/transformer'
+
+import { marksCtx } from '@milkdown/core'
+
 import type { $Ctx } from '../$ctx'
-import { $ctx } from '../$ctx'
 import type { $Mark } from '../$mark'
+
+import { $ctx } from '../$ctx'
 import { $mark } from '../$mark'
 
 /// @internal

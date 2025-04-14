@@ -1,5 +1,7 @@
 import { defineComponent, ref, watch, type Ref, h } from 'vue'
+
 import type { LinkTooltipConfig } from '../slices'
+
 import { Icon } from '../../__internal__/components/icon'
 
 h

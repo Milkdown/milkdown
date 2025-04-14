@@ -1,4 +1,5 @@
 import { $node } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// The top-level document node.

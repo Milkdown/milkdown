@@ -1,4 +1,5 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
+
 import { strikethroughAttr, strikethroughSchema } from '../mark'
 import {
   extendListItemSchemaForTask,

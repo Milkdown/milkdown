@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/html'
+
 import { EditorStatus } from '@milkdown/kit/core'
 import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
 import { action } from '@storybook/addon-actions'
 
 import type { CommonArgs } from '../utils/shadow'
+
 import { setupMilkdown } from '../utils/shadow'
 import style from './listener.css?inline'
 

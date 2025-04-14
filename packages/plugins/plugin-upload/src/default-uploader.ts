@@ -1,5 +1,6 @@
-import { missingNodeInSchema } from '@milkdown/exception'
 import type { Node } from '@milkdown/prose/model'
+
+import { missingNodeInSchema } from '@milkdown/exception'
 
 import type { Uploader } from './upload'
 
