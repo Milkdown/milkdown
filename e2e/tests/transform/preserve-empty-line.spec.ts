@@ -16,8 +16,23 @@ test('preserve empty line', async ({ page }) => {
   expect(await page.locator('p').nth(1).textContent()).toBe('')
   expect(await page.locator('p').nth(2).textContent()).toBe('456')
   expect(await page.locator('p').nth(3).textContent()).toBe('')
-  expect(await page.locator('p').nth(4).textContent()).toBe('789')
+  expect(await page.locator('li').nth(0).textContent()).toBe('')
+  expect(await page.locator('blockquote').nth(0).textContent()).toBe('')
 
   const markdownOutput = await getMarkdown(page)
   expect(markdownOutput.trim()).toBe(markdown.trim())
+})
+
+test('should not preserve last empty line', async ({ page }) => {
+  await focusEditor(page)
+
+  await page.keyboard.press('Enter')
+  await page.keyboard.press('Backspace')
+
+  let markdownOutput = await getMarkdown(page)
+  expect(markdownOutput.trim()).toBe('')
+
+  await page.keyboard.press('Enter')
+  markdownOutput = await getMarkdown(page)
+  expect(markdownOutput.trim()).toBe('<br />')
 })

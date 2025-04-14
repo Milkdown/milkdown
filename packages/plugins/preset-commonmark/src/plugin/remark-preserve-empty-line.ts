@@ -5,8 +5,8 @@ import { visit } from 'unist-util-visit'
 
 import { withMeta } from '../__internal__'
 
-function visitImage(ast: Node) {
-  return visit(ast, 'paragraph', (node: Node & { children?: Node[] }) => {
+function visitEmptyLine(ast: Node) {
+  return visit(ast, (node: Node & { children?: Node[] }) => {
     if (node.children?.length !== 1) return
     const firstChild = node.children?.[0]
     if (!firstChild || firstChild.type !== 'html') return
@@ -30,7 +30,7 @@ function visitImage(ast: Node) {
 /// This plugin should be used with `linebreakSchema` to work.
 export const remarkPreserveEmptyLinePlugin = $remark(
   'remark-preserve-empty-line',
-  () => () => visitImage
+  () => () => visitEmptyLine
 )
 
 withMeta(remarkPreserveEmptyLinePlugin.plugin, {
