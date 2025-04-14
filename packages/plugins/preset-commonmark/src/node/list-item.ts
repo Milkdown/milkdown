@@ -25,12 +25,15 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
   attrs: {
     label: {
       default: '•',
+      validate: 'string',
     },
     listType: {
       default: 'bullet',
+      validate: 'string',
     },
     spread: {
       default: 'true',
+      validate: 'string',
     },
   },
   defining: true,

@@ -15,9 +15,9 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
     atom: true,
     priority: 100,
     attrs: {
-      src: { default: '' },
-      caption: { default: '' },
-      ratio: { default: 1 },
+      src: { default: '', validate: 'string' },
+      caption: { default: '', validate: 'string' },
+      ratio: { default: 1, validate: 'number' },
     },
     parseDOM: [
       {

@@ -15,6 +15,7 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema(
           ...baseSchema.attrs,
           checked: {
             default: null,
+            validate: 'boolean|null',
           },
         },
         parseDOM: [

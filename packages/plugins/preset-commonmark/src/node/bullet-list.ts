@@ -26,7 +26,8 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
     group: 'block',
     attrs: {
       spread: {
-        default: false,
+        default: 'false',
+        validate: 'string',
       },
     },
     parseDOM: [

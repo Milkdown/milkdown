@@ -23,6 +23,7 @@ export const strongSchema = $markSchema('strong', (ctx) => ({
   attrs: {
     marker: {
       default: ctx.get(remarkStringifyOptionsCtx).strong || '*',
+      validate: 'string',
     },
   },
   parseDOM: [

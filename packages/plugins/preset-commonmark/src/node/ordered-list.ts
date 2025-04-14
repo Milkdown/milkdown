@@ -26,9 +26,11 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
   attrs: {
     order: {
       default: 1,
+      validate: 'number',
     },
     spread: {
       default: false,
+      validate: 'boolean',
     },
   },
   parseDOM: [

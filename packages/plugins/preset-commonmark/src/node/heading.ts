@@ -56,9 +56,11 @@ export const headingSchema = $nodeSchema('heading', (ctx) => {
     attrs: {
       id: {
         default: '',
+        validate: 'string',
       },
       level: {
         default: 1,
+        validate: 'number',
       },
     },
     parseDOM: headingIndex.map((x) => ({

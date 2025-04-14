@@ -16,6 +16,7 @@ export const htmlSchema = $nodeSchema('html', (ctx) => {
     attrs: {
       value: {
         default: '',
+        validate: 'string',
       },
     },
     toDOM: (node) => {

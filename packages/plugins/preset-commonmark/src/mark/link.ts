@@ -16,8 +16,8 @@ withMeta(linkAttr, {
 /// Link mark schema.
 export const linkSchema = $markSchema('link', (ctx) => ({
   attrs: {
-    href: {},
-    title: { default: null },
+    href: { validate: 'string' },
+    title: { default: null, validate: 'string|null' },
   },
   parseDOM: [
     {
