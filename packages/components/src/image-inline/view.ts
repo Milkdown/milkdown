@@ -18,11 +18,16 @@ export const inlineImageView = $view(
       const title = ref(initialNode.attrs.title)
       const selected = ref(false)
       const readonly = ref(!view.editable)
-      const setLink = (link: string) => {
+      const setAttr = (attr: string, value: unknown) => {
         const pos = getPos()
         if (pos == null) return
-        const url = DOMPurify.sanitize(link)
-        view.dispatch(view.state.tr.setNodeAttribute(pos, 'src', url))
+        view.dispatch(
+          view.state.tr.setNodeAttribute(
+            pos,
+            attr,
+            attr === 'src' ? DOMPurify.sanitize(value as string) : value
+          )
+        )
       }
 
       const config = ctx.get(inlineImageConfig.key)
@@ -32,7 +37,7 @@ export const inlineImageView = $view(
         title,
         selected,
         readonly,
-        setLink,
+        setAttr,
         config,
       })
       const dom = document.createElement('span')
