@@ -32,8 +32,8 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
       validate: 'string',
     },
     spread: {
-      default: 'true',
-      validate: 'string',
+      default: true,
+      validate: 'boolean',
     },
   },
   defining: true,
@@ -46,7 +46,7 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
         return {
           label: dom.dataset.label,
           listType: dom.dataset.listType,
-          spread: dom.dataset.spread,
+          spread: dom.dataset.spread === 'true',
         }
       },
     },
@@ -76,7 +76,7 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
     match: (node) => node.type.name === 'list_item',
     runner: (state, node) => {
       state.openNode('listItem', undefined, {
-        spread: node.attrs.spread === 'true',
+        spread: node.attrs.spread,
       })
       state.next(node.content)
       state.closeNode()
