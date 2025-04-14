@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { gfm } from '@milkdown/kit/preset/gfm'
 
 import { tableBlock } from '@milkdown/kit/component/table-block'
-import tableStyle from '@milkdown/kit/prose/tables/style/tables.css?inline'
 import { cursor } from '@milkdown/kit/plugin/cursor'
 import { history } from '@milkdown/kit/plugin/history'
+import { gfm } from '@milkdown/kit/preset/gfm'
+import tableStyle from '@milkdown/kit/prose/tables/style/tables.css?inline'
+
 import type { CommonArgs } from '../utils/shadow'
+
 import { setupMilkdown } from '../utils/shadow'
 import style from './table-block.css?inline'
 

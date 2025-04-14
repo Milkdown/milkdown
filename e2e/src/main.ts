@@ -1,5 +1,7 @@
 import './style.css'
+
 import { c, html } from 'atomico'
+
 import { cases } from './data'
 
 function App() {

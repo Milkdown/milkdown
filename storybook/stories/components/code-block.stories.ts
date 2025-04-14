@@ -1,16 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/html'
+
+import { defaultKeymap } from '@codemirror/commands'
+import { languages } from '@codemirror/language-data'
+import { oneDark } from '@codemirror/theme-one-dark'
+import { keymap } from '@codemirror/view'
 import {
   codeBlockComponent,
   codeBlockConfig,
 } from '@milkdown/kit/component/code-block'
-import { oneDark } from '@codemirror/theme-one-dark'
-import { languages } from '@codemirror/language-data'
-import { basicSetup } from 'codemirror'
-import { defaultKeymap } from '@codemirror/commands'
-import { keymap } from '@codemirror/view'
 import { html } from 'atomico'
+import { basicSetup } from 'codemirror'
 
 import type { CommonArgs } from '../utils/shadow'
+
 import { setupMilkdown } from '../utils/shadow'
 import style from './code-block.css?inline'
 

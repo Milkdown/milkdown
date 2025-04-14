@@ -1,7 +1,8 @@
+import type { $NodeSchema } from '@milkdown/utils'
+
 import { commandsCtx } from '@milkdown/core'
 import { wrapIn } from '@milkdown/prose/commands'
 import { wrappingInputRule } from '@milkdown/prose/inputrules'
-import type { $NodeSchema } from '@milkdown/utils'
 import {
   $command,
   $inputRule,
@@ -9,6 +10,7 @@ import {
   $nodeSchema,
   $useKeymap,
 } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for blockquote node.

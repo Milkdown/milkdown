@@ -1,4 +1,5 @@
 import type { Attrs, Node, NodeType } from '@milkdown/prose/model'
+
 import { StackElement } from '../utility'
 
 export class ParserStackElement extends StackElement<Node> {

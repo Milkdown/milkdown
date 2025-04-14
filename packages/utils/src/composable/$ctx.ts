@@ -1,4 +1,5 @@
 import type { MilkdownPlugin, SliceType } from '@milkdown/ctx'
+
 import { createSlice } from '@milkdown/ctx'
 
 /// @internal

@@ -1,6 +1,8 @@
-import { $remark } from '@milkdown/utils'
 import type { Node } from '@milkdown/transformer'
+
+import { $remark } from '@milkdown/utils'
 import { visit } from 'unist-util-visit'
+
 import { withMeta } from '../__internal__'
 
 /// This plugin is used to add inline line break for remark AST.

@@ -1,5 +1,6 @@
-import { $nodeSchema } from '@milkdown/utils'
 import { expectDomTypeError } from '@milkdown/exception'
+import { $nodeSchema } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__/meta'
 
 export const IMAGE_DATA_TYPE = 'image-block'

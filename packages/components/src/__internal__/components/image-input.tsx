@@ -1,6 +1,7 @@
-import { defineComponent, ref, h, type Ref } from 'vue'
 import clsx from 'clsx'
 import { customAlphabet } from 'nanoid'
+import { defineComponent, ref, h, type Ref } from 'vue'
+
 import { Icon } from './icon'
 
 h

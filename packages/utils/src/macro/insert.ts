@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+
 import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 

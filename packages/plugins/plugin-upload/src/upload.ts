@@ -1,8 +1,9 @@
-import { schemaCtx } from '@milkdown/core'
 import type { Fragment, Node, Schema } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
-import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
+
+import { schemaCtx } from '@milkdown/core'
+import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { Decoration, DecorationSet } from '@milkdown/prose/view'
 import { $ctx, $prose } from '@milkdown/utils'
 
@@ -105,7 +106,7 @@ export const uploadPlugin = $prose((ctx) => {
         )
       })
       .catch((e) => {
-        // eslint-disable-next-line no-console
+         
         console.error(e)
       })
     return true

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+
 import { focusEditor } from '../misc'
 
 test('listen change before editor is created', async ({ page }) => {

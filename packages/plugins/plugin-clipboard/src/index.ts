@@ -1,3 +1,5 @@
+import type { Node, Slice } from '@milkdown/prose/model'
+
 import {
   editorViewOptionsCtx,
   parserCtx,
@@ -5,7 +7,6 @@ import {
   serializerCtx,
 } from '@milkdown/core'
 import { getNodeFromSchema } from '@milkdown/prose'
-import type { Node, Slice } from '@milkdown/prose/model'
 import { DOMParser, DOMSerializer } from '@milkdown/prose/model'
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'

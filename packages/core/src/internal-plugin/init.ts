@@ -1,12 +1,13 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
+
 import { createTimer } from '@milkdown/ctx'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 
 import type { Editor } from '../editor'
+
 import { remarkHandlers, withMeta } from '../__internal__'
-import { ConfigReady } from './config'
 import {
   editorCtx,
   initTimerCtx,
@@ -18,6 +19,7 @@ import {
   remarkPluginsCtx,
   remarkStringifyOptionsCtx,
 } from './atoms'
+import { ConfigReady } from './config'
 
 /// The timer which will be resolved when the init plugin is ready.
 export const InitReady = createTimer('InitReady')

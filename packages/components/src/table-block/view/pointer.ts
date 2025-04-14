@@ -1,8 +1,11 @@
-import { computePosition, offset } from '@floating-ui/dom'
 import type { EditorView } from '@milkdown/prose/view'
-import throttle from 'lodash.throttle'
+
+import { computePosition, offset } from '@floating-ui/dom'
 import { useMemo } from 'atomico'
+import throttle from 'lodash.throttle'
+
 import type { Refs } from './types'
+
 import {
   computeColHandlePositionByIndex,
   computeRowHandlePositionByIndex,
@@ -78,13 +81,15 @@ export function createPointerMoveHandler(
         computePosition(dom.col, yHandle, {
           placement: closeToBoundaryLeft ? 'left' : 'right',
           middleware: [offset(closeToBoundaryLeft ? -1 * yHandleWidth : 0)],
-        }).then(({ x }) => {
-          yHandle.dataset.show = 'true'
-          Object.assign(yHandle.style, {
-            height: `${contentBoundary.height}px`,
-            left: `${x}px`,
-          })
         })
+          .then(({ x }) => {
+            yHandle.dataset.show = 'true'
+            Object.assign(yHandle.style, {
+              height: `${contentBoundary.height}px`,
+              left: `${x}px`,
+            })
+          })
+          .catch(console.error)
       } else {
         yHandle.dataset.show = 'false'
       }
@@ -98,13 +103,15 @@ export function createPointerMoveHandler(
         computePosition(dom.row, xHandle, {
           placement: closeToBoundaryTop ? 'top' : 'bottom',
           middleware: [offset(closeToBoundaryTop ? -1 * xHandleHeight : 0)],
-        }).then(({ y }) => {
-          xHandle.dataset.show = 'true'
-          Object.assign(xHandle.style, {
-            width: `${contentBoundary.width}px`,
-            top: `${y}px`,
-          })
         })
+          .then(({ y }) => {
+            xHandle.dataset.show = 'true'
+            Object.assign(xHandle.style, {
+              width: `${contentBoundary.width}px`,
+              top: `${y}px`,
+            })
+          })
+          .catch(console.error)
       } else {
         xHandle.dataset.show = 'false'
       }

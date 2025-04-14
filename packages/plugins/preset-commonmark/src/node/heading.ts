@@ -1,8 +1,9 @@
+import type { Node } from '@milkdown/prose/model'
+
 import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import { setBlockType } from '@milkdown/prose/commands'
 import { textblockTypeInputRule } from '@milkdown/prose/inputrules'
-import type { Node } from '@milkdown/prose/model'
 import {
   $command,
   $ctx,
@@ -11,6 +12,7 @@ import {
   $nodeSchema,
   $useKeymap,
 } from '@milkdown/utils'
+
 import { serializeText, withMeta } from '../__internal__'
 import { paragraphSchema } from './paragraph'
 

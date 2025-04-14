@@ -1,10 +1,13 @@
-import { $ctx, $prose } from '@milkdown/kit/utils'
-import type { EditorState } from '@milkdown/kit/prose/state'
-import { Plugin, PluginKey } from '@milkdown/kit/prose/state'
 import type { Node } from '@milkdown/kit/prose/model'
-import { Decoration, DecorationSet } from '@milkdown/kit/prose/view'
+import type { EditorState } from '@milkdown/kit/prose/state'
+
 import { findParent } from '@milkdown/kit/prose'
+import { Plugin, PluginKey } from '@milkdown/kit/prose/state'
+import { Decoration, DecorationSet } from '@milkdown/kit/prose/view'
+import { $ctx, $prose } from '@milkdown/kit/utils'
+
 import type { DefineFeature } from '../shared'
+
 import { isInCodeBlock, isInList } from '../../utils'
 
 function isDocEmpty(doc: Node) {

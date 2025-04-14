@@ -5,6 +5,7 @@ import type {
   SliceType,
   TimerType,
 } from '@milkdown/ctx'
+
 import { createTimer } from '@milkdown/ctx'
 import { customAlphabet } from 'nanoid'
 
@@ -47,7 +48,12 @@ export function addTimer<
       return () => {
         ctx.update(injectTo, (x) => x.filter((y) => y !== timer))
         ctx.clearTimer(timer)
-        cleanup?.()
+        if (cleanup) {
+          const result = cleanup()
+          if (result && 'then' in result) {
+            result.catch(console.error)
+          }
+        }
       }
     }
   }

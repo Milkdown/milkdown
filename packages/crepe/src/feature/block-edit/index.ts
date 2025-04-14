@@ -1,8 +1,10 @@
 import { block } from '@milkdown/kit/plugin/block'
+
 import type { DefineFeature, Icon } from '../shared'
+import type { GroupBuilder } from './menu/group-builder'
+
 import { configureBlockHandle } from './handle'
 import { configureMenu, menu, menuAPI } from './menu'
-import type { GroupBuilder } from './menu/group-builder'
 
 interface BlockEditConfig {
   handleAddIcon: Icon

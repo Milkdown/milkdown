@@ -2,6 +2,7 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { findSelectedNodeOfType } from '@milkdown/prose'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $command, $inputRule, $nodeAttr, $nodeSchema } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for image node.

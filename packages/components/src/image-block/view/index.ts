@@ -1,12 +1,14 @@
-import { $view } from '@milkdown/utils'
-import type { NodeViewConstructor } from '@milkdown/prose/view'
 import type { Node } from '@milkdown/prose/model'
-import { imageBlockSchema } from '../schema'
-import { imageBlockConfig } from '../config'
-import { withMeta } from '../../__internal__/meta'
-import { createApp, ref, watchEffect } from 'vue'
-import { MilkdownImageBlock } from './components/image-block'
+import type { NodeViewConstructor } from '@milkdown/prose/view'
+
+import { $view } from '@milkdown/utils'
 import DOMPurify from 'dompurify'
+import { createApp, ref, watchEffect } from 'vue'
+
+import { withMeta } from '../../__internal__/meta'
+import { imageBlockConfig } from '../config'
+import { imageBlockSchema } from '../schema'
+import { MilkdownImageBlock } from './components/image-block'
 
 export const imageBlockView = $view(
   imageBlockSchema.node,
@@ -58,9 +60,11 @@ export const imageBlockView = $view(
           if (typeof proxiedURL === 'string') {
             src.value = proxiedURL
           } else {
-            proxiedURL.then((url) => {
-              src.value = url
-            })
+            proxiedURL
+              .then((url) => {
+                src.value = url
+              })
+              .catch(console.error)
           }
         }
         ratio.value = node.attrs.ratio

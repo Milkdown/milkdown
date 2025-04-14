@@ -1,18 +1,20 @@
+import type { Ctx } from '@milkdown/kit/ctx'
+import type { EditorState } from '@milkdown/kit/prose/state'
+import type { EditorView } from '@milkdown/kit/prose/view'
 import type { Meta, StoryObj } from '@storybook/html'
-import { editorViewCtx } from '@milkdown/kit/core'
-import { linkSchema } from '@milkdown/kit/preset/commonmark'
+
 import {
   configureLinkTooltip,
   linkTooltipAPI,
   linkTooltipPlugin,
   linkTooltipState,
 } from '@milkdown/kit/component/link-tooltip'
+import { editorViewCtx } from '@milkdown/kit/core'
 import { TooltipProvider, tooltipFactory } from '@milkdown/kit/plugin/tooltip'
-import type { Ctx } from '@milkdown/kit/ctx'
-import type { EditorView } from '@milkdown/kit/prose/view'
-import type { EditorState } from '@milkdown/kit/prose/state'
+import { linkSchema } from '@milkdown/kit/preset/commonmark'
 
 import type { CommonArgs } from '../utils/shadow'
+
 import { setupMilkdown } from '../utils/shadow'
 import style from './link-tooltip.css?inline'
 

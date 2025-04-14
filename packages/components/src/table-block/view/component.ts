@@ -1,16 +1,18 @@
-import type { Component } from 'atomico'
-import { c, html, useHost, useLayoutEffect, useMemo, useRef } from 'atomico'
+import type { Ctx } from '@milkdown/ctx'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
-import type { Ctx } from '@milkdown/ctx'
+import type { Component } from 'atomico'
 
+import { c, html, useHost, useLayoutEffect, useMemo, useRef } from 'atomico'
 import clsx from 'clsx'
+
 import type { TableBlockConfig } from '../config'
-import { useDragHandlers } from './drag'
 import type { CellIndex, DragInfo, Refs } from './types'
-import { recoveryStateBetweenUpdate } from './utils'
-import { usePointerHandlers } from './pointer'
+
+import { useDragHandlers } from './drag'
 import { useOperation } from './operation'
+import { usePointerHandlers } from './pointer'
+import { recoveryStateBetweenUpdate } from './utils'
 
 export interface TableComponentProps {
   view: EditorView

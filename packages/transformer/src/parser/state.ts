@@ -5,22 +5,24 @@ import type {
   NodeType,
   Schema,
 } from '@milkdown/prose/model'
+
 import {
   createNodeInParserFail,
   parserMatchError,
   stackOverFlow,
 } from '@milkdown/exception'
 import { Mark } from '@milkdown/prose/model'
+
 import type {
   MarkSchema,
   MarkdownNode,
   NodeSchema,
   RemarkParser,
 } from '../utility'
-import { Stack } from '../utility'
-
-import { ParserStackElement } from './stack-element'
 import type { Parser } from './types'
+
+import { Stack } from '../utility'
+import { ParserStackElement } from './stack-element'
 
 /// A state machine for parser. Transform remark AST into prosemirror state.
 export class ParserState extends Stack<Node, ParserStackElement> {

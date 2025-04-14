@@ -1,4 +1,5 @@
 import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
+
 import { commandsCtx } from '@milkdown/core'
 import {
   history as prosemirrorHistory,

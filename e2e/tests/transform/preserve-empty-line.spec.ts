@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+
 import { focusEditor, getMarkdown, loadFixture, setMarkdown } from '../misc'
 
 test.beforeEach(async ({ page }) => {

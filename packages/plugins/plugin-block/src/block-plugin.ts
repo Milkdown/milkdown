@@ -1,9 +1,10 @@
 import type { PluginSpec } from '@milkdown/prose/state'
+
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $ctx, $prose } from '@milkdown/utils'
 
-import { BlockService } from './block-service'
 import { withMeta } from './__internal__/with-meta'
+import { BlockService } from './block-service'
 
 /// @internal
 export const blockService = $ctx(() => new BlockService(), 'blockService')

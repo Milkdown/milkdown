@@ -39,6 +39,9 @@ jobs:
       - name: Run lint
         run: pnpm test:lint --format github
 
+      - name: Run eslint
+        run: pnpm test:eslint
+
   unit:
     runs-on: ubuntu-latest
     needs: install-deps

@@ -1,8 +1,8 @@
 import { cursor, dropCursorConfig } from '@milkdown/kit/plugin/cursor'
+import { $prose } from '@milkdown/kit/utils'
 import { createVirtualCursor } from 'prosemirror-virtual-cursor'
 
 import type { DefineFeature } from '../shared'
-import { $prose } from '@milkdown/kit/utils'
 
 interface CursorConfig {
   color: string | false

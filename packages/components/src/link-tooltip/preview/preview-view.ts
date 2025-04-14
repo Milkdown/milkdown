@@ -1,11 +1,14 @@
+import type { Ctx, Slice } from '@milkdown/ctx'
+import type { Mark } from '@milkdown/prose/model'
 import type { PluginView } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
-import type { Mark } from '@milkdown/prose/model'
+
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
-import type { Ctx, Slice } from '@milkdown/ctx'
-import type { LinkTooltipConfig, LinkToolTipState } from '../slices'
-import { linkTooltipAPI, linkTooltipConfig, linkTooltipState } from '../slices'
 import { createApp, ref, type App, type Ref } from 'vue'
+
+import type { LinkTooltipConfig, LinkToolTipState } from '../slices'
+
+import { linkTooltipAPI, linkTooltipConfig, linkTooltipState } from '../slices'
 import { PreviewLink } from './component'
 
 export class LinkPreviewTooltip implements PluginView {

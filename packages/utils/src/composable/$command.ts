@@ -1,5 +1,6 @@
 import type { Cmd, CmdKey } from '@milkdown/core'
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+
 import {
   CommandsReady,
   commandsCtx,

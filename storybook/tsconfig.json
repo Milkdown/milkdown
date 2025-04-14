@@ -6,6 +6,7 @@
     "sourceMap": false,
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
+  "include": ["**/*.ts", "**/*.tsx"],
   "ts-node": {
     "compilerOptions": {
       "module": "es2022",

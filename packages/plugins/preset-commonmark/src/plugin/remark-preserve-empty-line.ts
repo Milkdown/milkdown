@@ -1,6 +1,8 @@
 import type { Node } from '@milkdown/transformer'
-import { visit } from 'unist-util-visit'
+
 import { $remark } from '@milkdown/utils'
+import { visit } from 'unist-util-visit'
+
 import { withMeta } from '../__internal__'
 
 function visitImage(ast: Node) {

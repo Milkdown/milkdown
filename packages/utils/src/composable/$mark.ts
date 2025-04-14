@@ -1,8 +1,9 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type { MarkType } from '@milkdown/prose/model'
 import type { MarkSchema } from '@milkdown/transformer'
+
 import { marksCtx, schemaCtx, schemaTimerCtx } from '@milkdown/core'
 import { missingMarkInSchema } from '@milkdown/exception'
-import type { MarkType } from '@milkdown/prose/model'
 
 import { addTimer } from './utils'
 

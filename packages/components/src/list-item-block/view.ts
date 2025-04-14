@@ -1,11 +1,14 @@
-import { $view } from '@milkdown/utils'
-import type { NodeViewConstructor } from '@milkdown/prose/view'
-import { TextSelection } from '@milkdown/prose/state'
 import type { Node } from '@milkdown/prose/model'
+import type { NodeViewConstructor } from '@milkdown/prose/view'
+
 import { listItemSchema } from '@milkdown/preset-commonmark'
-import { withMeta } from '../__internal__/meta'
-import { defIfNotExists } from '../__internal__/helper'
+import { TextSelection } from '@milkdown/prose/state'
+import { $view } from '@milkdown/utils'
+
 import type { ListItemComponentProps } from './component'
+
+import { defIfNotExists } from '../__internal__/helper'
+import { withMeta } from '../__internal__/meta'
 import { ListItemElement } from './component'
 import { listItemBlockConfig } from './config'
 

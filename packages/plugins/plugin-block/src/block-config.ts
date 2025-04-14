@@ -1,7 +1,8 @@
 import type { Node, ResolvedPos } from '@milkdown/prose/model'
-import { $ctx } from '@milkdown/utils'
 
 import { findParent } from '@milkdown/prose'
+import { $ctx } from '@milkdown/utils'
+
 import { withMeta } from './__internal__/with-meta'
 
 /// @internal

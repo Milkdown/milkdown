@@ -1,4 +1,5 @@
 import { $ctx } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__/meta'
 
 export interface ImageBlockConfig {

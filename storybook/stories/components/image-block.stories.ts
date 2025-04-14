@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html'
+
 import { imageBlockComponent } from '@milkdown/kit/component/image-block'
 
 import type { CommonArgs } from '../utils/shadow'
+
 import { setupMilkdown } from '../utils/shadow'
 import style from './image-block.css?inline'
 

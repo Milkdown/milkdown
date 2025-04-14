@@ -1,7 +1,9 @@
 import type { CtxRunner, MilkdownPlugin, Telemetry } from '@milkdown/ctx'
+
 import { Clock, Container, Ctx } from '@milkdown/ctx'
 
 import type { Config } from '../internal-plugin'
+
 import {
   commands,
   config,
@@ -208,7 +210,7 @@ export class Editor {
     plugins: MilkdownPlugin | MilkdownPlugin[]
   ): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate) {
-      // eslint-disable-next-line no-console
+       
       console.warn(
         '[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code.'
       )
@@ -281,7 +283,7 @@ export class Editor {
   /// Make sure you have enabled inspector by `editor.enableInspector()` before calling this method.
   readonly inspect = (): Telemetry[] => {
     if (!this.#enableInspector) {
-      // eslint-disable-next-line no-console
+       
       console.warn(
         '[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first.'
       )

@@ -1,4 +1,5 @@
 import { tooltipFactory } from '@milkdown/plugin-tooltip'
+
 import { withMeta } from '../__internal__/meta'
 
 export const linkPreviewTooltip = tooltipFactory('LINK_PREVIEW')

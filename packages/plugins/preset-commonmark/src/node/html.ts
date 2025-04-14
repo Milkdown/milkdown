@@ -1,4 +1,5 @@
 import { $nodeAttr, $nodeSchema } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 export const htmlAttr = $nodeAttr('html')

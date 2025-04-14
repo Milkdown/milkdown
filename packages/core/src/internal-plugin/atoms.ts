@@ -1,18 +1,21 @@
-import { createSlice } from '@milkdown/ctx'
+import type { SliceType, TimerType } from '@milkdown/ctx'
+import type { InputRule } from '@milkdown/prose/inputrules'
 import type { EditorState, Plugin } from '@milkdown/prose/state'
 import type {
   EditorView,
   MarkViewConstructor,
   NodeViewConstructor,
 } from '@milkdown/prose/view'
-import type { SliceType, TimerType } from '@milkdown/ctx'
-import type { InputRule } from '@milkdown/prose/inputrules'
 import type { RemarkParser, RemarkPlugin } from '@milkdown/transformer'
-import remarkParse from 'remark-parse'
 import type { Options } from 'remark-stringify'
+
+import { createSlice } from '@milkdown/ctx'
+import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
+
 import type { Editor } from '../editor'
+
 import { remarkHandlers } from '../__internal__'
 
 /// A slice which contains the editor view instance.

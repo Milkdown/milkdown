@@ -1,6 +1,8 @@
-import { $ctx } from '@milkdown/utils'
-import type { Extension } from '@codemirror/state'
 import type { LanguageDescription } from '@codemirror/language'
+import type { Extension } from '@codemirror/state'
+
+import { $ctx } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__/meta'
 
 export interface CodeBlockConfig {

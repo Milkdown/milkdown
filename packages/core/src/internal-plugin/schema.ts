@@ -1,15 +1,16 @@
 import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
-import { createSlice, createTimer } from '@milkdown/ctx'
-import { Schema } from '@milkdown/prose/model'
 import type {
   MarkSchema,
   NodeSchema,
   RemarkParser,
 } from '@milkdown/transformer'
 
+import { createSlice, createTimer } from '@milkdown/ctx'
+import { Schema } from '@milkdown/prose/model'
+
 import { withMeta } from '../__internal__'
-import { InitReady } from './init'
 import { remarkCtx, remarkPluginsCtx } from './atoms'
+import { InitReady } from './init'
 
 /// The timer which will be resolved when the schema plugin is ready.
 export const SchemaReady = createTimer('SchemaReady')

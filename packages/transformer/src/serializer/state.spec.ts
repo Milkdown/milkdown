@@ -1,5 +1,7 @@
 import type { Mark, Schema } from '@milkdown/prose/model'
+
 import { describe, expect, it } from 'vitest'
+
 import { SerializerState } from './state'
 
 const boldMark = {

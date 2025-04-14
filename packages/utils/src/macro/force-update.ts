@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+
 import { editorViewCtx } from '@milkdown/core'
 
 /// Force update the editor.

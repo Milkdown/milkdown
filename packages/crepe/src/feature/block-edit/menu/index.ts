@@ -1,16 +1,19 @@
+import type { Ctx } from '@milkdown/kit/ctx'
+import type { EditorView } from '@milkdown/kit/prose/view'
+import type { AtomicoThis } from 'atomico/types/dom'
+
+import { SlashProvider, slashFactory } from '@milkdown/kit/plugin/slash'
 import {
   TextSelection,
   type PluginView,
   type Selection,
 } from '@milkdown/kit/prose/state'
-import type { EditorView } from '@milkdown/kit/prose/view'
-import { SlashProvider, slashFactory } from '@milkdown/kit/plugin/slash'
-import type { Ctx } from '@milkdown/kit/ctx'
-import type { AtomicoThis } from 'atomico/types/dom'
 import { $ctx } from '@milkdown/kit/utils'
-import { defIfNotExists, isInCodeBlock, isInList } from '../../../utils'
+
 import type { BlockEditFeatureConfig } from '../index'
 import type { MenuProps } from './component'
+
+import { defIfNotExists, isInCodeBlock, isInList } from '../../../utils'
 import { MenuElement } from './component'
 
 export const menu = slashFactory('CREPE_MENU')
@@ -45,7 +48,7 @@ class MenuView implements PluginView {
     this.#content.hide = this.hide
     this.#content.ctx = ctx
     this.#content.config = config
-    // eslint-disable-next-line ts/no-this-alias
+    // oxlint-disable-next-line ts/no-this-alias
     const self = this
     this.#slashProvider = new SlashProvider({
       content: this.#content,

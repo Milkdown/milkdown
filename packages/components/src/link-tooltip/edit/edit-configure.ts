@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+
 import { linkTooltipAPI } from '../slices'
 import { linkEditTooltip } from '../tooltips'
 import { LinkEditTooltip } from './edit-view'

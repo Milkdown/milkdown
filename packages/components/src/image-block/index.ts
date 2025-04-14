@@ -1,8 +1,9 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { imageBlockSchema } from './schema'
-import { remarkImageBlockPlugin } from './remark-plugin'
-import { imageBlockView } from './view'
+
 import { imageBlockConfig } from './config'
+import { remarkImageBlockPlugin } from './remark-plugin'
+import { imageBlockSchema } from './schema'
+import { imageBlockView } from './view'
 
 export * from './schema'
 export * from './remark-plugin'

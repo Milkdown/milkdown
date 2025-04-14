@@ -1,6 +1,7 @@
 import type { MarkSpec, NodeSpec } from '@milkdown/prose/model'
 import type { remark } from 'remark'
 import type { Plugin, Transformer } from 'unified'
+
 import type { MarkParserSpec, NodeParserSpec } from '../parser/types'
 import type {
   MarkSerializerSpec,

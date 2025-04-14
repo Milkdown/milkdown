@@ -1,10 +1,12 @@
 import type { Ctx } from '@milkdown/ctx'
-import debounce from 'lodash.debounce'
 import type { EditorView } from '@milkdown/prose/view'
+
 import { posToDOMRect } from '@milkdown/prose'
+import debounce from 'lodash.debounce'
+
 import { linkTooltipState } from '../slices'
-import { findMarkPosition, shouldShowPreviewWhenHover } from '../utils'
 import { linkPreviewTooltip } from '../tooltips'
+import { findMarkPosition, shouldShowPreviewWhenHover } from '../utils'
 import { LinkPreviewTooltip } from './preview-view'
 
 export function configureLinkPreviewTooltip(ctx: Ctx) {

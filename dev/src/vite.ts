@@ -1,7 +1,8 @@
+import type { BuildOptions, UserConfig } from 'vite'
+
 import { readFileSync } from 'node:fs'
 import { basename, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { BuildOptions, UserConfig } from 'vite'
 import { defineConfig } from 'vite'
 
 import globalPackageJson from '../../package.json' with { type: 'json' }

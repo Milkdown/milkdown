@@ -1,4 +1,6 @@
 import { commandsCtx } from '@milkdown/core'
+import { markRule } from '@milkdown/prose'
+import { toggleMark } from '@milkdown/prose/commands'
 import {
   $command,
   $inputRule,
@@ -6,8 +8,7 @@ import {
   $markSchema,
   $useKeymap,
 } from '@milkdown/utils'
-import { toggleMark } from '@milkdown/prose/commands'
-import { markRule } from '@milkdown/prose'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the strikethrough mark.

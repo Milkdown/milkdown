@@ -1,12 +1,11 @@
 import type { Ctx, MilkdownPlugin, TimerType } from '@milkdown/ctx'
+import type { DirectEditorProps } from '@milkdown/prose/view'
+
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
-import type { DirectEditorProps } from '@milkdown/prose/view'
 import { EditorView } from '@milkdown/prose/view'
 
 import { withMeta } from '../__internal__'
-import { EditorStateReady } from './editor-state'
-import { InitReady } from './init'
 import {
   editorStateCtx,
   editorViewCtx,
@@ -14,6 +13,8 @@ import {
   nodeViewCtx,
   prosePluginsCtx,
 } from './atoms'
+import { EditorStateReady } from './editor-state'
+import { InitReady } from './init'
 
 type EditorOptions = Omit<DirectEditorProps, 'state'>
 

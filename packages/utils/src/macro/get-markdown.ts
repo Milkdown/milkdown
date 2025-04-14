@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+
 import { editorViewCtx, serializerCtx } from '@milkdown/core'
 
 /// Get content of the editor as markdown string.

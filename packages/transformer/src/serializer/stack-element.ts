@@ -1,5 +1,6 @@
 import type { MarkdownNode } from '..'
 import type { JSONRecord } from '../utility'
+
 import { StackElement } from '../utility'
 
 export class SerializerStackElement extends StackElement<MarkdownNode> {

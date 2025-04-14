@@ -1,11 +1,12 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type { Command } from '@milkdown/prose/state'
+
 import {
   SchemaReady,
   editorStateTimerCtx,
   prosePluginsCtx,
 } from '@milkdown/core'
 import { keymap } from '@milkdown/prose/keymap'
-import type { Command } from '@milkdown/prose/state'
 
 import { addTimer } from './utils'
 

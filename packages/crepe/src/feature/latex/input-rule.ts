@@ -1,8 +1,9 @@
-import { $inputRule } from '@milkdown/kit/utils'
-import { nodeRule } from '@milkdown/kit/prose'
-import { mathInlineSchema } from './inline-latex'
 import { codeBlockSchema } from '@milkdown/kit/preset/commonmark'
+import { nodeRule } from '@milkdown/kit/prose'
 import { textblockTypeInputRule } from '@milkdown/kit/prose/inputrules'
+import { $inputRule } from '@milkdown/kit/utils'
+
+import { mathInlineSchema } from './inline-latex'
 
 /// Input rule for inline math.
 /// When you type $E=MC^2$, it will create an inline math node.

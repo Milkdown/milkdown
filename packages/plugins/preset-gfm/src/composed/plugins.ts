@@ -1,4 +1,5 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
+
 import {
   autoInsertSpanPlugin,
   keepTableAlignPlugin,

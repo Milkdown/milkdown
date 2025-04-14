@@ -1,19 +1,20 @@
-import type { Ctx } from '@milkdown/ctx'
-import type { EditorState } from '@milkdown/prose/state'
-import type { EditorView } from '@milkdown/prose/view'
-
 import type {
   ComputePositionConfig,
   Middleware,
   Placement,
   VirtualElement,
 } from '@floating-ui/dom'
-import { computePosition, flip, offset } from '@floating-ui/dom'
+import type { Ctx } from '@milkdown/ctx'
+import type { EditorState } from '@milkdown/prose/state'
+import type { EditorView } from '@milkdown/prose/view'
 
+import { computePosition, flip, offset } from '@floating-ui/dom'
 import { editorViewCtx } from '@milkdown/core'
+
 import type { BlockService } from './block-service'
-import { blockServiceInstance } from './block-plugin'
 import type { ActiveNode } from './types'
+
+import { blockServiceInstance } from './block-plugin'
 
 /// The context of the block provider.
 export interface DeriveContext {
@@ -185,13 +186,15 @@ export class BlockProvider {
         : 'left',
       middleware: [...middleware, ...this.#middleware],
       ...this.#floatingUIOptions,
-    }).then(({ x, y }) => {
-      Object.assign(this.#element.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      })
-      this.#element.dataset.show = 'true'
     })
+      .then(({ x, y }) => {
+        Object.assign(this.#element.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+        this.#element.dataset.show = 'true'
+      })
+      .catch(console.error)
   }
 
   /// Hide the block.

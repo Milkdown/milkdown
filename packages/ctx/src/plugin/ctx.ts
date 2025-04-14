@@ -1,7 +1,8 @@
 import type { Container, Slice, SliceType } from '../context'
-import type { Clock, TimerType } from '../timer'
-import { Inspector } from '../inspector'
 import type { Meta } from '../inspector'
+import type { Clock, TimerType } from '../timer'
+
+import { Inspector } from '../inspector'
 
 /// The ctx object that can be accessed in plugin and action.
 export class Ctx {

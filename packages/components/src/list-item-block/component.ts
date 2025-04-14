@@ -1,5 +1,7 @@
 import type { Component } from 'atomico'
+
 import { c, html, useHost, useLayoutEffect, useRef } from 'atomico'
+
 import type { ListItemBlockConfig } from './config'
 
 interface Attrs {

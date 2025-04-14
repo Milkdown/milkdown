@@ -1,13 +1,14 @@
-import { $view } from '@milkdown/utils'
-import type { NodeViewConstructor } from '@milkdown/prose/view'
-import { imageSchema } from '@milkdown/preset-commonmark'
 import type { Node } from '@milkdown/prose/model'
-import { createApp, ref, watchEffect } from 'vue'
+import type { NodeViewConstructor } from '@milkdown/prose/view'
+
+import { imageSchema } from '@milkdown/preset-commonmark'
+import { $view } from '@milkdown/utils'
 import DOMPurify from 'dompurify'
+import { createApp, ref, watchEffect } from 'vue'
 
 import { withMeta } from '../__internal__/meta'
-import { inlineImageConfig } from './config'
 import { MilkdownImageInline } from './components/image-inline'
+import { inlineImageConfig } from './config'
 
 export const inlineImageView = $view(
   imageSchema.node,
@@ -60,9 +61,11 @@ export const inlineImageView = $view(
           if (typeof proxiedURL === 'string') {
             src.value = proxiedURL
           } else {
-            proxiedURL.then((url) => {
-              src.value = url
-            })
+            proxiedURL
+              .then((url) => {
+                src.value = url
+              })
+              .catch(console.error)
           }
         }
         alt.value = node.attrs.alt

@@ -1,4 +1,6 @@
 import type { EditorView as CodeMirror } from '@codemirror/view'
+
+import clsx from 'clsx'
 import {
   defineComponent,
   ref,
@@ -8,12 +10,13 @@ import {
   computed,
   onMounted,
 } from 'vue'
+
 import type { CodeBlockConfig } from '../../config'
 import type { LanguageInfo } from '../loader'
-import { PreviewPanel } from './preview-panel'
-import { LanguagePicker } from './language-picker'
+
 import { Icon } from '../../../__internal__/components/icon'
-import clsx from 'clsx'
+import { LanguagePicker } from './language-picker'
+import { PreviewPanel } from './preview-panel'
 
 h
 Fragment

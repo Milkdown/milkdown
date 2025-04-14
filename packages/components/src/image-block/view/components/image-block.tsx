@@ -1,7 +1,9 @@
 import { h, Fragment, type Ref, defineComponent } from 'vue'
+
 import type { ImageBlockConfig } from '../../config'
-import { ImageViewer } from './image-viewer'
+
 import { ImageInput } from '../../../__internal__/components/image-input'
+import { ImageViewer } from './image-viewer'
 
 h
 Fragment
