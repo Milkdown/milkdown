@@ -1,6 +1,6 @@
 import type { Ctx } from '@milkdown/ctx'
 
-import { commandsCtx } from '@milkdown/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import { setBlockType } from '@milkdown/prose/commands'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
@@ -34,9 +34,13 @@ export const paragraphSchema = $nodeSchema('paragraph', (ctx) => ({
   toMarkdown: {
     match: (node) => node.type.name === 'paragraph',
     runner: (state, node) => {
+      const view = ctx.get(editorViewCtx)
+      const lastNode = view.state?.doc.lastChild
+
       state.openNode('paragraph')
       if (
         (!node.content || node.content.size === 0) &&
+        node !== lastNode &&
         shouldPreserveEmptyLine(ctx)
       ) {
         state.addNode('html', undefined, '<br />')
