@@ -3,10 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
+    "outDir": "./lib",
     "sourceMap": false,
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["stories", ".storybook", "shim.d.ts"],
   "ts-node": {
     "compilerOptions": {
       "module": "es2022",
