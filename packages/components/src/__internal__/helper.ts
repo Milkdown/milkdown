@@ -10,6 +10,5 @@ export function defIfNotExists(
 
   if (current === element) return
 
-   
   console.warn(`Custom element ${tagName} has been defined before.`)
 }

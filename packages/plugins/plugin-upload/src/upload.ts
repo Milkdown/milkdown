@@ -106,7 +106,6 @@ export const uploadPlugin = $prose((ctx) => {
         )
       })
       .catch((e) => {
-         
         console.error(e)
       })
     return true

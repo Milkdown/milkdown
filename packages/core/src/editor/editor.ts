@@ -210,7 +210,6 @@ export class Editor {
     plugins: MilkdownPlugin | MilkdownPlugin[]
   ): Promise<Editor> => {
     if (this.#status === EditorStatus.OnCreate) {
-       
       console.warn(
         '[Milkdown]: You are trying to remove plugins when the editor is creating, this is not recommended, please check your code.'
       )
@@ -283,7 +282,6 @@ export class Editor {
   /// Make sure you have enabled inspector by `editor.enableInspector()` before calling this method.
   readonly inspect = (): Telemetry[] => {
     if (!this.#enableInspector) {
-       
       console.warn(
         '[Milkdown]: You are trying to collect inspection when inspector is disabled, please enable inspector by `editor.enableInspector()` first.'
       )
