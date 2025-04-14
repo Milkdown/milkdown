@@ -33,6 +33,7 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
     attrs: {
       language: {
         default: '',
+        validate: 'string',
       },
     },
     parseDOM: [

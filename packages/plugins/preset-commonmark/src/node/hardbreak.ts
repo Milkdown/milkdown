@@ -26,6 +26,7 @@ export const hardbreakSchema = $nodeSchema('hardbreak', (ctx) => ({
   attrs: {
     isInline: {
       default: false,
+      validate: 'boolean',
     },
   },
   selectable: false,

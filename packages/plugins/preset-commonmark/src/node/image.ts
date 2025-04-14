@@ -24,9 +24,9 @@ export const imageSchema = $nodeSchema('image', (ctx) => {
     defining: true,
     isolating: true,
     attrs: {
-      src: { default: '' },
-      alt: { default: '' },
-      title: { default: '' },
+      src: { default: '', validate: 'string' },
+      alt: { default: '', validate: 'string' },
+      title: { default: '', validate: 'string' },
     },
     parseDOM: [
       {

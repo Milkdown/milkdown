@@ -23,6 +23,7 @@ export const emphasisSchema = $markSchema('emphasis', (ctx) => ({
   attrs: {
     marker: {
       default: ctx.get(remarkStringifyOptionsCtx).emphasis || '*',
+      validate: 'string',
     },
   },
   parseDOM: [

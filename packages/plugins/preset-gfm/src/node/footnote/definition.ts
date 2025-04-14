@@ -15,6 +15,7 @@ export const footnoteDefinitionSchema = $nodeSchema(
     attrs: {
       label: {
         default: '',
+        validate: 'string',
       },
     },
     parseDOM: [
