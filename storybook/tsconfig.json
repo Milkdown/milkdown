@@ -7,7 +7,7 @@
     "sourceMap": false,
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
-  "include": ["stories", ".storybook", "shim.d.ts"],
+  "include": ["./stories", "./.storybook", "./shim.d.ts"],
   "ts-node": {
     "compilerOptions": {
       "module": "es2022",

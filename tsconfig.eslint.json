@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": [".", "**/.storybook/**/*.ts"],
+  "include": ["."],
   "exclude": [
     "**/node_modules",
     "**/dist",
