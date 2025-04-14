@@ -14,6 +14,7 @@ import {
 } from '../slices'
 import { createApp, ref, type App, type Ref } from 'vue'
 import { EditLink } from './component'
+import DOMPurify from 'dompurify'
 
 interface Data {
   from: number
@@ -80,7 +81,8 @@ export class LinkEditTooltip implements PluginView {
     const view = this.ctx.get(editorViewCtx)
     const { from, to, mark } = this.#data
     const type = linkSchema.type(this.ctx)
-    if (mark && mark.attrs.href === href) {
+    const link = DOMPurify.sanitize(href)
+    if (mark && mark.attrs.href === link) {
       this.#reset()
       return
     }
@@ -88,7 +90,7 @@ export class LinkEditTooltip implements PluginView {
     const tr = view.state.tr
     if (mark) tr.removeMark(from, to, mark)
 
-    tr.addMark(from, to, type.create({ href }))
+    tr.addMark(from, to, type.create({ href: link }))
     view.dispatch(tr)
 
     this.#reset()

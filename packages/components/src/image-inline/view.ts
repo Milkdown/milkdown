@@ -2,9 +2,11 @@ import { $view } from '@milkdown/utils'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { imageSchema } from '@milkdown/preset-commonmark'
 import type { Node } from '@milkdown/prose/model'
+import { createApp, ref, watchEffect } from 'vue'
+import DOMPurify from 'dompurify'
+
 import { withMeta } from '../__internal__/meta'
 import { inlineImageConfig } from './config'
-import { createApp, ref, watchEffect } from 'vue'
 import { MilkdownImageInline } from './components/image-inline'
 
 export const inlineImageView = $view(
@@ -19,8 +21,15 @@ export const inlineImageView = $view(
       const setAttr = (attr: string, value: unknown) => {
         const pos = getPos()
         if (pos == null) return
-        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
+        view.dispatch(
+          view.state.tr.setNodeAttribute(
+            pos,
+            attr,
+            attr === 'src' ? DOMPurify.sanitize(value as string) : value
+          )
+        )
       }
+
       const config = ctx.get(inlineImageConfig.key)
       const app = createApp(MilkdownImageInline, {
         src,

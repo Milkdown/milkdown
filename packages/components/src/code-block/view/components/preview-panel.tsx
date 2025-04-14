@@ -9,6 +9,7 @@ import {
 } from 'vue'
 import type { CodeBlockProps } from './code-block'
 import clsx from 'clsx'
+import DOMPurify from 'dompurify'
 
 h
 Fragment
@@ -58,10 +59,11 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
 
       const previewContent = preview.value
 
-      if (typeof previewContent === 'string') {
-        previewContainer.innerHTML = previewContent
-      } else if (previewContent instanceof HTMLElement) {
-        previewContainer.appendChild(previewContent)
+      if (
+        typeof previewContent === 'string' ||
+        previewContent instanceof Element
+      ) {
+        previewContainer.innerHTML = DOMPurify.sanitize(previewContent)
       }
     })
 
