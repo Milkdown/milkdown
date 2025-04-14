@@ -90,9 +90,11 @@ export class Inspector {
   /// @internal
   readonly onWait = (timerType: TimerType, promise: Promise<void>) => {
     const start = Date.now()
-    promise.finally(() => {
-      this.#waitTimers.set(timerType, { duration: Date.now() - start })
-    })
+    promise
+      .finally(() => {
+        this.#waitTimers.set(timerType, { duration: Date.now() - start })
+      })
+      .catch(console.error)
   }
 
   /// @internal

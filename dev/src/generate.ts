@@ -1,14 +1,16 @@
 import { applyEdits, modify } from 'jsonc-parser'
-import { Workspace } from './workspace'
-import type { Path } from './path'
-import { type BuiltInParserName, format } from 'prettier'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { Logger } from './logger'
+import { type BuiltInParserName, format } from 'prettier'
+
 import type { Package } from './package'
+import type { Path } from './path'
+
+import { Logger } from './logger'
+import { Workspace } from './workspace'
 
 export function generateTsConfig() {
   const generator = new Generator()
-  generator.run()
+  generator.run().catch(console.error)
 }
 
 export class Generator {

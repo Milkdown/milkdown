@@ -1,7 +1,7 @@
+import { Logger } from '@milkdown/dev/logger'
 import { execSync } from 'child_process'
 import { appendFileSync, readdirSync, existsSync } from 'fs'
 import { join, basename } from 'path'
-import { Logger } from '@milkdown/dev/logger'
 
 const logger = new Logger('changelog')
 

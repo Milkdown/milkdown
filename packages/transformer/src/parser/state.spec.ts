@@ -1,5 +1,7 @@
 import type { MarkType, NodeType, Schema } from '@milkdown/prose/model'
+
 import { describe, expect, it, vi } from 'vitest'
+
 import { ParserState } from './state'
 
 const docNodeType = {

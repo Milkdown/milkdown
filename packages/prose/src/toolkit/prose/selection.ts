@@ -1,8 +1,9 @@
 import type { NodeType, Node as ProseNode, ResolvedPos } from '../../model'
 import type { Selection } from '../../state'
+import type { Predicate } from './types'
+
 import { NodeSelection } from '../../state'
 import { equalNodeType } from './helper'
-import type { Predicate } from './types'
 
 export interface ContentNodeWithPos {
   pos: number

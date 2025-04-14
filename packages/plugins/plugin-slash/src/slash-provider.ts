@@ -1,15 +1,16 @@
-import { findParentNode, posToDOMRect } from '@milkdown/prose'
-import type { EditorState } from '@milkdown/prose/state'
-import type { Node } from '@milkdown/prose/model'
-import { TextSelection } from '@milkdown/prose/state'
-import type { EditorView } from '@milkdown/prose/view'
-import debounce from 'lodash.debounce'
 import type {
   ComputePositionConfig,
   Middleware,
   VirtualElement,
 } from '@floating-ui/dom'
+import type { Node } from '@milkdown/prose/model'
+import type { EditorState } from '@milkdown/prose/state'
+import type { EditorView } from '@milkdown/prose/view'
+
 import { computePosition, flip, offset } from '@floating-ui/dom'
+import { findParentNode, posToDOMRect } from '@milkdown/prose'
+import { TextSelection } from '@milkdown/prose/state'
+import debounce from 'lodash.debounce'
 
 /// Options for slash provider.
 export interface SlashProviderOptions {
@@ -119,12 +120,14 @@ export class SlashProvider {
       placement: 'bottom-start',
       middleware: [flip(), offset(this.#offset), ...this.#middleware],
       ...this.#floatingUIOptions,
-    }).then(({ x, y }) => {
-      Object.assign(this.element.style, {
-        left: `${x}px`,
-        top: `${y}px`,
-      })
     })
+      .then(({ x, y }) => {
+        Object.assign(this.element.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+      })
+      .catch(console.error)
 
     this.show()
   }

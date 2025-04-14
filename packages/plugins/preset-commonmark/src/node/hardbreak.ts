@@ -1,6 +1,7 @@
 import { commandsCtx } from '@milkdown/core'
 import { Selection, TextSelection } from '@milkdown/prose/state'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the hardbreak node.
@@ -26,6 +27,7 @@ export const hardbreakSchema = $nodeSchema('hardbreak', (ctx) => ({
   attrs: {
     isInline: {
       default: false,
+      validate: 'boolean',
     },
   },
   selectable: false,

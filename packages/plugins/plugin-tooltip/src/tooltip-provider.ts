@@ -1,14 +1,15 @@
-import type { EditorState } from '@milkdown/prose/state'
-import { TextSelection } from '@milkdown/prose/state'
-import type { EditorView } from '@milkdown/prose/view'
-import throttle from 'lodash.throttle'
 import type {
   ComputePositionConfig,
   Middleware,
   VirtualElement,
 } from '@floating-ui/dom'
+import type { EditorState } from '@milkdown/prose/state'
+import type { EditorView } from '@milkdown/prose/view'
+
 import { computePosition, flip, offset, shift } from '@floating-ui/dom'
 import { posToDOMRect } from '@milkdown/prose'
+import { TextSelection } from '@milkdown/prose/state'
+import throttle from 'lodash.throttle'
 
 /// Options for tooltip provider.
 export interface TooltipProviderOptions {
@@ -126,7 +127,7 @@ export class TooltipProvider {
         left: `${x}px`,
         top: `${y}px`,
       })
-    })
+    }).catch(console.error)
 
     this.show()
   }
@@ -170,12 +171,14 @@ export class TooltipProvider {
         placement: 'top',
         middleware: [flip(), offset(this.#offset), shift(this.#offset)],
         ...this.#floatingUIOptions,
-      }).then(({ x, y }) => {
-        Object.assign(this.element.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        })
       })
+        .then(({ x, y }) => {
+          Object.assign(this.element.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          })
+        })
+        .catch(console.error)
     }
 
     this.onShow()

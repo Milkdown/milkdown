@@ -1,6 +1,4 @@
-import { html } from 'atomico'
-
-export const copyIcon = html`
+export const copyIcon = `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"

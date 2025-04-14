@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+
 import { cases } from './src/data'
 
 const data = cases.reduce(

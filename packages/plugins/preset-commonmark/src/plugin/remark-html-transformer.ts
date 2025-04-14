@@ -1,5 +1,7 @@
-import { $remark } from '@milkdown/utils'
 import type { Node } from '@milkdown/transformer'
+
+import { $remark } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 const isParent = (node: Node): node is Node & { children: Node[] } =>

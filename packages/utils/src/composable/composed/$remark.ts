@@ -1,8 +1,10 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type { RemarkPlugin, RemarkPluginRaw } from '@milkdown/transformer'
+
 import { InitReady, remarkPluginsCtx } from '@milkdown/core'
 
-import type { RemarkPlugin, RemarkPluginRaw } from '@milkdown/transformer'
 import type { $Ctx } from '../$ctx'
+
 import { $ctx } from '../$ctx'
 
 /// @internal

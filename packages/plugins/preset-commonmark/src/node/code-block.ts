@@ -9,6 +9,7 @@ import {
   $nodeSchema,
   $useKeymap,
 } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for code block node.
@@ -33,6 +34,7 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
     attrs: {
       language: {
         default: '',
+        validate: 'string',
       },
     },
     parseDOM: [

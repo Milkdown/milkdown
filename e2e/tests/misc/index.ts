@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test'
+
 import fs from 'node:fs/promises'
 import path from 'node:path'
 

@@ -1,4 +1,5 @@
 import type { Editor } from '@milkdown/core'
+
 import { editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 
@@ -33,13 +34,13 @@ export async function setup(createEditor: () => Promise<Editor>) {
 
   const logButton = document.querySelector<HTMLDivElement>('#log')
   if (logButton) {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     logButton.onclick = () => console.log(globalThis.__getMarkdown__())
   }
 
   const inspectButton = document.querySelector<HTMLDivElement>('#inspect')
   if (inspectButton) {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     inspectButton.onclick = () => console.log(globalThis.__inspect__())
   }
   return editor

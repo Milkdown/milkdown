@@ -1,5 +1,6 @@
 import { expectDomTypeError } from '@milkdown/exception'
 import { $nodeSchema } from '@milkdown/utils'
+
 import { withMeta } from '../../__internal__'
 
 const id = 'footnote_reference'
@@ -14,6 +15,7 @@ export const footnoteReferenceSchema = $nodeSchema(
     attrs: {
       label: {
         default: '',
+        validate: 'string',
       },
     },
     parseDOM: [

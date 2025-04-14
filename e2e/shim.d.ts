@@ -1,10 +1,9 @@
-/// <reference types="cypress" />
 /// <reference types="vite/client" />
 
 import type { Editor } from '@milkdown/core'
-import type { EditorView } from '@milkdown/prose/view'
-import type { Telemetry } from '@milkdown/ctx'
 import type { Crepe } from '@milkdown/crepe'
+import type { Telemetry } from '@milkdown/ctx'
+import type { EditorView } from '@milkdown/prose/view'
 
 declare global {
   var __milkdown__: Editor

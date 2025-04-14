@@ -1,7 +1,8 @@
 import type { InputRule } from '../../inputrules'
 import type { EditorState, TextSelection, Transaction } from '../../state'
-import { Plugin, PluginKey } from '../../state'
 import type { EditorView } from '../../view'
+
+import { Plugin, PluginKey } from '../../state'
 
 function run(
   view: EditorView,

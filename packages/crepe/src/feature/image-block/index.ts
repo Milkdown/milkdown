@@ -6,8 +6,10 @@ import {
   imageInlineComponent,
   inlineImageConfig,
 } from '@milkdown/kit/component/image-inline'
+
 import type { DefineFeature, Icon } from '../shared'
-import { captionIcon, confirmIcon, imageIcon } from '../../icons'
+
+import { captionIcon, imageIcon, confirmIcon } from '../../icons'
 
 interface ImageBlockConfig {
   onUpload: (file: File) => Promise<string>

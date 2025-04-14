@@ -1,14 +1,15 @@
 import type { Editor } from '@milkdown/kit/core'
-import type { PlaceHolderFeatureConfig } from './placeholder'
-import type { CodeMirrorFeatureConfig } from './code-mirror'
+
 import type { BlockEditFeatureConfig } from './block-edit'
+import type { CodeMirrorFeatureConfig } from './code-mirror'
 import type { CursorFeatureConfig } from './cursor'
 import type { ImageBlockFeatureConfig } from './image-block'
+import type { LatexFeatureConfig } from './latex'
 import type { LinkTooltipFeatureConfig } from './link-tooltip'
 import type { ListItemFeatureConfig } from './list-item'
-import type { ToolbarFeatureConfig } from './toolbar'
+import type { PlaceHolderFeatureConfig } from './placeholder'
 import type { TableFeatureConfig } from './table'
-import type { LatexFeatureConfig } from './latex'
+import type { ToolbarFeatureConfig } from './toolbar'
 
 export enum CrepeFeature {
   CodeMirror = 'code-mirror',

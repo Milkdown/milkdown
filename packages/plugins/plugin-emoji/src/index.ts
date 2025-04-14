@@ -1,10 +1,11 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 import type { RemarkPluginRaw } from '@milkdown/transformer'
+import type { RemarkEmojiOptions } from 'remark-emoji'
+
 import { expectDomTypeError } from '@milkdown/exception'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $inputRule, $nodeAttr, $nodeSchema, $remark } from '@milkdown/utils'
 import { get } from 'node-emoji'
-import type { RemarkEmojiOptions } from 'remark-emoji'
 import remarkEmoji from 'remark-emoji'
 
 import { parse } from './__internal__/parse'

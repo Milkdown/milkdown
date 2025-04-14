@@ -1,7 +1,8 @@
 import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
+import type { Parser } from '@milkdown/transformer'
+
 import { createSlice, createTimer } from '@milkdown/ctx'
 import { ctxCallOutOfScope } from '@milkdown/exception'
-import type { Parser } from '@milkdown/transformer'
 import { ParserState } from '@milkdown/transformer'
 
 import { withMeta } from '../__internal__'

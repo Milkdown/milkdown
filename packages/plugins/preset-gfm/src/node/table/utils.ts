@@ -1,11 +1,12 @@
+import type { Ctx } from '@milkdown/ctx'
 import type { ContentNodeWithPos } from '@milkdown/prose'
-import { cloneTr, findParentNodeClosestToPos } from '@milkdown/prose'
 import type { Node, ResolvedPos } from '@milkdown/prose/model'
 import type { Selection, Transaction } from '@milkdown/prose/state'
 import type { TableRect } from '@milkdown/prose/tables'
+
+import { cloneTr, findParentNodeClosestToPos } from '@milkdown/prose'
 import { CellSelection, TableMap } from '@milkdown/prose/tables'
 
-import type { Ctx } from '@milkdown/ctx'
 import {
   tableCellSchema,
   tableHeaderRowSchema,

@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/html'
-import { nord } from '@uiw/codemirror-theme-nord'
 
 import nordDark from '@milkdown/crepe/theme/nord-dark.css?inline'
+import { nord } from '@uiw/codemirror-theme-nord'
+
 import type { Args } from './setup'
+
 import { longContent, setup, wikiContent } from './setup'
 
 const meta: Meta = {

@@ -1,4 +1,5 @@
 import type { Meta, MilkdownPlugin } from '@milkdown/ctx'
+
 import { dropCursor } from '@milkdown/prose/dropcursor'
 import { gapCursor } from '@milkdown/prose/gapcursor'
 import { $ctx, $prose } from '@milkdown/utils'

@@ -16,4 +16,4 @@ setup(async () => {
     globalThis.__afterCrepeCreated__(crepe)
   }
   return crepe.editor
-})
+}).catch(console.error)

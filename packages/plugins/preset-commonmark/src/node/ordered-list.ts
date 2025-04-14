@@ -9,6 +9,7 @@ import {
   $nodeSchema,
   $useKeymap,
 } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for ordered list node.
@@ -26,9 +27,11 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
   attrs: {
     order: {
       default: 1,
+      validate: 'number',
     },
     spread: {
       default: false,
+      validate: 'boolean',
     },
   },
   parseDOM: [

@@ -1,4 +1,5 @@
-import { useCallback } from 'atomico'
+import type { Ctx } from '@milkdown/ctx'
+
 import { commandsCtx, editorViewCtx } from '@milkdown/core'
 import {
   addColAfterCommand,
@@ -10,7 +11,8 @@ import {
   selectRowCommand,
   setAlignCommand,
 } from '@milkdown/preset-gfm'
-import type { Ctx } from '@milkdown/ctx'
+import { useCallback } from 'atomico'
+
 import type { Refs } from './types'
 
 export function useOperation(

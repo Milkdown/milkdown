@@ -1,5 +1,5 @@
 .milkdown {
-  milkdown-code-block {
+  .milkdown-code-block {
     display: block;
     position: relative;
     padding: 8px 20px 20px;
@@ -11,11 +11,6 @@
       width: max-content;
       position: absolute;
       z-index: 1;
-      display: none;
-
-      &.show {
-        display: block;
-      }
     }
 
     .hidden {
@@ -40,6 +35,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      input {
+        caret-color: var(--crepe-color-outline);
+      }
 
       .preview-toggle-button {
         background: var(--crepe-color-secondary);

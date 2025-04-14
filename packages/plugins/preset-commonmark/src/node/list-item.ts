@@ -1,3 +1,5 @@
+import type { Ctx } from '@milkdown/ctx'
+
 import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
 import {
@@ -5,9 +7,9 @@ import {
   sinkListItem,
   splitListItem,
 } from '@milkdown/prose/schema-list'
-import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 import { type Command, TextSelection } from '@milkdown/prose/state'
-import type { Ctx } from '@milkdown/ctx'
+import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for list item node.
@@ -25,12 +27,15 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
   attrs: {
     label: {
       default: '•',
+      validate: 'string',
     },
     listType: {
       default: 'bullet',
+      validate: 'string',
     },
     spread: {
-      default: 'true',
+      default: true,
+      validate: 'boolean',
     },
   },
   defining: true,
@@ -43,7 +48,7 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
         return {
           label: dom.dataset.label,
           listType: dom.dataset.listType,
-          spread: dom.dataset.spread,
+          spread: dom.dataset.spread === 'true',
         }
       },
     },
@@ -73,7 +78,7 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
     match: (node) => node.type.name === 'list_item',
     runner: (state, node) => {
       state.openNode('listItem', undefined, {
-        spread: node.attrs.spread === 'true',
+        spread: node.attrs.spread,
       })
       state.next(node.content)
       state.closeNode()

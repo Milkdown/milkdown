@@ -1,11 +1,14 @@
 import type { Ctx } from '@milkdown/kit/ctx'
+
 import {
   listItemBlockComponent,
   listItemBlockConfig,
 } from '@milkdown/kit/component/list-item-block'
 import { html } from 'atomico'
 import clsx from 'clsx'
+
 import type { DefineFeature, Icon } from '../shared'
+
 import {
   bulletIcon,
   checkBoxCheckedIcon,

@@ -1,6 +1,7 @@
+import type { Ctx } from '@milkdown/kit/ctx'
+
 import { imageBlockSchema } from '@milkdown/kit/component/image-block'
 import { editorViewCtx } from '@milkdown/kit/core'
-import type { Ctx } from '@milkdown/kit/ctx'
 import {
   blockquoteSchema,
   bulletListSchema,
@@ -13,6 +14,10 @@ import {
 } from '@milkdown/kit/preset/commonmark'
 import { createTable } from '@milkdown/kit/preset/gfm'
 import { TextSelection } from '@milkdown/kit/prose/state'
+
+import type { BlockEditFeatureConfig } from '../index'
+import type { MenuItemGroup } from './utils'
+
 import { CrepeFeature } from '../../..'
 import { FeaturesCtx } from '../../../core/slice'
 import {
@@ -26,16 +31,14 @@ import {
   h4Icon,
   h5Icon,
   h6Icon,
-  imageIcon,
+  legacyImageIcon,
   orderedListIcon,
   quoteIcon,
   tableIcon,
   textIcon,
   todoListIcon,
 } from '../../../icons'
-import type { BlockEditFeatureConfig } from '../index'
 import { GroupBuilder } from './group-builder'
-import type { MenuItemGroup } from './utils'
 import {
   clearContentAndAddBlockType,
   clearContentAndSetBlockType,
@@ -221,7 +224,7 @@ export function getGroups(
   if (isImageBlockEnabled) {
     advancedGroup.addItem('image', {
       label: config?.slashMenuImageLabel ?? 'Image',
-      icon: config?.slashMenuImageIcon?.() ?? imageIcon,
+      icon: config?.slashMenuImageIcon?.() ?? legacyImageIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view

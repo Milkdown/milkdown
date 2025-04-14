@@ -1,4 +1,5 @@
 import { paragraphSchema } from '@milkdown/preset-commonmark'
+import { findParentNodeType } from '@milkdown/prose'
 import { Selection } from '@milkdown/prose/state'
 import {
   CellSelection,
@@ -13,8 +14,9 @@ import {
   setCellAttr,
 } from '@milkdown/prose/tables'
 import { $command } from '@milkdown/utils'
-import { findParentNodeType } from '@milkdown/prose'
+
 import { withMeta } from '../../__internal__'
+import { tableSchema } from './schema'
 import {
   addRowWithAlignment,
   createTable,
@@ -24,7 +26,6 @@ import {
   selectRow,
   selectTable,
 } from './utils'
-import { tableSchema } from './schema'
 
 /// A command for moving cursor to previous cell.
 export const goToPrevTableCellCommand = $command(

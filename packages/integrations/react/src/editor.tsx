@@ -1,8 +1,10 @@
 import type { Editor } from '@milkdown/kit/core'
 import type { FC, ReactNode } from 'react'
+
 import React, { useMemo, useRef, useState } from 'react'
 
 import type { EditorInfoCtx, GetEditor } from './types'
+
 import { editorInfoContext, useGetEditor } from './use-get-editor'
 
 export const Milkdown: FC = () => {

@@ -1,27 +1,37 @@
+import type { Line, SelectionRange } from '@codemirror/state'
+import type { Node } from '@milkdown/prose/model'
 import type { EditorView, NodeView } from '@milkdown/prose/view'
+
+import { Compartment, EditorState } from '@codemirror/state'
 import {
   EditorView as CodeMirror,
   type KeyBinding,
   type ViewUpdate,
   keymap as cmKeymap,
 } from '@codemirror/view'
-import type { Node } from '@milkdown/prose/model'
-import { redo, undo } from '@milkdown/prose/history'
-import { Compartment, EditorState } from '@codemirror/state'
-import type { Line, SelectionRange } from '@codemirror/state'
 import { exitCode } from '@milkdown/prose/commands'
+import { redo, undo } from '@milkdown/prose/history'
 import { TextSelection } from '@milkdown/prose/state'
+import { createApp, ref, watchEffect, type App, type WatchHandle } from 'vue'
 
 import type { CodeBlockConfig } from '../config'
-import type { CodeComponentProps } from './component'
 import type { LanguageLoader } from './loader'
 
+import { CodeBlock } from './components/code-block'
+
 export class CodeMirrorBlock implements NodeView {
-  dom: HTMLElement & CodeComponentProps
+  dom: HTMLElement
   cm: CodeMirror
+  app: App
+
+  readonly = ref(false)
+  selected = ref(false)
+  language = ref('')
+  text = ref('')
 
   private updating = false
   private languageName: string = ''
+  private disposeSelectedWatcher: WatchHandle
 
   private readonly languageConf: Compartment
   private readonly readOnlyConf: Compartment
@@ -48,7 +58,18 @@ export class CodeMirrorBlock implements NodeView {
       ],
     })
 
-    this.dom = this.createDom()
+    this.app = this.createApp()
+
+    this.dom = this.createDom(this.app)
+
+    this.disposeSelectedWatcher = watchEffect(() => {
+      const isSelected = this.selected.value
+      if (isSelected) {
+        this.dom.classList.add('selected')
+      } else {
+        this.dom.classList.remove('selected')
+      }
+    })
 
     this.updateLanguage()
   }
@@ -77,20 +98,24 @@ export class CodeMirrorBlock implements NodeView {
     }
   }
 
-  private createDom() {
-    const dom = document.createElement('milkdown-code-block') as HTMLElement &
-      CodeComponentProps
-    dom.codemirror = this.cm
-    dom.getAllLanguages = this.getAllLanguages
-    dom.setLanguage = this.setLanguage
-    dom.isEditorReadonly = () => !this.view.editable
-    dom.text = this.node.textContent
-    const {
-      languages: _languages,
-      extensions: _extensions,
-      ...viewConfig
-    } = this.config
-    dom.config = viewConfig
+  private createApp = () => {
+    return createApp(CodeBlock, {
+      text: this.text,
+      selected: this.selected,
+      readonly: this.readonly,
+      codemirror: this.cm,
+      language: this.language,
+      getAllLanguages: this.getAllLanguages,
+      setLanguage: this.setLanguage,
+      config: this.config,
+    })
+  }
+
+  private createDom(app: App) {
+    const dom = document.createElement('div')
+    dom.className = 'milkdown-code-block'
+    this.text.value = this.node.textContent
+    app.mount(dom)
     return dom
   }
 
@@ -99,17 +124,19 @@ export class CodeMirrorBlock implements NodeView {
 
     if (languageName === this.languageName) return
 
-    this.dom.language = languageName
+    this.language.value = languageName
     const language = this.loader.load(languageName ?? '')
 
-    language.then((lang) => {
-      if (lang) {
-        this.cm.dispatch({
-          effects: this.languageConf.reconfigure(lang),
-        })
-        this.languageName = languageName
-      }
-    })
+    language
+      .then((lang) => {
+        if (lang) {
+          this.cm.dispatch({
+            effects: this.languageConf.reconfigure(lang),
+          })
+          this.languageName = languageName
+        }
+      })
+      .catch(console.error)
   }
 
   private codeMirrorKeymap = (): KeyBinding[] => {
@@ -196,7 +223,7 @@ export class CodeMirrorBlock implements NodeView {
     if (this.updating) return true
 
     this.node = node
-    this.dom.text = node.textContent
+    this.text.value = node.textContent
     this.updateLanguage()
     if (this.view.editable === this.cm.state.readOnly) {
       this.cm.dispatch({
@@ -218,12 +245,12 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   selectNode() {
-    this.dom.selected = true
+    this.selected.value = true
     this.cm.focus()
   }
 
   deselectNode() {
-    this.dom.selected = false
+    this.selected.value = false
   }
 
   stopEvent() {
@@ -231,7 +258,9 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   destroy() {
+    this.app.unmount()
     this.cm.destroy()
+    this.disposeSelectedWatcher()
   }
 
   setLanguage = (language: string) => {

@@ -1,12 +1,15 @@
-import { TooltipProvider, tooltipFactory } from '@milkdown/kit/plugin/tooltip'
-import type { EditorState, PluginView } from '@milkdown/kit/prose/state'
-import { TextSelection } from '@milkdown/kit/prose/state'
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { EditorState, PluginView } from '@milkdown/kit/prose/state'
 import type { EditorView } from '@milkdown/kit/prose/view'
 import type { AtomicoThis } from 'atomico/types/dom'
+
+import { TooltipProvider, tooltipFactory } from '@milkdown/kit/plugin/tooltip'
+import { TextSelection } from '@milkdown/kit/prose/state'
+
 import type { DefineFeature, Icon } from '../shared'
-import { defIfNotExists } from '../../utils'
 import type { ToolbarProps } from './component'
+
+import { defIfNotExists } from '../../utils'
 import { ToolbarElement } from './component'
 
 interface ToolbarConfig {

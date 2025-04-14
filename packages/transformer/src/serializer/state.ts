@@ -1,4 +1,3 @@
-import { serializerMatchError } from '@milkdown/exception'
 import type {
   Fragment,
   MarkType,
@@ -6,6 +5,8 @@ import type {
   NodeType,
   Schema,
 } from '@milkdown/prose/model'
+
+import { serializerMatchError } from '@milkdown/exception'
 import { Mark } from '@milkdown/prose/model'
 
 import type {
@@ -16,9 +17,10 @@ import type {
   RemarkParser,
   Root,
 } from '../utility'
+import type { Serializer } from './types'
+
 import { Stack } from '../utility'
 import { SerializerStackElement } from './stack-element'
-import type { Serializer } from './types'
 
 const isFragment = (x: Node | Fragment): x is Fragment =>
   Object.prototype.hasOwnProperty.call(x, 'size')

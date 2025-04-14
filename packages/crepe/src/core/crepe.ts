@@ -1,4 +1,6 @@
 import type { DefaultValue } from '@milkdown/kit/core'
+import type { ListenerManager } from '@milkdown/kit/plugin/listener'
+
 import {
   Editor,
   EditorStatus,
@@ -6,20 +8,19 @@ import {
   editorViewOptionsCtx,
   rootCtx,
 } from '@milkdown/kit/core'
-
-import { commonmark } from '@milkdown/kit/preset/commonmark'
-import { gfm } from '@milkdown/kit/preset/gfm'
+import { clipboard } from '@milkdown/kit/plugin/clipboard'
 import { history } from '@milkdown/kit/plugin/history'
 import { indent, indentConfig } from '@milkdown/kit/plugin/indent'
-import { getMarkdown } from '@milkdown/kit/utils'
-import { clipboard } from '@milkdown/kit/plugin/clipboard'
+import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
 import { trailing } from '@milkdown/kit/plugin/trailing'
+import { commonmark } from '@milkdown/kit/preset/commonmark'
+import { gfm } from '@milkdown/kit/preset/gfm'
+import { getMarkdown } from '@milkdown/kit/utils'
 
 import type { CrepeFeatureConfig } from '../feature'
+
 import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
 import { configureFeatures, crepeCtx } from './slice'
-import type { ListenerManager } from '@milkdown/kit/plugin/listener'
-import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
 
 export interface CrepeConfig {
   features?: Partial<Record<CrepeFeature, boolean>>

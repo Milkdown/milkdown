@@ -1,6 +1,7 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { tableBlockView } from './view'
+
 import { tableBlockConfig } from './config'
+import { tableBlockView } from './view'
 
 export * from './view'
 export * from './config'

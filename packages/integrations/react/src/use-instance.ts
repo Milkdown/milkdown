@@ -1,5 +1,7 @@
 import type { Editor } from '@milkdown/kit/core'
+
 import { useCallback, useContext } from 'react'
+
 import { editorInfoContext } from './use-get-editor'
 
 export type Instance = [true, () => undefined] | [false, () => Editor]

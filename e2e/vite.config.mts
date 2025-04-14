@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+
 import { input } from './entry'
 
 export default defineConfig({

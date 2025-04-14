@@ -1,5 +1,6 @@
 import { $prose } from '@milkdown/utils'
 import { imeSpan } from 'prosemirror-safari-ime-span'
+
 import { withMeta } from '../__internal__'
 
 /// This plugin is used to fix the bug of IME composing in table in Safari browser.

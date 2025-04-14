@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+
 import { editorViewCtx } from '@milkdown/core'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'

@@ -1,17 +1,18 @@
 import type { Ctx } from '@milkdown/ctx'
-import { parserCtx, serializerCtx } from '@milkdown/core'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
+
+import { parserCtx, serializerCtx } from '@milkdown/core'
 import { pipe } from '@milkdown/utils'
 
 import { inlineSyncConfig } from './config'
+import { asterisk, asteriskHolder, underline, underlineHolder } from './regexp'
 import {
   calculatePlaceholder,
   keepLink,
   mergeSlash,
   replacePunctuation,
 } from './utils'
-import { asterisk, asteriskHolder, underline, underlineHolder } from './regexp'
 
 export interface InlineSyncContext {
   text: string

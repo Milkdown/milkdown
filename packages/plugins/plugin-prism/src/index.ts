@@ -1,11 +1,11 @@
+import type { MilkdownPlugin } from '@milkdown/ctx'
 import type { Refractor } from 'refractor/core'
 
 import { findChildren } from '@milkdown/prose'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
+import { $ctx, $prose } from '@milkdown/utils'
 import { refractor } from 'refractor'
 
-import { $ctx, $prose } from '@milkdown/utils'
-import type { MilkdownPlugin } from '@milkdown/ctx'
 import { getDecorations } from './get-decorations'
 
 /// @internal

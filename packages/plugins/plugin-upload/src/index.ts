@@ -1,4 +1,5 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
+
 import { uploadConfig, uploadPlugin } from './upload'
 
 export * from './upload'

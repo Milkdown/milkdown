@@ -1,6 +1,7 @@
 import type { CmdKey } from '@milkdown/core'
-import { commandsCtx } from '@milkdown/core'
 import type { Ctx } from '@milkdown/ctx'
+
+import { commandsCtx } from '@milkdown/core'
 
 type InferParams<T> = T extends CmdKey<infer U> ? U : never
 

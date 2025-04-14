@@ -1,5 +1,6 @@
-import type { SerializerState } from '@milkdown/transformer'
 import type { Node } from '@milkdown/prose/model'
+import type { SerializerState } from '@milkdown/transformer'
+
 import { Fragment } from '@milkdown/prose/model'
 
 export function serializeText(state: SerializerState, node: Node) {

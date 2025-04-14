@@ -1,6 +1,7 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
-import { createSlice, createTimer } from '@milkdown/ctx'
+
 import { EditorViewReady } from '@milkdown/core'
+import { createSlice, createTimer } from '@milkdown/ctx'
 
 import { CollabService } from './collab-service'
 

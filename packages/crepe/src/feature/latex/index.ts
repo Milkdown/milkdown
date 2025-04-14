@@ -1,18 +1,21 @@
 import type { KatexOptions } from 'katex'
-import katex from 'katex'
+
 import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import katex from 'katex'
+
+import type { DefineFeature, Icon } from '../shared'
+
 import { CrepeFeature } from '../..'
 import { FeaturesCtx } from '../../core/slice'
-import type { DefineFeature, Icon } from '../shared'
-import { remarkMathBlockPlugin, remarkMathPlugin } from './remark'
-import { mathInlineSchema } from './inline-latex'
+import { legacyConfirmIcon } from '../../icons'
 import { defIfNotExists } from '../../utils'
+import { blockLatexSchema } from './block-latex'
+import { mathInlineSchema } from './inline-latex'
 import { LatexInlineEditElement } from './inline-tooltip/component'
 import { inlineLatexTooltip } from './inline-tooltip/tooltip'
 import { LatexInlineTooltip } from './inline-tooltip/view'
-import { confirmIcon } from '../../icons'
 import { mathBlockInputRule, mathInlineInputRule } from './input-rule'
-import { blockLatexSchema } from './block-latex'
+import { remarkMathBlockPlugin, remarkMathPlugin } from './remark'
 
 export interface LatexConfig {
   katexOptions: KatexOptions
@@ -48,7 +51,8 @@ export const defineFeature: DefineFeature<LatexFeatureConfig> = (
       ctx.set(inlineLatexTooltip.key, {
         view: (view) => {
           return new LatexInlineTooltip(ctx, view, {
-            inlineEditConfirm: config?.inlineEditConfirm ?? (() => confirmIcon),
+            inlineEditConfirm:
+              config?.inlineEditConfirm ?? (() => legacyConfirmIcon),
             ...config,
           })
         },

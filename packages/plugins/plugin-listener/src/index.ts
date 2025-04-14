@@ -1,5 +1,6 @@
-import { createSlice } from '@milkdown/ctx'
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type { Node as ProseNode } from '@milkdown/prose/model'
+
 import {
   EditorViewReady,
   InitReady,
@@ -7,7 +8,7 @@ import {
   prosePluginsCtx,
   serializerCtx,
 } from '@milkdown/core'
-import type { Node as ProseNode } from '@milkdown/prose/model'
+import { createSlice } from '@milkdown/ctx'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import debounce from 'lodash.debounce'
 

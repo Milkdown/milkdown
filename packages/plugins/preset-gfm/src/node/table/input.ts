@@ -2,14 +2,15 @@ import { commandsCtx } from '@milkdown/core'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { TextSelection } from '@milkdown/prose/state'
 import { $inputRule, $useKeymap } from '@milkdown/utils'
+
 import { withMeta } from '../../__internal__'
-import { createTable } from './utils'
-import { tableSchema } from './schema'
 import {
   exitTable,
   goToNextTableCellCommand,
   goToPrevTableCellCommand,
 } from './command'
+import { tableSchema } from './schema'
+import { createTable } from './utils'
 
 /// A input rule for creating table.
 /// For example, `|2x2|` will create a 2x2 table.

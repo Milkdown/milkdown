@@ -1,6 +1,8 @@
-import { c, h, html, type Component } from 'atomico'
-import type { LatexConfig } from '..'
 import type { EditorView } from '@milkdown/kit/prose/view'
+
+import { c, h, html, type Component } from 'atomico'
+
+import type { LatexConfig } from '..'
 
 type LatexEditComponentProps = {
   config: Partial<LatexConfig>

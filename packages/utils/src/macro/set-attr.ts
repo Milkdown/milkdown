@@ -1,6 +1,7 @@
 import type { Ctx } from '@milkdown/ctx'
-import { editorViewCtx } from '@milkdown/core'
 import type { Attrs } from '@milkdown/prose/model'
+
+import { editorViewCtx } from '@milkdown/core'
 
 /// Set the attributes of the node at the given position.
 export function setAttr(pos: number, update: (prevAttrs: Attrs) => Attrs) {

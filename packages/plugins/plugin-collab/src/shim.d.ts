@@ -1,9 +1,9 @@
 declare module 'y-prosemirror' {
-  import type { Plugin, PluginKey } from '@milkdown/prose/state'
   import type { Node, Schema } from '@milkdown/prose/model'
+  import type { Plugin, PluginKey } from '@milkdown/prose/state'
   import type { DecorationAttrs } from '@milkdown/prose/view'
-  import type * as Y from 'yjs'
   import type { Awareness } from 'y-protocols/awareness'
+  import type * as Y from 'yjs'
 
   interface ColorDef {
     light: string

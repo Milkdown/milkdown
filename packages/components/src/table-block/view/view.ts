@@ -1,5 +1,4 @@
-import { $view } from '@milkdown/utils'
-import { tableSchema } from '@milkdown/preset-gfm'
+import type { Ctx } from '@milkdown/ctx'
 import type { Node } from '@milkdown/prose/model'
 import type {
   EditorView,
@@ -7,14 +6,18 @@ import type {
   NodeViewConstructor,
   ViewMutationRecord,
 } from '@milkdown/prose/view'
-import type { Ctx } from '@milkdown/ctx'
-import { NodeSelection, TextSelection } from '@milkdown/prose/state'
+
+import { tableSchema } from '@milkdown/preset-gfm'
 import { findParent } from '@milkdown/prose'
+import { NodeSelection, TextSelection } from '@milkdown/prose/state'
 import { CellSelection } from '@milkdown/prose/tables'
-import { defIfNotExists } from '../../__internal__/helper'
-import { tableBlockConfig } from '../config'
-import { withMeta } from '../../__internal__/meta'
+import { $view } from '@milkdown/utils'
+
 import type { TableComponentProps } from './component'
+
+import { defIfNotExists } from '../../__internal__/helper'
+import { withMeta } from '../../__internal__/meta'
+import { tableBlockConfig } from '../config'
 import { TableElement } from './component'
 
 export class TableNodeView implements NodeView {

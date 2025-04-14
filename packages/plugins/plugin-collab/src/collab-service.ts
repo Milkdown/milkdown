@@ -1,5 +1,10 @@
-import type { Ctx } from '@milkdown/ctx'
 import type { DefaultValue } from '@milkdown/core'
+import type { Ctx } from '@milkdown/ctx'
+import type { Node } from '@milkdown/prose/model'
+import type { DecorationAttrs } from '@milkdown/prose/view'
+import type { Awareness } from 'y-protocols/awareness'
+import type { Doc, PermanentUserData, XmlFragment } from 'yjs'
+
 import {
   editorViewCtx,
   getDoc,
@@ -9,9 +14,7 @@ import {
 } from '@milkdown/core'
 import { ctxNotBind, missingYjsDoc } from '@milkdown/exception'
 import { keydownHandler } from '@milkdown/prose/keymap'
-import type { Node } from '@milkdown/prose/model'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
-import type { DecorationAttrs } from '@milkdown/prose/view'
 import {
   prosemirrorToYDoc,
   redo,
@@ -24,8 +27,6 @@ import {
   yUndoPlugin,
   yUndoPluginKey,
 } from 'y-prosemirror'
-import type { Awareness } from 'y-protocols/awareness'
-import type { Doc, PermanentUserData, XmlFragment } from 'yjs'
 import { applyUpdate, encodeStateAsUpdate } from 'yjs'
 
 /// @internal

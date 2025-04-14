@@ -2,6 +2,7 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 import { InputRule } from '@milkdown/prose/inputrules'
 import { $inputRule } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// This schema extends the [list item](/preset-commonmark#list-item) schema and add task list support for it.
@@ -15,6 +16,7 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema(
           ...baseSchema.attrs,
           checked: {
             default: null,
+            validate: 'boolean|null',
           },
         },
         parseDOM: [

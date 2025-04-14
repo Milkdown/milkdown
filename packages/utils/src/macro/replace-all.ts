@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+
 import {
   editorStateOptionsCtx,
   editorViewCtx,

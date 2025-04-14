@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { SerializerStackElement } from './stack-element'
 
 it('serializer-stack-element', () => {

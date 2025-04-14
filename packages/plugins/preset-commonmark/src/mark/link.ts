@@ -1,8 +1,10 @@
+import type { Node as ProseNode } from '@milkdown/prose/model'
+
 import { expectDomTypeError } from '@milkdown/exception'
 import { toggleMark } from '@milkdown/prose/commands'
-import type { Node as ProseNode } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import { $command, $markAttr, $markSchema } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the link mark.
@@ -16,8 +18,8 @@ withMeta(linkAttr, {
 /// Link mark schema.
 export const linkSchema = $markSchema('link', (ctx) => ({
   attrs: {
-    href: {},
-    title: { default: null },
+    href: { validate: 'string' },
+    title: { default: null, validate: 'string|null' },
   },
   parseDOM: [
     {

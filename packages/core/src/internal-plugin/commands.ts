@@ -1,11 +1,12 @@
 import type { Ctx, MilkdownPlugin, SliceType } from '@milkdown/ctx'
-import { Container, createSlice, createTimer } from '@milkdown/ctx'
-import { callCommandBeforeEditorView } from '@milkdown/exception'
 import type { Command } from '@milkdown/prose/state'
 
+import { Container, createSlice, createTimer } from '@milkdown/ctx'
+import { callCommandBeforeEditorView } from '@milkdown/exception'
+
 import { withMeta } from '../__internal__'
-import { SchemaReady } from './schema'
 import { editorViewCtx } from './atoms'
+import { SchemaReady } from './schema'
 
 /// @internal
 export type Cmd<T = undefined> = (payload?: T) => Command

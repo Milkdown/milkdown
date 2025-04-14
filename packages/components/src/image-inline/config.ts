@@ -1,11 +1,12 @@
 import { $ctx } from '@milkdown/utils'
 import { html } from 'atomico'
+
 import { withMeta } from '../__internal__/meta'
 
 export interface InlineImageConfig {
-  imageIcon: () => ReturnType<typeof html>
-  uploadButton: () => ReturnType<typeof html>
-  confirmButton: () => ReturnType<typeof html>
+  imageIcon: () => string | undefined
+  uploadButton: () => string | undefined
+  confirmButton: () => string | undefined
   uploadPlaceholderText: string
   onUpload: (file: File) => Promise<string>
   proxyDomURL?: (url: string) => Promise<string> | string

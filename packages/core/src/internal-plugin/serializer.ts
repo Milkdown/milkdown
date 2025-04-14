@@ -1,9 +1,10 @@
 import type { MilkdownPlugin, TimerType } from '@milkdown/ctx'
-import { createSlice, createTimer } from '@milkdown/ctx'
 import type { Serializer } from '@milkdown/transformer'
+
+import { createSlice, createTimer } from '@milkdown/ctx'
+import { ctxCallOutOfScope } from '@milkdown/exception'
 import { SerializerState } from '@milkdown/transformer'
 
-import { ctxCallOutOfScope } from '@milkdown/exception'
 import { withMeta } from '../__internal__'
 import { remarkCtx } from './atoms'
 import { SchemaReady, schemaCtx } from './schema'

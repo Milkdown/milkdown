@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { Stack } from './stack'
 
 it('stack', () => {

@@ -1,7 +1,9 @@
-import type { Transaction } from '@milkdown/prose/state'
-import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { Node } from '@milkdown/prose/model'
+import type { Transaction } from '@milkdown/prose/state'
+
+import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
+
 import { withMeta } from '../__internal__'
 
 const pluginKey = new PluginKey('MILKDOWN_KEEP_TABLE_ALIGN_PLUGIN')

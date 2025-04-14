@@ -1,51 +1,79 @@
-import { $view } from '@milkdown/utils'
-import type { NodeViewConstructor } from '@milkdown/prose/view'
 import type { Node } from '@milkdown/prose/model'
-import { imageBlockSchema } from '../schema'
-import { imageBlockConfig } from '../config'
-import { withMeta } from '../../__internal__/meta'
-import { defIfNotExists } from '../../__internal__/helper'
-import type { ImageComponentProps } from './component'
-import { ImageElement } from './component'
+import type { NodeViewConstructor } from '@milkdown/prose/view'
 
-defIfNotExists('milkdown-image-block', ImageElement)
+import { $view } from '@milkdown/utils'
+import DOMPurify from 'dompurify'
+import { createApp, ref, watchEffect } from 'vue'
+
+import { withMeta } from '../../__internal__/meta'
+import { imageBlockConfig } from '../config'
+import { imageBlockSchema } from '../schema'
+import { MilkdownImageBlock } from './components/image-block'
+
 export const imageBlockView = $view(
   imageBlockSchema.node,
   (ctx): NodeViewConstructor => {
     return (initialNode, view, getPos) => {
-      const dom = document.createElement(
-        'milkdown-image-block'
-      ) as HTMLElement & ImageComponentProps
+      const src = ref(initialNode.attrs.src)
+      const caption = ref(initialNode.attrs.caption)
+      const ratio = ref(initialNode.attrs.ratio)
+      const selected = ref(false)
+      const readonly = ref(!view.editable)
+      const setAttr = (attr: string, value: unknown) => {
+        const pos = getPos()
+        if (pos == null) return
+        view.dispatch(
+          view.state.tr.setNodeAttribute(
+            pos,
+            attr,
+            attr === 'src' ? DOMPurify.sanitize(value as string) : value
+          )
+        )
+      }
       const config = ctx.get(imageBlockConfig.key)
+      const app = createApp(MilkdownImageBlock, {
+        src,
+        caption,
+        ratio,
+        selected,
+        readonly,
+        setAttr,
+        config,
+      })
+      const dom = document.createElement('div')
+      dom.className = 'milkdown-image-block'
+      app.mount(dom)
+      const disposeSelectedWatcher = watchEffect(() => {
+        const isSelected = selected.value
+        if (isSelected) {
+          dom.classList.add('selected')
+        } else {
+          dom.classList.remove('selected')
+        }
+      })
       const proxyDomURL = config.proxyDomURL
       const bindAttrs = (node: Node) => {
         if (!proxyDomURL) {
-          dom.src = node.attrs.src
+          src.value = node.attrs.src
         } else {
           const proxiedURL = proxyDomURL(node.attrs.src)
           if (typeof proxiedURL === 'string') {
-            dom.src = proxiedURL
+            src.value = proxiedURL
           } else {
-            proxiedURL.then((url) => {
-              dom.src = url
-            })
+            proxiedURL
+              .then((url) => {
+                src.value = url
+              })
+              .catch(console.error)
           }
         }
-        dom.ratio = node.attrs.ratio
-        dom.caption = node.attrs.caption
+        ratio.value = node.attrs.ratio
+        caption.value = node.attrs.caption
 
-        dom.readonly = !view.editable
+        readonly.value = !view.editable
       }
 
       bindAttrs(initialNode)
-      dom.selected = false
-      dom.setAttr = (attr, value) => {
-        const pos = getPos()
-        if (pos == null) return
-
-        view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
-      }
-      dom.config = config
       return {
         dom,
         update: (updatedNode) => {
@@ -60,12 +88,14 @@ export const imageBlockView = $view(
           return false
         },
         selectNode: () => {
-          dom.selected = true
+          selected.value = true
         },
         deselectNode: () => {
-          dom.selected = false
+          selected.value = false
         },
         destroy: () => {
+          disposeSelectedWatcher()
+          app.unmount()
           dom.remove()
         },
       }

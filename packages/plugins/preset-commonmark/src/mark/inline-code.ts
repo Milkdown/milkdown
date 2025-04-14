@@ -1,5 +1,7 @@
-import { commandsCtx } from '@milkdown/core'
 import type { MarkType } from '@milkdown/prose/model'
+
+import { commandsCtx } from '@milkdown/core'
+import { markRule } from '@milkdown/prose'
 import {
   $command,
   $inputRule,
@@ -7,7 +9,7 @@ import {
   $markSchema,
   $useKeymap,
 } from '@milkdown/utils'
-import { markRule } from '@milkdown/prose'
+
 import { withMeta } from '../__internal__'
 
 /// HTML attributes for the inlineCode mark.

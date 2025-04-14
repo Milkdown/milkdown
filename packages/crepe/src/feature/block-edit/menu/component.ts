@@ -1,4 +1,6 @@
+import type { Ctx } from '@milkdown/kit/ctx'
 import type { Component } from 'atomico'
+
 import {
   c,
   html,
@@ -9,8 +11,9 @@ import {
   useRef,
   useState,
 } from 'atomico'
-import type { Ctx } from '@milkdown/kit/ctx'
+
 import type { BlockEditFeatureConfig } from '../index'
+
 import { getGroups } from './config'
 
 export interface MenuProps {

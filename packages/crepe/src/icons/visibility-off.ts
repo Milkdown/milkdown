@@ -1,6 +1,4 @@
-import { html } from 'atomico'
-
-export const visibilityOffIcon = html`
+export const visibilityOffIcon = `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"

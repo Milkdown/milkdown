@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
-import { focusEditor, getMarkdown } from 'tests/misc'
+
+import { focusEditor, getMarkdown } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/crepe/')
@@ -10,7 +11,7 @@ test('latex block preview toggle', async ({ page }) => {
   await page.keyboard.type('$$')
   await page.keyboard.press('Enter')
 
-  const codeBlock = page.locator('milkdown-code-block')
+  const codeBlock = page.locator('.milkdown-code-block')
   const codemirror = codeBlock.locator('.codemirror-host')
   const preview = codeBlock.locator('.preview')
   const codeTools = codeBlock.locator('.tools')
@@ -27,7 +28,7 @@ test('latex block preview toggle', async ({ page }) => {
 
   await expect(preview).toBeVisible()
   const markdown = await getMarkdown(page)
-  expect(markdown.trim()).toEqual('$$\nE=mc^2\n$$\n\n<br />')
+  expect(markdown.trim()).toEqual('$$\nE=mc^2\n$$')
 
   await codeTools.hover()
   await expect(previewToggleButton).toBeVisible()

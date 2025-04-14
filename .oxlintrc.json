@@ -1,7 +1,7 @@
 {
   "plugins": ["import", "typescript", "unicorn", "promise"],
   "rules": {
-    "no-console": "error",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "for-direction": "error",
     "require-yield": "error",
     "use-isnan": "error",
@@ -83,7 +83,7 @@
       }
     ],
     "import/named": "error",
-    "import/sort-imports": "error",
+    "import/order": "error",
     "import/no-duplicates": "error",
     "import/no-import-assign": "error",
     "import/no-self-import": "error",

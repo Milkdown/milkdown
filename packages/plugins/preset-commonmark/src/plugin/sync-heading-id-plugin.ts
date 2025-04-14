@@ -1,8 +1,10 @@
-import { Plugin, PluginKey } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
+
+import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
-import { headingIdGenerator, headingSchema } from '../node/heading'
+
 import { withMeta } from '../__internal__'
+import { headingIdGenerator, headingSchema } from '../node/heading'
 
 /// This plugin is used to sync the heading id when the heading content changes.
 /// It will use the `headingIdGenerator` to generate the id.
