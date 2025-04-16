@@ -17,12 +17,12 @@
   },
   "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.es.js",
+    "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "types": "./lib/index.d.ts",
-        "import": "./lib/index.es.js"
+        "import": "./lib/index.js"
       },
       "./style.css": "./lib/style.css"
     }

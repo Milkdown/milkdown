@@ -30,6 +30,9 @@
       }
     }
   },
+  "scripts": {
+    "build": "vite build"
+  },
   "files": [
     "lib",
     "src"

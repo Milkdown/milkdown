@@ -5,6 +5,7 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
     "jsxImportSource": "vue",
+    "emitDeclarationOnly": true,
     "rootDir": "src",
     "outDir": "lib",
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
