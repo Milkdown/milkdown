@@ -1013,7 +1013,7 @@ importers:
         specifier: ^1.4.3
         version: 1.4.3
       prosemirror-tables:
-        specifier: ^1.6.2
+        specifier: ^1.7.0
         version: 1.7.0
       prosemirror-transform:
         specifier: ^1.10.2
