@@ -1,6 +1,7 @@
 import type {
   ComputePositionConfig,
   Middleware,
+  OffsetOptions,
   Placement,
   VirtualElement,
 } from '@floating-ui/dom'
@@ -33,13 +34,7 @@ export interface BlockProviderOptions {
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
   /// The offset to get the block. Default is 0.
-  getOffset?: (deriveContext: DeriveContext) =>
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
+  getOffset?: (deriveContext: DeriveContext) => OffsetOptions
   /// The function to get the position of the block. Default is the position of the active node.
   getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>
   /// The function to get the placement of the block. Default is 'left'.
@@ -79,13 +74,7 @@ export class BlockProvider {
   readonly #floatingUIOptions: Partial<ComputePositionConfig>
 
   /// @internal
-  readonly #getOffset?: (deriveContext: DeriveContext) =>
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
+  readonly #getOffset?: (deriveContext: DeriveContext) => OffsetOptions
 
   /// @internal
   readonly #getPosition?: (

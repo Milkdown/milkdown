@@ -1,6 +1,8 @@
 import type {
   ComputePositionConfig,
   Middleware,
+  OffsetOptions,
+  ShiftOptions,
   VirtualElement,
 } from '@floating-ui/dom'
 import type { EditorState } from '@milkdown/prose/state'
@@ -20,15 +22,9 @@ export interface TooltipProviderOptions {
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
   /// The offset to get the block. Default is 0.
-  offset?:
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
-  // The amount to shift the block by. Default is 0.
-  shift?: number
+  offset?: OffsetOptions
+  /// The amount to shift options the block by.
+  shift?: ShiftOptions
   /// Other middlewares for floating ui. This will be added after the internal middlewares.
   middleware?: Middleware[]
   /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
@@ -58,15 +54,11 @@ export class TooltipProvider {
   #initialized = false
 
   /// @internal
-  readonly #offset?:
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
+  readonly #offset?: OffsetOptions
+
   /// @internal
-  readonly #shift?: number
+  readonly #shift?: ShiftOptions
+
   /// The root element of the tooltip.
   element: HTMLElement
 
@@ -122,12 +114,14 @@ export class TooltipProvider {
         shift(this.#shift),
         ...this.#middleware,
       ],
-    }).then(({ x, y }) => {
-      Object.assign(this.element.style, {
-        left: `${x}px`,
-        top: `${y}px`,
+    })
+      .then(({ x, y }) => {
+        Object.assign(this.element.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
       })
-    }).catch(console.error)
+      .catch(console.error)
 
     this.show()
   }
@@ -169,7 +163,12 @@ export class TooltipProvider {
     if (virtualElement) {
       computePosition(virtualElement, this.element, {
         placement: 'top',
-        middleware: [flip(), offset(this.#offset), shift(this.#offset)],
+        middleware: [
+          flip(),
+          offset(this.#offset),
+          shift(this.#shift),
+          ...this.#middleware,
+        ],
         ...this.#floatingUIOptions,
       })
         .then(({ x, y }) => {
