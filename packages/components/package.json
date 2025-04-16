@@ -97,6 +97,9 @@
     "lib",
     "src"
   ],
+  "scripts": {
+    "build": "rollup -c"
+  },
   "peerDependencies": {
     "@codemirror/language": "^6",
     "@codemirror/state": "^6",

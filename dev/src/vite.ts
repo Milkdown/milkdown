@@ -9,8 +9,6 @@ import globalPackageJson from '../../package.json' with { type: 'json' }
 
 const external = [/@milkdown/]
 
-const libFileName = (format: string) => `index.${format}.js`
-
 function isObject(item: unknown): item is Record<string, unknown> {
   return Boolean(item && typeof item === 'object' && !Array.isArray(item))
 }
@@ -53,7 +51,7 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
       lib: {
         entry: resolve(dir, 'src', 'index.ts'),
         name: `milkdown_${packageDirName}`,
-        fileName: libFileName,
+        fileName: 'index',
         formats: ['es'],
       },
       rollupOptions: {
