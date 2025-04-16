@@ -1,6 +1,8 @@
 import type {
   ComputePositionConfig,
   Middleware,
+  OffsetOptions,
+  ShiftOptions,
   VirtualElement,
 } from '@floating-ui/dom'
 import type { EditorState } from '@milkdown/prose/state'
@@ -20,13 +22,9 @@ export interface TooltipProviderOptions {
   /// The function to determine whether the tooltip should be shown.
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
   /// The offset to get the block. Default is 0.
-  offset?:
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
+  offset?: OffsetOptions
+  /// The amount to shift options the block by.
+  shift?: ShiftOptions
   /// Other middlewares for floating ui. This will be added after the internal middlewares.
   middleware?: Middleware[]
   /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
@@ -56,13 +54,10 @@ export class TooltipProvider {
   #initialized = false
 
   /// @internal
-  readonly #offset?:
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
+  readonly #offset?: OffsetOptions
+
+  /// @internal
+  readonly #shift?: ShiftOptions
 
   /// The root element of the tooltip.
   element: HTMLElement
@@ -78,6 +73,7 @@ export class TooltipProvider {
     this.#debounce = options.debounce ?? 200
     this.#shouldShow = options.shouldShow ?? this.#_shouldShow
     this.#offset = options.offset
+    this.#shift = options.shift
     this.#middleware = options.middleware ?? []
     this.#floatingUIOptions = options.floatingUIOptions ?? {}
     this.#root = options.root
@@ -112,7 +108,12 @@ export class TooltipProvider {
     }
     computePosition(virtualEl, this.element, {
       placement: this.#floatingUIOptions.placement ?? 'top',
-      middleware: [flip(), offset(this.#offset), shift(), ...this.#middleware],
+      middleware: [
+        flip(),
+        offset(this.#offset),
+        shift(this.#shift),
+        ...this.#middleware,
+      ],
     })
       .then(({ x, y }) => {
         Object.assign(this.element.style, {
@@ -162,7 +163,12 @@ export class TooltipProvider {
     if (virtualElement) {
       computePosition(virtualElement, this.element, {
         placement: 'top',
-        middleware: [flip(), offset(this.#offset)],
+        middleware: [
+          flip(),
+          offset(this.#offset),
+          shift(this.#shift),
+          ...this.#middleware,
+        ],
         ...this.#floatingUIOptions,
       })
         .then(({ x, y }) => {

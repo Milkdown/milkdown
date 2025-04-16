@@ -1,6 +1,7 @@
 import type {
   ComputePositionConfig,
   Middleware,
+  OffsetOptions,
   VirtualElement,
 } from '@floating-ui/dom'
 import type { Node } from '@milkdown/prose/model'
@@ -23,13 +24,7 @@ export interface SlashProviderOptions {
   /// The key trigger for shouldShow, '/' by default.
   trigger?: string | string[]
   /// The offset to get the block. Default is 0.
-  offset?:
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
+  offset?: OffsetOptions
   /// Other middlewares for floating ui. This will be added after the internal middlewares.
   middleware?: Middleware[]
   /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
@@ -65,13 +60,7 @@ export class SlashProvider {
   readonly #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   /// The offset to get the block. Default is 0.
-  readonly #offset?:
-    | number
-    | {
-        mainAxis?: number
-        crossAxis?: number
-        alignmentAxis?: number | null
-      }
+  readonly #offset?: OffsetOptions
 
   /// On show callback.
   onShow = () => {}
