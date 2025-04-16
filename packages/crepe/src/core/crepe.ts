@@ -88,12 +88,12 @@ export class Crepe {
     this.#initPromise = Promise.all(promiseList)
   }
 
-  async create() {
+  create = async () => {
     await this.#initPromise
     return this.#editor.create()
   }
 
-  async destroy() {
+  destroy = async () => {
     await this.#initPromise
     return this.#editor.destroy()
   }
@@ -102,16 +102,16 @@ export class Crepe {
     return this.#editor
   }
 
-  setReadonly(value: boolean) {
+  setReadonly = (value: boolean) => {
     this.#editable = !value
     return this
   }
 
-  getMarkdown() {
+  getMarkdown = () => {
     return this.#editor.action(getMarkdown())
   }
 
-  on(fn: (api: ListenerManager) => void) {
+  on = (fn: (api: ListenerManager) => void) => {
     if (this.#editor.status !== EditorStatus.Created) {
       this.#editor.config((ctx) => {
         const listener = ctx.get(listenerCtx)
