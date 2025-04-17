@@ -12,7 +12,7 @@ import { findParent } from '@milkdown/prose'
 import { NodeSelection, TextSelection } from '@milkdown/prose/state'
 import { CellSelection } from '@milkdown/prose/tables'
 import { $view } from '@milkdown/utils'
-import { createApp, shallowRef, type ShallowRef } from 'vue'
+import { createApp, shallowRef, type App, type ShallowRef } from 'vue'
 
 import { withMeta } from '../../__internal__/meta'
 import { tableBlockConfig } from '../config'
@@ -21,6 +21,7 @@ import { TableBlock } from './component'
 export class TableNodeView implements NodeView {
   dom: HTMLElement
   contentDOM: HTMLElement
+  app: App
 
   nodeRef: ShallowRef<Node>
 
@@ -50,6 +51,7 @@ export class TableNodeView implements NodeView {
       node: this.nodeRef,
     })
     app.mount(dom)
+    this.app = app
 
     this.dom = dom
   }
@@ -139,6 +141,12 @@ export class TableNodeView implements NodeView {
     if (this.contentDOM.contains(mutation.target)) return false
 
     return true
+  }
+
+  destroy() {
+    this.app.unmount()
+    this.dom.remove()
+    this.contentDOM.remove()
   }
 }
 
