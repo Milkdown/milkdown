@@ -12,38 +12,46 @@ import { findParent } from '@milkdown/prose'
 import { NodeSelection, TextSelection } from '@milkdown/prose/state'
 import { CellSelection } from '@milkdown/prose/tables'
 import { $view } from '@milkdown/utils'
+import { createApp, shallowRef, type ShallowRef } from 'vue'
 
-import type { TableComponentProps } from './component'
-
-import { defIfNotExists } from '../../__internal__/helper'
 import { withMeta } from '../../__internal__/meta'
 import { tableBlockConfig } from '../config'
-import { TableElement } from './component'
+import { TableBlock } from './component'
 
 export class TableNodeView implements NodeView {
-  dom: HTMLElement & TableComponentProps
+  dom: HTMLElement
   contentDOM: HTMLElement
+
+  nodeRef: ShallowRef<Node>
+
   constructor(
     public ctx: Ctx,
     public node: Node,
     public view: EditorView,
     public getPos: () => number | undefined
   ) {
-    const dom = document.createElement('milkdown-table-block') as HTMLElement &
-      TableComponentProps
-    this.dom = dom
-    dom.view = view
-    dom.ctx = ctx
-    dom.getPos = getPos
-    dom.node = node
-    dom.config = ctx.get(tableBlockConfig.key)
+    const dom = document.createElement('div')
+    dom.className = 'milkdown-table-block'
 
     const contentDOM = document.createElement('tbody')
     this.contentDOM = contentDOM
     contentDOM.setAttribute('data-content-dom', 'true')
     contentDOM.classList.add('content-dom')
+    this.nodeRef = shallowRef(node)
 
-    dom.appendChild(contentDOM)
+    const app = createApp(TableBlock, {
+      view,
+      ctx,
+      getPos,
+      config: ctx.get(tableBlockConfig.key),
+      onMount: (div: Element) => {
+        div.appendChild(contentDOM)
+      },
+      node: this.nodeRef,
+    })
+    app.mount(dom)
+
+    this.dom = dom
   }
 
   update(node: Node) {
@@ -53,7 +61,7 @@ export class TableNodeView implements NodeView {
       return false
 
     this.node = node
-    this.dom.node = node
+    this.nodeRef.value = node
 
     return true
   }
@@ -104,8 +112,8 @@ export class TableNodeView implements NodeView {
   stopEvent(e: Event) {
     if (e.type === 'drop' || e.type.startsWith('drag')) return true
 
-    if (e.type === 'mousedown') {
-      if (e.target instanceof HTMLButtonElement) return true
+    if (e.type === 'mousedown' || e.type === 'pointerdown') {
+      if (e.target instanceof Element && e.target.closest('button')) return true
 
       const target = e.target
       if (
@@ -134,7 +142,6 @@ export class TableNodeView implements NodeView {
   }
 }
 
-defIfNotExists('milkdown-table-block', TableElement)
 export const tableBlockView = $view(
   tableSchema.node,
   (ctx): NodeViewConstructor => {

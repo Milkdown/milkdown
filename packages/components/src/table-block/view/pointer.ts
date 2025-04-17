@@ -1,7 +1,6 @@
 import type { EditorView } from '@milkdown/prose/view'
 
 import { computePosition, offset } from '@floating-ui/dom'
-import { useMemo } from 'atomico'
 import throttle from 'lodash.throttle'
 
 import type { Refs } from './types'
@@ -28,15 +27,15 @@ export function createPointerMoveHandler(
       hoverIndex,
       lineHoverIndex,
     } = refs
-    const yHandle = yLineHandleRef.current
+    const yHandle = yLineHandleRef.value
     if (!yHandle) return
-    const xHandle = xLineHandleRef.current
+    const xHandle = xLineHandleRef.value
     if (!xHandle) return
-    const content = contentWrapperRef.current
+    const content = contentWrapperRef.value
     if (!content) return
-    const rowHandle = rowHandleRef.current
+    const rowHandle = rowHandleRef.value
     if (!rowHandle) return
-    const colHandle = colHandleRef.current
+    const colHandle = colHandleRef.value
     if (!colHandle) return
 
     const index = findPointerIndex(e, view)
@@ -75,9 +74,7 @@ export function createPointerMoveHandler(
 
       // display vertical line handle
       if (closeToBoundaryLeft || closeToBoundaryRight) {
-        lineHoverIndex.current![1] = closeToBoundaryLeft
-          ? colIndex
-          : colIndex + 1
+        lineHoverIndex.value![1] = closeToBoundaryLeft ? colIndex : colIndex + 1
         computePosition(dom.col, yHandle, {
           placement: closeToBoundaryLeft ? 'left' : 'right',
           middleware: [offset(closeToBoundaryLeft ? -1 * yHandleWidth : 0)],
@@ -97,9 +94,7 @@ export function createPointerMoveHandler(
       // display horizontal line handle
       // won't display if the row is the header row
       if (index[0] !== 0 && (closeToBoundaryTop || closeToBoundaryBottom)) {
-        lineHoverIndex.current![0] = closeToBoundaryTop
-          ? rowIndex
-          : rowIndex + 1
+        lineHoverIndex.value![0] = closeToBoundaryTop ? rowIndex : rowIndex + 1
         computePosition(dom.row, xHandle, {
           placement: closeToBoundaryTop ? 'top' : 'bottom',
           middleware: [offset(closeToBoundaryTop ? -1 * xHandleHeight : 0)],
@@ -119,7 +114,7 @@ export function createPointerMoveHandler(
       return
     }
 
-    lineHoverIndex.current = [-1, -1]
+    lineHoverIndex.value = [-1, -1]
 
     yHandle.dataset.show = 'false'
     xHandle.dataset.show = 'false'
@@ -134,7 +129,7 @@ export function createPointerMoveHandler(
       refs,
       index,
     })
-    hoverIndex.current = index
+    hoverIndex.value = index
   }, 20)
 }
 
@@ -142,13 +137,13 @@ export function createPointerLeaveHandler(refs: Refs): () => void {
   return () => {
     const { rowHandleRef, colHandleRef, yLineHandleRef, xLineHandleRef } = refs
     setTimeout(() => {
-      const rowHandle = rowHandleRef.current
+      const rowHandle = rowHandleRef.value
       if (!rowHandle) return
-      const colHandle = colHandleRef.current
+      const colHandle = colHandleRef.value
       if (!colHandle) return
-      const yHandle = yLineHandleRef.current
+      const yHandle = yLineHandleRef.value
       if (!yHandle) return
-      const xHandle = xLineHandleRef.current
+      const xHandle = xLineHandleRef.value
       if (!xHandle) return
 
       rowHandle.dataset.show = 'false'
@@ -160,8 +155,8 @@ export function createPointerLeaveHandler(refs: Refs): () => void {
 }
 
 export function usePointerHandlers(refs: Refs, view?: EditorView) {
-  const pointerMove = useMemo(() => createPointerMoveHandler(refs, view), [])
-  const pointerLeave = useMemo(() => createPointerLeaveHandler(refs), [])
+  const pointerMove = createPointerMoveHandler(refs, view)
+  const pointerLeave = createPointerLeaveHandler(refs)
 
   return {
     pointerMove,

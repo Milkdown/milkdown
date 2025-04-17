@@ -1,4 +1,4 @@
-import type { Ref } from 'atomico'
+import type { Ref } from 'vue'
 
 export type CellIndex = [row: number, col: number]
 
@@ -13,7 +13,7 @@ export interface DragContext {
   preview: HTMLDivElement
   previewRoot: HTMLTableSectionElement
   wrapper: HTMLDivElement
-  content: HTMLDivElement
+  content: HTMLElement
   contentRoot: HTMLTableSectionElement
   yHandle: HTMLDivElement
   xHandle: HTMLDivElement
@@ -22,14 +22,14 @@ export interface DragContext {
 }
 
 export interface Refs {
-  dragPreviewRef: Ref<HTMLDivElement>
-  tableWrapperRef: Ref<HTMLDivElement>
-  contentWrapperRef: Ref<HTMLDivElement>
-  yLineHandleRef: Ref<HTMLDivElement>
-  xLineHandleRef: Ref<HTMLDivElement>
-  colHandleRef: Ref<HTMLDivElement>
-  rowHandleRef: Ref<HTMLDivElement>
+  dragPreviewRef: Ref<HTMLDivElement | undefined>
+  tableWrapperRef: Ref<HTMLDivElement | undefined>
+  contentWrapperRef: Ref<HTMLElement | undefined>
+  yLineHandleRef: Ref<HTMLDivElement | undefined>
+  xLineHandleRef: Ref<HTMLDivElement | undefined>
+  colHandleRef: Ref<HTMLDivElement | undefined>
+  rowHandleRef: Ref<HTMLDivElement | undefined>
   hoverIndex: Ref<CellIndex>
   lineHoverIndex: Ref<CellIndex>
-  dragInfo: Ref<DragInfo>
+  dragInfo: Ref<DragInfo | undefined>
 }

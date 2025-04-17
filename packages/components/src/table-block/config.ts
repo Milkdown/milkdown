@@ -16,9 +16,7 @@ export type RenderType =
   | 'row_drag_handle'
 
 export interface TableBlockConfig {
-  renderButton: (
-    renderType: RenderType
-  ) => HTMLElement | ReturnType<typeof html> | string
+  renderButton: (renderType: RenderType) => string
 }
 
 const defaultTableBlockConfig: TableBlockConfig = {

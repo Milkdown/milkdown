@@ -1,6 +1,4 @@
-import { html } from 'atomico'
-
-export const dragHandleIcon = html`
+export const dragHandleIcon = `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"

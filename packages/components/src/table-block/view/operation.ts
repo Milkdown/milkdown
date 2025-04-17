@@ -11,7 +11,6 @@ import {
   selectRowCommand,
   setAlignCommand,
 } from '@milkdown/preset-gfm'
-import { useCallback } from 'atomico'
 
 import type { Refs } from './types'
 
@@ -29,18 +28,18 @@ export function useOperation(
     lineHoverIndex,
   } = refs
 
-  const onAddRow = useCallback(() => {
+  const onAddRow = () => {
     if (!ctx) return
-    const xHandle = xLineHandleRef.current
+    const xHandle = xLineHandleRef.value
     if (!xHandle) return
 
-    const [rowIndex] = lineHoverIndex.current!
+    const [rowIndex] = lineHoverIndex.value!
     if (rowIndex < 0) return
 
     if (!ctx.get(editorViewCtx).editable) return
 
     const rows = Array.from(
-      contentWrapperRef.current?.querySelectorAll('tr') ?? []
+      contentWrapperRef.value?.querySelectorAll('tr') ?? []
     )
     const commands = ctx.get(commandsCtx)
     const pos = (getPos?.() ?? 0) + 1
@@ -54,20 +53,20 @@ export function useOperation(
 
     commands.call(selectRowCommand.key, { pos, index: rowIndex })
     xHandle.dataset.show = 'false'
-  }, [])
+  }
 
-  const onAddCol = useCallback(() => {
+  const onAddCol = () => {
     if (!ctx) return
-    const xHandle = xLineHandleRef.current
+    const xHandle = xLineHandleRef.value
     if (!xHandle) return
 
-    const [_, colIndex] = lineHoverIndex.current!
+    const [_, colIndex] = lineHoverIndex.value!
     if (colIndex < 0) return
 
     if (!ctx.get(editorViewCtx).editable) return
 
     const cols = Array.from(
-      contentWrapperRef.current?.querySelector('tr')?.children ?? []
+      contentWrapperRef.value?.querySelector('tr')?.children ?? []
     )
     const commands = ctx.get(commandsCtx)
 
@@ -81,35 +80,35 @@ export function useOperation(
     }
 
     commands.call(selectColCommand.key, { pos, index: colIndex })
-  }, [])
+  }
 
-  const selectCol = useCallback(() => {
+  const selectCol = () => {
     if (!ctx) return
-    const [_, colIndex] = hoverIndex.current!
+    const [_, colIndex] = hoverIndex.value!
     const commands = ctx.get(commandsCtx)
     const pos = (getPos?.() ?? 0) + 1
     commands.call(selectColCommand.key, { pos, index: colIndex })
     const buttonGroup =
-      colHandleRef.current?.querySelector<HTMLElement>('.button-group')
+      colHandleRef.value?.querySelector<HTMLElement>('.button-group')
     if (buttonGroup)
       buttonGroup.dataset.show =
         buttonGroup.dataset.show === 'true' ? 'false' : 'true'
-  }, [])
+  }
 
-  const selectRow = useCallback(() => {
+  const selectRow = () => {
     if (!ctx) return
-    const [rowIndex, _] = hoverIndex.current!
+    const [rowIndex, _] = hoverIndex.value!
     const commands = ctx.get(commandsCtx)
     const pos = (getPos?.() ?? 0) + 1
     commands.call(selectRowCommand.key, { pos, index: rowIndex })
     const buttonGroup =
-      rowHandleRef.current?.querySelector<HTMLElement>('.button-group')
+      rowHandleRef.value?.querySelector<HTMLElement>('.button-group')
     if (buttonGroup && rowIndex > 0)
       buttonGroup.dataset.show =
         buttonGroup.dataset.show === 'true' ? 'false' : 'true'
-  }, [])
+  }
 
-  const deleteSelected = useCallback((e: PointerEvent) => {
+  const deleteSelected = (e: PointerEvent) => {
     if (!ctx) return
 
     if (!ctx.get(editorViewCtx).editable) return
@@ -121,9 +120,9 @@ export function useOperation(
     requestAnimationFrame(() => {
       ctx.get(editorViewCtx).focus()
     })
-  }, [])
+  }
 
-  const onAlign = useCallback(
+  const onAlign =
     (direction: 'left' | 'center' | 'right') => (e: PointerEvent) => {
       if (!ctx) return
 
@@ -136,9 +135,7 @@ export function useOperation(
       requestAnimationFrame(() => {
         ctx.get(editorViewCtx).focus()
       })
-    },
-    []
-  )
+    }
 
   return {
     onAddRow,

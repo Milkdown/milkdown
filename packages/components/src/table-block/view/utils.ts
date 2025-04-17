@@ -1,10 +1,8 @@
-import type { Ctx } from '@milkdown/ctx'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
-import type { Ref } from 'atomico'
+import type { Ref } from 'vue'
 
 import { computePosition } from '@floating-ui/dom'
-import { editorViewCtx } from '@milkdown/core'
 import { findTable } from '@milkdown/preset-gfm'
 import { findParent } from '@milkdown/prose'
 import { CellSelection } from '@milkdown/prose/tables'
@@ -59,10 +57,10 @@ export function findPointerIndex(
 }
 
 export function getRelatedDOM(
-  contentWrapperRef: Ref<HTMLDivElement>,
+  contentWrapperRef: Ref<HTMLElement | undefined>,
   [rowIndex, columnIndex]: CellIndex
 ) {
-  const content = contentWrapperRef.current
+  const content = contentWrapperRef.value
   if (!content) return
   const rows = content.querySelectorAll('tr')
   const row = rows[rowIndex]
@@ -84,10 +82,14 @@ export function getRelatedDOM(
   }
 }
 
-export function recoveryStateBetweenUpdate(refs: Refs, ctx?: Ctx, node?: Node) {
-  if (!ctx) return
+export function recoveryStateBetweenUpdate(
+  refs: Refs,
+  view?: EditorView,
+  node?: Node
+) {
   if (!node) return
-  const { selection } = ctx.get(editorViewCtx).state
+  if (!view) return
+  const { selection } = view.state
   if (!(selection instanceof CellSelection)) return
 
   const { $from } = selection
@@ -143,10 +145,10 @@ export function computeColHandlePositionByIndex({
   after,
 }: ComputeHandlePositionByIndexProps) {
   const { contentWrapperRef, colHandleRef, hoverIndex } = refs
-  const colHandle = colHandleRef.current
+  const colHandle = colHandleRef.value
   if (!colHandle) return
 
-  hoverIndex.current = index
+  hoverIndex.value = index
   const dom = getRelatedDOM(contentWrapperRef, index)
   if (!dom) return
   const { headerCol: col } = dom
@@ -170,10 +172,10 @@ export function computeRowHandlePositionByIndex({
   after,
 }: ComputeHandlePositionByIndexProps) {
   const { contentWrapperRef, rowHandleRef, hoverIndex } = refs
-  const rowHandle = rowHandleRef.current
+  const rowHandle = rowHandleRef.value
   if (!rowHandle) return
 
-  hoverIndex.current = index
+  hoverIndex.value = index
   const dom = getRelatedDOM(contentWrapperRef, index)
   if (!dom) return
   const { row } = dom

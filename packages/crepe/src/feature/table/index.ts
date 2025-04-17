@@ -11,7 +11,7 @@ import {
   alignRightIcon,
   dragHandleIcon,
   plusIcon,
-  legacyRemoveIcon,
+  removeIcon,
 } from '../../icons'
 
 interface TableConfig {
@@ -43,9 +43,9 @@ export const defineFeature: DefineFeature<TableFeatureConfig> = (
             case 'add_col':
               return config?.addColIcon?.() ?? plusIcon
             case 'delete_row':
-              return config?.deleteRowIcon?.() ?? legacyRemoveIcon
+              return config?.deleteRowIcon?.() ?? removeIcon
             case 'delete_col':
-              return config?.deleteColIcon?.() ?? legacyRemoveIcon
+              return config?.deleteColIcon?.() ?? removeIcon
             case 'align_col_left':
               return config?.alignLeftIcon?.() ?? alignLeftIcon
             case 'align_col_center':
