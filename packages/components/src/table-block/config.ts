@@ -1,5 +1,3 @@
-import type { html } from 'atomico'
-
 import { $ctx } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__/meta'
@@ -16,9 +14,7 @@ export type RenderType =
   | 'row_drag_handle'
 
 export interface TableBlockConfig {
-  renderButton: (
-    renderType: RenderType
-  ) => HTMLElement | ReturnType<typeof html> | string
+  renderButton: (renderType: RenderType) => string
 }
 
 const defaultTableBlockConfig: TableBlockConfig = {

@@ -1,7 +1,7 @@
 @import '@milkdown/kit/prose/tables/style/tables.css';
 
 .milkdown {
-  milkdown-table-block {
+  .milkdown-table-block {
     display: block;
     margin: 4px 0;
 
@@ -159,7 +159,7 @@
         box-shadow: var(--crepe-shadow-1);
         transition: background-color 0.2s ease-in-out;
 
-        & > svg {
+        svg {
           width: 16px;
           height: 16px;
         }

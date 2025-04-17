@@ -2,7 +2,7 @@ import { type Component, c, html, useEffect, useRef } from 'atomico'
 
 import type { Icon } from '../../shared'
 
-import { menuIcon, plusIcon } from '../../../icons'
+import { legacyPlusIcon, menuIcon } from '../../../icons'
 
 export interface BlockHandleProps {
   show: boolean
@@ -39,7 +39,7 @@ const blockHandleComponent: Component<BlockHandleProps> = ({
         onmouseup=${onMouseUp}
         class="operation-item"
       >
-        ${addIcon?.() || plusIcon}
+        ${addIcon?.() || legacyPlusIcon}
       </div>
       <div class="operation-item">${handleIcon?.() || menuIcon}</div>
     </host>

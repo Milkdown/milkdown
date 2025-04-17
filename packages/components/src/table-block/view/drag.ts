@@ -8,8 +8,8 @@ import {
   selectColCommand,
   selectRowCommand,
 } from '@milkdown/preset-gfm'
-import { useEffect, useHost, useMemo } from 'atomico'
 import throttle from 'lodash.throttle'
+import { onMounted, onUnmounted } from 'vue'
 
 import type { CellIndex, DragContext, Refs } from './types'
 
@@ -30,23 +30,23 @@ function prepareDndContext(refs: Refs): DragContext | undefined {
     rowHandleRef,
   } = refs
 
-  const preview = dragPreviewRef.current
+  const preview = dragPreviewRef.value
   if (!preview) return
-  const wrapper = tableWrapperRef.current
+  const wrapper = tableWrapperRef.value
   if (!wrapper) return
-  const content = contentWrapperRef.current
+  const content = contentWrapperRef.value
   if (!content) return
   const contentRoot = content.querySelector('tbody')
   if (!contentRoot) return
   const previewRoot = preview.querySelector('tbody')
   if (!previewRoot) return
-  const yHandle = yLineHandleRef.current
+  const yHandle = yLineHandleRef.value
   if (!yHandle) return
-  const xHandle = xLineHandleRef.current
+  const xHandle = xLineHandleRef.value
   if (!xHandle) return
-  const colHandle = colHandleRef.current
+  const colHandle = colHandleRef.value
   if (!colHandle) return
-  const rowHandle = rowHandleRef.current
+  const rowHandle = rowHandleRef.value
   if (!rowHandle) return
 
   const context = {
@@ -110,9 +110,9 @@ export function createDragRowHandler(refs: Refs, ctx?: Ctx) {
           .querySelector('.button-group')
           ?.setAttribute('data-show', 'false')
 
-        const [rowIndex] = hoverIndex.current!
+        const [rowIndex] = hoverIndex.value!
 
-        dragInfo.current = {
+        dragInfo.value = {
           startCoords: [event.clientX, event.clientY],
           startIndex: rowIndex,
           endIndex: rowIndex,
@@ -167,9 +167,9 @@ export function createDragColHandler(refs: Refs, ctx?: Ctx) {
           .querySelector('.button-group')
           ?.setAttribute('data-show', 'false')
 
-        const [_, colIndex] = hoverIndex.current!
+        const [_, colIndex] = hoverIndex.value!
 
-        dragInfo.current = {
+        dragInfo.value = {
           startCoords: [event.clientX, event.clientY],
           startIndex: colIndex,
           endIndex: colIndex,
@@ -217,11 +217,11 @@ export function createDragOverHandler(refs: Refs): (e: DragEvent) => void {
     const { dragInfo, hoverIndex } = refs
 
     if (preview.dataset.show === 'false') return
-    const dom = getRelatedDOM(refs.contentWrapperRef, hoverIndex.current!)
+    const dom = getRelatedDOM(refs.contentWrapperRef, hoverIndex.value!)
     if (!dom) return
     const firstRow = contentRoot.querySelector('tr')
     if (!firstRow) return
-    const info = dragInfo.current
+    const info = dragInfo.value
     if (!info) return
 
     if (!contentRoot.offsetParent) return
@@ -366,93 +366,92 @@ export function useDragHandlers(
   getPos?: () => number | undefined
 ) {
   const { dragPreviewRef, yLineHandleRef, xLineHandleRef, dragInfo } = refs
-  const host = useHost()
-  const root = useMemo(() => host.current.getRootNode() as HTMLElement, [host])
 
-  const dragRow = useMemo(() => createDragRowHandler(refs, ctx), [refs])
-  const dragCol = useMemo(() => createDragColHandler(refs, ctx), [refs])
+  const dragRow = createDragRowHandler(refs, ctx)
+  const dragCol = createDragColHandler(refs, ctx)
 
-  useEffect(() => {
-    const onDragEnd = () => {
-      const preview = dragPreviewRef.current
-      if (!preview) return
+  const onDragEnd = () => {
+    const preview = dragPreviewRef.value
+    if (!preview) return
 
-      if (preview.dataset.show === 'false') return
+    if (preview.dataset.show === 'false') return
 
-      const previewRoot = preview?.querySelector('tbody')
+    const previewRoot = preview?.querySelector('tbody')
 
-      while (previewRoot?.firstChild)
-        previewRoot?.removeChild(previewRoot.firstChild)
+    while (previewRoot?.firstChild)
+      previewRoot?.removeChild(previewRoot.firstChild)
 
-      if (preview) preview.dataset.show = 'false'
+    if (preview) preview.dataset.show = 'false'
+  }
+
+  const onDrop = () => {
+    const preview = dragPreviewRef.value
+    if (!preview) return
+    const yHandle = yLineHandleRef.value
+    if (!yHandle) return
+    const xHandle = xLineHandleRef.value
+    if (!xHandle) return
+    const info = dragInfo.value
+    if (!info) return
+    if (!ctx) return
+    if (preview.dataset.show === 'false') return
+    const colHandle = refs.colHandleRef.value
+    if (!colHandle) return
+    const rowHandle = refs.rowHandleRef.value
+    if (!rowHandle) return
+
+    yHandle.dataset.show = 'false'
+    xHandle.dataset.show = 'false'
+
+    if (info.startIndex === info.endIndex) return
+
+    const commands = ctx.get(commandsCtx)
+    const payload = {
+      from: info.startIndex,
+      to: info.endIndex,
+      pos: (getPos?.() ?? 0) + 1,
     }
-
-    const onDrop = () => {
-      const preview = dragPreviewRef.current
-      if (!preview) return
-      const yHandle = yLineHandleRef.current
-      if (!yHandle) return
-      const xHandle = xLineHandleRef.current
-      if (!xHandle) return
-      const info = dragInfo.current
-      if (!info) return
-      if (!ctx) return
-      if (preview.dataset.show === 'false') return
-      const colHandle = refs.colHandleRef.current
-      if (!colHandle) return
-      const rowHandle = refs.rowHandleRef.current
-      if (!rowHandle) return
-
-      yHandle.dataset.show = 'false'
-      xHandle.dataset.show = 'false'
-
-      if (info.startIndex === info.endIndex) return
-
-      const commands = ctx.get(commandsCtx)
-      const payload = {
-        from: info.startIndex,
-        to: info.endIndex,
-        pos: (getPos?.() ?? 0) + 1,
-      }
-      if (info.type === 'col') {
-        commands.call(selectColCommand.key, {
-          pos: payload.pos,
-          index: info.startIndex,
-        })
-        commands.call(moveColCommand.key, payload)
-        const index: CellIndex = [0, info.endIndex]
-        computeColHandlePositionByIndex({
-          refs,
-          index,
-        })
-      } else {
-        commands.call(selectRowCommand.key, {
-          pos: payload.pos,
-          index: info.startIndex,
-        })
-        commands.call(moveRowCommand.key, payload)
-        const index: CellIndex = [info.endIndex, 0]
-        computeRowHandlePositionByIndex({
-          refs,
-          index,
-        })
-      }
-
-      requestAnimationFrame(() => {
-        ctx.get(editorViewCtx).focus()
+    if (info.type === 'col') {
+      commands.call(selectColCommand.key, {
+        pos: payload.pos,
+        index: info.startIndex,
+      })
+      commands.call(moveColCommand.key, payload)
+      const index: CellIndex = [0, info.endIndex]
+      computeColHandlePositionByIndex({
+        refs,
+        index,
+      })
+    } else {
+      commands.call(selectRowCommand.key, {
+        pos: payload.pos,
+        index: info.startIndex,
+      })
+      commands.call(moveRowCommand.key, payload)
+      const index: CellIndex = [info.endIndex, 0]
+      computeRowHandlePositionByIndex({
+        refs,
+        index,
       })
     }
-    const onDragOver = createDragOverHandler(refs)
 
-    root.addEventListener('dragover', onDragOver)
-    root.addEventListener('dragend', onDragEnd)
-    root.addEventListener('drop', onDrop)
-    return () => {
-      root.removeEventListener('dragover', onDragOver)
-      root.removeEventListener('dragend', onDragEnd)
-      root.removeEventListener('drop', onDrop)
-    }
-  }, [])
+    requestAnimationFrame(() => {
+      ctx.get(editorViewCtx).focus()
+    })
+  }
+  const onDragOver = createDragOverHandler(refs)
+
+  onMounted(() => {
+    window.addEventListener('dragover', onDragOver)
+    window.addEventListener('dragend', onDragEnd)
+    window.addEventListener('drop', onDrop)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('dragover', onDragOver)
+    window.removeEventListener('dragend', onDragEnd)
+    window.removeEventListener('drop', onDrop)
+  })
 
   return {
     dragRow,
