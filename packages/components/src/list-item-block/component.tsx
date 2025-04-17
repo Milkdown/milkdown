@@ -58,7 +58,16 @@ export const ListItem = defineComponent<ListItemProps>({
       required: true,
     },
   },
-  setup({ label, checked, listType, config, readonly, setAttr, onMount }) {
+  setup({
+    label,
+    checked,
+    listType,
+    config,
+    readonly,
+    setAttr,
+    onMount,
+    selected,
+  }) {
     const contentWrapperRef: VNodeRef = (div) => {
       if (div == null) return
       if (div instanceof Element) {
@@ -95,7 +104,12 @@ export const ListItem = defineComponent<ListItemProps>({
 
     return () => {
       return (
-        <li class="list-item">
+        <li
+          class={clsx(
+            'list-item',
+            selected.value && 'ProseMirror-selectednode'
+          )}
+        >
           <div
             class="label-wrapper"
             onPointerdown={onClickLabel}

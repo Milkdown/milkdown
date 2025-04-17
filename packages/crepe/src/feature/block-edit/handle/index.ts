@@ -1,32 +1,37 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { PluginView } from '@milkdown/kit/prose/state'
-import type { AtomicoThis } from 'atomico/types/dom'
 
 import { editorViewCtx } from '@milkdown/kit/core'
 import { BlockProvider, block, blockConfig } from '@milkdown/kit/plugin/block'
 import { paragraphSchema } from '@milkdown/kit/preset/commonmark'
 import { findParent } from '@milkdown/kit/prose'
 import { TextSelection } from '@milkdown/kit/prose/state'
+import { createApp, type App } from 'vue'
 
 import type { BlockEditFeatureConfig } from '../index'
-import type { BlockHandleProps } from './component'
 
-import { defIfNotExists } from '../../../utils'
+import { menuIcon, plusIcon } from '../../../icons'
 import { menuAPI } from '../menu'
-import { BlockHandleElement } from './component'
+import { BlockHandle } from './component'
 
 export class BlockHandleView implements PluginView {
-  #content: AtomicoThis<BlockHandleProps>
+  #content: HTMLElement
   #provider: BlockProvider
+  #app: App
   readonly #ctx: Ctx
 
   constructor(ctx: Ctx, config?: BlockEditFeatureConfig) {
     this.#ctx = ctx
-    const content = new BlockHandleElement()
+    const content = document.createElement('div')
+    content.classList.add('milkdown-block-handle')
+    const app = createApp(BlockHandle, {
+      onAdd: this.onAdd,
+      addIcon: config?.handleAddIcon ?? (() => plusIcon),
+      handleIcon: config?.handleDragIcon ?? (() => menuIcon),
+    })
+    app.mount(content)
+    this.#app = app
     this.#content = content
-    this.#content.onAdd = this.onAdd
-    this.#content.addIcon = config?.handleAddIcon
-    this.#content.handleIcon = config?.handleDragIcon
     this.#provider = new BlockProvider({
       ctx,
       content,
@@ -61,6 +66,7 @@ export class BlockHandleView implements PluginView {
   destroy = () => {
     this.#provider.destroy()
     this.#content.remove()
+    this.#app.unmount()
   }
 
   onAdd = () => {
@@ -83,7 +89,6 @@ export class BlockHandleView implements PluginView {
   }
 }
 
-defIfNotExists('milkdown-block-handle', BlockHandleElement)
 export function configureBlockHandle(
   ctx: Ctx,
   config?: BlockEditFeatureConfig
