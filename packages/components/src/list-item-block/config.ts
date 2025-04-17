@@ -1,5 +1,4 @@
 import { $ctx } from '@milkdown/utils'
-import { html } from 'atomico'
 
 import { withMeta } from '../__internal__/meta'
 
@@ -11,22 +10,21 @@ interface RenderLabelProps {
 }
 
 export interface ListItemBlockConfig {
-  renderLabel: (props: RenderLabelProps) => void
+  renderLabel: (props: RenderLabelProps) => string
 }
 
 export const defaultListItemBlockConfig: ListItemBlockConfig = {
-  renderLabel: ({ label, listType, checked, readonly }: RenderLabelProps) => {
-    if (checked == null)
-      return html`<span class="label"
-        >${listType === 'bullet' ? '⦿' : label}</span
-      >`
+  renderLabel: ({ label, listType, checked }: RenderLabelProps) => {
+    const content =
+      checked == null
+        ? listType === 'bullet'
+          ? '⦿'
+          : label
+        : checked
+          ? '☑'
+          : '□'
 
-    return html`<input
-      disabled=${readonly}
-      class="label"
-      type="checkbox"
-      checked=${checked}
-    />`
+    return content
   },
 }
 

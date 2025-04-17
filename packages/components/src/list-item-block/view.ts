@@ -4,44 +4,44 @@ import type { NodeViewConstructor } from '@milkdown/prose/view'
 import { listItemSchema } from '@milkdown/preset-commonmark'
 import { TextSelection } from '@milkdown/prose/state'
 import { $view } from '@milkdown/utils'
+import { createApp, ref, watchEffect } from 'vue'
 
-import type { ListItemComponentProps } from './component'
-
-import { defIfNotExists } from '../__internal__/helper'
 import { withMeta } from '../__internal__/meta'
-import { ListItemElement } from './component'
+import { ListItem } from './component'
 import { listItemBlockConfig } from './config'
 
-defIfNotExists('milkdown-list-item-block', ListItemElement)
 export const listItemBlockView = $view(
   listItemSchema.node,
   (ctx): NodeViewConstructor => {
     return (initialNode, view, getPos) => {
-      const dom = document.createElement(
-        'milkdown-list-item-block'
-      ) as HTMLElement & ListItemComponentProps
+      const dom = document.createElement('div')
+      dom.className = 'milkdown-list-item-block'
+
       const contentDOM = document.createElement('div')
       contentDOM.setAttribute('data-content-dom', 'true')
       contentDOM.classList.add('content-dom')
+
+      const label = ref(initialNode.attrs.label)
+      const checked = ref(initialNode.attrs.checked)
+      const listType = ref(initialNode.attrs.listType)
+      const readonly = ref(!view.editable)
       const config = ctx.get(listItemBlockConfig.key)
-      const bindAttrs = (node: Node) => {
-        dom.listType = node.attrs.listType
-        dom.label = node.attrs.label
-        dom.checked = node.attrs.checked
-
-        dom.readonly = !view.editable
-      }
-
-      bindAttrs(initialNode)
-      dom.appendChild(contentDOM)
-      dom.selected = false
-      dom.setAttr = (attr, value) => {
+      const selected = ref(false)
+      const setAttr = (attr: string, value: unknown) => {
         const pos = getPos()
         if (pos == null) return
-
         view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
       }
-      dom.onMount = () => {
+      const disposeSelectedWatcher = watchEffect(() => {
+        const isSelected = selected.value
+        if (isSelected) {
+          dom.classList.add('selected')
+        } else {
+          dom.classList.remove('selected')
+        }
+      })
+      const onMount = (div: HTMLElement) => {
+        div.appendChild(contentDOM)
         const { anchor, head } = view.state.selection
         if (view.hasFocus()) {
           setTimeout(() => {
@@ -53,8 +53,27 @@ export const listItemBlockView = $view(
           })
         }
       }
+
+      const app = createApp(ListItem, {
+        label,
+        checked,
+        listType,
+        readonly,
+        config,
+        selected,
+        setAttr,
+        onMount,
+      })
+      app.mount(dom)
+      const bindAttrs = (node: Node) => {
+        listType.value = node.attrs.listType
+        label.value = node.attrs.label
+        checked.value = node.attrs.checked
+        readonly.value = !view.editable
+      }
+
+      bindAttrs(initialNode)
       let node = initialNode
-      dom.config = config
       return {
         dom,
         contentDOM,
@@ -84,12 +103,14 @@ export const listItemBlockView = $view(
           return true
         },
         selectNode: () => {
-          dom.selected = true
+          selected.value = true
         },
         deselectNode: () => {
-          dom.selected = false
+          selected.value = false
         },
         destroy: () => {
+          disposeSelectedWatcher()
+          app.unmount()
           dom.remove()
           contentDOM.remove()
         },
