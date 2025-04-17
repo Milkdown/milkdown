@@ -170,9 +170,7 @@
     "src"
   ],
   "scripts": {
-    "test": "vitest",
-    "tsc": "tsc",
-    "build": "tsx copy-style.mts"
+    "build": "rollup -c"
   },
   "dependencies": {
     "@milkdown/exception": "workspace:*",
