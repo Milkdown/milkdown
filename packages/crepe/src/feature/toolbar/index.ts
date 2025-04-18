@@ -1,16 +1,18 @@
 import type { Ctx } from '@milkdown/kit/ctx'
-import type { EditorState, PluginView } from '@milkdown/kit/prose/state'
+import type {
+  EditorState,
+  PluginView,
+  Selection,
+} from '@milkdown/kit/prose/state'
 import type { EditorView } from '@milkdown/kit/prose/view'
-import type { AtomicoThis } from 'atomico/types/dom'
 
 import { TooltipProvider, tooltipFactory } from '@milkdown/kit/plugin/tooltip'
 import { TextSelection } from '@milkdown/kit/prose/state'
+import { createApp, ref, shallowRef, type App, type ShallowRef } from 'vue'
 
 import type { DefineFeature, Icon } from '../shared'
-import type { ToolbarProps } from './component'
 
-import { defIfNotExists } from '../../utils'
-import { ToolbarElement } from './component'
+import { Toolbar } from './component'
 
 interface ToolbarConfig {
   boldIcon: Icon
@@ -27,14 +29,26 @@ const toolbar = tooltipFactory('CREPE_TOOLBAR')
 
 class ToolbarView implements PluginView {
   #tooltipProvider: TooltipProvider
-  #content: AtomicoThis<ToolbarProps>
+  #content: HTMLElement
+  #app: App
+  #selection: ShallowRef<Selection>
+  #show = ref(false)
+
   constructor(ctx: Ctx, view: EditorView, config?: ToolbarFeatureConfig) {
-    const content = new ToolbarElement()
+    const content = document.createElement('div')
+    content.className = 'milkdown-toolbar'
+    this.#selection = shallowRef(view.state.selection)
+    const app = createApp(Toolbar, {
+      ctx,
+      hide: this.hide,
+      config,
+      selection: this.#selection,
+      show: this.#show,
+    })
+    app.mount(content)
     this.#content = content
-    this.#content.ctx = ctx
-    this.#content.hide = this.hide
-    this.#content.config = config
-    this.#content.selection = view.state.selection
+    this.#app = app
+
     this.#tooltipProvider = new TooltipProvider({
       content: this.#content,
       debounce: 20,
@@ -70,21 +84,22 @@ class ToolbarView implements PluginView {
       },
     })
     this.#tooltipProvider.onShow = () => {
-      this.#content.show = true
+      this.#show.value = true
     }
     this.#tooltipProvider.onHide = () => {
-      this.#content.show = false
+      this.#show.value = false
     }
     this.update(view)
   }
 
   update = (view: EditorView, prevState?: EditorState) => {
     this.#tooltipProvider.update(view, prevState)
-    this.#content.selection = view.state.selection
+    this.#selection.value = view.state.selection
   }
 
   destroy = () => {
     this.#tooltipProvider.destroy()
+    this.#app.unmount()
     this.#content.remove()
   }
 
@@ -93,7 +108,6 @@ class ToolbarView implements PluginView {
   }
 }
 
-defIfNotExists('milkdown-toolbar', ToolbarElement)
 export const defineFeature: DefineFeature<ToolbarFeatureConfig> = (
   editor,
   config

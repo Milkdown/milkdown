@@ -1,5 +1,5 @@
 .milkdown {
-  milkdown-toolbar {
+  .milkdown-toolbar {
     &[data-show='false'] {
       display: none;
     }
