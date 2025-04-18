@@ -33,11 +33,11 @@ Milkdown minor release.
 
 ## Feat
 
-- feat: enable floating-ui's shift plugin for tooltip by default (#1800)
+- feat: 🎸 enable floating-ui's shift plugin for tooltip by default (#1800), thanks to @KBHertzog.
 
 ### Security
 
-- feat: santinize url input (#1808)
+- feat: 🎸 santinize url input (#1808)
 - feat: 🎸 add validate props for schema (#1810)
 
 ### Vue Migration
