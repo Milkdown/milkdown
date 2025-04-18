@@ -7,23 +7,35 @@ import { keymap } from '@milkdown/kit/prose/keymap'
 import { Schema } from '@milkdown/kit/prose/model'
 import { EditorState, NodeSelection } from '@milkdown/kit/prose/state'
 import { EditorView } from '@milkdown/kit/prose/view'
+import { createApp, shallowRef, type App, type ShallowRef } from 'vue'
 
 import type { LatexConfig } from '..'
 
 import { mathInlineId } from '../inline-latex'
-import { LatexInlineEditElement } from './component'
+import { LatexTooltip } from './component'
 
 export class LatexInlineTooltip implements PluginView {
-  #content = new LatexInlineEditElement()
+  #content: HTMLElement
   #provider: TooltipProvider
   #dom: HTMLElement
-  #innerView: EditorView | null
+  #innerView: ShallowRef<EditorView | null> = shallowRef(null)
+  #updateValue: ShallowRef<() => void> = shallowRef(() => {})
+  #app: App
 
   constructor(
     readonly ctx: Ctx,
     view: EditorView,
     config: Partial<LatexConfig>
   ) {
+    const content = document.createElement('div')
+    content.className = 'milkdown-latex-inline-edit'
+    this.#content = content
+    this.#app = createApp(LatexTooltip, {
+      config,
+      innerView: this.#innerView,
+      updateValue: this.#updateValue,
+    })
+    this.#app.mount(content)
     this.#provider = new TooltipProvider({
       debounce: 0,
       content: this.#content,
@@ -33,16 +45,14 @@ export class LatexInlineTooltip implements PluginView {
         placement: 'bottom',
       },
     })
-    this.#content.config = config
     this.#provider.update(view)
     this.#dom = document.createElement('div')
-    this.#innerView = null
   }
 
   #onHide = () => {
-    if (this.#innerView) {
-      this.#innerView.destroy()
-      this.#innerView = null
+    if (this.#innerView.value) {
+      this.#innerView.value.destroy()
+      this.#innerView.value = null
     }
   }
 
@@ -88,7 +98,7 @@ export class LatexInlineTooltip implements PluginView {
               'Mod-Z': redo,
               'Mod-y': redo,
               Enter: () => {
-                this.#content.updateValue?.()
+                this.#updateValue.value()
                 return true
               },
             }),
@@ -96,9 +106,8 @@ export class LatexInlineTooltip implements PluginView {
         }),
       })
 
-      this.#innerView = innerView
-      this.#content.innerView = this.#innerView
-      this.#content.updateValue = () => {
+      this.#innerView.value = innerView
+      this.#updateValue.value = () => {
         const { tr } = view.state
         tr.setNodeAttribute(textFrom, 'value', innerView.state.doc.textContent)
         view.dispatch(tr)
@@ -119,6 +128,7 @@ export class LatexInlineTooltip implements PluginView {
   }
 
   destroy = () => {
+    this.#app.unmount()
     this.#provider.destroy()
     this.#content.remove()
   }

@@ -7,11 +7,9 @@ import type { DefineFeature, Icon } from '../shared'
 
 import { CrepeFeature } from '../..'
 import { FeaturesCtx } from '../../core/slice'
-import { legacyConfirmIcon } from '../../icons'
-import { defIfNotExists } from '../../utils'
+import { confirmIcon } from '../../icons'
 import { blockLatexSchema } from './block-latex'
 import { mathInlineSchema } from './inline-latex'
-import { LatexInlineEditElement } from './inline-tooltip/component'
 import { inlineLatexTooltip } from './inline-tooltip/tooltip'
 import { LatexInlineTooltip } from './inline-tooltip/view'
 import { mathBlockInputRule, mathInlineInputRule } from './input-rule'
@@ -24,7 +22,6 @@ export interface LatexConfig {
 
 export type LatexFeatureConfig = Partial<LatexConfig>
 
-defIfNotExists('milkdown-latex-inline-edit', LatexInlineEditElement)
 export const defineFeature: DefineFeature<LatexFeatureConfig> = (
   editor,
   config
@@ -51,8 +48,7 @@ export const defineFeature: DefineFeature<LatexFeatureConfig> = (
       ctx.set(inlineLatexTooltip.key, {
         view: (view) => {
           return new LatexInlineTooltip(ctx, view, {
-            inlineEditConfirm:
-              config?.inlineEditConfirm ?? (() => legacyConfirmIcon),
+            inlineEditConfirm: config?.inlineEditConfirm ?? (() => confirmIcon),
             ...config,
           })
         },
