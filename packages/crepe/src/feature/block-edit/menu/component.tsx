@@ -23,7 +23,7 @@ type MenuProps = {
   show: Ref<boolean>
   filter: Ref<string>
   hide: () => void
-  config: BlockEditFeatureConfig
+  config?: BlockEditFeatureConfig
 }
 
 export const Menu = defineComponent<MenuProps>({
@@ -46,7 +46,7 @@ export const Menu = defineComponent<MenuProps>({
     },
     config: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
   setup({ ctx, show, filter, hide, config }) {

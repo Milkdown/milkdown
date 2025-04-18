@@ -3,6 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "vue",
     "sourceMap": false,
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },

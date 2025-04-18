@@ -1,24 +1,24 @@
+import { createApp, defineComponent, h } from 'vue'
+
 import './style.css'
-
-import { c, html } from 'atomico'
-
 import { cases } from './data'
 
-function App() {
-  return html`
-    <host>
-      <ul class="m-10">
-        ${cases.map(
-          (data) =>
-            html`<li
-              class="py-3 hover:text-blue-500 block w-full cursor-pointer"
-            >
-              <a href=${data.link}>${data.title}</a>
-            </li>`
-        )}
-      </ul>
-    </host>
-  `
-}
+h
 
-customElements.define('milkdown-test-app', c(App))
+const App = defineComponent({
+  setup() {
+    return () =>
+      h('ul', { class: 'm-10' }, [
+        cases.map((data) =>
+          h(
+            'li',
+            { class: 'py-3 hover:text-blue-500 block w-full cursor-pointer' },
+            [h('a', { href: data.link }, data.title)]
+          )
+        ),
+      ])
+  },
+})
+
+const app = createApp(App)
+app.mount(document.querySelector('#app')!)
