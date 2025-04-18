@@ -18,12 +18,8 @@ import {
   toggleStrikethroughCommand,
 } from '@milkdown/kit/preset/gfm'
 import type { Node } from '@milkdown/kit/prose/model'
-import type {
-  Selection} from '@milkdown/kit/prose/state';
-import {
-  NodeSelection,
-  TextSelection
-} from '@milkdown/kit/prose/state'
+import type { Selection } from '@milkdown/kit/prose/state'
+import { NodeSelection, TextSelection } from '@milkdown/kit/prose/state'
 import clsx from 'clsx'
 import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
