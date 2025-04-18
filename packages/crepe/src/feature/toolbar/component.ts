@@ -28,11 +28,11 @@ import { CrepeFeature } from '../..'
 import { FeaturesCtx } from '../../core/slice'
 import {
   boldIcon,
-  codeIcon,
+  legacyCodeIcon,
   italicIcon,
   linkIcon,
   strikethroughIcon,
-  functionsIcon,
+  legacyFunctionsIcon,
 } from '../../icons'
 import { mathInlineSchema } from '../latex/inline-latex'
 
@@ -191,7 +191,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({
         commands.call(toggleInlineCodeCommand.key)
       })}
     >
-      ${config?.codeIcon?.() ?? codeIcon}
+      ${config?.codeIcon?.() ?? legacyCodeIcon}
     </button>
     ${isLatexEnabled &&
     html`<button
@@ -202,7 +202,7 @@ export const toolbarComponent: Component<ToolbarProps> = ({
       )}
       onmousedown=${onClick(toggleLatex)}
     >
-      ${config?.latexIcon?.() ?? functionsIcon}
+      ${config?.latexIcon?.() ?? legacyFunctionsIcon}
     </button>`}
     <button
       type="button"

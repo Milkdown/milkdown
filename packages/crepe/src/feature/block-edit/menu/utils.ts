@@ -1,7 +1,6 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { Attrs, NodeType } from '@milkdown/kit/prose/model'
 import type { Command, Transaction } from '@milkdown/kit/prose/state'
-import type { html } from 'atomico'
 
 import { findWrapping } from '@milkdown/kit/prose/transform'
 
@@ -9,7 +8,7 @@ export interface MenuItem {
   index: number
   key: string
   label: string
-  icon: ReturnType<typeof html>
+  icon: string
   onRun: (ctx: Ctx) => void
 }
 
