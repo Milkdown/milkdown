@@ -12,7 +12,7 @@ import { createApp, ref, type App, type Ref } from 'vue'
 
 import type { BlockEditFeatureConfig } from '../index'
 
-import { defIfNotExists, isInCodeBlock, isInList } from '../../../utils'
+import { isInCodeBlock, isInList } from '../../../utils'
 import { Menu } from './component'
 
 export const menu = slashFactory('CREPE_MENU')
