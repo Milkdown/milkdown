@@ -1,5 +1,5 @@
 import type { Ctx } from '@milkdown/kit/ctx'
-import type { MarkType, NodeType } from '@milkdown/kit/prose/model'
+import type { MarkType, NodeType, Node } from '@milkdown/kit/prose/model'
 
 import { Icon } from '@milkdown/kit/component'
 import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
@@ -17,9 +17,11 @@ import {
   strikethroughSchema,
   toggleStrikethroughCommand,
 } from '@milkdown/kit/preset/gfm'
-import type { Node } from '@milkdown/kit/prose/model'
-import type { Selection } from '@milkdown/kit/prose/state'
-import { NodeSelection, TextSelection } from '@milkdown/kit/prose/state'
+import {
+  NodeSelection,
+  TextSelection,
+  type Selection,
+} from '@milkdown/kit/prose/state'
 import clsx from 'clsx'
 import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
