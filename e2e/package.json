@@ -1,6 +1,6 @@
 {
   "name": "@milkdown/e2e",
-  "version": "7.5.3",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "vite",

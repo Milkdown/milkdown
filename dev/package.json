@@ -2,6 +2,7 @@
   "name": "@milkdown/dev",
   "private": true,
   "type": "module",
+  "version": "0.0.0",
   "exports": {
     ".": {
       "import": "./lib/index.js",

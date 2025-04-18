@@ -1,9 +1,7 @@
 {
   "name": "@milkdown/storybook",
   "private": true,
-  "files": [
-    "style"
-  ],
+  "version": "0.0.0",
   "scripts": {
     "start": "storybook dev -p 6006",
     "build": "storybook build",
