@@ -8,7 +8,7 @@
     color: var(--crepe-color-primary);
   }
 
-  milkdown-latex-inline-edit {
+  .milkdown-latex-inline-edit {
     &[data-show='false'] {
       display: none;
     }
