@@ -46,7 +46,7 @@ test('latex inline', async ({ page }) => {
   await page.keyboard.type('$E=mc^2$')
 
   const inlineLatex = page.locator('span[data-type="math_inline"]')
-  const inlineLatexInput = page.locator('milkdown-latex-inline-edit')
+  const inlineLatexInput = page.locator('.milkdown-latex-inline-edit')
   const inlineLatexInputConfirm = inlineLatexInput.locator('button')
 
   await expect(inlineLatex).toBeVisible()
