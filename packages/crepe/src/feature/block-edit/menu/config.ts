@@ -31,7 +31,7 @@ import {
   h4Icon,
   h5Icon,
   h6Icon,
-  legacyImageIcon,
+  imageIcon,
   orderedListIcon,
   quoteIcon,
   tableIcon,
@@ -224,7 +224,7 @@ export function getGroups(
   if (isImageBlockEnabled) {
     advancedGroup.addItem('image', {
       label: config?.slashMenuImageLabel ?? 'Image',
-      icon: config?.slashMenuImageIcon?.() ?? legacyImageIcon,
+      icon: config?.slashMenuImageIcon?.() ?? imageIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view

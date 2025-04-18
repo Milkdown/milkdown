@@ -1,6 +1,5 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { EditorView } from '@milkdown/kit/prose/view'
-import type { AtomicoThis } from 'atomico/types/dom'
 
 import { SlashProvider, slashFactory } from '@milkdown/kit/plugin/slash'
 import {
@@ -9,12 +8,12 @@ import {
   type Selection,
 } from '@milkdown/kit/prose/state'
 import { $ctx } from '@milkdown/kit/utils'
+import { createApp, ref, type App, type Ref } from 'vue'
 
 import type { BlockEditFeatureConfig } from '../index'
-import type { MenuProps } from './component'
 
 import { defIfNotExists, isInCodeBlock, isInList } from '../../../utils'
-import { MenuElement } from './component'
+import { Menu } from './component'
 
 export const menu = slashFactory('CREPE_MENU')
 
@@ -31,7 +30,6 @@ export const menuAPI = $ctx(
   'menuAPICtx'
 )
 
-defIfNotExists('milkdown-slash-menu', MenuElement)
 export function configureMenu(ctx: Ctx, config?: BlockEditFeatureConfig) {
   ctx.set(menu.key, {
     view: (view) => new MenuView(ctx, view, config),
@@ -39,15 +37,33 @@ export function configureMenu(ctx: Ctx, config?: BlockEditFeatureConfig) {
 }
 
 class MenuView implements PluginView {
-  readonly #content: AtomicoThis<MenuProps, HTMLElement>
+  readonly #content: HTMLElement
+  readonly #app: App
+  readonly #filter: Ref<string>
   readonly #slashProvider: SlashProvider
   #programmaticallyPos: number | null = null
 
   constructor(ctx: Ctx, view: EditorView, config?: BlockEditFeatureConfig) {
-    this.#content = new MenuElement()
-    this.#content.hide = this.hide
-    this.#content.ctx = ctx
-    this.#content.config = config
+    const content = document.createElement('div')
+    content.classList.add('milkdown-slash-menu')
+    const show = ref(false)
+
+    const filter = ref('')
+    this.#filter = filter
+
+    const hide = this.hide
+
+    const app = createApp(Menu, {
+      ctx,
+      config,
+      show,
+      filter,
+      hide,
+    })
+    this.#app = app
+    app.mount(content)
+
+    this.#content = content
     // oxlint-disable-next-line ts/no-this-alias
     const self = this
     this.#slashProvider = new SlashProvider({
@@ -72,7 +88,7 @@ class MenuView implements PluginView {
 
         const pos = self.#programmaticallyPos
 
-        self.#content.filter = currentText.startsWith('/')
+        filter.value = currentText.startsWith('/')
           ? currentText.slice(1)
           : currentText
 
@@ -97,10 +113,10 @@ class MenuView implements PluginView {
     })
 
     this.#slashProvider.onShow = () => {
-      this.#content.show = true
+      show.value = true
     }
     this.#slashProvider.onHide = () => {
-      this.#content.show = false
+      show.value = false
     }
     this.update(view)
 
@@ -116,7 +132,7 @@ class MenuView implements PluginView {
 
   show = (pos: number) => {
     this.#programmaticallyPos = pos
-    this.#content.filter = ''
+    this.#filter.value = ''
     this.#slashProvider.show()
   }
 
@@ -127,6 +143,7 @@ class MenuView implements PluginView {
 
   destroy = () => {
     this.#slashProvider.destroy()
+    this.#app.unmount()
     this.#content.remove()
   }
 }

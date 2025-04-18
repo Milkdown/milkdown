@@ -34,7 +34,7 @@
     }
   }
 
-  milkdown-slash-menu {
+  .milkdown-slash-menu {
     &[data-show='false'] {
       display: none;
     }
