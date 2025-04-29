@@ -56,8 +56,8 @@ If you like this project, please consider fund me to help the maintenance.
 
 Thanks to the following projects and companies for their support to milkdown and the open source community.
 
-<a href="https://www.jetbrains.com/">
-  <img src="/assets/jetbrains.svg" height="50" />
+<a href="https://jb.gg/OpenSource">
+  <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" height="50" />
 </a>
 &nbsp;&nbsp;
 <a href="https://www.cypress.io/">
