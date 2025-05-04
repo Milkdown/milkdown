@@ -916,6 +916,9 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
+      unist-util-visit-parents:
+        specifier: ^6.0.1
+        version: 6.0.1
 
   packages/plugins/preset-gfm:
     dependencies:
