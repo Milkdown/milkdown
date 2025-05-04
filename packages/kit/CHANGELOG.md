@@ -1,5 +1,46 @@
 # @milkdown/kit
 
+## 7.9.1
+
+### Patch Changes
+
+- fa3be68: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: empty table row (#1849)
+  - fix: empty line in list (#1848)
+
+  ## Chore
+
+  - chore: cleanup unused dependencies (#1846)
+  - chore: bump up vite version to v6.3.4 [SECURITY] (#1844)
+  - chore: bump up pnpm to v10.10.0 (#1837)
+
+  ## Docs
+
+  - docs: update jetbrains brand links in readme (#1840)
+
+- Updated dependencies [fa3be68]
+  - @milkdown/components@7.9.1
+  - @milkdown/core@7.9.1
+  - @milkdown/ctx@7.9.1
+  - @milkdown/plugin-block@7.9.1
+  - @milkdown/plugin-clipboard@7.9.1
+  - @milkdown/plugin-cursor@7.9.1
+  - @milkdown/plugin-history@7.9.1
+  - @milkdown/plugin-indent@7.9.1
+  - @milkdown/plugin-listener@7.9.1
+  - @milkdown/plugin-slash@7.9.1
+  - @milkdown/plugin-tooltip@7.9.1
+  - @milkdown/plugin-trailing@7.9.1
+  - @milkdown/plugin-upload@7.9.1
+  - @milkdown/preset-commonmark@7.9.1
+  - @milkdown/preset-gfm@7.9.1
+  - @milkdown/prose@7.9.1
+  - @milkdown/transformer@7.9.1
+  - @milkdown/utils@7.9.1
+
 ## 7.9.0
 
 ### Minor Changes
