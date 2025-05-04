@@ -1,5 +1,32 @@
 # @milkdown/core
 
+## 7.9.1
+
+### Patch Changes
+
+- fa3be68: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: empty table row (#1849)
+  - fix: empty line in list (#1848)
+
+  ## Chore
+
+  - chore: cleanup unused dependencies (#1846)
+  - chore: bump up vite version to v6.3.4 [SECURITY] (#1844)
+  - chore: bump up pnpm to v10.10.0 (#1837)
+
+  ## Docs
+
+  - docs: update jetbrains brand links in readme (#1840)
+
+- Updated dependencies [fa3be68]
+  - @milkdown/ctx@7.9.1
+  - @milkdown/exception@7.9.1
+  - @milkdown/prose@7.9.1
+  - @milkdown/transformer@7.9.1
+
 ## 7.9.0
 
 ### Minor Changes
