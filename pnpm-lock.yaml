@@ -947,7 +947,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.2
       remark-gfm:
-        specifier: ^4.0.0
+        specifier: ^4.0.1
         version: 4.0.1
       tslib:
         specifier: ^2.8.1
