@@ -1,26 +1,31 @@
 import type { Node } from '@milkdown/transformer'
 
 import { $remark } from '@milkdown/utils'
-import { visit } from 'unist-util-visit'
+import { visitParents } from 'unist-util-visit-parents'
 
 import { withMeta } from '../__internal__'
 
 function visitEmptyLine(ast: Node) {
-  return visit(ast, (node: Node & { children?: Node[] }) => {
-    if (node.children?.length !== 1) return
-    const firstChild = node.children?.[0]
-    if (!firstChild || firstChild.type !== 'html') return
+  return visitParents(
+    ast,
+    (node: Node) =>
+      node.type === 'html' &&
+      ['<br />', '<br>', '<br >', '<br/>'].includes(
+        (node as Node & { value: string }).value?.trim()
+      ),
+    (node: Node, parents: Node[]) => {
+      if (!parents.length) return
+      const parent = parents[parents.length - 1] as
+        | (Node & { children: Node[] })
+        | undefined
+      if (!parent) return
+      const index = parent.children.indexOf(node)
+      if (index === -1) return
 
-    const { value } = firstChild as Node & {
-      value: string
-    }
-
-    if (!['<br />', '<br>', '<br/>'].includes(value)) {
-      return
-    }
-
-    node.children.splice(0, 1)
-  })
+      parent.children.splice(index, 1)
+    },
+    true
+  )
 }
 
 /// @internal

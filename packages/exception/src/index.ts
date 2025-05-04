@@ -34,28 +34,78 @@ export function ctxCallOutOfScope() {
   )
 }
 
-export function createNodeInParserFail(...args: unknown[]) {
-  const message = args.reduce((msg, arg) => {
-    if (!arg) return msg
+export function createNodeInParserFail(
+  nodeType: object,
+  attrs?: unknown,
+  content?: unknown[]
+) {
+  const nodeTypeName = 'name' in nodeType ? nodeType.name : nodeType
+  const heading = `Cannot create node for ${nodeTypeName}`
+  const serialize = (x: unknown): string => {
+    if (x == null) return 'null'
 
-    const serialize = (x: unknown): string => {
-      if (Array.isArray(x))
-        return (x as unknown[]).map((y) => serialize(y)).join(', ')
-
-      if ((x as { toJSON: () => Record<string, unknown> }).toJSON)
-        return stringify(
-          (x as { toJSON: () => Record<string, unknown> }).toJSON()
-        )
-
-      if ((x as { spec: string }).spec)
-        return stringify((x as { spec: string }).spec)
-
-      return (x as { toString: () => string }).toString()
+    if (Array.isArray(x)) {
+      return `[${x.map(serialize).join(', ')}]`
     }
-    return `${msg}, ${serialize(arg)}`
-  }, 'Create prosemirror node from remark failed in parser') as string
 
-  return new MilkdownError(ErrorCode.createNodeInParserFail, message)
+    if (typeof x === 'object') {
+      if ('toJSON' in x && typeof (x as any).toJSON === 'function') {
+        return JSON.stringify((x as any).toJSON())
+      }
+
+      if ('spec' in x) {
+        return JSON.stringify((x as any).spec)
+      }
+
+      return JSON.stringify(x)
+    }
+
+    if (
+      typeof x === 'string' ||
+      typeof x === 'number' ||
+      typeof x === 'boolean'
+    ) {
+      return JSON.stringify(x)
+    }
+
+    if (typeof x === 'function') {
+      return `[Function: ${(x as Function).name || 'anonymous'}]`
+    }
+
+    try {
+      return String(x)
+    } catch {
+      return '[Unserializable]'
+    }
+  }
+
+  const headingMessage = ['[Description]', heading] as const
+  const attrsMessage = ['[Attributes]', attrs] as const
+  const contentMessage = [
+    '[Content]',
+    (content ?? []).map((node) => {
+      if (!node) return 'null'
+
+      if (typeof node === 'object' && 'type' in node) {
+        return `${node}`
+      }
+
+      return serialize(node)
+    }),
+  ] as const
+
+  const messages = [headingMessage, attrsMessage, contentMessage].reduce(
+    (acc, [title, value]) => {
+      const message = `${title}: ${serialize(value)}.`
+      return acc.concat(message)
+    },
+    [] as string[]
+  )
+
+  return new MilkdownError(
+    ErrorCode.createNodeInParserFail,
+    messages.join('\n')
+  )
 }
 
 export function stackOverFlow() {

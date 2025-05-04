@@ -904,6 +904,9 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
+      unist-util-visit-parents:
+        specifier: ^6.0.1
+        version: 6.0.1
 
   packages/plugins/preset-gfm:
     dependencies:
@@ -932,7 +935,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.2
       remark-gfm:
-        specifier: ^4.0.0
+        specifier: ^4.0.1
         version: 4.0.1
       tslib:
         specifier: ^2.8.1
