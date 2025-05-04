@@ -130,6 +130,11 @@ export const tableRowSchema = $nodeSchema('table_row', () => ({
   toMarkdown: {
     match: (node) => node.type.name === 'table_row',
     runner: (state, node) => {
+      // if the row is empty, we don't need to create a table row
+      // prevent remark from crashing
+      if (node.content.size === 0) {
+        return
+      }
       state.openNode('tableRow')
       state.next(node.content)
       state.closeNode()
