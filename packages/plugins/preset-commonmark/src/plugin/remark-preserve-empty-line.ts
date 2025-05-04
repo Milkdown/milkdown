@@ -1,9 +1,9 @@
 import type { Node } from '@milkdown/transformer'
 
 import { $remark } from '@milkdown/utils'
+import { visitParents } from 'unist-util-visit-parents'
 
 import { withMeta } from '../__internal__'
-import { visitParents } from 'unist-util-visit-parents'
 
 function visitEmptyLine(ast: Node) {
   return visitParents(
