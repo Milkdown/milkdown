@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import type { Editor } from '@milkdown/core'
+import type { Editor, commandsCtx } from '@milkdown/core'
 import type { Crepe } from '@milkdown/crepe'
 import type { Telemetry } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
@@ -16,6 +16,7 @@ declare global {
 
   var __beforeCrepeCreate__: (crepe: Crepe) => void
   var __afterCrepeCreated__: (crepe: Crepe) => void
+  var __commandsCtx__: typeof commandsCtx
 
   var commands: {
     toggleStrong?: () => void

@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
+    "outDir": "lib",
     "jsx": "preserve",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
@@ -10,6 +11,7 @@
     "sourceMap": false,
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
+  "include": ["src", "tests", "shim.d.ts"],
   "ts-node": {
     "compilerOptions": {
       "module": "es2022",

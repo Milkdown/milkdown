@@ -1,6 +1,11 @@
 import type { Editor } from '@milkdown/core'
 
-import { editorViewCtx, parserCtx, serializerCtx } from '@milkdown/core'
+import {
+  editorViewCtx,
+  parserCtx,
+  serializerCtx,
+  commandsCtx,
+} from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 
 export async function setup(createEditor: () => Promise<Editor>) {
@@ -31,6 +36,7 @@ export async function setup(createEditor: () => Promise<Editor>) {
       return serializer(view.state.doc)
     })
   globalThis.__inspect__ = () => editor.inspect()
+  globalThis.__commandsCtx__ = commandsCtx
 
   const logButton = document.querySelector<HTMLDivElement>('#log')
   if (logButton) {

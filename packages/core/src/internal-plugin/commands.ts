@@ -3,6 +3,7 @@ import type { Command } from '@milkdown/prose/state'
 
 import { Container, createSlice, createTimer } from '@milkdown/ctx'
 import { callCommandBeforeEditorView } from '@milkdown/exception'
+import { chainCommands } from '@milkdown/prose/commands'
 
 import { withMeta } from '../__internal__'
 import { editorViewCtx } from './atoms'
@@ -70,6 +71,51 @@ export class CommandManager {
     const command = cmd(payload)
     const view = this.#ctx.get(editorViewCtx)
     return command(view.state, view.dispatch, view)
+  }
+
+  /// Call an inline command.
+  inline(command: Command) {
+    if (this.#ctx == null) throw callCommandBeforeEditorView()
+    const view = this.#ctx.get(editorViewCtx)
+    return command(view.state, view.dispatch, view)
+  }
+
+  /// Create a command chain.
+  /// All commands added by `pipe` will be run in order until one of them returns `true`.
+  chain = () => {
+    if (this.#ctx == null) throw callCommandBeforeEditorView()
+    const ctx = this.#ctx
+    const commands: Command[] = []
+    const get = this.get
+
+    const chains = {
+      /// Run the command chain.
+      run: () => {
+        const chained = chainCommands(...commands)
+        const view = ctx.get(editorViewCtx)
+        return chained(view.state, view.dispatch, view)
+      },
+      inline: (command: Command) => {
+        commands.push(command)
+        return chains
+      },
+      /// Add a command to the chain.
+      pipe,
+    }
+
+    function pipe<T extends CmdKey<any>>(
+      slice: string,
+      payload?: InferParams<T>
+    ): typeof chains
+    function pipe<T>(slice: CmdKey<T>, payload?: T): typeof chains
+    function pipe(slice: string | CmdKey<any>, payload?: any): typeof chains
+    function pipe(slice: string | CmdKey<any>, payload?: any) {
+      const cmd = get(slice)
+      commands.push(cmd(payload))
+      return chains
+    }
+
+    return chains
   }
 }
 
