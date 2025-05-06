@@ -2,6 +2,7 @@ import type { Node } from '@milkdown/prose/model'
 import type { NodeViewConstructor } from '@milkdown/prose/view'
 
 import { listItemSchema } from '@milkdown/preset-commonmark'
+import { TextSelection } from '@milkdown/prose/state'
 import { $view } from '@milkdown/utils'
 import { createApp, ref, watchEffect } from 'vue'
 
@@ -40,7 +41,16 @@ export const listItemBlockView = $view(
         }
       })
       const onMount = (div: HTMLElement) => {
+        const { anchor, head } = view.state.selection
         div.appendChild(contentDOM)
+        // put the cursor to the new created list item
+        requestAnimationFrame(() => {
+          const anchorPos = view.state.doc.resolve(anchor)
+          const headPos = view.state.doc.resolve(head)
+          view.dispatch(
+            view.state.tr.setSelection(new TextSelection(anchorPos, headPos))
+          )
+        })
       }
 
       const app = createApp(ListItem, {
