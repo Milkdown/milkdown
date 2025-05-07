@@ -1,5 +1,15 @@
 # @milkdown/exception
 
+## 7.10.1
+
+### Patch Changes
+
+- 02a756a: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: missing command chain tsdoc (#1857)
+
 ## 7.10.0
 
 ### Minor Changes

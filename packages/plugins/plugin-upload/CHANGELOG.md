@@ -1,5 +1,22 @@
 # @milkdown/plugin-upload
 
+## 7.10.1
+
+### Patch Changes
+
+- 02a756a: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: missing command chain tsdoc (#1857)
+
+- Updated dependencies [02a756a]
+  - @milkdown/core@7.10.1
+  - @milkdown/ctx@7.10.1
+  - @milkdown/exception@7.10.1
+  - @milkdown/prose@7.10.1
+  - @milkdown/utils@7.10.1
+
 ## 7.10.0
 
 ### Minor Changes
