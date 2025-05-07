@@ -17,6 +17,23 @@ export type CmdKey<T = undefined> = SliceType<Cmd<T>>
 
 type InferParams<T> = T extends CmdKey<infer U> ? U : never
 
+/// A chainable command helper.
+export interface CommandChain {
+  // Run the command chain.
+  run: () => boolean
+  // Add an inline command to the chain.
+  inline: (command: Command) => CommandChain
+  // Add a registered command to the chain.
+  pipe: {
+    <T extends CmdKey<any>>(
+      slice: string,
+      payload?: InferParams<T>
+    ): CommandChain
+    <T>(slice: CmdKey<T>, payload?: T): CommandChain
+    (slice: string | CmdKey<any>, payload?: any): CommandChain
+  }
+}
+
 /// The command manager.
 /// This manager will manage all commands in editor.
 /// Generally, you don't need to use this manager directly.
@@ -82,14 +99,13 @@ export class CommandManager {
 
   /// Create a command chain.
   /// All commands added by `pipe` will be run in order until one of them returns `true`.
-  chain = () => {
+  chain = (): CommandChain => {
     if (this.#ctx == null) throw callCommandBeforeEditorView()
     const ctx = this.#ctx
     const commands: Command[] = []
     const get = this.get
 
-    const chains = {
-      /// Run the command chain.
+    const chains: CommandChain = {
       run: () => {
         const chained = chainCommands(...commands)
         const view = ctx.get(editorViewCtx)
@@ -99,7 +115,6 @@ export class CommandManager {
         commands.push(command)
         return chains
       },
-      /// Add a command to the chain.
       pipe,
     }
 
