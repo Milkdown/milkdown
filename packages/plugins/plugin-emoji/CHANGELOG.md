@@ -1,5 +1,29 @@
 # @milkdown/plugin-emoji
 
+## 7.10.0
+
+### Minor Changes
+
+- 3296822: Milkdown minor version release.
+
+  ## Feat
+
+  - feat: 🎸 add command inline and chain (#1852)
+
+  ## Fix
+
+  - fix: 🐛 list item component should be focused when created (#1854)
+
+### Patch Changes
+
+- Updated dependencies [3296822]
+  - @milkdown/core@7.10.0
+  - @milkdown/ctx@7.10.0
+  - @milkdown/exception@7.10.0
+  - @milkdown/prose@7.10.0
+  - @milkdown/transformer@7.10.0
+  - @milkdown/utils@7.10.0
+
 ## 7.9.1
 
 ### Patch Changes

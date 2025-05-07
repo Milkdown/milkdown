@@ -1,5 +1,19 @@
 # @milkdown/exception
 
+## 7.10.0
+
+### Minor Changes
+
+- 3296822: Milkdown minor version release.
+
+  ## Feat
+
+  - feat: 🎸 add command inline and chain (#1852)
+
+  ## Fix
+
+  - fix: 🐛 list item component should be focused when created (#1854)
+
 ## 7.9.1
 
 ### Patch Changes
