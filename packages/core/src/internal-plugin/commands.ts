@@ -19,11 +19,11 @@ type InferParams<T> = T extends CmdKey<infer U> ? U : never
 
 /// A chainable command helper.
 export interface CommandChain {
-  // Run the command chain.
+  /// Run the command chain.
   run: () => boolean
-  // Add an inline command to the chain.
+  /// Add an inline command to the chain.
   inline: (command: Command) => CommandChain
-  // Add a registered command to the chain.
+  /// Add a registered command to the chain.
   pipe: {
     <T extends CmdKey<any>>(
       slice: string,
