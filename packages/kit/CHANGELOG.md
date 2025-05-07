@@ -1,5 +1,35 @@
 # @milkdown/kit
 
+## 7.10.1
+
+### Patch Changes
+
+- 02a756a: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: missing command chain tsdoc (#1857)
+
+- Updated dependencies [02a756a]
+  - @milkdown/components@7.10.1
+  - @milkdown/core@7.10.1
+  - @milkdown/ctx@7.10.1
+  - @milkdown/plugin-block@7.10.1
+  - @milkdown/plugin-clipboard@7.10.1
+  - @milkdown/plugin-cursor@7.10.1
+  - @milkdown/plugin-history@7.10.1
+  - @milkdown/plugin-indent@7.10.1
+  - @milkdown/plugin-listener@7.10.1
+  - @milkdown/plugin-slash@7.10.1
+  - @milkdown/plugin-tooltip@7.10.1
+  - @milkdown/plugin-trailing@7.10.1
+  - @milkdown/plugin-upload@7.10.1
+  - @milkdown/preset-commonmark@7.10.1
+  - @milkdown/preset-gfm@7.10.1
+  - @milkdown/prose@7.10.1
+  - @milkdown/transformer@7.10.1
+  - @milkdown/utils@7.10.1
+
 ## 7.10.0
 
 ### Minor Changes
