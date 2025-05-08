@@ -3,3 +3,4 @@ pnpm-lock.yaml
 **/lib
 **/.storybook
 **/tests/data/*.md
+**/templates/*.md
