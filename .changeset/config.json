@@ -7,7 +7,7 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@milkdown/e2e", "@milkdown/storybook", "@milkdown/dev"],
+  "ignore": ["@milkdown/e2e", "@milkdown/storybook", "@milkdown/dev", "@milkdown/docs"],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   }

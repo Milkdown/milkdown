@@ -3,6 +3,7 @@
   "include": [],
   "references": [
     { "path": "./dev" },
+    { "path": "./docs" },
     { "path": "./e2e" },
     { "path": "./packages/components" },
     { "path": "./packages/core" },
