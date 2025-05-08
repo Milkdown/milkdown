@@ -7,14 +7,14 @@ If you want to use it in your own project, you need to use it like this:
 
 ```ts
 /* Copyright 2021, Milkdown by Mirone. */
-import { nord } from "@milkdown/theme-nord";
+import { nord } from '@milkdown/theme-nord'
 // Don't forget to import the css file.
-import "@milkdown/theme-nord/style.css";
+import '@milkdown/theme-nord/style.css'
 
 Editor.make()
   .config(nord)
   // ...
-  .create();
+  .create()
 ```
 
 @nord

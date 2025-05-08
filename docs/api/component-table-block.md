@@ -15,12 +15,12 @@ It provides the following features:
 # Usage
 
 ```typescript
-import { tableBlock } from "@milkdown/kit/component/table-block";
-import { Editor } from "@milkdown/kit/core";
-import { commonmark } from "@milkdown/kit/preset/commonmark";
-import { gfm } from "@milkdown/kit/preset/gfm";
+import { tableBlock } from '@milkdown/kit/component/table-block'
+import { Editor } from '@milkdown/kit/core'
+import { commonmark } from '@milkdown/kit/preset/commonmark'
+import { gfm } from '@milkdown/kit/preset/gfm'
 
-await Editor.make().use(commonmark).use(gfm).use(tableBlock).create();
+await Editor.make().use(commonmark).use(gfm).use(tableBlock).create()
 ```
 
 ::iframe{src="https://stackblitz.com/github/Milkdown/examples/tree/main/component-table-block"}
@@ -44,31 +44,31 @@ The value can be a function that returns:
 - An HTML template created by `html`.
 
 ```typescript
-import { tableBlockConfig } from "@milkdown/kit/component/table-block";
+import { tableBlockConfig } from '@milkdown/kit/component/table-block'
 
 ctx.update(tableBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
   renderButton: (renderType) => {
     switch (renderType) {
-      case "add_row":
-        return "+";
-      case "add_col":
-        return "+";
-      case "delete_row":
-        return "-";
-      case "delete_col":
-        return "-";
-      case "align_col_left":
-        return "left";
-      case "align_col_center":
-        return "center";
-      case "align_col_right":
-        return "right";
-      case "col_drag_handle":
-        return "=";
-      case "row_drag_handle":
-        return "=";
+      case 'add_row':
+        return '+'
+      case 'add_col':
+        return '+'
+      case 'delete_row':
+        return '-'
+      case 'delete_col':
+        return '-'
+      case 'align_col_left':
+        return 'left'
+      case 'align_col_center':
+        return 'center'
+      case 'align_col_right':
+        return 'right'
+      case 'col_drag_handle':
+        return '='
+      case 'row_drag_handle':
+        return '='
     }
   },
-}));
+}))
 ```

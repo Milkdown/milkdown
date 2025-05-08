@@ -16,11 +16,11 @@ This package uses [refractor](https://www.npmjs.com/package/refractor) so it has
 ## Usage
 
 ```typescript
-import { Editor } from "@milkdown/kit/core";
-import { commonmark } from "@milkdown/kit/preset/commonmark";
-import { prism } from "@milkdown/plugin-prism";
+import { Editor } from '@milkdown/kit/core'
+import { commonmark } from '@milkdown/kit/preset/commonmark'
+import { prism } from '@milkdown/plugin-prism'
 
-Editor.make().use(commonmark).use(prism).create();
+Editor.make().use(commonmark).use(prism).create()
 ```
 
 ⚠️ Keep in mind that you need to import prism style on your own.
@@ -28,7 +28,7 @@ Editor.make().use(commonmark).use(prism).create();
 For example, using [prism-themes](https://www.npmjs.com/package/prism-themes).
 
 ```typescript
-import "prism-themes/themes/prism-nord.css";
+import 'prism-themes/themes/prism-nord.css'
 ```
 
 @prism
@@ -42,29 +42,29 @@ By default, refractor will not register any languages.
 You can register languages by yourself.
 
 ```typescript
-import { prism, prismConfig } from "@milkdown/plugin-prism";
-import css from "refractor/lang/css";
-import javascript from "refractor/lang/javascript";
-import jsx from "refractor/lang/jsx";
-import markdown from "refractor/lang/markdown";
-import tsx from "refractor/lang/tsx";
-import typescript from "refractor/lang/typescript";
+import { prism, prismConfig } from '@milkdown/plugin-prism'
+import css from 'refractor/lang/css'
+import javascript from 'refractor/lang/javascript'
+import jsx from 'refractor/lang/jsx'
+import markdown from 'refractor/lang/markdown'
+import tsx from 'refractor/lang/tsx'
+import typescript from 'refractor/lang/typescript'
 
 Editor.make()
   .config((ctx) => {
     ctx.set(prismConfig.key, {
       configureRefractor: (refractor) => {
-        refractor.register(markdown);
-        refractor.register(css);
-        refractor.register(javascript);
-        refractor.register(typescript);
-        refractor.register(jsx);
-        refractor.register(tsx);
+        refractor.register(markdown)
+        refractor.register(css)
+        refractor.register(javascript)
+        refractor.register(typescript)
+        refractor.register(jsx)
+        refractor.register(tsx)
       },
-    });
+    })
   })
   .use(prism)
-  .create();
+  .create()
 ```
 
 ## Other Solutions
