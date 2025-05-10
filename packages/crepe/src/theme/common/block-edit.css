@@ -117,7 +117,7 @@
             background: var(--crepe-color-selected);
           }
 
-          & > svg {
+          svg {
             width: 24px;
             height: 24px;
             color: var(--crepe-color-outline);
