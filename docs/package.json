@@ -1,0 +1,20 @@
+{
+  "name": "@milkdown/docs",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsx -C import ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Milkdown/milkdown.git"
+  },
+  "devDependencies": {
+    "@milkdown/dev": "workspace:*",
+    "@types/fs-extra": "^11.0.4",
+    "builddocs": "^1.0.8",
+    "fs-extra": "^11.3.0"
+  }
+}

@@ -23,6 +23,10 @@
     "./generate": {
       "import": "./lib/generate.js",
       "types": "./lib/generate.d.ts"
+    },
+    "./workspace": {
+      "import": "./lib/workspace.js",
+      "types": "./lib/workspace.d.ts"
     }
   },
   "dependencies": {
