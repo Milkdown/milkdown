@@ -3,6 +3,7 @@
     &[data-show='false'] {
       display: none;
     }
+    z-index: 10;
     position: absolute;
     display: flex;
     background: var(--crepe-color-surface);
