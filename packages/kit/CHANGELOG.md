@@ -1,5 +1,44 @@
 # @milkdown/kit
 
+## 7.10.2
+
+### Patch Changes
+
+- 231c534: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 slash menu icon style (#1862)
+  - fix: 🐛 crepe slash menu and toolbar z-index (#1864)
+
+  ## Chore
+
+  - chore: improve comments
+
+  ## Docs
+
+  - docs: ✏️ add api docs folder (#1860)
+
+- Updated dependencies [231c534]
+  - @milkdown/components@7.10.2
+  - @milkdown/core@7.10.2
+  - @milkdown/ctx@7.10.2
+  - @milkdown/plugin-block@7.10.2
+  - @milkdown/plugin-clipboard@7.10.2
+  - @milkdown/plugin-cursor@7.10.2
+  - @milkdown/plugin-history@7.10.2
+  - @milkdown/plugin-indent@7.10.2
+  - @milkdown/plugin-listener@7.10.2
+  - @milkdown/plugin-slash@7.10.2
+  - @milkdown/plugin-tooltip@7.10.2
+  - @milkdown/plugin-trailing@7.10.2
+  - @milkdown/plugin-upload@7.10.2
+  - @milkdown/preset-commonmark@7.10.2
+  - @milkdown/preset-gfm@7.10.2
+  - @milkdown/prose@7.10.2
+  - @milkdown/transformer@7.10.2
+  - @milkdown/utils@7.10.2
+
 ## 7.10.1
 
 ### Patch Changes

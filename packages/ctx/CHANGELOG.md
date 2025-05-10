@@ -1,5 +1,27 @@
 # @milkdown/ctx
 
+## 7.10.2
+
+### Patch Changes
+
+- 231c534: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 slash menu icon style (#1862)
+  - fix: 🐛 crepe slash menu and toolbar z-index (#1864)
+
+  ## Chore
+
+  - chore: improve comments
+
+  ## Docs
+
+  - docs: ✏️ add api docs folder (#1860)
+
+- Updated dependencies [231c534]
+  - @milkdown/exception@7.10.2
+
 ## 7.10.1
 
 ### Patch Changes
