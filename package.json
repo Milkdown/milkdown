@@ -55,7 +55,7 @@
     "git-cz": "^4.7.6",
     "husky": "^9.0.10",
     "jsdom": "^26.0.0",
-    "lint-staged": "^15.0.0",
+    "lint-staged": "^16.0.0",
     "oxlint": "^0.16.3",
     "pathe": "^2.0.0",
     "postcss": "^8.4.38",
