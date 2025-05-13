@@ -52,9 +52,9 @@
     "./tables": {
       "import": "./src/tables.ts"
     },
-    "./view/style/prosemirror.css": "./node_modules/prosemirror-view/style/prosemirror.css",
-    "./tables/style/tables.css": "./node_modules/prosemirror-tables/style/tables.css",
-    "./gapcursor/style/gapcursor.css": "./node_modules/prosemirror-gapcursor/style/gapcursor.css"
+    "./view/style/prosemirror.css": "./lib/style/prosemirror.css",
+    "./tables/style/tables.css": "./lib/style/tables.css",
+    "./gapcursor/style/gapcursor.css": "./lib/style/gapcursor.css"
   },
   "main": "./src/index.ts",
   "publishConfig": {
