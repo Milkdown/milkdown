@@ -1,4 +1,8 @@
 .milkdown {
+  &:has(.milkdown-link-preview[data-show='true']) .milkdown-toolbar,
+  &:has(.milkdown-link-edit[data-show='true']) .milkdown-toolbar {
+    display: none;
+  }
   .milkdown-toolbar {
     &[data-show='false'] {
       display: none;
