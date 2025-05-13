@@ -2,8 +2,6 @@ import type { Ctx } from '@milkdown/ctx'
 
 import { editorViewOptionsCtx } from '@milkdown/core'
 import clsx from 'clsx'
-import '@milkdown/prose/view/style/prosemirror.css'
-import '@milkdown/prose/tables/style/tables.css'
 
 import './style.css'
 

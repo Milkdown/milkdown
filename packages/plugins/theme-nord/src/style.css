@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+@import '@milkdown/prose/view/style/prosemirror.css';
+@import '@milkdown/prose/tables/style/tables.css';
+
 @theme {
   --color-nord0: #2e3440;
   --color-nord1: #3b4252;
