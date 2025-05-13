@@ -1,5 +1,36 @@
 # @milkdown/kit
 
+## 7.10.3
+
+### Patch Changes
+
+- 36f9673: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 should hide toolbar when link tooltip is shown (#1871)
+  - fix: 🐛 nord theme in nuxt (#1869)
+
+- Updated dependencies [36f9673]
+  - @milkdown/components@7.10.3
+  - @milkdown/core@7.10.3
+  - @milkdown/ctx@7.10.3
+  - @milkdown/plugin-block@7.10.3
+  - @milkdown/plugin-clipboard@7.10.3
+  - @milkdown/plugin-cursor@7.10.3
+  - @milkdown/plugin-history@7.10.3
+  - @milkdown/plugin-indent@7.10.3
+  - @milkdown/plugin-listener@7.10.3
+  - @milkdown/plugin-slash@7.10.3
+  - @milkdown/plugin-tooltip@7.10.3
+  - @milkdown/plugin-trailing@7.10.3
+  - @milkdown/plugin-upload@7.10.3
+  - @milkdown/preset-commonmark@7.10.3
+  - @milkdown/preset-gfm@7.10.3
+  - @milkdown/prose@7.10.3
+  - @milkdown/transformer@7.10.3
+  - @milkdown/utils@7.10.3
+
 ## 7.10.2
 
 ### Patch Changes
