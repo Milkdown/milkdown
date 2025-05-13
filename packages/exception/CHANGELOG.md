@@ -1,5 +1,16 @@
 # @milkdown/exception
 
+## 7.10.3
+
+### Patch Changes
+
+- 36f9673: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 should hide toolbar when link tooltip is shown (#1871)
+  - fix: 🐛 nord theme in nuxt (#1869)
+
 ## 7.10.2
 
 ### Patch Changes

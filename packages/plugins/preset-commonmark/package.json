@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/preset-commonmark",
   "type": "module",
-  "version": "7.10.2",
+  "version": "7.10.3",
   "license": "MIT",
   "repository": {
     "type": "git",
