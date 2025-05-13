@@ -86,7 +86,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Build e2e
-        run:
+        run: |
           pnpm --filter=@milkdown/prose run build
           pnpm --filter=@milkdown/e2e run build
 
