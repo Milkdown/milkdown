@@ -20,6 +20,7 @@ export const imageBlockView = $view(
       const selected = ref(false)
       const readonly = ref(!view.editable)
       const setAttr = (attr: string, value: unknown) => {
+        if (!view.editable) return
         const pos = getPos()
         if (pos == null) return
         view.dispatch(

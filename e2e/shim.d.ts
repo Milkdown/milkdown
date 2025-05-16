@@ -14,6 +14,8 @@ declare global {
 
   var __inspect__: () => Telemetry[]
 
+  var __crepe__: Crepe
+
   var __beforeCrepeCreate__: (crepe: Crepe) => void
   var __afterCrepeCreated__: (crepe: Crepe) => void
   var __commandsCtx__: typeof commandsCtx

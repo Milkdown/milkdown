@@ -28,6 +28,7 @@ export const listItemBlockView = $view(
       const config = ctx.get(listItemBlockConfig.key)
       const selected = ref(false)
       const setAttr = (attr: string, value: unknown) => {
+        if (!view.editable) return
         const pos = getPos()
         if (pos == null) return
         view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))

@@ -5,6 +5,7 @@ import {
   Editor,
   EditorStatus,
   defaultValueCtx,
+  editorViewCtx,
   editorViewOptionsCtx,
   rootCtx,
 } from '@milkdown/kit/core'
@@ -104,6 +105,12 @@ export class Crepe {
 
   setReadonly = (value: boolean) => {
     this.#editable = !value
+    this.#editor.action((ctx) => {
+      const view = ctx.get(editorViewCtx)
+      view.setProps({
+        editable: () => !value,
+      })
+    })
     return this
   }
 
