@@ -24,7 +24,7 @@ Fragment
 export type CodeBlockProps = {
   text: Ref<string>
   selected: Ref<boolean>
-  readonly: Ref<boolean>
+  getReadOnly: () => boolean
   codemirror: CodeMirror
   language: Ref<string>
   getAllLanguages: () => Array<LanguageInfo>
@@ -42,8 +42,8 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
       type: Object,
       required: true,
     },
-    readonly: {
-      type: Object,
+    getReadOnly: {
+      type: Function,
       required: true,
     },
     codemirror: {
@@ -94,10 +94,10 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
           <div class="tools">
             <LanguagePicker
               language={props.language}
-              readonly={props.readonly}
               config={props.config}
               setLanguage={props.setLanguage}
               getAllLanguages={props.getAllLanguages}
+              getReadOnly={props.getReadOnly}
             />
             {preview.value ? (
               <button

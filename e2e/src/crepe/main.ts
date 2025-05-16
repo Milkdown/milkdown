@@ -8,6 +8,7 @@ setup(async () => {
   const crepe = new Crepe({
     root: '#app',
   })
+  globalThis.__crepe__ = crepe
   if (globalThis.__beforeCrepeCreate__) {
     globalThis.__beforeCrepeCreate__(crepe)
   }
