@@ -1,5 +1,23 @@
 # @milkdown/plugin-upload
 
+## 7.10.4
+
+### Patch Changes
+
+- bf55842: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 readonly mode for code block component (#1886)
+  - fix: 🐛 check max valid position when updating slash menu (#1885)
+
+- Updated dependencies [bf55842]
+  - @milkdown/core@7.10.4
+  - @milkdown/ctx@7.10.4
+  - @milkdown/exception@7.10.4
+  - @milkdown/prose@7.10.4
+  - @milkdown/utils@7.10.4
+
 ## 7.10.3
 
 ### Patch Changes

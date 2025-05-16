@@ -1,5 +1,16 @@
 # @milkdown/exception
 
+## 7.10.4
+
+### Patch Changes
+
+- bf55842: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 readonly mode for code block component (#1886)
+  - fix: 🐛 check max valid position when updating slash menu (#1885)
+
 ## 7.10.3
 
 ### Patch Changes
