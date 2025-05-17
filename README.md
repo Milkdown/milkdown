@@ -7,6 +7,7 @@
 [![discord-badge]][discord-link]
 ![commit][commit-badge]
 ![license][license-badge]
+[![deep-wiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Milkdown/milkdown)
 
 <div align="center">
   <img src="/assets/logo.svg" />
