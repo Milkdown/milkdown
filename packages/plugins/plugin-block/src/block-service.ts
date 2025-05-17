@@ -11,7 +11,6 @@ import type { FilterNodes } from './block-config'
 import type { ActiveNode } from './types'
 
 import { selectRootNodeByDom } from './__internal__/select-node-by-dom'
-import { serializeForClipboard } from './__internal__/serialize-for-clipboard'
 import { blockConfig } from './block-config'
 
 const brokenClipboardAPI =
@@ -151,7 +150,7 @@ export class BlockService {
     if (event.dataTransfer && selection) {
       const slice = selection.content()
       event.dataTransfer.effectAllowed = 'copyMove'
-      const { dom, text } = serializeForClipboard(view, slice)
+      const { dom, text } = view.serializeForClipboard(slice)
       event.dataTransfer.clearData()
       event.dataTransfer.setData(
         brokenClipboardAPI ? 'Text' : 'text/html',

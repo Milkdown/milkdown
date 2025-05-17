@@ -106,10 +106,12 @@ export class Crepe {
   setReadonly = (value: boolean) => {
     this.#editable = !value
     this.#editor.action((ctx) => {
-      const view = ctx.get(editorViewCtx)
-      view.setProps({
-        editable: () => !value,
-      })
+      if (this.#editor.status === EditorStatus.Created) {
+        const view = ctx.get(editorViewCtx)
+        view.setProps({
+          editable: () => !value,
+        })
+      }
     })
     return this
   }
