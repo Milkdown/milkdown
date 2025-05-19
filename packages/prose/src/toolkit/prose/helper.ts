@@ -1,7 +1,5 @@
+import type { Slice, NodeType, Node as ProseNode } from '../../model'
 import type { Transaction } from '../../state'
-
-import type { Slice } from '../../model'
-import { type NodeType, type Node as ProseNode, type Node } from '../../model'
 
 export function cloneTr(tr: Transaction): Transaction {
   return Object.assign(Object.create(tr), tr).setTime(Date.now())
@@ -17,7 +15,7 @@ export function equalNodeType(
   )
 }
 
-export function isTextOnlySlice(slice: Slice): Node | false {
+export function isTextOnlySlice(slice: Slice): ProseNode | false {
   if (slice.content.childCount === 1) {
     const node = slice.content.firstChild
     if (node?.type.name === 'text' && node.marks.length === 0) return node
