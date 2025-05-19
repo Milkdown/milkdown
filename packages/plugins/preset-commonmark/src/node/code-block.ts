@@ -50,11 +50,17 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
     ],
     toDOM: (node) => {
       const attr = ctx.get(codeBlockAttr.key)(node)
+      const language = node.attrs.language
+      const languageAttrs =
+        language && language.length > 0
+          ? { 'data-language': language }
+          : undefined
+
       return [
         'pre',
         {
           ...attr.pre,
-          'data-language': node.attrs.language,
+          ...languageAttrs,
         },
         ['code', attr.code, 0],
       ]
@@ -62,8 +68,8 @@ export const codeBlockSchema = $nodeSchema('code_block', (ctx) => {
     parseMarkdown: {
       match: ({ type }) => type === 'code',
       runner: (state, node, type) => {
-        const language = node.lang as string
-        const value = node.value as string
+        const language = node.lang ?? ''
+        const value = node.value as string | null
         state.openNode(type, { language })
         if (value) state.addText(value)
 
