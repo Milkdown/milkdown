@@ -4,6 +4,7 @@ import type { Editor, commandsCtx } from '@milkdown/core'
 import type { Crepe } from '@milkdown/crepe'
 import type { Telemetry } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
+import type { insert } from '@milkdown/utils'
 
 declare global {
   var __milkdown__: Editor
@@ -25,5 +26,9 @@ declare global {
     toggleEmphasis?: () => void
     addTable?: (x?: number, y?: number) => void
     addTable2?: (x?: number, y?: number) => void
+  }
+
+  var __macros__: {
+    insert: typeof insert
   }
 }
