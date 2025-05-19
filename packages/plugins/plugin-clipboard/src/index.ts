@@ -1,4 +1,4 @@
-import type { Node, Slice } from '@milkdown/prose/model'
+import type { Node } from '@milkdown/prose/model'
 
 import {
   editorViewOptionsCtx,
