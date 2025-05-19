@@ -1,5 +1,30 @@
 # @milkdown/plugin-upload
 
+## 7.10.5
+
+### Patch Changes
+
+- ba00e24: Milkdown patch version release.
+
+  ## Docs
+
+  - docs: add deep wiki link in readme
+
+  ## Fix
+
+  - fix: 🐛 set readonly mode before editor loaded will cause error (#1890)
+
+  ## Refactor
+
+  - refactor: 💡 use clipboard serialized from prosemirror (#1890)
+
+- Updated dependencies [ba00e24]
+  - @milkdown/core@7.10.5
+  - @milkdown/ctx@7.10.5
+  - @milkdown/exception@7.10.5
+  - @milkdown/prose@7.10.5
+  - @milkdown/utils@7.10.5
+
 ## 7.10.4
 
 ### Patch Changes
