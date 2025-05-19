@@ -1,12 +1,7 @@
 import type { Transaction } from '../../state'
 
-import type {
-  Slice} from '../../model';
-import {
-  type NodeType,
-  type Node as ProseNode,
-  type Node,
-} from '../../model'
+import type { Slice } from '../../model'
+import { type NodeType, type Node as ProseNode, type Node } from '../../model'
 
 export function cloneTr(tr: Transaction): Transaction {
   return Object.assign(Object.create(tr), tr).setTime(Date.now())
