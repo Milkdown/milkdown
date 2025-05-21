@@ -1,5 +1,21 @@
 # @milkdown/exception
 
+## 7.11.0
+
+### Minor Changes
+
+- f890c3e: Milkdown minor version release.
+
+  ## Feat
+
+  - feat: 🎸 add inline support for insert macro (#1901)
+  - feat: add selection change event in listern plugin (#1900)
+
+  ## Fix
+
+  - fix: 🐛 slashMenuTextLabel config attribute (#1904)
+  - fix: possible empty code language attribute (#1898)
+
 ## 7.10.5
 
 ### Patch Changes

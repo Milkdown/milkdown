@@ -1,5 +1,43 @@
 # @milkdown/kit
 
+## 7.11.0
+
+### Minor Changes
+
+- f890c3e: Milkdown minor version release.
+
+  ## Feat
+
+  - feat: 🎸 add inline support for insert macro (#1901)
+  - feat: add selection change event in listern plugin (#1900)
+
+  ## Fix
+
+  - fix: 🐛 slashMenuTextLabel config attribute (#1904)
+  - fix: possible empty code language attribute (#1898)
+
+### Patch Changes
+
+- Updated dependencies [f890c3e]
+  - @milkdown/components@7.11.0
+  - @milkdown/core@7.11.0
+  - @milkdown/ctx@7.11.0
+  - @milkdown/plugin-block@7.11.0
+  - @milkdown/plugin-clipboard@7.11.0
+  - @milkdown/plugin-cursor@7.11.0
+  - @milkdown/plugin-history@7.11.0
+  - @milkdown/plugin-indent@7.11.0
+  - @milkdown/plugin-listener@7.11.0
+  - @milkdown/plugin-slash@7.11.0
+  - @milkdown/plugin-tooltip@7.11.0
+  - @milkdown/plugin-trailing@7.11.0
+  - @milkdown/plugin-upload@7.11.0
+  - @milkdown/preset-commonmark@7.11.0
+  - @milkdown/preset-gfm@7.11.0
+  - @milkdown/prose@7.11.0
+  - @milkdown/transformer@7.11.0
+  - @milkdown/utils@7.11.0
+
 ## 7.10.5
 
 ### Patch Changes
