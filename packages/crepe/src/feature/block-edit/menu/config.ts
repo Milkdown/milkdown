@@ -60,7 +60,7 @@ export function getGroups(
   groupBuilder
     .addGroup('text', config?.slashMenuTextGroupLabel ?? 'Text')
     .addItem('text', {
-      label: config?.slashMenuTextGroupLabel ?? 'Text',
+      label: config?.slashMenuTextLabel ?? 'Text',
       icon: config?.slashMenuTextIcon?.() ?? textIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
