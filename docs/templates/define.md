@@ -7,7 +7,7 @@
 <<elif isVar>>
 <<h " ".repeat(depth)>> #### <<h name>> `<<if item.type>>: <<type item>><</if>>`
 <<else>>
-<<h " ".repeat(depth)>> \* <<if abstract>>`abstract `<</if>><<if static>>`static `<</if>>
+<<h " ".repeat(depth)>> * <<if abstract>>`abstract `<</if>><<if static>>`static `<</if>>
 <<if item.type == "Function" && !item.optional>>
 <<if item.signatures[0].type == "constructor">>`new `<</if>>**`<<h name>>`**`<<fntype item.signatures[0]>>`
 <<else>>
