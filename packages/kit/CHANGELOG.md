@@ -1,5 +1,40 @@
 # @milkdown/kit
 
+## 7.11.1
+
+### Patch Changes
+
+- 395425b: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 missing style for codemirror search panel (#1910)
+  - fix: 🐛 should also export crepe reset css (#1909)
+
+  ## Docs
+
+  - docs: ✏️ add api reference for crepe editor (#1908)
+
+- Updated dependencies [395425b]
+  - @milkdown/components@7.11.1
+  - @milkdown/core@7.11.1
+  - @milkdown/ctx@7.11.1
+  - @milkdown/plugin-block@7.11.1
+  - @milkdown/plugin-clipboard@7.11.1
+  - @milkdown/plugin-cursor@7.11.1
+  - @milkdown/plugin-history@7.11.1
+  - @milkdown/plugin-indent@7.11.1
+  - @milkdown/plugin-listener@7.11.1
+  - @milkdown/plugin-slash@7.11.1
+  - @milkdown/plugin-tooltip@7.11.1
+  - @milkdown/plugin-trailing@7.11.1
+  - @milkdown/plugin-upload@7.11.1
+  - @milkdown/preset-commonmark@7.11.1
+  - @milkdown/preset-gfm@7.11.1
+  - @milkdown/prose@7.11.1
+  - @milkdown/transformer@7.11.1
+  - @milkdown/utils@7.11.1
+
 ## 7.11.0
 
 ### Minor Changes
