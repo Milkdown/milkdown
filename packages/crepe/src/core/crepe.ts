@@ -23,20 +23,43 @@ import type { CrepeFeatureConfig } from '../feature'
 import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
 import { configureFeatures, crepeCtx } from './slice'
 
+/// The crepe editor configuration.
 export interface CrepeConfig {
+  /// Enable/disable specific features.
   features?: Partial<Record<CrepeFeature, boolean>>
+
+  /// Configure individual features.
   featureConfigs?: CrepeFeatureConfig
+
+  /// The root element for the editor.
+  /// Supports both DOM nodes and CSS selectors,
+  /// If not provided, the editor will be appended to the body.
   root?: Node | string | null
+
+  /// The default value for the editor.
   defaultValue?: DefaultValue
 }
 
+/// The crepe editor class.
 export class Crepe {
+  /// This is an alias for the `CrepeFeature` enum.
   static Feature = CrepeFeature
+
+  /// @internal
   readonly #editor: Editor
+
+  /// @internal
   readonly #initPromise: Promise<unknown>
+
+  /// @internal
   readonly #rootElement: Node
+
+  /// @internal
   #editable = true
 
+  /// The constructor of the crepe editor.
+  /// You can pass configs to the editor to configure the editor.
+  /// Calling the constructor will not create the editor, you need to call `create` to create the editor.
   constructor({
     root,
     features = {},
@@ -89,20 +112,24 @@ export class Crepe {
     this.#initPromise = Promise.all(promiseList)
   }
 
+  /// Create the editor.
   create = async () => {
     await this.#initPromise
     return this.#editor.create()
   }
 
+  /// Destroy the editor.
   destroy = async () => {
     await this.#initPromise
     return this.#editor.destroy()
   }
 
+  /// Get the milkdown editor instance.
   get editor(): Editor {
     return this.#editor
   }
 
+  /// Set the readonly mode of the editor.
   setReadonly = (value: boolean) => {
     this.#editable = !value
     this.#editor.action((ctx) => {
@@ -116,10 +143,12 @@ export class Crepe {
     return this
   }
 
+  /// Get the markdown content of the editor.
   getMarkdown = () => {
     return this.#editor.action(getMarkdown())
   }
 
+  /// Register event listeners.
   on = (fn: (api: ListenerManager) => void) => {
     if (this.#editor.status !== EditorStatus.Created) {
       this.#editor.config((ctx) => {
