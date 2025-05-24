@@ -1,5 +1,20 @@
 # @milkdown/exception
 
+## 7.11.1
+
+### Patch Changes
+
+- 395425b: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 missing style for codemirror search panel (#1910)
+  - fix: 🐛 should also export crepe reset css (#1909)
+
+  ## Docs
+
+  - docs: ✏️ add api reference for crepe editor (#1908)
+
 ## 7.11.0
 
 ### Minor Changes
