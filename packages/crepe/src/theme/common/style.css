@@ -1,4 +1,5 @@
 @import './prosemirror.css';
+@import './reset.css';
 @import './block-edit.css';
 @import './code-mirror.css';
 @import './cursor.css';
