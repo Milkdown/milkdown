@@ -25,9 +25,7 @@ You can disable specific features by setting them to `false` in the `features` c
 
 ## Icon Configuration
 
-Many features allow customizing their icons. You can provide icons in two ways:
-
-1. Using SVG strings:
+Many features allow customizing their icons. You can provide icons in svg:
 
 ```typescript
 const config: CrepeConfig = {
@@ -37,19 +35,6 @@ const config: CrepeConfig = {
       italicIcon: () => '<svg>...</svg>',
     },
   },
-}
-```
-
-2. Using Icon components (if you're using a component framework):
-
-```typescript
-const config: CrepeConfig = {
-  featureConfigs: {
-    [Crepe.Feature.Toolbar]: {
-      boldIcon: () => <BoldIcon />,
-      italicIcon: () => <ItalicIcon />
-    }
-  }
 }
 ```
 
