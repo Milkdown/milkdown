@@ -25,9 +25,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^9.0.0",
-    "@storybook/addon-essentials": "^8.2.7",
     "@storybook/builder-vite": "^9.0.0",
-    "@storybook/core-server": "^8.2.7",
     "@storybook/html": "^9.0.0",
     "@storybook/html-vite": "^9.0.0",
     "serve": "^14.2.3",
