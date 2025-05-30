@@ -20,8 +20,9 @@ import { getMarkdown } from '@milkdown/kit/utils'
 
 import type { CrepeFeatureConfig } from '../feature'
 
-import { CrepeFeature, defaultFeatures, loadFeature } from '../feature'
-import { configureFeatures, crepeCtx } from './slice'
+import { CrepeFeature, defaultFeatures } from '../feature'
+import { loadFeature } from '../feature/loader'
+import { crepeCtx, FeaturesCtx } from './slice'
 
 /// The crepe editor configuration.
 export interface CrepeConfig {
@@ -49,9 +50,6 @@ export class Crepe {
   readonly #editor: Editor
 
   /// @internal
-  readonly #initPromise: Promise<unknown>
-
-  /// @internal
   readonly #rootElement: Node
 
   /// @internal
@@ -66,21 +64,14 @@ export class Crepe {
     featureConfigs = {},
     defaultValue = '',
   }: CrepeConfig) {
-    const enabledFeatures = Object.entries({
-      ...defaultFeatures,
-      ...features,
-    })
-      .filter(([, enabled]) => enabled)
-      .map(([feature]) => feature as CrepeFeature)
-
     this.#rootElement =
       (typeof root === 'string' ? document.querySelector(root) : root) ??
       document.body
     this.#editor = Editor.make()
       .config((ctx) => {
         ctx.inject(crepeCtx, this)
+        ctx.inject(FeaturesCtx, [])
       })
-      .config(configureFeatures(enabledFeatures))
       .config((ctx) => {
         ctx.set(rootCtx, this.#rootElement)
         ctx.set(defaultValueCtx, defaultValue)
@@ -100,27 +91,28 @@ export class Crepe {
       .use(clipboard)
       .use(gfm)
 
-    const promiseList: Promise<unknown>[] = []
+    const enabledFeatures = Object.entries({
+      ...defaultFeatures,
+      ...features,
+    })
+      .filter(([, enabled]) => enabled)
+      .map(([feature]) => feature as CrepeFeature)
 
     enabledFeatures.forEach((feature) => {
       const config = (featureConfigs as Partial<Record<CrepeFeature, never>>)[
         feature
       ]
-      promiseList.push(loadFeature(feature, this.#editor, config))
+      loadFeature(feature, this.#editor, config)
     })
-
-    this.#initPromise = Promise.all(promiseList)
   }
 
   /// Create the editor.
-  create = async () => {
-    await this.#initPromise
+  create = () => {
     return this.#editor.create()
   }
 
   /// Destroy the editor.
-  destroy = async () => {
-    await this.#initPromise
+  destroy = () => {
     return this.#editor.destroy()
   }
 

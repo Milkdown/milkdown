@@ -20,8 +20,13 @@ export const FeaturesCtx = createSlice([] as CrepeFeature[], 'FeaturesCtx')
 /// ```
 export const crepeCtx = createSlice({} as Crepe, 'CrepeCtx')
 
-export function configureFeatures(features: CrepeFeature[]) {
+export function crepeFeatureConfig(feature: CrepeFeature) {
   return (ctx: Ctx) => {
-    ctx.inject(FeaturesCtx, features)
+    ctx.update(FeaturesCtx, (features) => {
+      if (features.includes(feature)) {
+        return features
+      }
+      return [...features, feature]
+    })
   }
 }

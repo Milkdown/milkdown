@@ -18,8 +18,8 @@ import { TextSelection } from '@milkdown/kit/prose/state'
 import type { BlockEditFeatureConfig } from '../index'
 import type { MenuItemGroup } from './utils'
 
-import { CrepeFeature } from '../../..'
 import { FeaturesCtx } from '../../../core/slice'
+import { CrepeFeature } from '../../../feature'
 import {
   bulletListIcon,
   codeIcon,

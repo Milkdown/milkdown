@@ -3,6 +3,8 @@ import { block } from '@milkdown/kit/plugin/block'
 import type { DefineFeature, Icon } from '../shared'
 import type { GroupBuilder } from './menu/group-builder'
 
+import { crepeFeatureConfig } from '../../core/slice'
+import { CrepeFeature } from '../index'
 import { configureBlockHandle } from './handle'
 import { configureMenu, menu, menuAPI } from './menu'
 
@@ -52,11 +54,12 @@ interface BlockEditConfig {
 
 export type BlockEditFeatureConfig = Partial<BlockEditConfig>
 
-export const defineFeature: DefineFeature<BlockEditFeatureConfig> = (
+export const defineFeatureBlockEdit: DefineFeature<BlockEditFeatureConfig> = (
   editor,
   config
 ) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.BlockEdit))
     .config((ctx) => configureBlockHandle(ctx, config))
     .config((ctx) => configureMenu(ctx, config))
     .use(menuAPI)

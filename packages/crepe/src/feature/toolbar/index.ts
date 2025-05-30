@@ -12,6 +12,8 @@ import { createApp, ref, shallowRef, type App, type ShallowRef } from 'vue'
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
+import { CrepeFeature } from '../../feature'
 import { Toolbar } from './component'
 
 interface ToolbarConfig {
@@ -108,11 +110,12 @@ class ToolbarView implements PluginView {
   }
 }
 
-export const defineFeature: DefineFeature<ToolbarFeatureConfig> = (
+export const defineFeatureToolbar: DefineFeature<ToolbarFeatureConfig> = (
   editor,
   config
 ) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.Toolbar))
     .config((ctx) => {
       ctx.set(toolbar.key, {
         view: (view) => new ToolbarView(ctx, view, config),

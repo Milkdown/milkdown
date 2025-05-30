@@ -5,6 +5,7 @@ import {
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
 import {
   alignCenterIcon,
   alignLeftIcon,
@@ -13,6 +14,7 @@ import {
   plusIcon,
   removeIcon,
 } from '../../icons'
+import { CrepeFeature } from '../index'
 
 interface TableConfig {
   addRowIcon: Icon
@@ -28,11 +30,12 @@ interface TableConfig {
 
 export type TableFeatureConfig = Partial<TableConfig>
 
-export const defineFeature: DefineFeature<TableFeatureConfig> = (
+export const defineFeatureTable: DefineFeature<TableFeatureConfig> = (
   editor,
   config
 ) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.Table))
     .config((ctx) => {
       ctx.update(tableBlockConfig.key, (defaultConfig) => ({
         ...defaultConfig,

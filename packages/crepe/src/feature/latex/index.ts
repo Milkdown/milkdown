@@ -5,8 +5,8 @@ import katex from 'katex'
 
 import type { DefineFeature, Icon } from '../shared'
 
-import { CrepeFeature } from '../..'
-import { FeaturesCtx } from '../../core/slice'
+import { crepeFeatureConfig, FeaturesCtx } from '../../core/slice'
+import { CrepeFeature } from '../../feature'
 import { confirmIcon } from '../../icons'
 import { blockLatexSchema } from './block-latex'
 import { mathInlineSchema } from './inline-latex'
@@ -22,11 +22,12 @@ export interface LatexConfig {
 
 export type LatexFeatureConfig = Partial<LatexConfig>
 
-export const defineFeature: DefineFeature<LatexFeatureConfig> = (
+export const defineFeatureLatex: DefineFeature<LatexFeatureConfig> = (
   editor,
   config
 ) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.Latex))
     .config((ctx) => {
       const flags = ctx.get(FeaturesCtx)
       const isCodeMirrorEnabled = flags.includes(CrepeFeature.CodeMirror)

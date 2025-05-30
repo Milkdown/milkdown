@@ -4,6 +4,9 @@ import { createVirtualCursor } from 'prosemirror-virtual-cursor'
 
 import type { DefineFeature } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
+import { CrepeFeature } from '../index'
+
 interface CursorConfig {
   color: string | false
   width: number
@@ -11,11 +14,12 @@ interface CursorConfig {
 }
 export type CursorFeatureConfig = Partial<CursorConfig>
 
-export const defineFeature: DefineFeature<CursorFeatureConfig> = (
+export const defineFeatureCursor: DefineFeature<CursorFeatureConfig> = (
   editor,
   config
 ) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.Cursor))
     .config((ctx) => {
       ctx.update(dropCursorConfig.key, () => ({
         class: 'crepe-drop-cursor',

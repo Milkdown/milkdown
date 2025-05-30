@@ -27,8 +27,8 @@ import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
 import type { ToolbarFeatureConfig } from '.'
 
-import { CrepeFeature } from '../..'
 import { FeaturesCtx } from '../../core/slice'
+import { CrepeFeature } from '../../feature'
 import {
   boldIcon,
   codeIcon,

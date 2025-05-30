@@ -9,7 +9,9 @@ import {
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
 import { captionIcon, imageIcon, confirmIcon } from '../../icons'
+import { CrepeFeature } from '../index'
 
 interface ImageBlockConfig {
   onUpload: (file: File) => Promise<string>
@@ -32,11 +34,12 @@ interface ImageBlockConfig {
 
 export type ImageBlockFeatureConfig = Partial<ImageBlockConfig>
 
-export const defineFeature: DefineFeature<ImageBlockFeatureConfig> = (
+export const defineFeatureImageBlock: DefineFeature<ImageBlockFeatureConfig> = (
   editor,
   config
 ) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.ImageBlock))
     .config((ctx) => {
       ctx.update(inlineImageConfig.key, (value) => ({
         uploadButton: config?.inlineUploadButton ?? (() => 'Upload'),

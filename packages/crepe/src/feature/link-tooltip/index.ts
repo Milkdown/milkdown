@@ -6,7 +6,9 @@ import {
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
 import { copyIcon, editIcon, removeIcon, confirmIcon } from '../../icons'
+import { CrepeFeature } from '../index'
 
 interface LinkTooltipConfig {
   linkIcon: Icon
@@ -19,11 +21,11 @@ interface LinkTooltipConfig {
 
 export type LinkTooltipFeatureConfig = Partial<LinkTooltipConfig>
 
-export const defineFeature: DefineFeature<LinkTooltipFeatureConfig> = (
-  editor,
-  config
-) => {
+export const defineFeatureLinkTooltip: DefineFeature<
+  LinkTooltipFeatureConfig
+> = (editor, config) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.LinkTooltip))
     .config(configureLinkTooltip)
     .config((ctx) => {
       ctx.update(linkTooltipConfig.key, (prev) => ({
