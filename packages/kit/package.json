@@ -344,7 +344,7 @@
     "src"
   ],
   "scripts": {
-    "build": "postcss 'src' --base 'src' --dir 'lib'"
+    "build": "postcss src --base src --dir lib"
   },
   "dependencies": {
     "@milkdown/components": "workspace:*",
