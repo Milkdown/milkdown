@@ -5,11 +5,12 @@ import { ensureDirSync } from 'fs-extra/esm'
 import { readdirSync } from 'node:fs'
 import { writeFile, copyFile } from 'node:fs/promises'
 import { resolve, parse } from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
 
 const logger = new Logger('docs')
 const workspace = new Workspace()
 
-const __dirname = new URL('.', import.meta.url).pathname
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const templatesDir = resolve(__dirname, '..', 'templates')
 const apiDir = resolve(__dirname, '..', 'api')
 const apiOutDir = resolve(__dirname, '..', 'lib')
