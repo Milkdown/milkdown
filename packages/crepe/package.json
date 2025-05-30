@@ -53,7 +53,7 @@
   "scripts": {
     "build": "pnpm run build:es && pnpm run build:theme && echo",
     "build:es": "rollup -c",
-    "build:theme": "postcss 'src/theme' --base 'src/theme' --dir 'lib/theme'"
+    "build:theme": "postcss src/theme --base src/theme --dir lib/theme"
   },
   "dependencies": {
     "@codemirror/commands": "^6.2.4",
