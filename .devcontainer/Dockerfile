@@ -1,6 +1,6 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.177.0/containers/typescript-node/.devcontainer/base.Dockerfile
 
-FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:1-16-buster
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:1-18-buster
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
