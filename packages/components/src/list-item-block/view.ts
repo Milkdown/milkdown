@@ -31,6 +31,9 @@ export const listItemBlockView = $view(
         if (!view.editable) return
         const pos = getPos()
         if (pos == null) return
+
+        if (!view.hasFocus()) view.focus()
+
         view.dispatch(view.state.tr.setNodeAttribute(pos, attr, value))
       }
       const disposeSelectedWatcher = watchEffect(() => {
