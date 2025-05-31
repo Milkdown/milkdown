@@ -18,8 +18,8 @@ import { TextSelection } from '@milkdown/kit/prose/state'
 import type { BlockEditFeatureConfig } from '../index'
 import type { MenuItemGroup } from './utils'
 
-import { CrepeFeature } from '../../..'
-import { FeaturesCtx } from '../../../core/slice'
+import { useCrepeFeatures } from '../../../core/slice'
+import { CrepeFeature } from '../../../feature'
 import {
   bulletListIcon,
   codeIcon,
@@ -51,7 +51,7 @@ export function getGroups(
   config?: BlockEditFeatureConfig,
   ctx?: Ctx
 ) {
-  const flags = ctx?.get(FeaturesCtx)
+  const flags = ctx && useCrepeFeatures(ctx).get()
   const isLatexEnabled = flags?.includes(CrepeFeature.Latex)
   const isImageBlockEnabled = flags?.includes(CrepeFeature.ImageBlock)
   const isTableEnabled = flags?.includes(CrepeFeature.Table)
