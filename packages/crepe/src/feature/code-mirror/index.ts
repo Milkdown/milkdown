@@ -12,8 +12,13 @@ import { basicSetup } from 'codemirror'
 import type { DefineFeature } from '../shared'
 
 import { crepeFeatureConfig } from '../../core/slice'
-import { chevronDownIcon, clearIcon, editIcon, searchIcon } from '../../icons'
-import { visibilityOffIcon } from '../../icons/visibility-off'
+import {
+  chevronDownIcon,
+  clearIcon,
+  editIcon,
+  searchIcon,
+  visibilityOffIcon,
+} from '../../icons'
 import { CrepeFeature } from '../index'
 
 interface CodeMirrorConfig {
@@ -47,25 +52,21 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
 ) => {
   editor
     .config(crepeFeatureConfig(CrepeFeature.CodeMirror))
-    .config(async (ctx) => {
-      let { languages, theme } = config
-      if (!languages) {
-        const { languages: langList } = await import(
-          '@codemirror/language-data'
-        )
-        languages = langList
+    .config((ctx) => {
+      const { languages = [], theme } = config
+      const extensions = [
+        keymap.of(defaultKeymap.concat(indentWithTab)),
+        basicSetup,
+      ]
+      if (theme) {
+        extensions.push(theme)
       }
-      if (!theme) {
-        const { oneDark } = await import('@codemirror/theme-one-dark')
-        theme = oneDark
+      if (config.extensions) {
+        extensions.push(...config.extensions)
       }
+
       ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-        extensions: [
-          keymap.of(defaultKeymap.concat(indentWithTab)),
-          basicSetup,
-          theme,
-          ...(config?.extensions ?? []),
-        ],
+        extensions,
         languages,
 
         expandIcon: config.expandIcon || chevronDownIcon,
