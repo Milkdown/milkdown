@@ -260,6 +260,16 @@ interface ToolbarFeatureConfig {
   linkIcon?: string
   strikethroughIcon?: string
   latexIcon?: string
+  customItems?: ToolbarItem[]
+}
+
+interface ToolbarItem {
+  key: string
+  icon: string
+  tooltip?: string
+  onClick: (ctx: Ctx) => void
+  isActive?: (ctx: Ctx, selection: Selection) => boolean
+  isDisabled?: (ctx: Ctx, selection: Selection) => boolean
 }
 
 // Example:
@@ -271,6 +281,18 @@ const config: CrepeConfig = {
     [Crepe.Feature.Toolbar]: {
       boldIcon: customBoldIcon,
       italicIcon: customItalicIcon,
+      customItems: [
+        {
+          key: 'highlight',
+          icon: '<svg>...</svg>',
+          tooltip: 'Highlight text',
+          onClick: (ctx) => {
+            // Custom highlight logic
+          },
+          isActive: (ctx, selection) => false,
+          isDisabled: (ctx, selection) => selection.empty
+        }
+      ]
     },
   },
 }

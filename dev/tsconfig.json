@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo",
+    "jsx": "react-jsx",
+    "moduleResolution": "node"
   },
   "include": ["src"],
   "references": []

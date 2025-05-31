@@ -7,7 +7,16 @@ import type { LinkTooltipFeatureConfig } from './link-tooltip'
 import type { ListItemFeatureConfig } from './list-item'
 import type { PlaceholderFeatureConfig } from './placeholder'
 import type { TableFeatureConfig } from './table'
-import type { ToolbarFeatureConfig } from './toolbar'
+import type { ToolbarFeatureConfig, ToolbarItem } from './toolbar'
+
+// Export types for plugin developers
+export type { ToolbarItem }
+export type { MenuItem, MenuItemGroup } from './block-edit/menu/utils'
+export type { GroupBuilder } from './block-edit/menu/group-builder'
+
+// Export plugin development utilities
+export { ToolbarItemPresets, SlashMenuItemPresets } from './plugin-utils'
+export type { ToolbarStateChecker, ToolbarAction, SlashMenuAction } from './plugin-utils'
 
 /// The crepe editor feature flags.
 /// Every feature is enabled by default.

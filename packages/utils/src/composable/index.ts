@@ -1,4 +1,5 @@
 export * from './$command'
+export * from './$component'
 export * from './$input-rule'
 export * from './$mark'
 export * from './$node'

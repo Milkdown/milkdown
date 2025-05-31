@@ -36,6 +36,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
     devDependencies:
       '@changesets/cli':
         specifier: ^2.22.0
@@ -178,6 +182,12 @@ importers:
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
+      '@types/react':
+        specifier: ^19.1.5
+        version: 19.1.5
+      '@types/react-dom':
+        specifier: ^19.1.5
+        version: 19.1.5(@types/react@19.1.5)
       chalk:
         specifier: ^5.4.1
         version: 5.4.1
@@ -187,6 +197,12 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
 
   docs:
     devDependencies:

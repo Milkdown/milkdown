@@ -16,6 +16,22 @@ import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import { Toolbar } from './component'
 
+/// Custom toolbar item configuration
+export interface ToolbarItem {
+  /// Unique identifier for the toolbar item
+  key: string
+  /// Icon to display (SVG string or icon identifier)
+  icon: string
+  /// Tooltip text for the item
+  tooltip?: string
+  /// Function to execute when the item is clicked
+  onClick: (ctx: Ctx) => void
+  /// Function to determine if the item should be active/highlighted
+  isActive?: (ctx: Ctx, selection: Selection) => boolean
+  /// Function to determine if the item should be disabled
+  isDisabled?: (ctx: Ctx, selection: Selection) => boolean
+}
+
 interface ToolbarConfig {
   boldIcon: string
   codeIcon: string
@@ -23,6 +39,8 @@ interface ToolbarConfig {
   linkIcon: string
   strikethroughIcon: string
   latexIcon: string
+  /// Custom toolbar items to add to the toolbar
+  customItems?: ToolbarItem[]
 }
 
 export type ToolbarFeatureConfig = Partial<ToolbarConfig>

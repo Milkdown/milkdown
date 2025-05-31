@@ -25,7 +25,7 @@ import {
 import clsx from 'clsx'
 import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
-import type { ToolbarFeatureConfig } from '.'
+import type { ToolbarFeatureConfig, ToolbarItem } from '.'
 
 import { useCrepeFeatures } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
@@ -158,6 +158,28 @@ export const Toolbar = defineComponent<ToolbarProps>({
       )
     }
 
+    const renderCustomItem = (item: ToolbarItem) => {
+      const isItemActive = item.isActive?.(ctx, props.selection.value) ?? false
+      const isItemDisabled = item.isDisabled?.(ctx, props.selection.value) ?? false
+
+      return (
+        <button
+          key={item.key}
+          type="button"
+          class={clsx(
+            'toolbar-item',
+            isItemActive && 'active',
+            isItemDisabled && 'disabled'
+          )}
+          disabled={isItemDisabled}
+          title={item.tooltip}
+          onPointerdown={onClick(() => item.onClick(ctx))}
+        >
+          <Icon icon={item.icon} />
+        </button>
+      )
+    }
+
     return () => {
       return (
         <>
@@ -249,6 +271,12 @@ export const Toolbar = defineComponent<ToolbarProps>({
           >
             <Icon icon={config?.linkIcon ?? linkIcon} />
           </button>
+          {config?.customItems && config.customItems.length > 0 && (
+            <>
+              <div class="divider"></div>
+              {config.customItems.map(renderCustomItem)}
+            </>
+          )}
         </>
       )
     }
