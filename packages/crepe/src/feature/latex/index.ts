@@ -3,7 +3,7 @@ import type { KatexOptions } from 'katex'
 import { codeBlockConfig } from '@milkdown/kit/component/code-block'
 import katex from 'katex'
 
-import type { DefineFeature, Icon } from '../shared'
+import type { DefineFeature } from '../shared'
 
 import { crepeFeatureConfig, useCrepeFeatures } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
@@ -17,7 +17,7 @@ import { remarkMathBlockPlugin, remarkMathPlugin } from './remark'
 
 export interface LatexConfig {
   katexOptions: KatexOptions
-  inlineEditConfirm: Icon
+  inlineEditConfirm: string
 }
 
 export type LatexFeatureConfig = Partial<LatexConfig>
@@ -46,7 +46,7 @@ export const latex: DefineFeature<LatexFeatureConfig> = (editor, config) => {
       ctx.set(inlineLatexTooltip.key, {
         view: (view) => {
           return new LatexInlineTooltip(ctx, view, {
-            inlineEditConfirm: config?.inlineEditConfirm ?? (() => confirmIcon),
+            inlineEditConfirm: config?.inlineEditConfirm ?? confirmIcon,
             ...config,
           })
         },

@@ -8,9 +8,9 @@ import { withMeta } from '../__internal__/meta'
 export interface CodeBlockConfig {
   extensions: Extension[]
   languages: LanguageDescription[]
-  expandIcon: () => string
-  searchIcon: () => string
-  clearSearchIcon: () => string
+  expandIcon: string
+  searchIcon: string
+  clearSearchIcon: string
   searchPlaceholder: string
   noResultText: string
   renderLanguage: (language: string, selected: boolean) => string
@@ -19,21 +19,21 @@ export interface CodeBlockConfig {
     content: string
   ) => null | string | HTMLElement
   previewToggleButton: (previewOnlyMode: boolean) => string
-  previewLabel: () => string
+  previewLabel: string
 }
 
 export const defaultConfig: CodeBlockConfig = {
   extensions: [],
   languages: [],
-  expandIcon: () => '⬇',
-  searchIcon: () => '🔍',
-  clearSearchIcon: () => '⌫',
+  expandIcon: '⬇',
+  searchIcon: '🔍',
+  clearSearchIcon: '⌫',
   searchPlaceholder: 'Search language',
   noResultText: 'No result',
   renderLanguage: (language) => language,
   renderPreview: () => null,
   previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? 'Edit' : 'Hide'),
-  previewLabel: () => 'Preview',
+  previewLabel: 'Preview',
 }
 
 export const codeBlockConfig = $ctx(defaultConfig, 'codeBlockConfigCtx')

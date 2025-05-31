@@ -25,14 +25,14 @@ You can disable specific features by setting them to `false` in the `features` c
 
 ## Icon Configuration
 
-Many features allow customizing their icons. You can provide icons in svg:
+Many features allow customizing their icons. You can provide icons as strings:
 
 ```typescript
 const config: CrepeConfig = {
   featureConfigs: {
     [Crepe.Feature.Toolbar]: {
-      boldIcon: () => '<svg>...</svg>',
-      italicIcon: () => '<svg>...</svg>',
+      boldIcon: '<svg>...</svg>',
+      italicIcon: '<svg>...</svg>',
     },
   },
 }
@@ -99,9 +99,9 @@ const config: CrepeConfig = {
 
 ```typescript
 interface ListItemFeatureConfig {
-  bulletIcon?: Icon // Custom bullet list icon
-  checkBoxCheckedIcon?: Icon // Custom checked checkbox icon
-  checkBoxUncheckedIcon?: Icon // Custom unchecked checkbox icon
+  bulletIcon?: string // Custom bullet list icon
+  checkBoxCheckedIcon?: string // Custom checked checkbox icon
+  checkBoxUncheckedIcon?: string // Custom unchecked checkbox icon
 }
 
 // Example:
@@ -111,9 +111,9 @@ const config: CrepeConfig = {
   },
   featureConfigs: {
     [Crepe.Feature.ListItem]: {
-      bulletIcon: () => customBulletIcon,
-      checkBoxCheckedIcon: () => customCheckedIcon,
-      checkBoxUncheckedIcon: () => customUncheckedIcon,
+      bulletIcon: customBulletIcon,
+      checkBoxCheckedIcon: customCheckedIcon,
+      checkBoxUncheckedIcon: customUncheckedIcon,
     },
   },
 }
@@ -123,10 +123,10 @@ const config: CrepeConfig = {
 
 ```typescript
 interface LinkTooltipFeatureConfig {
-  linkIcon?: Icon // Custom link icon
-  editButton?: Icon // Custom edit button icon
-  removeButton?: Icon // Custom remove button icon
-  confirmButton?: Icon // Custom confirm button icon
+  linkIcon?: string // Custom link icon
+  editButton?: string // Custom edit button icon
+  removeButton?: string // Custom remove button icon
+  confirmButton?: string // Custom confirm button icon
   inputPlaceholder?: string // Placeholder text for link input
   onCopyLink?: () => void // Callback when link is copied
 }
@@ -193,42 +193,42 @@ const config: CrepeConfig = {
 ```typescript
 interface BlockEditFeatureConfig {
   // Block handle icons
-  handleAddIcon?: Icon
-  handleDragIcon?: Icon
+  handleAddIcon?: string
+  handleDragIcon?: string
 
   // Menu configuration
   buildMenu?: (builder: GroupBuilder) => void
 
   // Text group labels and icons
   slashMenuTextGroupLabel?: string
-  slashMenuTextIcon?: Icon
+  slashMenuTextIcon?: string
   slashMenuTextLabel?: string
 
   // Heading labels and icons
-  slashMenuH1Icon?: Icon
+  slashMenuH1Icon?: string
   slashMenuH1Label?: string
-  slashMenuH2Icon?: Icon
+  slashMenuH2Icon?: string
   slashMenuH2Label?: string
   // ... H3-H6 similar configuration
 
   // List group configuration
   slashMenuListGroupLabel?: string
-  slashMenuBulletListIcon?: Icon
+  slashMenuBulletListIcon?: string
   slashMenuBulletListLabel?: string
-  slashMenuOrderedListIcon?: Icon
+  slashMenuOrderedListIcon?: string
   slashMenuOrderedListLabel?: string
-  slashMenuTaskListIcon?: Icon
+  slashMenuTaskListIcon?: string
   slashMenuTaskListLabel?: string
 
   // Advanced group configuration
   slashMenuAdvancedGroupLabel?: string
-  slashMenuImageIcon?: Icon
+  slashMenuImageIcon?: string
   slashMenuImageLabel?: string
-  slashMenuCodeBlockIcon?: Icon
+  slashMenuCodeBlockIcon?: string
   slashMenuCodeBlockLabel?: string
-  slashMenuTableIcon?: Icon
+  slashMenuTableIcon?: string
   slashMenuTableLabel?: string
-  slashMenuMathIcon?: Icon
+  slashMenuMathIcon?: string
   slashMenuMathLabel?: string
 }
 
@@ -254,12 +254,12 @@ const config: CrepeConfig = {
 
 ```typescript
 interface ToolbarFeatureConfig {
-  boldIcon?: Icon
-  codeIcon?: Icon
-  italicIcon?: Icon
-  linkIcon?: Icon
-  strikethroughIcon?: Icon
-  latexIcon?: Icon
+  boldIcon?: string
+  codeIcon?: string
+  italicIcon?: string
+  linkIcon?: string
+  strikethroughIcon?: string
+  latexIcon?: string
 }
 
 // Example:
@@ -269,8 +269,8 @@ const config: CrepeConfig = {
   },
   featureConfigs: {
     [Crepe.Feature.Toolbar]: {
-      boldIcon: () => customBoldIcon,
-      italicIcon: () => customItalicIcon,
+      boldIcon: customBoldIcon,
+      italicIcon: customItalicIcon,
     },
   },
 }

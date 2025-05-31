@@ -85,7 +85,7 @@ export const ImageInput = defineComponent<MilkdownImageBlockProps>({
     return () => {
       return (
         <div class="image-edit">
-          <Icon icon={config.imageIcon()} class="image-icon" />
+          <Icon icon={config.imageIcon} class="image-icon" />
           <div class={clsx('link-importer', focusLinkInput.value && 'focus')}>
             <input
               ref={linkInputRef}
@@ -113,7 +113,7 @@ export const ImageInput = defineComponent<MilkdownImageBlockProps>({
                   onChange={onUpload}
                 />
                 <label class="uploader" for={uuid.value}>
-                  <Icon icon={config.uploadButton()} />
+                  <Icon icon={config.uploadButton} />
                 </label>
                 <span class="text" onClick={() => linkInputRef.value?.focus()}>
                   {config.uploadPlaceholderText}
@@ -123,7 +123,7 @@ export const ImageInput = defineComponent<MilkdownImageBlockProps>({
           </div>
           {currentLink.value && (
             <div class="confirm" onClick={() => onConfirmLinkInput()}>
-              <Icon icon={config.confirmButton()} />
+              <Icon icon={config.confirmButton} />
             </div>
           )}
         </div>
