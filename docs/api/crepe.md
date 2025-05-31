@@ -317,6 +317,37 @@ const config: CrepeConfig = {
 }
 ```
 
+It's also possible to configure the language list and theme:
+
+```typescript
+import { oneDark } from '@codemirror/theme-one-dark'
+import { LanguageDescription } from '@codemirror/language'
+import { markdown } from '@codemirror/lang-markdown'
+
+const config: CrepeConfig = {
+  features: {
+    [Crepe.Feature.CodeMirror]: true,
+  },
+  featureConfigs: {
+    [Crepe.Feature.CodeMirror]: {
+      theme: oneDark,
+      languages: [
+        // Only load markdown language
+        LanguageDescription.of({
+          name: 'Markdown',
+          extensions: ['md', 'markdown'],
+          load() {
+            return import('@codemirror/lang-markdown').then((m) => m.markdown())
+          },
+        }),
+      ],
+    },
+  },
+}
+```
+
+To learn which languages are available, you can refer to the [CodeMirror language data](https://github.com/codemirror/language-data).
+
 #### Latex Feature
 
 ```typescript

@@ -407,6 +407,9 @@ importers:
       '@milkdown/kit':
         specifier: workspace:*
         version: link:../kit
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -416,6 +419,9 @@ importers:
       katex:
         specifier: ^0.16.0
         version: 0.16.22
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
       nanoid:
         specifier: ^5.0.9
         version: 5.1.5
