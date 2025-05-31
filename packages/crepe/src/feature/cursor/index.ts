@@ -1,10 +1,13 @@
-import { cursor, dropCursorConfig } from '@milkdown/kit/plugin/cursor'
+import {
+  cursor as cursorPlugin,
+  dropCursorConfig,
+} from '@milkdown/kit/plugin/cursor'
 import { $prose } from '@milkdown/kit/utils'
 import { createVirtualCursor } from 'prosemirror-virtual-cursor'
 
 import type { DefineFeature } from '../shared'
 
-import { crepeFeatureConfig } from '../../core/slice'
+import { crepeFeatureConfig } from '../../utils'
 import { CrepeFeature } from '../index'
 
 interface CursorConfig {
@@ -14,10 +17,7 @@ interface CursorConfig {
 }
 export type CursorFeatureConfig = Partial<CursorConfig>
 
-export const defineFeatureCursor: DefineFeature<CursorFeatureConfig> = (
-  editor,
-  config
-) => {
+export const cursor: DefineFeature<CursorFeatureConfig> = (editor, config) => {
   editor
     .config(crepeFeatureConfig(CrepeFeature.Cursor))
     .config((ctx) => {
@@ -27,7 +27,7 @@ export const defineFeatureCursor: DefineFeature<CursorFeatureConfig> = (
         color: config?.color ?? false,
       }))
     })
-    .use(cursor)
+    .use(cursorPlugin)
 
   if (config?.virtual === false) {
     return

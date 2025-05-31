@@ -7,12 +7,12 @@ import {
 
 import type { DefineFeature, Icon } from '../shared'
 
-import { crepeFeatureConfig } from '../../core/slice'
 import {
   bulletIcon,
   checkBoxCheckedIcon,
   checkBoxUncheckedIcon,
 } from '../../icons'
+import { crepeFeatureConfig } from '../../utils'
 import { CrepeFeature } from '../index'
 
 export interface ListItemConfig {
@@ -39,7 +39,7 @@ function configureListItem(ctx: Ctx, config?: ListItemFeatureConfig) {
   })
 }
 
-export const defineFeatureListItem: DefineFeature<ListItemFeatureConfig> = (
+export const listItem: DefineFeature<ListItemFeatureConfig> = (
   editor,
   config
 ) => {

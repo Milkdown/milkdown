@@ -27,7 +27,6 @@ import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
 import type { ToolbarFeatureConfig } from '.'
 
-import { FeaturesCtx } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import {
   boldIcon,
@@ -37,6 +36,7 @@ import {
   linkIcon,
   strikethroughIcon,
 } from '../../icons'
+import { useCrepeFeatures } from '../../utils'
 import { mathInlineSchema } from '../latex/inline-latex'
 
 h
@@ -114,7 +114,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
       return hasNode
     }
 
-    const flags = ctx?.get(FeaturesCtx)
+    const flags = useCrepeFeatures(ctx).get()
     const isLatexEnabled = flags?.includes(CrepeFeature.Latex)
 
     const toggleLatex = (ctx: Ctx) => {

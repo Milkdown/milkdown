@@ -9,8 +9,8 @@ import {
 
 import type { DefineFeature, Icon } from '../shared'
 
-import { crepeFeatureConfig } from '../../core/slice'
 import { captionIcon, imageIcon, confirmIcon } from '../../icons'
+import { crepeFeatureConfig } from '../../utils'
 import { CrepeFeature } from '../index'
 
 interface ImageBlockConfig {
@@ -34,7 +34,7 @@ interface ImageBlockConfig {
 
 export type ImageBlockFeatureConfig = Partial<ImageBlockConfig>
 
-export const defineFeatureImageBlock: DefineFeature<ImageBlockFeatureConfig> = (
+export const imageBlock: DefineFeature<ImageBlockFeatureConfig> = (
   editor,
   config
 ) => {

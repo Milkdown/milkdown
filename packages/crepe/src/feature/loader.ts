@@ -1,16 +1,16 @@
 import type { Editor } from '@milkdown/kit/core'
 
-import { defineFeatureBlockEdit } from './block-edit'
-import { defineFeatureCodeMirror } from './code-mirror'
-import { defineFeatureCursor } from './cursor'
-import { defineFeatureImageBlock } from './image-block'
+import { blockEdit } from './block-edit'
+import { codeMirror } from './code-mirror'
+import { cursor } from './cursor'
+import { imageBlock } from './image-block'
 import { CrepeFeature } from './index'
-import { defineFeatureLatex } from './latex'
-import { defineFeatureLinkTooltip } from './link-tooltip'
-import { defineFeatureListItem } from './list-item'
-import { defineFeaturePlaceholder } from './placeholder'
-import { defineFeatureTable } from './table'
-import { defineFeatureToolbar } from './toolbar'
+import { latex } from './latex'
+import { linkTooltip } from './link-tooltip'
+import { listItem } from './list-item'
+import { placeholder } from './placeholder'
+import { table } from './table'
+import { toolbar } from './toolbar'
 
 export function loadFeature(
   feature: CrepeFeature,
@@ -19,34 +19,34 @@ export function loadFeature(
 ) {
   switch (feature) {
     case CrepeFeature.CodeMirror: {
-      return defineFeatureCodeMirror(editor, config)
+      return codeMirror(editor, config)
     }
     case CrepeFeature.ListItem: {
-      return defineFeatureListItem(editor, config)
+      return listItem(editor, config)
     }
     case CrepeFeature.LinkTooltip: {
-      return defineFeatureLinkTooltip(editor, config)
+      return linkTooltip(editor, config)
     }
     case CrepeFeature.ImageBlock: {
-      return defineFeatureImageBlock(editor, config)
+      return imageBlock(editor, config)
     }
     case CrepeFeature.Cursor: {
-      return defineFeatureCursor(editor, config)
+      return cursor(editor, config)
     }
     case CrepeFeature.BlockEdit: {
-      return defineFeatureBlockEdit(editor, config)
+      return blockEdit(editor, config)
     }
     case CrepeFeature.Placeholder: {
-      return defineFeaturePlaceholder(editor, config)
+      return placeholder(editor, config)
     }
     case CrepeFeature.Toolbar: {
-      return defineFeatureToolbar(editor, config)
+      return toolbar(editor, config)
     }
     case CrepeFeature.Table: {
-      return defineFeatureTable(editor, config)
+      return table(editor, config)
     }
     case CrepeFeature.Latex: {
-      return defineFeatureLatex(editor, config)
+      return latex(editor, config)
     }
   }
 }

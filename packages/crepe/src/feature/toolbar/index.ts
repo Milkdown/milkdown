@@ -12,8 +12,8 @@ import { createApp, ref, shallowRef, type App, type ShallowRef } from 'vue'
 
 import type { DefineFeature, Icon } from '../shared'
 
-import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
+import { crepeFeatureConfig } from '../../utils'
 import { Toolbar } from './component'
 
 interface ToolbarConfig {
@@ -27,7 +27,7 @@ interface ToolbarConfig {
 
 export type ToolbarFeatureConfig = Partial<ToolbarConfig>
 
-const toolbar = tooltipFactory('CREPE_TOOLBAR')
+const toolbarTooltip = tooltipFactory('CREPE_TOOLBAR')
 
 class ToolbarView implements PluginView {
   #tooltipProvider: TooltipProvider
@@ -110,16 +110,16 @@ class ToolbarView implements PluginView {
   }
 }
 
-export const defineFeatureToolbar: DefineFeature<ToolbarFeatureConfig> = (
+export const toolbar: DefineFeature<ToolbarFeatureConfig> = (
   editor,
   config
 ) => {
   editor
     .config(crepeFeatureConfig(CrepeFeature.Toolbar))
     .config((ctx) => {
-      ctx.set(toolbar.key, {
+      ctx.set(toolbarTooltip.key, {
         view: (view) => new ToolbarView(ctx, view, config),
       })
     })
-    .use(toolbar)
+    .use(toolbarTooltip)
 }

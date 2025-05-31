@@ -11,9 +11,9 @@ import { basicSetup } from 'codemirror'
 
 import type { DefineFeature, Icon } from '../shared'
 
-import { crepeFeatureConfig } from '../../core/slice'
 import { chevronDownIcon, clearIcon, editIcon, searchIcon } from '../../icons'
 import { visibilityOffIcon } from '../../icons/visibility-off'
+import { crepeFeatureConfig } from '../../utils'
 import { CrepeFeature } from '../index'
 
 interface CodeMirrorConfig {
@@ -41,7 +41,7 @@ interface CodeMirrorConfig {
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
-export const defineFeatureCodeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
+export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
   editor,
   config = {}
 ) => {

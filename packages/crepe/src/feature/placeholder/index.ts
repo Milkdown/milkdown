@@ -8,8 +8,7 @@ import { $ctx, $prose } from '@milkdown/kit/utils'
 
 import type { DefineFeature } from '../shared'
 
-import { crepeFeatureConfig } from '../../core/slice'
-import { isInCodeBlock, isInList } from '../../utils'
+import { crepeFeatureConfig, isInCodeBlock, isInList } from '../../utils'
 import { CrepeFeature } from '../index'
 
 function isDocEmpty(doc: Node) {
@@ -74,9 +73,10 @@ export const placeholderPlugin = $prose((ctx) => {
   })
 })
 
-export const defineFeaturePlaceholder: DefineFeature<
-  PlaceholderFeatureConfig
-> = (editor, config) => {
+export const placeholder: DefineFeature<PlaceholderFeatureConfig> = (
+  editor,
+  config
+) => {
   editor
     .config(crepeFeatureConfig(CrepeFeature.Placeholder))
     .config((ctx) => {

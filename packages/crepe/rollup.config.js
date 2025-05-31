@@ -10,6 +10,24 @@ const external = [
   /@milkdown\/kit/,
 ]
 
+const entry = [
+  'index',
+  'builder',
+]
+
+const featureEntry = [
+  'block-edit',
+  'code-mirror',
+  'cursor',
+  'image-block',
+  'latex',
+  'link-tooltip',
+  'list-item',
+  'placeholder',
+  'table',
+  'toolbar',
+]
+
 export default () => {
   const jsPlugins = [
     resolve({ browser: true }),
@@ -18,25 +36,53 @@ export default () => {
     esbuild({ target: 'es2018' }),
   ]
   return [
-    {
-      input: './src/index.ts',
-      output: {
-        dir: 'lib/esm',
-        format: 'esm',
-        sourcemap: true,
-      },
-      external,
-      plugins: jsPlugins,
-    },
-    {
-      input: './src/index.ts',
-      output: {
-        dir: 'lib/cjs',
-        format: 'cjs',
-        sourcemap: true,
-      },
-      external,
-      plugins: jsPlugins,
-    },
+    ...entry.flatMap((name) => {
+      return [
+        {
+          input: `./src/${name}.ts`,
+          output: {
+            dir: `lib/esm/${name}`,
+            format: 'esm',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        },
+        {
+          input: `./src/${name}.ts`,
+          output: {
+            dir: `lib/cjs/${name}`,
+            format: 'cjs',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        }
+      ]
+    }),
+    ...featureEntry.flatMap((name) => {
+      return [
+        {
+          input: `./src/feature/${name}/index.ts`,
+          output: {
+            dir: `lib/esm/feature/${name}`,
+            format: 'esm',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        },
+        {
+          input: `./src/feature/${name}/index.ts`,
+          output: {
+            dir: `lib/cjs/feature/${name}`,
+            format: 'cjs',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        },
+      ]
+    }),
   ]
 }

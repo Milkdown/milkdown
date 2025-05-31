@@ -384,3 +384,9 @@ import '@milkdown/crepe/theme/frame-dark.css'
 @CrepeConfig
 
 @crepeCtx
+
+@FeaturesCtx
+
+@CrepeBuilder
+
+@CrepeBuilderConfig

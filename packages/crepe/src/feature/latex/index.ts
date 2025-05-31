@@ -5,9 +5,9 @@ import katex from 'katex'
 
 import type { DefineFeature, Icon } from '../shared'
 
-import { crepeFeatureConfig, FeaturesCtx } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import { confirmIcon } from '../../icons'
+import { crepeFeatureConfig, useCrepeFeatures } from '../../utils'
 import { blockLatexSchema } from './block-latex'
 import { mathInlineSchema } from './inline-latex'
 import { inlineLatexTooltip } from './inline-tooltip/tooltip'
@@ -22,14 +22,11 @@ export interface LatexConfig {
 
 export type LatexFeatureConfig = Partial<LatexConfig>
 
-export const defineFeatureLatex: DefineFeature<LatexFeatureConfig> = (
-  editor,
-  config
-) => {
+export const latex: DefineFeature<LatexFeatureConfig> = (editor, config) => {
   editor
     .config(crepeFeatureConfig(CrepeFeature.Latex))
     .config((ctx) => {
-      const flags = ctx.get(FeaturesCtx)
+      const flags = useCrepeFeatures(ctx).get()
       const isCodeMirrorEnabled = flags.includes(CrepeFeature.CodeMirror)
       if (!isCodeMirrorEnabled) {
         throw new Error('You need to enable CodeMirror to use LaTeX feature')
