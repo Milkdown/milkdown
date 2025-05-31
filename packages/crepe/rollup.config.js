@@ -10,10 +10,7 @@ const external = [
   /@milkdown\/kit/,
 ]
 
-const entry = [
-  'index',
-  'builder',
-]
+const entry = ['index', 'builder']
 
 const featureEntry = [
   'block-edit',
@@ -57,7 +54,7 @@ export default () => {
           },
           external,
           plugins: jsPlugins,
-        }
+        },
       ]
     }),
     ...featureEntry.flatMap((name) => {
