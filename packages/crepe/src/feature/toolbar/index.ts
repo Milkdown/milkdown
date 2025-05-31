@@ -12,8 +12,8 @@ import { createApp, ref, shallowRef, type App, type ShallowRef } from 'vue'
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
-import { crepeFeatureConfig } from '../../utils'
 import { Toolbar } from './component'
 
 interface ToolbarConfig {

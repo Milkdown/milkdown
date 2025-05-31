@@ -9,8 +9,8 @@ import {
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
 import { captionIcon, imageIcon, confirmIcon } from '../../icons'
-import { crepeFeatureConfig } from '../../utils'
 import { CrepeFeature } from '../index'
 
 interface ImageBlockConfig {

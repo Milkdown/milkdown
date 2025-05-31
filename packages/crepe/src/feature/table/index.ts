@@ -5,6 +5,7 @@ import {
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
 import {
   alignCenterIcon,
   alignLeftIcon,
@@ -13,7 +14,6 @@ import {
   plusIcon,
   removeIcon,
 } from '../../icons'
-import { crepeFeatureConfig } from '../../utils'
 import { CrepeFeature } from '../index'
 
 interface TableConfig {

@@ -18,6 +18,7 @@ import { TextSelection } from '@milkdown/kit/prose/state'
 import type { BlockEditFeatureConfig } from '../index'
 import type { MenuItemGroup } from './utils'
 
+import { useCrepeFeatures } from '../../../core/slice'
 import { CrepeFeature } from '../../../feature'
 import {
   bulletListIcon,
@@ -37,7 +38,6 @@ import {
   textIcon,
   todoListIcon,
 } from '../../../icons'
-import { useCrepeFeatures } from '../../../utils'
 import { GroupBuilder } from './group-builder'
 import {
   clearContentAndAddBlockType,

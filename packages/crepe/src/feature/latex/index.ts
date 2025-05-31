@@ -5,9 +5,9 @@ import katex from 'katex'
 
 import type { DefineFeature, Icon } from '../shared'
 
+import { crepeFeatureConfig, useCrepeFeatures } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import { confirmIcon } from '../../icons'
-import { crepeFeatureConfig, useCrepeFeatures } from '../../utils'
 import { blockLatexSchema } from './block-latex'
 import { mathInlineSchema } from './inline-latex'
 import { inlineLatexTooltip } from './inline-tooltip/tooltip'

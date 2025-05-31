@@ -7,7 +7,7 @@ import { createVirtualCursor } from 'prosemirror-virtual-cursor'
 
 import type { DefineFeature } from '../shared'
 
-import { crepeFeatureConfig } from '../../utils'
+import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../index'
 
 interface CursorConfig {

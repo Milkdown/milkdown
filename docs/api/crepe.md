@@ -51,6 +51,22 @@ interface CrepeConfig {
 }
 ```
 
+### Builder Configuration
+
+The `CrepeBuilder` can be configured through the `CrepeBuilderConfig` interface:
+
+```typescript
+interface CrepeBuilderConfig {
+  /// The root element for the editor.
+  /// Supports both DOM nodes and CSS selectors,
+  /// If not provided, the editor will be appended to the body.
+  root?: Node | string | null
+
+  /// The default value for the editor.
+  defaultValue?: DefaultValue
+}
+```
+
 ### Feature Configurations
 
 Each feature can be configured individually. Here are the available configurations for each feature:
@@ -327,6 +343,10 @@ const config: CrepeConfig = {
 
 ## Usage
 
+### Using Crepe Editor
+
+The `Crepe` class provides a high-level interface with all features enabled by default:
+
 ```typescript
 import { Crepe } from '@milkdown/crepe'
 
@@ -359,6 +379,58 @@ editor.on((api) => {
 })
 ```
 
+### Using CrepeBuilder
+
+The `CrepeBuilder` class provides a more flexible way to build your editor by manually adding features. This approach is particularly useful for optimizing bundle size since you only include the features you actually need:
+
+```typescript
+import { CrepeBuilder } from '@milkdown/crepe/builder'
+import { blockEdit } from '@milkdown/crepe/feature/block-edit'
+import { toolbar } from '@milkdown/crepe/feature/toolbar'
+
+// You may also want to import styles by feature
+import '@milkdown/crepe/theme/common/prosemirror.css'
+import '@milkdown/crepe/theme/common/reset.css'
+import '@milkdown/crepe/theme/common/block-edit.css'
+import '@milkdown/crepe/theme/common/toolbar.css'
+
+// And introduce the theme
+import '@milkdown/crepe/theme/crepe.css'
+
+const builder = new CrepeBuilder({
+  root: '#editor',
+  defaultValue: '# Hello World',
+})
+
+// Add features manually
+builder.addFeature(blockEdit).addFeature(toolbar)
+
+// Create the editor
+const editor = builder.create()
+
+// Get markdown content
+const markdown = builder.getMarkdown()
+
+// Set readonly mode
+builder.setReadonly(true)
+
+// Listen to editor events
+builder.on((api) => {
+  api.listen('update', (ctx) => {
+    // Handle updates
+  })
+})
+```
+
+The `CrepeBuilder` is useful when you want to:
+
+- Reduce bundle size by only including the features you need
+- Have more control over which features are added and in what order
+- Add custom features or plugins
+- Configure features individually with their specific configurations
+
+This approach allows for better tree-shaking and results in a smaller bundle size compared to using the full `Crepe` editor with all features enabled.
+
 ## Themes
 
 Crepe comes with several built-in themes that can be imported:
@@ -383,10 +455,10 @@ import '@milkdown/crepe/theme/frame-dark.css'
 
 @CrepeConfig
 
-@crepeCtx
-
-@FeaturesCtx
-
 @CrepeBuilder
 
 @CrepeBuilderConfig
+
+@useCrepe
+
+@useCrepeFeatures

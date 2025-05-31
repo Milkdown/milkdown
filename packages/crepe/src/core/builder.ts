@@ -7,7 +7,6 @@ import {
   editorViewOptionsCtx,
   rootCtx,
 } from '@milkdown/kit/core'
-import { createSlice } from '@milkdown/kit/ctx'
 import { clipboard } from '@milkdown/kit/plugin/clipboard'
 import { history } from '@milkdown/kit/plugin/history'
 import { indent, indentConfig } from '@milkdown/kit/plugin/indent'
@@ -24,6 +23,8 @@ import { getMarkdown } from '@milkdown/kit/utils'
 import type { CrepeFeature, CrepeFeatureConfig } from '../feature'
 import type { DefineFeature } from '../feature/shared'
 
+import { CrepeCtx, FeaturesCtx } from './slice'
+
 /// The crepe builder configuration.
 export interface CrepeBuilderConfig {
   /// The root element for the editor.
@@ -34,21 +35,6 @@ export interface CrepeBuilderConfig {
   /// The default value for the editor.
   defaultValue?: DefaultValue
 }
-
-export const FeaturesCtx = createSlice([] as CrepeFeature[], 'FeaturesCtx')
-
-/// The crepe editor context.
-/// You can use this context to access the crepe editor instance within Milkdown plugins.
-/// ```ts
-/// import { crepeCtx } from '@milkdown/crepe'
-/// const plugin = (ctx: Ctx) => {
-///   return () => {
-///     const crepe = ctx.get(crepeCtx)
-///     crepe.setReadonly(true)
-///   }
-/// }
-/// ```
-export const crepeCtx = createSlice({} as CrepeBuilder, 'CrepeCtx')
 
 /// The crepe builder class.
 /// This class allows users to manually add features to the editor.
@@ -70,7 +56,7 @@ export class CrepeBuilder {
       document.body
     this.#editor = Editor.make()
       .config((ctx) => {
-        ctx.inject(crepeCtx, this)
+        ctx.inject(CrepeCtx, this)
         ctx.inject(FeaturesCtx, [])
       })
       .config((ctx) => {

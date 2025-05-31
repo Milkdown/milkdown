@@ -8,7 +8,8 @@ import { $ctx, $prose } from '@milkdown/kit/utils'
 
 import type { DefineFeature } from '../shared'
 
-import { crepeFeatureConfig, isInCodeBlock, isInList } from '../../utils'
+import { crepeFeatureConfig } from '../../core/slice'
+import { isInCodeBlock, isInList } from '../../utils'
 import { CrepeFeature } from '../index'
 
 function isDocEmpty(doc: Node) {

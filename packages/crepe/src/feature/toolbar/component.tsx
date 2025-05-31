@@ -27,6 +27,7 @@ import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
 import type { ToolbarFeatureConfig } from '.'
 
+import { useCrepeFeatures } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import {
   boldIcon,
@@ -36,7 +37,6 @@ import {
   linkIcon,
   strikethroughIcon,
 } from '../../icons'
-import { useCrepeFeatures } from '../../utils'
 import { mathInlineSchema } from '../latex/inline-latex'
 
 h

@@ -3,7 +3,7 @@ import { block } from '@milkdown/kit/plugin/block'
 import type { DefineFeature, Icon } from '../shared'
 import type { GroupBuilder } from './menu/group-builder'
 
-import { crepeFeatureConfig } from '../../utils'
+import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../index'
 import { configureBlockHandle } from './handle'
 import { configureMenu, menu, menuAPI } from './menu'
