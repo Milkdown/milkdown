@@ -4,5 +4,3 @@ export type DefineFeature<Config = unknown> = (
   editor: Editor,
   config?: Config
 ) => void
-
-export type Icon = () => string

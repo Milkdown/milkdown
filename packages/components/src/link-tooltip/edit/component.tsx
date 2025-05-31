@@ -70,7 +70,7 @@ export const EditLink = defineComponent<EditLinkProps>({
           {link.value ? (
             <Icon
               class="button confirm"
-              icon={config.value.confirmButton()}
+              icon={config.value.confirmButton}
               onClick={onConfirmEdit}
             />
           ) : null}

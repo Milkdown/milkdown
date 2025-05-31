@@ -9,7 +9,7 @@ import {
 } from '@milkdown/kit/component/code-block'
 import { basicSetup } from 'codemirror'
 
-import type { DefineFeature, Icon } from '../shared'
+import type { DefineFeature } from '../shared'
 
 import { crepeFeatureConfig } from '../../core/slice'
 import { chevronDownIcon, clearIcon, editIcon, searchIcon } from '../../icons'
@@ -21,9 +21,9 @@ interface CodeMirrorConfig {
   languages: LanguageDescription[]
   theme: Extension
 
-  expandIcon: Icon
-  searchIcon: Icon
-  clearSearchIcon: Icon
+  expandIcon: string
+  searchIcon: string
+  clearSearchIcon: string
 
   searchPlaceholder: string
   noResultText: string
@@ -35,9 +35,9 @@ interface CodeMirrorConfig {
     content: string
   ) => string | HTMLElement | null
 
-  previewToggleIcon: (previewOnlyMode: boolean) => ReturnType<Icon>
+  previewToggleIcon: (previewOnlyMode: boolean) => string
   previewToggleText: (previewOnlyMode: boolean) => string
-  previewLabel: () => string
+  previewLabel: string
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
@@ -68,9 +68,9 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
         ],
         languages,
 
-        expandIcon: () => config.expandIcon?.() || chevronDownIcon,
-        searchIcon: () => config.searchIcon?.() || searchIcon,
-        clearSearchIcon: () => config.clearSearchIcon?.() || clearIcon,
+        expandIcon: config.expandIcon || chevronDownIcon,
+        searchIcon: config.searchIcon || searchIcon,
+        clearSearchIcon: config.clearSearchIcon || clearIcon,
         searchPlaceholder: config.searchPlaceholder || 'Search language',
         noResultText: config.noResultText || 'No result',
         renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,

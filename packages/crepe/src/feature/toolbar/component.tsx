@@ -172,7 +172,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
               commands.call(toggleStrongCommand.key)
             })}
           >
-            <Icon icon={config?.boldIcon?.() ?? boldIcon} />
+            <Icon icon={config?.boldIcon ?? boldIcon} />
           </button>
           <button
             type="button"
@@ -185,7 +185,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
               commands.call(toggleEmphasisCommand.key)
             })}
           >
-            <Icon icon={config?.italicIcon?.() ?? italicIcon} />
+            <Icon icon={config?.italicIcon ?? italicIcon} />
           </button>
           <button
             type="button"
@@ -198,7 +198,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
               commands.call(toggleStrikethroughCommand.key)
             })}
           >
-            <Icon icon={config?.strikethroughIcon?.() ?? strikethroughIcon} />
+            <Icon icon={config?.strikethroughIcon ?? strikethroughIcon} />
           </button>
           <div class="divider"></div>
           <button
@@ -212,7 +212,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
               commands.call(toggleInlineCodeCommand.key)
             })}
           >
-            <Icon icon={config?.codeIcon?.() ?? codeIcon} />
+            <Icon icon={config?.codeIcon ?? codeIcon} />
           </button>
           {isLatexEnabled && (
             <button
@@ -223,7 +223,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
               )}
               onPointerdown={onClick(toggleLatex)}
             >
-              <Icon icon={config?.latexIcon?.() ?? functionsIcon} />
+              <Icon icon={config?.latexIcon ?? functionsIcon} />
             </button>
           )}
           <button
@@ -247,7 +247,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
               hide?.()
             })}
           >
-            <Icon icon={config?.linkIcon?.() ?? linkIcon} />
+            <Icon icon={config?.linkIcon ?? linkIcon} />
           </button>
         </>
       )

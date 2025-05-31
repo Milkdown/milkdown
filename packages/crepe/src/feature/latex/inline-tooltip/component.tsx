@@ -48,7 +48,7 @@ export const LatexTooltip = defineComponent<LatexTooltipProps>({
         <div class="container">
           {props.innerView && <div ref={innerViewRef} />}
           <button onPointerdown={onUpdate}>
-            <Icon icon={props.config.inlineEditConfirm?.()} />
+            <Icon icon={props.config.inlineEditConfirm} />
           </button>
         </div>
       )

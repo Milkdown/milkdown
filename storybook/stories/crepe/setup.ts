@@ -43,17 +43,16 @@ export function setup({ args, style, theme }: setupConfig) {
           language === 'JA' ? 'リンクを貼り付け...' : 'Paste link...',
       },
       [Crepe.Feature.ImageBlock]: {
-        inlineUploadButton: () =>
-          language === 'JA' ? 'アップロード' : 'Upload',
+        inlineUploadButton: language === 'JA' ? 'アップロード' : 'Upload',
         inlineUploadPlaceholderText:
           language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
-        blockUploadButton: () =>
+        blockUploadButton:
           language === 'JA' ? 'ファイルをアップロード' : 'Upload file',
         blockUploadPlaceholderText:
           language === 'JA' ? 'またはリンクを貼り付ける' : 'or paste link',
         blockCaptionPlaceholderText:
           language === 'JA' ? '画像の説明を書く...' : 'Write Image Caption',
-        blockConfirmButton: () => (language === 'JA' ? '確認' : 'Confirm'),
+        blockConfirmButton: language === 'JA' ? '確認' : 'Confirm',
       },
       [Crepe.Feature.BlockEdit]: {
         slashMenuTextGroupLabel: language === 'JA' ? 'テキスト' : 'Text',
@@ -91,7 +90,7 @@ export function setup({ args, style, theme }: setupConfig) {
         theme,
         searchPlaceholder: language === 'JA' ? '言語を検索' : 'Search language',
         noResultText: language === 'JA' ? '見つかりません' : 'No result',
-        previewLabel: () => (language === 'JA' ? 'プレビュー' : 'Preview'),
+        previewLabel: language === 'JA' ? 'プレビュー' : 'Preview',
         previewToggleText: (previewOnlyMode) =>
           language === 'JA'
             ? previewOnlyMode

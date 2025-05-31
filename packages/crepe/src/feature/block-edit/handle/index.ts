@@ -26,8 +26,8 @@ export class BlockHandleView implements PluginView {
     content.classList.add('milkdown-block-handle')
     const app = createApp(BlockHandle, {
       onAdd: this.onAdd,
-      addIcon: config?.handleAddIcon ?? (() => plusIcon),
-      handleIcon: config?.handleDragIcon ?? (() => menuIcon),
+      addIcon: config?.handleAddIcon ?? plusIcon,
+      handleIcon: config?.handleDragIcon ?? menuIcon,
     })
     app.mount(content)
     this.#app = app

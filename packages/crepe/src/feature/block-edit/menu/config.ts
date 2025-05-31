@@ -61,7 +61,7 @@ export function getGroups(
     .addGroup('text', config?.slashMenuTextGroupLabel ?? 'Text')
     .addItem('text', {
       label: config?.slashMenuTextLabel ?? 'Text',
-      icon: config?.slashMenuTextIcon?.() ?? textIcon,
+      icon: config?.slashMenuTextIcon ?? textIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -72,7 +72,7 @@ export function getGroups(
     })
     .addItem('h1', {
       label: config?.slashMenuH1Label ?? 'Heading 1',
-      icon: config?.slashMenuH1Icon?.() ?? h1Icon,
+      icon: config?.slashMenuH1Icon ?? h1Icon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -85,7 +85,7 @@ export function getGroups(
     })
     .addItem('h2', {
       label: config?.slashMenuH2Label ?? 'Heading 2',
-      icon: config?.slashMenuH2Icon?.() ?? h2Icon,
+      icon: config?.slashMenuH2Icon ?? h2Icon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -98,7 +98,7 @@ export function getGroups(
     })
     .addItem('h3', {
       label: config?.slashMenuH3Label ?? 'Heading 3',
-      icon: config?.slashMenuH3Icon?.() ?? h3Icon,
+      icon: config?.slashMenuH3Icon ?? h3Icon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -111,7 +111,7 @@ export function getGroups(
     })
     .addItem('h4', {
       label: config?.slashMenuH4Label ?? 'Heading 4',
-      icon: config?.slashMenuH4Icon?.() ?? h4Icon,
+      icon: config?.slashMenuH4Icon ?? h4Icon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -124,7 +124,7 @@ export function getGroups(
     })
     .addItem('h5', {
       label: config?.slashMenuH5Label ?? 'Heading 5',
-      icon: config?.slashMenuH5Icon?.() ?? h5Icon,
+      icon: config?.slashMenuH5Icon ?? h5Icon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -137,7 +137,7 @@ export function getGroups(
     })
     .addItem('h6', {
       label: config?.slashMenuH6Label ?? 'Heading 6',
-      icon: config?.slashMenuH6Icon?.() ?? h6Icon,
+      icon: config?.slashMenuH6Icon ?? h6Icon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -150,7 +150,7 @@ export function getGroups(
     })
     .addItem('quote', {
       label: config?.slashMenuQuoteLabel ?? 'Quote',
-      icon: config?.slashMenuQuoteIcon?.() ?? quoteIcon,
+      icon: config?.slashMenuQuoteIcon ?? quoteIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -163,7 +163,7 @@ export function getGroups(
     })
     .addItem('divider', {
       label: config?.slashMenuDividerLabel ?? 'Divider',
-      icon: config?.slashMenuDividerIcon?.() ?? dividerIcon,
+      icon: config?.slashMenuDividerIcon ?? dividerIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -177,7 +177,7 @@ export function getGroups(
     .addGroup('list', config?.slashMenuListGroupLabel ?? 'List')
     .addItem('bullet-list', {
       label: config?.slashMenuBulletListLabel ?? 'Bullet List',
-      icon: config?.slashMenuBulletListIcon?.() ?? bulletListIcon,
+      icon: config?.slashMenuBulletListIcon ?? bulletListIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -190,7 +190,7 @@ export function getGroups(
     })
     .addItem('ordered-list', {
       label: config?.slashMenuOrderedListLabel ?? 'Ordered List',
-      icon: config?.slashMenuOrderedListIcon?.() ?? orderedListIcon,
+      icon: config?.slashMenuOrderedListIcon ?? orderedListIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -203,7 +203,7 @@ export function getGroups(
     })
     .addItem('todo-list', {
       label: config?.slashMenuTaskListLabel ?? 'Todo List',
-      icon: config?.slashMenuTaskListIcon?.() ?? todoListIcon,
+      icon: config?.slashMenuTaskListIcon ?? todoListIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -224,7 +224,7 @@ export function getGroups(
   if (isImageBlockEnabled) {
     advancedGroup.addItem('image', {
       label: config?.slashMenuImageLabel ?? 'Image',
-      icon: config?.slashMenuImageIcon?.() ?? imageIcon,
+      icon: config?.slashMenuImageIcon ?? imageIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -237,7 +237,7 @@ export function getGroups(
 
   advancedGroup.addItem('code', {
     label: config?.slashMenuCodeBlockLabel ?? 'Code',
-    icon: config?.slashMenuCodeBlockIcon?.() ?? codeIcon,
+    icon: config?.slashMenuCodeBlockIcon ?? codeIcon,
     onRun: (ctx) => {
       const view = ctx.get(editorViewCtx)
       const { dispatch, state } = view
@@ -250,7 +250,7 @@ export function getGroups(
   if (isTableEnabled) {
     advancedGroup.addItem('table', {
       label: config?.slashMenuTableLabel ?? 'Table',
-      icon: config?.slashMenuTableIcon?.() ?? tableIcon,
+      icon: config?.slashMenuTableIcon ?? tableIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view
@@ -278,7 +278,7 @@ export function getGroups(
   if (isLatexEnabled) {
     advancedGroup.addItem('math', {
       label: config?.slashMenuMathLabel ?? 'Math',
-      icon: config?.slashMenuMathIcon?.() ?? functionsIcon,
+      icon: config?.slashMenuMathIcon ?? functionsIcon,
       onRun: (ctx) => {
         const view = ctx.get(editorViewCtx)
         const { dispatch, state } = view

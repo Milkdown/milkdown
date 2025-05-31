@@ -3,10 +3,10 @@ import { $ctx } from '@milkdown/utils'
 import { withMeta } from '../__internal__/meta'
 
 export interface ImageBlockConfig {
-  imageIcon: () => string | undefined
-  captionIcon: () => string | undefined
-  uploadButton: () => string | undefined
-  confirmButton: () => string | undefined
+  imageIcon: string | undefined
+  captionIcon: string | undefined
+  uploadButton: string | undefined
+  confirmButton: string | undefined
   uploadPlaceholderText: string
   captionPlaceholderText: string
   onUpload: (file: File) => Promise<string>
@@ -14,10 +14,10 @@ export interface ImageBlockConfig {
 }
 
 export const defaultImageBlockConfig: ImageBlockConfig = {
-  imageIcon: () => '🌌',
-  captionIcon: () => '💬',
-  uploadButton: () => 'Upload file',
-  confirmButton: () => 'Confirm ⏎',
+  imageIcon: '🌌',
+  captionIcon: '💬',
+  uploadButton: 'Upload file',
+  confirmButton: 'Confirm ⏎',
   uploadPlaceholderText: 'or paste the image link ...',
   captionPlaceholderText: 'Image caption',
   onUpload: (file) => Promise.resolve(URL.createObjectURL(file)),
