@@ -17,6 +17,11 @@ env:
 jobs:
   install-deps:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v4
