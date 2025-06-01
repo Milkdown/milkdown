@@ -1,5 +1,18 @@
 # @milkdown/prose
 
+## 7.12.1
+
+### Patch Changes
+
+- 9767b9b: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 crepe rollup wrong config
+
+- Updated dependencies [9767b9b]
+  - @milkdown/exception@7.12.1
+
 ## 7.12.0
 
 ### Minor Changes
