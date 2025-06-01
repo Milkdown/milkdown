@@ -24,10 +24,16 @@ const TestEditor: FC = () => {
   return <Milkdown />
 }
 
+const TestApp = () => {
+  return (
+    <MilkdownProvider>
+      <TestEditor />
+    </MilkdownProvider>
+  )
+}
+
 test('should render milkdown', async () => {
-  render(<TestEditor />, {
-    wrapper: MilkdownProvider,
-  })
+  render(<TestApp />)
 
   await waitFor(() => {
     expect(screen.getByText('Testing')).toBeInTheDocument()
