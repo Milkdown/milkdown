@@ -44,6 +44,7 @@ test('should focus on the editor after clicking on the list item', async ({
 
   // Click on the list item
   await li.locator('.label-wrapper').click()
+  await waitNextFrame(page)
   // Check if the editor is focused
   const isFocused = await editor.evaluate(() => window.__view__.hasFocus())
   expect(isFocused).toBe(true)
