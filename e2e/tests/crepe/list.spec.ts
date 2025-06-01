@@ -42,6 +42,9 @@ test('should focus on the editor after clicking on the list item', async ({
 
   await editor.blur()
 
+  const isBlurred = await editor.evaluate(() => !window.__view__.hasFocus())
+  expect(isBlurred).toBe(true)
+
   // Click on the list item
   await li.locator('.label-wrapper').click()
   await waitNextFrame(page)
