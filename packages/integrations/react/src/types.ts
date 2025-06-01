@@ -1,8 +1,10 @@
-import type { Crepe } from '@milkdown/crepe'
+import type { CrepeBuilder } from '@milkdown/crepe/builder'
 import type { Editor } from '@milkdown/kit/core'
 import type { Dispatch, RefObject, SetStateAction } from 'react'
 
-export type GetEditor = (container: HTMLElement) => Editor | Crepe | undefined
+export type GetEditor = (
+  container: HTMLElement
+) => Editor | CrepeBuilder | undefined
 export interface UseEditorReturn {
   readonly loading: boolean
   readonly get: () => Editor | undefined
