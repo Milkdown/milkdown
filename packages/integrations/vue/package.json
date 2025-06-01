@@ -44,5 +44,8 @@
     "@milkdown/crepe": "workspace:*",
     "@milkdown/kit": "workspace:*",
     "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@testing-library/vue": "^8.1.0"
   }
 }
