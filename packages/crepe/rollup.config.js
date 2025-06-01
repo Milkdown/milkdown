@@ -38,7 +38,7 @@ export default () => {
         {
           input: `./src/${name}.ts`,
           output: {
-            dir: `lib/esm/${name}`,
+            dir: 'lib/esm',
             format: 'esm',
             sourcemap: true,
           },
@@ -48,7 +48,7 @@ export default () => {
         {
           input: `./src/${name}.ts`,
           output: {
-            dir: `lib/cjs/${name}`,
+            dir: 'lib/cjs',
             format: 'cjs',
             sourcemap: true,
           },
