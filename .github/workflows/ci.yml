@@ -23,6 +23,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: git-town/action@v1
+
       - uses: ./.github/actions/setup
 
   lint:
