@@ -1,5 +1,15 @@
 # @milkdown/exception
 
+## 7.12.1
+
+### Patch Changes
+
+- 9767b9b: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 crepe rollup wrong config
+
 ## 7.12.0
 
 ### Minor Changes

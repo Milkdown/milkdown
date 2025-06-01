@@ -1,5 +1,35 @@
 # @milkdown/kit
 
+## 7.12.1
+
+### Patch Changes
+
+- 9767b9b: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 crepe rollup wrong config
+
+- Updated dependencies [9767b9b]
+  - @milkdown/components@7.12.1
+  - @milkdown/core@7.12.1
+  - @milkdown/ctx@7.12.1
+  - @milkdown/plugin-block@7.12.1
+  - @milkdown/plugin-clipboard@7.12.1
+  - @milkdown/plugin-cursor@7.12.1
+  - @milkdown/plugin-history@7.12.1
+  - @milkdown/plugin-indent@7.12.1
+  - @milkdown/plugin-listener@7.12.1
+  - @milkdown/plugin-slash@7.12.1
+  - @milkdown/plugin-tooltip@7.12.1
+  - @milkdown/plugin-trailing@7.12.1
+  - @milkdown/plugin-upload@7.12.1
+  - @milkdown/preset-commonmark@7.12.1
+  - @milkdown/preset-gfm@7.12.1
+  - @milkdown/prose@7.12.1
+  - @milkdown/transformer@7.12.1
+  - @milkdown/utils@7.12.1
+
 ## 7.12.0
 
 ### Minor Changes

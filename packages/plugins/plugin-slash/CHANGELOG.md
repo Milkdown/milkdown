@@ -1,5 +1,22 @@
 # @milkdown/plugin-slash
 
+## 7.12.1
+
+### Patch Changes
+
+- 9767b9b: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 crepe rollup wrong config
+
+- Updated dependencies [9767b9b]
+  - @milkdown/core@7.12.1
+  - @milkdown/ctx@7.12.1
+  - @milkdown/exception@7.12.1
+  - @milkdown/prose@7.12.1
+  - @milkdown/utils@7.12.1
+
 ## 7.12.0
 
 ### Minor Changes
