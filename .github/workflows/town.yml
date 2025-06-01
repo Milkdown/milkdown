@@ -5,6 +5,10 @@ on:
     branches:
       - '**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   git-town:
     name: display the branch stack
@@ -16,4 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: git-town/action@v1
+
+      - uses: git-town/action@v1.2.0
+        with:
+          history-limit: 50
