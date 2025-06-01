@@ -16,7 +16,7 @@ origin-hostname = "github.com"
 
 [ship]
 delete-tracking-branch = true
-strategy = "api"
+strategy = "fast-forward"
 
 [sync]
 feature-strategy = "rebase"
