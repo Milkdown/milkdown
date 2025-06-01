@@ -12,7 +12,7 @@ share-new-branches = "no"
 [hosting]
 dev-remote = "origin"
 forge-type = "github"
-# origin-hostname = ""
+origin-hostname = "github.com"
 
 [ship]
 delete-tracking-branch = true
