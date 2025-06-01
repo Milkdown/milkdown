@@ -26,3 +26,4 @@ jobs:
       - uses: git-town/action@v1.2.0
         with:
           history-limit: 50
+          skip-single-stacks: true
