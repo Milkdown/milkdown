@@ -102,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-e2e-${{ matrix.shard }}
-          path: e2e/playwright-report/
+          path: e2e/test-results/
           retention-days: 7
 
   summary:
