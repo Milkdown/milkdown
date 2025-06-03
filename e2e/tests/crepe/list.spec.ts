@@ -32,7 +32,8 @@ test('should focus on the editor after clicking on the list item', async ({
 }) => {
   const editor = page.locator('.editor')
   await focusEditor(page)
-  await page.keyboard.type('- [ ]')
+  await waitNextFrame(page)
+  await page.keyboard.type('- [ ]', { delay: 20 })
   await page.keyboard.press('Space')
   await waitNextFrame(page)
   await page.keyboard.type('First item')
