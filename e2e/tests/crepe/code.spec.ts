@@ -64,7 +64,11 @@ test('should not be able to change language in readonly mode', async ({
   await expect(languagePickerMenu).toBeVisible()
 })
 
-test('should copy code block content', async ({ page }) => {
+test('should copy code block content', async ({ page, browserName }) => {
+  test.skip(
+    browserName === 'webkit',
+    'cannot test clipboard api with webkit, reference: https://github.com/microsoft/playwright/issues/13037'
+  )
   const editor = page.locator('.editor')
   await focusEditor(page)
   await page.keyboard.type('```ts')

@@ -24,7 +24,6 @@ export default defineConfig({
   reporter: process.env.CI ? 'dot' : 'list',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    permissions: ['clipboard-read', 'clipboard-write'],
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.CI ? 'http://127.0.0.1:4173' : 'http://localhost:5173',
 
@@ -37,7 +36,10 @@ export default defineConfig({
     ? [
         {
           name: 'chromium',
-          use: { ...devices['Desktop Chrome'] },
+          use: {
+            ...devices['Desktop Chrome'],
+            permissions: ['clipboard-read', 'clipboard-write'],
+          },
         },
 
         {
@@ -53,7 +55,10 @@ export default defineConfig({
     : [
         {
           name: 'chromium',
-          use: { ...devices['Desktop Chrome'] },
+          use: {
+            ...devices['Desktop Chrome'],
+            permissions: ['clipboard-read', 'clipboard-write'],
+          },
         },
       ],
 
