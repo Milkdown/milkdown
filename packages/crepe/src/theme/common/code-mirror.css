@@ -188,7 +188,9 @@
       }
     }
 
-    &:hover .language-button, &:hover .copy-button, .copy-button.copy-button--copied {
+    &:hover .language-button,
+    &:hover .copy-button,
+    .copy-button.copy-button--copied {
       opacity: 1;
     }
 
