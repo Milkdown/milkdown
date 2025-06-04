@@ -8,7 +8,7 @@ Fragment
 
 export type CopyButtonProps = {
   copiedText: string
-  copyIcon: () => string
+  copyIcon: string
   text: string
 }
 
@@ -96,7 +96,7 @@ export const CopyButton = defineComponent<CopyButtonProps>({
             class={clsx('copy-button', isCopied.value && 'copy-button--copied')}
           >
             {isCopied.value && props.copiedText}
-            <Icon icon={props.copyIcon()} onClick={onCopyCode} />
+            <Icon icon={props.copyIcon} onClick={onCopyCode} />
           </button>
         </>
       )
