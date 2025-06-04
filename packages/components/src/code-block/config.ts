@@ -13,6 +13,8 @@ export interface CodeBlockConfig {
   clearSearchIcon: () => string
   searchPlaceholder: string
   noResultText: string
+  copiedText: string
+  copyIcon: () => string
   renderLanguage: (language: string, selected: boolean) => string
   renderPreview: (
     language: string,
@@ -30,6 +32,8 @@ export const defaultConfig: CodeBlockConfig = {
   clearSearchIcon: () => '⌫',
   searchPlaceholder: 'Search language',
   noResultText: 'No result',
+  copiedText: 'Copied',
+  copyIcon: () => '📋',
   renderLanguage: (language) => language,
   renderPreview: () => null,
   previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? 'Edit' : 'Hide'),

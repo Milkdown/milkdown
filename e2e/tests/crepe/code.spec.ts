@@ -63,3 +63,22 @@ test('should not be able to change language in readonly mode', async ({
   await languagePicker.click()
   await expect(languagePickerMenu).toBeVisible()
 })
+
+test.only('should copy code block content', async ({ page }) => {
+  const editor = page.locator('.editor')
+  await focusEditor(page)
+  await page.keyboard.type('```ts')
+  await page.keyboard.press('Enter')
+  await page.keyboard.type('console.log("Hello, world!")')
+
+  await editor.locator('.copy-button').click()
+
+  // Wait a moment for the clipboard operation to complete (adjust as needed)
+  await page.waitForTimeout(100)
+
+  const clipboardValue = await page.evaluate(() =>
+    navigator.clipboard.readText()
+  )
+
+  expect(clipboardValue).toBe('console.log("Hello, world!")')
+})

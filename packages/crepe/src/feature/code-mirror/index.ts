@@ -11,7 +11,13 @@ import { basicSetup } from 'codemirror'
 
 import type { DefineFeature, Icon } from '../shared'
 
-import { chevronDownIcon, clearIcon, editIcon, searchIcon } from '../../icons'
+import {
+  chevronDownIcon,
+  clearIcon,
+  copyIcon,
+  editIcon,
+  searchIcon,
+} from '../../icons'
 import { visibilityOffIcon } from '../../icons/visibility-off'
 
 interface CodeMirrorConfig {
@@ -24,6 +30,8 @@ interface CodeMirrorConfig {
   clearSearchIcon: Icon
 
   searchPlaceholder: string
+  copiedText: string
+  copyIcon: Icon
   noResultText: string
 
   renderLanguage: (language: string, selected: boolean) => string
@@ -69,6 +77,8 @@ export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (
         searchIcon: () => config.searchIcon?.() || searchIcon,
         clearSearchIcon: () => config.clearSearchIcon?.() || clearIcon,
         searchPlaceholder: config.searchPlaceholder || 'Search language',
+        copiedText: config.copiedText || 'Copied',
+        copyIcon: () => config.copyIcon?.() || copyIcon,
         noResultText: config.noResultText || 'No result',
         renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,
         renderPreview: config.renderPreview || defaultConfig.renderPreview,

@@ -15,6 +15,7 @@ import type { CodeBlockConfig } from '../../config'
 import type { LanguageInfo } from '../loader'
 
 import { Icon } from '../../../__internal__/components/icon'
+import { CopyButton } from './copy-button'
 import { LanguagePicker } from './language-picker'
 import { PreviewPanel } from './preview-panel'
 
@@ -109,6 +110,12 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
                 />
               </button>
             ) : null}
+
+            <CopyButton
+              copyIcon={props.config.copyIcon}
+              copiedText={props.config.copiedText}
+              text={props.text.value}
+            />
           </div>
           <div
             ref={codemirrorHostRef}

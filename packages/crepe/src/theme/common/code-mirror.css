@@ -169,9 +169,26 @@
           outline: none;
         }
       }
+
+      .copy-button {
+        opacity: 0;
+        cursor: pointer;
+        transition: opacity 0.2s ease-in-out;
+        color: var(--crepe-color-on-surface-variant);
+        font-family: var(--crepe-font-default);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        svg {
+          width: 14px;
+          height: 14px;
+          fill: var(--crepe-color-primary);
+        }
+      }
     }
 
-    &:hover .language-button {
+    &:hover .language-button, &:hover .copy-button, .copy-button.copy-button--copied {
       opacity: 1;
     }
 
