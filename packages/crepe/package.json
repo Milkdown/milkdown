@@ -1,7 +1,7 @@
 {
   "name": "@milkdown/crepe",
   "type": "module",
-  "version": "7.11.1",
+  "version": "7.12.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -18,6 +18,39 @@
   "exports": {
     ".": {
       "import": "./src/index.ts"
+    },
+    "./builder": {
+      "import": "./src/builder.ts"
+    },
+    "./feature/block-edit": {
+      "import": "./src/feature/block-edit/index.ts"
+    },
+    "./feature/code-mirror": {
+      "import": "./src/feature/code-mirror/index.ts"
+    },
+    "./feature/cursor": {
+      "import": "./src/feature/cursor/index.ts"
+    },
+    "./feature/image-block": {
+      "import": "./src/feature/image-block/index.ts"
+    },
+    "./feature/latex": {
+      "import": "./src/feature/latex/index.ts"
+    },
+    "./feature/link-tooltip": {
+      "import": "./src/feature/link-tooltip/index.ts"
+    },
+    "./feature/list-item": {
+      "import": "./src/feature/list-item/index.ts"
+    },
+    "./feature/placeholder": {
+      "import": "./src/feature/placeholder/index.ts"
+    },
+    "./feature/table": {
+      "import": "./src/feature/table/index.ts"
+    },
+    "./feature/toolbar": {
+      "import": "./src/feature/toolbar/index.ts"
     },
     "./theme/common/*": "./src/theme/common/*",
     "./theme/crepe.css": "./src/theme/crepe/style.css",
@@ -37,6 +70,61 @@
         "require": "./lib/cjs/index.js",
         "types": "./lib/types/index.d.ts"
       },
+      "./builder": {
+        "import": "./lib/esm/builder.js",
+        "require": "./lib/cjs/builder.js",
+        "types": "./lib/types/builder.d.ts"
+      },
+      "./feature/block-edit": {
+        "import": "./lib/esm/feature/block-edit/index.js",
+        "require": "./lib/cjs/feature/block-edit/index.js",
+        "types": "./lib/types/feature/block-edit/index.d.ts"
+      },
+      "./feature/code-mirror": {
+        "import": "./lib/esm/feature/code-mirror/index.js",
+        "require": "./lib/cjs/feature/code-mirror/index.js",
+        "types": "./lib/types/feature/code-mirror/index.d.ts"
+      },
+      "./feature/cursor": {
+        "import": "./lib/esm/feature/cursor/index.js",
+        "require": "./lib/cjs/feature/cursor/index.js",
+        "types": "./lib/types/feature/cursor/index.d.ts"
+      },
+      "./feature/image-block": {
+        "import": "./lib/esm/feature/image-block/index.js",
+        "require": "./lib/cjs/feature/image-block/index.js",
+        "types": "./lib/types/feature/image-block/index.d.ts"
+      },
+      "./feature/latex": {
+        "import": "./lib/esm/feature/latex/index.js",
+        "require": "./lib/cjs/feature/latex/index.js",
+        "types": "./lib/types/feature/latex/index.d.ts"
+      },
+      "./feature/link-tooltip": {
+        "import": "./lib/esm/feature/link-tooltip/index.js",
+        "require": "./lib/cjs/feature/link-tooltip/index.js",
+        "types": "./lib/types/feature/link-tooltip/index.d.ts"
+      },
+      "./feature/list-item": {
+        "import": "./lib/esm/feature/list-item/index.js",
+        "require": "./lib/cjs/feature/list-item/index.js",
+        "types": "./lib/types/feature/list-item/index.d.ts"
+      },
+      "./feature/placeholder": {
+        "import": "./lib/esm/feature/placeholder/index.js",
+        "require": "./lib/cjs/feature/placeholder/index.js",
+        "types": "./lib/types/feature/placeholder/index.d.ts"
+      },
+      "./feature/table": {
+        "import": "./lib/esm/feature/table/index.js",
+        "require": "./lib/cjs/feature/table/index.js",
+        "types": "./lib/types/feature/table/index.d.ts"
+      },
+      "./feature/toolbar": {
+        "import": "./lib/esm/feature/toolbar/index.js",
+        "require": "./lib/cjs/feature/toolbar/index.js",
+        "types": "./lib/types/feature/toolbar/index.d.ts"
+      },
       "./theme/common/*": "./lib/theme/common/*",
       "./theme/classic.css": "./lib/theme/classic/style.css",
       "./theme/classic-dark.css": "./lib/theme/classic-dark/style.css",
@@ -53,7 +141,7 @@
   "scripts": {
     "build": "pnpm run build:es && pnpm run build:theme && echo",
     "build:es": "rollup -c",
-    "build:theme": "postcss 'src/theme' --base 'src/theme' --dir 'lib/theme'"
+    "build:theme": "postcss src/theme --base src/theme --dir lib/theme"
   },
   "dependencies": {
     "@codemirror/commands": "^6.2.4",
@@ -63,9 +151,11 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.16.0",
     "@milkdown/kit": "workspace:*",
+    "@types/lodash-es": "^4.17.12",
     "clsx": "^2.0.0",
     "codemirror": "^6.0.1",
     "katex": "^0.16.0",
+    "lodash-es": "^4.17.21",
     "nanoid": "^5.0.9",
     "prosemirror-virtual-cursor": "^0.4.2",
     "remark-math": "^6.0.0",

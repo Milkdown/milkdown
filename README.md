@@ -7,7 +7,7 @@
 [![discord-badge]][discord-link]
 ![commit][commit-badge]
 ![license][license-badge]
-[![deep-wiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Milkdown/milkdown)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Milkdown/milkdown)
 
 <div align="center">
   <img src="/assets/logo.svg" />
@@ -60,6 +60,10 @@ Thanks to the following projects and companies for their support to milkdown and
 <a href="https://jb.gg/OpenSource">
   <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" height="50" />
 </a>
+
+<a href="https://vercel.com/oss">
+  <img alt="Vercel OSS Program" src="https://vercel.com/oss/program-badge.svg" height="50" />
+</a>
 &nbsp;&nbsp;
 <a href="https://www.cypress.io/">
   <img src="/assets/cypress.svg" height="50" />
@@ -91,3 +95,4 @@ Thanks to the following projects and companies for their support to milkdown and
 [license-badge]: https://img.shields.io/github/license/Milkdown/milkdown
 [discord-badge]: https://img.shields.io/discord/870181036041060352
 [discord-link]: https://discord.gg/SdMnrSMyBX
+[vercel-oss-badge]: https://vercel.com/oss/program-badge.svg

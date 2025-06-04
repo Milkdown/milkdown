@@ -1,0 +1,27 @@
+# More info around this file at https://www.git-town.com/configuration-file
+
+[branches]
+main = "main"
+perennials = ["main"]
+perennial-regex = ""
+
+[create]
+new-branch-type = "feature"
+share-new-branches = "no"
+
+[hosting]
+dev-remote = "origin"
+forge-type = "github"
+origin-hostname = "github.com"
+
+[ship]
+delete-tracking-branch = true
+strategy = "fast-forward"
+
+[sync]
+feature-strategy = "rebase"
+perennial-strategy = "ff-only"
+prototype-strategy = "rebase"
+push-hook = true
+tags = false
+upstream = true

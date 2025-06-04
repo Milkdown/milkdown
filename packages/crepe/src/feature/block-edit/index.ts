@@ -1,62 +1,65 @@
 import { block } from '@milkdown/kit/plugin/block'
 
-import type { DefineFeature, Icon } from '../shared'
+import type { DefineFeature } from '../shared'
 import type { GroupBuilder } from './menu/group-builder'
 
+import { crepeFeatureConfig } from '../../core/slice'
+import { CrepeFeature } from '../index'
 import { configureBlockHandle } from './handle'
 import { configureMenu, menu, menuAPI } from './menu'
 
 interface BlockEditConfig {
-  handleAddIcon: Icon
-  handleDragIcon: Icon
+  handleAddIcon: string
+  handleDragIcon: string
   buildMenu: (builder: GroupBuilder) => void
 
   slashMenuTextGroupLabel: string
-  slashMenuTextIcon: Icon
+  slashMenuTextIcon: string
   slashMenuTextLabel: string
-  slashMenuH1Icon: Icon
+  slashMenuH1Icon: string
   slashMenuH1Label: string
-  slashMenuH2Icon: Icon
+  slashMenuH2Icon: string
   slashMenuH2Label: string
-  slashMenuH3Icon: Icon
+  slashMenuH3Icon: string
   slashMenuH3Label: string
-  slashMenuH4Icon: Icon
+  slashMenuH4Icon: string
   slashMenuH4Label: string
-  slashMenuH5Icon: Icon
+  slashMenuH5Icon: string
   slashMenuH5Label: string
-  slashMenuH6Icon: Icon
+  slashMenuH6Icon: string
   slashMenuH6Label: string
-  slashMenuQuoteIcon: Icon
+  slashMenuQuoteIcon: string
   slashMenuQuoteLabel: string
-  slashMenuDividerIcon: Icon
+  slashMenuDividerIcon: string
   slashMenuDividerLabel: string
 
   slashMenuListGroupLabel: string
-  slashMenuBulletListIcon: Icon
+  slashMenuBulletListIcon: string
   slashMenuBulletListLabel: string
-  slashMenuOrderedListIcon: Icon
+  slashMenuOrderedListIcon: string
   slashMenuOrderedListLabel: string
-  slashMenuTaskListIcon: Icon
+  slashMenuTaskListIcon: string
   slashMenuTaskListLabel: string
 
   slashMenuAdvancedGroupLabel: string
-  slashMenuImageIcon: Icon
+  slashMenuImageIcon: string
   slashMenuImageLabel: string
-  slashMenuCodeBlockIcon: Icon
+  slashMenuCodeBlockIcon: string
   slashMenuCodeBlockLabel: string
-  slashMenuTableIcon: Icon
+  slashMenuTableIcon: string
   slashMenuTableLabel: string
-  slashMenuMathIcon: Icon
+  slashMenuMathIcon: string
   slashMenuMathLabel: string
 }
 
 export type BlockEditFeatureConfig = Partial<BlockEditConfig>
 
-export const defineFeature: DefineFeature<BlockEditFeatureConfig> = (
+export const blockEdit: DefineFeature<BlockEditFeatureConfig> = (
   editor,
   config
 ) => {
   editor
+    .config(crepeFeatureConfig(CrepeFeature.BlockEdit))
     .config((ctx) => configureBlockHandle(ctx, config))
     .config((ctx) => configureMenu(ctx, config))
     .use(menuAPI)

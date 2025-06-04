@@ -1,5 +1,61 @@
 # @milkdown/components
 
+## 7.12.1
+
+### Patch Changes
+
+- 9767b9b: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 crepe rollup wrong config
+
+- Updated dependencies [9767b9b]
+  - @milkdown/core@7.12.1
+  - @milkdown/ctx@7.12.1
+  - @milkdown/exception@7.12.1
+  - @milkdown/plugin-tooltip@7.12.1
+  - @milkdown/preset-commonmark@7.12.1
+  - @milkdown/preset-gfm@7.12.1
+  - @milkdown/prose@7.12.1
+  - @milkdown/transformer@7.12.1
+  - @milkdown/utils@7.12.1
+
+## 7.12.0
+
+### Minor Changes
+
+- 9cb2a8b: Milkdown minor version release.
+
+  ## Feat
+
+  - feat: 🎸 support crepe builder (#1926, #1928)
+
+  ## Fix
+
+  - fix: 🐛 should focus editor when clicking todo list (#1929)
+
+  ## Chore
+
+  - chore: add vercel oss program badge in readme
+
+  ## Refactor
+
+  - refactor: 💡 use string instead of function for icons (#1927)
+
+### Patch Changes
+
+- Updated dependencies [9cb2a8b]
+  - @milkdown/core@7.12.0
+  - @milkdown/ctx@7.12.0
+  - @milkdown/exception@7.12.0
+  - @milkdown/plugin-tooltip@7.12.0
+  - @milkdown/preset-commonmark@7.12.0
+  - @milkdown/preset-gfm@7.12.0
+  - @milkdown/prose@7.12.0
+  - @milkdown/transformer@7.12.0
+  - @milkdown/utils@7.12.0
+
 ## 7.11.1
 
 ### Patch Changes

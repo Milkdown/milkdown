@@ -134,7 +134,7 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
           <div class="image-wrapper">
             <div class="operation">
               <div class="operation-item" onPointerdown={onToggleCaption}>
-                <Icon icon={config.captionIcon()} />
+                <Icon icon={config.captionIcon} />
               </div>
             </div>
             <img

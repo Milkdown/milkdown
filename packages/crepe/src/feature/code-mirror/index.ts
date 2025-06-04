@@ -9,25 +9,27 @@ import {
 } from '@milkdown/kit/component/code-block'
 import { basicSetup } from 'codemirror'
 
-import type { DefineFeature, Icon } from '../shared'
+import type { DefineFeature } from '../shared'
 
+import { crepeFeatureConfig } from '../../core/slice'
 import {
   chevronDownIcon,
   clearIcon,
   copyIcon,
   editIcon,
   searchIcon,
+  visibilityOffIcon,
 } from '../../icons'
-import { visibilityOffIcon } from '../../icons/visibility-off'
+import { CrepeFeature } from '../index'
 
 interface CodeMirrorConfig {
   extensions: Extension[]
   languages: LanguageDescription[]
   theme: Extension
 
-  expandIcon: Icon
-  searchIcon: Icon
-  clearSearchIcon: Icon
+  expandIcon: string
+  searchIcon: string
+  clearSearchIcon: string
 
   searchPlaceholder: string
   copiedText: string
@@ -41,41 +43,38 @@ interface CodeMirrorConfig {
     content: string
   ) => string | HTMLElement | null
 
-  previewToggleIcon: (previewOnlyMode: boolean) => ReturnType<Icon>
+  previewToggleIcon: (previewOnlyMode: boolean) => string
   previewToggleText: (previewOnlyMode: boolean) => string
-  previewLabel: () => string
+  previewLabel: string
 }
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
-export const defineFeature: DefineFeature<CodeMirrorFeatureConfig> = (
+export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
   editor,
   config = {}
 ) => {
   editor
-    .config(async (ctx) => {
-      let { languages, theme } = config
-      if (!languages) {
-        const { languages: langList } = await import(
-          '@codemirror/language-data'
-        )
-        languages = langList
+    .config(crepeFeatureConfig(CrepeFeature.CodeMirror))
+    .config((ctx) => {
+      const { languages = [], theme } = config
+      const extensions = [
+        keymap.of(defaultKeymap.concat(indentWithTab)),
+        basicSetup,
+      ]
+      if (theme) {
+        extensions.push(theme)
       }
-      if (!theme) {
-        const { oneDark } = await import('@codemirror/theme-one-dark')
-        theme = oneDark
+      if (config.extensions) {
+        extensions.push(...config.extensions)
       }
+
       ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-        extensions: [
-          keymap.of(defaultKeymap.concat(indentWithTab)),
-          basicSetup,
-          theme,
-          ...(config?.extensions ?? []),
-        ],
+        extensions,
         languages,
 
-        expandIcon: () => config.expandIcon?.() || chevronDownIcon,
-        searchIcon: () => config.searchIcon?.() || searchIcon,
-        clearSearchIcon: () => config.clearSearchIcon?.() || clearIcon,
+        expandIcon: config.expandIcon || chevronDownIcon,
+        searchIcon: config.searchIcon || searchIcon,
+        clearSearchIcon: config.clearSearchIcon || clearIcon,
         searchPlaceholder: config.searchPlaceholder || 'Search language',
         copiedText: config.copiedText || 'Copied',
         copyIcon: () => config.copyIcon?.() || copyIcon,

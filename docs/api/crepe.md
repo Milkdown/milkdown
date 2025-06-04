@@ -25,14 +25,14 @@ You can disable specific features by setting them to `false` in the `features` c
 
 ## Icon Configuration
 
-Many features allow customizing their icons. You can provide icons in svg:
+Many features allow customizing their icons. You can provide icons as strings:
 
 ```typescript
 const config: CrepeConfig = {
   featureConfigs: {
     [Crepe.Feature.Toolbar]: {
-      boldIcon: () => '<svg>...</svg>',
-      italicIcon: () => '<svg>...</svg>',
+      boldIcon: '<svg>...</svg>',
+      italicIcon: '<svg>...</svg>',
     },
   },
 }
@@ -48,6 +48,22 @@ interface CrepeConfig {
   featureConfigs?: CrepeFeatureConfig // Configure individual features
   root?: Node | string | null // Root element for the editor
   defaultValue?: DefaultValue // Initial content
+}
+```
+
+### Builder Configuration
+
+The `CrepeBuilder` can be configured through the `CrepeBuilderConfig` interface:
+
+```typescript
+interface CrepeBuilderConfig {
+  /// The root element for the editor.
+  /// Supports both DOM nodes and CSS selectors,
+  /// If not provided, the editor will be appended to the body.
+  root?: Node | string | null
+
+  /// The default value for the editor.
+  defaultValue?: DefaultValue
 }
 ```
 
@@ -83,9 +99,9 @@ const config: CrepeConfig = {
 
 ```typescript
 interface ListItemFeatureConfig {
-  bulletIcon?: Icon // Custom bullet list icon
-  checkBoxCheckedIcon?: Icon // Custom checked checkbox icon
-  checkBoxUncheckedIcon?: Icon // Custom unchecked checkbox icon
+  bulletIcon?: string // Custom bullet list icon
+  checkBoxCheckedIcon?: string // Custom checked checkbox icon
+  checkBoxUncheckedIcon?: string // Custom unchecked checkbox icon
 }
 
 // Example:
@@ -95,9 +111,9 @@ const config: CrepeConfig = {
   },
   featureConfigs: {
     [Crepe.Feature.ListItem]: {
-      bulletIcon: () => customBulletIcon,
-      checkBoxCheckedIcon: () => customCheckedIcon,
-      checkBoxUncheckedIcon: () => customUncheckedIcon,
+      bulletIcon: customBulletIcon,
+      checkBoxCheckedIcon: customCheckedIcon,
+      checkBoxUncheckedIcon: customUncheckedIcon,
     },
   },
 }
@@ -107,10 +123,10 @@ const config: CrepeConfig = {
 
 ```typescript
 interface LinkTooltipFeatureConfig {
-  linkIcon?: Icon // Custom link icon
-  editButton?: Icon // Custom edit button icon
-  removeButton?: Icon // Custom remove button icon
-  confirmButton?: Icon // Custom confirm button icon
+  linkIcon?: string // Custom link icon
+  editButton?: string // Custom edit button icon
+  removeButton?: string // Custom remove button icon
+  confirmButton?: string // Custom confirm button icon
   inputPlaceholder?: string // Placeholder text for link input
   onCopyLink?: () => void // Callback when link is copied
 }
@@ -177,42 +193,42 @@ const config: CrepeConfig = {
 ```typescript
 interface BlockEditFeatureConfig {
   // Block handle icons
-  handleAddIcon?: Icon
-  handleDragIcon?: Icon
+  handleAddIcon?: string
+  handleDragIcon?: string
 
   // Menu configuration
   buildMenu?: (builder: GroupBuilder) => void
 
   // Text group labels and icons
   slashMenuTextGroupLabel?: string
-  slashMenuTextIcon?: Icon
+  slashMenuTextIcon?: string
   slashMenuTextLabel?: string
 
   // Heading labels and icons
-  slashMenuH1Icon?: Icon
+  slashMenuH1Icon?: string
   slashMenuH1Label?: string
-  slashMenuH2Icon?: Icon
+  slashMenuH2Icon?: string
   slashMenuH2Label?: string
   // ... H3-H6 similar configuration
 
   // List group configuration
   slashMenuListGroupLabel?: string
-  slashMenuBulletListIcon?: Icon
+  slashMenuBulletListIcon?: string
   slashMenuBulletListLabel?: string
-  slashMenuOrderedListIcon?: Icon
+  slashMenuOrderedListIcon?: string
   slashMenuOrderedListLabel?: string
-  slashMenuTaskListIcon?: Icon
+  slashMenuTaskListIcon?: string
   slashMenuTaskListLabel?: string
 
   // Advanced group configuration
   slashMenuAdvancedGroupLabel?: string
-  slashMenuImageIcon?: Icon
+  slashMenuImageIcon?: string
   slashMenuImageLabel?: string
-  slashMenuCodeBlockIcon?: Icon
+  slashMenuCodeBlockIcon?: string
   slashMenuCodeBlockLabel?: string
-  slashMenuTableIcon?: Icon
+  slashMenuTableIcon?: string
   slashMenuTableLabel?: string
-  slashMenuMathIcon?: Icon
+  slashMenuMathIcon?: string
   slashMenuMathLabel?: string
 }
 
@@ -238,12 +254,12 @@ const config: CrepeConfig = {
 
 ```typescript
 interface ToolbarFeatureConfig {
-  boldIcon?: Icon
-  codeIcon?: Icon
-  italicIcon?: Icon
-  linkIcon?: Icon
-  strikethroughIcon?: Icon
-  latexIcon?: Icon
+  boldIcon?: string
+  codeIcon?: string
+  italicIcon?: string
+  linkIcon?: string
+  strikethroughIcon?: string
+  latexIcon?: string
 }
 
 // Example:
@@ -253,8 +269,8 @@ const config: CrepeConfig = {
   },
   featureConfigs: {
     [Crepe.Feature.Toolbar]: {
-      boldIcon: () => customBoldIcon,
-      italicIcon: () => customItalicIcon,
+      boldIcon: customBoldIcon,
+      italicIcon: customItalicIcon,
     },
   },
 }
@@ -301,6 +317,37 @@ const config: CrepeConfig = {
 }
 ```
 
+It's also possible to configure the language list and theme:
+
+```typescript
+import { oneDark } from '@codemirror/theme-one-dark'
+import { LanguageDescription } from '@codemirror/language'
+import { markdown } from '@codemirror/lang-markdown'
+
+const config: CrepeConfig = {
+  features: {
+    [Crepe.Feature.CodeMirror]: true,
+  },
+  featureConfigs: {
+    [Crepe.Feature.CodeMirror]: {
+      theme: oneDark,
+      languages: [
+        // Only load markdown language
+        LanguageDescription.of({
+          name: 'Markdown',
+          extensions: ['md', 'markdown'],
+          load() {
+            return import('@codemirror/lang-markdown').then((m) => m.markdown())
+          },
+        }),
+      ],
+    },
+  },
+}
+```
+
+To learn which languages are available, you can refer to the [CodeMirror language data](https://github.com/codemirror/language-data).
+
 #### Latex Feature
 
 ```typescript
@@ -326,6 +373,10 @@ const config: CrepeConfig = {
 ```
 
 ## Usage
+
+### Using Crepe Editor
+
+The `Crepe` class provides a high-level interface with all features enabled by default:
 
 ```typescript
 import { Crepe } from '@milkdown/crepe'
@@ -359,6 +410,58 @@ editor.on((api) => {
 })
 ```
 
+### Using CrepeBuilder
+
+The `CrepeBuilder` class provides a more flexible way to build your editor by manually adding features. This approach is particularly useful for optimizing bundle size since you only include the features you actually need:
+
+```typescript
+import { CrepeBuilder } from '@milkdown/crepe/builder'
+import { blockEdit } from '@milkdown/crepe/feature/block-edit'
+import { toolbar } from '@milkdown/crepe/feature/toolbar'
+
+// You may also want to import styles by feature
+import '@milkdown/crepe/theme/common/prosemirror.css'
+import '@milkdown/crepe/theme/common/reset.css'
+import '@milkdown/crepe/theme/common/block-edit.css'
+import '@milkdown/crepe/theme/common/toolbar.css'
+
+// And introduce the theme
+import '@milkdown/crepe/theme/crepe.css'
+
+const builder = new CrepeBuilder({
+  root: '#editor',
+  defaultValue: '# Hello World',
+})
+
+// Add features manually
+builder.addFeature(blockEdit).addFeature(toolbar)
+
+// Create the editor
+const editor = builder.create()
+
+// Get markdown content
+const markdown = builder.getMarkdown()
+
+// Set readonly mode
+builder.setReadonly(true)
+
+// Listen to editor events
+builder.on((api) => {
+  api.listen('update', (ctx) => {
+    // Handle updates
+  })
+})
+```
+
+The `CrepeBuilder` is useful when you want to:
+
+- Reduce bundle size by only including the features you need
+- Have more control over which features are added and in what order
+- Add custom features or plugins
+- Configure features individually with their specific configurations
+
+This approach allows for better tree-shaking and results in a smaller bundle size compared to using the full `Crepe` editor with all features enabled.
+
 ## Themes
 
 Crepe comes with several built-in themes that can be imported:
@@ -383,4 +486,10 @@ import '@milkdown/crepe/theme/frame-dark.css'
 
 @CrepeConfig
 
-@crepeCtx
+@CrepeBuilder
+
+@CrepeBuilderConfig
+
+@useCrepe
+
+@useCrepeFeatures

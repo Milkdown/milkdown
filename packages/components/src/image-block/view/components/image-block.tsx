@@ -65,9 +65,9 @@ export const MilkdownImageBlock = defineComponent<MilkdownImageBlockProps>({
             selected={props.selected}
             readonly={props.readonly}
             setLink={(link) => props.setAttr('src', link)}
-            imageIcon={props.config.imageIcon()}
-            uploadButton={props.config.uploadButton()}
-            confirmButton={props.config.confirmButton()}
+            imageIcon={props.config.imageIcon}
+            uploadButton={props.config.uploadButton}
+            confirmButton={props.config.confirmButton}
             uploadPlaceholderText={props.config.uploadPlaceholderText}
             onUpload={props.config.onUpload}
           />

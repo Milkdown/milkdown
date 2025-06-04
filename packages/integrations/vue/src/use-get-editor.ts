@@ -1,4 +1,4 @@
-import type { Crepe } from '@milkdown/crepe'
+import type { CrepeBuilder } from '@milkdown/crepe/builder'
 import type { Editor } from '@milkdown/kit/core'
 
 import { inject, onMounted, onUnmounted, ref } from 'vue'
@@ -14,7 +14,7 @@ export function useGetEditor() {
     editor: editorRef,
     editorFactory: getEditor,
   } = inject(editorInfoCtxKey, {} as EditorInfoCtx)
-  const currentEditorRef = ref<Editor | Crepe>()
+  const currentEditorRef = ref<Editor | CrepeBuilder>()
 
   onMounted(() => {
     if (!dom.value) return
