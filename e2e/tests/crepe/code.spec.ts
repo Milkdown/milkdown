@@ -64,7 +64,7 @@ test('should not be able to change language in readonly mode', async ({
   await expect(languagePickerMenu).toBeVisible()
 })
 
-test.only('should copy code block content', async ({ page }) => {
+test('should copy code block content', async ({ page }) => {
   const editor = page.locator('.editor')
   await focusEditor(page)
   await page.keyboard.type('```ts')
