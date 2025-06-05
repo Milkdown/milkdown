@@ -1,5 +1,4 @@
 import type { Ctx } from '@milkdown/kit/ctx'
-import type { MarkType, NodeType } from '@milkdown/kit/prose/model'
 import type { Selection } from '@milkdown/kit/prose/state'
 
 import { Icon } from '@milkdown/kit/component'
@@ -19,6 +18,7 @@ import {
   toggleStrikethroughCommand,
 } from '@milkdown/kit/preset/gfm'
 import { findNodeInSelection } from '@milkdown/kit/prose'
+import { MarkType, type NodeType } from '@milkdown/kit/prose/model'
 import clsx from 'clsx'
 import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
@@ -80,9 +80,6 @@ export const Toolbar = defineComponent<ToolbarProps>({
     }
 
     const isMarkActive = (mark: MarkType) => {
-      // make sure the function subscribed to vue reactive
-      props.selection.value
-
       if (!ctx) return false
       const { state } = ctx.get(editorViewCtx)
       if (!state) return false
@@ -91,15 +88,23 @@ export const Toolbar = defineComponent<ToolbarProps>({
     }
 
     const isInlineNodeActive = (node: NodeType) => {
-      // make sure the function subscribed to vue reactive
-      props.selection.value
-
       if (!ctx) return false
       const state = ctx.get(editorViewCtx).state
       if (!state) return false
 
       const result = findNodeInSelection(ctx.get(editorViewCtx).state, node)
       return result.hasNode
+    }
+
+    function isActive(type: NodeType | MarkType) {
+      // make sure the function subscribed to vue reactive
+      props.selection.value
+
+      if (type instanceof MarkType) {
+        return isMarkActive(type)
+      }
+
+      return isInlineNodeActive(type)
     }
 
     const flags = useCrepeFeatures(ctx).get()
@@ -112,10 +117,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx &&
-                props.selection &&
-                isMarkActive(strongSchema.type(ctx)) &&
-                'active'
+              ctx && isActive(strongSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -128,7 +130,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isMarkActive(emphasisSchema.type(ctx)) && 'active'
+              ctx && isActive(emphasisSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -141,7 +143,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isMarkActive(strikethroughSchema.type(ctx)) && 'active'
+              ctx && isActive(strikethroughSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -155,7 +157,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isMarkActive(inlineCodeSchema.type(ctx)) && 'active'
+              ctx && isActive(inlineCodeSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -169,9 +171,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
               type="button"
               class={clsx(
                 'toolbar-item',
-                ctx &&
-                  isInlineNodeActive(mathInlineSchema.type(ctx)) &&
-                  'active'
+                ctx && isActive(mathInlineSchema.type(ctx)) && 'active'
               )}
               onPointerdown={onClick((ctx) => {
                 const commands = ctx.get(commandsCtx)
@@ -185,7 +185,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isMarkActive(linkSchema.type(ctx)) && 'active'
+              ctx && isActive(linkSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const view = ctx.get(editorViewCtx)
