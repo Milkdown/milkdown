@@ -1,5 +1,5 @@
 import type { NodeType, Node as ProseNode, ResolvedPos } from '../../model'
-import type { Selection } from '../../state'
+import type { EditorState, Selection } from '../../state'
 import type { Predicate } from './types'
 
 import { NodeSelection } from '../../state'
@@ -52,4 +52,46 @@ export function findSelectedNodeOfType(
     }
 
   return undefined
+}
+
+export type FindNodeInSelectionResult = {
+  hasNode: boolean
+  pos: number
+  target: ProseNode | null
+}
+
+export const findNodeInSelection = (
+  state: EditorState,
+  node: NodeType
+): FindNodeInSelectionResult => {
+  const { selection, doc } = state
+  if (selection instanceof NodeSelection) {
+    return {
+      hasNode: selection.node.type === node,
+      pos: selection.from,
+      target: selection.node,
+    }
+  }
+
+  const { from, to } = selection
+
+  let hasNode = false
+  let pos = -1
+  let target: ProseNode | null = null
+  doc.nodesBetween(from, to, (n, p) => {
+    if (target) return false
+    if (n.type === node) {
+      hasNode = true
+      pos = p
+      target = n
+      return false
+    }
+    return true
+  })
+
+  return {
+    hasNode,
+    pos,
+    target,
+  }
 }

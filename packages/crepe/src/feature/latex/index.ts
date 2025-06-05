@@ -9,6 +9,7 @@ import { crepeFeatureConfig, useCrepeFeatures } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import { confirmIcon } from '../../icons'
 import { blockLatexSchema } from './block-latex'
+import { toggleLatexCommand } from './command'
 import { mathInlineSchema } from './inline-latex'
 import { inlineLatexTooltip } from './inline-tooltip/tooltip'
 import { LatexInlineTooltip } from './inline-tooltip/view'
@@ -59,6 +60,7 @@ export const latex: DefineFeature<LatexFeatureConfig> = (editor, config) => {
     .use(mathInlineInputRule)
     .use(mathBlockInputRule)
     .use(blockLatexSchema)
+    .use(toggleLatexCommand)
 }
 
 function renderLatex(content: string, options?: KatexOptions) {

@@ -1,5 +1,6 @@
 import type { Ctx } from '@milkdown/kit/ctx'
-import type { MarkType, NodeType, Node } from '@milkdown/kit/prose/model'
+import type { MarkType, NodeType } from '@milkdown/kit/prose/model'
+import type { Selection } from '@milkdown/kit/prose/state'
 
 import { Icon } from '@milkdown/kit/component'
 import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
@@ -17,11 +18,7 @@ import {
   strikethroughSchema,
   toggleStrikethroughCommand,
 } from '@milkdown/kit/preset/gfm'
-import {
-  NodeSelection,
-  TextSelection,
-  type Selection,
-} from '@milkdown/kit/prose/state'
+import { findNodeInSelection } from '@milkdown/kit/prose'
 import clsx from 'clsx'
 import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
@@ -37,6 +34,7 @@ import {
   linkIcon,
   strikethroughIcon,
 } from '../../icons'
+import { toggleLatexCommand } from '../latex/command'
 import { mathInlineSchema } from '../latex/inline-latex'
 
 h
@@ -81,82 +79,31 @@ export const Toolbar = defineComponent<ToolbarProps>({
       ctx && fn(ctx)
     }
 
-    const isActive = (mark: MarkType) => {
-      const selection = props.selection.value
-      if (!ctx || !selection) return false
+    const isMarkActive = (mark: MarkType) => {
+      // make sure the function subscribed to vue reactive
+      props.selection.value
+
+      if (!ctx) return false
       const { state } = ctx.get(editorViewCtx)
       if (!state) return false
-      const { doc } = state
+      const { doc, selection } = state
       return doc.rangeHasMark(selection.from, selection.to, mark)
     }
 
-    const containsNode = (node: NodeType) => {
-      const selection = props.selection.value
-      if (!ctx || !selection) return false
-      const { state } = ctx.get(editorViewCtx)
+    const isInlineNodeActive = (node: NodeType) => {
+      // make sure the function subscribed to vue reactive
+      props.selection.value
+
+      if (!ctx) return false
+      const state = ctx.get(editorViewCtx).state
       if (!state) return false
-      const { doc } = state
-      if (selection instanceof NodeSelection) {
-        return selection.node.type === node
-      }
 
-      const { from, to } = selection
-
-      let hasNode = false
-      doc.nodesBetween(from, to, (n) => {
-        if (n.type === node) {
-          hasNode = true
-          return false
-        }
-        return true
-      })
-
-      return hasNode
+      const result = findNodeInSelection(ctx.get(editorViewCtx).state, node)
+      return result.hasNode
     }
 
     const flags = useCrepeFeatures(ctx).get()
     const isLatexEnabled = flags?.includes(CrepeFeature.Latex)
-
-    const toggleLatex = (ctx: Ctx) => {
-      const hasLatex = containsNode(mathInlineSchema.type(ctx))
-      const view = ctx.get(editorViewCtx)
-      const { selection, doc, tr } = view.state
-      if (!hasLatex) {
-        const text = doc.textBetween(selection.from, selection.to)
-        let _tr = tr.replaceSelectionWith(
-          mathInlineSchema.type(ctx).create({
-            value: text,
-          })
-        )
-        view.dispatch(
-          _tr.setSelection(NodeSelection.create(_tr.doc, selection.from))
-        )
-        return
-      }
-
-      const { from, to } = selection
-      let pos = -1
-      let node: Node | null = null
-      doc.nodesBetween(from, to, (n, p) => {
-        if (node) return false
-        if (n.type === mathInlineSchema.type(ctx)) {
-          pos = p
-          node = n
-          return false
-        }
-        return true
-      })
-      if (!node || pos < 0) return
-
-      let _tr = tr.delete(pos, pos + 1)
-      const content = (node as Node).attrs.value
-      _tr = _tr.insertText(content, pos)
-      view.dispatch(
-        _tr.setSelection(
-          TextSelection.create(_tr.doc, from, to + content.length - 1)
-        )
-      )
-    }
 
     return () => {
       return (
@@ -165,7 +112,10 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isActive(strongSchema.type(ctx)) && 'active'
+              ctx &&
+                props.selection &&
+                isMarkActive(strongSchema.type(ctx)) &&
+                'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -178,7 +128,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isActive(emphasisSchema.type(ctx)) && 'active'
+              ctx && isMarkActive(emphasisSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -191,7 +141,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isActive(strikethroughSchema.type(ctx)) && 'active'
+              ctx && isMarkActive(strikethroughSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -205,7 +155,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isActive(inlineCodeSchema.type(ctx)) && 'active'
+              ctx && isMarkActive(inlineCodeSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const commands = ctx.get(commandsCtx)
@@ -219,9 +169,14 @@ export const Toolbar = defineComponent<ToolbarProps>({
               type="button"
               class={clsx(
                 'toolbar-item',
-                ctx && containsNode(mathInlineSchema.type(ctx)) && 'active'
+                ctx &&
+                  isInlineNodeActive(mathInlineSchema.type(ctx)) &&
+                  'active'
               )}
-              onPointerdown={onClick(toggleLatex)}
+              onPointerdown={onClick((ctx) => {
+                const commands = ctx.get(commandsCtx)
+                commands.call(toggleLatexCommand.key)
+              })}
             >
               <Icon icon={config?.latexIcon ?? functionsIcon} />
             </button>
@@ -230,13 +185,13 @@ export const Toolbar = defineComponent<ToolbarProps>({
             type="button"
             class={clsx(
               'toolbar-item',
-              ctx && isActive(linkSchema.type(ctx)) && 'active'
+              ctx && isMarkActive(linkSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
               const view = ctx.get(editorViewCtx)
               const { selection } = view.state
 
-              if (isActive(linkSchema.type(ctx))) {
+              if (isMarkActive(linkSchema.type(ctx))) {
                 ctx
                   .get(linkTooltipAPI.key)
                   .removeLink(selection.from, selection.to)
