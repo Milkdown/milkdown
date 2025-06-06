@@ -2,7 +2,7 @@ import type { Ctx } from '@milkdown/kit/ctx'
 import type { Selection } from '@milkdown/kit/prose/state'
 
 import { Icon } from '@milkdown/kit/component'
-import { linkTooltipAPI } from '@milkdown/kit/component/link-tooltip'
+import { toggleLinkCommand } from '@milkdown/kit/component/link-tooltip'
 import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import {
   emphasisSchema,
@@ -72,7 +72,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
     },
   },
   setup(props) {
-    const { ctx, hide, config } = props
+    const { ctx, config } = props
 
     const onClick = (fn: (ctx: Ctx) => void) => (e: MouseEvent) => {
       e.preventDefault()
@@ -188,18 +188,8 @@ export const Toolbar = defineComponent<ToolbarProps>({
               ctx && isActive(linkSchema.type(ctx)) && 'active'
             )}
             onPointerdown={onClick((ctx) => {
-              const view = ctx.get(editorViewCtx)
-              const { selection } = view.state
-
-              if (isMarkActive(linkSchema.type(ctx))) {
-                ctx
-                  .get(linkTooltipAPI.key)
-                  .removeLink(selection.from, selection.to)
-                return
-              }
-
-              ctx.get(linkTooltipAPI.key).addLink(selection.from, selection.to)
-              hide?.()
+              const commands = ctx.get(commandsCtx)
+              commands.call(toggleLinkCommand.key)
             })}
           >
             <Icon icon={config?.linkIcon ?? linkIcon} />
