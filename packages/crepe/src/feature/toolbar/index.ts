@@ -10,7 +10,9 @@ import { TooltipProvider, tooltipFactory } from '@milkdown/kit/plugin/tooltip'
 import { TextSelection } from '@milkdown/kit/prose/state'
 import { createApp, ref, shallowRef, type App, type ShallowRef } from 'vue'
 
+import type { GroupBuilder } from '../../utils'
 import type { DefineFeature } from '../shared'
+import type { ToolbarItem } from './config'
 
 import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
@@ -23,6 +25,7 @@ interface ToolbarConfig {
   linkIcon: string
   strikethroughIcon: string
   latexIcon: string
+  buildToolbar: (builder: GroupBuilder<ToolbarItem>) => void
 }
 
 export type ToolbarFeatureConfig = Partial<ToolbarConfig>

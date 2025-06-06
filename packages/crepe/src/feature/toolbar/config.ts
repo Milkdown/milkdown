@@ -130,5 +130,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
     },
   })
 
+  config?.buildToolbar?.(groupBuilder)
+
   return groupBuilder.build()
 }
