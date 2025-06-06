@@ -2,41 +2,20 @@ import type { Ctx } from '@milkdown/kit/ctx'
 import type { Selection } from '@milkdown/kit/prose/state'
 
 import { Icon } from '@milkdown/kit/component'
-import { toggleLinkCommand } from '@milkdown/kit/component/link-tooltip'
-import { commandsCtx, editorCtx, EditorStatus } from '@milkdown/kit/core'
-import {
-  emphasisSchema,
-  inlineCodeSchema,
-  isMarkSelectedCommand,
-  isNodeSelectedCommand,
-  linkSchema,
-  strongSchema,
-  toggleEmphasisCommand,
-  toggleInlineCodeCommand,
-  toggleStrongCommand,
-} from '@milkdown/kit/preset/commonmark'
-import {
-  strikethroughSchema,
-  toggleStrikethroughCommand,
-} from '@milkdown/kit/preset/gfm'
-import { MarkType, type NodeType } from '@milkdown/kit/prose/model'
+import { editorCtx, EditorStatus } from '@milkdown/kit/core'
 import clsx from 'clsx'
-import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
+import {
+  defineComponent,
+  type Ref,
+  type ShallowRef,
+  h,
+  Fragment,
+  computed,
+} from 'vue'
 
 import type { ToolbarFeatureConfig } from '.'
 
-import { useCrepeFeatures } from '../../core/slice'
-import { CrepeFeature } from '../../feature'
-import {
-  boldIcon,
-  codeIcon,
-  functionsIcon,
-  italicIcon,
-  linkIcon,
-  strikethroughIcon,
-} from '../../icons'
-import { toggleLatexCommand } from '../latex/command'
-import { mathInlineSchema } from '../latex/inline-latex'
+import { getGroups, type ToolbarItem } from './config'
 
 h
 Fragment
@@ -80,108 +59,46 @@ export const Toolbar = defineComponent<ToolbarProps>({
       ctx && fn(ctx)
     }
 
-    function isActive(type: NodeType | MarkType) {
+    function checkActive(checker: ToolbarItem['active']) {
       // make sure the function subscribed to vue reactive
       props.selection.value
       // Check if the edtior is ready
       const status = ctx.get(editorCtx).status
       if (status !== EditorStatus.Created) return false
 
-      const commands = ctx.get(commandsCtx)
-      if (type instanceof MarkType) {
-        return commands.call(isMarkSelectedCommand.key, type)
-      }
-
-      return commands.call(isNodeSelectedCommand.key, type)
+      return checker(ctx)
     }
 
-    const flags = useCrepeFeatures(ctx).get()
-    const isLatexEnabled = flags?.includes(CrepeFeature.Latex)
+    const groupInfo = computed(() => getGroups(config, ctx))
 
     return () => {
       return (
         <>
-          <button
-            type="button"
-            class={clsx(
-              'toolbar-item',
-              ctx && isActive(strongSchema.type(ctx)) && 'active'
-            )}
-            onPointerdown={onClick((ctx) => {
-              const commands = ctx.get(commandsCtx)
-              commands.call(toggleStrongCommand.key)
-            })}
-          >
-            <Icon icon={config?.boldIcon ?? boldIcon} />
-          </button>
-          <button
-            type="button"
-            class={clsx(
-              'toolbar-item',
-              ctx && isActive(emphasisSchema.type(ctx)) && 'active'
-            )}
-            onPointerdown={onClick((ctx) => {
-              const commands = ctx.get(commandsCtx)
-              commands.call(toggleEmphasisCommand.key)
-            })}
-          >
-            <Icon icon={config?.italicIcon ?? italicIcon} />
-          </button>
-          <button
-            type="button"
-            class={clsx(
-              'toolbar-item',
-              ctx && isActive(strikethroughSchema.type(ctx)) && 'active'
-            )}
-            onPointerdown={onClick((ctx) => {
-              const commands = ctx.get(commandsCtx)
-              commands.call(toggleStrikethroughCommand.key)
-            })}
-          >
-            <Icon icon={config?.strikethroughIcon ?? strikethroughIcon} />
-          </button>
-          <div class="divider"></div>
-          <button
-            type="button"
-            class={clsx(
-              'toolbar-item',
-              ctx && isActive(inlineCodeSchema.type(ctx)) && 'active'
-            )}
-            onPointerdown={onClick((ctx) => {
-              const commands = ctx.get(commandsCtx)
-              commands.call(toggleInlineCodeCommand.key)
-            })}
-          >
-            <Icon icon={config?.codeIcon ?? codeIcon} />
-          </button>
-          {isLatexEnabled && (
-            <button
-              type="button"
-              class={clsx(
-                'toolbar-item',
-                ctx && isActive(mathInlineSchema.type(ctx)) && 'active'
-              )}
-              onPointerdown={onClick((ctx) => {
-                const commands = ctx.get(commandsCtx)
-                commands.call(toggleLatexCommand.key)
-              })}
-            >
-              <Icon icon={config?.latexIcon ?? functionsIcon} />
-            </button>
-          )}
-          <button
-            type="button"
-            class={clsx(
-              'toolbar-item',
-              ctx && isActive(linkSchema.type(ctx)) && 'active'
-            )}
-            onPointerdown={onClick((ctx) => {
-              const commands = ctx.get(commandsCtx)
-              commands.call(toggleLinkCommand.key)
-            })}
-          >
-            <Icon icon={config?.linkIcon ?? linkIcon} />
-          </button>
+          {groupInfo.value
+            .map((group) => {
+              return group.items.map((item) => {
+                return (
+                  <button
+                    type="button"
+                    class={clsx(
+                      'toolbar-item',
+                      ctx && checkActive(item.active) && 'active'
+                    )}
+                    onPointerdown={onClick(item.onRun)}
+                  >
+                    <Icon icon={item.icon} />
+                  </button>
+                )
+              })
+            })
+            .reduce((acc, curr, index) => {
+              if (index === 0) {
+                acc.push(...curr)
+              } else {
+                acc.push(<div class="divider"></div>, ...curr)
+              }
+              return acc
+            }, [])}
         </>
       )
     }

@@ -16,7 +16,7 @@ import { createTable } from '@milkdown/kit/preset/gfm'
 import { TextSelection } from '@milkdown/kit/prose/state'
 
 import type { BlockEditFeatureConfig } from '../index'
-import type { MenuItemGroup } from './utils'
+import type { SlashMenuItem } from './utils'
 
 import { useCrepeFeatures } from '../../../core/slice'
 import { CrepeFeature } from '../../../feature'
@@ -38,7 +38,7 @@ import {
   textIcon,
   todoListIcon,
 } from '../../../icons'
-import { GroupBuilder } from './group-builder'
+import { GroupBuilder, type MenuItemGroup } from '../../../utils/group-builder'
 import {
   clearContentAndAddBlockType,
   clearContentAndSetBlockType,
@@ -56,7 +56,7 @@ export function getGroups(
   const isImageBlockEnabled = flags?.includes(CrepeFeature.ImageBlock)
   const isTableEnabled = flags?.includes(CrepeFeature.Table)
 
-  const groupBuilder = new GroupBuilder()
+  const groupBuilder = new GroupBuilder<SlashMenuItem>()
   groupBuilder
     .addGroup('text', config?.slashMenuTextGroupLabel ?? 'Text')
     .addItem('text', {
@@ -324,7 +324,7 @@ export function getGroups(
   }, 0)
 
   return {
-    groups: groups as MenuItemGroup[],
+    groups: groups as MenuItemGroup<SlashMenuItem>[],
     size: items.length,
   }
 }
