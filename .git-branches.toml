@@ -2,7 +2,7 @@
 
 [branches]
 main = "main"
-perennials = ["main"]
+perennials = ["main", "v6"]
 perennial-regex = ""
 
 [create]
