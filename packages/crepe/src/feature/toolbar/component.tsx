@@ -3,10 +3,12 @@ import type { Selection } from '@milkdown/kit/prose/state'
 
 import { Icon } from '@milkdown/kit/component'
 import { toggleLinkCommand } from '@milkdown/kit/component/link-tooltip'
-import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import { commandsCtx, editorCtx, EditorStatus } from '@milkdown/kit/core'
 import {
   emphasisSchema,
   inlineCodeSchema,
+  isMarkSelectedCommand,
+  isNodeSelectedCommand,
   linkSchema,
   strongSchema,
   toggleEmphasisCommand,
@@ -17,10 +19,16 @@ import {
   strikethroughSchema,
   toggleStrikethroughCommand,
 } from '@milkdown/kit/preset/gfm'
-import { findNodeInSelection } from '@milkdown/kit/prose'
 import { MarkType, type NodeType } from '@milkdown/kit/prose/model'
 import clsx from 'clsx'
-import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
+import {
+  defineComponent,
+  type Ref,
+  type ShallowRef,
+  h,
+  Fragment,
+  computed,
+} from 'vue'
 
 import type { ToolbarFeatureConfig } from '.'
 
@@ -79,32 +87,19 @@ export const Toolbar = defineComponent<ToolbarProps>({
       ctx && fn(ctx)
     }
 
-    const isMarkActive = (mark: MarkType) => {
-      if (!ctx) return false
-      const { state } = ctx.get(editorViewCtx)
-      if (!state) return false
-      const { doc, selection } = state
-      return doc.rangeHasMark(selection.from, selection.to, mark)
-    }
-
-    const isInlineNodeActive = (node: NodeType) => {
-      if (!ctx) return false
-      const state = ctx.get(editorViewCtx).state
-      if (!state) return false
-
-      const result = findNodeInSelection(ctx.get(editorViewCtx).state, node)
-      return result.hasNode
-    }
-
     function isActive(type: NodeType | MarkType) {
       // make sure the function subscribed to vue reactive
       props.selection.value
+      // Check if the edtior is ready
+      const status = ctx.get(editorCtx).status
+      if (status !== EditorStatus.Created) return false
 
+      const commands = ctx.get(commandsCtx)
       if (type instanceof MarkType) {
-        return isMarkActive(type)
+        return commands.call(isMarkSelectedCommand.key, type)
       }
 
-      return isInlineNodeActive(type)
+      return commands.call(isNodeSelectedCommand.key, type)
     }
 
     const flags = useCrepeFeatures(ctx).get()
