@@ -197,7 +197,7 @@ interface BlockEditFeatureConfig {
   handleDragIcon?: string
 
   // Menu configuration
-  buildMenu?: (builder: GroupBuilder) => void
+  buildMenu?: (builder: GroupBuilder<SlashMenuItem>) => void
 
   // Text group labels and icons
   slashMenuTextGroupLabel?: string
@@ -260,6 +260,7 @@ interface ToolbarFeatureConfig {
   linkIcon?: string
   strikethroughIcon?: string
   latexIcon?: string
+  buildToolbar?: (builder: GroupBuilder<ToolbarItem>) => void
 }
 
 // Example:
@@ -271,6 +272,9 @@ const config: CrepeConfig = {
     [Crepe.Feature.Toolbar]: {
       boldIcon: customBoldIcon,
       italicIcon: customItalicIcon,
+      buildToolbar: (builder) => {
+        // Custom toolbar building logic
+      },
     },
   },
 }
