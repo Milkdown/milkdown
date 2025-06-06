@@ -1,29 +1,12 @@
-import type { Ctx } from '@milkdown/kit/ctx'
 import type { Attrs, NodeType } from '@milkdown/kit/prose/model'
 import type { Command, Transaction } from '@milkdown/kit/prose/state'
 
 import { findWrapping } from '@milkdown/kit/prose/transform'
 
-export interface MenuItem {
-  index: number
-  key: string
+export type SlashMenuItem = {
   label: string
   icon: string
-  onRun: (ctx: Ctx) => void
 }
-
-type WithRange<T, HasIndex extends true | false = true> = HasIndex extends true
-  ? T & { range: [start: number, end: number] }
-  : T
-
-export type MenuItemGroup<HasIndex extends true | false = true> = WithRange<
-  {
-    key: string
-    label: string
-    items: HasIndex extends true ? MenuItem[] : Omit<MenuItem, 'index'>[]
-  },
-  HasIndex
->
 
 export function clearRange(tr: Transaction) {
   const { $from, $to } = tr.selection

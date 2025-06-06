@@ -1,7 +1,8 @@
 import { block } from '@milkdown/kit/plugin/block'
 
+import type { GroupBuilder } from '../../utils/group-builder'
 import type { DefineFeature } from '../shared'
-import type { GroupBuilder } from './menu/group-builder'
+import type { SlashMenuItem } from './menu/utils'
 
 import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../index'
@@ -11,7 +12,7 @@ import { configureMenu, menu, menuAPI } from './menu'
 interface BlockEditConfig {
   handleAddIcon: string
   handleDragIcon: string
-  buildMenu: (builder: GroupBuilder) => void
+  buildMenu: (builder: GroupBuilder<SlashMenuItem>) => void
 
   slashMenuTextGroupLabel: string
   slashMenuTextIcon: string
