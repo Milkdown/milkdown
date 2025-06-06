@@ -1,5 +1,6 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 
+import { isMarkSelectedCommand, isNodeSelectedCommand } from '../commands'
 import {
   toggleEmphasisCommand,
   toggleInlineCodeCommand,
@@ -51,4 +52,7 @@ export const commands: MilkdownPlugin[] = [
 
   toggleLinkCommand,
   updateLinkCommand,
+
+  isMarkSelectedCommand,
+  isNodeSelectedCommand,
 ]
