@@ -21,14 +21,7 @@ import {
 } from '@milkdown/kit/preset/gfm'
 import { MarkType, type NodeType } from '@milkdown/kit/prose/model'
 import clsx from 'clsx'
-import {
-  defineComponent,
-  type Ref,
-  type ShallowRef,
-  h,
-  Fragment,
-  computed,
-} from 'vue'
+import { defineComponent, type Ref, type ShallowRef, h, Fragment } from 'vue'
 
 import type { ToolbarFeatureConfig } from '.'
 
