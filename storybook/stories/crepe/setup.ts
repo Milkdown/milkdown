@@ -55,30 +55,63 @@ export function setup({ args, style, theme }: setupConfig) {
         blockConfirmButton: language === 'JA' ? '確認' : 'Confirm',
       },
       [Crepe.Feature.BlockEdit]: {
-        slashMenuTextGroupLabel: language === 'JA' ? 'テキスト' : 'Text',
-        slashMenuTextLabel: language === 'JA' ? 'テキスト' : 'Text',
-        slashMenuH1Label: language === 'JA' ? '見出し1' : 'Heading 1',
-        slashMenuH2Label: language === 'JA' ? '見出し2' : 'Heading 2',
-        slashMenuH3Label: language === 'JA' ? '見出し3' : 'Heading 3',
-        slashMenuH4Label: language === 'JA' ? '見出し4' : 'Heading 4',
-        slashMenuH5Label: language === 'JA' ? '見出し5' : 'Heading 5',
-        slashMenuH6Label: language === 'JA' ? '見出し6' : 'Heading 6',
-        slashMenuQuoteLabel: language === 'JA' ? '引用' : 'Quote',
-        slashMenuDividerLabel: language === 'JA' ? '区切り線' : 'Divider',
-
-        slashMenuListGroupLabel: language === 'JA' ? 'リスト' : 'List',
-        slashMenuBulletListLabel:
-          language === 'JA' ? '箇条書き' : 'Bullet List',
-        slashMenuOrderedListLabel:
-          language === 'JA' ? '番号付きリスト' : 'Ordered List',
-        slashMenuTaskListLabel:
-          language === 'JA' ? 'タスクリスト' : 'Task List',
-
-        slashMenuAdvancedGroupLabel:
-          language === 'JA' ? '高度な機能' : 'Advanced',
-        slashMenuImageLabel: language === 'JA' ? '画像' : 'Image',
-        slashMenuCodeBlockLabel: language === 'JA' ? 'コード' : 'Code',
-        slashMenuTableLabel: language === 'JA' ? '表' : 'Table',
+        textGroup: {
+          label: language === 'JA' ? 'テキスト' : 'Text',
+          text: {
+            label: language === 'JA' ? 'テキスト' : 'Text',
+          },
+          h1: {
+            label: language === 'JA' ? '見出し1' : 'Heading 1',
+          },
+          h2: {
+            label: language === 'JA' ? '見出し2' : 'Heading 2',
+          },
+          h3: {
+            label: language === 'JA' ? '見出し3' : 'Heading 3',
+          },
+          h4: {
+            label: language === 'JA' ? '見出し4' : 'Heading 4',
+          },
+          h5: {
+            label: language === 'JA' ? '見出し5' : 'Heading 5',
+          },
+          h6: {
+            label: language === 'JA' ? '見出し6' : 'Heading 6',
+          },
+          quote: {
+            label: language === 'JA' ? '引用' : 'Quote',
+          },
+          divider: {
+            label: language === 'JA' ? '区切り線' : 'Divider',
+          },
+        },
+        listGroup: {
+          label: language === 'JA' ? 'リスト' : 'List',
+          bulletList: {
+            label: language === 'JA' ? '箇条書き' : 'Bullet List',
+          },
+          orderedList: {
+            label: language === 'JA' ? '番号付きリスト' : 'Ordered List',
+          },
+          taskList: {
+            label: language === 'JA' ? 'タスクリスト' : 'Task List',
+          },
+        },
+        advancedGroup: {
+          label: language === 'JA' ? '高度な機能' : 'Advanced',
+          image: {
+            label: language === 'JA' ? '画像' : 'Image',
+          },
+          codeBlock: {
+            label: language === 'JA' ? 'コード' : 'Code',
+          },
+          table: {
+            label: language === 'JA' ? '表' : 'Table',
+          },
+          math: {
+            label: language === 'JA' ? '数式' : 'Math',
+          },
+        },
       },
       [Crepe.Feature.Placeholder]: {
         text:
