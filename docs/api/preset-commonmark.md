@@ -169,6 +169,18 @@ Editor.make()
 
 ---
 
+# Utility Commands
+
+@isMarkSelectedCommand
+@isNodeSelectedCommand
+@clearTextInCurrentBlockCommand
+@setBlockTypeCommand
+@wrapInBlockTypeCommand
+@addBlockTypeCommand
+@selectTextNearPosCommand
+
+---
+
 # Prosemirror Plugins
 
 @inlineNodesCursorPlugin

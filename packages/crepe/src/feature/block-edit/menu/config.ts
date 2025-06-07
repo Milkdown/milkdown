@@ -1,19 +1,23 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 
 import { imageBlockSchema } from '@milkdown/kit/component/image-block'
-import { editorViewCtx } from '@milkdown/kit/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import {
+  addBlockTypeCommand,
   blockquoteSchema,
   bulletListSchema,
+  clearTextInCurrentBlockCommand,
   codeBlockSchema,
   headingSchema,
   hrSchema,
   listItemSchema,
   orderedListSchema,
   paragraphSchema,
+  selectTextNearPosCommand,
+  setBlockTypeCommand,
+  wrapInBlockTypeCommand,
 } from '@milkdown/kit/preset/commonmark'
 import { createTable } from '@milkdown/kit/preset/gfm'
-import { TextSelection } from '@milkdown/kit/prose/state'
 
 import type { BlockEditFeatureConfig } from '../index'
 import type { SlashMenuItem } from './utils'
@@ -39,12 +43,6 @@ import {
   todoListIcon,
 } from '../../../icons'
 import { GroupBuilder, type MenuItemGroup } from '../../../utils/group-builder'
-import {
-  clearContentAndAddBlockType,
-  clearContentAndSetBlockType,
-  clearContentAndWrapInBlockType,
-  clearRange,
-} from './utils'
 
 export function getGroups(
   filter?: string,
@@ -63,113 +61,135 @@ export function getGroups(
       label: config?.slashMenuTextLabel ?? 'Text',
       icon: config?.slashMenuTextIcon ?? textIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const paragraph = paragraphSchema.type(ctx)
 
-        const command = clearContentAndSetBlockType(paragraphSchema.type(ctx))
-        command(state, dispatch)
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(setBlockTypeCommand.key, {
+          nodeType: paragraph,
+        })
       },
     })
     .addItem('h1', {
       label: config?.slashMenuH1Label ?? 'Heading 1',
       icon: config?.slashMenuH1Icon ?? h1Icon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const heading = headingSchema.type(ctx)
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
-          level: 1,
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(setBlockTypeCommand.key, {
+          nodeType: heading,
+          attrs: {
+            level: 1,
+          },
         })
-        command(state, dispatch)
       },
     })
     .addItem('h2', {
       label: config?.slashMenuH2Label ?? 'Heading 2',
       icon: config?.slashMenuH2Icon ?? h2Icon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const heading = headingSchema.type(ctx)
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
-          level: 2,
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(setBlockTypeCommand.key, {
+          nodeType: heading,
+          attrs: {
+            level: 2,
+          },
         })
-        command(state, dispatch)
       },
     })
     .addItem('h3', {
       label: config?.slashMenuH3Label ?? 'Heading 3',
       icon: config?.slashMenuH3Icon ?? h3Icon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const heading = headingSchema.type(ctx)
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
-          level: 3,
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(setBlockTypeCommand.key, {
+          nodeType: heading,
+          attrs: {
+            level: 3,
+          },
         })
-        command(state, dispatch)
       },
     })
     .addItem('h4', {
       label: config?.slashMenuH4Label ?? 'Heading 4',
       icon: config?.slashMenuH4Icon ?? h4Icon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const heading = headingSchema.type(ctx)
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
-          level: 4,
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(setBlockTypeCommand.key, {
+          nodeType: heading,
+          attrs: {
+            level: 4,
+          },
         })
-        command(state, dispatch)
       },
     })
     .addItem('h5', {
       label: config?.slashMenuH5Label ?? 'Heading 5',
       icon: config?.slashMenuH5Icon ?? h5Icon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const heading = headingSchema.type(ctx)
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
-          level: 5,
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(setBlockTypeCommand.key, {
+          nodeType: heading,
+          attrs: {
+            level: 5,
+          },
         })
-        command(state, dispatch)
       },
     })
     .addItem('h6', {
       label: config?.slashMenuH6Label ?? 'Heading 6',
       icon: config?.slashMenuH6Icon ?? h6Icon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const heading = headingSchema.type(ctx)
 
-        const command = clearContentAndSetBlockType(headingSchema.type(ctx), {
-          level: 6,
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(setBlockTypeCommand.key, {
+          nodeType: heading,
+          attrs: {
+            level: 6,
+          },
         })
-        command(state, dispatch)
       },
     })
     .addItem('quote', {
       label: config?.slashMenuQuoteLabel ?? 'Quote',
       icon: config?.slashMenuQuoteIcon ?? quoteIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const blockquote = blockquoteSchema.type(ctx)
 
-        const command = clearContentAndWrapInBlockType(
-          blockquoteSchema.type(ctx)
-        )
-        command(state, dispatch)
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(wrapInBlockTypeCommand.key, {
+          nodeType: blockquote,
+        })
       },
     })
     .addItem('divider', {
       label: config?.slashMenuDividerLabel ?? 'Divider',
       icon: config?.slashMenuDividerIcon ?? dividerIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const hr = hrSchema.type(ctx)
 
-        const command = clearContentAndAddBlockType(hrSchema.type(ctx))
-        command(state, dispatch)
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(addBlockTypeCommand.key, {
+          nodeType: hr,
+        })
       },
     })
 
@@ -179,40 +199,40 @@ export function getGroups(
       label: config?.slashMenuBulletListLabel ?? 'Bullet List',
       icon: config?.slashMenuBulletListIcon ?? bulletListIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const bulletList = bulletListSchema.type(ctx)
 
-        const command = clearContentAndWrapInBlockType(
-          bulletListSchema.type(ctx)
-        )
-        command(state, dispatch)
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(wrapInBlockTypeCommand.key, {
+          nodeType: bulletList,
+        })
       },
     })
     .addItem('ordered-list', {
       label: config?.slashMenuOrderedListLabel ?? 'Ordered List',
       icon: config?.slashMenuOrderedListIcon ?? orderedListIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const orderedList = orderedListSchema.type(ctx)
 
-        const command = clearContentAndWrapInBlockType(
-          orderedListSchema.type(ctx)
-        )
-        command(state, dispatch)
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(wrapInBlockTypeCommand.key, {
+          nodeType: orderedList,
+        })
       },
     })
     .addItem('todo-list', {
       label: config?.slashMenuTaskListLabel ?? 'Todo List',
       icon: config?.slashMenuTaskListIcon ?? todoListIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const listItem = listItemSchema.type(ctx)
 
-        const command = clearContentAndWrapInBlockType(
-          listItemSchema.type(ctx),
-          { checked: false }
-        )
-        command(state, dispatch)
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(wrapInBlockTypeCommand.key, {
+          nodeType: listItem,
+          attrs: { checked: false },
+        })
       },
     })
 
@@ -226,11 +246,13 @@ export function getGroups(
       label: config?.slashMenuImageLabel ?? 'Image',
       icon: config?.slashMenuImageIcon ?? imageIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const imageBlock = imageBlockSchema.type(ctx)
 
-        const command = clearContentAndAddBlockType(imageBlockSchema.type(ctx))
-        command(state, dispatch)
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(addBlockTypeCommand.key, {
+          nodeType: imageBlock,
+        })
       },
     })
   }
@@ -239,11 +261,13 @@ export function getGroups(
     label: config?.slashMenuCodeBlockLabel ?? 'Code',
     icon: config?.slashMenuCodeBlockIcon ?? codeIcon,
     onRun: (ctx) => {
-      const view = ctx.get(editorViewCtx)
-      const { dispatch, state } = view
+      const commands = ctx.get(commandsCtx)
+      const codeBlock = codeBlockSchema.type(ctx)
 
-      const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx))
-      command(state, dispatch)
+      commands.call(clearTextInCurrentBlockCommand.key)
+      commands.call(setBlockTypeCommand.key, {
+        nodeType: codeBlock,
+      })
     },
   })
 
@@ -252,24 +276,19 @@ export function getGroups(
       label: config?.slashMenuTableLabel ?? 'Table',
       icon: config?.slashMenuTableIcon ?? tableIcon,
       onRun: (ctx) => {
+        const commands = ctx.get(commandsCtx)
         const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
-        let { tr } = state
-        tr = clearRange(tr)
-        const from = tr.selection.from
-        const table = createTable(ctx, 3, 3)
-        tr = tr.replaceSelectionWith(table)
-        dispatch(tr)
 
-        requestAnimationFrame(() => {
-          const docSize = view.state.doc.content.size
-          const $pos = view.state.doc.resolve(
-            from > docSize ? docSize : from < 0 ? 0 : from
-          )
-          const selection = TextSelection.near($pos)
-          const tr = view.state.tr
-          tr.setSelection(selection)
-          dispatch(tr.scrollIntoView())
+        commands.call(clearTextInCurrentBlockCommand.key)
+
+        // record the position before the table is inserted
+        const { from } = view.state.selection
+        commands.call(addBlockTypeCommand.key, {
+          nodeType: createTable(ctx, 3, 3),
+        })
+
+        commands.call(selectTextNearPosCommand.key, {
+          pos: from,
         })
       },
     })
@@ -280,13 +299,14 @@ export function getGroups(
       label: config?.slashMenuMathLabel ?? 'Math',
       icon: config?.slashMenuMathIcon ?? functionsIcon,
       onRun: (ctx) => {
-        const view = ctx.get(editorViewCtx)
-        const { dispatch, state } = view
+        const commands = ctx.get(commandsCtx)
+        const codeBlock = codeBlockSchema.type(ctx)
 
-        const command = clearContentAndAddBlockType(codeBlockSchema.type(ctx), {
-          language: 'LaTex',
+        commands.call(clearTextInCurrentBlockCommand.key)
+        commands.call(addBlockTypeCommand.key, {
+          nodeType: codeBlock,
+          attrs: { language: 'LaTex' },
         })
-        command(state, dispatch)
       },
     })
   }
