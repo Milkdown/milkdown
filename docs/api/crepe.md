@@ -199,37 +199,84 @@ interface BlockEditFeatureConfig {
   // Menu configuration
   buildMenu?: (builder: GroupBuilder<SlashMenuItem>) => void
 
-  // Text group labels and icons
-  slashMenuTextGroupLabel?: string
-  slashMenuTextIcon?: string
-  slashMenuTextLabel?: string
-
-  // Heading labels and icons
-  slashMenuH1Icon?: string
-  slashMenuH1Label?: string
-  slashMenuH2Icon?: string
-  slashMenuH2Label?: string
-  // ... H3-H6 similar configuration
+  // Text group configuration
+  textGroup?: {
+    label?: string
+    text?: {
+      label?: string
+      icon?: string
+    } | null
+    h1?: {
+      label?: string
+      icon?: string
+    } | null
+    h2?: {
+      label?: string
+      icon?: string
+    } | null
+    h3?: {
+      label?: string
+      icon?: string
+    } | null
+    h4?: {
+      label?: string
+      icon?: string
+    } | null
+    h5?: {
+      label?: string
+      icon?: string
+    } | null
+    h6?: {
+      label?: string
+      icon?: string
+    } | null
+    quote?: {
+      label?: string
+      icon?: string
+    } | null
+    divider?: {
+      label?: string
+      icon?: string
+    } | null
+  } | null
 
   // List group configuration
-  slashMenuListGroupLabel?: string
-  slashMenuBulletListIcon?: string
-  slashMenuBulletListLabel?: string
-  slashMenuOrderedListIcon?: string
-  slashMenuOrderedListLabel?: string
-  slashMenuTaskListIcon?: string
-  slashMenuTaskListLabel?: string
+  listGroup?: {
+    label?: string
+    bulletList?: {
+      label?: string
+      icon?: string
+    } | null
+    orderedList?: {
+      label?: string
+      icon?: string
+    } | null
+    taskList?: {
+      label?: string
+      icon?: string
+    } | null
+  } | null
 
   // Advanced group configuration
-  slashMenuAdvancedGroupLabel?: string
-  slashMenuImageIcon?: string
-  slashMenuImageLabel?: string
-  slashMenuCodeBlockIcon?: string
-  slashMenuCodeBlockLabel?: string
-  slashMenuTableIcon?: string
-  slashMenuTableLabel?: string
-  slashMenuMathIcon?: string
-  slashMenuMathLabel?: string
+  advancedGroup?: {
+    label?: string
+    image?: {
+      label?: string
+      icon?: string
+    } | null
+    codeBlock?: {
+      label?: string
+      icon?: string
+    } | null
+    table?: {
+      label?: string
+      icon?: string
+    } | null
+    math?: {
+      label?: string
+      icon?: string
+    } | null
+  } | null
 }
 
 // Example:
@@ -239,9 +286,43 @@ const config: CrepeConfig = {
   },
   featureConfigs: {
     [Crepe.Feature.BlockEdit]: {
-      slashMenuTextGroupLabel: 'Text Blocks',
-      slashMenuH1Label: 'Large Heading',
-      slashMenuListGroupLabel: 'Lists',
+      handleAddIcon: customAddIcon,
+      handleDragIcon: customDragIcon,
+      textGroup: {
+        label: 'Text Blocks',
+        text: {
+          label: 'Normal Text',
+          icon: customTextIcon,
+        },
+        h1: {
+          label: 'Heading 1',
+          icon: customH1Icon,
+        },
+        h2: null,
+        h3: null,
+        h4: null,
+        h5: null,
+        h6: null,
+      },
+      listGroup: {
+        label: 'Lists',
+        bulletList: {
+          label: 'Bullet List',
+          icon: customBulletIcon,
+        },
+        orderedList: null,
+        taskList: null,
+      },
+      advancedGroup: {
+        label: 'Advanced',
+        image: {
+          label: 'Image',
+          icon: customImageIcon,
+        },
+        codeBlock: null,
+        table: null,
+        math: null,
+      },
       buildMenu: (builder) => {
         // Custom menu building logic
       },
@@ -249,6 +330,8 @@ const config: CrepeConfig = {
   },
 }
 ```
+
+> **Note**: Setting any group or item to `null` will prevent it from being displayed in the menu. This is useful for customizing which options are available to users. For example, setting `h2: null` will hide the H2 heading option, and setting `textGroup: null` will hide the entire text group.
 
 #### Toolbar Feature
 

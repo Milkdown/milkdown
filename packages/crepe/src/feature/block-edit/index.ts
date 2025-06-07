@@ -1,5 +1,6 @@
 import { block } from '@milkdown/kit/plugin/block'
 
+import type { DeepPartial } from '../../utils'
 import type { GroupBuilder } from '../../utils/group-builder'
 import type { DefineFeature } from '../shared'
 import type { SlashMenuItem } from './menu/utils'
@@ -14,46 +15,84 @@ interface BlockEditConfig {
   handleDragIcon: string
   buildMenu: (builder: GroupBuilder<SlashMenuItem>) => void
 
-  slashMenuTextGroupLabel: string
-  slashMenuTextIcon: string
-  slashMenuTextLabel: string
-  slashMenuH1Icon: string
-  slashMenuH1Label: string
-  slashMenuH2Icon: string
-  slashMenuH2Label: string
-  slashMenuH3Icon: string
-  slashMenuH3Label: string
-  slashMenuH4Icon: string
-  slashMenuH4Label: string
-  slashMenuH5Icon: string
-  slashMenuH5Label: string
-  slashMenuH6Icon: string
-  slashMenuH6Label: string
-  slashMenuQuoteIcon: string
-  slashMenuQuoteLabel: string
-  slashMenuDividerIcon: string
-  slashMenuDividerLabel: string
+  textGroup: {
+    label: string
+    text: {
+      label: string
+      icon: string
+    } | null
+    h1: {
+      label: string
+      icon: string
+    } | null
+    h2: {
+      label: string
+      icon: string
+    } | null
+    h3: {
+      label: string
+      icon: string
+    } | null
+    h4: {
+      label: string
+      icon: string
+    } | null
+    h5: {
+      label: string
+      icon: string
+    } | null
+    h6: {
+      label: string
+      icon: string
+    } | null
+    quote: {
+      label: string
+      icon: string
+    } | null
+    divider: {
+      label: string
+      icon: string
+    } | null
+  } | null
 
-  slashMenuListGroupLabel: string
-  slashMenuBulletListIcon: string
-  slashMenuBulletListLabel: string
-  slashMenuOrderedListIcon: string
-  slashMenuOrderedListLabel: string
-  slashMenuTaskListIcon: string
-  slashMenuTaskListLabel: string
+  listGroup: {
+    label: string
+    bulletList: {
+      label: string
+      icon: string
+    } | null
+    orderedList: {
+      label: string
+      icon: string
+    } | null
+    taskList: {
+      label: string
+      icon: string
+    } | null
+  } | null
 
-  slashMenuAdvancedGroupLabel: string
-  slashMenuImageIcon: string
-  slashMenuImageLabel: string
-  slashMenuCodeBlockIcon: string
-  slashMenuCodeBlockLabel: string
-  slashMenuTableIcon: string
-  slashMenuTableLabel: string
-  slashMenuMathIcon: string
-  slashMenuMathLabel: string
+  advancedGroup: {
+    label: string
+    image: {
+      label: string
+      icon: string
+    } | null
+    codeBlock: {
+      label: string
+      icon: string
+    } | null
+    table: {
+      label: string
+      icon: string
+    } | null
+    math: {
+      label: string
+      icon: string
+    } | null
+  } | null
 }
 
-export type BlockEditFeatureConfig = Partial<BlockEditConfig>
+export type BlockEditFeatureConfig = DeepPartial<BlockEditConfig>
 
 export const blockEdit: DefineFeature<BlockEditFeatureConfig> = (
   editor,

@@ -55,260 +55,306 @@ export function getGroups(
   const isTableEnabled = flags?.includes(CrepeFeature.Table)
 
   const groupBuilder = new GroupBuilder<SlashMenuItem>()
-  groupBuilder
-    .addGroup('text', config?.slashMenuTextGroupLabel ?? 'Text')
-    .addItem('text', {
-      label: config?.slashMenuTextLabel ?? 'Text',
-      icon: config?.slashMenuTextIcon ?? textIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const paragraph = paragraphSchema.type(ctx)
+  if (config?.textGroup !== null) {
+    const textGroup = groupBuilder.addGroup(
+      'text',
+      config?.textGroup?.label ?? 'Text'
+    )
+    if (config?.textGroup?.text !== null) {
+      textGroup.addItem('text', {
+        label: config?.textGroup?.text?.label ?? 'Text',
+        icon: config?.textGroup?.text?.icon ?? textIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const paragraph = paragraphSchema.type(ctx)
 
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(setBlockTypeCommand.key, {
-          nodeType: paragraph,
-        })
-      },
-    })
-    .addItem('h1', {
-      label: config?.slashMenuH1Label ?? 'Heading 1',
-      icon: config?.slashMenuH1Icon ?? h1Icon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const heading = headingSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(setBlockTypeCommand.key, {
-          nodeType: heading,
-          attrs: {
-            level: 1,
-          },
-        })
-      },
-    })
-    .addItem('h2', {
-      label: config?.slashMenuH2Label ?? 'Heading 2',
-      icon: config?.slashMenuH2Icon ?? h2Icon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const heading = headingSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(setBlockTypeCommand.key, {
-          nodeType: heading,
-          attrs: {
-            level: 2,
-          },
-        })
-      },
-    })
-    .addItem('h3', {
-      label: config?.slashMenuH3Label ?? 'Heading 3',
-      icon: config?.slashMenuH3Icon ?? h3Icon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const heading = headingSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(setBlockTypeCommand.key, {
-          nodeType: heading,
-          attrs: {
-            level: 3,
-          },
-        })
-      },
-    })
-    .addItem('h4', {
-      label: config?.slashMenuH4Label ?? 'Heading 4',
-      icon: config?.slashMenuH4Icon ?? h4Icon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const heading = headingSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(setBlockTypeCommand.key, {
-          nodeType: heading,
-          attrs: {
-            level: 4,
-          },
-        })
-      },
-    })
-    .addItem('h5', {
-      label: config?.slashMenuH5Label ?? 'Heading 5',
-      icon: config?.slashMenuH5Icon ?? h5Icon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const heading = headingSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(setBlockTypeCommand.key, {
-          nodeType: heading,
-          attrs: {
-            level: 5,
-          },
-        })
-      },
-    })
-    .addItem('h6', {
-      label: config?.slashMenuH6Label ?? 'Heading 6',
-      icon: config?.slashMenuH6Icon ?? h6Icon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const heading = headingSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(setBlockTypeCommand.key, {
-          nodeType: heading,
-          attrs: {
-            level: 6,
-          },
-        })
-      },
-    })
-    .addItem('quote', {
-      label: config?.slashMenuQuoteLabel ?? 'Quote',
-      icon: config?.slashMenuQuoteIcon ?? quoteIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const blockquote = blockquoteSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(wrapInBlockTypeCommand.key, {
-          nodeType: blockquote,
-        })
-      },
-    })
-    .addItem('divider', {
-      label: config?.slashMenuDividerLabel ?? 'Divider',
-      icon: config?.slashMenuDividerIcon ?? dividerIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const hr = hrSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(addBlockTypeCommand.key, {
-          nodeType: hr,
-        })
-      },
-    })
-
-  groupBuilder
-    .addGroup('list', config?.slashMenuListGroupLabel ?? 'List')
-    .addItem('bullet-list', {
-      label: config?.slashMenuBulletListLabel ?? 'Bullet List',
-      icon: config?.slashMenuBulletListIcon ?? bulletListIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const bulletList = bulletListSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(wrapInBlockTypeCommand.key, {
-          nodeType: bulletList,
-        })
-      },
-    })
-    .addItem('ordered-list', {
-      label: config?.slashMenuOrderedListLabel ?? 'Ordered List',
-      icon: config?.slashMenuOrderedListIcon ?? orderedListIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const orderedList = orderedListSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(wrapInBlockTypeCommand.key, {
-          nodeType: orderedList,
-        })
-      },
-    })
-    .addItem('todo-list', {
-      label: config?.slashMenuTaskListLabel ?? 'Todo List',
-      icon: config?.slashMenuTaskListIcon ?? todoListIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const listItem = listItemSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(wrapInBlockTypeCommand.key, {
-          nodeType: listItem,
-          attrs: { checked: false },
-        })
-      },
-    })
-
-  const advancedGroup = groupBuilder.addGroup(
-    'advanced',
-    config?.slashMenuAdvancedGroupLabel ?? 'Advanced'
-  )
-
-  if (isImageBlockEnabled) {
-    advancedGroup.addItem('image', {
-      label: config?.slashMenuImageLabel ?? 'Image',
-      icon: config?.slashMenuImageIcon ?? imageIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const imageBlock = imageBlockSchema.type(ctx)
-
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(addBlockTypeCommand.key, {
-          nodeType: imageBlock,
-        })
-      },
-    })
-  }
-
-  advancedGroup.addItem('code', {
-    label: config?.slashMenuCodeBlockLabel ?? 'Code',
-    icon: config?.slashMenuCodeBlockIcon ?? codeIcon,
-    onRun: (ctx) => {
-      const commands = ctx.get(commandsCtx)
-      const codeBlock = codeBlockSchema.type(ctx)
-
-      commands.call(clearTextInCurrentBlockCommand.key)
-      commands.call(setBlockTypeCommand.key, {
-        nodeType: codeBlock,
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: paragraph,
+          })
+        },
       })
-    },
-  })
+    }
 
-  if (isTableEnabled) {
-    advancedGroup.addItem('table', {
-      label: config?.slashMenuTableLabel ?? 'Table',
-      icon: config?.slashMenuTableIcon ?? tableIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const view = ctx.get(editorViewCtx)
+    if (config?.textGroup?.h1 !== null) {
+      textGroup.addItem('h1', {
+        label: config?.textGroup?.h1?.label ?? 'Heading 1',
+        icon: config?.textGroup?.h1?.icon ?? h1Icon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const heading = headingSchema.type(ctx)
 
-        commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: heading,
+            attrs: {
+              level: 1,
+            },
+          })
+        },
+      })
+    }
 
-        // record the position before the table is inserted
-        const { from } = view.state.selection
-        commands.call(addBlockTypeCommand.key, {
-          nodeType: createTable(ctx, 3, 3),
-        })
+    if (config?.textGroup?.h2 !== null) {
+      textGroup.addItem('h2', {
+        label: config?.textGroup?.h2?.label ?? 'Heading 2',
+        icon: config?.textGroup?.h2?.icon ?? h2Icon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const heading = headingSchema.type(ctx)
 
-        commands.call(selectTextNearPosCommand.key, {
-          pos: from,
-        })
-      },
-    })
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: heading,
+            attrs: {
+              level: 2,
+            },
+          })
+        },
+      })
+    }
+
+    if (config?.textGroup?.h3 !== null) {
+      textGroup.addItem('h3', {
+        label: config?.textGroup?.h3?.label ?? 'Heading 3',
+        icon: config?.textGroup?.h3?.icon ?? h3Icon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const heading = headingSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: heading,
+            attrs: {
+              level: 3,
+            },
+          })
+        },
+      })
+    }
+
+    if (config?.textGroup?.h4 !== null) {
+      textGroup.addItem('h4', {
+        label: config?.textGroup?.h4?.label ?? 'Heading 4',
+        icon: config?.textGroup?.h4?.icon ?? h4Icon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const heading = headingSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: heading,
+            attrs: {
+              level: 4,
+            },
+          })
+        },
+      })
+    }
+
+    if (config?.textGroup?.h5 !== null) {
+      textGroup.addItem('h5', {
+        label: config?.textGroup?.h5?.label ?? 'Heading 5',
+        icon: config?.textGroup?.h5?.icon ?? h5Icon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const heading = headingSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: heading,
+            attrs: {
+              level: 5,
+            },
+          })
+        },
+      })
+    }
+
+    if (config?.textGroup?.h6 !== null) {
+      textGroup.addItem('h6', {
+        label: config?.textGroup?.h6?.label ?? 'Heading 6',
+        icon: config?.textGroup?.h6?.icon ?? h6Icon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const heading = headingSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: heading,
+            attrs: {
+              level: 6,
+            },
+          })
+        },
+      })
+    }
+
+    if (config?.textGroup?.quote !== null) {
+      textGroup.addItem('quote', {
+        label: config?.textGroup?.quote?.label ?? 'Quote',
+        icon: config?.textGroup?.quote?.icon ?? quoteIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const blockquote = blockquoteSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(wrapInBlockTypeCommand.key, {
+            nodeType: blockquote,
+          })
+        },
+      })
+    }
+
+    if (config?.textGroup?.divider !== null) {
+      textGroup.addItem('divider', {
+        label: config?.textGroup?.divider?.label ?? 'Divider',
+        icon: config?.textGroup?.divider?.icon ?? dividerIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const hr = hrSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(addBlockTypeCommand.key, {
+            nodeType: hr,
+          })
+        },
+      })
+    }
   }
 
-  if (isLatexEnabled) {
-    advancedGroup.addItem('math', {
-      label: config?.slashMenuMathLabel ?? 'Math',
-      icon: config?.slashMenuMathIcon ?? functionsIcon,
-      onRun: (ctx) => {
-        const commands = ctx.get(commandsCtx)
-        const codeBlock = codeBlockSchema.type(ctx)
+  if (config?.listGroup !== null) {
+    const listGroup = groupBuilder.addGroup(
+      'list',
+      config?.listGroup?.label ?? 'List'
+    )
+    if (config?.listGroup?.bulletList !== null) {
+      listGroup.addItem('bullet-list', {
+        label: config?.listGroup?.bulletList?.label ?? 'Bullet List',
+        icon: config?.listGroup?.bulletList?.icon ?? bulletListIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const bulletList = bulletListSchema.type(ctx)
 
-        commands.call(clearTextInCurrentBlockCommand.key)
-        commands.call(addBlockTypeCommand.key, {
-          nodeType: codeBlock,
-          attrs: { language: 'LaTex' },
-        })
-      },
-    })
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(wrapInBlockTypeCommand.key, {
+            nodeType: bulletList,
+          })
+        },
+      })
+    }
+
+    if (config?.listGroup?.orderedList !== null) {
+      listGroup.addItem('ordered-list', {
+        label: config?.listGroup?.orderedList?.label ?? 'Ordered List',
+        icon: config?.listGroup?.orderedList?.icon ?? orderedListIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const orderedList = orderedListSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(wrapInBlockTypeCommand.key, {
+            nodeType: orderedList,
+          })
+        },
+      })
+    }
+
+    if (config?.listGroup?.taskList !== null) {
+      listGroup.addItem('task-list', {
+        label: config?.listGroup?.taskList?.label ?? 'Task List',
+        icon: config?.listGroup?.taskList?.icon ?? todoListIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const listItem = listItemSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(wrapInBlockTypeCommand.key, {
+            nodeType: listItem,
+            attrs: { checked: false },
+          })
+        },
+      })
+    }
+  }
+
+  if (config?.advancedGroup !== null) {
+    const advancedGroup = groupBuilder.addGroup(
+      'advanced',
+      config?.advancedGroup?.label ?? 'Advanced'
+    )
+
+    if (config?.advancedGroup?.image !== null && isImageBlockEnabled) {
+      advancedGroup.addItem('image', {
+        label: config?.advancedGroup?.image?.label ?? 'Image',
+        icon: config?.advancedGroup?.image?.icon ?? imageIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const imageBlock = imageBlockSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(addBlockTypeCommand.key, {
+            nodeType: imageBlock,
+          })
+        },
+      })
+    }
+
+    if (config?.advancedGroup?.codeBlock !== null) {
+      advancedGroup.addItem('code', {
+        label: config?.advancedGroup?.codeBlock?.label ?? 'Code',
+        icon: config?.advancedGroup?.codeBlock?.icon ?? codeIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const codeBlock = codeBlockSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(setBlockTypeCommand.key, {
+            nodeType: codeBlock,
+          })
+        },
+      })
+    }
+
+    if (config?.advancedGroup?.table !== null && isTableEnabled) {
+      advancedGroup.addItem('table', {
+        label: config?.advancedGroup?.table?.label ?? 'Table',
+        icon: config?.advancedGroup?.table?.icon ?? tableIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const view = ctx.get(editorViewCtx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+
+          // record the position before the table is inserted
+          const { from } = view.state.selection
+          commands.call(addBlockTypeCommand.key, {
+            nodeType: createTable(ctx, 3, 3),
+          })
+
+          commands.call(selectTextNearPosCommand.key, {
+            pos: from,
+          })
+        },
+      })
+    }
+
+    if (config?.advancedGroup?.math !== null && isLatexEnabled) {
+      advancedGroup.addItem('math', {
+        label: config?.advancedGroup?.math?.label ?? 'Math',
+        icon: config?.advancedGroup?.math?.icon ?? functionsIcon,
+        onRun: (ctx) => {
+          const commands = ctx.get(commandsCtx)
+          const codeBlock = codeBlockSchema.type(ctx)
+
+          commands.call(clearTextInCurrentBlockCommand.key)
+          commands.call(addBlockTypeCommand.key, {
+            nodeType: codeBlock,
+            attrs: { language: 'LaTex' },
+          })
+        },
+      })
+    }
   }
 
   config?.buildMenu?.(groupBuilder)
