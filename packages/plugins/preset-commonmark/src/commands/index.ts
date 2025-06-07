@@ -117,6 +117,7 @@ export const addBlockTypeCommand = $command(
     }
 )
 
+/// A command to select text near a position.
 export const selectTextNearPosCommand = $command(
   'SelectTextNearPos',
   () => (payload?: { pos?: number }) => (state, dispatch) => {
