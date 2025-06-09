@@ -1,5 +1,21 @@
 # @milkdown/plugin-clipboard
 
+## 7.13.1
+
+### Patch Changes
+
+- 35c3a33: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 blockConfig not found error (#1958)
+
+- Updated dependencies [35c3a33]
+  - @milkdown/core@7.13.1
+  - @milkdown/ctx@7.13.1
+  - @milkdown/prose@7.13.1
+  - @milkdown/utils@7.13.1
+
 ## 7.13.0
 
 ### Minor Changes

@@ -1,5 +1,19 @@
 # @milkdown/react
 
+## 7.13.1
+
+### Patch Changes
+
+- 35c3a33: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 blockConfig not found error (#1958)
+
+- Updated dependencies [35c3a33]
+  - @milkdown/crepe@7.13.1
+  - @milkdown/kit@7.13.1
+
 ## 7.13.0
 
 ### Minor Changes
