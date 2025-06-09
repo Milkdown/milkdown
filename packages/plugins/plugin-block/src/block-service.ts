@@ -70,7 +70,11 @@ export class BlockService {
 
   /// @internal
   get #filterNodes(): FilterNodes | undefined {
-    return this.#ctx?.get(blockConfig.key).filterNodes
+    try {
+      return this.#ctx?.get(blockConfig.key).filterNodes
+    } catch {
+      return undefined
+    }
   }
 
   /// @internal
