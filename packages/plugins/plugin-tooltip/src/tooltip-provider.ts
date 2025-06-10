@@ -59,6 +59,12 @@ export class TooltipProvider {
   /// @internal
   readonly #shift?: ShiftOptions
 
+  /// @internal
+  readonly #updater: {
+    (view: EditorView, prevState?: EditorState): void
+    cancel: () => void
+  }
+
   /// The root element of the tooltip.
   element: HTMLElement
 
@@ -78,6 +84,7 @@ export class TooltipProvider {
     this.#floatingUIOptions = options.floatingUIOptions ?? {}
     this.#root = options.root
     this.element.dataset.show = 'false'
+    this.#updater = throttle(this.#onUpdate, this.#debounce)
   }
 
   /// @internal
@@ -128,9 +135,7 @@ export class TooltipProvider {
 
   /// Update provider state by editor view.
   update = (view: EditorView, prevState?: EditorState): void => {
-    const updater = throttle(this.#onUpdate, this.#debounce)
-
-    updater(view, prevState)
+    this.#updater(view, prevState)
   }
 
   /// @internal
@@ -154,7 +159,9 @@ export class TooltipProvider {
   }
 
   /// Destroy the tooltip.
-  destroy = () => {}
+  destroy = () => {
+    this.#updater.cancel()
+  }
 
   /// Show the tooltip.
   show = (virtualElement?: VirtualElement) => {
