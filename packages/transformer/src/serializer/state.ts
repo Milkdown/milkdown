@@ -209,12 +209,16 @@ export class SerializerState extends Stack<
         | (MarkdownNode & { value: string })
         | undefined
       if (lastChild && lastChild.value.endsWith(' ')) {
-        endSpaces = lastChild.value.match(/ +$/)![0]
-        lastChild.value = lastChild.value.trimEnd()
+        const text = lastChild.value
+        const trimmed = text.trimEnd()
+        endSpaces = text.slice(trimmed.length)
+        lastChild.value = trimmed
       }
       if (firstChild && firstChild.value.startsWith(' ')) {
-        startSpaces = firstChild.value.match(/^ +/)![0]
-        firstChild.value = firstChild.value.trimStart()
+        const text = firstChild.value
+        const trimmed = text.trimStart()
+        startSpaces = text.slice(0, trimmed.length)
+        firstChild.value = trimmed
       }
     }
 
