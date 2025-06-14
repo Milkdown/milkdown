@@ -217,7 +217,7 @@ export class SerializerState extends Stack<
       if (firstChild && firstChild.value.startsWith(' ')) {
         const text = firstChild.value
         const trimmed = text.trimStart()
-        startSpaces = text.slice(0, trimmed.length)
+        startSpaces = text.slice(0, text.length - trimmed.length)
         firstChild.value = trimmed
       }
     }
