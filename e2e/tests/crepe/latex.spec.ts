@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, getMarkdown } from '../misc'
+import { focusEditor, getMarkdown, waitNextFrame } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/crepe/')
@@ -58,6 +58,7 @@ test('latex inline', async ({ page }) => {
   await expect(inlineLatexInput).toBeVisible()
 
   await inlineLatexInput.click()
+  await waitNextFrame(page)
   await page.keyboard.press('Backspace')
   await page.keyboard.type('3')
   await page.keyboard.press('Enter')
@@ -66,6 +67,7 @@ test('latex inline', async ({ page }) => {
   expect(markdown.trim()).toEqual('$E=mc^3$')
 
   await inlineLatexInput.click()
+  await waitNextFrame(page)
   await page.keyboard.press('Backspace')
   await page.keyboard.type('4')
   await inlineLatexInputConfirm.click()

@@ -31,7 +31,7 @@
     "@milkdown/prose": "workspace:*",
     "@milkdown/theme-nord": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "@playwright/test": "^1.49.0",
+    "@playwright/test": "^1.53.0",
     "@types/node": "^22.0.0",
     "katex": "^0.16.0",
     "serve": "^14.2.3",
