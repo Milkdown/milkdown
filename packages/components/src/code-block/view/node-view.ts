@@ -8,6 +8,7 @@ import {
   type KeyBinding,
   type ViewUpdate,
   keymap as cmKeymap,
+  drawSelection,
 } from '@codemirror/view'
 import { exitCode } from '@milkdown/prose/commands'
 import { redo, undo } from '@milkdown/prose/history'
@@ -50,6 +51,7 @@ export class CodeMirrorBlock implements NodeView {
       root: this.view.root,
       extensions: [
         this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
+        drawSelection(),
         cmKeymap.of(this.codeMirrorKeymap()),
         this.languageConf.of([]),
         EditorState.changeFilter.of(() => this.view.editable),
@@ -238,6 +240,7 @@ export class CodeMirrorBlock implements NodeView {
       this.updating = true
       this.cm.dispatch({
         changes: { from: change.from, to: change.to, insert: change.text },
+        scrollIntoView: true,
       })
       this.updating = false
     }
