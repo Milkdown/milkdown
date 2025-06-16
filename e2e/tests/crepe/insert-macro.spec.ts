@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, getMarkdown, selectAll } from '../misc'
+import { focusEditor, getMarkdown, selectAll, waitNextFrame } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/crepe/')
@@ -43,6 +43,7 @@ test('should inline macro extend current mark', async ({ page }) => {
 
   await selectAll(page)
   await page.keyboard.press('ArrowRight')
+  await waitNextFrame(page)
 
   await page.evaluate(() => {
     const crepe = window.__crepe__

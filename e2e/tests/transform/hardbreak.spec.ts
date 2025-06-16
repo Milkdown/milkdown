@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, loadFixture, selectAll, setMarkdown } from '../misc'
+import {
+  focusEditor,
+  loadFixture,
+  selectAll,
+  setMarkdown,
+  waitNextFrame,
+} from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/preset-commonmark/')
@@ -14,11 +20,13 @@ test('hardbreak', async ({ page }) => {
   await focusEditor(page)
   await selectAll(page)
   await page.keyboard.press('ArrowLeft')
+  await waitNextFrame(page)
 
   const from = await page.evaluate(() => window.__view__.state.selection.from)
   expect(from).toBe(1)
 
   await page.keyboard.press('ArrowDown')
+  await waitNextFrame(page)
 
   const name = await page.evaluate(
     () => window.__view__.state.selection.$from.node().type.name

@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, loadFixture, selectAll, setMarkdown } from '../misc'
+import {
+  focusEditor,
+  loadFixture,
+  selectAll,
+  setMarkdown,
+  waitNextFrame,
+} from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/preset-commonmark/')
@@ -22,6 +28,8 @@ test('toggle strong for selection', async ({ page }) => {
   await page.keyboard.type('Concorde flies in my room')
   await page.keyboard.press('Enter')
   await page.keyboard.type('Tears the house to shreds')
+
+  await waitNextFrame(page)
 
   await page.evaluate(async () => {
     const document = window.document
