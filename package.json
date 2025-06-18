@@ -20,6 +20,7 @@
     "build:tsc": "tsc -b tsconfig.json --verbose",
     "build:post": "pnpm -r run build",
     "build": "pnpm build:tsc && pnpm build:post",
+    "bundle:build": "node scripts/bundle.js",
     "codegen": "tsx ./scripts/gen-ts-config.mts",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:publish": "pnpm build && pnpm publish --access public -r --no-git-checks --tag latest",
