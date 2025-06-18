@@ -5,6 +5,10 @@ import type { CrepeFeatureConfig } from '../feature'
 import { defaultConfig } from '../default-config'
 import { CrepeFeature, defaultFeatures } from '../feature'
 import { loadFeature } from '../feature/loader'
+import { editWithAiIcon } from '../icons'
+import type { ToolbarItem } from '../feature/toolbar/config'
+import { GroupBuilder } from '../utils/group-builder'
+import { editorViewCtx } from '@milkdown/kit/core'
 import { CrepeBuilder, type CrepeBuilderConfig } from './builder'
 
 /// The crepe editor configuration.
@@ -41,9 +45,38 @@ export class Crepe extends CrepeBuilder {
       .map(([feature]) => feature as CrepeFeature)
 
     enabledFeatures.forEach((feature) => {
-      const config = (finalConfigs as Partial<Record<CrepeFeature, never>>)[
+      let config = (finalConfigs as Partial<Record<CrepeFeature, never>>)[
         feature
       ]
+
+      if (feature === CrepeFeature.Toolbar) {
+        const origin = (config as { buildToolbar?: (b: GroupBuilder<ToolbarItem>) => void })?.buildToolbar
+
+        config = {
+          ...(config as object),
+          buildToolbar: (builder: GroupBuilder<ToolbarItem>) => {
+            origin?.(builder)
+            let formatting
+            try {
+              formatting = builder.getGroup('formatting')
+            } catch {
+              formatting = builder.addGroup('formatting', 'Formatting')
+            }
+            formatting.addItem('editWithAI', {
+              icon: editWithAiIcon,
+              active: () => false,
+              onRun: (ctx) => {
+                ctx
+                  .get(editorViewCtx)
+                  .dom.dispatchEvent(
+                    new CustomEvent('editwithai_clicked', { bubbles: true })
+                  )
+              },
+            })
+          },
+        } as never
+      }
+
       loadFeature(feature, this.editor, config)
     })
   }
