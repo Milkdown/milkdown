@@ -1,5 +1,30 @@
 # @milkdown/transformer
 
+## 7.13.2
+
+### Patch Changes
+
+- 7c7de47: Milkdown patch version release.
+
+  ## Fix
+
+  - fix: 🐛 overflow codemirror scroll to top (#1967)
+  - fix: 🐛 polynomial-redos (#1965)
+  - fix: 🐛 debounce and throttle not call as expected (#1961)
+
+  ## Chore
+
+  - chore: bump up oxlint version to v1 (#1962)
+
+  ## Ci
+
+  - ci: 🎡 enable codeql
+  - ci: 🎡 fix flaky vitest (#1960)
+
+- Updated dependencies [7c7de47]
+  - @milkdown/exception@7.13.2
+  - @milkdown/prose@7.13.2
+
 ## 7.13.1
 
 ### Patch Changes
