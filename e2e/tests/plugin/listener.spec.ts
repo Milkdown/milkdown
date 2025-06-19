@@ -1,12 +1,13 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, selectAll } from '../misc'
+import { focusEditor, selectAll, waitNextFrame } from '../misc'
 
 test('on markdown updated', async ({ page }) => {
   await page.goto('/plugin-listener/?type=markdown')
   await focusEditor(page)
   await selectAll(page)
   await page.keyboard.press('ArrowRight')
+  await waitNextFrame(page)
   let msgPromise = page.waitForEvent('console')
   await page.keyboard.type('A')
   const msg = await msgPromise
