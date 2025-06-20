@@ -16,6 +16,7 @@ import {
   type ListenerManager,
 } from '@milkdown/kit/plugin/listener'
 import { trailing } from '@milkdown/kit/plugin/trailing'
+import { upload } from '@milkdown/kit/plugin/upload'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { gfm } from '@milkdown/kit/preset/gfm'
 import { getMarkdown } from '@milkdown/kit/utils'
@@ -77,6 +78,7 @@ export class CrepeBuilder {
       .use(trailing)
       .use(clipboard)
       .use(gfm)
+      .use(upload)
   }
 
   /// Add a feature to the editor.
