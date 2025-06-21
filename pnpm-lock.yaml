@@ -410,6 +410,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.16.0
         version: 6.37.2
+      '@floating-ui/dom':
+        specifier: ^1.5.1
+        version: 1.7.1
       '@milkdown/kit':
         specifier: workspace:*
         version: link:../kit

@@ -1,4 +1,4 @@
-import { block } from '@milkdown/kit/plugin/block'
+import { block, type BlockProviderOptions } from '@milkdown/kit/plugin/block'
 
 import type { DeepPartial } from '../../utils'
 import type { GroupBuilder } from '../../utils/group-builder'
@@ -14,6 +14,17 @@ interface BlockEditConfig {
   handleAddIcon: string
   handleDragIcon: string
   buildMenu: (builder: GroupBuilder<SlashMenuItem>) => void
+
+  blockHandle: Pick<
+    BlockProviderOptions,
+    | 'shouldShow'
+    | 'getOffset'
+    | 'getPosition'
+    | 'getPlacement'
+    | 'middleware'
+    | 'floatingUIOptions'
+    | 'root'
+  >
 
   textGroup: {
     label: string

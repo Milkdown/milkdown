@@ -196,6 +196,29 @@ interface BlockEditFeatureConfig {
   handleAddIcon?: string
   handleDragIcon?: string
 
+  // Block handle configuration
+  blockHandle?: {
+    // A function to determine whether the block handle should be shown.
+    shouldShow?: (view: EditorView) => boolean
+    // A function to configure the offset of the block handle.
+    getOffset?: (deriveContext: DeriveContext) => {
+      mainAxis?: number
+      crossAxis?: number
+    }
+    // A function to get the position of the block handle.
+    getPosition?: (deriveContext: DeriveContext) => DOMRect
+    // A function to get the placement of the block handle.
+    getPlacement?: (
+      deriveContext: DeriveContext
+    ) => 'top' | 'bottom' | 'left' | 'right'
+    // An array of floating-ui middlewares.
+    middleware?: unknown[]
+    // Additional options for floating-ui.
+    floatingUIOptions?: unknown
+    // The root element for the block handle.
+    root?: HTMLElement
+  }
+
   // Menu configuration
   buildMenu?: (builder: GroupBuilder<SlashMenuItem>) => void
 
@@ -288,6 +311,9 @@ const config: CrepeConfig = {
     [Crepe.Feature.BlockEdit]: {
       handleAddIcon: customAddIcon,
       handleDragIcon: customDragIcon,
+      blockHandle: {
+        getPlacement: () => 'left-start',
+      },
       textGroup: {
         label: 'Text Blocks',
         text: {
