@@ -1,5 +1,25 @@
 # @milkdown/crepe
 
+## 7.14.0
+
+### Minor Changes
+
+- 98178f3: Milkdown minor release.
+
+  ## Feat
+
+  - feat: 🎸 add some useful macros (#1975)
+  - feat: 🎸 expose block handle config for crepe (#1974)
+
+  ## Ci
+
+  - ci: 🎡 fix flaky test
+
+### Patch Changes
+
+- Updated dependencies [98178f3]
+  - @milkdown/kit@7.14.0
+
 ## 7.13.2
 
 ### Patch Changes
