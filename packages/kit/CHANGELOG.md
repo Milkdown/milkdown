@@ -1,5 +1,42 @@
 # @milkdown/kit
 
+## 7.14.0
+
+### Minor Changes
+
+- 98178f3: Milkdown minor release.
+
+  ## Feat
+
+  - feat: 🎸 add some useful macros (#1975)
+  - feat: 🎸 expose block handle config for crepe (#1974)
+
+  ## Ci
+
+  - ci: 🎡 fix flaky test
+
+### Patch Changes
+
+- Updated dependencies [98178f3]
+  - @milkdown/components@7.14.0
+  - @milkdown/core@7.14.0
+  - @milkdown/ctx@7.14.0
+  - @milkdown/plugin-block@7.14.0
+  - @milkdown/plugin-clipboard@7.14.0
+  - @milkdown/plugin-cursor@7.14.0
+  - @milkdown/plugin-history@7.14.0
+  - @milkdown/plugin-indent@7.14.0
+  - @milkdown/plugin-listener@7.14.0
+  - @milkdown/plugin-slash@7.14.0
+  - @milkdown/plugin-tooltip@7.14.0
+  - @milkdown/plugin-trailing@7.14.0
+  - @milkdown/plugin-upload@7.14.0
+  - @milkdown/preset-commonmark@7.14.0
+  - @milkdown/preset-gfm@7.14.0
+  - @milkdown/prose@7.14.0
+  - @milkdown/transformer@7.14.0
+  - @milkdown/utils@7.14.0
+
 ## 7.13.2
 
 ### Patch Changes
