@@ -45,8 +45,12 @@
 @getMarkdown
 @outline
 
+@markdownToSlice
+
 @insert
+@insertPos
 @replaceAll
+@replaceRange
 @callCommand
 
 @setAttr
