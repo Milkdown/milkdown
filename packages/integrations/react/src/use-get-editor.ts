@@ -27,12 +27,15 @@ export function useGetEditor() {
     const editor = getEditor(div)
     if (!editor) return
 
+    if ('editor' in editor) {
+      editorRef.current = editor.editor
+    } else {
+      editorRef.current = editor
+    }
+
     setLoading(true)
     editor
       .create()
-      .then((editor) => {
-        editorRef.current = editor
-      })
       .finally(() => {
         setLoading(false)
       })

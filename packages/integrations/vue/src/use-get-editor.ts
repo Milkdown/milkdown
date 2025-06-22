@@ -22,13 +22,16 @@ export function useGetEditor() {
     const editor = getEditor.value!(dom.value)
     if (!editor) return
 
+    if ('editor' in editor) {
+      editorRef.value = editor.editor
+    } else {
+      editorRef.value = editor
+    }
+
     loading.value = true
     currentEditorRef.value = editor
     editor
       .create()
-      .then((editor) => {
-        editorRef.value = editor
-      })
       .finally(() => {
         loading.value = false
       })
