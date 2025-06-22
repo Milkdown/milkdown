@@ -24,11 +24,7 @@ const TestEditor = defineComponent({
 
 const TestApp = defineComponent({
   setup() {
-    return () => (
-      <MilkdownProvider>
-        <TestEditor />
-      </MilkdownProvider>
-    )
+    return () => <MilkdownProvider>{() => <TestEditor />}</MilkdownProvider>
   },
 })
 
