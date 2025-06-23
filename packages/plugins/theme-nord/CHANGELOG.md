@@ -7,12 +7,10 @@
 - 98178f3: Milkdown minor release.
 
   ## Feat
-
   - feat: 🎸 add some useful macros (#1975)
   - feat: 🎸 expose block handle config for crepe (#1974)
 
   ## Ci
-
   - ci: 🎡 fix flaky test
 
 ### Patch Changes
@@ -29,17 +27,14 @@
 - 7c7de47: Milkdown patch version release.
 
   ## Fix
-
   - fix: 🐛 overflow codemirror scroll to top (#1967)
   - fix: 🐛 polynomial-redos (#1965)
   - fix: 🐛 debounce and throttle not call as expected (#1961)
 
   ## Chore
-
   - chore: bump up oxlint version to v1 (#1962)
 
   ## Ci
-
   - ci: 🎡 enable codeql
   - ci: 🎡 fix flaky vitest (#1960)
 
@@ -55,7 +50,6 @@
 - 35c3a33: Milkdown patch version release.
 
   ## Fix
-
   - fix: 🐛 blockConfig not found error (#1958)
 
 - Updated dependencies [35c3a33]
@@ -70,7 +64,6 @@
 - 327e89a: Milkdown minor release.
 
   ## Feat
-
   - feat: 🎸 improve the block menu config api (#1953)
   - feat: 🎸 add commands to update block and range (#1952)
   - feat: 🎸 expose builder in toolbar config (#1950)
@@ -79,19 +72,15 @@
   - feat: 🎸 add latex toggle command (#1945)
 
   ## Docs
-
   - docs: ✏️ update readme
 
   ## Refactor
-
   - refactor: 💡 use group builder to build toolbar (#1949)
 
   ## Test
-
   - test: 💍 fix flaky e2e
 
   ## Ci
-
   - ci: 🎡 wrong playwright test result path
 
 ### Patch Changes
@@ -108,7 +97,6 @@
 - 9767b9b: Milkdown patch version release.
 
   ## Fix
-
   - fix: 🐛 crepe rollup wrong config
 
 - Updated dependencies [9767b9b]
@@ -123,19 +111,15 @@
 - 9cb2a8b: Milkdown minor version release.
 
   ## Feat
-
   - feat: 🎸 support crepe builder (#1926, #1928)
 
   ## Fix
-
   - fix: 🐛 should focus editor when clicking todo list (#1929)
 
   ## Chore
-
   - chore: add vercel oss program badge in readme
 
   ## Refactor
-
   - refactor: 💡 use string instead of function for icons (#1927)
 
 ### Patch Changes
@@ -152,12 +136,10 @@
 - 395425b: Milkdown patch version release.
 
   ## Fix
-
   - fix: 🐛 missing style for codemirror search panel (#1910)
   - fix: 🐛 should also export crepe reset css (#1909)
 
   ## Docs
-
   - docs: ✏️ add api reference for crepe editor (#1908)
 
 - Updated dependencies [395425b]
@@ -172,12 +154,10 @@
 - f890c3e: Milkdown minor version release.
 
   ## Feat
-
   - feat: 🎸 add inline support for insert macro (#1901)
   - feat: add selection change event in listern plugin (#1900)
 
   ## Fix
-
   - fix: 🐛 slashMenuTextLabel config attribute (#1904)
   - fix: possible empty code language attribute (#1898)
 
@@ -195,15 +175,12 @@
 - ba00e24: Milkdown patch version release.
 
   ## Docs
-
   - docs: add deep wiki link in readme
 
   ## Fix
-
   - fix: 🐛 set readonly mode before editor loaded will cause error (#1890)
 
   ## Refactor
-
   - refactor: 💡 use clipboard serialized from prosemirror (#1890)
 
 - Updated dependencies [ba00e24]
@@ -218,7 +195,6 @@
 - bf55842: Milkdown patch version release.
 
   ## Fix
-
   - fix: 🐛 readonly mode for code block component (#1886)
   - fix: 🐛 check max valid position when updating slash menu (#1885)
 
@@ -234,7 +210,6 @@
 - 36f9673: Milkdown patch version release.
 
   ## Fix
-
   - fix: 🐛 should hide toolbar when link tooltip is shown (#1871)
   - fix: 🐛 nord theme in nuxt (#1869)
 
@@ -250,16 +225,13 @@
 - 231c534: Milkdown patch version release.
 
   ## Fix
-
   - fix: 🐛 slash menu icon style (#1862)
   - fix: 🐛 crepe slash menu and toolbar z-index (#1864)
 
   ## Chore
-
   - chore: improve comments
 
   ## Docs
-
   - docs: ✏️ add api docs folder (#1860)
 
 - Updated dependencies [231c534]
@@ -274,7 +246,6 @@
 - 02a756a: Milkdown patch version release.
 
   ## Fix
-
   - fix: missing command chain tsdoc (#1857)
 
 - Updated dependencies [02a756a]
@@ -289,11 +260,9 @@
 - 3296822: Milkdown minor version release.
 
   ## Feat
-
   - feat: 🎸 add command inline and chain (#1852)
 
   ## Fix
-
   - fix: 🐛 list item component should be focused when created (#1854)
 
 ### Patch Changes
@@ -310,18 +279,15 @@
 - fa3be68: Milkdown patch version release.
 
   ## Fix
-
   - fix: empty table row (#1849)
   - fix: empty line in list (#1848)
 
   ## Chore
-
   - chore: cleanup unused dependencies (#1846)
   - chore: bump up vite version to v6.3.4 [SECURITY] (#1844)
   - chore: bump up pnpm to v10.10.0 (#1837)
 
   ## Docs
-
   - docs: update jetbrains brand links in readme (#1840)
 
 - Updated dependencies [fa3be68]
@@ -336,11 +302,9 @@
 - dc7f7ae: Milkdown minor release.
 
   ## Feat
-
   - feat: 🎸 enable floating-ui's shift plugin for tooltip by default (#1800), thanks to @KBHertzog.
 
   ### Security
-
   - feat: 🎸 santinize url input (#1808)
   - feat: 🎸 add validate props for schema (#1810)
 
@@ -349,7 +313,6 @@
   If you have a custom stylesheet, you'll need to change the selectors from `milkdown-xxx` to `.milkdown-xxx` because we don't use webcomponents anymore.
 
   Here's a list of all the class-based selectors currently in use that you should use instead of web components:
-
   - `.milkdown-code-block` - For code blocks
   - `.milkdown-image-block` - For image blocks
   - `.milkdown-image-inline` - For inline images
@@ -373,18 +336,15 @@
   - feat: 🎸 migrate image block to vue (#1803)
 
   ### Dev
-
   - feat: 🎸 workspace generator (#1795)
 
   ## Fix
-
   - fix: 🐛 missing table component cleanup (#1823)
   - fix: 🐛 crepe list item cursor style
   - fix: 🐛 crepe vue unmount error (#1818)
   - fix: 🐛 preserve empty line exception and behavior (#1814)
 
   ## Chore
-
   - chore: 🤖 migrate playground to vue (#1828)
   - chore: 🤖 bring back build scripts (#1822)
   - chore: 🤖 bump up prosemirror tables version
@@ -399,7 +359,6 @@
   - chore: 🤖 optimize build script (#1788)
 
   ## Ci
-
   - ci: 🎡 add codegen in fix ci (#1805)
   - ci: 🎡 add eslint to lint errors not supported by oxlint (#1812)
 
@@ -417,18 +376,15 @@
 - eeb7c58: Milkdown minor version release.
 
   ## Feat
-
   - feat: 🎸 add bike-style virtual cursor (#1770)
 
   ## Fix
-
   - fix: crepe inline code padding
   - fix: 🐛 google doc paste (#1773)
   - fix: 🐛 should not display slash menu if has following chars (#1772)
   - fix: remove inline code mark inclusive config (#1771)
 
   ## Chore
-
   - chore: remove deprecated diagram package (#1786)
 
 ## 7.7.0
@@ -438,21 +394,17 @@
 - 58e628c: Milkdown minor release.
 
   ## Feat
-
   - feat: add preserve empty line plugin (#1765)
   - feat: check for isImageBlockEnabled and isTableEnabled (#1761)
 
   ## Fix
-
   - fix: 🐛 backward select text in table cell (#1766)
   - fix: table enter and minimal rows (#1738)
 
   ## Chore
-
   - chore: update readme
 
   ## Style
-
   - style: 💄 enable more oxlint rules (#1767)
 
 ## 7.6.4
@@ -462,19 +414,16 @@
 - fbd3cf7: Milkdown patch version release.
 
   ## Fix
-
   - fix: multi block handle (#1731)
   - fix: should not support blockquote in list (#1730)
   - fix: image upload button stop working when selected (#1718)
   - fix: should disable image resizer for readonly mode (#1717)
 
   ## Chore
-
   - chore: bump up refractor version to v5 (#1727)
   - chore: bump up shiki version to v3 (#1691)
 
   ## Build
-
   - build: disable minification #1709 (#1710)
 
 ## 7.6.3
@@ -484,18 +433,15 @@
 - 288bbed: Release milkdown patch version.
 
   ## Feat
-
   - feat: add math in slash menu (#1686)
   - feat: 🎸 add root option for tooltip,slash,block (#1681)
 
   ## Fix
-
   - fix: remove slugify for performance consideration (#1680)
   - fix: react and vue destroy when using crepe (#1679)
   - fix: allow running in insecure context (#1666)
 
   ## Chore
-
   - chore: Lock file maintenance (#1685)
   - chore: bump up pnpm to v10.4.1 (#1684)
   - chore: bump up all non-major dependencies to v20.4.4 (#1678)
@@ -520,17 +466,14 @@
 - 061f740: Release milkdown patch version.
 
   ## Feat
-
   - feat: make integrations accept crepe editor (#1649)
   - feat: add crepe ctx to make users can access crepe from editor (#1648)
 
   ## Fix
-
   - fix: 🐛 incompatibility between Promise.resolve and angular change detection mechanism (#1647)
   - fix: 🐛 remark transform error when no code block lang (#1642)
 
   ## Chore
-
   - chore: bump up tailwindcss version to v4 (#1638)
   - chore: bump up all non-major dependencies to v20.4.0 (#1646)
   - chore: Lock file maintenance (#1645)
@@ -548,7 +491,6 @@
 - 31da7f9: Fix nord theme.
 
   ## Fix
-
   - fix: 🐛 theme nord css generated file (#1629)
 
 ## 7.6.0
@@ -558,13 +500,11 @@
 - 9421082: Minor version release for milkdown.
 
   ## Feat
-
   - feat: 🎸 add `on` api for crepe (#1622)
   - feat: add markdown inspector in storybook (#1619)
   - feat: add latex feature for crepe (#1613)
 
   ## Chore
-
   - chore: use kit in integrations (#1626)
   - chore: bump prosemirror versions (#1621)
   - chore: remove math plugin since we provides latex in crepe (#1617)
@@ -583,7 +523,6 @@
 - db4ec60: Bug fixes and api improvements.
 
   # Crepe
-
   - Add image proxy config.
   - Fix link preview text not properly truncated.
   - Fix list item unstable selection.
@@ -591,7 +530,6 @@
   - Reset index when slash menu out of bound.
 
   # Core
-
   - Prevent duplicate ids in the editor.
   - Allow options to floating ui.
   - Add undoable input rules.
@@ -601,7 +539,6 @@
 ### Minor Changes
 
 - be28e7b: All in one kit package and crepe config.
-
   - Add all-in-one kit package.
   - Add crepe config for:
     - Widgets texts
@@ -619,14 +556,12 @@
   ### Feature
 
   #### Migrate from tippy to floating ui
-
   - feat: replace tippy with floating ui in plugin block in https://github.com/Milkdown/milkdown/pull/1356
   - feat: migrate tippy to floating ui in plugin slash in https://github.com/Milkdown/milkdown/pull/1375
   - feat: add offset for floating ui in https://github.com/Milkdown/milkdown/pull/1384
   - feat: migrate to floating ui in plugin tooltip in https://github.com/Milkdown/milkdown/pull/1373
 
   #### Components Improvements
-
   - feat: optimize code block behavior in https://github.com/Milkdown/milkdown/pull/1388
   - fix: image caption bug in https://github.com/Milkdown/milkdown/pull/1382
   - fix: list item block should respect readonly mode in https://github.com/Milkdown/milkdown/pull/1339
@@ -635,7 +570,6 @@
   - fix: slash menu scroll behavior in https://github.com/Milkdown/milkdown/pull/1386
 
   #### Crepe Improvements
-
   - feat: add better readonly support for crepe in https://github.com/Milkdown/milkdown/pull/1322
   - feat: add components in storybook in https://github.com/Milkdown/milkdown/pull/1323
   - fix: crepe destroy throw an error in https://github.com/Milkdown/milkdown/pull/1305
@@ -646,7 +580,6 @@
   - feat: migrate crepe theme to pure css in https://github.com/Milkdown/milkdown/pull/1358
 
   #### Misc
-
   - docs: update default config reference by @emmanuel-ferdman in https://github.com/Milkdown/milkdown/pull/1320
   - chore: remove copyright in https://github.com/Milkdown/milkdown/pull/1321
   - test: add list item block in stories in https://github.com/Milkdown/milkdown/pull/1338
@@ -821,7 +754,6 @@
 ### Major Changes
 
 - 069d719b: Milkdown v7.
-
   - The editor becomes a first-class headless component.
   - Factory plugins are deprecated and replaced by composable plugins.
   - Runtime plugin toggle.

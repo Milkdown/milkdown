@@ -1,3 +1,4 @@
+/* oxlint-disable no-console */
 import chalk from 'chalk'
 import { identity } from 'lodash-es'
 
