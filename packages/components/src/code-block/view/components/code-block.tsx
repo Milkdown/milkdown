@@ -15,6 +15,7 @@ import type { CodeBlockConfig } from '../../config'
 import type { LanguageInfo } from '../loader'
 
 import { Icon } from '../../../__internal__/components/icon'
+import { CopyButton } from './copy-button'
 import { LanguagePicker } from './language-picker'
 import { PreviewPanel } from './preview-panel'
 
@@ -88,6 +89,8 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
       return props.config.renderPreview(language, text)
     })
 
+    const empty = () => {}
+
     return () => {
       return (
         <>
@@ -99,16 +102,30 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
               getAllLanguages={props.getAllLanguages}
               getReadOnly={props.getReadOnly}
             />
-            {preview.value ? (
-              <button
-                class="preview-toggle-button"
-                onClick={() => (previewOnlyMode.value = !previewOnlyMode.value)}
-              >
-                <Icon
-                  icon={props.config.previewToggleButton(previewOnlyMode.value)}
-                />
-              </button>
-            ) : null}
+
+            <div class="tools-button-group">
+              <CopyButton
+                copyIcon={props.config.copyIcon}
+                copyText={props.config.copyText}
+                onCopy={props.config.onCopy ?? empty}
+                text={props.text.value}
+              />
+
+              {preview.value ? (
+                <button
+                  class="preview-toggle-button"
+                  onClick={() =>
+                    (previewOnlyMode.value = !previewOnlyMode.value)
+                  }
+                >
+                  <Icon
+                    icon={props.config.previewToggleButton(
+                      previewOnlyMode.value
+                    )}
+                  />
+                </button>
+              ) : null}
+            </div>
           </div>
           <div
             ref={codemirrorHostRef}

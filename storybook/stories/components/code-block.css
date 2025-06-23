@@ -13,9 +13,25 @@
       padding-top: 16px;
     }
 
+    .tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .language-button {
       display: flex;
       align-items: center;
+    }
+
+    .copy-button {
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    &:hover .copy-button,
+    .copy-button--copied {
+      opacity: 1;
     }
 
     .search-box {
@@ -41,7 +57,7 @@
       background: antiquewhite;
       border-radius: 8px;
       font-size: 14px;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
       opacity: 0;
       transition: opacity 0.2s ease-in-out;
     }

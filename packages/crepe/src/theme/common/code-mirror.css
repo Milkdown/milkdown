@@ -100,27 +100,42 @@
         caret-color: var(--crepe-color-outline);
       }
 
-      .preview-toggle-button {
-        background: var(--crepe-color-secondary);
-        color: var(--crepe-color-on-surface-variant);
-        padding: 4px 10px;
-        opacity: 0;
-        cursor: pointer;
-        border-radius: 100px;
-        font-size: 12px;
-        line-height: 16px;
-        font-weight: 600;
-        font-family: var(--crepe-font-default);
-        transition: opacity 0.2s ease-in-out;
+      .tools-button-group {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
+        gap: 2px;
 
-        svg {
-          width: 14px;
-          height: 14px;
-          fill: var(--crepe-color-on-surface-variant);
+        button {
+          background: var(--crepe-color-secondary);
+          color: var(--crepe-color-on-surface-variant);
+          padding: 4px 10px;
+          opacity: 0;
+          cursor: pointer;
+          border-radius: 4px;
+          font-size: 12px;
+          line-height: 16px;
+          font-weight: 600;
+          font-family: var(--crepe-font-default);
+          transition: opacity 0.2s ease-in-out;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+
+          svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--crepe-color-on-surface-variant);
+          }
+        }
+
+        button:first-child {
+          border-top-left-radius: 100px;
+          border-bottom-left-radius: 100px;
+        }
+
+        button:last-child {
+          border-top-right-radius: 100px;
+          border-bottom-right-radius: 100px;
         }
       }
 
@@ -175,7 +190,7 @@
       opacity: 1;
     }
 
-    &:hover .preview-toggle-button {
+    &:hover .tools-button-group > button {
       opacity: 1;
     }
 

@@ -36,7 +36,10 @@ export default defineConfig({
     ? [
         {
           name: 'chromium',
-          use: { ...devices['Desktop Chrome'] },
+          use: {
+            ...devices['Desktop Chrome'],
+            permissions: ['clipboard-read', 'clipboard-write'],
+          },
         },
 
         {
@@ -52,7 +55,10 @@ export default defineConfig({
     : [
         {
           name: 'chromium',
-          use: { ...devices['Desktop Chrome'] },
+          use: {
+            ...devices['Desktop Chrome'],
+            permissions: ['clipboard-read', 'clipboard-write'],
+          },
         },
       ],
 

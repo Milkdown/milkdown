@@ -15,6 +15,7 @@ import { crepeFeatureConfig } from '../../core/slice'
 import {
   chevronDownIcon,
   clearIcon,
+  copyIcon,
   editIcon,
   searchIcon,
   visibilityOffIcon,
@@ -31,6 +32,9 @@ interface CodeMirrorConfig {
   clearSearchIcon: string
 
   searchPlaceholder: string
+  copyText: string
+  copyIcon: string
+  onCopy: (text: string) => void
   noResultText: string
 
   renderLanguage: (language: string, selected: boolean) => string
@@ -73,6 +77,9 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
         searchIcon: config.searchIcon || searchIcon,
         clearSearchIcon: config.clearSearchIcon || clearIcon,
         searchPlaceholder: config.searchPlaceholder || 'Search language',
+        copyText: config.copyText || 'Copy',
+        copyIcon: config.copyIcon || copyIcon,
+        onCopy: config.onCopy || (() => {}),
         noResultText: config.noResultText || 'No result',
         renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,
         renderPreview: config.renderPreview || defaultConfig.renderPreview,
