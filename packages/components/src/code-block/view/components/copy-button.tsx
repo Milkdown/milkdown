@@ -77,7 +77,9 @@ export const CopyButton = defineComponent<CopyButtonProps>({
   },
   setup(props) {
     const onCopyCode = () => {
-      copyToClipboard(props.text).then(() => props.onCopy(props.text)).catch(console.error)
+      copyToClipboard(props.text)
+        .then(() => props.onCopy(props.text))
+        .catch(console.error)
     }
 
     return () => {
