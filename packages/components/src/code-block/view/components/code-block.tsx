@@ -100,22 +100,30 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
               getAllLanguages={props.getAllLanguages}
               getReadOnly={props.getReadOnly}
             />
-            {preview.value ? (
-              <button
-                class="preview-toggle-button"
-                onClick={() => (previewOnlyMode.value = !previewOnlyMode.value)}
-              >
-                <Icon
-                  icon={props.config.previewToggleButton(previewOnlyMode.value)}
-                />
-              </button>
-            ) : null}
 
-            <CopyButton
-              copyIcon={props.config.copyIcon}
-              copiedText={props.config.copiedText}
-              text={props.text.value}
-            />
+            <div class="tools-button-group">
+              <CopyButton
+                copyIcon={props.config.copyIcon}
+                copyText={props.config.copyText}
+                copiedText={props.config.copiedText}
+                text={props.text.value}
+              />
+
+              {preview.value ? (
+                <button
+                  class="preview-toggle-button"
+                  onClick={() =>
+                    (previewOnlyMode.value = !previewOnlyMode.value)
+                  }
+                >
+                  <Icon
+                    icon={props.config.previewToggleButton(
+                      previewOnlyMode.value
+                    )}
+                  />
+                </button>
+              ) : null}
+            </div>
           </div>
           <div
             ref={codemirrorHostRef}

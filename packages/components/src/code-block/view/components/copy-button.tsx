@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { defineComponent, h, Fragment, ref } from 'vue'
 
 import { Icon } from '../../../__internal__/components/icon'
@@ -7,6 +6,7 @@ h
 Fragment
 
 export type CopyButtonProps = {
+  copyText: string
   copiedText: string
   copyIcon: string
   text: string
@@ -58,6 +58,10 @@ async function copyToClipboard(text: string) {
 
 export const CopyButton = defineComponent<CopyButtonProps>({
   props: {
+    copyText: {
+      type: String,
+      required: true,
+    },
     copiedText: {
       type: String,
       required: true,
@@ -83,7 +87,7 @@ export const CopyButton = defineComponent<CopyButtonProps>({
           lastTimeout = setTimeout(() => {
             isCopied.value = false
             clearTimeout(lastTimeout!)
-          }, 2000)
+          }, 1000)
         })
         .catch(console.error)
     }
@@ -91,12 +95,9 @@ export const CopyButton = defineComponent<CopyButtonProps>({
     return () => {
       return (
         <>
-          <button
-            type="button"
-            class={clsx('copy-button', isCopied.value && 'copy-button--copied')}
-          >
-            {isCopied.value && props.copiedText}
-            <Icon icon={props.copyIcon} onClick={onCopyCode} />
+          <button type="button" class="copy-button" onClick={onCopyCode}>
+            <Icon icon={props.copyIcon} />
+            {isCopied.value ? props.copiedText : props.copyText}
           </button>
         </>
       )
