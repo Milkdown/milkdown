@@ -33,8 +33,8 @@ interface CodeMirrorConfig {
 
   searchPlaceholder: string
   copyText: string
-  copiedText: string
   copyIcon: string
+  onCopy: (text: string) => void
   noResultText: string
 
   renderLanguage: (language: string, selected: boolean) => string
@@ -78,8 +78,8 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
         clearSearchIcon: config.clearSearchIcon || clearIcon,
         searchPlaceholder: config.searchPlaceholder || 'Search language',
         copyText: config.copyText || 'Copy',
-        copiedText: config.copiedText || 'Copied',
         copyIcon: config.copyIcon || copyIcon,
+        onCopy: config.onCopy || (() => {}),
         noResultText: config.noResultText || 'No result',
         renderLanguage: config.renderLanguage || defaultConfig.renderLanguage,
         renderPreview: config.renderPreview || defaultConfig.renderPreview,

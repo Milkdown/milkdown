@@ -1,4 +1,4 @@
-import { defineComponent, h, Fragment, ref } from 'vue'
+import { defineComponent, h, Fragment } from 'vue'
 
 import { Icon } from '../../../__internal__/components/icon'
 
@@ -7,8 +7,8 @@ Fragment
 
 export type CopyButtonProps = {
   copyText: string
-  copiedText: string
   copyIcon: string
+  onCopy: (text: string) => void
   text: string
 }
 
@@ -62,11 +62,11 @@ export const CopyButton = defineComponent<CopyButtonProps>({
       type: String,
       required: true,
     },
-    copiedText: {
-      type: String,
+    copyIcon: {
+      type: Function,
       required: true,
     },
-    copyIcon: {
+    onCopy: {
       type: Function,
       required: true,
     },
@@ -76,20 +76,8 @@ export const CopyButton = defineComponent<CopyButtonProps>({
     },
   },
   setup(props) {
-    const isCopied = ref(false)
-    let lastTimeout: ReturnType<typeof setTimeout> | null = null
-
     const onCopyCode = () => {
-      copyToClipboard(props.text)
-        .then(() => {
-          isCopied.value = true
-          lastTimeout && clearTimeout(lastTimeout)
-          lastTimeout = setTimeout(() => {
-            isCopied.value = false
-            clearTimeout(lastTimeout!)
-          }, 1000)
-        })
-        .catch(console.error)
+      copyToClipboard(props.text).then(() => props.onCopy(props.text)).catch(console.error)
     }
 
     return () => {
@@ -97,7 +85,7 @@ export const CopyButton = defineComponent<CopyButtonProps>({
         <>
           <button type="button" class="copy-button" onClick={onCopyCode}>
             <Icon icon={props.copyIcon} />
-            {isCopied.value ? props.copiedText : props.copyText}
+            {props.copyText}
           </button>
         </>
       )

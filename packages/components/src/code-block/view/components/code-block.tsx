@@ -89,6 +89,8 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
       return props.config.renderPreview(language, text)
     })
 
+    const empty = () => {}
+
     return () => {
       return (
         <>
@@ -105,7 +107,7 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
               <CopyButton
                 copyIcon={props.config.copyIcon}
                 copyText={props.config.copyText}
-                copiedText={props.config.copiedText}
+                onCopy={props.config.onCopy ?? empty}
                 text={props.text.value}
               />
 
