@@ -105,6 +105,21 @@ The core module for milkdown.
 
 @commandsCtx
 
+## Keymap
+
+@keymap
+@KeymapManager
+
+### Timer
+
+@KeymapReady
+
+### Slice
+
+@keymapTimerCtx
+
+@keymapCtx
+
 ## EditorState
 
 @editorState

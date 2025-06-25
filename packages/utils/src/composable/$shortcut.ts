@@ -2,16 +2,16 @@ import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import type { Command } from '@milkdown/prose/state'
 
 import {
-  SchemaReady,
+  KeymapReady,
   editorStateTimerCtx,
-  prosePluginsCtx,
+  keymapCtx,
+  type KeymapItem,
 } from '@milkdown/core'
-import { keymap } from '@milkdown/prose/keymap'
 
 import { addTimer } from './utils'
 
 /// @internal
-export type Keymap = Record<string, Command>
+export type Keymap = Record<string, Command | KeymapItem>
 
 /// @internal
 export type $Shortcut = MilkdownPlugin & {
@@ -25,14 +25,14 @@ export type $Shortcut = MilkdownPlugin & {
 /// - `keymap`: The prosemirror keymap created.
 export function $shortcut(shortcut: (ctx: Ctx) => Keymap): $Shortcut {
   const plugin: MilkdownPlugin = (ctx) => async () => {
-    await ctx.wait(SchemaReady)
-    const k = shortcut(ctx)
-    const keymapPlugin = keymap(k)
-    ctx.update(prosePluginsCtx, (ps) => [...ps, keymapPlugin])
-    ;(<$Shortcut>plugin).keymap = k
+    await ctx.wait(KeymapReady)
+    const km = ctx.get(keymapCtx)
+    const keymap = shortcut(ctx)
+    const dispose = km.addObjectKeymap(keymap)
+    ;(<$Shortcut>plugin).keymap = keymap
 
     return () => {
-      ctx.update(prosePluginsCtx, (ps) => ps.filter((x) => x !== keymapPlugin))
+      dispose()
     }
   }
 
@@ -50,16 +50,14 @@ export function $shortcutAsync(
 ) {
   return addTimer<$Shortcut>(
     async (ctx, plugin) => {
-      await ctx.wait(SchemaReady)
-      const k = await shortcut(ctx)
-      const keymapPlugin = keymap(k)
-      ctx.update(prosePluginsCtx, (ps) => [...ps, keymapPlugin])
-      plugin.keymap = k
+      await ctx.wait(KeymapReady)
+      const km = ctx.get(keymapCtx)
+      const keymap = await shortcut(ctx)
+      const dispose = km.addObjectKeymap(keymap)
+      plugin.keymap = keymap
 
       return () => {
-        ctx.update(prosePluginsCtx, (ps) =>
-          ps.filter((x) => x !== keymapPlugin)
-        )
+        dispose()
       }
     },
     editorStateTimerCtx,
