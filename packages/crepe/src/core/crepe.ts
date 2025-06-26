@@ -28,7 +28,7 @@ export class Crepe extends CrepeBuilder {
     features = {},
     featureConfigs = {},
     ...crepeBuilderConfig
-  }: CrepeConfig) {
+  }: CrepeConfig = {}) {
     super(crepeBuilderConfig)
 
     const finalConfigs = defaultsDeep(featureConfigs, defaultConfig)

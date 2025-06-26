@@ -50,7 +50,7 @@ export class CrepeBuilder {
 
   /// The constructor of the crepe builder.
   /// You can pass configs to the builder to configure the editor.
-  constructor({ root, defaultValue = '' }: CrepeBuilderConfig) {
+  constructor({ root, defaultValue = '' }: CrepeBuilderConfig = {}) {
     this.#rootElement =
       (typeof root === 'string' ? document.querySelector(root) : root) ??
       document.body
@@ -104,6 +104,11 @@ export class CrepeBuilder {
   /// Get the milkdown editor instance.
   get editor(): Editor {
     return this.#editor
+  }
+
+  /// Get the readonly state of the editor.
+  get readonly() {
+    return !this.#editable
   }
 
   /// Set the readonly mode of the editor.

@@ -8,7 +8,7 @@ import { $ctx, $prose } from '@milkdown/kit/utils'
 
 import type { DefineFeature } from '../shared'
 
-import { crepeFeatureConfig } from '../../core/slice'
+import { crepeFeatureConfig, useCrepe } from '../../core/slice'
 import { isInCodeBlock, isInList } from '../../utils'
 import { CrepeFeature } from '../index'
 
@@ -58,6 +58,9 @@ export const placeholderPlugin = $prose((ctx) => {
     key: new PluginKey('CREPE_PLACEHOLDER'),
     props: {
       decorations: (state) => {
+        const crepe = useCrepe(ctx)
+        if (crepe.readonly) return null
+
         const config = ctx.get(placeholderConfig.key)
         if (config.mode === 'doc' && !isDocEmpty(state.doc)) return null
 
