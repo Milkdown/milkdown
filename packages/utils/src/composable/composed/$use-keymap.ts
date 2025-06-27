@@ -8,11 +8,18 @@ import { $ctx } from '../$ctx'
 import { $shortcut } from '../$shortcut'
 
 /// @internal
-export type KeymapConfig<K extends string> = Record<K, string | string[]>
+export type KeymapConfig<K extends string> = Record<
+  K,
+  {
+    shortcuts: string | string[]
+    priority?: number
+  }
+>
 
 /// @internal
 export interface KeymapItem {
   shortcuts: string | string[]
+  priority?: number
   command: (ctx: Ctx) => Command
 }
 
@@ -39,10 +46,12 @@ export function $useKeymap<N extends string, Key extends string>(
   userKeymap: UserKeymapConfig<Key>
 ) {
   const key = Object.fromEntries(
-    Object.entries<KeymapItem>(userKeymap).map(([key, { shortcuts }]) => {
-      return [key, shortcuts]
-    })
-  ) as Record<Key, string | string[]>
+    Object.entries<KeymapItem>(userKeymap).map(
+      ([key, { shortcuts, priority }]) => {
+        return [key, { shortcuts, priority }]
+      }
+    )
+  ) as KeymapConfig<Key>
 
   const keymapDef = $ctx<KeymapConfig<Key>, `${N}Keymap`>(key, `${name}Keymap`)
 
@@ -51,9 +60,21 @@ export function $useKeymap<N extends string, Key extends string>(
 
     const keymapTuple = Object.entries<KeymapItem>(userKeymap).flatMap(
       ([key, { command }]) => {
-        const targetKeys: string[] = [keys[key as Key]].flat()
+        const target = keys[key as Key]
+        const targetKeys = [target.shortcuts].flat()
+        const priority = target.priority
 
-        return targetKeys.map((targetKey) => [targetKey, command(ctx)] as const)
+        return targetKeys.map(
+          (targetKey) =>
+            [
+              targetKey,
+              {
+                key: targetKey,
+                onRun: command,
+                priority,
+              },
+            ] as const
+        )
       }
     )
 

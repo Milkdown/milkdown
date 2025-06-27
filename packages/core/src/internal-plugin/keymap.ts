@@ -12,7 +12,7 @@ import {
   baseKeymap,
   chainCommands,
   deleteSelection,
-  joinBackward,
+  joinTextblockBackward,
   selectNodeBackward,
 } from '@milkdown/prose/commands'
 import { undoInputRule } from '@milkdown/prose/inputrules'
@@ -33,7 +33,7 @@ function overrideBaseKeymap(keymap: Record<string, Command>) {
   const handleBackspace = chainCommands(
     undoInputRule,
     deleteSelection,
-    joinBackward,
+    joinTextblockBackward,
     selectNodeBackward
   )
   keymap.Backspace = handleBackspace

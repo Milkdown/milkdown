@@ -2,6 +2,7 @@ import type { Ctx } from '@milkdown/ctx'
 
 import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
+import { joinBackward } from '@milkdown/prose/commands'
 import {
   liftListItem,
   sinkListItem,
@@ -174,18 +175,10 @@ function liftFirstListItem(ctx: Ctx): Command {
     if (!empty || $from.parentOffset !== 0) return false
 
     const parentItem = $from.node(-1)
-    // selection should be in list item and list item should be the first child of the list
-    if (
-      parentItem.type !== listItemSchema.type(ctx) ||
-      parentItem.firstChild !== $from.node()
-    )
-      return false
+    // selection should be in list item
+    if (parentItem.type !== listItemSchema.type(ctx)) return false
 
-    const list = $from.node(-2)
-    // list should have only one list item
-    if (list.childCount > 1) return false
-
-    return liftListItem(listItemSchema.type(ctx))(state, dispatch, view)
+    return joinBackward(state, dispatch, view)
   }
 }
 
