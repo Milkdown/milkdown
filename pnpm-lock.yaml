@@ -713,6 +713,9 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
+      dompurify:
+        specifier: ^3.2.5
+        version: 3.2.6
       emoji-regex:
         specifier: ^10.0.0
         version: 10.4.0
@@ -731,6 +734,10 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
+    devDependencies:
+      '@milkdown/preset-commonmark':
+        specifier: workspace:*
+        version: link:../preset-commonmark
 
   packages/plugins/plugin-history:
     dependencies:
