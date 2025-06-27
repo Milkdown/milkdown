@@ -159,7 +159,7 @@ export class SlashProvider {
     const { empty, $from } = selection
     const isTextBlock = view.state.selection instanceof TextSelection
 
-    if (!document) return
+    if (typeof document === 'undefined') return
 
     const isSlashChildren = this.element.contains(document.activeElement)
 
