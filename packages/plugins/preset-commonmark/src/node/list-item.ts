@@ -2,7 +2,7 @@ import type { Ctx } from '@milkdown/ctx'
 
 import { commandsCtx } from '@milkdown/core'
 import { expectDomTypeError } from '@milkdown/exception'
-import { chainCommands, joinBackward } from '@milkdown/prose/commands'
+import { joinBackward } from '@milkdown/prose/commands'
 import {
   liftListItem,
   sinkListItem,
@@ -178,9 +178,7 @@ function liftFirstListItem(ctx: Ctx): Command {
     // selection should be in list item
     if (parentItem.type !== listItemSchema.type(ctx)) return false
 
-    const command = chainCommands(joinBackward)
-
-    return command(state, dispatch, view)
+    return joinBackward(state, dispatch, view)
   }
 }
 
