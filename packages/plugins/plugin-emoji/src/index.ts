@@ -48,6 +48,7 @@ export const emojiSchema = $nodeSchema('emoji', (ctx) => ({
 
     const firstChild = tmp.firstChild
     if (!firstChild) {
+      console.warn('Milkdown emoji plugin: emoji is not valid')
       return ['span', { ...attrs.container, 'data-type': 'emoji' }, tmp]
     }
 
