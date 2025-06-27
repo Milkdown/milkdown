@@ -50,5 +50,8 @@
     "tslib": "^2.8.1",
     "twemoji": "^14.0.2",
     "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@milkdown/preset-commonmark": "workspace:*"
   }
 }

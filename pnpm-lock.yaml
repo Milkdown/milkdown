@@ -734,6 +734,10 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
+    devDependencies:
+      '@milkdown/preset-commonmark':
+        specifier: workspace:*
+        version: link:../preset-commonmark
 
   packages/plugins/plugin-history:
     dependencies:
