@@ -53,6 +53,7 @@ withMeta(insertTableInputRule, {
 /// - `<Mod-Enter>`: Exit the table, and break it if possible.
 export const tableKeymap = $useKeymap('tableKeymap', {
   NextCell: {
+    priority: 100,
     shortcuts: ['Mod-]', 'Tab'],
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
