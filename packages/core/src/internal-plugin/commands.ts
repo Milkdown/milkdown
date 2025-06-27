@@ -103,7 +103,7 @@ export class CommandManager {
     if (this.#ctx == null) throw callCommandBeforeEditorView()
     const ctx = this.#ctx
     const commands: Command[] = []
-    const get = this.get
+    const get = this.get.bind(this)
 
     const chains: CommandChain = {
       run: () => {
@@ -115,7 +115,7 @@ export class CommandManager {
         commands.push(command)
         return chains
       },
-      pipe,
+      pipe: pipe.bind(this),
     }
 
     function pipe<T extends CmdKey<any>>(

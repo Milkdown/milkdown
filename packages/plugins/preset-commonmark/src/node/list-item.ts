@@ -235,7 +235,12 @@ export const listItemKeymap = $useKeymap('listItemKeymap', {
     shortcuts: ['Backspace', 'Delete'],
     command: (ctx) => {
       const commands = ctx.get(commandsCtx)
-      return () => commands.call(liftFirstListItemCommand.key)
+      return () =>
+        commands
+          .chain()
+          .pipe(liftFirstListItemCommand.key)
+          .pipe(liftListItemCommand.key)
+          .run()
     },
   },
 })
