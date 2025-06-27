@@ -43,6 +43,7 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*",
+    "dompurify": "^3.2.5",
     "emoji-regex": "^10.0.0",
     "node-emoji": "^2.1.3",
     "remark-emoji": "^5.0.0",
