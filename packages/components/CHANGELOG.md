@@ -1,5 +1,40 @@
 # @milkdown/components
 
+## 7.15.0
+
+### Minor Changes
+
+- 941d1ba: Milkdown minor release.
+
+  ## Feat
+  - feat: 🎸 support extend a extended schema (#2001)
+  - feat: 🎸 reduce link preview delay
+  - feat: 🎸 new keymap manager (#1988)
+  - feat: 🎸 support copy to clipboard for code block (#1944)
+
+  ## Fix
+  - fix: 🐛 emoji crash if not available in twemoji (#1999)
+  - fix: 🐛 table shortcut priority (#1998)
+  - fix: 🐛 should hide placeholder in readonly mode (#1994)
+  - fix: 🐛 vue test warning (#1979)
+  - fix: 🐛 flaky unit test
+
+  ## Docs
+  - docs: ✏️ update documentations for components (#2003)
+
+### Patch Changes
+
+- Updated dependencies [941d1ba]
+  - @milkdown/core@7.15.0
+  - @milkdown/ctx@7.15.0
+  - @milkdown/exception@7.15.0
+  - @milkdown/plugin-tooltip@7.15.0
+  - @milkdown/preset-commonmark@7.15.0
+  - @milkdown/preset-gfm@7.15.0
+  - @milkdown/prose@7.15.0
+  - @milkdown/transformer@7.15.0
+  - @milkdown/utils@7.15.0
+
 ## 7.14.0
 
 ### Minor Changes
