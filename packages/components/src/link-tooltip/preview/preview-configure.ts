@@ -12,7 +12,7 @@ import { LinkPreviewTooltip } from './preview-view'
 export function configureLinkPreviewTooltip(ctx: Ctx) {
   let linkPreviewTooltipView: LinkPreviewTooltip | null
 
-  const DELAY = 200
+  const DELAY = 50
   const onMouseMove = debounce((view: EditorView, event: MouseEvent) => {
     if (!linkPreviewTooltipView) return
     if (!view.hasFocus()) return
