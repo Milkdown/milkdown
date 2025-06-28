@@ -17,7 +17,10 @@ This component provides the following features:
 # Usage
 
 ```typescript
-import { imageBlockComponent } from '@milkdown/kit/component/image-block'
+import {
+  imageBlockComponent,
+  imageBlockConfig,
+} from '@milkdown/components/image-block'
 import { defaultValueCtx, Editor } from '@milkdown/kit/core'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 
@@ -32,143 +35,63 @@ await Editor.make().use(commonmark).use(imageBlockComponent).create()
 
 You can configure the component by updating the `imageBlockConfig` ctx in `editor.config`.
 
-The possible configurations are:
+## Configuration Options
 
-### `onUpload`
+| Option                   | Type                                         | Default                                                | Description                                                                         |
+| ------------------------ | -------------------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `imageIcon`              | `string \| undefined`                        | `'🌌'`                                                 | Icon for the empty image block placeholder                                          |
+| `captionIcon`            | `string \| undefined`                        | `'💬'`                                                 | Icon for the caption toggle button                                                  |
+| `uploadButton`           | `string \| undefined`                        | `'Upload file'`                                        | Content for the upload button                                                       |
+| `confirmButton`          | `string \| undefined`                        | `'Confirm ⏎'`                                          | Content for the confirm button                                                      |
+| `uploadPlaceholderText`  | `string`                                     | `'or paste the image link ...'`                        | Placeholder text for the image block placeholder                                    |
+| `captionPlaceholderText` | `string`                                     | `'Image caption'`                                      | Placeholder text for the caption input                                              |
+| `onUpload`               | `(file: File) => Promise<string>`            | `(file) => Promise.resolve(URL.createObjectURL(file))` | Function called when an image is uploaded; must return a Promise with the image URL |
+| `proxyDomURL`            | `(url: string) => Promise<string> \| string` | `undefined`                                            | Optional function to proxy the image URL                                            |
+
+---
+
+## `onUpload`
 
 A function that is called when the image is chosen by the file picker.
-
 You should return a promise that resolves to the URL of the uploaded image.
 
 ```typescript
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
+import { imageBlockConfig } from '@milkdown/components/image-block'
 
 ctx.update(imageBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
   onUpload: async (file: File) => {
     const url = await YourUploadAPI(file)
-
     return url
   },
 }))
 ```
 
-### `imageIcon`
+## `imageIcon`, `captionIcon`, `uploadButton`, `confirmButton`, `uploadPlaceholderText`, `captionPlaceholderText`
 
-The icon shown in the empty image block placeholder.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
+All of these options are **strings**. You can use any string or emoji.
 
 ```typescript
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
+import { imageBlockConfig } from '@milkdown/components/image-block'
 
 ctx.update(imageBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
-  imageIcon: () => '🖼️',
-}))
-```
-
-### `captionIcon`
-
-The icon shown on the caption toggle button.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
-
-ctx.update(imageBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  captionIcon: () => '📝',
-}))
-```
-
-### `uploadButton`
-
-The content shown on the upload button. The button shows up on the image block placeholder.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { html } from '@milkdown/kit/component'
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
-
-ctx.update(imageBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  uploadButton: () => html`<span>Upload Image</span>`,
-}))
-```
-
-### `uploadPlaceholderText`
-
-The placeholder text shown on the image block placeholder.
-
-The value should be a string.
-
-```typescript
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
-
-ctx.update(imageBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
+  imageIcon: '🖼️',
+  captionIcon: '📝',
+  uploadButton: 'Upload Image',
+  confirmButton: 'Confirm',
   uploadPlaceholderText: 'or paste an image URL',
-}))
-```
-
-### `confirmButton`
-
-The content shown on the image placeholders' confirm button.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { html } from '@milkdown/kit/component'
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
-
-ctx.update(imageBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  confirmButton: () => html`<span>Confirm</span>`,
-}))
-```
-
-### `captionPlaceholderText`
-
-The placeholder text shown on the caption input.
-
-The value should be a string.
-
-```typescript
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
-
-ctx.update(imageBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
   captionPlaceholderText: 'Add a caption',
 }))
 ```
 
-### `proxyDomURL`
+## `proxyDomURL`
 
 Whether to proxy the image link to another URL when rendering.
-
-The value should be a string or promise string.
+The value should be a function that returns a string or a promise of a string.
 
 ```typescript
-import { imageBlockConfig } from '@milkdown/kit/component/image-block'
+import { imageBlockConfig } from '@milkdown/components/image-block'
 
 ctx.update(imageBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
