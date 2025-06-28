@@ -1,7 +1,5 @@
-import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type { Ctx } from '@milkdown/ctx'
 import type { NodeSchema } from '@milkdown/transformer'
-
-import { nodesCtx } from '@milkdown/core'
 
 import type { $Ctx } from '../$ctx'
 import type { $Node } from '../$node'
@@ -21,11 +19,10 @@ export type $NodeSchema<T extends string> = [
   type: $Node['type']
   node: $Node
   ctx: $Ctx<GetNodeSchema, T>
-  schema: NodeSchema
   key: $Ctx<GetNodeSchema, T>['key']
   extendSchema: (
     handler: (prev: GetNodeSchema) => GetNodeSchema
-  ) => MilkdownPlugin
+  ) => $NodeSchema<T>
 }
 
 /// Create a plugin for node schema.
@@ -56,20 +53,12 @@ export function $nodeSchema<T extends string>(
   result.node = nodeSchema
 
   result.type = (ctx: Ctx) => nodeSchema.type(ctx)
-  result.schema = nodeSchema.schema
   result.ctx = schemaCtx
   result.key = schemaCtx.key
-  result.extendSchema = (handler): MilkdownPlugin => {
-    return (ctx) => () => {
-      const prev = ctx.get(schemaCtx.key)
-      const next = handler(prev)
-      const nodeSchema = next(ctx)
-      ctx.update(nodesCtx, (ns) => [
-        ...ns.filter((n) => n[0] !== id),
-        [id, nodeSchema] as [string, NodeSchema],
-      ])
-      result.schema = nodeSchema
-    }
+  result.extendSchema = (handler) => {
+    const nextSchema = handler(schema)
+
+    return $nodeSchema(id, nextSchema)
   }
 
   return result

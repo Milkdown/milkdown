@@ -99,8 +99,13 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema(
   }
 )
 
-withMeta(extendListItemSchemaForTask, {
-  displayName: 'NodeSchema<listItem>',
+withMeta(extendListItemSchemaForTask.node, {
+  displayName: 'NodeSchema<taskListItem>',
+  group: 'ListItem',
+})
+
+withMeta(extendListItemSchemaForTask.ctx, {
+  displayName: 'NodeSchemaCtx<taskListItem>',
   group: 'ListItem',
 })
 

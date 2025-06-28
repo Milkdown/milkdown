@@ -1,7 +1,5 @@
-import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
+import type { Ctx } from '@milkdown/ctx'
 import type { MarkSchema } from '@milkdown/transformer'
-
-import { marksCtx } from '@milkdown/core'
 
 import type { $Ctx } from '../$ctx'
 import type { $Mark } from '../$mark'
@@ -21,11 +19,10 @@ export type $MarkSchema<T extends string> = [
   type: $Mark['type']
   mark: $Mark
   ctx: $Ctx<GetMarkSchema, T>
-  schema: MarkSchema
   key: $Ctx<GetMarkSchema, T>['key']
   extendSchema: (
     handler: (prev: GetMarkSchema) => GetMarkSchema
-  ) => MilkdownPlugin
+  ) => $MarkSchema<T>
 }
 
 /// Create a plugin for mark schema.
@@ -54,21 +51,14 @@ export function $markSchema<T extends string>(
   const result = [schemaCtx, markSchema] as $MarkSchema<T>
   result.id = markSchema.id
   result.mark = markSchema
-  result.type = markSchema.type
-  result.schema = markSchema.schema
+
+  result.type = (ctx: Ctx) => markSchema.type(ctx)
   result.ctx = schemaCtx
   result.key = schemaCtx.key
-  result.extendSchema = (handler): MilkdownPlugin => {
-    return (ctx) => () => {
-      const prev = ctx.get(schemaCtx.key)
-      const next = handler(prev)
-      const markSchema = next(ctx)
-      ctx.update(marksCtx, (ms) => [
-        ...ms.filter((m) => m[0] !== id),
-        [id, markSchema] as [string, MarkSchema],
-      ])
-      result.schema = markSchema
-    }
+  result.extendSchema = (handler) => {
+    const nextSchema = handler(schema)
+
+    return $markSchema(id, nextSchema)
   }
 
   return result
