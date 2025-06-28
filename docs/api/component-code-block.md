@@ -21,11 +21,10 @@ import { defaultKeymap } from '@codemirror/commands'
 import { languages } from '@codemirror/language-data'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { keymap } from '@codemirror/view'
-import { html } from '@milkdown/kit/component'
 import {
   codeBlockComponent,
   codeBlockConfig,
-} from '@milkdown/kit/component/code-block'
+} from '@milkdown/components/code-block'
 import { defaultValueCtx, Editor } from '@milkdown/kit/core'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { basicSetup } from 'codemirror'
@@ -36,10 +35,8 @@ await Editor.make()
       ...defaultConfig,
       languages,
       extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
-      renderLanguage: (language, selected) => {
-        return html`<span class="leading">${selected ? check : null}</span
-          >${language}`
-      },
+      renderLanguage: (language, selected) =>
+        selected ? `✔ ${language}` : language,
     }))
   })
   .use(commonmark)
@@ -55,18 +52,35 @@ await Editor.make()
 
 You can configure the component by updating the `codeBlockConfig` ctx in `editor.config`.
 
-The possible configurations are:
+## Configuration Options
 
-### `languages`
+| Option                | Type                                                                   | Default                            | Description                                                         |
+| --------------------- | ---------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------- |
+| `extensions`          | `Extension[]`                                                          | `[]`                               | Codemirror extensions                                               |
+| `languages`           | `LanguageDescription[]`                                                | `[]`                               | Codemirror language data                                            |
+| `expandIcon`          | `string`                                                               | `'⬇'`                             | Icon for expanding the language picker                              |
+| `searchIcon`          | `string`                                                               | `'🔍'`                             | Icon for search                                                     |
+| `clearSearchIcon`     | `string`                                                               | `'⌫'`                              | Icon for clearing the search input                                  |
+| `searchPlaceholder`   | `string`                                                               | `'Search language'`                | Placeholder for the search input                                    |
+| `noResultText`        | `string`                                                               | `'No result'`                      | Text when no language matches                                       |
+| `copyText`            | `string`                                                               | `'Copy'`                           | Text for the copy button                                            |
+| `copyIcon`            | `string`                                                               | `'📋'`                             | Icon for the copy button                                            |
+| `onCopy`              | `(text: string) => void` (optional)                                    | `() => {}`                         | Callback when code is copied                                        |
+| `renderLanguage`      | `(language: string, selected: boolean) => string`                      | `(language) => language`           | Function to render a language in the picker (must return a string)  |
+| `renderPreview`       | `(language: string, content: string) => null \| string \| HTMLElement` | `() => null`                       | Function to render a preview (return null to hide)                  |
+| `previewToggleButton` | `(previewOnlyMode: boolean) => string`                                 | `(mode) => mode ? 'Edit' : 'Hide'` | Function to render the preview toggle button (must return a string) |
+| `previewLabel`        | `string`                                                               | `'Preview'`                        | Label for the preview panel                                         |
+
+---
+
+## `languages`
 
 Codemirror language data list. You can either import the language data from `@codemirror/language-data` or provide your own language data.
 
 ```typescript
-// Option 1: Import language data from @codemirror/language-data
-// Option 2: Provide your own language data
 import { LanguageDescription } from '@codemirror/language'
 import { languages } from '@codemirror/language-data'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import { codeBlockConfig } from '@milkdown/components/code-block'
 
 const myLanguages = [
   LanguageDescription.of({
@@ -92,16 +106,15 @@ ctx.update(codeBlockConfig.key, (defaultConfig) => ({
 }))
 ```
 
-### `extensions`
+## `extensions`
 
 Codemirror extensions list.
-There are a lot of extensions available in the Codemirror ecosystem.
 You can use the `basicSetup` extension to enable basic features like line numbers, syntax highlighting, theme, etc.
 
 ```typescript
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import { codeBlockConfig } from '@milkdown/components/code-block'
 import { basicSetup } from 'codemirror'
 
 ctx.update(codeBlockConfig.key, (defaultConfig) => ({
@@ -109,134 +122,66 @@ ctx.update(codeBlockConfig.key, (defaultConfig) => ({
   extensions: [
     keymap.of(defaultKeymap.concat(indentWithTab)),
     basicSetup,
-    theme,
+    oneDark,
   ],
 }))
 ```
 
-### `renderLanguage`
+## `renderLanguage`
 
-A function to render the language list item in the language picker.
+A function to render the language list item in the language picker. **Must return a string.**
 
 ```typescript
-import { html } from '@milkdown/kit/component'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import { codeBlockConfig } from '@milkdown/components/code-block'
 
 ctx.update(codeBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
-  renderLanguage: (language, selected) => {
-    return html`
-      <div class="language-list-item">
-        <span class="leading">${selected ? check : null}</span>
-        ${language}
-      </div>
-    `
+  renderLanguage: (language, selected) =>
+    selected ? `✔ ${language}` : language,
+}))
+```
+
+## `expandIcon`, `searchIcon`, `clearSearchIcon`, `copyIcon`, `copyText`, `searchPlaceholder`, `noResultText`, `previewLabel`
+
+All of these options are **strings**. You can use any string or emoji.
+
+```typescript
+import { codeBlockConfig } from '@milkdown/components/code-block'
+
+ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+  ...defaultConfig,
+  expandIcon: '🔽',
+  searchIcon: '🔍',
+  clearSearchIcon: '❌',
+  copyIcon: '📄',
+  copyText: 'Copy code',
+  searchPlaceholder: 'Find a language...',
+  noResultText: 'No language found',
+  previewLabel: 'Preview',
+}))
+```
+
+## `onCopy`
+
+A callback function that is called when the copy button is pressed.
+
+```typescript
+import { codeBlockConfig } from '@milkdown/components/code-block'
+
+ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+  ...defaultConfig,
+  onCopy: (text) => {
+    alert('Copied: ' + text)
   },
 }))
 ```
 
-### `expandIcon`
+## `renderPreview`
 
-The icon to expand the language picker list.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
+A function to render the preview of the code block. Can return a string, HTMLElement, or null (to hide the preview).
 
 ```typescript
-import { html } from '@milkdown/kit/component'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
-
-ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  expandIcon: () => html`<span>🔽</span>`,
-}))
-```
-
-### `searchIcon`
-
-The icon representing the search ability.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { html } from '@milkdown/kit/component'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
-
-ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  searchIcon: () => html`<span>🔍</span>`,
-}))
-```
-
-### `clearnSearchIcon`
-
-The icon displayed on the button to clear the search input.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { html } from '@milkdown/kit/component'
-
-ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  clearnSearchIcon: () => html`<span>❌</span>`,
-}))
-```
-
-### `searchPlaceholder`
-
-The placeholder text for the search input.
-
-The value should be a string.
-
-```typescript
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
-
-ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  searchPlaceholder: 'Find a language...',
-}))
-```
-
-### `noResultText`
-
-The text displayed when no language matches the search input.
-
-The value should be a string.
-
-```typescript
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
-
-ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  noResultText: 'No language found',
-}))
-```
-
-### `renderPreview`
-
-A function to render the preview of the code block.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- `null` to hide the preview
-
-```typescript
-import { html } from '@milkdown/kit/component'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import { codeBlockConfig } from '@milkdown/components/code-block'
 
 ctx.update(codeBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
@@ -249,49 +194,16 @@ ctx.update(codeBlockConfig.key, (defaultConfig) => ({
 }))
 ```
 
-### `previewToggleButton`
+## `previewToggleButton`
 
-The text shown in the button to toggle the preview only mode.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
+A function to render the text for the preview toggle button. **Must return a string.**
 
 ```typescript
-import { html } from '@milkdown/kit/component'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import { codeBlockConfig } from '@milkdown/components/code-block'
 
 ctx.update(codeBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
-  previewToggleButton: (previewOnlyMode) => {
-    if (previewOnlyMode) {
-      return 'Show code'
-    }
-    return 'Hide code'
-  },
-}))
-```
-
-### `previewLabel`
-
-The label shown in the preview mode.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { html } from '@milkdown/kit/component'
-import { codeBlockConfig } from '@milkdown/kit/component/code-block'
-
-ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  previewLabel: () => {
-    return 'Preview'
-  },
+  previewToggleButton: (previewOnlyMode) =>
+    previewOnlyMode ? 'Show code' : 'Hide code',
 }))
 ```

@@ -22,7 +22,8 @@ It provides the following features:
 import {
   configureLinkTooltip,
   linkTooltipPlugin,
-} from '@milkdown/kit/component/link-tooltip'
+  linkTooltipConfig,
+} from '@milkdown/components/link-tooltip'
 import { defaultValueCtx, Editor } from '@milkdown/kit/core'
 import { commonmark, linkSchema } from '@milkdown/kit/preset/commonmark'
 
@@ -39,90 +40,42 @@ const editor = await Editor.make()
 
 You can configure the component by updating the `linkTooltipConfig` ctx in `editor.config`.
 
-The possible configurations are:
+## Configuration Options
 
-### `linkIcon`
+| Option             | Type                     | Default           | Description                                         |
+| ------------------ | ------------------------ | ----------------- | --------------------------------------------------- |
+| `linkIcon`         | `string`                 | `'🔗'`            | Icon for the link preview (click to copy the link)  |
+| `editButton`       | `string`                 | `'✎'`             | Icon/text for the edit button                       |
+| `removeButton`     | `string`                 | `'⌫'`             | Icon/text for the remove button                     |
+| `confirmButton`    | `string`                 | `'Confirm ⏎'`     | Icon/text for the confirm button in the link editor |
+| `onCopyLink`       | `(link: string) => void` | `() => {}`        | Callback triggered when the link is copied          |
+| `inputPlaceholder` | `string`                 | `'Paste link...'` | Placeholder text in the link editor input           |
 
-The icon shown in the link preview, click the icon will copy the link.
+---
 
-The value can be a function that return:
+## `linkIcon`, `editButton`, `removeButton`, `confirmButton`, `inputPlaceholder`
 
-- A string
-- A DOM element
-- An HTML template created by `html`.
+All of these options are **strings**. You can use any string or emoji.
 
 ```typescript
-import { linkTooltipConfig } from '@milkdown/kit/component/link-tooltip'
+import { linkTooltipConfig } from '@milkdown/components/link-tooltip'
 
 ctx.update(linkTooltipConfig.key, (defaultConfig) => ({
   ...defaultConfig,
-  linkIcon: () => '🔗',
+  linkIcon: '🔗',
+  editButton: '✎',
+  removeButton: '❌',
+  confirmButton: '✔️',
+  inputPlaceholder: 'Paste link here',
 }))
 ```
 
-### `editButton`
+## `onCopyLink`
 
-The button shown in the link preview, click the button will open the link editor.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
+A callback function triggered when the link is copied.
 
 ```typescript
-import { linkTooltipConfig } from '@milkdown/kit/component/link-tooltip'
-
-ctx.update(linkTooltipConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  editButton: () => '✎',
-}))
-```
-
-### `removeButton`
-
-The button shown in the link preview, click the button will remove the link.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { linkTooltipConfig } from '@milkdown/kit/component/link-tooltip'
-
-ctx.update(linkTooltipConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  removeButton: () => '❌',
-}))
-```
-
-### `confirmButton`
-
-The button shown in the link editor, click the button will confirm the link.
-
-The value can be a function that return:
-
-- A string
-- A DOM element
-- An HTML template created by `html`.
-
-```typescript
-import { linkTooltipConfig } from '@milkdown/kit/component/link-tooltip'
-
-ctx.update(linkTooltipConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  confirmButton: () => '✔️',
-}))
-```
-
-### `onCopyLink`
-
-The callback function triggered when the link is copied.
-
-```typescript
-import { linkTooltipConfig } from '@milkdown/kit/component/link-tooltip'
+import { linkTooltipConfig } from '@milkdown/components/link-tooltip'
 
 ctx.update(linkTooltipConfig.key, (defaultConfig) => ({
   ...defaultConfig,
@@ -130,21 +83,6 @@ ctx.update(linkTooltipConfig.key, (defaultConfig) => ({
     console.log('Link copied:', link)
     toast('Link copied')
   },
-}))
-```
-
-### `inputPlaceholder`
-
-The placeholder text in the link editor input.
-
-The value should be a string.
-
-```typescript
-import { linkTooltipConfig } from '@milkdown/kit/component/link-tooltip'
-
-ctx.update(linkTooltipConfig.key, (defaultConfig) => ({
-  ...defaultConfig,
-  inputPlaceholder: 'Paste link here',
 }))
 ```
 
@@ -160,10 +98,9 @@ Insert a link at the given range.
 
 ```typescript
 import {
-  linkTooltip,
-  linkTooltipState,
   linkTooltipAPI,
-} from '@milkdown/kit/component/link-tooltip'
+  linkTooltipState,
+} from '@milkdown/components/link-tooltip'
 import { editorViewCtx } from '@milkdown/kit/core'
 
 function addLink(ctx: Ctx) {
@@ -193,10 +130,9 @@ Edit the link at the given range and mark.
 
 ```typescript
 import {
-  linkTooltip,
-  linkTooltipState,
   linkTooltipAPI,
-} from '@milkdown/kit/component/link-tooltip'
+  linkTooltipState,
+} from '@milkdown/components/link-tooltip'
 import { editorViewCtx } from '@milkdown/kit/core'
 
 function editLink(ctx: Ctx) {
@@ -224,10 +160,9 @@ Remove the link at the given range.
 
 ```typescript
 import {
-  linkTooltip,
-  linkTooltipState,
   linkTooltipAPI,
-} from '@milkdown/kit/component/link-tooltip'
+  linkTooltipState,
+} from '@milkdown/components/link-tooltip'
 import { editorViewCtx } from '@milkdown/kit/core'
 
 function removeLink(ctx: Ctx) {

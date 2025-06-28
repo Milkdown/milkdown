@@ -9,7 +9,10 @@ The `listItemBlock` component provides custom renderer for ordered/bullet/todo l
 # Usage
 
 ```typescript
-import { listItemBlockComponent } from '@milkdown/kit/component/list-item-block'
+import {
+  listItemBlockComponent,
+  listItemBlockConfig,
+} from '@milkdown/components/list-item-block'
 import { Editor } from '@milkdown/kit/core'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { gfm } from '@milkdown/kit/preset/gfm'
@@ -29,26 +32,40 @@ await Editor.make()
 
 You can write your own renderer for list items by updating the `listItemBlockConfig` ctx in `editor.config`.
 
+## Configuration Options
+
+| Option        | Type                                                                                            | Default   | Description                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| `renderLabel` | `(props: { label: string; listType: string; readonly?: boolean; checked?: boolean }) => string` | See below | Function to render the label for each list item. Must return a string. |
+
+**Default:**
+
 ```typescript
+;({ label, listType, checked }) => {
+  const content =
+    checked == null
+      ? listType === 'bullet'
+        ? '⦿'
+        : label
+      : checked
+        ? '☑'
+        : '□'
+  return content
+}
+```
+
+**Example:**
+
+```typescript
+import { listItemBlockConfig } from '@milkdown/components/list-item-block'
+
 ctx.set(listItemBlockConfig.key, {
   renderLabel: ({ label, listType, checked, readonly }) => {
-    // Check if the list item is todo list
     if (checked == null) {
-      if (listType === 'bullet')
-        return html`<span class="label">${bulletIcon}</span>`
-
-      // Ordered list, the label will be something like '1.', '2.', '3.'
-      return html`<span class="label">${label}</span>`
+      if (listType === 'bullet') return '•'
+      return label // e.g. '1.', '2.', ...
     }
-
-    if (checked)
-      return html`<span class=${clsx('label checkbox', readonly && 'readonly')}
-        >${checkedIcon}</span
-      >`
-
-    return html`<span class=${clsx('label checkbox', readonly && 'readonly')}
-      >${unCheckedIcon}</span
-    >`
+    return checked ? '[x]' : '[ ]'
   },
 })
 ```
