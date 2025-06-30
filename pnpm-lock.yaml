@@ -87,7 +87,7 @@ importers:
         version: 4.6.0(vite@7.0.0(@types/node@22.15.34)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
       '@vitejs/plugin-vue-jsx':
         specifier: ^5.0.0
-        version: 5.0.0(vite@7.0.0(@types/node@22.15.34)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
+        version: 5.0.1(vite@7.0.0(@types/node@22.15.34)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
       autoprefixer:
         specifier: ^10.2.5
         version: 10.4.21(postcss@8.5.6)
@@ -2480,8 +2480,8 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0-beta.0
 
-  '@vitejs/plugin-vue-jsx@5.0.0':
-    resolution: {integrity: sha512-wsUq9YvXvXNUsyTWUHEPCGrnrF5bsnvQlg/yKJsALfV4MSVXp9IS9uiCfLXRUSpX806+zaDm2Z9yd6tU9Gaz0A==}
+  '@vitejs/plugin-vue-jsx@5.0.1':
+    resolution: {integrity: sha512-X7qmQMXbdDh+sfHUttXokPD0cjPkMFoae7SgbkF9vi3idGUKmxLcnU2Ug49FHwiKXebfzQRIm5yK3sfCJzNBbg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -7240,7 +7240,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitejs/plugin-vue-jsx@5.0.0(vite@7.0.0(@types/node@22.15.34)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))':
+  '@vitejs/plugin-vue-jsx@5.0.1(vite@7.0.0(@types/node@22.15.34)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))':
     dependencies:
       '@babel/core': 7.27.7
       '@babel/plugin-transform-typescript': 7.27.1(@babel/core@7.27.7)
