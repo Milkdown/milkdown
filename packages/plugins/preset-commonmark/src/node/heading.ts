@@ -21,11 +21,7 @@ const headingIndex = Array(6)
   .map((_, i) => i + 1)
 
 function defaultHeadingIdGenerator(node: Node) {
-  return node.textContent
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
+  return node.textContent.toLowerCase().trim().replace(/\s+/g, '-')
 }
 
 /// This is a slice contains a function to generate heading id.
